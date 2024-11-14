@@ -5,7 +5,7 @@ import {
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
-} from "../../../../../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 import { addTableInfo } from "../addTableInfo";
 
 describe("addTableInfo", () => {

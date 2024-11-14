@@ -1,7 +1,7 @@
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
-} from "../../../../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 
 export function addTableInfo(
   doc: PDFKit.PDFDocument,

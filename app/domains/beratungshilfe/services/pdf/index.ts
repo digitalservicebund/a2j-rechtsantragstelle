@@ -1,13 +1,19 @@
+import { PDFDocument as PDFLibDocument } from "pdf-lib";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { appendAttachment } from "~/services/pdf/appendAttachment";
+import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import FormAttachment from "~/services/pdf/attachment/FormAttachment";
 import { pdfFromReact } from "~/services/pdf/attachment/pdfFromReact";
-import type { PdfFillFunction } from "~/services/pdf/fillOutFunction";
-import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
+import {
+  pdfFillReducer,
+  type PdfFillFunction,
+} from "~/services/pdf/fillOutFunction";
 import { fillPdf } from "~/services/pdf/fillPdf.server";
-import Handout from "./Handout";
+import { createFooter } from "~/services/pdf/footer/createFooter";
+import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
+import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
+import { createChecklistPage } from "./checklist/createChecklistPage";
 import { fillAngelegenheit } from "./sections/A_angelegenheit";
 import { fillVorraussetzungen } from "./sections/B_vorraussetzungen";
 import { fillEinkommen } from "./sections/C_einkommen";
@@ -23,6 +29,14 @@ export type BerHPdfFillFunction = PdfFillFunction<
   BeratungshilfeFormularContext,
   BeratungshilfePDF
 >;
+
+const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
+  BeratungshilfeFormularContext
+> = (doc, documentStruct, userData) => {
+  // Checklist will always be output
+  createChecklistPage(doc, documentStruct, userData);
+  createFooter(doc, documentStruct, "Merkblatt"); // TODO: rename to "Anhang"
+};
 
 export async function beratungshilfePdfFromUserdata(
   userData: BeratungshilfeFormularContext,
@@ -43,7 +57,7 @@ export async function beratungshilfePdfFromUserdata(
     ],
   });
 
-  const filledPdf = await fillPdf({
+  const filledFormPdfDocument = await fillPdf({
     flowId: "/beratungshilfe/antrag",
     pdfValues,
     yPositionsDruckvermerk: [90, 108, 138],
@@ -51,8 +65,8 @@ export async function beratungshilfePdfFromUserdata(
   });
 
   if (attachment.length > 0) {
-    await appendAttachment(
-      filledPdf,
+    await appendPagesToPdf(
+      filledFormPdfDocument,
       await pdfFromReact(
         FormAttachment({
           entries: attachment,
@@ -63,10 +77,12 @@ export async function beratungshilfePdfFromUserdata(
     );
   }
 
-  await appendAttachment(
-    filledPdf,
-    await pdfFromReact(Handout(userData, "Merkblatt")),
+  const pdfKitBuffer = await pdfFromUserData(
+    userData,
+    buildBeratungshilfePDFDocument,
+    attachment,
   );
+  const mainPdfDocument = await PDFLibDocument.load(pdfKitBuffer);
 
-  return filledPdf;
+  return appendPagesToPdf(filledFormPdfDocument, mainPdfDocument);
 }

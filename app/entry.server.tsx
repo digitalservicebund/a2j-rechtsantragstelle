@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-promise-reject-errors */
 import { PassThrough } from "stream";
 import type {
   ActionFunctionArgs,

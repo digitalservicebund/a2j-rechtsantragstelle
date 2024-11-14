@@ -1,10 +1,10 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
+import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-} from "../../../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 
 export const BOOKING_NUMBER_TEXT = "Buchungsnummer: ";
 export const FLIGHT_NUMBER_TEXT = "Flugnummer: ";

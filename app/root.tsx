@@ -206,7 +206,10 @@ function App() {
       <body className="flex flex-col min-h-screen">
         <CookieConsentContext.Provider value={hasTrackingConsent}>
           <SkipToContentLink
-            label={`↓ ${getTranslationByKey(SKIP_TO_CONTENT_TRANSLATION_KEY, accessibilityTranslations)}`}
+            label={getTranslationByKey(
+              SKIP_TO_CONTENT_TRANSLATION_KEY,
+              accessibilityTranslations,
+            )}
             target={skipToContentLinkTarget}
           />
           <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />

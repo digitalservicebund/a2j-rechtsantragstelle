@@ -6,7 +6,7 @@ import {
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-} from "../../../../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 import {
   addPlaintiffDetails,
   PLAINTIFF_TEXT,
