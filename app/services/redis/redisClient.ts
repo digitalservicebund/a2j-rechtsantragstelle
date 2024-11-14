@@ -1,7 +1,7 @@
 import Redis from "ioredis";
 import invariant from "tiny-invariant";
 import { config } from "../env/env.server";
-import { logError, logWarning } from "../logging";
+import { logError } from "../logging";
 
 let _redisClient: Redis | undefined;
 
@@ -27,20 +27,22 @@ export function createRedisClient() {
   return getRedisInstance();
 }
 
-export function quitRedis(redisClient: Redis, timeout: number) {
+export function quitRedis(
+  redisClient: Pick<Redis, "disconnect" | "quit">,
+  timeout: number,
+) {
   // Call redisClient.quit(), if it doesn't resolve within the specified timeout, call redisClient.disconnect()
-  return new Promise<void>((resolve) => {
+  return new Promise<"quit" | "disconnect">((resolve) => {
     const quitTimeout = setTimeout(() => {
-      logWarning("Redis: Graceful quit timed out, hard disconnecting...");
       redisClient.disconnect();
-      resolve();
+      resolve("disconnect");
     }, timeout);
 
     redisClient
       .quit()
       .then(() => {
         clearTimeout(quitTimeout);
-        resolve();
+        resolve("quit");
       })
       .catch((error) => logError({ error }));
   });

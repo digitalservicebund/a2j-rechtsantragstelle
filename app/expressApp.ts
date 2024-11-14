@@ -57,8 +57,8 @@ export const expressApp = (
     cleanup: async () => {
       const shutdownTimeoutMs = 1000;
       return Promise.all([
-        quitRedis(redisClient, shutdownTimeoutMs).then(() => {
-          console.log("✅ Redis client shut down");
+        quitRedis(redisClient, shutdownTimeoutMs).then((cmd) => {
+          console.log(`✅ Redis client shut down using ${cmd}`);
         }),
         Sentry.close(shutdownTimeoutMs).then(() => {
           console.log("✅ Sentry client shut down");
