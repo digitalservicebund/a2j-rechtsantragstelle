@@ -10,20 +10,25 @@
     },
     "videoverhandlung": {
       "on": {
-        "SUBMIT": "zahlung-nach-klageeinreichung",
-        "BACK": "schriftliches-verfahren"
-      }
-    },
-    "zahlung-nach-klageeinreichung": {
-      "on": {
         "SUBMIT": "versaeumnisurteil",
-        "BACK": "videoverhandlung"
+        "BACK": "schriftliches-verfahren"
       }
     },
     "versaeumnisurteil": {
       "on": {
-        "SUBMIT": "#zusammenfassung.start",
-        "BACK": "zahlung-nach-klageeinreichung"
+        "SUBMIT": "zahlung-nach-klageeinreichung",
+        "BACK": "videoverhandlung"
+      }
+    },
+    "zahlung-nach-klageeinreichung": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "#zusammenfassung.start",
+            "guard": "prozessfuehrungDone"
+          }
+        ],
+        "BACK": "versaeumnisurteil"
       }
     }
   }

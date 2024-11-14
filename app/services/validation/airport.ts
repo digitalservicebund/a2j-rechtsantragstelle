@@ -1,6 +1,6 @@
 import { serverOnly$ } from "vite-env-only/macros";
 import { z } from "zod";
-import { getAirportByIataCode } from "../airports/getAirportByIataCode";
+import { getAirportByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportByIataCode";
 
 const serverValidation = serverOnly$((airportCode: string) =>
   getAirportByIataCode(airportCode),

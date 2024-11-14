@@ -1,6 +1,6 @@
-import { getAirlineNameByIataCode } from "~/services/airlines/getAirlineNameByIataCode";
-import { getAirportNameByIataCode } from "~/services/airports/getAirportNameByIataCode";
 import type { FluggastrechtContext } from "./context";
+import { getAirlineNameByIataCode } from "../services/airlines/getAirlineNameByIataCode";
+import { getAirportNameByIataCode } from "../services/airports/getAirportNameByIataCode";
 import { getCourtByStartAndEndAirport } from "../services/getCourtByStartAndEndAirport";
 
 export const WEITERE_PERSONEN_START_INDEX = 2;

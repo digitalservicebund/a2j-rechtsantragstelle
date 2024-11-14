@@ -104,11 +104,11 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/streitwert-kosten/videoverhandlung
   await formular.fillRadioPage("videoverhandlung", "yes");
 
-  // /fluggastrechte/formular/prozessfuehrung/zahlung-nach-klageeinreichung
-  await formular.clickNext();
-
   // /fluggastrechte/formular/prozessfuehrung/versaeumnisurteil
   await formular.fillRadioPage("versaeumnisurteil", "yes");
+
+  // /fluggastrechte/formular/prozessfuehrung/zahlung-nach-klageeinreichung
+  await formular.clickNext();
 
   // fluggastrechte/formular/zusammenfassung/start
   await expectPageToBeAccessible({ page });
