@@ -10,7 +10,7 @@ export const createChecklistPage = (
   documentStruct: PDFKit.PDFStructureElement,
   userData: BeratungshilfeFormularContext,
 ) => {
-  // Setting PDF metadata is redundant since it is overwritten during appendPdfToPdf function
+  // Setting PDF metadata is redundant since it is overwritten during appendPagesToPdf function
   createChecklistHeader(doc, documentStruct, userData);
   doc.moveDown(2);
   createChecklistSteps(doc, documentStruct);

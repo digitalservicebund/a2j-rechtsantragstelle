@@ -4,7 +4,6 @@ import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshi
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { createFooter } from "~/domains/shared/pdf/createFooter";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
-import { appendPdfToPdf } from "~/services/pdf/appendPdfToPdf";
 import FormAttachment from "~/services/pdf/attachment/FormAttachment";
 import { pdfFromReact } from "~/services/pdf/attachment/pdfFromReact";
 import {
@@ -86,5 +85,5 @@ export async function beratungshilfePdfFromUserdata(
   );
   const mainPdfDocument = await PDFLibDocument.load(pdfKitBuffer);
 
-  return appendPdfToPdf(filledFormPdfDocument, mainPdfDocument);
+  return appendPagesToPdf(filledFormPdfDocument, mainPdfDocument);
 }
