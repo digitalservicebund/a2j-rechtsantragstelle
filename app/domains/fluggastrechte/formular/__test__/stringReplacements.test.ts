@@ -4,6 +4,7 @@ import { getCourtByStartAndEndAirport } from "../../services/getCourtByStartAndE
 import type { FluggastrechtContext } from "../context";
 import {
   getAirlineName,
+  getAnnullierungInfo,
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
   getFirstZwischenstoppAirportName,
@@ -433,6 +434,30 @@ describe("stringReplacements", () => {
 
       const actual = getStreitwert(context);
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe("getAnnullierungInfo", () => {
+    it("should return correct annullierung info based on context", () => {
+      const context: FluggastrechtContext = {
+        ersatzflugStartenEinStunde: "yes",
+        ersatzflugLandenZweiStunden: "yes",
+      };
+
+      const result = getAnnullierungInfo(context);
+
+      expect(result).toEqual({
+        hasAnnullierungCase: false,
+        hasBetween7And13DaysAnkuendigung: false,
+        hasErsatzflugLandenVierStunden: false,
+        hasErsatzflugLandenZweiStunden: true,
+        hasErsatzflugStartenEinStunde: true,
+        hasErsatzflugStartenZweiStunden: false,
+        hasErsatzverbindungAngebot: false,
+        hasMoreThan13DaysAnkuendigung: false,
+        hasNoAnkuendigung: false,
+        hasUntil6DaysAnkuendigung: false,
+      });
     });
   });
 });

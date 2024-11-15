@@ -163,5 +163,12 @@ export const getAnnullierungInfo = (context: FluggastrechtContext) => {
       context.ankuendigung === "between7And13Days",
     hasMoreThan13DaysAnkuendigung: context.ankuendigung === "moreThan13Days",
     hasErsatzverbindungAngebot: context.ersatzflug === "yes",
+    hasErsatzflugLandenZweiStunden:
+      context.ersatzflugLandenZweiStunden === "yes",
+    hasErsatzflugLandenVierStunden:
+      context.ersatzflugLandenVierStunden === "yes",
+    hasErsatzflugStartenEinStunde: context.ersatzflugStartenEinStunde === "yes",
+    hasErsatzflugStartenZweiStunden:
+      context.ersatzflugStartenZweiStunden === "yes",
   };
 };
