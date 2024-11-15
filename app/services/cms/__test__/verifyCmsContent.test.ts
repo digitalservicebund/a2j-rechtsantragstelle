@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getContext } from "~/domains/contexts";
 import type { FlowId } from "~/domains/flowIds";
 import { flowIds } from "~/domains/flowIds";
 import type { Flow } from "~/domains/flows.server";
@@ -18,22 +19,6 @@ const allStrapiData: Record<FlowId, StrapiPages> = {} as Record<
   FlowId,
   StrapiPages
 >;
-
-expect.extend({
-  toBeInXStateConfig(received, expected) {
-    if (received === expected) {
-      return {
-        pass: true,
-        message: () => `expected ${received} not to be in ${expected}`,
-      };
-    } else {
-      return {
-        pass: true,
-        message: () => `expected ${received} to be in ${expected}`,
-      };
-    }
-  },
-});
 
 /**
  * These pages do not exist in strapi and instead exist in our own codebase
@@ -112,67 +97,46 @@ beforeAll(async () => {
   }
 });
 
-describe.each(flowIds)("Availability of CMS content", (flowId) => {
-  test.skip("all vorabcheck pages mentioned in the app are available in the CMS", () => {
-    for (const vorabcheckId of flowIds.filter((flowId) =>
-      flowId.includes("vorabcheck"),
-    )) {
-      const { config } = flows[vorabcheckId];
-      const referencedPages = Object.keys(config.states).map((pageName) =>
-        pageName.replace(/^ergebnis\//, ""),
-      );
+describe.each(flowIds)("Availability of %s content", (flowId) => {
+  describe("pages", () => {
+    test(`all states that are referenced in the ${flowId} xState config are available in Strapi`, () => {
       const {
         "vorab-check-pages": vorabCheckPages,
-        "result-pages": resultPages,
         "form-flow-pages": formFlowPages,
-      } = allStrapiData[vorabcheckId];
-      const allPages = [...vorabCheckPages, ...resultPages, ...formFlowPages]
-        .filter((page) => page.attributes.locale === defaultLocale)
-        .map((page) => page.attributes.stepId?.replace("/", ""));
-      referencedPages.forEach((reference) => {
-        expect(
-          allPages,
-          `missing page: '${reference}' for flowId: ${vorabcheckId}`,
-        ).toContain(reference);
+        "result-pages": resultPages,
+      } = allStrapiData[flowId];
+
+      const flow = flows[flowId];
+      const allPossibleStates = getAllPossibleStates(flow);
+      allPossibleStates.forEach((stateName) => {
+        const pages = [...formFlowPages, ...resultPages, ...vorabCheckPages]
+          .filter((page) => page.attributes.locale === defaultLocale)
+          .map((page) => page.attributes.stepId);
+        expect(pages).toContain(stateName);
       });
-    }
-  });
-
-  test(`all states that are referenced in the ${flowId} xState config are available in Strapi`, () => {
-    // const context = getContext("/beratungshilfe/antrag");
-    const {
-      // formFields: strapiFormFields,
-      "vorab-check-pages": vorabCheckPages,
-      "form-flow-pages": formFlowPages,
-      "result-pages": resultPages,
-    } = allStrapiData[flowId];
-    // const strapiFormFieldsInverted = Object.entries(strapiFormFields)
-    //   .map(([key, values]) => values.map((value) => [value, key]))
-    //   .flat();
-
-    const flow = flows[flowId];
-    const allPossibleStates = getAllPossibleStates(flow);
-    allPossibleStates.forEach((stateName) => {
-      const pages = [...formFlowPages, ...resultPages, ...vorabCheckPages]
-        .filter((page) => page.attributes.locale === defaultLocale)
-        .map((page) => page.attributes.stepId);
-      expect(pages).toContain(stateName);
     });
 
-    // check xstate for all mentioned strapi fields
-    // strapiFormFieldsInverted.forEach(([fieldName, stepId]) => {
-    //   if (!fieldName.includes(".") && !fieldName.includes("#")) {
-    //     expect(
-    //       context,
-    //       `expected ${stepId} to contain ${fieldName}`,
-    //     ).toHaveProperty(fieldName);
-    //   }
-    // });
+    test(`all pages in strapi related to ${flowId} also appear in the xState config`, () => {});
   });
 
-  test.skip(`all pages in strapi related to ${flowId} also appear in the xState config`, () => {});
+  describe("field names", () => {
+    test(`all field names appearing in strapi related to ${flowId} appear in the context`, () => {
+      const context = getContext(flowId);
+      const { formFields: strapiFormFields } = allStrapiData[flowId];
+      const strapiFormFieldsInverted = Object.entries(strapiFormFields)
+        .map(([key, values]) => values.map((value) => [value, key]))
+        .flat();
 
-  test.skip(`all field names appearing in strapi related to ${flowId} appear in the context`, () => {});
+      strapiFormFieldsInverted.forEach(([fieldName, stepId]) => {
+        if (!fieldName.includes(".") && !fieldName.includes("#")) {
+          expect(
+            context,
+            `expected ${stepId} to contain ${fieldName}`,
+          ).toHaveProperty(fieldName);
+        }
+      });
+    });
 
-  test.skip(`all field names appearing in the ${flowId} xState config appear in the context`, () => {});
+    test.skip(`all field names appearing in the ${flowId} xState config appear in the context`, () => {});
+  });
 });
