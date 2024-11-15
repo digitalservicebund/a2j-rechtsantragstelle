@@ -1,0 +1,37 @@
+/* Tailwind's container core plugin is disabled,
+ * because its breakpoint-based nature does not fit our needs */
+.container {
+  @apply mx-auto;
+  max-width: 59rem;
+  padding: 2.5rem 1rem 3rem 1rem;
+  padding-left: clamp(
+    1rem,
+    5vw,
+    3rem
+  ); /* ignored when clamp is not available */
+  padding-right: clamp(
+    1rem,
+    5vw,
+    3rem
+  ); /* ignored when clamp is not available */
+}
+
+/* headings and text inside containers have a project-specific max-width */
+.container .ds-heading-01-reg,
+.ds-heading-01-bold,
+.ds-heading-02-reg,
+.ds-heading-02-bold {
+  max-width: 848px;
+}
+
+.container .ds-heading-03-reg,
+.ds-heading-03-bold,
+.ds-label-01-bold,
+.ds-label-01-reg,
+.ds-label-02-bold,
+.ds-label-02-reg,
+.ds-label-03-bold,
+.ds-label-03-reg,
+p {
+  max-width: 630px;
+}

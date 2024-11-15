@@ -2,6 +2,7 @@ import classNames from "classnames";
 import type { PropsWithChildren } from "react";
 import { BACKGROUND_COLORS } from ".";
 import type { CommonWrapperProps } from "./CommonWrapperProps";
+import "./container.css";
 
 const DEFAULT_PADDING_TOP = "40";
 const DEFAULT_PADDING_BOTTOM = "48";
