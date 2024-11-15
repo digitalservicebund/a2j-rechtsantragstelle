@@ -1,8 +1,7 @@
 import type PDFDocument from "pdfkit";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
-import { styles } from "~/services/pdf/attachment/styles";
-import { FONTS_BUNDESSANS_REGULAR } from "~/services/pdf/createPdfKitDocument";
+import { pdfStyles } from "~/domains/shared/pdf/pdfStyles";
 
 export function createHeader<
   TContext extends
@@ -19,8 +18,8 @@ export function createHeader<
   headerSect.add(
     doc.struct("P", {}, () => {
       doc
-        .fontSize(styles.pageHeader.fontSize)
-        .font(FONTS_BUNDESSANS_REGULAR)
+        .fontSize(pdfStyles.pageHeader.fontSize)
+        .font(pdfStyles.pageHeader.font)
         .text(`${headerText} von ${userData.vorname} ${userData.nachname}`)
         .moveDown(2);
     }),

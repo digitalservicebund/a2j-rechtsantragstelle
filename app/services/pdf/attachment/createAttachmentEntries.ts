@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
 import type { AttachmentEntries } from ".";
-import { styles } from "./styles";
+import { pdfStyles } from "../../../domains/shared/pdf/pdfStyles";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -17,7 +17,9 @@ export function createAttachmentEntries(
         doc.struct(entry.level ?? "h5", {}, () => {
           doc
             .fontSize(
-              entry.level ? styles[entry.level].fontSize : styles.page.fontSize,
+              entry.level
+                ? pdfStyles[entry.level].fontSize
+                : pdfStyles.page.fontSize,
             )
             .font(FONTS_BUNDESSANS_BOLD)
             .text(entry.title)
@@ -28,7 +30,7 @@ export function createAttachmentEntries(
         documentStruct.add(
           doc.struct("P", {}, () => {
             doc
-              .fontSize(styles.page.fontSize)
+              .fontSize(pdfStyles.page.fontSize)
               .font(FONTS_BUNDESSANS_REGULAR)
               .text(entry.text ?? "")
               .moveDown(0.5);

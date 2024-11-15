@@ -1,9 +1,8 @@
 import type PDFDocument from "pdfkit";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
-import { styles } from "~/services/pdf/attachment/styles";
+import { pdfStyles } from "~/domains/shared/pdf/pdfStyles";
 import {
-  FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 
@@ -65,11 +64,11 @@ export const createChecklistDocuments = (
     doc.struct("L", {}, () => {
       doc
         .moveDown(1.5)
-        .fontSize(styles.page.fontSize)
-        .font(FONTS_BUNDESSANS_REGULAR)
+        .fontSize(pdfStyles.page.fontSize)
+        .font(pdfStyles.page.font)
         .list(
           relevantDocuments.map((doc) => doc),
-          { paragraphGap: 8, indent: styles.list.paddingLeft },
+          { paragraphGap: 8, indent: pdfStyles.list.paddingLeft },
         );
     }),
   );
@@ -77,11 +76,11 @@ export const createChecklistDocuments = (
   doc.markContent("Artifact");
   doc
     .rect(
-      PDF_MARGIN_HORIZONTAL + styles.sectionIndented.paddingLeft,
+      PDF_MARGIN_HORIZONTAL + pdfStyles.sectionIndented.paddingLeft,
       doc.y + 10,
       doc.page.width -
-        (PDF_MARGIN_HORIZONTAL + styles.sectionIndented.paddingLeft) * 2,
-      (relevantDocuments.length + 1) * (styles.page.fontSize + 10),
+        (PDF_MARGIN_HORIZONTAL + pdfStyles.sectionIndented.paddingLeft) * 2,
+      (relevantDocuments.length + 1) * (pdfStyles.page.fontSize + 10),
     )
     .stroke();
   doc.endMarkedContent();

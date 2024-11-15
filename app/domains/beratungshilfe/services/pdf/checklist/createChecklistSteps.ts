@@ -1,9 +1,6 @@
 import type PDFDocument from "pdfkit";
-import { styles } from "~/services/pdf/attachment/styles";
-import {
-  FONTS_BUNDESSANS_BOLD,
-  FONTS_BUNDESSANS_REGULAR,
-} from "~/services/pdf/createPdfKitDocument";
+import { pdfStyles } from "~/domains/shared/pdf/pdfStyles";
+import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 
 export const createChecklistSteps = (
   doc: typeof PDFDocument,
@@ -14,8 +11,8 @@ export const createChecklistSteps = (
   checklistStepsSect.add(
     doc.struct("H1", {}, () => {
       doc
-        .fontSize(styles.h1.fontSize)
-        .font(FONTS_BUNDESSANS_BOLD)
+        .fontSize(pdfStyles.h1.fontSize)
+        .font(pdfStyles.h1.font)
         .text("Ihre nächsten Schritte");
     }),
   );
@@ -24,7 +21,7 @@ export const createChecklistSteps = (
     doc.struct("H2", {}, () => {
       doc
         .moveDown(1)
-        .fontSize(styles.h2.fontSize)
+        .fontSize(pdfStyles.h2.fontSize)
         .font(FONTS_BUNDESSANS_BOLD)
         .text("So schicken Sie den Antrag ins Amtsgericht");
     }),
@@ -34,7 +31,7 @@ export const createChecklistSteps = (
     doc.struct("H3", {}, () => {
       doc
         .moveDown(1)
-        .fontSize(styles.h3.fontSize)
+        .fontSize(pdfStyles.h3.fontSize)
         .font(FONTS_BUNDESSANS_BOLD)
         .text("1. Antrag ausdrucken");
     }),
@@ -44,7 +41,7 @@ export const createChecklistSteps = (
     doc.struct("H3", {}, () => {
       doc
         .moveDown(1)
-        .fontSize(styles.h3.fontSize)
+        .fontSize(pdfStyles.h3.fontSize)
         .font(FONTS_BUNDESSANS_BOLD)
         .text("2. Antrag unterschreiben");
     }),
@@ -54,14 +51,14 @@ export const createChecklistSteps = (
     doc.struct("P", {}, () => {
       doc
         .moveDown(0.5)
-        .fontSize(styles.page.fontSize)
-        .font(FONTS_BUNDESSANS_REGULAR)
+        .fontSize(pdfStyles.page.fontSize)
+        .font(pdfStyles.page.font)
         .text(
           "Unterschreiben Sie den fertigen Antrag auf der letzten Seite im Feld",
-          { indent: styles.sectionIndented.paddingLeft },
+          { indent: pdfStyles.sectionIndented.paddingLeft },
         )
         .text("“Unterschrift des Antragstellers/der Antragstellerin”", {
-          indent: styles.sectionIndented.paddingLeft,
+          indent: pdfStyles.sectionIndented.paddingLeft,
         });
     }),
   );
@@ -70,7 +67,7 @@ export const createChecklistSteps = (
     doc.struct("H3", {}, () => {
       doc
         .moveDown(1)
-        .fontSize(styles.h3.fontSize)
+        .fontSize(pdfStyles.h3.fontSize)
         .font(FONTS_BUNDESSANS_BOLD)
         .text("3. Benötigte Dokumente kopieren");
     }),
@@ -80,10 +77,10 @@ export const createChecklistSteps = (
     doc.struct("P", {}, () => {
       doc
         .moveDown(0.5)
-        .fontSize(styles.page.fontSize)
-        .font(FONTS_BUNDESSANS_REGULAR)
+        .fontSize(pdfStyles.page.fontSize)
+        .font(pdfStyles.page.font)
         .text("Diese Dokumente müssen Sie zusammen mit Ihrem Antrag abgeben:", {
-          indent: styles.sectionIndented.paddingLeft,
+          indent: pdfStyles.sectionIndented.paddingLeft,
         });
     }),
   );
