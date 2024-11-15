@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-h1,
-h2 {
-  max-width: 848px;
-}
-
-h3,
-h4,
-h5,
-h6,
-li,
-p {
-  max-width: 630px;
-}
-
 ul {
   list-style-type: disc;
   padding-left: 1.5rem;
@@ -45,24 +31,6 @@ a {
 
 svg {
   fill: currentColor;
-}
-
-/* Tailwind's container core plugin is disabled,
- * because its breakpoint-based nature does not fit our needs */
-.container {
-  @apply mx-auto;
-  max-width: 59rem;
-  padding: 2.5rem 1rem 3rem 1rem;
-  padding-left: clamp(
-    1rem,
-    5vw,
-    3rem
-  ); /* ignored when clamp is not available */
-  padding-right: clamp(
-    1rem,
-    5vw,
-    3rem
-  ); /* ignored when clamp is not available */
 }
 
 /* There is a specific design request to remove the margin above lists and below small headlines */

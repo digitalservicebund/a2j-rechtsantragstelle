@@ -1,8 +1,8 @@
-import { serverOnly$ } from "vite-env-only/macros";
 import { z } from "zod";
 import airlines from "data/airlines/data.json";
+import { serverOnly } from "../serverOnly";
 
-const serverValidation = serverOnly$((airlineCode: string) =>
+const serverValidation = serverOnly((airlineCode: string) =>
   airlines.some((airline) => airline.iata === airlineCode),
 );
 

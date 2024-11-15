@@ -34,9 +34,10 @@ export const InlineNotice = ({
   content,
 }: InlineNoticeProps) => {
   const { backgroundColor, borderColor, IconComponent } = lookConfig[look];
+  const shouldHideNotice = !content || content.trim().length === 0;
 
   return (
-    content && (
+    !shouldHideNotice && (
       <div
         className={`ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
         id={identifier}
