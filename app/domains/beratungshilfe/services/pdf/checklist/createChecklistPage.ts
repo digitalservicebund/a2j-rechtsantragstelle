@@ -1,9 +1,8 @@
 import type PDFDocument from "pdfkit";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { createHeading } from "~/services/pdf/createHeading";
 import { createHeader } from "~/services/pdf/header/createHeader";
-import { createChecklistDocuments } from "./createChecklistDocuments";
 import { createChecklistSteps } from "./createChecklistSteps";
-import { createChecklistSubmission } from "./createChecklistSubmission";
 
 export const createChecklistPage = (
   doc: typeof PDFDocument,
@@ -17,8 +16,20 @@ export const createChecklistPage = (
     userData,
     "Merkblatt: Antrag auf Bewilligung von Beratungshilfe",
   );
-  createChecklistSteps(doc, documentStruct);
-  createChecklistDocuments(doc, documentStruct, userData);
-  doc.moveDown(1);
-  createChecklistSubmission(doc, documentStruct, userData);
+  const checklistPageStruct = doc.struct("Sect");
+
+  createHeading(doc, checklistPageStruct, "Anhang", "H1");
+
+  createHeading(
+    doc,
+    documentStruct,
+    userData.abgabeArt === "online"
+      ? "So stellen Sie den Antrag online"
+      : "So schicken Sie den Antrag ins Amtsgericht",
+    "H2",
+  );
+
+  createChecklistSteps(doc, checklistPageStruct, userData);
+
+  documentStruct.add(checklistPageStruct);
 };
