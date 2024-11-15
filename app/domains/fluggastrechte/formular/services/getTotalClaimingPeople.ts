@@ -1,9 +1,12 @@
 import type { FluggastrechtContext } from "../context";
 
+const numOfPlaintiff = 1;
+
 export const getTotalClaimingPeople = ({
   weiterePersonen,
 }: FluggastrechtContext) => {
   return (
-    1 + (typeof weiterePersonen !== "undefined" ? weiterePersonen.length : 0)
+    numOfPlaintiff +
+    (typeof weiterePersonen !== "undefined" ? weiterePersonen.length : 0)
   );
 };
