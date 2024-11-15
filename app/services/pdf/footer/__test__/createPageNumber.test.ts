@@ -19,6 +19,26 @@ describe("createPageNumber", () => {
       expect.anything(),
       {
         align: "right",
+        lineBreak: false,
+      },
+    );
+  });
+
+  it("should create document with pageNumberPrefix", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct, { start: 1, count: 1 });
+
+    const expectPageNumber = "Page 1/1";
+
+    createPageNumber(mockDoc, mockStruct, 1, 1, "Page");
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      expectPageNumber,
+      expect.anything(),
+      expect.anything(),
+      {
+        align: "right",
+        lineBreak: false,
       },
     );
   });

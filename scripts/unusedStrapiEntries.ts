@@ -49,7 +49,7 @@ function partitionPagesByFlowId(pages: MinimalPage[]) {
   return _.partition(pages, (page) => page.attributes.flow_ids.data.length > 0);
 }
 
-async function unusedStrapiEntry() {
+function unusedStrapiEntry() {
   let content: StrapiSchemas | undefined = undefined;
   try {
     content = strapiFileSchema.parse(

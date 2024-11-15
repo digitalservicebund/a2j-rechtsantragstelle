@@ -1,16 +1,19 @@
 import type PDFDocument from "pdfkit";
 import type { AllContexts } from "~/domains/common";
 import { createPdfKitDocument } from "~/services/pdf/createPdfKitDocument";
+import type { AttachmentEntries } from "./attachment";
 
 export type PDFDocumentBuilder<TContext extends AllContexts> = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: TContext,
+  attachment?: AttachmentEntries,
 ) => void;
 
 export async function pdfFromUserData<TContext extends AllContexts>(
   userData: TContext,
   buildPDFDocument: PDFDocumentBuilder<TContext>,
+  attachment?: AttachmentEntries,
 ): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const doc = createPdfKitDocument();
@@ -30,8 +33,7 @@ export async function pdfFromUserData<TContext extends AllContexts>(
     const documentStruct = doc.struct("Document");
     doc.addStructure(documentStruct);
 
-    // Generate the PDF content
-    buildPDFDocument(doc, documentStruct, userData);
+    buildPDFDocument(doc, documentStruct, userData, attachment);
 
     documentStruct.end();
     doc.end();

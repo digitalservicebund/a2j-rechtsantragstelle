@@ -56,7 +56,9 @@ export type ${typeName} = {
 }
 
 async function main() {
-  pdfs.forEach((pdfConfig) => generatePdfTypes(pdfConfig));
+  for (const pdfConfig of pdfs) {
+    await generatePdfTypes(pdfConfig);
+  }
 }
 
-main();
+await main();

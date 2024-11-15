@@ -14,7 +14,7 @@ export async function startFinanzielleAngabenWohnung(
     () => beratungshilfeFormular.fillInput("apartmentCostOwnShare", "40"),
   ];
 
-  for await (const callback of stepCallbacks) {
+  for (const callback of await Promise.all(stepCallbacks)) {
     await callback();
   }
 }
