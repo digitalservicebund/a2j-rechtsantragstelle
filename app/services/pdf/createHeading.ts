@@ -13,7 +13,7 @@ export function createHeading(
   documentStruct.add(
     doc.struct(level, {}, () => {
       doc
-        .fontSize(levelStyle.fontSize)
+        .fontSize(levelStyle.fontSize) //FIXME: fontsize in every style
         .font(FONTS_BUNDESSANS_BOLD)
         .text(heading);
     }),
