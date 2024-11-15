@@ -1,7 +1,10 @@
+import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/shared/gerichtskosten";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import { getCompensationPayment } from "../../services/airports/getCompensationPayment";
 import { getCourtByStartAndEndAirport } from "../../services/getCourtByStartAndEndAirport";
 import type { FluggastrechtContext } from "../context";
+import { getTotalClaimingPeople } from "../services/getTotalClaimingPeople";
+import { getTotalCompensationClaim } from "../services/getTotalCompensationClaim";
 import {
   getAirlineName,
   getAnnullierungInfo,
@@ -23,6 +26,9 @@ import {
 } from "../stringReplacements";
 
 vi.mock("../../services/airports/getCompensationPayment");
+vi.mock("~/domains/geldEinklagen/shared/gerichtskosten");
+vi.mock("../services/getTotalClaimingPeople");
+vi.mock("../services/getTotalCompensationClaim");
 
 describe("stringReplacements", () => {
   describe("getArrayWeiterePersonenIndexStrings", () => {
@@ -385,7 +391,11 @@ describe("stringReplacements", () => {
     });
 
     it("should return the correct streitwert values", () => {
+      vi.mocked(gerichtskostenFromBetrag).mockReturnValue(174);
       vi.mocked(getCompensationPayment).mockReturnValue("250");
+      vi.mocked(getTotalClaimingPeople).mockReturnValue(3);
+      vi.mocked(getTotalCompensationClaim).mockReturnValue(750);
+
       const context: FluggastrechtContext = {
         weiterePersonen: [
           { vorname: "Zweiter", nachname: "Person" },
@@ -405,7 +415,11 @@ describe("stringReplacements", () => {
     });
 
     it("should return empty values when context is missing data", () => {
+      vi.mocked(gerichtskostenFromBetrag).mockReturnValue(114);
       vi.mocked(getCompensationPayment).mockReturnValue("");
+      vi.mocked(getTotalClaimingPeople).mockReturnValue(1);
+      vi.mocked(getTotalCompensationClaim).mockReturnValue(0);
+
       const context: FluggastrechtContext = {};
 
       const expected = {
@@ -420,7 +434,11 @@ describe("stringReplacements", () => {
     });
 
     it("should handle empty weiterePersonen array", () => {
+      vi.mocked(gerichtskostenFromBetrag).mockReturnValue(114);
       vi.mocked(getCompensationPayment).mockReturnValue("250");
+      vi.mocked(getTotalClaimingPeople).mockReturnValue(1);
+      vi.mocked(getTotalCompensationClaim).mockReturnValue(250);
+
       const context: FluggastrechtContext = {
         weiterePersonen: [],
       };
