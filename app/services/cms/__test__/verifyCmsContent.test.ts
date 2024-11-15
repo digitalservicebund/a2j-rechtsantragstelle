@@ -19,6 +19,27 @@ const allStrapiData: Record<FlowId, StrapiPages> = {} as Record<
   StrapiPages
 >;
 
+expect.extend({
+  toBeInXStateConfig(received, expected) {
+    if (received === expected) {
+      return {
+        pass: true,
+        message: () => `expected ${received} not to be in ${expected}`,
+      };
+    } else {
+      return {
+        pass: true,
+        message: () => `expected ${received} to be in ${expected}`,
+      };
+    }
+  },
+});
+
+/**
+ * These pages do not exist in strapi and instead exist in our own codebase
+ */
+const ignoreList = ["redirect-vorabcheck-ergebnis"];
+
 function getAllPossibleStates(flow: Flow) {
   const allPossibleStates: string[] = [];
 
@@ -27,11 +48,15 @@ function getAllPossibleStates(flow: Flow) {
     path: string,
   ) {
     for (const state in states) {
+      if (ignoreList.includes(state)) continue;
       if (!states[state].initial) {
-        allPossibleStates.push(`${path}/${state}`);
+        allPossibleStates.push(`${path}/${state.replace(/^ergebnis\//, "")}`);
       }
       if (states[state].states) {
-        _getAllPossibleStates(states[state].states, `${path}/${state}`);
+        _getAllPossibleStates(
+          states[state].states,
+          `${path}/${state.replace(/^ergebnis\//, "")}`,
+        );
       }
     }
   }
@@ -41,53 +66,53 @@ function getAllPossibleStates(flow: Flow) {
   return allPossibleStates;
 }
 
-describe("Availability of CMS content", () => {
-  beforeAll(async () => {
-    for (const flowId of flowIds) {
-      const [vorabCheckPages, resultPages, formFlowPages, formFields] =
-        await Promise.all([
-          getStrapiEntry({
-            apiId: "vorab-check-pages",
-            locale: "all",
-            filters: [
-              { value: flowId, field: "flow_ids", nestedField: "flowId" },
-            ],
-          }),
-          getStrapiEntry({
-            apiId: "result-pages",
-            locale: "all",
-            filters: [
-              { value: flowId, field: "flow_ids", nestedField: "flowId" },
-            ],
-          }),
-          getStrapiEntry({
-            apiId: "form-flow-pages",
-            locale: "all",
-            filters: [
-              { value: flowId, field: "flow_ids", nestedField: "flowId" },
-            ],
-          }),
-          fetchAllFormFields(flowId),
-        ]);
+beforeAll(async () => {
+  for (const flowId of flowIds) {
+    const [vorabCheckPages, resultPages, formFlowPages, formFields] =
+      await Promise.all([
+        getStrapiEntry({
+          apiId: "vorab-check-pages",
+          locale: "all",
+          filters: [
+            { value: flowId, field: "flow_ids", nestedField: "flowId" },
+          ],
+        }),
+        getStrapiEntry({
+          apiId: "result-pages",
+          locale: "all",
+          filters: [
+            { value: flowId, field: "flow_ids", nestedField: "flowId" },
+          ],
+        }),
+        getStrapiEntry({
+          apiId: "form-flow-pages",
+          locale: "all",
+          filters: [
+            { value: flowId, field: "flow_ids", nestedField: "flowId" },
+          ],
+        }),
+        fetchAllFormFields(flowId),
+      ]);
 
-      allStrapiData[flowId] = {
-        "vorab-check-pages":
-          vorabCheckPages[0] === null
-            ? []
-            : (vorabCheckPages as StrapiSchemas["vorab-check-pages"]),
-        "result-pages":
-          resultPages[0] === null
-            ? []
-            : (resultPages as StrapiSchemas["result-pages"]),
-        "form-flow-pages":
-          formFlowPages[0] === null
-            ? []
-            : (formFlowPages as StrapiSchemas["form-flow-pages"]),
-        formFields,
-      };
-    }
-  });
+    allStrapiData[flowId] = {
+      "vorab-check-pages":
+        vorabCheckPages[0] === null
+          ? []
+          : (vorabCheckPages as StrapiSchemas["vorab-check-pages"]),
+      "result-pages":
+        resultPages[0] === null
+          ? []
+          : (resultPages as StrapiSchemas["result-pages"]),
+      "form-flow-pages":
+        formFlowPages[0] === null
+          ? []
+          : (formFlowPages as StrapiSchemas["form-flow-pages"]),
+      formFields,
+    };
+  }
+});
 
+describe.each(flowIds)("Availability of CMS content", (flowId) => {
   test.skip("all vorabcheck pages mentioned in the app are available in the CMS", () => {
     for (const vorabcheckId of flowIds.filter((flowId) =>
       flowId.includes("vorabcheck"),
@@ -113,22 +138,22 @@ describe("Availability of CMS content", () => {
     }
   });
 
-  test("all mentioned form fields are available", () => {
+  test(`all states that are referenced in the ${flowId} xState config are available in Strapi`, () => {
     // const context = getContext("/beratungshilfe/antrag");
     const {
       // formFields: strapiFormFields,
+      "vorab-check-pages": vorabCheckPages,
       "form-flow-pages": formFlowPages,
       "result-pages": resultPages,
-    } = allStrapiData["/beratungshilfe/antrag"];
+    } = allStrapiData[flowId];
     // const strapiFormFieldsInverted = Object.entries(strapiFormFields)
     //   .map(([key, values]) => values.map((value) => [value, key]))
     //   .flat();
 
-    // check strapi for all xstate entries
-    const flow = flows["/beratungshilfe/antrag"];
+    const flow = flows[flowId];
     const allPossibleStates = getAllPossibleStates(flow);
     allPossibleStates.forEach((stateName) => {
-      const pages = [...formFlowPages, ...resultPages]
+      const pages = [...formFlowPages, ...resultPages, ...vorabCheckPages]
         .filter((page) => page.attributes.locale === defaultLocale)
         .map((page) => page.attributes.stepId);
       expect(pages).toContain(stateName);
@@ -144,4 +169,10 @@ describe("Availability of CMS content", () => {
     //   }
     // });
   });
+
+  test.skip(`all pages in strapi related to ${flowId} also appear in the xState config`, () => {});
+
+  test.skip(`all field names appearing in strapi related to ${flowId} appear in the context`, () => {});
+
+  test.skip(`all field names appearing in the ${flowId} xState config appear in the context`, () => {});
 });
