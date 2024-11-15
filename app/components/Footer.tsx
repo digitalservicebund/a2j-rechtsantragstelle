@@ -53,7 +53,11 @@ export default function Footer({
           <ul className="list-none m-0 p-0 space-y-8 columns-2">
             {links.map((link) => (
               <li key={link.url} className="leading-snug">
-                <StandaloneLink text={link.text ?? ""} url={link.url} />
+                <StandaloneLink
+                  text={link.text ?? ""}
+                  url={link.url}
+                  className="pb-6" // adding extra space to avoid bug in safari
+                />
               </li>
             ))}
           </ul>
