@@ -7,7 +7,7 @@
  * @see: https://tailwindcss.com/docs/content-configuration#dynamic-class-names
  */
 
-export const BACKGROUND_COLORS = {
+export const BACKGROUND_COLORS = Object.freeze({
   white: "bg-white", // before:bg-white
   blue: "bg-blue-100", // before:bg-blue-100
   midBlue: "bg-blue-300", // before:bg-blue-300
@@ -15,6 +15,6 @@ export const BACKGROUND_COLORS = {
   yellow: "bg-yellow-300", // before:bg-yellow-300
   green: "bg-green-200", // before:bg-green-200
   red: "bg-[#f9e5ec]", // before:bg-[#f9e5ec]
-} as const;
+});
 
 export type BackgroundColor = "default" | keyof typeof BACKGROUND_COLORS;

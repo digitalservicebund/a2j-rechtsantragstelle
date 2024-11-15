@@ -1,10 +1,10 @@
+import { serverOnly$ } from "vite-env-only/macros";
 import { getAirportByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportByIataCode";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
-import { serverOnly } from "~/services/serverOnly";
 
 //otherwise error: Server-only module referenced by client
-export const findCourtServer = serverOnly((zipCode: string) =>
+export const findCourtServer = serverOnly$((zipCode: string) =>
   findCourt({ zipCode }),
 );
 
