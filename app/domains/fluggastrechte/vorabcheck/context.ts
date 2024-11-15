@@ -46,4 +46,3 @@ export const fluggastrechteVorabcheckContext = {
 const _contextObject = z.object(fluggastrechteVorabcheckContext).partial();
 export type FluggastrechtVorabcheckContext = z.infer<typeof _contextObject>;
 export type FluggastrechtBereichType = z.infer<typeof fluggastBereichSchema>;
-export type FluggastrechtAnkuendigungType = z.infer<typeof ankuendigungSchema>;
