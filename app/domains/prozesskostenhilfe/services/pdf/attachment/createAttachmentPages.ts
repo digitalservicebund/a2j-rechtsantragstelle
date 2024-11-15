@@ -3,28 +3,30 @@ import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/for
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 import { createAttachmentEntries } from "~/services/pdf/attachment/createAttachmentEntries";
+import { createHeading } from "~/services/pdf/createHeading";
 import { createHeader } from "~/services/pdf/header/createHeader";
 
-type AttachmentPage<
+export const createAttachmentPages = <
   TContext extends
     | BeratungshilfeFormularContext
     | ProzesskostenhilfeFormularContext,
-> = (params: {
+>({
+  doc,
+  documentStruct,
+  userData,
+  attachment,
+  headerText,
+}: {
   doc: typeof PDFDocument;
   documentStruct: PDFKit.PDFStructureElement;
   userData: TContext;
   attachment: AttachmentEntries | undefined;
   headerText: string;
-}) => void;
-
-export const createAttachmentPages: AttachmentPage<
-  BeratungshilfeFormularContext
-> = ({ doc, documentStruct, userData, attachment, headerText }) => {
+}) => {
   createHeader(doc, documentStruct, userData, headerText);
-  doc.moveDown(2);
 
   const attachmentPagesStruct = doc.struct("Sect");
-  doc.moveDown(1);
+  createHeading(doc, attachmentPagesStruct, "Anhang", "H1");
 
   createAttachmentEntries(doc, attachmentPagesStruct, attachment);
 

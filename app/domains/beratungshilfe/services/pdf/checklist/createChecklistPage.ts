@@ -17,7 +17,6 @@ export const createChecklistPage = (
     userData,
     "Merkblatt: Antrag auf Bewilligung von Beratungshilfe",
   );
-  doc.moveDown(2);
   createChecklistSteps(doc, documentStruct);
   createChecklistDocuments(doc, documentStruct, userData);
   doc.moveDown(1);

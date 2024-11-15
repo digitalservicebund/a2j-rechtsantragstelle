@@ -15,7 +15,8 @@ export function createHeading(
       doc
         .fontSize(levelStyle.fontSize) //FIXME: fontsize in every style
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(heading);
+        .text(heading)
+        .moveDown(1);
     }),
   );
 }

@@ -21,7 +21,8 @@ export function createHeader<
       doc
         .fontSize(styles.pageHeader.fontSize)
         .font(FONTS_BUNDESSANS_REGULAR)
-        .text(`${headerText} von ${userData.vorname} ${userData.nachname}`);
+        .text(`${headerText} von ${userData.vorname} ${userData.nachname}`)
+        .moveDown(2);
     }),
   );
 
