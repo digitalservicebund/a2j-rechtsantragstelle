@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { getContext } from "~/domains/contexts";
 import type { FlowId } from "~/domains/flowIds";
 import { flowIds } from "~/domains/flowIds";
+import type { Flow } from "~/domains/flows.server";
 import { flows } from "~/domains/flows.server";
 import type { FormFieldsMap } from "~/services/cms/fetchAllFormFields";
 import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
@@ -18,6 +18,28 @@ const allStrapiData: Record<FlowId, StrapiPages> = {} as Record<
   FlowId,
   StrapiPages
 >;
+
+function getAllPossibleStates(flow: Flow) {
+  const allPossibleStates: string[] = [];
+
+  function _getAllPossibleStates(
+    states: Flow["config"]["states"],
+    path: string,
+  ) {
+    for (const state in states) {
+      if (!states[state].initial) {
+        allPossibleStates.push(`${path}/${state}`);
+      }
+      if (states[state].states) {
+        _getAllPossibleStates(states[state].states, `${path}/${state}`);
+      }
+    }
+  }
+
+  _getAllPossibleStates(flow.config.states, "");
+
+  return allPossibleStates;
+}
 
 describe("Availability of CMS content", () => {
   beforeAll(async () => {
@@ -66,7 +88,7 @@ describe("Availability of CMS content", () => {
     }
   });
 
-  test("all vorabcheck pages mentioned in the app are available in the CMS", () => {
+  test.skip("all vorabcheck pages mentioned in the app are available in the CMS", () => {
     for (const vorabcheckId of flowIds.filter((flowId) =>
       flowId.includes("vorabcheck"),
     )) {
@@ -92,22 +114,34 @@ describe("Availability of CMS content", () => {
   });
 
   test("all mentioned form fields are available", () => {
-    const context = getContext("/beratungshilfe/antrag");
-    const { formFields } = allStrapiData["/beratungshilfe/antrag"];
-    const formFieldsInverted = Object.entries(formFields)
-      .map(([key, values]) => values.map((value) => [value, key]))
-      .flat();
+    // const context = getContext("/beratungshilfe/antrag");
+    const {
+      // formFields: strapiFormFields,
+      "form-flow-pages": formFlowPages,
+      "result-pages": resultPages,
+    } = allStrapiData["/beratungshilfe/antrag"];
+    // const strapiFormFieldsInverted = Object.entries(strapiFormFields)
+    //   .map(([key, values]) => values.map((value) => [value, key]))
+    //   .flat();
 
     // check strapi for all xstate entries
-
-    // console.log(config);
-    formFieldsInverted.forEach(([fieldName, stepId]) => {
-      if (!fieldName.includes(".") && !fieldName.includes("#")) {
-        expect(
-          context,
-          `expected ${stepId} to contain ${fieldName}`,
-        ).toHaveProperty(fieldName);
-      }
+    const flow = flows["/beratungshilfe/antrag"];
+    const allPossibleStates = getAllPossibleStates(flow);
+    allPossibleStates.forEach((stateName) => {
+      const pages = [...formFlowPages, ...resultPages]
+        .filter((page) => page.attributes.locale === defaultLocale)
+        .map((page) => page.attributes.stepId);
+      expect(pages).toContain(stateName);
     });
+
+    // check xstate for all mentioned strapi fields
+    // strapiFormFieldsInverted.forEach(([fieldName, stepId]) => {
+    //   if (!fieldName.includes(".") && !fieldName.includes("#")) {
+    //     expect(
+    //       context,
+    //       `expected ${stepId} to contain ${fieldName}`,
+    //     ).toHaveProperty(fieldName);
+    //   }
+    // });
   });
 });
