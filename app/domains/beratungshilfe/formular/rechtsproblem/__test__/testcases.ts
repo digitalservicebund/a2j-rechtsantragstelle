@@ -12,10 +12,10 @@ const cases = [
       eigeninitiativeBeschreibung: "eigeninitiative",
     },
     [
-      "rechtsproblem/start",
-      "rechtsproblem/bereich",
-      "rechtsproblem/situation-beschreibung",
-      "finanzielle-angaben/einkommen/start",
+      "/rechtsproblem/start",
+      "/rechtsproblem/bereich",
+      "/rechtsproblem/situation-beschreibung",
+      "/finanzielle-angaben/einkommen/start",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeRechtsproblem>;

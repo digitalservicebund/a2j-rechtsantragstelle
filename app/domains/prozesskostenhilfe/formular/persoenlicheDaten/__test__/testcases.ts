@@ -9,7 +9,17 @@ const machine: FlowStateMachine = createMachine(
 );
 
 const cases = [
-  [{}, ["start", "name", "geburtsdatum", "adresse", "telefonnummer", "beruf"]],
+  [
+    {},
+    [
+      "/start",
+      "/name",
+      "/geburtsdatum",
+      "/adresse",
+      "/telefonnummer",
+      "/beruf",
+    ],
+  ],
 ] as const satisfies TestCases<ProzesskostenhilfePersoenlicheDaten>;
 
 export const testCasesProzesskostenhilfePersoenlicheDaten = {

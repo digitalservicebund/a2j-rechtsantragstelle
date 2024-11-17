@@ -1,25 +1,38 @@
-import { createMachine } from "xstate";
+import { createMachine, getStateNodes, pathToStateValue } from "xstate";
 import { flows } from "~/domains/flows.server";
 import { type FlowStateMachine } from "./buildFlowController";
+import { stateValueToStepIds } from "../stepIdConverter";
+
+function getStateNodeByPath(machine: FlowStateMachine, statePath: string[]) {
+  return getStateNodes(machine.root, pathToStateValue(statePath)).pop()!;
+}
+
+function statePathToStepId(statePath: string[]) {
+  return stateValueToStepIds(pathToStateValue(statePath))[0];
+}
 
 export function progressLookupForMachine(machine: FlowStateMachine) {
   // TODO: add unit tests & reduce tests for .getProgress()
   // Initially, we only need to check the initial node, with a known progress of 1
   const initialState = machine.root.initial.target[0];
-  const stateIdsToCheck = [initialState.id];
-  const progressLookup: Record<string, number> = { [initialState.id]: 1 };
+  const statePathsToCheck = [initialState.path];
+  const progressLookup: Record<string, number> = {
+    [statePathToStepId(initialState.path)]: 1,
+  };
 
-  while (stateIdsToCheck.length > 0) {
+  while (statePathsToCheck.length > 0) {
     // As long as we have state paths to check: get the last one and get its node and progress
-    const currentStateId = stateIdsToCheck.pop();
-    if (!currentStateId) break;
-    const currentNode = machine.getStateNodeById(currentStateId);
-    const currentProgress = progressLookup[currentStateId] + 1;
+    const currentStatePath = statePathsToCheck.pop();
+    if (!currentStatePath) break;
+    const currentNode = getStateNodeByPath(machine, currentStatePath);
+
+    const currentProgress =
+      progressLookup[statePathToStepId(currentStatePath)] + 1;
 
     // If the current node is a nested machine we need to search from the initial node instead
     const nodeToSearch =
       Object.keys(currentNode.states).length > 0
-        ? machine.getStateNodeById(currentNode.initial.target[0].id)
+        ? getStateNodeByPath(machine, currentNode.initial.target[0].path)
         : currentNode;
 
     // Loop through SUBMIT transitions,
@@ -30,13 +43,13 @@ export function progressLookupForMachine(machine: FlowStateMachine) {
       ?.flatMap((transition) => transition.target)
       .forEach((targetNode) => {
         if (!targetNode) return;
-        const targetKey = targetNode.id;
+        const targetKey = statePathToStepId(targetNode.path);
         if (
           !(targetKey in progressLookup) ||
           progressLookup[targetKey] < currentProgress
         ) {
           progressLookup[targetKey] = currentProgress;
-          stateIdsToCheck.push(targetNode.id);
+          statePathsToCheck.push(targetNode.path);
         }
       });
   }

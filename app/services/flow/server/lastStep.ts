@@ -24,7 +24,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const lastStep = await lastStepFromRequest(cookieHeader);
   const destination =
     lastStep && flowId in lastStep
-      ? lastStep[flowId]
+      ? flowId + lastStep[flowId]
       : buildFlowController({ config, guards }).getInitial();
   return redirect(destination);
 }

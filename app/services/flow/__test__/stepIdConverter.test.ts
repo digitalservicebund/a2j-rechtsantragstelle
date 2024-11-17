@@ -6,25 +6,25 @@ import {
 
 describe("getStateValueString", () => {
   it("returns simple value if single state given", () => {
-    expect(stateValueToStepIds("state")).toStrictEqual(["state"]);
+    expect(stateValueToStepIds("state")).toStrictEqual(["/state"]);
   });
 
   it("returns simple value if nested state given", () => {
     expect(stateValueToStepIds({ parent: "state" })).toStrictEqual([
-      "parent/state",
+      "/parent/state",
     ]);
   });
 
   it("returns simple value if multiple nested state given", () => {
     expect(
       stateValueToStepIds({ parent1: { parent2: "state" } }),
-    ).toStrictEqual(["parent1/parent2/state"]);
+    ).toStrictEqual(["/parent1/parent2/state"]);
   });
 
   it("returns multiple values if multiple nested state given", () => {
     expect(
       stateValueToStepIds({ parent1: "state1", parent2: "state2" }),
-    ).toStrictEqual(["parent1/state1", "parent2/state2"]);
+    ).toStrictEqual(["/parent1/state1", "/parent2/state2"]);
   });
 
   it("returns multiple values if multiple nested state given with empty objects", () => {
@@ -33,18 +33,18 @@ describe("getStateValueString", () => {
         parent1: { parent2: { child1: "state2", child2: {} } },
       }),
     ).toStrictEqual([
-      "parent1/parent2/child1/state2",
-      "parent1/parent2/child2",
+      "/parent1/parent2/child1/state2",
+      "/parent1/parent2/child2",
     ]);
   });
 });
 
 describe("stepIdToPath", () => {
   it.each([
-    ["", [""]],
-    ["a/b", ["a", "b"]],
-    ["a/b/c", ["a", "b", "c"]],
-    ["ergebnis/b/c", ["ergebnis/b", "c"]],
+    ["", []],
+    ["/a/b", ["a", "b"]],
+    ["/a/b/c", ["a", "b", "c"]],
+    ["/ergebnis/b/c", ["ergebnis/b", "c"]],
   ])("when the input is '%s'", (text, expected) => {
     expect(stepIdToPath(text)).toEqual(expected);
   });
