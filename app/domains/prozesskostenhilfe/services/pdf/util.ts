@@ -1,5 +1,7 @@
 import type { FinancialEntry } from "~/domains/shared/formular/finanzielleAngaben/context";
 
+export const nettoString = "netto";
+
 export const getTotalMonthlyFinancialEntries = (
   financialEntries: FinancialEntry[],
 ) =>
@@ -24,3 +26,10 @@ export const getTotalMonthlyFinancialEntries = (
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
+
+export function removeDecimalsFromCurrencyString(
+  currencyString: string | undefined,
+) {
+  if (currencyString === undefined) return;
+  return currencyString.replace(/,\d{2}/g, "");
+}

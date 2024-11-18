@@ -4,11 +4,8 @@ import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
 } from "~/domains/shared/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
-import {
-  nettoString,
-  removeDecimalsFromCurrencyString,
-} from "~/services/pdf/util";
 import type { PkhPdfFillFunction } from "../..";
+import { nettoString, removeDecimalsFromCurrencyString } from "../../util";
 
 export const zahlungsfrequenzMapping = {
   monthly: "Monatlich",

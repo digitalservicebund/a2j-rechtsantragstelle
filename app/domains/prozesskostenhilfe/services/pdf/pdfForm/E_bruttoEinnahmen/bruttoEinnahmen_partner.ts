@@ -4,13 +4,10 @@ import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
 } from "~/domains/shared/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
-import {
-  nettoString,
-  removeDecimalsFromCurrencyString,
-} from "~/services/pdf/util";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import type { PkhPdfFillFunction } from "../..";
 import { zahlungsfrequenzMapping } from "./bruttoEinnahmen_eigenes";
+import { nettoString, removeDecimalsFromCurrencyString } from "../../util";
 
 // PDF Form Field Names:
 // Nichtselbstständige Arbeit - nein_23, ja_22
