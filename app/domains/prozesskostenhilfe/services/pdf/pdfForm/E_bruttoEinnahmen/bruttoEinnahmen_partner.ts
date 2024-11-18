@@ -5,9 +5,12 @@ import {
 } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { removeDecimalsFromCurrencyString } from "~/util/strings";
 import type { PkhPdfFillFunction } from "../..";
-import { zahlungsfrequenzMapping } from "./bruttoEinnahmen_eigenes";
-import { nettoString, removeDecimalsFromCurrencyString } from "../../util";
+import {
+  nettoString,
+  zahlungsfrequenzMapping,
+} from "./bruttoEinnahmen_eigenes";
 
 // PDF Form Field Names:
 // Nichtselbstständige Arbeit - nein_23, ja_22

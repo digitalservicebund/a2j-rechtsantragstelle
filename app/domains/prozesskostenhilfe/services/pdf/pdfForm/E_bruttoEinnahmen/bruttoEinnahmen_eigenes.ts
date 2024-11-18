@@ -4,8 +4,8 @@ import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
 } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
+import { removeDecimalsFromCurrencyString } from "~/util/strings";
 import type { PkhPdfFillFunction } from "../..";
-import { nettoString, removeDecimalsFromCurrencyString } from "../../util";
 
 export const zahlungsfrequenzMapping = {
   monthly: "Monatlich",
@@ -13,6 +13,8 @@ export const zahlungsfrequenzMapping = {
   yearly: "Jährlich",
   "one-time": "Einmalig",
 };
+
+export const nettoString = "netto";
 
 // PDF Form Field Names:
 // Nichtselbstständige Arbeit - nein_10, ja_9
