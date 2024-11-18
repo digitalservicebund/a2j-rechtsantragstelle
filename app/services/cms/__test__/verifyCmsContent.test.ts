@@ -66,6 +66,38 @@ function compileAllStrapiPages(flowId: FlowId) {
     .map((page) => page.attributes.stepId);
 }
 
+const zodKeys = <T extends z.ZodTypeAny>(schema: T): string[] => {
+  // make sure schema is not null or undefined
+  if (schema === null || schema === undefined) return [];
+  // check if schema is nullable or optional
+  if (schema instanceof z.ZodNullable || schema instanceof z.ZodOptional)
+    return zodKeys(schema.unwrap());
+  // check if schema is an array
+  if (schema instanceof z.ZodArray) {
+    return zodKeys(schema.element);
+  }
+  // check if schema is an object
+  if (schema instanceof z.ZodObject) {
+    // get key/value pairs from schema
+    const entries = Object.entries(schema.shape);
+    // loop through key/value pairs
+    return entries.flatMap(([key, value]) => {
+      // get nested keys
+      const nested =
+        value instanceof z.ZodType
+          ? zodKeys(value).map(
+              (subKey) =>
+                `${key}${value instanceof z.ZodArray ? "#" : "."}${subKey}`,
+            )
+          : [];
+      // return nested keys
+      return nested.length ? nested : key;
+    });
+  }
+  // return empty array
+  return [];
+};
+
 expect.extend({
   toContainStrapiPage(
     received: {
@@ -137,7 +169,7 @@ beforeAll(async () => {
 });
 
 describe.each(flowIds)("Availability of %s content", (flowId: FlowId) => {
-  describe.skip("pages", () => {
+  describe("pages", () => {
     test(`all states that are referenced in the ${flowId} xState config are available in Strapi`, () => {
       const pages = compileAllStrapiPages(flowId);
 
@@ -169,16 +201,14 @@ describe.each(flowIds)("Availability of %s content", (flowId: FlowId) => {
         .map(([key, values]) => values.map((value) => [value, key]))
         .flat();
 
-      strapiFormFieldsInverted.forEach(([fieldName, stepId]) => {
-        if (!fieldName.includes(".") && !fieldName.includes("#")) {
-          expect(
-            context,
-            `expected ${stepId} to contain ${fieldName}`,
-          ).toHaveProperty(fieldName);
-        }
+      const recursiveKeys = zodKeys(z.object(context));
+
+      strapiFormFieldsInverted.forEach(([fieldName]) => {
+        assert(
+          recursiveKeys.includes(fieldName),
+          `expected context to contain ${fieldName} in ${flowId}`,
+        );
       });
     });
-
-    test.skip(`all field names appearing in the ${flowId} xState config appear in the context`, () => {});
   });
 });
