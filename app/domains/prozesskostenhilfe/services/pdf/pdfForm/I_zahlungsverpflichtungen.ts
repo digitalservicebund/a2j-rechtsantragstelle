@@ -5,7 +5,7 @@ import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/domains
 import { eigentuemerMapping } from "~/domains/shared/pdf/eigentumHelpers";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
-import type { PkhPdfFillFunction } from ".";
+import type { PkhPdfFillFunction } from "..";
 
 type Ratenzahlung = NonNullable<
   ProzesskostenhilfeFormularContext["ratenzahlungen"]

@@ -8,7 +8,7 @@ import {
   nettoString,
   removeDecimalsFromCurrencyString,
 } from "~/services/pdf/util";
-import type { PkhPdfFillFunction } from "..";
+import type { PkhPdfFillFunction } from "../..";
 
 export const zahlungsfrequenzMapping = {
   monthly: "Monatlich",

@@ -9,7 +9,7 @@ import {
   removeDecimalsFromCurrencyString,
 } from "~/services/pdf/util";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import type { PkhPdfFillFunction } from "..";
+import type { PkhPdfFillFunction } from "../..";
 import { zahlungsfrequenzMapping } from "./bruttoEinnahmen_eigenes";
 
 // PDF Form Field Names:

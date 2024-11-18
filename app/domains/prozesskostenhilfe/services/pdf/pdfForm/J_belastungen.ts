@@ -1,7 +1,7 @@
 import { ausgabenSituationMapping } from "~/domains/beratungshilfe/services/pdf/pdfForm/G_ausgaben";
 import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
-import type { PkhPdfFillFunction } from ".";
+import type { PkhPdfFillFunction } from "..";
 
 export const fillBelastungen: PkhPdfFillFunction = ({
   userData,

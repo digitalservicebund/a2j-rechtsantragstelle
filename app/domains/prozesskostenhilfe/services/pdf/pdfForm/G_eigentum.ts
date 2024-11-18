@@ -16,7 +16,7 @@ import {
 } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { arrayIsNonEmpty } from "~/util/array";
-import type { PkhPdfFillFunction } from ".";
+import type { PkhPdfFillFunction } from "..";
 
 export const fillBankkonto: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const { bankkonten, hasBankkonto } = userData;

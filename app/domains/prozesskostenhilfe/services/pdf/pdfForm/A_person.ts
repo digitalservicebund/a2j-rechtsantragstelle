@@ -4,7 +4,7 @@ import {
   type AttachmentEntries,
   SEE_IN_ATTACHMENT_DESCRIPTION,
 } from "~/services/pdf/attachment";
-import type { PkhPdfFillFunction } from ".";
+import type { PkhPdfFillFunction } from "..";
 
 export const GESETZLICHERVERTRETER_FIELD_MAX_CHARS = 80;
 export const NAME_VORNAME_FIELD_MAX_CHARS = 35;
