@@ -12,8 +12,7 @@ import {
   type StrapiSchemas,
 } from "./schemas";
 import { httpErrorCodes } from "../errorPages/ErrorBox";
-
-export type Translations = Record<string, string>;
+import type { Translations } from "../translations/getTranslationByKey";
 
 export async function fetchMeta(
   opts: Omit<GetStrapiEntryOpts, "apiId" | "filter"> & { filterValue: string },
@@ -74,7 +73,7 @@ export const fetchFlowPage = <T extends FlowPageId>(
   stepId: string,
 ): Promise<StrapiSchemas[T][number]["attributes"]> =>
   fetchCollectionEntry(collection, [
-    { field: "stepId", value: "/" + stepId }, // TODO: align stepid between app & cms
+    { field: "stepId", value: "/" + stepId },
     { field: "flow_ids", nestedField: "flowId", value: flowId },
   ]);
 

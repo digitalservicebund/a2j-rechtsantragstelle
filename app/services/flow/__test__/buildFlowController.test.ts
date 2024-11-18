@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { createMachine } from "xstate";
 import {
   type Config,
@@ -255,7 +254,6 @@ describe("buildFlowController", () => {
       });
     });
 
-    // TODO: We ignore nested steps for now, we have to fix the getProgress function to include nested steps.
     it("returns 1/5", () => {
       expect(
         buildFlowController({ config }).getProgress("step1"),

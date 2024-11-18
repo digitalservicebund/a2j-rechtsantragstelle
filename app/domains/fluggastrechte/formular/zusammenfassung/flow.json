@@ -4,8 +4,13 @@
   "states": {
     "start": {
       "on": {
-        "SUBMIT": "#abgabe.start",
-        "BACK": "#persoenliche-daten.weitere-personen.zeugen"
+        "SUBMIT": [
+          {
+            "target": "#abgabe.start",
+            "guard": "isClaimNotExceedingLimit"
+          }
+        ],
+        "BACK": "#prozessfuehrung.zahlung-nach-klageeinreichung"
       }
     }
   }

@@ -29,17 +29,20 @@ import { gesetzlicheVertretungXstateConfig } from "./gesetzlicheVertretung/xStat
 import type { ProzesskostenhilfePersoenlicheDaten } from "./persoenlicheDaten/context";
 import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechtsschutzversicherung/context";
-import { getMissingInformationStrings } from "./stringReplacements";
-import { finanzielleAngabenArrayConfig } from "../../shared/finanzielleAngaben/arrayConfiguration";
+import {
+  belegeStrings,
+  getMissingInformationStrings,
+} from "./stringReplacements";
+import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
 import {
   eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
   getArrayIndexStrings,
   getKinderStrings,
-} from "../../shared/stringReplacements";
+} from "../../shared/formular/stringReplacements";
 
 export const prozesskostenhilfeFormular = {
-  cmsSlug: "form-flow-pages",
+  flowType: "formFlow",
   config: {
     id: "/prozesskostenhilfe/formular",
     initial: "start",
@@ -193,6 +196,7 @@ export const prozesskostenhilfeFormular = {
     ...geldAnlagenStrings(context),
     ...getAbgabeStrings(context),
     ...getMissingInformationStrings(context),
+    ...belegeStrings(context),
   }),
 } satisfies Flow;
 

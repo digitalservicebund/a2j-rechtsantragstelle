@@ -34,7 +34,7 @@ import {
   kindWohnortBeiAntragstellerYes,
   staatlicheLeistungenIsBuergergeld,
   staatlicheLeistungenIsKeine,
-} from "~/domains/shared/finanzielleAngaben/guards";
+} from "~/domains/shared/formular/finanzielleAngaben/guards";
 import {
   firstArrayIndex,
   isValidArrayIndex,

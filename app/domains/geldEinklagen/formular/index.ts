@@ -11,7 +11,7 @@ import {
 } from "../shared/gerichtskosten";
 
 export const geldEinklagenFormular = {
-  cmsSlug: "form-flow-pages",
+  flowType: "formFlow",
   stringReplacements: (context: AllContexts) => {
     if (!("forderung" in context && typeof context.forderung === "object"))
       return {};

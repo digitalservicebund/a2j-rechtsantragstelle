@@ -14,7 +14,6 @@ const cases = [
   [
     {
       anrede: "mr",
-      title: "",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -27,13 +26,12 @@ const cases = [
       "persoenliche-daten/person/daten",
       "persoenliche-daten/weitere-personen/frage",
       "persoenliche-daten/weitere-personen/zeugen",
-      "zusammenfassung/start",
+      "prozessfuehrung/schriftliches-verfahren",
     ],
   ],
   [
     {
       anrede: "mr",
-      title: "",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -46,19 +44,28 @@ const cases = [
       "persoenliche-daten/person/daten",
       "persoenliche-daten/weitere-personen/frage",
       "persoenliche-daten/weitere-personen/zeugen",
-      "zusammenfassung/start",
+      "prozessfuehrung/schriftliches-verfahren",
     ],
   ],
   [
     {
       anrede: "mr",
-      title: "",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
       isWeiterePersonen: "yes",
+      weiterePersonen: [
+        {
+          anrede: "mr",
+          vorname: "test",
+          nachname: "test",
+          strasseHausnummer: "test",
+          ort: "test",
+          plz: "13055",
+        },
+      ],
       hasZeugen: "no",
     },
     [
@@ -66,19 +73,28 @@ const cases = [
       "persoenliche-daten/weitere-personen/frage",
       "persoenliche-daten/weitere-personen/uebersicht",
       "persoenliche-daten/weitere-personen/zeugen",
-      "zusammenfassung/start",
+      "prozessfuehrung/schriftliches-verfahren",
     ],
   ],
   [
     {
       anrede: "mr",
-      title: "",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
       ort: "test",
       plz: "13055",
       isWeiterePersonen: "yes",
+      weiterePersonen: [
+        {
+          anrede: "mr",
+          vorname: "test",
+          nachname: "test",
+          strasseHausnummer: "test",
+          ort: "test",
+          plz: "13055",
+        },
+      ],
       hasZeugen: "no",
     },
     [
@@ -86,7 +102,7 @@ const cases = [
       "persoenliche-daten/weitere-personen/frage",
       "persoenliche-daten/weitere-personen/uebersicht",
       "persoenliche-daten/weitere-personen/zeugen",
-      "zusammenfassung/start",
+      "prozessfuehrung/schriftliches-verfahren",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;

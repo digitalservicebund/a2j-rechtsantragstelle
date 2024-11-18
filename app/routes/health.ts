@@ -1,9 +1,11 @@
 import axios from "axios";
 import { config } from "~/services/env/env.server";
 import { logError } from "~/services/logging";
+import { getRedisStatus } from "~/services/session.server/redis";
 
 export const loader = async () => {
   try {
+    if (getRedisStatus() !== "ready") throw Error("Redis connection not ready");
     if (config().CMS === "STRAPI") {
       await axios.get(`${config().STRAPI_HOST}/_health`, {
         validateStatus: (status) => status < 300,

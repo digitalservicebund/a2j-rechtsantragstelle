@@ -1,9 +1,6 @@
 import { flugdatenDone } from "../doneFunctions";
 
 const baseContext = {
-  startAirport: "BER",
-  endAirport: "FRA",
-  fluggesellschaft: "LH",
   direktFlugnummer: "AB6303",
   buchungsNummer: "X36Q9C",
   direktAbflugsDatum: "10.03.2024",

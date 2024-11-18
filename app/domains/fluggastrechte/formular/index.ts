@@ -15,17 +15,22 @@ import {
   weiterePersonenDone,
 } from "./persoenlicheDaten/doneFunctions";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
+import { prozessfuehrungDone } from "./prozessfuehrung/doneFunctions";
+import prozessfuehrungFlow from "./prozessfuehrung/flow.json";
 import { streitwertKostenDone } from "./streitwertKosten/doneFunctions";
 import streitwertKostenFlow from "./streitwertKosten/flow.json";
 import {
   getAirlineName,
+  getAnnullierungInfo,
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
   getFirstZwischenstoppAirportName,
   getPersonNachname,
   getPersonVorname,
+  getResponsibleCourt,
   getSecondZwischenstoppAirportName,
   getStartAirportName,
+  getStreitwert,
   getThirdZwischenstoppAirportName,
   getWeiterePersonenNameStrings,
   isAnnullierung,
@@ -41,7 +46,7 @@ const flowTransitionConfig: FlowTransitionConfig = {
 };
 
 export const fluggastrechtFlow = {
-  cmsSlug: "form-flow-pages",
+  flowType: "formFlow",
   migration: {
     source: "/fluggastrechte/vorabcheck",
     sortedFields: [
@@ -69,10 +74,13 @@ export const fluggastrechtFlow = {
     ...getFirstZwischenstoppAirportName(context),
     ...getSecondZwischenstoppAirportName(context),
     ...getThirdZwischenstoppAirportName(context),
+    ...getResponsibleCourt(context),
     ...isVerspaetet(context),
     ...isNichtBefoerderung(context),
     ...isAnnullierung(context),
     ...isWeiterePersonen(context),
+    ...getStreitwert(context),
+    ...getAnnullierungInfo(context),
   }),
   config: {
     meta: {
@@ -115,6 +123,9 @@ export const fluggastrechtFlow = {
           person: { meta: { done: personDone } },
           "weitere-personen": { meta: { done: weiterePersonenDone } },
         },
+      }),
+      prozessfuehrung: _.merge(prozessfuehrungFlow, {
+        meta: { done: prozessfuehrungDone },
       }),
       zusammenfassung: _.merge(zusammenfassungFlow, {
         meta: { done: () => false },

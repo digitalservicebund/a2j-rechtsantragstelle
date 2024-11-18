@@ -1,4 +1,4 @@
-import * as sharedDoneFunctions from "~/domains/shared/finanzielleAngaben/doneFunctions";
+import * as sharedDoneFunctions from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import * as doneFunctions from "../doneFunctions";
 import { eigentumZusammenfassungDone } from "../eigentumZusammenfassungDone";
 

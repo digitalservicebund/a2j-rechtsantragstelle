@@ -21,12 +21,14 @@ const icons: Record<StrapiResultPageType, ReactElement> = {
   error: <HighlightOff color="error" className={iconCSS} />,
   success: <CheckCircleOutline color="success" className={iconCSS} />,
   warning: <WarningAmber color="warning" className={iconCSS} />,
+  info: <CheckCircleOutline color="success" className={iconCSS} />,
 };
 
 const backgrounds: Record<StrapiResultPageType, BackgroundColor> = {
   error: "red",
   success: "green",
   warning: "yellow",
+  info: "blue",
 };
 
 export function ResultPage() {
@@ -73,9 +75,11 @@ export function ResultPage() {
 
           <Container paddingTop="48" paddingBottom="0">
             <ButtonContainer>
-              <a className="text-link" href={backButton.destination}>
-                {backButton.label}
-              </a>
+              {backButton.destination && (
+                <a className="text-link" href={backButton.destination}>
+                  {backButton.label}
+                </a>
+              )}
               {cmsData.nextLink?.url && (
                 <a className="text-link" href={cmsData.nextLink.url}>
                   {cmsData.nextLink.text ?? common["nextButtonDefaultLabel"]}

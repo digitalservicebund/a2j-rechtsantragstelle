@@ -1,3 +1,4 @@
+import { getRouteCompensationBetweenAirports } from "~/domains/fluggastrechte/services/airports/getRouteCompensationBetweenAirports";
 import {
   COMPENSATION_VALUE_600,
   COMPENSATION_VALUE_400,
@@ -12,10 +13,14 @@ import {
   hasCompensationLongDistanceOutsideEU,
   hasCompensationMiddleDistance,
   hasCompensationShortDistance,
+  getButtonURLForClaimViaPost,
 } from "~/domains/fluggastrechte/vorabcheck/stringReplacements";
-import { getRouteCompensationBetweenAirports } from "~/services/airports/getRouteCompensationBetweenAirports";
+import { isErfolgAnalog } from "../services/isErfolgAnalog";
 
-vi.mock("~/services/airports/getRouteCompensationBetweenAirports");
+vi.mock(
+  "~/domains/fluggastrechte/services/airports/getRouteCompensationBetweenAirports",
+);
+vi.mock("../services/isErfolgAnalog");
 
 const mockedGetRouteCompensationBetweenAirports = vi.mocked(
   getRouteCompensationBetweenAirports,
@@ -274,5 +279,23 @@ describe("hasCompensationShortDistance", () => {
     const actual = hasCompensationShortDistance({});
 
     expect(actual).toStrictEqual({ hasShortDistance: false });
+  });
+
+  describe("getButtonURLForClaimViaPost", () => {
+    it("should return the link to ergebnis/erfolg-analog when isErfolgAnalog is true", () => {
+      vi.mocked(isErfolgAnalog).mockReturnValue(true);
+      const actual = getButtonURLForClaimViaPost({});
+      expect(actual).toStrictEqual({
+        claimViaPostButtonURL:
+          "/fluggastrechte/vorabcheck/ergebnis/erfolg-analog",
+      });
+    });
+    it("should return the link to ergebnis/erfolg when IsErfolgAnalog is false", () => {
+      vi.mocked(isErfolgAnalog).mockReturnValue(false);
+      const actual = getButtonURLForClaimViaPost({});
+      expect(actual).toStrictEqual({
+        claimViaPostButtonURL: "/fluggastrechte/vorabcheck/ergebnis/erfolg",
+      });
+    });
   });
 });

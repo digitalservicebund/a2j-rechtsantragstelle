@@ -12,8 +12,8 @@ export const StrapiCookieBannerSchema = z
     paragraphs: z.array(StrapiParagraphSchema),
     acceptButtonLabel: z.string(),
     declineButtonLabel: z.string(),
-    cookieSettingLinkText: z.string().nullable(),
-    cookieSettingLinkUrl: z.string().nullable(),
+    cookieSettingLinkText: z.string(),
+    cookieSettingLinkUrl: z.string(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
@@ -29,8 +29,7 @@ export const getCookieBannerProps = (
     paragraphs: cmsData.paragraphs.map((p) => getRichTextProps(p)),
     acceptButtonLabel: cmsData.acceptButtonLabel,
     declineButtonLabel: cmsData.declineButtonLabel,
-    // TODO: mark both fields as required in strapi
-    cookieSettingLinkText: cmsData.cookieSettingLinkText ?? "",
-    cookieSettingLinkUrl: cmsData.cookieSettingLinkUrl ?? "",
+    cookieSettingLinkText: cmsData.cookieSettingLinkText,
+    cookieSettingLinkUrl: cmsData.cookieSettingLinkUrl,
   };
 };

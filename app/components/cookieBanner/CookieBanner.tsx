@@ -36,11 +36,10 @@ export function CookieBanner({
   useEffect(() => {
     if (hasTrackingConsent && !posthogLoaded && POSTHOG_API_KEY) {
       posthog.init(POSTHOG_API_KEY, {
-        // eslint-disable-next-line camelcase
         api_host: POSTHOG_API_HOST,
-        // eslint-disable-next-line camelcase
+
         cross_subdomain_cookie: false, // set cookie for subdomain only
-        // eslint-disable-next-line camelcase
+
         opt_out_persistence_by_default: true,
         loaded: () => {
           setPosthogLoaded(true);

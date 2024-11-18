@@ -1,34 +1,33 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
-import type { Context } from "~/domains/contexts";
+import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services/pdf";
 import { parsePathname, type FlowId } from "~/domains/flowIds";
+import type { FluggastrechteFlugdatenContext } from "~/domains/fluggastrechte/formular/flugdaten/context";
+import { fluggastrechtePdfFromUserdata } from "~/domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
-import { beratungshilfePdfFromUserdata } from "~/services/pdf/beratungshilfe";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
-import { fluggastrechtePdfFromUserdata } from "~/services/pdf/fluggastrechte/fluggastrechtePdfFromUserdata";
-import { pdfDocumentToArrayBuffer } from "~/services/pdf/pdfDocumentToArrayBuffer";
-import { prozesskostenhilfePdfFromUserdata } from "~/services/pdf/prozesskostenhilfe";
 import { getSessionData } from "~/services/session.server";
 import { pdfDateFormat, today } from "~/util/date";
 
 const pdfConfigs = {
   "/beratungshilfe/antrag": {
-    pdfFunction: async (userData: Context) =>
-      pdfDocumentToArrayBuffer(await beratungshilfePdfFromUserdata(userData)),
+    pdfFunction: async (userData: BeratungshilfeFormularContext) =>
+      await beratungshilfePdfFromUserdata(userData),
     filenameFunction: () =>
       `Antrag_Beratungshilfe_${pdfDateFormat(today())}.pdf`,
   },
   "/prozesskostenhilfe/formular": {
-    pdfFunction: async (userData: Context) =>
-      pdfDocumentToArrayBuffer(
-        await prozesskostenhilfePdfFromUserdata(userData),
-      ),
+    pdfFunction: async (userData: ProzesskostenhilfeFormularContext) =>
+      await prozesskostenhilfePdfFromUserdata(userData),
     filenameFunction: () =>
       `Antrag_Prozesskostenhilfe_${pdfDateFormat(today())}.pdf`,
   },
   "/fluggastrechte/formular": {
-    pdfFunction: async (userData: Context) =>
-      fluggastrechtePdfFromUserdata(userData),
+    pdfFunction: async (userData: FluggastrechteFlugdatenContext) =>
+      await fluggastrechtePdfFromUserdata(userData),
     filenameFunction: () =>
       `Fluggastrechte_Klage_${pdfDateFormat(today())}.pdf`,
   },

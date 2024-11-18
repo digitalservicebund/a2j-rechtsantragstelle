@@ -19,16 +19,16 @@ import {
   eigentumZusammenfassungShowTotalWorthWarnings,
 } from "./stringReplacements";
 import { beratungshilfeXstateConfig } from "./xstateConfig";
-import type { AbgabeContext } from "../../shared/abgabe/context";
+import type { AbgabeContext } from "../../shared/formular/abgabe/context";
 import {
   eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
   getArrayIndexStrings,
   getKinderStrings,
-} from "../../shared/stringReplacements";
+} from "../../shared/formular/stringReplacements";
 
 export const beratungshilfeFormular = {
-  cmsSlug: "form-flow-pages",
+  flowType: "formFlow",
   config: beratungshilfeXstateConfig,
   guards: {
     ...beratungshilfeGrundvoraussetzungenGuards,

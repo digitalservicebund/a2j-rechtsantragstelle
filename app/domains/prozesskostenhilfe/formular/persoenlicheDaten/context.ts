@@ -5,7 +5,7 @@ import {
   vornameNachnameSchema,
   telefonnummer,
   beruf,
-} from "~/domains/shared/persoenlicheDaten/context";
+} from "~/domains/shared/formular/persoenlicheDaten/context";
 
 export const prozesskostenhilfePersoenlicheDatenContext = {
   ...vornameNachnameSchema,

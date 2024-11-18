@@ -4,7 +4,6 @@ import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
 import { fluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck";
 import { geldEinklagenFormular } from "~/domains/geldEinklagen/formular";
 import { geldEinklagenVorabcheck } from "~/domains/geldEinklagen/vorabcheck";
-import type { FlowPageId } from "~/services/cms/schemas";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import type { Replacements } from "~/util/fillTemplate";
@@ -19,8 +18,10 @@ export type FlowMigration = {
   buttonUrl?: string;
 };
 
+export type FlowType = "vorabCheck" | "formFlow";
+
 export type Flow = {
-  cmsSlug: FlowPageId;
+  flowType: FlowType;
   config: Config;
   guards: Guards;
   migration?: FlowMigration;

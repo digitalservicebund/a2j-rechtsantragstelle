@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import fs from "fs";
-import countriesTranslation from "i18n-iso-countries";
+import { getName } from "i18n-iso-countries";
 import _ from "lodash";
 import { z } from "zod";
-import type { Airport } from "~/services/airports/type";
+import type { Airport } from "~/domains/fluggastrechte/services/airports/type";
 
 const FILE_PATH_AIRPORTS_DATA = "data/airports/data.json";
 const GERMAN_LOCALE = "de";
@@ -87,9 +87,7 @@ function filteredLargeMediumAirports(airports: AirportDataSource[]): Airport[] {
       return {
         iata: airport.iata,
         country_code: airport.country_code,
-        country:
-          countriesTranslation.getName(airport.country_code, GERMAN_LOCALE) ??
-          "",
+        country: getName(airport.country_code, GERMAN_LOCALE) ?? "",
         airport: translateAirportName(airport.airport),
         latitude: airport.latitude,
         longitude: airport.longitude,
@@ -167,4 +165,4 @@ async function fetchAndSaveAirports() {
   console.log(`${FILE_PATH_AIRPORTS_DATA} written correctly`);
 }
 
-fetchAndSaveAirports();
+await fetchAndSaveAirports();

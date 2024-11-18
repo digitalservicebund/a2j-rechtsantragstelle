@@ -2,7 +2,7 @@ import { z } from "zod";
 import {
   persoenlicheDaten,
   geburtsdatum,
-} from "~/domains/shared/persoenlicheDaten/context";
+} from "~/domains/shared/formular/persoenlicheDaten/context";
 
 export const beratungshilfePersoenlicheDaten = {
   ...persoenlicheDaten,

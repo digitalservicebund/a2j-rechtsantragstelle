@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* eslint-disable sonarjs/no-nested-functions */
 import fs from "node:fs";
 import { type IncomingMessage } from "node:http";
 import path from "node:path";
@@ -95,4 +96,4 @@ async function writeURLMap() {
   });
 }
 
-if (process.argv[2] === "checkURLs") writeURLMap();
+if (process.argv[2] === "checkURLs") await writeURLMap();

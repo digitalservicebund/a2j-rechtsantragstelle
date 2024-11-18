@@ -1,9 +1,4 @@
-import { flowIdFromPathname } from "~/domains/flowIds";
-
-const isFlowIdInPathname = (pathname: string): boolean => {
-  const flowId = flowIdFromPathname(pathname);
-  return typeof flowId !== "undefined";
-};
+import { isFlowIdInPathname } from "~/util/url";
 
 export const shouldSetCacheControlHeader = (
   pathname: string,

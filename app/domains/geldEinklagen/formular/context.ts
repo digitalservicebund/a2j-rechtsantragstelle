@@ -3,7 +3,7 @@ import {
   adresseSchema,
   namePrivatPerson,
   persoenlicheDaten as sharedPersoenlicheDaten,
-} from "~/domains/shared/persoenlicheDaten/context";
+} from "~/domains/shared/formular/persoenlicheDaten/context";
 import {
   checkedOptional,
   checkedRequired,

@@ -34,6 +34,13 @@ describe("Footer", () => {
     expect(getByText("link2")).toBeInTheDocument();
   });
 
+  it("should render link with className pb-6", () => {
+    const { getByRole } = render(
+      <Footer links={[{ url: "url1", text: "link1" }]} />,
+    );
+    expect(getByRole("link")).toHaveClass("pb-6");
+  });
+
   it("should render deletionBanner", () => {
     const { getByText } = render(
       <Footer showDeletionBanner={true} deletionLabel="deletionLabel" />,

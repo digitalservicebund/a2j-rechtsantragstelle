@@ -6,6 +6,7 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { fluggastrechteFlugdaten } from "./flugdaten/context";
 import { fluggastrechtGrundvoraussetzungenDaten } from "./grundvoraussetzungen/context";
 import { fluggastrechtePersoenlichDaten } from "./persoenlicheDaten/context";
+import { fluggastrechtProzessfuehrungDaten } from "./prozessfuehrung/context";
 import { fluggastrechtStreitKostenDaten } from "./streitwertKosten/context";
 
 export const fluggastrechtContext = {
@@ -16,6 +17,7 @@ export const fluggastrechtContext = {
   ...fluggastrechtePersoenlichDaten,
   ...fluggastrechtStreitKostenDaten,
   ...fluggastrechtGrundvoraussetzungenDaten,
+  ...fluggastrechtProzessfuehrungDaten,
   ankuendigung: stringOptionalSchema,
   ersatzflug: stringOptionalSchema,
   ersatzflugStartenEinStunde: stringOptionalSchema,

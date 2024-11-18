@@ -78,7 +78,7 @@ export type Meta = {
 };
 
 const getSteps = (machine: FlowStateMachine) => {
-  // todo: remove machine relying on context passed at createMachine()...
+  // The machine passed here relies on the context it was initialized with.
   // https://www.jsdocs.io/package/xstate#FlowStateMachine.provide is supposed to allow this but context isn't applied
   // idea: machine.provide() with action that assigns the new context
 

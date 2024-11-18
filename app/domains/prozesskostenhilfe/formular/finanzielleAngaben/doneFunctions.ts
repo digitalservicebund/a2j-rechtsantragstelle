@@ -16,7 +16,7 @@ import {
   childDone,
   geldanlageDone,
   singleGrundeigentumDone,
-} from "../../../shared/finanzielleAngaben/doneFunctions";
+} from "../../../shared/formular/finanzielleAngaben/doneFunctions";
 
 export type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenContext>;
@@ -37,7 +37,7 @@ export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context.unterhalt === "no" ||
   context.partnerEinkommen === "no" ||
   (context.unterhalt === "yes" &&
-    context.unterhaltsSumme !== undefined &&
+    context.partnerUnterhaltsSumme !== undefined &&
     partnerNameDone({ context })) ||
   partnerEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
     context,

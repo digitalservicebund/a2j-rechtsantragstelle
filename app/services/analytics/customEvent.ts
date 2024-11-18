@@ -29,7 +29,6 @@ export function sendCustomAnalyticsEvent({
     distinctId: idFromCookie(request),
     event: eventName,
     properties: {
-      // eslint-disable-next-line camelcase
       $current_url: new URL(request.url).pathname,
       ...properties,
     },
