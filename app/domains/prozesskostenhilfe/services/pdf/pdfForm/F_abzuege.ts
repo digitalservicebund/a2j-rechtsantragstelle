@@ -1,5 +1,5 @@
-import type { AttachmentEntries } from "~/domains/shared/pdf/attachment";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/domains/shared/pdf/attachment";
+import type { AttachmentEntries } from "~/domains/shared/services/pdf/attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/domains/shared/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import type { PkhPdfFillFunction } from "..";
 import { getTotalMonthlyFinancialEntries } from "../util";

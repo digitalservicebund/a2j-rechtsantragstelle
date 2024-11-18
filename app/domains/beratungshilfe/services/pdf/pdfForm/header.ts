@@ -2,8 +2,8 @@ import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/for
 import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
   type AttachmentEntries,
-} from "~/domains/shared/pdf/attachment";
-import { maritalDescriptionMapping } from "~/domains/shared/pdf/maritalDescriptionMapping";
+} from "~/domains/shared/services/pdf/attachment";
+import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/maritalDescriptionMapping";
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { checkboxListToString } from "~/services/pdf/checkboxListToString";
 import type { BerHPdfFillFunction } from "..";

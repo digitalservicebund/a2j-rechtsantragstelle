@@ -4,7 +4,7 @@ import type { besondereBelastungenSchema } from "~/domains/shared/formular/finan
 import {
   type AttachmentEntries,
   SEE_IN_ATTACHMENT_DESCRIPTION,
-} from "~/domains/shared/pdf/attachment";
+} from "~/domains/shared/services/pdf/attachment";
 import { checkboxListToString } from "~/services/pdf/checkboxListToString";
 import type { BerHPdfFillFunction } from "..";
 

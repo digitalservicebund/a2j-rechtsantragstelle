@@ -2,7 +2,7 @@ import { finanzielleAngabeEinkuenfteGuards as guards } from "~/domains/prozessko
 import {
   type AttachmentEntries,
   SEE_IN_ATTACHMENT_DESCRIPTION,
-} from "~/domains/shared/pdf/attachment";
+} from "~/domains/shared/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import {
   nettoString,

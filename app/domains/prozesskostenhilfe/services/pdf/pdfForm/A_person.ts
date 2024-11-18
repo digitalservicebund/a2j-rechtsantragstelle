@@ -2,8 +2,8 @@ import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenh
 import {
   type AttachmentEntries,
   SEE_IN_ATTACHMENT_DESCRIPTION,
-} from "~/domains/shared/pdf/attachment";
-import { maritalDescriptionMapping } from "~/domains/shared/pdf/maritalDescriptionMapping";
+} from "~/domains/shared/services/pdf/attachment";
+import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/maritalDescriptionMapping";
 import type { PkhPdfFillFunction } from "..";
 
 export const GESETZLICHERVERTRETER_FIELD_MAX_CHARS = 80;

@@ -1,5 +1,5 @@
 import type { BankkontenArraySchema } from "~/domains/shared/formular/finanzielleAngaben/context";
-import type { AttachmentEntries } from "~/domains/shared/pdf/attachment";
+import type { AttachmentEntries } from "~/domains/shared/services/pdf/attachment";
 import { attachBankkontenToAnhang } from "../eigentumHelpers";
 
 describe("eigentumHelpers", () => {

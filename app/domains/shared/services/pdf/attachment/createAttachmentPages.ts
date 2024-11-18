@@ -1,8 +1,8 @@
 import type PDFDocument from "pdfkit";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
-import type { AttachmentEntries } from "~/domains/shared/pdf/attachment";
-import { createAttachmentEntries } from "~/domains/shared/pdf/attachment/createAttachmentEntries";
+import type { AttachmentEntries } from "~/domains/shared/services/pdf/attachment";
+import { createAttachmentEntries } from "~/domains/shared/services/pdf/attachment/createAttachmentEntries";
 import { createHeading } from "~/services/pdf/createHeading";
 import { createHeader } from "~/services/pdf/header/createHeader";
 

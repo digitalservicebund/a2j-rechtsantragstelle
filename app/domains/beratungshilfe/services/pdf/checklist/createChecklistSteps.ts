@@ -4,7 +4,7 @@ import {
   type BeratungshilfeFormularContext,
 } from "~/domains/beratungshilfe/formular";
 import { abgabeContext } from "~/domains/shared/formular/abgabe/context";
-import { pdfStyles } from "~/domains/shared/pdf/pdfStyles";
+import { pdfStyles } from "~/domains/shared/services/pdf/pdfStyles";
 import { createHeading } from "~/services/pdf/createHeading";
 
 const { stringReplacements } = beratungshilfeFormular;
