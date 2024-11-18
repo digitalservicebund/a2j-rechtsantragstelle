@@ -2,8 +2,8 @@ import { PDFDocument } from "pdf-lib";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
-import { createAttachmentPages } from "~/domains/shared/services/pdf/attachment/createAttachmentPages";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
+import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
 import {
   type PdfFillFunction,
   pdfFillReducer,

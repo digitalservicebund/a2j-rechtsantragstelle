@@ -2,7 +2,7 @@ import { partnerEinkuenfteGuards as guards } from "~/domains/prozesskostenhilfe/
 import {
   type AttachmentEntries,
   SEE_IN_ATTACHMENT_DESCRIPTION,
-} from "~/domains/shared/services/pdf/attachment";
+} from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import type { PkhPdfFillFunction } from "../..";

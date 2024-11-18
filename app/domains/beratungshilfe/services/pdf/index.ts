@@ -2,8 +2,8 @@ import { PDFDocument } from "pdf-lib";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { createAttachmentPages } from "~/domains/shared/services/pdf/attachment/createAttachmentPages";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
+import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
 import {
   pdfFillReducer,
   type PdfFillFunction,

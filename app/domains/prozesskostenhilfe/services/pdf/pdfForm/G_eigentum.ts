@@ -1,8 +1,4 @@
 import {
-  SEE_IN_ATTACHMENT_DESCRIPTION,
-  type AttachmentEntries,
-} from "~/domains/shared/services/pdf/attachment";
-import {
   eigentuemerMapping,
   attachBankkontenToAnhang,
   grundeigentumArtMapping,
@@ -14,6 +10,10 @@ import {
   fillSingleWertsache,
   attachGeldanlagenToAnhang,
 } from "~/domains/shared/services/pdf/eigentumHelpers";
+import {
+  SEE_IN_ATTACHMENT_DESCRIPTION,
+  type AttachmentEntries,
+} from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { PkhPdfFillFunction } from "..";

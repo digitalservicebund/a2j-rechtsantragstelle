@@ -1,6 +1,6 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/domains/shared/services/pdf/attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillKraftfahrzeug } from "../fillKraftfahrzeug";
 

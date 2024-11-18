@@ -1,10 +1,10 @@
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/maritalDescriptionMapping";
+import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
   type AttachmentEntries,
-} from "~/domains/shared/services/pdf/attachment";
-import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/maritalDescriptionMapping";
-import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
+} from "~/services/pdf/attachment";
 import { checkboxListToString } from "~/services/pdf/checkboxListToString";
 import type { BerHPdfFillFunction } from "..";
 
