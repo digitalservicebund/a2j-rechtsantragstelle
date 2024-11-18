@@ -5,3 +5,4 @@ export type AttachmentEntries = {
 }[];
 
 export const SEE_IN_ATTACHMENT_DESCRIPTION = "Siehe Anhang";
+export const SEE_IN_ATTACHMENT_DESCRIPTION_SHORT = "s.A.";
