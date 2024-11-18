@@ -12,6 +12,7 @@ import { StrapiListComponentSchema } from "./StrapiList";
 import { StrapiParagraphComponentSchema } from "./StrapiParagraph";
 import { StrapiDetailsSummaryComponentSchema } from "../components/StrapiDetailsSummary";
 import { StrapiInlineNoticeComponentSchema } from "../components/StrapiInlineNotice";
+import { StrapiSummaryDataOverviewComponentSchema } from "../components/StrapiSummaryDataOverview";
 import { StrapiUserFeedbackComponentSchema } from "../components/StrapiUserFeedback";
 
 export const StrapiContentComponentSchema = z.discriminatedUnion(
@@ -31,6 +32,7 @@ export const StrapiContentComponentSchema = z.discriminatedUnion(
     StrapiInlineNoticeComponentSchema,
     StrapiDetailsSummaryComponentSchema,
     StrapiUserFeedbackComponentSchema,
+    StrapiSummaryDataOverviewComponentSchema,
   ],
 );
 

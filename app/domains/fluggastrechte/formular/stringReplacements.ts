@@ -136,3 +136,9 @@ export const getResponsibleCourt = (context: FluggastrechtContext) => {
     };
   return {};
 };
+
+export const getSummaryData = (context: FluggastrechtContext) => {
+  return {
+    startAirport: context.startAirport,
+  };
+};
