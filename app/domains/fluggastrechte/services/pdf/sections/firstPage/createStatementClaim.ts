@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
+import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -9,7 +9,7 @@ import {
 
 export const getDefendantPartyList = (
   prozesszinsen: string,
-  streitwert: string,
+  streitwert: number,
 ): Record<string, string> => {
   const interestClause =
     prozesszinsen === "yes"
@@ -37,7 +37,7 @@ export const createStatementClaim = (
 ) => {
   const { startAirport, endAirport, prozesszinsen, versaeumnisurteil } =
     userData;
-  const compensationByDistance = getCompensationPayment({
+  const compensationByDistance = getTotalCompensationClaim({
     startAirport,
     endAirport,
   });
