@@ -12,6 +12,7 @@ import {
   CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT,
   CONFIRM_BOOKING_TEXT,
   MARGIN_RIGHT,
+  PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT,
   PLAINTIFF_ON_TIME_TEXT,
 } from "../addDetailedReason";
 
@@ -82,6 +83,23 @@ describe("addDetailedReason", () => {
     );
   });
 
+  it("should have the text for plaintiff on time for verspaetet bereich for multiple persons", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataMultiplePersons = {
+      ...userDataMock,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
+    };
+
+    addDetailedReason(mockDoc, mockStruct, userDataMultiplePersons);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT,
+      PDF_MARGIN_HORIZONTAL,
+    );
+  });
+
   it("should not have the text for plaintiff on time for annullierung bereich", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
@@ -112,6 +130,24 @@ describe("addDetailedReason", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       PLAINTIFF_ON_TIME_TEXT,
+      PDF_MARGIN_HORIZONTAL,
+    );
+  });
+
+  it("should have the text for plaintiff on time for nichtbefoerderung bereich for multiple persons", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataNichtBefoerderungMock = {
+      ...userDataMock,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
+      bereich: "nichtbefoerderung",
+    };
+
+    addDetailedReason(mockDoc, mockStruct, userDataNichtBefoerderungMock);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT,
       PDF_MARGIN_HORIZONTAL,
     );
   });

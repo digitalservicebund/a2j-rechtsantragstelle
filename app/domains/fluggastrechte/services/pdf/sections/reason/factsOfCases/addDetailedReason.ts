@@ -1,11 +1,14 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
+import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/context";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
+import { arrayIsNonEmpty } from "~/util/array";
+import { getFullPlaintiffName } from "../../getFullPlaintiffName";
 
 export const CONFIRM_BOOKING_TEXT = "Eine bestätigte Buchung liegt vor.";
 export const CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT =
@@ -14,7 +17,16 @@ export const ATTACHMENT_CONFIRM_BOOKING_TEXT =
   "Beweis: Anlage Buchungsbestätigung";
 export const PLAINTIFF_ON_TIME_TEXT =
   "Die klagende Partei war pünktlich zum Check-in.";
+export const PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT =
+  "Die klagende Partei und die weiteren Fluggäste waren pünktlich zum Check-in.";
 export const MARGIN_RIGHT = 10;
+
+const bereichMappingText = {
+  verspaetet: "Verspätung",
+  annullierung: "Annullierung",
+  nichtbefoerderung: "Nicht-Beförderung",
+  anderes: "",
+} as const;
 
 const getFlightTextByBereich = ({
   bereich,
@@ -30,6 +42,46 @@ const getFlightTextByBereich = ({
   }
 
   return `Die Nicht-Beförderung fand auf dem Flug von ${getAirportNameByIataCode(startAirport)} nach ${getAirportNameByIataCode(endAirport)} statt. Aufgrund der Nicht-Beförderung wurde der Anschlussflug verpasst.`;
+};
+
+const getTextBookingNumber = (buchungsnummer?: string) => {
+  if (typeof buchungsnummer === "undefined" || buchungsnummer.length === 0) {
+    return "";
+  }
+
+  return `, abweichende Buchungsnummer: ${buchungsnummer}`;
+};
+
+const addMultiplePersonsText = (
+  doc: typeof PDFDocument,
+  userData: FluggastrechtContext,
+) => {
+  if (
+    userData.isWeiterePersonen === "no" ||
+    !arrayIsNonEmpty(userData.weiterePersonen)
+  ) {
+    return;
+  }
+
+  doc
+    .text(
+      `Folgende Personen waren von dieser ${bereichMappingText[userData.bereich as FluggastrechtBereichType] ?? ""} betroffen:`,
+      PDF_MARGIN_HORIZONTAL,
+    )
+    .text(
+      `1. Die klagende Partei ${getFullPlaintiffName(userData.anrede, userData.title, userData.vorname, userData.nachname)}`,
+      PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT - 5,
+    );
+
+  userData.weiterePersonen.forEach(
+    ({ anrede, title, nachname, vorname, buchungsnummer }, index) => {
+      doc.text(
+        `${index + 2}. ${getFullPlaintiffName(anrede, title, vorname, nachname)}${getTextBookingNumber(buchungsnummer)}`,
+      );
+    },
+  );
+
+  doc.moveDown(1);
 };
 
 const getConfirmationBookingText = ({
@@ -62,8 +114,15 @@ export const addDetailedReason = (
         .font(FONTS_BUNDESSANS_REGULAR)
         .moveDown(1);
 
+      addMultiplePersonsText(doc, userData);
+
       if (userData.bereich !== "annullierung") {
-        doc.text(PLAINTIFF_ON_TIME_TEXT, PDF_MARGIN_HORIZONTAL);
+        doc.text(
+          userData.isWeiterePersonen === "no"
+            ? PLAINTIFF_ON_TIME_TEXT
+            : PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT,
+          PDF_MARGIN_HORIZONTAL,
+        );
       }
 
       doc.text(getFlightTextByBereich(userData), PDF_MARGIN_HORIZONTAL);
