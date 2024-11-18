@@ -2,7 +2,7 @@ import { PDFDocument } from "pdf-lib";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { createAttachmentPages } from "~/domains/prozesskostenhilfe/services/pdf/attachment/createAttachmentPages";
+import { createAttachmentPages } from "~/domains/shared/pdf/attachment/createAttachmentPages";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import {
   pdfFillReducer,

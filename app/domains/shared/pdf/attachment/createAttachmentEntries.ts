@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
-import { pdfStyles } from "../../../../shared/pdf/pdfStyles";
+import { pdfStyles } from "../pdfStyles";
 
 export function createAttachmentEntries(
   doc: typeof PDFDocument,

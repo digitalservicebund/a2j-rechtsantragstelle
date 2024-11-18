@@ -2,6 +2,7 @@ import { PDFDocument } from "pdf-lib";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import { createAttachmentPages } from "~/domains/shared/pdf/attachment/createAttachmentPages";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import {
   type PdfFillFunction,
@@ -14,7 +15,6 @@ import {
   type PDFDocumentBuilder,
 } from "~/services/pdf/pdfFromUserData";
 import { fillPerson } from "./A_person";
-import { createAttachmentPages } from "./attachment/createAttachmentPages";
 import { fillRechtsschutzversicherung } from "./B_rechtsschutzversicherung";
 import { fillUnterhaltsanspruch } from "./C_unterhaltspflichtige_person";
 import { fillUnterhaltAngehoerige } from "./D_angehoerige";
