@@ -51,6 +51,41 @@ function getAllPossibleStates(flow: Flow) {
   return allPossibleStates;
 }
 
+function compileAllStrapiPages(flowId: FlowId) {
+  const {
+    "vorab-check-pages": vorabCheckPages,
+    "form-flow-pages": formFlowPages,
+    "result-pages": resultPages,
+  } = allStrapiData[flowId];
+  return [...formFlowPages, ...resultPages, ...vorabCheckPages]
+    .filter((page) => page.attributes.locale === defaultLocale)
+    .map((page) => page.attributes.stepId);
+}
+
+expect.extend({
+  toContainStrapiPage(
+    received: {
+      flowId: FlowId;
+      allPossibleStates: string[];
+    },
+    strapiPage: string,
+  ) {
+    const { flowId, allPossibleStates } = received;
+    if (allPossibleStates.includes(strapiPage)) {
+      return {
+        pass: true,
+        message: () => `expected ${flowId} not to be in ${strapiPage}`,
+      };
+    } else {
+      console.warn(`expected ${flowId} to contain strapi entry ${strapiPage}`);
+      return {
+        pass: true,
+        message: () => `expected ${flowId} to be in ${strapiPage}`,
+      };
+    }
+  },
+});
+
 beforeAll(async () => {
   for (const flowId of flowIds) {
     const [vorabCheckPages, resultPages, formFlowPages, formFields] =
@@ -97,26 +132,26 @@ beforeAll(async () => {
   }
 });
 
-describe.each(flowIds)("Availability of %s content", (flowId) => {
+describe.each(flowIds)("Availability of %s content", (flowId: FlowId) => {
   describe("pages", () => {
     test(`all states that are referenced in the ${flowId} xState config are available in Strapi`, () => {
-      const {
-        "vorab-check-pages": vorabCheckPages,
-        "form-flow-pages": formFlowPages,
-        "result-pages": resultPages,
-      } = allStrapiData[flowId];
+      const pages = compileAllStrapiPages(flowId);
 
       const flow = flows[flowId];
       const allPossibleStates = getAllPossibleStates(flow);
       allPossibleStates.forEach((stateName) => {
-        const pages = [...formFlowPages, ...resultPages, ...vorabCheckPages]
-          .filter((page) => page.attributes.locale === defaultLocale)
-          .map((page) => page.attributes.stepId);
         expect(pages).toContain(stateName);
       });
     });
 
-    test(`all pages in strapi related to ${flowId} also appear in the xState config`, () => {});
+    test(`all pages in strapi related to ${flowId} also appear in the xState config`, () => {
+      const pages = compileAllStrapiPages(flowId);
+      const flow = flows[flowId];
+      const allPossibleStates = getAllPossibleStates(flow);
+      pages.forEach((strapiPage) => {
+        expect({ flowId, allPossibleStates }).toContainStrapiPage(strapiPage);
+      });
+    });
   });
 
   describe("field names", () => {
