@@ -8,10 +8,14 @@ const viteDevServer = shouldStartDevServer
   : undefined;
 
 const build = viteDevServer
-  ? await viteDevServer.ssrLoadModule("virtual:remix/server-build")
+  ? () => viteDevServer.ssrLoadModule("virtual:remix/server-build")
   : await import("./build/server/index.js");
 
-const { app, cleanup } = build.entry.module.expressApp(build, viteDevServer);
+// When running a dev server, build() is a function to enable HMR
+// To access expressApp(), we need to execute it once
+const initialBuild = typeof build === "function" ? await build() : build;
+const { expressApp } = await initialBuild.entry.module;
+const { app, cleanup } = expressApp(build, viteDevServer);
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () =>
