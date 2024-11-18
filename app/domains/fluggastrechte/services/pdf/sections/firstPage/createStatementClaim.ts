@@ -35,12 +35,8 @@ export const createStatementClaim = (
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechtContext,
 ) => {
-  const { startAirport, endAirport, prozesszinsen, versaeumnisurteil } =
-    userData;
-  const compensationByDistance = getTotalCompensationClaim({
-    startAirport,
-    endAirport,
-  });
+  const { prozesszinsen, versaeumnisurteil } = userData;
+  const compensationByDistance = getTotalCompensationClaim(userData);
 
   const defendantPartyList = getDefendantPartyList(
     prozesszinsen ?? "",
