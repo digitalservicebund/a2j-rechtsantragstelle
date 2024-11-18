@@ -13,6 +13,7 @@
   "scripts": {
     "build:airports-data": "tsx ./scripts/airports.ts",
     "build:airlines-data": "tsx ./scripts/airlines.ts",
+    "build:app": "remix vite:build",
     "build:licenses": "tsx ./app/services/openSourceLicenses/generate.server.ts generateLicenseFile",
     "build:localContent": "tsx ./app/services/cms/dumpCmsToFile.ts dumpCmsToFile",
     "build:pdf": "tsx ./app/services/pdf/pdf.generator.ts",
