@@ -105,13 +105,19 @@ export const createChecklistSteps = (
   const firstPart = steps.slice(0, insertIndex);
   const secondPart = steps.slice(insertIndex);
   const combinedSteps = [...firstPart, null, ...secondPart];
+  const length = combinedSteps.length;
 
   // The actual checklist should always sit between last and second last step
-  for (let index = 0; index < combinedSteps.length; index++) {
+  for (let index = 0; index < length; index++) {
     const step = combinedSteps[index];
 
     if (step) {
-      createHeading(doc, documentStruct, `${index + 1}. ${step.title}`, "H3");
+      createHeading(
+        doc,
+        documentStruct,
+        `${index === length - 1 ? length - 1 : index + 1}. ${step.title}`,
+        "H3",
+      );
       documentStruct.add(
         doc.struct("P", {}, () => {
           doc
