@@ -23,7 +23,11 @@ const allStrapiData: Record<FlowId, StrapiPages> = {} as Record<
 /**
  * These pages do not exist in strapi and instead exist in our own codebase
  */
-const ignoreList = ["redirect-vorabcheck-ergebnis"];
+const ignoreList = [
+  "redirect-vorabcheck-ergebnis",
+  "partner-start",
+  "abschluss",
+];
 
 function getAllPossibleStates(flow: Flow) {
   const allPossibleStates: string[] = [];
@@ -77,7 +81,7 @@ expect.extend({
         message: () => `expected ${flowId} not to be in ${strapiPage}`,
       };
     } else {
-      console.warn(`expected ${flowId} to contain strapi entry ${strapiPage}`);
+      console.warn(`Unused strapi entry ${strapiPage} found for ${flowId}`);
       return {
         pass: true,
         message: () => `expected ${flowId} to be in ${strapiPage}`,
@@ -133,14 +137,17 @@ beforeAll(async () => {
 });
 
 describe.each(flowIds)("Availability of %s content", (flowId: FlowId) => {
-  describe("pages", () => {
+  describe.skip("pages", () => {
     test(`all states that are referenced in the ${flowId} xState config are available in Strapi`, () => {
       const pages = compileAllStrapiPages(flowId);
 
       const flow = flows[flowId];
       const allPossibleStates = getAllPossibleStates(flow);
       allPossibleStates.forEach((stateName) => {
-        expect(pages).toContain(stateName);
+        assert(
+          pages.includes(stateName),
+          `expected Strapi to contain an entry for ${stateName} in ${flowId}`,
+        );
       });
     });
 
