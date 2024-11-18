@@ -106,6 +106,7 @@ export const createChecklistSteps = (
   const secondPart = steps.slice(insertIndex);
   const combinedSteps = [...firstPart, null, ...secondPart];
 
+  // The actual checklist should always sit between last and second last step
   for (let index = 0; index < combinedSteps.length; index++) {
     const step = combinedSteps[index];
 

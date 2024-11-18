@@ -22,7 +22,7 @@ export const createChecklistPage = (
 
   createHeading(
     doc,
-    documentStruct,
+    checklistPageStruct,
     userData.abgabeArt === "online"
       ? "So stellen Sie den Antrag online"
       : "So schicken Sie den Antrag ins Amtsgericht",
