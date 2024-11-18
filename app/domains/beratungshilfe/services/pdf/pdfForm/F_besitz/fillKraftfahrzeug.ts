@@ -1,9 +1,9 @@
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/domains/shared/pdf/attachment";
 import {
   verkaufswertMappingDescription,
   fillSingleKraftfahrzeug,
   attachKraftfahrzeugeToAnhang,
 } from "~/domains/shared/pdf/eigentumHelpers";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import type { BerHPdfFillFunction } from "../..";
 
 const KRAFTFAHRZEUG_ART_FIELD_MAX_CHARS = 96;

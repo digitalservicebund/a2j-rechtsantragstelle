@@ -6,7 +6,7 @@ import type {
   KraftfahrzeugeArraySchema,
   WertsachenArraySchema,
 } from "~/domains/shared/formular/finanzielleAngaben/context";
-import type { AttachmentEntries } from "~/services/pdf/attachment";
+import type { AttachmentEntries } from "~/domains/shared/pdf/attachment";
 
 export const befristungMapping = {
   lifeInsurance: "Lebensversicherung",

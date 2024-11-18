@@ -2,9 +2,9 @@ import _ from "lodash";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
+import type { AttachmentEntries } from "~/domains/shared/pdf/attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/domains/shared/pdf/attachment";
 import { eigentuemerMapping } from "~/domains/shared/pdf/eigentumHelpers";
-import type { AttachmentEntries } from "~/services/pdf/attachment";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import type { PkhPdfFillFunction } from "..";
 
 type Ratenzahlung = NonNullable<

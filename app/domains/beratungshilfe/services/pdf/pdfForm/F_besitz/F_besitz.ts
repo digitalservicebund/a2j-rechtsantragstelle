@@ -1,11 +1,11 @@
+import type { AttachmentEntries } from "~/domains/shared/pdf/attachment";
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/domains/shared/pdf/attachment";
 import {
   attachBankkontenToAnhang,
   attachGrundeigentumToAnhang,
   eigentuemerMapping,
   grundeigentumArtMapping,
 } from "~/domains/shared/pdf/eigentumHelpers";
-import type { AttachmentEntries } from "~/services/pdf/attachment";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { arrayIsNonEmpty } from "~/util/array";
 import { fillKraftfahrzeug } from "./fillKraftfahrzeug";

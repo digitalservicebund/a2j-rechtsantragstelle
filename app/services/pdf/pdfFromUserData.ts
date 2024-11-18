@@ -1,7 +1,7 @@
 import type PDFDocument from "pdfkit";
 import type { AllContexts } from "~/domains/common";
 import { createPdfKitDocument } from "~/services/pdf/createPdfKitDocument";
-import type { AttachmentEntries } from "./attachment";
+import type { AttachmentEntries } from "../../domains/shared/pdf/attachment";
 
 export type PDFDocumentBuilder<TContext extends AllContexts> = (
   doc: typeof PDFDocument,

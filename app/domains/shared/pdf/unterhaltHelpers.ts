@@ -2,7 +2,7 @@ import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.g
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
-import type { AttachmentEntries } from "~/services/pdf/attachment";
+import type { AttachmentEntries } from "~/domains/shared/pdf/attachment";
 import type { PdfFillFunction } from "~/services/pdf/fillOutFunction";
 
 export const familyRelationshipMap = {

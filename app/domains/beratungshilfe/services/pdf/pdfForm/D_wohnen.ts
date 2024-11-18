@@ -1,4 +1,4 @@
-import type { AttachmentEntries } from "~/services/pdf/attachment";
+import type { AttachmentEntries } from "~/domains/shared/pdf/attachment";
 import type { BerHPdfFillFunction } from "..";
 
 export const fillWohnen: BerHPdfFillFunction = ({ userData, pdfValues }) => {

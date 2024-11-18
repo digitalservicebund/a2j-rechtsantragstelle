@@ -1,10 +1,10 @@
+import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/domains/shared/pdf/attachment";
 import {
   attachGeldanlagenToAnhang,
   eigentuemerMapping,
   fillSingleGeldanlage,
   fillSingleWertsache,
 } from "~/domains/shared/pdf/eigentumHelpers";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import type { BerHPdfFillFunction } from "../..";
 
 const VERMOEGENSWERT_BEZEICHNUNG_FIELD_MAX_CHARS = 148;

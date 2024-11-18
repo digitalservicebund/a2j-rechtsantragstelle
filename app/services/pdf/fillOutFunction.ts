@@ -1,4 +1,4 @@
-import type { AttachmentEntries } from "./attachment";
+import type { AttachmentEntries } from "../../domains/shared/pdf/attachment";
 
 export type PdfFillFunctionProps<ContextType, PDFType> = {
   userData: ContextType;

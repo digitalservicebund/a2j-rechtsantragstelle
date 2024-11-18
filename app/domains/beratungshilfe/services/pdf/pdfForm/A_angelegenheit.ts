@@ -2,7 +2,7 @@ import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/for
 import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
   type AttachmentEntries,
-} from "~/services/pdf/attachment";
+} from "~/domains/shared/pdf/attachment";
 import type { BerHPdfFillFunction } from "..";
 
 export const THEMA_RECHTSPROBLEM_TITLE = "Thema des Rechtsproblems";
