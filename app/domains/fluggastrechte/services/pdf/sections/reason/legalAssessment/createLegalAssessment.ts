@@ -21,7 +21,14 @@ export const ADVANCE_COURT_COSTS_SECOND_TEXT =
 export const createLegalAssessment = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: FluggastrechtContext,
+  {
+    startAirport,
+    endAirport,
+    anrede,
+    title,
+    vorname,
+    nachname,
+  }: FluggastrechtContext,
 ) => {
   const legalAssessmentSect = doc.struct("Sect");
   legalAssessmentSect.add(
@@ -34,8 +41,8 @@ export const createLegalAssessment = (
   documentStruct.add(legalAssessmentSect);
 
   const compensationByDistance = getCompensationPayment({
-    startAirport: userData.startAirport,
-    endAirport: userData.endAirport,
+    startAirport: startAirport,
+    endAirport: endAirport,
   });
 
   const courtCostValue = gerichtskostenFromBetrag(
@@ -56,7 +63,7 @@ export const createLegalAssessment = (
         )
         .moveDown(2)
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(getFullPlaintiffName(userData));
+        .text(getFullPlaintiffName(anrede, title, vorname, nachname));
     }),
   );
   documentStruct.add(reasonSect);
