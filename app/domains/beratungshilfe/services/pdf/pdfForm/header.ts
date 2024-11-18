@@ -1,5 +1,5 @@
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { maritalDescriptionMapping } from "~/domains/shared/pdf/maritalDescriptionMapping";
+import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/maritalDescriptionMapping";
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import {
   SEE_IN_ATTACHMENT_DESCRIPTION,

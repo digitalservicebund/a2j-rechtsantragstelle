@@ -2,7 +2,7 @@ import {
   verkaufswertMappingDescription,
   fillSingleKraftfahrzeug,
   attachKraftfahrzeugeToAnhang,
-} from "~/domains/shared/pdf/eigentumHelpers";
+} from "~/domains/shared/services/pdf/eigentumHelpers";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import type { BerHPdfFillFunction } from "../..";
 

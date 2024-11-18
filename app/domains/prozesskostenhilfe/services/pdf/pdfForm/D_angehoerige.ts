@@ -1,6 +1,6 @@
-import { getFillUnterhalt } from "~/domains/shared/pdf/unterhaltHelpers";
+import { getFillUnterhalt } from "~/domains/shared/services/pdf/unterhaltHelpers";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
-import type { PkhPdfFillFunction } from ".";
+import type { PkhPdfFillFunction } from "..";
 export const ATTACHMENT_DESCRIPTION_SECTION_D =
   "FELD D: Angehörige, denen Sie Bar- oder Naturalunterhalt gewähren";
 

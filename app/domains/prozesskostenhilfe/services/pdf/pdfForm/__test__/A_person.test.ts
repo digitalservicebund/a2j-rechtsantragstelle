@@ -3,7 +3,7 @@ import {
   type ProzesskostenhilfePDF,
 } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
-import { maritalDescriptionMapping } from "~/domains/shared/pdf/maritalDescriptionMapping";
+import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/maritalDescriptionMapping";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import {
   ANSCHRIFT_FIELD_MAX_CHARS,

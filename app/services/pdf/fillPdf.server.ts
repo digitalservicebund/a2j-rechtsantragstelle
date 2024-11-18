@@ -1,4 +1,3 @@
-import { readFile } from "node:fs/promises";
 import path from "node:path";
 import fontkit from "@pdf-lib/fontkit";
 import { PDFDocument } from "pdf-lib";
@@ -11,8 +10,8 @@ import {
 } from "./fileTypes";
 import { changeBooleanField, changeStringField } from "./pdf.server";
 import { pdfs } from "./pdfs";
+import { readRelativeFileToBuffer } from "./readRelativeFileToBuffer";
 import { resizeToA4 } from "./resizeToA4";
-import { logError } from "../logging";
 
 // Caching file read to survive server reload
 // See https://remix.run/docs/en/1.16.1/tutorials/jokes#connect-to-the-database
@@ -31,14 +30,6 @@ global.__pdfFileBuffers = Object.fromEntries(
   ),
 );
 
-export async function readRelativeFileToBuffer(relativeFilepath: string) {
-  try {
-    return readFile(path.resolve(path.join(process.cwd(), relativeFilepath)));
-  } catch (error) {
-    logError({ error });
-    return ArrayBuffer.prototype;
-  }
-}
 const bundesSansCondensed = await readRelativeFileToBuffer(
   "/data/pdf/fonts/BundesSansCond-DTP-Regular.otf",
 );

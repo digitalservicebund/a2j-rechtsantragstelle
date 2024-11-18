@@ -42,3 +42,10 @@ export function stripTrailingSlashFromURL(url: string) {
   }
   return undefined;
 }
+
+export function removeDecimalsFromCurrencyString(
+  currencyString: string | undefined,
+) {
+  if (currencyString === undefined) return;
+  return currencyString.replace(/,\d{2}/g, "");
+}

@@ -3,7 +3,7 @@ import {
   attachGrundeigentumToAnhang,
   eigentuemerMapping,
   grundeigentumArtMapping,
-} from "~/domains/shared/pdf/eigentumHelpers";
+} from "~/domains/shared/services/pdf/eigentumHelpers";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";

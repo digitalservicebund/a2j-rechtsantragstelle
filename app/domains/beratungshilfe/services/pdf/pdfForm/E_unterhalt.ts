@@ -1,4 +1,4 @@
-import { getFillUnterhalt } from "~/domains/shared/pdf/unterhaltHelpers";
+import { getFillUnterhalt } from "~/domains/shared/services/pdf/unterhaltHelpers";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import type { BerHPdfFillFunction } from "..";
 

@@ -4,8 +4,8 @@ import {
   type BeratungshilfeFormularContext,
 } from "~/domains/beratungshilfe/formular";
 import { abgabeContext } from "~/domains/shared/formular/abgabe/context";
-import { pdfStyles } from "~/domains/shared/pdf/pdfStyles";
 import { createHeading } from "~/services/pdf/createHeading";
+import { pdfStyles } from "~/services/pdf/pdfStyles";
 
 const { stringReplacements } = beratungshilfeFormular;
 type ReplacementKey = keyof ReturnType<typeof stringReplacements>;
