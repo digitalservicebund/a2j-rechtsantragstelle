@@ -3,15 +3,11 @@ import { BeratungshilfeFormular } from "tests/e2e/pom/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/pom/CookieSettings";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
-import { startFinanzielleAngabenAusgaben } from "./finanzielleAngabenAusgaben";
-import { startFinanzielleAngabenEigentum } from "./finanzielleAngabenEigentum";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
-import { startFinanzielleAngabenWohnung } from "./finanzielleAngabenWohnung";
+import { startFinanzielleAngabenGrundsicherung } from "./finanzielleAngabenGrundsicherung";
 import { startGrundvoraussetzungen } from "./grundvoraussetzungen";
 import { startPersoenlicheDaten } from "./persoenlicheDaten";
 import { startRechtsproblem } from "./rechtsproblem";
-import { startFinanzielleAngabenAndereUnterhaltszahlungen } from "../../shared/finanzielleAngaben/finanzielleAngabenAndereUnterhaltszahlungen";
-import { startFinanzielleAngabenEigentumZusammenfassung } from "../../shared/finanzielleAngaben/finanzielleAngabenEigentumZusammenfassung";
 import { startFinanzielleAngabenKinder } from "../../shared/finanzielleAngaben/finanzielleAngabenKinder";
 import { startFinanzielleAngabenPartner } from "../../shared/finanzielleAngaben/finanzielleAngabenPartner";
 
@@ -51,7 +47,7 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startGrundvoraussetzungen(page, beratungshilfeFormular);
   await startAnwaltlicheVertretung(page, beratungshilfeFormular);
   await startRechtsproblem(page, beratungshilfeFormular);
-  await startFinanzielleAngaben(page);
+  await startFinanzielleAngabenGrundsicherung(page, beratungshilfeFormular);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
   await startAbgabe(page);
 });
@@ -104,23 +100,4 @@ async function startAbgabe(page: Page) {
   expect(await newTabResponse?.headerValue("content-type")).toBe(
     "application/pdf",
   );
-}
-
-async function startFinanzielleAngaben(page: Page) {
-  await startFinanzielleAngabenEinkommen(page, beratungshilfeFormular);
-  await startFinanzielleAngabenPartner(beratungshilfeFormular);
-  await startFinanzielleAngabenKinder(page, beratungshilfeFormular);
-  await startFinanzielleAngabenAndereUnterhaltszahlungen(
-    page,
-    beratungshilfeFormular,
-  );
-  await startFinanzielleAngabenWohnung(page, beratungshilfeFormular);
-  await beratungshilfeFormular.clickNext();
-  await startFinanzielleAngabenEigentum(page, beratungshilfeFormular);
-  await startFinanzielleAngabenEigentumZusammenfassung(
-    page,
-    beratungshilfeFormular,
-  );
-  await beratungshilfeFormular.clickNext();
-  await startFinanzielleAngabenAusgaben(page, beratungshilfeFormular);
 }
