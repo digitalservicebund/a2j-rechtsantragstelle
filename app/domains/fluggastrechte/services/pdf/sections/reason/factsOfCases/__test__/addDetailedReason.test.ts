@@ -5,9 +5,11 @@ import {
 } from "tests/factories/mockPdfKit";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import {
   addDetailedReason,
   ATTACHMENT_CONFIRM_BOOKING_TEXT,
+  CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT,
   CONFIRM_BOOKING_TEXT,
   MARGIN_RIGHT,
   PLAINTIFF_ON_TIME_TEXT,
@@ -40,6 +42,27 @@ describe("addDetailedReason", () => {
     addDetailedReason(mockDoc, mockStruct, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(CONFIRM_BOOKING_TEXT);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      ATTACHMENT_CONFIRM_BOOKING_TEXT,
+      PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
+    );
+  });
+
+  it("should have the text for booking confirm and attachment booking confirm for multiple persons", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataMultiplePersons = {
+      ...userDataMock,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
+    };
+
+    addDetailedReason(mockDoc, mockStruct, userDataMultiplePersons);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT,
+    );
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       ATTACHMENT_CONFIRM_BOOKING_TEXT,

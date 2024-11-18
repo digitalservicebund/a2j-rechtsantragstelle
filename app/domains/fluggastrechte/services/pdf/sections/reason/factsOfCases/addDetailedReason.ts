@@ -8,6 +8,8 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 
 export const CONFIRM_BOOKING_TEXT = "Eine bestätigte Buchung liegt vor.";
+export const CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT =
+  "Bestätigte Buchungen der klagenden Partei und der weiteren Fluggäste liegen vor.";
 export const ATTACHMENT_CONFIRM_BOOKING_TEXT =
   "Beweis: Anlage Buchungsbestätigung";
 export const PLAINTIFF_ON_TIME_TEXT =
@@ -30,6 +32,16 @@ const getFlightTextByBereich = ({
   return `Die Nicht-Beförderung fand auf dem Flug von ${getAirportNameByIataCode(startAirport)} nach ${getAirportNameByIataCode(endAirport)} statt. Aufgrund der Nicht-Beförderung wurde der Anschlussflug verpasst.`;
 };
 
+const getConfirmationBookingText = ({
+  isWeiterePersonen,
+}: FluggastrechtContext) => {
+  if (isWeiterePersonen === "yes") {
+    return CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT;
+  }
+
+  return CONFIRM_BOOKING_TEXT;
+};
+
 export const addDetailedReason = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
@@ -41,18 +53,17 @@ export const addDetailedReason = (
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
         .fontSize(10)
-        .text(CONFIRM_BOOKING_TEXT)
+        .text(getConfirmationBookingText(userData))
         .font(FONTS_BUNDESSANS_BOLD)
         .text(
           ATTACHMENT_CONFIRM_BOOKING_TEXT,
           PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
         )
+        .font(FONTS_BUNDESSANS_REGULAR)
         .moveDown(1);
 
       if (userData.bereich !== "annullierung") {
-        doc
-          .font(FONTS_BUNDESSANS_REGULAR)
-          .text(PLAINTIFF_ON_TIME_TEXT, PDF_MARGIN_HORIZONTAL);
+        doc.text(PLAINTIFF_ON_TIME_TEXT, PDF_MARGIN_HORIZONTAL);
       }
 
       doc.text(getFlightTextByBereich(userData), PDF_MARGIN_HORIZONTAL);
