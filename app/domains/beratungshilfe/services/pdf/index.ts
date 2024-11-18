@@ -1,10 +1,9 @@
-import { PDFDocument as PDFLibDocument } from "pdf-lib";
+import { PDFDocument } from "pdf-lib";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { createAttachmentPages } from "~/domains/prozesskostenhilfe/services/pdf/attachment/createAttachmentPages";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
-import FormAttachment from "~/services/pdf/attachment/FormAttachment";
-import { pdfFromReact } from "~/services/pdf/attachment/pdfFromReact";
 import {
   pdfFillReducer,
   type PdfFillFunction,
@@ -32,10 +31,22 @@ export type BerHPdfFillFunction = PdfFillFunction<
 
 const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
   BeratungshilfeFormularContext
-> = (doc, documentStruct, userData) => {
+> = (doc, documentStruct, userData, attachment) => {
+  if (attachment && attachment.length > 0) {
+    // Attachment holds content of form fields which is too long - output as needed
+    createAttachmentPages({
+      doc,
+      documentStruct,
+      userData,
+      attachment,
+      headerText: "Anhang: Antrag auf Bewilligung von Beratungshilfe",
+    });
+    doc.addPage();
+  }
+
   // Checklist will always be output
   createChecklistPage(doc, documentStruct, userData);
-  createFooter(doc, documentStruct, "Merkblatt"); // TODO: rename to "Anhang"
+  createFooter(doc, documentStruct, "Anhang");
 };
 
 export async function beratungshilfePdfFromUserdata(
@@ -64,25 +75,12 @@ export async function beratungshilfePdfFromUserdata(
     xPositionsDruckvermerk: 28,
   });
 
-  if (attachment.length > 0) {
-    await appendPagesToPdf(
-      filledFormPdfDocument,
-      await pdfFromReact(
-        FormAttachment({
-          entries: attachment,
-          header: `Anhang: Antrag auf Bewilligung von Beratungshilfe zum Antrag von ${userData.vorname} ${userData.nachname}`,
-          footer: "Anhang",
-        }),
-      ),
-    );
-  }
-
   const pdfKitBuffer = await pdfFromUserData(
     userData,
     buildBeratungshilfePDFDocument,
     attachment,
   );
-  const mainPdfDocument = await PDFLibDocument.load(pdfKitBuffer);
+  const mainPdfDocument = await PDFDocument.load(pdfKitBuffer);
 
   return appendPagesToPdf(filledFormPdfDocument, mainPdfDocument);
 }
