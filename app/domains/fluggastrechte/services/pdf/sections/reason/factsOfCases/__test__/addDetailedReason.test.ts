@@ -313,10 +313,12 @@ describe("addDetailedReason", () => {
 
     addDetailedReason(mockDoc, mockStruct, userDataWeiterePersonenMock);
 
-    expect(mockDoc.text).toHaveBeenCalledWith("2. Vorname nachname");
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "2. Vorname nachname, strasseHausnummer, plz, ort",
+    );
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "3. Vorname2 nachname2, abweichende Buchungsnummer: 123456",
+      "3. Vorname2 nachname2, strasseHausnummer, plz, ort, abweichende Buchungsnummer: 123456",
     );
   });
 });

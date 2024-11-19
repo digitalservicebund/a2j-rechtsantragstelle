@@ -74,9 +74,21 @@ const addMultiplePersonsText = (
     );
 
   userData.weiterePersonen.forEach(
-    ({ anrede, title, nachname, vorname, buchungsnummer }, index) => {
+    (
+      {
+        anrede,
+        title,
+        nachname,
+        vorname,
+        buchungsnummer,
+        strasseHausnummer,
+        ort,
+        plz,
+      },
+      index,
+    ) => {
       doc.text(
-        `${index + 2}. ${getFullPlaintiffName(anrede, title, vorname, nachname)}${getTextBookingNumber(buchungsnummer)}`,
+        `${index + 2}. ${getFullPlaintiffName(anrede, title, vorname, nachname)}, ${strasseHausnummer}, ${plz}, ${ort}${getTextBookingNumber(buchungsnummer)}`,
       );
     },
   );
