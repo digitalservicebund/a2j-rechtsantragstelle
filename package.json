@@ -94,7 +94,7 @@
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.15.0",
     "@faker-js/faker": "^9.2.0",
-    "@playwright/test": "^1.48.2",
+    "@playwright/test": "^1.49.0",
     "@remix-run/dev": "^2.14.0",
     "@remix-run/testing": "^2.14.0",
     "@size-limit/file": "^11.1.6",
