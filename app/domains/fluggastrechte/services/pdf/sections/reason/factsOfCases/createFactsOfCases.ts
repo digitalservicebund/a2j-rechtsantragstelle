@@ -11,7 +11,7 @@ import { addTableInfo } from "./table/addTableInfo";
 import { COLUMN_HEIGHT } from "./table/tableConfigurations";
 
 export const FACTS_OF_CASES_TEXT = "I. Sachverhalt";
-const MARGIN_TOP = 5;
+const MARGIN_TOP = 15;
 
 export const createFactsOfCases = (
   doc: typeof PDFDocument,
