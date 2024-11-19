@@ -3,6 +3,7 @@ import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozessk
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
+import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
 import {
   type PdfFillFunction,
   pdfFillReducer,
@@ -13,19 +14,18 @@ import {
   pdfFromUserData,
   type PDFDocumentBuilder,
 } from "~/services/pdf/pdfFromUserData";
-import { fillPerson } from "./A_person";
-import { createAttachmentPages } from "./attachment/createAttachmentPages";
-import { fillRechtsschutzversicherung } from "./B_rechtsschutzversicherung";
-import { fillUnterhaltsanspruch } from "./C_unterhaltspflichtige_person";
-import { fillUnterhaltAngehoerige } from "./D_angehoerige";
-import { fillOwnBruttoEinnahmen } from "./E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
-import { fillBruttoEinnahmenPartner } from "./E_bruttoEinnahmen/bruttoEinnahmen_partner";
-import { fillAbzuege } from "./F_abzuege";
-import { fillEigentum } from "./G_eigentum";
-import { fillGrundvoraussetzungen } from "./grundvoraussetzungen";
-import { fillWohnkosten } from "./H_wohnkosten";
-import { fillZahlungsverpflichtungen } from "./I_zahlungsverpflichtungen";
-import { fillBelastungen } from "./J_belastungen";
+import { fillPerson } from "./pdfForm/A_person";
+import { fillRechtsschutzversicherung } from "./pdfForm/B_rechtsschutzversicherung";
+import { fillUnterhaltsanspruch } from "./pdfForm/C_unterhaltspflichtige_person";
+import { fillUnterhaltAngehoerige } from "./pdfForm/D_angehoerige";
+import { fillOwnBruttoEinnahmen } from "./pdfForm/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
+import { fillBruttoEinnahmenPartner } from "./pdfForm/E_bruttoEinnahmen/bruttoEinnahmen_partner";
+import { fillAbzuege } from "./pdfForm/F_abzuege";
+import { fillEigentum } from "./pdfForm/G_eigentum";
+import { fillGrundvoraussetzungen } from "./pdfForm/grundvoraussetzungen";
+import { fillWohnkosten } from "./pdfForm/H_wohnkosten";
+import { fillZahlungsverpflichtungen } from "./pdfForm/I_zahlungsverpflichtungen";
+import { fillBelastungen } from "./pdfForm/J_belastungen";
 export { getProzesskostenhilfeParameters };
 
 export type PkhPdfFillFunction = PdfFillFunction<
