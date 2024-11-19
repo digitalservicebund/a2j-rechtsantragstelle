@@ -39,8 +39,14 @@ jobs:
     outputs:
       content_checksum: ${{ steps.checksum.outputs.content_checksum }}
 
-  verify-local-e2e:
+  run-integration-tests:
     needs: [get-content-file]
+    runs-on: ubuntu-latest
+    steps:
+      - run: npm run test:integration
+
+  verify-local-e2e:
+    needs: [run-integration-tests]
     uses: ./.github/workflows/e2e-test.yml
     with:
       require-published-app: false
