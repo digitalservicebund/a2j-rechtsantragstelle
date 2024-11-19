@@ -48,7 +48,7 @@ export default defineConfig(({ isSsrBuild }) => ({
     include: [
       "**/__test__/*.test.{ts,tsx}",
       "**/unit/**/*.test.ts",
-      "tests/integration/*.test.{ts,tsx}", // disable later
+      ...(process.env.CI ? ["tests/integration/*.test.{ts,tsx}"] : []),
     ],
     globals: true,
     environment: "jsdom",
