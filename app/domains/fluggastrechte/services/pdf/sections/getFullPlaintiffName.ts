@@ -1,9 +1,11 @@
 import capitalize from "lodash/capitalize";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 
-export const getFullPlaintiffName = (userData: FluggastrechtContext) => {
-  const { anrede, title, vorname, nachname } = userData;
-
+export const getFullPlaintiffName = (
+  anrede?: string,
+  title?: "" | "dr",
+  vorname?: string,
+  nachname?: string,
+) => {
   const mappedTitle = title === "dr" ? "Dr." : title;
   const capitalizedVorname = capitalize(vorname);
 

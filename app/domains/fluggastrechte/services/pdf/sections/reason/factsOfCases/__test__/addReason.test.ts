@@ -3,6 +3,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import {
   addReason,
   ARTICLE_DELAY_CANCEL_TEXT,
@@ -11,6 +12,7 @@ import {
   DELAY_TEXT,
   NOT_MOVE_TEXT,
   PASSIVE_VERB_TEXT,
+  PLAINTIFF_BOOKED_MULTIPLE_PERSONS_TEXT,
   PLAINTIFF_BOOKED_TEXT,
 } from "../addReason";
 
@@ -24,6 +26,25 @@ describe("addReason", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(PLAINTIFF_BOOKED_TEXT, {
       continued: true,
     });
+  });
+
+  it("should render document with PLAINTIFF_BOOKED_MULTIPLE_PERSONS_TEXT in case is multiple persons", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataMultiplePersonsMock = {
+      ...userDataMock,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
+    };
+
+    addReason(mockDoc, mockStruct, userDataMultiplePersonsMock);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      PLAINTIFF_BOOKED_MULTIPLE_PERSONS_TEXT,
+      {
+        continued: true,
+      },
+    );
   });
 
   it("should render document for verspaetet claim", () => {

@@ -16,8 +16,10 @@ import {
   DEMANDED_COMPENSATION_PAYMENT_TEXT,
   OTHER_DETAILS_ITINERARY,
   OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT,
+  PLAINTIFF_WITNESSES_MULTIPLE_PERSONS_TEXT,
   PLAINTIFF_WITNESSES_TEXT,
 } from "../addCompensationAmount";
+import { addMultiplePersonsInfo } from "../addMultiplePersonsInfo";
 
 vi.mock("~/domains/fluggastrechte/services/airports/getCompensationPayment");
 vi.mock("~/domains/fluggastrechte/services/airports/getAirportNameByIataCode");
@@ -25,6 +27,7 @@ vi.mock(
   "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports",
 );
 vi.mock("../../addNewPageInCaseMissingVerticalSpace");
+vi.mock("../addMultiplePersonsInfo");
 
 const distanceValueMock = 100;
 
@@ -137,7 +140,7 @@ describe("addCompensationAmount", () => {
 
     const userDataWeiterePersonenMock = {
       ...userDataMock,
-      isWeiterePersonen: YesNoAnswer.Enum.yes,
+      isWeiterePersonen: YesNoAnswer.Enum.no,
     };
 
     addCompensationAmount(mockDoc, mockStruct, userDataWeiterePersonenMock, 0);
@@ -149,18 +152,58 @@ describe("addCompensationAmount", () => {
     );
   });
 
-  it("should have the text for plaintiff witnesses in case the hasZeugen is yes", () => {
+  it("should have the text distance airport for multiple persons", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWeiterePersonenMock = {
+      ...userDataMock,
+      isWeiterePersonen: YesNoAnswer.Enum.yes,
+    };
+
+    addCompensationAmount(mockDoc, mockStruct, userDataWeiterePersonenMock, 0);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      `Die Distanz zwischen ${startAirportMock} und ${endAirportMock} beträgt nach Großkreismethode ca. ${distanceValueMock} km. ${ARTICLE_AIR_PASSENGER_REGULATION_TEXT} ${compensationValueMock} € pro Person, insgesamt aus eigenem und abgetretenem Recht damit eine Gesamtsumme von ${compensationValueMock} €.`,
+      PDF_MARGIN_HORIZONTAL,
+      undefined,
+    );
+  });
+
+  it("should have the text for plaintiff witnesses in case the hasZeugen is yes and weitere person is no", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const userDataHasZeugenMock = {
       ...userDataMock,
       hasZeugen: YesNoAnswer.Enum.yes,
+      isWeiterePersonen: YesNoAnswer.Enum.no,
     };
 
     addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
 
-    expect(mockDoc.text).toHaveBeenCalledWith(PLAINTIFF_WITNESSES_TEXT);
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      PLAINTIFF_WITNESSES_TEXT,
+      PDF_MARGIN_HORIZONTAL,
+    );
+  });
+
+  it("should have the text for plaintiff witnesses for multiple persons in case the hasZeugen and weitere personen is yes", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataHasZeugenMock = {
+      ...userDataMock,
+      hasZeugen: YesNoAnswer.Enum.yes,
+      isWeiterePersonen: YesNoAnswer.Enum.yes,
+    };
+
+    addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      PLAINTIFF_WITNESSES_MULTIPLE_PERSONS_TEXT,
+      PDF_MARGIN_HORIZONTAL,
+    );
   });
 
   it("should not have the text for plaintiff witnesses in case the hasZeugen is no", () => {
@@ -177,7 +220,7 @@ describe("addCompensationAmount", () => {
     expect(mockDoc.text).not.toHaveBeenCalledWith(PLAINTIFF_WITNESSES_TEXT);
   });
 
-  it("should call addNewPageInCaseMissingVerticalSpace three times in case the hasZeugen is yes ", () => {
+  it("should call addNewPageInCaseMissingVerticalSpace four times in case the hasZeugen is yes ", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -188,10 +231,10 @@ describe("addCompensationAmount", () => {
 
     addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
 
-    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(3);
+    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(4);
   });
 
-  it("should call addNewPageInCaseMissingVerticalSpace two times in case the hasZeugen is no", () => {
+  it("should call addNewPageInCaseMissingVerticalSpace three times in case the hasZeugen is no", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -202,6 +245,20 @@ describe("addCompensationAmount", () => {
 
     addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
 
-    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(2);
+    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(3);
+  });
+
+  it("should call addMultiplePersonsInfo once", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataHasZeugenMock = {
+      ...userDataMock,
+      hasZeugen: YesNoAnswer.Enum.no,
+    };
+
+    addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
+
+    expect(addMultiplePersonsInfo).toBeCalledTimes(1);
   });
 });
