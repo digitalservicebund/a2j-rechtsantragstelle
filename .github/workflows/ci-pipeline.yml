@@ -45,6 +45,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/cached-checkout-install
+      - uses: actions/download-artifact@v4
+        with:
+          name: content-file
       - run: npm run test:integration
 
   verify-local-e2e:
