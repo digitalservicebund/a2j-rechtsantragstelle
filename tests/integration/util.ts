@@ -7,13 +7,13 @@ import { flowPageSchemas } from "~/services/cms/schemas";
 
 const _flowPageSchemas = z.object(flowPageSchemas);
 type FlowPageSchemas = z.infer<typeof _flowPageSchemas>;
-export type StrapiPages = FlowPageSchemas & { formFields: FormFieldsMap };
+type StrapiPages = FlowPageSchemas & { formFields: FormFieldsMap };
 export type AllStrapiData = Record<FlowId, StrapiPages>;
 
 /**
  * These pages do not exist in strapi and instead exist in our own codebase
  */
-const ignoreList = [
+export const ignoreList = [
   "redirect-vorabcheck-ergebnis",
   "partner-start",
   "abschluss",
@@ -22,7 +22,7 @@ const ignoreList = [
 
 export function compileAllStrapiPages(
   flowId: FlowId,
-  allStrapiData: Record<FlowId, StrapiPages>,
+  allStrapiData: AllStrapiData,
 ) {
   const {
     "vorab-check-pages": vorabCheckPages,
