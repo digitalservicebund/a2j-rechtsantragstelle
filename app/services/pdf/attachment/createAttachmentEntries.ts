@@ -10,7 +10,7 @@ export function createAttachmentEntries(
   if (attachment) {
     attachment.forEach((entry) => {
       documentStruct.add(
-        doc.struct(entry.level ?? "P", {}, () => {
+        doc.struct(entry.level?.toUpperCase() ?? "P", {}, () => {
           doc
             .fontSize(
               entry.level
