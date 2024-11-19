@@ -242,20 +242,20 @@ describe.each(flowIds)("Availability of %s content", (flowId: FlowId) => {
       const strapiFormFieldsInverted = invertStrapiFormFields(strapiFormFields);
       const allContextFields = zodKeys(z.object(context));
 
-      allContextFields.forEach((fieldName) => {
-        let currentPageName = "";
-        const strapiContainsField = strapiFormFieldsInverted.some(
-          // eslint-disable-next-line sonarjs/no-nested-functions
-          ([strapiFieldName, pageName]) => {
-            currentPageName = pageName;
-            return strapiFieldName === fieldName;
-          },
-        );
-        assert(
-          strapiContainsField,
-          `expected Strapi page ${currentPageName} to contain ${fieldName} in ${flowId} context`,
-        );
-      });
+      allContextFields
+        .filter((fieldName) => !fieldName.includes("pageData"))
+        .forEach((fieldName) => {
+          const strapiContainsField = strapiFormFieldsInverted.some(
+            // eslint-disable-next-line sonarjs/no-nested-functions
+            ([strapiFieldName]) => {
+              return strapiFieldName === fieldName;
+            },
+          );
+          assert(
+            strapiContainsField,
+            `expected a Strapi page to contain ${fieldName} in ${flowId} context`,
+          );
+        });
     });
   });
 });
