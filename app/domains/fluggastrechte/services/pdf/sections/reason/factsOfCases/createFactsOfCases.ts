@@ -5,6 +5,7 @@ import { addCompensationAmount } from "./addCompensationAmount";
 import { addDetailedReason } from "./addDetailedReason";
 import { addFlightDetails } from "./addFlightDetails";
 import { addReason } from "./addReason";
+import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissingVerticalSpace";
 import { addTable } from "./table/addTable";
 import { addTableInfo } from "./table/addTableInfo";
 import { COLUMN_HEIGHT } from "./table/tableConfigurations";
@@ -32,6 +33,7 @@ export const createFactsOfCases = (
   doc.moveDown(1);
   addDetailedReason(doc, documentStruct, userData);
   doc.moveDown(1);
+  addNewPageInCaseMissingVerticalSpace(doc, COLUMN_HEIGHT * 4 + MARGIN_TOP);
   const startTableY = doc.y;
   addTable(doc, documentStruct, startTableY, userData);
 
