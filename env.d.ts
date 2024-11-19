@@ -1,13 +1,9 @@
 /// <reference types="vite/client" />
 /// <reference types="@remix-run/node" />
+import type { Assertion } from "vitest";
+
 interface CustomMatchers<R = unknown> {
-  toContainStrapiPages: (
-    received: {
-      flowId: FlowId;
-      allPossibleStates: string[];
-    },
-    strapiPage: string,
-  ) => R;
+  toContainStrapiPage: (strapiPage: string | null) => R;
 }
 
 declare module "vitest" {
