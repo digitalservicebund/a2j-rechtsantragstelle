@@ -12,8 +12,10 @@ import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissing
 export const CLAIM_FOLLOWING_PERSONS_TRANSFERER_TEXT =
   "Die Ansprüche folgender Personen wurden durch Abtretung gemäß § 398 BGB an die klagende Partei übertragen:";
 export const ATTACHMENT_ASSIGNMENTS_TEXT = "Beweis: Anlage Abtretungen";
-export const INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT =
-  "Für sämtliche Angaben, insbesondere zu Buchungen, Check-in, Boarding Reiseverlauf, Beteiligung der genannten Personen und Abtretungen wird für den Fall des Bestreitens";
+const INFORMATION_BOOKING_AND_ASSIGNMENTS_SECOND_PART_TEXT =
+  "Reiseverlauf, Beteiligung der genannten Personen und Abtretungen wird für den Fall des Bestreitens";
+export const INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT = `Für sämtliche Angaben, insbesondere zu Buchungen, Check-in, Boarding, ${INFORMATION_BOOKING_AND_ASSIGNMENTS_SECOND_PART_TEXT}`;
+export const INFORMATION_BOOKING_AND_ASSIGNMENTS_ANNULLIERUNG_TEXT = `Für sämtliche Angaben, insbesondere zu Buchungen, ${INFORMATION_BOOKING_AND_ASSIGNMENTS_SECOND_PART_TEXT}`;
 export const EVIDENCE_QUESTION_WITNESSES_TEXT =
   "Beweis angeboten durch Vernehmung der folgenden Personen als Zeugen:";
 
@@ -21,7 +23,12 @@ export const MARGIN_RIGHT = 10;
 
 export const addMultiplePersonsInfo = (
   doc: typeof PDFDocument,
-  { isWeiterePersonen, weiterePersonen, hasZeugen }: FluggastrechtContext,
+  {
+    isWeiterePersonen,
+    weiterePersonen,
+    hasZeugen,
+    bereich,
+  }: FluggastrechtContext,
 ) => {
   if (isWeiterePersonen === "no" || !arrayIsNonEmpty(weiterePersonen)) {
     return;
@@ -48,7 +55,12 @@ export const addMultiplePersonsInfo = (
   if (hasZeugen === "yes") {
     doc
       .moveDown(1)
-      .text(INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT, PDF_MARGIN_HORIZONTAL)
+      .text(
+        bereich === "annullierung"
+          ? INFORMATION_BOOKING_AND_ASSIGNMENTS_ANNULLIERUNG_TEXT
+          : INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT,
+        PDF_MARGIN_HORIZONTAL,
+      )
       .font(FONTS_BUNDESSANS_BOLD)
       .moveDown(0.5)
       .text(

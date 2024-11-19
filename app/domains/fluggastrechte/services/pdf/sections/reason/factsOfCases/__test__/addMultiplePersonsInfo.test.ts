@@ -9,6 +9,7 @@ import {
   ATTACHMENT_ASSIGNMENTS_TEXT,
   CLAIM_FOLLOWING_PERSONS_TRANSFERER_TEXT,
   EVIDENCE_QUESTION_WITNESSES_TEXT,
+  INFORMATION_BOOKING_AND_ASSIGNMENTS_ANNULLIERUNG_TEXT,
   INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT,
 } from "../addMultiplePersonsInfo";
 
@@ -110,7 +111,7 @@ describe("addMultiplePersonsInfo", () => {
     );
   });
 
-  it("should have the text for INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT given an user data with weitere personen and zeugen yes", () => {
+  it("should have the text for INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT given an user data with weitere personen, zeugen yes and bereich verspaetet", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -133,6 +134,62 @@ describe("addMultiplePersonsInfo", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT,
+      expect.anything(),
+    );
+  });
+
+  it("should have the text for INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT given an user data with weitere personen, zeugen yes and bereich nichtbefoerderung", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWeiterePersonen = {
+      ...userDataMock,
+      weiterePersonen: [
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          plz: "plz",
+        },
+      ],
+      isWeiterePersonen: YesNoAnswer.Values.yes,
+      hasZeugen: YesNoAnswer.Values.yes,
+      bereich: "nichtbefoerderung",
+    };
+
+    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT,
+      expect.anything(),
+    );
+  });
+
+  it("should have the text for INFORMATION_BOOKING_AND_ASSIGNMENTS_ANNULLIERUNG_TEXT given an user data with weitere personen, zeugen yes and bereich annullierung", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWeiterePersonen = {
+      ...userDataMock,
+      weiterePersonen: [
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          plz: "plz",
+        },
+      ],
+      isWeiterePersonen: YesNoAnswer.Values.yes,
+      hasZeugen: YesNoAnswer.Values.yes,
+      bereich: "annullierung",
+    };
+
+    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      INFORMATION_BOOKING_AND_ASSIGNMENTS_ANNULLIERUNG_TEXT,
       expect.anything(),
     );
   });
