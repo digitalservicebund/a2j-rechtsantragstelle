@@ -197,4 +197,126 @@ describe("addDetailedReason", () => {
       PDF_MARGIN_HORIZONTAL,
     );
   });
+
+  it("should have the text for following persons given weiter personen and verspaetet bereich", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWeiterePersonenMock = {
+      ...userDataMock,
+      weiterePersonen: [
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          plz: "plz",
+        },
+      ],
+      isWeiterePersonen: YesNoAnswer.Values.yes,
+    };
+
+    addDetailedReason(mockDoc, mockStruct, userDataWeiterePersonenMock);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Folgende Personen waren von dieser Verspätung betroffen:",
+      PDF_MARGIN_HORIZONTAL,
+    );
+  });
+
+  it("should have the text for following persons given weiter personen and annullierung bereich", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWeiterePersonenMock = {
+      ...userDataMock,
+      weiterePersonen: [
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          plz: "plz",
+        },
+      ],
+      bereich: "annullierung",
+      isWeiterePersonen: YesNoAnswer.Values.yes,
+    };
+
+    addDetailedReason(mockDoc, mockStruct, userDataWeiterePersonenMock);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Folgende Personen waren von dieser Annullierung betroffen:",
+      PDF_MARGIN_HORIZONTAL,
+    );
+  });
+
+  it("should have the text for plaintiff name given weiter personen", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWeiterePersonenMock = {
+      ...userDataMock,
+      anrede: undefined,
+      title: undefined,
+      vorname: "Test",
+      nachname: "Test",
+      weiterePersonen: [
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          plz: "plz",
+        },
+      ],
+      isWeiterePersonen: YesNoAnswer.Values.yes,
+    };
+
+    addDetailedReason(mockDoc, mockStruct, userDataWeiterePersonenMock);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "1. Die klagende Partei Test Test",
+      expect.anything(),
+    );
+  });
+
+  it("should have the text for persons names  given weiter personen", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWeiterePersonenMock = {
+      ...userDataMock,
+      anrede: undefined,
+      title: undefined,
+      vorname: "Test",
+      nachname: "Test",
+      weiterePersonen: [
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          plz: "plz",
+        },
+        {
+          vorname: "vorname2",
+          nachname: "nachname2",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          plz: "plz",
+          buchungsnummer: "123456",
+        },
+      ],
+      isWeiterePersonen: YesNoAnswer.Values.yes,
+    };
+
+    addDetailedReason(mockDoc, mockStruct, userDataWeiterePersonenMock);
+
+    expect(mockDoc.text).toHaveBeenCalledWith("2. Vorname nachname");
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "3. Vorname2 nachname2, abweichende Buchungsnummer: 123456",
+    );
+  });
 });
