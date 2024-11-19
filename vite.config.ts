@@ -45,7 +45,11 @@ export default defineConfig(({ isSsrBuild }) => ({
   },
   test: {
     dir: "./",
-    include: ["**/__test__/*.test.{ts,tsx}", "**/unit/**/*.test.ts"],
+    include: [
+      "**/__test__/*.test.{ts,tsx}",
+      "**/unit/**/*.test.ts",
+      "tests/integration/*.test.{ts,tsx}", // disable later
+    ],
     globals: true,
     environment: "jsdom",
     setupFiles: ["vitest.setup.ts"],
