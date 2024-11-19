@@ -2,6 +2,10 @@ import { PDFDocument } from "pdf-lib";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import {
+  addMetadataToPdf,
+  type Metadata,
+} from "~/services/pdf/addMetadataToPdf";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
 import {
@@ -28,6 +32,16 @@ export type BerHPdfFillFunction = PdfFillFunction<
   BeratungshilfeFormularContext,
   BeratungshilfePDF
 >;
+
+const METADATA: Metadata = {
+  AUTHOR: "Bundesministerium der Justiz",
+  CREATOR: "service.justiz.de",
+  KEYWORDS: ["Beratungshilfe"],
+  LANGUAGE: "de-DE",
+  PRODUCER: "pdf-lib (https://github.com/Hopding/pdf-lib)",
+  SUBJECT: "Antrag auf Bewilligung von Beratungshilfe",
+  TITLE: "Antrag auf Bewilligung von Beratungshilfe",
+};
 
 const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
   BeratungshilfeFormularContext
@@ -68,12 +82,17 @@ export async function beratungshilfePdfFromUserdata(
     ],
   });
 
-  const filledFormPdfDocument = await fillPdf({
+  const filledPdfFormDocument = await fillPdf({
     flowId: "/beratungshilfe/antrag",
     pdfValues,
     yPositionsDruckvermerk: [90, 108, 138],
     xPositionsDruckvermerk: 28,
   });
+
+  const filledPdfFormDocumentWithMetadata = addMetadataToPdf(
+    filledPdfFormDocument,
+    METADATA,
+  );
 
   const pdfKitBuffer = await pdfFromUserData(
     userData,
@@ -82,5 +101,5 @@ export async function beratungshilfePdfFromUserdata(
   );
   const mainPdfDocument = await PDFDocument.load(pdfKitBuffer);
 
-  return appendPagesToPdf(filledFormPdfDocument, mainPdfDocument);
+  return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
 }

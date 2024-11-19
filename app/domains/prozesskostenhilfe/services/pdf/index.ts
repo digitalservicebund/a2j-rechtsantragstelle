@@ -2,6 +2,8 @@ import { PDFDocument } from "pdf-lib";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import type { Metadata } from "~/services/pdf/addMetadataToPdf";
+import { addMetadataToPdf } from "~/services/pdf/addMetadataToPdf";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
 import {
@@ -32,6 +34,17 @@ export type PkhPdfFillFunction = PdfFillFunction<
   ProzesskostenhilfeFormularContext,
   ProzesskostenhilfePDF
 >;
+
+const METADATA: Metadata = {
+  AUTHOR: "Bundesministerium der Justiz",
+  CREATOR: "service.justiz.de",
+  KEYWORDS: ["Prozesskostenhilfe"],
+  LANGUAGE: "de-DE",
+  PRODUCER: "pdf-lib (https://github.com/Hopding/pdf-lib)",
+  SUBJECT:
+    "Erklärung über die persönlichen und wirtschaftlichen Verhältnisse bei Prozess- oder Verfahrenskostenhilfe",
+  TITLE: "Antrag auf Bewilligung von Prozesskostenhilfe",
+};
 
 const buildProzesskostenhilfePDFDocument: PDFDocumentBuilder<
   ProzesskostenhilfeFormularContext
@@ -69,12 +82,17 @@ export async function prozesskostenhilfePdfFromUserdata(
     ],
   });
 
-  const filledFormPdfDocument = await fillPdf({
+  const filledPdfFormDocument = await fillPdf({
     flowId: "/prozesskostenhilfe/formular",
     pdfValues,
     yPositionsDruckvermerk: [43, 51, 40, 44],
     xPositionsDruckvermerk: 9,
   });
+
+  const filledPdfFormDocumentWithMetadata = addMetadataToPdf(
+    filledPdfFormDocument,
+    METADATA,
+  );
 
   if (attachment && attachment.length > 0) {
     const pdfKitBuffer = await pdfFromUserData(
@@ -85,8 +103,8 @@ export async function prozesskostenhilfePdfFromUserdata(
 
     const mainPdfDocument = await PDFDocument.load(pdfKitBuffer);
 
-    return appendPagesToPdf(filledFormPdfDocument, mainPdfDocument);
+    return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
   }
 
-  return filledFormPdfDocument.save();
+  return filledPdfFormDocumentWithMetadata.save();
 }
