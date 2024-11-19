@@ -25,7 +25,7 @@ export const addPlaintiffDetails = (
     .text(plaintiffName, { continued: true })
     .font(FONTS_BUNDESSANS_REGULAR)
     .text(SEPARATOR, { continued: true })
-    .text(`${address} ${zipCode} ${city}`)
+    .text(`${address}, ${zipCode} ${city}`)
     .text(phoneNumber)
     .text(PLAINTIFF_TEXT, { align: "left" });
 };
