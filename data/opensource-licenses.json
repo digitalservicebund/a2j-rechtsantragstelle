@@ -25,15 +25,6 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@digitalservicebund/icons/README.md",
     "direct": true
   },
-  "@react-pdf/renderer": {
-    "licenses": "MIT",
-    "repository": "https://github.com/diegomura/react-pdf",
-    "publisher": "Diego Muracciole",
-    "email": "diegomuracciole@gmail.com",
-    "path": "a2j-rechtsantragstelle/node_modules/@react-pdf/renderer",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@react-pdf/renderer/README.md",
-    "direct": true
-  },
   "@remix-run/express": {
     "licenses": "MIT",
     "repository": "https://github.com/remix-run/remix",

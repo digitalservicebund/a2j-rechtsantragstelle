@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default-member, no-console */
 import { createRequestHandler } from "@remix-run/express";
 import type { ServerBuild } from "@remix-run/node";
 import * as Sentry from "@sentry/remix";
@@ -11,6 +10,7 @@ import { config } from "./services/env/env.server";
 import { createRateLimitRequestHandler } from "./services/rateLimit";
 import { createRedisClient, quitRedis } from "./services/redis/redisClient";
 
+// expressApp() itself is not hot reloaded
 export const expressApp = (
   build: ServerBuild,
   viteDevServer: ViteDevServer,
