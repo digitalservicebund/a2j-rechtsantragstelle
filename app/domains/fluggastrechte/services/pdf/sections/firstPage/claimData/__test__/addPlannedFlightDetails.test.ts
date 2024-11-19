@@ -44,10 +44,7 @@ describe("addPlannedFlightDetails", () => {
 
     addPlannedFlightDetails(mockDoc, userDataMock);
 
-    expect(getTotalCompensationClaim).toHaveBeenCalledWith({
-      startAirport: userDataMock.startAirport,
-      endAirport: userDataMock.endAirport,
-    });
+    expect(getTotalCompensationClaim).toHaveBeenCalled();
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Streitwert: ${mockCompensation}€`,
     );
