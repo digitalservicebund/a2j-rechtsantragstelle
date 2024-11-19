@@ -1,3 +1,5 @@
+import { toDirectedGraph, type DirectedGraphNode } from "@xstate/graph";
+import { pathToStateValue } from "xstate";
 import { testCasesBeratungshilfeFormular } from "~/domains/beratungshilfe/formular/__test__/testcases";
 import { testCasesBeratungshilfeFormularAnwaltlicheVertretung } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/__test__/testcases";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesAusgaben";
@@ -32,6 +34,7 @@ import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/domains/prozessk
 import { testCasesProzesskostenhilfeRsv } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
+import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
 
 function getEnabledSteps({
   machine,
@@ -57,6 +60,21 @@ function getEnabledSteps({
   return [initialStep, ...reachableSteps];
 }
 
+function statePathsFromMachine(children: DirectedGraphNode[]): string[][] {
+  return children.flatMap((child) =>
+    child.children.length > 0
+      ? statePathsFromMachine(child.children)
+      : [child.stateNode.path],
+  );
+}
+
+function stepIdsFromMachine(machine: FlowStateMachine) {
+  const machineState = statePathsFromMachine(toDirectedGraph(machine).children);
+  return machineState.map(
+    (statePath) => stateValueToStepIds(pathToStateValue(statePath))[0],
+  );
+}
+
 /*
  * Note on testing xstate
  *
@@ -69,65 +87,91 @@ function getEnabledSteps({
  * - system under test should be in a certain state (step)
  */
 
-describe("state machine form flows", () => {
-  [
-    testCasesBeratungshilfe,
-    testCasesGeldEinklagen,
-    testCasesFluggastrechteFormularFlugdatenNichtBefoerderung,
-    testCasesBeratungshilfeFormular,
-    testCasesBeratungshilfeFormularAnwaltlicheVertretung,
-    testCasesBeratungshilfeRechtsproblem,
-    testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen,
-    testCasesBeratungshilfeFormularFinanzielleAngabenPartner,
-    testCasesBeratungshilfeFormularFinanzielleAngabenKinder,
-    testCasesBeratungshilfeFormularFinanzielleAngabenEigentum,
-    testCasesBeratungshilfeFormularFinanzielleAngabenEigentumZusammenfassung,
-    testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
-    testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
-    testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
-    testCasesFluggastrechteVerspaetetAbbruch,
-    testCasesFluggastrechteAnnullierungAbbruch,
-    testCasesFluggastrechteNichtBefoerderungAbbruch,
-    testcasesFluggastrechtOtherErfolgs,
-    testCasesFluggastrechteFormularPersoenlicheDaten,
-    testCasesProzesskostenhilfeFormular,
-    testCasesPKHFormularFinanzielleAngabenWohnung,
-    testCasesFluggastrechteFormularGrundvoraussetzungen,
-    testCasesFluggastrechteFormularStreitwertKosten,
-    testCasesProzesskostenhilfePersoenlicheDaten,
-    testCasesProzesskostenhilfeRsv,
-    testCasesFluggastrechteFormularFlugdatenVerspaetet,
-    testCasesFluggastrechteFormularFlugdatenAnnullierung,
-    testCasesFluggastrechteErfolg,
-    testCasesFluggastrechteErfolgEU,
-    testcasesFluggastrechteErfolgAnalog,
-    testCasesFluggastrechteFormularProzessfuehrung,
-  ].forEach(({ machine, cases }) => {
-    test.each([...cases])(
-      "SUBMIT (%#) given context: %j, visits steps: %j",
-      (context, steps) => {
-        const actualSteps = getEnabledSteps({
-          machine,
-          context,
-          transitionType: "SUBMIT",
-          steps,
-        });
-        expect(actualSteps).toEqual(steps);
-      },
+describe.sequential("state machine form flows", () => {
+  const visitedStates: Record<string, { stepIds: string[]; machine: any }> = {};
+  describe.concurrent("flow tests", () => {
+    [
+      testCasesBeratungshilfe,
+      testCasesGeldEinklagen,
+      testCasesFluggastrechteFormularFlugdatenNichtBefoerderung,
+      testCasesBeratungshilfeFormular,
+      testCasesBeratungshilfeFormularAnwaltlicheVertretung,
+      testCasesBeratungshilfeRechtsproblem,
+      testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen,
+      testCasesBeratungshilfeFormularFinanzielleAngabenPartner,
+      testCasesBeratungshilfeFormularFinanzielleAngabenKinder,
+      testCasesBeratungshilfeFormularFinanzielleAngabenEigentum,
+      testCasesBeratungshilfeFormularFinanzielleAngabenEigentumZusammenfassung,
+      testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
+      testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
+      testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
+      testCasesFluggastrechteVerspaetetAbbruch,
+      testCasesFluggastrechteAnnullierungAbbruch,
+      testCasesFluggastrechteNichtBefoerderungAbbruch,
+      testcasesFluggastrechtOtherErfolgs,
+      testCasesFluggastrechteFormularPersoenlicheDaten,
+      testCasesProzesskostenhilfeFormular,
+      testCasesPKHFormularFinanzielleAngabenWohnung,
+      testCasesFluggastrechteFormularGrundvoraussetzungen,
+      testCasesFluggastrechteFormularStreitwertKosten,
+      testCasesProzesskostenhilfePersoenlicheDaten,
+      testCasesProzesskostenhilfeRsv,
+      testCasesFluggastrechteFormularFlugdatenVerspaetet,
+      testCasesFluggastrechteFormularFlugdatenAnnullierung,
+      testCasesFluggastrechteErfolg,
+      testCasesFluggastrechteErfolgEU,
+      testcasesFluggastrechteErfolgAnalog,
+      testCasesFluggastrechteFormularProzessfuehrung,
+    ].forEach(({ machine, cases }) => {
+      test.each([...cases])(
+        "SUBMIT (%#) given context: %j, visits steps: %j",
+        (context, steps) => {
+          const actualSteps = getEnabledSteps({
+            machine,
+            context,
+            transitionType: "SUBMIT",
+            steps,
+          });
+          expect(actualSteps).toEqual(steps);
+          if (!visitedStates[machine.id]) {
+            visitedStates[machine.id] = { machine, stepIds: actualSteps };
+          } else {
+            visitedStates[machine.id].stepIds = [
+              ...visitedStates[machine.id].stepIds,
+              ...actualSteps,
+            ];
+          }
+        },
+      );
+
+      test.each([...cases])(
+        "BACK (%#) given context: %j, visits steps: %j",
+        (context, steps) => {
+          const expectedSteps = [...steps].reverse();
+          const actualSteps = getEnabledSteps({
+            machine,
+            context,
+            transitionType: "BACK",
+            steps: expectedSteps,
+          });
+          expect(actualSteps).toEqual(expectedSteps);
+        },
+      );
+    });
+  });
+
+  test.fails("all steps are visited", () => {
+    const missingStepsEntries = Object.fromEntries(
+      Object.entries(visitedStates)
+        .map(([machineId, { machine, stepIds }]) => {
+          const visitedStepIds = new Set(stepIds);
+          const allStepIds = stepIdsFromMachine(machine);
+          return [machineId, allStepIds.filter((x) => !visitedStepIds.has(x))];
+        })
+        .filter(([_, missingSteps]) => missingSteps.length > 0),
     );
 
-    test.each([...cases])(
-      "BACK (%#) given context: %j, visits steps: %j",
-      (context, steps) => {
-        const expectedSteps = [...steps].reverse();
-        const actualSteps = getEnabledSteps({
-          machine,
-          context,
-          transitionType: "BACK",
-          steps: expectedSteps,
-        });
-        expect(actualSteps).toEqual(expectedSteps);
-      },
-    );
+    console.warn("untested stepIds: ", missingStepsEntries);
+    expect(Object.keys(missingStepsEntries).length).toBe(0);
   });
 });
