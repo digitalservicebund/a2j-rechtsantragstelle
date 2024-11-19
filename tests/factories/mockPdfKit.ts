@@ -16,6 +16,7 @@ export const mockPdfKitDocument = (
     fontSize: vi.fn().mockReturnThis(),
     font: vi.fn().mockReturnThis(),
     moveDown: vi.fn().mockReturnThis(),
+    moveUp: vi.fn().mockReturnThis(),
     list: vi.fn().mockReturnThis(),
     save: vi.fn().mockReturnThis(),
     rotate: vi.fn().mockReturnThis(),
