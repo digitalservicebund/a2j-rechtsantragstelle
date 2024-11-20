@@ -127,9 +127,9 @@ export default tseslint.config(
 
       // to be enabled later
       "sonarjs/no-unstable-nested-components": "warn", // TODO: enable later
+      "sonarjs/deprecation": "off", // TODO: enable after remix upgrades to react router v7 and we move to Single Fetch
 
       // fix/reevaluate
-      "sonarjs/deprecation": "off",
       "sonarjs/no-alphabetical-sort": "off",
 
       // typescript-eslint
