@@ -114,7 +114,6 @@ export const kraftfahrzeugeArraySchema = z.array(
         latest: () => today().getFullYear(),
       }),
       baujahr: createYearSchema({ latest: () => today().getFullYear() }),
-      bemerkung: stringRequiredSchema,
       hasArbeitsweg: YesNoAnswer,
       wert: kraftfahrzeugWert,
     })
