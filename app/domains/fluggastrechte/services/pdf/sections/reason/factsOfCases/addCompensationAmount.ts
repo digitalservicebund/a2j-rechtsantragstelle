@@ -19,9 +19,9 @@ export const OTHER_DETAILS_ITINERARY = "Weitere Angaben zum Reiseverlauf:";
 export const ARTICLE_AIR_PASSENGER_REGULATION_TEXT =
   "Damit ergibt sich nach Art. 7 der Fluggastrechteverordnung (EG) 261/2004 eine Entschädigung in Höhe von";
 export const PLAINTIFF_WITNESSES_TEXT =
-  "Zum Beweis dieses Sachverhalt wird die klagende Partei im Prozessverlauf bei Bedarf Zeugen benennen.";
+  "Zum Beweis dieses Sachverhalts wird die klagende Partei im Prozessverlauf bei Bedarf Zeugen benennen.";
 export const PLAINTIFF_WITNESSES_MULTIPLE_PERSONS_TEXT =
-  "Zum Beweis dieses Sachverhalt wird die klagende Partei im Prozessverlauf bei Bedarf weitere Zeugen benennen.";
+  "Zum Beweis dieses Sachverhalts wird die klagende Partei im Prozessverlauf bei Bedarf weitere Zeugen benennen.";
 
 const getDistanceText = (userData: FluggastrechtContext): string => {
   const startAirportName = getAirportNameByIataCode(userData.startAirport);
