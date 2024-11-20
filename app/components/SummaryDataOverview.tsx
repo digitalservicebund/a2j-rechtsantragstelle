@@ -180,6 +180,16 @@ export default function SummaryDataOverview({
         dataTestid="migration-field-value"
       />
       <Card title="Klagende Person" data={getKlagendePerson(userData)} />
+      {userData.weiterePersonen &&
+        (userData.weiterePersonen as Context[]).map((person, idx) => {
+          return (
+            <Card
+              key={person.name as string}
+              title={`Weitere Personen ${idx + 2}`}
+              data={person}
+            />
+          );
+        })}
     </>
   );
 }
