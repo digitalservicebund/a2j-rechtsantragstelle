@@ -35,14 +35,12 @@ const getZwischenStops = (zwischenstop: Context) => {
 
 const getKlagendePerson = (userData: Context) => {
   return {
-    klagendePerson: {
-      anrede: userData.anrede,
-      vorname: userData.vorname,
-      nachname: userData.nachname,
-      strasseHausnummer: userData.strasseHausnummer,
-      plz: userData.plz,
-      ort: userData.ort,
-    },
+    anrede: userData.anrede,
+    vorname: userData.vorname,
+    nachname: userData.nachname,
+    strasseHausnummer: userData.strasseHausnummer,
+    plz: userData.plz,
+    ort: userData.ort,
   };
 };
 
@@ -173,6 +171,15 @@ export default function SummaryDataOverview({
           }}
         />
       )}
+
+      {/* {Personendaten} */}
+      <Heading
+        text="Persönliche Daten"
+        tagName="h3"
+        look="ds-heading-03-bold"
+        dataTestid="migration-field-value"
+      />
+      <Card title="Klagende Person" data={getKlagendePerson(userData)} />
     </>
   );
 }
