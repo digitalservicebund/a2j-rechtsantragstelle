@@ -14,7 +14,9 @@ export const addOtherDetailsItinerary = (
     typeof zusaetzlicheAngaben !== "undefined" &&
     zusaetzlicheAngaben.length > 0
   ) {
-    const zusaetzlicheAngabenHeight = doc.heightOfString(zusaetzlicheAngaben);
+    const zusaetzlicheAngabenHeight = doc.heightOfString(zusaetzlicheAngaben, {
+      width: doc.widthOfString(zusaetzlicheAngaben),
+    });
     addNewPageInCaseMissingVerticalSpace(doc, zusaetzlicheAngabenHeight);
 
     doc
