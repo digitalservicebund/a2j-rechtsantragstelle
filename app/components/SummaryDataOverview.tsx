@@ -12,29 +12,25 @@ type SummaryDataProps = {
 type ValueOfContext = Context[keyof Context];
 
 const getZwischenStops = (zwischenstop: Context) => {
-  if (zwischenstop.zwischenstoppAnzahl === "noStop") {
-    return undefined;
-  }
-  if (zwischenstop.zwischenstoppAnzahl === "oneStop") {
-    return {
+  const stopMapping = {
+    noStop: undefined,
+    oneStop: {
       ersterZwischenStopp: zwischenstop.ersterZwischenstopp ?? undefined,
-    };
-  }
-
-  if (zwischenstop.zwischenstoppAnzahl === "twoStop") {
-    return {
+    },
+    twoStop: {
       ersterZwischenStopp: zwischenstop.ersterZwischenstopp ?? undefined,
       zweiterZwischenstopp: zwischenstop.zweiterZwischenstopp ?? undefined,
-    };
-  }
-
-  if (zwischenstop.zwischenstoppAnzahl === "threeStop") {
-    return {
+    },
+    threeStop: {
       ersterZwischenStopp: zwischenstop.ersterZwischenstopp ?? undefined,
       zweiterZwischenstopp: zwischenstop.zweiterZwischenstopp ?? undefined,
       dritterZwischenstopp: zwischenstop.dritterZwischenstopp ?? undefined,
-    };
-  }
+    },
+  } as const;
+
+  return stopMapping[
+    zwischenstop.zwischenstoppAnzahl as keyof typeof stopMapping
+  ];
 };
 
 const getKlagendePerson = (userData: Context) => {
@@ -53,12 +49,6 @@ const getKlagendePerson = (userData: Context) => {
 const getWeiterePersonen = (userData: Context) => {
   return {
     weiterePersonen: userData.weiterePersonen,
-  };
-};
-
-const getWeitereAngaben = (userData: Context) => {
-  return {
-    prozesszinsen: userData.prozesszinsen,
   };
 };
 
@@ -95,25 +85,41 @@ const renderMigrationValue = (
   return translation;
 };
 
-const Card = (data: Context) => (
-  <div className="first:pt-0 scroll-my-40">
-    {Object.entries(data).map(([key, value]) => {
-      return (
-        <div key={key} className="space-y-16 bg-white pt-32 pb-44 px-32">
-          <div className="first:pt-0 scroll-my-40">
-            <Heading
-              text={key}
-              tagName="p"
-              look="ds-label-01-bold"
-              dataTestid="migration-field-value"
-            />
-            <p>{value as string}</p>
-          </div>
+type CardProps = {
+  title: string;
+  data: Context | undefined;
+};
+
+const Card = ({ data, title }: CardProps) => {
+  if (!data) return;
+  return (
+    <>
+      <Heading
+        text={title}
+        tagName="p"
+        look="ds-label-01-bold"
+        dataTestid="migration-field-value"
+      />
+      <div className="first:pt-0 scroll-my-40">
+        <div className="space-y-16 bg-white pt-32 pb-44 px-32">
+          {Object.entries(data).map(([key, value]) => {
+            return (
+              <div key={key} className="first:pt-0 scroll-my-40">
+                <Heading
+                  text={key}
+                  tagName="p"
+                  look="ds-label-01-bold"
+                  dataTestid="migration-field-value"
+                />
+                {value as string}
+              </div>
+            );
+          })}
         </div>
-      );
-    })}
-  </div>
-);
+      </div>
+    </>
+  );
+};
 
 export default function SummaryDataOverview({
   userData,
@@ -121,64 +127,43 @@ export default function SummaryDataOverview({
   buttonUrl,
 }: SummaryDataProps) {
   if (!userData || Object.keys(userData).length === 0) return null;
+  console.log({ userData });
+  console.log({ translations });
   return (
     <>
-      {/* {Object.entries(overData).map(([itemKey, itemValue]) => (
-        <div key={itemKey} className="space-y-16 bg-white pt-32 pb-44 px-32">
-          <Heading
-            text={itemKey}
-            tagName="p"
-            look="ds-label-01-bold"
-            dataTestid="migration-field-value"
-          />
-          <div className="first:pt-0 scroll-my-40">
-            {Object.entries(itemValue).map(([key, value]) => {
-              if (itemKey === "weiterePersonen") {
-                return itemValue.map((person: Context) => {
-                  
-                  return Object.entries(person).map(([personKey, personValue]) => {
-                    return <p key={personKey}>{personKey}: {personValue as string}</p>
-                  })
-                })
-              }
-              return <p key={key}>{key}: {value as string}</p>
-            })}
-          </div>
-        </div>
-      ))}
+      <Card
+        title="Weitere Angaben"
+        data={{
+          Prozesszinsen: userData.prozesszinsen,
+        }}
+      />
 
-      {buttonUrl && (
-        <Button href={buttonUrl} look="tertiary" size="large" className="w-fit">
-          {getTranslationByKey(MIGRATION_BUTTON_TEXT_TRANSLATION, translations)}
-        </Button>
-      )} */}
-
-      {/* Weitere Angaben */}
+      {/* all about Flugdaten */}
       <Heading
-        text={"Weitere Angaben"}
-        tagName="p"
+        text="Flugdaten"
+        tagName="h2"
         look="ds-label-01-bold"
         dataTestid="migration-field-value"
       />
-      <Card {...getWeitereAngaben(userData)} />
-
-      {/* Flugdaten */}
-      <Heading
-        text={"Flugdaten"}
-        tagName="p"
-        look="ds-label-01-bold"
-        dataTestid="migration-field-value"
+      <Card
+        title="Ursprüngliche geplanter Flug"
+        data={getFlugDaten(userData)}
       />
-      <Card {...getFlugDaten(userData)} />
-
-      {/* Zwischenstops */}
-      <Heading
-        text={"Zwischenstops"}
-        tagName="p"
-        look="ds-label-01-bold"
-        dataTestid="migration-field-value"
-      />
-      {getZwischenStops(userData) && <Card {...getZwischenStops(userData)} />}
+      {getZwischenStops(userData) && (
+        <Card title="Zwischenstops" data={getZwischenStops(userData)} />
+      )}
+      {userData.verspaeteterFlug && (
+        <Card
+          title="Betroffener Flug"
+          data={{ verspaeteterFlug: userData.verspaeteterFlug }}
+        />
+      )}
+      {userData.anschlussFlugVerpasst && (
+        <Card
+          title="Verspäteter Flug"
+          data={{ anschlussFlugVerpasst: userData.anschlussFlugVerpasst }}
+        />
+      )}
     </>
   );
 }
