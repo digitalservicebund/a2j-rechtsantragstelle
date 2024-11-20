@@ -9,7 +9,7 @@ import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airp
 import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
+import { addNewPageInCaseMissingVerticalSpace } from "../../../addNewPageInCaseMissingVerticalSpace";
 import {
   addCompensationAmount,
   ARTICLE_AIR_PASSENGER_REGULATION_TEXT,
@@ -26,7 +26,7 @@ vi.mock("~/domains/fluggastrechte/services/airports/getAirportNameByIataCode");
 vi.mock(
   "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports",
 );
-vi.mock("../../addNewPageInCaseMissingVerticalSpace");
+vi.mock("../../../addNewPageInCaseMissingVerticalSpace");
 vi.mock("../addMultiplePersonsInfo");
 
 const distanceValueMock = 100;
