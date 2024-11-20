@@ -114,6 +114,7 @@ export default tseslint.config(
       "sonarjs/no-redeclare": "off",
       "sonarjs/no-nested-functions": "warn",
       "sonarjs/sonar-no-unused-vars": "off",
+      "sonarjs/function-return-type": "off",
 
       // duplicates of typescript-eslint rules (prefer typescript-eslint as their rule pages are clearer)
       "sonarjs/no-misused-promises": "off",
@@ -129,11 +130,7 @@ export default tseslint.config(
       "sonarjs/deprecation": "off", // TODO: enable after remix upgrades to react router v7 and we move to Single Fetch
 
       // fix/reevaluate
-      "sonarjs/new-cap": "off",
-      "sonarjs/function-return-type": "off",
-      "sonarjs/no-base-to-string": "off",
-      "sonarjs/no-undefined-argument": "off",
-      "sonarjs/sonar-prefer-read-only-props": "off",
+      "sonarjs/no-alphabetical-sort": "off",
 
       // typescript-eslint
       "@typescript-eslint/no-explicit-any": "warn",
