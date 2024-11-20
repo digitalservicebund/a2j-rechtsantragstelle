@@ -2,6 +2,7 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
+import { COLUMN_HEIGHT } from "./tableConfigurations";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 import { getStartYPosition } from "../compensationAmount/getStartYPosition";
 
@@ -18,7 +19,7 @@ export function addTableInfo(
     },
   );
 
-  addNewPageInCaseMissingVerticalSpace(doc, tableInfoHeight);
+  addNewPageInCaseMissingVerticalSpace(doc, tableInfoHeight + COLUMN_HEIGHT);
 
   const reasonSect = doc.struct("Sect");
   reasonSect.add(
