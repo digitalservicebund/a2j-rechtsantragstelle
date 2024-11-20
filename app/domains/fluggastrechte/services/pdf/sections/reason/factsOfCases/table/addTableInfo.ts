@@ -1,10 +1,10 @@
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
+  PDF_MARGIN_VERTICAL,
 } from "~/services/pdf/createPdfKitDocument";
 import { COLUMN_HEIGHT } from "./tableConfigurations";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
-import { getStartYPosition } from "../compensationAmount/getStartYPosition";
 
 export function addTableInfo(
   doc: PDFKit.PDFDocument,
@@ -30,7 +30,8 @@ export function addTableInfo(
         .text(
           andereErsatzverbindungBeschreibung ?? "",
           PDF_MARGIN_HORIZONTAL,
-          getStartYPosition(tableEndYPosition, doc.y),
+          // in case the current doc.y position is same the vertical margin, the document jump to a new page, so it should start the current doc.y position
+          doc.y === PDF_MARGIN_VERTICAL ? doc.y : tableEndYPosition,
         );
     }),
   );

@@ -3,5 +3,5 @@ export const getStartYPosition = (
   compensationStartYPosition: number,
   currentYPosition: number,
 ) => {
-  return currentYPosition < 150 ? currentYPosition : compensationStartYPosition;
+  return currentYPosition < 200 ? currentYPosition : compensationStartYPosition;
 };
