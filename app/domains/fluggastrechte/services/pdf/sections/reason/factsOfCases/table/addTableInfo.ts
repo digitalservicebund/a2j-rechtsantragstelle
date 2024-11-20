@@ -3,6 +3,7 @@ import {
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
+import { getStartYPosition } from "../compensationAmount/getStartYPosition";
 
 export function addTableInfo(
   doc: PDFKit.PDFDocument,
@@ -28,7 +29,7 @@ export function addTableInfo(
         .text(
           andereErsatzverbindungBeschreibung ?? "",
           PDF_MARGIN_HORIZONTAL,
-          tableEndYPosition,
+          getStartYPosition(tableEndYPosition, doc.y),
         );
     }),
   );
