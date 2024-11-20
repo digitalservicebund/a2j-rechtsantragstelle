@@ -28,7 +28,7 @@ describe("addOtherDetailsItinerary", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addOtherDetailsItinerary(mockDoc, 0, undefined);
+    addOtherDetailsItinerary(mockDoc, 0);
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(
       OTHER_DETAILS_ITINERARY,
