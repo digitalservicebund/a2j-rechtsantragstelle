@@ -6,9 +6,9 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 
 export const PLAINTIFF_BOOKED_TEXT =
-  "Die klagende Partei buchte den folgenden Flug";
+  "Die klagende Partei buchte den folgenden Flug, ";
 export const PLAINTIFF_BOOKED_MULTIPLE_PERSONS_TEXT =
-  "Die klagende Partei buchte gemeinsam mit weiteren Fluggästen den folgenden Flug";
+  "Die klagende Partei buchte gemeinsam mit weiteren Fluggästen den folgenden Flug, ";
 export const ARTICLE_DELAY_CANCEL_TEXT = "der ";
 export const ARTICLE_NOT_MOVE_TEXT = "und wurde ";
 export const DELAY_TEXT = "nicht pünktlich ausgeführt ";
