@@ -1,17 +1,15 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
-import { addCompensationAmount } from "./addCompensationAmount";
 import { addDetailedReason } from "./addDetailedReason";
 import { addFlightDetails } from "./addFlightDetails";
 import { addReason } from "./addReason";
 import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissingVerticalSpace";
+import { addCompensationAmount } from "./compensationAmount/addCompensationAmount";
 import { addTable } from "./table/addTable";
-import { addTableInfo } from "./table/addTableInfo";
-import { COLUMN_HEIGHT } from "./table/tableConfigurations";
+import { COLUMN_HEIGHT, MARGIN_BOTTOM } from "./table/tableConfigurations";
 
 export const FACTS_OF_CASES_TEXT = "I. Sachverhalt";
-const MARGIN_TOP = 15;
 
 export const createFactsOfCases = (
   doc: typeof PDFDocument,
@@ -33,27 +31,17 @@ export const createFactsOfCases = (
   doc.moveDown(1);
   addDetailedReason(doc, documentStruct, userData);
   doc.moveDown(1);
-  addNewPageInCaseMissingVerticalSpace(doc, COLUMN_HEIGHT * 4 + MARGIN_TOP);
+  addNewPageInCaseMissingVerticalSpace(doc, COLUMN_HEIGHT * 4 + MARGIN_BOTTOM);
   const startTableY = doc.y;
   addTable(doc, documentStruct, startTableY, userData);
-
   // Set tableEndYPosition based on the existence of `andereErsatzverbindungBeschreibung`
-  const tableEndYPosition = startTableY + COLUMN_HEIGHT * 4 + MARGIN_TOP;
-
-  addTableInfo(
-    doc,
-    documentStruct,
-    userData.andereErsatzverbindungBeschreibung ?? "",
-    tableEndYPosition,
-  );
+  const tableEndYPosition = startTableY + COLUMN_HEIGHT * 4 + MARGIN_BOTTOM;
   doc.moveDown(1);
-  let startCompensationYPosition = tableEndYPosition;
-  if (
-    userData.andereErsatzverbindungBeschreibung &&
-    userData.andereErsatzverbindungBeschreibung?.length >= 0
-  ) {
-    startCompensationYPosition = doc.y;
-  }
+  const startCompensationYPosition =
+    typeof userData.andereErsatzverbindungBeschreibung !== "undefined" &&
+    userData.andereErsatzverbindungBeschreibung.length >= 0
+      ? doc.y
+      : tableEndYPosition;
 
   addCompensationAmount(
     doc,
