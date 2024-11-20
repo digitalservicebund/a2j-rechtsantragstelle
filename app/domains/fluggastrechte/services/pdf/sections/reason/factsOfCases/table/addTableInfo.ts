@@ -2,6 +2,7 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
+import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 
 export function addTableInfo(
   doc: PDFKit.PDFDocument,
@@ -9,6 +10,15 @@ export function addTableInfo(
   andereErsatzverbindungBeschreibung: string,
   tableEndYPosition: number,
 ) {
+  const tableInfoHeight = doc.heightOfString(
+    andereErsatzverbindungBeschreibung ?? "",
+    {
+      width: doc.widthOfString(andereErsatzverbindungBeschreibung ?? ""),
+    },
+  );
+
+  addNewPageInCaseMissingVerticalSpace(doc, tableInfoHeight);
+
   const reasonSect = doc.struct("Sect");
   reasonSect.add(
     doc.struct("P", {}, () => {

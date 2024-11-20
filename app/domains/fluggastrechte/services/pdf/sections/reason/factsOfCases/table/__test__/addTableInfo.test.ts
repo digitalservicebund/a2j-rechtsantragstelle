@@ -6,7 +6,22 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
+import { addNewPageInCaseMissingVerticalSpace } from "../../../addNewPageInCaseMissingVerticalSpace";
 import { addTableInfo } from "../addTableInfo";
+
+vi.mock("../../../addNewPageInCaseMissingVerticalSpace");
+
+vi.mocked(addNewPageInCaseMissingVerticalSpace).mockImplementation(() =>
+  vi.fn(),
+);
+
+afterEach(() => {
+  vi.clearAllMocks();
+});
+
+afterAll(() => {
+  vi.resetAllMocks();
+});
 
 describe("addTableInfo", () => {
   it("should add a section with a paragraph containing the specified description", () => {
@@ -34,5 +49,22 @@ describe("addTableInfo", () => {
       PDF_MARGIN_HORIZONTAL,
       100,
     );
+  });
+
+  it("should call addNewPageInCaseMissingVerticalSpace once", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const andereErsatzverbindungBeschreibung = "Sample description";
+    const tableEndYPosition = 100;
+
+    addTableInfo(
+      mockDoc,
+      mockStruct,
+      andereErsatzverbindungBeschreibung,
+      tableEndYPosition,
+    );
+
+    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(1);
   });
 });
