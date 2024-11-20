@@ -36,15 +36,8 @@ export function compileAllStrapiPages(
 
 /**
  * Helper Function to recursively retrieve all keys from a zod schema
- * @param schema Zod schema to traverse
- * @returns array of string keys
- * @example zodKeys(
- *            z.object({
- *              a: z.string(),
- *              b: z.number(),
- *              c: z.object({ d: z.string() }),
- *              e: z.array({ f: z.string() })
- *          })) => ['a', 'b', 'c.d', 'e#f']
+ * Massive if branching is needed, as Zod has different ways of encoding
+ * a schema's keys for each data type
  */
 export function zodKeys<T extends z.ZodTypeAny>(schema: T): string[] {
   // make sure schema is not null or undefined
@@ -91,14 +84,12 @@ export function getAllPossibleStates(flow: Flow) {
   ) {
     for (const state in states) {
       if (ignoreList.includes(state)) continue;
+      const stateString = `${path}/${state.replace(/^ergebnis\//, "")}`;
       if (!states[state].initial) {
-        allPossibleStates.push(`${path}/${state.replace(/^ergebnis\//, "")}`);
+        allPossibleStates.push(stateString);
       }
       if (states[state].states) {
-        _getAllPossibleStates(
-          states[state].states,
-          `${path}/${state.replace(/^ergebnis\//, "")}`,
-        );
+        _getAllPossibleStates(states[state].states, stateString);
       }
     }
   }
