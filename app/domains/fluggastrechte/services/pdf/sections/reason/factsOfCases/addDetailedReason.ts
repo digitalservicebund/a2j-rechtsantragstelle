@@ -16,9 +16,9 @@ export const CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT =
 export const ATTACHMENT_CONFIRM_BOOKING_TEXT =
   "Beweis: Anlage Buchungsbestätigung";
 export const PLAINTIFF_ON_TIME_TEXT =
-  "Die klagende Partei war pünktlich zum Check-in.";
+  "Die klagende Partei war pünktlich zum Check-in und Boarding.";
 export const PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT =
-  "Die klagende Partei und die weiteren Fluggäste waren pünktlich zum Check-in.";
+  "Die klagende Partei und die weiteren Fluggäste waren pünktlich zum Check-in und Boarding.";
 export const MARGIN_RIGHT = 10;
 
 const bereichMappingText = {
@@ -118,6 +118,7 @@ export const addDetailedReason = (
         .font(FONTS_BUNDESSANS_REGULAR)
         .fontSize(10)
         .text(getConfirmationBookingText(userData))
+        .moveDown(0.5)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(
           ATTACHMENT_CONFIRM_BOOKING_TEXT,
