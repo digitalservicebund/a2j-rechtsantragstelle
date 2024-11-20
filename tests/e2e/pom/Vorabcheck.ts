@@ -6,7 +6,6 @@ export class Vorabcheck {
   readonly url: string = "";
   readonly initialStep: string = "";
   readonly nextButtonName = "_action";
-  readonly isValidUrl = (url: URL) => url.toString().includes(this.url);
 
   constructor(page: Page) {
     this.page = page;
@@ -30,7 +29,14 @@ export class Vorabcheck {
   async clickNext() {
     await this.page.locator(`button[name="${this.nextButtonName}"]`).click();
     await this.page.waitForLoadState("load");
-    await this.page.waitForURL(this.isValidUrl);
+    /**
+     * waitForNavigation() is 'deprecated' (not actually, just discouraged) for its inherent raciness.
+     * However, as we don't know what the next page's url is going to be beforehand,
+     * we can't drop-in the replacement waitForURL().
+     *
+     * see https://github.com/microsoft/playwright/issues/20853 for a discussion,
+     */
+    await this.page.waitForNavigation();
   }
 
   async clickNextWithoutJavaScript() {
