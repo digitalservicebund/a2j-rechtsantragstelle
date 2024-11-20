@@ -8,14 +8,15 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 import { addMultiplePersonsInfo } from "./addMultiplePersonsInfo";
+import { addOtherDetailsItinerary } from "./addOtherDetailsItinerary";
+import { getStartYPosition } from "./getStartYPosition";
+import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 
 const COMPENSATION_PAYMENT_TEXT =
   "gemäß Art. 7 der Fluggastrechteverordnung (EG) 261/2004 von der beklagten Partei mit einer Frist zum Datum der Frist ein. Die beklagte Partei hat jedoch bisher keine Zahlung geleistet.";
 export const DEMANDED_COMPENSATION_PAYMENT_TEXT = `Die klagende Partei forderte außergerichtlich die Ausgleichszahlung ${COMPENSATION_PAYMENT_TEXT}`;
 export const OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT = `Die klagende Partei sowie die weiteren betroffenen Fluggäste, forderten außergerichtlich die Ausgleichszahlungen ${COMPENSATION_PAYMENT_TEXT}`;
-export const OTHER_DETAILS_ITINERARY = "Weitere Angaben zum Reiseverlauf:";
 export const ARTICLE_AIR_PASSENGER_REGULATION_TEXT =
   "Damit ergibt sich nach Art. 7 der Fluggastrechteverordnung (EG) 261/2004 eine Entschädigung in Höhe von";
 export const PLAINTIFF_WITNESSES_TEXT =
@@ -51,33 +52,6 @@ const getDistanceText = (userData: FluggastrechtContext): string => {
   return `${distanceText} pro Person, insgesamt aus eigenem und abgetretenem Recht damit eine Gesamtsumme von ${compensationTotalAmountValue} €.`;
 };
 
-// check if should use the current Y position before to use the compensation start y position
-const getStartYPosition = (
-  compensationStartYPosition: number,
-  currentYPosition: number,
-) => {
-  return currentYPosition < 150 ? currentYPosition : compensationStartYPosition;
-};
-
-const addOtherDetailsItinerary = (
-  doc: typeof PDFDocument,
-  compensationStartYPosition: number,
-  zusaetzlicheAngaben?: string,
-) => {
-  if (
-    typeof zusaetzlicheAngaben !== "undefined" &&
-    zusaetzlicheAngaben.length > 0
-  ) {
-    doc.text(
-      OTHER_DETAILS_ITINERARY,
-      PDF_MARGIN_HORIZONTAL,
-      getStartYPosition(compensationStartYPosition, doc.y), // start to print this text from this line
-    );
-
-    doc.text(zusaetzlicheAngaben).moveDown(1);
-  }
-};
-
 const getYPositionDistanceText = (
   doc: typeof PDFDocument,
   compensationStartYPosition: number,
@@ -100,8 +74,6 @@ export const addCompensationAmount = (
   compensationSect.add(
     doc.struct("P", {}, () => {
       doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
-
-      addNewPageInCaseMissingVerticalSpace(doc);
 
       addOtherDetailsItinerary(
         doc,

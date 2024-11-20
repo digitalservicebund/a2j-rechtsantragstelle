@@ -14,12 +14,12 @@ import {
   addCompensationAmount,
   ARTICLE_AIR_PASSENGER_REGULATION_TEXT,
   DEMANDED_COMPENSATION_PAYMENT_TEXT,
-  OTHER_DETAILS_ITINERARY,
   OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT,
   PLAINTIFF_WITNESSES_MULTIPLE_PERSONS_TEXT,
   PLAINTIFF_WITNESSES_TEXT,
 } from "../addCompensationAmount";
 import { addMultiplePersonsInfo } from "../addMultiplePersonsInfo";
+import { addOtherDetailsItinerary } from "../addOtherDetailsItinerary";
 
 vi.mock("~/domains/fluggastrechte/services/airports/getCompensationPayment");
 vi.mock("~/domains/fluggastrechte/services/airports/getAirportNameByIataCode");
@@ -28,6 +28,7 @@ vi.mock(
 );
 vi.mock("../../../addNewPageInCaseMissingVerticalSpace");
 vi.mock("../addMultiplePersonsInfo");
+vi.mock("../addOtherDetailsItinerary");
 
 const distanceValueMock = 100;
 
@@ -54,6 +55,8 @@ vi.mocked(addNewPageInCaseMissingVerticalSpace).mockImplementation(() =>
   vi.fn(),
 );
 
+vi.mocked(addOtherDetailsItinerary).mockImplementation(() => vi.fn());
+
 afterEach(() => {
   vi.clearAllMocks();
 });
@@ -63,48 +66,13 @@ afterAll(() => {
 });
 
 describe("addCompensationAmount", () => {
-  it("should have the text for other details itinerary in case the zusaetzlicheAngaben is defined ", () => {
+  it("should call addOtherDetailsItinerary", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     addCompensationAmount(mockDoc, mockStruct, userDataMock, 0);
 
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      OTHER_DETAILS_ITINERARY,
-      PDF_MARGIN_HORIZONTAL,
-      expect.anything(),
-    );
-
-    expect(mockDoc.text).toHaveBeenCalledWith(userDataMock.zusaetzlicheAngaben);
-  });
-
-  it("should not have the text for other details itinerary in case zusaetzlicheAngaben is not defined", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    const userDataWithoutZusaetzlicheAngaben = {
-      ...userDataMock,
-      zusaetzlicheAngaben: undefined,
-    };
-
-    addCompensationAmount(
-      mockDoc,
-      mockStruct,
-      userDataWithoutZusaetzlicheAngaben,
-      0,
-    );
-
-    expect(mockDoc.text).not.toHaveBeenCalledWith(
-      OTHER_DETAILS_ITINERARY,
-      PDF_MARGIN_HORIZONTAL,
-      expect.anything(),
-    );
-
-    expect(mockDoc.text).not.toHaveBeenCalledWith(
-      userDataMock.zusaetzlicheAngaben,
-      PDF_MARGIN_HORIZONTAL,
-      expect.anything(),
-    );
+    expect(addOtherDetailsItinerary).toBeCalledTimes(1);
   });
 
   it("should have the text for demanded compensation payment in case claim is for one person ", () => {
@@ -220,7 +188,7 @@ describe("addCompensationAmount", () => {
     expect(mockDoc.text).not.toHaveBeenCalledWith(PLAINTIFF_WITNESSES_TEXT);
   });
 
-  it("should call addNewPageInCaseMissingVerticalSpace four times in case the hasZeugen is yes ", () => {
+  it("should call addNewPageInCaseMissingVerticalSpace three times in case the hasZeugen is yes ", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -231,10 +199,10 @@ describe("addCompensationAmount", () => {
 
     addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
 
-    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(4);
+    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(3);
   });
 
-  it("should call addNewPageInCaseMissingVerticalSpace three times in case the hasZeugen is no", () => {
+  it("should call addNewPageInCaseMissingVerticalSpace two times in case the hasZeugen is no", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -245,7 +213,7 @@ describe("addCompensationAmount", () => {
 
     addCompensationAmount(mockDoc, mockStruct, userDataHasZeugenMock, 0);
 
-    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(3);
+    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(2);
   });
 
   it("should call addMultiplePersonsInfo once", () => {
