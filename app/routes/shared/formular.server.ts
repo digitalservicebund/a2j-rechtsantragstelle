@@ -239,6 +239,7 @@ export const loader = async ({
   return json(
     {
       arraySummaryData,
+      prunedUserData,
       buttonNavigationProps,
       content: cmsContent.content,
       csrf,

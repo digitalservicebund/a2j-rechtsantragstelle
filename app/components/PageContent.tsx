@@ -3,7 +3,6 @@ import Heading from "~/components/Heading";
 import Video from "~/components/video/Video";
 import { StrapiDetailsSummary } from "~/services/cms/components/StrapiDetailsSummary";
 import { StrapiInlineNotice } from "~/services/cms/components/StrapiInlineNotice";
-import { getSummaryDataOverviewProps } from "~/services/cms/components/StrapiSummaryDataOverview";
 import { StrapiUserFeedback } from "~/services/cms/components/StrapiUserFeedback";
 import { getBoxProps } from "~/services/cms/models/StrapiBox";
 import { getBoxWithImageProps } from "~/services/cms/models/StrapiBoxWithImage";
@@ -25,7 +24,6 @@ import InfoBox from "./InfoBox";
 import LinkListBox from "./LinkListBox";
 import List from "./List";
 import RichText from "./RichText";
-import SummaryDataOverview from "./SummaryDataOverview";
 import { keyFromElement } from "../services/cms/keyFromElement";
 
 function wrapInContainer(
@@ -86,10 +84,6 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
       return <StrapiDetailsSummary {...strapiContent} />;
     case "page.user-feedback":
       return <StrapiUserFeedback {...strapiContent} />;
-    case "page.summary-data-overview":
-      return (
-        <SummaryDataOverview {...getSummaryDataOverviewProps(strapiContent)} />
-      );
     default:
       return <></>;
   }
