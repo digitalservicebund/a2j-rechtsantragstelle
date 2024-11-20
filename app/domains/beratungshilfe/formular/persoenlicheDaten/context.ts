@@ -1,3 +1,4 @@
+import omit from "lodash/omit";
 import { z } from "zod";
 import {
   persoenlicheDaten,
@@ -5,7 +6,7 @@ import {
 } from "~/domains/shared/formular/persoenlicheDaten/context";
 
 export const beratungshilfePersoenlicheDaten = {
-  ...persoenlicheDaten,
+  ...omit(persoenlicheDaten, ["anrede", "title"]),
   geburtsdatum,
 };
 

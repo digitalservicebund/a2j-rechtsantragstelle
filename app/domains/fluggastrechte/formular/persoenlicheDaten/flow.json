@@ -1,12 +1,7 @@
 {
   "id": "persoenliche-daten",
-  "initial": "start",
+  "initial": "person",
   "states": {
-    "start": {
-      "on": {
-        "SUBMIT": "person"
-      }
-    },
     "person": {
       "id": "person",
       "initial": "daten",
