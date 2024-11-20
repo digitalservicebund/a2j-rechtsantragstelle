@@ -7,11 +7,9 @@ const cases = [
   [
     {
       hasRsv: "no",
-      hasRsvThroughOrg: "no",
     },
     [prefix + "rsv-frage", prefix + "org-frage"],
   ],
-
   [
     {
       hasRsv: "yes",
@@ -21,34 +19,21 @@ const cases = [
   ],
   [
     {
-      hasRsv: "yes",
       hasRsvCoverage: "unknown",
     },
-    [
-      prefix + "rsv-frage",
-      prefix + "rsv-deckung",
-      prefix + "rsv-deckung-unbekannt",
-    ],
+    [prefix + "rsv-deckung", prefix + "rsv-deckung-unbekannt"],
   ],
   [
     {
-      hasRsv: "yes",
       hasRsvCoverage: "no",
     },
-    [
-      prefix + "rsv-frage",
-      prefix + "rsv-deckung",
-      prefix + "rsv-deckung-nein",
-      prefix + "org-frage",
-    ],
+    [prefix + "rsv-deckung", prefix + "rsv-deckung-nein", prefix + "org-frage"],
   ],
   [
     {
-      hasRsv: "yes",
       hasRsvCoverage: "partly",
     },
     [
-      prefix + "rsv-frage",
       prefix + "rsv-deckung",
       prefix + "rsv-deckung-teilweise",
       prefix + "org-frage",
@@ -56,20 +41,17 @@ const cases = [
   ],
   [
     {
-      hasRsv: "no",
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "no",
     },
-    [prefix + "rsv-frage", prefix + "org-frage", prefix + "org-deckung"],
+    [prefix + "org-frage", prefix + "org-deckung", prefix + "org-deckung-nein"],
   ],
   [
     {
-      hasRsv: "no",
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "unknown",
     },
     [
-      prefix + "rsv-frage",
       prefix + "org-frage",
       prefix + "org-deckung",
       prefix + "org-deckung-unbekannt",
@@ -77,38 +59,24 @@ const cases = [
   ],
   [
     {
-      hasRsv: "no",
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "yes",
     },
-    [
-      prefix + "rsv-frage",
-      prefix + "org-frage",
-      prefix + "org-deckung",
-      prefix + "org-deckung-ja",
-    ],
+    [prefix + "org-frage", prefix + "org-deckung", prefix + "org-deckung-ja"],
   ],
   [
     {
-      hasRsv: "no",
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "no",
     },
-    [
-      prefix + "rsv-frage",
-      prefix + "org-frage",
-      prefix + "org-deckung",
-      prefix + "org-deckung-nein",
-    ],
+    [prefix + "org-frage", prefix + "org-deckung", prefix + "org-deckung-nein"],
   ],
   [
     {
-      hasRsv: "no",
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "partly",
     },
     [
-      prefix + "rsv-frage",
       prefix + "org-frage",
       prefix + "org-deckung",
       prefix + "org-deckung-teilweise",
