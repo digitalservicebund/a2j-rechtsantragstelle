@@ -5,8 +5,9 @@ const MAX_VERTICAL_SPACE = PDF_HEIGHT_SEIZE - 90;
 
 export const addNewPageInCaseMissingVerticalSpace = (
   doc: typeof PDFDocument,
+  extraYPosition = 0,
 ): void => {
-  if (doc.y >= MAX_VERTICAL_SPACE) {
+  if (doc.y + extraYPosition >= MAX_VERTICAL_SPACE) {
     doc.addPage();
   }
 };

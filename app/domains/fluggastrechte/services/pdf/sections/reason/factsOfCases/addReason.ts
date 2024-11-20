@@ -7,6 +7,8 @@ import {
 
 export const PLAINTIFF_BOOKED_TEXT =
   "Die klagende Partei buchte den folgenden Flug";
+export const PLAINTIFF_BOOKED_MULTIPLE_PERSONS_TEXT =
+  "Die klagende Partei buchte gemeinsam mit weiteren Fluggästen den folgenden Flug";
 export const ARTICLE_DELAY_CANCEL_TEXT = "der ";
 export const ARTICLE_NOT_MOVE_TEXT = "und wurde ";
 export const DELAY_TEXT = "nicht pünktlich ausgeführt ";
@@ -14,6 +16,16 @@ export const CANCEL_TEXT = "annulliert ";
 export const NOT_MOVE_TEXT =
   "und wurde von der beklagten Partei nicht befördert";
 export const PASSIVE_VERB_TEXT = "wurde: ";
+
+const getPlaintiffBookedText = ({
+  isWeiterePersonen,
+}: FluggastrechtContext) => {
+  if (isWeiterePersonen === "yes") {
+    return PLAINTIFF_BOOKED_MULTIPLE_PERSONS_TEXT;
+  }
+
+  return PLAINTIFF_BOOKED_TEXT;
+};
 
 const getBereichArticleText = ({ bereich }: FluggastrechtContext) => {
   if (bereich === "nichtbefoerderung") {
@@ -50,7 +62,7 @@ export const addReason = (
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
-        .text(PLAINTIFF_BOOKED_TEXT, {
+        .text(getPlaintiffBookedText(userData), {
           continued: true,
         })
         .text(getBereichArticleText(userData), {
