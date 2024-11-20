@@ -86,38 +86,38 @@ const renderMigrationValue = (
 };
 
 type CardProps = {
-  title: string;
   data: Context | undefined;
+  subtitle?: string;
+  title: string;
 };
 
-const Card = ({ data, title }: CardProps) => {
+const Card = ({ data, title, subtitle }: CardProps) => {
   if (!data) return;
   return (
-    <>
-      <Heading
-        text={title}
-        tagName="p"
-        look="ds-label-01-bold"
-        dataTestid="migration-field-value"
-      />
-      <div className="first:pt-0 scroll-my-40">
-        <div className="space-y-16 bg-white pt-32 pb-44 px-32">
-          {Object.entries(data).map(([key, value]) => {
-            return (
-              <div key={key} className="first:pt-0 scroll-my-40">
-                <Heading
-                  text={key}
-                  tagName="p"
-                  look="ds-label-01-bold"
-                  dataTestid="migration-field-value"
-                />
-                {value as string}
-              </div>
-            );
-          })}
-        </div>
+    <div className="first:pt-0 scroll-my-40">
+      <div className="space-y-16 bg-white pt-32 pb-44 px-32">
+        <Heading
+          text={title}
+          tagName="p"
+          look="ds-label-01-bold"
+          dataTestid="migration-field-value"
+        />
+        {subtitle}
+        {Object.entries(data).map(([key, value]) => {
+          return (
+            <div key={key} className="first:pt-0 scroll-my-40">
+              <Heading
+                text={key}
+                tagName="p"
+                look="ds-label-01-bold"
+                dataTestid="migration-field-value"
+              />
+              {value as string}
+            </div>
+          );
+        })}
       </div>
-    </>
+    </div>
   );
 };
 
@@ -162,6 +162,15 @@ export default function SummaryDataOverview({
         <Card
           title="Verspäteter Flug"
           data={{ anschlussFlugVerpasst: userData.anschlussFlugVerpasst }}
+        />
+      )}
+      {userData.tatsaechlicherFlug === "yes" && (
+        <Card
+          title="Tatsächliche Ankunft"
+          subtitle="(Mit dem ursprünglich geplanten Flug)"
+          data={{
+            Ankunft: `${userData.tatsaechlicherAnkunftsDatum} - ${userData.tatsaechlicherAnkunftsZeit}`,
+          }}
         />
       )}
     </>
