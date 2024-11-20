@@ -8,6 +8,6 @@ describe("arrayIsNonEmpty", () => {
     expect(arrayIsNonEmpty([])).toBe(false);
   });
   it("returns false if array is undefined", () => {
-    expect(arrayIsNonEmpty(undefined)).toBe(false);
+    expect(arrayIsNonEmpty()).toBe(false);
   });
 });
