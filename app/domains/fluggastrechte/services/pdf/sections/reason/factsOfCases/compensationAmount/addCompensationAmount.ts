@@ -10,6 +10,7 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { addMultiplePersonsInfo } from "./addMultiplePersonsInfo";
 import { addOtherDetailsItinerary } from "./addOtherDetailsItinerary";
+import { addWitnessesInfo } from "./addWitnessesInfo";
 import { getStartYPosition } from "./getStartYPosition";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 
@@ -19,10 +20,6 @@ export const DEMANDED_COMPENSATION_PAYMENT_TEXT = `Die klagende Partei forderte 
 export const OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT = `Die klagende Partei sowie die weiteren betroffenen Fluggäste, forderten außergerichtlich die Ausgleichszahlungen ${COMPENSATION_PAYMENT_TEXT}`;
 export const ARTICLE_AIR_PASSENGER_REGULATION_TEXT =
   "Damit ergibt sich nach Art. 7 der Fluggastrechteverordnung (EG) 261/2004 eine Entschädigung in Höhe von";
-export const PLAINTIFF_WITNESSES_TEXT =
-  "Zum Beweis dieses Sachverhalts wird die klagende Partei im Prozessverlauf bei Bedarf Zeugen benennen.";
-export const PLAINTIFF_WITNESSES_MULTIPLE_PERSONS_TEXT =
-  "Zum Beweis dieses Sachverhalts wird die klagende Partei im Prozessverlauf bei Bedarf weitere Zeugen benennen.";
 
 const getDistanceText = (userData: FluggastrechtContext): string => {
   const startAirportName = getAirportNameByIataCode(userData.startAirport);
@@ -83,17 +80,17 @@ export const addCompensationAmount = (
 
       addNewPageInCaseMissingVerticalSpace(doc);
 
-      doc.text(
-        getDistanceText(userData),
-        PDF_MARGIN_HORIZONTAL,
-        getYPositionDistanceText(
-          doc,
-          compensationStartYPosition,
-          userData.zusaetzlicheAngaben,
-        ),
-      );
-
-      doc.moveDown(1);
+      doc
+        .text(
+          getDistanceText(userData),
+          PDF_MARGIN_HORIZONTAL,
+          getYPositionDistanceText(
+            doc,
+            compensationStartYPosition,
+            userData.zusaetzlicheAngaben,
+          ),
+        )
+        .moveDown(1);
 
       addNewPageInCaseMissingVerticalSpace(doc);
 
@@ -105,13 +102,7 @@ export const addCompensationAmount = (
 
       addMultiplePersonsInfo(doc, userData);
 
-      if (userData.hasZeugen === "yes") {
-        addNewPageInCaseMissingVerticalSpace(doc);
-        doc.text(
-          `${userData.isWeiterePersonen === "no" ? PLAINTIFF_WITNESSES_TEXT : PLAINTIFF_WITNESSES_MULTIPLE_PERSONS_TEXT}`,
-          PDF_MARGIN_HORIZONTAL,
-        );
-      }
+      addWitnessesInfo(doc, userData);
 
       doc.moveDown(2);
     }),
