@@ -44,12 +44,6 @@ const getKlagendePerson = (userData: Context) => {
   };
 };
 
-const getWeiterePersonen = (userData: Context) => {
-  return {
-    weiterePersonen: userData.weiterePersonen,
-  };
-};
-
 const getFlugDaten = (userData: Context) => {
   return {
     Flugnummer: userData.direktFlugnummer,
@@ -83,40 +77,136 @@ const renderMigrationValue = (
   return translation;
 };
 
+const formatTextWithBreaks = (text: string) =>
+  text.split("\n").map((line) => (
+    <>
+      {line}
+      <br />
+    </>
+  ));
+
 type CardProps = {
   data: Context | undefined;
   subtitle?: string;
-  title: string;
+  title?: string;
+  showVariableName?: boolean;
 };
 
-const Card = ({ data, title, subtitle }: CardProps) => {
+const Card = ({
+  data,
+  title,
+  subtitle,
+  showVariableName = true,
+}: CardProps) => {
   if (!data) return;
   return (
     <div className="first:pt-0 scroll-my-40">
       <div className="space-y-16 bg-white pt-32 pb-44 px-32">
-        <Heading
-          text={title}
-          tagName="p"
-          look="ds-heading-03-bold"
-          dataTestid="migration-field-value"
-        />
+        {title && (
+          <Heading
+            text={title}
+            tagName="p"
+            look="ds-heading-03-bold"
+            dataTestid="migration-field-value"
+          />
+        )}
         {subtitle}
         {Object.entries(data).map(([key, value]) => {
           return (
             <div key={key} className="first:pt-0 scroll-my-40">
-              <Heading
-                text={key}
-                tagName="p"
-                look="ds-label-01-bold"
-                dataTestid="migration-field-value"
-              />
-              {value as string}
+              {showVariableName && (
+                <Heading
+                  text={key}
+                  tagName="p"
+                  look="ds-label-01-bold"
+                  dataTestid="migration-field-value"
+                />
+              )}
+              {formatTextWithBreaks(value as string)}
             </div>
           );
         })}
       </div>
     </div>
   );
+};
+
+type ZwischenstoppsProps = {
+  userData: Context | undefined;
+};
+
+const Zwischenstopps = ({ userData }: ZwischenstoppsProps) => {
+  if (!userData) return null;
+  return (
+    <>
+      <Card title="Zwischenstops" data={getZwischenStops(userData)} />
+      {userData.verspaeteterFlug && (
+        <Card
+          title="Betroffener Flug"
+          showVariableName={false}
+          data={{ verspaeteterFlug: userData.verspaeteterFlug }}
+        />
+      )}
+      {userData.anschlussFlugVerpasst && (
+        <Card
+          title="Verpasste Anschlussflüge"
+          data={{ anschlussFlugVerpasst: userData.anschlussFlugVerpasst }}
+        />
+      )}
+    </>
+  );
+};
+
+const TatsaechlicheAnkunft = ({ userData }: { userData: Context }) => {
+  if (userData.tatsaechlicherFlug === "yes") {
+    return (
+      <Card
+        title="Tatsächliche Ankunft"
+        subtitle="(Mit dem ursprünglich geplanten Flug)"
+        data={{
+          Ankunft: `${userData.tatsaechlicherAnkunftsDatum} - ${userData.tatsaechlicherAnkunftsZeit}`,
+        }}
+      />
+    );
+  }
+  if (userData.tatsaechlicherFlug === "no") {
+    if (userData.ersatzverbindungArt === "flug") {
+      return (
+        <Card
+          title="Tatsächliche Ankunft"
+          subtitle="(Mit einem anderen Flug)"
+          data={{
+            flugnummer: userData.ersatzFlugnummer,
+            ankunft: `${userData.ersatzFlugAnkunftsDatum} \n ${userData.ersatzFlugAnkunftsZeit}`,
+          }}
+        />
+      );
+    }
+    if (userData.ersatzverbindungArt === "etwasAnderes") {
+      return (
+        <Card
+          title="Tatsächliche Ankunft"
+          subtitle="(Mit Bahn, Bus oder anderen Verkehrsmitteln)"
+          data={{
+            andereErsatzverbindungBeschreibung:
+              userData.andereErsatzverbindungBeschreibung,
+            ankunft: `${userData.tatsaechlicherAnkunftsDatum} \n ${userData.tatsaechlicherAnkunftsZeit}`,
+          }}
+        />
+      );
+    }
+    if (userData.ersatzverbindungArt === "keineAnkunft") {
+      return (
+        <Card
+          title="Tatsächliche Ankunft"
+          showVariableName={false}
+          data={{
+            keineAnkunft: "gar nicht angekommen",
+          }}
+        />
+      );
+    }
+  }
 };
 
 export default function SummaryDataOverview({
@@ -129,6 +219,12 @@ export default function SummaryDataOverview({
   console.log({ translations });
   return (
     <>
+      <Heading
+        text="Weitere Angaben"
+        tagName="h2"
+        look="ds-heading-03-bold"
+        dataTestid="migration-field-value"
+      />
       <Card
         title="Weitere Angaben"
         data={{
@@ -139,7 +235,7 @@ export default function SummaryDataOverview({
       {/* all about Flugdaten */}
       <Heading
         text="Flugdaten"
-        tagName="h3"
+        tagName="p"
         look="ds-heading-03-bold"
         dataTestid="migration-field-value"
       />
@@ -147,35 +243,17 @@ export default function SummaryDataOverview({
         title="Ursprüngliche geplanter Flug"
         data={getFlugDaten(userData)}
       />
-      {getZwischenStops(userData) && (
-        <Card title="Zwischenstops" data={getZwischenStops(userData)} />
-      )}
-      {userData.verspaeteterFlug && (
-        <Card
-          title="Betroffener Flug"
-          data={{ verspaeteterFlug: userData.verspaeteterFlug }}
-        />
-      )}
-      {userData.anschlussFlugVerpasst && (
-        <Card
-          title="Verspäteter Flug"
-          data={{ anschlussFlugVerpasst: userData.anschlussFlugVerpasst }}
-        />
-      )}
-      {userData.tatsaechlicherFlug === "yes" && (
-        <Card
-          title="Tatsächliche Ankunft"
-          subtitle="(Mit dem ursprünglich geplanten Flug)"
-          data={{
-            Ankunft: `${userData.tatsaechlicherAnkunftsDatum} - ${userData.tatsaechlicherAnkunftsZeit}`,
-          }}
-        />
-      )}
+      {getZwischenStops(userData) && <Zwischenstopps userData={userData} />}
+      <TatsaechlicheAnkunft userData={userData} />
+      <Card
+        title="Zusätzliche Angaben zum Reiseverlauf"
+        data={{ zusätzlicheAngaben: userData.zusaetzlicheAngaben }}
+      />
 
       {/* {Personendaten} */}
       <Heading
         text="Persönliche Daten"
-        tagName="h3"
+        tagName="p"
         look="ds-heading-03-bold"
         dataTestid="migration-field-value"
       />
