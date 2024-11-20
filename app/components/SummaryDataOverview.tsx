@@ -55,10 +55,10 @@ const getWeiterePersonen = (userData: Context) => {
 const getFlugDaten = (userData: Context) => {
   return {
     Flugnummer: userData.direktFlugnummer,
-    buchung: userData.buchungsNummer,
-    abflug: `${userData.direktAbflugsDatum} - ${userData.direktAbflugsZeit}`,
-    ankunft: `${userData.direktAnkunftsDatum} - ${userData.direktAnkunftsZeit}`,
-    zwischenstop: userData.zwischenstoppAnzahl,
+    Buchungsnummer: userData.buchungsNummer,
+    Abflug: `${userData.direktAbflugsDatum} - ${userData.direktAbflugsZeit}`,
+    Ankunft: `${userData.direktAnkunftsDatum} - ${userData.direktAnkunftsZeit}`,
+    Zwischenstops: userData.zwischenstoppAnzahl,
   };
 };
 
@@ -99,7 +99,7 @@ const Card = ({ data, title, subtitle }: CardProps) => {
         <Heading
           text={title}
           tagName="p"
-          look="ds-label-01-bold"
+          look="ds-heading-03-bold"
           dataTestid="migration-field-value"
         />
         {subtitle}
@@ -141,8 +141,8 @@ export default function SummaryDataOverview({
       {/* all about Flugdaten */}
       <Heading
         text="Flugdaten"
-        tagName="h2"
-        look="ds-label-01-bold"
+        tagName="h3"
+        look="ds-heading-03-bold"
         dataTestid="migration-field-value"
       />
       <Card
