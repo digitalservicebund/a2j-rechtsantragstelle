@@ -65,6 +65,26 @@ describe("createBankInformation", () => {
     );
   });
 
+  it("should default to vorname and nachname if account holder has empty space string", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const userDataNoAccountHolder = {
+      ...userDataMock,
+      kontoinhaber: " ",
+      vorname: "Max",
+      nachname: "Mustermann",
+    };
+
+    createBankInformation(mockDoc, mockStruct, userDataNoAccountHolder);
+
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Kontoinhaber: Mustermann, Max | IBAN: DE68500123456789000000",
+      expect.anything(),
+      expect.anything(),
+    );
+  });
+
   it("should not add bank information if IBAN is missing", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
