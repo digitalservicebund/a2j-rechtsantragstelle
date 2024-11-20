@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/new-cap */
 import {
   conversions,
   gerbehIndex,
