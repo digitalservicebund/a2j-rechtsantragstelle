@@ -18,11 +18,15 @@ export const addPlannedFlightDetails = (
   userData: FluggastrechtContext,
 ) => {
   const compensationByDistance = getTotalCompensationClaim(userData);
-  doc.fontSize(12).font(FONTS_BUNDESSANS_BOLD).text(DUE_REASON_TEXT);
-  doc.font(FONTS_BUNDESSANS_BOLD).text(AFFECTED_FLIGHT_TEXT);
-  doc.moveDown(0.5);
   doc
+    .fontSize(12)
+    .font(FONTS_BUNDESSANS_BOLD)
+    .text(DUE_REASON_TEXT)
+    .moveDown(0.5)
+    .font(FONTS_BUNDESSANS_BOLD)
+    .text(AFFECTED_FLIGHT_TEXT)
     .fontSize(10)
+    .moveDown(0.2)
     .font(FONTS_BUNDESSANS_REGULAR)
     .text(FLIGHT_NUMBER_TEXT, { continued: true })
     .font(FONTS_BUNDESSANS_BOLD)
