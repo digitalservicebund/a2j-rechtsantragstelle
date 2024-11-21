@@ -188,7 +188,7 @@ function stepStates(
           : initialStepId;
 
       return {
-        url: `${state.machine.id}/${targetStepId}`,
+        url: `${state.machine.id}${targetStepId}`,
         isDone: hasDoneFunction ? meta.done!({ context }) : false,
         stepId,
         isReachable: reachableSteps.includes(targetStepId),
@@ -196,7 +196,7 @@ function stepStates(
     }
 
     return {
-      url: `${state.machine.id}/${stepId}`,
+      url: `${state.machine.id}${stepId}`,
       isDone: reachableSubStates.every((state) => state.isDone),
       stepId,
       isReachable: reachableSubStates.length > 0,
@@ -245,21 +245,19 @@ export const buildFlowController = ({
     },
     getPrevious: (stepId: string) => {
       const destination = nextStepId(machine, stepId, "BACK", context);
-      if (destination) return `${machine.id}/${destination}`;
+      if (destination) return `${machine.id}${destination}`;
     },
     getNext: (stepId: string) => {
       const destination = nextStepId(machine, stepId, "SUBMIT", context);
-      if (destination) return `${machine.id}/${destination}`;
+      if (destination) return `${machine.id}${destination}`;
     },
-    getInitial: () => `${flowId}/${getInitial(machine) ?? ""}`,
+    getInitial: () => `${flowId}${getInitial(machine) ?? ""}`,
     getProgress: (currentStepId: string) => {
       const { total, progressLookup } =
         flowId && flowId in vorabcheckProgresses
           ? vorabcheckProgresses[flowId]
           : progressLookupForMachine(machine);
-
-      const progress = progressLookup[`${flowId}.${currentStepId}`];
-      return { max: total, progress };
+      return { max: total, progress: progressLookup[currentStepId] };
     },
   };
 };

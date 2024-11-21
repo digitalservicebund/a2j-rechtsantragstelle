@@ -3,15 +3,15 @@ import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine"
 import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
 // unterhalt
 const finanzielleAngabenPartnerZusammenleben =
-  "finanzielle-angaben/partner/zusammenleben";
+  "/finanzielle-angaben/partner/zusammenleben";
 const finanzielleAngabenPartnerPartnerEinkommen =
-  "finanzielle-angaben/partner/partner-einkommen";
+  "/finanzielle-angaben/partner/partner-einkommen";
 const finanzielleAngabenPartnerUnterhalt =
-  "finanzielle-angaben/partner/unterhalt";
+  "/finanzielle-angaben/partner/unterhalt";
 const finanzielleAngabenPartnerPartnerschaft =
-  "finanzielle-angaben/partner/partnerschaft";
+  "/finanzielle-angaben/partner/partnerschaft";
 const finanzielleAngabenKinderKinderFrage =
-  "finanzielle-angaben/kinder/kinder-frage";
+  "/finanzielle-angaben/kinder/kinder-frage";
 const cases = [
   [
     {},
@@ -68,7 +68,7 @@ const cases = [
       finanzielleAngabenPartnerPartnerschaft,
       finanzielleAngabenPartnerZusammenleben,
       finanzielleAngabenPartnerPartnerEinkommen,
-      "finanzielle-angaben/partner/partner-einkommen-summe",
+      "/finanzielle-angaben/partner/partner-einkommen-summe",
       finanzielleAngabenKinderKinderFrage,
     ],
   ],
@@ -78,7 +78,7 @@ const cases = [
       finanzielleAngabenPartnerPartnerschaft,
       finanzielleAngabenPartnerZusammenleben,
       finanzielleAngabenPartnerUnterhalt,
-      "finanzielle-angaben/partner/keine-rolle",
+      "/finanzielle-angaben/partner/keine-rolle",
       finanzielleAngabenKinderKinderFrage,
     ],
   ],
@@ -88,8 +88,8 @@ const cases = [
       finanzielleAngabenPartnerPartnerschaft,
       finanzielleAngabenPartnerZusammenleben,
       finanzielleAngabenPartnerUnterhalt,
-      "finanzielle-angaben/partner/unterhalts-summe",
-      "finanzielle-angaben/partner/partner-name",
+      "/finanzielle-angaben/partner/unterhalts-summe",
+      "/finanzielle-angaben/partner/partner-name",
       finanzielleAngabenKinderKinderFrage,
     ],
   ],
@@ -101,7 +101,7 @@ const cases = [
       zusammenleben: "no",
     },
     [
-      "finanzielle-angaben/partner/partner-name",
+      "/finanzielle-angaben/partner/partner-name",
       finanzielleAngabenKinderKinderFrage,
     ],
   ],

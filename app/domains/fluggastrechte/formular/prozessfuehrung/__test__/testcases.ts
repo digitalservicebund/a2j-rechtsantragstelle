@@ -18,11 +18,11 @@ const cases = [
       videoverhandlung: "yes",
     },
     [
-      "prozessfuehrung/schriftliches-verfahren",
-      "prozessfuehrung/videoverhandlung",
-      "prozessfuehrung/versaeumnisurteil",
-      "prozessfuehrung/zahlung-nach-klageeinreichung",
-      "zusammenfassung/start",
+      "/prozessfuehrung/schriftliches-verfahren",
+      "/prozessfuehrung/videoverhandlung",
+      "/prozessfuehrung/versaeumnisurteil",
+      "/prozessfuehrung/zahlung-nach-klageeinreichung",
+      "/zusammenfassung/start",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;
