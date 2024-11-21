@@ -33,7 +33,7 @@ function SummaryDataOverviewCard({
   if (!data) return;
 
   return (
-    <div className="first:pt-0 scroll-my-40">
+    <div className="first:pt-0 scroll-my-40 !mt-8">
       <div className="space-y-16 bg-white pt-32 pb-44 px-32">
         {title && (
           <Heading
