@@ -5,6 +5,7 @@ import { sanatize } from "~/services/security/sanatizeHtml";
 import { StandaloneLink } from "./StandaloneLink";
 
 export const RichTextPropsSchema = z.object({
+  id: z.number().optional(),
   markdown: z.string(),
   className: z.string().optional(),
 });
@@ -35,6 +36,7 @@ const RichText = ({
   markdown,
   renderer,
   className,
+  id,
   ...props
 }: RichTextProps & {
   renderer?: Partial<Renderer>;
@@ -50,6 +52,7 @@ const RichText = ({
   return (
     <div
       {...props}
+      id={id?.toString()}
       className={`rich-text ds-stack-8 ${className ?? ""}`}
       dangerouslySetInnerHTML={{ __html: sanatize(html) }}
     />

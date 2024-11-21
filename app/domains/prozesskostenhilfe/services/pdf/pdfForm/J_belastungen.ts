@@ -1,3 +1,4 @@
+import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { ausgabenSituationMapping } from "~/domains/beratungshilfe/services/pdf/pdfForm/G_ausgaben";
 import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
@@ -17,7 +18,7 @@ export const fillBelastungen: PkhPdfFillFunction = ({
   }
 
   const belastungen = Object.entries(userData.besondereBelastungen)
-    .filter(([_, val]) => val === "on")
+    .filter(([_, val]) => val === CheckboxValue.on)
     .map(([key]) =>
       key in ausgabenSituationMapping
         ? ausgabenSituationMapping[key as keyof typeof ausgabenSituationMapping]
