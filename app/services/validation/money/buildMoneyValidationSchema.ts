@@ -18,7 +18,7 @@ export const buildMoneyValidationSchema = (
     .min(1, "required")
     .transform((v) => preprocessMoney(v))
     .refine((v) => validateMoney(v), { message: "wrong_format" })
-    .transform((v) => moneyToCents(v) as number)
+    .transform((v) => moneyToCents(v)!)
     .refine((v) => v >= (opts.min ?? Number.MIN_SAFE_INTEGER), {
       message: "too_little",
     })
