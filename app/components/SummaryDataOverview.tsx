@@ -227,7 +227,6 @@ export default function SummaryDataOverview({
         dataTestid="migration-field-value"
       />
       <Card
-        title="Weitere Angaben"
         data={{
           Prozesszinsen: userData.prozesszinsen,
         }}
