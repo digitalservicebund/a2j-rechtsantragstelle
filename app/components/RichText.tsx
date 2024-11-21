@@ -5,9 +5,7 @@ import { sanatize } from "~/services/security/sanatizeHtml";
 import { StandaloneLink } from "./StandaloneLink";
 
 export const RichTextPropsSchema = z.object({
-  id: z.number().optional(),
   markdown: z.string(),
-  className: z.string().optional(),
 });
 
 const CSS_HEADING_CLASSES = [
@@ -35,11 +33,12 @@ const defaultRenderer: Partial<Renderer> = {
 const RichText = ({
   markdown,
   renderer,
-  className,
-  id,
+  className = "",
   ...props
 }: RichTextProps & {
   renderer?: Partial<Renderer>;
+  id?: string;
+  className?: string;
 }) => {
   const marked = new Marked({
     renderer: renderer ?? defaultRenderer,
@@ -52,8 +51,7 @@ const RichText = ({
   return (
     <div
       {...props}
-      id={id?.toString()}
-      className={`rich-text ds-stack-8 ${className ?? ""}`}
+      className={`rich-text ds-stack-8 ${className}`}
       dangerouslySetInnerHTML={{ __html: sanatize(html) }}
     />
   );

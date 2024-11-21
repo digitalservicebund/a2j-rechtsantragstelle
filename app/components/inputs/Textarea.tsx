@@ -53,7 +53,7 @@ const Textarea = ({
         </InputLabel>
       )}
       {description && (
-        <RichText className={"ds-body-01-reg"} markdown={description} />
+        <RichText className="ds-body-01-reg" markdown={description} />
       )}
       {details && <DetailsSummary {...details} />}
       <textarea
