@@ -42,7 +42,7 @@ export function progressLookupForMachine(machine: FlowStateMachine) {
       });
   }
 
-  // Convert all keys from xstateId (machineId.state.substate) to stepId
+  // Convert all keys from xstateId (machineId.state.substate) to stepId (/state/substate)
   const progressLookupStepIds = Object.fromEntries(
     Object.entries(progressLookup).map(([key, val]) => [
       stateIdToStepId(key, machine.id),
