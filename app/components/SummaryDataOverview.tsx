@@ -1,6 +1,9 @@
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import type { Context } from "~/domains/contexts";
-import { type Translations } from "~/services/translations/getTranslationByKey";
+import {
+  getTranslationByKey,
+  type Translations,
+} from "~/services/translations/getTranslationByKey";
 import Button from "./Button";
 import Heading from "./Heading";
 
@@ -48,7 +51,10 @@ const getKlagendePerson = (userData: Context) => {
     strasseHausnummer: userData.strasseHausnummer,
     plz: userData.plz,
     ort: userData.ort,
-    ...(userData.telefonnummer && { telefonnummer: userData.telefonnummer }),
+    telefonnummer: userData.telefonnummer,
+    kontodaten: userData.iban
+      ? `${userData.iban} \n ${userData.kontoinhaber}`
+      : "",
   };
 };
 
@@ -76,6 +82,7 @@ type CardProps = {
   title?: string;
   showVariableName?: boolean;
   buttonUrl: string;
+  translations: Translations;
 };
 
 const Card = ({
@@ -84,8 +91,10 @@ const Card = ({
   subtitle,
   showVariableName = true,
   buttonUrl,
+  translations,
 }: CardProps) => {
   if (!data) return;
+
   return (
     <div className="first:pt-0 scroll-my-40">
       <div className="space-y-16 bg-white pt-32 pb-44 px-32">
@@ -100,17 +109,19 @@ const Card = ({
         {subtitle}
         {Object.entries(data).map(([key, value]) => {
           return (
-            <div key={key} className="first:pt-0 scroll-my-40">
-              {showVariableName && (
-                <Heading
-                  text={key}
-                  tagName="p"
-                  look="ds-label-01-bold"
-                  dataTestid="migration-field-value"
-                />
-              )}
-              {formatTextWithBreaks(value as string)}
-            </div>
+            value && (
+              <div key={key} className="first:pt-0 scroll-my-40">
+                {showVariableName && (
+                  <Heading
+                    text={getTranslationByKey(key, translations)}
+                    tagName="p"
+                    look="ds-label-01-bold"
+                    dataTestid="migration-field-value"
+                  />
+                )}
+                {formatTextWithBreaks(value as string)}
+              </div>
+            )
           );
         })}
         <Button
@@ -129,9 +140,10 @@ const Card = ({
 
 type ZwischenstoppsProps = {
   userData: Context | undefined;
+  translations: Translations;
 };
 
-const Zwischenstopps = ({ userData }: ZwischenstoppsProps) => {
+const Zwischenstopps = ({ userData, translations }: ZwischenstoppsProps) => {
   if (!userData) return null;
   return (
     <>
@@ -139,6 +151,7 @@ const Zwischenstopps = ({ userData }: ZwischenstoppsProps) => {
         title="Zwischenstops"
         data={getZwischenStops(userData)}
         buttonUrl={`/fluggastrechte/formular/flugdaten/zwischenstopp-uebersicht-${getAnzahlZwischenstopps(userData)}`}
+        translations={translations}
       />
       {userData.verspaeteterFlug && (
         <Card
@@ -146,6 +159,7 @@ const Zwischenstopps = ({ userData }: ZwischenstoppsProps) => {
           showVariableName={false}
           data={{ verspaeteterFlug: userData.verspaeteterFlug }}
           buttonUrl={`/fluggastrechte/formular/flugdaten/verspaeteter-flug-${getAnzahlZwischenstopps(userData)}`}
+          translations={translations}
         />
       )}
       {userData.anschlussFlugVerpasst && (
@@ -153,13 +167,20 @@ const Zwischenstopps = ({ userData }: ZwischenstoppsProps) => {
           title="Verpasste Anschlussflüge"
           data={{ anschlussFlugVerpasst: userData.anschlussFlugVerpasst }}
           buttonUrl="/fluggastrechte/formular/flugdaten/anschluss-flug-verpasst"
+          translations={translations}
         />
       )}
     </>
   );
 };
 
-const TatsaechlicheAnkunft = ({ userData }: { userData: Context }) => {
+const TatsaechlicheAnkunft = ({
+  userData,
+  translations,
+}: {
+  userData: Context;
+  translations: Translations;
+}) => {
   if (userData.tatsaechlicherFlug === "yes") {
     return (
       <Card
@@ -169,6 +190,7 @@ const TatsaechlicheAnkunft = ({ userData }: { userData: Context }) => {
         data={{
           Ankunft: `${userData.tatsaechlicherAnkunftsDatum} - ${userData.tatsaechlicherAnkunftsZeit}`,
         }}
+        translations={translations}
       />
     );
   }
@@ -183,6 +205,7 @@ const TatsaechlicheAnkunft = ({ userData }: { userData: Context }) => {
             ankunft: `${userData.ersatzFlugAnkunftsDatum} \n ${userData.ersatzFlugAnkunftsZeit}`,
           }}
           buttonUrl="/fluggastrechte/formular/flugdaten/anderer-flug-ankunft"
+          translations={translations}
         />
       );
     }
@@ -197,6 +220,7 @@ const TatsaechlicheAnkunft = ({ userData }: { userData: Context }) => {
             ankunft: `${userData.tatsaechlicherAnkunftsDatum} \n ${userData.tatsaechlicherAnkunftsZeit}`,
           }}
           buttonUrl="/fluggastrechte/formular/flugdaten/ersatzverbindung-beschreibung"
+          translations={translations}
         />
       );
     }
@@ -209,13 +233,17 @@ const TatsaechlicheAnkunft = ({ userData }: { userData: Context }) => {
             keineAnkunft: "gar nicht angekommen",
           }}
           buttonUrl="/fluggastrechte/formular/flugdaten/ersatzverbindung-art"
+          translations={translations}
         />
       );
     }
   }
 };
 
-export default function SummaryDataOverview({ userData }: SummaryDataProps) {
+export default function SummaryDataOverview({
+  userData,
+  translations,
+}: SummaryDataProps) {
   if (!userData || Object.keys(userData).length === 0) return null;
 
   return (
@@ -231,6 +259,7 @@ export default function SummaryDataOverview({ userData }: SummaryDataProps) {
         data={{
           Prozesszinsen: userData.prozesszinsen,
         }}
+        translations={translations}
       />
 
       {/* all about Flugdaten */}
@@ -244,13 +273,17 @@ export default function SummaryDataOverview({ userData }: SummaryDataProps) {
         buttonUrl="/fluggastrechte/formular/flugdaten/geplanter-flug"
         data={getFlugDaten(userData)}
         title="Ursprüngliche geplanter Flug"
+        translations={translations}
       />
-      {getZwischenStops(userData) && <Zwischenstopps userData={userData} />}
-      <TatsaechlicheAnkunft userData={userData} />
+      {getZwischenStops(userData) && (
+        <Zwischenstopps userData={userData} translations={translations} />
+      )}
+      <TatsaechlicheAnkunft userData={userData} translations={translations} />
       <Card
         buttonUrl="/fluggastrechte/formular/flugdaten/zusaetzliche-angaben"
         data={{ zusätzlicheAngaben: userData.zusaetzlicheAngaben }}
         title="Zusätzliche Angaben zum Reiseverlauf"
+        translations={translations}
       />
 
       {/* {Personendaten} */}
@@ -264,6 +297,7 @@ export default function SummaryDataOverview({ userData }: SummaryDataProps) {
         title="Klagende Person"
         data={getKlagendePerson(userData)}
         buttonUrl="/fluggastrechte/formular/persoenliche-daten/person/daten"
+        translations={translations}
       />
       {userData.weiterePersonen &&
         (userData.weiterePersonen as Context[]).map((person, idx) => {
@@ -273,6 +307,7 @@ export default function SummaryDataOverview({ userData }: SummaryDataProps) {
               title={`Weitere Personen ${idx + 2}`}
               data={person}
               buttonUrl={`/fluggastrechte/formular/persoenliche-daten/weitere-personen/person/${idx}/daten`}
+              translations={translations}
             />
           );
         })}
@@ -287,14 +322,17 @@ export default function SummaryDataOverview({ userData }: SummaryDataProps) {
       <Card
         data={{ schriftlichesVerfahren: userData.schriftlichesVerfahren }}
         buttonUrl="/fluggastrechte/formular/prozessfuehrung/schriftliches-verfahren"
+        translations={translations}
       />
       <Card
         data={{ videoverhandlung: userData.videoverhandlung }}
         buttonUrl="/fluggastrechte/formular/prozessfuehrung/videoverhandlung"
+        translations={translations}
       />
       <Card
         data={{ versaeumnisurteil: userData.versaeumnisurteil }}
         buttonUrl="/fluggastrechte/formular/prozessfuehrung/versaeumnisurteil"
+        translations={translations}
       />
     </>
   );
