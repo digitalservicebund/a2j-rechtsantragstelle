@@ -18,7 +18,7 @@ export const stateValueToStepIds = (stateValue: StateValue): string[] => {
   }
   return Object.entries(stateValue)
     .map(([key, value]) =>
-      stateValueToStepIds(value as StateValue).map((substate) =>
+      stateValueToStepIds(value!).map((substate) =>
         substate ? [key, substate].join("/") : key,
       ),
     )
