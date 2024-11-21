@@ -9,9 +9,9 @@ import { addWitnessesInfo } from "./addWitnessesInfo";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 
 const COMPENSATION_PAYMENT_TEXT =
-  "gemäß Art. 7 der Fluggastrechteverordnung (EG) 261/2004 von der beklagten Partei mit einer Frist zum Datum der Frist ein. Die beklagte Partei hat jedoch bisher keine Zahlung geleistet.";
+  "gemäß Art. 7 der Fluggastrechteverordnung (EG) 261/2004 von der beklagten Partei mit einer hinreichenden Frist von mindestens 2 Wochen ein. Die beklagte Partei hat jedoch trotz Fristablauf bisher keine Zahlung geleistet.";
 export const DEMANDED_COMPENSATION_PAYMENT_TEXT = `Die klagende Partei forderte außergerichtlich die Ausgleichszahlung ${COMPENSATION_PAYMENT_TEXT}`;
-export const OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT = `Die klagende Partei sowie die weiteren betroffenen Fluggäste, forderten außergerichtlich die Ausgleichszahlungen ${COMPENSATION_PAYMENT_TEXT}`;
+export const OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT = `Die klagende Partei, sowie die weiteren betroffenen Fluggäste, forderten außergerichtlich die Ausgleichszahlungen ${COMPENSATION_PAYMENT_TEXT}`;
 
 export const addCompensationAmount = (
   doc: typeof PDFDocument,
