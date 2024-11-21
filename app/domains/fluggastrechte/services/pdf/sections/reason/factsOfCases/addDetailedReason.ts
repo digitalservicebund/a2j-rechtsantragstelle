@@ -15,7 +15,7 @@ export const CONFIRM_BOOKING_TEXT = "Eine bestätigte Buchung liegt vor.";
 export const CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT =
   "Bestätigte Buchungen der klagenden Partei und der weiteren Fluggäste liegen vor.";
 export const ATTACHMENT_CONFIRM_BOOKING_TEXT =
-  "Beweis: Anlage Buchungsbestätigung";
+  "Beweis: Anlage Buchungsbestätigungen";
 export const PLAINTIFF_ON_TIME_TEXT =
   "Die klagende Partei war pünktlich zum Check-in und Boarding.";
 export const PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT =
@@ -89,7 +89,7 @@ const addMultiplePersonsText = (
       index,
     ) => {
       doc.text(
-        `${index + 2}. ${getFullPlaintiffName(anrede, title, vorname, nachname)}, ${strasseHausnummer}, ${plz}, ${ort}${getTextBookingNumber(buchungsnummer)}`,
+        `${index + 2}. ${getFullPlaintiffName(anrede, title, vorname, nachname)}, ${strasseHausnummer}, ${plz} ${ort}${getTextBookingNumber(buchungsnummer)}`,
       );
     },
   );
