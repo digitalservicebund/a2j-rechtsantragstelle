@@ -3,7 +3,7 @@ import { type CookieBannerContentProps } from "~/components/cookieBanner/CookieB
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
-import { StrapiHeadingSchema } from "./StrapiHeading";
+import { getHeadingProps, StrapiHeadingSchema } from "./StrapiHeading";
 import { getRichTextProps, StrapiParagraphSchema } from "./StrapiParagraph";
 
 export const StrapiCookieBannerSchema = z
@@ -25,7 +25,7 @@ export const getCookieBannerProps = (
   cmsData: StrapiCookieBanner,
 ): CookieBannerContentProps => {
   return {
-    heading: getRichTextProps(cmsData.heading),
+    heading: getHeadingProps(cmsData.heading),
     paragraphs: cmsData.paragraphs.map((p) => getRichTextProps(p)),
     acceptButtonLabel: cmsData.acceptButtonLabel,
     declineButtonLabel: cmsData.declineButtonLabel,
