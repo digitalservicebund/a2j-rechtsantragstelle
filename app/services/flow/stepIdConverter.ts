@@ -7,10 +7,10 @@ import type { StateValue } from "xstate";
 
 export const stepIdToPath = (stepId: string) =>
   stepId
+    .slice(1)
     .replaceAll("/", ".")
     .replace("ergebnis.", "ergebnis/")
-    .split(".")
-    .slice(1);
+    .split(".");
 
 export const stateValueToStepIds = (stateValue: StateValue): string[] => {
   if (typeof stateValue == "string") {

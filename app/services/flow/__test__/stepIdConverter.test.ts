@@ -42,7 +42,7 @@ describe("getStateValueString", () => {
 
 describe("stepIdToPath", () => {
   it.each([
-    ["", []],
+    ["", [""]],
     ["/a/b", ["a", "b"]],
     ["/a/b/c", ["a", "b", "c"]],
     ["/ergebnis/b/c", ["ergebnis/b", "c"]],
