@@ -31,11 +31,11 @@ const getZwischenStops = (zwischenstop: Context) => {
   ];
 };
 
-const getUrlZwischenstopps = (userData: Context) => {
+const getAnzahlZwischenstopps = (userData: Context) => {
   const stopps = {
-    oneStop: `/fluggastrechte/formular/flugdaten/zwischenstopp-uebersicht-1`,
-    twoStop: `/fluggastrechte/formular/flugdaten/zwischenstopp-uebersicht-2`,
-    threeStop: `/fluggastrechte/formular/flugdaten/zwischenstopp-uebersicht-3`,
+    oneStop: 1,
+    twoStop: 2,
+    threeStop: 3,
   };
   return stopps[userData.zwischenstoppAnzahl as keyof typeof stopps];
 };
@@ -129,25 +129,23 @@ const Card = ({
 
 type ZwischenstoppsProps = {
   userData: Context | undefined;
-  buttonUrl: string;
 };
 
-const Zwischenstopps = ({ userData, buttonUrl }: ZwischenstoppsProps) => {
+const Zwischenstopps = ({ userData }: ZwischenstoppsProps) => {
   if (!userData) return null;
-
   return (
     <>
       <Card
         title="Zwischenstops"
         data={getZwischenStops(userData)}
-        buttonUrl={buttonUrl}
+        buttonUrl={`/fluggastrechte/formular/flugdaten/zwischenstopp-uebersicht-${getAnzahlZwischenstopps(userData)}`}
       />
       {userData.verspaeteterFlug && (
         <Card
           title="Betroffener Flug"
           showVariableName={false}
           data={{ verspaeteterFlug: userData.verspaeteterFlug }}
-          buttonUrl={buttonUrl}
+          buttonUrl={`/fluggastrechte/formular/flugdaten/verspaeteter-flug-${getAnzahlZwischenstopps(userData)}`}
         />
       )}
       {userData.anschlussFlugVerpasst && (
@@ -167,7 +165,7 @@ const TatsaechlicheAnkunft = ({ userData }: { userData: Context }) => {
       <Card
         title="Tatsächliche Ankunft"
         subtitle="(Mit dem ursprünglich geplanten Flug)"
-        buttonUrl="/fluggastrechte/formular/streitwert-kosten/prozesszinsen"
+        buttonUrl="/fluggastrechte/formular/flugdaten/tatsaechlicher-flug-ankunft"
         data={{
           Ankunft: `${userData.tatsaechlicherAnkunftsDatum} - ${userData.tatsaechlicherAnkunftsZeit}`,
         }}
@@ -184,7 +182,7 @@ const TatsaechlicheAnkunft = ({ userData }: { userData: Context }) => {
             flugnummer: userData.ersatzFlugnummer,
             ankunft: `${userData.ersatzFlugAnkunftsDatum} \n ${userData.ersatzFlugAnkunftsZeit}`,
           }}
-          buttonUrl=""
+          buttonUrl="/fluggastrechte/formular/flugdaten/anderer-flug-ankunft"
         />
       );
     }
@@ -198,7 +196,7 @@ const TatsaechlicheAnkunft = ({ userData }: { userData: Context }) => {
               userData.andereErsatzverbindungBeschreibung,
             ankunft: `${userData.tatsaechlicherAnkunftsDatum} \n ${userData.tatsaechlicherAnkunftsZeit}`,
           }}
-          buttonUrl=""
+          buttonUrl="/fluggastrechte/formular/flugdaten/ersatzverbindung-beschreibung"
         />
       );
     }
@@ -210,7 +208,7 @@ const TatsaechlicheAnkunft = ({ userData }: { userData: Context }) => {
           data={{
             keineAnkunft: "gar nicht angekommen",
           }}
-          buttonUrl=""
+          buttonUrl="/fluggastrechte/formular/flugdaten/ersatzverbindung-art"
         />
       );
     }
@@ -247,12 +245,7 @@ export default function SummaryDataOverview({ userData }: SummaryDataProps) {
         data={getFlugDaten(userData)}
         title="Ursprüngliche geplanter Flug"
       />
-      {getZwischenStops(userData) && (
-        <Zwischenstopps
-          userData={userData}
-          buttonUrl={getUrlZwischenstopps(userData)}
-        />
-      )}
+      {getZwischenStops(userData) && <Zwischenstopps userData={userData} />}
       <TatsaechlicheAnkunft userData={userData} />
       <Card
         buttonUrl="/fluggastrechte/formular/flugdaten/zusaetzliche-angaben"
