@@ -2,15 +2,15 @@ import type { TestCases } from "~/domains/__test__/TestCases";
 import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine";
 import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
 
-const finanzielleAngabenStart = "finanzielle-angaben/einkommen/start";
+const finanzielleAngabenStart = "/finanzielle-angaben/einkommen/start";
 const finanzielleAngabenEinkommenStaatlicheLeistungen =
-  "finanzielle-angaben/einkommen/staatliche-leistungen";
-const persoenlicheDatenStart = "persoenliche-daten/start";
+  "/finanzielle-angaben/einkommen/staatliche-leistungen";
+const persoenlicheDatenStart = "/persoenliche-daten/start";
 const cases = [
   [
     {},
     [
-      "rechtsproblem/situation-beschreibung",
+      "/rechtsproblem/situation-beschreibung",
       finanzielleAngabenStart,
       finanzielleAngabenEinkommenStaatlicheLeistungen,
       persoenlicheDatenStart,
@@ -23,12 +23,12 @@ const cases = [
     [
       finanzielleAngabenStart,
       finanzielleAngabenEinkommenStaatlicheLeistungen,
-      "finanzielle-angaben/eigentum/eigentum-info",
-      "finanzielle-angaben/eigentum/bankkonten-frage",
-      "finanzielle-angaben/eigentum/geldanlagen-frage",
-      "finanzielle-angaben/eigentum/wertgegenstaende-frage",
-      "finanzielle-angaben/eigentum/grundeigentum-frage",
-      "finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
+      "/finanzielle-angaben/eigentum/eigentum-info",
+      "/finanzielle-angaben/eigentum/bankkonten-frage",
+      "/finanzielle-angaben/eigentum/geldanlagen-frage",
+      "/finanzielle-angaben/eigentum/wertgegenstaende-frage",
+      "/finanzielle-angaben/eigentum/grundeigentum-frage",
+      "/finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
       persoenlicheDatenStart,
     ],
   ],
@@ -44,13 +44,13 @@ const cases = [
     [
       finanzielleAngabenStart,
       finanzielleAngabenEinkommenStaatlicheLeistungen,
-      "finanzielle-angaben/eigentum/eigentum-info",
-      "finanzielle-angaben/eigentum/bankkonten-frage",
-      "finanzielle-angaben/eigentum/geldanlagen-frage",
-      "finanzielle-angaben/eigentum/wertgegenstaende-frage",
-      "finanzielle-angaben/eigentum/grundeigentum-frage",
-      "finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
-      "finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      "/finanzielle-angaben/eigentum/eigentum-info",
+      "/finanzielle-angaben/eigentum/bankkonten-frage",
+      "/finanzielle-angaben/eigentum/geldanlagen-frage",
+      "/finanzielle-angaben/eigentum/wertgegenstaende-frage",
+      "/finanzielle-angaben/eigentum/grundeigentum-frage",
+      "/finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
+      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
       persoenlicheDatenStart,
     ],
   ],
@@ -66,23 +66,23 @@ const cases = [
     { staatlicheLeistungen: "keine", erwerbstaetig: "yes" },
     [
       finanzielleAngabenEinkommenStaatlicheLeistungen,
-      "finanzielle-angaben/einkommen/erwerbstaetig",
-      "finanzielle-angaben/einkommen/art",
-      "finanzielle-angaben/einkommen/situation",
-      "finanzielle-angaben/einkommen/weiteres-einkommen",
-      "finanzielle-angaben/einkommen/einkommen",
-      "finanzielle-angaben/partner/partnerschaft",
+      "/finanzielle-angaben/einkommen/erwerbstaetig",
+      "/finanzielle-angaben/einkommen/art",
+      "/finanzielle-angaben/einkommen/situation",
+      "/finanzielle-angaben/einkommen/weiteres-einkommen",
+      "/finanzielle-angaben/einkommen/einkommen",
+      "/finanzielle-angaben/partner/partnerschaft",
     ],
   ],
   [
     { staatlicheLeistungen: "keine", erwerbstaetig: "no" },
     [
       finanzielleAngabenEinkommenStaatlicheLeistungen,
-      "finanzielle-angaben/einkommen/erwerbstaetig",
-      "finanzielle-angaben/einkommen/situation",
-      "finanzielle-angaben/einkommen/weiteres-einkommen",
-      "finanzielle-angaben/einkommen/einkommen",
-      "finanzielle-angaben/partner/partnerschaft",
+      "/finanzielle-angaben/einkommen/erwerbstaetig",
+      "/finanzielle-angaben/einkommen/situation",
+      "/finanzielle-angaben/einkommen/weiteres-einkommen",
+      "/finanzielle-angaben/einkommen/einkommen",
+      "/finanzielle-angaben/partner/partnerschaft",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

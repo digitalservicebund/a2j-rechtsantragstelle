@@ -23,10 +23,10 @@ const cases = [
       hasZeugen: "no",
     },
     [
-      "persoenliche-daten/person/daten",
-      "persoenliche-daten/weitere-personen/frage",
-      "persoenliche-daten/weitere-personen/zeugen",
-      "prozessfuehrung/schriftliches-verfahren",
+      "/persoenliche-daten/person/daten",
+      "/persoenliche-daten/weitere-personen/frage",
+      "/persoenliche-daten/weitere-personen/zeugen",
+      "/prozessfuehrung/schriftliches-verfahren",
     ],
   ],
   [
@@ -41,10 +41,10 @@ const cases = [
       hasZeugen: "no",
     },
     [
-      "persoenliche-daten/person/daten",
-      "persoenliche-daten/weitere-personen/frage",
-      "persoenliche-daten/weitere-personen/zeugen",
-      "prozessfuehrung/schriftliches-verfahren",
+      "/persoenliche-daten/person/daten",
+      "/persoenliche-daten/weitere-personen/frage",
+      "/persoenliche-daten/weitere-personen/zeugen",
+      "/prozessfuehrung/schriftliches-verfahren",
     ],
   ],
   [
@@ -69,11 +69,11 @@ const cases = [
       hasZeugen: "no",
     },
     [
-      "persoenliche-daten/person/daten",
-      "persoenliche-daten/weitere-personen/frage",
-      "persoenliche-daten/weitere-personen/uebersicht",
-      "persoenliche-daten/weitere-personen/zeugen",
-      "prozessfuehrung/schriftliches-verfahren",
+      "/persoenliche-daten/person/daten",
+      "/persoenliche-daten/weitere-personen/frage",
+      "/persoenliche-daten/weitere-personen/uebersicht",
+      "/persoenliche-daten/weitere-personen/zeugen",
+      "/prozessfuehrung/schriftliches-verfahren",
     ],
   ],
   [
@@ -98,11 +98,11 @@ const cases = [
       hasZeugen: "no",
     },
     [
-      "persoenliche-daten/person/daten",
-      "persoenliche-daten/weitere-personen/frage",
-      "persoenliche-daten/weitere-personen/uebersicht",
-      "persoenliche-daten/weitere-personen/zeugen",
-      "prozessfuehrung/schriftliches-verfahren",
+      "/persoenliche-daten/person/daten",
+      "/persoenliche-daten/weitere-personen/frage",
+      "/persoenliche-daten/weitere-personen/uebersicht",
+      "/persoenliche-daten/weitere-personen/zeugen",
+      "/prozessfuehrung/schriftliches-verfahren",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;

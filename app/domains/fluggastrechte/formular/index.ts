@@ -42,7 +42,7 @@ import zusammenfassungFlow from "./zusammenfassung/flow.json";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
-  eligibleSourcePages: ["ergebnis/erfolg"],
+  eligibleSourcePages: ["/ergebnis/erfolg"],
 };
 
 export const fluggastrechtFlow = {

@@ -3,12 +3,12 @@ import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine"
 import type { BeratungshilfeAnwaltlicheVertretung } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/context";
 import { addDays, today, toGermanDateFormat } from "~/util/date";
 
-const rechtsproblemStart = "rechtsproblem/start";
-const anwaltlicheVertretungStart = "anwaltliche-vertretung/start";
+const rechtsproblemStart = "/rechtsproblem/start";
+const anwaltlicheVertretungStart = "/anwaltliche-vertretung/start";
 const anwaltlicheVertretungBeratungStattgefunden =
-  "anwaltliche-vertretung/beratung-stattgefunden";
+  "/anwaltliche-vertretung/beratung-stattgefunden";
 const anwaltlicheVertretungBeratungStattgefundenDatum =
-  "anwaltliche-vertretung/beratung-stattgefunden-datum";
+  "/anwaltliche-vertretung/beratung-stattgefunden-datum";
 const cases = [
   [{}, [anwaltlicheVertretungStart, rechtsproblemStart]],
   [{ anwaltskanzlei: "no" }, [anwaltlicheVertretungStart, rechtsproblemStart]],
@@ -40,8 +40,8 @@ const cases = [
       anwaltlicheVertretungStart,
       anwaltlicheVertretungBeratungStattgefunden,
       anwaltlicheVertretungBeratungStattgefundenDatum,
-      "anwaltliche-vertretung/frist-hinweis",
-      "anwaltliche-vertretung/anwalt-kontaktdaten",
+      "/anwaltliche-vertretung/frist-hinweis",
+      "/anwaltliche-vertretung/anwalt-kontaktdaten",
       rechtsproblemStart,
     ],
   ],
@@ -55,8 +55,8 @@ const cases = [
       anwaltlicheVertretungStart,
       anwaltlicheVertretungBeratungStattgefunden,
       anwaltlicheVertretungBeratungStattgefundenDatum,
-      "anwaltliche-vertretung/frist-hinweis",
-      "anwaltliche-vertretung/anwalt-kontaktdaten",
+      "/anwaltliche-vertretung/frist-hinweis",
+      "/anwaltliche-vertretung/anwalt-kontaktdaten",
       rechtsproblemStart,
     ],
   ],
@@ -70,7 +70,7 @@ const cases = [
       anwaltlicheVertretungStart,
       anwaltlicheVertretungBeratungStattgefunden,
       anwaltlicheVertretungBeratungStattgefundenDatum,
-      "anwaltliche-vertretung/anwalt-ende",
+      "/anwaltliche-vertretung/anwalt-ende",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeAnwaltlicheVertretung>;

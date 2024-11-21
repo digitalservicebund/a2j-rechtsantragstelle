@@ -7,9 +7,9 @@ const erstAntragCase = [
       empfaenger: "anderePerson",
     },
     [
-      "antragstellende-person/empfaenger",
-      "antragstellende-person/zwei-formulare",
-      "rechtsschutzversicherung/rsv-frage",
+      "/antragstellende-person/empfaenger",
+      "/antragstellende-person/zwei-formulare",
+      "/rechtsschutzversicherung/rsv-frage",
     ],
   ],
   [
@@ -18,9 +18,9 @@ const erstAntragCase = [
       unterhaltsanspruch: "keine",
     },
     [
-      "antragstellende-person/empfaenger",
-      "antragstellende-person/unterhaltsanspruch",
-      "rechtsschutzversicherung/rsv-frage",
+      "/antragstellende-person/empfaenger",
+      "/antragstellende-person/unterhaltsanspruch",
+      "/rechtsschutzversicherung/rsv-frage",
     ],
   ],
   [
@@ -30,11 +30,11 @@ const erstAntragCase = [
       livesPrimarilyFromUnterhalt: "no",
     },
     [
-      "antragstellende-person/empfaenger",
-      "antragstellende-person/unterhaltsanspruch",
-      "antragstellende-person/unterhalt",
-      "antragstellende-person/unterhalt-hauptsaechliches-leben",
-      "rechtsschutzversicherung/rsv-frage",
+      "/antragstellende-person/empfaenger",
+      "/antragstellende-person/unterhaltsanspruch",
+      "/antragstellende-person/unterhalt",
+      "/antragstellende-person/unterhalt-hauptsaechliches-leben",
+      "/rechtsschutzversicherung/rsv-frage",
     ],
   ],
   [
@@ -44,13 +44,13 @@ const erstAntragCase = [
       livesPrimarilyFromUnterhalt: "yes",
     },
     [
-      "antragstellende-person/empfaenger",
-      "antragstellende-person/unterhaltsanspruch",
-      "antragstellende-person/unterhalt",
-      "antragstellende-person/unterhalt-hauptsaechliches-leben",
-      "antragstellende-person/unterhaltspflichtige-person",
-      "antragstellende-person/eigenes-exemplar",
-      "rechtsschutzversicherung/rsv-frage",
+      "/antragstellende-person/empfaenger",
+      "/antragstellende-person/unterhaltsanspruch",
+      "/antragstellende-person/unterhalt",
+      "/antragstellende-person/unterhalt-hauptsaechliches-leben",
+      "/antragstellende-person/unterhaltspflichtige-person",
+      "/antragstellende-person/eigenes-exemplar",
+      "/rechtsschutzversicherung/rsv-frage",
     ],
   ],
   [
@@ -60,10 +60,10 @@ const erstAntragCase = [
       couldLiveFromUnterhalt: "no",
     },
     [
-      "antragstellende-person/empfaenger",
-      "antragstellende-person/unterhaltsanspruch",
-      "antragstellende-person/unterhalt-leben-frage",
-      "rechtsschutzversicherung/rsv-frage",
+      "/antragstellende-person/empfaenger",
+      "/antragstellende-person/unterhaltsanspruch",
+      "/antragstellende-person/unterhalt-leben-frage",
+      "/rechtsschutzversicherung/rsv-frage",
     ],
   ],
   [
@@ -73,19 +73,19 @@ const erstAntragCase = [
       couldLiveFromUnterhalt: "yes",
     },
     [
-      "antragstellende-person/empfaenger",
-      "antragstellende-person/unterhaltsanspruch",
-      "antragstellende-person/unterhalt-leben-frage",
-      "antragstellende-person/unterhaltspflichtige-person-beziehung",
-      "antragstellende-person/warum-keiner-unterhalt",
-      "rechtsschutzversicherung/rsv-frage",
+      "/antragstellende-person/empfaenger",
+      "/antragstellende-person/unterhaltsanspruch",
+      "/antragstellende-person/unterhalt-leben-frage",
+      "/antragstellende-person/unterhaltspflichtige-person-beziehung",
+      "/antragstellende-person/warum-keiner-unterhalt",
+      "/rechtsschutzversicherung/rsv-frage",
     ],
   ],
 ] satisfies TestCases<ProzesskostenhilfeFormularContext>;
 
 const nachueberpruefungCase = erstAntragCase.map(([context, expectedPaths]) => [
   { ...context, formularArt: "nachueberpruefung" },
-  [...expectedPaths.slice(0, -1), "finanzielle-angaben/einkuenfte/start"],
+  [...expectedPaths.slice(0, -1), "/finanzielle-angaben/einkuenfte/start"],
 ]) satisfies TestCases<ProzesskostenhilfeFormularContext>;
 
 /**

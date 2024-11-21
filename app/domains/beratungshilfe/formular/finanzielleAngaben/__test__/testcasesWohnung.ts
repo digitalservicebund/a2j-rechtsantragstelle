@@ -3,10 +3,10 @@ import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine"
 import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
 
 const finanzielleAngabenWohnungWohnsituation =
-  "finanzielle-angaben/wohnung/wohnsituation";
-const finanzielleAngabenWohnungGroesse = "finanzielle-angaben/wohnung/groesse";
+  "/finanzielle-angaben/wohnung/wohnsituation";
+const finanzielleAngabenWohnungGroesse = "/finanzielle-angaben/wohnung/groesse";
 const finanzielleAngabenEigentumEigentumInfo =
-  "finanzielle-angaben/eigentum/eigentum-info";
+  "/finanzielle-angaben/eigentum/eigentum-info";
 const cases = [
   [
     {},
@@ -23,7 +23,7 @@ const cases = [
     [
       finanzielleAngabenWohnungWohnsituation,
       finanzielleAngabenWohnungGroesse,
-      "finanzielle-angaben/wohnung/wohnkosten-allein",
+      "/finanzielle-angaben/wohnung/wohnkosten-allein",
       finanzielleAngabenEigentumEigentumInfo,
     ],
   ],
@@ -36,7 +36,7 @@ const cases = [
     [
       finanzielleAngabenWohnungWohnsituation,
       finanzielleAngabenWohnungGroesse,
-      "finanzielle-angaben/wohnung/wohnkosten-allein",
+      "/finanzielle-angaben/wohnung/wohnkosten-allein",
       finanzielleAngabenEigentumEigentumInfo,
     ],
   ],
@@ -50,8 +50,8 @@ const cases = [
     [
       finanzielleAngabenWohnungWohnsituation,
       finanzielleAngabenWohnungGroesse,
-      "finanzielle-angaben/wohnung/personen-anzahl",
-      "finanzielle-angaben/wohnung/wohnkosten-geteilt",
+      "/finanzielle-angaben/wohnung/personen-anzahl",
+      "/finanzielle-angaben/wohnung/wohnkosten-geteilt",
       finanzielleAngabenEigentumEigentumInfo,
     ],
   ],
@@ -65,8 +65,8 @@ const cases = [
     [
       finanzielleAngabenWohnungWohnsituation,
       finanzielleAngabenWohnungGroesse,
-      "finanzielle-angaben/wohnung/personen-anzahl",
-      "finanzielle-angaben/wohnung/wohnkosten-geteilt",
+      "/finanzielle-angaben/wohnung/personen-anzahl",
+      "/finanzielle-angaben/wohnung/wohnkosten-geteilt",
       finanzielleAngabenEigentumEigentumInfo,
     ],
   ],
