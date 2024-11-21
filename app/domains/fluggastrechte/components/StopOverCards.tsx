@@ -4,6 +4,22 @@ import {
   getZwischenStops,
   type ZwischenstoppsProps,
 } from "../services/summaryPage/stoppOver";
+import { FluggastrechtContext } from "../formular/context";
+
+const getBetroffenerFlug = (userData: FluggastrechtContext) => {
+  if (userData.verspaeteterFlug === "startAirportFirstZwischenstopp")
+    return `${userData.startAirport} - ${userData.ersterZwischenstopp}`;
+  if (userData.verspaeteterFlug === "firstZwischenstoppEndAirport")
+    return `${userData.ersterZwischenstopp} - ${userData.endAirport}`;
+  if (userData.verspaeteterFlug === "firstAirportSecondZwischenstopp")
+    return `${userData.ersterZwischenstopp} - ${userData.zweiterZwischenstopp}`;
+  if (userData.verspaeteterFlug === "secondZwischenstoppEndAirport")
+    return `${userData.zweiterZwischenstopp} - ${userData.endAirport}`;
+  if (userData.verspaeteterFlug === "secondAirportThirdZwischenstopp")
+    return `${userData.zweiterZwischenstopp} - ${userData.dritterZwischenstopp}`;
+  if (userData.verspaeteterFlug === "thirdZwischenstoppEndAirport")
+    return `${userData.dritterZwischenstopp} - ${userData.endAirport}`;
+};
 
 function StopOverCards({ userData, translations }: ZwischenstoppsProps) {
   if (!userData) return null;
@@ -19,7 +35,7 @@ function StopOverCards({ userData, translations }: ZwischenstoppsProps) {
         <SummaryDataOverviewCard
           title="Betroffener Flug"
           showVariableName={false}
-          data={{ verspaeteterFlug: userData.verspaeteterFlug }}
+          data={{ verspaeteterFlug: getBetroffenerFlug(userData) }}
           buttonUrl={`/fluggastrechte/formular/flugdaten/verspaeteter-flug-${getAnzahlZwischenstopps(userData)}`}
           translations={translations}
         />
