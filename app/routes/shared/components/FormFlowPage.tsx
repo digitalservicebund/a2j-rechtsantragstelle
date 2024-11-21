@@ -7,7 +7,7 @@ import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
-import SummaryDataOverview from "~/components/SummaryDataOverview";
+import SummaryDataOverview from "~/domains/fluggastrechte/components/SummaryDataOverview";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import { splatFromParams } from "~/services/params";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
