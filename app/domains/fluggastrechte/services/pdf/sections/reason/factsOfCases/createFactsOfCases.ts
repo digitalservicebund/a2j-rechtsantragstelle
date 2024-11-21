@@ -2,11 +2,11 @@ import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
-import { addDetailedReason } from "./addDetailedReason";
 import { addFlightDetails } from "./addFlightDetails";
 import { addReason } from "./addReason";
 import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissingVerticalSpace";
 import { addCompensationAmount } from "./compensationAmount/addCompensationAmount";
+import { addDetailedReason } from "./detailedReason/addDetailedReason";
 import { addTable } from "./table/addTable";
 import { COLUMN_HEIGHT, MARGIN_BOTTOM } from "./table/tableConfigurations";
 
