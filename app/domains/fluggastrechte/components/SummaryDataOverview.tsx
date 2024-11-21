@@ -1,5 +1,5 @@
 import Heading from "~/components/Heading";
-import type { Context } from "~/domains/contexts";
+import type { FluggastrechtContext } from "../formular/context";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import ActualArrivalCards from "./ActualArrivalCards";
 import StopOverCards from "./StopOverCards";
@@ -7,19 +7,19 @@ import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
 import { getZwischenStops } from "../services/summaryPage/stoppOver";
 
 type SummaryDataProps = {
-  readonly userData?: Context;
-  readonly translations: Translations;
-  readonly sortedFields?: string[];
+  userData?: FluggastrechtContext;
+  translations: Translations;
 };
 
-const getKlagendePerson = (userData: Context) => {
+const getStringWithSpaceIfStringExists = (value: string | undefined) => {
+  return value ? `${value} ` : "";
+};
+
+const getPersonData = (userData: FluggastrechtContext) => {
   return {
-    anrede: userData.anrede,
-    vorname: userData.vorname,
-    nachname: userData.nachname,
+    klagendePerson: `${getStringWithSpaceIfStringExists(userData.anrede) + getStringWithSpaceIfStringExists(userData.vorname) + getStringWithSpaceIfStringExists(userData.nachname)}`,
     strasseHausnummer: userData.strasseHausnummer,
-    plz: userData.plz,
-    ort: userData.ort,
+    plzOrt: `${userData.plz} ${userData.ort}`,
     telefonnummer: userData.telefonnummer,
     kontodaten: userData.iban
       ? `${userData.iban} \n ${userData.kontoinhaber}`
@@ -27,7 +27,7 @@ const getKlagendePerson = (userData: Context) => {
   };
 };
 
-const getFlugDaten = (userData: Context) => {
+const getFlugDaten = (userData: FluggastrechtContext) => {
   return {
     Flugnummer: userData.direktFlugnummer,
     Buchungsnummer: userData.buchungsNummer,
@@ -35,6 +35,12 @@ const getFlugDaten = (userData: Context) => {
     Ankunft: `${userData.direktAnkunftsDatum} - ${userData.direktAnkunftsZeit}`,
     Zwischenstops: userData.zwischenstoppAnzahl,
   };
+};
+
+const getZeugenText = (userData: FluggastrechtContext) => {
+  if (userData.hasZeugen === "no") return "noWitnesses";
+  if (userData.isWeiterePersonen) return "cedentsAndWitnesses";
+  return "noCedentsAndWitnesses";
 };
 
 export default function SummaryDataOverview({
@@ -92,22 +98,33 @@ export default function SummaryDataOverview({
       />
       <SummaryDataOverviewCard
         title="Klagende Person"
-        data={getKlagendePerson(userData)}
+        data={getPersonData(userData)}
         buttonUrl="/fluggastrechte/formular/persoenliche-daten/person/daten"
         translations={translations}
       />
       {userData.weiterePersonen &&
-        (userData.weiterePersonen as Context[]).map((person, idx) => {
-          return (
-            <SummaryDataOverviewCard
-              key={person.name as string}
-              title={`Weitere Personen ${idx + 2}`}
-              data={person}
-              buttonUrl={`/fluggastrechte/formular/persoenliche-daten/weitere-personen/person/${idx}/daten`}
-              translations={translations}
-            />
-          );
-        })}
+        (userData.weiterePersonen as FluggastrechtContext[]).map(
+          (person, idx) => {
+            const data = getPersonData(person);
+            return (
+              <SummaryDataOverviewCard
+                key={`Weitere Personen ${idx + 2}`}
+                title={`Weitere Personen ${idx + 2}`}
+                data={data}
+                buttonUrl={`/fluggastrechte/formular/persoenliche-daten/weitere-personen/person/${idx}/daten`}
+                translations={translations}
+              />
+            );
+          },
+        )}
+
+      <SummaryDataOverviewCard
+        title="Zeuginnen und Zeugen"
+        data={{ Zeugen: getZeugenText(userData) }}
+        showVariableName={false}
+        buttonUrl="/fluggastrechte/formular/persoenliche-daten/person/daten"
+        translations={translations}
+      />
 
       {/* {Prozessführung} */}
       <Heading
