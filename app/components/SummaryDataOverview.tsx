@@ -41,6 +41,7 @@ const getKlagendePerson = (userData: Context) => {
     strasseHausnummer: userData.strasseHausnummer,
     plz: userData.plz,
     ort: userData.ort,
+    ...(userData.telefonnummer && { telefonnummer: userData.telefonnummer }),
   };
 };
 
@@ -268,6 +269,19 @@ export default function SummaryDataOverview({
             />
           );
         })}
+
+      {/* {Prozessführung} */}
+      <Heading
+        text="Prozessführung"
+        tagName="p"
+        look="ds-heading-03-bold"
+        dataTestid="migration-field-value"
+      />
+      <Card
+        data={{ schriftlichesVerfahren: userData.schriftlichesVerfahren }}
+      />
+      <Card data={{ videoverhandlung: userData.videoverhandlung }} />
+      <Card data={{ versaeumnisurteil: userData.versaeumnisurteil }} />
     </>
   );
 }
