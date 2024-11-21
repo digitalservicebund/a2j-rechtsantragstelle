@@ -9,7 +9,7 @@ const spacePerCharacter = 3.7;
 export function addDruckvermerk(
   pdfDoc: PDFDocument,
   yPosition?: number | number[],
-  xPosition?: number,
+  xPosition?: number | number[],
 ) {
   pdfDoc.getPages().forEach((page, index) => {
     const yPos =

@@ -1,6 +1,6 @@
 import { getAirportByIataCode } from "./getAirportByIataCode";
 
-export function getAirportNameByIataCode(airportIataCode: string): string {
+export function getAirportNameByIataCode(airportIataCode?: string): string {
   const airport = getAirportByIataCode(airportIataCode);
 
   if (airport) {

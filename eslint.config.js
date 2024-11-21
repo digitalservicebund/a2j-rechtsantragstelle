@@ -125,9 +125,9 @@ export default tseslint.config(
       "sonarjs/anchor-has-content": "off",
       "sonarjs/no-invalid-await": "off",
 
-      // to be enabled later
-      "sonarjs/no-unstable-nested-components": "warn", // TODO: enable later
-      "sonarjs/deprecation": "off", // TODO: enable after remix upgrades to react router v7 and we move to Single Fetch
+      // TODO: to be enabled later
+      "sonarjs/no-unstable-nested-components": "warn",
+      "sonarjs/deprecation": "off", // enable after remix upgrades to react router v7 and we move to Single Fetch
 
       // typescript-eslint
       "@typescript-eslint/no-explicit-any": "warn",
@@ -138,21 +138,16 @@ export default tseslint.config(
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
 
-      // to be enabled later
-      "@typescript-eslint/ban-ts-comment": "off", // TODO: enable later
-      "@typescript-eslint/consistent-type-definitions": "off", // TODO: enable later
-      "@typescript-eslint/array-type": "off", // TODO: enable later
+      // TODO: to be enabled later
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/consistent-type-definitions": "off",
+      "@typescript-eslint/array-type": "off",
 
       // fix/reevaluate
-      "@typescript-eslint/no-unsafe-argument": "off",
-      "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
       "@typescript-eslint/prefer-regexp-exec": "off",
       "@typescript-eslint/prefer-optional-chain": "off",
       "@typescript-eslint/dot-notation": "off",
-      "@typescript-eslint/no-unsafe-call": "off",
-      "@typescript-eslint/no-unsafe-return": "off",
-      "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "off",
     },
   },
@@ -166,6 +161,11 @@ export default tseslint.config(
       ...vitest.configs.recommended.rules,
       "vitest/valid-title": "off", // TODO: enable later
       "@typescript-eslint/unbound-method": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-return": "off",
       "require-await": "error",
     },
   },
