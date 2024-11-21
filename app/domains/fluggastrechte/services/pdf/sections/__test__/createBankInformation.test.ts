@@ -39,7 +39,7 @@ describe("createBankInformation", () => {
 
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Kontoinhaber: Mustermann, Max | IBAN: DE68500123456789000000",
+      "Kontoinhaber: Max Mustermann | IBAN: DE68500123456789000000",
       expect.anything(),
       expect.anything(),
     );
@@ -59,7 +59,7 @@ describe("createBankInformation", () => {
 
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Kontoinhaber: Mustermann, Max | IBAN: DE68500123456789000000",
+      "Kontoinhaber: Max Mustermann | IBAN: DE68500123456789000000",
       expect.anything(),
       expect.anything(),
     );
@@ -79,7 +79,7 @@ describe("createBankInformation", () => {
 
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Kontoinhaber: Mustermann, Max | IBAN: DE68500123456789000000",
+      "Kontoinhaber: Max Mustermann | IBAN: DE68500123456789000000",
       expect.anything(),
       expect.anything(),
     );

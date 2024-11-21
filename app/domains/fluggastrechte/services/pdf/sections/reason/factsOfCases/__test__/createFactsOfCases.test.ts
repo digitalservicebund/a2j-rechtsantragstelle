@@ -3,15 +3,15 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { addDetailedReason } from "../addDetailedReason";
 import { addFlightDetails } from "../addFlightDetails";
 import { addReason } from "../addReason";
 import { addCompensationAmount } from "../compensationAmount/addCompensationAmount";
 import { createFactsOfCases, FACTS_OF_CASES_TEXT } from "../createFactsOfCases";
+import { addDetailedReason } from "../detailedReason/addDetailedReason";
 import { addTable } from "../table/addTable";
 
 vi.mock("../addReason");
-vi.mock("../addDetailedReason");
+vi.mock("../detailedReason/addDetailedReason");
 vi.mock("../addFlightDetails");
 vi.mock("../table/addTable");
 vi.mock("../compensationAmount/addCompensationAmount");

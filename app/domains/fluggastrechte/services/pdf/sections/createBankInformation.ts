@@ -14,7 +14,7 @@ export const createBankInformation = (
   const bankAccountHolder =
     typeof kontoinhaber !== "undefined" && kontoinhaber.trim().length > 0
       ? kontoinhaber
-      : `${nachname}, ${vorname}`;
+      : `${vorname} ${nachname}`;
 
   if (iban) {
     const bankInfo = `Kontoinhaber: ${bankAccountHolder} | IBAN: ${iban}`;
