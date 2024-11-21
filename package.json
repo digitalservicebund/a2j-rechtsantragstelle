@@ -32,7 +32,7 @@
     "test:e2e:ui": "npx playwright test --ui",
     "test:e2e": "npx playwright test",
     "test": "vitest run --project unit",
-    "test:watch": "vitest run --project unit watch",
+    "test:watch": "vitest --project unit",
     "test:integration": "vitest run --project integration",
     "typecheck": "tsc",
     "typecheck:watch": "tsc -w",
