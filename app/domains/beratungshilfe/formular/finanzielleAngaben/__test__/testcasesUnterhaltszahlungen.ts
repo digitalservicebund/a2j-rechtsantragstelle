@@ -6,8 +6,8 @@ const cases = [
   [
     { hasWeitereUnterhaltszahlungen: "no" },
     [
-      "finanzielle-angaben/andere-unterhaltszahlungen/frage",
-      "finanzielle-angaben/wohnung/wohnsituation",
+      "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
+      "/finanzielle-angaben/wohnung/wohnsituation",
     ],
   ],
   [
@@ -24,17 +24,17 @@ const cases = [
       ],
     },
     [
-      "finanzielle-angaben/andere-unterhaltszahlungen/frage",
-      "finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
-      "finanzielle-angaben/wohnung/wohnsituation",
+      "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
+      "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+      "/finanzielle-angaben/wohnung/wohnsituation",
     ],
   ],
   [
     { hasWeitereUnterhaltszahlungen: "yes" },
     [
-      "finanzielle-angaben/andere-unterhaltszahlungen/frage",
-      "finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
-      "finanzielle-angaben/andere-unterhaltszahlungen/warnung",
+      "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
+      "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+      "/finanzielle-angaben/andere-unterhaltszahlungen/warnung",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

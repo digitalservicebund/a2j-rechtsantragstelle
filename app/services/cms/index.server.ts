@@ -73,7 +73,7 @@ export const fetchFlowPage = <T extends FlowPageId>(
   stepId: string,
 ): Promise<StrapiSchemas[T][number]["attributes"]> =>
   fetchCollectionEntry(collection, [
-    { field: "stepId", value: "/" + stepId },
+    { field: "stepId", value: stepId },
     { field: "flow_ids", nestedField: "flowId", value: flowId },
   ]);
 

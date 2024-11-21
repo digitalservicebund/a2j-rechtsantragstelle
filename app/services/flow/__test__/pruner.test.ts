@@ -10,7 +10,7 @@ describe("pruner", () => {
     it("returns form field names", () => {
       const result = filterFormFields(
         { "/step1": ["field1"], "/step2": ["field2"] },
-        [{ stepIds: ["step1", "step2"] }],
+        [{ stepIds: ["/step1", "/step2"] }],
       );
 
       expect(result).toEqual(["field1", "field2"]);
@@ -19,7 +19,7 @@ describe("pruner", () => {
     it("returns form field names for multiple forms within one flowPage", () => {
       const result = filterFormFields(
         { "/step1": ["field1", "field2", "field3"] },
-        [{ stepIds: ["step1"] }],
+        [{ stepIds: ["/step1"] }],
       );
       expect(result).toEqual(["field1", "field2", "field3"]);
     });
@@ -33,9 +33,9 @@ describe("pruner", () => {
           "/step1b": ["field1#b", "field1#b1"],
         },
         [
-          { stepIds: ["step1"] },
-          { stepIds: ["step1a", "step2a"], arrayIndex: 0 },
-          { stepIds: ["step1b"], arrayIndex: 1 },
+          { stepIds: ["/step1"] },
+          { stepIds: ["/step1a", "/step2a"], arrayIndex: 0 },
+          { stepIds: ["/step1b"], arrayIndex: 1 },
         ],
       );
 

@@ -3,11 +3,11 @@ import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine"
 import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
 
 const finanzielleAngabenKinderKinderName =
-  "finanzielle-angaben/kinder/kinder/name";
+  "/finanzielle-angaben/kinder/kinder/name";
 const finanzielleAngabenKinderKinderWohnort =
-  "finanzielle-angaben/kinder/kinder/wohnort";
+  "/finanzielle-angaben/kinder/kinder/wohnort";
 const finanzielleAngabenKinderKinderKindUnterhaltFrage =
-  "finanzielle-angaben/kinder/kinder/kind-unterhalt-frage";
+  "/finanzielle-angaben/kinder/kinder/kind-unterhalt-frage";
 
 const defaultInputKinder = {
   wohnortBeiAntragsteller: "yes",
@@ -24,9 +24,9 @@ const cases = [
   [
     { hasKinder: "yes" },
     [
-      "finanzielle-angaben/kinder/kinder-frage",
-      "finanzielle-angaben/kinder/uebersicht",
-      "finanzielle-angaben/kinder/warnung",
+      "/finanzielle-angaben/kinder/kinder-frage",
+      "/finanzielle-angaben/kinder/uebersicht",
+      "/finanzielle-angaben/kinder/warnung",
     ],
   ],
   [
@@ -46,16 +46,16 @@ const cases = [
       ],
     },
     [
-      "finanzielle-angaben/kinder/kinder-frage",
-      "finanzielle-angaben/kinder/uebersicht",
-      "finanzielle-angaben/andere-unterhaltszahlungen/frage",
+      "/finanzielle-angaben/kinder/kinder-frage",
+      "/finanzielle-angaben/kinder/uebersicht",
+      "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
     ],
   ],
   [
     { hasKinder: "no" },
     [
-      "finanzielle-angaben/kinder/kinder-frage",
-      "finanzielle-angaben/andere-unterhaltszahlungen/frage",
+      "/finanzielle-angaben/kinder/kinder-frage",
+      "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
     ],
   ],
   [
@@ -75,7 +75,7 @@ const cases = [
     [
       finanzielleAngabenKinderKinderName,
       finanzielleAngabenKinderKinderWohnort,
-      "finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen-frage",
+      "/finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen-frage",
     ],
   ],
   [
@@ -92,8 +92,8 @@ const cases = [
     [
       finanzielleAngabenKinderKinderName,
       finanzielleAngabenKinderKinderWohnort,
-      "finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen-frage",
-      "finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen",
+      "/finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen-frage",
+      "/finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen",
     ],
   ],
   [
@@ -127,7 +127,7 @@ const cases = [
       finanzielleAngabenKinderKinderName,
       finanzielleAngabenKinderKinderWohnort,
       finanzielleAngabenKinderKinderKindUnterhaltFrage,
-      "finanzielle-angaben/kinder/kinder/kind-unterhalt-ende",
+      "/finanzielle-angaben/kinder/kinder/kind-unterhalt-ende",
     ],
   ],
   [
@@ -145,7 +145,7 @@ const cases = [
       finanzielleAngabenKinderKinderName,
       finanzielleAngabenKinderKinderWohnort,
       finanzielleAngabenKinderKinderKindUnterhaltFrage,
-      "finanzielle-angaben/kinder/kinder/kind-unterhalt",
+      "/finanzielle-angaben/kinder/kinder/kind-unterhalt",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
