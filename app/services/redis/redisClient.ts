@@ -1,30 +1,33 @@
 import Redis from "ioredis";
-import invariant from "tiny-invariant";
+import { singleton } from "~/util/singleton.server";
 import { config } from "../env/env.server";
 import { logError } from "../logging";
 
-let _redisClient: Redis | undefined;
+const REDIS_URL = `rediss://default:${config().REDIS_PASSWORD}@${config().REDIS_ENDPOINT}`;
 
-const redisUrl = `rediss://default:${config().REDIS_PASSWORD}@${config().REDIS_ENDPOINT}`;
+type RedisClientProps = {
+  url: string;
+  lazyConnect?: boolean;
+};
 
-export function createRedisClient() {
-  if (!_redisClient) {
-    _redisClient = new Redis(redisUrl, {
-      tls: { rejectUnauthorized: false },
-      retryStrategy: (times) => Math.min(times * 100, 2000),
-      enableReadyCheck: true,
-    });
+export function createRedisClient({ url, lazyConnect }: RedisClientProps) {
+  const redisClient = new Redis(url, {
+    tls: { rejectUnauthorized: false },
+    retryStrategy: (times) => Math.min(times * 100, 2000),
+    enableReadyCheck: true,
+    lazyConnect,
+  });
 
-    _redisClient.on("error", (error) => {
-      logError({ message: "[*] Redis", error });
-    });
+  redisClient.on("error", (error) => {
+    logError({ message: "[*] Redis", error });
+  });
 
-    _redisClient.on("ready", () => {
-      // eslint-disable-next-line no-console
-      console.log("Redis client ready");
-    });
-  }
-  return getRedisInstance();
+  redisClient.on("ready", () => {
+    // eslint-disable-next-line no-console
+    console.log("Redis client ready");
+  });
+
+  return redisClient;
 }
 
 export function quitRedis(
@@ -49,6 +52,5 @@ export function quitRedis(
 }
 
 export function getRedisInstance() {
-  invariant(_redisClient, "Redis client not initialized");
-  return _redisClient;
+  return singleton("redisClient", () => createRedisClient({ url: REDIS_URL }));
 }
