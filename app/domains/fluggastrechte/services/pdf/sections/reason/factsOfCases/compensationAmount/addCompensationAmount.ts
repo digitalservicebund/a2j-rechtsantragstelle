@@ -1,5 +1,6 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
 import { FONTS_BUNDESSANS_REGULAR } from "~/services/pdf/createPdfKitDocument";
 import { addDistanceInfo } from "./addDistanceInfo";
 import { addMultiplePersonsInfo } from "./addMultiplePersonsInfo";
@@ -37,7 +38,7 @@ export const addCompensationAmount = (
         .text(
           `${userData.isWeiterePersonen === "no" ? DEMANDED_COMPENSATION_PAYMENT_TEXT : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT}`,
         )
-        .moveDown(1);
+        .moveDown(MARGIN_BETWEEN_SECTIONS);
 
       addMultiplePersonsInfo(doc, userData);
 

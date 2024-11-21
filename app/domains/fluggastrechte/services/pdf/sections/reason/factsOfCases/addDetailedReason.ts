@@ -1,6 +1,7 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
+import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
 import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/context";
 import {
   FONTS_BUNDESSANS_BOLD,
@@ -93,7 +94,7 @@ const addMultiplePersonsText = (
     },
   );
 
-  doc.moveDown(1);
+  doc.moveDown(MARGIN_BETWEEN_SECTIONS);
 };
 
 const getConfirmationBookingText = ({
@@ -125,7 +126,7 @@ export const addDetailedReason = (
           PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
         )
         .font(FONTS_BUNDESSANS_REGULAR)
-        .moveDown(1);
+        .moveDown(MARGIN_BETWEEN_SECTIONS);
 
       addMultiplePersonsText(doc, userData);
 

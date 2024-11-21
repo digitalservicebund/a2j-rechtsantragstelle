@@ -4,6 +4,7 @@ import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/ser
 import { calculateDistanceBetweenAirportsInKilometers } from "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
+import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { getStartYPosition } from "./getStartYPosition";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
@@ -68,5 +69,5 @@ export const addDistanceInfo = (
         userData.zusaetzlicheAngaben,
       ),
     )
-    .moveDown(1);
+    .moveDown(MARGIN_BETWEEN_SECTIONS);
 };

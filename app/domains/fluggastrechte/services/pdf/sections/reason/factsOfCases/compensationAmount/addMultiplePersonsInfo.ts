@@ -1,5 +1,6 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -54,7 +55,7 @@ export const addMultiplePersonsInfo = (
 
   if (hasZeugen === "yes") {
     doc
-      .moveDown(1)
+      .moveDown(MARGIN_BETWEEN_SECTIONS)
       .text(
         bereich === "annullierung"
           ? INFORMATION_BOOKING_AND_ASSIGNMENTS_ANNULLIERUNG_TEXT
