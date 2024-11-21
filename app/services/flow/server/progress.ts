@@ -1,10 +1,7 @@
 import { createMachine } from "xstate";
 import { flows } from "~/domains/flows.server";
 import { type FlowStateMachine } from "./buildFlowController";
-
-function xstateIdToStepId(xstateId: string, machineId: string) {
-  return xstateId.replace(machineId, "").replaceAll(".", "/");
-}
+import { stateIdToStepId } from "../stepIdConverter";
 
 export function progressLookupForMachine(machine: FlowStateMachine) {
   // TODO: add unit tests & reduce tests for .getProgress()
@@ -48,7 +45,7 @@ export function progressLookupForMachine(machine: FlowStateMachine) {
   // Convert all keys from xstateId (machineId.state.substate) to stepId
   const progressLookupStepIds = Object.fromEntries(
     Object.entries(progressLookup).map(([key, val]) => [
-      xstateIdToStepId(key, machine.id),
+      stateIdToStepId(key, machine.id),
       val,
     ]),
   );

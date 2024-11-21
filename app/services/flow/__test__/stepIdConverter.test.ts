@@ -1,5 +1,6 @@
 import {
   insertIndexesIntoPath,
+  stateIdToStepId,
   stateValueToStepIds,
   stepIdToPath,
 } from "~/services/flow/stepIdConverter";
@@ -48,6 +49,15 @@ describe("stepIdToPath", () => {
   ])("when the input is '%s'", (text, expected) => {
     expect(stepIdToPath(text)).toEqual(expected);
   });
+});
+
+describe("stateIdToStepId", () => {
+  it.each([["machine.a.b", "/a/b"]])(
+    "when the input is '%s'",
+    (stateId, stepId) => {
+      expect(stateIdToStepId(stateId, "machine")).toEqual(stepId);
+    },
+  );
 });
 
 describe("insertIndexesIntoPath", () => {
