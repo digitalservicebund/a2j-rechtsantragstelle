@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
+import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -17,11 +17,7 @@ export const addPlannedFlightDetails = (
   doc: typeof PDFDocument,
   userData: FluggastrechtContext,
 ) => {
-  const { startAirport, endAirport } = userData;
-  const compensationByDistance = getCompensationPayment({
-    startAirport,
-    endAirport,
-  });
+  const compensationByDistance = getTotalCompensationClaim(userData);
   doc.fontSize(12).font(FONTS_BUNDESSANS_BOLD).text(DUE_REASON_TEXT);
   doc.font(FONTS_BUNDESSANS_BOLD).text(AFFECTED_FLIGHT_TEXT);
   doc.moveDown(0.5);

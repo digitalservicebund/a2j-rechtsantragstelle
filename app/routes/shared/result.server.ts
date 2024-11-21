@@ -17,7 +17,7 @@ import { interpolateSerializableObject } from "~/util/fillTemplate";
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const { flowId, stepId } = parsePathname(pathname);
-  const cmsStepId = stepId.replace("/ergebnis", "");
+  const cmsStepId = stepId.replace("ergebnis/", "");
   const cookieHeader = request.headers.get("Cookie");
 
   const { userData, debugId } = await getSessionData(flowId, cookieHeader);

@@ -1,5 +1,5 @@
 import PDFDocument from "pdfkit";
-import { readRelativeFileToBuffer } from "~/services/pdf/fillPdf.server";
+import { readRelativeFileToBuffer } from "./readRelativeFileToBuffer";
 
 export const PDF_VERSION = "1.7";
 export const PDF_LANGUAGE = "de-DE";

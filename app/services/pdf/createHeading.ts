@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import { pdfStyles } from "../../domains/shared/pdf/pdfStyles";
+import { pdfStyles } from "./pdfStyles";
 
 export function createHeading(
   doc: typeof PDFDocument,

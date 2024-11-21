@@ -113,9 +113,10 @@ export default tseslint.config(
       "sonarjs/no-array-index-key": "warn",
       "sonarjs/no-redeclare": "off",
       "sonarjs/no-nested-functions": "warn",
-      "sonarjs/sonar-no-unused-vars": "off",
+      "sonarjs/function-return-type": "off",
 
       // duplicates of typescript-eslint rules (prefer typescript-eslint as their rule pages are clearer)
+      "sonarjs/sonar-no-unused-vars": "off",
       "sonarjs/no-misused-promises": "off",
       "sonarjs/different-types-comparison": "off",
       "sonarjs/sonar-prefer-regexp-exec": "off",
@@ -126,19 +127,12 @@ export default tseslint.config(
 
       // to be enabled later
       "sonarjs/no-unstable-nested-components": "warn", // TODO: enable later
-
-      // fix/reevaluate
-      "sonarjs/new-cap": "off",
-      "sonarjs/deprecation": "off",
-      "sonarjs/function-return-type": "off",
-      "sonarjs/no-alphabetical-sort": "off",
-      "sonarjs/no-base-to-string": "off",
-      "sonarjs/no-undefined-argument": "off",
-      "sonarjs/sonar-prefer-read-only-props": "off",
+      "sonarjs/deprecation": "off", // TODO: enable after remix upgrades to react router v7 and we move to Single Fetch
 
       // typescript-eslint
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/consistent-type-imports": "warn",
+      "@typescript-eslint/only-throw-error": "warn",
       "@typescript-eslint/no-unused-vars": [
         "warn",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
@@ -150,20 +144,15 @@ export default tseslint.config(
       "@typescript-eslint/array-type": "off", // TODO: enable later
 
       // fix/reevaluate
-      "@typescript-eslint/no-base-to-string": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
-      "@typescript-eslint/only-throw-error": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
       "@typescript-eslint/prefer-regexp-exec": "off",
       "@typescript-eslint/prefer-optional-chain": "off",
-      "@typescript-eslint/no-unsafe-enum-comparison": "off",
       "@typescript-eslint/dot-notation": "off",
       "@typescript-eslint/no-unsafe-call": "off",
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
-      "@typescript-eslint/non-nullable-type-assertion-style": "off",
-      "@typescript-eslint/unbound-method": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "off",
     },
   },
@@ -176,6 +165,7 @@ export default tseslint.config(
     rules: {
       ...vitest.configs.recommended.rules,
       "vitest/valid-title": "off", // TODO: enable later
+      "@typescript-eslint/unbound-method": "off",
       "require-await": "error",
     },
   },

@@ -8,14 +8,14 @@ import type { ViteDevServer } from "vite";
 import { getPosthogClient } from "./services/analytics/posthogClient.server";
 import { config } from "./services/env/env.server";
 import { createRateLimitRequestHandler } from "./services/rateLimit";
-import { createRedisClient, quitRedis } from "./services/redis/redisClient";
+import { getRedisInstance, quitRedis } from "./services/redis/redisClient";
 
 // expressApp() itself is not hot reloaded
 export const expressApp = (
   build: ServerBuild,
   viteDevServer: ViteDevServer,
 ) => {
-  const redisClient = createRedisClient();
+  const redisClient = getRedisInstance();
   const remixHandler = createRequestHandler({ build }) as RequestHandler; // express 4 doesn't handle returned promises
 
   const app = express();
