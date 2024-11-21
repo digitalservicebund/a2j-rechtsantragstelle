@@ -65,12 +65,13 @@ export function FormFlowPage() {
             buttonUrl={migration.buttonUrl}
           />
 
-          {/* TODO: Condition based on flowId */}
-          <SummaryDataOverview
-            userData={prunedUserData}
-            translations={translations}
-          />
-
+          {/* TODO: Really ugly solution we have to find a better one in general*/}
+          {pathname === "/fluggastrechte/formular/zusammenfassung/start" && (
+            <SummaryDataOverview
+              userData={prunedUserData}
+              translations={translations}
+            />
+          )}
           {arraySummaryData &&
             Object.keys(arraySummaryData).length != 0 &&
             Object.entries(arraySummaryData).map(([category, array]) => (

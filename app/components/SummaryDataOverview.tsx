@@ -216,8 +216,8 @@ export default function SummaryDataOverview({
   buttonUrl,
 }: SummaryDataProps) {
   if (!userData || Object.keys(userData).length === 0) return null;
-  console.log({ userData });
-  console.log({ translations });
+  // console.log({ userData });
+  // console.log({ translations });
   return (
     <>
       <Heading
