@@ -3,6 +3,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addMultiplePersonsText } from "../addMultiplePersonsText";
 
@@ -34,6 +35,86 @@ describe("addMultiplePersonsText", () => {
     addMultiplePersonsText(mockDoc, userDataNoMultiplePersons);
 
     expect(mockDoc.text).not.toBeCalled();
+  });
+
+  it("should have the text for following persons given weiter personen and verspaetet bereich", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWeiterePersonenMock = {
+      ...userDataMock,
+      weiterePersonen: [
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          plz: "plz",
+        },
+      ],
+      isWeiterePersonen: YesNoAnswer.Values.yes,
+    };
+
+    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Folgende Personen waren von dieser Verspätung betroffen:",
+      PDF_MARGIN_HORIZONTAL,
+    );
+  });
+
+  it("should have the text for following persons given weiter personen and annullierung bereich", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWeiterePersonenMock = {
+      ...userDataMock,
+      weiterePersonen: [
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          plz: "plz",
+        },
+      ],
+      bereich: "annullierung",
+      isWeiterePersonen: YesNoAnswer.Values.yes,
+    };
+
+    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Folgende Personen waren von dieser Annullierung betroffen:",
+      PDF_MARGIN_HORIZONTAL,
+    );
+  });
+
+  it("should have the text for following persons given weiter personen and nichtbefoerderung bereich", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWeiterePersonenMock = {
+      ...userDataMock,
+      weiterePersonen: [
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          plz: "plz",
+        },
+      ],
+      bereich: "nichtbefoerderung",
+      isWeiterePersonen: YesNoAnswer.Values.yes,
+    };
+
+    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Folgende Personen waren von dieser Nicht-Beförderung betroffen:",
+      PDF_MARGIN_HORIZONTAL,
+    );
   });
 
   it("should have the text for plaintiff name given weiter personen", () => {
