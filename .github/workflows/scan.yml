@@ -15,6 +15,9 @@ jobs:
   # reset-trivy-cache:
   #   runs-on: ubuntu-latest
   #   steps:
+  #     # TODO with latest release 0.24.0 there is no environment variable for resetting cache anymore
+  #     # GH issue: https://github.com/aquasecurity/trivy-action/issues/372
+  #     #
   #     - name: Remove all caches and database of the trivy scanner
   #       uses: aquasecurity/trivy-action@f781cce5aab226378ee181d764ab90ea0be3cdd8 # v0.25.0
   #       env:
