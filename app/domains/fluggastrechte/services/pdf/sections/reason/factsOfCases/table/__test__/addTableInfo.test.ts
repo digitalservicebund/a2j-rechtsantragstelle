@@ -41,7 +41,6 @@ describe("addTableInfo", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(
       andereErsatzverbindungBeschreibung,
       PDF_MARGIN_HORIZONTAL,
-      100,
     );
   });
 

@@ -18,7 +18,6 @@ describe("addOtherDetailsItinerary", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(
       OTHER_DETAILS_ITINERARY,
       expect.anything(),
-      expect.anything(),
     );
 
     expect(mockDoc.text).toHaveBeenCalledWith(userDataMock.zusaetzlicheAngaben);
@@ -32,7 +31,6 @@ describe("addOtherDetailsItinerary", () => {
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(
       OTHER_DETAILS_ITINERARY,
-      expect.anything(),
       expect.anything(),
     );
   });

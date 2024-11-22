@@ -68,7 +68,6 @@ describe("addDistanceInfo", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Die Distanz zwischen ${startAirportMock} und ${endAirportMock} beträgt nach Großkreismethode ca. ${distanceValueMock} km. ${ARTICLE_AIR_PASSENGER_REGULATION_TEXT} ${compensationValueMock} €.`,
       PDF_MARGIN_HORIZONTAL,
-      undefined,
     );
   });
 
@@ -86,7 +85,6 @@ describe("addDistanceInfo", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Die Distanz zwischen ${startAirportMock} und ${endAirportMock} beträgt nach Großkreismethode ca. ${distanceValueMock} km. ${ARTICLE_AIR_PASSENGER_REGULATION_TEXT} ${compensationValueMock} € pro Person, insgesamt aus eigenem und abgetretenem Recht damit eine Gesamtsumme von ${compensationValueMock} €.`,
       PDF_MARGIN_HORIZONTAL,
-      undefined,
     );
   });
 
