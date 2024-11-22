@@ -17,20 +17,15 @@ export const addCompensationAmount = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechtContext,
-  compensationStartYPosition: number,
 ) => {
   const compensationSect = doc.struct("Sect");
   compensationSect.add(
     doc.struct("P", {}, () => {
       doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
 
-      addOtherDetailsItinerary(
-        doc,
-        compensationStartYPosition,
-        userData.zusaetzlicheAngaben,
-      );
+      addOtherDetailsItinerary(doc, userData.zusaetzlicheAngaben);
 
-      addDistanceInfo(doc, userData, compensationStartYPosition);
+      addDistanceInfo(doc, userData);
 
       addNewPageInCaseMissingVerticalSpace(doc);
 

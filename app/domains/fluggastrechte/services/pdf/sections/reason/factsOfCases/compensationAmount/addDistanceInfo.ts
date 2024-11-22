@@ -5,8 +5,10 @@ import { calculateDistanceBetweenAirportsInKilometers } from "~/domains/fluggast
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
 import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
-import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
-import { getStartYPosition } from "./getStartYPosition";
+import {
+  PDF_MARGIN_HORIZONTAL,
+  PDF_WIDTH_SEIZE,
+} from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 
 export const ARTICLE_AIR_PASSENGER_REGULATION_TEXT =
@@ -40,34 +42,19 @@ const getDistanceText = (userData: FluggastrechtContext): string => {
   return `${distanceText} pro Person, insgesamt aus eigenem und abgetretenem Recht damit eine Gesamtsumme von ${compensationTotalAmountValue} €.`;
 };
 
-const getYPositionDistanceText = (
-  doc: typeof PDFDocument,
-  compensationStartYPosition: number,
-  zusaetzlicheAngaben?: string,
-): number => {
-  // in case exist the zusaetzlicheAngaben should start to print from the last y position of the document, otherwise from the value compensationStartYPosition
-  return typeof zusaetzlicheAngaben !== "undefined" &&
-    zusaetzlicheAngaben.length > 0
-    ? doc.y
-    : getStartYPosition(compensationStartYPosition, doc.y);
-};
-
 export const addDistanceInfo = (
   doc: typeof PDFDocument,
   userData: FluggastrechtContext,
-  compensationStartYPosition: number,
 ) => {
-  addNewPageInCaseMissingVerticalSpace(doc);
+  const distanceText = getDistanceText(userData);
+
+  const distanceTextHeight = doc.heightOfString(distanceText, {
+    width: PDF_WIDTH_SEIZE,
+  });
+
+  addNewPageInCaseMissingVerticalSpace(doc, distanceTextHeight);
 
   doc
-    .text(
-      getDistanceText(userData),
-      PDF_MARGIN_HORIZONTAL,
-      getYPositionDistanceText(
-        doc,
-        compensationStartYPosition,
-        userData.zusaetzlicheAngaben,
-      ),
-    )
+    .text(distanceText, PDF_MARGIN_HORIZONTAL)
     .moveDown(MARGIN_BETWEEN_SECTIONS);
 };
