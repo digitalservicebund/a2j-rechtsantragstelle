@@ -142,9 +142,13 @@ describe("addMultiplePersonsText", () => {
     addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "1. Die klagende Partei Test Test",
+      "1. ",
+      expect.anything(),
+      undefined,
       expect.anything(),
     );
+
+    expect(mockDoc.text).toHaveBeenCalledWith("Die klagende Partei Test Test");
   });
 
   it("should have the text for persons names  given weiter personen", () => {
@@ -164,6 +168,7 @@ describe("addMultiplePersonsText", () => {
           strasseHausnummer: "strasseHausnummer",
           ort: "ort",
           plz: "plz",
+          telefonnummer: "telefonnummer",
         },
         {
           vorname: "vorname2",
@@ -173,18 +178,35 @@ describe("addMultiplePersonsText", () => {
           plz: "plz",
           buchungsnummer: "123456",
         },
+        {
+          vorname: "vorname3",
+          nachname: "nachname3",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          plz: "plz",
+        },
       ],
       isWeiterePersonen: YesNoAnswer.Values.yes,
     };
 
     addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
 
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "2. Vorname nachname, strasseHausnummer, plz ort",
-    );
+    expect(mockDoc.text).toHaveBeenCalledWith("2. ", expect.anything());
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "3. Vorname2 nachname2, strasseHausnummer, plz ort, abweichende Buchungsnummer: 123456",
+      "Vorname nachname, strasseHausnummer, plz ort, Telefonnummer telefonnummer",
+    );
+
+    expect(mockDoc.text).toHaveBeenCalledWith("3. ", expect.anything());
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Vorname2 nachname2, strasseHausnummer, plz ort, abweichende Buchungsnummer: 123456",
+    );
+
+    expect(mockDoc.text).toHaveBeenCalledWith("4. ", expect.anything());
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Vorname3 nachname3, strasseHausnummer, plz ort",
     );
   });
 });
