@@ -1,4 +1,4 @@
-import { happyPathData } from "tests/fixtures/prozesskostenhilfeFormularData";
+import { happyPathData } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { finanzielleAngabeEinkuenfteGuards as guards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 

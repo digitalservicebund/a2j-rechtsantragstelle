@@ -1,5 +1,5 @@
 import { createMachine } from "xstate";
-import { happyPathData } from "tests/fixtures/prozesskostenhilfeFormularData";
+import { happyPathData } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import {
   prozesskostenhilfeFormular,

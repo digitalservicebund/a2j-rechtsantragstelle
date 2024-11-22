@@ -1,5 +1,5 @@
 import { Result } from "true-myth";
-import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
+import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,

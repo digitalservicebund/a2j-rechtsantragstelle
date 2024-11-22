@@ -1,5 +1,5 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
+import { happyPathData } from "~/domains/beratungshilfe/services/pdf/__test__/beratungshilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { gerbehAmtsgericht } from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";

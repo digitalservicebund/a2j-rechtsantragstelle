@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import { createFinancialEntry } from "tests/fixtures/prozesskostenhilfeFormularData";
+import { createFinancialEntry } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import * as fillOutFunctions from "~/services/pdf/fillOutFunction";
