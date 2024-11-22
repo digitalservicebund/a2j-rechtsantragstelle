@@ -3,8 +3,8 @@ import { startAbgabe } from "tests/e2e/domains/prozesskostenhilfe/formular/abgab
 import { startAntragstellendePerson } from "tests/e2e/domains/prozesskostenhilfe/formular/antragstellendePerson";
 import { startFinanzielleAngabenEinkuenfte } from "tests/e2e/domains/prozesskostenhilfe/formular/finanzielleAngabenEinkuenfte";
 import { startGrundvoraussetzungen } from "tests/e2e/domains/prozesskostenhilfe/formular/grundvoraussetzungen";
-import { CookieSettings } from "tests/e2e/pom/CookieSettings";
-import { ProzesskostenhilfeFormular } from "tests/e2e/pom/ProzesskostenhilfeFormular";
+import { ProzesskostenhilfeFormular } from "tests/e2e/domains/prozesskostenhilfe/formular/ProzesskostenhilfeFormular";
+import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { startGesetzlicheVertretung } from "./gesetzlicheVertretung";
 import { startPersoenlicheDaten } from "./persoenlicheDaten";
@@ -42,10 +42,10 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
   await prozesskostenhilfeFormular.clickNext();
 
   // /prozesskostenhilfe/formular/grundvoraussetzungen/nachueberpruefung-frage
-  await startGrundvoraussetzungen(page, prozesskostenhilfeFormular);
+  await startGrundvoraussetzungen(prozesskostenhilfeFormular);
 
   // /prozesskostenhilfe/formular/antragstellende-person/empfaenger
-  await startAntragstellendePerson(page, prozesskostenhilfeFormular);
+  await startAntragstellendePerson(prozesskostenhilfeFormular);
 
   // /prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/staatliche-leistungen
   await startFinanzielleAngabenEinkuenfte(page, prozesskostenhilfeFormular);

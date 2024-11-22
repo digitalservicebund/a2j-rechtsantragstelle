@@ -1,4 +1,4 @@
-import type { Formular } from "tests/e2e/pom/Formular";
+import type { Formular } from "tests/e2e/domains/shared/Formular";
 
 export async function startFinanzielleAngabenPartner(formular: Formular) {
   // /finanzielle-angaben/partner/partnerschaft

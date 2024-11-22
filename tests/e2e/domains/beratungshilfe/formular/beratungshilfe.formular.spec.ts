@@ -1,6 +1,6 @@
 import { type Page, type Response, expect, test } from "@playwright/test";
-import { BeratungshilfeFormular } from "tests/e2e/pom/BeratungshilfeFormular";
-import { CookieSettings } from "tests/e2e/pom/CookieSettings";
+import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
+import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
@@ -45,9 +45,9 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await beratungshilfeFormular.clickNext();
 
   await startGrundvoraussetzungen(page, beratungshilfeFormular);
-  await startAnwaltlicheVertretung(page, beratungshilfeFormular);
+  await startAnwaltlicheVertretung(beratungshilfeFormular);
   await startRechtsproblem(page, beratungshilfeFormular);
-  await startFinanzielleAngabenGrundsicherung(page, beratungshilfeFormular);
+  await startFinanzielleAngabenGrundsicherung(beratungshilfeFormular);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
   await startAbgabe(page);
 });
@@ -59,9 +59,9 @@ test("invalid array index redirects to initial step of subflow", async ({
   await beratungshilfeFormular.clickNext();
 
   await startGrundvoraussetzungen(page, beratungshilfeFormular);
-  await startAnwaltlicheVertretung(page, beratungshilfeFormular);
+  await startAnwaltlicheVertretung(beratungshilfeFormular);
   await startRechtsproblem(page, beratungshilfeFormular);
-  await startFinanzielleAngabenEinkommen(page, beratungshilfeFormular);
+  await startFinanzielleAngabenEinkommen(beratungshilfeFormular);
   await startFinanzielleAngabenPartner(beratungshilfeFormular);
   await startFinanzielleAngabenKinder(page, beratungshilfeFormular);
   await page.goto(

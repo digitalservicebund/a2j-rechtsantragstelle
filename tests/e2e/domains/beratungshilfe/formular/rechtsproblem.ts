@@ -1,5 +1,5 @@
 import { type Page } from "@playwright/test";
-import type { BeratungshilfeFormular } from "tests/e2e/pom/BeratungshilfeFormular";
+import type { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 
 export async function startRechtsproblem(

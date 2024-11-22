@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { FluggastrechteFormular } from "tests/e2e/pom/FluggastrechteFormular";
-import { FluggastrechteVorabcheck } from "tests/e2e/pom/FluggastrechteVorabcheck";
+import { FluggastrechteFormular } from "tests/e2e/domains/fluggastrechte/formular/FluggastrechteFormular";
+import { FluggastrechteVorabcheck } from "tests/e2e/domains/fluggastrechte/vorabcheck/FluggastrechteVorabcheck";
 import { startFluggastrechteFormular } from "./startFluggastrechteFormular";
 import { startFluggastrechteVorabcheckVerspaetung } from "../vorabcheck/vorabcheckVerspaetung";
 

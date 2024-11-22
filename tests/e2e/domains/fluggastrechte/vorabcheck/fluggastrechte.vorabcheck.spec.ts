@@ -1,10 +1,10 @@
 import { test, expect } from "@playwright/test";
+import { FluggastrechteVorabcheck } from "tests/e2e/domains/fluggastrechte/vorabcheck/FluggastrechteVorabcheck";
 import { startFluggastrechteVorabcheckAnnullierung } from "./vorabcheckAnnullierung";
 import { startFluggastrechteVorabcheckFunnelCheck } from "./vorabcheckFunnelCheck";
 import { startFluggastrechteVorabcheckNichtBefoerderung } from "./vorabcheckNichtBefoerderung";
 import { startFluggastrechteVorabcheckVerspaetung } from "./vorabcheckVerspaetung";
 import { startFluggastrechteVorabcheckVerspaetungNoJS } from "./vorabcheckVerspaetungNoJS";
-import { FluggastrechteVorabcheck } from "../../../pom/FluggastrechteVorabcheck";
 
 let vorabcheck: FluggastrechteVorabcheck;
 

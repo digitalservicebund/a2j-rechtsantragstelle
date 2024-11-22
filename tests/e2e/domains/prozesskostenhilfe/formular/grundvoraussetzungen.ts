@@ -1,8 +1,6 @@
-import type { Page } from "@playwright/test";
-import type { ProzesskostenhilfeFormular } from "tests/e2e/pom/ProzesskostenhilfeFormular";
+import type { ProzesskostenhilfeFormular } from "tests/e2e/domains/prozesskostenhilfe/formular/ProzesskostenhilfeFormular";
 
 export async function startGrundvoraussetzungen(
-  page: Page,
   formular: ProzesskostenhilfeFormular,
 ) {
   // /prozesskostenhilfe/formular/grundvoraussetzungen/nachueberpruefung-frage

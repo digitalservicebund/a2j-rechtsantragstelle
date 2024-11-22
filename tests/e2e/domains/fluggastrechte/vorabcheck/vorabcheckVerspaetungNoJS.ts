@@ -1,5 +1,5 @@
 import { type Page, expect } from "@playwright/test";
-import type { FluggastrechteVorabcheck } from "../../../pom/FluggastrechteVorabcheck";
+import type { FluggastrechteVorabcheck } from "tests/e2e/domains/fluggastrechte/vorabcheck/FluggastrechteVorabcheck";
 
 export async function startFluggastrechteVorabcheckVerspaetungNoJS(
   page: Page,

@@ -1,5 +1,5 @@
 import type { Page } from "@playwright/test";
-import type { Formular } from "tests/e2e/pom/Formular";
+import type { Formular } from "tests/e2e/domains/shared/Formular";
 
 export async function startFinanzielleAngabenWohnung(
   page: Page,

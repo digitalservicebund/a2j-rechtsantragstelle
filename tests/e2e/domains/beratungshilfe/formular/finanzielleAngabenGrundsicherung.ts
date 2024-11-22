@@ -1,8 +1,6 @@
-import type { Page } from "@playwright/test";
-import type { BeratungshilfeFormular } from "tests/e2e/pom/BeratungshilfeFormular";
+import type { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 
 export async function startFinanzielleAngabenGrundsicherung(
-  page: Page,
   beratungshilfeFormular: BeratungshilfeFormular,
 ) {
   // beratungshilfe/antrag/finanzielle-angaben/einkommen/start
