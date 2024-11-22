@@ -29,14 +29,8 @@ describe("addTableInfo", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const andereErsatzverbindungBeschreibung = "Sample description";
-    const tableEndYPosition = 100;
 
-    addTableInfo(
-      mockDoc,
-      mockStruct,
-      andereErsatzverbindungBeschreibung,
-      tableEndYPosition,
-    );
+    addTableInfo(mockDoc, mockStruct, andereErsatzverbindungBeschreibung);
 
     expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
 
@@ -47,7 +41,6 @@ describe("addTableInfo", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(
       andereErsatzverbindungBeschreibung,
       PDF_MARGIN_HORIZONTAL,
-      100,
     );
   });
 
@@ -56,14 +49,8 @@ describe("addTableInfo", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const andereErsatzverbindungBeschreibung = "Sample description";
-    const tableEndYPosition = 100;
 
-    addTableInfo(
-      mockDoc,
-      mockStruct,
-      andereErsatzverbindungBeschreibung,
-      tableEndYPosition,
-    );
+    addTableInfo(mockDoc, mockStruct, andereErsatzverbindungBeschreibung);
 
     expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(1);
   });

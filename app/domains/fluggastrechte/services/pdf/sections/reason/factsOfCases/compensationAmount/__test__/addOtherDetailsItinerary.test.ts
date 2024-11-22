@@ -13,11 +13,10 @@ describe("addOtherDetailsItinerary", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addOtherDetailsItinerary(mockDoc, 0, userDataMock.zusaetzlicheAngaben);
+    addOtherDetailsItinerary(mockDoc, userDataMock.zusaetzlicheAngaben);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       OTHER_DETAILS_ITINERARY,
-      expect.anything(),
       expect.anything(),
     );
 
@@ -28,11 +27,10 @@ describe("addOtherDetailsItinerary", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addOtherDetailsItinerary(mockDoc, 0);
+    addOtherDetailsItinerary(mockDoc);
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(
       OTHER_DETAILS_ITINERARY,
-      expect.anything(),
       expect.anything(),
     );
   });

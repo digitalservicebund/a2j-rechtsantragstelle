@@ -41,7 +41,7 @@ describe("addCompensationAmount", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addCompensationAmount(mockDoc, mockStruct, userDataMock, 0);
+    addCompensationAmount(mockDoc, mockStruct, userDataMock);
 
     expect(addOtherDetailsItinerary).toBeCalledTimes(1);
   });
@@ -50,7 +50,7 @@ describe("addCompensationAmount", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addCompensationAmount(mockDoc, mockStruct, userDataMock, 0);
+    addCompensationAmount(mockDoc, mockStruct, userDataMock);
 
     expect(addDistanceInfo).toBeCalledTimes(1);
   });
@@ -59,7 +59,7 @@ describe("addCompensationAmount", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addCompensationAmount(mockDoc, mockStruct, userDataMock, 0);
+    addCompensationAmount(mockDoc, mockStruct, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       DEMANDED_COMPENSATION_PAYMENT_TEXT,
@@ -75,7 +75,7 @@ describe("addCompensationAmount", () => {
       isWeiterePersonen: YesNoAnswer.Enum.yes,
     };
 
-    addCompensationAmount(mockDoc, mockStruct, userDataWeiterePersonenMock, 0);
+    addCompensationAmount(mockDoc, mockStruct, userDataWeiterePersonenMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT,
@@ -86,7 +86,7 @@ describe("addCompensationAmount", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addCompensationAmount(mockDoc, mockStruct, userDataMock, 0);
+    addCompensationAmount(mockDoc, mockStruct, userDataMock);
 
     expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(1);
   });
@@ -95,7 +95,7 @@ describe("addCompensationAmount", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addCompensationAmount(mockDoc, mockStruct, userDataMock, 0);
+    addCompensationAmount(mockDoc, mockStruct, userDataMock);
 
     expect(addMultiplePersonsInfo).toBeCalledTimes(1);
   });
@@ -104,7 +104,7 @@ describe("addCompensationAmount", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addCompensationAmount(mockDoc, mockStruct, userDataMock, 0);
+    addCompensationAmount(mockDoc, mockStruct, userDataMock);
 
     expect(addWitnessesInfo).toBeCalledTimes(1);
   });
