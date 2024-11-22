@@ -8,7 +8,16 @@ type FillTemplateOpts = {
 };
 
 export const fillTemplate = ({ template, replacements }: FillTemplateOpts) =>
-  replacements ? mustache.render(template, replacements) : template;
+  replacements
+    ? mustache.render(template, replacements, undefined, {
+        escape: (string: string) => {
+          if (string.match(/^(http|www)/g)) {
+            return string;
+          }
+          return mustache.escape(string);
+        },
+      })
+    : template;
 
 export function interpolateSerializableObject<T>(
   input: T,
