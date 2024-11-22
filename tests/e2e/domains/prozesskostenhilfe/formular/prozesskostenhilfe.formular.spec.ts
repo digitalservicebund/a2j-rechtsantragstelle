@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { startAbgabe } from "tests/e2e/flowPages/prozesskostenhilfe/formular/abgabe";
-import { startAntragstellendePerson } from "tests/e2e/flowPages/prozesskostenhilfe/formular/antragstellendePerson";
-import { startFinanzielleAngabenEinkuenfte } from "tests/e2e/flowPages/prozesskostenhilfe/formular/finanzielleAngabenEinkuenfte";
-import { startGrundvoraussetzungen } from "tests/e2e/flowPages/prozesskostenhilfe/formular/grundvoraussetzungen";
+import { startAbgabe } from "tests/e2e/domains/prozesskostenhilfe/formular/abgabe";
+import { startAntragstellendePerson } from "tests/e2e/domains/prozesskostenhilfe/formular/antragstellendePerson";
+import { startFinanzielleAngabenEinkuenfte } from "tests/e2e/domains/prozesskostenhilfe/formular/finanzielleAngabenEinkuenfte";
+import { startGrundvoraussetzungen } from "tests/e2e/domains/prozesskostenhilfe/formular/grundvoraussetzungen";
 import { CookieSettings } from "tests/e2e/pom/CookieSettings";
 import { ProzesskostenhilfeFormular } from "tests/e2e/pom/ProzesskostenhilfeFormular";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";

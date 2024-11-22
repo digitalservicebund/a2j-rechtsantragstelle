@@ -42,7 +42,7 @@ End-to-end tests validate the application's functionality from the user's perspe
 Examples:
 
 - Navigation for content pages (e.g. `/tests/e2e/pages/beratungshilfe.spec.ts` ensures the `/beratungshilfe` page is can be accessed and navigated).
-- Interactive forms (e.g. `/tests/e2e/flowPages/beratungshilfe/vorabcheck/beratungshilfe.vorabcheck.spec.ts` tests the complete traversal of the Beratungshilfe Vorabcheck flow).
+- Interactive forms (e.g. `/tests/e2e/domains/beratungshilfe/vorabcheck/beratungshilfe.vorabcheck.spec.ts` tests the complete traversal of the Beratungshilfe Vorabcheck flow).
 - Accessibility (e.g. `tests/e2e/pages/accessibilityScans.spec.ts` tests most of the content pages).
 - Application security (e.g. `/tests/e2e/common/csrf.spec.ts`, which validates CSRF token behavior across multiple tabs).
 
