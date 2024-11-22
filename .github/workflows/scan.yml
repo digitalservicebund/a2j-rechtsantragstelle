@@ -58,7 +58,17 @@ jobs:
       - name: Check trivy results
         run: |
           if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
-            echo "Vulnerabilities found"
+            echo "Vulnerabilities found:"
+
+            jq -r '
+              .runs[].results[] |
+              "Rule ID: \(.ruleId)\n" +
+              "Package: \(.message.text | split("\n")[0] | ltrimstr("Package: "))\n" +
+              "Installed Version: \(.message.text | split("\n")[1] | ltrimstr("Installed Version: "))\n" +
+              "Severity: \(.message.text | split("\n")[2] | ltrimstr("Severity: "))\n" +
+              "\(.message.text | split("\n")[4] | ltrimstr("Link: "))\n"
+            ' trivy-results.sarif
+            # Exit with error status
             exit 1
           else
             echo "No significant vulnerabilities found"
