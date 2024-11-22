@@ -13,6 +13,8 @@ export const CONFIRM_BOOKING_TEXT = "Eine bestätigte Buchung liegt vor.";
 export const CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT =
   "Bestätigte Buchungen der klagenden Partei und der weiteren Fluggäste liegen vor.";
 export const ATTACHMENT_CONFIRM_BOOKING_TEXT =
+  "Beweis: Anlage Buchungsbetätigung";
+export const ATTACHMENT_CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT =
   "Beweis: Anlage Buchungsbestätigungen";
 export const PLAINTIFF_ON_TIME_TEXT =
   "Die klagende Partei war pünktlich zum Check-in und Boarding.";
@@ -20,14 +22,21 @@ export const PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT =
   "Die klagende Partei und die weiteren Fluggäste waren pünktlich zum Check-in und Boarding.";
 export const MARGIN_RIGHT = 10;
 
-const getConfirmationBookingText = ({
+const getConfirmationBookingTexts = ({
   isWeiterePersonen,
 }: FluggastrechtContext) => {
   if (isWeiterePersonen === "yes") {
-    return CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT;
+    return {
+      confirmationBooking: CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT,
+      attachmentConfirmationBooking:
+        ATTACHMENT_CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT,
+    };
   }
 
-  return CONFIRM_BOOKING_TEXT;
+  return {
+    confirmationBooking: CONFIRM_BOOKING_TEXT,
+    attachmentConfirmationBooking: ATTACHMENT_CONFIRM_BOOKING_TEXT,
+  };
 };
 
 export const addDetailedReason = (
@@ -36,16 +45,20 @@ export const addDetailedReason = (
   userData: FluggastrechtContext,
 ) => {
   const detailedReasonSect = doc.struct("Sect");
+
+  const { attachmentConfirmationBooking, confirmationBooking } =
+    getConfirmationBookingTexts(userData);
+
   detailedReasonSect.add(
     doc.struct("P", {}, () => {
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
         .fontSize(10)
-        .text(getConfirmationBookingText(userData))
+        .text(confirmationBooking)
         .moveDown(0.5)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(
-          ATTACHMENT_CONFIRM_BOOKING_TEXT,
+          attachmentConfirmationBooking,
           PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
         )
         .font(FONTS_BUNDESSANS_REGULAR)
