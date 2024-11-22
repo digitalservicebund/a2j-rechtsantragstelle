@@ -2,7 +2,11 @@ import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
 import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/context";
-import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
+import {
+  FONTS_BUNDESSANS_BOLD,
+  FONTS_BUNDESSANS_REGULAR,
+  PDF_MARGIN_HORIZONTAL,
+} from "~/services/pdf/createPdfKitDocument";
 import { arrayIsNonEmpty } from "~/util/array";
 import { getFullPlaintiffName } from "../../../getFullPlaintiffName";
 
@@ -23,6 +27,14 @@ const getTextBookingNumber = (buchungsnummer?: string) => {
   return `, abweichende Buchungsnummer: ${buchungsnummer}`;
 };
 
+const getTextTelefonNumber = (telefonnummer?: string) => {
+  if (typeof telefonnummer === "undefined" || telefonnummer.length === 0) {
+    return "";
+  }
+
+  return `, Telefonnummer ${telefonnummer}`;
+};
+
 export const addMultiplePersonsText = (
   doc: typeof PDFDocument,
   userData: FluggastrechtContext,
@@ -39,9 +51,13 @@ export const addMultiplePersonsText = (
       `Folgende Personen waren von dieser ${bereichMappingText[userData.bereich as FluggastrechtBereichType] ?? ""} betroffen:`,
       PDF_MARGIN_HORIZONTAL,
     )
+    .font(FONTS_BUNDESSANS_BOLD)
+    .text("1. ", PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT - 5, undefined, {
+      continued: true,
+    })
+    .font(FONTS_BUNDESSANS_REGULAR)
     .text(
-      `1. Die klagende Partei ${getFullPlaintiffName(userData.anrede, userData.title, userData.vorname, userData.nachname)}`,
-      PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT - 5,
+      `Die klagende Partei ${getFullPlaintiffName(userData.anrede, userData.title, userData.vorname, userData.nachname)}`,
     );
 
   userData.weiterePersonen.forEach(
@@ -55,12 +71,19 @@ export const addMultiplePersonsText = (
         strasseHausnummer,
         ort,
         plz,
+        telefonnummer,
       },
       index,
     ) => {
-      doc.text(
-        `${index + 2}. ${getFullPlaintiffName(anrede, title, vorname, nachname)}, ${strasseHausnummer}, ${plz} ${ort}${getTextBookingNumber(buchungsnummer)}`,
-      );
+      doc
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text(`${index + 2}. `, {
+          continued: true,
+        })
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text(
+          `${getFullPlaintiffName(anrede, title, vorname, nachname)}, ${strasseHausnummer}, ${plz} ${ort}${getTextTelefonNumber(telefonnummer)}${getTextBookingNumber(buchungsnummer)}`,
+        );
     },
   );
 

@@ -7,6 +7,7 @@ import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import {
   addDetailedReason,
+  ATTACHMENT_CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT,
   ATTACHMENT_CONFIRM_BOOKING_TEXT,
   CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT,
   CONFIRM_BOOKING_TEXT,
@@ -58,7 +59,7 @@ describe("addDetailedReason", () => {
     );
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      ATTACHMENT_CONFIRM_BOOKING_TEXT,
+      ATTACHMENT_CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT,
       PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
     );
   });

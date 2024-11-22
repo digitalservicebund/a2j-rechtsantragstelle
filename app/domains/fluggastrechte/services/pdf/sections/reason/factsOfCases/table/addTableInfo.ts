@@ -1,25 +1,28 @@
+import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
-  PDF_MARGIN_VERTICAL,
+  PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
-import { COLUMN_HEIGHT } from "./tableConfigurations";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 
 export function addTableInfo(
   doc: PDFKit.PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   andereErsatzverbindungBeschreibung: string,
-  tableEndYPosition: number,
 ) {
+  if (andereErsatzverbindungBeschreibung.length === 0) {
+    return;
+  }
+
   const tableInfoHeight = doc.heightOfString(
-    andereErsatzverbindungBeschreibung ?? "",
+    andereErsatzverbindungBeschreibung,
     {
-      width: doc.widthOfString(andereErsatzverbindungBeschreibung ?? ""),
+      width: PDF_WIDTH_SEIZE,
     },
   );
 
-  addNewPageInCaseMissingVerticalSpace(doc, tableInfoHeight + COLUMN_HEIGHT);
+  addNewPageInCaseMissingVerticalSpace(doc, tableInfoHeight);
 
   const reasonSect = doc.struct("Sect");
   reasonSect.add(
@@ -27,13 +30,10 @@ export function addTableInfo(
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
-        .text(
-          andereErsatzverbindungBeschreibung ?? "",
-          PDF_MARGIN_HORIZONTAL,
-          // in case the current doc.y position is same the vertical margin, the document jump to a new page, so it should start the current doc.y position
-          doc.y === PDF_MARGIN_VERTICAL ? doc.y : tableEndYPosition,
-        );
+        .text(andereErsatzverbindungBeschreibung, PDF_MARGIN_HORIZONTAL)
+        .moveDown(MARGIN_BETWEEN_SECTIONS);
     }),
   );
+
   documentStruct.add(reasonSect);
 }

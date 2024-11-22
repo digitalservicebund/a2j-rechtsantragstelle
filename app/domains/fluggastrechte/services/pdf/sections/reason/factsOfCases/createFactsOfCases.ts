@@ -35,19 +35,5 @@ export const createFactsOfCases = (
   addNewPageInCaseMissingVerticalSpace(doc, COLUMN_HEIGHT * 4 + MARGIN_BOTTOM);
   const startTableY = doc.y;
   addTable(doc, documentStruct, startTableY, userData);
-  // Set tableEndYPosition based on the existence of `andereErsatzverbindungBeschreibung`
-  const tableEndYPosition = startTableY + COLUMN_HEIGHT * 4 + MARGIN_BOTTOM;
-  doc.moveDown(MARGIN_BETWEEN_SECTIONS);
-  const startCompensationYPosition =
-    typeof userData.andereErsatzverbindungBeschreibung !== "undefined" &&
-    userData.andereErsatzverbindungBeschreibung.length >= 0
-      ? doc.y
-      : tableEndYPosition;
-
-  addCompensationAmount(
-    doc,
-    documentStruct,
-    userData,
-    startCompensationYPosition,
-  );
+  addCompensationAmount(doc, documentStruct, userData);
 };

@@ -21,13 +21,13 @@ export function addTable(
   tableSect.add(table); // Add the table to the section
   documentStruct.add(tableSect); // Add the section to the parent structure
   doc.fill("black"); // Fill black due next pages of the table
-
-  // Set tableEndYPosition based on the existence of `andereErsatzverbindungBeschreibung`
+  // Get end position of the table generated
   const tableEndYPosition = startTableY + COLUMN_HEIGHT * 4 + MARGIN_BOTTOM;
+  // reset the position of the table
+  doc.y = tableEndYPosition;
   addTableInfo(
     doc,
     documentStruct,
     userData.andereErsatzverbindungBeschreibung ?? "",
-    tableEndYPosition,
   );
 }
