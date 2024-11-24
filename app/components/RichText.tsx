@@ -1,12 +1,7 @@
 import { type Renderer, Marked } from "marked";
 import { renderToString } from "react-dom/server";
-import { z } from "zod";
 import { sanatize } from "~/services/security/sanatizeHtml";
 import { StandaloneLink } from "./StandaloneLink";
-
-export const RichTextPropsSchema = z.object({
-  markdown: z.string(),
-});
 
 const CSS_HEADING_CLASSES = [
   "ds-heading-01-reg",
@@ -15,7 +10,9 @@ const CSS_HEADING_CLASSES = [
   "ds-label-01-bold",
 ];
 
-export type RichTextProps = z.infer<typeof RichTextPropsSchema>;
+export type RichTextProps = {
+  markdown: string;
+};
 
 const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {

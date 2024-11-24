@@ -1,13 +1,10 @@
-import { z } from "zod";
 import RichText from "./RichText";
 
-export const DetailsSummarySchema = z.object({
-  identifier: z.string().optional(),
-  title: z.string().optional(),
-  content: z.string().optional(),
-});
-
-export type DetailsSummaryProps = z.infer<typeof DetailsSummarySchema>;
+export type DetailsSummaryProps = {
+  identifier?: string;
+  title?: string;
+  content?: string;
+};
 
 export const DetailsSummary = ({ title, content }: DetailsSummaryProps) => {
   return (
