@@ -1,10 +1,11 @@
+import pick from "lodash/pick";
 import { z } from "zod";
 import type { InfoBoxItemProps } from "~/components/InfoBoxItem";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiButtonSchema } from "./StrapiButton";
-import { StrapiDetailsSummarySchema } from "./StrapiDetailsSummary";
+import { getDetailsProps, StrapiDetailsSchema } from "./StrapiDetails";
 import { type StrapiElementWithId } from "./StrapiElementWithId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiImageSchema, getImageProps } from "./StrapiImage";
@@ -15,7 +16,7 @@ export const StrapiInfoBoxItemSchema = z
     headline: StrapiHeadingSchema.nullable(),
     image: StrapiImageSchema,
     content: z.string().nullable(),
-    detailsSummary: z.array(StrapiDetailsSummarySchema),
+    detailsSummary: z.array(StrapiDetailsSchema),
     buttons: z.array(StrapiButtonSchema),
   })
   .merge(HasOptionalStrapiIdSchema)
@@ -30,7 +31,11 @@ type StrapiInfoBoxItem = z.infer<typeof StrapiInfoBoxItemSchema>;
 export const getInfoBoxItemProps = (
   cmsData: StrapiInfoBoxItem,
 ): InfoBoxItemProps =>
-  omitNull({ ...cmsData, image: getImageProps(cmsData.image) });
+  omitNull({
+    details: cmsData.detailsSummary.map(getDetailsProps),
+    image: getImageProps(cmsData.image),
+    ...pick(cmsData, "label", "headline", "content", "buttons"),
+  });
 
 export function infoBoxesFromElementsWithID(
   elementsWithID: StrapiElementWithId[],

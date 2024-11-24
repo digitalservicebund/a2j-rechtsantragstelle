@@ -4,7 +4,7 @@ import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
-import { StrapiDetailsSummarySchema } from "~/services/cms/models/StrapiDetailsSummary";
+import { StrapiDetailsSchema } from "~/services/cms/models/StrapiDetails";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
@@ -12,7 +12,7 @@ const StrapiTextareaSchema = z
   .object({
     name: z.string(),
     description: z.string().nullable(),
-    details: StrapiDetailsSummarySchema.nullable(),
+    details: StrapiDetailsSchema.nullable(),
     label: z.string().nullable(),
     placeholder: z.string().nullable(),
     errors: StrapiErrorRelationSchema,

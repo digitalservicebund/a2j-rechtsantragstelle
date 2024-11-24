@@ -3,7 +3,7 @@ import { StrapiVideoComponentSchema } from "~/services/cms/models/StrapiVideo";
 import { StrapiArraySummaryComponentSchema } from "./StrapiArraySummary";
 import { StrapiBoxComponentSchema } from "./StrapiBox";
 import { StrapiBoxWithImageComponentSchema } from "./StrapiBoxWithImage";
-import { StrapiDetailsSummaryComponentSchema } from "./StrapiDetailsSummary";
+import { StrapiDetailsComponentSchema } from "./StrapiDetails";
 import { StrapiHeaderComponentSchema } from "./StrapiHeader";
 import { StrapiHeadingComponentSchema } from "./StrapiHeading";
 import { StrapiInfoBoxComponentSchema } from "./StrapiInfoBox";
@@ -29,7 +29,7 @@ export const StrapiContentComponentSchema = z.discriminatedUnion(
     StrapiListComponentSchema,
     StrapiArraySummaryComponentSchema,
     StrapiInlineNoticeComponentSchema,
-    StrapiDetailsSummaryComponentSchema,
+    StrapiDetailsComponentSchema,
     StrapiUserFeedbackComponentSchema,
   ],
 );

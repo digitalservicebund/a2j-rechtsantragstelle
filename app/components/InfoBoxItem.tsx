@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { arrayIsNonEmpty } from "~/util/array";
 import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";
-import { DetailsSummary, type DetailsSummaryProps } from "./DetailsSummary";
+import { Details, type DetailsProps } from "./Details";
 import Heading, { type HeadingProps } from "./Heading";
 import Image, { type ImageProps } from "./Image";
 import RichText from "./RichText";
@@ -13,7 +13,7 @@ export type InfoBoxItemProps = {
   headline?: HeadingProps;
   image?: ImageProps;
   content?: string;
-  detailsSummary?: DetailsSummaryProps | DetailsSummaryProps[];
+  details?: DetailsProps[];
   buttons?: ButtonProps[];
   separator?: boolean;
 };
@@ -24,7 +24,7 @@ const InfoBoxItem = ({
   headline,
   image,
   content,
-  detailsSummary,
+  details,
   buttons,
   separator,
 }: InfoBoxItemProps) => {
@@ -42,11 +42,7 @@ const InfoBoxItem = ({
       {image && (
         <Image
           {...image}
-          {...{
-            className:
-              "max-[499px]:mb-16 max-[499px]:w-[144px] max-[499px]:h-[144px] h-[168px] w-[168px]" +
-              " self-baseline",
-          }}
+          className="max-[499px]:mb-16 max-[499px]:w-[144px] max-[499px]:h-[144px] h-[168px] w-[168px] self-baseline"
         />
       )}
       <div
@@ -57,12 +53,9 @@ const InfoBoxItem = ({
         {label && <Heading {...label} />}
         {headline && <Heading {...headline} />}
         {content && <RichText markdown={content} />}
-        {detailsSummary && !Array.isArray(detailsSummary) && (
-          <DetailsSummary {...detailsSummary} />
-        )}
-        {Array.isArray(detailsSummary) &&
-          detailsSummary.map((details) => (
-            <DetailsSummary key={details.title} {...details} />
+        {details &&
+          details.map((details) => (
+            <Details key={details.title} {...details} />
           ))}
         {arrayIsNonEmpty(buttons) && (
           <ButtonContainer>
