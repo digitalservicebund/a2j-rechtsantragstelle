@@ -1,18 +1,20 @@
 import classNames from "classnames";
-import { z } from "zod";
 import Heading, { type HeadingProps } from "./Heading";
-import InfoBoxItem, { InfoBoxItemPropsSchema } from "./InfoBoxItem";
+import InfoBoxItem, { type InfoBoxItemProps } from "./InfoBoxItem";
 
-export const InfoBoxPropsSchema = z.object({
-  identifier: z.string().optional(),
-  heading: z.custom<HeadingProps>().optional(),
-  separator: z.boolean().optional().default(true),
-  items: z.array(InfoBoxItemPropsSchema),
-});
+export type InfoBoxProps = {
+  identifier?: string;
+  heading?: HeadingProps;
+  separator?: boolean;
+  items: InfoBoxItemProps[];
+};
 
-type InfoBoxProps = z.input<typeof InfoBoxPropsSchema>;
-
-const InfoBox = ({ identifier, items, heading, separator }: InfoBoxProps) => {
+const InfoBox = ({
+  identifier,
+  heading,
+  separator = true,
+  items,
+}: InfoBoxProps) => {
   return (
     <div className="ds-stack-8 scroll-my-40" id={identifier}>
       {heading && <Heading {...heading} />}

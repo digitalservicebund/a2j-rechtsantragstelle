@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { InfoBoxItemPropsSchema } from "~/components/InfoBoxItem";
+import type { InfoBoxItemProps } from "~/components/InfoBoxItem";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
@@ -27,10 +27,10 @@ export const StrapiInfoBoxItemComponentSchema = StrapiInfoBoxItemSchema.extend({
 
 type StrapiInfoBoxItem = z.infer<typeof StrapiInfoBoxItemSchema>;
 
-export const getInfoBoxItemProps = (cmsData: StrapiInfoBoxItem) => {
-  const props = { ...cmsData, image: getImageProps(cmsData.image) };
-  return InfoBoxItemPropsSchema.parse(omitNull(props));
-};
+export const getInfoBoxItemProps = (
+  cmsData: StrapiInfoBoxItem,
+): InfoBoxItemProps =>
+  omitNull({ ...cmsData, image: getImageProps(cmsData.image) });
 
 export function infoBoxesFromElementsWithID(
   elementsWithID: StrapiElementWithId[],

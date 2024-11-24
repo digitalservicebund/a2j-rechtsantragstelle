@@ -1,27 +1,22 @@
 import classNames from "classnames";
-import { z } from "zod";
 import { arrayIsNonEmpty } from "~/util/array";
-import Button, { ButtonPropsSchema } from "./Button";
+import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";
-import { DetailsSummary, DetailsSummarySchema } from "./DetailsSummary";
+import { DetailsSummary, type DetailsSummaryProps } from "./DetailsSummary";
 import Heading, { type HeadingProps } from "./Heading";
-import Image, { ImagePropsSchema } from "./Image";
+import Image, { type ImageProps } from "./Image";
 import RichText from "./RichText";
 
-export const InfoBoxItemPropsSchema = z.object({
-  identifier: z.string().optional(),
-  label: z.custom<HeadingProps>().optional(),
-  headline: z.custom<HeadingProps>().optional(),
-  image: ImagePropsSchema.optional(),
-  content: z.string().optional(),
-  detailsSummary: DetailsSummarySchema.optional().or(
-    z.array(DetailsSummarySchema).optional(),
-  ),
-  buttons: z.array(ButtonPropsSchema).optional(),
-  separator: z.boolean().optional(),
-});
-
-type InfoBoxItemProps = z.infer<typeof InfoBoxItemPropsSchema>;
+export type InfoBoxItemProps = {
+  identifier?: string;
+  label?: HeadingProps;
+  headline?: HeadingProps;
+  image?: ImageProps;
+  content?: string;
+  detailsSummary?: DetailsSummaryProps | DetailsSummaryProps[];
+  buttons?: ButtonProps[];
+  separator?: boolean;
+};
 
 const InfoBoxItem = ({
   identifier,
