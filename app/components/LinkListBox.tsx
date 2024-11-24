@@ -1,25 +1,17 @@
 import ArrowDownward from "@digitalservicebund/icons/ArrowDownward";
 import { Link } from "@remix-run/react";
-import { z } from "zod";
 import { arrayIsNonEmpty } from "~/util/array";
-import Button, { ButtonPropsSchema } from "./Button";
+import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 import Heading, { type HeadingProps } from "./Heading";
 
-export const LinkListBoxPropsSchema = z.object({
-  identifier: z.string().optional(),
-  label: z.custom<HeadingProps>().optional(),
-  heading: z.custom<HeadingProps>().optional(),
-  links: z.array(
-    z.object({
-      text: z.string().optional(),
-      url: z.string().optional(),
-    }),
-  ),
-  buttons: z.array(ButtonPropsSchema).optional(),
-});
-
-type LinkListBoxProps = z.infer<typeof LinkListBoxPropsSchema>;
+export type LinkListBoxProps = {
+  identifier?: string;
+  label?: HeadingProps;
+  heading?: HeadingProps;
+  links?: { text?: string; url?: string }[];
+  buttons?: ButtonProps[];
+};
 
 const LinkListBox = ({
   identifier,

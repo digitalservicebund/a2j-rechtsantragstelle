@@ -1,5 +1,6 @@
+import pick from "lodash/pick";
 import { z } from "zod";
-import { BoxPropsSchema } from "~/components/Box";
+import type { BoxProps } from "~/components/Box";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
@@ -27,7 +28,8 @@ export const StrapiBoxComponentSchema = StrapiBoxSchema.extend({
   __component: z.literal("page.box"),
 });
 
-export const getBoxProps = (cmsData: StrapiBox) => {
-  const content = cmsData.content && getRichTextProps(cmsData.content);
-  return BoxPropsSchema.parse(omitNull({ ...cmsData, content }));
+export const getBoxProps = (cmsData: StrapiBox): BoxProps => {
+  const subset = pick(cmsData, "label", "heading", "buttons", "links");
+  const content = subset.content && getRichTextProps(subset.content);
+  return omitNull({ ...subset, content });
 };
