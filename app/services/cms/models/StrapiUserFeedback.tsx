@@ -1,6 +1,6 @@
 import { z } from "zod";
-import UserFeedback from "~/components/userFeedback";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { type UserFeedbackProps } from "~/components/userFeedback";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiUserFeedbackSchema = z
   .object({
@@ -15,12 +15,8 @@ export const StrapiUserFeedbackComponentSchema =
     __component: z.literal("page.user-feedback"),
   });
 
-export const StrapiUserFeedback = ({ headingRating }: StrapiUserFeedback) => {
-  return (
-    <UserFeedback
-      rating={{
-        heading: headingRating,
-      }}
-    />
-  );
-};
+export const getUserFeedbackProps = ({
+  headingRating,
+}: StrapiUserFeedback): UserFeedbackProps => ({
+  rating: { heading: headingRating },
+});

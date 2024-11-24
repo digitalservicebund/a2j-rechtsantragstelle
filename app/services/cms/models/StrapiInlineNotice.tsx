@@ -1,5 +1,6 @@
+import pick from "lodash/pick";
 import { z } from "zod";
-import { InlineNotice } from "~/components/InlineNotice";
+import { type InlineNoticeProps } from "~/components/InlineNotice";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "../models/HasStrapiLinkIdentifier";
@@ -25,7 +26,7 @@ export const StrapiInlineNoticeComponentSchema =
     __component: z.literal("page.inline-notice"),
   });
 
-export const StrapiInlineNotice = (strapiInlineNotice: StrapiInlineNotice) => {
-  const props = omitNull(strapiInlineNotice);
-  return <InlineNotice {...props} />;
-};
+export const getInlineNoticeProps = (
+  strapiInlineNotice: StrapiInlineNotice,
+): InlineNoticeProps =>
+  pick(omitNull(strapiInlineNotice), "title", "tagName", "look", "content");

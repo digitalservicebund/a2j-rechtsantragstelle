@@ -1,6 +1,6 @@
+import pick from "lodash/pick";
 import { z } from "zod";
-import { DetailsSummary } from "~/components/DetailsSummary";
-import { omitNull } from "~/util/omitNull";
+import { type DetailsSummaryProps } from "~/components/DetailsSummary";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
 export const StrapiDetailsSummarySchema = z
@@ -17,9 +17,6 @@ export const StrapiDetailsSummaryComponentSchema =
     __component: z.literal("page.details-summary"),
   });
 
-export const StrapiDetailsSummary = (
+export const getDetailsSummaryProps = (
   strapiDetailsSummary: StrapiDetailsSummary,
-) => {
-  const props = omitNull(strapiDetailsSummary);
-  return <DetailsSummary {...props} />;
-};
+): DetailsSummaryProps => pick(strapiDetailsSummary, "content", "title");

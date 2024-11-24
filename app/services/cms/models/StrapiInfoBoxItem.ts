@@ -4,10 +4,10 @@ import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiButtonSchema } from "./StrapiButton";
+import { StrapiDetailsSummarySchema } from "./StrapiDetailsSummary";
 import { type StrapiElementWithId } from "./StrapiElementWithId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiImageSchema, getImageProps } from "./StrapiImage";
-import { StrapiDetailsSummarySchema } from "../components/StrapiDetailsSummary";
 
 export const StrapiInfoBoxItemSchema = z
   .object({

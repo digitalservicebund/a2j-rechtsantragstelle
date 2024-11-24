@@ -1,10 +1,10 @@
 import { z } from "zod";
 import Textarea from "~/components/inputs/Textarea";
-import { StrapiDetailsSummarySchema } from "~/services/cms/components/StrapiDetailsSummary";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
+import { StrapiDetailsSummarySchema } from "~/services/cms/models/StrapiDetailsSummary";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
