@@ -1,5 +1,5 @@
 import type { Translations } from "~/services/translations/getTranslationByKey";
-import { FluggastrechtContext } from "../../formular/context";
+import { type FluggastrechtContext } from "../../formular/context";
 import { getAirportByIataCode } from "../airports/getAirportByIataCode";
 
 export type ZwischenstoppsProps = {
