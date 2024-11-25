@@ -32,7 +32,10 @@ export const cspHeader = (args: {
       "https://img.youtube.com",
       "data:",
     ],
-    "form-action ": ["'self'"],
+    "form-action ": [
+      "'self'",
+      "https://int.id.bund.de/idp/profile/SAML2/POST/SSO",
+    ],
     "object-src": ["'none'"],
     "base-uri": ["'none'"],
     "frame-ancestors": ["'none'"],

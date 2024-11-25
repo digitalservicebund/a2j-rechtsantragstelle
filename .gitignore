@@ -26,3 +26,6 @@ lefthook-local.yml
 
 /.vscode/
 .eslintcache
+
+# SAML secrets
+/data/saml

@@ -1,3 +1,5 @@
+import path from "path";
+
 interface Config {
   STRAPI_API: string;
   STRAPI_HOST: string;
@@ -10,6 +12,9 @@ interface Config {
   CONTENT_FILE_PATH: string;
   ENVIRONMENT: string;
   CSP_REPORT_URI?: string;
+  SAML_SP_METADATA_PATH: string;
+  SAML_SP_SECRET_KEY_PATH: string;
+  SAML_IDP_CERT?: string;
 }
 
 let instance: Config | undefined = undefined;
@@ -35,6 +40,13 @@ export function config(): Config {
         process.env.CONTENT_FILE_PATH?.trim() ?? "./content.json",
       ENVIRONMENT,
       CSP_REPORT_URI: process.env.CSP_REPORT_URI?.trim(),
+      SAML_SP_METADATA_PATH:
+        process.env.SAML_SP_METADATA_PATH?.trim() ??
+        path.join(process.cwd(), "data/saml/sp_metadata.xml"),
+      SAML_SP_SECRET_KEY_PATH:
+        process.env.SAML_SP_SECRET_KEY_PATH?.trim() ??
+        path.join(process.cwd(), "data/saml/sp_privateKey.pem"),
+      SAML_IDP_CERT: process.env.SAML_IDP_CERT?.trim(),
     };
   }
 
