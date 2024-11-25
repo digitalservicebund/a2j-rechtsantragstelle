@@ -1,9 +1,9 @@
-import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
+import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import {
   addPlannedFlightDetails,
   AFFECTED_FLIGHT_TEXT,

@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { GeldEinklagenFormular } from "tests/e2e/domains/geldEinklagen/formular/GeldEinklagenFormular";
+import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 
 let geldEinklagenFormular: GeldEinklagenFormular;

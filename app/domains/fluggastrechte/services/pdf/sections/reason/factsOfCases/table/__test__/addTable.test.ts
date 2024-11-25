@@ -1,8 +1,8 @@
-import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { addTable } from "../addTable";
 import { addTableInfo } from "../addTableInfo";
 import { drawTableColumnsHead } from "../drawTableColumnHead";

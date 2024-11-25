@@ -1,8 +1,8 @@
-import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { addFlightDetails } from "../addFlightDetails";
 import { addReason } from "../addReason";
 import { addCompensationAmount } from "../compensationAmount/addCompensationAmount";
