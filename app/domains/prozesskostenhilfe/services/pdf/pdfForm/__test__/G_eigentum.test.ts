@@ -465,5 +465,28 @@ describe("G_eigentum", () => {
       );
       expect(attachment?.length).toBeGreaterThan(0);
     });
+
+    it("should exclude both Bargeld, and Lebensversicherung", () => {
+      const { pdfValues } = fillSonstigeVermoegenswerte({
+        userData: {
+          geldanlagen: [
+            {
+              art: "bargeld",
+              eigentuemer: "myself",
+              wert: "500",
+            },
+            {
+              art: "befristet",
+              eigentuemer: "partner",
+              wert: "1000",
+              befristetArt: "lifeInsurance",
+            },
+          ],
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.nein_46.value).toBe(true);
+      expect(pdfValues.bezeichnungAlleinoderMiteigentum.value).toBeUndefined();
+    });
   });
 });

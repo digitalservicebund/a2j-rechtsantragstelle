@@ -225,24 +225,28 @@ export const fillSonstigeVermoegenswerte: PkhPdfFillFunction = ({
   pdfValues,
 }) => {
   const { geldanlagen } = userData;
-  // Bargeld has already been accounted for in G-4
-  const nonBargeldGeldanlagen =
-    geldanlagen?.filter((geldAnlage) => geldAnlage.art !== "bargeld") ?? [];
-  if (!arrayIsNonEmpty(nonBargeldGeldanlagen)) {
+  // Need to exclude Bargeld (accounted for in G-4) and Lebensversicherung (accounted for in G-5)
+  const sonstigeVermoegenswerte =
+    geldanlagen?.filter(
+      (geldAnlage) =>
+        geldAnlage.art !== "bargeld" &&
+        geldAnlage.befristetArt !== "lifeInsurance",
+    ) ?? [];
+  if (!arrayIsNonEmpty(sonstigeVermoegenswerte)) {
     pdfValues.nein_46.value = true;
     return { pdfValues };
   }
   pdfValues.ja_41.value = true;
-  if (nonBargeldGeldanlagen.length === 1) {
+  if (sonstigeVermoegenswerte.length === 1) {
     pdfValues.bezeichnungAlleinoderMiteigentum.value = fillSingleGeldanlage(
-      nonBargeldGeldanlagen[0],
+      sonstigeVermoegenswerte[0],
     );
-    pdfValues.verkehrswert4.value = nonBargeldGeldanlagen[0].wert + " €";
+    pdfValues.verkehrswert4.value = sonstigeVermoegenswerte[0].wert + " €";
     return { pdfValues };
   }
   pdfValues.bezeichnungAlleinoderMiteigentum.value =
     SEE_IN_ATTACHMENT_DESCRIPTION;
-  const { attachment } = attachGeldanlagenToAnhang(nonBargeldGeldanlagen);
+  const { attachment } = attachGeldanlagenToAnhang(sonstigeVermoegenswerte);
   return {
     pdfValues,
     attachment,
