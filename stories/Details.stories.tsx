@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { DetailsSummary } from "../app/components/DetailsSummary";
+import { Details } from "../app/components/Details";
 import { remixContext } from "../.storybook/remixContext";
 import Container from "~/components/Container";
 
 const meta = {
-  title: "Component/DetailsSummary",
-  component: DetailsSummary,
+  title: "Component/Details",
+  component: Details,
   parameters: {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof DetailsSummary>;
+} satisfies Meta<typeof Details>;
 
 export default meta;
 

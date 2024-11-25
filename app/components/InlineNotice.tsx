@@ -3,7 +3,7 @@ import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
 import Heading from "./Heading";
 import RichText from "./RichText";
 
-type InlineNoticeProps = {
+export type InlineNoticeProps = {
   identifier?: string;
   title: string;
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";

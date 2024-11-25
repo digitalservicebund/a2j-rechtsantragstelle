@@ -25,7 +25,7 @@ export const getCookieBannerProps = (
   cmsData: StrapiCookieBanner,
 ): CookieBannerContentProps => {
   return {
-    heading: getHeadingProps(cmsData.heading),
+    heading: getHeadingProps(cmsData.heading)!,
     paragraphs: cmsData.paragraphs.map((p) => getRichTextProps(p)),
     acceptButtonLabel: cmsData.acceptButtonLabel,
     declineButtonLabel: cmsData.declineButtonLabel,

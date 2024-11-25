@@ -1,5 +1,6 @@
+import pick from "lodash/pick";
 import { z } from "zod";
-import { LinkListBoxPropsSchema } from "~/components/LinkListBox";
+import { type LinkListBoxProps } from "~/components/LinkListBox";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
@@ -27,6 +28,7 @@ export const StrapiLinkListBoxComponentSchema = StrapiLinkListBoxSchema.extend({
   __component: z.literal("page.link-list-box"),
 });
 
-export const getLinkListBoxProps = (cmsData: StrapiLinkListBox) => {
-  return LinkListBoxPropsSchema.parse(omitNull(cmsData));
-};
+export const getLinkListBoxProps = (
+  cmsData: StrapiLinkListBox,
+): LinkListBoxProps =>
+  pick(omitNull(cmsData), "label", "heading", "buttons", "links");
