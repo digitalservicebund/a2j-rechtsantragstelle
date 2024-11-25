@@ -12,8 +12,8 @@ import {
 import { getZwischenStops } from "../services/summaryPage/stoppOver";
 
 type SummaryDataProps = {
-  userData?: FluggastrechtContext;
-  translations: Translations;
+  readonly userData?: FluggastrechtContext;
+  readonly translations: Translations;
 };
 
 export default function SummaryDataOverview({

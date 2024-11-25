@@ -34,7 +34,10 @@ const getBetroffenerFlug = (userData: FluggastrechtContext) => {
     return `${dritterZwischenStoppName} - ${endAirportName}`;
 };
 
-function StopOverCards({ userData, translations }: ZwischenstoppsProps) {
+function StopOverCards({
+  userData,
+  translations,
+}: Readonly<ZwischenstoppsProps>) {
   if (!userData) return null;
   return (
     <>

@@ -6,8 +6,8 @@ function ActualArrivalCards({
   userData,
   translations,
 }: {
-  userData: Context;
-  translations: Translations;
+  readonly userData: Context;
+  readonly translations: Translations;
 }) {
   if (userData.tatsaechlicherFlug === "yes") {
     return (

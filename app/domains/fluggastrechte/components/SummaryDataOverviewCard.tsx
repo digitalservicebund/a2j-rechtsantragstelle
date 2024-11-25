@@ -6,12 +6,12 @@ import type { Translations } from "~/services/translations/getTranslationByKey";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 
 type CardProps = {
-  data: Context | undefined;
-  subtitle?: string;
-  title?: string;
-  showValueHeading?: boolean;
-  buttonUrl: string;
-  translations: Translations;
+  readonly data: Context | undefined;
+  readonly subtitle?: string;
+  readonly title?: string;
+  readonly showValueHeading?: boolean;
+  readonly buttonUrl: string;
+  readonly translations: Translations;
 };
 
 const formatTextWithBreaks = (text: string) =>

@@ -3,8 +3,8 @@ import { type FluggastrechtContext } from "../../formular/context";
 import { getAirportByIataCode } from "../airports/getAirportByIataCode";
 
 export type ZwischenstoppsProps = {
-  userData: FluggastrechtContext | undefined;
-  translations: Translations;
+  readonly userData: FluggastrechtContext | undefined;
+  readonly translations: Translations;
 };
 
 export const getZwischenStops = (zwischenstop: FluggastrechtContext) => {
