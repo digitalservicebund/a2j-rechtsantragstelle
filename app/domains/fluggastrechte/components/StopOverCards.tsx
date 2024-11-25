@@ -1,10 +1,10 @@
 import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
+import type { FluggastrechtContext } from "../formular/context";
 import {
   getAnzahlZwischenstopps,
   getZwischenStops,
   type ZwischenstoppsProps,
 } from "../services/summaryPage/stoppOver";
-import { FluggastrechtContext } from "../formular/context";
 
 const getBetroffenerFlug = (userData: FluggastrechtContext) => {
   if (userData.verspaeteterFlug === "startAirportFirstZwischenstopp")

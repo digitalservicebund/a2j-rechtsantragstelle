@@ -1,46 +1,19 @@
 import Heading from "~/components/Heading";
-import type { FluggastrechtContext } from "../formular/context";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import ActualArrivalCards from "./ActualArrivalCards";
 import StopOverCards from "./StopOverCards";
 import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
+import type { FluggastrechtContext } from "../formular/context";
+import {
+  getFlugDaten,
+  getPersonData,
+  getZeugenText,
+} from "../services/summaryPage/getOverviewData";
 import { getZwischenStops } from "../services/summaryPage/stoppOver";
 
 type SummaryDataProps = {
   userData?: FluggastrechtContext;
   translations: Translations;
-};
-
-const getStringWithSpaceIfStringExists = (value: string | undefined) => {
-  return value ? `${value} ` : "";
-};
-
-const getPersonData = (userData: FluggastrechtContext) => {
-  return {
-    klagendePerson: `${getStringWithSpaceIfStringExists(userData.anrede) + getStringWithSpaceIfStringExists(userData.vorname) + getStringWithSpaceIfStringExists(userData.nachname)}`,
-    strasseHausnummer: userData.strasseHausnummer,
-    plzOrt: `${userData.plz} ${userData.ort}`,
-    telefonnummer: userData.telefonnummer,
-    kontodaten: userData.iban
-      ? `${userData.iban} \n ${userData.kontoinhaber}`
-      : "",
-  };
-};
-
-const getFlugDaten = (userData: FluggastrechtContext) => {
-  return {
-    Flugnummer: userData.direktFlugnummer,
-    Buchungsnummer: userData.buchungsNummer,
-    Abflug: `${userData.direktAbflugsDatum} - ${userData.direktAbflugsZeit}`,
-    Ankunft: `${userData.direktAnkunftsDatum} - ${userData.direktAnkunftsZeit}`,
-    Zwischenstops: userData.zwischenstoppAnzahl,
-  };
-};
-
-const getZeugenText = (userData: FluggastrechtContext) => {
-  if (userData.hasZeugen === "no") return "noWitnesses";
-  if (userData.isWeiterePersonen) return "cedentsAndWitnesses";
-  return "noCedentsAndWitnesses";
 };
 
 export default function SummaryDataOverview({
