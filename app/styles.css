@@ -67,7 +67,9 @@ svg {
 .container .ds-label-02-reg,
 .container .ds-label-03-bold,
 .container .ds-label-03-reg,
-p {
+.container p,
+.container ul,
+.container ol {
   max-width: 630px;
 }
 
