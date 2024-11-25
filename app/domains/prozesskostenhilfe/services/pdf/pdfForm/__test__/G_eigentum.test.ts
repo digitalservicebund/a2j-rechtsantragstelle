@@ -262,7 +262,13 @@ describe("G_eigentum", () => {
     it("should indicate if the user has bargeld or wertgegenstaende", () => {
       let { pdfValues } = fillBargeldOderWertgegenstaende({
         userData: {
-          hasWertsache: "yes",
+          wertsachen: [
+            {
+              art: "Typ",
+              eigentuemer: "partner",
+              wert: "100",
+            },
+          ],
         },
         pdfValues: pdfParams,
       });
@@ -279,7 +285,6 @@ describe("G_eigentum", () => {
     it("should print either a single Bargeld entry, or a single Wertstaende entry, if present", () => {
       let { pdfValues } = fillBargeldOderWertgegenstaende({
         userData: {
-          hasWertsache: "yes",
           wertsachen: [
             {
               art: "Kandelaber",
@@ -300,7 +305,6 @@ describe("G_eigentum", () => {
 
       ({ pdfValues } = fillBargeldOderWertgegenstaende({
         userData: {
-          hasGeldanlage: "yes",
           geldanlagen: [
             {
               art: "bargeld",

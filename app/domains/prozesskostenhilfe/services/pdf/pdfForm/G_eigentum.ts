@@ -1,3 +1,4 @@
+import type { PkhPdfFillFunction } from "~/domains/prozesskostenhilfe/services/pdf";
 import {
   eigentuemerMapping,
   attachBankkontenToAnhang,
@@ -16,7 +17,6 @@ import {
 } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { arrayIsNonEmpty } from "~/util/array";
-import type { PkhPdfFillFunction } from "..";
 
 export const fillBankkonto: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const { bankkonten, hasBankkonto } = userData;
@@ -115,30 +115,32 @@ export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  const { hasGeldanlage, hasWertsache, geldanlagen, wertsachen } = userData;
-  const bargeld = geldanlagen
-    ? geldanlagen.filter((geldanlage) => geldanlage.art === "bargeld")
-    : [];
+  const { geldanlagen = [], wertsachen = [] } = userData;
+  const bargeld = geldanlagen.filter(
+    (geldanlage) => geldanlage.art === "bargeld",
+  );
   const hasBargeldOderWertgegenstaende =
-    hasWertsache === "yes" || hasGeldanlage === "yes";
+    bargeld.length > 0 || wertsachen.length > 0;
+
   if (!hasBargeldOderWertgegenstaende) {
     pdfValues.nein_43.value = true;
     return { pdfValues };
   }
 
   pdfValues.ja_39.value = hasBargeldOderWertgegenstaende;
-  if (bargeld.length + (wertsachen?.length ?? 0) === 1) {
-    const singleBargeld = bargeld[0];
-    const singleWertsache = wertsachen?.at(0);
+  if (bargeld.length + wertsachen.length === 1) {
+    const singleBargeld = bargeld.at(0);
+    const singleWertsache = wertsachen.at(0);
     const singleVermoegenswert = singleBargeld ?? singleWertsache;
     const singleVermoegenswertString = singleBargeld
       ? fillSingleGeldanlage(singleBargeld)
       : fillSingleWertsache(singleWertsache!);
     pdfValues.bargeldbetraginEURBezeichnungderWertgegenstaendeAlleinoderMiteigentum.value =
       singleVermoegenswertString;
-    pdfValues.verkehrswert3.value = singleVermoegenswert.wert + " €";
+    pdfValues.verkehrswert3.value = singleVermoegenswert!.wert + " €";
     return { pdfValues };
   }
+
   pdfValues.bargeldbetraginEURBezeichnungderWertgegenstaendeAlleinoderMiteigentum.value =
     SEE_IN_ATTACHMENT_DESCRIPTION;
   const attachment: AttachmentEntries = [];
@@ -147,7 +149,7 @@ export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
     level: "h3",
   });
   bargeld.forEach((bargeld, index) => {
-    const bargeldEigentumer = bargeld.eigentuemer
+    const eigentuemer = bargeld.eigentuemer
       ? eigentuemerMapping[bargeld.eigentuemer]
       : "";
     attachment.push(
@@ -165,19 +167,31 @@ export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
       },
       {
         title: "Eigentümer:in",
-        text: bargeldEigentumer,
+        text: eigentuemer,
       },
     );
   });
 
-  wertsachen?.forEach((wertsache, index) => {
+  wertsachen.forEach((wertsache, index) => {
+    const eigentuemer = wertsache.eigentuemer
+      ? eigentuemerMapping[wertsache.eigentuemer]
+      : "";
     attachment.push(
-      { title: `Wertsache ${index + 1}`, level: "h4" },
-      { title: "Art", text: wertsache.art },
-      { title: "Wert", text: wertsache.wert },
       {
-        title: "Eigentümer:in",
-        text: eigentuemerMapping[wertsache.eigentuemer],
+        title: `Wertsache ${index + 1}`,
+        level: "h4",
+      },
+      {
+        title: "Art",
+        text: "Wertsache",
+      },
+      {
+        title: "Wert",
+        text: `${wertsache.wert} €`,
+      },
+      {
+        title: "Eigentümer:in",
+        text: eigentuemer,
       },
     );
   });
@@ -191,20 +205,18 @@ export const fillLebensversicherung: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  const lebensversicherungen = userData.geldanlagen?.filter(
+  const { geldanlagen = [] } = userData;
+  const lebensversicherungen = geldanlagen.filter(
     (geldanlage) =>
       geldanlage.art === "befristet" &&
       geldanlage.befristetArt === "lifeInsurance",
   );
-  if (lebensversicherungen?.length === 1) {
+  if (lebensversicherungen.length === 1) {
     pdfValues.ja_40.value = true;
     pdfValues.versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvorsorgegemEinkommensteuergesetzdiestaatlichgefoerdertwurdeRiesterRente.value =
       fillSingleGeldanlage(lebensversicherungen[0]);
     pdfValues.rueckkaufswert.value = lebensversicherungen[0].wert + " €";
-  } else if (
-    lebensversicherungen?.length !== undefined &&
-    lebensversicherungen?.length > 1
-  ) {
+  } else if (lebensversicherungen.length > 1) {
     pdfValues.ja_40.value = true;
     pdfValues.versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvorsorgegemEinkommensteuergesetzdiestaatlichgefoerdertwurdeRiesterRente.value =
       SEE_IN_ATTACHMENT_DESCRIPTION;
@@ -224,14 +236,13 @@ export const fillSonstigeVermoegenswerte: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  const { geldanlagen } = userData;
+  const { geldanlagen = [] } = userData;
   // Need to exclude Bargeld (accounted for in G-4) and Lebensversicherung (accounted for in G-5)
-  const sonstigeVermoegenswerte =
-    geldanlagen?.filter(
-      (geldAnlage) =>
-        geldAnlage.art !== "bargeld" &&
-        geldAnlage.befristetArt !== "lifeInsurance",
-    ) ?? [];
+  const sonstigeVermoegenswerte = geldanlagen.filter(
+    (geldAnlage) =>
+      geldAnlage.art !== "bargeld" &&
+      geldAnlage.befristetArt !== "lifeInsurance",
+  );
   if (!arrayIsNonEmpty(sonstigeVermoegenswerte)) {
     pdfValues.nein_46.value = true;
     return { pdfValues };
