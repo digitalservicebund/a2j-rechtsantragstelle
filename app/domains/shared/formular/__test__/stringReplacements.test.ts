@@ -1,4 +1,4 @@
-import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
+import { happyPathData } from "~/domains/beratungshilfe/services/pdf/__test__/beratungshilfeFormularData";
 import {
   eigentumZusammenfassungShowPartnerschaftWarnings,
   getArrayIndexStrings,
