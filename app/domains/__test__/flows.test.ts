@@ -69,8 +69,8 @@ function getEnabledSteps({
  * - system under test should be in a certain state (step)
  */
 
-describe("state machine form flows", () => {
-  [
+describe("flow tests", () => {
+  const testCases = {
     testCasesBeratungshilfe,
     testCasesGeldEinklagen,
     testCasesFluggastrechteFormularFlugdatenNichtBefoerderung,
@@ -102,32 +102,24 @@ describe("state machine form flows", () => {
     testCasesFluggastrechteErfolgEU,
     testcasesFluggastrechteErfolgAnalog,
     testCasesFluggastrechteFormularProzessfuehrung,
-  ].forEach(({ machine, cases }) => {
-    test.each([...cases])(
-      "SUBMIT (%#) given context: %j, visits steps: %j",
-      (context, steps) => {
-        const actualSteps = getEnabledSteps({
-          machine,
-          context,
-          transitionType: "SUBMIT",
-          steps,
-        });
-        expect(actualSteps).toEqual(steps);
-      },
-    );
+  } as const;
+  const transitionTypes = ["SUBMIT", "BACK"] as const;
 
-    test.each([...cases])(
-      "BACK (%#) given context: %j, visits steps: %j",
-      (context, steps) => {
-        const expectedSteps = [...steps].reverse();
+  describe.each(Object.entries(testCases))("%s", (_, { machine, cases }) => {
+    describe.each([...cases])("[%#]", (context, steps) => {
+      test.each(transitionTypes)("%s", (transitionType) => {
+        const expectedSteps =
+          transitionType === "SUBMIT" ? steps : [...steps].reverse();
+
         const actualSteps = getEnabledSteps({
           machine,
           context,
-          transitionType: "BACK",
+          transitionType,
           steps: expectedSteps,
         });
+
         expect(actualSteps).toEqual(expectedSteps);
-      },
-    );
+      });
+    });
   });
 });

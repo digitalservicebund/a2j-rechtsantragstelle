@@ -9,6 +9,7 @@ export const FONTS_BUNDESSANS_BOLD = "BundesSansWebBold";
 export const PDF_MARGIN_VERTICAL = 50;
 export const PDF_MARGIN_HORIZONTAL = 70;
 export const PDF_HEIGHT_SEIZE = 780;
+export const PDF_WIDTH_SEIZE = 460;
 export const LINE_GAP_GLOBAL = 2;
 
 const bundesSansWebRegular = await readRelativeFileToBuffer(
