@@ -4,7 +4,9 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import saml from "samlify";
 import Button from "~/components/Button";
+import { config } from "~/services/env/env.server";
 import { throw404OnProduction } from "~/services/errorPages/throw404";
+import invariant from "tiny-invariant";
 
 // IDP xml
 // Ort für xmls finden
@@ -15,6 +17,7 @@ import { throw404OnProduction } from "~/services/errorPages/throw404";
 export const loader = () => {
   throw404OnProduction();
 
+  invariant(config().SAML_IDP_CERT, "SAML_IDP_CERT has to be set");
   // eslint-disable-next-line sonarjs/new-cap
   const idp = saml.IdentityProvider({
     // Reading the data from file does not work because wantAuthnRequestsSigned is not set
@@ -27,18 +30,13 @@ export const loader = () => {
         Location: "https://int.id.bund.de/idp/profile/SAML2/POST/SSO",
       },
     ],
-    // get it from https://int.id.bund.de/idp
-    signingCert: "",
+    signingCert: config().SAML_IDP_CERT,
   });
 
-  const pathToSpMetadata = path.resolve(
-    path.join(process.cwd(), "path/to/sp_metadata.xml"),
-  );
+  const pathToSpMetadata = path.resolve(config().SAML_SP_METADATA_PATH);
   const spMetadata = fs.readFileSync(pathToSpMetadata);
 
-  const pathToPrivateKey = path.resolve(
-    path.join(process.cwd(), "path/to/sp_privateKey.pem"),
-  );
+  const pathToPrivateKey = path.resolve(config().SAML_SP_SECRET_KEY_PATH);
   const privateKey = fs.readFileSync(pathToPrivateKey);
 
   // eslint-disable-next-line sonarjs/new-cap
