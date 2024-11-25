@@ -37,7 +37,7 @@ export function calculateDuration({
 
   // Handle edge case: zero duration
   if (diffDays === 0 && diffHours === 0 && diffMinutes === 0) {
-    return "0 Stunden";
+    return "";
   }
 
   const dayLabel = diffDays === 1 ? "Tag" : "Tage";
