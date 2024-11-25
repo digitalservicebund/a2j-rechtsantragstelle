@@ -9,6 +9,7 @@ export STRAPI_ACCESS_KEY="${STRAPI_ACCESS_KEY:=$(cat /etc/strapi-access-key-secr
 export POSTHOG_API_KEY="${POSTHOG_API_KEY:=$(cat /etc/posthog-secrets/password)}"
 export COOKIE_SESSION_SECRET="${COOKIE_SESSION_SECRET:=$(cat /etc/cookie-session-secret/password)}"
 export REDIS_PASSWORD="${REDIS_PASSWORD:=$(cat /etc/redis-password-secret/password)}"
+export SAML_IDP_CERT="${SAML_IDP_CERT:=$(cat /etc/saml/cert)}"
 
 # NODE_ENV is only used by express, see https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production
 NODE_ENV=production node ./server.js

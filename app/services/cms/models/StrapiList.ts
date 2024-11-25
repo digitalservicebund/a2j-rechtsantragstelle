@@ -1,3 +1,4 @@
+import pick from "lodash/pick";
 import { z } from "zod";
 import { type ListProps } from "~/components/List";
 import { omitNull } from "~/util/omitNull";
@@ -27,5 +28,8 @@ export const StrapiListComponentSchema = StrapiListSchema.extend({
 });
 
 export const getListProps = ({ items, ...cmsData }: StrapiList): ListProps => {
-  return omitNull({ ...cmsData, items: items.map(getListItemProps) });
+  return omitNull({
+    ...pick(cmsData, "heading", "subheading", "isNumeric", "identifier"),
+    items: items.map(getListItemProps),
+  });
 };
