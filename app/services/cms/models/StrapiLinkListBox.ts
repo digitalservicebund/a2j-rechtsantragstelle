@@ -31,4 +31,4 @@ export const StrapiLinkListBoxComponentSchema = StrapiLinkListBoxSchema.extend({
 export const getLinkListBoxProps = (
   cmsData: StrapiLinkListBox,
 ): LinkListBoxProps =>
-  pick(omitNull(cmsData), "label", "heading", "buttons", "links");
+  pick(omitNull(cmsData), "label", "heading", "buttons", "links", "identifier");
