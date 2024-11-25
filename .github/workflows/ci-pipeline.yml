@@ -51,7 +51,7 @@ jobs:
       - run: npm run test:integration
 
   verify-local-e2e:
-    needs: [run-integration-tests]
+    needs: [get-content-file]
     uses: ./.github/workflows/e2e-test.yml
     with:
       require-published-app: false
