@@ -1,25 +1,35 @@
-import type { Context } from "~/domains/contexts";
 import type { Translations } from "~/services/translations/getTranslationByKey";
+import { getAirportByIataCode } from "../airports/getAirportByIataCode";
+import { FluggastrechtContext } from "../../formular/context";
 
 export type ZwischenstoppsProps = {
-  userData: Context | undefined;
+  userData: FluggastrechtContext | undefined;
   translations: Translations;
 };
 
-export const getZwischenStops = (zwischenstop: Context) => {
+export const getZwischenStops = (zwischenstop: FluggastrechtContext) => {
+  const ersterZwischenStoppName = getAirportByIataCode(
+    zwischenstop.ersterZwischenstopp,
+  )?.airport;
+  const zweiterZwischenstoppName = getAirportByIataCode(
+      zwischenstop.zweiterZwischenstopp,
+    )?.airport,
+    dritterZwischenstoppName = getAirportByIataCode(
+      zwischenstop.dritterZwischenstopp,
+    )?.airport;
   const stopMapping = {
     noStop: undefined,
     oneStop: {
-      ersterZwischenStopp: zwischenstop.ersterZwischenstopp ?? undefined,
+      ersterZwischenStopp: ersterZwischenStoppName ?? undefined,
     },
     twoStop: {
-      ersterZwischenStopp: zwischenstop.ersterZwischenstopp ?? undefined,
-      zweiterZwischenstopp: zwischenstop.zweiterZwischenstopp ?? undefined,
+      ersterZwischenStopp: ersterZwischenStoppName ?? undefined,
+      zweiterZwischenstopp: zweiterZwischenstoppName ?? undefined,
     },
     threeStop: {
-      ersterZwischenStopp: zwischenstop.ersterZwischenstopp ?? undefined,
-      zweiterZwischenstopp: zwischenstop.zweiterZwischenstopp ?? undefined,
-      dritterZwischenstopp: zwischenstop.dritterZwischenstopp ?? undefined,
+      ersterZwischenStopp: ersterZwischenStoppName ?? undefined,
+      zweiterZwischenstopp: zweiterZwischenstoppName ?? undefined,
+      dritterZwischenstopp: dritterZwischenstoppName ?? undefined,
     },
   } as const;
   return stopMapping[
@@ -27,7 +37,7 @@ export const getZwischenStops = (zwischenstop: Context) => {
   ];
 };
 
-export const getAnzahlZwischenstopps = (userData: Context) => {
+export const getAnzahlZwischenstopps = (userData: FluggastrechtContext) => {
   const stopps = {
     oneStop: 1,
     twoStop: 2,

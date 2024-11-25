@@ -14,13 +14,15 @@ type CardProps = {
   translations: Translations;
 };
 
-const formatTextWithBreaks = (text: string) =>
-  text.split("\n").map((line) => (
+const formatTextWithBreaks = (text: string) => {
+  console.log(text);
+  return text.split("\n").map((line) => (
     <>
       {line}
       <br />
     </>
   ));
+};
 
 function SummaryDataOverviewCard({
   data,

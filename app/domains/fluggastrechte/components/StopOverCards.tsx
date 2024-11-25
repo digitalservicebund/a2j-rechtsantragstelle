@@ -5,20 +5,33 @@ import {
   getZwischenStops,
   type ZwischenstoppsProps,
 } from "../services/summaryPage/stoppOver";
+import { getAirportByIataCode } from "../services/airports/getAirportByIataCode";
 
 const getBetroffenerFlug = (userData: FluggastrechtContext) => {
+  const startAirportName = getAirportByIataCode(userData.startAirport)?.airport;
+  const endAirportName = getAirportByIataCode(userData.endAirport)?.airport;
+  const ersterZwischenStoppName = getAirportByIataCode(
+    userData.ersterZwischenstopp,
+  )?.airport;
+  const zweiterZwischenStoppName = getAirportByIataCode(
+    userData.zweiterZwischenstopp,
+  )?.airport;
+  const dritterZwischenStoppName = getAirportByIataCode(
+    userData.dritterZwischenstopp,
+  )?.airport;
+
   if (userData.verspaeteterFlug === "startAirportFirstZwischenstopp")
-    return `${userData.startAirport} - ${userData.ersterZwischenstopp}`;
+    return `${startAirportName} - ${ersterZwischenStoppName}`;
   if (userData.verspaeteterFlug === "firstZwischenstoppEndAirport")
-    return `${userData.ersterZwischenstopp} - ${userData.endAirport}`;
+    return `${ersterZwischenStoppName} - ${endAirportName}`;
   if (userData.verspaeteterFlug === "firstAirportSecondZwischenstopp")
-    return `${userData.ersterZwischenstopp} - ${userData.zweiterZwischenstopp}`;
+    return `${ersterZwischenStoppName} - ${zweiterZwischenStoppName}`;
   if (userData.verspaeteterFlug === "secondZwischenstoppEndAirport")
-    return `${userData.zweiterZwischenstopp} - ${userData.endAirport}`;
+    return `${zweiterZwischenStoppName} - ${endAirportName}`;
   if (userData.verspaeteterFlug === "secondAirportThirdZwischenstopp")
-    return `${userData.zweiterZwischenstopp} - ${userData.dritterZwischenstopp}`;
+    return `${zweiterZwischenStoppName} - ${dritterZwischenStoppName}`;
   if (userData.verspaeteterFlug === "thirdZwischenstoppEndAirport")
-    return `${userData.dritterZwischenstopp} - ${userData.endAirport}`;
+    return `${dritterZwischenStoppName} - ${endAirportName}`;
 };
 
 function StopOverCards({ userData, translations }: ZwischenstoppsProps) {

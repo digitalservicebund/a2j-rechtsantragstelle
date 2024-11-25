@@ -9,7 +9,7 @@ export const getPersonData = (userData: FluggastrechtContext) => {
     telefonnummer: userData.telefonnummer,
     kontodaten: userData.iban
       ? `${userData.iban} \n ${userData.kontoinhaber}`
-      : "",
+      : "keine Angabe",
   };
 };
 
