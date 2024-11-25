@@ -159,7 +159,7 @@ export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
       },
       {
         title: "Art",
-        text: "Bargeld",
+        text: bargeld.art,
       },
       {
         title: "Wert",
@@ -173,9 +173,6 @@ export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
   });
 
   wertsachen.forEach((wertsache, index) => {
-    const eigentuemer = wertsache.eigentuemer
-      ? eigentuemerMapping[wertsache.eigentuemer]
-      : "";
     attachment.push(
       {
         title: `Wertsache ${index + 1}`,
@@ -183,7 +180,7 @@ export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
       },
       {
         title: "Art",
-        text: "Wertsache",
+        text: wertsache.art,
       },
       {
         title: "Wert",
@@ -191,7 +188,7 @@ export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
       },
       {
         title: "Eigentümer:in",
-        text: eigentuemer,
+        text: eigentuemerMapping[wertsache.eigentuemer],
       },
     );
   });
