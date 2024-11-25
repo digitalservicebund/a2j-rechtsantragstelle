@@ -125,23 +125,23 @@ export default tseslint.config(
       "sonarjs/anchor-has-content": "off",
       "sonarjs/no-invalid-await": "off",
 
-      // to be enabled later
-      "sonarjs/no-unstable-nested-components": "warn", // TODO: enable later
-      "sonarjs/deprecation": "off", // TODO: enable after remix upgrades to react router v7 and we move to Single Fetch
+      // TODO: to be enabled later
+      "sonarjs/no-unstable-nested-components": "warn",
+      "sonarjs/deprecation": "off", // enable after remix upgrades to react router v7 and we move to Single Fetch
 
       // typescript-eslint
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/consistent-type-imports": "warn",
-      "@typescript-eslint/only-throw-error": "warn",
+      "@typescript-eslint/only-throw-error": "off", // TODO: determine whether or not we should enable this
       "@typescript-eslint/no-unused-vars": [
         "warn",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
 
-      // to be enabled later
-      "@typescript-eslint/ban-ts-comment": "off", // TODO: enable later
-      "@typescript-eslint/consistent-type-definitions": "off", // TODO: enable later
-      "@typescript-eslint/array-type": "off", // TODO: enable later
+      // TODO: to be enabled later
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/consistent-type-definitions": "off",
+      "@typescript-eslint/array-type": "off",
 
       // fix/reevaluate
       "@typescript-eslint/no-unsafe-argument": "off",
