@@ -25,13 +25,13 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@digitalservicebund/icons/README.md",
     "direct": true
   },
-  "@react-pdf/renderer": {
+  "@pdf-lib/fontkit": {
     "licenses": "MIT",
-    "repository": "https://github.com/diegomura/react-pdf",
-    "publisher": "Diego Muracciole",
-    "email": "diegomuracciole@gmail.com",
-    "path": "a2j-rechtsantragstelle/node_modules/@react-pdf/renderer",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@react-pdf/renderer/README.md",
+    "repository": "https://github.com/Hopding/fontkit",
+    "publisher": "Andrew Dillon",
+    "email": "andrew.dillon.j@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/@pdf-lib/fontkit",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@pdf-lib/fontkit/README.md",
     "direct": true
   },
   "@remix-run/express": {
@@ -118,6 +118,15 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/compression/LICENSE",
     "direct": true
   },
+  "cookie": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/cookie",
+    "publisher": "Roman Shtylman",
+    "email": "shtylman@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/cookie",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/cookie/LICENSE",
+    "direct": true
+  },
   "dotenv": {
     "licenses": "BSD-2-Clause",
     "repository": "https://github.com/motdotla/dotenv",
@@ -168,6 +177,14 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/html-entities/LICENSE",
     "direct": true
   },
+  "ibantools": {
+    "licenses": "MIT*",
+    "repository": "https://github.com/Simplify/ibantools",
+    "publisher": "Saša Jovanić",
+    "path": "a2j-rechtsantragstelle/node_modules/ibantools",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/ibantools/LICENSE",
+    "direct": true
+  },
   "ioredis": {
     "licenses": "MIT",
     "repository": "https://github.com/luin/ioredis",
@@ -182,15 +199,6 @@
     "repository": "https://github.com/omrilotan/isbot",
     "path": "a2j-rechtsantragstelle/node_modules/isbot",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/isbot/LICENSE",
-    "direct": true
-  },
-  "license-checker-rseidelsohn": {
-    "licenses": "BSD-3-Clause",
-    "repository": "https://github.com/RSeidelsohn/license-checker-rseidelsohn",
-    "publisher": "Roman Seidelsohn",
-    "email": "rseidelsohn@gmail.com",
-    "path": "a2j-rechtsantragstelle/node_modules/license-checker-rseidelsohn",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/license-checker-rseidelsohn/LICENSE",
     "direct": true
   },
   "lodash": {
@@ -243,6 +251,15 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/pdf-lib/LICENSE.md",
     "direct": true
   },
+  "pdfkit": {
+    "licenses": "MIT",
+    "repository": "https://github.com/foliojs/pdfkit",
+    "publisher": "Devon Govett",
+    "email": "devongovett@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/pdfkit",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/pdfkit/LICENSE",
+    "direct": true
+  },
   "posthog-js": {
     "licenses": "MIT",
     "repository": "https://github.com/PostHog/posthog-js",
@@ -284,15 +301,6 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/react-dom/LICENSE",
     "direct": true
   },
-  "react-dropzone-esm": {
-    "licenses": "MIT",
-    "repository": "https://github.com/rtivital/react-dropzone-esm",
-    "publisher": "Vitaly Rtishchev",
-    "email": "rtivital@gmail.com",
-    "path": "a2j-rechtsantragstelle/node_modules/react-dropzone-esm",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/react-dropzone-esm/LICENSE",
-    "direct": true
-  },
   "react-imask": {
     "licenses": "MIT",
     "repository": "https://github.com/uNmAnNeR/imaskjs.git#master",
@@ -325,28 +333,6 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/remix-validated-form/README.md",
     "direct": true
   },
-  "sanitize-html": {
-    "licenses": "MIT",
-    "repository": "https://github.com/apostrophecms/sanitize-html",
-    "publisher": "Apostrophe Technologies, Inc.",
-    "path": "a2j-rechtsantragstelle/node_modules/sanitize-html",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/sanitize-html/LICENSE",
-    "direct": true
-  },
-  "spdx-exceptions": {
-    "licenses": "CC-BY-3.0",
-    "repository": "https://github.com/kemitchell/spdx-exceptions.json",
-    "publisher": "The Linux Foundation",
-    "path": "a2j-rechtsantragstelle/node_modules/spdx-exceptions",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/spdx-exceptions/README.md"
-  },
-  "spdx-ranges": {
-    "licenses": "(MIT AND CC-BY-3.0)",
-    "repository": "https://github.com/kemitchell/spdx-ranges.js",
-    "publisher": "The Linux Foundation",
-    "path": "a2j-rechtsantragstelle/node_modules/spdx-ranges",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/spdx-ranges/LICENSE.md"
-  },
   "tiny-invariant": {
     "licenses": "MIT",
     "repository": "https://github.com/alexreardon/tiny-invariant",
@@ -370,6 +356,15 @@
     "email": "cohara87@gmail.com",
     "path": "a2j-rechtsantragstelle/node_modules/validator",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/validator/LICENSE",
+    "direct": true
+  },
+  "xss": {
+    "licenses": "MIT",
+    "repository": "https://github.com/leizongmin/js-xss",
+    "publisher": "Zongmin Lei",
+    "email": "leizongmin@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/xss",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/xss/LICENSE",
     "direct": true
   },
   "xstate": {

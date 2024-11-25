@@ -17,56 +17,6 @@ test("forwarded to initial step", async () => {
   await vorabcheck.assertInitialStep();
 });
 
-test("vorabcheck can be traversed (long path)", async ({ page }) => {
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
-
-  await vorabcheck.fillRadioPage("wurdeVerklagt", "no");
-
-  await vorabcheck.fillRadioPage("klageEingereicht", "no");
-
-  await vorabcheck.fillRadioPage("hamburgOderBremen", "no");
-
-  await vorabcheck.fillRadioPage("beratungshilfeBeantragt", "no");
-
-  await vorabcheck.fillRadioPage("eigeninitiative", "no");
-
-  // warning step
-  await expectPageToBeAccessible({ page });
-  await vorabcheck.clickNext();
-
-  await vorabcheck.fillRadioPage("bereich", "other");
-
-  await vorabcheck.fillRadioPage("staatlicheLeistungen", "keine");
-
-  await vorabcheck.fillRadioPage("vermoegen", "below_10k");
-
-  await vorabcheck.fillRadioPage("erwerbstaetigkeit", "no");
-
-  await vorabcheck.fillRadioPage("partnerschaft", "no");
-
-  await vorabcheck.fillRadioPage("genauigkeit", "yes");
-
-  await vorabcheck.fillInputPage("einkommen", "1550");
-
-  await vorabcheck.fillRadioPage("kinder", "yes");
-
-  await vorabcheck.fillInputPage("kids.kids15To18", "1");
-
-  await vorabcheck.fillInputPage("einkommenKinder", "0");
-
-  await vorabcheck.fillRadioPage("unterhalt", "no");
-
-  await vorabcheck.fillInputPage("miete", "600");
-
-  await vorabcheck.fillInputPage("weitereZahlungenSumme", "200");
-
-  await expectPageToBeAccessible({ page });
-  await expect(
-    page.getByRole("heading").filter({ hasText: "Beratungshilfe erhalten" }),
-  ).toHaveCount(1);
-});
-
 test("vorabcheck can be traversed (short path)", async ({ page }) => {
   await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
 

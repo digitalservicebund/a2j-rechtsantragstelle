@@ -106,7 +106,6 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
       baujahr: faker.date.past().getFullYear(),
       anschaffungsjahr: faker.date.past().getFullYear(),
       verkaufswert: faker.finance.amount(),
-      bemerkung: faker.lorem.sentence(),
     },
   ],
   grundeigentum: [

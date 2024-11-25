@@ -3,17 +3,19 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import { createPageNumber } from "~/services/pdf/footer/createPageNumber";
+import { createStamp } from "~/services/pdf/footer/createStamp";
 import { createBankInformation } from "../createBankInformation";
 import { createFooter } from "../createFooter";
-import { createPageNumber } from "../createPageNumber";
-import { createStamp } from "../createStamp";
 
 vi.mock("../createBankInformation");
-vi.mock("../createPageNumber");
-vi.mock("../createStamp");
+vi.mock("~/services/pdf/footer/createPageNumber", () => ({
+  createPageNumber: vi.fn(),
+}));
+vi.mock("~/services/pdf/footer/createStamp", () => ({
+  createStamp: vi.fn(),
+}));
 
-vi.mocked(createStamp).mockImplementation(() => vi.fn());
-vi.mocked(createPageNumber).mockImplementation(() => vi.fn());
 vi.mocked(createBankInformation).mockImplementation(() => vi.fn());
 
 describe("createFooter", () => {

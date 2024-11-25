@@ -5,17 +5,20 @@ import Textarea, { TEXT_AREA_ROWS } from "~/components/inputs/Textarea";
 const getInputProps = vi.fn();
 let error: string | undefined = undefined;
 
-vi.mock("remix-validated-form", () => ({
-  ...vi.importActual("remix-validated-form"),
-  useField: () => ({
-    error,
-    getInputProps: getInputProps,
-    clearError: vi.fn(),
-    validate: vi.fn(),
-    touched: false,
-    setTouched: vi.fn(),
-  }),
-}));
+vi.mock("remix-validated-form", async () => {
+  const rmf = await vi.importActual("remix-validated-form");
+  return {
+    ...rmf,
+    useField: () => ({
+      error,
+      getInputProps: getInputProps,
+      clearError: vi.fn(),
+      validate: vi.fn(),
+      touched: false,
+      setTouched: vi.fn(),
+    }),
+  };
+});
 
 afterEach(() => {
   vi.restoreAllMocks(); // This clears all mocks after each test
@@ -72,8 +75,8 @@ describe("Textarea component", () => {
   });
 
   it("renders a collapsible text hint accordion when provided", () => {
-    vi.mock("~/components/DetailsSummary", () => ({
-      DetailsSummary: () => <div>Text-Beispiel</div>,
+    vi.mock("~/components/Details", () => ({
+      Details: () => <div>Text-Beispiel</div>,
     }));
     const RemixStub = createRemixStub([
       {

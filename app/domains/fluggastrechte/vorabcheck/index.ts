@@ -3,6 +3,7 @@ import fluggastrechteVorabcheckFlow from "~/domains/fluggastrechte/vorabcheck/fl
 import { guards as fluggastrechteVorabcheckGuards } from "~/domains/fluggastrechte/vorabcheck/guards";
 import type { FluggastrechtVorabcheckContext } from "./context";
 import {
+  getButtonURLForClaimViaPost,
   getCompensationPaymentString,
   getEndAirportName,
   getLastDayFromFourYearsAgoDate,
@@ -15,6 +16,7 @@ import {
   hasCompensationShortDistance,
 } from "./stringReplacements";
 import type { Context } from "../../contexts";
+import { getResponsibleCourt } from "../formular/stringReplacements";
 
 export const fluggastrechteVorabcheck = {
   flowType: "vorabCheck",
@@ -25,6 +27,8 @@ export const fluggastrechteVorabcheck = {
     flightDateExpiration: getLastDayFromFourYearsAgoDate(),
     ...getStartAirportName(context),
     ...getEndAirportName(context),
+    ...getResponsibleCourt(context),
+    ...getButtonURLForClaimViaPost(context),
     ...hasArbitrationBoardBfJ(context),
     ...hasArbitrationBoardSoeP(context),
     ...hasCompensationLongDistanceInsideEU(context),

@@ -21,6 +21,7 @@ const useDataListOptions = (dataListType: DataListType) => {
       }
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData();
   }, [dataListType]);
 

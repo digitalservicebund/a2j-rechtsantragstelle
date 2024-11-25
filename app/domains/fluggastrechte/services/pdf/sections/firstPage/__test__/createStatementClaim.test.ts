@@ -4,8 +4,8 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { getCompensationPayment } from "~/services/airports/getCompensationPayment";
-import { PDF_MARGIN_HORIZONTAL } from "../../../createPdfKitDocument";
+import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
+import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import {
   createStatementClaim,
   STATEMENT_CLAIM_AGREEMENT_SENTENCE,
@@ -29,8 +29,10 @@ function assertDefendantPartyList(
 
 describe("createStatementClaim", () => {
   beforeEach(() => {
-    vi.mock("~/services/airports/getCompensationPayment");
-    vi.mocked(getCompensationPayment).mockReturnValue("600");
+    vi.mock(
+      "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim",
+    );
+    vi.mocked(getTotalCompensationClaim).mockReturnValue(600);
   });
 
   afterEach(() => {
@@ -50,7 +52,7 @@ describe("createStatementClaim", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_TITLE_TEXT);
     expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_SUBTITLE_TEXT);
 
-    const compensation = getCompensationPayment({
+    const compensation = getTotalCompensationClaim({
       startAirport: userDataMock.startAirport,
       endAirport: userDataMock.endAirport,
     });
@@ -74,7 +76,7 @@ describe("createStatementClaim", () => {
 
     const defendantPartyList = getDefendantPartyList(
       userDataMock.prozesszinsen,
-      "600",
+      600,
     );
     assertDefendantPartyList(mockDoc, defendantPartyList);
   });

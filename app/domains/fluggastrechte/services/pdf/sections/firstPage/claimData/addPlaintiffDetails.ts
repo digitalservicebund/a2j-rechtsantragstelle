@@ -3,7 +3,7 @@ import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/con
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-} from "../../../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 import { getFullPlaintiffName } from "../../getFullPlaintiffName";
 
 export const PLAINTIFF_TEXT = "– Klagende Partei –";
@@ -11,13 +11,22 @@ export const SEPARATOR = " | ";
 
 export const addPlaintiffDetails = (
   doc: typeof PDFDocument,
-  userData: FluggastrechtContext,
+  {
+    anrede,
+    title,
+    vorname,
+    nachname,
+    strasseHausnummer,
+    telefonnummer,
+    plz,
+    ort,
+  }: FluggastrechtContext,
 ) => {
-  const plaintiffName = getFullPlaintiffName(userData);
-  const address = userData.strasseHausnummer ?? "";
-  const phoneNumber = userData.telefonnummer ?? "";
-  const zipCode = userData.plz ?? "";
-  const city = userData.ort ?? "";
+  const plaintiffName = getFullPlaintiffName(anrede, title, vorname, nachname);
+  const address = strasseHausnummer ?? "";
+  const phoneNumber = telefonnummer ?? "";
+  const zipCode = plz ?? "";
+  const city = ort ?? "";
 
   doc
     .fontSize(10)
@@ -25,7 +34,7 @@ export const addPlaintiffDetails = (
     .text(plaintiffName, { continued: true })
     .font(FONTS_BUNDESSANS_REGULAR)
     .text(SEPARATOR, { continued: true })
-    .text(`${address} ${zipCode} ${city}`)
+    .text(`${address}, ${zipCode} ${city}`)
     .text(phoneNumber)
     .text(PLAINTIFF_TEXT, { align: "left" });
 };

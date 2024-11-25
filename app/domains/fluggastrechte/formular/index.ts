@@ -21,13 +21,16 @@ import { streitwertKostenDone } from "./streitwertKosten/doneFunctions";
 import streitwertKostenFlow from "./streitwertKosten/flow.json";
 import {
   getAirlineName,
+  getAnnullierungInfo,
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
   getFirstZwischenstoppAirportName,
   getPersonNachname,
   getPersonVorname,
+  getResponsibleCourt,
   getSecondZwischenstoppAirportName,
   getStartAirportName,
+  getStreitwert,
   getThirdZwischenstoppAirportName,
   getWeiterePersonenNameStrings,
   isAnnullierung,
@@ -39,7 +42,7 @@ import zusammenfassungFlow from "./zusammenfassung/flow.json";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
-  eligibleSourcePages: ["ergebnis/erfolg"],
+  eligibleSourcePages: ["/ergebnis/erfolg"],
 };
 
 export const fluggastrechtFlow = {
@@ -71,10 +74,13 @@ export const fluggastrechtFlow = {
     ...getFirstZwischenstoppAirportName(context),
     ...getSecondZwischenstoppAirportName(context),
     ...getThirdZwischenstoppAirportName(context),
+    ...getResponsibleCourt(context),
     ...isVerspaetet(context),
     ...isNichtBefoerderung(context),
     ...isAnnullierung(context),
     ...isWeiterePersonen(context),
+    ...getStreitwert(context),
+    ...getAnnullierungInfo(context),
   }),
   config: {
     meta: {

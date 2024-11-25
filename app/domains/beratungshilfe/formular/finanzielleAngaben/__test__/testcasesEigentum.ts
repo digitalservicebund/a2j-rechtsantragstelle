@@ -3,17 +3,17 @@ import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine"
 import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
 
 const finanzielleAngabenEigentumBankkontenFrage =
-  "finanzielle-angaben/eigentum/bankkonten-frage";
+  "/finanzielle-angaben/eigentum/bankkonten-frage";
 const finanzielleAngabenEigentumGeldanlagenFrage =
-  "finanzielle-angaben/eigentum/geldanlagen-frage";
+  "/finanzielle-angaben/eigentum/geldanlagen-frage";
 const finanzielleAngabenEigentumWertgegenstaendeFrage =
-  "finanzielle-angaben/eigentum/wertgegenstaende-frage";
+  "/finanzielle-angaben/eigentum/wertgegenstaende-frage";
 const finanzielleAngabenEigentumGrundeigentumFrage =
-  "finanzielle-angaben/eigentum/grundeigentum-frage";
+  "/finanzielle-angaben/eigentum/grundeigentum-frage";
 const finanzielleAngabenEigentumKraftfahrzeugeFrage =
-  "finanzielle-angaben/eigentum/kraftfahrzeuge-frage";
+  "/finanzielle-angaben/eigentum/kraftfahrzeuge-frage";
 const finanzielleAngabenAusgabenAusgabenFrage =
-  "finanzielle-angaben/ausgaben/ausgaben-frage";
+  "/finanzielle-angaben/ausgaben/ausgaben-frage";
 const cases = [
   [
     {},
@@ -40,8 +40,8 @@ const cases = [
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
       finanzielleAngabenEigentumKraftfahrzeugeFrage,
-      "finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "finanzielle-angaben/eigentum-zusammenfassung/warnung",
+      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      "/finanzielle-angaben/eigentum-zusammenfassung/warnung",
     ],
   ],
   [
@@ -59,9 +59,9 @@ const cases = [
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
       finanzielleAngabenEigentumKraftfahrzeugeFrage,
-      "finanzielle-angaben/eigentum/gesamtwert",
-      "finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "finanzielle-angaben/eigentum-zusammenfassung/warnung",
+      "/finanzielle-angaben/eigentum/gesamtwert",
+      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      "/finanzielle-angaben/eigentum-zusammenfassung/warnung",
     ],
   ],
   [
@@ -79,9 +79,9 @@ const cases = [
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
       finanzielleAngabenEigentumKraftfahrzeugeFrage,
-      "finanzielle-angaben/eigentum/gesamtwert",
-      "finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "finanzielle-angaben/ausgaben/ausgaben-frage",
+      "/finanzielle-angaben/eigentum/gesamtwert",
+      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      "/finanzielle-angaben/ausgaben/ausgaben-frage",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

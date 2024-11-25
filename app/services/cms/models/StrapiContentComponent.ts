@@ -3,16 +3,16 @@ import { StrapiVideoComponentSchema } from "~/services/cms/models/StrapiVideo";
 import { StrapiArraySummaryComponentSchema } from "./StrapiArraySummary";
 import { StrapiBoxComponentSchema } from "./StrapiBox";
 import { StrapiBoxWithImageComponentSchema } from "./StrapiBoxWithImage";
+import { StrapiDetailsComponentSchema } from "./StrapiDetails";
 import { StrapiHeaderComponentSchema } from "./StrapiHeader";
 import { StrapiHeadingComponentSchema } from "./StrapiHeading";
 import { StrapiInfoBoxComponentSchema } from "./StrapiInfoBox";
 import { StrapiInfoBoxItemComponentSchema } from "./StrapiInfoBoxItem";
+import { StrapiInlineNoticeComponentSchema } from "./StrapiInlineNotice";
 import { StrapiLinkListBoxComponentSchema } from "./StrapiLinkListBox";
 import { StrapiListComponentSchema } from "./StrapiList";
 import { StrapiParagraphComponentSchema } from "./StrapiParagraph";
-import { StrapiDetailsSummaryComponentSchema } from "../components/StrapiDetailsSummary";
-import { StrapiInlineNoticeComponentSchema } from "../components/StrapiInlineNotice";
-import { StrapiUserFeedbackComponentSchema } from "../components/StrapiUserFeedback";
+import { StrapiUserFeedbackComponentSchema } from "./StrapiUserFeedback";
 
 export const StrapiContentComponentSchema = z.discriminatedUnion(
   "__component",
@@ -29,7 +29,7 @@ export const StrapiContentComponentSchema = z.discriminatedUnion(
     StrapiListComponentSchema,
     StrapiArraySummaryComponentSchema,
     StrapiInlineNoticeComponentSchema,
-    StrapiDetailsSummaryComponentSchema,
+    StrapiDetailsComponentSchema,
     StrapiUserFeedbackComponentSchema,
   ],
 );

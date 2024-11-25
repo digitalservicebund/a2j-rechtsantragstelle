@@ -29,7 +29,14 @@ export class Vorabcheck {
   async clickNext() {
     await this.page.locator(`button[name="${this.nextButtonName}"]`).click();
     await this.page.waitForLoadState("load");
-    await this.page.waitForNavigation(); // deprecated but URL for waitForURL is unknown
+    /**
+     * waitForNavigation() is 'deprecated' (not actually, just discouraged) for its inherent raciness.
+     * However, as we don't know what the next page's url is going to be beforehand,
+     * we can't drop-in the replacement waitForURL().
+     *
+     * see https://github.com/microsoft/playwright/issues/20853 for a discussion,
+     */
+    await this.page.waitForNavigation();
   }
 
   async clickNextWithoutJavaScript() {
@@ -78,7 +85,7 @@ export class Vorabcheck {
   async fillAutoSuggestInputPage(field: string, value: string) {
     await this.page.waitForSelector(`[data-testid=${field}-loaded]`);
     await this.page.locator(`input[id="${field}"]`).fill(value);
-    const menuItem = await this.page
+    const menuItem = this.page
       .getByTestId("auto-suggest-input-menu-item")
       .first();
     await menuItem.dispatchEvent("click");

@@ -4,7 +4,7 @@ describe("parsePathname", () => {
   it("works for valid flow IDs", () => {
     expect(parsePathname("/beratungshilfe/antrag/test123")).toEqual({
       flowId: "/beratungshilfe/antrag",
-      stepId: "test123",
+      stepId: "/test123",
       arrayIndexes: [],
     });
   });
@@ -12,7 +12,7 @@ describe("parsePathname", () => {
   it("returns multiple array indexes", () => {
     expect(parsePathname("/beratungshilfe/antrag/test123/0/asd/1")).toEqual({
       flowId: "/beratungshilfe/antrag",
-      stepId: "test123/asd",
+      stepId: "/test123/asd",
       arrayIndexes: [0, 1],
     });
   });

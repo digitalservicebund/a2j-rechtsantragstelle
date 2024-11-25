@@ -4,18 +4,20 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_HEIGHT_SEIZE,
   PDF_MARGIN_HORIZONTAL,
-} from "../createPdfKitDocument";
+} from "~/services/pdf/createPdfKitDocument";
 
 export const createBankInformation = (
   doc: typeof PDFDocument,
   footerSect: PDFKit.PDFStructureElement,
-  userData: FluggastrechtContext,
+  { kontoinhaber, vorname, nachname, iban }: FluggastrechtContext,
 ) => {
   const bankAccountHolder =
-    userData.kontoinhaber ?? `${userData.nachname}, ${userData.vorname}`;
+    typeof kontoinhaber !== "undefined" && kontoinhaber.trim().length > 0
+      ? kontoinhaber
+      : `${vorname} ${nachname}`;
 
-  if (userData?.iban) {
-    const bankInfo = `Kontoinhaber: ${bankAccountHolder} | IBAN: ${userData.iban}`;
+  if (iban) {
+    const bankInfo = `Kontoinhaber: ${bankAccountHolder} | IBAN: ${iban}`;
     footerSect.add(
       doc.struct("P", {}, () => {
         doc

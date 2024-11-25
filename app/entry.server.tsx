@@ -16,6 +16,7 @@ import { NonceContext } from "./services/security/nonce";
 import { generateNonce } from "./services/security/nonce.server";
 import { originFromUrlString } from "./util/originFromUrlString";
 import { stripTrailingSlashFromURL } from "./util/strings";
+export { expressApp } from "./expressApp"; //re-exported to be called from server.js
 
 const ABORT_DELAY = 5000;
 const CONNECT_SOURCES = [originFromUrlString(webConfig().SENTRY_DSN)].filter(
@@ -79,6 +80,7 @@ function handleBotRequest(
           pipe(body);
         },
         onShellError(error: unknown) {
+          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
           reject(error ?? "Unknown error");
         },
         onError(error: unknown) {
@@ -138,6 +140,7 @@ function handleBrowserRequest(
         onShellError(error: unknown) {
           logError({ error });
 
+          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
           reject(error ?? "Unknown error");
         },
         onError(error: unknown) {

@@ -1,27 +1,22 @@
 import classNames from "classnames";
 import { cloneElement, type ReactElement } from "react";
-import { z } from "zod";
 import { isExternalUrl, isFileDownloadUrl } from "~/util/url";
 
-export const iconSchema = z
-  .custom<ReactElement<{ className: string }>>()
-  .optional();
+type ReactElementWithClassname = ReactElement<{ className: string }>;
 
-export const ButtonPropsSchema = z.object({
-  text: z.string().optional(),
-  look: z.enum(["primary", "secondary", "tertiary", "ghost"]).optional(),
-  size: z.enum(["large", "medium", "small"]).optional(),
-  href: z.string().optional(),
-  iconLeft: iconSchema,
-  iconRight: iconSchema,
-  fullWidth: z.boolean().optional(),
-});
-
-export type ButtonProps = z.infer<typeof ButtonPropsSchema>;
+export type ButtonProps = {
+  text?: string;
+  look?: "primary" | "secondary" | "tertiary" | "ghost";
+  size?: "large" | "medium" | "small";
+  href?: string;
+  iconLeft?: ReactElementWithClassname;
+  iconRight?: ReactElementWithClassname;
+  fullWidth?: boolean;
+};
 
 type LinkProps = React.ComponentPropsWithoutRef<"a">;
 
-function formatIcon(icon: z.infer<typeof iconSchema>) {
+function formatIcon(icon?: ReactElementWithClassname) {
   if (!icon) return undefined;
   const className = `ds-button-icon ${icon.props.className ?? ""}`;
   return cloneElement(icon, { className });

@@ -1,8 +1,8 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "./addNewPageInCaseMissingVerticalSpace";
 import { createFactsOfCases } from "./factsOfCases/createFactsOfCases";
-import { FONTS_BUNDESSANS_BOLD } from "../../createPdfKitDocument";
 import { createLegalAssessment } from "./legalAssessment/createLegalAssessment";
 
 export const REASON_TITLE_TEXT = "Begründung";

@@ -1,3 +1,4 @@
+import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { beratungshilfePersoenlicheDatenDone } from "~/domains/beratungshilfe/formular/persoenlicheDaten/doneFunctions";
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
@@ -50,12 +51,12 @@ export const weiteresEinkommenStrings = (
 ) => {
   const { weitereseinkommen } = context;
   return {
-    arbeitslosenGeld: weitereseinkommen?.arbeitlosengeld === "on",
-    wohngeld: weitereseinkommen?.wohngeld === "on",
-    bafoeg: weitereseinkommen?.bafoeg === "on",
-    rente: weitereseinkommen?.rente === "on",
-    krankengeld: weitereseinkommen?.krankengeld === "on",
-    elterngeld: weitereseinkommen?.elterngeld === "on",
+    arbeitslosenGeld: weitereseinkommen?.arbeitlosengeld === CheckboxValue.on,
+    wohngeld: weitereseinkommen?.wohngeld === CheckboxValue.on,
+    bafoeg: weitereseinkommen?.bafoeg === CheckboxValue.on,
+    rente: weitereseinkommen?.rente === CheckboxValue.on,
+    krankengeld: weitereseinkommen?.krankengeld === CheckboxValue.on,
+    elterngeld: weitereseinkommen?.elterngeld === CheckboxValue.on,
   };
 };
 
@@ -63,13 +64,13 @@ export const ausgabenStrings = (context: BeratungshilfeFormularContext) => {
   return {
     hasSchwangerschaft:
       context.hasAusgaben === "yes" &&
-      context.ausgabensituation?.pregnancy === "on",
+      context.ausgabensituation?.pregnancy === CheckboxValue.on,
     hasSchwerbehinderung:
       context.hasAusgaben === "yes" &&
-      context.ausgabensituation?.disability === "on",
+      context.ausgabensituation?.disability === CheckboxValue.on,
     hasMedicalReasons:
       context.hasAusgaben === "yes" &&
-      context.ausgabensituation?.medicalReasons === "on",
+      context.ausgabensituation?.medicalReasons === CheckboxValue.on,
     hasWeitereAusgaben:
       context.hasAusgaben === "yes" &&
       context.ausgaben &&
