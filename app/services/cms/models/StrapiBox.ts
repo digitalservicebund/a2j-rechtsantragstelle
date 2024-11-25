@@ -29,7 +29,8 @@ export const StrapiBoxComponentSchema = StrapiBoxSchema.extend({
 });
 
 export const getBoxProps = (cmsData: StrapiBox): BoxProps => {
-  const subset = pick(cmsData, "label", "heading", "buttons", "links");
-  const content = subset.content && getRichTextProps(subset.content);
-  return omitNull({ ...subset, content });
+  return omitNull({
+    ...pick(cmsData, "label", "heading", "buttons"),
+    content: cmsData.content && getRichTextProps(cmsData.content),
+  });
 };
