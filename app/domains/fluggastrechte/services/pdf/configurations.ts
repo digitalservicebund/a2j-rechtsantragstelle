@@ -1,0 +1,1 @@
+export const MARGIN_BETWEEN_SECTIONS = 1.5;

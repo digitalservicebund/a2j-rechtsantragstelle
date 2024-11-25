@@ -538,7 +538,6 @@ describe("kraftfahrzeugeDone", () => {
               kilometerstand: 20000,
               anschaffungsjahr: "1990",
               baujahr: "1990",
-              bemerkung: "bemerkung",
               hasArbeitsweg: "yes",
               wert: "under10000",
             },

@@ -3,8 +3,8 @@ import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine"
 import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
 
 const finanzielleAngabenAusgabenAusgabenFrage =
-  "finanzielle-angaben/ausgaben/ausgaben-frage";
-const persoenlicheDatenStart = "persoenliche-daten/start";
+  "/finanzielle-angaben/ausgaben/ausgaben-frage";
+const persoenlicheDatenStart = "/persoenliche-daten/start";
 const cases = [
   [
     {
@@ -20,9 +20,9 @@ const cases = [
     { hasAusgaben: "yes" },
     [
       finanzielleAngabenAusgabenAusgabenFrage,
-      "finanzielle-angaben/ausgaben/situation",
-      "finanzielle-angaben/ausgaben/uebersicht",
-      "finanzielle-angaben/ausgaben/warnung",
+      "/finanzielle-angaben/ausgaben/situation",
+      "/finanzielle-angaben/ausgaben/uebersicht",
+      "/finanzielle-angaben/ausgaben/warnung",
     ],
   ],
   [
@@ -40,8 +40,8 @@ const cases = [
     },
     [
       finanzielleAngabenAusgabenAusgabenFrage,
-      "finanzielle-angaben/ausgaben/situation",
-      "finanzielle-angaben/ausgaben/uebersicht",
+      "/finanzielle-angaben/ausgaben/situation",
+      "/finanzielle-angaben/ausgaben/uebersicht",
       persoenlicheDatenStart,
     ],
   ],
@@ -60,9 +60,9 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielle-angaben/ausgaben/ausgaben/art",
-      "finanzielle-angaben/ausgaben/ausgaben/zahlungsinformation",
-      "finanzielle-angaben/ausgaben/ausgaben/laufzeit",
+      "/finanzielle-angaben/ausgaben/ausgaben/art",
+      "/finanzielle-angaben/ausgaben/ausgaben/zahlungsinformation",
+      "/finanzielle-angaben/ausgaben/ausgaben/laufzeit",
     ],
   ],
   [
@@ -80,9 +80,9 @@ const cases = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "finanzielle-angaben/ausgaben/ausgaben/zahlungsinformation",
-      "finanzielle-angaben/ausgaben/ausgaben/laufzeit",
-      "finanzielle-angaben/ausgaben/ausgaben/zahlungsfrist",
+      "/finanzielle-angaben/ausgaben/ausgaben/zahlungsinformation",
+      "/finanzielle-angaben/ausgaben/ausgaben/laufzeit",
+      "/finanzielle-angaben/ausgaben/ausgaben/zahlungsfrist",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

@@ -1,8 +1,8 @@
-import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -27,7 +27,7 @@ describe("addPlaintiffDetails", () => {
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR);
     expect(mockDoc.text).toHaveBeenCalledWith(SEPARATOR, { continued: true });
     expect(mockDoc.text).toHaveBeenCalledWith(
-      `${userDataMock.strasseHausnummer} ${userDataMock.plz} ${userDataMock.ort}`,
+      `${userDataMock.strasseHausnummer}, ${userDataMock.plz} ${userDataMock.ort}`,
     );
     expect(mockDoc.text).toHaveBeenCalledWith(userDataMock.telefonnummer);
     expect(mockDoc.text).toHaveBeenCalledWith(PLAINTIFF_TEXT, {

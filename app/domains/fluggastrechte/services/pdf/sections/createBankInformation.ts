@@ -9,13 +9,15 @@ import {
 export const createBankInformation = (
   doc: typeof PDFDocument,
   footerSect: PDFKit.PDFStructureElement,
-  userData: FluggastrechtContext,
+  { kontoinhaber, vorname, nachname, iban }: FluggastrechtContext,
 ) => {
   const bankAccountHolder =
-    userData.kontoinhaber ?? `${userData.nachname}, ${userData.vorname}`;
+    typeof kontoinhaber !== "undefined" && kontoinhaber.trim().length > 0
+      ? kontoinhaber
+      : `${vorname} ${nachname}`;
 
-  if (userData?.iban) {
-    const bankInfo = `Kontoinhaber: ${bankAccountHolder} | IBAN: ${userData.iban}`;
+  if (iban) {
+    const bankInfo = `Kontoinhaber: ${bankAccountHolder} | IBAN: ${iban}`;
     footerSect.add(
       doc.struct("P", {}, () => {
         doc

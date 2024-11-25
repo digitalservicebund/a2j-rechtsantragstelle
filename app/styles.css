@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-h1,
-h2 {
-  max-width: 848px;
-}
-
-h3,
-h4,
-h5,
-h6,
-li,
-p {
-  max-width: 630px;
-}
-
 ul {
   list-style-type: disc;
   padding-left: 1.5rem;
@@ -63,6 +49,28 @@ svg {
     5vw,
     3rem
   ); /* ignored when clamp is not available */
+}
+
+/* headings and text inside containers have a project-specific max-width */
+.container .ds-heading-01-reg,
+.container .ds-heading-01-bold,
+.container .ds-heading-02-reg,
+.container .ds-heading-02-bold {
+  max-width: 848px;
+}
+
+.container .ds-heading-03-reg,
+.container .ds-heading-03-bold,
+.container .ds-label-01-bold,
+.container .ds-label-01-reg,
+.container .ds-label-02-bold,
+.container .ds-label-02-reg,
+.container .ds-label-03-bold,
+.container .ds-label-03-reg,
+.container p,
+.container ul,
+.container ol {
+  max-width: 630px;
 }
 
 /* There is a specific design request to remove the margin above lists and below small headlines */

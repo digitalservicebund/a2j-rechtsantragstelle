@@ -1,27 +1,22 @@
 import classNames from "classnames";
-import { z } from "zod";
 import { arrayIsNonEmpty } from "~/util/array";
-import Button, { ButtonPropsSchema } from "./Button";
+import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";
-import { DetailsSummary, DetailsSummarySchema } from "./DetailsSummary";
+import { Details, type DetailsProps } from "./Details";
 import Heading, { type HeadingProps } from "./Heading";
-import Image, { ImagePropsSchema } from "./Image";
+import Image, { type ImageProps } from "./Image";
 import RichText from "./RichText";
 
-export const InfoBoxItemPropsSchema = z.object({
-  identifier: z.string().optional(),
-  label: z.custom<HeadingProps>().optional(),
-  headline: z.custom<HeadingProps>().optional(),
-  image: ImagePropsSchema.optional(),
-  content: z.string().optional(),
-  detailsSummary: DetailsSummarySchema.optional().or(
-    z.array(DetailsSummarySchema).optional(),
-  ),
-  buttons: z.array(ButtonPropsSchema).optional(),
-  separator: z.boolean().optional(),
-});
-
-type InfoBoxItemProps = z.infer<typeof InfoBoxItemPropsSchema>;
+export type InfoBoxItemProps = {
+  identifier?: string;
+  label?: HeadingProps;
+  headline?: HeadingProps;
+  image?: ImageProps;
+  content?: string;
+  details?: DetailsProps[];
+  buttons?: ButtonProps[];
+  separator?: boolean;
+};
 
 const InfoBoxItem = ({
   identifier,
@@ -29,7 +24,7 @@ const InfoBoxItem = ({
   headline,
   image,
   content,
-  detailsSummary,
+  details,
   buttons,
   separator,
 }: InfoBoxItemProps) => {
@@ -47,11 +42,7 @@ const InfoBoxItem = ({
       {image && (
         <Image
           {...image}
-          {...{
-            className:
-              "max-[499px]:mb-16 max-[499px]:w-[144px] max-[499px]:h-[144px] h-[168px] w-[168px]" +
-              " self-baseline",
-          }}
+          className="max-[499px]:mb-16 max-[499px]:w-[144px] max-[499px]:h-[144px] h-[168px] w-[168px] self-baseline"
         />
       )}
       <div
@@ -62,12 +53,9 @@ const InfoBoxItem = ({
         {label && <Heading {...label} />}
         {headline && <Heading {...headline} />}
         {content && <RichText markdown={content} />}
-        {detailsSummary && !Array.isArray(detailsSummary) && (
-          <DetailsSummary {...detailsSummary} />
-        )}
-        {Array.isArray(detailsSummary) &&
-          detailsSummary.map((details) => (
-            <DetailsSummary key={details.title} {...details} />
+        {details &&
+          details.map((details) => (
+            <Details key={details.title} {...details} />
           ))}
         {arrayIsNonEmpty(buttons) && (
           <ButtonContainer>

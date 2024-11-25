@@ -52,12 +52,7 @@ describe("RichText component", () => {
   });
 
   it("should handle empty markdown", () => {
-    const markdown = "";
-    const className = "custom-class";
-    const { container } = render(
-      <RichText markdown={markdown} className={className} />,
-    );
-
+    const { container } = render(<RichText markdown={""} />);
     expect(container).toBeEmptyDOMElement();
   });
 

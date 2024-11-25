@@ -17,6 +17,7 @@ import { interpolateSerializableObject } from "~/util/fillTemplate";
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const { flowId, stepId } = parsePathname(pathname);
+  const cmsStepId = stepId.replace("ergebnis/", "");
   const cookieHeader = request.headers.get("Cookie");
 
   const { userData, debugId } = await getSessionData(flowId, cookieHeader);
@@ -34,10 +35,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     return redirect(flowController.getInitial());
 
   const [resultPageContent, parentMeta, defaultStrings] = await Promise.all([
-    fetchFlowPage("result-pages", flowId, stepId.replace("ergebnis/", "")),
-    fetchMeta({
-      filterValue: pathname.substring(0, pathname.lastIndexOf("/")),
-    }),
+    fetchFlowPage("result-pages", flowId, cmsStepId),
+    fetchMeta({ filterValue: flowId }),
     fetchTranslations("defaultTranslations"),
   ]);
 

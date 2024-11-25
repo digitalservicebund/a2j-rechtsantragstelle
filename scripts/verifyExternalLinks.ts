@@ -40,6 +40,7 @@ const allowedWebsites = [
   "https://formbricks.com",
   "https://transport.ec.europa.eu",
   "www.schlichtung-reise-und-verkehr.de",
+  "https://www.personalausweisportal.de",
 ];
 
 const allowedEmails = [

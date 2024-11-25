@@ -1,9 +1,9 @@
-import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
+import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
+import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import {
   addPlannedFlightDetails,
   AFFECTED_FLIGHT_TEXT,
@@ -12,7 +12,7 @@ import {
   PLANNED_DEPARTURE_DATE_TEXT,
 } from "../addPlannedFlightDetails";
 
-vi.mock("~/domains/fluggastrechte/services/airports/getCompensationPayment");
+vi.mock("~/domains/fluggastrechte/formular/services/getTotalCompensationClaim");
 
 describe("addPlannedFlightDetails", () => {
   it("should create document with flight details", () => {
@@ -39,17 +39,14 @@ describe("addPlannedFlightDetails", () => {
   it("should calculate compensation based on start and end airport", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
-    const mockCompensation = "400";
-    vi.mocked(getCompensationPayment).mockReturnValue(mockCompensation);
+    const mockCompensation = 400;
+    vi.mocked(getTotalCompensationClaim).mockReturnValue(mockCompensation);
 
     addPlannedFlightDetails(mockDoc, userDataMock);
 
-    expect(getCompensationPayment).toHaveBeenCalledWith({
-      startAirport: userDataMock.startAirport,
-      endAirport: userDataMock.endAirport,
-    });
+    expect(getTotalCompensationClaim).toHaveBeenCalled();
     expect(mockDoc.text).toHaveBeenCalledWith(
-      `Streitwert: ${mockCompensation}€`,
+      `Streitwert: ${mockCompensation} €`,
     );
   });
 });

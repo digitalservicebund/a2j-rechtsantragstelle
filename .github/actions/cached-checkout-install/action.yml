@@ -8,22 +8,24 @@ runs:
       with:
         node-version: "20.x"
         cache: "npm"
+    - name: Grab node version
+      run: echo "NODE_VERSION=$(node --version)" >> $GITHUB_ENV
+      shell: bash
     - name: Cache node modules
       id: cache-npm
       uses: actions/cache@v4
       env:
         cache-name: cache-node-modules
       with:
-        path: ~/.npm
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        path: ./node_modules
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.NODE_VERSION }}-
           ${{ runner.os }}-build-${{ env.cache-name }}-
           ${{ runner.os }}-build-
           ${{ runner.os }}-
     - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-      name: List the state of node modules
+      name: Perform a clean install of node dependencies
       continue-on-error: true
-      run: npm list
-      shell: bash
-    - run: npm ci
+      run: npm ci
       shell: bash

@@ -2,13 +2,13 @@ import type { TestCases } from "~/domains/__test__/TestCases";
 import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine";
 import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
 const finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeArbeitsweg =
-  "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/arbeitsweg";
+  "/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/arbeitsweg";
 const finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeWert =
-  "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/wert";
+  "/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/wert";
 const finanzielleAngabenEigentumZusammenfassungGrundeigentumBewohntFrage =
-  "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage";
+  "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage";
 const finanzielleAngabenEigentumZusammenfassungGrundeigentumDaten =
-  "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/daten";
+  "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/daten";
 
 const defaultInputGrundeigentum = {
   isBewohnt: "family",
@@ -33,7 +33,6 @@ const cases = [
           anschaffungsjahr: "anschaffungsjahr",
           art: "art",
           baujahr: "baujahr",
-          bemerkung: "baujahr",
           eigentuemer: "myself",
           kilometerstand: 10,
           marke: "marke",
@@ -57,7 +56,6 @@ const cases = [
           anschaffungsjahr: "anschaffungsjahr",
           art: "art",
           baujahr: "baujahr",
-          bemerkung: "baujahr",
           eigentuemer: "myself",
           kilometerstand: 10,
           marke: "marke",
@@ -69,7 +67,7 @@ const cases = [
     [
       finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeArbeitsweg,
       finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeWert,
-      "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/fahrzeuge",
+      "/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/fahrzeuge",
     ],
   ],
   [
@@ -82,7 +80,6 @@ const cases = [
           anschaffungsjahr: "anschaffungsjahr",
           art: "art",
           baujahr: "baujahr",
-          bemerkung: "baujahr",
           eigentuemer: "myself",
           kilometerstand: 10,
           marke: "marke",
@@ -94,7 +91,7 @@ const cases = [
     [
       finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeArbeitsweg,
       finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeWert,
-      "finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/fahrzeuge",
+      "/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/fahrzeuge",
     ],
   ],
 
@@ -141,7 +138,7 @@ const cases = [
     },
     [
       finanzielleAngabenEigentumZusammenfassungGrundeigentumBewohntFrage,
-      "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-daten",
+      "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-daten",
     ],
   ],
   [
@@ -155,7 +152,7 @@ const cases = [
     },
     [
       finanzielleAngabenEigentumZusammenfassungGrundeigentumBewohntFrage,
-      "finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-daten",
+      "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-daten",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;

@@ -1,19 +1,16 @@
-import { z } from "zod";
 import { arrayIsNonEmpty } from "~/util/array";
-import Button, { ButtonPropsSchema } from "./Button";
+import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 import Heading, { type HeadingProps } from "./Heading";
-import RichText, { RichTextPropsSchema } from "./RichText";
+import RichText, { type RichTextProps } from "./RichText";
 
-export const BoxPropsSchema = z.object({
-  identifier: z.string().optional(),
-  label: z.custom<HeadingProps>().optional(),
-  heading: z.custom<HeadingProps>().optional(),
-  content: RichTextPropsSchema.optional(),
-  buttons: z.array(ButtonPropsSchema).optional(),
-});
-
-type BoxProps = z.infer<typeof BoxPropsSchema>;
+export type BoxProps = {
+  identifier?: string;
+  label?: HeadingProps;
+  heading?: HeadingProps;
+  content?: RichTextProps;
+  buttons?: ButtonProps[];
+};
 
 const Box = ({ identifier, label, heading, content, buttons }: BoxProps) => {
   return (

@@ -6,7 +6,6 @@ import { createPageNumber } from "~/services/pdf/footer/createPageNumber";
 import { createStamp } from "~/services/pdf/footer/createStamp";
 import { createFooter } from "../createFooter";
 
-vi.mock("../createBankInformation");
 vi.mock("~/services/pdf/footer/createPageNumber", () => ({
   createPageNumber: vi.fn(),
 }));
