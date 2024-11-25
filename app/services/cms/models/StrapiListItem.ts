@@ -17,6 +17,5 @@ export const StrapiListItemSchema = z
 
 type StrapiListItem = z.infer<typeof StrapiListItemSchema>;
 
-export const getListItemProps = (cmsData: StrapiListItem): ListItemProps => {
-  return omitNull(cmsData);
-};
+export const getListItemProps = (cmsData: StrapiListItem): ListItemProps =>
+  omitNull(cmsData);
