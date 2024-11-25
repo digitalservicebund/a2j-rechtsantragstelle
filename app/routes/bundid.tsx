@@ -30,9 +30,6 @@ export const loader = async () => {
     signingCert: "",
   });
 
-  /*
-
-   */
   const pathToSpMetadata = path.resolve(
     path.join(process.cwd(), "path/to/sp_metadata.xml"),
   );
@@ -43,21 +40,9 @@ export const loader = async () => {
   );
   const privateKey = fs.readFileSync(pathToPrivateKey);
 
-  /*
-  const pathToTemplate = path.resolve(
-    path.join(process.cwd(), "path/to/auth_request_template.xml"),
-  );
-  const template = Buffer.from(fs.readFileSync(pathToTemplate)).toString()
-*/
-
   const sp = saml.ServiceProvider({
     metadata: spMetadata,
     privateKey,
-    /*
-    loginRequestTemplate: {
-      context: template,
-    }
-     */
   });
 
   const loginRequest = sp.createLoginRequest(idp, "post");
@@ -68,17 +53,13 @@ export const loader = async () => {
 };
 
 export default function View() {
-  const loaderData = useLoaderData();
+  const { url, samlRequest } = useLoaderData<typeof loader>();
 
   return (
     <div>
       <h1>BundID Test</h1>
-      <form action={loaderData["url"]} method="post">
-        <input
-          type="hidden"
-          name="SAMLRequest"
-          value={loaderData["samlRequest"]}
-        />
+      <form action={url} method="post">
+        <input type="hidden" name="SAMLRequest" value={samlRequest} />
         <Button type={"submit"}>Identifizieren</Button>
       </form>
     </div>
