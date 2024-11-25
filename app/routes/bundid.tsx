@@ -12,9 +12,10 @@ import { throw404OnProduction } from "~/services/errorPages/throw404";
 // proper feature toggle
 // extend XML with specific BundID attributes
 
-export const loader = async () => {
+export const loader = () => {
   throw404OnProduction();
 
+  // eslint-disable-next-line sonarjs/new-cap
   const idp = saml.IdentityProvider({
     // Reading the data from file does not work because wantAuthnRequestsSigned is not set
     // and even setting it (WantAuthnRequestsSigned="true") doesn't solve the issue.
@@ -40,6 +41,7 @@ export const loader = async () => {
   );
   const privateKey = fs.readFileSync(pathToPrivateKey);
 
+  // eslint-disable-next-line sonarjs/new-cap
   const sp = saml.ServiceProvider({
     metadata: spMetadata,
     privateKey,
