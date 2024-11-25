@@ -94,7 +94,7 @@ export default function SummaryDataOverview({
       <SummaryDataOverviewCard
         title="Zeuginnen und Zeugen"
         data={{ Zeugen: getZeugenText(userData) }}
-        showVariableName={false}
+        showValueHeading={false}
         buttonUrl="/fluggastrechte/formular/persoenliche-daten/person/daten"
         translations={translations}
       />

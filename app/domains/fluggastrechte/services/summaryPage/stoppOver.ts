@@ -1,6 +1,6 @@
 import type { Translations } from "~/services/translations/getTranslationByKey";
-import { getAirportByIataCode } from "../airports/getAirportByIataCode";
 import { FluggastrechtContext } from "../../formular/context";
+import { getAirportByIataCode } from "../airports/getAirportByIataCode";
 
 export type ZwischenstoppsProps = {
   userData: FluggastrechtContext | undefined;

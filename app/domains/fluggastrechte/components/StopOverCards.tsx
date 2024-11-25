@@ -1,11 +1,11 @@
 import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
 import type { FluggastrechtContext } from "../formular/context";
+import { getAirportByIataCode } from "../services/airports/getAirportByIataCode";
 import {
   getAnzahlZwischenstopps,
   getZwischenStops,
   type ZwischenstoppsProps,
 } from "../services/summaryPage/stoppOver";
-import { getAirportByIataCode } from "../services/airports/getAirportByIataCode";
 
 const getBetroffenerFlug = (userData: FluggastrechtContext) => {
   const startAirportName = getAirportByIataCode(userData.startAirport)?.airport;
@@ -47,7 +47,7 @@ function StopOverCards({ userData, translations }: ZwischenstoppsProps) {
       {userData.verspaeteterFlug && (
         <SummaryDataOverviewCard
           title="Betroffener Flug"
-          showVariableName={false}
+          showValueHeading={false}
           data={{ verspaeteterFlug: getBetroffenerFlug(userData) }}
           buttonUrl={`/fluggastrechte/formular/flugdaten/verspaeteter-flug-${getAnzahlZwischenstopps(userData)}`}
           translations={translations}

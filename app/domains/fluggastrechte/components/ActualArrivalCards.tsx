@@ -56,7 +56,7 @@ function ActualArrivalCards({
       return (
         <SummaryDataOverviewCard
           title="Tatsächliche Ankunft"
-          showVariableName={false}
+          showValueHeading={false}
           data={{
             keineAnkunft: "gar nicht angekommen",
           }}

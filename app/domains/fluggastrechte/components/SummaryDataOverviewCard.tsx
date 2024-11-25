@@ -9,26 +9,24 @@ type CardProps = {
   data: Context | undefined;
   subtitle?: string;
   title?: string;
-  showVariableName?: boolean;
+  showValueHeading?: boolean;
   buttonUrl: string;
   translations: Translations;
 };
 
-const formatTextWithBreaks = (text: string) => {
-  console.log(text);
-  return text.split("\n").map((line) => (
+const formatTextWithBreaks = (text: string) =>
+  text.split("\n").map((line) => (
     <>
       {line}
       <br />
     </>
   ));
-};
 
 function SummaryDataOverviewCard({
   data,
   title,
   subtitle,
-  showVariableName = true,
+  showValueHeading = true,
   buttonUrl,
   translations,
 }: CardProps) {
@@ -50,7 +48,7 @@ function SummaryDataOverviewCard({
           return (
             value && (
               <div key={key} className="first:pt-0 scroll-my-40">
-                {showVariableName && (
+                {showValueHeading && (
                   <Heading
                     text={getTranslationByKey(key, translations)}
                     tagName="p"
