@@ -5,6 +5,10 @@ type ConnectionDuration = {
   endTime: string;
 };
 
+const MILLISECONDS_IN_A_MINUTE = 1000 * 60;
+const MILLISECONDS_IN_AN_HOUR = MILLISECONDS_IN_A_MINUTE * 60;
+const MILLISECONDS_IN_A_DAY = MILLISECONDS_IN_AN_HOUR * 24;
+
 export function calculateDuration({
   startDate,
   startTime,
@@ -23,18 +27,27 @@ export function calculateDuration({
   const diffInMilliseconds = end.getTime() - start.getTime();
   if (diffInMilliseconds < 0) return "";
 
-  const diffHours = Math.floor(diffInMilliseconds / (1000 * 60 * 60));
+  const diffDays = Math.floor(diffInMilliseconds / MILLISECONDS_IN_A_DAY);
+  const diffHours = Math.floor(
+    (diffInMilliseconds % MILLISECONDS_IN_A_DAY) / MILLISECONDS_IN_AN_HOUR,
+  );
   const diffMinutes = Math.floor(
-    (diffInMilliseconds % (1000 * 60 * 60)) / (1000 * 60),
+    (diffInMilliseconds % MILLISECONDS_IN_AN_HOUR) / MILLISECONDS_IN_A_MINUTE,
   );
 
+  // Handle edge case: zero duration
+  if (diffDays === 0 && diffHours === 0 && diffMinutes === 0) {
+    return "0 Stunden";
+  }
+
+  const dayLabel = diffDays === 1 ? "Tag" : "Tage";
   const hourLabel = diffHours === 1 ? "Stunde" : "Stunden";
   const minuteLabel = diffMinutes === 1 ? "Minute" : "Minuten";
 
-  let duration = `${diffHours} ${hourLabel}`;
-  if (diffMinutes > 0) {
-    duration += ` \nund ${diffMinutes} ${minuteLabel}`;
-  }
+  const parts: string[] = [];
+  if (diffDays > 0) parts.push(`${diffDays} ${dayLabel}`);
+  if (diffHours > 0) parts.push(`${diffHours} ${hourLabel}`);
+  if (diffMinutes > 0) parts.push(`${diffMinutes} ${minuteLabel}`);
 
-  return duration;
+  return parts.join(", ");
 }
