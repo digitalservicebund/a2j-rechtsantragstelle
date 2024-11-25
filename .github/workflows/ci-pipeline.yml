@@ -145,7 +145,7 @@ jobs:
           metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
 
   deploy-preview:
-    needs: [build-push-app-image, deploy-staging]
+    needs: [build-push-app-image]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: preview
