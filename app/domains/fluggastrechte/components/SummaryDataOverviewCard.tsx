@@ -37,7 +37,7 @@ function SummaryDataOverviewCard({
       <div className="space-y-16 bg-white pt-32 pb-44 px-32">
         {title && (
           <Heading
-            text={title}
+            text={getTranslationByKey(title, translations)}
             tagName="p"
             look="ds-heading-03-bold"
             dataTestid="migration-field-value"
@@ -56,7 +56,9 @@ function SummaryDataOverviewCard({
                     dataTestid="migration-field-value"
                   />
                 )}
-                {formatTextWithBreaks(value as string)}
+                {formatTextWithBreaks(
+                  getTranslationByKey(value as string, translations),
+                )}
               </div>
             )
           );

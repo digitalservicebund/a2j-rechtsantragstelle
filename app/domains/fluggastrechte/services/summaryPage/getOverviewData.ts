@@ -15,11 +15,11 @@ export const getPersonData = (userData: FluggastrechtContext) => {
 
 export const getFlugDaten = (userData: FluggastrechtContext) => {
   return {
-    Flugnummer: userData.direktFlugnummer,
-    Buchungsnummer: userData.buchungsNummer,
-    Abflug: `${userData.direktAbflugsDatum} - ${userData.direktAbflugsZeit}`,
-    Ankunft: `${userData.direktAnkunftsDatum} - ${userData.direktAnkunftsZeit}`,
-    Zwischenstops: userData.zwischenstoppAnzahl,
+    flugnummer: userData.direktFlugnummer,
+    buchungsnummer: userData.buchungsNummer,
+    abflug: `${userData.direktAbflugsDatum} - ${userData.direktAbflugsZeit}`,
+    ankunft: `${userData.direktAnkunftsDatum} - ${userData.direktAnkunftsZeit}`,
+    zwischenstops: userData.zwischenstoppAnzahl,
   };
 };
 

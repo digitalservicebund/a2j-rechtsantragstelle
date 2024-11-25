@@ -134,12 +134,14 @@ export const loader = async ({
     navigationStrings,
     defaultStrings,
     flowTranslations,
+    overviewTranslations,
   ] = await Promise.all([
     fetchFlowPage("form-flow-pages", flowId, stepId),
     fetchMeta({ filterValue: parentFromParams(pathname, params) }),
     fetchTranslations(`${flowId}/menu`),
     fetchTranslations("defaultTranslations"),
     fetchTranslations(flowId),
+    fetchTranslations(`${flowId}/uebersichtsseite`),
   ]);
 
   const arrayConfigurations = flowController.getRootMeta()?.arrays;
@@ -173,6 +175,7 @@ export const loader = async ({
   const stringTranslations = {
     ...arrayTranslations,
     ...flowTranslationsAfterInterpolation,
+    ...overviewTranslations,
   };
 
   // structure cms content -> merge with getting data?
