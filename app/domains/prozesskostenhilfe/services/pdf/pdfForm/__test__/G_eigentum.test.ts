@@ -6,6 +6,7 @@ import {
   fillBargeldOderWertgegenstaende,
   fillGrundeigentum,
   fillKraftfahrzeuge,
+  fillLebensversicherung,
   fillSonstigeVermoegenswerte,
 } from "../G_eigentum";
 
@@ -344,6 +345,69 @@ describe("G_eigentum", () => {
       expect(
         pdfValues
           .bargeldbetraginEURBezeichnungderWertgegenstaendeAlleinoderMiteigentum
+          .value,
+      ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
+      expect(attachment?.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe("fillLebensversicherung", () => {
+    it("should indicate if the user has lebensversicherung", () => {
+      let { pdfValues } = fillLebensversicherung({
+        userData: {
+          geldanlagen: [
+            {
+              art: "befristet",
+              eigentuemer: "myselfAndPartner",
+              wert: "1000",
+              befristetArt: "lifeInsurance",
+            },
+          ],
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_40.value).toBe(true);
+      expect(
+        pdfValues
+          .versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvorsorgegemEinkommensteuergesetzdiestaatlichgefoerdertwurdeRiesterRente
+          .value,
+      ).toBe(
+        "Art: Befristete Geldanlage, Art der Befristung: Lebensversicherung",
+      );
+      expect(pdfValues.rueckkaufswert.value).toBe("1000 €");
+      ({ pdfValues } = fillLebensversicherung({
+        userData: {
+          geldanlagen: [],
+        },
+        pdfValues: pdfParams,
+      }));
+      expect(pdfValues.nein_44.value).toBe(true);
+    });
+
+    it("should attach >1 lebensversicherung to the anhang", () => {
+      const { pdfValues, attachment } = fillLebensversicherung({
+        userData: {
+          geldanlagen: [
+            {
+              art: "befristet",
+              eigentuemer: "myselfAndPartner",
+              wert: "1000",
+              befristetArt: "lifeInsurance",
+            },
+            {
+              art: "befristet",
+              eigentuemer: "myselfAndPartner",
+              wert: "1000",
+              befristetArt: "lifeInsurance",
+            },
+          ],
+        },
+        pdfValues: pdfParams,
+      });
+      expect(pdfValues.ja_40.value).toBe(true);
+      expect(
+        pdfValues
+          .versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvorsorgegemEinkommensteuergesetzdiestaatlichgefoerdertwurdeRiesterRente
           .value,
       ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
       expect(attachment?.length).toBeGreaterThan(0);

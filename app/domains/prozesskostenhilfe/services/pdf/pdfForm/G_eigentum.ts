@@ -187,6 +187,39 @@ export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
   };
 };
 
+export const fillLebensversicherung: PkhPdfFillFunction = ({
+  userData,
+  pdfValues,
+}) => {
+  const lebensversicherungen = userData.geldanlagen?.filter(
+    (geldanlage) =>
+      geldanlage.art === "befristet" &&
+      geldanlage.befristetArt === "lifeInsurance",
+  );
+  if (lebensversicherungen?.length === 1) {
+    pdfValues.ja_40.value = true;
+    pdfValues.versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvorsorgegemEinkommensteuergesetzdiestaatlichgefoerdertwurdeRiesterRente.value =
+      fillSingleGeldanlage(lebensversicherungen[0]);
+    pdfValues.rueckkaufswert.value = lebensversicherungen[0].wert + " €";
+  } else if (
+    lebensversicherungen?.length !== undefined &&
+    lebensversicherungen?.length > 1
+  ) {
+    pdfValues.ja_40.value = true;
+    pdfValues.versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvorsorgegemEinkommensteuergesetzdiestaatlichgefoerdertwurdeRiesterRente.value =
+      SEE_IN_ATTACHMENT_DESCRIPTION;
+
+    const { attachment } = attachGeldanlagenToAnhang(
+      lebensversicherungen,
+      "Lebens- oder Rentenversicherungen",
+    );
+    return { pdfValues, attachment };
+  } else {
+    pdfValues.nein_44.value = true;
+  }
+  return { pdfValues };
+};
+
 export const fillSonstigeVermoegenswerte: PkhPdfFillFunction = ({
   userData,
   pdfValues,
@@ -232,6 +265,7 @@ export const fillEigentum: PkhPdfFillFunction = ({ userData, pdfValues }) => {
       fillGrundeigentum,
       fillKraftfahrzeuge,
       fillBargeldOderWertgegenstaende,
+      fillLebensversicherung,
       fillSonstigeVermoegenswerte,
     ],
   });

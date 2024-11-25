@@ -177,10 +177,11 @@ export const attachKraftfahrzeugeToAnhang = (
 
 export const attachGeldanlagenToAnhang = (
   geldanlagen: GeldanlagenArraySchema,
+  attachmentSectionHeading = "Sonstige Vermögenswerte",
 ) => {
   const attachment: AttachmentEntries = [];
   attachment.push({
-    title: "Sonstige Vermögenswerte",
+    title: attachmentSectionHeading,
     level: "h3",
   });
   geldanlagen.forEach((geldanlage, index) => {
