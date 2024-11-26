@@ -9,18 +9,18 @@ const MILLISECONDS_IN_A_MINUTE = 1000 * 60;
 const MILLISECONDS_IN_AN_HOUR = MILLISECONDS_IN_A_MINUTE * 60;
 const MILLISECONDS_IN_A_DAY = MILLISECONDS_IN_AN_HOUR * 24;
 
+const parseDateTime = (date: string, time: string): Date => {
+  const [day, month, year] = date.split(".").map(Number);
+  const [hour, minute] = time.split(":").map(Number);
+  return new Date(year, month - 1, day, hour, minute);
+};
+
 export function calculateDuration({
   startDate,
   startTime,
   endDate,
   endTime,
 }: ConnectionDuration): string {
-  const parseDateTime = (date: string, time: string): Date => {
-    const [day, month, year] = date.split(".").map(Number);
-    const [hour, minute] = time.split(":").map(Number);
-    return new Date(year, month - 1, day, hour, minute);
-  };
-
   const start = parseDateTime(startDate, startTime);
   const end = parseDateTime(endDate, endTime);
 
@@ -49,5 +49,5 @@ export function calculateDuration({
   if (diffHours > 0) parts.push(`${diffHours} ${hourLabel}`);
   if (diffMinutes > 0) parts.push(`${diffMinutes} ${minuteLabel}`);
 
-  return parts.join(", ");
+  return parts.join("\n");
 }
