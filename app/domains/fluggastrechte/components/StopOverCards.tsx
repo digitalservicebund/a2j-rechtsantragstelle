@@ -3,7 +3,7 @@ import type { FluggastrechtContext } from "../formular/context";
 import { getAirportNameByIataCode } from "../services/airports/getAirportNameByIataCode";
 import {
   getAnzahlZwischenstopps,
-  getZwischenStops,
+  getZwischenStopps,
   type ZwischenstoppsProps,
 } from "../services/summaryPage/stoppOver";
 
@@ -42,8 +42,8 @@ function StopOverCards({
   return (
     <>
       <SummaryDataOverviewCard
-        title="Zwischenstops"
-        data={getZwischenStops(userData)}
+        title="Zwischenstopps"
+        data={getZwischenStopps(userData)}
         buttonUrl={`/fluggastrechte/formular/flugdaten/zwischenstopp-uebersicht-${getAnzahlZwischenstopps(userData)}`}
         translations={translations}
       />

@@ -9,7 +9,7 @@ import {
   getPersonData,
   getZeugenText,
 } from "../services/summaryPage/getOverviewData";
-import { getZwischenStops } from "../services/summaryPage/stoppOver";
+import { getZwischenStopps } from "../services/summaryPage/stoppOver";
 
 type SummaryDataProps = {
   readonly userData?: FluggastrechtContext;
@@ -41,7 +41,7 @@ export default function SummaryDataOverview({
         title="Ursprüngliche geplanter Flug"
         translations={translations}
       />
-      {getZwischenStops(userData) && (
+      {getZwischenStopps(userData) && (
         <StopOverCards userData={userData} translations={translations} />
       )}
       <ActualArrivalCards userData={userData} translations={translations} />

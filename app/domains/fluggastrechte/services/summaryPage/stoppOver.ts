@@ -7,15 +7,15 @@ export type ZwischenstoppsProps = {
   readonly translations: Translations;
 };
 
-export const getZwischenStops = (zwischenstop: FluggastrechtContext) => {
+export const getZwischenStopps = (zwischenstopp: FluggastrechtContext) => {
   const ersterZwischenStoppName = getAirportNameByIataCode(
-    zwischenstop.ersterZwischenstopp ?? "",
+    zwischenstopp.ersterZwischenstopp ?? "",
   );
   const zweiterZwischenstoppName = getAirportNameByIataCode(
-    zwischenstop.zweiterZwischenstopp ?? "",
+    zwischenstopp.zweiterZwischenstopp ?? "",
   );
   const dritterZwischenstoppName = getAirportNameByIataCode(
-    zwischenstop.dritterZwischenstopp ?? "",
+    zwischenstopp.dritterZwischenstopp ?? "",
   );
   const stopMapping = {
     noStop: undefined,
@@ -33,7 +33,7 @@ export const getZwischenStops = (zwischenstop: FluggastrechtContext) => {
     },
   } as const;
   return stopMapping[
-    zwischenstop.zwischenstoppAnzahl as keyof typeof stopMapping
+    zwischenstopp.zwischenstoppAnzahl as keyof typeof stopMapping
   ];
 };
 
