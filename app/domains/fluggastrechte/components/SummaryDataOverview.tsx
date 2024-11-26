@@ -69,7 +69,8 @@ export default function SummaryDataOverview({
             look="ds-label-01-bold"
           />
           {userData.weiterePersonen.map((person, idx) => {
-            const data = getPersonData(person);
+            const { kontodaten: _kontodaten, ...cedentData } =
+              getPersonData(userData);
             const cedentBookingNumber = {
               cedentBookingNumber: person.buchungsnummer ?? NO_SPECIFICATION,
             };
@@ -77,7 +78,7 @@ export default function SummaryDataOverview({
               <SummaryDataOverviewCard
                 key={`Weitere Personen ${idx + 2}`}
                 title={`Person ${idx + 2}`}
-                data={{ ...cedentBookingNumber, ...data }}
+                data={{ ...cedentBookingNumber, ...cedentData }}
                 buttonUrl={`${FLOW_ID}/persoenliche-daten/weitere-personen/person/${idx}/daten`}
                 translations={translations}
               />
