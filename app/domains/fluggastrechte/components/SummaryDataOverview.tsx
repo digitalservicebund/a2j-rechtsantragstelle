@@ -10,13 +10,12 @@ import {
   getZeugenText,
   NO_SPECIFICATION,
 } from "../services/summaryPage/getOverviewData";
-import { getZwischenStopps } from "../services/summaryPage/stoppOver";
 
 type SummaryDataProps = {
   readonly userData?: FluggastrechtContext;
   readonly translations: Translations;
 };
-
+export const FLOW_ID = "/fluggastrechte/formular";
 export default function SummaryDataOverview({
   userData,
   translations,
@@ -27,7 +26,7 @@ export default function SummaryDataOverview({
     <>
       <Heading text="Weitere Angaben" tagName="h2" look="ds-heading-03-bold" />
       <SummaryDataOverviewCard
-        buttonUrl="/fluggastrechte/formular/streitwert-kosten/prozesszinsen"
+        buttonUrl={`${FLOW_ID}/streitwert-kosten/prozesszinsen`}
         data={{
           prozesszinsen: userData.prozesszinsen,
         }}
@@ -36,17 +35,17 @@ export default function SummaryDataOverview({
 
       <Heading text="Flugdaten" tagName="p" look="ds-heading-03-bold" />
       <SummaryDataOverviewCard
-        buttonUrl="/fluggastrechte/formular/flugdaten/geplanter-flug"
+        buttonUrl={`${FLOW_ID}/flugdaten/geplanter-flug`}
         data={getFlugDaten(userData)}
         title="Ursprüngliche geplanter Flug"
         translations={translations}
       />
-      {getZwischenStopps(userData) && (
+      {userData.zwischenstoppAnzahl !== "no" && (
         <StopOverCards userData={userData} translations={translations} />
       )}
       <ActualArrivalCards userData={userData} translations={translations} />
       <SummaryDataOverviewCard
-        buttonUrl="/fluggastrechte/formular/flugdaten/zusaetzliche-angaben"
+        buttonUrl={`${FLOW_ID}/flugdaten/zusaetzliche-angaben`}
         data={{ zusätzlicheAngaben: userData.zusaetzlicheAngaben }}
         title="Zusätzliche Angaben zum Reiseverlauf"
         translations={translations}
@@ -56,7 +55,7 @@ export default function SummaryDataOverview({
       <SummaryDataOverviewCard
         title="Klagende Person"
         data={getPersonData(userData)}
-        buttonUrl="/fluggastrechte/formular/persoenliche-daten/person/daten"
+        buttonUrl={`${FLOW_ID}/persoenliche-daten/person/daten`}
         translations={translations}
       />
       {userData.weiterePersonen && (
@@ -77,7 +76,7 @@ export default function SummaryDataOverview({
                   key={`Weitere Personen ${idx + 2}`}
                   title={`Person ${idx + 2}`}
                   data={{ ...cedentBookingNumber, ...data }}
-                  buttonUrl={`/fluggastrechte/formular/persoenliche-daten/weitere-personen/person/${idx}/daten`}
+                  buttonUrl={`${FLOW_ID}/persoenliche-daten/weitere-personen/person/${idx}/daten`}
                   translations={translations}
                 />
               );
@@ -90,19 +89,19 @@ export default function SummaryDataOverview({
         title="Zeuginnen und Zeugen"
         data={{ zeugen: getZeugenText(userData) }}
         showValueHeading={false}
-        buttonUrl="/fluggastrechte/formular/persoenliche-daten/person/daten"
+        buttonUrl={`${FLOW_ID}/persoenliche-daten/person/daten}`}
         translations={translations}
       />
 
       <Heading text="Prozessführung" tagName="p" look="ds-heading-03-bold" />
       <SummaryDataOverviewCard
         data={{ videoverhandlung: userData.videoverhandlung }}
-        buttonUrl="/fluggastrechte/formular/prozessfuehrung/videoverhandlung"
+        buttonUrl={`${FLOW_ID}/prozessfuehrung/videoverhandlung`}
         translations={translations}
       />
       <SummaryDataOverviewCard
         data={{ versaeumnisurteil: userData.versaeumnisurteil }}
-        buttonUrl="/fluggastrechte/formular/prozessfuehrung/versaeumnisurteil"
+        buttonUrl={`${FLOW_ID}/prozessfuehrung/versaeumnisurteil`}
         translations={translations}
       />
     </>

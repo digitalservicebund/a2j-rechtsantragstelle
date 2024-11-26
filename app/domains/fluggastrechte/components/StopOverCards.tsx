@@ -1,3 +1,4 @@
+import { FLOW_ID } from "./SummaryDataOverview";
 import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
 import type { FluggastrechtContext } from "../formular/context";
 import { getAirportNameByIataCode } from "../services/airports/getAirportNameByIataCode";
@@ -44,7 +45,7 @@ function StopOverCards({
       <SummaryDataOverviewCard
         title="Zwischenstopps"
         data={getZwischenStopps(userData)}
-        buttonUrl={`/fluggastrechte/formular/flugdaten/zwischenstopp-uebersicht-${getAnzahlZwischenstopps(userData)}`}
+        buttonUrl={`${FLOW_ID}/flugdaten/zwischenstopp-uebersicht-${getAnzahlZwischenstopps(userData)}`}
         translations={translations}
       />
       {userData.verspaeteterFlug && (
@@ -52,7 +53,7 @@ function StopOverCards({
           title="Betroffener Flug"
           showValueHeading={false}
           data={{ verspaeteterFlug: getBetroffenerFlug(userData) }}
-          buttonUrl={`/fluggastrechte/formular/flugdaten/verspaeteter-flug-${getAnzahlZwischenstopps(userData)}`}
+          buttonUrl={`${FLOW_ID}/flugdaten/verspaeteter-flug-${getAnzahlZwischenstopps(userData)}`}
           translations={translations}
         />
       )}
@@ -60,7 +61,7 @@ function StopOverCards({
         <SummaryDataOverviewCard
           title="Verpasste Anschlussflüge"
           data={{ anschlussFlugVerpasst: userData.anschlussFlugVerpasst }}
-          buttonUrl="/fluggastrechte/formular/flugdaten/anschluss-flug-verpasst"
+          buttonUrl={`${FLOW_ID}/flugdaten/anschluss-flug-verpasst`}
           translations={translations}
         />
       )}

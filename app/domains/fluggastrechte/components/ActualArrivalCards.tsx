@@ -1,6 +1,7 @@
-import { FluggastrechtContext } from "../formular/context";
 import type { Translations } from "~/services/translations/getTranslationByKey";
+import { FLOW_ID } from "./SummaryDataOverview";
 import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
+import type { FluggastrechtContext } from "../formular/context";
 
 function ActualArrivalCards({
   userData,
@@ -14,7 +15,7 @@ function ActualArrivalCards({
       <SummaryDataOverviewCard
         title="Tatsächliche Ankunft"
         subtitle="(Mit dem ursprünglich geplanten Flug)"
-        buttonUrl="/fluggastrechte/formular/flugdaten/tatsaechlicher-flug-ankunft"
+        buttonUrl={`${FLOW_ID}/flugdaten/tatsaechlicher-flug-ankunft`}
         data={{
           Ankunft: `${userData.tatsaechlicherAnkunftsDatum} \n ${userData.tatsaechlicherAnkunftsZeit}`,
         }}
@@ -31,7 +32,7 @@ function ActualArrivalCards({
           flugnummer: userData.ersatzFlugnummer,
           ankunft: `${userData.ersatzFlugAnkunftsDatum} \n ${userData.ersatzFlugAnkunftsZeit}`,
         }}
-        buttonUrl="/fluggastrechte/formular/flugdaten/anderer-flug-ankunft"
+        buttonUrl={`${FLOW_ID}/flugdaten/anderer-flug-ankunft`}
         translations={translations}
       />
     );
@@ -46,24 +47,22 @@ function ActualArrivalCards({
             userData.andereErsatzverbindungBeschreibung,
           ankunft: `${userData.andereErsatzverbindungAnkunftsDatum} \n ${userData.andereErsatzverbindungAnkunftsZeit}`,
         }}
-        buttonUrl="/fluggastrechte/formular/flugdaten/ersatzverbindung-beschreibung"
+        buttonUrl={`${FLOW_ID}/flugdaten/ersatzverbindung-beschreibung`}
         translations={translations}
       />
     );
   }
-  if (userData.ersatzverbindungArt === "keineAnkunft") {
-    return (
-      <SummaryDataOverviewCard
-        title="Tatsächliche Ankunft"
-        showValueHeading={false}
-        data={{
-          keineAnkunft: "gar nicht angekommen",
-        }}
-        buttonUrl="/fluggastrechte/formular/flugdaten/ersatzverbindung-art"
-        translations={translations}
-      />
-    );
-  }
+  return (
+    <SummaryDataOverviewCard
+      title="Tatsächliche Ankunft"
+      showValueHeading={false}
+      data={{
+        keineAnkunft: "gar nicht angekommen",
+      }}
+      buttonUrl={`${FLOW_ID}/flugdaten/ersatzverbindung-art`}
+      translations={translations}
+    />
+  );
 }
 
 export default ActualArrivalCards;
