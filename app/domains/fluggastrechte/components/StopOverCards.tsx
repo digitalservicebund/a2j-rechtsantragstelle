@@ -11,28 +11,28 @@ import {
 const getBetroffenerFlug = (userData: FluggastrechtContext) => {
   const startAirportName = getAirportNameByIataCode(userData.startAirport);
   const endAirportName = getAirportNameByIataCode(userData.endAirport);
-  const ersterZwischenStoppName = getAirportNameByIataCode(
+  const ersterZwischenstoppName = getAirportNameByIataCode(
     userData.ersterZwischenstopp ?? "",
   );
-  const zweiterZwischenStoppName = getAirportNameByIataCode(
+  const zweiterZwischenstoppName = getAirportNameByIataCode(
     userData.zweiterZwischenstopp ?? "",
   );
-  const dritterZwischenStoppName = getAirportNameByIataCode(
+  const dritterZwischenstoppName = getAirportNameByIataCode(
     userData.dritterZwischenstopp ?? "",
   );
 
   if (userData.verspaeteterFlug === "startAirportFirstZwischenstopp")
-    return `${startAirportName} - ${ersterZwischenStoppName}`;
+    return `${startAirportName} - ${ersterZwischenstoppName}`;
   if (userData.verspaeteterFlug === "firstZwischenstoppEndAirport")
-    return `${ersterZwischenStoppName} - ${endAirportName}`;
+    return `${ersterZwischenstoppName} - ${endAirportName}`;
   if (userData.verspaeteterFlug === "firstAirportSecondZwischenstopp")
-    return `${ersterZwischenStoppName} - ${zweiterZwischenStoppName}`;
+    return `${ersterZwischenstoppName} - ${zweiterZwischenstoppName}`;
   if (userData.verspaeteterFlug === "secondZwischenstoppEndAirport")
-    return `${zweiterZwischenStoppName} - ${endAirportName}`;
+    return `${zweiterZwischenstoppName} - ${endAirportName}`;
   if (userData.verspaeteterFlug === "secondAirportThirdZwischenstopp")
-    return `${zweiterZwischenStoppName} - ${dritterZwischenStoppName}`;
+    return `${zweiterZwischenstoppName} - ${dritterZwischenstoppName}`;
   if (userData.verspaeteterFlug === "thirdZwischenstoppEndAirport")
-    return `${dritterZwischenStoppName} - ${endAirportName}`;
+    return `${dritterZwischenstoppName} - ${endAirportName}`;
 };
 
 function StopOverCards({
@@ -60,7 +60,13 @@ function StopOverCards({
       {userData.anschlussFlugVerpasst && (
         <SummaryDataOverviewCard
           title="Verpasste Anschlussflüge"
-          data={{ anschlussFlugVerpasst: userData.anschlussFlugVerpasst }}
+          showValueHeading={false}
+          data={{
+            anschlussFlugVerpasst:
+              userData.anschlussFlugVerpasst === "no"
+                ? "Keine"
+                : userData.anschlussFlugVerpasst,
+          }}
           buttonUrl={`${FLOW_ID}/flugdaten/anschluss-flug-verpasst`}
           translations={translations}
         />

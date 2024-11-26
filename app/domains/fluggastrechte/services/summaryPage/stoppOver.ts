@@ -8,7 +8,7 @@ export type ZwischenstoppsProps = {
 };
 
 export const getZwischenStopps = (zwischenstopp: FluggastrechtContext) => {
-  const ersterZwischenStoppName = getAirportNameByIataCode(
+  const ersterZwischenstoppName = getAirportNameByIataCode(
     zwischenstopp.ersterZwischenstopp ?? "",
   );
   const zweiterZwischenstoppName = getAirportNameByIataCode(
@@ -20,14 +20,14 @@ export const getZwischenStopps = (zwischenstopp: FluggastrechtContext) => {
   const stopMapping = {
     noStop: undefined,
     oneStop: {
-      ersterZwischenStopp: ersterZwischenStoppName ?? undefined,
+      ersterZwischenstopp: ersterZwischenstoppName ?? undefined,
     },
     twoStop: {
-      ersterZwischenStopp: ersterZwischenStoppName ?? undefined,
+      ersterZwischenstopp: ersterZwischenstoppName ?? undefined,
       zweiterZwischenstopp: zweiterZwischenstoppName ?? undefined,
     },
     threeStop: {
-      ersterZwischenStopp: ersterZwischenStoppName ?? undefined,
+      ersterZwischenstopp: ersterZwischenstoppName ?? undefined,
       zweiterZwischenstopp: zweiterZwischenstoppName ?? undefined,
       dritterZwischenstopp: dritterZwischenstoppName ?? undefined,
     },

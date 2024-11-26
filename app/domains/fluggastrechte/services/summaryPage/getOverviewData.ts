@@ -4,10 +4,9 @@ import { type FluggastrechtContext } from "../../formular/context";
 export const NO_SPECIFICATION = "Keine Angabe";
 
 export const getPersonData = (userData: FluggastrechtContext) => {
+  const address = `${getStringWithSpaceIfStringExists(userData.anrede) + getStringWithSpaceIfStringExists(userData.title) + getStringWithSpaceIfStringExists(userData.vorname) + getStringWithSpaceIfStringExists(userData.nachname)}\n${userData.strasseHausnummer}\n${userData.plz} ${userData.ort}`;
   return {
-    person: `${getStringWithSpaceIfStringExists(userData.anrede) + getStringWithSpaceIfStringExists(userData.vorname) + getStringWithSpaceIfStringExists(userData.nachname)}`,
-    strasseHausnummer: userData.strasseHausnummer,
-    plzOrt: `${userData.plz} ${userData.ort}`,
+    person: address,
     telefonnummer: userData.telefonnummer || NO_SPECIFICATION,
     kontodaten: userData.iban
       ? `${userData.iban} \n ${userData.kontoinhaber}`

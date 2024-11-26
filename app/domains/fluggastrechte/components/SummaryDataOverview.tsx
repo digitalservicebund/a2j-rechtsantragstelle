@@ -37,7 +37,7 @@ export default function SummaryDataOverview({
       <SummaryDataOverviewCard
         buttonUrl={`${FLOW_ID}/flugdaten/geplanter-flug`}
         data={getFlugDaten(userData)}
-        title="Ursprüngliche geplanter Flug"
+        title="Ursprünglich geplanter Flug"
         translations={translations}
       />
       {userData.zwischenstoppAnzahl !== "no" && (
@@ -46,7 +46,10 @@ export default function SummaryDataOverview({
       <ActualArrivalCards userData={userData} translations={translations} />
       <SummaryDataOverviewCard
         buttonUrl={`${FLOW_ID}/flugdaten/zusaetzliche-angaben`}
-        data={{ zusätzlicheAngaben: userData.zusaetzlicheAngaben }}
+        showValueHeading={false}
+        data={{
+          zusätzlicheAngaben: userData.zusaetzlicheAngaben ?? NO_SPECIFICATION,
+        }}
         title="Zusätzliche Angaben zum Reiseverlauf"
         translations={translations}
       />
@@ -65,23 +68,21 @@ export default function SummaryDataOverview({
             tagName="p"
             look="ds-label-01-bold"
           />
-          {(userData.weiterePersonen as FluggastrechtContext[]).map(
-            (person, idx) => {
-              const data = getPersonData(person);
-              const cedentBookingNumber = {
-                cedentBookingNumber: person.buchungsNummer ?? NO_SPECIFICATION,
-              };
-              return (
-                <SummaryDataOverviewCard
-                  key={`Weitere Personen ${idx + 2}`}
-                  title={`Person ${idx + 2}`}
-                  data={{ ...cedentBookingNumber, ...data }}
-                  buttonUrl={`${FLOW_ID}/persoenliche-daten/weitere-personen/person/${idx}/daten`}
-                  translations={translations}
-                />
-              );
-            },
-          )}
+          {userData.weiterePersonen.map((person, idx) => {
+            const data = getPersonData(person);
+            const cedentBookingNumber = {
+              cedentBookingNumber: person.buchungsnummer ?? NO_SPECIFICATION,
+            };
+            return (
+              <SummaryDataOverviewCard
+                key={`Weitere Personen ${idx + 2}`}
+                title={`Person ${idx + 2}`}
+                data={{ ...cedentBookingNumber, ...data }}
+                buttonUrl={`${FLOW_ID}/persoenliche-daten/weitere-personen/person/${idx}/daten`}
+                translations={translations}
+              />
+            );
+          })}
         </>
       )}
 
