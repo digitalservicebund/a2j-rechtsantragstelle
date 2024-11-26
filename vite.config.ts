@@ -5,7 +5,7 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { envOnlyMacros } from "vite-env-only";
 
-installGlobals();
+installGlobals({ nativeFetch: true });
 const isStorybook = process.argv[1]?.includes("storybook");
 const isVitest = process.env.VITEST !== undefined;
 const buildSentrySourceMaps = Boolean(process.env.SENTRY_AUTH_TOKEN);
