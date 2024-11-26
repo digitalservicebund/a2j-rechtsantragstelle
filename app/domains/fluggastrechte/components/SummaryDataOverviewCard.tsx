@@ -15,12 +15,7 @@ type CardProps = {
 };
 
 const formatTextWithBreaks = (text: string) =>
-  text.split("\n").map((line) => (
-    <>
-      {line}
-      <br />
-    </>
-  ));
+  text.split("\n").map((line) => <p key={line}>{line}</p>);
 
 function SummaryDataOverviewCard({
   data,
