@@ -7,6 +7,7 @@ import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
+import SummaryDataOverview from "~/domains/fluggastrechte/components/SummaryDataOverview";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import { splatFromParams } from "~/services/params";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
@@ -16,6 +17,7 @@ import type { loader } from "../formular.server";
 export function FormFlowPage() {
   const {
     arraySummaryData,
+    prunedUserData,
     buttonNavigationProps,
     content,
     csrf,
@@ -62,6 +64,14 @@ export function FormFlowPage() {
             sortedFields={migration.sortedFields}
             buttonUrl={migration.buttonUrl}
           />
+
+          {/* TODO: temporary solution - ZOV will make a component out of it*/}
+          {pathname === "/fluggastrechte/formular/zusammenfassung/start" && (
+            <SummaryDataOverview
+              userData={prunedUserData}
+              translations={translations}
+            />
+          )}
           {arraySummaryData &&
             Object.keys(arraySummaryData).length != 0 &&
             Object.entries(arraySummaryData).map(([category, array]) => (
