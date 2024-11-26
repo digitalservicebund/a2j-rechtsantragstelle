@@ -141,7 +141,7 @@ export const loader = async ({
     fetchTranslations(`${flowId}/menu`),
     fetchTranslations("defaultTranslations"),
     fetchTranslations(flowId),
-    fetchTranslations(`${flowId}/uebersichtsseite`),
+    fetchTranslations(`${flowId}/summaryPage`),
   ]);
 
   const arrayConfigurations = flowController.getRootMeta()?.arrays;
