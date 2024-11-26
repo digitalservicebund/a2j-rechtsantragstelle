@@ -5,6 +5,7 @@ import StopOverCards from "./StopOverCards";
 import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
 import type { FluggastrechtContext } from "../formular/context";
 import {
+  FLOW_ID,
   getFlugDaten,
   getPersonData,
   getZeugenText,
@@ -15,7 +16,6 @@ type SummaryDataProps = {
   readonly userData?: FluggastrechtContext;
   readonly translations: Translations;
 };
-export const FLOW_ID = "/fluggastrechte/formular";
 export default function SummaryDataOverview({
   userData,
   translations,

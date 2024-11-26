@@ -1,7 +1,7 @@
-import { FLOW_ID } from "./SummaryDataOverview";
 import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
 import type { FluggastrechtContext } from "../formular/context";
 import { getAirportNameByIataCode } from "../services/airports/getAirportNameByIataCode";
+import { FLOW_ID } from "../services/summaryPage/getOverviewData";
 import {
   getAnzahlZwischenstopps,
   getZwischenStopps,

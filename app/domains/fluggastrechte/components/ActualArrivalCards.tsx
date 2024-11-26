@@ -1,7 +1,7 @@
 import type { Translations } from "~/services/translations/getTranslationByKey";
-import { FLOW_ID } from "./SummaryDataOverview";
 import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
 import type { FluggastrechtContext } from "../formular/context";
+import { FLOW_ID } from "../services/summaryPage/getOverviewData";
 
 function ActualArrivalCards({
   userData,

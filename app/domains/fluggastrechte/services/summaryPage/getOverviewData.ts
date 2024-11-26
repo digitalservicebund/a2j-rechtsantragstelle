@@ -2,6 +2,7 @@ import { getStringWithSpaceIfStringExists } from "./getStringWithSpaceIfStringEx
 import { type FluggastrechtContext } from "../../formular/context";
 
 export const NO_SPECIFICATION = "Keine Angabe";
+export const FLOW_ID = "/fluggastrechte/formular";
 
 export const getPersonData = (userData: FluggastrechtContext) => {
   const address = `${getStringWithSpaceIfStringExists(userData.anrede) + getStringWithSpaceIfStringExists(userData.title) + getStringWithSpaceIfStringExists(userData.vorname) + getStringWithSpaceIfStringExists(userData.nachname)}\n${userData.strasseHausnummer}\n${userData.plz} ${userData.ort}`;
