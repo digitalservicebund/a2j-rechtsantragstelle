@@ -1,6 +1,6 @@
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import { type FluggastrechtContext } from "../../formular/context";
-import { getAirportByIataCode } from "../airports/getAirportByIataCode";
+import { getAirportNameByIataCode } from "../airports/getAirportNameByIataCode";
 
 export type ZwischenstoppsProps = {
   readonly userData: FluggastrechtContext | undefined;
@@ -8,15 +8,15 @@ export type ZwischenstoppsProps = {
 };
 
 export const getZwischenStops = (zwischenstop: FluggastrechtContext) => {
-  const ersterZwischenStoppName = getAirportByIataCode(
-    zwischenstop.ersterZwischenstopp,
-  )?.airport;
-  const zweiterZwischenstoppName = getAirportByIataCode(
-      zwischenstop.zweiterZwischenstopp,
-    )?.airport,
-    dritterZwischenstoppName = getAirportByIataCode(
-      zwischenstop.dritterZwischenstopp,
-    )?.airport;
+  const ersterZwischenStoppName = getAirportNameByIataCode(
+    zwischenstop.ersterZwischenstopp ?? "",
+  );
+  const zweiterZwischenstoppName = getAirportNameByIataCode(
+    zwischenstop.zweiterZwischenstopp ?? "",
+  );
+  const dritterZwischenstoppName = getAirportNameByIataCode(
+    zwischenstop.dritterZwischenstopp ?? "",
+  );
   const stopMapping = {
     noStop: undefined,
     oneStop: {

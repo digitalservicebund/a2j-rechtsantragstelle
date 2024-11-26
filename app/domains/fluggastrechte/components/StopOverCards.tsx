@@ -1,6 +1,6 @@
 import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
 import type { FluggastrechtContext } from "../formular/context";
-import { getAirportByIataCode } from "../services/airports/getAirportByIataCode";
+import { getAirportNameByIataCode } from "../services/airports/getAirportNameByIataCode";
 import {
   getAnzahlZwischenstopps,
   getZwischenStops,
@@ -8,17 +8,17 @@ import {
 } from "../services/summaryPage/stoppOver";
 
 const getBetroffenerFlug = (userData: FluggastrechtContext) => {
-  const startAirportName = getAirportByIataCode(userData.startAirport)?.airport;
-  const endAirportName = getAirportByIataCode(userData.endAirport)?.airport;
-  const ersterZwischenStoppName = getAirportByIataCode(
-    userData.ersterZwischenstopp,
-  )?.airport;
-  const zweiterZwischenStoppName = getAirportByIataCode(
-    userData.zweiterZwischenstopp,
-  )?.airport;
-  const dritterZwischenStoppName = getAirportByIataCode(
-    userData.dritterZwischenstopp,
-  )?.airport;
+  const startAirportName = getAirportNameByIataCode(userData.startAirport);
+  const endAirportName = getAirportNameByIataCode(userData.endAirport);
+  const ersterZwischenStoppName = getAirportNameByIataCode(
+    userData.ersterZwischenstopp ?? "",
+  );
+  const zweiterZwischenStoppName = getAirportNameByIataCode(
+    userData.zweiterZwischenstopp ?? "",
+  );
+  const dritterZwischenStoppName = getAirportNameByIataCode(
+    userData.dritterZwischenstopp ?? "",
+  );
 
   if (userData.verspaeteterFlug === "startAirportFirstZwischenstopp")
     return `${startAirportName} - ${ersterZwischenStoppName}`;
