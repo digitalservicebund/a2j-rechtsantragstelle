@@ -135,7 +135,7 @@
     "license-checker-rseidelsohn": "^4.4.2",
     "p-map": "^7.0.2",
     "postcss": "^8.4.49",
-    "prettier": "^3.3.3",
+    "prettier": "^3.4.0",
     "size-limit": "^11.1.6",
     "storybook": "^8.4.4",
     "tailwindcss": "^3.4.15",
