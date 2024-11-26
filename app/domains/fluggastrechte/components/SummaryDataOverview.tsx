@@ -34,7 +34,6 @@ export default function SummaryDataOverview({
         translations={translations}
       />
 
-      {/* all about Flugdaten */}
       <Heading text="Flugdaten" tagName="p" look="ds-heading-03-bold" />
       <SummaryDataOverviewCard
         buttonUrl="/fluggastrechte/formular/flugdaten/geplanter-flug"
@@ -53,7 +52,6 @@ export default function SummaryDataOverview({
         translations={translations}
       />
 
-      {/* {Personendaten} */}
       <Heading text="Persönliche Daten" tagName="p" look="ds-heading-03-bold" />
       <SummaryDataOverviewCard
         title="Klagende Person"
@@ -96,7 +94,6 @@ export default function SummaryDataOverview({
         translations={translations}
       />
 
-      {/* {Prozessführung} */}
       <Heading text="Prozessführung" tagName="p" look="ds-heading-03-bold" />
       <SummaryDataOverviewCard
         data={{ videoverhandlung: userData.videoverhandlung }}
