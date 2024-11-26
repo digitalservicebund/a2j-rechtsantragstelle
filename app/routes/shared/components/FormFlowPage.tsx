@@ -65,7 +65,7 @@ export function FormFlowPage() {
             buttonUrl={migration.buttonUrl}
           />
 
-          {/* TODO: Really ugly solution we have to find a better one in general*/}
+          {/* TODO: temporary solution - ZOV will make a component out of it*/}
           {pathname === "/fluggastrechte/formular/zusammenfassung/start" && (
             <SummaryDataOverview
               userData={prunedUserData}
