@@ -29,7 +29,7 @@ export default function SummaryDataOverview({
       <SummaryDataOverviewCard
         buttonUrl="/fluggastrechte/formular/streitwert-kosten/prozesszinsen"
         data={{
-          Prozesszinsen: userData.prozesszinsen,
+          prozesszinsen: userData.prozesszinsen,
         }}
         translations={translations}
       />
