@@ -1,4 +1,4 @@
-import type { Context } from "~/domains/contexts";
+import { FluggastrechtContext } from "../formular/context";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
 
@@ -6,7 +6,7 @@ function ActualArrivalCards({
   userData,
   translations,
 }: {
-  readonly userData: Context;
+  readonly userData: FluggastrechtContext;
   readonly translations: Translations;
 }) {
   if (userData.tatsaechlicherFlug === "yes") {
@@ -44,7 +44,7 @@ function ActualArrivalCards({
         data={{
           andereErsatzverbindungBeschreibung:
             userData.andereErsatzverbindungBeschreibung,
-          ankunft: `${userData.tatsaechlicherAnkunftsDatum} \n ${userData.tatsaechlicherAnkunftsZeit}`,
+          ankunft: `${userData.andereErsatzverbindungAnkunftsDatum} \n ${userData.andereErsatzverbindungAnkunftsZeit}`,
         }}
         buttonUrl="/fluggastrechte/formular/flugdaten/ersatzverbindung-beschreibung"
         translations={translations}
