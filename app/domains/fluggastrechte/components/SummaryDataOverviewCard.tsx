@@ -40,7 +40,6 @@ function SummaryDataOverviewCard({
             text={getTranslationByKey(title, translations)}
             tagName="p"
             look="ds-heading-03-bold"
-            dataTestid="migration-field-value"
           />
         )}
         {subtitle}
@@ -53,7 +52,6 @@ function SummaryDataOverviewCard({
                     text={getTranslationByKey(key, translations)}
                     tagName="p"
                     look="ds-label-01-bold"
-                    dataTestid="migration-field-value"
                   />
                 )}
                 {formatTextWithBreaks(

@@ -24,12 +24,7 @@ export default function SummaryDataOverview({
 
   return (
     <>
-      <Heading
-        text="Weitere Angaben"
-        tagName="h2"
-        look="ds-heading-03-bold"
-        dataTestid="migration-field-value"
-      />
+      <Heading text="Weitere Angaben" tagName="h2" look="ds-heading-03-bold" />
       <SummaryDataOverviewCard
         buttonUrl="/fluggastrechte/formular/streitwert-kosten/prozesszinsen"
         data={{
@@ -39,12 +34,7 @@ export default function SummaryDataOverview({
       />
 
       {/* all about Flugdaten */}
-      <Heading
-        text="Flugdaten"
-        tagName="p"
-        look="ds-heading-03-bold"
-        dataTestid="migration-field-value"
-      />
+      <Heading text="Flugdaten" tagName="p" look="ds-heading-03-bold" />
       <SummaryDataOverviewCard
         buttonUrl="/fluggastrechte/formular/flugdaten/geplanter-flug"
         data={getFlugDaten(userData)}
@@ -63,12 +53,7 @@ export default function SummaryDataOverview({
       />
 
       {/* {Personendaten} */}
-      <Heading
-        text="Persönliche Daten"
-        tagName="p"
-        look="ds-heading-03-bold"
-        dataTestid="migration-field-value"
-      />
+      <Heading text="Persönliche Daten" tagName="p" look="ds-heading-03-bold" />
       <SummaryDataOverviewCard
         title="Klagende Person"
         data={getPersonData(userData)}
@@ -100,12 +85,7 @@ export default function SummaryDataOverview({
       />
 
       {/* {Prozessführung} */}
-      <Heading
-        text="Prozessführung"
-        tagName="p"
-        look="ds-heading-03-bold"
-        dataTestid="migration-field-value"
-      />
+      <Heading text="Prozessführung" tagName="p" look="ds-heading-03-bold" />
       <SummaryDataOverviewCard
         data={{ schriftlichesVerfahren: userData.schriftlichesVerfahren }}
         buttonUrl="/fluggastrechte/formular/prozessfuehrung/schriftliches-verfahren"
