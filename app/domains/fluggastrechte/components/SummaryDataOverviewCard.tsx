@@ -13,10 +13,7 @@ type CardProps = {
   readonly translations: Translations;
 };
 
-export function getTranslationByKey(
-  key: string,
-  translations?: Translations,
-): string {
+function getTranslationByKey(key: string, translations?: Translations): string {
   const translation = translations?.[key];
   return translation ?? key;
 }
