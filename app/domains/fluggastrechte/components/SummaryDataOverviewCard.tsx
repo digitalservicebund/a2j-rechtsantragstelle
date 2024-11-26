@@ -3,7 +3,6 @@ import Button from "~/components/Button";
 import Heading from "~/components/Heading";
 import type { Context } from "~/domains/contexts";
 import type { Translations } from "~/services/translations/getTranslationByKey";
-import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 
 type CardProps = {
   readonly data: Context | undefined;
@@ -14,6 +13,13 @@ type CardProps = {
   readonly translations: Translations;
 };
 
+export function getTranslationByKey(
+  key: string,
+  translations?: Translations,
+): string {
+  const translation = translations?.[key];
+  return translation ?? key;
+}
 const formatTextWithBreaks = (text: string) =>
   text.split("\n").map((line) => <p key={line}>{line}</p>);
 
