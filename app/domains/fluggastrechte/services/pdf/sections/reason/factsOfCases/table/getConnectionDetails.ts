@@ -2,12 +2,17 @@ import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/con
 import { calculateDuration } from "./calculateDuration";
 
 export function getConnectionDetails(userData: FluggastrechtContext) {
-  const { tatsaechlicherFlug, ersatzverbindungArt } = userData;
+  const {
+    tatsaechlicherFlug,
+    ersatzverbindungArt,
+    direktAnkunftsDatum,
+    direktAnkunftsZeit,
+  } = userData;
 
   if (tatsaechlicherFlug === "yes") {
     const info = calculateDuration({
-      startDate: userData.direktAnkunftsDatum ?? "",
-      startTime: userData.direktAnkunftsZeit ?? "",
+      startDate: direktAnkunftsDatum ?? "",
+      startTime: direktAnkunftsZeit ?? "",
       endDate: userData.tatsaechlicherAnkunftsDatum ?? "",
       endTime: userData.tatsaechlicherAnkunftsZeit ?? "",
     });
@@ -22,34 +27,38 @@ export function getConnectionDetails(userData: FluggastrechtContext) {
   }
 
   switch (ersatzverbindungArt) {
-    case "flug":
+    case "flug": {
+      const info = calculateDuration({
+        startDate: direktAnkunftsDatum ?? "",
+        startTime: direktAnkunftsZeit ?? "",
+        endDate: userData.ersatzFlugAnkunftsDatum ?? "",
+        endTime: userData.ersatzFlugAnkunftsZeit ?? "",
+      });
       return {
-        info: `Mit einem anderen Flug, ${calculateDuration({
-          startDate: userData.direktAnkunftsDatum ?? "",
-          startTime: userData.direktAnkunftsZeit ?? "",
-          endDate: userData.ersatzFlugAnkunftsDatum ?? "",
-          endTime: userData.ersatzFlugAnkunftsZeit ?? "",
-        })}`,
+        info,
         timeTable: [
           userData.ersatzFlugnummer ?? "--",
           "--",
           `${userData.ersatzFlugAnkunftsDatum}, ${userData.ersatzFlugAnkunftsZeit}`,
         ],
       };
-    case "etwasAnderes":
+    }
+    case "etwasAnderes": {
+      const info = calculateDuration({
+        startDate: direktAnkunftsDatum ?? "",
+        startTime: direktAnkunftsZeit ?? "",
+        endDate: userData.andereErsatzverbindungAnkunftsDatum ?? "",
+        endTime: userData.andereErsatzverbindungAnkunftsZeit ?? "",
+      });
       return {
-        info: `Mit Bahn, Bus oder anderen Verkehrsmitteln, ${calculateDuration({
-          startDate: userData.direktAnkunftsDatum ?? "",
-          startTime: userData.direktAnkunftsZeit ?? "",
-          endDate: userData.andereErsatzverbindungAnkunftsDatum ?? "",
-          endTime: userData.andereErsatzverbindungAnkunftsZeit ?? "",
-        })}`,
+        info,
         timeTable: [
           "--",
           "--",
           `${userData.andereErsatzverbindungAnkunftsDatum}, ${userData.andereErsatzverbindungAnkunftsZeit}`,
         ],
       };
+    }
     case "keineAnkunft":
       return { info: "--", timeTable: ["--", "--", "--"] };
     default:

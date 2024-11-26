@@ -60,7 +60,7 @@ export function drawCell(
   }
 
   if (regularText.length > 0) {
-    const extraMarginSpace = boldText.length > 0 ? -4 : marginY + 8;
+    const extraMarginSpace = boldText.length > 0 ? -8 : marginY + 4;
     const textToAlignVertically =
       (height - doc.heightOfString(regularText, options) - extraMarginSpace) /
       2;
