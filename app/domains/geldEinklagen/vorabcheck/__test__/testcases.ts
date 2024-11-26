@@ -1,7 +1,7 @@
 /* eslint sonarjs/no-duplicate-string: 0 */
 import { createMachine } from "xstate";
-import { happyPathData } from "tests/fixtures/geldEinklagenVorabcheckData";
 import type { TestCases } from "~/domains/__test__/TestCases";
+import { happyPathData } from "~/domains/geldEinklagen/vorabcheck/__test__/geldEinklagenVorabcheckData";
 import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import geldEinklagenFlow from "~/domains/geldEinklagen/vorabcheck/flow.json";
 import { guards } from "~/domains/geldEinklagen/vorabcheck/guards";

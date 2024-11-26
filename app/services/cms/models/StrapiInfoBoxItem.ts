@@ -34,7 +34,7 @@ export const getInfoBoxItemProps = (
   omitNull({
     details: cmsData.detailsSummary.map(getDetailsProps),
     image: getImageProps(cmsData.image),
-    ...pick(cmsData, "label", "headline", "content", "buttons"),
+    ...pick(cmsData, "label", "headline", "content", "buttons", "identifier"),
   });
 
 export function infoBoxesFromElementsWithID(
