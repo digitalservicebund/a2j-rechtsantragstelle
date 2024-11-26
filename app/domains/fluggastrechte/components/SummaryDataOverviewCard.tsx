@@ -2,8 +2,10 @@ import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import Button from "~/components/Button";
 import Heading from "~/components/Heading";
 import type { Context } from "~/domains/contexts";
-import type { Translations } from "~/services/translations/getTranslationByKey";
-import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
+import {
+  getTranslationByKey,
+  type Translations,
+} from "~/services/translations/getTranslationByKey";
 
 type CardProps = {
   readonly data: Context | undefined;
@@ -14,6 +16,13 @@ type CardProps = {
   readonly translations: Translations;
 };
 
+function getTranslationByKeyForUserData(
+  key: string,
+  translations?: Translations,
+): string {
+  const translation = translations?.[key];
+  return translation ?? key;
+}
 const formatTextWithBreaks = (text: string) =>
   text.split("\n").map((line) => <p key={line}>{line}</p>);
 
@@ -50,7 +59,7 @@ function SummaryDataOverviewCard({
                   />
                 )}
                 {formatTextWithBreaks(
-                  getTranslationByKey(value as string, translations),
+                  getTranslationByKeyForUserData(value as string, translations),
                 )}
               </div>
             )
