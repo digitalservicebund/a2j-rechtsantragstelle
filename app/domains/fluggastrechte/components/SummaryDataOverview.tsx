@@ -87,11 +87,6 @@ export default function SummaryDataOverview({
       {/* {Prozessführung} */}
       <Heading text="Prozessführung" tagName="p" look="ds-heading-03-bold" />
       <SummaryDataOverviewCard
-        data={{ schriftlichesVerfahren: userData.schriftlichesVerfahren }}
-        buttonUrl="/fluggastrechte/formular/prozessfuehrung/schriftliches-verfahren"
-        translations={translations}
-      />
-      <SummaryDataOverviewCard
         data={{ videoverhandlung: userData.videoverhandlung }}
         buttonUrl="/fluggastrechte/formular/prozessfuehrung/videoverhandlung"
         translations={translations}
