@@ -22,49 +22,47 @@ function ActualArrivalCards({
       />
     );
   }
-  if (userData.tatsaechlicherFlug === "no") {
-    if (userData.ersatzverbindungArt === "flug") {
-      return (
-        <SummaryDataOverviewCard
-          title="Tatsächliche Ankunft"
-          subtitle="(Mit einem anderen Flug)"
-          data={{
-            flugnummer: userData.ersatzFlugnummer,
-            ankunft: `${userData.ersatzFlugAnkunftsDatum} \n ${userData.ersatzFlugAnkunftsZeit}`,
-          }}
-          buttonUrl="/fluggastrechte/formular/flugdaten/anderer-flug-ankunft"
-          translations={translations}
-        />
-      );
-    }
-    if (userData.ersatzverbindungArt === "etwasAnderes") {
-      return (
-        <SummaryDataOverviewCard
-          title="Tatsächliche Ankunft"
-          subtitle="(Mit Bahn, Bus oder anderen Verkehrsmitteln)"
-          data={{
-            andereErsatzverbindungBeschreibung:
-              userData.andereErsatzverbindungBeschreibung,
-            ankunft: `${userData.tatsaechlicherAnkunftsDatum} \n ${userData.tatsaechlicherAnkunftsZeit}`,
-          }}
-          buttonUrl="/fluggastrechte/formular/flugdaten/ersatzverbindung-beschreibung"
-          translations={translations}
-        />
-      );
-    }
-    if (userData.ersatzverbindungArt === "keineAnkunft") {
-      return (
-        <SummaryDataOverviewCard
-          title="Tatsächliche Ankunft"
-          showValueHeading={false}
-          data={{
-            keineAnkunft: "gar nicht angekommen",
-          }}
-          buttonUrl="/fluggastrechte/formular/flugdaten/ersatzverbindung-art"
-          translations={translations}
-        />
-      );
-    }
+  if (userData.ersatzverbindungArt === "flug") {
+    return (
+      <SummaryDataOverviewCard
+        title="Tatsächliche Ankunft"
+        subtitle="(Mit einem anderen Flug)"
+        data={{
+          flugnummer: userData.ersatzFlugnummer,
+          ankunft: `${userData.ersatzFlugAnkunftsDatum} \n ${userData.ersatzFlugAnkunftsZeit}`,
+        }}
+        buttonUrl="/fluggastrechte/formular/flugdaten/anderer-flug-ankunft"
+        translations={translations}
+      />
+    );
+  }
+  if (userData.ersatzverbindungArt === "etwasAnderes") {
+    return (
+      <SummaryDataOverviewCard
+        title="Tatsächliche Ankunft"
+        subtitle="(Mit Bahn, Bus oder anderen Verkehrsmitteln)"
+        data={{
+          andereErsatzverbindungBeschreibung:
+            userData.andereErsatzverbindungBeschreibung,
+          ankunft: `${userData.tatsaechlicherAnkunftsDatum} \n ${userData.tatsaechlicherAnkunftsZeit}`,
+        }}
+        buttonUrl="/fluggastrechte/formular/flugdaten/ersatzverbindung-beschreibung"
+        translations={translations}
+      />
+    );
+  }
+  if (userData.ersatzverbindungArt === "keineAnkunft") {
+    return (
+      <SummaryDataOverviewCard
+        title="Tatsächliche Ankunft"
+        showValueHeading={false}
+        data={{
+          keineAnkunft: "gar nicht angekommen",
+        }}
+        buttonUrl="/fluggastrechte/formular/flugdaten/ersatzverbindung-art"
+        translations={translations}
+      />
+    );
   }
 }
 
