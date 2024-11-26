@@ -8,6 +8,7 @@ import {
   getFlugDaten,
   getPersonData,
   getZeugenText,
+  NO_SPECIFICATION,
 } from "../services/summaryPage/getOverviewData";
 import { getZwischenStopps } from "../services/summaryPage/stoppOver";
 
@@ -60,21 +61,32 @@ export default function SummaryDataOverview({
         buttonUrl="/fluggastrechte/formular/persoenliche-daten/person/daten"
         translations={translations}
       />
-      {userData.weiterePersonen &&
-        (userData.weiterePersonen as FluggastrechtContext[]).map(
-          (person, idx) => {
-            const data = getPersonData(person);
-            return (
-              <SummaryDataOverviewCard
-                key={`Weitere Personen ${idx + 2}`}
-                title={`Weitere Personen ${idx + 2}`}
-                data={data}
-                buttonUrl={`/fluggastrechte/formular/persoenliche-daten/weitere-personen/person/${idx}/daten`}
-                translations={translations}
-              />
-            );
-          },
-        )}
+      {userData.weiterePersonen && (
+        <>
+          <Heading
+            text="Weitere Personen"
+            tagName="p"
+            look="ds-label-01-bold"
+          />
+          {(userData.weiterePersonen as FluggastrechtContext[]).map(
+            (person, idx) => {
+              const data = getPersonData(person);
+              const cedentBookingNumber = {
+                cedentBookingNumber: person.buchungsNummer ?? NO_SPECIFICATION,
+              };
+              return (
+                <SummaryDataOverviewCard
+                  key={`Weitere Personen ${idx + 2}`}
+                  title={`Person ${idx + 2}`}
+                  data={{ ...cedentBookingNumber, ...data }}
+                  buttonUrl={`/fluggastrechte/formular/persoenliche-daten/weitere-personen/person/${idx}/daten`}
+                  translations={translations}
+                />
+              );
+            },
+          )}
+        </>
+      )}
 
       <SummaryDataOverviewCard
         title="Zeuginnen und Zeugen"
