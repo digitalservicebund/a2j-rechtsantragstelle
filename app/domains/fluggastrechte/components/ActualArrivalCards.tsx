@@ -17,7 +17,7 @@ function ActualArrivalCards({
         subtitle="(Mit dem ursprünglich geplanten Flug)"
         buttonUrl={`${FLOW_ID}/flugdaten/tatsaechlicher-flug-ankunft`}
         data={{
-          Ankunft: `${userData.tatsaechlicherAnkunftsDatum} \n ${userData.tatsaechlicherAnkunftsZeit}`,
+          ankunft: `${userData.tatsaechlicherAnkunftsDatum} \n ${userData.tatsaechlicherAnkunftsZeit}`,
         }}
         translations={translations}
       />

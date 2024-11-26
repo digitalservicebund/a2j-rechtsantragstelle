@@ -40,11 +40,7 @@ function SummaryDataOverviewCard({
     <div className="first:pt-0 scroll-my-40 !mt-8">
       <div className="space-y-16 bg-white pt-32 pb-44 px-32">
         {title && (
-          <Heading
-            text={getTranslationByKey(title, translations)}
-            tagName="p"
-            look="ds-heading-03-bold"
-          />
+          <Heading text={title} tagName="p" look="ds-heading-03-bold" />
         )}
         {subtitle}
         {Object.entries(data).map(([key, value]) => {
