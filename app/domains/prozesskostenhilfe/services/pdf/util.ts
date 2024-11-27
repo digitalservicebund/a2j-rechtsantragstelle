@@ -1,3 +1,4 @@
+import get from "lodash/get";
 import type PDFDocument from "pdfkit";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { belegeStrings } from "~/domains/prozesskostenhilfe/formular/stringReplacements";
@@ -53,7 +54,14 @@ export const buildBelegeList = ({
     .moveDown(1);
   const belegeList = Object.entries(conditions)
     .filter(([, val]) => val === true)
-    .map(([key]) => translations[`${key}Text`]);
+    .map(([key]) => {
+      const translationKey = `${key}Text`;
+      return get(
+        translations,
+        translationKey,
+        `<Beleg String not found for ${translationKey}, please ensure a matching translation exists in Strapi>`,
+      );
+    });
   documentStruct.add(
     doc.struct("P", {}, () => {
       doc.list(belegeList, {
