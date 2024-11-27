@@ -44,8 +44,7 @@ const useStepOverAirports = (
       }
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    fetchData();
+    void fetchData();
   }, [ersterZwischenstopp, zweiterZwischenstopp, dritterZwischenstopp]);
 
   return stepOverAirports;

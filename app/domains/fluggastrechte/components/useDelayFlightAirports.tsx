@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { z } from "zod";
 import type { FluggastrechtContext } from "../formular/context";
 
 const DATA_LIST_API_PATH = "/delay-flight-airports";
@@ -73,16 +74,17 @@ const useDelayFlightAirports = (
         );
 
         if (response.ok) {
-          const json = await response.json();
-          setDelayFlightAirports(json);
+          const delayFlightAirportsResponse = z
+            .string()
+            .parse(await response.json());
+          setDelayFlightAirports(delayFlightAirportsResponse);
         }
       } catch {
         setDelayFlightAirports("");
       }
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    fetchData();
+    void fetchData();
   }, [delayFlightAirportsParameter]);
 
   return delayFlightAirports;
