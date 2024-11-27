@@ -2,8 +2,10 @@ import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import Button from "~/components/Button";
 import Heading from "~/components/Heading";
 import type { Context } from "~/domains/contexts";
-import type { Translations } from "~/services/translations/getTranslationByKey";
-import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
+import {
+  getTranslationByKey,
+  type Translations,
+} from "~/services/translations/getTranslationByKey";
 
 type CardProps = {
   readonly data: Context | undefined;
@@ -14,6 +16,13 @@ type CardProps = {
   readonly translations: Translations;
 };
 
+function getTranslationByKeyForUserData(
+  key: string,
+  translations?: Translations,
+): string {
+  const translation = translations?.[key];
+  return translation ?? key;
+}
 const formatTextWithBreaks = (text: string) =>
   text.split("\n").map((line) => <p key={line}>{line}</p>);
 
@@ -31,11 +40,7 @@ function SummaryDataOverviewCard({
     <div className="first:pt-0 scroll-my-40 !mt-8">
       <div className="space-y-16 bg-white pt-32 pb-44 px-32">
         {title && (
-          <Heading
-            text={getTranslationByKey(title, translations)}
-            tagName="p"
-            look="ds-heading-03-bold"
-          />
+          <Heading text={title} tagName="p" look="ds-heading-03-bold" />
         )}
         {subtitle}
         {Object.entries(data).map(([key, value]) => {
@@ -50,7 +55,7 @@ function SummaryDataOverviewCard({
                   />
                 )}
                 {formatTextWithBreaks(
-                  getTranslationByKey(value as string, translations),
+                  getTranslationByKeyForUserData(value as string, translations),
                 )}
               </div>
             )
