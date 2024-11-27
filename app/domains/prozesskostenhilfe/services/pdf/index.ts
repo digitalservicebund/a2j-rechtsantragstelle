@@ -2,6 +2,7 @@ import { PDFDocument } from "pdf-lib";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import { fillZahlungsverpflichtungen } from "~/domains/prozesskostenhilfe/services/pdf/pdfForm/I_zahlungsverpflichtungen";
 import type { Metadata } from "~/services/pdf/addMetadataToPdf";
 import { addMetadataToPdf } from "~/services/pdf/addMetadataToPdf";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
@@ -16,6 +17,7 @@ import {
   pdfFromUserData,
   type PDFDocumentBuilder,
 } from "~/services/pdf/pdfFromUserData";
+import type { Translations } from "~/services/translations/getTranslationByKey";
 import { fillPerson } from "./pdfForm/A_person";
 import { fillRechtsschutzversicherung } from "./pdfForm/B_rechtsschutzversicherung";
 import { fillUnterhaltsanspruch } from "./pdfForm/C_unterhaltspflichtige_person";
@@ -26,7 +28,6 @@ import { fillAbzuege } from "./pdfForm/F_abzuege";
 import { fillEigentum } from "./pdfForm/G_eigentum";
 import { fillGrundvoraussetzungen } from "./pdfForm/grundvoraussetzungen";
 import { fillWohnkosten } from "./pdfForm/H_wohnkosten";
-import { fillZahlungsverpflichtungen } from "./pdfForm/I_zahlungsverpflichtungen";
 import { fillBelastungen } from "./pdfForm/J_belastungen";
 export { getProzesskostenhilfeParameters };
 
@@ -62,6 +63,7 @@ const buildProzesskostenhilfePDFDocument: PDFDocumentBuilder<
 
 export async function prozesskostenhilfePdfFromUserdata(
   userData: ProzesskostenhilfeFormularContext,
+  flowTranslations?: Translations,
 ) {
   const { pdfValues, attachment } = pdfFillReducer({
     userData,
@@ -81,6 +83,10 @@ export async function prozesskostenhilfePdfFromUserdata(
       fillZahlungsverpflichtungen,
     ],
   });
+
+  // Adding this so flowTranslations isn't automatically removed for being unused; to be added in a subsequent PR for PKH PDF
+  // eslint-disable-next-line no-console
+  console.log(flowTranslations);
 
   const filledPdfFormDocument = await fillPdf({
     flowId: "/prozesskostenhilfe/formular",

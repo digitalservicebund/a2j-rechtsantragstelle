@@ -179,7 +179,10 @@ export const loader = async ({
   const cmsContent = interpolateSerializableObject(
     structureCmsContent(formPageContent),
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userDataWithPageData)
+      ? {
+          ...currentFlow.stringReplacements(userDataWithPageData),
+          ...stringTranslations,
+        }
       : {},
   );
 
