@@ -21,6 +21,5 @@ runs:
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
     - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
       name: Perform a clean install of node dependencies
-      continue-on-error: true
       run: npm ci
       shell: bash
