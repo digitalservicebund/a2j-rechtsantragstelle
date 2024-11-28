@@ -82,6 +82,8 @@ export const fluggastrechtFlow = {
     ...isWeiterePersonen(context),
     ...getStreitwert(context),
     ...getAnnullierungInfo(context),
+    isClaimWillSucceddedAboveLimit:
+      isTotalClaimWillSucceddedAboveLimit(context),
   }),
   config: {
     meta: {
