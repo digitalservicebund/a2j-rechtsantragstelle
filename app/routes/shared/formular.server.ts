@@ -4,6 +4,7 @@ import { validationError } from "remix-validated-form";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
+import { getArraySummaryData } from "~/services/array/getArraySummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
 import {
@@ -13,7 +14,6 @@ import {
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
 import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
-import { getFormularServerAdditionalData } from "~/services/flow/formular/getFormularServerAdditionalData";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
@@ -102,20 +102,18 @@ export const loader = async ({
     .filter(isStrapiArraySummary)
     .map((strapiSummary) => strapiSummary.category);
 
-  const { arraySummaryData, migrationData } =
-    await getFormularServerAdditionalData(
-      {
-        configuration: flowController.getRootMeta()?.arrays,
-        categories: arrayCategories,
-        userDataWithPageData,
-      },
-      {
-        stepId,
-        flowId,
-        currentFlow,
-        cookie: cookieHeader,
-      },
-    );
+  const arraySummaryData = getArraySummaryData(
+    arrayCategories,
+    flowController.getRootMeta()?.arrays,
+    userDataWithPageData,
+  );
+
+  const migrationData = await getMigrationData(
+    stepId,
+    flowId,
+    currentFlow,
+    cookieHeader,
+  );
 
   const { stringTranslations, cmsContent } =
     await buildFormularServerTranslations({
