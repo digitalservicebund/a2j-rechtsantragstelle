@@ -1,4 +1,5 @@
 import type { AllContextKeys } from "~/domains/common";
+import type { Context } from "~/domains/contexts";
 
 export const arrayChar = "#";
 export const splitArrayName = (key: string) => key.split(arrayChar);
@@ -11,6 +12,6 @@ export type ArrayConfig = {
   initialInputUrl: string;
   statementKey: AllContextKeys;
   hiddenFields?: string[];
-  shouldDisableAddButton?: () => boolean;
+  shouldDisableAddButton?: (context: Context) => boolean;
   disableAddButton?: boolean;
 };

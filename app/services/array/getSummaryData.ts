@@ -21,7 +21,7 @@ export function getSummaryData(
         const arrayConfiguration = arrayConfigurations[category];
         arrayConfiguration.disableAddButton =
           arrayConfiguration.shouldDisableAddButton
-            ? arrayConfiguration.shouldDisableAddButton()
+            ? arrayConfiguration.shouldDisableAddButton(userData)
             : false;
         const possibleArray = userData[category];
         const data = Array.isArray(possibleArray) ? possibleArray : [];

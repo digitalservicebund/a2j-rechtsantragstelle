@@ -17,6 +17,7 @@ import {
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import { prozessfuehrungDone } from "./prozessfuehrung/doneFunctions";
 import prozessfuehrungFlow from "./prozessfuehrung/flow.json";
+import { isTotalClaimWillSucceddedAboveLimit } from "./services/isTotalClaimAboveLimit";
 import { streitwertKostenDone } from "./streitwertKosten/doneFunctions";
 import streitwertKostenFlow from "./streitwertKosten/flow.json";
 import {
@@ -91,6 +92,7 @@ export const fluggastrechtFlow = {
           statementKey: "isWeiterePersonen",
           hiddenFields: ["anrede", "title"],
           event: "add-weiterePersonen",
+          shouldDisableAddButton: isTotalClaimWillSucceddedAboveLimit,
         },
       } satisfies Partial<Record<AllContextKeys, ArrayConfig>>,
     },
