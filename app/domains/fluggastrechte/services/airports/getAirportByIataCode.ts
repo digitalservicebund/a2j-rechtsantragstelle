@@ -7,8 +7,6 @@ export function getAirportByIataCode(
   if (airportIataCode.length === 0) {
     return undefined;
   }
-
   const airport = airports.find((airport) => airport.iata === airportIataCode);
-
   return airport;
 }

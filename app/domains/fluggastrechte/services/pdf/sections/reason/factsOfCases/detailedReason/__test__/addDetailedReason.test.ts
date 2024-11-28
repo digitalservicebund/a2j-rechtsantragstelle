@@ -1,8 +1,8 @@
-import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import {

@@ -32,6 +32,7 @@ export type StrapiInfoBoxComponent = z.infer<
 >;
 
 export const getInfoBoxProps = (cmsData: StrapiInfoBox): InfoBoxProps => ({
+  identifier: cmsData.identifier ?? undefined,
   heading: getHeadingProps(cmsData.heading),
   items: cmsData.items.map(getInfoBoxItemProps),
   separator: cmsData.separator ?? undefined,

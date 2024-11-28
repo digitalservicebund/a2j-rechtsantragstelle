@@ -1,7 +1,7 @@
 /* eslint sonarjs/no-duplicate-string: 0 */
 import { createMachine } from "xstate";
-import { happyPathData } from "tests/fixtures/beratungshilfeVorabcheckData";
 import type { TestCases } from "~/domains/__test__/TestCases";
+import { happyPathData } from "~/domains/beratungshilfe/vorabcheck/__test__/beratungshilfeVorabcheckData";
 import type { BeratungshilfeVorabcheckContext } from "~/domains/beratungshilfe/vorabcheck/context";
 import { beratungshilfeVorabcheckXstateConfig } from "~/domains/beratungshilfe/vorabcheck/xstateConfig";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";

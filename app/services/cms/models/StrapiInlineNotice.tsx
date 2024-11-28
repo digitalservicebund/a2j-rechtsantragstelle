@@ -29,4 +29,11 @@ export const StrapiInlineNoticeComponentSchema =
 export const getInlineNoticeProps = (
   strapiInlineNotice: StrapiInlineNotice,
 ): InlineNoticeProps =>
-  pick(omitNull(strapiInlineNotice), "title", "tagName", "look", "content");
+  pick(
+    omitNull(strapiInlineNotice),
+    "title",
+    "tagName",
+    "look",
+    "content",
+    "identifier",
+  );
