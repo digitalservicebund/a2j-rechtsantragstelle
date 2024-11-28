@@ -19,6 +19,10 @@ export function getSummaryData(
       )
       .map((category) => {
         const arrayConfiguration = arrayConfigurations[category];
+        arrayConfiguration.disableAddButton =
+          arrayConfiguration.shouldDisableAddButton
+            ? arrayConfiguration.shouldDisableAddButton()
+            : false;
         const possibleArray = userData[category];
         const data = Array.isArray(possibleArray) ? possibleArray : [];
         return [category, { data, arrayConfiguration }];
