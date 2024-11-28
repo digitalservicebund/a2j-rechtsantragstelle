@@ -1,17 +1,11 @@
 {
   "id": "prozessfuehrung",
-  "initial": "schriftliches-verfahren",
+  "initial": "videoverhandlung",
   "states": {
-    "schriftliches-verfahren": {
-      "on": {
-        "SUBMIT": "videoverhandlung",
-        "BACK": "#persoenliche-daten.weitere-personen.zeugen"
-      }
-    },
     "videoverhandlung": {
       "on": {
         "SUBMIT": "versaeumnisurteil",
-        "BACK": "schriftliches-verfahren"
+        "BACK": "#persoenliche-daten.weitere-personen.zeugen"
       }
     },
     "versaeumnisurteil": {
