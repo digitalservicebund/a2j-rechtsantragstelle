@@ -1,19 +1,28 @@
+import { json } from "@remix-run/node";
 import { getRedirectForNonRelativeUrl } from "../getRedirectForNonRelativeUrl";
 
+vitest.mock("@remix-run/node", () => ({
+  json: vitest.fn(),
+}));
+
 describe("getRedirectForNonRelativeUrl", () => {
+  afterEach(() => {
+    vitest.clearAllMocks();
+  });
+
   test("should return 400 and success: false when searchParameterUrl does not start with '/'", () => {
     const nonRelativeUrl = "https://example.com";
 
-    const response = getRedirectForNonRelativeUrl(nonRelativeUrl);
+    getRedirectForNonRelativeUrl(nonRelativeUrl);
 
-    expect(response?.status).toBe(400);
+    expect(json).toHaveBeenCalledWith({ success: false }, { status: 400 });
   });
 
   test("should not return a response if the searchParameterUrl starts with '/'", () => {
     const relativeUrl = "/relative/path";
 
-    const response = getRedirectForNonRelativeUrl(relativeUrl);
+    getRedirectForNonRelativeUrl(relativeUrl);
 
-    expect(response).toBeUndefined();
+    expect(json).not.toHaveBeenCalled();
   });
 });
