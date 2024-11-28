@@ -1,5 +1,7 @@
+import { json } from "@remix-run/node";
+
 export function getRedirectForNonRelativeUrl(searchParameterUrl: string) {
   if (!searchParameterUrl.startsWith("/")) {
-    return new Response(null, { status: 400 });
+    return json({ success: false }, { status: 400 });
   }
 }
