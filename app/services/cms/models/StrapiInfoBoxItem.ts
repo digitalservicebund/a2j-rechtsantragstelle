@@ -6,7 +6,6 @@ import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiButtonSchema } from "./StrapiButton";
 import { getDetailsProps, StrapiDetailsSchema } from "./StrapiDetails";
-import { type StrapiElementWithId } from "./StrapiElementWithId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiImageSchema, getImageProps } from "./StrapiImage";
 
@@ -36,13 +35,3 @@ export const getInfoBoxItemProps = (
     image: getImageProps(cmsData.image),
     ...pick(cmsData, "label", "headline", "content", "buttons", "identifier"),
   });
-
-export function infoBoxesFromElementsWithID(
-  elementsWithID: StrapiElementWithId[],
-) {
-  return elementsWithID.flatMap((elementWithID) =>
-    elementWithID.element
-      .filter((el) => el.__component === "page.info-box-item")
-      .map((el) => getInfoBoxItemProps(el as StrapiInfoBoxItem)),
-  );
-}
