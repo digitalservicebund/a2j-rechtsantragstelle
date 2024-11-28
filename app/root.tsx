@@ -20,7 +20,6 @@ import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import { useEffect, useMemo, useState } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
-import Kopfzeile from "~/components/Kopfzeile";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
@@ -125,6 +124,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       header: {
         ...getPageHeaderProps(strapiHeader),
         hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
+        showKopfzeile,
       },
       footer: getFooterProps(strapiFooter),
       cookieBannerContent: cookieBannerContent,
@@ -145,7 +145,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       accessibilityTranslations,
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
-      showKopfzeile,
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
@@ -163,7 +162,6 @@ function App() {
     pageHeaderTranslations,
     videoTranslations,
     accessibilityTranslations,
-    showKopfzeile,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
@@ -218,7 +216,6 @@ function App() {
             )}
             target={skipToContentLinkTarget}
           />
-          {showKopfzeile && <Kopfzeile />}
           <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
           <Header {...header} translations={pageHeaderTranslations} />
           <Breadcrumbs breadcrumbs={breadcrumbs} linkLabel={header.linkLabel} />
