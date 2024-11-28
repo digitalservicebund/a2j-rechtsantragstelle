@@ -1,7 +1,7 @@
 import type { Context } from "~/domains/contexts";
 import type { ArrayConfig } from ".";
 
-export function getSummaryData(
+export function getArraySummaryData(
   categories: string[],
   arrayConfigurations: Record<string, ArrayConfig> | undefined,
   userData: Context,

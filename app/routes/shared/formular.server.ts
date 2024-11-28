@@ -6,8 +6,8 @@ import { parsePathname } from "~/domains/flowIds";
 import type { Flow } from "~/domains/flows.server";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
+import { getArraySummaryData } from "~/services/array/getArraySummaryData";
 import { getArraySummaryPageTranslations } from "~/services/array/getArraySummaryPageTranslations";
-import { getSummaryData } from "~/services/array/getSummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
 import {
@@ -150,7 +150,7 @@ export const loader = async ({
     .filter(isStrapiArraySummary)
     .map((strapiSummary) => strapiSummary.category);
 
-  const arraySummaryData = getSummaryData(
+  const arraySummaryData = getArraySummaryData(
     arrayCategories,
     arrayConfigurations,
     userDataWithPageData,
