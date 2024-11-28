@@ -11,7 +11,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const headers = await consentCookieFromRequest({ request });
 
   if (clientJavaScriptAvailable) {
-    return data({ success: true }, { headers: headers });
+    return data({ success: true }, { headers });
   }
 
   return redirect("/cookie-einstellungen", { headers });
