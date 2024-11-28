@@ -1,22 +1,14 @@
-import type { Translations } from "~/services/translations/getTranslationByKey";
+import { type StepOverAirports } from "../../components/useStepOverAirports";
 import { type FluggastrechtContext } from "../../formular/context";
-import { getAirportNameByIataCode } from "../airports/getAirportNameByIataCode";
 
-export type ZwischenstoppsProps = {
-  readonly userData: FluggastrechtContext | undefined;
-  readonly translations: Translations;
-};
-
-export const getZwischenStopps = (zwischenstopp: FluggastrechtContext) => {
-  const ersterZwischenstoppName = getAirportNameByIataCode(
-    zwischenstopp.ersterZwischenstopp ?? "",
-  );
-  const zweiterZwischenstoppName = getAirportNameByIataCode(
-    zwischenstopp.zweiterZwischenstopp ?? "",
-  );
-  const dritterZwischenstoppName = getAirportNameByIataCode(
-    zwischenstopp.dritterZwischenstopp ?? "",
-  );
+export const getZwischenStopps = (
+  zwischenstopp: FluggastrechtContext,
+  {
+    ersterZwischenstoppName,
+    zweiterZwischenstoppName,
+    dritterZwischenstoppName,
+  }: StepOverAirports,
+) => {
   const stopMapping = {
     noStop: undefined,
     oneStop: {

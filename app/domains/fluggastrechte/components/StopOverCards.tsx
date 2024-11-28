@@ -1,50 +1,43 @@
+import { type Translations } from "~/services/translations/getTranslationByKey";
 import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
-import type { FluggastrechtContext } from "../formular/context";
-import { getAirportNameByIataCode } from "../services/airports/getAirportNameByIataCode";
+import useDelayFlightAirports from "./useDelayFlightAirports";
+import useStepOverAirports from "./useStepOverAirports";
+import { type FluggastrechtContext } from "../formular/context";
 import { FLOW_ID } from "../services/summaryPage/getOverviewData";
 import {
   getAnzahlZwischenstopps,
   getZwischenStopps,
-  type ZwischenstoppsProps,
 } from "../services/summaryPage/stoppOver";
 
-const getBetroffenerFlug = (userData: FluggastrechtContext) => {
-  const startAirportName = getAirportNameByIataCode(userData.startAirport);
-  const endAirportName = getAirportNameByIataCode(userData.endAirport);
-  const ersterZwischenstoppName = getAirportNameByIataCode(
-    userData.ersterZwischenstopp ?? "",
-  );
-  const zweiterZwischenstoppName = getAirportNameByIataCode(
-    userData.zweiterZwischenstopp ?? "",
-  );
-  const dritterZwischenstoppName = getAirportNameByIataCode(
-    userData.dritterZwischenstopp ?? "",
-  );
-
-  if (userData.verspaeteterFlug === "startAirportFirstZwischenstopp")
-    return `${startAirportName} - ${ersterZwischenstoppName}`;
-  if (userData.verspaeteterFlug === "firstZwischenstoppEndAirport")
-    return `${ersterZwischenstoppName} - ${endAirportName}`;
-  if (userData.verspaeteterFlug === "firstAirportSecondZwischenstopp")
-    return `${ersterZwischenstoppName} - ${zweiterZwischenstoppName}`;
-  if (userData.verspaeteterFlug === "secondZwischenstoppEndAirport")
-    return `${zweiterZwischenstoppName} - ${endAirportName}`;
-  if (userData.verspaeteterFlug === "secondAirportThirdZwischenstopp")
-    return `${zweiterZwischenstoppName} - ${dritterZwischenstoppName}`;
-  if (userData.verspaeteterFlug === "thirdZwischenstoppEndAirport")
-    return `${dritterZwischenstoppName} - ${endAirportName}`;
+type ZwischenstoppsProps = {
+  readonly userData: FluggastrechtContext;
+  readonly translations: Translations;
 };
 
 function StopOverCards({
   userData,
   translations,
 }: Readonly<ZwischenstoppsProps>) {
+  const delayFlightAirports = useDelayFlightAirports({
+    ersterZwischenstopp: userData.ersterZwischenstopp ?? "",
+    zweiterZwischenstopp: userData.zweiterZwischenstopp ?? "",
+    dritterZwischenstopp: userData.dritterZwischenstopp ?? "",
+    verspaeteterFlug: userData.verspaeteterFlug,
+    startAirport: userData.startAirport ?? "",
+    endAirport: userData.endAirport ?? "",
+  });
+  const stepOverAirports = useStepOverAirports(
+    userData.ersterZwischenstopp ?? "",
+    userData.zweiterZwischenstopp ?? "",
+    userData.dritterZwischenstopp ?? "",
+  );
+
   if (!userData) return null;
   return (
     <>
       <SummaryDataOverviewCard
         title="Zwischenstopps"
-        data={getZwischenStopps(userData)}
+        data={getZwischenStopps(userData, stepOverAirports)}
         buttonUrl={`${FLOW_ID}/flugdaten/zwischenstopp-uebersicht-${getAnzahlZwischenstopps(userData)}`}
         translations={translations}
       />
@@ -52,7 +45,7 @@ function StopOverCards({
         <SummaryDataOverviewCard
           title="Betroffener Flug"
           showValueHeading={false}
-          data={{ verspaeteterFlug: getBetroffenerFlug(userData) }}
+          data={{ verspaeteterFlug: delayFlightAirports }}
           buttonUrl={`${FLOW_ID}/flugdaten/verspaeteter-flug-${getAnzahlZwischenstopps(userData)}`}
           translations={translations}
         />
