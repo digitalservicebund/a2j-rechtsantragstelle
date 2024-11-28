@@ -7,7 +7,6 @@ import { StrapiDetailsComponentSchema } from "./StrapiDetails";
 import { StrapiHeaderComponentSchema } from "./StrapiHeader";
 import { StrapiHeadingComponentSchema } from "./StrapiHeading";
 import { StrapiInfoBoxComponentSchema } from "./StrapiInfoBox";
-import { StrapiInfoBoxItemComponentSchema } from "./StrapiInfoBoxItem";
 import { StrapiInlineNoticeComponentSchema } from "./StrapiInlineNotice";
 import { StrapiLinkListBoxComponentSchema } from "./StrapiLinkListBox";
 import { StrapiListComponentSchema } from "./StrapiList";
@@ -22,7 +21,6 @@ export const StrapiContentComponentSchema = z.discriminatedUnion(
     StrapiHeaderComponentSchema,
     StrapiHeadingComponentSchema,
     StrapiInfoBoxComponentSchema,
-    StrapiInfoBoxItemComponentSchema,
     StrapiParagraphComponentSchema,
     StrapiVideoComponentSchema,
     StrapiLinkListBoxComponentSchema,
