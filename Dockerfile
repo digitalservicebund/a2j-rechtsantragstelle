@@ -25,15 +25,12 @@ FROM ${CONTENT_IMAGE} AS contentStageForCopy
 FROM ${APP_IMAGE} AS appStageForCopy
 FROM node:20-alpine AS prod
 
-# Fixes https://scout.docker.com/vulnerabilities/id/CVE-2024-9143?s=alpine
-# Remove once node:20-alpine containes updated openssl
-RUN apk add --no-cache libcrypto3=3.3.2-r1 libssl3=3.3.2-r1
-
-# Fixes https://scout.docker.com/vulnerabilities/id/CVE-2024-21538?s=github
-# Remove once node:20-alpine contains updated npm
-RUN npm update -g npm && npm cache clean --force
-
-RUN apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
+# TODO: Check https://hub.docker.com/r/library/node/tags?name=alpine3.20
+# - Remove crypto&ssl if CVE-2024-9143 is fixed (https://scout.docker.com/vulnerabilities/id/CVE-2024-9143?s=alpine)
+# - Remove npm upgrade if CVE-2024-21538 is fixed (https://scout.docker.com/vulnerabilities/id/CVE-2024-21538?s=github) 
+RUN apk add --no-cache libcrypto3=3.3.2-r1 libssl3=3.3.2-r1 && \
+    npm update -g npm && npm cache clean --force && \
+    apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
 
 USER node
 WORKDIR /a2j
