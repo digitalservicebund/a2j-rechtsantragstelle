@@ -1,5 +1,6 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
+import Kopfzeile from "~/components/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
 
 type PageHeaderProps = {
@@ -21,6 +22,7 @@ export default function Header({
 }: Readonly<PageHeaderProps>) {
   return (
     <header>
+      <Kopfzeile />
       <nav
         className="py-20 px-16 flex flex-wrap justify-between"
         aria-label={translations.mainNavigationAriaLabel}

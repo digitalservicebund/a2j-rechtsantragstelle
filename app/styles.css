@@ -25,6 +25,21 @@ body {
   min-height: 100vh;
 }
 
+@font-face {
+  font-family: FiraSans;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    url("../public/fonts/FiraSans-Regular.woff2") format("woff2"),
+    url("../public/fonts/FiraSans-Regular.woff") format("woff");
+}
+
+.kopfzeile {
+  font-family: "FiraSans", "Calibri", "Verdana", "Arial", "Helvetica",
+    sans-serif;
+}
+
 a {
   color: currentcolor;
 }
