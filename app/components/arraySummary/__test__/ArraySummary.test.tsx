@@ -89,4 +89,103 @@ describe("ArraySummary", () => {
       expect.anything(),
     );
   });
+
+  it("should have class is-disabled pointer-events-none on button given disableAddButton true", () => {
+    const mockArrayConfigurationDisableAddButton = {
+      ...mockArrayConfiguration,
+      disableAddButton: true,
+    };
+
+    const mockArrayDataDisableAddButton = {
+      arrayConfiguration: mockArrayConfigurationDisableAddButton,
+      data: [
+        {
+          birthday: "01.01.1950",
+          familyRelationship: "mother",
+          firstName: "Another",
+          monthlyPayment: "100,00",
+          surname: "test",
+        },
+      ],
+    };
+
+    const { getByTestId } = render(
+      <ArraySummary
+        arrayData={mockArrayDataDisableAddButton}
+        translations={{}}
+        category="unterhaltszahlungen"
+        csrf="csrf"
+      />,
+    );
+
+    expect(getByTestId(`add-unterhaltszahlungen`)).toHaveClass(
+      "is-disabled pointer-events-none",
+    );
+  });
+
+  it("should not have class given disableAddButton false", () => {
+    const mockArrayConfigurationDisableAddButton = {
+      ...mockArrayConfiguration,
+      disableAddButton: false,
+    };
+
+    const mockArrayDataDisableAddButton = {
+      arrayConfiguration: mockArrayConfigurationDisableAddButton,
+      data: [
+        {
+          birthday: "01.01.1950",
+          familyRelationship: "mother",
+          firstName: "Another",
+          monthlyPayment: "100,00",
+          surname: "test",
+        },
+      ],
+    };
+
+    const { getByTestId } = render(
+      <ArraySummary
+        arrayData={mockArrayDataDisableAddButton}
+        translations={{}}
+        category="unterhaltszahlungen"
+        csrf="csrf"
+      />,
+    );
+
+    expect(getByTestId(`add-unterhaltszahlungen`)).not.toHaveClass(
+      "is-disabled pointer-events-none",
+    );
+  });
+
+  it("should not have class given disableAddButton undefined", () => {
+    const mockArrayConfigurationDisableAddButton = {
+      ...mockArrayConfiguration,
+      disableAddButton: undefined,
+    };
+
+    const mockArrayDataDisableAddButton = {
+      arrayConfiguration: mockArrayConfigurationDisableAddButton,
+      data: [
+        {
+          birthday: "01.01.1950",
+          familyRelationship: "mother",
+          firstName: "Another",
+          monthlyPayment: "100,00",
+          surname: "test",
+        },
+      ],
+    };
+
+    const { getByTestId } = render(
+      <ArraySummary
+        arrayData={mockArrayDataDisableAddButton}
+        translations={{}}
+        category="unterhaltszahlungen"
+        csrf="csrf"
+      />,
+    );
+
+    expect(getByTestId(`add-unterhaltszahlungen`)).not.toHaveClass(
+      "is-disabled pointer-events-none",
+    );
+  });
 });

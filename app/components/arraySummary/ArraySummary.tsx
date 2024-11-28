@@ -41,7 +41,11 @@ const ArraySummary = ({
   const description: string | undefined =
     translations[`${category}.description`];
   const nextItemIndex = String(arrayData.data.length);
-  const { url, initialInputUrl } = arrayData.arrayConfiguration;
+  const {
+    url,
+    initialInputUrl,
+    disableAddButton = false,
+  } = arrayData.arrayConfiguration;
   const hasTitleHeading = titleHeading.trim().length > 0;
 
   return (
@@ -72,7 +76,9 @@ const ArraySummary = ({
           <Button
             look="primary"
             size="small"
-            className="hover:shadow-none "
+            className={`hover:shadow-none ${
+              disableAddButton ? "is-disabled pointer-events-none" : ""
+            }`}
             iconLeft={<AddButton />}
             data-testid={`add-${category}`}
             href={`${url}/${Number(nextItemIndex)}/${initialInputUrl}`}
