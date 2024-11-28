@@ -1,8 +1,8 @@
-import { getSummaryData } from "~/services/array/getSummaryData";
+import { getArraySummaryData } from "~/services/array/getArraySummaryData";
 
-describe("getSummaryData", () => {
+describe("getArraySummaryData", () => {
   it("returns undefined when array configuration is missing", () => {
-    const summaryData = getSummaryData([], undefined, {});
+    const summaryData = getArraySummaryData([], undefined, {});
     expect(summaryData).toBeUndefined();
   });
 
@@ -26,7 +26,7 @@ describe("getSummaryData", () => {
 
   it("returns array configuration and data", () => {
     expect(
-      getSummaryData(
+      getArraySummaryData(
         ["bankkonten", "kraftfahrzeuge"],
         { bankkonten: bankkontenArrayConfig, kraftfahrzeuge: kfzArrayConfig },
         {
@@ -49,7 +49,7 @@ describe("getSummaryData", () => {
 
   it("filterns non-available & unknown arrays or untrue statements", () => {
     expect(
-      getSummaryData(
+      getArraySummaryData(
         ["bankkonten", "kraftfahrzeuge", "asdf"],
         {
           bankkonten: {
