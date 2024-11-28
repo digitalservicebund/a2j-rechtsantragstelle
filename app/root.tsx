@@ -20,6 +20,7 @@ import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import { useEffect, useMemo, useState } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
+import Kopfzeile from "~/components/Kopfzeile";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
@@ -30,6 +31,7 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { config as configWeb } from "~/services/env/web";
+import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
@@ -95,6 +97,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     videoTranslations,
     accessibilityTranslations,
     mainSession,
+    showKopfzeile,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
     fetchSingleEntry("footer"),
@@ -109,6 +112,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("video"),
     fetchTranslations("accessibility"),
     mainSessionFromCookieHeader(cookieHeader),
+    isFeatureFlagEnabled("showKopfzeile"),
   ]);
 
   const shouldAddCacheControl = shouldSetCacheControlHeader(
@@ -141,6 +145,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       accessibilityTranslations,
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
+      showKopfzeile,
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
@@ -158,6 +163,7 @@ function App() {
     pageHeaderTranslations,
     videoTranslations,
     accessibilityTranslations,
+    showKopfzeile,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
@@ -212,6 +218,7 @@ function App() {
             )}
             target={skipToContentLinkTarget}
           />
+          {showKopfzeile && <Kopfzeile />}
           <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
           <Header {...header} translations={pageHeaderTranslations} />
           <Breadcrumbs breadcrumbs={breadcrumbs} linkLabel={header.linkLabel} />
