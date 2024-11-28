@@ -7,7 +7,7 @@ import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 import Heading from "../Heading";
 
-export const userRatingFieldname = "wasHelpful";
+export const userRatingFieldName = "wasHelpful";
 
 export interface RatingBoxProps {
   readonly heading: string;
@@ -35,7 +35,7 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
           <Button
             iconLeft={<ThumbUpIcon />}
             look="tertiary"
-            name={userRatingFieldname}
+            name={userRatingFieldName}
             value="yes"
             type="submit"
             aria-label={`${heading}, ${feedbackTranslations["yes-rating"]}`}
@@ -45,7 +45,7 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
           <Button
             iconLeft={<ThumbDownIcon />}
             look="tertiary"
-            name={userRatingFieldname}
+            name={userRatingFieldName}
             value="no"
             type="submit"
             aria-label={`${heading}, ${feedbackTranslations["no-rating"]}`}
