@@ -8,6 +8,8 @@ import {
   fetchMeta,
   fetchTranslations,
 } from "~/services/cms/index.server";
+import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
+import { isStrapiInfoBoxItem } from "~/services/cms/models/StrapiElementWithId";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getSessionData } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
@@ -47,9 +49,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       : {},
   );
 
-  const reasonElementsWithID =
-    cmsContent.reasonings.data?.map((el) => el.attributes) ?? [];
-
   const { back: backButton } = getButtonNavigationProps({
     backButtonLabel: defaultStrings["backButtonDefaultLabel"],
     nextButtonLabel:
@@ -63,14 +62,30 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     stepId,
   });
 
+  const reasonsToDisplay = getReasonsToDisplay(userData);
+
+  // Remove extra logic below info-box-items are removed from elementsWithId
+  const reasonings =
+    cmsContent.reasonings.data
+      ?.filter((el) => el.attributes.elementId in reasonsToDisplay)
+      .flatMap((el) => el.attributes.element)
+      .filter(isStrapiInfoBoxItem) ?? [];
+
+  const documents = (cmsContent.documents.data?.attributes.element.filter(
+    (el) => !isStrapiInfoBoxItem(el),
+  ) ?? []) as StrapiContentComponent[];
+
+  const nextSteps = (cmsContent.nextSteps.data?.attributes.element.filter(
+    (el) => !isStrapiInfoBoxItem(el),
+  ) ?? []) as StrapiContentComponent[];
+
+  const cmsData = { ...cmsContent, nextSteps, documents, reasonings };
+
   return json(
     {
       flowId,
       common: defaultStrings,
-      cmsData: cmsContent,
-      reasons: reasonElementsWithID.filter((reason) =>
-        Boolean(getReasonsToDisplay(userData)[reason.elementId]),
-      ),
+      cmsData,
       meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
       backButton,
     },
