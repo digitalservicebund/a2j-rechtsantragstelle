@@ -58,6 +58,10 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
+    {
+      name: "Mobile Android",
+      use: { ...devices["Galaxy S8"] },
+    },
   ],
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
