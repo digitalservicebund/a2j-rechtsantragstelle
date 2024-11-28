@@ -48,7 +48,10 @@ export default function SummaryDataOverview({
         buttonUrl={`${FLOW_ID}/flugdaten/zusaetzliche-angaben`}
         showValueHeading={false}
         data={{
-          zusätzlicheAngaben: userData.zusaetzlicheAngaben ?? NO_SPECIFICATION,
+          zusätzlicheAngaben:
+            userData.zusaetzlicheAngaben === "" || !userData.zusaetzlicheAngaben
+              ? NO_SPECIFICATION
+              : userData.zusaetzlicheAngaben,
         }}
         title="Zusätzliche Angaben zum Reiseverlauf"
         translations={translations}
@@ -72,7 +75,10 @@ export default function SummaryDataOverview({
             const { kontodaten: _kontodaten, ...cedentData } =
               getPersonData(userData);
             const cedentBookingNumber = {
-              cedentBookingNumber: person.buchungsnummer ?? NO_SPECIFICATION,
+              cedentBookingNumber:
+                !person.buchungsnummer || person.buchungsnummer === ""
+                  ? NO_SPECIFICATION
+                  : person.buchungsnummer,
             };
             return (
               <SummaryDataOverviewCard
