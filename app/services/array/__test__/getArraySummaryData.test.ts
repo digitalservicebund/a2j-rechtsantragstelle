@@ -1,4 +1,6 @@
+import type { ArrayData } from "~/domains/contexts";
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
+import type { ArrayConfigClient } from "..";
 
 describe("getArraySummaryData", () => {
   it("returns undefined when array configuration is missing", () => {
@@ -38,11 +40,11 @@ describe("getArraySummaryData", () => {
     ).toEqual({
       bankkonten: {
         data: [],
-        arrayConfiguration: bankkontenArrayConfig,
+        configuration: { ...bankkontenArrayConfig, disableAddButton: false },
       },
       kraftfahrzeuge: {
         data: [{ hasArbeitsweg: "no", wert: "under10000" }],
-        arrayConfiguration: kfzArrayConfig,
+        configuration: { ...kfzArrayConfig, disableAddButton: false },
       },
     });
   });
@@ -62,5 +64,72 @@ describe("getArraySummaryData", () => {
         { hasBankkonto: "no" },
       ),
     ).toEqual({});
+  });
+
+  it("should return disableAddButton false given an undefined function shouldDisableAddButton", () => {
+    const actual = getArraySummaryData(
+      ["bankkonten"],
+      { bankkonten: bankkontenArrayConfig },
+      {
+        hasBankkonto: "yes",
+      },
+    );
+
+    expect(
+      (
+        actual?.["bankkonten"] as {
+          data: ArrayData;
+          configuration: ArrayConfigClient;
+        }
+      ).configuration.disableAddButton,
+    ).toBe(false);
+  });
+
+  it("should return disableAddButton false given a function shouldDisableAddButton that it returns false", () => {
+    const mockBankkontenArrayConfig = {
+      ...bankkontenArrayConfig,
+      shouldDisableAddButton: () => false,
+    };
+
+    const actual = getArraySummaryData(
+      ["bankkonten"],
+      { bankkonten: mockBankkontenArrayConfig },
+      {
+        hasBankkonto: "yes",
+      },
+    );
+
+    expect(
+      (
+        actual?.["bankkonten"] as {
+          data: ArrayData;
+          configuration: ArrayConfigClient;
+        }
+      ).configuration.disableAddButton,
+    ).toBe(false);
+  });
+
+  it("should return disableAddButton true given a function shouldDisableAddButton that it returns true", () => {
+    const mockBankkontenArrayConfig = {
+      ...bankkontenArrayConfig,
+      shouldDisableAddButton: () => true,
+    };
+
+    const actual = getArraySummaryData(
+      ["bankkonten"],
+      { bankkonten: mockBankkontenArrayConfig },
+      {
+        hasBankkonto: "yes",
+      },
+    );
+
+    expect(
+      (
+        actual?.["bankkonten"] as {
+          data: ArrayData;
+          configuration: ArrayConfigClient;
+        }
+      ).configuration.disableAddButton,
+    ).toBe(true);
   });
 });

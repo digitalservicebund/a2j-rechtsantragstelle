@@ -1,17 +1,17 @@
 import { render } from "@testing-library/react";
-import type { ArrayConfig } from "~/services/array";
+import type { ArrayConfigClient } from "~/services/array";
 import ArraySummary from "../ArraySummary";
 import ArraySummaryDataItems from "../ArraySummaryDataItems";
 
-const mockArrayConfiguration: ArrayConfig = {
+const mockArrayConfiguration: ArrayConfigClient = {
   event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
-  statementKey: "hasWeitereUnterhaltszahlungen",
   url: "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person",
+  disableAddButton: true,
 };
 
 const arrayData = {
-  arrayConfiguration: mockArrayConfiguration,
+  configuration: mockArrayConfiguration,
   data: [
     {
       birthday: "01.01.1950",
@@ -87,6 +87,72 @@ describe("ArraySummary", () => {
         headingTitleTagNameItem: "h3",
       }),
       expect.anything(),
+    );
+  });
+
+  it("should have class is-disabled pointer-events-none on button given disableAddButton true", () => {
+    const mockArrayConfigurationDisableAddButton = {
+      ...mockArrayConfiguration,
+      disableAddButton: true,
+    };
+
+    const mockArrayDataDisableAddButton = {
+      configuration: mockArrayConfigurationDisableAddButton,
+      data: [
+        {
+          birthday: "01.01.1950",
+          familyRelationship: "mother",
+          firstName: "Another",
+          monthlyPayment: "100,00",
+          surname: "test",
+        },
+      ],
+    };
+
+    const { getByTestId } = render(
+      <ArraySummary
+        arrayData={mockArrayDataDisableAddButton}
+        translations={{}}
+        category="unterhaltszahlungen"
+        csrf="csrf"
+      />,
+    );
+
+    expect(getByTestId(`add-unterhaltszahlungen`)).toHaveClass(
+      "is-disabled pointer-events-none",
+    );
+  });
+
+  it("should not have class given disableAddButton false", () => {
+    const mockArrayConfigurationDisableAddButton = {
+      ...mockArrayConfiguration,
+      disableAddButton: false,
+    };
+
+    const mockArrayDataDisableAddButton = {
+      configuration: mockArrayConfigurationDisableAddButton,
+      data: [
+        {
+          birthday: "01.01.1950",
+          familyRelationship: "mother",
+          firstName: "Another",
+          monthlyPayment: "100,00",
+          surname: "test",
+        },
+      ],
+    };
+
+    const { getByTestId } = render(
+      <ArraySummary
+        arrayData={mockArrayDataDisableAddButton}
+        translations={{}}
+        category="unterhaltszahlungen"
+        csrf="csrf"
+      />,
+    );
+
+    expect(getByTestId(`add-unterhaltszahlungen`)).not.toHaveClass(
+      "is-disabled pointer-events-none",
     );
   });
 });

@@ -1,7 +1,7 @@
 import ArraySummaryItemButton from "~/components/arraySummary/ArraySummaryItemButton";
 import type { BasicTypes } from "~/domains/contexts";
 import { WEITERE_PERSONEN_START_INDEX } from "~/domains/fluggastrechte/formular/stringReplacements";
-import type { ArrayConfig } from "~/services/array";
+import type { ArrayConfigClient } from "~/services/array";
 import {
   extractTranslations,
   getTranslationByKey,
@@ -14,7 +14,7 @@ type ArraySummaryItemProps = {
   readonly itemIndex: number;
   readonly items: Record<string, BasicTypes>;
   readonly category: string;
-  readonly configuration: ArrayConfig;
+  readonly configuration: ArrayConfigClient;
   readonly headingTitleTagNameItem: "h2" | "h3";
   readonly csrf: string;
   readonly translations?: Translations;
