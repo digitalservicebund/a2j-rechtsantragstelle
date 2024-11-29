@@ -24,6 +24,7 @@ export const fluggastrechtContext = {
   ersatzflugLandenZweiStunden: stringOptionalSchema,
   ersatzflugStartenZweiStunden: stringOptionalSchema,
   ersatzflugLandenVierStunden: stringOptionalSchema,
+  entschaedigung: stringOptionalSchema,
 } as const;
 
 const _contextObject = z.object(fluggastrechtContext).partial();
