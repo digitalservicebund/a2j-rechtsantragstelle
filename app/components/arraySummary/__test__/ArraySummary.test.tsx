@@ -6,12 +6,11 @@ import ArraySummaryDataItems from "../ArraySummaryDataItems";
 const mockArrayConfiguration: ArrayConfig = {
   event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
-  statementKey: "hasWeitereUnterhaltszahlungen",
   url: "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person",
 };
 
 const arrayData = {
-  arrayConfiguration: mockArrayConfiguration,
+  configuration: mockArrayConfiguration,
   data: [
     {
       birthday: "01.01.1950",
@@ -97,7 +96,7 @@ describe("ArraySummary", () => {
     };
 
     const mockArrayDataDisableAddButton = {
-      arrayConfiguration: mockArrayConfigurationDisableAddButton,
+      configuration: mockArrayConfigurationDisableAddButton,
       data: [
         {
           birthday: "01.01.1950",
@@ -130,7 +129,7 @@ describe("ArraySummary", () => {
     };
 
     const mockArrayDataDisableAddButton = {
-      arrayConfiguration: mockArrayConfigurationDisableAddButton,
+      configuration: mockArrayConfigurationDisableAddButton,
       data: [
         {
           birthday: "01.01.1950",
@@ -163,7 +162,7 @@ describe("ArraySummary", () => {
     };
 
     const mockArrayDataDisableAddButton = {
-      arrayConfiguration: mockArrayConfigurationDisableAddButton,
+      configuration: mockArrayConfigurationDisableAddButton,
       data: [
         {
           birthday: "01.01.1950",

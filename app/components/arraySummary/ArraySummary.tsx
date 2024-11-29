@@ -14,7 +14,7 @@ type ArraySummaryProps = {
   readonly category: string;
   readonly arrayData: {
     data: ArrayData;
-    arrayConfiguration: ArrayConfig;
+    configuration: ArrayConfig;
   };
   readonly translations?: Translations;
   readonly csrf: string;
@@ -45,7 +45,7 @@ const ArraySummary = ({
     url,
     initialInputUrl,
     disableAddButton = false,
-  } = arrayData.arrayConfiguration;
+  } = arrayData.configuration;
   const hasTitleHeading = titleHeading.trim().length > 0;
 
   return (
@@ -64,7 +64,7 @@ const ArraySummary = ({
           {arrayData.data.map((items, index) => (
             <ArraySummaryDataItems
               key={`${subtitle}_${index}`}
-              configuration={arrayData.arrayConfiguration}
+              configuration={arrayData.configuration}
               itemIndex={index}
               items={items}
               category={category}

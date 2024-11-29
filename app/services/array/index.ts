@@ -6,12 +6,18 @@ export const splitArrayName = (key: string) => key.split(arrayChar);
 export const fieldIsArray = (fieldName: string) =>
   fieldName.includes(arrayChar);
 
-export type ArrayConfig = {
+export type ArrayConfigFlow = {
   event: `add-${AllContextKeys}`;
   url: string;
   initialInputUrl: string;
   statementKey: AllContextKeys;
-  hiddenFields?: string[];
   shouldDisableAddButton?: (context: Context) => boolean;
+  hiddenFields?: string[];
+};
+
+export type ArrayConfig = Omit<
+  ArrayConfigFlow,
+  "statementKey" | "shouldDisableAddButton"
+> & {
   disableAddButton?: boolean;
 };

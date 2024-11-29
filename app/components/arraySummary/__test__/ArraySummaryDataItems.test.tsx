@@ -7,7 +7,6 @@ const arraySummaryItem = "array-summary-item";
 const mockArrayConfiguration: ArrayConfig = {
   event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
-  statementKey: "hasWeitereUnterhaltszahlungen",
   url: "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person",
 };
 

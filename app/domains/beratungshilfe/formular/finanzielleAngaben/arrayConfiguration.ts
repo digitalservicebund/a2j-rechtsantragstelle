@@ -1,5 +1,5 @@
 import type { KeysOfUnion } from "~/domains/common";
-import type { ArrayConfig } from "~/services/array";
+import type { ArrayConfigFlow } from "~/services/array";
 import type { BeratungshilfeFormularContext } from "../index";
 
 export function finanzielleAngabenArrayConfig(prefix: string) {
@@ -12,6 +12,6 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       event: "add-ausgaben",
     },
   } satisfies Partial<
-    Record<KeysOfUnion<BeratungshilfeFormularContext>, ArrayConfig>
+    Record<KeysOfUnion<BeratungshilfeFormularContext>, ArrayConfigFlow>
   >;
 }

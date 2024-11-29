@@ -8,7 +8,7 @@ import type {
 import { initialTransition, pathToStateValue, setup, transition } from "xstate";
 import type { Context } from "~/domains/contexts";
 import type { GenericGuard, Guards } from "~/domains/guards.server";
-import type { ArrayConfig } from "~/services/array";
+import type { ArrayConfigFlow } from "~/services/array";
 import {
   stateValueToStepIds,
   stepIdToPath,
@@ -19,7 +19,7 @@ type Event = "SUBMIT" | "BACK";
 type FlowStateMachineEvents =
   | { type: "SUBMIT" }
   | { type: "BACK" }
-  | { type: ArrayConfig["event"] };
+  | { type: ArrayConfigFlow["event"] };
 
 type StateMachineTypes = {
   context: Context;
@@ -69,7 +69,7 @@ export type FlowConfigTransitions = {
 export type Meta = {
   customAnalyticsEventName?: string;
   done?: GenericGuard<Context>;
-  arrays?: Record<string, ArrayConfig>;
+  arrays?: Record<string, ArrayConfigFlow>;
 };
 
 const getSteps = (machine: FlowStateMachine) => {

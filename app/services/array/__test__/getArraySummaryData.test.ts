@@ -40,11 +40,11 @@ describe("getArraySummaryData", () => {
     ).toEqual({
       bankkonten: {
         data: [],
-        arrayConfiguration: bankkontenArrayConfig,
+        configuration: { ...bankkontenArrayConfig, disableAddButton: false },
       },
       kraftfahrzeuge: {
         data: [{ hasArbeitsweg: "no", wert: "under10000" }],
-        arrayConfiguration: kfzArrayConfig,
+        configuration: { ...kfzArrayConfig, disableAddButton: false },
       },
     });
   });
@@ -79,9 +79,9 @@ describe("getArraySummaryData", () => {
       (
         actual?.["bankkonten"] as {
           data: ArrayData;
-          arrayConfiguration: ArrayConfig;
+          configuration: ArrayConfig;
         }
-      ).arrayConfiguration.disableAddButton,
+      ).configuration.disableAddButton,
     ).toBe(false);
   });
 
@@ -103,9 +103,9 @@ describe("getArraySummaryData", () => {
       (
         actual?.["bankkonten"] as {
           data: ArrayData;
-          arrayConfiguration: ArrayConfig;
+          configuration: ArrayConfig;
         }
-      ).arrayConfiguration.disableAddButton,
+      ).configuration.disableAddButton,
     ).toBe(false);
   });
 
@@ -127,9 +127,9 @@ describe("getArraySummaryData", () => {
       (
         actual?.["bankkonten"] as {
           data: ArrayData;
-          arrayConfiguration: ArrayConfig;
+          configuration: ArrayConfig;
         }
-      ).arrayConfiguration.disableAddButton,
+      ).configuration.disableAddButton,
     ).toBe(true);
   });
 });
