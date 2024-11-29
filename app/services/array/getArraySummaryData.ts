@@ -1,11 +1,7 @@
 import type { ArrayData, Context } from "~/domains/contexts";
 import type { ArrayConfigFlow, ArrayConfig } from ".";
 
-export function getArraySummaryData(
-  categories: string[],
-  arrayConfigurations: Record<string, ArrayConfigFlow> | undefined,
-  userData: Context,
-):
+type ArraySummaryData =
   | Record<
       string,
       {
@@ -13,7 +9,13 @@ export function getArraySummaryData(
         configuration: ArrayConfig;
       }
     >
-  | undefined {
+  | undefined;
+
+export function getArraySummaryData(
+  categories: string[],
+  arrayConfigurations: Record<string, ArrayConfigFlow> | undefined,
+  userData: Context,
+): ArraySummaryData {
   if (!arrayConfigurations) {
     return undefined;
   }
