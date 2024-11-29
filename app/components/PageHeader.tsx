@@ -1,11 +1,13 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
+import Kopfzeile from "~/components/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
 
 type PageHeaderProps = {
   title: string;
   linkLabel: string;
   hideLinks: boolean;
+  showKopfzeile?: boolean;
   translations: {
     leichtesprache: string;
     gebaerdensprache: string;
@@ -18,9 +20,11 @@ export default function Header({
   linkLabel,
   hideLinks,
   translations,
+  showKopfzeile,
 }: Readonly<PageHeaderProps>) {
   return (
     <header>
+      {showKopfzeile && <Kopfzeile />}
       <nav
         className="py-20 px-16 flex flex-wrap justify-between"
         aria-label={translations.mainNavigationAriaLabel}
