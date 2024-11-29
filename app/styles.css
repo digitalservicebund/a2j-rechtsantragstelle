@@ -25,6 +25,14 @@ body {
   min-height: 100vh;
 }
 
+@font-face {
+  font-family: FiraSans;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/FiraSans-Regular.woff2") format("woff2");
+}
+
 a {
   color: currentcolor;
 }
