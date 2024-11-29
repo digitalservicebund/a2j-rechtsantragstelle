@@ -1,11 +1,21 @@
-import type { Context } from "~/domains/contexts";
-import type { ArrayConfig } from ".";
+import type { ArrayData, Context } from "~/domains/contexts";
+import type { ArrayConfigServer, ArrayConfigClient } from ".";
+
+type ArraySummaryData =
+  | Record<
+      string,
+      {
+        data: ArrayData;
+        configuration: ArrayConfigClient;
+      }
+    >
+  | undefined;
 
 export function getArraySummaryData(
   categories: string[],
-  arrayConfigurations: Record<string, ArrayConfig> | undefined,
+  arrayConfigurations: Record<string, ArrayConfigServer> | undefined,
   userData: Context,
-) {
+): ArraySummaryData {
   if (!arrayConfigurations) {
     return undefined;
   }
@@ -19,9 +29,14 @@ export function getArraySummaryData(
       )
       .map((category) => {
         const arrayConfiguration = arrayConfigurations[category];
+        const disableAddButton =
+          arrayConfiguration.shouldDisableAddButton?.(userData) ?? false;
         const possibleArray = userData[category];
         const data = Array.isArray(possibleArray) ? possibleArray : [];
-        return [category, { data, arrayConfiguration }];
+        return [
+          category,
+          { data, configuration: { ...arrayConfiguration, disableAddButton } },
+        ];
       }),
   );
 }

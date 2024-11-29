@@ -33,7 +33,7 @@
     "test:e2e": "npx playwright test",
     "test": "vitest run --project unit",
     "test:watch": "vitest --project unit",
-    "test:integration": "vitest run --project integration",
+    "test:integration": "vitest run --project integration --pool=forks",
     "typecheck": "tsc",
     "typecheck:watch": "tsc -w",
     "update:courtData": "tsx ./app/services/gerichtsfinder/encryptedStorage.ts updateZip",
