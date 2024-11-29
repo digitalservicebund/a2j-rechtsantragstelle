@@ -41,11 +41,7 @@ const ArraySummary = ({
   const description: string | undefined =
     translations[`${category}.description`];
   const nextItemIndex = String(arrayData.data.length);
-  const {
-    url,
-    initialInputUrl,
-    disableAddButton = false,
-  } = arrayData.configuration;
+  const { url, initialInputUrl, disableAddButton } = arrayData.configuration;
   const hasTitleHeading = titleHeading.trim().length > 0;
 
   return (

@@ -19,5 +19,5 @@ export type ArrayConfig = Omit<
   ArrayConfigFlow,
   "statementKey" | "shouldDisableAddButton"
 > & {
-  disableAddButton?: boolean;
+  disableAddButton: boolean;
 };

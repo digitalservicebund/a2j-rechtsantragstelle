@@ -8,6 +8,7 @@ const mockArrayConfiguration: ArrayConfig = {
   event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
   url: "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person",
+  disableAddButton: false,
 };
 
 const mockDataItem = {
