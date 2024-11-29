@@ -61,6 +61,7 @@ export const fluggastrechtFlow = {
       "ersatzflugLandenZweiStunden",
       "ersatzflugStartenZweiStunden",
       "ersatzflugLandenVierStunden",
+      "entschaedigung",
     ],
     buttonUrl: "/fluggastrechte/vorabcheck/start",
   },
