@@ -1,7 +1,7 @@
 import _ from "lodash";
 import type { AllContextKeys } from "~/domains/common";
 import type { Flow } from "~/domains/flows.server";
-import type { ArrayConfigFlow } from "~/services/array";
+import type { ArrayConfigServer } from "~/services/array";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import abgabeFlow from "./abgabe/flow.json";
 import type { FluggastrechtContext } from "./context";
@@ -97,7 +97,7 @@ export const fluggastrechtFlow = {
           event: "add-weiterePersonen",
           shouldDisableAddButton: isTotalClaimWillSucceddedAboveLimit,
         },
-      } satisfies Partial<Record<AllContextKeys, ArrayConfigFlow>>,
+      } satisfies Partial<Record<AllContextKeys, ArrayConfigServer>>,
     },
     id: "/fluggastrechte/formular",
     initial: "intro",

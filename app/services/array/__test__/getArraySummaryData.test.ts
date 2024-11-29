@@ -1,6 +1,6 @@
 import type { ArrayData } from "~/domains/contexts";
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
-import type { ArrayConfig } from "..";
+import type { ArrayConfigClient } from "..";
 
 describe("getArraySummaryData", () => {
   it("returns undefined when array configuration is missing", () => {
@@ -79,7 +79,7 @@ describe("getArraySummaryData", () => {
       (
         actual?.["bankkonten"] as {
           data: ArrayData;
-          configuration: ArrayConfig;
+          configuration: ArrayConfigClient;
         }
       ).configuration.disableAddButton,
     ).toBe(false);
@@ -103,7 +103,7 @@ describe("getArraySummaryData", () => {
       (
         actual?.["bankkonten"] as {
           data: ArrayData;
-          configuration: ArrayConfig;
+          configuration: ArrayConfigClient;
         }
       ).configuration.disableAddButton,
     ).toBe(false);
@@ -127,7 +127,7 @@ describe("getArraySummaryData", () => {
       (
         actual?.["bankkonten"] as {
           data: ArrayData;
-          configuration: ArrayConfig;
+          configuration: ArrayConfigClient;
         }
       ).configuration.disableAddButton,
     ).toBe(true);

@@ -1,5 +1,5 @@
 import type { AllContextKeys } from "~/domains/common";
-import type { ArrayConfigFlow } from "~/services/array";
+import type { ArrayConfigServer } from "~/services/array";
 
 export function finanzielleAngabenArrayConfig(prefix: string) {
   return {
@@ -46,5 +46,5 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       statementKey: "hasWeitereUnterhaltszahlungen",
       event: "add-unterhaltszahlungen",
     },
-  } satisfies Partial<Record<AllContextKeys, ArrayConfigFlow>>;
+  } satisfies Partial<Record<AllContextKeys, ArrayConfigServer>>;
 }

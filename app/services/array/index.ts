@@ -6,7 +6,7 @@ export const splitArrayName = (key: string) => key.split(arrayChar);
 export const fieldIsArray = (fieldName: string) =>
   fieldName.includes(arrayChar);
 
-export type ArrayConfigFlow = {
+export type ArrayConfigServer = {
   event: `add-${AllContextKeys}`;
   url: string;
   initialInputUrl: string;
@@ -15,8 +15,8 @@ export type ArrayConfigFlow = {
   hiddenFields?: string[];
 };
 
-export type ArrayConfig = Omit<
-  ArrayConfigFlow,
+export type ArrayConfigClient = Omit<
+  ArrayConfigServer,
   "statementKey" | "shouldDisableAddButton"
 > & {
   disableAddButton: boolean;

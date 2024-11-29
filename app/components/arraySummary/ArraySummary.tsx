@@ -1,6 +1,6 @@
 import AddButton from "@digitalservicebund/icons/Add";
 import type { ArrayData } from "~/domains/contexts";
-import type { ArrayConfig } from "~/services/array";
+import type { ArrayConfigClient } from "~/services/array";
 import {
   getTranslationByKey,
   type Translations,
@@ -14,7 +14,7 @@ type ArraySummaryProps = {
   readonly category: string;
   readonly arrayData: {
     data: ArrayData;
-    configuration: ArrayConfig;
+    configuration: ArrayConfigClient;
   };
   readonly translations?: Translations;
   readonly csrf: string;

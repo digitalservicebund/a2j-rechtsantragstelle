@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
-import type { ArrayConfig } from "~/services/array";
+import type { ArrayConfigClient } from "~/services/array";
 import ArraySummaryDataItems from "../ArraySummaryDataItems";
 
 const arraySummaryItem = "array-summary-item";
 
-const mockArrayConfiguration: ArrayConfig = {
+const mockArrayConfiguration: ArrayConfigClient = {
   event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
   url: "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person",
