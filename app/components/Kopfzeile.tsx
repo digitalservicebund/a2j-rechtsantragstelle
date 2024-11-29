@@ -1,8 +1,11 @@
 export default function Kopfzeile() {
   return (
     <div
-      className="px-16 kopfzeile flex items-center text-left gap-8 sm:gap-16 text-xs sm:text-base"
-      style={{ backgroundColor: "#f0f0f0" }}
+      className="px-16 flex items-center text-left gap-8 sm:gap-16 text-xs sm:text-base"
+      style={{
+        backgroundColor: "#f0f0f0",
+        fontFamily: "FiraSans, Calibri, Verdana, Arial, Helvetica, sans-serif",
+      }}
     >
       <span
         aria-hidden="true"
