@@ -8,112 +8,77 @@ const cases = [
     {
       hasRsv: "no",
     },
-    [prefix + "/rsv-frage", prefix + "/org-frage"],
+    ["/rsv-frage", "/org-frage"],
   ],
   [
     {
       hasRsv: "yes",
       hasRsvCoverage: "yes",
     },
-    [
-      prefix + "/rsv-frage",
-      prefix + "/rsv-deckung",
-      prefix + "/rsv-deckung-ja",
-    ],
+    ["/rsv-frage", "/rsv-deckung", "/rsv-deckung-ja"],
   ],
   [
     {
       hasRsv: "yes",
       hasRsvCoverage: "unknown",
     },
-    [
-      prefix + "/rsv-frage",
-      prefix + "/rsv-deckung",
-      prefix + "/rsv-deckung-unbekannt",
-    ],
+    ["/rsv-frage", "/rsv-deckung", "/rsv-deckung-unbekannt"],
   ],
   [
     {
       hasRsv: "yes",
       hasRsvCoverage: "no",
     },
-    [
-      prefix + "/rsv-frage",
-      prefix + "/rsv-deckung",
-      prefix + "/rsv-deckung-nein",
-      prefix + "/org-frage",
-    ],
+    ["/rsv-frage", "/rsv-deckung", "/rsv-deckung-nein", "/org-frage"],
   ],
   [
     {
       hasRsv: "yes",
       hasRsvCoverage: "partly",
     },
-    [
-      prefix + "/rsv-frage",
-      prefix + "/rsv-deckung",
-      prefix + "/rsv-deckung-teilweise",
-      prefix + "/org-frage",
-    ],
+    ["/rsv-frage", "/rsv-deckung", "/rsv-deckung-teilweise", "/org-frage"],
   ],
   [
     {
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "no",
     },
-    [prefix + "/rsv-frage", prefix + "/org-frage", prefix + "/org-deckung"],
+    ["/rsv-frage", "/org-frage", "/org-deckung"],
   ],
   [
     {
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "unknown",
     },
-    [
-      prefix + "/rsv-frage",
-      prefix + "/org-frage",
-      prefix + "/org-deckung",
-      prefix + "/org-deckung-unbekannt",
-    ],
+    ["/rsv-frage", "/org-frage", "/org-deckung", "/org-deckung-unbekannt"],
   ],
   [
     {
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "yes",
     },
-    [
-      prefix + "/rsv-frage",
-      prefix + "/org-frage",
-      prefix + "/org-deckung",
-      prefix + "/org-deckung-ja",
-    ],
+    ["/rsv-frage", "/org-frage", "/org-deckung", "/org-deckung-ja"],
   ],
   [
     {
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "no",
     },
-    [
-      prefix + "/rsv-frage",
-      prefix + "/org-frage",
-      prefix + "/org-deckung",
-      prefix + "/org-deckung-nein",
-    ],
+    ["/rsv-frage", "/org-frage", "/org-deckung", "/org-deckung-nein"],
   ],
   [
     {
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "partly",
     },
-    [
-      prefix + "/rsv-frage",
-      prefix + "/org-frage",
-      prefix + "/org-deckung",
-      prefix + "/org-deckung-teilweise",
-    ],
+    ["/rsv-frage", "/org-frage", "/org-deckung", "/org-deckung-teilweise"],
   ],
-] as const satisfies TestCases<ProzesskostenhilfeRechtsschutzversicherungContext>;
+] satisfies TestCases<ProzesskostenhilfeRechtsschutzversicherungContext>;
 
 export const testCasesProzesskostenhilfeRsv = {
   machine,
-  cases,
+  cases: cases.map(([data, steps]) => [
+    data,
+    steps.map((stepId) => prefix + stepId),
+  ]) satisfies TestCases<ProzesskostenhilfeRechtsschutzversicherungContext>,
 };
