@@ -40,6 +40,7 @@ const cases = [
   ],
   [
     {
+      hasRsv: "no",
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "no",
     },
@@ -47,6 +48,7 @@ const cases = [
   ],
   [
     {
+      hasRsv: "no",
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "unknown",
     },
@@ -54,6 +56,7 @@ const cases = [
   ],
   [
     {
+      hasRsv: "no",
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "yes",
     },
@@ -61,6 +64,7 @@ const cases = [
   ],
   [
     {
+      hasRsv: "no",
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "no",
     },
@@ -68,6 +72,7 @@ const cases = [
   ],
   [
     {
+      hasRsv: "no",
       hasRsvThroughOrg: "yes",
       hasOrgCoverage: "partly",
     },
