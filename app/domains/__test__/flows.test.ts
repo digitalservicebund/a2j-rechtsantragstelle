@@ -88,7 +88,8 @@ function stepIdsFromMachine(machine: FlowStateMachine) {
  */
 
 describe.sequential("state machine form flows", () => {
-  const visitedStates: Record<string, { stepIds: string[]; machine: any }> = {};
+  const allVisitedSteps: Record<string, { stepIds: string[]; machine: any }> =
+    {};
 
   const testCases = {
     testCasesBeratungshilfe,
@@ -128,8 +129,8 @@ describe.sequential("state machine form flows", () => {
   describe.concurrent.each(Object.entries(testCases))(
     "%s",
     (_, { machine, cases }) => {
-      if (!visitedStates[machine.id]) {
-        visitedStates[machine.id] = { machine, stepIds: [] };
+      if (!allVisitedSteps[machine.id]) {
+        allVisitedSteps[machine.id] = { machine, stepIds: [] };
       }
 
       describe.each([...cases])("[%#]", (context, steps) => {
@@ -137,19 +138,17 @@ describe.sequential("state machine form flows", () => {
           const expectedSteps =
             transitionType === "SUBMIT" ? steps : [...steps].reverse();
 
-          const actualSteps = getEnabledSteps({
+          const visitedSteps = getEnabledSteps({
             machine,
             context,
             transitionType,
             steps: expectedSteps,
           });
 
-          visitedStates[machine.id].stepIds = [
-            ...visitedStates[machine.id].stepIds,
-            ...actualSteps,
-          ];
+          allVisitedSteps[machine.id].stepIds =
+            allVisitedSteps[machine.id].stepIds.concat(visitedSteps);
 
-          expect(actualSteps).toEqual(expectedSteps);
+          expect(visitedSteps).toEqual(expectedSteps);
         });
       });
     },
@@ -157,7 +156,7 @@ describe.sequential("state machine form flows", () => {
 
   test("all steps are visited", () => {
     const missingStepsEntries = Object.fromEntries(
-      Object.entries(visitedStates)
+      Object.entries(allVisitedSteps)
         .map(([machineId, { machine, stepIds }]) => {
           const visitedStepIds = new Set(stepIds);
           const allStepIds = stepIdsFromMachine(machine);
