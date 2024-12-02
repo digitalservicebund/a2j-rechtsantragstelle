@@ -68,7 +68,7 @@ function statePathsFromMachine(children: DirectedGraphNode[]): string[][] {
   );
 }
 
-function stepIdsFromMachine(machine: FlowStateMachine) {
+function allStepsFromMachine(machine: FlowStateMachine) {
   const machineState = statePathsFromMachine(toDirectedGraph(machine).children);
   return machineState.map(
     (statePath) => stateValueToStepIds(pathToStateValue(statePath))[0],
@@ -155,17 +155,25 @@ describe.sequential("state machine form flows", () => {
   );
 
   test("all steps are visited", () => {
-    const missingStepsEntries = Object.fromEntries(
-      Object.entries(allVisitedSteps)
-        .map(([machineId, { machine, stepIds }]) => {
-          const visitedStepIds = new Set(stepIds);
-          const allStepIds = stepIdsFromMachine(machine);
-          return [machineId, allStepIds.filter((x) => !visitedStepIds.has(x))];
-        })
-        .filter(([_, missingSteps]) => missingSteps.length > 0),
+    const missingStepsEntries = Object.entries(allVisitedSteps)
+      .map(([machineId, { machine, stepIds }]) => {
+        const visitedSteps = new Set(stepIds);
+        const missingSteps = allStepsFromMachine(machine).filter(
+          (x) => !visitedSteps.has(x),
+        );
+        return [machineId, missingSteps] as const;
+      })
+      .filter(([_, missingSteps]) => missingSteps.length > 0);
+
+    const totalMissingStepCount = missingStepsEntries.reduce(
+      (total, [_, missingSteps]) => total + missingSteps.length,
+      0,
     );
 
-    console.warn("untested stepIds: ", missingStepsEntries);
-    expect(Object.keys(missingStepsEntries).length).toBeLessThanOrEqual(5);
+    console.warn(
+      `Total of ${totalMissingStepCount} untested stepIds: `,
+      Object.fromEntries(missingStepsEntries),
+    );
+    expect(totalMissingStepCount).toBeLessThanOrEqual(126);
   });
 });
