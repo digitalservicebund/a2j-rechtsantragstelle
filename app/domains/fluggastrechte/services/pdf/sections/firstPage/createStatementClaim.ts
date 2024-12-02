@@ -27,16 +27,18 @@ export const STATEMENT_CLAIM_SUBTITLE_TEXT =
   "Es werden folgende Anträge gestellt:";
 export const STATEMENT_CLAIM_COURT_SENTENCE =
   "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 331 Abs. 1 und Abs. 3 ZPO gestellt.";
-export const STATEMENT_CLAIM_AGREEMENT_SENTENCE =
-  "Mit einer Entscheidung im schriftlichen Verfahren ohne mündliche Verhandlung (§ 128 Abs. 2 ZPO) sowie der Durchführung einer Videoverhandlung (§ 128a ZPO) bin ich einverstanden.";
 export const MARGIN_RIGHT = 10;
+
+const videoTrialAgreement = (videoverhandlung: string | undefined) => {
+  return `Ich stimme der Durchführung einer Videoverhandlung (§ 128a ZPO) ${videoverhandlung === "yes" ? "" : "nicht "}zu.`;
+};
 
 export const createStatementClaim = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechtContext,
 ) => {
-  const { prozesszinsen, versaeumnisurteil } = userData;
+  const { prozesszinsen, versaeumnisurteil, videoverhandlung } = userData;
   const compensationByDistance = getTotalCompensationClaim(userData);
 
   const defendantPartyList = getDefendantPartyList(
@@ -88,9 +90,8 @@ export const createStatementClaim = (
       if (versaeumnisurteil === "yes") {
         doc.text(STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN_HORIZONTAL);
       }
-      doc.text(STATEMENT_CLAIM_AGREEMENT_SENTENCE, PDF_MARGIN_HORIZONTAL);
+      doc.text(videoTrialAgreement(videoverhandlung), PDF_MARGIN_HORIZONTAL);
     }),
   );
-
   documentStruct.add(statementClaimSect);
 };

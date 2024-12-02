@@ -8,12 +8,16 @@ import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/use
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import {
   createStatementClaim,
-  STATEMENT_CLAIM_AGREEMENT_SENTENCE,
   STATEMENT_CLAIM_COURT_SENTENCE,
   STATEMENT_CLAIM_SUBTITLE_TEXT,
   STATEMENT_CLAIM_TITLE_TEXT,
   getDefendantPartyList,
 } from "../createStatementClaim";
+
+const STATEMENT_VIDEO_TRIAL_AGREEMENT =
+  "Ich stimme der Durchführung einer Videoverhandlung (§ 128a ZPO) zu.";
+const STATEMENT_VIDEO_TRIAL_NO_AGREEMENT =
+  "Ich stimme der Durchführung einer Videoverhandlung (§ 128a ZPO) nicht zu.";
 
 function assertDefendantPartyList(
   mockDoc: PDFKit.PDFDocument,
@@ -123,15 +127,47 @@ describe("createStatementClaim", () => {
         PDF_MARGIN_HORIZONTAL,
       );
     });
+  });
 
-    it("should include agreement sentence regardless of versaeumnisurteil", () => {
+  describe("createStatementClaim - videoverhandlung logic", () => {
+    it("should include videoverhandlung sentence when videoverhandlung is yes", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
 
-      createStatementClaim(mockDoc, mockStruct, userDataMock);
+      const userDataMockWithVersaeumnisurteil = {
+        ...userDataMock,
+        videoverhandlung: "yes",
+      } satisfies FluggastrechtContext;
+
+      createStatementClaim(
+        mockDoc,
+        mockStruct,
+        userDataMockWithVersaeumnisurteil,
+      );
 
       expect(mockDoc.text).toHaveBeenCalledWith(
-        STATEMENT_CLAIM_AGREEMENT_SENTENCE,
+        STATEMENT_VIDEO_TRIAL_AGREEMENT,
+        PDF_MARGIN_HORIZONTAL,
+      );
+    });
+
+    it("should not include videoverhandlung sentence when videoverhandlung is no", () => {
+      const mockStruct = mockPdfKitDocumentStructure();
+      const mockDoc = mockPdfKitDocument(mockStruct);
+
+      const userDataMockWithoutVersaeumnisurteil = {
+        ...userDataMock,
+        videoverhandlung: "no",
+      } satisfies FluggastrechtContext;
+
+      createStatementClaim(
+        mockDoc,
+        mockStruct,
+        userDataMockWithoutVersaeumnisurteil,
+      );
+
+      expect(mockDoc.text).toHaveBeenCalledWith(
+        STATEMENT_VIDEO_TRIAL_NO_AGREEMENT,
         PDF_MARGIN_HORIZONTAL,
       );
     });
