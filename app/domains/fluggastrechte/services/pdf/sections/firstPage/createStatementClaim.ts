@@ -17,13 +17,14 @@ export const getDefendantPartyList = (
       : "";
 
   return {
-    "1. ": `Die beklagte Partei zu verurteilen, an die klagende Partei ${streitwert} €${interestClause} zu zahlen.`,
+    "1. ": `Die beklagte Partei wird verurteilt, an die klagende Partei ${streitwert} €${interestClause} zu zahlen.`,
     "2. ": "Die beklagte Partei trägt die Kosten des Rechtsstreits.",
   };
 };
 
 export const STATEMENT_CLAIM_TITLE_TEXT = "Klageantrag";
-export const STATEMENT_CLAIM_SUBTITLE_TEXT = "Es wird beantragt,";
+export const STATEMENT_CLAIM_SUBTITLE_TEXT =
+  "Es werden folgende Anträge gestellt:";
 export const STATEMENT_CLAIM_COURT_SENTENCE =
   "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 331 Abs. 1 und Abs. 3 ZPO gestellt.";
 export const STATEMENT_CLAIM_AGREEMENT_SENTENCE =
