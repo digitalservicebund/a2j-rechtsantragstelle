@@ -13,9 +13,7 @@ export type FlowId = (typeof flowIds)[number];
 const isFlowId = (s: string): s is FlowId => flowIds.includes(s as FlowId);
 
 export function flowIdFromPathname(pathname: string) {
-  const pathSegments = pathname.split("/");
-  if (pathSegments.length < 3) return undefined;
-  const flowIdMaybe = `/${pathSegments[1]}/${pathSegments[2]}`;
+  const flowIdMaybe = pathname.split("/").slice(0, 3).join("/");
   return isFlowId(flowIdMaybe) ? flowIdMaybe : undefined;
 }
 
@@ -27,8 +25,8 @@ export function parsePathname(pathname: string) {
       .match(/(\/\d+)/g)
       ?.map((index) => Number(index.replace("/", ""))) ?? [];
   const stepId = pathname
+    .replace(flowId, "")
     .split("/")
-    .slice(3)
     .join("/")
     .replaceAll(/(\/\d+)/g, "");
   return { flowId, stepId, arrayIndexes };

@@ -1,3 +1,4 @@
+import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { partnerEinkuenfteGuards as guards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import {
   type AttachmentEntries,
@@ -107,28 +108,28 @@ export const fillAndereLeistungenPartner: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  if (userData["partner-hasWohngeld"] === "on") {
+  if (userData["partner-hasWohngeld"] === CheckboxValue.on) {
     pdfValues.ja_32.value = true;
     pdfValues.monatlicheBruttoeinnahmenH6.value = `${removeDecimalsFromCurrencyString(userData["partner-wohngeldAmount"])} ${nettoString}`;
   } else if (userData["partner-hasFurtherIncome"]) {
     pdfValues.nein_33.value = true;
   }
 
-  if (userData["partner-hasKrankengeld"] === "on") {
+  if (userData["partner-hasKrankengeld"] === CheckboxValue.on) {
     pdfValues.ja_31.value = true;
     pdfValues.monatlicheBruttoeinnahmenH11.value = `${removeDecimalsFromCurrencyString(userData["partner-krankengeldAmount"])} ${nettoString}`;
   } else if (userData["partner-hasFurtherIncome"]) {
     pdfValues.nein_32.value = true;
   }
 
-  if (userData["partner-hasElterngeld"] === "on") {
+  if (userData["partner-hasElterngeld"] === CheckboxValue.on) {
     pdfValues.ja_33.value = true;
     pdfValues.monatlicheBruttoeinnahmenH12.value = `${removeDecimalsFromCurrencyString(userData["partner-elterngeldAmount"])} ${nettoString}`;
   } else if (userData["partner-hasFurtherIncome"]) {
     pdfValues.nein_34.value = true;
   }
 
-  if (userData["partner-hasKindergeld"] === "on") {
+  if (userData["partner-hasKindergeld"] === CheckboxValue.on) {
     pdfValues.ja_30.value = true;
     pdfValues.monatlicheBruttoeinnahmenH5.value = `${removeDecimalsFromCurrencyString(userData["partner-kindergeldAmount"])} ${nettoString}`;
   } else if (userData["partner-hasFurtherIncome"]) {

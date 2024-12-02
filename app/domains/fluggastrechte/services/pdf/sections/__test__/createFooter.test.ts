@@ -1,8 +1,8 @@
-import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { createPageNumber } from "~/services/pdf/footer/createPageNumber";
 import { createStamp } from "~/services/pdf/footer/createStamp";
 import { createBankInformation } from "../createBankInformation";

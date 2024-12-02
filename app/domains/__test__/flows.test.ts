@@ -89,78 +89,73 @@ function stepIdsFromMachine(machine: FlowStateMachine) {
 
 describe.sequential("state machine form flows", () => {
   const visitedStates: Record<string, { stepIds: string[]; machine: any }> = {};
-  describe.concurrent("flow tests", () => {
-    [
-      testCasesBeratungshilfe,
-      testCasesGeldEinklagen,
-      testCasesFluggastrechteFormularFlugdatenNichtBefoerderung,
-      testCasesBeratungshilfeFormular,
-      testCasesBeratungshilfeFormularAnwaltlicheVertretung,
-      testCasesBeratungshilfeRechtsproblem,
-      testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen,
-      testCasesBeratungshilfeFormularFinanzielleAngabenPartner,
-      testCasesBeratungshilfeFormularFinanzielleAngabenKinder,
-      testCasesBeratungshilfeFormularFinanzielleAngabenEigentum,
-      testCasesBeratungshilfeFormularFinanzielleAngabenEigentumZusammenfassung,
-      testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
-      testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
-      testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
-      testCasesFluggastrechteVerspaetetAbbruch,
-      testCasesFluggastrechteAnnullierungAbbruch,
-      testCasesFluggastrechteNichtBefoerderungAbbruch,
-      testcasesFluggastrechtOtherErfolgs,
-      testCasesFluggastrechteFormularPersoenlicheDaten,
-      testCasesProzesskostenhilfeFormular,
-      testCasesPKHFormularFinanzielleAngabenWohnung,
-      testCasesFluggastrechteFormularGrundvoraussetzungen,
-      testCasesFluggastrechteFormularStreitwertKosten,
-      testCasesProzesskostenhilfePersoenlicheDaten,
-      testCasesProzesskostenhilfeRsv,
-      testCasesFluggastrechteFormularFlugdatenVerspaetet,
-      testCasesFluggastrechteFormularFlugdatenAnnullierung,
-      testCasesFluggastrechteErfolg,
-      testCasesFluggastrechteErfolgEU,
-      testcasesFluggastrechteErfolgAnalog,
-      testCasesFluggastrechteFormularProzessfuehrung,
-    ].forEach(({ machine, cases }) => {
-      test.each([...cases])(
-        "SUBMIT (%#) given context: %j, visits steps: %j",
-        (context, steps) => {
-          const actualSteps = getEnabledSteps({
-            machine,
-            context,
-            transitionType: "SUBMIT",
-            steps,
-          });
-          expect(actualSteps).toEqual(steps);
-          if (!visitedStates[machine.id]) {
-            visitedStates[machine.id] = { machine, stepIds: actualSteps };
-          } else {
-            visitedStates[machine.id].stepIds = [
-              ...visitedStates[machine.id].stepIds,
-              ...actualSteps,
-            ];
-          }
-        },
-      );
 
-      test.each([...cases])(
-        "BACK (%#) given context: %j, visits steps: %j",
-        (context, steps) => {
-          const expectedSteps = [...steps].reverse();
+  const testCases = {
+    testCasesBeratungshilfe,
+    testCasesGeldEinklagen,
+    testCasesFluggastrechteFormularFlugdatenNichtBefoerderung,
+    testCasesBeratungshilfeFormular,
+    testCasesBeratungshilfeFormularAnwaltlicheVertretung,
+    testCasesBeratungshilfeRechtsproblem,
+    testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen,
+    testCasesBeratungshilfeFormularFinanzielleAngabenPartner,
+    testCasesBeratungshilfeFormularFinanzielleAngabenKinder,
+    testCasesBeratungshilfeFormularFinanzielleAngabenEigentum,
+    testCasesBeratungshilfeFormularFinanzielleAngabenEigentumZusammenfassung,
+    testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
+    testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
+    testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
+    testCasesFluggastrechteVerspaetetAbbruch,
+    testCasesFluggastrechteAnnullierungAbbruch,
+    testCasesFluggastrechteNichtBefoerderungAbbruch,
+    testcasesFluggastrechtOtherErfolgs,
+    testCasesFluggastrechteFormularPersoenlicheDaten,
+    testCasesProzesskostenhilfeFormular,
+    testCasesPKHFormularFinanzielleAngabenWohnung,
+    testCasesFluggastrechteFormularGrundvoraussetzungen,
+    testCasesFluggastrechteFormularStreitwertKosten,
+    testCasesProzesskostenhilfePersoenlicheDaten,
+    testCasesProzesskostenhilfeRsv,
+    testCasesFluggastrechteFormularFlugdatenVerspaetet,
+    testCasesFluggastrechteFormularFlugdatenAnnullierung,
+    testCasesFluggastrechteErfolg,
+    testCasesFluggastrechteErfolgEU,
+    testcasesFluggastrechteErfolgAnalog,
+    testCasesFluggastrechteFormularProzessfuehrung,
+  } as const;
+  const transitionTypes = ["SUBMIT", "BACK"] as const;
+
+  describe.concurrent.each(Object.entries(testCases))(
+    "%s",
+    (_, { machine, cases }) => {
+      if (!visitedStates[machine.id]) {
+        visitedStates[machine.id] = { machine, stepIds: [] };
+      }
+
+      describe.each([...cases])("[%#]", (context, steps) => {
+        test.each(transitionTypes)("%s", (transitionType) => {
+          const expectedSteps =
+            transitionType === "SUBMIT" ? steps : [...steps].reverse();
+
           const actualSteps = getEnabledSteps({
             machine,
             context,
-            transitionType: "BACK",
+            transitionType,
             steps: expectedSteps,
           });
-          expect(actualSteps).toEqual(expectedSteps);
-        },
-      );
-    });
-  });
 
-  test.fails("all steps are visited", () => {
+          visitedStates[machine.id].stepIds = [
+            ...visitedStates[machine.id].stepIds,
+            ...actualSteps,
+          ];
+
+          expect(actualSteps).toEqual(expectedSteps);
+        });
+      });
+    },
+  );
+
+  test("all steps are visited", () => {
     const missingStepsEntries = Object.fromEntries(
       Object.entries(visitedStates)
         .map(([machineId, { machine, stepIds }]) => {
@@ -172,6 +167,6 @@ describe.sequential("state machine form flows", () => {
     );
 
     console.warn("untested stepIds: ", missingStepsEntries);
-    expect(Object.keys(missingStepsEntries).length).toBe(0);
+    expect(Object.keys(missingStepsEntries).length).toBeLessThanOrEqual(5);
   });
 });

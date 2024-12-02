@@ -1,29 +1,35 @@
 import type { StateValue } from "xstate";
 
-// stepId: separates substates by "/": persoenliche-daten/anzahl (comes from pathname)
-// stateId: separates substates by ".": persoenliche-daten.anzahl
-// statepath: separates substates in array: [persoenliche-daten, anzahl]
-// stateValue: xstate type StateValue = string | StateValueMap, ie: {persoenliche-daten: anzahl}
-// - non-nested states can be simple string (ie "start")
+// stepId: separates substates by "/": /parentState/childState (so pathname = flowId+stepId)
+// stateId: machine.id followed by state ids separated by ".": machineId.parentState.childState
+// statePath: separates substates in array: [parentState, childState]
+// stateValue: either stateName (if non-nested) or StateValueMap ({parentState: childState})
 
 export const stepIdToPath = (stepId: string) =>
-  stepId.replace(/\//g, ".").replace("ergebnis.", "ergebnis/").split(".");
+  stepId
+    .slice(1)
+    .replaceAll("/", ".")
+    .replace("ergebnis.", "ergebnis/")
+    .split(".");
 
 export const stateValueToStepIds = (stateValue: StateValue): string[] => {
   if (typeof stateValue == "string") {
-    return [stateValue];
+    return ["/" + stateValue];
   }
   if (Object.keys(stateValue).length == 0) {
     return [""];
   }
   return Object.entries(stateValue)
     .map(([key, value]) =>
-      stateValueToStepIds(value as StateValue).map((substate) =>
-        substate ? [key, substate].join("/") : key,
+      stateValueToStepIds(value!).map(
+        (substate) => "/" + (substate ? key + substate : key),
       ),
     )
     .flat();
 };
+
+export const stateIdToStepId = (stateId: string, machineId: string) =>
+  stateId.replace(machineId, "").replaceAll(".", "/");
 
 export function insertIndexesIntoPath(
   currentPath: string,

@@ -468,20 +468,6 @@
           }
         ]
       }
-    },
-    "ergebnis/abschluss": {
-      "on": {
-        "BACK": [
-          {
-            "target": "gegenseite-unternehmen-deutschland",
-            "guard": "gegenseiteUnternehmen"
-          },
-          {
-            "target": "gegenseite-person-deutschland",
-            "guard": "gegenseitePrivatperson"
-          }
-        ]
-      }
     }
   }
 }

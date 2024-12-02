@@ -1,4 +1,17 @@
-import { quitRedis } from "../redisClient";
+import { createRedisClient, quitRedis } from "../redisClient";
+
+describe("createRedisClient", () => {
+  it("should create a redis client", () => {
+    const redisClient = createRedisClient({
+      url: "redis://localhost:6379",
+      lazyConnect: true, // don't auto-connect
+    });
+    expect(redisClient).toBeDefined();
+    expect(redisClient.options.host).toBe("localhost");
+    expect(redisClient.options.port).toBe(6379);
+    expect(redisClient.status).toBe("wait");
+  });
+});
 
 describe("quitRedis", () => {
   it("should call .quit() and resolve", async () => {

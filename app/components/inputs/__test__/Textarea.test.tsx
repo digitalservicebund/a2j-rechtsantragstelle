@@ -75,8 +75,8 @@ describe("Textarea component", () => {
   });
 
   it("renders a collapsible text hint accordion when provided", () => {
-    vi.mock("~/components/DetailsSummary", () => ({
-      DetailsSummary: () => <div>Text-Beispiel</div>,
+    vi.mock("~/components/Details", () => ({
+      Details: () => <div>Text-Beispiel</div>,
     }));
     const RemixStub = createRemixStub([
       {

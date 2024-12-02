@@ -61,7 +61,7 @@ Open the app in `localhost:3000`
 #### E2E tests
 
 - run: `npm run test:e2e`
-- UI: `npx playwright test --ui`
+- UI: `npm run test:e2e:ui`
 - debug (F10 to step over): `npx playwright test --debug`
 
 > **Note**
@@ -157,7 +157,7 @@ Note the following:
 - `warnung` is necessary as a type of form validation, to ensure that the user has entered >= 1 item (actual form validation would be tricky here, so displaying a warning to the user is the next best thing)
 - Finally, the `<Singular name>` step is basically a placeholder for the data entered per item (`daten`), so that the url reads as `<Singular name>/<item number>/daten` e.g. `arbeitsausgabe/0/daten`
 
-After these steps have been entered in `flow.json`, we need to define the matching `ArrayConfig` in `index.ts` of the respective flow:
+After these steps have been entered in `flow.json`, we need to define the matching `ArrayConfigServer` in `index.ts` of the respective flow:
 
 ```
 config: _.merge(<flow>, {
@@ -168,12 +168,12 @@ config: _.merge(<flow>, {
             initialInputUrl: "daten",
             event: "add-<Plural name>",
          },
-      } satisfies Partial<Record<AllContextKeys, ArrayConfig>>,
+      } satisfies Partial<Record<AllContextKeys, ArrayConfigServer>>,
    }
 })
 ```
 
-(If multiple `ArrayConfig`s are being added, it might be sensible to add them to an `arrayConfigurations.ts` file and spread them in)
+(If multiple `ArrayConfigServer`s are being added, it might be sensible to add them to an `arrayConfigurations.ts` file and spread them in)
 
 ### Data Flow
 
@@ -275,22 +275,16 @@ In development mode, run the `npm run start:storybook` command.
 
 The `AIRLINE_FILE_PATH` corresponds to the file that contains airlines data that will be transformed into `json` via the `build:airlines-data ` task. For more information, please contact the maintainers of this repository.
 
-## Contributions Welcome!
+## Contributing
 
-🇬🇧
-Everyone is welcome to contribute to the development of _Zugang zu Recht - Access to Justice - A2J_. You can contribute by opening pull requests, providing documentation, answering questions or giving feedback. Please do follow our guidelines and our [Code of Conduct](CODE_OF_CONDUCT.md#contributor-covenant-code-of-conduct).
+[Deutsche sprache weiter unten](#mitwirken)
 
-🇩🇪
-Jede:r ist herzlich eingeladen, die Entwicklung von _Zugang zu Recht - Access to Justice - A2J_ mitzugestalten. Du kannst einen Beitrag leisten, indem du Pull-Requests eröffnest, die Dokumentation erweiterst, Fragen beantwortest oder Feedback gibst. Bitte befolge die Richtlinien und unseren [Verhaltenskodex](CODE_OF_CONDUCT.md#verhaltenskodex-für-mitwirkende).
+Everyone is welcome to contribute! You can contribute by giving feedback, adding issues, answering questions, providing documentation or opening pull requests. Please always follow the guidelines and our [Code of Conduct](CODE_OF_CONDUCT.md).
 
-### Code Contributions
+To contribute code, simply open a pull request with your changes and it will be reviewed by someone from the team. By submitting a pull request you declare that you have the right to license your contribution to the DigitalService and the community under the [MIT License](./LICENSE).
 
-🇬🇧
-Open a pull request with your changes, and it will be reviewed by someone from the team. When you submit a pull request, you declare that you have the right to license your contribution to DigitalService and the community. By submitting the patch, you agree that your contributions are licensed under the [MIT License](./LICENSE).
+## Mitwirken
 
-Please make sure that your changes have been tested before submitting a pull request.
+Jede:r ist herzlich eingeladen, die Entwicklung der _Project_ mitzugestalten. Du kannst einen Beitrag leisten, indem du Feedback gibst, Probleme beschreibst, Fragen beantwortest, die Dokumentation erweiterst, oder Pull-Requests eröffnest. Bitte befolge immer die Richtlinien und unseren [Verhaltenskodex](CODE_OF_CONDUCT.md).
 
-🇩🇪
-Nach dem Erstellen eines Pull Requests wird dieser von einer Person aus dem Team überprüft. Wenn du einen Pull Request einreichst, erklärst du dich damit einverstanden, deinen Beitrag an den DigitalService und die Community zu lizenzieren. Durch das Einreichen des Patches erklärst du dich damit einverstanden, dass deine Beiträge unter der [MIT License](./LICENSE) lizenziert sind.
-
-Bitte stelle sicher, dass deine Änderungen getestet wurden bevor du einen Pull Request sendest.
+Um Code beizutragen erstelle einfach einen Pull Requests mit deinen Änderungen, dieser wird dann von einer Person aus dem Team überprüft. Durch das Eröffnen eines Pull-Request erklärst du ausdrücklich, dass du das Recht hast deine Beitrag an den DigitalService und die Community unter der [MIT License](./LICENSE) zu lizenzieren.

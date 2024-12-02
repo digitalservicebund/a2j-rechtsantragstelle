@@ -33,5 +33,8 @@ export const mockPdfKitDocument = (
       return mockStructure;
     }),
     addPage: vi.fn().mockReturnThis(),
+    heightOfString: vi.fn().mockReturnThis(),
+    widthOfString: vi.fn().mockReturnThis(),
+    fill: vi.fn().mockReturnThis(),
   } as unknown as PDFKit.PDFDocument;
 };

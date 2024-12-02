@@ -1,16 +1,10 @@
-import { z } from "zod";
-
-export const ImagePropsSchema = z
-  .object({
-    url: z.string().optional(),
-    width: z.number().optional(),
-    height: z.number().optional(),
-    alternativeText: z.string().optional(),
-    className: z.string().optional(),
-  })
-  .readonly();
-
-export type ImageProps = z.infer<typeof ImagePropsSchema>;
+export type ImageProps = Readonly<{
+  url?: string;
+  width?: number;
+  height?: number;
+  alternativeText?: string;
+  className?: string;
+}>;
 
 function Image({ url, width, height, alternativeText, ...props }: ImageProps) {
   if (!url) return null;

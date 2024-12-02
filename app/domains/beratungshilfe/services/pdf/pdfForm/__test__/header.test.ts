@@ -1,7 +1,7 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import { happyPathData } from "tests/fixtures/beratungshilfeFormularData";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { happyPathData } from "~/domains/beratungshilfe/services/pdf/__test__/beratungshilfeFormularData";
 import { gerbehAmtsgericht } from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";

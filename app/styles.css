@@ -25,6 +25,14 @@ body {
   min-height: 100vh;
 }
 
+@font-face {
+  font-family: FiraSans;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/FiraSans-Regular.woff2") format("woff2");
+}
+
 a {
   color: currentcolor;
 }
@@ -53,21 +61,23 @@ svg {
 
 /* headings and text inside containers have a project-specific max-width */
 .container .ds-heading-01-reg,
-.ds-heading-01-bold,
-.ds-heading-02-reg,
-.ds-heading-02-bold {
+.container .ds-heading-01-bold,
+.container .ds-heading-02-reg,
+.container .ds-heading-02-bold {
   max-width: 848px;
 }
 
 .container .ds-heading-03-reg,
-.ds-heading-03-bold,
-.ds-label-01-bold,
-.ds-label-01-reg,
-.ds-label-02-bold,
-.ds-label-02-reg,
-.ds-label-03-bold,
-.ds-label-03-reg,
-p {
+.container .ds-heading-03-bold,
+.container .ds-label-01-bold,
+.container .ds-label-01-reg,
+.container .ds-label-02-bold,
+.container .ds-label-02-reg,
+.container .ds-label-03-bold,
+.container .ds-label-03-reg,
+.container p,
+.container ul,
+.container ol {
   max-width: 630px;
 }
 

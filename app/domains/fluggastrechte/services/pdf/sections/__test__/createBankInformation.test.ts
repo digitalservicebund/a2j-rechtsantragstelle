@@ -1,8 +1,8 @@
-import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_HEIGHT_SEIZE,
@@ -39,7 +39,47 @@ describe("createBankInformation", () => {
 
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Kontoinhaber: Mustermann, Max | IBAN: DE68500123456789000000",
+      "Kontoinhaber: Max Mustermann | IBAN: DE68500123456789000000",
+      expect.anything(),
+      expect.anything(),
+    );
+  });
+
+  it("should default to vorname and nachname if account holder is empty string", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const userDataNoAccountHolder = {
+      ...userDataMock,
+      kontoinhaber: "",
+      vorname: "Max",
+      nachname: "Mustermann",
+    };
+
+    createBankInformation(mockDoc, mockStruct, userDataNoAccountHolder);
+
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Kontoinhaber: Max Mustermann | IBAN: DE68500123456789000000",
+      expect.anything(),
+      expect.anything(),
+    );
+  });
+
+  it("should default to vorname and nachname if account holder has empty space string", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const userDataNoAccountHolder = {
+      ...userDataMock,
+      kontoinhaber: " ",
+      vorname: "Max",
+      nachname: "Mustermann",
+    };
+
+    createBankInformation(mockDoc, mockStruct, userDataNoAccountHolder);
+
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Kontoinhaber: Max Mustermann | IBAN: DE68500123456789000000",
       expect.anything(),
       expect.anything(),
     );
@@ -94,5 +134,33 @@ describe("createBankInformation", () => {
       expect.anything(),
       expect.anything(),
     );
+  });
+
+  it("should not create document given undefined iban", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWithoutIban = {
+      ...userDataMock,
+      iban: undefined,
+    };
+
+    createBankInformation(mockDoc, mockStruct, userDataWithoutIban);
+
+    expect(mockDoc.text).not.toBeCalled();
+  });
+
+  it("should not create document given an empty iban", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWithoutIban = {
+      ...userDataMock,
+      iban: "",
+    };
+
+    createBankInformation(mockDoc, mockStruct, userDataWithoutIban);
+
+    expect(mockDoc.text).not.toBeCalled();
   });
 });
