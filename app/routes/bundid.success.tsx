@@ -10,7 +10,7 @@ export const loader = () => {
 export const action = async ({ request }: ActionFunctionArgs) => {
   throw404OnProduction();
   console.log(request);
-  console.log(await request.formData());
+  process.stdout.write(JSON.stringify(await request.formData()) + "\n");
   return null;
 };
 
