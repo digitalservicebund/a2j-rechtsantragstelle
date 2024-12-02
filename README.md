@@ -157,7 +157,7 @@ Note the following:
 - `warnung` is necessary as a type of form validation, to ensure that the user has entered >= 1 item (actual form validation would be tricky here, so displaying a warning to the user is the next best thing)
 - Finally, the `<Singular name>` step is basically a placeholder for the data entered per item (`daten`), so that the url reads as `<Singular name>/<item number>/daten` e.g. `arbeitsausgabe/0/daten`
 
-After these steps have been entered in `flow.json`, we need to define the matching `ArrayConfig` in `index.ts` of the respective flow:
+After these steps have been entered in `flow.json`, we need to define the matching `ArrayConfigServer` in `index.ts` of the respective flow:
 
 ```
 config: _.merge(<flow>, {
@@ -168,12 +168,12 @@ config: _.merge(<flow>, {
             initialInputUrl: "daten",
             event: "add-<Plural name>",
          },
-      } satisfies Partial<Record<AllContextKeys, ArrayConfig>>,
+      } satisfies Partial<Record<AllContextKeys, ArrayConfigServer>>,
    }
 })
 ```
 
-(If multiple `ArrayConfig`s are being added, it might be sensible to add them to an `arrayConfigurations.ts` file and spread them in)
+(If multiple `ArrayConfigServer`s are being added, it might be sensible to add them to an `arrayConfigurations.ts` file and spread them in)
 
 ### Data Flow
 
