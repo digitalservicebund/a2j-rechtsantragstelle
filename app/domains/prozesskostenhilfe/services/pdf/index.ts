@@ -28,6 +28,8 @@ import { fillGrundvoraussetzungen } from "./pdfForm/grundvoraussetzungen";
 import { fillWohnkosten } from "./pdfForm/H_wohnkosten";
 import { fillZahlungsverpflichtungen } from "./pdfForm/I_zahlungsverpflichtungen";
 import { fillBelastungen } from "./pdfForm/J_belastungen";
+import { fillFooter } from "./pdfForm/K_footer";
+import { printNameInSignatureFormField } from "./printNameInSignatureFormField";
 export { getProzesskostenhilfeParameters };
 
 export type PkhPdfFillFunction = PdfFillFunction<
@@ -79,6 +81,7 @@ export async function prozesskostenhilfePdfFromUserdata(
       fillBelastungen,
       fillWohnkosten,
       fillZahlungsverpflichtungen,
+      fillFooter,
     ],
   });
 
@@ -88,6 +91,8 @@ export async function prozesskostenhilfePdfFromUserdata(
     yPositionsDruckvermerk: [43, 51, 40, 44],
     xPositionsDruckvermerk: 9,
   });
+
+  printNameInSignatureFormField(filledPdfFormDocument, userData);
 
   const filledPdfFormDocumentWithMetadata = addMetadataToPdf(
     filledPdfFormDocument,
