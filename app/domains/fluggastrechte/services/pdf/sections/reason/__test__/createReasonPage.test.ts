@@ -3,20 +3,15 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
-import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissingVerticalSpace";
 import { createReasonPage, REASON_TITLE_TEXT } from "../createReasonPage";
 import { createFactsOfCases } from "../factsOfCases/createFactsOfCases";
 import { createLegalAssessment } from "../legalAssessment/createLegalAssessment";
 
 vi.mock("../factsOfCases/createFactsOfCases");
 vi.mock("../legalAssessment/createLegalAssessment");
-vi.mock("../addNewPageInCaseMissingVerticalSpace");
 
 vi.mocked(createFactsOfCases).mockImplementation(() => vi.fn());
 vi.mocked(createLegalAssessment).mockImplementation(() => vi.fn());
-vi.mocked(addNewPageInCaseMissingVerticalSpace).mockImplementation(() =>
-  vi.fn(),
-);
 
 describe("createReasonPage", () => {
   beforeEach(() => {
@@ -50,14 +45,5 @@ describe("createReasonPage", () => {
     createReasonPage(mockDoc, mockStruct, userDataMock);
 
     expect(createLegalAssessment).toBeCalledTimes(1);
-  });
-
-  it("should call addNewPageInCaseMissingVerticalSpace for the creation of the reason page", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    createReasonPage(mockDoc, mockStruct, userDataMock);
-
-    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(1);
   });
 });
