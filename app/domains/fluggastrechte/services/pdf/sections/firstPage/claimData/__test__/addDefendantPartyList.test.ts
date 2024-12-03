@@ -2,12 +2,13 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import { MARGIN_RIGHT } from "~/domains/fluggastrechte/services/pdf/configurations";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-import { addDefendantPartyList, MARGIN_RIGHT } from "../addDefendantPartyList";
+import { addDefendantPartyList } from "../addDefendantPartyList";
 
 describe("addDefendantPartyList", () => {
   it("should create document with defendant party list when litigation interest is requested", () => {

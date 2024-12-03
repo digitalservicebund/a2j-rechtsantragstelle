@@ -1,11 +1,10 @@
 import type PDFDocument from "pdfkit";
+import { MARGIN_RIGHT } from "~/domains/fluggastrechte/services/pdf/configurations";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-
-export const MARGIN_RIGHT = 10;
 
 export const addDefendantPartyList = (
   doc: typeof PDFDocument,
