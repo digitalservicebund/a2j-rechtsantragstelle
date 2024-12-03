@@ -6,28 +6,13 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-
-export const getDefendantPartyList = (
-  prozesszinsen: string,
-  streitwert: number,
-): Record<string, string> => {
-  const interestClause =
-    prozesszinsen === "yes"
-      ? " nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit"
-      : "";
-
-  return {
-    "1. ": `Die beklagte Partei wird verurteilt, an die klagende Partei ${streitwert} €${interestClause} zu zahlen.`,
-    "2. ": "Die beklagte Partei trägt die Kosten des Rechtsstreits.",
-  };
-};
+import { addDefendantPartyList } from "./claimData/addDefendantPartyList";
 
 export const STATEMENT_CLAIM_TITLE_TEXT = "Klageantrag";
 export const STATEMENT_CLAIM_SUBTITLE_TEXT =
   "Es werden folgende Anträge gestellt:";
 export const STATEMENT_CLAIM_COURT_SENTENCE =
   "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 331 Abs. 1 und Abs. 3 ZPO gestellt.";
-export const MARGIN_RIGHT = 10;
 
 const videoTrialAgreement = (videoverhandlung: string | undefined) => {
   return `Ich stimme der Durchführung einer Videoverhandlung (§ 128a ZPO) ${videoverhandlung === "yes" ? "" : "nicht "}zu.`;
@@ -40,11 +25,6 @@ export const createStatementClaim = (
 ) => {
   const { prozesszinsen, versaeumnisurteil, videoverhandlung } = userData;
   const compensationByDistance = getTotalCompensationClaim(userData);
-
-  const defendantPartyList = getDefendantPartyList(
-    prozesszinsen ?? "",
-    compensationByDistance,
-  );
 
   const statementClaimSect = doc.struct("Sect");
   statementClaimSect.add(
@@ -66,22 +46,11 @@ export const createStatementClaim = (
     }),
   );
 
-  const statementClaimList = doc.struct("L");
-
-  for (const [bullet, claim] of Object.entries(defendantPartyList)) {
-    statementClaimList.add(
-      doc.struct("LI", {}, () => {
-        doc
-          .font(FONTS_BUNDESSANS_BOLD)
-          .text(bullet, PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT, undefined, {
-            continued: true,
-          })
-          .font(FONTS_BUNDESSANS_REGULAR)
-          .text(claim, { width: 500 });
-        doc.moveDown(0.5);
-      }),
-    );
-  }
+  const statementClaimList = addDefendantPartyList(
+    doc,
+    prozesszinsen ?? "",
+    compensationByDistance,
+  );
 
   statementClaimSect.add(statementClaimList);
 

@@ -6,12 +6,12 @@ import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/con
 import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
+import { addDefendantPartyList } from "../claimData/addDefendantPartyList";
 import {
   createStatementClaim,
   STATEMENT_CLAIM_COURT_SENTENCE,
   STATEMENT_CLAIM_SUBTITLE_TEXT,
   STATEMENT_CLAIM_TITLE_TEXT,
-  getDefendantPartyList,
 } from "../createStatementClaim";
 
 const STATEMENT_VIDEO_TRIAL_AGREEMENT =
@@ -19,24 +19,16 @@ const STATEMENT_VIDEO_TRIAL_AGREEMENT =
 const STATEMENT_VIDEO_TRIAL_NO_AGREEMENT =
   "Ich stimme der Durchführung einer Videoverhandlung (§ 128a ZPO) nicht zu.";
 
-function assertDefendantPartyList(
-  mockDoc: PDFKit.PDFDocument,
-  defendantPartyList: Record<string, string>,
-) {
-  for (const [bullet, claim] of Object.entries(defendantPartyList)) {
-    expect(mockDoc.text).toHaveBeenCalledWith(bullet, 80, undefined, {
-      continued: true,
-    });
-    expect(mockDoc.text).toHaveBeenCalledWith(claim, { width: 500 });
-  }
-}
-
 describe("createStatementClaim", () => {
   beforeEach(() => {
     vi.mock(
       "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim",
     );
+    vi.mock("../claimData/addDefendantPartyList");
     vi.mocked(getTotalCompensationClaim).mockReturnValue(600);
+    vi.mocked(addDefendantPartyList).mockReturnValue(
+      mockPdfKitDocumentStructure(),
+    );
   });
 
   afterEach(() => {
@@ -56,17 +48,11 @@ describe("createStatementClaim", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_TITLE_TEXT);
     expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_SUBTITLE_TEXT);
 
-    const compensation = getTotalCompensationClaim({
-      startAirport: userDataMock.startAirport,
-      endAirport: userDataMock.endAirport,
-    });
-
-    const defendantPartyList = getDefendantPartyList(
+    expect(addDefendantPartyList).toHaveBeenCalledWith(
+      mockDoc,
       userDataMock.prozesszinsen,
-      compensation,
+      600,
     );
-
-    assertDefendantPartyList(mockDoc, defendantPartyList);
   });
 
   it("should create a list structure with list items", () => {
@@ -75,14 +61,11 @@ describe("createStatementClaim", () => {
 
     createStatementClaim(mockDoc, mockStruct, userDataMock);
 
-    expect(mockDoc.struct).toHaveBeenCalledWith("L");
-    expect(mockDoc.struct).toHaveBeenCalledWith("LI", {}, expect.any(Function));
-
-    const defendantPartyList = getDefendantPartyList(
+    expect(addDefendantPartyList).toHaveBeenCalledWith(
+      mockDoc,
       userDataMock.prozesszinsen,
       600,
     );
-    assertDefendantPartyList(mockDoc, defendantPartyList);
   });
 
   describe("createStatementClaim - versaeumnisurteil logic", () => {
