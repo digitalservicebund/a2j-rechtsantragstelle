@@ -26,9 +26,6 @@ describe("createStatementClaim", () => {
     );
     vi.mock("../claimData/addDefendantPartyList");
     vi.mocked(getTotalCompensationClaim).mockReturnValue(600);
-    vi.mocked(addDefendantPartyList).mockReturnValue(
-      mockPdfKitDocumentStructure(),
-    );
   });
 
   afterEach(() => {
@@ -50,6 +47,7 @@ describe("createStatementClaim", () => {
 
     expect(addDefendantPartyList).toHaveBeenCalledWith(
       mockDoc,
+      mockStruct,
       userDataMock.prozesszinsen,
       600,
     );

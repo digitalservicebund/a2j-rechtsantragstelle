@@ -15,7 +15,7 @@ describe("addDefendantPartyList", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addDefendantPartyList(mockDoc, "yes", 600);
+    addDefendantPartyList(mockDoc, mockStruct, "yes", 600);
 
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_BOLD);
     expect(mockDoc.text).toHaveBeenCalledWith(
@@ -44,7 +44,7 @@ describe("addDefendantPartyList", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addDefendantPartyList(mockDoc, "no", 600);
+    addDefendantPartyList(mockDoc, mockStruct, "no", 600);
 
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_BOLD);
     expect(mockDoc.text).toHaveBeenCalledWith(

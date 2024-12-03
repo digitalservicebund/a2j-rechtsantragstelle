@@ -8,6 +8,7 @@ import {
 
 export const addDefendantPartyList = (
   doc: typeof PDFDocument,
+  statementClaimSect: PDFKit.PDFStructureElement,
   prozesszinsen: string,
   streitwert: number,
 ) => {
@@ -37,5 +38,6 @@ export const addDefendantPartyList = (
       }),
     );
   }
-  return statementClaimList;
+
+  statementClaimSect.add(statementClaimList);
 };

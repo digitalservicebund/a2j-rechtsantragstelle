@@ -46,13 +46,12 @@ export const createStatementClaim = (
     }),
   );
 
-  const statementClaimList = addDefendantPartyList(
+  addDefendantPartyList(
     doc,
+    statementClaimSect,
     prozesszinsen ?? "",
     compensationByDistance,
   );
-
-  statementClaimSect.add(statementClaimList);
 
   statementClaimSect.add(
     doc.struct("P", {}, () => {
