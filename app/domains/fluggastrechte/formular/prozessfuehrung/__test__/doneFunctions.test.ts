@@ -5,7 +5,6 @@ describe("prozessfuehrungDone", () => {
     const actual = prozessfuehrungDone({
       context: {
         versaeumnisurteil: "yes",
-        schriftlichesVerfahren: "yes",
         videoverhandlung: "yes",
       },
     });
@@ -16,18 +15,6 @@ describe("prozessfuehrungDone", () => {
   it("should return false, if versaeumnisurteil is missing", () => {
     const actual = prozessfuehrungDone({
       context: {
-        schriftlichesVerfahren: "yes",
-        videoverhandlung: "yes",
-      },
-    });
-
-    expect(actual).toBe(false);
-  });
-
-  it("should return false, if schriftlichesVerfahren is missing", () => {
-    const actual = prozessfuehrungDone({
-      context: {
-        versaeumnisurteil: "yes",
         videoverhandlung: "yes",
       },
     });
@@ -39,7 +26,6 @@ describe("prozessfuehrungDone", () => {
     const actual = prozessfuehrungDone({
       context: {
         versaeumnisurteil: "yes",
-        schriftlichesVerfahren: "yes",
       },
     });
 
