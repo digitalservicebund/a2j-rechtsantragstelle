@@ -26,7 +26,7 @@ const cases = [
       "/persoenliche-daten/person/daten",
       "/persoenliche-daten/weitere-personen/frage",
       "/persoenliche-daten/weitere-personen/zeugen",
-      "/prozessfuehrung/schriftliches-verfahren",
+      "/prozessfuehrung/videoverhandlung",
     ],
   ],
   [
@@ -44,7 +44,7 @@ const cases = [
       "/persoenliche-daten/person/daten",
       "/persoenliche-daten/weitere-personen/frage",
       "/persoenliche-daten/weitere-personen/zeugen",
-      "/prozessfuehrung/schriftliches-verfahren",
+      "/prozessfuehrung/videoverhandlung",
     ],
   ],
   [
@@ -73,7 +73,7 @@ const cases = [
       "/persoenliche-daten/weitere-personen/frage",
       "/persoenliche-daten/weitere-personen/uebersicht",
       "/persoenliche-daten/weitere-personen/zeugen",
-      "/prozessfuehrung/schriftliches-verfahren",
+      "/prozessfuehrung/videoverhandlung",
     ],
   ],
   [
@@ -102,7 +102,7 @@ const cases = [
       "/persoenliche-daten/weitere-personen/frage",
       "/persoenliche-daten/weitere-personen/uebersicht",
       "/persoenliche-daten/weitere-personen/zeugen",
-      "/prozessfuehrung/schriftliches-verfahren",
+      "/prozessfuehrung/videoverhandlung",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;
