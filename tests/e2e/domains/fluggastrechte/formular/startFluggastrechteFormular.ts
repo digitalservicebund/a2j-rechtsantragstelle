@@ -22,9 +22,6 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/grundvoraussetzungen/ausgleichszahlung
   await formular.clickNext();
 
-  // /fluggastrechte/formular/grundvoraussetzungen/zahlungsaufforderung
-  await formular.fillRadioPage("zahlungsaufforderung", "yes");
-
   // /fluggastrechte/formular/grundvoraussetzungen/daten-uebernahme
   await formular.clickNext();
 
