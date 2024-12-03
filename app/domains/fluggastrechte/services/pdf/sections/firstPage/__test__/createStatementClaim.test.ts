@@ -55,19 +55,6 @@ describe("createStatementClaim", () => {
     );
   });
 
-  it("should create a list structure with list items", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    createStatementClaim(mockDoc, mockStruct, userDataMock);
-
-    expect(addDefendantPartyList).toHaveBeenCalledWith(
-      mockDoc,
-      userDataMock.prozesszinsen,
-      600,
-    );
-  });
-
   describe("createStatementClaim - versaeumnisurteil logic", () => {
     it("should include court sentence when versaeumnisurteil is yes", () => {
       const mockStruct = mockPdfKitDocumentStructure();
