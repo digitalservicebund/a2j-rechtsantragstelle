@@ -16,6 +16,8 @@ import {
   Outlet,
 } from "@remix-run/react";
 import "~/styles.css";
+import "@kern-ux/native/dist/kern.min.css";
+import "@kern-ux/native/dist/fonts/noto-sans.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import { useEffect, useMemo, useState } from "react";
