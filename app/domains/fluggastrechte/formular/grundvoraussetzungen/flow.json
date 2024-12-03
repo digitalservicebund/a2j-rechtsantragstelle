@@ -10,14 +10,8 @@
     },
     "ausgleichszahlung": {
       "on": {
-        "SUBMIT": "zahlungsaufforderung",
-        "BACK": "prozessfaehig"
-      }
-    },
-    "zahlungsaufforderung": {
-      "on": {
         "SUBMIT": "daten-uebernahme",
-        "BACK": "ausgleichszahlung"
+        "BACK": "prozessfaehig"
       }
     },
     "daten-uebernahme": {
@@ -28,7 +22,7 @@
             "guard": "grundvoraussetzungenDone"
           }
         ],
-        "BACK": "zahlungsaufforderung"
+        "BACK": "ausgleichszahlung"
       }
     }
   }
