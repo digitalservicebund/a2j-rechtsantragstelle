@@ -6,6 +6,8 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 
+export const HEADLINE = "Ersatzverbindung Beschreibung:";
+
 export function addTableInfo(
   doc: PDFKit.PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
@@ -22,7 +24,14 @@ export function addTableInfo(
     },
   );
 
-  addNewPageInCaseMissingVerticalSpace(doc, tableInfoHeight);
+  const tableInfoHeadline = doc.heightOfString(HEADLINE, {
+    width: PDF_WIDTH_SEIZE,
+  });
+
+  addNewPageInCaseMissingVerticalSpace(
+    doc,
+    tableInfoHeight + tableInfoHeadline,
+  );
 
   const reasonSect = doc.struct("Sect");
   reasonSect.add(
@@ -30,6 +39,7 @@ export function addTableInfo(
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
+        .text(HEADLINE, PDF_MARGIN_HORIZONTAL)
         .text(andereErsatzverbindungBeschreibung, PDF_MARGIN_HORIZONTAL)
         .moveDown(MARGIN_BETWEEN_SECTIONS);
     }),
