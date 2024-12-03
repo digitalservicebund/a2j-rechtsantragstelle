@@ -32,7 +32,7 @@ export const addDefendantPartyList = (
             continued: true,
           })
           .font(FONTS_BUNDESSANS_REGULAR)
-          .text(claim, { width: 500 });
+          .text(claim);
         doc.moveDown(0.5);
       }),
     );
