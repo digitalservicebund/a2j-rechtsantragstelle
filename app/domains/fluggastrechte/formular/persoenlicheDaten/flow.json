@@ -63,7 +63,7 @@
             "SUBMIT": [
               {
                 "guard": "persoenlichenDatenDone",
-                "target": "#prozessfuehrung.schriftliches-verfahren"
+                "target": "#prozessfuehrung.videoverhandlung"
               }
             ]
           }
