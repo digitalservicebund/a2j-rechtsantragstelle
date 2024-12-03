@@ -19,7 +19,6 @@ describe("flugdatenDone", () => {
         bereich: "verspaetet",
         tatsaechlicherFlug: "no",
         ersatzverbindungArt: "etwasAnderes",
-        andereErsatzverbindungBeschreibung: "Taxi",
         andereErsatzverbindungAnkunftsDatum: "11.03.2024",
         andereErsatzverbindungAnkunftsZeit: "11:00",
       } as const;
@@ -172,7 +171,6 @@ describe("flugdatenDone", () => {
         ...baseContext,
         zwischenstoppAnzahl: "no",
         bereich: "annullierung",
-        andereErsatzverbindungBeschreibung: "Taxi",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(false);
@@ -285,7 +283,6 @@ describe("flugdatenDone", () => {
         ...baseContext,
         zwischenstoppAnzahl: "no",
         bereich: "nichtbefoerderung",
-        andereErsatzverbindungBeschreibung: "Taxi",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(false);

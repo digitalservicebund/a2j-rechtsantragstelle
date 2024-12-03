@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import saml from "samlify";
 import invariant from "tiny-invariant";
 import Button from "~/components/Button";
@@ -62,6 +62,7 @@ export default function View() {
         <input type="hidden" name="SAMLRequest" value={samlRequest} />
         <Button type={"submit"}>Identifizieren</Button>
       </form>
+      <Outlet />
     </div>
   );
 }

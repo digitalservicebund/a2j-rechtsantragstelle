@@ -1,7 +1,7 @@
 import _ from "lodash";
 import type { AllContextKeys } from "~/domains/common";
 import type { Flow } from "~/domains/flows.server";
-import type { ArrayConfig } from "~/services/array";
+import type { ArrayConfigServer } from "~/services/array";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import abgabeFlow from "./abgabe/flow.json";
 import type { FluggastrechtContext } from "./context";
@@ -17,6 +17,7 @@ import {
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import { prozessfuehrungDone } from "./prozessfuehrung/doneFunctions";
 import prozessfuehrungFlow from "./prozessfuehrung/flow.json";
+import { isTotalClaimWillSucceddedAboveLimit } from "./services/isTotalClaimAboveLimit";
 import { streitwertKostenDone } from "./streitwertKosten/doneFunctions";
 import streitwertKostenFlow from "./streitwertKosten/flow.json";
 import {
@@ -60,6 +61,7 @@ export const fluggastrechtFlow = {
       "ersatzflugLandenZweiStunden",
       "ersatzflugStartenZweiStunden",
       "ersatzflugLandenVierStunden",
+      "entschaedigung",
     ],
     buttonUrl: "/fluggastrechte/vorabcheck/start",
   },
@@ -81,6 +83,8 @@ export const fluggastrechtFlow = {
     ...isWeiterePersonen(context),
     ...getStreitwert(context),
     ...getAnnullierungInfo(context),
+    isClaimWillSucceddedAboveLimit:
+      isTotalClaimWillSucceddedAboveLimit(context),
   }),
   config: {
     meta: {
@@ -91,8 +95,9 @@ export const fluggastrechtFlow = {
           statementKey: "isWeiterePersonen",
           hiddenFields: ["anrede", "title"],
           event: "add-weiterePersonen",
+          shouldDisableAddButton: isTotalClaimWillSucceddedAboveLimit,
         },
-      } satisfies Partial<Record<AllContextKeys, ArrayConfig>>,
+      } satisfies Partial<Record<AllContextKeys, ArrayConfigServer>>,
     },
     id: "/fluggastrechte/formular",
     initial: "intro",

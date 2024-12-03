@@ -73,7 +73,6 @@ const hasAndereErsatzverbindung: FluggastrechteFlugdatenGuard = ({
   return (
     context.ersatzverbindungArt === "etwasAnderes" &&
     objectKeysNonEmpty(context, [
-      "andereErsatzverbindungBeschreibung",
       "andereErsatzverbindungAnkunftsDatum",
       "andereErsatzverbindungAnkunftsZeit",
     ])
