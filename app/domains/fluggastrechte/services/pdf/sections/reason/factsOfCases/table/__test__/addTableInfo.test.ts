@@ -7,7 +7,7 @@ import {
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../../../addNewPageInCaseMissingVerticalSpace";
-import { addTableInfo } from "../addTableInfo";
+import { addTableInfo, HEADLINE } from "../addTableInfo";
 
 vi.mock("../../../addNewPageInCaseMissingVerticalSpace");
 
@@ -38,6 +38,7 @@ describe("addTableInfo", () => {
 
     expect(mockDoc.fontSize).toHaveBeenCalledWith(10);
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR);
+    expect(mockDoc.text).toHaveBeenCalledWith(HEADLINE, PDF_MARGIN_HORIZONTAL);
     expect(mockDoc.text).toHaveBeenCalledWith(
       andereErsatzverbindungBeschreibung,
       PDF_MARGIN_HORIZONTAL,
