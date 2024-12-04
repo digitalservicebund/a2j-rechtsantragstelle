@@ -1,4 +1,3 @@
-//https://kern-ux-plain-kern-ux-783aa9be89f1fecf3bdc3d2f5004d885b31ec77d9.usercontent.opencode.de/?path=/docs/komponenten-kopfzeile--docs
 export default function Kopfzeile() {
   return (
     <div
