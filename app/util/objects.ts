@@ -17,6 +17,7 @@ export function isKeyOfObject<T extends object>(
 export function dropEachProperty(obj: object) {
   return Object.values(
     Object.keys(obj).map((key) => {
+      // eslint-disable-next-line sonarjs/no-unused-vars
       const { [key as keyof typeof obj]: _, ...rest } = obj;
       return rest;
     }),

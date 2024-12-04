@@ -16,7 +16,7 @@ import { resizeToA4 } from "./resizeToA4";
 // Caching file read to survive server reload
 // See https://remix.run/docs/en/1.16.1/tutorials/jokes#connect-to-the-database
 declare global {
-  // eslint-disable-next-line no-var, sonarjs/no-var
+  // eslint-disable-next-line no-var
   var __pdfFileBuffers: Partial<Record<FlowId, Buffer>>; // NOSONAR
 }
 

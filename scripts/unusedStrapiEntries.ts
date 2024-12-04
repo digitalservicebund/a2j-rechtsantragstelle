@@ -82,8 +82,7 @@ function unusedStrapiEntry() {
       console.log("No entries without stepIds ✅");
     }
 
-    const [_pagesWithFlowIds, pagesWithoutFlowIds] =
-      partitionPagesByFlowId(pages);
+    const [, pagesWithoutFlowIds] = partitionPagesByFlowId(pages);
 
     if (pagesWithoutFlowIds.length > 0) {
       console.warn(

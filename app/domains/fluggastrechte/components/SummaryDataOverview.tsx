@@ -1,3 +1,4 @@
+import omit from "lodash/omit";
 import Heading from "~/components/Heading";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import ActualArrivalCards from "./ActualArrivalCards";
@@ -72,8 +73,7 @@ export default function SummaryDataOverview({
             look="ds-label-01-bold"
           />
           {userData.weiterePersonen.map((person, idx) => {
-            const { kontodaten: _kontodaten, ...cedentData } =
-              getPersonData(userData);
+            const cedentData = omit(getPersonData(userData), "kontodaten");
             const cedentBookingNumber = {
               cedentBookingNumber:
                 !person.buchungsnummer || person.buchungsnummer === ""
