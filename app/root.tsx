@@ -16,8 +16,6 @@ import {
   Outlet,
 } from "@remix-run/react";
 import "~/styles.css";
-import "@kern-ux/native/dist/kern.min.css";
-import "@kern-ux/native/dist/fonts/noto-sans.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import { useEffect, useMemo, useState } from "react";
@@ -67,6 +65,10 @@ export const links: LinksFunction = () => [
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
   { rel: "manifest", href: "/site.webmanifest" },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css?family=Fira+Sans|Noto+Sans|Roboto",
+  },
 ];
 
 export const meta: MetaFunction<RootLoader> = () => {
@@ -207,10 +209,6 @@ function App() {
           }}
         />
         <Meta />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Fira+Sans|Noto+Sans|Roboto"
-        ></link>
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
