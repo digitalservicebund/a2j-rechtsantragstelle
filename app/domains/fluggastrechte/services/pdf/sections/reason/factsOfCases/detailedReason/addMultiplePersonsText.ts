@@ -1,6 +1,9 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
+import {
+  MARGIN_BETWEEN_SECTIONS,
+  MARGIN_RIGHT,
+} from "~/domains/fluggastrechte/services/pdf/configurations";
 import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/context";
 import {
   FONTS_BUNDESSANS_BOLD,
@@ -9,8 +12,6 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { arrayIsNonEmpty } from "~/util/array";
 import { getFullPlaintiffName } from "../../../getFullPlaintiffName";
-
-export const MARGIN_RIGHT = 10;
 
 const bereichMappingText = {
   verspaetet: "Verspätung",
