@@ -44,7 +44,6 @@ const cases = [
       ...baseContext,
       zwischenstoppAnzahl: "no",
       ersatzverbindungArt: "etwasAnderes",
-      andereErsatzverbindungBeschreibung: "Beschreibung",
       andereErsatzverbindungAnkunftsDatum: "10.03.2024",
       andereErsatzverbindungAnkunftsZeit: "10:10",
       zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",

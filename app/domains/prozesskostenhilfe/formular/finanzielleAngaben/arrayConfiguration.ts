@@ -1,5 +1,5 @@
 import type { KeysOfUnion } from "~/domains/common";
-import type { ArrayConfig } from "~/services/array";
+import type { ArrayConfigServer } from "~/services/array";
 import type { ProzesskostenhilfeFormularContext } from "../index";
 
 export function finanzielleAngabenArrayConfig(prefix: string) {
@@ -49,6 +49,6 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       event: "add-sonstigeAusgaben",
     },
   } satisfies Partial<
-    Record<KeysOfUnion<ProzesskostenhilfeFormularContext>, ArrayConfig>
+    Record<KeysOfUnion<ProzesskostenhilfeFormularContext>, ArrayConfigServer>
   >;
 }

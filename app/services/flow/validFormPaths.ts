@@ -1,6 +1,6 @@
 import type { ArrayData } from "~/domains/contexts";
 import { parsePathname } from "~/domains/flowIds";
-import type { ArrayConfig } from "~/services/array";
+import type { ArrayConfigServer } from "~/services/array";
 import { addPageDataToUserData } from "./pageData";
 import {
   type FlowController,
@@ -62,18 +62,18 @@ function getSubflowPaths(flowController: FlowController): Path[] {
     .flat();
 }
 
-function getSubFlowInitialStep(arrayConfig: ArrayConfig): string {
+function getSubFlowInitialStep(arrayConfig: ArrayConfigServer): string {
   return arrayConfig.url + "/" + arrayConfig.initialInputUrl;
 }
 
-function stepBelongsToArray(arrayConfig: ArrayConfig) {
+function stepBelongsToArray(arrayConfig: ArrayConfigServer) {
   return (stepId: string) =>
     stepId.startsWith(parsePathname(arrayConfig.url).stepId);
 }
 
 function stepIdBeforeArray(
   flowController: FlowController,
-  arrayConfig: ArrayConfig,
+  arrayConfig: ArrayConfigServer,
 ) {
   const arrayFlowController = buildFlowController({
     config: flowController.getConfig(),
