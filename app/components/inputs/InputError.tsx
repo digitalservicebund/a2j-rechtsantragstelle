@@ -15,9 +15,7 @@ const InputError = ({ id, children }: InputErrorProps) => {
           className="mt-4 text-red-800 flex gap-x-4"
         >
           <ErrorOutline className="w-20 h-20 shrink-0 mt-2" />
-          <span className="sr-only">
-            Fehler:
-          </span> {children}
+          <span className="sr-only">Fehler:</span> {children}
         </p>
       )}
     </div>
