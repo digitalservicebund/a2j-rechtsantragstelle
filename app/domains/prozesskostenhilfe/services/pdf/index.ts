@@ -16,6 +16,7 @@ import {
   pdfFromUserData,
   type PDFDocumentBuilder,
 } from "~/services/pdf/pdfFromUserData";
+import loadHinweisblatt from "./loadHinweisblatt";
 import { fillPerson } from "./pdfForm/A_person";
 import { fillRechtsschutzversicherung } from "./pdfForm/B_rechtsschutzversicherung";
 import { fillUnterhaltsanspruch } from "./pdfForm/C_unterhaltspflichtige_person";
@@ -85,11 +86,13 @@ export async function prozesskostenhilfePdfFromUserdata(
     ],
   });
 
+  const xPositionDruckvermerk = 9;
+
   const filledPdfFormDocument = await fillPdf({
     flowId: "/prozesskostenhilfe/formular",
     pdfValues,
-    yPositionsDruckvermerk: [43, 51, 40, 44],
-    xPositionsDruckvermerk: 9,
+    yPositionsDruckvermerk: [43, 51, 40, 44], // Different y positions because the form boxes jump for each page
+    xPositionsDruckvermerk: xPositionDruckvermerk,
   });
 
   printNameInSignatureFormField(filledPdfFormDocument, userData);
@@ -108,8 +111,16 @@ export async function prozesskostenhilfePdfFromUserdata(
 
     const mainPdfDocument = await PDFDocument.load(pdfKitBuffer);
 
-    return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
+    await appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
   }
+
+  await appendPagesToPdf(
+    filledPdfFormDocumentWithMetadata,
+    await loadHinweisblatt({
+      yPositionDruckvermerk: 44,
+      xPositionDruckvermerk,
+    }),
+  );
 
   return filledPdfFormDocumentWithMetadata.save();
 }
