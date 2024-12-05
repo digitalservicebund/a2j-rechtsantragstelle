@@ -5,6 +5,7 @@ import {
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
 import { StrapiDetailsSchema } from "~/services/cms/models/StrapiDetails";
+import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
@@ -16,6 +17,7 @@ const StrapiTextareaSchema = z
     label: z.string().nullable(),
     placeholder: z.string().nullable(),
     errors: StrapiErrorRelationSchema,
+    maxCharacterLimit: z.number().default(TEXTAREA_CHAR_LIMIT),
   })
   .merge(HasOptionalStrapiIdSchema);
 
@@ -25,6 +27,11 @@ export const StrapiTextareaComponentSchema = StrapiTextareaSchema.extend({
   __component: z.literal("form-elements.textarea"),
 });
 
-export const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => (
-  <Textarea {...omitNull(props)} errorMessages={flattenStrapiErrors(errors)} />
-);
+export const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => {
+  return (
+    <Textarea
+      {...omitNull(props)}
+      errorMessages={flattenStrapiErrors(errors)}
+    />
+  );
+};
