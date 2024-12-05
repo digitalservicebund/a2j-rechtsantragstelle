@@ -1,12 +1,12 @@
+import fs from "fs";
+import path from "path";
 import type { ActionFunctionArgs } from "@remix-run/node";
-import Button from "~/components/Button";
-import { throw404OnProduction } from "~/services/errorPages/throw404";
+import { useActionData } from "@remix-run/react";
+import saml from "samlify";
+import * as samlify from "samlify";
 import invariant from "tiny-invariant";
 import { config } from "~/services/env/env.server";
-import saml from "samlify";
-import path from "path";
-import fs from "fs";
-import * as samlify from "samlify";
+import { throw404OnProduction } from "~/services/errorPages/throw404";
 
 export const loader = () => {
   throw404OnProduction();
@@ -49,10 +49,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   });
 
   const formData = await request.formData();
-  console.log("FormData:", formData);
-
   const samlResponse = formData.get("SAMLResponse");
-  console.log({ samlResponse });
+
   if (typeof samlResponse !== "string") {
     throw new Error("Invalid SAML Response");
   }
@@ -64,28 +62,28 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   };
 
   samlify.setSchemaValidator({
-    validate: (response: string) => {
+    validate: (_: string) => {
       return Promise.resolve("skipped");
     },
   });
 
   const response = await sp.parseLoginResponse(idp, "post", samlHttpRequest);
-  console.log("HERE");
-  console.log({ response });
+  const responseAtributes = response.extract.attributes;
 
-  console.log("Attributes:", response.extract.attributes);
-  console.log("Nachname:", response.extract.attributes["urn:oid:2.5.4.4"]);
-  return null;
+  const BUNDID_PRENAME_KEY = "urn:oid:2.5.4.42";
+  const BUNDID_SURNAME_KEY = "urn:oid:2.5.4.4";
+  return {
+    prename: responseAtributes[BUNDID_PRENAME_KEY],
+    surname: responseAtributes[BUNDID_SURNAME_KEY],
+  };
 };
 
 export default function View() {
+  const actionData = useActionData<typeof action>();
   return (
     <div>
-      <h1>BundID Success Test</h1>
-      <form action={"/bundid/success"} method="post">
-        <input type="hidden" name="test" value="HI" />
-        <Button type={"submit"}>Mock POST request</Button>
-      </form>
+      <span>Vorname: {actionData?.prename}</span>
+      <span>Nachname: {actionData?.surname}</span>
     </div>
   );
 }
