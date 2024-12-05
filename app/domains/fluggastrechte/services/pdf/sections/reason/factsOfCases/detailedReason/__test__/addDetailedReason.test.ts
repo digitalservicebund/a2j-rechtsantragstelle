@@ -3,6 +3,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
+import { MARGIN_RIGHT } from "~/domains/fluggastrechte/services/pdf/configurations";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import {
@@ -11,7 +12,6 @@ import {
   ATTACHMENT_CONFIRM_BOOKING_TEXT,
   CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT,
   CONFIRM_BOOKING_TEXT,
-  MARGIN_RIGHT,
   PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT,
   PLAINTIFF_ON_TIME_TEXT,
 } from "../addDetailedReason";
