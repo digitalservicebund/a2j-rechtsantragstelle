@@ -27,6 +27,6 @@ export const getFlugDaten = (userData: FluggastrechtContext) => {
 
 export const getZeugenText = (userData: FluggastrechtContext) => {
   if (userData.hasZeugen === "no") return "noWitnesses";
-  if (userData.isWeiterePersonen) return "cedentsAndWitnesses";
+  if (userData.isWeiterePersonen === "yes") return "cedentsAndWitnesses";
   return "noCedentsAndWitnesses";
 };
