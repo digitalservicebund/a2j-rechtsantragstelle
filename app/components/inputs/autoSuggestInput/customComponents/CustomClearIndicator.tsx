@@ -1,7 +1,11 @@
 import type { RefObject } from "react";
 import { components, type ClearIndicatorProps } from "react-select";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import { useTranslations } from "~/services/translations/translationsContext";
+
+const AUTO_SUGGESTION_INPUT_BUTTON_ARIAL_KEY =
+  "auto-suggestion-input-button-arial";
 
 const CustomClearIndicator = (
   props: ClearIndicatorProps<DataListOptions, false>,
@@ -10,7 +14,10 @@ const CustomClearIndicator = (
   const { accessibility: translations } = useTranslations();
   return (
     <button
-      aria-label={translations["auto-suggestion-input-button-arial"]}
+      aria-label={getTranslationByKey(
+        AUTO_SUGGESTION_INPUT_BUTTON_ARIAL_KEY,
+        translations,
+      )}
       ref={buttonExclusionRef}
       data-testid="clear-input-button"
       className="outline-none focus-visible:ring-blue-800 focus-visible:ring-4"
