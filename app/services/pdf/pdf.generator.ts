@@ -5,7 +5,7 @@ import { pdfs } from "~/services/pdf/pdfs";
 import { uppercaseFirstLetter } from "~/util/strings";
 import { normalizePropertyName } from "./normalizePropertyName";
 
-export const dataDirectory = "data/pdf/";
+const dataDirectory = "data/pdf/";
 
 function isCheckBoxOrTextField(field: PDFField) {
   return field instanceof PDFCheckBox || field instanceof PDFTextField;

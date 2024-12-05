@@ -2,7 +2,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { PDFDocument } from "pdf-lib";
 import { addDruckvermerk } from "~/services/pdf/druckvermerk";
-import { dataDirectory } from "~/services/pdf/pdf.generator";
 
 export default async function loadHinweisblatt({
   yPositionDruckvermerk,
@@ -14,7 +13,7 @@ export default async function loadHinweisblatt({
   const filepath = path.resolve(
     path.join(
       process.cwd(),
-      dataDirectory,
+      "data/pdf/",
       "prozesskostenhilfe",
       "Formular_Hinweisblatt_Prozess_Verfahrenskostenhilfe.pdf",
     ),
