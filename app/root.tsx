@@ -186,8 +186,9 @@ function App() {
     () => ({
       video: videoTranslations,
       feedback: feedbackTranslations,
+      accessibility: accessibilityTranslations,
     }),
-    [videoTranslations, feedbackTranslations],
+    [videoTranslations, feedbackTranslations, accessibilityTranslations],
   );
 
   return (
