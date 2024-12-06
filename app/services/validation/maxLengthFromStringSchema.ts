@@ -8,6 +8,6 @@ export const maxLengthFromStringSchema = (
   }
 
   if (schema instanceof z.ZodString) {
-    return schema._def.checks.find((c) => c.kind === "max")?.value;
+    return schema._def.checks.find((check) => check.kind === "max")?.value;
   }
 };
