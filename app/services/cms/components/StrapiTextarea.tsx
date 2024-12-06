@@ -1,11 +1,14 @@
+import { useLocation } from "@remix-run/react";
 import { z } from "zod";
 import Textarea from "~/components/inputs/Textarea";
+import { getContextMaybe } from "~/domains/contexts";
+import { flowIdFromPathname } from "~/domains/flowIds";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
 import { StrapiDetailsSchema } from "~/services/cms/models/StrapiDetails";
-import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
+import { maxLengthFromStringSchema } from "~/services/validation/maxLengthFromStringSchema";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
@@ -17,7 +20,6 @@ const StrapiTextareaSchema = z
     label: z.string().nullable(),
     placeholder: z.string().nullable(),
     errors: StrapiErrorRelationSchema,
-    maxLength: z.number().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
@@ -28,11 +30,14 @@ export const StrapiTextareaComponentSchema = StrapiTextareaSchema.extend({
 });
 
 export const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => {
-  const maxLength = props.maxLength ?? TEXTAREA_CHAR_LIMIT;
+  const flowId = flowIdFromPathname(useLocation().pathname);
+  const ctx = getContextMaybe(flowId);
+  const fieldSchema = ctx?.[props.name];
+
   return (
     <Textarea
       {...omitNull(props)}
-      maxLength={maxLength}
+      maxLength={maxLengthFromStringSchema(fieldSchema)}
       errorMessages={flattenStrapiErrors(errors)}
     />
   );
