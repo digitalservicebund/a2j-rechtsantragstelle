@@ -5,26 +5,31 @@ import {
   getFreibetraege,
   getVerfuegbaresEinkommenFreibetrag,
 } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
-import { today } from "~/util/date";
+import * as timeUtils from "~/util/date";
 
 let BASE_SUM = baseSum;
 let { income, partner, childrenBelow6 } = getFreibetraege();
 
 vi.spyOn(console, "warn");
+const todaySpy = vi.spyOn(timeUtils, "today");
+const latestFreibetraegeYear = Number(Object.keys(freibetragPerYear).at(-1));
 
 describe("getFreibetraege", () => {
-  it("returns freibetraege for current year", () => {
-    const currentYear = today().getFullYear();
-    expect(getFreibetraege()).toEqual(freibetragPerYear[currentYear]);
+  it(`returns Freibetraege for ${latestFreibetraegeYear}`, () => {
+    todaySpy.mockReturnValue(new Date(latestFreibetraegeYear, 0, 1));
+    expect(getFreibetraege()).toEqual(
+      freibetragPerYear[latestFreibetraegeYear],
+    );
   });
 
-  it.skip("returns freibetraege for previous year if current year is not found and shows the user a warning", () => {
-    const currentYear = today().getFullYear();
+  it("returns Freibetraege for the last valid year if current year is not found, and shows the user a warning", () => {
+    const nonExistentYear = latestFreibetraegeYear + 1;
+    todaySpy.mockReturnValue(new Date(nonExistentYear, 0, 1));
     const freibetraege = getFreibetraege();
     expect(console.warn).toHaveBeenCalledWith(
-      `No Freibeträge for year ${currentYear}, using Freibeträge from ${currentYear - 1}`,
+      `No Freibeträge for year ${nonExistentYear}, using last valid Freibeträge from ${latestFreibetraegeYear}`,
     );
-    expect(freibetraege).toEqual(freibetragPerYear[currentYear - 1]);
+    expect(freibetraege).toEqual(freibetragPerYear[latestFreibetraegeYear]);
   });
 });
 

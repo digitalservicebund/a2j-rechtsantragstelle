@@ -47,7 +47,7 @@ export function getFreibetraege() {
   const freibetraege = freibetragPerYear[currentYear];
   if (!freibetraege) {
     console.warn(
-      `No Freibeträge for year ${currentYear}, using Freibeträge from ${currentYear - 1}`,
+      `No Freibeträge for year ${currentYear}, using last valid Freibeträge from ${Object.keys(freibetragPerYear).at(-1)}`,
     );
     return freibetragPerYear[currentYear - 1];
   }
