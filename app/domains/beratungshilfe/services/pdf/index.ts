@@ -85,7 +85,7 @@ export async function beratungshilfePdfFromUserdata(
   const filledPdfFormDocument = await fillPdf({
     flowId: "/beratungshilfe/antrag",
     pdfValues,
-    yPositionsDruckvermerk: [90, 108, 138],
+    yPositionsDruckvermerk: [90, 108, 138], // Different y positions because the form boxes jump for each page
     xPositionsDruckvermerk: 28,
   });
 

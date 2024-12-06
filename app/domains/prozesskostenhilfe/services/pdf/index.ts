@@ -20,6 +20,7 @@ import {
   type PDFDocumentBuilder,
 } from "~/services/pdf/pdfFromUserData";
 import type { Translations } from "~/services/translations/getTranslationByKey";
+import loadHinweisblatt from "./loadHinweisblatt";
 import { fillPerson } from "./pdfForm/A_person";
 import { fillRechtsschutzversicherung } from "./pdfForm/B_rechtsschutzversicherung";
 import { fillUnterhaltsanspruch } from "./pdfForm/C_unterhaltspflichtige_person";
@@ -31,6 +32,8 @@ import { fillEigentum } from "./pdfForm/G_eigentum";
 import { fillGrundvoraussetzungen } from "./pdfForm/grundvoraussetzungen";
 import { fillWohnkosten } from "./pdfForm/H_wohnkosten";
 import { fillBelastungen } from "./pdfForm/J_belastungen";
+import { fillFooter } from "./pdfForm/K_footer";
+import { printNameInSignatureFormField } from "./printNameInSignatureFormField";
 export { getProzesskostenhilfeParameters };
 
 export type PkhPdfFillFunction = PdfFillFunction<
@@ -89,15 +92,18 @@ export async function prozesskostenhilfePdfFromUserdata(
       fillBelastungen,
       fillWohnkosten,
       fillZahlungsverpflichtungen,
+      fillFooter,
     ],
   });
 
   const filledPdfFormDocument = await fillPdf({
     flowId: "/prozesskostenhilfe/formular",
     pdfValues,
-    yPositionsDruckvermerk: [43, 51, 40, 44],
+    yPositionsDruckvermerk: [43, 51, 40, 44], // Different y positions because the form boxes jump for each page
     xPositionsDruckvermerk: 9,
   });
+
+  printNameInSignatureFormField(filledPdfFormDocument, userData);
 
   const filledPdfFormDocumentWithMetadata = addMetadataToPdf(
     filledPdfFormDocument,
@@ -114,8 +120,13 @@ export async function prozesskostenhilfePdfFromUserdata(
 
     const mainPdfDocument = await PDFDocument.load(pdfKitBuffer);
 
-    return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
+    await appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
   }
+
+  await appendPagesToPdf(
+    filledPdfFormDocumentWithMetadata,
+    await loadHinweisblatt(),
+  );
 
   return filledPdfFormDocumentWithMetadata.save();
 }
