@@ -1,4 +1,4 @@
-import { json, type LoaderFunctionArgs } from "@remix-run/node";
+import { type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Container from "~/components/Container";
 import PageContent from "~/components/PageContent";
@@ -8,11 +8,11 @@ import LicenseList from "~/services/openSourceLicenses/LicenseList";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { content, meta } = await strapiPageFromRequest({ request });
-  return json({
+  return {
     meta,
     content,
     dependencies,
-  });
+  };
 };
 
 export default function Index() {
