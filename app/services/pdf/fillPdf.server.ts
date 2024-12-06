@@ -1,5 +1,6 @@
 import path from "node:path";
 import fontkit from "@pdf-lib/fontkit";
+import type { PDFFont } from "pdf-lib";
 import { PDFDocument } from "pdf-lib";
 import type { FlowId } from "~/domains/flowIds";
 import { addDruckvermerk } from "./druckvermerk";
@@ -34,6 +35,8 @@ const bundesSansCondensed = await readRelativeFileToBuffer(
   "/data/pdf/fonts/BundesSansCond-DTP-Regular.otf",
 );
 
+export let customPdfFormFont: PDFFont;
+
 type FillPdfProps = {
   flowId: FlowId;
   pdfValues: Record<string, BooleanField | StringField>;
@@ -57,13 +60,14 @@ export async function fillPdf({
   const form = pdfDoc.getForm();
 
   pdfDoc.registerFontkit(fontkit);
-  const customFont = await pdfDoc.embedFont(bundesSansCondensed, {
+  customPdfFormFont = await pdfDoc.embedFont(bundesSansCondensed, {
     features: {
       liga: false,
     },
   });
   const rawUpdateFieldAppearances = form.updateFieldAppearances.bind(form);
-  form.updateFieldAppearances = () => rawUpdateFieldAppearances(customFont);
+  form.updateFieldAppearances = () =>
+    rawUpdateFieldAppearances(customPdfFormFont);
 
   Object.values(pdfValues).forEach((value) => {
     if (isBooleanField(value)) {
