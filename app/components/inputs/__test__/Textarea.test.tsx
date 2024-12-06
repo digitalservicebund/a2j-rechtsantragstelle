@@ -41,7 +41,7 @@ describe("Textarea component", () => {
         Component: () => (
           <Textarea
             name={componentName}
-            maxCharacterLimit={maxLength}
+            maxLength={maxLength}
             label="Test Label"
             formId="formId"
           />
@@ -74,7 +74,7 @@ describe("Textarea component", () => {
             label="Test Label"
             description="Test Description"
             formId="formId"
-            maxCharacterLimit={5000}
+            maxLength={5000}
           />
         ),
       },
@@ -102,7 +102,7 @@ describe("Textarea component", () => {
               content: "Lorem ipsum",
             }}
             formId="formId"
-            maxCharacterLimit={5000}
+            maxLength={5000}
           />
         ),
       },
@@ -123,7 +123,7 @@ describe("Textarea component", () => {
             name="test"
             errorMessages={[{ code: "required", text: "error" }]}
             formId="formId"
-            maxCharacterLimit={5000}
+            maxLength={5000}
           />
         ),
       },
@@ -143,11 +143,7 @@ describe("Textarea component", () => {
       {
         path: "",
         Component: () => (
-          <Textarea
-            maxCharacterLimit={5000}
-            name="componentName"
-            label="Test Label"
-          />
+          <Textarea maxLength={5000} name="componentName" label="Test Label" />
         ),
       },
     ]);
@@ -165,11 +161,7 @@ describe("Textarea component", () => {
       {
         path: "",
         Component: () => (
-          <Textarea
-            maxCharacterLimit={5000}
-            name="componentName"
-            label="Test Label"
-          />
+          <Textarea maxLength={5000} name="componentName" label="Test Label" />
         ),
       },
     ]);
@@ -199,7 +191,7 @@ describe("Textarea component", () => {
             name="componentName"
             label="Test Label"
             formId="formId"
-            maxCharacterLimit={maxLength}
+            maxLength={maxLength}
           />
         ),
       },

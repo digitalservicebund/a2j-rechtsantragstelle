@@ -16,7 +16,7 @@ type TextareaProps = Readonly<{
     content: string;
   };
   placeholder?: string;
-  maxCharacterLimit: number;
+  maxLength: number;
   errorMessages?: ErrorMessageProps[];
   formId?: string;
   classNameLabel?: string;
@@ -33,7 +33,7 @@ const Textarea = ({
   label,
   details,
   placeholder,
-  maxCharacterLimit,
+  maxLength,
   errorMessages,
   classNameLabel,
   role,
@@ -61,7 +61,7 @@ const Textarea = ({
         {...getInputProps({
           id: name,
           placeholder,
-          maxLength: maxCharacterLimit,
+          maxLength,
         })}
         rows={TEXT_AREA_ROWS}
         className={classNames(

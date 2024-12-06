@@ -17,7 +17,7 @@ const StrapiTextareaSchema = z
     label: z.string().nullable(),
     placeholder: z.string().nullable(),
     errors: StrapiErrorRelationSchema,
-    maxCharacterLimit: z.number().default(TEXTAREA_CHAR_LIMIT),
+    maxLength: z.number().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
@@ -28,9 +28,11 @@ export const StrapiTextareaComponentSchema = StrapiTextareaSchema.extend({
 });
 
 export const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => {
+  const maxLength = props.maxLength ?? TEXTAREA_CHAR_LIMIT;
   return (
     <Textarea
       {...omitNull(props)}
+      maxLength={maxLength}
       errorMessages={flattenStrapiErrors(errors)}
     />
   );

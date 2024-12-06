@@ -21,7 +21,7 @@ export const Default: Story = {
     name: "textarea",
     label: "Lorem ipsum dolor sit amet",
     formId: "formId",
-    maxCharacterLimit: TEXTAREA_CHAR_LIMIT,
+    maxLength: TEXTAREA_CHAR_LIMIT,
   },
   decorators: [(Story) => remixContext(Story)],
 };
@@ -32,7 +32,7 @@ export const WithDescription: Story = {
     description: "Lorem **ipsum**\n\n* _Lorem ipsum_\n* _Lorem ipsum_",
     label: "Lorem ipsum dolor sit amet",
     formId: "formId",
-    maxCharacterLimit: TEXTAREA_CHAR_LIMIT,
+    maxLength: TEXTAREA_CHAR_LIMIT,
   },
   decorators: [(Story) => remixContext(Story)],
 };
@@ -46,7 +46,7 @@ export const Withdetails: Story = {
     },
     label: "Lorem ipsum dolor sit amet",
     formId: "formId",
-    maxCharacterLimit: TEXTAREA_CHAR_LIMIT,
+    maxLength: TEXTAREA_CHAR_LIMIT,
   },
   decorators: [(Story) => remixContext(Story)],
 };
