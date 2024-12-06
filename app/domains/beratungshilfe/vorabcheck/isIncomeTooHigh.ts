@@ -16,12 +16,10 @@ export const isIncomeTooHigh: GenericGuard<BeratungshilfeVorabcheckContext> = ({
     working: context.erwerbstaetigkeit === "yes",
     partnership: context.partnerschaft === "yes",
     partnerIncome: moneyToCents(context.einkommenPartner) ?? 0,
-    childrenBelow6: Number(String(context.kids?.kids6Below)?.replace(",", ".")),
-    children7To14: Number(String(context.kids?.kids7To14)?.replace(",", ".")),
-    children15To18: Number(String(context.kids?.kids15To18)?.replace(",", ".")),
-    childrenAbove18: Number(
-      String(context.kids?.kids18Above)?.replace(",", "."),
-    ),
+    childrenBelow6: Number(context.kids?.kids6Below),
+    children7To14: Number(context.kids?.kids7To14),
+    children15To18: Number(context.kids?.kids15To18),
+    childrenAbove18: Number(context.kids?.kids18Above),
     childrenIncome: moneyToCents(context.einkommenKinder) ?? 0,
   });
 
