@@ -12,6 +12,7 @@ type Freibetraege = {
 };
 
 export const BASE_ALLOWANCE = 572;
+export const SIMPLIFIED_CHILD_ALLOWANCE = 400;
 export const freibetraegePerYear: Record<number, Freibetraege> = {
   2023: {
     incomeAllowance: 251,
@@ -106,7 +107,7 @@ function freibetragShort(
     BASE_ALLOWANCE +
     (working ? incomeAllowance : 0) +
     (partnership ? partnerAllowance : 0) +
-    (childrenCount ? childrenCount * 400 : 0)
+    (childrenCount ? childrenCount * SIMPLIFIED_CHILD_ALLOWANCE : 0)
   );
 }
 

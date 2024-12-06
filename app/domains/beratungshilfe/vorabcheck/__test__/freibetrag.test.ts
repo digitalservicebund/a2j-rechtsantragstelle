@@ -5,6 +5,7 @@ import {
   getFreibetraege,
   getVerfuegbaresEinkommenFreibetrag,
   latestFreibetraegeYear,
+  SIMPLIFIED_CHILD_ALLOWANCE,
 } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
 import * as timeUtils from "~/util/date";
 
@@ -170,17 +171,17 @@ const cases = [
   {
     condition: "partner and one kid",
     context: { partnerschaft: "yes", kinderKurz: "yes", kinderAnzahlKurz: "1" },
-    result: BASE_ALLOWANCE + partnerAllowance + 400,
+    result: BASE_ALLOWANCE + partnerAllowance + SIMPLIFIED_CHILD_ALLOWANCE,
   },
   {
     condition: "no partner and one kid",
     context: { partnerschaft: "no", kinderKurz: "yes", kinderAnzahlKurz: "1" },
-    result: BASE_ALLOWANCE + 400,
+    result: BASE_ALLOWANCE + SIMPLIFIED_CHILD_ALLOWANCE,
   },
   {
     condition: "no partner and three kids",
     context: { partnerschaft: "no", kinderKurz: "yes", kinderAnzahlKurz: "3" },
-    result: BASE_ALLOWANCE + 3 * 400,
+    result: BASE_ALLOWANCE + 3 * SIMPLIFIED_CHILD_ALLOWANCE,
   },
   {
     condition: "erwerbstaetig",
@@ -200,7 +201,11 @@ const cases = [
       kinderKurz: "yes",
       kinderAnzahlKurz: "2",
     },
-    result: BASE_ALLOWANCE + partnerAllowance + incomeAllowance + 2 * 400,
+    result:
+      BASE_ALLOWANCE +
+      partnerAllowance +
+      incomeAllowance +
+      2 * SIMPLIFIED_CHILD_ALLOWANCE,
   },
 ] as const;
 
