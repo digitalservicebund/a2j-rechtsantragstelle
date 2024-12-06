@@ -1,15 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { PDFDocument } from "pdf-lib";
-import { addDruckvermerk } from "~/services/pdf/druckvermerk";
 
-export default async function loadHinweisblatt({
-  yPositionDruckvermerk,
-  xPositionDruckvermerk,
-}: {
-  yPositionDruckvermerk: number;
-  xPositionDruckvermerk: number;
-}) {
+export default async function loadHinweisblatt() {
   const filepath = path.resolve(
     path.join(
       process.cwd(),
@@ -20,8 +13,6 @@ export default async function loadHinweisblatt({
   );
 
   const pdfDoc = await PDFDocument.load(fs.readFileSync(filepath));
-
-  addDruckvermerk(pdfDoc, yPositionDruckvermerk, xPositionDruckvermerk);
 
   return pdfDoc;
 }

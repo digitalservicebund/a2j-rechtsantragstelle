@@ -86,13 +86,11 @@ export async function prozesskostenhilfePdfFromUserdata(
     ],
   });
 
-  const xPositionDruckvermerk = 9;
-
   const filledPdfFormDocument = await fillPdf({
     flowId: "/prozesskostenhilfe/formular",
     pdfValues,
     yPositionsDruckvermerk: [43, 51, 40, 44], // Different y positions because the form boxes jump for each page
-    xPositionsDruckvermerk: xPositionDruckvermerk,
+    xPositionsDruckvermerk: 9,
   });
 
   printNameInSignatureFormField(filledPdfFormDocument, userData);
@@ -116,10 +114,7 @@ export async function prozesskostenhilfePdfFromUserdata(
 
   await appendPagesToPdf(
     filledPdfFormDocumentWithMetadata,
-    await loadHinweisblatt({
-      yPositionDruckvermerk: 44,
-      xPositionDruckvermerk,
-    }),
+    await loadHinweisblatt(),
   );
 
   return filledPdfFormDocumentWithMetadata.save();
