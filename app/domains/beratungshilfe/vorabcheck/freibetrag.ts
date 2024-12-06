@@ -2,91 +2,91 @@ import mapValues from "lodash/mapValues";
 import { today } from "~/util/date";
 import { type AllContexts } from "../../common";
 
-type FreibetragFunctionProps = {
-  working: boolean;
-  partnership: boolean;
-  partnerIncome: number;
-  numChildrenBelow6: number;
-  numChildren7To14: number;
-  numChildren15To18: number;
-  numChildrenAbove18: number;
-  childrenIncome: number;
-};
-
 type Freibetraege = {
-  income: number;
-  partner: number;
-  dependentAdults: number;
-  children15To18: number;
-  children7To14: number;
-  childrenBelow6: number;
+  incomeAllowance: number;
+  partnerAllowance: number;
+  dependentAdultAllowance: number;
+  children15To18Allowance: number;
+  children7To14Allowance: number;
+  childrenBelow6Allowance: number;
 };
 
-export const BASE_SUM = 572;
-export const freibetragPerYear: Record<number, Freibetraege> = {
+export const BASE_ALLOWANCE = 572;
+export const freibetraegePerYear: Record<number, Freibetraege> = {
   2023: {
-    income: 251,
-    partner: 552,
-    dependentAdults: 442,
-    children15To18: 462,
-    children7To14: 383,
-    childrenBelow6: 350,
+    incomeAllowance: 251,
+    partnerAllowance: 552,
+    dependentAdultAllowance: 442,
+    children15To18Allowance: 462,
+    children7To14Allowance: 383,
+    childrenBelow6Allowance: 350,
   },
   2024: {
-    income: 282,
-    partner: 619,
-    dependentAdults: 496,
-    children15To18: 518,
-    children7To14: 429,
-    childrenBelow6: 393,
+    incomeAllowance: 282,
+    partnerAllowance: 619,
+    dependentAdultAllowance: 496,
+    children15To18Allowance: 518,
+    children7To14Allowance: 429,
+    childrenBelow6Allowance: 393,
   },
 };
 
 export function getFreibetraege() {
   const currentYear = today().getFullYear();
-  const freibetraege = freibetragPerYear[currentYear];
+  const freibetraege = freibetraegePerYear[currentYear];
   if (!freibetraege) {
     console.warn(
-      `No Freibeträge for year ${currentYear}, using last valid Freibeträge from ${Object.keys(freibetragPerYear).at(-1)}`,
+      `No Freibeträge for year ${currentYear}, using last valid Freibeträge from ${Object.keys(freibetraegePerYear).at(-1)}`,
     );
-    return freibetragPerYear[currentYear - 1];
+    return freibetraegePerYear[currentYear - 1];
   }
   return freibetraege;
 }
 
-export function freibetrag({
+type CalculateFreibetragProps = {
+  working: boolean;
+  partnership: boolean;
+  partnerIncome: number;
+  childrenBelow6: number;
+  children7To14: number;
+  children15To18: number;
+  childrenAbove18: number;
+  childrenIncome: number;
+};
+
+export function calculateFreibetrag({
   working,
   partnership,
   partnerIncome,
-  numChildrenBelow6,
-  numChildren7To14,
-  numChildren15To18,
-  numChildrenAbove18,
+  childrenBelow6,
+  children7To14,
+  children15To18,
+  childrenAbove18,
   childrenIncome,
-}: Partial<FreibetragFunctionProps>): number {
-  let betrag = BASE_SUM * 100;
+}: Partial<CalculateFreibetragProps>): number {
+  let betrag = BASE_ALLOWANCE * 100;
   const {
-    income,
-    partner,
-    dependentAdults,
-    children15To18,
-    children7To14,
-    childrenBelow6,
+    incomeAllowance,
+    partnerAllowance,
+    dependentAdultAllowance,
+    children15To18Allowance,
+    children7To14Allowance,
+    childrenBelow6Allowance,
   } = mapValues(getFreibetraege(), (v) => v * 100);
 
   if (working) {
-    betrag += income;
+    betrag += incomeAllowance;
   }
 
   if (partnership) {
-    betrag += Math.max(partner - (partnerIncome ?? 0), 0);
+    betrag += Math.max(partnerAllowance - (partnerIncome ?? 0), 0);
   }
 
   const childrenFreibetrag =
-    (numChildrenBelow6 ? numChildrenBelow6 * childrenBelow6 : 0) +
-    (numChildren7To14 ? numChildren7To14 * children7To14 : 0) +
-    (numChildren15To18 ? numChildren15To18 * children15To18 : 0) +
-    (numChildrenAbove18 ? numChildrenAbove18 * dependentAdults : 0);
+    (childrenBelow6 ? childrenBelow6 * childrenBelow6Allowance : 0) +
+    (children7To14 ? children7To14 * children7To14Allowance : 0) +
+    (children15To18 ? children15To18 * children15To18Allowance : 0) +
+    (childrenAbove18 ? childrenAbove18 * dependentAdultAllowance : 0);
 
   betrag += Math.max(childrenFreibetrag - (childrenIncome ?? 0), 0);
 
@@ -98,11 +98,11 @@ function freibetragShort(
   partnership: boolean,
   childrenCount: number,
 ): number {
-  const { partner, income } = getFreibetraege();
+  const { partnerAllowance, incomeAllowance } = getFreibetraege();
   return (
-    BASE_SUM +
-    (working ? income : 0) +
-    (partnership ? partner : 0) +
+    BASE_ALLOWANCE +
+    (working ? incomeAllowance : 0) +
+    (partnership ? partnerAllowance : 0) +
     (childrenCount ? childrenCount * 400 : 0)
   );
 }
