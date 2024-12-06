@@ -76,6 +76,7 @@ export const FeedbackFormBox = ({
           placeholder={feedbackTranslations["placeholder-feedback"]}
           role="status"
           innerRef={textAreaReference}
+          maxLength={TEXTAREA_CHAR_LIMIT}
         />
         <ButtonContainer>
           <Button

@@ -27,15 +27,24 @@ afterEach(() => {
 describe("Textarea component", () => {
   it("renders without errors", () => {
     const componentName = "test-textarea";
+    const maxLength = 5000;
+
     getInputProps.mockImplementationOnce(() => ({
       id: componentName,
       placeholder: "Test Placeholder",
+      maxLength: maxLength,
     }));
+
     const RemixStub = createRemixStub([
       {
         path: "",
         Component: () => (
-          <Textarea name={componentName} label="Test Label" formId="formId" />
+          <Textarea
+            name={componentName}
+            maxLength={maxLength}
+            label="Test Label"
+            formId="formId"
+          />
         ),
       },
     ]);
@@ -51,6 +60,8 @@ describe("Textarea component", () => {
     expect(elementByLabel).not.toHaveClass("ds-heading-03-reg");
 
     expect(screen.getByPlaceholderText("Test Placeholder")).toBeInTheDocument();
+
+    expect(element).toHaveAttribute("maxLength", maxLength.toString());
   });
 
   it("renders without errors when description is provided", () => {
@@ -63,6 +74,7 @@ describe("Textarea component", () => {
             label="Test Label"
             description="Test Description"
             formId="formId"
+            maxLength={5000}
           />
         ),
       },
@@ -90,6 +102,7 @@ describe("Textarea component", () => {
               content: "Lorem ipsum",
             }}
             formId="formId"
+            maxLength={5000}
           />
         ),
       },
@@ -110,6 +123,7 @@ describe("Textarea component", () => {
             name="test"
             errorMessages={[{ code: "required", text: "error" }]}
             formId="formId"
+            maxLength={5000}
           />
         ),
       },
@@ -128,7 +142,9 @@ describe("Textarea component", () => {
     const RemixStub = createRemixStub([
       {
         path: "",
-        Component: () => <Textarea name="componentName" label="Test Label" />,
+        Component: () => (
+          <Textarea maxLength={5000} name="componentName" label="Test Label" />
+        ),
       },
     ]);
 
@@ -144,7 +160,9 @@ describe("Textarea component", () => {
     const RemixStub = createRemixStub([
       {
         path: "",
-        Component: () => <Textarea name="componentName" label="Test Label" />,
+        Component: () => (
+          <Textarea maxLength={5000} name="componentName" label="Test Label" />
+        ),
       },
     ]);
 
@@ -153,5 +171,79 @@ describe("Textarea component", () => {
     const textarea = screen.getByRole("textbox");
 
     expect(textarea.getAttribute("rows")).toEqual(TEXT_AREA_ROWS.toString());
+  });
+
+  it("should enforce maxLength in textarea", () => {
+    const maxLength = 10;
+    getInputProps.mockImplementationOnce(() => ({
+      id: "componentName",
+      maxLength: maxLength,
+      onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        e.target.value = e.target.value.slice(0, maxLength);
+      },
+    }));
+
+    const RemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => (
+          <Textarea
+            name="componentName"
+            label="Test Label"
+            formId="formId"
+            maxLength={maxLength}
+          />
+        ),
+      },
+    ]);
+
+    render(<RemixStub />);
+
+    const textarea = screen.getByRole<HTMLTextAreaElement>("textbox");
+
+    fireEvent.change(textarea, {
+      target: { value: "This is a very long text" },
+    });
+
+    expect(textarea.value.length).toEqual(maxLength);
+    expect(textarea.value).toEqual("This is a ");
+  });
+
+  it("should show error when text exceeds maxLength", () => {
+    const maxLength = 10;
+    const longText = "This is a very long text that exceeds the limit";
+    error = "Text is zu lang";
+
+    getInputProps.mockImplementationOnce(() => ({
+      id: "componentName",
+      maxLength: maxLength,
+    }));
+
+    const RemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => (
+          <Textarea
+            name="componentName"
+            label="Test Label"
+            formId="formId"
+            maxLength={maxLength}
+            errorMessages={[
+              {
+                code: "max",
+                text: "Text is zu lang",
+              },
+            ]}
+          />
+        ),
+      },
+    ]);
+
+    render(<RemixStub />);
+
+    const textarea = screen.getByRole("textbox");
+    fireEvent.change(textarea, { target: { value: longText } });
+    expect(screen.getByText("Text is zu lang")).toBeInTheDocument();
+    expect(textarea).toHaveClass("has-error");
   });
 });

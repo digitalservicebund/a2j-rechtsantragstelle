@@ -32,3 +32,9 @@ const contexts = {
 } as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;
 
 export const getContext = (flowId: FlowId) => contexts[flowId];
+
+export const getContextMaybe = (flowId?: FlowId) => {
+  if (!flowId) return undefined;
+
+  return getContext(flowId) as Record<string, ZodTypeAny | undefined>;
+};
