@@ -4,6 +4,7 @@ import {
   freibetraegePerYear,
   getFreibetraege,
   getVerfuegbaresEinkommenFreibetrag,
+  latestFreibetraegeYear,
 } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
 import * as timeUtils from "~/util/date";
 
@@ -13,7 +14,6 @@ let { incomeAllowance, partnerAllowance, childrenBelow6Allowance } =
 
 vi.spyOn(console, "warn");
 const todaySpy = vi.spyOn(timeUtils, "today");
-const latestFreibetraegeYear = Number(Object.keys(freibetraegePerYear).at(-1));
 
 describe("getFreibetraege", () => {
   it(`returns Freibetraege for ${latestFreibetraegeYear}`, () => {

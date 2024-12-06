@@ -30,15 +30,18 @@ export const freibetraegePerYear: Record<number, Freibetraege> = {
     childrenBelow6Allowance: 393,
   },
 };
+export const latestFreibetraegeYear = Number(
+  Object.keys(freibetraegePerYear).at(-1),
+);
 
 export function getFreibetraege() {
   const currentYear = today().getFullYear();
   const freibetraege = freibetraegePerYear[currentYear];
   if (!freibetraege) {
     console.warn(
-      `No Freibeträge for year ${currentYear}, using last valid Freibeträge from ${Object.keys(freibetraegePerYear).at(-1)}`,
+      `No Freibeträge for year ${currentYear}, using last valid Freibeträge from ${latestFreibetraegeYear}`,
     );
-    return freibetraegePerYear[currentYear - 1];
+    return freibetraegePerYear[latestFreibetraegeYear];
   }
   return freibetraege;
 }
