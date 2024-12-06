@@ -173,7 +173,7 @@ describe("Textarea component", () => {
     expect(textarea.getAttribute("rows")).toEqual(TEXT_AREA_ROWS.toString());
   });
 
-  it("should enforce maxCharacterLength limit", () => {
+  it("should enforce maxLength in textarea", () => {
     const maxLength = 10;
     getInputProps.mockImplementationOnce(() => ({
       id: "componentName",
@@ -207,5 +207,43 @@ describe("Textarea component", () => {
 
     expect(textarea.value.length).toEqual(maxLength);
     expect(textarea.value).toEqual("This is a ");
+  });
+
+  it("should show error when text exceeds maxLength", () => {
+    const maxLength = 10;
+    const longText = "This is a very long text that exceeds the limit";
+    error = "Text is zu lang";
+
+    getInputProps.mockImplementationOnce(() => ({
+      id: "componentName",
+      maxLength: maxLength,
+    }));
+
+    const RemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => (
+          <Textarea
+            name="componentName"
+            label="Test Label"
+            formId="formId"
+            maxLength={maxLength}
+            errorMessages={[
+              {
+                code: "max",
+                text: "Text is zu lang",
+              },
+            ]}
+          />
+        ),
+      },
+    ]);
+
+    render(<RemixStub />);
+
+    const textarea = screen.getByRole("textbox");
+    fireEvent.change(textarea, { target: { value: longText } });
+    expect(screen.getByText("Text is zu lang")).toBeInTheDocument();
+    expect(textarea).toHaveClass("has-error");
   });
 });
