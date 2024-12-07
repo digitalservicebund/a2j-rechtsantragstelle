@@ -18,7 +18,7 @@ export const createChecklistPage = (
   );
   const checklistPageStruct = doc.struct("Sect");
 
-  createHeading(doc, checklistPageStruct, "Anhang", "H1");
+  createHeading(doc, checklistPageStruct, "Ihre nächsten Schritte", "H1");
 
   createHeading(
     doc,

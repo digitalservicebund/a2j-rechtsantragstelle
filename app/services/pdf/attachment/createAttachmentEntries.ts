@@ -8,10 +8,18 @@ export function createAttachmentEntries(
   attachment: AttachmentEntries | undefined,
 ) {
   if (attachment) {
-    attachment.forEach((entry) => {
+    attachment.forEach((entry, index) => {
       documentStruct.add(
         doc.struct(entry.level?.toUpperCase() ?? "P", {}, () => {
           doc
+            // only move down if the current entry is a heading
+            // and the previous entry is not a heading
+            // and the current entry is not the first entry
+            .moveDown(
+              entry.level && !attachment[index - 1]?.level && index !== 0
+                ? 1
+                : 0,
+            )
             .fontSize(
               entry.level
                 ? pdfStyles[entry.level].fontSize
@@ -19,9 +27,10 @@ export function createAttachmentEntries(
             )
             .font(pdfStyles.bold.font)
             .text(entry.title)
-            .moveDown(entry.level ? 0.5 : 0);
+            .moveDown(entry.level ? 1 : 0);
         }),
       );
+
       if (entry.text) {
         documentStruct.add(
           doc.struct("P", {}, () => {
