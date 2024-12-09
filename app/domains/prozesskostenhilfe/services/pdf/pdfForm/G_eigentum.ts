@@ -166,7 +166,7 @@ export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
         text: `${bargeld.wert} €`,
       },
       {
-        title: "Eigentümer:in",
+        title: "Eigentümer:in",
         text: eigentuemer,
       },
     );
@@ -187,7 +187,7 @@ export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
         text: `${wertsache.wert} €`,
       },
       {
-        title: "Eigentümer:in",
+        title: "Eigentümer:in",
         text: eigentuemerMapping[wertsache.eigentuemer],
       },
     );
