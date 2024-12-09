@@ -63,6 +63,9 @@ export default tseslint.config(
     },
     rules: {
       "react/jsx-no-leaked-render": ["off", { validStrategies: ["ternary"] }], // TODO: enable later
+      "react/jsx-no-constructed-context-values": "warn",
+      "react/no-array-index-key": "warn",
+      "react/no-unstable-nested-components": "warn",
     },
   },
   // Typescript
@@ -109,8 +112,6 @@ export default tseslint.config(
       "sonarjs/todo-tag": "warn",
       "sonarjs/fixme-tag": "warn",
       "sonarjs/no-commented-code": "warn",
-      "sonarjs/jsx-no-constructed-context-values": "warn",
-      "sonarjs/no-array-index-key": "warn",
       "sonarjs/no-redeclare": "off",
       "sonarjs/no-nested-functions": "warn",
       "sonarjs/function-return-type": "off",
@@ -126,7 +127,6 @@ export default tseslint.config(
       "sonarjs/no-invalid-await": "off",
 
       // TODO: to be enabled later
-      "sonarjs/no-unstable-nested-components": "warn",
       "sonarjs/deprecation": "off", // enable after remix upgrades to react router v7 and we move to Single Fetch
 
       // typescript-eslint
