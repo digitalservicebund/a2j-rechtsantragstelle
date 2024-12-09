@@ -1,5 +1,8 @@
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { getConnectionDetails } from "../getConnectionDetails";
+import {
+  getConnectionDetails,
+  NOT_MEASURE_DID_NOT_ARRIVE_TEXT,
+} from "../getConnectionDetails";
 
 describe("getConnectionDetails", () => {
   it("should return actual flight details when 'tatsaechlicherFlug' is 'yes'", () => {
@@ -48,13 +51,13 @@ describe("getConnectionDetails", () => {
     });
   });
 
-  it("should return '--' for 'keineAnkunft' ersatzverbindungArt", () => {
+  it("should return not measure and did not arrive text for 'keineAnkunft' ersatzverbindungArt", () => {
     const userData: FluggastrechtContext = {
       ersatzverbindungArt: "keineAnkunft",
     };
     const result = getConnectionDetails(userData);
     expect(result).toEqual({
-      info: "--",
+      info: NOT_MEASURE_DID_NOT_ARRIVE_TEXT,
       timeTable: ["--", "--", "--"],
     });
   });
