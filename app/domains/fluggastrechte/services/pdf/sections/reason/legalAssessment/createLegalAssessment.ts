@@ -86,7 +86,7 @@ export const createLegalAssessment = (
 
       const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${courtCostValue} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
       const advanceCourtTextHeight = doc.heightOfString(advanceCourtText, {
-        width: doc.widthOfString(advanceCourtText),
+        width: PDF_WIDTH_SEIZE,
       });
       addNewPageInCaseMissingVerticalSpace(doc, advanceCourtTextHeight);
 

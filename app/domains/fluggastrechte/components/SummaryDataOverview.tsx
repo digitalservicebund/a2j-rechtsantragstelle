@@ -97,7 +97,7 @@ export default function SummaryDataOverview({
         title="Zeuginnen und Zeugen"
         data={{ zeugen: getZeugenText(userData) }}
         showValueHeading={false}
-        buttonUrl={`${FLOW_ID}/persoenliche-daten/person/daten`}
+        buttonUrl={`${FLOW_ID}/persoenliche-daten/weitere-personen/zeugen`}
         translations={translations}
       />
 

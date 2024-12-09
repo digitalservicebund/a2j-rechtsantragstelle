@@ -1,6 +1,9 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
+import {
+  MARGIN_BETWEEN_SECTIONS,
+  MARGIN_RIGHT,
+} from "~/domains/fluggastrechte/services/pdf/configurations";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -19,8 +22,6 @@ export const INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT = `Für sämtliche Angaben
 export const INFORMATION_BOOKING_AND_ASSIGNMENTS_ANNULLIERUNG_TEXT = `Für sämtliche Angaben, insbesondere zu Buchungen, ${INFORMATION_BOOKING_AND_ASSIGNMENTS_SECOND_PART_TEXT}`;
 export const EVIDENCE_QUESTION_WITNESSES_TEXT =
   "Beweis angeboten durch Vernehmung der folgenden Personen als Zeugen:";
-
-export const MARGIN_RIGHT = 10;
 
 export const addMultiplePersonsInfo = (
   doc: typeof PDFDocument,

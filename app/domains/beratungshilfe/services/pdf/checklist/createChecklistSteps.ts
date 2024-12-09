@@ -128,10 +128,11 @@ export const createChecklistSteps = (
               typeof step.value === "string"
                 ? step.value
                 : step.value(Boolean(conditions.courtName)),
-              {
-                indent: pdfStyles.sectionIndented.paddingLeft,
-              },
+              doc.x + pdfStyles.sectionIndented.paddingLeft,
+              doc.y,
             )
+            // workaround, because pdfkit only supports indentation for the first line of a paragraph
+            .text("", doc.x - pdfStyles.sectionIndented.paddingLeft, doc.y)
             .moveDown(1);
         }),
       );
@@ -145,8 +146,15 @@ export const createChecklistSteps = (
             .font(pdfStyles.page.font)
             .list(
               relevantDocuments.map((doc) => doc),
-              { paragraphGap: 8, indent: pdfStyles.list.paddingLeft },
-            );
+              doc.x + pdfStyles.sectionIndented.paddingLeft,
+              doc.y,
+              {
+                paragraphGap: 8,
+                // the value of bulletIdent does not seem to have any effect
+                bulletIndent: pdfStyles.list.paddingLeft,
+              },
+            )
+            .text("", doc.x - pdfStyles.sectionIndented.paddingLeft, doc.y);
         }),
       );
     }
