@@ -18,9 +18,6 @@ export function getStrapiFlowPage(
     pre_form: [],
     post_form: [],
     locale: params.locale ?? "de",
-    createdAt: faker.date.anytime().toISOString(),
-    updatedAt: faker.date.anytime().toISOString(),
-    publishedAt: faker.date.anytime().toISOString(),
     meta: {
       title: faker.lorem.word(),
       breadcrumb: faker.lorem.word(),

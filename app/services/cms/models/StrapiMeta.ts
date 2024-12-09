@@ -6,7 +6,5 @@ export const StrapiMetaSchema = z.object({
   ogTitle: z.string().nullable(),
   breadcrumb: z.string(),
 });
-// technically the object contains an id, but we don't need it
-// .merge(HasOptionalStrapiIdSchema);
 
 export type StrapiMeta = z.infer<typeof StrapiMetaSchema>;

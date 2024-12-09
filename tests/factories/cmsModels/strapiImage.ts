@@ -23,8 +23,6 @@ export function getStrapiImage(): StrapiImage {
         hash: `${name}_${hash}`,
         provider: "aws-s3",
         provider_metadata: null,
-        createdAt: faker.date.past().toISOString(),
-        updatedAt: faker.date.recent().toISOString(),
       },
     },
   };
