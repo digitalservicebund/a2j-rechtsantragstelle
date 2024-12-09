@@ -1,18 +1,13 @@
-import { useLoaderData, useLocation, useParams } from "@remix-run/react";
-import { ValidatedForm } from "remix-validated-form";
+import { useLoaderData, useLocation } from "@remix-run/react";
 import ArraySummary from "~/components/arraySummary/ArraySummary";
 import Background from "~/components/Background";
-import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
 import SummaryDataOverview from "~/domains/fluggastrechte/components/SummaryDataOverview";
-import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
-import { splatFromParams } from "~/services/params";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { validatorForFieldnames } from "~/services/validation/buildStepValidator";
 import type { loader } from "../formular.server";
+import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 
 export function FormFlowPage() {
   const {
@@ -31,10 +26,7 @@ export function FormFlowPage() {
     translations,
     navigationA11yLabels,
   } = useLoaderData<typeof loader>();
-  const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
-  const fieldNames = formElements.map((entry) => entry.name);
-  const validator = validatorForFieldnames(fieldNames, pathname);
 
   return (
     <Background backgroundColor="blue">
@@ -83,22 +75,12 @@ export function FormFlowPage() {
                 csrf={csrf}
               />
             ))}
-          <ValidatedForm
-            id={`${stepId}_form`}
-            method="post"
-            validator={validator}
-            defaultValues={stepData}
-            noValidate
-            action={pathname}
-          >
-            <input type="hidden" name={CSRFKey} value={csrf} />
-            <div className="ds-stack-40">
-              <div className="ds-stack-40">
-                <StrapiFormComponents components={formElements} />
-              </div>
-              <ButtonNavigation {...buttonNavigationProps} />
-            </div>
-          </ValidatedForm>
+          <ValidatedFlowForm
+            stepData={stepData}
+            csrf={csrf}
+            formElements={formElements}
+            buttonNavigationProps={buttonNavigationProps}
+          />
           <PageContent content={postFormContent} fullScreen={false} />
         </div>
       </div>
