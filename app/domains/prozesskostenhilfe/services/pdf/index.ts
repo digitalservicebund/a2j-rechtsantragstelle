@@ -2,6 +2,9 @@ import { PDFDocument } from "pdf-lib";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import { belegeStrings } from "~/domains/prozesskostenhilfe/formular/stringReplacements";
+import { fillZahlungsverpflichtungen } from "~/domains/prozesskostenhilfe/services/pdf/pdfForm/I_zahlungsverpflichtungen";
+import { buildBelegeList } from "~/domains/prozesskostenhilfe/services/pdf/util";
 import type { Metadata } from "~/services/pdf/addMetadataToPdf";
 import { addMetadataToPdf } from "~/services/pdf/addMetadataToPdf";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
@@ -16,6 +19,7 @@ import {
   pdfFromUserData,
   type PDFDocumentBuilder,
 } from "~/services/pdf/pdfFromUserData";
+import type { Translations } from "~/services/translations/getTranslationByKey";
 import loadHinweisblatt from "./loadHinweisblatt";
 import { fillPerson } from "./pdfForm/A_person";
 import { fillRechtsschutzversicherung } from "./pdfForm/B_rechtsschutzversicherung";
@@ -27,7 +31,6 @@ import { fillAbzuege } from "./pdfForm/F_abzuege";
 import { fillEigentum } from "./pdfForm/G_eigentum";
 import { fillGrundvoraussetzungen } from "./pdfForm/grundvoraussetzungen";
 import { fillWohnkosten } from "./pdfForm/H_wohnkosten";
-import { fillZahlungsverpflichtungen } from "./pdfForm/I_zahlungsverpflichtungen";
 import { fillBelastungen } from "./pdfForm/J_belastungen";
 import { fillFooter } from "./pdfForm/K_footer";
 import { printNameInSignatureFormField } from "./printNameInSignatureFormField";
@@ -51,7 +54,7 @@ const METADATA: Metadata = {
 
 const buildProzesskostenhilfePDFDocument: PDFDocumentBuilder<
   ProzesskostenhilfeFormularContext
-> = (doc, documentStruct, userData, attachment) => {
+> = (doc, documentStruct, userData, attachment, translations) => {
   // Attachment holds content of form fields which is too long - output as needed
   createAttachmentPages({
     doc,
@@ -60,11 +63,18 @@ const buildProzesskostenhilfePDFDocument: PDFDocumentBuilder<
     attachment,
     headerText: "Anhang: Antrag auf Bewilligung von Prozesskostenhilfe",
   });
+  if (requiresBelege(userData)) {
+    buildBelegeList({ doc, documentStruct, userData, translations });
+  }
   createFooter(doc, documentStruct, "Anhang");
 };
 
+const requiresBelege = (userData: ProzesskostenhilfeFormularContext) =>
+  Object.values(belegeStrings(userData)).some((val) => val === true);
+
 export async function prozesskostenhilfePdfFromUserdata(
   userData: ProzesskostenhilfeFormularContext,
+  flowTranslations?: Translations,
 ) {
   const { pdfValues, attachment } = pdfFillReducer({
     userData,
@@ -100,11 +110,12 @@ export async function prozesskostenhilfePdfFromUserdata(
     METADATA,
   );
 
-  if (attachment && attachment.length > 0) {
+  if ((attachment && attachment.length > 0) || requiresBelege(userData)) {
     const pdfKitBuffer = await pdfFromUserData(
       userData,
       buildProzesskostenhilfePDFDocument,
       attachment,
+      flowTranslations,
     );
 
     const mainPdfDocument = await PDFDocument.load(pdfKitBuffer);
