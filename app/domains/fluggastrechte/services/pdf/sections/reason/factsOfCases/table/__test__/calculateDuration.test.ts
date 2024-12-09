@@ -8,7 +8,7 @@ describe("calculateDuration", () => {
       endDate: "11.11.2024",
       endTime: "13:01",
     };
-    expect(calculateDuration(input)).toBe("1 Tag\n1 Stunde\n1 Minute");
+    expect(calculateDuration(input)).toBe("1 Tag\n1 Stunde\n1 Minute  ");
   });
 
   it("should calculate the correct duration in days, hours, and minutes (plural)", () => {
@@ -18,7 +18,7 @@ describe("calculateDuration", () => {
       endDate: "12.11.2024",
       endTime: "14:30",
     };
-    expect(calculateDuration(input)).toBe("2 Tage\n2 Stunden\n30 Minuten");
+    expect(calculateDuration(input)).toBe("2 Tage\n2 Stunden\n30 Minuten  ");
   });
 
   it("should handle exactly one day duration", () => {
@@ -58,7 +58,7 @@ describe("calculateDuration", () => {
       endDate: "10.11.2024",
       endTime: "12:45",
     };
-    expect(calculateDuration(input)).toBe("45 Minuten");
+    expect(calculateDuration(input)).toBe("45 Minuten  ");
   });
 
   it("should handle durations over multiple days without hours and minutes", () => {

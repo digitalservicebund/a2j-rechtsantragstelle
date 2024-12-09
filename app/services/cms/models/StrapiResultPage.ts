@@ -20,15 +20,6 @@ export const StrapiResultPageSchema = z
     pageType: StrapiResultPageTypeSchema,
     heading: StrapiHeadingSchema,
     hintText: StrapiParagraphSchema.nullable(),
-    reasonings: z.object({
-      data: z
-        .array(
-          HasStrapiIdSchema.extend({
-            attributes: StrapiElementWithIdSchema,
-          }),
-        )
-        .nullable(),
-    }),
     documents: z.object({
       data: HasStrapiIdSchema.extend({
         attributes: StrapiElementWithIdSchema,

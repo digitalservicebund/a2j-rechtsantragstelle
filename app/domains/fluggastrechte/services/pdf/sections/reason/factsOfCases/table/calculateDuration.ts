@@ -15,6 +15,8 @@ const parseDateTime = (date: string, time: string): Date => {
   return new Date(year, month - 1, day, hour, minute);
 };
 
+const EMPTY_SPACE = "  ";
+
 export function calculateDuration({
   startDate,
   startTime,
@@ -47,7 +49,8 @@ export function calculateDuration({
   const parts: string[] = [];
   if (diffDays > 0) parts.push(`${diffDays} ${dayLabel}`);
   if (diffHours > 0) parts.push(`${diffHours} ${hourLabel}`);
-  if (diffMinutes > 0) parts.push(`${diffMinutes} ${minuteLabel}`);
+  if (diffMinutes > 0)
+    parts.push(`${diffMinutes} ${minuteLabel}${EMPTY_SPACE}`); // add empty space to center text in the pdf column
 
   return parts.join("\n");
 }

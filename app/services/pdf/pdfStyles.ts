@@ -45,6 +45,6 @@ export const pdfStyles = {
     font: fontMap.bold,
   },
   list: {
-    paddingLeft: 23,
+    paddingLeft: 10,
   },
 };

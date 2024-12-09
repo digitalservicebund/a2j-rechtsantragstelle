@@ -8,12 +8,10 @@ import Background from "~/components/Background";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";
-import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
 import type { loader } from "~/routes/shared/result.server";
 import { keyFromElement } from "~/services/cms/keyFromElement";
-import { getInfoBoxItemProps } from "~/services/cms/models/StrapiInfoBoxItem";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
 
 const iconCSS = "inline-block !h-[36px] !w-[36px] !min-h-[36px] !min-w-[36px]";
@@ -64,12 +62,6 @@ export function ResultPage() {
               </div>
             </div>
           </Container>
-
-          {cmsData.reasonings.length > 0 && (
-            <Container paddingBottom="0">
-              <InfoBox items={cmsData.reasonings.map(getInfoBoxItemProps)} />
-            </Container>
-          )}
 
           <Container paddingTop="48" paddingBottom="0">
             <ButtonContainer>
