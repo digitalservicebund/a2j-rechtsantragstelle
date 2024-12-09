@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { StrapiContentComponentSchema } from "./StrapiContentComponent";
@@ -22,7 +21,6 @@ export const StrapiFormFlowPageSchema = z
 
     post_form: z.array(StrapiContentComponentSchema),
   })
-  .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiMetaSchema);
 

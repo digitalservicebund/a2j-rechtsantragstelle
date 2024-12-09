@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { type CookieBannerContentProps } from "~/components/cookieBanner/CookieBanner";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { getHeadingProps, StrapiHeadingSchema } from "./StrapiHeading";
 import { getRichTextProps, StrapiParagraphSchema } from "./StrapiParagraph";
@@ -14,7 +13,6 @@ export const StrapiCookieBannerSchema = z
     cookieSettingLinkText: z.string(),
     cookieSettingLinkUrl: z.string(),
   })
-  .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema);
 
 type StrapiCookieBanner = z.infer<typeof StrapiCookieBannerSchema>;

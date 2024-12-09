@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { type FooterProps } from "~/components/Footer";
 import { omitNull } from "~/util/omitNull";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { StrapiImageSchema, getImageProps } from "./StrapiImage";
 import { StrapiLinkSchema } from "./StrapiLink";
@@ -13,7 +12,6 @@ export const StrapiFooterSchema = z
     paragraphs: z.array(StrapiParagraphSchema),
     links: z.array(StrapiLinkSchema),
   })
-  .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema);
 
 export type StrapiFooter = z.infer<typeof StrapiFooterSchema>;
