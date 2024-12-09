@@ -34,8 +34,6 @@ export const StrapiImageSchema = z.object({
         provider: z.string(),
 
         provider_metadata: z.string().nullable(),
-        createdAt: z.string().datetime({ precision: 3 }),
-        updatedAt: z.string().datetime({ precision: 3 }),
       }),
     })
     .merge(HasOptionalStrapiIdSchema)

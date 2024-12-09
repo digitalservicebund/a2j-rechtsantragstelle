@@ -2,7 +2,6 @@ import { z } from "zod";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
-import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 import { StrapiContentComponentSchema } from "./StrapiContentComponent";
 import { StrapiElementWithIdSchema } from "./StrapiElementWithId";
 import { StrapiFlowIdSchema } from "./StrapiFlowId";
@@ -35,7 +34,6 @@ export const StrapiResultPageSchema = z
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
-  .merge(HasStrapiMetaSchema)
-  .merge(HasStrapiTimestampsSchema);
+  .merge(HasStrapiMetaSchema);
 
 export type StrapiResultPage = z.infer<typeof StrapiResultPageSchema>;
