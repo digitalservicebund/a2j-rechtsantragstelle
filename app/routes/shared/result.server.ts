@@ -7,8 +7,6 @@ import {
   fetchMeta,
   fetchTranslations,
 } from "~/services/cms/index.server";
-import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
-import { isStrapiInfoBoxItem } from "~/services/cms/models/StrapiElementWithId";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getSessionData } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
@@ -61,13 +59,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     stepId,
   });
 
-  const documents = (cmsContent.documents.data?.attributes.element.filter(
-    (el) => !isStrapiInfoBoxItem(el),
-  ) ?? []) as StrapiContentComponent[];
-
-  const nextSteps = (cmsContent.nextSteps.data?.attributes.element.filter(
-    (el) => !isStrapiInfoBoxItem(el),
-  ) ?? []) as StrapiContentComponent[];
+  const documents = cmsContent.documents.data?.attributes.element ?? [];
+  const nextSteps = cmsContent.nextSteps.data?.attributes.element ?? [];
 
   const cmsData = { ...cmsContent, nextSteps, documents };
 
