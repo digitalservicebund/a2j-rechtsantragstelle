@@ -73,7 +73,7 @@ export default function SummaryDataOverview({
           />
           {userData.weiterePersonen.map((person, idx) => {
             const { kontodaten: _kontodaten, ...cedentData } =
-              getPersonData(userData);
+              getPersonData(person);
             const cedentBookingNumber = {
               cedentBookingNumber:
                 !person.buchungsnummer || person.buchungsnummer === ""
