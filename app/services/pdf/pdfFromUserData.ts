@@ -1,6 +1,7 @@
 import type PDFDocument from "pdfkit";
 import type { AllContexts } from "~/domains/common";
 import { createPdfKitDocument } from "~/services/pdf/createPdfKitDocument";
+import type { Translations } from "~/services/translations/getTranslationByKey";
 import type { AttachmentEntries } from "./attachment";
 
 export type PDFDocumentBuilder<TContext extends AllContexts> = (
@@ -8,12 +9,14 @@ export type PDFDocumentBuilder<TContext extends AllContexts> = (
   documentStruct: PDFKit.PDFStructureElement,
   userData: TContext,
   attachment?: AttachmentEntries,
+  translations?: Translations,
 ) => void;
 
 export async function pdfFromUserData<TContext extends AllContexts>(
   userData: TContext,
   buildPDFDocument: PDFDocumentBuilder<TContext>,
   attachment?: AttachmentEntries,
+  translations?: Translations,
 ): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const doc = createPdfKitDocument();
@@ -33,7 +36,7 @@ export async function pdfFromUserData<TContext extends AllContexts>(
     const documentStruct = doc.struct("Document");
     doc.addStructure(documentStruct);
 
-    buildPDFDocument(doc, documentStruct, userData, attachment);
+    buildPDFDocument(doc, documentStruct, userData, attachment, translations);
 
     documentStruct.end();
     doc.end();
