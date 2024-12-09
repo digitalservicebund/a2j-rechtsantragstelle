@@ -1,7 +1,10 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
-import { FONTS_BUNDESSANS_REGULAR } from "~/services/pdf/createPdfKitDocument";
+import {
+  FONTS_BUNDESSANS_REGULAR,
+  PDF_WIDTH_SEIZE,
+} from "~/services/pdf/createPdfKitDocument";
 import { addDistanceInfo } from "./addDistanceInfo";
 import { addMultiplePersonsInfo } from "./addMultiplePersonsInfo";
 import { addOtherDetailsItinerary } from "./addOtherDetailsItinerary";
@@ -27,12 +30,25 @@ export const addCompensationAmount = (
 
       addDistanceInfo(doc, userData);
 
-      addNewPageInCaseMissingVerticalSpace(doc);
+      const demandedCompensationPaymentText =
+        userData.isWeiterePersonen === "no"
+          ? DEMANDED_COMPENSATION_PAYMENT_TEXT
+          : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT;
+
+      const demandedCompensationPaymentTextHeight = doc.heightOfString(
+        demandedCompensationPaymentText,
+        {
+          width: PDF_WIDTH_SEIZE,
+        },
+      );
+
+      addNewPageInCaseMissingVerticalSpace(
+        doc,
+        demandedCompensationPaymentTextHeight,
+      );
 
       doc
-        .text(
-          `${userData.isWeiterePersonen === "no" ? DEMANDED_COMPENSATION_PAYMENT_TEXT : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT}`,
-        )
+        .text(demandedCompensationPaymentText)
         .moveDown(MARGIN_BETWEEN_SECTIONS);
 
       addMultiplePersonsInfo(doc, userData);

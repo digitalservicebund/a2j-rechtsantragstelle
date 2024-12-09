@@ -1,6 +1,9 @@
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { calculateDuration } from "./calculateDuration";
 
+export const NOT_MEASURE_DID_NOT_ARRIVE_TEXT =
+  "Nicht messbar, weil gar nicht angekommen.";
+
 export function getConnectionDetails(userData: FluggastrechtContext) {
   const {
     tatsaechlicherFlug,
@@ -60,7 +63,10 @@ export function getConnectionDetails(userData: FluggastrechtContext) {
       };
     }
     case "keineAnkunft":
-      return { info: "--", timeTable: ["--", "--", "--"] };
+      return {
+        info: NOT_MEASURE_DID_NOT_ARRIVE_TEXT,
+        timeTable: ["--", "--", "--"],
+      };
     default:
       return { info: "error", timeTable: ["error", "error", "error"] };
   }
