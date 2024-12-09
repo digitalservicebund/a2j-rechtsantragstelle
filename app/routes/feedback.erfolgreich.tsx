@@ -1,4 +1,5 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
@@ -9,7 +10,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { searchParams } = new URL(request.url);
   const url = searchParams.get("url") ?? "";
   const { content, meta } = await strapiPageFromRequest({ request });
-  return { content, meta, url };
+  return json({ content, meta, url });
 };
 
 export default function Index() {
