@@ -154,6 +154,16 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "off",
+
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            "Literal[value=/(a\u0308)|(o\u0308)|(u\u0308)|(A\u0308)|(O\u0308)|(U\u0308)/]",
+          message:
+            "German umlauts must be written as NFC (normalized form canonical composition) and not NFD (normalized form canonical decomposition). E.g. use 'ä' instead of tha character 'a' followd by the combining diacritical marks ' ̈'.",
+        },
+      ],
     },
   },
   // Vitest
