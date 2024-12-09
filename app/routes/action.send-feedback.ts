@@ -3,7 +3,7 @@ import { redirect } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
 import { BannerState, USER_FEEDBACK_ID } from "~/components/userFeedback";
 import { feedbackValidator } from "~/components/userFeedback/FeedbackFormBox";
-import { userRatingFieldName } from "~/components/userFeedback/RatingBox";
+import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getRedirectForNonRelativeUrl } from "~/services/feedback/getRedirectForNonRelativeUrl";
@@ -27,7 +27,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(request.headers.get("Cookie"));
   const userRatingsWasHelpful =
-    (session.get(userRatingFieldName) as Record<string, boolean>) ?? {};
+    (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
 
   updateBannerState(session, BannerState.FeedbackGiven, url);
   const headers = { "Set-Cookie": await commitSession(session) };
