@@ -15,7 +15,7 @@ describe("getConnectionDetails", () => {
     };
     const result = getConnectionDetails(userData);
     expect(result).toEqual({
-      info: "3 Stunden\n30 Minuten",
+      info: "3 Stunden\n30 Minuten  ",
       timeTable: ["--", "--", "10.11.2024, 15:30"],
     });
   });
@@ -31,7 +31,7 @@ describe("getConnectionDetails", () => {
     };
     const result = getConnectionDetails(userData);
     expect(result).toEqual({
-      info: "3 Stunden\n30 Minuten",
+      info: "3 Stunden\n30 Minuten  ",
       timeTable: ["AB123", "--", "10.11.2024, 15:30"],
     });
   });
@@ -46,7 +46,7 @@ describe("getConnectionDetails", () => {
     };
     const result = getConnectionDetails(userData);
     expect(result).toEqual({
-      info: "2 Stunden\n30 Minuten",
+      info: "2 Stunden\n30 Minuten  ",
       timeTable: ["--", "--", "10.11.2024, 14:30"],
     });
   });
