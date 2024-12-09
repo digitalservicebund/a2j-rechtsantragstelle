@@ -21,7 +21,10 @@ describe("createChecklistPage", () => {
       1,
       "Merkblatt: Antrag auf Bewilligung von Beratungshilfe von Luca Mustermensch",
     );
-    expect(mockPDFDocument.text).toHaveBeenNthCalledWith(2, "Anhang");
+    expect(mockPDFDocument.text).toHaveBeenNthCalledWith(
+      2,
+      "Ihre nächsten Schritte",
+    );
     expect(mockPDFDocument.text).toHaveBeenNthCalledWith(
       3,
       "So schicken Sie den Antrag ins Amtsgericht",
@@ -42,7 +45,10 @@ describe("createChecklistPage", () => {
       1,
       "Merkblatt: Antrag auf Bewilligung von Beratungshilfe von Luca Mustermensch",
     );
-    expect(mockPDFDocument.text).toHaveBeenNthCalledWith(2, "Anhang");
+    expect(mockPDFDocument.text).toHaveBeenNthCalledWith(
+      2,
+      "Ihre nächsten Schritte",
+    );
     expect(mockPDFDocument.text).toHaveBeenNthCalledWith(
       3,
       "So stellen Sie den Antrag online",
