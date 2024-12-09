@@ -1,10 +1,10 @@
 import type { ActionFunctionArgs, Session, SessionData } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { withZod } from "@remix-validated-form/with-zod";
 import { validationError } from "remix-validated-form";
 import { z } from "zod";
 import { BannerState, USER_FEEDBACK_ID } from "~/components/userFeedback";
-import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
+import { userRatingFieldName } from "~/components/userFeedback/RatingBox";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getRedirectForNonRelativeUrl } from "~/services/feedback/getRedirectForNonRelativeUrl";
@@ -13,15 +13,15 @@ import { getSessionManager } from "~/services/session.server";
 
 export const loader = () => redirect("/");
 
-const updateRatingWasHepful = (
+const updateRatingWasHelpful = (
   session: Session<SessionData, SessionData>,
   wasHelpful: "yes" | "no",
   url: string,
 ) => {
   const userRatingsWasHelpful =
-    (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
+    (session.get(userRatingFieldName) as Record<string, boolean>) ?? {};
   userRatingsWasHelpful[url] = wasHelpful === "yes";
-  session.set(userRatingFieldname, userRatingsWasHelpful);
+  session.set(userRatingFieldName, userRatingsWasHelpful);
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -40,7 +40,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(request.headers.get("Cookie"));
-  updateRatingWasHepful(session, data.wasHelpful, url);
+  updateRatingWasHelpful(session, data.wasHelpful, url);
   updateBannerState(session, BannerState.ShowFeedback, url);
   const headers = { "Set-Cookie": await commitSession(session) };
 
@@ -57,6 +57,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
 
   return clientJavaScriptAvailable
-    ? json({ success: true }, { headers })
+    ? new Response(null, { headers })
     : redirect(`${url}#${USER_FEEDBACK_ID}`, { headers });
 };
