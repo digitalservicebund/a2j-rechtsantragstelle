@@ -20,6 +20,7 @@ describe("FeedbackFormBox", () => {
           "placeholder-feedback": "placeholder",
         } satisfies Record<FeedbackTranslationKeys, string>,
         video: {},
+        accessibility: {},
       }),
       [],
     );
