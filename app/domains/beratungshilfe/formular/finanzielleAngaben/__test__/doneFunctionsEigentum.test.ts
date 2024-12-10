@@ -1,5 +1,5 @@
 import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
-import { bankKontoDone } from "~/domains/shared/finanzielleAngaben/doneFunctions";
+import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import {
   geldanlagenDone,
   grundeigentumDone,
@@ -538,7 +538,6 @@ describe("kraftfahrzeugeDone", () => {
               kilometerstand: 20000,
               anschaffungsjahr: "1990",
               baujahr: "1990",
-              bemerkung: "bemerkung",
               hasArbeitsweg: "yes",
               wert: "under10000",
             },

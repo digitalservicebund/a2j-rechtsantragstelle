@@ -1,4 +1,4 @@
-import type { AbgabeContext } from "~/domains/shared/abgabe/context";
+import type { AbgabeContext } from "~/domains/shared/formular/abgabe/context";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { beratungshilfeAbgabeGuards } from "./guards";
 

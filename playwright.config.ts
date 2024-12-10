@@ -22,13 +22,13 @@ const baseURL = useDefaultBaseUrl
 export default defineConfig({
   testDir: "./tests/e2e",
   /* Maximum time one test can run for. */
-  timeout: 5 * 60 * 1000,
+  timeout: 2 * 60 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
      * For example in `await expect(locator).toHaveText();`
      */
-    timeout: 5 * 1000,
+    timeout: 2 * 1000,
   },
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -58,6 +58,12 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
+    {
+      name: "Mobile Android",
+      use: { ...devices["Galaxy S8"] },
+      // Already covered in primary device tests
+      testIgnore: ["**/accessibilityScans.spec.ts", "**/csrf.spec.ts"],
+    },
   ],
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
@@ -74,7 +80,7 @@ export default defineConfig({
             reuseExistingServer: !process.env.CI,
           },
           {
-            command: "npm run dev",
+            command: "npm run build:app && npm run start",
             url: "http://localhost:3000/",
             reuseExistingServer: !process.env.CI,
           },

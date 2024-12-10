@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import InfoBox, { InfoBoxPropsSchema } from "~/components/InfoBox";
+import InfoBox from "~/components/InfoBox";
 
 const mockInfoBoxItems = [
   {
@@ -28,11 +28,7 @@ describe("InfoBox", () => {
     expect(screen.getByRole("list")).toHaveClass("ds-stack-48");
   });
   it("has expected padding when the separator is unset", () => {
-    const infoBoxProps = InfoBoxPropsSchema.parse({
-      items: mockInfoBoxItems,
-    });
-
-    render(<InfoBox {...infoBoxProps} />);
+    render(<InfoBox items={mockInfoBoxItems} />);
     expect(screen.getByRole("list")).toHaveClass("ds-stack-32");
   });
 });

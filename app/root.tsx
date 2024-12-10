@@ -1,5 +1,4 @@
 import type {
-  HeadersFunction,
   LinksFunction,
   LoaderFunctionArgs,
   MetaFunction,
@@ -8,19 +7,20 @@ import { json } from "@remix-run/node";
 import {
   Links,
   Meta,
-  Outlet,
   Scripts,
   ScrollRestoration,
   useLoaderData,
   useMatches,
   useRouteLoaderData,
   useRouteError,
+  Outlet,
 } from "@remix-run/react";
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
+import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import {
@@ -30,6 +30,7 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { config as configWeb } from "~/services/env/web";
+import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
@@ -44,20 +45,15 @@ import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
-import { extractTranslations } from "./services/translations/getTranslationByKey";
+import {
+  extractTranslations,
+  getTranslationByKey,
+} from "./services/translations/getTranslationByKey";
 import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
+export { headers } from "./rootHeaders";
 
-export const headers: HeadersFunction = ({ loaderHeaders }) => ({
-  "X-Frame-Options": "SAMEORIGIN",
-  "X-Content-Type-Options": "nosniff",
-  "Referrer-Policy": "strict-origin-when-cross-origin",
-  "Permissions-Policy":
-    "accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()",
-  ...(loaderHeaders.get("shouldAddCacheControl") === "true" && {
-    "Cache-Control": "no-store",
-  }),
-});
+const SKIP_TO_CONTENT_TRANSLATION_KEY = "skip-to-content";
 
 const consoleMessage = `Note: Your browser console might be reporting several errors with the Permission-Policy header.
 We are actively disabling all permissions as recommended by https://owasp.org/www-project-secure-headers/#div-bestpractices
@@ -65,24 +61,14 @@ We are actively disabling all permissions as recommended by https://owasp.org/ww
 Interested in working with us? Reach out https://digitalservice.bund.de/en/career`;
 
 export const links: LinksFunction = () => [
-  {
-    rel: "preload",
-    as: "font",
-    type: "font/woff2",
-    href: "/fonts/BundesSansWeb-Regular.woff2",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "preload",
-    as: "font",
-    type: "font/woff2",
-    href: "/fonts/BundesSansWeb-Bold.woff2",
-    crossOrigin: "anonymous",
-  },
   { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
   { rel: "manifest", href: "/site.webmanifest" },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css?family=Fira+Sans|Noto+Sans|Roboto",
+  },
 ];
 
 export const meta: MetaFunction<RootLoader> = () => {
@@ -112,7 +98,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     feedbackTranslations,
     pageHeaderTranslations,
     videoTranslations,
+    accessibilityTranslations,
     mainSession,
+    showKopfzeile,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
     fetchSingleEntry("footer"),
@@ -125,7 +113,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("feedback"),
     fetchTranslations("pageHeader"),
     fetchTranslations("video"),
+    fetchTranslations("accessibility"),
     mainSessionFromCookieHeader(cookieHeader),
+    isFeatureFlagEnabled("showKopfzeile"),
   ]);
 
   const shouldAddCacheControl = shouldSetCacheControlHeader(
@@ -138,6 +128,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       header: {
         ...getPageHeaderProps(strapiHeader),
         hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
+        showKopfzeile,
       },
       footer: getFooterProps(strapiFooter),
       cookieBannerContent: cookieBannerContent,
@@ -151,10 +142,11 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       hasAnyUserData,
       feedbackTranslations,
       pageHeaderTranslations: extractTranslations(
-        ["leichtesprache", "gebaerdensprache"],
+        ["leichtesprache", "gebaerdensprache", "mainNavigationAriaLabel"],
         pageHeaderTranslations,
       ),
       videoTranslations,
+      accessibilityTranslations,
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
     },
@@ -173,17 +165,34 @@ function App() {
     feedbackTranslations,
     pageHeaderTranslations,
     videoTranslations,
+    accessibilityTranslations,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
+  const [skipToContentLinkTarget, setSkipToContentLinkTarget] =
+    useState("#main");
 
   // eslint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
 
+  /**
+   * Need to set focus to inside the form flow for screen reader convenience.
+   * Calls to `document` must happen within useEffect, as this hook is never rendered on the server-side
+   */
+  useEffect(() => {
+    if (document.getElementById("form-flow-page-content")) {
+      setSkipToContentLinkTarget("#form-flow-page-content");
+    }
+  }, []);
+
   const translationMemo = useMemo(
-    () => ({ video: videoTranslations, feedback: feedbackTranslations }),
-    [videoTranslations, feedbackTranslations],
+    () => ({
+      video: videoTranslations,
+      feedback: feedbackTranslations,
+      accessibility: accessibilityTranslations,
+    }),
+    [videoTranslations, feedbackTranslations, accessibilityTranslations],
   );
 
   return (
@@ -201,15 +210,26 @@ function App() {
           }}
         />
         <Meta />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Fira+Sans|Noto+Sans|Roboto"
+        ></link>
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
         <CookieConsentContext.Provider value={hasTrackingConsent}>
+          <SkipToContentLink
+            label={getTranslationByKey(
+              SKIP_TO_CONTENT_TRANSLATION_KEY,
+              accessibilityTranslations,
+            )}
+            target={skipToContentLinkTarget}
+          />
           <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
           <Header {...header} translations={pageHeaderTranslations} />
-          <Breadcrumbs breadcrumbs={breadcrumbs} />
+          <Breadcrumbs breadcrumbs={breadcrumbs} linkLabel={header.linkLabel} />
           <TranslationContext.Provider value={translationMemo}>
-            <main className="flex-grow">
+            <main className="flex-grow" id="main">
               <Outlet />
             </main>
           </TranslationContext.Provider>

@@ -1,14 +1,15 @@
+import omit from "lodash/omit";
 import { z } from "zod";
 import {
   adresseSchema,
   namePrivatPerson,
   persoenlicheDaten as sharedPersoenlicheDaten,
-} from "~/domains/shared/persoenlicheDaten/context";
+  telefonnummer,
+} from "~/domains/shared/formular/persoenlicheDaten/context";
 import {
   checkedOptional,
   checkedRequired,
 } from "~/services/validation/checkedCheckbox";
-import { emailSchema } from "~/services/validation/email";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
@@ -20,7 +21,7 @@ import {
 } from "~/services/validation/YesNoAnswer";
 
 const persoenlicheDaten = {
-  ...sharedPersoenlicheDaten,
+  ...omit(sharedPersoenlicheDaten, ["anrede"]),
   bevollmaechtigtePerson: z.enum(
     ["lawyer", "yes", "no"],
     customRequiredErrorMessage,
@@ -61,11 +62,11 @@ export const context = {
           beschreibung: stringRequiredSchema,
           person: z
             .object({
-              ...persoenlicheDaten,
-              email: z.union([emailSchema, z.literal("")]),
+              ...adresseSchema,
+              telefonnummer,
             })
             .partial(),
-          zeuge: z.object(namePrivatPerson).partial(),
+          zeuge: z.object(omit(namePrivatPerson, "anrede")).partial(),
         })
         .partial(),
       forderung2: z

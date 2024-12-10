@@ -1,0 +1,29 @@
+{
+  "id": "prozessfuehrung",
+  "initial": "videoverhandlung",
+  "states": {
+    "videoverhandlung": {
+      "on": {
+        "SUBMIT": "versaeumnisurteil",
+        "BACK": "#persoenliche-daten.weitere-personen.zeugen"
+      }
+    },
+    "versaeumnisurteil": {
+      "on": {
+        "SUBMIT": "zahlung-nach-klageeinreichung",
+        "BACK": "videoverhandlung"
+      }
+    },
+    "zahlung-nach-klageeinreichung": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "#zusammenfassung.start",
+            "guard": "prozessfuehrungDone"
+          }
+        ],
+        "BACK": "versaeumnisurteil"
+      }
+    }
+  }
+}

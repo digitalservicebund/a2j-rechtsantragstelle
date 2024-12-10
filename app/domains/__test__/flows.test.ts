@@ -16,6 +16,7 @@ import { testCasesFluggastrechteFormularFlugdatenNichtBefoerderung } from "~/dom
 import { testCasesFluggastrechteFormularFlugdatenVerspaetet } from "~/domains/fluggastrechte/formular/flugdaten/__test__/testscasesVerspaetet";
 import { testCasesFluggastrechteFormularGrundvoraussetzungen } from "~/domains/fluggastrechte/formular/grundvoraussetzungen/__test__/testcases";
 import { testCasesFluggastrechteFormularPersoenlicheDaten } from "~/domains/fluggastrechte/formular/persoenlicheDaten/__test__/testcases";
+import { testCasesFluggastrechteFormularProzessfuehrung } from "~/domains/fluggastrechte/formular/prozessfuehrung/__test__/testcases";
 import { testCasesFluggastrechteFormularStreitwertKosten } from "~/domains/fluggastrechte/formular/streitwertKosten/__test__/testscases";
 import { testCasesFluggastrechteAnnullierungAbbruch } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesAnnullierungAbbruch";
 import { testCasesFluggastrechteErfolg } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesErfolg";
@@ -68,8 +69,8 @@ function getEnabledSteps({
  * - system under test should be in a certain state (step)
  */
 
-describe("state machine form flows", () => {
-  [
+describe("flow tests", () => {
+  const testCases = {
     testCasesBeratungshilfe,
     testCasesGeldEinklagen,
     testCasesFluggastrechteFormularFlugdatenNichtBefoerderung,
@@ -100,32 +101,25 @@ describe("state machine form flows", () => {
     testCasesFluggastrechteErfolg,
     testCasesFluggastrechteErfolgEU,
     testcasesFluggastrechteErfolgAnalog,
-  ].forEach(({ machine, cases }) => {
-    test.each([...cases])(
-      "SUBMIT (%#) given context: %j, visits steps: %j",
-      (context, steps) => {
-        const actualSteps = getEnabledSteps({
-          machine,
-          context,
-          transitionType: "SUBMIT",
-          steps,
-        });
-        expect(actualSteps).toEqual(steps);
-      },
-    );
+    testCasesFluggastrechteFormularProzessfuehrung,
+  } as const;
+  const transitionTypes = ["SUBMIT", "BACK"] as const;
 
-    test.each([...cases])(
-      "BACK (%#) given context: %j, visits steps: %j",
-      (context, steps) => {
-        const expectedSteps = [...steps].reverse();
+  describe.each(Object.entries(testCases))("%s", (_, { machine, cases }) => {
+    describe.each([...cases])("[%#]", (context, steps) => {
+      test.each(transitionTypes)("%s", (transitionType) => {
+        const expectedSteps =
+          transitionType === "SUBMIT" ? steps : [...steps].reverse();
+
         const actualSteps = getEnabledSteps({
           machine,
           context,
-          transitionType: "BACK",
+          transitionType,
           steps: expectedSteps,
         });
+
         expect(actualSteps).toEqual(expectedSteps);
-      },
-    );
+      });
+    });
   });
 });

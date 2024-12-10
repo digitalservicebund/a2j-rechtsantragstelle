@@ -3,7 +3,7 @@ import { type CookieBannerContentProps } from "~/components/cookieBanner/CookieB
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
-import { StrapiHeadingSchema } from "./StrapiHeading";
+import { getHeadingProps, StrapiHeadingSchema } from "./StrapiHeading";
 import { getRichTextProps, StrapiParagraphSchema } from "./StrapiParagraph";
 
 export const StrapiCookieBannerSchema = z
@@ -12,8 +12,8 @@ export const StrapiCookieBannerSchema = z
     paragraphs: z.array(StrapiParagraphSchema),
     acceptButtonLabel: z.string(),
     declineButtonLabel: z.string(),
-    cookieSettingLinkText: z.string().nullable(),
-    cookieSettingLinkUrl: z.string().nullable(),
+    cookieSettingLinkText: z.string(),
+    cookieSettingLinkUrl: z.string(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
@@ -25,12 +25,11 @@ export const getCookieBannerProps = (
   cmsData: StrapiCookieBanner,
 ): CookieBannerContentProps => {
   return {
-    heading: getRichTextProps(cmsData.heading),
+    heading: getHeadingProps(cmsData.heading)!,
     paragraphs: cmsData.paragraphs.map((p) => getRichTextProps(p)),
     acceptButtonLabel: cmsData.acceptButtonLabel,
     declineButtonLabel: cmsData.declineButtonLabel,
-    // TODO: mark both fields as required in strapi
-    cookieSettingLinkText: cmsData.cookieSettingLinkText ?? "",
-    cookieSettingLinkUrl: cmsData.cookieSettingLinkUrl ?? "",
+    cookieSettingLinkText: cmsData.cookieSettingLinkText,
+    cookieSettingLinkUrl: cmsData.cookieSettingLinkUrl,
   };
 };

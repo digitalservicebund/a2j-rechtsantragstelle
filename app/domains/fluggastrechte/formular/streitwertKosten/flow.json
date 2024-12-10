@@ -10,26 +10,19 @@
     },
     "andere-kosten": {
       "on": {
-        "SUBMIT": "zahlung-nach-klageeinreichung",
-        "BACK": "gerichtskosten"
-      }
-    },
-    "zahlung-nach-klageeinreichung": {
-      "on": {
         "SUBMIT": "prozesszinsen",
-        "BACK": "andere-kosten"
+        "BACK": "gerichtskosten"
       }
     },
     "prozesszinsen": {
       "on": {
-        "SUBMIT": "versaeumnisurteil",
-        "BACK": "zahlung-nach-klageeinreichung"
-      }
-    },
-    "versaeumnisurteil": {
-      "on": {
-        "SUBMIT": "#flugdaten.geplanter-flug",
-        "BACK": "prozesszinsen"
+        "SUBMIT": [
+          {
+            "target": "#flugdaten.geplanter-flug",
+            "guard": "streitwertKostenDone"
+          }
+        ],
+        "BACK": "andere-kosten"
       }
     }
   }

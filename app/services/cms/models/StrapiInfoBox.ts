@@ -1,11 +1,10 @@
 import { z } from "zod";
-import { InfoBoxPropsSchema } from "~/components/InfoBox";
-import { omitNull } from "~/util/omitNull";
+import type { InfoBoxProps } from "~/components/InfoBox";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
-import { StrapiHeadingSchema } from "./StrapiHeading";
+import { getHeadingProps, StrapiHeadingSchema } from "./StrapiHeading";
 import {
   StrapiInfoBoxItemSchema,
   getInfoBoxItemProps,
@@ -32,7 +31,9 @@ export type StrapiInfoBoxComponent = z.infer<
   typeof StrapiInfoBoxComponentSchema
 >;
 
-export const getInfoBoxProps = (cmsData: StrapiInfoBox) => {
-  const items = cmsData.items.map(getInfoBoxItemProps);
-  return InfoBoxPropsSchema.parse(omitNull({ ...cmsData, items }));
-};
+export const getInfoBoxProps = (cmsData: StrapiInfoBox): InfoBoxProps => ({
+  identifier: cmsData.identifier ?? undefined,
+  heading: getHeadingProps(cmsData.heading),
+  items: cmsData.items.map(getInfoBoxItemProps),
+  separator: cmsData.separator ?? undefined,
+});

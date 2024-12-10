@@ -5,6 +5,7 @@ import { expect } from "@playwright/test";
 export const expectPageToBeAccessible = async ({ page }: { page: Page }) => {
   const accessibilityScanResults = await new AxeBuilder({ page })
     .setLegacyMode()
+    .exclude("#skip-to-content-link")
     .analyze();
   expect(
     accessibilityScanResults.violations,

@@ -1,6 +1,5 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { getReasonsToDisplay } from "~/domains/common";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import {
@@ -17,6 +16,7 @@ import { interpolateSerializableObject } from "~/util/fillTemplate";
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const { flowId, stepId } = parsePathname(pathname);
+  const cmsStepId = stepId.replace("ergebnis/", "");
   const cookieHeader = request.headers.get("Cookie");
 
   const { userData, debugId } = await getSessionData(flowId, cookieHeader);
@@ -34,10 +34,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     return redirect(flowController.getInitial());
 
   const [resultPageContent, parentMeta, defaultStrings] = await Promise.all([
-    fetchFlowPage("result-pages", flowId, stepId.replace("ergebnis/", "")),
-    fetchMeta({
-      filterValue: pathname.substring(0, pathname.lastIndexOf("/")),
-    }),
+    fetchFlowPage("result-pages", flowId, cmsStepId),
+    fetchMeta({ filterValue: flowId }),
     fetchTranslations("defaultTranslations"),
   ]);
 
@@ -47,9 +45,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       ? currentFlow.stringReplacements(userData)
       : {},
   );
-
-  const reasonElementsWithID =
-    cmsContent.reasonings.data?.map((el) => el.attributes) ?? [];
 
   const { back: backButton } = getButtonNavigationProps({
     backButtonLabel: defaultStrings["backButtonDefaultLabel"],
@@ -64,14 +59,16 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     stepId,
   });
 
+  const documents = cmsContent.documents.data?.attributes.element ?? [];
+  const nextSteps = cmsContent.nextSteps.data?.attributes.element ?? [];
+
+  const cmsData = { ...cmsContent, nextSteps, documents };
+
   return json(
     {
       flowId,
       common: defaultStrings,
-      cmsData: cmsContent,
-      reasons: reasonElementsWithID.filter((reason) =>
-        Boolean(getReasonsToDisplay(userData)[reason.elementId]),
-      ),
+      cmsData,
       meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
       backButton,
     },

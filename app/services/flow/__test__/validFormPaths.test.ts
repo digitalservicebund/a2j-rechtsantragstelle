@@ -15,11 +15,11 @@ describe("validFormPaths", () => {
     ).toStrictEqual([
       {
         stepIds: [
-          "start/start",
-          "grundvoraussetzungen/start",
-          "grundvoraussetzungen/rechtsschutzversicherung",
-          "grundvoraussetzungen/wurde-verklagt",
-          "grundvoraussetzungen/wurde-verklagt-hinweis",
+          "/start/start",
+          "/grundvoraussetzungen/start",
+          "/grundvoraussetzungen/rechtsschutzversicherung",
+          "/grundvoraussetzungen/wurde-verklagt",
+          "/grundvoraussetzungen/wurde-verklagt-hinweis",
         ],
       },
     ]);
@@ -67,13 +67,13 @@ describe("validFormPaths", () => {
 
       expect(validPaths[1]).toStrictEqual({
         stepIds: [
-          "finanzielle-angaben/eigentum-zusammenfassung/bankkonten/daten",
+          "/finanzielle-angaben/eigentum-zusammenfassung/bankkonten/daten",
         ],
         arrayIndex: 0,
       });
       expect(validPaths[2]).toStrictEqual({
         stepIds: [
-          "finanzielle-angaben/eigentum-zusammenfassung/bankkonten/daten",
+          "/finanzielle-angaben/eigentum-zusammenfassung/bankkonten/daten",
         ],
         arrayIndex: 1,
       });

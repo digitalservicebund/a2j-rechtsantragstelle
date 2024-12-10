@@ -49,7 +49,7 @@ function partitionPagesByFlowId(pages: MinimalPage[]) {
   return partition(pages, (page) => page.attributes.flow_ids.data.length > 0);
 }
 
-async function unusedStrapiEntry() {
+function unusedStrapiEntry() {
   let content: StrapiSchemas | undefined = undefined;
   try {
     content = strapiFileSchema.parse(
@@ -82,8 +82,7 @@ async function unusedStrapiEntry() {
       console.log("No entries without stepIds ✅");
     }
 
-    const [_pagesWithFlowIds, pagesWithoutFlowIds] =
-      partitionPagesByFlowId(pages);
+    const [, pagesWithoutFlowIds] = partitionPagesByFlowId(pages);
 
     if (pagesWithoutFlowIds.length > 0) {
       console.warn(
@@ -106,6 +105,7 @@ async function unusedStrapiEntry() {
 
     console.log(
       `Found ${unusedUrls.length} unused strapi entries with following stepIds: `,
+      // eslint-disable-next-line sonarjs/no-misleading-array-reverse, sonarjs/no-alphabetical-sort
       unusedUrls.sort(),
     );
   }

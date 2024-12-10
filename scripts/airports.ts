@@ -3,7 +3,7 @@ import fs from "fs";
 import { getName } from "i18n-iso-countries";
 import uniqBy from "lodash/uniqBy";
 import { z } from "zod";
-import type { Airport } from "~/services/airports/type";
+import type { Airport } from "~/domains/fluggastrechte/services/airports/type";
 
 const FILE_PATH_AIRPORTS_DATA = "data/airports/data.json";
 const GERMAN_LOCALE = "de";
@@ -165,4 +165,4 @@ async function fetchAndSaveAirports() {
   console.log(`${FILE_PATH_AIRPORTS_DATA} written correctly`);
 }
 
-fetchAndSaveAirports();
+await fetchAndSaveAirports();

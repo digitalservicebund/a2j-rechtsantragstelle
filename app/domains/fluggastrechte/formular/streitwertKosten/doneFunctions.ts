@@ -5,5 +5,5 @@ import type { FluggastrechtContext } from "../context";
 export const streitwertKostenDone: GenericGuard<FluggastrechtContext> = ({
   context,
 }) => {
-  return objectKeysNonEmpty(context, ["versaeumnisurteil", "prozesszinsen"]);
+  return objectKeysNonEmpty(context, ["prozesszinsen"]);
 };

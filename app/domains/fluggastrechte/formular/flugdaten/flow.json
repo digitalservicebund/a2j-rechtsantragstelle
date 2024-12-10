@@ -23,7 +23,7 @@
           },
           "ersatzverbindung-art"
         ],
-        "BACK": "#streitwert-kosten.versaeumnisurteil"
+        "BACK": "#streitwert-kosten.prozesszinsen"
       }
     },
     "zwischenstopp-uebersicht-1": {
@@ -217,7 +217,12 @@
     },
     "zusaetzliche-angaben": {
       "on": {
-        "SUBMIT": "#persoenliche-daten.person.daten",
+        "SUBMIT": [
+          {
+            "target": "#persoenliche-daten.person.daten",
+            "guard": "flugdatenDone"
+          }
+        ],
         "BACK": [
           {
             "target": "tatsaechlicher-flug-ankunft",

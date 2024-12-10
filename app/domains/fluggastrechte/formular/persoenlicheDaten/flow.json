@@ -1,12 +1,7 @@
 {
   "id": "persoenliche-daten",
-  "initial": "start",
+  "initial": "person",
   "states": {
-    "start": {
-      "on": {
-        "SUBMIT": "person"
-      }
-    },
     "person": {
       "id": "person",
       "initial": "daten",
@@ -65,7 +60,12 @@
               },
               "#weitere-personen.frage"
             ],
-            "SUBMIT": "#zusammenfassung.start"
+            "SUBMIT": [
+              {
+                "guard": "persoenlichenDatenDone",
+                "target": "#prozessfuehrung.videoverhandlung"
+              }
+            ]
           }
         }
       }

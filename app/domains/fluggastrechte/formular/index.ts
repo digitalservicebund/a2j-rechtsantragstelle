@@ -1,7 +1,7 @@
 import merge from "lodash/merge";
 import type { AllContextKeys } from "~/domains/common";
 import type { Flow } from "~/domains/flows.server";
-import type { ArrayConfig } from "~/services/array";
+import type { ArrayConfigServer } from "~/services/array";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import abgabeFlow from "./abgabe/flow.json";
 import type { FluggastrechtContext } from "./context";
@@ -15,17 +15,23 @@ import {
   weiterePersonenDone,
 } from "./persoenlicheDaten/doneFunctions";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
+import { prozessfuehrungDone } from "./prozessfuehrung/doneFunctions";
+import prozessfuehrungFlow from "./prozessfuehrung/flow.json";
+import { isTotalClaimWillSucceddedAboveLimit } from "./services/isTotalClaimAboveLimit";
 import { streitwertKostenDone } from "./streitwertKosten/doneFunctions";
 import streitwertKostenFlow from "./streitwertKosten/flow.json";
 import {
   getAirlineName,
+  getAnnullierungInfo,
   getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
   getFirstZwischenstoppAirportName,
   getPersonNachname,
   getPersonVorname,
+  getResponsibleCourt,
   getSecondZwischenstoppAirportName,
   getStartAirportName,
+  getStreitwert,
   getThirdZwischenstoppAirportName,
   getWeiterePersonenNameStrings,
   isAnnullierung,
@@ -37,7 +43,7 @@ import zusammenfassungFlow from "./zusammenfassung/flow.json";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
-  eligibleSourcePages: ["ergebnis/erfolg"],
+  eligibleSourcePages: ["/ergebnis/erfolg"],
 };
 
 export const fluggastrechtFlow = {
@@ -55,6 +61,7 @@ export const fluggastrechtFlow = {
       "ersatzflugLandenZweiStunden",
       "ersatzflugStartenZweiStunden",
       "ersatzflugLandenVierStunden",
+      "entschaedigung",
     ],
     buttonUrl: "/fluggastrechte/vorabcheck/start",
   },
@@ -69,10 +76,15 @@ export const fluggastrechtFlow = {
     ...getFirstZwischenstoppAirportName(context),
     ...getSecondZwischenstoppAirportName(context),
     ...getThirdZwischenstoppAirportName(context),
+    ...getResponsibleCourt(context),
     ...isVerspaetet(context),
     ...isNichtBefoerderung(context),
     ...isAnnullierung(context),
     ...isWeiterePersonen(context),
+    ...getStreitwert(context),
+    ...getAnnullierungInfo(context),
+    isClaimWillSucceddedAboveLimit:
+      isTotalClaimWillSucceddedAboveLimit(context),
   }),
   config: {
     meta: {
@@ -83,8 +95,9 @@ export const fluggastrechtFlow = {
           statementKey: "isWeiterePersonen",
           hiddenFields: ["anrede", "title"],
           event: "add-weiterePersonen",
+          shouldDisableAddButton: isTotalClaimWillSucceddedAboveLimit,
         },
-      } satisfies Partial<Record<AllContextKeys, ArrayConfig>>,
+      } satisfies Partial<Record<AllContextKeys, ArrayConfigServer>>,
     },
     id: "/fluggastrechte/formular",
     initial: "intro",
@@ -115,6 +128,9 @@ export const fluggastrechtFlow = {
           person: { meta: { done: personDone } },
           "weitere-personen": { meta: { done: weiterePersonenDone } },
         },
+      }),
+      prozessfuehrung: merge(prozessfuehrungFlow, {
+        meta: { done: prozessfuehrungDone },
       }),
       zusammenfassung: merge(zusammenfassungFlow, {
         meta: { done: () => false },

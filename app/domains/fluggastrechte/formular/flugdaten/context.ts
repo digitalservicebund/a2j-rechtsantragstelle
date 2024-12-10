@@ -4,7 +4,6 @@ import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFl
 import { createDateSchema } from "~/services/validation/date";
 import { flightNumberSchema } from "~/services/validation/flightNumber";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
 import {
   customRequiredErrorMessage,
@@ -50,10 +49,8 @@ export const fluggastrechteFlugdaten = {
   ersterZwischenstopp: airportSchema,
   zweiterZwischenstopp: airportSchema,
   dritterZwischenstopp: airportSchema,
-  vierterZwischenstopp: airportSchema,
-  fuenfterZwischenstopp: airportSchema,
   bereich: stringOptionalSchema,
-  andereErsatzverbindungBeschreibung: stringRequiredSchema,
+  andereErsatzverbindungBeschreibung: stringOptionalSchema,
   andereErsatzverbindungAnkunftsDatum: fourYearsAgoSchema,
   andereErsatzverbindungAnkunftsZeit: timeSchema,
   ersatzFlugnummer: flightNumberSchema,

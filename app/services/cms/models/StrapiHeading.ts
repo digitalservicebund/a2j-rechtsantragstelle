@@ -46,9 +46,10 @@ export const StrapiHeadingComponentSchema = StrapiHeadingSchema.extend({
 
 type StrapiHeading = z.infer<typeof StrapiHeadingSchema>;
 
-export const getHeadingProps = (cmsData: StrapiHeading) => {
+export function getHeadingProps(cmsData: StrapiHeading | null) {
+  if (!cmsData) return undefined;
   return HeadingPropsSchema.parse(omitNull(cmsData));
-};
+}
 
 export const isStrapiHeadingComponent = (
   strapiContent: StrapiContentComponent,

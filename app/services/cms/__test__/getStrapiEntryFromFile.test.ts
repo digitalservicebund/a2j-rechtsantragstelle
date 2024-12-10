@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { faker } from "@faker-js/faker";
-import { strapiFooterFactory } from "tests/factories/cmsModels/strapiFooter";
+import { getStrapiFooter } from "tests/factories/cmsModels/strapiFooter";
 import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
 import { StrapiLocaleSchema } from "~/services/cms/models/StrapiLocale";
 import { type StrapiPage } from "~/services/cms/models/StrapiPage";
@@ -10,7 +10,7 @@ vi.mock("node:fs");
 
 describe("services/cms", () => {
   describe("getStrapiEntryFromFile", () => {
-    const footerData = strapiFooterFactory.build();
+    const footerData = getStrapiFooter();
     const impressumPath = "/impressum";
     const impressum = {
       slug: impressumPath,

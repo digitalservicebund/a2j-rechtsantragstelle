@@ -1,5 +1,5 @@
 import merge from "lodash/merge";
-import persoenlicheDatenFlow from "~/domains/shared/persoenlicheDaten/flow.json";
+import persoenlicheDatenFlow from "~/domains/shared/formular/persoenlicheDaten/flow.json";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
 import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
@@ -10,7 +10,7 @@ import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConf
 import type { BeratungshilfeFormularContext } from "./index";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
-import { finanzielleAngabenArrayConfig } from "../../shared/finanzielleAngaben/arrayConfiguration";
+import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
 
 export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",

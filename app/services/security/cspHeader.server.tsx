@@ -3,36 +3,28 @@
 // https://web.dev/articles/strict-csp
 // https://csp-evaluator.withgoogle.com/
 
-type Directives = Record<
-  | "default-src"
-  | "script-src"
-  | "style-src"
-  | "frame-src"
-  | "connect-src"
-  | "img-src"
-  | "object-src"
-  | "base-uri"
-  | "frame-ancestors",
-  string[]
-> & { "font-src"?: string[] };
-
-export const cspHeader = (args?: { nonce?: string; environment?: string }) => {
-  const directives: Directives = {
+export const cspHeader = (args: {
+  nonce: string;
+  additionalConnectSrc?: string[];
+  reportUri?: string;
+  environment: string;
+}) => {
+  const directives: Record<string, string[]> = {
     "default-src": ["'self'"],
     "script-src": [
       "'self'",
-      "https://*.posthog.com",
       "https:",
-      "'unsafe-inline'",
+      `'nonce-${args.nonce}'`,
+      "'strict-dynamic'",
+      "eu-assets.i.posthog.com", // see https://posthog.com/docs/session-replay/troubleshooting#3-content-security-policy
     ],
     "frame-src": ["www.youtube-nocookie.com"],
-    "style-src": ["'self'", "'unsafe-inline'"],
+    "style-src": ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
+    "font-src": ["'self'", "fonts.gstatic.com"],
     "connect-src": [
       "'self'",
-      // TODO: remove us domain once our data residency is moved
-      "https://*.ingest.sentry.io",
-      "https://*.ingest.us.sentry.io",
-      "https://*.posthog.com",
+      "eu.i.posthog.com",
+      ...(args.additionalConnectSrc ?? []),
     ],
     "img-src": [
       "'self'",
@@ -41,22 +33,28 @@ export const cspHeader = (args?: { nonce?: string; environment?: string }) => {
       "https://img.youtube.com",
       "data:",
     ],
+    "form-action ": [
+      "'self'",
+      "https://int.id.bund.de/idp/profile/SAML2/POST/SSO",
+    ],
     "object-src": ["'none'"],
     "base-uri": ["'none'"],
     "frame-ancestors": ["'none'"],
+    "upgrade-insecure-requests": [],
   };
 
-  if (args?.nonce) {
-    directives["script-src"].push(`'nonce-${args.nonce}'`);
-    directives["script-src"].push("'strict-dynamic'");
-  }
-
-  if (args?.environment === "development") {
+  if (args.environment === "development") {
     directives["connect-src"].push("ws://localhost:24678"); // vite's HMR server
+    directives["connect-src"].push("http://localhost:24678"); // vite's HMR server
     directives["img-src"].push("localhost:*");
+    delete directives["upgrade-insecure-requests"]; // https://github.com/github/secure_headers/issues/348
+  }
+  if (args.reportUri) {
+    directives["report-to"] = ["'csp-endpoint'"];
+    directives["report-uri"] = [args.reportUri];
   }
 
   return Object.entries(directives)
     .map(([key, values]) => `${key} ${values.join(" ")}`)
-    .join("; ");
+    .join(";");
 };

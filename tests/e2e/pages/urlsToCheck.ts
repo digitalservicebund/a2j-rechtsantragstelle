@@ -1,7 +1,7 @@
 export const pageUrls = [
   "/",
   "/beratungshilfe",
-  // "/beratungshilfe/beratungshilfeschein", TODO: enable after accessibility fix in content
+  "/beratungshilfe/beratungshilfeschein",
   "/beratungshilfe/antragstellung/dokumente",
   "/beratungshilfe/kostenguenstigeBeratungsstellen",
   "/prozesskostenhilfe",

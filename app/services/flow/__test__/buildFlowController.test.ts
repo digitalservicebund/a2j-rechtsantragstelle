@@ -68,21 +68,23 @@ const nestedInitialStateConfig: Config = {
 describe("buildFlowController", () => {
   describe("isFinal", () => {
     it("returns true if final step", () => {
-      expect(buildFlowController({ config }).isFinal("step1Exit")).toBe(true);
+      expect(buildFlowController({ config }).isFinal("/step1Exit")).toBe(true);
     });
 
     it("returns false if not final step", () => {
-      expect(buildFlowController({ config }).isFinal("step1")).toBe(false);
+      expect(buildFlowController({ config }).isFinal("/step1")).toBe(false);
     });
 
     it("returns false if nested step is not final step", () => {
-      expect(buildFlowController({ config }).isFinal("step4/step1")).toBe(
+      expect(buildFlowController({ config }).isFinal("/step4/step1")).toBe(
         false,
       );
     });
 
     it("returns true if nested step is final step", () => {
-      expect(buildFlowController({ config }).isFinal("step4/step2")).toBe(true);
+      expect(buildFlowController({ config }).isFinal("/step4/step2")).toBe(
+        true,
+      );
     });
   });
 
@@ -92,16 +94,16 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: true },
-        }).isReachable("step3"),
+        }).isReachable("/step3"),
       ).toBe(true);
     });
 
     it("returns false if step is not reachable", () => {
-      expect(buildFlowController({ config }).isReachable("step3")).toBe(false);
+      expect(buildFlowController({ config }).isReachable("/step3")).toBe(false);
     });
 
     it("returns false if nested step is not reachable", () => {
-      expect(buildFlowController({ config }).isReachable("step4/step1")).toBe(
+      expect(buildFlowController({ config }).isReachable("/step4/step1")).toBe(
         false,
       );
     });
@@ -111,7 +113,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: true },
-        }).isReachable("step4/step2"),
+        }).isReachable("/step4/step2"),
       ).toBe(true);
     });
   });
@@ -122,7 +124,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: true },
-        }).getPrevious("step3"),
+        }).getPrevious("/step3"),
       ).toEqual("/test/flow/step2");
     });
 
@@ -131,7 +133,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: true },
-        }).getPrevious("step4/step2"),
+        }).getPrevious("/step4/step2"),
       ).toEqual("/test/flow/step4/step1");
     });
 
@@ -140,7 +142,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: true },
-        }).getPrevious("step4/step1"),
+        }).getPrevious("/step4/step1"),
       ).toEqual("/test/flow/step3");
     });
 
@@ -149,20 +151,20 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: true },
-        }).getPrevious("step5"),
+        }).getPrevious("/step5"),
       ).toEqual("/test/flow/step4/step1");
     });
 
     it("returns undefined if already first step", () => {
       expect(
-        buildFlowController({ config }).getPrevious("step1"),
+        buildFlowController({ config }).getPrevious("/step1"),
       ).toBeUndefined();
     });
 
     it("returns undefined if already first nested step", () => {
       expect(
         buildFlowController({ config: nestedInitialStateConfig }).getPrevious(
-          "parent1/step1",
+          "/parent1/step1",
         ),
       ).toBeUndefined();
     });
@@ -174,7 +176,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: true },
-        }).getNext("step1"),
+        }).getNext("/step1"),
       ).toEqual("/test/flow/step2");
     });
 
@@ -183,7 +185,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: true },
-        }).getNext("step3"),
+        }).getNext("/step3"),
       ).toEqual("/test/flow/step4/step1");
     });
 
@@ -192,7 +194,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: true },
-        }).getNext("step4.step1"),
+        }).getNext("/step4/step1"),
       ).toEqual("/test/flow/step4/step2");
     });
 
@@ -201,7 +203,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: {},
-        }).getNext("step5"),
+        }).getNext("/step5"),
       ).toBeUndefined();
     });
 
@@ -210,7 +212,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: true },
-        }).getNext("step4/step2"),
+        }).getNext("/step4/step2"),
       ).toBeUndefined();
     });
   });
@@ -235,7 +237,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: true },
-        }).getProgress("step4.step2"),
+        }).getProgress("/step4/step2"),
       ).toStrictEqual({
         progress: 5,
         max: 5,
@@ -247,17 +249,16 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: true },
-        }).getProgress("step3"),
+        }).getProgress("/step3"),
       ).toStrictEqual({
         progress: 3,
         max: 5,
       });
     });
 
-    // TODO: We ignore nested steps for now, we have to fix the getProgress function to include nested steps.
     it("returns 1/5", () => {
       expect(
-        buildFlowController({ config }).getProgress("step1"),
+        buildFlowController({ config }).getProgress("/step1"),
       ).toStrictEqual({
         progress: 1,
         max: 5,
@@ -269,7 +270,7 @@ describe("buildFlowController", () => {
         buildFlowController({
           config,
           data: { step1: false },
-        }).getProgress("step2"),
+        }).getProgress("/step2"),
       ).toStrictEqual({
         progress: 2,
         max: 5,
@@ -305,7 +306,7 @@ describe("buildFlowController", () => {
         {
           isDone: true,
           isReachable: true,
-          stepId: "start",
+          stepId: "/start",
           url: "/test/start",
         },
       ]);
@@ -337,19 +338,19 @@ describe("buildFlowController", () => {
         {
           isDone: false,
           isReachable: true,
-          stepId: "parent1",
+          stepId: "/parent1",
           url: "/test/parent1",
           subStates: [
             {
               isDone: false,
               isReachable: true,
-              stepId: "parent1/child1",
+              stepId: "/parent1/child1",
               url: "/test/parent1/child1/start",
             },
             {
               isDone: false,
               isReachable: true,
-              stepId: "parent1/child2",
+              stepId: "/parent1/child2",
               url: "/test/parent1/child2/start",
             },
           ],
@@ -378,13 +379,13 @@ describe("buildFlowController", () => {
         {
           isDone: false,
           isReachable: true,
-          stepId: "parent1",
+          stepId: "/parent1",
           url: "/test/parent1",
           subStates: [
             {
               isDone: false,
               isReachable: true,
-              stepId: "parent1/child2",
+              stepId: "/parent1/child2",
               url: "/test/parent1/child2/start",
             },
           ],
@@ -410,25 +411,25 @@ describe("buildFlowController", () => {
         {
           isDone: true,
           isReachable: true,
-          stepId: "child1",
+          stepId: "/child1",
           url: "/test/child1",
         },
         {
           isDone: true,
           isReachable: false,
-          stepId: "child2",
+          stepId: "/child2",
           url: "/test/child2",
         },
         {
           isDone: false,
           isReachable: true,
-          stepId: "child3",
+          stepId: "/child3",
           url: "/test/child3/start",
         },
         {
           isDone: false,
           isReachable: false,
-          stepId: "child4",
+          stepId: "/child4",
           url: "/test/child4/start",
         },
       ]);
@@ -513,16 +514,16 @@ describe("buildFlowController", () => {
 describe("nextStepId", () => {
   const machine = createMachine(config);
   it("should provide correct SUBMIT destination", () => {
-    const destination = nextStepId(machine, "step1", "SUBMIT", {
+    const destination = nextStepId(machine, "/step1", "SUBMIT", {
       step1: false,
     });
-    expect(destination).toEqual("step1Exit");
+    expect(destination).toEqual("/step1Exit");
   });
 
   it("should provide correct BACK destination", () => {
-    const destination = nextStepId(machine, "step1Exit", "BACK", {
+    const destination = nextStepId(machine, "/step1Exit", "BACK", {
       step1: false,
     });
-    expect(destination).toEqual("step1");
+    expect(destination).toEqual("/step1");
   });
 });

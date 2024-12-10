@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { RichTextPropsSchema } from "~/components/RichText";
-import { omitNull } from "~/util/omitNull";
+import { type RichTextProps } from "~/components/RichText";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiParagraphSchema = z
@@ -13,7 +12,6 @@ export const StrapiParagraphComponentSchema = StrapiParagraphSchema.extend({
 
 export type StrapiParagraph = z.infer<typeof StrapiParagraphSchema>;
 
-export const getRichTextProps = (cmsData: StrapiParagraph) => {
-  const markdown = cmsData.text;
-  return RichTextPropsSchema.parse(omitNull({ ...cmsData, markdown }));
-};
+export const getRichTextProps = (cmsData: StrapiParagraph): RichTextProps => ({
+  markdown: cmsData.text,
+});

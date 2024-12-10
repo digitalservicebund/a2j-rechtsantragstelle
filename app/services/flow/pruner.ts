@@ -25,7 +25,7 @@ export function filterFormFields(
 ) {
   return validPaths.flatMap(({ stepIds, arrayIndex }) =>
     stepIds.flatMap((stepId) =>
-      (formFields[`/${stepId}`] ?? []).map((fieldname) =>
+      (formFields[stepId] ?? []).map((fieldname) =>
         resolveArrayCharacter(fieldname, arrayIndex ?? []),
       ),
     ),

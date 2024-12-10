@@ -3,7 +3,7 @@ import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
 import Heading from "./Heading";
 import RichText from "./RichText";
 
-type InlineNoticeProps = {
+export type InlineNoticeProps = {
   identifier?: string;
   title: string;
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
@@ -34,9 +34,10 @@ export const InlineNotice = ({
   content,
 }: InlineNoticeProps) => {
   const { backgroundColor, borderColor, IconComponent } = lookConfig[look];
+  const shouldHideNotice = !content || content.trim().length === 0;
 
   return (
-    content && (
+    !shouldHideNotice && (
       <div
         className={`ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
         id={identifier}

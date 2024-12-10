@@ -4,8 +4,8 @@ import {
   childDone,
   geldanlageDone,
   singleGrundeigentumDone,
-} from "~/domains/shared/finanzielleAngaben/doneFunctions";
-import { hasAnyEigentumExceptBankaccount } from "~/domains/shared/finanzielleAngaben/guards";
+} from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
+import { hasAnyEigentumExceptBankaccount } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
 
 export const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
