@@ -1,5 +1,5 @@
 import {
-  BASE_ALLOWANCE as baseAllowance,
+  BASE_ALLOWANCE,
   calculateFreibetrag,
   freibetraegePerYear,
   getFreibetraege,
@@ -9,7 +9,6 @@ import {
 } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
 import { today } from "~/util/date";
 
-let BASE_ALLOWANCE = baseAllowance;
 let { incomeAllowance, partnerAllowance, childrenBelow6Allowance } =
   getFreibetraege(today().getFullYear());
 
@@ -33,111 +32,109 @@ describe("getFreibetraege", () => {
 });
 
 describe("calculateFreibetrag", () => {
-  // Need value in cents
-  beforeAll(() => {
-    BASE_ALLOWANCE = baseAllowance * 100;
-    incomeAllowance *= 100;
-    partnerAllowance *= 100;
-    childrenBelow6Allowance *= 100;
-  });
+  // Need values in cents
+  let baseAllowanceCents = BASE_ALLOWANCE * 100;
+  let incomeAllowanceCents = incomeAllowance * 100;
+  let partnerAllowanceCents = partnerAllowance * 100;
+  let childrenBelow6AllowanceCents = childrenBelow6Allowance * 100;
 
-  it(`should return ${BASE_ALLOWANCE} when single not working`, () => {
+  it(`should return ${baseAllowanceCents} when single not working`, () => {
     expect(
       calculateFreibetrag({
         working: false,
         partnership: false,
       }),
-    ).toEqual(BASE_ALLOWANCE);
+    ).toEqual(baseAllowanceCents);
   });
 
-  it(`should return ${BASE_ALLOWANCE} + ${incomeAllowance} when single working`, () => {
+  it(`should return ${baseAllowanceCents} + ${incomeAllowanceCents} when single working`, () => {
     expect(
       calculateFreibetrag({
         working: true,
         partnership: false,
       }),
-    ).toEqual(BASE_ALLOWANCE + incomeAllowance);
+    ).toEqual(baseAllowanceCents + incomeAllowanceCents);
   });
 
-  it(`should return ${BASE_ALLOWANCE} + ${partnerAllowance} when partner not working`, () => {
+  it(`should return ${baseAllowanceCents} + ${partnerAllowanceCents} when partner not working`, () => {
     expect(
       calculateFreibetrag({
         working: false,
         partnership: true,
       }),
-    ).toEqual(BASE_ALLOWANCE + partnerAllowance);
+    ).toEqual(baseAllowanceCents + partnerAllowanceCents);
   });
 
-  it(`should return ${BASE_ALLOWANCE} + ${partnerAllowance} - partner income when partner working smaller than ${partnerAllowance}`, () => {
+  it(`should return ${baseAllowanceCents} + ${partnerAllowanceCents} - partner income when partner working smaller than ${partnerAllowanceCents}`, () => {
     expect(
       calculateFreibetrag({
         working: false,
         partnership: true,
         partnerIncome: 50000,
       }),
-    ).toEqual(BASE_ALLOWANCE + partnerAllowance - 50000);
+    ).toEqual(baseAllowanceCents + partnerAllowanceCents - 50000);
   });
 
-  it(`should return ${BASE_ALLOWANCE} when partner working bigger than ${partnerAllowance}`, () => {
+  it(`should return ${baseAllowanceCents} when partner working bigger than ${partnerAllowanceCents}`, () => {
     expect(
       calculateFreibetrag({
         working: false,
         partnership: true,
         partnerIncome: 80000,
       }),
-    ).toEqual(BASE_ALLOWANCE);
+    ).toEqual(baseAllowanceCents);
   });
 
-  it(`should return ${BASE_ALLOWANCE} + ${childrenBelow6Allowance} when 1 child 0-6 not working`, () => {
+  it(`should return ${baseAllowanceCents} + ${childrenBelow6AllowanceCents} when 1 child 0-6 not working`, () => {
     expect(
       calculateFreibetrag({
         childrenBelow6: 1,
       }),
-    ).toEqual(BASE_ALLOWANCE + childrenBelow6Allowance);
+    ).toEqual(baseAllowanceCents + childrenBelow6AllowanceCents);
   });
 
-  it(`should return ${BASE_ALLOWANCE} + 2*${childrenBelow6Allowance} when 2 children 0-6 not working`, () => {
+  it(`should return ${baseAllowanceCents} + 2*${childrenBelow6AllowanceCents} when 2 children 0-6 not working`, () => {
     expect(
       calculateFreibetrag({
         childrenBelow6: 2,
       }),
-    ).toEqual(BASE_ALLOWANCE + 2 * childrenBelow6Allowance);
+    ).toEqual(baseAllowanceCents + 2 * childrenBelow6AllowanceCents);
   });
 
-  it(`should return ${BASE_ALLOWANCE} + ${childrenBelow6Allowance} - child income when 1 child 0-6 working less than ${childrenBelow6Allowance}`, () => {
+  it(`should return ${baseAllowanceCents} + ${childrenBelow6AllowanceCents} - child income when 1 child 0-6 working less than ${childrenBelow6AllowanceCents}`, () => {
     expect(
       calculateFreibetrag({
         childrenBelow6: 1,
         childrenIncome: 10000,
       }),
-    ).toEqual(BASE_ALLOWANCE + childrenBelow6Allowance - 10000);
+    ).toEqual(baseAllowanceCents + childrenBelow6AllowanceCents - 10000);
   });
 
-  it(`should return ${BASE_ALLOWANCE} when 1 child 0-6 working more than ${childrenBelow6Allowance}`, () => {
+  it(`should return ${baseAllowanceCents} when 1 child 0-6 working more than ${childrenBelow6AllowanceCents}`, () => {
     expect(
       calculateFreibetrag({
         childrenBelow6: 1,
         childrenIncome: 80000,
       }),
-    ).toEqual(BASE_ALLOWANCE);
+    ).toEqual(baseAllowanceCents);
   });
 
-  it(`should return ${BASE_ALLOWANCE} + 2*${childrenBelow6Allowance} - children income when 2 children 0-6 working less than ${childrenBelow6Allowance}`, () => {
+  it(`should return ${baseAllowanceCents} + 2*${childrenBelow6AllowanceCents} - children income when 2 children 0-6 working less than ${childrenBelow6AllowanceCents}`, () => {
     expect(
       calculateFreibetrag({
         childrenBelow6: 2,
         childrenIncome: 10000,
       }),
-    ).toEqual(BASE_ALLOWANCE + 2 * childrenBelow6Allowance - 10000);
+    ).toEqual(baseAllowanceCents + 2 * childrenBelow6AllowanceCents - 10000);
   });
 
-  it(`should return ${BASE_ALLOWANCE} + 2*${childrenBelow6Allowance} - children income when 2 children 0-6 working more than ${childrenBelow6Allowance} less than 2*${childrenBelow6Allowance}`, () => {
+  it(`should return ${baseAllowanceCents} + 2*${childrenBelow6AllowanceCents} - children income when 2 children 0-6 working more than ${childrenBelow6AllowanceCents} less than 2*${childrenBelow6AllowanceCents}`, () => {
     expect(
       calculateFreibetrag({
         childrenBelow6: 2,
         childrenIncome: 50000,
       }),
-    ).toEqual(BASE_ALLOWANCE + 2 * childrenBelow6Allowance - 50000);
+    ).toEqual(baseAllowanceCents + 2 * childrenBelow6AllowanceCents - 50000);
   });
 
   it("should handle undefined children as zero children", () => {
@@ -145,7 +142,7 @@ describe("calculateFreibetrag", () => {
       calculateFreibetrag({
         childrenBelow6: undefined,
       }),
-    ).toEqual(BASE_ALLOWANCE);
+    ).toEqual(baseAllowanceCents);
   });
 });
 
