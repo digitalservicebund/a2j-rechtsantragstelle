@@ -6,7 +6,7 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 
-export const HEADLINE = "Ersatzverbindung Beschreibung:";
+export const HEADLINE = "Beschreibung der Ersatzverbindung:";
 
 export function addTableInfo(
   doc: PDFKit.PDFDocument,
