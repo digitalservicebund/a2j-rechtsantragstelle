@@ -38,6 +38,7 @@ export const latestFreibetraegeYear = Math.max(
 export function getFreibetraege(year: number) {
   const freibetraege = freibetraegePerYear[year];
   if (!freibetraege) {
+    // eslint-disable-next-line no-console
     console.warn(
       `No Freibeträge for year ${year}, using last valid Freibeträge from ${latestFreibetraegeYear}`,
     );

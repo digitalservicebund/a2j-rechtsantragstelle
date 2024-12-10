@@ -9,7 +9,7 @@ import {
 } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
 import { today } from "~/util/date";
 
-let { incomeAllowance, partnerAllowance, childrenBelow6Allowance } =
+const { incomeAllowance, partnerAllowance, childrenBelow6Allowance } =
   getFreibetraege(today().getFullYear());
 
 vi.spyOn(console, "warn");
@@ -24,6 +24,7 @@ describe("getFreibetraege", () => {
   it("returns Freibetraege for the last valid year if current year is not found, and shows the user a warning", () => {
     const nonExistentYear = latestFreibetraegeYear + 1;
     const freibetraege = getFreibetraege(nonExistentYear);
+    // eslint-disable-next-line no-console
     expect(console.warn).toHaveBeenCalledWith(
       `No Freibeträge for year ${nonExistentYear}, using last valid Freibeträge from ${latestFreibetraegeYear}`,
     );
@@ -33,10 +34,10 @@ describe("getFreibetraege", () => {
 
 describe("calculateFreibetrag", () => {
   // Need values in cents
-  let baseAllowanceCents = BASE_ALLOWANCE * 100;
-  let incomeAllowanceCents = incomeAllowance * 100;
-  let partnerAllowanceCents = partnerAllowance * 100;
-  let childrenBelow6AllowanceCents = childrenBelow6Allowance * 100;
+  const baseAllowanceCents = BASE_ALLOWANCE * 100;
+  const incomeAllowanceCents = incomeAllowance * 100;
+  const partnerAllowanceCents = partnerAllowance * 100;
+  const childrenBelow6AllowanceCents = childrenBelow6Allowance * 100;
 
   it(`should return ${baseAllowanceCents} when single not working`, () => {
     expect(
