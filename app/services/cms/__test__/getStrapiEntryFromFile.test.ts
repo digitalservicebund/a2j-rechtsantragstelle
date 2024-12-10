@@ -1,5 +1,4 @@
 import fs from "node:fs";
-import { faker } from "@faker-js/faker";
 import { getStrapiFooter } from "tests/factories/cmsModels/strapiFooter";
 import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
 import { StrapiLocaleSchema } from "~/services/cms/models/StrapiLocale";
@@ -14,9 +13,6 @@ describe("services/cms", () => {
     const impressumPath = "/impressum";
     const impressum = {
       slug: impressumPath,
-      createdAt: faker.date.past().toISOString(),
-      updatedAt: faker.date.past().toISOString(),
-      publishedAt: faker.date.past().toISOString(),
       locale: StrapiLocaleSchema.Values.de,
       meta: {
         title: "Impressum",
@@ -37,9 +33,6 @@ describe("services/cms", () => {
       "form-flow-pages": [
         {
           attributes: {
-            createdAt: faker.date.past().toISOString(),
-            updatedAt: faker.date.past().toISOString(),
-            publishedAt: faker.date.past().toISOString(),
             heading: "",
             locale: StrapiLocaleSchema.Values.de,
             preHeading: null,

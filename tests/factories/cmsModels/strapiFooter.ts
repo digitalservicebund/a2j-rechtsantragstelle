@@ -10,8 +10,5 @@ export function getStrapiFooter() {
     image: getStrapiImage(),
     paragraphs: faker.helpers.multiple(getStrapiParagraph, { count: 2 }),
     links: faker.helpers.multiple(getStrapiLink, { count: 7 }),
-    createdAt: faker.date.past().toISOString(),
-    updatedAt: faker.date.recent().toISOString(),
-    publishedAt: faker.date.recent().toISOString(),
   };
 }
