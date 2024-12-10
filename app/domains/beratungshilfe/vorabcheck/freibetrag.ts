@@ -31,16 +31,15 @@ export const freibetraegePerYear: Record<number, Freibetraege> = {
     childrenBelow6Allowance: 393,
   },
 };
-export const latestFreibetraegeYear = Number(
-  Object.keys(freibetraegePerYear).at(-1),
+export const latestFreibetraegeYear = Math.max(
+  ...Object.keys(freibetraegePerYear).map((year) => Number(year)),
 );
 
-export function getFreibetraege() {
-  const currentYear = today().getFullYear();
-  const freibetraege = freibetraegePerYear[currentYear];
+export function getFreibetraege(year: number) {
+  const freibetraege = freibetraegePerYear[year];
   if (!freibetraege) {
     console.warn(
-      `No Freibeträge for year ${currentYear}, using last valid Freibeträge from ${latestFreibetraegeYear}`,
+      `No Freibeträge for year ${year}, using last valid Freibeträge from ${latestFreibetraegeYear}`,
     );
     return freibetraegePerYear[latestFreibetraegeYear];
   }
@@ -76,7 +75,7 @@ export function calculateFreibetrag({
     children15To18Allowance,
     children7To14Allowance,
     childrenBelow6Allowance,
-  } = mapValues(getFreibetraege(), (v) => v * 100);
+  } = mapValues(getFreibetraege(today().getFullYear()), (v) => v * 100);
 
   if (working) {
     betrag += incomeAllowance;
@@ -102,7 +101,9 @@ function freibetragShort(
   partnership: boolean,
   childrenCount: number,
 ): number {
-  const { partnerAllowance, incomeAllowance } = getFreibetraege();
+  const { partnerAllowance, incomeAllowance } = getFreibetraege(
+    today().getFullYear(),
+  );
   return (
     BASE_ALLOWANCE +
     (working ? incomeAllowance : 0) +

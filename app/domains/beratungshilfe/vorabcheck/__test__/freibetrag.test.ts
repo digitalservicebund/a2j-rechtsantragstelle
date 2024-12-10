@@ -7,27 +7,24 @@ import {
   latestFreibetraegeYear,
   SIMPLIFIED_CHILD_ALLOWANCE,
 } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
-import * as timeUtils from "~/util/date";
+import { today } from "~/util/date";
 
 let BASE_ALLOWANCE = baseAllowance;
 let { incomeAllowance, partnerAllowance, childrenBelow6Allowance } =
-  getFreibetraege();
+  getFreibetraege(today().getFullYear());
 
 vi.spyOn(console, "warn");
-const todaySpy = vi.spyOn(timeUtils, "today");
 
 describe("getFreibetraege", () => {
   it(`returns Freibetraege for ${latestFreibetraegeYear}`, () => {
-    todaySpy.mockReturnValue(new Date(latestFreibetraegeYear, 0, 1));
-    expect(getFreibetraege()).toEqual(
+    expect(getFreibetraege(latestFreibetraegeYear)).toEqual(
       freibetraegePerYear[latestFreibetraegeYear],
     );
   });
 
   it("returns Freibetraege for the last valid year if current year is not found, and shows the user a warning", () => {
     const nonExistentYear = latestFreibetraegeYear + 1;
-    todaySpy.mockReturnValue(new Date(nonExistentYear, 0, 1));
-    const freibetraege = getFreibetraege();
+    const freibetraege = getFreibetraege(nonExistentYear);
     expect(console.warn).toHaveBeenCalledWith(
       `No Freibeträge for year ${nonExistentYear}, using last valid Freibeträge from ${latestFreibetraegeYear}`,
     );
