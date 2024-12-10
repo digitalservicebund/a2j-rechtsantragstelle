@@ -32,12 +32,16 @@ vi.mock("~/services/flow/pruner", () => ({
     .mockResolvedValue({ vorname: "Zoe", nachname: "Müller" }),
 }));
 
-beforeAll(() => {
-  wrapPdfDocumentLoad();
-  wrapEmbedFont();
-});
-
 describe("pdfDownloadLoader", () => {
+  beforeAll(() => {
+    wrapPdfDocumentLoad();
+    wrapEmbedFont();
+  });
+
+  afterAll(() => {
+    vi.restoreAllMocks();
+  });
+
   it("generates correct PDF for Beratungshilfe", async () => {
     const mockLoaderArgs: LoaderFunctionArgs = {
       request: new Request(
