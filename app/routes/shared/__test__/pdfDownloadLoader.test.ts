@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { PDFDocument } from "pdf-lib";
-import { pdfDownloadLoader } from "../shared/pdfDownloadLoader";
+import { pdfDownloadLoader } from "../pdfDownloadLoader";
 
 // Convert Buffers to Uint8Array for compatibility with Vitest
 // Vitest expects Uint8Array inputs for certain methods in pdf-lib.
