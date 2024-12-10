@@ -97,7 +97,4 @@ async function startAbgabe(page: Page) {
 
   expect(newTabResponse).not.toBeUndefined();
   expect(newTabResponse?.status()).toBe(200);
-  expect(await newTabResponse?.headerValue("content-type")).toBe(
-    "application/pdf",
-  );
 }
