@@ -45,12 +45,6 @@ describe("Textarea component", () => {
 
     render(<RemixStub />);
 
-    expect(getInputProps).toHaveBeenCalledWith(
-      expect.objectContaining({
-        maxLength: TEXTAREA_CHAR_LIMIT,
-      }),
-    );
-
     const element = screen.getByRole("textbox");
     const elementByLabel = screen.getByLabelText("Test Label");
     expect(element).toBeInTheDocument();
@@ -60,6 +54,9 @@ describe("Textarea component", () => {
     expect(elementByLabel).not.toHaveClass("ds-heading-03-reg");
 
     expect(screen.getByPlaceholderText("Test Placeholder")).toBeInTheDocument();
+    expect(element.getAttribute("maxLength")).toBe(
+      TEXTAREA_CHAR_LIMIT.toString(),
+    );
   });
 
   it("renders without errors when description is provided", () => {
@@ -168,7 +165,6 @@ describe("Textarea component", () => {
     const maxLength = 10;
     getInputProps.mockImplementationOnce(() => ({
       id: "componentName",
-      maxLength: maxLength,
     }));
 
     const RemixStub = createRemixStub([
@@ -186,11 +182,8 @@ describe("Textarea component", () => {
     ]);
 
     render(<RemixStub />);
+    const textarea = screen.getByRole("textbox");
 
-    expect(getInputProps).toHaveBeenCalledWith(
-      expect.objectContaining({
-        maxLength: maxLength,
-      }),
-    );
+    expect(textarea.getAttribute("maxLength")).toBe(maxLength.toString());
   });
 });

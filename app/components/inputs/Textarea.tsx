@@ -62,8 +62,8 @@ const Textarea = ({
         {...getInputProps({
           id: name,
           placeholder,
-          maxLength,
         })}
+        maxLength={maxLength}
         rows={TEXT_AREA_ROWS}
         className={classNames(
           "ds-textarea forced-color-adjust-none placeholder-gray-600",
