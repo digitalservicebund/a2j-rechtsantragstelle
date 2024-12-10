@@ -8,9 +8,10 @@ export function isFileDownloadUrl(url: string) {
   return url.endsWith("/download/pdf");
 }
 
+const youtubeLinkRegex = RegExp(/(?:youtu\.be\/|youtube\.com\/watch\?v=)(\w+)/);
+
 export function getYoutubeVideoId(url: string): string | undefined {
-  const regex = /(?:youtu\.be\/|youtube\.com\/watch\?v=)(\w+)/;
-  const match = url.match(regex);
+  const match = youtubeLinkRegex.exec(url);
   if (match) {
     return match[1];
   }

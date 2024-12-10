@@ -85,8 +85,8 @@ export const buildFormularServerTranslations = async ({
     structureCmsContent(formPageContent),
     typeof currentFlow.stringReplacements !== "undefined"
       ? {
-          ...currentFlow.stringReplacements(userDataWithPageData),
           ...stringTranslations,
+          ...currentFlow.stringReplacements(userDataWithPageData),
         }
       : {},
   );

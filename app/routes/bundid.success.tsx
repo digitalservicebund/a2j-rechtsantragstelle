@@ -17,7 +17,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   throw404OnProduction();
 
   invariant(config().SAML_IDP_CERT, "SAML_IDP_CERT has to be set");
-  // eslint-disable-next-line sonarjs/new-cap
   const idp = saml.IdentityProvider({
     // Reading the data from file does not work because wantAuthnRequestsSigned is not set
     // and even setting it (WantAuthnRequestsSigned="true") doesn't solve the issue.
@@ -40,7 +39,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const pathToPrivateKey = path.resolve(config().SAML_SP_SECRET_KEY_PATH);
   const privateKey = fs.readFileSync(pathToPrivateKey);
 
-  // eslint-disable-next-line sonarjs/new-cap
   const sp = saml.ServiceProvider({
     metadata: spMetadata,
     encPrivateKey: privateKey,
