@@ -32,24 +32,24 @@ describe("Textarea component", () => {
     getInputProps.mockImplementationOnce(() => ({
       id: componentName,
       placeholder: "Test Placeholder",
-      maxLength: TEXTAREA_CHAR_LIMIT,
     }));
 
     const RemixStub = createRemixStub([
       {
         path: "",
         Component: () => (
-          <Textarea
-            name={componentName}
-            maxLength={5000}
-            label="Test Label"
-            formId="formId"
-          />
+          <Textarea name={componentName} label="Test Label" formId="formId" />
         ),
       },
     ]);
 
     render(<RemixStub />);
+
+    expect(getInputProps).toHaveBeenCalledWith(
+      expect.objectContaining({
+        maxLength: TEXTAREA_CHAR_LIMIT,
+      }),
+    );
 
     const element = screen.getByRole("textbox");
     const elementByLabel = screen.getByLabelText("Test Label");
@@ -60,8 +60,6 @@ describe("Textarea component", () => {
     expect(elementByLabel).not.toHaveClass("ds-heading-03-reg");
 
     expect(screen.getByPlaceholderText("Test Placeholder")).toBeInTheDocument();
-
-    expect(element).toHaveAttribute("maxLength", "5000");
   });
 
   it("renders without errors when description is provided", () => {
@@ -139,9 +137,7 @@ describe("Textarea component", () => {
     const RemixStub = createRemixStub([
       {
         path: "",
-        Component: () => (
-          <Textarea maxLength={5000} name="componentName" label="Test Label" />
-        ),
+        Component: () => <Textarea name="componentName" label="Test Label" />,
       },
     ]);
 
@@ -168,7 +164,7 @@ describe("Textarea component", () => {
     expect(textarea.getAttribute("rows")).toEqual(TEXT_AREA_ROWS.toString());
   });
 
-  it("should enforce maxCharacterLength limit", () => {
+  it("should set the maxLength and enforce it", () => {
     const maxLength = 10;
     getInputProps.mockImplementationOnce(() => ({
       id: "componentName",
@@ -200,6 +196,11 @@ describe("Textarea component", () => {
       target: { value: "This is a very long text" },
     });
 
+    expect(getInputProps).toHaveBeenCalledWith(
+      expect.objectContaining({
+        maxLength: maxLength,
+      }),
+    );
     expect(textarea.value.length).toEqual(maxLength);
     expect(textarea.value).toEqual("This is a ");
   });
