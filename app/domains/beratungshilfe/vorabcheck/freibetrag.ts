@@ -1,6 +1,64 @@
+import mapValues from "lodash/mapValues";
+import { today } from "~/util/date";
 import { type AllContexts } from "../../common";
 
-export function freibetrag({
+type Freibetraege = {
+  incomeAllowance: number;
+  partnerAllowance: number;
+  dependentAdultAllowance: number;
+  children15To18Allowance: number;
+  children7To14Allowance: number;
+  childrenBelow6Allowance: number;
+};
+
+export const BASE_ALLOWANCE = 572;
+export const SIMPLIFIED_CHILD_ALLOWANCE = 400;
+export const freibetraegePerYear: Record<number, Freibetraege> = {
+  2023: {
+    incomeAllowance: 251,
+    partnerAllowance: 552,
+    dependentAdultAllowance: 442,
+    children15To18Allowance: 462,
+    children7To14Allowance: 383,
+    childrenBelow6Allowance: 350,
+  },
+  2024: {
+    incomeAllowance: 282,
+    partnerAllowance: 619,
+    dependentAdultAllowance: 496,
+    children15To18Allowance: 518,
+    children7To14Allowance: 429,
+    childrenBelow6Allowance: 393,
+  },
+};
+export const latestFreibetraegeYear = Math.max(
+  ...Object.keys(freibetraegePerYear).map((year) => Number(year)),
+);
+
+export function getFreibetraege(year: number) {
+  const freibetraege = freibetraegePerYear[year];
+  if (!freibetraege) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `No Freibeträge for year ${year}, using last valid Freibeträge from ${latestFreibetraegeYear}`,
+    );
+    return freibetraegePerYear[latestFreibetraegeYear];
+  }
+  return freibetraege;
+}
+
+type CalculateFreibetragProps = {
+  working: boolean;
+  partnership: boolean;
+  partnerIncome: number;
+  childrenBelow6: number;
+  children7To14: number;
+  children15To18: number;
+  childrenAbove18: number;
+  childrenIncome: number;
+};
+
+export function calculateFreibetrag({
   working,
   partnership,
   partnerIncome,
@@ -9,31 +67,30 @@ export function freibetrag({
   children15To18,
   childrenAbove18,
   childrenIncome,
-}: {
-  working?: boolean;
-  partnership?: boolean;
-  partnerIncome?: number;
-  childrenBelow6?: number;
-  children7To14?: number;
-  children15To18?: number;
-  childrenAbove18?: number;
-  childrenIncome?: number;
-}): number {
-  let betrag = 57200;
+}: Partial<CalculateFreibetragProps>): number {
+  let betrag = BASE_ALLOWANCE * 100;
+  const {
+    incomeAllowance,
+    partnerAllowance,
+    dependentAdultAllowance,
+    children15To18Allowance,
+    children7To14Allowance,
+    childrenBelow6Allowance,
+  } = mapValues(getFreibetraege(today().getFullYear()), (v) => v * 100);
 
   if (working) {
-    betrag += 25100;
+    betrag += incomeAllowance;
   }
 
   if (partnership) {
-    betrag += Math.max(55200 - (partnerIncome ?? 0), 0);
+    betrag += Math.max(partnerAllowance - (partnerIncome ?? 0), 0);
   }
 
   const childrenFreibetrag =
-    (Number.isNaN(childrenBelow6) ? 0 : (childrenBelow6 ?? 0)) * 35000 +
-    (Number.isNaN(children7To14) ? 0 : (children7To14 ?? 0)) * 38300 +
-    (Number.isNaN(children15To18) ? 0 : (children15To18 ?? 0)) * 46200 +
-    (Number.isNaN(childrenAbove18) ? 0 : (childrenAbove18 ?? 0)) * 44200;
+    (childrenBelow6 ? childrenBelow6 * childrenBelow6Allowance : 0) +
+    (children7To14 ? children7To14 * children7To14Allowance : 0) +
+    (children15To18 ? children15To18 * children15To18Allowance : 0) +
+    (childrenAbove18 ? childrenAbove18 * dependentAdultAllowance : 0);
 
   betrag += Math.max(childrenFreibetrag - (childrenIncome ?? 0), 0);
 
@@ -41,16 +98,18 @@ export function freibetrag({
 }
 
 function freibetragShort(
-  working?: boolean,
-  partnership?: boolean,
-  childrenCount?: number,
+  working: boolean,
+  partnership: boolean,
+  childrenCount: number,
 ): number {
-  const betrag = 552 + 20;
+  const { partnerAllowance, incomeAllowance } = getFreibetraege(
+    today().getFullYear(),
+  );
   return (
-    betrag +
-    (working ? 251 : 0) +
-    (partnership ? 552 : 0) +
-    (childrenCount ? childrenCount * 400 : 0)
+    BASE_ALLOWANCE +
+    (working ? incomeAllowance : 0) +
+    (partnership ? partnerAllowance : 0) +
+    (childrenCount ? childrenCount * SIMPLIFIED_CHILD_ALLOWANCE : 0)
   );
 }
 
