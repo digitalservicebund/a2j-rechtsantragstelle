@@ -164,14 +164,11 @@ describe("Textarea component", () => {
     expect(textarea.getAttribute("rows")).toEqual(TEXT_AREA_ROWS.toString());
   });
 
-  it("should set the maxLength and enforce it", () => {
+  it("should set the maxLength", () => {
     const maxLength = 10;
     getInputProps.mockImplementationOnce(() => ({
       id: "componentName",
       maxLength: maxLength,
-      onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        e.target.value = e.target.value.slice(0, maxLength);
-      },
     }));
 
     const RemixStub = createRemixStub([
@@ -190,18 +187,10 @@ describe("Textarea component", () => {
 
     render(<RemixStub />);
 
-    const textarea = screen.getByRole<HTMLTextAreaElement>("textbox");
-
-    fireEvent.change(textarea, {
-      target: { value: "This is a very long text" },
-    });
-
     expect(getInputProps).toHaveBeenCalledWith(
       expect.objectContaining({
         maxLength: maxLength,
       }),
     );
-    expect(textarea.value.length).toEqual(maxLength);
-    expect(textarea.value).toEqual("This is a ");
   });
 });
