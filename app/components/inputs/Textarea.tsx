@@ -3,6 +3,7 @@ import type { AriaRole, ReactNode } from "react";
 import { useField } from "remix-validated-form";
 import { Details } from "~/components/Details";
 import InputLabel from "~/components/inputs/InputLabel";
+import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
 import RichText from "../RichText";
@@ -16,7 +17,7 @@ type TextareaProps = Readonly<{
     content: string;
   };
   placeholder?: string;
-  maxLength: number;
+  maxLength?: number;
   errorMessages?: ErrorMessageProps[];
   formId?: string;
   classNameLabel?: string;
@@ -33,7 +34,7 @@ const Textarea = ({
   label,
   details,
   placeholder,
-  maxLength,
+  maxLength = TEXTAREA_CHAR_LIMIT,
   errorMessages,
   classNameLabel,
   role,

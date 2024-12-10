@@ -5,7 +5,6 @@ import {
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
 import { StrapiDetailsSchema } from "~/services/cms/models/StrapiDetails";
-import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
@@ -28,11 +27,9 @@ export const StrapiTextareaComponentSchema = StrapiTextareaSchema.extend({
 });
 
 export const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => {
-  const maxLength = props.maxLength ?? TEXTAREA_CHAR_LIMIT;
   return (
     <Textarea
       {...omitNull(props)}
-      maxLength={maxLength}
       errorMessages={flattenStrapiErrors(errors)}
     />
   );

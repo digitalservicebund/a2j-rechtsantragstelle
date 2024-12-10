@@ -1,6 +1,7 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Textarea, { TEXT_AREA_ROWS } from "~/components/inputs/Textarea";
+import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 
 const getInputProps = vi.fn();
 let error: string | undefined = undefined;
@@ -27,12 +28,11 @@ afterEach(() => {
 describe("Textarea component", () => {
   it("renders without errors", () => {
     const componentName = "test-textarea";
-    const maxLength = 5000;
 
     getInputProps.mockImplementationOnce(() => ({
       id: componentName,
       placeholder: "Test Placeholder",
-      maxLength: maxLength,
+      maxLength: TEXTAREA_CHAR_LIMIT,
     }));
 
     const RemixStub = createRemixStub([
@@ -41,7 +41,7 @@ describe("Textarea component", () => {
         Component: () => (
           <Textarea
             name={componentName}
-            maxLength={maxLength}
+            maxLength={5000}
             label="Test Label"
             formId="formId"
           />
@@ -61,7 +61,7 @@ describe("Textarea component", () => {
 
     expect(screen.getByPlaceholderText("Test Placeholder")).toBeInTheDocument();
 
-    expect(element).toHaveAttribute("maxLength", maxLength.toString());
+    expect(element).toHaveAttribute("maxLength", "5000");
   });
 
   it("renders without errors when description is provided", () => {
@@ -74,7 +74,6 @@ describe("Textarea component", () => {
             label="Test Label"
             description="Test Description"
             formId="formId"
-            maxLength={5000}
           />
         ),
       },
@@ -102,7 +101,6 @@ describe("Textarea component", () => {
               content: "Lorem ipsum",
             }}
             formId="formId"
-            maxLength={5000}
           />
         ),
       },
@@ -123,7 +121,6 @@ describe("Textarea component", () => {
             name="test"
             errorMessages={[{ code: "required", text: "error" }]}
             formId="formId"
-            maxLength={5000}
           />
         ),
       },
@@ -160,9 +157,7 @@ describe("Textarea component", () => {
     const RemixStub = createRemixStub([
       {
         path: "",
-        Component: () => (
-          <Textarea maxLength={5000} name="componentName" label="Test Label" />
-        ),
+        Component: () => <Textarea name="componentName" label="Test Label" />,
       },
     ]);
 
