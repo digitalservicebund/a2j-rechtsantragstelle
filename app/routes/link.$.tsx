@@ -2,6 +2,7 @@ import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
 
 const redirectionMap = {
   pkh: "/prozesskostenhilfe/direktlink",
+  "pkh-feedback": "https://app.formbricks.com/s/cm4ioi9ys0013s8r3b2y3ckex",
 };
 
 export function loader({ params }: LoaderFunctionArgs) {
