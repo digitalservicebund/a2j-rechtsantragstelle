@@ -4,10 +4,10 @@ import {
   getBundIdIdentityProvider,
   getBundIdServiceProvider,
 } from "~/services/bundid/index.server";
-import { throw404OnProduction } from "~/services/errorPages/throw404";
+import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 
-export const loader = () => {
-  throw404OnProduction();
+export const loader = async () => {
+  await throw404IfFeatureFlagDisabled("showBundID");
 
   const identityProvider = getBundIdIdentityProvider();
   const serviceProvider = getBundIdServiceProvider();
