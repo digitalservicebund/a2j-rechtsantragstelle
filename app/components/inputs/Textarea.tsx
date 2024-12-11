@@ -17,6 +17,7 @@ type TextareaProps = Readonly<{
     content: string;
   };
   placeholder?: string;
+  maxLength?: number;
   errorMessages?: ErrorMessageProps[];
   formId?: string;
   classNameLabel?: string;
@@ -33,6 +34,7 @@ const Textarea = ({
   label,
   details,
   placeholder,
+  maxLength = TEXTAREA_CHAR_LIMIT,
   errorMessages,
   classNameLabel,
   role,
@@ -60,8 +62,8 @@ const Textarea = ({
         {...getInputProps({
           id: name,
           placeholder,
-          maxLength: TEXTAREA_CHAR_LIMIT,
         })}
+        maxLength={maxLength}
         rows={TEXT_AREA_ROWS}
         className={classNames(
           "ds-textarea forced-color-adjust-none placeholder-gray-600",

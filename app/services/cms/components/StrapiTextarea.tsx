@@ -16,6 +16,7 @@ const StrapiTextareaSchema = z
     label: z.string().nullable(),
     placeholder: z.string().nullable(),
     errors: StrapiErrorRelationSchema,
+    maxLength: z.number().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
@@ -25,6 +26,11 @@ export const StrapiTextareaComponentSchema = StrapiTextareaSchema.extend({
   __component: z.literal("form-elements.textarea"),
 });
 
-export const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => (
-  <Textarea {...omitNull(props)} errorMessages={flattenStrapiErrors(errors)} />
-);
+export const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => {
+  return (
+    <Textarea
+      {...omitNull(props)}
+      errorMessages={flattenStrapiErrors(errors)}
+    />
+  );
+};
