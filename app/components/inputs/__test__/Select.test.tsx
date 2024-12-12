@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import * as remixValidatedForm from "remix-validated-form";
 import type { SelectProps } from "../Select";
 import Select from "../Select";
@@ -57,4 +57,40 @@ describe("Select", () => {
       );
     },
   );
+
+  describe("Input field with aria-required attribute", () => {
+    it("has aria-required attribute set to true if errorMessages contain inputRequired", () => {
+      render(
+        <Select
+          name="select"
+          options={[]}
+          label="Test Label"
+          formId="formId"
+          errorMessages={[
+            { code: "required", text: "error" },
+            {
+              code: "invalid",
+              text: "Bitte geben Sie eine gültige Uhrzeit ein.",
+            },
+          ]}
+        />,
+      );
+      const element = screen.getByRole("combobox");
+      expect(element).toHaveAttribute("aria-required", "true");
+    });
+
+    it("has aria-required attribute set to false if errorMessages do not contain inputRequired", () => {
+      render(
+        <Select
+          name="select"
+          options={[]}
+          label="Test Label"
+          formId="formId"
+          errorMessages={undefined}
+        />,
+      );
+      const element = screen.getByRole("combobox");
+      expect(element).toHaveAttribute("aria-required", "false");
+    });
+  });
 });
