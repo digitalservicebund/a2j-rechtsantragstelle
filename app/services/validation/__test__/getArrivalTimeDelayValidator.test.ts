@@ -9,12 +9,6 @@ describe("getArrivalTimeDelayValidator", () => {
     direktAbflugsZeit: z.string(),
   });
 
-  it("should return a validator", () => {
-    const validator = getArrivalTimeDelayValidator(baseSchema);
-    expect(validator).toBeDefined();
-    expect(typeof validator.safeParse).toBe("function");
-  });
-
   const validator = getArrivalTimeDelayValidator(baseSchema);
 
   it("should pass validation when arrival is at least 3 hours after departure", () => {
@@ -39,7 +33,7 @@ describe("getArrivalTimeDelayValidator", () => {
     expect(result.success).toBe(false);
   });
 
-  it("should handle dates across different days", () => {
+  it("should handle dates across different days when arrival is at least 3 hours after departure", () => {
     const result = validator.safeParse({
       tatsaechlicherAnkunftsDatum: "02.01.2024",
       tatsaechlicherAnkunftsZeit: "00:30",
@@ -48,6 +42,17 @@ describe("getArrivalTimeDelayValidator", () => {
     });
 
     expect(result.success).toBe(true);
+  });
+
+  it("should handle dates across different days when arrival is less than 3 hours after departure", () => {
+    const result = validator.safeParse({
+      tatsaechlicherAnkunftsDatum: "02.01.2024",
+      tatsaechlicherAnkunftsZeit: "00:30",
+      direktAbflugsDatum: "01.01.2024",
+      direktAbflugsZeit: "23:00",
+    });
+
+    expect(result.success).toBe(false);
   });
 
   it("should handle if date is before departure date", () => {

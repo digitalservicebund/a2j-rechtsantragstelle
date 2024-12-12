@@ -7,6 +7,10 @@ export async function validateFormData(
   formData: Record<string, FormDataEntryValue>,
 ) {
   const formDataKeys = Object.keys(formData);
-  const validator = buildStepValidator(getContext(flowId), formDataKeys);
+  const validator = buildStepValidator(
+    getContext(flowId),
+    formDataKeys,
+    flowId,
+  );
   return validator.validate(formData);
 }

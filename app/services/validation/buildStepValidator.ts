@@ -1,6 +1,7 @@
 import { withZod } from "@remix-validated-form/with-zod";
 import { z } from "zod";
 import { getContext } from "~/domains/contexts";
+import type { FlowId } from "~/domains/flowIds";
 import { parsePathname } from "~/domains/flowIds";
 import { isKeyOfObject } from "~/util/objects";
 import { fieldIsArray, splitArrayName } from "../array";
@@ -8,7 +9,11 @@ import { getArrivalTimeDelayValidator } from "./getArrivalTimeDelayValidator";
 
 type Schemas = Record<string, z.ZodTypeAny>;
 
-export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
+export function buildStepValidator(
+  schemas: Schemas,
+  fieldNames: string[],
+  flowId: FlowId,
+) {
   const fieldValidators: Record<string, z.ZodTypeAny> = {};
 
   for (const fieldname of fieldNames) {
@@ -29,22 +34,37 @@ export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
     }
   }
 
-  return getSpecialFieldValidators(fieldValidators, fieldNames);
+  return getValidatorsWithSpecialFieldValidatorsOrDefault(
+    fieldValidators,
+    fieldNames,
+    flowId,
+  );
 }
 
 export function validatorForFieldnames(fieldNames: string[], pathname: string) {
-  const context = getContext(parsePathname(pathname).flowId);
-  return buildStepValidator(context, fieldNames);
+  const flowId = parsePathname(pathname).flowId;
+  const context = getContext(flowId);
+  return buildStepValidator(context, fieldNames, flowId);
 }
 
-function getSpecialFieldValidators(
+function getValidatorsWithSpecialFieldValidatorsOrDefault(
   fieldValidators: Record<string, z.ZodTypeAny>,
   fieldNames: string[],
+  flowId: FlowId,
 ) {
   const baseSchema = z.object(fieldValidators);
 
-  if (fieldNames.includes("tatsaechlicherAnkunftsDatum")) {
-    return withZod(getArrivalTimeDelayValidator(baseSchema));
+  if (flowId === "/fluggastrechte/formular") {
+    for (const fieldName of fieldNames) {
+      switch (fieldName) {
+        case "tatsaechlicherAnkunftsDatum":
+          return withZod(getArrivalTimeDelayValidator(baseSchema));
+        case "tatsaechlicherAnkunftsZeit":
+          return withZod(baseSchema);
+        default:
+          return withZod(baseSchema);
+      }
+    }
   }
 
   return withZod(baseSchema);
