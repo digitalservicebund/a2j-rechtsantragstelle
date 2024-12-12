@@ -63,6 +63,9 @@ export default tseslint.config(
     },
     rules: {
       "react/jsx-no-leaked-render": ["off", { validStrategies: ["ternary"] }], // TODO: enable later
+      "react/jsx-no-constructed-context-values": "warn",
+      "react/no-array-index-key": "warn",
+      "react/no-unstable-nested-components": "warn",
     },
   },
   // Typescript
@@ -109,8 +112,6 @@ export default tseslint.config(
       "sonarjs/todo-tag": "warn",
       "sonarjs/fixme-tag": "warn",
       "sonarjs/no-commented-code": "warn",
-      "sonarjs/jsx-no-constructed-context-values": "warn",
-      "sonarjs/no-array-index-key": "warn",
       "sonarjs/no-redeclare": "off",
       "sonarjs/no-nested-functions": "warn",
       "sonarjs/function-return-type": "off",
@@ -126,7 +127,6 @@ export default tseslint.config(
       "sonarjs/no-invalid-await": "off",
 
       // TODO: to be enabled later
-      "sonarjs/no-unstable-nested-components": "warn",
       "sonarjs/deprecation": "off", // enable after remix upgrades to react router v7 and we move to Single Fetch
 
       // typescript-eslint
@@ -154,6 +154,16 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "off",
+
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            "Literal[value=/(a\u0308)|(o\u0308)|(u\u0308)|(A\u0308)|(O\u0308)|(U\u0308)/]",
+          message:
+            "German umlauts must be written as NFC (normalized form canonical composition) and not NFD (normalized form canonical decomposition). E.g. use 'ä' instead of the character 'a' followed by the combining diacritical marks ' ̈'.",
+        },
+      ],
     },
   },
   // Vitest

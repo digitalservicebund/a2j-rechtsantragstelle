@@ -72,8 +72,8 @@ export default function SummaryDataOverview({
             look="ds-label-01-bold"
           />
           {userData.weiterePersonen.map((person, idx) => {
-            const { kontodaten: _kontodaten, ...cedentData } =
-              getPersonData(userData);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { kontodaten, ...cedentData } = getPersonData(person);
             const cedentBookingNumber = {
               cedentBookingNumber:
                 !person.buchungsnummer || person.buchungsnummer === ""
@@ -97,7 +97,7 @@ export default function SummaryDataOverview({
         title="Zeuginnen und Zeugen"
         data={{ zeugen: getZeugenText(userData) }}
         showValueHeading={false}
-        buttonUrl={`${FLOW_ID}/persoenliche-daten/person/daten`}
+        buttonUrl={`${FLOW_ID}/persoenliche-daten/weitere-personen/zeugen`}
         translations={translations}
       />
 

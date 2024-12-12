@@ -18,10 +18,7 @@ describe("getImageProps", () => {
           formats: { key: "value" },
           hash: "hash",
           provider: "provider",
-
           provider_metadata: "provider_metadata",
-          createdAt: "2023-04-06T13:58:37.139Z",
-          updatedAt: "2023-04-06T13:58:37.139Z",
         },
       },
     });

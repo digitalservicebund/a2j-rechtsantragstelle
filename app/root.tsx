@@ -65,6 +65,10 @@ export const links: LinksFunction = () => [
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
   { rel: "manifest", href: "/site.webmanifest" },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css?family=Fira+Sans|Noto+Sans|Roboto",
+  },
 ];
 
 export const meta: MetaFunction<RootLoader> = () => {
@@ -186,8 +190,9 @@ function App() {
     () => ({
       video: videoTranslations,
       feedback: feedbackTranslations,
+      accessibility: accessibilityTranslations,
     }),
-    [videoTranslations, feedbackTranslations],
+    [videoTranslations, feedbackTranslations, accessibilityTranslations],
   );
 
   return (
@@ -205,6 +210,10 @@ function App() {
           }}
         />
         <Meta />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Fira+Sans|Noto+Sans|Roboto"
+        ></link>
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">

@@ -1,5 +1,6 @@
 import path from "node:path";
 import fontkit from "@pdf-lib/fontkit";
+import type { PDFFont } from "pdf-lib";
 import { PDFDocument } from "pdf-lib";
 import type { FlowId } from "~/domains/flowIds";
 import { addDruckvermerk } from "./druckvermerk";
@@ -16,7 +17,7 @@ import { resizeToA4 } from "./resizeToA4";
 // Caching file read to survive server reload
 // See https://remix.run/docs/en/1.16.1/tutorials/jokes#connect-to-the-database
 declare global {
-  // eslint-disable-next-line no-var, sonarjs/no-var
+  // eslint-disable-next-line no-var
   var __pdfFileBuffers: Partial<Record<FlowId, Buffer>>; // NOSONAR
 }
 
@@ -33,6 +34,8 @@ global.__pdfFileBuffers = Object.fromEntries(
 const bundesSansCondensed = await readRelativeFileToBuffer(
   "/data/pdf/fonts/BundesSansCond-DTP-Regular.otf",
 );
+
+export let customPdfFormFont: PDFFont;
 
 type FillPdfProps = {
   flowId: FlowId;
@@ -57,13 +60,14 @@ export async function fillPdf({
   const form = pdfDoc.getForm();
 
   pdfDoc.registerFontkit(fontkit);
-  const customFont = await pdfDoc.embedFont(bundesSansCondensed, {
+  customPdfFormFont = await pdfDoc.embedFont(bundesSansCondensed, {
     features: {
       liga: false,
     },
   });
   const rawUpdateFieldAppearances = form.updateFieldAppearances.bind(form);
-  form.updateFieldAppearances = () => rawUpdateFieldAppearances(customFont);
+  form.updateFieldAppearances = () =>
+    rawUpdateFieldAppearances(customPdfFormFont);
 
   Object.values(pdfValues).forEach((value) => {
     if (isBooleanField(value)) {

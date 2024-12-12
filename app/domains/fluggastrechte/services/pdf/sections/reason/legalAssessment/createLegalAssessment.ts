@@ -6,6 +6,7 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
+  PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { getFullPlaintiffName } from "../../getFullPlaintiffName";
 import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissingVerticalSpace";
@@ -20,11 +21,40 @@ export const ADVANCE_COURT_COSTS_FIRST_TEXT =
 export const ADVANCE_COURT_COSTS_SECOND_TEXT =
   "€ anzufordern und die Klage nach der Zahlung schnellstmöglich an die beklagte Partei zuzustellen.";
 
+function checkAndNewPage(doc: typeof PDFDocument) {
+  const legalAssessmentHeight = doc.heightOfString(LEGAL_ASSESSMENT_TEXT, {
+    width: PDF_WIDTH_SEIZE,
+  });
+
+  const claimFullJustifiedTextHeight = doc.heightOfString(
+    CLAIM_FULL_JUSTIFIED_TEXT,
+    {
+      width: PDF_WIDTH_SEIZE,
+    },
+  );
+
+  const assumedSettlementSectionTextHeight = doc.heightOfString(
+    ASSUMED_SETTLEMENT_SECTION_TEXT,
+    {
+      width: PDF_WIDTH_SEIZE,
+    },
+  );
+
+  addNewPageInCaseMissingVerticalSpace(
+    doc,
+    legalAssessmentHeight +
+      claimFullJustifiedTextHeight +
+      assumedSettlementSectionTextHeight,
+  );
+}
+
 export const createLegalAssessment = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechtContext,
 ) => {
+  checkAndNewPage(doc);
+
   const legalAssessmentSect = doc.struct("Sect");
   legalAssessmentSect.add(
     doc.struct("H2", {}, () => {
@@ -56,7 +86,7 @@ export const createLegalAssessment = (
 
       const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${courtCostValue} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
       const advanceCourtTextHeight = doc.heightOfString(advanceCourtText, {
-        width: doc.widthOfString(advanceCourtText),
+        width: PDF_WIDTH_SEIZE,
       });
       addNewPageInCaseMissingVerticalSpace(doc, advanceCourtTextHeight);
 

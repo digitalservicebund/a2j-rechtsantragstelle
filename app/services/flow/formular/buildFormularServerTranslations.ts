@@ -84,7 +84,10 @@ export const buildFormularServerTranslations = async ({
   const cmsContent = interpolateSerializableObject(
     structureCmsContent(formPageContent),
     typeof currentFlow.stringReplacements !== "undefined"
-      ? currentFlow.stringReplacements(userDataWithPageData)
+      ? {
+          ...stringTranslations,
+          ...currentFlow.stringReplacements(userDataWithPageData),
+        }
       : {},
   );
 

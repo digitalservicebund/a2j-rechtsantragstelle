@@ -1,5 +1,8 @@
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { getConnectionDetails } from "../getConnectionDetails";
+import {
+  getConnectionDetails,
+  NOT_MEASURE_DID_NOT_ARRIVE_TEXT,
+} from "../getConnectionDetails";
 
 describe("getConnectionDetails", () => {
   it("should return actual flight details when 'tatsaechlicherFlug' is 'yes'", () => {
@@ -12,7 +15,7 @@ describe("getConnectionDetails", () => {
     };
     const result = getConnectionDetails(userData);
     expect(result).toEqual({
-      info: "3 Stunden\n30 Minuten",
+      info: "3 Stunden\n30 Minuten  ",
       timeTable: ["--", "--", "10.11.2024, 15:30"],
     });
   });
@@ -28,7 +31,7 @@ describe("getConnectionDetails", () => {
     };
     const result = getConnectionDetails(userData);
     expect(result).toEqual({
-      info: "3 Stunden\n30 Minuten",
+      info: "3 Stunden\n30 Minuten  ",
       timeTable: ["AB123", "--", "10.11.2024, 15:30"],
     });
   });
@@ -43,18 +46,18 @@ describe("getConnectionDetails", () => {
     };
     const result = getConnectionDetails(userData);
     expect(result).toEqual({
-      info: "2 Stunden\n30 Minuten",
+      info: "2 Stunden\n30 Minuten  ",
       timeTable: ["--", "--", "10.11.2024, 14:30"],
     });
   });
 
-  it("should return '--' for 'keineAnkunft' ersatzverbindungArt", () => {
+  it("should return not measure and did not arrive text for 'keineAnkunft' ersatzverbindungArt", () => {
     const userData: FluggastrechtContext = {
       ersatzverbindungArt: "keineAnkunft",
     };
     const result = getConnectionDetails(userData);
     expect(result).toEqual({
-      info: "--",
+      info: NOT_MEASURE_DID_NOT_ARRIVE_TEXT,
       timeTable: ["--", "--", "--"],
     });
   });
