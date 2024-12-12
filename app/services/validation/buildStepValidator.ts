@@ -4,6 +4,7 @@ import { getContext } from "~/domains/contexts";
 import { parsePathname } from "~/domains/flowIds";
 import { isKeyOfObject } from "~/util/objects";
 import { fieldIsArray, splitArrayName } from "../array";
+import { getArrivalTimeDelayValidator } from "./getArrivalTimeDelayValidator";
 
 type Schemas = Record<string, z.ZodTypeAny>;
 
@@ -27,10 +28,24 @@ export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
       fieldValidators[stepOrFieldName] = schemas[stepOrFieldName];
     }
   }
-  return withZod(z.object(fieldValidators));
+
+  return getSpecialFieldValidators(fieldValidators, fieldNames);
 }
 
 export function validatorForFieldnames(fieldNames: string[], pathname: string) {
   const context = getContext(parsePathname(pathname).flowId);
   return buildStepValidator(context, fieldNames);
+}
+
+function getSpecialFieldValidators(
+  fieldValidators: Record<string, z.ZodTypeAny>,
+  fieldNames: string[],
+) {
+  const baseSchema = z.object(fieldValidators);
+
+  if (fieldNames.includes("tatsaechlicherAnkunftsDatum")) {
+    return withZod(getArrivalTimeDelayValidator(baseSchema));
+  }
+
+  return withZod(baseSchema);
 }
