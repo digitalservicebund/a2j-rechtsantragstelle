@@ -1,30 +1,6 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
+// @vitest-environment node
 import { PDFDocument } from "pdf-lib";
 import { pdfDownloadLoader } from "../pdfDownloadLoader";
-
-// Convert Buffers to Uint8Array for compatibility with Vitest
-// Vitest expects Uint8Array inputs for certain methods in pdf-lib.
-function wrapPdfDocumentLoad() {
-  const originalLoad = PDFDocument.load;
-  vi.spyOn(PDFDocument, "load").mockImplementation((input, ...args) => {
-    const adjustedInput =
-      input instanceof Buffer ? new Uint8Array(input) : input;
-    return originalLoad.call(PDFDocument, adjustedInput, ...args);
-  });
-}
-
-function wrapEmbedFont() {
-  const originalEmbedFont = PDFDocument.prototype.embedFont;
-  vi.spyOn(PDFDocument.prototype, "embedFont").mockImplementation(function (
-    this: PDFDocument,
-    fontData,
-    ...args
-  ) {
-    const adjustedFontData =
-      fontData instanceof Buffer ? new Uint8Array(fontData) : fontData;
-    return originalEmbedFont.call(this, adjustedFontData, ...args);
-  });
-}
 
 vi.mock("~/services/flow/pruner", () => ({
   pruneIrrelevantData: vi
@@ -32,30 +8,20 @@ vi.mock("~/services/flow/pruner", () => ({
     .mockResolvedValue({ vorname: "Zoe", nachname: "Müller" }),
 }));
 
+vi.mock("~/services/cms/index.server.ts", () => ({
+  fetchTranslations: vi.fn().mockResolvedValue({}),
+}));
+
 describe("pdfDownloadLoader", () => {
-  beforeAll(() => {
-    wrapPdfDocumentLoad();
-    wrapEmbedFont();
-  });
-
-  afterAll(() => {
-    vi.restoreAllMocks();
-  });
-
   it("generates correct PDF for Beratungshilfe", async () => {
-    const mockLoaderArgs: LoaderFunctionArgs = {
+    const response = await pdfDownloadLoader({
       request: new Request(
         "https://mock-url.de/beratungshilfe/antrag/download/pdf",
-        {
-          method: "GET",
-          headers: new Headers({ Cookie: "mock-session-data" }),
-        },
       ),
       params: {},
       context: {},
-    };
+    });
 
-    const response = await pdfDownloadLoader(mockLoaderArgs);
     const pdfBuffer = Buffer.from(await response.arrayBuffer());
     const pdfDoc = await PDFDocument.load(new Uint8Array(pdfBuffer));
     const nameField = pdfDoc
@@ -69,19 +35,14 @@ describe("pdfDownloadLoader", () => {
   });
 
   it("generates correct PDF for Prozesskostenhilfe", async () => {
-    const mockLoaderArgs: LoaderFunctionArgs = {
+    const response = await pdfDownloadLoader({
       request: new Request(
         "https://mock-url.de/prozesskostenhilfe/formular/download/pdf",
-        {
-          method: "GET",
-          headers: new Headers({ Cookie: "mock-session-data" }),
-        },
       ),
       params: {},
       context: {},
-    };
+    });
 
-    const response = await pdfDownloadLoader(mockLoaderArgs);
     const pdfBuffer = Buffer.from(await response.arrayBuffer());
     const pdfDoc = await PDFDocument.load(new Uint8Array(pdfBuffer));
     const nameField = pdfDoc
