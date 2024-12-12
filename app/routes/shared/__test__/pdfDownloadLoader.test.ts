@@ -22,8 +22,7 @@ describe("pdfDownloadLoader", () => {
       context: {},
     });
 
-    const pdfBuffer = Buffer.from(await response.arrayBuffer());
-    const pdfDoc = await PDFDocument.load(new Uint8Array(pdfBuffer));
+    const pdfDoc = await PDFDocument.load(await response.arrayBuffer());
     const nameField = pdfDoc
       .getForm()
       .getTextField("Antragsteller (Name, Vorname ggf Geburtsname)");
@@ -43,8 +42,7 @@ describe("pdfDownloadLoader", () => {
       context: {},
     });
 
-    const pdfBuffer = Buffer.from(await response.arrayBuffer());
-    const pdfDoc = await PDFDocument.load(new Uint8Array(pdfBuffer));
+    const pdfDoc = await PDFDocument.load(await response.arrayBuffer());
     const nameField = pdfDoc
       .getForm()
       .getTextField("Name Vorname ggf Geburtsname");
