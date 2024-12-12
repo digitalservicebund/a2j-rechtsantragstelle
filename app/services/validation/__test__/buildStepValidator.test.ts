@@ -103,14 +103,19 @@ describe("buildStepValidator", () => {
   });
 
   describe("specialFieldValidators", () => {
-    it("should return a validator for arrival time delay", () => {
+    it("should return extended validation schema in fluggastrechte flow", async () => {
       const schemas = {
         tatsaechlicherAnkunftsDatum: z.string(),
         tatsaechlicherAnkunftsZeit: z.string(),
         direktAbflugsDatum: z.string(),
         direktAbflugsZeit: z.string(),
       };
-      const fieldNames = ["tatsaechlicherAnkunftsDatum"];
+      const fieldNames = [
+        "tatsaechlicherAnkunftsZeit",
+        "tatsaechlicherAnkunftsDatum",
+        "direktAbflugsDatum",
+        "direktAbflugsZeit",
+      ];
 
       const validator = buildStepValidator(
         schemas,
@@ -119,6 +124,22 @@ describe("buildStepValidator", () => {
       );
 
       expect(validator).toBeDefined();
+
+      expect(
+        await validator.validate({
+          tatsaechlicherAnkunftsDatum: "20.03.2024",
+          tatsaechlicherAnkunftsZeit: "14:00",
+          direktAbflugsDatum: "20.03.2024",
+          direktAbflugsZeit: "13:00",
+        }),
+      ).toEqual(
+        expect.objectContaining({
+          error: {
+            fieldErrors: { tatsaechlicherAnkunftsZeit: "invalidTimeDelay" },
+          },
+          data: undefined,
+        }),
+      );
     });
   });
 });
