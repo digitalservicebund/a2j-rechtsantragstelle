@@ -54,17 +54,14 @@ function getValidatorsWithSpecialFieldValidatorsOrDefault(
 ) {
   const baseSchema = z.object(fieldValidators);
 
-  if (flowId === "/fluggastrechte/formular") {
-    for (const fieldName of fieldNames) {
-      switch (fieldName) {
-        case "tatsaechlicherAnkunftsDatum":
-          return withZod(getArrivalTimeDelayValidator(baseSchema));
-        case "tatsaechlicherAnkunftsZeit":
-          return withZod(baseSchema);
-        default:
-          return withZod(baseSchema);
-      }
-    }
+  if (flowId !== "/fluggastrechte/formular") return withZod(baseSchema);
+
+  if (fieldNames.includes("tatsaechlicherAnkunftsZeit")) {
+    return withZod(getArrivalTimeDelayValidator(baseSchema));
+  }
+
+  if (fieldNames.includes("tatsaechlicherAnkunftsDatum")) {
+    return withZod(baseSchema);
   }
 
   return withZod(baseSchema);
