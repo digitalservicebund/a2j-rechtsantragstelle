@@ -58,7 +58,7 @@ describe("Select", () => {
     },
   );
 
-  describe("Input field with aria-required attribute", () => {
+  describe("Select field with aria-required attribute", () => {
     it("has aria-required attribute set to true if errorMessages contain inputRequired", () => {
       render(
         <Select
@@ -66,13 +66,7 @@ describe("Select", () => {
           options={[]}
           label="Test Label"
           formId="formId"
-          errorMessages={[
-            { code: "required", text: "error" },
-            {
-              code: "invalid",
-              text: "Bitte geben Sie eine gültige Uhrzeit ein.",
-            },
-          ]}
+          errorMessages={[{ code: "required", text: "error" }]}
         />,
       );
       const element = screen.getByRole("combobox");

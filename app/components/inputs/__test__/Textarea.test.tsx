@@ -187,18 +187,12 @@ describe("Textarea component", () => {
     expect(textarea.getAttribute("maxLength")).toBe(maxLength.toString());
   });
 
-  describe("Input field with aria-required attribute", () => {
+  describe("Textarea field with aria-required attribute", () => {
     it("has aria-required attribute set to true if errorMessages contain inputRequired", () => {
       render(
         <Textarea
           name="test"
-          errorMessages={[
-            { code: "required", text: "error" },
-            {
-              code: "invalid",
-              text: "Bitte geben Sie eine gültige Uhrzeit ein.",
-            },
-          ]}
+          errorMessages={[{ code: "required", text: "error" }]}
           formId="formId"
         />,
       );
