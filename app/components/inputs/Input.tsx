@@ -65,6 +65,9 @@ const Input = function InputComponent({
             " ",
           )}
           aria-errormessage={error && errorId}
+          aria-required={
+            !!errorMessages?.find((err) => err.code === "required")
+          }
         />
         {suffix && (
           <div className="ds-input-suffix" aria-hidden="true">
