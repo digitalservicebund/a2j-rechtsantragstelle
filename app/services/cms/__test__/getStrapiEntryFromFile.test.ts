@@ -66,17 +66,6 @@ describe("services/cms", () => {
       ).toEqual([footerData]);
     });
 
-    describe("when no entry exists for the given locale", () => {
-      it("returns default entry", async () => {
-        expect(
-          await getStrapiEntryFromFile({
-            apiId: "footer",
-            locale: "en",
-          }),
-        ).toEqual([footerData]);
-      });
-    });
-
     it("can filter by property", async () => {
       expect(
         await getStrapiEntryFromFile({
@@ -126,16 +115,6 @@ describe("services/cms", () => {
           locale: "de",
         }),
       ).toStrictEqual([]);
-    });
-
-    it("falls back to default locale", async () => {
-      expect(
-        await getStrapiEntryFromFile({
-          apiId: "pages",
-          filters: [{ field: "slug", value: impressumPath }],
-          locale: "en",
-        }),
-      ).toEqual([impressum]);
     });
   });
 });
