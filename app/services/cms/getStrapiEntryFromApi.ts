@@ -33,11 +33,29 @@ const buildUrl = ({
     buildFilters(filters),
   ].join("");
 
+const buildUrlV5 = ({
+  apiId,
+  pageSize,
+  filters,
+  locale = defaultLocale,
+  populate = "*",
+}: GetStrapiEntryOpts) =>
+  [
+    config().STRAPI_API,
+    apiId,
+    `?populate=${populate}`,
+    `&pLevel`, // https://github.com/NEDDL/strapi-v5-plugin-populate-deep
+    `&locale=${locale}`,
+    pageSize ? `&pagination[pageSize]=${pageSize}` : "",
+    buildFilters(filters),
+  ].join("");
+
 const makeStrapiRequest = async <T extends ApiId>(url: string) =>
   axios.get<{ data: StrapiSchemas[T] | null }>(url, {
     validateStatus: (status) => status < 500,
     headers: {
       Authorization: "Bearer " + config().STRAPI_ACCESS_KEY,
+      "Strapi-Response-Format": "v4", // TODO: Remove after migration, see https://docs.strapi.io/dev-docs/migration/v4-to-v5/breaking-changes/new-response-format#migration
     },
   });
 
