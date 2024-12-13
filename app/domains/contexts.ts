@@ -7,6 +7,7 @@ import { context as geldEinklagenFormularContext } from "~/domains/geldEinklagen
 import { context as geldEinklagenContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import { prozesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 import type { FlowId } from "./flowIds";
+import type { CompoundValidation } from "./fluggastrechte/formular/flugdaten/context";
 
 export type BasicTypes = string | number | boolean;
 export type ArrayData = Array<Record<string, BasicTypes>>;
@@ -21,6 +22,10 @@ export type Context = Record<
   BasicTypes | ObjectType | ArrayData | undefined
 >;
 
+export type Schemas = Record<string, ZodTypeAny> & {
+  compoundValidations?: CompoundValidation;
+};
+
 const contexts = {
   "/beratungshilfe/antrag": beratungshilfeFormularContext,
   "/beratungshilfe/vorabcheck": beratungshilfeContext,
@@ -29,6 +34,6 @@ const contexts = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckContext,
   "/fluggastrechte/formular": fluggastrechtContext,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularContext,
-} as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;
+} as const satisfies Record<FlowId, Schemas>;
 
 export const getContext = (flowId: FlowId) => contexts[flowId];

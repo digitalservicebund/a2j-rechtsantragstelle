@@ -1,9 +1,13 @@
+import omit from "lodash/omit";
 import { z } from "zod";
 import { airlineSchema } from "~/services/validation/airline";
 import { airportSchema } from "~/services/validation/airport";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
-import { fluggastrechteFlugdaten } from "./flugdaten/context";
+import {
+  compoundValidations,
+  fluggastrechteFlugdaten,
+} from "./flugdaten/context";
 import { fluggastrechtePersoenlichDaten } from "./persoenlicheDaten/context";
 import { fluggastrechtProzessfuehrungDaten } from "./prozessfuehrung/context";
 import { fluggastrechtStreitKostenDaten } from "./streitwertKosten/context";
@@ -23,7 +27,10 @@ export const fluggastrechtContext = {
   ersatzflugStartenZweiStunden: stringOptionalSchema,
   ersatzflugLandenVierStunden: stringOptionalSchema,
   entschaedigung: stringOptionalSchema,
+  compoundValidations,
 } as const;
 
-const _contextObject = z.object(fluggastrechtContext).partial();
+const _contextObject = z
+  .object(omit(fluggastrechtContext, "compoundValidations"))
+  .partial();
 export type FluggastrechtContext = z.infer<typeof _contextObject>;

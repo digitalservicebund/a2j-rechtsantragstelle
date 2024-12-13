@@ -1,3 +1,4 @@
+import pick from "lodash/pick";
 import { z } from "zod";
 import { airportSchema } from "~/services/validation/airport";
 import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
@@ -61,3 +62,34 @@ export const fluggastrechteFlugdaten = {
 
 const _contextObject = z.object(fluggastrechteFlugdaten).partial();
 export type FluggastrechteFlugdatenContext = z.infer<typeof _contextObject>;
+
+const refineArgs = [
+  ({
+    tatsaechlicherAnkunftsDatum,
+    direktAbflugsDatum,
+  }: FluggastrechteFlugdatenContext) => {
+    return (
+      tatsaechlicherAnkunftsDatum &&
+      direktAbflugsDatum &&
+      tatsaechlicherAnkunftsDatum >= direktAbflugsDatum
+    );
+  },
+  { path: ["tatsaechlicherAnkunftsDatum"], message: "LEIDER FAIL" },
+] as const;
+
+const objectWithRefine = z
+  .object(
+    pick(
+      fluggastrechteFlugdaten,
+      "tatsaechlicherAnkunftsDatum",
+      "direktAbflugsDatum",
+    ),
+  )
+  .partial()
+  .refine(...refineArgs);
+
+export type CompoundValidation = Record<string, [(arg: any) => boolean, any]>;
+
+export const compoundValidations = {
+  tatsaechlicherAnkunftsDatum: refineArgs,
+} as const satisfies CompoundValidation;
