@@ -2,16 +2,14 @@
 import fs from "node:fs";
 import type { GetStrapiEntryOpts } from "./filters";
 import type { GetStrapiEntry } from "./getStrapiEntry";
-import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
 import { strapiFileSchema, type ApiId, type StrapiSchemas } from "./schemas";
 import { config } from "../env/env.server";
 
 let content: StrapiSchemas | undefined;
 
-export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>({
-  locale = config().ENVIRONMENT != "production" ? stagingLocale : defaultLocale,
-  ...opts
-}: GetStrapiEntryOpts) => {
+export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>(
+  opts: GetStrapiEntryOpts,
+) => {
   if (!content) {
     try {
       const filePath = config().CONTENT_FILE_PATH;
@@ -41,17 +39,7 @@ export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>({
       }),
   );
 
-  // search for the locale
-  let contentItem = contentItems.filter(
-    (item) => "locale" in item.attributes && item.attributes.locale == locale,
-  );
-
-  if (contentItem.length === 0) {
-    // if the locale is not found, search for the default locale
-    contentItem = contentItems.filter(
-    );
-  }
-
-  return contentItem as StrapiSchemas[T];
+  return contentItems.filter(
     (item) => "locale" in item && item.locale == opts.locale,
+  ) as StrapiSchemas[T];
 };

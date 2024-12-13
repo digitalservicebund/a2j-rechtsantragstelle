@@ -40,23 +40,6 @@ describe("services/cms", () => {
       axiosGetSpy.mockClear();
     });
 
-    test("first requests staging locale before", async () => {
-      await getStrapiEntryFromApi({
-        ...defaultOptions,
-        locale: defaultLocale,
-      });
-      expect(axiosGetSpy).toHaveBeenNthCalledWith(
-        1,
-        expectedStagingRequestUrl,
-        expect.anything(),
-      );
-      expect(axiosGetSpy).toHaveBeenNthCalledWith(
-        2,
-        expectedRequestUrl,
-        expect.anything(),
-      );
-    });
-
     test("request url with property filter", async () => {
       await getStrapiEntryFromApi({
         ...defaultOptions,
