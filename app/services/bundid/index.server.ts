@@ -19,7 +19,9 @@ export const getBundIdServiceProvider = () => {
 
     bundIdServiceProvider = saml.ServiceProvider({
       metadata: spMetadata,
+      encPrivateKey: privateKey,
       privateKey,
+      wantAssertionsSigned: true,
     });
   }
   return bundIdServiceProvider;
@@ -40,6 +42,8 @@ export const getBundIdIdentityProvider = () => {
         },
       ],
       signingCert: config().SAML_IDP_CERT,
+      isAssertionEncrypted: true,
+      messageSigningOrder: "encrypt-then-sign",
     });
   }
   return bundIdIdentityProvider;

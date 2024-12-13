@@ -47,6 +47,7 @@ const Select = ({
         aria-invalid={error !== undefined}
         aria-describedby={error && errorId}
         aria-errormessage={error && errorId}
+        aria-required={!!errorMessages?.find((err) => err.code === "required")}
       >
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((option) => {

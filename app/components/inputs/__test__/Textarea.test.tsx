@@ -186,4 +186,26 @@ describe("Textarea component", () => {
 
     expect(textarea.getAttribute("maxLength")).toBe(maxLength.toString());
   });
+
+  describe("Textarea field with aria-required attribute", () => {
+    it("has aria-required attribute set to true if errorMessages contain inputRequired", () => {
+      render(
+        <Textarea
+          name="test"
+          errorMessages={[{ code: "required", text: "error" }]}
+          formId="formId"
+        />,
+      );
+      const element = screen.getByRole("textbox");
+      expect(element).toHaveAttribute("aria-required", "true");
+    });
+
+    it("has aria-required attribute set to false if errorMessages do not contain inputRequired", () => {
+      render(
+        <Textarea name="test" errorMessages={undefined} formId="formId" />,
+      );
+      const element = screen.getByRole("textbox");
+      expect(element).toHaveAttribute("aria-required", "false");
+    });
+  });
 });
