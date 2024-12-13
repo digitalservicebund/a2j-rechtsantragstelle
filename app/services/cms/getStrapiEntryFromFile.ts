@@ -26,20 +26,17 @@ export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>({
   }
 
   const contentItems = [...content[opts.apiId]].filter(
-    ({ attributes }) =>
+    (content) =>
       !opts.filters ||
       opts.filters.every(({ field, value, nestedField }) => {
-        const relevantField = (attributes as Record<string, unknown>)[field];
+        const relevantField = (content as Record<string, unknown>)[field];
         if (!nestedField) return relevantField === value;
 
         return (
           typeof relevantField === "object" &&
           relevantField !== null &&
-          "data" in relevantField &&
-          Array.isArray(relevantField.data) &&
-          relevantField.data.some(
-            (nestedItem) => nestedItem.attributes[nestedField] === value,
-          )
+          Array.isArray(relevantField) &&
+          relevantField.some((nestedItem) => nestedItem[nestedField] === value)
         );
       }),
   );
@@ -52,10 +49,9 @@ export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>({
   if (contentItem.length === 0) {
     // if the locale is not found, search for the default locale
     contentItem = contentItems.filter(
-      (item) =>
-        "locale" in item.attributes && item.attributes.locale == defaultLocale,
     );
   }
 
   return contentItem as StrapiSchemas[T];
+    (item) => "locale" in item && item.locale == opts.locale,
 };

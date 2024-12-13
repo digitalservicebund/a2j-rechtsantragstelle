@@ -9,9 +9,7 @@ export const StrapiFormFlowPageSchema = z
   .object({
     heading: z.string(),
     stepId: z.string().nullable(),
-    flow_ids: z.object({
-      data: z.array(z.object({ attributes: StrapiFlowIdSchema })),
-    }),
+    flow_ids: z.array(StrapiFlowIdSchema),
     preHeading: z.string().nullable(),
     nextButtonLabel: z.string().nullable(),
     backButtonLabel: z.string().nullable(),

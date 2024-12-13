@@ -55,7 +55,6 @@ const makeStrapiRequest = async <T extends ApiId>(url: string) =>
     validateStatus: (status) => status < 500,
     headers: {
       Authorization: "Bearer " + config().STRAPI_ACCESS_KEY,
-      "Strapi-Response-Format": "v4", // TODO: Remove after migration, see https://docs.strapi.io/dev-docs/migration/v4-to-v5/breaking-changes/new-response-format#migration
     },
   });
 
