@@ -20,22 +20,7 @@ const buildUrl = ({
   apiId,
   pageSize,
   filters,
-  populate = "deep",
-}: GetStrapiEntryOpts) =>
-  [
-    config().STRAPI_API,
-    apiId,
-    `?populate=${populate}`,
-    `&locale=${locale}`,
-    pageSize ? `&pagination[pageSize]=${pageSize}` : "",
-    buildFilters(filters),
-  ].join("");
-
-const buildUrlV5 = ({
-  apiId,
-  pageSize,
-  filters,
-  locale = defaultLocale,
+  locale,
   populate = "*",
 }: GetStrapiEntryOpts) =>
   [

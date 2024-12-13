@@ -25,8 +25,8 @@ describe("services/cms", () => {
     };
     const defaultResponseData = { data: { data: dataResponse } };
     const emptyResponseData = { data: [] };
-    const expectedRequestUrl = `${API_URL}pages?populate=deep&locale=de`;
-    const expectedStagingRequestUrl = `${API_URL}pages?populate=deep&locale=sg`;
+    const expectedRequestUrl = `${API_URL}pages?populate=*&pLevel&locale=de`;
+    const expectedStagingRequestUrl = `${API_URL}pages?populate=*&pLevel&locale=sg`;
 
     const axiosGetSpy = vi.spyOn(axios, "get");
 
