@@ -10,16 +10,25 @@ async function dumpCmsToFile() {
   const { CONTENT_FILE_PATH, STRAPI_API } = config();
   console.log(`Fetching CMS data from ${STRAPI_API}`);
 
-  const locale = "all";
+  const locales = ["de", "sg"] as const;
   const content: Record<string, unknown> = {};
 
   for (const apiId of Object.keys(strapiSchemas) as ApiId[]) {
-    console.log(`Fetching ${apiId}`);
-    content[apiId] = await getStrapiEntryFromApi({
-      apiId,
-      locale,
-      pageSize: "500",
-    });
+    const allEntries = [];
+    process.stdout.write(`Fetching ${apiId}:`);
+    for (const locale of locales) {
+      const entries = await getStrapiEntryFromApi({
+        apiId,
+        locale,
+        pageSize: "500",
+      });
+      if (entries.length > 0 && entries[0] !== null) {
+        process.stdout.write(` ${locale} (${entries.length}) |`);
+        allEntries.push(...entries);
+      }
+    }
+    content[apiId] = allEntries;
+    console.log();
   }
 
   console.log(`Writing CMS content to ${CONTENT_FILE_PATH}...`);
