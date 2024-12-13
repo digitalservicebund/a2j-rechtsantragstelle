@@ -6,6 +6,10 @@ function convertToTimestamp(date: string, time: string): number {
   const [hours, minutes] = time.split(":").map(Number);
   return new Date(year, month - 1, day, hours, minutes).getTime();
 }
+function convertToDate(date: string): number {
+  const [day, month, year] = date.split(".").map(Number);
+  return new Date(year, month - 1, day).getTime();
+}
 
 export function getArrivalTimeDelayValidator(
   baseSchema: z.ZodObject<Record<string, z.ZodTypeAny>>,
@@ -28,6 +32,24 @@ export function getArrivalTimeDelayValidator(
     {
       message: "invalidTimeDelay",
       path: ["tatsaechlicherAnkunftsZeit"],
+    },
+  );
+}
+
+export function getArrivalDateValidator(
+  baseSchema: z.ZodObject<Record<string, z.ZodTypeAny>>,
+) {
+  return baseSchema.refine(
+    (data) => {
+      const arrivalDate = convertToDate(data.tatsaechlicherAnkunftsDatum);
+      const departureDate = convertToDate(data.direktAbflugsDatum);
+
+      const actualTimeDifferenceInMs = arrivalDate - departureDate;
+      return actualTimeDifferenceInMs >= 0;
+    },
+    {
+      message: "invalidDate",
+      path: ["tatsaechlicherAnkunftsDatum"],
     },
   );
 }

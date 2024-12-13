@@ -5,7 +5,10 @@ import type { FlowId } from "~/domains/flowIds";
 import { parsePathname } from "~/domains/flowIds";
 import { isKeyOfObject } from "~/util/objects";
 import { fieldIsArray, splitArrayName } from "../array";
-import { getArrivalTimeDelayValidator } from "./getArrivalTimeDelayValidator";
+import {
+  getArrivalDateValidator,
+  getArrivalTimeDelayValidator,
+} from "./getArrivalTimeDelayValidator";
 
 type Schemas = Record<string, z.ZodTypeAny>;
 
@@ -56,13 +59,17 @@ function getValidatorsWithSpecialFieldValidatorsOrDefault(
 
   if (flowId !== "/fluggastrechte/formular") return withZod(baseSchema);
 
-  if (fieldNames.includes("tatsaechlicherAnkunftsZeit")) {
-    return withZod(getArrivalTimeDelayValidator(baseSchema));
-  }
+  const hasArrivalDate = fieldNames.includes("tatsaechlicherAnkunftsDatum");
+  const hasArrivalTime = fieldNames.includes("tatsaechlicherAnkunftsZeit");
 
-  if (fieldNames.includes("tatsaechlicherAnkunftsDatum")) {
-    return withZod(baseSchema);
-  }
+  const hasRequiredFields = hasArrivalDate && hasArrivalTime;
 
-  return withZod(baseSchema);
+  if (!hasRequiredFields) return withZod(baseSchema);
+
+  const mergedSchema = z.intersection(
+    getArrivalTimeDelayValidator(baseSchema),
+    getArrivalDateValidator(baseSchema),
+  );
+
+  return withZod(mergedSchema);
 }
