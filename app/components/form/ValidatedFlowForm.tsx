@@ -2,7 +2,7 @@ import { useParams, useLocation } from "@remix-run/react";
 import { ValidatedForm } from "remix-validated-form";
 import type { ButtonNavigationProps } from "~/components/form/ButtonNavigation";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import { Context } from "~/domains/contexts";
+import type { Context } from "~/domains/contexts";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { splatFromParams } from "~/services/params";

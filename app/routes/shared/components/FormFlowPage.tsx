@@ -1,13 +1,13 @@
 import { useLoaderData, useLocation } from "@remix-run/react";
 import ArraySummary from "~/components/arraySummary/ArraySummary";
 import Background from "~/components/Background";
+import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
 import SummaryDataOverview from "~/domains/fluggastrechte/components/SummaryDataOverview";
 import type { loader } from "../formular.server";
-import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 
 export function FormFlowPage() {
   const {
