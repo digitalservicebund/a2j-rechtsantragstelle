@@ -21,9 +21,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: fetchLatestImageContent
-        run: ./docker.sh --contentFromImage && mv content_from_image.json content.json
-        continue-on-error: true
-      - if: steps.fetchLatestImageContent.outcome == 'failure'
+        #   run: ./docker.sh --contentFromImage && mv content_from_image.json content.json
+        #   continue-on-error: true
+        # - if: steps.fetchLatestImageContent.outcome == 'failure'
         run: npm ci && npm run build:localContent
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
