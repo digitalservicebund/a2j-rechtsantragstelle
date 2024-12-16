@@ -8,10 +8,7 @@ import { StrapiFormComponentSchema } from "./StrapiFormComponent";
 export const StrapiVorabCheckPageSchema = z
   .object({
     stepId: z.string().nullable(),
-    flow_ids: z.object({
-      data: z.array(z.object({ attributes: StrapiFlowIdSchema })),
-    }),
-
+    flow_ids: z.array(StrapiFlowIdSchema),
     pre_form: z.array(StrapiContentComponentSchema),
     form: z.array(StrapiFormComponentSchema),
     nextButtonLabel: z.string().nullable(),

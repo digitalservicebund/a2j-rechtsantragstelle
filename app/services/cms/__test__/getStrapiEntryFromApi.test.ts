@@ -1,9 +1,6 @@
 import axios from "axios";
 import { getStrapiEntryFromApi } from "~/services/cms/getStrapiEntryFromApi";
-import {
-  defaultLocale,
-  stagingLocale,
-} from "~/services/cms/models/StrapiLocale";
+import { stagingLocale } from "~/services/cms/models/StrapiLocale";
 import type { GetStrapiEntryOpts } from "../filters";
 
 const API_URL = "test://cms/api/";
@@ -18,43 +15,21 @@ describe("services/cms", () => {
   });
 
   describe("getStrapiEntryFromApi", () => {
-    const dataResponse = [{ attributes: "data" }];
+    const dataResponse = [{ testField: "testData" }];
     const defaultOptions: GetStrapiEntryOpts = {
       apiId: "pages",
       locale: stagingLocale,
     };
-    const defaultResponseData = { data: { data: dataResponse } };
-    const emptyResponseData = { data: [] };
-    const expectedRequestUrl = `${API_URL}pages?populate=deep&locale=de`;
-    const expectedStagingRequestUrl = `${API_URL}pages?populate=deep&locale=sg`;
+    const expectedStagingRequestUrl = `${API_URL}pages?populate=*&pLevel&locale=sg`;
 
     const axiosGetSpy = vi.spyOn(axios, "get");
 
     beforeEach(() => {
-      axiosGetSpy
-        .mockResolvedValue(defaultResponseData)
-        .mockResolvedValueOnce(emptyResponseData);
+      axiosGetSpy.mockResolvedValue({ data: { data: dataResponse } });
     });
 
     afterEach(() => {
       axiosGetSpy.mockClear();
-    });
-
-    test("first requests staging locale before", async () => {
-      await getStrapiEntryFromApi({
-        ...defaultOptions,
-        locale: defaultLocale,
-      });
-      expect(axiosGetSpy).toHaveBeenNthCalledWith(
-        1,
-        expectedStagingRequestUrl,
-        expect.anything(),
-      );
-      expect(axiosGetSpy).toHaveBeenNthCalledWith(
-        2,
-        expectedRequestUrl,
-        expect.anything(),
-      );
     });
 
     test("request url with property filter", async () => {

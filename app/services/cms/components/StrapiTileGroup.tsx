@@ -15,13 +15,7 @@ const StrapiTileGroupSchema = z
     label: z.string().nullable(),
     altLabel: z.string().nullable(),
     options: z.array(StrapiTileSchema),
-    errors: z.object({
-      data: z.array(
-        HasStrapiIdSchema.extend({
-          attributes: StrapiErrorCategorySchema,
-        }),
-      ),
-    }),
+    errors: z.array(StrapiErrorCategorySchema.merge(HasStrapiIdSchema)),
     useTwoColumns: z.boolean(),
   })
   .merge(HasOptionalStrapiIdSchema);
@@ -37,9 +31,7 @@ export const StrapiTileGroup = ({
   options,
   ...props
 }: StrapiTileGroup) => {
-  const errorMessages = errors.data?.flatMap(
-    (cmsError) => cmsError.attributes.errorCodes,
-  );
+  const errorMessages = errors?.flatMap((cmsError) => cmsError.errorCodes);
   const tileOptions = options.map((tileOption) => ({
     ...omitNull(tileOption),
     image: getImageProps(tileOption.image),

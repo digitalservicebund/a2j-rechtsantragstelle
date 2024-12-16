@@ -59,8 +59,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     stepId,
   });
 
-  const documents = cmsContent.documents.data?.attributes.element ?? [];
-  const nextSteps = cmsContent.nextSteps.data?.attributes.element ?? [];
+  const documents = cmsContent.documents?.element ?? [];
+  const nextSteps = cmsContent.nextSteps?.element ?? [];
 
   const cmsData = { ...cmsContent, nextSteps, documents };
 

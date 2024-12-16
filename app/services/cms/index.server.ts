@@ -21,21 +21,21 @@ export async function fetchMeta(
   const filters = [{ value: opts.filterValue, field: "slug" }];
   const apiId = "pages";
   const pageEntry = await getStrapiEntry({ ...opts, filters, apiId, populate });
-  const parsedEntry = HasStrapiMetaSchema.safeParse(pageEntry[0]?.attributes);
+  const parsedEntry = HasStrapiMetaSchema.safeParse(pageEntry[0]);
   return parsedEntry.success ? parsedEntry.data.meta : null;
 }
 
 export async function fetchSingleEntry<T extends SingleEntryId>(
   apiId: T,
-): Promise<StrapiSchemas[T][number]["attributes"]> {
+): Promise<StrapiSchemas[T][number]> {
   const strapiEntry = await getStrapiEntry({ apiId });
-  return entrySchemas[apiId].parse(strapiEntry)[0].attributes;
+  return entrySchemas[apiId].parse(strapiEntry)[0];
 }
 
 async function fetchCollectionEntry<T extends CollectionId>(
   apiId: T,
   filters?: Filter[],
-): Promise<StrapiSchemas[T][number]["attributes"]> {
+): Promise<StrapiSchemas[T][number]> {
   const strapiEntry = await getStrapiEntry({ apiId, filters });
   const strapiEntryParsed = collectionSchemas[apiId].safeParse(strapiEntry);
 
@@ -46,7 +46,7 @@ async function fetchCollectionEntry<T extends CollectionId>(
     error.name = "StrapiPageNotFound";
     throw error;
   }
-  return strapiEntryParsed.data[0].attributes;
+  return strapiEntryParsed.data[0];
 }
 
 export const fetchTranslations = async (
@@ -71,7 +71,7 @@ export const fetchFlowPage = <T extends FlowPageId>(
   collection: T,
   flowId: FlowId,
   stepId: string,
-): Promise<StrapiSchemas[T][number]["attributes"]> =>
+): Promise<StrapiSchemas[T][number]> =>
   fetchCollectionEntry(collection, [
     { field: "stepId", value: stepId },
     { field: "flow_ids", nestedField: "flowId", value: flowId },
