@@ -3,7 +3,11 @@ import { today } from "~/util/date";
 import { type AllContexts } from "../../common";
 
 type Freibetraege = {
+  selfAllowance: number;
   incomeAllowance: number;
+  /**
+   * Must be the same as self allowance
+   */
   partnerAllowance: number;
   dependentAdultAllowance: number;
   children15To18Allowance: number;
@@ -11,10 +15,15 @@ type Freibetraege = {
   childrenBelow6Allowance: number;
 };
 
-export const BASE_ALLOWANCE = 572;
 export const SIMPLIFIED_CHILD_ALLOWANCE = 400;
+/**
+ * Antragstellende Personen are allowed to calculate an additional 20€ on top of the self allowance
+ */
+export const SELF_ALLOWANCE_BUFFER = 20;
+
 export const freibetraegePerYear: Record<number, Freibetraege> = {
   2023: {
+    selfAllowance: 552,
     incomeAllowance: 251,
     partnerAllowance: 552,
     dependentAdultAllowance: 442,
@@ -23,6 +32,7 @@ export const freibetraegePerYear: Record<number, Freibetraege> = {
     childrenBelow6Allowance: 350,
   },
   2024: {
+    selfAllowance: 619,
     incomeAllowance: 282,
     partnerAllowance: 619,
     dependentAdultAllowance: 496,
@@ -68,8 +78,8 @@ export function calculateFreibetrag({
   childrenAbove18,
   childrenIncome,
 }: Partial<CalculateFreibetragProps>): number {
-  let betrag = BASE_ALLOWANCE * 100;
   const {
+    selfAllowance,
     incomeAllowance,
     partnerAllowance,
     dependentAdultAllowance,
@@ -77,6 +87,8 @@ export function calculateFreibetrag({
     children7To14Allowance,
     childrenBelow6Allowance,
   } = mapValues(getFreibetraege(today().getFullYear()), (v) => v * 100);
+
+  let betrag = selfAllowance + SELF_ALLOWANCE_BUFFER * 100;
 
   if (working) {
     betrag += incomeAllowance;
@@ -102,11 +114,12 @@ function freibetragShort(
   partnership: boolean,
   childrenCount: number,
 ): number {
-  const { partnerAllowance, incomeAllowance } = getFreibetraege(
+  const { selfAllowance, partnerAllowance, incomeAllowance } = getFreibetraege(
     today().getFullYear(),
   );
   return (
-    BASE_ALLOWANCE +
+    selfAllowance +
+    SELF_ALLOWANCE_BUFFER +
     (working ? incomeAllowance : 0) +
     (partnership ? partnerAllowance : 0) +
     (childrenCount ? childrenCount * SIMPLIFIED_CHILD_ALLOWANCE : 0)

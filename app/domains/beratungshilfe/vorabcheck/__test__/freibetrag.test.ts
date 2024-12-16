@@ -1,16 +1,20 @@
 import {
-  BASE_ALLOWANCE,
   calculateFreibetrag,
   freibetraegePerYear,
   getFreibetraege,
   getVerfuegbaresEinkommenFreibetrag,
   latestFreibetraegeYear,
+  SELF_ALLOWANCE_BUFFER,
   SIMPLIFIED_CHILD_ALLOWANCE,
 } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
 import { today } from "~/util/date";
 
-const { incomeAllowance, partnerAllowance, childrenBelow6Allowance } =
-  getFreibetraege(today().getFullYear());
+const {
+  selfAllowance,
+  incomeAllowance,
+  partnerAllowance,
+  childrenBelow6Allowance,
+} = getFreibetraege(today().getFullYear());
 
 vi.spyOn(console, "warn");
 
@@ -34,108 +38,108 @@ describe("getFreibetraege", () => {
 
 describe("calculateFreibetrag", () => {
   // Need values in cents
-  const baseAllowanceCents = BASE_ALLOWANCE * 100;
+  const selfAllowanceCents = (selfAllowance + SELF_ALLOWANCE_BUFFER) * 100;
   const incomeAllowanceCents = incomeAllowance * 100;
   const partnerAllowanceCents = partnerAllowance * 100;
   const childrenBelow6AllowanceCents = childrenBelow6Allowance * 100;
 
-  it(`should return ${baseAllowanceCents} when single not working`, () => {
+  it(`should return ${selfAllowanceCents} when single not working`, () => {
     expect(
       calculateFreibetrag({
         working: false,
         partnership: false,
       }),
-    ).toEqual(baseAllowanceCents);
+    ).toEqual(selfAllowanceCents);
   });
 
-  it(`should return ${baseAllowanceCents} + ${incomeAllowanceCents} when single working`, () => {
+  it(`should return ${selfAllowanceCents} + ${incomeAllowanceCents} when single working`, () => {
     expect(
       calculateFreibetrag({
         working: true,
         partnership: false,
       }),
-    ).toEqual(baseAllowanceCents + incomeAllowanceCents);
+    ).toEqual(selfAllowanceCents + incomeAllowanceCents);
   });
 
-  it(`should return ${baseAllowanceCents} + ${partnerAllowanceCents} when partner not working`, () => {
+  it(`should return ${selfAllowanceCents} + ${partnerAllowanceCents} when partner not working`, () => {
     expect(
       calculateFreibetrag({
         working: false,
         partnership: true,
       }),
-    ).toEqual(baseAllowanceCents + partnerAllowanceCents);
+    ).toEqual(selfAllowanceCents + partnerAllowanceCents);
   });
 
-  it(`should return ${baseAllowanceCents} + ${partnerAllowanceCents} - partner income when partner working smaller than ${partnerAllowanceCents}`, () => {
+  it(`should return ${selfAllowanceCents} + ${partnerAllowanceCents} - partner income when partner working smaller than ${partnerAllowanceCents}`, () => {
     expect(
       calculateFreibetrag({
         working: false,
         partnership: true,
         partnerIncome: 50000,
       }),
-    ).toEqual(baseAllowanceCents + partnerAllowanceCents - 50000);
+    ).toEqual(selfAllowanceCents + partnerAllowanceCents - 50000);
   });
 
-  it(`should return ${baseAllowanceCents} when partner working bigger than ${partnerAllowanceCents}`, () => {
+  it(`should return ${selfAllowanceCents} when partner working bigger than ${partnerAllowanceCents}`, () => {
     expect(
       calculateFreibetrag({
         working: false,
         partnership: true,
         partnerIncome: 80000,
       }),
-    ).toEqual(baseAllowanceCents);
+    ).toEqual(selfAllowanceCents);
   });
 
-  it(`should return ${baseAllowanceCents} + ${childrenBelow6AllowanceCents} when 1 child 0-6 not working`, () => {
+  it(`should return ${selfAllowanceCents} + ${childrenBelow6AllowanceCents} when 1 child 0-6 not working`, () => {
     expect(
       calculateFreibetrag({
         childrenBelow6: 1,
       }),
-    ).toEqual(baseAllowanceCents + childrenBelow6AllowanceCents);
+    ).toEqual(selfAllowanceCents + childrenBelow6AllowanceCents);
   });
 
-  it(`should return ${baseAllowanceCents} + 2*${childrenBelow6AllowanceCents} when 2 children 0-6 not working`, () => {
+  it(`should return ${selfAllowanceCents} + 2*${childrenBelow6AllowanceCents} when 2 children 0-6 not working`, () => {
     expect(
       calculateFreibetrag({
         childrenBelow6: 2,
       }),
-    ).toEqual(baseAllowanceCents + 2 * childrenBelow6AllowanceCents);
+    ).toEqual(selfAllowanceCents + 2 * childrenBelow6AllowanceCents);
   });
 
-  it(`should return ${baseAllowanceCents} + ${childrenBelow6AllowanceCents} - child income when 1 child 0-6 working less than ${childrenBelow6AllowanceCents}`, () => {
+  it(`should return ${selfAllowanceCents} + ${childrenBelow6AllowanceCents} - child income when 1 child 0-6 working less than ${childrenBelow6AllowanceCents}`, () => {
     expect(
       calculateFreibetrag({
         childrenBelow6: 1,
         childrenIncome: 10000,
       }),
-    ).toEqual(baseAllowanceCents + childrenBelow6AllowanceCents - 10000);
+    ).toEqual(selfAllowanceCents + childrenBelow6AllowanceCents - 10000);
   });
 
-  it(`should return ${baseAllowanceCents} when 1 child 0-6 working more than ${childrenBelow6AllowanceCents}`, () => {
+  it(`should return ${selfAllowanceCents} when 1 child 0-6 working more than ${childrenBelow6AllowanceCents}`, () => {
     expect(
       calculateFreibetrag({
         childrenBelow6: 1,
         childrenIncome: 80000,
       }),
-    ).toEqual(baseAllowanceCents);
+    ).toEqual(selfAllowanceCents);
   });
 
-  it(`should return ${baseAllowanceCents} + 2*${childrenBelow6AllowanceCents} - children income when 2 children 0-6 working less than ${childrenBelow6AllowanceCents}`, () => {
+  it(`should return ${selfAllowanceCents} + 2*${childrenBelow6AllowanceCents} - children income when 2 children 0-6 working less than ${childrenBelow6AllowanceCents}`, () => {
     expect(
       calculateFreibetrag({
         childrenBelow6: 2,
         childrenIncome: 10000,
       }),
-    ).toEqual(baseAllowanceCents + 2 * childrenBelow6AllowanceCents - 10000);
+    ).toEqual(selfAllowanceCents + 2 * childrenBelow6AllowanceCents - 10000);
   });
 
-  it(`should return ${baseAllowanceCents} + 2*${childrenBelow6AllowanceCents} - children income when 2 children 0-6 working more than ${childrenBelow6AllowanceCents} less than 2*${childrenBelow6AllowanceCents}`, () => {
+  it(`should return ${selfAllowanceCents} + 2*${childrenBelow6AllowanceCents} - children income when 2 children 0-6 working more than ${childrenBelow6AllowanceCents} less than 2*${childrenBelow6AllowanceCents}`, () => {
     expect(
       calculateFreibetrag({
         childrenBelow6: 2,
         childrenIncome: 50000,
       }),
-    ).toEqual(baseAllowanceCents + 2 * childrenBelow6AllowanceCents - 50000);
+    ).toEqual(selfAllowanceCents + 2 * childrenBelow6AllowanceCents - 50000);
   });
 
   it("should handle undefined children as zero children", () => {
@@ -143,7 +147,7 @@ describe("calculateFreibetrag", () => {
       calculateFreibetrag({
         childrenBelow6: undefined,
       }),
-    ).toEqual(baseAllowanceCents);
+    ).toEqual(selfAllowanceCents);
   });
 });
 
@@ -151,42 +155,51 @@ const cases = [
   {
     condition: "empty context",
     context: {},
-    result: BASE_ALLOWANCE,
+    result: selfAllowance + SELF_ALLOWANCE_BUFFER,
   },
   {
     condition: "partner",
     context: { partnerschaft: "yes" },
-    result: BASE_ALLOWANCE + partnerAllowance,
+    result: selfAllowance + SELF_ALLOWANCE_BUFFER + partnerAllowance,
   },
   {
     condition: "partner and no kid but kinderAnzahlKurz given",
     context: { partnerschaft: "yes", kinderAnzahlKurz: "1" },
-    result: BASE_ALLOWANCE + partnerAllowance,
+    result: selfAllowance + SELF_ALLOWANCE_BUFFER + partnerAllowance,
   },
   {
     condition: "partner and one kid",
     context: { partnerschaft: "yes", kinderKurz: "yes", kinderAnzahlKurz: "1" },
-    result: BASE_ALLOWANCE + partnerAllowance + SIMPLIFIED_CHILD_ALLOWANCE,
+    result:
+      selfAllowance +
+      SELF_ALLOWANCE_BUFFER +
+      partnerAllowance +
+      SIMPLIFIED_CHILD_ALLOWANCE,
   },
   {
     condition: "no partner and one kid",
     context: { partnerschaft: "no", kinderKurz: "yes", kinderAnzahlKurz: "1" },
-    result: BASE_ALLOWANCE + SIMPLIFIED_CHILD_ALLOWANCE,
+    result: selfAllowance + SELF_ALLOWANCE_BUFFER + SIMPLIFIED_CHILD_ALLOWANCE,
   },
   {
     condition: "no partner and three kids",
     context: { partnerschaft: "no", kinderKurz: "yes", kinderAnzahlKurz: "3" },
-    result: BASE_ALLOWANCE + 3 * SIMPLIFIED_CHILD_ALLOWANCE,
+    result:
+      selfAllowance + SELF_ALLOWANCE_BUFFER + 3 * SIMPLIFIED_CHILD_ALLOWANCE,
   },
   {
     condition: "erwerbstaetig",
     context: { erwerbstaetigkeit: "yes" },
-    result: BASE_ALLOWANCE + incomeAllowance,
+    result: selfAllowance + SELF_ALLOWANCE_BUFFER + incomeAllowance,
   },
   {
     condition: "partner and erwerbstaetig",
     context: { partnerschaft: "yes", erwerbstaetigkeit: "yes" },
-    result: BASE_ALLOWANCE + partnerAllowance + incomeAllowance,
+    result:
+      selfAllowance +
+      SELF_ALLOWANCE_BUFFER +
+      partnerAllowance +
+      incomeAllowance,
   },
   {
     condition: "partner and erwerbstaetig and two kids",
@@ -197,7 +210,8 @@ const cases = [
       kinderAnzahlKurz: "2",
     },
     result:
-      BASE_ALLOWANCE +
+      selfAllowance +
+      SELF_ALLOWANCE_BUFFER +
       partnerAllowance +
       incomeAllowance +
       2 * SIMPLIFIED_CHILD_ALLOWANCE,
