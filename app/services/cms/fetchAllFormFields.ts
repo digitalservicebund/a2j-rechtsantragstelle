@@ -40,7 +40,7 @@ function formFieldsFromEntries(
 ): FormFieldsMap {
   return Object.fromEntries(
     entries
-      .filter((entry) => entry && entry.stepId && entry.form.length > 0)
+      .filter((entry) => entry?.stepId && entry?.form.length > 0)
       .map((entry) => [
         entry!.stepId,
         entry!.form.map((formField) => formField.name),
