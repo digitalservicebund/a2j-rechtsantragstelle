@@ -3,6 +3,7 @@ import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/marital
 import {
   type AttachmentEntries,
   SEE_IN_ATTACHMENT_DESCRIPTION,
+  SEE_IN_ATTACHMENT_DESCRIPTION_SHORT,
 } from "~/services/pdf/attachment";
 import type { PkhPdfFillFunction } from "..";
 
@@ -73,7 +74,7 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
       title: "Familienstand",
       text: maritalDescription,
     });
-    pdfValues.text3.value = "s.A.";
+    pdfValues.text3.value = SEE_IN_ATTACHMENT_DESCRIPTION_SHORT;
   } else {
     pdfValues.text3.value = maritalDescription;
   }
