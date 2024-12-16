@@ -1,6 +1,7 @@
 import type { PDFForm } from "pdf-lib";
 import type { BooleanField, StringField } from "./fileTypes";
-import { getFontSizeFieldValue } from "./getFontSizeFieldValue";
+
+const FONT_SIZE_DEFAULT = 10;
 
 export function changeBooleanField(booleanField: BooleanField, form: PDFForm) {
   if (!booleanField.value) return;
@@ -14,6 +15,5 @@ export function changeStringField(stringField: StringField, form: PDFForm) {
   // This is because it impacts letter spacing e.g. in the fourth column of "G_ausgaben".
   formField.setMaxLength();
   formField.setText(stringField.value);
-  const fontSize = getFontSizeFieldValue(stringField.name);
-  formField.setFontSize(fontSize);
+  formField.setFontSize(FONT_SIZE_DEFAULT);
 }
