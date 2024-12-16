@@ -11,9 +11,9 @@ export function changeBooleanField(booleanField: BooleanField, form: PDFForm) {
 export function changeStringField(stringField: StringField, form: PDFForm) {
   if (!stringField.value) return;
   const formField = form.getTextField(stringField.name);
-  // We override the restriction of a field where it is set to have max length of 2.
-  // This is because it impacts letter spacing e.g. in the fourth column of "G_ausgaben".
+  // maxLength property is overridden, because some fields have a max length of 2 even though the field width is greater
   formField.setMaxLength();
   formField.setText(stringField.value);
+  // fontSize property is set to a default, because some fields have 0 for auto scale which is bad UX/UI
   formField.setFontSize(FONT_SIZE_DEFAULT);
 }
