@@ -30,8 +30,8 @@ export function compileAllStrapiPages(
     "result-pages": resultPages,
   } = allStrapiData[flowId];
   return [...formFlowPages, ...resultPages, ...vorabCheckPages]
-    .filter((page) => page.attributes.locale === defaultLocale)
-    .map((page) => page.attributes.stepId);
+    .filter((page) => page.locale === defaultLocale)
+    .map((page) => page.stepId);
 }
 
 /**

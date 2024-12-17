@@ -13,7 +13,7 @@ export const StrapiInfoBoxItemSchema = z
   .object({
     label: StrapiHeadingSchema.nullable(),
     headline: StrapiHeadingSchema.nullable(),
-    image: StrapiImageSchema,
+    image: StrapiImageSchema.nullable(),
     content: z.string().nullable(),
     detailsSummary: z.array(StrapiDetailsSchema),
     buttons: z.array(StrapiButtonSchema),

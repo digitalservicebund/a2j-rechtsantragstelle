@@ -1,7 +1,6 @@
 import axios from "axios";
 import type { Filter, GetStrapiEntryOpts } from "./filters";
 import type { GetStrapiEntry } from "./getStrapiEntry";
-import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
 import type { ApiId, StrapiSchemas } from "./schemas";
 import { config } from "../env/env.server";
 
@@ -21,13 +20,14 @@ const buildUrl = ({
   apiId,
   pageSize,
   filters,
-  locale = defaultLocale,
-  populate = "deep",
+  locale,
+  populate = "*",
 }: GetStrapiEntryOpts) =>
   [
     config().STRAPI_API,
     apiId,
     `?populate=${populate}`,
+    `&pLevel`, // https://github.com/NEDDL/strapi-v5-plugin-populate-deep
     `&locale=${locale}`,
     pageSize ? `&pagination[pageSize]=${pageSize}` : "",
     buildFilters(filters),
@@ -44,18 +44,6 @@ const makeStrapiRequest = async <T extends ApiId>(url: string) =>
 export const getStrapiEntryFromApi: GetStrapiEntry = async <T extends ApiId>(
   opts: GetStrapiEntryOpts,
 ) => {
-  const stagingUrl = buildUrl({ ...opts, locale: stagingLocale });
-  const stagingData =
-    opts.locale !== "all"
-      ? (await makeStrapiRequest<T>(stagingUrl)).data.data
-      : null;
-
-  const invalidStagingData =
-    !stagingData || (Array.isArray(stagingData) && stagingData.length === 0);
-
-  const returnData = invalidStagingData
-    ? (await makeStrapiRequest<T>(buildUrl(opts))).data.data
-    : stagingData;
-
+  const returnData = (await makeStrapiRequest<T>(buildUrl(opts))).data.data;
   return Array.isArray(returnData) ? returnData : [returnData];
 };

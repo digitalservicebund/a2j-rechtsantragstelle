@@ -10,11 +10,8 @@ const StrapiCheckboxSchema = z
   .object({
     name: z.string(),
     label: z.string(),
-    isRequiredError: z.object({
-      data: HasStrapiIdSchema.extend({
-        attributes: StrapiErrorCategorySchema,
-      }).nullable(),
-    }),
+    isRequiredError:
+      StrapiErrorCategorySchema.merge(HasStrapiIdSchema).nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
@@ -27,8 +24,8 @@ export const StrapiCheckbox = ({
   ...props
 }: z.infer<typeof StrapiCheckboxSchema>) => (
   <Checkbox
-    required={isRequiredError.data !== null}
-    errorMessage={isRequiredError?.data?.attributes.errorCodes[0].text}
+    required={isRequiredError !== null}
+    errorMessage={isRequiredError?.errorCodes[0].text}
     {...props}
   />
 );

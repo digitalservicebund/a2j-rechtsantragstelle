@@ -47,21 +47,21 @@ beforeAll(async () => {
       await Promise.all([
         getStrapiEntry({
           apiId: "vorab-check-pages",
-          locale: "all",
+          locale: "de",
           filters: [
             { value: flowId, field: "flow_ids", nestedField: "flowId" },
           ],
         }),
         getStrapiEntry({
           apiId: "result-pages",
-          locale: "all",
+          locale: "de",
           filters: [
             { value: flowId, field: "flow_ids", nestedField: "flowId" },
           ],
         }),
         getStrapiEntry({
           apiId: "form-flow-pages",
-          locale: "all",
+          locale: "de",
           filters: [
             { value: flowId, field: "flow_ids", nestedField: "flowId" },
           ],

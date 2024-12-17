@@ -4,7 +4,10 @@ import {
 } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/maritalDescriptionMapping";
-import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
+import {
+  SEE_IN_ATTACHMENT_DESCRIPTION,
+  SEE_IN_ATTACHMENT_DESCRIPTION_SHORT,
+} from "~/services/pdf/attachment";
 import {
   ANSCHRIFT_FIELD_MAX_CHARS,
   BERUF_FIELD_MAX_CHARS,
@@ -138,7 +141,7 @@ describe("A_person", () => {
       pdfValues: pdfParams,
     });
 
-    expect(pdfValues.text3.value).toBe("s.A.");
+    expect(pdfValues.text3.value).toBe(SEE_IN_ATTACHMENT_DESCRIPTION_SHORT);
     expect(attachment?.at(1)?.title).toBe("Familienstand");
     expect(attachment?.at(1)?.text).toBe(maritalDescriptionMapping.yes);
   });

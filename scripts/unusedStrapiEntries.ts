@@ -8,10 +8,8 @@ import { type Config } from "~/services/flow/server/buildFlowController";
 const contentFilePath = "./content.json";
 
 type MinimalPage = {
-  attributes: {
-    flow_ids: StrapiSchemas["form-flow-pages"][0]["attributes"]["flow_ids"];
-    stepId: StrapiSchemas["form-flow-pages"][0]["attributes"]["stepId"];
-  };
+  flow_ids: StrapiSchemas["form-flow-pages"][0]["flow_ids"];
+  stepId: StrapiSchemas["form-flow-pages"][0]["stepId"];
 };
 
 // recursivly traverse states object, while concatenating nested names. Returns a flat list
@@ -35,18 +33,16 @@ function allStateNames(xstateConfigStates: Config["states"]): string[] {
 function urlsFromPages(pages: MinimalPage[]) {
   // A page containing multiple flowIDs results in multiple URLs
   return pages.flatMap((page) =>
-    page.attributes.flow_ids.data.map(
-      (flowId) => flowId.attributes.flowId + page.attributes.stepId,
-    ),
+    page.flow_ids.map((flowId) => flowId.flowId + page.stepId),
   );
 }
 
 function partitionPagesByStepId(pages: MinimalPage[]) {
-  return _.partition(pages, (page) => page.attributes.stepId !== null);
+  return _.partition(pages, (page) => page.stepId !== null);
 }
 
 function partitionPagesByFlowId(pages: MinimalPage[]) {
-  return _.partition(pages, (page) => page.attributes.flow_ids.data.length > 0);
+  return _.partition(pages, (page) => page.flow_ids.length > 0);
 }
 
 function unusedStrapiEntry() {
