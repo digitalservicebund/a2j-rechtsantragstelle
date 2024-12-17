@@ -5,6 +5,8 @@ node_modules/
 playwright-report/
 public/
 *.enc
+*.xsd
+/xmlns
 app/util/__test__/malformed.json
 *.zip
 *.py
