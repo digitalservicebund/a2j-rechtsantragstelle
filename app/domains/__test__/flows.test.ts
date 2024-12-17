@@ -88,8 +88,10 @@ function allStepsFromMachine(machine: FlowStateMachine) {
  */
 
 describe.sequential("state machine form flows", () => {
-  const allVisitedSteps: Record<string, { stepIds: string[]; machine: any }> =
-    {};
+  const allVisitedSteps: Record<
+    string,
+    { stepIds: string[]; machine: FlowStateMachine }
+  > = {};
 
   const testCases = {
     testCasesBeratungshilfe,
@@ -170,6 +172,7 @@ describe.sequential("state machine form flows", () => {
       0,
     );
 
+    // eslint-disable-next-line no-console
     console.warn(
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
