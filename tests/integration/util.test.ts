@@ -80,9 +80,7 @@ describe("integration testing helper functions", () => {
     });
 
     it("should return an empty array when schema is null or undefined", () => {
-      // @ts-expect-error
       expect(zodKeys(null)).toEqual([]);
-      // @ts-expect-error
       expect(zodKeys(undefined)).toEqual([]);
     });
 
