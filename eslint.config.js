@@ -97,7 +97,8 @@ export default tseslint.config(
       "no-console": "warn",
 
       // import
-      "import/no-cycle": "warn",
+      "import/no-cycle": "off", // VERY slow, only enable if needed
+      "import/namespace": "off", // slow and unneeded
       "import/order": [
         "warn",
         {
@@ -115,6 +116,8 @@ export default tseslint.config(
       "sonarjs/no-redeclare": "off",
       "sonarjs/no-nested-functions": "warn",
       "sonarjs/function-return-type": "off",
+      "sonarjs/aws-restricted-ip-admin-access": "off", // slow and unneeded
+      "sonarjs/no-async-constructor": "off", // slow and unneeded
 
       // duplicates of typescript-eslint rules (prefer typescript-eslint as their rule pages are clearer)
       "sonarjs/sonar-no-unused-vars": "off",
