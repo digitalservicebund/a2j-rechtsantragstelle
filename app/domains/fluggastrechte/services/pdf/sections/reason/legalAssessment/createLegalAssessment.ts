@@ -1,12 +1,15 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
+import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
 import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/shared/gerichtskosten";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
+  PDF_MARGIN_HORIZONTAL,
+  PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { getFullPlaintiffName } from "../../getFullPlaintiffName";
+import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissingVerticalSpace";
 
 export const LEGAL_ASSESSMENT_TEXT = "II. Rechtliche Würdigung";
 export const CLAIM_FULL_JUSTIFIED_TEXT =
@@ -18,25 +21,54 @@ export const ADVANCE_COURT_COSTS_FIRST_TEXT =
 export const ADVANCE_COURT_COSTS_SECOND_TEXT =
   "€ anzufordern und die Klage nach der Zahlung schnellstmöglich an die beklagte Partei zuzustellen.";
 
+function checkAndNewPage(doc: typeof PDFDocument) {
+  const legalAssessmentHeight = doc.heightOfString(LEGAL_ASSESSMENT_TEXT, {
+    width: PDF_WIDTH_SEIZE,
+  });
+
+  const claimFullJustifiedTextHeight = doc.heightOfString(
+    CLAIM_FULL_JUSTIFIED_TEXT,
+    {
+      width: PDF_WIDTH_SEIZE,
+    },
+  );
+
+  const assumedSettlementSectionTextHeight = doc.heightOfString(
+    ASSUMED_SETTLEMENT_SECTION_TEXT,
+    {
+      width: PDF_WIDTH_SEIZE,
+    },
+  );
+
+  addNewPageInCaseMissingVerticalSpace(
+    doc,
+    legalAssessmentHeight +
+      claimFullJustifiedTextHeight +
+      assumedSettlementSectionTextHeight,
+  );
+}
+
 export const createLegalAssessment = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechtContext,
 ) => {
+  checkAndNewPage(doc);
+
   const legalAssessmentSect = doc.struct("Sect");
   legalAssessmentSect.add(
     doc.struct("H2", {}, () => {
-      doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text(LEGAL_ASSESSMENT_TEXT);
+      doc
+        .fontSize(14)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text(LEGAL_ASSESSMENT_TEXT, PDF_MARGIN_HORIZONTAL);
       doc.moveDown(1);
     }),
   );
 
   documentStruct.add(legalAssessmentSect);
 
-  const compensationByDistance = getCompensationPayment({
-    startAirport: userData.startAirport,
-    endAirport: userData.endAirport,
-  });
+  const compensationByDistance = getTotalCompensationClaim(userData);
 
   const courtCostValue = gerichtskostenFromBetrag(
     Number(compensationByDistance),
@@ -50,13 +82,26 @@ export const createLegalAssessment = (
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(CLAIM_FULL_JUSTIFIED_TEXT)
         .text(ASSUMED_SETTLEMENT_SECTION_TEXT)
-        .moveDown(4)
-        .text(
-          `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${courtCostValue} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`,
-        )
+        .moveDown(4);
+
+      const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${courtCostValue} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
+      const advanceCourtTextHeight = doc.heightOfString(advanceCourtText, {
+        width: PDF_WIDTH_SEIZE,
+      });
+      addNewPageInCaseMissingVerticalSpace(doc, advanceCourtTextHeight);
+
+      doc
+        .text(advanceCourtText)
         .moveDown(2)
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(getFullPlaintiffName(userData));
+        .text(
+          getFullPlaintiffName(
+            userData.anrede,
+            userData.title,
+            userData.vorname,
+            userData.nachname,
+          ),
+        );
     }),
   );
   documentStruct.add(reasonSect);

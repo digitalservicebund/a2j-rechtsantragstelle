@@ -5,25 +5,26 @@ import {
   START_TABLE_X,
 } from "./tableConfigurations";
 
+const headers = [
+  {
+    title: "Flugnummer",
+    subtitle: "betroffener Flug",
+  },
+  {
+    title: "Abflug Datum, Zeit",
+    subtitle: "Startflughafen",
+  },
+  {
+    title: "Ankunft, Zeit",
+    subtitle: "Zielflughafen",
+  },
+];
+
 export function drawTableColumnsHead(
   doc: PDFKit.PDFDocument,
   tableStruct: PDFKit.PDFStructureElement,
   startTableY: number,
 ) {
-  const headers = [
-    {
-      title: "Flugnummer",
-      subtitle: "betroffener Flug",
-    },
-    {
-      title: "Abflug Datum, Zeit",
-      subtitle: "Startflughafen",
-    },
-    {
-      title: "Ankunft, Zeit",
-      subtitle: "Zielflughafen",
-    },
-  ];
   // Loop through headers and draw each section
   const tableHeaderRow = doc.struct("TR"); // New TR for the header row
   headers.forEach((header, index) => {

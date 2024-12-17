@@ -1,7 +1,7 @@
 import type PDFDocument from "pdfkit";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
-import { pdfStyles } from "~/domains/shared/pdf/pdfStyles";
+import { pdfStyles } from "~/services/pdf/pdfStyles";
 
 export function createHeader<
   TContext extends

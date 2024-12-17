@@ -11,12 +11,11 @@ const machine: FlowStateMachine = createMachine(
 );
 
 const happyPathSteps = [
-  "intro/start",
-  "grundvoraussetzungen/prozessfaehig",
-  "grundvoraussetzungen/ausgleichszahlung",
-  "grundvoraussetzungen/zahlungsaufforderung",
-  "grundvoraussetzungen/daten-uebernahme",
-  "streitwert-kosten/gerichtskosten",
+  "/intro/start",
+  "/grundvoraussetzungen/prozessfaehig",
+  "/grundvoraussetzungen/ausgleichszahlung",
+  "/grundvoraussetzungen/daten-uebernahme",
+  "/streitwert-kosten/gerichtskosten",
 ];
 
 const cases = [
@@ -26,7 +25,6 @@ const cases = [
       bereich: "bereich",
       startAirport: "BER",
       endAirport: "FRA",
-      zahlungsaufforderung: "no",
     },
     happyPathSteps,
   ],

@@ -3,7 +3,6 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const fluggastrechtProzessfuehrungDaten = {
   versaeumnisurteil: YesNoAnswer,
-  schriftlichesVerfahren: YesNoAnswer,
   videoverhandlung: YesNoAnswer,
 };
 

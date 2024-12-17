@@ -30,6 +30,7 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { config as configWeb } from "~/services/env/web";
+import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
@@ -64,6 +65,10 @@ export const links: LinksFunction = () => [
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
   { rel: "manifest", href: "/site.webmanifest" },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css?family=Fira+Sans|Noto+Sans|Roboto",
+  },
 ];
 
 export const meta: MetaFunction<RootLoader> = () => {
@@ -95,6 +100,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     videoTranslations,
     accessibilityTranslations,
     mainSession,
+    showKopfzeile,
   ] = await Promise.all([
     fetchSingleEntry("page-header"),
     fetchSingleEntry("footer"),
@@ -109,6 +115,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("video"),
     fetchTranslations("accessibility"),
     mainSessionFromCookieHeader(cookieHeader),
+    isFeatureFlagEnabled("showKopfzeile"),
   ]);
 
   const shouldAddCacheControl = shouldSetCacheControlHeader(
@@ -121,6 +128,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       header: {
         ...getPageHeaderProps(strapiHeader),
         hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
+        showKopfzeile,
       },
       footer: getFooterProps(strapiFooter),
       cookieBannerContent: cookieBannerContent,
@@ -182,8 +190,9 @@ function App() {
     () => ({
       video: videoTranslations,
       feedback: feedbackTranslations,
+      accessibility: accessibilityTranslations,
     }),
-    [videoTranslations, feedbackTranslations],
+    [videoTranslations, feedbackTranslations, accessibilityTranslations],
   );
 
   return (
@@ -201,6 +210,10 @@ function App() {
           }}
         />
         <Meta />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Fira+Sans|Noto+Sans|Roboto"
+        ></link>
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">

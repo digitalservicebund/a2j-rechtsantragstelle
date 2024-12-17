@@ -13,7 +13,7 @@ export enum BannerState {
   FeedbackGiven = "feedbackGiven",
 }
 
-type UserFeedbackProps = {
+export type UserFeedbackProps = {
   rating: Pick<RatingBoxProps, "heading">;
 };
 

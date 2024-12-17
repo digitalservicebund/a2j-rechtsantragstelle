@@ -5,15 +5,10 @@ import type {
   MachineContext,
   TransitionConfigOrTarget as XStateTransitionConfigOrTarget,
 } from "xstate";
-import {
-  getInitialSnapshot,
-  getNextSnapshot,
-  pathToStateValue,
-  setup,
-} from "xstate";
+import { initialTransition, pathToStateValue, setup, transition } from "xstate";
 import type { Context } from "~/domains/contexts";
 import type { GenericGuard, Guards } from "~/domains/guards.server";
-import type { ArrayConfig } from "~/services/array";
+import type { ArrayConfigServer } from "~/services/array";
 import {
   stateValueToStepIds,
   stepIdToPath,
@@ -24,7 +19,7 @@ type Event = "SUBMIT" | "BACK";
 type FlowStateMachineEvents =
   | { type: "SUBMIT" }
   | { type: "BACK" }
-  | { type: ArrayConfig["event"] };
+  | { type: ArrayConfigServer["event"] };
 
 type StateMachineTypes = {
   context: Context;
@@ -74,7 +69,7 @@ export type FlowConfigTransitions = {
 export type Meta = {
   customAnalyticsEventName?: string;
   done?: GenericGuard<Context>;
-  arrays?: Record<string, ArrayConfig>;
+  arrays?: Record<string, ArrayConfigServer>;
 };
 
 const getSteps = (machine: FlowStateMachine) => {
@@ -107,7 +102,7 @@ export const nextStepId = (
     context,
   });
   // Get snapshot of next machine state using the given event
-  const destinationState = getNextSnapshot(machine, resolvedState, { type });
+  const [destinationState] = transition(machine, resolvedState, { type });
   const destinationStepIds = stateValueToStepIds(destinationState.value);
 
   // Return undefined if the stepId in the new state matches the previous one
@@ -140,7 +135,7 @@ const metaFromStepId = (machine: FlowStateMachine, currentStepId: string) => {
 
 function getInitial(machine: FlowStateMachine) {
   // The initial state might be nested and needs to be resolved
-  const initialSnapshot = getInitialSnapshot(machine);
+  const [initialSnapshot] = initialTransition(machine);
   return stateValueToStepIds(initialSnapshot.value).pop();
 }
 
@@ -193,7 +188,7 @@ function stepStates(
           : initialStepId;
 
       return {
-        url: `${state.machine.id}/${targetStepId}`,
+        url: `${state.machine.id}${targetStepId}`,
         isDone: hasDoneFunction ? meta.done!({ context }) : false,
         stepId,
         isReachable: reachableSteps.includes(targetStepId),
@@ -201,7 +196,7 @@ function stepStates(
     }
 
     return {
-      url: `${state.machine.id}/${stepId}`,
+      url: `${state.machine.id}${stepId}`,
       isDone: reachableSubStates.every((state) => state.isDone),
       stepId,
       isReachable: reachableSubStates.length > 0,
@@ -250,21 +245,19 @@ export const buildFlowController = ({
     },
     getPrevious: (stepId: string) => {
       const destination = nextStepId(machine, stepId, "BACK", context);
-      if (destination) return `${machine.id}/${destination}`;
+      if (destination) return `${machine.id}${destination}`;
     },
     getNext: (stepId: string) => {
       const destination = nextStepId(machine, stepId, "SUBMIT", context);
-      if (destination) return `${machine.id}/${destination}`;
+      if (destination) return `${machine.id}${destination}`;
     },
-    getInitial: () => `${flowId}/${getInitial(machine) ?? ""}`,
+    getInitial: () => `${flowId}${getInitial(machine) ?? ""}`,
     getProgress: (currentStepId: string) => {
       const { total, progressLookup } =
         flowId && flowId in vorabcheckProgresses
           ? vorabcheckProgresses[flowId]
           : progressLookupForMachine(machine);
-
-      const progress = progressLookup[`${flowId}.${currentStepId}`];
-      return { max: total, progress };
+      return { max: total, progress: progressLookup[currentStepId] };
     },
   };
 };

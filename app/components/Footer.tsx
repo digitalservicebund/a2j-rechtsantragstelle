@@ -27,7 +27,7 @@ export default function Footer({
   return (
     <Container paddingTop="48" paddingBottom="0">
       <div
-        className="ds-label-03-reg flex flex-wrap items-start justify-between gap-y-32 mb-32"
+        className="flex flex-wrap items-start justify-between gap-y-32 mb-32"
         data-testid="footer"
       >
         <div className="flex flex-col flex-col-reverse sm:flex-row gap-y-8 gap-x-16">
@@ -43,7 +43,7 @@ export default function Footer({
           <div className="ds-stack-8">
             {paragraphs.map((paragraph) => (
               <div key={paragraph.markdown}>
-                <RichText {...paragraph} />
+                <RichText {...paragraph} className="ds-label-03-reg" />
               </div>
             ))}
           </div>
@@ -52,7 +52,7 @@ export default function Footer({
         <nav className="flex flex-wrap gap-x-32 gap-y-8" aria-label="Footer">
           <ul className="list-none m-0 p-0 space-y-8 columns-2">
             {links.map((link) => (
-              <li key={link.url} className="leading-snug">
+              <li key={link.url} className="leading-snug ds-label-03-reg">
                 <StandaloneLink
                   text={link.text ?? ""}
                   url={link.url}
@@ -65,8 +65,9 @@ export default function Footer({
       </div>
       {showDeletionBanner && (
         <Background backgroundColor="blue" paddingTop="16" paddingBottom="16">
-          <div className="ds-label-03-reg text-center">
+          <div className="text-center">
             <StandaloneLink
+              className="ds-label-03-reg"
               text={deletionLabel ?? "Persönliche Daten löschen"}
               url="/persoenliche-daten-loeschen"
             />

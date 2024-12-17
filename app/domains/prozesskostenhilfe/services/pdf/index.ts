@@ -2,7 +2,13 @@ import { PDFDocument } from "pdf-lib";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import { belegeStrings } from "~/domains/prozesskostenhilfe/formular/stringReplacements";
+import { fillZahlungsverpflichtungen } from "~/domains/prozesskostenhilfe/services/pdf/pdfForm/I_zahlungsverpflichtungen";
+import { buildBelegeList } from "~/domains/prozesskostenhilfe/services/pdf/util";
+import type { Metadata } from "~/services/pdf/addMetadataToPdf";
+import { addMetadataToPdf } from "~/services/pdf/addMetadataToPdf";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
+import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
 import {
   type PdfFillFunction,
   pdfFillReducer,
@@ -13,19 +19,21 @@ import {
   pdfFromUserData,
   type PDFDocumentBuilder,
 } from "~/services/pdf/pdfFromUserData";
-import { fillPerson } from "./A_person";
-import { createAttachmentPages } from "./attachment/createAttachmentPages";
-import { fillRechtsschutzversicherung } from "./B_rechtsschutzversicherung";
-import { fillUnterhaltsanspruch } from "./C_unterhaltspflichtige_person";
-import { fillUnterhaltAngehoerige } from "./D_angehoerige";
-import { fillOwnBruttoEinnahmen } from "./E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
-import { fillBruttoEinnahmenPartner } from "./E_bruttoEinnahmen/bruttoEinnahmen_partner";
-import { fillAbzuege } from "./F_abzuege";
-import { fillEigentum } from "./G_eigentum";
-import { fillGrundvoraussetzungen } from "./grundvoraussetzungen";
-import { fillWohnkosten } from "./H_wohnkosten";
-import { fillZahlungsverpflichtungen } from "./I_zahlungsverpflichtungen";
-import { fillBelastungen } from "./J_belastungen";
+import type { Translations } from "~/services/translations/getTranslationByKey";
+import loadHinweisblatt from "./loadHinweisblatt";
+import { fillPerson } from "./pdfForm/A_person";
+import { fillRechtsschutzversicherung } from "./pdfForm/B_rechtsschutzversicherung";
+import { fillUnterhaltsanspruch } from "./pdfForm/C_unterhaltspflichtige_person";
+import { fillUnterhaltAngehoerige } from "./pdfForm/D_angehoerige";
+import { fillOwnBruttoEinnahmen } from "./pdfForm/E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
+import { fillBruttoEinnahmenPartner } from "./pdfForm/E_bruttoEinnahmen/bruttoEinnahmen_partner";
+import { fillAbzuege } from "./pdfForm/F_abzuege";
+import { fillEigentum } from "./pdfForm/G_eigentum";
+import { fillGrundvoraussetzungen } from "./pdfForm/grundvoraussetzungen";
+import { fillWohnkosten } from "./pdfForm/H_wohnkosten";
+import { fillBelastungen } from "./pdfForm/J_belastungen";
+import { fillFooter } from "./pdfForm/K_footer";
+import { printNameInSignatureFormField } from "./printNameInSignatureFormField";
 export { getProzesskostenhilfeParameters };
 
 export type PkhPdfFillFunction = PdfFillFunction<
@@ -33,9 +41,20 @@ export type PkhPdfFillFunction = PdfFillFunction<
   ProzesskostenhilfePDF
 >;
 
+const METADATA: Metadata = {
+  AUTHOR: "Bundesministerium der Justiz",
+  CREATOR: "service.justiz.de",
+  KEYWORDS: ["Prozesskostenhilfe"],
+  LANGUAGE: "de-DE",
+  PRODUCER: "pdf-lib (https://github.com/Hopding/pdf-lib)",
+  SUBJECT:
+    "Erklärung über die persönlichen und wirtschaftlichen Verhältnisse bei Prozess- oder Verfahrenskostenhilfe",
+  TITLE: "Antrag auf Bewilligung von Prozesskostenhilfe",
+};
+
 const buildProzesskostenhilfePDFDocument: PDFDocumentBuilder<
   ProzesskostenhilfeFormularContext
-> = (doc, documentStruct, userData, attachment) => {
+> = (doc, documentStruct, userData, attachment, translations) => {
   // Attachment holds content of form fields which is too long - output as needed
   createAttachmentPages({
     doc,
@@ -44,11 +63,18 @@ const buildProzesskostenhilfePDFDocument: PDFDocumentBuilder<
     attachment,
     headerText: "Anhang: Antrag auf Bewilligung von Prozesskostenhilfe",
   });
+  if (requiresBelege(userData)) {
+    buildBelegeList({ doc, documentStruct, userData, translations });
+  }
   createFooter(doc, documentStruct, "Anhang");
 };
 
+const requiresBelege = (userData: ProzesskostenhilfeFormularContext) =>
+  Object.values(belegeStrings(userData)).some((val) => val === true);
+
 export async function prozesskostenhilfePdfFromUserdata(
   userData: ProzesskostenhilfeFormularContext,
+  flowTranslations?: Translations,
 ) {
   const { pdfValues, attachment } = pdfFillReducer({
     userData,
@@ -66,27 +92,41 @@ export async function prozesskostenhilfePdfFromUserdata(
       fillBelastungen,
       fillWohnkosten,
       fillZahlungsverpflichtungen,
+      fillFooter,
     ],
   });
 
-  const filledFormPdfDocument = await fillPdf({
+  const filledPdfFormDocument = await fillPdf({
     flowId: "/prozesskostenhilfe/formular",
     pdfValues,
-    yPositionsDruckvermerk: [43, 51, 40, 44],
+    yPositionsDruckvermerk: [43, 51, 40, 44], // Different y positions because the form boxes jump for each page
     xPositionsDruckvermerk: 9,
   });
 
-  if (attachment && attachment.length > 0) {
+  printNameInSignatureFormField(filledPdfFormDocument, userData);
+
+  const filledPdfFormDocumentWithMetadata = addMetadataToPdf(
+    filledPdfFormDocument,
+    METADATA,
+  );
+
+  if ((attachment && attachment.length > 0) || requiresBelege(userData)) {
     const pdfKitBuffer = await pdfFromUserData(
       userData,
       buildProzesskostenhilfePDFDocument,
       attachment,
+      flowTranslations,
     );
 
     const mainPdfDocument = await PDFDocument.load(pdfKitBuffer);
 
-    return appendPagesToPdf(filledFormPdfDocument, mainPdfDocument);
+    await appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
   }
 
-  return filledFormPdfDocument.save();
+  await appendPagesToPdf(
+    filledPdfFormDocumentWithMetadata,
+    await loadHinweisblatt(),
+  );
+
+  return filledPdfFormDocumentWithMetadata.save();
 }

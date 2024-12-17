@@ -1,5 +1,5 @@
 import PDFDocument from "pdfkit";
-import { readRelativeFileToBuffer } from "~/services/pdf/fillPdf.server";
+import { readRelativeFileToBuffer } from "./readRelativeFileToBuffer";
 
 export const PDF_VERSION = "1.7";
 export const PDF_LANGUAGE = "de-DE";
@@ -9,7 +9,8 @@ export const FONTS_BUNDESSANS_BOLD = "BundesSansWebBold";
 export const PDF_MARGIN_VERTICAL = 50;
 export const PDF_MARGIN_HORIZONTAL = 70;
 export const PDF_HEIGHT_SEIZE = 780;
-export const LINE_GAP_GLOBAL = 1.5;
+export const PDF_WIDTH_SEIZE = 460;
+export const LINE_GAP_GLOBAL = 2;
 
 const bundesSansWebRegular = await readRelativeFileToBuffer(
   "public/fonts/BundesSansWeb-Regular.woff",

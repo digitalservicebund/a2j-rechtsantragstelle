@@ -1,6 +1,7 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Textarea, { TEXT_AREA_ROWS } from "~/components/inputs/Textarea";
+import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 
 const getInputProps = vi.fn();
 let error: string | undefined = undefined;
@@ -27,10 +28,12 @@ afterEach(() => {
 describe("Textarea component", () => {
   it("renders without errors", () => {
     const componentName = "test-textarea";
+
     getInputProps.mockImplementationOnce(() => ({
       id: componentName,
       placeholder: "Test Placeholder",
     }));
+
     const RemixStub = createRemixStub([
       {
         path: "",
@@ -51,6 +54,9 @@ describe("Textarea component", () => {
     expect(elementByLabel).not.toHaveClass("ds-heading-03-reg");
 
     expect(screen.getByPlaceholderText("Test Placeholder")).toBeInTheDocument();
+    expect(element.getAttribute("maxLength")).toBe(
+      TEXTAREA_CHAR_LIMIT.toString(),
+    );
   });
 
   it("renders without errors when description is provided", () => {
@@ -75,8 +81,8 @@ describe("Textarea component", () => {
   });
 
   it("renders a collapsible text hint accordion when provided", () => {
-    vi.mock("~/components/DetailsSummary", () => ({
-      DetailsSummary: () => <div>Text-Beispiel</div>,
+    vi.mock("~/components/Details", () => ({
+      Details: () => <div>Text-Beispiel</div>,
     }));
     const RemixStub = createRemixStub([
       {
@@ -153,5 +159,53 @@ describe("Textarea component", () => {
     const textarea = screen.getByRole("textbox");
 
     expect(textarea.getAttribute("rows")).toEqual(TEXT_AREA_ROWS.toString());
+  });
+
+  it("should set the maxLength", () => {
+    const maxLength = 10;
+    getInputProps.mockImplementationOnce(() => ({
+      id: "componentName",
+    }));
+
+    const RemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => (
+          <Textarea
+            name="componentName"
+            label="Test Label"
+            formId="formId"
+            maxLength={maxLength}
+          />
+        ),
+      },
+    ]);
+
+    render(<RemixStub />);
+    const textarea = screen.getByRole("textbox");
+
+    expect(textarea.getAttribute("maxLength")).toBe(maxLength.toString());
+  });
+
+  describe("Textarea field with aria-required attribute", () => {
+    it("has aria-required attribute set to true if errorMessages contain inputRequired", () => {
+      render(
+        <Textarea
+          name="test"
+          errorMessages={[{ code: "required", text: "error" }]}
+          formId="formId"
+        />,
+      );
+      const element = screen.getByRole("textbox");
+      expect(element).toHaveAttribute("aria-required", "true");
+    });
+
+    it("has aria-required attribute set to false if errorMessages do not contain inputRequired", () => {
+      render(
+        <Textarea name="test" errorMessages={undefined} formId="formId" />,
+      );
+      const element = screen.getByRole("textbox");
+      expect(element).toHaveAttribute("aria-required", "false");
+    });
   });
 });

@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import type { AriaRole, ReactNode } from "react";
 import { useField } from "remix-validated-form";
-import { DetailsSummary } from "~/components/DetailsSummary";
+import { Details } from "~/components/Details";
 import InputLabel from "~/components/inputs/InputLabel";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from ".";
@@ -17,6 +17,7 @@ type TextareaProps = Readonly<{
     content: string;
   };
   placeholder?: string;
+  maxLength?: number;
   errorMessages?: ErrorMessageProps[];
   formId?: string;
   classNameLabel?: string;
@@ -33,6 +34,7 @@ const Textarea = ({
   label,
   details,
   placeholder,
+  maxLength = TEXTAREA_CHAR_LIMIT,
   errorMessages,
   classNameLabel,
   role,
@@ -53,15 +55,15 @@ const Textarea = ({
         </InputLabel>
       )}
       {description && (
-        <RichText className={"ds-body-01-reg"} markdown={description} />
+        <RichText className="ds-body-01-reg" markdown={description} />
       )}
-      {details && <DetailsSummary {...details} />}
+      {details && <Details {...details} />}
       <textarea
         {...getInputProps({
           id: name,
           placeholder,
-          maxLength: TEXTAREA_CHAR_LIMIT,
         })}
+        maxLength={maxLength}
         rows={TEXT_AREA_ROWS}
         className={classNames(
           "ds-textarea forced-color-adjust-none placeholder-gray-600",
@@ -73,6 +75,7 @@ const Textarea = ({
         aria-invalid={error !== undefined}
         aria-describedby={error && errorId}
         aria-errormessage={error && errorId}
+        aria-required={!!errorMessages?.find((err) => err.code === "required")}
       />
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === error)?.text ?? error}

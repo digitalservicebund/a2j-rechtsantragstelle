@@ -35,7 +35,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       fetchFlowPage(
         "vorab-check-pages",
         "/beratungshilfe/zustaendiges-gericht" as FlowId,
-        "suche",
+        "/suche",
       ),
     ],
   );

@@ -13,16 +13,14 @@ const machine: FlowStateMachine = createMachine(
 const cases = [
   [
     {
-      schriftlichesVerfahren: "yes",
       versaeumnisurteil: "yes",
       videoverhandlung: "yes",
     },
     [
-      "prozessfuehrung/schriftliches-verfahren",
-      "prozessfuehrung/videoverhandlung",
-      "prozessfuehrung/versaeumnisurteil",
-      "prozessfuehrung/zahlung-nach-klageeinreichung",
-      "zusammenfassung/start",
+      "/prozessfuehrung/videoverhandlung",
+      "/prozessfuehrung/versaeumnisurteil",
+      "/prozessfuehrung/zahlung-nach-klageeinreichung",
+      "/zusammenfassung/start",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;

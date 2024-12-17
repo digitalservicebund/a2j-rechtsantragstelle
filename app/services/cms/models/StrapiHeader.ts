@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HeaderPropsSchema } from "~/components/Header";
+import type { HeaderProps } from "~/components/Header";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
@@ -25,10 +25,11 @@ export const StrapiHeaderComponentSchema = StrapiHeaderSchema.extend({
 
 type StrapiHeaderComponent = z.infer<typeof StrapiHeaderComponentSchema>;
 
-export const getHeaderProps = (cmsData: StrapiHeader) => {
-  const content = cmsData.content && getRichTextProps(cmsData.content);
-  return HeaderPropsSchema.parse(omitNull({ ...cmsData, content }));
-};
+export const getHeaderProps = ({
+  content,
+  heading,
+}: StrapiHeader): HeaderProps =>
+  omitNull({ heading, content: content && getRichTextProps(content) });
 
 export const isStrapiHeader = (
   content: StrapiContentComponent,

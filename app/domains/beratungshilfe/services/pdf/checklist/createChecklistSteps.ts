@@ -4,8 +4,8 @@ import {
   type BeratungshilfeFormularContext,
 } from "~/domains/beratungshilfe/formular";
 import { abgabeContext } from "~/domains/shared/formular/abgabe/context";
-import { pdfStyles } from "~/domains/shared/pdf/pdfStyles";
 import { createHeading } from "~/services/pdf/createHeading";
+import { pdfStyles } from "~/services/pdf/pdfStyles";
 
 const { stringReplacements } = beratungshilfeFormular;
 type ReplacementKey = keyof ReturnType<typeof stringReplacements>;
@@ -105,13 +105,19 @@ export const createChecklistSteps = (
   const firstPart = steps.slice(0, insertIndex);
   const secondPart = steps.slice(insertIndex);
   const combinedSteps = [...firstPart, null, ...secondPart];
+  const length = combinedSteps.length;
 
   // The actual checklist should always sit between last and second last step
-  for (let index = 0; index < combinedSteps.length; index++) {
+  for (let index = 0; index < length; index++) {
     const step = combinedSteps[index];
 
     if (step) {
-      createHeading(doc, documentStruct, `${index + 1}. ${step.title}`, "H3");
+      createHeading(
+        doc,
+        documentStruct,
+        `${index === length - 1 ? length - 1 : index + 1}. ${step.title}`,
+        "H3",
+      );
       documentStruct.add(
         doc.struct("P", {}, () => {
           doc
@@ -122,10 +128,11 @@ export const createChecklistSteps = (
               typeof step.value === "string"
                 ? step.value
                 : step.value(Boolean(conditions.courtName)),
-              {
-                indent: pdfStyles.sectionIndented.paddingLeft,
-              },
+              doc.x + pdfStyles.sectionIndented.paddingLeft,
+              doc.y,
             )
+            // workaround, because pdfkit only supports indentation for the first line of a paragraph
+            .text("", doc.x - pdfStyles.sectionIndented.paddingLeft, doc.y)
             .moveDown(1);
         }),
       );
@@ -139,8 +146,15 @@ export const createChecklistSteps = (
             .font(pdfStyles.page.font)
             .list(
               relevantDocuments.map((doc) => doc),
-              { paragraphGap: 8, indent: pdfStyles.list.paddingLeft },
-            );
+              doc.x + pdfStyles.sectionIndented.paddingLeft,
+              doc.y,
+              {
+                paragraphGap: 8,
+                // the value of bulletIdent does not seem to have any effect
+                bulletIndent: pdfStyles.list.paddingLeft,
+              },
+            )
+            .text("", doc.x - pdfStyles.sectionIndented.paddingLeft, doc.y);
         }),
       );
     }

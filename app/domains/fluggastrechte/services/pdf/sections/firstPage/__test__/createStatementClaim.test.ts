@@ -1,38 +1,31 @@
-import { userDataMock } from "tests/factories/fluggastrechte/userDataMock";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
+import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
+import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
+import { addDefendantPartyList } from "../claimData/addDefendantPartyList";
 import {
   createStatementClaim,
-  STATEMENT_CLAIM_AGREEMENT_SENTENCE,
   STATEMENT_CLAIM_COURT_SENTENCE,
   STATEMENT_CLAIM_SUBTITLE_TEXT,
   STATEMENT_CLAIM_TITLE_TEXT,
-  getDefendantPartyList,
 } from "../createStatementClaim";
 
-function assertDefendantPartyList(
-  mockDoc: PDFKit.PDFDocument,
-  defendantPartyList: Record<string, string>,
-) {
-  for (const [bullet, claim] of Object.entries(defendantPartyList)) {
-    expect(mockDoc.text).toHaveBeenCalledWith(bullet, 80, undefined, {
-      continued: true,
-    });
-    expect(mockDoc.text).toHaveBeenCalledWith(claim, { width: 500 });
-  }
-}
+const STATEMENT_VIDEO_TRIAL_AGREEMENT =
+  "Ich stimme der Durchführung einer Videoverhandlung (§ 128a ZPO) zu.";
+const STATEMENT_VIDEO_TRIAL_NO_AGREEMENT =
+  "Ich stimme der Durchführung einer Videoverhandlung (§ 128a ZPO) nicht zu.";
 
 describe("createStatementClaim", () => {
   beforeEach(() => {
     vi.mock(
-      "~/domains/fluggastrechte/services/airports/getCompensationPayment",
+      "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim",
     );
-    vi.mocked(getCompensationPayment).mockReturnValue("600");
+    vi.mock("../claimData/addDefendantPartyList");
+    vi.mocked(getTotalCompensationClaim).mockReturnValue(600);
   });
 
   afterEach(() => {
@@ -52,33 +45,12 @@ describe("createStatementClaim", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_TITLE_TEXT);
     expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_SUBTITLE_TEXT);
 
-    const compensation = getCompensationPayment({
-      startAirport: userDataMock.startAirport,
-      endAirport: userDataMock.endAirport,
-    });
-
-    const defendantPartyList = getDefendantPartyList(
+    expect(addDefendantPartyList).toHaveBeenCalledWith(
+      mockDoc,
+      mockStruct,
       userDataMock.prozesszinsen,
-      compensation,
+      600,
     );
-
-    assertDefendantPartyList(mockDoc, defendantPartyList);
-  });
-
-  it("should create a list structure with list items", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    createStatementClaim(mockDoc, mockStruct, userDataMock);
-
-    expect(mockDoc.struct).toHaveBeenCalledWith("L");
-    expect(mockDoc.struct).toHaveBeenCalledWith("LI", {}, expect.any(Function));
-
-    const defendantPartyList = getDefendantPartyList(
-      userDataMock.prozesszinsen,
-      "600",
-    );
-    assertDefendantPartyList(mockDoc, defendantPartyList);
   });
 
   describe("createStatementClaim - versaeumnisurteil logic", () => {
@@ -123,15 +95,47 @@ describe("createStatementClaim", () => {
         PDF_MARGIN_HORIZONTAL,
       );
     });
+  });
 
-    it("should include agreement sentence regardless of versaeumnisurteil", () => {
+  describe("createStatementClaim - videoverhandlung logic", () => {
+    it("should include videoverhandlung sentence when videoverhandlung is yes", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
 
-      createStatementClaim(mockDoc, mockStruct, userDataMock);
+      const userDataMockWithVersaeumnisurteil = {
+        ...userDataMock,
+        videoverhandlung: "yes",
+      } satisfies FluggastrechtContext;
+
+      createStatementClaim(
+        mockDoc,
+        mockStruct,
+        userDataMockWithVersaeumnisurteil,
+      );
 
       expect(mockDoc.text).toHaveBeenCalledWith(
-        STATEMENT_CLAIM_AGREEMENT_SENTENCE,
+        STATEMENT_VIDEO_TRIAL_AGREEMENT,
+        PDF_MARGIN_HORIZONTAL,
+      );
+    });
+
+    it("should not include videoverhandlung sentence when videoverhandlung is no", () => {
+      const mockStruct = mockPdfKitDocumentStructure();
+      const mockDoc = mockPdfKitDocument(mockStruct);
+
+      const userDataMockWithoutVersaeumnisurteil = {
+        ...userDataMock,
+        videoverhandlung: "no",
+      } satisfies FluggastrechtContext;
+
+      createStatementClaim(
+        mockDoc,
+        mockStruct,
+        userDataMockWithoutVersaeumnisurteil,
+      );
+
+      expect(mockDoc.text).toHaveBeenCalledWith(
+        STATEMENT_VIDEO_TRIAL_NO_AGREEMENT,
         PDF_MARGIN_HORIZONTAL,
       );
     });

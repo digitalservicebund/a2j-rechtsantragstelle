@@ -95,9 +95,9 @@ export function CookieBanner({
             />
             <div>
               <div className="ds-stack-8">
-                {content.paragraphs.map((paragraph, index) => (
+                {content.paragraphs.map((paragraph) => (
                   <RichText
-                    key={`${index} ${paragraph}`}
+                    key={paragraph.markdown}
                     markdown={paragraph.markdown}
                   />
                 ))}

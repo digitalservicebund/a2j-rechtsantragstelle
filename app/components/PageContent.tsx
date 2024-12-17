@@ -1,29 +1,32 @@
 import type { ReactElement } from "react";
 import Heading from "~/components/Heading";
 import Video from "~/components/video/Video";
-import { StrapiDetailsSummary } from "~/services/cms/components/StrapiDetailsSummary";
-import { StrapiInlineNotice } from "~/services/cms/components/StrapiInlineNotice";
-import { StrapiUserFeedback } from "~/services/cms/components/StrapiUserFeedback";
 import { getBoxProps } from "~/services/cms/models/StrapiBox";
 import { getBoxWithImageProps } from "~/services/cms/models/StrapiBoxWithImage";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
+import { getDetailsProps } from "~/services/cms/models/StrapiDetails";
 import { getHeaderProps } from "~/services/cms/models/StrapiHeader";
 import { getHeadingProps } from "~/services/cms/models/StrapiHeading";
 import { getInfoBoxProps } from "~/services/cms/models/StrapiInfoBox";
+import { getInlineNoticeProps } from "~/services/cms/models/StrapiInlineNotice";
 import { getLinkListBoxProps } from "~/services/cms/models/StrapiLinkListBox";
 import { getListProps } from "~/services/cms/models/StrapiList";
 import { getRichTextProps } from "~/services/cms/models/StrapiParagraph";
+import { getUserFeedbackProps } from "~/services/cms/models/StrapiUserFeedback";
 import { getVideoProps } from "~/services/cms/models/StrapiVideo";
 import Background from "./Background";
 import Box from "./Box";
 import BoxWithImage from "./BoxWithImage";
 import { wrapperPropsFromCms } from "./CommonWrapperProps";
 import Container from "./Container";
+import { Details } from "./Details";
 import Header from "./Header";
 import InfoBox from "./InfoBox";
+import { InlineNotice } from "./InlineNotice";
 import LinkListBox from "./LinkListBox";
 import List from "./List";
 import RichText from "./RichText";
+import UserFeedback from "./userFeedback";
 import { keyFromElement } from "../services/cms/keyFromElement";
 
 function wrapInContainer(
@@ -79,11 +82,11 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
     case "page.video":
       return <Video {...getVideoProps(strapiContent)} />;
     case "page.inline-notice":
-      return <StrapiInlineNotice {...strapiContent} />;
+      return <InlineNotice {...getInlineNoticeProps(strapiContent)} />;
     case "page.details-summary":
-      return <StrapiDetailsSummary {...strapiContent} />;
+      return <Details {...getDetailsProps(strapiContent)} />;
     case "page.user-feedback":
-      return <StrapiUserFeedback {...strapiContent} />;
+      return <UserFeedback {...getUserFeedbackProps(strapiContent)} />;
     default:
       return <></>;
   }

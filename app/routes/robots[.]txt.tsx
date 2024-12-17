@@ -5,7 +5,8 @@ export const loader = () => {
   let robotContent = "User-agent: *\nDisallow: /";
 
   if (config().ENVIRONMENT === "production") {
-    robotContent = "User-agent: *\nDisallow: /storybook";
+    robotContent =
+      "User-agent: *\nDisallow: /storybook\nDisallow: /prozesskostenhilfe/direktlink";
   }
 
   return new Response(robotContent, {

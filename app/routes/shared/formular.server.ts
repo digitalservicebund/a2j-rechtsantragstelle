@@ -1,13 +1,10 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
-import type { Context } from "~/domains/contexts";
 import { parsePathname } from "~/domains/flowIds";
-import type { Flow } from "~/domains/flows.server";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { getArraySummaryPageTranslations } from "~/services/array/getArraySummaryPageTranslations";
-import { getSummaryData } from "~/services/array/getSummaryData";
+import { getArraySummaryData } from "~/services/array/getArraySummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
 import {
@@ -16,7 +13,7 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
-import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
+import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
@@ -43,52 +40,9 @@ import {
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
-import type { Translations } from "~/services/translations/getTranslationByKey";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { interpolateSerializableObject } from "~/util/fillTemplate";
 import { filterFormData } from "~/util/filterFormData";
-
-const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
-  return {
-    heading: "heading" in formPageContent ? formPageContent.heading : undefined,
-    preHeading:
-      "preHeading" in formPageContent ? formPageContent.preHeading : undefined,
-    nextButtonLabel:
-      "nextButtonLabel" in formPageContent
-        ? formPageContent.nextButtonLabel
-        : undefined,
-    backButtonLabel:
-      "backButtonLabel" in formPageContent
-        ? formPageContent.backButtonLabel
-        : undefined,
-    content: formPageContent.pre_form,
-    formContent: formPageContent.form,
-    postFormContent:
-      "post_form" in formPageContent ? formPageContent.post_form : [],
-  };
-};
-
-function getInterpolateFlowTranslations(
-  currentFlow: Flow,
-  flowTranslations: Translations,
-  migrationData: Context | undefined,
-): Translations {
-  if (
-    typeof migrationData === "undefined" ||
-    typeof currentFlow.stringReplacements === "undefined"
-  ) {
-    return flowTranslations;
-  }
-
-  /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports
-    can not be translated, so it's required to be interpolated
-  */
-  return interpolateSerializableObject(
-    flowTranslations,
-    currentFlow.stringReplacements(migrationData),
-  );
-}
 
 export const loader = async ({
   params,
@@ -134,23 +88,23 @@ export const loader = async ({
     navigationStrings,
     defaultStrings,
     flowTranslations,
+    overviewTranslations,
   ] = await Promise.all([
     fetchFlowPage("form-flow-pages", flowId, stepId),
     fetchMeta({ filterValue: parentFromParams(pathname, params) }),
     fetchTranslations(`${flowId}/menu`),
     fetchTranslations("defaultTranslations"),
     fetchTranslations(flowId),
+    fetchTranslations(`${flowId}/summaryPage`),
   ]);
-
-  const arrayConfigurations = flowController.getRootMeta()?.arrays;
 
   const arrayCategories = formPageContent.pre_form
     .filter(isStrapiArraySummary)
     .map((strapiSummary) => strapiSummary.category);
 
-  const arraySummaryData = getSummaryData(
+  const arraySummaryData = getArraySummaryData(
     arrayCategories,
-    arrayConfigurations,
+    flowController.getRootMeta()?.arrays,
     userDataWithPageData,
   );
 
@@ -161,27 +115,16 @@ export const loader = async ({
     cookieHeader,
   );
 
-  const flowTranslationsAfterInterpolation = getInterpolateFlowTranslations(
-    currentFlow,
-    flowTranslations,
-    migrationData,
-  );
-
-  const arrayTranslations =
-    await getArraySummaryPageTranslations(arrayCategories);
-
-  const stringTranslations = {
-    ...arrayTranslations,
-    ...flowTranslationsAfterInterpolation,
-  };
-
-  // structure cms content -> merge with getting data?
-  const cmsContent = interpolateSerializableObject(
-    structureCmsContent(formPageContent),
-    "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userDataWithPageData)
-      : {},
-  );
+  const { stringTranslations, cmsContent } =
+    await buildFormularServerTranslations({
+      currentFlow,
+      flowTranslations,
+      migrationData,
+      arrayCategories,
+      overviewTranslations,
+      formPageContent,
+      userDataWithPageData,
+    });
 
   // Inject heading into <legend> inside radio groups
   // TODO: only do for pages with *one* select?
@@ -239,6 +182,7 @@ export const loader = async ({
   return json(
     {
       arraySummaryData,
+      prunedUserData,
       buttonNavigationProps,
       content: cmsContent.content,
       csrf,

@@ -22,16 +22,16 @@ const DELAY_STATUS = {
   anderes: "",
 };
 
-const getActualConnectionType = (userData: FluggastrechtContext) => {
-  if (userData.tatsaechlicherFlug === "yes")
-    return CONNECTION_REPLACEMENT.gleicherFlug;
-  return userData.ersatzverbindungArt
-    ? CONNECTION_REPLACEMENT[userData.ersatzverbindungArt]
-    : "";
+const getActualConnectionType = ({
+  tatsaechlicherFlug,
+  ersatzverbindungArt,
+}: FluggastrechtContext) => {
+  if (tatsaechlicherFlug === "yes") return CONNECTION_REPLACEMENT.gleicherFlug;
+  return ersatzverbindungArt ? CONNECTION_REPLACEMENT[ersatzverbindungArt] : "";
 };
 
-const getDelayType = (userData: FluggastrechtContext): string =>
-  DELAY_STATUS[userData.bereich as FluggastrechtBereichType] ?? "";
+const getDelayType = ({ bereich }: FluggastrechtContext): string =>
+  DELAY_STATUS[bereich as FluggastrechtBereichType] ?? "";
 
 export function drawTableRowHead(
   doc: PDFKit.PDFDocument,
@@ -40,7 +40,7 @@ export function drawTableRowHead(
   userData: FluggastrechtContext,
 ) {
   const headers = [
-    { title: "Geplante Zeiten", subtitle: "(laut Ticket)" },
+    { title: "Geplante Zeiten", subtitle: "laut Ticket" },
     {
       title: "Tatsächliche Zeiten",
       subtitle: getActualConnectionType(userData),

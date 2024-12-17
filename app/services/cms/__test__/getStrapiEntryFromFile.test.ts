@@ -1,5 +1,4 @@
 import fs from "node:fs";
-import { faker } from "@faker-js/faker";
 import { getStrapiFooter } from "tests/factories/cmsModels/strapiFooter";
 import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
 import { StrapiLocaleSchema } from "~/services/cms/models/StrapiLocale";
@@ -14,9 +13,6 @@ describe("services/cms", () => {
     const impressumPath = "/impressum";
     const impressum = {
       slug: impressumPath,
-      createdAt: faker.date.past().toISOString(),
-      updatedAt: faker.date.past().toISOString(),
-      publishedAt: faker.date.past().toISOString(),
       locale: StrapiLocaleSchema.Values.de,
       meta: {
         title: "Impressum",
@@ -29,39 +25,32 @@ describe("services/cms", () => {
 
     const fileContent = {
       "page-header": [],
-      footer: [{ attributes: footerData }],
-      pages: [{ attributes: impressum }],
+      footer: [footerData],
+      pages: [impressum],
       "cookie-banner": [],
       "result-pages": [],
       "vorab-check-pages": [],
       "form-flow-pages": [
         {
-          attributes: {
-            createdAt: faker.date.past().toISOString(),
-            updatedAt: faker.date.past().toISOString(),
-            publishedAt: faker.date.past().toISOString(),
-            heading: "",
-            locale: StrapiLocaleSchema.Values.de,
-            preHeading: null,
-            nextButtonLabel: null,
-            backButtonLabel: null,
-            stepId: "/stepId",
-            meta: {
-              title: "",
-              description: null,
-              ogTitle: null,
-              breadcrumb: "",
-            },
-            pre_form: [],
-            post_form: [],
-            form: [],
-            flow_ids: {
-              data: [
-                { attributes: { flowId: "/geld-einklagen/formular" } },
-                { attributes: { flowId: "/fluggastrechte/formular" } },
-              ],
-            },
+          heading: "",
+          locale: StrapiLocaleSchema.Values.de,
+          preHeading: null,
+          nextButtonLabel: null,
+          backButtonLabel: null,
+          stepId: "/stepId",
+          meta: {
+            title: "",
+            description: null,
+            ogTitle: null,
+            breadcrumb: "",
           },
+          pre_form: [],
+          post_form: [],
+          form: [],
+          flow_ids: [
+            { flowId: "/geld-einklagen/formular" },
+            { flowId: "/fluggastrechte/formular" },
+          ],
         },
       ],
       translations: [],
@@ -74,18 +63,7 @@ describe("services/cms", () => {
           apiId: "footer",
           locale: "de",
         }),
-      ).toEqual([{ attributes: footerData }]);
-    });
-
-    describe("when no entry exists for the given locale", () => {
-      it("returns default entry", async () => {
-        expect(
-          await getStrapiEntryFromFile({
-            apiId: "footer",
-            locale: "en",
-          }),
-        ).toEqual([{ attributes: footerData }]);
-      });
+      ).toEqual([footerData]);
     });
 
     it("can filter by property", async () => {
@@ -95,7 +73,7 @@ describe("services/cms", () => {
           filters: [{ field: "slug", value: impressumPath }],
           locale: "de",
         }),
-      ).toEqual([{ attributes: impressum }]);
+      ).toEqual([impressum]);
     });
 
     it("can filter by nested property", async () => {
@@ -137,16 +115,6 @@ describe("services/cms", () => {
           locale: "de",
         }),
       ).toStrictEqual([]);
-    });
-
-    it("falls back to default locale", async () => {
-      expect(
-        await getStrapiEntryFromFile({
-          apiId: "pages",
-          filters: [{ field: "slug", value: impressumPath }],
-          locale: "en",
-        }),
-      ).toEqual([{ attributes: impressum }]);
     });
   });
 });

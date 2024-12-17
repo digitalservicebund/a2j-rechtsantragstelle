@@ -8,12 +8,10 @@ import Background from "~/components/Background";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";
-import InfoBox from "~/components/InfoBox";
 import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
 import type { loader } from "~/routes/shared/result.server";
 import { keyFromElement } from "~/services/cms/keyFromElement";
-import { infoBoxesFromElementsWithID } from "~/services/cms/models/StrapiInfoBoxItem";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
 
 const iconCSS = "inline-block !h-[36px] !w-[36px] !min-h-[36px] !min-w-[36px]";
@@ -32,11 +30,9 @@ const backgrounds: Record<StrapiResultPageType, BackgroundColor> = {
 };
 
 export function ResultPage() {
-  const { common, cmsData, reasons, backButton } =
-    useLoaderData<typeof loader>();
-
-  const documentsList = cmsData.documents.data?.attributes.element ?? [];
-  const nextSteps = cmsData.nextSteps.data?.attributes.element ?? [];
+  const { common, cmsData, backButton } = useLoaderData<typeof loader>();
+  const documentsList = cmsData.documents;
+  const nextSteps = cmsData.nextSteps;
   const content = cmsData.freeZone;
 
   return (
@@ -66,12 +62,6 @@ export function ResultPage() {
               </div>
             </div>
           </Container>
-
-          {reasons.length > 0 && (
-            <Container paddingBottom="0">
-              <InfoBox items={infoBoxesFromElementsWithID(reasons)} />
-            </Container>
-          )}
 
           <Container paddingTop="48" paddingBottom="0">
             <ButtonContainer>
