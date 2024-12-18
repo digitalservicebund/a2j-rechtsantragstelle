@@ -3,9 +3,10 @@ import * as Primitive from "../../../../xml-primitives";
 // Source files:
 // file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/din-91379-datatypes.xsd
 
+
 interface BaseType {
-  _exists: boolean;
-  _namespace: string;
+	_exists: boolean;
+	_namespace: string;
 }
 /** Der Datentyp A gibt wieder, welche Schriftzeichen in hoheitlichen Dokumenten für Namen natürlicher Personen verwendet werden. */
 export type datatypeA = string;
@@ -27,5 +28,6 @@ type _datatypeD = Primitive._string;
 export type datatypeE = string;
 type _datatypeE = Primitive._string;
 
-export interface document extends BaseType {}
+export interface document extends BaseType {
+}
 export var document: document;

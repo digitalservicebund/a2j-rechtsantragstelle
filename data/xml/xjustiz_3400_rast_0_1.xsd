@@ -182,11 +182,11 @@
                                                                         <xs:documentation>Hier muss die Bezeichnung der Bank/der Sparkasse/des sonstigen Kreditinstuts angegeben werden.</xs:documentation>
                                                                      </xs:annotation>
                                                                   </xs:element>
-                                                                  <xs:element name="inhaber" type="tns:Code.RAST.Inhaber.Eigentums.Verhaeltnis.Typ3">
+                                                                  <!-- <xs:element name="inhaber" type="tns:Code.RAST.Inhaber.Eigentums.Verhaeltnis.Typ3">
                                                                      <xs:annotation>
                                                                         <xs:documentation>Mit diesem Element wird angegeben ob der Antragsteller alleine, oder der Ehegatte/Lebenspartner alleine oder der Antragsteller gemeinsam mit Ehegatten/Lebenspartner Inhaber des Kontos/Wertpapiers ist.</xs:documentation>
                                                                      </xs:annotation>
-                                                                  </xs:element>
+                                                                  </xs:element> -->
                                                                   <xs:element name="auszahlungstermin" minOccurs="0" type="xs:date">
                                                                      <xs:annotation>
                                                                         <xs:documentation>Nur anzugeben bei Bausparkonten</xs:documentation>
@@ -214,8 +214,8 @@
                                                          <xs:element name="grundeigentumVorhanden">
                                                             <xs:complexType>
                                                                <xs:sequence>
-                                                                  <xs:element name="eigentuemer"
-                                                                              type="tns:Code.RAST.Inhaber.Eigentums.Verhaeltnis.Typ3"/>
+                                                                  <!-- <xs:element name="eigentuemer"
+                                                                              type="tns:Code.RAST.Inhaber.Eigentums.Verhaeltnis.Typ3"/> -->
                                                                   <xs:element name="bezeichnung">
                                                                      <xs:complexType>
                                                                         <xs:sequence>
@@ -242,8 +242,8 @@
                                                          <xs:element name="kraftfahrzeugeVorhanden">
                                                             <xs:complexType>
                                                                <xs:sequence>
-                                                                  <xs:element name="eigentuemer"
-                                                                              type="tns:Code.RAST.Inhaber.Eigentums.Verhaeltnis.Typ3"/>
+                                                                  <!-- <xs:element name="eigentuemer"
+                                                                              type="tns:Code.RAST.Inhaber.Eigentums.Verhaeltnis.Typ3"/> -->
                                                                   <xs:element name="fahrzeug">
                                                                      <xs:complexType>
                                                                         <xs:sequence>
@@ -254,7 +254,7 @@
                                                                                  <xs:documentation>Da von anderen Elementen auf ein schon erfasstes Fahrzeug verwiesen wird, ist eine eindeutige Nummer für das Element "Fahrzeug" notwendig.</xs:documentation>
                                                                               </xs:annotation>
                                                                            </xs:element>
-                                                                           <xs:element name="art" type="tns:Code.GDS.Fahrzeugart.Typ3"/>
+                                                                           <!-- <xs:element name="art" type="tns:Code.GDS.Fahrzeugart.Typ3"/> -->
                                                                            <xs:element name="unterart" type="din91379:datatypeC">
                                                                               <xs:annotation>
                                                                                  <xs:documentation>Gewichtsbezogene Angabe der Art des Fahrzeuges. Mögliche Werte sind hier z.B. KFZ mit Anhänger bis 2 t. zul.GG</xs:documentation>
@@ -282,9 +282,9 @@
                                                                                  <xs:documentation>Hier kann das amtliche Kennzeichen des Fahrzeugs eingetragen werden.</xs:documentation>
                                                                               </xs:annotation>
                                                                            </xs:element>
-                                                                           <xs:element name="landeskennzeichen"
+                                                                           <!-- <xs:element name="landeskennzeichen"
                                                                                        minOccurs="0"
-                                                                                       type="tns:Code.GDS.Kfz.Kennzeichen.Typ3"/>
+                                                                                       type="tns:Code.GDS.Kfz.Kennzeichen.Typ3"/> -->
                                                                            <xs:element name="verkehrswert" minOccurs="0" type="tns:Type.GDS.Geldbetrag"/>
                                                                            <xs:element name="personenbezug" minOccurs="0" maxOccurs="unbounded">
                                                                               <xs:complexType>
@@ -294,13 +294,13 @@
                                                                                           <xs:documentation>Hier wird auf eine Rollennummer im Grunddatensatz referenziert.</xs:documentation>
                                                                                        </xs:annotation>
                                                                                     </xs:element>
-                                                                                    <xs:element name="art"
+                                                                                    <!-- <xs:element name="art"
                                                                                                 maxOccurs="unbounded"
                                                                                                 type="tns:Code.GDS.Personenbezug.Typ3">
                                                                                        <xs:annotation>
                                                                                           <xs:documentation>Halter, Fahrer, Eigentümer..</xs:documentation>
                                                                                        </xs:annotation>
-                                                                                    </xs:element>
+                                                                                    </xs:element> -->
                                                                                  </xs:sequence>
                                                                               </xs:complexType>
                                                                            </xs:element>
@@ -340,8 +340,8 @@
                                                          <xs:element name="sonstigeVermoegenswerte">
                                                             <xs:complexType>
                                                                <xs:sequence>
-                                                                  <xs:element name="eigentuemer"
-                                                                              type="tns:Code.RAST.Inhaber.Eigentums.Verhaeltnis.Typ3"/>
+                                                                  <!-- <xs:element name="eigentuemer"
+                                                                              type="tns:Code.RAST.Inhaber.Eigentums.Verhaeltnis.Typ3"/> -->
                                                                   <xs:element name="bezeichnungGegenstand" type="din91379:datatypeC"/>
                                                                   <xs:element name="rueckkaufswert.verkehrswertInEuro" type="xs:double"/>
                                                                </xs:sequence>
@@ -376,11 +376,11 @@
                                                 <xs:element name="sonstigeBelastungen" minOccurs="0" maxOccurs="unbounded">
                                                    <xs:complexType>
                                                       <xs:sequence>
-                                                         <xs:element name="art" type="tns:Code.RAST.Belastungsart.Typ3">
+                                                         <!-- <xs:element name="art" type="tns:Code.RAST.Belastungsart.Typ3">
                                                             <xs:annotation>
                                                                <xs:documentation>Hier kann aus der Codeliste der Umstand ausgewählt werden, der auf den Antragsteller oder den Ehegatte/eingetragener Lebenspartner bzw. seiner/seinem Ehegattin/eingetragene Lebenspartnerin zutrifft. Sofern der Wert "Sonstiges" ausgewählt wird, muss immer das Element "begruendung" befüllt werden.</xs:documentation>
                                                             </xs:annotation>
-                                                         </xs:element>
+                                                         </xs:element> -->
                                                          <xs:element name="begruendung" minOccurs="0" type="din91379:datatypeC">
                                                             <xs:annotation>
                                                                <xs:documentation>Hier kann eine Begründung für die sonstigen Belastungen eingetragen werden. Das Element ist zwingend zu füllen, wenn der Wert "Sonstiges" aus der Codeliste RAST.Belastungsart ausgewählt wurde.</xs:documentation>

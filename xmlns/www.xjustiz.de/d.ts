@@ -1,6 +1,6 @@
-import * as Primitive from "./xml-primitives";
-import * as dinspec91379 from "./xoev-de/kosit/xoev/datentyp/din-spec-91379_2019-03";
-import * as xoev-code from "./xoev.de/schemata/code/1_0";
+import * as Primitive from "../xml-primitives";
+import * as dinspec91379 from "../xoev-de/kosit/xoev/datentyp/din-spec-91379_2019-03";
+import * as xoevCode from "../xoev.de/schemata/code/1_0";
 
 // Source files:
 // file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/xjustiz_0000_grunddatensatz_3_4.xsd
@@ -20,7 +20,7 @@ interface BaseType {
 	_exists: boolean;
 	_namespace: string;
 }
-interface _CodeGDSAktenreferenzart extends xoev-code._Code {
+interface _CodeGDSAktenreferenzart extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsaktenreferenzart;
@@ -28,7 +28,7 @@ interface _CodeGDSAktenreferenzart extends xoev-code._Code {
 export interface CodeGDSAktenreferenzart extends _CodeGDSAktenreferenzart { constructor: { new(): CodeGDSAktenreferenzart }; }
 export var CodeGDSAktenreferenzart: { new(): CodeGDSAktenreferenzart };
 
-interface _CodeGDSAktentyp extends xoev-code._Code {
+interface _CodeGDSAktentyp extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsaktentyp;
@@ -36,7 +36,7 @@ interface _CodeGDSAktentyp extends xoev-code._Code {
 export interface CodeGDSAktentyp extends _CodeGDSAktentyp { constructor: { new(): CodeGDSAktentyp }; }
 export var CodeGDSAktentyp: { new(): CodeGDSAktentyp };
 
-interface _CodeGDSAktenzeichenart extends xoev-code._Code {
+interface _CodeGDSAktenzeichenart extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsaktenzeichenart;
@@ -44,7 +44,7 @@ interface _CodeGDSAktenzeichenart extends xoev-code._Code {
 export interface CodeGDSAktenzeichenart extends _CodeGDSAktenzeichenart { constructor: { new(): CodeGDSAktenzeichenart }; }
 export var CodeGDSAktenzeichenart: { new(): CodeGDSAktenzeichenart };
 
-interface _CodeGDSAnschriftstyp extends xoev-code._Code {
+interface _CodeGDSAnschriftstyp extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsanschriftstyp;
@@ -53,7 +53,7 @@ export interface CodeGDSAnschriftstyp extends _CodeGDSAnschriftstyp { constructo
 export var CodeGDSAnschriftstyp: { new(): CodeGDSAnschriftstyp };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSAusweisartTyp3 extends xoev-code._Code {
+interface _CodeGDSAusweisartTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -61,7 +61,7 @@ interface _CodeGDSAusweisartTyp3 extends xoev-code._Code {
 export interface CodeGDSAusweisartTyp3 extends _CodeGDSAusweisartTyp3 { constructor: { new(): CodeGDSAusweisartTyp3 }; }
 export var CodeGDSAusweisartTyp3: { new(): CodeGDSAusweisartTyp3 };
 
-interface _CodeGDSBestandteiltyp extends xoev-code._Code {
+interface _CodeGDSBestandteiltyp extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsbestandteiltyp;
@@ -70,7 +70,7 @@ export interface CodeGDSBestandteiltyp extends _CodeGDSBestandteiltyp { construc
 export var CodeGDSBestandteiltyp: { new(): CodeGDSBestandteiltyp };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSBRISListOfRegistersTyp3 extends xoev-code._Code {
+interface _CodeGDSBRISListOfRegistersTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -79,7 +79,7 @@ export interface CodeGDSBRISListOfRegistersTyp3 extends _CodeGDSBRISListOfRegist
 export var CodeGDSBRISListOfRegistersTyp3: { new(): CodeGDSBRISListOfRegistersTyp3 };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSBundeslandTyp3 extends xoev-code._Code {
+interface _CodeGDSBundeslandTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -88,7 +88,7 @@ export interface CodeGDSBundeslandTyp3 extends _CodeGDSBundeslandTyp3 { construc
 export var CodeGDSBundeslandTyp3: { new(): CodeGDSBundeslandTyp3 };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSDatentypTyp3 extends xoev-code._Code {
+interface _CodeGDSDatentypTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -97,7 +97,7 @@ export interface CodeGDSDatentypTyp3 extends _CodeGDSDatentypTyp3 { constructor:
 export var CodeGDSDatentypTyp3: { new(): CodeGDSDatentypTyp3 };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSDokumentklasseTyp3 extends xoev-code._Code {
+interface _CodeGDSDokumentklasseTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -106,7 +106,7 @@ export interface CodeGDSDokumentklasseTyp3 extends _CodeGDSDokumentklasseTyp3 { 
 export var CodeGDSDokumentklasseTyp3: { new(): CodeGDSDokumentklasseTyp3 };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSDokumenttypTyp3 extends xoev-code._Code {
+interface _CodeGDSDokumenttypTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -115,7 +115,7 @@ export interface CodeGDSDokumenttypTyp3 extends _CodeGDSDokumenttypTyp3 { constr
 export var CodeGDSDokumenttypTyp3: { new(): CodeGDSDokumenttypTyp3 };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSEreignisTyp3 extends xoev-code._Code {
+interface _CodeGDSEreignisTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -123,7 +123,7 @@ interface _CodeGDSEreignisTyp3 extends xoev-code._Code {
 export interface CodeGDSEreignisTyp3 extends _CodeGDSEreignisTyp3 { constructor: { new(): CodeGDSEreignisTyp3 }; }
 export var CodeGDSEreignisTyp3: { new(): CodeGDSEreignisTyp3 };
 
-interface _CodeGDSFamilienstand extends xoev-code._Code {
+interface _CodeGDSFamilienstand extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsfamilienstand;
@@ -131,7 +131,7 @@ interface _CodeGDSFamilienstand extends xoev-code._Code {
 export interface CodeGDSFamilienstand extends _CodeGDSFamilienstand { constructor: { new(): CodeGDSFamilienstand }; }
 export var CodeGDSFamilienstand: { new(): CodeGDSFamilienstand };
 
-interface _CodeGDSForderungsteil extends xoev-code._Code {
+interface _CodeGDSForderungsteil extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsforderungsteil;
@@ -140,7 +140,7 @@ export interface CodeGDSForderungsteil extends _CodeGDSForderungsteil { construc
 export var CodeGDSForderungsteil: { new(): CodeGDSForderungsteil };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSGerichteTyp3 extends xoev-code._Code {
+interface _CodeGDSGerichteTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -148,7 +148,7 @@ interface _CodeGDSGerichteTyp3 extends xoev-code._Code {
 export interface CodeGDSGerichteTyp3 extends _CodeGDSGerichteTyp3 { constructor: { new(): CodeGDSGerichteTyp3 }; }
 export var CodeGDSGerichteTyp3: { new(): CodeGDSGerichteTyp3 };
 
-interface _CodeGDSGeschlecht extends xoev-code._Code {
+interface _CodeGDSGeschlecht extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsgeschlecht;
@@ -156,7 +156,7 @@ interface _CodeGDSGeschlecht extends xoev-code._Code {
 export interface CodeGDSGeschlecht extends _CodeGDSGeschlecht { constructor: { new(): CodeGDSGeschlecht }; }
 export var CodeGDSGeschlecht: { new(): CodeGDSGeschlecht };
 
-interface _CodeGDSIntervall extends xoev-code._Code {
+interface _CodeGDSIntervall extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsintervall;
@@ -165,7 +165,7 @@ export interface CodeGDSIntervall extends _CodeGDSIntervall { constructor: { new
 export var CodeGDSIntervall: { new(): CodeGDSIntervall };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSJustizvollzugTyp3 extends xoev-code._Code {
+interface _CodeGDSJustizvollzugTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -173,7 +173,7 @@ interface _CodeGDSJustizvollzugTyp3 extends xoev-code._Code {
 export interface CodeGDSJustizvollzugTyp3 extends _CodeGDSJustizvollzugTyp3 { constructor: { new(): CodeGDSJustizvollzugTyp3 }; }
 export var CodeGDSJustizvollzugTyp3: { new(): CodeGDSJustizvollzugTyp3 };
 
-interface _CodeGDSKanzleiform extends xoev-code._Code {
+interface _CodeGDSKanzleiform extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdskanzleiform;
@@ -181,7 +181,7 @@ interface _CodeGDSKanzleiform extends xoev-code._Code {
 export interface CodeGDSKanzleiform extends _CodeGDSKanzleiform { constructor: { new(): CodeGDSKanzleiform }; }
 export var CodeGDSKanzleiform: { new(): CodeGDSKanzleiform };
 
-interface _CodeGDSLastschrifttyp extends xoev-code._Code {
+interface _CodeGDSLastschrifttyp extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdslastschrifttyp;
@@ -189,7 +189,7 @@ interface _CodeGDSLastschrifttyp extends xoev-code._Code {
 export interface CodeGDSLastschrifttyp extends _CodeGDSLastschrifttyp { constructor: { new(): CodeGDSLastschrifttyp }; }
 export var CodeGDSLastschrifttyp: { new(): CodeGDSLastschrifttyp };
 
-interface _CodeGDSPersonalstatut extends xoev-code._Code {
+interface _CodeGDSPersonalstatut extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdspersonalstatut;
@@ -198,7 +198,7 @@ export interface CodeGDSPersonalstatut extends _CodeGDSPersonalstatut { construc
 export var CodeGDSPersonalstatut: { new(): CodeGDSPersonalstatut };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSRechtsformTyp3 extends xoev-code._Code {
+interface _CodeGDSRechtsformTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -206,7 +206,7 @@ interface _CodeGDSRechtsformTyp3 extends xoev-code._Code {
 export interface CodeGDSRechtsformTyp3 extends _CodeGDSRechtsformTyp3 { constructor: { new(): CodeGDSRechtsformTyp3 }; }
 export var CodeGDSRechtsformTyp3: { new(): CodeGDSRechtsformTyp3 };
 
-interface _CodeGDSRegisterart extends xoev-code._Code {
+interface _CodeGDSRegisterart extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsregisterart;
@@ -215,7 +215,7 @@ export interface CodeGDSRegisterart extends _CodeGDSRegisterart { constructor: {
 export var CodeGDSRegisterart: { new(): CodeGDSRegisterart };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSRegisterzeichenTyp3 extends xoev-code._Code {
+interface _CodeGDSRegisterzeichenTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -223,7 +223,7 @@ interface _CodeGDSRegisterzeichenTyp3 extends xoev-code._Code {
 export interface CodeGDSRegisterzeichenTyp3 extends _CodeGDSRegisterzeichenTyp3 { constructor: { new(): CodeGDSRegisterzeichenTyp3 }; }
 export var CodeGDSRegisterzeichenTyp3: { new(): CodeGDSRegisterzeichenTyp3 };
 
-interface _CodeGDSRollenbezeichnung extends xoev-code._Code {
+interface _CodeGDSRollenbezeichnung extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsrollenbezeichnung;
@@ -231,7 +231,7 @@ interface _CodeGDSRollenbezeichnung extends xoev-code._Code {
 export interface CodeGDSRollenbezeichnung extends _CodeGDSRollenbezeichnung { constructor: { new(): CodeGDSRollenbezeichnung }; }
 export var CodeGDSRollenbezeichnung: { new(): CodeGDSRollenbezeichnung };
 
-interface _CodeGDSRVTraeger extends xoev-code._Code {
+interface _CodeGDSRVTraeger extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsrvtraeger;
@@ -240,7 +240,7 @@ export interface CodeGDSRVTraeger extends _CodeGDSRVTraeger { constructor: { new
 export var CodeGDSRVTraeger: { new(): CodeGDSRVTraeger };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSSachgebietTyp3 extends xoev-code._Code {
+interface _CodeGDSSachgebietTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -249,7 +249,7 @@ export interface CodeGDSSachgebietTyp3 extends _CodeGDSSachgebietTyp3 { construc
 export var CodeGDSSachgebietTyp3: { new(): CodeGDSSachgebietTyp3 };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSSendungsprioritaetTyp3 extends xoev-code._Code {
+interface _CodeGDSSendungsprioritaetTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -257,7 +257,7 @@ interface _CodeGDSSendungsprioritaetTyp3 extends xoev-code._Code {
 export interface CodeGDSSendungsprioritaetTyp3 extends _CodeGDSSendungsprioritaetTyp3 { constructor: { new(): CodeGDSSendungsprioritaetTyp3 }; }
 export var CodeGDSSendungsprioritaetTyp3: { new(): CodeGDSSendungsprioritaetTyp3 };
 
-interface _CodeGDSSprachen extends xoev-code._Code {
+interface _CodeGDSSprachen extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdssprachen;
@@ -266,7 +266,7 @@ export interface CodeGDSSprachen extends _CodeGDSSprachen { constructor: { new()
 export var CodeGDSSprachen: { new(): CodeGDSSprachen };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSStaatenTyp3 extends xoev-code._Code {
+interface _CodeGDSStaatenTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -274,7 +274,7 @@ interface _CodeGDSStaatenTyp3 extends xoev-code._Code {
 export interface CodeGDSStaatenTyp3 extends _CodeGDSStaatenTyp3 { constructor: { new(): CodeGDSStaatenTyp3 }; }
 export var CodeGDSStaatenTyp3: { new(): CodeGDSStaatenTyp3 };
 
-interface _CodeGDSTeilaktentyp extends xoev-code._Code {
+interface _CodeGDSTeilaktentyp extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsteilaktentyp;
@@ -282,7 +282,7 @@ interface _CodeGDSTeilaktentyp extends xoev-code._Code {
 export interface CodeGDSTeilaktentyp extends _CodeGDSTeilaktentyp { constructor: { new(): CodeGDSTeilaktentyp }; }
 export var CodeGDSTeilaktentyp: { new(): CodeGDSTeilaktentyp };
 
-interface _CodeGDSTelekommunikationsart extends xoev-code._Code {
+interface _CodeGDSTelekommunikationsart extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdstelekommunikationsart;
@@ -290,7 +290,7 @@ interface _CodeGDSTelekommunikationsart extends xoev-code._Code {
 export interface CodeGDSTelekommunikationsart extends _CodeGDSTelekommunikationsart { constructor: { new(): CodeGDSTelekommunikationsart }; }
 export var CodeGDSTelekommunikationsart: { new(): CodeGDSTelekommunikationsart };
 
-interface _CodeGDSTelekommunikationszusatz extends xoev-code._Code {
+interface _CodeGDSTelekommunikationszusatz extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdstelekommunikationszusatz;
@@ -298,7 +298,7 @@ interface _CodeGDSTelekommunikationszusatz extends xoev-code._Code {
 export interface CodeGDSTelekommunikationszusatz extends _CodeGDSTelekommunikationszusatz { constructor: { new(): CodeGDSTelekommunikationszusatz }; }
 export var CodeGDSTelekommunikationszusatz: { new(): CodeGDSTelekommunikationszusatz };
 
-interface _CodeGDSTerminsart extends xoev-code._Code {
+interface _CodeGDSTerminsart extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsterminsart;
@@ -306,7 +306,7 @@ interface _CodeGDSTerminsart extends xoev-code._Code {
 export interface CodeGDSTerminsart extends _CodeGDSTerminsart { constructor: { new(): CodeGDSTerminsart }; }
 export var CodeGDSTerminsart: { new(): CodeGDSTerminsart };
 
-interface _CodeGDSTerminskategorie extends xoev-code._Code {
+interface _CodeGDSTerminskategorie extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsterminskategorie;
@@ -315,7 +315,7 @@ export interface CodeGDSTerminskategorie extends _CodeGDSTerminskategorie { cons
 export var CodeGDSTerminskategorie: { new(): CodeGDSTerminskategorie };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSUrkundentypTyp3 extends xoev-code._Code {
+interface _CodeGDSUrkundentypTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -324,7 +324,7 @@ export interface CodeGDSUrkundentypTyp3 extends _CodeGDSUrkundentypTyp3 { constr
 export var CodeGDSUrkundentypTyp3: { new(): CodeGDSUrkundentypTyp3 };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSVertraulichkeitsstufeTyp3 extends xoev-code._Code {
+interface _CodeGDSVertraulichkeitsstufeTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -332,7 +332,7 @@ interface _CodeGDSVertraulichkeitsstufeTyp3 extends xoev-code._Code {
 export interface CodeGDSVertraulichkeitsstufeTyp3 extends _CodeGDSVertraulichkeitsstufeTyp3 { constructor: { new(): CodeGDSVertraulichkeitsstufeTyp3 }; }
 export var CodeGDSVertraulichkeitsstufeTyp3: { new(): CodeGDSVertraulichkeitsstufeTyp3 };
 
-interface _CodeGDSVerweistyp extends xoev-code._Code {
+interface _CodeGDSVerweistyp extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdsverweistyp;
@@ -341,7 +341,7 @@ export interface CodeGDSVerweistyp extends _CodeGDSVerweistyp { constructor: { n
 export var CodeGDSVerweistyp: { new(): CodeGDSVerweistyp };
 
 /** Die Werte einer Codeliste vom Code-Typ 3 können im XRepository eingesehen werden. Nähere Details sind im Kapitel "Codelisten vom Code-Typ 3" beschrieben. */
-interface _CodeGDSWaehrungTyp3 extends xoev-code._Code {
+interface _CodeGDSWaehrungTyp3 extends xoevCode._Code {
 	listURI?: string;
 	listVersionID: string;
 	code: string;
@@ -349,7 +349,7 @@ interface _CodeGDSWaehrungTyp3 extends xoev-code._Code {
 export interface CodeGDSWaehrungTyp3 extends _CodeGDSWaehrungTyp3 { constructor: { new(): CodeGDSWaehrungTyp3 }; }
 export var CodeGDSWaehrungTyp3: { new(): CodeGDSWaehrungTyp3 };
 
-interface _CodeGDSZinsberechnung extends xoev-code._Code {
+interface _CodeGDSZinsberechnung extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdszinsberechnung;
@@ -357,7 +357,7 @@ interface _CodeGDSZinsberechnung extends xoev-code._Code {
 export interface CodeGDSZinsberechnung extends _CodeGDSZinsberechnung { constructor: { new(): CodeGDSZinsberechnung }; }
 export var CodeGDSZinsberechnung: { new(): CodeGDSZinsberechnung };
 
-interface _CodeGDSZinstyp extends xoev-code._Code {
+interface _CodeGDSZinstyp extends xoevCode._Code {
 	listURI?: string;
 	listVersionID?: string;
 	code: gdszinstyp;
@@ -449,6 +449,9 @@ interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenType extends Bas
 	auswahl_sozialhilfeBewilligt: NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtType;
 	/** In diesem Element kann der Antragsteller angeben, dass er sich an eine Beratungsperson gewandt hat. */
 	beratungvertretungStattgefunden?: NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeBeratungvertretungStattgefundenType;
+	sachverhalt: string;
+	/** In diesem Element ist folgender fixed-Wert zu übertragen, wenn der Antragsteller folgende Versicherungen abgibt: "Ich versichere, dass mir in derselben Angelegenheit Beratungshilfe weder gewährt noch durch das Gericht versagt worden ist und dass in derselben Angelegenheit kein gerichtliches Verfahren anhängig ist oder war. Ich versichere, dass meine Angaben vollständig und wahr sind. Die Allgemeinen Hinweise und die Ausfüllhinweise zu diesem Formular habe ich erhalten. Mir ist bekannt, dass das Gericht verlangen kann, dass ich meine Angaben glaubhaft mache und insbesondere auch die Abgabe einer Versicherung an Eides statt fordern kann. Mir ist bekannt, dass unvollständige oder unrichtige Angaben die Aufhebung der Bewilligung von Beratungshilfe und ggf. auch eine Strafverfolgung nach sich ziehen können." (fixed-Wert) */
+	versicherungen: string;
 	/** Die nachfolgend aufgeführten Voraussetzungen müssen erfüllt sein. Sofern eine der genannten Voraussetzungen nicht erfüllt ist, kann Beratungshilfe nicht bewilligt werden. Auf die Übermittlung des Antrags soll in diesem Fall verzichtet werden. */
 	voraussetzungenErfuellt: NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeVoraussetzungenErfuelltType;
 }
@@ -523,7 +526,11 @@ interface NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozia
 interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_bankkontenWertpapiereTypeBankkontenWertpapiereVorhandenType extends BaseType {
 	/** Nur anzugeben bei Bausparkonten */
 	auszahlungstermin?: Date;
+	/** Hier muss die Bezeichnung der Bank/der Sparkasse/des sonstigen Kreditinstuts angegeben werden. */
+	bezeichnung: string;
 	kontostandInEuro: number;
+	/** Nur anzugeben bei Bausparkonten */
+	verwendungszweck?: string;
 }
 interface NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_bankkontenWertpapiereTypeBankkontenWertpapiereVorhandenType extends _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_bankkontenWertpapiereTypeBankkontenWertpapiereVorhandenType { constructor: { new(): NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_bankkontenWertpapiereTypeBankkontenWertpapiereVorhandenType }; }
 
@@ -539,7 +546,11 @@ interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozi
 }
 interface NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_grundeigentumTypeGrundeigentumVorhandenType extends _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_grundeigentumTypeGrundeigentumVorhandenType { constructor: { new(): NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_grundeigentumTypeGrundeigentumVorhandenType }; }
 
-interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_grundeigentumTypeGrundeigentumVorhandenTypeBezeichnungType extends BaseType {}
+interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_grundeigentumTypeGrundeigentumVorhandenTypeBezeichnungType extends BaseType {
+	groesse: string;
+	lage?: string;
+	nutzungsart: string;
+}
 interface NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_grundeigentumTypeGrundeigentumVorhandenTypeBezeichnungType extends _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_grundeigentumTypeGrundeigentumVorhandenTypeBezeichnungType { constructor: { new(): NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_grundeigentumTypeGrundeigentumVorhandenTypeBezeichnungType }; }
 
 interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_kraftfahrzeugeType extends BaseType {
@@ -559,8 +570,20 @@ interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozi
 	/** Dieses Textelement dient zur Beschreibung der Antriebsart. Mögliche Werte sind z.B. Otto- oder Dieselmotor. */
 	antrieb?: string;
 	baujahr?: string;
+	erstzulassung?: string;
+	fahrgestellnummer?: string;
+	/** Da von anderen Elementen auf ein schon erfasstes Fahrzeug verwiesen wird, ist eine eindeutige Nummer für das Element "Fahrzeug" notwendig. */
+	fahrzeugReferenzierungsnummer?: string;
+	hersteller?: string;
+	/** Hier kann das amtliche Kennzeichen des Fahrzeugs eingetragen werden. */
+	kennzeichen?: string;
 	kmStand?: NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_kraftfahrzeugeTypeKraftfahrzeugeVorhandenTypeFahrzeugTypeKmStandType[];
 	personenbezug?: NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_kraftfahrzeugeTypeKraftfahrzeugeVorhandenTypeFahrzeugTypePersonenbezugType[];
+	/** Hier kann ein Verweis auf ein Beweismittel angegeben werden. */
+	refbeweismittel?: string;
+	typ?: string;
+	/** Gewichtsbezogene Angabe der Art des Fahrzeuges. Mögliche Werte sind hier z.B. KFZ mit Anhänger bis 2 t. zul.GG */
+	unterart: string;
 	verkehrswert?: TypeGDSGeldbetrag;
 }
 interface NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_kraftfahrzeugeTypeKraftfahrzeugeVorhandenTypeFahrzeugType extends _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_kraftfahrzeugeTypeKraftfahrzeugeVorhandenTypeFahrzeugType { constructor: { new(): NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_kraftfahrzeugeTypeKraftfahrzeugeVorhandenTypeFahrzeugType }; }
@@ -572,7 +595,10 @@ interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozi
 }
 interface NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_kraftfahrzeugeTypeKraftfahrzeugeVorhandenTypeFahrzeugTypeKmStandType extends _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_kraftfahrzeugeTypeKraftfahrzeugeVorhandenTypeFahrzeugTypeKmStandType { constructor: { new(): NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_kraftfahrzeugeTypeKraftfahrzeugeVorhandenTypeFahrzeugTypeKmStandType }; }
 
-interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_kraftfahrzeugeTypeKraftfahrzeugeVorhandenTypeFahrzeugTypePersonenbezugType extends BaseType {}
+interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_kraftfahrzeugeTypeKraftfahrzeugeVorhandenTypeFahrzeugTypePersonenbezugType extends BaseType {
+	/** Hier wird auf eine Rollennummer im Grunddatensatz referenziert. */
+	refrollennummer: string;
+}
 interface NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_kraftfahrzeugeTypeKraftfahrzeugeVorhandenTypeFahrzeugTypePersonenbezugType extends _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_kraftfahrzeugeTypeKraftfahrzeugeVorhandenTypeFahrzeugTypePersonenbezugType { constructor: { new(): NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_kraftfahrzeugeTypeKraftfahrzeugeVorhandenTypeFahrzeugTypePersonenbezugType }; }
 
 interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_sonstigeVermoegenswerteType extends BaseType {
@@ -582,6 +608,7 @@ interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozi
 interface NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_sonstigeVermoegenswerteType extends _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_sonstigeVermoegenswerteType { constructor: { new(): NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_sonstigeVermoegenswerteType }; }
 
 interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_sonstigeVermoegenswerteTypeSonstigeVermoegenswerteType extends BaseType {
+	bezeichnungGegenstand: string;
 	rueckkaufswertverkehrswertInEuro: number;
 }
 interface NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_sonstigeVermoegenswerteTypeSonstigeVermoegenswerteType extends _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_sonstigeVermoegenswerteTypeSonstigeVermoegenswerteType { constructor: { new(): NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeVermoegenTypeAuswahl_sonstigeVermoegenswerteTypeSonstigeVermoegenswerteType }; }
@@ -610,16 +637,21 @@ interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozi
 interface NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeZahlungsverpflichtungenSonstigeBelastungenType extends _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeZahlungsverpflichtungenSonstigeBelastungenType { constructor: { new(): NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeZahlungsverpflichtungenSonstigeBelastungenType }; }
 
 interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeZahlungsverpflichtungenSonstigeBelastungenTypeSonstigeBelastungenType extends BaseType {
+	/** Hier kann eine Begründung für die sonstigen Belastungen eingetragen werden. Das Element ist zwingend zu füllen, wenn der Wert "Sonstiges" aus der Codeliste RAST.Belastungsart ausgewählt wurde. */
+	begruendung?: string;
 	monatlicherBetragAntragstellerInEuro?: number;
 	monatlicherBetragEhegatteLebenspartnerInEuro?: number;
 }
 interface NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeZahlungsverpflichtungenSonstigeBelastungenTypeSonstigeBelastungenType extends _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeZahlungsverpflichtungenSonstigeBelastungenTypeSonstigeBelastungenType { constructor: { new(): NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeZahlungsverpflichtungenSonstigeBelastungenTypeSonstigeBelastungenType }; }
 
 interface _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeZahlungsverpflichtungenSonstigeBelastungenTypeZahlungsverpflichtungenType extends BaseType {
+	glaeubiger: string;
 	monatlicherBetragAntragstellerInEuro?: number;
 	monatlicherBetragEhegatteLebenspartnerInEuro?: number;
 	ratenBis?: Date;
 	restschuldInEuro?: number;
+	verbindlichkeit: string;
+	verwendungszweck: string;
 }
 interface NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeZahlungsverpflichtungenSonstigeBelastungenTypeZahlungsverpflichtungenType extends _NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeZahlungsverpflichtungenSonstigeBelastungenTypeZahlungsverpflichtungenType { constructor: { new(): NachrichtrastantragBeratungshilfe3400001TypeFachdatenTypeAuswahl_sozialhilfeBewilligtTypeNeinTypeZahlungsverpflichtungenSonstigeBelastungenTypeZahlungsverpflichtungenType }; }
 
