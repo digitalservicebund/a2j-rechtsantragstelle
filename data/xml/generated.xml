@@ -1,1 +1,27 @@
-<test>test</test>
+<tns:fachdaten>
+  <tns:auswahl_sozialhilfeBewilligt>
+    <tns:ja>false</tns:ja>
+    <tns:nein>
+      <tns:erwerbstaetig>false</tns:erwerbstaetig>
+      <tns:monatlicheEinkuenfteInEuro>
+        <tns:einkuenfteAntragsteller>
+          <tns:netto>1000</tns:netto>
+        </tns:einkuenfteAntragsteller>
+      </tns:monatlicheEinkuenfteInEuro>
+    </tns:nein>
+  </tns:auswahl_sozialhilfeBewilligt>
+  <tns:sachverhalt></tns:sachverhalt>
+  <tns:versicherungen></tns:versicherungen>
+  <tns:voraussetzungenErfuellt>
+    <tns:keineAndereKostenloseBeratung>false</tns:keineAndereKostenloseBeratung>
+    <tns:keineBeratungshilfeDieseAngelegenheit>false</tns:keineBeratungshilfeDieseAngelegenheit>
+    <tns:keineRechtsschutzversicherung>false</tns:keineRechtsschutzversicherung>
+    <tns:keinGerichtlichesVerfahren>false</tns:keinGerichtlichesVerfahren>
+  </tns:voraussetzungenErfuellt>
+</tns:fachdaten>
+<tns:grunddaten></tns:grunddaten>
+<tns:nachrichtenkopf>
+  <tns:xjustizVersion></tns:xjustizVersion>
+  <tns:eigeneNachrichtenID></tns:eigeneNachrichtenID>
+  <tns:erstellungszeitpunkt></tns:erstellungszeitpunkt>
+</tns:nachrichtenkopf>

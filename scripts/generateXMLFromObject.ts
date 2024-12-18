@@ -3,16 +3,28 @@ import { XMLBuilder } from "fast-xml-parser";
 import type {
   document as GeneratedBerHType,
   TypeGDSGrunddaten,
-} from "xmlns/www.xjustiz.de/d";
+} from "data/xml/generated/ts/www.xjustiz.de/d";
+import { today } from "~/util/date";
 
 export type TypedBerHXJustizData =
   GeneratedBerHType["nachrichtrastantragBeratungshilfe3400001"];
 
 function generateXML() {
-  const builder = new XMLBuilder();
-  const tsObject: TypedBerHXJustizData = {
+  const tsObject: Partial<TypedBerHXJustizData> = {
     fachdaten: {
-      auswahl_sozialhilfeBewilligt: undefined,
+      auswahl_sozialhilfeBewilligt: {
+        ja: false,
+        nein: {
+          erwerbstaetig: false,
+          monatlicheEinkuenfteInEuro: {
+            einkuenfteAntragsteller: {
+              netto: 1000,
+            },
+          },
+          vermoegen: undefined,
+          wohnung: undefined,
+        },
+      },
       sachverhalt: "",
       versicherungen: "",
       voraussetzungenErfuellt: {
@@ -28,15 +40,28 @@ function generateXML() {
       auswahl_absender: undefined,
       auswahl_empfaenger: undefined,
       eigeneNachrichtenID: "",
-      erstellungszeitpunkt: undefined,
-      _exists: false,
-      _namespace: "",
+      erstellungszeitpunkt: today(),
     },
   };
-  console.log(tsObject);
+  const builder = new XMLBuilder({
+    format: true,
+  });
+  function prependKeys(obj: any): any {
+    if (Array.isArray(obj)) {
+      return obj.map(prependKeys);
+    } else if (obj && typeof obj === "object") {
+      return Object.fromEntries(
+        Object.entries(obj).map(([key, value]) => [
+          `tns:${key}`,
+          prependKeys(value),
+        ]),
+      );
+    }
+    return obj;
+  }
   fs.writeFile(
     "data/xml/generated.xml",
-    builder.build({ test: "test" }),
+    builder.build(prependKeys(tsObject)),
     (error) => {
       if (error) {
         console.error(error);
