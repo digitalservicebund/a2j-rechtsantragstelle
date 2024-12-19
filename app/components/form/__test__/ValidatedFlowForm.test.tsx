@@ -153,16 +153,12 @@ function buildStrapiInputComponent(
     __component: "form-elements.input",
     name: "myInput",
     placeholder: "input",
-    errors: {
-      data: [
-        {
-          id: 0,
-          attributes: {
-            errorCodes,
-            name: "",
-          },
-        },
-      ],
-    },
+    errors: [
+      {
+        name: "",
+        id: 0,
+        errorCodes,
+      },
+    ],
   };
 }
