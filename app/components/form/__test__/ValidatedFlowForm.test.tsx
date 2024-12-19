@@ -3,18 +3,15 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
 import { z } from "zod";
 import {
-  expectDateInputErrorToExist,
-  getStrapiDateInputComponent,
-} from "tests/factories/cmsModels/strapiDateInputComponent";
-import {
-  expectInputErrorToExist,
   getStrapiInputComponent,
+  StrapiInputType,
 } from "tests/factories/cmsModels/strapiInputComponent";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import * as buildStepValidator from "~/services/validation/buildStepValidator";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
+import { timeSchema } from "~/services/validation/time";
 
 vi.mock("@remix-run/react", () => ({
   useParams: vi.fn(),
@@ -45,17 +42,14 @@ describe("ValidatedFlowForm", () => {
         withZod(z.object({ myInput: integerSchema })),
       );
     });
+    const { component, expectInputErrorToExist } = getStrapiInputComponent({
+      code: "invalidInteger",
+      text: "Please enter a valid integer.",
+    });
 
     it("should display an error if the user enters an invalid integer", async () => {
-      const invalidInteger = "Please enter a valid integer.";
-
       const { getByText, getByPlaceholderText } = renderValidatedFlowForm([
-        getStrapiInputComponent([
-          {
-            code: "invalidInteger",
-            text: invalidInteger,
-          },
-        ]),
+        component,
       ]);
 
       const nextButton = getByText("NEXT");
@@ -66,27 +60,18 @@ describe("ValidatedFlowForm", () => {
         target: { value: "1,230.12" },
       });
       fireEvent.blur(inputComponent);
-      await expectInputErrorToExist(invalidInteger);
+      await expectInputErrorToExist();
 
       fireEvent.click(nextButton);
       await waitFor(async () => {
         expect(inputComponent).toHaveFocus();
-        await expectInputErrorToExist(invalidInteger);
+        await expectInputErrorToExist();
       });
     });
 
     it("should not display an error for correct input", async () => {
-      const invalidInteger = "Please enter a valid integer.";
-
       const { getByText, getByPlaceholderText, queryByTestId } =
-        renderValidatedFlowForm([
-          getStrapiInputComponent([
-            {
-              code: "invalidInteger",
-              text: invalidInteger,
-            },
-          ]),
-        ]);
+        renderValidatedFlowForm([component]);
       const inputComponent = getByPlaceholderText("input");
 
       fireEvent.input(inputComponent, {
@@ -107,17 +92,17 @@ describe("ValidatedFlowForm", () => {
         withZod(z.object({ myDateInput: createDateSchema() })),
       );
     });
+    const { component, expectInputErrorToExist } = getStrapiInputComponent(
+      {
+        code: "invalid",
+        text: "Please enter a valid date.",
+      },
+      StrapiInputType.Date,
+    );
 
     it("should display an error if the user enters an invalid date", async () => {
-      const invalidDate = "Please enter a valid date.";
-
       const { getByText, getByPlaceholderText } = renderValidatedFlowForm([
-        getStrapiDateInputComponent([
-          {
-            code: "invalid",
-            text: invalidDate,
-          },
-        ]),
+        component,
       ]);
 
       const nextButton = getByText("NEXT");
@@ -128,27 +113,18 @@ describe("ValidatedFlowForm", () => {
         target: { value: "13,20,2024" },
       });
       fireEvent.blur(dateInputComponent);
-      await expectDateInputErrorToExist(invalidDate);
+      await expectInputErrorToExist();
 
       fireEvent.click(nextButton);
       await waitFor(async () => {
         expect(dateInputComponent).toHaveFocus();
-        await expectDateInputErrorToExist(invalidDate);
+        await expectInputErrorToExist();
       });
     });
 
     it("should not display an error for correct input", async () => {
-      const invalidDate = "Please enter a valid date.";
-
       const { getByText, getByPlaceholderText, queryByTestId } =
-        renderValidatedFlowForm([
-          getStrapiDateInputComponent([
-            {
-              code: "invalid",
-              text: invalidDate,
-            },
-          ]),
-        ]);
+        renderValidatedFlowForm([component]);
       const dateInputComponent = getByPlaceholderText("date input");
 
       fireEvent.input(dateInputComponent, {
@@ -157,6 +133,59 @@ describe("ValidatedFlowForm", () => {
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
         expect(dateInputComponent).not.toHaveClass("has-error");
+        expect(queryByTestId("inputError")).not.toBeInTheDocument();
+        expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("Time Input Component", () => {
+    beforeAll(() => {
+      fieldNameValidatorSpy.mockImplementation(() =>
+        withZod(z.object({ myTimeInput: timeSchema })),
+      );
+    });
+    const { component, expectInputErrorToExist } = getStrapiInputComponent(
+      {
+        code: "invalid",
+        text: "Please enter a valid time.",
+      },
+      StrapiInputType.Time,
+    );
+
+    it("should display an error if the user enters an invalid time", async () => {
+      const { getByText, getByPlaceholderText } = renderValidatedFlowForm([
+        component,
+      ]);
+
+      const nextButton = getByText("NEXT");
+      const timeInputComponent = getByPlaceholderText("time input");
+      expect(nextButton).toBeInTheDocument();
+
+      fireEvent.input(timeInputComponent, {
+        target: { value: "27:13" },
+      });
+      fireEvent.blur(timeInputComponent);
+      await expectInputErrorToExist();
+
+      fireEvent.click(nextButton);
+      await waitFor(async () => {
+        expect(timeInputComponent).toHaveFocus();
+        await expectInputErrorToExist();
+      });
+    });
+
+    it("should not display an error for correct input", async () => {
+      const { getByText, getByPlaceholderText, queryByTestId } =
+        renderValidatedFlowForm([component]);
+      const timeInputComponent = getByPlaceholderText("time input");
+
+      fireEvent.input(timeInputComponent, {
+        target: { value: "23:59" },
+      });
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(timeInputComponent).not.toHaveClass("has-error");
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
       });
