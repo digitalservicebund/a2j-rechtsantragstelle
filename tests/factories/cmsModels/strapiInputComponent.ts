@@ -30,7 +30,7 @@ export function getStrapiInputComponent(
         {
           name: "",
           id: 0,
-          errorCodes: errorCode,
+          errorCodes: [errorCode],
         },
       ],
     } as StrapiFormComponent,

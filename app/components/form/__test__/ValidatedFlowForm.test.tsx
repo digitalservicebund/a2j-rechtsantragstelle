@@ -6,11 +6,13 @@ import {
   getStrapiInputComponent,
   StrapiInputType,
 } from "tests/factories/cmsModels/strapiInputComponent";
+import { getStrapiTextareaComponent } from "tests/factories/cmsModels/strapiTextareaComponent";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import * as buildStepValidator from "~/services/validation/buildStepValidator";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
 
 vi.mock("@remix-run/react", () => ({
@@ -186,6 +188,54 @@ describe("ValidatedFlowForm", () => {
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
         expect(timeInputComponent).not.toHaveClass("has-error");
+        expect(queryByTestId("inputError")).not.toBeInTheDocument();
+        expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("Textarea Component", () => {
+    beforeAll(() => {
+      fieldNameValidatorSpy.mockImplementation(() =>
+        withZod(z.object({ myTextarea: stringRequiredSchema })),
+      );
+    });
+    const { component, expectTextareaErrorToExist } =
+      getStrapiTextareaComponent({
+        code: "required",
+        text: "Please enter a value.",
+      });
+
+    it("should display an error if the user leaves the textarea empty", async () => {
+      const { getByText, getByPlaceholderText } = renderValidatedFlowForm([
+        component,
+      ]);
+
+      const nextButton = getByText("NEXT");
+      const textareaComponent = getByPlaceholderText("textarea");
+      expect(nextButton).toBeInTheDocument();
+
+      fireEvent.blur(textareaComponent);
+      await expectTextareaErrorToExist();
+
+      fireEvent.click(nextButton);
+      await waitFor(async () => {
+        expect(textareaComponent).toHaveFocus();
+        await expectTextareaErrorToExist();
+      });
+    });
+
+    it("should not display an error for correct input", async () => {
+      const { getByText, getByPlaceholderText, queryByTestId } =
+        renderValidatedFlowForm([component]);
+      const textareaComponent = getByPlaceholderText("textarea");
+
+      fireEvent.input(textareaComponent, {
+        target: { value: "Hello World" },
+      });
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(textareaComponent).not.toHaveClass("has-error");
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
       });
