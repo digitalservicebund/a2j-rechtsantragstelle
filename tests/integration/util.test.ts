@@ -13,30 +13,24 @@ describe("integration testing helper functions", () => {
       const result = compileAllStrapiPages("/beratungshilfe/antrag", {
         "/beratungshilfe/antrag": {
           "vorab-check-pages": [
+            // @ts-expect-error missing attributes
             {
-              // @ts-expect-error missing attributes
-              attributes: {
-                stepId: "step-1",
-                locale: "de",
-              },
+              stepId: "step-1",
+              locale: "de",
             },
           ],
           "form-flow-pages": [
+            // @ts-expect-error missing attributes
             {
-              // @ts-expect-error missing attributes
-              attributes: {
-                stepId: "step-2",
-                locale: "de",
-              },
+              stepId: "step-2",
+              locale: "de",
             },
           ],
           "result-pages": [
+            // @ts-expect-error missing attributes
             {
-              // @ts-expect-error missing attributes
-              attributes: {
-                stepId: "step-3",
-                locale: "de",
-              },
+              stepId: "step-3",
+              locale: "de",
             },
           ],
         },
@@ -52,19 +46,15 @@ describe("integration testing helper functions", () => {
       const result = compileAllStrapiPages("/beratungshilfe/antrag", {
         "/beratungshilfe/antrag": {
           "vorab-check-pages": [
+            // @ts-expect-error missing attributes
             {
-              // @ts-expect-error missing attributes
-              attributes: {
-                stepId: "step-1",
-                locale: "en",
-              },
+              stepId: "step-1",
+              locale: "en",
             },
+            // @ts-expect-error missing attributes
             {
-              // @ts-expect-error missing attributes
-              attributes: {
-                stepId: "step-1",
-                locale: "en",
-              },
+              stepId: "step-1",
+              locale: "en",
             },
           ],
           "form-flow-pages": [],
@@ -90,9 +80,7 @@ describe("integration testing helper functions", () => {
     });
 
     it("should return an empty array when schema is null or undefined", () => {
-      // @ts-expect-error
       expect(zodKeys(null)).toEqual([]);
-      // @ts-expect-error
       expect(zodKeys(undefined)).toEqual([]);
     });
 

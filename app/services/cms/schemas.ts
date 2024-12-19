@@ -9,29 +9,25 @@ import { StrapiTranslationSchema } from "./models/StrapiTranslations";
 import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
 
 export const entrySchemas = {
-  "page-header": z.array(z.object({ attributes: StrapiPageHeaderSchema })),
-  footer: z.array(z.object({ attributes: StrapiFooterSchema })),
-  "cookie-banner": z.array(z.object({ attributes: StrapiCookieBannerSchema })),
+  "page-header": z.array(StrapiPageHeaderSchema),
+  footer: z.array(StrapiFooterSchema),
+  "cookie-banner": z.array(StrapiCookieBannerSchema),
 };
 export type SingleEntryId = keyof typeof entrySchemas;
 const _entrySchemas = z.object(entrySchemas);
 export type EntrySchemas = z.infer<typeof _entrySchemas>;
 
 export const flowPageSchemas = {
-  "result-pages": z.array(z.object({ attributes: StrapiResultPageSchema })),
-  "vorab-check-pages": z.array(
-    z.object({ attributes: StrapiVorabCheckPageSchema }),
-  ),
-  "form-flow-pages": z.array(
-    z.object({ attributes: StrapiFormFlowPageSchema }),
-  ),
+  "result-pages": z.array(StrapiResultPageSchema),
+  "vorab-check-pages": z.array(StrapiVorabCheckPageSchema),
+  "form-flow-pages": z.array(StrapiFormFlowPageSchema),
 };
 
 export type FlowPageId = keyof typeof flowPageSchemas;
 
 export const collectionSchemas = {
-  pages: z.array(z.object({ attributes: StrapiPageSchema })),
-  translations: z.array(z.object({ attributes: StrapiTranslationSchema })),
+  pages: z.array(StrapiPageSchema),
+  translations: z.array(StrapiTranslationSchema),
   ...flowPageSchemas,
 };
 

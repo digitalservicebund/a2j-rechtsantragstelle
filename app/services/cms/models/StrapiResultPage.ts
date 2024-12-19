@@ -13,22 +13,12 @@ import { StrapiResultPageTypeSchema } from "./StrapiResultPageType";
 export const StrapiResultPageSchema = z
   .object({
     stepId: z.string().nullable(),
-    flow_ids: z.object({
-      data: z.array(z.object({ attributes: StrapiFlowIdSchema })),
-    }),
+    flow_ids: z.array(StrapiFlowIdSchema),
     pageType: StrapiResultPageTypeSchema,
     heading: StrapiHeadingSchema,
     hintText: StrapiParagraphSchema.nullable(),
-    documents: z.object({
-      data: HasStrapiIdSchema.extend({
-        attributes: StrapiElementWithIdSchema,
-      }).nullable(),
-    }),
-    nextSteps: z.object({
-      data: HasStrapiIdSchema.extend({
-        attributes: StrapiElementWithIdSchema,
-      }).nullable(),
-    }),
+    documents: StrapiElementWithIdSchema.merge(HasStrapiIdSchema).nullable(),
+    nextSteps: StrapiElementWithIdSchema.merge(HasStrapiIdSchema).nullable(),
     freeZone: z.array(StrapiContentComponentSchema),
     nextLink: StrapiLinkSchema.nullable(),
   })

@@ -59,6 +59,7 @@ const ArraySummary = ({
         <div className="space-y-32">
           {arrayData.data.map((items, index) => (
             <ArraySummaryDataItems
+              // eslint-disable-next-line react/no-array-index-key
               key={`${subtitle}_${index}`}
               configuration={arrayData.configuration}
               itemIndex={index}

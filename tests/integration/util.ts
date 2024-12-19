@@ -30,8 +30,8 @@ export function compileAllStrapiPages(
     "result-pages": resultPages,
   } = allStrapiData[flowId];
   return [...formFlowPages, ...resultPages, ...vorabCheckPages]
-    .filter((page) => page.attributes.locale === defaultLocale)
-    .map((page) => page.attributes.stepId);
+    .filter((page) => page.locale === defaultLocale)
+    .map((page) => page.stepId);
 }
 
 /**
@@ -39,7 +39,9 @@ export function compileAllStrapiPages(
  * Massive if branching is needed, as Zod has different ways of encoding
  * a schema's keys for each data type
  */
-export function zodKeys<T extends z.ZodTypeAny>(schema: T): string[] {
+export function zodKeys<T extends z.ZodTypeAny | null | undefined>(
+  schema: T,
+): string[] {
   // make sure schema is not null or undefined
   if (schema === null || schema === undefined) return [];
   // check if schema is nullable or optional
