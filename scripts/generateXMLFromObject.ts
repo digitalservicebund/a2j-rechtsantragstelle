@@ -17,16 +17,16 @@ function generateXML() {
         nein: {
           erwerbstaetig: false,
           monatlicheEinkuenfteInEuro: {
+            // @ts-expect-error incomplete type
             einkuenfteAntragsteller: {
               netto: 1000,
             },
           },
-          vermoegen: undefined,
-          wohnung: undefined,
         },
       },
       sachverhalt: "",
       versicherungen: "",
+      // @ts-expect-error incomplete type
       voraussetzungenErfuellt: {
         keineAndereKostenloseBeratung: false,
         keineBeratungshilfeDieseAngelegenheit: false,
@@ -35,10 +35,9 @@ function generateXML() {
       },
     },
     grunddaten: {} as TypeGDSGrunddaten,
+    // @ts-expect-error incomplete type
     nachrichtenkopf: {
       xjustizVersion: "",
-      auswahl_absender: undefined,
-      auswahl_empfaenger: undefined,
       eigeneNachrichtenID: "",
       erstellungszeitpunkt: today(),
     },
