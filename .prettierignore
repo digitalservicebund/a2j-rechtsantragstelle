@@ -6,6 +6,7 @@ playwright-report/
 public/
 *.enc
 *.xsd
+data/xml
 /xmlns
 app/util/__test__/malformed.json
 *.zip

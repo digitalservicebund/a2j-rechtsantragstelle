@@ -99,7 +99,6 @@
     "@eslint/js": "^9.17.0",
     "@faker-js/faker": "^9.3.0",
     "@playwright/test": "^1.49.1",
-    "@prettier/plugin-xml": "^3.4.1",
     "@remix-run/dev": "^2.15.1",
     "@remix-run/testing": "^2.15.1",
     "@size-limit/file": "^11.1.6",
@@ -164,11 +163,7 @@
     "node": ">=20"
   },
   "prettier": {
-    "trailingComma": "all",
-    "xmlWhitespaceSensitivity": "ignore",
-    "plugins": [
-      "@prettier/plugin-xml"
-    ]
+    "trailingComma": "all"
   },
   "size-limit": [
     {
