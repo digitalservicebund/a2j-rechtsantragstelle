@@ -3,12 +3,17 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
 import { z } from "zod";
 import {
+  expectDateInputErrorToExist,
+  getStrapiDateInputComponent,
+} from "tests/factories/cmsModels/strapiDateInputComponent";
+import {
   expectInputErrorToExist,
   getStrapiInputComponent,
 } from "tests/factories/cmsModels/strapiInputComponent";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import * as buildStepValidator from "~/services/validation/buildStepValidator";
+import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 
 vi.mock("@remix-run/react", () => ({
@@ -90,6 +95,68 @@ describe("ValidatedFlowForm", () => {
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
         expect(inputComponent).not.toHaveClass("has-error");
+        expect(queryByTestId("inputError")).not.toBeInTheDocument();
+        expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("Date Input Component", () => {
+    beforeAll(() => {
+      fieldNameValidatorSpy.mockImplementation(() =>
+        withZod(z.object({ myDateInput: createDateSchema() })),
+      );
+    });
+
+    it("should display an error if the user enters an invalid date", async () => {
+      const invalidDate = "Please enter a valid date.";
+
+      const { getByText, getByPlaceholderText } = renderValidatedFlowForm([
+        getStrapiDateInputComponent([
+          {
+            code: "invalid",
+            text: invalidDate,
+          },
+        ]),
+      ]);
+
+      const nextButton = getByText("NEXT");
+      const dateInputComponent = getByPlaceholderText("date input");
+      expect(nextButton).toBeInTheDocument();
+
+      fireEvent.input(dateInputComponent, {
+        target: { value: "13,20,2024" },
+      });
+      fireEvent.blur(dateInputComponent);
+      await expectDateInputErrorToExist(invalidDate);
+
+      fireEvent.click(nextButton);
+      await waitFor(async () => {
+        expect(dateInputComponent).toHaveFocus();
+        await expectDateInputErrorToExist(invalidDate);
+      });
+    });
+
+    it("should not display an error for correct input", async () => {
+      const invalidDate = "Please enter a valid date.";
+
+      const { getByText, getByPlaceholderText, queryByTestId } =
+        renderValidatedFlowForm([
+          getStrapiDateInputComponent([
+            {
+              code: "invalid",
+              text: invalidDate,
+            },
+          ]),
+        ]);
+      const dateInputComponent = getByPlaceholderText("date input");
+
+      fireEvent.input(dateInputComponent, {
+        target: { value: "10.12.2024" },
+      });
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(dateInputComponent).not.toHaveClass("has-error");
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
       });
