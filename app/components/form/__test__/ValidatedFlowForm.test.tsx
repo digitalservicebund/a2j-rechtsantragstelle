@@ -2,6 +2,7 @@ import { withZod } from "@remix-validated-form/with-zod";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
 import { z } from "zod";
+import { getStrapiCheckboxComponent } from "tests/factories/cmsModels/strapiCheckboxComponent";
 import { getStrapiDropdownComponent } from "tests/factories/cmsModels/strapiDropdownComponent";
 import {
   getStrapiInputComponent,
@@ -12,6 +13,7 @@ import { getStrapiTextareaComponent } from "tests/factories/cmsModels/strapiText
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import * as buildStepValidator from "~/services/validation/buildStepValidator";
+import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -315,6 +317,45 @@ describe("ValidatedFlowForm", () => {
       const { getByText, queryByTestId } = renderValidatedFlowForm([component]);
 
       fireEvent.click(getByText("Option 1"));
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(queryByTestId("inputError")).not.toBeInTheDocument();
+        expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("Checkbox Component", () => {
+    beforeAll(() => {
+      fieldNameValidatorSpy.mockImplementation(() =>
+        withZod(
+          z.object({
+            myCheckbox: checkedRequired,
+          }),
+        ),
+      );
+    });
+    const { component, expectCheckboxErrorToExist } =
+      getStrapiCheckboxComponent({
+        code: "required",
+        text: "Selection required.",
+      });
+
+    it("should display an error if the user doesn't select the checkbox", async () => {
+      const { getByText, getByLabelText } = renderValidatedFlowForm([
+        component,
+      ]);
+
+      const nextButton = getByText("NEXT");
+      expect(nextButton).toBeInTheDocument();
+      fireEvent.blur(getByLabelText("Checkbox"));
+      await expectCheckboxErrorToExist();
+    });
+
+    it("should not display an error if the user has selected the checkbox", async () => {
+      const { getByText, queryByTestId, getByLabelText } =
+        renderValidatedFlowForm([component]);
+      fireEvent.click(getByLabelText("Checkbox"));
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
