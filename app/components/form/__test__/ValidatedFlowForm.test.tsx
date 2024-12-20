@@ -10,6 +10,7 @@ import {
 } from "tests/factories/cmsModels/strapiInputComponent";
 import { getStrapiSelectComponent } from "tests/factories/cmsModels/strapiSelectComponent";
 import { getStrapiTextareaComponent } from "tests/factories/cmsModels/strapiTextareaComponent";
+import { getStrapiTileGroupComponent } from "tests/factories/cmsModels/strapiTileGroupComponent";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import * as buildStepValidator from "~/services/validation/buildStepValidator";
@@ -356,6 +357,42 @@ describe("ValidatedFlowForm", () => {
       const { getByText, queryByTestId, getByLabelText } =
         renderValidatedFlowForm([component]);
       fireEvent.click(getByLabelText("Checkbox"));
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(queryByTestId("inputError")).not.toBeInTheDocument();
+        expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("TileGroup Component", () => {
+    beforeAll(() => {
+      fieldNameValidatorSpy.mockImplementation(() =>
+        withZod(
+          z.object({
+            myTileGroup: z.enum(["tile1"], customRequiredErrorMessage),
+          }),
+        ),
+      );
+    });
+    const { component, expectTileGroupErrorToExist } =
+      getStrapiTileGroupComponent({
+        code: "required",
+        text: "Selection required.",
+      });
+
+    it("should display an error if the user doesn't select a tile", async () => {
+      const { getByText } = renderValidatedFlowForm([component]);
+
+      const nextButton = getByText("NEXT");
+      expect(nextButton).toBeInTheDocument();
+      fireEvent.click(nextButton);
+      await expectTileGroupErrorToExist();
+    });
+
+    it("should not display an error if the user has selected a tile", async () => {
+      const { getByText, queryByTestId } = renderValidatedFlowForm([component]);
+      fireEvent.click(getByText("Tile 1"));
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
