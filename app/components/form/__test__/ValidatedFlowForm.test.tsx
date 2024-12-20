@@ -2,6 +2,7 @@ import { withZod } from "@remix-validated-form/with-zod";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
 import { z } from "zod";
+import { getStrapiDropdownComponent } from "tests/factories/cmsModels/strapiDropdownComponent";
 import {
   getStrapiInputComponent,
   StrapiInputType,
@@ -15,7 +16,10 @@ import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import {
+  customRequiredErrorMessage,
+  YesNoAnswer,
+} from "~/services/validation/YesNoAnswer";
 
 vi.mock("@remix-run/react", () => ({
   useParams: vi.fn(),
@@ -243,6 +247,7 @@ describe("ValidatedFlowForm", () => {
       });
     });
   });
+
   describe("Select Component", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
@@ -277,25 +282,65 @@ describe("ValidatedFlowForm", () => {
       });
     });
   });
+
+  describe("Dropdown Component", () => {
+    beforeAll(() => {
+      fieldNameValidatorSpy.mockImplementation(() =>
+        withZod(
+          z.object({
+            myDropdown: z.enum(
+              ["option1", "option2", "option3"],
+              customRequiredErrorMessage,
+            ),
+          }),
+        ),
+      );
+    });
+    const { component, expectDropdownErrorToExist } =
+      getStrapiDropdownComponent({
+        code: "required",
+        text: "Please select a value.",
+      });
+
+    it("should display an error if the user doesn't select an option", async () => {
+      const { getByText, getByRole } = renderValidatedFlowForm([component]);
+
+      const nextButton = getByText("NEXT");
+      expect(nextButton).toBeInTheDocument();
+      fireEvent.blur(getByRole("option", { name: "Select a value." }));
+      await expectDropdownErrorToExist();
+    });
+
+    it("should not display an error if the user has selected an option", async () => {
+      const { getByText, queryByTestId } = renderValidatedFlowForm([component]);
+
+      fireEvent.click(getByText("Option 1"));
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(queryByTestId("inputError")).not.toBeInTheDocument();
+        expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+      });
+    });
+  });
 });
 
 function renderValidatedFlowForm(formElements: Partial<StrapiFormComponent>[]) {
-  const router = createMemoryRouter(
-    [
-      {
-        path: "",
-        element: (
-          <ValidatedFlowForm
-            stepData={{}}
-            // @ts-expect-error Incompatible types, as we're only mocking partials of FormElements
-            formElements={formElements}
-            buttonNavigationProps={{ next: { destination: "", label: "NEXT" } }}
-            csrf={""}
-          />
-        ),
+  const router = createMemoryRouter([
+    {
+      path: "/",
+      element: (
+        <ValidatedFlowForm
+          stepData={{}}
+          // @ts-expect-error Incompatible types, as we're only mocking partials of FormElements
+          formElements={formElements}
+          buttonNavigationProps={{ next: { destination: "", label: "NEXT" } }}
+          csrf={""}
+        />
+      ),
+      action() {
+        return true;
       },
-    ],
-    { initialEntries: ["/"] },
-  );
+    },
+  ]);
   return render(<RouterProvider router={router} />);
 }
