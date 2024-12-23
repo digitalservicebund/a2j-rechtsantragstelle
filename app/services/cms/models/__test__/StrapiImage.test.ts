@@ -21,6 +21,7 @@ describe("getImageProps", () => {
 
     expect(result).toEqual({
       url: "url",
+      ext: ".ext",
       width: 1,
       height: 2,
       alternativeText: "alternativeText",
