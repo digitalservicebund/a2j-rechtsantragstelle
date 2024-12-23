@@ -25,7 +25,7 @@ export function validateDepartureAfterArrival(
     if (departureDateTime > arrivalDateTime) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "too_late",
+        message: "departureAfterArrival",
         path: ["direktAnkunftsZeit"],
         fatal: true,
       });
@@ -33,7 +33,7 @@ export function validateDepartureAfterArrival(
       // add new issue to invalidate this field as well
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "too_late",
+        message: "departureAfterArrival",
         path: ["direktAnkunftsDatum"],
         fatal: true,
       });
