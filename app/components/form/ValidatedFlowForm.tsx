@@ -7,7 +7,7 @@ import { StrapiFormComponents } from "~/services/cms/components/StrapiFormCompon
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { splatFromParams } from "~/services/params";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { validatorForFieldnames } from "~/services/validation/buildStepValidator";
+import { validatorForFieldNames } from "~/services/validation/stepValidator/validatorForFieldNames";
 
 type ValidatedFlowFormProps = {
   stepData: Context;
@@ -25,7 +25,7 @@ function ValidatedFlowForm({
   const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
   const fieldNames = formElements.map((entry) => entry.name);
-  const validator = validatorForFieldnames(fieldNames, pathname);
+  const validator = validatorForFieldNames(fieldNames, pathname);
   return (
     <ValidatedForm
       id={`${stepId}_form`}
