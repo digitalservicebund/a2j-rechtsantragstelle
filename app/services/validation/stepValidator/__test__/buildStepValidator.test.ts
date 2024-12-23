@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { ValidationFunctionMultipleFields } from "~/domains/validationsMultipleFields";
 import { buildStepValidator } from "~/services/validation/stepValidator/buildStepValidator";
 
 describe("buildStepValidator", () => {
@@ -83,6 +84,72 @@ describe("buildStepValidator", () => {
       );
       // Expect a negative validation after validation because of different fields
       expect((await validator.validate({})).error).toBeDefined();
+    });
+  });
+
+  describe("multiple fields validation", () => {
+    const schemas = {
+      field1: z.number(),
+      field2: z.number(),
+    };
+
+    const multipleFieldsValidation: ValidationFunctionMultipleFields = (
+      schemas,
+    ) =>
+      schemas.refine(
+        ({ field1, field2 }) => {
+          return field1 < field2;
+        },
+        {
+          path: ["field1"],
+          message: "invalid",
+        },
+      );
+
+    const fieldNames = ["field1", "field2"];
+
+    it("should return an error object given the field1 bigger than field2", async () => {
+      const validator = buildStepValidator(
+        schemas,
+        fieldNames,
+        multipleFieldsValidation,
+      );
+
+      const actualValidation = await validator.validate({
+        field1: 1,
+        field2: 0,
+      });
+
+      expect(actualValidation).toEqual(
+        expect.objectContaining({
+          error: {
+            fieldErrors: { field1: "invalid" },
+          },
+        }),
+      );
+    });
+
+    it("should return data object given the field1 smaller than field2", async () => {
+      const validator = buildStepValidator(
+        schemas,
+        fieldNames,
+        multipleFieldsValidation,
+      );
+
+      const actualValidation = await validator.validate({
+        field1: 1,
+        field2: 2,
+      });
+
+      expect(actualValidation).toEqual(
+        expect.objectContaining({
+          error: undefined,
+          data: {
+            field1: 1,
+            field2: 2,
+          },
+        }),
+      );
     });
   });
 });
