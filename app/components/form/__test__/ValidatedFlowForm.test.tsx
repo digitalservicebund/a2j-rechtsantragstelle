@@ -37,7 +37,7 @@ vi.mock("~/services/params", () => ({
 
 const fieldNameValidatorSpy = vi.spyOn(
   buildStepValidator,
-  "validatorForFieldnames",
+  "validatorForFieldNames",
 );
 
 describe("ValidatedFlowForm", () => {
