@@ -1,13 +1,16 @@
 import { withZod } from "@remix-validated-form/with-zod";
 import { z } from "zod";
-import { getContext } from "~/domains/contexts";
-import { parsePathname } from "~/domains/flowIds";
+import type { ValidationFunctionMultipleFields } from "~/domains/validationsMultipleFields";
 import { isKeyOfObject } from "~/util/objects";
-import { fieldIsArray, splitArrayName } from "../array";
+import { fieldIsArray, splitArrayName } from "../../array";
 
 type Schemas = Record<string, z.ZodTypeAny>;
 
-export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
+export function buildStepValidator(
+  schemas: Schemas,
+  fieldNames: string[],
+  validationMultipleFields?: ValidationFunctionMultipleFields,
+) {
   const fieldValidators: Record<string, z.ZodTypeAny> = {};
 
   for (const fieldName of fieldNames) {
@@ -27,10 +30,12 @@ export function buildStepValidator(schemas: Schemas, fieldNames: string[]) {
       fieldValidators[stepOrFieldName] = schemas[stepOrFieldName];
     }
   }
-  return withZod(z.object(fieldValidators));
-}
 
-export function validatorForFieldNames(fieldNames: string[], pathname: string) {
-  const context = getContext(parsePathname(pathname).flowId);
-  return buildStepValidator(context, fieldNames);
+  const baseSchema = z.object(fieldValidators);
+
+  const validationSchema = validationMultipleFields
+    ? validationMultipleFields(baseSchema)
+    : baseSchema;
+
+  return withZod(validationSchema);
 }

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { buildStepValidator } from "~/services/validation/buildStepValidator";
+import { buildStepValidator } from "~/services/validation/stepValidator/buildStepValidator";
 
 describe("buildStepValidator", () => {
   describe("nested fields", () => {
