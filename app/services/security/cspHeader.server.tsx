@@ -24,6 +24,7 @@ export const cspHeader = (args: {
     "connect-src": [
       "'self'",
       "eu.i.posthog.com",
+      "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
       ...(args.additionalConnectSrc ?? []),
     ],
     "img-src": [

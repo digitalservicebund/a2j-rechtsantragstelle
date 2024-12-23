@@ -80,6 +80,7 @@
     "react-collapsed": "^4.1.2",
     "react-dom": "^18.3.1",
     "react-imask": "^7.6.1",
+    "react-inlinesvg": "^4.1.5",
     "react-select": "^5.9.0",
     "remix-validated-form": "^5.1.5",
     "samlify": "^2.8.11",
