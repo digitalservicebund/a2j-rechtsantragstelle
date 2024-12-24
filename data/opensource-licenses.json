@@ -236,6 +236,14 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/mustache/LICENSE",
     "direct": true
   },
+  "node-forge": {
+    "licenses": "(BSD-3-Clause OR GPL-2.0)",
+    "repository": "https://github.com/digitalbazaar/forge",
+    "publisher": "Digital Bazaar, Inc.",
+    "email": "support@digitalbazaar.com",
+    "path": "a2j-rechtsantragstelle/node_modules/node-forge",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/node-forge/LICENSE"
+  },
   "pako": {
     "licenses": "(MIT AND Zlib)",
     "repository": "https://github.com/nodeca/pako",
@@ -309,6 +317,15 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/react-imask/LICENSE",
     "direct": true
   },
+  "react-inlinesvg": {
+    "licenses": "MIT",
+    "repository": "https://github.com/gilbarbara/react-inlinesvg",
+    "publisher": "Gil Barbara",
+    "email": "gilbarbara@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/react-inlinesvg",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/react-inlinesvg/LICENSE",
+    "direct": true
+  },
   "react-select": {
     "licenses": "MIT",
     "repository": "https://github.com/JedWatson/react-select.git#master",
@@ -331,6 +348,14 @@
     "email": "pettengill.aaron@gmail.com",
     "path": "a2j-rechtsantragstelle/node_modules/remix-validated-form",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/remix-validated-form/README.md",
+    "direct": true
+  },
+  "samlify": {
+    "licenses": "MIT",
+    "repository": "https://github.com/tngan/samlify",
+    "publisher": "tngan",
+    "path": "a2j-rechtsantragstelle/node_modules/samlify",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/samlify/LICENSE",
     "direct": true
   },
   "tiny-invariant": {
