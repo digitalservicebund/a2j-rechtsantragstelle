@@ -16,11 +16,12 @@ function Image({ url, width, height, alternativeText, ...props }: ImageProps) {
   return isSvg ? (
     <SVG
       {...props}
+      id="svg-image"
       src={url}
       width={width}
       title={alternativeText}
       role="img"
-      height={"auto"}
+      height="100%"
     />
   ) : (
     <img
