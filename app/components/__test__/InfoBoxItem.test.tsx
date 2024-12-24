@@ -15,4 +15,25 @@ describe("InfoBoxItem", () => {
       container.querySelector(separatorStyleClass),
     ).not.toBeInTheDocument();
   });
+  it("should correctly renders inline notices when provided", () => {
+    const inlineNoticeTitle = "Inline Notice";
+    const inlineNoticeContent =
+      "Testing an inline notice inside of an InfoBoxItem.";
+    const { getByRole } = render(
+      <InfoBoxItem
+        inlineNotices={[
+          {
+            title: inlineNoticeTitle,
+            content: inlineNoticeContent,
+            tagName: "h1",
+            look: "tips",
+          },
+        ]}
+      />,
+    );
+    const inlineNotice = getByRole("note");
+    expect(inlineNotice).toBeInTheDocument();
+    expect(inlineNotice).toHaveTextContent(inlineNoticeTitle);
+    expect(inlineNotice).toHaveTextContent(inlineNoticeContent);
+  });
 });
