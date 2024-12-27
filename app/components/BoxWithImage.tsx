@@ -4,47 +4,50 @@ import RichText from "./RichText";
 
 export type BoxWithImageProps = {
   image: ImageProps;
-  variant?: "default" | "ImgMTextL";
+  variant?: Variant;
   identifier?: string;
   heading?: HeadingProps;
   content?: string;
 };
 
-const variantStyles = {
-  default: {
-    textSize: "1rem",
-    imageContainer: "basis-1/6",
-    columnBreakpoint: "md:flex-row",
-  },
-  ImgMTextL: {
-    textSize: "1.25rem",
-    imageContainer: "basis-1/3",
-    columnBreakpoint: "lg:flex-row",
-  },
-} as const;
+export type Variant = "ImgMTextL" | "XS" | "S" | "M" | "L" | "XL" | "XXL";
+
+export const variantWidths: Record<Variant, string> = {
+  // TODO: Remove after new variant implementation
+  ImgMTextL: "max-w-[280px]",
+  XS: "max-w-[80px]",
+  S: "max-w-[120px]",
+  M: "max-w-[280px]",
+  L: "max-w-[400px]",
+  XL: "max-w-[630px]",
+  XXL: "max-w-[848px]",
+};
 
 const BoxWithImage = ({
-  variant = "default",
+  variant = "S",
   identifier,
   heading,
   image,
   content,
 }: BoxWithImageProps) => {
+  const shouldWrapByDefault = variant === "XL" || variant === "XXL";
+  const hasTextContent = Boolean(heading || content);
   return (
     <div
       id={identifier}
-      className={`flex flex-col items-start gap-24 ${variantStyles[variant].columnBreakpoint}`}
-      style={{ fontSize: variantStyles[variant].textSize }}
+      className={`flex flex-wrap ${shouldWrapByDefault ? "md:flex-wrap" : "sm:flex-nowrap"} items-start gap-24 text-base`}
     >
       <div
-        className={`shrink-0 overflow-hidden max-w-[70ch] ${content ? variantStyles[variant].imageContainer : "basis-full"}`}
+        className={`lg:shrink-0 overflow-hidden ${hasTextContent ? variantWidths[variant] : "max-w-full"}`}
       >
         <Image {...image} />
       </div>
-      <div className={"ds-stack-8 break-words basis-auto"}>
-        {heading && <Heading {...heading} />}
-        {content && <RichText markdown={content} />}
-      </div>
+      {hasTextContent && (
+        <div className={`ds-stack-8 break-words min-w-[120px] max-w-[696px]`}>
+          {heading && <Heading {...heading} />}
+          {content && <RichText markdown={content} />}
+        </div>
+      )}
     </div>
   );
 };
