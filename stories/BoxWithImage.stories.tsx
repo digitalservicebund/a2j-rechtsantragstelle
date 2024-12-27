@@ -12,7 +12,7 @@ export default meta;
 export const Default: StoryObj<typeof meta> = {
   args: {
     image: { url: "public/og-image.png" },
-    variant: "ImgMTextL",
+    variant: "M",
     heading: {
       text: "Ein Pilotprojekt des Bundesministeriums der Justiz und der Justizministerien der Länder.",
       tagName: "h1",

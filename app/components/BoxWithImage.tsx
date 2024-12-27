@@ -10,11 +10,9 @@ export type BoxWithImageProps = {
   content?: string;
 };
 
-export type Variant = "ImgMTextL" | "XS" | "S" | "M" | "L" | "XL" | "XXL";
+export type Variant = "XS" | "S" | "M" | "L" | "XL" | "XXL";
 
 export const variantWidths: Record<Variant, string> = {
-  // TODO: Remove after new variant implementation
-  ImgMTextL: "max-w-[280px]",
   XS: "max-w-[80px]",
   S: "max-w-[120px]",
   M: "max-w-[280px]",
