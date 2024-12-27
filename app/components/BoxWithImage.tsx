@@ -40,20 +40,23 @@ const BoxWithImage = ({
   content,
 }: BoxWithImageProps) => {
   const shouldWrapByDefault = variant === "XL" || variant === "XXL";
+  const hasTextContent = Boolean(heading || content);
   return (
     <div
       id={identifier}
       className={`flex flex-wrap ${shouldWrapByDefault ? "md:flex-wrap" : "sm:flex-nowrap"} items-start gap-24 text-base`}
     >
       <div
-        className={`lg:shrink-0 overflow-hidden ${content ? variantWidths[variant] : "max-w-full"}`}
+        className={`lg:shrink-0 overflow-hidden ${hasTextContent ? variantWidths[variant] : "max-w-full"}`}
       >
         <Image {...image} />
       </div>
-      <div className={`ds-stack-8 break-words min-w-[120px] max-w-[696px]`}>
-        {heading && <Heading {...heading} />}
-        {content && <RichText markdown={content} />}
-      </div>
+      {hasTextContent && (
+        <div className={`ds-stack-8 break-words min-w-[120px] max-w-[696px]`}>
+          {heading && <Heading {...heading} />}
+          {content && <RichText markdown={content} />}
+        </div>
+      )}
     </div>
   );
 };

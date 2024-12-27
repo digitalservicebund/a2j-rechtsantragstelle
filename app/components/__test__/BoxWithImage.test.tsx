@@ -43,4 +43,15 @@ describe("BoxWithImage", () => {
       expect(imageContainer).toHaveClass(expectedStyle);
     },
   );
+
+  it("should display just an image if there is no text content", () => {
+    const { getByAltText } = render(
+      <BoxWithImage
+        image={{ url: "image.png", alternativeText: imageAltText }}
+      />,
+    );
+    const image = getByAltText(imageAltText);
+    expect(image).toBeInTheDocument();
+    expect(image.parentElement).toHaveClass("max-w-full");
+  });
 });
