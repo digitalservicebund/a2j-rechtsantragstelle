@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { ValidationMultipleFieldsBaseSchema } from "~/domains/validationsMultipleFields";
+import type { MultipleFieldsValidationBaseSchema } from "~/domains/multipleFieldsFlowValidation";
 
 const THREE_HOURS_MILLISECONDS = 3 * 60 * 60 * 1000;
 
@@ -19,7 +19,7 @@ function isStartTimestampLessThanThreeHours(
 }
 
 export function validateReplacementConnectionPage(
-  baseSchema: ValidationMultipleFieldsBaseSchema,
+  baseSchema: MultipleFieldsValidationBaseSchema,
 ) {
   return baseSchema.superRefine((data, ctx) => {
     const departureDateTime = convertToTimestamp(
@@ -76,7 +76,7 @@ export function validateReplacementConnectionPage(
 }
 
 export function validateAnotherFlightPage(
-  baseSchema: ValidationMultipleFieldsBaseSchema,
+  baseSchema: MultipleFieldsValidationBaseSchema,
 ) {
   return baseSchema.superRefine((data, ctx) => {
     const departureDateTime = convertToTimestamp(
@@ -133,7 +133,7 @@ export function validateAnotherFlightPage(
 }
 
 export function validateSameFlightPage(
-  baseSchema: ValidationMultipleFieldsBaseSchema,
+  baseSchema: MultipleFieldsValidationBaseSchema,
 ) {
   return baseSchema.superRefine((data, ctx) => {
     const departureDateTime = convertToTimestamp(
@@ -189,7 +189,7 @@ export function validateSameFlightPage(
 }
 
 export function validateDepartureAfterArrival(
-  baseSchema: ValidationMultipleFieldsBaseSchema,
+  baseSchema: MultipleFieldsValidationBaseSchema,
 ) {
   return baseSchema.superRefine((data, ctx) => {
     const departureDateTime = convertToTimestamp(

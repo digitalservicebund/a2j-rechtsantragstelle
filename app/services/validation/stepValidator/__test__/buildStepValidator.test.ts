@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { ValidationFunctionMultipleFields } from "~/domains/validationsMultipleFields";
+import type { FunctionMultipleFieldsValidation } from "~/domains/multipleFieldsFlowValidation";
 import { buildStepValidator } from "~/services/validation/stepValidator/buildStepValidator";
 
 describe("buildStepValidator", () => {
@@ -93,7 +93,7 @@ describe("buildStepValidator", () => {
       field2: z.number(),
     };
 
-    const multipleFieldsValidation: ValidationFunctionMultipleFields = (
+    const multipleFieldsValidation: FunctionMultipleFieldsValidation = (
       schemas,
     ) =>
       schemas.refine(

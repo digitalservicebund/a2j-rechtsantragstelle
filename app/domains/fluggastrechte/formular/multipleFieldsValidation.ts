@@ -1,4 +1,4 @@
-import type { ValidationMultipleFieldsPathName } from "~/domains/validationsMultipleFields";
+import type { MultipleFieldsStepIdValidation } from "~/domains/multipleFieldsFlowValidation";
 import {
   validateAnotherFlightPage,
   validateDepartureAfterArrival,
@@ -6,7 +6,7 @@ import {
   validateSameFlightPage,
 } from "./services/validation";
 
-export const fluggastrechtValidationMultipleFields: ValidationMultipleFieldsPathName =
+export const fluggastrechtMultipleFieldsValidation: MultipleFieldsStepIdValidation =
   {
     "/flugdaten/geplanter-flug": validateDepartureAfterArrival,
     "/flugdaten/tatsaechlicher-flug-ankunft": validateSameFlightPage,
