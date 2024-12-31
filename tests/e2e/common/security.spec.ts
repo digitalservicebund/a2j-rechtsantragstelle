@@ -3,7 +3,6 @@ import { defaultHeaders } from "~/rootHeaders";
 
 const expectedHeaders = {
   ...defaultHeaders,
-  "Access-Control-Allow-Origin": "*",
   "Cache-Control": "no-store",
   Connection: "keep-alive",
   "Content-Encoding": "gzip",
