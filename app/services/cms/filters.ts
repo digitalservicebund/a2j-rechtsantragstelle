@@ -13,4 +13,6 @@ export type GetStrapiEntryOpts = {
   locale?: StrapiLocale;
   populate?: string;
   pageSize?: string;
+  fields?: string;
+  deep?: boolean;
 };

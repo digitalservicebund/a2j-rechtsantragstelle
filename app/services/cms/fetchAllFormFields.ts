@@ -1,7 +1,7 @@
 import _ from "lodash";
 import type { FlowId } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
-import { flowPageApiIdFromFlowType } from "./apiFromFlowType";
+import { flowPageApiIdFromFlowType } from "~/services/cms/apiFromFlowType";
 import { getStrapiEntry } from "./getStrapiEntry";
 import type { StrapiSchemas } from "./schemas";
 import { config } from "../env/env.server";
@@ -15,7 +15,9 @@ export async function fetchAllFormFields(
   const args = {
     apiId: flowPageApiIdFromFlowType(flows[flowId].flowType),
     filters: [{ field: "flow_ids", nestedField: "flowId", value: flowId }],
-    populate: "form",
+    populate: "form.name",
+    fields: "stepId",
+    deep: false,
   };
 
   const formFields = await getStrapiEntry({ ...args, locale: "de" }).then(
