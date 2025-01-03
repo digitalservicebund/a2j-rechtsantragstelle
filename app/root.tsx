@@ -102,9 +102,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     mainSession,
     showKopfzeile,
   ] = await Promise.all([
-    fetchSingleEntry("page-header"),
-    fetchSingleEntry("footer"),
-    fetchSingleEntry("cookie-banner"),
+    fetchSingleEntry("page-header", "de"),
+    fetchSingleEntry("footer", "de"),
+    fetchSingleEntry("cookie-banner", "de"),
     trackingCookieValue({ request }),
     fetchErrors(),
     fetchMeta({ filterValue: "/" }),
