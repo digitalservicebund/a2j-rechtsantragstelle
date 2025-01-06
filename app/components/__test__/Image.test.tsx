@@ -19,7 +19,7 @@ describe("Image", () => {
 
   it("should render an svg image inline instead of as an <img> tag", () => {
     const { queryByAltText } = render(
-      <Image url="image.svg" alternativeText={altText} ext=".svg" />,
+      <Image url="image.svg" alternativeText={altText} />,
     );
     // since react-inlinesvg parses an actual svg to create the DOM,
     // we basically just need to ensure that an <img> isn't present
