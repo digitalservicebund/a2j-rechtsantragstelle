@@ -21,7 +21,13 @@ export async function fetchMeta(
   const populate = "meta";
   const filters = [{ value: opts.filterValue, field: "slug" }];
   const apiId = "pages";
-  const pageEntry = await getStrapiEntry({ ...opts, filters, apiId, populate });
+  const pageEntry = await getStrapiEntry({
+    ...opts,
+    filters,
+    apiId,
+    populate,
+    deep: false,
+  });
   const parsedEntry = HasStrapiMetaSchema.safeParse(pageEntry[0]);
   return parsedEntry.success ? parsedEntry.data.meta : null;
 }
