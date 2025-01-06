@@ -1,10 +1,10 @@
-import { parsePathname } from "~/domains/flowIds";
+import type { FlowId } from "~/domains/flowIds";
 import { getMultipleFieldsValidation } from "~/domains/multipleFieldsFlowValidation";
 
 export const getMultipleFieldsByStepIdValidation = (
-  stepIdParameter: string,
+  flowId: FlowId,
+  stepId: string,
 ) => {
-  const { flowId, stepId } = parsePathname(stepIdParameter);
   const multipleFieldsValidation = getMultipleFieldsValidation(flowId);
 
   return multipleFieldsValidation

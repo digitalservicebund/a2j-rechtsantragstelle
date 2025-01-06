@@ -12,7 +12,8 @@ describe("getMultipleFieldsByStepIdValidation", () => {
     vi.mocked(getMultipleFieldsValidation).mockReturnValue(undefined);
 
     const actual = getMultipleFieldsByStepIdValidation(
-      "/fluggastrechte/formular/flugdaten/geplanter-flug",
+      "/fluggastrechte/formular",
+      "/flugdaten/geplanter-flug",
     );
 
     expect(actual).toBeUndefined();
@@ -32,7 +33,8 @@ describe("getMultipleFieldsByStepIdValidation", () => {
     );
 
     const actual = getMultipleFieldsByStepIdValidation(
-      "/fluggastrechte/formular/flugdaten/geplanter-flug",
+      "/fluggastrechte/formular",
+      "/flugdaten/geplanter-flug",
     );
 
     expect(actual).toEqual(
@@ -54,7 +56,8 @@ describe("getMultipleFieldsByStepIdValidation", () => {
     );
 
     const actual = getMultipleFieldsByStepIdValidation(
-      "/fluggastrechte/formular/flugdaten/tatsaechlicher-flug",
+      "/fluggastrechte/formular",
+      "/flugdaten/tatsaechlicher-flug",
     );
 
     expect(actual).toBeUndefined();
