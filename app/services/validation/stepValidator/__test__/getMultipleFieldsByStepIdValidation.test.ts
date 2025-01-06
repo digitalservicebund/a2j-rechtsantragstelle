@@ -1,17 +1,17 @@
 import type {
-  MultipleFieldsValidationBaseSchema,
-  MultipleFieldsStepIdValidation,
-} from "~/domains/multipleFieldsFlowValidation";
-import { getMultipleFieldsValidation } from "~/domains/multipleFieldsFlowValidation";
-import { getMultipleFieldsByStepIdValidation } from "../getMultipleFieldsByStepIdValidation";
+  MultiFieldsValidationBaseSchema,
+  MultiFieldsStepIdValidation,
+} from "~/domains/multiFieldsFlowValidation";
+import { getMultiFieldsValidation } from "~/domains/multiFieldsFlowValidation";
+import { getMultiFieldsByStepIdValidation } from "../getMultiFieldsByStepIdValidation";
 
-vi.mock("~/domains/multipleFieldsFlowValidation");
+vi.mock("~/domains/multiFieldsFlowValidation");
 
-describe("getMultipleFieldsByStepIdValidation", () => {
-  it("should return undefined given a mocked getMultipleFieldsValidation as undefined", () => {
-    vi.mocked(getMultipleFieldsValidation).mockReturnValue(undefined);
+describe("getMultiFieldsByStepIdValidation", () => {
+  it("should return undefined given a mocked getMultiFieldsValidation as undefined", () => {
+    vi.mocked(getMultiFieldsValidation).mockReturnValue(undefined);
 
-    const actual = getMultipleFieldsByStepIdValidation(
+    const actual = getMultiFieldsByStepIdValidation(
       "/fluggastrechte/formular",
       "/flugdaten/geplanter-flug",
     );
@@ -19,43 +19,43 @@ describe("getMultipleFieldsByStepIdValidation", () => {
     expect(actual).toBeUndefined();
   });
 
-  it("should return a value given a mocked getMultipleFieldsValidation", () => {
-    const mockMultipleFieldsValidation: MultipleFieldsStepIdValidation = {
+  it("should return a value given a mocked getMultiFieldsValidation", () => {
+    const mockMultiFieldsValidation: MultiFieldsStepIdValidation = {
       "/flugdaten/geplanter-flug": (
-        baseSchema: MultipleFieldsValidationBaseSchema,
+        baseSchema: MultiFieldsValidationBaseSchema,
       ) => {
         return baseSchema.describe("TEST");
       },
     };
 
-    vi.mocked(getMultipleFieldsValidation).mockReturnValue(
-      mockMultipleFieldsValidation,
+    vi.mocked(getMultiFieldsValidation).mockReturnValue(
+      mockMultiFieldsValidation,
     );
 
-    const actual = getMultipleFieldsByStepIdValidation(
+    const actual = getMultiFieldsByStepIdValidation(
       "/fluggastrechte/formular",
       "/flugdaten/geplanter-flug",
     );
 
     expect(actual).toEqual(
-      mockMultipleFieldsValidation["/flugdaten/geplanter-flug"],
+      mockMultiFieldsValidation["/flugdaten/geplanter-flug"],
     );
   });
 
-  it("should return undefined given a not exist mocked pathname getMultipleFieldsValidation", () => {
-    const mockMultipleFieldsValidation: MultipleFieldsStepIdValidation = {
+  it("should return undefined given a not exist mocked pathname getMultiFieldsValidation", () => {
+    const mockMultiFieldsValidation: MultiFieldsStepIdValidation = {
       "/flugdaten/geplanter-flug": (
-        baseSchema: MultipleFieldsValidationBaseSchema,
+        baseSchema: MultiFieldsValidationBaseSchema,
       ) => {
         return baseSchema.describe("TEST");
       },
     };
 
-    vi.mocked(getMultipleFieldsValidation).mockReturnValue(
-      mockMultipleFieldsValidation,
+    vi.mocked(getMultiFieldsValidation).mockReturnValue(
+      mockMultiFieldsValidation,
     );
 
-    const actual = getMultipleFieldsByStepIdValidation(
+    const actual = getMultiFieldsByStepIdValidation(
       "/fluggastrechte/formular",
       "/flugdaten/tatsaechlicher-flug",
     );

@@ -1,15 +1,15 @@
 import { getContext } from "~/domains/contexts";
 import { parsePathname } from "~/domains/flowIds";
 import { buildStepValidator } from "./buildStepValidator";
-import { getMultipleFieldsByStepIdValidation } from "./getMultipleFieldsByStepIdValidation";
+import { getMultiFieldsByStepIdValidation } from "./getMultiFieldsByStepIdValidation";
 
 export function validatorForFieldNames(fieldNames: string[], pathname: string) {
   const { flowId, stepId } = parsePathname(pathname);
   const context = getContext(flowId);
-  const multipleFieldsValidation = getMultipleFieldsByStepIdValidation(
+  const multiFieldsValidation = getMultiFieldsByStepIdValidation(
     flowId,
     stepId,
   );
 
-  return buildStepValidator(context, fieldNames, multipleFieldsValidation);
+  return buildStepValidator(context, fieldNames, multiFieldsValidation);
 }

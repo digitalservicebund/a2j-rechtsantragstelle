@@ -1,6 +1,6 @@
 import { withZod } from "@remix-validated-form/with-zod";
 import { z } from "zod";
-import type { FunctionMultipleFieldsValidation } from "~/domains/multipleFieldsFlowValidation";
+import type { FunctionMultiFieldsValidation } from "~/domains/multiFieldsFlowValidation";
 import { isKeyOfObject } from "~/util/objects";
 import { fieldIsArray, splitArrayName } from "../../array";
 
@@ -9,7 +9,7 @@ type Schemas = Record<string, z.ZodTypeAny>;
 export function buildStepValidator(
   schemas: Schemas,
   fieldNames: string[],
-  multipleFieldsValidation?: FunctionMultipleFieldsValidation,
+  multiFieldsValidation?: FunctionMultiFieldsValidation,
 ) {
   const fieldValidators: Record<string, z.ZodTypeAny> = {};
 
@@ -33,8 +33,8 @@ export function buildStepValidator(
 
   const baseSchema = z.object(fieldValidators);
 
-  const validationSchema = multipleFieldsValidation
-    ? multipleFieldsValidation(baseSchema)
+  const validationSchema = multiFieldsValidation
+    ? multiFieldsValidation(baseSchema)
     : baseSchema;
 
   return withZod(validationSchema);

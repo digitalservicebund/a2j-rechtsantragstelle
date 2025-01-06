@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { FunctionMultipleFieldsValidation } from "~/domains/multipleFieldsFlowValidation";
+import type { FunctionMultiFieldsValidation } from "~/domains/multiFieldsFlowValidation";
 import { buildStepValidator } from "~/services/validation/stepValidator/buildStepValidator";
 
 describe("buildStepValidator", () => {
@@ -87,15 +87,13 @@ describe("buildStepValidator", () => {
     });
   });
 
-  describe("multiple fields validation", () => {
+  describe("multi fields validation", () => {
     const schemas = {
       field1: z.number(),
       field2: z.number(),
     };
 
-    const multipleFieldsValidation: FunctionMultipleFieldsValidation = (
-      schemas,
-    ) =>
+    const multiFieldsValidation: FunctionMultiFieldsValidation = (schemas) =>
       schemas.refine(
         ({ field1, field2 }) => {
           return field1 < field2;
@@ -112,7 +110,7 @@ describe("buildStepValidator", () => {
       const validator = buildStepValidator(
         schemas,
         fieldNames,
-        multipleFieldsValidation,
+        multiFieldsValidation,
       );
 
       const actualValidation = await validator.validate({
@@ -133,7 +131,7 @@ describe("buildStepValidator", () => {
       const validator = buildStepValidator(
         schemas,
         fieldNames,
-        multipleFieldsValidation,
+        multiFieldsValidation,
       );
 
       const actualValidation = await validator.validate({
