@@ -5,7 +5,7 @@ import {
 } from "./attachment";
 import { isBooleanField, type PdfValues } from "./fileTypes";
 
-export function fillPdfFieldOrMoveToAttachment<T extends PdfValues>({
+export function fillPdfField<T extends PdfValues>({
   fieldname,
   value,
   attachmentTitle,

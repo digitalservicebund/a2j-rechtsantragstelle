@@ -1,7 +1,7 @@
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/maritalDescriptionMapping";
 import { type AttachmentEntries } from "~/services/pdf/attachment";
-import { fillPdfFieldOrMoveToAttachment } from "~/services/pdf/fillPdfFieldOrMoveToAttachment";
+import { fillPdfField } from "~/services/pdf/fillPdfField";
 import type { PkhPdfFillFunction } from "..";
 
 export const concatenateGesetzlicherVertreterString = ({
@@ -36,7 +36,7 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const gesetzlicherVertreterString =
     concatenateGesetzlicherVertreterString(userData);
 
-  fillPdfFieldOrMoveToAttachment({
+  fillPdfField({
     fieldname: "nameVornameggfGeburtsname",
     value: nameVornameString,
     attachmentTitle: "Name, Vorname, ggf. Geburtsname",
@@ -44,7 +44,7 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
     attachment,
   });
 
-  fillPdfFieldOrMoveToAttachment({
+  fillPdfField({
     fieldname: "berufErwerbstaetigkeit",
     value: userData?.beruf,
     attachmentTitle: "Beruf, Erwerbstätigkeit",
@@ -54,7 +54,7 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
 
   pdfValues.geburtsdatum.value = userData?.geburtsdatum;
 
-  fillPdfFieldOrMoveToAttachment({
+  fillPdfField({
     fieldname: "text3",
     value: maritalDescriptionMapping[userData.partnerschaft ?? ""],
     attachmentTitle: "Familienstand",
@@ -62,7 +62,7 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
     attachment,
   });
 
-  fillPdfFieldOrMoveToAttachment({
+  fillPdfField({
     fieldname: "anschriftStrasseHausnummerPostleitzahlWohnort",
     value: anschriftString,
     attachmentTitle: "Anschrift (Straße, Hausnummer, Postleitzahl Wohnort)",
@@ -72,7 +72,7 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
 
   pdfValues.text2.value = userData?.telefonnummer;
 
-  fillPdfFieldOrMoveToAttachment({
+  fillPdfField({
     fieldname:
       "sofernvorhandenGesetzlicherVertreterNameVornameAnschriftTelefon",
     value: gesetzlicherVertreterString,
