@@ -4,11 +4,7 @@ import type { PDFFont } from "pdf-lib";
 import { PDFDocument } from "pdf-lib";
 import type { FlowId } from "~/domains/flowIds";
 import { addDruckvermerk } from "./druckvermerk";
-import {
-  isBooleanField,
-  type BooleanField,
-  type StringField,
-} from "./fileTypes";
+import { isBooleanField, type PdfValues } from "./fileTypes";
 import { changeBooleanField, changeStringField } from "./pdf.server";
 import { pdfs } from "./pdfs";
 import { readRelativeFileToBuffer } from "./readRelativeFileToBuffer";
@@ -39,7 +35,7 @@ export let customPdfFormFont: PDFFont;
 
 type FillPdfProps = {
   flowId: FlowId;
-  pdfValues: Record<string, BooleanField | StringField>;
+  pdfValues: PdfValues;
   yPositionsDruckvermerk?: number | number[];
   xPositionsDruckvermerk?: number;
 };

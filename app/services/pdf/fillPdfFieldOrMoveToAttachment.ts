@@ -3,43 +3,36 @@ import {
   SEE_IN_ATTACHMENT_DESCRIPTION_SHORT,
   type AttachmentEntries,
 } from "./attachment";
-import type { BooleanField, StringField } from "./fileTypes";
+import { isBooleanField, type PdfValues } from "./fileTypes";
 
-const MIN_CHARACTERS_FOR_LONG_ATTACHMENT_DESCRIPTION = 10;
-
-export function fillPdfFieldOrMoveToAttachment<
-  T extends Record<string, StringField | BooleanField>,
->({
-  pdfFieldName,
-  pdfFieldValue,
+export function fillPdfFieldOrMoveToAttachment<T extends PdfValues>({
+  fieldname,
+  value,
   attachmentTitle,
   pdfValues,
   attachment,
 }: {
-  pdfFieldName: keyof T;
-  pdfFieldValue: string | undefined;
+  fieldname: keyof T;
+  value?: string;
   attachmentTitle: string;
   pdfValues: T;
   attachment: AttachmentEntries;
 }): { pdfValues: T; attachment: AttachmentEntries } {
-  if (!pdfFieldValue) {
-    return { pdfValues, attachment };
+  if (!value) return { pdfValues, attachment };
+
+  pdfValues[fieldname].value = value;
+
+  if (!isBooleanField(pdfValues[fieldname])) {
+    const { maxCharacters } = pdfValues[fieldname];
+
+    if (value.length > maxCharacters) {
+      attachment.push({ title: attachmentTitle, text: value });
+      pdfValues[fieldname].value =
+        maxCharacters >= SEE_IN_ATTACHMENT_DESCRIPTION.length
+          ? SEE_IN_ATTACHMENT_DESCRIPTION
+          : SEE_IN_ATTACHMENT_DESCRIPTION_SHORT;
+    }
   }
 
-  const pdfField = pdfValues[pdfFieldName];
-  const { maxCharacters } =
-    "maxCharacters" in pdfField ? pdfField : { maxCharacters: 0 };
-
-  if (pdfFieldValue.length > maxCharacters) {
-    pdfValues[pdfFieldName].value =
-      maxCharacters > MIN_CHARACTERS_FOR_LONG_ATTACHMENT_DESCRIPTION
-        ? SEE_IN_ATTACHMENT_DESCRIPTION
-        : SEE_IN_ATTACHMENT_DESCRIPTION_SHORT;
-    attachment.push({ title: attachmentTitle, text: pdfFieldValue });
-
-    return { pdfValues, attachment };
-  }
-
-  pdfValues[pdfFieldName].value = pdfFieldValue;
   return { pdfValues, attachment };
 }

@@ -37,16 +37,16 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
     concatenateGesetzlicherVertreterString(userData);
 
   fillPdfFieldOrMoveToAttachment({
-    pdfFieldName: "nameVornameggfGeburtsname",
-    pdfFieldValue: nameVornameString,
+    fieldname: "nameVornameggfGeburtsname",
+    value: nameVornameString,
     attachmentTitle: "Name, Vorname, ggf. Geburtsname",
     pdfValues,
     attachment,
   });
 
   fillPdfFieldOrMoveToAttachment({
-    pdfFieldName: "berufErwerbstaetigkeit",
-    pdfFieldValue: userData?.beruf,
+    fieldname: "berufErwerbstaetigkeit",
+    value: userData?.beruf,
     attachmentTitle: "Beruf, Erwerbstätigkeit",
     pdfValues,
     attachment,
@@ -55,16 +55,16 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   pdfValues.geburtsdatum.value = userData?.geburtsdatum;
 
   fillPdfFieldOrMoveToAttachment({
-    pdfFieldName: "text3",
-    pdfFieldValue: maritalDescriptionMapping[userData.partnerschaft ?? ""],
+    fieldname: "text3",
+    value: maritalDescriptionMapping[userData.partnerschaft ?? ""],
     attachmentTitle: "Familienstand",
     pdfValues,
     attachment,
   });
 
   fillPdfFieldOrMoveToAttachment({
-    pdfFieldName: "anschriftStrasseHausnummerPostleitzahlWohnort",
-    pdfFieldValue: anschriftString,
+    fieldname: "anschriftStrasseHausnummerPostleitzahlWohnort",
+    value: anschriftString,
     attachmentTitle: "Anschrift (Straße, Hausnummer, Postleitzahl Wohnort)",
     pdfValues,
     attachment,
@@ -73,9 +73,9 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   pdfValues.text2.value = userData?.telefonnummer;
 
   fillPdfFieldOrMoveToAttachment({
-    pdfFieldName:
+    fieldname:
       "sofernvorhandenGesetzlicherVertreterNameVornameAnschriftTelefon",
-    pdfFieldValue: gesetzlicherVertreterString,
+    value: gesetzlicherVertreterString,
     attachmentTitle: "Gesetzlicher Vertreter",
     pdfValues,
     attachment,
