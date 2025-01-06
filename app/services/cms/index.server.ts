@@ -85,6 +85,24 @@ export const fetchTranslations = async (
   }
 };
 
+export async function fetchMultipleTranslations(scopes: string[]) {
+  const translations = await fetchEntries({
+    apiId: "translations",
+    locale: "de",
+    filters: [{ field: "scope", operation: "$in", value: scopes }],
+  });
+  return Object.fromEntries(
+    translations.map((scopedTranslations) => {
+      return [
+        scopedTranslations.scope,
+        Object.fromEntries(
+          scopedTranslations.field.map(({ name, value }) => [name, value]),
+        ),
+      ];
+    }),
+  );
+}
+
 export const fetchPage = (slug: string) =>
   fetchCollectionEntry("pages", [{ field: "slug", value: slug }]);
 

@@ -27,7 +27,7 @@ import {
   fetchMeta,
   fetchSingleEntry,
   fetchErrors,
-  fetchTranslations,
+  fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { config as configWeb } from "~/services/env/web";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
@@ -93,12 +93,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     trackingConsent,
     errorPages,
     meta,
-    deleteDataStrings,
+    translations,
     hasAnyUserData,
-    feedbackTranslations,
-    pageHeaderTranslations,
-    videoTranslations,
-    accessibilityTranslations,
     mainSession,
     showKopfzeile,
   ] = await Promise.all([
@@ -108,12 +104,14 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     trackingCookieValue({ request }),
     fetchErrors(),
     fetchMeta({ filterValue: "/" }),
-    fetchTranslations("delete-data"),
+    fetchMultipleTranslations([
+      "delete-data",
+      "feedback",
+      "pageHeader",
+      "video",
+      "accessibility",
+    ]),
     anyUserData(request),
-    fetchTranslations("feedback"),
-    fetchTranslations("pageHeader"),
-    fetchTranslations("video"),
-    fetchTranslations("accessibility"),
     mainSessionFromCookieHeader(cookieHeader),
     isFeatureFlagEnabled("showKopfzeile"),
   ]);
@@ -138,15 +136,15 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       errorPages,
       meta,
       context,
-      deletionLabel: deleteDataStrings["footerLinkLabel"],
+      deletionLabel: translations["delete-data"]["footerLinkLabel"],
       hasAnyUserData,
-      feedbackTranslations,
+      feedbackTranslations: translations["feedback"],
       pageHeaderTranslations: extractTranslations(
         ["leichtesprache", "gebaerdensprache", "mainNavigationAriaLabel"],
-        pageHeaderTranslations,
+        translations["pageHeader"],
       ),
-      videoTranslations,
-      accessibilityTranslations,
+      videoTranslations: translations["video"],
+      accessibilityTranslations: translations["accessibility"],
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
     },
