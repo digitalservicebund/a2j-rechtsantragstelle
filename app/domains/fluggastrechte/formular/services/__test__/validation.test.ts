@@ -55,7 +55,7 @@ describe("validation", () => {
         direktAbflugsDatum: "01.01.2024",
         direktAbflugsZeit: "14:00",
         direktAnkunftsDatum: "02.01.2024",
-        direktAnkunftsZeit: "15:00",
+        direktAnkunftsZeit: "10:00",
       });
 
       expect(result.success).toBe(true);
@@ -73,7 +73,7 @@ describe("validation", () => {
     });
   });
 
-  describe("validateSameFlightArrivedAfterThreeHours", () => {
+  describe("validateSameFlightPage", () => {
     const baseSchema = z.object({
       direktAbflugsDatum: z.string(),
       direktAbflugsZeit: z.string(),
