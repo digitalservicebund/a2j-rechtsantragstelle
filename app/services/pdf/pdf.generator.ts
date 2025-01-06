@@ -39,9 +39,10 @@ function rectangleFromTextField(field: PDFField) {
   if (rect instanceof PDFArray) return rect.asRectangle();
 }
 
-function calculateMaxCharactersAndLinebreaksInRectangle(field: PDFTextField) {
-  const width = rectangleFromTextField(field)?.width;
-  const height = rectangleFromTextField(field)?.height;
+function fieldLimits(field: PDFTextField) {
+  const rectangle = rectangleFromTextField(field);
+  if (!rectangle) return {};
+  const { width, height } = rectangle;
 
   const textFieldFontSize = fontSizeFromTextField(field);
   // font size 0 means auto scale and is replaced with default font size
@@ -49,30 +50,26 @@ function calculateMaxCharactersAndLinebreaksInRectangle(field: PDFTextField) {
     !textFieldFontSize || textFieldFontSize === 0
       ? FONT_SIZE_DEFAULT
       : textFieldFontSize;
-  const characterWidth = fontSize * CHARACTER_WIDTH_TO_HEIGHT_RATIO;
 
   return {
-    maxCharacters: width ? Math.floor(width / characterWidth) : undefined,
-    maxLineBreaks: height
-      ? Math.floor(height / (fontSize * LINE_HEIGHT_TO_FONT_SIZE_RATIO))
-      : undefined,
+    maxCharacters: Math.floor(
+      width / (fontSize * CHARACTER_WIDTH_TO_HEIGHT_RATIO),
+    ),
+    maxLineBreaks: Math.floor(
+      height / (fontSize * LINE_HEIGHT_TO_FONT_SIZE_RATIO),
+    ),
   };
 }
 
 function pdfFieldToEntry(field: PDFField) {
-  if (field instanceof PDFTextField) {
-    const { maxCharacters, maxLineBreaks } =
-      calculateMaxCharactersAndLinebreaksInRectangle(field);
-    return [
-      normalizePropertyName(field.getName()),
-      {
-        name: field.getName(),
-        ...{ maxCharacters },
-        ...{ maxLineBreaks },
-      },
-    ];
-  } else
-    return [normalizePropertyName(field.getName()), { name: field.getName() }];
+  const name = field.getName();
+  return [
+    normalizePropertyName(name),
+    {
+      name,
+      ...(field instanceof PDFTextField ? fieldLimits(field) : {}),
+    },
+  ];
 }
 
 function pdfFieldToType(field: PDFField) {
