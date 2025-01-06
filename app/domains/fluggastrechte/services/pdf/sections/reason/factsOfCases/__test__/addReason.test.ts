@@ -62,7 +62,9 @@ describe("addReason", () => {
       continued: true,
     });
 
-    expect(mockDoc.text).toHaveBeenCalledWith(PASSIVE_VERB_TEXT);
+    expect(mockDoc.text).toHaveBeenCalledWith(PASSIVE_VERB_TEXT, {
+      continued: true,
+    });
   });
 
   it("should render document for annullierung claim", () => {
@@ -84,7 +86,9 @@ describe("addReason", () => {
       continued: true,
     });
 
-    expect(mockDoc.text).toHaveBeenCalledWith(PASSIVE_VERB_TEXT);
+    expect(mockDoc.text).toHaveBeenCalledWith(PASSIVE_VERB_TEXT, {
+      continued: true,
+    });
   });
 
   it("should render document for nichtbefoerderung claim", () => {

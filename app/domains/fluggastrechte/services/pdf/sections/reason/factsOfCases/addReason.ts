@@ -76,7 +76,7 @@ export const addReason = (
         .font(FONTS_BUNDESSANS_REGULAR);
 
       if (userData.bereich !== "nichtbefoerderung") {
-        doc.text(PASSIVE_VERB_TEXT);
+        doc.text(PASSIVE_VERB_TEXT, { continued: true });
       }
 
       doc.text(FINAL_COLON_SENTENCE);
