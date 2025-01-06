@@ -45,7 +45,7 @@
   "dependencies": {
     "@digitalservice4germany/angie": "^1.2.0",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
-    "@digitalservicebund/icons": "^2.0.0",
+    "@digitalservicebund/icons": "^2.0.1",
     "@pdf-lib/fontkit": "^1.1.1",
     "@remix-run/express": "^2.15.2",
     "@remix-run/node": "^2.15.2",
@@ -66,9 +66,9 @@
     "html-entities": "^2.5.2",
     "ibantools": "^4.5.1",
     "ioredis": "^5.4.2",
-    "isbot": "^5.1.19",
+    "isbot": "^5.1.20",
     "lodash": "^4.17.21",
-    "marked": "^15.0.5",
+    "marked": "^15.0.6",
     "match-sorter": "^8.0.0",
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
@@ -88,7 +88,7 @@
     "true-myth": "^8.2.0",
     "validator": "^13.12.0",
     "xss": "^1.0.15",
-    "xstate": "^5.19.0",
+    "xstate": "^5.19.1",
     "zod": "^3.24.1"
   },
   "devDependencies": {
@@ -142,7 +142,7 @@
     "tailwindcss": "^3.4.17",
     "tsx": "~4.19.2",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.19.0",
+    "typescript-eslint": "^8.19.1",
     "vite": "^5.4.11",
     "vite-env-only": "^3.0.3",
     "vite-tsconfig-paths": "^5.1.4",
