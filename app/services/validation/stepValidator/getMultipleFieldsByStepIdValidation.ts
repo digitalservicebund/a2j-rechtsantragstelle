@@ -7,9 +7,7 @@ export const getMultipleFieldsByStepIdValidation = (
   const { flowId, stepId } = parsePathname(stepIdParameter);
   const multipleFieldsValidation = getMultipleFieldsValidation(flowId);
 
-  if (!multipleFieldsValidation) {
-    return undefined;
-  }
-
-  return multipleFieldsValidation[stepId];
+  return multipleFieldsValidation
+    ? multipleFieldsValidation[stepId]
+    : undefined;
 };
