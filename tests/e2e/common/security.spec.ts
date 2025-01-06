@@ -17,17 +17,15 @@ test.describe("Security Tests", () => {
   }) => {
     const response = await page.request.get("/");
     await expect(response).toBeOK();
-    const headers = Object.entries(response.headers());
     Object.entries(expectedHeaders)
       .map(([key, val]) => [key.toLocaleLowerCase(), val])
       .forEach(([key, expectedVal]) => {
-        const responseHasExpectedHeader = headers.some(
-          ([name, value]) => name === key && value === expectedVal,
-        );
+        const actualValue = response.headers()[key];
+        const responseHasExpectedHeader = actualValue === expectedVal;
         if (!responseHasExpectedHeader) {
           // eslint-disable-next-line no-console
           console.warn(
-            `Header ${key} with value ${expectedVal} was not found in the response`,
+            `Header ${key} was expected to be ${expectedVal} but instead was ${actualValue}`,
           );
         }
         expect(responseHasExpectedHeader).toBe(true);
