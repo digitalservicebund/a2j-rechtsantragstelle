@@ -31,11 +31,11 @@ export function buildStepValidator(
     }
   }
 
-  const baseSchema = z.object(fieldValidators);
+  const validationFieldsSchema = z.object(fieldValidators);
 
   const validationSchema = multiFieldsValidation
-    ? multiFieldsValidation(baseSchema)
-    : baseSchema;
+    ? multiFieldsValidation(validationFieldsSchema)
+    : validationFieldsSchema;
 
   return withZod(validationSchema);
 }
