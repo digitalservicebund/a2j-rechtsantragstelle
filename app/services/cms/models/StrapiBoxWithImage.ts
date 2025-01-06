@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { type BoxWithImageProps } from "~/components/BoxWithImage";
+import {
+  variantWidths,
+  type Variant,
+  type BoxWithImageProps,
+} from "~/components/BoxWithImage";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
@@ -8,13 +12,18 @@ import { StrapiContainerSchema } from "./StrapiContainer";
 import { getHeadingProps, StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiImageSchema, getImageProps } from "./StrapiImage";
 
+// Necessary destructuring for zod enum type
+const [firstWidth, ...widths] = Object.keys(variantWidths).map(
+  (key) => key as Variant,
+);
+
 const StrapiBoxWithImageSchema = z
   .object({
     heading: StrapiHeadingSchema.nullable(),
     image: StrapiImageSchema,
     content: z.string().nullable(),
     outerBackground: StrapiBackgroundSchema.nullable(),
-    variant: z.enum(["ImgMTextL"]).nullable(),
+    variant: z.enum([firstWidth, ...widths]).nullable(),
     container: StrapiContainerSchema,
   })
   .merge(HasOptionalStrapiIdSchema)
