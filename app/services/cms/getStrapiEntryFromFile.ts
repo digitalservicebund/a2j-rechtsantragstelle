@@ -8,7 +8,7 @@ import { config } from "../env/env.server";
 let content: StrapiSchemas | undefined;
 
 export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>(
-  opts: GetStrapiEntryOpts,
+  opts: GetStrapiEntryOpts<T>,
 ) => {
   if (!content) {
     try {

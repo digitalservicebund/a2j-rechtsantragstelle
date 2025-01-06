@@ -16,7 +16,7 @@ describe("services/cms", () => {
 
   describe("getStrapiEntryFromApi", () => {
     const dataResponse = [{ testField: "testData" }];
-    const defaultOptions: GetStrapiEntryOpts = {
+    const defaultOptions: GetStrapiEntryOpts<"pages"> = {
       apiId: "pages",
       locale: stagingLocale,
     };
