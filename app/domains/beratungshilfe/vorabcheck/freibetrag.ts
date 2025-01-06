@@ -40,6 +40,16 @@ export const freibetraegePerYear: Record<number, Freibetraege> = {
     children7To14Allowance: 429,
     childrenBelow6Allowance: 393,
   },
+  // Same as 2024
+  2025: {
+    selfAllowance: 619,
+    incomeAllowance: 282,
+    partnerAllowance: 619,
+    dependentAdultAllowance: 496,
+    children15To18Allowance: 518,
+    children7To14Allowance: 429,
+    childrenBelow6Allowance: 393,
+  },
 };
 export const latestFreibetraegeYear = Math.max(
   ...Object.keys(freibetraegePerYear).map((year) => Number(year)),
