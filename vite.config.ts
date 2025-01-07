@@ -46,6 +46,7 @@ export default defineConfig(({ isSsrBuild }) => ({
     globals: true,
     environment: "jsdom",
     setupFiles: ["vitest.setup.ts"],
+    pool: "threads",
     coverage: {
       provider: "istanbul",
       include: ["app/**"],
