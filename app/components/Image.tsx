@@ -15,10 +15,9 @@ function Image({ url, width, height, alternativeText, ...props }: ImageProps) {
   return isSvg ? (
     <SVG
       {...props}
-      id="svg-image"
       src={url}
       width={width}
-      title={alternativeText}
+      title={alternativeText ?? "image"} //force to have an alternative text and avoid a11y errors
       role="img"
       height="100%"
     />
