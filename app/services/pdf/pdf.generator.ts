@@ -1,18 +1,75 @@
 import fs from "node:fs";
 import path from "node:path";
-import { PDFDocument, PDFCheckBox, PDFTextField, type PDFField } from "pdf-lib";
+import type { PDFField } from "pdf-lib";
+import {
+  PDFCheckBox,
+  PDFDocument,
+  PDFTextField,
+  PDFName,
+  PDFArray,
+  PDFString,
+} from "pdf-lib";
 import { pdfs } from "~/services/pdf/pdfs";
 import { uppercaseFirstLetter } from "~/util/strings";
 import { normalizePropertyName } from "./normalizePropertyName";
 
 const dataDirectory = "data/pdf/";
+// For most fonts, the average character width is around 0.5 to 0.6 times the font size.
+const CHARACTER_WIDTH_TO_HEIGHT_RATIO = 0.5;
+const LINE_HEIGHT_TO_FONT_SIZE_RATIO = 1.2;
+const FONT_SIZE_DEFAULT = 12;
 
 function isCheckBoxOrTextField(field: PDFField) {
   return field instanceof PDFCheckBox || field instanceof PDFTextField;
 }
 
+function fontSizeFromTextField(field: PDFField) {
+  // DA holds "default appearance settings" in the format like "/Helv 12 Tf 0 g"
+  // "FontName, fontSize, Operator Texffont, color grescale, set grayscale"
+  const daEntry = field.acroField.dict.lookup(PDFName.of("DA"));
+  if (daEntry instanceof PDFString) {
+    return Number(daEntry.asString().split(" ").at(1));
+  }
+}
+
+function rectangleFromTextField(field: PDFField) {
+  // Rect holds the rectangle coordinates of the form field
+  const rect = field.acroField.dict.lookup(PDFName.of("Rect"));
+
+  if (rect instanceof PDFArray) return rect.asRectangle();
+}
+
+function fieldLimits(field: PDFTextField) {
+  const rectangle = rectangleFromTextField(field);
+  if (!rectangle) return {};
+  const { width, height } = rectangle;
+
+  const textFieldFontSize = fontSizeFromTextField(field);
+  // font size 0 means auto scale and is replaced with default font size
+  const fontSize =
+    !textFieldFontSize || textFieldFontSize === 0
+      ? FONT_SIZE_DEFAULT
+      : textFieldFontSize;
+
+  return {
+    maxCharacters: Math.floor(
+      width / (fontSize * CHARACTER_WIDTH_TO_HEIGHT_RATIO),
+    ),
+    maxLineBreaks: Math.floor(
+      height / (fontSize * LINE_HEIGHT_TO_FONT_SIZE_RATIO),
+    ),
+  };
+}
+
 function pdfFieldToEntry(field: PDFField) {
-  return [normalizePropertyName(field.getName()), { name: field.getName() }];
+  const name = field.getName();
+  return [
+    normalizePropertyName(name),
+    {
+      name,
+      ...(field instanceof PDFTextField ? fieldLimits(field) : {}),
+    },
+  ];
 }
 
 function pdfFieldToType(field: PDFField) {
