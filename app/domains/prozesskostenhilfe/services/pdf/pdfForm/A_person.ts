@@ -1,17 +1,8 @@
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/maritalDescriptionMapping";
-import {
-  type AttachmentEntries,
-  SEE_IN_ATTACHMENT_DESCRIPTION,
-  SEE_IN_ATTACHMENT_DESCRIPTION_SHORT,
-} from "~/services/pdf/attachment";
+import { type AttachmentEntries } from "~/services/pdf/attachment";
+import { fillPdfField } from "~/services/pdf/fillPdfField";
 import type { PkhPdfFillFunction } from "..";
-
-export const GESETZLICHERVERTRETER_FIELD_MAX_CHARS = 80;
-export const NAME_VORNAME_FIELD_MAX_CHARS = 35;
-export const ANSCHRIFT_FIELD_MAX_CHARS = 50;
-export const FAMILIENSTAND_FIELD_MAX_CHARS = 10;
-export const BERUF_FIELD_MAX_CHARS = 25;
 
 export const concatenateGesetzlicherVertreterString = ({
   gesetzlicheVertretungDaten,
@@ -45,67 +36,50 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const gesetzlicherVertreterString =
     concatenateGesetzlicherVertreterString(userData);
 
-  if (nameVornameString.length > NAME_VORNAME_FIELD_MAX_CHARS) {
-    attachment.push({
-      title: "Name, Vorname, ggf. Geburtsname",
-      text: nameVornameString,
-    });
-    pdfValues.nameVornameggfGeburtsname.value = SEE_IN_ATTACHMENT_DESCRIPTION;
-  } else {
-    pdfValues.nameVornameggfGeburtsname.value = nameVornameString;
-  }
+  fillPdfField({
+    fieldname: "nameVornameggfGeburtsname",
+    value: nameVornameString,
+    attachmentTitle: "Name, Vorname, ggf. Geburtsname",
+    pdfValues,
+    attachment,
+  });
 
-  if (userData.beruf && userData.beruf.length > BERUF_FIELD_MAX_CHARS) {
-    attachment.push({
-      title: "Beruf, Erwerbstätigkeit",
-      text: userData.beruf,
-    });
-    pdfValues.berufErwerbstaetigkeit.value = SEE_IN_ATTACHMENT_DESCRIPTION;
-  } else {
-    pdfValues.berufErwerbstaetigkeit.value = userData.beruf;
-  }
+  fillPdfField({
+    fieldname: "berufErwerbstaetigkeit",
+    value: userData?.beruf,
+    attachmentTitle: "Beruf, Erwerbstätigkeit",
+    pdfValues,
+    attachment,
+  });
 
   pdfValues.geburtsdatum.value = userData?.geburtsdatum;
 
-  const maritalDescription =
-    maritalDescriptionMapping[userData.partnerschaft ?? ""];
-  if (maritalDescription.length > FAMILIENSTAND_FIELD_MAX_CHARS) {
-    attachment.push({
-      title: "Familienstand",
-      text: maritalDescription,
-    });
-    pdfValues.text3.value = SEE_IN_ATTACHMENT_DESCRIPTION_SHORT;
-  } else {
-    pdfValues.text3.value = maritalDescription;
-  }
+  fillPdfField({
+    fieldname: "text3",
+    value: maritalDescriptionMapping[userData.partnerschaft ?? ""],
+    attachmentTitle: "Familienstand",
+    pdfValues,
+    attachment,
+  });
 
-  if (anschriftString.length > ANSCHRIFT_FIELD_MAX_CHARS) {
-    attachment.push({
-      title: "Anschrift (Straße, Hausnummer, Postleitzahl Wohnort)",
-      text: anschriftString,
-    });
-    pdfValues.anschriftStrasseHausnummerPostleitzahlWohnort.value =
-      SEE_IN_ATTACHMENT_DESCRIPTION;
-  } else {
-    pdfValues.anschriftStrasseHausnummerPostleitzahlWohnort.value =
-      anschriftString;
-  }
+  fillPdfField({
+    fieldname: "anschriftStrasseHausnummerPostleitzahlWohnort",
+    value: anschriftString,
+    attachmentTitle: "Anschrift (Straße, Hausnummer, Postleitzahl Wohnort)",
+    pdfValues,
+    attachment,
+  });
 
   pdfValues.text2.value = userData?.telefonnummer;
 
-  if (
-    gesetzlicherVertreterString.length > GESETZLICHERVERTRETER_FIELD_MAX_CHARS
-  ) {
-    attachment.push({
-      title: "Gesetzlicher Vertreter",
-      text: gesetzlicherVertreterString,
-    });
-    pdfValues.sofernvorhandenGesetzlicherVertreterNameVornameAnschriftTelefon.value =
-      SEE_IN_ATTACHMENT_DESCRIPTION;
-  } else {
-    pdfValues.sofernvorhandenGesetzlicherVertreterNameVornameAnschriftTelefon.value =
-      gesetzlicherVertreterString;
-  }
+  fillPdfField({
+    fieldname:
+      "sofernvorhandenGesetzlicherVertreterNameVornameAnschriftTelefon",
+    value: gesetzlicherVertreterString,
+    attachmentTitle: "Gesetzlicher Vertreter",
+    pdfValues,
+    attachment,
+  });
 
   if (attachment.length > 0) {
     attachment.unshift({

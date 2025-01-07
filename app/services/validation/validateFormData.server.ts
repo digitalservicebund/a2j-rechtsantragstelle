@@ -1,12 +1,10 @@
-import { getContext } from "~/domains/contexts";
-import type { FlowId } from "~/domains/flowIds";
-import { buildStepValidator } from "./buildStepValidator";
+import { validatorForFieldNames } from "./stepValidator/validatorForFieldNames";
 
 export async function validateFormData(
-  flowId: FlowId,
+  pathname: string,
   formData: Record<string, FormDataEntryValue>,
 ) {
   const formDataKeys = Object.keys(formData);
-  const validator = buildStepValidator(getContext(flowId), formDataKeys);
+  const validator = validatorForFieldNames(formDataKeys, pathname);
   return validator.validate(formData);
 }

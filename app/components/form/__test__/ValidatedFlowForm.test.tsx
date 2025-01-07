@@ -13,10 +13,10 @@ import { getStrapiTextareaComponent } from "tests/factories/cmsModels/strapiText
 import { getStrapiTileGroupComponent } from "tests/factories/cmsModels/strapiTileGroupComponent";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
-import * as buildStepValidator from "~/services/validation/buildStepValidator";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
+import * as validatorForFieldNames from "~/services/validation/stepValidator/validatorForFieldNames";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
 import {
@@ -36,8 +36,8 @@ vi.mock("~/services/params", () => ({
 }));
 
 const fieldNameValidatorSpy = vi.spyOn(
-  buildStepValidator,
-  "validatorForFieldnames",
+  validatorForFieldNames,
+  "validatorForFieldNames",
 );
 
 describe("ValidatedFlowForm", () => {
