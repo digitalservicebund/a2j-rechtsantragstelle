@@ -55,16 +55,16 @@ export async function fillPdf({
 
   const pdfDoc = await PDFDocument.load(global.__pdfFileBuffers[flowId]!);
   resizeToA4(pdfDoc);
-  addDruckvermerk(pdfDoc, yPositionsDruckvermerk, xPositionsDruckvermerk);
-
-  const form = pdfDoc.getForm();
-
   pdfDoc.registerFontkit(fontkit);
   customPdfFormFont = await pdfDoc.embedFont(bundesSansCondensed, {
     features: {
       liga: false,
     },
   });
+  addDruckvermerk(pdfDoc, yPositionsDruckvermerk, xPositionsDruckvermerk);
+
+  const form = pdfDoc.getForm();
+
   const rawUpdateFieldAppearances = form.updateFieldAppearances.bind(form);
   form.updateFieldAppearances = () =>
     rawUpdateFieldAppearances(customPdfFormFont);

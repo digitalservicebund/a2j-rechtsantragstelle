@@ -1,3 +1,5 @@
+import SVG from "react-inlinesvg";
+
 export type ImageProps = Readonly<{
   url?: string;
   width?: number;
@@ -8,7 +10,19 @@ export type ImageProps = Readonly<{
 
 function Image({ url, width, height, alternativeText, ...props }: ImageProps) {
   if (!url) return null;
-  return (
+  // Need to inline SVG components for accessibility
+  const isSvg = url.endsWith(".svg");
+  return isSvg ? (
+    <SVG
+      {...props}
+      id="svg-image"
+      src={url}
+      width={width}
+      title={alternativeText}
+      role="img"
+      height="100%"
+    />
+  ) : (
     <img
       {...props}
       src={url}

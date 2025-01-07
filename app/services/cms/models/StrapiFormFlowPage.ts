@@ -1,8 +1,6 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
-import { HasStrapiTimestampsSchema } from "./HasStrapiTimestamps";
 import { StrapiContentComponentSchema } from "./StrapiContentComponent";
 import { StrapiFlowIdSchema } from "./StrapiFlowId";
 import { StrapiFormComponentSchema } from "./StrapiFormComponent";
@@ -11,9 +9,7 @@ export const StrapiFormFlowPageSchema = z
   .object({
     heading: z.string(),
     stepId: z.string().nullable(),
-    flow_ids: z.object({
-      data: z.array(z.object({ attributes: StrapiFlowIdSchema })),
-    }),
+    flow_ids: z.array(StrapiFlowIdSchema),
     preHeading: z.string().nullable(),
     nextButtonLabel: z.string().nullable(),
     backButtonLabel: z.string().nullable(),
@@ -23,9 +19,7 @@ export const StrapiFormFlowPageSchema = z
 
     post_form: z.array(StrapiContentComponentSchema),
   })
-  .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema)
-  .merge(HasStrapiMetaSchema)
-  .merge(HasStrapiTimestampsSchema);
+  .merge(HasStrapiMetaSchema);
 
 export type StrapiFormFlowPage = z.infer<typeof StrapiFormFlowPageSchema>;

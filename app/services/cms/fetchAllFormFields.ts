@@ -1,4 +1,3 @@
-import partition from "lodash/partition";
 import merge from "lodash/merge";
 import type { FlowId } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
@@ -13,42 +12,38 @@ export async function fetchAllFormFields(
   flowId: FlowId,
   environment: string = config().ENVIRONMENT,
 ): Promise<FormFieldsMap> {
-  const apiId = flowPageApiIdFromFlowType(flows[flowId].flowType);
-  const filters = [{ field: "flow_ids", nestedField: "flowId", value: flowId }];
-  const populate = "form";
-  const strapiEntries = await getStrapiEntry({
-    apiId,
-    filters,
-    populate,
-    locale: "all",
-  });
+  const args = {
+    apiId: flowPageApiIdFromFlowType(flows[flowId].flowType),
+    filters: [{ field: "flow_ids", nestedField: "flowId", value: flowId }],
+    populate: "form",
+  };
 
-  const nonEmptyEntries = strapiEntries
-    .filter((formFlowPage) => formFlowPage !== null)
-    .filter(({ attributes: { stepId, form } }) => form.length > 0 && stepId);
+  const formFields = await getStrapiEntry({ ...args, locale: "de" }).then(
+    formFieldsFromEntries,
+  );
 
-  const [nonStagingEntries, stagingEntries] = partition(
-    nonEmptyEntries,
-    ({ attributes: { locale } }) => locale !== "sg",
-  ).map(formFieldsFromSchema);
+  const formFieldsStaging =
+    environment !== "production"
+      ? await getStrapiEntry({ ...args, locale: "sg" }).then(
+          formFieldsFromEntries,
+        )
+      : {};
 
-  if (environment !== "production") {
-    // inject staging flowpages
-    return merge(nonStagingEntries, stagingEntries);
-  }
-
-  return nonStagingEntries;
+  return merge(formFields, formFieldsStaging);
 }
 
-function formFieldsFromSchema(
-  schemas:
+function formFieldsFromEntries(
+  entries:
     | StrapiSchemas["form-flow-pages"]
-    | StrapiSchemas["vorab-check-pages"],
+    | StrapiSchemas["vorab-check-pages"]
+    | [null],
 ): FormFieldsMap {
   return Object.fromEntries(
-    schemas.map(({ attributes: { stepId, form } }) => [
-      stepId,
-      form.map((formField) => formField.name),
-    ]),
+    entries
+      .filter((entry) => entry?.stepId && entry?.form.length > 0)
+      .map((entry) => [
+        entry!.stepId,
+        entry!.form.map((formField) => formField.name),
+      ]),
   );
 }

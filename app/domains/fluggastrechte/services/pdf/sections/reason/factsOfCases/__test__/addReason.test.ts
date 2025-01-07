@@ -10,6 +10,7 @@ import {
   ARTICLE_NOT_MOVE_TEXT,
   CANCEL_TEXT,
   DELAY_TEXT,
+  FINAL_COLON_SENTENCE,
   NOT_MOVE_TEXT,
   PASSIVE_VERB_TEXT,
   PLAINTIFF_BOOKED_MULTIPLE_PERSONS_TEXT,
@@ -61,7 +62,9 @@ describe("addReason", () => {
       continued: true,
     });
 
-    expect(mockDoc.text).toHaveBeenCalledWith(PASSIVE_VERB_TEXT);
+    expect(mockDoc.text).toHaveBeenCalledWith(PASSIVE_VERB_TEXT, {
+      continued: true,
+    });
   });
 
   it("should render document for annullierung claim", () => {
@@ -83,7 +86,9 @@ describe("addReason", () => {
       continued: true,
     });
 
-    expect(mockDoc.text).toHaveBeenCalledWith(PASSIVE_VERB_TEXT);
+    expect(mockDoc.text).toHaveBeenCalledWith(PASSIVE_VERB_TEXT, {
+      continued: true,
+    });
   });
 
   it("should render document for nichtbefoerderung claim", () => {
@@ -106,5 +111,14 @@ describe("addReason", () => {
     });
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(PASSIVE_VERB_TEXT);
+  });
+
+  it("should render document with colon", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addReason(mockDoc, mockStruct, userDataMock);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(FINAL_COLON_SENTENCE);
   });
 });

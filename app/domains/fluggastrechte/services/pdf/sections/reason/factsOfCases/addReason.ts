@@ -13,9 +13,9 @@ export const ARTICLE_DELAY_CANCEL_TEXT = "der ";
 export const ARTICLE_NOT_MOVE_TEXT = "und wurde ";
 export const DELAY_TEXT = "nicht pünktlich ausgeführt ";
 export const CANCEL_TEXT = "annulliert ";
-export const NOT_MOVE_TEXT =
-  "und wurde von der beklagten Partei nicht befördert";
-export const PASSIVE_VERB_TEXT = "wurde: ";
+export const NOT_MOVE_TEXT = "nicht befördert";
+export const PASSIVE_VERB_TEXT = "wurde";
+export const FINAL_COLON_SENTENCE = ":";
 
 const getPlaintiffBookedText = ({
   isWeiterePersonen,
@@ -70,12 +70,16 @@ export const addReason = (
         })
         .text("von der beklagten Partei ", { continued: true })
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(getBereichText(userData), { continued: true })
+        .text(getBereichText(userData), {
+          continued: true,
+        })
         .font(FONTS_BUNDESSANS_REGULAR);
 
       if (userData.bereich !== "nichtbefoerderung") {
-        doc.text(PASSIVE_VERB_TEXT);
+        doc.text(PASSIVE_VERB_TEXT, { continued: true });
       }
+
+      doc.text(FINAL_COLON_SENTENCE);
     }),
   );
   documentStruct.add(reasonSect);

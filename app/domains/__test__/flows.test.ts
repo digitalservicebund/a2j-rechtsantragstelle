@@ -1,3 +1,5 @@
+import { toDirectedGraph, type DirectedGraphNode } from "@xstate/graph";
+import { pathToStateValue } from "xstate";
 import { testCasesBeratungshilfeFormular } from "~/domains/beratungshilfe/formular/__test__/testcases";
 import { testCasesBeratungshilfeFormularAnwaltlicheVertretung } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/__test__/testcases";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesAusgaben";
@@ -32,6 +34,7 @@ import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/domains/prozessk
 import { testCasesProzesskostenhilfeRsv } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
+import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
 
 function getEnabledSteps({
   machine,
@@ -57,6 +60,21 @@ function getEnabledSteps({
   return [initialStep, ...reachableSteps];
 }
 
+function statePathsFromMachine(children: DirectedGraphNode[]): string[][] {
+  return children.flatMap((child) =>
+    child.children.length > 0
+      ? statePathsFromMachine(child.children)
+      : [child.stateNode.path],
+  );
+}
+
+function allStepsFromMachine(machine: FlowStateMachine) {
+  const machineState = statePathsFromMachine(toDirectedGraph(machine).children);
+  return machineState.map(
+    (statePath) => stateValueToStepIds(pathToStateValue(statePath))[0],
+  );
+}
+
 /*
  * Note on testing xstate
  *
@@ -69,7 +87,12 @@ function getEnabledSteps({
  * - system under test should be in a certain state (step)
  */
 
-describe("flow tests", () => {
+describe.sequential("state machine form flows", () => {
+  const allVisitedSteps: Record<
+    string,
+    { stepIds: string[]; machine: FlowStateMachine }
+  > = {};
+
   const testCases = {
     testCasesBeratungshilfe,
     testCasesGeldEinklagen,
@@ -105,21 +128,55 @@ describe("flow tests", () => {
   } as const;
   const transitionTypes = ["SUBMIT", "BACK"] as const;
 
-  describe.each(Object.entries(testCases))("%s", (_, { machine, cases }) => {
-    describe.each([...cases])("[%#]", (context, steps) => {
-      test.each(transitionTypes)("%s", (transitionType) => {
-        const expectedSteps =
-          transitionType === "SUBMIT" ? steps : [...steps].reverse();
+  describe.concurrent.each(Object.entries(testCases))(
+    "%s",
+    (_, { machine, cases }) => {
+      if (!allVisitedSteps[machine.id]) {
+        allVisitedSteps[machine.id] = { machine, stepIds: [] };
+      }
 
-        const actualSteps = getEnabledSteps({
-          machine,
-          context,
-          transitionType,
-          steps: expectedSteps,
+      describe.each([...cases])("[%#]", (context, steps) => {
+        test.each(transitionTypes)("%s", (transitionType) => {
+          const expectedSteps =
+            transitionType === "SUBMIT" ? steps : [...steps].reverse();
+
+          const visitedSteps = getEnabledSteps({
+            machine,
+            context,
+            transitionType,
+            steps: expectedSteps,
+          });
+
+          allVisitedSteps[machine.id].stepIds =
+            allVisitedSteps[machine.id].stepIds.concat(visitedSteps);
+
+          expect(visitedSteps).toEqual(expectedSteps);
         });
-
-        expect(actualSteps).toEqual(expectedSteps);
       });
-    });
+    },
+  );
+
+  test("all steps are visited", () => {
+    const missingStepsEntries = Object.entries(allVisitedSteps)
+      .map(([machineId, { machine, stepIds }]) => {
+        const visitedSteps = new Set(stepIds);
+        const missingSteps = allStepsFromMachine(machine).filter(
+          (x) => !visitedSteps.has(x),
+        );
+        return [machineId, missingSteps] as const;
+      })
+      .filter(([_, missingSteps]) => missingSteps.length > 0);
+
+    const totalMissingStepCount = missingStepsEntries.reduce(
+      (total, [_, missingSteps]) => total + missingSteps.length,
+      0,
+    );
+
+    // eslint-disable-next-line no-console
+    console.warn(
+      `Total of ${totalMissingStepCount} untested stepIds: `,
+      Object.fromEntries(missingStepsEntries),
+    );
+    expect(totalMissingStepCount).toBeLessThanOrEqual(126);
   });
 });

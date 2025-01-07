@@ -1,18 +1,12 @@
-import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import { getProzesskostenhilfeRsvXstateConfig } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/xstateConfig";
-import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+import { machine } from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
 import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "../context";
-
-const machine: FlowStateMachine = createMachine(
-  getProzesskostenhilfeRsvXstateConfig(),
-);
+const prefix = "/rechtsschutzversicherung";
 
 const cases = [
   [
     {
       hasRsv: "no",
-      hasRsvThroughOrg: "no",
     },
     ["/rsv-frage", "/org-frage"],
   ],
@@ -84,9 +78,12 @@ const cases = [
     },
     ["/rsv-frage", "/org-frage", "/org-deckung", "/org-deckung-teilweise"],
   ],
-] as const satisfies TestCases<ProzesskostenhilfeRechtsschutzversicherungContext>;
+] satisfies TestCases<ProzesskostenhilfeRechtsschutzversicherungContext>;
 
 export const testCasesProzesskostenhilfeRsv = {
   machine,
-  cases,
+  cases: cases.map(([data, steps]) => [
+    data,
+    steps.map((stepId) => prefix + stepId),
+  ]) satisfies TestCases<ProzesskostenhilfeRechtsschutzversicherungContext>,
 };

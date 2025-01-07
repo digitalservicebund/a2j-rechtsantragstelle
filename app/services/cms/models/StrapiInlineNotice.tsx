@@ -7,7 +7,7 @@ import { OptionalStrapiLinkIdentifierSchema } from "../models/HasStrapiLinkIdent
 import { StrapiBackgroundSchema } from "../models/StrapiBackground";
 import { StrapiContainerSchema } from "../models/StrapiContainer";
 
-const StrapiInlineNoticeSchema = z
+export const StrapiInlineNoticeSchema = z
   .object({
     title: z.string(),
     tagName: z.enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"]),
