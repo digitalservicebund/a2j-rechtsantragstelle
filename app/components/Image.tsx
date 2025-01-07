@@ -2,7 +2,6 @@ import SVG from "react-inlinesvg";
 
 export type ImageProps = Readonly<{
   url?: string;
-  ext?: string;
   width?: number;
   height?: number;
   alternativeText?: string;
@@ -12,14 +11,13 @@ export type ImageProps = Readonly<{
 function Image({ url, width, height, alternativeText, ...props }: ImageProps) {
   if (!url) return null;
   // Need to inline SVG components for accessibility
-  const isSvg = props.ext === ".svg";
+  const isSvg = url.endsWith(".svg");
   return isSvg ? (
     <SVG
       {...props}
-      id="svg-image"
       src={url}
       width={width}
-      title={alternativeText}
+      title={alternativeText ?? "image"} //force to have an alternative text and avoid a11y errors
       role="img"
       height="100%"
     />

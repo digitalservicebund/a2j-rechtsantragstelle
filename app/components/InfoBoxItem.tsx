@@ -1,4 +1,6 @@
 import classNames from "classnames";
+import type { InlineNoticeProps } from "~/components/InlineNotice";
+import { InlineNotice } from "~/components/InlineNotice";
 import { arrayIsNonEmpty } from "~/util/array";
 import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";
@@ -14,6 +16,7 @@ export type InfoBoxItemProps = {
   image?: ImageProps;
   content?: string;
   details?: DetailsProps[];
+  inlineNotices?: InlineNoticeProps[];
   buttons?: ButtonProps[];
   separator?: boolean;
 };
@@ -25,6 +28,7 @@ const InfoBoxItem = ({
   image,
   content,
   details,
+  inlineNotices,
   buttons,
   separator,
 }: InfoBoxItemProps) => {
@@ -53,10 +57,12 @@ const InfoBoxItem = ({
         {label && <Heading {...label} />}
         {headline && <Heading {...headline} />}
         {content && <RichText markdown={content} />}
-        {details &&
-          details.map((details) => (
-            <Details key={details.title} {...details} />
-          ))}
+        {details?.map((details) => (
+          <Details key={details.title} {...details} />
+        ))}
+        {inlineNotices?.map((inlineNotice) => (
+          <InlineNotice key={inlineNotice.title} {...inlineNotice} />
+        ))}
         {arrayIsNonEmpty(buttons) && (
           <ButtonContainer>
             {buttons.map((button) => (

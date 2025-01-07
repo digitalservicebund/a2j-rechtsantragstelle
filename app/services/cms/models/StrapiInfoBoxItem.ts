@@ -1,6 +1,10 @@
 import pick from "lodash/pick";
 import { z } from "zod";
 import type { InfoBoxItemProps } from "~/components/InfoBoxItem";
+import {
+  getInlineNoticeProps,
+  StrapiInlineNoticeSchema,
+} from "~/services/cms/models/StrapiInlineNotice";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
@@ -16,6 +20,7 @@ export const StrapiInfoBoxItemSchema = z
     image: StrapiImageSchema.nullable(),
     content: z.string().nullable(),
     detailsSummary: z.array(StrapiDetailsSchema),
+    inlineNotice: z.array(StrapiInlineNoticeSchema),
     buttons: z.array(StrapiButtonSchema),
   })
   .merge(HasOptionalStrapiIdSchema)
@@ -28,6 +33,7 @@ export const getInfoBoxItemProps = (
 ): InfoBoxItemProps =>
   omitNull({
     details: cmsData.detailsSummary.map(getDetailsProps),
+    inlineNotices: cmsData.inlineNotice.map(getInlineNoticeProps),
     image: getImageProps(cmsData.image),
     ...pick(cmsData, "label", "headline", "content", "buttons", "identifier"),
   });

@@ -4,11 +4,7 @@ import type { PDFFont } from "pdf-lib";
 import { PDFDocument } from "pdf-lib";
 import type { FlowId } from "~/domains/flowIds";
 import { addDruckvermerk } from "./druckvermerk";
-import {
-  isBooleanField,
-  type BooleanField,
-  type StringField,
-} from "./fileTypes";
+import { isBooleanField, type PdfValues } from "./fileTypes";
 import { changeBooleanField, changeStringField } from "./pdf.server";
 import { pdfs } from "./pdfs";
 import { readRelativeFileToBuffer } from "./readRelativeFileToBuffer";
@@ -39,7 +35,7 @@ export let customPdfFormFont: PDFFont;
 
 type FillPdfProps = {
   flowId: FlowId;
-  pdfValues: Record<string, BooleanField | StringField>;
+  pdfValues: PdfValues;
   yPositionsDruckvermerk?: number | number[];
   xPositionsDruckvermerk?: number;
 };
@@ -55,16 +51,16 @@ export async function fillPdf({
 
   const pdfDoc = await PDFDocument.load(global.__pdfFileBuffers[flowId]!);
   resizeToA4(pdfDoc);
-  addDruckvermerk(pdfDoc, yPositionsDruckvermerk, xPositionsDruckvermerk);
-
-  const form = pdfDoc.getForm();
-
   pdfDoc.registerFontkit(fontkit);
   customPdfFormFont = await pdfDoc.embedFont(bundesSansCondensed, {
     features: {
       liga: false,
     },
   });
+  addDruckvermerk(pdfDoc, yPositionsDruckvermerk, xPositionsDruckvermerk);
+
+  const form = pdfDoc.getForm();
+
   const rawUpdateFieldAppearances = form.updateFieldAppearances.bind(form);
   form.updateFieldAppearances = () =>
     rawUpdateFieldAppearances(customPdfFormFont);

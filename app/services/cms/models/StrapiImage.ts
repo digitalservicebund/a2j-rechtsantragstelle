@@ -41,11 +41,10 @@ export const getImageProps = (
   cmsData: StrapiImage | null,
 ): ImageProps | undefined => {
   if (!cmsData) return undefined;
-  const { url, width, height, alternativeText, ext } = cmsData;
+  const { url, width, height, alternativeText } = cmsData;
   return {
     url,
     width,
-    ext,
     height,
     alternativeText: alternativeText ?? undefined,
   };
