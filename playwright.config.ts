@@ -62,7 +62,11 @@ export default defineConfig({
       name: "Mobile Android",
       use: { ...devices["Galaxy S8"] },
       // Already covered in primary device tests
-      testIgnore: ["**/accessibilityScans.spec.ts", "**/csrf.spec.ts"],
+      testIgnore: [
+        "**/accessibilityScans.spec.ts",
+        "**/csrf.spec.ts",
+        "**/security.spec.ts",
+      ],
     },
   ],
 
