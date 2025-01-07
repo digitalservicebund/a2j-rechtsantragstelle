@@ -1,7 +1,9 @@
 import fs from "node:fs";
 import { configDotenv } from "dotenv";
+import { bucketUrl } from "~/services/cms/bucketUrl";
 
 const allowedWebsites = [
+  bucketUrl,
   "https://github.com",
   "https://digitalservice.bund.de",
   "https://www.bmj.de",
@@ -16,7 +18,6 @@ const allowedWebsites = [
   "https://www.schlichtungsstelle-bgg.de",
   "https://posthog.com",
   "https://www.bfdi.bund.de",
-  "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
   "https://soep-online.de/",
   "https://www.bundesjustizamt.de/",
   "https://service.justiz.de/",
