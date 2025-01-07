@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import type { SafeParseError } from "zod";
 import { postcodeSchema } from "~/services/validation/postcode";
 
