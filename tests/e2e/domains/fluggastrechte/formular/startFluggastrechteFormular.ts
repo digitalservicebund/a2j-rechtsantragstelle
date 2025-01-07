@@ -71,8 +71,11 @@ export async function startFluggastrechteFormular(
 
   // /fluggastrechte/formular/flugdaten/anderer-flug-ankunft
   await formular.fillInput("ersatzFlugnummer", "BCA4321");
-  await formular.fillInput("ersatzFlugAnkunftsDatum", "10.01.2023");
-  await formular.fillInput("ersatzFlugAnkunftsZeit", "10:10");
+  await formular.fillInput(
+    "ersatzFlugAnkunftsDatum",
+    toGermanDateFormat(today()),
+  );
+  await formular.fillInput("ersatzFlugAnkunftsZeit", "15:10");
   await formular.clickNext();
 
   // /fluggastrechte/formular/flugdaten/zusaetzliche-angaben

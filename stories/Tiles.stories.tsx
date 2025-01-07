@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { remixContext } from "../.storybook/remixContext";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 import Container from "~/components/Container";
+import { bucketUrl } from "~/services/cms/bucketUrl";
 
 const meta = {
   title: "Component/TileGroup",
@@ -40,10 +41,8 @@ const tileGroupProps = {
   formId: "formId",
 };
 
-const imgUrl1 =
-  "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/nichtbefoerderung_622132fec8.svg";
-const imgUrl2 =
-  "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/verspaetung_3a4c9932b4.svg";
+const imgUrl1 = bucketUrl + "/nichtbefoerderung_622132fec8.svg";
+const imgUrl2 = bucketUrl + "/verspaetung_3a4c9932b4.svg";
 
 export const TextOnly: Story = {
   args: { ...tileGroupProps },

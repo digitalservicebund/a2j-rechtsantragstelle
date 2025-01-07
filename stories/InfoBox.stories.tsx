@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import Container from "../app/components/Container";
 import InfoBox from "~/components/InfoBox";
+import { bucketUrl } from "~/services/cms/bucketUrl";
 
 const meta = {
   title: "Content/InfoBox",
@@ -57,7 +58,7 @@ export const WithImage: Story = {
         label: { text: "Label", look: "ds-label-01-reg" },
         headline: { text: "Headline", look: "ds-heading-03-reg" },
         image: {
-          url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/bmj_logo_3fd953f074.png",
+          url: bucketUrl + "/bmj_logo_3fd953f074.png",
           width: 240,
           height: 132,
           alternativeText: "Logo des Bundesministerium der Justiz",
