@@ -1,4 +1,4 @@
-import _ from "lodash";
+import merge from "lodash/merge";
 import type { FlowId } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { flowPageApiIdFromFlowType } from "./apiFromFlowType";
@@ -29,7 +29,7 @@ export async function fetchAllFormFields(
         )
       : {};
 
-  return _.merge(formFields, formFieldsStaging);
+  return merge(formFields, formFieldsStaging);
 }
 
 function formFieldsFromEntries(
