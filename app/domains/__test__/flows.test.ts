@@ -35,6 +35,7 @@ import { testCasesProzesskostenhilfeRsv } from "~/domains/prozesskostenhilfe/for
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
+import { testCasesBeratungshilfeFormularGrundvoraussetzungen } from "~/domains/beratungshilfe/formular/grundvoraussetzung/__test__/testcases";
 
 function getEnabledSteps({
   machine,
@@ -98,6 +99,7 @@ describe.sequential("state machine form flows", () => {
     testCasesGeldEinklagen,
     testCasesFluggastrechteFormularFlugdatenNichtBefoerderung,
     testCasesBeratungshilfeFormular,
+    testCasesBeratungshilfeFormularGrundvoraussetzungen,
     testCasesBeratungshilfeFormularAnwaltlicheVertretung,
     testCasesBeratungshilfeRechtsproblem,
     testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen,
@@ -177,6 +179,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(126);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(120);
   });
 });

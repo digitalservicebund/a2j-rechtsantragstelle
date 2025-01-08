@@ -3,6 +3,8 @@
 // https://web.dev/articles/strict-csp
 // https://csp-evaluator.withgoogle.com/
 
+import { bucketUrl } from "../cms/bucketUrl";
+
 export const cspHeader = (args: {
   nonce: string;
   additionalConnectSrc?: string[];
@@ -24,12 +26,12 @@ export const cspHeader = (args: {
     "connect-src": [
       "'self'",
       "eu.i.posthog.com",
-      "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
+      bucketUrl,
       ...(args.additionalConnectSrc ?? []),
     ],
     "img-src": [
       "'self'",
-      "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
+      bucketUrl,
       "https://mermaid.ink",
       "https://img.youtube.com",
       "data:",

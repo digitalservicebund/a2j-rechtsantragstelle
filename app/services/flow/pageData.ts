@@ -1,7 +1,7 @@
-import _ from "lodash";
+import merge from "lodash/merge";
 import type { Context } from "~/domains/contexts";
 import { type PageData } from "./pageDataSchema";
 
 export function addPageDataToUserData(userData: Context, pageData: PageData) {
-  return _.merge(userData, { pageData });
+  return merge(userData, { pageData });
 }

@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-cycle
 import { NavItem } from "./NavItem";
 
 export type NavigationA11yLabels = {

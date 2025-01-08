@@ -132,7 +132,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
 
   const relevantFormData = filterFormData(formData);
-  const validationResult = await validateFormData(flowId, relevantFormData);
+  const validationResult = await validateFormData(pathname, relevantFormData);
   if (validationResult.error)
     return validationError(
       validationResult.error,
