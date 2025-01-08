@@ -37,6 +37,12 @@ const cases = [
       "/finanzielle-angaben/andere-unterhaltszahlungen/warnung",
     ],
   ],
+
+  // Person only one page in the flow
+  [
+    { hasWeitereUnterhaltszahlungen: "yes" },
+    ["/finanzielle-angaben/andere-unterhaltszahlungen/person/daten"],
+  ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
 
 export const testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen =

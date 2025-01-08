@@ -36,6 +36,7 @@ import type { FlowStateMachine } from "~/services/flow/server/buildFlowControlle
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
 import { testCasesBeratungshilfeFormularGrundvoraussetzungen } from "~/domains/beratungshilfe/formular/grundvoraussetzung/__test__/testcases";
+import { testCasesBeratungshilfeFormularAbgabe } from "~/domains/beratungshilfe/formular/abgabe/__test__/testcases";
 
 function getEnabledSteps({
   machine,
@@ -110,6 +111,7 @@ describe.sequential("state machine form flows", () => {
     testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
     testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
     testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
+    testCasesBeratungshilfeFormularAbgabe,
     testCasesFluggastrechteVerspaetetAbbruch,
     testCasesFluggastrechteAnnullierungAbbruch,
     testCasesFluggastrechteNichtBefoerderungAbbruch,
@@ -179,6 +181,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(110);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(105);
   });
 });
