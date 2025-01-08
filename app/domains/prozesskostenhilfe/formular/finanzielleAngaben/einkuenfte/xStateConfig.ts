@@ -1,4 +1,4 @@
-import _ from "lodash";
+import mapValues from "lodash/mapValues";
 import { and } from "xstate";
 import type { Context } from "~/domains/contexts";
 import type { Flow } from "~/domains/flows.server";
@@ -64,7 +64,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
   _doneFunction: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard = einkuenfteDone,
   subflowPrefix?: PKHEinkuenfteSubflowTypes,
 ) => {
-  const stepIds = _.mapValues(einkuenfteStepIds, (step) =>
+  const stepIds = mapValues(einkuenfteStepIds, (step) =>
     subflowPrefix ? `${subflowPrefix}-${step}` : step,
   );
 

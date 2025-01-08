@@ -1,5 +1,5 @@
 import { getShortestPaths } from "@xstate/graph";
-import _ from "lodash";
+import isEqual from "lodash/isEqual";
 import type {
   MachineConfig,
   MachineContext,
@@ -117,7 +117,7 @@ const findNode = (machine: FlowStateMachine, stepId: string) => {
     value: pathToStateValue(statepath),
     context: {},
   });
-  return resolvedState._nodes.find((node) => _.isEqual(node.path, statepath));
+  return resolvedState._nodes.find((node) => isEqual(node.path, statepath));
 };
 
 const isFinalStep = (machine: FlowStateMachine, stepId: string) => {

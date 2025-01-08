@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { json } from "@remix-run/node";
 import { createRemixStub } from "@remix-run/testing";
 import { screen, render, waitFor } from "@testing-library/react";

@@ -4,8 +4,7 @@ export default defineWorkspace([
   {
     extends: "./vite.config.ts",
     test: {
-      dir: "./",
-      include: ["**/__test__/*.test.{ts,tsx}", "**/unit/**/*.test.ts"],
+      include: ["./app/**/__test__/*.test.{ts,tsx}"],
       name: "unit",
     },
   },

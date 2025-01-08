@@ -1,4 +1,3 @@
-// @vitest-environment node
 import type { SafeParseError } from "zod";
 import { postcodeSchema } from "~/services/validation/postcode";
 

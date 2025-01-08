@@ -1,5 +1,5 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
-import _ from "lodash";
+import isEmpty from "lodash/isEmpty";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services/pdf";
 import { parsePathname, type FlowId } from "~/domains/flowIds";
@@ -67,7 +67,7 @@ export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
     (await getSessionData(flowId, request.headers.get("Cookie"))).userData,
     flowId,
   );
-  if (_.isEmpty(userData)) return redirect(flowId);
+  if (isEmpty(userData)) return redirect(flowId);
 
   const fileContent = await pdfFunction(userData, flowTranslations);
   const fileSize = fileContent.length;
