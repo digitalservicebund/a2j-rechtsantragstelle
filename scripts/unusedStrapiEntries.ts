@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { readFileSync } from "node:fs";
-import _ from "lodash";
+import partition from "lodash/partition";
 import { flows } from "~/domains/flows.server";
 import { strapiFileSchema, type StrapiSchemas } from "~/services/cms/schemas";
 import { type Config } from "~/services/flow/server/buildFlowController";
@@ -38,11 +38,11 @@ function urlsFromPages(pages: MinimalPage[]) {
 }
 
 function partitionPagesByStepId(pages: MinimalPage[]) {
-  return _.partition(pages, (page) => page.stepId !== null);
+  return partition(pages, (page) => page.stepId !== null);
 }
 
 function partitionPagesByFlowId(pages: MinimalPage[]) {
-  return _.partition(pages, (page) => page.flow_ids.length > 0);
+  return partition(pages, (page) => page.flow_ids.length > 0);
 }
 
 function unusedStrapiEntry() {
