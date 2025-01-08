@@ -14,7 +14,7 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
   const alt = alternativeText ?? ""; // Image without alt text is treated as decorative
 
   return isSvg ? (
-    <SVG {...props} src={url} title={alt} role="img" height="100%" />
+    <SVG {...props} src={url} title={alt ?? "image"} role="img" height="100%" />
   ) : (
     <img {...props} src={url} alt={alt} />
   );
