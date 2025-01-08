@@ -11,12 +11,17 @@ export type ImageProps = Readonly<{
 function Image({ url, alternativeText, ...props }: ImageProps) {
   if (!url) return null;
   const isSvg = url.endsWith(".svg");
-  const alt = alternativeText ?? ""; // Image without alt text is treated as decorative
 
   return isSvg ? (
-    <SVG {...props} src={url} title={alt} role="img" height="100%" />
+    <SVG
+      {...props}
+      src={url}
+      title={alternativeText ?? "image"}
+      role="img"
+      height="100%"
+    />
   ) : (
-    <img {...props} src={url} alt={alt} />
+    <img {...props} src={url} alt={alternativeText ?? ""} />
   );
 }
 

@@ -1,4 +1,4 @@
-import _ from "lodash";
+import merge from "lodash/merge";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
 import {
@@ -99,7 +99,7 @@ export const finanzielleAngabenXstateConfig = {
             ],
           },
         },
-        "partner-einkuenfte": _.merge(
+        "partner-einkuenfte": merge(
           getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone, "partner"),
           {
             states: {

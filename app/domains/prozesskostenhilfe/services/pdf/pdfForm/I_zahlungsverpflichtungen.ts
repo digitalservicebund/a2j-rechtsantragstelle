@@ -1,4 +1,4 @@
-import _ from "lodash";
+import partition from "lodash/partition";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
@@ -187,7 +187,7 @@ export const fillZahlungsverpflichtungen: PkhPdfFillFunction = ({
     ...versicherungen.map(mapVersicherungToZahlungsverpflichtung),
   ];
 
-  const [zahlungLong, zahlungShort] = _.partition(
+  const [zahlungLong, zahlungShort] = partition(
     zahlungenWithDescription,
     (zahlung) =>
       zahlung.description.length >

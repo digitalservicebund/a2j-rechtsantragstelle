@@ -1,4 +1,4 @@
-import _ from "lodash";
+import isEmpty from "lodash/isEmpty";
 import type { FlowId } from "~/domains/flowIds";
 import type { Flow } from "~/domains/flows.server";
 import { buildFlowController } from "./buildFlowController";
@@ -27,7 +27,7 @@ export async function validateFlowTransition(
 ): Promise<FlowTransitionResult> {
   const { sourceFlowId, eligibleSourcePages } = config;
 
-  if (_.isEmpty(eligibleSourcePages)) {
+  if (isEmpty(eligibleSourcePages)) {
     throw Error("This property should not be empty");
   }
 
