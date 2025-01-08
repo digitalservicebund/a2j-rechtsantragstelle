@@ -55,17 +55,27 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: "chromium",
+      name: "local-chromium",
       use: { ...devices["Desktop Chrome"] },
     },
     {
-      name: "Mobile Android",
+      name: "local-mobile",
       use: { ...devices["Galaxy S8"] },
       // Already covered in primary device tests
       testIgnore: [
         "**/accessibilityScans.spec.ts",
         "**/csrf.spec.ts",
         "**/security.spec.ts",
+      ],
+    },
+    {
+      name: "staging",
+      use: { ...devices["Desktop Chrome"] },
+      testMatch: [
+        "**/csrf.spec.ts",
+        "**/security.spec.ts",
+        "**/homepage.spec.ts",
+        "**/userfeedback.vorabcheck.spec.ts",
       ],
     },
   ],
