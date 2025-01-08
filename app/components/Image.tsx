@@ -8,27 +8,15 @@ export type ImageProps = Readonly<{
   className?: string;
 }>;
 
-function Image({ url, width, height, alternativeText, ...props }: ImageProps) {
+function Image({ url, alternativeText, ...props }: ImageProps) {
   if (!url) return null;
-  // Need to inline SVG components for accessibility
   const isSvg = url.endsWith(".svg");
+  const alt = alternativeText ?? ""; // Image without alt text is treated as decorative
+
   return isSvg ? (
-    <SVG
-      {...props}
-      src={url}
-      width={width}
-      title={alternativeText ?? "image"} //force to have an alternative text and avoid a11y errors
-      role="img"
-      height="100%"
-    />
+    <SVG {...props} src={url} title={alt} role="img" height="100%" />
   ) : (
-    <img
-      {...props}
-      src={url}
-      alt={alternativeText ?? ""} // without alternative text an image is treated as decorative
-      width={width}
-      height={height}
-    />
+    <img {...props} src={url} alt={alt} />
   );
 }
 

@@ -1,4 +1,3 @@
-// @vitest-environment node
 import { PDFDocument } from "pdf-lib";
 import { pdfDownloadLoader } from "../pdfDownloadLoader";
 

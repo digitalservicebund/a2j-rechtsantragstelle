@@ -1,5 +1,3 @@
-// @vitest-environment node
-// see https://github.com/Hopding/pdf-lib/issues/1186
 import { PDFDocument } from "pdf-lib";
 import { beratungshilfePdfFromUserdata } from "..";
 
