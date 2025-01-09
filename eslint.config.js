@@ -111,9 +111,6 @@ export default tseslint.config(
       // sonarjs
       "sonarjs/no-duplicate-string": "off",
       "sonarjs/todo-tag": "warn",
-      "sonarjs/no-commented-code": "warn",
-      "sonarjs/no-redeclare": "off",
-      "sonarjs/no-nested-functions": "warn",
       "sonarjs/function-return-type": "off",
       "sonarjs/aws-restricted-ip-admin-access": "off", // slow and unneeded
       "sonarjs/no-async-constructor": "off", // slow and unneeded
@@ -132,9 +129,7 @@ export default tseslint.config(
       "sonarjs/deprecation": "off", // enable after remix upgrades to react router v7 and we move to Single Fetch
 
       // typescript-eslint
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/consistent-type-imports": "warn",
-      "@typescript-eslint/only-throw-error": "off", // TODO: determine whether or not we should enable this
+      "@typescript-eslint/only-throw-error": "off", // disabled, as remix/react-router can throw redirects
       "@typescript-eslint/no-unused-vars": [
         "warn",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
