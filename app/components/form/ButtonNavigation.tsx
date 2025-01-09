@@ -6,10 +6,10 @@ type NavigationButton = {
   label: string;
 };
 
-export interface ButtonNavigationProps {
+export type ButtonNavigationProps = {
   readonly back?: NavigationButton;
   readonly next?: NavigationButton;
-}
+};
 
 export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
   return (

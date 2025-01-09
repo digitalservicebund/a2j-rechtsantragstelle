@@ -1,4 +1,4 @@
-export interface Jmtd14VTErwerberPlzortk {
+export type Jmtd14VTErwerberPlzortk = {
   ANGELEGENHEIT_INFO: string;
   GERBEH_AG: string;
   GERBEH_LG: string;
@@ -10,7 +10,7 @@ export interface Jmtd14VTErwerberPlzortk {
   ORTK: string;
   PLZ: string;
   PLZM_INFO: "Zustellbezirk";
-}
+};
 
 export type TypInfo =
   | "Ambulante soziale Dienste der Justiz"
@@ -40,7 +40,7 @@ export type TypInfo =
   | "Zivilgericht - Oberlandesgericht"
   | "ZVG Gericht";
 
-export interface Jmtd14VTErwerberGerbeh {
+export type Jmtd14VTErwerberGerbeh = {
   AG: string;
   AUT_MAHN_VERF_MERKMAL_INFO?: string;
   BEZEICHNUNG: string;
@@ -71,13 +71,13 @@ export interface Jmtd14VTErwerberGerbeh {
   URL2?: string;
   XJUSTIZID?: string;
   XML_SUPPORT: JaNeinLong;
-}
+};
 
 type JaNeinShort = "J" | "N";
 type ErvStraf = "S" | JaNeinShort;
 type JaNeinLong = "JA" | "NEIN";
 
-export interface Jmtd14VTErwerberPlzstrn {
+export type Jmtd14VTErwerberPlzstrn = {
   AG: string;
   ANGELEGENHEIT_INFO: string;
   HNR_BIS: string;
@@ -90,7 +90,7 @@ export interface Jmtd14VTErwerberPlzstrn {
   PLZ: string;
   STRN: string;
   TYP_INFO: TypInfo;
-}
+};
 
 type HnrMerkmalInfo =
   | "fortlaufende Hausnummern"

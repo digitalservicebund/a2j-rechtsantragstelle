@@ -8,16 +8,16 @@ const POST_SUBMISSION_BOX = "user-feedback-submission";
 const TOP_BREADCRUMB_ICON = "HomeOutlinedIcon";
 const USER_FEEDBACK_BANNER = "user-feedback-banner";
 
-interface SetupOptions {
+type SetupOptions = {
   page: Page;
   javaScriptEnabled: boolean;
-}
+};
 
-interface FeedbackOptions {
+type FeedbackOptions = {
   page: Page;
   feedbackIconTestId: "ThumbUpOutlinedIcon" | "ThumbDownOutlinedIcon";
   message: string;
-}
+};
 
 async function setupFeedbackTests({
   page,

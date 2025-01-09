@@ -1,9 +1,9 @@
-interface ProgressBarProps {
+type ProgressBarProps = {
   readonly progress?: number;
   readonly max?: number;
   readonly fallback?: string;
   readonly label?: string;
-}
+};
 
 export function ProgressBar({
   progress,

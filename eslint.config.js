@@ -136,7 +136,7 @@ export default tseslint.config(
       ],
 
       // TODO: to be enabled later
-      "@typescript-eslint/consistent-type-definitions": "off",
+      "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
       "@typescript-eslint/array-type": "off",
 
       // fix/reevaluate
