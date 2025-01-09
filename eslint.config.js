@@ -111,7 +111,6 @@ export default tseslint.config(
       // sonarjs
       "sonarjs/no-duplicate-string": "off",
       "sonarjs/todo-tag": "warn",
-      "sonarjs/fixme-tag": "warn",
       "sonarjs/no-commented-code": "warn",
       "sonarjs/no-redeclare": "off",
       "sonarjs/no-nested-functions": "warn",
