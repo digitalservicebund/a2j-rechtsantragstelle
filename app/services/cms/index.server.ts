@@ -97,7 +97,7 @@ export async function fetchErrors() {
     .map((errorPage) => [
       errorPage.value.slug.replace(cmsErrorSlug, ""),
       errorPage.value.content,
-    ]) satisfies [string, StrapiPage["content"]][];
+    ]) satisfies Array<[string, StrapiPage["content"]]>;
 
   return Object.fromEntries(errorPageEntries);
 }

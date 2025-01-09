@@ -47,7 +47,7 @@ function getEnabledSteps({
   machine: FlowStateMachine;
   context: Context;
   transitionType: "SUBMIT" | "BACK";
-  steps: Readonly<Array<string>>;
+  steps: readonly string[];
 }) {
   const initialStep = steps[0];
   const reachableSteps = steps.slice(0, -1).map((step) => {

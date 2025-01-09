@@ -137,7 +137,7 @@ export default tseslint.config(
 
       // TODO: to be enabled later
       "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
-      "@typescript-eslint/array-type": "off",
+      "@typescript-eslint/array-type": ["warn", { default: "array-simple" }],
 
       // fix/reevaluate
       "@typescript-eslint/no-unsafe-argument": "off",

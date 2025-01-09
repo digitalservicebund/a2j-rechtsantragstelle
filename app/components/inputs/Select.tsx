@@ -8,7 +8,7 @@ import { widthClassname } from "./width";
 
 export type SelectProps = {
   name: string;
-  options: { value: string; text: string }[];
+  options: Array<{ value: string; text: string }>;
   label?: ReactNode;
   altLabel?: string;
   placeholder?: string;

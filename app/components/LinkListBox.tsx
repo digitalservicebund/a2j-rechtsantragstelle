@@ -9,7 +9,7 @@ export type LinkListBoxProps = {
   identifier?: string;
   label?: HeadingProps;
   heading?: HeadingProps;
-  links?: { text?: string; url?: string }[];
+  links?: Array<{ text?: string; url?: string }>;
   buttons?: ButtonProps[];
 };
 
