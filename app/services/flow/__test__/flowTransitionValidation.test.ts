@@ -40,7 +40,6 @@ describe("validateFlowTransition", () => {
     getMeta: vi.fn().mockReturnValue(undefined),
     getRootMeta: vi.fn().mockReturnValue(undefined),
     stepStates: vi.fn().mockReturnValue([]),
-    isDone: vi.fn().mockReturnValue(false),
     getProgress: vi.fn().mockReturnValue({}),
     getReachableSteps: vi.fn().mockReturnValue([]),
     getUserdata: vi.fn().mockReturnValue({}),
