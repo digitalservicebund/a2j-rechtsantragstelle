@@ -12,7 +12,7 @@ import { StrapiResultPageTypeSchema } from "./StrapiResultPageType";
 
 export const StrapiResultPageSchema = z
   .object({
-    stepId: z.string().nullable(),
+    stepId: z.string(),
     flow_ids: z.array(StrapiFlowIdSchema),
     pageType: StrapiResultPageTypeSchema,
     heading: StrapiHeadingSchema,

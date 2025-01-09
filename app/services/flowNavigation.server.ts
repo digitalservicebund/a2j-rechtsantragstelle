@@ -29,7 +29,7 @@ export function navItemsFromStepStates(
 
     return {
       destination: stepState.url,
-      label: translations[stepState.stepId ?? ""] ?? stepState.stepId,
+      label: translations[stepState.stepId] ?? stepState.stepId,
       subflows: subNavItems,
       state: navState({ isCurrent, isDone, isReachable }),
     };
