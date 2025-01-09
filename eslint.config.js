@@ -134,12 +134,10 @@ export default tseslint.config(
         "warn",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
-
-      // TODO: to be enabled later
       "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
       "@typescript-eslint/array-type": ["warn", { default: "array-simple" }],
 
-      // fix/reevaluate
+      // enable gradually for full type safety
       "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/no-unsafe-call": "off",
