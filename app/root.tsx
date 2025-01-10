@@ -29,6 +29,7 @@ import {
   fetchErrors,
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
+import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import Breadcrumbs from "./components/Breadcrumbs";
@@ -98,9 +99,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     mainSession,
     showKopfzeile,
   ] = await Promise.all([
-    fetchSingleEntry("page-header", "de"),
-    fetchSingleEntry("footer", "de"),
-    fetchSingleEntry("cookie-banner", "de"),
+    fetchSingleEntry("page-header", defaultLocale),
+    fetchSingleEntry("footer", defaultLocale),
+    fetchSingleEntry("cookie-banner", defaultLocale),
     trackingCookieValue({ request }),
     fetchErrors(),
     fetchMeta({ filterValue: "/" }),

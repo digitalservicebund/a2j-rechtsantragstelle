@@ -55,18 +55,19 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: "chromium",
+      name: "critical",
       use: { ...devices["Desktop Chrome"] },
+      testMatch: ["**/critical/**.spec.ts"],
     },
     {
-      name: "Mobile Android",
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
+      testIgnore: ["**/critical/**.spec.ts"],
+    },
+    {
+      name: "mobile",
       use: { ...devices["Galaxy S8"] },
-      // Already covered in primary device tests
-      testIgnore: [
-        "**/accessibilityScans.spec.ts",
-        "**/csrf.spec.ts",
-        "**/security.spec.ts",
-      ],
+      testIgnore: ["**/critical/**.spec.ts"],
     },
   ],
 

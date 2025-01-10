@@ -155,6 +155,94 @@ const cases = [
       "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-daten",
     ],
   ],
+
+  // Bankkonten - only one page flow
+  [{}, ["/finanzielle-angaben/eigentum-zusammenfassung/bankkonten/daten"]],
+
+  // Geldanlagen
+  [
+    {
+      hasGeldanlage: "yes",
+      geldanlagen: [{ art: "bargeld" }],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
+      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/bargeld",
+    ],
+  ],
+  [
+    {
+      hasGeldanlage: "yes",
+      geldanlagen: [{ art: "wertpapiere" }],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
+      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/wertpapiere",
+    ],
+  ],
+  [
+    {
+      hasGeldanlage: "yes",
+      geldanlagen: [{ art: "guthabenkontoKrypto" }],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
+      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/guthabenkonto-krypto",
+    ],
+  ],
+  [
+    {
+      hasGeldanlage: "yes",
+      geldanlagen: [{ art: "giroTagesgeldSparkonto" }],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
+      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/giro-tagesgeld-sparkonto",
+    ],
+  ],
+  [
+    {
+      hasGeldanlage: "yes",
+      geldanlagen: [{ art: "befristet" }],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
+      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/befristet",
+    ],
+  ],
+  [
+    {
+      hasGeldanlage: "yes",
+      geldanlagen: [{ art: "forderung" }],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
+      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/forderung",
+    ],
+  ],
+  [
+    {
+      hasGeldanlage: "yes",
+      geldanlagen: [{ art: "sonstiges" }],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
+      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/sonstiges",
+    ],
+  ],
+
+  // Wertgegenstände - only one page flow
+  [
+    {},
+    ["/finanzielle-angaben/eigentum-zusammenfassung/wertgegenstaende/daten"],
+  ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
 
 export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentumZusammenfassung =

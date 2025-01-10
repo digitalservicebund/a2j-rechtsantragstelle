@@ -1,5 +1,8 @@
 import type { FlowId } from "~/domains/flowIds";
-import type { StrapiLocale } from "~/services/cms/models/StrapiLocale";
+import {
+  defaultLocale,
+  type StrapiLocale,
+} from "~/services/cms/models/StrapiLocale";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import type { Filter, GetStrapiEntryOpts } from "./filters";
 import { getStrapiEntry } from "./getStrapiEntry";
@@ -75,7 +78,11 @@ export const fetchTranslations = async (
 ): Promise<Translations> => {
   const filters = [{ field: "scope", value: name }];
   try {
-    const entry = await fetchCollectionEntry("translations", filters, "de");
+    const entry = await fetchCollectionEntry(
+      "translations",
+      filters,
+      defaultLocale,
+    );
     if (!entry) return {};
     return Object.fromEntries(
       entry.field.map(({ name, value }) => [name, value]),
@@ -124,7 +131,7 @@ export async function fetchErrors() {
 
   const errorPages = await fetchEntries({
     apiId: "pages",
-    locale: "de",
+    locale: defaultLocale,
     filters: [
       {
         field: "slug",

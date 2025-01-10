@@ -1,6 +1,7 @@
 import type { z } from "zod";
 import type { FlowId } from "./flowIds";
 import { fluggastrechtMultiFieldsValidation } from "./fluggastrechte/formular/multiFieldsValidation";
+import { fluggastrechtVorabcheckMultiFieldsValidation } from "./fluggastrechte/vorabcheck/multiFieldsValidation";
 
 export type MultiFieldsValidationBaseSchema = z.ZodObject<
   Record<string, z.ZodTypeAny>
@@ -20,7 +21,7 @@ const multiFieldsFlowValidation = {
   "/beratungshilfe/vorabcheck": undefined,
   "/geld-einklagen/vorabcheck": undefined,
   "/geld-einklagen/formular": undefined,
-  "/fluggastrechte/vorabcheck": undefined,
+  "/fluggastrechte/vorabcheck": fluggastrechtVorabcheckMultiFieldsValidation,
   "/fluggastrechte/formular": fluggastrechtMultiFieldsValidation,
   "/prozesskostenhilfe/formular": undefined,
 } as const satisfies Record<FlowId, MultiFieldsStepIdValidation | undefined>;
