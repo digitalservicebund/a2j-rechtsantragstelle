@@ -18,7 +18,7 @@
       "on": {
         "SUBMIT": [
           {
-            "target": "#flugdaten.geplanter-flug",
+            "target": "#flugdaten.adresse-fluggesellschaft",
             "guard": "streitwertKostenDone"
           }
         ],

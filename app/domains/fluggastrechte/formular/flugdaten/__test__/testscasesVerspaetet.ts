@@ -33,6 +33,7 @@ const cases = [
       zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
     },
     [
+      "/flugdaten/adresse-fluggesellschaft",
       "/flugdaten/geplanter-flug",
       "/flugdaten/tatsaechlicher-flug",
       "/flugdaten/ersatzverbindung-art",
