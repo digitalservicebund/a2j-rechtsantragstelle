@@ -31,12 +31,12 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   }
 
   const slug = "/beratungshilfe/zustaendiges-gericht/ergebnis";
-  const [common, { content, meta }] = await Promise.all([
+  const [common, { content, pageMeta }] = await Promise.all([
     fetchTranslations("amtsgericht"),
     fetchPage(slug),
   ]);
 
-  return json({ court, content, meta, common });
+  return json({ court, content, meta: pageMeta, common });
 };
 
 export const Component = () => {

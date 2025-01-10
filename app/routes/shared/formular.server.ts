@@ -138,7 +138,7 @@ export const loader = async ({
     return strapiFormElement;
   });
 
-  const meta = stepMeta(formPageContent.meta, parentMeta);
+  const meta = stepMeta(formPageContent.pageMeta, parentMeta);
 
   // Retrieve user data for current step
   const fieldNames = formPageContent.form.map((entry) => entry.name);

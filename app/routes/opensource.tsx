@@ -7,9 +7,9 @@ import { dependencies } from "~/services/openSourceLicenses/dependencies.server"
 import LicenseList from "~/services/openSourceLicenses/LicenseList";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { content, meta } = await strapiPageFromRequest({ request });
+  const { content, pageMeta } = await strapiPageFromRequest({ request });
   return json({
-    meta,
+    meta: pageMeta,
     content,
     dependencies,
   });

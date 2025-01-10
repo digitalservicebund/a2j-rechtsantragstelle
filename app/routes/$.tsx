@@ -6,8 +6,8 @@ import { strapiPageFromRequest } from "~/services/cms/index.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   try {
-    const { content, meta } = await strapiPageFromRequest({ request });
-    return json({ content, meta });
+    const { content, pageMeta } = await strapiPageFromRequest({ request });
+    return json({ content, meta: pageMeta });
   } catch (error) {
     if ((error as Error).name === "StrapiPageNotFound") {
       throw new Response(null, { status: 404 });
