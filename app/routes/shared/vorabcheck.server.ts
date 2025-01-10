@@ -78,7 +78,7 @@ export const loader = async ({
     return strapiFormElement;
   });
 
-  const meta = stepMeta(vorabcheckPage.meta, parentMeta);
+  const meta = stepMeta(vorabcheckPage.pageMeta, parentMeta);
 
   // filter user data for current step
   const fieldNames = formElements.map((entry) => entry.name);

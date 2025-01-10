@@ -21,7 +21,7 @@ import type { Translations } from "../translations/getTranslationByKey";
 export async function fetchMeta(
   opts: Omit<GetStrapiEntryOpts, "apiId" | "filter"> & { filterValue: string },
 ) {
-  const populate = "meta";
+  const populate = "pageMeta";
   const filters = [{ value: opts.filterValue, field: "slug" }];
   const apiId = "pages";
   const pageEntry = await getStrapiEntry({
@@ -32,7 +32,7 @@ export async function fetchMeta(
     deep: false,
   });
   const parsedEntry = HasStrapiMetaSchema.safeParse(pageEntry[0]);
-  return parsedEntry.success ? parsedEntry.data.meta : null;
+  return parsedEntry.success ? parsedEntry.data.pageMeta : null;
 }
 
 export async function fetchSingleEntry<T extends SingleEntryId>(

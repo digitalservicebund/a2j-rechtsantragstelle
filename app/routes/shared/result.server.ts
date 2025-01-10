@@ -69,7 +69,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       flowId,
       common: defaultStrings,
       cmsData,
-      meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
+      meta: { ...cmsContent.pageMeta, breadcrumb: parentMeta?.breadcrumb },
       backButton,
     },
     { headers },
