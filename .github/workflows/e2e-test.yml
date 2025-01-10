@@ -19,8 +19,7 @@ env:
   files_exis_subfolder_test_results: "false"
 
 jobs:
-  local-e2e-tests:
-    if: inputs.e2e-target != 'preview'
+  e2e-tests:
     strategy:
       fail-fast: false
       matrix:
@@ -37,6 +36,7 @@ jobs:
         run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages[''].devDependencies['@playwright/test'])")" >> $GITHUB_ENV
 
       - name: Download Content File
+        if: inputs.e2e-target != 'preview'
         uses: actions/download-artifact@v4
         with:
           name: content-file
@@ -59,9 +59,9 @@ jobs:
       - name: Run Playwright e2e tests
         env:
           GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
-          E2E_BASE_URL: "http://localhost:3000/"
+          E2E_BASE_URL: "${{ inputs.e2e-target == 'preview' && 'https://a2j-test.dev.ds4g.net/' || 'http://localhost:3000/' }}"
           E2E_USE_EXISTING_SERVER: "${{ inputs.use-existing-server }}"
-        run: CMS=FILE npm run test:e2e -- --shard ${{ matrix.shard }}/${{ strategy.job-total }}
+        run: CMS=FILE npm run test:e2e -- ${{ inputs.e2e-target == 'preview' && '--project=critical' }} --shard ${{ matrix.shard }}/${{ strategy.job-total }}
 
       - name: Upload Playwright blob report
         if: always()
@@ -89,62 +89,9 @@ jobs:
           path: test-results/*
           retention-days: 1
 
-  preview-e2e-tests:
-    if: inputs.e2e-target == 'preview'
-    permissions:
-      packages: read
-    runs-on: ubuntu-latest
-    timeout-minutes: 3
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/cached-checkout-install
-
-      - name: Get Playwright version
-        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages[''].devDependencies['@playwright/test'])")" >> $GITHUB_ENV
-
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        id: playwright-cache
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ env.PLAYWRIGHT_VERSION }}
-
-      - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps chromium
-
-      - name: Fetch published image app from registry
-        if: inputs.require-published-app == true
-        run: ./docker.sh --appFromImage && rsync -a ./a2j-app/* ./
-
-      - name: Run Playwright e2e tests
-        env:
-          GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
-          E2E_BASE_URL: "https://a2j-test.dev.ds4g.net/"
-          E2E_USE_EXISTING_SERVER: "${{ inputs.use-existing-server }}"
-        run: CMS=FILE npx playwright test --project=staging
-
-      - name: Check for files in subfolders of test-results
-        id: check_subfolders
-        run: |
-          # Check if there are any files in subdirectories of test-results
-          if find test-results -type f -mindepth 2 | grep -q .; then
-            echo "files_exis_subfolder_test_results=true" >> $GITHUB_ENV
-          else
-            echo "files_exis_subfolder_test_results=false" >> $GITHUB_ENV
-          fi
-
-      - name: Upload Failed Test results
-        if: ${{ env.files_exis_subfolder_test_results == 'true' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: video-test-results-${{ inputs.e2e-target }}
-          path: test-results/*
-          retention-days: 1
-
   merge-reports:
     if: failure()
-    needs: [local-e2e-tests]
+    needs: [e2e-tests]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
