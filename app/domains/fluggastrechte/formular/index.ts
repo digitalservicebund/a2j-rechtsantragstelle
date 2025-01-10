@@ -63,7 +63,7 @@ export const fluggastrechtFlow = {
       "ersatzflugLandenVierStunden",
       "entschaedigung",
     ],
-    buttonUrl: "/fluggastrechte/vorabcheck/start",
+    buttonUrl: "/fluggastrechte/formular/redirect-to-vorabcheck",
   },
   stringReplacements: (context: FluggastrechtContext) => ({
     ...getStartAirportName(context),

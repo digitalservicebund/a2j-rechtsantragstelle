@@ -2,6 +2,8 @@ import type { TestCases } from "~/domains/__test__/TestCases";
 import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine";
 import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
 
+const finanzielleAngabenEigentumInfo =
+  "/finanzielle-angaben/eigentum/eigentum-info";
 const finanzielleAngabenEigentumBankkontenFrage =
   "/finanzielle-angaben/eigentum/bankkonten-frage";
 const finanzielleAngabenEigentumGeldanlagenFrage =
@@ -18,6 +20,53 @@ const cases = [
   [
     {},
     [
+      finanzielleAngabenEigentumInfo,
+      finanzielleAngabenEigentumBankkontenFrage,
+      finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumWertgegenstaendeFrage,
+      finanzielleAngabenEigentumGrundeigentumFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
+      finanzielleAngabenAusgabenAusgabenFrage,
+    ],
+  ],
+  [
+    {
+      partnerschaft: "yes",
+    },
+    [
+      finanzielleAngabenEigentumInfo,
+      "/finanzielle-angaben/eigentum/heirat-info",
+      finanzielleAngabenEigentumBankkontenFrage,
+      finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumWertgegenstaendeFrage,
+      finanzielleAngabenEigentumGrundeigentumFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
+      finanzielleAngabenAusgabenAusgabenFrage,
+    ],
+  ],
+  [
+    {
+      partnerschaft: "yes",
+      staatlicheLeistungen: "asylbewerberleistungen",
+    },
+    [
+      finanzielleAngabenEigentumInfo,
+      finanzielleAngabenEigentumBankkontenFrage,
+      finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumWertgegenstaendeFrage,
+      finanzielleAngabenEigentumGrundeigentumFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
+      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+    ],
+  ],
+  [
+    {
+      partnerschaft: "yes",
+      staatlicheLeistungen: "keine",
+    },
+    [
+      finanzielleAngabenEigentumInfo,
+      "/finanzielle-angaben/eigentum/heirat-info",
       finanzielleAngabenEigentumBankkontenFrage,
       finanzielleAngabenEigentumGeldanlagenFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
