@@ -4,7 +4,6 @@ import { CookieSettings } from "../domains/shared/CookieSettings";
 test.describe("Data submission", () => {
   test("radio group value is restored", async ({ page }) => {
     await page.goto("/beratungshilfe/vorabcheck");
-    // await page.click("Ablehnen");
     const cookieSettings = new CookieSettings(page);
     await cookieSettings.acceptCookieBanner();
 
