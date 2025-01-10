@@ -98,7 +98,7 @@ const getConnectionDetailsCancel = (
   };
 };
 
-function getConnectionDetailsDelayOrNotMoved(
+function getConnectionDetailsDelayOrNoBoarding(
   userData: FluggastrechtContext,
 ): ConnectionDetailsType {
   const {
@@ -175,5 +175,5 @@ export function getConnectionDetails(userData: FluggastrechtContext) {
     return getConnectionDetailsCancel(userData);
   }
 
-  return getConnectionDetailsDelayOrNotMoved(userData);
+  return getConnectionDetailsDelayOrNoBoarding(userData);
 }
