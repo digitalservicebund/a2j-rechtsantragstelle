@@ -1,5 +1,4 @@
 import capitalize from "lodash/capitalize";
-import { uppercaseFirstLetter } from "~/util/strings";
 
 export const getFullPlaintiffName = (
   anrede?: string,
@@ -8,7 +7,7 @@ export const getFullPlaintiffName = (
   nachname?: string,
 ) => {
   const mappedTitle = title === "dr" ? "Dr." : title;
-  const salutation = anrede !== "none" ? uppercaseFirstLetter(anrede) : "";
+  const salutation = anrede !== "none" ? capitalize(anrede) : "";
   const capitalizedVorname = capitalize(vorname);
 
   return [salutation, mappedTitle, capitalizedVorname, nachname]

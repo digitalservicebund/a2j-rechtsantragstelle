@@ -21,7 +21,7 @@ describe("addPlaintiffDetails", () => {
 
     expect(mockDoc.fontSize).toHaveBeenCalledWith(10);
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_BOLD);
-    expect(mockDoc.text).toHaveBeenCalledWith("Fr. Test-test Test", {
+    expect(mockDoc.text).toHaveBeenCalledWith("Herr Test-test Test", {
       continued: true,
     });
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR);
