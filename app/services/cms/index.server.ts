@@ -1,4 +1,8 @@
 import type { FlowId } from "~/domains/flowIds";
+import {
+  defaultLocale,
+  type StrapiLocale,
+} from "~/services/cms/models/StrapiLocale";
 import type { Filter, GetStrapiEntryOpts } from "./filters";
 import { getStrapiEntry } from "./getStrapiEntry";
 import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
@@ -20,23 +24,31 @@ export async function fetchMeta(
   const populate = "meta";
   const filters = [{ value: opts.filterValue, field: "slug" }];
   const apiId = "pages";
-  const pageEntry = await getStrapiEntry({ ...opts, filters, apiId, populate });
+  const pageEntry = await getStrapiEntry({
+    ...opts,
+    filters,
+    apiId,
+    populate,
+    deep: false,
+  });
   const parsedEntry = HasStrapiMetaSchema.safeParse(pageEntry[0]);
   return parsedEntry.success ? parsedEntry.data.meta : null;
 }
 
 export async function fetchSingleEntry<T extends SingleEntryId>(
   apiId: T,
+  locale?: StrapiLocale,
 ): Promise<StrapiSchemas[T][number]> {
-  const strapiEntry = await getStrapiEntry({ apiId });
+  const strapiEntry = await getStrapiEntry({ apiId, locale });
   return entrySchemas[apiId].parse(strapiEntry)[0];
 }
 
 async function fetchCollectionEntry<T extends CollectionId>(
   apiId: T,
   filters?: Filter[],
+  locale?: StrapiLocale,
 ): Promise<StrapiSchemas[T][number]> {
-  const strapiEntry = await getStrapiEntry({ apiId, filters });
+  const strapiEntry = await getStrapiEntry({ apiId, filters, locale });
   const strapiEntryParsed = collectionSchemas[apiId].safeParse(strapiEntry);
 
   if (!strapiEntryParsed.success || strapiEntryParsed.data.length === 0) {
@@ -54,7 +66,11 @@ export const fetchTranslations = async (
 ): Promise<Translations> => {
   const filters = [{ field: "scope", value: name }];
   try {
-    const entry = await fetchCollectionEntry("translations", filters);
+    const entry = await fetchCollectionEntry(
+      "translations",
+      filters,
+      defaultLocale,
+    );
     if (!entry) return {};
     return Object.fromEntries(
       entry.field.map(({ name, value }) => [name, value]),
@@ -84,9 +100,11 @@ export async function fetchErrors() {
   const cmsErrorSlug = "/error/";
 
   const errorPagePromises = httpErrorCodes.map((errorCode) =>
-    fetchCollectionEntry("pages", [
-      { field: "slug", value: `${cmsErrorSlug}${errorCode}` },
-    ]),
+    fetchCollectionEntry(
+      "pages",
+      [{ field: "slug", value: `${cmsErrorSlug}${errorCode}` }],
+      defaultLocale,
+    ),
   );
 
   const errorPageEntries = (await Promise.allSettled(errorPagePromises))

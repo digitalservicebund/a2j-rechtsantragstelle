@@ -21,13 +21,16 @@ const buildUrl = ({
   pageSize,
   filters,
   locale,
+  fields,
   populate = "*",
+  deep = true,
 }: GetStrapiEntryOpts) =>
   [
     config().STRAPI_API,
     apiId,
     `?populate=${populate}`,
-    `&pLevel`, // https://github.com/NEDDL/strapi-v5-plugin-populate-deep
+    fields ? `&fields=${fields}` : "",
+    deep ? "&pLevel" : "", // https://github.com/NEDDL/strapi-v5-plugin-populate-deep
     `&locale=${locale}`,
     pageSize ? `&pagination[pageSize]=${pageSize}` : "",
     buildFilters(filters),
