@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { footerLinks, headerLinks } from "./urlsToCheck";
+import { footerLinks, headerLinks } from "../pages/urlsToCheck";
 import { testPageToBeAccessible } from "../util/testPageToBeAccessible";
 
 test.beforeEach(async ({ page }) => {
