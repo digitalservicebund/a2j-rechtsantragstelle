@@ -5,15 +5,9 @@ import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFl
 import { ibanSchema } from "~/services/validation/iban";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-const anredeSchema = z.enum(
-  ["herr", "frau", "none"],
-  customRequiredErrorMessage,
-);
+const anredeSchema = z.enum(["herr", "frau", "none"]);
 
 export const persoenlicheDatenSchema = {
   anrede: anredeSchema,
