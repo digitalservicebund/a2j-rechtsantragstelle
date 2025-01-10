@@ -50,6 +50,13 @@ jobs:
   ## - uses: ./.github/actions/cached-checkout-install
   ## - run: npm run test:integration
 
+  verify-preview-e2e-test:
+    uses: ./.github/workflows/e2e-test.yml
+    with:
+      require-published-app: false
+      use-existing-server: true
+      e2e-target: preview
+
   verify-local-e2e:
     needs: [get-content-file]
     uses: ./.github/workflows/e2e-test.yml
