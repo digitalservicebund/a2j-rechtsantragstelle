@@ -20,8 +20,14 @@ describe("getFullPlaintiffName", () => {
   });
 
   it("should return the full plaintiff name given the anrede, vorname and nachname", () => {
-    const actual = getFullPlaintiffName("Herr", undefined, "Test", "Test");
+    const actual = getFullPlaintiffName("herr", undefined, "Test", "Test");
 
     expect(actual).toEqual("Herr Test Test");
+  });
+
+  it("should return the full plaintiff name without anrede if anrede is none, vorname and nachname", () => {
+    const actual = getFullPlaintiffName("none", undefined, "Test", "Test");
+
+    expect(actual).toEqual("Test Test");
   });
 });

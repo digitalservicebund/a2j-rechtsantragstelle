@@ -21,7 +21,7 @@ import {
 } from "~/services/validation/YesNoAnswer";
 
 const persoenlicheDaten = {
-  ...omit(sharedPersoenlicheDaten, ["anrede"]),
+  ...sharedPersoenlicheDaten,
   bevollmaechtigtePerson: z.enum(
     ["lawyer", "yes", "no"],
     customRequiredErrorMessage,
