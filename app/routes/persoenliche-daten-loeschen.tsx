@@ -19,9 +19,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
     origin,
   });
 
-  const { content, meta } = await strapiPageFromRequest({ request });
+  const { content, pageMeta } = await strapiPageFromRequest({ request });
   const translations = await fetchTranslations("delete-data");
-  return { meta, content, translations, backButton: sanitizedReferrer };
+  return {
+    meta: pageMeta,
+    content,
+    translations,
+    backButton: sanitizedReferrer,
+  };
 }
 
 export default function PersoenlicheDatenLoeschen() {

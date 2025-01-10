@@ -7,8 +7,8 @@ import { throw404OnProduction } from "~/services/errorPages/throw404";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   throw404OnProduction();
-  const { content, meta } = await strapiPageFromRequest({ request });
-  return json({ content, meta });
+  const { content, pageMeta } = await strapiPageFromRequest({ request });
+  return json({ content, meta: pageMeta });
 };
 
 export default function Kitchensink() {

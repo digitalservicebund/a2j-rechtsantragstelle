@@ -14,7 +14,7 @@ describe("services/cms", () => {
     const impressum = {
       slug: impressumPath,
       locale: StrapiLocaleSchema.Values.de,
-      meta: {
+      pageMeta: {
         title: "Impressum",
         description: "description",
         ogTitle: null,
@@ -38,7 +38,7 @@ describe("services/cms", () => {
           nextButtonLabel: null,
           backButtonLabel: null,
           stepId: "/stepId",
-          meta: {
+          pageMeta: {
             title: "",
             description: null,
             ogTitle: null,
