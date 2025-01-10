@@ -16,7 +16,7 @@ function buildFilters(filters?: Filter[]) {
       return (
         `&filters[${field}]` +
         (nestedField ? `[${nestedField}]` : ``) +
-        `[${operation ?? "$eq"}]=${value}`
+        `[${operation ?? "$eq"}]=${typeof value === "string" ? value : ""}`
       );
     })
     .join("");

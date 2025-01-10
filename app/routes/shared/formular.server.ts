@@ -152,7 +152,7 @@ export const loader = async ({
       ? insertIndexesIntoPath(pathname, backDestination, arrayIndexes)
       : backDestination;
 
-  const defaultStrings = translations["defaultTranslations"];
+  const defaultStrings = translations.defaultTranslations;
 
   const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel:
