@@ -60,12 +60,22 @@ export const loader = async ({
       }
     });
 
-  const [common, { heading, freeZone, hintText, meta }] = await Promise.all([
-    fetchTranslations("amtsgericht"),
-    fetchFlowPage("result-pages", flowId, stepId),
-  ]);
+  const [common, { heading, freeZone, hintText, pageMeta }] = await Promise.all(
+    [
+      fetchTranslations("amtsgericht"),
+      fetchFlowPage("result-pages", flowId, stepId),
+    ],
+  );
 
-  return json({ courts, freeZone, heading, hintText, pageType, meta, common });
+  return json({
+    courts,
+    freeZone,
+    heading,
+    hintText,
+    pageType,
+    meta: pageMeta,
+    common,
+  });
 };
 
 const iconCSS = "inline-block mr-8 !h-[36px] !w-[36px]";

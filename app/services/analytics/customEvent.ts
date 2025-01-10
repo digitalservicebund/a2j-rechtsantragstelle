@@ -10,7 +10,7 @@ function idFromCookie(request: Request) {
   const parsedCookie = parse(request.headers.get("Cookie") ?? "");
   const phCookieString = parsedCookie[`ph_${POSTHOG_API_KEY}_posthog`] ?? "{}";
   const phCookieObject = JSON.parse(phCookieString) as Record<string, string>;
-  return phCookieObject["distinct_id"] ?? ENVIRONMENT;
+  return phCookieObject.distinct_id ?? ENVIRONMENT;
 }
 
 export function sendCustomAnalyticsEvent({

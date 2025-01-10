@@ -3,9 +3,9 @@ import { useFeedbackTranslations } from "./feedbackTranslations";
 import Heading from "../Heading";
 import RichText from "../RichText";
 
-interface Props {
+type Props = {
   readonly shouldFocus: boolean;
-}
+};
 
 export const PostSubmissionBox = ({ shouldFocus }: Props) => {
   const feedbackTranslations = useFeedbackTranslations();

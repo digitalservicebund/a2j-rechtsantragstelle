@@ -8,7 +8,7 @@ import { StrapiFormComponentSchema } from "./StrapiFormComponent";
 export const StrapiFormFlowPageSchema = z
   .object({
     heading: z.string(),
-    stepId: z.string().nullable(),
+    stepId: z.string(),
     flow_ids: z.array(StrapiFlowIdSchema),
     preHeading: z.string().nullable(),
     nextButtonLabel: z.string().nullable(),

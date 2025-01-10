@@ -1,13 +1,13 @@
-export interface BooleanField {
+export type BooleanField = {
   name: string;
   value?: boolean;
-}
-export interface StringField {
+};
+export type StringField = {
   name: string;
   value?: string;
   maxCharacters: number;
   maxLineBreaks: number;
-}
+};
 
 type JsonField = BooleanField | StringField;
 

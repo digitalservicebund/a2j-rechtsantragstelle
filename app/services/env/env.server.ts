@@ -1,6 +1,6 @@
 import path from "path";
 
-interface Config {
+type Config = {
   STRAPI_API: string;
   STRAPI_HOST: string;
   STRAPI_ACCESS_KEY: string;
@@ -15,7 +15,7 @@ interface Config {
   SAML_SP_METADATA_PATH: string;
   SAML_SP_SECRET_KEY_PATH: string;
   SAML_IDP_CERT?: string;
-}
+};
 
 let instance: Config | undefined = undefined;
 

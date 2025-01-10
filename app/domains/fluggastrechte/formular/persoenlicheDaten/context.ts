@@ -7,20 +7,27 @@ import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
+const anredeSchema = z.enum(["herr", "frau", "none"]);
+
+export const persoenlicheDatenSchema = {
+  anrede: anredeSchema,
+  ...persoenlicheDaten,
+};
+
 export const paymentDetailsSchema = {
   iban: optionalOrSchema(ibanSchema),
   kontoinhaber: stringOptionalSchema,
 };
 
 export const fluggastrechtePersoenlichDaten = {
-  ...persoenlicheDaten,
+  ...persoenlicheDatenSchema,
   isWeiterePersonen: YesNoAnswer,
   hasZeugen: YesNoAnswer,
   ...paymentDetailsSchema,
   weiterePersonen: z.array(
     z
       .object({
-        ...persoenlicheDaten,
+        ...persoenlicheDatenSchema,
         buchungsnummer: optionalOrSchema(bookingNumberFlightSchema),
       })
       .partial(),

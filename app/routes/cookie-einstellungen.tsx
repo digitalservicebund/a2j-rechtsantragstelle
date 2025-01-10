@@ -13,9 +13,9 @@ import {
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { content, meta } = await strapiPageFromRequest({ request });
+  const { content, pageMeta } = await strapiPageFromRequest({ request });
   const trackingConsent = await trackingCookieValue({ request });
-  return { meta, content, trackingConsent, acceptCookiesFieldName };
+  return { meta: pageMeta, content, trackingConsent, acceptCookiesFieldName };
 }
 
 export async function action({ request }: ActionFunctionArgs) {

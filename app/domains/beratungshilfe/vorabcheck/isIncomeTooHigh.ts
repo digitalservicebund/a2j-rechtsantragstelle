@@ -10,7 +10,9 @@ export const isIncomeTooHigh: GenericGuard<BeratungshilfeVorabcheckContext> = ({
   const miete = moneyToCents(context.miete) ?? 0;
   const zahlungen = moneyToCents(context.weitereZahlungenSumme) ?? 0;
   const unterhalt =
-    (context.unterhalt == "yes" && moneyToCents(context.unterhaltSumme)) || 0;
+    context.unterhalt == "yes"
+      ? (moneyToCents(context.unterhaltSumme) ?? 0)
+      : 0;
 
   const calculatedFreibetrag = calculateFreibetrag({
     working: context.erwerbstaetigkeit === "yes",

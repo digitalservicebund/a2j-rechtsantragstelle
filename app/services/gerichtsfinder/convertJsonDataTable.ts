@@ -10,13 +10,13 @@ export type GerbehFile = Record<string, Jmtd14VTErwerberGerbeh | undefined>;
 export type PlzOrtkFile = Record<string, Jmtd14VTErwerberPlzortk[]>;
 export type PlzStrnFile = Record<string, Jmtd14VTErwerberPlzstrn[]>;
 
-export interface GerbehIndex {
+export type GerbehIndex = {
   LKZ: string;
   OLG: string;
   LG: string;
   AG: string;
   typInfo: TypInfo;
-}
+};
 
 export function gerbehIndex(info: GerbehIndex) {
   const typInfo = info.typInfo.replace(/ /g, "").toLowerCase();

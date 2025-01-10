@@ -74,8 +74,6 @@ test("invalid array index redirects to initial step of subflow", async ({
 
 async function startAbgabe(page: Page) {
   // beratungshilfe/antrag/abgabe/art
-  // FIXME: This step is not accessible
-  // await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.fillRadioPage("abgabeArt", "ausdrucken");
   // beratungshilfe/antrag/abgabe/ausdrucken
   await expectPageToBeAccessible({ page });

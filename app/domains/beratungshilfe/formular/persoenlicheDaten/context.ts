@@ -6,7 +6,7 @@ import {
 } from "~/domains/shared/formular/persoenlicheDaten/context";
 
 export const beratungshilfePersoenlicheDaten = {
-  ...omit(persoenlicheDaten, ["anrede", "title"]),
+  ...omit(persoenlicheDaten, ["title"]),
   geburtsdatum,
 };
 

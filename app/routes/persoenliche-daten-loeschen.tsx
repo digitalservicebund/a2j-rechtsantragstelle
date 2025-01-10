@@ -19,9 +19,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
     origin,
   });
 
-  const { content, meta } = await strapiPageFromRequest({ request });
+  const { content, pageMeta } = await strapiPageFromRequest({ request });
   const translations = await fetchTranslations("delete-data");
-  return { meta, content, translations, backButton: sanitizedReferrer };
+  return {
+    meta: pageMeta,
+    content,
+    translations,
+    backButton: sanitizedReferrer,
+  };
 }
 
 export default function PersoenlicheDatenLoeschen() {
@@ -43,13 +48,13 @@ export default function PersoenlicheDatenLoeschen() {
               href={backButton}
               look="tertiary"
               size="large"
-              text={translations["back"] ?? "Zurück ohne zu löschen"}
+              text={translations.back ?? "Zurück ohne zu löschen"}
             />
             <Button
               type="submit"
               look="primary"
               size="large"
-              text={translations["confirm"] ?? "Ja, Daten löschen"}
+              text={translations.confirm ?? "Ja, Daten löschen"}
               id="submitButton"
               disabled={isSubmitting}
             />
