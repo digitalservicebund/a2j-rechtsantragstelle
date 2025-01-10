@@ -73,6 +73,24 @@ describe("services/cms", () => {
       );
     });
 
+    test("request url with $in filter", async () => {
+      await getStrapiEntryFromApi({
+        ...defaultOptions,
+        filters: [
+          {
+            field: "flow_ids",
+            operation: "$in",
+            value: ["foobar", "foobar2", "foobar3"],
+          },
+        ],
+      });
+      expect(axiosGetSpy).toHaveBeenNthCalledWith(
+        1,
+        `${expectedStagingRequestUrl}&filters[flow_ids][$in][0]=foobar&filters[flow_ids][$in][1]=foobar2&filters[flow_ids][$in][2]=foobar3`,
+        expect.anything(),
+      );
+    });
+
     test("response handling with api returning array", async () => {
       axiosGetSpy.mockResolvedValue({ data: { data: dataResponse } });
       expect(await getStrapiEntryFromApi(defaultOptions)).toEqual(dataResponse);

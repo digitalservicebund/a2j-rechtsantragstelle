@@ -62,7 +62,9 @@ async function fetchCollectionEntry<T extends CollectionId>(
   return strapiEntryParsed.data[0];
 }
 
-async function fetchEntries<T extends ApiId>(props: GetStrapiEntryOpts<T>) {
+export async function fetchEntries<T extends ApiId>(
+  props: GetStrapiEntryOpts<T>,
+) {
   const entries = await getStrapiEntry(props);
   const parsedEntries = strapiSchemas[props.apiId].safeParse(entries);
   if (!parsedEntries.success) {
