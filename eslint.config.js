@@ -111,10 +111,6 @@ export default tseslint.config(
       // sonarjs
       "sonarjs/no-duplicate-string": "off",
       "sonarjs/todo-tag": "warn",
-      "sonarjs/fixme-tag": "warn",
-      "sonarjs/no-commented-code": "warn",
-      "sonarjs/no-redeclare": "off",
-      "sonarjs/no-nested-functions": "warn",
       "sonarjs/function-return-type": "off",
       "sonarjs/aws-restricted-ip-admin-access": "off", // slow and unneeded
       "sonarjs/no-async-constructor": "off", // slow and unneeded
@@ -133,29 +129,20 @@ export default tseslint.config(
       "sonarjs/deprecation": "off", // enable after remix upgrades to react router v7 and we move to Single Fetch
 
       // typescript-eslint
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/consistent-type-imports": "warn",
-      "@typescript-eslint/only-throw-error": "off", // TODO: determine whether or not we should enable this
+      "@typescript-eslint/only-throw-error": "off", // disabled, as remix/react-router can throw redirects
       "@typescript-eslint/no-unused-vars": [
         "warn",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
+      "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
+      "@typescript-eslint/array-type": ["warn", { default: "array-simple" }],
 
-      // TODO: to be enabled later
-      "@typescript-eslint/consistent-type-definitions": "off",
-      "@typescript-eslint/array-type": "off",
-
-      // fix/reevaluate
+      // enable gradually for full type safety
       "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
-      "@typescript-eslint/restrict-template-expressions": "off",
-      "@typescript-eslint/prefer-regexp-exec": "off",
-      "@typescript-eslint/prefer-optional-chain": "off",
-      "@typescript-eslint/dot-notation": "off",
       "@typescript-eslint/no-unsafe-call": "off",
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
-      "@typescript-eslint/prefer-nullish-coalescing": "off",
 
       "no-restricted-syntax": [
         "error",

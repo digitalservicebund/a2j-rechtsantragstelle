@@ -69,7 +69,7 @@ async function allRelevantLicenses() {
   ])) as [Record<string, Dependency>, ModuleInfos];
 
   for (const directDependency of Object.keys(directLicenses)) {
-    licenses[directDependency]["direct"] = true;
+    licenses[directDependency].direct = true;
   }
 
   return Object.fromEntries(

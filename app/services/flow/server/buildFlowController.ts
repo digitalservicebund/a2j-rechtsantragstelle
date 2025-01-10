@@ -122,7 +122,7 @@ const findNode = (machine: FlowStateMachine, stepId: string) => {
 
 const isFinalStep = (machine: FlowStateMachine, stepId: string) => {
   const transitions = findNode(machine, stepId)?.transitions;
-  return transitions === undefined || !transitions.has("SUBMIT");
+  return !transitions?.has("SUBMIT");
 };
 
 const rootMeta = (machine: FlowStateMachine) => {

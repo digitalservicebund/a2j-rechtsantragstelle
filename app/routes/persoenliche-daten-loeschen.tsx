@@ -43,13 +43,13 @@ export default function PersoenlicheDatenLoeschen() {
               href={backButton}
               look="tertiary"
               size="large"
-              text={translations["back"] ?? "Zurück ohne zu löschen"}
+              text={translations.back ?? "Zurück ohne zu löschen"}
             />
             <Button
               type="submit"
               look="primary"
               size="large"
-              text={translations["confirm"] ?? "Ja, Daten löschen"}
+              text={translations.confirm ?? "Ja, Daten löschen"}
               id="submitButton"
               disabled={isSubmitting}
             />

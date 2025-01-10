@@ -3,9 +3,6 @@ import { expect } from "@playwright/test";
 
 export async function startAbgabe(page: Page) {
   // prozesskostenhilfe/antrag/abgabe/ende
-  // FIXME: This step is not accessible
-  //   await expectPageToBeAccessible({ page });
-
   // Observe context for requests to /download/pdf
   let newTabResponse: Response | undefined;
   page.context().on("request", async (request) => {

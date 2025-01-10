@@ -69,7 +69,7 @@ export class Vorabcheck {
   }
 
   async fillMultipleInputPageNonJavascript(
-    fields: { field: string; value: string }[],
+    fields: Array<{ field: string; value: string }>,
   ) {
     for (const { field, value } of fields) {
       await this.page.locator(`input[name="${field}"]`).fill(value);
@@ -92,7 +92,7 @@ export class Vorabcheck {
   }
 
   async fillMultipleAutoSuggestInputPage(
-    fields: { field: string; value: string }[],
+    fields: Array<{ field: string; value: string }>,
   ) {
     for (const { field, value } of fields) {
       await this.fillAutoSuggestInputPage(field, value);

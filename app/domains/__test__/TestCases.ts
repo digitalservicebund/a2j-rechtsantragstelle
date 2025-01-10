@@ -13,4 +13,4 @@ export type TestCases<
     | FluggastrechtVorabcheckContext
     | FluggastrechtContext
     | ProzesskostenhilfeFormularContext,
-> = Readonly<Array<Readonly<[T, Readonly<Array<string>>]>>>;
+> = Readonly<Array<Readonly<[T, readonly string[]]>>>;
