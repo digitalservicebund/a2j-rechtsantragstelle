@@ -21,7 +21,7 @@ export const userDataMock = {
   ersatzFlugAnkunftsZeit: "10:10",
   zusaetzlicheAngaben:
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-  anrede: "Fr.",
+  anrede: "herr",
   title: "",
   vorname: "Test-Test",
   nachname: "Test",

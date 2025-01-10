@@ -59,7 +59,7 @@ describe("createLegalAssessment", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
     createLegalAssessment(mockDoc, mockStruct, userDataMock);
 
-    expect(mockDoc.text).toHaveBeenCalledWith("Fr. Test-test Test");
+    expect(mockDoc.text).toHaveBeenCalledWith("Herr Test-test Test");
   });
 
   it("should call function addNewPageInCaseMissingVerticalSpace twice", () => {

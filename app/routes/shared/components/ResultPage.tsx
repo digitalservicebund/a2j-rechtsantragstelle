@@ -72,7 +72,7 @@ export function ResultPage() {
               )}
               {cmsData.nextLink?.url && (
                 <a className="text-link" href={cmsData.nextLink.url}>
-                  {cmsData.nextLink.text ?? common["nextButtonDefaultLabel"]}
+                  {cmsData.nextLink.text ?? common.nextButtonDefaultLabel}
                 </a>
               )}
             </ButtonContainer>

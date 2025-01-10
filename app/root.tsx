@@ -139,7 +139,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       errorPages,
       meta,
       context,
-      deletionLabel: deleteDataStrings["footerLinkLabel"],
+      deletionLabel: deleteDataStrings.footerLinkLabel,
       hasAnyUserData,
       feedbackTranslations,
       pageHeaderTranslations: extractTranslations(

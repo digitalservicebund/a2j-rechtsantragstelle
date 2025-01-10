@@ -159,9 +159,7 @@ export const fillWeitereEinkuenftePartner: PkhPdfFillFunction = ({
   pdfValues.ja_35.value = true;
 
   if (hasAsylbewerberOrGrundsicherung) {
-    pdfValues[
-      "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
-    ].value =
+    pdfValues.hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben.value =
       userData["partner-staatlicheLeistungen"] === "asylbewerberleistungen"
         ? "Asylbewerberleistungen"
         : "Grundsicherung oder Sozialhilfe";
@@ -175,9 +173,8 @@ export const fillWeitereEinkuenftePartner: PkhPdfFillFunction = ({
 
   if (userData["partner-weitereEinkuenfte"].length > 2) {
     const attachment: AttachmentEntries = [];
-    pdfValues[
-      "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
-    ].value = SEE_IN_ATTACHMENT_DESCRIPTION;
+    pdfValues.hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben.value =
+      SEE_IN_ATTACHMENT_DESCRIPTION;
 
     attachment.push({ title: "2. Andere Einnahmen", level: "h3" });
     userData["partner-weitereEinkuenfte"].forEach((entry) => {
@@ -189,17 +186,13 @@ export const fillWeitereEinkuenftePartner: PkhPdfFillFunction = ({
     return { pdfValues, attachment };
   }
 
-  pdfValues[
-    "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
-  ].value =
+  pdfValues.hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben.value =
     userData["partner-weitereEinkuenfte"][0].beschreibung +
     ` (${zahlungsfrequenzMapping[userData["partner-weitereEinkuenfte"][0].zahlungsfrequenz]})`;
   pdfValues.euroBrutto3.value = `${removeDecimalsFromCurrencyString(userData["partner-weitereEinkuenfte"][0].betrag)} ${nettoString}`;
 
   if (userData["partner-weitereEinkuenfte"].length === 2) {
-    pdfValues[
-      "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben2"
-    ].value =
+    pdfValues.hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben2.value =
       userData["partner-weitereEinkuenfte"][1].beschreibung +
       ` (${zahlungsfrequenzMapping[userData["partner-weitereEinkuenfte"][1].zahlungsfrequenz]})`;
     pdfValues.euroBrutto4.value = `${removeDecimalsFromCurrencyString(userData["partner-weitereEinkuenfte"][1].betrag)} ${nettoString}`;
@@ -214,17 +207,17 @@ export const fillBesondersHoheAusgabenPartner: PkhPdfFillFunction = ({
 }) => {
   const attachment: AttachmentEntries = [];
   if (
-    userData["partnerHasBesondersAusgaben"] === "yes" &&
-    userData["partnerBesondersAusgabe"] &&
-    objectKeysNonEmpty(userData["partnerBesondersAusgabe"], [
+    userData.partnerHasBesondersAusgaben === "yes" &&
+    userData.partnerBesondersAusgabe &&
+    objectKeysNonEmpty(userData.partnerBesondersAusgabe, [
       "beschreibung",
       "betrag",
     ])
   ) {
     attachment.push({ title: "Besonders Hohe Ausgaben", level: "h3" });
     attachment.push({
-      title: userData["partnerBesondersAusgabe"]["beschreibung"],
-      text: `${removeDecimalsFromCurrencyString(userData["partnerBesondersAusgabe"]["betrag"])} ${nettoString} ${zahlungsfrequenzMapping["monthly"]}`,
+      title: userData.partnerBesondersAusgabe.beschreibung,
+      text: `${removeDecimalsFromCurrencyString(userData.partnerBesondersAusgabe.betrag)} ${nettoString} ${zahlungsfrequenzMapping.monthly}`,
     });
   }
   return { pdfValues, attachment };
@@ -242,9 +235,7 @@ export const fillBruttoEinnahmenPartner: PkhPdfFillFunction = ({
     userData["partner-staatlicheLeistungen"] === "grundsicherung" ||
     userData["partner-staatlicheLeistungen"] === "asylbewerberleistungen"
   ) {
-    pdfValues[
-      "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
-    ].value =
+    pdfValues.hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben.value =
       userData["partner-staatlicheLeistungen"] === "asylbewerberleistungen"
         ? "Asylbewerberleistungen"
         : "Grundsicherung oder Sozialhilfe";

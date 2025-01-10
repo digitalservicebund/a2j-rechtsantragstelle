@@ -93,7 +93,7 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
 }
 
 type PageContentProps = {
-  readonly content: Array<StrapiContentComponent>;
+  readonly content: StrapiContentComponent[];
   readonly fullScreen?: boolean;
   readonly className?: string;
 };
