@@ -14,26 +14,29 @@ const hasTwoStop: Guard = ({ context }) =>
   context.zwischenstoppAnzahl === "twoStop";
 const hasThreeStop: Guard = ({ context }) =>
   context.zwischenstoppAnzahl === "threeStop";
-const hasAnnullierungOrNichtBefoerderung: Guard = ({ context }) =>
-  context.bereich === "annullierung" || context.bereich === "nichtbefoerderung";
+const _hasAnnullierung: Guard = ({ context }) =>
+  context.bereich === "annullierung";
+const _hasNichtbefoerderung: Guard = ({ context }) =>
+  context.bereich === "nichtbefoerderung";
 
 export const fluggastrechteFlugdatenGuards = {
   hasOneStop,
   hasTwoStop,
   hasThreeStop,
-  hasOneStopWithAnnullierungOrNichtBefoerderung: ({ context }) =>
-    hasOneStop({ context }) && hasAnnullierungOrNichtBefoerderung({ context }),
-  hasTwoStopWithAnnullierungOrNichtBefoerderung: ({ context }) =>
-    hasTwoStop({ context }) && hasAnnullierungOrNichtBefoerderung({ context }),
-  hasThreeStopWithAnnullierungOrNichtBefoerderung: ({ context }) =>
-    hasThreeStop({ context }) &&
-    hasAnnullierungOrNichtBefoerderung({ context }),
+  hasOneStopWithNichtBefoerderung: ({ context }) =>
+    hasOneStop({ context }) && _hasNichtbefoerderung({ context }),
+  hasTwoStopWithNichtBefoerderung: ({ context }) =>
+    hasTwoStop({ context }) && _hasNichtbefoerderung({ context }),
+  hasThreeStopWithNichtBefoerderung: ({ context }) =>
+    hasThreeStop({ context }) && _hasNichtbefoerderung({ context }),
   hasVerspaetung: ({ context }) => context.bereich === "verspaetet",
-  hasNoZwischenstoppNoAnnullierungOrNoNichtBefoerderung: ({ context }) =>
-    context.zwischenstoppAnzahl === "no" &&
-    hasAnnullierungOrNichtBefoerderung({ context }),
+  hasAnnullierung: ({ context }) => _hasAnnullierung({ context }),
+  hasNoZwischenstoppWithNichtBefoerderung: ({ context }) =>
+    context.zwischenstoppAnzahl === "no" && _hasNichtbefoerderung({ context }),
   hasNoZwischenstoppAndVerspaetung: ({ context }) =>
     context.zwischenstoppAnzahl === "no" && context.bereich === "verspaetet",
+  hasNoZwischenstoppAndAnnullierung: ({ context }) =>
+    context.zwischenstoppAnzahl === "no" && _hasAnnullierung({ context }),
   hasErsatzVerbindungFlug: ({ context }) =>
     context.ersatzverbindungArt === "flug",
   hasDetailedErsatzVerbindungFlug: ({ context }) =>
@@ -60,11 +63,8 @@ export const fluggastrechteFlugdatenGuards = {
     context.verspaeteterFlug === "firstAirportSecondZwischenstopp",
   hasVerspaeteterFlugSecondAirportThirdZwischenstopp: ({ context }) =>
     context.verspaeteterFlug === "secondAirportThirdZwischenstopp",
-  hasBereichAnnullierungOrNichtBefoerderungAndVerspaeteterFlugNonEndAirport: ({
-    context,
-  }) =>
-    (context.bereich === "annullierung" ||
-      context.bereich === "nichtbefoerderung") &&
+  hasBereichNichtBefoerderungAndVerspaeteterFlugNonEndAirport: ({ context }) =>
+    _hasNichtbefoerderung({ context }) &&
     (context.verspaeteterFlug === "startAirportFirstZwischenstopp" ||
       context.verspaeteterFlug === "firstAirportSecondZwischenstopp" ||
       context.verspaeteterFlug === "secondAirportThirdZwischenstopp"),

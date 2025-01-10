@@ -21,6 +21,10 @@
             "target": "tatsaechlicher-flug",
             "guard": "hasNoZwischenstoppAndVerspaetung"
           },
+          {
+            "target": "ersatzverbindung-daten",
+            "guard": "hasNoZwischenstoppAndAnnullierung"
+          },
           "ersatzverbindung-art"
         ],
         "BACK": "#streitwert-kosten.prozesszinsen"
@@ -42,6 +46,10 @@
           {
             "target": "tatsaechlicher-flug",
             "guard": "hasVerspaetung"
+          },
+          {
+            "target": "ersatzverbindung-daten",
+            "guard": "hasAnnullierung"
           },
           "ersatzverbindung-art"
         ],
@@ -68,6 +76,10 @@
           {
             "target": "tatsaechlicher-flug",
             "guard": "hasVerspaetung"
+          },
+          {
+            "target": "ersatzverbindung-daten",
+            "guard": "hasAnnullierung"
           },
           "ersatzverbindung-art"
         ],
@@ -99,6 +111,10 @@
             "target": "tatsaechlicher-flug",
             "guard": "hasVerspaetung"
           },
+          {
+            "target": "ersatzverbindung-daten",
+            "guard": "hasAnnullierung"
+          },
           "ersatzverbindung-art"
         ],
         "BACK": "zwischenstopp-uebersicht-3"
@@ -110,6 +126,10 @@
           {
             "target": "tatsaechlicher-flug",
             "guard": "hasVerspaetung"
+          },
+          {
+            "target": "ersatzverbindung-daten",
+            "guard": "hasAnnullierung"
           },
           "ersatzverbindung-art"
         ],
@@ -165,6 +185,30 @@
         "BACK": "tatsaechlicher-flug"
       }
     },
+    "ersatzverbindung-daten": {
+      "on": {
+        "SUBMIT": "zusaetzliche-angaben",
+        "BACK": [
+          {
+            "target": "anschluss-flug-verpasst",
+            "guard": "hasVerspaeteterFlugNonEndAirport"
+          },
+          {
+            "target": "verspaeteter-flug-1",
+            "guard": "hasOneStop"
+          },
+          {
+            "target": "verspaeteter-flug-2",
+            "guard": "hasTwoStop"
+          },
+          {
+            "target": "verspaeteter-flug-3",
+            "guard": "hasThreeStop"
+          },
+          "geplanter-flug"
+        ]
+      }
+    },
     "ersatzverbindung-art": {
       "on": {
         "SUBMIT": [
@@ -181,23 +225,23 @@
         "BACK": [
           {
             "target": "anschluss-flug-verpasst",
-            "guard": "hasBereichAnnullierungOrNichtBefoerderungAndVerspaeteterFlugNonEndAirport"
+            "guard": "hasBereichNichtBefoerderungAndVerspaeteterFlugNonEndAirport"
           },
           {
             "target": "verspaeteter-flug-1",
-            "guard": "hasOneStopWithAnnullierungOrNichtBefoerderung"
+            "guard": "hasOneStopWithNichtBefoerderung"
           },
           {
             "target": "verspaeteter-flug-2",
-            "guard": "hasTwoStopWithAnnullierungOrNichtBefoerderung"
+            "guard": "hasTwoStopWithNichtBefoerderung"
           },
           {
             "target": "verspaeteter-flug-3",
-            "guard": "hasThreeStopWithAnnullierungOrNichtBefoerderung"
+            "guard": "hasThreeStopWithNichtBefoerderung"
           },
           {
             "target": "geplanter-flug",
-            "guard": "hasNoZwischenstoppNoAnnullierungOrNoNichtBefoerderung"
+            "guard": "hasNoZwischenstoppWithNichtBefoerderung"
           },
           "tatsaechlicher-flug"
         ]
@@ -227,6 +271,10 @@
           {
             "target": "tatsaechlicher-flug-ankunft",
             "guard": "hasDetailedTatsaechlicherFlugAnkunft"
+          },
+          {
+            "target": "ersatzverbindung-daten",
+            "guard": "hasAnnullierung"
           },
           {
             "target": "anderer-flug-ankunft",

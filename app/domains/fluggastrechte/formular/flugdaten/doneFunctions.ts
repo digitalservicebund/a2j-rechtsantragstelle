@@ -162,6 +162,19 @@ const hasTatsaechlicherFlugNoWithKeineAnkunftDone: FluggastrechteFlugdatenGuard 
     );
   };
 
+const hasAnnullierungDone: FluggastrechteFlugdatenGuard = ({ context }) => {
+  return (
+    hasDefaultFlugdaten({ context }) &&
+    hasZwischenStoppData({ context }) &&
+    hasOptionalString(context.annullierungErsatzverbindungFlugnummer) &&
+    hasOptionalString(context.annullierungErsatzverbindungAbflugsDatum) &&
+    hasOptionalString(context.annullierungErsatzverbindungAbflugsZeit) &&
+    hasOptionalString(context.annullierungErsatzverbindungAnkunftsDatum) &&
+    hasOptionalString(context.annullierungErsatzverbindungAnkunftsZeit) &&
+    hasOptionalString(context.zusaetzlicheAngaben)
+  );
+};
+
 export const flugdatenDone: FluggastrechteFlugdatenGuard = ({ context }) => {
   const doneCases: Record<string, FluggastrechteFlugdatenGuard[]> = {
     verspaetet: [
@@ -170,7 +183,7 @@ export const flugdatenDone: FluggastrechteFlugdatenGuard = ({ context }) => {
       hasTatsaechlicherFlugNoWithOthersDone,
       hasTatsaechlicherFlugNoWithKeineAnkunftDone,
     ],
-    annullierung: [hasErsatzFlugDone, hasOthersDone, hasKeineAnkunftDone],
+    annullierung: [hasAnnullierungDone],
     nichtbefoerderung: [hasErsatzFlugDone, hasOthersDone, hasKeineAnkunftDone],
   };
 
