@@ -133,7 +133,7 @@ export const loader = async ({
     return strapiFormElement;
   });
 
-  const meta = stepMeta(formPageContent.meta, parentMeta);
+  const meta = stepMeta(formPageContent.pageMeta, parentMeta);
 
   // Retrieve user data for current step
   const fieldNames = formPageContent.form.map((entry) => entry.name);
@@ -156,9 +156,9 @@ export const loader = async ({
 
   const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel:
-      cmsContent.backButtonLabel ?? defaultStrings["backButtonDefaultLabel"],
+      cmsContent.backButtonLabel ?? defaultStrings.backButtonDefaultLabel,
     nextButtonLabel:
-      cmsContent.nextButtonLabel ?? defaultStrings["nextButtonDefaultLabel"],
+      cmsContent.nextButtonLabel ?? defaultStrings.nextButtonDefaultLabel,
     isFinal: flowController.isFinal(stepId),
     backDestination: backDestinationWithArrayIndexes,
   });
@@ -171,9 +171,9 @@ export const loader = async ({
     ) ?? [];
 
   const navigationA11yLabels = {
-    menuLabel: defaultStrings["navigationA11yLabel"],
-    itemFinished: defaultStrings["navigationItemFinishedA11yLabel"],
-    itemOpen: defaultStrings["navigationItemOpenA11yLabel"],
+    menuLabel: defaultStrings.navigationA11yLabel,
+    itemFinished: defaultStrings.navigationItemFinishedA11yLabel,
+    itemOpen: defaultStrings.navigationItemOpenA11yLabel,
   };
 
   return json(

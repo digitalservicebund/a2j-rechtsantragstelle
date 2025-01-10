@@ -78,7 +78,7 @@ export const loader = async ({
     return strapiFormElement;
   });
 
-  const meta = stepMeta(vorabcheckPage.meta, parentMeta);
+  const meta = stepMeta(vorabcheckPage.pageMeta, parentMeta);
 
   // filter user data for current step
   const fieldNames = formElements.map((entry) => entry.name);
@@ -91,16 +91,16 @@ export const loader = async ({
   });
 
   const buttonNavigationProps = getButtonNavigationProps({
-    backButtonLabel: translations["backButtonDefaultLabel"],
+    backButtonLabel: translations.backButtonDefaultLabel,
     nextButtonLabel:
-      vorabcheckPage.nextButtonLabel ?? translations["nextButtonDefaultLabel"],
+      vorabcheckPage.nextButtonLabel ?? translations.nextButtonDefaultLabel,
     isFinal: flowController.isFinal(stepId),
     backDestination: flowController.getPrevious(stepId),
   });
 
   const progressProps = {
     ...flowController.getProgress(stepId),
-    label: translations["progressBarLabel"],
+    label: translations.progressBarLabel,
   };
 
   return json(

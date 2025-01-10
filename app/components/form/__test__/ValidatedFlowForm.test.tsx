@@ -402,7 +402,9 @@ describe("ValidatedFlowForm", () => {
   });
 });
 
-function renderValidatedFlowForm(formElements: Partial<StrapiFormComponent>[]) {
+function renderValidatedFlowForm(
+  formElements: Array<Partial<StrapiFormComponent>>,
+) {
   const router = createMemoryRouter([
     {
       path: "/",

@@ -6,10 +6,10 @@ import Radio from "./Radio";
 
 type RadioGroupProps = Readonly<{
   name: string;
-  options: {
+  options: Array<{
     value: string;
     text?: ReactNode;
-  }[];
+  }>;
   label?: ReactNode;
   altLabel?: string;
   errorMessages?: ErrorMessageProps[];

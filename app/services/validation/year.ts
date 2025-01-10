@@ -11,8 +11,8 @@ export const createYearSchema = (args?: {
   optional?: boolean;
 }) => {
   const isOptional = Boolean(args?.optional);
-  const earliest = (args?.earliest && args.earliest()) ?? defaultEarliestYear;
-  const latest = (args?.latest && args.latest()) ?? defaultLatestYear;
+  const earliest = args?.earliest?.() ?? defaultEarliestYear;
+  const latest = args?.latest?.() ?? defaultLatestYear;
 
   const schema = z
     .string()

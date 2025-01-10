@@ -47,9 +47,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   );
 
   const { back: backButton } = getButtonNavigationProps({
-    backButtonLabel: defaultStrings["backButtonDefaultLabel"],
+    backButtonLabel: defaultStrings.backButtonDefaultLabel,
     nextButtonLabel:
-      cmsContent.nextLink?.text ?? defaultStrings["nextButtonDefaultLabel"],
+      cmsContent.nextLink?.text ?? defaultStrings.nextButtonDefaultLabel,
     backDestination: flowController.getPrevious(stepId),
   });
 
@@ -69,7 +69,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       flowId,
       common: defaultStrings,
       cmsData,
-      meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
+      meta: { ...cmsContent.pageMeta, breadcrumb: parentMeta?.breadcrumb },
       backButton,
     },
     { headers },

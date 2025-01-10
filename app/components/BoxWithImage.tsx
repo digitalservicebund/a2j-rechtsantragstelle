@@ -29,7 +29,7 @@ const BoxWithImage = ({
   content,
 }: BoxWithImageProps) => {
   const shouldWrapByDefault = variant === "XL" || variant === "XXL";
-  const hasTextContent = Boolean(heading || content);
+  const hasTextContent = Boolean(heading ?? content);
   return (
     <div
       id={identifier}

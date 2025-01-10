@@ -30,7 +30,7 @@ describe("MigrationDataOverview", () => {
     );
 
     expect(container).not.toBeEmptyDOMElement();
-    expect(getByText(translations["bereich"])).toBeInTheDocument();
+    expect(getByText(translations.bereich)).toBeInTheDocument();
     expect(getByText(translations["bereich.verspaetet"])).toBeInTheDocument();
   });
 
@@ -52,7 +52,7 @@ describe("MigrationDataOverview", () => {
     );
 
     expect(container).not.toBeEmptyDOMElement();
-    expect(getByText(translations["startAirport"])).toBeInTheDocument();
+    expect(getByText(translations.startAirport)).toBeInTheDocument();
     expect(getByText(translations["startAirport.value"])).toBeInTheDocument();
   });
 
@@ -77,19 +77,15 @@ describe("MigrationDataOverview", () => {
     );
 
     expect(container).not.toBeEmptyDOMElement();
+    expect(getByText(translations.zustaendigesAmtsgericht)).toBeInTheDocument();
     expect(
-      getByText(translations["zustaendigesAmtsgericht"]),
+      getByText(migrationUserData.zustaendigesAmtsgericht.bezeichnung),
     ).toBeInTheDocument();
     expect(
-      getByText(migrationUserData["zustaendigesAmtsgericht"].bezeichnung),
+      getByText(migrationUserData.zustaendigesAmtsgericht.strasseMitHausnummer),
     ).toBeInTheDocument();
     expect(
-      getByText(
-        migrationUserData["zustaendigesAmtsgericht"].strasseMitHausnummer,
-      ),
-    ).toBeInTheDocument();
-    expect(
-      getByText(migrationUserData["zustaendigesAmtsgericht"].plzUndStadt),
+      getByText(migrationUserData.zustaendigesAmtsgericht.plzUndStadt),
     ).toBeInTheDocument();
   });
 
@@ -118,15 +114,15 @@ describe("MigrationDataOverview", () => {
     );
 
     expect(queryAllByTestId("migration-field-value")[0].textContent).toEqual(
-      translations["startAirport"],
+      translations.startAirport,
     );
 
     expect(queryAllByTestId("migration-field-value")[1].textContent).toEqual(
-      translations["endAirport"],
+      translations.endAirport,
     );
 
     expect(queryAllByTestId("migration-field-value")[2].textContent).toEqual(
-      translations["bereich"],
+      translations.bereich,
     );
   });
 
@@ -155,15 +151,15 @@ describe("MigrationDataOverview", () => {
     );
 
     expect(queryAllByTestId("migration-field-value")[0].textContent).toEqual(
-      translations["bereich"],
+      translations.bereich,
     );
 
     expect(queryAllByTestId("migration-field-value")[1].textContent).toEqual(
-      translations["startAirport"],
+      translations.startAirport,
     );
 
     expect(queryAllByTestId("migration-field-value")[2].textContent).toEqual(
-      translations["endAirport"],
+      translations.endAirport,
     );
   });
 

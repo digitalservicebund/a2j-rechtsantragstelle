@@ -3,20 +3,21 @@ import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormCompon
 import { type StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 
 export function getStrapiFlowPage(
-  params: Partial<Pick<StrapiFormFlowPage, "stepId" | "form" | "locale">>,
+  params: Pick<StrapiFormFlowPage, "stepId" | "form"> &
+    Partial<Pick<StrapiFormFlowPage, "locale">>,
 ): StrapiFormFlowPage {
   return {
     heading: faker.lorem.words(5),
     preHeading: faker.lorem.words(5),
     nextButtonLabel: null,
     backButtonLabel: null,
-    form: params.form ?? [],
-    stepId: params.stepId ?? faker.lorem.word(),
+    form: params.form,
+    stepId: params.stepId,
     flow_ids: [{ flowId: "/beratungshilfe/antrag" }],
     pre_form: [],
     post_form: [],
     locale: params.locale ?? "de",
-    meta: {
+    pageMeta: {
       title: faker.lorem.word(),
       breadcrumb: faker.lorem.word(),
       description: null,
