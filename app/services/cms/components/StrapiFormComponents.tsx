@@ -1,45 +1,54 @@
+import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
+import Checkbox from "~/components/inputs/Checkbox";
+import DateInput from "~/components/inputs/DateInput";
+import HiddenInput from "~/components/inputs/HiddenInput";
+import Input from "~/components/inputs/Input";
+import RadioGroup from "~/components/inputs/RadioGroup";
+import Select from "~/components/inputs/Select";
+import Textarea from "~/components/inputs/Textarea";
+import TileGroup from "~/components/inputs/tile/TileGroup";
+import TimeInput from "~/components/inputs/TimeInput";
+import { getAutoSuggestInputProps } from "~/services/cms/components/StrapiAutoSuggestInput";
+import { getCheckboxProps } from "~/services/cms/components/StrapiCheckbox";
+import { getHiddenInputProps } from "~/services/cms/components/StrapiHiddenInput";
+import { getInputProps } from "~/services/cms/components/StrapiInput";
+import { getRadioGroupProps } from "~/services/cms/components/StrapiSelect";
+import { getTextareaProps } from "~/services/cms/components/StrapiTextarea";
+import { getTileGroupProps } from "~/services/cms/components/StrapiTileGroup";
+import { getTimeInputProps } from "~/services/cms/components/StrapiTimeInput";
 import { keyFromElement } from "~/services/cms/keyFromElement";
-import StrapiAutoSuggestInput from "./StrapiAutoSuggestInput";
-import { StrapiCheckbox } from "./StrapiCheckbox";
-import { StrapiDateInput } from "./StrapiDateInput";
-import { StrapiDropdown } from "./StrapiDropdown";
-import { StrapiFileInput } from "./StrapiFileInput";
-import { StrapiHiddenInput } from "./StrapiHiddenInput";
-import { StrapiInput } from "./StrapiInput";
-import { StrapiSelect } from "./StrapiSelect";
-import { StrapiTextarea } from "./StrapiTextarea";
-import { StrapiTileGroup } from "./StrapiTileGroup";
-import { StrapiTimeInput } from "./StrapiTimeInput";
-import type { StrapiFormComponent } from "../models/StrapiFormComponent";
+import { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import { getDateInputProps } from "./StrapiDateInput";
+import { getSelectProps } from "./StrapiDropdown";
 
 const FormComponent = ({
   component,
 }: Readonly<{ component: StrapiFormComponent }>) => {
   switch (component.__component) {
     case "form-elements.auto-suggest-input":
-      return <StrapiAutoSuggestInput {...component} />;
+      return <AutoSuggestInput {...getAutoSuggestInputProps(component)} />;
     case "form-elements.input":
-      return <StrapiInput {...component} />;
+      return <Input {...getInputProps(component)} />;
     case "form-elements.date-input":
-      return <StrapiDateInput {...component} />;
+      return <DateInput {...getDateInputProps(component)} />;
     case "form-elements.time-input":
-      return <StrapiTimeInput {...component} />;
+      return <TimeInput {...getTimeInputProps(component)} />;
     case "form-elements.file-input":
-      return <StrapiFileInput />;
+      // Currently not used/implemented, but still exists in Strapi
+      return <></>;
     case "form-elements.textarea":
-      return <StrapiTextarea {...component} />;
+      return <Textarea {...getTextareaProps(component)} />;
     case "form-elements.select":
-      return <StrapiSelect {...component} />;
+      return <RadioGroup {...getRadioGroupProps(component)} />;
     case "form-elements.dropdown":
-      return <StrapiDropdown {...component} />;
+      return <Select {...getSelectProps(component)} />;
     case "form-elements.checkbox":
-      return <StrapiCheckbox {...component} />;
+      return <Checkbox {...getCheckboxProps(component)} />;
     case "form-elements.tile-group":
-      return <StrapiTileGroup {...component} />;
+      return <TileGroup {...getTileGroupProps(component)} />;
     case "form-elements.hidden-input":
-      return <StrapiHiddenInput {...component} />;
+      return <HiddenInput {...getHiddenInputProps(component)} />;
   }
-  return null;
 };
 
 export const StrapiFormComponents = ({

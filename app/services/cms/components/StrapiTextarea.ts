@@ -1,5 +1,5 @@
 import { z } from "zod";
-import Textarea from "~/components/inputs/Textarea";
+import { TextareaProps } from "~/components/inputs/Textarea";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
@@ -20,17 +20,13 @@ const StrapiTextareaSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-type StrapiTextarea = z.infer<typeof StrapiTextareaSchema>;
-
 export const StrapiTextareaComponentSchema = StrapiTextareaSchema.extend({
   __component: z.literal("form-elements.textarea"),
 });
 
-export const StrapiTextarea = ({ errors, ...props }: StrapiTextarea) => {
-  return (
-    <Textarea
-      {...omitNull(props)}
-      errorMessages={flattenStrapiErrors(errors)}
-    />
-  );
-};
+type StrapiTextarea = z.infer<typeof StrapiTextareaSchema>;
+
+export const getTextareaProps = (cmsData: StrapiTextarea): TextareaProps => ({
+  ...omitNull(cmsData),
+  errorMessages: flattenStrapiErrors(cmsData.errors),
+});

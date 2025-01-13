@@ -16,5 +16,5 @@ export const StrapiDetailsComponentSchema = StrapiDetailsSchema.extend({
   __component: z.literal("page.details-summary"),
 });
 
-export const getDetailsProps = (strapiDetails: StrapiDetails): DetailsProps =>
-  pick(strapiDetails, "content", "title");
+export const getDetailsProps = (cmsData: StrapiDetails): DetailsProps =>
+  pick(cmsData, "content", "title");

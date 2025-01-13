@@ -1,6 +1,5 @@
 import { z } from "zod";
 import type { SelectProps } from "~/components/inputs/Select";
-import Select from "~/components/inputs/Select";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
@@ -28,13 +27,11 @@ export const StrapiDropdownComponentSchema = StrapiDropdownSchema.extend({
   __component: z.literal("form-elements.dropdown"),
 });
 
-export const StrapiDropdown = ({ errors, width, ...props }: StrapiDropdown) => {
-  const inWidth = width?.replace("characters", "") as SelectProps["width"];
-  return (
-    <Select
-      errorMessages={flattenStrapiErrors(errors)}
-      {...omitNull(props)}
-      width={inWidth}
-    />
-  );
-};
+/**
+ * A Strapi "Dropdown" is really just a Select
+ */
+export const getSelectProps = (cmsData: StrapiDropdown): SelectProps => ({
+  errorMessages: flattenStrapiErrors(cmsData.errors),
+  ...omitNull(cmsData),
+  width: cmsData.width?.replace("characters", "") as SelectProps["width"],
+});

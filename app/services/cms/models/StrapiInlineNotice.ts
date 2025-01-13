@@ -2,10 +2,10 @@ import pick from "lodash/pick";
 import { z } from "zod";
 import { type InlineNoticeProps } from "~/components/InlineNotice";
 import { omitNull } from "~/util/omitNull";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import { OptionalStrapiLinkIdentifierSchema } from "../models/HasStrapiLinkIdentifier";
-import { StrapiBackgroundSchema } from "../models/StrapiBackground";
-import { StrapiContainerSchema } from "../models/StrapiContainer";
+import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
+import { StrapiBackgroundSchema } from "./StrapiBackground";
+import { StrapiContainerSchema } from "./StrapiContainer";
 
 export const StrapiInlineNoticeSchema = z
   .object({
