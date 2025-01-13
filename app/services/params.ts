@@ -12,3 +12,6 @@ export function parentFromParams(pathname: string, params: Params) {
   invariant(splat && pathname.endsWith(splat));
   return pathname.slice(0, -splat.length - 1);
 }
+
+export const isPreview = (searchParams: URLSearchParams) =>
+  searchParams.get("preview") !== null;
