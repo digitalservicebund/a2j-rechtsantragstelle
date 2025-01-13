@@ -211,7 +211,7 @@ export function validateDepartureAfterArrival(
       data.direktAnkunftsZeit,
     );
 
-    if (departureDateTime > arrivalDateTime) {
+    if (departureDateTime >= arrivalDateTime) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "departureAfterArrival",

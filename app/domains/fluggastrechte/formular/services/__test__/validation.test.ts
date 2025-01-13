@@ -71,6 +71,17 @@ describe("validation", () => {
 
       expect(result.success).toBe(true);
     });
+
+    it("should return success false given a departure date time equal arrival", () => {
+      const result = validator.safeParse({
+        direktAbflugsDatum: "01.01.2024",
+        direktAbflugsZeit: "14:00",
+        direktAnkunftsDatum: "01.01.2024",
+        direktAnkunftsZeit: "14:00",
+      });
+
+      expect(result.success).toBe(false);
+    });
   });
 
   describe("validateSameFlightPage", () => {
