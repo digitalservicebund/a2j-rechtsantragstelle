@@ -9,7 +9,7 @@ Accepted
 ## Context
 
 As part of our compliance with German legal and GDPR requirements ("Anscheinbeweis"), we need
-to temporarily store consent data until the "Erprobungsgesetz" is completed. The needed data will be stored is minimal:
+to temporarily store consent data until the "Erprobungsgesetz" is completed. The data that needs to be stored is minimal:
 
 - Random identifier
 - Timestamp (human-readable date)
