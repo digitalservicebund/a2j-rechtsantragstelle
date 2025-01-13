@@ -57,6 +57,7 @@ describe("createLocalCourtAndDate", () => {
     );
     expect(mockDoc.text).toHaveBeenCalledWith(TO_THE_COURT_TEXT, {
       align: "left",
+      continued: true,
     });
 
     expect(mockDoc.text).toHaveBeenCalledWith(amtsgericht.BEZEICHNUNG, {
@@ -80,6 +81,7 @@ describe("createLocalCourtAndDate", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(TO_THE_COURT_TEXT, {
       align: "left",
+      continued: true,
     });
     expect(mockDoc.text).toHaveBeenCalledWith("", {
       align: "left",

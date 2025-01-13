@@ -61,12 +61,12 @@ export function drawCell(
 
   if (regularText.length > 0) {
     const extraMarginSpace = boldText.length > 0 ? -8 : marginY + 4;
+    doc.fontSize(regularTextFontSize);
     const textToAlignVertically =
       (height - doc.heightOfString(regularText, options) - extraMarginSpace) /
       2;
 
     doc
-      .fontSize(regularTextFontSize)
       .font(FONTS_BUNDESSANS_REGULAR)
       .text(regularText, textX, textY + textToAlignVertically, options);
   }
