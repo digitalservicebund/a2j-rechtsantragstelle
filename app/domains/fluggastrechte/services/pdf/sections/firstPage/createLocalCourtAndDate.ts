@@ -21,17 +21,19 @@ export const createLocalCourtAndDate = (
   const localCourtHeaderSect = doc.struct("Sect");
   localCourtHeaderSect.add(
     doc.struct("P", {}, () => {
-      doc.fontSize(10).font(FONTS_BUNDESSANS_REGULAR).text(creationDate, {
-        align: "right",
-      });
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(TO_THE_COURT_TEXT, { align: "left" });
+        .text(TO_THE_COURT_TEXT, { align: "left", continued: true });
+
+      doc.font(FONTS_BUNDESSANS_REGULAR).text(creationDate, {
+        align: "right",
+      });
 
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(amtsgericht?.BEZEICHNUNG ?? "", { align: "left" });
+
       doc.text(amtsgericht?.STR_HNR ?? "", { align: "left" });
       doc.text(`${amtsgericht?.PLZ_ZUSTELLBEZIRK ?? ""} ${amtsgericht?.ORT}`, {
         align: "left",

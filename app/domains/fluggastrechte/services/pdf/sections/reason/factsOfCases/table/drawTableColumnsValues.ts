@@ -63,7 +63,7 @@ export function drawTableColumnsValues(
         regularText: info,
         shouldAddSilverBackground: false,
         textAlign: "center",
-        regularTextFontSize: 10,
+        regularTextFontSize: 9,
       });
     }),
   );
