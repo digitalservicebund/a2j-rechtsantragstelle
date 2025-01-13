@@ -23,7 +23,7 @@ We evaluated different storage solutions including:
 
 ## Decision
 
-We will use an Object Storage solution to store the temporary consent data.
+We will use an Object Storage solution to store the temporary consent data. One file per day will contain the collected consent data. We will add a lifecycle rule that removes each file after 365 days from its creation.
 
 ### Technical Factors
 
