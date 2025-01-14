@@ -19,6 +19,7 @@ const renderHighlightText = (
 ) => {
   return wordParts.map((wordPart, index) =>
     wordPart.toLowerCase() === matchWord.toLowerCase() ? (
+      // eslint-disable-next-line react/no-array-index-key
       <strong data-testid={testId} key={`${wordPart}-${index}`}>
         {wordPart}
       </strong>
