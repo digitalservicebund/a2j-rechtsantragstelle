@@ -16,7 +16,7 @@ const hasThreeStop: Guard = ({ context }) =>
   context.zwischenstoppAnzahl === "threeStop";
 const _hasAnnullierung: Guard = ({ context }) =>
   context.bereich === "annullierung";
-const _hasNichtbefoerderung: Guard = ({ context }) =>
+const hasNichtbefoerderung: Guard = ({ context }) =>
   context.bereich === "nichtbefoerderung";
 
 export const fluggastrechteFlugdatenGuards = {
@@ -24,15 +24,15 @@ export const fluggastrechteFlugdatenGuards = {
   hasTwoStop,
   hasThreeStop,
   hasOneStopWithNichtBefoerderung: ({ context }) =>
-    hasOneStop({ context }) && _hasNichtbefoerderung({ context }),
+    hasOneStop({ context }) && hasNichtbefoerderung({ context }),
   hasTwoStopWithNichtBefoerderung: ({ context }) =>
-    hasTwoStop({ context }) && _hasNichtbefoerderung({ context }),
+    hasTwoStop({ context }) && hasNichtbefoerderung({ context }),
   hasThreeStopWithNichtBefoerderung: ({ context }) =>
-    hasThreeStop({ context }) && _hasNichtbefoerderung({ context }),
+    hasThreeStop({ context }) && hasNichtbefoerderung({ context }),
   hasVerspaetung: ({ context }) => context.bereich === "verspaetet",
   hasAnnullierung: ({ context }) => _hasAnnullierung({ context }),
   hasNoZwischenstoppWithNichtBefoerderung: ({ context }) =>
-    context.zwischenstoppAnzahl === "no" && _hasNichtbefoerderung({ context }),
+    context.zwischenstoppAnzahl === "no" && hasNichtbefoerderung({ context }),
   hasNoZwischenstoppAndVerspaetung: ({ context }) =>
     context.zwischenstoppAnzahl === "no" && context.bereich === "verspaetet",
   hasNoZwischenstoppAndAnnullierung: ({ context }) =>
@@ -64,7 +64,7 @@ export const fluggastrechteFlugdatenGuards = {
   hasVerspaeteterFlugSecondAirportThirdZwischenstopp: ({ context }) =>
     context.verspaeteterFlug === "secondAirportThirdZwischenstopp",
   hasBereichNichtBefoerderungAndVerspaeteterFlugNonEndAirport: ({ context }) =>
-    _hasNichtbefoerderung({ context }) &&
+    hasNichtbefoerderung({ context }) &&
     (context.verspaeteterFlug === "startAirportFirstZwischenstopp" ||
       context.verspaeteterFlug === "firstAirportSecondZwischenstopp" ||
       context.verspaeteterFlug === "secondAirportThirdZwischenstopp"),
