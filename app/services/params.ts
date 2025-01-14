@@ -1,5 +1,6 @@
 import type { Params } from "@remix-run/react";
 import invariant from "tiny-invariant";
+import { config } from "./env/web";
 
 export function splatFromParams(params: Params) {
   const splat = params["*"];
@@ -15,3 +16,7 @@ export function parentFromParams(pathname: string, params: Params) {
 
 export const searchParamsContainPreview = (searchParams: URLSearchParams) =>
   searchParams.get("preview") !== null;
+
+export const previewAllowedAndEnabled = (searchParams: URLSearchParams) =>
+  config().ENVIRONMENT !== "production" &&
+  searchParamsContainPreview(searchParams);

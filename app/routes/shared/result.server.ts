@@ -8,7 +8,7 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { searchParamsContainPreview } from "~/services/params";
+import { previewAllowedAndEnabled } from "~/services/params";
 import { getSessionData } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { getButtonNavigationProps } from "~/util/buttonProps";
@@ -33,7 +33,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   if (
     !flowController.isReachable(stepId) &&
-    !searchParamsContainPreview(searchParams)
+    !previewAllowedAndEnabled(searchParams)
   )
     return redirect(flowController.getInitial());
 
