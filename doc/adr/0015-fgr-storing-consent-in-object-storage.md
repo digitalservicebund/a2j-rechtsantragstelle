@@ -8,10 +8,10 @@ Accepted
 
 ## Context
 
-As part of our compliance with German legal and GDPR requirements ("Anscheinbeweis"), we need
-to temporarily store consent data until the "Erprobungsgesetz" is completed. The data that needs to be stored is minimal:
+As part of our compliance with German legal and GDPR requirements, we need
+to temporarily store consent data. The data that needs to be stored is minimal:
 
-- Random identifier
+- Unique Identifier
 - Timestamp (human-readable date)
 - Browser user agent (optional)
 
@@ -23,7 +23,7 @@ We evaluated different storage solutions including:
 
 ## Decision
 
-We will use an Object Storage solution to store the temporary consent data. One file per day will contain the collected consent data. We will add a lifecycle rule that removes each file after 365 days from its creation.
+We will use an Object Storage solution to store the temporary consent data. We will add a lifecycle rule that removes each file after 365 days from its creation.
 
 ### Technical Factors
 
