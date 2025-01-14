@@ -22,9 +22,9 @@ export function validateReplacementConnectionPage(
   baseSchema: MultiFieldsValidationBaseSchema,
 ) {
   return baseSchema.superRefine((data, ctx) => {
-    const departureDateTime = convertToTimestamp(
-      data.direktAbflugsDatum,
-      data.direktAbflugsZeit,
+    const originalArrivalDateTime = convertToTimestamp(
+      data.direktAnkunftsDatum,
+      data.direktAnkunftsZeit,
     );
 
     const arrivalDateTime = convertToTimestamp(
@@ -32,7 +32,7 @@ export function validateReplacementConnectionPage(
       data.andereErsatzverbindungAnkunftsZeit,
     );
 
-    if (departureDateTime > arrivalDateTime) {
+    if (originalArrivalDateTime > arrivalDateTime) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "departureAfterArrival",
@@ -52,7 +52,10 @@ export function validateReplacementConnectionPage(
     }
 
     if (
-      isStartTimestampLessThanThreeHours(departureDateTime, arrivalDateTime) &&
+      isStartTimestampLessThanThreeHours(
+        originalArrivalDateTime,
+        arrivalDateTime,
+      ) &&
       data.bereich === "verspaetet"
     ) {
       ctx.addIssue({
@@ -79,9 +82,9 @@ export function validateAnotherFlightPage(
   baseSchema: MultiFieldsValidationBaseSchema,
 ) {
   return baseSchema.superRefine((data, ctx) => {
-    const departureDateTime = convertToTimestamp(
-      data.direktAbflugsDatum,
-      data.direktAbflugsZeit,
+    const originalArrivalDateTime = convertToTimestamp(
+      data.direktAnkunftsDatum,
+      data.direktAnkunftsZeit,
     );
 
     const arrivalDateTime = convertToTimestamp(
@@ -89,7 +92,7 @@ export function validateAnotherFlightPage(
       data.ersatzFlugAnkunftsZeit,
     );
 
-    if (departureDateTime > arrivalDateTime) {
+    if (originalArrivalDateTime > arrivalDateTime) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "departureAfterArrival",
@@ -109,7 +112,10 @@ export function validateAnotherFlightPage(
     }
 
     if (
-      isStartTimestampLessThanThreeHours(departureDateTime, arrivalDateTime) &&
+      isStartTimestampLessThanThreeHours(
+        originalArrivalDateTime,
+        arrivalDateTime,
+      ) &&
       data.bereich === "verspaetet"
     ) {
       ctx.addIssue({
@@ -136,9 +142,9 @@ export function validateSameFlightPage(
   baseSchema: MultiFieldsValidationBaseSchema,
 ) {
   return baseSchema.superRefine((data, ctx) => {
-    const departureDateTime = convertToTimestamp(
-      data.direktAbflugsDatum,
-      data.direktAbflugsZeit,
+    const originalArrivalDateTime = convertToTimestamp(
+      data.direktAnkunftsDatum,
+      data.direktAnkunftsZeit,
     );
 
     const arrivalDateTime = convertToTimestamp(
@@ -146,7 +152,7 @@ export function validateSameFlightPage(
       data.tatsaechlicherAnkunftsZeit,
     );
 
-    if (departureDateTime > arrivalDateTime) {
+    if (originalArrivalDateTime > arrivalDateTime) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "departureAfterArrival",
@@ -166,7 +172,10 @@ export function validateSameFlightPage(
     }
 
     if (
-      isStartTimestampLessThanThreeHours(departureDateTime, arrivalDateTime)
+      isStartTimestampLessThanThreeHours(
+        originalArrivalDateTime,
+        arrivalDateTime,
+      )
     ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -202,7 +211,7 @@ export function validateDepartureAfterArrival(
       data.direktAnkunftsZeit,
     );
 
-    if (departureDateTime > arrivalDateTime) {
+    if (departureDateTime >= arrivalDateTime) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "departureAfterArrival",
