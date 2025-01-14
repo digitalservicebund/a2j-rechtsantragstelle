@@ -110,7 +110,7 @@ export default tseslint.config(
 
       // sonarjs
       "sonarjs/no-duplicate-string": "off",
-      "sonarjs/todo-tag": "warn",
+      "sonarjs/todo-tag": "off",
       "sonarjs/function-return-type": "off",
       "sonarjs/aws-restricted-ip-admin-access": "off", // slow and unneeded
       "sonarjs/no-async-constructor": "off", // slow and unneeded
