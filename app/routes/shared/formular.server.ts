@@ -25,7 +25,10 @@ import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { logWarning } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";
-import { parentFromParams, isPreview } from "~/services/params";
+import {
+  parentFromParams,
+  searchParamsContainPreview,
+} from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import {
   getSessionData,
@@ -66,7 +69,10 @@ export const loader = async ({
     guards: currentFlow.guards,
   });
 
-  if (!flowController.isReachable(stepId) && !isPreview(searchParams))
+  if (
+    !flowController.isReachable(stepId) &&
+    !searchParamsContainPreview(searchParams)
+  )
     return redirectDocument(flowController.getInitial());
 
   const flowTransitionConfig = getFlowTransitionConfig(currentFlow);

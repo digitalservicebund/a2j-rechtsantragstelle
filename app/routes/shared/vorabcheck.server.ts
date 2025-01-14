@@ -14,7 +14,10 @@ import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiHeading";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { logWarning } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";
-import { isPreview, parentFromParams } from "~/services/params";
+import {
+  searchParamsContainPreview,
+  parentFromParams,
+} from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import {
   getSessionData,
@@ -47,7 +50,10 @@ export const loader = async ({
     guards: currentFlow.guards,
   });
 
-  if (!flowController.isReachable(stepId) && !isPreview(searchParams))
+  if (
+    !flowController.isReachable(stepId) &&
+    !searchParamsContainPreview(searchParams)
+  )
     return redirectDocument(flowController.getInitial());
 
   const [vorabcheckPage, parentMeta, translations] = await Promise.all([

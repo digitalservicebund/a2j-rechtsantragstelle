@@ -13,5 +13,5 @@ export function parentFromParams(pathname: string, params: Params) {
   return pathname.slice(0, -splat.length - 1);
 }
 
-export const isPreview = (searchParams: URLSearchParams) =>
+export const searchParamsContainPreview = (searchParams: URLSearchParams) =>
   searchParams.get("preview") !== null;
