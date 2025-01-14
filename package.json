@@ -135,7 +135,7 @@
     "lefthook": "^1.10.4",
     "license-checker-rseidelsohn": "^4.4.2",
     "p-map": "^7.0.3",
-    "postcss": "^8.4.49",
+    "postcss": "^8.5.0",
     "prettier": "^3.4.2",
     "size-limit": "^11.1.6",
     "storybook": "^8.4.7",
