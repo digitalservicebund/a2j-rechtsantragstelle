@@ -11,6 +11,9 @@ const machine: FlowStateMachine = createMachine(
 );
 
 const baseContext = {
+  fluggesellschaftOrt: "Berlin",
+  fluggesellschaftPostleitzahl: "10969",
+  fluggesellschaftStrasseHausnummer: "Prinzessinnenstraße 8-14",
   bereich: "annullierung",
   direktFlugnummer: "AB1234",
   buchungsNummer: "X36Q9C",
