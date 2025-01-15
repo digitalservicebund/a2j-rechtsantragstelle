@@ -3,7 +3,12 @@ import {
   getStrapiFormComponent,
 } from "tests/factories/cmsModels/strapiFlowPage";
 import { getStrapiFooter } from "~/../tests/factories/cmsModels/strapiFooter";
-import { fetchSingleEntry } from "~/services/cms/index.server";
+import {
+  fetchSingleEntry,
+  fetchEntries,
+  fetchMultipleTranslations,
+} from "~/services/cms/index.server";
+import { StrapiSchemas } from "~/services/cms/schemas";
 import { fetchAllFormFields } from "../fetchAllFormFields";
 import { getStrapiEntry } from "../getStrapiEntry";
 
@@ -18,6 +23,27 @@ describe("services/cms", () => {
       const footerData = getStrapiFooter();
       vi.mocked(getStrapiEntry).mockReturnValue(Promise.resolve([footerData]));
       expect(await fetchSingleEntry("footer")).toEqual(footerData);
+    });
+  });
+
+  describe("fetchEntries", () => {
+    test("returns a list of entries", async () => {
+      const strapiPages = [
+        getStrapiFlowPage({
+          stepId: "step1",
+          form: [getStrapiFormComponent({ name: "formFieldForStep1" })],
+        }),
+
+        getStrapiFlowPage({
+          stepId: "step2",
+          form: [getStrapiFormComponent({ name: "formFieldForStep2" })],
+        }),
+      ];
+      vi.mocked(getStrapiEntry).mockResolvedValue(strapiPages);
+
+      expect(await fetchEntries({ apiId: "form-flow-pages" })).toEqual(
+        strapiPages,
+      );
     });
   });
 
@@ -155,6 +181,44 @@ describe("services/cms", () => {
       expect(await fetchAllFormFields("/beratungshilfe/antrag")).toStrictEqual(
         {},
       );
+    });
+  });
+
+  describe("fetchMultipleTranslations", () => {
+    test("returns translations for multiple scopes", async () => {
+      const mockedTranslations: StrapiSchemas["translations"] = [
+        {
+          scope: "amtsgericht",
+          locale: "de",
+          field: [
+            { name: "amtsgerichtKey", value: "amtsgerichtValue" },
+            { name: "amtsgerichtKey2", value: "amtsgerichtValue2" },
+          ],
+        },
+        {
+          scope: "ausgaben",
+          locale: "de",
+          field: [
+            { name: "ausgabenKey", value: "ausgabenValue" },
+            { name: "ausgabenKey2", value: "ausgabenValue2" },
+          ],
+        },
+      ];
+
+      vi.mocked(getStrapiEntry).mockResolvedValue(mockedTranslations);
+
+      expect(
+        await fetchMultipleTranslations(["amtsgericht", "ausgaben"]),
+      ).toEqual({
+        amtsgericht: {
+          amtsgerichtKey: "amtsgerichtValue",
+          amtsgerichtKey2: "amtsgerichtValue2",
+        },
+        ausgaben: {
+          ausgabenKey: "ausgabenValue",
+          ausgabenKey2: "ausgabenValue2",
+        },
+      });
     });
   });
 });
