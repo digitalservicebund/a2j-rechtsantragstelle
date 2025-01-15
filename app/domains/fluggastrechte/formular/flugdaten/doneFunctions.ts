@@ -165,15 +165,23 @@ const hasTatsaechlicherFlugNoWithKeineAnkunftDone: FluggastrechteFlugdatenGuard 
     );
   };
 
-const hasAnnullierungDone: FluggastrechteFlugdatenGuard = ({ context }) => {
+const hasAnnullierungErsatzverbindungDone: FluggastrechteFlugdatenGuard = ({
+  context,
+}) => {
   return (
-    hasDefaultFlugdaten({ context }) &&
-    hasZwischenStoppData({ context }) &&
     hasOptionalString(context.annullierungErsatzverbindungFlugnummer) &&
     hasOptionalString(context.annullierungErsatzverbindungAbflugsDatum) &&
     hasOptionalString(context.annullierungErsatzverbindungAbflugsZeit) &&
     hasOptionalString(context.annullierungErsatzverbindungAnkunftsDatum) &&
-    hasOptionalString(context.annullierungErsatzverbindungAnkunftsZeit) &&
+    hasOptionalString(context.annullierungErsatzverbindungAnkunftsZeit)
+  );
+};
+
+const hasAnnullierungDone: FluggastrechteFlugdatenGuard = ({ context }) => {
+  return (
+    hasDefaultFlugdaten({ context }) &&
+    hasZwischenStoppData({ context }) &&
+    hasAnnullierungErsatzverbindungDone({ context }) &&
     hasOptionalString(context.zusaetzlicheAngaben)
   );
 };
