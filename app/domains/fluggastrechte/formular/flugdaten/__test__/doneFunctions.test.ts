@@ -145,99 +145,112 @@ describe("flugdatenDone", () => {
   });
 
   describe("annullierung", () => {
-    test("returns true when all required fields are present for 'annullierung' with 'flug' complete data", () => {
+    test("returns true when all required fields are present for 'annullierung'", () => {
       const context = {
         ...baseContext,
         zwischenstoppAnzahl: "no",
         bereich: "annullierung",
-        ersatzverbindungArt: "flug",
-        ersatzFlugnummer: "XY1234",
-        ersatzFlugAnkunftsDatum: "11.03.2024",
-        ersatzFlugAnkunftsZeit: "10:10",
+        annullierungErsatzverbindungFlugnummer: "XY1234",
+        annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
+        annullierungErsatzverbindungAbflugsZeit: "10:10",
+        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsZeit: "10:10",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(true);
     });
 
-    test("returns false when required fields are missing for 'annullierung' with 'flug'", () => {
+    test("returns false when field annullierungErsatzverbindungFlugnummer is missing'", () => {
       const context = {
         ...baseContext,
         zwischenstoppAnzahl: "no",
         bereich: "annullierung",
-        ersatzverbindungArt: "flug",
+        annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
+        annullierungErsatzverbindungAbflugsZeit: "10:10",
+        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsZeit: "10:10",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(false);
     });
 
-    test("returns false when required fields are missing for 'annullierung' with 'etwasAnderes'", () => {
+    test("returns false when field annullierungErsatzverbindungAbflugsDatum is missing'", () => {
       const context = {
         ...baseContext,
         zwischenstoppAnzahl: "no",
         bereich: "annullierung",
+        annullierungErsatzverbindungFlugnummer: "XY1234",
+        annullierungErsatzverbindungAbflugsZeit: "10:10",
+        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsZeit: "10:10",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(false);
     });
 
-    test("returns false when required fields are missing for 'annullierung' with 'flug' and without tatsaechlicherFlug", () => {
+    test("returns false when field annullierungErsatzverbindungAbflugsZeit is missing'", () => {
       const context = {
         ...baseContext,
         zwischenstoppAnzahl: "no",
         bereich: "annullierung",
-        tatsaechlicherFlug: "no",
-        ersatzverbindungArt: "flug",
+        annullierungErsatzverbindungFlugnummer: "XY1234",
+        annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsZeit: "10:10",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(false);
     });
 
-    test("returns false when required fields are missing for 'annullierung' without the zwischenstopps", () => {
+    test("returns false when field zwischenstopps is airport is missing ", () => {
       const context = {
         ...baseContext,
         zwischenstoppAnzahl: "oneStop",
         bereich: "annullierung",
-        ersatzverbindungArt: "flug",
-        ersatzFlugnummer: "XY1234",
-        ersatzFlugAnkunftsDatum: "11.03.2024",
-        ersatzFlugAnkunftsZeit: "10:10",
+        annullierungErsatzverbindungFlugnummer: "XY1234",
+        annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
+        annullierungErsatzverbindungAbflugsZeit: "10:10",
+        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsZeit: "10:10",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(false);
     });
 
-    test("returns false when required fields are missing for 'annullierung' without the second zwischenstopp airport", () => {
+    test("returns false when field second zwischenstopp airport is missing", () => {
       const context = {
         ...baseContext,
         zwischenstoppAnzahl: "twoStop",
         ersterZwischenstopp: "BER",
         bereich: "annullierung",
-        ersatzverbindungArt: "flug",
-        ersatzFlugnummer: "XY1234",
-        ersatzFlugAnkunftsDatum: "11.03.2024",
-        ersatzFlugAnkunftsZeit: "10:10",
+        annullierungErsatzverbindungFlugnummer: "XY1234",
+        annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
+        annullierungErsatzverbindungAbflugsZeit: "10:10",
+        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsZeit: "10:10",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(false);
     });
 
-    test("returns false when required fields are missing for 'annullierung' without the verspaeteterFlug for the zwischenstopp", () => {
+    test("returns false when field third zwischenstopp airport is missing", () => {
       const context = {
         ...baseContext,
         zwischenstoppAnzahl: "twoStop",
         ersterZwischenstopp: "BER",
         zweiterZwischenstopp: "BER",
         bereich: "annullierung",
-        ersatzverbindungArt: "flug",
-        ersatzFlugnummer: "XY1234",
-        ersatzFlugAnkunftsDatum: "11.03.2024",
-        ersatzFlugAnkunftsZeit: "10:10",
+        annullierungErsatzverbindungFlugnummer: "XY1234",
+        annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
+        annullierungErsatzverbindungAbflugsZeit: "10:10",
+        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsZeit: "10:10",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(false);
     });
 
-    test("returns true when required fields are present for 'annullierung' and zwischenstopp", () => {
+    test("returns true when required fields are present zwischenstopp", () => {
       const context = {
         ...baseContext,
         zwischenstoppAnzahl: "threeStop",
@@ -246,10 +259,11 @@ describe("flugdatenDone", () => {
         dritterZwischenstopp: "BER",
         verspaeteterFlug: "secondAirportThirdZwischenstopp",
         bereich: "annullierung",
-        ersatzverbindungArt: "flug",
-        ersatzFlugnummer: "XY1234",
-        ersatzFlugAnkunftsDatum: "11.03.2024",
-        ersatzFlugAnkunftsZeit: "10:10",
+        annullierungErsatzverbindungFlugnummer: "XY1234",
+        annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
+        annullierungErsatzverbindungAbflugsZeit: "10:10",
+        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsZeit: "10:10",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(true);

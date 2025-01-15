@@ -16,7 +16,7 @@ describe("services/cms", () => {
 
   describe("getStrapiEntryFromApi", () => {
     const dataResponse = [{ testField: "testData" }];
-    const defaultOptions: GetStrapiEntryOpts = {
+    const defaultOptions: GetStrapiEntryOpts<"pages"> = {
       apiId: "pages",
       locale: stagingLocale,
     };
@@ -69,6 +69,24 @@ describe("services/cms", () => {
       expect(axiosGetSpy).toHaveBeenNthCalledWith(
         1,
         `${expectedStagingRequestUrl}&filters[flow_ids][flowId][$eq]=foobar&filters[stepId][$eq]=foobar`,
+        expect.anything(),
+      );
+    });
+
+    test("request url with $in filter", async () => {
+      await getStrapiEntryFromApi({
+        ...defaultOptions,
+        filters: [
+          {
+            field: "flow_ids",
+            operation: "$in",
+            value: ["foobar", "foobar2", "foobar3"],
+          },
+        ],
+      });
+      expect(axiosGetSpy).toHaveBeenNthCalledWith(
+        1,
+        `${expectedStagingRequestUrl}&filters[flow_ids][$in][0]=foobar&filters[flow_ids][$in][1]=foobar2&filters[flow_ids][$in][2]=foobar3`,
         expect.anything(),
       );
     });
