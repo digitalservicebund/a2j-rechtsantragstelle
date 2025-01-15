@@ -17,4 +17,4 @@ export const StrapiHiddenInputComponentSchema = StrapiHiddenInputSchema.extend({
 
 export const getHiddenInputProps = (
   cmsData: StrapiHiddenInput,
-): HiddenInputProps => ({ ...omitNull(cmsData) });
+): HiddenInputProps => omitNull(cmsData);

@@ -35,7 +35,7 @@ const FormComponent = ({
       return <TimeInput {...getTimeInputProps(component)} />;
     case "form-elements.file-input":
       // Currently not used/implemented, but still exists in Strapi
-      return <></>;
+      return null;
     case "form-elements.textarea":
       return <Textarea {...getTextareaProps(component)} />;
     case "form-elements.select":

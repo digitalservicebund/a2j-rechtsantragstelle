@@ -24,7 +24,7 @@ export const StrapiCheckboxComponentSchema = StrapiCheckboxSchema.extend({
 export const getCheckboxProps = (
   cmsData: StrapiCheckboxSchema,
 ): CheckboxProps => ({
+  ...cmsData,
   required: cmsData.isRequiredError !== null,
   errorMessage: cmsData.isRequiredError?.errorCodes[0].text,
-  ...cmsData,
 });
