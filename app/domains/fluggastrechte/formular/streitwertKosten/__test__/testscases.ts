@@ -19,7 +19,7 @@ const cases = [
       "/streitwert-kosten/gerichtskosten",
       "/streitwert-kosten/andere-kosten",
       "/streitwert-kosten/prozesszinsen",
-      "/flugdaten/geplanter-flug",
+      "/flugdaten/adresse-fluggesellschaft",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;

@@ -1,7 +1,13 @@
 {
   "id": "flugdaten",
-  "initial": "geplanter-flug",
+  "initial": "adresse-fluggesellschaft",
   "states": {
+    "adresse-fluggesellschaft": {
+      "on": {
+        "SUBMIT": "geplanter-flug",
+        "BACK": "#streitwert-kosten.prozesszinsen"
+      }
+    },
     "geplanter-flug": {
       "on": {
         "SUBMIT": [
@@ -23,7 +29,7 @@
           },
           "ersatzverbindung-art"
         ],
-        "BACK": "#streitwert-kosten.prozesszinsen"
+        "BACK": "adresse-fluggesellschaft"
       }
     },
     "zwischenstopp-uebersicht-1": {
