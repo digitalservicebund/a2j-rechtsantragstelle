@@ -4,6 +4,7 @@ import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFl
 import { createDateSchema } from "~/services/validation/date";
 import { flightNumberSchema } from "~/services/validation/flightNumber";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
 import {
   customRequiredErrorMessage,
@@ -30,6 +31,9 @@ export const fluggastrechteFlugdaten = {
     ["flug", "etwasAnderes", "keineAnkunft"],
     customRequiredErrorMessage,
   ),
+  fluggesellschaftStrasseHausnummer: stringRequiredSchema,
+  fluggesellschaftPostleitzahl: stringRequiredSchema,
+  fluggesellschaftOrt: stringRequiredSchema,
   zwischenstoppAnzahl: z.enum(
     ["no", "oneStop", "twoStop", "threeStop"],
     customRequiredErrorMessage,
