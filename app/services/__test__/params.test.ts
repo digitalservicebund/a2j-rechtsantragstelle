@@ -1,22 +1,17 @@
 import { skipFlowParamAllowedAndEnabled } from "../params";
 
 describe("previewAllowedAndEnabled", () => {
-  describe("with preview param present", () => {
+  it.each([
+    ["development", true],
+    ["staging", true],
+    ["preview", true],
+    ["production", false],
+  ])("with ?skipFlow in env %s returns %s", (env, expected) => {
+    vi.stubEnv("ENVIRONMENT", env);
     const searchParamsWithPreview = new URLSearchParams();
     searchParamsWithPreview.set("skipFlow", "");
-
-    it("should return true normally", () => {
-      expect(skipFlowParamAllowedAndEnabled(searchParamsWithPreview)).toBe(
-        true,
-      );
-    });
-
-    it("should always return false if env is production", () => {
-      vi.stubEnv("ENVIRONMENT", "production");
-      expect(skipFlowParamAllowedAndEnabled(searchParamsWithPreview)).toBe(
-        false,
-      );
-    });
+    const actual = skipFlowParamAllowedAndEnabled(searchParamsWithPreview);
+    expect(actual).toBe(expected);
   });
 
   it("should return false if preview is missing", () => {
