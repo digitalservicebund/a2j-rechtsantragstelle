@@ -7,6 +7,7 @@ import {
 import { happyPathData } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import { antragstellendePersonTransitionCases } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+import { testCasesPKHFormularFinanzielleAngabenEinkuenfte } from "../finanzielleAngaben/__test__/testcasesEinkuenfte";
 import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../finanzielleAngaben/__test__/testcasesWohnung";
 
 export const machine: FlowStateMachine = createMachine(
@@ -87,32 +88,11 @@ const cases = [
     ],
   ],
   ...antragstellendePersonTransitionCases,
+  ...testCasesPKHFormularFinanzielleAngabenEinkuenfte,
   ...testCasesPKHFormularFinanzielleAngabenWohnung,
   [
     happyPathData,
     [
-      "/finanzielle-angaben/einkuenfte/start",
-      "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
-      "/finanzielle-angaben/einkuenfte/buergergeld",
-      "/finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
-      "/finanzielle-angaben/einkuenfte/einkommen/art",
-      "/finanzielle-angaben/einkuenfte/einkommen/netto-einkommen",
-      "/finanzielle-angaben/einkuenfte/einkommen/selbststaendig",
-      "/finanzielle-angaben/einkuenfte/einkommen/selbststaendig-abzuege",
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsweg",
-      "/finanzielle-angaben/einkuenfte/abzuege/opnv-kosten",
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsplatz-entfernung",
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht",
-      "/finanzielle-angaben/einkuenfte/rente-frage",
-      "/finanzielle-angaben/einkuenfte/rente",
-      "/finanzielle-angaben/einkuenfte/leistungen/frage",
-      "/finanzielle-angaben/einkuenfte/leistungen/wohngeld",
-      "/finanzielle-angaben/einkuenfte/leistungen/krankengeld",
-      "/finanzielle-angaben/einkuenfte/leistungen/elterngeld",
-      "/finanzielle-angaben/einkuenfte/leistungen/kindergeld",
-      "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
-      "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht",
       "/finanzielle-angaben/partner/partnerschaft",
       "/finanzielle-angaben/partner/zusammenleben",
       "/finanzielle-angaben/partner/partner-einkommen",
