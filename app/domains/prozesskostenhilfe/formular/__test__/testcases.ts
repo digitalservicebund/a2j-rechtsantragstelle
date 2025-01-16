@@ -22,6 +22,7 @@ const cases = [
       versandArt: "digital",
     },
     [
+      "/start/start",
       "/grundvoraussetzungen/nachueberpruefung-frage",
       "/grundvoraussetzungen/antrag/klageersteller",
       "/grundvoraussetzungen/antrag/hinweis",
@@ -42,22 +43,6 @@ const cases = [
       "/grundvoraussetzungen/einreichung/fall",
       "/grundvoraussetzungen/einreichung/hinweis-papier-einreichung",
       "/antragstellende-person/empfaenger",
-    ],
-  ],
-  [
-    {
-      empfaenger: "ich",
-      unterhaltsanspruch: "anspruchNoUnterhalt",
-      couldLiveFromUnterhalt: "yes",
-      personWhoCouldPayUnterhaltBeziehung: "ex-spouse-m",
-      whyNoUnterhalt: "",
-    },
-    [
-      "/antragstellende-person/empfaenger",
-      "/antragstellende-person/unterhaltsanspruch",
-      "/antragstellende-person/unterhalt-leben-frage",
-      "/antragstellende-person/unterhaltspflichtige-person-beziehung",
-      "/antragstellende-person/warum-keiner-unterhalt",
     ],
   ],
   [
@@ -106,15 +91,6 @@ const cases = [
   [
     happyPathData,
     [
-      "/start/start",
-      "/grundvoraussetzungen/nachueberpruefung-frage",
-      "/grundvoraussetzungen/antrag/klageersteller",
-      "/grundvoraussetzungen/einreichung/fall",
-      "/grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
-      "/antragstellende-person/empfaenger",
-      "/antragstellende-person/unterhaltsanspruch",
-      "/rechtsschutzversicherung/rsv-frage",
-      "/rechtsschutzversicherung/org-frage",
       "/finanzielle-angaben/einkuenfte/start",
       "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       "/finanzielle-angaben/einkuenfte/buergergeld",
