@@ -31,7 +31,6 @@ import { testcasesFluggastrechtOtherErfolgs } from "~/domains/fluggastrechte/vor
 import { testCasesFluggastrechteVerspaetetAbbruch } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesVerspaetetAbbruch";
 import { testCasesGeldEinklagen } from "~/domains/geldEinklagen/vorabcheck/__test__/testcases";
 import { testCasesProzesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
-import { testCasesPKHFormularFinanzielleAngabenWohnung } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesWohnung";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";
 import { testCasesProzesskostenhilfeRsv } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
@@ -118,7 +117,6 @@ describe.sequential("state machine form flows", () => {
     testcasesFluggastrechtOtherErfolgs,
     testCasesFluggastrechteFormularPersoenlicheDaten,
     testCasesProzesskostenhilfeFormular,
-    testCasesPKHFormularFinanzielleAngabenWohnung,
     testCasesFluggastrechteFormularGrundvoraussetzungen,
     testCasesFluggastrechteFormularStreitwertKosten,
     testCasesProzesskostenhilfePersoenlicheDaten,

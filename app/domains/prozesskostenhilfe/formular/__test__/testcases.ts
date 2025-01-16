@@ -7,6 +7,7 @@ import {
 import { happyPathData } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import { antragstellendePersonTransitionCases } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../finanzielleAngaben/__test__/testcasesWohnung";
 
 export const machine: FlowStateMachine = createMachine(
   { ...prozesskostenhilfeFormular.config, context: {} },
@@ -101,6 +102,7 @@ const cases = [
     ],
   ],
   ...antragstellendePersonTransitionCases,
+  ...testCasesPKHFormularFinanzielleAngabenWohnung,
   [
     happyPathData,
     [
