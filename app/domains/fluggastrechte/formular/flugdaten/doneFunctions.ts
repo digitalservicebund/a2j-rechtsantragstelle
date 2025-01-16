@@ -46,6 +46,9 @@ function hasOptionalString(value: string | undefined): boolean {
 
 const hasDefaultFlugdaten: FluggastrechteFlugdatenGuard = ({ context }) => {
   return objectKeysNonEmpty(context, [
+    "fluggesellschaftOrt",
+    "fluggesellschaftPostleitzahl",
+    "fluggesellschaftStrasseHausnummer",
     "direktFlugnummer",
     "buchungsNummer",
     "direktAbflugsDatum",
@@ -162,6 +165,27 @@ const hasTatsaechlicherFlugNoWithKeineAnkunftDone: FluggastrechteFlugdatenGuard 
     );
   };
 
+const hasAnnullierungErsatzverbindungDone: FluggastrechteFlugdatenGuard = ({
+  context,
+}) => {
+  return (
+    hasOptionalString(context.annullierungErsatzverbindungFlugnummer) &&
+    hasOptionalString(context.annullierungErsatzverbindungAbflugsDatum) &&
+    hasOptionalString(context.annullierungErsatzverbindungAbflugsZeit) &&
+    hasOptionalString(context.annullierungErsatzverbindungAnkunftsDatum) &&
+    hasOptionalString(context.annullierungErsatzverbindungAnkunftsZeit)
+  );
+};
+
+const hasAnnullierungDone: FluggastrechteFlugdatenGuard = ({ context }) => {
+  return (
+    hasDefaultFlugdaten({ context }) &&
+    hasZwischenStoppData({ context }) &&
+    hasAnnullierungErsatzverbindungDone({ context }) &&
+    hasOptionalString(context.zusaetzlicheAngaben)
+  );
+};
+
 export const flugdatenDone: FluggastrechteFlugdatenGuard = ({ context }) => {
   const doneCases: Record<string, FluggastrechteFlugdatenGuard[]> = {
     verspaetet: [
@@ -170,7 +194,7 @@ export const flugdatenDone: FluggastrechteFlugdatenGuard = ({ context }) => {
       hasTatsaechlicherFlugNoWithOthersDone,
       hasTatsaechlicherFlugNoWithKeineAnkunftDone,
     ],
-    annullierung: [hasErsatzFlugDone, hasOthersDone, hasKeineAnkunftDone],
+    annullierung: [hasAnnullierungDone],
     nichtbefoerderung: [hasErsatzFlugDone, hasOthersDone, hasKeineAnkunftDone],
   };
 

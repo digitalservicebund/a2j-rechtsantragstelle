@@ -10,7 +10,7 @@ import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect"
 import {
   fetchFlowPage,
   fetchMeta,
-  fetchTranslations,
+  fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
 import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
@@ -82,20 +82,15 @@ export const loader = async ({
     }
   }
 
-  const [
-    formPageContent,
-    parentMeta,
-    navigationStrings,
-    defaultStrings,
-    flowTranslations,
-    overviewTranslations,
-  ] = await Promise.all([
+  const [formPageContent, parentMeta, translations] = await Promise.all([
     fetchFlowPage("form-flow-pages", flowId, stepId),
     fetchMeta({ filterValue: parentFromParams(pathname, params) }),
-    fetchTranslations(`${flowId}/menu`),
-    fetchTranslations("defaultTranslations"),
-    fetchTranslations(flowId),
-    fetchTranslations(`${flowId}/summaryPage`),
+    fetchMultipleTranslations([
+      `${flowId}/menu`,
+      "defaultTranslations",
+      flowId,
+      `${flowId}/summaryPage`,
+    ]),
   ]);
 
   const arrayCategories = formPageContent.pre_form
@@ -118,10 +113,10 @@ export const loader = async ({
   const { stringTranslations, cmsContent } =
     await buildFormularServerTranslations({
       currentFlow,
-      flowTranslations,
+      flowTranslations: translations[flowId],
       migrationData,
       arrayCategories,
-      overviewTranslations,
+      overviewTranslations: translations[`${flowId}/summaryPage`],
       formPageContent,
       userDataWithPageData,
     });
@@ -157,6 +152,8 @@ export const loader = async ({
       ? insertIndexesIntoPath(pathname, backDestination, arrayIndexes)
       : backDestination;
 
+  const defaultStrings = translations.defaultTranslations;
+
   const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel:
       cmsContent.backButtonLabel ?? defaultStrings.backButtonDefaultLabel,
@@ -170,7 +167,7 @@ export const loader = async ({
     navItemsFromStepStates(
       stepId,
       flowController.stepStates(),
-      navigationStrings,
+      translations[`${flowId}/menu`],
     ) ?? [];
 
   const navigationA11yLabels = {
