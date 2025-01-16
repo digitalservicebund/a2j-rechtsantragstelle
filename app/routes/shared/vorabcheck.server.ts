@@ -14,7 +14,10 @@ import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiHeading";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { logWarning } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";
-import { previewAllowedAndEnabled, parentFromParams } from "~/services/params";
+import {
+  skipFlowParamAllowedAndEnabled,
+  parentFromParams,
+} from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import {
   getSessionData,
@@ -49,7 +52,7 @@ export const loader = async ({
 
   if (
     !flowController.isReachable(stepId) &&
-    !previewAllowedAndEnabled(searchParams)
+    !skipFlowParamAllowedAndEnabled(searchParams)
   )
     return redirectDocument(flowController.getInitial());
 

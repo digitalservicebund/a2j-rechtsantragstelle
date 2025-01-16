@@ -12,7 +12,7 @@ test.describe("Accessibility checks", () => {
 
   [...flowUrls].forEach((url) => {
     test(url, async ({ page }) => {
-      await page.goto(url + "?preview");
+      await page.goto(url + "?skipFlow");
       await expectPageToBeAccessible({ page });
     });
   });

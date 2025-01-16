@@ -14,5 +14,6 @@ export function parentFromParams(pathname: string, params: Params) {
   return pathname.slice(0, -splat.length - 1);
 }
 
-export const previewAllowedAndEnabled = (searchParams: URLSearchParams) =>
-  config().ENVIRONMENT !== "production" && searchParams.get("preview") !== null;
+export const skipFlowParamAllowedAndEnabled = (searchParams: URLSearchParams) =>
+  config().ENVIRONMENT !== "production" &&
+  searchParams.get("skipFlow") !== null;
