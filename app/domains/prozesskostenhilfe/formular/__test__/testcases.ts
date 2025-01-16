@@ -31,6 +31,20 @@ const cases = [
   ],
   [
     {
+      formularArt: "nachueberpruefung",
+      versandArt: "analog",
+    },
+    [
+      "/grundvoraussetzungen/nachueberpruefung-frage",
+      "/grundvoraussetzungen/nachueberpruefung/name-gericht",
+      "/grundvoraussetzungen/nachueberpruefung/aktenzeichen",
+      "/grundvoraussetzungen/einreichung/fall",
+      "/grundvoraussetzungen/einreichung/hinweis-papier-einreichung",
+      "/antragstellende-person/empfaenger",
+    ],
+  ],
+  [
+    {
       empfaenger: "ich",
       unterhaltsanspruch: "anspruchNoUnterhalt",
       couldLiveFromUnterhalt: "yes",
