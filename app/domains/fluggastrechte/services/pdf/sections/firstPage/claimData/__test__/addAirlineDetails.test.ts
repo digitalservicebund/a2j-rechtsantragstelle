@@ -16,4 +16,15 @@ describe("addAirlineDetails", () => {
       continued: true,
     });
   });
+
+  it("should generate document with airline address details", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addAirlineDetails(mockDoc, userDataMock);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      `${userDataMock.fluggesellschaftStrasseHausnummer}, ${userDataMock.fluggesellschaftPostleitzahl} ${userDataMock.fluggesellschaftOrt}`,
+    );
+  });
 });
