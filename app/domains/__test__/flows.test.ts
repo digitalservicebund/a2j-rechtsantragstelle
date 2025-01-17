@@ -179,6 +179,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(86);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(85);
   });
 });

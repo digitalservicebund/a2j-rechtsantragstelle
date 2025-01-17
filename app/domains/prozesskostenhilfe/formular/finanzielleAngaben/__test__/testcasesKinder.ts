@@ -64,4 +64,15 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = [
       "/finanzielle-angaben/kinder/kinder/kind-unterhalt",
     ],
   ],
+  [
+    {
+      kinder: [{ wohnortBeiAntragsteller: "no", unterhalt: "no" }],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "/finanzielle-angaben/kinder/kinder/wohnort",
+      "/finanzielle-angaben/kinder/kinder/kind-unterhalt-frage",
+      "/finanzielle-angaben/kinder/kinder/kind-unterhalt-ende",
+    ],
+  ],
 ] as const satisfies TestCases<ProzesskostenhilfeFinanzielleAngabenContext>;
