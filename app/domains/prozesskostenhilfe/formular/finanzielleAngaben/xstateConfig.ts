@@ -768,7 +768,7 @@ export const finanzielleAngabenXstateConfig = {
             },
             "sonstige-art": {
               on: {
-                BACK: "#ausgaben-zusammenfassung",
+                BACK: "daten",
                 SUBMIT: "#ausgaben-zusammenfassung",
               },
             },
