@@ -18,4 +18,14 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
       "/gesetzliche-vertretung/frage",
     ],
   ],
+  [
+    {
+      versicherungen: [{ art: "sonstige", beitrag: "10" }],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "/finanzielle-angaben/ausgaben-zusammenfassung/versicherungen/daten",
+      "/finanzielle-angaben/ausgaben-zusammenfassung/versicherungen/sonstige-art",
+    ],
+  ],
 ] as const satisfies TestCases<ProzesskostenhilfeFinanzielleAngabenContext>;
