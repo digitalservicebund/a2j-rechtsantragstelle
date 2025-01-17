@@ -6,8 +6,6 @@ import fallbackStrapiInfoBox from "./fallbackInfobox";
 import PageContent from "../../components/PageContent";
 import type { StrapiContentComponent } from "../cms/models/StrapiContentComponent";
 
-export const httpErrorCodes = ["404", "500", "403"] as const;
-
 function jsError(routeError: unknown) {
   if (typeof routeError === "string") return routeError.toUpperCase();
   if (routeError instanceof Error) return routeError.message;

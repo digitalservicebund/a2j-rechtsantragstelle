@@ -3,6 +3,7 @@ import { airportSchema } from "~/services/validation/airport";
 import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
 import { createDateSchema } from "~/services/validation/date";
 import { flightNumberSchema } from "~/services/validation/flightNumber";
+import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
@@ -61,6 +62,13 @@ export const fluggastrechteFlugdaten = {
   ersatzFlugAnkunftsDatum: fourYearsAgoSchema,
   ersatzFlugAnkunftsZeit: timeSchema,
   zusaetzlicheAngaben: stringOptionalSchema,
+  annullierungErsatzverbindungFlugnummer: optionalOrSchema(flightNumberSchema),
+  annullierungErsatzverbindungAbflugsDatum:
+    optionalOrSchema(fourYearsAgoSchema),
+  annullierungErsatzverbindungAbflugsZeit: optionalOrSchema(timeSchema),
+  annullierungErsatzverbindungAnkunftsDatum:
+    optionalOrSchema(fourYearsAgoSchema),
+  annullierungErsatzverbindungAnkunftsZeit: optionalOrSchema(timeSchema),
 };
 
 const _contextObject = z.object(fluggastrechteFlugdaten).partial();

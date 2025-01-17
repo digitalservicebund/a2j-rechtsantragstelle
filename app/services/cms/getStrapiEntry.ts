@@ -6,7 +6,7 @@ import { config } from "../env/env.server";
 import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
 
 export type GetStrapiEntry = <T extends ApiId>(
-  opts: GetStrapiEntryOpts & { apiId: T },
+  opts: GetStrapiEntryOpts<T> & { apiId: T },
 ) => Promise<StrapiSchemas[T] | [null]>;
 
 const getterFunction =

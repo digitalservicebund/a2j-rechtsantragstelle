@@ -10,7 +10,7 @@ import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect"
 import {
   fetchFlowPage,
   fetchMeta,
-  fetchTranslations,
+  fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
 import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
@@ -25,7 +25,10 @@ import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { logWarning } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";
-import { parentFromParams } from "~/services/params";
+import {
+  parentFromParams,
+  skipFlowParamAllowedAndEnabled,
+} from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import {
   getSessionData,
@@ -49,7 +52,7 @@ export const loader = async ({
   request,
   context,
 }: LoaderFunctionArgs) => {
-  const { pathname } = new URL(request.url);
+  const { pathname, searchParams } = new URL(request.url);
   const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
   const { userData, debugId } = await getSessionData(flowId, cookieHeader);
@@ -66,7 +69,10 @@ export const loader = async ({
     guards: currentFlow.guards,
   });
 
-  if (!flowController.isReachable(stepId))
+  if (
+    !flowController.isReachable(stepId) &&
+    !skipFlowParamAllowedAndEnabled(searchParams)
+  )
     return redirectDocument(flowController.getInitial());
 
   const flowTransitionConfig = getFlowTransitionConfig(currentFlow);
@@ -82,20 +88,15 @@ export const loader = async ({
     }
   }
 
-  const [
-    formPageContent,
-    parentMeta,
-    navigationStrings,
-    defaultStrings,
-    flowTranslations,
-    overviewTranslations,
-  ] = await Promise.all([
+  const [formPageContent, parentMeta, translations] = await Promise.all([
     fetchFlowPage("form-flow-pages", flowId, stepId),
     fetchMeta({ filterValue: parentFromParams(pathname, params) }),
-    fetchTranslations(`${flowId}/menu`),
-    fetchTranslations("defaultTranslations"),
-    fetchTranslations(flowId),
-    fetchTranslations(`${flowId}/summaryPage`),
+    fetchMultipleTranslations([
+      `${flowId}/menu`,
+      "defaultTranslations",
+      flowId,
+      `${flowId}/summaryPage`,
+    ]),
   ]);
 
   const arrayCategories = formPageContent.pre_form
@@ -118,10 +119,10 @@ export const loader = async ({
   const { stringTranslations, cmsContent } =
     await buildFormularServerTranslations({
       currentFlow,
-      flowTranslations,
+      flowTranslations: translations[flowId],
       migrationData,
       arrayCategories,
-      overviewTranslations,
+      overviewTranslations: translations[`${flowId}/summaryPage`],
       formPageContent,
       userDataWithPageData,
     });
@@ -157,6 +158,8 @@ export const loader = async ({
       ? insertIndexesIntoPath(pathname, backDestination, arrayIndexes)
       : backDestination;
 
+  const defaultStrings = translations.defaultTranslations;
+
   const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel:
       cmsContent.backButtonLabel ?? defaultStrings.backButtonDefaultLabel,
@@ -170,7 +173,7 @@ export const loader = async ({
     navItemsFromStepStates(
       stepId,
       flowController.stepStates(),
-      navigationStrings,
+      translations[`${flowId}/menu`],
     ) ?? [];
 
   const navigationA11yLabels = {

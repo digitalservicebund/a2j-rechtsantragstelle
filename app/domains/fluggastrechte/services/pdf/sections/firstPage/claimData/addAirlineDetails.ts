@@ -9,15 +9,23 @@ import { SEPARATOR } from "./addPlaintiffDetails";
 
 export const addAirlineDetails = (
   doc: typeof PDFDocument,
-  userData: FluggastrechtContext,
+  {
+    fluggesellschaft,
+    fluggesellschaftStrasseHausnummer,
+    fluggesellschaftPostleitzahl,
+    fluggesellschaftOrt,
+  }: FluggastrechtContext,
 ) => {
-  const airlineName = getAirlineNameByIataCode(userData.fluggesellschaft);
+  const airlineName = getAirlineNameByIataCode(fluggesellschaft);
+  const address = fluggesellschaftStrasseHausnummer ?? "";
+  const zipCode = fluggesellschaftPostleitzahl ?? "";
+  const city = fluggesellschaftOrt ?? "";
   doc
     .fontSize(10)
     .font(FONTS_BUNDESSANS_BOLD)
     .text(airlineName, { continued: true })
     .font(FONTS_BUNDESSANS_REGULAR)
     .text(SEPARATOR, { continued: true })
-    .text("Venloer Straße 151-153, 50672 Köln")
+    .text(`${address}, ${zipCode} ${city}`)
     .text("– Beklagte Partei –");
 };
