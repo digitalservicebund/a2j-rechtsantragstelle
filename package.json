@@ -130,7 +130,7 @@
     "globals": "^15.14.0",
     "i18n-iso-countries": "^7.13.0",
     "jsdom": "^26.0.0",
-    "lefthook": "^1.10.7",
+    "lefthook": "^1.10.8",
     "license-checker-rseidelsohn": "^4.4.2",
     "p-map": "^7.0.3",
     "postcss": "^8.5.1",
