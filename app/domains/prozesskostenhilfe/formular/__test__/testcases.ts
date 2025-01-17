@@ -7,7 +7,10 @@ import {
 import { happyPathData } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import { antragstellendePersonTransitionCases } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+import { testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen } from "../finanzielleAngaben/__test__/testcasesAndereUnterhalt";
 import { testCasesPKHFormularFinanzielleAngabenEinkuenfte } from "../finanzielleAngaben/__test__/testcasesEinkuenfte";
+import { testCasesPKHFormularFinanzielleAngabenKinder } from "../finanzielleAngaben/__test__/testcasesKinder";
+import { testCasesPKHFormularFinanzielleAngabenPartner } from "../finanzielleAngaben/__test__/testcasesPartner";
 import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../finanzielleAngaben/__test__/testcasesWohnung";
 
 export const machine: FlowStateMachine = createMachine(
@@ -89,17 +92,13 @@ const cases = [
   ],
   ...antragstellendePersonTransitionCases,
   ...testCasesPKHFormularFinanzielleAngabenEinkuenfte,
+  ...testCasesPKHFormularFinanzielleAngabenPartner,
   ...testCasesPKHFormularFinanzielleAngabenWohnung,
+  ...testCasesPKHFormularFinanzielleAngabenKinder,
+  ...testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen,
   [
     happyPathData,
     [
-      "/finanzielle-angaben/partner/partnerschaft",
-      "/finanzielle-angaben/partner/zusammenleben",
-      "/finanzielle-angaben/partner/partner-einkommen",
-      "/finanzielle-angaben/kinder/kinder-frage",
-      "/finanzielle-angaben/kinder/uebersicht",
-      "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
-      "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
       "/finanzielle-angaben/wohnung/alleine-zusammen",
       "/finanzielle-angaben/wohnung/groesse",
       "/finanzielle-angaben/wohnung/anzahl-zimmer",
