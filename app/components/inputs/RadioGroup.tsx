@@ -4,7 +4,7 @@ import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
 import Radio from "./Radio";
 
-type RadioGroupProps = Readonly<{
+export type RadioGroupProps = Readonly<{
   name: string;
   options: Array<{
     value: string;

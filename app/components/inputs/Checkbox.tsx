@@ -8,14 +8,14 @@ export enum CheckboxValue {
   off = "off",
 }
 
-type CheckboxProps = {
-  readonly name: string;
-  readonly value?: string; // Defaults to "on", see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input/checkbox#value
-  readonly label?: string;
-  readonly formId?: string;
-  readonly required?: boolean;
-  readonly errorMessage?: string;
-};
+export type CheckboxProps = Readonly<{
+  name: string;
+  value?: string; // Defaults to "on", see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input/checkbox#value
+  label?: string;
+  formId?: string;
+  required?: boolean;
+  errorMessage?: string;
+}>;
 
 const Checkbox = ({
   name,

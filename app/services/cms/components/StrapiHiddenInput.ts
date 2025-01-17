@@ -1,7 +1,7 @@
 import { z } from "zod";
-import HiddenInput from "~/components/inputs/HiddenInput";
+import { HiddenInputProps } from "~/components/inputs/HiddenInput";
+import { HasOptionalStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
 import { omitNull } from "~/util/omitNull";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
 const StrapiHiddenInputSchema = z
   .object({
@@ -15,6 +15,6 @@ export const StrapiHiddenInputComponentSchema = StrapiHiddenInputSchema.extend({
   __component: z.literal("form-elements.hidden-input"),
 });
 
-export const StrapiHiddenInput = ({ ...props }: StrapiHiddenInput) => {
-  return <HiddenInput {...omitNull(props)} />;
-};
+export const getHiddenInputProps = (
+  cmsData: StrapiHiddenInput,
+): HiddenInputProps => omitNull(cmsData);
