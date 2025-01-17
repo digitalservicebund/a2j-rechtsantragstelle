@@ -2,6 +2,8 @@ import { test, expect } from "@playwright/test";
 import { footerLinks, headerLinks } from "../pages/urlsToCheck";
 import { testPageToBeAccessible } from "../util/testPageToBeAccessible";
 
+const LOGO_DIV_ID = "#BMJ-Logo-Banner";
+
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
@@ -9,10 +11,9 @@ test.beforeEach(async ({ page }) => {
 test.describe("homepage", () => {
   testPageToBeAccessible();
 
-  test.skip("BMF logo is displayed", async ({ page }) => {
-    const allImages = await page.getByRole("img").all();
-    expect(allImages.length).toBeGreaterThan(0);
-    await expect(allImages[0]).toBeVisible();
+  test("BMJ logo is displayed", async ({ page }) => {
+    const logoImage = page.locator(LOGO_DIV_ID).locator("div").locator("img");
+    await expect(logoImage).toBeVisible();
   });
 
   test.describe("Header links", () => {
