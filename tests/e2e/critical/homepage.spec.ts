@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 test.describe("homepage", () => {
   testPageToBeAccessible();
 
-  test("BMF logo is displayed", async ({ page }) => {
+  test("BMJ logo is displayed", async ({ page }) => {
     const logoImage = page.locator(LOGO_DIV_ID).locator("div").locator("img");
     await expect(logoImage).toBeVisible();
   });
