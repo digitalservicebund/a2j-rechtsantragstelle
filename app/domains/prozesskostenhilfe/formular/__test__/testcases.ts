@@ -8,6 +8,7 @@ import { happyPathData } from "~/domains/prozesskostenhilfe/formular/__test__/pr
 import { antragstellendePersonTransitionCases } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen } from "../finanzielleAngaben/__test__/testcasesAndereUnterhalt";
+import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "../finanzielleAngaben/__test__/testcasesAusgaben";
 import { testCasesPKHFormularFinanzielleAngabenEigentum } from "../finanzielleAngaben/__test__/testcasesEigentum";
 import { testCasesPKHFormularFinanzielleAngabenEinkuenfte } from "../finanzielleAngaben/__test__/testcasesEinkuenfte";
 import { testCasesPKHFormularFinanzielleAngabenKinder } from "../finanzielleAngaben/__test__/testcasesKinder";
@@ -98,6 +99,7 @@ const cases = [
   ...testCasesPKHFormularFinanzielleAngabenKinder,
   ...testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen,
   ...testCasesPKHFormularFinanzielleAngabenEigentum,
+  ...testCasesPKHFormularFinanzielleAngabenAusgaben,
   [
     happyPathData,
     [
