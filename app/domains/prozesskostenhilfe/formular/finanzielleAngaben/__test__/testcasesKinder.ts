@@ -1,6 +1,5 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/context";
-const prefix = "/finanzielle-angaben/partner";
 
 export const testCasesPKHFormularFinanzielleAngabenKinder = [
   [
