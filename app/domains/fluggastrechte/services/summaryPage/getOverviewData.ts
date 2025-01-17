@@ -33,3 +33,11 @@ export const getZeugenText = (userData: FluggastrechtContext) => {
   if (userData.isWeiterePersonen === "yes") return "cedentsAndWitnesses";
   return "noCedentsAndWitnesses";
 };
+
+export const getFluggesellschaftDaten = (userData: FluggastrechtContext) => {
+  return {
+    adresse: userData.fluggesellschaftStrasseHausnummer,
+    postleitzahl: userData.fluggesellschaftPostleitzahl,
+    ort: userData.fluggesellschaftOrt,
+  };
+};
