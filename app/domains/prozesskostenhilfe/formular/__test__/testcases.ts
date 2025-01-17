@@ -8,6 +8,7 @@ import { happyPathData } from "~/domains/prozesskostenhilfe/formular/__test__/pr
 import { antragstellendePersonTransitionCases } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen } from "../finanzielleAngaben/__test__/testcasesAndereUnterhalt";
+import { testCasesPKHFormularFinanzielleAngabenEigentum } from "../finanzielleAngaben/__test__/testcasesEigentum";
 import { testCasesPKHFormularFinanzielleAngabenEinkuenfte } from "../finanzielleAngaben/__test__/testcasesEinkuenfte";
 import { testCasesPKHFormularFinanzielleAngabenKinder } from "../finanzielleAngaben/__test__/testcasesKinder";
 import { testCasesPKHFormularFinanzielleAngabenPartner } from "../finanzielleAngaben/__test__/testcasesPartner";
@@ -96,23 +97,10 @@ const cases = [
   ...testCasesPKHFormularFinanzielleAngabenWohnung,
   ...testCasesPKHFormularFinanzielleAngabenKinder,
   ...testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen,
+  ...testCasesPKHFormularFinanzielleAngabenEigentum,
   [
     happyPathData,
     [
-      "/finanzielle-angaben/wohnung/alleine-zusammen",
-      "/finanzielle-angaben/wohnung/groesse",
-      "/finanzielle-angaben/wohnung/anzahl-zimmer",
-      "/finanzielle-angaben/wohnung/miete-eigenheim",
-      "/finanzielle-angaben/wohnung/miete-alleine",
-      "/finanzielle-angaben/wohnung/nebenkosten",
-      "/finanzielle-angaben/eigentum/eigentum-info",
-      "/finanzielle-angaben/eigentum/heirat-info",
-      "/finanzielle-angaben/eigentum/bankkonten-frage",
-      "/finanzielle-angaben/eigentum/geldanlagen-frage",
-      "/finanzielle-angaben/eigentum/wertgegenstaende-frage",
-      "/finanzielle-angaben/eigentum/grundeigentum-frage",
-      "/finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
-      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
       "/finanzielle-angaben/ausgaben/ausgaben-frage",
       "/finanzielle-angaben/ausgaben/besondere-belastungen",
       "/finanzielle-angaben/ausgaben-zusammenfassung/zusammenfassung",
