@@ -51,7 +51,7 @@
     "name": "Air Baltic Corporation",
     "iata": "BT",
     "isInEU": true,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Air Bucharest",
@@ -69,7 +69,7 @@
     "name": "Air Canada",
     "iata": "AC",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Air China Ltd.",
@@ -81,7 +81,7 @@
     "name": "Air Dolomiti",
     "iata": "EN",
     "isInEU": true,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Air Europa Lineas Aereas S.A.",
@@ -117,7 +117,7 @@
     "name": "Air Mauritius Ltd.",
     "iata": "MK",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Air Moldova",
@@ -261,13 +261,13 @@
     "name": "Cathay Pacific Airways Limited",
     "iata": "CX",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "China Airlines",
     "iata": "CI",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "China Eastern Airlines Ltd.",
@@ -291,7 +291,7 @@
     "name": "Condor Flugdienst GmbH",
     "iata": "DE",
     "isInEU": true,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Corendon Airlines (Turkei)",
@@ -315,19 +315,19 @@
     "name": "DELTA Air Lines Inc.",
     "iata": "DL",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Deutsche Lufthansa AG",
     "iata": "LH",
     "isInEU": true,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "easyJet Airline Company Ltd.",
     "iata": "U2",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "easyJet Europe Airline GmbH",
@@ -357,7 +357,7 @@
     "name": "EL AL Israel Airlines Ltd.",
     "iata": "LY",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Ellinair",
@@ -375,7 +375,7 @@
     "name": "Eurowings GmbH",
     "iata": "EW",
     "isInEU": true,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Finnair PLC",
@@ -471,7 +471,7 @@
     "name": "IranAir",
     "iata": "IR",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Iraqi Airways Germany",
@@ -489,7 +489,7 @@
     "name": "Jet2.com",
     "iata": "LS",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Kenya Airways",
@@ -501,7 +501,7 @@
     "name": "Korean Air",
     "iata": "KE",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Kosova Airways SH P.K.",
@@ -513,7 +513,7 @@
     "name": "LATAM Airlines",
     "iata": "LA",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Loganair Limited",
@@ -531,7 +531,7 @@
     "name": "Middle East Airlines Airliban",
     "iata": "ME",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Montenegro Airlines",
@@ -621,13 +621,13 @@
     "name": "Qantas Airways Ltd.",
     "iata": "QF",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "QATAR Airways",
     "iata": "QR",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Rossiya Airlines JSC",
@@ -651,7 +651,7 @@
     "name": "Ryanair Ltd.",
     "iata": "FR",
     "isInEU": true,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "S7 Airlines",
@@ -723,13 +723,13 @@
     "name": "SunExpress Günes Ekspres Havacilik A.S.",
     "iata": "XQ",
     "isInEU": true,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Swiss International Air Lines AG",
     "iata": "LX",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Tailwind Havayollari A.S.",
@@ -783,7 +783,7 @@
     "name": "TUIfly GmbH",
     "iata": "X3*",
     "isInEU": true,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "TUNISAIR",
@@ -807,7 +807,7 @@
     "name": "United Airlines Inc.",
     "iata": "UA",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Utair Aviation",
@@ -819,7 +819,7 @@
     "name": "Vietnam Airlines",
     "iata": "VN",
     "isInEU": false,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "VIM Airlines",
@@ -975,13 +975,13 @@
     "name": "Lauda Europe",
     "iata": "LW",
     "isInEU": true,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "EW Discover GmbH",
     "iata": "4Y",
     "isInEU": true,
-    "arbitrationBoard": "söp"
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Air Algérie",
