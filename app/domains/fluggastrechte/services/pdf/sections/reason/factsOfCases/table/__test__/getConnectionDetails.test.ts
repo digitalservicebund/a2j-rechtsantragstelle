@@ -178,6 +178,25 @@ describe("getConnectionDetails", () => {
           timeTable: ["--", "--", "--"],
         });
       });
+
+      it("should return the text of no offer replacement received and date and time, given ersatzflug no and replacement flights info", () => {
+        const userData: FluggastrechtContext = {
+          bereich: "annullierung",
+          ankuendigung: "no",
+          ersatzflug: "no",
+          annullierungErsatzverbindungAbflugsDatum: "10.10.2024",
+          annullierungErsatzverbindungAbflugsZeit: "10:20",
+          annullierungErsatzverbindungAnkunftsDatum: "10.10.2024",
+          annullierungErsatzverbindungAnkunftsZeit: "11:40",
+          annullierungErsatzverbindungFlugnummer: "ABCD1",
+        };
+        const result = getConnectionDetails(userData);
+
+        expect(result).toEqual({
+          info: `Gar nicht vor Abflug mitgeteilt.\n${NO_OFFER_REPLACEMENT_RECEIVED_TEXT}`,
+          timeTable: ["ABCD1", "10.10.2024, 10:20", "10.10.2024, 11:40"],
+        });
+      });
     });
 
     describe("ankuendigung until6Days", () => {
@@ -244,6 +263,27 @@ describe("getConnectionDetails", () => {
           timeTable: ["--", "--", "--"],
         });
       });
+
+      it("should return the correct given no for ersatzflugStartenEinStunde, yes ersatzflugLandenZweiStunden and flight info replacement", () => {
+        const userData: FluggastrechtContext = {
+          bereich: "annullierung",
+          ankuendigung: "until6Days",
+          ersatzflug: "yes",
+          ersatzflugStartenEinStunde: "no",
+          ersatzflugLandenZweiStunden: "yes",
+          annullierungErsatzverbindungAbflugsDatum: "10.10.2024",
+          annullierungErsatzverbindungAbflugsZeit: "10:20",
+          annullierungErsatzverbindungAnkunftsDatum: "10.10.2024",
+          annullierungErsatzverbindungAnkunftsZeit: "11:40",
+          annullierungErsatzverbindungFlugnummer: "ABCD1",
+        };
+        const result = getConnectionDetails(userData);
+
+        expect(result).toEqual({
+          info: `0 bis 6 Tage vor Abflug mitgeteilt.\n${OFFERED_REPLACEMENT_FLIGHT} ${LESS_THAN} 1 Stunde ${EARLIER_STARTED} und ${MORE_THAN} 2 Stunden ${LATER_ARRIVED}`,
+          timeTable: ["ABCD1", "10.10.2024, 10:20", "10.10.2024, 11:40"],
+        });
+      });
     });
 
     describe("ankuendigung between7And13Days", () => {
@@ -308,6 +348,27 @@ describe("getConnectionDetails", () => {
         expect(result).toEqual({
           info: `7-13 Tage vor Abflug mitgeteilt.\n${OFFERED_REPLACEMENT_FLIGHT} ${LESS_THAN} 2 Stunden ${EARLIER_STARTED} und ${MORE_THAN} 4 Stunden ${LATER_ARRIVED}`,
           timeTable: ["--", "--", "--"],
+        });
+      });
+
+      it("should return the correct given no for ersatzflugStartenZweiStunden, yes ersatzflugLandenVierStunden and flight info replacement", () => {
+        const userData: FluggastrechtContext = {
+          bereich: "annullierung",
+          ankuendigung: "between7And13Days",
+          ersatzflug: "yes",
+          ersatzflugStartenZweiStunden: "no",
+          ersatzflugLandenVierStunden: "yes",
+          annullierungErsatzverbindungAbflugsDatum: "10.10.2024",
+          annullierungErsatzverbindungAbflugsZeit: "10:20",
+          annullierungErsatzverbindungAnkunftsDatum: "10.10.2024",
+          annullierungErsatzverbindungAnkunftsZeit: "11:40",
+          annullierungErsatzverbindungFlugnummer: "ABCD1",
+        };
+        const result = getConnectionDetails(userData);
+
+        expect(result).toEqual({
+          info: `7-13 Tage vor Abflug mitgeteilt.\n${OFFERED_REPLACEMENT_FLIGHT} ${LESS_THAN} 2 Stunden ${EARLIER_STARTED} und ${MORE_THAN} 4 Stunden ${LATER_ARRIVED}`,
+          timeTable: ["ABCD1", "10.10.2024, 10:20", "10.10.2024, 11:40"],
         });
       });
     });
