@@ -11,7 +11,7 @@ vi.mock(
 );
 
 describe("api.airline loader", () => {
-  it("should return airline name for a valid iataCode", () => {
+  it("should return airline name for a valid iataCode", async () => {
     const mockArgs: LoaderFunctionArgs = {
       params: { iataCode: "LH" },
       request: new Request("https://test.com/api/airline/LH"),
@@ -25,13 +25,12 @@ describe("api.airline loader", () => {
     expect(response).toBeInstanceOf(Response);
     expect(response.status).toBe(200);
 
-    return response.text().then((text) => {
-      const data = JSON.parse(text);
-      expect(data).toEqual({ name: "Lufthansa" });
-    });
+    const text = await response.text();
+    const data = JSON.parse(text);
+    expect(data).toEqual({ name: "Lufthansa" });
   });
 
-  it("should return empty string if it is not found", () => {
+  it("should return empty string if it is not found", async () => {
     const mockArgs: LoaderFunctionArgs = {
       params: { iataCode: "XX" },
       request: new Request("https://test.com/api/airline/XX"),
@@ -45,9 +44,8 @@ describe("api.airline loader", () => {
     expect(response).toBeInstanceOf(Response);
     expect(response.status).toBe(200);
 
-    return response.text().then((text) => {
-      const data = JSON.parse(text);
-      expect(data).toEqual({ name: "" });
-    });
+    const text = await response.text();
+    const data = JSON.parse(text);
+    expect(data).toEqual({ name: "" });
   });
 });
