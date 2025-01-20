@@ -4,7 +4,6 @@ import { useTranslations } from "~/services/translations/translationsContext";
 const feedbackTranslationsKeys = [
   "heading-feedback",
   "placeholder-feedback",
-  "abort-button-feedback",
   "submit-button-feedback",
 ] as const;
 export type FeedbackTranslationKeys = (typeof feedbackTranslationsKeys)[number];

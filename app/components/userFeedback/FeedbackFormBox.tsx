@@ -1,4 +1,3 @@
-import CloseIcon from "@digitalservicebund/icons/CloseOutlined";
 import SendIcon from "@digitalservicebund/icons/SendOutlined";
 import { withZod } from "@remix-validated-form/with-zod";
 import { useEffect, useRef, useState } from "react";
@@ -15,7 +14,6 @@ export const FEEDBACK_FORM_NAME = "feedbackForm";
 export const FEEDBACK_FIELD_NAME = "feedback";
 
 enum FeedbackButtons {
-  Abort = "abort",
   Submit = "submit",
 }
 
@@ -78,15 +76,6 @@ export const FeedbackFormBox = ({
           innerRef={textAreaReference}
         />
         <ButtonContainer>
-          <Button
-            iconLeft={<CloseIcon />}
-            look="tertiary"
-            name={FEEDBACK_BUTTON_FIELD_NAME}
-            value={FeedbackButtons.Abort}
-            type="submit"
-          >
-            {feedbackTranslations["abort-button-feedback"]}
-          </Button>
           <Button
             look="primary"
             iconLeft={<SendIcon />}
