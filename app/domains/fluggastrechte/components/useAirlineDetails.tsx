@@ -27,8 +27,6 @@ const useAirlineDetails = (airlineByIataCode: string) => {
           const data = await response.json();
           const { name } = AirlineDetailsSchema.parse(data);
           setAirlineDetails({ name });
-        } else {
-          setAirlineDetails({ name: "" });
         }
       } catch {
         setAirlineDetails({ name: "" });
