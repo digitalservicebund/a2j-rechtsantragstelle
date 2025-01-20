@@ -74,65 +74,65 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
 
   return {
     id: stepIds.id,
-    initial:
-      subflowPrefix === "partner"
-        ? stepIds.staatlicheLeistungen
-        : stepIds.start,
+    initial: isPartnerFlow ? stepIds.staatlicheLeistungen : stepIds.start,
     meta: { done: einkuenfteDone },
     states: {
-      [stepIds.start]: {
-        id: stepIds.start,
-        on: {
-          SUBMIT: stepIds.staatlicheLeistungen,
-          BACK: [
-            {
-              guard: and([nachueberpruefung, unterhaltLeisteIch]),
-              target: "#antragstellende-person.zwei-formulare",
-            },
-            {
-              guard: and([
-                nachueberpruefung,
-                ({ context }) => context.unterhaltsanspruch === "keine",
-              ]),
-              target: "#antragstellende-person.unterhaltsanspruch",
-            },
-            {
-              guard: and([
-                nachueberpruefung,
-                ({ context }) => context.unterhaltsanspruch === "unterhalt",
-                ({ context }) => context.livesPrimarilyFromUnterhalt === "no",
-              ]),
-              target:
-                "#antragstellende-person.unterhalt-hauptsaechliches-leben",
-            },
-            {
-              guard: and([
-                nachueberpruefung,
-                ({ context }) => context.unterhaltsanspruch === "unterhalt",
-                ({ context }) => context.livesPrimarilyFromUnterhalt === "yes",
-              ]),
-              target: "#antragstellende-person.eigenes-exemplar",
-            },
-            {
-              guard: and([nachueberpruefung, couldLiveFromUnterhalt]),
-              target: "#antragstellende-person.warum-keiner-unterhalt",
-            },
-            {
-              guard: nachueberpruefung,
-              target: "#antragstellende-person.unterhalt-leben-frage",
-            },
-            {
-              guard: ({ context }) => isOrganizationCoveragePartly(context),
-              target: "#rechtsschutzversicherung.org-deckung-teilweise",
-            },
-            {
-              guard: ({ context }) => isOrganizationCoverageNone(context),
-              target: "#rechtsschutzversicherung.org-deckung-nein",
-            },
-            "#rechtsschutzversicherung.org-frage",
-          ],
+      ...(!isPartnerFlow && {
+        [stepIds.start]: {
+          id: stepIds.start,
+          on: {
+            SUBMIT: stepIds.staatlicheLeistungen,
+            BACK: [
+              {
+                guard: and([nachueberpruefung, unterhaltLeisteIch]),
+                target: "#antragstellende-person.zwei-formulare",
+              },
+              {
+                guard: and([
+                  nachueberpruefung,
+                  ({ context }) => context.unterhaltsanspruch === "keine",
+                ]),
+                target: "#antragstellende-person.unterhaltsanspruch",
+              },
+              {
+                guard: and([
+                  nachueberpruefung,
+                  ({ context }) => context.unterhaltsanspruch === "unterhalt",
+                  ({ context }) => context.livesPrimarilyFromUnterhalt === "no",
+                ]),
+                target:
+                  "#antragstellende-person.unterhalt-hauptsaechliches-leben",
+              },
+              {
+                guard: and([
+                  nachueberpruefung,
+                  ({ context }) => context.unterhaltsanspruch === "unterhalt",
+                  ({ context }) =>
+                    context.livesPrimarilyFromUnterhalt === "yes",
+                ]),
+                target: "#antragstellende-person.eigenes-exemplar",
+              },
+              {
+                guard: and([nachueberpruefung, couldLiveFromUnterhalt]),
+                target: "#antragstellende-person.warum-keiner-unterhalt",
+              },
+              {
+                guard: nachueberpruefung,
+                target: "#antragstellende-person.unterhalt-leben-frage",
+              },
+              {
+                guard: ({ context }) => isOrganizationCoveragePartly(context),
+                target: "#rechtsschutzversicherung.org-deckung-teilweise",
+              },
+              {
+                guard: ({ context }) => isOrganizationCoverageNone(context),
+                target: "#rechtsschutzversicherung.org-deckung-nein",
+              },
+              "#rechtsschutzversicherung.org-frage",
+            ],
+          },
         },
-      },
+      }),
       [stepIds.staatlicheLeistungen]: {
         on: {
           SUBMIT: [
