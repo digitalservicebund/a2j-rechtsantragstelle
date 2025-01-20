@@ -1,8 +1,6 @@
 import mapValues from "lodash/mapValues";
 import { and } from "xstate";
-import type { Context } from "~/domains/contexts";
 import type { Flow } from "~/domains/flows.server";
-import type { GenericGuard } from "~/domains/guards.server";
 import {
   couldLiveFromUnterhalt,
   unterhaltLeisteIch,
@@ -68,17 +66,11 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
     subflowPrefix ? `${subflowPrefix}-${step}` : step,
   );
 
-  const guards =
-    subflowPrefix === "partner"
-      ? partnerEinkuenfteGuards
-      : finanzielleAngabeEinkuenfteGuards;
+  const isPartnerFlow = subflowPrefix === "partner";
 
-  /**
-   * Special case: we've already asked the antragstellende Person about Unterhalt at the beginning of the Antrag and should skip it
-   */
-  const shouldSkipUnterhalt: GenericGuard<Context> = () => {
-    return subflowPrefix !== "partner";
-  };
+  const guards = isPartnerFlow
+    ? partnerEinkuenfteGuards
+    : finanzielleAngabeEinkuenfteGuards;
 
   return {
     id: stepIds.id,
@@ -373,11 +365,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               guard: guards.receivesPension,
               target: stepIds.rente,
             },
-            {
-              guard: shouldSkipUnterhalt,
-              target: stepIds.leistungen,
-            },
-            stepIds.unterhaltFrage,
+            isPartnerFlow ? stepIds.unterhaltFrage : stepIds.leistungen,
           ],
           BACK: [
             {
@@ -394,38 +382,8 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
       },
       [stepIds.rente]: {
         on: {
-          SUBMIT: [
-            {
-              guard: shouldSkipUnterhalt,
-              target: stepIds.leistungen,
-            },
-            stepIds.unterhaltFrage,
-          ],
+          SUBMIT: isPartnerFlow ? stepIds.unterhaltFrage : stepIds.leistungen,
           BACK: stepIds.renteFrage,
-        },
-      },
-      [stepIds.unterhaltFrage]: {
-        on: {
-          SUBMIT: [
-            {
-              guard: partnerEinkuenfteGuards.receivesSupport,
-              target: stepIds.unterhalt,
-            },
-            stepIds.leistungen,
-          ],
-          BACK: [
-            {
-              guard: guards.receivesPension,
-              target: stepIds.rente,
-            },
-            stepIds.renteFrage,
-          ],
-        },
-      },
-      [stepIds.unterhalt]: {
-        on: {
-          SUBMIT: stepIds.leistungen,
-          BACK: stepIds.unterhaltFrage,
         },
       },
       [stepIds.leistungen]: {
@@ -452,21 +410,21 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
                 },
                 `#${stepIds.id}.${stepIds.weitereEinkuenfte}`,
               ],
-              BACK: [
-                {
-                  guard: and([shouldSkipUnterhalt, guards.receivesPension]),
-                  target: `#${stepIds.id}.${stepIds.rente}`,
-                },
-                {
-                  guard: shouldSkipUnterhalt,
-                  target: `#${stepIds.id}.${stepIds.renteFrage}`,
-                },
-                {
-                  guard: partnerEinkuenfteGuards.receivesSupport,
-                  target: `#${stepIds.id}.${stepIds.unterhalt}`,
-                },
-                `#${stepIds.id}.${stepIds.unterhaltFrage}`,
-              ],
+              BACK: isPartnerFlow
+                ? [
+                    {
+                      guard: partnerEinkuenfteGuards.receivesSupport,
+                      target: `#${stepIds.id}.${stepIds.unterhalt}`,
+                    },
+                    `#${stepIds.id}.${stepIds.unterhaltFrage}`,
+                  ]
+                : [
+                    {
+                      guard: guards.receivesPension,
+                      target: `#${stepIds.id}.${stepIds.rente}`,
+                    },
+                    `#${stepIds.id}.${stepIds.renteFrage}`,
+                  ],
             },
           },
           [stepIds.wohngeld]: {
@@ -633,6 +591,32 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
           },
         },
       },
+      ...(isPartnerFlow && {
+        [stepIds.unterhaltFrage]: {
+          on: {
+            SUBMIT: [
+              {
+                guard: partnerEinkuenfteGuards.receivesSupport,
+                target: stepIds.unterhalt,
+              },
+              stepIds.leistungen,
+            ],
+            BACK: [
+              {
+                guard: guards.receivesPension,
+                target: stepIds.rente,
+              },
+              stepIds.renteFrage,
+            ],
+          },
+        },
+        [stepIds.unterhalt]: {
+          on: {
+            SUBMIT: stepIds.leistungen,
+            BACK: stepIds.unterhaltFrage,
+          },
+        },
+      }),
     },
   } as Flow["config"];
 };
