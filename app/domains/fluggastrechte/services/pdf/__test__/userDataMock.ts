@@ -32,4 +32,7 @@ export const userDataMock = {
   iban: "DE68500123456789000000",
   kontoinhaber: "Test-Test Müller",
   isWeiterePersonen: "no",
+  fluggesellschaftStrasseHausnummer: "Musterstr. 30",
+  fluggesellschaftPostleitzahl: "10970",
+  fluggesellschaftOrt: "Frankfurt",
 } satisfies FluggastrechtContext;

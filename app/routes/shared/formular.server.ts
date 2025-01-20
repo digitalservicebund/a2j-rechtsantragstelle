@@ -25,7 +25,10 @@ import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { logWarning } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";
-import { parentFromParams } from "~/services/params";
+import {
+  parentFromParams,
+  skipFlowParamAllowedAndEnabled,
+} from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import {
   getSessionData,
@@ -49,7 +52,7 @@ export const loader = async ({
   request,
   context,
 }: LoaderFunctionArgs) => {
-  const { pathname } = new URL(request.url);
+  const { pathname, searchParams } = new URL(request.url);
   const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
   const { userData, debugId } = await getSessionData(flowId, cookieHeader);
@@ -66,7 +69,10 @@ export const loader = async ({
     guards: currentFlow.guards,
   });
 
-  if (!flowController.isReachable(stepId))
+  if (
+    !flowController.isReachable(stepId) &&
+    !skipFlowParamAllowedAndEnabled(searchParams)
+  )
     return redirectDocument(flowController.getInitial());
 
   const flowTransitionConfig = getFlowTransitionConfig(currentFlow);

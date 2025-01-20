@@ -1,5 +1,5 @@
 import { z } from "zod";
-import DateInput from "~/components/inputs/DateInput";
+import { InputProps } from "~/components/inputs/Input";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
@@ -22,6 +22,7 @@ export const StrapiDateInputComponentSchema = StrapiDateInputSchema.extend({
 
 type StrapiDateInput = z.infer<typeof StrapiDateInputSchema>;
 
-export const StrapiDateInput = ({ errors, ...props }: StrapiDateInput) => (
-  <DateInput errorMessages={flattenStrapiErrors(errors)} {...omitNull(props)} />
-);
+export const getDateInputProps = (cmsData: StrapiDateInput): InputProps => ({
+  ...omitNull(cmsData),
+  errorMessages: flattenStrapiErrors(cmsData.errors),
+});
