@@ -81,10 +81,25 @@ const getReplacementFlightDescription = (
   return `${OFFERED_REPLACEMENT_FLIGHT} ${replacementDeparture} und ${replacementLanded}`;
 };
 
+const formatAnnullierungDateHour = (date?: string, hour?: string) => {
+  if (typeof date === "undefined" || typeof hour === "undefined") {
+    return "--";
+  }
+
+  return `${date}, ${hour}`;
+};
+
 const getConnectionDetailsCancel = (
   userData: FluggastrechtContext,
 ): ConnectionDetailsType => {
-  const { ankuendigung } = userData;
+  const {
+    ankuendigung,
+    annullierungErsatzverbindungAbflugsDatum,
+    annullierungErsatzverbindungAbflugsZeit,
+    annullierungErsatzverbindungAnkunftsDatum,
+    annullierungErsatzverbindungAnkunftsZeit,
+    annullierungErsatzverbindungFlugnummer,
+  } = userData;
 
   const announcementDescription =
     announcementMapping[(ankuendigung as FluggastrechtAnkuendigungType) ?? ""];
@@ -94,7 +109,17 @@ const getConnectionDetailsCancel = (
 
   return {
     info: `${announcementDescription}\n${replacementFlightDescription}`,
-    timeTable: ["--", "--", "--"], // to be added in following tickets
+    timeTable: [
+      annullierungErsatzverbindungFlugnummer ?? "--",
+      formatAnnullierungDateHour(
+        annullierungErsatzverbindungAbflugsDatum,
+        annullierungErsatzverbindungAbflugsZeit,
+      ),
+      formatAnnullierungDateHour(
+        annullierungErsatzverbindungAnkunftsDatum,
+        annullierungErsatzverbindungAnkunftsZeit,
+      ),
+    ],
   };
 };
 
