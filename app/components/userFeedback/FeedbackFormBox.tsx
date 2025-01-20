@@ -67,9 +67,16 @@ export const FeedbackFormBox = ({
       onSubmit={onSubmit}
     >
       <div role="status" className="ds-stack-16">
+        <div>
+          <label htmlFor={FEEDBACK_FIELD_NAME} className="ds-label-01-bold">
+            {feedbackTranslations["heading-feedback"]}
+          </label>
+          <p className="ds-text-02-reg text-gray-800">
+            {feedbackTranslations["heading-personal-data-feedback"]}
+          </p>
+        </div>
         <Textarea
           name={FEEDBACK_FIELD_NAME}
-          label={feedbackTranslations["heading-feedback"]}
           classNameLabel="ds-label-01-bold"
           placeholder={feedbackTranslations["placeholder-feedback"]}
           role="status"
