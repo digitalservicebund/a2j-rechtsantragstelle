@@ -732,13 +732,7 @@ export const finanzielleAngabenXstateConfig = {
         "besondere-belastungen": {
           on: {
             BACK: "ausgaben-frage",
-            SUBMIT: [
-              {
-                guard: "ausgabenDone",
-                target: "#ausgaben-zusammenfassung",
-              },
-              "#gesetzliche-vertretung",
-            ],
+            SUBMIT: ["#ausgaben-zusammenfassung"],
           },
         },
       },
@@ -774,7 +768,7 @@ export const finanzielleAngabenXstateConfig = {
             },
             "sonstige-art": {
               on: {
-                BACK: "#ausgaben-zusammenfassung",
+                BACK: "daten",
                 SUBMIT: "#ausgaben-zusammenfassung",
               },
             },
