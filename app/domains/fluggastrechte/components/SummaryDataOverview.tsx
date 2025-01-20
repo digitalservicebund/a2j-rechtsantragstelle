@@ -1,12 +1,15 @@
 import Heading from "~/components/Heading";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import ActualArrivalCards from "./ActualArrivalCards";
+import AirlineDetailsOverviewCard from "./AirlineDetailsOverviewCard";
 import StopOverCards from "./StopOverCards";
 import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
+import useAirlineDetails from "./useAirlineDetails";
 import type { FluggastrechtContext } from "../formular/context";
 import {
   FLOW_ID,
   getFlugDaten,
+  getFluggesellschaftDaten,
   getPersonData,
   getZeugenText,
   NO_SPECIFICATION,
@@ -20,6 +23,8 @@ export default function SummaryDataOverview({
   userData,
   translations,
 }: SummaryDataProps) {
+  const airlineDetails = useAirlineDetails(userData?.fluggesellschaft);
+
   if (!userData || Object.keys(userData).length === 0) return null;
 
   return (
@@ -34,6 +39,11 @@ export default function SummaryDataOverview({
       />
 
       <Heading text="Flugdaten" tagName="p" look="ds-heading-03-bold" />
+      <AirlineDetailsOverviewCard
+        buttonUrl={`${FLOW_ID}/flugdaten/adresse-fluggesellschaft`}
+        data={{ ...airlineDetails, ...getFluggesellschaftDaten(userData) }}
+        title="Adresse der Fluggesellschaft"
+      />
       <SummaryDataOverviewCard
         buttonUrl={`${FLOW_ID}/flugdaten/geplanter-flug`}
         data={getFlugDaten(userData)}
