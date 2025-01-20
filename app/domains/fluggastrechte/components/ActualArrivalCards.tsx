@@ -1,7 +1,22 @@
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
 import type { FluggastrechtContext } from "../formular/context";
-import { FLOW_ID } from "../services/summaryPage/getOverviewData";
+import {
+  FLOW_ID,
+  NO_SPECIFICATION,
+} from "../services/summaryPage/getOverviewData";
+
+const DATE_NO_SPECIFICATION = "Datum keine Angabe";
+const TIME_NO_SPECIFICATION = "Zeit keine Angabe";
+
+const getAnnullierungData = (userData: FluggastrechtContext) => {
+  return {
+    annullierungErsatzverbindungFlugnummer:
+      userData.annullierungErsatzverbindungFlugnummer || NO_SPECIFICATION,
+    annullierungErsatzverbindungAbflugsDatum: `${userData.annullierungErsatzverbindungAbflugsDatum || DATE_NO_SPECIFICATION} \n ${userData.annullierungErsatzverbindungAbflugsZeit || TIME_NO_SPECIFICATION}`,
+    annullierungErsatzverbindungAnkunftsDatum: `${userData.annullierungErsatzverbindungAnkunftsDatum || DATE_NO_SPECIFICATION} \n ${userData.annullierungErsatzverbindungAnkunftsZeit || TIME_NO_SPECIFICATION}`,
+  };
+};
 
 function ActualArrivalCards({
   userData,
@@ -10,6 +25,17 @@ function ActualArrivalCards({
   readonly userData: FluggastrechtContext;
   readonly translations: Translations;
 }) {
+  if (userData.bereich === "annullierung") {
+    return (
+      <SummaryDataOverviewCard
+        title="Angebotene Ersatzverbindung"
+        buttonUrl={`${FLOW_ID}/flugdaten/ersatzverbindung-daten`}
+        data={getAnnullierungData(userData)}
+        translations={translations}
+      />
+    );
+  }
+
   if (userData.tatsaechlicherFlug === "yes") {
     return (
       <SummaryDataOverviewCard
