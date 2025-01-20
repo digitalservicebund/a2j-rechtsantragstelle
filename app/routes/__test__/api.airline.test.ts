@@ -10,7 +10,7 @@ vi.mock(
   }),
 );
 
-describe("iataCode loader", () => {
+describe("api.airline loader", () => {
   it("should return airline name for a valid iataCode", () => {
     const mockArgs: LoaderFunctionArgs = {
       params: { iataCode: "LH" },
