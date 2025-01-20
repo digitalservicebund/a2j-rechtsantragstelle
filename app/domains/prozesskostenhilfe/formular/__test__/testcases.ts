@@ -100,6 +100,7 @@ const cases = [
   ...testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen,
   ...testCasesPKHFormularFinanzielleAngabenEigentum,
   ...testCasesPKHFormularFinanzielleAngabenAusgaben,
+  [{}, ["/persoenliche-daten/beruf", "/abgabe/ueberpruefung"]],
   [
     happyPathData,
     [
