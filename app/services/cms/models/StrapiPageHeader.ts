@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { PageHeaderProps } from "~/components/PageHeader";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 
@@ -10,9 +11,11 @@ export const StrapiPageHeaderSchema = z
   .merge(HasOptionalStrapiIdSchema)
   .merge(HasStrapiLocaleSchema);
 
-type StrapiPageHeader = z.infer<typeof StrapiPageHeaderSchema>;
+export type StrapiPageHeader = z.infer<typeof StrapiPageHeaderSchema>;
 
-export const getPageHeaderProps = (cmsData: StrapiPageHeader) => {
+export const getPageHeaderProps = (
+  cmsData: StrapiPageHeader,
+): Partial<PageHeaderProps> => {
   return {
     title: cmsData.title,
     linkLabel: cmsData.linkLabel,

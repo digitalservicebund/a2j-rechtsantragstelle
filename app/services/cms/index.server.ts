@@ -1,8 +1,20 @@
 import type { FlowId } from "~/domains/flowIds";
 import {
+  getCookieBannerProps,
+  StrapiCookieBanner,
+} from "~/services/cms/models/StrapiCookieBannerSchema";
+import {
+  getFooterProps,
+  StrapiFooter,
+} from "~/services/cms/models/StrapiFooter";
+import {
   defaultLocale,
   type StrapiLocale,
 } from "~/services/cms/models/StrapiLocale";
+import {
+  getPageHeaderProps,
+  StrapiPageHeader,
+} from "~/services/cms/models/StrapiPageHeader";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import type { Filter, GetStrapiEntryOpts } from "./filters";
 import { getStrapiEntry } from "./getStrapiEntry";
@@ -39,9 +51,18 @@ export async function fetchMeta(
 export async function fetchSingleEntry<T extends SingleEntryId>(
   apiId: T,
   locale?: StrapiLocale,
-): Promise<StrapiSchemas[T][number]> {
+) {
   const strapiEntry = await getStrapiEntry({ apiId, locale });
-  return entrySchemas[apiId].parse(strapiEntry)[0];
+  const parsedEntry: StrapiSchemas[T][0] =
+    entrySchemas[apiId].parse(strapiEntry)[0];
+  switch (apiId) {
+    case "footer":
+      return getFooterProps(parsedEntry as StrapiFooter);
+    case "page-header":
+      return getPageHeaderProps(parsedEntry as StrapiPageHeader);
+    case "cookie-banner":
+      return getCookieBannerProps(parsedEntry as StrapiCookieBanner);
+  }
 }
 
 async function fetchCollectionEntry<T extends CollectionId>(

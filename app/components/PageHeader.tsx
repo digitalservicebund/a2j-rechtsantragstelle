@@ -3,7 +3,7 @@ import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 import Kopfzeile from "~/components/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
 
-type PageHeaderProps = {
+export type PageHeaderProps = {
   title: string;
   linkLabel: string;
   hideLinks: boolean;

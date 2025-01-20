@@ -15,7 +15,7 @@ export const StrapiCookieBannerSchema = z
   })
   .merge(HasStrapiLocaleSchema);
 
-type StrapiCookieBanner = z.infer<typeof StrapiCookieBannerSchema>;
+export type StrapiCookieBanner = z.infer<typeof StrapiCookieBannerSchema>;
 
 export const getCookieBannerProps = (
   cmsData: StrapiCookieBanner,
