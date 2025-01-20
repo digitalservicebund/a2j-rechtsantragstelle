@@ -16,6 +16,7 @@ describe("FeedbackFormBox", () => {
           "heading-feedback": HEADING_FEEDBACK,
           "submit-button-feedback": SUBMIT_BUTTON_FEEDBACK,
           "placeholder-feedback": "placeholder",
+          "heading-personal-data-feedback": "placeholder",
         } satisfies Record<FeedbackTranslationKeys, string>,
         video: {},
         accessibility: {},
