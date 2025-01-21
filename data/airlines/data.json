@@ -18,8 +18,44 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "Aeroitalia",
+    "iata": "XZ",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "Aeromexico",
     "iata": "AM",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Aeronova S.L.",
+    "iata": "X5*",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Air Albania",
+    "iata": "ZB",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Air Algérie",
+    "iata": "AH",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Air Antilles",
+    "iata": "4I",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Air Arabia Abu Dhabi",
+    "iata": "3L",
     "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
@@ -72,6 +108,12 @@
     "arbitrationBoard": "RV"
   },
   {
+    "name": "Air Caraibes",
+    "iata": "TX",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "Air China Ltd.",
     "iata": "CA",
     "isInEU": false,
@@ -84,6 +126,12 @@
     "arbitrationBoard": "RV"
   },
   {
+    "name": "Air Europa Express",
+    "iata": "X5",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "Air Europa Lineas Aereas S.A.",
     "iata": "UX",
     "isInEU": true,
@@ -92,6 +140,18 @@
   {
     "name": "Air Explore",
     "iata": "ED",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Air France",
+    "iata": "AF",
+    "isInEU": true,
+    "arbitrationBoard": "RV"
+  },
+  {
+    "name": "Air France Hop!",
+    "iata": "A5",
     "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
@@ -120,8 +180,20 @@
     "arbitrationBoard": "RV"
   },
   {
+    "name": "Air Mediterranean",
+    "iata": "MV",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "Air Moldova",
     "iata": "9U",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Air Montenegro",
+    "iata": "4O",
     "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
@@ -135,6 +207,18 @@
     "name": "Air Nostrum",
     "iata": "YW",
     "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Air Prishtina",
+    "iata": "-",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Air Senegal",
+    "iata": "HC",
+    "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
   {
@@ -156,9 +240,33 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "Air Transat A.T.",
+    "iata": "TS",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "AirAsia",
+    "iata": "AK",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "AirAsia Cambodia",
+    "iata": "KT",
+    "isInEU": false,
+    "arbitrationBoard": null
+  },
+  {
     "name": "AIS Airlines",
     "iata": "IS",
     "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Alaska Airlines",
+    "iata": "AS",
+    "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
   {
@@ -168,14 +276,32 @@
     "arbitrationBoard": "BfJ"
   },
   {
-    "name": "ITA Airways",
-    "iata": "AZ",
-    "isInEU": true,
+    "name": "Albawings",
+    "iata": "2B",
+    "isInEU": false,
     "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "All Nippon Airways",
+    "iata": "NH",
+    "isInEU": false,
+    "arbitrationBoard": "RV"
   },
   {
     "name": "AlMasria Universal Airlines",
     "iata": "UJ",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "APG Airlines",
+    "iata": "GP",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Arkia Israeli Airlines",
+    "iata": "IZ",
     "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
@@ -192,10 +318,22 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "Atlantic Airways",
+    "iata": "RC",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "AtlasGlobal",
     "iata": "KK",
     "isInEU": false,
     "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Austrian Airlines",
+    "iata": "OS",
+    "isInEU": true,
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Avianca (AV)",
@@ -204,9 +342,15 @@
     "arbitrationBoard": "BfJ"
   },
   {
-    "name": "Aviro Air",
-    "iata": "-",
-    "isInEU": true,
+    "name": "Azerbaijan Airlines",
+    "iata": "J2",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Azimuth Airlines",
+    "iata": "A4",
+    "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
   {
@@ -216,14 +360,44 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "BA CityFlyer",
+    "iata": "CJ*",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Bamboo Airways",
+    "iata": "QH",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Belavia Belarusian Airlines",
+    "iata": "B2",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "BH Air Ltd.",
     "iata": "8H",
     "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "Binter Canarias",
+    "iata": "NT",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "Blue Air",
     "iata": "0B",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Bluebird Airways",
+    "iata": "BZ",
     "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
@@ -240,15 +414,21 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "Brussels Airlines",
+    "iata": "SN",
+    "isInEU": true,
+    "arbitrationBoard": "RV"
+  },
+  {
     "name": "Bulgaria Air",
     "iata": "FB",
     "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
   {
-    "name": "European Air Charter",
-    "iata": "H6",
-    "isInEU": true,
+    "name": "Cabo Verde Airlines",
+    "iata": "VR",
+    "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
   {
@@ -262,6 +442,12 @@
     "iata": "CX",
     "isInEU": false,
     "arbitrationBoard": "RV"
+  },
+  {
+    "name": "Chair Airlines",
+    "iata": "GM",
+    "isInEU": true,
+    "arbitrationBoard": null
   },
   {
     "name": "China Airlines",
@@ -312,6 +498,24 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "Croatia Airlines",
+    "iata": "OU",
+    "isInEU": true,
+    "arbitrationBoard": "RV"
+  },
+  {
+    "name": "Dan Air",
+    "iata": "DN",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Danish Air Transport",
+    "iata": "DX",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "DELTA Air Lines Inc.",
     "iata": "DL",
     "isInEU": false,
@@ -324,7 +528,13 @@
     "arbitrationBoard": "RV"
   },
   {
-    "name": "easyJet Airline Company Ltd.",
+    "name": "Discover Airlines (EW Discover GmbH)",
+    "iata": "4Y",
+    "isInEU": true,
+    "arbitrationBoard": "RV"
+  },
+  {
+    "name": "Easyjet Airline Company Ltd.",
     "iata": "U2",
     "isInEU": false,
     "arbitrationBoard": "RV"
@@ -338,14 +548,14 @@
   {
     "name": "Easyjet Switzerland S.A",
     "iata": "DS",
-    "isInEU": false,
+    "isInEU": true,
     "arbitrationBoard": null
   },
   {
     "name": "Edelweiss Air AG",
     "iata": "WK",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "isInEU": true,
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Egypt Air",
@@ -366,9 +576,45 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "Emirates",
+    "iata": "EK",
+    "isInEU": false,
+    "arbitrationBoard": "RV"
+  },
+  {
+    "name": "Enter Air",
+    "iata": "E4*",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "ETF Airways",
+    "iata": "2F",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Ethiopian Airlines",
+    "iata": "ET",
+    "isInEU": false,
+    "arbitrationBoard": "RV"
+  },
+  {
     "name": "Etihad Airways PJSC",
     "iata": "EY",
     "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "EuroAtlantic Airways",
+    "iata": "YU",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "European Air Charter",
+    "iata": "H6",
+    "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
   {
@@ -378,10 +624,28 @@
     "arbitrationBoard": "RV"
   },
   {
+    "name": "Evelop Airlines",
+    "iata": "E9",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "Finnair PLC",
     "iata": "AY",
     "isInEU": true,
     "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Flexflight",
+    "iata": "W2",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Fly Lili",
+    "iata": "FL",
+    "isInEU": true,
+    "arbitrationBoard": null
   },
   {
     "name": "Fly2sky",
@@ -389,15 +653,16 @@
     "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
+  { "name": "Flybe", "iata": "BE", "isInEU": false, "arbitrationBoard": "BfJ" },
   {
-    "name": "Flybe",
-    "iata": "BE",
+    "name": "FlyEgypt",
+    "iata": "FT",
     "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
   {
-    "name": "FlyEgypt",
-    "iata": "FT",
+    "name": "FlyOne Armenia",
+    "iata": "3F",
     "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
@@ -414,8 +679,32 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "Frenchbee",
+    "iata": "BF",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Georgian Airways",
+    "iata": "A9",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "Germanwings GmbH",
     "iata": "4U",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "GetJet Airlines",
+    "iata": "GW*",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "GP Aviation Ltd.",
+    "iata": "IV",
     "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
@@ -426,26 +715,32 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "Hahn Air Lines GmbH",
+    "iata": "HR",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "Hainan Airlines",
     "iata": "HU",
     "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
   {
-    "name": "Hi Fly",
-    "iata": "3L",
+    "name": "Helvetic Airways",
+    "iata": "2L",
+    "isInEU": true,
+    "arbitrationBoard": null
+  },
+  {
+    "name": "Hibernian Airlines",
+    "iata": "HG*",
     "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
   {
     "name": "Holiday Europe",
     "iata": "HL",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Air France Hop!",
-    "iata": "A5",
     "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
@@ -468,7 +763,7 @@
     "arbitrationBoard": "BfJ"
   },
   {
-    "name": "IranAir",
+    "name": "Iran Air",
     "iata": "IR",
     "isInEU": false,
     "arbitrationBoard": "RV"
@@ -477,6 +772,12 @@
     "name": "Iraqi Airways Germany",
     "iata": "IA",
     "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "ITA Airways",
+    "iata": "AZ",
+    "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
   {
@@ -498,6 +799,18 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "KLM Cityhopper",
+    "iata": "WA",
+    "isInEU": true,
+    "arbitrationBoard": null
+  },
+  {
+    "name": "KLM Royal Dutch Airlines",
+    "iata": "KL",
+    "isInEU": true,
+    "arbitrationBoard": "RV"
+  },
+  {
     "name": "Korean Air",
     "iata": "KE",
     "isInEU": false,
@@ -510,16 +823,35 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "Kuwait Airways",
+    "iata": "KU",
+    "isInEU": false,
+    "arbitrationBoard": "RV"
+  },
+  {
     "name": "LATAM Airlines",
     "iata": "LA",
     "isInEU": false,
     "arbitrationBoard": "RV"
   },
   {
+    "name": "Lauda Europe",
+    "iata": "LW",
+    "isInEU": true,
+    "arbitrationBoard": "RV"
+  },
+  { "name": "Level", "iata": "IB*", "isInEU": true, "arbitrationBoard": "BfJ" },
+  {
     "name": "Loganair Limited",
     "iata": "LM",
     "isInEU": false,
     "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Lufthansa CityLine",
+    "iata": "CL",
+    "isInEU": true,
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Malaysia Airlines",
@@ -528,16 +860,34 @@
     "arbitrationBoard": "BfJ"
   },
   {
-    "name": "Middle East Airlines Airliban",
-    "iata": "ME",
+    "name": "Malta Air Limited",
+    "iata": "",
     "isInEU": false,
     "arbitrationBoard": "RV"
   },
   {
-    "name": "Montenegro Airlines",
-    "iata": "4O",
+    "name": "Marabu Airlines",
+    "iata": "DI",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Mavi Gök Airlines",
+    "iata": "4M",
     "isInEU": false,
     "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "MIAT Mongolian Airlines",
+    "iata": "OM",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Middle East Airlines Airliban",
+    "iata": "ME",
+    "isInEU": false,
+    "arbitrationBoard": "RV"
   },
   {
     "name": "Neos S.p.A.",
@@ -558,6 +908,24 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "Nordica",
+    "iata": "ND",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Nordwind Airlines",
+    "iata": "N4",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Norse Atlantic Airways",
+    "iata": "N0",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "Norwegian Air International",
     "iata": "D8",
     "isInEU": true,
@@ -573,6 +941,12 @@
     "name": "Nouvelair Tunisie",
     "iata": "BJ",
     "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Olympic Air",
+    "iata": "OA",
+    "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
   {
@@ -599,6 +973,7 @@
     "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
+  { "name": "Play", "iata": "OG", "isInEU": false, "arbitrationBoard": "BfJ" },
   {
     "name": "Plus Ultra Lineas Aereas S.A.",
     "iata": "PU",
@@ -666,14 +1041,33 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "SalamAir",
+    "iata": "OV",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "SAUDIA",
     "iata": "SV",
     "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
   {
-    "name": "SmartLynx Airlines SIA",
-    "iata": "6Y",
+    "name": "Scandinavian Airlines (SAS)",
+    "iata": "SK",
+    "isInEU": true,
+    "arbitrationBoard": "RV"
+  },
+  { "name": "Scoot", "iata": "TR", "isInEU": false, "arbitrationBoard": "BfJ" },
+  {
+    "name": "Singapore Airlines Limited",
+    "iata": "SQ",
+    "isInEU": false,
+    "arbitrationBoard": "RV"
+  },
+  {
+    "name": "SKY express",
+    "iata": "GQ",
     "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
@@ -682,6 +1076,12 @@
     "iata": "2N",
     "isInEU": true,
     "arbitrationBoard": null
+  },
+  {
+    "name": "SmartLynx Airlines SIA",
+    "iata": "6Y",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "Smartwings",
@@ -696,14 +1096,38 @@
     "arbitrationBoard": null
   },
   {
+    "name": "Somon Air",
+    "iata": "SZ",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Southwind Airlines",
+    "iata": "2S",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "SriLankan Airlines Ltd.",
     "iata": "UL",
     "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "Star East Airlines",
+    "iata": "4R*",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "Stobart Air",
     "iata": "RE",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Sun Air of Scandinavia",
+    "iata": "EZ*",
     "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
@@ -728,8 +1152,14 @@
   {
     "name": "Swiss International Air Lines AG",
     "iata": "LX",
-    "isInEU": false,
+    "isInEU": true,
     "arbitrationBoard": "RV"
+  },
+  {
+    "name": "TAAG Angola Airlines",
+    "iata": "DT",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "Tailwind Havayollari A.S.",
@@ -744,15 +1174,22 @@
     "arbitrationBoard": "BfJ"
   },
   {
-    "name": "TAROM",
-    "iata": "RO",
+    "name": "TAP Portugal",
+    "iata": "TP",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "RV"
   },
+  { "name": "TAROM", "iata": "RO", "isInEU": true, "arbitrationBoard": "BfJ" },
   {
     "name": "Thai Airways International",
     "iata": "TG",
     "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Trade Air",
+    "iata": "C3",
+    "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
   {
@@ -770,6 +1207,12 @@
   {
     "name": "Travel Service a.s.",
     "iata": "QS*",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "TUI Airlines Belgium",
+    "iata": "TB*",
     "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
@@ -792,9 +1235,21 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "Turkish Airlines",
+    "iata": "TK",
+    "isInEU": false,
+    "arbitrationBoard": null
+  },
+  {
     "name": "Turkmenistan Airlines",
     "iata": "T5",
     "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "TUS Airways",
+    "iata": "U8",
+    "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
   {
@@ -810,8 +1265,20 @@
     "arbitrationBoard": "RV"
   },
   {
+    "name": "Ural Airlines",
+    "iata": "U6",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "Utair Aviation",
     "iata": "UT",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Uzbekistan Airways",
+    "iata": "HY",
     "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
@@ -840,100 +1307,16 @@
     "arbitrationBoard": "BfJ"
   },
   {
-    "name": "Yemenia - Yemen Airways",
-    "iata": "IY",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Air Europa Express",
-    "iata": "X5",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Air Mediterranean",
-    "iata": "MV",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Air Transat A.T.",
-    "iata": "TS",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Albawings",
-    "iata": "2B",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Cabo Verde Airlines",
-    "iata": "VR",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "EuroAtlantic Airways",
-    "iata": "YU",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Georgian Airways",
-    "iata": "A9",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Level",
-    "iata": "IB*",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Olympic Air",
-    "iata": "OA",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Scoot",
-    "iata": "TR",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Sun Air of Scandinavia",
-    "iata": "EZ*",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "TAAG Angola Airlines",
-    "iata": "DT",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "TUI Airlines Belgium",
-    "iata": "TB*",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Ural Airlines",
-    "iata": "U6",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
     "name": "Voyage Air",
     "iata": "VO*",
     "isInEU": true,
     "arbitrationBoard": "BfJ"
+  },
+  {
+    "name": "Vueling Airlines",
+    "iata": "VY",
+    "isInEU": true,
+    "arbitrationBoard": null
   },
   {
     "name": "Westjet Airlines Ltd.",
@@ -948,370 +1331,17 @@
     "arbitrationBoard": "BfJ"
   },
   {
-    "name": "Hahn Air Lines GmbH",
-    "iata": "HR",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Belavia Belarusian Airlines",
-    "iata": "B2",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Uzbekistan Airways",
-    "iata": "HY",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Azerbaijan Airlines",
-    "iata": "J2",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Lauda Europe",
-    "iata": "LW",
-    "isInEU": true,
-    "arbitrationBoard": "RV"
-  },
-  {
-    "name": "EW Discover GmbH",
-    "iata": "4Y",
-    "isInEU": true,
-    "arbitrationBoard": "RV"
-  },
-  {
-    "name": "Air Algérie",
-    "iata": "AH",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Evelop Airlines",
-    "iata": "E9",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "GP Aviation Ltd.",
-    "iata": "IV",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Danish Air Transport",
-    "iata": "DX",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Play",
-    "iata": "OG",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Aeroitalia",
-    "iata": "XZ",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Air Albania",
-    "iata": "ZB",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "AirAsia",
-    "iata": "AK",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "AirAsia Cambodia",
-    "iata": "KT",
-    "isInEU": false,
-    "arbitrationBoard": null
-  },
-  {
-    "name": "Air Caraibes",
-    "iata": "TX",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Alaska Airlines",
-    "iata": "AS",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "APG Airlines",
-    "iata": "GP",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Azimuth Airlines",
-    "iata": "A4",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "BA CityFlyer",
-    "iata": "CJ*",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Binter Canarias",
-    "iata": "NT",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Flexflight",
-    "iata": "W2",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Frenchbee",
-    "iata": "BF",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "MIAT Mongolian Airlines",
-    "iata": "OM",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Nordwind Airlines",
-    "iata": "N4",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "SKY express",
-    "iata": "GQ",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Trade Air",
-    "iata": "C3",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Xfly",
-    "iata": "EE",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Aeronova S.L.",
-    "iata": "X5*",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "ETF Airways",
-    "iata": "2F",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Mavi Gök Airlines",
-    "iata": "4M",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Norse Atlantic Airways",
-    "iata": "N0",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Air Senegal",
-    "iata": "HC",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Somon Air",
-    "iata": "SZ",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Bamboo Airways",
-    "iata": "QH",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Marabu Airlines",
-    "iata": "DI",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Enter Air",
-    "iata": "E4*",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "TUS Airways",
-    "iata": "U8",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Nordica",
-    "iata": "ND",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Arkia Israeli Airlines",
-    "iata": "IZ",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Southwind Airlines",
-    "iata": "2S",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Star East Airlines",
-    "iata": "4R*",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Air Antilles",
-    "iata": "4I",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "GetJet Airlines",
-    "iata": "GW*",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Bluebird Airways",
-    "iata": "BZ",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Hibernian Airlines",
-    "iata": "HG*",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "FlyOne Armenia",
-    "iata": "3F",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Dan Air",
-    "iata": "DN",
-    "isInEU": true,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Atlantic Airways",
-    "iata": "RC",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "SalamAir",
-    "iata": "OV",
-    "isInEU": false,
-    "arbitrationBoard": "BfJ"
-  },
-  {
-    "name": "Air France",
-    "iata": "AF",
-    "isInEU": true,
-    "arbitrationBoard": null
-  },
-  {
-    "name": "KLM",
-    "iata": "KL",
-    "isInEU": true,
-    "arbitrationBoard": null
-  },
-  {
-    "name": "Lufthansa Cityline",
-    "iata": "CL",
-    "isInEU": true,
-    "arbitrationBoard": null
-  },
-  {
     "name": "Wizz Air malta",
     "iata": "W4",
     "isInEU": true,
-    "arbitrationBoard": null
+    "arbitrationBoard": "RV"
   },
+  { "name": "Xfly", "iata": "EE", "isInEU": true, "arbitrationBoard": "BfJ" },
   {
-    "name": "Scandinavian Airlines (SAS)",
-    "iata": "SK",
-    "isInEU": true,
-    "arbitrationBoard": null
-  },
-  {
-    "name": "Austrian Airlines",
-    "iata": "OS",
-    "isInEU": true,
-    "arbitrationBoard": null
-  },
-  {
-    "name": "Vueling Airlines",
-    "iata": "VY",
-    "isInEU": true,
-    "arbitrationBoard": null
-  },
-  {
-    "name": "KLM Cityhopper",
-    "iata": "WA",
-    "isInEU": true,
-    "arbitrationBoard": null
-  },
-  {
-    "name": "TAP Portugal",
-    "iata": "TP",
-    "isInEU": true,
-    "arbitrationBoard": null
-  },
-  {
-    "name": "Fly Lili",
-    "iata": "FL",
-    "isInEU": true,
-    "arbitrationBoard": null
-  },
-  {
-    "name": "Turkish Airlines",
-    "iata": "TK",
+    "name": "Yemenia - Yemen Airways",
+    "iata": "IY",
     "isInEU": false,
-    "arbitrationBoard": null
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "Sonstiges",
