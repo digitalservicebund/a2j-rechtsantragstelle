@@ -1,4 +1,5 @@
 import { createMachine } from "xstate";
+import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
@@ -12,7 +13,7 @@ const machine: FlowStateMachine = createMachine(
 
 const happyPathSteps = [
   "/intro/start",
-  "/grundvoraussetzungen/daten-verarbeitung",
+  "/grundvoraussetzungen/datenverarbeitung",
   "/grundvoraussetzungen/prozessfaehig",
   "/grundvoraussetzungen/ausgleichszahlung",
   "/grundvoraussetzungen/daten-uebernahme",
@@ -22,6 +23,7 @@ const happyPathSteps = [
 const cases = [
   [
     {
+      datenverarbeitungZustimmung: CheckboxValue.on,
       fluggesellschaft: "TAP",
       bereich: "bereich",
       startAirport: "BER",
