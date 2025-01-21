@@ -87,3 +87,65 @@ export const testCasesProzesskostenhilfeRsv = {
     steps.map((stepId) => prefix + stepId),
   ]) satisfies TestCases<ProzesskostenhilfeRechtsschutzversicherungContext>,
 };
+
+export const testCasesProzesskostenhilfeForwardOnly = {
+  machine,
+  cases: [
+    [
+      {},
+      [
+        "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgabe/daten",
+        "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht",
+      ],
+    ],
+    [
+      {},
+      [
+        "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft/daten",
+        "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht",
+      ],
+    ],
+    [
+      {},
+      [
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgabe/partner-daten",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-uebersicht",
+      ],
+    ],
+    [
+      {},
+      [
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgabe/partner-daten",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-uebersicht",
+      ],
+    ],
+    [
+      {},
+      [
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-einkunft/partner-daten",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-uebersicht",
+      ],
+    ],
+    [
+      {},
+      [
+        "/finanzielle-angaben/andere-unterhaltszahlungen/person/daten",
+        "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+      ],
+    ],
+    [
+      {},
+      [
+        "/finanzielle-angaben/eigentum-zusammenfassung/bankkonten/daten",
+        "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      ],
+    ],
+    [
+      {},
+      [
+        "/finanzielle-angaben/eigentum-zusammenfassung/wertgegenstaende/daten",
+        "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      ],
+    ],
+  ] satisfies TestCases<ProzesskostenhilfeRechtsschutzversicherungContext>,
+};
