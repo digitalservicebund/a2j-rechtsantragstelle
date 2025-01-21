@@ -1,10 +1,10 @@
 # 15. User-uploaded File Storage
 
-Date: 2025-01-20
+Date: 2025-01-21
 
 ## Status
 
-Proposal
+Accepted
 
 ## Context
 
@@ -25,21 +25,14 @@ We store the actual file in bucket storage, and the accompanying metadata along 
 
 ## File Expiration problem
 
-We need a way to expire the user-uploaded files at the same time that their session cookie gets invalidated, i.e. 24 hours after upload. For this, we have several options.
+We need a way to expire the user-uploaded files at the same time that their session cookie gets invalidated, i.e. 24 hours after upload. For this, we have several options. For now:
+
+- Set bucket object expiration to 24hrs. If user session data outlives file lifetime, oh well.
+
+To think about later:
 
 - [Redis Pub/Sub client listening to EXPIRY events](https://redis.io/docs/latest/develop/use/keyspace-notifications/#timing-of-expired-events); upon EXPIRY, delete any associated files in bucket storage
-  - Where would this listener live?
-    - Could live in the app
-      - We already have a singleton client built
-      - More responsibility for the app
-      - Pub/Sub is fire and forget -- when the app gets redeployed and briefly goes down, all events fired during this time are lost
-    - Could live as a serverless function?
-      - Low overhead
-      - Have to build/support a new piece of infra
-- Set bucket object expiration to 24hrs, and refresh expiration of files on every request
-  - Seems excessive... would we then wait for and grab the new entity ID for every update, storing it in Redis?
-
-I support **Subscribing to EXPIRY events via a serverless function**. This allows Redis to be the single source of truth for data expiration, and also enables greater uptime listening to said events.
+  - Could live in the app as a singleton service that listens to Redis expiration events
 
 ## Alternatives considered
 
@@ -52,7 +45,6 @@ We considered simply storing the file in Redis, but ultimately decided against i
 ## Consequences
 
 - We'll need a new, separate bucket for user-uploaded files
-- We'll need a serverless function that subscribes to Redis expiry events, and deletes related files from bucket storage when these events are received.
 
 ## Next Actions
 
