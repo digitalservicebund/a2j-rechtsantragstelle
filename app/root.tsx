@@ -33,13 +33,13 @@ import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import Breadcrumbs from "./components/Breadcrumbs";
-import {
-  CookieBanner,
-  CookieBannerContentProps,
-} from "./components/cookieBanner/CookieBanner";
-import Footer, { FooterProps } from "./components/Footer";
-import Header, { PageHeaderProps } from "./components/PageHeader";
+import { CookieBanner } from "./components/cookieBanner/CookieBanner";
+import Footer from "./components/Footer";
+import Header from "./components/PageHeader";
 import { BannerState } from "./components/userFeedback";
+import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
+import { getFooterProps } from "./services/cms/models/StrapiFooter";
+import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackBannerState } from "./services/feedback/getFeedbackBannerState";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
@@ -125,12 +125,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   return json(
     {
       header: {
-        ...(strapiHeader as PageHeaderProps),
+        ...getPageHeaderProps(strapiHeader),
         hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
         showKopfzeile,
       },
-      footer: strapiFooter as FooterProps,
-      cookieBannerContent: cookieBannerContent as CookieBannerContentProps,
+      footer: getFooterProps(strapiFooter),
+      cookieBannerContent: cookieBannerContent,
       hasTrackingConsent: trackingConsent
         ? trackingConsent === "true"
         : undefined,
@@ -224,8 +224,7 @@ function App() {
             )}
             target={skipToContentLinkTarget}
           />
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          <CookieBanner content={cookieBannerContent as any} />
+          <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
           <Header {...header} translations={pageHeaderTranslations} />
           <Breadcrumbs breadcrumbs={breadcrumbs} linkLabel={header.linkLabel} />
           <TranslationContext.Provider value={translationMemo}>

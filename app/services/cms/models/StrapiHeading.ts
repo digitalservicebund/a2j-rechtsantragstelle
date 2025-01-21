@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { HeadingProps } from "~/components/Heading";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import type { StrapiContentComponent } from "./StrapiContentComponent";
@@ -49,7 +48,7 @@ type StrapiHeading = z.infer<typeof StrapiHeadingSchema>;
 
 export function getHeadingProps(cmsData: StrapiHeading | null) {
   if (!cmsData) return undefined;
-  return HeadingPropsSchema.parse(omitNull(cmsData)) as HeadingProps;
+  return HeadingPropsSchema.parse(omitNull(cmsData));
 }
 
 export const isStrapiHeadingComponent = (
