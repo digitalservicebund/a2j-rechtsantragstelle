@@ -12,6 +12,7 @@ const machine: FlowStateMachine = createMachine(
 
 const happyPathSteps = [
   "/intro/start",
+  "/grundvoraussetzungen/daten-verarbeitung",
   "/grundvoraussetzungen/prozessfaehig",
   "/grundvoraussetzungen/ausgleichszahlung",
   "/grundvoraussetzungen/daten-uebernahme",

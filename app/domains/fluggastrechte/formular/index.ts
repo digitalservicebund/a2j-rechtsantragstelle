@@ -109,7 +109,7 @@ export const fluggastrechtFlow = {
         states: {
           start: {
             on: {
-              SUBMIT: "#grundvoraussetzungen.prozessfaehig",
+              SUBMIT: "#grundvoraussetzungen.daten-verarbeitung",
               BACK: "redirect-vorabcheck-ergebnis",
             },
           },
