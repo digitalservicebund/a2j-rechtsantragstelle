@@ -309,11 +309,6 @@
         "BACK": "fluggesellschaft"
       }
     },
-    "ergebnis/fluggesellschaft-nicht-eu-abbruch-eu": {
-      "on": {
-        "BACK": "fluggesellschaft"
-      }
-    },
     "ergebnis/fluggesellschaft-abbruch-eu": {
       "on": {
         "BACK": "fluggesellschaft"

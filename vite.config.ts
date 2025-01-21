@@ -43,7 +43,6 @@ export default defineConfig(({ isSsrBuild }) => ({
   test: {
     globals: true,
     environment: "node",
-    environmentMatchGlobs: [["app/components/**", "jsdom"]],
     setupFiles: ["vitest.setup.ts"],
     pool: "threads",
     coverage: {
