@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import Image from "../Image";
 
 describe("Image", () => {
@@ -17,9 +17,9 @@ describe("Image", () => {
     expect(image).toBeInstanceOf(HTMLImageElement);
   });
 
-  it("should render an svg image inline instead of as an <img> tag", () => {
-    const { queryByAltText } = render(
-      <Image url="image.svg" alternativeText={altText} />,
+  it("should render an svg image inline instead of as an <img> tag", async () => {
+    const { queryByAltText } = await act(() =>
+      render(<Image url="image.svg" alternativeText={altText} />),
     );
     // since react-inlinesvg parses an actual svg to create the DOM,
     // we basically just need to ensure that an <img> isn't present

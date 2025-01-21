@@ -45,6 +45,9 @@ export default defineConfig(({ isSsrBuild }) => ({
     environment: "node",
     setupFiles: ["vitest.setup.ts"],
     pool: "threads",
+    onConsoleLog(log) {
+      if (log.includes("React Router Future Flag Warning")) return false; // ignore deprecation warnings in tests that cannot be ignored using configuration, see https://github.com/remix-run/remix/discussions/10216
+    },
     coverage: {
       provider: "istanbul",
       include: ["app/**"],
