@@ -6,7 +6,6 @@ import { FEEDBACK_FIELD_NAME, FeedbackFormBox } from "../FeedbackFormBox";
 import type { FeedbackTranslationKeys } from "../feedbackTranslations";
 
 const HEADING_FEEDBACK = "Heading";
-const ABORT_BUTTON_FEEDBACK = "Abort button";
 const SUBMIT_BUTTON_FEEDBACK = "Submit button";
 
 describe("FeedbackFormBox", () => {
@@ -15,9 +14,9 @@ describe("FeedbackFormBox", () => {
       () => ({
         feedback: {
           "heading-feedback": HEADING_FEEDBACK,
-          "abort-button-feedback": ABORT_BUTTON_FEEDBACK,
           "submit-button-feedback": SUBMIT_BUTTON_FEEDBACK,
           "placeholder-feedback": "placeholder",
+          "heading-personal-data-feedback": "placeholder",
         } satisfies Record<FeedbackTranslationKeys, string>,
         video: {},
         accessibility: {},
@@ -48,7 +47,6 @@ describe("FeedbackFormBox", () => {
     const { getByText } = render(<FeedbackFormBoxWithRemixStub />);
 
     expect(getByText(HEADING_FEEDBACK)).toBeInTheDocument();
-    expect(getByText(ABORT_BUTTON_FEEDBACK)).toBeInTheDocument();
     expect(getByText(SUBMIT_BUTTON_FEEDBACK)).toBeInTheDocument();
   });
 

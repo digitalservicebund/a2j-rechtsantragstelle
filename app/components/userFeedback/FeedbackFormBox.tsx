@@ -1,4 +1,3 @@
-import CloseIcon from "@digitalservicebund/icons/CloseOutlined";
 import SendIcon from "@digitalservicebund/icons/SendOutlined";
 import { withZod } from "@remix-validated-form/with-zod";
 import { useEffect, useRef, useState } from "react";
@@ -15,7 +14,6 @@ export const FEEDBACK_FORM_NAME = "feedbackForm";
 export const FEEDBACK_FIELD_NAME = "feedback";
 
 enum FeedbackButtons {
-  Abort = "abort",
   Submit = "submit",
 }
 
@@ -69,24 +67,22 @@ export const FeedbackFormBox = ({
       onSubmit={onSubmit}
     >
       <div role="status" className="ds-stack-16">
+        <div>
+          <label htmlFor={FEEDBACK_FIELD_NAME} className="ds-label-01-bold">
+            {feedbackTranslations["heading-feedback"]}
+          </label>
+          <p className="ds-text-02-reg text-gray-800">
+            {feedbackTranslations["heading-personal-data-feedback"]}
+          </p>
+        </div>
         <Textarea
           name={FEEDBACK_FIELD_NAME}
-          label={feedbackTranslations["heading-feedback"]}
           classNameLabel="ds-label-01-bold"
           placeholder={feedbackTranslations["placeholder-feedback"]}
           role="status"
           innerRef={textAreaReference}
         />
         <ButtonContainer>
-          <Button
-            iconLeft={<CloseIcon />}
-            look="tertiary"
-            name={FEEDBACK_BUTTON_FIELD_NAME}
-            value={FeedbackButtons.Abort}
-            type="submit"
-          >
-            {feedbackTranslations["abort-button-feedback"]}
-          </Button>
           <Button
             look="primary"
             iconLeft={<SendIcon />}
