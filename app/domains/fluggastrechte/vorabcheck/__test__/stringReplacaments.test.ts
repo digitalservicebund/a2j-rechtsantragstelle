@@ -8,7 +8,7 @@ import {
   getLastDayFromFourYearsAgoDate,
   getStartAirportName,
   hasArbitrationBoardBfJ,
-  hasArbitrationBoardSoeP,
+  hasArbitrationBoardRV,
   hasCompensationLongDistanceInsideEU,
   hasCompensationLongDistanceOutsideEU,
   hasCompensationMiddleDistance,
@@ -166,41 +166,41 @@ describe("hasArbitrationBoardBfJ", () => {
     expect(actual).toStrictEqual({ hasArbitrationBoardBfJ: true });
   });
 
-  it("should return hasArbitrationBoardBfJ object as false, in case fluggesellschaft belongs to söp", () => {
+  it("should return hasArbitrationBoardBfJ object as false, in case fluggesellschaft belongs to RV", () => {
     const actual = hasArbitrationBoardBfJ({ fluggesellschaft: "LH" });
     expect(actual).toStrictEqual({ hasArbitrationBoardBfJ: false });
   });
 });
 
-describe("hasArbitrationBoardSoeP", () => {
-  it("should return hasArbitrationBoardSoeP object as true, in case fluggesellschaft is undefined", () => {
-    const actual = hasArbitrationBoardSoeP({});
-    expect(actual).toStrictEqual({ hasArbitrationBoardSoeP: true });
+describe("hasArbitrationBoardRV", () => {
+  it("should return hasArbitrationBoardRV object as true, in case fluggesellschaft is undefined", () => {
+    const actual = hasArbitrationBoardRV({});
+    expect(actual).toStrictEqual({ hasArbitrationBoardRV: true });
   });
 
-  it("should return hasArbitrationBoardSoP object as true, in case fluggesellschaft is empty", () => {
-    const actual = hasArbitrationBoardSoeP({ fluggesellschaft: "" });
-    expect(actual).toStrictEqual({ hasArbitrationBoardSoeP: true });
+  it("should return hasArbitrationBoardRV object as true, in case fluggesellschaft is empty", () => {
+    const actual = hasArbitrationBoardRV({ fluggesellschaft: "" });
+    expect(actual).toStrictEqual({ hasArbitrationBoardRV: true });
   });
 
-  it("should return hasArbitrationBoardSoeP object as true, in case fluggesellschaft does not exit", () => {
-    const actual = hasArbitrationBoardSoeP({ fluggesellschaft: "XXXXX" });
-    expect(actual).toStrictEqual({ hasArbitrationBoardSoeP: true });
+  it("should return hasArbitrationBoardRV object as true, in case fluggesellschaft does not exit", () => {
+    const actual = hasArbitrationBoardRV({ fluggesellschaft: "XXXXX" });
+    expect(actual).toStrictEqual({ hasArbitrationBoardRV: true });
   });
 
-  it("should return hasArbitrationBoardSoeP object as true, in case fluggesellschaft belongs to söp", () => {
-    const actual = hasArbitrationBoardSoeP({ fluggesellschaft: "LH" });
-    expect(actual).toStrictEqual({ hasArbitrationBoardSoeP: true });
+  it("should return hasArbitrationBoardRV object as true, in case fluggesellschaft belongs to RV", () => {
+    const actual = hasArbitrationBoardRV({ fluggesellschaft: "LH" });
+    expect(actual).toStrictEqual({ hasArbitrationBoardRV: true });
   });
 
-  it("should return hasArbitrationBoardSoeP object as true, in case arbitrationBoard of fluggesellschaft is null", () => {
-    const actual = hasArbitrationBoardSoeP({ fluggesellschaft: "sonstiges" });
-    expect(actual).toStrictEqual({ hasArbitrationBoardSoeP: true });
+  it("should return hasArbitrationBoardRV object as true, in case arbitrationBoard of fluggesellschaft is null", () => {
+    const actual = hasArbitrationBoardRV({ fluggesellschaft: "sonstiges" });
+    expect(actual).toStrictEqual({ hasArbitrationBoardRV: true });
   });
 
-  it("should return hasArbitrationBoardSoeP object as false, in case fluggesellschaft belongs to BfJ", () => {
-    const actual = hasArbitrationBoardSoeP({ fluggesellschaft: "IB" });
-    expect(actual).toStrictEqual({ hasArbitrationBoardSoeP: false });
+  it("should return hasArbitrationBoardRV object as false, in case fluggesellschaft belongs to BfJ", () => {
+    const actual = hasArbitrationBoardRV({ fluggesellschaft: "IB" });
+    expect(actual).toStrictEqual({ hasArbitrationBoardRV: false });
   });
 });
 
