@@ -16,6 +16,9 @@ export async function startFluggastrechteFormular(
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
+  // /fluggastrechte/formular/grundvoraussetzungen/daten-verarbeitung
+  await formular.fillCheckboxes("datenverarbeitungZustimmung");
+
   // /fluggastrechte/formular/grundvoraussetzungen/prozessfaehig
   await formular.clickNext();
 
