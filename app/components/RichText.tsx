@@ -1,6 +1,6 @@
 import { type Renderer, Marked } from "marked";
 import { renderToString } from "react-dom/server";
-import { sanatize } from "~/services/security/sanatizeHtml";
+import { sanitize } from "~/services/security/markdownUtilities";
 import { StandaloneLink } from "./StandaloneLink";
 
 const CSS_HEADING_CLASSES = [
@@ -49,7 +49,7 @@ const RichText = ({
     <div
       {...props}
       className={`rich-text ds-stack-8 ${className}`}
-      dangerouslySetInnerHTML={{ __html: sanatize(html) }}
+      dangerouslySetInnerHTML={{ __html: sanitize(html) }}
     />
   );
 };
