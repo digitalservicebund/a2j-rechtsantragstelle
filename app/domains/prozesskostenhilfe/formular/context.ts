@@ -1,5 +1,6 @@
 import { prozesskostenhilfeAntragstellendePersonContext } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
 import { prozesskostenhilfeGrundvoraussetzungen } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/context";
+import { belegeContext } from "~/domains/shared/formular/abgabe/context";
 import { prozesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import { prozesskostenhilfeGesetzlicheVertretungContext } from "./gesetzlicheVertretung/context";
 import { prozesskostenhilfePersoenlicheDatenContext } from "./persoenlicheDaten/context";
@@ -12,4 +13,5 @@ export const prozesskostenhilfeFormularContext = {
   ...prozesskostenhilfeFinanzielleAngabenContext,
   ...prozesskostenhilfeGesetzlicheVertretungContext,
   ...prozesskostenhilfePersoenlicheDatenContext,
+  ...belegeContext,
 } as const;
