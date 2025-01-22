@@ -1,3 +1,4 @@
+import CheckCircleIcon from "@digitalservicebund/icons/CheckCircle";
 import SendIcon from "@digitalservicebund/icons/SendOutlined";
 import { withZod } from "@remix-validated-form/with-zod";
 import { useEffect, useRef, useState } from "react";
@@ -8,7 +9,6 @@ import { useFeedbackTranslations } from "./feedbackTranslations";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 import Textarea from "../inputs/Textarea";
-
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 export const FEEDBACK_FORM_NAME = "feedbackForm";
 export const FEEDBACK_FIELD_NAME = "feedback";
@@ -36,12 +36,14 @@ export const feedbackValidator = withZod(
 export type FeedbackBoxProps = {
   readonly destination: string;
   readonly shouldFocus: boolean;
+  readonly positiveFeedback: boolean | null;
   readonly onSubmit: () => void;
 };
 
 export const FeedbackFormBox = ({
   destination,
   shouldFocus,
+  positiveFeedback,
   onSubmit,
 }: FeedbackBoxProps) => {
   const [jsAvailable, setJsAvailable] = useState(false);
@@ -66,11 +68,23 @@ export const FeedbackFormBox = ({
       preventScrollReset={true}
       onSubmit={onSubmit}
     >
+      <div className="flex items-center text-base font-bold mb-[1em]">
+        <CheckCircleIcon className="w-[2em] h-[1.5em] mr-[0.25em] text-green-600 " />
+        <p>{feedbackTranslations["success-message"]}</p>
+      </div>
+
       <div role="status" className="ds-stack-16">
         <div>
-          <label htmlFor={FEEDBACK_FIELD_NAME} className="ds-label-01-bold">
-            {feedbackTranslations["heading-feedback"]}
-          </label>
+          {positiveFeedback && (
+            <label htmlFor={FEEDBACK_FIELD_NAME} className="ds-label-01-bold">
+              {feedbackTranslations["positive-feedback-question"]}
+            </label>
+          )}
+          {!positiveFeedback && (
+            <label htmlFor={FEEDBACK_FIELD_NAME} className="ds-label-01-bold">
+              {feedbackTranslations["negative-feedback-question"]}
+            </label>
+          )}
           <p className="ds-text-02-reg text-gray-800">
             {feedbackTranslations["heading-personal-data-feedback"]}
           </p>

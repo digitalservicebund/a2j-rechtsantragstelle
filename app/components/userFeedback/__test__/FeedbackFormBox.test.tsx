@@ -5,7 +5,6 @@ import { TranslationContext } from "~/services/translations/translationsContext"
 import { FEEDBACK_FIELD_NAME, FeedbackFormBox } from "../FeedbackFormBox";
 import type { FeedbackTranslationKeys } from "../feedbackTranslations";
 
-const HEADING_FEEDBACK = "Heading";
 const SUBMIT_BUTTON_FEEDBACK = "Submit button";
 
 describe("FeedbackFormBox", () => {
@@ -13,10 +12,13 @@ describe("FeedbackFormBox", () => {
     const feedbackTranslationMemo = useMemo(
       () => ({
         feedback: {
-          "heading-feedback": HEADING_FEEDBACK,
+          "heading-feedback": "placeholder",
           "submit-button-feedback": SUBMIT_BUTTON_FEEDBACK,
           "placeholder-feedback": "placeholder",
           "heading-personal-data-feedback": "placeholder",
+          "positive-feedback-question": "placeholder",
+          "negative-feedback-question": "placeholder",
+          "success-message": "placeholder",
         } satisfies Record<FeedbackTranslationKeys, string>,
         video: {},
         accessibility: {},
@@ -38,6 +40,7 @@ describe("FeedbackFormBox", () => {
             <FeedbackFormBox
               destination="destination"
               shouldFocus={false}
+              positiveFeedback={true}
               onSubmit={vitest.fn}
             />
           </FeedbackContextComponent>
@@ -46,7 +49,6 @@ describe("FeedbackFormBox", () => {
     ]);
     const { getByText } = render(<FeedbackFormBoxWithRemixStub />);
 
-    expect(getByText(HEADING_FEEDBACK)).toBeInTheDocument();
     expect(getByText(SUBMIT_BUTTON_FEEDBACK)).toBeInTheDocument();
   });
 
@@ -59,6 +61,7 @@ describe("FeedbackFormBox", () => {
             <FeedbackFormBox
               destination="destination"
               shouldFocus
+              positiveFeedback={true}
               onSubmit={vitest.fn}
             />
           </FeedbackContextComponent>

@@ -3,6 +3,9 @@ import { useTranslations } from "~/services/translations/translationsContext";
 
 const feedbackTranslationsKeys = [
   "heading-feedback",
+  "success-message",
+  "positive-feedback-question",
+  "negative-feedback-question",
   "heading-personal-data-feedback",
   "placeholder-feedback",
   "submit-button-feedback",

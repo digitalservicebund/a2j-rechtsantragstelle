@@ -22,6 +22,9 @@ export const USER_FEEDBACK_ID = "user-feedback-banner";
 export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const { pathname } = useLocation();
   const [shouldFocus, setShouldFocus] = useState(false);
+  const [positiveFeedback, setPositiveFeedback] = useState<boolean | null>(
+    null,
+  );
 
   const rootLoaderData = useRouteLoaderData<RootLoader>("root");
   const bannerState = rootLoaderData?.bannerState ?? BannerState.ShowRating;
@@ -50,7 +53,10 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
                 <RatingBox
                   url={pathname}
                   heading={props.rating.heading}
-                  onSubmit={applyFocus}
+                  onSubmit={(feedback) => {
+                    setPositiveFeedback(feedback);
+                    applyFocus();
+                  }}
                 />
               ),
               [BannerState.ShowFeedback]: (
@@ -58,6 +64,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
                   destination={pathname}
                   shouldFocus={shouldFocus}
                   onSubmit={applyFocus}
+                  positiveFeedback={positiveFeedback}
                 />
               ),
               [BannerState.FeedbackGiven]: (

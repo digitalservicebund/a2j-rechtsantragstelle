@@ -12,15 +12,36 @@ export const userRatingFieldname = "wasHelpful";
 export type RatingBoxProps = {
   readonly heading: string;
   readonly url: string;
-  readonly onSubmit: () => void;
+  readonly onSubmit: (positiveFeedback: boolean) => void;
 };
 
 export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
   const ratingFetcher = useFetcher();
   const [jsAvailable, setJsAvailable] = useState(false);
+  const [positiveFeedback, setPositiveFeedback] = useState<boolean | null>(
+    null,
+  );
   useEffect(() => setJsAvailable(true), []);
+  useEffect(() => {
+    if (positiveFeedback !== null) {
+      onSubmit(positiveFeedback);
+    }
+  }, [positiveFeedback, onSubmit]);
 
   const feedbackTranslations = useFeedbackTranslations();
+
+  const handleFeedback = (isPositive: boolean) => {
+    setPositiveFeedback(isPositive);
+    onSubmit(isPositive);
+
+    ratingFetcher.submit(
+      { [userRatingFieldname]: isPositive ? "yes" : "no" },
+      {
+        method: "post",
+        action: `/action/send-rating?url=${url}&js=${String(jsAvailable)}`,
+      },
+    );
+  };
 
   return (
     <>
@@ -29,25 +50,30 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
         method="post"
         action={`/action/send-rating?url=${url}&js=${String(jsAvailable)}`}
         preventScrollReset={true}
-        onSubmit={onSubmit}
       >
         <ButtonContainer>
           <Button
             iconLeft={<ThumbUpIcon />}
-            look="tertiary"
+            look={positiveFeedback === true ? "primary" : "tertiary"}
             name={userRatingFieldname}
             value="yes"
             type="submit"
+            onClick={() => {
+              handleFeedback(true);
+            }}
             aria-label={`${heading}, ${feedbackTranslations["yes-rating"]}`}
           >
             {feedbackTranslations["yes-rating"]}
           </Button>
           <Button
             iconLeft={<ThumbDownIcon />}
-            look="tertiary"
+            look={positiveFeedback === true ? "primary" : "tertiary"}
             name={userRatingFieldname}
             value="no"
             type="submit"
+            onClick={() => {
+              handleFeedback(false);
+            }}
             aria-label={`${heading}, ${feedbackTranslations["no-rating"]}`}
           >
             {feedbackTranslations["no-rating"]}
