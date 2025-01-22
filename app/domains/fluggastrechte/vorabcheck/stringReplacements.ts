@@ -12,7 +12,7 @@ const FOUR_YEARS_AGO = 4;
 const LAST_DAY_YEAR = 31;
 const LAST_MONTH_YEAR = 11; // Date.setMonth starts from 0 to 11, where 11 is December
 const ARBITRATION_BOARD_BFJ = "BfJ";
-const ARBITRATION_BOARD_SOEP = "söp";
+const ARBITRATION_BOARD_RV = "RV";
 
 export function getCompensationPaymentString({
   startAirport = "",
@@ -141,15 +141,15 @@ export function hasArbitrationBoardBfJ({
   };
 }
 
-export function hasArbitrationBoardSoeP({
+export function hasArbitrationBoardRV({
   fluggesellschaft,
 }: FluggastrechtVorabcheckContext) {
   const airline = getAirlineByIataCode(fluggesellschaft);
 
   return {
-    hasArbitrationBoardSoeP:
+    hasArbitrationBoardRV:
       typeof airline === "undefined" ||
-      airline?.arbitrationBoard === ARBITRATION_BOARD_SOEP ||
+      airline?.arbitrationBoard === ARBITRATION_BOARD_RV ||
       airline?.arbitrationBoard === null, // a few airlines has not specified the arbitrationBoard
   };
 }

@@ -1,4 +1,4 @@
-# ADR: Assessment of our Current Testing Strategy
+# 15. Assessment of our Current Testing Strategy
 
 ## Status
 
@@ -50,7 +50,7 @@ Examples:
 
 #### Coverage Reports
 
-Coverage is captured using `vitest` and therefore analyzed for all tests that are executed by that runner: unit and integration tests (not e2e tests which run with Playwright). Reports can be generated using `npm run test:coverage`. We use `istanbul` to generate coverage reports.
+is captured using `vitest` and therefore analyzed for all tests that are executed by that runner: unit and integration tests (not e2e tests which run with Playwright). Reports can be generated using `npm run test:coverage`. We use `istanbul` to generate coverage reports.
 
 #### Coverage Gaps
 

@@ -16,6 +16,9 @@ export async function startFluggastrechteFormular(
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
+  // /fluggastrechte/formular/grundvoraussetzungen/datenverarbeitung
+  await formular.fillCheckboxesPage("datenverarbeitungZustimmung");
+
   // /fluggastrechte/formular/grundvoraussetzungen/prozessfaehig
   await formular.clickNext();
 
@@ -42,6 +45,7 @@ export async function startFluggastrechteFormular(
   );
   await formular.fillInput("fluggesellschaftPostleitzahl", "12345");
   await formular.fillInput("fluggesellschaftOrt", "Musterstadt");
+  await formular.clickNext();
 
   // /fluggastrechte/formular/flugdaten/geplanter-flug
 
