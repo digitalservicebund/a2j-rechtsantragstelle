@@ -1,3 +1,4 @@
+import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { grundvoraussetzungenDone } from "../doneFunctions";
 
 describe("doneFunctions", () => {
@@ -8,6 +9,7 @@ describe("doneFunctions", () => {
         endAirport: "FRA",
         fluggesellschaft: "LH",
         bereich: "bereich",
+        datenverarbeitungZustimmung: CheckboxValue.on,
       },
     });
 
