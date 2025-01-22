@@ -29,3 +29,6 @@ lefthook-local.yml
 
 # SAML secrets
 /data/saml
+
+# docker s3 bucket
+/volume
