@@ -12,5 +12,6 @@ export const grundvoraussetzungenDone: FluggastrechteGrundvoraussetzungenDaten =
       "endAirport",
       "bereich",
       "fluggesellschaft",
+      "datenverarbeitungZustimmung",
     ]);
   };
