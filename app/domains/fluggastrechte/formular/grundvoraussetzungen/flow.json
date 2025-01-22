@@ -1,11 +1,17 @@
 {
   "id": "grundvoraussetzungen",
-  "initial": "prozessfaehig",
+  "initial": "datenverarbeitung",
   "states": {
+    "datenverarbeitung": {
+      "on": {
+        "SUBMIT": "prozessfaehig",
+        "BACK": "#intro.start"
+      }
+    },
     "prozessfaehig": {
       "on": {
         "SUBMIT": "ausgleichszahlung",
-        "BACK": "#intro.start"
+        "BACK": "datenverarbeitung"
       }
     },
     "ausgleichszahlung": {
