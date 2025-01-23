@@ -183,6 +183,7 @@ describe("drawTableRowHead", () => {
     const userDataAnnullierungMock = {
       ...userDataMock,
       bereich: "annullierung",
+      ersatzverbindungArt: undefined,
     } satisfies FluggastrechtContext;
 
     drawTableRowHead(mockDoc, mockStruct, 0, userDataAnnullierungMock);
@@ -193,6 +194,17 @@ describe("drawTableRowHead", () => {
       width: COLUMN_WIDTH,
       height: COLUMN_HEIGHT,
       boldText: "Annullierung",
+      regularText: "",
+      shouldAddSilverBackground: true,
+      textAlign: "center",
+    });
+
+    expect(drawCell).toBeCalledWith(mockDoc, {
+      xPosition: expect.anything(),
+      yPosition: expect.anything(),
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: "Angebotene Ersatzverbindung",
       regularText: "",
       shouldAddSilverBackground: true,
       textAlign: "center",
