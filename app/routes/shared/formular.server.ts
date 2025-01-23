@@ -1,5 +1,9 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirectDocument } from "@remix-run/node";
+import {
+  json,
+  redirectDocument,
+  unstable_parseMultipartFormData,
+} from "@remix-run/node";
 import { validationError } from "remix-validated-form";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
@@ -226,7 +230,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
-  const formData = await request.formData();
+  const formData = await unstable_parseMultipartFormData(
+    request,
+    async ({ name, filename }) => {
+      if (name !== "application/pdf") {
+        return undefined;
+      }
+      return Promise.resolve(filename);
+    },
+  );
   const relevantFormData = filterFormData(formData);
 
   if (formData.get("_action") === "delete") {
