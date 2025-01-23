@@ -1,4 +1,4 @@
-# 16. FGR - Storing consent in OTC object storage (OBS)
+# 17. FGR - Storing consent in OTC object storage (OBS)
 
 Date: 2025-01-13
 

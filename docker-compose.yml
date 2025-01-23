@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   cert-generator:
     image: alpine:3.20
@@ -38,3 +37,15 @@ services:
       --tls-cert-file /usr/local/etc/redis/redis-server.crt
       --tls-key-file /usr/local/etc/redis/redis-server.key
       --tls-auth-clients no
+
+  s3-bucket:
+    container_name: local-s3-bucket
+    image: localstack/localstack:s3-latest
+    environment:
+      - DEBUG=1
+    ports:
+      - "4566:4566"
+    volumes:
+      - "./init-s3-bucket.py:/etc/localstack/init/ready.d/init-s3-bucket.py"
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"

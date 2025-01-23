@@ -1,4 +1,4 @@
-# 15. Data Rendering pipeline overview
+# 16. Data Rendering pipeline overview
 
 Date: 2025-01-15
 

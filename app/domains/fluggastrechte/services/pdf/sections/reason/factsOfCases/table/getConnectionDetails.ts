@@ -1,3 +1,4 @@
+import isEmpty from "lodash/isEmpty";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import type { FluggastrechtAnkuendigungType } from "~/domains/fluggastrechte/vorabcheck/context";
 import { calculateDuration } from "./calculateDuration";
@@ -82,7 +83,7 @@ const getReplacementFlightDescription = (
 };
 
 const formatAnnullierungDateHour = (date?: string, hour?: string) => {
-  if (typeof date === "undefined" || typeof hour === "undefined") {
+  if (isEmpty(date) || isEmpty(hour)) {
     return "--";
   }
 
@@ -110,7 +111,7 @@ const getConnectionDetailsCancel = (
   return {
     info: `${announcementDescription}\n${replacementFlightDescription}`,
     timeTable: [
-      annullierungErsatzverbindungFlugnummer ?? "--",
+      annullierungErsatzverbindungFlugnummer || "--",
       formatAnnullierungDateHour(
         annullierungErsatzverbindungAbflugsDatum,
         annullierungErsatzverbindungAbflugsZeit,
