@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from "node:fs";
 import { XMLBuilder } from "fast-xml-parser";
 import type {
