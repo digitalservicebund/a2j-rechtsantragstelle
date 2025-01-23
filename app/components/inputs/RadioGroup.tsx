@@ -4,12 +4,12 @@ import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
 import Radio from "./Radio";
 
-type RadioGroupProps = Readonly<{
+export type RadioGroupProps = Readonly<{
   name: string;
-  options: {
+  options: Array<{
     value: string;
     text?: ReactNode;
-  }[];
+  }>;
   label?: ReactNode;
   altLabel?: string;
   errorMessages?: ErrorMessageProps[];

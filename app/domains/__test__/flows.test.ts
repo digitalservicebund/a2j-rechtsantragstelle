@@ -1,6 +1,7 @@
 import { toDirectedGraph, type DirectedGraphNode } from "@xstate/graph";
 import { pathToStateValue } from "xstate";
 import { testCasesBeratungshilfeFormular } from "~/domains/beratungshilfe/formular/__test__/testcases";
+import { testCasesBeratungshilfeFormularAbgabe } from "~/domains/beratungshilfe/formular/abgabe/__test__/testcases";
 import { testCasesBeratungshilfeFormularAnwaltlicheVertretung } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/__test__/testcases";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesAusgaben";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentum } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesEigentum";
@@ -10,6 +11,7 @@ import { testCasesBeratungshilfeFormularFinanzielleAngabenKinder } from "~/domai
 import { testCasesBeratungshilfeFormularFinanzielleAngabenPartner } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesPartner";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesUnterhaltszahlungen";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesWohnung";
+import { testCasesBeratungshilfeFormularGrundvoraussetzungen } from "~/domains/beratungshilfe/formular/grundvoraussetzung/__test__/testcases";
 import { testCasesBeratungshilfeRechtsproblem } from "~/domains/beratungshilfe/formular/rechtsproblem/__test__/testcases";
 import { testCasesBeratungshilfe } from "~/domains/beratungshilfe/vorabcheck/__test__/testcases";
 import { type Context } from "~/domains/contexts";
@@ -28,14 +30,14 @@ import { testCasesFluggastrechteNichtBefoerderungAbbruch } from "~/domains/flugg
 import { testcasesFluggastrechtOtherErfolgs } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesOtherErfolgs";
 import { testCasesFluggastrechteVerspaetetAbbruch } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesVerspaetetAbbruch";
 import { testCasesGeldEinklagen } from "~/domains/geldEinklagen/vorabcheck/__test__/testcases";
-import { testCasesProzesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
-import { testCasesPKHFormularFinanzielleAngabenWohnung } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesWohnung";
+import {
+  testCasesProzesskostenhilfeFormular,
+  testCasesProzesskostenhilfeSubmitOnly,
+} from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";
-import { testCasesProzesskostenhilfeRsv } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
-import { testCasesBeratungshilfeFormularGrundvoraussetzungen } from "~/domains/beratungshilfe/formular/grundvoraussetzung/__test__/testcases";
 
 function getEnabledSteps({
   machine,
@@ -46,7 +48,7 @@ function getEnabledSteps({
   machine: FlowStateMachine;
   context: Context;
   transitionType: "SUBMIT" | "BACK";
-  steps: Readonly<Array<string>>;
+  steps: readonly string[];
 }) {
   const initialStep = steps[0];
   const reachableSteps = steps.slice(0, -1).map((step) => {
@@ -110,17 +112,16 @@ describe.sequential("state machine form flows", () => {
     testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
     testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
     testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
+    testCasesBeratungshilfeFormularAbgabe,
     testCasesFluggastrechteVerspaetetAbbruch,
     testCasesFluggastrechteAnnullierungAbbruch,
     testCasesFluggastrechteNichtBefoerderungAbbruch,
     testcasesFluggastrechtOtherErfolgs,
     testCasesFluggastrechteFormularPersoenlicheDaten,
     testCasesProzesskostenhilfeFormular,
-    testCasesPKHFormularFinanzielleAngabenWohnung,
     testCasesFluggastrechteFormularGrundvoraussetzungen,
     testCasesFluggastrechteFormularStreitwertKosten,
     testCasesProzesskostenhilfePersoenlicheDaten,
-    testCasesProzesskostenhilfeRsv,
     testCasesFluggastrechteFormularFlugdatenVerspaetet,
     testCasesFluggastrechteFormularFlugdatenAnnullierung,
     testCasesFluggastrechteErfolg,
@@ -158,6 +159,29 @@ describe.sequential("state machine form flows", () => {
     },
   );
 
+  // Some pages cannot be tested above since they aren't reachable using a `BACK` transition
+  // However, we can still verify that their `SUBMIT` transition is correct
+  const forwardOnlyTests = { testCasesProzesskostenhilfeSubmitOnly };
+
+  describe.concurrent.each(Object.entries(forwardOnlyTests))(
+    "%s",
+    (_, { machine, cases }) => {
+      test.each([...cases])("[%#]", (context, steps) => {
+        const visitedSteps = getEnabledSteps({
+          machine,
+          context,
+          transitionType: "SUBMIT",
+          steps,
+        });
+
+        allVisitedSteps[machine.id].stepIds =
+          allVisitedSteps[machine.id].stepIds.concat(visitedSteps);
+
+        expect(visitedSteps).toEqual(steps);
+      });
+    },
+  );
+
   test("all steps are visited", () => {
     const missingStepsEntries = Object.entries(allVisitedSteps)
       .map(([machineId, { machine, stepIds }]) => {
@@ -179,6 +203,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(120);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(18);
   });
 });

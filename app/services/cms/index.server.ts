@@ -1,42 +1,55 @@
 import type { FlowId } from "~/domains/flowIds";
+import {
+  defaultLocale,
+  type StrapiLocale,
+} from "~/services/cms/models/StrapiLocale";
+import type { Translations } from "~/services/translations/getTranslationByKey";
 import type { Filter, GetStrapiEntryOpts } from "./filters";
 import { getStrapiEntry } from "./getStrapiEntry";
 import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
-import type { StrapiPage } from "./models/StrapiPage";
-import {
-  collectionSchemas,
-  entrySchemas,
-  type CollectionId,
-  type FlowPageId,
-  type SingleEntryId,
-  type StrapiSchemas,
+import { type StrapiPage } from "./models/StrapiPage";
+import { collectionSchemas, entrySchemas, strapiSchemas } from "./schemas";
+import type {
+  CollectionId,
+  FlowPageId,
+  SingleEntryId,
+  StrapiSchemas,
+  ApiId,
 } from "./schemas";
-import { httpErrorCodes } from "../errorPages/ErrorBox";
-import type { Translations } from "../translations/getTranslationByKey";
 
 export async function fetchMeta(
-  opts: Omit<GetStrapiEntryOpts, "apiId" | "filter"> & { filterValue: string },
+  opts: Omit<GetStrapiEntryOpts<"pages">, "apiId" | "filter"> & {
+    filterValue: string;
+  },
 ) {
-  const populate = "meta";
+  const populate = "pageMeta";
   const filters = [{ value: opts.filterValue, field: "slug" }];
   const apiId = "pages";
-  const pageEntry = await getStrapiEntry({ ...opts, filters, apiId, populate });
+  const pageEntry = await getStrapiEntry({
+    ...opts,
+    filters,
+    apiId,
+    populate,
+    deep: false,
+  });
   const parsedEntry = HasStrapiMetaSchema.safeParse(pageEntry[0]);
-  return parsedEntry.success ? parsedEntry.data.meta : null;
+  return parsedEntry.success ? parsedEntry.data.pageMeta : null;
 }
 
 export async function fetchSingleEntry<T extends SingleEntryId>(
   apiId: T,
+  locale?: StrapiLocale,
 ): Promise<StrapiSchemas[T][number]> {
-  const strapiEntry = await getStrapiEntry({ apiId });
+  const strapiEntry = await getStrapiEntry({ apiId, locale });
   return entrySchemas[apiId].parse(strapiEntry)[0];
 }
 
 async function fetchCollectionEntry<T extends CollectionId>(
   apiId: T,
   filters?: Filter[],
+  locale?: StrapiLocale,
 ): Promise<StrapiSchemas[T][number]> {
-  const strapiEntry = await getStrapiEntry({ apiId, filters });
+  const strapiEntry = await getStrapiEntry({ apiId, filters, locale });
   const strapiEntryParsed = collectionSchemas[apiId].safeParse(strapiEntry);
 
   if (!strapiEntryParsed.success || strapiEntryParsed.data.length === 0) {
@@ -49,12 +62,29 @@ async function fetchCollectionEntry<T extends CollectionId>(
   return strapiEntryParsed.data[0];
 }
 
+export async function fetchEntries<T extends ApiId>(
+  props: GetStrapiEntryOpts<T>,
+) {
+  const entries = await getStrapiEntry(props);
+  const parsedEntries = strapiSchemas[props.apiId].safeParse(entries);
+  if (!parsedEntries.success) {
+    throw new Error(
+      `CMS lookup for pages failed (filters: ${JSON.stringify(props.filters)})`,
+    );
+  }
+  return parsedEntries.data as StrapiSchemas[T];
+}
+
 export const fetchTranslations = async (
   name: string,
 ): Promise<Translations> => {
   const filters = [{ field: "scope", value: name }];
   try {
-    const entry = await fetchCollectionEntry("translations", filters);
+    const entry = await fetchCollectionEntry(
+      "translations",
+      filters,
+      defaultLocale,
+    );
     if (!entry) return {};
     return Object.fromEntries(
       entry.field.map(({ name, value }) => [name, value]),
@@ -63,6 +93,24 @@ export const fetchTranslations = async (
     return {};
   }
 };
+
+export async function fetchMultipleTranslations(scopes: string[]) {
+  const translations = await fetchEntries({
+    apiId: "translations",
+    locale: "de",
+    filters: [{ field: "scope", operation: "$in", value: scopes }],
+  });
+  return Object.fromEntries(
+    translations.map((scopedTranslations) => {
+      return [
+        scopedTranslations.scope,
+        Object.fromEntries(
+          scopedTranslations.field.map(({ name, value }) => [name, value]),
+        ),
+      ];
+    }),
+  );
+}
 
 export const fetchPage = (slug: string) =>
   fetchCollectionEntry("pages", [{ field: "slug", value: slug }]);
@@ -83,21 +131,28 @@ export const strapiPageFromRequest = ({ request }: { request: Request }) =>
 export async function fetchErrors() {
   const cmsErrorSlug = "/error/";
 
-  const errorPagePromises = httpErrorCodes.map((errorCode) =>
-    fetchCollectionEntry("pages", [
-      { field: "slug", value: `${cmsErrorSlug}${errorCode}` },
-    ]),
-  );
+  const errorPages = await fetchEntries({
+    apiId: "pages",
+    locale: defaultLocale,
+    filters: [
+      {
+        field: "slug",
+        operation: "$in",
+        value: [
+          `${cmsErrorSlug}404`,
+          `${cmsErrorSlug}500`,
+          `${cmsErrorSlug}403`,
+        ],
+      },
+    ],
+  });
 
-  const errorPageEntries = (await Promise.allSettled(errorPagePromises))
-    .filter(
-      (promise): promise is PromiseFulfilledResult<StrapiPage> =>
-        promise.status === "fulfilled",
-    )
+  const errorPageEntries = errorPages
+    .filter((page) => page !== null)
     .map((errorPage) => [
-      errorPage.value.slug.replace(cmsErrorSlug, ""),
-      errorPage.value.content,
-    ]) satisfies [string, StrapiPage["content"]][];
+      errorPage.slug.replace(cmsErrorSlug, ""),
+      errorPage.content,
+    ]) satisfies Array<[string, StrapiPage["content"]]>;
 
   return Object.fromEntries(errorPageEntries);
 }

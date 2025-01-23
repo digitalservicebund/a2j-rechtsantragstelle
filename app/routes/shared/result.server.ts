@@ -8,13 +8,14 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
+import { skipFlowParamAllowedAndEnabled } from "~/services/params";
 import { getSessionData } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { interpolateSerializableObject } from "~/util/fillTemplate";
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
-  const { pathname } = new URL(request.url);
+  const { pathname, searchParams } = new URL(request.url);
   const { flowId, stepId } = parsePathname(pathname);
   const cmsStepId = stepId.replace("ergebnis/", "");
   const cookieHeader = request.headers.get("Cookie");
@@ -30,7 +31,10 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     guards: currentFlow.guards,
   });
 
-  if (!flowController.isReachable(stepId))
+  if (
+    !flowController.isReachable(stepId) &&
+    !skipFlowParamAllowedAndEnabled(searchParams)
+  )
     return redirect(flowController.getInitial());
 
   const [resultPageContent, parentMeta, defaultStrings] = await Promise.all([
@@ -47,9 +51,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   );
 
   const { back: backButton } = getButtonNavigationProps({
-    backButtonLabel: defaultStrings["backButtonDefaultLabel"],
+    backButtonLabel: defaultStrings.backButtonDefaultLabel,
     nextButtonLabel:
-      cmsContent.nextLink?.text ?? defaultStrings["nextButtonDefaultLabel"],
+      cmsContent.nextLink?.text ?? defaultStrings.nextButtonDefaultLabel,
     backDestination: flowController.getPrevious(stepId),
   });
 
@@ -69,7 +73,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       flowId,
       common: defaultStrings,
       cmsData,
-      meta: { ...cmsContent.meta, breadcrumb: parentMeta?.breadcrumb },
+      meta: { ...cmsContent.pageMeta, breadcrumb: parentMeta?.breadcrumb },
       backButton,
     },
     { headers },

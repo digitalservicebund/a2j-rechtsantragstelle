@@ -9,11 +9,11 @@ import Heading from "../Heading";
 
 export const userRatingFieldname = "wasHelpful";
 
-export interface RatingBoxProps {
+export type RatingBoxProps = {
   readonly heading: string;
   readonly url: string;
   readonly onSubmit: () => void;
-}
+};
 
 export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
   const ratingFetcher = useFetcher();

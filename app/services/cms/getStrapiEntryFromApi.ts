@@ -7,27 +7,36 @@ import { config } from "../env/env.server";
 function buildFilters(filters?: Filter[]) {
   if (!filters) return "";
   return filters
-    .map(
-      ({ field, nestedField, value }) =>
+    .map(({ field, nestedField, operation, value }) => {
+      if (operation === "$in" && Array.isArray(value)) {
+        return value
+          .map((v, idx) => `&filters[${field}][${operation}][${idx}]=${v}`)
+          .join("");
+      }
+      return (
         `&filters[${field}]` +
         (nestedField ? `[${nestedField}]` : ``) +
-        `[$eq]=${value}`,
-    )
+        `[${operation ?? "$eq"}]=${typeof value === "string" ? value : ""}`
+      );
+    })
     .join("");
 }
 
-const buildUrl = ({
+const buildUrl = <T extends ApiId>({
   apiId,
   pageSize,
   filters,
   locale,
+  fields,
   populate = "*",
-}: GetStrapiEntryOpts) =>
+  deep = true,
+}: GetStrapiEntryOpts<T>) =>
   [
     config().STRAPI_API,
     apiId,
     `?populate=${populate}`,
-    `&pLevel`, // https://github.com/NEDDL/strapi-v5-plugin-populate-deep
+    fields ? `&fields=${fields}` : "",
+    deep ? "&pLevel" : "", // https://github.com/NEDDL/strapi-v5-plugin-populate-deep
     `&locale=${locale}`,
     pageSize ? `&pagination[pageSize]=${pageSize}` : "",
     buildFilters(filters),
@@ -42,7 +51,7 @@ const makeStrapiRequest = async <T extends ApiId>(url: string) =>
   });
 
 export const getStrapiEntryFromApi: GetStrapiEntry = async <T extends ApiId>(
-  opts: GetStrapiEntryOpts,
+  opts: GetStrapiEntryOpts<T>,
 ) => {
   const returnData = (await makeStrapiRequest<T>(buildUrl(opts))).data.data;
   return Array.isArray(returnData) ? returnData : [returnData];

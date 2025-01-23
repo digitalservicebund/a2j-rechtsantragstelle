@@ -1,11 +1,11 @@
 import { useField } from "remix-validated-form";
 
-interface Props {
+export type HiddenInputProps = {
   name: string;
   formId?: string;
-}
+};
 
-const HiddenInput = ({ formId, name }: Props) => {
+const HiddenInput = ({ formId, name }: HiddenInputProps) => {
   const { getInputProps } = useField(name, { formId });
 
   return (

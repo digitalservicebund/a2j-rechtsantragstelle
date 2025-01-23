@@ -1,7 +1,7 @@
 type NullToUndefined<T> = T extends null
   ? undefined
-  : T extends (infer U)[]
-    ? NullToUndefined<U>[]
+  : T extends Array<infer U>
+    ? Array<NullToUndefined<U>>
     : T extends Record<string, unknown>
       ? { [K in keyof T]: NullToUndefined<T[K]> }
       : T;

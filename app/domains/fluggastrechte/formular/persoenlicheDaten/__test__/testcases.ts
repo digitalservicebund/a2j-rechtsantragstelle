@@ -13,7 +13,7 @@ const machine: FlowStateMachine = createMachine(
 const cases = [
   [
     {
-      anrede: "mr",
+      anrede: "herr",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -31,7 +31,7 @@ const cases = [
   ],
   [
     {
-      anrede: "mr",
+      anrede: "herr",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -49,7 +49,7 @@ const cases = [
   ],
   [
     {
-      anrede: "mr",
+      anrede: "herr",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -58,7 +58,7 @@ const cases = [
       isWeiterePersonen: "yes",
       weiterePersonen: [
         {
-          anrede: "mr",
+          anrede: "herr",
           vorname: "test",
           nachname: "test",
           strasseHausnummer: "test",
@@ -78,7 +78,7 @@ const cases = [
   ],
   [
     {
-      anrede: "mr",
+      anrede: "herr",
       vorname: "test",
       nachname: "test",
       strasseHausnummer: "test",
@@ -87,7 +87,7 @@ const cases = [
       isWeiterePersonen: "yes",
       weiterePersonen: [
         {
-          anrede: "mr",
+          anrede: "herr",
           vorname: "test",
           nachname: "test",
           strasseHausnummer: "test",

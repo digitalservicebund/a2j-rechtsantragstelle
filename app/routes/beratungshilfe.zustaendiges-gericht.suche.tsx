@@ -29,23 +29,22 @@ const validatorServer = withZod(serverSchema);
 export async function loader({ request }: LoaderFunctionArgs) {
   const sessionManager = getSessionManager("/beratungshilfe/vorabcheck");
 
-  const [common, { pre_form, form, meta, nextButtonLabel }] = await Promise.all(
-    [
+  const [common, { pre_form, form, pageMeta, nextButtonLabel }] =
+    await Promise.all([
       fetchTranslations("amtsgericht"),
       fetchFlowPage(
         "vorab-check-pages",
         "/beratungshilfe/zustaendiges-gericht" as FlowId,
         "/suche",
       ),
-    ],
-  );
+    ]);
   const { url: backURL, session } = getReturnToURL({
     request,
     session: await sessionManager.getSession(request.headers.get("Cookie")),
   });
   const headers = { "Set-Cookie": await sessionManager.commitSession(session) };
   return json(
-    { common, pre_form, form, meta, backURL, nextButtonLabel },
+    { common, pre_form, form, meta: pageMeta, backURL, nextButtonLabel },
     { headers },
   );
 }

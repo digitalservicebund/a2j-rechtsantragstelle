@@ -2,11 +2,11 @@ import airlines from "data/airlines/data.json";
 import airports from "data/airports/data.json";
 import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 
-export interface DataListOptions {
+export type DataListOptions = {
   value: string;
   label: string;
   subDescription?: string;
-}
+};
 
 export function getDataListOptions(
   dataListType?: DataListType,

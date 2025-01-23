@@ -122,7 +122,7 @@ const findNode = (machine: FlowStateMachine, stepId: string) => {
 
 const isFinalStep = (machine: FlowStateMachine, stepId: string) => {
   const transitions = findNode(machine, stepId)?.transitions;
-  return transitions === undefined || !transitions.has("SUBMIT");
+  return !transitions?.has("SUBMIT");
 };
 
 const rootMeta = (machine: FlowStateMachine) => {
@@ -222,8 +222,6 @@ export const buildFlowController = ({
   }).createMachine({ ...config, context });
   const flowId = config.id ?? "";
   const reachableSteps = getSteps(machine); // depends on context
-  const hasDoneFunction =
-    metaFromStepId(machine, reachableSteps[0])?.done !== undefined;
 
   return {
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
@@ -231,12 +229,6 @@ export const buildFlowController = ({
     stepStates: () => stepStates(machine.root, reachableSteps),
     getReachableSteps: () => reachableSteps,
     getUserdata: () => context,
-    isDone: (currentStepId: string) =>
-      Boolean(
-        hasDoneFunction
-          ? metaFromStepId(machine, currentStepId)?.done!({ context })
-          : false,
-      ),
     getConfig: () => config,
     getGuards: () => guards,
     isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),

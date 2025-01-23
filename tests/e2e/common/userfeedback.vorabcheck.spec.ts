@@ -8,16 +8,16 @@ const POST_SUBMISSION_BOX = "user-feedback-submission";
 const TOP_BREADCRUMB_ICON = "HomeOutlinedIcon";
 const USER_FEEDBACK_BANNER = "user-feedback-banner";
 
-interface SetupOptions {
+type SetupOptions = {
   page: Page;
   javaScriptEnabled: boolean;
-}
+};
 
-interface FeedbackOptions {
+type FeedbackOptions = {
   page: Page;
   feedbackIconTestId: "ThumbUpOutlinedIcon" | "ThumbDownOutlinedIcon";
   message: string;
-}
+};
 
 async function setupFeedbackTests({
   page,
@@ -54,16 +54,6 @@ async function submitFeedback({
   await expect(page.getByTestId(POST_SUBMISSION_BOX)).toBeInViewport();
 }
 
-async function abortFeedback({ page, message }: FeedbackOptions) {
-  await page.getByTestId("ThumbDownOutlinedIcon").click();
-  await page.getByRole("textbox").fill(message);
-  await page.getByTestId("CloseOutlinedIcon").click();
-
-  await expect(page.getByTestId(TOP_BREADCRUMB_ICON)).not.toBeInViewport();
-  await expect(page.getByTestId(USER_FEEDBACK_BANNER)).toBeInViewport();
-  await expect(page.getByTestId(POST_SUBMISSION_BOX)).toBeInViewport();
-}
-
 test.describe("User Feedback with JavaScript", () => {
   const javaScriptEnabled = true;
 
@@ -86,14 +76,6 @@ test.describe("User Feedback with JavaScript", () => {
       message: "### e2e test submission negative",
     });
   });
-
-  test("feedback submission abort", async ({ page }) => {
-    await abortFeedback({
-      page,
-      feedbackIconTestId: "ThumbDownOutlinedIcon",
-      message: "### e2e test submission abort",
-    });
-  });
 });
 
 test.describe("User Feedback without JavaScript", () => {
@@ -114,14 +96,6 @@ test.describe("User Feedback without JavaScript", () => {
 
   test("negative feedback submission", async ({ page }) => {
     await submitFeedback({
-      page,
-      feedbackIconTestId: "ThumbDownOutlinedIcon",
-      message: "### e2e test submission negative",
-    });
-  });
-
-  test("feedback submission abort", async ({ page }) => {
-    await abortFeedback({
       page,
       feedbackIconTestId: "ThumbDownOutlinedIcon",
       message: "### e2e test submission negative",

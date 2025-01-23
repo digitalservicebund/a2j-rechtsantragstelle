@@ -34,9 +34,9 @@ describe("bruttoEinnahmen_partner", () => {
         pdfValues: pdfParams,
       });
       expect(
-        pdfValues[
-          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
-        ].value,
+        pdfValues
+          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben
+          .value,
       ).toBeUndefined();
       expect(pdfValues.ja_29.value).toBe(true);
       expect(pdfValues.monatlicheBruttoeinnahmenH10.value).toBe("100 netto");
@@ -52,9 +52,9 @@ describe("bruttoEinnahmen_partner", () => {
         pdfValues: pdfParams,
       });
       expect(
-        pdfValues[
-          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
-        ].value,
+        pdfValues
+          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben
+          .value,
       ).toBeUndefined();
       expect(pdfValues.ja_27.value).toBe(true);
       expect(pdfValues.monatlicheBruttoeinnahmenH9.value).toBe("250 netto");
@@ -295,9 +295,9 @@ describe("bruttoEinnahmen_partner", () => {
         pdfValues: pdfParams,
       });
       expect(
-        pdfValues[
-          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
-        ].value,
+        pdfValues
+          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben
+          .value,
       ).toBe("Asylbewerberleistungen");
     });
 
@@ -308,9 +308,9 @@ describe("bruttoEinnahmen_partner", () => {
       });
       expect(pdfValues.ja_35.value).toBe(true);
       expect(
-        pdfValues[
-          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
-        ].value,
+        pdfValues
+          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben
+          .value,
       ).toBe("Grundsicherung oder Sozialhilfe");
     });
 
@@ -325,9 +325,9 @@ describe("bruttoEinnahmen_partner", () => {
       });
       expect(pdfValues.ja_35.value).toBe(true);
       expect(
-        pdfValues[
-          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
-        ].value,
+        pdfValues
+          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben
+          .value,
       ).toContain(singleEinkunft.beschreibung);
       expect(pdfValues.euroBrutto3.value).toBe(
         `${singleEinkunft.betrag} netto`,
@@ -335,9 +335,9 @@ describe("bruttoEinnahmen_partner", () => {
 
       // Second field should remain blank
       expect(
-        pdfValues[
-          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben2"
-        ].value,
+        pdfValues
+          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben2
+          .value,
       ).toBeUndefined();
       expect(pdfValues.euroBrutto4.value).toBeUndefined();
     });
@@ -353,9 +353,9 @@ describe("bruttoEinnahmen_partner", () => {
 
       expect(pdfValues.ja_35.value).toBe(true);
       expect(
-        pdfValues[
-          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
-        ].value,
+        pdfValues
+          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben
+          .value,
       ).toContain(twoEinkuenfte[0].beschreibung);
       expect(pdfValues.euroBrutto3.value).toBe(
         `${twoEinkuenfte[0].betrag} netto`,
@@ -363,9 +363,9 @@ describe("bruttoEinnahmen_partner", () => {
 
       // Second field should also be filled
       expect(
-        pdfValues[
-          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben2"
-        ].value,
+        pdfValues
+          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben2
+          .value,
       ).toContain(twoEinkuenfte[1].beschreibung);
       expect(pdfValues.euroBrutto4.value).toBe(
         `${twoEinkuenfte[1].betrag} netto`,
@@ -383,9 +383,9 @@ describe("bruttoEinnahmen_partner", () => {
       });
       expect(pdfValues.ja_35.value).toBe(true);
       expect(
-        pdfValues[
-          "hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben"
-        ].value,
+        pdfValues
+          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben
+          .value,
       ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
       expect(attachment?.length).toBeGreaterThan(0);
       expect(attachment?.at(0)).toEqual({

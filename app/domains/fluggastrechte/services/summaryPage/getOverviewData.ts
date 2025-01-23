@@ -1,3 +1,4 @@
+import { uppercaseFirstLetter } from "~/util/strings";
 import { getStringWithSpaceIfStringExists } from "./getStringWithSpaceIfStringExists";
 import { type FluggastrechtContext } from "../../formular/context";
 
@@ -5,7 +6,9 @@ export const NO_SPECIFICATION = "Keine Angabe";
 export const FLOW_ID = "/fluggastrechte/formular";
 
 export const getPersonData = (userData: FluggastrechtContext) => {
-  const address = `${getStringWithSpaceIfStringExists(userData.anrede) + getStringWithSpaceIfStringExists(userData.title) + getStringWithSpaceIfStringExists(userData.vorname) + getStringWithSpaceIfStringExists(userData.nachname)}\n${userData.strasseHausnummer}\n${userData.plz} ${userData.ort}`;
+  const anrede =
+    userData.anrede !== "none" ? uppercaseFirstLetter(userData.anrede) : "";
+  const address = `${getStringWithSpaceIfStringExists(anrede) + getStringWithSpaceIfStringExists(userData.title) + getStringWithSpaceIfStringExists(userData.vorname) + getStringWithSpaceIfStringExists(userData.nachname)}\n${userData.strasseHausnummer}\n${userData.plz} ${userData.ort}`;
   return {
     person: address,
     telefonnummer: userData.telefonnummer || NO_SPECIFICATION,
@@ -29,4 +32,12 @@ export const getZeugenText = (userData: FluggastrechtContext) => {
   if (userData.hasZeugen === "no") return "noWitnesses";
   if (userData.isWeiterePersonen === "yes") return "cedentsAndWitnesses";
   return "noCedentsAndWitnesses";
+};
+
+export const getFluggesellschaftDaten = (userData: FluggastrechtContext) => {
+  return {
+    adresse: userData.fluggesellschaftStrasseHausnummer,
+    postleitzahl: userData.fluggesellschaftPostleitzahl,
+    ort: userData.fluggesellschaftOrt,
+  };
 };

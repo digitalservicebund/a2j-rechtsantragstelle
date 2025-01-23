@@ -9,8 +9,8 @@ import { strapiPageFromRequest } from "~/services/cms/index.server";
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { searchParams } = new URL(request.url);
   const url = searchParams.get("url") ?? "";
-  const { content, meta } = await strapiPageFromRequest({ request });
-  return json({ content, meta, url });
+  const { content, pageMeta } = await strapiPageFromRequest({ request });
+  return json({ content, meta: pageMeta, url });
 };
 
 export default function Index() {

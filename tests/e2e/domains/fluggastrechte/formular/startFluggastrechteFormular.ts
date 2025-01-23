@@ -16,6 +16,9 @@ export async function startFluggastrechteFormular(
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
+  // /fluggastrechte/formular/grundvoraussetzungen/datenverarbeitung
+  await formular.fillCheckboxesPage("datenverarbeitungZustimmung");
+
   // /fluggastrechte/formular/grundvoraussetzungen/prozessfaehig
   await formular.clickNext();
 
@@ -33,6 +36,16 @@ export async function startFluggastrechteFormular(
 
   // /fluggastrechte/formular/streitwert-kosten/prozesszinsen
   await formular.fillRadioPage("prozesszinsen", "yes");
+
+  // /fluggastrechte/formular/flugdaten/adresse-fluggesellschaft
+  await page.waitForSelector("[data-testid=input-fluggesellschaft-loaded]");
+  await formular.fillInput(
+    "fluggesellschaftStrasseHausnummer",
+    "Musterstraße 1",
+  );
+  await formular.fillInput("fluggesellschaftPostleitzahl", "12345");
+  await formular.fillInput("fluggesellschaftOrt", "Musterstadt");
+  await formular.clickNext();
 
   // /fluggastrechte/formular/flugdaten/geplanter-flug
 
@@ -82,7 +95,7 @@ export async function startFluggastrechteFormular(
   await formular.clickNext();
 
   // /fluggastrechte/formular/persoenliche-daten/person/daten
-  await formular.fillInput("anrede", "Herr");
+  // await formular.fillDropdown("anrede", "herr");
   await formular.fillDropdown("title", "");
   await formular.fillInput("nachname", "Donatello");
   await formular.fillInput("vorname", "Cowabunga");

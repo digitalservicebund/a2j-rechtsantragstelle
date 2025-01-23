@@ -1,7 +1,11 @@
 import fs from "node:fs";
+import { getStrapiFlowPage } from "tests/factories/cmsModels/strapiFlowPage";
 import { getStrapiFooter } from "tests/factories/cmsModels/strapiFooter";
 import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
-import { StrapiLocaleSchema } from "~/services/cms/models/StrapiLocale";
+import {
+  defaultLocale,
+  StrapiLocaleSchema,
+} from "~/services/cms/models/StrapiLocale";
 import { type StrapiPage } from "~/services/cms/models/StrapiPage";
 import type { StrapiSchemas } from "../schemas";
 
@@ -14,7 +18,7 @@ describe("services/cms", () => {
     const impressum = {
       slug: impressumPath,
       locale: StrapiLocaleSchema.Values.de,
-      meta: {
+      pageMeta: {
         title: "Impressum",
         description: "description",
         ogTitle: null,
@@ -38,7 +42,7 @@ describe("services/cms", () => {
           nextButtonLabel: null,
           backButtonLabel: null,
           stepId: "/stepId",
-          meta: {
+          pageMeta: {
             title: "",
             description: null,
             ogTitle: null,
@@ -52,6 +56,14 @@ describe("services/cms", () => {
             { flowId: "/fluggastrechte/formular" },
           ],
         },
+        getStrapiFlowPage({
+          stepId: "/stepId2",
+          form: [],
+        }),
+        getStrapiFlowPage({
+          stepId: "/stepId3",
+          form: [],
+        }),
       ],
       translations: [],
     } satisfies StrapiSchemas;
@@ -105,6 +117,21 @@ describe("services/cms", () => {
           ],
         }),
       ).not.toBeUndefined();
+    });
+
+    it("can filter on an array of values ($in operator)", async () => {
+      const results = await getStrapiEntryFromFile({
+        apiId: "form-flow-pages",
+        filters: [
+          {
+            field: "stepId",
+            operation: "$in",
+            value: ["/stepId", "/stepId2", "/stepId3"],
+          },
+        ],
+        locale: defaultLocale,
+      });
+      expect(results).toEqual(fileContent["form-flow-pages"]);
     });
 
     it("returns empty array without matches", async () => {

@@ -8,7 +8,7 @@ import { config } from "../env/env.server";
 let content: StrapiSchemas | undefined;
 
 export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>(
-  opts: GetStrapiEntryOpts,
+  opts: GetStrapiEntryOpts<T>,
 ) => {
   if (!content) {
     try {
@@ -28,7 +28,11 @@ export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>(
       !opts.filters ||
       opts.filters.every(({ field, value, nestedField }) => {
         const relevantField = (content as Record<string, unknown>)[field];
-        if (!nestedField) return relevantField === value;
+        if (!nestedField) {
+          return Array.isArray(value)
+            ? value.includes(relevantField as string)
+            : relevantField === value;
+        }
 
         return (
           typeof relevantField === "object" &&

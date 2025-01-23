@@ -13,12 +13,7 @@ export type AllStrapiData = Record<FlowId, StrapiPages>;
 /**
  * These pages do not exist in strapi and instead exist in our own codebase
  */
-export const ignoreList = [
-  "redirect-vorabcheck-ergebnis",
-  "partner-start",
-  "abschluss",
-  "unterhalt", // antragstellende person unterhalt
-];
+export const ignoreList = ["redirect-vorabcheck-ergebnis", "abschluss"];
 
 export function compileAllStrapiPages(
   flowId: FlowId,

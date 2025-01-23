@@ -14,7 +14,10 @@ import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiHeading";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { logWarning } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";
-import { parentFromParams } from "~/services/params";
+import {
+  skipFlowParamAllowedAndEnabled,
+  parentFromParams,
+} from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import {
   getSessionData,
@@ -33,7 +36,7 @@ export const loader = async ({
   request,
   context,
 }: LoaderFunctionArgs) => {
-  const { pathname } = new URL(request.url);
+  const { pathname, searchParams } = new URL(request.url);
   const { flowId, stepId } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
 
@@ -47,7 +50,10 @@ export const loader = async ({
     guards: currentFlow.guards,
   });
 
-  if (!flowController.isReachable(stepId))
+  if (
+    !flowController.isReachable(stepId) &&
+    !skipFlowParamAllowedAndEnabled(searchParams)
+  )
     return redirectDocument(flowController.getInitial());
 
   const [vorabcheckPage, parentMeta, translations] = await Promise.all([
@@ -78,7 +84,7 @@ export const loader = async ({
     return strapiFormElement;
   });
 
-  const meta = stepMeta(vorabcheckPage.meta, parentMeta);
+  const meta = stepMeta(vorabcheckPage.pageMeta, parentMeta);
 
   // filter user data for current step
   const fieldNames = formElements.map((entry) => entry.name);
@@ -91,16 +97,16 @@ export const loader = async ({
   });
 
   const buttonNavigationProps = getButtonNavigationProps({
-    backButtonLabel: translations["backButtonDefaultLabel"],
+    backButtonLabel: translations.backButtonDefaultLabel,
     nextButtonLabel:
-      vorabcheckPage.nextButtonLabel ?? translations["nextButtonDefaultLabel"],
+      vorabcheckPage.nextButtonLabel ?? translations.nextButtonDefaultLabel,
     isFinal: flowController.isFinal(stepId),
     backDestination: flowController.getPrevious(stepId),
   });
 
   const progressProps = {
     ...flowController.getProgress(stepId),
-    label: translations["progressBarLabel"],
+    label: translations.progressBarLabel,
   };
 
   return json(

@@ -16,7 +16,7 @@ export type PdfFillFunction<ContextType, PDFType> = (
 type PdfFillReducerProps<ContextType, PDFType> = {
   userData: ContextType;
   pdfParams: PDFType;
-  fillFunctions: PdfFillFunction<ContextType, PDFType>[];
+  fillFunctions: Array<PdfFillFunction<ContextType, PDFType>>;
 };
 
 /**

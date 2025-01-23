@@ -42,6 +42,7 @@ const allowedWebsites = [
   "https://transport.ec.europa.eu",
   "www.schlichtung-reise-und-verkehr.de",
   "https://www.personalausweisportal.de",
+  "https://www.mjp.justiz.de",
 ];
 
 const allowedEmails = [
@@ -66,7 +67,7 @@ const regexValidator = {
   url: /((https?):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi,
 };
 
-function verifyExternalLinks(allowedList: Array<string>, regexPattern: RegExp) {
+function verifyExternalLinks(allowedList: string[], regexPattern: RegExp) {
   configDotenv();
   const filePath = process.env.CONTENT_FILE_PATH ?? "./content.json";
   const content = fs.readFileSync(filePath, "utf-8");
@@ -87,7 +88,7 @@ function extractLinks(content: string, regexPattern: RegExp) {
   return matches.map((match) => match[0]);
 }
 
-function isLinkRejected(link: string, allowedList: Array<string>) {
+function isLinkRejected(link: string, allowedList: string[]) {
   return !allowedList.some((allowedLink) => link.includes(allowedLink));
 }
 

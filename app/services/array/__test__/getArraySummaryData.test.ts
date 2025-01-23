@@ -77,7 +77,7 @@ describe("getArraySummaryData", () => {
 
     expect(
       (
-        actual?.["bankkonten"] as {
+        actual?.bankkonten as {
           data: ArrayData;
           configuration: ArrayConfigClient;
         }
@@ -101,7 +101,7 @@ describe("getArraySummaryData", () => {
 
     expect(
       (
-        actual?.["bankkonten"] as {
+        actual?.bankkonten as {
           data: ArrayData;
           configuration: ArrayConfigClient;
         }
@@ -125,7 +125,7 @@ describe("getArraySummaryData", () => {
 
     expect(
       (
-        actual?.["bankkonten"] as {
+        actual?.bankkonten as {
           data: ArrayData;
           configuration: ArrayConfigClient;
         }

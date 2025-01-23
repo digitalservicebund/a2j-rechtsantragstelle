@@ -7,8 +7,7 @@ export const fillUnterhaltsanspruch: PkhPdfFillFunction = ({
 }) => {
   const unterhaltspflichtigePerson = userData.unterhaltspflichtigePerson;
   if (
-    unterhaltspflichtigePerson &&
-    unterhaltspflichtigePerson.vorname &&
+    unterhaltspflichtigePerson?.vorname &&
     unterhaltspflichtigePerson.nachname &&
     unterhaltspflichtigePerson.beziehung
   ) {

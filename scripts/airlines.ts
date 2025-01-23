@@ -2,12 +2,12 @@
 import fs from "node:fs";
 import uniqBy from "lodash/uniqBy";
 
-interface Airline {
+type Airline = {
   name: string;
   iata: string;
   isInEU: boolean;
   arbitrationBoard: string | null;
-}
+};
 
 function processAirlineRow(row: string): Airline {
   const [airlineName, arbitrationBoardCode, iataCode, region] = row.split(";");
