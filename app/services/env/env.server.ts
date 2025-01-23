@@ -15,6 +15,10 @@ type Config = {
   SAML_SP_METADATA_PATH: string;
   SAML_SP_SECRET_KEY_PATH: string;
   SAML_IDP_CERT?: string;
+  AWS_S3_REGION: string;
+  AWS_S3_DATA_CONSENT_FGR_ACCESS_KEY: string;
+  AWS_S3_DATA_CONSENT_FGR_SECRET_KEY: string;
+  AWS_S3_DATA_CONSENT_FGR_BUCKET_NAME: string;
 };
 
 let instance: Config | undefined = undefined;
@@ -47,6 +51,13 @@ export function config(): Config {
         process.env.SAML_SP_SECRET_KEY_PATH?.trim() ??
         path.join(process.cwd(), "data/saml/sp_privateKey.pem"),
       SAML_IDP_CERT: process.env.SAML_IDP_CERT?.trim(),
+      AWS_S3_REGION: process.env.AWS_S3_REGION?.trim() ?? "",
+      AWS_S3_DATA_CONSENT_FGR_ACCESS_KEY:
+        process.env.AWS_S3_DATA_CONSENT_FGR_ACCESS_KEY?.trim() ?? "",
+      AWS_S3_DATA_CONSENT_FGR_SECRET_KEY:
+        process.env.AWS_S3_DATA_CONSENT_FGR_SECRET_KEY?.trim() ?? "",
+      AWS_S3_DATA_CONSENT_FGR_BUCKET_NAME:
+        process.env.AWS_S3_DATA_CONSENT_FGR_SECRET_KEY?.trim() ?? "",
     };
   }
 
