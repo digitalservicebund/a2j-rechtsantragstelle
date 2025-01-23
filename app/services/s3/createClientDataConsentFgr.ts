@@ -10,7 +10,11 @@ export const createClientDataConsentFgr = () => {
       secretAccessKey: config().AWS_S3_DATA_CONSENT_FGR_SECRET_KEY,
     };
 
-    instance = new S3Client({ region: config().AWS_S3_REGION, credentials });
+    instance = new S3Client({
+      region: config().AWS_S3_REGION,
+      credentials,
+      endpoint: config().AWS_S3_ENDPOINT,
+    });
   }
 
   return instance;
