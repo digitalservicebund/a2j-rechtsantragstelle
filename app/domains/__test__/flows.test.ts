@@ -30,12 +30,11 @@ import { testCasesFluggastrechteNichtBefoerderungAbbruch } from "~/domains/flugg
 import { testcasesFluggastrechtOtherErfolgs } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesOtherErfolgs";
 import { testCasesFluggastrechteVerspaetetAbbruch } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesVerspaetetAbbruch";
 import { testCasesGeldEinklagen } from "~/domains/geldEinklagen/vorabcheck/__test__/testcases";
-import { testCasesProzesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
-import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";
 import {
-  testCasesProzesskostenhilfeForwardOnly,
-  testCasesProzesskostenhilfeRsv,
-} from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/__test__/testcases";
+  testCasesProzesskostenhilfeFormular,
+  testCasesProzesskostenhilfeSubmitOnly,
+} from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
+import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
@@ -123,7 +122,6 @@ describe.sequential("state machine form flows", () => {
     testCasesFluggastrechteFormularGrundvoraussetzungen,
     testCasesFluggastrechteFormularStreitwertKosten,
     testCasesProzesskostenhilfePersoenlicheDaten,
-    testCasesProzesskostenhilfeRsv,
     testCasesFluggastrechteFormularFlugdatenVerspaetet,
     testCasesFluggastrechteFormularFlugdatenAnnullierung,
     testCasesFluggastrechteErfolg,
@@ -161,11 +159,9 @@ describe.sequential("state machine form flows", () => {
     },
   );
 
-  // Array pages cannot be tested above since they aren't reachable using the `BACK` transition
+  // Some pages cannot be tested above since they aren't reachable using a `BACK` transition
   // However, we can still verify that their `SUBMIT` transition is correct
-  const forwardOnlyTests = {
-    testCasesProzesskostenhilfeForwardOnly,
-  };
+  const forwardOnlyTests = { testCasesProzesskostenhilfeSubmitOnly };
 
   describe.concurrent.each(Object.entries(forwardOnlyTests))(
     "%s",
