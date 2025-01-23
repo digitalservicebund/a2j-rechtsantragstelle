@@ -154,7 +154,12 @@ export const prozesskostenhilfeFormular = {
         nextFlowEntrypoint: "#abgabe",
       }),
       ...((await isFeatureFlagEnabled("showFileUpload")) && {
-        "file-upload": {},
+        "file-upload": {
+          on: {
+            BACK: "persoenliche-daten",
+            SUBMIT: "abgabe",
+          },
+        },
       }),
       abgabe: {
         id: "abgabe",
