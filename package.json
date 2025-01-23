@@ -73,7 +73,7 @@
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.16.0",
-    "posthog-js": "^1.207.8",
+    "posthog-js": "^1.209.0",
     "posthog-node": "^4.4.1",
     "rate-limit-redis": "^4.2.0",
     "react": "^18.3.1",
@@ -95,7 +95,7 @@
     "@axe-core/playwright": "^4.10.1",
     "@eslint/eslintrc": "^3.2.0",
     "@faker-js/faker": "^9.4.0",
-    "@playwright/test": "^1.49.1",
+    "@playwright/test": "^1.50.0",
     "@remix-run/dev": "^2.15.2",
     "@remix-run/testing": "^2.15.2",
     "@size-limit/file": "^11.1.6",
@@ -114,9 +114,9 @@
     "@types/react": "^18.3.13",
     "@types/react-dom": "^18.3.1",
     "@types/validator": "^13.12.2",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.4",
     "@vitest/eslint-plugin": "^1.1.25",
-    "@vitest/expect": "^3.0.2",
+    "@vitest/expect": "^3.0.4",
     "autoprefixer": "^10.4.20",
     "eslint": "~9.18.0",
     "eslint-import-resolver-typescript": "^3.7.0",
@@ -136,7 +136,7 @@
     "postcss": "^8.5.1",
     "prettier": "^3.4.2",
     "size-limit": "^11.1.6",
-    "storybook": "^8.5.0",
+    "storybook": "^8.5.1",
     "tailwindcss": "^3.4.17",
     "tsx": "~4.19.2",
     "typescript": "^5.7.3",
@@ -144,7 +144,7 @@
     "vite": "^5.4.14",
     "vite-env-only": "^3.0.3",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.2"
+    "vitest": "^3.0.4"
   },
   "overrides": {
     "@remix-run/server-runtime": {
