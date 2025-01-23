@@ -14,6 +14,7 @@ import { testCasesPKHFormularFinanzielleAngabenEinkuenfte } from "../finanzielle
 import { testCasesPKHFormularFinanzielleAngabenKinder } from "../finanzielleAngaben/__test__/testcasesKinder";
 import { testCasesPKHFormularFinanzielleAngabenPartner } from "../finanzielleAngaben/__test__/testcasesPartner";
 import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../finanzielleAngaben/__test__/testcasesWohnung";
+import { testCasesProzesskostenhilfeRsv } from "../rechtsschutzversicherung/__test__/testcases";
 
 export const machine: FlowStateMachine = createMachine(
   { ...prozesskostenhilfeFormular.config, context: {} },
@@ -60,6 +61,7 @@ const cases = [
   ...testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen,
   ...testCasesPKHFormularFinanzielleAngabenEigentum,
   ...testCasesPKHFormularFinanzielleAngabenAusgaben,
+  ...testCasesProzesskostenhilfeRsv,
   [
     happyPathData,
     [
@@ -75,6 +77,68 @@ const cases = [
     ],
   ],
 ] satisfies TestCases<ProzesskostenhilfeFormularContext>;
+
+export const testCasesProzesskostenhilfeSubmitOnly = {
+  machine,
+  cases: [
+    [
+      {},
+      [
+        "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgabe/daten",
+        "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht",
+      ],
+    ],
+    [
+      {},
+      [
+        "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft/daten",
+        "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht",
+      ],
+    ],
+    [
+      {},
+      [
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgabe/partner-daten",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-uebersicht",
+      ],
+    ],
+    [
+      {},
+      [
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgabe/partner-daten",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-uebersicht",
+      ],
+    ],
+    [
+      {},
+      [
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-einkunft/partner-daten",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-uebersicht",
+      ],
+    ],
+    [
+      {},
+      [
+        "/finanzielle-angaben/andere-unterhaltszahlungen/person/daten",
+        "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+      ],
+    ],
+    [
+      {},
+      [
+        "/finanzielle-angaben/eigentum-zusammenfassung/bankkonten/daten",
+        "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      ],
+    ],
+    [
+      {},
+      [
+        "/finanzielle-angaben/eigentum-zusammenfassung/wertgegenstaende/daten",
+        "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      ],
+    ],
+  ] satisfies TestCases<ProzesskostenhilfeFormularContext>,
+};
 
 export const testCasesProzesskostenhilfeFormular = {
   machine,
