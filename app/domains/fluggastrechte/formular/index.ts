@@ -3,6 +3,7 @@ import type { AllContextKeys } from "~/domains/common";
 import type { Flow } from "~/domains/flows.server";
 import type { ArrayConfigServer } from "~/services/array";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
+import { storeConsentFgrToS3Bucket } from "~/services/s3/storeConsentFgrToS3Bucket";
 import abgabeFlow from "./abgabe/flow.json";
 import type { FluggastrechtContext } from "./context";
 import { flugdatenDone } from "./flugdaten/doneFunctions";
@@ -44,6 +45,10 @@ import zusammenfassungFlow from "./zusammenfassung/flow.json";
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
   eligibleSourcePages: ["/ergebnis/erfolg"],
+};
+
+const asyncFlowActions = {
+  "/grundvoraussetzungen/datenverarbeitung": storeConsentFgrToS3Bucket,
 };
 
 export const fluggastrechtFlow = {
@@ -142,4 +147,5 @@ export const fluggastrechtFlow = {
   },
   guards: fluggastrechteGuards,
   flowTransitionConfig,
+  asyncFlowActions,
 } satisfies Flow;

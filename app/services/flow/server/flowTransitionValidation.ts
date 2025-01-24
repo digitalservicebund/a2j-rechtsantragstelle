@@ -20,6 +20,12 @@ export function getFlowTransitionConfig(currentFlow: Flow) {
     : undefined;
 }
 
+export function getAsyncFlowActions(currentFlow: Flow) {
+  return "asyncFlowActions" in currentFlow
+    ? currentFlow.asyncFlowActions
+    : undefined;
+}
+
 export async function validateFlowTransition(
   flows: Record<FlowId, Flow>,
   cookieHeader: CookieHeader,

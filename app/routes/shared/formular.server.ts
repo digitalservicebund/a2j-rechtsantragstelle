@@ -20,6 +20,7 @@ import { buildFlowController } from "~/services/flow/server/buildFlowController"
 import {
   validateFlowTransition,
   getFlowTransitionConfig,
+  getAsyncFlowActions,
 } from "~/services/flow/server/flowTransitionValidation";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
@@ -280,6 +281,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       eventName: customAnalyticsEventName,
       properties: validationResult.data,
     });
+  }
+
+  const asyncFlowActions = getAsyncFlowActions(flows[flowId]);
+
+  if (asyncFlowActions?.[stepId]) {
+    await asyncFlowActions[stepId](request);
   }
 
   const destination =
