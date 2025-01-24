@@ -74,12 +74,12 @@ describe("NavigationItem", () => {
     );
   });
 
-  it("renders navigation item with active subflows", () => {
+  it("renders navigation item with subflows", () => {
     const subflows = [
       {
         destination: "/subflow1",
         label: "subflowLabel1",
-        state: NavState.Current,
+        state: NavState.Open,
       },
       {
         destination: "/subflow2",
@@ -91,16 +91,15 @@ describe("NavigationItem", () => {
       <NavItem
         destination={destination}
         label={label}
-        state={NavState.Done}
+        state={NavState.Current}
         subflows={subflows}
       />,
     );
 
-    const subflowLink = screen.getAllByRole("link");
-    expect(subflowLink[0]).toHaveTextContent("subflowLabel1");
-    expect(subflowLink[0]).toHaveAttribute("href", "/subflow1");
-    expect(subflowLink).toHaveLength(1); // check that disabled subflow is not rendered
-    expect(subflowLink[0].parentNode).toBeInstanceOf(HTMLLIElement);
+    const subflow1 = screen.getByText("subflowLabel1");
+    expect(subflow1).toHaveAttribute("href", "/subflow1");
+    const subflow2 = screen.queryByText("subflowLabel2");
+    expect(subflow2).not.toBeInTheDocument();
   });
 
   it("renders subItem with correct classNames when isChild is true", () => {
