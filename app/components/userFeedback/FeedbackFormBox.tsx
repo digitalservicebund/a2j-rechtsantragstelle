@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
 import Textarea from "~/components/inputs/Textarea";
+import { FeedbackType } from "~/components/userFeedback";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import Button from "../Button";
@@ -35,15 +36,15 @@ export const feedbackValidator = withZod(
 export type FeedbackBoxProps = {
   readonly destination: string;
   readonly shouldFocus: boolean;
-  readonly positiveFeedback: boolean | null;
   readonly onSubmit: () => void;
+  readonly feedback?: FeedbackType;
 };
 
 export const FeedbackFormBox = ({
   destination,
   shouldFocus,
-  positiveFeedback,
   onSubmit,
+  feedback,
 }: FeedbackBoxProps) => {
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
@@ -57,6 +58,13 @@ export const FeedbackFormBox = ({
       textAreaReference.current.focus();
     }
   }, [shouldFocus]);
+
+  if (!feedback) return null;
+
+  const feedbackText = {
+    [FeedbackType.Positive]: feedbackTranslations["positive-feedback-question"],
+    [FeedbackType.Negative]: feedbackTranslations["negative-feedback-question"],
+  }[feedback];
 
   return (
     <ValidatedForm
@@ -73,16 +81,9 @@ export const FeedbackFormBox = ({
       />
       <div role="status" className="ds-stack-16">
         <div>
-          {positiveFeedback && (
-            <label htmlFor={FEEDBACK_FIELD_NAME} className="ds-label-01-bold">
-              {feedbackTranslations["positive-feedback-question"]}
-            </label>
-          )}
-          {!positiveFeedback && (
-            <label htmlFor={FEEDBACK_FIELD_NAME} className="ds-label-01-bold">
-              {feedbackTranslations["negative-feedback-question"]}
-            </label>
-          )}
+          <label htmlFor={FEEDBACK_FIELD_NAME} className="ds-label-01-bold">
+            {feedbackText}
+          </label>
           <p className="ds-text-02-reg text-gray-800">
             {feedbackTranslations["heading-personal-data-feedback"]}
           </p>

@@ -1,6 +1,7 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render } from "@testing-library/react";
 import { useMemo } from "react";
+import { FeedbackType } from "~/components/userFeedback";
 import { TranslationContext } from "~/services/translations/translationsContext";
 import { FEEDBACK_FIELD_NAME, FeedbackFormBox } from "../FeedbackFormBox";
 import type { FeedbackTranslationKeys } from "../feedbackTranslations";
@@ -42,7 +43,7 @@ describe("FeedbackFormBox", () => {
             <FeedbackFormBox
               destination="destination"
               shouldFocus={false}
-              positiveFeedback={true}
+              feedback={FeedbackType.Positive}
               onSubmit={vitest.fn}
             />
           </FeedbackContextComponent>
@@ -63,7 +64,7 @@ describe("FeedbackFormBox", () => {
             <FeedbackFormBox
               destination="destination"
               shouldFocus
-              positiveFeedback={true}
+              feedback={FeedbackType.Positive}
               onSubmit={vitest.fn}
             />
           </FeedbackContextComponent>
