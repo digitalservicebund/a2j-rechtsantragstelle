@@ -15,7 +15,8 @@ const feedbackTranslationsKeys = [
 export type FeedbackTranslationKeys = (typeof feedbackTranslationsKeys)[number];
 
 const postSubmissionTranslationKeys = [
-  "heading-post-submission",
+  "success-message",
+  "feedback-helps",
   "text-post-submission",
 ] as const;
 export type PostSubmissionTranslationKeys =

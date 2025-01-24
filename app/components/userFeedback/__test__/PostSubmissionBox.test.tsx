@@ -3,12 +3,14 @@ import { TranslationContext } from "~/services/translations/translationsContext"
 import type { PostSubmissionTranslationKeys } from "../feedbackTranslations";
 import { PostSubmissionBox } from "../PostSubmissionBox";
 
-const HEADING_POST_SUBMISSION = "Heading";
+const HEADING_POST_SUBMISSION = "Vielen Dank!";
 const TEXT_POST_SUBMISSION = "Text";
+const FEEDBACK_HELPS = "Feedback helps us";
 
 const contextObj = {
   feedback: {
-    ["heading-post-submission"]: HEADING_POST_SUBMISSION,
+    ["success-message"]: HEADING_POST_SUBMISSION,
+    ["feedback-helps"]: FEEDBACK_HELPS,
     ["text-post-submission"]: TEXT_POST_SUBMISSION,
   } satisfies Record<PostSubmissionTranslationKeys, string>,
   video: {},

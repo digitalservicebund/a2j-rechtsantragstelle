@@ -1,6 +1,6 @@
 import CheckCircleIcon from "@digitalservicebund/icons/CheckCircle";
 import { withZod } from "@remix-validated-form/with-zod";
-import { useEffect, useRef, useState } from "react";
+import { LegacyRef, useEffect, useRef, useState } from "react";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
 import Textarea from "~/components/inputs/Textarea";
@@ -113,14 +113,18 @@ export const FeedbackFormBox = ({
 export const FeedbackTitle = ({
   title,
   subtitle,
+  innerRef,
 }: {
   title: string;
   subtitle: string;
+  innerRef?: LegacyRef<HTMLHeadingElement>;
 }) => {
   return (
     <div className="flex items-center text-base mb-[1em]">
       <CheckCircleIcon className="w-[2em] h-[1.5em] mr-[0.25em] text-green-600 " />
-      <p className="font-bold mr-4">{title}</p>
+      <p className="font-bold mr-4" ref={innerRef}>
+        {title}
+      </p>
       <p>{subtitle}</p>
     </div>
   );

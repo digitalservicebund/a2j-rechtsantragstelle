@@ -20,6 +20,7 @@ export const PostSubmissionBox = ({ shouldFocus }: Props) => {
   return (
     <div data-testid="user-feedback-submission">
       <FeedbackTitle
+        innerRef={headingReference}
         title={feedbackTranslations["success-message"]}
         subtitle={feedbackTranslations["feedback-helps"]}
       />
