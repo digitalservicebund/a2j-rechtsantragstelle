@@ -9,7 +9,7 @@ type Props = {
 
 export const PostSubmissionBox = ({ shouldFocus }: Props) => {
   const feedbackTranslations = useFeedbackTranslations();
-  const headingReference = useRef<HTMLHeadingElement | null>(null);
+  const headingReference = useRef<HTMLParagraphElement | null>(null);
 
   useEffect(() => {
     if (shouldFocus && headingReference.current) {
