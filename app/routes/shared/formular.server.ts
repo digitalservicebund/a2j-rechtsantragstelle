@@ -20,7 +20,7 @@ import { buildFlowController } from "~/services/flow/server/buildFlowController"
 import {
   validateFlowTransition,
   getFlowTransitionConfig,
-  getAsyncFlowActions,
+  executeAsyncFlowActionByStepId,
 } from "~/services/flow/server/flowTransitionValidation";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
@@ -283,11 +283,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     });
   }
 
-  const asyncFlowActions = getAsyncFlowActions(flows[flowId]);
-
-  if (asyncFlowActions?.[stepId]) {
-    await asyncFlowActions[stepId](request);
-  }
+  await executeAsyncFlowActionByStepId(flows[flowId], stepId, request);
 
   const destination =
     flowController.getNext(stepId) ?? flowController.getInitial();
