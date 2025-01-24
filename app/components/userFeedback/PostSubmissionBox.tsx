@@ -1,7 +1,6 @@
-import CheckCircleIcon from "@digitalservicebund/icons/CheckCircle";
 import { useEffect, useRef } from "react";
-import { useFeedbackTranslations } from "./feedbackTranslations";
-import Heading from "../Heading";
+import { FeedbackTitle } from "~/components/userFeedback/FeedbackFormBox";
+import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import RichText from "../RichText";
 
 type Props = {
@@ -20,17 +19,10 @@ export const PostSubmissionBox = ({ shouldFocus }: Props) => {
 
   return (
     <div data-testid="user-feedback-submission">
-      <div className="flex items-center text-base font-bold mb-[1em]">
-        <CheckCircleIcon className="w-[2em] h-[1.5em] mr-[0.25em] text-green-600 " />
-        <Heading
-          look="ds-label-01-bold"
-          tagName="h2"
-          text={feedbackTranslations["heading-post-submission"]}
-          role="status"
-          tabIndex={-1}
-          innerRef={headingReference}
-        />
-      </div>
+      <FeedbackTitle
+        title={feedbackTranslations["success-message"]}
+        subtitle={feedbackTranslations["feedback-helps"]}
+      />
       <RichText markdown={feedbackTranslations["text-post-submission"]} />
     </div>
   );

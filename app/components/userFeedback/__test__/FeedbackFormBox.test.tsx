@@ -19,6 +19,8 @@ describe("FeedbackFormBox", () => {
           "positive-feedback-question": "placeholder",
           "negative-feedback-question": "placeholder",
           "success-message": "placeholder",
+          "antwort-uebermittelt": "placeholder",
+          "feedback-helps": "placeholder",
         } satisfies Record<FeedbackTranslationKeys, string>,
         video: {},
         accessibility: {},

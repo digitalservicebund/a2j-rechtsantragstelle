@@ -9,6 +9,8 @@ const feedbackTranslationsKeys = [
   "heading-personal-data-feedback",
   "placeholder-feedback",
   "submit-button-feedback",
+  "antwort-uebermittelt",
+  "feedback-helps",
 ] as const;
 export type FeedbackTranslationKeys = (typeof feedbackTranslationsKeys)[number];
 

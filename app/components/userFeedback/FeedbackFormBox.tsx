@@ -1,14 +1,13 @@
 import CheckCircleIcon from "@digitalservicebund/icons/CheckCircle";
-import SendIcon from "@digitalservicebund/icons/SendOutlined";
 import { withZod } from "@remix-validated-form/with-zod";
 import { useEffect, useRef, useState } from "react";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
+import Textarea from "~/components/inputs/Textarea";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
-import Textarea from "../inputs/Textarea";
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 export const FEEDBACK_FORM_NAME = "feedbackForm";
 export const FEEDBACK_FIELD_NAME = "feedback";
@@ -68,11 +67,10 @@ export const FeedbackFormBox = ({
       preventScrollReset={true}
       onSubmit={onSubmit}
     >
-      <div className="flex items-center text-base font-bold mb-[1em]">
-        <CheckCircleIcon className="w-[2em] h-[1.5em] mr-[0.25em] text-green-600 " />
-        <p>{feedbackTranslations["success-message"]}</p>
-      </div>
-
+      <FeedbackTitle
+        title={feedbackTranslations["success-message"]}
+        subtitle={feedbackTranslations["antwort-uebermittelt"]}
+      />
       <div role="status" className="ds-stack-16">
         <div>
           {positiveFeedback && (
@@ -99,7 +97,6 @@ export const FeedbackFormBox = ({
         <ButtonContainer>
           <Button
             look="primary"
-            iconLeft={<SendIcon />}
             name={FEEDBACK_BUTTON_FIELD_NAME}
             value={FeedbackButtons.Submit}
             type="submit"
@@ -109,5 +106,21 @@ export const FeedbackFormBox = ({
         </ButtonContainer>
       </div>
     </ValidatedForm>
+  );
+};
+
+export const FeedbackTitle = ({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle: string;
+}) => {
+  return (
+    <div className="flex items-center text-base mb-[1em]">
+      <CheckCircleIcon className="w-[2em] h-[1.5em] mr-[0.25em] text-green-600 " />
+      <p className="font-bold mr-4">{title}</p>
+      <p>{subtitle}</p>
+    </div>
   );
 };
