@@ -4,6 +4,7 @@ import { NavigationList } from "~/components/navigation/NavigationList";
 export default function FlowNavigation(props: FlowNavigationProps) {
   return (
     <nav
+      role="navigation"
       aria-label={props.a11yLabels?.menuLabel}
       className="bg-white border-[1px] border-blue-400"
     >
