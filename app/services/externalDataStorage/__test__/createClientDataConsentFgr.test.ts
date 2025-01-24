@@ -1,7 +1,7 @@
 import { S3Client } from "@aws-sdk/client-s3";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { config } from "~/services/env/env.server";
-import { createClientDataConsentFgr } from "~/services/s3/createClientDataConsentFgr";
+import { createClientDataConsentFgr } from "~/services/externalDataStorage/createClientDataConsentFgr";
 
 vi.mock("@aws-sdk/client-s3", () => ({
   S3Client: vi.fn(),
