@@ -1,6 +1,6 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { config } from "~/services/env/env.server";
-import { today } from "~/util/date";
+import { today, toGermanDateFormat } from "~/util/date";
 import { createClientDataConsentFgr } from "./createClientDataConsentFgr";
 import { sendSentryMessage } from "../logging";
 import { getSessionIdByFlowId } from "../session.server";
@@ -11,13 +11,7 @@ const createConsentDataBuffer = (sessionId: string, request: Request) => {
 };
 
 const getFolderDate = () => {
-  return today()
-    .toLocaleDateString("de-DE", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    })
-    .replaceAll(".", "-");
+  return toGermanDateFormat(today()).replaceAll(".", "-");
 };
 
 export const storeConsentFgrToS3Bucket = async (request: Request) => {
