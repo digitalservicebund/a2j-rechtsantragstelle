@@ -46,8 +46,8 @@ We considered simply storing the file in Redis, but ultimately decided against i
 
 - We'll need a new, separate bucket for user-uploaded files
 - User files will expire after 24 hours, regardless of their last access time
-   * for example: User uploads Beleg but doesn't fully complete Antrag. Data and files are both saved for 24 hours. User returns to the Antrag, 12 hours later. Data expiration resets to 24 hours, but file(s) still expire(s) in 12 hours.
-   * It is then possible for a user to return to the Antrag >24 hours after initially starting, to find their files deleted, in which case they will have to re-upload them.
+  - for example: User uploads Beleg but doesn't fully complete Antrag. Data and files are both saved for 24 hours. User returns to the Antrag, 12 hours later. Data expiration resets to 24 hours, but file(s) still expire(s) in 12 hours.
+  - It is then possible for a user to return to the Antrag >24 hours after initially starting, to find their files deleted, in which case they will have to re-upload them.
 
 ## Next Actions
 
