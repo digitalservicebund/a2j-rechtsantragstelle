@@ -100,7 +100,7 @@ export const fluggastrechtFlow = {
           statementKey: "isWeiterePersonen",
           hiddenFields: ["anrede", "title", "datenverarbeitungZustimmung"],
           event: "add-weiterePersonen",
-          customItemIndex: 2,
+          customStartDisplayIndex: 2,
           shouldDisableAddButton: isTotalClaimWillSucceddedAboveLimit,
         },
       } satisfies Partial<Record<AllContextKeys, ArrayConfigServer>>,

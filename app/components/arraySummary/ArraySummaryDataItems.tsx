@@ -28,7 +28,8 @@ const ArraySummaryDataItems = ({
   headingTitleTagNameItem,
   translations = {},
 }: ArraySummaryItemProps) => {
-  const { url, initialInputUrl, hiddenFields, customItemIndex } = configuration;
+  const { url, initialInputUrl, hiddenFields, customStartDisplayIndex } =
+    configuration;
   const itemsWithoutHiddenFields = Object.entries(items).filter(
     ([itemKey, itemValue]) => itemValue && !hiddenFields?.includes(itemKey),
   );
@@ -40,7 +41,7 @@ const ArraySummaryDataItems = ({
   const heading = interpolateSerializableObject(
     translations[`${category}.label.heading`] ?? "",
     {
-      indexArray: (customItemIndex ?? itemIndex + 1).toString(),
+      indexArray: (customStartDisplayIndex ?? itemIndex + 1).toString(),
     },
   );
 
