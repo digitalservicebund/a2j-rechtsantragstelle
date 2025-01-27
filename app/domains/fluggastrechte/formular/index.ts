@@ -98,7 +98,7 @@ export const fluggastrechtFlow = {
           url: "/fluggastrechte/formular/persoenliche-daten/weitere-personen/person",
           initialInputUrl: "daten",
           statementKey: "isWeiterePersonen",
-          hiddenFields: ["anrede", "title"],
+          hiddenFields: ["anrede", "title", "datenverarbeitungZustimmung"],
           event: "add-weiterePersonen",
           shouldDisableAddButton: isTotalClaimWillSucceddedAboveLimit,
         },
