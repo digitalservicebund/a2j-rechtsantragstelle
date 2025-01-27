@@ -39,6 +39,7 @@ import {
   isNichtBefoerderung,
   isVerspaetet,
   isWeiterePersonen,
+  WEITERE_PERSONEN_START_INDEX,
 } from "./stringReplacements";
 import zusammenfassungFlow from "./zusammenfassung/flow.json";
 
@@ -100,7 +101,7 @@ export const fluggastrechtFlow = {
           statementKey: "isWeiterePersonen",
           hiddenFields: ["anrede", "title", "datenverarbeitungZustimmung"],
           event: "add-weiterePersonen",
-          customStartDisplayIndex: 2,
+          customStartDisplayIndex: WEITERE_PERSONEN_START_INDEX,
           shouldDisableAddButton: isTotalClaimWillSucceddedAboveLimit,
         },
       } satisfies Partial<Record<AllContextKeys, ArrayConfigServer>>,

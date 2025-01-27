@@ -41,7 +41,7 @@ const ArraySummaryDataItems = ({
   const heading = interpolateSerializableObject(
     translations[`${category}.label.heading`] ?? "",
     {
-      indexArray: (customStartDisplayIndex ?? itemIndex + 1).toString(),
+      indexArray: ((customStartDisplayIndex ?? 1) + itemIndex).toString(),
     },
   );
 
