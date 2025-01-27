@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { FeedbackTitle } from "~/components/userFeedback/FeedbackFormBox";
+import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 
 describe("FeedbackTitle", () => {
   it("should render with the correct styling", () => {

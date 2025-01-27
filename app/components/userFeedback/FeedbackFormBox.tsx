@@ -1,10 +1,10 @@
-import CheckCircleIcon from "@digitalservicebund/icons/CheckCircle";
 import { withZod } from "@remix-validated-form/with-zod";
-import { LegacyRef, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
 import Textarea from "~/components/inputs/Textarea";
 import { FeedbackType } from "~/components/userFeedback";
+import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import Button from "../Button";
@@ -107,25 +107,5 @@ export const FeedbackFormBox = ({
         </ButtonContainer>
       </div>
     </ValidatedForm>
-  );
-};
-
-export const FeedbackTitle = ({
-  title,
-  subtitle,
-  innerRef,
-}: {
-  title: string;
-  subtitle: string;
-  innerRef?: LegacyRef<HTMLParagraphElement>;
-}) => {
-  return (
-    <div className="flex items-center text-base mb-[1em]">
-      <CheckCircleIcon className="w-[2em] h-[1.5em] mr-[0.25em] text-green-600 " />
-      <p className="font-bold mr-4" ref={innerRef} tabIndex={-1}>
-        {title}
-      </p>
-      <p>{subtitle}</p>
-    </div>
   );
 };

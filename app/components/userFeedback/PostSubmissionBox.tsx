@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { FeedbackTitle } from "~/components/userFeedback/FeedbackFormBox";
+import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import RichText from "../RichText";
 
