@@ -2,6 +2,7 @@ import merge from "lodash/merge";
 import type { AllContextKeys } from "~/domains/common";
 import type { Flow } from "~/domains/flows.server";
 import type { ArrayConfigServer } from "~/services/array";
+import { storeConsentFgrToS3Bucket } from "~/services/externalDataStorage/storeConsentFgrToS3Bucket";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import abgabeFlow from "./abgabe/flow.json";
 import type { FluggastrechtContext } from "./context";
@@ -44,6 +45,10 @@ import zusammenfassungFlow from "./zusammenfassung/flow.json";
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
   eligibleSourcePages: ["/ergebnis/erfolg"],
+};
+
+const asyncFlowActions = {
+  "/grundvoraussetzungen/datenverarbeitung": storeConsentFgrToS3Bucket,
 };
 
 export const fluggastrechtFlow = {
@@ -142,4 +147,5 @@ export const fluggastrechtFlow = {
   },
   guards: fluggastrechteGuards,
   flowTransitionConfig,
+  asyncFlowActions,
 } satisfies Flow;
