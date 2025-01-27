@@ -20,7 +20,7 @@ We store the actual file in bucket storage, and the accompanying metadata along 
 1. User clicks upload button. API request to bucket storage is made with the file and session ID/some hash of the current session to link the two together.
    1. Upon failure, display error to user
    2. Upon success, store returned entity ID along with file metadata in an array, something like `filesUploaded`, alongside Antrag data in Redis.
-2. During Zusammenfassung, files are retrieved via their entity IDs from bucket storage and displayed to the user for verification, later merged into PDF
+2. On the Preview Page, files are retrieved via their entity IDs from bucket storage, merged into the PDF and displayed to the user for verification.
 3. If a user deletes a file, make an API delete request, and upon success, erase the matching entry in the Redis/user data
 
 ## File Expiration problem
