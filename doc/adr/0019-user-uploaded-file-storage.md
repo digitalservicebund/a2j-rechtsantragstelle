@@ -27,7 +27,7 @@ We store the actual file in bucket storage, and the accompanying metadata along 
 
 We need a way to expire the user-uploaded files at the same time that their session cookie gets invalidated, i.e. 24 hours after upload. For this, we have several options. For now:
 
-- Set bucket object expiration to 24hrs. If user session data outlives file lifetime, oh well.
+- Set bucket object expiration to 24hrs. This means that user data will theoretically outlive user-uploaded files, as user data expiry is refreshed upon every access. See consequences section for an example.
 
 To think about later:
 
@@ -45,6 +45,9 @@ We considered simply storing the file in Redis, but ultimately decided against i
 ## Consequences
 
 - We'll need a new, separate bucket for user-uploaded files
+- User files will expire after 24 hours, regardless of their last access time
+   * for example: User uploads Beleg but doesn't fully complete Antrag. Data and files are both saved for 24 hours. User returns to the Antrag, 12 hours later. Data expiration resets to 24 hours, but file(s) still expire(s) in 12 hours.
+   * It is then possible for a user to return to the Antrag >24 hours after initially starting, to find their files deleted, in which case they will have to re-upload them.
 
 ## Next Actions
 
