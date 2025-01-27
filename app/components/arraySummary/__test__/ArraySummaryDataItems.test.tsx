@@ -8,7 +8,6 @@ const mockArrayConfiguration: ArrayConfigClient = {
   event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
   url: "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person",
-  customStartDisplayIndex: 2,
   disableAddButton: false,
 };
 
@@ -110,13 +109,13 @@ describe("ArraySummaryDataItems", () => {
     ).toBeInTheDocument();
   });
 
-  it("should render ArraySummaryDataItems with heading together with placeholder {{ indexArray }} in case exists in the translations", () => {
+  it("renders heading with placeholder {{ indexArray }} replaced by default index when customStartDisplayIndex is not provided", () => {
     const translationWithHeadline = {
       ...translations,
       "unterhaltszahlungen.label.heading": "Heading {{ indexArray }}",
     };
 
-    const { getByText } = render(
+    const { queryByText } = render(
       <ArraySummaryDataItems
         configuration={mockArrayConfiguration}
         items={mockDataItem}
@@ -128,6 +127,32 @@ describe("ArraySummaryDataItems", () => {
       />,
     );
 
-    expect(getByText("Heading 2")).toBeInTheDocument();
+    expect(queryByText("Heading 1")).toBeInTheDocument();
+    expect(queryByText("Heading 2")).not.toBeInTheDocument();
+  });
+
+  it("renders heading with placeholder {{ indexArray }} replaced by customStartDisplayIndex when provided", () => {
+    const translationWithHeadline = {
+      ...translations,
+      "unterhaltszahlungen.label.heading": "Heading {{ indexArray }}",
+    };
+
+    const { queryByText } = render(
+      <ArraySummaryDataItems
+        configuration={{
+          ...mockArrayConfiguration,
+          customStartDisplayIndex: 2,
+        }}
+        items={mockDataItem}
+        headingTitleTagNameItem="h2"
+        itemIndex={0}
+        translations={translationWithHeadline}
+        category="unterhaltszahlungen"
+        csrf="csrf"
+      />,
+    );
+
+    expect(queryByText("Heading 1")).not.toBeInTheDocument();
+    expect(queryByText("Heading 2")).toBeInTheDocument();
   });
 });
