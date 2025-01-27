@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { NavState } from "~/services/navigation/navState";
-import { NavItem } from "../navigation/NavItem";
+import { NavItem } from "../NavItem";
 
 describe("NavigationItem", () => {
   const destination = "/destination";
