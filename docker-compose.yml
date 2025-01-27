@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   cert-generator:
     image: alpine:3.20

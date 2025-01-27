@@ -39,10 +39,14 @@ export function drawTableRowHead(
   startTableY: number,
   userData: FluggastrechtContext,
 ) {
+  const { bereich } = userData;
   const headers = [
     { title: "Geplante Zeiten", subtitle: "laut Ticket" },
     {
-      title: "Tatsächliche Zeiten",
+      title:
+        bereich === "annullierung"
+          ? "Angebotene Ersatzverbindung"
+          : "Tatsächliche Zeiten",
       subtitle: getActualConnectionType(userData),
     },
     { title: getDelayType(userData), subtitle: "" },

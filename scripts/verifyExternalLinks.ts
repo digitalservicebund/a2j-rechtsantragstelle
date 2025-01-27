@@ -42,6 +42,7 @@ const allowedWebsites = [
   "https://transport.ec.europa.eu",
   "www.schlichtung-reise-und-verkehr.de",
   "https://www.personalausweisportal.de",
+  "https://www.mjp.justiz.de",
 ];
 
 const allowedEmails = [

@@ -30,9 +30,11 @@ import { testCasesFluggastrechteNichtBefoerderungAbbruch } from "~/domains/flugg
 import { testcasesFluggastrechtOtherErfolgs } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesOtherErfolgs";
 import { testCasesFluggastrechteVerspaetetAbbruch } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesVerspaetetAbbruch";
 import { testCasesGeldEinklagen } from "~/domains/geldEinklagen/vorabcheck/__test__/testcases";
-import { testCasesProzesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
+import {
+  testCasesProzesskostenhilfeFormular,
+  testCasesProzesskostenhilfeSubmitOnly,
+} from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";
-import { testCasesProzesskostenhilfeRsv } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
@@ -120,7 +122,6 @@ describe.sequential("state machine form flows", () => {
     testCasesFluggastrechteFormularGrundvoraussetzungen,
     testCasesFluggastrechteFormularStreitwertKosten,
     testCasesProzesskostenhilfePersoenlicheDaten,
-    testCasesProzesskostenhilfeRsv,
     testCasesFluggastrechteFormularFlugdatenVerspaetet,
     testCasesFluggastrechteFormularFlugdatenAnnullierung,
     testCasesFluggastrechteErfolg,
@@ -158,6 +159,29 @@ describe.sequential("state machine form flows", () => {
     },
   );
 
+  // Some pages cannot be tested above since they aren't reachable using a `BACK` transition
+  // However, we can still verify that their `SUBMIT` transition is correct
+  const forwardOnlyTests = { testCasesProzesskostenhilfeSubmitOnly };
+
+  describe.concurrent.each(Object.entries(forwardOnlyTests))(
+    "%s",
+    (_, { machine, cases }) => {
+      test.each([...cases])("[%#]", (context, steps) => {
+        const visitedSteps = getEnabledSteps({
+          machine,
+          context,
+          transitionType: "SUBMIT",
+          steps,
+        });
+
+        allVisitedSteps[machine.id].stepIds =
+          allVisitedSteps[machine.id].stepIds.concat(visitedSteps);
+
+        expect(visitedSteps).toEqual(steps);
+      });
+    },
+  );
+
   test("all steps are visited", () => {
     const missingStepsEntries = Object.entries(allVisitedSteps)
       .map(([machineId, { machine, stepIds }]) => {
@@ -179,6 +203,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(25);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(18);
   });
 });
