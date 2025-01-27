@@ -8,6 +8,7 @@ const mockArrayConfiguration: ArrayConfigClient = {
   event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
   url: "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person",
+  customItemIndex: 2,
   disableAddButton: false,
 };
 
@@ -109,10 +110,10 @@ describe("ArraySummaryDataItems", () => {
     ).toBeInTheDocument();
   });
 
-  it("should render ArraySummaryDataItems with heading together with placeholder {{ indexPerson }} in case exists in the translations", () => {
+  it("should render ArraySummaryDataItems with heading together with placeholder {{ indexArray }} in case exists in the translations", () => {
     const translationWithHeadline = {
       ...translations,
-      "unterhaltszahlungen.label.heading": "Heading {{ indexPerson }}",
+      "unterhaltszahlungen.label.heading": "Heading {{ indexArray }}",
     };
 
     const { getByText } = render(

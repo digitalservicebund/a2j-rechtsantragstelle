@@ -11,6 +11,7 @@ export type ArrayConfigServer = {
   url: string;
   initialInputUrl: string;
   statementKey: AllContextKeys;
+  customItemIndex?: number;
   shouldDisableAddButton?: (context: Context) => boolean;
   hiddenFields?: string[];
 };
