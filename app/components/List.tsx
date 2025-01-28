@@ -1,4 +1,5 @@
 import type { Renderer } from "marked";
+import { removeMarkupTags } from "~/util/strings";
 import Heading, { type HeadingProps } from "./Heading";
 import ListItem, { type ListItemProps } from "./ListItem";
 import RichText from "./RichText";
@@ -37,7 +38,7 @@ const List = ({
       <ol className="list-none ds-stack-32 ps-0">
         {items
           // Need to filter out empty list items when conditionally rendering with mustache templating
-          .filter((item) => !(item.headline?.text === "" && !item.content))
+          .filter(listItemNotEmpty)
           .map((item, index) => (
             <li
               key={item.identifier ?? item.headline?.text ?? item.content}
@@ -50,5 +51,12 @@ const List = ({
     </div>
   );
 };
+
+export function listItemNotEmpty(item: ListItemProps): boolean {
+  return (
+    removeMarkupTags(item.headline?.text ?? "").length > 0 ||
+    removeMarkupTags(item.content ?? "").length > 0
+  );
+}
 
 export default List;

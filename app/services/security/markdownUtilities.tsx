@@ -51,6 +51,28 @@ export function parseAndSanitizeMarkdown(
     renderer,
     async: false,
   });
+  marked.use({ hooks: { postprocess: postprocessHtml } });
   const htmlContent = marked.parse(markdown) as string;
   return sanitize(htmlContent);
+}
+
+export function postprocessHtml(html: string) {
+  const listTagOpeningPattern = /<ul>|<ol>/g;
+  const conditionalPattern = /{{\s*#|{{\s*\^/;
+  const openingListTag = html.search(listTagOpeningPattern);
+  const openingConditional = html.search(conditionalPattern);
+  if (openingConditional !== -1 && openingListTag > openingConditional) {
+    const listClosingTagPattern = /<\/ul>|<\/ol>/g;
+    const listClosingTag = html.search(listClosingTagPattern);
+    const openingTag = html.substring(openingListTag, openingListTag + 4);
+    const endingTag = html.substring(listClosingTag, listClosingTag + 5);
+    const htmlListTagsRemoved = html.replaceAll(/<ul>|<ol>|<\/ul>|<\/ol>/g, "");
+    const final =
+      htmlListTagsRemoved.substring(0, openingConditional) +
+      openingTag +
+      htmlListTagsRemoved.substring(openingConditional) +
+      endingTag;
+    return final;
+  }
+  return html;
 }
