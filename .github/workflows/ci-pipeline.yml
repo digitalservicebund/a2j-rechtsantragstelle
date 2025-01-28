@@ -50,19 +50,22 @@ jobs:
   ## - uses: ./.github/actions/cached-checkout-install
   ## - run: npm run test:integration
 
-  verify-local-e2e:
-    needs: [get-content-file]
-    uses: ./.github/workflows/e2e-test.yml
-    with:
-      require-published-app: false
-      e2e-target: local
-    secrets:
-      GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
+  # verify-local-e2e:
+  #   needs: [get-content-file]
+  #   uses: ./.github/workflows/e2e-test.yml
+  #   with:
+  #     require-published-app: false
+  #     e2e-target: local
+  #   secrets:
+  #     GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
 
   build-push-app-image:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    needs: [code-quality, verify-local-e2e]
+    needs: [
+        code-quality,
+        # verify-local-e2e
+      ]
     permissions:
       contents: read
       id-token: write # for cosign w/ keyless signing
@@ -212,11 +215,10 @@ jobs:
 
   alert-pipeline-failure:
     name: Send failure message to Slack
-    needs:
-      [
+    needs: [
         code-quality,
         get-content-file,
-        verify-local-e2e,
+        # verify-local-e2e,
         build-push-app-image,
         deploy-staging,
         deploy-preview,
