@@ -41,10 +41,8 @@ export type FeedbackBoxProps = {
   readonly feedback?: FeedbackType;
 };
 
-const getWasHelpfulFromUrl = (url: string) => {
-  const params = new URLSearchParams(url);
-  const value = params.get("wasHelpful");
-  return value ?? null;
+const getFeedbackFromUrl = (url: string) => {
+  return new URLSearchParams(url).get("wasHelpful");
 };
 
 export const FeedbackFormBox = ({
@@ -68,7 +66,7 @@ export const FeedbackFormBox = ({
   }, [shouldFocus]);
 
   if (!feedback) {
-    const wasHelpful = getWasHelpfulFromUrl(location.search);
+    const wasHelpful = getFeedbackFromUrl(location.search);
     if (wasHelpful === "yes") feedback = FeedbackType.Positive;
     else if (wasHelpful === "no") feedback = FeedbackType.Negative;
     else return null;
