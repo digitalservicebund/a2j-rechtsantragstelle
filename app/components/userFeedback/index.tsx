@@ -19,9 +19,15 @@ export type UserFeedbackProps = {
 
 export const USER_FEEDBACK_ID = "user-feedback-banner";
 
+export enum FeedbackType {
+  Positive = "positive",
+  Negative = "negative",
+}
+
 export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const { pathname } = useLocation();
   const [shouldFocus, setShouldFocus] = useState(false);
+  const [feedback, setFeedback] = useState<FeedbackType>();
 
   const rootLoaderData = useRouteLoaderData<RootLoader>("root");
   const bannerState = rootLoaderData?.bannerState ?? BannerState.ShowRating;
@@ -50,13 +56,17 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
                 <RatingBox
                   url={pathname}
                   heading={props.rating.heading}
-                  onSubmit={applyFocus}
+                  onSubmit={(feedback) => {
+                    setFeedback(feedback);
+                    applyFocus();
+                  }}
                 />
               ),
               [BannerState.ShowFeedback]: (
                 <FeedbackFormBox
                   destination={pathname}
                   shouldFocus={shouldFocus}
+                  feedback={feedback}
                   onSubmit={applyFocus}
                 />
               ),
