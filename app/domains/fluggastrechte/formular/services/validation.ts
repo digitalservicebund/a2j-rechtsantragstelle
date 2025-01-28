@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { MultiFieldsValidationBaseSchema } from "~/domains/multiFieldsFlowValidation";
+import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 
 const THREE_HOURS_MILLISECONDS = 3 * 60 * 60 * 1000;
 
@@ -17,10 +18,6 @@ function isStartTimestampLessThanThreeHours(
   const actualTimeDifferenceInMs = endTimestamp - startTimestamp;
   return actualTimeDifferenceInMs < THREE_HOURS_MILLISECONDS;
 }
-
-const isFieldEmptyOrUndefined = (field: string | undefined) => {
-  return field === "" || typeof field == "undefined";
-};
 
 export function validateReplacementConnectionPage(
   baseSchema: MultiFieldsValidationBaseSchema,
