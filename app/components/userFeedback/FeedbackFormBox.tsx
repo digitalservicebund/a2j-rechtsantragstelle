@@ -1,3 +1,4 @@
+import { useLocation } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { useEffect, useRef, useState } from "react";
 import { ValidatedForm } from "remix-validated-form";
@@ -40,6 +41,12 @@ export type FeedbackBoxProps = {
   readonly feedback?: FeedbackType;
 };
 
+const getWasHelpfulFromUrl = (url: string) => {
+  const params = new URLSearchParams(url);
+  const value = params.get("wasHelpful");
+  return value === "yes" || value === "no" ? value : null;
+};
+
 export const FeedbackFormBox = ({
   destination,
   shouldFocus,
@@ -48,6 +55,7 @@ export const FeedbackFormBox = ({
 }: FeedbackBoxProps) => {
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
+  const location = useLocation();
 
   const textAreaReference = useRef<HTMLTextAreaElement | null>(null);
 
@@ -59,7 +67,12 @@ export const FeedbackFormBox = ({
     }
   }, [shouldFocus]);
 
-  if (!feedback) return null;
+  if (!feedback) {
+    const wasHelpful = getWasHelpfulFromUrl(location.search);
+    if (wasHelpful === "yes") feedback = FeedbackType.Positive;
+    else if (wasHelpful === "no") feedback = FeedbackType.Negative;
+    else return null;
+  }
 
   const feedbackText = {
     [FeedbackType.Positive]: feedbackTranslations["positive-feedback-question"],

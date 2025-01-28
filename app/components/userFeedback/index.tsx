@@ -20,7 +20,7 @@ export type UserFeedbackProps = {
 export const USER_FEEDBACK_ID = "user-feedback-banner";
 
 export enum FeedbackType {
-  Positive = "postive",
+  Positive = "positive",
   Negative = "negative",
 }
 
