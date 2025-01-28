@@ -62,7 +62,7 @@ describe("UserFeedback", () => {
         }}
       />,
     );
-    expect(screen.getByTestId("SendOutlinedIcon")).toBeInTheDocument();
+    expect(screen.getByTestId("user-feedback-banner")).toBeInTheDocument();
   });
 
   it("renders PostSubmissionBox when bannerState is FeedbackGiven", () => {

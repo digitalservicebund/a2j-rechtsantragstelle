@@ -76,6 +76,15 @@ export const updateSession = (session: Session, validatedData: Context) => {
   });
 };
 
+export const getSessionIdByFlowId = async (
+  flowId: FlowId,
+  cookieHeader: CookieHeader,
+) => {
+  const contextSession = getSessionManager(flowId);
+  const { id } = await contextSession.getSession(cookieHeader);
+  return id;
+};
+
 export type CookieHeader = string | null | undefined;
 export const mainSessionFromCookieHeader = async (cookieHeader: CookieHeader) =>
   getSessionManager("main").getSession(cookieHeader);
