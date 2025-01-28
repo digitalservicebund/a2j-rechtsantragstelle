@@ -18,6 +18,10 @@ function isStartTimestampLessThanThreeHours(
   return actualTimeDifferenceInMs < THREE_HOURS_MILLISECONDS;
 }
 
+const isFieldEmptyOrUndefined = (field: string | undefined) => {
+  return field === "" || typeof field == "undefined";
+};
+
 export function validateReplacementConnectionPage(
   baseSchema: MultiFieldsValidationBaseSchema,
 ) {
@@ -230,4 +234,61 @@ export function validateDepartureAfterArrival(
       return z.NEVER;
     }
   });
+}
+
+export function validateReplacementCancelFlightPage(
+  baseSchema: MultiFieldsValidationBaseSchema,
+) {
+  return baseSchema.superRefine(
+    (
+      {
+        annullierungErsatzverbindungAbflugsDatum,
+        annullierungErsatzverbindungAbflugsZeit,
+        annullierungErsatzverbindungAnkunftsDatum,
+        annullierungErsatzverbindungAnkunftsZeit,
+      },
+      ctx,
+    ) => {
+      const addIssueToContext = (path: string[]) => {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "optionalFieldRequired", // these fields are optional, but if one is filled, the other must be filled as well
+          path,
+          fatal: true,
+        });
+      };
+
+      if (
+        isFieldEmptyOrUndefined(annullierungErsatzverbindungAbflugsDatum) &&
+        !isFieldEmptyOrUndefined(annullierungErsatzverbindungAbflugsZeit)
+      ) {
+        addIssueToContext(["annullierungErsatzverbindungAbflugsDatum"]);
+        return z.NEVER;
+      }
+
+      if (
+        isFieldEmptyOrUndefined(annullierungErsatzverbindungAbflugsZeit) &&
+        !isFieldEmptyOrUndefined(annullierungErsatzverbindungAbflugsDatum)
+      ) {
+        addIssueToContext(["annullierungErsatzverbindungAbflugsZeit"]);
+        return z.NEVER;
+      }
+
+      if (
+        isFieldEmptyOrUndefined(annullierungErsatzverbindungAnkunftsDatum) &&
+        !isFieldEmptyOrUndefined(annullierungErsatzverbindungAnkunftsZeit)
+      ) {
+        addIssueToContext(["annullierungErsatzverbindungAnkunftsDatum"]);
+        return z.NEVER;
+      }
+
+      if (
+        isFieldEmptyOrUndefined(annullierungErsatzverbindungAnkunftsZeit) &&
+        !isFieldEmptyOrUndefined(annullierungErsatzverbindungAnkunftsDatum)
+      ) {
+        addIssueToContext(["annullierungErsatzverbindungAnkunftsZeit"]);
+        return z.NEVER;
+      }
+    },
+  );
 }
