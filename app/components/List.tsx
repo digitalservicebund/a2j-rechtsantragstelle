@@ -1,4 +1,3 @@
-import type { Renderer } from "marked";
 import { removeMarkupTags } from "~/util/strings";
 import Heading, { type HeadingProps } from "./Heading";
 import ListItem, { type ListItemProps } from "./ListItem";
@@ -12,12 +11,6 @@ export type ListProps = {
   isNumeric?: boolean;
 };
 
-const paragraphRenderer: Partial<Renderer> = {
-  paragraph({ tokens }) {
-    return `<p class="ds-subhead max-w-full">${this.parser?.parseInline(tokens)}</p>`;
-  },
-};
-
 const List = ({
   identifier,
   items,
@@ -28,13 +21,7 @@ const List = ({
   return (
     <div className="ds-stack-8 scroll-my-40" id={identifier}>
       {heading && <Heading {...heading} />}
-      {subheading && (
-        <RichText
-          markdown={subheading}
-          renderer={paragraphRenderer}
-          className="pt-16"
-        />
-      )}
+      {subheading && <RichText markdown={subheading} className="pt-16" />}
       <ol className="list-none ds-stack-32 ps-0">
         {items
           // Need to filter out empty list items when conditionally rendering with mustache templating

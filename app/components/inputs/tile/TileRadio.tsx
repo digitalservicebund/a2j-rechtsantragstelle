@@ -1,14 +1,7 @@
-import type { Renderer } from "marked";
 import { useField } from "remix-validated-form";
 import TileTag, { type TileDescriptionProps } from "./TileTag";
 import Image, { type ImageProps } from "../../Image";
 import RichText from "../../RichText";
-
-const paragraphRenderer: Partial<Renderer> = {
-  paragraph({ text }) {
-    return `<p class="ds-subhead">${text}</p>`;
-  },
-};
 
 const IMAGE_HEIGHT = 32;
 const IMAGE_WIDTH = 32;
@@ -69,9 +62,7 @@ const TileRadio = ({
             <TileTag tagDescription={tagDescription} />
           </div>
           <span className="ds-label-01-bold">{title}</span>
-          {description && (
-            <RichText markdown={description} renderer={paragraphRenderer} />
-          )}
+          {description && <RichText markdown={description} />}
         </div>
       </label>
     </div>

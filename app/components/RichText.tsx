@@ -1,16 +1,12 @@
-import { Renderer } from "marked";
-
 export type RichTextProps = {
   markdown: string;
 };
 
 const RichText = ({
   markdown,
-  renderer,
   className = "",
   ...props
 }: RichTextProps & {
-  renderer?: Partial<Renderer>;
   id?: string;
   className?: string;
 }) => {
