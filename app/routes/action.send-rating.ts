@@ -62,5 +62,5 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json({ success: true }, { headers });
   }
 
-  return redirect(`${updatedUrl.toString()}#${USER_FEEDBACK_ID}`, { headers });
+  return redirect(`${updatedUrl}#${USER_FEEDBACK_ID}`, { headers });
 };
