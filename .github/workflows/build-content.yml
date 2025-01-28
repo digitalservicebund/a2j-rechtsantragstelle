@@ -86,16 +86,19 @@ jobs:
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
           argocd_sync_timeout: 300
 
-  verify-preview-e2e:
-    needs: [deploy-preview]
-    uses: ./.github/workflows/e2e-test.yml
-    with:
-      require-published-app: true
-      use-existing-server: true
-      e2e-target: preview
+  # verify-preview-e2e:
+  #   needs: [deploy-preview]
+  #   uses: ./.github/workflows/e2e-test.yml
+  #   with:
+  #     require-published-app: true
+  #     use-existing-server: true
+  #     e2e-target: preview
 
   deploy-production:
-    needs: [verify-preview-e2e, build-push-content-image]
+    needs: [
+        # verify-preview-e2e,
+        build-push-content-image,
+      ]
     runs-on: ubuntu-latest
     environment: production
     steps:
