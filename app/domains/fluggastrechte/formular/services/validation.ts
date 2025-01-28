@@ -255,37 +255,37 @@ export function validateCancelFlightReplacementPage(
         });
       };
 
-      if (
-        isFieldEmptyOrUndefined(annullierungErsatzverbindungAbflugsDatum) &&
-        !isFieldEmptyOrUndefined(annullierungErsatzverbindungAbflugsZeit)
-      ) {
-        addIssueToContext(["annullierungErsatzverbindungAbflugsDatum"]);
-        return z.NEVER;
-      }
+      const validateFieldPair = (
+        field1: string,
+        field2: string,
+        path1: string[],
+        path2: string[],
+      ) => {
+        const isEmpty1 = isFieldEmptyOrUndefined(field1);
+        const isEmpty2 = isFieldEmptyOrUndefined(field2);
 
-      if (
-        isFieldEmptyOrUndefined(annullierungErsatzverbindungAbflugsZeit) &&
-        !isFieldEmptyOrUndefined(annullierungErsatzverbindungAbflugsDatum)
-      ) {
-        addIssueToContext(["annullierungErsatzverbindungAbflugsZeit"]);
-        return z.NEVER;
-      }
+        if (isEmpty1 && !isEmpty2) {
+          addIssueToContext(path1);
+        }
 
-      if (
-        isFieldEmptyOrUndefined(annullierungErsatzverbindungAnkunftsDatum) &&
-        !isFieldEmptyOrUndefined(annullierungErsatzverbindungAnkunftsZeit)
-      ) {
-        addIssueToContext(["annullierungErsatzverbindungAnkunftsDatum"]);
-        return z.NEVER;
-      }
+        if (isEmpty2 && !isEmpty1) {
+          addIssueToContext(path2);
+        }
+      };
 
-      if (
-        isFieldEmptyOrUndefined(annullierungErsatzverbindungAnkunftsZeit) &&
-        !isFieldEmptyOrUndefined(annullierungErsatzverbindungAnkunftsDatum)
-      ) {
-        addIssueToContext(["annullierungErsatzverbindungAnkunftsZeit"]);
-        return z.NEVER;
-      }
+      validateFieldPair(
+        annullierungErsatzverbindungAbflugsDatum,
+        annullierungErsatzverbindungAbflugsZeit,
+        ["annullierungErsatzverbindungAbflugsDatum"],
+        ["annullierungErsatzverbindungAbflugsZeit"],
+      );
+
+      validateFieldPair(
+        annullierungErsatzverbindungAnkunftsDatum,
+        annullierungErsatzverbindungAnkunftsZeit,
+        ["annullierungErsatzverbindungAnkunftsDatum"],
+        ["annullierungErsatzverbindungAnkunftsZeit"],
+      );
     },
   );
 }
