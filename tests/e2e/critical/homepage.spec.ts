@@ -12,7 +12,11 @@ test.describe("homepage", () => {
   testPageToBeAccessible();
 
   test("BMJ logo is displayed", async ({ page }) => {
-    const logoImage = page.locator(LOGO_DIV_ID).locator("div").locator("img");
+    let logoImage = page.locator(LOGO_DIV_ID).locator("div").locator("img");
+
+    if (logoImage) {
+      logoImage = page.locator(LOGO_DIV_ID).locator("div").getByRole("img");
+    }
     await expect(logoImage).toBeVisible();
   });
 
