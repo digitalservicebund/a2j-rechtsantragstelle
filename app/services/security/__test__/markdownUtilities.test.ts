@@ -1,5 +1,5 @@
 import {
-  postprocessHtml,
+  handleNestedLists,
   sanitize,
 } from "~/services/security/markdownUtilities";
 
@@ -37,10 +37,10 @@ describe("markdownUtilities", () => {
     });
   });
 
-  describe("postprocessHtml", () => {
+  describe("handleNestedLists", () => {
     it("should leave the html unmodified if there are no lists within conditional tags", () => {
       const html = "<p>test</p>";
-      expect(postprocessHtml(html)).toBe(html);
+      expect(handleNestedLists(html)).toBe(html);
     });
 
     it("should reorder the opening and closing list tags if needed", () => {
@@ -48,12 +48,12 @@ describe("markdownUtilities", () => {
         "{{ #conditional }}<ul><li>item 1</li></ul>{{ /conditional }}";
       const expectedHtml =
         "<ul>{{ #conditional }}<li>item 1</li>{{ /conditional }}</ul>";
-      expect(postprocessHtml(htmlNestedList)).toBe(expectedHtml);
+      expect(handleNestedLists(htmlNestedList)).toBe(expectedHtml);
       const invertedConditionHtml =
         "{{^conditional}}<ul><li>item 1</li></ul>{{/conditional}}";
       const expectedInvertedConditionHtml =
         "<ul>{{^conditional}}<li>item 1</li>{{/conditional}}</ul>";
-      expect(postprocessHtml(invertedConditionHtml)).toBe(
+      expect(handleNestedLists(invertedConditionHtml)).toBe(
         expectedInvertedConditionHtml,
       );
     });
@@ -63,14 +63,14 @@ describe("markdownUtilities", () => {
         "{{ #conditional }}<ul><li>item 1</li></ul><ul><li>item 2</li></ul>{{ /conditional }}";
       const expectedHtmlUnorderedList =
         "<ul>{{ #conditional }}<li>item 1</li><li>item 2</li>{{ /conditional }}</ul>";
-      expect(postprocessHtml(htmlNestedUnorderedList)).toBe(
+      expect(handleNestedLists(htmlNestedUnorderedList)).toBe(
         expectedHtmlUnorderedList,
       );
       const htmlNestedOrderedList =
         "{{ #conditional }}<ol><li>item 1</li></ol><ol><li>item 2</li></ol>{{ /conditional }}";
       const expectedHtmlOrderedList =
         "<ol>{{ #conditional }}<li>item 1</li><li>item 2</li>{{ /conditional }}</ol>";
-      expect(postprocessHtml(htmlNestedOrderedList)).toBe(
+      expect(handleNestedLists(htmlNestedOrderedList)).toBe(
         expectedHtmlOrderedList,
       );
     });
@@ -78,7 +78,7 @@ describe("markdownUtilities", () => {
     it("shouldn't modify html with correctly formatted lists (not inside conditionals)", () => {
       const htmlWithCorrectList =
         "<ul>{{ #conditional }}<li>item 1</li>{{ /conditional }}</ul>";
-      expect(postprocessHtml(htmlWithCorrectList)).toBe(htmlWithCorrectList);
+      expect(handleNestedLists(htmlWithCorrectList)).toBe(htmlWithCorrectList);
     });
   });
 });

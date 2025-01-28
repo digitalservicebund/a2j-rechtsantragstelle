@@ -51,27 +51,50 @@ export function parseAndSanitizeMarkdown(
     renderer,
     async: false,
   });
-  marked.use({ hooks: { postprocess: postprocessHtml } });
+  marked.use({ hooks: { postprocess: handleNestedLists } });
   const htmlContent = marked.parse(markdown) as string;
   return sanitize(htmlContent);
 }
 
-export function postprocessHtml(html: string) {
-  const listTagOpeningPattern = /<ul>|<ol>/g;
-  const conditionalPattern = /{{\s*#|{{\s*\^/;
-  const openingListTag = html.search(listTagOpeningPattern);
-  const openingConditional = html.search(conditionalPattern);
-  if (openingConditional !== -1 && openingListTag > openingConditional) {
-    const listClosingTagPattern = /<\/ul>|<\/ol>/g;
-    const listClosingTag = html.search(listClosingTagPattern);
-    const openingTag = html.substring(openingListTag, openingListTag + 4);
-    const endingTag = html.substring(listClosingTag, listClosingTag + 5);
+/**
+ * Sometimes, it's possible for a list to be nested inside a conditional, like so:
+ *
+ * {{ #conditional }}
+ * * Item 1
+ * {{ /conditional }}
+ * * Item 2
+ *
+ * Marked then converts this to:
+ * {{ #conditional }}
+ * <ul>
+ * <li>Item 1</li>
+ * {{ /conditional }}
+ * <li>Item 2</li>
+ * </ul>
+ *
+ * and if "conditional" evaluates to false, the templating engine (mustache) will remove Item 1, as well as
+ * the opening <ul> tag, leaving incomplete html that's inaccessible.
+ */
+export function handleNestedLists(html: string) {
+  const openingTagPosition = html.search(/<ul>|<ol>/);
+  const conditionalPosition = html.search(/{{\s*#|{{\s*\^/);
+  // if there's an opening list tag after a conditional, we need to correctly un-nest the list tags.
+  if (conditionalPosition !== -1 && openingTagPosition > conditionalPosition) {
+    const closingTagPosition = html.search(/<\/ul>|<\/ol>/);
+    const openingTag = html.substring(
+      openingTagPosition,
+      openingTagPosition + 4,
+    );
+    const closingTag = html.substring(
+      closingTagPosition,
+      closingTagPosition + 5,
+    );
     const htmlListTagsRemoved = html.replaceAll(/<ul>|<ol>|<\/ul>|<\/ol>/g, "");
     const final =
-      htmlListTagsRemoved.substring(0, openingConditional) +
+      htmlListTagsRemoved.substring(0, conditionalPosition) +
       openingTag +
-      htmlListTagsRemoved.substring(openingConditional) +
-      endingTag;
+      htmlListTagsRemoved.substring(conditionalPosition) +
+      closingTag;
     return final;
   }
   return html;
