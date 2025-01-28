@@ -28,18 +28,18 @@ jobs:
     outputs:
       content_checksum: ${{ steps.checksum.outputs.content_checksum }}
 
-  # verify-local-e2e:
-  #   needs: [get-content-file]
-  #   uses: ./.github/workflows/e2e-test.yml
-  #   with:
-  #     require-published-app: true
-  #     e2e-target: local
-  #   secrets:
-  #     GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
+  verify-local-e2e:
+    needs: [get-content-file]
+    uses: ./.github/workflows/e2e-test.yml
+    with:
+      require-published-app: true
+      e2e-target: local
+    secrets:
+      GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
 
   build-push-content-image:
     runs-on: ubuntu-latest
-    # needs: [verify-local-e2e]
+    needs: [verify-local-e2e]
     steps:
       - uses: docker/login-action@v3
         with:
@@ -86,19 +86,16 @@ jobs:
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
           argocd_sync_timeout: 300
 
-  # verify-preview-e2e:
-  #   needs: [deploy-preview]
-  #   uses: ./.github/workflows/e2e-test.yml
-  #   with:
-  #     require-published-app: true
-  #     use-existing-server: true
-  #     e2e-target: preview
+  verify-preview-e2e:
+    needs: [deploy-preview]
+    uses: ./.github/workflows/e2e-test.yml
+    with:
+      require-published-app: true
+      use-existing-server: true
+      e2e-target: preview
 
   deploy-production:
-    needs: [
-        # verify-preview-e2e,
-        build-push-content-image,
-      ]
+    needs: [verify-preview-e2e, build-push-content-image]
     runs-on: ubuntu-latest
     environment: production
     steps:
