@@ -2,7 +2,7 @@ import type { MultiFieldsStepIdValidation } from "~/domains/multiFieldsFlowValid
 import {
   validateAnotherFlightPage,
   validateDepartureAfterArrival,
-  validateReplacementCancelFlightPage,
+  validateCancelFlightReplacementPage,
   validateReplacementConnectionPage,
   validateSameFlightPage,
 } from "./services/validation";
@@ -12,5 +12,5 @@ export const fluggastrechtMultiFieldsValidation: MultiFieldsStepIdValidation = {
   "/flugdaten/tatsaechlicher-flug-ankunft": validateSameFlightPage,
   "/flugdaten/anderer-flug-ankunft": validateAnotherFlightPage,
   "/flugdaten/ersatzverbindung-beschreibung": validateReplacementConnectionPage,
-  "/flugdaten/ersatzverbindung-daten": validateReplacementCancelFlightPage,
+  "/flugdaten/ersatzverbindung-daten": validateCancelFlightReplacementPage,
 };

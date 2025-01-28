@@ -236,7 +236,7 @@ export function validateDepartureAfterArrival(
   });
 }
 
-export function validateReplacementCancelFlightPage(
+export function validateCancelFlightReplacementPage(
   baseSchema: MultiFieldsValidationBaseSchema,
 ) {
   return baseSchema.superRefine(

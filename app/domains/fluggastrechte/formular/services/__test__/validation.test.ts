@@ -2,7 +2,7 @@ import { z } from "zod";
 import {
   validateAnotherFlightPage,
   validateDepartureAfterArrival,
-  validateReplacementCancelFlightPage,
+  validateCancelFlightReplacementPage,
   validateReplacementConnectionPage,
   validateSameFlightPage,
 } from "../validation";
@@ -344,7 +344,7 @@ describe("validation", () => {
     });
   });
 
-  describe("validateReplacementCancelFlightPage", () => {
+  describe("validateCancelFlightReplacementPage", () => {
     const baseSchema = z.object({
       annullierungErsatzverbindungAbflugsDatum: z.string().optional(),
       annullierungErsatzverbindungAbflugsZeit: z.string().optional(),
@@ -352,11 +352,11 @@ describe("validation", () => {
       annullierungErsatzverbindungAnkunftsZeit: z.string().optional(),
     });
 
-    const validatorReplacementCancelFlightPage =
-      validateReplacementCancelFlightPage(baseSchema);
+    const validatorCancelFlightReplacementPage =
+      validateCancelFlightReplacementPage(baseSchema);
 
     it("should return success true given undefined values", () => {
-      const result = validatorReplacementCancelFlightPage.safeParse({
+      const result = validatorCancelFlightReplacementPage.safeParse({
         annullierungErsatzverbindungAbflugsDatum: undefined,
         annullierungErsatzverbindungAbflugsZeit: undefined,
         annullierungErsatzverbindungAnkunftsDatum: undefined,
@@ -367,7 +367,7 @@ describe("validation", () => {
     });
 
     it("should return success true given empty values", () => {
-      const result = validatorReplacementCancelFlightPage.safeParse({
+      const result = validatorCancelFlightReplacementPage.safeParse({
         annullierungErsatzverbindungAbflugsDatum: "",
         annullierungErsatzverbindungAbflugsZeit: "",
         annullierungErsatzverbindungAnkunftsDatum: "",
@@ -378,7 +378,7 @@ describe("validation", () => {
     });
 
     it("should return success true given an original departure time after the arrival", () => {
-      const result = validatorReplacementCancelFlightPage.safeParse({
+      const result = validatorCancelFlightReplacementPage.safeParse({
         annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
         annullierungErsatzverbindungAbflugsZeit: "14:00",
         annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
@@ -389,7 +389,7 @@ describe("validation", () => {
     });
 
     it("should return success false and path error for annullierungErsatzverbindungAbflugsDatum when annullierungErsatzverbindungAbflugsDatum is undefined and annullierungErsatzverbindungAbflugsZeit is defined", () => {
-      const result = validatorReplacementCancelFlightPage.safeParse({
+      const result = validatorCancelFlightReplacementPage.safeParse({
         annullierungErsatzverbindungAbflugsDatum: undefined,
         annullierungErsatzverbindungAbflugsZeit: "14:00",
         annullierungErsatzverbindungAnkunftsDatum: undefined,
@@ -403,7 +403,7 @@ describe("validation", () => {
     });
 
     it("should return success false and path error for annullierungErsatzverbindungAbflugsZeit when annullierungErsatzverbindungAbflugsZeit is undefined and annullierungErsatzverbindungAbflugsDatum is defined", () => {
-      const result = validatorReplacementCancelFlightPage.safeParse({
+      const result = validatorCancelFlightReplacementPage.safeParse({
         annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
         annullierungErsatzverbindungAbflugsZeit: undefined,
         annullierungErsatzverbindungAnkunftsDatum: undefined,
@@ -417,7 +417,7 @@ describe("validation", () => {
     });
 
     it("should return success false and path error for annullierungErsatzverbindungAnkunftsDatum when annullierungErsatzverbindungAnkunftsDatum is undefined and annullierungErsatzverbindungAnkunftsZeit is defined", () => {
-      const result = validatorReplacementCancelFlightPage.safeParse({
+      const result = validatorCancelFlightReplacementPage.safeParse({
         annullierungErsatzverbindungAbflugsDatum: undefined,
         annullierungErsatzverbindungAbflugsZeit: undefined,
         annullierungErsatzverbindungAnkunftsDatum: undefined,
@@ -431,7 +431,7 @@ describe("validation", () => {
     });
 
     it("should return success false and path error for annullierungErsatzverbindungAnkunftsZeit when annullierungErsatzverbindungAnkunftsZeit is undefined and annullierungErsatzverbindungAnkunftsDatum is defined", () => {
-      const result = validatorReplacementCancelFlightPage.safeParse({
+      const result = validatorCancelFlightReplacementPage.safeParse({
         annullierungErsatzverbindungAbflugsDatum: undefined,
         annullierungErsatzverbindungAbflugsZeit: undefined,
         annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
