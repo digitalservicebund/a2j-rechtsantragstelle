@@ -20,14 +20,14 @@ We store the actual file in bucket storage, and the accompanying metadata along 
 1. User clicks upload button. API request to bucket storage is made with the file and session ID/some hash of the current session to link the two together.
    1. Upon failure, display error to user
    2. Upon success, store returned entity ID along with file metadata in an array, something like `filesUploaded`, alongside Antrag data in Redis.
-2. During Zusammenfassung, files are retrieved via their entity IDs from bucket storage and displayed to the user for verification, later merged into PDF
+2. On the Preview Page, files are retrieved via their entity IDs from bucket storage, merged into the PDF and displayed to the user for verification.
 3. If a user deletes a file, make an API delete request, and upon success, erase the matching entry in the Redis/user data
 
 ## File Expiration problem
 
 We need a way to expire the user-uploaded files at the same time that their session cookie gets invalidated, i.e. 24 hours after upload. For this, we have several options. For now:
 
-- Set bucket object expiration to 24hrs. If user session data outlives file lifetime, oh well.
+- Set bucket object expiration to 24hrs. This means that user data will theoretically outlive user-uploaded files, as user data expiry is refreshed upon every access. See consequences section for an example.
 
 To think about later:
 
@@ -45,6 +45,9 @@ We considered simply storing the file in Redis, but ultimately decided against i
 ## Consequences
 
 - We'll need a new, separate bucket for user-uploaded files
+- User files will expire after 24 hours, regardless of their last access time
+  - for example: User uploads Beleg but doesn't fully complete Antrag. Data and files are both saved for 24 hours. User returns to the Antrag, 12 hours later. Data expiration resets to 24 hours, but file(s) still expire(s) in 12 hours.
+  - It is then possible for a user to return to the Antrag >24 hours after initially starting, to find their files deleted, in which case they will have to re-upload them.
 
 ## Next Actions
 

@@ -4,17 +4,17 @@ import {
   buildFlowController,
   type FlowController,
 } from "~/services/flow/server/buildFlowController";
-import { getSessionData } from "../../session.server";
+import { getSessionData } from "~/services/session.server";
 import {
   type FlowTransitionConfig,
   validateFlowTransition,
-} from "../server/flowTransitionValidation";
+} from "../flowTransitionValidation";
 
-vi.mock("app/services/session.server/index", () => ({
+vi.mock("~/services/session.server/index", () => ({
   getSessionData: vi.fn(),
 }));
 
-vi.mock("app/services/flow/server/buildFlowController", () => ({
+vi.mock("~/services/flow/server/buildFlowController", () => ({
   buildFlowController: vi.fn(),
 }));
 
@@ -24,7 +24,7 @@ const createMockFlow = (flowType: FlowType): Flow => ({
   flowType,
 });
 
-describe("validateFlowTransition", () => {
+describe("flowTransitionValidation", () => {
   const mockFlowId: FlowId = "/fluggastrechte/vorabcheck";
   const mockCookieHeader = "mock-cookie";
   const mockFlows: Record<FlowId, Flow> = {
