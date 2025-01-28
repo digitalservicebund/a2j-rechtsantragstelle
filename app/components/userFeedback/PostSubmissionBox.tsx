@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import { useFeedbackTranslations } from "./feedbackTranslations";
-import Heading from "../Heading";
+import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
+import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import RichText from "../RichText";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 
 export const PostSubmissionBox = ({ shouldFocus }: Props) => {
   const feedbackTranslations = useFeedbackTranslations();
-  const headingReference = useRef<HTMLHeadingElement | null>(null);
+  const headingReference = useRef<HTMLParagraphElement | null>(null);
 
   useEffect(() => {
     if (shouldFocus && headingReference.current) {
@@ -19,13 +19,10 @@ export const PostSubmissionBox = ({ shouldFocus }: Props) => {
 
   return (
     <div data-testid="user-feedback-submission">
-      <Heading
-        look="ds-label-01-bold"
-        tagName="h2"
-        text={feedbackTranslations["heading-post-submission"]}
-        role="status"
-        tabIndex={-1}
+      <FeedbackTitle
         innerRef={headingReference}
+        title={feedbackTranslations["success-message"]}
+        subtitle={feedbackTranslations["feedback-helps"]}
       />
       <RichText markdown={feedbackTranslations["text-post-submission"]} />
     </div>
