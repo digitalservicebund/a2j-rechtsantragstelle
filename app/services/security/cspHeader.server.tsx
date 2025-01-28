@@ -39,7 +39,6 @@ export const cspHeader = (args: {
     "form-action": [
       "'self'",
       "https://int.id.bund.de/idp/profile/SAML2/POST/SSO",
-      "https://service.justiz.de",
     ],
     "object-src": ["'none'"],
     "base-uri": ["'none'"],
