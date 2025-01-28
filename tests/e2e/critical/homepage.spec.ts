@@ -14,7 +14,7 @@ test.describe("homepage", () => {
   test("BMJ logo is displayed", async ({ page }) => {
     let logoImage = page.locator(LOGO_DIV_ID).locator("div").locator("img");
 
-    if (logoImage) {
+    if (!logoImage) {
       logoImage = page.locator(LOGO_DIV_ID).locator("div").getByRole("img");
     }
     await expect(logoImage).toBeVisible();
