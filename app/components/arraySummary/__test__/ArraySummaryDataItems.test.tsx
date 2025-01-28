@@ -109,7 +109,7 @@ describe("ArraySummaryDataItems", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders heading with placeholder {{ indexArray }} replaced by default index when customStartDisplayIndex is not provided", () => {
+  it("renders heading with placeholder {{ indexArray }} replaced by default index when displayIndexOffset is not provided", () => {
     const translationWithHeadline = {
       ...translations,
       "unterhaltszahlungen.label.heading": "Heading {{ indexArray }}",
@@ -136,7 +136,7 @@ describe("ArraySummaryDataItems", () => {
     expect(queryByText("Heading 2")).toBeInTheDocument();
   });
 
-  it("renders heading with placeholder {{ indexArray }} replaced by customStartDisplayIndex when provided", () => {
+  it("renders heading with placeholder {{ indexArray }} replaced by displayIndexOffset when provided", () => {
     const translationWithHeadline = {
       ...translations,
       "unterhaltszahlungen.label.heading": "Heading {{ indexArray }}",
@@ -149,7 +149,7 @@ describe("ArraySummaryDataItems", () => {
             key={itemIndex}
             configuration={{
               ...mockArrayConfiguration,
-              customStartDisplayIndex: 2,
+              displayIndexOffset: 2,
             }}
             items={mockDataItem}
             headingTitleTagNameItem="h2"
