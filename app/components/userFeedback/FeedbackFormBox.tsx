@@ -44,7 +44,7 @@ export type FeedbackBoxProps = {
 const getWasHelpfulFromUrl = (url: string) => {
   const params = new URLSearchParams(url);
   const value = params.get("wasHelpful");
-  return value === "yes" || value === "no" ? value : null;
+  return value ?? null;
 };
 
 export const FeedbackFormBox = ({

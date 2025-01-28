@@ -38,11 +38,10 @@ describe("/action/send-rating route", () => {
     );
     const response = await action({ request, params: {}, context: {} });
     expect(response.status).toEqual(302);
-    const location =
-      new URL(response.headers.get("location") ?? "").pathname +
-      new URL(response.headers.get("location") ?? "").search +
-      new URL(response.headers.get("location") ?? "").hash;
-    expect(location).toEqual(ratingPath);
+    const { pathname, search, hash } = new URL(
+      response.headers.get("location") ?? "",
+    );
+    expect(pathname + search + hash).toEqual(ratingPath);
   });
 
   it("fails for non-relative URLs", async () => {
