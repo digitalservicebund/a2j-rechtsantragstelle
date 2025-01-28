@@ -12,6 +12,7 @@ test.describe("homepage", () => {
   testPageToBeAccessible();
 
   test("BMJ logo is displayed", async ({ page }) => {
+    // check if logo is displayed either as img role or img html tag
     const logoExist = await Promise.any([
       page
         .locator(LOGO_DIV_ID)
