@@ -1,16 +1,17 @@
 import pick from "lodash/pick";
 import { z } from "zod";
 import type { InfoBoxItemProps } from "~/components/InfoBoxItem";
+import { StrapiHeadingSchema } from "~/services/cms/models/StrapiHeading";
 import {
   getInlineNoticeProps,
   StrapiInlineNoticeSchema,
 } from "~/services/cms/models/StrapiInlineNotice";
+import { buildRichTextValidation } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiButtonSchema } from "./StrapiButton";
 import { getDetailsProps, StrapiDetailsSchema } from "./StrapiDetails";
-import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiImageSchema, getImageProps } from "./StrapiImage";
 
 export const StrapiInfoBoxItemSchema = z
@@ -18,7 +19,7 @@ export const StrapiInfoBoxItemSchema = z
     label: StrapiHeadingSchema.nullable(),
     headline: StrapiHeadingSchema.nullable(),
     image: StrapiImageSchema.nullable(),
-    content: z.string().nullable(),
+    content: buildRichTextValidation().nullable(),
     detailsSummary: z.array(StrapiDetailsSchema),
     inlineNotice: z.array(StrapiInlineNoticeSchema),
     buttons: z.array(StrapiButtonSchema),

@@ -9,11 +9,6 @@ describe("Details", () => {
     expect(screen.getByText(testContent)).toBeInTheDocument();
   });
 
-  it("renders RichText with correct markdown", () => {
-    render(<Details title="Test Title" content="**Test Markdown**" />);
-    expect(screen.getByText("Test Markdown")).toBeInTheDocument();
-  });
-
   it("toggles visibility of content on summary click", () => {
     render(<Details title="Test Title" content="Test Content" />);
     const summaryElement = screen.getByText("Test Title");

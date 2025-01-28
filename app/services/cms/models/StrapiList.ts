@@ -1,6 +1,7 @@
 import pick from "lodash/pick";
 import { z } from "zod";
 import { type ListProps } from "~/components/List";
+import { buildRichTextValidation } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
@@ -12,7 +13,11 @@ import { StrapiListItemSchema, getListItemProps } from "./StrapiListItem";
 const StrapiListSchema = z
   .object({
     heading: StrapiHeadingSchema.nullable(),
-    subheading: z.string().nullable(),
+    subheading: buildRichTextValidation({
+      paragraph({ tokens }) {
+        return `<p class="ds-subhead max-w-full">${this.parser?.parseInline(tokens)}</p>`;
+      },
+    }).nullable(),
     items: z.array(StrapiListItemSchema),
     isNumeric: z.boolean(),
     outerBackground: StrapiBackgroundSchema.nullable(),
