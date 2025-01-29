@@ -42,7 +42,7 @@ export type FeedbackBoxProps = {
   readonly feedback?: FeedbackType;
 };
 
-const getFeedbackFromUrl = (url: string): string | null => {
+const getFeedbackFromUrl = (url: string) => {
   return new URLSearchParams(url).get("wasHelpful");
 };
 
