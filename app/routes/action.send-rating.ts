@@ -54,13 +54,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     },
   });
 
-  const updatedUrl = new URL(url, request.url);
-  updatedUrl.searchParams.set("wasHelpful", data.wasHelpful);
+  searchParams.set("wasHelpful", data.wasHelpful);
 
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
   if (clientJavaScriptAvailable) {
     return json({ success: true }, { headers });
   }
 
-  return redirect(`${updatedUrl}#${USER_FEEDBACK_ID}`, { headers });
+  return redirect(`${url}?wasHelpful=${data?.wasHelpful}#${USER_FEEDBACK_ID}`, {
+    headers,
+  });
 };
