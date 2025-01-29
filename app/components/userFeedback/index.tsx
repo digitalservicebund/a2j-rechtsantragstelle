@@ -29,9 +29,16 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const [shouldFocus, setShouldFocus] = useState(false);
   const rootLoaderData = useRouteLoaderData<RootLoader>("root");
   const bannerState = rootLoaderData?.bannerState ?? BannerState.ShowRating;
-  const feedbackResult = rootLoaderData?.feedbackResult
-    ? FeedbackType.Positive
-    : FeedbackType.Negative;
+
+  // check rootLoaderData for feedbackResult otherwise undefined
+  const feedbackResult: FeedbackType | undefined =
+    rootLoaderData?.feedbackResult === true
+      ? FeedbackType.Positive
+      : // eslint-disable-next-line sonarjs/no-nested-conditional
+        rootLoaderData?.feedbackResult === false
+        ? FeedbackType.Negative
+        : undefined;
+
   const applyFocus = useCallback(() => {
     setShouldFocus(true);
   }, []);
