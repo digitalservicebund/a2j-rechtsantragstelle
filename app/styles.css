@@ -33,6 +33,14 @@ svg {
   fill: currentColor;
 }
 
+/* Ensure black SVG paths don't disappear in high-contrast mode */
+@media (forced-colors: active) {
+  #svg-image path[fill="#000"] {
+    stroke: white;
+    stroke-width: 0.75;
+  }
+}
+
 /* Tailwind's container core plugin is disabled,
  * because its breakpoint-based nature does not fit our needs */
 .container {
