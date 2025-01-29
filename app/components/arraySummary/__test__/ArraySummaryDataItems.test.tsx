@@ -109,24 +109,61 @@ describe("ArraySummaryDataItems", () => {
     ).toBeInTheDocument();
   });
 
-  it("should render ArraySummaryDataItems with heading together with placeholder {{ indexPerson }} in case exists in the translations", () => {
+  it("renders heading with placeholder {{ indexArray }} replaced by default index when displayIndexOffset is not provided", () => {
     const translationWithHeadline = {
       ...translations,
-      "unterhaltszahlungen.label.heading": "Heading {{ indexPerson }}",
+      "unterhaltszahlungen.label.heading": "Heading {{ indexArray }}",
     };
 
-    const { getByText } = render(
-      <ArraySummaryDataItems
-        configuration={mockArrayConfiguration}
-        items={mockDataItem}
-        headingTitleTagNameItem="h2"
-        itemIndex={0}
-        translations={translationWithHeadline}
-        category="unterhaltszahlungen"
-        csrf="csrf"
-      />,
+    const { queryByText } = render(
+      <>
+        {[0, 1].map((itemIndex) => (
+          <ArraySummaryDataItems
+            key={itemIndex}
+            configuration={mockArrayConfiguration}
+            items={mockDataItem}
+            headingTitleTagNameItem="h2"
+            itemIndex={itemIndex}
+            translations={translationWithHeadline}
+            category="unterhaltszahlungen"
+            csrf="csrf"
+          />
+        ))}
+      </>,
     );
 
-    expect(getByText("Heading 2")).toBeInTheDocument();
+    expect(queryByText("Heading 1")).toBeInTheDocument();
+    expect(queryByText("Heading 2")).toBeInTheDocument();
+  });
+
+  it("renders heading with placeholder {{ indexArray }} replaced by displayIndexOffset when provided", () => {
+    const translationWithHeadline = {
+      ...translations,
+      "unterhaltszahlungen.label.heading": "Heading {{ indexArray }}",
+    };
+
+    const { queryByText } = render(
+      <>
+        {[0, 1].map((itemIndex) => (
+          <ArraySummaryDataItems
+            key={itemIndex}
+            configuration={{
+              ...mockArrayConfiguration,
+              displayIndexOffset: 2,
+            }}
+            items={mockDataItem}
+            headingTitleTagNameItem="h2"
+            itemIndex={itemIndex}
+            translations={translationWithHeadline}
+            category="unterhaltszahlungen"
+            csrf="csrf"
+          />
+        ))}
+      </>,
+    );
+
+    expect(queryByText("Heading 1")).not.toBeInTheDocument();
+    expect(queryByText("Heading 2")).toBeInTheDocument();
+    expect(queryByText("Heading 3")).toBeInTheDocument();
   });
 });
