@@ -44,7 +44,10 @@ import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackBannerState } from "./services/feedback/getFeedbackBannerState";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
-import { mainSessionFromCookieHeader } from "./services/session.server";
+import {
+  getSessionManager,
+  mainSessionFromCookieHeader,
+} from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import {
   extractTranslations,
@@ -81,11 +84,19 @@ export const meta: MetaFunction<RootLoader> = () => {
   ];
 };
 
+const getFeedbackResult = async (request: Request) => {
+  const cookieHeader = request.headers.get("Cookie");
+  const { getSession } = getSessionManager("main");
+  const session = await getSession(cookieHeader);
+  return session.get("wasHelpful")?.["/hilfe"] ?? null;
+};
+
 export type RootLoader = typeof loader;
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
+  const feedbackResult = await getFeedbackResult(request);
 
   const [
     strapiHeader,
@@ -140,6 +151,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       deletionLabel: translations["delete-data"].footerLinkLabel,
       hasAnyUserData,
       feedbackTranslations: translations.feedback,
+      feedbackResult,
       pageHeaderTranslations: extractTranslations(
         ["leichtesprache", "gebaerdensprache", "mainNavigationAriaLabel"],
         translations.pageHeader,
