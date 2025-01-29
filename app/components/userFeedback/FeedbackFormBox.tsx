@@ -10,7 +10,7 @@ import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
-import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
+
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 export const FEEDBACK_FORM_NAME = "feedbackForm";
 export const FEEDBACK_FIELD_NAME = "feedback";
@@ -43,7 +43,7 @@ export type FeedbackBoxProps = {
 };
 
 const getFeedbackFromUrl = (url: string): string | null => {
-  return new URLSearchParams(url).get(userRatingFieldname);
+  return new URLSearchParams(url).get("wasHelpful");
 };
 
 export const FeedbackFormBox = ({

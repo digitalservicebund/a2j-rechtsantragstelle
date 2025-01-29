@@ -55,7 +55,7 @@ import {
 } from "./services/translations/getTranslationByKey";
 import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
-import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
+
 export { headers } from "./rootHeaders";
 
 const SKIP_TO_CONTENT_TRANSLATION_KEY = "skip-to-content";
@@ -91,7 +91,7 @@ const getFeedbackResult = async (
   const cookieHeader = request.headers.get("Cookie");
   const { getSession } = getSessionManager("main");
   const session = await getSession(cookieHeader);
-  return session.get(userRatingFieldname)?.["/hilfe"] ?? undefined;
+  return session.get("wasHelpful")?.["/hilfe"] ?? undefined;
 };
 
 export type RootLoader = typeof loader;
