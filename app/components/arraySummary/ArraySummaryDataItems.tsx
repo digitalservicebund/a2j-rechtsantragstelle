@@ -1,6 +1,5 @@
 import ArraySummaryItemButton from "~/components/arraySummary/ArraySummaryItemButton";
 import type { BasicTypes } from "~/domains/contexts";
-import { WEITERE_PERSONEN_START_INDEX } from "~/domains/fluggastrechte/formular/stringReplacements";
 import type { ArrayConfigClient } from "~/services/array";
 import {
   extractTranslations,
@@ -29,7 +28,8 @@ const ArraySummaryDataItems = ({
   headingTitleTagNameItem,
   translations = {},
 }: ArraySummaryItemProps) => {
-  const { url, initialInputUrl, hiddenFields } = configuration;
+  const { url, initialInputUrl, hiddenFields, displayIndexOffset } =
+    configuration;
   const itemsWithoutHiddenFields = Object.entries(items).filter(
     ([itemKey, itemValue]) => itemValue && !hiddenFields?.includes(itemKey),
   );
@@ -41,8 +41,7 @@ const ArraySummaryDataItems = ({
   const heading = interpolateSerializableObject(
     translations[`${category}.label.heading`] ?? "",
     {
-      indexPerson: (itemIndex + WEITERE_PERSONEN_START_INDEX).toString(),
-      indexArray: (itemIndex + 1).toString(),
+      indexArray: (itemIndex + (displayIndexOffset ?? 1)).toString(),
     },
   );
 
