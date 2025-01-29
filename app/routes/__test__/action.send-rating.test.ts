@@ -31,17 +31,15 @@ describe("/action/send-rating route", () => {
   });
 
   it("returns redirect without JS", async () => {
-    const ratingPath = "/relative/path?wasHelpful=yes#user-feedback-banner";
+    const ratingPath = "/relative/path#user-feedback-banner";
+    const expectedPath = "/relative/path?wasHelpful=yes#user-feedback-banner";
     const request = new Request(
       `http://localhost:3000/action/send-rating?url=${ratingPath}&js=false`,
       options,
     );
     const response = await action({ request, params: {}, context: {} });
     expect(response.status).toEqual(302);
-    const { pathname, search, hash } = new URL(
-      response.headers.get("location") ?? "",
-    );
-    expect(pathname + search + hash).toEqual(ratingPath);
+    expect(response.headers.get("location")).toEqual(expectedPath);
   });
 
   it("fails for non-relative URLs", async () => {
