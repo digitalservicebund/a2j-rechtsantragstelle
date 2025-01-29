@@ -8,5 +8,5 @@ s3_client = boto3.client(
     region_name="eu-central-1"
 )
 
-s3_client.create_bucket(Bucket="a2j-rechtsantragstelle-data-consent-fgr", CreateBucketConfiguration={
+s3_client.create_bucket(Bucket="a2j-rechtsantragstelle-data-storage", CreateBucketConfiguration={
     'LocationConstraint': 'eu-central-1'})
