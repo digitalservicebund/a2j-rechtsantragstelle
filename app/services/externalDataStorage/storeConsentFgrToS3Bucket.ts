@@ -1,9 +1,11 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { config } from "~/services/env/env.server";
 import { today, toGermanDateFormat } from "~/util/date";
-import { createClientDataConsentFgr } from "./createClientDataConsentFgr";
+import { createClientS3DataStorage } from "./createClientS3DataStorage";
 import { sendSentryMessage } from "../logging";
 import { getSessionIdByFlowId } from "../session.server";
+
+const DATA_CONSENT_FGR_FOLDER = "data-consent-fgr";
 
 const createConsentDataBuffer = (sessionId: string, headers: Headers) => {
   const userAgent = headers.get("user-agent");
@@ -14,9 +16,13 @@ const getFolderDate = () => {
   return toGermanDateFormat(today()).replaceAll(".", "-");
 };
 
+const createFolderKey = (sessionId: string) => {
+  return `${DATA_CONSENT_FGR_FOLDER}/${getFolderDate()}/${sessionId}.csv`;
+};
+
 export const storeConsentFgrToS3Bucket = async ({ headers }: Request) => {
   try {
-    const s3Client = createClientDataConsentFgr();
+    const s3Client = createClientS3DataStorage();
     const cookieHeader = headers.get("Cookie");
     const sessionId = await getSessionIdByFlowId(
       "/fluggastrechte/formular",
@@ -24,11 +30,11 @@ export const storeConsentFgrToS3Bucket = async ({ headers }: Request) => {
     );
 
     const buffer = createConsentDataBuffer(sessionId, headers);
-    const key = `${getFolderDate()}/${sessionId}.csv`;
+    const key = createFolderKey(sessionId);
 
     await s3Client.send(
       new PutObjectCommand({
-        Bucket: config().AWS_S3_DATA_CONSENT_FGR_BUCKET_NAME,
+        Bucket: config().S3_DATA_STORAGE_BUCKET_NAME,
         Body: buffer,
         Key: key,
       }),

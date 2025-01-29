@@ -3,15 +3,15 @@ import { describe, it, expect, vi } from "vitest";
 import { config } from "~/services/env/env.server";
 import { sendSentryMessage } from "../../logging";
 import { getSessionIdByFlowId } from "../../session.server";
-import { createClientDataConsentFgr } from "../createClientDataConsentFgr";
+import { createClientS3DataStorage } from "../createClientS3DataStorage";
 import { storeConsentFgrToS3Bucket } from "../storeConsentFgrToS3Bucket";
 
 vi.mock("@aws-sdk/client-s3", () => ({
   PutObjectCommand: vi.fn(),
 }));
 
-vi.mock("../createClientDataConsentFgr", () => ({
-  createClientDataConsentFgr: vi.fn(),
+vi.mock("../createClientS3DataStorage", () => ({
+  createClientS3DataStorage: vi.fn(),
 }));
 
 vi.mock("../../logging", () => ({
@@ -52,27 +52,27 @@ describe("storeConsentFgrToS3Bucket", () => {
     const mockSessionId = "test-session-id";
     const mockConfig = {
       ...config(),
-      AWS_S3_DATA_CONSENT_FGR_BUCKET_NAME: "test-bucket",
+      S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
     };
-    vi.mocked(createClientDataConsentFgr).mockReturnValue(mockS3Client);
+    vi.mocked(createClientS3DataStorage).mockReturnValue(mockS3Client);
     vi.mocked(getSessionIdByFlowId).mockResolvedValue(mockSessionId);
     vi.mocked(config).mockReturnValue(mockConfig);
     const mockBuffer = Buffer.from(
       `${mockSessionId};${mockDate.getTime()};test-agent`,
       "utf8",
     );
-    const mockKey = "01-01-2025/test-session-id.csv";
+    const mockKey = "data-consent-fgr/01-01-2025/test-session-id.csv";
 
     await storeConsentFgrToS3Bucket(mockRequest);
 
-    expect(createClientDataConsentFgr).toHaveBeenCalled();
+    expect(createClientS3DataStorage).toHaveBeenCalled();
     expect(getSessionIdByFlowId).toHaveBeenCalledWith(
       "/fluggastrechte/formular",
       "test-cookie",
     );
     expect(mockS3Client.send).toHaveBeenCalledWith(
       new PutObjectCommand({
-        Bucket: mockConfig.AWS_S3_DATA_CONSENT_FGR_BUCKET_NAME,
+        Bucket: mockConfig.S3_DATA_STORAGE_BUCKET_NAME,
         Body: mockBuffer,
         Key: mockKey,
       }),
@@ -82,7 +82,7 @@ describe("storeConsentFgrToS3Bucket", () => {
   it("should send a Sentry message on error", async () => {
     const mockError = new Error("Test error");
 
-    vi.mocked(createClientDataConsentFgr).mockImplementation(() => {
+    vi.mocked(createClientS3DataStorage).mockImplementation(() => {
       throw mockError;
     });
 
