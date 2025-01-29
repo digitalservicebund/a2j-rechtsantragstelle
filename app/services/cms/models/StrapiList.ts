@@ -1,4 +1,5 @@
 import pick from "lodash/pick";
+import { Renderer } from "marked";
 import { z } from "zod";
 import { type ListProps } from "~/components/List";
 import { buildRichTextValidation } from "~/services/validation/richtext";
@@ -10,14 +11,16 @@ import { StrapiContainerSchema } from "./StrapiContainer";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiListItemSchema, getListItemProps } from "./StrapiListItem";
 
+export const listRenderer: Partial<Renderer> = {
+  paragraph({ tokens }) {
+    return `<p class="ds-subhead max-w-full">${this.parser?.parseInline(tokens)}</p>`;
+  },
+};
+
 const StrapiListSchema = z
   .object({
     heading: StrapiHeadingSchema.nullable(),
-    subheading: buildRichTextValidation({
-      paragraph({ tokens }) {
-        return `<p class="ds-subhead max-w-full">${this.parser?.parseInline(tokens)}</p>`;
-      },
-    }).nullable(),
+    subheading: buildRichTextValidation(listRenderer).nullable(),
     items: z.array(StrapiListItemSchema),
     isNumeric: z.boolean(),
     outerBackground: StrapiBackgroundSchema.nullable(),
