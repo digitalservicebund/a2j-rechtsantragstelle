@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { MultiFieldsValidationBaseSchema } from "~/domains/multiFieldsFlowValidation";
+import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 
 const THREE_HOURS_MILLISECONDS = 3 * 60 * 60 * 1000;
 
@@ -230,4 +231,61 @@ export function validateDepartureAfterArrival(
       return z.NEVER;
     }
   });
+}
+
+export function validateCancelFlightReplacementPage(
+  baseSchema: MultiFieldsValidationBaseSchema,
+) {
+  return baseSchema.superRefine(
+    (
+      {
+        annullierungErsatzverbindungAbflugsDatum,
+        annullierungErsatzverbindungAbflugsZeit,
+        annullierungErsatzverbindungAnkunftsDatum,
+        annullierungErsatzverbindungAnkunftsZeit,
+      },
+      ctx,
+    ) => {
+      const addIssueToContext = (path: string[]) => {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "optionalFieldRequired", // these fields are optional, but if one is filled, the other must be filled as well
+          path,
+          fatal: true,
+        });
+      };
+
+      const validateFieldPair = (
+        field1: string,
+        field2: string,
+        path1: string[],
+        path2: string[],
+      ) => {
+        const isEmpty1 = isFieldEmptyOrUndefined(field1);
+        const isEmpty2 = isFieldEmptyOrUndefined(field2);
+
+        if (isEmpty1 && !isEmpty2) {
+          addIssueToContext(path1);
+        }
+
+        if (isEmpty2 && !isEmpty1) {
+          addIssueToContext(path2);
+        }
+      };
+
+      validateFieldPair(
+        annullierungErsatzverbindungAbflugsDatum,
+        annullierungErsatzverbindungAbflugsZeit,
+        ["annullierungErsatzverbindungAbflugsDatum"],
+        ["annullierungErsatzverbindungAbflugsZeit"],
+      );
+
+      validateFieldPair(
+        annullierungErsatzverbindungAnkunftsDatum,
+        annullierungErsatzverbindungAnkunftsZeit,
+        ["annullierungErsatzverbindungAnkunftsDatum"],
+        ["annullierungErsatzverbindungAnkunftsZeit"],
+      );
+    },
+  );
 }

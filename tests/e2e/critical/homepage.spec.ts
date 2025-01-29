@@ -12,8 +12,26 @@ test.describe("homepage", () => {
   testPageToBeAccessible();
 
   test("BMJ logo is displayed", async ({ page }) => {
-    const logoImage = page.locator(LOGO_DIV_ID).locator("div").locator("img");
-    await expect(logoImage).toBeVisible();
+    // check if logo is displayed either as img role or img html tag
+    const logoExist = await Promise.any([
+      page
+        .locator(LOGO_DIV_ID)
+        .locator("div")
+        .locator("img")
+        .waitFor()
+        .then(() => true),
+      page
+        .locator(LOGO_DIV_ID)
+        .locator("div")
+        .getByRole("img")
+        .waitFor()
+        .then(() => true),
+    ]).catch(() => {
+      // eslint-disable-next-line no-console
+      console.log("Logo not found");
+    });
+
+    expect(logoExist).toBeTruthy();
   });
 
   test.describe("Header links", () => {

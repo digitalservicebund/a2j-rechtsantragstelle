@@ -1,14 +1,15 @@
-import SendIcon from "@digitalservicebund/icons/SendOutlined";
+import { useLocation } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { useEffect, useRef, useState } from "react";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
+import Textarea from "~/components/inputs/Textarea";
+import { FeedbackType } from "~/components/userFeedback";
+import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
-import Textarea from "../inputs/Textarea";
-
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 export const FEEDBACK_FORM_NAME = "feedbackForm";
 export const FEEDBACK_FIELD_NAME = "feedback";
@@ -37,15 +38,22 @@ export type FeedbackBoxProps = {
   readonly destination: string;
   readonly shouldFocus: boolean;
   readonly onSubmit: () => void;
+  readonly feedback?: FeedbackType;
+};
+
+const getFeedbackFromUrl = (url: string) => {
+  return new URLSearchParams(url).get("wasHelpful");
 };
 
 export const FeedbackFormBox = ({
   destination,
   shouldFocus,
   onSubmit,
+  feedback,
 }: FeedbackBoxProps) => {
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
+  const location = useLocation();
 
   const textAreaReference = useRef<HTMLTextAreaElement | null>(null);
 
@@ -57,6 +65,18 @@ export const FeedbackFormBox = ({
     }
   }, [shouldFocus]);
 
+  if (!feedback) {
+    const wasHelpful = getFeedbackFromUrl(location.search);
+    if (wasHelpful === "yes") feedback = FeedbackType.Positive;
+    else if (wasHelpful === "no") feedback = FeedbackType.Negative;
+    else return null;
+  }
+
+  const feedbackText = {
+    [FeedbackType.Positive]: feedbackTranslations["positive-feedback-question"],
+    [FeedbackType.Negative]: feedbackTranslations["negative-feedback-question"],
+  }[feedback];
+
   return (
     <ValidatedForm
       validator={feedbackValidator}
@@ -66,10 +86,14 @@ export const FeedbackFormBox = ({
       preventScrollReset={true}
       onSubmit={onSubmit}
     >
+      <FeedbackTitle
+        title={feedbackTranslations["success-message"]}
+        subtitle={feedbackTranslations["antwort-uebermittelt"]}
+      />
       <div role="status" className="ds-stack-16">
         <div>
           <label htmlFor={FEEDBACK_FIELD_NAME} className="ds-label-01-bold">
-            {feedbackTranslations["heading-feedback"]}
+            {feedbackText}
           </label>
           <p className="ds-text-02-reg text-gray-800">
             {feedbackTranslations["heading-personal-data-feedback"]}
@@ -85,7 +109,6 @@ export const FeedbackFormBox = ({
         <ButtonContainer>
           <Button
             look="primary"
-            iconLeft={<SendIcon />}
             name={FEEDBACK_BUTTON_FIELD_NAME}
             value={FeedbackButtons.Submit}
             type="submit"

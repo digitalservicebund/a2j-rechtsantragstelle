@@ -35,7 +35,7 @@ describe("RatingBox", () => {
         path: "",
         Component: () => (
           <FeedbackContextComponent>
-            <RatingBox heading="heading" url="url" onSubmit={vitest.fn} />
+            <RatingBox heading="heading" url="url" onSubmit={vitest.fn()} />
           </FeedbackContextComponent>
         ),
       },
