@@ -86,7 +86,9 @@ describe("UserFeedback", () => {
           loaderData: {
             root: {
               bannerState: {
-                state: BannerState.FeedbackGiven,
+                state: {
+                  "/": BannerState.FeedbackGiven,
+                },
                 feedbackResult: true,
               },
             },

@@ -36,7 +36,6 @@ import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
 import Header from "./components/PageHeader";
-import { BannerState } from "./components/userFeedback";
 import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
@@ -44,10 +43,7 @@ import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackBannerState } from "./services/feedback/getFeedbackBannerState";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
-import {
-  getSessionManager,
-  mainSessionFromCookieHeader,
-} from "./services/session.server";
+import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import {
   extractTranslations,
@@ -83,16 +79,6 @@ export const meta: MetaFunction<RootLoader> = () => {
     { property: "og:type", content: "website" },
     { property: "og:image", content: "https://service.justiz.de/og-image.png" },
   ];
-};
-
-const getFeedbackResult = async (
-  request: Request,
-  cookieHeader: string | null,
-): Promise<boolean | undefined> => {
-  const { getSession } = getSessionManager("main");
-  const session = await getSession(cookieHeader);
-  const { pathname } = new URL(request.url);
-  return session.get("wasHelpful")?.[pathname] ?? undefined;
 };
 
 export type RootLoader = typeof loader;
@@ -160,12 +146,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       ),
       videoTranslations: translations.video,
       accessibilityTranslations: translations.accessibility,
-      bannerState: {
-        feedbackResult: await getFeedbackResult(request, cookieHeader),
-        state:
-          getFeedbackBannerState(mainSession, pathname) ??
-          BannerState.ShowRating,
-      },
+      bannerState: getFeedbackBannerState(mainSession, pathname),
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
