@@ -87,11 +87,12 @@ export const meta: MetaFunction<RootLoader> = () => {
 
 const getFeedbackResult = async (
   request: Request,
+  cookieHeader: string | null,
 ): Promise<boolean | undefined> => {
-  const cookieHeader = request.headers.get("Cookie");
   const { getSession } = getSessionManager("main");
   const session = await getSession(cookieHeader);
-  return session.get("wasHelpful")?.["/hilfe"] ?? undefined;
+  const { pathname } = new URL(request.url);
+  return session.get("wasHelpful")?.[pathname] ?? undefined;
 };
 
 export type RootLoader = typeof loader;
@@ -99,7 +100,6 @@ export type RootLoader = typeof loader;
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
-  const feedbackResult = await getFeedbackResult(request);
 
   const [
     strapiHeader,
@@ -154,13 +154,13 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       deletionLabel: translations["delete-data"].footerLinkLabel,
       hasAnyUserData,
       feedbackTranslations: translations.feedback,
-      feedbackResult,
       pageHeaderTranslations: extractTranslations(
         ["leichtesprache", "gebaerdensprache", "mainNavigationAriaLabel"],
         translations.pageHeader,
       ),
       videoTranslations: translations.video,
       accessibilityTranslations: translations.accessibility,
+      feedbackResult: await getFeedbackResult(request, cookieHeader),
       bannerState:
         getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
     },
