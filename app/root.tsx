@@ -44,7 +44,10 @@ import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackBannerState } from "./services/feedback/getFeedbackBannerState";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
-import { mainSessionFromCookieHeader } from "./services/session.server";
+import {
+  getSessionManager,
+  mainSessionFromCookieHeader,
+} from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import {
   extractTranslations,
@@ -52,6 +55,7 @@ import {
 } from "./services/translations/getTranslationByKey";
 import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
+
 export { headers } from "./rootHeaders";
 
 const SKIP_TO_CONTENT_TRANSLATION_KEY = "skip-to-content";
@@ -79,6 +83,16 @@ export const meta: MetaFunction<RootLoader> = () => {
     { property: "og:type", content: "website" },
     { property: "og:image", content: "https://service.justiz.de/og-image.png" },
   ];
+};
+
+const getFeedbackResult = async (
+  request: Request,
+  cookieHeader: string | null,
+): Promise<boolean | undefined> => {
+  const { getSession } = getSessionManager("main");
+  const session = await getSession(cookieHeader);
+  const { pathname } = new URL(request.url);
+  return session.get("wasHelpful")?.[pathname] ?? undefined;
 };
 
 export type RootLoader = typeof loader;
@@ -146,8 +160,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       ),
       videoTranslations: translations.video,
       accessibilityTranslations: translations.accessibility,
-      bannerState:
-        getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
+      bannerState: {
+        feedbackResult: await getFeedbackResult(request, cookieHeader),
+        state:
+          getFeedbackBannerState(mainSession, pathname) ??
+          BannerState.ShowRating,
+      },
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
