@@ -41,27 +41,27 @@ const Checkbox = ({
   useEffect(() => setJsAvailable(true), []);
 
   return (
-    <div className="flex flex-nowrap">
-      {(!jsAvailable || renderHiddenField) && (
-        <input type="hidden" name={name} value={CheckboxValue.off} />
-      )}
-      <input
-        {...getInputProps({ type: "checkbox", id: name, value })}
-        className={className}
-        aria-describedby={error && errorId}
-        onClick={() => setRenderHiddenField(!renderHiddenField)}
-        required={required}
-        defaultChecked={defaultValue === value}
-      />
+    <div className="flex flex-col flex-nowrap">
+      <div className="flex items-center">
+        {(!jsAvailable || renderHiddenField) && (
+          <input type="hidden" name={name} value={CheckboxValue.off} />
+        )}
+        <input
+          {...getInputProps({ type: "checkbox", id: name, value })}
+          className={className}
+          aria-describedby={error && errorId}
+          onClick={() => setRenderHiddenField(!renderHiddenField)}
+          required={required}
+          defaultChecked={defaultValue === value}
+        />
 
-      {label && (
-        <label htmlFor={name}>
-          <RichText markdown={label} />
-          {error && (
-            <InputError id={errorId}>{errorMessage ?? error}</InputError>
-          )}
-        </label>
-      )}
+        {label && (
+          <label htmlFor={name}>
+            <RichText markdown={label} />
+          </label>
+        )}
+      </div>
+      {error && <InputError id={errorId}>{errorMessage ?? error}</InputError>}
     </div>
   );
 };
