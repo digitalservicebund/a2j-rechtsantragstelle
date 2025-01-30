@@ -1,10 +1,17 @@
 import classNames from "classnames";
 import { matchSorter } from "match-sorter";
 import { type RefObject, useEffect, useRef, useState } from "react";
-import Select, { type InputActionMeta } from "react-select";
+import Select, {
+  AriaGuidance,
+  AriaOnChange,
+  AriaOnFocus,
+  type InputActionMeta,
+} from "react-select";
 import { useField } from "remix-validated-form";
 import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
+import { useTranslations } from "~/services/translations/translationsContext";
 import { type ErrorMessageProps } from "..";
 import {
   CustomClearIndicator,
@@ -99,6 +106,11 @@ const getSortingAirportsByCode = (
   return filteredOptions;
 };
 
+const AUTO_SUGGESTION_OPTION_SELECTED_KEY = "auto-suggestion-option-selected";
+const AUTO_SUGGESTION_OPTION_FOCUS_KEY = "auto-suggestion-option-focus";
+const AUTO_SUGGESTION_OPTION_INSTRUCTION_KEY =
+  "auto-suggestion-option-instruction";
+
 const AutoSuggestInput = ({
   name,
   label,
@@ -124,6 +136,7 @@ const AutoSuggestInput = ({
   const [optionWasSelected, setOptionWasSelected] = useState(false);
   useEffect(() => setJsAvailable(true), []);
   const [options, setOptions] = useState<DataListOptions[]>([]);
+  const { accessibility: translations } = useTranslations();
 
   const onInputChange = (value: string, { action }: InputActionMeta) => {
     if (action === "input-change") {
@@ -166,6 +179,59 @@ const AutoSuggestInput = ({
     );
   }
 
+  const onChange: AriaOnChange<DataListOptions, false> = ({
+    label,
+    action,
+  }) => {
+    if (action === "select-option") {
+      const suggestionOptionSelect = getTranslationByKey(
+        AUTO_SUGGESTION_OPTION_SELECTED_KEY,
+        translations,
+      );
+      return suggestionOptionSelect.replace("{{label}}", label);
+    }
+
+    if (action === "initial-input-focus") {
+      const suggestionOptionFocus = getTranslationByKey(
+        AUTO_SUGGESTION_OPTION_FOCUS_KEY,
+        translations,
+      );
+      return suggestionOptionFocus.replace("{{label}}", label);
+    }
+
+    return "";
+  };
+
+  const onFocus: AriaOnFocus<DataListOptions> = ({
+    context,
+    isAppleDevice,
+  }) => {
+    if (context === "menu" && isAppleDevice) {
+      return "something 2";
+    }
+
+    if (context === "value") {
+      return "another something";
+    }
+
+    return "test something";
+  };
+
+  const guidance: AriaGuidance = ({ context }) => {
+    if (context === "menu") {
+      return getTranslationByKey(
+        AUTO_SUGGESTION_OPTION_INSTRUCTION_KEY,
+        translations,
+      );
+    }
+
+    if (context === "input") {
+      return "";
+    }
+
+    return "";
+  };
+
   return (
     <div data-testid={items.length > 0 ? `${inputId}-loaded` : ""}>
       {label && <InputLabel id={inputId}>{label}</InputLabel>}
@@ -180,6 +246,11 @@ const AutoSuggestInput = ({
           { "auto-suggest-input-disabled": isDisabled },
           widthClassname(width),
         )}
+        ariaLiveMessages={{
+          onChange,
+          guidance,
+          onFocus,
+        }}
         components={{
           ClearIndicator: (props) =>
             CustomClearIndicator(props, buttonExclusionRef),
