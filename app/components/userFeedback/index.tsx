@@ -28,9 +28,10 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const { pathname } = useLocation();
   const [shouldFocus, setShouldFocus] = useState(false);
   const rootLoaderData = useRouteLoaderData<RootLoader>("root");
-  const bannerState = rootLoaderData?.bannerState ?? BannerState.ShowRating;
+  const bannerState =
+    rootLoaderData?.bannerState.state ?? BannerState.ShowRating;
 
-  const feedbackResult = rootLoaderData?.feedbackResult
+  const feedbackResult = rootLoaderData?.bannerState.feedbackResult
     ? FeedbackType.Positive
     : FeedbackType.Negative;
 

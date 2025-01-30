@@ -160,9 +160,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       ),
       videoTranslations: translations.video,
       accessibilityTranslations: translations.accessibility,
-      feedbackResult: await getFeedbackResult(request, cookieHeader),
-      bannerState:
-        getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
+      bannerState: {
+        feedbackResult: await getFeedbackResult(request, cookieHeader),
+        state:
+          getFeedbackBannerState(mainSession, pathname) ??
+          BannerState.ShowRating,
+      },
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
