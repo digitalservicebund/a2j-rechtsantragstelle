@@ -6,7 +6,6 @@ playwright-report/
 public/
 *.enc
 data/xml
-/xmlns
 app/util/__test__/malformed.json
 *.zip
 *.py
