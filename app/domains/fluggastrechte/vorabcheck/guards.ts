@@ -157,8 +157,8 @@ export const guards = {
     const isStartAirportEU = isEuropeanUnionAirport(startAirport);
     const isEndAirportEU = isEuropeanUnionAirport(endAirport);
 
-    // Check if the start airport is in the EU
-    if (isStartAirportEU) {
+    // Check if both start and end airports are in the EU
+    if (isStartAirportEU && isEndAirportEU) {
       return true;
     }
 
