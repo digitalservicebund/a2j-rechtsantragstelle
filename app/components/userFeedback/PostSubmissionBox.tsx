@@ -5,9 +5,13 @@ import RichText from "../RichText";
 
 type Props = {
   readonly shouldFocus: boolean;
+  readonly postSubmissionText?: string;
 };
 
-export const PostSubmissionBox = ({ shouldFocus }: Props) => {
+export const PostSubmissionBox = ({
+  shouldFocus,
+  postSubmissionText,
+}: Props) => {
   const feedbackTranslations = useFeedbackTranslations();
   const headingReference = useRef<HTMLParagraphElement | null>(null);
 
@@ -24,7 +28,7 @@ export const PostSubmissionBox = ({ shouldFocus }: Props) => {
         title={feedbackTranslations["success-message"]}
         subtitle={feedbackTranslations["feedback-helps"]}
       />
-      <RichText html={feedbackTranslations["text-post-submission"]} />
+      {postSubmissionText && <RichText html={postSubmissionText} />}
     </div>
   );
 };
