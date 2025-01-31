@@ -17,7 +17,7 @@ describe("getFeedbackData", () => {
 
     const { state, result } = getFeedbackData(mockSession, url);
 
-    expect(state).toStrictEqual({ "/hilfe": BannerState.ShowFeedback });
+    expect(state).toStrictEqual(BannerState.ShowFeedback);
     expect(result).toStrictEqual(BannerState.FeedbackGiven);
   });
 
@@ -39,7 +39,7 @@ describe("getFeedbackData", () => {
 
     const { state, result } = getFeedbackData(mockSession, url);
 
-    expect(state).toStrictEqual({ "/hilfe": BannerState.ShowFeedback });
+    expect(state).toStrictEqual(BannerState.ShowFeedback);
     expect(result).toBeUndefined();
   });
 });

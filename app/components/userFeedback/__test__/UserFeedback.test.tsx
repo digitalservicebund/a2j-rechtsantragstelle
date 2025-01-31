@@ -86,10 +86,8 @@ describe("UserFeedback", () => {
           loaderData: {
             root: {
               feedback: {
-                state: {
-                  "/": BannerState.FeedbackGiven,
-                },
-                feedbackResult: true,
+                state: BannerState.FeedbackGiven,
+                result: true,
               },
             },
           },
@@ -141,7 +139,7 @@ describe("UserFeedback", () => {
             root: {
               feedback: {
                 state: BannerState.ShowRating,
-                feedbackResult: null,
+                result: null,
               },
             },
           },

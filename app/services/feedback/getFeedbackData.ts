@@ -6,11 +6,11 @@ export const userRatingFieldName = "wasHelpful";
 
 export const getFeedbackData = (session: Session, url: string) => {
   const state =
-    (session.get(bannerStateName) as Record<string, BannerState>) ??
+    (session.get(bannerStateName) as Record<string, BannerState>)?.[url] ??
     BannerState.ShowRating;
 
   const result =
-    (session.get(userRatingFieldName)?.[url] as Record<string, BannerState>) ??
+    (session.get(userRatingFieldName) as Record<string, BannerState>)?.[url] ??
     undefined;
 
   return { result, state };
