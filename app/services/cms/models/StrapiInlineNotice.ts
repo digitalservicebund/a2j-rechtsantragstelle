@@ -1,6 +1,7 @@
 import pick from "lodash/pick";
 import { z } from "zod";
 import { type InlineNoticeProps } from "~/components/InlineNotice";
+import { buildRichTextValidation } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
@@ -12,7 +13,7 @@ export const StrapiInlineNoticeSchema = z
     title: z.string(),
     tagName: z.enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"]),
     look: z.enum(["warning", "tips"]),
-    content: z.string().nullable(),
+    content: buildRichTextValidation().nullable(),
     container: StrapiContainerSchema,
     outerBackground: StrapiBackgroundSchema.nullable(),
   })

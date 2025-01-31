@@ -5,13 +5,14 @@ import {
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
 import { StrapiDetailsSchema } from "~/services/cms/models/StrapiDetails";
+import { buildRichTextValidation } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
 const StrapiTextareaSchema = z
   .object({
     name: z.string(),
-    description: z.string().nullable(),
+    description: buildRichTextValidation().nullable(),
     details: StrapiDetailsSchema.nullable(),
     label: z.string().nullable(),
     placeholder: z.string().nullable(),

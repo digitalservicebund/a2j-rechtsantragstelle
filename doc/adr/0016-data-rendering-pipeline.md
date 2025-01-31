@@ -1,6 +1,6 @@
 # 16. Data Rendering pipeline overview
 
-Date: 2025-01-15
+Date: 2025-01-31
 
 ## Status
 
@@ -25,7 +25,7 @@ Our current data rendering pipeline from Strapi to the Application has some inef
 
 ## Decision(s)
 
-- Instead of having `<RichText />` both render the html and sanitize it, we're going to perform these operations on the server-side (inside the loader or the CMS fetching) and inject it down into `<RichText />`.
+- Instead of having `<RichText />` both render the html and sanitize it, we're going to perform these operations on the server-side (inside of a zod transform during schema parsing) and inject it down into `<RichText />`. This will be handled by a new zod validation type, `buildRichTextValidation()`.
 
 - Instead of having Strapi content validated and rendered within Strapi components like so:
 
@@ -33,19 +33,31 @@ Our current data rendering pipeline from Strapi to the Application has some inef
   <StrapiInput {...strapiContent} />;
   ```
 
-  We'll instead begin using `getXXXProps()` functions as a translation layer, before passing to the actual underylying components, just like we're doing for `<PageContent />`:
+  We'll instead begin using zod transforms (built into the schemas) to mutate the props before passing to the actual underylying components, like so
 
   ```
-  <Heading {...getHeadingProps(strapiContent)} />
+  const HeadingPropsSchema = z
+    .object({
+      tagName: z.string()
+    })
+    .transform((val) => {
+      return omitNull(val)
+    })
+
+  const headingProps = HeadingPropsSchema.parse(cmsContent)
+
+  <Heading {...headingProps} />
   ```
+
+  This will fully eliminate the need for both the StrapiComponent and `getXXXProps()` compatibility interfaces and greatly simplify our architecture.
 
 ## Consequences
 
 - Server-side html rendering and sanitization will both improve performance and reduce the security concerns of handling these operations client-side.
 
-  - This also means that we'll have to use a lot of `dangerouslySetInnerHTML`
+  - This also means that we'll have to use a lot of `dangerouslySetInnerHTML`, which is fine because the html we're passing down has already been safely parsed from markdown and fully sanitized on the server-side.
 
-- Removing the `StrapiComponent` compatibility layer in favor of `getXXXProps()` functions should both improve render performance (we'll no longer be double-validating and double-rendering Strapi content) and set us up nicely to begin rendering markdown on the server-side (see previous point). It also reduces the cognitive overhead of having to keep track of two separate rendering methods, making code maintenance and onboarding smoother as well.
+- Removing the `StrapiComponent` compatibility layer as well as the `getXXXProps()` functions in favor of zod transformation functions should both improve render performance (we'll no longer be double-validating and double-rendering Strapi content) and greatly reduce the architectural complexity of our app. It also reduces the cognitive overhead of having to keep track of two separate rendering methods, making code maintenance and onboarding smoother as well.
 
 ## Next Actions
 
@@ -53,3 +65,5 @@ Our current data rendering pipeline from Strapi to the Application has some inef
   - https://app.asana.com/0/1203259475859667/1208848279655976/f
 - Remove unnecessary StrapiComponent compatibility layer
   - https://app.asana.com/0/1203259475859667/1208387119484037/f
+- Switch from `getXXXProps()` pattern to zod transforms:
+  - https://app.asana.com/0/1203259475859667/1209205291065588/f
