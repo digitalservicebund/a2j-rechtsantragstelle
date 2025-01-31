@@ -12,14 +12,11 @@ describe("getFeedbackData", () => {
     const mockSession: Session = createSession();
     const url = "/hilfe";
 
-    // Mock session data
     mockSession.set(bannerStateName, { [url]: BannerState.ShowFeedback });
     mockSession.set(userRatingFieldName, { [url]: BannerState.FeedbackGiven });
 
-    // Call function
     const { state, result } = getFeedbackData(mockSession, url);
 
-    // Expectations
     expect(state).toStrictEqual({ "/hilfe": BannerState.ShowFeedback });
     expect(result).toStrictEqual(BannerState.FeedbackGiven);
   });
@@ -28,7 +25,6 @@ describe("getFeedbackData", () => {
     const mockSession: Session = createSession();
     const url = "/hilfe";
 
-    // Call function without setting bannerState
     const { state, result } = getFeedbackData(mockSession, url);
 
     expect(state).toStrictEqual(BannerState.ShowRating);
@@ -39,10 +35,8 @@ describe("getFeedbackData", () => {
     const mockSession: Session = createSession();
     const url = "/hilfe";
 
-    // Mock banner state but no wasHelpful
     mockSession.set(bannerStateName, { [url]: BannerState.ShowFeedback });
 
-    // Call function
     const { state, result } = getFeedbackData(mockSession, url);
 
     expect(state).toStrictEqual({ "/hilfe": BannerState.ShowFeedback });
