@@ -4,14 +4,38 @@
   "states": {
     "datenverarbeitung": {
       "on": {
-        "SUBMIT": "prozessfaehig",
+        "SUBMIT": "streitbeilegung",
         "BACK": "#intro.start"
+      }
+    },
+    "streitbeilegung": {
+      "on": {
+        "SUBMIT": [
+          {
+            "target": "streitbeilegung-gruende",
+            "guard": "streitbeilegungNo"
+          },
+          "prozessfaehig"
+        ],
+        "BACK": "datenverarbeitung"
+      }
+    },
+    "streitbeilegung-gruende": {
+      "on": {
+        "SUBMIT": "prozessfaehig",
+        "BACK": "streitbeilegung"
       }
     },
     "prozessfaehig": {
       "on": {
         "SUBMIT": "ausgleichszahlung",
-        "BACK": "datenverarbeitung"
+        "BACK": [
+          {
+            "target": "streitbeilegung-gruende",
+            "guard": "streitbeilegungNo"
+          },
+          "streitbeilegung"
+        ]
       }
     },
     "ausgleichszahlung": {

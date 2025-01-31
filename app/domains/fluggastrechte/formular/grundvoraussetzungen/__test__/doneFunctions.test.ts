@@ -10,6 +10,23 @@ describe("doneFunctions", () => {
         fluggesellschaft: "LH",
         bereich: "bereich",
         datenverarbeitungZustimmung: CheckboxValue.on,
+        streitbeilegung: "yes",
+      },
+    });
+
+    expect(actual).toBe(true);
+  });
+
+  it("should return true, if all the data were migrated given when streitbeilegung is no", () => {
+    const actual = grundvoraussetzungenDone({
+      context: {
+        startAirport: "BER",
+        endAirport: "FRA",
+        fluggesellschaft: "LH",
+        bereich: "bereich",
+        datenverarbeitungZustimmung: CheckboxValue.on,
+        streitbeilegung: "no",
+        streitbeilegungGruende: "yesAirlineAgainst",
       },
     });
 
@@ -22,6 +39,7 @@ describe("doneFunctions", () => {
         endAirport: "FRA",
         fluggesellschaft: "LH",
         bereich: "bereich",
+        streitbeilegung: "yes",
       },
     });
 
@@ -34,6 +52,7 @@ describe("doneFunctions", () => {
         startAirport: "BER",
         endAirport: "FRA",
         fluggesellschaft: "LH",
+        streitbeilegung: "yes",
       },
     });
 
@@ -42,6 +61,21 @@ describe("doneFunctions", () => {
 
   it("should return false, if all context is missing", () => {
     const actual = grundvoraussetzungenDone({ context: {} });
+
+    expect(actual).toBe(false);
+  });
+
+  it("should return false, if streitbeilegung is no and missing streitbeilegungGruende", () => {
+    const actual = grundvoraussetzungenDone({
+      context: {
+        startAirport: "BER",
+        endAirport: "FRA",
+        fluggesellschaft: "LH",
+        bereich: "bereich",
+        datenverarbeitungZustimmung: CheckboxValue.on,
+        streitbeilegung: "no",
+      },
+    });
 
     expect(actual).toBe(false);
   });
