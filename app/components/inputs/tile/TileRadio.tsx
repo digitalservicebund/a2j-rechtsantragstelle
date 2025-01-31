@@ -62,7 +62,7 @@ const TileRadio = ({
             <TileTag tagDescription={tagDescription} />
           </div>
           <span className="ds-label-01-bold">{title}</span>
-          {description && <RichText markdown={description} />}
+          {description && <RichText html={description} />}
         </div>
       </label>
     </div>

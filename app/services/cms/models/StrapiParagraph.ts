@@ -14,5 +14,5 @@ export const StrapiParagraphComponentSchema = StrapiParagraphSchema.extend({
 export type StrapiParagraph = z.infer<typeof StrapiParagraphSchema>;
 
 export const getRichTextProps = (cmsData: StrapiParagraph): RichTextProps => ({
-  markdown: cmsData.text,
+  html: cmsData.text,
 });

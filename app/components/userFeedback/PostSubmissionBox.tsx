@@ -24,7 +24,7 @@ export const PostSubmissionBox = ({ shouldFocus }: Props) => {
         title={feedbackTranslations["success-message"]}
         subtitle={feedbackTranslations["feedback-helps"]}
       />
-      <RichText markdown={feedbackTranslations["text-post-submission"]} />
+      <RichText html={feedbackTranslations["text-post-submission"]} />
     </div>
   );
 };

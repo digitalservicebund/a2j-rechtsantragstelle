@@ -1,20 +1,13 @@
 export type RichTextProps = {
-  markdown: string;
+  html: string;
+  className?: string;
 };
 
-const RichText = ({
-  markdown,
-  className = "",
-  ...props
-}: RichTextProps & {
-  id?: string;
-  className?: string;
-}) => {
+const RichText = ({ html, className }: RichTextProps) => {
   return (
     <div
-      {...props}
       className={`rich-text ds-stack-8 ${className}`}
-      dangerouslySetInnerHTML={{ __html: markdown }}
+      dangerouslySetInnerHTML={{ __html: html }}
     />
   );
 };

@@ -38,7 +38,7 @@ export default function Footer({
           )}
           <div className="ds-stack-8">
             {paragraphs.map((paragraph) => (
-              <div key={paragraph.markdown}>
+              <div key={paragraph.html}>
                 <RichText {...paragraph} className="ds-label-03-reg" />
               </div>
             ))}

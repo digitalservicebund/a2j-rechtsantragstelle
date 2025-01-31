@@ -39,7 +39,7 @@ export const Default: Story = {
       look: "ds-heading-03-bold",
     },
     content: {
-      markdown: "Lorem **ipsum**\n\n* Lorem ipsum\n* Lorem ipsum",
+      html: "Lorem <strong>ipsum</strong>\n\n<ul> <li>Lorem ipsum</li>\n<li>Lorem ipsum</li></ul>",
     },
     buttons: [{ text: "Button 1", look: "tertiary" }, { text: "Button 2" }],
   },

@@ -48,10 +48,7 @@ export const InlineNotice = ({
           <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
           <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
         </div>
-        <RichText
-          className="tracking-[0.16px] leading-[26px]"
-          markdown={content}
-        />
+        <RichText className="tracking-[0.16px] leading-[26px]" html={content} />
       </div>
     )
   );
