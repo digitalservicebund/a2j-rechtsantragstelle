@@ -1,5 +1,5 @@
 import { type Session } from "@remix-run/node";
-import { BannerState } from "~/components/userFeedback";
+import { BannerState, FeedbackType } from "~/components/userFeedback";
 
 export const bannerStateName = "bannerState";
 export const userRatingFieldName = "wasHelpful";
@@ -10,7 +10,7 @@ export const getFeedbackData = (session: Session, url: string) => {
     BannerState.ShowRating;
 
   const result =
-    (session.get(userRatingFieldName) as Record<string, BannerState>)?.[url] ??
+    (session.get(userRatingFieldName) as Record<string, FeedbackType>)?.[url] ??
     undefined;
 
   return { result, state };
