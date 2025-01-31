@@ -57,7 +57,7 @@ const Checkbox = ({
 
         {label && (
           <label htmlFor={name}>
-            <RichText markdown={label} />
+            <RichText html={label} />
           </label>
         )}
       </div>

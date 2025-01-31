@@ -11,9 +11,7 @@ describe("Footer", () => {
 
   it("should render multiple paragraphs", () => {
     const { getByText } = render(
-      <Footer
-        paragraphs={[{ markdown: "paragraph1" }, { markdown: "paragraph2" }]}
-      />,
+      <Footer paragraphs={[{ html: "paragraph1" }, { html: "paragraph2" }]} />,
     );
     expect(getByText("paragraph1")).toBeInTheDocument();
     expect(getByText("paragraph2")).toBeInTheDocument();

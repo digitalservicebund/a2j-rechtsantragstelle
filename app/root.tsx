@@ -51,6 +51,7 @@ import {
 } from "./services/translations/getTranslationByKey";
 import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
+import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 
 export { headers } from "./rootHeaders";
 
@@ -147,6 +148,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       videoTranslations: translations.video,
       accessibilityTranslations: translations.accessibility,
       feedback: getFeedbackData(mainSession, pathname),
+      postSubmissionText: parseAndSanitizeMarkdown(
+        translations.feedback["text-post-submission"],
+      ),
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );

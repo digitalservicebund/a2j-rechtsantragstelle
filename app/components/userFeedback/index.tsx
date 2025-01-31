@@ -69,7 +69,10 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
                 />
               ),
               [BannerState.FeedbackGiven]: (
-                <PostSubmissionBox shouldFocus={shouldFocus} />
+                <PostSubmissionBox
+                  shouldFocus={shouldFocus}
+                  postSubmissionText={rootLoaderData?.postSubmissionText}
+                />
               ),
             }[bannerState]
           }

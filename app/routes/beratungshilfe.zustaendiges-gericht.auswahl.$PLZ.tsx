@@ -52,7 +52,7 @@ export default function Index() {
     <>
       <Background backgroundColor="blue">
         <CourtFinderHeader label={common.featureName}>
-          <RichText markdown={resultListHeading} />
+          <RichText html={resultListHeading} />
         </CourtFinderHeader>
       </Background>
       <Container paddingTop="48">

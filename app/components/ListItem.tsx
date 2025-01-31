@@ -35,7 +35,7 @@ const ListItem = ({
       </div>
       <div className="basis-auto ds-stack-8">
         {headline && <Heading {...headline} />}
-        {content && <RichText markdown={content} />}
+        {content && <RichText html={content} />}
         {arrayIsNonEmpty(buttons) && (
           <ButtonContainer className="mt-16">
             {buttons.map((button) => (
