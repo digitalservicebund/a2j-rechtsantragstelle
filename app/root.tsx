@@ -32,6 +32,7 @@ import {
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
@@ -162,6 +163,13 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       accessibilityTranslations: translations.accessibility,
       bannerState: {
         feedbackResult: await getFeedbackResult(request, cookieHeader),
+        /**
+         * Needs to be parsed & sanitized as this value contains a link.
+         * Done on the server-side to avoid shipping marked/xss to the client
+         */
+        postSubmissionRichText: parseAndSanitizeMarkdown(
+          translations.feedback["text-post-submission"],
+        ),
         state:
           getFeedbackBannerState(mainSession, pathname) ??
           BannerState.ShowRating,
