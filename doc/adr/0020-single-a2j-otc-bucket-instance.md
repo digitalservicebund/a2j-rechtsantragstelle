@@ -14,7 +14,6 @@ Having multiple buckets would mean:
 
 - More infrastructure to maintain
 - Separate configurations and permissions to manage
-- Higher costs
 - Potential inconsistencies in implementation
 
 ## Proposal
@@ -31,7 +30,6 @@ We propose using a single OTC S3 bucket instance shared between RAST and ZOV, wi
 
 2. Unified S3 Access Service
 
-   - Central service handling all S3 operations
    - Implements proper error handling and logging
    - Manages bucket lifecycle and configuration
    - Handles different retention periods through object metadata and lifecycle rules
@@ -47,7 +45,6 @@ This approach provides several benefits:
 - Simplified configuration and maintenance of a single infrastructure component
 - Consistent implementation of file storage operations
 - Easier migration path if we need to change storage solutions in the future
-- Reduced operational costs compared to multiple buckets
 - Single point of monitoring and logging
 
 ## Consequences
