@@ -1,6 +1,6 @@
 import type { Session, SessionData } from "@remix-run/node";
 import type { BannerState } from "~/components/userFeedback";
-import { bannerStateName } from "./getFeedbackBannerState";
+import { bannerStateName } from "./getFeedbackState";
 
 export function updateBannerState(
   session: Session<SessionData, SessionData>,

@@ -4,17 +4,14 @@ import { BannerState } from "~/components/userFeedback";
 export const bannerStateName = "bannerState";
 export const userRatingFieldName = "wasHelpful";
 
-export const getFeedbackBannerState = (session: Session, url: string) => {
-  const getSessionForFeedbackState =
+export const getFeedbackState = (session: Session, url: string) => {
+  const state =
     (session.get(bannerStateName) as Record<string, BannerState>) ??
     BannerState.ShowRating;
 
-  const getSessionForFeedbackResult =
+  const result =
     (session.get(userRatingFieldName)?.[url] as Record<string, BannerState>) ??
     undefined;
 
-  return {
-    result: getSessionForFeedbackResult,
-    state: getSessionForFeedbackState,
-  };
+  return { result, state };
 };
