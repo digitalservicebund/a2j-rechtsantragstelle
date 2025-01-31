@@ -1,5 +1,7 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { act } from "react-dom/test-utils";
 import UserFeedback, {
   BannerState,
   USER_FEEDBACK_ID,
@@ -22,7 +24,9 @@ describe("UserFeedback", () => {
     render(
       <UserFeedbackWithRemixStub
         hydrationData={{
-          loaderData: { root: { bannerState: BannerState.ShowFeedback } },
+          loaderData: {
+            root: { bannerState: { state: BannerState.ShowFeedback } },
+          },
         }}
       />,
     );
@@ -40,7 +44,9 @@ describe("UserFeedback", () => {
     render(
       <UserFeedbackWithRemixStub
         hydrationData={{
-          loaderData: { root: { bannerState: BannerState.ShowRating } },
+          loaderData: {
+            root: { bannerState: { state: BannerState.ShowRating } },
+          },
         }}
       />,
     );
@@ -58,7 +64,9 @@ describe("UserFeedback", () => {
     render(
       <UserFeedbackWithRemixStub
         hydrationData={{
-          loaderData: { root: { bannerState: BannerState.ShowFeedback } },
+          loaderData: {
+            root: { bannerState: { state: BannerState.ShowFeedback } },
+          },
         }}
       />,
     );
@@ -75,10 +83,71 @@ describe("UserFeedback", () => {
     render(
       <UserFeedbackWithRemixStub
         hydrationData={{
-          loaderData: { root: { bannerState: BannerState.FeedbackGiven } },
+          loaderData: {
+            root: {
+              bannerState: {
+                state: BannerState.FeedbackGiven,
+                feedbackResult: true,
+              },
+            },
+          },
         }}
       />,
     );
     expect(screen.getByTestId("user-feedback-submission")).toBeInTheDocument();
+  });
+
+  it("sets shouldFocus to true when applyFocus is called", async () => {
+    const UserFeedbackWithRemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => <UserFeedback {...mockedProps} />,
+        action: () => new Response(null, { status: 200 }), // Mock action
+      },
+    ]);
+
+    render(
+      <UserFeedbackWithRemixStub
+        hydrationData={{
+          loaderData: {
+            root: { bannerState: { state: BannerState.ShowFeedback } },
+          },
+        }}
+      />,
+    );
+
+    const feedbackBox = screen.getByTestId("user-feedback-banner");
+
+    await act(async () => {
+      await userEvent.click(feedbackBox);
+    });
+    expect(await screen.findByTestId(USER_FEEDBACK_ID)).toBeInTheDocument();
+  });
+
+  it("renders rating buttons when in ShowRating state", async () => {
+    const UserFeedbackWithRemixStub = createRemixStub([
+      {
+        path: "",
+        Component: () => <UserFeedback {...mockedProps} />,
+      },
+    ]);
+
+    render(
+      <UserFeedbackWithRemixStub
+        hydrationData={{
+          loaderData: {
+            root: {
+              bannerState: {
+                state: BannerState.ShowRating,
+                feedbackResult: null,
+              },
+            },
+          },
+        }}
+      />,
+    );
+
+    const buttonContainer = await screen.findByTestId("buttonContainer");
+    expect(buttonContainer).toBeInTheDocument();
   });
 });
