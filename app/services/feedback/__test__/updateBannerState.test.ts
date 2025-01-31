@@ -1,7 +1,7 @@
 import { createSession, type Session } from "@remix-run/node";
 import { describe, test, expect } from "vitest";
 import { BannerState } from "~/components/userFeedback";
-import { bannerStateName } from "../getFeedbackState";
+import { bannerStateName } from "../getFeedbackData";
 import { updateBannerState } from "../updateBannerState";
 
 describe("updateBannerState", () => {

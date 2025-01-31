@@ -40,7 +40,7 @@ import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSc
 import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
-import { getFeedbackState } from "./services/feedback/getFeedbackState";
+import { getFeedbackData } from "./services/feedback/getFeedbackData";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
@@ -146,7 +146,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       ),
       videoTranslations: translations.video,
       accessibilityTranslations: translations.accessibility,
-      feedback: getFeedbackState(mainSession, pathname),
+      feedback: getFeedbackData(mainSession, pathname),
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
