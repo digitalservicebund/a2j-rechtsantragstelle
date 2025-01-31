@@ -13,7 +13,7 @@ export const Details = ({ title, content }: DetailsProps) => {
         {title}
       </summary>
       <span className="block ds-label-01-reg pt-4  pl-[24px] text-black">
-        {content && <RichText markdown={content} />}
+        {content && <RichText html={content} />}
       </span>
     </details>
   );

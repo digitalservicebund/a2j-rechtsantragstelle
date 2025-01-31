@@ -26,7 +26,7 @@ describe("PostSubmissionBox", () => {
     );
 
     expect(getByText(HEADING_POST_SUBMISSION)).toBeInTheDocument();
-    expect(getByText(TEXT_POST_SUBMISSION)).toBeInTheDocument();
+    expect(getByText(FEEDBACK_HELPS)).toBeInTheDocument();
   });
 
   it("should render the component with the focus on the heading ", () => {
