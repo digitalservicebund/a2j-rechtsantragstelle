@@ -1,5 +1,6 @@
 import LightbulbOutlinedIcon from "@digitalservicebund/icons/LightbulbOutlined";
 import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
+import { removeMarkupTags } from "~/util/strings";
 import Heading from "./Heading";
 import RichText from "./RichText";
 
@@ -34,7 +35,7 @@ export const InlineNotice = ({
   content,
 }: InlineNoticeProps) => {
   const { backgroundColor, borderColor, IconComponent } = lookConfig[look];
-  const shouldHideNotice = !content || content.trim().length === 0;
+  const shouldHideNotice = !content || removeMarkupTags(content).length === 0;
 
   return (
     !shouldHideNotice && (

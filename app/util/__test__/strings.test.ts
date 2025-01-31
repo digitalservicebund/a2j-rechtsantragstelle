@@ -7,6 +7,7 @@ import {
   uppercaseFirstLetter,
   lowercaseFirstLetter,
   removeDecimalsFromCurrencyString,
+  removeMarkupTags,
 } from "~/util/strings";
 
 describe("stripLeadingZeros", () => {
@@ -116,5 +117,27 @@ describe("stripTrailingSlashFromURL", () => {
       const result = removeDecimalsFromCurrencyString("Hello World");
       expect(result).toBe("Hello World");
     });
+  });
+});
+
+describe("removeMarkupTags", () => {
+  it("should remove markup tags", () => {
+    expect(removeMarkupTags("<p>test</p>")).toBe("test");
+    expect(removeMarkupTags("<p><b>test</b></p>")).toBe("test");
+    expect(removeMarkupTags("<p></p>")).toBe("");
+  });
+
+  it("should remove newline characters and whitespace", () => {
+    expect(removeMarkupTags("<p>test</p>\n    ")).toBe("test");
+  });
+
+  it("should ignore partial tags and malformatted markup", () => {
+    const malformattedHTML = "<p Test ? /p>";
+    expect(removeMarkupTags(malformattedHTML)).toBe(malformattedHTML);
+  });
+
+  it("shouldn't modify non-markup strings", () => {
+    const nonMarkupString = "test";
+    expect(removeMarkupTags(nonMarkupString)).toBe(nonMarkupString);
   });
 });
