@@ -1,9 +1,10 @@
 import CheckIcon from "@digitalservicebund/icons/Check";
 import DeleteOutline from "@digitalservicebund/icons/DeleteOutline";
+import ErrorOutline from "@digitalservicebund/icons/ErrorOutline";
+import Add from "@digitalservicebund/icons/Add";
 import classNames from "classnames";
 import { useState } from "react";
 import Button from "~/components/Button";
-import { ErrorMessageProps } from "..";
 
 //   Styling observations:
 //   - Having a custom label attached to the input so I could style it as in the design.
@@ -12,10 +13,13 @@ import { ErrorMessageProps } from "..";
 //   - I am not sure about using tabIndex on the span.
 //   - Using accept=".pdf, .tiff" to restrict the file types that can be uploaded. Is this accessible?
 
+//  Feature needs to clarify:
+//  - Should I already implement a form?
+//  - If yes, I need also to implement a page
+
 export type FileUploadInputProps = {
   name: string;
   label?: string;
-  errorMessages?: ErrorMessageProps[];
   isDisabled: boolean;
 };
 
@@ -27,7 +31,7 @@ const FileUploadInput = ({}: FileUploadInputProps) => {
   const [fileUploadDone, setFileUploadDone] = useState<boolean>(false);
 
   const DateiClassNames = classNames(
-    "w-full h-64 bg-gray-100 border-2 border-gray-600 flex justify-between items-center text-gray-900 font-400 text-base p-8",
+    "w-full h-64 bg-gray-100 border-2 border-gray-600 flex justify-between items-center text-gray-900 font-400 text-base px-16",
     {
       "bg-green-100 border-2 border-green-700": fileUploadDone,
     },
@@ -42,6 +46,10 @@ const FileUploadInput = ({}: FileUploadInputProps) => {
       setTimeout(() => setFileUploadInProgress(false), 3000);
     }
   };
+
+  const fileType = file?.type;
+  const fileMegabytes = 100;
+  const fileBytesToMegabytes = (file?.size ?? 0) / 1024 / 1024;
 
   return (
     <div className="w-full h-auto">
@@ -63,19 +71,53 @@ const FileUploadInput = ({}: FileUploadInputProps) => {
             onChange={handleFileChange}
             className="w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0"
           />
+
+          {/* This block makes sense just when we have a form and a submit button */}
+
+          {/* {!file && (
+            <div className="flex items-center mt-16">
+              <ErrorOutline className="shrink-0 fill-red-900 mr-10" />{" "}
+              <p className="text-red-900 text-base">
+                Bitte wählen Sie eine Datei aus.
+              </p>
+            </div>
+          )} */}
         </div>
       )}
       <div className="w-full h-auto mb-8 mt-8">
         {file && (
-          <div className="w-auto h-auto mb-8 mt-8">
+          <div className="w-auto h-auto">
             <p className="text-gray-900 text-m">Datei</p>
             <div className={DateiClassNames}>
               {file.name}
+              {/* Need to discuss about the loader and accessibility here */}
               {fileUploadInProgress && "wird hochgeladen..."}
               {fileUploadDone && (
                 <CheckIcon className="shrink-0 fill-green-700" />
               )}
             </div>
+            {/* The validation errors should be displayed in the form level? */}
+            {/* Do this validation error (Bitte laden Sie nur PDF– oder TIF–Dateien hoch) makes sense? */}
+            {/* I added a native attribute to the input. It makes the input accept just files in the specific format*/}
+            {/* I think the validation errors should be displayed separated addressing one issue at the time (One for the file type an one for the file size) */}
+            {fileType !== "application/pdf" &&
+              fileType !== "application/tiff" && (
+                <div className="flex items-center mt-16">
+                  <ErrorOutline className="shrink-0 fill-red-900 mr-10" />{" "}
+                  <p className="text-red-900 text-base">
+                    Bitte laden Sie nur PDF– oder TIF–Dateien hoch.
+                  </p>
+                </div>
+              )}
+            {fileBytesToMegabytes > fileMegabytes && (
+              <div className="flex items-center mt-16">
+                <ErrorOutline className="shrink-0 fill-red-900 mr-10" />{" "}
+                <p className="text-red-900 text-base">
+                  Bitte laden Sie nur Dateien mit einer maximalen Größe von
+                  jeweils 100 MB hoch.
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -90,6 +132,18 @@ const FileUploadInput = ({}: FileUploadInputProps) => {
           />
         </div>
       )}
+
+      {/* Need to add the add more docs button here*/}
+      {/* Does this button makes sense? Can I add more than 1 doc to a Beleg? If yes, it is not better to make multiple upload available? */}
+      {/* {file && (
+        <Button
+            look="tertiary"
+            iconLeft={<Add className="w-6 h-6" />}
+            aria-label="add more documents"
+            text="Weitere Dokumente hinzufügen"
+            onClick={() => setFile(null)}
+        />
+      )} */}
     </div>
   );
 };
