@@ -4,6 +4,7 @@ import {
   type Variant,
   type BoxWithImageProps,
 } from "~/components/BoxWithImage";
+import { buildRichTextValidation } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
@@ -21,7 +22,7 @@ const StrapiBoxWithImageSchema = z
   .object({
     heading: StrapiHeadingSchema.nullable(),
     image: StrapiImageSchema,
-    content: z.string().nullable(),
+    content: buildRichTextValidation().nullable(),
     outerBackground: StrapiBackgroundSchema.nullable(),
     variant: z.enum([firstWidth, ...widths]).nullable(),
     container: StrapiContainerSchema,

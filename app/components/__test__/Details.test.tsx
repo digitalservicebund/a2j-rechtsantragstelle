@@ -9,8 +9,10 @@ describe("Details", () => {
     expect(screen.getByText(testContent)).toBeInTheDocument();
   });
 
-  it("renders RichText with correct markdown", () => {
-    render(<Details title="Test Title" content="**Test Markdown**" />);
+  it("renders RichText with correct html", () => {
+    render(
+      <Details title="Test Title" content="<strong>Test Markdown</strong>" />,
+    );
     expect(screen.getByText("Test Markdown")).toBeInTheDocument();
   });
 

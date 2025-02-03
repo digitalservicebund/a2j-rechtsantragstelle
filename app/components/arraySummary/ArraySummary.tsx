@@ -55,7 +55,7 @@ const ArraySummary = ({
             look="ds-heading-03-bold"
           />
         )}
-        {description && <RichText markdown={description} />}
+        {description && <RichText html={description} />}
         <div className="space-y-32">
           {arrayData.data.map((items, index) => (
             <ArraySummaryDataItems

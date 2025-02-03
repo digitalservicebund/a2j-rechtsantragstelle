@@ -32,7 +32,7 @@ export const DataProtectionBanner = ({
           text={translations[HEADER_TRANSLATION_KEY]}
           look="ds-heading-03-reg"
         />
-        <RichText markdown={translations[DATA_PROTECTION_TRANSLATION_KEY]} />
+        <RichText html={translations[DATA_PROTECTION_TRANSLATION_KEY]} />
         <Button
           onClick={onCookiesAccepted}
           text={translations[ACTIVATE_VIDEO_TRANSLATION_KEY]}
