@@ -1,10 +1,10 @@
-import CheckIcon from "@digitalservicebund/icons/Check";
 import DeleteOutline from "@digitalservicebund/icons/DeleteOutline";
 import ErrorOutline from "@digitalservicebund/icons/ErrorOutline";
-import Add from "@digitalservicebund/icons/Add";
-import classNames from "classnames";
+// import Add from "@digitalservicebund/icons/Add";
 import { useState } from "react";
 import Button from "~/components/Button";
+import { FileUploadState } from "~/services/fileUploadState/fileUploadState";
+import { FileUploadStatus } from "./FileUploadStatus";
 
 //   Styling observations:
 //   - Having a custom label attached to the input so I could style it as in the design.
@@ -17,33 +17,22 @@ import Button from "~/components/Button";
 //  - Should I already implement a form?
 //  - If yes, I need also to implement a page
 
-export type FileUploadInputProps = {
-  name: string;
+export type FileUploadProps = {
+  fileName: string;
+  fileExtension: string;
+  fileSize: number;
   label?: string;
   isDisabled: boolean;
+  state: FileUploadState;
 };
 
-// eslint-disable-next-line no-empty-pattern
-const FileUploadInput = ({}: FileUploadInputProps) => {
+const FileUpload = ({ state }: FileUploadProps) => {
   const [file, setFile] = useState<File | null>(null);
-  const [fileUploadInProgress, setFileUploadInProgress] =
-    useState<boolean>(false);
-  const [fileUploadDone, setFileUploadDone] = useState<boolean>(false);
-
-  const DateiClassNames = classNames(
-    "w-full h-64 bg-gray-100 border-2 border-gray-600 flex justify-between items-center text-gray-900 font-400 text-base px-16",
-    {
-      "bg-green-100 border-2 border-green-700": fileUploadDone,
-    },
-  );
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target?.files?.[0];
     if (uploadedFile) {
-      setTimeout(() => setFileUploadInProgress(true), 1000);
       setTimeout(() => setFile(uploadedFile), 2000);
-      setTimeout(() => setFileUploadDone(true), 3000);
-      setTimeout(() => setFileUploadInProgress(false), 3000);
     }
   };
 
@@ -55,22 +44,18 @@ const FileUploadInput = ({}: FileUploadInputProps) => {
     <div className="w-full h-auto">
       {!file && (
         <div className="w-full h-auto mb-8 mt-8">
-          <label
-            htmlFor="fileUpload"
-            className="bg-white font-bold text-lg text-blue-800 border-2 border-blue-800 p-10 cursor-pointer focus:outline"
-          >
-            <span role="button" tabIndex={0}>
-              Datei auswählen
-            </span>
-          </label>
           <input
             type="file"
             id="fileUpload"
+            name="fileUpload"
             aria-invalid="true"
             accept=".pdf, .tiff"
             onChange={handleFileChange}
-            className="w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0"
+            className="w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
           />
+          <label htmlFor="fileUpload">
+            <Button look="tertiary" text="Datei auswählen" />
+          </label>
 
           {/* This block makes sense just when we have a form and a submit button */}
 
@@ -87,15 +72,7 @@ const FileUploadInput = ({}: FileUploadInputProps) => {
       <div className="w-full h-auto mb-8 mt-8">
         {file && (
           <div className="w-auto h-auto">
-            <p className="text-gray-900 text-m">Datei</p>
-            <div className={DateiClassNames}>
-              {file.name}
-              {/* Need to discuss about the loader and accessibility here */}
-              {fileUploadInProgress && "wird hochgeladen..."}
-              {fileUploadDone && (
-                <CheckIcon className="shrink-0 fill-green-700" />
-              )}
-            </div>
+            <FileUploadStatus file={file} state={state}></FileUploadStatus>
             {/* The validation errors should be displayed in the form level? */}
             {/* Do this validation error (Bitte laden Sie nur PDF– oder TIF–Dateien hoch) makes sense? */}
             {/* I added a native attribute to the input. It makes the input accept just files in the specific format*/}
@@ -148,4 +125,4 @@ const FileUploadInput = ({}: FileUploadInputProps) => {
   );
 };
 
-export default FileUploadInput;
+export default FileUpload;
