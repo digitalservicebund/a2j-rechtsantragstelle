@@ -17,7 +17,6 @@ import {
   GUIDANCE_INPUT_BASE,
   GUIDANCE_INPUT_IS_SEARCHABLE,
   GUIDANCE_INPUT_OPEN_MENU,
-  GUIDANCE_INPUT_IS_MULTI,
   GUIDANCE_VALUE,
   ON_CHANGE_DESELECTED,
   ON_CHANGE_CLEAR,
@@ -36,8 +35,7 @@ import {
 
 export const ariaLiveMessages = (translations: Translations) => ({
   guidance: (props: AriaGuidanceProps) => {
-    const { isSearchable, isMulti, tabSelectsValue, context, isInitialFocus } =
-      props;
+    const { isSearchable, tabSelectsValue, context, isInitialFocus } = props;
 
     switch (context) {
       case "menu": {
@@ -77,13 +75,6 @@ export const ariaLiveMessages = (translations: Translations) => ({
             translations,
           );
 
-          if (isMulti) {
-            message += getTranslationByKey(
-              GUIDANCE_INPUT_IS_MULTI,
-              translations,
-            );
-          }
-
           return message;
         } else {
           return "";
@@ -103,7 +94,6 @@ export const ariaLiveMessages = (translations: Translations) => ({
   ) => {
     const { action, label = "", labels, isDisabled } = props;
     switch (action) {
-      case "deselect-option":
       case "pop-value":
       case "remove-value": {
         const message = getTranslationByKey(ON_CHANGE_DESELECTED, translations);

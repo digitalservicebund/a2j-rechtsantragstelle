@@ -7,7 +7,6 @@ export const GUIDANCE_INPUT_BASE = "auto-suggest-guidance-input-base";
 export const GUIDANCE_INPUT_IS_SEARCHABLE =
   "auto-suggest-guidance-input-is-searchable";
 export const GUIDANCE_INPUT_OPEN_MENU = "auto-suggest-guidance-input-open-menu";
-export const GUIDANCE_INPUT_IS_MULTI = "auto-suggest-guidance-input-is-multi";
 export const GUIDANCE_VALUE = "auto-suggest-guidance-value";
 export const ON_CHANGE_DESELECTED = "auto-suggest-on-change-deselected";
 export const ON_CHANGE_CLEAR = "auto-suggest-on-change-clear";
