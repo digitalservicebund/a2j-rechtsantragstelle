@@ -14,8 +14,6 @@ export const ON_CHANGE_INITIAL_INPUT_FOCUS_SINGULAR =
   "auto-suggest-on-change-initial-input-focus-singular";
 export const ON_CHANGE_SELECT_OPTION_ENABLED =
   "auto-suggest-on-change-select-option-enabled";
-export const ON_CHANGE_SELECT_OPTION_DISABLED =
-  "auto-suggest-on-change-select-option-disabled";
 export const ON_FOCUS_VALUE = "auto-suggest-on-focus-value";
 export const ON_FOCUS_MENU_BASE = "auto-suggest-on-focus-menu-base";
 export const ON_FOCUS_MENU_SELECTED = "auto-suggest-on-focus-menu-selected";

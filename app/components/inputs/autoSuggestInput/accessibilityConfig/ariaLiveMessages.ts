@@ -21,7 +21,6 @@ import {
   ON_CHANGE_DESELECTED,
   ON_CHANGE_CLEAR,
   ON_CHANGE_INITIAL_INPUT_FOCUS_SINGULAR,
-  ON_CHANGE_SELECT_OPTION_DISABLED,
   ON_CHANGE_SELECT_OPTION_ENABLED,
   ARRAY_INDEX_FORMAT,
   ON_FOCUS_VALUE,
@@ -83,7 +82,7 @@ export const ariaLiveMessages = (translations: Translations) => ({
   onChange: <Option, IsMulti extends boolean>(
     props: AriaOnChangeProps<Option, IsMulti>,
   ) => {
-    const { action, label = "", labels, isDisabled } = props;
+    const { action, label = "", labels } = props;
     switch (action) {
       case "pop-value":
       case "remove-value": {
@@ -100,19 +99,11 @@ export const ariaLiveMessages = (translations: Translations) => ({
         return message.replace("{{labels}}", labels.join(", "));
       }
       case "select-option": {
-        if (isDisabled) {
-          const message = getTranslationByKey(
-            ON_CHANGE_SELECT_OPTION_DISABLED,
-            translations,
-          );
-          return message.replace("{{label}}", label);
-        } else {
-          const message = getTranslationByKey(
-            ON_CHANGE_SELECT_OPTION_ENABLED,
-            translations,
-          );
-          return message.replace("{{label}}", label);
-        }
+        const message = getTranslationByKey(
+          ON_CHANGE_SELECT_OPTION_ENABLED,
+          translations,
+        );
+        return message.replace("{{label}}", label);
       }
       default:
         return "";
