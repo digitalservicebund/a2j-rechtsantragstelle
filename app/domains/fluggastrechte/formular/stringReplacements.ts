@@ -1,6 +1,8 @@
 import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/shared/gerichtskosten";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import type { FluggastrechtContext } from "./context";
 import { getAirlineNameByIataCode } from "../services/airlines/getAirlineNameByIataCode";
+import { getAirportByIataCode } from "../services/airports/getAirportByIataCode";
 import { getAirportNameByIataCode } from "../services/airports/getAirportNameByIataCode";
 import { getCourtByStartAndEndAirport } from "../services/getCourtByStartAndEndAirport";
 import { getTotalClaimingPeople } from "./services/getTotalClaimingPeople";
@@ -170,5 +172,16 @@ export const getAnnullierungInfo = (context: FluggastrechtContext) => {
     hasErsatzflugStartenEinStunde: context.ersatzflugStartenEinStunde === "yes",
     hasErsatzflugStartenZweiStunden:
       context.ersatzflugStartenZweiStunden === "yes",
+  };
+};
+
+export const hasBothAirportsPartnerCourts = (context: FluggastrechtContext) => {
+  const startAirport = getAirportByIataCode(context.startAirport);
+  const endAirport = getAirportByIataCode(context.endAirport);
+
+  return {
+    hasBothAirportsPartnerCourts:
+      objectKeysNonEmpty(startAirport, ["zipCodePilotCourt"]) &&
+      objectKeysNonEmpty(endAirport, ["zipCodePilotCourt"]),
   };
 };

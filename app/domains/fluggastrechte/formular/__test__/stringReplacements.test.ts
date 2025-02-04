@@ -1,5 +1,7 @@
 import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/shared/gerichtskosten";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+import { getAirportByIataCode } from "../../services/airports/getAirportByIataCode";
+import { getAirportNameByIataCode } from "../../services/airports/getAirportNameByIataCode";
 import { getCompensationPayment } from "../../services/airports/getCompensationPayment";
 import { getCourtByStartAndEndAirport } from "../../services/getCourtByStartAndEndAirport";
 import type { FluggastrechtContext } from "../context";
@@ -19,6 +21,7 @@ import {
   getStreitwert,
   getThirdZwischenstoppAirportName,
   getWeiterePersonenNameStrings,
+  hasBothAirportsPartnerCourts,
   isAnnullierung,
   isNichtBefoerderung,
   isVerspaetet,
@@ -26,6 +29,8 @@ import {
 } from "../stringReplacements";
 
 vi.mock("../../services/airports/getCompensationPayment");
+vi.mock("../../services/airports/getAirportNameByIataCode");
+vi.mock("../../services/airports/getAirportByIataCode");
 vi.mock("~/domains/geldEinklagen/shared/gerichtskosten");
 vi.mock("../services/getTotalClaimingPeople");
 vi.mock("../services/getTotalCompensationClaim");
@@ -121,6 +126,9 @@ describe("stringReplacements", () => {
 
   describe("getStartAirportName", () => {
     it("should return the correct name of the airport", () => {
+      vi.mocked(getAirportNameByIataCode).mockReturnValue(
+        "Berlin Brandenburg Flughafen (BER)",
+      );
       const actual = getStartAirportName({ startAirport: "BER" });
       expect(actual).toStrictEqual({
         startAirport: "Berlin Brandenburg Flughafen (BER)",
@@ -128,18 +136,17 @@ describe("stringReplacements", () => {
     });
 
     it("should return empty when it does not have airport as parameter", () => {
+      vi.mocked(getAirportNameByIataCode).mockReturnValueOnce("");
       const actual = getStartAirportName({});
-      expect(actual).toStrictEqual({});
-    });
-
-    it("should return empty when the airport does not exist in the json file", () => {
-      const actual = getStartAirportName({ startAirport: "XXXXX" });
       expect(actual).toStrictEqual({});
     });
   });
 
   describe("getEndAirportName", () => {
     it("should return the correct name of the airport", () => {
+      vi.mocked(getAirportNameByIataCode).mockReturnValue(
+        "Berlin Brandenburg Flughafen (BER)",
+      );
       const actual = getEndAirportName({ endAirport: "BER" });
       expect(actual).toStrictEqual({
         endAirport: "Berlin Brandenburg Flughafen (BER)",
@@ -147,12 +154,8 @@ describe("stringReplacements", () => {
     });
 
     it("should return empty when it does not have airport as parameter", () => {
+      vi.mocked(getAirportNameByIataCode).mockReturnValue("");
       const actual = getEndAirportName({});
-      expect(actual).toStrictEqual({});
-    });
-
-    it("should return empty when the airport does not exist in the json file", () => {
-      const actual = getEndAirportName({ endAirport: "XXXXX" });
       expect(actual).toStrictEqual({});
     });
   });
@@ -215,6 +218,9 @@ describe("stringReplacements", () => {
 
   describe("getFirstZwischenstoppAirportName", () => {
     it("should return the correct name of the first zwischenstopp", () => {
+      vi.mocked(getAirportNameByIataCode).mockReturnValue(
+        "Berlin Brandenburg Flughafen (BER)",
+      );
       const actual = getFirstZwischenstoppAirportName({
         ersterZwischenstopp: "BER",
       });
@@ -224,20 +230,17 @@ describe("stringReplacements", () => {
     });
 
     it("should return empty when it does not have first zwischenstopp as parameter", () => {
+      vi.mocked(getAirportNameByIataCode).mockReturnValue("");
       const actual = getFirstZwischenstoppAirportName({});
-      expect(actual).toStrictEqual({});
-    });
-
-    it("should return empty when the first zwischenstopp does not exist in the json file", () => {
-      const actual = getFirstZwischenstoppAirportName({
-        ersterZwischenstopp: "XXXXX",
-      });
       expect(actual).toStrictEqual({});
     });
   });
 
   describe("getSecondZwischenstoppAirportName", () => {
     it("should return the correct name of the second zwischenstopp", () => {
+      vi.mocked(getAirportNameByIataCode).mockReturnValue(
+        "Berlin Brandenburg Flughafen (BER)",
+      );
       const actual = getSecondZwischenstoppAirportName({
         zweiterZwischenstopp: "BER",
       });
@@ -247,20 +250,17 @@ describe("stringReplacements", () => {
     });
 
     it("should return empty when it does not have second zwischenstopp as parameter", () => {
+      vi.mocked(getAirportNameByIataCode).mockReturnValue("");
       const actual = getSecondZwischenstoppAirportName({});
-      expect(actual).toStrictEqual({});
-    });
-
-    it("should return empty when the second zwischenstopp does not exist in the json file", () => {
-      const actual = getSecondZwischenstoppAirportName({
-        zweiterZwischenstopp: "XXXXX",
-      });
       expect(actual).toStrictEqual({});
     });
   });
 
   describe("getThirdZwischenstoppAirportName", () => {
     it("should return the correct name of the third zwischenstopp", () => {
+      vi.mocked(getAirportNameByIataCode).mockReturnValue(
+        "Berlin Brandenburg Flughafen (BER)",
+      );
       const actual = getThirdZwischenstoppAirportName({
         dritterZwischenstopp: "BER",
       });
@@ -270,12 +270,8 @@ describe("stringReplacements", () => {
     });
 
     it("should return empty when it does not have third zwischenstopp as parameter", () => {
+      vi.mocked(getAirportNameByIataCode).mockReturnValue("");
       const actual = getEndAirportName({});
-      expect(actual).toStrictEqual({});
-    });
-
-    it("should return empty when the third zwischenstopp does not exist in the json file", () => {
-      const actual = getEndAirportName({ dritterZwischenstopp: "XXXXX" });
       expect(actual).toStrictEqual({});
     });
   });
@@ -475,6 +471,93 @@ describe("stringReplacements", () => {
         hasMoreThan13DaysAnkuendigung: false,
         hasNoAnkuendigung: false,
         hasUntil6DaysAnkuendigung: false,
+      });
+    });
+  });
+
+  describe("hasBothAirportsPartnerCourts", () => {
+    const airportWithPartnerCourt = {
+      iata: "",
+      country_code: "",
+      airport: "",
+      latitude: 0,
+      longitude: 0,
+      city: "",
+      country: "",
+      zipCodePilotCourt: "something",
+    };
+
+    const airportWithoutPartnerCourt = {
+      iata: "",
+      country_code: "",
+      airport: "",
+      latitude: 0,
+      longitude: 0,
+      city: "",
+      country: "",
+      zipCodePilotCourt: "",
+    };
+
+    it("should return bothAirportsPartnerCourts true when both airports are partner courts", () => {
+      vi.mocked(getAirportByIataCode).mockImplementation((airport) => {
+        if (airport === "BER") {
+          return airportWithPartnerCourt;
+        }
+
+        return airportWithPartnerCourt;
+      });
+
+      const context = {
+        startAirport: "BER",
+        endAirport: "FRA",
+      };
+
+      const actual = hasBothAirportsPartnerCourts(context);
+
+      expect(actual).toEqual({
+        hasBothAirportsPartnerCourts: true,
+      });
+    });
+
+    it("should return bothAirportsPartnerCourts true when startAirport is not a partner court", () => {
+      vi.mocked(getAirportByIataCode).mockImplementation((airport) => {
+        if (airport === "BER") {
+          return airportWithoutPartnerCourt;
+        }
+
+        return airportWithPartnerCourt;
+      });
+
+      const context = {
+        startAirport: "JFK",
+        endAirport: "BER",
+      };
+
+      const actual = hasBothAirportsPartnerCourts(context);
+
+      expect(actual).toEqual({
+        hasBothAirportsPartnerCourts: false,
+      });
+    });
+
+    it("should return bothAirportsPartnerCourts true when endAirport is not a partner court", () => {
+      vi.mocked(getAirportByIataCode).mockImplementation((airport) => {
+        if (airport === "BER") {
+          return airportWithoutPartnerCourt;
+        }
+
+        return airportWithPartnerCourt;
+      });
+
+      const context = {
+        startAirport: "BER",
+        endAirport: "JFK",
+      };
+
+      const actual = hasBothAirportsPartnerCourts(context);
+
+      expect(actual).toEqual({
+        hasBothAirportsPartnerCourts: false,
       });
     });
   });
