@@ -20,7 +20,6 @@ import {
   GUIDANCE_VALUE,
   ON_CHANGE_DESELECTED,
   ON_CHANGE_CLEAR,
-  ON_CHANGE_INITIAL_INPUT_FOCUS_PLURAL,
   ON_CHANGE_INITIAL_INPUT_FOCUS_SINGULAR,
   ON_CHANGE_SELECT_OPTION_DISABLED,
   ON_CHANGE_SELECT_OPTION_ENABLED,
@@ -94,13 +93,11 @@ export const ariaLiveMessages = (translations: Translations) => ({
       case "clear":
         return getTranslationByKey(ON_CHANGE_CLEAR, translations);
       case "initial-input-focus": {
-        const labelsJoined = labels.join(", ");
-        const key =
-          labels.length > 1
-            ? ON_CHANGE_INITIAL_INPUT_FOCUS_PLURAL
-            : ON_CHANGE_INITIAL_INPUT_FOCUS_SINGULAR;
-        const message = getTranslationByKey(key, translations);
-        return message.replace("{{labels}}", labelsJoined);
+        const message = getTranslationByKey(
+          ON_CHANGE_INITIAL_INPUT_FOCUS_SINGULAR,
+          translations,
+        );
+        return message.replace("{{labels}}", labels.join(", "));
       }
       case "select-option": {
         if (isDisabled) {

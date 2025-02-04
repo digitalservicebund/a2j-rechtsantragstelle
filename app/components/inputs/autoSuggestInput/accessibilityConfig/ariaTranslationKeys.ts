@@ -12,8 +12,6 @@ export const ON_CHANGE_DESELECTED = "auto-suggest-on-change-deselected";
 export const ON_CHANGE_CLEAR = "auto-suggest-on-change-clear";
 export const ON_CHANGE_INITIAL_INPUT_FOCUS_SINGULAR =
   "auto-suggest-on-change-initial-input-focus-singular";
-export const ON_CHANGE_INITIAL_INPUT_FOCUS_PLURAL =
-  "auto-suggest-on-change-initial-input-focus-plural";
 export const ON_CHANGE_SELECT_OPTION_ENABLED =
   "auto-suggest-on-change-select-option-enabled";
 export const ON_CHANGE_SELECT_OPTION_DISABLED =
