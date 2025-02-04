@@ -9,7 +9,8 @@ const DATA_CONSENT_FGR_FOLDER = "data-consent-fgr";
 
 const createConsentDataBuffer = (sessionId: string, headers: Headers) => {
   const userAgent = headers.get("user-agent");
-  return Buffer.from(`${sessionId};${Date.now()};${userAgent}`, "utf8");
+  const date = new Date();
+  return Buffer.from(`${sessionId};${date.toISOString()};${userAgent}`, "utf8");
 };
 
 const getFolderDate = () => {
