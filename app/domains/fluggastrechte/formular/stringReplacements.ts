@@ -176,8 +176,8 @@ export const getAnnullierungInfo = (context: FluggastrechtContext) => {
 };
 
 export const hasBothAirportsPartnerCourts = (context: FluggastrechtContext) => {
-  const startAirport = getAirportByIataCode(context.startAirport);
-  const endAirport = getAirportByIataCode(context.endAirport);
+  const startAirport = getAirportByIataCode(context.startAirport ?? "");
+  const endAirport = getAirportByIataCode(context.endAirport ?? "");
 
   return {
     hasBothAirportsPartnerCourts:
