@@ -117,9 +117,9 @@
     "@types/validator": "^13.12.2",
     "@vitest/coverage-istanbul": "^3.0.5",
     "@vitest/eslint-plugin": "^1.1.25",
-    "@vitest/expect": "^3.0.4",
+    "@vitest/expect": "^3.0.5",
     "autoprefixer": "^10.4.20",
-    "eslint": "~9.18.0",
+    "eslint": "~9.19.0",
     "eslint-import-resolver-typescript": "^3.7.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -137,7 +137,7 @@
     "postcss": "^8.5.1",
     "prettier": "^3.4.2",
     "size-limit": "^11.1.6",
-    "storybook": "^8.5.1",
+    "storybook": "^8.5.3",
     "tailwindcss": "^3.4.17",
     "tsx": "~4.19.2",
     "typescript": "^5.7.3",
@@ -145,7 +145,7 @@
     "vite": "^5.4.14",
     "vite-env-only": "^3.0.3",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.4"
+    "vitest": "^3.0.5"
   },
   "overrides": {
     "@remix-run/server-runtime": {
