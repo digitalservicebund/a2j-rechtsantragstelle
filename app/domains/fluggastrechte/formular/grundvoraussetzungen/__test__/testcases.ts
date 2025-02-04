@@ -18,6 +18,7 @@ const happyPathSteps = [
   "/grundvoraussetzungen/prozessfaehig",
   "/grundvoraussetzungen/ausgleichszahlung",
   "/grundvoraussetzungen/daten-uebernahme",
+  "/grundvoraussetzungen/amtsgericht",
   "/streitwert-kosten/gerichtskosten",
 ];
 
@@ -51,6 +52,7 @@ const cases = [
       "/grundvoraussetzungen/prozessfaehig",
       "/grundvoraussetzungen/ausgleichszahlung",
       "/grundvoraussetzungen/daten-uebernahme",
+      "/grundvoraussetzungen/amtsgericht",
       "/streitwert-kosten/gerichtskosten",
     ],
   ],
