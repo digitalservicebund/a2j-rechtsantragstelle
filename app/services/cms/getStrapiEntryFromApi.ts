@@ -44,17 +44,19 @@ const buildUrl = <T extends ApiId>({
 const makeStrapiRequest = async <T extends ApiId>(
   url: string,
 ): Promise<{ data: StrapiSchemas[T] | null }> => {
-  try {
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${config().STRAPI_ACCESS_KEY}`,
-      },
-    });
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${config().STRAPI_ACCESS_KEY}+'22'`,
+    },
+  });
 
-    return response.json();
-  } catch (error: unknown) {
-    throw new Error(`Strapi request failed: ${(error as Error)?.message}`);
+  if (!response.ok) {
+    throw new Error(
+      `Strapi request failed with error: ${response.status} - ${JSON.stringify(response)}`,
+    );
   }
+
+  return response.json();
 };
 
 export const getStrapiEntryFromApi: GetStrapiEntry = async <T extends ApiId>(

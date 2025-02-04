@@ -1,19 +1,22 @@
 import { describe, it, expect, beforeEach } from "vitest";
+import { logError } from "~/services/logging";
+import { getRedisStatus } from "~/services/session.server/redis";
 import { loader } from "../health";
-
 vi.mock("~/services/session.server/redis", () => {
   return {
     getRedisStatus: vi.fn(),
   };
 });
 
+const mockConfigObject = {
+  CMS: "STRAPI",
+  STRAPI_HOST: "http://fake-strapi.example",
+  STRAPI_ACCESS_KEY: "FAKE_KEY",
+};
+
 vi.mock("~/services/env/env.server", () => {
   return {
-    config: vi.fn(() => ({
-      CMS: "STRAPI",
-      STRAPI_HOST: "http://fake-strapi.example",
-      STRAPI_ACCESS_KEY: "FAKE_KEY",
-    })),
+    config: vi.fn(() => mockConfigObject),
   };
 });
 
@@ -23,37 +26,14 @@ vi.mock("~/services/logging", () => {
   };
 });
 
-describe("loader (alternate mocking approach)", async () => {
-  const { getRedisStatus } = await vi.importMock<{
-    getRedisStatus: () => string;
-  }>("~/services/session.server/redis");
-
-  const { config } = await vi.importMock<{
-    config: () => {
-      CMS: string;
-      STRAPI_HOST: string;
-      STRAPI_ACCESS_KEY: string;
-    };
-  }>("~/services/env/env.server");
-
-  const { logError } = await vi.importMock<{
-    logError: (arg: unknown) => void;
-  }>("~/services/logging");
-
+describe("loader (alternate mocking approach)", () => {
   const fetchSpy = vi.spyOn(global, "fetch");
-
   beforeEach(() => {
     fetchSpy.mockClear();
-    logError.mockClear();
-    config.mockReturnValue({
-      CMS: "STRAPI",
-      STRAPI_HOST: "http://fake-strapi.example",
-      STRAPI_ACCESS_KEY: "FAKE_KEY",
-    });
   });
 
   it("returns 503 if Redis is not ready", async () => {
-    getRedisStatus.mockReturnValue("not-ready");
+    vi.mocked(getRedisStatus).mockReturnValue("wait");
     const response = await loader();
     expect(response.status).toBe(503);
     const text = await response.text();
@@ -64,7 +44,7 @@ describe("loader (alternate mocking approach)", async () => {
   });
 
   it("performs Strapi health check if CMS is STRAPI, returns 503 if check fails", async () => {
-    getRedisStatus.mockReturnValue("ready");
+    vi.mocked(getRedisStatus).mockReturnValue("ready");
 
     fetchSpy.mockResolvedValueOnce({
       ok: false,
@@ -89,7 +69,7 @@ describe("loader (alternate mocking approach)", async () => {
   });
 
   it("returns success if Strapi health check passes", async () => {
-    getRedisStatus.mockReturnValue("ready");
+    vi.mocked(getRedisStatus).mockReturnValue("ready");
     fetchSpy.mockResolvedValueOnce({
       ok: true,
       status: 200,
@@ -102,12 +82,8 @@ describe("loader (alternate mocking approach)", async () => {
   });
 
   it("skips Strapi check if CMS is something else", async () => {
-    getRedisStatus.mockReturnValue("ready");
-    config.mockReturnValue({
-      CMS: "Wordpress",
-      STRAPI_HOST: "http://fake-strapi.example",
-      STRAPI_ACCESS_KEY: "FAKE_KEY",
-    });
+    vi.mocked(getRedisStatus).mockReturnValue("ready");
+    mockConfigObject.CMS = "Wordpress";
     const response = await loader();
     expect(fetchSpy).not.toHaveBeenCalled();
     expect(response.status).toBe(200);
