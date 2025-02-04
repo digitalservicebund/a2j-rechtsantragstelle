@@ -49,3 +49,7 @@ export function removeDecimalsFromCurrencyString(
   if (currencyString === undefined) return;
   return currencyString.replace(/,\d{2}/g, "");
 }
+
+export function removeMarkupTags(str: string) {
+  return str.replace(/(<\w+>|<\/\w+>)/gi, "").trim();
+}

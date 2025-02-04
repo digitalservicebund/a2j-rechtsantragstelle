@@ -20,8 +20,8 @@ export const Example: Story = {
       url: "https://placehold.co/240x132/png",
     },
     paragraphs: [
-      { markdown: "Lorem ipsum 1 [Link](/)" },
-      { markdown: "Lorem ipsum 2 [Link](/)" },
+      { html: "<p>Lorem ipsum 1 <a href='/'>Link</a></p>" },
+      { html: "<p>Lorem ipsum 2 <a href='/'>Link</a></p>" },
     ],
     links: [
       {
