@@ -45,6 +45,11 @@ describe("loader (alternate mocking approach)", async () => {
   beforeEach(() => {
     fetchSpy.mockClear();
     logError.mockClear();
+    config.mockReturnValue({
+      CMS: "STRAPI",
+      STRAPI_HOST: "http://fake-strapi.example",
+      STRAPI_ACCESS_KEY: "FAKE_KEY",
+    });
   });
 
   it("returns 503 if Redis is not ready", async () => {
@@ -60,11 +65,6 @@ describe("loader (alternate mocking approach)", async () => {
 
   it("performs Strapi health check if CMS is STRAPI, returns 503 if check fails", async () => {
     getRedisStatus.mockReturnValue("ready");
-    config.mockReturnValue({
-      CMS: "STRAPI",
-      STRAPI_HOST: "http://fake-strapi.example",
-      STRAPI_ACCESS_KEY: "FAKE_KEY",
-    });
 
     fetchSpy.mockResolvedValueOnce({
       ok: false,
@@ -90,12 +90,6 @@ describe("loader (alternate mocking approach)", async () => {
 
   it("returns success if Strapi health check passes", async () => {
     getRedisStatus.mockReturnValue("ready");
-    config.mockReturnValue({
-      CMS: "STRAPI",
-      STRAPI_HOST: "http://fake-strapi.example",
-      STRAPI_ACCESS_KEY: "FAKE_KEY",
-    });
-
     fetchSpy.mockResolvedValueOnce({
       ok: true,
       status: 200,
@@ -110,11 +104,10 @@ describe("loader (alternate mocking approach)", async () => {
   it("skips Strapi check if CMS is something else", async () => {
     getRedisStatus.mockReturnValue("ready");
     config.mockReturnValue({
-      CMS: "OTHER",
-      STRAPI_ACCESS_KEY: "FAKE_KEY",
+      CMS: "Wordpress",
       STRAPI_HOST: "http://fake-strapi.example",
+      STRAPI_ACCESS_KEY: "FAKE_KEY",
     });
-
     const response = await loader();
     expect(fetchSpy).not.toHaveBeenCalled();
     expect(response.status).toBe(200);

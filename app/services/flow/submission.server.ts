@@ -14,13 +14,13 @@ export async function submit() {
     message: "hello World",
   };
 
-  const headers = {
+  const params = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   };
 
-  const response = await fetch(url, headers);
+  const response = await fetch(url, params);
 
   if (!response.ok) {
     throw new Error(
