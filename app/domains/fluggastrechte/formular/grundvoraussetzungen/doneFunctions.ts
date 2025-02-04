@@ -5,13 +5,24 @@ import type { FluggastrechtContext } from "../context";
 export type FluggastrechteGrundvoraussetzungenDaten =
   GenericGuard<FluggastrechtContext>;
 
+const hasStreitbeilegungGruende = (context: FluggastrechtContext) => {
+  return (
+    context.streitbeilegung === "yes" ||
+    (context.streitbeilegung === "no" &&
+      objectKeysNonEmpty(context, ["streitbeilegungGruende"]))
+  );
+};
+
 export const grundvoraussetzungenDone: FluggastrechteGrundvoraussetzungenDaten =
   ({ context }) => {
-    return objectKeysNonEmpty(context, [
-      "startAirport",
-      "endAirport",
-      "bereich",
-      "fluggesellschaft",
-      "datenverarbeitungZustimmung",
-    ]);
+    return (
+      objectKeysNonEmpty(context, [
+        "startAirport",
+        "endAirport",
+        "bereich",
+        "fluggesellschaft",
+        "datenverarbeitungZustimmung",
+        "streitbeilegung",
+      ]) && hasStreitbeilegungGruende(context)
+    );
   };
