@@ -19,6 +19,9 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/grundvoraussetzungen/datenverarbeitung
   await formular.fillCheckboxesPage("datenverarbeitungZustimmung");
 
+  // /fluggastrechte/formular/grundvoraussetzungen/streitbeilegung
+  await formular.fillRadioPage("streitbeilegung", "yes");
+
   // /fluggastrechte/formular/grundvoraussetzungen/prozessfaehig
   await formular.clickNext();
 
