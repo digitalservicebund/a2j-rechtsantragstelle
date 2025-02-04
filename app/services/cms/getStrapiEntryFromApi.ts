@@ -50,8 +50,10 @@ const makeStrapiRequest = async <T extends ApiId>(
     },
   });
 
-  if (response.status >= 500) {
-    throw new Error(`Strapi request failed with status ${response.status}`);
+  if (!response.ok) {
+    throw new Error(
+      `Strapi request failed with error: ${response.status} - ${JSON.stringify(response.body)}`,
+    );
   }
 
   return response.json();

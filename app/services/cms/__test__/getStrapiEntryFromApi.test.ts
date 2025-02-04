@@ -26,6 +26,7 @@ describe("services/cms", () => {
     beforeEach(() => {
       fetchSpy.mockResolvedValue({
         status: 200,
+        ok: true,
         json: () => Promise.resolve({ data: dataResponse }),
       } as Response);
     });
@@ -113,6 +114,7 @@ describe("services/cms", () => {
     test("response handling with api returning array", async () => {
       fetchSpy.mockResolvedValueOnce({
         status: 200,
+        ok: true,
         json: () => Promise.resolve({ data: dataResponse }),
       } as Response);
 
