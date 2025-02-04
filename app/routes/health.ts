@@ -10,12 +10,9 @@ export const loader = async (): Promise<Response> => {
     }
 
     if (config().CMS === "STRAPI") {
-      const response: Response = await fetch(
-        `${config().STRAPI_HOST}/_health`,
-        {
-          headers: { Authorization: `Bearer + ${config().STRAPI_ACCESS_KEY}` },
-        },
-      );
+      const response = await fetch(`${config().STRAPI_HOST}/_health`, {
+        headers: { Authorization: `Bearer + ${config().STRAPI_ACCESS_KEY}` },
+      });
 
       if (!response.ok) {
         logError({

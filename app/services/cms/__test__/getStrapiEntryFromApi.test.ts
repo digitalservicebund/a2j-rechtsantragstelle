@@ -61,11 +61,11 @@ describe("services/cms", () => {
       expect(fetchSpy).toHaveBeenNthCalledWith(
         1,
         `${expectedStagingRequestUrl}&filters[flow_ids][flowId][$eq]=foobar`,
-        expect.objectContaining({
+        {
           headers: expect.objectContaining({
             Authorization: expect.stringContaining("Bearer"),
           }),
-        }),
+        },
       );
     });
 
@@ -80,11 +80,11 @@ describe("services/cms", () => {
       expect(fetchSpy).toHaveBeenNthCalledWith(
         1,
         `${expectedStagingRequestUrl}&filters[flow_ids][flowId][$eq]=foobar&filters[stepId][$eq]=foobar`,
-        expect.objectContaining({
+        {
           headers: expect.objectContaining({
             Authorization: expect.stringContaining("Bearer"),
           }),
-        }),
+        },
       );
     });
 
@@ -102,11 +102,11 @@ describe("services/cms", () => {
       expect(fetchSpy).toHaveBeenNthCalledWith(
         1,
         `${expectedStagingRequestUrl}&filters[flow_ids][$in][0]=foobar&filters[flow_ids][$in][1]=foobar2&filters[flow_ids][$in][2]=foobar3`,
-        expect.objectContaining({
+        {
           headers: expect.objectContaining({
             Authorization: expect.stringContaining("Bearer"),
           }),
-        }),
+        },
       );
     });
 

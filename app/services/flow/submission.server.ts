@@ -28,5 +28,5 @@ export async function submit() {
     );
   }
 
-  return await response.json();
+  return response.json();
 }
