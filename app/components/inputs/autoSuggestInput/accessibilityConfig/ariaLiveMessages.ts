@@ -51,34 +51,26 @@ export const ariaLiveMessages = (translations: Translations) => ({
       }
 
       case "input": {
-        if (isInitialFocus) {
-          const ariaLabel =
-            props["aria-label"] ??
-            getTranslationByKey(
-              GUIDANCE_INPUT_ARIA_LABEL_FALLBACK,
-              translations,
-            );
-          let message = getTranslationByKey(
-            GUIDANCE_INPUT_BASE,
-            translations,
-          ).replace("{{ariaLabel}}", ariaLabel);
+        if (!isInitialFocus) return "";
 
-          if (isSearchable) {
-            message += getTranslationByKey(
-              GUIDANCE_INPUT_IS_SEARCHABLE,
-              translations,
-            );
-          }
+        const ariaLabel =
+          props["aria-label"] ??
+          getTranslationByKey(GUIDANCE_INPUT_ARIA_LABEL_FALLBACK, translations);
+        let message = getTranslationByKey(
+          GUIDANCE_INPUT_BASE,
+          translations,
+        ).replace("{{ariaLabel}}", ariaLabel);
 
+        if (isSearchable) {
           message += getTranslationByKey(
-            GUIDANCE_INPUT_OPEN_MENU,
+            GUIDANCE_INPUT_IS_SEARCHABLE,
             translations,
           );
-
-          return message;
-        } else {
-          return "";
         }
+
+        message += getTranslationByKey(GUIDANCE_INPUT_OPEN_MENU, translations);
+
+        return message;
       }
 
       case "value":
