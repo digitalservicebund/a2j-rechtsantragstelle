@@ -46,13 +46,14 @@ const makeStrapiRequest = async <T extends ApiId>(
 ): Promise<{ data: StrapiSchemas[T] | null }> => {
   const response = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${config().STRAPI_ACCESS_KEY}+'22'`,
+      Authorization: `Bearer ${config().STRAPI_ACCESS_KEY}`,
     },
   });
 
   if (!response.ok) {
+    const content = await response.text();
     throw new Error(
-      `Strapi request failed with error: ${response.status} - ${JSON.stringify(response)}`,
+      `Strapi request failed with error: ${response.status} - ${content}`,
     );
   }
 
