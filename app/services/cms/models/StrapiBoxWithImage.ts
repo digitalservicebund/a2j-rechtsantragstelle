@@ -11,7 +11,7 @@ import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import { getHeadingProps, StrapiHeadingSchema } from "./StrapiHeading";
-import { StrapiImageSchema, getImageProps } from "./StrapiImage";
+import { StrapiImageSchema } from "./StrapiImage";
 
 // Necessary destructuring for zod enum type
 const [firstWidth, ...widths] = Object.keys(variantWidths).map(
@@ -42,7 +42,7 @@ export const getBoxWithImageProps = ({
 }: z.infer<typeof StrapiBoxWithImageSchema>): BoxWithImageProps => {
   const { content, identifier, variant } = omitNull(props);
   return {
-    image: getImageProps(image) ?? {},
+    image: omitNull(image) ?? {},
     identifier,
     heading: heading ? getHeadingProps(heading) : undefined,
     content,
