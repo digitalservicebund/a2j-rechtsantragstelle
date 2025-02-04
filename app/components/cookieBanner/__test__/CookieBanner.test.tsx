@@ -9,7 +9,7 @@ describe("CookieBanner", () => {
       tagName: "h1" as const,
       look: "default" as const,
     },
-    paragraphs: [{ markdown: "paragraph" }],
+    paragraphs: [{ html: "paragraph" }],
     acceptButtonLabel: "accept",
     declineButtonLabel: "decline",
     cookieSettingLinkText: "",

@@ -21,6 +21,6 @@ export const Default: Story = {
       tagName: "h3",
       look: "ds-heading-01-reg",
     },
-    content: { markdown: "Lorem **ipsum**" },
+    content: { html: "<p>Lorem <strong>ipsum</strong></p>" },
   },
 };
