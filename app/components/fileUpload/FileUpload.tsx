@@ -1,9 +1,9 @@
 import DeleteOutline from "@digitalservicebund/icons/DeleteOutline";
-import ErrorOutline from "@digitalservicebund/icons/ErrorOutline";
 // import Add from "@digitalservicebund/icons/Add";
 import { useState } from "react";
 import Button from "~/components/Button";
 import { FileUploadState } from "~/services/fileUploadState/fileUploadState";
+import { FileUploadError, FileUploadErrorType } from "./FileUploadError";
 import { FileUploadStatus } from "./FileUploadStatus";
 
 //   Styling observations:
@@ -24,9 +24,10 @@ export type FileUploadProps = {
   label?: string;
   isDisabled: boolean;
   state: FileUploadState;
+  errorMessage: FileUploadErrorType;
 };
 
-const FileUpload = ({ state }: FileUploadProps) => {
+export const FileUpload = ({ state, errorMessage }: FileUploadProps) => {
   const [file, setFile] = useState<File | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,10 +36,6 @@ const FileUpload = ({ state }: FileUploadProps) => {
       setTimeout(() => setFile(uploadedFile), 2000);
     }
   };
-
-  const fileType = file?.type;
-  const fileMegabytes = 100;
-  const fileBytesToMegabytes = (file?.size ?? 0) / 1024 / 1024;
 
   return (
     <div className="w-full h-auto">
@@ -56,48 +53,20 @@ const FileUpload = ({ state }: FileUploadProps) => {
           <label htmlFor="fileUpload">
             <Button look="tertiary" text="Datei auswählen" />
           </label>
-
-          {/* This block makes sense just when we have a form and a submit button */}
-
-          {/* {!file && (
-            <div className="flex items-center mt-16">
-              <ErrorOutline className="shrink-0 fill-red-900 mr-10" />{" "}
-              <p className="text-red-900 text-base">
-                Bitte wählen Sie eine Datei aus.
-              </p>
-            </div>
-          )} */}
         </div>
       )}
-      <div className="w-full h-auto mb-8 mt-8">
-        {file && (
-          <div className="w-auto h-auto">
-            <FileUploadStatus file={file} state={state}></FileUploadStatus>
-            {/* The validation errors should be displayed in the form level? */}
-            {/* Do this validation error (Bitte laden Sie nur PDF– oder TIF–Dateien hoch) makes sense? */}
-            {/* I added a native attribute to the input. It makes the input accept just files in the specific format*/}
-            {/* I think the validation errors should be displayed separated addressing one issue at the time (One for the file type an one for the file size) */}
-            {fileType !== "application/pdf" &&
-              fileType !== "application/tiff" && (
-                <div className="flex items-center mt-16">
-                  <ErrorOutline className="shrink-0 fill-red-900 mr-10" />{" "}
-                  <p className="text-red-900 text-base">
-                    Bitte laden Sie nur PDF– oder TIF–Dateien hoch.
-                  </p>
-                </div>
-              )}
-            {fileBytesToMegabytes > fileMegabytes && (
-              <div className="flex items-center mt-16">
-                <ErrorOutline className="shrink-0 fill-red-900 mr-10" />{" "}
-                <p className="text-red-900 text-base">
-                  Bitte laden Sie nur Dateien mit einer maximalen Größe von
-                  jeweils 100 MB hoch.
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+      {file && (
+        <div className="w-auto h-auto">
+          <FileUploadStatus file={file} state={state} />
+          <FileUploadError
+            file={file}
+            fileSize={file.size}
+            errorMessage={errorMessage}
+            fileExtension={file.type}
+            state={state}
+          />
+        </div>
+      )}
       {file && (
         <div className="w-full h-auto mb-8 mt-8">
           <Button
@@ -124,5 +93,3 @@ const FileUpload = ({ state }: FileUploadProps) => {
     </div>
   );
 };
-
-export default FileUpload;

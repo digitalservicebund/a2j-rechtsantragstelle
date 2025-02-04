@@ -6,12 +6,12 @@ import {
   FileUploadState,
 } from "~/services/fileUploadState/fileUploadState";
 
-export type FileUploadStatus = {
+export type FileUploadStatusProps = {
   file: File;
   state: FileUploadState;
 };
 
-export const FileUploadStatus = ({ state, file }: FileUploadStatus) => {
+export const FileUploadStatus = ({ state, file }: FileUploadStatusProps) => {
   const fileUploadInProgress = stateIsInProgress(state);
   const fileUploadDone = stateIsDone(state);
 
