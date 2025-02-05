@@ -476,7 +476,7 @@ describe("stringReplacements", () => {
   });
 
   describe("hasBothAirportsPartnerCourts", () => {
-    const airportWithPartnerCourt = {
+    const mockAirportData = {
       iata: "",
       country_code: "",
       airport: "",
@@ -484,17 +484,14 @@ describe("stringReplacements", () => {
       longitude: 0,
       city: "",
       country: "",
-      zipCodePilotCourt: "something",
     };
 
+    const airportWithPartnerCourt = {
+      ...mockAirportData,
+      zipCodePilotCourt: "something",
+    };
     const airportWithoutPartnerCourt = {
-      iata: "",
-      country_code: "",
-      airport: "",
-      latitude: 0,
-      longitude: 0,
-      city: "",
-      country: "",
+      ...mockAirportData,
       zipCodePilotCourt: "",
     };
 
