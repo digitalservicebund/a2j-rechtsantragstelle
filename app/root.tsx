@@ -32,6 +32,7 @@ import {
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
@@ -51,7 +52,6 @@ import {
 } from "./services/translations/getTranslationByKey";
 import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
-import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 
 export { headers } from "./rootHeaders";
 
@@ -128,6 +128,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       header: {
         ...getPageHeaderProps(strapiHeader),
         hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
+        alignToMainContainer:
+          !flowIdFromPathname(pathname)?.match(/formular|antrag/),
         showKopfzeile,
       },
       footer: getFooterProps(strapiFooter),
