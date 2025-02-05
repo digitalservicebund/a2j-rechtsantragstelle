@@ -3,14 +3,8 @@ import { FileUploadError, FileUploadErrorType } from "../FileUploadError";
 
 describe("FileUploadError", () => {
   it("renders the correct error message when upload is not started", () => {
-    const mockFile = new File([""], "testfile2.pdf", {
-      type: "application/docx",
-    });
     render(
-      <FileUploadError
-        file={mockFile}
-        errorMessage={FileUploadErrorType.NoFileUploaded}
-      />,
+      <FileUploadError errorMessage={FileUploadErrorType.NoFileUploaded} />,
     );
     const errorIcon = screen.getByTestId("ErrorOutlineIcon");
     expect(errorIcon).toBeInTheDocument();
@@ -20,12 +14,8 @@ describe("FileUploadError", () => {
     expect(errorMessage).toHaveClass("text-red-900 text-base");
   });
   it("renders the correct error message when invalid file extension is uploaded", () => {
-    const mockFile = new File([""], "testfile2.pdf", {
-      type: "application/docx",
-    });
     render(
       <FileUploadError
-        file={mockFile}
         errorMessage={FileUploadErrorType.InvalidFileExtension}
       />,
     );
@@ -40,20 +30,8 @@ describe("FileUploadError", () => {
     expect(errorMessage).toHaveClass("text-red-900 text-base");
   });
   it("renders the correct error message when invalid file size is uploaded", () => {
-    const mockFile = new File([""], "testfile3.pdf", {
-      type: "application/pdf",
-    });
-    // This defines a property size to the mockFile and sets the value to 200MB
-    const fileSizeMegabytesToBytes = 209715200;
-    Object.defineProperty(mockFile, "size", {
-      value: fileSizeMegabytesToBytes,
-    });
-
     render(
-      <FileUploadError
-        file={mockFile}
-        errorMessage={FileUploadErrorType.InvalidFileSize}
-      />,
+      <FileUploadError errorMessage={FileUploadErrorType.InvalidFileSize} />,
     );
 
     const errorIcon = screen.getByTestId("ErrorOutlineIcon");

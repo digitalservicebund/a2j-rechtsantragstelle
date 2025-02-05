@@ -31,6 +31,18 @@ export const FileUploadStatus = ({ state, file }: FileUploadStatusProps) => {
         {/* Need to discuss about the loader and accessibility here */}
         {fileUploadDone && <CheckIcon className="shrink-0 fill-green-700" />}
       </div>
+
+      {/* {file && (
+        <div className="w-full h-auto mb-8 mt-8">
+          <Button
+            look="tertiary"
+            iconLeft={<DeleteOutline className="w-6 h-6" />}
+            aria-label="delete uploaded file"
+            text="Entfernen"
+            onClick={() => setFile(null)}
+          />
+        </div>
+      )} */}
     </div>
   );
 };

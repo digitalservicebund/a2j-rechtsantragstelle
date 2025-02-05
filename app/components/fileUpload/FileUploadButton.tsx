@@ -17,7 +17,7 @@ export const FileUploadButton: FC<FileUploadButtonProps> = ({
 
   return (
     <>
-      {!files && (
+      {!files ? (
         <div className="w-full h-auto mb-8 mt-8">
           <input
             multiple
@@ -34,13 +34,11 @@ export const FileUploadButton: FC<FileUploadButtonProps> = ({
             <Button look="tertiary" text="Datei auswählen" />
           </label>
         </div>
-      )}
-      {files && (
+      ) : (
         <Button
           look="tertiary"
           iconLeft={<Add className="w-6 h-6" />}
           text="Weitere Dokumente hinzufügen"
-          //   onClick={() => setFiles(files)}
         />
       )}
     </>

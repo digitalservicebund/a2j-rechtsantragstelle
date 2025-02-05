@@ -27,10 +27,24 @@ export const FileUpload = () => {
     const newErrors: UploadError[] = [];
     if (files !== null) {
       for (const file of files) {
-        newErrors.push({
-          file,
-          message: FileUploadErrorType.InvalidFileExtension,
-        });
+        const fileLimitMegabytes = 100;
+        const fileBytesToMegabytes = file.size / 1024 / 1024;
+
+        if (
+          file.type !== "application/pdf" &&
+          file.type !== "image/tiff" &&
+          file.type !== "image/tif"
+        ) {
+          newErrors.push({
+            file,
+            message: FileUploadErrorType.InvalidFileExtension,
+          });
+        } else if (fileBytesToMegabytes > fileLimitMegabytes) {
+          newErrors.push({
+            file,
+            message: FileUploadErrorType.InvalidFileSize,
+          });
+        }
       }
     }
     setErrors(newErrors);
@@ -43,30 +57,19 @@ export const FileUpload = () => {
       {filesAsArray.map((file) => (
         // use a unique key
         <div className="w-auto h-auto" key={file.name}>
-          <FileUploadStatus file={file} state={FileUploadState.NotStarted} />
+          <FileUploadStatus file={file} state={FileUploadState.InProgress} />
         </div>
       ))}
+
       <FileUploadButton files={files} setFiles={validateAndSetFiles} />
 
       {errors.map((error) => (
         <FileUploadError
           // use a unique key
           key={error.file.name}
-          file={error.file}
           errorMessage={error.message}
         />
       ))}
-      {/* {file && (
-        <div className="w-full h-auto mb-8 mt-8">
-          <Button
-            look="tertiary"
-            iconLeft={<DeleteOutline className="w-6 h-6" />}
-            aria-label="delete uploaded file"
-            text="Entfernen"
-            onClick={() => setFile(null)}
-          />
-        </div>
-      )} */}
     </div>
   );
 };
