@@ -1,4 +1,3 @@
-import axios from "axios";
 import { getStrapiEntryFromApi } from "~/services/cms/getStrapiEntryFromApi";
 import { stagingLocale } from "~/services/cms/models/StrapiLocale";
 import type { GetStrapiEntryOpts } from "../filters";
@@ -22,14 +21,18 @@ describe("services/cms", () => {
     };
     const expectedStagingRequestUrl = `${API_URL}pages?populate=*&pLevel&locale=sg`;
 
-    const axiosGetSpy = vi.spyOn(axios, "get");
+    const fetchSpy = vi.spyOn(global, "fetch");
 
     beforeEach(() => {
-      axiosGetSpy.mockResolvedValue({ data: { data: dataResponse } });
+      fetchSpy.mockResolvedValue({
+        status: 200,
+        ok: true,
+        json: () => Promise.resolve({ data: dataResponse }),
+      } as Response);
     });
 
     afterEach(() => {
-      axiosGetSpy.mockClear();
+      fetchSpy.mockClear();
     });
 
     test("request url with property filter", async () => {
@@ -37,10 +40,14 @@ describe("services/cms", () => {
         ...defaultOptions,
         filters: [{ value: "foobar", field: "slug" }],
       });
-      expect(axiosGetSpy).toHaveBeenNthCalledWith(
+      expect(fetchSpy).toHaveBeenNthCalledWith(
         1,
         `${expectedStagingRequestUrl}&filters[slug][$eq]=foobar`,
-        expect.anything(),
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: expect.stringContaining("Bearer"),
+          }),
+        }),
       );
     });
 
@@ -51,10 +58,15 @@ describe("services/cms", () => {
           { value: "foobar", field: "flow_ids", nestedField: "flowId" },
         ],
       });
-      expect(axiosGetSpy).toHaveBeenNthCalledWith(
+
+      expect(fetchSpy).toHaveBeenNthCalledWith(
         1,
         `${expectedStagingRequestUrl}&filters[flow_ids][flowId][$eq]=foobar`,
-        expect.anything(),
+        {
+          headers: expect.objectContaining({
+            Authorization: expect.stringContaining("Bearer"),
+          }),
+        },
       );
     });
 
@@ -66,10 +78,14 @@ describe("services/cms", () => {
           { value: "foobar", field: "stepId" },
         ],
       });
-      expect(axiosGetSpy).toHaveBeenNthCalledWith(
+      expect(fetchSpy).toHaveBeenNthCalledWith(
         1,
         `${expectedStagingRequestUrl}&filters[flow_ids][flowId][$eq]=foobar&filters[stepId][$eq]=foobar`,
-        expect.anything(),
+        {
+          headers: expect.objectContaining({
+            Authorization: expect.stringContaining("Bearer"),
+          }),
+        },
       );
     });
 
@@ -84,16 +100,26 @@ describe("services/cms", () => {
           },
         ],
       });
-      expect(axiosGetSpy).toHaveBeenNthCalledWith(
+      expect(fetchSpy).toHaveBeenNthCalledWith(
         1,
         `${expectedStagingRequestUrl}&filters[flow_ids][$in][0]=foobar&filters[flow_ids][$in][1]=foobar2&filters[flow_ids][$in][2]=foobar3`,
-        expect.anything(),
+        {
+          headers: expect.objectContaining({
+            Authorization: expect.stringContaining("Bearer"),
+          }),
+        },
       );
     });
 
     test("response handling with api returning array", async () => {
-      axiosGetSpy.mockResolvedValue({ data: { data: dataResponse } });
-      expect(await getStrapiEntryFromApi(defaultOptions)).toEqual(dataResponse);
+      fetchSpy.mockResolvedValueOnce({
+        status: 200,
+        ok: true,
+        json: () => Promise.resolve({ data: dataResponse }),
+      } as Response);
+
+      const result = await getStrapiEntryFromApi(defaultOptions);
+      expect(result).toEqual(dataResponse);
     });
   });
 });
