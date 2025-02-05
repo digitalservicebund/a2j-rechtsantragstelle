@@ -4,8 +4,8 @@ import {
   type Translations,
 } from "~/services/translations/getTranslationByKey";
 import { lookupOrKey } from "~/util/lookupOrKey";
-import Button from "./Button";
 import Heading from "./Heading";
+import { StandaloneLink } from "./StandaloneLink";
 
 type MigrationDataProps = {
   readonly userData?: Context;
@@ -81,9 +81,16 @@ export default function MigrationDataOverview({
       ))}
 
       {buttonUrl && (
-        <Button href={buttonUrl} look="tertiary" size="large" className="w-fit">
-          {getTranslationByKey(MIGRATION_BUTTON_TEXT_TRANSLATION, translations)}
-        </Button>
+        <div>
+          <StandaloneLink
+            url={buttonUrl}
+            className="pt-24"
+            text={getTranslationByKey(
+              MIGRATION_BUTTON_TEXT_TRANSLATION,
+              translations,
+            )}
+          />
+        </div>
       )}
     </div>
   );
