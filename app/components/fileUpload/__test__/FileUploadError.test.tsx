@@ -2,9 +2,9 @@ import { render, screen } from "@testing-library/react";
 import { FileUploadError, FileUploadErrorType } from "../FileUploadError";
 
 describe("FileUploadError", () => {
-  it("renders the correct error message when no file is uploaded", () => {
-    const mockFile = new File([""], "testfile1.pdf", {
-      type: "application/pdf",
+  it("renders the correct error message when upload is not started", () => {
+    const mockFile = new File([""], "testfile2.pdf", {
+      type: "application/docx",
     });
     render(
       <FileUploadError
@@ -21,7 +21,7 @@ describe("FileUploadError", () => {
   });
   it("renders the correct error message when invalid file extension is uploaded", () => {
     const mockFile = new File([""], "testfile2.pdf", {
-      type: "application/pdf",
+      type: "application/docx",
     });
     render(
       <FileUploadError
@@ -43,6 +43,12 @@ describe("FileUploadError", () => {
     const mockFile = new File([""], "testfile3.pdf", {
       type: "application/pdf",
     });
+    // This defines a property size to the mockFile and sets the value to 200MB
+    const fileSizeMegabytesToBytes = 209715200;
+    Object.defineProperty(mockFile, "size", {
+      value: fileSizeMegabytesToBytes,
+    });
+
     render(
       <FileUploadError
         file={mockFile}

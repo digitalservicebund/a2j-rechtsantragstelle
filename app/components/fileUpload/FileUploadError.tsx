@@ -1,7 +1,7 @@
 import ErrorOutline from "@digitalservicebund/icons/ErrorOutline";
 
 export type FileUploadErrorProps = {
-  file: File;
+  file: File | null;
   errorMessage: FileUploadErrorType;
 };
 
@@ -41,7 +41,7 @@ const getFileUploadError = (
         ? fileUploadErrorMessage[FileUploadErrorType.InvalidFileExtension]
         : null;
     case FileUploadErrorType.InvalidFileSize:
-      return fileBytesToMegabytes <= fileLimitMegabytes
+      return fileBytesToMegabytes > fileLimitMegabytes
         ? fileUploadErrorMessage[FileUploadErrorType.InvalidFileSize]
         : null;
     default:

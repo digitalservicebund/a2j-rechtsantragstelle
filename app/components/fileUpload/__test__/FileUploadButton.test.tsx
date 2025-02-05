@@ -4,7 +4,6 @@ import { FileUploadButton } from "../FileUploadButton";
 describe("FileUploadButton", () => {
   it("renders a button to upload a file", () => {
     render(<FileUploadButton files={null} setFiles={() => null} />);
-    screen.debug();
     const fileUploadButton = screen.getByRole("button", {
       name: "Datei auswählen",
     });
@@ -27,7 +26,6 @@ describe("FileUploadButton", () => {
     render(
       <FileUploadButton files={mockFiles} setFiles={() => mockFilesArray} />,
     );
-    screen.debug();
     const addMoreFileUploadButton = screen.getByRole("button", {
       name: "Weitere Dokumente hinzufügen",
     });
