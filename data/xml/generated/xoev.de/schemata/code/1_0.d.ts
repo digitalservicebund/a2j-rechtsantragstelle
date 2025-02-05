@@ -1,9 +1,5 @@
 import * as Primitive from "../../../xml-primitives";
 
-// Source files:
-// file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/xoev-code.xsd
-
-
 interface BaseType {
 	_exists: boolean;
 	_namespace: string;

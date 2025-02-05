@@ -1,19 +1,5 @@
 import * as xoevCode from "../xoev.de/schemata/code/1_0";
 
-// Source files:
-// file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/xjustiz_0000_grunddatensatz_3_4.xsd
-// file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/xjustiz_0010_cl_allgemein_3_5.xsd
-// file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/xjustiz_0020_cl_gerichte_3_3.xsd
-// file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/xjustiz_0030_cl_rechtsform_3_3.xsd
-// file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/xjustiz_0040_cl_rollenbezeichnung_3_4.xsd
-// file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/xjustiz_0050_cl_staaten_3_2.xsd
-// file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/xjustiz_0060_cl_telekommunikation_3_0.xsd
-// file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/xjustiz_0070_cl_justizvollzugsanstalt_3_1.xsd
-// file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/xjustiz_0080_cl_register_3_1.xsd
-// file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/xjustiz_0095_cl_personalstatut_3_0.xsd
-// file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/xjustiz_3400_rast_0_1.xsd
-
-
 interface BaseType {
 	_exists: boolean;
 	_namespace: string;

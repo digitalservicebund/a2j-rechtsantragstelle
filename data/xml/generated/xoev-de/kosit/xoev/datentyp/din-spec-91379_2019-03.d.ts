@@ -1,8 +1,5 @@
 import * as Primitive from "../../../../xml-primitives";
 
-// Source files:
-// file:///Users/spencerpeace/repos/a2j-rechtsantragstelle/data/xml/din-91379-datatypes.xsd
-
 
 interface BaseType {
 	_exists: boolean;
