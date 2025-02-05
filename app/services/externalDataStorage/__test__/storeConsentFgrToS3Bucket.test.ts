@@ -58,7 +58,7 @@ describe("storeConsentFgrToS3Bucket", () => {
     vi.mocked(getSessionIdByFlowId).mockResolvedValue(mockSessionId);
     vi.mocked(config).mockReturnValue(mockConfig);
     const mockBuffer = Buffer.from(
-      `${mockSessionId};${mockDate.getTime()};test-agent`,
+      `${mockSessionId};${mockDate.toISOString()};test-agent`,
       "utf8",
     );
     const mockKey = "data-consent-fgr/01-01-2025/test-session-id.csv";
@@ -70,13 +70,16 @@ describe("storeConsentFgrToS3Bucket", () => {
       "/fluggastrechte/formular",
       "test-cookie",
     );
-    expect(mockS3Client.send).toHaveBeenCalledWith(
-      new PutObjectCommand({
+
+    expect(PutObjectCommand).toHaveBeenCalledWith(
+      expect.objectContaining({
         Bucket: mockConfig.S3_DATA_STORAGE_BUCKET_NAME,
         Body: mockBuffer,
         Key: mockKey,
       }),
     );
+
+    expect(mockS3Client.send).toBeCalled();
   });
 
   it("should send a Sentry message on error", async () => {

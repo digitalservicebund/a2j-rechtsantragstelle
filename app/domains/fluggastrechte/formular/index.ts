@@ -35,6 +35,7 @@ import {
   getStreitwert,
   getThirdZwischenstoppAirportName,
   getWeiterePersonenNameStrings,
+  hasBothAirportsPartnerCourts,
   isAnnullierung,
   isNichtBefoerderung,
   isVerspaetet,
@@ -89,6 +90,7 @@ export const fluggastrechtFlow = {
     ...isWeiterePersonen(context),
     ...getStreitwert(context),
     ...getAnnullierungInfo(context),
+    ...hasBothAirportsPartnerCourts(context),
     isClaimWillSucceddedAboveLimit:
       isTotalClaimWillSucceddedAboveLimit(context),
   }),
