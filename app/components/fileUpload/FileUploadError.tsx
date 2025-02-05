@@ -1,18 +1,15 @@
 import ErrorOutline from "@digitalservicebund/icons/ErrorOutline";
-import { FileUploadState } from "~/services/fileUploadState/fileUploadState";
 
 export type FileUploadErrorProps = {
-  file: File | null;
-  fileSize: number;
-  fileExtension: string;
+  file: File;
   errorMessage: FileUploadErrorType;
-  state: FileUploadState;
 };
 
 export enum FileUploadErrorType {
   NoFileUploaded = "NoFileUploaded",
   InvalidFileExtension = "InvalidFileExtension",
   InvalidFileSize = "InvalidFileSize",
+  Generic = "Generic",
 }
 
 const fileUploadErrorMessage = {
@@ -21,11 +18,13 @@ const fileUploadErrorMessage = {
     "Bitte laden Sie nur PDF– oder TIF–Dateien hoch.",
   [FileUploadErrorType.InvalidFileSize]:
     "Bitte laden Sie nur Dateien mit einer maximalen Größe von jeweils 100 MB hoch.",
+  [FileUploadErrorType.Generic]:
+    "Entschuldigung, es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
 };
 
 const getFileUploadError = (
-  errorMessage: FileUploadErrorType,
   file: File | null,
+  errorMessage: FileUploadErrorType,
 ): string | null => {
   const fileLimitMegabytes = 100;
   const fileBytesToMegabytes = (file?.size ?? 0) / 1024 / 1024;
@@ -39,27 +38,27 @@ const getFileUploadError = (
       return !(
         file?.type === "application/pdf" || file?.type === "application/tiff"
       )
-        ? null
-        : fileUploadErrorMessage[FileUploadErrorType.InvalidFileExtension];
+        ? fileUploadErrorMessage[FileUploadErrorType.InvalidFileExtension]
+        : null;
     case FileUploadErrorType.InvalidFileSize:
       return fileBytesToMegabytes <= fileLimitMegabytes
         ? fileUploadErrorMessage[FileUploadErrorType.InvalidFileSize]
         : null;
     default:
-      return null;
+      return fileUploadErrorMessage[FileUploadErrorType.Generic];
   }
 };
 
 export const FileUploadError = ({
-  errorMessage,
   file,
+  errorMessage,
 }: FileUploadErrorProps) => {
   return (
     errorMessage && (
       <div className="flex items-center mt-16">
         <ErrorOutline className="shrink-0 fill-red-900 mr-10" />
         <p className="text-red-900 text-base">
-          {getFileUploadError(errorMessage, file)}
+          {getFileUploadError(file, errorMessage)}
         </p>
       </div>
     )

@@ -1,73 +1,62 @@
-import DeleteOutline from "@digitalservicebund/icons/DeleteOutline";
-// import Add from "@digitalservicebund/icons/Add";
 import { useState } from "react";
-import Button from "~/components/Button";
 import { FileUploadState } from "~/services/fileUploadState/fileUploadState";
+import { FileUploadButton } from "./FileUploadButton";
 import { FileUploadError, FileUploadErrorType } from "./FileUploadError";
 import { FileUploadStatus } from "./FileUploadStatus";
 
 //   Styling observations:
 //   - Having a custom label attached to the input so I could style it as in the design.
 //   - The input is visually hidden but not hidden from the DOM, so the element can still be there and be accessed.
-//   - I used a span inside a label because I can not give a role to the label and I think it will be not keyboard accessible.
-//   - I am not sure about using tabIndex on the span.
 //   - Using accept=".pdf, .tiff" to restrict the file types that can be uploaded. Is this accessible?
 
-//  Feature needs to clarify:
-//  - Should I already implement a form?
-//  - If yes, I need also to implement a page
-
 export type FileUploadProps = {
-  fileName: string;
-  fileExtension: string;
-  fileSize: number;
   label?: string;
-  isDisabled: boolean;
-  state: FileUploadState;
-  errorMessage: FileUploadErrorType;
 };
 
-export const FileUpload = ({ state, errorMessage }: FileUploadProps) => {
-  const [file, setFile] = useState<File | null>(null);
+type UploadError = {
+  file: File;
+  message: FileUploadErrorType;
+};
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const uploadedFile = event.target?.files?.[0];
-    if (uploadedFile) {
-      setTimeout(() => setFile(uploadedFile), 2000);
+export const FileUpload = () => {
+  const [files, setFiles] = useState<FileList | null>(null);
+  const [errors, setErrors] = useState<UploadError[]>([]);
+
+  function validateAndSetFiles(files: FileList | null) {
+    setFiles(files);
+    const newErrors: UploadError[] = [];
+    if (files !== null) {
+      for (const file of files) {
+        newErrors.push({
+          file,
+          message: FileUploadErrorType.InvalidFileExtension,
+        });
+      }
     }
-  };
+    setErrors(newErrors);
+  }
+  // Maybe useMemo?
+  const filesAsArray = Array.from(files ?? []);
 
   return (
     <div className="w-full h-auto">
-      {!file && (
-        <div className="w-full h-auto mb-8 mt-8">
-          <input
-            type="file"
-            id="fileUpload"
-            name="fileUpload"
-            aria-invalid="true"
-            accept=".pdf, .tiff"
-            onChange={handleFileChange}
-            className="w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
-          />
-          <label htmlFor="fileUpload">
-            <Button look="tertiary" text="Datei auswählen" />
-          </label>
+      {filesAsArray.map((file) => (
+        // use a unique key
+        <div className="w-auto h-auto" key={file.name}>
+          <FileUploadStatus file={file} state={FileUploadState.NotStarted} />
         </div>
-      )}
-      {file && (
-        <div className="w-auto h-auto">
-          <FileUploadStatus file={file} state={state} />
-          <FileUploadError
-            file={file}
-            fileSize={file.size}
-            errorMessage={errorMessage}
-            fileExtension={file.type}
-            state={state}
-          />
-        </div>
-      )}
-      {file && (
+      ))}
+      <FileUploadButton files={files} setFiles={validateAndSetFiles} />
+
+      {errors.map((error) => (
+        <FileUploadError
+          // use a unique key
+          key={error.file.name}
+          file={error.file}
+          errorMessage={error.message}
+        />
+      ))}
+      {/* {file && (
         <div className="w-full h-auto mb-8 mt-8">
           <Button
             look="tertiary"
@@ -77,18 +66,6 @@ export const FileUpload = ({ state, errorMessage }: FileUploadProps) => {
             onClick={() => setFile(null)}
           />
         </div>
-      )}
-
-      {/* Need to add the add more docs button here*/}
-      {/* Does this button makes sense? Can I add more than 1 doc to a Beleg? If yes, it is not better to make multiple upload available? */}
-      {/* {file && (
-        <Button
-            look="tertiary"
-            iconLeft={<Add className="w-6 h-6" />}
-            aria-label="add more documents"
-            text="Weitere Dokumente hinzufügen"
-            onClick={() => setFile(null)}
-        />
       )} */}
     </div>
   );

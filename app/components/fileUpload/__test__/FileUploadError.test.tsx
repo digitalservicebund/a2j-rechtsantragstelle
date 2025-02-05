@@ -1,5 +1,4 @@
 import { render, screen } from "@testing-library/react";
-import { FileUploadState } from "~/services/fileUploadState/fileUploadState";
 import { FileUploadError, FileUploadErrorType } from "../FileUploadError";
 
 describe("FileUploadError", () => {
@@ -10,9 +9,6 @@ describe("FileUploadError", () => {
     render(
       <FileUploadError
         file={mockFile}
-        state={FileUploadState.NotStarted}
-        fileSize={0}
-        fileExtension={"application/pdf"}
         errorMessage={FileUploadErrorType.NoFileUploaded}
       />,
     );
@@ -30,9 +26,6 @@ describe("FileUploadError", () => {
     render(
       <FileUploadError
         file={mockFile}
-        state={FileUploadState.NotStarted}
-        fileSize={0}
-        fileExtension={"application/pdf"}
         errorMessage={FileUploadErrorType.InvalidFileExtension}
       />,
     );
@@ -53,9 +46,6 @@ describe("FileUploadError", () => {
     render(
       <FileUploadError
         file={mockFile}
-        state={FileUploadState.NotStarted}
-        fileSize={200}
-        fileExtension={"application/pdf"}
         errorMessage={FileUploadErrorType.InvalidFileSize}
       />,
     );
