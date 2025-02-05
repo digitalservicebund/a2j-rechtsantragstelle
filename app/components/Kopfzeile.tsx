@@ -13,6 +13,7 @@ export default function Kopfzeile({
   return (
     <div
       className="flex items-center text-left text-xs sm:text-base"
+      data-testid="kopfzeile"
       style={{
         backgroundColor: "#f0f0f0",
         fontFamily:
