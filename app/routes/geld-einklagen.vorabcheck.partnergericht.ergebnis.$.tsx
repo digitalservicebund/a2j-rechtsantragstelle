@@ -116,7 +116,7 @@ export const Component = () => {
               overhangingBackground
             >
               <div className="ds-stack-8">
-                <RichText markdown={hintText.text} />
+                <RichText html={hintText.text} />
               </div>
             </Container>
           )}

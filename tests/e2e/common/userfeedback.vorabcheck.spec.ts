@@ -47,7 +47,7 @@ async function submitFeedback({
 }: FeedbackOptions) {
   await page.getByTestId(feedbackIconTestId).click();
   await page.getByRole("textbox").fill(message);
-  await page.getByTestId("SendOutlinedIcon").click();
+  await page.getByRole("button").click();
 
   await expect(page.getByTestId(TOP_BREADCRUMB_ICON)).not.toBeInViewport();
   await expect(page.getByTestId(USER_FEEDBACK_BANNER)).toBeInViewport();

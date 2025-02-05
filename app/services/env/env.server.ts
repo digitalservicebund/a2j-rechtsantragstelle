@@ -15,6 +15,11 @@ type Config = {
   SAML_SP_METADATA_PATH: string;
   SAML_SP_SECRET_KEY_PATH: string;
   SAML_IDP_CERT?: string;
+  S3_REGION: string;
+  S3_ENDPOINT: string;
+  S3_DATA_STORAGE_ACCESS_KEY: string;
+  S3_DATA_STORAGE_SECRET_KEY: string;
+  S3_DATA_STORAGE_BUCKET_NAME: string;
 };
 
 let instance: Config | undefined = undefined;
@@ -47,6 +52,16 @@ export function config(): Config {
         process.env.SAML_SP_SECRET_KEY_PATH?.trim() ??
         path.join(process.cwd(), "data/saml/sp_privateKey.pem"),
       SAML_IDP_CERT: process.env.SAML_IDP_CERT?.trim(),
+      S3_REGION: process.env.AWS_S3_REGION?.trim() ?? "eu-central-1",
+      S3_ENDPOINT:
+        process.env.S3_ENDPOINT?.trim() ??
+        "https://s3.localhost.localstack.cloud:4566",
+      S3_DATA_STORAGE_ACCESS_KEY:
+        process.env.S3_DATA_STORAGE_ACCESS_KEY?.trim() ?? "test",
+      S3_DATA_STORAGE_SECRET_KEY:
+        process.env.S3_DATA_STORAGE_SECRET_KEY?.trim() ?? "test",
+      S3_DATA_STORAGE_BUCKET_NAME:
+        process.env.S3_DATA_STORAGE_BUCKET_NAME?.trim() ?? "a2j-data-storage",
     };
   }
 

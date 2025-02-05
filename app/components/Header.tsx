@@ -11,7 +11,7 @@ export default function Header({ heading, content }: HeaderProps) {
     <div className="ds-stack-16">
       <Heading {...heading} />
       {content && (
-        <RichText className="ds-heading-03-reg" markdown={content.markdown} />
+        <RichText className="ds-heading-03-reg" html={content.html} />
       )}
     </div>
   );

@@ -19,12 +19,19 @@ export type UserFeedbackProps = {
 
 export const USER_FEEDBACK_ID = "user-feedback-banner";
 
+export enum FeedbackType {
+  Positive = "positive",
+  Negative = "negative",
+}
+
 export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const { pathname } = useLocation();
   const [shouldFocus, setShouldFocus] = useState(false);
-
   const rootLoaderData = useRouteLoaderData<RootLoader>("root");
-  const bannerState = rootLoaderData?.bannerState ?? BannerState.ShowRating;
+  const bannerState = rootLoaderData?.feedback.state ?? BannerState.ShowRating;
+  const feedbackResult = rootLoaderData?.feedback.result
+    ? FeedbackType.Positive
+    : FeedbackType.Negative;
 
   const applyFocus = useCallback(() => {
     setShouldFocus(true);
@@ -57,11 +64,15 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
                 <FeedbackFormBox
                   destination={pathname}
                   shouldFocus={shouldFocus}
+                  feedback={feedbackResult}
                   onSubmit={applyFocus}
                 />
               ),
               [BannerState.FeedbackGiven]: (
-                <PostSubmissionBox shouldFocus={shouldFocus} />
+                <PostSubmissionBox
+                  shouldFocus={shouldFocus}
+                  postSubmissionText={rootLoaderData?.postSubmissionText}
+                />
               ),
             }[bannerState]
           }

@@ -56,7 +56,7 @@ const InfoBoxItem = ({
       >
         {label && <Heading {...label} />}
         {headline && <Heading {...headline} />}
-        {content && <RichText markdown={content} />}
+        {content && <RichText html={content} />}
         {details?.map((details) => (
           <Details key={details.title} {...details} />
         ))}

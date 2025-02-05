@@ -32,16 +32,16 @@ import {
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
 import Header from "./components/PageHeader";
-import { BannerState } from "./components/userFeedback";
 import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
-import { getFeedbackBannerState } from "./services/feedback/getFeedbackBannerState";
+import { getFeedbackData } from "./services/feedback/getFeedbackData";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
@@ -52,6 +52,7 @@ import {
 } from "./services/translations/getTranslationByKey";
 import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
+
 export { headers } from "./rootHeaders";
 
 const SKIP_TO_CONTENT_TRANSLATION_KEY = "skip-to-content";
@@ -146,8 +147,10 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       ),
       videoTranslations: translations.video,
       accessibilityTranslations: translations.accessibility,
-      bannerState:
-        getFeedbackBannerState(mainSession, pathname) ?? BannerState.ShowRating,
+      feedback: getFeedbackData(mainSession, pathname),
+      postSubmissionText: parseAndSanitizeMarkdown(
+        translations.feedback["text-post-submission"],
+      ),
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );

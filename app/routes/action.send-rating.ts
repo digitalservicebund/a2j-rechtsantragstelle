@@ -54,9 +54,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     },
   });
 
-  const clientJavaScriptAvailable = searchParams.get("js") === "true";
+  searchParams.set("wasHelpful", data.wasHelpful);
 
-  return clientJavaScriptAvailable
-    ? json({ success: true }, { headers })
-    : redirect(`${url}#${USER_FEEDBACK_ID}`, { headers });
+  const clientJavaScriptAvailable = searchParams.get("js") === "true";
+  if (clientJavaScriptAvailable) {
+    return json({ success: true }, { headers });
+  }
+
+  return redirect(`${url}?wasHelpful=${data?.wasHelpful}#${USER_FEEDBACK_ID}`, {
+    headers,
+  });
 };

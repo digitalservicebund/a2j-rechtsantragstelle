@@ -21,6 +21,7 @@ const cases = [
       "/prozessfuehrung/versaeumnisurteil",
       "/prozessfuehrung/zahlung-nach-klageeinreichung",
       "/zusammenfassung/start",
+      "/abgabe/start",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;

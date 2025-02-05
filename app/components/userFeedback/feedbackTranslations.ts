@@ -3,14 +3,20 @@ import { useTranslations } from "~/services/translations/translationsContext";
 
 const feedbackTranslationsKeys = [
   "heading-feedback",
+  "success-message",
+  "positive-feedback-question",
+  "negative-feedback-question",
   "heading-personal-data-feedback",
   "placeholder-feedback",
   "submit-button-feedback",
+  "antwort-uebermittelt",
+  "feedback-helps",
 ] as const;
 export type FeedbackTranslationKeys = (typeof feedbackTranslationsKeys)[number];
 
 const postSubmissionTranslationKeys = [
-  "heading-post-submission",
+  "success-message",
+  "feedback-helps",
   "text-post-submission",
 ] as const;
 export type PostSubmissionTranslationKeys =

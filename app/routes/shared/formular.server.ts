@@ -21,6 +21,7 @@ import { buildFormularServerTranslations } from "~/services/flow/formular/buildF
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
+import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
 import {
   validateFlowTransition,
   getFlowTransitionConfig,
@@ -293,6 +294,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       properties: validationResult.data,
     });
   }
+
+  await executeAsyncFlowActionByStepId(flows[flowId], stepId, request);
 
   const destination =
     flowController.getNext(stepId) ?? flowController.getInitial();

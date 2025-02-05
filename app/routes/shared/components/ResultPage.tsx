@@ -56,9 +56,7 @@ export function ResultPage() {
                   {cmsData.heading.text}
                 </Heading>
 
-                {cmsData.hintText && (
-                  <RichText markdown={cmsData.hintText.text} />
-                )}
+                {cmsData.hintText && <RichText html={cmsData.hintText.text} />}
               </div>
             </div>
           </Container>

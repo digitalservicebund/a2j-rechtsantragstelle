@@ -1,4 +1,4 @@
-import CheckIcon from "@digitalservicebund/icons/Check";
+import CheckCircle from "@digitalservicebund/icons/CheckCircle";
 import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
 import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
 import classNames from "classnames";
@@ -25,9 +25,9 @@ export const StateIcon: FC<{
   id: string;
   a11yLabels?: NavigationA11yLabels;
 }> = ({ id, a11yLabels }) => (
-  <CheckIcon
+  <CheckCircle
     id={id}
-    className="shrink-0"
+    className="shrink-0 fill-green-700"
     aria-label={a11yLabels?.itemFinished}
   />
 );
@@ -49,21 +49,21 @@ export function NavItem({
   const isDone = stateIsDone(state);
   const collapse = useCollapse({ defaultExpanded: isCurrent });
 
-  // Transparent left borders to avoid layout shifts
-  const liClassNames = classNames("list-none border-l-[1px] min-w-full", {
-    "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none":
-      isDisabled,
-    "mb-1": !isChild, // margin instead of bottom border to avoid diagonal corners colors
-    "border-l-blue-800": isCurrent,
-    "border-l-blue-100": !isCurrent,
-  });
+  // Transparent last: borders to avoid layout shifts
+  const liClassNames = classNames(
+    "list-none border-b-[1px] border-blue-400 last:border-0 min-w-full",
+    {
+      "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none":
+        isDisabled,
+      "border-transparent last:border-transparent": isChild,
+    },
+  );
 
   const itemClassNames = classNames(
-    "bg-blue-100 w-full ds-label-02-reg p-16 border-l-[3px] border-transparent flex gap-x-4 items-center hover:underline hover:bg-blue-300 active:bg-white focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-800",
+    "w-full ds-label-02-reg p-16 flex justify-between items-center hover:underline hover:bg-blue-400 active:bg-blue-300 focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-300",
     {
-      "ds-label-02-bold bg-blue-500 border-l-blue-800":
-        isCurrent && !hasSubflows,
-      "pl-40": isChild,
+      "ds-label-02-bold bg-blue-400": isCurrent && !hasSubflows,
+      "pl-24": isChild,
     },
   );
   const iconId = useId();
@@ -79,18 +79,15 @@ export function NavItem({
             {...collapse.getToggleProps()}
             aria-describedby={iconId}
           >
-            {isDone && <StateIcon id={iconId} a11yLabels={a11yLabels} />}
             {label}
             {collapse.isExpanded ? (
               <ExpandLessIcon className="ml-auto" />
             ) : (
               <ExpandMoreIcon className="ml-auto" />
             )}
+            {isDone && <StateIcon id={iconId} a11yLabels={a11yLabels} />}
           </button>
-          <section
-            className="border-t-[1px] border-white"
-            {...collapse.getCollapseProps()}
-          >
+          <section {...collapse.getCollapseProps()}>
             <NavigationList
               navItems={visibleChildItems}
               a11yLabels={a11yLabels}
@@ -106,8 +103,8 @@ export function NavItem({
           aria-current={isCurrent}
           aria-describedby={iconId}
         >
-          {isDone && <StateIcon id={iconId} a11yLabels={a11yLabels} />}
           {label}
+          {isDone && <StateIcon id={iconId} a11yLabels={a11yLabels} />}
         </a>
       )}
     </li>
