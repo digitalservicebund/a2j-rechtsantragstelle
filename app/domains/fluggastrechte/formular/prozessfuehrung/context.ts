@@ -1,12 +1,12 @@
 import { z } from "zod";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-export const fluggastrechtProzessfuehrungDaten = {
+export const fluggastrechteProzessfuehrungDaten = {
   versaeumnisurteil: YesNoAnswer,
   videoverhandlung: YesNoAnswer,
 };
 
-const _contextObject = z.object(fluggastrechtProzessfuehrungDaten).partial();
-export type FluggastrechtProzessfuehrungContext = z.infer<
+const _contextObject = z.object(fluggastrechteProzessfuehrungDaten).partial();
+export type FluggastrechteProzessfuehrungContext = z.infer<
   typeof _contextObject
 >;

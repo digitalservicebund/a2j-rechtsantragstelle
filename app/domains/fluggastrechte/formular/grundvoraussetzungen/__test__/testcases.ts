@@ -14,9 +14,11 @@ const machine: FlowStateMachine = createMachine(
 const happyPathSteps = [
   "/intro/start",
   "/grundvoraussetzungen/datenverarbeitung",
+  "/grundvoraussetzungen/streitbeilegung",
   "/grundvoraussetzungen/prozessfaehig",
   "/grundvoraussetzungen/ausgleichszahlung",
   "/grundvoraussetzungen/daten-uebernahme",
+  "/grundvoraussetzungen/amtsgericht",
   "/streitwert-kosten/gerichtskosten",
 ];
 
@@ -28,8 +30,31 @@ const cases = [
       bereich: "bereich",
       startAirport: "BER",
       endAirport: "FRA",
+      streitbeilegung: "yes",
     },
     happyPathSteps,
+  ],
+  [
+    {
+      datenverarbeitungZustimmung: CheckboxValue.on,
+      fluggesellschaft: "TAP",
+      bereich: "bereich",
+      startAirport: "BER",
+      endAirport: "FRA",
+      streitbeilegung: "no",
+      streitbeilegungGruende: "no",
+    },
+    [
+      "/intro/start",
+      "/grundvoraussetzungen/datenverarbeitung",
+      "/grundvoraussetzungen/streitbeilegung",
+      "/grundvoraussetzungen/streitbeilegung-gruende",
+      "/grundvoraussetzungen/prozessfaehig",
+      "/grundvoraussetzungen/ausgleichszahlung",
+      "/grundvoraussetzungen/daten-uebernahme",
+      "/grundvoraussetzungen/amtsgericht",
+      "/streitwert-kosten/gerichtskosten",
+    ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;
 
