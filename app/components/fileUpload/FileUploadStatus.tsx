@@ -28,8 +28,9 @@ export const FileUploadStatus = ({ state, file }: FileUploadStatusProps) => {
     "w-full max-w-24 text-base text-gray-900 font-400",
   );
   const getFileUploadDisplay = (file: File | null): JSX.Element | null => {
-    // Turn into component?
-    const fileBytesToMegabytes = `${((file?.size ?? 0) / 1024 / 1024).toLocaleString("de-DE", { maximumFractionDigits: 1 })} MB`;
+    // Turn into component? Better to test
+    const oneMegaByteInBytes = 1024 * 1024;
+    const fileBytesToMegabytes = `${((file?.size ?? 0) / oneMegaByteInBytes).toLocaleString("de-DE", { maximumFractionDigits: 1 })} MB`;
 
     switch (true) {
       case stateIsInProgress(state):
@@ -38,7 +39,7 @@ export const FileUploadStatus = ({ state, file }: FileUploadStatusProps) => {
             <FileUploadSpinner />
             <div className={fileContainer}>
               <p className={fileNameClassNames}>{file?.name}</p>
-              <p className={fileInfo}> {"wird hochgeladen"}</p>
+              <p className={fileInfo}> {"wird hochgeladen..."}</p>
             </div>
             <Button
               iconLeft={<CloseIcon className="shrink-0" />}
