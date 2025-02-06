@@ -9,6 +9,7 @@ const serverValidation = serverOnly$((airlineCode: string) =>
 export const airlineSchema = z
   .string()
   .trim()
+  .min(1, { message: "invalid_airline_code" })
   .refine(
     (airlineCode) =>
       serverValidation === undefined || serverValidation(airlineCode),
