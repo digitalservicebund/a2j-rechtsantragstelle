@@ -33,6 +33,16 @@ export const StrapiImageSchema = z
   })
   .merge(HasOptionalStrapiIdSchema)
   .nullish()
-  .transform((cmsData) => cmsData ?? null);
+  .transform((cmsData) => {
+    if (!cmsData) return undefined;
+    const { url, width, height, alternativeText } = cmsData;
+    return {
+      url,
+      width,
+      height,
+      alternativeText: alternativeText ?? "",
+    };
+  });
 
 export type StrapiImage = z.infer<typeof StrapiImageSchema>;
+export type StrapiImageInput = z.input<typeof StrapiImageSchema>;
