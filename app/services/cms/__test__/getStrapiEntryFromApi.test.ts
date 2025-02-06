@@ -121,5 +121,27 @@ describe("services/cms", () => {
       const result = await getStrapiEntryFromApi(defaultOptions);
       expect(result).toEqual(dataResponse);
     });
+
+    test("do not throw an exception in case the response status code is 404", async () => {
+      fetchSpy.mockResolvedValueOnce({
+        status: 404,
+        ok: false,
+        json: () => Promise.resolve({ data: dataResponse }),
+      } as Response);
+
+      await expect(
+        getStrapiEntryFromApi(defaultOptions),
+      ).resolves.not.toThrow();
+    });
+
+    test("throws an exception in case the response status code is 503", async () => {
+      fetchSpy.mockResolvedValueOnce({
+        status: 503,
+        ok: false,
+        json: () => Promise.resolve({ data: dataResponse }),
+      } as Response);
+
+      await expect(getStrapiEntryFromApi(defaultOptions)).rejects.toThrow();
+    });
   });
 });
