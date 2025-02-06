@@ -21,10 +21,10 @@ type UploadError = {
 };
 
 export const FileUpload = () => {
-  const [files, setFiles] = useState<FileList | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [errors, setErrors] = useState<UploadError[]>([]);
 
-  function validateAndSetFiles(files: FileList | null) {
+  function validateAndSetFiles(files: File[]) {
     setFiles(files);
     const newErrors: UploadError[] = [];
     if (files !== null) {
@@ -51,11 +51,9 @@ export const FileUpload = () => {
     }
     setErrors(newErrors);
   }
-  // Maybe useMemo?
-  const filesAsArray = Array.from(files ?? []);
 
   // Keep already uploaded files, disable the button and show message
-  if (filesAsArray.length > 5) {
+  if (files.length > 5) {
     return <p>Limit is 5</p>;
   }
 
@@ -67,7 +65,7 @@ export const FileUpload = () => {
       <p className="text-base text-gray-800 text-400">
         z.B. Kontoauszüge der letzten 6 Monate und Lohnabrechnung
       </p>
-      {filesAsArray.map((file) => (
+      {files.map((file) => (
         // use a unique key
         <FileUploadStatus
           key={file.name}

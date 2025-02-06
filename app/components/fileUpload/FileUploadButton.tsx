@@ -3,8 +3,8 @@ import { type FC } from "react";
 import Button from "../Button";
 
 type FileUploadButtonProps = {
-  files: FileList | null;
-  setFiles: (files: FileList | null) => unknown;
+  files: File[];
+  setFiles: (files: File[]) => unknown;
 };
 
 export const FileUploadButton: FC<FileUploadButtonProps> = ({
@@ -12,25 +12,31 @@ export const FileUploadButton: FC<FileUploadButtonProps> = ({
   setFiles,
 }) => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFiles(event.target.files);
+    if (event.target.files === null) {
+      setFiles([]);
+    } else {
+      const filesAsArray = Array.from(event.target.files);
+      setFiles(filesAsArray);
+    }
   };
 
   return (
     <>
-      {!files ? (
+      {files.length === 0 ? (
         <div className="w-full">
-          <input
-            multiple
-            type="file"
-            // id needs to be added as parameter so the browser can understand which element that is
-            id="fileUpload"
-            name="fileUpload"
-            aria-invalid="true"
-            accept=".pdf, .tiff, .tif"
-            onChange={handleFileChange}
-            className="w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
-          />
           <label htmlFor="fileUpload">
+            <input
+              data-testid="fileUpload"
+              multiple
+              type="file"
+              // id needs to be added as parameter so the browser can understand which element that is
+              id="fileUpload"
+              name="fileUpload"
+              aria-invalid="true"
+              accept=".pdf, .tiff, .tif"
+              onChange={handleFileChange}
+              className="w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
+            />
             <Button look="tertiary" text="Datei auswählen" />
           </label>
         </div>
