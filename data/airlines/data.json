@@ -861,8 +861,8 @@
   },
   {
     "name": "Malta Air Limited",
-    "iata": "",
-    "isInEU": false,
+    "iata": "MW",
+    "isInEU": true,
     "arbitrationBoard": "RV"
   },
   {
