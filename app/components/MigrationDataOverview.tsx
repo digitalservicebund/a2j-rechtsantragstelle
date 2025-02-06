@@ -81,10 +81,9 @@ export default function MigrationDataOverview({
       ))}
 
       {buttonUrl && (
-        <div>
+        <div className="mt-24">
           <StandaloneLink
             url={buttonUrl}
-            className="pt-24"
             text={getTranslationByKey(
               MIGRATION_BUTTON_TEXT_TRANSLATION,
               translations,
