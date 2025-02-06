@@ -18,6 +18,7 @@
     "build:localContent": "tsx ./app/services/cms/dumpCmsToFile.ts dumpCmsToFile",
     "build:pdf": "tsx ./app/services/pdf/pdf.generator.ts",
     "build:storybook": "storybook build --output-dir ./build/client/storybook",
+    "build:typesFromXSD": "npx @wikipathways/cxsd ./data/xml/schemas/xjustiz_3400_rast_0_1.xsd -t data/xml/generated",
     "build": "remix vite:build && npm run build:storybook",
     "dev": "node ./server.js",
     "format:fix": "prettier --write . --ignore-path .prettierignore",
