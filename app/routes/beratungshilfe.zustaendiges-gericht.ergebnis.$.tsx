@@ -8,6 +8,7 @@ import CourtDetails from "~/components/CourtDetails";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import PageContent from "~/components/PageContent";
 import { fetchPage, fetchTranslations } from "~/services/cms/index.server";
+import { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import {
   edgeCasesForPlz,
   findCourt,
@@ -71,7 +72,7 @@ export const Component = () => {
           </a>
         </Container>
       </Background>
-      <PageContent content={content} />
+      <PageContent content={content as StrapiContentComponent[]} />
     </>
   );
 };

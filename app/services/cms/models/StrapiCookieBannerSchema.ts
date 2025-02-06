@@ -2,7 +2,7 @@ import { z } from "zod";
 import { type CookieBannerContentProps } from "~/components/cookieBanner/CookieBanner";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { getHeadingProps, StrapiHeadingSchema } from "./StrapiHeading";
-import { getRichTextProps, StrapiParagraphSchema } from "./StrapiParagraph";
+import { StrapiParagraphSchema } from "./StrapiParagraph";
 
 export const StrapiCookieBannerSchema = z
   .object({
@@ -22,7 +22,7 @@ export const getCookieBannerProps = (
 ): CookieBannerContentProps => {
   return {
     heading: getHeadingProps(cmsData.heading)!,
-    paragraphs: cmsData.paragraphs.map((p) => getRichTextProps(p)),
+    paragraphs: cmsData.paragraphs,
     acceptButtonLabel: cmsData.acceptButtonLabel,
     declineButtonLabel: cmsData.declineButtonLabel,
     cookieSettingLinkText: cmsData.cookieSettingLinkText,

@@ -29,15 +29,15 @@ import {
   fetchErrors,
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
+import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
 import Header from "./components/PageHeader";
-import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
-import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
@@ -51,7 +51,6 @@ import {
 } from "./services/translations/getTranslationByKey";
 import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
-import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 
 export { headers } from "./rootHeaders";
 
@@ -130,7 +129,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
         showKopfzeile,
       },
-      footer: getFooterProps(strapiFooter),
+      footer: strapiFooter,
       cookieBannerContent: cookieBannerContent,
       hasTrackingConsent: trackingConsent
         ? trackingConsent === "true"
@@ -227,7 +226,7 @@ function App() {
             )}
             target={skipToContentLinkTarget}
           />
-          <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
+          <CookieBanner content={cookieBannerContent} />
           <Header {...header} translations={pageHeaderTranslations} />
           <Breadcrumbs breadcrumbs={breadcrumbs} linkLabel={header.linkLabel} />
           <TranslationContext.Provider value={translationMemo}>
@@ -237,7 +236,10 @@ function App() {
           </TranslationContext.Provider>
           <footer>
             <Footer
-              {...footer}
+              {...(footer as unknown as Record<
+                string,
+                StrapiContentComponent[]
+              >)}
               deletionLabel={deletionLabel}
               showDeletionBanner={hasAnyUserData}
             />
@@ -270,11 +272,23 @@ export function ErrorBoundary() {
         )}
         <main className="flex-grow">
           <ErrorBox
-            errorPages={loaderData?.errorPages}
+            errorPages={
+              loaderData?.errorPages as unknown as Record<
+                string,
+                StrapiContentComponent[]
+              >
+            }
             context={loaderData?.context ?? {}}
           />
         </main>
-        {loaderData && <Footer {...loaderData.footer} />}
+        {loaderData && (
+          <Footer
+            {...(loaderData.footer as unknown as Record<
+              string,
+              StrapiContentComponent[]
+            >)}
+          />
+        )}
       </body>
     </html>
   );

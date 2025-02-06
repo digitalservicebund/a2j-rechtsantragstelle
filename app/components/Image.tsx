@@ -14,7 +14,6 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
 
   return isSvg ? (
     <SVG
-      {...props}
       id="svg-image"
       src={url}
       title={alternativeText ?? "image"}

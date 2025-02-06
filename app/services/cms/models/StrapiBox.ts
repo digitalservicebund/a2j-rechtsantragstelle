@@ -8,7 +8,7 @@ import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiButtonSchema } from "./StrapiButton";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import { StrapiParagraphSchema, getRichTextProps } from "./StrapiParagraph";
+import { StrapiParagraphSchema } from "./StrapiParagraph";
 
 const StrapiBoxSchema = z
   .object({
@@ -31,6 +31,6 @@ export const StrapiBoxComponentSchema = StrapiBoxSchema.extend({
 export const getBoxProps = (cmsData: StrapiBox): BoxProps => {
   return omitNull({
     ...pick(cmsData, "label", "heading", "buttons", "identifier"),
-    content: cmsData.content && getRichTextProps(cmsData.content),
+    content: cmsData.content,
   });
 };

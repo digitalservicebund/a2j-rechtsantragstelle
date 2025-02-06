@@ -8,6 +8,7 @@ import {
   fetchTranslations,
   strapiPageFromRequest,
 } from "~/services/cms/index.server";
+import { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import { sanitizeReferrer } from "~/services/security/sanitizeReferrer";
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -35,7 +36,7 @@ export default function PersoenlicheDatenLoeschen() {
 
   return (
     <>
-      <PageContent content={content} />
+      <PageContent content={content as StrapiContentComponent[]} />
       <Container paddingTop="0">
         <Form
           method="post"

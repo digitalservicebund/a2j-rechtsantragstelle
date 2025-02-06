@@ -11,6 +11,7 @@ import {
   trackingCookieValue,
 } from "~/services/analytics/gdprCookie.server";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
+import { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { content, pageMeta } = await strapiPageFromRequest({ request });
@@ -36,7 +37,7 @@ export default function Index() {
 
   return (
     <>
-      <PageContent content={content} />
+      <PageContent content={content as StrapiContentComponent[]} />
       <Container paddingTop="0">
         <Form method="post" className="ds-stack-24">
           <fieldset

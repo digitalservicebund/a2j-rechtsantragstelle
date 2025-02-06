@@ -3,6 +3,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
+import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   try {
@@ -17,5 +18,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export default function Index() {
-  return <PageContent content={useLoaderData<typeof loader>().content} />;
+  return (
+    <PageContent
+      content={
+        useLoaderData<typeof loader>()
+          .content as unknown as StrapiContentComponent[]
+      }
+    />
+  );
 }

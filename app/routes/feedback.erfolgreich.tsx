@@ -5,6 +5,7 @@ import Button from "~/components/Button";
 import Container from "~/components/Container";
 import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
+import { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { searchParams } = new URL(request.url);
@@ -17,7 +18,7 @@ export default function Index() {
   const { url, content } = useLoaderData<typeof loader>();
   return (
     <div>
-      <PageContent content={content} />
+      <PageContent content={content as StrapiContentComponent[]} />
 
       <Container>
         {url && <Button href={url}>Zurück, wo Sie gekommen sind</Button>}
