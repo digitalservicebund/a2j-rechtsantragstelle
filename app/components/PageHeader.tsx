@@ -1,5 +1,6 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
+import classNames from "classnames";
 import Kopfzeile from "~/components/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
 
@@ -24,13 +25,19 @@ export default function Header({
   translations,
   showKopfzeile,
 }: Readonly<PageHeaderProps>) {
+  const navClassNames = classNames(
+    "py-20 px-16 flex flex-wrap justify-between",
+    {
+      "container lg:min-w-[59rem] lg:!mx-auto !py-20": alignToMainContainer,
+    },
+  );
   return (
     <header>
       {showKopfzeile && (
         <Kopfzeile alignToMainContainer={alignToMainContainer} />
       )}
       <nav
-        className="py-20 px-16 flex flex-wrap justify-between"
+        className={navClassNames}
         aria-label={translations.mainNavigationAriaLabel}
       >
         <a

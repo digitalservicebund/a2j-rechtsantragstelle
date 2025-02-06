@@ -231,7 +231,11 @@ function App() {
           />
           <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
           <Header {...header} translations={pageHeaderTranslations} />
-          <Breadcrumbs breadcrumbs={breadcrumbs} linkLabel={header.linkLabel} />
+          <Breadcrumbs
+            breadcrumbs={breadcrumbs}
+            alignToMainContainer={header.alignToMainContainer}
+            linkLabel={header.linkLabel}
+          />
           <TranslationContext.Provider value={translationMemo}>
             <main className="flex-grow" id="main">
               <Outlet />
