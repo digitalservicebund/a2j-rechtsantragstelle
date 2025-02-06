@@ -6,7 +6,7 @@ type SubmitRequest = {
 };
 
 /**
- * Note: FIT_CONNECT_ADAPTER_ENDPOINT returning Error: 504 Method not allowed
+ * Note: FIT_CONNECT_ADAPTER_ENDPOINT returning Error: 405 Method not allowed
  */
 export async function submit() {
   configDotenv();
