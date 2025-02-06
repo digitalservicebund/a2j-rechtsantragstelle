@@ -11,6 +11,8 @@ import { FileUploadStatus } from "./FileUploadStatus";
 
 export type FileUploadProps = {
   label?: string;
+  // title: string;
+  // description?: string;
 };
 
 type UploadError = {
@@ -52,13 +54,26 @@ export const FileUpload = () => {
   // Maybe useMemo?
   const filesAsArray = Array.from(files ?? []);
 
+  // Keep already uploaded files, disable the button and show message
+  if (filesAsArray.length > 5) {
+    return <p>Limit is 5</p>;
+  }
+
   return (
-    <div className="w-full h-auto">
+    <div className="w-full bg-white p-16">
+      <p className="text-base text-900 font-black">
+        Beleg über Ihr Arbeitsverhältnis
+      </p>
+      <p className="text-base text-gray-800 text-400">
+        z.B. Kontoauszüge der letzten 6 Monate und Lohnabrechnung
+      </p>
       {filesAsArray.map((file) => (
         // use a unique key
-        <div className="w-auto h-auto" key={file.name}>
-          <FileUploadStatus file={file} state={FileUploadState.InProgress} />
-        </div>
+        <FileUploadStatus
+          key={file.name}
+          file={file}
+          state={FileUploadState.InProgress}
+        />
       ))}
 
       <FileUploadButton files={files} setFiles={validateAndSetFiles} />

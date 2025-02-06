@@ -18,7 +18,7 @@ export const FileUploadButton: FC<FileUploadButtonProps> = ({
   return (
     <>
       {!files ? (
-        <div className="w-full h-auto mb-8 mt-8">
+        <div className="w-full">
           <input
             multiple
             type="file"
