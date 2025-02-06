@@ -2,7 +2,7 @@ export const GUIDANCE_MENU_BASE = "auto-suggest-guidance-menu-base";
 export const GUIDANCE_MENU_TAB_SELECTS_VALUE =
   "auto-suggest-guidance-menu-tab-selects-value";
 export const GUIDANCE_INPUT_ARIA_LABEL_FALLBACK =
-  "guidance-input-aria-label-fallback";
+  "auto-suggest-guidance-input-aria-label-fallback";
 export const GUIDANCE_INPUT_BASE = "auto-suggest-guidance-input-base";
 export const GUIDANCE_INPUT_IS_SEARCHABLE =
   "auto-suggest-guidance-input-is-searchable";
