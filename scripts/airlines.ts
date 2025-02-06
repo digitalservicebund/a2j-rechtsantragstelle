@@ -43,7 +43,7 @@ function saveAirlinesInFile(airlines: Airline[]): void {
 function generateAirlinesData(filePath: string) {
   const content = fs.readFileSync(filePath, { encoding: "utf-8" });
 
-  const rows = content.split("\n");
+  const rows = content.split("\n").filter((row) => row.trim() !== "");
   const airlines: Airline[] = [];
   rows.forEach((row) => {
     const airline = processAirlineRow(row);
