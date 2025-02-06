@@ -1,26 +1,20 @@
-import { useState } from "react";
-import { FileUploadState } from "~/services/fileUploadState/fileUploadState";
-import { FileUploadButton } from "./FileUploadButton";
-import { FileUploadError, FileUploadErrorType } from "./FileUploadError";
-import { FileUploadStatus } from "./FileUploadStatus";
+import { FC, useState } from "react";
+import { FilesUploadState } from "~/services/filesUploadState/filesUploadState";
+import { FilesUploadButton } from "./FilesUploadButton";
+import { FilesUploadError, FilesUploadErrorType } from "./FilesUploadError";
+import { FilesUploadStatus } from "./FilesUploadStatus";
 
-//   Styling observations:
-//   - Having a custom label attached to the input so I could style it as in the design.
-//   - The input is visually hidden but not hidden from the DOM, so the element can still be there and be accessed.
-//   - Using accept=".pdf, .tiff" to restrict the file types that can be uploaded. Is this accessible?
-
-export type FileUploadProps = {
-  label?: string;
-  // title: string;
-  // description?: string;
+export type FilesUploadProps = {
+  title?: string;
+  description?: string;
 };
 
 type UploadError = {
   file: File;
-  message: FileUploadErrorType;
+  message: FilesUploadErrorType;
 };
 
-export const FileUpload = () => {
+export const FilesUpload: FC<FilesUploadProps> = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [errors, setErrors] = useState<UploadError[]>([]);
 
@@ -30,7 +24,8 @@ export const FileUpload = () => {
     if (files !== null) {
       for (const file of files) {
         const fileLimitMegabytes = 100;
-        const fileBytesToMegabytes = file.size / 1024 / 1024;
+        const oneMegaByteInBytes = 1024 * 1024;
+        const fileBytesToMegabytes = file.size / oneMegaByteInBytes;
 
         if (
           file.type !== "application/pdf" &&
@@ -39,22 +34,17 @@ export const FileUpload = () => {
         ) {
           newErrors.push({
             file,
-            message: FileUploadErrorType.InvalidFileExtension,
+            message: FilesUploadErrorType.InvalidFileExtension,
           });
         } else if (fileBytesToMegabytes > fileLimitMegabytes) {
           newErrors.push({
             file,
-            message: FileUploadErrorType.InvalidFileSize,
+            message: FilesUploadErrorType.InvalidFileSize,
           });
         }
       }
     }
     setErrors(newErrors);
-  }
-
-  // Keep already uploaded files, disable the button and show message
-  if (files.length > 5) {
-    return <p>Limit is 5</p>;
   }
 
   return (
@@ -67,17 +57,17 @@ export const FileUpload = () => {
       </p>
       {files.map((file) => (
         // use a unique key
-        <FileUploadStatus
+        <FilesUploadStatus
           key={file.name}
           file={file}
-          state={FileUploadState.InProgress}
+          state={FilesUploadState.InProgress}
         />
       ))}
 
-      <FileUploadButton files={files} setFiles={validateAndSetFiles} />
+      <FilesUploadButton files={files} setFiles={validateAndSetFiles} />
 
       {errors.map((error) => (
-        <FileUploadError
+        <FilesUploadError
           // use a unique key
           key={error.file.name}
           errorMessage={error.message}

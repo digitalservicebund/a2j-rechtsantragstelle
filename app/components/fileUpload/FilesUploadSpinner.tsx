@@ -1,6 +1,6 @@
-import React from "react";
+import { FC } from "react";
 
-export const FileUploadSpinner: React.FC = () => {
+export const FileUploadSpinner: FC = () => {
   return (
     <div role="status" aria-live="assertive">
       <p className="sr-only">File is uploading...</p>

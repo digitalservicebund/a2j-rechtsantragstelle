@@ -2,29 +2,33 @@ import CloseIcon from "@digitalservicebund/icons/Close";
 import DeleteOutline from "@digitalservicebund/icons/DeleteOutline";
 import InsertDriveFileIcon from "@digitalservicebund/icons/InsertDriveFile";
 import classNames from "classnames";
+import { FC } from "react";
 import {
   stateIsInProgress,
   stateIsDone,
-  FileUploadState,
-} from "~/services/fileUploadState/fileUploadState";
+  FilesUploadState,
+} from "~/services/filesUploadState/filesUploadState";
 import Button from "../Button";
-import { FileUploadSpinner } from "./FileUploadSpinner";
+import { FileUploadSpinner } from "./FilesUploadSpinner";
 
-export type FileUploadStatusProps = {
+export type FilesUploadStatusProps = {
   file: File;
-  state: FileUploadState;
+  state: FilesUploadState;
 };
 
-export const FileUploadStatus = ({ state, file }: FileUploadStatusProps) => {
-  const fileDisplayClassNames = classNames(
+export const FilesUploadStatus: FC<FilesUploadStatusProps> = ({
+  state,
+  file,
+}) => {
+  const filesDisplayClassNames = classNames(
     "w-full h-64 bg-gray-100 flex justify-between items-center px-16 my-14",
   );
 
-  const fileContainer = classNames("w-full max-w-xl flex");
+  const filesContainer = classNames("w-full max-w-xl flex");
   const fileNameClassNames = classNames(
     "w-full max-w-md text-base text-black font-400 mr-8 overflow-hidden whitespace-nowrap text-ellipsis",
   );
-  const fileInfo = classNames(
+  const filesInfo = classNames(
     "w-full max-w-24 text-base text-gray-900 font-400",
   );
   const getFileUploadDisplay = (file: File | null): JSX.Element | null => {
@@ -35,11 +39,11 @@ export const FileUploadStatus = ({ state, file }: FileUploadStatusProps) => {
     switch (true) {
       case stateIsInProgress(state):
         return (
-          <div className={fileDisplayClassNames}>
+          <div className={filesDisplayClassNames}>
             <FileUploadSpinner />
-            <div className={fileContainer}>
+            <div className={filesContainer}>
               <p className={fileNameClassNames}>{file?.name}</p>
-              <p className={fileInfo}> {"wird hochgeladen..."}</p>
+              <p className={filesInfo}> {"wird hochgeladen..."}</p>
             </div>
             <Button
               iconLeft={<CloseIcon className="shrink-0" />}
@@ -50,11 +54,11 @@ export const FileUploadStatus = ({ state, file }: FileUploadStatusProps) => {
         );
       case stateIsDone(state):
         return (
-          <div className={fileDisplayClassNames}>
-            <div className={fileContainer}>
+          <div className={filesDisplayClassNames}>
+            <div className={filesContainer}>
               <InsertDriveFileIcon className="shrink-0 fill-gray-900 mr-10" />
               <p className={fileNameClassNames}>{file?.name}</p>
-              <p className={fileInfo}>{fileBytesToMegabytes}</p>
+              <p className={filesInfo}>{fileBytesToMegabytes}</p>
             </div>
             <Button
               iconLeft={<DeleteOutline className="shrink-0" />}

@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import { FileUploadError, FileUploadErrorType } from "../FileUploadError";
+import { FilesUploadError, FilesUploadErrorType } from "../FilesUploadError";
 
 describe("FileUploadError", () => {
   it("renders the correct error message when upload is not started", () => {
     render(
-      <FileUploadError errorMessage={FileUploadErrorType.NoFileUploaded} />,
+      <FilesUploadError errorMessage={FilesUploadErrorType.NoFileUploaded} />,
     );
     const errorIcon = screen.getByTestId("ErrorOutlineIcon");
     expect(errorIcon).toBeInTheDocument();
@@ -15,8 +15,8 @@ describe("FileUploadError", () => {
   });
   it("renders the correct error message when invalid file extension is uploaded", () => {
     render(
-      <FileUploadError
-        errorMessage={FileUploadErrorType.InvalidFileExtension}
+      <FilesUploadError
+        errorMessage={FilesUploadErrorType.InvalidFileExtension}
       />,
     );
 
@@ -31,7 +31,7 @@ describe("FileUploadError", () => {
   });
   it("renders the correct error message when invalid file size is uploaded", () => {
     render(
-      <FileUploadError errorMessage={FileUploadErrorType.InvalidFileSize} />,
+      <FilesUploadError errorMessage={FilesUploadErrorType.InvalidFileSize} />,
     );
 
     const errorIcon = screen.getByTestId("ErrorOutlineIcon");

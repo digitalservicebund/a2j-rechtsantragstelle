@@ -2,12 +2,12 @@ import Add from "@digitalservicebund/icons/Add";
 import { type FC } from "react";
 import Button from "../Button";
 
-type FileUploadButtonProps = {
+type FilesUploadButtonProps = {
   files: File[];
   setFiles: (files: File[]) => unknown;
 };
 
-export const FileUploadButton: FC<FileUploadButtonProps> = ({
+export const FilesUploadButton: FC<FilesUploadButtonProps> = ({
   files,
   setFiles,
 }) => {
@@ -24,14 +24,14 @@ export const FileUploadButton: FC<FileUploadButtonProps> = ({
     <>
       {files.length === 0 ? (
         <div className="w-full">
-          <label htmlFor="fileUpload">
+          <label htmlFor="filesUpload">
             <input
-              data-testid="fileUpload"
+              data-testid="filesUpload"
               multiple
               type="file"
               // id needs to be added as parameter so the browser can understand which element that is
-              id="fileUpload"
-              name="fileUpload"
+              id="filesUpload"
+              name="filesUpload"
               aria-invalid="true"
               accept=".pdf, .tiff, .tif"
               onChange={handleFileChange}

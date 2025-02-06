@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { FileUploadState } from "~/services/fileUploadState/fileUploadState";
-import { FileUploadStatus } from "../FileUploadStatus";
+import { FilesUploadState } from "~/services/filesUploadState/filesUploadState";
+import { FilesUploadStatus } from "../FilesUploadStatus";
 
 describe("FileUploadStatus", () => {
   it("renders the file name, file size and a delete file button when the upload was successful", () => {
@@ -8,11 +8,13 @@ describe("FileUploadStatus", () => {
       type: "application/pdf",
     });
 
+    const oneMegaByteInBytes = 1024 * 1024;
+
     Object.defineProperty(mockFile, "size", {
-      value: 1024 * 1024,
+      value: oneMegaByteInBytes,
     });
 
-    render(<FileUploadStatus file={mockFile} state={FileUploadState.Done} />);
+    render(<FilesUploadStatus file={mockFile} state={FilesUploadState.Done} />);
 
     const fileIcon = screen.getByTestId("InsertDriveFileIcon");
     expect(fileIcon).toBeInTheDocument();
@@ -45,7 +47,7 @@ describe("FileUploadStatus", () => {
       type: "application/pdf",
     });
     render(
-      <FileUploadStatus file={mockFile} state={FileUploadState.InProgress} />,
+      <FilesUploadStatus file={mockFile} state={FilesUploadState.InProgress} />,
     );
 
     // Make an assertion for the loader here
