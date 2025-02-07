@@ -33,7 +33,13 @@
         "uebersicht": {
           "on": {
             "BACK": "frage",
-            "SUBMIT": "#weitere-personen.zeugen",
+            "SUBMIT": [
+              {
+                "guard": "isMissingAddWeiterePersonen",
+                "target": "#weitere-personen.warnung"
+              },
+              "#weitere-personen.zeugen"
+            ],
             "add-weiterePersonen": {
               "guard": "isValidWeiterePersonenArrayIndex",
               "target": "person"
@@ -66,6 +72,11 @@
                 "target": "#prozessfuehrung.videoverhandlung"
               }
             ]
+          }
+        },
+        "warnung": {
+          "on": {
+            "BACK": "#weitere-personen.uebersicht"
           }
         }
       }

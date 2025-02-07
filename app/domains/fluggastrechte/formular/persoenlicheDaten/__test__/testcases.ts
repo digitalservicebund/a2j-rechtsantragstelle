@@ -10,15 +10,18 @@ const machine: FlowStateMachine = createMachine(
   { guards: fluggastrechteGuards },
 );
 
+const baseContext = {
+  vorname: "test",
+  nachname: "test",
+  strasseHausnummer: "test",
+  ort: "test",
+  plz: "13055",
+};
+
 const cases = [
   [
     {
-      anrede: "herr",
-      vorname: "test",
-      nachname: "test",
-      strasseHausnummer: "test",
-      ort: "test",
-      plz: "13055",
+      ...baseContext,
       isWeiterePersonen: "no",
       hasZeugen: "no",
     },
@@ -31,12 +34,7 @@ const cases = [
   ],
   [
     {
-      anrede: "herr",
-      vorname: "test",
-      nachname: "test",
-      strasseHausnummer: "test",
-      ort: "test",
-      plz: "13055",
+      ...baseContext,
       isWeiterePersonen: "no",
       hasZeugen: "no",
     },
@@ -49,21 +47,11 @@ const cases = [
   ],
   [
     {
-      anrede: "herr",
-      vorname: "test",
-      nachname: "test",
-      strasseHausnummer: "test",
-      ort: "test",
-      plz: "13055",
+      ...baseContext,
       isWeiterePersonen: "yes",
       weiterePersonen: [
         {
-          anrede: "herr",
-          vorname: "test",
-          nachname: "test",
-          strasseHausnummer: "test",
-          ort: "test",
-          plz: "13055",
+          ...baseContext,
         },
       ],
       hasZeugen: "no",
@@ -78,21 +66,11 @@ const cases = [
   ],
   [
     {
-      anrede: "herr",
-      vorname: "test",
-      nachname: "test",
-      strasseHausnummer: "test",
-      ort: "test",
-      plz: "13055",
+      ...baseContext,
       isWeiterePersonen: "yes",
       weiterePersonen: [
         {
-          anrede: "herr",
-          vorname: "test",
-          nachname: "test",
-          strasseHausnummer: "test",
-          ort: "test",
-          plz: "13055",
+          ...baseContext,
         },
       ],
       hasZeugen: "no",
@@ -103,6 +81,33 @@ const cases = [
       "/persoenliche-daten/weitere-personen/uebersicht",
       "/persoenliche-daten/weitere-personen/zeugen",
       "/prozessfuehrung/videoverhandlung",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      isWeiterePersonen: "yes",
+      weiterePersonen: [],
+      hasZeugen: "no",
+    },
+    [
+      "/persoenliche-daten/person/daten",
+      "/persoenliche-daten/weitere-personen/frage",
+      "/persoenliche-daten/weitere-personen/uebersicht",
+      "/persoenliche-daten/weitere-personen/warnung",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      isWeiterePersonen: "yes",
+      hasZeugen: "no",
+    },
+    [
+      "/persoenliche-daten/person/daten",
+      "/persoenliche-daten/weitere-personen/frage",
+      "/persoenliche-daten/weitere-personen/uebersicht",
+      "/persoenliche-daten/weitere-personen/warnung",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;
