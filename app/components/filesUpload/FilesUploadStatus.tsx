@@ -12,13 +12,21 @@ import Button from "../Button";
 import { FileUploadSpinner } from "./FilesUploadSpinner";
 
 export type FilesUploadStatusProps = {
-  file: File;
+  fileName?: string;
+  fileSize?: number;
   state: FilesUploadState;
+  cancelButtonLabel?: string;
+  deleteButtonLabel?: string;
+  uploadProgressLabel?: string;
 };
 
 export const FilesUploadStatus: FC<FilesUploadStatusProps> = ({
   state,
-  file,
+  fileName,
+  fileSize,
+  cancelButtonLabel,
+  deleteButtonLabel,
+  uploadProgressLabel,
 }) => {
   const filesDisplayClassNames = classNames(
     "w-full h-64 bg-gray-100 flex justify-between items-center px-16 my-14",
@@ -31,10 +39,10 @@ export const FilesUploadStatus: FC<FilesUploadStatusProps> = ({
   const filesInfo = classNames(
     "w-full max-w-24 text-base text-gray-900 font-400",
   );
-  const getFileUploadDisplay = (file: File | null): JSX.Element | null => {
-    // Turn into component? Better to test
+  const getFileUploadDisplay = (): JSX.Element | null => {
+    // Turn into component? Better to test?
     const oneMegaByteInBytes = 1024 * 1024;
-    const fileBytesToMegabytes = `${((file?.size ?? 0) / oneMegaByteInBytes).toLocaleString("de-DE", { maximumFractionDigits: 1 })} MB`;
+    const fileBytesToMegabytes = `${((fileSize ?? 0) / oneMegaByteInBytes).toLocaleString("de-DE", { maximumFractionDigits: 1 })} MB`;
 
     switch (true) {
       case stateIsInProgress(state):
@@ -42,13 +50,13 @@ export const FilesUploadStatus: FC<FilesUploadStatusProps> = ({
           <div className={filesDisplayClassNames}>
             <FileUploadSpinner />
             <div className={filesContainer}>
-              <p className={fileNameClassNames}>{file?.name}</p>
-              <p className={filesInfo}> {"wird hochgeladen..."}</p>
+              <p className={fileNameClassNames}>{fileName}</p>
+              <p className={filesInfo}> {uploadProgressLabel}</p>
             </div>
             <Button
               iconLeft={<CloseIcon className="shrink-0" />}
               look="ghost"
-              text="Abbrechen"
+              text={cancelButtonLabel}
             />
           </div>
         );
@@ -57,13 +65,13 @@ export const FilesUploadStatus: FC<FilesUploadStatusProps> = ({
           <div className={filesDisplayClassNames}>
             <div className={filesContainer}>
               <InsertDriveFileIcon className="shrink-0 fill-gray-900 mr-10" />
-              <p className={fileNameClassNames}>{file?.name}</p>
+              <p className={fileNameClassNames}>{fileName}</p>
               <p className={filesInfo}>{fileBytesToMegabytes}</p>
             </div>
             <Button
               iconLeft={<DeleteOutline className="shrink-0" />}
               look="ghost"
-              text="Entfernen"
+              text={deleteButtonLabel}
             />
           </div>
         );
@@ -72,5 +80,5 @@ export const FilesUploadStatus: FC<FilesUploadStatusProps> = ({
     }
   };
 
-  return <>{getFileUploadDisplay(file)}</>;
+  return <>{getFileUploadDisplay()}</>;
 };
