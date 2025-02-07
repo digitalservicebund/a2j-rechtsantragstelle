@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { alignToContainer } from "~/components";
 
 export default function Kopfzeile({
   alignToMainContainer = true,
@@ -6,7 +7,7 @@ export default function Kopfzeile({
   const containerClassNames = classNames(
     "gap-8 sm:gap-16 flex items-center !py-0 !mx-0",
     {
-      "container lg:min-w-[59rem] lg:!mx-auto": alignToMainContainer,
+      [alignToContainer]: alignToMainContainer,
       "px-8 sm:px-[15px]": !alignToMainContainer,
     },
   );

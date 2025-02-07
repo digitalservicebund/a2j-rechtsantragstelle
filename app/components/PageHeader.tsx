@@ -1,6 +1,7 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 import classNames from "classnames";
+import { alignToContainer } from "~/components";
 import Kopfzeile from "~/components/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
 
@@ -28,7 +29,7 @@ export default function Header({
   const navClassNames = classNames(
     "py-20 px-16 flex flex-wrap justify-between",
     {
-      "container lg:min-w-[59rem] lg:!mx-auto !py-20": alignToMainContainer,
+      [`${alignToContainer} !py-20`]: alignToMainContainer,
     },
   );
   return (

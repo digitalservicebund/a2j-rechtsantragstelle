@@ -1,5 +1,6 @@
 import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
 import classNames from "classnames";
+import { alignToContainer } from "~/components";
 import { StandaloneLink } from "./StandaloneLink";
 
 export type Breadcrumb = {
@@ -22,7 +23,7 @@ export default function Breadcrumbs({
     (breadcrumb) => breadcrumb.title !== undefined,
   );
   const navClassNames = classNames("py-8 px-16 flex flex-wrap items-center", {
-    "container lg:min-w-[59rem] lg:!mx-auto !py-8": alignToMainContainer,
+    [`${alignToContainer} !py-8`]: alignToMainContainer,
   });
 
   return (
