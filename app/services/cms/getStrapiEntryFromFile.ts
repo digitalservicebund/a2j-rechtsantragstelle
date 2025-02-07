@@ -29,20 +29,16 @@ export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>(
       { cause: `content[opts.apiId] is not defined` },
     );
   }
-
   const contentItems = content[opts.apiId].filter(
     (content) =>
       !opts.filters ||
       opts.filters.every(({ field, value, nestedField }) => {
-        const relevantField = (content as unknown as Record<string, unknown>)[
-          field
-        ];
+        const relevantField = (content as Record<string, unknown>)[field];
         if (!nestedField) {
           return Array.isArray(value)
             ? value.includes(relevantField as string)
             : relevantField === value;
         }
-
         return (
           typeof relevantField === "object" &&
           relevantField !== null &&

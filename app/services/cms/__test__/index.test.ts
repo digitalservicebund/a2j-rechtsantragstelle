@@ -6,6 +6,7 @@ import { getStrapiFooter } from "tests/factories/cmsModels/strapiFooter";
 import {
   fetchEntries,
   fetchMultipleTranslations,
+  fetchSingleEntry,
 } from "~/services/cms/index.server";
 import { StrapiFooter } from "~/services/cms/models/StrapiFooter";
 import { StrapiSchemas } from "~/services/cms/schemas";
@@ -18,17 +19,20 @@ describe("services/cms", () => {
   beforeEach(() => void vi.clearAllMocks());
 
   describe("fetchSingleEntry", () => {
-    test("returns a footer entry", () => {
+    test("returns a footer entry", async () => {
       const footerData = getStrapiFooter();
       vi.mocked(getStrapiEntry).mockReturnValue(
         Promise.resolve(footerData as unknown as StrapiFooter[]),
       );
-      //TODO: fix in the next commit
-      // const footer = await fetchSingleEntry("footer");
-      // expect(footer).toEqual(
-      //   footerData,
-      // );
-      expect([]).toEqual([]);
+      const footer = await fetchSingleEntry("footer");
+      expect(footer.locale).toEqual(footerData.locale);
+      expect(footer.image).toEqual(footerData.image);
+      expect(footer.links).toEqual(footerData.links);
+      expect(footer.paragraphs[0].__component).toEqual(
+        footerData.paragraphs[0].__component,
+      );
+      expect(footer.paragraphs[0].id).toEqual(footerData.paragraphs[0].id);
+      expect(footer.paragraphs[0].text).toMatch(footerData.paragraphs[0].text);
     });
   });
 
