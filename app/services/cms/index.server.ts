@@ -41,7 +41,7 @@ export async function fetchSingleEntry<T extends SingleEntryId>(
   locale?: StrapiLocale,
 ): Promise<StrapiSchemas[T][number]> {
   const strapiEntry = await getStrapiEntry({ apiId, locale });
-  return entrySchemas[apiId].parse([strapiEntry])[0];
+  return entrySchemas[apiId].parse(strapiEntry)[0];
 }
 
 async function fetchCollectionEntry<T extends CollectionId>(

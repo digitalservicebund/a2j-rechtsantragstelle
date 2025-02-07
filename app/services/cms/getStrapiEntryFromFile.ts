@@ -50,5 +50,5 @@ export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>(
 
   return contentItems.filter(
     (item) => "locale" in item && item.locale == opts.locale,
-  ) as unknown as StrapiSchemas[T];
+  ) as StrapiSchemas[T];
 };

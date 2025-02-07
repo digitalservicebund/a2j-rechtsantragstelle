@@ -22,7 +22,7 @@ describe("services/cms", () => {
     test("returns a footer entry", async () => {
       const footerData = getStrapiFooter();
       vi.mocked(getStrapiEntry).mockReturnValue(
-        Promise.resolve(footerData as unknown as StrapiFooter[]),
+        Promise.resolve([footerData] as StrapiFooter[]),
       );
       const footer = await fetchSingleEntry("footer");
       expect(footer.locale).toEqual(footerData.locale);
