@@ -22,4 +22,12 @@ describe("optionalOrSchema", () => {
   it("disallows wrong schema as input", () => {
     expect(() => schema.parse("12")).toThrow();
   });
+
+  it("fallbacks to the optional schema when it is defined", () => {
+    const schemaWithOptional = optionalOrSchema(
+      z.string().length(3),
+      z.string().length(1),
+    );
+    expect(schemaWithOptional.parse("1")).toEqual("1");
+  });
 });
