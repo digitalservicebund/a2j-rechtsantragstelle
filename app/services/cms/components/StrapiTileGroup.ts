@@ -30,8 +30,5 @@ export const getTileGroupProps = (
 ): TileGroupProps => ({
   ...omitNull(cmsData),
   errorMessages: cmsData.errors?.flatMap((cmsError) => cmsError.errorCodes),
-  options: cmsData.options.map((tileOption) => ({
-    ...omitNull(tileOption),
-    image: tileOption.image ?? {},
-  })),
+  options: cmsData.options.map((tileOption) => omitNull(tileOption)),
 });

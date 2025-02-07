@@ -19,7 +19,6 @@ export function getStrapiTileGroupComponent(
           value: "tile1",
           description: null,
           tagDescription: null,
-          image: null,
         },
       ],
       errors: [

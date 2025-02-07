@@ -1,9 +1,6 @@
 import { faker } from "@faker-js/faker";
-import { StrapiImageInput } from "~/services/cms/models/StrapiImage";
 
-export function getStrapiImage(): StrapiImageInput & {
-  alternativeText: string;
-} {
+export function getStrapiImage() {
   const name = faker.string.alphanumeric({ length: 5 });
   const hash = faker.string.alphanumeric({ length: 10 });
   const ext = faker.helpers.arrayElement(["png", "jpg", "svg", "gif"]);

@@ -35,6 +35,13 @@ export const getInfoBoxItemProps = (
   omitNull({
     details: cmsData.detailsSummary.map(getDetailsProps),
     inlineNotices: cmsData.inlineNotice.map(getInlineNoticeProps),
-    image: cmsData.image ?? {},
-    ...pick(cmsData, "label", "headline", "content", "buttons", "identifier"),
+    ...pick(
+      cmsData,
+      "image",
+      "label",
+      "headline",
+      "content",
+      "buttons",
+      "identifier",
+    ),
   });

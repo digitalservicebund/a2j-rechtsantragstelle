@@ -19,10 +19,10 @@ export type StrapiFooter = z.infer<typeof StrapiFooterSchema>;
 export const getFooterProps = (
   cmsData: StrapiFooter,
 ): Omit<FooterProps, "deletionLabel" | "showDeletionBanner"> => {
-  const paragraphs = cmsData.paragraphs?.map((p) => getRichTextProps(p));
+  const { links, paragraphs, image } = cmsData;
   return omitNull({
-    links: cmsData.links,
-    paragraphs,
-    image: cmsData.image ?? {},
+    links,
+    paragraphs: paragraphs?.map((p) => getRichTextProps(p)),
+    image,
   });
 };
