@@ -40,7 +40,7 @@ export const StrapiImageSchema = z
       url,
       width,
       height,
-      alternativeText: alternativeText ?? "",
+      alternativeText,
     };
   });
 
