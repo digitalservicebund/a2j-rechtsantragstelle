@@ -21,8 +21,7 @@ export default function Index() {
   return (
     <PageContent
       content={
-        useLoaderData<typeof loader>()
-          .content as unknown as StrapiContentComponent[]
+        useLoaderData<typeof loader>().content as StrapiContentComponent[]
       }
     />
   );

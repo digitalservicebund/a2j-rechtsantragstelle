@@ -17,9 +17,7 @@ export default function Kitchensink() {
   return (
     <div>
       {loaderData.content ? (
-        <PageContent
-          content={loaderData.content as unknown as StrapiContentComponent[]}
-        />
+        <PageContent content={loaderData.content as StrapiContentComponent[]} />
       ) : (
         "No kitchensink page found in CMS!"
       )}

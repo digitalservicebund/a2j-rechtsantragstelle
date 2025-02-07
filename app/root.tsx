@@ -36,7 +36,7 @@ import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
-import Footer from "./components/Footer";
+import Footer, { FooterProps } from "./components/Footer";
 import Header from "./components/PageHeader";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
@@ -236,10 +236,9 @@ function App() {
           </TranslationContext.Provider>
           <footer>
             <Footer
-              {...(footer as unknown as Record<
-                string,
-                StrapiContentComponent[]
-              >)}
+              links={footer.links}
+              paragraphs={footer.paragraphs}
+              image={footer.image as Record<string, FooterProps>}
               deletionLabel={deletionLabel}
               showDeletionBanner={hasAnyUserData}
             />
@@ -273,20 +272,16 @@ export function ErrorBoundary() {
         <main className="flex-grow">
           <ErrorBox
             errorPages={
-              loaderData?.errorPages as unknown as Record<
-                string,
-                StrapiContentComponent[]
-              >
+              loaderData?.errorPages as Record<string, StrapiContentComponent[]>
             }
             context={loaderData?.context ?? {}}
           />
         </main>
         {loaderData && (
           <Footer
-            {...(loaderData.footer as unknown as Record<
-              string,
-              StrapiContentComponent[]
-            >)}
+            links={loaderData.footer.links}
+            paragraphs={loaderData.footer.paragraphs}
+            image={loaderData.footer.image as Record<string, FooterProps>}
           />
         )}
       </body>
