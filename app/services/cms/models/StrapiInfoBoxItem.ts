@@ -12,7 +12,7 @@ import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiButtonSchema } from "./StrapiButton";
 import { getDetailsProps, StrapiDetailsSchema } from "./StrapiDetails";
-import { StrapiImageSchema, getImageProps } from "./StrapiImage";
+import { StrapiImageSchema } from "./StrapiImage";
 
 export const StrapiInfoBoxItemSchema = z
   .object({
@@ -35,6 +35,13 @@ export const getInfoBoxItemProps = (
   omitNull({
     details: cmsData.detailsSummary.map(getDetailsProps),
     inlineNotices: cmsData.inlineNotice.map(getInlineNoticeProps),
-    image: getImageProps(cmsData.image),
-    ...pick(cmsData, "label", "headline", "content", "buttons", "identifier"),
+    ...pick(
+      cmsData,
+      "image",
+      "label",
+      "headline",
+      "content",
+      "buttons",
+      "identifier",
+    ),
   });
