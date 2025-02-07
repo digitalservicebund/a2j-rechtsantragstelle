@@ -17,4 +17,6 @@ export const BACKGROUND_COLORS = Object.freeze({
   red: "bg-[#f9e5ec]", // before:bg-[#f9e5ec]
 });
 
+export const alignToContainer = "container lg:min-w-[59rem] lg:!mx-auto";
+
 export type BackgroundColor = "default" | keyof typeof BACKGROUND_COLORS;
