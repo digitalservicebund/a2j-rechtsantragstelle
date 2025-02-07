@@ -13,6 +13,7 @@ import RichText from "~/components/RichText";
 import { parsePathname } from "~/domains/flowIds";
 import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
+import { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 import {
   findCourt,
@@ -143,7 +144,7 @@ export const Component = () => {
           </Container>
         ))}
       </Background>
-      <PageContent content={freeZone} />
+      <PageContent content={freeZone as StrapiContentComponent[]} />
     </>
   );
 };

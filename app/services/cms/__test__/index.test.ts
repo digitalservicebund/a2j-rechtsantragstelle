@@ -2,16 +2,16 @@ import {
   getStrapiFlowPage,
   getStrapiFormComponent,
 } from "tests/factories/cmsModels/strapiFlowPage";
-import { getStrapiFooter } from "~/../tests/factories/cmsModels/strapiFooter";
+import { getStrapiFooter } from "tests/factories/cmsModels/strapiFooter";
 import {
-  fetchSingleEntry,
   fetchEntries,
   fetchMultipleTranslations,
+  fetchSingleEntry,
 } from "~/services/cms/index.server";
+import { StrapiFooter } from "~/services/cms/models/StrapiFooter";
 import { StrapiSchemas } from "~/services/cms/schemas";
 import { fetchAllFormFields } from "../fetchAllFormFields";
 import { getStrapiEntry } from "../getStrapiEntry";
-
 vi.mock("~/services/cms/getStrapiEntry");
 
 describe("services/cms", () => {
@@ -21,8 +21,18 @@ describe("services/cms", () => {
   describe("fetchSingleEntry", () => {
     test("returns a footer entry", async () => {
       const footerData = getStrapiFooter();
-      vi.mocked(getStrapiEntry).mockReturnValue(Promise.resolve([footerData]));
-      expect(await fetchSingleEntry("footer")).toEqual(footerData);
+      vi.mocked(getStrapiEntry).mockReturnValue(
+        Promise.resolve([footerData] as StrapiFooter[]),
+      );
+      const footer = await fetchSingleEntry("footer");
+      expect(footer.locale).toEqual(footerData.locale);
+      expect(footer.image).toEqual(footerData.image);
+      expect(footer.links).toEqual(footerData.links);
+      expect(footer.paragraphs[0].__component).toEqual(
+        footerData.paragraphs[0].__component,
+      );
+      expect(footer.paragraphs[0].id).toEqual(footerData.paragraphs[0].id);
+      expect(footer.paragraphs[0].text).toMatch(footerData.paragraphs[0].text);
     });
   });
 

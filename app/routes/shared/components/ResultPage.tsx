@@ -12,6 +12,7 @@ import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
 import type { loader } from "~/routes/shared/result.server";
 import { keyFromElement } from "~/services/cms/keyFromElement";
+import { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
 
 const iconCSS = "inline-block !h-[36px] !w-[36px] !min-h-[36px] !min-w-[36px]";
@@ -78,18 +79,23 @@ export function ResultPage() {
         </div>
       </Background>
 
-      {content.length > 0 && <PageContent content={content} />}
+      {content.length > 0 && (
+        <PageContent content={content as StrapiContentComponent[]} />
+      )}
 
       {documentsList.length > 0 && (
         <div>
           {documentsList.map((element) => (
-            <PageContent key={keyFromElement(element)} content={[element]} />
+            <PageContent
+              key={keyFromElement(element as StrapiContentComponent)}
+              content={[element as StrapiContentComponent]}
+            />
           ))}
         </div>
       )}
 
       <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
-        <PageContent content={nextSteps} />
+        <PageContent content={nextSteps as StrapiContentComponent[]} />
       </div>
     </>
   );

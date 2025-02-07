@@ -6,7 +6,6 @@ import {
   HasStrapiIdSchema,
 } from "../models/HasStrapiId";
 import { StrapiErrorCategorySchema } from "../models/StrapiErrorCategory";
-import { getImageProps } from "../models/StrapiImage";
 import { StrapiTileSchema } from "../models/StrapiTile";
 
 const StrapiTileGroupSchema = z
@@ -33,6 +32,6 @@ export const getTileGroupProps = (
   errorMessages: cmsData.errors?.flatMap((cmsError) => cmsError.errorCodes),
   options: cmsData.options.map((tileOption) => ({
     ...omitNull(tileOption),
-    image: getImageProps(tileOption.image),
+    image: tileOption.image ?? {},
   })),
 });

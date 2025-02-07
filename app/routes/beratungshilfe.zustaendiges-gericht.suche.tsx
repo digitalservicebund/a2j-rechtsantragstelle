@@ -11,6 +11,7 @@ import PageContent from "~/components/PageContent";
 import type { FlowId } from "~/domains/flowIds";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
+import { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { getSessionManager } from "~/services/session.server";
@@ -65,7 +66,10 @@ export default function Index() {
     <Background backgroundColor="blue">
       <div className="min-h-screen">
         <Container>
-          <PageContent className="ds-stack-32" content={pre_form} />
+          <PageContent
+            className="ds-stack-32"
+            content={pre_form as StrapiContentComponent[]}
+          />
         </Container>
         <ValidatedForm method="post" validator={validatorClient} noValidate>
           <Container>

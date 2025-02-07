@@ -1,18 +1,17 @@
 import { z } from "zod";
-import { type RichTextProps } from "~/components/RichText";
 import { buildRichTextValidation } from "~/services/validation/richtext";
+import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+export type StrapiParagraph = z.infer<typeof StrapiParagraphSchema>;
 
 export const StrapiParagraphSchema = z
   .object({ text: buildRichTextValidation() })
-  .merge(HasOptionalStrapiIdSchema);
-
-export const StrapiParagraphComponentSchema = StrapiParagraphSchema.extend({
-  __component: z.literal("basic.paragraph"),
-});
-
-export type StrapiParagraph = z.infer<typeof StrapiParagraphSchema>;
-
-export const getRichTextProps = (cmsData: StrapiParagraph): RichTextProps => ({
-  html: cmsData.text,
-});
+  .merge(HasOptionalStrapiIdSchema)
+  .transform((cmsData) =>
+    omitNull({
+      __component: "basic.paragraph" as const,
+      html: cmsData.text,
+      id: cmsData.id,
+      text: cmsData.text,
+    }),
+  );

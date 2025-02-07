@@ -6,7 +6,7 @@ import { StandaloneLink } from "./StandaloneLink";
 
 type LinkProps = {
   url: string;
-  text?: string;
+  text?: string | null;
 };
 
 export type FooterProps = Readonly<{

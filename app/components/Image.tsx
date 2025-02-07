@@ -14,7 +14,8 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
 
   return isSvg ? (
     <SVG
-      {...props}
+      className={props.className}
+      width={props.width}
       id="svg-image"
       src={url}
       title={alternativeText ?? "image"}
@@ -22,7 +23,13 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
       height="100%"
     />
   ) : (
-    <img {...props} src={url} alt={alternativeText ?? ""} />
+    <img
+      className={props.className}
+      width={props.width}
+      height={props.height}
+      src={url}
+      alt={alternativeText ?? ""}
+    />
   );
 }
 
