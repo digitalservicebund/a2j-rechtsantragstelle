@@ -30,7 +30,7 @@ describe("services/cms", () => {
 
     const fileContent = {
       "page-header": [],
-      footer: footerData as unknown as StrapiFooter[],
+      footer: [footerData] as StrapiFooter[],
       pages: [impressum],
       "cookie-banner": [],
       "result-pages": [],
@@ -69,15 +69,13 @@ describe("services/cms", () => {
       translations: [],
     } satisfies StrapiSchemas;
     vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify(fileContent));
-    test("returns an entry", () => {
-      //TODO: fix in the next commit
+    test("returns an entry", async () => {
       expect(
-        [],
-        // await getStrapiEntryFromFile({
-        //   apiId: "footer",
-        //   locale: "de",
-        // }),
-      ).toEqual([]); //.toEqual([footerData]);
+        await getStrapiEntryFromFile({
+          apiId: "footer",
+          locale: "de",
+        }),
+      ).toEqual([footerData]);
     });
 
     it("can filter by property", async () => {
