@@ -34,7 +34,7 @@
     "test:e2e": "npx playwright test",
     "test": "vitest run --project=!integration",
     "test:watch": "vitest --project=!integration",
-    "test:integration": "vitest run --project integration",
+    "test:integration": "./tests/integration/runTests.sh",
     "typecheck": "tsc",
     "typecheck:watch": "tsc -w",
     "update:courtData": "tsx ./app/services/gerichtsfinder/encryptedStorage.ts updateZip",
@@ -44,7 +44,7 @@
     "verify:websites": "tsx ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.741.0",
+    "@aws-sdk/client-s3": "^3.743.0",
     "@digitalservice4germany/angie": "^1.2.0",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@digitalservicebund/icons": "^2.0.1",
@@ -74,8 +74,8 @@
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.16.0",
-    "posthog-js": "^1.215.4",
-    "posthog-node": "^4.4.1",
+    "posthog-js": "^1.215.5",
+    "posthog-node": "^4.5.0",
     "rate-limit-redis": "^4.2.0",
     "react": "^18.3.1",
     "react-collapsed": "^4.2.0",
