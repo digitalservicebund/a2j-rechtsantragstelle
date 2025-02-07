@@ -1,5 +1,4 @@
 import fs from "node:fs";
-import pick from "lodash/pick";
 import { getStrapiFlowPage } from "tests/factories/cmsModels/strapiFlowPage";
 import { getStrapiFooter } from "tests/factories/cmsModels/strapiFooter";
 import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
@@ -76,17 +75,7 @@ describe("services/cms", () => {
           apiId: "footer",
           locale: "de",
         }),
-      ).toEqual([
-        {
-          ...footerData,
-          image: pick(footerData.image, [
-            "url",
-            "alternativeText",
-            "width",
-            "height",
-          ]),
-        },
-      ]);
+      ).toEqual([footerData]);
     });
 
     it("can filter by property", async () => {
