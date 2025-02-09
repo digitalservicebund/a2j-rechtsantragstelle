@@ -1,3 +1,4 @@
+import pick from "lodash/pick";
 import {
   getStrapiFlowPage,
   getStrapiFormComponent,
@@ -22,7 +23,15 @@ describe("services/cms", () => {
     test("returns a footer entry", async () => {
       const footerData = getStrapiFooter();
       vi.mocked(getStrapiEntry).mockReturnValue(Promise.resolve([footerData]));
-      expect(await fetchSingleEntry("footer")).toEqual(footerData);
+      expect(await fetchSingleEntry("footer")).toEqual({
+        ...footerData,
+        image: pick(footerData.image, [
+          "url",
+          "alternativeText",
+          "width",
+          "height",
+        ]),
+      });
     });
   });
 
