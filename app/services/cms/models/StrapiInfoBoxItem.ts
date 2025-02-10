@@ -2,10 +2,7 @@ import pick from "lodash/pick";
 import { z } from "zod";
 import type { InfoBoxItemProps } from "~/components/InfoBoxItem";
 import { StrapiHeadingSchema } from "~/services/cms/models/StrapiHeading";
-import {
-  getInlineNoticeProps,
-  StrapiInlineNoticeSchema,
-} from "~/services/cms/models/StrapiInlineNotice";
+import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNotice";
 import { buildRichTextValidation } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
@@ -33,7 +30,7 @@ export const getInfoBoxItemProps = (
   cmsData: StrapiInfoBoxItem,
 ): InfoBoxItemProps =>
   omitNull({
-    inlineNotices: cmsData.inlineNotice.map(getInlineNoticeProps),
+    inlineNotices: cmsData.inlineNotice,
     ...pick(
       cmsData,
       "detailsSunmmary",
