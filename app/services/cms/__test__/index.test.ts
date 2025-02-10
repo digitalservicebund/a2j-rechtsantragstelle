@@ -26,17 +26,15 @@ describe("services/cms", () => {
       vi.mocked(getStrapiEntry).mockReturnValue(
         Promise.resolve([footerData] as StrapiFooter[]),
       );
-      const footer = await fetchSingleEntry("footer");
-      expect(footer.locale).toEqual(footerData.locale);
-      expect(footer.image).toEqual(
-        pick(footerData.image, ["url", "alternativeText", "height", "width"]),
-      );
-      expect(footer.links).toEqual(footerData.links);
-      expect(footer.paragraphs[0].__component).toEqual(
-        footerData.paragraphs[0].__component,
-      );
-      expect(footer.paragraphs[0].id).toEqual(footerData.paragraphs[0].id);
-      expect(footer.paragraphs[0].html).toMatch(footerData.paragraphs[0].text);
+      expect(await fetchSingleEntry("footer")).toEqual({
+        ...footerData,
+        image: pick(footerData.image, [
+          "url",
+          "alternativeText",
+          "width",
+          "height",
+        ]),
+      });
     });
   });
 

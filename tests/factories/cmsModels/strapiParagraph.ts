@@ -5,6 +5,5 @@ export function getStrapiParagraph() {
     __component: `basic.paragraph`,
     html: `<p>${faker.lorem.paragraph()}<p>`,
     id: 123,
-    text: `<p>${faker.lorem.paragraph()}<p>`,
   };
 }
