@@ -28,7 +28,7 @@ type StrapiHeaderComponent = z.infer<typeof StrapiHeaderComponentSchema>;
 export const getHeaderProps = ({
   content,
   heading,
-}: StrapiHeader): HeaderProps => omitNull({ heading, content: content });
+}: StrapiHeader): HeaderProps => omitNull({ heading, content });
 
 export const isStrapiHeader = (
   content: StrapiContentComponent,
