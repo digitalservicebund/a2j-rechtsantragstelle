@@ -6,7 +6,12 @@ type SpinnerProps = {
 
 export const FileUploadSpinner: FC<SpinnerProps> = ({ title }) => {
   return (
-    <svg role="img" className="h-24 w-24 animate-spin" viewBox="0 0 100 100">
+    <svg
+      data-testid="spinner"
+      role="img"
+      className="h-24 w-24 animate-spin"
+      viewBox="0 0 100 100"
+    >
       <title>{title}</title>
       <circle
         fill="none"

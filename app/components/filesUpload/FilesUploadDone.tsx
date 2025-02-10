@@ -2,7 +2,7 @@ import AddIcon from "@digitalservicebund/icons/Add";
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import InsertFileIcon from "@digitalservicebund/icons/InsertDriveFile";
 import { FC } from "react";
-import { convertFileSize } from "~/util/filesUpload/convertFileSize";
+import { convertFileSize } from "~/components/filesUpload/convertFileSize";
 import Button from "../Button";
 
 export type FilesUploadDoneProps = {
