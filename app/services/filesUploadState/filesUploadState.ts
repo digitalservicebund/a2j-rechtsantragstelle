@@ -3,6 +3,7 @@ export enum FilesUploadState {
   InProgress,
   Done,
   Disabled,
+  Error,
 }
 
 export const stateIsDone = (state: FilesUploadState) =>
@@ -13,3 +14,5 @@ export const stateIsInProgress = (state: FilesUploadState) =>
   state === FilesUploadState.InProgress;
 export const stateIsNotStarted = (state: FilesUploadState) =>
   state === FilesUploadState.NotStarted;
+export const stateIsError = (state: FilesUploadState) =>
+  state === FilesUploadState.Error;
