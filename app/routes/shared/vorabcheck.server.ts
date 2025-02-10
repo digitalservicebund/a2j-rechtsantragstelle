@@ -79,7 +79,7 @@ export const loader = async ({
       strapiFormElement.label === null &&
       headings.length > 0
     ) {
-      strapiFormElement.altLabel = headings[0].text;
+      strapiFormElement.altLabel = headings[0].text ?? null;
     }
     return strapiFormElement;
   });
