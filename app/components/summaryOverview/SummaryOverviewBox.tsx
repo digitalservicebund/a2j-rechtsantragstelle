@@ -9,7 +9,7 @@ import Heading from "../Heading";
 
 export type SummaryOverviewBoxProps = {
   readonly title?: string;
-  readonly page: string;
+  readonly stepId: string;
   readonly sortedFields?: string;
 };
 
@@ -44,16 +44,16 @@ function getTranslationByKeyForUserData(
 
 const SummaryOverviewBox = ({
   title,
-  page,
+  stepId,
   sortedFields,
 }: SummaryOverviewBoxProps) => {
   const { userData, validFlowPages, translations, flowId } = useFlowFormular();
 
-  if (!validFlowPages[page]) {
+  if (!validFlowPages[stepId]) {
     return null;
   }
 
-  const pageFields = validFlowPages[page];
+  const pageFields = validFlowPages[stepId];
 
   const _sortedFields = getSortedFields(pageFields, sortedFields);
 
@@ -82,7 +82,7 @@ const SummaryOverviewBox = ({
 
         <Button
           iconLeft={<EditButton />}
-          href={`${flowId}${page}`}
+          href={`${flowId}${stepId}`}
           look="tertiary"
           size="large"
           className="w-fit"

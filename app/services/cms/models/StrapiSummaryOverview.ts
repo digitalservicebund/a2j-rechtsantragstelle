@@ -11,7 +11,12 @@ export const StrapiSummaryOverviewSchema = z
           boxes: z.array(
             z.object({
               title: z.string().nullable().transform(omitNull).optional(),
-              page: z.string(),
+              stepId: z.string(),
+              hiddenFields: z
+                .string()
+                .nullable()
+                .transform(omitNull)
+                .optional(),
               sortedFields: z
                 .string()
                 .nullable()
