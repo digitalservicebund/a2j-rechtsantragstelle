@@ -38,13 +38,7 @@ const BoxWithImage = ({
       <div
         className={`lg:shrink-0 overflow-hidden ${hasTextContent ? variantWidths[variant] : "max-w-full"}`}
       >
-        <Image
-          url={image.url}
-          className={image.className}
-          height={image.height}
-          width={image.width}
-          alternativeText={image.alternativeText}
-        />
+        <Image {...image} />
       </div>
       {hasTextContent && (
         <div className={`ds-stack-8 break-words min-w-[120px] max-w-[696px]`}>
