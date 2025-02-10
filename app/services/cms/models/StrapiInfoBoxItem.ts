@@ -2,16 +2,13 @@ import pick from "lodash/pick";
 import { z } from "zod";
 import type { InfoBoxItemProps } from "~/components/InfoBoxItem";
 import { StrapiHeadingSchema } from "~/services/cms/models/StrapiHeading";
-import {
-  getInlineNoticeProps,
-  StrapiInlineNoticeSchema,
-} from "~/services/cms/models/StrapiInlineNotice";
+import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNotice";
 import { buildRichTextValidation } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiButtonSchema } from "./StrapiButton";
-import { getDetailsProps, StrapiDetailsSchema } from "./StrapiDetails";
+import { StrapiDetailsSchema } from "./StrapiDetails";
 import { StrapiImageSchema } from "./StrapiImage";
 
 export const StrapiInfoBoxItemSchema = z
@@ -33,10 +30,10 @@ export const getInfoBoxItemProps = (
   cmsData: StrapiInfoBoxItem,
 ): InfoBoxItemProps =>
   omitNull({
-    details: cmsData.detailsSummary.map(getDetailsProps),
-    inlineNotices: cmsData.inlineNotice.map(getInlineNoticeProps),
+    inlineNotices: cmsData.inlineNotice,
     ...pick(
       cmsData,
+      "detailsSunmmary",
       "image",
       "label",
       "headline",
