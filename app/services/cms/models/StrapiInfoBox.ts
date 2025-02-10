@@ -4,7 +4,7 @@ import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
-import { getHeadingProps, StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiHeadingSchema } from "./StrapiHeading";
 import {
   StrapiInfoBoxItemSchema,
   getInfoBoxItemProps,
@@ -12,7 +12,7 @@ import {
 
 const StrapiInfoBoxSchema = z
   .object({
-    heading: StrapiHeadingSchema.nullable(),
+    heading: StrapiHeadingSchema,
     items: z.array(StrapiInfoBoxItemSchema),
     outerBackground: StrapiBackgroundSchema.nullable(),
     separator: z.boolean().nullable(),
@@ -33,7 +33,7 @@ export type StrapiInfoBoxComponent = z.infer<
 
 export const getInfoBoxProps = (cmsData: StrapiInfoBox): InfoBoxProps => ({
   identifier: cmsData.identifier ?? undefined,
-  heading: getHeadingProps(cmsData.heading),
+  heading: cmsData.heading,
   items: cmsData.items.map(getInfoBoxItemProps),
   separator: cmsData.separator ?? undefined,
 });
