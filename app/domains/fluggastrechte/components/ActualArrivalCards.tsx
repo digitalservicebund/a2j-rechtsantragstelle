@@ -26,14 +26,17 @@ function ActualArrivalCards({
   readonly translations: Translations;
 }) {
   if (userData.bereich === "annullierung") {
-    return (
-      <SummaryDataOverviewCard
-        title="Angebotene Ersatzverbindung"
-        buttonUrl={`${FLOW_ID}/flugdaten/ersatzverbindung-daten`}
-        data={getAnnullierungData(userData)}
-        translations={translations}
-      />
-    );
+    if (userData.ersatzflug === "yes") {
+      return (
+        <SummaryDataOverviewCard
+          title="Angebotene Ersatzverbindung"
+          buttonUrl={`${FLOW_ID}/flugdaten/ersatzverbindung-daten`}
+          data={getAnnullierungData(userData)}
+          translations={translations}
+        />
+      );
+    }
+    return <></>;
   }
 
   if (userData.tatsaechlicherFlug === "yes") {

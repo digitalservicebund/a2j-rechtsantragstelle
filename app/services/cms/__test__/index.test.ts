@@ -2,16 +2,17 @@ import {
   getStrapiFlowPage,
   getStrapiFormComponent,
 } from "tests/factories/cmsModels/strapiFlowPage";
-import { getStrapiFooter } from "tests/factories/cmsModels/strapiFooter";
+import { getStrapiFooter } from "~/../tests/factories/cmsModels/strapiFooter";
 import {
+  fetchSingleEntry,
   fetchEntries,
   fetchMultipleTranslations,
-  fetchSingleEntry,
 } from "~/services/cms/index.server";
 import { StrapiFooter } from "~/services/cms/models/StrapiFooter";
 import { StrapiSchemas } from "~/services/cms/schemas";
 import { fetchAllFormFields } from "../fetchAllFormFields";
 import { getStrapiEntry } from "../getStrapiEntry";
+
 vi.mock("~/services/cms/getStrapiEntry");
 
 describe("services/cms", () => {

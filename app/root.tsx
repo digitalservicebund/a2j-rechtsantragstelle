@@ -127,6 +127,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       header: {
         ...getPageHeaderProps(strapiHeader),
         hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
+        alignToMainContainer:
+          !flowIdFromPathname(pathname)?.match(/formular|antrag/),
         showKopfzeile,
       },
       footer: strapiFooter,
@@ -228,7 +230,11 @@ function App() {
           />
           <CookieBanner content={cookieBannerContent} />
           <Header {...header} translations={pageHeaderTranslations} />
-          <Breadcrumbs breadcrumbs={breadcrumbs} linkLabel={header.linkLabel} />
+          <Breadcrumbs
+            breadcrumbs={breadcrumbs}
+            alignToMainContainer={header.alignToMainContainer}
+            linkLabel={header.linkLabel}
+          />
           <TranslationContext.Provider value={translationMemo}>
             <main className="flex-grow" id="main">
               <Outlet />

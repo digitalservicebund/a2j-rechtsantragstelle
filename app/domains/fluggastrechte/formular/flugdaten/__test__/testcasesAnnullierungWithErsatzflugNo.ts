@@ -14,6 +14,7 @@ const baseContext = {
   fluggesellschaftOrt: "Berlin",
   fluggesellschaftPostleitzahl: "10969",
   fluggesellschaftStrasseHausnummer: "Prinzessinnenstraße 8-14",
+  ersatzflug: "no",
   bereich: "annullierung",
   direktFlugnummer: "AB1234",
   buchungsNummer: "X36Q9C",
@@ -38,7 +39,6 @@ const cases = [
     [
       "/flugdaten/adresse-fluggesellschaft",
       "/flugdaten/geplanter-flug",
-      "/flugdaten/ersatzverbindung-daten",
       "/flugdaten/zusaetzliche-angaben",
       "/persoenliche-daten/person/daten",
     ],
@@ -57,7 +57,6 @@ const cases = [
       "/flugdaten/zwischenstopp-uebersicht-1",
       "/flugdaten/verspaeteter-flug-1",
       "/flugdaten/anschluss-flug-verpasst",
-      "/flugdaten/ersatzverbindung-daten",
       "/flugdaten/zusaetzliche-angaben",
       "/persoenliche-daten/person/daten",
     ],
@@ -74,7 +73,6 @@ const cases = [
       "/flugdaten/geplanter-flug",
       "/flugdaten/zwischenstopp-uebersicht-1",
       "/flugdaten/verspaeteter-flug-1",
-      "/flugdaten/ersatzverbindung-daten",
       "/flugdaten/zusaetzliche-angaben",
       "/persoenliche-daten/person/daten",
     ],
@@ -94,7 +92,6 @@ const cases = [
       "/flugdaten/zwischenstopp-uebersicht-2",
       "/flugdaten/verspaeteter-flug-2",
       "/flugdaten/anschluss-flug-verpasst",
-      "/flugdaten/ersatzverbindung-daten",
       "/flugdaten/zusaetzliche-angaben",
       "/persoenliche-daten/person/daten",
     ],
@@ -112,7 +109,6 @@ const cases = [
       "/flugdaten/geplanter-flug",
       "/flugdaten/zwischenstopp-uebersicht-2",
       "/flugdaten/verspaeteter-flug-2",
-      "/flugdaten/ersatzverbindung-daten",
       "/flugdaten/zusaetzliche-angaben",
       "/persoenliche-daten/person/daten",
     ],
@@ -133,7 +129,6 @@ const cases = [
       "/flugdaten/zwischenstopp-uebersicht-3",
       "/flugdaten/verspaeteter-flug-3",
       "/flugdaten/anschluss-flug-verpasst",
-      "/flugdaten/ersatzverbindung-daten",
       "/flugdaten/zusaetzliche-angaben",
       "/persoenliche-daten/person/daten",
     ],
@@ -154,7 +149,6 @@ const cases = [
       "/flugdaten/zwischenstopp-uebersicht-3",
       "/flugdaten/verspaeteter-flug-3",
       "/flugdaten/anschluss-flug-verpasst",
-      "/flugdaten/ersatzverbindung-daten",
       "/flugdaten/zusaetzliche-angaben",
       "/persoenliche-daten/person/daten",
     ],
@@ -175,7 +169,6 @@ const cases = [
       "/flugdaten/zwischenstopp-uebersicht-3",
       "/flugdaten/verspaeteter-flug-3",
       "/flugdaten/anschluss-flug-verpasst",
-      "/flugdaten/ersatzverbindung-daten",
       "/flugdaten/zusaetzliche-angaben",
       "/persoenliche-daten/person/daten",
     ],
@@ -194,14 +187,14 @@ const cases = [
       "/flugdaten/geplanter-flug",
       "/flugdaten/zwischenstopp-uebersicht-3",
       "/flugdaten/verspaeteter-flug-3",
-      "/flugdaten/ersatzverbindung-daten",
       "/flugdaten/zusaetzliche-angaben",
       "/persoenliche-daten/person/daten",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;
 
-export const testCasesFluggastrechteFormularFlugdatenAnnullierung = {
-  machine,
-  cases,
-};
+export const testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugNo =
+  {
+    machine,
+    cases,
+  };

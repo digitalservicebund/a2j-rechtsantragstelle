@@ -31,6 +31,9 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/grundvoraussetzungen/daten-uebernahme
   await formular.clickNext();
 
+  // /fluggastrechte/formular/grundvoraussetzungen/amtsgericht
+  await formular.clickNext();
+
   // /fluggastrechte/formular/streitwert-kosten/gerichtskosten
   await formular.clickNext();
 

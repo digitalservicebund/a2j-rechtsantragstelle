@@ -7,6 +7,8 @@ import { config } from "../env/env.server";
 
 let content: StrapiSchemas | undefined;
 
+const NO_VALID_FILE =
+  "No valid content.json found while using 'CMS=FILE'.\nEither run 'npm run build:localContent' or try another CMS source";
 export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>(
   opts: GetStrapiEntryOpts<T>,
 ) => {
@@ -16,20 +18,15 @@ export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>(
       const fileContent = fs.readFileSync(filePath, { encoding: "utf-8" });
       content = JSON.parse(fileContent);
     } catch (error) {
-      throw Error(
-        "No valid content.json found while using 'CMS=FILE'.\nEither run 'npm run build:localContent' or try another CMS source",
-        { cause: error },
-      );
+      throw Error(NO_VALID_FILE, { cause: error });
     }
   }
 
   if (!content || !content[opts.apiId]) {
-    throw Error(
-      "No valid content.json found while using 'CMS=FILE'.\nEither run 'npm run build:localContent' or try another CMS source",
-      { cause: `content[opts.apiId] is not defined` },
-    );
+    throw Error(NO_VALID_FILE, { cause: `content[opts.apiId] is not defined` });
   }
-  const contentItems = content[opts.apiId].filter(
+
+  const contentItems = [...content[opts.apiId]].filter(
     (content) =>
       !opts.filters ||
       opts.filters.every(({ field, value, nestedField }) => {
