@@ -11,6 +11,7 @@ import { StrapiInlineNoticeComponentSchema } from "./StrapiInlineNotice";
 import { StrapiLinkListBoxComponentSchema } from "./StrapiLinkListBox";
 import { StrapiListComponentSchema } from "./StrapiList";
 import { StrapiParagraphComponentSchema } from "./StrapiParagraph";
+import { StrapiSummaryOverviewSchema } from "./StrapiSummaryOverview";
 import { StrapiUserFeedbackComponentSchema } from "./StrapiUserFeedback";
 
 export const StrapiContentComponentSchema = z.union([
@@ -27,6 +28,7 @@ export const StrapiContentComponentSchema = z.union([
   StrapiInlineNoticeComponentSchema,
   StrapiDetailsSchema,
   StrapiUserFeedbackComponentSchema,
+  StrapiSummaryOverviewSchema,
 ]);
 
 export type StrapiContentComponent = z.infer<

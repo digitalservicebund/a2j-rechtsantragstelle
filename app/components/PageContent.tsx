@@ -23,6 +23,7 @@ import { InlineNotice } from "./InlineNotice";
 import LinkListBox from "./LinkListBox";
 import List from "./List";
 import RichText from "./RichText";
+import SummaryOverview from "./summaryOverview/SummaryOverview";
 import UserFeedback from "./userFeedback";
 import { keyFromElement } from "../services/cms/keyFromElement";
 
@@ -84,6 +85,8 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
       return <Details {...strapiContent} />;
     case "page.user-feedback":
       return <UserFeedback {...getUserFeedbackProps(strapiContent)} />;
+    case "page.summary-overview":
+      return <SummaryOverview {...strapiContent} />;
     default:
       return <></>;
   }
