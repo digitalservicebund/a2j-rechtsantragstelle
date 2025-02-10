@@ -1,3 +1,4 @@
+import pick from "lodash/pick";
 import {
   getStrapiFlowPage,
   getStrapiFormComponent,
@@ -27,7 +28,9 @@ describe("services/cms", () => {
       );
       const footer = await fetchSingleEntry("footer");
       expect(footer.locale).toEqual(footerData.locale);
-      expect(footer.image).toEqual(footerData.image);
+      expect(footer.image).toEqual(
+        pick(footerData.image, ["url", "alternativeText", "height", "width"]),
+      );
       expect(footer.links).toEqual(footerData.links);
       expect(footer.paragraphs[0].__component).toEqual(
         footerData.paragraphs[0].__component,

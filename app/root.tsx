@@ -30,6 +30,7 @@ import {
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
+import { getCookieBannerProps } from "~/services/cms/models/StrapiCookieBannerSchema";
 import { getFooterProps } from "~/services/cms/models/StrapiFooter";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
@@ -52,7 +53,6 @@ import {
 } from "./services/translations/getTranslationByKey";
 import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
-import { getCookieBannerProps } from "~/services/cms/models/StrapiCookieBannerSchema";
 
 export { headers } from "./rootHeaders";
 
