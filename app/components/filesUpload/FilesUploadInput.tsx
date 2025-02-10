@@ -1,27 +1,23 @@
-import { useId, type FC } from "react";
+import { type FC } from "react";
 import Button from "../Button";
 
 export type FilesUploadInputProps = {
-  selectFilesButtonLabel?: string;
+  fieldName: string;
+  selectFilesButtonLabel: string;
 };
 
 export const FilesUploadInput: FC<FilesUploadInputProps> = ({
+  fieldName,
   selectFilesButtonLabel,
 }) => {
-  const inputId = useId();
-
   return (
-    <div className="w-full">
-      <label htmlFor="filesUpload">
+    <div className="w-full my-14">
+      <label>
         <input
           data-testid="filesUpload"
-          multiple
           type="file"
-          id={inputId}
-          name="filesUpload"
-          aria-invalid="true"
+          name={fieldName}
           accept=".pdf, .tiff, .tif"
-          onChange={() => null}
           className="w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
         />
         <Button look="tertiary" text={selectFilesButtonLabel} />

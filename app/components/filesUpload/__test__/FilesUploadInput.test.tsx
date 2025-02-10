@@ -4,7 +4,7 @@ import { FilesUploadInput } from "../FilesUploadInput";
 
 describe.skip("FilesUploadInput", () => {
   it("renders an upload files input", () => {
-    render(<FilesUploadInput />);
+    render(<FilesUploadInput fieldName={""} selectFilesButtonLabel={""} />);
     const filesUploadInput = screen.getByTestId("filesUpload");
     expect(filesUploadInput).toBeInTheDocument();
     expect(filesUploadInput).toHaveClass(
@@ -15,7 +15,7 @@ describe.skip("FilesUploadInput", () => {
     expect(filesUploadInput).toHaveAttribute("accept", ".pdf, .tiff, .tif");
   });
   it("renders an upload files button", () => {
-    render(<FilesUploadInput />);
+    render(<FilesUploadInput fieldName={""} selectFilesButtonLabel={""} />);
     const filesUploadButton = screen.getByRole("button", {
       name: "Datei auswählen",
     });
@@ -31,7 +31,7 @@ describe.skip("FilesUploadInput", () => {
 
     const mockSetFiles = vi.fn();
 
-    render(<FilesUploadInput />);
+    render(<FilesUploadInput fieldName={""} selectFilesButtonLabel={""} />);
 
     const user = userEvent.setup();
     const input = screen.getByTestId("filesUpload");
@@ -51,7 +51,7 @@ describe.skip("FilesUploadInput", () => {
 
     const mockSetFiles = vi.fn();
 
-    render(<FilesUploadInput />);
+    render(<FilesUploadInput fieldName={""} selectFilesButtonLabel={""} />);
 
     const user = userEvent.setup();
     const input = screen.getByTestId("filesUpload");

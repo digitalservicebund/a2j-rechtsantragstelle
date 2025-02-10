@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { FilesUpload } from "../FilesUpload";
 
 describe.skip("FileUpload", () => {
-  it("renders the beleg title and description", () => {
+  it("renders title and description", () => {
     render(
       <FilesUpload
         fileNames={[]}
@@ -10,6 +10,13 @@ describe.skip("FileUpload", () => {
         cancelButtonLabel={""}
         deleteButtonLabel={""}
         uploadProgressLabel={""}
+        title={""}
+        fieldName={""}
+        warningTitle={""}
+        errorMessage={""}
+        warningDescription={""}
+        selectFilesButtonLabel={""}
+        selectMoreFilesButtonLabel={""}
       />,
     );
 
@@ -30,6 +37,13 @@ describe.skip("FileUpload", () => {
         cancelButtonLabel={""}
         deleteButtonLabel={""}
         uploadProgressLabel={""}
+        title={""}
+        fieldName={""}
+        warningTitle={""}
+        errorMessage={""}
+        warningDescription={""}
+        selectFilesButtonLabel={""}
+        selectMoreFilesButtonLabel={""}
       />,
     );
 
@@ -61,6 +75,13 @@ describe.skip("FileUpload", () => {
         cancelButtonLabel={""}
         deleteButtonLabel={""}
         uploadProgressLabel={""}
+        title={""}
+        fieldName={""}
+        warningTitle={""}
+        errorMessage={""}
+        warningDescription={""}
+        selectFilesButtonLabel={""}
+        selectMoreFilesButtonLabel={""}
       />,
     );
 
@@ -101,6 +122,13 @@ describe.skip("FileUpload", () => {
         cancelButtonLabel={""}
         deleteButtonLabel={""}
         uploadProgressLabel={""}
+        title={""}
+        fieldName={""}
+        warningTitle={""}
+        errorMessage={""}
+        warningDescription={""}
+        selectFilesButtonLabel={""}
+        selectMoreFilesButtonLabel={""}
       />,
     );
 
