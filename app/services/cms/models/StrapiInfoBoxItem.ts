@@ -11,7 +11,7 @@ import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiButtonSchema } from "./StrapiButton";
-import { getDetailsProps, StrapiDetailsSchema } from "./StrapiDetails";
+import { StrapiDetailsSchema } from "./StrapiDetails";
 import { StrapiImageSchema } from "./StrapiImage";
 
 export const StrapiInfoBoxItemSchema = z
@@ -33,10 +33,10 @@ export const getInfoBoxItemProps = (
   cmsData: StrapiInfoBoxItem,
 ): InfoBoxItemProps =>
   omitNull({
-    details: cmsData.detailsSummary.map(getDetailsProps),
     inlineNotices: cmsData.inlineNotice.map(getInlineNoticeProps),
     ...pick(
       cmsData,
+      "detailsSunmmary",
       "image",
       "label",
       "headline",
