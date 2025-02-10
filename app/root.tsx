@@ -30,6 +30,7 @@ import {
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
+import { getFooterProps } from "~/services/cms/models/StrapiFooter";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
@@ -131,7 +132,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
           !flowIdFromPathname(pathname)?.match(/formular|antrag/),
         showKopfzeile,
       },
-      footer: strapiFooter,
+      footer: getFooterProps(strapiFooter),
       cookieBannerContent: cookieBannerContent,
       hasTrackingConsent: trackingConsent
         ? trackingConsent === "true"
