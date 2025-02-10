@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { type ImageProps } from "~/components/Image";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 function appendStrapiUrlOnDev(imageUrl: string) {
@@ -33,19 +32,17 @@ export const StrapiImageSchema = z
     provider_metadata: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema)
-  .nullish();
+  .nullish()
+  .transform((cmsData) => {
+    if (!cmsData) return undefined;
+    const { url, width, height, alternativeText } = cmsData;
+    return {
+      url,
+      width,
+      height,
+      alternativeText,
+    };
+  });
 
 export type StrapiImage = z.infer<typeof StrapiImageSchema>;
-
-export const getImageProps = (
-  cmsData: StrapiImage | null,
-): ImageProps | undefined => {
-  if (!cmsData) return undefined;
-  const { url, width, height, alternativeText } = cmsData;
-  return {
-    url,
-    width,
-    height,
-    alternativeText: alternativeText ?? undefined,
-  };
-};
+export type StrapiImageInput = z.input<typeof StrapiImageSchema>;

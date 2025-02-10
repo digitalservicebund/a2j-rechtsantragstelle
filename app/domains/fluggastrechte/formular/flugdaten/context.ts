@@ -55,6 +55,7 @@ export const fluggastrechteFlugdaten = {
   zweiterZwischenstopp: airportSchema,
   dritterZwischenstopp: airportSchema,
   bereich: stringOptionalSchema,
+  ersatzflug: stringOptionalSchema,
   andereErsatzverbindungBeschreibung: stringOptionalSchema,
   andereErsatzverbindungAnkunftsDatum: fourYearsAgoSchema,
   andereErsatzverbindungAnkunftsZeit: timeSchema,
@@ -63,12 +64,22 @@ export const fluggastrechteFlugdaten = {
   ersatzFlugAnkunftsZeit: timeSchema,
   zusaetzlicheAngaben: stringOptionalSchema,
   annullierungErsatzverbindungFlugnummer: optionalOrSchema(flightNumberSchema),
-  annullierungErsatzverbindungAbflugsDatum:
-    optionalOrSchema(fourYearsAgoSchema),
-  annullierungErsatzverbindungAbflugsZeit: optionalOrSchema(timeSchema),
-  annullierungErsatzverbindungAnkunftsDatum:
-    optionalOrSchema(fourYearsAgoSchema),
-  annullierungErsatzverbindungAnkunftsZeit: optionalOrSchema(timeSchema),
+  annullierungErsatzverbindungAbflugsDatum: optionalOrSchema(
+    fourYearsAgoSchema,
+    z.literal(""), // we need to set default value (empty string), so that the client-side validation works
+  ),
+  annullierungErsatzverbindungAbflugsZeit: optionalOrSchema(
+    timeSchema,
+    z.literal(""),
+  ),
+  annullierungErsatzverbindungAnkunftsDatum: optionalOrSchema(
+    fourYearsAgoSchema,
+    z.literal(""),
+  ),
+  annullierungErsatzverbindungAnkunftsZeit: optionalOrSchema(
+    timeSchema,
+    z.literal(""),
+  ),
 };
 
 const _contextObject = z.object(fluggastrechteFlugdaten).partial();
