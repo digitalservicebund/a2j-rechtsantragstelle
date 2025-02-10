@@ -10,7 +10,7 @@ import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
-import { getHeadingProps, StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiImageSchema } from "./StrapiImage";
 
 // Necessary destructuring for zod enum type
@@ -36,15 +36,14 @@ export const StrapiBoxWithImageComponentSchema =
   });
 
 export const getBoxWithImageProps = ({
-  heading,
   image,
   ...props
 }: z.infer<typeof StrapiBoxWithImageSchema>): BoxWithImageProps => {
-  const { content, identifier, variant } = omitNull(props);
+  const { content, identifier, variant, heading } = omitNull(props);
   return {
     image: omitNull(image) ?? {},
     identifier,
-    heading: heading ? getHeadingProps(heading) : undefined,
+    heading,
     content,
     variant,
   };

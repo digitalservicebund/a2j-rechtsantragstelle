@@ -4,9 +4,7 @@ import Video from "~/components/video/Video";
 import { getBoxProps } from "~/services/cms/models/StrapiBox";
 import { getBoxWithImageProps } from "~/services/cms/models/StrapiBoxWithImage";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
-import { getDetailsProps } from "~/services/cms/models/StrapiDetails";
 import { getHeaderProps } from "~/services/cms/models/StrapiHeader";
-import { getHeadingProps } from "~/services/cms/models/StrapiHeading";
 import { getInfoBoxProps } from "~/services/cms/models/StrapiInfoBox";
 import { getInlineNoticeProps } from "~/services/cms/models/StrapiInlineNotice";
 import { getLinkListBoxProps } from "~/services/cms/models/StrapiLinkListBox";
@@ -63,7 +61,7 @@ function wrapInBackground(
 function cmsToReact(strapiContent: StrapiContentComponent) {
   switch (strapiContent.__component) {
     case "basic.heading":
-      return <Heading {...getHeadingProps(strapiContent)} />;
+      return <Heading {...strapiContent} />;
     case "basic.paragraph":
       return <RichText {...getRichTextProps(strapiContent)} />;
     case "page.header":
@@ -83,7 +81,7 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
     case "page.inline-notice":
       return <InlineNotice {...getInlineNoticeProps(strapiContent)} />;
     case "page.details-summary":
-      return <Details {...getDetailsProps(strapiContent)} />;
+      return <Details {...strapiContent} />;
     case "page.user-feedback":
       return <UserFeedback {...getUserFeedbackProps(strapiContent)} />;
     default:
