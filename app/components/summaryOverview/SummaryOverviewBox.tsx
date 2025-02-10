@@ -1,16 +1,14 @@
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
-import {
-  getTranslationByKey,
-  Translations,
-} from "~/services/translations/getTranslationByKey";
 import Button from "../Button";
 import { useFlowFormular } from "../form/flowFormularContext";
 import Heading from "../Heading";
+import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 
 export type SummaryOverviewBoxProps = {
   readonly title?: string;
   readonly stepId: string;
   readonly sortedFields?: string;
+  readonly hiddenFields?: string;
 };
 
 const getSortedFields = (pageFields: string[], sortedFields?: string) => {
@@ -25,27 +23,20 @@ const getSortedFields = (pageFields: string[], sortedFields?: string) => {
     const indexY = sorted.indexOf(y);
 
     if (indexX === -1 && indexY === -1) {
-      return pageFields.indexOf(x) - pageFields.indexOf(y);
+      return pageFields.indexOf(x) - pageFields.indexOf(y); // Keep relative order for unsorted items
     }
-    if (indexX === -1) return 1;
-    if (indexY === -1) return -1;
+    if (indexX === -1) return 1; // Move x to the end if it's not in sorted
+    if (indexY === -1) return -1; // Move y to the end if it's not in sorted
 
-    return indexX - indexY;
+    return indexX - indexY; // Sort based on sorted array order
   });
 };
-
-function getTranslationByKeyForUserData(
-  key: string,
-  translations?: Translations,
-): string {
-  const translation = translations?.[key];
-  return translation ?? key;
-}
 
 const SummaryOverviewBox = ({
   title,
   stepId,
   sortedFields,
+  hiddenFields,
 }: SummaryOverviewBoxProps) => {
   const { userData, validFlowPages, translations, flowId } = useFlowFormular();
 
@@ -53,7 +44,11 @@ const SummaryOverviewBox = ({
     return null;
   }
 
-  const pageFields = validFlowPages[stepId];
+  const hiddenFieldsList = hiddenFields?.split("\n");
+
+  const pageFields = validFlowPages[stepId].filter(
+    (field) => !hiddenFieldsList?.includes(field),
+  );
 
   const _sortedFields = getSortedFields(pageFields, sortedFields);
 
@@ -67,28 +62,25 @@ const SummaryOverviewBox = ({
         {_sortedFields
           .filter((field) => userData[field])
           .map((field) => (
-            <div key={field} className="first:pt-0 scroll-my-40">
-              <Heading
-                text={getTranslationByKey(field, translations)}
-                tagName="p"
-                look="ds-label-01-bold"
-              />
-              {getTranslationByKeyForUserData(
-                userData[field] as string,
-                translations,
-              )}
-            </div>
+            <SummaryOverviewBoxItem
+              key={field}
+              fieldName={field}
+              translations={translations}
+              userData={userData}
+            />
           ))}
 
-        <Button
-          iconLeft={<EditButton />}
-          href={`${flowId}${stepId}`}
-          look="tertiary"
-          size="large"
-          className="w-fit"
-        >
-          Bearbeiten
-        </Button>
+        <div>
+          <Button
+            iconLeft={<EditButton />}
+            href={`${flowId}${stepId}`}
+            look="tertiary"
+            size="large"
+            className="w-fit"
+          >
+            Bearbeiten
+          </Button>
+        </div>
       </div>
     </div>
   );
