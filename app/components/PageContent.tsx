@@ -6,7 +6,6 @@ import { getBoxWithImageProps } from "~/services/cms/models/StrapiBoxWithImage";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import { getHeaderProps } from "~/services/cms/models/StrapiHeader";
 import { getInfoBoxProps } from "~/services/cms/models/StrapiInfoBox";
-import { getInlineNoticeProps } from "~/services/cms/models/StrapiInlineNotice";
 import { getLinkListBoxProps } from "~/services/cms/models/StrapiLinkListBox";
 import { getListProps } from "~/services/cms/models/StrapiList";
 import { getRichTextProps } from "~/services/cms/models/StrapiParagraph";
@@ -79,7 +78,7 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
     case "page.video":
       return <Video {...strapiContent} />;
     case "page.inline-notice":
-      return <InlineNotice {...getInlineNoticeProps(strapiContent)} />;
+      return <InlineNotice {...strapiContent} />;
     case "page.details-summary":
       return <Details {...strapiContent} />;
     case "page.user-feedback":
