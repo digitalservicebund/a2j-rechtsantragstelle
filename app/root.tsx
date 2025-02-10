@@ -52,6 +52,7 @@ import {
 } from "./services/translations/getTranslationByKey";
 import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
+import { getCookieBannerProps } from "~/services/cms/models/StrapiCookieBannerSchema";
 
 export { headers } from "./rootHeaders";
 
@@ -133,7 +134,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         showKopfzeile,
       },
       footer: getFooterProps(strapiFooter),
-      cookieBannerContent: cookieBannerContent,
+      cookieBannerContent: getCookieBannerProps(cookieBannerContent),
       hasTrackingConsent: trackingConsent
         ? trackingConsent === "true"
         : undefined,

@@ -12,6 +12,5 @@ export const StrapiParagraphSchema = z
       __component: "basic.paragraph" as const,
       html: cmsData.text,
       id: cmsData.id,
-      text: cmsData.text,
     }),
   );

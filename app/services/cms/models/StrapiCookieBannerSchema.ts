@@ -17,9 +17,7 @@ export const StrapiCookieBannerSchema = z
 
 type StrapiCookieBanner = z.infer<typeof StrapiCookieBannerSchema>;
 
-export const getCookieBannerProps = (
-  cmsData: StrapiCookieBanner,
-): CookieBannerContentProps => {
+export const getCookieBannerProps = (cmsData: StrapiCookieBanner) => {
   return {
     heading: getHeadingProps(cmsData.heading)!,
     paragraphs: cmsData.paragraphs,
@@ -27,5 +25,5 @@ export const getCookieBannerProps = (
     declineButtonLabel: cmsData.declineButtonLabel,
     cookieSettingLinkText: cmsData.cookieSettingLinkText,
     cookieSettingLinkUrl: cmsData.cookieSettingLinkUrl,
-  };
+  } satisfies CookieBannerContentProps;
 };

@@ -33,7 +33,7 @@ describe("services/cms", () => {
         footerData.paragraphs[0].__component,
       );
       expect(footer.paragraphs[0].id).toEqual(footerData.paragraphs[0].id);
-      expect(footer.paragraphs[0].text).toMatch(footerData.paragraphs[0].text);
+      expect(footer.paragraphs[0].html).toMatch(footerData.paragraphs[0].text);
     });
   });
 

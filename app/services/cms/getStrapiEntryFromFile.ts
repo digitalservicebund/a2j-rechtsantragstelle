@@ -36,6 +36,7 @@ export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>(
             ? value.includes(relevantField as string)
             : relevantField === value;
         }
+
         return (
           typeof relevantField === "object" &&
           relevantField !== null &&
