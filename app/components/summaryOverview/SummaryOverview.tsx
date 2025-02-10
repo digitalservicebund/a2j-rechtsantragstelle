@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import Heading from "../Heading";
 import SummaryOverviewBox, {
   SummaryOverviewBoxProps,
@@ -15,13 +16,20 @@ const SummaryOverview = ({ navigation }: Props) => {
     <>
       {navigation.map(({ title, boxes }, index) => {
         return (
-          // eslint-disable-next-line react/no-array-index-key
           <div key={`${title ?? ""}-${index}`}>
             {title && (
-              <Heading text={title} tagName="h2" look="ds-heading-03-bold" />
+              <Heading
+                text={title}
+                tagName="p"
+                className="mt-40"
+                look="ds-heading-03-bold"
+              />
             )}
-            {boxes.map((box) => (
-              <SummaryOverviewBox key={box.title} {...box} />
+            {boxes.map((box, boxIndex) => (
+              <SummaryOverviewBox
+                key={`${box.title ?? ""}-${boxIndex}`}
+                {...box}
+              />
             ))}
           </div>
         );

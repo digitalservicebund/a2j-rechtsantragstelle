@@ -212,6 +212,7 @@ export const loader = async ({
       translations: stringTranslations,
       navigationA11yLabels,
       validPathsAndFieldsFlow,
+      flowId,
     },
     { headers },
   );

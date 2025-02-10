@@ -28,6 +28,7 @@ export function FormFlowPage() {
     translations,
     navigationA11yLabels,
     validPathsAndFieldsFlow,
+    flowId,
   } = useLoaderData<typeof loader>();
   const { pathname } = useLocation();
 
@@ -35,8 +36,10 @@ export function FormFlowPage() {
     () => ({
       userData: prunedUserData,
       validFlowPages: validPathsAndFieldsFlow,
+      translations: translations,
+      flowId,
     }),
-    [prunedUserData, validPathsAndFieldsFlow],
+    [prunedUserData, validPathsAndFieldsFlow, translations, flowId],
   );
 
   return (
