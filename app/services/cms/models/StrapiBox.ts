@@ -18,10 +18,7 @@ export const StrapiBoxSchema = z
     outerBackground: StrapiBackgroundSchema,
     container: StrapiContainerSchema,
     buttons: z.array(StrapiButtonSchema).optional(),
+    __component: z.literal("page.box"),
   })
   .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema)
-  .transform((cmsData) => ({
-    __component: "page.box" as const,
-    ...cmsData,
-  }));
+  .merge(OptionalStrapiLinkIdentifierSchema);
