@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import Heading from "../Heading";
 import SummaryOverviewBox, {
   SummaryOverviewBoxProps,
@@ -7,6 +6,7 @@ import SummaryOverviewBox, {
 type Props = {
   readonly navigation: Array<{
     readonly title?: string;
+    readonly id: number;
     readonly boxes: SummaryOverviewBoxProps[];
   }>;
 };
@@ -14,9 +14,9 @@ type Props = {
 const SummaryOverview = ({ navigation }: Props) => {
   return (
     <>
-      {navigation.map(({ title, boxes }, index) => {
+      {navigation.map(({ title, boxes, id }) => {
         return (
-          <div key={`${title ?? ""}-${index}`}>
+          <div key={id}>
             {title && (
               <Heading
                 text={title}
@@ -25,11 +25,8 @@ const SummaryOverview = ({ navigation }: Props) => {
                 look="ds-heading-03-bold"
               />
             )}
-            {boxes.map((box, boxIndex) => (
-              <SummaryOverviewBox
-                key={`${box.title ?? ""}-${boxIndex}`}
-                {...box}
-              />
+            {boxes.map((box) => (
+              <SummaryOverviewBox key={box.id} {...box} />
             ))}
           </div>
         );

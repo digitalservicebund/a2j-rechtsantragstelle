@@ -32,8 +32,10 @@ describe("StrapiSummaryOverviewSchema", () => {
           boxes: [
             {
               stepId: "anyStep",
+              id: 10,
             },
           ],
+          id: 10,
         },
       ],
     };
@@ -47,8 +49,10 @@ describe("StrapiSummaryOverviewSchema", () => {
           boxes: [
             {
               stepId: "anyStep",
+              id: 10,
             },
           ],
+          id: 10,
         },
       ],
       __component: "page.summary-overview",

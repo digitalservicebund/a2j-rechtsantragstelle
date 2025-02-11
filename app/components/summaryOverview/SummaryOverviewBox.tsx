@@ -7,6 +7,7 @@ import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 export type SummaryOverviewBoxProps = {
   readonly title?: string;
   readonly stepId: string;
+  readonly id: number;
   readonly sortedFields?: string;
   readonly hiddenFields?: string;
 };
@@ -34,6 +35,7 @@ const getSortedFields = (pageFields: string[], sortedFields?: string) => {
 
 const SummaryOverviewBox = ({
   title,
+  id,
   stepId,
   sortedFields,
   hiddenFields,
@@ -63,7 +65,7 @@ const SummaryOverviewBox = ({
           .filter((field) => userData[field])
           .map((field) => (
             <SummaryOverviewBoxItem
-              key={field}
+              key={`${id}-${field}`}
               fieldName={field}
               translations={translations}
               userData={userData}
