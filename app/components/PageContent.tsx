@@ -2,7 +2,6 @@ import type { ReactElement } from "react";
 import Heading from "~/components/Heading";
 import Video from "~/components/video/Video";
 import { getBoxProps } from "~/services/cms/models/StrapiBox";
-import { getBoxWithImageProps } from "~/services/cms/models/StrapiBoxWithImage";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import { getHeaderProps } from "~/services/cms/models/StrapiHeader";
 import { getInfoBoxProps } from "~/services/cms/models/StrapiInfoBox";
@@ -71,7 +70,7 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
     case "page.link-list-box":
       return <LinkListBox {...getLinkListBoxProps(strapiContent)} />;
     case "page.box-with-image":
-      return <BoxWithImage {...getBoxWithImageProps(strapiContent)} />;
+      return <BoxWithImage {...strapiContent} />;
     case "page.list":
       return <List {...strapiContent} />;
     case "page.video":
