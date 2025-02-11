@@ -42,11 +42,7 @@ const renderItemValue = (
   const translationEmptyValue =
     translations[`${fieldName}.${EMPTY_ITEM_TRANSLATION_VALUE}`];
 
-  if (
-    typeof translationEmptyValue !== "undefined" &&
-    typeof itemValue === "string" &&
-    itemValue.length === 0
-  ) {
+  if (typeof translationEmptyValue !== "undefined" && itemValue.length === 0) {
     return translationEmptyValue;
   }
 
