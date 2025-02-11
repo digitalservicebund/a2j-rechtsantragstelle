@@ -2,6 +2,7 @@ import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import Button from "../Button";
 import { useFlowFormular } from "../form/flowFormularContext";
 import Heading from "../Heading";
+import { getSortedFields } from "./getSortedFields";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 
 export type SummaryOverviewBoxProps = {
@@ -10,27 +11,6 @@ export type SummaryOverviewBoxProps = {
   readonly id: number;
   readonly sortedFields?: string;
   readonly hiddenFields?: string;
-};
-
-const getSortedFields = (pageFields: string[], sortedFields?: string) => {
-  if (typeof sortedFields === "undefined" || sortedFields.length === 0) {
-    return pageFields;
-  }
-
-  const sorted = sortedFields.split("\n");
-
-  return [...pageFields].sort((x, y) => {
-    const indexX = sorted.indexOf(x);
-    const indexY = sorted.indexOf(y);
-
-    if (indexX === -1 && indexY === -1) {
-      return pageFields.indexOf(x) - pageFields.indexOf(y); // Keep relative order for unsorted items
-    }
-    if (indexX === -1) return 1; // Move x to the end if it's not in sorted
-    if (indexY === -1) return -1; // Move y to the end if it's not in sorted
-
-    return indexX - indexY; // Sort based on sorted array order
-  });
 };
 
 const SummaryOverviewBox = ({
