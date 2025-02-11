@@ -14,7 +14,7 @@ jobs:
       - run: npm run build:localContent
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
-          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
+          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}" ## this value is related the API Token pipeline-new in Strapi staging
       - run: npm run verify:emails
       - run: npm run verify:websites
       - name: Calculate content checksum
