@@ -4,7 +4,6 @@ import Container from "~/components/Container";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import PageContent from "~/components/PageContent";
-import { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import type { loader } from "../vorabcheck.server";
 
 export function VorabcheckPage() {
@@ -24,7 +23,7 @@ export function VorabcheckPage() {
             <ProgressBar {...progressProps} />
             <div className="ds-stack-40">
               <PageContent
-                content={contentElements as StrapiContentComponent[]}
+                content={contentElements}
                 className="ds-stack-16"
                 fullScreen={false}
               />

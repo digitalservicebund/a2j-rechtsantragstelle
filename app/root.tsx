@@ -38,7 +38,7 @@ import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
-import Footer, { FooterProps } from "./components/Footer";
+import Footer from "./components/Footer";
 import Header from "./components/PageHeader";
 import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
@@ -246,7 +246,7 @@ function App() {
             <Footer
               links={footer.links}
               paragraphs={footer.paragraphs}
-              image={footer.image as Record<string, FooterProps>}
+              image={footer.image}
               deletionLabel={deletionLabel}
               showDeletionBanner={hasAnyUserData}
             />
@@ -289,7 +289,7 @@ export function ErrorBoundary() {
           <Footer
             links={loaderData.footer.links}
             paragraphs={loaderData.footer.paragraphs}
-            image={loaderData.footer.image as Record<string, FooterProps>}
+            image={loaderData.footer.image}
           />
         )}
       </body>

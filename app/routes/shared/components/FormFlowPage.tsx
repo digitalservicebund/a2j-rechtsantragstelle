@@ -7,7 +7,6 @@ import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
 import SummaryDataOverview from "~/domains/fluggastrechte/components/SummaryDataOverview";
-import { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import type { loader } from "../formular.server";
 
 export function FormFlowPage() {
@@ -45,7 +44,7 @@ export function FormFlowPage() {
             {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
             <Heading text={heading} look="ds-heading-02-reg" />
             <PageContent
-              content={content as StrapiContentComponent[]}
+              content={content}
               fullScreen={false}
               className="ds-stack-16"
             />
@@ -82,10 +81,7 @@ export function FormFlowPage() {
             formElements={formElements}
             buttonNavigationProps={buttonNavigationProps}
           />
-          <PageContent
-            content={postFormContent as StrapiContentComponent[]}
-            fullScreen={false}
-          />
+          <PageContent content={postFormContent} fullScreen={false} />
         </div>
       </div>
     </Background>

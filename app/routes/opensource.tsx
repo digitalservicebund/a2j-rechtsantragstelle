@@ -3,7 +3,6 @@ import { useLoaderData } from "@remix-run/react";
 import Container from "~/components/Container";
 import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
-import { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import { dependencies } from "~/services/openSourceLicenses/dependencies.server";
 import LicenseList from "~/services/openSourceLicenses/LicenseList";
 
@@ -20,7 +19,7 @@ export default function Index() {
   const { content, dependencies } = useLoaderData<typeof loader>();
   return (
     <>
-      <PageContent content={content as StrapiContentComponent[]} />
+      <PageContent content={content} />
       <Container>
         <LicenseList dependencies={dependencies} />
       </Container>
