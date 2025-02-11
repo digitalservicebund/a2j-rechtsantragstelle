@@ -13,7 +13,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    fileNames: ["file1.pdf"],
+    fileName: "file1.pdf",
     cancelButtonLabel: "Cancel",
     uploadProgressLabel: "loading...",
     selectMoreFilesButtonLabel: "Select more files",

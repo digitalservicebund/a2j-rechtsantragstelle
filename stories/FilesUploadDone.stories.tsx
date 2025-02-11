@@ -13,8 +13,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    fileNames: ["file1.pdf"],
-    fileSizes: [3145728],
+    fileName: "file1.pdf",
+    fileSize: 3145728,
     deleteButtonLabel: "Delete",
     selectMoreFilesButtonLabel: "Select more files",
   },

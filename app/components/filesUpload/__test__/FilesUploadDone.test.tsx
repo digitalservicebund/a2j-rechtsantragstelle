@@ -5,8 +5,8 @@ describe("FilesUploadDone", () => {
   it("renders an icon, file name and size", () => {
     render(
       <FilesUploadDone
-        fileNames={["testfile1.pdf"]}
-        fileSizes={[3145728]}
+        fileName={"testfile1.pdf"}
+        fileSize={3145728}
         deleteButtonLabel={"Delete"}
         selectMoreFilesButtonLabel={"Add more files"}
       />,
@@ -23,8 +23,8 @@ describe("FilesUploadDone", () => {
   it("renders a delete button", () => {
     render(
       <FilesUploadDone
-        fileNames={["testfile1.pdf"]}
-        fileSizes={[3145728]}
+        fileName={"testfile1.pdf"}
+        fileSize={3145728}
         deleteButtonLabel={"Delete"}
         selectMoreFilesButtonLabel={""}
       />,
@@ -41,8 +41,8 @@ describe("FilesUploadDone", () => {
   it("renders an add more files button", () => {
     render(
       <FilesUploadDone
-        fileNames={["testfile1.pdf"]}
-        fileSizes={[3145728]}
+        fileName={"testfile1.pdf"}
+        fileSize={3145728}
         deleteButtonLabel={""}
         selectMoreFilesButtonLabel={"Add more files"}
       />,

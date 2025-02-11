@@ -3,8 +3,8 @@ import { FilesUploadInput } from "../FilesUploadInput";
 
 describe("FilesUploadInput", () => {
   it("renders an upload files input", () => {
-    render(<FilesUploadInput fieldName={""} selectFilesButtonLabel={""} />);
-    const filesUploadInput = screen.getByTestId("filesUpload");
+    render(<FilesUploadInput inputName={""} selectFilesButtonLabel={""} onFileSelect={vi.fn()} />);
+    const filesUploadInput = screen.getByTestId("filesUploadInput");
     expect(filesUploadInput).toBeInTheDocument();
     expect(filesUploadInput).toHaveClass(
       "w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer",
@@ -15,9 +15,8 @@ describe("FilesUploadInput", () => {
   it("renders an upload files button", () => {
     render(
       <FilesUploadInput
-        fieldName={""}
-        selectFilesButtonLabel={"Select File"}
-      />,
+        inputName={""}
+        selectFilesButtonLabel={"Select File"} onFileSelect={vi.fn()}      />,
     );
     const filesUploadButton = screen.getByRole("button", {
       name: "Select File",

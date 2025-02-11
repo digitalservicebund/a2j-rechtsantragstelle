@@ -2,7 +2,7 @@ import ErrorIcon from "@digitalservicebund/icons/ErrorOutline";
 import { FC } from "react";
 
 export type FilesUploadErrorProps = {
-  errorMessage: string;
+  errorMessage?: string;
 };
 
 export const FilesUploadError: FC<FilesUploadErrorProps> = ({

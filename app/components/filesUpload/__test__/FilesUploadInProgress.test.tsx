@@ -5,7 +5,7 @@ describe("FilesUploadInProgress", () => {
   it("renders correctly a spinner, the file name and the progress text", () => {
     render(
       <FilesUploadInProgress
-        fileNames={["testfile1.pdf"]}
+        fileName={"testfile1.pdf"}
         uploadProgressLabel={"loading..."}
         cancelButtonLabel={"Cancel"}
         selectMoreFilesButtonLabel={"Add More Files"}
@@ -31,7 +31,7 @@ describe("FilesUploadInProgress", () => {
   it("renders correctly a cancel button", () => {
     render(
       <FilesUploadInProgress
-        fileNames={["testfile1.pdf"]}
+        fileName={"testfile1.pdf"}
         uploadProgressLabel={"loading..."}
         cancelButtonLabel={"Cancel"}
         selectMoreFilesButtonLabel={"Add More Files"}
@@ -47,7 +47,7 @@ describe("FilesUploadInProgress", () => {
   it("renders correctly a add more files button", () => {
     render(
       <FilesUploadInProgress
-        fileNames={["testfile1.pdf"]}
+        fileName={"testfile1.pdf"}
         uploadProgressLabel={"loading..."}
         cancelButtonLabel={"Cancel"}
         selectMoreFilesButtonLabel={"Add More Files"}
