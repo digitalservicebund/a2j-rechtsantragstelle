@@ -1,4 +1,4 @@
-import Heading from "../Heading";
+import Heading from "~/components/Heading";
 import SummaryOverviewBox, {
   SummaryOverviewBoxProps,
 } from "./SummaryOverviewBox";
