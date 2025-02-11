@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { type CookieBannerContentProps } from "~/components/cookieBanner/CookieBanner";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
-import { getHeadingProps, StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiParagraphSchema } from "./StrapiParagraph";
 
 export const StrapiCookieBannerSchema = z
@@ -19,7 +19,7 @@ type StrapiCookieBanner = z.infer<typeof StrapiCookieBannerSchema>;
 
 export const getCookieBannerProps = (cmsData: StrapiCookieBanner) => {
   return {
-    heading: getHeadingProps(cmsData.heading)!,
+    heading: cmsData.heading,
     paragraphs: cmsData.paragraphs,
     acceptButtonLabel: cmsData.acceptButtonLabel,
     declineButtonLabel: cmsData.declineButtonLabel,

@@ -1,15 +1,14 @@
 import pick from "lodash/pick";
 import { Renderer } from "marked";
 import { z } from "zod";
-import { type ListProps } from "~/components/List";
-import { buildRichTextValidation } from "~/services/validation/richtext";
+import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import { StrapiListItemSchema, getListItemProps } from "./StrapiListItem";
+import { StrapiListItemSchema } from "./StrapiListItem";
 
 export const listRenderer: Partial<Renderer> = {
   paragraph({ tokens }) {
@@ -17,27 +16,26 @@ export const listRenderer: Partial<Renderer> = {
   },
 };
 
-const StrapiListSchema = z
+export const StrapiListSchema = z
   .object({
-    heading: StrapiHeadingSchema.nullable(),
-    subheading: buildRichTextValidation(listRenderer).nullable(),
+    heading: StrapiHeadingSchema.nullable().transform(omitNull).optional(),
+    subheading: StrapiRichTextOptionalSchema(listRenderer),
     items: z.array(StrapiListItemSchema),
     isNumeric: z.boolean(),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
   })
   .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema);
-
-type StrapiList = z.infer<typeof StrapiListSchema>;
-
-export const StrapiListComponentSchema = StrapiListSchema.extend({
-  __component: z.literal("page.list"),
-});
-
-export const getListProps = ({ items, ...cmsData }: StrapiList): ListProps => {
-  return omitNull({
-    ...pick(cmsData, "heading", "subheading", "isNumeric", "identifier"),
-    items: items.map(getListItemProps),
-  });
-};
+  .merge(OptionalStrapiLinkIdentifierSchema)
+  .transform((cmsData) => ({
+    __component: "page.list" as const,
+    ...pick(
+      cmsData,
+      "heading",
+      "id",
+      "subheading",
+      "isNumeric",
+      "identifier",
+      "items",
+    ),
+  }));

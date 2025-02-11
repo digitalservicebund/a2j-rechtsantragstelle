@@ -20,7 +20,7 @@ describe("services/cms", () => {
 
   describe("fetchSingleEntry", () => {
     test("returns a footer entry", () => {
-      // TODO: in the next commit
+      // TODO: fix in the next commit
       const footerData = getStrapiFooter();
       vi.mocked(getStrapiEntry).mockResolvedValue([
         footerData,

@@ -2,7 +2,10 @@ import merge from "lodash/merge";
 import type { AllContextKeys } from "~/domains/common";
 import type { Flow } from "~/domains/flows.server";
 import type { ArrayConfigServer } from "~/services/array";
-import { storeConsentFgrToS3Bucket } from "~/services/externalDataStorage/storeConsentFgrToS3Bucket";
+import {
+  storeMainPersonConsent,
+  storeMultiplePersonsConsent,
+} from "~/services/externalDataStorage/storeConsentFgrToS3Bucket";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import abgabeFlow from "./abgabe/flow.json";
 import type { FluggastrechtContext } from "./context";
@@ -50,7 +53,9 @@ const flowTransitionConfig: FlowTransitionConfig = {
 };
 
 const asyncFlowActions = {
-  "/grundvoraussetzungen/datenverarbeitung": storeConsentFgrToS3Bucket,
+  "/grundvoraussetzungen/datenverarbeitung": storeMainPersonConsent,
+  "/persoenliche-daten/weitere-personen/person/daten":
+    storeMultiplePersonsConsent,
 };
 
 export const fluggastrechtFlow = {
