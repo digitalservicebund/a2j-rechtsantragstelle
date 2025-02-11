@@ -42,7 +42,8 @@ function interpolateTranslations(
 ): Translations {
   if (
     typeof data === "undefined" ||
-    typeof currentFlow.stringReplacements === "undefined"
+    typeof currentFlow.stringReplacements === "undefined" ||
+    typeof translation === "undefined"
   ) {
     return translation;
   }
