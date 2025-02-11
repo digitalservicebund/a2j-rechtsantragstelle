@@ -1,4 +1,3 @@
-import pick from "lodash/pick";
 import { Renderer } from "marked";
 import { z } from "zod";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
@@ -29,13 +28,5 @@ export const StrapiListSchema = z
   .merge(OptionalStrapiLinkIdentifierSchema)
   .transform((cmsData) => ({
     __component: "page.list" as const,
-    ...pick(
-      cmsData,
-      "heading",
-      "id",
-      "subheading",
-      "isNumeric",
-      "identifier",
-      "items",
-    ),
+    ...cmsData,
   }));
