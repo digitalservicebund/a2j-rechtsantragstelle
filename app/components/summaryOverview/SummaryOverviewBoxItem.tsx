@@ -2,10 +2,28 @@ import { Context } from "~/domains/contexts";
 import { Translations } from "~/services/translations/getTranslationByKey";
 import Heading from "../Heading";
 
+const EMPTY_TITLE = "emptyTitle";
+
 type Props = {
   readonly fieldName: string;
   readonly userData: Context;
   readonly translations: Translations;
+};
+
+const renderItemTitle = (translations: Translations, fieldName: string) => {
+  const titleTranslation = translations?.[fieldName];
+
+  if (typeof titleTranslation === "string") {
+    if (titleTranslation === EMPTY_TITLE) {
+      return null;
+    }
+
+    return (
+      <Heading text={titleTranslation} tagName="p" look="ds-label-01-bold" />
+    );
+  }
+
+  return <br />;
 };
 
 function getTranslationByKeyForUserData(
@@ -21,15 +39,9 @@ const SummaryOverviewBoxItem = ({
   userData,
   translations,
 }: Props) => {
-  const titleTranslation = translations?.[fieldName];
-
   return (
     <>
-      {typeof titleTranslation !== "undefined" ? (
-        <Heading text={titleTranslation} tagName="p" look="ds-label-01-bold" />
-      ) : (
-        <br />
-      )}
+      {renderItemTitle(translations, fieldName)}
 
       {getTranslationByKeyForUserData(
         userData[fieldName] as string,
