@@ -13,15 +13,13 @@ This aligns with our goal of ensuring a resilient and broadly accessible experie
 
 We recognize that "non-JS users" aren't just those with JavaScript disabled, but also include users with slow connections, JavaScript errors, or while the JavaScript is still downloading ([Everyone has JavaScript, right?](https://www.kryogenix.org/code/browser/everyonehasjs.html)).
 However, we are now encountering situations where specific features, like the upcoming upload component or the auto-suggest input, require JavaScript to work intuitively.
-
 Our approach needs to address the balance between rich interactive features (requiring JavaScript) and the core usability for all users.
-The GOV.UK Service Manual provides guides on how to best approach this in the governmental area (see [here](https://www.gov.uk/service-manual/technology/designing-for-different-browsers-and-devices) and [here](https://www.gov.uk/service-manual/technology/using-progressive-enhancement)).
 
 Our framework Remix is built with progressive enhancement in mind, providing a functional experience even during JavaScript loading or failures.
 
 ## Decision
 
-We will adopt a **Progressive Enhancement** strategy for all features.
+We will adopt a [**Progressive Enhancement**](https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement) strategy for all features.
 This means:
 
 1.  **Core Functionality First:** All essential features must be fully functional and accessible without JavaScript. This ensures that every user, regardless of their JavaScript capabilities, can accomplish the primary tasks the application is designed for.
@@ -31,6 +29,8 @@ This means:
 3.  **Graceful Degradation:** If JavaScript fails to load or execute, the enhanced features should degrade gracefully, ensuring that the core functionality remains intact. This might mean a less visually appealing or less interactive experience, but it should never result in broken or inaccessible functionality. Components should be designed in isolation to minimize the impact of JavaScript failures.
 
 4.  **Testing Strategy:** Our testing strategy will include both JavaScript-enabled and JavaScript-disabled scenarios. This will ensure that we are continuously validating the accessibility and functionality of our application for all users.
+
+This is also suggested by the GOV.UK Service Manual for the governmental area (see [here](https://www.gov.uk/service-manual/technology/designing-for-different-browsers-and-devices) and [here](https://www.gov.uk/service-manual/technology/using-progressive-enhancement)).
 
 ## Consequences:
 
