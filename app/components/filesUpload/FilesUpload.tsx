@@ -10,7 +10,6 @@ export enum FilesUploadState {
   NotStarted = "notStarted",
   InProgress = "inProgress",
   Done = "done",
-  Disabled = "disabled",
   Error = "error",
   Warning = "warning",
 }
