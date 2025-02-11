@@ -5,11 +5,11 @@ import Heading from "./Heading";
 import RichText from "./RichText";
 
 export type InlineNoticeProps = {
-  identifier?: string | null;
+  identifier?: string;
   title: string;
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
   look: "warning" | "tips";
-  content?: string | null;
+  content?: string;
 };
 
 // We can't set border-[${borderColor}] in the template because it causes inconsistent behavior in Storybook.
@@ -41,7 +41,7 @@ export const InlineNotice = ({
     !shouldHideNotice && (
       <div
         className={`ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
-        id={identifier ?? undefined}
+        id={identifier}
         role="note"
       >
         <div className="flex flex-row gap-[4px] items-center">

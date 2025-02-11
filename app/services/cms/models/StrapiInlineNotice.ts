@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { buildRichTextValidation } from "~/services/validation/richtext";
+import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
@@ -10,7 +10,7 @@ export const StrapiInlineNoticeSchema = z
     title: z.string(),
     tagName: z.enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"]),
     look: z.enum(["warning", "tips"]),
-    content: buildRichTextValidation().nullable(),
+    content: StrapiRichTextOptionalSchema(),
     container: StrapiContainerSchema,
     outerBackground: StrapiBackgroundSchema.nullable(),
   })
