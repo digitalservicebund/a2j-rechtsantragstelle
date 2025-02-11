@@ -1,20 +1,20 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import { StrapiStringOptional } from "./StrapiStringOptional";
+import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
 
 export const StrapiSummaryOverviewSchema = z
   .object({
     navigation: z
       .array(
         z.object({
-          title: StrapiStringOptional,
+          title: StrapiStringOptionalSchema,
           boxes: z
             .array(
               z.object({
-                title: StrapiStringOptional,
+                title: StrapiStringOptionalSchema,
                 stepId: z.string(),
-                hiddenFields: StrapiStringOptional,
-                sortedFields: StrapiStringOptional,
+                hiddenFields: StrapiStringOptionalSchema,
+                sortedFields: StrapiStringOptionalSchema,
               }),
             )
             .nonempty(),
