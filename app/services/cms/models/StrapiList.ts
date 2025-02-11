@@ -9,7 +9,7 @@ import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import { StrapiListItemSchema, getListItemProps } from "./StrapiListItem";
+import { StrapiListItemSchema } from "./StrapiListItem";
 
 export const listRenderer: Partial<Renderer> = {
   paragraph({ tokens }) {
@@ -35,9 +35,15 @@ export const StrapiListComponentSchema = StrapiListSchema.extend({
   __component: z.literal("page.list"),
 });
 
-export const getListProps = ({ items, ...cmsData }: StrapiList): ListProps => {
+export const getListProps = (cmsData: StrapiList): ListProps => {
   return omitNull({
-    ...pick(cmsData, "heading", "subheading", "isNumeric", "identifier"),
-    items: items.map(getListItemProps),
+    ...pick(
+      cmsData,
+      "heading",
+      "subheading",
+      "isNumeric",
+      "identifier",
+      "items",
+    ),
   });
 };
