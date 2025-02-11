@@ -8,7 +8,6 @@ import { getHeaderProps } from "~/services/cms/models/StrapiHeader";
 import { getInfoBoxProps } from "~/services/cms/models/StrapiInfoBox";
 import { getLinkListBoxProps } from "~/services/cms/models/StrapiLinkListBox";
 import { getRichTextProps } from "~/services/cms/models/StrapiParagraph";
-import { getUserFeedbackProps } from "~/services/cms/models/StrapiUserFeedback";
 import Background from "./Background";
 import Box from "./Box";
 import BoxWithImage from "./BoxWithImage";
@@ -81,7 +80,7 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
     case "page.details-summary":
       return <Details {...strapiContent} />;
     case "page.user-feedback":
-      return <UserFeedback {...getUserFeedbackProps(strapiContent)} />;
+      return <UserFeedback {...strapiContent} />;
     default:
       return <></>;
   }
