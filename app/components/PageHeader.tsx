@@ -49,7 +49,7 @@ export default function Header({
           {title}
         </a>
         {!hideLinks && (
-          <div className="flex gap-20 max-sm:pt-16">
+          <div className="flex gap-20 max-[425px]:pt-16">
             <StandaloneLink
               url={"/leichtesprache"}
               text={translations.leichtesprache}
