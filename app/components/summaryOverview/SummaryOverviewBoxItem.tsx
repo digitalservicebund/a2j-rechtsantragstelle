@@ -33,10 +33,10 @@ const renderItemValue = (
   fieldName: string,
 ) => {
   const itemValue = userData[fieldName] as string;
-  const translationValue = translations[`${fieldName}.${itemValue}`];
+  const translationItemValue = translations[`${fieldName}.${itemValue}`];
 
-  if (typeof translationValue !== "undefined") {
-    return translationValue;
+  if (typeof translationItemValue !== "undefined") {
+    return translationItemValue;
   }
 
   const translationEmptyValue =
@@ -46,7 +46,9 @@ const renderItemValue = (
     return translationEmptyValue;
   }
 
-  return itemValue;
+  const translationValue = translations[`${fieldName}.value`];
+
+  return translationValue ?? itemValue;
 };
 
 const SummaryOverviewBoxItem = ({
