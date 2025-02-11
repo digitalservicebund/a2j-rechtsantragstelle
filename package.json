@@ -57,7 +57,7 @@
     "@sentry/vite-plugin": "^3.1.2",
     "@xstate/graph": "^3.0.2",
     "classnames": "^2.5.1",
-    "compression": "^1.7.5",
+    "compression": "^1.8.0",
     "cookie": "^1.0.2",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
