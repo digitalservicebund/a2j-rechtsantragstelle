@@ -8,14 +8,16 @@ export const StrapiSummaryOverviewSchema = z
       .array(
         z.object({
           title: StrapiStringOptional,
-          boxes: z.array(
-            z.object({
-              title: StrapiStringOptional,
-              stepId: z.string(),
-              hiddenFields: StrapiStringOptional,
-              sortedFields: StrapiStringOptional,
-            }),
-          ),
+          boxes: z
+            .array(
+              z.object({
+                title: StrapiStringOptional,
+                stepId: z.string(),
+                hiddenFields: StrapiStringOptional,
+                sortedFields: StrapiStringOptional,
+              }),
+            )
+            .nonempty(),
         }),
       )
       .nonempty(),
