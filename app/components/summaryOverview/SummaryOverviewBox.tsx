@@ -46,16 +46,14 @@ const SummaryOverviewBox = ({
           />
         )}
 
-        {_sortedFields
-          .filter((field) => userData[field])
-          .map((field) => (
-            <SummaryOverviewBoxItem
-              key={`${id}-${field}`}
-              fieldName={field}
-              translations={translations}
-              userData={userData}
-            />
-          ))}
+        {_sortedFields.map((field) => (
+          <SummaryOverviewBoxItem
+            key={`${id}-${field}`}
+            fieldName={field}
+            translations={translations}
+            userData={userData}
+          />
+        ))}
 
         <div>
           <Button

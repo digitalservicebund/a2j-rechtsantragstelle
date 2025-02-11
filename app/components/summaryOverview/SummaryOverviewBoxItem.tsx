@@ -3,6 +3,7 @@ import { Translations } from "~/services/translations/getTranslationByKey";
 import Heading from "../Heading";
 
 const EMPTY_TITLE = "emptyTitle";
+const EMPTY_ITEM_TRANSLATION_VALUE = "emptyValue";
 
 type Props = {
   readonly fieldName: string;
@@ -26,13 +27,31 @@ const renderItemTitle = (translations: Translations, fieldName: string) => {
   return <br />;
 };
 
-function getTranslationByKeyForUserData(
-  key: string,
-  translations?: Translations,
-): string {
-  const translation = translations?.[key];
-  return translation ?? key;
-}
+const renderItemValue = (
+  translations: Translations,
+  userData: Context,
+  fieldName: string,
+) => {
+  const itemValue = userData[fieldName] as string;
+  const translationValue = translations[`${fieldName}.${itemValue}`];
+
+  if (typeof translationValue !== "undefined") {
+    return translationValue;
+  }
+
+  const translationEmptyValue =
+    translations[`${fieldName}.${EMPTY_ITEM_TRANSLATION_VALUE}`];
+
+  if (
+    typeof translationEmptyValue !== "undefined" &&
+    typeof itemValue === "string" &&
+    itemValue.length === 0
+  ) {
+    return translationEmptyValue;
+  }
+
+  return itemValue;
+};
 
 const SummaryOverviewBoxItem = ({
   fieldName,
@@ -42,11 +61,7 @@ const SummaryOverviewBoxItem = ({
   return (
     <>
       {renderItemTitle(translations, fieldName)}
-
-      {getTranslationByKeyForUserData(
-        userData[fieldName] as string,
-        translations,
-      )}
+      {renderItemValue(translations, userData, fieldName)}
     </>
   );
 };
