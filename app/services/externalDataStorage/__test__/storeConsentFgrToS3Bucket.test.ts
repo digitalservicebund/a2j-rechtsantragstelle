@@ -64,103 +64,108 @@ afterEach(() => {
 });
 
 describe("storeConsentFgrToS3Bucket", () => {
-  it("should store claiming person's consent data to S3 bucket", async () => {
-    const mockDate = new Date("2025-01-01");
-    const mockSessionId = "test-session-id";
-    const mockConfig = {
-      ...config(),
-      S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
-    };
-    const mockBuffer = Buffer.from(
-      `${mockSessionId};${mockDate.toISOString()};test-agent`,
-      "utf8",
-    );
-    const mockKey = "data-consent-fgr/01-01-2025/test-session-id-main.csv";
+  describe("when claiming person", () => {
+    it("stores consent data to S3 bucket", async () => {
+      const mockDate = new Date("2025-01-01");
+      const mockSessionId = "test-session-id";
+      const mockConfig = {
+        ...config(),
+        S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
+      };
+      const mockBuffer = Buffer.from(
+        `${mockSessionId};${mockDate.toISOString()};test-agent`,
+        "utf8",
+      );
+      const mockKey = "data-consent-fgr/01-01-2025/test-session-id-main.csv";
 
-    setupConsentMocks(mockDate, mockSessionId, mockConfig);
+      setupConsentMocks(mockDate, mockSessionId, mockConfig);
 
-    await storeMainPersonConsent(mockRequest);
+      await storeMainPersonConsent(mockRequest);
 
-    expect(createClientS3DataStorage).toHaveBeenCalled();
-    expect(getSessionIdByFlowId).toHaveBeenCalledWith(
-      "/fluggastrechte/formular",
-      "test-cookie",
-    );
+      expect(createClientS3DataStorage).toHaveBeenCalled();
+      expect(getSessionIdByFlowId).toHaveBeenCalledWith(
+        "/fluggastrechte/formular",
+        "test-cookie",
+      );
 
-    expect(PutObjectCommand).toHaveBeenCalledWith(
-      expect.objectContaining({
-        Bucket: mockConfig.S3_DATA_STORAGE_BUCKET_NAME,
-        Body: mockBuffer,
-        Key: mockKey,
-      }),
-    );
+      expect(PutObjectCommand).toHaveBeenCalledWith(
+        expect.objectContaining({
+          Bucket: mockConfig.S3_DATA_STORAGE_BUCKET_NAME,
+          Body: mockBuffer,
+          Key: mockKey,
+        }),
+      );
 
-    expect(mockS3Client.send).toBeCalled();
-  });
-
-  it("should store other plaintiff's consent data to S3 bucket", async () => {
-    const mockDate = new Date("2025-01-01");
-    const mockSessionId = "test-session-id";
-    const mockConfig = {
-      ...config(),
-      S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
-    };
-    const mockBuffer = Buffer.from(
-      `${mockSessionId};${mockDate.toISOString()};test-agent`,
-      "utf8",
-    );
-    const mockKey = "data-consent-fgr/01-01-2025/test-session-id-10.csv";
-
-    setupConsentMocks(mockDate, mockSessionId, mockConfig);
-
-    vi.mocked(parsePathname).mockReturnValue({
-      flowId: "/fluggastrechte/formular",
-      stepId: "test-step-id",
-      arrayIndexes: [10],
+      expect(mockS3Client.send).toBeCalled();
     });
 
-    await storeMultiplePersonsConsent(mockRequest);
+    it("handles error if storing consent data fails", async () => {
+      const mockError = new Error("Test error");
 
-    expect(createClientS3DataStorage).toHaveBeenCalled();
-    expect(getSessionIdByFlowId).toHaveBeenCalledWith(
-      "/fluggastrechte/formular",
-      "test-cookie",
-    );
+      vi.mocked(createClientS3DataStorage).mockImplementation(() => {
+        throw mockError;
+      });
 
-    expect(PutObjectCommand).toHaveBeenCalledWith(
-      expect.objectContaining({
-        Bucket: mockConfig.S3_DATA_STORAGE_BUCKET_NAME,
-        Body: mockBuffer,
-        Key: mockKey,
-      }),
-    );
+      await storeMainPersonConsent(mockRequest);
 
-    expect(mockS3Client.send).toBeCalled();
-  });
-  it("should log a Sentry error if storing main person's consent fails", async () => {
-    const mockError = new Error("Test error");
-
-    vi.mocked(createClientS3DataStorage).mockImplementation(() => {
-      throw mockError;
+      expect(sendSentryMessage).toHaveBeenCalledWith(
+        `Error storing consent fgr data to S3 bucket: ${mockError.message}`,
+        "error",
+      );
     });
-
-    await storeMainPersonConsent(mockRequest);
-
-    expect(sendSentryMessage).toHaveBeenCalledWith(
-      `Error storing consent fgr data to S3 bucket: ${mockError.message}`,
-      "error",
-    );
   });
 
-  it("should throw error when array index is missing", async () => {
-    vi.mocked(parsePathname).mockReturnValue({
-      flowId: "/fluggastrechte/formular",
-      stepId: "test-step-id",
-      arrayIndexes: [],
+  describe("when other plaintiff", () => {
+    it("stores consent data to S3 bucket", async () => {
+      const mockDate = new Date("2025-01-01");
+      const mockSessionId = "test-session-id";
+      const mockConfig = {
+        ...config(),
+        S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
+      };
+      const mockBuffer = Buffer.from(
+        `${mockSessionId};${mockDate.toISOString()};test-agent`,
+        "utf8",
+      );
+      const mockKey = "data-consent-fgr/01-01-2025/test-session-id-10.csv";
+
+      setupConsentMocks(mockDate, mockSessionId, mockConfig);
+
+      vi.mocked(parsePathname).mockReturnValue({
+        flowId: "/fluggastrechte/formular",
+        stepId: "test-step-id",
+        arrayIndexes: [10],
+      });
+
+      await storeMultiplePersonsConsent(mockRequest);
+
+      expect(createClientS3DataStorage).toHaveBeenCalled();
+      expect(getSessionIdByFlowId).toHaveBeenCalledWith(
+        "/fluggastrechte/formular",
+        "test-cookie",
+      );
+
+      expect(PutObjectCommand).toHaveBeenCalledWith(
+        expect.objectContaining({
+          Bucket: mockConfig.S3_DATA_STORAGE_BUCKET_NAME,
+          Body: mockBuffer,
+          Key: mockKey,
+        }),
+      );
+
+      expect(mockS3Client.send).toBeCalled();
     });
 
-    await expect(storeMultiplePersonsConsent(mockRequest)).rejects.toThrow(
-      "Consent(Error): Array index is missing or undefined",
-    );
+    it("handles error if array index is missing", async () => {
+      vi.mocked(parsePathname).mockReturnValue({
+        flowId: "/fluggastrechte/formular",
+        stepId: "test-step-id",
+        arrayIndexes: [],
+      });
+
+      await expect(storeMultiplePersonsConsent(mockRequest)).rejects.toThrow(
+        "Consent(Error): Array index is missing or undefined",
+      );
+    });
   });
 });
