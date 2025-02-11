@@ -230,4 +230,49 @@ describe("pruner", () => {
       });
     });
   });
+
+  it("should return the paths and form fields given a context and flowId", async () => {
+    const strapiEntries = [
+      {
+        stepId: "/start",
+        form: [],
+      },
+      {
+        stepId: "/grundvoraussetzungen/rechtsschutzversicherung",
+        form: [{ name: "rechtsschutzversicherung" }],
+      },
+      {
+        stepId: "/grundvoraussetzungen/wurde-verklagt",
+        form: [{ name: "wurdeVerklagt" }],
+      },
+      {
+        stepId: "/grundvoraussetzungen/klage-eingereicht",
+        form: [{ name: "klageEingereicht" }],
+      },
+    ];
+
+    vi.mocked(getStrapiEntry).mockReturnValue(
+      Promise.resolve(strapiEntries as StrapiSchemas["form-flow-pages"]),
+    );
+
+    const userData = {
+      rechtsschutzversicherung: "no",
+      wurdeVerklagt: "no",
+      klageEingereicht: "no",
+    } satisfies BeratungshilfeFormularContext;
+    const flowId = "/beratungshilfe/antrag";
+
+    const { validPathsAndFieldsFlow } = await pruneIrrelevantData(
+      userData,
+      flowId,
+    );
+
+    expect(validPathsAndFieldsFlow).toEqual({
+      "/grundvoraussetzungen/klage-eingereicht": ["klageEingereicht"],
+      "/grundvoraussetzungen/rechtsschutzversicherung": [
+        "rechtsschutzversicherung",
+      ],
+      "/grundvoraussetzungen/wurde-verklagt": ["wurdeVerklagt"],
+    });
+  });
 });
