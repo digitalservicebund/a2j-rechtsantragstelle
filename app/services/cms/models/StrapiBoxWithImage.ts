@@ -1,16 +1,12 @@
 import { z } from "zod";
-import {
-  variantWidths,
-  type Variant,
-  type BoxWithImageProps,
-} from "~/components/BoxWithImage";
-import { buildRichTextValidation } from "~/services/validation/richtext";
+import { variantWidths, type Variant } from "~/components/BoxWithImage";
+import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
-import { StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 import { StrapiImageSchema } from "./StrapiImage";
 
 // Necessary destructuring for zod enum type
@@ -18,33 +14,22 @@ const [firstWidth, ...widths] = Object.keys(variantWidths).map(
   (key) => key as Variant,
 );
 
-const StrapiBoxWithImageSchema = z
+export const StrapiBoxWithImageSchema = z
   .object({
-    heading: StrapiHeadingSchema.nullable(),
+    heading: StrapiHeadingOptionalSchema,
     image: StrapiImageSchema,
-    content: buildRichTextValidation().nullable(),
+    content: StrapiRichTextOptionalSchema(),
     outerBackground: StrapiBackgroundSchema.nullable(),
-    variant: z.enum([firstWidth, ...widths]).nullable(),
+    variant: z
+      .enum([firstWidth, ...widths])
+      .nullable()
+      .transform(omitNull),
     container: StrapiContainerSchema,
   })
   .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema);
-
-export const StrapiBoxWithImageComponentSchema =
-  StrapiBoxWithImageSchema.extend({
-    __component: z.literal("page.box-with-image"),
-  });
-
-export const getBoxWithImageProps = ({
-  image,
-  ...props
-}: z.infer<typeof StrapiBoxWithImageSchema>): BoxWithImageProps => {
-  const { content, identifier, variant, heading } = omitNull(props);
-  return {
-    image: omitNull(image) ?? {},
-    identifier,
-    heading,
-    content,
-    variant,
-  };
-};
+  .merge(OptionalStrapiLinkIdentifierSchema)
+  .transform((cmsData) => ({
+    __component: "page.box-with-image" as const,
+    ...cmsData,
+    image: cmsData.image ?? {},
+  }));
