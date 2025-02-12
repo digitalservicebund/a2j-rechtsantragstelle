@@ -6,24 +6,26 @@ import { FLOW_ID } from "../services/summaryPage/getOverviewData";
 const TITLE = "Außergerichtliche Streitbeilegung";
 
 function getReasonsAgainstStreitbeilegung(
-  userData: FluggastrechtContext,
+  streitbeilegungGruende: FluggastrechtContext["streitbeilegungGruende"],
 ): string {
-  if (userData.streitbeilegungGruende === "no")
+  if (streitbeilegungGruende === "no")
     return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden und es bestehen keine Bedenken dagegen.";
-  if (userData.streitbeilegungGruende === "yesAirlineAgainst")
+  if (streitbeilegungGruende === "yesAirlineAgainst")
     return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden und es bestehen Bedenken, weil das bisherige Verhalten der Fluggesellschaft dagegen spricht.";
-  if (userData.streitbeilegungGruende === "yesOtherReasons")
+  if (streitbeilegungGruende === "yesOtherReasons")
     return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden und es bestehen Bedenken dagegen.";
   return "";
 }
-function StreitbeilegungCard({
-  userData,
-  translations,
-}: {
+type StreitbeilegungCardProps = {
   readonly userData: FluggastrechtContext;
   readonly translations: Translations;
-}) {
-  const isStreitbeilegung = userData.streitbeilegung === "yes";
+};
+
+function StreitbeilegungCard({
+  userData: { streitbeilegung, streitbeilegungGruende },
+  translations,
+}: StreitbeilegungCardProps) {
+  const isStreitbeilegung = streitbeilegung === "yes";
   const buttonUrl = isStreitbeilegung
     ? `${FLOW_ID}/grundvoraussetzungen/streitbeilegung`
     : `${FLOW_ID}/grundvoraussetzungen/streitbeilegung-gruende`;
@@ -31,8 +33,9 @@ function StreitbeilegungCard({
   const data = {
     streitbeilegung: isStreitbeilegung
       ? "Der Versuch einer außergerichtlichen Streitbeilegung hat stattgefunden."
-      : getReasonsAgainstStreitbeilegung(userData),
+      : getReasonsAgainstStreitbeilegung(streitbeilegungGruende),
   };
+
   return (
     <SummaryDataOverviewCard
       title={TITLE}
