@@ -6,7 +6,7 @@ import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiButtonSchema } from "./StrapiButton";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import { getRichTextProps, StrapiParagraphSchema } from "./StrapiParagraph";
+import { StrapiParagraphSchema } from "./StrapiParagraph";
 
 export const StrapiBoxSchema = z
   .object({
@@ -26,5 +26,5 @@ export const StrapiBoxSchema = z
   .transform((cmsData) => ({
     __component: "page.box" as const,
     ...cmsData,
-    content: cmsData.content && getRichTextProps(cmsData.content),
+    content: cmsData.content,
   }));
