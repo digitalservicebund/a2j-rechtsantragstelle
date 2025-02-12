@@ -37,7 +37,6 @@ import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
 import Header from "./components/PageHeader";
-import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
 import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
@@ -228,7 +227,7 @@ function App() {
             )}
             target={skipToContentLinkTarget}
           />
-          <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
+          <CookieBanner content={cookieBannerContent} />
           <Header {...header} translations={pageHeaderTranslations} />
           <Breadcrumbs
             breadcrumbs={breadcrumbs}
