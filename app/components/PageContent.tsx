@@ -1,8 +1,8 @@
 import type { ReactElement } from "react";
 import Heading from "~/components/Heading";
 import Video from "~/components/video/Video";
+import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
-import { getHeaderProps } from "~/services/cms/models/StrapiHeader";
 import Background from "./Background";
 import Box from "./Box";
 import BoxWithImage from "./BoxWithImage";
@@ -16,7 +16,6 @@ import LinkListBox from "./LinkListBox";
 import List from "./List";
 import RichText from "./RichText";
 import UserFeedback from "./userFeedback";
-import { keyFromElement } from "../services/cms/keyFromElement";
 
 function wrapInContainer(
   cmsData: StrapiContentComponent,
@@ -57,7 +56,7 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
     case "basic.paragraph":
       return <RichText {...strapiContent} />;
     case "page.header":
-      return <Header {...getHeaderProps(strapiContent)} />;
+      return <Header {...strapiContent} />;
     case "page.box":
       return <Box {...strapiContent} />;
     case "page.info-box":
