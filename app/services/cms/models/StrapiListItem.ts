@@ -4,11 +4,11 @@ import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiButtonSchema } from "./StrapiButton";
-import { StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 
 export const StrapiListItemSchema = z
   .object({
-    headline: StrapiHeadingSchema.nullable().transform(omitNull).optional(),
+    headline: StrapiHeadingOptionalSchema,
     content: StrapiRichTextOptionalSchema(),
     buttons: z
       .array(StrapiButtonSchema)
