@@ -8,7 +8,7 @@ import { StrapiHeaderComponentSchema } from "./StrapiHeader";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiInfoBoxSchema } from "./StrapiInfoBox";
 import { StrapiInlineNoticeSchema } from "./StrapiInlineNotice";
-import { StrapiLinkListBoxComponentSchema } from "./StrapiLinkListBox";
+import { StrapiLinkListBoxSchema } from "./StrapiLinkListBox";
 import { StrapiListSchema } from "./StrapiList";
 import { StrapiParagraphComponentSchema } from "./StrapiParagraph";
 import { StrapiUserFeedbackSchema } from "./StrapiUserFeedback";
@@ -21,7 +21,7 @@ export const StrapiContentComponentSchema = z.union([
   StrapiInfoBoxSchema,
   StrapiParagraphComponentSchema,
   StrapiVideoSchema,
-  StrapiLinkListBoxComponentSchema,
+  StrapiLinkListBoxSchema,
   StrapiListSchema,
   StrapiArraySummaryComponentSchema,
   StrapiInlineNoticeSchema,
