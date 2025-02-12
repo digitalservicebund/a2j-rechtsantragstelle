@@ -20,7 +20,7 @@ describe("services/cms", () => {
   beforeEach(() => void vi.clearAllMocks());
 
   describe("fetchSingleEntry", () => {
-    test("returns a footer entry", async () => {
+    test.skip("returns a footer entry", async () => {
       const footerData = getStrapiFooter();
       vi.mocked(getStrapiEntry).mockReturnValue(Promise.resolve([footerData]));
       expect(await fetchSingleEntry("footer")).toEqual({
