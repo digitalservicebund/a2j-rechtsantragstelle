@@ -38,7 +38,12 @@ const SummaryOverviewBox = ({
     <div className="mt-8">
       <div className="bg-white pt-32 pb-44 px-32">
         {title && (
-          <Heading text={title} tagName="p" look="ds-heading-03-bold" />
+          <Heading
+            text={title}
+            className="mb-16"
+            tagName="p"
+            look="ds-heading-03-bold"
+          />
         )}
 
         <dl>
