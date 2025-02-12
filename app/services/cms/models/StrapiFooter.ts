@@ -4,7 +4,7 @@ import { omitNull } from "~/util/omitNull";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { StrapiImageSchema } from "./StrapiImage";
 import { StrapiLinkSchema } from "./StrapiLink";
-import { StrapiParagraphSchema, getRichTextProps } from "./StrapiParagraph";
+import { StrapiParagraphSchema } from "./StrapiParagraph";
 
 export const StrapiFooterSchema = z
   .object({
@@ -22,7 +22,7 @@ export const getFooterProps = (
   const { links, paragraphs, image } = cmsData;
   return omitNull({
     links,
-    paragraphs: paragraphs?.map((p) => getRichTextProps(p)),
+    paragraphs,
     image,
   });
 };
