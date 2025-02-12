@@ -1,12 +1,12 @@
 import InfoIcon from "@digitalservicebund/icons/LightbulbOutlined";
 import { FC } from "react";
 
-export type FilesUploadWarningProps = {
+export type FileUploadWarningProps = {
   warningTitle: string;
   warningDescription?: string;
 };
 
-export const FilesUploadWarning: FC<FilesUploadWarningProps> = ({
+export const FileUploadWarning: FC<FileUploadWarningProps> = ({
   warningTitle,
   warningDescription,
 }) => {

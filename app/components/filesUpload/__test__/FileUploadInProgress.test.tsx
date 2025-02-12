@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import { FilesUploadInProgress } from "../FilesUploadInProgress";
+import { FileUploadInProgress } from "../FileUploadInProgress";
 
-describe("FilesUploadInProgress", () => {
+describe("FileUploadInProgress", () => {
   it("renders correctly a spinner, the file name and the progress text", () => {
     render(
-      <FilesUploadInProgress
+      <FileUploadInProgress
         fileName={"testfile1.pdf"}
         uploadProgressLabel={"loading..."}
         cancelButtonLabel={"Cancel"}
@@ -30,7 +30,7 @@ describe("FilesUploadInProgress", () => {
   });
   it("renders correctly a cancel button", () => {
     render(
-      <FilesUploadInProgress
+      <FileUploadInProgress
         fileName={"testfile1.pdf"}
         uploadProgressLabel={"loading..."}
         cancelButtonLabel={"Cancel"}
@@ -46,7 +46,7 @@ describe("FilesUploadInProgress", () => {
   });
   it("renders correctly a add more files button", () => {
     render(
-      <FilesUploadInProgress
+      <FileUploadInProgress
         fileName={"testfile1.pdf"}
         uploadProgressLabel={"loading..."}
         cancelButtonLabel={"Cancel"}

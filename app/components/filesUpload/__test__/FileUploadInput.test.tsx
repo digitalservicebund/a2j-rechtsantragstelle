@@ -1,26 +1,26 @@
 import { render, screen } from "@testing-library/react";
-import { FilesUploadInput } from "../FilesUploadInput";
+import { FileUploadInput } from "../FileUploadInput";
 
-describe("FilesUploadInput", () => {
+describe("FileUploadInput", () => {
   it("renders an upload files input", () => {
     render(
-      <FilesUploadInput
+      <FileUploadInput
         inputName={""}
         selectFilesButtonLabel={""}
         onFileSelect={vi.fn()}
       />,
     );
-    const filesUploadInput = screen.getByTestId("filesUploadInput");
-    expect(filesUploadInput).toBeInTheDocument();
-    expect(filesUploadInput).toHaveClass(
-      "w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer",
+    const fileUploadInput = screen.getByTestId("fileUploadInput");
+    expect(fileUploadInput).toBeInTheDocument();
+    expect(fileUploadInput).toHaveClass(
+      "ds-input w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer",
     );
-    expect(filesUploadInput).toHaveAttribute("type", "file");
-    expect(filesUploadInput).toHaveAttribute("accept", ".pdf, .tiff, .tif");
+    expect(fileUploadInput).toHaveAttribute("type", "file");
+    expect(fileUploadInput).toHaveAttribute("accept", ".pdf, .tiff, .tif");
   });
   it("renders an upload files button", () => {
     render(
-      <FilesUploadInput
+      <FileUploadInput
         inputName={""}
         selectFilesButtonLabel={"Select File"}
         onFileSelect={vi.fn()}

@@ -1,14 +1,13 @@
 import { render, screen } from "@testing-library/react";
-import { FilesUploadDone } from "../FilesUploadDone";
+import { FileUploadDone } from "../FileUploadDone";
 
-describe("FilesUploadDone", () => {
+describe("FileUploadDone", () => {
   it("renders an icon, file name and size", () => {
     render(
-      <FilesUploadDone
+      <FileUploadDone
         fileName={"testfile1.pdf"}
         fileSize={3145728}
         deleteButtonLabel={"Delete"}
-        selectMoreFilesButtonLabel={"Add more files"}
       />,
     );
     const fileNames = screen.getByText("testfile1.pdf");
@@ -22,11 +21,10 @@ describe("FilesUploadDone", () => {
   });
   it("renders a delete button", () => {
     render(
-      <FilesUploadDone
+      <FileUploadDone
         fileName={"testfile1.pdf"}
         fileSize={3145728}
         deleteButtonLabel={"Delete"}
-        selectMoreFilesButtonLabel={""}
       />,
     );
     const deleteButton = screen.getByRole("button", {
@@ -36,21 +34,5 @@ describe("FilesUploadDone", () => {
     expect(deleteButton).toHaveClass(
       "ds-button ds-button-ghost ds-button-with-icon",
     );
-  });
-
-  it("renders an add more files button", () => {
-    render(
-      <FilesUploadDone
-        fileName={"testfile1.pdf"}
-        fileSize={3145728}
-        deleteButtonLabel={""}
-        selectMoreFilesButtonLabel={"Add more files"}
-      />,
-    );
-    const addMoreFilesButton = screen.getByRole("button", {
-      name: "Add more files",
-    });
-    expect(addMoreFilesButton).toBeInTheDocument();
-    expect(addMoreFilesButton).toHaveClass("ds-button ds-button-with-icon");
   });
 });

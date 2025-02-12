@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
-import { FilesUploadError } from "../FilesUploadError";
+import { FileUploadError } from "../FileUploadError";
 
-describe("FilesUploadError", () => {
+describe("FileUploadError", () => {
   it("renders correctly an error message", () => {
-    render(<FilesUploadError errorMessage={"Error message"} />);
+    render(<FileUploadError errorMessage={"Error message"} />);
     const errorIcon = screen.getByTestId("ErrorOutlineIcon");
     expect(errorIcon).toBeInTheDocument();
     expect(errorIcon).toHaveClass("shrink-0 fill-red-900 mr-10");

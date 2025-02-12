@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import { FilesUploadWarning } from "../FilesUploadWarning";
+import { FileUploadWarning } from "../FileUploadWarning";
 
-describe("FilesUploadWarning", () => {
+describe("FileUploadWarning", () => {
   it("renders correctly an error message", () => {
     render(
-      <FilesUploadWarning
+      <FileUploadWarning
         warningTitle={"Warning Title"}
         warningDescription={"Warning Description"}
       />,

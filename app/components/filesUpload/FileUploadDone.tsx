@@ -1,22 +1,19 @@
-import AddIcon from "@digitalservicebund/icons/Add";
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import InsertFileIcon from "@digitalservicebund/icons/InsertDriveFile";
 import { FC } from "react";
 import { convertFileSize } from "~/components/filesUpload/convertFileSize";
 import Button from "../Button";
 
-export type FilesUploadDoneProps = {
+export type FileUploadDoneProps = {
   fileName: string;
   fileSize: number;
   deleteButtonLabel: string;
-  selectMoreFilesButtonLabel: string;
 };
 
-export const FilesUploadDone: FC<FilesUploadDoneProps> = ({
+export const FileUploadDone: FC<FileUploadDoneProps> = ({
   fileName,
   fileSize,
   deleteButtonLabel,
-  selectMoreFilesButtonLabel,
 }) => {
   return (
     <>
@@ -39,10 +36,6 @@ export const FilesUploadDone: FC<FilesUploadDoneProps> = ({
           text={deleteButtonLabel}
         />
       </div>
-      <Button
-        iconLeft={<AddIcon className="w-6 h-6" />}
-        text={selectMoreFilesButtonLabel}
-      />
     </>
   );
 };

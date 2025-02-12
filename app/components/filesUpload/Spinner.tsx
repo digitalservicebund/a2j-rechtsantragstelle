@@ -4,7 +4,7 @@ type SpinnerProps = {
   title?: string;
 };
 
-export const FileUploadSpinner: FC<SpinnerProps> = ({ title }) => {
+export const Spinner: FC<SpinnerProps> = ({ title }) => {
   return (
     <svg
       data-testid="spinner"
