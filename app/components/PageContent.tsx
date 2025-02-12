@@ -1,10 +1,9 @@
 import type { ReactElement } from "react";
 import Heading from "~/components/Heading";
 import Video from "~/components/video/Video";
+import { keyFromElement } from "~/services/cms/keyFromElement";
 import { getBoxProps } from "~/services/cms/models/StrapiBox";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
-import { getInfoBoxProps } from "~/services/cms/models/StrapiInfoBox";
-import { getLinkListBoxProps } from "~/services/cms/models/StrapiLinkListBox";
 import { getRichTextProps } from "~/services/cms/models/StrapiParagraph";
 import Background from "./Background";
 import Box from "./Box";
@@ -19,7 +18,6 @@ import LinkListBox from "./LinkListBox";
 import List from "./List";
 import RichText from "./RichText";
 import UserFeedback from "./userFeedback";
-import { keyFromElement } from "../services/cms/keyFromElement";
 
 function wrapInContainer(
   cmsData: StrapiContentComponent,
@@ -64,9 +62,9 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
     case "page.box":
       return <Box {...getBoxProps(strapiContent)} />;
     case "page.info-box":
-      return <InfoBox {...getInfoBoxProps(strapiContent)} />;
+      return <InfoBox {...strapiContent} />;
     case "page.link-list-box":
-      return <LinkListBox {...getLinkListBoxProps(strapiContent)} />;
+      return <LinkListBox {...strapiContent} />;
     case "page.box-with-image":
       return <BoxWithImage {...strapiContent} />;
     case "page.list":
