@@ -2,31 +2,31 @@ import { z } from "zod";
 import { StrapiVideoSchema } from "~/services/cms/models/StrapiVideo";
 import { StrapiArraySummaryComponentSchema } from "./StrapiArraySummary";
 import { StrapiBoxComponentSchema } from "./StrapiBox";
-import { StrapiBoxWithImageComponentSchema } from "./StrapiBoxWithImage";
-import { StrapiDetailsComponentSchema } from "./StrapiDetails";
+import { StrapiBoxWithImageSchema } from "./StrapiBoxWithImage";
+import { StrapiDetailsSchema } from "./StrapiDetails";
 import { StrapiHeaderComponentSchema } from "./StrapiHeader";
-import { StrapiHeadingComponentSchema } from "./StrapiHeading";
-import { StrapiInfoBoxComponentSchema } from "./StrapiInfoBox";
-import { StrapiInlineNoticeComponentSchema } from "./StrapiInlineNotice";
-import { StrapiLinkListBoxComponentSchema } from "./StrapiLinkListBox";
-import { StrapiListComponentSchema } from "./StrapiList";
+import { StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiInfoBoxSchema } from "./StrapiInfoBox";
+import { StrapiInlineNoticeSchema } from "./StrapiInlineNotice";
+import { StrapiLinkListBoxSchema } from "./StrapiLinkListBox";
+import { StrapiListSchema } from "./StrapiList";
 import { StrapiParagraphSchema } from "./StrapiParagraph";
-import { StrapiUserFeedbackComponentSchema } from "./StrapiUserFeedback";
+import { StrapiUserFeedbackSchema } from "./StrapiUserFeedback";
 
 export const StrapiContentComponentSchema = z.union([
   StrapiBoxComponentSchema,
-  StrapiBoxWithImageComponentSchema,
+  StrapiBoxWithImageSchema,
   StrapiHeaderComponentSchema,
-  StrapiHeadingComponentSchema,
-  StrapiInfoBoxComponentSchema,
+  StrapiHeadingSchema,
+  StrapiInfoBoxSchema,
   StrapiParagraphSchema,
   StrapiVideoSchema,
-  StrapiLinkListBoxComponentSchema,
-  StrapiListComponentSchema,
+  StrapiLinkListBoxSchema,
+  StrapiListSchema,
   StrapiArraySummaryComponentSchema,
-  StrapiInlineNoticeComponentSchema,
-  StrapiDetailsComponentSchema,
-  StrapiUserFeedbackComponentSchema,
+  StrapiInlineNoticeSchema,
+  StrapiDetailsSchema,
+  StrapiUserFeedbackSchema,
 ]);
 
 export type StrapiContentComponent = z.infer<

@@ -2,7 +2,7 @@ import { Renderer } from "marked";
 import { z } from "zod";
 import { buildRichTextValidation } from "~/services/validation/richtext";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import { StrapiImageSchema } from "./StrapiImage";
+import { StrapiImageOptionalSchema } from "./StrapiImage";
 
 export const tileRenderer: Partial<Renderer> = {
   paragraph({ text }) {
@@ -15,7 +15,7 @@ export const StrapiTileSchema = z
     title: z.string(),
     value: z.string(),
     description: buildRichTextValidation(tileRenderer).nullable(),
-    image: StrapiImageSchema.nullable(),
+    image: StrapiImageOptionalSchema,
     tagDescription: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);

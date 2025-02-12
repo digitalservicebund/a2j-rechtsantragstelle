@@ -52,11 +52,16 @@ async function fetchCollectionEntry<T extends CollectionId>(
   const strapiEntry = await getStrapiEntry({ apiId, filters, locale });
   const strapiEntryParsed = collectionSchemas[apiId].safeParse(strapiEntry);
 
-  if (!strapiEntryParsed.success || strapiEntryParsed.data.length === 0) {
+  if (strapiEntryParsed?.data?.length === 0) {
     const error = new Error(
       `CMS lookup for ${apiId} failed (filters: ${JSON.stringify(filters)})`,
     );
     error.name = "StrapiPageNotFound";
+    throw error;
+  } else if (!strapiEntryParsed.success) {
+    const error = new Error(
+      `Unable to successfully parse schema: ${strapiEntryParsed.error.message}`,
+    );
     throw error;
   }
   return strapiEntryParsed.data[0];
@@ -67,10 +72,15 @@ export async function fetchEntries<T extends ApiId>(
 ) {
   const entries = await getStrapiEntry(props);
   const parsedEntries = strapiSchemas[props.apiId].safeParse(entries);
-  if (!parsedEntries.success) {
+  if (parsedEntries.data?.length === 0) {
     throw new Error(
       `CMS lookup for pages failed (filters: ${JSON.stringify(props.filters)})`,
     );
+  } else if (!parsedEntries.success) {
+    const error = new Error(
+      `Unable to successfully parse schema: ${parsedEntries.error.message}`,
+    );
+    throw error;
   }
   return parsedEntries.data as StrapiSchemas[T];
 }

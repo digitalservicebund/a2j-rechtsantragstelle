@@ -1,4 +1,7 @@
+import pick from "lodash/pick";
 import { z } from "zod";
+import { StrapiStringOptionalSchema } from "~/services/cms/models/StrapiStringOptional";
+import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 function appendStrapiUrlOnDev(imageUrl: string) {
@@ -22,7 +25,7 @@ export const StrapiImageSchema = z
     width: z.number(),
     height: z.number(),
     size: z.number(),
-    alternativeText: z.string().nullable(),
+    alternativeText: StrapiStringOptionalSchema,
     ext: z.string().startsWith("."),
     mime: z.string().startsWith("image/"),
     caption: z.string().nullable(),
@@ -35,14 +38,12 @@ export const StrapiImageSchema = z
   .nullish()
   .transform((cmsData) => {
     if (!cmsData) return undefined;
-    const { url, width, height, alternativeText } = cmsData;
-    return {
-      url,
-      width,
-      height,
-      alternativeText,
-    };
+    return pick(cmsData, "url", "width", "height", "alternativeText");
   });
+
+export const StrapiImageOptionalSchema = StrapiImageSchema.nullable()
+  .transform(omitNull)
+  .optional();
 
 export type StrapiImage = z.infer<typeof StrapiImageSchema>;
 export type StrapiImageInput = z.input<typeof StrapiImageSchema>;

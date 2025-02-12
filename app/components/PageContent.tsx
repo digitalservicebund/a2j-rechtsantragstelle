@@ -3,16 +3,8 @@ import Heading from "~/components/Heading";
 import Video from "~/components/video/Video";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import { getBoxProps } from "~/services/cms/models/StrapiBox";
-import { getBoxWithImageProps } from "~/services/cms/models/StrapiBoxWithImage";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
-import { getDetailsProps } from "~/services/cms/models/StrapiDetails";
 import { getHeaderProps } from "~/services/cms/models/StrapiHeader";
-import { getHeadingProps } from "~/services/cms/models/StrapiHeading";
-import { getInfoBoxProps } from "~/services/cms/models/StrapiInfoBox";
-import { getInlineNoticeProps } from "~/services/cms/models/StrapiInlineNotice";
-import { getLinkListBoxProps } from "~/services/cms/models/StrapiLinkListBox";
-import { getListProps } from "~/services/cms/models/StrapiList";
-import { getUserFeedbackProps } from "~/services/cms/models/StrapiUserFeedback";
 import Background from "./Background";
 import Box from "./Box";
 import BoxWithImage from "./BoxWithImage";
@@ -62,7 +54,7 @@ function wrapInBackground(
 function cmsToReact(strapiContent: StrapiContentComponent) {
   switch (strapiContent.__component) {
     case "basic.heading":
-      return <Heading {...getHeadingProps(strapiContent)} />;
+      return <Heading {...strapiContent} />;
     case "basic.paragraph":
       return <RichText {...strapiContent} />;
     case "page.header":
@@ -70,21 +62,21 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
     case "page.box":
       return <Box {...getBoxProps(strapiContent)} />;
     case "page.info-box":
-      return <InfoBox {...getInfoBoxProps(strapiContent)} />;
+      return <InfoBox {...strapiContent} />;
     case "page.link-list-box":
-      return <LinkListBox {...getLinkListBoxProps(strapiContent)} />;
+      return <LinkListBox {...strapiContent} />;
     case "page.box-with-image":
-      return <BoxWithImage {...getBoxWithImageProps(strapiContent)} />;
+      return <BoxWithImage {...strapiContent} />;
     case "page.list":
-      return <List {...getListProps(strapiContent)} />;
+      return <List {...strapiContent} />;
     case "page.video":
       return <Video {...strapiContent} />;
     case "page.inline-notice":
-      return <InlineNotice {...getInlineNoticeProps(strapiContent)} />;
+      return <InlineNotice {...strapiContent} />;
     case "page.details-summary":
-      return <Details {...getDetailsProps(strapiContent)} />;
+      return <Details {...strapiContent} />;
     case "page.user-feedback":
-      return <UserFeedback {...getUserFeedbackProps(strapiContent)} />;
+      return <UserFeedback {...strapiContent} />;
     default:
       return <></>;
   }

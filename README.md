@@ -284,6 +284,15 @@ In development mode, run the `npm run start:storybook` command.
 
 The `AIRLINE_FILE_PATH` corresponds to the file that contains airlines data that will be transformed into `json` via the `build:airlines-data ` task. For further details and access to the source, please reach out to the maintainers of this repository.
 
+## Code Language Conventions
+
+This project uses a hybrid approach to language in code, mixing English and German.
+While technical implementation uses English (e.g., `function validateData()`), domain-specific terms can be kept in German (e.g., `hasRechtsschutzversicherung: boolean`).
+This is crucial because many German administrative terms lack precise English equivalents, leading to inconsistencies and communication overhead when translated.
+This hybrid approach ensures clear communication with domain experts and maintains code readability within our specific context.
+While we acknowledge this might pose a barrier for non-German speaking contributors, we believe it's the most effective solution for our project.
+We encourage contributors to ask questions about any unfamiliar German terms.
+
 ## Contributing
 
 [Deutsche sprache weiter unten](#mitwirken)
