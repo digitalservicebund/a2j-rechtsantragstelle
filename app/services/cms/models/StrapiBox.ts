@@ -10,9 +10,9 @@ import { StrapiParagraphSchema } from "./StrapiParagraph";
 
 export const StrapiBoxSchema = z
   .object({
-    label: StrapiHeadingSchema.nullable().transform(omitNull).optional(),
-    heading: StrapiHeadingSchema.nullable().transform(omitNull).optional(),
-    content: StrapiParagraphSchema,
+    label: StrapiHeadingSchema.nullable().transform(omitNull),
+    heading: StrapiHeadingSchema.nullable().transform(omitNull),
+    content: StrapiParagraphSchema.nullable().transform(omitNull),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
     buttons: z
@@ -26,5 +26,4 @@ export const StrapiBoxSchema = z
   .transform((cmsData) => ({
     __component: "page.box" as const,
     ...cmsData,
-    content: cmsData.content,
   }));
