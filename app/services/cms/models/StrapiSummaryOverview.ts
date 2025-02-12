@@ -9,7 +9,7 @@ export const StrapiSummaryOverviewSchema = z
       .array(
         z
           .object({
-            title: StrapiStringOptionalSchema,
+            title: z.string(),
             boxes: z
               .array(
                 z

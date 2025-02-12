@@ -5,7 +5,7 @@ import SummaryOverviewBox, {
 
 type Props = {
   readonly navigation: Array<{
-    readonly title?: string;
+    readonly title: string;
     readonly id: number;
     readonly boxes: SummaryOverviewBoxProps[];
   }>;

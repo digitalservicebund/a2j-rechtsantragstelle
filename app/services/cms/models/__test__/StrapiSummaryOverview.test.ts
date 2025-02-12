@@ -17,6 +17,7 @@ describe("StrapiSummaryOverviewSchema", () => {
       __component: "page.summary-overview",
       navigation: [
         {
+          title: "title",
           boxes: [],
         },
       ],
@@ -32,6 +33,7 @@ describe("StrapiSummaryOverviewSchema", () => {
       __component: "page.summary-overview",
       navigation: [
         {
+          title: "title",
           boxes: [
             {
               stepId: "anyStep",
@@ -49,6 +51,7 @@ describe("StrapiSummaryOverviewSchema", () => {
     expect(actual.data).toEqual({
       navigation: [
         {
+          title: "title",
           boxes: [
             {
               stepId: "anyStep",
