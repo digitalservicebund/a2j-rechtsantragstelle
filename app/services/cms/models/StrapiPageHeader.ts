@@ -8,13 +8,8 @@ export const StrapiPageHeaderSchema = z
     linkLabel: z.string(),
   })
   .merge(HasOptionalStrapiIdSchema)
-  .merge(HasStrapiLocaleSchema);
-
-type StrapiPageHeader = z.infer<typeof StrapiPageHeaderSchema>;
-
-export const getPageHeaderProps = (cmsData: StrapiPageHeader) => {
-  return {
+  .merge(HasStrapiLocaleSchema)
+  .transform((cmsData) => ({
     title: cmsData.title,
     linkLabel: cmsData.linkLabel,
-  };
-};
+  }));
