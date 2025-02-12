@@ -90,7 +90,7 @@
     "validator": "^13.12.0",
     "xss": "^1.0.15",
     "xstate": "^5.19.2",
-    "zod": "^3.24.1"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",
@@ -100,9 +100,9 @@
     "@remix-run/dev": "^2.15.3",
     "@remix-run/testing": "^2.15.3",
     "@size-limit/file": "^11.1.6",
-    "@storybook/addon-a11y": "^8.5.3",
-    "@storybook/addon-essentials": "^8.5.3",
-    "@storybook/react-vite": "^8.5.3",
+    "@storybook/addon-a11y": "^8.5.4",
+    "@storybook/addon-essentials": "^8.5.4",
+    "@storybook/react-vite": "^8.5.4",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@types/compression": "^1.7.5",
