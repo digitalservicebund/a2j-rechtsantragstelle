@@ -1,4 +1,4 @@
-# 18. Generating XMLs filled with user data according to given XSDs (xjustiz)
+# 18. Generating XMLs filled with user data according to given XSDs (XJustiz)
 
 Date: 2025-01-14
 
@@ -40,15 +40,15 @@ For the initial generation we could even still use a library for the one-time ge
   - We would use the same language as in our application.
 
 - Disadvantages:
-  - The code base is already very large and will become even larger in the future (e.g. with TGA), and the xml generation requires a lot of additional code:
+  - The code base is already very large and will become even larger in the future (e.g. with TGA - Teilgenerischer Ansatz), and the xml generation requires a lot of additional code:
     - The Typescript classes of the XSD schemas
     - New methods and (zod) schemas
     - Testing
       - Tests to check that our data is reflected in the standards
       - Tests to test the new methods and schemas
-      - tests to check that the result is a valid XJusitz message (may require a mini microservice)
-    - We will have to maintain at least two different XJusitz versions at the same time for interoperability.
-  - If the XJusitz version changes:
+      - tests to check that the result is a valid XJustiz message (may require a mini microservice)
+    - We will have to maintain at least two different XJustiz versions at the same time for interoperability.
+  - If the XJustiz version changes:
     - it may be difficult to find the changes
     - manual adjustments required
 
@@ -63,12 +63,12 @@ Also, we create two very distinct places to handle business logic.
 
   - A well-maintained library
   - could be used as a microservice:
-    - XJusitz versioning would be easier because it can be done with less manual customisation.
+    - XJustiz versioning would be easier because it can be done with less manual customisation.
     - Adds less complexity to the current code base
     - KomPla could also use the service in the future.
     - No need for new functions/methods to implement types like selections as they are part of the library
       - Tests for those new methods/functions are not needed as they are part of the library.
-    - Tests to check if a message is a valid XJusitz message are not needed as this is part of the library
+    - Tests to check if a message is a valid XJustiz message are not needed as this is part of the library
     - Clear separation of services (user flow, xml generation, sending data with FITKO)
     - With FITKO Java is already part of our project
     - Once we send the xml, changes to the user data will probably occur very rarely (we can only send data that is reflected in the xsd, and the xsd is [in theory] a representation of the required data).
