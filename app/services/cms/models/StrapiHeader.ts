@@ -6,7 +6,7 @@ import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import type { StrapiContentComponent } from "./StrapiContentComponent";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import { StrapiParagraphSchema, getRichTextProps } from "./StrapiParagraph";
+import { StrapiParagraphSchema } from "./StrapiParagraph";
 
 const StrapiHeaderSchema = z
   .object({
@@ -28,8 +28,7 @@ type StrapiHeaderComponent = z.infer<typeof StrapiHeaderComponentSchema>;
 export const getHeaderProps = ({
   content,
   heading,
-}: StrapiHeader): HeaderProps =>
-  omitNull({ heading, content: content && getRichTextProps(content) });
+}: StrapiHeader): HeaderProps => omitNull({ heading, content });
 
 export const isStrapiHeader = (
   content: StrapiContentComponent,
