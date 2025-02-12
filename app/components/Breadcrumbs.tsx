@@ -10,11 +10,13 @@ export type Breadcrumb = {
 
 type BreadcrumbsProps = {
   readonly breadcrumbs: Breadcrumb[];
+  readonly translations?: Record<string, string>;
   readonly linkLabel?: string;
   readonly alignToMainContainer?: boolean;
 };
 
 export default function Breadcrumbs({
+  translations,
   breadcrumbs,
   linkLabel,
   alignToMainContainer = true,
@@ -22,6 +24,7 @@ export default function Breadcrumbs({
   const validBreadcrumbs = breadcrumbs?.filter(
     (breadcrumb) => breadcrumb.title !== undefined,
   );
+  const ariaLabelTranslation = translations?.["header-breadcrumb"];
   const navClassNames = classNames("py-8 px-16 flex flex-wrap items-center", {
     [`${alignToContainer} !py-8`]: alignToMainContainer,
   });
@@ -29,7 +32,7 @@ export default function Breadcrumbs({
   return (
     validBreadcrumbs.length > 0 && (
       <div className="bg-blue-100">
-        <nav className={navClassNames} aria-label="Breadcrumbs">
+        <nav className={navClassNames} aria-label={ariaLabelTranslation}>
           {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
           <a
             href="/"

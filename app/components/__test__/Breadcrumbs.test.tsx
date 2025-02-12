@@ -24,20 +24,27 @@ describe("Breadcrumbs", () => {
     );
   });
 
-  it("should have the correct aria label", () => {
+  it("should have the correct aria label if data is provided", () => {
     const { container } = render(
       <Breadcrumbs
+        translations={{ "header-breadcrumb": "header-breadcrumb" }}
         breadcrumbs={breadcrumbs}
         linkLabel="Zurück zur Startseite"
       />,
     );
-    const nav = container.querySelector("a");
-    expect(nav).toHaveAttribute("aria-label", "Zurück zur Startseite");
+    const navElement = container.querySelector("nav");
+    const link = container.querySelector("a");
+
+    expect(navElement).toHaveAttribute("aria-label", "header-breadcrumb");
+    expect(link).toHaveAttribute("aria-label", "Zurück zur Startseite");
   });
 
   it("aria label should be null if not provided", () => {
     const { container } = render(<Breadcrumbs breadcrumbs={breadcrumbs} />);
-    const navLink = container.querySelector("a");
-    expect(navLink).not.toHaveAttribute("aria-label", null);
+    const link = container.querySelector("a");
+    const nav = container.querySelector("nav");
+
+    expect(link).not.toHaveAttribute("aria-label", null);
+    expect(nav).not.toHaveAttribute("aria-label", null);
   });
 });

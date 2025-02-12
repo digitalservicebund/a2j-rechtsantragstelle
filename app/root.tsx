@@ -234,6 +234,7 @@ function App() {
             breadcrumbs={breadcrumbs}
             alignToMainContainer={header.alignToMainContainer}
             linkLabel={header.linkLabel}
+            translations={{ ...accessibilityTranslations }}
           />
           <TranslationContext.Provider value={translationMemo}>
             <main className="flex-grow" id="main">
@@ -245,6 +246,7 @@ function App() {
               {...footer}
               deletionLabel={deletionLabel}
               showDeletionBanner={hasAnyUserData}
+              translations={{ ...accessibilityTranslations }}
             />
           </footer>
           <ScrollRestoration nonce={nonce} />
@@ -279,7 +281,12 @@ export function ErrorBoundary() {
             context={loaderData?.context ?? {}}
           />
         </main>
-        {loaderData && <Footer {...loaderData.footer} />}
+        {loaderData && (
+          <Footer
+            {...loaderData.footer}
+            translations={{ ...loaderData.accessibilityTranslations }}
+          />
+        )}
       </body>
     </html>
   );
