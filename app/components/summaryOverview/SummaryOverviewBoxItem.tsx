@@ -1,8 +1,6 @@
 import { Context } from "~/domains/contexts";
 import { Translations } from "~/services/translations/getTranslationByKey";
-import Heading from "../Heading";
 
-const EMPTY_TITLE = "emptyTitle";
 const EMPTY_ITEM_TRANSLATION_VALUE = "emptyValue";
 
 type Props = {
@@ -11,23 +9,7 @@ type Props = {
   readonly translations: Translations;
 };
 
-const renderItemTitle = (translations: Translations, fieldName: string) => {
-  const titleTranslation = translations?.[fieldName];
-
-  if (typeof titleTranslation === "string") {
-    if (titleTranslation === EMPTY_TITLE) {
-      return null;
-    }
-
-    return (
-      <Heading text={titleTranslation} tagName="p" look="ds-label-01-bold" />
-    );
-  }
-
-  return <br />;
-};
-
-const renderItemValue = (
+const getItemValue = (
   translations: Translations,
   userData: Context,
   fieldName: string,
@@ -56,10 +38,12 @@ const SummaryOverviewBoxItem = ({
   userData,
   translations,
 }: Props) => {
+  const itemTitle = translations?.[fieldName];
   return (
     <>
-      {renderItemTitle(translations, fieldName)}
-      {renderItemValue(translations, userData, fieldName)}
+      {itemTitle && <dt className="ds-label-01-bold mt-16">{itemTitle}</dt>}
+
+      <dd>{getItemValue(translations, userData, fieldName)}</dd>
     </>
   );
 };

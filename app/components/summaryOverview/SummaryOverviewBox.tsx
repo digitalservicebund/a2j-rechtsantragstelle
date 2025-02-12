@@ -36,7 +36,7 @@ const SummaryOverviewBox = ({
 
   return (
     <div className="first:pt-0 scroll-my-40 !mt-8">
-      <div className="space-y-16 bg-white pt-32 pb-44 px-32">
+      <div className="bg-white pt-32 pb-44 px-32">
         {title && (
           <Heading
             text={title}
@@ -46,26 +46,26 @@ const SummaryOverviewBox = ({
           />
         )}
 
-        {_sortedFields.map((field) => (
-          <SummaryOverviewBoxItem
-            key={`${id}-${field}`}
-            fieldName={field}
-            translations={translations}
-            userData={userData}
-          />
-        ))}
+        <dl>
+          {_sortedFields.map((field) => (
+            <SummaryOverviewBoxItem
+              key={`${id}-${field}`}
+              fieldName={field}
+              translations={translations}
+              userData={userData}
+            />
+          ))}
+        </dl>
 
-        <div>
-          <Button
-            iconLeft={<EditButton />}
-            href={`${flowId}${stepId}`}
-            look="tertiary"
-            size="large"
-            className="w-fit"
-          >
-            Bearbeiten
-          </Button>
-        </div>
+        <Button
+          iconLeft={<EditButton />}
+          href={`${flowId}${stepId}`}
+          look="tertiary"
+          size="large"
+          className="w-fit mt-16"
+        >
+          Bearbeiten
+        </Button>
       </div>
     </div>
   );
