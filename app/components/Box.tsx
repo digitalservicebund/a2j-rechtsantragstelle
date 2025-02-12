@@ -8,7 +8,7 @@ export type BoxProps = {
   identifier?: string;
   label?: HeadingProps;
   heading?: HeadingProps;
-  content?: RichTextProps;
+  content?: RichTextProps | null;
   buttons?: ButtonProps[];
 };
 
