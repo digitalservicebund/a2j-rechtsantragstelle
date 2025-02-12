@@ -2,12 +2,10 @@ import type { StrapiInfoBoxComponent } from "../cms/models/StrapiInfoBox";
 
 const fallbackStrapiInfoBox = {
   __component: "page.info-box",
-  identifier: null,
   heading: {
     __component: "basic.heading",
   },
   outerBackground: null,
-  separator: null,
   items: [
     {
       label: {
@@ -27,7 +25,7 @@ const fallbackStrapiInfoBox = {
       content:
         "Leider ist ein Fehler ist aufgetreten. Wir arbeiten ständig an der Verbesserung unserer Service und sind bereits informiert.\n\nBitte versuchen Sie es später noch einmal.",
       buttons: [],
-      identifier: null,
+      inlineNotices: [],
     },
   ],
   container: { backgroundColor: null, paddingBottom: null, paddingTop: null },
