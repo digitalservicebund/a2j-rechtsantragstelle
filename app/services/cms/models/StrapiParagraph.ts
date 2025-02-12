@@ -1,4 +1,4 @@
-import { pick } from "lodash";
+import pick from "lodash/pick";
 import { z } from "zod";
 import { buildRichTextValidation } from "~/services/validation/richtext";
 import { HasStrapiIdSchema } from "./HasStrapiId";
