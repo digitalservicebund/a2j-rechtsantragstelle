@@ -4,20 +4,21 @@ import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import type { StrapiContentComponent } from "./StrapiContentComponent";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import { StrapiParagraphSchema } from "./StrapiParagraph";
+import { getRichTextProps, StrapiParagraphSchema } from "./StrapiParagraph";
 
 export const StrapiHeaderSchema = z
   .object({
+    __component: z.literal("page.header"),
     heading: StrapiHeadingSchema,
-    content: StrapiParagraphSchema.transform((content) => ({
-      ...content,
-      html: content.text,
-    })),
+    content: StrapiParagraphSchema.nullable(),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
-    __component: z.literal("page.header"),
   })
-  .merge(HasOptionalStrapiIdSchema);
+  .merge(HasOptionalStrapiIdSchema)
+  .transform((cmsData) => ({
+    ...cmsData,
+    content: cmsData.content && getRichTextProps(cmsData.content),
+  }));
 
 type StrapiHeaderComponent = z.infer<typeof StrapiHeaderSchema>;
 
