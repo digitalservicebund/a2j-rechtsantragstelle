@@ -5,12 +5,12 @@ import { HasStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiParagraphSchema = z
   .object({
-    __component: z.literal("basic.paragraph"),
     text: buildRichTextValidation(),
   })
   .merge(HasStrapiIdSchema)
   .transform((cmsData) => ({
     ...pick(cmsData, "__component", "id"),
+    __component: "basic.paragraph" as const,
     html: cmsData.text,
   }));
 
