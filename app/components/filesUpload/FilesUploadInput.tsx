@@ -8,22 +8,19 @@ export type FilesUploadInputProps = {
   inputType?: string;
   helperText?: string;
   selectFilesButtonLabel?: string;
-  errorMessages?: ErrorMessageProps[]
+  errorMessages?: ErrorMessageProps[];
   onFileSelect: (file: File) => void;
 };
 
-export const FilesUploadInput: FC<FilesUploadInputProps & {innerRef? : React.Ref<HTMLInputElement>}> = ({
-  inputName,
-  selectFilesButtonLabel,
-  onFileSelect,
-}) => {
-
+export const FilesUploadInput: FC<
+  FilesUploadInputProps & { innerRef?: React.Ref<HTMLInputElement> }
+> = ({ inputName, selectFilesButtonLabel, onFileSelect }) => {
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
       onFileSelect(files[0]);
     }
-  }
+  };
   return (
     <div className="w-full my-14">
       <label>
@@ -37,7 +34,6 @@ export const FilesUploadInput: FC<FilesUploadInputProps & {innerRef? : React.Ref
         />
         <Button look="tertiary" text={selectFilesButtonLabel} />
       </label>
-  
     </div>
   );
 };

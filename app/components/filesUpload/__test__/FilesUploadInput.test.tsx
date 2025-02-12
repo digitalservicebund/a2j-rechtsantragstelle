@@ -3,7 +3,13 @@ import { FilesUploadInput } from "../FilesUploadInput";
 
 describe("FilesUploadInput", () => {
   it("renders an upload files input", () => {
-    render(<FilesUploadInput inputName={""} selectFilesButtonLabel={""} onFileSelect={vi.fn()} />);
+    render(
+      <FilesUploadInput
+        inputName={""}
+        selectFilesButtonLabel={""}
+        onFileSelect={vi.fn()}
+      />,
+    );
     const filesUploadInput = screen.getByTestId("filesUploadInput");
     expect(filesUploadInput).toBeInTheDocument();
     expect(filesUploadInput).toHaveClass(
@@ -16,7 +22,9 @@ describe("FilesUploadInput", () => {
     render(
       <FilesUploadInput
         inputName={""}
-        selectFilesButtonLabel={"Select File"} onFileSelect={vi.fn()}      />,
+        selectFilesButtonLabel={"Select File"}
+        onFileSelect={vi.fn()}
+      />,
     );
     const filesUploadButton = screen.getByRole("button", {
       name: "Select File",
