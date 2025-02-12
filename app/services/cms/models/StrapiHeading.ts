@@ -37,6 +37,10 @@ export const StrapiHeadingSchema = z
     });
   });
 
+export const StrapiHeadingOptionalSchema = StrapiHeadingSchema.nullable()
+  .transform(omitNull)
+  .optional();
+
 export const isStrapiHeadingComponent = (
   strapiContent: StrapiContentComponent,
 ): strapiContent is z.infer<typeof StrapiHeadingSchema> =>
