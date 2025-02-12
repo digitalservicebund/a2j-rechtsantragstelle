@@ -6,7 +6,7 @@ import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
-import { StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 import { StrapiImageSchema } from "./StrapiImage";
 
 // Necessary destructuring for zod enum type
@@ -16,7 +16,7 @@ const [firstWidth, ...widths] = Object.keys(variantWidths).map(
 
 export const StrapiBoxWithImageSchema = z
   .object({
-    heading: StrapiHeadingSchema.nullable().transform(omitNull),
+    heading: StrapiHeadingOptionalSchema,
     image: StrapiImageSchema,
     content: StrapiRichTextOptionalSchema(),
     outerBackground: StrapiBackgroundSchema.nullable(),
