@@ -4,6 +4,7 @@ import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
 
 export const StrapiSummaryOverviewSchema = z
   .object({
+    __component: z.literal("page.summary-overview"),
     navigation: z
       .array(
         z
@@ -26,8 +27,4 @@ export const StrapiSummaryOverviewSchema = z
       )
       .nonempty(),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .transform((cmsData) => ({
-    __component: "page.summary-overview" as const,
-    ...cmsData,
-  }));
+  .merge(HasOptionalStrapiIdSchema);
