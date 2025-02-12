@@ -35,15 +35,10 @@ const SummaryOverviewBox = ({
   const _sortedFields = getSortedFields(pageFields, sortedFields);
 
   return (
-    <div className="first:pt-0 scroll-my-40 !mt-8">
+    <div className="mt-8">
       <div className="bg-white pt-32 pb-44 px-32">
         {title && (
-          <Heading
-            text={title}
-            tagName="p"
-            className="mb-16"
-            look="ds-heading-03-bold"
-          />
+          <Heading text={title} tagName="p" look="ds-heading-03-bold" />
         )}
 
         <dl>
