@@ -8,7 +8,6 @@ import { getRichTextProps, StrapiParagraphSchema } from "./StrapiParagraph";
 
 export const StrapiHeaderSchema = z
   .object({
-    __component: z.literal("page.header"),
     heading: StrapiHeadingSchema,
     content: StrapiParagraphSchema.nullable(),
     outerBackground: StrapiBackgroundSchema.nullable(),
@@ -16,6 +15,7 @@ export const StrapiHeaderSchema = z
   })
   .merge(HasOptionalStrapiIdSchema)
   .transform((cmsData) => ({
+    __component: "page.header" as const,
     ...cmsData,
     content: cmsData.content && getRichTextProps(cmsData.content),
   }));
