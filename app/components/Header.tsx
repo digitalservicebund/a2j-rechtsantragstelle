@@ -3,7 +3,7 @@ import RichText, { type RichTextProps } from "./RichText";
 
 export type HeaderProps = Readonly<{
   heading: HeadingProps;
-  content?: RichTextProps | null;
+  content?: RichTextProps;
 }>;
 
 export default function Header({ heading, content }: HeaderProps) {

@@ -9,7 +9,7 @@ import { getRichTextProps, StrapiParagraphSchema } from "./StrapiParagraph";
 export const StrapiHeaderSchema = z
   .object({
     heading: StrapiHeadingSchema,
-    content: StrapiParagraphSchema.nullable(),
+    content: StrapiParagraphSchema,
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
   })
