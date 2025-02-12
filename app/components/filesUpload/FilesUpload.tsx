@@ -6,7 +6,7 @@ import { FilesUploadInProgress } from "./FilesUploadInProgress";
 import { FilesUploadInput } from "./FilesUploadInput";
 import { FilesUploadWarning } from "./FilesUploadWarning";
 
- enum FilesUploadState {
+enum FilesUploadState {
   NotStarted = "notStarted",
   InProgress = "inProgress",
   Done = "done",
@@ -20,12 +20,14 @@ type FilesUploadProps = {
   uploadFile: (file: File) => Promise<void>;
   description?: string;
   warningTitle: string;
-  cancelButtonLabel: string;
-  deleteButtonLabel: string;
   warningDescription: string;
-  uploadProgressLabel: string;
-  selectFilesButtonLabel: string;
-  selectMoreFilesButtonLabel: string;
+  labels: {
+    cancelButtonLabel: string;
+    deleteButtonLabel: string;
+    uploadProgressLabel: string;
+    selectFilesButtonLabel: string;
+    selectMoreFilesButtonLabel: string;
+  };
 };
 
 export const FilesUpload: FC<FilesUploadProps> = ({
@@ -33,17 +35,13 @@ export const FilesUpload: FC<FilesUploadProps> = ({
   inputName,
   description,
   uploadFile,
-  selectFilesButtonLabel,
-  uploadProgressLabel,
-  cancelButtonLabel,
-  deleteButtonLabel,
+  labels,
   warningTitle,
   warningDescription,
-  selectMoreFilesButtonLabel,  
 }) => {
-  
-
-  const [uploadState, setUploadState] = useState<FilesUploadState>(FilesUploadState.NotStarted);
+  const [uploadState, setUploadState] = useState<FilesUploadState>(
+    FilesUploadState.NotStarted,
+  );
   const [file, setFile] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -57,8 +55,8 @@ export const FilesUpload: FC<FilesUploadProps> = ({
       .catch(() => {
         setUploadState(FilesUploadState.Error);
         setErrorMessage("Upload failed");
-  });
-  };  
+      });
+  };
   return (
     <div className="w-full bg-white p-16">
       <FilesUploadHeader title={title} description={description} />
@@ -66,23 +64,23 @@ export const FilesUpload: FC<FilesUploadProps> = ({
       {uploadState === FilesUploadState.NotStarted && (
         <>
           <FilesUploadInput
-            selectFilesButtonLabel={selectFilesButtonLabel}
-            inputName={inputName} 
-            onFileSelect={handleFileSelect}      
-            />
+            selectFilesButtonLabel={labels.selectFilesButtonLabel}
+            inputName={inputName}
+            onFileSelect={handleFileSelect}
+          />
         </>
       )}
-      
+
       {uploadState === FilesUploadState.Error && errorMessage !== null && (
         <FilesUploadError errorMessage={errorMessage} />
       )}
 
-      {uploadState === FilesUploadState.InProgress && file !== null &&(
+      {uploadState === FilesUploadState.InProgress && file !== null && (
         <FilesUploadInProgress
           fileName={file.name}
-          uploadProgressLabel={uploadProgressLabel}
-          cancelButtonLabel={cancelButtonLabel}
-          selectMoreFilesButtonLabel={selectMoreFilesButtonLabel}
+          uploadProgressLabel={labels.uploadProgressLabel}
+          cancelButtonLabel={labels.cancelButtonLabel}
+          selectMoreFilesButtonLabel={labels.selectMoreFilesButtonLabel}
         />
       )}
 
@@ -91,17 +89,17 @@ export const FilesUpload: FC<FilesUploadProps> = ({
           <FilesUploadDone
             fileName={file.name}
             fileSize={file.size}
-            deleteButtonLabel={deleteButtonLabel}
-            selectMoreFilesButtonLabel={selectMoreFilesButtonLabel}
+            deleteButtonLabel={labels.deleteButtonLabel}
+            selectMoreFilesButtonLabel={labels.selectMoreFilesButtonLabel}
           />
         </>
       )}
       {uploadState === FilesUploadState.Warning && (
-            <FilesUploadWarning
-              warningTitle={warningTitle}
-              warningDescription={warningDescription}
-            />
-          )}
+        <FilesUploadWarning
+          warningTitle={warningTitle}
+          warningDescription={warningDescription}
+        />
+      )}
     </div>
   );
 };

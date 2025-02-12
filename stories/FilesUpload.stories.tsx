@@ -13,18 +13,21 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    fileName: "file1.pdf",
-    fileSize: 3145728,
-    deleteButtonLabel: "Delete",
-    selectMoreFilesButtonLabel: "Select more files",
+    uploadFile: async (file: File) => {
+      return new Promise<void>((resolve) => setTimeout(resolve, 1000));
+    },
+
+    labels: {
+      deleteButtonLabel: "Delete",
+      selectMoreFilesButtonLabel: "Select more files",
+      cancelButtonLabel: "Cancel",
+      uploadProgressLabel: "loading...",
+      selectFilesButtonLabel: "Select files",
+    },
     inputName: "file",
     description: "Description",
     title: "Title",
     warningTitle: "Warning title",
-    errorMessage: "Error message",
-    cancelButtonLabel: "Cancel",
     warningDescription: "Warning description",
-    uploadProgressLabel: "Upload progress",
-    selectFilesButtonLabel: "Select files",
   },
 };

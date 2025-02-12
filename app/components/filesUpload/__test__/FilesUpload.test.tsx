@@ -1,60 +1,93 @@
-import { render, screen} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { FilesUpload } from "../FilesUpload";
-import { FilesUploadError } from "../FilesUploadError";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { FilesUploadState } from "../FilesUpload";
+describe("FilesUpload", () => {
+  const mockUploadFile = vi.fn();
 
+  const defaultProps = {
+    title: "Upload Files",
+    inputName: "fileUpload",
+    uploadFile: mockUploadFile,
+    warningTitle: "Warning",
+    warningDescription: "This is a warning",
+    labels: {
+      cancelButtonLabel: "Cancel",
+      deleteButtonLabel: "Delete",
+      uploadProgressLabel: "Uploading...",
+      selectFilesButtonLabel: "Select Files",
+      selectMoreFilesButtonLabel: "Select More Files",
+    },
+  };
 
-describe('FilesUpload', () => {
-    const mockUploadFile = vi.fn();
+  beforeEach(() => {
+    mockUploadFile.mockReset();
+  });
 
-    const defaultProps = {
-        title: "Upload Files",
-        inputName: "fileUpload",
-        uploadFile: mockUploadFile,
-        warningTitle: "Warning",
-        cancelButtonLabel: "Cancel",
-        deleteButtonLabel: "Delete",
-        warningDescription: "This is a warning",
-        uploadProgressLabel: "Uploading...",
-        selectFilesButtonLabel: "Select Files",
-        selectMoreFilesButtonLabel: "Select More Files",
-    };
+  it("renders the initial not started state correctly", () => {
+    render(<FilesUpload {...defaultProps} />);
 
-    beforeEach(() => {
-        mockUploadFile.mockClear();
+    const title = screen.getByText("Upload Files");
+    expect(title).toBeInTheDocument();
+    const input = screen.getByTestId("filesUploadInput");
+    expect(input).toBeInTheDocument();
+    const selectFilesButton = screen.getByRole("button", {
+      name: "Select Files",
+    });
+    expect(selectFilesButton).toBeInTheDocument();
+  });
+
+  it("handles file selection and upload success", async () => {
+    mockUploadFile.mockResolvedValue(undefined);
+    render(<FilesUpload {...defaultProps} />);
+
+    const user = userEvent.setup();
+    const file = new File([""], "testfile0.pdf", { type: "application/pdf" });
+    const fileSizeMegabytesToBytes = 8388608;
+    Object.defineProperty(file, "size", {
+      value: fileSizeMegabytesToBytes,
     });
 
-    it('renders the initial state correctly', () => {
-        render(<FilesUpload {...defaultProps} />);
-        expect(screen.getByText(defaultProps.title)).toBeInTheDocument();
-        expect(screen.getByText(defaultProps.selectFilesButtonLabel)).toBeInTheDocument();
+    const input = screen.getByTestId("filesUploadInput");
+    await user.upload(input, file);
+    expect(mockUploadFile).toHaveBeenCalledWith(file);
+    const fileName = screen.getByText("testfile0.pdf");
+    expect(fileName).toBeInTheDocument();
+    const fileSize = screen.getByText("8 MB");
+    expect(fileSize).toBeInTheDocument();
+    const deleteButton = screen.getByRole("button", {
+      name: "Delete",
     });
+    expect(deleteButton).toBeInTheDocument();
+  });
 
-    it('handles file selection and upload success', async () => {
-        mockUploadFile.mockResolvedValueOnce(undefined);
-        render(<FilesUpload {...defaultProps} />);
-        
-        const file = new File([""], "testfile.pdf", { type: "application/pdf" });
-        const input = screen.getByText(defaultProps.selectFilesButtonLabel);
-        
-        fireEvent.change(input, { target: { files: [file] } });
-        
-        await waitFor(() => expect(mockUploadFile).toHaveBeenCalledWith(file));
-        expect(screen.getByText(file.name)).toBeInTheDocument();
-        expect(screen.getByText(defaultProps.uploadProgressLabel)).toBeInTheDocument();
-    });
+  it("handles file selection and upload in progress", async () => {
+    render(<FilesUpload {...defaultProps} />);
 
-    it('handles file selection and upload error', async () => {
-        mockUploadFile.mockRejectedValueOnce(new Error("Upload failed"));
-        render(<FilesUpload {...defaultProps} />);
-        
-        const file = new File([""], "testfile.pdf", { type: "application/pdf" });
-        const input = screen.getByLabelText(defaultProps.selectFilesButtonLabel);
-        
-        fireEvent.change(input, { target: { files: [file] } });
-        
-        await waitFor(() => expect(mockUploadFile).toHaveBeenCalledWith(file));
-        expect(screen.getByText("Upload failed")).toBeInTheDocument();
-    });
+    const user = userEvent.setup();
+    const file = new File([""], "testfile0.pdf", { type: "application/pdf" });
+    const input = screen.getByTestId("filesUploadInput");
+
+    await user.upload(input, file);
+    expect(mockUploadFile).toHaveBeenCalledWith(file);
+
+    const fileName = screen.getByText("testfile0.pdf");
+    expect(fileName).toBeInTheDocument();
+    const uploadProgress = screen.getByText("Uploading...");
+    expect(uploadProgress).toBeInTheDocument();
+  });
+
+  it("handles file selection and upload failure", async () => {
+    mockUploadFile.mockRejectedValue(undefined);
+    render(<FilesUpload {...defaultProps} />);
+
+    const user = userEvent.setup();
+    const file = new File([""], "testfile0.pdf", { type: "application/pdf" });
+    const input = screen.getByTestId("filesUploadInput");
+    await user.upload(input, file);
+    expect(mockUploadFile).toHaveBeenCalledWith(file);
+    const fileName = screen.queryByText("testfile0.pdf");
+    expect(fileName).not.toBeInTheDocument();
+    const errorMessage = screen.getByText("Upload failed");
+    expect(errorMessage).toBeInTheDocument();
+  });
 });
