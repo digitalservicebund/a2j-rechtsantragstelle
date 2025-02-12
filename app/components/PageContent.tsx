@@ -3,8 +3,6 @@ import Heading from "~/components/Heading";
 import Video from "~/components/video/Video";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import { getHeaderProps } from "~/services/cms/models/StrapiHeader";
-import { getInfoBoxProps } from "~/services/cms/models/StrapiInfoBox";
-import { getLinkListBoxProps } from "~/services/cms/models/StrapiLinkListBox";
 import { getRichTextProps } from "~/services/cms/models/StrapiParagraph";
 import Background from "./Background";
 import Box from "./Box";
@@ -64,9 +62,9 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
     case "page.box":
       return <Box {...strapiContent} />;
     case "page.info-box":
-      return <InfoBox {...getInfoBoxProps(strapiContent)} />;
+      return <InfoBox {...strapiContent} />;
     case "page.link-list-box":
-      return <LinkListBox {...getLinkListBoxProps(strapiContent)} />;
+      return <LinkListBox {...strapiContent} />;
     case "page.box-with-image":
       return <BoxWithImage {...strapiContent} />;
     case "page.list":

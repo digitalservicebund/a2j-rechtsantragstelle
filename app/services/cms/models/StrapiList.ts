@@ -1,12 +1,11 @@
 import { Renderer } from "marked";
 import { z } from "zod";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
-import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
-import { StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 import { StrapiListItemSchema } from "./StrapiListItem";
 
 export const listRenderer: Partial<Renderer> = {
@@ -17,7 +16,7 @@ export const listRenderer: Partial<Renderer> = {
 
 export const StrapiListSchema = z
   .object({
-    heading: StrapiHeadingSchema.nullable().transform(omitNull).optional(),
+    heading: StrapiHeadingOptionalSchema,
     subheading: StrapiRichTextOptionalSchema(listRenderer),
     items: z.array(StrapiListItemSchema),
     isNumeric: z.boolean(),
