@@ -1,10 +1,9 @@
 # 18. Generating XMLs filled with user data according to given XSDs (XJustiz)
 
-Date: 2025-01-14
-
 ## Status
 
-Accepted
+- Accepted: 2025-01-14
+- Edited: 2025-02-12
 
 ## Context
 
