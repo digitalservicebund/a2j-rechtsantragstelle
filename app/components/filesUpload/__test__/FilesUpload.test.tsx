@@ -61,6 +61,7 @@ describe("FilesUpload", () => {
   });
 
   it("handles file selection and upload in progress", async () => {
+    mockUploadFile.mockReturnValue(new Promise(vi.fn()));
     render(<FilesUpload {...defaultProps} />);
 
     const user = userEvent.setup();
