@@ -12,7 +12,7 @@ export const StrapiBoxSchema = z
   .object({
     label: StrapiHeadingSchema.nullable().transform(omitNull).optional(),
     heading: StrapiHeadingSchema.nullable().transform(omitNull).optional(),
-    content: StrapiParagraphSchema.nullable(),
+    content: StrapiParagraphSchema,
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
     buttons: z
