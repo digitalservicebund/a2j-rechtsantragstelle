@@ -42,10 +42,7 @@ For the initial generation we could even still use a library for the one-time ge
   - The code base is already very large and will become even larger in the future (e.g. with TGA - Teilgenerischer Ansatz), and the xml generation requires a lot of additional code:
     - The Typescript classes of the XSD schemas
     - New methods and (zod) schemas
-    - Testing
-      - Tests to check that our data is reflected in the standards
-      - Tests to test the new methods and schemas
-      - tests to check that the result is a valid XJustiz message (may require a mini microservice)
+    - More complexity in testing
     - We will have to maintain at least two different XJustiz versions at the same time for interoperability.
   - If the XJustiz version changes:
     - it may be difficult to find the changes
