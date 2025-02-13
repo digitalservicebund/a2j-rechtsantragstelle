@@ -1,9 +1,6 @@
-import EditButton from "@digitalservicebund/icons/CreateOutlined";
-import Button from "../Button";
+import SummaryOverviewBoxArray from "./SummaryOverviewBoxArray";
+import SummaryOverviewBoxWrapped from "./SummaryOverviewBoxWrapped";
 import { useFlowFormular } from "../form/flowFormularContext";
-import Heading from "../Heading";
-import { getSortedFields } from "./getSortedFields";
-import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 
 export type SummaryOverviewBoxProps = {
   readonly title?: string;
@@ -20,7 +17,7 @@ const SummaryOverviewBox = ({
   sortedFields,
   hiddenFields,
 }: SummaryOverviewBoxProps) => {
-  const { userData, validFlowPages, translations, flowId } = useFlowFormular();
+  const { userData, validFlowPages } = useFlowFormular();
 
   if (!validFlowPages[stepId]) {
     return null;
@@ -28,46 +25,31 @@ const SummaryOverviewBox = ({
 
   const hiddenFieldsList = hiddenFields?.split("\n");
 
-  const pageFields = validFlowPages[stepId].filter(
-    (field) => !hiddenFieldsList?.includes(field),
-  );
+  const { isArrayPage, fields } = validFlowPages[stepId];
 
-  const _sortedFields = getSortedFields(pageFields, sortedFields);
+  if (isArrayPage) {
+    return (
+      <SummaryOverviewBoxArray
+        boxId={id}
+        title={title}
+        hiddenFieldsList={hiddenFieldsList}
+        sortedFields={sortedFields}
+        arrayPageFields={fields}
+        stepId={stepId}
+      />
+    );
+  }
 
   return (
-    <div className="mt-8">
-      <div className="bg-white pt-32 pb-44 px-32">
-        {title && (
-          <Heading
-            text={title}
-            className="mb-16"
-            tagName="p"
-            look="ds-heading-03-bold"
-          />
-        )}
-
-        <dl>
-          {_sortedFields.map((field) => (
-            <SummaryOverviewBoxItem
-              key={`${id}-${field}`}
-              fieldName={field}
-              translations={translations}
-              userData={userData}
-            />
-          ))}
-        </dl>
-
-        <Button
-          iconLeft={<EditButton />}
-          href={`${flowId}${stepId}`}
-          look="tertiary"
-          size="large"
-          className="w-fit mt-16"
-        >
-          Bearbeiten
-        </Button>
-      </div>
-    </div>
+    <SummaryOverviewBoxWrapped
+      boxId={id}
+      stepId={stepId}
+      userData={userData}
+      hiddenFieldsList={hiddenFieldsList}
+      sortedFields={sortedFields}
+      fields={fields}
+      title={title}
+    />
   );
 };
 

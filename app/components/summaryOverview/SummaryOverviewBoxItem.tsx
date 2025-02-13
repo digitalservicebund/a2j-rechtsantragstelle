@@ -15,6 +15,7 @@ const SummaryOverviewBoxItem = ({
 }: Props) => {
   const itemTitle = translations?.[fieldName];
   const itemValue = getItemValueBox(translations, userData, fieldName);
+
   return (
     <>
       {itemTitle && (
@@ -25,7 +26,7 @@ const SummaryOverviewBoxItem = ({
           {itemTitle}
         </dt>
       )}
-      {itemValue.length > 0 && (
+      {itemValue && itemValue.length > 0 && (
         <dd data-testid="summary-box-item-value">{itemValue}</dd>
       )}
     </>

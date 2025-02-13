@@ -268,11 +268,18 @@ describe("pruner", () => {
     );
 
     expect(validPathsAndFieldsFlow).toEqual({
-      "/grundvoraussetzungen/klage-eingereicht": ["klageEingereicht"],
-      "/grundvoraussetzungen/rechtsschutzversicherung": [
-        "rechtsschutzversicherung",
-      ],
-      "/grundvoraussetzungen/wurde-verklagt": ["wurdeVerklagt"],
+      "/grundvoraussetzungen/klage-eingereicht": {
+        fields: ["klageEingereicht"],
+        isArrayPage: false,
+      },
+      "/grundvoraussetzungen/rechtsschutzversicherung": {
+        fields: ["rechtsschutzversicherung"],
+        isArrayPage: false,
+      },
+      "/grundvoraussetzungen/wurde-verklagt": {
+        fields: ["wurdeVerklagt"],
+        isArrayPage: false,
+      },
     });
   });
 });

@@ -1,4 +1,5 @@
 import pick from "lodash/pick";
+import { ValidFlowPagesType } from "~/components/form/flowFormularContext";
 import type { Context } from "~/domains/contexts";
 import type { FlowId } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
@@ -43,19 +44,20 @@ const getValidPathsAndFieldsFlow = (
   validPaths: Path[],
 ) => {
   return validPaths
-    .flatMap(({ stepIds }) =>
+    .flatMap(({ stepIds, arrayIndex }) =>
       stepIds
         .filter((stepId) => formFields[stepId])
         .map((stepId) => ({
           path: stepId,
           fields: formFields[stepId],
+          isArrayPage: typeof arrayIndex !== "undefined",
         })),
     )
-    .reduce(
-      (acc, { path, fields }) => {
-        acc[path] = fields;
-        return acc;
-      },
-      {} as Record<string, string[]>,
-    );
+    .reduce((acc, { path, fields, isArrayPage }) => {
+      acc[path] = {
+        fields,
+        isArrayPage,
+      };
+      return acc;
+    }, {} as ValidFlowPagesType);
 };
