@@ -68,9 +68,9 @@ export const FilesUpload: FC<FilesUploadProps> = ({
   // render a list of files
   // DONE render a warning message when file limit reached
   // DONE make add more files button disappear when file limit reached
-  // add easy functionality to add more files button
-  // add easy functionality to delete button
-  // add easy functionality to cancel button
+  // add functionality to add more files button
+  // add functionality to delete button
+  // add functionality to cancel button
   // add a11 things to like in the Input.js component (at the moment I get an error on storybook when I add that)
 
   return (
