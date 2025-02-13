@@ -21,8 +21,8 @@ vi.mock("~/components/Heading", () => ({
   default: () => <div>Mock Heading</div>,
 }));
 
-vi.mock("../SummaryOverviewBox", () => ({
-  default: () => <div>Mock SummaryOverviewBox</div>,
+vi.mock("../SummaryOverviewBoxWrapped", () => ({
+  default: () => <div>Mock SummaryOverviewBoxWrapped</div>,
 }));
 
 describe("SummaryOverview", () => {
@@ -39,6 +39,6 @@ describe("SummaryOverview", () => {
       <SummaryOverview {...mockSummaryOverviewProps} />,
     );
 
-    expect(getByText("Mock SummaryOverviewBox")).toBeInTheDocument();
+    expect(getByText("Mock SummaryOverviewBoxWrapped")).toBeInTheDocument();
   });
 });

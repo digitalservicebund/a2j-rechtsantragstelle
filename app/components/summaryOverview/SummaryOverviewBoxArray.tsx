@@ -1,5 +1,5 @@
 import { arrayChar } from "~/services/array";
-import SummaryOverviewBoxWrapped from "./SummaryOverviewBoxWrapped";
+import SummaryOverviewBox from "./SummaryOverviewBox";
 import { useFlowFormular } from "../form/flowFormularContext";
 
 type Props = {
@@ -40,7 +40,7 @@ const SummaryOverviewBoxArray = ({
   }
 
   return arrayObject.map((object, index) => (
-    <SummaryOverviewBoxWrapped
+    <SummaryOverviewBox
       // eslint-disable-next-line react/no-array-index-key
       key={boxId + index}
       boxId={boxId}
