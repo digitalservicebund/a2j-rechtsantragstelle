@@ -1,7 +1,7 @@
 import AddIcon from "@digitalservicebund/icons/Add";
 import { FC, useState } from "react";
 import { FilesUploadHeader } from "./FilesUploadHeader";
-// import { FileUploadError } from "./FileUploadError";
+import { FileUploadError } from "./FileUploadError";
 import { FileUploadInput } from "./FileUploadInput";
 import { FileUploadWarning } from "./FileUploadWarning";
 import Button from "../Button";
@@ -45,7 +45,7 @@ export const FilesUpload: FC<FilesUploadProps> = ({
   );
 
   const [files, setFiles] = useState<File[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>();
   const warningFilesLimit = 5;
 
   const handleFileSelect = (file: File): void => {
@@ -103,9 +103,8 @@ export const FilesUpload: FC<FilesUploadProps> = ({
         />
       )}
 
-      {/* {uploadComponentState === FilesUploadComponentState.NotStarted && (
-        <FileUploadError errorMessage={errorMessage ?? undefined} />
-      )} */}
+      {uploadComponentState === FilesUploadComponentState.NotStarted &&
+        errorMessage && <FileUploadError errorMessage={errorMessage} />}
 
       {uploadComponentState === FilesUploadComponentState.Ongoing && (
         <Button
