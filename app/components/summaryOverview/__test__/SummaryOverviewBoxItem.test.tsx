@@ -10,9 +10,28 @@ vi.mock("../getItemValueBox", () => ({
 }));
 
 describe("SummaryOverviewBoxItem", () => {
+  test("renders nothing when item value is missing", () => {
+    const translations: Translations = { "status.title": "Status" };
+    const userData: Context = { status: "" };
+
+    vi.mocked(getItemValueBox).mockReturnValue("");
+
+    const { queryByText, queryByTestId } = render(
+      <SummaryOverviewBoxItem
+        fieldName="status"
+        userData={userData}
+        translations={translations}
+      />,
+    );
+
+    expect(queryByTestId("summary-box-item-title")).not.toBeInTheDocument();
+    expect(queryByText("Status")).not.toBeInTheDocument();
+    expect(queryByTestId("summary-box-item-value")).not.toBeInTheDocument();
+  });
+
   test("renders title and value correctly", () => {
     const translations: Translations = {
-      status: "Status",
+      "status.title": "Status",
     };
     const userData: Context = { status: "active" };
 
@@ -50,24 +69,5 @@ describe("SummaryOverviewBoxItem", () => {
     expect(queryByText("Status")).not.toBeInTheDocument();
     expect(queryByTestId("summary-box-item-value")).toBeInTheDocument();
     expect(getByText("Inaktiv")).toBeInTheDocument();
-  });
-
-  test("renders nothing when item value is missing", () => {
-    const translations: Translations = { status: "Status" };
-    const userData: Context = { status: "" };
-
-    vi.mocked(getItemValueBox).mockReturnValue("");
-
-    const { queryByText, queryByTestId } = render(
-      <SummaryOverviewBoxItem
-        fieldName="status"
-        userData={userData}
-        translations={translations}
-      />,
-    );
-
-    expect(queryByTestId("summary-box-item-title")).not.toBeInTheDocument();
-    expect(queryByText("Status")).not.toBeInTheDocument();
-    expect(queryByTestId("summary-box-item-value")).not.toBeInTheDocument();
   });
 });

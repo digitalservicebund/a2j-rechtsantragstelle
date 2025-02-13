@@ -13,10 +13,10 @@ const SummaryOverviewBoxItem = ({
   userData,
   translations,
 }: Props) => {
-  const itemTitle = translations?.[fieldName];
+  const itemTitle = translations?.[`${fieldName}.title`];
   const itemValue = getItemValueBox(translations, userData, fieldName);
 
-  if (typeof itemValue === "undefined" || itemValue.length === 0) {
+  if (typeof itemValue === "undefined" || itemValue.trim().length === 0) {
     return null;
   }
 
