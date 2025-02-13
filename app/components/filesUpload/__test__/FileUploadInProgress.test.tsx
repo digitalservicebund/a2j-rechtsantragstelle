@@ -8,7 +8,6 @@ describe("FileUploadInProgress", () => {
         fileName={"testfile1.pdf"}
         uploadProgressLabel={"loading..."}
         cancelButtonLabel={"Cancel"}
-        selectMoreFilesButtonLabel={"Add More Files"}
       />,
     );
 
@@ -34,7 +33,6 @@ describe("FileUploadInProgress", () => {
         fileName={"testfile1.pdf"}
         uploadProgressLabel={"loading..."}
         cancelButtonLabel={"Cancel"}
-        selectMoreFilesButtonLabel={"Add More Files"}
       />,
     );
 
@@ -43,21 +41,5 @@ describe("FileUploadInProgress", () => {
     expect(cancelButton).toHaveClass(
       "ds-button ds-button-ghost ds-button-with-icon",
     );
-  });
-  it("renders correctly a add more files button", () => {
-    render(
-      <FileUploadInProgress
-        fileName={"testfile1.pdf"}
-        uploadProgressLabel={"loading..."}
-        cancelButtonLabel={"Cancel"}
-        selectMoreFilesButtonLabel={"Add More Files"}
-      />,
-    );
-
-    const addMoreFilesButton = screen.getByRole("button", {
-      name: "Add More Files",
-    });
-    expect(addMoreFilesButton).toBeInTheDocument();
-    expect(addMoreFilesButton).toHaveClass("ds-button ds-button-with-icon");
   });
 });
