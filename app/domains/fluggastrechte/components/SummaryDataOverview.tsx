@@ -3,6 +3,7 @@ import { type Translations } from "~/services/translations/getTranslationByKey";
 import ActualArrivalCards from "./ActualArrivalCards";
 import AirlineDetailsOverviewCard from "./AirlineDetailsOverviewCard";
 import StopOverCards from "./StopOverCards";
+import StreitbeilegungCard from "./StreitbeilegungCard";
 import SummaryDataOverviewCard from "./SummaryDataOverviewCard";
 import useAirlineDetails from "./useAirlineDetails";
 import type { FluggastrechtContext } from "../formular/context";
@@ -30,6 +31,7 @@ export default function SummaryDataOverview({
   return (
     <>
       <Heading text="Weitere Angaben" tagName="h2" look="ds-heading-03-bold" />
+      <StreitbeilegungCard userData={userData} translations={translations} />
       <SummaryDataOverviewCard
         buttonUrl={`${FLOW_ID}/streitwert-kosten/prozesszinsen`}
         data={{
