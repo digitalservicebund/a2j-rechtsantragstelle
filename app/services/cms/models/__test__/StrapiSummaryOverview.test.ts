@@ -38,6 +38,7 @@ describe("StrapiSummaryOverviewSchema", () => {
             {
               stepId: "anyStep",
               id: 10,
+              fields: "one\ntwo",
             },
           ],
           id: 10,
@@ -56,6 +57,7 @@ describe("StrapiSummaryOverviewSchema", () => {
             {
               stepId: "anyStep",
               id: 10,
+              fields: "one\ntwo",
             },
           ],
           id: 10,

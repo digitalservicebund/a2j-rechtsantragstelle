@@ -16,6 +16,10 @@ const SummaryOverviewBoxItem = ({
   const itemTitle = translations?.[fieldName];
   const itemValue = getItemValueBox(translations, userData, fieldName);
 
+  if (typeof itemValue === "undefined" || itemValue.length === 0) {
+    return null;
+  }
+
   return (
     <>
       {itemTitle && (
@@ -26,9 +30,7 @@ const SummaryOverviewBoxItem = ({
           {itemTitle}
         </dt>
       )}
-      {itemValue && itemValue.length > 0 && (
-        <dd data-testid="summary-box-item-value">{itemValue}</dd>
-      )}
+      <dd data-testid="summary-box-item-value">{itemValue}</dd>
     </>
   );
 };

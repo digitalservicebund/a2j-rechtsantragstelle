@@ -9,6 +9,7 @@ const mockSummaryOverviewProps = {
       boxes: [
         {
           stepId: "stepId",
+          fields: "fields",
           id: 10,
         },
       ],

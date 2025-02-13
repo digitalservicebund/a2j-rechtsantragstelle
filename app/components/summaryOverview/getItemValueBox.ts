@@ -17,7 +17,7 @@ export const getItemValueBox = (
   }
 
   // Handle empty value translation
-  if (!itemValue) {
+  if (typeof itemValue === "string" && itemValue.length === 0) {
     const emptyTranslation =
       translations[`${fieldName}.${EMPTY_ITEM_TRANSLATION_VALUE}`];
     if (typeof emptyTranslation !== "undefined") {

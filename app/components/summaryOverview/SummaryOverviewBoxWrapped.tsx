@@ -1,7 +1,6 @@
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import { Context } from "~/domains/contexts";
 import Heading from "../Heading";
-import { getSortedFields } from "./getSortedFields";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 import Button from "../Button";
 import { useFlowFormular } from "../form/flowFormularContext";
@@ -10,25 +9,18 @@ type Props = {
   readonly title?: string;
   readonly stepId: string;
   readonly boxId: number;
-  readonly sortedFields?: string;
-  readonly hiddenFieldsList?: string[];
   readonly userData: Context;
-  readonly fields: string[];
+  readonly boxPageFields: string[];
 };
 
 const SummaryOverviewBoxWrapped = ({
   boxId,
   stepId,
   userData,
-  hiddenFieldsList,
-  sortedFields,
-  fields,
+  boxPageFields,
   title,
 }: Props) => {
   const { translations, flowId } = useFlowFormular();
-  const pageFields = fields.filter(
-    (field) => !hiddenFieldsList?.includes(field),
-  );
 
   return (
     <div className="mt-8">
@@ -43,7 +35,7 @@ const SummaryOverviewBoxWrapped = ({
         )}
 
         <dl>
-          {getSortedFields(pageFields, sortedFields).map((field) => (
+          {boxPageFields.map((field) => (
             <SummaryOverviewBoxItem
               key={`${boxId}-${field}`}
               fieldName={field}

@@ -6,16 +6,14 @@ export type SummaryOverviewBoxProps = {
   readonly title?: string;
   readonly stepId: string;
   readonly id: number;
-  readonly sortedFields?: string;
-  readonly hiddenFields?: string;
+  readonly fields: string;
 };
 
 const SummaryOverviewBox = ({
   title,
   id,
   stepId,
-  sortedFields,
-  hiddenFields,
+  fields,
 }: SummaryOverviewBoxProps) => {
   const { userData, validFlowPages } = useFlowFormular();
 
@@ -23,18 +21,16 @@ const SummaryOverviewBox = ({
     return null;
   }
 
-  const hiddenFieldsList = hiddenFields?.split("\n");
+  const boxPageFields = fields.split("\n");
 
-  const { isArrayPage, fields } = validFlowPages[stepId];
+  const { isArrayPage } = validFlowPages[stepId];
 
   if (isArrayPage) {
     return (
       <SummaryOverviewBoxArray
         boxId={id}
         title={title}
-        hiddenFieldsList={hiddenFieldsList}
-        sortedFields={sortedFields}
-        arrayPageFields={fields}
+        arrayBoxPageFields={boxPageFields}
         stepId={stepId}
       />
     );
@@ -45,9 +41,7 @@ const SummaryOverviewBox = ({
       boxId={id}
       stepId={stepId}
       userData={userData}
-      hiddenFieldsList={hiddenFieldsList}
-      sortedFields={sortedFields}
-      fields={fields}
+      boxPageFields={boxPageFields}
       title={title}
     />
   );

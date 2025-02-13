@@ -66,8 +66,8 @@ describe("SummaryOverviewBoxItem", () => {
       />,
     );
 
-    expect(queryByTestId("summary-box-item-title")).toBeInTheDocument();
-    expect(queryByText("Status")).toBeInTheDocument();
+    expect(queryByTestId("summary-box-item-title")).not.toBeInTheDocument();
+    expect(queryByText("Status")).not.toBeInTheDocument();
     expect(queryByTestId("summary-box-item-value")).not.toBeInTheDocument();
   });
 });

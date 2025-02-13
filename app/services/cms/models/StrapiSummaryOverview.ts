@@ -16,8 +16,7 @@ export const StrapiSummaryOverviewSchema = z
                   .object({
                     title: StrapiStringOptionalSchema,
                     stepId: z.string(),
-                    hiddenFields: StrapiStringOptionalSchema,
-                    sortedFields: StrapiStringOptionalSchema,
+                    fields: z.string(),
                   })
                   .merge(HasStrapiIdSchema),
               )
