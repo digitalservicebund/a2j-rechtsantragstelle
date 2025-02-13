@@ -5,23 +5,19 @@ import { ErrorMessageProps } from "../inputs";
 export type FileUploadInputProps = {
   inputName: string;
   selectFilesButtonLabel?: string;
-  errorMessages?: ErrorMessageProps[]
+  errorMessages?: ErrorMessageProps[];
   onFileSelect: (file: File) => void;
 };
 
-export const FileUploadInput: FC<FileUploadInputProps & {innerRef? : React.Ref<HTMLInputElement>}> = ({
-  inputName,
-  selectFilesButtonLabel,
-  onFileSelect,
-  innerRef,
-}) => {
-  
+export const FileUploadInput: FC<
+  FileUploadInputProps & { innerRef?: React.Ref<HTMLInputElement> }
+> = ({ inputName, selectFilesButtonLabel, onFileSelect, innerRef }) => {
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
       onFileSelect(files[0]);
     }
-  }
+  };
   return (
     <div className="ds-input-group">
       <label>

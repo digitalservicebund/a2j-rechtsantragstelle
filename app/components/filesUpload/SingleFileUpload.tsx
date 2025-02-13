@@ -12,7 +12,7 @@ type SingleFileUploadProps = {
   uploadProgressLabel: string;
   cancelButtonLabel: string;
   deleteButtonLabel: string;
-  uploadFileState: SingleFileUploadState
+  uploadFileState: SingleFileUploadState;
 };
 
 export const SingleFileUpload: FC<SingleFileUploadProps> = ({
@@ -20,12 +20,11 @@ export const SingleFileUpload: FC<SingleFileUploadProps> = ({
   uploadProgressLabel,
   cancelButtonLabel,
   deleteButtonLabel,
-  uploadFileState
+  uploadFileState,
 }) => {
-
   return (
     <>
-      {uploadFileState === SingleFileUploadState.InProgress && file &&(
+      {uploadFileState === SingleFileUploadState.InProgress && file && (
         <FileUploadInProgress
           key={file.name}
           fileName={file.name}

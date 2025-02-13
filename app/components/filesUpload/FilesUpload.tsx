@@ -38,10 +38,11 @@ export const FilesUpload: FC<FilesUploadProps> = ({
   warningTitle,
   warningDescription,
 }) => {
-  const [uploadComponentState, setUploadComponentState] = useState<FilesUploadComponentState>(
-    FilesUploadComponentState.NotStarted,
+  const [uploadComponentState, setUploadComponentState] =
+    useState<FilesUploadComponentState>(FilesUploadComponentState.NotStarted);
+  const [uploadFileState, setUploadFileState] = useState<SingleFileUploadState>(
+    SingleFileUploadState.Done,
   );
-  const [uploadFileState, setUploadFileState] = useState<SingleFileUploadState>(SingleFileUploadState.Done);
 
   const [files, setFiles] = useState<File[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -51,13 +52,13 @@ export const FilesUpload: FC<FilesUploadProps> = ({
     //check more files
     setFiles([file]);
     setUploadComponentState(FilesUploadComponentState.Ongoing);
-    setUploadFileState(SingleFileUploadState.InProgress)
+    setUploadFileState(SingleFileUploadState.InProgress);
     uploadFile(file)
       .then(() => {
         if (files.length > warningFilesLimit) {
           setUploadComponentState(FilesUploadComponentState.Warning);
         }
-        setUploadFileState(SingleFileUploadState.Done)
+        setUploadFileState(SingleFileUploadState.Done);
       })
       .catch(() => {
         setErrorMessage("Upload failed");
@@ -84,16 +85,16 @@ export const FilesUpload: FC<FilesUploadProps> = ({
         />
       )}
 
-        {files.map((file) => (
-          <SingleFileUpload
-            key={file.name}
-            file={file}
-            uploadProgressLabel={labels.uploadProgressLabel}
-            cancelButtonLabel={labels.cancelButtonLabel}
-            deleteButtonLabel={labels.deleteButtonLabel}
-            uploadFileState={uploadFileState}
-          />
-        ))}
+      {files.map((file) => (
+        <SingleFileUpload
+          key={file.name}
+          file={file}
+          uploadProgressLabel={labels.uploadProgressLabel}
+          cancelButtonLabel={labels.cancelButtonLabel}
+          deleteButtonLabel={labels.deleteButtonLabel}
+          uploadFileState={uploadFileState}
+        />
+      ))}
 
       {uploadComponentState === FilesUploadComponentState.Warning && (
         <FileUploadWarning
