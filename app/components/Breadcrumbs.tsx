@@ -1,6 +1,7 @@
 import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
 import classNames from "classnames";
 import { alignToContainer } from "~/components";
+import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import { StandaloneLink } from "./StandaloneLink";
 
 export type Breadcrumb = {
@@ -24,7 +25,10 @@ export default function Breadcrumbs({
   const validBreadcrumbs = breadcrumbs?.filter(
     (breadcrumb) => breadcrumb.title !== undefined,
   );
-  const ariaLabelTranslation = translations?.["header-breadcrumb"];
+  const ariaLabelTranslation = getTranslationByKey(
+    "header-breadcrumb",
+    translations,
+  );
   const navClassNames = classNames("py-8 px-16 flex flex-wrap items-center", {
     [`${alignToContainer} !py-8`]: alignToMainContainer,
   });

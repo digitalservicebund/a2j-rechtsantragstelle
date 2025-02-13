@@ -1,3 +1,4 @@
+import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import Background from "./Background";
 import Container from "./Container";
 import Image, { type ImageProps } from "./Image";
@@ -26,7 +27,10 @@ export default function Footer({
   showDeletionBanner = false,
   translations,
 }: FooterProps) {
-  const ariaLabelTranslation = translations?.["footer-navigation"];
+  const ariaLabelTranslation = getTranslationByKey(
+    "footer-navigation",
+    translations,
+  );
   return (
     <Container paddingTop="48" paddingBottom="0">
       <div
