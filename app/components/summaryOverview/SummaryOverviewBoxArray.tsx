@@ -1,4 +1,5 @@
 import { arrayChar } from "~/services/array";
+import { addArrayIndexToPathUrl } from "./addArrayIndexToPathUrl";
 import SummaryOverviewBox from "./SummaryOverviewBox";
 import { useFlowFormular } from "../form/flowFormularContext";
 
@@ -7,18 +8,6 @@ type Props = {
   readonly arrayBoxPageFields: string[];
   readonly title?: string;
   readonly stepId: string;
-};
-
-const addArrayIndexToPathUrl = (path: string, index: string): string => {
-  const segments = path.split("/");
-
-  if (segments.length < 2) {
-    return path;
-  }
-
-  segments.splice(segments.length - 1, 0, index);
-
-  return segments.join("/");
 };
 
 const SummaryOverviewBoxArray = ({
@@ -44,7 +33,7 @@ const SummaryOverviewBoxArray = ({
       // eslint-disable-next-line react/no-array-index-key
       key={boxId + index}
       boxId={boxId}
-      stepId={addArrayIndexToPathUrl(stepId, index.toString())}
+      stepId={addArrayIndexToPathUrl(stepId, index)}
       userData={object}
       boxPageFields={arrayBoxPageFieldsWithoutArrayChar}
       title={title}
