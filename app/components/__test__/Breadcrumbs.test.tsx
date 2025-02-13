@@ -39,7 +39,7 @@ describe("Breadcrumbs", () => {
     expect(link).toHaveAttribute("aria-label", "Zurück zur Startseite");
   });
 
-  it("aria label should be null if not provided", () => {
+  it("should be null if not provided", () => {
     const { container } = render(<Breadcrumbs breadcrumbs={breadcrumbs} />);
     const link = container.querySelector("a");
     const nav = container.querySelector("nav");
