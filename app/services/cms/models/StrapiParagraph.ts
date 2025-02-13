@@ -14,4 +14,4 @@ export const StrapiParagraphSchema = z
     html: cmsData.text,
   }));
 
-export type StrapiParagraph = z.infer<typeof StrapiParagraphSchema>;
+export type StrapiParagraph = z.input<typeof StrapiParagraphSchema>;

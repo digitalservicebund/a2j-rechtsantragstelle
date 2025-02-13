@@ -26,3 +26,6 @@ export const StrapiFormComponentSchema = z.discriminatedUnion("__component", [
 ]);
 
 export type StrapiFormComponent = z.infer<typeof StrapiFormComponentSchema>;
+export type StrapiFormComponentInput = z.input<
+  typeof StrapiFormComponentSchema
+>;

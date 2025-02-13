@@ -2,7 +2,11 @@
 import { readFileSync } from "node:fs";
 import partition from "lodash/partition";
 import { flows } from "~/domains/flows.server";
-import { strapiFileSchema, type StrapiSchemas } from "~/services/cms/schemas";
+import {
+  strapiFileSchema,
+  StrapiSchemasOutput,
+  type StrapiSchemas,
+} from "~/services/cms/schemas";
 import { type Config } from "~/services/flow/server/buildFlowController";
 
 const contentFilePath = "./content.json";
@@ -46,7 +50,7 @@ function partitionPagesByFlowId(pages: MinimalPage[]) {
 }
 
 function unusedStrapiEntry() {
-  let content: StrapiSchemas | undefined = undefined;
+  let content: StrapiSchemasOutput | undefined = undefined;
   try {
     content = strapiFileSchema.parse(
       JSON.parse(readFileSync(contentFilePath, "utf-8")),
