@@ -13,8 +13,8 @@ import type {
   CollectionId,
   FlowPageId,
   SingleEntryId,
-  StrapiSchemas,
   ApiId,
+  StrapiSchemasOutput,
 } from "./schemas";
 
 export async function fetchMeta(
@@ -39,7 +39,7 @@ export async function fetchMeta(
 export async function fetchSingleEntry<T extends SingleEntryId>(
   apiId: T,
   locale?: StrapiLocale,
-): Promise<StrapiSchemas[T][number]> {
+): Promise<StrapiSchemasOutput[T][number]> {
   const strapiEntry = await getStrapiEntry({ apiId, locale });
   return entrySchemas[apiId].parse(strapiEntry)[0];
 }
@@ -48,7 +48,7 @@ async function fetchCollectionEntry<T extends CollectionId>(
   apiId: T,
   filters?: Filter[],
   locale?: StrapiLocale,
-): Promise<StrapiSchemas[T][number]> {
+): Promise<StrapiSchemasOutput[T][number]> {
   const strapiEntry = await getStrapiEntry({ apiId, filters, locale });
   const strapiEntryParsed = collectionSchemas[apiId].safeParse(strapiEntry);
 
@@ -82,7 +82,7 @@ export async function fetchEntries<T extends ApiId>(
     );
     throw error;
   }
-  return parsedEntries.data as StrapiSchemas[T];
+  return parsedEntries.data as StrapiSchemasOutput[T];
 }
 
 export const fetchTranslations = async (
@@ -129,7 +129,7 @@ export const fetchFlowPage = <T extends FlowPageId>(
   collection: T,
   flowId: FlowId,
   stepId: string,
-): Promise<StrapiSchemas[T][number]> =>
+): Promise<StrapiSchemasOutput[T][number]> =>
   fetchCollectionEntry(collection, [
     { field: "stepId", value: stepId },
     { field: "flow_ids", nestedField: "flowId", value: flowId },

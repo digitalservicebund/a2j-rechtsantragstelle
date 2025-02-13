@@ -1,11 +1,11 @@
 import { faker } from "@faker-js/faker";
-import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
-import { type StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
+import { StrapiFormComponentInput } from "~/services/cms/models/StrapiFormComponent";
+import { StrapiFormFlowPageInput } from "~/services/cms/models/StrapiFormFlowPage";
 
 export function getStrapiFlowPage(
-  params: Pick<StrapiFormFlowPage, "stepId" | "form"> &
-    Partial<Pick<StrapiFormFlowPage, "locale">>,
-): StrapiFormFlowPage {
+  params: Pick<StrapiFormFlowPageInput, "stepId" | "form"> &
+    Partial<Pick<StrapiFormFlowPageInput, "locale">>,
+): StrapiFormFlowPageInput {
   return {
     heading: faker.lorem.words(5),
     preHeading: faker.lorem.words(5),
@@ -27,8 +27,8 @@ export function getStrapiFlowPage(
 }
 
 export function getStrapiFormComponent(
-  params: Partial<Pick<StrapiFormComponent, "name">>,
-): StrapiFormComponent {
+  params: Partial<Pick<StrapiFormComponentInput, "name">>,
+): StrapiFormComponentInput {
   return {
     type: faker.helpers.arrayElement(["number", "text"]),
     __component: "form-elements.input",

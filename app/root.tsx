@@ -37,7 +37,6 @@ import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
 import Header from "./components/PageHeader";
-import { getFooterProps } from "./services/cms/models/StrapiFooter";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
@@ -130,7 +129,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
           !flowIdFromPathname(pathname)?.match(/formular|antrag/),
         showKopfzeile,
       },
-      footer: getFooterProps(strapiFooter),
+      footer: strapiFooter,
       cookieBannerContent: cookieBannerContent,
       hasTrackingConsent: trackingConsent
         ? trackingConsent === "true"
@@ -233,6 +232,7 @@ function App() {
             breadcrumbs={breadcrumbs}
             alignToMainContainer={header.alignToMainContainer}
             linkLabel={header.linkLabel}
+            translations={{ ...accessibilityTranslations }}
           />
           <TranslationContext.Provider value={translationMemo}>
             <main className="flex-grow" id="main">
@@ -244,6 +244,7 @@ function App() {
               {...footer}
               deletionLabel={deletionLabel}
               showDeletionBanner={hasAnyUserData}
+              translations={{ ...accessibilityTranslations }}
             />
           </footer>
           <ScrollRestoration nonce={nonce} />
@@ -278,7 +279,12 @@ export function ErrorBoundary() {
             context={loaderData?.context ?? {}}
           />
         </main>
-        {loaderData && <Footer {...loaderData.footer} />}
+        {loaderData && (
+          <Footer
+            {...loaderData.footer}
+            translations={{ ...loaderData.accessibilityTranslations }}
+          />
+        )}
       </body>
     </html>
   );
