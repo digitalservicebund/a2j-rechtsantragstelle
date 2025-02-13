@@ -3,8 +3,7 @@ import { StrapiParagraph } from "~/services/cms/models/StrapiParagraph";
 
 export function getStrapiParagraph(): StrapiParagraph {
   return {
-    html: `<p>${faker.lorem.paragraph()}<p>`,
+    text: faker.lorem.paragraph(),
     id: -1,
-    __component: "basic.paragraph",
   };
 }

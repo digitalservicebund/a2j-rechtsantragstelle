@@ -1,6 +1,4 @@
-import pick from "lodash/pick";
 import { z } from "zod";
-import type { BoxProps } from "~/components/Box";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
@@ -10,26 +8,22 @@ import { StrapiContainerSchema } from "./StrapiContainer";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiParagraphSchema } from "./StrapiParagraph";
 
-const StrapiBoxSchema = z
+export const StrapiBoxSchema = z
   .object({
-    label: StrapiHeadingSchema.nullable(),
-    heading: StrapiHeadingSchema.nullable(),
-    content: StrapiParagraphSchema.nullable(),
+    label: StrapiHeadingSchema.nullable().transform(omitNull),
+    heading: StrapiHeadingSchema.nullable().transform(omitNull),
+    content: StrapiParagraphSchema.nullable().transform(omitNull),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
-    buttons: z.array(StrapiButtonSchema).nullable(),
+    buttons: z
+      .array(StrapiButtonSchema)
+      .nullable()
+      .transform(omitNull)
+      .optional(),
   })
   .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema);
-
-type StrapiBox = z.infer<typeof StrapiBoxSchema>;
-
-export const StrapiBoxComponentSchema = StrapiBoxSchema.extend({
-  __component: z.literal("page.box"),
-});
-
-export const getBoxProps = (cmsData: StrapiBox): BoxProps => {
-  return omitNull({
-    ...pick(cmsData, "label", "heading", "buttons", "identifier", "content"),
-  });
-};
+  .merge(OptionalStrapiLinkIdentifierSchema)
+  .transform((cmsData) => ({
+    __component: "page.box" as const,
+    ...cmsData,
+  }));
