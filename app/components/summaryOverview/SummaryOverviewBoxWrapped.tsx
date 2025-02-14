@@ -1,27 +1,26 @@
 import SummaryOverviewBox from "./SummaryOverviewBox";
 import SummaryOverviewBoxArray from "./SummaryOverviewBoxArray";
+import { SummaryOverviewBoxItemType } from "./SummaryOverviewBoxItem";
 import { useFlowFormular } from "../form/flowFormularContext";
 
 export type SummaryOverviewBoxWrappedProps = {
   readonly title?: string;
   readonly stepId: string;
   readonly id: number;
-  readonly fields: string;
+  readonly boxItems: SummaryOverviewBoxItemType[];
 };
 
 const SummaryOverviewBoxWrapped = ({
   title,
   id,
   stepId,
-  fields,
+  boxItems,
 }: SummaryOverviewBoxWrappedProps) => {
   const { userData, validFlowPages } = useFlowFormular();
 
   if (!validFlowPages[stepId]) {
     return null;
   }
-
-  const boxPageFields = fields.split("\n");
 
   const { isArrayPage } = validFlowPages[stepId];
 
@@ -30,7 +29,7 @@ const SummaryOverviewBoxWrapped = ({
       <SummaryOverviewBoxArray
         boxId={id}
         title={title}
-        arrayBoxPageFields={boxPageFields}
+        boxItems={boxItems}
         stepId={stepId}
       />
     );
@@ -41,7 +40,7 @@ const SummaryOverviewBoxWrapped = ({
       boxId={id}
       stepId={stepId}
       userData={userData}
-      boxPageFields={boxPageFields}
+      boxItems={boxItems}
       title={title}
     />
   );

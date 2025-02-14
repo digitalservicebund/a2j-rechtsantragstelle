@@ -1,7 +1,9 @@
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import { Context } from "~/domains/contexts";
 import Heading from "../Heading";
-import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
+import SummaryOverviewBoxItem, {
+  SummaryOverviewBoxItemType,
+} from "./SummaryOverviewBoxItem";
 import Button from "../Button";
 import { useFlowFormular } from "../form/flowFormularContext";
 
@@ -10,14 +12,14 @@ type Props = {
   readonly stepId: string;
   readonly boxId: number;
   readonly userData: Context;
-  readonly boxPageFields: string[];
+  readonly boxItems: SummaryOverviewBoxItemType[];
 };
 
 const SummaryOverviewBox = ({
   boxId,
   stepId,
   userData,
-  boxPageFields,
+  boxItems,
   title,
 }: Props) => {
   const { translations, flowId } = useFlowFormular();
@@ -35,10 +37,11 @@ const SummaryOverviewBox = ({
         )}
 
         <dl>
-          {boxPageFields.map((field) => (
+          {boxItems.map(({ field, title: boxItemTitle }) => (
             <SummaryOverviewBoxItem
               key={`${boxId}-${field}`}
-              fieldName={field}
+              field={field}
+              title={boxItemTitle}
               translations={translations}
               userData={userData}
             />

@@ -9,18 +9,20 @@ vi.mock("../getItemValueBox", () => ({
   getItemValueBox: vi.fn(),
 }));
 
+const mockTranslations: Translations = {};
+
 describe("SummaryOverviewBoxItem", () => {
   test("renders nothing when item value is missing", () => {
-    const translations: Translations = { "status.title": "Status" };
     const userData: Context = { status: "" };
 
     vi.mocked(getItemValueBox).mockReturnValue("");
 
     const { queryByText, queryByTestId } = render(
       <SummaryOverviewBoxItem
-        fieldName="status"
+        field="status"
+        title={"Status"}
         userData={userData}
-        translations={translations}
+        translations={mockTranslations}
       />,
     );
 
@@ -30,18 +32,16 @@ describe("SummaryOverviewBoxItem", () => {
   });
 
   test("renders title and value correctly", () => {
-    const translations: Translations = {
-      "status.title": "Status",
-    };
     const userData: Context = { status: "active" };
 
     vi.mocked(getItemValueBox).mockReturnValue("Aktiv");
 
     const { getByText, queryByTestId } = render(
       <SummaryOverviewBoxItem
-        fieldName="status"
+        field="status"
+        title={"Status"}
         userData={userData}
-        translations={translations}
+        translations={mockTranslations}
       />,
     );
 
@@ -52,16 +52,15 @@ describe("SummaryOverviewBoxItem", () => {
   });
 
   test("renders only value if title is missing", () => {
-    const translations: Translations = {};
     const userData: Context = { status: "inactive" };
 
     vi.mocked(getItemValueBox).mockReturnValue("Inaktiv");
 
     const { queryByText, getByText, queryByTestId } = render(
       <SummaryOverviewBoxItem
-        fieldName="status"
+        field="status"
         userData={userData}
-        translations={translations}
+        translations={mockTranslations}
       />,
     );
 

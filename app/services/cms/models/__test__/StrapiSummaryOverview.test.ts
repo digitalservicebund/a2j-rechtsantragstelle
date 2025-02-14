@@ -28,6 +28,28 @@ describe("StrapiSummaryOverviewSchema", () => {
     expect(actual.success).toBe(false);
   });
 
+  it("should return success false given empty boxes items", () => {
+    const emptyBoxes = {
+      __component: "page.summary-overview",
+      navigation: [
+        {
+          title: "title",
+          boxes: [
+            {
+              stepId: "anyStep",
+              id: 10,
+              boxItems: [],
+            },
+          ],
+        },
+      ],
+    };
+
+    const actual = StrapiSummaryOverviewSchema.safeParse(emptyBoxes);
+
+    expect(actual.success).toBe(false);
+  });
+
   it("should return success true and summary overview object given correct data", () => {
     const correctSummary = {
       __component: "page.summary-overview",
@@ -38,7 +60,11 @@ describe("StrapiSummaryOverviewSchema", () => {
             {
               stepId: "anyStep",
               id: 10,
-              fields: "one\ntwo",
+              boxItems: [
+                {
+                  field: "one",
+                },
+              ],
             },
           ],
           id: 10,
@@ -57,7 +83,11 @@ describe("StrapiSummaryOverviewSchema", () => {
             {
               stepId: "anyStep",
               id: 10,
-              fields: "one\ntwo",
+              boxItems: [
+                {
+                  field: "one",
+                },
+              ],
             },
           ],
           id: 10,

@@ -28,7 +28,7 @@ describe("SummaryOverviewBox", () => {
   const mockTranslations = { field1: "Field 1", field2: "Field 2" };
   const stepId = "/step-1";
   const boxId = 1;
-  const boxPageFields = ["field1", "field2"];
+  const boxItems = [{ field: "field1" }, { field: "field2" }];
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -47,7 +47,7 @@ describe("SummaryOverviewBox", () => {
         boxId={boxId}
         stepId={stepId}
         userData={mockUserData}
-        boxPageFields={boxPageFields}
+        boxItems={boxItems}
         title="Test Title"
       />,
     );
@@ -68,7 +68,7 @@ describe("SummaryOverviewBox", () => {
         boxId={boxId}
         stepId={stepId}
         userData={mockUserData}
-        boxPageFields={boxPageFields}
+        boxItems={boxItems}
         title="Test Title"
       />,
     );
@@ -90,7 +90,7 @@ describe("SummaryOverviewBox", () => {
         boxId={boxId}
         stepId={stepId}
         userData={mockUserData}
-        boxPageFields={boxPageFields}
+        boxItems={boxItems}
         title="Test Title"
       />,
     );

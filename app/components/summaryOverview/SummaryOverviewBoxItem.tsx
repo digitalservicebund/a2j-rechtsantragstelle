@@ -2,19 +2,23 @@ import { Context } from "~/domains/contexts";
 import { Translations } from "~/services/translations/getTranslationByKey";
 import { getItemValueBox } from "./getItemValueBox";
 
-type Props = {
-  readonly fieldName: string;
+export type SummaryOverviewBoxItemType = {
+  readonly field: string;
+  readonly title?: string;
+};
+
+export type Props = SummaryOverviewBoxItemType & {
   readonly userData: Context;
   readonly translations: Translations;
 };
 
 const SummaryOverviewBoxItem = ({
-  fieldName,
+  field,
   userData,
   translations,
+  title,
 }: Props) => {
-  const itemTitle = translations?.[`${fieldName}.title`];
-  const itemValue = getItemValueBox(translations, userData, fieldName);
+  const itemValue = getItemValueBox(translations, userData, field);
 
   if (typeof itemValue === "undefined" || itemValue.trim().length === 0) {
     return null;
@@ -22,12 +26,12 @@ const SummaryOverviewBoxItem = ({
 
   return (
     <>
-      {itemTitle && (
+      {title && (
         <dt
           data-testid="summary-box-item-title"
           className="ds-label-01-bold mt-16"
         >
-          {itemTitle}
+          {title}
         </dt>
       )}
       <dd data-testid="summary-box-item-value">{itemValue}</dd>

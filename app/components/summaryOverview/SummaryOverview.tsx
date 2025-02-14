@@ -22,13 +22,13 @@ const SummaryOverview = ({ navigation }: Props) => {
             className="mt-40"
             look="ds-heading-03-bold"
           />
-          {boxes.map(({ id, stepId, fields, title }) => (
+          {boxes.map(({ id, stepId, boxItems, title: boxTitle }) => (
             <SummaryOverviewBoxWrapped
               key={id}
-              title={title}
+              title={boxTitle}
               stepId={stepId}
               id={id}
-              fields={fields}
+              boxItems={boxItems}
             />
           ))}
         </div>

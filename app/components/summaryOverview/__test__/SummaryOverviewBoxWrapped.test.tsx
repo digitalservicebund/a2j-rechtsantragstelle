@@ -14,6 +14,8 @@ vi.mock("../SummaryOverviewBoxArray", () => ({
   default: vi.fn(() => <div data-testid="summary-overview-box-array" />),
 }));
 
+const boxItems = [{ field: "field1" }];
+
 describe("SummaryOverviewBoxWrapped", () => {
   it("should render null when stepId is not in validFlowPages", () => {
     vi.mocked(useFlowFormular).mockReturnValue({
@@ -24,7 +26,7 @@ describe("SummaryOverviewBoxWrapped", () => {
     });
 
     const { container } = render(
-      <SummaryOverviewBoxWrapped stepId="step1" id={1} fields="field1" />,
+      <SummaryOverviewBoxWrapped stepId="step1" id={1} boxItems={boxItems} />,
     );
 
     expect(container).toBeEmptyDOMElement();
@@ -41,11 +43,7 @@ describe("SummaryOverviewBoxWrapped", () => {
     });
 
     const { getByTestId } = render(
-      <SummaryOverviewBoxWrapped
-        stepId="step1"
-        id={1}
-        fields="field1\nfield2"
-      />,
+      <SummaryOverviewBoxWrapped stepId="step1" id={1} boxItems={boxItems} />,
     );
 
     expect(getByTestId("summary-overview-box-array")).toBeInTheDocument();
@@ -62,11 +60,7 @@ describe("SummaryOverviewBoxWrapped", () => {
     });
 
     const { getByTestId } = render(
-      <SummaryOverviewBoxWrapped
-        stepId="step1"
-        id={1}
-        fields="field1\nfield2"
-      />,
+      <SummaryOverviewBoxWrapped stepId="step1" id={1} boxItems={boxItems} />,
     );
 
     expect(getByTestId("summary-overview-box")).toBeInTheDocument();

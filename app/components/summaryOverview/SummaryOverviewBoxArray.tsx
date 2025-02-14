@@ -1,27 +1,26 @@
 import { arrayChar } from "~/services/array";
 import { addArrayIndexToPathUrl } from "./addArrayIndexToPathUrl";
 import SummaryOverviewBox from "./SummaryOverviewBox";
+import { SummaryOverviewBoxItemType } from "./SummaryOverviewBoxItem";
 import { useFlowFormular } from "../form/flowFormularContext";
 
 type Props = {
   readonly boxId: number;
-  readonly arrayBoxPageFields: string[];
   readonly title?: string;
   readonly stepId: string;
+  readonly boxItems: SummaryOverviewBoxItemType[];
 };
 
-const SummaryOverviewBoxArray = ({
-  boxId,
-  arrayBoxPageFields,
-  title,
-  stepId,
-}: Props) => {
+const SummaryOverviewBoxArray = ({ boxId, boxItems, title, stepId }: Props) => {
   const { userData } = useFlowFormular();
 
-  const arrayObjectName = arrayBoxPageFields[0].split(arrayChar)[0];
+  const arrayObjectName = boxItems[0].field.split(arrayChar)[0];
   const arrayObject = userData[arrayObjectName];
-  const arrayBoxPageFieldsWithoutArrayChar = arrayBoxPageFields.map(
-    (pageField) => pageField.split(arrayChar)[1],
+  const arrayBoxPageFieldsWithoutArrayChar = boxItems.map(
+    ({ field, title: boxItemTitle }) => ({
+      field: field.split(arrayChar)[1],
+      title: boxItemTitle,
+    }),
   );
 
   if (!Array.isArray(arrayObject)) {
@@ -35,7 +34,7 @@ const SummaryOverviewBoxArray = ({
       boxId={boxId}
       stepId={addArrayIndexToPathUrl(stepId, index)}
       userData={object}
-      boxPageFields={arrayBoxPageFieldsWithoutArrayChar}
+      boxItems={arrayBoxPageFieldsWithoutArrayChar}
       title={title}
     />
   ));
