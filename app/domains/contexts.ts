@@ -30,7 +30,7 @@ const contexts = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckContext,
   "/fluggastrechte/formular": fluggastrechtContext,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularContext,
-  "/schulden/vorabcheck": schuldenZwangsvollstreckungContext,
+  "/schulden/kontopfaendung/wegweiser": schuldenZwangsvollstreckungContext,
 } as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;
 
 export const getContext = (flowId: FlowId) => contexts[flowId];

@@ -6,16 +6,19 @@ export const flowIds = [
   "/fluggastrechte/vorabcheck",
   "/fluggastrechte/formular",
   "/prozesskostenhilfe/formular",
-  "/schulden/vorabcheck",
+  "/schulden/kontopfaendung/wegweiser",
 ] as const;
 
 export type FlowId = (typeof flowIds)[number];
 
-const isFlowId = (s: string): s is FlowId => flowIds.includes(s as FlowId);
-
+/**
+ * Match pathname with flowId or pathname that start with flowId/
+ * @param pathname
+ */
 export function flowIdFromPathname(pathname: string) {
-  const flowIdMaybe = pathname.split("/").slice(0, 3).join("/");
-  return isFlowId(flowIdMaybe) ? flowIdMaybe : undefined;
+  return flowIds.find((flowId) => {
+    return pathname === flowId || pathname.startsWith(flowId + "/");
+  });
 }
 
 export function parsePathname(pathname: string) {
