@@ -35,7 +35,7 @@ const buildUrl = <T extends ApiId>({
     apiId,
     `?populate=${populate}`,
     fields ? `&fields=${fields}` : "",
-    deep ? "&pLevel" : "", // https://github.com/NEDDL/strapi-v5-plugin-populate-deep
+    deep ? "&pLevel=6" : "", // https://github.com/NEDDL/strapi-v5-plugin-populate-deep
     `&locale=${locale}`,
     pageSize ? `&pagination[pageSize]=${pageSize}` : "",
     buildFilters(filters),

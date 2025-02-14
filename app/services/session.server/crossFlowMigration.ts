@@ -16,7 +16,7 @@ async function doMigration(
     cookieHeader,
   );
 
-  const prunedUserData = await pruneIrrelevantData(
+  const { pruneData: prunedUserData } = await pruneIrrelevantData(
     userData,
     migrationFlowIdSource,
   );

@@ -35,24 +35,22 @@ const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
   };
 };
 
-function getInterpolateFlowTranslations(
+function interpolateTranslations(
   currentFlow: Flow,
-  flowTranslations: Translations,
-  migrationData: Context | undefined,
+  translation: Translations,
+  data: Context | undefined,
 ): Translations {
   if (
-    typeof migrationData === "undefined" ||
-    typeof currentFlow.stringReplacements === "undefined"
+    typeof data === "undefined" ||
+    typeof currentFlow.stringReplacements === "undefined" ||
+    typeof translation === "undefined"
   ) {
-    return flowTranslations;
+    return translation;
   }
 
-  /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports
-    can not be translated, so it's required to be interpolated
-  */
   return interpolateSerializableObject(
-    flowTranslations,
-    currentFlow.stringReplacements(migrationData),
+    translation,
+    currentFlow.stringReplacements(data),
   );
 }
 
@@ -65,10 +63,22 @@ export const buildFormularServerTranslations = async ({
   formPageContent,
   userDataWithPageData,
 }: BuildFormularServerTranslations) => {
-  const flowTranslationsAfterInterpolation = getInterpolateFlowTranslations(
+  /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports
+    can not be translated, so it's required to be interpolated
+  */
+  const flowTranslationsAfterInterpolation = interpolateTranslations(
     currentFlow,
     flowTranslations,
     migrationData,
+  );
+
+  /* On the Fluggastrechte pages on the Summary page data as airlines and airports
+    can not be translated, so it's required to be interpolated
+  */
+  const overviewTranslationsAfterInterpolation = interpolateTranslations(
+    currentFlow,
+    overviewTranslations,
+    userDataWithPageData,
   );
 
   const arrayTranslations =
@@ -77,7 +87,7 @@ export const buildFormularServerTranslations = async ({
   const stringTranslations = {
     ...arrayTranslations,
     ...flowTranslationsAfterInterpolation,
-    ...overviewTranslations,
+    ...overviewTranslationsAfterInterpolation,
   };
 
   // structure cms content -> merge with getting data?
