@@ -1,39 +1,25 @@
 import { z } from "zod";
-import type { InfoBoxProps } from "~/components/InfoBox";
+import { StrapiBooleanOptionalSchema } from "~/services/cms/models/StrapiBooleanOptional";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
-import { getHeadingProps, StrapiHeadingSchema } from "./StrapiHeading";
-import {
-  StrapiInfoBoxItemSchema,
-  getInfoBoxItemProps,
-} from "./StrapiInfoBoxItem";
+import { StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiInfoBoxItemSchema } from "./StrapiInfoBoxItem";
 
-const StrapiInfoBoxSchema = z
+export const StrapiInfoBoxSchema = z
   .object({
-    heading: StrapiHeadingSchema.nullable(),
+    heading: StrapiHeadingSchema,
     items: z.array(StrapiInfoBoxItemSchema),
     outerBackground: StrapiBackgroundSchema.nullable(),
-    separator: z.boolean().nullable(),
+    separator: StrapiBooleanOptionalSchema,
     container: StrapiContainerSchema,
   })
   .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema);
+  .merge(OptionalStrapiLinkIdentifierSchema)
+  .transform((cmsData) => ({
+    __component: "page.info-box" as const,
+    ...cmsData,
+  }));
 
-type StrapiInfoBox = z.infer<typeof StrapiInfoBoxSchema>;
-
-export const StrapiInfoBoxComponentSchema = StrapiInfoBoxSchema.extend({
-  __component: z.literal("page.info-box"),
-});
-
-export type StrapiInfoBoxComponent = z.infer<
-  typeof StrapiInfoBoxComponentSchema
->;
-
-export const getInfoBoxProps = (cmsData: StrapiInfoBox): InfoBoxProps => ({
-  identifier: cmsData.identifier ?? undefined,
-  heading: getHeadingProps(cmsData.heading),
-  items: cmsData.items.map(getInfoBoxItemProps),
-  separator: cmsData.separator ?? undefined,
-});
+export type StrapiInfoBoxComponent = z.infer<typeof StrapiInfoBoxSchema>;

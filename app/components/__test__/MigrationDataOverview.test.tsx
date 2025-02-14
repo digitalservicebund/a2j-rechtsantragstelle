@@ -1,8 +1,8 @@
 import { render } from "@testing-library/react";
 import MigrationDataOverview from "../MigrationDataOverview";
 
-vi.mock("~/components/Button", () => ({
-  default: () => <div>Mock Button</div>,
+vi.mock("~/components/StandaloneLink", () => ({
+  StandaloneLink: () => <div>Mock Button</div>,
 }));
 
 describe("MigrationDataOverview", () => {

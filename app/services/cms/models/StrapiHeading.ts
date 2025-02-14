@@ -3,19 +3,6 @@ import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import type { StrapiContentComponent } from "./StrapiContentComponent";
 
-export const HeadingPropsSchema = z
-  .object({
-    tagName: z
-      .enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"])
-      .optional(),
-    text: z.string().optional(),
-    look: z.string().optional(),
-    className: z.string().optional(),
-    dataTestid: z.string().optional(),
-    tagId: z.string().optional(),
-  })
-  .readonly();
-
 export const StrapiHeadingSchema = z
   .object({
     text: z.string(),
@@ -37,21 +24,24 @@ export const StrapiHeadingSchema = z
       "ds-body-01-reg",
       "ds-body-02-reg",
     ]),
+    className: z.string().optional(),
+    dataTestid: z.string().optional(),
+    tagId: z.string().optional(),
   })
-  .merge(HasOptionalStrapiIdSchema);
+  .merge(HasOptionalStrapiIdSchema)
+  .nullable()
+  .transform((cmsData) => {
+    return omitNull({
+      __component: "basic.heading" as const,
+      ...cmsData,
+    });
+  });
 
-export const StrapiHeadingComponentSchema = StrapiHeadingSchema.extend({
-  __component: z.literal("basic.heading"),
-});
-
-type StrapiHeading = z.infer<typeof StrapiHeadingSchema>;
-
-export function getHeadingProps(cmsData: StrapiHeading | null) {
-  if (!cmsData) return undefined;
-  return HeadingPropsSchema.parse(omitNull(cmsData));
-}
+export const StrapiHeadingOptionalSchema = StrapiHeadingSchema.nullable()
+  .transform(omitNull)
+  .optional();
 
 export const isStrapiHeadingComponent = (
   strapiContent: StrapiContentComponent,
-): strapiContent is z.infer<typeof StrapiHeadingComponentSchema> =>
+): strapiContent is z.infer<typeof StrapiHeadingSchema> =>
   strapiContent.__component === "basic.heading";

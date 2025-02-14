@@ -1,7 +1,6 @@
 import { faker } from "@faker-js/faker";
-import type { StrapiImage } from "~/services/cms/models/StrapiImage";
 
-export function getStrapiImage(): StrapiImage {
+export function getStrapiImage() {
   const name = faker.string.alphanumeric({ length: 5 });
   const hash = faker.string.alphanumeric({ length: 10 });
   const ext = faker.helpers.arrayElement(["png", "jpg", "svg", "gif"]);

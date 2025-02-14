@@ -169,11 +169,12 @@ const hasAnnullierungErsatzverbindungDone: FluggastrechteFlugdatenGuard = ({
   context,
 }) => {
   return (
-    hasOptionalString(context.annullierungErsatzverbindungFlugnummer) &&
-    hasOptionalString(context.annullierungErsatzverbindungAbflugsDatum) &&
-    hasOptionalString(context.annullierungErsatzverbindungAbflugsZeit) &&
-    hasOptionalString(context.annullierungErsatzverbindungAnkunftsDatum) &&
-    hasOptionalString(context.annullierungErsatzverbindungAnkunftsZeit)
+    (hasOptionalString(context.annullierungErsatzverbindungFlugnummer) &&
+      hasOptionalString(context.annullierungErsatzverbindungAbflugsDatum) &&
+      hasOptionalString(context.annullierungErsatzverbindungAbflugsZeit) &&
+      hasOptionalString(context.annullierungErsatzverbindungAnkunftsDatum) &&
+      hasOptionalString(context.annullierungErsatzverbindungAnkunftsZeit)) ||
+    context.ersatzflug === "no"
   );
 };
 

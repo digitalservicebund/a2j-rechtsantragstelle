@@ -27,7 +27,7 @@ jobs:
         run: npm ci && npm run build:localContent
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
-          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
+          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}" ## this value is related the API Token pipeline-new in Strapi staging
       - name: Calculate content checksum
         id: checksum
         run: echo "content_checksum=$(./docker.sh --contentHashFromImage)" >> $GITHUB_OUTPUT
@@ -39,16 +39,15 @@ jobs:
     outputs:
       content_checksum: ${{ steps.checksum.outputs.content_checksum }}
 
-  ## run-integration-tests:
-  ## runs-on: ubuntu-latest
-  ## env:
-  ## STRAPI_API: "${{ secrets.STRAPI_API }}"
-  ## STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
-  ## CMS: STRAPI
-  ## steps:
-  ## - uses: actions/checkout@v4
-  ## - uses: ./.github/actions/cached-checkout-install
-  ## - run: npm run test:integration
+  # integration-tests:
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     STRAPI_API: "${{ secrets.STRAPI_API }}"
+  #     STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}" ## this value is related the API Token pipeline-new in Strapi staging
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: ./.github/actions/cached-checkout-install
+  #     - run: npm run test:integration
 
   verify-local-e2e:
     needs: [get-content-file]

@@ -255,7 +255,7 @@
     "name": "AirAsia Cambodia",
     "iata": "KT",
     "isInEU": false,
-    "arbitrationBoard": null
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "AIS Airlines",
@@ -447,7 +447,7 @@
     "name": "Chair Airlines",
     "iata": "GM",
     "isInEU": true,
-    "arbitrationBoard": null
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "China Airlines",
@@ -543,13 +543,13 @@
     "name": "easyJet Europe Airline GmbH",
     "iata": "EC",
     "isInEU": true,
-    "arbitrationBoard": null
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "Easyjet Switzerland S.A",
     "iata": "DS",
     "isInEU": true,
-    "arbitrationBoard": null
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "Edelweiss Air AG",
@@ -645,7 +645,7 @@
     "name": "Fly Lili",
     "iata": "FL",
     "isInEU": true,
-    "arbitrationBoard": null
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "Fly2sky",
@@ -730,7 +730,7 @@
     "name": "Helvetic Airways",
     "iata": "2L",
     "isInEU": true,
-    "arbitrationBoard": null
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "Hibernian Airlines",
@@ -802,7 +802,7 @@
     "name": "KLM Cityhopper",
     "iata": "WA",
     "isInEU": true,
-    "arbitrationBoard": null
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "KLM Royal Dutch Airlines",
@@ -861,8 +861,8 @@
   },
   {
     "name": "Malta Air Limited",
-    "iata": "",
-    "isInEU": false,
+    "iata": "MW",
+    "isInEU": true,
     "arbitrationBoard": "RV"
   },
   {
@@ -1075,7 +1075,7 @@
     "name": "Smartlynx Airlines Malta Ltd",
     "iata": "2N",
     "isInEU": true,
-    "arbitrationBoard": null
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "SmartLynx Airlines SIA",
@@ -1093,7 +1093,7 @@
     "name": "Smartwings Hungary Kft. dba Smartwings Hungary Kft.",
     "iata": "7O",
     "isInEU": false,
-    "arbitrationBoard": null
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "Somon Air",
@@ -1238,7 +1238,7 @@
     "name": "Turkish Airlines",
     "iata": "TK",
     "isInEU": false,
-    "arbitrationBoard": null
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "Turkmenistan Airlines",
@@ -1316,7 +1316,7 @@
     "name": "Vueling Airlines",
     "iata": "VY",
     "isInEU": true,
-    "arbitrationBoard": null
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "Westjet Airlines Ltd.",

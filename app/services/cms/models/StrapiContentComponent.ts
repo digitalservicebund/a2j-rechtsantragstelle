@@ -1,36 +1,33 @@
 import { z } from "zod";
-import { StrapiVideoComponentSchema } from "~/services/cms/models/StrapiVideo";
+import { StrapiVideoSchema } from "~/services/cms/models/StrapiVideo";
 import { StrapiArraySummaryComponentSchema } from "./StrapiArraySummary";
-import { StrapiBoxComponentSchema } from "./StrapiBox";
-import { StrapiBoxWithImageComponentSchema } from "./StrapiBoxWithImage";
-import { StrapiDetailsComponentSchema } from "./StrapiDetails";
-import { StrapiHeaderComponentSchema } from "./StrapiHeader";
-import { StrapiHeadingComponentSchema } from "./StrapiHeading";
-import { StrapiInfoBoxComponentSchema } from "./StrapiInfoBox";
-import { StrapiInlineNoticeComponentSchema } from "./StrapiInlineNotice";
-import { StrapiLinkListBoxComponentSchema } from "./StrapiLinkListBox";
-import { StrapiListComponentSchema } from "./StrapiList";
-import { StrapiParagraphComponentSchema } from "./StrapiParagraph";
-import { StrapiUserFeedbackComponentSchema } from "./StrapiUserFeedback";
+import { StrapiBoxSchema } from "./StrapiBox";
+import { StrapiBoxWithImageSchema } from "./StrapiBoxWithImage";
+import { StrapiDetailsSchema } from "./StrapiDetails";
+import { StrapiHeaderSchema } from "./StrapiHeader";
+import { StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiInfoBoxSchema } from "./StrapiInfoBox";
+import { StrapiInlineNoticeSchema } from "./StrapiInlineNotice";
+import { StrapiLinkListBoxSchema } from "./StrapiLinkListBox";
+import { StrapiListSchema } from "./StrapiList";
+import { StrapiParagraphSchema } from "./StrapiParagraph";
+import { StrapiUserFeedbackSchema } from "./StrapiUserFeedback";
 
-export const StrapiContentComponentSchema = z.discriminatedUnion(
-  "__component",
-  [
-    StrapiBoxComponentSchema,
-    StrapiBoxWithImageComponentSchema,
-    StrapiHeaderComponentSchema,
-    StrapiHeadingComponentSchema,
-    StrapiInfoBoxComponentSchema,
-    StrapiParagraphComponentSchema,
-    StrapiVideoComponentSchema,
-    StrapiLinkListBoxComponentSchema,
-    StrapiListComponentSchema,
-    StrapiArraySummaryComponentSchema,
-    StrapiInlineNoticeComponentSchema,
-    StrapiDetailsComponentSchema,
-    StrapiUserFeedbackComponentSchema,
-  ],
-);
+export const StrapiContentComponentSchema = z.union([
+  StrapiBoxSchema,
+  StrapiBoxWithImageSchema,
+  StrapiHeaderSchema,
+  StrapiHeadingSchema,
+  StrapiInfoBoxSchema,
+  StrapiParagraphSchema,
+  StrapiVideoSchema,
+  StrapiLinkListBoxSchema,
+  StrapiListSchema,
+  StrapiArraySummaryComponentSchema,
+  StrapiInlineNoticeSchema,
+  StrapiDetailsSchema,
+  StrapiUserFeedbackSchema,
+]);
 
 export type StrapiContentComponent = z.infer<
   typeof StrapiContentComponentSchema

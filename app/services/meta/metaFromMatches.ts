@@ -17,7 +17,7 @@ function isMatchesWithDataObject(
 }
 
 function headerTextFromContent(content?: StrapiContentComponent[]) {
-  return content?.find(isStrapiHeader)?.content?.text;
+  return content?.find(isStrapiHeader)?.content?.html;
 }
 
 function breadcrumbFromMatch(match: RouteMatchKnown) {

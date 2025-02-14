@@ -2,11 +2,13 @@
 import fs from "node:fs";
 import type { GetStrapiEntryOpts } from "./filters";
 import type { GetStrapiEntry } from "./getStrapiEntry";
-import { strapiFileSchema, type ApiId, type StrapiSchemas } from "./schemas";
+import { type ApiId, type StrapiSchemas } from "./schemas";
 import { config } from "../env/env.server";
 
 let content: StrapiSchemas | undefined;
 
+const NO_VALID_FILE =
+  "No valid content.json found while using 'CMS=FILE'.\nEither run 'npm run build:localContent' or try another CMS source";
 export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>(
   opts: GetStrapiEntryOpts<T>,
 ) => {
@@ -14,13 +16,14 @@ export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>(
     try {
       const filePath = config().CONTENT_FILE_PATH;
       const fileContent = fs.readFileSync(filePath, { encoding: "utf-8" });
-      content = strapiFileSchema.parse(JSON.parse(fileContent));
+      content = JSON.parse(fileContent);
     } catch (error) {
-      throw Error(
-        "No valid content.json found while using 'CMS=FILE'.\nEither run 'npm run build:localContent' or try another CMS source",
-        { cause: error },
-      );
+      throw Error(NO_VALID_FILE, { cause: error });
     }
+  }
+
+  if (!content || !content[opts.apiId]) {
+    throw Error(NO_VALID_FILE, { cause: `content[opts.apiId] is not defined` });
   }
 
   const contentItems = [...content[opts.apiId]].filter(

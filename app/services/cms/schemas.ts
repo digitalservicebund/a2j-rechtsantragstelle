@@ -40,4 +40,5 @@ export const strapiSchemas = {
 
 export type ApiId = keyof typeof strapiSchemas;
 export const strapiFileSchema = z.object(strapiSchemas);
-export type StrapiSchemas = z.infer<typeof strapiFileSchema>;
+export type StrapiSchemas = z.input<typeof strapiFileSchema>;
+export type StrapiSchemasOutput = z.output<typeof strapiFileSchema>;

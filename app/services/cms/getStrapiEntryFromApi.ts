@@ -50,7 +50,8 @@ const makeStrapiRequest = async <T extends ApiId>(
     },
   });
 
-  if (!response.ok) {
+  // It should accept 4xx errors due the staging locale is not available for all entries
+  if (!response.ok && response.status >= 500) {
     const content = await response.text();
     throw new Error(
       `Strapi request failed with error: ${response.status} - ${content}`,

@@ -23,3 +23,4 @@ export const StrapiFormFlowPageSchema = z
   .merge(HasStrapiMetaSchema);
 
 export type StrapiFormFlowPage = z.infer<typeof StrapiFormFlowPageSchema>;
+export type StrapiFormFlowPageInput = z.input<typeof StrapiFormFlowPageSchema>;

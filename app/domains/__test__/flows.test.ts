@@ -15,7 +15,7 @@ import { testCasesBeratungshilfeFormularGrundvoraussetzungen } from "~/domains/b
 import { testCasesBeratungshilfeRechtsproblem } from "~/domains/beratungshilfe/formular/rechtsproblem/__test__/testcases";
 import { testCasesBeratungshilfe } from "~/domains/beratungshilfe/vorabcheck/__test__/testcases";
 import { type Context } from "~/domains/contexts";
-import { testCasesFluggastrechteFormularFlugdatenAnnullierung } from "~/domains/fluggastrechte/formular/flugdaten/__test__/testcasesAnnullierung";
+import { testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugYes } from "~/domains/fluggastrechte/formular/flugdaten/__test__/testcasesAnnullierungWithErsatzflugYes";
 import { testCasesFluggastrechteFormularFlugdatenNichtBefoerderung } from "~/domains/fluggastrechte/formular/flugdaten/__test__/testcasesNichtBefoerderung";
 import { testCasesFluggastrechteFormularFlugdatenVerspaetet } from "~/domains/fluggastrechte/formular/flugdaten/__test__/testscasesVerspaetet";
 import { testCasesFluggastrechteFormularGrundvoraussetzungen } from "~/domains/fluggastrechte/formular/grundvoraussetzungen/__test__/testcases";
@@ -38,6 +38,7 @@ import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/domains/prozessk
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
+import { testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugNo } from "../fluggastrechte/formular/flugdaten/__test__/testcasesAnnullierungWithErsatzflugNo";
 
 function getEnabledSteps({
   machine,
@@ -123,7 +124,8 @@ describe.sequential("state machine form flows", () => {
     testCasesFluggastrechteFormularStreitwertKosten,
     testCasesProzesskostenhilfePersoenlicheDaten,
     testCasesFluggastrechteFormularFlugdatenVerspaetet,
-    testCasesFluggastrechteFormularFlugdatenAnnullierung,
+    testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugYes,
+    testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugNo,
     testCasesFluggastrechteErfolg,
     testCasesFluggastrechteErfolgEU,
     testcasesFluggastrechteErfolgAnalog,

@@ -93,6 +93,15 @@ The git hooks check formatting, linting, unit tests, typecheck (see `lefthook.ya
 
 After running the command, a new file named `prozesskostenhilfe.generated.ts` will be generated in the specified directory. You can use this file to fill out the PDF based on the input fields defined within it.
 
+### How to generate TypeScript type declarations from xJustiz XSD's
+
+In order to have type safety when generating an xJustiz XML at the end of an Antrag, we need to occasionally generate TypeScript type declarations from xJustiz XSD files.
+**NOTE: the XSD files can be found at https://xjustiz.justiz.de/, and are not checked into the repository. You will need to download them and place them at `data/xml/schemas` to run the following script:**
+Simply run `npm run build:typesFromXSD`. This manual command has you download and run `@wikipathways/cxsd`. We haven't added it as a dependency to our project, as it's several years out-of-date, and the generation shouldn't happen often.
+
+- The generated TS files can be found at `data/xml/generated`, and due to issues with the underlying library, will need to have their imports renamed/fixed.
+- You will also need to remove "junk" files, like `din-spec-XXX`, which aren't used.
+
 ### How to add a new Array page to a form flow (UNDER CONSTRUCTION)
 
 (This section is still under construction, as there are still open questions about what the generic array case is [or should be] and how to document it)
@@ -274,6 +283,15 @@ In development mode, run the `npm run start:storybook` command.
 `npm run build:airlines-data "AIRLINE_FILE_PATH"`
 
 The `AIRLINE_FILE_PATH` corresponds to the file that contains airlines data that will be transformed into `json` via the `build:airlines-data ` task. For further details and access to the source, please reach out to the maintainers of this repository.
+
+## Code Language Conventions
+
+This project uses a hybrid approach to language in code, mixing English and German.
+While technical implementation uses English (e.g., `function validateData()`), domain-specific terms can be kept in German (e.g., `hasRechtsschutzversicherung: boolean`).
+This is crucial because many German administrative terms lack precise English equivalents, leading to inconsistencies and communication overhead when translated.
+This hybrid approach ensures clear communication with domain experts and maintains code readability within our specific context.
+While we acknowledge this might pose a barrier for non-German speaking contributors, we believe it's the most effective solution for our project.
+We encourage contributors to ask questions about any unfamiliar German terms.
 
 ## Contributing
 

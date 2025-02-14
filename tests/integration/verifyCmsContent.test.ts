@@ -12,7 +12,7 @@ import { flowIds } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
 import { getStrapiEntry } from "~/services/cms/getStrapiEntry";
-import type { StrapiSchemas } from "~/services/cms/schemas";
+import type { StrapiSchemasOutput } from "~/services/cms/schemas";
 
 const allStrapiData: AllStrapiData = {} as AllStrapiData;
 
@@ -73,15 +73,15 @@ beforeAll(async () => {
       "vorab-check-pages":
         vorabCheckPages[0] === null
           ? []
-          : (vorabCheckPages as StrapiSchemas["vorab-check-pages"]),
+          : (vorabCheckPages as StrapiSchemasOutput["vorab-check-pages"]),
       "result-pages":
         resultPages[0] === null
           ? []
-          : (resultPages as StrapiSchemas["result-pages"]),
+          : (resultPages as StrapiSchemasOutput["result-pages"]),
       "form-flow-pages":
         formFlowPages[0] === null
           ? []
-          : (formFlowPages as StrapiSchemas["form-flow-pages"]),
+          : (formFlowPages as StrapiSchemasOutput["form-flow-pages"]),
       formFields,
     };
   }
