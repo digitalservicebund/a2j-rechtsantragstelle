@@ -1,9 +1,8 @@
 import { Context } from "~/domains/contexts";
 import { Translations } from "~/services/translations/getTranslationByKey";
-import { arrayIsNonEmpty } from "~/util/array";
+import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
+import { getInlineItemValues } from "./getInlineItemValues";
 import { getItemValueBox } from "./getItemValueBox";
-
-const EMPTY_SPACE = " ";
 
 export type SummaryOverviewBoxItemType = {
   readonly field: string;
@@ -14,35 +13,18 @@ export type SummaryOverviewBoxItemType = {
   }>;
 };
 
-export type Props = SummaryOverviewBoxItemType & {
+type Props = SummaryOverviewBoxItemType & {
   readonly userData: Context;
   readonly translations: Translations;
 };
 
-const getInlineItemValues = (
+const buildItemValue = (
   userData: Context,
   translations: Translations,
+  field: string,
+  displayEmptyValue?: string,
   inlineItems?: Array<{ field: string }>,
 ) => {
-  if (!arrayIsNonEmpty(inlineItems)) {
-    return "";
-  }
-
-  return inlineItems
-    .map(({ field }) => {
-      return getItemValueBox(translations, userData, field) + EMPTY_SPACE;
-    })
-    .join(" ");
-};
-
-const SummaryOverviewBoxItem = ({
-  field,
-  userData,
-  translations,
-  title,
-  displayEmptyValue,
-  inlineItems,
-}: Props) => {
   const itemValue = getItemValueBox(
     translations,
     userData,
@@ -56,10 +38,26 @@ const SummaryOverviewBoxItem = ({
     inlineItems,
   );
 
-  if (
-    (typeof itemValue === "undefined" || itemValue.trim().length === 0) &&
-    inlineItemValues.length === 0
-  ) {
+  return inlineItemValues.length > 0 ? inlineItemValues : (itemValue ?? "");
+};
+
+const SummaryOverviewBoxItem = ({
+  field,
+  userData,
+  translations,
+  title,
+  displayEmptyValue,
+  inlineItems,
+}: Props) => {
+  const itemValue = buildItemValue(
+    userData,
+    translations,
+    field,
+    displayEmptyValue,
+    inlineItems,
+  );
+
+  if (isFieldEmptyOrUndefined(itemValue.trim())) {
     return null;
   }
 
@@ -73,9 +71,7 @@ const SummaryOverviewBoxItem = ({
           {title}
         </dt>
       )}
-      <dd data-testid="summary-box-item-value">
-        {inlineItemValues.length > 0 ? inlineItemValues : itemValue}
-      </dd>
+      <dd data-testid="summary-box-item-value">{itemValue}</dd>
     </>
   );
 };
