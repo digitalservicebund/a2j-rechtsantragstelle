@@ -45,4 +45,15 @@ describe("Footer", () => {
     );
     expect(getByText("deletionLabel")).toBeInTheDocument();
   });
+
+  it("should render aria label translation", () => {
+    const translations = { "footer-navigation": "Footer Navigation" };
+    const { getByLabelText } = render(<Footer translations={translations} />);
+    expect(getByLabelText("Footer Navigation")).toBeInTheDocument();
+  });
+
+  it("should render default aria label when translation is not provided", () => {
+    const { getByLabelText } = render(<Footer />);
+    expect(getByLabelText("footer-navigation")).toBeInTheDocument();
+  });
 });

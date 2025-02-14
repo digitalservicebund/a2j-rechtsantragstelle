@@ -13,3 +13,5 @@ export const StrapiFooterSchema = z
   })
   .merge(HasStrapiLocaleSchema)
   .transform((cmsData) => omit(cmsData, "locale"));
+
+export type StrapiFooter = z.input<typeof StrapiFooterSchema>;
