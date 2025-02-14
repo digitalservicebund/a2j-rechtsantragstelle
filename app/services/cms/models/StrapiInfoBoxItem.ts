@@ -22,5 +22,6 @@ export const StrapiInfoBoxItemSchema = z
   .merge(OptionalStrapiLinkIdentifierSchema)
   .transform((cmsData) => ({
     ...cmsData,
+    details: cmsData.detailsSummary,
     inlineNotices: cmsData.inlineNotice,
   }));
