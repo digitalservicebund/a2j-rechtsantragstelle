@@ -1,11 +1,11 @@
-import Heading from "~/components/Heading";
+import Heading, { HeadingProps } from "~/components/Heading";
 import SummaryOverviewBoxWrapped, {
   SummaryOverviewBoxWrappedProps,
 } from "./SummaryOverviewBoxWrapped";
 
 type Props = {
   readonly navigation: Array<{
-    readonly title: string;
+    readonly title: HeadingProps;
     readonly id: number;
     readonly boxes: SummaryOverviewBoxWrappedProps[];
   }>;
@@ -16,12 +16,7 @@ const SummaryOverview = ({ navigation }: Props) => {
     <>
       {navigation.map(({ title, boxes, id }) => (
         <div key={id}>
-          <Heading
-            text={title}
-            tagName="p"
-            className="mt-40"
-            look="ds-heading-03-bold"
-          />
+          <Heading {...title} className="mt-40" />
           {boxes.map(({ id, stepId, boxItems, title: boxTitle }) => (
             <SummaryOverviewBoxWrapped
               key={id}

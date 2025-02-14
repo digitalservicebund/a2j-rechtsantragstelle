@@ -17,7 +17,12 @@ describe("StrapiSummaryOverviewSchema", () => {
       __component: "page.summary-overview",
       navigation: [
         {
-          title: "title",
+          title: {
+            text: "text",
+            tagName: "h1",
+            look: "default",
+            id: 1,
+          },
           boxes: [],
         },
       ],
@@ -33,7 +38,12 @@ describe("StrapiSummaryOverviewSchema", () => {
       __component: "page.summary-overview",
       navigation: [
         {
-          title: "title",
+          title: {
+            text: "text",
+            tagName: "h1",
+            look: "default",
+            id: 1,
+          },
           boxes: [
             {
               stepId: "anyStep",
@@ -55,7 +65,12 @@ describe("StrapiSummaryOverviewSchema", () => {
       __component: "page.summary-overview",
       navigation: [
         {
-          title: "title",
+          title: {
+            text: "text",
+            tagName: "h1",
+            look: "default",
+            id: 1,
+          },
           boxes: [
             {
               stepId: "anyStep",
@@ -78,7 +93,13 @@ describe("StrapiSummaryOverviewSchema", () => {
     expect(actual.data).toEqual({
       navigation: [
         {
-          title: "title",
+          title: {
+            __component: "basic.heading",
+            text: "text",
+            tagName: "h1",
+            look: "default",
+            id: 1,
+          },
           boxes: [
             {
               stepId: "anyStep",

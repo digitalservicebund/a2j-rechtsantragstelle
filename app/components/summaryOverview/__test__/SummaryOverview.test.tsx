@@ -1,10 +1,15 @@
 import { render } from "@testing-library/react";
+import { HeadingProps } from "~/components/Heading";
 import SummaryOverview from "../SummaryOverview";
 
 const mockSummaryOverviewProps = {
   navigation: [
     {
-      title: "title",
+      title: {
+        tagName: "h2",
+        text: "title",
+        look: "",
+      } as HeadingProps,
       id: 1,
       boxes: [
         {

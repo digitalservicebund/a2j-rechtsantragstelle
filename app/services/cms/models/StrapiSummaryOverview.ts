@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
+import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
 
 const StrapiSummaryOverviewBoxSchema = z
@@ -25,7 +26,7 @@ export const StrapiSummaryOverviewSchema = z
       .array(
         z
           .object({
-            title: z.string(),
+            title: StrapiHeadingSchema,
             boxes: z.array(StrapiSummaryOverviewBoxSchema).nonempty(),
           })
           .merge(HasStrapiIdSchema),
