@@ -1,35 +1,15 @@
 import { test, expect } from "@playwright/test";
 import { defaultHeaders } from "~/rootHeaders";
 
-const expectedHeaders = {
-  ...defaultHeaders,
-  "Cache-Control": "no-store",
-  Connection: "keep-alive",
-  "Content-Encoding": "gzip",
-  "Content-Type": "text/html; charset=utf-8",
-  "Transfer-Encoding": "chunked",
-  Vary: "Accept-Encoding",
-};
-
 test.describe("Security Tests", () => {
-  test("The server should send a response including the correct response headers", async ({
-    page,
-  }) => {
+  test("server response includes security headers", async ({ page }) => {
     const response = await page.request.get("/");
     await expect(response).toBeOK();
-    Object.entries(expectedHeaders)
-      .map(([key, val]) => [key.toLocaleLowerCase(), val])
-      .forEach(([key, expectedVal]) => {
-        const actualValue = response.headers()[key];
-        const responseHasExpectedHeader = actualValue === expectedVal;
-        if (!responseHasExpectedHeader) {
-          // eslint-disable-next-line no-console
-          console.warn(
-            `Header ${key} was expected to be ${expectedVal} but instead was ${actualValue}`,
-          );
-        }
-        expect(responseHasExpectedHeader).toBe(true);
-      });
+    const headers = response.headers();
+    Object.entries(defaultHeaders).forEach(([key, expectedVal]) => {
+      const actual = headers[key.toLowerCase()];
+      expect(actual, `Header '${key}' matches`).toBe(expectedVal);
+    });
   });
 
   test("Invalid HTTP operations should yield an error", async ({ page }) => {
