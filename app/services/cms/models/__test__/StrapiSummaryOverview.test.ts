@@ -1,7 +1,7 @@
 import { StrapiSummaryOverviewSchema } from "../StrapiSummaryOverview";
 
 describe("StrapiSummaryOverviewSchema", () => {
-  it("should return success false given empty navigation", () => {
+  it("should return false given empty navigation", () => {
     const emptyNavigation = {
       __component: "page.summary-overview",
       navigation: [],
@@ -12,7 +12,7 @@ describe("StrapiSummaryOverviewSchema", () => {
     expect(actual.success).toBe(false);
   });
 
-  it("should return success false given empty boxes", () => {
+  it("should return false given empty boxes", () => {
     const emptyBoxes = {
       __component: "page.summary-overview",
       navigation: [
@@ -33,7 +33,7 @@ describe("StrapiSummaryOverviewSchema", () => {
     expect(actual.success).toBe(false);
   });
 
-  it("should return success false given empty boxes items", () => {
+  it("should return false given empty boxes items", () => {
     const emptyBoxes = {
       __component: "page.summary-overview",
       navigation: [
@@ -60,7 +60,7 @@ describe("StrapiSummaryOverviewSchema", () => {
     expect(actual.success).toBe(false);
   });
 
-  it("should return success true and summary overview object given correct data", () => {
+  it("should return true and summary overview object given correct data", () => {
     const correctSummary = {
       __component: "page.summary-overview",
       navigation: [
