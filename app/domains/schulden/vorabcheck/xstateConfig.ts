@@ -3,8 +3,8 @@ import { schuldenZwangsvollstreckungContext } from "./context";
 
 export const zwangsVollStreckungVorabcheckXstateConfig = {
   id: "/schulden/kontopfaendung/wegweiser",
-  initial: "zwangsvollstreckung",
+  initial: "start",
   states: {
-    zwangsvollstreckung: {},
+    start: {},
   },
 } satisfies Config<schuldenZwangsvollstreckungContext>;

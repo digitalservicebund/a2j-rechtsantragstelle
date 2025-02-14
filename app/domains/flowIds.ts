@@ -11,14 +11,8 @@ export const flowIds = [
 
 export type FlowId = (typeof flowIds)[number];
 
-/**
- * Match pathname with flowId or pathname that start with flowId/
- * @param pathname
- */
 export function flowIdFromPathname(pathname: string) {
-  return flowIds.find((flowId) => {
-    return pathname === flowId || pathname.startsWith(flowId + "/");
-  });
+  return flowIds.find((flowId) => pathname.startsWith(flowId));
 }
 
 export function parsePathname(pathname: string) {

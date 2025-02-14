@@ -23,13 +23,11 @@ describe("parsePathname", () => {
 });
 
 describe("flowIdFromPathname", () => {
-  it("extracts the first two path segments", () => {
+  it("extracts the existing valid flowIds", () => {
     expect(flowIdFromPathname("/beratungshilfe/antrag")).toEqual(
       "/beratungshilfe/antrag",
     );
-  });
 
-  it("extract the nested path segments if flowId doesn't", () => {
     expect(flowIdFromPathname("/schulden/kontopfaendung/wegweiser")).toEqual(
       "/schulden/kontopfaendung/wegweiser",
     );
