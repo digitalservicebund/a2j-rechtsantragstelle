@@ -80,7 +80,7 @@ export function FormFlowPage() {
               />
             )}
             {arraySummaryData &&
-              Object.keys(arraySummaryData).length != 0 &&
+              Object.keys(arraySummaryData).length !== 0 &&
               Object.entries(arraySummaryData).map(([category, array]) => (
                 <ArraySummary
                   key={category}
