@@ -29,6 +29,13 @@ describe("flowIdFromPathname", () => {
     );
   });
 
+  it("fail to extract the nested path segments if flowId doesn't", () => {
+    expect(flowIdFromPathname("/schulden/kontopfaendung/wegweiser")).toEqual(
+      // should be updated after adding /schulden/kontopfaendung/wegweiser to context and flowIds
+      undefined,
+    );
+  });
+
   it("returns undefined if no valid flow Id", () => {
     expect(flowIdFromPathname("")).toBeUndefined();
     expect(flowIdFromPathname("asd")).toBeUndefined();
