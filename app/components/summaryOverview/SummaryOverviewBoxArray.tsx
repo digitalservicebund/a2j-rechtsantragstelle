@@ -1,5 +1,6 @@
 import { arrayChar } from "~/services/array";
 import { addArrayIndexToPathUrl } from "./addArrayIndexToPathUrl";
+import { getArraySummaryObject } from "./getArraySummaryObject";
 import SummaryOverviewBox from "./SummaryOverviewBox";
 import { SummaryOverviewBoxItemType } from "./SummaryOverviewBoxItem";
 import { useFlowFormular } from "../form/flowFormularContext";
@@ -13,17 +14,16 @@ type Props = {
 
 const SummaryOverviewBoxArray = ({ boxId, boxItems, title, stepId }: Props) => {
   const { userData } = useFlowFormular();
-
-  const arrayObjectName = boxItems[0].field.split(arrayChar)[0];
-  const arrayObject = userData[arrayObjectName];
-  const arrayBoxPageFieldsWithoutArrayChar = boxItems.map((items) => ({
-    ...items,
-    field: items.field.split(arrayChar)[1],
-  }));
+  const arrayObject = getArraySummaryObject(boxItems, userData);
 
   if (!Array.isArray(arrayObject)) {
     return null;
   }
+
+  const arrayBoxPageFieldsWithoutArrayChar = boxItems.map((items) => ({
+    ...items,
+    field: items.field.split(arrayChar)[1],
+  }));
 
   return arrayObject.map((object, index) => (
     <SummaryOverviewBox
