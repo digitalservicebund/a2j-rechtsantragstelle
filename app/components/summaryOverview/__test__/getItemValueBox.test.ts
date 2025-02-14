@@ -10,18 +10,22 @@ describe("getItemValueBox", () => {
     };
     const userData: Context = { status: "active" };
 
-    expect(getItemValueBox(translations, userData, "status")).toBe("Aktiv");
+    const actual = getItemValueBox(translations, userData, "status");
+    expect(actual).toBe("Aktiv");
   });
 
-  test("returns empty value translation when item value is empty", () => {
-    const translations: Translations = {
-      "status.emptyValue": "Keine Angabe",
-    };
+  test("returns empty value when item value is empty", () => {
+    const translations: Translations = {};
     const userData: Context = { status: "" };
 
-    expect(getItemValueBox(translations, userData, "status")).toBe(
+    const actual = getItemValueBox(
+      translations,
+      userData,
+      "status",
       "Keine Angabe",
     );
+
+    expect(actual).toBe("Keine Angabe");
   });
 
   test("returns field.value translation if no direct translation exists", () => {
@@ -30,22 +34,26 @@ describe("getItemValueBox", () => {
     };
     const userData: Context = { status: "unknown" };
 
-    expect(getItemValueBox(translations, userData, "status")).toBe(
-      "Default Status",
-    );
+    const actual = getItemValueBox(translations, userData, "status");
+
+    expect(actual).toBe("Default Status");
   });
 
   test("returns the original item value if no translations exist", () => {
     const translations: Translations = {};
     const userData: Context = { status: "pending" };
 
-    expect(getItemValueBox(translations, userData, "status")).toBe("pending");
+    const actual = getItemValueBox(translations, userData, "status");
+
+    expect(actual).toBe("pending");
   });
 
   test("returns the original item value when translation.value is not available", () => {
     const translations: Translations = {};
     const userData: Context = { status: "approved" };
 
-    expect(getItemValueBox(translations, userData, "status")).toBe("approved");
+    const actual = getItemValueBox(translations, userData, "status");
+
+    expect(actual).toBe("approved");
   });
 });

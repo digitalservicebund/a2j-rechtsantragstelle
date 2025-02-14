@@ -11,6 +11,7 @@ const StrapiSummaryOverviewBoxSchema = z
         z.object({
           title: StrapiStringOptionalSchema,
           field: z.string(),
+          displayEmptyValue: StrapiStringOptionalSchema,
         }),
       )
       .nonempty(),

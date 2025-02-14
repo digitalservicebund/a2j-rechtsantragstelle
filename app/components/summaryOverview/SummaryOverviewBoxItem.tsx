@@ -5,6 +5,7 @@ import { getItemValueBox } from "./getItemValueBox";
 export type SummaryOverviewBoxItemType = {
   readonly field: string;
   readonly title?: string;
+  readonly displayEmptyValue?: string;
 };
 
 export type Props = SummaryOverviewBoxItemType & {
@@ -17,8 +18,14 @@ const SummaryOverviewBoxItem = ({
   userData,
   translations,
   title,
+  displayEmptyValue,
 }: Props) => {
-  const itemValue = getItemValueBox(translations, userData, field);
+  const itemValue = getItemValueBox(
+    translations,
+    userData,
+    field,
+    displayEmptyValue,
+  );
 
   if (typeof itemValue === "undefined" || itemValue.trim().length === 0) {
     return null;

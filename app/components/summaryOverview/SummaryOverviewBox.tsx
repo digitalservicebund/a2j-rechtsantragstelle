@@ -37,13 +37,14 @@ const SummaryOverviewBox = ({
         )}
 
         <dl>
-          {boxItems.map(({ field, title: boxItemTitle }) => (
+          {boxItems.map(({ field, title: boxItemTitle, displayEmptyValue }) => (
             <SummaryOverviewBoxItem
               key={`${boxId}-${field}`}
               field={field}
               title={boxItemTitle}
               translations={translations}
               userData={userData}
+              displayEmptyValue={displayEmptyValue}
             />
           ))}
         </dl>

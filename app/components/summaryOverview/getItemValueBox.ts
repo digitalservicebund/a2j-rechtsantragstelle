@@ -1,12 +1,11 @@
 import { Context } from "~/domains/contexts";
 import { Translations } from "~/services/translations/getTranslationByKey";
 
-const EMPTY_ITEM_TRANSLATION_VALUE = "emptyValue";
-
 export const getItemValueBox = (
   translations: Translations,
   userData: Context,
   fieldName: string,
+  displayEmptyValue?: string,
 ) => {
   const itemValue = userData[fieldName] as string;
 
@@ -16,13 +15,14 @@ export const getItemValueBox = (
     return directTranslation;
   }
 
-  // Handle empty value translation
-  if (typeof itemValue === "string" && itemValue.length === 0) {
-    const emptyTranslation =
-      translations[`${fieldName}.${EMPTY_ITEM_TRANSLATION_VALUE}`];
-    if (typeof emptyTranslation !== "undefined") {
-      return emptyTranslation;
-    }
+  // Handle empty value
+  if (
+    typeof itemValue === "string" &&
+    itemValue.length === 0 &&
+    typeof displayEmptyValue !== "undefined" &&
+    displayEmptyValue.length > 0
+  ) {
+    return displayEmptyValue;
   }
 
   // Fallback to string replacement translation or the original item value
