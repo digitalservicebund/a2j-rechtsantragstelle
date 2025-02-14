@@ -3,6 +3,10 @@ import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
 
+const StrapiSummaryOverviewBoxItemInlineSchema = z.object({
+  field: z.string(),
+});
+
 const StrapiSummaryOverviewBoxSchema = z
   .object({
     title: StrapiStringOptionalSchema,
@@ -13,6 +17,9 @@ const StrapiSummaryOverviewBoxSchema = z
           title: StrapiStringOptionalSchema,
           field: z.string(),
           displayEmptyValue: StrapiStringOptionalSchema,
+          inlineItems: z
+            .array(StrapiSummaryOverviewBoxItemInlineSchema)
+            .optional(),
         }),
       )
       .nonempty(),

@@ -1,16 +1,38 @@
 import { Context } from "~/domains/contexts";
 import { Translations } from "~/services/translations/getTranslationByKey";
+import { arrayIsNonEmpty } from "~/util/array";
 import { getItemValueBox } from "./getItemValueBox";
+
+const EMPTY_SPACE = " ";
 
 export type SummaryOverviewBoxItemType = {
   readonly field: string;
   readonly title?: string;
   readonly displayEmptyValue?: string;
+  readonly inlineItems?: Array<{
+    readonly field: string;
+  }>;
 };
 
 export type Props = SummaryOverviewBoxItemType & {
   readonly userData: Context;
   readonly translations: Translations;
+};
+
+const getInlineItemValues = (
+  userData: Context,
+  translations: Translations,
+  inlineItems?: Array<{ field: string }>,
+) => {
+  if (!arrayIsNonEmpty(inlineItems)) {
+    return "";
+  }
+
+  return inlineItems
+    .map(({ field }) => {
+      return getItemValueBox(translations, userData, field) + EMPTY_SPACE;
+    })
+    .join(" ");
 };
 
 const SummaryOverviewBoxItem = ({
@@ -19,6 +41,7 @@ const SummaryOverviewBoxItem = ({
   translations,
   title,
   displayEmptyValue,
+  inlineItems,
 }: Props) => {
   const itemValue = getItemValueBox(
     translations,
@@ -27,7 +50,16 @@ const SummaryOverviewBoxItem = ({
     displayEmptyValue,
   );
 
-  if (typeof itemValue === "undefined" || itemValue.trim().length === 0) {
+  const inlineItemValues = getInlineItemValues(
+    userData,
+    translations,
+    inlineItems,
+  );
+
+  if (
+    (typeof itemValue === "undefined" || itemValue.trim().length === 0) &&
+    inlineItemValues.length === 0
+  ) {
     return null;
   }
 
@@ -41,7 +73,9 @@ const SummaryOverviewBoxItem = ({
           {title}
         </dt>
       )}
-      <dd data-testid="summary-box-item-value">{itemValue}</dd>
+      <dd data-testid="summary-box-item-value">
+        {inlineItemValues.length > 0 ? inlineItemValues : itemValue}
+      </dd>
     </>
   );
 };

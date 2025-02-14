@@ -16,12 +16,10 @@ const SummaryOverviewBoxArray = ({ boxId, boxItems, title, stepId }: Props) => {
 
   const arrayObjectName = boxItems[0].field.split(arrayChar)[0];
   const arrayObject = userData[arrayObjectName];
-  const arrayBoxPageFieldsWithoutArrayChar = boxItems.map(
-    ({ field, title: boxItemTitle }) => ({
-      field: field.split(arrayChar)[1],
-      title: boxItemTitle,
-    }),
-  );
+  const arrayBoxPageFieldsWithoutArrayChar = boxItems.map((items) => ({
+    ...items,
+    field: items.field.split(arrayChar)[1],
+  }));
 
   if (!Array.isArray(arrayObject)) {
     return null;
