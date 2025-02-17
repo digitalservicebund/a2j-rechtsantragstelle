@@ -7,7 +7,8 @@ export type FeatureFlag =
   | "showProzesskostenhilfeFlow"
   | "showERV"
   | "showKopfzeile"
-  | "showBundID";
+  | "showBundID"
+  | "showKontopfaendungWegweiserFlow";
 
 export const isFeatureFlagEnabled = async (featureFlag: FeatureFlag) => {
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
