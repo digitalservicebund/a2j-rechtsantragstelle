@@ -41,6 +41,17 @@ const cases = [
       bereich: "bereich",
       startAirport: "BER",
       endAirport: "FRA",
+      streitbeilegung: "noSpecification",
+    },
+    happyPathSteps,
+  ],
+  [
+    {
+      datenverarbeitungZustimmung: CheckboxValue.on,
+      fluggesellschaft: "TAP",
+      bereich: "bereich",
+      startAirport: "BER",
+      endAirport: "FRA",
       streitbeilegung: "no",
       streitbeilegungGruende: "no",
     },

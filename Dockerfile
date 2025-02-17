@@ -3,6 +3,10 @@ ARG CONTENT_IMAGE=content
 ARG APP_IMAGE=app
 
 FROM node:20-alpine AS app-base
+
+# update the latest alpine version and resolve security issues
+RUN apk update && apk upgrade --no-cache
+
 WORKDIR /a2j
 
 COPY package.json package-lock.json ./
