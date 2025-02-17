@@ -24,7 +24,7 @@ describe("addAirlineDetails", () => {
     addAirlineDetails(mockDoc, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      `${userDataMock.fluggesellschaftStrasseHausnummer}, ${userDataMock.fluggesellschaftPostleitzahl} ${userDataMock.fluggesellschaftOrt}`,
+      `${userDataMock.fluggesellschaftStrasseHausnummer}, ${userDataMock.fluggesellschaftPostleitzahl} ${userDataMock.fluggesellschaftOrt}, ${userDataMock.fluggesellschaftLand}`,
     );
   });
 });
