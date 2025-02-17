@@ -6,7 +6,7 @@ import { fluggastrechteVorabcheckContext } from "~/domains/fluggastrechte/vorabc
 import { context as geldEinklagenFormularContext } from "~/domains/geldEinklagen/formular/context";
 import { context as geldEinklagenContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import { prozesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
-import { context as schuldenZwangsvollstreckungContext } from "~/domains/schulden/vorabcheck/context";
+import { context as schuldenKontopfaendungWegweiserContext } from "~/domains/schulden/vorabcheck/context";
 import type { FlowId } from "./flowIds";
 
 export type BasicTypes = string | number | boolean;
@@ -30,7 +30,7 @@ const contexts = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckContext,
   "/fluggastrechte/formular": fluggastrechtContext,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularContext,
-  "/schulden/kontopfaendung/wegweiser": schuldenZwangsvollstreckungContext,
+  "/schulden/kontopfaendung/wegweiser": schuldenKontopfaendungWegweiserContext,
 } as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;
 
 export const getContext = (flowId: FlowId) => contexts[flowId];
