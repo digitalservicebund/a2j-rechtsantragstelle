@@ -4,6 +4,7 @@ import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { fluggastrechteGuards } from "~/domains/fluggastrechte/formular/guards";
 import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+import { fluggesellschaftAddresse } from "./flugdatenMock";
 
 const machine: FlowStateMachine = createMachine(
   { ...fluggastrechtFlow.config, context: {} },
@@ -11,9 +12,7 @@ const machine: FlowStateMachine = createMachine(
 );
 
 const baseContext = {
-  fluggesellschaftOrt: "Berlin",
-  fluggesellschaftPostleitzahl: "10969",
-  fluggesellschaftStrasseHausnummer: "Prinzessinnenstraße 8-14",
+  ...fluggesellschaftAddresse,
   ersatzflug: "yes",
   bereich: "annullierung",
   direktFlugnummer: "AB1234",
