@@ -20,6 +20,7 @@ export const addPlaintiffDetails = (
     telefonnummer,
     plz,
     ort,
+    land,
   }: FluggastrechtContext,
 ) => {
   const plaintiffName = getFullPlaintiffName(anrede, title, vorname, nachname);
@@ -27,6 +28,7 @@ export const addPlaintiffDetails = (
   const phoneNumber = telefonnummer ?? "";
   const zipCode = plz ?? "";
   const city = ort ?? "";
+  const country = land ?? "";
 
   doc
     .fontSize(10)
@@ -34,7 +36,7 @@ export const addPlaintiffDetails = (
     .text(plaintiffName, { continued: true })
     .font(FONTS_BUNDESSANS_REGULAR)
     .text(SEPARATOR, { continued: true })
-    .text(`${address}, ${zipCode} ${city}`)
+    .text(`${address}, ${zipCode} ${city}, ${country}`)
     .text(phoneNumber)
     .text(PLAINTIFF_TEXT, { align: "left" });
 };

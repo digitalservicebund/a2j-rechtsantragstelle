@@ -167,6 +167,7 @@ describe("addMultiplePersonsText", () => {
           nachname: "nachname",
           strasseHausnummer: "strasseHausnummer",
           ort: "ort",
+          land: "land",
           plz: "plz",
           telefonnummer: "telefonnummer",
         },
@@ -175,6 +176,7 @@ describe("addMultiplePersonsText", () => {
           nachname: "nachname2",
           strasseHausnummer: "strasseHausnummer",
           ort: "ort",
+          land: "land",
           plz: "plz",
           buchungsnummer: "123456",
         },
@@ -183,6 +185,7 @@ describe("addMultiplePersonsText", () => {
           nachname: "nachname3",
           strasseHausnummer: "strasseHausnummer",
           ort: "ort",
+          land: "land",
           plz: "plz",
         },
       ],
@@ -194,19 +197,19 @@ describe("addMultiplePersonsText", () => {
     expect(mockDoc.text).toHaveBeenCalledWith("2. ", expect.anything());
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Vorname nachname, strasseHausnummer, plz ort, Telefonnummer telefonnummer",
+      "Vorname nachname, strasseHausnummer, plz ort, land, Telefonnummer telefonnummer",
     );
 
     expect(mockDoc.text).toHaveBeenCalledWith("3. ", expect.anything());
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Vorname2 nachname2, strasseHausnummer, plz ort, abweichende Buchungsnummer: 123456",
+      "Vorname2 nachname2, strasseHausnummer, plz ort, land, abweichende Buchungsnummer: 123456",
     );
 
     expect(mockDoc.text).toHaveBeenCalledWith("4. ", expect.anything());
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Vorname3 nachname3, strasseHausnummer, plz ort",
+      "Vorname3 nachname3, strasseHausnummer, plz ort, land",
     );
   });
 });
