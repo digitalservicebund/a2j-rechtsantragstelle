@@ -8,6 +8,7 @@ export type FluggastrechteGrundvoraussetzungenDaten =
 const hasStreitbeilegungGruende = (context: FluggastrechtContext) => {
   return (
     context.streitbeilegung === "yes" ||
+    context.streitbeilegung === "noSpecification" ||
     (context.streitbeilegung === "no" &&
       objectKeysNonEmpty(context, ["streitbeilegungGruende"]))
   );
