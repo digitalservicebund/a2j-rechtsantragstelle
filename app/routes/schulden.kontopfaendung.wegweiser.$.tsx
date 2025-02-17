@@ -6,8 +6,6 @@ export { action } from "~/routes/shared/vorabcheck.server";
 export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";
 
 export const loader = async (opts: LoaderFunctionArgs) => {
-  await throw404IfFeatureFlagDisabled(
-    "showSchuldenKontopfaendungWegweiserFlow",
-  );
+  await throw404IfFeatureFlagDisabled("showKontopfaendungWegweiserFlow");
   return await vorabcheckLoader(opts);
 };

@@ -1,10 +1,15 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { schuldenKontopfaendungWegweiserContext } from "./context";
+import { kontopfaendungWegweiserContext } from "./context";
 
-export const schuldenKontopfaendungWegweiserVorabcheckXstateConfig = {
+export const kontopfaendungWegweiserXstateConfig = {
   id: "/schulden/kontopfaendung/wegweiser",
-  initial: "basicinformationen",
+  initial: "start",
   states: {
+    start: {
+      on: {
+        SUBMIT: "basicinformationen",
+      },
+    },
     basicinformationen: {
       on: {
         SUBMIT: [
@@ -21,8 +26,8 @@ export const schuldenKontopfaendungWegweiserVorabcheckXstateConfig = {
             guard: ({ context }) => context.basicinformationen === "maybe",
           },
         ],
-        BACK: "basicinformationen",
+        BACK: "start",
       },
     },
   },
-} satisfies Config<schuldenKontopfaendungWegweiserContext>;
+} satisfies Config<kontopfaendungWegweiserContext>;

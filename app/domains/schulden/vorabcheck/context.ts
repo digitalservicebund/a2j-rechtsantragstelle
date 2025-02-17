@@ -5,6 +5,4 @@ export const context = {
 } as const;
 
 const _contextObject = z.object(context).partial();
-export type schuldenKontopfaendungWegweiserContext = z.infer<
-  typeof _contextObject
->;
+export type kontopfaendungWegweiserContext = z.infer<typeof _contextObject>;
