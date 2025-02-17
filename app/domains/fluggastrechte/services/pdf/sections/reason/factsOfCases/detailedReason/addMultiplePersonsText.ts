@@ -73,6 +73,7 @@ export const addMultiplePersonsText = (
         ort,
         plz,
         telefonnummer,
+        land,
       },
       index,
     ) => {
@@ -83,7 +84,7 @@ export const addMultiplePersonsText = (
         })
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(
-          `${getFullPlaintiffName(anrede, title, vorname, nachname)}, ${strasseHausnummer}, ${plz} ${ort}${getTextTelefonNumber(telefonnummer)}${getTextBookingNumber(buchungsnummer)}`,
+          `${getFullPlaintiffName(anrede, title, vorname, nachname)}, ${strasseHausnummer}, ${plz} ${ort}, ${land}${getTextTelefonNumber(telefonnummer)}${getTextBookingNumber(buchungsnummer)}`,
         );
     },
   );
