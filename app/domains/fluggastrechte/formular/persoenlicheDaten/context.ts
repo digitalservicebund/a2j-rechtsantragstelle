@@ -13,6 +13,7 @@ const anredeSchema = z.enum(["herr", "frau", "none"]);
 export const persoenlicheDatenSchema = {
   anrede: anredeSchema,
   ...persoenlicheDaten,
+  land: stringOptionalSchema,
 };
 
 export const paymentDetailsSchema = {
