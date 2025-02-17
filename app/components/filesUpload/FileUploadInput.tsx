@@ -6,7 +6,7 @@ export type FileUploadInputProps = {
   inputName: string;
   selectFilesButtonLabel?: string;
   errorMessages?: ErrorMessageProps[];
-  onFileSelect: (file: File) => void;
+  onFileSelect: (files: File[]) => void;
 };
 
 export const FileUploadInput: FC<
@@ -15,13 +15,15 @@ export const FileUploadInput: FC<
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
-      onFileSelect(files[0]);
+      const filesArray = Array.from(files);
+      onFileSelect(filesArray);
     }
   };
   return (
     <div className="ds-input-group">
       <label>
         <input
+          multiple
           type="file"
           name={inputName}
           ref={innerRef}

@@ -15,7 +15,6 @@ describe("FileUploadWarning", () => {
     const warningTitle = screen.getByText("Warning Title");
     expect(warningTitle).toBeInTheDocument();
     expect(warningTitle).toHaveClass("text-black text-lg font-bold p-4");
-
     const warningDescription = screen.getByText("Warning Description");
     expect(warningDescription).toBeInTheDocument();
     expect(warningDescription).toHaveClass("text-black text-lg p-4");

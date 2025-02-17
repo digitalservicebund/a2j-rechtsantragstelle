@@ -1,14 +1,14 @@
-import AddIcon from "@digitalservicebund/icons/Add";
+import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import { FC, useState } from "react";
 import { FilesUploadHeader } from "./FilesUploadHeader";
 import { FileUploadError } from "./FileUploadError";
+import { FileUploadInfo } from "./FileUploadInfo";
 import { FileUploadInput } from "./FileUploadInput";
 import { FileUploadWarning } from "./FileUploadWarning";
 import Button from "../Button";
-import { SingleFileUpload, SingleFileUploadState } from "./SingleFileUpload";
 
 enum FilesUploadComponentState {
-  Ongoing = "ongoing",
+  Done = "done",
   NotStarted = "notStarted",
   Warning = "warning",
 }
@@ -16,14 +16,12 @@ enum FilesUploadComponentState {
 type FilesUploadProps = {
   title: string;
   inputName: string;
-  uploadFile: (file: File) => Promise<void>;
+  uploadFile: (file: File) => Promise<unknown>;
   description?: string;
   warningTitle: string;
   warningDescription: string;
   labels: {
-    cancelButtonLabel: string;
     deleteButtonLabel: string;
-    uploadProgressLabel: string;
     selectFilesButtonLabel: string;
     selectMoreFilesButtonLabel: string;
   };
@@ -40,76 +38,68 @@ export const FilesUpload: FC<FilesUploadProps> = ({
 }) => {
   const [uploadComponentState, setUploadComponentState] =
     useState<FilesUploadComponentState>(FilesUploadComponentState.NotStarted);
-  const [uploadFileState, setUploadFileState] = useState<SingleFileUploadState>(
-    SingleFileUploadState.Done,
-  );
-
   const [files, setFiles] = useState<File[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>();
-  const warningFilesLimit = 5;
 
-  const handleFileSelect = (file: File): void => {
-    //check more files
-    setFiles([file]);
-    setUploadComponentState(FilesUploadComponentState.Ongoing);
-    setUploadFileState(SingleFileUploadState.InProgress);
-    uploadFile(file)
+  const uploadFilesLimit = 5;
+
+  const handleFileSelect = (files: File[]): void => {
+    const selectedFiles = files.slice(0, uploadFilesLimit);
+    Promise.all(selectedFiles.map((file) => uploadFile(file)))
       .then(() => {
-        if (files.length > warningFilesLimit) {
+        setFiles(selectedFiles);
+        if (files.length > uploadFilesLimit) {
           setUploadComponentState(FilesUploadComponentState.Warning);
+        } else {
+          setUploadComponentState(FilesUploadComponentState.Done);
         }
-        setUploadFileState(SingleFileUploadState.Done);
       })
       .catch(() => {
         setErrorMessage("Upload failed");
       });
   };
+
   // adapt for no js
-  // render a list of files
+  // DONE render a list of files
   // DONE render a warning message when file limit reached
   // DONE make add more files button disappear when file limit reached
-  // add functionality to add more files button
-  // add functionality to delete button
-  // add functionality to cancel button
   // add a11 things to like in the Input.js component (at the moment I get an error on storybook when I add that)
 
   return (
     <div className="w-full bg-white p-16">
       <FilesUploadHeader title={title} description={description} />
 
-      {uploadComponentState === FilesUploadComponentState.NotStarted && (
-        <FileUploadInput
-          selectFilesButtonLabel={labels.selectFilesButtonLabel}
-          inputName={inputName}
-          onFileSelect={handleFileSelect}
-        />
-      )}
-
       {files.map((file) => (
-        <SingleFileUpload
+        <div
           key={file.name}
-          file={file}
-          uploadProgressLabel={labels.uploadProgressLabel}
-          cancelButtonLabel={labels.cancelButtonLabel}
-          deleteButtonLabel={labels.deleteButtonLabel}
-          uploadFileState={uploadFileState}
-        />
+          className="w-full h-64 bg-gray-100 flex justify-between items-center px-16 my-14"
+        >
+          <FileUploadInfo fileName={file.name} fileSize={file.size} />
+          <Button
+            iconLeft={<DeleteIcon className="shrink-0" />}
+            look="ghost"
+            text={labels.deleteButtonLabel}
+            onClick={() => setFiles(files.filter((f) => f.name !== file.name))}
+          />
+        </div>
       ))}
 
-      {uploadComponentState === FilesUploadComponentState.Warning && (
+      {errorMessage && <FileUploadError errorMessage={errorMessage} />}
+
+      {uploadComponentState === FilesUploadComponentState.Warning ? (
         <FileUploadWarning
           warningTitle={warningTitle}
           warningDescription={warningDescription}
         />
-      )}
-
-      {uploadComponentState === FilesUploadComponentState.NotStarted &&
-        errorMessage && <FileUploadError errorMessage={errorMessage} />}
-
-      {uploadComponentState === FilesUploadComponentState.Ongoing && (
-        <Button
-          iconLeft={<AddIcon className="w-6 h-6" />}
-          text={labels.selectMoreFilesButtonLabel}
+      ) : (
+        <FileUploadInput
+          selectFilesButtonLabel={
+            uploadComponentState === FilesUploadComponentState.NotStarted
+              ? labels.selectFilesButtonLabel
+              : labels.selectMoreFilesButtonLabel
+          }
+          inputName={inputName}
+          onFileSelect={handleFileSelect}
         />
       )}
     </div>

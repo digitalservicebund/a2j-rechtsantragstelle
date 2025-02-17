@@ -10,6 +10,7 @@ describe("FilesUpload", () => {
     uploadFile: mockUploadFile,
     warningTitle: "Warning",
     warningDescription: "This is a warning",
+    errorMessage: "This is an error message",
     labels: {
       cancelButtonLabel: "Cancel",
       deleteButtonLabel: "Delete",
@@ -60,25 +61,8 @@ describe("FilesUpload", () => {
     expect(deleteButton).toBeInTheDocument();
   });
 
-  it("handles file selection and upload in progress", async () => {
-    mockUploadFile.mockReturnValue(new Promise(vi.fn()));
-    render(<FilesUpload {...defaultProps} />);
-
-    const user = userEvent.setup();
-    const file = new File([""], "testfile0.pdf", { type: "application/pdf" });
-    const input = screen.getByTestId("fileUploadInput");
-
-    await user.upload(input, file);
-    expect(mockUploadFile).toHaveBeenCalledWith(file);
-
-    const fileName = screen.getByText("testfile0.pdf");
-    expect(fileName).toBeInTheDocument();
-    const uploadProgress = screen.getByText("Uploading...");
-    expect(uploadProgress).toBeInTheDocument();
-  });
-
-  it.skip("handles file selection and upload failure", async () => {
-    mockUploadFile.mockRejectedValue(undefined);
+  it("handles file selection and upload failure", async () => {
+    mockUploadFile.mockRejectedValue(new Error("This is an error"));
     render(<FilesUpload {...defaultProps} />);
 
     const user = userEvent.setup();
@@ -88,26 +72,34 @@ describe("FilesUpload", () => {
     expect(mockUploadFile).toHaveBeenCalledWith(file);
     const fileName = screen.queryByText("testfile0.pdf");
     expect(fileName).not.toBeInTheDocument();
-    const errorMessage = screen.getByText("Error message");
+    const errorMessage = await screen.findByText("Upload failed");
     expect(errorMessage).toBeInTheDocument();
   });
 
-  it.todo("renders a warning message when file limit reached", async () => {
+  it("renders a warning message when file limit reached", async () => {
     mockUploadFile.mockReturnValue(undefined);
     render(<FilesUpload {...defaultProps} />);
 
     const user = userEvent.setup();
-    const file = new File([""], "testfile0.pdf", { type: "application/pdf" });
+    const files = [
+      new File([""], "testfile0.pdf", { type: "application/pdf" }),
+      new File([""], "testfile0.pdf", { type: "application/pdf" }),
+      new File([""], "testfile0.pdf", { type: "application/pdf" }),
+      new File([""], "testfile0.pdf", { type: "application/pdf" }),
+      new File([""], "testfile0.pdf", { type: "application/pdf" }),
+      new File([""], "testfile0.pdf", { type: "application/pdf" }),
+    ];
     const input = screen.getByTestId("fileUploadInput");
-    await user.upload(input, file);
-    expect(mockUploadFile).toHaveBeenCalledWith(file);
-    const addMoreFileButton = screen.getByRole("button", {
-      name: "Select More Files",
+    await user.upload(input, files);
+
+    const addMoreFileButton = screen.queryByRole("button", {
+      name: "Select more files",
     });
     expect(addMoreFileButton).not.toBeInTheDocument();
-    const warningTitle = screen.getByText("Warning Title");
+
+    const warningTitle = screen.getByText("Warning");
     expect(warningTitle).toBeInTheDocument();
-    const warningDescription = screen.getByText("Warning Description");
+    const warningDescription = screen.getByText("This is a warning");
     expect(warningDescription).toBeInTheDocument();
   });
 });

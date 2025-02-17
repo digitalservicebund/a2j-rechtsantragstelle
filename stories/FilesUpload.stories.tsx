@@ -13,15 +13,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    uploadFile: async (file: File) => {
+    uploadFile: async () => {
       return new Promise<void>((resolve) => setTimeout(resolve, 1000));
     },
 
     labels: {
       deleteButtonLabel: "Delete",
       selectMoreFilesButtonLabel: "Select more files",
-      cancelButtonLabel: "Cancel",
-      uploadProgressLabel: "loading...",
       selectFilesButtonLabel: "Select files",
     },
     inputName: "file",
