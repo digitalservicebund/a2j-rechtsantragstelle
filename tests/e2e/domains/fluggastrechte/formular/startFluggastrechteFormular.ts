@@ -109,6 +109,7 @@ export async function startFluggastrechteFormular(
   await formular.fillInput("strasseHausnummer", "Schildkrötenstraße 5");
   await formular.fillInput("plz", "10119");
   await formular.fillInput("ort", "Mutant Mayhem");
+  await formular.fillInput("land", "Musterland");
   await formular.fillInput("telefonnummer", "015111225588");
   await formular.clickNext();
 
