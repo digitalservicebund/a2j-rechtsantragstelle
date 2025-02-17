@@ -15,15 +15,15 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: "",
-            guard: ({ context }) => context.basicinformationen === "no",
+            guard: ({ context }) => context.hasKontopfaendung === "no",
           },
           {
             target: "",
-            guard: ({ context }) => context.basicinformationen === "yes",
+            guard: ({ context }) => context.hasKontopfaendung === "yes",
           },
           {
             target: "",
-            guard: ({ context }) => context.basicinformationen === "maybe",
+            guard: ({ context }) => context.hasKontopfaendung === "maybe",
           },
         ],
         BACK: "start",
