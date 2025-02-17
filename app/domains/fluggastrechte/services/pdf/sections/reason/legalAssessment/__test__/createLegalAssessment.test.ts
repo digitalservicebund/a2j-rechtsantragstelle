@@ -2,11 +2,11 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 import {
-  ASSUMED_SETTLEMENT_SECTION_TEXT,
   CLAIM_FULL_JUSTIFIED_TEXT,
   createLegalAssessment,
   LEGAL_ASSESSMENT_TEXT,
@@ -46,12 +46,71 @@ describe("createLegalAssessment", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(CLAIM_FULL_JUSTIFIED_TEXT);
   });
 
-  it("should render document with assumed settlement section text", () => {
+  it("should render document with assumed settlement section text given streitbeilegung yes", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
-    createLegalAssessment(mockDoc, mockStruct, userDataMock);
 
-    expect(mockDoc.text).toHaveBeenCalledWith(ASSUMED_SETTLEMENT_SECTION_TEXT);
+    const mockDataStreitbeilegung = {
+      ...userDataMock,
+      streitbeilegung: "yes",
+    } satisfies FluggastrechtContext;
+
+    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Der Versuch einer außergerichtlichen Streitbeilegung hat stattgefunden.",
+    );
+  });
+
+  it("should render document with assumed settlement section text given streitbeilegung no and streitbeilegungGruende yesAirlineAgainst", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const mockDataStreitbeilegung = {
+      ...userDataMock,
+      streitbeilegung: "no",
+      streitbeilegungGruende: "yesAirlineAgainst",
+    } satisfies FluggastrechtContext;
+
+    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.",
+    );
+  });
+
+  it("should render document with assumed settlement section text given streitbeilegung no and streitbeilegungGruende no", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const mockDataStreitbeilegung = {
+      ...userDataMock,
+      streitbeilegung: "no",
+      streitbeilegungGruende: "no",
+    } satisfies FluggastrechtContext;
+
+    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.",
+    );
+  });
+
+  it("should render document with assumed settlement section text given streitbeilegung no and streitbeilegungGruende yesOtherReasons", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const mockDataStreitbeilegung = {
+      ...userDataMock,
+      streitbeilegung: "no",
+      streitbeilegungGruende: "yesOtherReasons",
+    } satisfies FluggastrechtContext;
+
+    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.",
+    );
   });
 
   it("should render document with claim person name", () => {
