@@ -26,7 +26,7 @@ export async function uploadUserFileToS3(
   try {
     const s3Client = createClientS3DataStorage();
     const cookieHeader = request.headers.get("Cookie");
-    const flowId = flowIdFromPathname(request.url);
+    const flowId = flowIdFromPathname(new URL(request.url).pathname);
     if (!flowId)
       throw new Error(`Attempted to upload user file outside of known flow`);
     const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);

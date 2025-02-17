@@ -236,11 +236,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     request,
     async ({ filename, data, contentType }) => {
       if (!filename || contentType !== "application/pdf") {
-        return undefined; // regular form submission
+        // data is not a file, we therefore need to parse it back to a string
+        for await (const part of data) {
+          return new TextDecoder().decode(part);
+        }
       }
       const result = await uploadUserFileToS3(request, data);
-      console.log(result);
-      return Promise.resolve(filename);
+      return Promise.resolve(result?.ETag);
     },
   );
   const relevantFormData = filterFormData(formData);
