@@ -1,9 +1,6 @@
 import { z } from "zod";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
 export const fluggastrechteGrundvoraussetzungen = {
   datenverarbeitungZustimmung: checkedRequired,
@@ -11,7 +8,10 @@ export const fluggastrechteGrundvoraussetzungen = {
     ["yesAirlineAgainst", "yesOtherReasons", "no"],
     customRequiredErrorMessage,
   ),
-  streitbeilegung: YesNoAnswer,
+  streitbeilegung: z.enum(
+    ["yes", "no", "noSpecification"],
+    customRequiredErrorMessage,
+  ),
 };
 
 const _contextObject = z.object(fluggastrechteGrundvoraussetzungen).partial();
