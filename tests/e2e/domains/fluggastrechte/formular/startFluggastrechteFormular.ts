@@ -51,6 +51,7 @@ export async function startFluggastrechteFormular(
   );
   await formular.fillInput("fluggesellschaftPostleitzahl", "12345");
   await formular.fillInput("fluggesellschaftOrt", "Musterstadt");
+  await formular.fillInput("fluggesellschaftLand", "Musterland");
   await formular.clickNext();
 
   // /fluggastrechte/formular/flugdaten/geplanter-flug

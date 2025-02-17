@@ -1,11 +1,10 @@
 import { FluggastrechtContext } from "../../context";
 import { flugdatenDone } from "../doneFunctions";
+import { fluggesellschaftAddresse } from "./flugdatenMock";
 
 const baseContext: FluggastrechtContext = {
+  ...fluggesellschaftAddresse,
   direktFlugnummer: "AB6303",
-  fluggesellschaftOrt: "Berlin",
-  fluggesellschaftPostleitzahl: "10969",
-  fluggesellschaftStrasseHausnummer: "Prinzessinnenstraße 8-14",
   buchungsNummer: "X36Q9C",
   direktAbflugsDatum: "10.03.2024",
   direktAbflugsZeit: "09:09",
