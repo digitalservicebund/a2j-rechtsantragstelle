@@ -1,7 +1,8 @@
 import { z } from "zod";
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { YesNoMaybeAnswer } from "~/services/validation/YesNoAnswer";
 export const context = {
-  zwangsvollstreckung: YesNoAnswer,
+  basicinformationen: YesNoMaybeAnswer,
+  unterhalt: YesNoMaybeAnswer,
 } as const;
 
 const _contextObject = z.object(context).partial();
