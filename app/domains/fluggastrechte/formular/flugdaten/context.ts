@@ -35,7 +35,7 @@ export const fluggastrechteFlugdaten = {
   fluggesellschaftStrasseHausnummer: stringRequiredSchema,
   fluggesellschaftPostleitzahl: stringRequiredSchema,
   fluggesellschaftOrt: stringRequiredSchema,
-  fluggesellschaftLand: stringOptionalSchema,
+  fluggesellschaftLand: stringRequiredSchema,
   zwischenstoppAnzahl: z.enum(
     ["no", "oneStop", "twoStop", "threeStop"],
     customRequiredErrorMessage,
