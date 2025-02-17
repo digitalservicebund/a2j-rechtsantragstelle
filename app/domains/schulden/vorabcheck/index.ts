@@ -1,8 +1,8 @@
 import type { Flow } from "~/domains/flows.server";
-import { schuldenVorabcheckXstateConfig } from "./xstateConfig";
+import { schuldenKontopfaendungWegweiserVorabcheckXstateConfig } from "./xstateConfig";
 
-export const schuldenVorabcheck = {
+export const schuldenKontopfaendungWegweiserVorabcheck = {
   flowType: "vorabCheck",
-  config: schuldenVorabcheckXstateConfig,
+  config: schuldenKontopfaendungWegweiserVorabcheckXstateConfig,
   guards: {},
 } satisfies Flow;
