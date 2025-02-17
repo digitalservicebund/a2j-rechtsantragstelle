@@ -17,6 +17,7 @@ import {
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
+import { uploadUserFileToS3 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
 import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
@@ -233,10 +234,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const flowSession = await getSession(cookieHeader);
   const formData = await unstable_parseMultipartFormData(
     request,
-    async ({ name, filename }) => {
-      if (name !== "application/pdf") {
-        return undefined;
+    async ({ filename, data, contentType }) => {
+      if (!filename || contentType !== "application/pdf") {
+        return undefined; // regular form submission
       }
+      const result = await uploadUserFileToS3(request, data);
+      console.log(result);
       return Promise.resolve(filename);
     },
   );
