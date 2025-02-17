@@ -1,7 +1,7 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { schuldenZwangsvollstreckungContext } from "./context";
+import { schuldenKontopfaendungWegweiserContext } from "./context";
 
-export const schuldenVorabcheckXstateConfig = {
+export const schuldenKontopfaendungWegweiserVorabcheckXstateConfig = {
   id: "/schulden/kontopfaendung/wegweiser",
   initial: "basicinformationen",
   states: {
@@ -25,4 +25,4 @@ export const schuldenVorabcheckXstateConfig = {
       },
     },
   },
-} satisfies Config<schuldenZwangsvollstreckungContext>;
+} satisfies Config<schuldenKontopfaendungWegweiserContext>;
