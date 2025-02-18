@@ -8,7 +8,7 @@ import { getSessionIdByFlowId } from "~/services/session.server";
 const USER_FILES_FOLDER = "user-files";
 
 const createFolderKey = (sessionId: string, flowId: string) => {
-  return `${USER_FILES_FOLDER}/${flowId}/${sessionId}`;
+  return `${USER_FILES_FOLDER}${flowId}/${sessionId}`;
 };
 
 async function convertToBuffer(file: AsyncIterable<Uint8Array>) {

@@ -72,7 +72,7 @@ describe("storeUserFileToS3Bucket", () => {
       ...config(),
       S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
     };
-    const mockKey = `user-files/${mockFlowId}/${mockSessionId}`;
+    const mockKey = `user-files${mockFlowId}/${mockSessionId}`;
 
     setupFileMocks(mockSessionId, mockConfig);
 
