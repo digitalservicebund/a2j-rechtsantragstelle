@@ -14,18 +14,20 @@ export const addAirlineDetails = (
     fluggesellschaftStrasseHausnummer,
     fluggesellschaftPostleitzahl,
     fluggesellschaftOrt,
+    fluggesellschaftLand,
   }: FluggastrechtContext,
 ) => {
   const airlineName = getAirlineNameByIataCode(fluggesellschaft);
   const address = fluggesellschaftStrasseHausnummer ?? "";
   const zipCode = fluggesellschaftPostleitzahl ?? "";
   const city = fluggesellschaftOrt ?? "";
+  const country = fluggesellschaftLand ?? "";
   doc
     .fontSize(10)
     .font(FONTS_BUNDESSANS_BOLD)
     .text(airlineName, { continued: true })
     .font(FONTS_BUNDESSANS_REGULAR)
     .text(SEPARATOR, { continued: true })
-    .text(`${address}, ${zipCode} ${city}`)
+    .text(`${address}, ${zipCode} ${city}, ${country}`)
     .text("– Beklagte Partei –");
 };

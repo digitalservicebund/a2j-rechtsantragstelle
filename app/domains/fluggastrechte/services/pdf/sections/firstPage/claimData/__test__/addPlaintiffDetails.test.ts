@@ -27,7 +27,7 @@ describe("addPlaintiffDetails", () => {
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR);
     expect(mockDoc.text).toHaveBeenCalledWith(SEPARATOR, { continued: true });
     expect(mockDoc.text).toHaveBeenCalledWith(
-      `${userDataMock.strasseHausnummer}, ${userDataMock.plz} ${userDataMock.ort}`,
+      `${userDataMock.strasseHausnummer}, ${userDataMock.plz} ${userDataMock.ort}, ${userDataMock.land}`,
     );
     expect(mockDoc.text).toHaveBeenCalledWith(userDataMock.telefonnummer);
     expect(mockDoc.text).toHaveBeenCalledWith(PLAINTIFF_TEXT, {
