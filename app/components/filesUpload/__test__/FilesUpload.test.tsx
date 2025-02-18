@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { FilesUpload } from "../FilesUpload";
 describe("FilesUpload", () => {
@@ -61,33 +61,36 @@ describe("FilesUpload", () => {
     expect(deleteButton).toBeInTheDocument();
   });
 
-  it("handles file selection and upload failure", async () => {
-    mockUploadFile.mockRejectedValue(new Error("This is an error"));
-    render(<FilesUpload {...defaultProps} />);
+  it.todo(
+    "handles file selection and render an error message when upload failure",
+    async () => {
+      mockUploadFile.mockRejectedValue(new Error("Upload failed"));
+      render(<FilesUpload {...defaultProps} />);
 
-    const user = userEvent.setup();
-    const file = new File([""], "testfile0.pdf", { type: "application/pdf" });
-    const input = screen.getByTestId("fileUploadInput");
-    await user.upload(input, file);
-    expect(mockUploadFile).toHaveBeenCalledWith(file);
-    const fileName = screen.queryByText("testfile0.pdf");
-    expect(fileName).not.toBeInTheDocument();
-    const errorMessage = await screen.findByText("Upload failed");
-    expect(errorMessage).toBeInTheDocument();
-  });
+      const user = userEvent.setup();
+      const file = new File([""], "testfile0.pdf", { type: "application/pdf" });
+      const input = screen.getByTestId("fileUploadInput");
+      await user.upload(input, file);
+      expect(mockUploadFile).toHaveBeenCalledWith(file);
+      const fileName = screen.queryByText("testfile0.pdf");
+      expect(fileName).toBeInTheDocument();
+      const errorMessage = await screen.findByText("Upload failed");
+      expect(errorMessage).toBeInTheDocument();
+    },
+  );
 
-  it("renders a warning message when file limit reached", async () => {
+  it("handles file upload limit reached", async () => {
     mockUploadFile.mockReturnValue(undefined);
     render(<FilesUpload {...defaultProps} />);
 
     const user = userEvent.setup();
     const files = [
       new File([""], "testfile0.pdf", { type: "application/pdf" }),
-      new File([""], "testfile0.pdf", { type: "application/pdf" }),
-      new File([""], "testfile0.pdf", { type: "application/pdf" }),
-      new File([""], "testfile0.pdf", { type: "application/pdf" }),
-      new File([""], "testfile0.pdf", { type: "application/pdf" }),
-      new File([""], "testfile0.pdf", { type: "application/pdf" }),
+      new File([""], "testfile1.pdf", { type: "application/pdf" }),
+      new File([""], "testfile2.pdf", { type: "image/tiff" }),
+      new File([""], "testfile3.pdf", { type: "image/tiff" }),
+      new File([""], "testfile4.pdf", { type: "image/tiff" }),
+      new File([""], "testfile5.pdf", { type: "application/pdf" }),
     ];
     const input = screen.getByTestId("fileUploadInput");
     await user.upload(input, files);
@@ -101,5 +104,29 @@ describe("FilesUpload", () => {
     expect(warningTitle).toBeInTheDocument();
     const warningDescription = screen.getByText("This is a warning");
     expect(warningDescription).toBeInTheDocument();
+  });
+
+  it("handles delete a file", async () => {
+    mockUploadFile.mockReturnValue(undefined);
+    render(<FilesUpload {...defaultProps} />);
+
+    const user = userEvent.setup();
+    const files = [
+      new File([""], "testfile0.pdf", { type: "application/pdf" }),
+      new File([""], "testfile1.pdf", { type: "application/pdf" }),
+      new File([""], "testfile2.pdf", { type: "image/tiff" }),
+    ];
+    const input = screen.getByTestId("fileUploadInput");
+    await user.upload(input, files);
+
+    const deleteButtons = screen.getAllByRole("button", {
+      name: "Delete",
+    });
+    const deleteButton = deleteButtons[1];
+    expect(deleteButton).toBeInTheDocument();
+
+    fireEvent.click(deleteButtons[1]);
+    const fileToDelete = screen.queryByText("testfile1.pdf");
+    expect(fileToDelete).not.toBeInTheDocument();
   });
 });

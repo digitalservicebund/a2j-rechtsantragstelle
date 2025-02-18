@@ -59,32 +59,30 @@ export const FilesUpload: FC<FilesUploadProps> = ({
       });
   };
 
-  // adapt for no js
-  // DONE render a list of files
-  // DONE render a warning message when file limit reached
-  // DONE make add more files button disappear when file limit reached
-  // add a11 things to like in the Input.js component (at the moment I get an error on storybook when I add that)
-
   return (
     <div className="w-full bg-white p-16">
       <FilesUploadHeader title={title} description={description} />
 
       {files.map((file) => (
-        <div
-          key={file.name}
-          className="w-full h-64 bg-gray-100 flex justify-between items-center px-16 my-14"
-        >
-          <FileUploadInfo fileName={file.name} fileSize={file.size} />
-          <Button
-            iconLeft={<DeleteIcon className="shrink-0" />}
-            look="ghost"
-            text={labels.deleteButtonLabel}
-            onClick={() => setFiles(files.filter((f) => f.name !== file.name))}
-          />
+        <div key={file.name}>
+          <div
+            className={`w-full h-64 ${errorMessage ? "bg-red-200 border-2 border-red-900" : "bg-gray-100"} flex justify-between items-center px-16 my-14`}
+          >
+            <FileUploadInfo fileName={file.name} fileSize={file.size} />
+            <Button
+              iconLeft={<DeleteIcon className="shrink-0" />}
+              look="ghost"
+              text={labels.deleteButtonLabel}
+              onClick={() =>
+                setFiles(files.filter((f) => f.name !== file.name))
+              }
+            />
+          </div>
+          <div>
+            {errorMessage && <FileUploadError errorMessage={errorMessage} />}
+          </div>
         </div>
       ))}
-
-      {errorMessage && <FileUploadError errorMessage={errorMessage} />}
 
       {uploadComponentState === FilesUploadComponentState.Warning ? (
         <FileUploadWarning
