@@ -6,11 +6,13 @@ export type FluggastrechteGrundvoraussetzungenDaten =
   GenericGuard<FluggastrechtContext>;
 
 const hasStreitbeilegungGruende = (context: FluggastrechtContext) => {
-  return (
-    context.streitbeilegung === "yes" ||
-    (context.streitbeilegung === "no" &&
-      objectKeysNonEmpty(context, ["streitbeilegungGruende"]))
-  );
+  const isYes = context.streitbeilegung === "yes";
+  const isNoSpecification = context.streitbeilegung === "noSpecification";
+  const isNoWithReasons =
+    context.streitbeilegung === "no" &&
+    objectKeysNonEmpty(context, ["streitbeilegungGruende"]);
+
+  return isYes || isNoSpecification || isNoWithReasons;
 };
 
 export const grundvoraussetzungenDone: FluggastrechteGrundvoraussetzungenDaten =
