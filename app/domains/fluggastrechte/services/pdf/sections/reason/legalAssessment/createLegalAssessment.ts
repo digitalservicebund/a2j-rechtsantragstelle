@@ -31,7 +31,7 @@ const getAssumedSettlementSectionText = ({
     return "Der Versuch einer außergerichtlichen Streitbeilegung hat stattgefunden.";
   }
 
-  if (streitbeilegungGruende === "yesAirlineAgainst") {
+  if (streitbeilegungGruende === "yes") {
     return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.";
   }
 

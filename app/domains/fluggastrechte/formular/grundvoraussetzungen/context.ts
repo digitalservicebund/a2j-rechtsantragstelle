@@ -5,7 +5,7 @@ import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 export const fluggastrechteGrundvoraussetzungen = {
   datenverarbeitungZustimmung: checkedRequired,
   streitbeilegungGruende: z.enum(
-    ["yesAirlineAgainst", "yesOtherReasons", "no"],
+    ["yes", "no", "noSpecification"],
     customRequiredErrorMessage,
   ),
   streitbeilegung: z.enum(
