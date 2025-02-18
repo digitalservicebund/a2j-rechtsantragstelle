@@ -231,10 +231,6 @@ describe("pruner", () => {
   it("should return the paths and form fields given a context and flowId", async () => {
     const strapiEntries = [
       {
-        stepId: "/start",
-        form: [],
-      },
-      {
         stepId: "/grundvoraussetzungen/rechtsschutzversicherung",
         form: [{ name: "rechtsschutzversicherung" }],
       },
@@ -246,6 +242,30 @@ describe("pruner", () => {
         stepId: "/grundvoraussetzungen/klage-eingereicht",
         form: [{ name: "klageEingereicht" }],
       },
+      {
+        stepId: "/grundvoraussetzungen/beratungshilfe-beantragt",
+        form: [{ name: "beratungshilfeBeantragt" }],
+      },
+      {
+        stepId: "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung",
+        form: [{ name: "eigeninitiativeGrundvorraussetzung" }],
+      },
+      {
+        stepId: "/finanzielle-angaben/einkommen/staatliche-leistungen",
+        form: [{ name: "staatlicheLeistungen" }],
+      },
+      {
+        stepId: "/finanzielle-angaben/kinder/kinder-frage",
+        form: [{ name: "hasKinder" }],
+      },
+      {
+        stepId: "/finanzielle-angaben/kinder/kinder/name",
+        form: [
+          { name: "kinder#vorname" },
+          { name: "kinder#nachname" },
+          { name: "kinder#geburtsdatum" },
+        ],
+      },
     ];
 
     vi.mocked(getStrapiEntry).mockReturnValue(
@@ -256,6 +276,22 @@ describe("pruner", () => {
       rechtsschutzversicherung: "no",
       wurdeVerklagt: "no",
       klageEingereicht: "no",
+      beratungshilfeBeantragt: "no",
+      eigeninitiativeGrundvorraussetzung: "no",
+      staatlicheLeistungen: "keine",
+      hasKinder: "yes",
+      kinder: [
+        {
+          vorname: "a",
+          nachname: "b",
+          geburtsdatum: "11.11.2023",
+          wohnortBeiAntragsteller: "no",
+          unterhalt: "no",
+          unterhaltsSumme: "123",
+          eigeneEinnahmen: "no",
+          einnahmen: "0",
+        },
+      ],
     } satisfies BeratungshilfeFormularContext;
     const flowId = "/beratungshilfe/antrag";
 
@@ -275,6 +311,26 @@ describe("pruner", () => {
       },
       "/grundvoraussetzungen/wurde-verklagt": {
         fields: ["wurdeVerklagt"],
+        isArrayPage: false,
+      },
+      "/finanzielle-angaben/einkommen/staatliche-leistungen": {
+        fields: ["staatlicheLeistungen"],
+        isArrayPage: false,
+      },
+      "/finanzielle-angaben/kinder/kinder-frage": {
+        fields: ["hasKinder"],
+        isArrayPage: false,
+      },
+      "/finanzielle-angaben/kinder/kinder/name": {
+        fields: ["kinder#vorname", "kinder#nachname", "kinder#geburtsdatum"],
+        isArrayPage: true,
+      },
+      "/grundvoraussetzungen/beratungshilfe-beantragt": {
+        fields: ["beratungshilfeBeantragt"],
+        isArrayPage: false,
+      },
+      "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung": {
+        fields: ["eigeninitiativeGrundvorraussetzung"],
         isArrayPage: false,
       },
     });
