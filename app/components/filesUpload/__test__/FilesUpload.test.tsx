@@ -61,23 +61,20 @@ describe("FilesUpload", () => {
     expect(deleteButton).toBeInTheDocument();
   });
 
-  it.todo(
-    "handles file selection and render an error message when upload failure",
-    async () => {
-      mockUploadFile.mockRejectedValue(new Error("Upload failed"));
-      render(<FilesUpload {...defaultProps} />);
+  it("handles file selection and render an error message when upload failure", async () => {
+    mockUploadFile.mockRejectedValue(new Error("Upload failed"));
+    render(<FilesUpload {...defaultProps} />);
 
-      const user = userEvent.setup();
-      const file = new File([""], "testfile0.pdf", { type: "application/pdf" });
-      const input = screen.getByTestId("fileUploadInput");
-      await user.upload(input, file);
-      expect(mockUploadFile).toHaveBeenCalledWith(file);
-      const fileName = screen.queryByText("testfile0.pdf");
-      expect(fileName).toBeInTheDocument();
-      const errorMessage = await screen.findByText("Upload failed");
-      expect(errorMessage).toBeInTheDocument();
-    },
-  );
+    const user = userEvent.setup();
+    const file = new File([""], "testfile0.pdf", { type: "application/pdf" });
+    const input = screen.getByTestId("fileUploadInput");
+    await user.upload(input, file);
+    expect(mockUploadFile).toHaveBeenCalledWith(file);
+    const fileName = screen.queryByText("testfile0.pdf");
+    expect(fileName).toBeInTheDocument();
+    const errorMessage = await screen.findByText("Upload failed");
+    expect(errorMessage).toBeInTheDocument();
+  });
 
   it("handles file upload limit reached", async () => {
     mockUploadFile.mockReturnValue(undefined);

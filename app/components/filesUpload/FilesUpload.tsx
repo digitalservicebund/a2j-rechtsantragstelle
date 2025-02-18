@@ -55,6 +55,7 @@ export const FilesUpload: FC<FilesUploadProps> = ({
         }
       })
       .catch(() => {
+        setFiles(selectedFiles);
         setErrorMessage("Upload failed");
       });
   };
