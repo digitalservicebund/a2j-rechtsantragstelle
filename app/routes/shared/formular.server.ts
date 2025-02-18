@@ -232,19 +232,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
-  const formData = await unstable_parseMultipartFormData(
+  const requestCopy = request.clone();
+  let formData = await unstable_parseMultipartFormData(
     request,
     async ({ filename, data, contentType }) => {
       if (!filename || contentType !== "application/pdf") {
-        // data is not a file, we therefore need to parse it back to a string
-        for await (const part of data) {
-          return new TextDecoder().decode(part);
-        }
+        return;
       }
       const result = await uploadUserFileToS3(request, data);
       return Promise.resolve(result?.ETag);
     },
   );
+  if (formData.entries().next().done) formData = await requestCopy.formData();
   const relevantFormData = filterFormData(formData);
 
   if (formData.get("_action") === "delete") {
