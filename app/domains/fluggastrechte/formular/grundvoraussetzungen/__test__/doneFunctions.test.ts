@@ -41,7 +41,7 @@ describe("doneFunctions", () => {
         bereich: "bereich",
         datenverarbeitungZustimmung: CheckboxValue.on,
         streitbeilegung: "no",
-        streitbeilegungGruende: "yesAirlineAgainst",
+        streitbeilegungGruende: "yes",
       },
     });
 
