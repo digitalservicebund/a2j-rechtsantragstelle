@@ -18,9 +18,9 @@ export async function pruneIrrelevantData(data: Context, flowId: FlowId) {
   const formPaths = validFormPaths(flowController);
   const validFormFields = filterFormFields(formFields, formPaths);
 
-  const validPathsAndFields = getValidPathsAndFields(formFields, formPaths);
+  const validFlowPaths = getValidFlowPaths(formFields, formPaths);
 
-  return { prunedData: pick(data, validFormFields), validPathsAndFields };
+  return { prunedData: pick(data, validFormFields), validFlowPaths };
 }
 
 export function filterFormFields(
@@ -36,23 +36,21 @@ export function filterFormFields(
   );
 }
 
-const getValidPathsAndFields = (
-  formFields: FormFieldsMap,
-  validPaths: Path[],
-) => {
+/* Return all the valid pages for current status of the flow and if the page is an array page. 
+ Use `formFields` to filter only for pages with fields
+*/
+const getValidFlowPaths = (formFields: FormFieldsMap, validPaths: Path[]) => {
   return validPaths
     .flatMap(({ stepIds, arrayIndex }) =>
       stepIds
         .filter((stepId) => formFields[stepId])
         .map((stepId) => ({
           path: stepId,
-          fields: formFields[stepId],
           isArrayPage: typeof arrayIndex !== "undefined",
         })),
     )
-    .reduce((acc, { path, fields, isArrayPage }) => {
+    .reduce((acc, { path, isArrayPage }) => {
       acc[path] = {
-        fields,
         isArrayPage,
       };
       return acc;

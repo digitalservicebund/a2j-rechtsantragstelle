@@ -6,7 +6,6 @@ import { Translations } from "~/services/translations/getTranslationByKey";
 export type ValidFlowPagesType = Record<
   string,
   {
-    fields: string[];
     isArrayPage: boolean;
   }
 >;

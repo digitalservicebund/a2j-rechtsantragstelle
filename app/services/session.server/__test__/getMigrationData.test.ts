@@ -65,7 +65,7 @@ describe("getMigrationData", () => {
 
     pruneIrrelevantDataMock.mockResolvedValueOnce({
       prunedData: userDataMock,
-      validPathsAndFields: {},
+      validFlowPaths: {},
     });
 
     const actual = await getMigrationData(

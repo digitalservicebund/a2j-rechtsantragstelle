@@ -35,7 +35,7 @@ describe("SummaryOverviewBoxWrapped", () => {
   it("should render SummaryOverviewBoxArray when isArrayPage is true", () => {
     vi.mocked(useFormFlow).mockReturnValue({
       validFlowPages: {
-        step1: { isArrayPage: true, fields: [] },
+        step1: { isArrayPage: true },
       },
       userData: {},
       translations: {},
@@ -52,7 +52,7 @@ describe("SummaryOverviewBoxWrapped", () => {
   it("should render SummaryOverviewBox when isArrayPage is false", () => {
     vi.mocked(useFormFlow).mockReturnValue({
       validFlowPages: {
-        step1: { isArrayPage: false, fields: [] },
+        step1: { isArrayPage: false },
       },
       userData: {},
       translations: {},

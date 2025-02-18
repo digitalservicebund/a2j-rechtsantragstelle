@@ -228,7 +228,7 @@ describe("pruner", () => {
     });
   });
 
-  it("should return the paths and form fields given a context and flowId", async () => {
+  it("should return the paths and if the path is an array page given a context and flowId", async () => {
     const strapiEntries = [
       {
         stepId: "/grundvoraussetzungen/rechtsschutzversicherung",
@@ -295,39 +295,31 @@ describe("pruner", () => {
     } satisfies BeratungshilfeFormularContext;
     const flowId = "/beratungshilfe/antrag";
 
-    const { validPathsAndFields } = await pruneIrrelevantData(userData, flowId);
+    const { validFlowPaths } = await pruneIrrelevantData(userData, flowId);
 
-    expect(validPathsAndFields).toEqual({
+    expect(validFlowPaths).toEqual({
       "/grundvoraussetzungen/klage-eingereicht": {
-        fields: ["klageEingereicht"],
         isArrayPage: false,
       },
       "/grundvoraussetzungen/rechtsschutzversicherung": {
-        fields: ["rechtsschutzversicherung"],
         isArrayPage: false,
       },
       "/grundvoraussetzungen/wurde-verklagt": {
-        fields: ["wurdeVerklagt"],
         isArrayPage: false,
       },
       "/finanzielle-angaben/einkommen/staatliche-leistungen": {
-        fields: ["staatlicheLeistungen"],
         isArrayPage: false,
       },
       "/finanzielle-angaben/kinder/kinder-frage": {
-        fields: ["hasKinder"],
         isArrayPage: false,
       },
       "/finanzielle-angaben/kinder/kinder/name": {
-        fields: ["kinder#vorname", "kinder#nachname", "kinder#geburtsdatum"],
         isArrayPage: true,
       },
       "/grundvoraussetzungen/beratungshilfe-beantragt": {
-        fields: ["beratungshilfeBeantragt"],
         isArrayPage: false,
       },
       "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung": {
-        fields: ["eigeninitiativeGrundvorraussetzung"],
         isArrayPage: false,
       },
     });
