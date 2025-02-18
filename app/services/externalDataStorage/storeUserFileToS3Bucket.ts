@@ -7,8 +7,12 @@ import { getSessionIdByFlowId } from "~/services/session.server";
 
 const USER_FILES_FOLDER = "user-files";
 
-const createFolderKey = (sessionId: string, flowId: string) => {
-  return `${USER_FILES_FOLDER}${flowId}/${sessionId}`;
+const createFolderKey = (
+  sessionId: string,
+  flowId: string,
+  fileHash: string,
+) => {
+  return `${USER_FILES_FOLDER}${flowId}/${sessionId}/${fileHash}`;
 };
 
 async function convertToBuffer(file: AsyncIterable<Uint8Array>) {
@@ -35,7 +39,7 @@ export async function uploadUserFileToS3(
       new PutObjectCommand({
         Bucket: config().S3_DATA_STORAGE_BUCKET_NAME,
         Body: await convertToBuffer(file),
-        Key: createFolderKey(sessionId, flowId),
+        Key: createFolderKey(sessionId, flowId, crypto.randomUUID()),
       }),
     );
   } catch (error) {

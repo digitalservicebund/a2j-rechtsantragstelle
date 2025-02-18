@@ -65,6 +65,13 @@ const mockAsyncIterator = {
   },
 };
 
+const mockUUID = "some-fancy-uuid";
+Object.defineProperty(global, "crypto", {
+  value: {
+    randomUUID: () => mockUUID,
+  },
+});
+
 describe("storeUserFileToS3Bucket", () => {
   it("stores user uploaded file to S3 bucket", async () => {
     const mockSessionId = "test-session-id";
@@ -72,7 +79,7 @@ describe("storeUserFileToS3Bucket", () => {
       ...config(),
       S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
     };
-    const mockKey = `user-files${mockFlowId}/${mockSessionId}`;
+    const mockKey = `user-files${mockFlowId}/${mockSessionId}/${mockUUID}`;
 
     setupFileMocks(mockSessionId, mockConfig);
 
