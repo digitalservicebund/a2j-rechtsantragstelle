@@ -14,14 +14,34 @@ import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissing
 export const LEGAL_ASSESSMENT_TEXT = "II. Rechtliche Würdigung";
 export const CLAIM_FULL_JUSTIFIED_TEXT =
   "Die Klage ist vollumfänglich begründet.";
-export const ASSUMED_SETTLEMENT_SECTION_TEXT =
-  "Es wird davon ausgegangen, dass eine gütliche Einigung nach §253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.";
 export const ADVANCE_COURT_COSTS_FIRST_TEXT =
   "Das Gericht wird gebeten, der klagenden Partei das Aktenzeichnen des Gerichts mitzuteilen, den Gerichtskostenvorschuss in Höhe von";
 export const ADVANCE_COURT_COSTS_SECOND_TEXT =
   "€ anzufordern und die Klage nach der Zahlung schnellstmöglich an die beklagte Partei zuzustellen.";
 
-function checkAndNewPage(doc: typeof PDFDocument) {
+const getAssumedSettlementSectionText = ({
+  streitbeilegung,
+  streitbeilegungGruende,
+}: FluggastrechtContext): string => {
+  if (streitbeilegung === "noSpecification") {
+    return "";
+  }
+
+  if (streitbeilegung === "yes") {
+    return "Der Versuch einer außergerichtlichen Streitbeilegung hat stattgefunden.";
+  }
+
+  if (streitbeilegungGruende === "yes") {
+    return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.";
+  }
+
+  return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.";
+};
+
+function checkAndNewPage(
+  doc: typeof PDFDocument,
+  assumedSettlementSectionText: string,
+) {
   const legalAssessmentHeight = doc.heightOfString(LEGAL_ASSESSMENT_TEXT, {
     width: PDF_WIDTH_SEIZE,
   });
@@ -34,7 +54,7 @@ function checkAndNewPage(doc: typeof PDFDocument) {
   );
 
   const assumedSettlementSectionTextHeight = doc.heightOfString(
-    ASSUMED_SETTLEMENT_SECTION_TEXT,
+    assumedSettlementSectionText,
     {
       width: PDF_WIDTH_SEIZE,
     },
@@ -53,7 +73,10 @@ export const createLegalAssessment = (
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechtContext,
 ) => {
-  checkAndNewPage(doc);
+  const assumedSettlementSectionText =
+    getAssumedSettlementSectionText(userData);
+
+  checkAndNewPage(doc, assumedSettlementSectionText);
 
   const legalAssessmentSect = doc.struct("Sect");
   legalAssessmentSect.add(
@@ -81,7 +104,7 @@ export const createLegalAssessment = (
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(CLAIM_FULL_JUSTIFIED_TEXT)
-        .text(ASSUMED_SETTLEMENT_SECTION_TEXT)
+        .text(assumedSettlementSectionText)
         .moveDown(4);
 
       const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${courtCostValue} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
