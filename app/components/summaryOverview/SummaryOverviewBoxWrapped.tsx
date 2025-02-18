@@ -2,9 +2,10 @@ import SummaryOverviewBox from "./SummaryOverviewBox";
 import SummaryOverviewBoxArray from "./SummaryOverviewBoxArray";
 import { SummaryOverviewBoxItemType } from "./SummaryOverviewBoxItem";
 import { useFormFlow } from "../form/formFlowContext";
+import { HeadingProps } from "../Heading";
 
 export type SummaryOverviewBoxWrappedProps = {
-  readonly title?: string;
+  readonly title?: HeadingProps;
   readonly stepId: string;
   readonly id: number;
   readonly boxItems: SummaryOverviewBoxItemType[];

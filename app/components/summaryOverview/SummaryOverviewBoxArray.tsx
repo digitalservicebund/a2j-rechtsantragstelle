@@ -2,14 +2,14 @@ import { arrayChar } from "~/services/array";
 import { addArrayIndexToPathUrl } from "./addArrayIndexToPathUrl";
 import { getArraySummaryObject } from "./getArraySummaryObject";
 import SummaryOverviewBox from "./SummaryOverviewBox";
-import { SummaryOverviewBoxItemType } from "./SummaryOverviewBoxItem";
+import { SummaryOverviewBoxWrappedProps } from "./SummaryOverviewBoxWrapped";
 import { useFormFlow } from "../form/formFlowContext";
 
-type Props = {
+type Props = Pick<
+  SummaryOverviewBoxWrappedProps,
+  "title" | "boxItems" | "stepId"
+> & {
   readonly boxId: number;
-  readonly title?: string;
-  readonly stepId: string;
-  readonly boxItems: SummaryOverviewBoxItemType[];
 };
 
 const SummaryOverviewBoxArray = ({ boxId, boxItems, title, stepId }: Props) => {

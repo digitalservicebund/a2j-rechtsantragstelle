@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
@@ -9,7 +10,7 @@ const StrapiSummaryOverviewBoxItemInlineSchema = z.object({
 
 const StrapiSummaryOverviewBoxSchema = z
   .object({
-    title: StrapiStringOptionalSchema,
+    title: StrapiHeadingSchema.nullable().transform(omitNull),
     stepId: z.string(),
     boxItems: z
       .array(

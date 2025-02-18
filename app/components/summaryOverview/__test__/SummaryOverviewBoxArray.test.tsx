@@ -28,7 +28,6 @@ describe("SummaryOverviewBoxArray", () => {
   ];
   const mockStepId = "test-step";
   const mockBoxId = 1;
-  const mockTitle = "Test Title";
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -52,7 +51,6 @@ describe("SummaryOverviewBoxArray", () => {
         boxId={mockBoxId}
         stepId={mockStepId}
         boxItems={mockBoxItems}
-        title={mockTitle}
       />,
     );
 
@@ -69,7 +67,6 @@ describe("SummaryOverviewBoxArray", () => {
         boxId={mockBoxId}
         stepId={mockStepId}
         boxItems={mockBoxItems}
-        title={mockTitle}
       />,
     );
 
@@ -85,7 +82,6 @@ describe("SummaryOverviewBoxArray", () => {
         boxId={mockBoxId}
         stepId={mockStepId}
         boxItems={mockBoxItems}
-        title={mockTitle}
       />,
     );
 

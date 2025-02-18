@@ -75,6 +75,7 @@ describe("StrapiSummaryOverviewSchema", () => {
             {
               stepId: "anyStep",
               id: 10,
+              title: null,
               boxItems: [
                 {
                   field: "one",
