@@ -2,7 +2,7 @@ import { useLoaderData, useLocation } from "@remix-run/react";
 import { useMemo } from "react";
 import ArraySummary from "~/components/arraySummary/ArraySummary";
 import Background from "~/components/Background";
-import { FlowFormularContext } from "~/components/form/flowFormularContext";
+import { FormFlowContext } from "~/components/form/formFlowContext";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
@@ -32,7 +32,7 @@ export function FormFlowPage() {
   } = useLoaderData<typeof loader>();
   const { pathname } = useLocation();
 
-  const flowFormularMemo = useMemo(
+  const formFlowMemo = useMemo(
     () => ({
       userData: prunedUserData,
       validFlowPages: validPathsAndFields,
@@ -43,7 +43,7 @@ export function FormFlowPage() {
   );
 
   return (
-    <FlowFormularContext.Provider value={flowFormularMemo}>
+    <FormFlowContext.Provider value={formFlowMemo}>
       <Background backgroundColor="blue">
         <div className="pt-32 min-h-screen flex flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start">
           <div className="pb-48 mx-32 md:w-[248px] md:mr-0 md:mt-[1.65rem]">
@@ -100,6 +100,6 @@ export function FormFlowPage() {
           </div>
         </div>
       </Background>
-    </FlowFormularContext.Provider>
+    </FormFlowContext.Provider>
   );
 }

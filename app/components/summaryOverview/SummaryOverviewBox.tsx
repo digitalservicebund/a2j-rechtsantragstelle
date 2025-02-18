@@ -5,7 +5,7 @@ import SummaryOverviewBoxItem, {
   SummaryOverviewBoxItemType,
 } from "./SummaryOverviewBoxItem";
 import Button from "../Button";
-import { useFlowFormular } from "../form/flowFormularContext";
+import { useFormFlow } from "../form/formFlowContext";
 
 type Props = {
   readonly title?: string;
@@ -22,7 +22,7 @@ const SummaryOverviewBox = ({
   boxItems,
   title,
 }: Props) => {
-  const { translations, flowId } = useFlowFormular();
+  const { translations, flowId } = useFormFlow();
 
   return (
     <div className="mt-8">

@@ -1,9 +1,9 @@
 import { render } from "@testing-library/react";
-import { useFlowFormular } from "../../form/flowFormularContext";
+import { useFormFlow } from "../../form/formFlowContext";
 import SummaryOverviewBoxWrapped from "../SummaryOverviewBoxWrapped";
 
-vi.mock("../../form/flowFormularContext", () => ({
-  useFlowFormular: vi.fn(),
+vi.mock("../../form/formFlowContext", () => ({
+  useFormFlow: vi.fn(),
 }));
 
 vi.mock("../SummaryOverviewBox", () => ({
@@ -18,7 +18,7 @@ const boxItems = [{ field: "field1" }];
 
 describe("SummaryOverviewBoxWrapped", () => {
   it("should render null when stepId is not in validFlowPages", () => {
-    vi.mocked(useFlowFormular).mockReturnValue({
+    vi.mocked(useFormFlow).mockReturnValue({
       validFlowPages: {},
       userData: {},
       translations: {},
@@ -33,7 +33,7 @@ describe("SummaryOverviewBoxWrapped", () => {
   });
 
   it("should render SummaryOverviewBoxArray when isArrayPage is true", () => {
-    vi.mocked(useFlowFormular).mockReturnValue({
+    vi.mocked(useFormFlow).mockReturnValue({
       validFlowPages: {
         step1: { isArrayPage: true, fields: [] },
       },
@@ -50,7 +50,7 @@ describe("SummaryOverviewBoxWrapped", () => {
   });
 
   it("should render SummaryOverviewBox when isArrayPage is false", () => {
-    vi.mocked(useFlowFormular).mockReturnValue({
+    vi.mocked(useFormFlow).mockReturnValue({
       validFlowPages: {
         step1: { isArrayPage: false, fields: [] },
       },

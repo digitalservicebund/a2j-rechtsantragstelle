@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 import { describe, it, vi, expect } from "vitest";
-import { useFlowFormular } from "../../form/flowFormularContext";
+import { useFormFlow } from "../../form/formFlowContext";
 import SummaryOverviewBox from "../SummaryOverviewBox";
 
-vi.mock("../../form/flowFormularContext", () => ({
-  useFlowFormular: vi.fn(),
+vi.mock("../../form/formFlowContext", () => ({
+  useFormFlow: vi.fn(),
 }));
 
 vi.mock("../SummaryOverviewBoxItem", () => ({
@@ -35,7 +35,7 @@ describe("SummaryOverviewBox", () => {
   });
 
   it("should render the heading when title is provided", () => {
-    vi.mocked(useFlowFormular).mockReturnValue({
+    vi.mocked(useFormFlow).mockReturnValue({
       translations: mockTranslations,
       userData: mockUserData,
       validFlowPages: {},
@@ -56,7 +56,7 @@ describe("SummaryOverviewBox", () => {
   });
 
   it("should render SummaryOverviewBoxItem for each field", () => {
-    vi.mocked(useFlowFormular).mockReturnValue({
+    vi.mocked(useFormFlow).mockReturnValue({
       translations: mockTranslations,
       userData: mockUserData,
       validFlowPages: {},
@@ -78,7 +78,7 @@ describe("SummaryOverviewBox", () => {
   });
 
   it("should render the edit button with correct href", () => {
-    vi.mocked(useFlowFormular).mockReturnValue({
+    vi.mocked(useFormFlow).mockReturnValue({
       translations: mockTranslations,
       userData: mockUserData,
       validFlowPages: {},

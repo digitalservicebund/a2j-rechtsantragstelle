@@ -1,7 +1,7 @@
 import SummaryOverviewBox from "./SummaryOverviewBox";
 import SummaryOverviewBoxArray from "./SummaryOverviewBoxArray";
 import { SummaryOverviewBoxItemType } from "./SummaryOverviewBoxItem";
-import { useFlowFormular } from "../form/flowFormularContext";
+import { useFormFlow } from "../form/formFlowContext";
 
 export type SummaryOverviewBoxWrappedProps = {
   readonly title?: string;
@@ -16,7 +16,7 @@ const SummaryOverviewBoxWrapped = ({
   stepId,
   boxItems,
 }: SummaryOverviewBoxWrappedProps) => {
-  const { userData, validFlowPages } = useFlowFormular();
+  const { userData, validFlowPages } = useFormFlow();
 
   if (!validFlowPages[stepId]) {
     return null;

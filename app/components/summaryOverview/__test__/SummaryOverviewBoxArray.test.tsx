@@ -1,11 +1,11 @@
 import { render } from "@testing-library/react";
-import { useFlowFormular } from "../../form/flowFormularContext";
+import { useFormFlow } from "../../form/formFlowContext";
 import { addArrayIndexToPathUrl } from "../addArrayIndexToPathUrl";
 import { getArraySummaryObject } from "../getArraySummaryObject";
 import SummaryOverviewBoxArray from "../SummaryOverviewBoxArray";
 
-vi.mock("../../form/flowFormularContext", () => ({
-  useFlowFormular: vi.fn(),
+vi.mock("../../form/formFlowContext", () => ({
+  useFormFlow: vi.fn(),
 }));
 
 vi.mock("../getArraySummaryObject", () => ({
@@ -32,7 +32,7 @@ describe("SummaryOverviewBoxArray", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(useFlowFormular).mockReturnValue({
+    vi.mocked(useFormFlow).mockReturnValue({
       userData: mockUserData,
       validFlowPages: {},
       translations: {},

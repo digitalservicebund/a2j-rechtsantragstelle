@@ -3,7 +3,7 @@ import { addArrayIndexToPathUrl } from "./addArrayIndexToPathUrl";
 import { getArraySummaryObject } from "./getArraySummaryObject";
 import SummaryOverviewBox from "./SummaryOverviewBox";
 import { SummaryOverviewBoxItemType } from "./SummaryOverviewBoxItem";
-import { useFlowFormular } from "../form/flowFormularContext";
+import { useFormFlow } from "../form/formFlowContext";
 
 type Props = {
   readonly boxId: number;
@@ -13,7 +13,7 @@ type Props = {
 };
 
 const SummaryOverviewBoxArray = ({ boxId, boxItems, title, stepId }: Props) => {
-  const { userData } = useFlowFormular();
+  const { userData } = useFormFlow();
   const arrayObject = getArraySummaryObject(boxItems, userData);
 
   if (!Array.isArray(arrayObject)) {

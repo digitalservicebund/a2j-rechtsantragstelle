@@ -11,20 +11,20 @@ export type ValidFlowPagesType = Record<
   }
 >;
 
-type FlowFormularContext = {
+type FormFlowContext = {
   userData: Context;
   validFlowPages: ValidFlowPagesType;
   translations: Translations;
   flowId: FlowId;
 };
 
-export const FlowFormularContext = createContext<FlowFormularContext>({
+export const FormFlowContext = createContext<FormFlowContext>({
   userData: {},
   validFlowPages: {},
   translations: {},
   flowId: "/fluggastrechte/formular",
 });
 
-export function useFlowFormular(): FlowFormularContext {
-  return useContext(FlowFormularContext);
+export function useFormFlow(): FormFlowContext {
+  return useContext(FormFlowContext);
 }
