@@ -23,7 +23,7 @@ export async function pruneIrrelevantData(data: Context, flowId: FlowId) {
     formPaths,
   );
 
-  return { pruneData: pick(data, validFormFields), validPathsAndFieldsFlow };
+  return { prunedData: pick(data, validFormFields), validPathsAndFieldsFlow };
 }
 
 export function filterFormFields(

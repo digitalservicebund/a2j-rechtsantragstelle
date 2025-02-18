@@ -63,7 +63,7 @@ export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
   const { pdfFunction, filenameFunction } =
     pdfConfigs[flowId as keyof typeof pdfConfigs];
 
-  const { pruneData: userData } = await pruneIrrelevantData(
+  const { prunedData: userData } = await pruneIrrelevantData(
     (await getSessionData(flowId, request.headers.get("Cookie"))).userData,
     flowId,
   );

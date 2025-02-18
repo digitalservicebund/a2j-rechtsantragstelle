@@ -195,10 +195,7 @@ describe("pruner", () => {
       } satisfies BeratungshilfeFormularContext;
       const flowId = "/beratungshilfe/antrag";
 
-      const { pruneData: prunedData } = await pruneIrrelevantData(
-        userData,
-        flowId,
-      );
+      const { prunedData } = await pruneIrrelevantData(userData, flowId);
       expect(prunedData).toStrictEqual({
         rechtsschutzversicherung: "no",
         wurdeVerklagt: "no",
