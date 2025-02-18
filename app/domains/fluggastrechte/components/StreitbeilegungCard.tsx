@@ -8,13 +8,9 @@ const TITLE = "Außergerichtliche Streitbeilegung";
 function getReasonsAgainstStreitbeilegung(
   streitbeilegungGruende: FluggastrechtContext["streitbeilegungGruende"],
 ): string {
-  if (streitbeilegungGruende === "no")
-    return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden und es bestehen keine Bedenken dagegen.";
-  if (streitbeilegungGruende === "yesAirlineAgainst")
-    return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden und es bestehen Bedenken, weil das bisherige Verhalten der Fluggesellschaft dagegen spricht.";
-  if (streitbeilegungGruende === "yesOtherReasons")
-    return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden und es bestehen Bedenken dagegen.";
-  return "";
+  if (streitbeilegungGruende === "yes")
+    return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.";
+  return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.";
 }
 type StreitbeilegungCardProps = {
   readonly userData: FluggastrechtContext;

@@ -62,14 +62,14 @@ describe("createLegalAssessment", () => {
     );
   });
 
-  it("should render document with assumed settlement section text given streitbeilegung no and streitbeilegungGruende yesAirlineAgainst", () => {
+  it("should render document with assumed settlement section text given streitbeilegung no and streitbeilegungGruende yes", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const mockDataStreitbeilegung = {
       ...userDataMock,
       streitbeilegung: "no",
-      streitbeilegungGruende: "yesAirlineAgainst",
+      streitbeilegungGruende: "yes",
     } satisfies FluggastrechtContext;
 
     createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
@@ -96,14 +96,14 @@ describe("createLegalAssessment", () => {
     );
   });
 
-  it("should render document with assumed settlement section text given streitbeilegung no and streitbeilegungGruende yesOtherReasons", () => {
+  it("should render document with assumed settlement section text given streitbeilegung no and streitbeilegungGruende noSpecification", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const mockDataStreitbeilegung = {
       ...userDataMock,
       streitbeilegung: "no",
-      streitbeilegungGruende: "yesOtherReasons",
+      streitbeilegungGruende: "noSpecification",
     } satisfies FluggastrechtContext;
 
     createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
