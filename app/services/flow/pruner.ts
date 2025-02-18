@@ -18,12 +18,9 @@ export async function pruneIrrelevantData(data: Context, flowId: FlowId) {
   const formPaths = validFormPaths(flowController);
   const validFormFields = filterFormFields(formFields, formPaths);
 
-  const validPathsAndFieldsFlow = getValidPathsAndFieldsFlow(
-    formFields,
-    formPaths,
-  );
+  const validPathsAndFields = getValidPathsAndFields(formFields, formPaths);
 
-  return { prunedData: pick(data, validFormFields), validPathsAndFieldsFlow };
+  return { prunedData: pick(data, validFormFields), validPathsAndFields };
 }
 
 export function filterFormFields(
@@ -39,7 +36,7 @@ export function filterFormFields(
   );
 }
 
-const getValidPathsAndFieldsFlow = (
+const getValidPathsAndFields = (
   formFields: FormFieldsMap,
   validPaths: Path[],
 ) => {

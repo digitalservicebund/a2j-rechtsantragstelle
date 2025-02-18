@@ -295,12 +295,9 @@ describe("pruner", () => {
     } satisfies BeratungshilfeFormularContext;
     const flowId = "/beratungshilfe/antrag";
 
-    const { validPathsAndFieldsFlow } = await pruneIrrelevantData(
-      userData,
-      flowId,
-    );
+    const { validPathsAndFields } = await pruneIrrelevantData(userData, flowId);
 
-    expect(validPathsAndFieldsFlow).toEqual({
+    expect(validPathsAndFields).toEqual({
       "/grundvoraussetzungen/klage-eingereicht": {
         fields: ["klageEingereicht"],
         isArrayPage: false,
