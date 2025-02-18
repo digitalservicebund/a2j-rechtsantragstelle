@@ -129,7 +129,7 @@
     "eslint-plugin-storybook": "^0.11.3",
     "follow-redirects": "^1.15.9",
     "globals": "^15.15.0",
-    "i18n-iso-countries": "^7.13.0",
+    "i18n-iso-countries": "^7.14.0",
     "jsdom": "^26.0.0",
     "lefthook": "^1.10.10",
     "license-checker-rseidelsohn": "^4.4.2",
