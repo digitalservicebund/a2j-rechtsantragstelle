@@ -1,4 +1,5 @@
 import { useField } from "remix-validated-form";
+import InputError from "~/components/inputs/InputError";
 
 export type FileInputProps = {
   name: string;
@@ -18,6 +19,7 @@ export const FileInput = ({ name, label }: FileInputProps) => {
         aria-errormessage={error && errorId}
         aria-invalid={error !== undefined}
       ></input>
+      {error && <InputError id={errorId}>{error}</InputError>}
     </div>
   );
 };

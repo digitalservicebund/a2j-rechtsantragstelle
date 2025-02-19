@@ -15,18 +15,7 @@ const createFolderKey = (
   return `${USER_FILES_FOLDER}${flowId}/${sessionId}/${fileHash}`;
 };
 
-async function convertToBuffer(file: AsyncIterable<Uint8Array>) {
-  const result = [];
-  for await (const chunk of file) {
-    result.push(chunk);
-  }
-  return Buffer.concat(result);
-}
-
-export async function uploadUserFileToS3(
-  request: Request,
-  file: AsyncIterable<Uint8Array>,
-) {
+export async function uploadUserFileToS3(request: Request, file: File) {
   try {
     const s3Client = createClientS3DataStorage();
     const cookieHeader = request.headers.get("Cookie");
@@ -38,7 +27,7 @@ export async function uploadUserFileToS3(
     return await s3Client.send(
       new PutObjectCommand({
         Bucket: config().S3_DATA_STORAGE_BUCKET_NAME,
-        Body: await convertToBuffer(file),
+        Body: new Uint8Array(await file.arrayBuffer()),
         Key: createFolderKey(sessionId, flowId, crypto.randomUUID()),
       }),
     );

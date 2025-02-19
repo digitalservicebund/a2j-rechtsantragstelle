@@ -4,7 +4,7 @@ import {
   redirectDocument,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
-import { validationError } from "remix-validated-form";
+import { validationError, ValidationResult } from "remix-validated-form";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -49,6 +49,7 @@ import {
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import { validatorForFieldNames } from "~/services/validation/stepValidator/validatorForFieldNames";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { filterFormData } from "~/util/filterFormData";
@@ -233,17 +234,52 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
   const requestCopy = request.clone();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let validationResult: ValidationResult<any> | undefined;
   let formData = await unstable_parseMultipartFormData(
     request,
-    async ({ filename, data, contentType }) => {
-      if (!filename || contentType !== "application/pdf") {
+    async ({ filename, data, name, contentType }) => {
+      if (!filename) {
         return;
       }
-      const result = await uploadUserFileToS3(request, data);
-      return Promise.resolve(result?.ETag);
+      // Must convert to File
+      const dataArr = [];
+      for await (const chunk of data) {
+        dataArr.push(chunk);
+      }
+      const file = new File(dataArr, filename, { type: contentType });
+      validationResult = await validatorForFieldNames(
+        [name],
+        pathname,
+      ).validate(file);
+      if (validationResult.error) {
+        validationResult.submittedData = {
+          [name]: file,
+        };
+        return;
+      }
+      const s3UploadResult = await uploadUserFileToS3(request, file);
+      return Promise.resolve(
+        JSON.stringify({
+          etag: s3UploadResult?.ETag,
+          createdOn: new Date(),
+          filename,
+          sizeKb: file.size / 1024,
+        }),
+      );
     },
   );
-  if (formData.entries().next().done) formData = await requestCopy.formData();
+
+  // non-file upload case, parse formData normally
+  if (!validationResult) {
+    formData = await requestCopy.formData();
+  } else {
+    // file upload, need to de-serialize values
+    for (const [key, val] of formData.entries()) {
+      const parsedValue = JSON.parse(val as string);
+      formData.set(key, parsedValue);
+    }
+  }
   const relevantFormData = filterFormData(formData);
 
   if (formData.get("_action") === "delete") {
@@ -259,7 +295,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
   }
 
-  const validationResult = await validateFormData(pathname, relevantFormData);
+  if (!validationResult) {
+    validationResult = await validateFormData(pathname, relevantFormData);
+  }
 
   if (validationResult.error)
     return validationError(
