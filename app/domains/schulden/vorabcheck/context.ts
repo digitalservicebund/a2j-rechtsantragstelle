@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const message = `Bitte treffen Sie eine Auswahl.`;
 
@@ -50,6 +51,7 @@ export const context = {
   hasPKonto: pKontoType,
   schuldenBei: schuldenBeiType,
   euroSchwelle: euroSchwelleType,
+  hasKinder: YesNoAnswer,
 } as const;
 
 const _contextObject = z.object(context).partial();

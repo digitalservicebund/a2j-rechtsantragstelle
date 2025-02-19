@@ -105,7 +105,7 @@ export const kontopfaendungWegweiserXstateConfig = {
                   context.euroSchwelle === euroSchwelleType.Values.ja,
               },
               {
-                target: "",
+                target: "#/schulden/kontopfaendung/wegweiser.zwischenseite",
                 guard: ({ context }) =>
                   context.euroSchwelle === euroSchwelleType.Values.weissNicht ||
                   context.euroSchwelle ===
@@ -113,6 +113,28 @@ export const kontopfaendungWegweiserXstateConfig = {
               },
             ],
             BACK: "glaeubiger",
+          },
+        },
+      },
+    },
+    zwischenseite: {
+      initial: "unterhalt",
+      states: {
+        unterhalt: {
+          on: {
+            SUBMIT: "#/schulden/kontopfaendung/wegweiser.unterhalt",
+            BACK: "#/schulden/kontopfaendung/wegweiser.abfrageBasisInfos.euro-schwelle",
+          },
+        },
+      },
+    },
+    unterhalt: {
+      initial: "kinder",
+      states: {
+        kinder: {
+          on: {
+            SUBMIT: "",
+            BACK: "#/schulden/kontopfaendung/wegweiser.zwischenseite.unterhalt",
           },
         },
       },
