@@ -1,54 +1,120 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { kontopfaendungWegweiserContext } from "./context";
+import {
+  euroSchwelleType,
+  kontopfaendungType,
+  kontopfaendungWegweiserContext,
+  pKontoType,
+  schuldenBeiType,
+} from "./context";
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/schulden/kontopfaendung/wegweiser",
-  initial: "start",
+  initial: "abfrageBasisInfos",
   states: {
-    start: {
-      on: {
-        SUBMIT: "kontopfaendung",
-      },
-    },
-    kontopfaendung: {
-      on: {
-        SUBMIT: [
-          {
-            target: "Ergebnisseite",
-            guard: ({ context }) => context.hasKontopfaendung === "no",
+    abfrageBasisInfos: {
+      initial: "start",
+      states: {
+        start: {
+          on: {
+            SUBMIT: "kontopfaendung",
           },
-          {
-            target: "pKonto",
-            guard: ({ context }) => context.hasKontopfaendung === "yes",
+        },
+        kontopfaendung: {
+          on: {
+            SUBMIT: [
+              {
+                target: "ergebnisseite",
+                guard: ({ context }) =>
+                  context.hasKontopfaendung === kontopfaendungType.Values.nein,
+              },
+              {
+                target: "pKonto",
+                guard: ({ context }) =>
+                  context.hasKontopfaendung !== kontopfaendungType.Values.nein,
+              },
+            ],
+            BACK: "start",
           },
-          {
-            target: "pKonto",
-            guard: ({ context }) => context.hasKontopfaendung === "maybe",
+        },
+        ergebnisseite: {
+          on: { BACK: "start" },
+        },
+        pKonto: {
+          on: {
+            SUBMIT: [
+              {
+                target: "pKonto-probleme",
+                guard: ({ context }) =>
+                  context.hasPKonto === pKontoType.Values.bank ||
+                  context.hasPKonto === pKontoType.Values.nichtAktiv,
+              },
+              {
+                target: "glaeubiger",
+                guard: ({ context }) =>
+                  context.hasPKonto === pKontoType.Values.nein ||
+                  context.hasPKonto === pKontoType.Values.ja,
+              },
+            ],
+            BACK: "kontopfaendung",
           },
-        ],
-        BACK: "start",
-      },
-    },
-    Ergebnisseite: {
-      on: { BACK: "start" },
-    },
-    pKonto: {
-      on: {
-        SUBMIT: [
-          {
-            target: "Ergebnisseite",
-            guard: ({ context }) => context.hasPKonto === "no",
+        },
+        "pKonto-probleme": {
+          on: {
+            SUBMIT: [
+              {
+                target: "glaeubiger",
+              },
+            ],
+            BACK: "pKonto",
           },
-          {
-            target: "",
-            guard: ({ context }) => context.hasPKonto === "yes",
+        },
+        glaeubiger: {
+          on: {
+            SUBMIT: [
+              {
+                target: "glaeubiger-unbekannt",
+                guard: ({ context }) =>
+                  context.schuldenBei === schuldenBeiType.Values.weissNicht,
+              },
+              {
+                target: "euro-schwelle",
+                guard: ({ context }) =>
+                  context.schuldenBei !== schuldenBeiType.Values.weissNicht,
+              },
+            ],
+            BACK: "pKonto",
           },
-          {
-            target: "",
-            guard: ({ context }) => context.hasPKonto === "maybe",
+        },
+        "glaeubiger-unbekannt": {
+          on: {
+            SUBMIT: [
+              {
+                target: "euro-schwelle",
+              },
+            ],
+            BACK: "glaeubiger",
           },
-        ],
-        BACK: "kontopfaendung",
+        },
+        "euro-schwelle": {
+          on: {
+            SUBMIT: [
+              {
+                target: "ergebnisseite",
+                guard: ({ context }) =>
+                  context.euroSchwelle === euroSchwelleType.Values.nein ||
+                  context.euroSchwelle === euroSchwelleType.Values.ja,
+              },
+              {
+                target: "",
+                guard: ({ context }) =>
+                  context.euroSchwelle === euroSchwelleType.Values.weissNicht ||
+                  context.euroSchwelle ===
+                    euroSchwelleType.Values.unterschiedlich,
+              },
+            ],
+            BACK: "glaeubiger",
+          },
+        },
       },
     },
   },
