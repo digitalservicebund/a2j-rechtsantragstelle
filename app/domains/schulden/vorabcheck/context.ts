@@ -1,5 +1,8 @@
 import { z } from "zod";
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import {
+  YesNoAnswer,
+  YesNoMaybeAnswer,
+} from "~/services/validation/YesNoAnswer";
 
 const message = `Bitte treffen Sie eine Auswahl.`;
 
@@ -46,12 +49,26 @@ export const euroSchwelleType = z.enum(
   },
 );
 
+export const verheiratetType = z.enum(
+  ["nein", "ja", "getrennt", "geschieden", "verwitwet"],
+  {
+    errorMap: () => {
+      return { message };
+    },
+  },
+);
+
 export const context = {
   hasKontopfaendung: kontopfaendungType,
   hasPKonto: pKontoType,
   schuldenBei: schuldenBeiType,
   euroSchwelle: euroSchwelleType,
   hasKinder: YesNoAnswer,
+  kinderLebtMit: YesNoMaybeAnswer,
+  verheiratet: verheiratetType,
+  kindSupport: YesNoAnswer,
+  wohnenZusammen: YesNoAnswer,
+  partenrSupport: YesNoAnswer,
 } as const;
 
 const _contextObject = z.object(context).partial();

@@ -133,8 +133,63 @@ export const kontopfaendungWegweiserXstateConfig = {
       states: {
         kinder: {
           on: {
-            SUBMIT: "",
+            SUBMIT: [
+              {
+                target: "natural",
+                guard: ({ context }) => context.hasKinder === "yes",
+              },
+              {
+                target: "partner",
+                guard: ({ context }) => context.hasKinder === "no",
+              },
+            ],
             BACK: "#/schulden/kontopfaendung/wegweiser.zwischenseite.unterhalt",
+          },
+        },
+        natural: {
+          on: {
+            SUBMIT: [
+              {
+                target: "kinder-support",
+              },
+            ],
+            BACK: "kinder",
+          },
+        },
+        "kinder-support": {
+          on: {
+            SUBMIT: [
+              {
+                target: "partner",
+              },
+            ],
+          },
+        },
+        partner: {
+          on: {
+            SUBMIT: [
+              {
+                target: "zusammenwohnen",
+                guard: ({ context }) => context.verheiratet !== "nein",
+              },
+              {
+                target: "partner-support",
+                guard: ({ context }) => context.verheiratet === "nein",
+              },
+            ],
+            BACK: "kinder",
+          },
+        },
+        zusammenwohnen: {
+          on: {
+            SUBMIT: "partner-support",
+            BACK: "partner",
+          },
+        },
+        "partner-support": {
+          on: {
+            SUBMIT: "",
+            BACK: "zusammenwohnen",
           },
         },
       },
