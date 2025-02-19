@@ -1,11 +1,28 @@
 {
   "id": "prozessfuehrung",
-  "initial": "videoverhandlung",
+  "initial": "zeugen",
   "states": {
+    "zeugen": {
+      "on": {
+        "BACK": [
+          {
+            "guard": "isWeiterePersonenYes",
+            "target": "#weitere-personen.uebersicht"
+          },
+          "#weitere-personen.frage"
+        ],
+        "SUBMIT": [
+          {
+            "guard": "persoenlichenDatenDone",
+            "target": "videoverhandlung"
+          }
+        ]
+      }
+    },
     "videoverhandlung": {
       "on": {
         "SUBMIT": "versaeumnisurteil",
-        "BACK": "#persoenliche-daten.weitere-personen.zeugen"
+        "BACK": "zeugen"
       }
     },
     "versaeumnisurteil": {
