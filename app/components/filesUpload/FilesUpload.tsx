@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { FileInputsNoJS } from "./FileInputsNoJS";
 import { FilesUploadHeader } from "./FilesUploadHeader";
 import { FileUploadError } from "./FileUploadError";
 import { FileUploadInfo } from "./FileUploadInfo";
@@ -10,10 +12,17 @@ export type FilesUploadProps = {
 };
 
 export const FilesUpload = ({ name, formId }: FilesUploadProps) => {
+  const [jsAvailable, setJsAvailable] = useState(false);
+  useEffect(() => setJsAvailable(true), []);
+
   return (
     <div className="w-full bg-white p-16">
       <FilesUploadHeader title={"title"} description={"description"} />
-      <FileInput name={name} formId={formId} />
+      {!jsAvailable ? (
+        <FileInputsNoJS name={name} buttonText={"Select Files"} />
+      ) : (
+        <FileInput name={name} formId={formId} />
+      )}
       <FileUploadInfo fileName={"testfile.pdf"} fileSize={1024} />
       <FileUploadError errorMessage="Dateien dürfen nicht größer als 100 MB sein." />
       <FileUploadWarning
