@@ -76,7 +76,6 @@ const cases = [
       "/persoenliche-daten/weitere-personen/frage",
       "/persoenliche-daten/weitere-personen/uebersicht",
       "/prozessfuehrung/zeugen",
-      "/prozessfuehrung/videoverhandlung",
     ],
   ],
   [

@@ -18,6 +18,7 @@ const cases = [
       videoverhandlung: "yes",
     },
     [
+      "/prozessfuehrung/zeugen",
       "/prozessfuehrung/videoverhandlung",
       "/prozessfuehrung/versaeumnisurteil",
       "/prozessfuehrung/zahlung-nach-klageeinreichung",

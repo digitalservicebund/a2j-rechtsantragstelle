@@ -38,7 +38,10 @@
                 "guard": "isMissingAddWeiterePersonen",
                 "target": "#weitere-personen.warnung"
               },
-              "#prozessfuehrung.zeugen"
+              {
+                "guard": "persoenlichenDatenDone",
+                "target": "#prozessfuehrung.zeugen"
+              }
             ],
             "add-weiterePersonen": {
               "guard": "isValidWeiterePersonenArrayIndex",

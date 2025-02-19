@@ -11,12 +11,7 @@
           },
           "#weitere-personen.frage"
         ],
-        "SUBMIT": [
-          {
-            "guard": "persoenlichenDatenDone",
-            "target": "videoverhandlung"
-          }
-        ]
+        "SUBMIT": "videoverhandlung"
       }
     },
     "videoverhandlung": {
