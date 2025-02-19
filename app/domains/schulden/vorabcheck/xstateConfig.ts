@@ -1,5 +1,5 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { kontopfaendungWegweiserContext } from "./context";
+import { kontopfaendungWegweiserContext, schuldenBei } from "./context";
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/schulden/kontopfaendung/wegweiser",
@@ -59,12 +59,12 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "glaeubiger-unbekannt",
             guard: ({ context }) =>
-              context.schuldenBei === "glaeubigerin-unbekannt",
+              context.schuldenBei === schuldenBei.Values.weissNicht,
           },
           {
             target: "euro-schwelle",
             guard: ({ context }) =>
-              context.schuldenBei !== "glaeubigerin-unbekannt",
+              context.schuldenBei !== schuldenBei.Values.weissNicht,
           },
         ],
         BACK: "pKonto",

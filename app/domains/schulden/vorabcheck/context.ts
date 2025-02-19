@@ -1,19 +1,25 @@
 import { z } from "zod";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+
+export const schuldenBei = z.enum([
+  "privatpersonen",
+  "behoerden",
+  "sparkasseNichtZurueckzahlen",
+  "gesetzlichenKrankenkasse",
+  "rechnungenNichtBezahlen",
+  "beitragsserviceGEZ",
+  "unterhaltsschulden",
+  "strafeNichtZahlen",
+  "finanzamt",
+  "hauptzollamt",
+  "nichtSagen",
+  "weissNicht",
+]);
+
 export const context = {
   hasKontopfaendung: YesNoAnswer,
   hasPKonto: YesNoAnswer,
-  schuldenBei: z.enum([
-    "privatpersonen",
-    "behörden",
-    "nicht-zurückzahlen",
-    "finanzamt",
-    "beitragsservice",
-    "unterhaltsschulden",
-    "strafe-nicht-zahlen",
-    "rechnungen-nicht-bezahlen",
-    "glaeubigerin-unbekannt",
-  ]),
+  schuldenBei: schuldenBei,
   euroSchwelle: YesNoAnswer,
 } as const;
 
