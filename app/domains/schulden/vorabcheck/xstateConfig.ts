@@ -92,7 +92,7 @@ export const kontopfaendungWegweiserXstateConfig = {
                 target: "euro-schwelle",
               },
             ],
-            BACK: "pKonto",
+            BACK: "glaeubiger",
           },
         },
         "euro-schwelle": {
