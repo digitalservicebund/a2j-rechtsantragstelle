@@ -56,4 +56,22 @@ describe("getItemValueBox", () => {
 
     expect(actual).toBe("approved");
   });
+
+  test("returns value when is nested in an object", () => {
+    const translations: Translations = {};
+    const userData: Context = { status: { approved: "true" } };
+
+    const actual = getItemValueBox(translations, userData, "status.approved");
+
+    expect(actual).toBe("true");
+  });
+
+  test("returns value empty when does not exist in the object", () => {
+    const translations: Translations = {};
+    const userData: Context = { status: { approved: "true" } };
+
+    const actual = getItemValueBox(translations, userData, "status.fail");
+
+    expect(actual).toBe("");
+  });
 });
