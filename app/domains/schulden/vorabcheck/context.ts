@@ -3,7 +3,7 @@ import { z } from "zod";
 export const schuldenBeiType = z.enum([
   "privat",
   "behoerden",
-  "sparkasse",
+  "kredit",
   "krankenkasse",
   "rechnung",
   "beitragsservice",
