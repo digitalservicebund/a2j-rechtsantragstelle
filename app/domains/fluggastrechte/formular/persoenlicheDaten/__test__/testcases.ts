@@ -23,7 +23,6 @@ const cases = [
     {
       ...baseContext,
       isWeiterePersonen: "no",
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",
@@ -36,7 +35,6 @@ const cases = [
     {
       ...baseContext,
       isWeiterePersonen: "no",
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",
@@ -54,7 +52,6 @@ const cases = [
           ...baseContext,
         },
       ],
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",
@@ -73,7 +70,6 @@ const cases = [
           ...baseContext,
         },
       ],
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",
@@ -88,7 +84,6 @@ const cases = [
       ...baseContext,
       isWeiterePersonen: "yes",
       weiterePersonen: [],
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",
@@ -101,7 +96,6 @@ const cases = [
     {
       ...baseContext,
       isWeiterePersonen: "yes",
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",

@@ -13,6 +13,7 @@ const machine: FlowStateMachine = createMachine(
 const cases = [
   [
     {
+      hasZeugen: "yes",
       versaeumnisurteil: "yes",
       videoverhandlung: "yes",
     },
