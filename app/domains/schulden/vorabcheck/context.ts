@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const message = `Ungültiger Wert: Bitte wählen Sie einen der oben genannten Werte`;
+const message = `Bitte treffen Sie eine Auswahl.`;
 
 export const kontopfaendungType = z.enum(["nein", "ja", "weissNicht"], {
   errorMap: () => {
