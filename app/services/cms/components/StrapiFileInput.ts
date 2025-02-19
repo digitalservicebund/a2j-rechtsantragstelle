@@ -1,21 +1,20 @@
 import { z } from "zod";
-import { FileInputProps } from "~/components/inputs/FileInput";
+import { FilesUploadProps } from "~/components/filesUpload/FilesUpload";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
-const StrapiFileInputSchema = z
+const StrapiFilesUploadSchema = z
   .object({
     name: z.string(),
-    label: z.string().nullable(),
   })
   .merge(HasOptionalStrapiIdSchema);
 
-export const StrapiFileInputComponentSchema = StrapiFileInputSchema.extend({
+export const StrapiFilesUploadComponentSchema = StrapiFilesUploadSchema.extend({
   __component: z.literal("form-elements.file-input"),
 });
 
-type StrapiFileInput = z.infer<typeof StrapiFileInputSchema>;
+type StrapiFilesUpload = z.infer<typeof StrapiFilesUploadSchema>;
 
-export function getFileInputProps(props: StrapiFileInput): FileInputProps {
+export function getFileInputProps(props: StrapiFilesUpload): FilesUploadProps {
   return omitNull(props);
 }
