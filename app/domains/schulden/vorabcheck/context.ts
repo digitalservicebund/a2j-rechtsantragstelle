@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+export const kontopfaendungType = z.enum(["nein", "ja", "weissNicht"]);
+
+export const pKontoType = z.enum(["nein", "ja", "nichtAktiv", "bank"]);
+
 export const schuldenBeiType = z.enum([
   "privat",
   "behoerden",
@@ -14,10 +18,6 @@ export const schuldenBeiType = z.enum([
   "nichtSagen",
   "weissNicht",
 ]);
-
-export const pKontoType = z.enum(["nein", "ja", "nichtAktiv", "bank"]);
-
-export const kontopfaendungType = z.enum(["nein", "ja", "weissNicht"]);
 
 export const euroSchwelleType = z.enum([
   "nein",
