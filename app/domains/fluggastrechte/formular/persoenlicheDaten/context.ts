@@ -15,6 +15,7 @@ export const persoenlicheDatenSchema = {
   anrede: anredeSchema,
   ...persoenlicheDaten,
   land: stringRequiredSchema,
+  plz: stringRequiredSchema,
 };
 
 export const paymentDetailsSchema = {
