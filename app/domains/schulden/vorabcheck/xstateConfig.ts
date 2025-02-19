@@ -1,5 +1,11 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { kontopfaendungWegweiserContext, schuldenBei } from "./context";
+import {
+  euroSchwelleType,
+  kontopfaendungType,
+  kontopfaendungWegweiserContext,
+  pKontoType,
+  schuldenBeiType,
+} from "./context";
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/schulden/kontopfaendung/wegweiser",
@@ -18,11 +24,13 @@ export const kontopfaendungWegweiserXstateConfig = {
             SUBMIT: [
               {
                 target: "ergebnisseite",
-                guard: ({ context }) => context.hasKontopfaendung === "no",
+                guard: ({ context }) =>
+                  context.hasKontopfaendung === kontopfaendungType.Values.nein,
               },
               {
                 target: "pKonto",
-                guard: ({ context }) => context.hasKontopfaendung === "yes",
+                guard: ({ context }) =>
+                  context.hasKontopfaendung !== kontopfaendungType.Values.nein,
               },
             ],
             BACK: "start",
@@ -36,12 +44,15 @@ export const kontopfaendungWegweiserXstateConfig = {
             SUBMIT: [
               {
                 target: "pKonto-probleme",
-
-                guard: ({ context }) => context.hasPKonto === "no",
+                guard: ({ context }) =>
+                  context.hasPKonto === pKontoType.Values.bank ||
+                  context.hasPKonto === pKontoType.Values.nichtAktiv,
               },
               {
                 target: "glaeubiger",
-                guard: ({ context }) => context.hasPKonto === "yes",
+                guard: ({ context }) =>
+                  context.hasPKonto === pKontoType.Values.nein ||
+                  context.hasPKonto === pKontoType.Values.ja,
               },
             ],
             BACK: "kontopfaendung",
@@ -63,12 +74,12 @@ export const kontopfaendungWegweiserXstateConfig = {
               {
                 target: "glaeubiger-unbekannt",
                 guard: ({ context }) =>
-                  context.schuldenBei === schuldenBei.Values.weissNicht,
+                  context.schuldenBei === schuldenBeiType.Values.weissNicht,
               },
               {
                 target: "euro-schwelle",
                 guard: ({ context }) =>
-                  context.schuldenBei !== schuldenBei.Values.weissNicht,
+                  context.schuldenBei !== schuldenBeiType.Values.weissNicht,
               },
             ],
             BACK: "pKonto",
@@ -89,11 +100,16 @@ export const kontopfaendungWegweiserXstateConfig = {
             SUBMIT: [
               {
                 target: "ergebnisseite",
-                guard: ({ context }) => context.euroSchwelle === "no",
+                guard: ({ context }) =>
+                  context.euroSchwelle === euroSchwelleType.Values.nein ||
+                  context.euroSchwelle === euroSchwelleType.Values.ja,
               },
               {
                 target: "",
-                guard: ({ context }) => context.euroSchwelle === "yes",
+                guard: ({ context }) =>
+                  context.euroSchwelle === euroSchwelleType.Values.weissNicht ||
+                  context.euroSchwelle ===
+                    euroSchwelleType.Values.unterschiedlich,
               },
             ],
             BACK: "glaeubiger",

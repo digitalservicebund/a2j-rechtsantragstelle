@@ -1,26 +1,36 @@
 import { z } from "zod";
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-export const schuldenBei = z.enum([
-  "privatpersonen",
+export const schuldenBeiType = z.enum([
+  "privat",
   "behoerden",
-  "sparkasseNichtZurueckzahlen",
-  "gesetzlichenKrankenkasse",
-  "rechnungenNichtBezahlen",
-  "beitragsserviceGEZ",
-  "unterhaltsschulden",
-  "strafeNichtZahlen",
+  "sparkasse",
+  "krankenkasse",
+  "rechnung",
+  "beitragsservice",
+  "unterhalt",
+  "strafe",
   "finanzamt",
   "hauptzollamt",
   "nichtSagen",
   "weissNicht",
 ]);
 
+export const pKontoType = z.enum(["nein", "ja", "nichtAktiv", "bank"]);
+
+export const kontopfaendungType = z.enum(["nein", "ja", "weissNicht"]);
+
+export const euroSchwelleType = z.enum([
+  "nein",
+  "ja",
+  "weissNicht",
+  "unterschiedlich",
+]);
+
 export const context = {
-  hasKontopfaendung: YesNoAnswer,
-  hasPKonto: YesNoAnswer,
-  schuldenBei: schuldenBei,
-  euroSchwelle: YesNoAnswer,
+  hasKontopfaendung: kontopfaendungType,
+  hasPKonto: pKontoType,
+  schuldenBei: schuldenBeiType,
+  euroSchwelle: euroSchwelleType,
 } as const;
 
 const _contextObject = z.object(context).partial();
