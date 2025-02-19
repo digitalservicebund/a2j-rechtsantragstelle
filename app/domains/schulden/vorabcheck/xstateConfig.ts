@@ -3,96 +3,102 @@ import { kontopfaendungWegweiserContext, schuldenBei } from "./context";
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/schulden/kontopfaendung/wegweiser",
-  initial: "start",
+  initial: "abfrageBasisInfos",
   states: {
-    start: {
-      on: {
-        SUBMIT: "kontopfaendung",
-      },
-    },
-    kontopfaendung: {
-      on: {
-        SUBMIT: [
-          {
-            target: "ergebnisseite",
-            guard: ({ context }) => context.hasKontopfaendung === "no",
+    abfrageBasisInfos: {
+      initial: "start",
+      states: {
+        start: {
+          on: {
+            SUBMIT: "kontopfaendung",
           },
-          {
-            target: "pKonto",
-            guard: ({ context }) => context.hasKontopfaendung === "yes",
+        },
+        kontopfaendung: {
+          on: {
+            SUBMIT: [
+              {
+                target: "ergebnisseite",
+                guard: ({ context }) => context.hasKontopfaendung === "no",
+              },
+              {
+                target: "pKonto",
+                guard: ({ context }) => context.hasKontopfaendung === "yes",
+              },
+            ],
+            BACK: "start",
           },
-        ],
-        BACK: "start",
-      },
-    },
-    ergebnisseite: {
-      on: { BACK: "start" },
-    },
-    pKonto: {
-      on: {
-        SUBMIT: [
-          {
-            target: "pKonto-probleme",
-            guard: ({ context }) => context.hasPKonto === "no",
+        },
+        ergebnisseite: {
+          on: { BACK: "start" },
+        },
+        pKonto: {
+          on: {
+            SUBMIT: [
+              {
+                target: "pKonto-probleme",
+
+                guard: ({ context }) => context.hasPKonto === "no",
+              },
+              {
+                target: "glaeubiger",
+                guard: ({ context }) => context.hasPKonto === "yes",
+              },
+            ],
+            BACK: "kontopfaendung",
           },
-          {
-            target: "glaeubiger",
-            guard: ({ context }) => context.hasPKonto === "yes",
+        },
+        "pKonto-probleme": {
+          on: {
+            SUBMIT: [
+              {
+                target: "glaeubiger",
+              },
+            ],
+            BACK: "pKonto",
           },
-        ],
-        BACK: "kontopfaendung",
-      },
-    },
-    "pKonto-probleme": {
-      on: {
-        SUBMIT: [
-          {
-            target: "glaeubiger",
+        },
+        glaeubiger: {
+          on: {
+            SUBMIT: [
+              {
+                target: "glaeubiger-unbekannt",
+                guard: ({ context }) =>
+                  context.schuldenBei === schuldenBei.Values.weissNicht,
+              },
+              {
+                target: "euro-schwelle",
+                guard: ({ context }) =>
+                  context.schuldenBei !== schuldenBei.Values.weissNicht,
+              },
+            ],
+            BACK: "pKonto",
           },
-        ],
-        BACK: "pKonto",
-      },
-    },
-    glaeubiger: {
-      on: {
-        SUBMIT: [
-          {
-            target: "glaeubiger-unbekannt",
-            guard: ({ context }) =>
-              context.schuldenBei === schuldenBei.Values.weissNicht,
+        },
+        "glaeubiger-unbekannt": {
+          on: {
+            SUBMIT: [
+              {
+                target: "euro-schwelle",
+              },
+            ],
+            BACK: "pKonto",
           },
-          {
-            target: "euro-schwelle",
-            guard: ({ context }) =>
-              context.schuldenBei !== schuldenBei.Values.weissNicht,
+        },
+        "euro-schwelle": {
+          on: {
+            SUBMIT: [
+              {
+                target: "ergebnisseite",
+                guard: ({ context }) => context.euroSchwelle === "no",
+              },
+              {
+                target: "",
+                guard: ({ context }) => context.euroSchwelle === "yes",
+              },
+            ],
+            BACK: "glaeubiger",
           },
-        ],
-        BACK: "pKonto",
-      },
-    },
-    "glaeubiger-unbekannt": {
-      on: {
-        SUBMIT: [
-          {
-            target: "euro-schwelle",
-          },
-        ],
-        BACK: "pKonto",
-      },
-    },
-    "euro-schwelle": {
-      on: {
-        SUBMIT: [
-          {
-            target: "ergebnisseite",
-            guard: ({ context }) => context.euroSchwelle === "no",
-          },
-          {
-            target: "",
-            guard: ({ context }) => context.euroSchwelle === "yes",
-          },
-        ],
-        BACK: "glaeubiger",
+        },
       },
     },
   },
