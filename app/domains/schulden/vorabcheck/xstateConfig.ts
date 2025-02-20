@@ -167,7 +167,7 @@ export const kontopfaendungWegweiserXstateConfig = {
                 target: "partner",
               },
             ],
-            BACK: "kinder",
+            BACK: "kinder-wohnen-zusammen",
           },
         },
         partner: {
@@ -184,7 +184,18 @@ export const kontopfaendungWegweiserXstateConfig = {
                   context.verheiratet === verheiratetType.Values.nein,
               },
             ],
-            BACK: "kinder",
+            BACK: [
+              {
+                target: "kinder-support",
+                guard: ({ context }) =>
+                  context.hasKinder === YesNoAnswer.Values.yes,
+              },
+              {
+                target: "kinder",
+                guard: ({ context }) =>
+                  context.hasKinder === YesNoAnswer.Values.no,
+              },
+            ],
           },
         },
         "partner-wohnen-zusammen": {
