@@ -174,7 +174,7 @@ export const kontopfaendungWegweiserXstateConfig = {
           on: {
             SUBMIT: [
               {
-                target: "partner-wohnen-zusammen",
+                target: "",
                 guard: ({ context }) =>
                   context.verheiratet !== verheiratetType.Values.nein,
               },
