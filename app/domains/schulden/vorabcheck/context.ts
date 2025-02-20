@@ -52,7 +52,7 @@ export const context = {
   verheiratet: verheiratetType,
   kindSupport: YesNoAnswer,
   wohnenZusammen: YesNoAnswer,
-  partenrSupport: YesNoAnswer,
+  partnerSupport: YesNoAnswer,
 } as const;
 
 const _contextObject = z.object(context).partial();
