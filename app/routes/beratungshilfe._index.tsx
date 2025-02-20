@@ -1,1 +1,1 @@
-export { default, loader } from "./$";
+export { default, loader } from "./index-context";
