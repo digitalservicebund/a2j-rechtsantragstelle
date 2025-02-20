@@ -11,9 +11,9 @@ import {
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/schulden/kontopfaendung/wegweiser",
-  initial: "abfrageBasisInfos",
+  initial: "abfrage-basis-infos",
   states: {
-    abfrageBasisInfos: {
+    "abfrage-basis-infos": {
       initial: "start",
       states: {
         start: {
@@ -30,7 +30,7 @@ export const kontopfaendungWegweiserXstateConfig = {
                   context.hasKontopfaendung === kontopfaendungType.Values.nein,
               },
               {
-                target: "pKonto",
+                target: "p-konto",
                 guard: ({ context }) =>
                   context.hasKontopfaendung !== kontopfaendungType.Values.nein,
               },
@@ -41,11 +41,11 @@ export const kontopfaendungWegweiserXstateConfig = {
         ergebnisseite: {
           on: { BACK: "start" },
         },
-        pKonto: {
+        "p-konto": {
           on: {
             SUBMIT: [
               {
-                target: "pKonto-probleme",
+                target: "p-konto-probleme",
                 guard: ({ context }) =>
                   context.hasPKonto === pKontoType.Values.bank ||
                   context.hasPKonto === pKontoType.Values.nichtAktiv,
@@ -60,14 +60,14 @@ export const kontopfaendungWegweiserXstateConfig = {
             BACK: "kontopfaendung",
           },
         },
-        "pKonto-probleme": {
+        "p-konto-probleme": {
           on: {
             SUBMIT: [
               {
                 target: "glaeubiger",
               },
             ],
-            BACK: "pKonto",
+            BACK: "p-konto",
           },
         },
         glaeubiger: {
@@ -84,7 +84,7 @@ export const kontopfaendungWegweiserXstateConfig = {
                   context.schuldenBei !== schuldenBeiType.Values.weissNicht,
               },
             ],
-            BACK: "pKonto",
+            BACK: "p-konto",
           },
         },
         "glaeubiger-unbekannt": {
@@ -125,7 +125,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         unterhalt: {
           on: {
             SUBMIT: "#/schulden/kontopfaendung/wegweiser.unterhalt",
-            BACK: "#/schulden/kontopfaendung/wegweiser.abfrageBasisInfos.euro-schwelle",
+            BACK: "#/schulden/kontopfaendung/wegweiser.abfrage-basis-infos.euro-schwelle",
           },
         },
       },
