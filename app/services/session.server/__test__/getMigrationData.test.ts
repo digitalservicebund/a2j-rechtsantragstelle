@@ -63,7 +63,10 @@ describe("getMigrationData", () => {
       debugId: "",
     });
 
-    pruneIrrelevantDataMock.mockResolvedValueOnce(userDataMock);
+    pruneIrrelevantDataMock.mockResolvedValueOnce({
+      prunedData: userDataMock,
+      validFlowPaths: {},
+    });
 
     const actual = await getMigrationData(
       migrationKey,
