@@ -13,10 +13,12 @@ const machine: FlowStateMachine = createMachine(
 const cases = [
   [
     {
+      hasZeugen: "yes",
       versaeumnisurteil: "yes",
       videoverhandlung: "yes",
     },
     [
+      "/prozessfuehrung/zeugen",
       "/prozessfuehrung/videoverhandlung",
       "/prozessfuehrung/versaeumnisurteil",
       "/prozessfuehrung/zahlung-nach-klageeinreichung",
