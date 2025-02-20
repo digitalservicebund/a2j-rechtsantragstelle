@@ -34,7 +34,7 @@ describe("loader (alternate mocking approach)", () => {
 
   it("returns 503 if Redis is not ready", async () => {
     vi.mocked(getRedisStatus).mockReturnValue("wait");
-    const response = await loader();
+    const response = loader();
     expect(response.status).toBe(503);
     const text = await response.text();
     expect(text).toContain("ERROR: Redis connection not ready");
@@ -51,7 +51,7 @@ describe("loader (alternate mocking approach)", () => {
       status: 500,
     } as Response);
 
-    const response = await loader();
+    const response = loader();
     expect(fetchSpy).toHaveBeenCalledWith(
       "http://fake-strapi.example/_health",
       expect.objectContaining({
@@ -75,7 +75,7 @@ describe("loader (alternate mocking approach)", () => {
       status: 200,
     } as Response);
 
-    const response = await loader();
+    const response = loader();
     expect(response.status).toBe(200);
     const text = await response.text();
     expect(text).toBe("I'm fine, thanks for asking :)");
@@ -84,7 +84,7 @@ describe("loader (alternate mocking approach)", () => {
   it("skips Strapi check if CMS is something else", async () => {
     vi.mocked(getRedisStatus).mockReturnValue("ready");
     mockConfigObject.CMS = "Wordpress";
-    const response = await loader();
+    const response = loader();
     expect(fetchSpy).not.toHaveBeenCalled();
     expect(response.status).toBe(200);
     const text = await response.text();
