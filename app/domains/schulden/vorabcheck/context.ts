@@ -1,8 +1,5 @@
 import { z } from "zod";
-import {
-  YesNoAnswer,
-  YesNoMaybeAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const errorMap = () => ({ message: `Bitte treffen Sie eine Auswahl.` });
 
