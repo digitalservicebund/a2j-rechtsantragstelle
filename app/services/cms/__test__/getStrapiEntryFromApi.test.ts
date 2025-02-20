@@ -19,7 +19,7 @@ describe("services/cms", () => {
       apiId: "pages",
       locale: stagingLocale,
     };
-    const expectedStagingRequestUrl = `${API_URL}pages?populate=*&pLevel=6&locale=sg`;
+    const expectedStagingRequestUrl = `${API_URL}pages?populate=*&pLevel&locale=sg`;
 
     const fetchSpy = vi.spyOn(global, "fetch");
 
