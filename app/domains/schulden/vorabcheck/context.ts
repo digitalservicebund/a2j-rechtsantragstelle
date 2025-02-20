@@ -52,7 +52,7 @@ export const context = {
   kinderLebtMit: kinderLebtMitType,
   verheiratet: verheiratetType,
   kindSupport: YesNoAnswer,
-  wohnenZusammen: YesNoAnswer,
+  partnerWohnenZusammen: YesNoAnswer,
   partnerSupport: YesNoAnswer,
 } as const;
 
