@@ -42,13 +42,17 @@ export const verheiratetType = z.enum(
   { errorMap },
 );
 
+export const kinderLebtMitType = z.enum(["nein", "ja", "weissNicht"], {
+  errorMap,
+});
+
 export const context = {
   hasKontopfaendung: kontopfaendungType,
   hasPKonto: pKontoType,
   schuldenBei: schuldenBeiType,
   euroSchwelle: euroSchwelleType,
   hasKinder: YesNoAnswer,
-  kinderLebtMit: YesNoMaybeAnswer,
+  kinderLebtMit: kinderLebtMitType,
   verheiratet: verheiratetType,
   kindSupport: YesNoAnswer,
   wohnenZusammen: YesNoAnswer,

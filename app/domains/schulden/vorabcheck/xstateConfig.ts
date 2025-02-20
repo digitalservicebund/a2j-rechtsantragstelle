@@ -137,7 +137,7 @@ export const kontopfaendungWegweiserXstateConfig = {
           on: {
             SUBMIT: [
               {
-                target: "natural",
+                target: "kinder-wohnen-zusammen",
                 guard: ({ context }) =>
                   context.hasKinder === YesNoAnswer.Values.yes,
               },
@@ -150,7 +150,7 @@ export const kontopfaendungWegweiserXstateConfig = {
             BACK: "#/schulden/kontopfaendung/wegweiser.zwischenseite.unterhalt",
           },
         },
-        natural: {
+        "kinder-wohnen-zusammen": {
           on: {
             SUBMIT: [
               {
@@ -167,13 +167,14 @@ export const kontopfaendungWegweiserXstateConfig = {
                 target: "partner",
               },
             ],
+            BACK: "kinder",
           },
         },
         partner: {
           on: {
             SUBMIT: [
               {
-                target: "zusammenwohnen",
+                target: "partner-wohnen-zusammen",
                 guard: ({ context }) =>
                   context.verheiratet !== verheiratetType.Values.nein,
               },
@@ -186,7 +187,7 @@ export const kontopfaendungWegweiserXstateConfig = {
             BACK: "kinder",
           },
         },
-        zusammenwohnen: {
+        "partner-wohnen-zusammen": {
           on: {
             SUBMIT: "partner-support",
             BACK: "partner",
@@ -195,7 +196,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         "partner-support": {
           on: {
             SUBMIT: "",
-            BACK: "zusammenwohnen",
+            BACK: "partner-wohnen-zusammen",
           },
         },
       },
