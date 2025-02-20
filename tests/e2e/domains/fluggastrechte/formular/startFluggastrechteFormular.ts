@@ -116,7 +116,7 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/persoenliche-daten/weitere-personen/frage
   await formular.fillRadioPage("isWeiterePersonen", "no");
 
-  // /fluggastrechte/formular/persoenliche-daten/weitere-personen/zeugen
+  // /fluggastrechte/formular/prozessfuehrung/zeugen
   await formular.fillRadioPage("hasZeugen", "no");
 
   // /fluggastrechte/formular/streitwert-kosten/videoverhandlung

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const fluggastrechteProzessfuehrungDaten = {
+  hasZeugen: YesNoAnswer,
   versaeumnisurteil: YesNoAnswer,
   videoverhandlung: YesNoAnswer,
 };
