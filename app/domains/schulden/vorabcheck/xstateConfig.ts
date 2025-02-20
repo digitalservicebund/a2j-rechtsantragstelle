@@ -1,10 +1,12 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import {
   euroSchwelleType,
   kontopfaendungType,
   kontopfaendungWegweiserContext,
   pKontoType,
   schuldenBeiType,
+  verheiratetType,
 } from "./context";
 
 export const kontopfaendungWegweiserXstateConfig = {
@@ -136,11 +138,13 @@ export const kontopfaendungWegweiserXstateConfig = {
             SUBMIT: [
               {
                 target: "natural",
-                guard: ({ context }) => context.hasKinder === "yes",
+                guard: ({ context }) =>
+                  context.hasKinder === YesNoAnswer.Values.yes,
               },
               {
                 target: "partner",
-                guard: ({ context }) => context.hasKinder === "no",
+                guard: ({ context }) =>
+                  context.hasKinder === YesNoAnswer.Values.no,
               },
             ],
             BACK: "#/schulden/kontopfaendung/wegweiser.zwischenseite.unterhalt",
@@ -170,11 +174,13 @@ export const kontopfaendungWegweiserXstateConfig = {
             SUBMIT: [
               {
                 target: "zusammenwohnen",
-                guard: ({ context }) => context.verheiratet !== "nein",
+                guard: ({ context }) =>
+                  context.verheiratet !== verheiratetType.Values.nein,
               },
               {
                 target: "partner-support",
-                guard: ({ context }) => context.verheiratet === "nein",
+                guard: ({ context }) =>
+                  context.verheiratet === verheiratetType.Values.nein,
               },
             ],
             BACK: "kinder",
