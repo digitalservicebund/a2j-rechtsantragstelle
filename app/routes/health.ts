@@ -1,7 +1,7 @@
 import { logError } from "~/services/logging";
 import { getRedisStatus } from "~/services/session.server/redis";
 
-export const loader = async (): Promise<Response> => {
+export const loader = (): Response => {
   try {
     if (getRedisStatus() !== "ready") {
       logError({ error: "Redis connection not ready" });
