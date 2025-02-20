@@ -56,14 +56,7 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-const mockBuffer = Buffer.from("", "utf8");
-const mockAsyncIterator = {
-  [Symbol.asyncIterator]: function () {
-    return {
-      next: vi.fn(() => Promise.resolve({ done: true, value: mockBuffer })),
-    };
-  },
-};
+const mockFile = new File([], "filename");
 
 const mockUUID = "some-fancy-uuid";
 Object.defineProperty(global, "crypto", {
@@ -83,7 +76,7 @@ describe("storeUserFileToS3Bucket", () => {
 
     setupFileMocks(mockSessionId, mockConfig);
 
-    await uploadUserFileToS3(mockRequest, mockAsyncIterator);
+    await uploadUserFileToS3(mockRequest, mockFile);
 
     expect(createClientS3DataStorage).toHaveBeenCalled();
     expect(getSessionIdByFlowId).toHaveBeenCalledWith(mockFlowId, mockCookie);
@@ -91,7 +84,7 @@ describe("storeUserFileToS3Bucket", () => {
     expect(PutObjectCommand).toHaveBeenCalledWith(
       expect.objectContaining({
         Bucket: mockConfig.S3_DATA_STORAGE_BUCKET_NAME,
-        Body: mockBuffer,
+        Body: new Uint8Array(await mockFile.arrayBuffer()),
         Key: mockKey,
       }),
     );
@@ -113,7 +106,7 @@ describe("storeUserFileToS3Bucket", () => {
     };
     setupFileMocks(mockSessionId, mockConfig);
 
-    await uploadUserFileToS3(mockRequest, mockAsyncIterator);
+    await uploadUserFileToS3(mockRequest, mockFile);
 
     expect(sendSentryMessage).toHaveBeenCalledWith(
       `Error storing user uploaded file to S3 bucket: ${mockError.message}`,

@@ -248,14 +248,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         dataArr.push(chunk);
       }
       const file = new File(dataArr, filename, { type: contentType });
+      const submittedData = { [name]: file };
       validationResult = await validatorForFieldNames(
         [name],
         pathname,
-      ).validate(file);
+      ).validate(submittedData);
       if (validationResult.error) {
-        validationResult.submittedData = {
-          [name]: file,
-        };
         return;
       }
       const s3UploadResult = await uploadUserFileToS3(request, file);
