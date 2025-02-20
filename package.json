@@ -136,7 +136,7 @@
     "p-map": "^7.0.3",
     "postcss": "^8.5.3",
     "prettier": "^3.5.1",
-    "size-limit": "^11.1.6",
+    "size-limit": "^11.2.0",
     "storybook": "^8.5.6",
     "tailwindcss": "^3.4.17",
     "tsx": "~4.19.2",
