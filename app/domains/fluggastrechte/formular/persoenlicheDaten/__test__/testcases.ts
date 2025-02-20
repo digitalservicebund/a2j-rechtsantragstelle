@@ -23,12 +23,11 @@ const cases = [
     {
       ...baseContext,
       isWeiterePersonen: "no",
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",
       "/persoenliche-daten/weitere-personen/frage",
-      "/persoenliche-daten/weitere-personen/zeugen",
+      "/prozessfuehrung/zeugen",
       "/prozessfuehrung/videoverhandlung",
     ],
   ],
@@ -36,12 +35,11 @@ const cases = [
     {
       ...baseContext,
       isWeiterePersonen: "no",
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",
       "/persoenliche-daten/weitere-personen/frage",
-      "/persoenliche-daten/weitere-personen/zeugen",
+      "/prozessfuehrung/zeugen",
       "/prozessfuehrung/videoverhandlung",
     ],
   ],
@@ -54,13 +52,12 @@ const cases = [
           ...baseContext,
         },
       ],
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",
       "/persoenliche-daten/weitere-personen/frage",
       "/persoenliche-daten/weitere-personen/uebersicht",
-      "/persoenliche-daten/weitere-personen/zeugen",
+      "/prozessfuehrung/zeugen",
       "/prozessfuehrung/videoverhandlung",
     ],
   ],
@@ -73,14 +70,12 @@ const cases = [
           ...baseContext,
         },
       ],
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",
       "/persoenliche-daten/weitere-personen/frage",
       "/persoenliche-daten/weitere-personen/uebersicht",
-      "/persoenliche-daten/weitere-personen/zeugen",
-      "/prozessfuehrung/videoverhandlung",
+      "/prozessfuehrung/zeugen",
     ],
   ],
   [
@@ -88,7 +83,6 @@ const cases = [
       ...baseContext,
       isWeiterePersonen: "yes",
       weiterePersonen: [],
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",
@@ -101,7 +95,6 @@ const cases = [
     {
       ...baseContext,
       isWeiterePersonen: "yes",
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",

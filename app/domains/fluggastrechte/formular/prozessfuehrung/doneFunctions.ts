@@ -5,5 +5,9 @@ import type { FluggastrechteProzessfuehrungContext } from "./context";
 export const prozessfuehrungDone: GenericGuard<
   FluggastrechteProzessfuehrungContext
 > = ({ context }) => {
-  return objectKeysNonEmpty(context, ["versaeumnisurteil", "videoverhandlung"]);
+  return objectKeysNonEmpty(context, [
+    "hasZeugen",
+    "versaeumnisurteil",
+    "videoverhandlung",
+  ]);
 };
