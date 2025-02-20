@@ -26,7 +26,6 @@ export const paymentDetailsSchema = {
 export const fluggastrechtePersoenlichDaten = {
   ...persoenlicheDatenSchema,
   isWeiterePersonen: YesNoAnswer,
-  hasZeugen: YesNoAnswer,
   ...paymentDetailsSchema,
   weiterePersonen: z.array(
     z

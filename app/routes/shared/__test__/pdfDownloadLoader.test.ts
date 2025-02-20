@@ -4,7 +4,7 @@ import { pdfDownloadLoader } from "../pdfDownloadLoader";
 vi.mock("~/services/flow/pruner", () => ({
   pruneIrrelevantData: vi
     .fn()
-    .mockResolvedValue({ vorname: "Zoe", nachname: "Müller" }),
+    .mockResolvedValue({ prunedData: { vorname: "Zoe", nachname: "Müller" } }),
 }));
 
 vi.mock("~/services/cms/index.server.ts", () => ({
