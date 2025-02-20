@@ -27,18 +27,10 @@ const StrapiSummaryOverviewBoxSchema = z
   })
   .merge(HasStrapiIdSchema);
 
-export const StrapiSummaryOverviewSchema = z
+export const StrapiSummaryOverviewSectionSchema = z
   .object({
-    __component: z.literal("page.summary-overview"),
-    navigation: z
-      .array(
-        z
-          .object({
-            title: StrapiHeadingSchema,
-            boxes: z.array(StrapiSummaryOverviewBoxSchema).nonempty(),
-          })
-          .merge(HasStrapiIdSchema),
-      )
-      .nonempty(),
+    __component: z.literal("page.summary-overview-section"),
+    title: StrapiHeadingSchema,
+    boxes: z.array(StrapiSummaryOverviewBoxSchema).nonempty(),
   })
   .merge(HasOptionalStrapiIdSchema);

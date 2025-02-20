@@ -1,27 +1,23 @@
 import { render } from "@testing-library/react";
-import { HeadingProps } from "~/components/Heading";
-import SummaryOverview from "../SummaryOverview";
+import { HeadingProps } from "../../Heading";
+import SummaryOverviewSection from "../SummaryOverviewSection";
 
 const mockSummaryOverviewProps = {
-  navigation: [
+  title: {
+    tagName: "h2",
+    text: "title",
+    look: "",
+  } as HeadingProps,
+  id: 1,
+  boxes: [
     {
-      title: {
-        tagName: "h2",
-        text: "title",
-        look: "",
-      } as HeadingProps,
-      id: 1,
-      boxes: [
+      stepId: "stepId",
+      boxItems: [
         {
-          stepId: "stepId",
-          boxItems: [
-            {
-              field: "fields",
-            },
-          ],
-          id: 10,
+          field: "fields",
         },
       ],
+      id: 10,
     },
   ],
 };
@@ -34,10 +30,10 @@ vi.mock("../SummaryOverviewBoxWrapped", () => ({
   default: () => <div>Mock SummaryOverviewBoxWrapped</div>,
 }));
 
-describe("SummaryOverview", () => {
+describe("SummaryOverviewSection", () => {
   it("should render an heading component", () => {
     const { getByText } = render(
-      <SummaryOverview {...mockSummaryOverviewProps} />,
+      <SummaryOverviewSection {...mockSummaryOverviewProps} />,
     );
 
     expect(getByText("Mock Heading")).toBeInTheDocument();
@@ -45,7 +41,7 @@ describe("SummaryOverview", () => {
 
   it("should render an summary overview box component", () => {
     const { getByText } = render(
-      <SummaryOverview {...mockSummaryOverviewProps} />,
+      <SummaryOverviewSection {...mockSummaryOverviewProps} />,
     );
 
     expect(getByText("Mock SummaryOverviewBoxWrapped")).toBeInTheDocument();
