@@ -1,4 +1,3 @@
-import { config } from "~/services/env/env.server";
 import { logError } from "~/services/logging";
 import { getRedisStatus } from "~/services/session.server/redis";
 
@@ -9,7 +8,7 @@ export const loader = async (): Promise<Response> => {
       return new Response("ERROR: Redis connection not ready", { status: 503 });
     }
 
-    if (config().CMS === "STRAPI") {
+    /* if (config().CMS === "STRAPI") {
       const response = await fetch(`${config().STRAPI_HOST}/_health`, {
         headers: { Authorization: `Bearer + ${config().STRAPI_ACCESS_KEY}` },
       });
@@ -23,7 +22,7 @@ export const loader = async (): Promise<Response> => {
           { status: 503 },
         );
       }
-    }
+    } */
 
     return new Response("I'm fine, thanks for asking :)");
   } catch (error: unknown) {
