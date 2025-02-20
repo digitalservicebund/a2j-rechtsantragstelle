@@ -4,18 +4,14 @@ import {
   YesNoMaybeAnswer,
 } from "~/services/validation/YesNoAnswer";
 
-const message = `Bitte treffen Sie eine Auswahl.`;
+const errorMap = () => ({ message: `Bitte treffen Sie eine Auswahl.` });
 
 export const kontopfaendungType = z.enum(["nein", "ja", "weissNicht"], {
-  errorMap: () => {
-    return { message };
-  },
+  errorMap,
 });
 
 export const pKontoType = z.enum(["nein", "ja", "nichtAktiv", "bank"], {
-  errorMap: () => {
-    return { message };
-  },
+  errorMap,
 });
 
 export const schuldenBeiType = z.enum(
@@ -33,29 +29,17 @@ export const schuldenBeiType = z.enum(
     "nichtSagen",
     "weissNicht",
   ],
-  {
-    errorMap: () => {
-      return { message };
-    },
-  },
+  { errorMap },
 );
 
 export const euroSchwelleType = z.enum(
   ["nein", "ja", "weissNicht", "unterschiedlich"],
-  {
-    errorMap: () => {
-      return { message };
-    },
-  },
+  { errorMap },
 );
 
 export const verheiratetType = z.enum(
   ["nein", "ja", "getrennt", "geschieden", "verwitwet"],
-  {
-    errorMap: () => {
-      return { message };
-    },
-  },
+  { errorMap },
 );
 
 export const context = {
