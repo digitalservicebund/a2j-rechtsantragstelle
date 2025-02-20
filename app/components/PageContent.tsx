@@ -15,6 +15,7 @@ import { InlineNotice } from "./InlineNotice";
 import LinkListBox from "./LinkListBox";
 import List from "./List";
 import RichText from "./RichText";
+import SummaryOverviewSection from "./summaryOverview/SummaryOverviewSection";
 import UserFeedback from "./userFeedback";
 
 function wrapInContainer(
@@ -75,6 +76,8 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
       return <Details {...strapiContent} />;
     case "page.user-feedback":
       return <UserFeedback {...strapiContent} />;
+    case "page.summary-overview-section":
+      return <SummaryOverviewSection {...strapiContent} />;
     default:
       return <></>;
   }
