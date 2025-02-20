@@ -176,12 +176,14 @@ export const kontopfaendungWegweiserXstateConfig = {
               {
                 target: "",
                 guard: ({ context }) =>
-                  context.verheiratet !== verheiratetType.Values.nein,
+                  context.verheiratet === verheiratetType.Values.nein ||
+                  context.verheiratet === verheiratetType.Values.verwitwet,
               },
               {
                 target: "partner-support",
                 guard: ({ context }) =>
-                  context.verheiratet === verheiratetType.Values.nein,
+                  context.verheiratet !== verheiratetType.Values.nein &&
+                  context.verheiratet !== verheiratetType.Values.verwitwet,
               },
             ],
             BACK: [
