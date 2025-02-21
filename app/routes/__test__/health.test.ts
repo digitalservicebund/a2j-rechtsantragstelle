@@ -1,10 +1,9 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
 import axios from "axios";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { logError } from "~/services/logging";
 import { getRedisStatus } from "~/services/session.server/redis";
 import { loader } from "../health";
 
-// Mock axios, Redis, env, and logging modules
 vi.mock("axios");
 vi.mock("~/services/session.server/redis", () => {
   return {
@@ -50,7 +49,6 @@ describe("loader (using Axios)", () => {
   it("performs Strapi health check if CMS is STRAPI, returns 503 if check fails", async () => {
     vi.mocked(getRedisStatus).mockReturnValue("ready");
 
-    // Simulate a failed health check by having axios.get reject
     vi.mocked(axios.get).mockRejectedValueOnce(
       new Error("Request failed with status code 500"),
     );
