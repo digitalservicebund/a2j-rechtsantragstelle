@@ -1,17 +1,19 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import {
   euroSchwelleType,
   kontopfaendungType,
   kontopfaendungWegweiserContext,
   pKontoType,
   schuldenBeiType,
+  verheiratetType,
 } from "./context";
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/schulden/kontopfaendung/wegweiser",
-  initial: "abfrageBasisInfos",
+  initial: "abfrage-basis-infos",
   states: {
-    abfrageBasisInfos: {
+    "abfrage-basis-infos": {
       initial: "start",
       states: {
         start: {
@@ -28,7 +30,7 @@ export const kontopfaendungWegweiserXstateConfig = {
                   context.hasKontopfaendung === kontopfaendungType.Values.nein,
               },
               {
-                target: "pKonto",
+                target: "p-konto",
                 guard: ({ context }) =>
                   context.hasKontopfaendung !== kontopfaendungType.Values.nein,
               },
@@ -39,11 +41,11 @@ export const kontopfaendungWegweiserXstateConfig = {
         ergebnisseite: {
           on: { BACK: "start" },
         },
-        pKonto: {
+        "p-konto": {
           on: {
             SUBMIT: [
               {
-                target: "pKonto-probleme",
+                target: "p-konto-probleme",
                 guard: ({ context }) =>
                   context.hasPKonto === pKontoType.Values.bank ||
                   context.hasPKonto === pKontoType.Values.nichtAktiv,
@@ -58,14 +60,14 @@ export const kontopfaendungWegweiserXstateConfig = {
             BACK: "kontopfaendung",
           },
         },
-        "pKonto-probleme": {
+        "p-konto-probleme": {
           on: {
             SUBMIT: [
               {
                 target: "glaeubiger",
               },
             ],
-            BACK: "pKonto",
+            BACK: "p-konto",
           },
         },
         glaeubiger: {
@@ -82,7 +84,7 @@ export const kontopfaendungWegweiserXstateConfig = {
                   context.schuldenBei !== schuldenBeiType.Values.weissNicht,
               },
             ],
-            BACK: "pKonto",
+            BACK: "p-konto",
           },
         },
         "glaeubiger-unbekannt": {
@@ -105,7 +107,7 @@ export const kontopfaendungWegweiserXstateConfig = {
                   context.euroSchwelle === euroSchwelleType.Values.ja,
               },
               {
-                target: "",
+                target: "#/schulden/kontopfaendung/wegweiser.zwischenseite",
                 guard: ({ context }) =>
                   context.euroSchwelle === euroSchwelleType.Values.weissNicht ||
                   context.euroSchwelle ===
@@ -113,6 +115,101 @@ export const kontopfaendungWegweiserXstateConfig = {
               },
             ],
             BACK: "glaeubiger",
+          },
+        },
+      },
+    },
+    zwischenseite: {
+      initial: "unterhalt",
+      states: {
+        unterhalt: {
+          on: {
+            SUBMIT: "#/schulden/kontopfaendung/wegweiser.unterhalt",
+            BACK: "#/schulden/kontopfaendung/wegweiser.abfrage-basis-infos.euro-schwelle",
+          },
+        },
+      },
+    },
+    unterhalt: {
+      initial: "kinder",
+      states: {
+        kinder: {
+          on: {
+            SUBMIT: [
+              {
+                target: "kinder-wohnen-zusammen",
+                guard: ({ context }) =>
+                  context.hasKinder === YesNoAnswer.Values.yes,
+              },
+              {
+                target: "partner",
+                guard: ({ context }) =>
+                  context.hasKinder === YesNoAnswer.Values.no,
+              },
+            ],
+            BACK: "#/schulden/kontopfaendung/wegweiser.zwischenseite.unterhalt",
+          },
+        },
+        "kinder-wohnen-zusammen": {
+          on: {
+            SUBMIT: [
+              {
+                target: "kinder-support",
+              },
+            ],
+            BACK: "kinder",
+          },
+        },
+        "kinder-support": {
+          on: {
+            SUBMIT: [
+              {
+                target: "partner",
+              },
+            ],
+            BACK: "kinder-wohnen-zusammen",
+          },
+        },
+        partner: {
+          on: {
+            SUBMIT: [
+              {
+                target: "",
+                guard: ({ context }) =>
+                  context.verheiratet === verheiratetType.Values.nein ||
+                  context.verheiratet === verheiratetType.Values.verwitwet,
+              },
+              {
+                target: "partner-support",
+                guard: ({ context }) =>
+                  context.verheiratet !== verheiratetType.Values.nein &&
+                  context.verheiratet !== verheiratetType.Values.verwitwet,
+              },
+            ],
+            BACK: [
+              {
+                target: "kinder-support",
+                guard: ({ context }) =>
+                  context.hasKinder === YesNoAnswer.Values.yes,
+              },
+              {
+                target: "kinder",
+                guard: ({ context }) =>
+                  context.hasKinder === YesNoAnswer.Values.no,
+              },
+            ],
+          },
+        },
+        "partner-wohnen-zusammen": {
+          on: {
+            SUBMIT: "partner-support",
+            BACK: "partner",
+          },
+        },
+        "partner-support": {
+          on: {
+            SUBMIT: "",
+            BACK: "partner-wohnen-zusammen",
           },
         },
       },

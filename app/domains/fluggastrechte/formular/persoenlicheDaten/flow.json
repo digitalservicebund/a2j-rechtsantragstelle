@@ -25,7 +25,10 @@
                 "guard": "isWeiterePersonenYes",
                 "target": "uebersicht"
               },
-              "#prozessfuehrung.zeugen"
+              {
+                "guard": "persoenlichenDatenDone",
+                "target": "#prozessfuehrung.zeugen"
+              }
             ],
             "BACK": "#person.daten"
           }
