@@ -1,10 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import {
-  json,
-  redirectDocument,
-  unstable_parseMultipartFormData,
-} from "@remix-run/node";
-import { validationError, ValidationResult } from "remix-validated-form";
+import { json, redirectDocument } from "@remix-run/node";
+import { validationError } from "remix-validated-form";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -17,7 +13,6 @@ import {
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
-import { uploadUserFileToS3 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
 import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
@@ -27,6 +22,7 @@ import {
   validateFlowTransition,
   getFlowTransitionConfig,
 } from "~/services/flow/server/flowTransitionValidation";
+import { parseMultipartFormData } from "~/services/flow/server/parseMultipartFormData";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { logWarning } from "~/services/logging";
@@ -41,18 +37,10 @@ import {
   getSessionManager,
   updateSession,
 } from "~/services/session.server";
-import {
-  arrayFromSession,
-  arrayIndexFromFormData,
-  deleteFromArrayInplace,
-} from "~/services/session.server/arrayDeletion";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
-import { validatorForFieldNames } from "~/services/validation/stepValidator/validatorForFieldNames";
-import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { filterFormData } from "~/util/filterFormData";
 
 export const loader = async ({
   params,
@@ -245,77 +233,23 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
-  const requestCopy = request.clone();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let validationResult: ValidationResult<any> | undefined;
-  let formData = await unstable_parseMultipartFormData(
+  const { validationResult, response } = await parseMultipartFormData(
     request,
-    async ({ filename, data, name, contentType }) => {
-      if (!filename) {
-        return;
-      }
-      // Must convert to File
-      const dataArr = [];
-      for await (const chunk of data) {
-        dataArr.push(chunk);
-      }
-      const file = new File(dataArr, filename, { type: contentType });
-      const submittedData = { [name]: file };
-      validationResult = await validatorForFieldNames(
-        [name],
-        pathname,
-      ).validate(submittedData);
-      if (validationResult.error) {
-        return;
-      }
-      const s3UploadResult = await uploadUserFileToS3(request, file);
-      return Promise.resolve(
-        JSON.stringify({
-          etag: s3UploadResult?.ETag,
-          createdOn: new Date(),
-          filename,
-          sizeKb: file.size / 1024,
-        }),
-      );
-    },
+    pathname,
+    flowId,
   );
 
-  // non-file upload case, parse formData normally
-  if (!validationResult) {
-    formData = await requestCopy.formData();
-    const relevantFormData = filterFormData(formData);
-
-    if (formData.get("_action") === "delete") {
-      try {
-        const { arrayName, index } = arrayIndexFromFormData(relevantFormData);
-        const arrayToMutate = arrayFromSession(arrayName, flowSession);
-        deleteFromArrayInplace(arrayToMutate, index);
-        updateSession(flowSession, { [arrayName]: arrayToMutate });
-        const headers = { "Set-Cookie": await commitSession(flowSession) };
-        return new Response("success", { status: 200, headers });
-      } catch (err) {
-        return new Response((err as Error).message, { status: 422 });
-      }
-    }
-
-    validationResult = await validateFormData(pathname, relevantFormData);
-  } else if (!validationResult.error) {
-    // file upload, need to de-serialize values
-    for (const [key, val] of formData.entries()) {
-      const parsedValue = JSON.parse(val as string);
-      validationResult.data[key] = parsedValue;
-    }
-  }
-
-  if (validationResult.error) {
+  if (validationResult?.error) {
     return validationError(
       validationResult.error,
       validationResult.submittedData,
     );
+  } else if (response) {
+    return response;
   }
 
   const resolvedData = resolveArraysFromKeys(
-    validationResult.data,
+    validationResult?.data,
     arrayIndexes,
   );
   updateSession(flowSession, resolvedData);
@@ -342,7 +276,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     sendCustomAnalyticsEvent({
       request,
       eventName: customAnalyticsEventName,
-      properties: validationResult.data,
+      properties: validationResult?.data,
     });
   }
 
