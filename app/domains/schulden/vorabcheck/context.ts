@@ -43,6 +43,27 @@ export const kinderLebtMitType = z.enum(["nein", "ja", "weissNicht"], {
   errorMap,
 });
 
+export const arbeitsweiseType = z.enum(
+  ["arbeitsweise.angestellt", "arbeitsweise.selbstaendig"],
+  {
+    errorMap,
+  },
+);
+
+export const paymentArbeitgeberType = z.enum(
+  [
+    "urlaubsgeld",
+    "weihnachtsgeld",
+    "ueberstundenBezahlt",
+    "abfindung",
+    "anderes",
+    "no",
+  ],
+  {
+    errorMap,
+  },
+);
+
 export const context = {
   hasKontopfaendung: kontopfaendungType,
   hasPKonto: pKontoType,
@@ -54,6 +75,11 @@ export const context = {
   kindSupport: YesNoAnswer,
   partnerWohnenZusammen: YesNoAnswer,
   partnerSupport: YesNoAnswer,
+  hasArbeit: YesNoAnswer,
+  arbeitsweise: arbeitsweiseType,
+  nachzahlungArbeitgeber: YesNoAnswer,
+  amountHigherThan: YesNoAnswer,
+  paymentArbeitgeber: paymentArbeitgeberType,
 } as const;
 
 const _contextObject = z.object(context).partial();

@@ -4,6 +4,7 @@ import {
   euroSchwelleType,
   kontopfaendungType,
   kontopfaendungWegweiserContext,
+  paymentArbeitgeberType,
   pKontoType,
   schuldenBeiType,
   verheiratetType,
@@ -174,7 +175,8 @@ export const kontopfaendungWegweiserXstateConfig = {
           on: {
             SUBMIT: [
               {
-                target: "",
+                target:
+                  "#/schulden/kontopfaendung/wegweiser.zwischenseite-cash",
                 guard: ({ context }) =>
                   context.verheiratet === verheiratetType.Values.nein ||
                   context.verheiratet === verheiratetType.Values.verwitwet,
@@ -208,8 +210,104 @@ export const kontopfaendungWegweiserXstateConfig = {
         },
         "partner-support": {
           on: {
-            SUBMIT: "",
+            SUBMIT: "#/schulden/kontopfaendung/wegweiser.zwischenseite-cash",
             BACK: "partner-wohnen-zusammen",
+          },
+        },
+      },
+    },
+    "zwischenseite-cash": {
+      initial: "start",
+      states: {
+        start: {
+          on: {
+            SUBMIT: "#/schulden/kontopfaendung/wegweiser.ermittlung-betrags",
+            BACK: "#/schulden/kontopfaendung/wegweiser.unterhalt.partner",
+          },
+        },
+      },
+    },
+    "ermittlung-betrags": {
+      initial: "start",
+      states: {
+        start: {
+          on: {
+            SUBMIT: [
+              {
+                target: "arbeitsweise",
+                guard: ({ context }) =>
+                  context.hasArbeit === YesNoAnswer.Values.yes,
+              },
+              {
+                target: "", //todo
+                guard: ({ context }) =>
+                  context.hasArbeit === YesNoAnswer.Values.no,
+              },
+            ],
+            BACK: "#/schulden/kontopfaendung/wegweiser.unterhalt.partner",
+          },
+        },
+        arbeitsweise: {
+          on: {
+            SUBMIT: [
+              {
+                target: "nachzahlung-arbeitgeber",
+              },
+            ],
+            BACK: "start",
+          },
+        },
+        "nachzahlung-arbeitgeber": {
+          on: {
+            SUBMIT: [
+              {
+                target: "zahlungslimit",
+                guard: ({ context }) =>
+                  context.nachzahlungArbeitgeber === YesNoAnswer.Values.yes,
+              },
+              {
+                target: "",
+                guard: ({ context }) =>
+                  context.nachzahlungArbeitgeber === YesNoAnswer.Values.no,
+              },
+            ],
+            BACK: "arbeitsweise",
+          },
+        },
+        zahlungslimit: {
+          on: {
+            SUBMIT: [
+              {
+                target: "payment-arbeitgeber",
+                guard: ({ context }) =>
+                  context.amountHigherThan === YesNoAnswer.Values.yes,
+              },
+              {
+                target: "",
+                guard: ({ context }) =>
+                  context.amountHigherThan === YesNoAnswer.Values.no,
+              },
+            ],
+            BACK: "nachzahlung-arbeitgeber",
+          },
+        },
+        "payment-arbeitgeber": {
+          on: {
+            SUBMIT: [
+              {
+                target: "",
+                guard: ({ context }) =>
+                  context.paymentArbeitgeber ===
+                  paymentArbeitgeberType.Values.urlaubsgeld,
+              },
+              {
+                target: "",
+                guard: ({ context }) =>
+                  context.paymentArbeitgeber ===
+                  paymentArbeitgeberType.Values.no,
+              },
+            ],
+            BACK: "zahlungslimit",
           },
         },
       },
