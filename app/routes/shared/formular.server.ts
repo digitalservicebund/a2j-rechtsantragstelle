@@ -214,7 +214,16 @@ export const loader = async ({
       navItems,
       postFormContent: cmsContent.postFormContent,
       preHeading: cmsContent.preHeading,
-      stepData,
+      // REMOVE  ME
+      stepData: {
+        ...stepData,
+        belege: {
+          etag: "a865dce052a0322294eda327368399aa",
+          createdOn: "2025-02-20T16:20:17.951Z",
+          filename: "not_too_big.pdf",
+          sizeKb: 10240,
+        },
+      },
       translations: stringTranslations,
       navigationA11yLabels,
       validFlowPaths,
@@ -274,37 +283,34 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // non-file upload case, parse formData normally
   if (!validationResult) {
     formData = await requestCopy.formData();
-  } else {
+    const relevantFormData = filterFormData(formData);
+
+    if (formData.get("_action") === "delete") {
+      try {
+        const { arrayName, index } = arrayIndexFromFormData(relevantFormData);
+        const arrayToMutate = arrayFromSession(arrayName, flowSession);
+        deleteFromArrayInplace(arrayToMutate, index);
+        updateSession(flowSession, { [arrayName]: arrayToMutate });
+        const headers = { "Set-Cookie": await commitSession(flowSession) };
+        return new Response("success", { status: 200, headers });
+      } catch (err) {
+        return new Response((err as Error).message, { status: 422 });
+      }
+    }
+
+    validationResult = await validateFormData(pathname, relevantFormData);
+  } else if (!validationResult.error) {
     // file upload, need to de-serialize values
     for (const [key, val] of formData.entries()) {
       const parsedValue = JSON.parse(val as string);
-      formData.set(key, parsedValue);
+      validationResult.data[key] = parsedValue;
     }
-  }
-  const relevantFormData = filterFormData(formData);
-
-  if (formData.get("_action") === "delete") {
-    try {
-      const { arrayName, index } = arrayIndexFromFormData(relevantFormData);
-      const arrayToMutate = arrayFromSession(arrayName, flowSession);
-      deleteFromArrayInplace(arrayToMutate, index);
-      updateSession(flowSession, { [arrayName]: arrayToMutate });
-      const headers = { "Set-Cookie": await commitSession(flowSession) };
-      return new Response("success", { status: 200, headers });
-    } catch (err) {
-      return new Response((err as Error).message, { status: 422 });
-    }
-  }
-
-  if (!validationResult) {
-    validationResult = await validateFormData(pathname, relevantFormData);
-  }
-
-  if (validationResult.error)
+  } else {
     return validationError(
       validationResult.error,
       validationResult.submittedData,
     );
+  }
 
   const resolvedData = resolveArraysFromKeys(
     validationResult.data,
