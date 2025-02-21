@@ -1,7 +1,10 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import axios from "axios";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { logError } from "~/services/logging";
 import { getRedisStatus } from "~/services/session.server/redis";
 import { loader } from "../health";
+
+vi.mock("axios");
 vi.mock("~/services/session.server/redis", () => {
   return {
     getRedisStatus: vi.fn(),
@@ -26,14 +29,14 @@ vi.mock("~/services/logging", () => {
   };
 });
 
-describe("loader (alternate mocking approach)", () => {
-  const fetchSpy = vi.spyOn(global, "fetch");
+describe("loader (using Axios)", () => {
   beforeEach(() => {
-    fetchSpy.mockClear();
+    vi.clearAllMocks();
   });
 
   it("returns 503 if Redis is not ready", async () => {
     vi.mocked(getRedisStatus).mockReturnValue("wait");
+
     const response = await loader();
     expect(response.status).toBe(503);
     const text = await response.text();
@@ -46,34 +49,36 @@ describe("loader (alternate mocking approach)", () => {
   it("performs Strapi health check if CMS is STRAPI, returns 503 if check fails", async () => {
     vi.mocked(getRedisStatus).mockReturnValue("ready");
 
-    fetchSpy.mockResolvedValueOnce({
-      ok: false,
-      status: 500,
-    } as Response);
+    vi.mocked(axios.get).mockRejectedValueOnce(
+      new Error("Request failed with status code 500"),
+    );
 
     const response = await loader();
-    expect(fetchSpy).toHaveBeenCalledWith(
+
+    expect(axios.get).toHaveBeenCalledWith(
       "http://fake-strapi.example/_health",
       expect.objectContaining({
         headers: {
-          Authorization: "Bearer + FAKE_KEY",
+          Authorization: "Bearer " + mockConfigObject.STRAPI_ACCESS_KEY,
         },
+        validateStatus: expect.any(Function),
       }),
     );
     expect(response.status).toBe(503);
     const text = await response.text();
-    expect(text).toContain("Health check failed with status 500");
+    expect(text).toContain("ERROR");
     expect(logError).toHaveBeenCalledWith({
-      error: "Health check failed with status 500",
+      message: "healthcheck ❌",
+      error: expect.any(Error),
     });
   });
 
   it("returns success if Strapi health check passes", async () => {
     vi.mocked(getRedisStatus).mockReturnValue("ready");
-    fetchSpy.mockResolvedValueOnce({
-      ok: true,
+
+    vi.mocked(axios.get).mockResolvedValueOnce({
       status: 200,
-    } as Response);
+    });
 
     const response = await loader();
     expect(response.status).toBe(200);
@@ -84,8 +89,9 @@ describe("loader (alternate mocking approach)", () => {
   it("skips Strapi check if CMS is something else", async () => {
     vi.mocked(getRedisStatus).mockReturnValue("ready");
     mockConfigObject.CMS = "Wordpress";
+
     const response = await loader();
-    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(axios.get).not.toHaveBeenCalled();
     expect(response.status).toBe(200);
     const text = await response.text();
     expect(text).toBe("I'm fine, thanks for asking :)");

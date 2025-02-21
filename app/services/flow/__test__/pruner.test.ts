@@ -195,7 +195,7 @@ describe("pruner", () => {
       } satisfies BeratungshilfeFormularContext;
       const flowId = "/beratungshilfe/antrag";
 
-      const prunedData = await pruneIrrelevantData(userData, flowId);
+      const { prunedData } = await pruneIrrelevantData(userData, flowId);
       expect(prunedData).toStrictEqual({
         rechtsschutzversicherung: "no",
         wurdeVerklagt: "no",
@@ -225,6 +225,103 @@ describe("pruner", () => {
           },
         ],
       });
+    });
+  });
+
+  it("should return the paths and if the path is an array page given a context and flowId", async () => {
+    const strapiEntries = [
+      {
+        stepId: "/grundvoraussetzungen/rechtsschutzversicherung",
+        form: [{ name: "rechtsschutzversicherung" }],
+      },
+      {
+        stepId: "/grundvoraussetzungen/wurde-verklagt",
+        form: [{ name: "wurdeVerklagt" }],
+      },
+      {
+        stepId: "/grundvoraussetzungen/klage-eingereicht",
+        form: [{ name: "klageEingereicht" }],
+      },
+      {
+        stepId: "/grundvoraussetzungen/beratungshilfe-beantragt",
+        form: [{ name: "beratungshilfeBeantragt" }],
+      },
+      {
+        stepId: "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung",
+        form: [{ name: "eigeninitiativeGrundvorraussetzung" }],
+      },
+      {
+        stepId: "/finanzielle-angaben/einkommen/staatliche-leistungen",
+        form: [{ name: "staatlicheLeistungen" }],
+      },
+      {
+        stepId: "/finanzielle-angaben/kinder/kinder-frage",
+        form: [{ name: "hasKinder" }],
+      },
+      {
+        stepId: "/finanzielle-angaben/kinder/kinder/name",
+        form: [
+          { name: "kinder#vorname" },
+          { name: "kinder#nachname" },
+          { name: "kinder#geburtsdatum" },
+        ],
+      },
+    ];
+
+    vi.mocked(getStrapiEntry).mockReturnValue(
+      Promise.resolve(strapiEntries as StrapiSchemas["form-flow-pages"]),
+    );
+
+    const userData = {
+      rechtsschutzversicherung: "no",
+      wurdeVerklagt: "no",
+      klageEingereicht: "no",
+      beratungshilfeBeantragt: "no",
+      eigeninitiativeGrundvorraussetzung: "no",
+      staatlicheLeistungen: "keine",
+      hasKinder: "yes",
+      kinder: [
+        {
+          vorname: "a",
+          nachname: "b",
+          geburtsdatum: "11.11.2023",
+          wohnortBeiAntragsteller: "no",
+          unterhalt: "no",
+          unterhaltsSumme: "123",
+          eigeneEinnahmen: "no",
+          einnahmen: "0",
+        },
+      ],
+    } satisfies BeratungshilfeFormularContext;
+    const flowId = "/beratungshilfe/antrag";
+
+    const { validFlowPaths } = await pruneIrrelevantData(userData, flowId);
+
+    expect(validFlowPaths).toEqual({
+      "/grundvoraussetzungen/klage-eingereicht": {
+        isArrayPage: false,
+      },
+      "/grundvoraussetzungen/rechtsschutzversicherung": {
+        isArrayPage: false,
+      },
+      "/grundvoraussetzungen/wurde-verklagt": {
+        isArrayPage: false,
+      },
+      "/finanzielle-angaben/einkommen/staatliche-leistungen": {
+        isArrayPage: false,
+      },
+      "/finanzielle-angaben/kinder/kinder-frage": {
+        isArrayPage: false,
+      },
+      "/finanzielle-angaben/kinder/kinder/name": {
+        isArrayPage: true,
+      },
+      "/grundvoraussetzungen/beratungshilfe-beantragt": {
+        isArrayPage: false,
+      },
+      "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung": {
+        isArrayPage: false,
+      },
     });
   });
 });
