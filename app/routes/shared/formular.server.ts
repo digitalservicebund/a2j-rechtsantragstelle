@@ -305,7 +305,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       const parsedValue = JSON.parse(val as string);
       validationResult.data[key] = parsedValue;
     }
-  } else {
+  }
+
+  if (validationResult.error) {
     return validationError(
       validationResult.error,
       validationResult.submittedData,
