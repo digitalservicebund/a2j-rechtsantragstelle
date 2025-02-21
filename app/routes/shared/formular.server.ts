@@ -22,7 +22,10 @@ import {
   validateFlowTransition,
   getFlowTransitionConfig,
 } from "~/services/flow/server/flowTransitionValidation";
-import { parseMultipartFormData } from "~/services/flow/server/parseMultipartFormData";
+import {
+  deleteArrayItem,
+  parseMultipartFormData,
+} from "~/services/flow/server/parseMultipartFormData";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { logWarning } from "~/services/logging";
@@ -233,19 +236,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
-  const { validationResult, response } = await parseMultipartFormData(
-    request,
-    pathname,
-    flowId,
-  );
+  const clonedFormData = await request.clone().formData();
+  if (clonedFormData.get("_action") === "delete") {
+    // array item deletion, skip everything else
+    return await deleteArrayItem(flowId, clonedFormData, request);
+  }
+
+  const validationResult = await parseMultipartFormData(request, pathname);
 
   if (validationResult?.error) {
     return validationError(
       validationResult.error,
       validationResult.submittedData,
     );
-  } else if (response) {
-    return response;
   }
 
   const resolvedData = resolveArraysFromKeys(

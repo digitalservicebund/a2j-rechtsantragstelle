@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { unstable_parseMultipartFormData } from "@remix-run/node";
+import omit from "lodash/omit";
 import { ValidationResult } from "remix-validated-form";
 import { FlowId } from "~/domains/flowIds";
 import { uploadUserFileToS3 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
@@ -9,82 +10,101 @@ import {
   arrayFromSession,
   deleteFromArrayInplace,
 } from "~/services/session.server/arrayDeletion";
-import { validatorForFieldNames } from "~/services/validation/stepValidator/validatorForFieldNames";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { filterFormData } from "~/util/filterFormData";
+
+const bytesInKilobyte = 1024;
 
 export async function parseMultipartFormData(
   request: Request,
   pathname: string,
-  flowId: FlowId,
-): Promise<{
-  validationResult: ValidationResult<any> | undefined;
-  response?: Response;
-}> {
-  const requestCopy = request.clone();
-  const { getSession, commitSession } = getSessionManager(flowId);
-  const cookieHeader = request.headers.get("Cookie");
-  const flowSession = await getSession(cookieHeader);
-  let validationResult: ValidationResult<any> | undefined;
-  let response: Response | undefined;
-  let formData = await unstable_parseMultipartFormData(
+): Promise<ValidationResult<any>> {
+  const formFieldsMap: Record<string, string | File> = {};
+  await unstable_parseMultipartFormData(
     request,
     async ({ filename, data, name, contentType }) => {
-      if (!filename) {
+      let value: string | File | undefined;
+      if (name.startsWith("_")) {
+        // filter out metadata
         return;
+      } else if (!filename) {
+        // non-file input (normal input)
+        for await (const part of data) {
+          value = new TextDecoder().decode(part);
+        }
+      } else {
+        value = await dataToFile(data, filename, contentType);
       }
-      // Must convert to File
-      const dataArr = [];
-      for await (const chunk of data) {
-        dataArr.push(chunk);
-      }
-      const file = new File(dataArr, filename, { type: contentType });
-      const submittedData = { [name]: file };
-      validationResult = await validatorForFieldNames(
-        [name],
-        pathname,
-      ).validate(submittedData);
-      if (validationResult.error) {
-        return;
-      }
-      const s3UploadResult = await uploadUserFileToS3(request, file);
-      return Promise.resolve(
-        JSON.stringify({
-          etag: s3UploadResult?.ETag,
-          createdOn: new Date(),
-          filename,
-          sizeKb: file.size / 1024,
-        }),
-      );
+      formFieldsMap[name] = value ?? "";
+      return undefined;
     },
   );
 
-  // non-file upload case, parse formData normally
-  if (!validationResult) {
-    formData = await requestCopy.formData();
-    const relevantFormData = filterFormData(formData);
+  const validationResult = await validateFormData(pathname, formFieldsMap);
+  if (validationResult.error) {
+    return validationResult;
+  }
+  const fileUploads = Object.entries(formFieldsMap).filter(([_, value]) =>
+    Object.hasOwn(value as any, "name"),
+  );
 
-    if (formData.get("_action") === "delete") {
-      try {
-        const { arrayName, index } = arrayIndexFromFormData(relevantFormData);
-        const arrayToMutate = arrayFromSession(arrayName, flowSession);
-        deleteFromArrayInplace(arrayToMutate, index);
-        updateSession(flowSession, { [arrayName]: arrayToMutate });
-        const headers = { "Set-Cookie": await commitSession(flowSession) };
-        response = new Response("success", { status: 200, headers });
-      } catch (err) {
-        response = new Response((err as Error).message, { status: 422 });
-      }
-    }
-
-    validationResult = await validateFormData(pathname, relevantFormData);
-  } else if (!validationResult.error) {
-    // file upload, need to de-serialize values
-    for (const [key, val] of formData.entries()) {
-      const parsedValue = JSON.parse(val as string);
-      validationResult.data[key] = parsedValue;
-    }
+  if (fileUploads.length > 0) {
+    (
+      await Promise.all(
+        fileUploads.map(async ([fieldName, file]) => ({
+          fieldName,
+          file,
+          s3UploadResult: await uploadUserFileToS3(request, file as File),
+        })),
+      )
+    )
+      .map(({ fieldName, file, s3UploadResult }) => ({
+        etag: s3UploadResult?.ETag,
+        createdOn: new Date(),
+        filename: (file as File).name,
+        sizeKb: (file as File).size / bytesInKilobyte,
+        fieldName,
+      }))
+      .forEach((fileMetadata) => {
+        validationResult.data[fileMetadata.fieldName] = omit(
+          fileMetadata,
+          "fieldName",
+        );
+      });
   }
 
-  return { validationResult, response };
+  return validationResult;
+}
+
+export async function deleteArrayItem(
+  flowId: FlowId,
+  formData: FormData,
+  request: Request,
+): Promise<Response> {
+  const { getSession, commitSession } = getSessionManager(flowId);
+  const cookieHeader = request.headers.get("Cookie");
+  const flowSession = await getSession(cookieHeader);
+  const relevantFormData = filterFormData(formData);
+  try {
+    const { arrayName, index } = arrayIndexFromFormData(relevantFormData);
+    const arrayToMutate = arrayFromSession(arrayName, flowSession);
+    deleteFromArrayInplace(arrayToMutate, index);
+    updateSession(flowSession, { [arrayName]: arrayToMutate });
+    const headers = { "Set-Cookie": await commitSession(flowSession) };
+    return new Response("success", { status: 200, headers });
+  } catch (err) {
+    return new Response((err as Error).message, { status: 422 });
+  }
+}
+
+async function dataToFile(
+  data: AsyncIterable<Uint8Array<ArrayBufferLike>>,
+  filename: string,
+  contentType: string,
+): Promise<File> {
+  const dataArr = [];
+  for await (const chunk of data) {
+    dataArr.push(chunk);
+  }
+  return new File(dataArr, filename, { type: contentType });
 }
