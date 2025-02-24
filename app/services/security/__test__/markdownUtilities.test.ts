@@ -30,10 +30,35 @@ describe("markdownUtilities", () => {
       const invalidStrings = [
         ["onclick tag", '<p onclick="() => alert("test")"></p>', "<p></p>"],
         ["iframe", '<iframe src="https://www.test.com"></iframe>', ""],
-        ["script trag", '<script>alert("hello")</script>', ""],
+        ["script tag", '<script>alert("hello")</script>', ""],
         [
           "script href",
           '<a href="{{javascript:alert(1)}}">Click me</a>',
+          "<a href>Click me</a>",
+        ],
+        [
+          "script tag within Mustache",
+          '<a href="{{<script>alert(1)</script>}}">Click me</a>',
+          "<a href>Click me</a>",
+        ],
+        [
+          "script tag within Mustache with 4 braces",
+          '<a href="{{{{<script>alert(1)</script>}}}}">Click me</a>',
+          "<a href>Click me</a>",
+        ],
+        [
+          "javascript event handler within Mustache",
+          '<a href="{{javascript:alert(1)}}">Click me</a>',
+          "<a href>Click me</a>",
+        ],
+        [
+          "escaping sequence to bypass regex",
+          '<a href="{{{javascript:alert(1)}}}">Click me</a>',
+          "<a href>Click me</a>",
+        ],
+        [
+          "escaping sequence to bypass regex with 4 braces",
+          '<a href="{{{{javascript:alert(1)}}}}">Click me</a>',
           "<a href>Click me</a>",
         ],
       ];
