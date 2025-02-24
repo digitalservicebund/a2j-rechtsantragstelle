@@ -54,7 +54,7 @@
     "@remix-run/react": "^2.15.3",
     "@remix-validated-form/with-zod": "^2.0.7",
     "@sentry/remix": "^9.1.0",
-    "@sentry/vite-plugin": "^3.2.0",
+    "@sentry/vite-plugin": "^3.2.1",
     "@xstate/graph": "^3.0.2",
     "axios": "^1.7.9",
     "classnames": "^2.5.1",
@@ -118,7 +118,7 @@
     "@types/validator": "^13.12.2",
     "@vitest/coverage-istanbul": "^3.0.6",
     "@vitest/eslint-plugin": "^1.1.31",
-    "@vitest/expect": "^3.0.5",
+    "@vitest/expect": "^3.0.6",
     "autoprefixer": "^10.4.20",
     "eslint": "~9.20.1",
     "eslint-import-resolver-typescript": "^3.8.3",
@@ -138,15 +138,15 @@
     "postcss": "^8.5.3",
     "prettier": "^3.5.2",
     "size-limit": "^11.2.0",
-    "storybook": "^8.5.6",
+    "storybook": "^8.5.8",
     "tailwindcss": "^3.4.17",
-    "tsx": "~4.19.2",
+    "tsx": "~4.19.3",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.24.1",
     "vite": "^5.4.14",
     "vite-env-only": "^3.0.3",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.5"
+    "vitest": "^3.0.6"
   },
   "overrides": {
     "@remix-run/server-runtime": {
