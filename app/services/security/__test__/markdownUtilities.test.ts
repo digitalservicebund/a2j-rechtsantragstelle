@@ -31,6 +31,11 @@ describe("markdownUtilities", () => {
         ["onclick tag", '<p onclick="() => alert("test")"></p>', "<p></p>"],
         ["iframe", '<iframe src="https://www.test.com"></iframe>', ""],
         ["script trag", '<script>alert("hello")</script>', ""],
+        [
+          "script href",
+          '<a href="{{javascript:alert(1)}}">Click me</a>',
+          "<a href>Click me</a>",
+        ],
       ];
 
       test.each(invalidStrings)("%s", (_, html, expected) => {

@@ -27,13 +27,15 @@ const allowList = {
   ...openInNewAllowedAttributes,
 };
 
+// Mustache template placeholders
+const PLACEHOLDER_REGEX = /^\{{2,3}[a-zA-Z0-9._-]+\}{2,3}$/;
 const sanitizer = new xss.FilterXSS({
   allowList,
   stripIgnoreTagBody: true,
   onTagAttr: (tag, name, value) => {
     // Allow hrefs that use template placeholders like {{courtWebsite}} or {{{courtWebsite}}}
     const ahref = tag === "a" && name === "href";
-    if ((ahref && value.startsWith("{")) || value.endsWith("}")) {
+    if (ahref && PLACEHOLDER_REGEX.test(value)) {
       return `${name}="${value}"`;
     }
   },
