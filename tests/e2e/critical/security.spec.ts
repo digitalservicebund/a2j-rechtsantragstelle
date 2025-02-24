@@ -12,6 +12,18 @@ test.describe("Security Tests", () => {
     });
   });
 
+  test.describe("Cache", () => {
+    ["/", "/beratungshilfe/vorabcheck"].forEach((url) => {
+      test(`disabled without cookie interaction on '${url}'`, async ({
+        page,
+      }) => {
+        const response = await page.request.get(url);
+        await expect(response).toBeOK();
+        expect(response.headers()["cache-control"]).toBe("no-store");
+      });
+    });
+  });
+
   test("Invalid HTTP operations should yield an error", async ({ page }) => {
     const postResponse = await page.request.post("/");
     await expect(postResponse).not.toBeOK();
