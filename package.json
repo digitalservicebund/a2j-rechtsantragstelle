@@ -120,7 +120,7 @@
     "@vitest/eslint-plugin": "^1.1.31",
     "@vitest/expect": "^3.0.6",
     "autoprefixer": "^10.4.20",
-    "eslint": "~9.20.1",
+    "eslint": "~9.21.0",
     "eslint-import-resolver-typescript": "^3.8.3",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
