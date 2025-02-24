@@ -51,7 +51,7 @@ export const arbeitsweise = z.object(
   },
 );
 
-export const paymentArbeitgeber = z.object(
+export const zahlungArbeitgeber = z.object(
   {
     urlaubsgeld: checkedOptional,
     weihnachtsgeld: checkedOptional,
@@ -77,7 +77,7 @@ export const hasSozialleistungen = z.enum(
   },
 );
 
-export const circumstancesApplied = z.object(
+export const sozialleistungenUmstaende = z.object(
   {
     pflegegeld: checkedOptional,
     kindergeld: checkedOptional,
@@ -109,16 +109,16 @@ export const context = {
   hasKinder: YesNoAnswer,
   kinderLebtMit,
   verheiratet,
-  kindSupport: YesNoAnswer,
+  kinderSupport: YesNoAnswer,
   partnerWohnenZusammen: YesNoAnswer,
   partnerSupport: YesNoAnswer,
   hasArbeit: YesNoAnswer,
   arbeitsweise,
   nachzahlungArbeitgeber: YesNoAnswer,
-  amountHigherThan: YesNoAnswer,
-  paymentArbeitgeber,
+  arbeitgeberAmountHigherThan: YesNoAnswer,
+  zahlungArbeitgeber,
   hasSozialleistungen,
-  circumstancesApplied,
+  sozialleistungenUmstaende,
   hasSozialleistungNachzahlung: YesNoAnswer,
   socialAmountHigher500: YesNoAnswer,
   hasSozialleistungenEinmalzahlung: YesNoAnswer,

@@ -324,17 +324,19 @@ export const kontopfaendungWegweiserXstateConfig = {
               {
                 target: "sozialleistung-nachzahlung",
                 guard: ({ context }) =>
-                  context.circumstancesApplied?.nein === CheckboxValue.off,
+                  context.sozialleistungenUmstaende?.nein === CheckboxValue.off,
               },
               {
                 target: "besondere-ausgaben",
                 guard: ({ context }) =>
-                  context.circumstancesApplied?.nein === CheckboxValue.on &&
-                  context.circumstancesApplied?.kindergeld ===
+                  context.sozialleistungenUmstaende?.nein ===
+                    CheckboxValue.on &&
+                  context.sozialleistungenUmstaende?.kindergeld ===
                     CheckboxValue.off &&
-                  context.circumstancesApplied?.pflegegeld ===
+                  context.sozialleistungenUmstaende?.pflegegeld ===
                     CheckboxValue.off &&
-                  context.circumstancesApplied?.wohngeld === CheckboxValue.off,
+                  context.sozialleistungenUmstaende?.wohngeld ===
+                    CheckboxValue.off,
               },
             ],
             BACK: "sozialleistungen",
@@ -424,7 +426,7 @@ export const kontopfaendungWegweiserXstateConfig = {
               {
                 target: "sozialleistungen-umstaende",
                 guard: ({ context }) =>
-                  context.circumstancesApplied?.nein === CheckboxValue.on,
+                  context.sozialleistungenUmstaende?.nein === CheckboxValue.on,
               },
               {
                 target: "sozialleistungen-einmalzahlung",
