@@ -28,7 +28,8 @@ const allowList = {
 };
 
 // Mustache template placeholders
-const PLACEHOLDER_REGEX = /^\{{2,3}[a-zA-Z0-9._-]+\}{2,3}$/;
+export const PLACEHOLDER_REGEX = /^\{{2,3}[a-zA-Z0-9._-]+\}{2,3}$/;
+
 const sanitizer = new xss.FilterXSS({
   allowList,
   stripIgnoreTagBody: true,

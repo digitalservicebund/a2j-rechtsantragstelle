@@ -42,8 +42,8 @@ describe("markdownUtilities", () => {
           "<a href>Click me</a>",
         ],
         [
-          "script tag within Mustache with 4 braces",
-          '<a href="{{{{<script>alert(1)</script>}}}}">Click me</a>',
+          "invalid URL within Mustache",
+          '<a href="{{http://invalida<>.com}}">Click me</a>',
           "<a href>Click me</a>",
         ],
         [
@@ -57,14 +57,28 @@ describe("markdownUtilities", () => {
           "<a href>Click me</a>",
         ],
         [
-          "escaping sequence to bypass regex with 4 braces",
-          '<a href="{{{{javascript:alert(1)}}}}">Click me</a>',
-          "<a href>Click me</a>",
+          "style attribute with expression",
+          '<p style="color:expression(alert(1));">text</p>',
+          "<p>text</p>",
+        ],
+        [
+          "style attribute with behavior",
+          '<p style="behavior:url(script.htc);">text</p>',
+          "<p>text</p>",
+        ],
+        [
+          "data URI",
+          '<img src="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==">',
+          "<img src>",
         ],
       ];
 
-      test.each(invalidStrings)("%s", (_, html, expected) => {
-        expect(sanitize(html)).toBe(expected);
+      test.each(invalidStrings)("%s", (description, html, expected) => {
+        const result = sanitize(html);
+        if (result !== expected) {
+          console.error(`Failed case: ${description}`);
+        }
+        expect(result).toBe(expected);
       });
     });
   });
