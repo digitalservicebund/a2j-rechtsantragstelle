@@ -19,7 +19,6 @@ describe("markdownUtilities", () => {
         svg: '<svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewbox="0 0 24 24" width="1.2em" role="graphics-symbol img" focusable="false" aria-hidden="true" style="display:inline-block;"><path d="M0 0h24v24H0z" fill="none"></path></svg>',
         doubleCurlyBracesLink: '<a href="{{interpolatedExternalUrl}}"></a>',
         tripleCurlyBracesLink: '<a href="{{{interpolatedExternalUrl}}}"></a>',
-        test: '<a href="{{{interpolatedExternalUrl}}}"></a>',
       };
 
       test.each(Object.entries(validStrings))("%s", (_, html) => {
