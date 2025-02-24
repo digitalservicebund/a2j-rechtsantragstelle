@@ -17,7 +17,9 @@ export const StandaloneLink = ({
   icon,
   className,
 }: StandaloneLinkProps) => {
-  const shouldOpenNewTab = isExternalUrl(url) || isFileDownloadUrl(url);
+  const interpolatedExternalUrl = url.startsWith("{") && url.endsWith("}");
+  const shouldOpenNewTab =
+    isExternalUrl(url) || interpolatedExternalUrl || isFileDownloadUrl(url);
   const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
     href: url,
     className: classNames("text-link min-h-[24px]", className),

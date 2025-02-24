@@ -18,6 +18,12 @@ describe("Standalone Button Component", () => {
     expect(screen.getByTestId("OpenInNewIcon")).toBeInTheDocument();
   });
 
+  test("Displays an external link if url is string interpolation", () => {
+    render(<StandaloneLink url={"{{externalUrl}}"} text={"External Link"} />);
+    expect(screen.getByText("External Link")).toBeInTheDocument();
+    expect(screen.getByTestId("OpenInNewIcon")).toBeInTheDocument();
+  });
+
   test("Displays no icon if the input link isn't external", () => {
     render(<StandaloneLink url={"/home"} text={"Internal Link"} />);
     expect(screen.queryByTestId("OpenInNewIcon")).not.toBeInTheDocument();
