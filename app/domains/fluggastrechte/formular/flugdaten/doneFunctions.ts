@@ -46,6 +46,7 @@ function hasOptionalString(value: string | undefined): boolean {
 
 const hasDefaultFlugdaten: FluggastrechteFlugdatenGuard = ({ context }) => {
   return objectKeysNonEmpty(context, [
+    "fluggesellschaftLand",
     "fluggesellschaftOrt",
     "fluggesellschaftPostleitzahl",
     "fluggesellschaftStrasseHausnummer",

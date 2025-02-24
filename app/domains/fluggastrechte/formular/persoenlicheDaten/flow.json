@@ -25,7 +25,10 @@
                 "guard": "isWeiterePersonenYes",
                 "target": "uebersicht"
               },
-              "#weitere-personen.zeugen"
+              {
+                "guard": "persoenlichenDatenDone",
+                "target": "#prozessfuehrung.zeugen"
+              }
             ],
             "BACK": "#person.daten"
           }
@@ -38,7 +41,10 @@
                 "guard": "isMissingAddWeiterePersonen",
                 "target": "#weitere-personen.warnung"
               },
-              "#weitere-personen.zeugen"
+              {
+                "guard": "persoenlichenDatenDone",
+                "target": "#prozessfuehrung.zeugen"
+              }
             ],
             "add-weiterePersonen": {
               "guard": "isValidWeiterePersonenArrayIndex",
@@ -55,23 +61,6 @@
                 "SUBMIT": "#weitere-personen.uebersicht"
               }
             }
-          }
-        },
-        "zeugen": {
-          "on": {
-            "BACK": [
-              {
-                "guard": "isWeiterePersonenYes",
-                "target": "#weitere-personen.uebersicht"
-              },
-              "#weitere-personen.frage"
-            ],
-            "SUBMIT": [
-              {
-                "guard": "persoenlichenDatenDone",
-                "target": "#prozessfuehrung.videoverhandlung"
-              }
-            ]
           }
         },
         "warnung": {

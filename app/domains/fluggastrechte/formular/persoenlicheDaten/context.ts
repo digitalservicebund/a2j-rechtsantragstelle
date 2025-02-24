@@ -6,6 +6,7 @@ import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { ibanSchema } from "~/services/validation/iban";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const anredeSchema = z.enum(["herr", "frau", "none"]);
@@ -13,6 +14,8 @@ const anredeSchema = z.enum(["herr", "frau", "none"]);
 export const persoenlicheDatenSchema = {
   anrede: anredeSchema,
   ...persoenlicheDaten,
+  land: stringRequiredSchema,
+  plz: stringRequiredSchema,
 };
 
 export const paymentDetailsSchema = {
@@ -23,7 +26,6 @@ export const paymentDetailsSchema = {
 export const fluggastrechtePersoenlichDaten = {
   ...persoenlicheDatenSchema,
   isWeiterePersonen: YesNoAnswer,
-  hasZeugen: YesNoAnswer,
   ...paymentDetailsSchema,
   weiterePersonen: z.array(
     z

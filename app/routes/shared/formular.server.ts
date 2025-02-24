@@ -60,7 +60,8 @@ export const loader = async ({
   context.debugId = debugId; // For showing in errors
 
   const currentFlow = flows[flowId];
-  const prunedUserData = await pruneIrrelevantData(userData, flowId);
+  const { prunedData: prunedUserData, validFlowPaths } =
+    await pruneIrrelevantData(userData, flowId);
   const userDataWithPageData = addPageDataToUserData(prunedUserData, {
     arrayIndexes,
   });
@@ -210,6 +211,8 @@ export const loader = async ({
       stepData,
       translations: stringTranslations,
       navigationA11yLabels,
+      validFlowPaths,
+      flowId,
     },
     { headers },
   );

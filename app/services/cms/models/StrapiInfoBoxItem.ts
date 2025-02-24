@@ -1,44 +1,27 @@
-import pick from "lodash/pick";
 import { z } from "zod";
-import type { InfoBoxItemProps } from "~/components/InfoBoxItem";
-import { StrapiHeadingSchema } from "~/services/cms/models/StrapiHeading";
+import { StrapiHeadingOptionalSchema } from "~/services/cms/models/StrapiHeading";
 import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNotice";
-import { buildRichTextValidation } from "~/services/validation/richtext";
-import { omitNull } from "~/util/omitNull";
+import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiButtonSchema } from "./StrapiButton";
 import { StrapiDetailsSchema } from "./StrapiDetails";
-import { StrapiImageSchema } from "./StrapiImage";
+import { StrapiImageOptionalSchema } from "./StrapiImage";
 
 export const StrapiInfoBoxItemSchema = z
   .object({
-    label: StrapiHeadingSchema.nullable(),
-    headline: StrapiHeadingSchema.nullable(),
-    image: StrapiImageSchema.nullable(),
-    content: buildRichTextValidation().nullable(),
+    label: StrapiHeadingOptionalSchema,
+    headline: StrapiHeadingOptionalSchema,
+    image: StrapiImageOptionalSchema,
+    content: StrapiRichTextOptionalSchema(),
     detailsSummary: z.array(StrapiDetailsSchema),
     inlineNotice: z.array(StrapiInlineNoticeSchema),
     buttons: z.array(StrapiButtonSchema),
   })
   .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema);
-
-type StrapiInfoBoxItem = z.infer<typeof StrapiInfoBoxItemSchema>;
-
-export const getInfoBoxItemProps = (
-  cmsData: StrapiInfoBoxItem,
-): InfoBoxItemProps =>
-  omitNull({
+  .merge(OptionalStrapiLinkIdentifierSchema)
+  .transform((cmsData) => ({
+    ...cmsData,
+    details: cmsData.detailsSummary,
     inlineNotices: cmsData.inlineNotice,
-    ...pick(
-      cmsData,
-      "detailsSunmmary",
-      "image",
-      "label",
-      "headline",
-      "content",
-      "buttons",
-      "identifier",
-    ),
-  });
+  }));

@@ -1,4 +1,3 @@
-import pick from "lodash/pick";
 import {
   getStrapiFlowPage,
   getStrapiFormComponent,
@@ -9,6 +8,7 @@ import {
   fetchEntries,
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
+import { StrapiFooterSchema } from "~/services/cms/models/StrapiFooter";
 import { StrapiSchemas } from "~/services/cms/schemas";
 import { fetchAllFormFields } from "../fetchAllFormFields";
 import { getStrapiEntry } from "../getStrapiEntry";
@@ -23,15 +23,9 @@ describe("services/cms", () => {
     test("returns a footer entry", async () => {
       const footerData = getStrapiFooter();
       vi.mocked(getStrapiEntry).mockReturnValue(Promise.resolve([footerData]));
-      expect(await fetchSingleEntry("footer")).toEqual({
-        ...footerData,
-        image: pick(footerData.image, [
-          "url",
-          "alternativeText",
-          "width",
-          "height",
-        ]),
-      });
+      expect(await fetchSingleEntry("footer")).toEqual(
+        StrapiFooterSchema.parse(footerData),
+      );
     });
   });
 

@@ -1,6 +1,6 @@
-import { Guards, yesNoGuards } from "~/domains/guards.server";
+import { Guards } from "~/domains/guards.server";
 import { FluggastrechteGrundvoraussetzungenContext } from "./context";
 
 export const fluggastrechteGrundvoraussetzungenGuards = {
-  ...yesNoGuards("streitbeilegung"),
+  hasNoStreitbeilegung: ({ context }) => context.streitbeilegung === "no",
 } satisfies Guards<FluggastrechteGrundvoraussetzungenContext>;
