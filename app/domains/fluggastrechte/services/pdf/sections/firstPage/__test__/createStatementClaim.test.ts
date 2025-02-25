@@ -174,7 +174,7 @@ describe("createStatementClaim", () => {
       );
 
       expect(mockDoc.text).not.toHaveBeenCalledWith(
-        STATEMENT_VIDEO_TRIAL_CONCERNS,
+        STATEMENT_VIDEO_TRIAL_REQUEST,
         PDF_MARGIN_HORIZONTAL,
       );
     });
