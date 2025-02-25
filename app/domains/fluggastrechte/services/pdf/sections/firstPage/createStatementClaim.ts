@@ -14,7 +14,7 @@ export const STATEMENT_CLAIM_SUBTITLE_TEXT =
 export const STATEMENT_CLAIM_COURT_SENTENCE =
   "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 331 Abs. 1 und Abs. 3 ZPO gestellt.";
 
-const videoTrialAgreement = (videoverhandlung: string | undefined) => {
+const videoTrialAgreement = (videoverhandlung: string | undefined): string => {
   const responses: Record<string, string> = {
     yes: "Die Teilnahme an der mündlichen Verhandlung per Video gemäß § 128a ZPO wird beantragt.",
     no: "Gegen die Durchführung einer Videoverhandlung bestehen gemäß § 253 Abs. 3 Nr. 4 ZPO Bedenken.",
