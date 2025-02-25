@@ -8,8 +8,8 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addNewPageInCaseMissingVerticalSpace } from "../../../addNewPageInCaseMissingVerticalSpace";
 import {
   addWitnessesInfo,
-  PLAINTIFF_WITNESSES_MULTIPLE_PERSONS_TEXT,
-  PLAINTIFF_WITNESSES_TEXT,
+  WITNESS_EVIDENCE_MULTIPLE_PERSONS_TEXT,
+  WITNESS_EVIDENCE_TEXT,
 } from "../addWitnessesInfo";
 
 vi.mock("../../../addNewPageInCaseMissingVerticalSpace");
@@ -40,7 +40,7 @@ describe("addWitnessesInfo", () => {
     addWitnessesInfo(mockDoc, userDataHasZeugenMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      PLAINTIFF_WITNESSES_MULTIPLE_PERSONS_TEXT,
+      WITNESS_EVIDENCE_MULTIPLE_PERSONS_TEXT,
       PDF_MARGIN_HORIZONTAL,
     );
   });
@@ -56,7 +56,7 @@ describe("addWitnessesInfo", () => {
 
     addWitnessesInfo(mockDoc, userDataHasZeugenMock);
 
-    expect(mockDoc.text).not.toHaveBeenCalledWith(PLAINTIFF_WITNESSES_TEXT);
+    expect(mockDoc.text).not.toHaveBeenCalledWith(WITNESS_EVIDENCE_TEXT);
   });
 
   it("should call addNewPageInCaseMissingVerticalSpace in case the hasZeugen is yes ", () => {
