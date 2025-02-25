@@ -1,5 +1,9 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirectDocument } from "@remix-run/node";
+import {
+  json,
+  redirectDocument,
+  unstable_parseMultipartFormData,
+} from "@remix-run/node";
 import { validationError } from "remix-validated-form";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
@@ -13,6 +17,7 @@ import {
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
+import { uploadUserFileToS3 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
 import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
@@ -230,7 +235,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
-  const formData = await request.formData();
+  const requestCopy = request.clone();
+  let formData = await unstable_parseMultipartFormData(
+    request,
+    async ({ filename, data, contentType }) => {
+      if (!filename || contentType !== "application/pdf") {
+        return;
+      }
+      const result = await uploadUserFileToS3(request, data);
+      return Promise.resolve(result?.ETag);
+    },
+  );
+  if (formData.entries().next().done) formData = await requestCopy.formData();
   const relevantFormData = filterFormData(formData);
 
   if (formData.get("_action") === "delete") {

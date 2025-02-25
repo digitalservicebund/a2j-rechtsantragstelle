@@ -8,6 +8,7 @@ export type FeatureFlag =
   | "showERV"
   | "showKopfzeile"
   | "showBundID"
+  | "showFileUpload"
   | "showKontopfaendungWegweiserFlow";
 
 export const isFeatureFlagEnabled = async (featureFlag: FeatureFlag) => {
