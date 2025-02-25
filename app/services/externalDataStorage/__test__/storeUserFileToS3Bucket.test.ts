@@ -36,12 +36,6 @@ vi.mock("~/services/env/env.server", () => ({
 const mockS3Client = { send: vi.fn() } as unknown as S3Client;
 
 const mockCookie = "test-cookie";
-const mockRequest = new Request("http://localhost", {
-  headers: {
-    Cookie: mockCookie,
-    "user-agent": "test-agent",
-  },
-});
 
 const setupFileMocks = (
   mockSessionId: string,
@@ -76,7 +70,11 @@ describe("storeUserFileToS3Bucket", () => {
 
     setupFileMocks(mockSessionId, mockConfig);
 
-    await uploadUserFileToS3(mockRequest, mockFile);
+    await uploadUserFileToS3(
+      mockCookie,
+      `http://localhost:3000/${mockFlowId}`,
+      mockFile,
+    );
 
     expect(createClientS3DataStorage).toHaveBeenCalled();
     expect(getSessionIdByFlowId).toHaveBeenCalledWith(mockFlowId, mockCookie);
@@ -106,7 +104,11 @@ describe("storeUserFileToS3Bucket", () => {
     };
     setupFileMocks(mockSessionId, mockConfig);
 
-    await uploadUserFileToS3(mockRequest, mockFile);
+    await uploadUserFileToS3(
+      mockCookie,
+      `http://localhost:3000/${mockFlowId}`,
+      mockFile,
+    );
 
     expect(sendSentryMessage).toHaveBeenCalledWith(
       `Error storing user uploaded file to S3 bucket: ${mockError.message}`,

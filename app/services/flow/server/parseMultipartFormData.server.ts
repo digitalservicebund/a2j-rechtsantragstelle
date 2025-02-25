@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { unstable_parseMultipartFormData } from "@remix-run/node";
-import omit from "lodash/omit";
 import { ValidationResult } from "remix-validated-form";
 import { FlowId } from "~/domains/flowIds";
-import { uploadUserFileToS3 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
+import { uploadUserFiles } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import {
   arrayIndexFromFormData,
@@ -13,12 +12,35 @@ import {
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { filterFormData } from "~/util/filterFormData";
 
-const bytesInKilobyte = 1024;
-
-export async function parseMultipartFormData(
+export async function parseAndValidateFormData(
   request: Request,
   pathname: string,
 ): Promise<ValidationResult<any>> {
+  const formFieldsMap = await parseMultipartFormData(request);
+
+  const validationResult = await validateFormData(pathname, formFieldsMap);
+  if (validationResult.error) {
+    return validationResult;
+  }
+  const fileUploads = Object.entries(formFieldsMap).filter(([_, value]) =>
+    Object.hasOwn(value as any, "name"),
+  );
+
+  if (fileUploads.length > 0) {
+    (
+      await uploadUserFiles(
+        fileUploads.map(([fieldName, value]) => [fieldName, value as File]),
+        request,
+      )
+    ).forEach(({ fieldName, ...fileMetadata }) => {
+      validationResult.data[fieldName] = fileMetadata;
+    });
+  }
+
+  return validationResult;
+}
+
+async function parseMultipartFormData(request: Request) {
   const formFieldsMap: Record<string, string | File> = {};
   await unstable_parseMultipartFormData(
     request,
@@ -33,47 +55,13 @@ export async function parseMultipartFormData(
           value = new TextDecoder().decode(part);
         }
       } else {
-        value = await dataToFile(data, filename, contentType);
+        value = await convertAsyncBufferToFile(data, filename, contentType);
       }
       formFieldsMap[name] = value ?? "";
       return undefined;
     },
   );
-
-  const validationResult = await validateFormData(pathname, formFieldsMap);
-  if (validationResult.error) {
-    return validationResult;
-  }
-  const fileUploads = Object.entries(formFieldsMap).filter(([_, value]) =>
-    Object.hasOwn(value as any, "name"),
-  );
-
-  if (fileUploads.length > 0) {
-    (
-      await Promise.all(
-        fileUploads.map(async ([fieldName, file]) => ({
-          fieldName,
-          file,
-          s3UploadResult: await uploadUserFileToS3(request, file as File),
-        })),
-      )
-    )
-      .map(({ fieldName, file, s3UploadResult }) => ({
-        etag: s3UploadResult?.ETag,
-        createdOn: new Date(),
-        filename: (file as File).name,
-        sizeKb: (file as File).size / bytesInKilobyte,
-        fieldName,
-      }))
-      .forEach((fileMetadata) => {
-        validationResult.data[fileMetadata.fieldName] = omit(
-          fileMetadata,
-          "fieldName",
-        );
-      });
-  }
-
-  return validationResult;
+  return formFieldsMap;
 }
 
 export async function deleteArrayItem(
@@ -97,7 +85,7 @@ export async function deleteArrayItem(
   }
 }
 
-async function dataToFile(
+async function convertAsyncBufferToFile(
   data: AsyncIterable<Uint8Array<ArrayBufferLike>>,
   filename: string,
   contentType: string,

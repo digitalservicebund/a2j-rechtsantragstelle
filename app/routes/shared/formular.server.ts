@@ -24,8 +24,8 @@ import {
 } from "~/services/flow/server/flowTransitionValidation";
 import {
   deleteArrayItem,
-  parseMultipartFormData,
-} from "~/services/flow/server/parseMultipartFormData";
+  parseAndValidateFormData,
+} from "~/services/flow/server/parseMultipartFormData.server";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { logWarning } from "~/services/logging";
@@ -242,7 +242,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return await deleteArrayItem(flowId, clonedFormData, request);
   }
 
-  const validationResult = await parseMultipartFormData(request, pathname);
+  const validationResult = await parseAndValidateFormData(request, pathname);
 
   if (validationResult?.error) {
     return validationError(
