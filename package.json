@@ -117,8 +117,8 @@
     "@types/react-dom": "^18.3.1",
     "@types/validator": "^13.12.2",
     "@vitest/coverage-istanbul": "^3.0.7",
-    "@vitest/eslint-plugin": "^1.1.31",
-    "@vitest/expect": "^3.0.6",
+    "@vitest/eslint-plugin": "^1.1.32",
+    "@vitest/expect": "^3.0.7",
     "autoprefixer": "^10.4.20",
     "eslint": "~9.21.0",
     "eslint-import-resolver-typescript": "^3.8.3",
@@ -146,7 +146,7 @@
     "vite": "^5.4.14",
     "vite-env-only": "^3.0.3",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.6"
+    "vitest": "^3.0.7"
   },
   "overrides": {
     "@remix-run/server-runtime": {
