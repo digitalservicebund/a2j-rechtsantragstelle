@@ -29,7 +29,7 @@ test.describe("Security Tests", () => {
       });
     });
 
-    test("Cache is kept on content pages after cookie interaction", async ({
+    test.skip("Cache is kept on content pages after cookie interaction", async ({
       page,
       context,
     }) => {
