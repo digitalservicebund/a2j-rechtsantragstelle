@@ -17,6 +17,9 @@ type PageHeaderProps = {
     mainNavigationAriaLabel: string;
   };
 };
+const decodeHtmlEntities = (html: string) => {
+  return html.replace(/&shy;/g, "\u00AD");
+};
 
 export default function Header({
   title,
@@ -58,7 +61,7 @@ export default function Header({
             />
             <StandaloneLink
               url={"/gebaerdensprache"}
-              text={translations.gebaerdensprache}
+              text={decodeHtmlEntities(translations.gebaerdensprache)}
               className="flex basis-1/2 ds-label-03-reg items-center"
               icon={<SignLanguage className="inline mr-10" />}
             />
