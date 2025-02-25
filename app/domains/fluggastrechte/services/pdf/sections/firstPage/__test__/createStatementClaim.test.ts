@@ -138,6 +138,7 @@ describe("createStatementClaim", () => {
         PDF_MARGIN_HORIZONTAL,
       );
     });
+
     it("should not include videoverhandlung concerns if answer is noSpecification", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
@@ -158,6 +159,7 @@ describe("createStatementClaim", () => {
         PDF_MARGIN_HORIZONTAL,
       );
     });
+
     it("should not include videoverhandlung request if answer is noSpecification", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
