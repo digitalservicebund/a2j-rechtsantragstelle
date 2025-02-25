@@ -53,7 +53,7 @@ export const belegeStrings = (context: ProzesskostenhilfeFormularContext) => {
     hasBuergergeld: context.staatlicheLeistungen === "buergergeld",
     hasArbeitslosengeld: context.staatlicheLeistungen === "arbeitslosengeld",
     hasGrundsicherung: context.staatlicheLeistungen === "grundsicherung",
-    hasAsylbewerberleistung:
+    hasAsylbewerberleistungen:
       context.staatlicheLeistungen === "asylbewerberleistungen",
     isAngestellt:
       context.employmentType === "employed" ||
