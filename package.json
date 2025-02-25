@@ -116,7 +116,7 @@
     "@types/react": "^18.3.13",
     "@types/react-dom": "^18.3.1",
     "@types/validator": "^13.12.2",
-    "@vitest/coverage-istanbul": "^3.0.6",
+    "@vitest/coverage-istanbul": "^3.0.7",
     "@vitest/eslint-plugin": "^1.1.31",
     "@vitest/expect": "^3.0.6",
     "autoprefixer": "^10.4.20",
