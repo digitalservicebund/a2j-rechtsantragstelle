@@ -12,6 +12,17 @@ describe("prozessfuehrungDone", () => {
 
     expect(actual).toBe(true);
   });
+  it("should return true if videoverhandlung was answered with noSpecification", () => {
+    const actual = prozessfuehrungDone({
+      context: {
+        hasZeugen: "yes",
+        versaeumnisurteil: "yes",
+        videoverhandlung: "noSpecification",
+      },
+    });
+
+    expect(actual).toBe(true);
+  });
 
   it("should return false, if versaeumnisurteil is missing", () => {
     const actual = prozessfuehrungDone({
