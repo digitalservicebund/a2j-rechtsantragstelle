@@ -56,13 +56,13 @@ export default function Header({
             <StandaloneLink
               url={"/leichtesprache"}
               text={translations.leichtesprache}
-              className="flex basis-1/2 ds-label-03-reg items-center"
+              className="flex basis ds-label-03-reg items-center"
               icon={<LocalLibrary className="inline mr-10" />}
             />
             <StandaloneLink
               url={"/gebaerdensprache"}
               text={decodeHtmlEntities(translations.gebaerdensprache)}
-              className="flex basis-1/2 ds-label-03-reg items-center"
+              className="flex basis ds-label-03-reg items-center"
               icon={<SignLanguage className="inline mr-10" />}
             />
           </div>
