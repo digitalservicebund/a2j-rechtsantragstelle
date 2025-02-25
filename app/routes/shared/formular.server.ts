@@ -205,16 +205,7 @@ export const loader = async ({
       navItems,
       postFormContent: cmsContent.postFormContent,
       preHeading: cmsContent.preHeading,
-      // REMOVE  ME
-      stepData: {
-        ...stepData,
-        belege: {
-          etag: "a865dce052a0322294eda327368399aa",
-          createdOn: "2025-02-20T16:20:17.951Z",
-          filename: "not_too_big.pdf",
-          sizeKb: 10240,
-        },
-      },
+      stepData,
       translations: stringTranslations,
       navigationA11yLabels,
       validFlowPaths,

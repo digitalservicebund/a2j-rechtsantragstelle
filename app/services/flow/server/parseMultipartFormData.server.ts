@@ -22,8 +22,8 @@ export async function parseAndValidateFormData(
   if (validationResult.error) {
     return validationResult;
   }
-  const fileUploads = Object.entries(formFieldsMap).filter(([_, value]) =>
-    Object.hasOwn(value as any, "name"),
+  const fileUploads = Object.entries(formFieldsMap).filter(
+    ([_, value]) => "name" in (value as File),
   );
 
   if (fileUploads.length > 0) {
