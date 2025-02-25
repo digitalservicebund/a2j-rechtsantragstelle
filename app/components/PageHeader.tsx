@@ -1,6 +1,7 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 import classNames from "classnames";
+import { decode } from "html-entities";
 import { alignToContainer } from "~/components";
 import Kopfzeile from "~/components/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
@@ -16,10 +17,6 @@ type PageHeaderProps = {
     gebaerdensprache: string;
     mainNavigationAriaLabel: string;
   };
-};
-
-const decodeHTMLSoftHyphen = (html: string) => {
-  return html.replace(/&shy;/g, "\u00AD");
 };
 
 export default function Header({
@@ -63,7 +60,7 @@ export default function Header({
             />
             <StandaloneLink
               url={"/gebaerdensprache"}
-              text={decodeHTMLSoftHyphen(translations.gebaerdensprache)}
+              text={decode(translations.gebaerdensprache)}
               className="flex basis ds-label-03-reg items-center"
               icon={<SignLanguage className="inline mr-10" />}
             />
