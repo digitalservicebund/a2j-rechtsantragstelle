@@ -1,5 +1,5 @@
 import type { Flow } from "~/domains/flows.server";
-import { kontopfaendungWegweiserXstateConfig } from "./xstateConfig";
+import { kontopfaendungWegweiserXstateConfig } from "./xStateConfig";
 
 export const kontopfaendungWegweiser = {
   flowType: "vorabCheck",

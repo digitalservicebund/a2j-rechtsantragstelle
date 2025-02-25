@@ -1,10 +1,16 @@
 import { z } from "zod";
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import {
+  customRequiredErrorMessage,
+  YesNoAnswer,
+} from "~/services/validation/YesNoAnswer";
 
 export const fluggastrechteProzessfuehrungDaten = {
   hasZeugen: YesNoAnswer,
   versaeumnisurteil: YesNoAnswer,
-  videoverhandlung: YesNoAnswer,
+  videoverhandlung: z.enum(
+    ["yes", "no", "noSpecification"],
+    customRequiredErrorMessage,
+  ),
 };
 
 const _contextObject = z.object(fluggastrechteProzessfuehrungDaten).partial();
