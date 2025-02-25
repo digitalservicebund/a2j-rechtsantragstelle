@@ -17,7 +17,8 @@ type PageHeaderProps = {
     mainNavigationAriaLabel: string;
   };
 };
-const decodeHtmlEntities = (html: string) => {
+
+const decodeHTMLSoftHyphen = (html: string) => {
   return html.replace(/&shy;/g, "\u00AD");
 };
 
@@ -35,6 +36,7 @@ export default function Header({
       [`${alignToContainer} !py-20`]: alignToMainContainer,
     },
   );
+
   return (
     <header>
       {showKopfzeile && (
@@ -61,7 +63,7 @@ export default function Header({
             />
             <StandaloneLink
               url={"/gebaerdensprache"}
-              text={decodeHtmlEntities(translations.gebaerdensprache)}
+              text={decodeHTMLSoftHyphen(translations.gebaerdensprache)}
               className="flex basis ds-label-03-reg items-center"
               icon={<SignLanguage className="inline mr-10" />}
             />
