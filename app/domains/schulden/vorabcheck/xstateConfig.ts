@@ -41,7 +41,21 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
         },
         ergebnisseite: {
-          on: { BACK: "start" },
+          on: {
+            BACK: [
+              {
+                target: "euro-schwelle",
+                guard: ({ context }) =>
+                  context.euroSchwelle === euroSchwelle.Values.nein,
+              },
+              {
+                target: "kontopfaendung",
+                guard: ({ context }) =>
+                  context.hasKontopfaendung === hasKontopfaendung.Values.nein &&
+                  !context.euroSchwelle,
+              },
+            ],
+          },
         },
         "p-konto": {
           on: {
@@ -97,18 +111,27 @@ export const kontopfaendungWegweiserXstateConfig = {
               {
                 target: "ergebnisseite",
                 guard: ({ context }) =>
-                  context.euroSchwelle === euroSchwelle.Values.nein ||
-                  context.euroSchwelle === euroSchwelle.Values.ja,
+                  context.euroSchwelle === euroSchwelle.Values.nein,
               },
               {
                 target:
                   "#/schulden/kontopfaendung/wegweiser.zwischenseite-unterhalt",
                 guard: ({ context }) =>
-                  context.euroSchwelle === euroSchwelle.Values.weissNicht ||
-                  context.euroSchwelle === euroSchwelle.Values.unterschiedlich,
+                  context.euroSchwelle !== euroSchwelle.Values.nein,
               },
             ],
-            BACK: "glaeubiger",
+            BACK: [
+              {
+                target: "glaeubiger-unbekannt",
+                guard: ({ context }) =>
+                  context.schuldenBei === schuldenBei.Values.weissNicht,
+              },
+              {
+                target: "glaeubiger",
+                guard: ({ context }) =>
+                  context.schuldenBei !== schuldenBei.Values.weissNicht,
+              },
+            ],
           },
         },
       },
@@ -195,7 +218,8 @@ export const kontopfaendungWegweiserXstateConfig = {
         },
         "partner-support": {
           on: {
-            SUBMIT: "#/schulden/kontopfaendung/wegweiser.zwischenseite-cash",
+            SUBMIT:
+              "#/schulden/kontopfaendung/wegweiser.zwischenseite-cash.start",
             BACK: [
               {
                 target: "partner",
@@ -221,7 +245,8 @@ export const kontopfaendungWegweiserXstateConfig = {
               {
                 target: "#/schulden/kontopfaendung/wegweiser.unterhalt.partner",
                 guard: ({ context }) =>
-                  context.verheiratet === verheiratet.Values.nein,
+                  context.verheiratet === verheiratet.Values.nein ||
+                  context.verheiratet === verheiratet.Values.verwitwet,
               },
               {
                 target:
