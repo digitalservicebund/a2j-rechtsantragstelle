@@ -68,7 +68,7 @@ export const zahlungArbeitgeber = z.object(
 export const hasSozialleistungen = z.enum(
   [
     "buergergeld",
-    "grundsicherung-sozialhilfe",
+    "grundsicherungSozialhilfe",
     "asylbewerberleistungen",
     "nein",
   ],

@@ -339,6 +339,8 @@ export const kontopfaendungWegweiserXstateConfig = {
               },
               {
                 target: "zahlung-arbeitgeber",
+                guard: ({ context }) =>
+                  context.hasArbeit !== YesNoAnswer.Values.no,
               },
             ],
           },
