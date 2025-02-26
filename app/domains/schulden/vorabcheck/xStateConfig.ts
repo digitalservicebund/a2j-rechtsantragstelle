@@ -235,14 +235,7 @@ export const kontopfaendungWegweiserXstateConfig = {
     },
     "sozialleistungen-umstaende": {
       on: {
-        SUBMIT: [
-          {
-            target: "sozialleistung-nachzahlung",
-            guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.nein === "off",
-          },
-          "besondere-ausgaben",
-        ],
+        SUBMIT: "sozialleistung-nachzahlung",
         BACK: "sozialleistungen",
       },
     },
@@ -273,7 +266,7 @@ export const kontopfaendungWegweiserXstateConfig = {
     },
     "sozialleistungen-einmalzahlung": {
       on: {
-        SUBMIT: "besondere-ausgaben",
+        SUBMIT: "ergebnisseite",
         BACK: [
           {
             target: "sozialleistung-nachzahlung",
@@ -281,23 +274,6 @@ export const kontopfaendungWegweiserXstateConfig = {
               context.hasSozialleistungNachzahlung === "no",
           },
           "sozialleistung-nachzahlung-amount",
-        ],
-      },
-    },
-    "besondere-ausgaben": {
-      on: {
-        SUBMIT: [
-          {
-            target: "",
-          },
-        ],
-        BACK: [
-          {
-            target: "sozialleistungen-umstaende",
-            guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.nein === "on",
-          },
-          "sozialleistungen-einmalzahlung",
         ],
       },
     },
