@@ -15,7 +15,7 @@ export async function parseAndValidateFormData(
     return validationResult;
   }
   const fileUploads = Object.entries(formFieldsMap).filter(
-    ([_, value]) => "name" in (value as File),
+    ([_, value]) => typeof value === "object",
   );
 
   if (fileUploads.length > 0) {

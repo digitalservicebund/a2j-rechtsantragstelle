@@ -2,7 +2,10 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
-import { uploadUserFileToS3 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
+import {
+  uploadUserFiles,
+  uploadUserFileToS3,
+} from "~/services/externalDataStorage/storeUserFileToS3Bucket";
 import { sendSentryMessage } from "../../logging";
 import { getSessionIdByFlowId } from "../../session.server";
 import { createClientS3DataStorage } from "../createClientS3DataStorage";
@@ -59,7 +62,7 @@ Object.defineProperty(global, "crypto", {
   },
 });
 
-describe("storeUserFileToS3Bucket", () => {
+describe("uploadUserFileToS3", () => {
   it("stores user uploaded file to S3 bucket", async () => {
     const mockSessionId = "test-session-id";
     const mockConfig = {
@@ -114,5 +117,34 @@ describe("storeUserFileToS3Bucket", () => {
       `Error storing user uploaded file to S3 bucket: ${mockError.message}`,
       "error",
     );
+  });
+});
+
+describe("uploadUserFiles", () => {
+  it("should successfully uploads an array of user files", async () => {
+    const mockRequest = new Request("http://localhost", {
+      headers: {
+        Cookie: mockCookie,
+      },
+    });
+    const mockFile1 = new File([], "filename1");
+    const mockFile2 = new File([], "filename2");
+    const mockFile3 = new File([], "filename3");
+    const fileList: Array<[string, File]> = [
+      ["field1", mockFile1],
+      ["field2", mockFile2],
+      ["field3", mockFile3],
+    ];
+    const uploadedFiles = await uploadUserFiles(fileList, mockRequest);
+    expect(uploadedFiles.length).toBe(3);
+    uploadedFiles.forEach((fileMetadata, idx) => {
+      expect(fileMetadata).toHaveProperty("etag");
+      expect(fileMetadata).toHaveProperty("createdOn");
+      expect(fileMetadata).toHaveProperty("filename");
+      expect(fileMetadata.filename).toBe(fileList[idx][1].name);
+      expect(fileMetadata).toHaveProperty("sizeKb");
+      expect(fileMetadata).toHaveProperty("fieldName");
+      expect(fileMetadata.fieldName).toBe(fileList[idx][0]);
+    });
   });
 });
