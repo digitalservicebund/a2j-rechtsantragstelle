@@ -26,6 +26,10 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         BACK: [
           {
+            target: "sozialleistungen-einmalzahlung",
+            guard: ({ context }) => !!context.hasSozialleistungenEinmalzahlung,
+          },
+          {
             target: "euro-schwelle",
             guard: ({ context }) => context.euroSchwelle === "nein",
           },
