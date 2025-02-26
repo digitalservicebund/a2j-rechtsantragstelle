@@ -19,7 +19,7 @@ export type ObjectType = Record<
 >;
 export type Context = Record<
   string,
-  BasicTypes | ObjectType | ArrayData | undefined
+  BasicTypes | ObjectType | ArrayData | FileList | undefined
 >;
 
 const contexts = {

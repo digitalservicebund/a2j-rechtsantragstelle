@@ -1,7 +1,7 @@
+import { FilesUpload } from "~/components/filesUpload/FilesUpload";
 import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
 import Checkbox from "~/components/inputs/Checkbox";
 import DateInput from "~/components/inputs/DateInput";
-import { FileInput } from "~/components/inputs/FileInput";
 import HiddenInput from "~/components/inputs/HiddenInput";
 import Input from "~/components/inputs/Input";
 import RadioGroup from "~/components/inputs/RadioGroup";
@@ -36,7 +36,7 @@ const FormComponent = ({
     case "form-elements.time-input":
       return <TimeInput {...getTimeInputProps(component)} />;
     case "form-elements.file-input":
-      return <FileInput {...getFileInputProps(component)} />;
+      return <FilesUpload {...getFileInputProps(component)} />;
     case "form-elements.textarea":
       return <Textarea {...getTextareaProps(component)} />;
     case "form-elements.select":
