@@ -1,6 +1,7 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 import classNames from "classnames";
+import { decode } from "html-entities";
 import { alignToContainer } from "~/components";
 import Kopfzeile from "~/components/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
@@ -32,6 +33,7 @@ export default function Header({
       [`${alignToContainer} !py-20`]: alignToMainContainer,
     },
   );
+
   return (
     <header>
       {showKopfzeile && (
@@ -53,13 +55,13 @@ export default function Header({
             <StandaloneLink
               url={"/leichtesprache"}
               text={translations.leichtesprache}
-              className="flex basis-1/2 ds-label-03-reg items-center"
+              className="flex basis ds-label-03-reg items-center"
               icon={<LocalLibrary className="inline mr-10" />}
             />
             <StandaloneLink
               url={"/gebaerdensprache"}
-              text={translations.gebaerdensprache}
-              className="flex basis-1/2 ds-label-03-reg items-center"
+              text={decode(translations.gebaerdensprache)}
+              className="flex basis ds-label-03-reg items-center"
               icon={<SignLanguage className="inline mr-10" />}
             />
           </div>
