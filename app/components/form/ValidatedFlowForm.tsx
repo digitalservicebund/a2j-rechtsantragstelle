@@ -30,6 +30,7 @@ function ValidatedFlowForm({
     <ValidatedForm
       id={`${stepId}_form`}
       method="post"
+      encType="multipart/form-data"
       validator={validator}
       defaultValues={stepData}
       noValidate
