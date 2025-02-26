@@ -1,16 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { unstable_parseMultipartFormData } from "@remix-run/node";
 import { ValidationResult } from "remix-validated-form";
-import { FlowId } from "~/domains/flowIds";
 import { uploadUserFiles } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
-import { getSessionManager, updateSession } from "~/services/session.server";
-import {
-  arrayIndexFromFormData,
-  arrayFromSession,
-  deleteFromArrayInplace,
-} from "~/services/session.server/arrayDeletion";
 import { validateFormData } from "~/services/validation/validateFormData.server";
-import { filterFormData } from "~/util/filterFormData";
 
 export async function parseAndValidateFormData(
   request: Request,
@@ -62,27 +54,6 @@ async function parseMultipartFormData(request: Request) {
     },
   );
   return formFieldsMap;
-}
-
-export async function deleteArrayItem(
-  flowId: FlowId,
-  formData: FormData,
-  request: Request,
-): Promise<Response> {
-  const { getSession, commitSession } = getSessionManager(flowId);
-  const cookieHeader = request.headers.get("Cookie");
-  const flowSession = await getSession(cookieHeader);
-  const relevantFormData = filterFormData(formData);
-  try {
-    const { arrayName, index } = arrayIndexFromFormData(relevantFormData);
-    const arrayToMutate = arrayFromSession(arrayName, flowSession);
-    deleteFromArrayInplace(arrayToMutate, index);
-    updateSession(flowSession, { [arrayName]: arrayToMutate });
-    const headers = { "Set-Cookie": await commitSession(flowSession) };
-    return new Response("success", { status: 200, headers });
-  } catch (err) {
-    return new Response((err as Error).message, { status: 422 });
-  }
 }
 
 async function convertAsyncBufferToFile(

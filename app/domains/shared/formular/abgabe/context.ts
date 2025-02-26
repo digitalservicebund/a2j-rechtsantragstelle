@@ -1,13 +1,13 @@
 import { z } from "zod";
 import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
-import { fileSchema } from "~/util/file/fileSchema";
+import { pdfFileSchema } from "~/util/file/pdfFileSchema";
 
 export const abgabeContext = {
   abgabeArt: z.enum(["online", "ausdrucken"], customRequiredErrorMessage),
 };
 
 export const belegeContext = {
-  belege: fileSchema,
+  belege: pdfFileSchema,
 };
 const _belegeContextObject = z.object(belegeContext).partial();
 export type BelegeContext = z.infer<typeof _belegeContextObject>;

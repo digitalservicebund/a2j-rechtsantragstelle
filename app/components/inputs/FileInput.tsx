@@ -15,7 +15,7 @@ export const FileInput = ({ name, label }: FileInputProps) => {
       <input
         {...getInputProps({ id: name })}
         type="file"
-        accept=".pdf"
+        // accept=".pdf"
         aria-errormessage={error && errorId}
         aria-invalid={error !== undefined}
       ></input>

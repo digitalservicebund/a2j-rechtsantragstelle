@@ -1,5 +1,5 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { flowIdFromPathname } from "~/domains/flowIds";
+import { FlowId, flowIdFromPathname } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
 import { createClientS3DataStorage } from "~/services/externalDataStorage/createClientS3DataStorage";
 import { sendSentryMessage } from "~/services/logging";
@@ -8,7 +8,7 @@ import { getSessionIdByFlowId } from "~/services/session.server";
 const USER_FILES_FOLDER = "user-files";
 const bytesInKilobyte = 1024;
 
-const createFolderKey = (sessionId: string, flowId: string) => {
+const createFolderKey = (sessionId: string, flowId: FlowId) => {
   return `${USER_FILES_FOLDER}${flowId}/${sessionId}/${crypto.randomUUID()}`;
 };
 
