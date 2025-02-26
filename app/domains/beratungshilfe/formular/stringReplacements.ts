@@ -35,9 +35,8 @@ export const getStaatlicheLeistungenStrings = (
 ) => {
   return {
     hasBuergergeld: context.staatlicheLeistungen === "buergergeld",
-    staatlicheLeistungenIsGrundsicherung:
-      context.staatlicheLeistungen === "grundsicherung",
-    staatlicheLeistungenIsAsylbewerberleistungen:
+    hasGrundsicherung: context.staatlicheLeistungen === "grundsicherung",
+    hasAsylbewerberleistungen:
       context.staatlicheLeistungen === "asylbewerberleistungen",
     hasNoSozialleistung: context.staatlicheLeistungen === "keine",
     hasBuergergeldOrNoSozialleistung:

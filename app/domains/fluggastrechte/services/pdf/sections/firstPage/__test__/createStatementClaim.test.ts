@@ -14,11 +14,10 @@ import {
   STATEMENT_CLAIM_TITLE_TEXT,
 } from "../createStatementClaim";
 
-const STATEMENT_VIDEO_TRIAL_AGREEMENT =
-  "Ich stimme der Durchführung einer Videoverhandlung (§ 128a ZPO) zu.";
-const STATEMENT_VIDEO_TRIAL_NO_AGREEMENT =
-  "Ich stimme der Durchführung einer Videoverhandlung (§ 128a ZPO) nicht zu.";
-
+const STATEMENT_VIDEO_TRIAL_REQUEST =
+  "Die Teilnahme an der mündlichen Verhandlung per Video gemäß § 128a ZPO wird beantragt.";
+const STATEMENT_VIDEO_TRIAL_CONCERNS =
+  "Gegen die Durchführung einer Videoverhandlung bestehen gemäß § 253 Abs. 3 Nr. 4 ZPO Bedenken.";
 describe("createStatementClaim", () => {
   beforeEach(() => {
     vi.mock(
@@ -98,11 +97,11 @@ describe("createStatementClaim", () => {
   });
 
   describe("createStatementClaim - videoverhandlung logic", () => {
-    it("should include videoverhandlung sentence when videoverhandlung is yes", () => {
+    it("should include videoverhandlung request sentence when videoverhandlung is yes", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
 
-      const userDataMockWithVersaeumnisurteil = {
+      const userDataMockWithVideorverhandlungRequest = {
         ...userDataMock,
         videoverhandlung: "yes",
       } satisfies FluggastrechtContext;
@@ -110,20 +109,20 @@ describe("createStatementClaim", () => {
       createStatementClaim(
         mockDoc,
         mockStruct,
-        userDataMockWithVersaeumnisurteil,
+        userDataMockWithVideorverhandlungRequest,
       );
 
       expect(mockDoc.text).toHaveBeenCalledWith(
-        STATEMENT_VIDEO_TRIAL_AGREEMENT,
+        STATEMENT_VIDEO_TRIAL_REQUEST,
         PDF_MARGIN_HORIZONTAL,
       );
     });
 
-    it("should not include videoverhandlung sentence when videoverhandlung is no", () => {
+    it("should include the sentence about videoverhandlung concerns when answer is no", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
 
-      const userDataMockWithoutVersaeumnisurteil = {
+      const userDataMockWithVideoTrialConcerns = {
         ...userDataMock,
         videoverhandlung: "no",
       } satisfies FluggastrechtContext;
@@ -131,11 +130,53 @@ describe("createStatementClaim", () => {
       createStatementClaim(
         mockDoc,
         mockStruct,
-        userDataMockWithoutVersaeumnisurteil,
+        userDataMockWithVideoTrialConcerns,
       );
 
       expect(mockDoc.text).toHaveBeenCalledWith(
-        STATEMENT_VIDEO_TRIAL_NO_AGREEMENT,
+        STATEMENT_VIDEO_TRIAL_CONCERNS,
+        PDF_MARGIN_HORIZONTAL,
+      );
+    });
+
+    it("should not include videoverhandlung concerns if answer is noSpecification", () => {
+      const mockStruct = mockPdfKitDocumentStructure();
+      const mockDoc = mockPdfKitDocument(mockStruct);
+
+      const userDataMockWithVideoverhandlungNoSpecification = {
+        ...userDataMock,
+        videoverhandlung: "noSpecification",
+      } satisfies FluggastrechtContext;
+
+      createStatementClaim(
+        mockDoc,
+        mockStruct,
+        userDataMockWithVideoverhandlungNoSpecification,
+      );
+
+      expect(mockDoc.text).not.toHaveBeenCalledWith(
+        STATEMENT_VIDEO_TRIAL_CONCERNS,
+        PDF_MARGIN_HORIZONTAL,
+      );
+    });
+
+    it("should not include videoverhandlung request if answer is noSpecification", () => {
+      const mockStruct = mockPdfKitDocumentStructure();
+      const mockDoc = mockPdfKitDocument(mockStruct);
+
+      const userDataMockWithVideoverhandlungNoSpecification = {
+        ...userDataMock,
+        videoverhandlung: "noSpecification",
+      } satisfies FluggastrechtContext;
+
+      createStatementClaim(
+        mockDoc,
+        mockStruct,
+        userDataMockWithVideoverhandlungNoSpecification,
+      );
+
+      expect(mockDoc.text).not.toHaveBeenCalledWith(
+        STATEMENT_VIDEO_TRIAL_REQUEST,
         PDF_MARGIN_HORIZONTAL,
       );
     });
