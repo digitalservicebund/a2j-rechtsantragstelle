@@ -29,7 +29,14 @@ describe("SummaryOverviewBox", () => {
   const mockTranslations = { field1: "Field 1", field2: "Field 2" };
   const stepId = "/step-1";
   const boxId = 1;
-  const boxItems = [{ field: "field1" }, { field: "field2" }];
+  const boxItems = [
+    {
+      inlineItems: [{ field: "field1" }],
+    },
+    {
+      inlineItems: [{ field: "field2" }],
+    },
+  ];
   const titleMock = {
     tagName: "h2",
     text: "title",

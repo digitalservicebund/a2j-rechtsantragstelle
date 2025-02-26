@@ -14,7 +14,7 @@ vi.mock("../SummaryOverviewBoxArray", () => ({
   default: vi.fn(() => <div data-testid="summary-overview-box-array" />),
 }));
 
-const boxItems = [{ field: "field1" }];
+const boxItems = [{ inlineItems: [{ field: "field1" }] }];
 
 describe("SummaryOverviewBoxWrapped", () => {
   it("should render null when stepId is not in validFlowPages", () => {

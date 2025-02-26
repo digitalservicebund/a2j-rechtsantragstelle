@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
 import { Context } from "~/domains/contexts";
 import { Translations } from "~/services/translations/getTranslationByKey";
-import { getInlineItemValues } from "../getInlineItemValues";
+import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 import { getItemValueBox } from "../getItemValueBox";
 import SummaryOverviewBoxItem from "../SummaryOverviewBoxItem";
 
@@ -10,30 +10,32 @@ vi.mock("../getItemValueBox", () => ({
   getItemValueBox: vi.fn(),
 }));
 
-vi.mock("../getInlineItemValues", () => ({
-  getInlineItemValues: vi.fn(),
+vi.mock("~/util/isFieldEmptyOrUndefined", () => ({
+  isFieldEmptyOrUndefined: vi.fn(),
 }));
 
 const mockTranslations: Translations = {};
 
 describe("SummaryOverviewBoxItem", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   test("renders nothing when item value is missing", () => {
     const userData: Context = { status: "" };
 
     vi.mocked(getItemValueBox).mockReturnValue("");
-    vi.mocked(getInlineItemValues).mockReturnValue("");
+    vi.mocked(isFieldEmptyOrUndefined).mockReturnValue(true);
 
-    const { queryByText, queryByTestId } = render(
+    const { queryByTestId } = render(
       <SummaryOverviewBoxItem
-        field="status"
-        title={"Status"}
         userData={userData}
         translations={mockTranslations}
+        inlineItems={[{ field: "status" }]}
       />,
     );
 
     expect(queryByTestId("summary-box-item-title")).not.toBeInTheDocument();
-    expect(queryByText("Status")).not.toBeInTheDocument();
     expect(queryByTestId("summary-box-item-value")).not.toBeInTheDocument();
   });
 
@@ -41,14 +43,14 @@ describe("SummaryOverviewBoxItem", () => {
     const userData: Context = { status: "active" };
 
     vi.mocked(getItemValueBox).mockReturnValue("Aktiv");
-    vi.mocked(getInlineItemValues).mockReturnValue("");
+    vi.mocked(isFieldEmptyOrUndefined).mockReturnValue(false);
 
     const { getByText, queryByTestId } = render(
       <SummaryOverviewBoxItem
-        field="status"
-        title={"Status"}
+        title="Status"
         userData={userData}
         translations={mockTranslations}
+        inlineItems={[{ field: "status" }]}
       />,
     );
 
@@ -62,18 +64,17 @@ describe("SummaryOverviewBoxItem", () => {
     const userData: Context = { status: "inactive" };
 
     vi.mocked(getItemValueBox).mockReturnValue("Inaktiv");
-    vi.mocked(getInlineItemValues).mockReturnValue("");
+    vi.mocked(isFieldEmptyOrUndefined).mockReturnValue(false);
 
-    const { queryByText, getByText, queryByTestId } = render(
+    const { getByText, queryByTestId } = render(
       <SummaryOverviewBoxItem
-        field="status"
         userData={userData}
         translations={mockTranslations}
+        inlineItems={[{ field: "status" }]}
       />,
     );
 
     expect(queryByTestId("summary-box-item-title")).not.toBeInTheDocument();
-    expect(queryByText("Status")).not.toBeInTheDocument();
     expect(queryByTestId("summary-box-item-value")).toBeInTheDocument();
     expect(getByText("Inaktiv")).toBeInTheDocument();
   });
@@ -82,17 +83,16 @@ describe("SummaryOverviewBoxItem", () => {
     const userData: Context = { status: "inactive" };
 
     vi.mocked(getItemValueBox).mockReturnValue("Inaktiv");
-    vi.mocked(getInlineItemValues).mockReturnValue("Inaktiv aktiv");
 
     const { getByText, queryByTestId } = render(
       <SummaryOverviewBoxItem
-        field="status"
         userData={userData}
         translations={mockTranslations}
+        inlineItems={[{ field: "status" }]}
       />,
     );
 
     expect(queryByTestId("summary-box-item-value")).toBeInTheDocument();
-    expect(getByText("Inaktiv aktiv")).toBeInTheDocument();
+    expect(getByText("Inaktiv")).toBeInTheDocument();
   });
 });

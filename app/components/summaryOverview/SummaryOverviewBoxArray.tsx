@@ -1,4 +1,3 @@
-import { arrayChar } from "~/services/array";
 import { addArrayIndexToPathUrl } from "./addArrayIndexToPathUrl";
 import { getArraySummaryObject } from "./getArraySummaryObject";
 import SummaryOverviewBox from "./SummaryOverviewBox";
@@ -20,11 +19,6 @@ const SummaryOverviewBoxArray = ({ boxId, boxItems, title, stepId }: Props) => {
     return null;
   }
 
-  const arrayBoxPageFieldsWithoutArrayChar = boxItems.map((items) => ({
-    ...items,
-    field: items.field.split(arrayChar)[1],
-  }));
-
   return arrayObject.map((object, index) => (
     <SummaryOverviewBox
       // eslint-disable-next-line react/no-array-index-key
@@ -32,7 +26,7 @@ const SummaryOverviewBoxArray = ({ boxId, boxItems, title, stepId }: Props) => {
       boxId={boxId}
       stepId={addArrayIndexToPathUrl(stepId, index)}
       userData={object}
-      boxItems={arrayBoxPageFieldsWithoutArrayChar}
+      boxItems={boxItems}
       title={title}
     />
   ));

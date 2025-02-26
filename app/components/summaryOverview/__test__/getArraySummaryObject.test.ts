@@ -4,15 +4,21 @@ import { SummaryOverviewBoxItemType } from "../SummaryOverviewBoxItem";
 describe("getArraySummaryObject", () => {
   it("should return an array object given the box items fields and mock user data", () => {
     const mockBoxItems = [
-      { field: "weiterePersonen#test" },
-      { field: "weiterePersonen#test2" },
+      { inlineItems: [{ field: "weiterePersonen#test" }] },
+      {
+        inlineItems: [
+          { field: "weiterePersonen#vorname" },
+          { field: "weiterePersonen#nachname" },
+        ],
+      },
     ];
 
     const mockUserData = {
       weiterePersonen: [
         {
-          test: "1",
-          test2: "2",
+          test: "test",
+          vorname: "vorname",
+          nachname: "nachname",
         },
       ],
     };
@@ -21,16 +27,17 @@ describe("getArraySummaryObject", () => {
 
     expect(actual).toEqual([
       {
-        test: "1",
-        test2: "2",
+        test: "test",
+        vorname: "vorname",
+        nachname: "nachname",
       },
     ]);
   });
 
   it("should return an undefined object given the boxItems not existing array object from the boxItems", () => {
     const mockBoxItems = [
-      { field: "weiterePersonen#test" },
-      { field: "weiterePersonen#test2" },
+      { inlineItems: [{ field: "weiterePersonen#test" }] },
+      { inlineItems: [{ field: "weiterePersonen#test2" }] },
     ];
 
     const mockUserData = {
@@ -49,8 +56,8 @@ describe("getArraySummaryObject", () => {
 
   it("should return an undefined object given an empty mock user data", () => {
     const mockBoxItems = [
-      { field: "weiterePersonen#test" },
-      { field: "weiterePersonen#test2" },
+      { inlineItems: [{ field: "weiterePersonen#test" }] },
+      { inlineItems: [{ field: "weiterePersonen#test2" }] },
     ];
 
     const mockUserData = {};
