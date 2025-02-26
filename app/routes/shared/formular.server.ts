@@ -23,7 +23,6 @@ import {
   getFlowTransitionConfig,
 } from "~/services/flow/server/flowTransitionValidation";
 import { parseAndValidateFormData } from "~/services/flow/server/parseMultipartFormData.server";
-import { deleteArrayItem } from "~/services/session.server/arrayDeletion";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { logWarning } from "~/services/logging";
@@ -38,6 +37,7 @@ import {
   getSessionManager,
   updateSession,
 } from "~/services/session.server";
+import { deleteArrayItem } from "~/services/session.server/arrayDeletion";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
@@ -68,9 +68,7 @@ export const loader = async ({
 
   if (
     !flowController.isReachable(stepId) &&
-    !skipFlowParamAllowedAndEnabled(searchParams) &&
-    // Used to ensure ValidationResults are displayed while we work on this feature
-    stepId !== "/file-upload"
+    !skipFlowParamAllowedAndEnabled(searchParams)
   )
     return redirectDocument(flowController.getInitial());
 
@@ -205,16 +203,7 @@ export const loader = async ({
       navItems,
       postFormContent: cmsContent.postFormContent,
       preHeading: cmsContent.preHeading,
-      // REMOVE  ME
-      stepData: {
-        ...stepData,
-        belege: {
-          etag: "a865dce052a0322294eda327368399aa",
-          createdOn: "2025-02-20T16:20:17.951Z",
-          filename: "not_too_big.pdf",
-          sizeKb: 10240,
-        },
-      },
+      stepData,
       translations: stringTranslations,
       navigationA11yLabels,
       validFlowPaths,
