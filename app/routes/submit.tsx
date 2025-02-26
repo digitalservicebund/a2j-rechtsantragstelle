@@ -1,6 +1,6 @@
 import { Form, useActionData } from "@remix-run/react";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
-import { submit } from "~/services/flow/submission.server";
+import { submit } from "~/services/submission/submission.server";
 import Button from "../components/Button";
 
 export const loader = async () => {
