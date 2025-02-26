@@ -1,4 +1,3 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { kontopfaendungWegweiserContext } from "./context";
 
@@ -240,7 +239,7 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "sozialleistung-nachzahlung",
             guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.nein === CheckboxValue.off,
+              context.sozialleistungenUmstaende?.nein === "off",
           },
           "besondere-ausgaben",
         ],
@@ -296,7 +295,7 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "sozialleistungen-umstaende",
             guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.nein === CheckboxValue.on,
+              context.sozialleistungenUmstaende?.nein === "on",
           },
           "sozialleistungen-einmalzahlung",
         ],
