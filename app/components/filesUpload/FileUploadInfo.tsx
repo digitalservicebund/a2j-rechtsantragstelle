@@ -4,11 +4,16 @@ import { convertFileSize } from "./convertFileSize";
 import Button from "../Button";
 
 type FileUploadInfoProps = {
-  fileName: string;
-  fileSize: number;
+  fileName?: string;
+  fileSize?: number;
+  deleteButtonLabel?: string;
 };
 
-export const FileUploadInfo = ({ fileName, fileSize }: FileUploadInfoProps) => {
+export const FileUploadInfo = ({
+  fileName,
+  fileSize,
+  deleteButtonLabel,
+}: FileUploadInfoProps) => {
   return (
     <div className="w-full h-64 bg-gray-100 flex justify-between items-center px-16 my-14">
       <div className="max-w-md flex justify-between">
@@ -17,13 +22,13 @@ export const FileUploadInfo = ({ fileName, fileSize }: FileUploadInfoProps) => {
           {fileName}
         </p>
         <p className="text-base text-gray-900 font-400">
-          {convertFileSize(fileSize)}
+          {convertFileSize(fileSize ?? 0)}
         </p>
       </div>
       <Button
         iconLeft={<DeleteIcon className="shrink-0" />}
         look="ghost"
-        text={"Delete"}
+        text={deleteButtonLabel}
         type="submit"
       />
     </div>

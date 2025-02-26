@@ -1,7 +1,7 @@
 import InfoIcon from "@digitalservicebund/icons/LightbulbOutlined";
 
 export type FileUploadWarningProps = {
-  warningTitle: string;
+  warningTitle?: string;
   warningDescription?: string;
 };
 

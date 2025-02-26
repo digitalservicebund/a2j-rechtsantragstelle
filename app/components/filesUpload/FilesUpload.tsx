@@ -8,26 +8,51 @@ import { FileInput } from "../inputs/FileInput";
 
 export type FilesUploadProps = {
   name: string;
+  title?: string;
   formId?: string;
+  fileName?: string;
+  fileSize?: number;
+  warningTitle?: string;
+  description?: string;
+  errorMessage?: string;
+  deleteButtonLabel?: string;
+  submitButtonLabel?: string;
+  warningDescription?: string;
 };
 
-export const FilesUpload = ({ name, formId }: FilesUploadProps) => {
+export const FilesUpload = ({
+  name,
+  title,
+  formId,
+  fileName,
+  fileSize,
+  description,
+  errorMessage,
+  warningTitle,
+  deleteButtonLabel,
+  submitButtonLabel,
+  warningDescription,
+}: FilesUploadProps) => {
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
 
   return (
     <div className="w-full bg-white p-16">
-      <FilesUploadHeader title={"title"} description={"description"} />
+      <FilesUploadHeader title={title} description={description} />
       {!jsAvailable ? (
-        <FileInputsNoJS name={name} buttonText={"Select Files"} />
+        <FileInputsNoJS name={name} submitButtonLabel={submitButtonLabel} />
       ) : (
         <FileInput name={name} formId={formId} />
       )}
-      <FileUploadInfo fileName={"testfile.pdf"} fileSize={1024} />
-      <FileUploadError errorMessage="Dateien dürfen nicht größer als 100 MB sein." />
+      <FileUploadInfo
+        fileName={fileName}
+        fileSize={fileSize}
+        deleteButtonLabel={deleteButtonLabel}
+      />
+      <FileUploadError errorMessage={errorMessage} />
       <FileUploadWarning
-        warningTitle={"Maximale Anzahl an Dateien erreicht."}
-        warningDescription="Sie können maximal 5 Dateien pro Gruppe hinzufügen."
+        warningTitle={warningTitle}
+        warningDescription={warningDescription}
       />
     </div>
   );

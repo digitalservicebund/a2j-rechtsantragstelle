@@ -1,5 +1,5 @@
 type FilesUploadHeaderProps = {
-  title: string;
+  title?: string;
   description?: string;
 };
 

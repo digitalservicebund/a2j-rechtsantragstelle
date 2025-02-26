@@ -16,5 +16,7 @@ export const StrapiFilesUploadComponentSchema = StrapiFilesUploadSchema.extend({
 type StrapiFilesUpload = z.infer<typeof StrapiFilesUploadSchema>;
 
 export function getFileInputProps(props: StrapiFilesUpload): FilesUploadProps {
-  return omitNull(props);
+  return {
+    ...omitNull(props),
+  };
 }

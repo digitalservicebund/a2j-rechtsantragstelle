@@ -3,7 +3,13 @@ import { FileUploadInfo } from "../FileUploadInfo";
 
 describe("FileUploadInfo", () => {
   it("renders an icon, file name and size", () => {
-    render(<FileUploadInfo fileName={"testfile1.pdf"} fileSize={3145728} />);
+    render(
+      <FileUploadInfo
+        fileName={"testfile1.pdf"}
+        fileSize={3145728}
+        deleteButtonLabel={"Delete"}
+      />,
+    );
     const fileNames = screen.getByText("testfile1.pdf");
     const fileIcon = screen.getByTestId("InsertDriveFileIcon");
     expect(fileNames).toBeInTheDocument();

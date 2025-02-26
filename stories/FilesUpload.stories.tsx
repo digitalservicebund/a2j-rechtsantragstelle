@@ -15,7 +15,14 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     name: "file upload",
+    title: "Upload your files",
     formId: "formId",
+    fileName: "testFile.pdf",
+    fileSize: 1024,
+    warningTitle: "Warning Title",
+    deleteButtonLabel: "Delete",
+    submitButtonLabel: "Upload Files",
+    warningDescription: "Maximum files reached",
   },
   decorators: [(Story) => remixContext(Story)],
 };
