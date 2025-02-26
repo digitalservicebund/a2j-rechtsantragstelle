@@ -11,7 +11,6 @@ export const getArraySummaryObject = (
     return undefined;
   }
 
-  // Verify the validity of each field name in the array, instead of just the first one
   for (const item of boxItems) {
     const inlineItem = item.inlineItems.find((item) => item.field);
     if (inlineItem) {
