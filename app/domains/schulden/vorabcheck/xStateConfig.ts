@@ -128,7 +128,7 @@ export const kontopfaendungWegweiserXstateConfig = {
               context.verheiratet === "nein" ||
               context.verheiratet === "verwitwet",
           },
-          "partner-support",
+          "partner-wohnen-zusammen",
         ],
         BACK: [
           {
@@ -152,8 +152,8 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "partner",
             guard: ({ context }) =>
-              context.verheiratet !== "nein" &&
-              context.verheiratet !== "verwitwet",
+              context.verheiratet === "nein" ||
+              context.verheiratet === "verwitwet",
           },
           "partner-wohnen-zusammen",
         ],
