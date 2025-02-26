@@ -30,8 +30,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "p-konto",
-            guard: ({ context }) =>
-              context.hasKontopfaendung !== hasKontopfaendung.Values.nein,
           },
         ],
         BACK: "start",
@@ -47,9 +45,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "kontopfaendung",
-            guard: ({ context }) =>
-              context.hasKontopfaendung === hasKontopfaendung.Values.nein &&
-              !context.euroSchwelle,
           },
         ],
       },
@@ -65,9 +60,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "glaeubiger",
-            guard: ({ context }) =>
-              context.hasPKonto === hasPKonto.Values.nein ||
-              context.hasPKonto === hasPKonto.Values.ja,
           },
         ],
         BACK: "kontopfaendung",
@@ -89,8 +81,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "euro-schwelle",
-            guard: ({ context }) =>
-              context.schuldenBei !== schuldenBei.Values.weissNicht,
           },
         ],
         BACK: "p-konto",
@@ -112,8 +102,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "zwischenseite-unterhalt",
-            guard: ({ context }) =>
-              context.euroSchwelle !== euroSchwelle.Values.nein,
           },
         ],
         BACK: [
@@ -124,8 +112,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "glaeubiger",
-            guard: ({ context }) =>
-              context.schuldenBei !== schuldenBei.Values.weissNicht,
           },
         ],
       },
@@ -146,7 +132,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "partner",
-            guard: ({ context }) => context.hasKinder === YesNoAnswer.Values.no,
           },
         ],
         BACK: "zwischenseite-unterhalt",
@@ -175,9 +160,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "partner-support",
-            guard: ({ context }) =>
-              context.verheiratet !== verheiratet.Values.nein &&
-              context.verheiratet !== verheiratet.Values.verwitwet,
           },
         ],
         BACK: [
@@ -188,7 +170,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "kinder",
-            guard: ({ context }) => context.hasKinder === YesNoAnswer.Values.no,
           },
         ],
       },
@@ -227,9 +208,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "partner-support",
-            guard: ({ context }) =>
-              context.partnerWohnenZusammen === YesNoAnswer.Values.yes ||
-              context.verheiratet === verheiratet.Values.verwitwet,
           },
         ],
       },
@@ -244,7 +222,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "sozialleistungen",
-            guard: ({ context }) => context.hasArbeit === YesNoAnswer.Values.no,
           },
         ],
         BACK: "zwischenseite-cash",
@@ -266,8 +243,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "zahlung-arbeitgeber",
-            guard: ({ context }) =>
-              context.nachzahlungArbeitgeber === YesNoAnswer.Values.no,
           },
         ],
         BACK: "arbeitsweise",
@@ -295,8 +270,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "sozialleistung-nachzahlung",
-            guard: ({ context }) =>
-              context.hasSozialleistungen !== hasSozialleistungen.Values.nein,
           },
         ],
         BACK: [
@@ -306,7 +279,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "zahlung-arbeitgeber",
-            guard: ({ context }) => context.hasArbeit !== YesNoAnswer.Values.no,
           },
         ],
       },
@@ -321,13 +293,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "besondere-ausgaben",
-            guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.nein === CheckboxValue.on &&
-              context.sozialleistungenUmstaende?.kindergeld ===
-                CheckboxValue.off &&
-              context.sozialleistungenUmstaende?.pflegegeld ===
-                CheckboxValue.off &&
-              context.sozialleistungenUmstaende?.wohngeld === CheckboxValue.off,
           },
         ],
         BACK: "sozialleistungen",
@@ -343,8 +308,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "sozialleistungen-einmalzahlung",
-            guard: ({ context }) =>
-              context.hasSozialleistungNachzahlung === YesNoAnswer.Values.no,
           },
         ],
         BACK: [
@@ -355,8 +318,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "sozialleistungen",
-            guard: ({ context }) =>
-              context.hasSozialleistungen !== hasSozialleistungen.Values.nein,
           },
         ],
       },
@@ -394,8 +355,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "sozialleistung-nachzahlung-amount",
-            guard: ({ context }) =>
-              context.hasSozialleistungNachzahlung === YesNoAnswer.Values.yes,
           },
         ],
       },
@@ -415,9 +374,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "sozialleistungen-einmalzahlung",
-            guard: ({ context }) =>
-              context.hasSozialleistungNachzahlung === YesNoAnswer.Values.no ||
-              context.hasSozialleistungNachzahlung === YesNoAnswer.Values.yes,
           },
         ],
       },
