@@ -2,6 +2,7 @@ import { FilesUpload } from "~/components/filesUpload/FilesUpload";
 import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
 import Checkbox from "~/components/inputs/Checkbox";
 import DateInput from "~/components/inputs/DateInput";
+import { FileInput } from "~/components/inputs/FileInput";
 import HiddenInput from "~/components/inputs/HiddenInput";
 import Input from "~/components/inputs/Input";
 import RadioGroup from "~/components/inputs/RadioGroup";

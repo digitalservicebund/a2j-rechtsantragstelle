@@ -13,10 +13,10 @@ type ReplacementKey = keyof ReturnType<typeof stringReplacements>;
 const documents = {
   hasBuergergeld: "Ihren aktuellen Bürgergeld-Bescheid",
   hasBuergergeldOrNoSozialleistung: "Kontoauszüge der letzten 3 Monate",
-  staatlicheLeistungenIsGrundsicherung:
+  hasGrundsicherung:
     "Ihren aktuellen Bescheid über Grundsicherung oder Sozialhilfe",
   arbeitslosenGeld: "Kopie Ihres aktuellen Arbeitslosengeld-Bescheids",
-  staatlicheLeistungenIsAsylbewerberleistungen:
+  hasAsylbewerberleistungen:
     "Ihren aktuellen Bescheid über Asylbewerberleistungen",
   wohngeld: "Kopie Ihres aktuellen Wohngeld-Bescheids",
   bafoeg:
@@ -37,7 +37,7 @@ const documents = {
   hasGrundeigentum: "Kopie des Grundbuchauszugs von Ihrem Grundeigentum",
   hasSchwangerschaft: "Angabe des voraussichtlichen Entbindungstermins",
   hasSchwerbehinderung:
-    "Kopie des Schwerbehindertensuasweis, oder Nachweis über die Behinderung",
+    "Kopie des Schwerbehindertenausweises, oder Nachweis über die Behinderung",
   hasMedicalReasons:
     "Bescheinigung der medizinischen Notwendigkeit der kostenaufwändigen Ernährung",
   hasWeitereAusgaben:

@@ -27,6 +27,7 @@ import {
   validateFlowTransition,
   getFlowTransitionConfig,
 } from "~/services/flow/server/flowTransitionValidation";
+import { parseAndValidateFormData } from "~/services/flow/server/parseMultipartFormData.server";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { logWarning } from "~/services/logging";
@@ -41,17 +42,11 @@ import {
   getSessionManager,
   updateSession,
 } from "~/services/session.server";
-import {
-  arrayFromSession,
-  arrayIndexFromFormData,
-  deleteFromArrayInplace,
-} from "~/services/session.server/arrayDeletion";
+import { deleteArrayItem } from "~/services/session.server/arrayDeletion";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
-import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { filterFormData } from "~/util/filterFormData";
 
 export const loader = async ({
   params,
@@ -235,43 +230,23 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
-  const requestCopy = request.clone();
-  let formData = await unstable_parseMultipartFormData(
-    request,
-    async ({ filename, data, contentType }) => {
-      if (!filename || contentType !== "application/pdf") {
-        return;
-      }
-      const result = await uploadUserFileToS3(request, data);
-      return Promise.resolve(result?.ETag);
-    },
-  );
-  if (formData.entries().next().done) formData = await requestCopy.formData();
-  const relevantFormData = filterFormData(formData);
-
-  if (formData.get("_action") === "delete") {
-    try {
-      const { arrayName, index } = arrayIndexFromFormData(relevantFormData);
-      const arrayToMutate = arrayFromSession(arrayName, flowSession);
-      deleteFromArrayInplace(arrayToMutate, index);
-      updateSession(flowSession, { [arrayName]: arrayToMutate });
-      const headers = { "Set-Cookie": await commitSession(flowSession) };
-      return new Response("success", { status: 200, headers });
-    } catch (err) {
-      return new Response((err as Error).message, { status: 422 });
-    }
+  const clonedFormData = await request.clone().formData();
+  if (clonedFormData.get("_action") === "delete") {
+    // array item deletion, skip everything else
+    return await deleteArrayItem(flowId, clonedFormData, request);
   }
 
-  const validationResult = await validateFormData(pathname, relevantFormData);
+  const validationResult = await parseAndValidateFormData(request, pathname);
 
-  if (validationResult.error)
+  if (validationResult?.error) {
     return validationError(
       validationResult.error,
       validationResult.submittedData,
     );
+  }
 
   const resolvedData = resolveArraysFromKeys(
-    validationResult.data,
+    validationResult?.data,
     arrayIndexes,
   );
   updateSession(flowSession, resolvedData);
@@ -298,7 +273,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     sendCustomAnalyticsEvent({
       request,
       eventName: customAnalyticsEventName,
-      properties: validationResult.data,
+      properties: validationResult?.data,
     });
   }
 
