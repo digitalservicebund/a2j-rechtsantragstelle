@@ -1,15 +1,5 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import {
-  euroSchwelle,
-  hasSozialleistungen,
-  hasKontopfaendung,
-  kontopfaendungWegweiserContext,
-  hasPKonto,
-  schuldenBei,
-  verheiratet,
-} from "./context";
+import { kontopfaendungWegweiserContext } from "./context";
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/schulden/kontopfaendung/wegweiser",
@@ -25,14 +15,9 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: "ergebnisseite",
-            guard: ({ context }) =>
-              context.hasKontopfaendung === hasKontopfaendung.Values.nein,
+            guard: ({ context }) => context.hasKontopfaendung === "nein",
           },
-          {
-            target: "p-konto",
-            guard: ({ context }) =>
-              context.hasKontopfaendung !== hasKontopfaendung.Values.nein,
-          },
+          "p-konto",
         ],
         BACK: "start",
       },
@@ -42,15 +27,9 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: [
           {
             target: "euro-schwelle",
-            guard: ({ context }) =>
-              context.euroSchwelle === euroSchwelle.Values.nein,
+            guard: ({ context }) => context.euroSchwelle === "nein",
           },
-          {
-            target: "kontopfaendung",
-            guard: ({ context }) =>
-              context.hasKontopfaendung === hasKontopfaendung.Values.nein &&
-              !context.euroSchwelle,
-          },
+          "kontopfaendung",
         ],
       },
     },
@@ -60,15 +39,10 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "p-konto-probleme",
             guard: ({ context }) =>
-              context.hasPKonto === hasPKonto.Values.bank ||
-              context.hasPKonto === hasPKonto.Values.nichtAktiv,
+              context.hasPKonto === "bank" ||
+              context.hasPKonto === "nichtAktiv",
           },
-          {
-            target: "glaeubiger",
-            guard: ({ context }) =>
-              context.hasPKonto === hasPKonto.Values.nein ||
-              context.hasPKonto === hasPKonto.Values.ja,
-          },
+          "glaeubiger",
         ],
         BACK: "kontopfaendung",
       },
@@ -84,14 +58,9 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: "glaeubiger-unbekannt",
-            guard: ({ context }) =>
-              context.schuldenBei === schuldenBei.Values.weissNicht,
+            guard: ({ context }) => context.schuldenBei === "weissNicht",
           },
-          {
-            target: "euro-schwelle",
-            guard: ({ context }) =>
-              context.schuldenBei !== schuldenBei.Values.weissNicht,
-          },
+          "euro-schwelle",
         ],
         BACK: "p-konto",
       },
@@ -107,26 +76,16 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: "ergebnisseite",
-            guard: ({ context }) =>
-              context.euroSchwelle === euroSchwelle.Values.nein,
+            guard: ({ context }) => context.euroSchwelle === "nein",
           },
-          {
-            target: "zwischenseite-unterhalt",
-            guard: ({ context }) =>
-              context.euroSchwelle !== euroSchwelle.Values.nein,
-          },
+          "zwischenseite-unterhalt",
         ],
         BACK: [
           {
             target: "glaeubiger-unbekannt",
-            guard: ({ context }) =>
-              context.schuldenBei === schuldenBei.Values.weissNicht,
+            guard: ({ context }) => context.schuldenBei === "weissNicht",
           },
-          {
-            target: "glaeubiger",
-            guard: ({ context }) =>
-              context.schuldenBei !== schuldenBei.Values.weissNicht,
-          },
+          "glaeubiger",
         ],
       },
     },
@@ -141,13 +100,9 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: "kinder-wohnen-zusammen",
-            guard: ({ context }) =>
-              context.hasKinder === YesNoAnswer.Values.yes,
+            guard: ({ context }) => context.hasKinder === "yes",
           },
-          {
-            target: "partner",
-            guard: ({ context }) => context.hasKinder === YesNoAnswer.Values.no,
-          },
+          "partner",
         ],
         BACK: "zwischenseite-unterhalt",
       },
@@ -170,26 +125,17 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "zwischenseite-cash",
             guard: ({ context }) =>
-              context.verheiratet === verheiratet.Values.nein ||
-              context.verheiratet === verheiratet.Values.verwitwet,
+              context.verheiratet === "nein" ||
+              context.verheiratet === "verwitwet",
           },
-          {
-            target: "partner-support",
-            guard: ({ context }) =>
-              context.verheiratet !== verheiratet.Values.nein &&
-              context.verheiratet !== verheiratet.Values.verwitwet,
-          },
+          "partner-support",
         ],
         BACK: [
           {
             target: "kinder-support",
-            guard: ({ context }) =>
-              context.hasKinder === YesNoAnswer.Values.yes,
+            guard: ({ context }) => context.hasKinder === "yes",
           },
-          {
-            target: "kinder",
-            guard: ({ context }) => context.hasKinder === YesNoAnswer.Values.no,
-          },
+          "kinder",
         ],
       },
     },
@@ -206,12 +152,10 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "partner",
             guard: ({ context }) =>
-              context.verheiratet !== verheiratet.Values.nein &&
-              context.verheiratet !== verheiratet.Values.verwitwet,
+              context.verheiratet !== "nein" &&
+              context.verheiratet !== "verwitwet",
           },
-          {
-            target: "partner-wohnen-zusammen",
-          },
+          "partner-wohnen-zusammen",
         ],
       },
     },
@@ -222,15 +166,10 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "partner",
             guard: ({ context }) =>
-              context.verheiratet === verheiratet.Values.nein ||
-              context.verheiratet === verheiratet.Values.verwitwet,
+              context.verheiratet === "nein" ||
+              context.verheiratet === "verwitwet",
           },
-          {
-            target: "partner-support",
-            guard: ({ context }) =>
-              context.partnerWohnenZusammen === YesNoAnswer.Values.yes ||
-              context.verheiratet === verheiratet.Values.verwitwet,
-          },
+          "partner-support",
         ],
       },
     },
@@ -239,13 +178,9 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: "arbeitsweise",
-            guard: ({ context }) =>
-              context.hasArbeit === YesNoAnswer.Values.yes,
+            guard: ({ context }) => context.hasArbeit === "yes",
           },
-          {
-            target: "sozialleistungen",
-            guard: ({ context }) => context.hasArbeit === YesNoAnswer.Values.no,
-          },
+          "sozialleistungen",
         ],
         BACK: "zwischenseite-cash",
       },
@@ -261,14 +196,9 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: "zahlungslimit",
-            guard: ({ context }) =>
-              context.nachzahlungArbeitgeber === YesNoAnswer.Values.yes,
+            guard: ({ context }) => context.nachzahlungArbeitgeber === "yes",
           },
-          {
-            target: "zahlung-arbeitgeber",
-            guard: ({ context }) =>
-              context.nachzahlungArbeitgeber === YesNoAnswer.Values.no,
-          },
+          "zahlung-arbeitgeber",
         ],
         BACK: "arbeitsweise",
       },
@@ -290,24 +220,16 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: "sozialleistungen-umstaende",
-            guard: ({ context }) =>
-              context.hasSozialleistungen === hasSozialleistungen.Values.nein,
+            guard: ({ context }) => context.hasSozialleistungen === "nein",
           },
-          {
-            target: "sozialleistung-nachzahlung",
-            guard: ({ context }) =>
-              context.hasSozialleistungen !== hasSozialleistungen.Values.nein,
-          },
+          "sozialleistung-nachzahlung",
         ],
         BACK: [
           {
             target: "start",
-            guard: ({ context }) => context.hasArbeit === YesNoAnswer.Values.no,
+            guard: ({ context }) => context.hasArbeit === "no",
           },
-          {
-            target: "zahlung-arbeitgeber",
-            guard: ({ context }) => context.hasArbeit !== YesNoAnswer.Values.no,
-          },
+          "zahlung-arbeitgeber",
         ],
       },
     },
@@ -317,18 +239,9 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "sozialleistung-nachzahlung",
             guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.nein === CheckboxValue.off,
+              context.sozialleistungenUmstaende?.nein === "off",
           },
-          {
-            target: "besondere-ausgaben",
-            guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.nein === CheckboxValue.on &&
-              context.sozialleistungenUmstaende?.kindergeld ===
-                CheckboxValue.off &&
-              context.sozialleistungenUmstaende?.pflegegeld ===
-                CheckboxValue.off &&
-              context.sozialleistungenUmstaende?.wohngeld === CheckboxValue.off,
-          },
+          "besondere-ausgaben",
         ],
         BACK: "sozialleistungen",
       },
@@ -339,64 +252,35 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "sozialleistung-nachzahlung-amount",
             guard: ({ context }) =>
-              context.hasSozialleistungNachzahlung === YesNoAnswer.Values.yes,
+              context.hasSozialleistungNachzahlung === "yes",
           },
-          {
-            target: "sozialleistungen-einmalzahlung",
-            guard: ({ context }) =>
-              context.hasSozialleistungNachzahlung === YesNoAnswer.Values.no,
-          },
+          "sozialleistungen-einmalzahlung",
         ],
         BACK: [
           {
             target: "sozialleistungen-umstaende",
-            guard: ({ context }) =>
-              context.hasSozialleistungen === hasSozialleistungen.Values.nein,
+            guard: ({ context }) => context.hasSozialleistungen === "nein",
           },
-          {
-            target: "sozialleistungen",
-            guard: ({ context }) =>
-              context.hasSozialleistungen !== hasSozialleistungen.Values.nein,
-          },
+          "sozialleistungen",
         ],
       },
     },
     "sozialleistung-nachzahlung-amount": {
       on: {
-        SUBMIT: [
-          {
-            target: "sozialleistungen-einmalzahlung",
-            guard: ({ context }) =>
-              context.socialAmountHigher500 === YesNoAnswer.Values.no ||
-              context.socialAmountHigher500 === YesNoAnswer.Values.yes,
-          },
-        ],
+        SUBMIT: "sozialleistungen-einmalzahlung",
         BACK: "sozialleistung-nachzahlung",
       },
     },
     "sozialleistungen-einmalzahlung": {
       on: {
-        SUBMIT: [
-          {
-            target: "besondere-ausgaben",
-            guard: ({ context }) =>
-              context.hasSozialleistungenEinmalzahlung ===
-                YesNoAnswer.Values.no ||
-              context.hasSozialleistungenEinmalzahlung ===
-                YesNoAnswer.Values.yes,
-          },
-        ],
+        SUBMIT: "besondere-ausgaben",
         BACK: [
           {
             target: "sozialleistung-nachzahlung",
             guard: ({ context }) =>
-              context.hasSozialleistungNachzahlung === YesNoAnswer.Values.no,
+              context.hasSozialleistungNachzahlung === "no",
           },
-          {
-            target: "sozialleistung-nachzahlung-amount",
-            guard: ({ context }) =>
-              context.hasSozialleistungNachzahlung === YesNoAnswer.Values.yes,
-          },
+          "sozialleistung-nachzahlung-amount",
         ],
       },
     },
@@ -411,14 +295,9 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "sozialleistungen-umstaende",
             guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.nein === CheckboxValue.on,
+              context.sozialleistungenUmstaende?.nein === "on",
           },
-          {
-            target: "sozialleistungen-einmalzahlung",
-            guard: ({ context }) =>
-              context.hasSozialleistungNachzahlung === YesNoAnswer.Values.no ||
-              context.hasSozialleistungNachzahlung === YesNoAnswer.Values.yes,
-          },
+          "sozialleistungen-einmalzahlung",
         ],
       },
     },
