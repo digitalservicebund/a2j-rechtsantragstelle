@@ -1,22 +1,21 @@
+import { faker } from "@faker-js/faker";
 import { fireEvent, render } from "@testing-library/react";
 import {
-  ACTIVATE_VIDEO_TRANSLATION_KEY,
-  HEADER_TRANSLATION_KEY,
-  DATA_PROTECTION_TRANSLATION_KEY,
   DataProtectionBanner,
+  DATA_PROTECTION_TRANSLATION_VALUES,
 } from "~/components/video/DataProtectionBanner";
 import { TranslationContext } from "~/services/translations/translationsContext";
 
 describe("Datenschutz Component", () => {
   it("should fetch content from video context", () => {
-    const videoTranslations = {
-      [HEADER_TRANSLATION_KEY]: "Hinweis zum Datenschutz",
-      [DATA_PROTECTION_TRANSLATION_KEY]:
-        "Super long and complicated Datenschutz",
-      [ACTIVATE_VIDEO_TRANSLATION_KEY]: "Video Aktivieren",
-    };
+    const videoTranslations = Object.fromEntries(
+      DATA_PROTECTION_TRANSLATION_VALUES.map((key) => [
+        key,
+        faker.lorem.sentence(),
+      ]),
+    );
 
-    const { getByText, getByRole } = render(
+    const { getByText } = render(
       <TranslationContext.Provider
         value={{ video: videoTranslations, feedback: {}, accessibility: {} }}
       >
@@ -24,15 +23,9 @@ describe("Datenschutz Component", () => {
       </TranslationContext.Provider>,
     );
 
-    expect(
-      getByText(videoTranslations[HEADER_TRANSLATION_KEY]),
-    ).toBeInTheDocument();
-    expect(
-      getByText(videoTranslations[DATA_PROTECTION_TRANSLATION_KEY]),
-    ).toBeInTheDocument();
-    expect(getByRole("button")).toHaveTextContent(
-      videoTranslations[ACTIVATE_VIDEO_TRANSLATION_KEY],
-    );
+    DATA_PROTECTION_TRANSLATION_VALUES.forEach((key) => {
+      expect(getByText(videoTranslations[key])).toBeInTheDocument();
+    });
   });
 
   it("should allow the user to accept the Datenschutz", () => {

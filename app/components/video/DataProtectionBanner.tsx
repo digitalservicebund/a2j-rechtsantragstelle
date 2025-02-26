@@ -1,12 +1,19 @@
 import Button from "~/components/Button";
 import Heading from "~/components/Heading";
-import RichText from "~/components/RichText";
 import { extractTranslations } from "~/services/translations/getTranslationByKey";
 import { useTranslations } from "~/services/translations/translationsContext";
+import { StandaloneLink } from "../StandaloneLink";
 
-export const HEADER_TRANSLATION_KEY = "datenschutz-header";
-export const DATA_PROTECTION_TRANSLATION_KEY = "datenschutz";
-export const ACTIVATE_VIDEO_TRANSLATION_KEY = "video-aktivieren";
+const DATA_PROTECTION_TRANSLATION_KEYS = {
+  header: "datenschutz-header",
+  content: "datenschutz",
+  activateVideo: "video-aktivieren",
+  link: "datenschutz-link",
+} as const;
+
+export const DATA_PROTECTION_TRANSLATION_VALUES = Object.values(
+  DATA_PROTECTION_TRANSLATION_KEYS,
+);
 
 export const DataProtectionBanner = ({
   onCookiesAccepted,
@@ -14,11 +21,7 @@ export const DataProtectionBanner = ({
   onCookiesAccepted: () => void;
 }) => {
   const translations = extractTranslations(
-    [
-      HEADER_TRANSLATION_KEY,
-      DATA_PROTECTION_TRANSLATION_KEY,
-      ACTIVATE_VIDEO_TRANSLATION_KEY,
-    ],
+    DATA_PROTECTION_TRANSLATION_VALUES,
     useTranslations().video,
   );
 
@@ -29,13 +32,17 @@ export const DataProtectionBanner = ({
     >
       <div className="p-16 gap-y-28 flex flex-col flex-wrap">
         <Heading
-          text={translations[HEADER_TRANSLATION_KEY]}
+          text={translations[DATA_PROTECTION_TRANSLATION_KEYS.header]}
           look="ds-heading-03-reg"
         />
-        <RichText html={translations[DATA_PROTECTION_TRANSLATION_KEY]} />
+        <p>{translations[DATA_PROTECTION_TRANSLATION_KEYS.content]}</p>
+        <StandaloneLink
+          text={translations[DATA_PROTECTION_TRANSLATION_KEYS.link]}
+          url="/datenschutz"
+        />
         <Button
           onClick={onCookiesAccepted}
-          text={translations[ACTIVATE_VIDEO_TRANSLATION_KEY]}
+          text={translations[DATA_PROTECTION_TRANSLATION_KEYS.activateVideo]}
           className="max-w-fit"
           size="large"
         />
