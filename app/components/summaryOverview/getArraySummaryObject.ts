@@ -11,6 +11,12 @@ export const getArraySummaryObject = (
     return undefined;
   }
 
-  const arrayObjectName = boxItems[0].field.split(arrayChar)[0];
-  return userData[arrayObjectName];
+  // Verify the validity of each field name in the array, instead of just the first one
+  for (const item of boxItems) {
+    const inlineItem = item.inlineItems.find((item) => item.field);
+    if (inlineItem) {
+      const arrayObjectName = inlineItem.field.split(arrayChar)[0];
+      return userData[arrayObjectName];
+    }
+  }
 };

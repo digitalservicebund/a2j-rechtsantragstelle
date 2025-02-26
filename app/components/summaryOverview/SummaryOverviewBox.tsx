@@ -30,15 +30,12 @@ const SummaryOverviewBox = ({
 
         <dl>
           {boxItems.map(
-            ({
-              field,
-              title: boxItemTitle,
-              displayEmptyValue,
-              inlineItems,
-            }) => (
+            (
+              { title: boxItemTitle, displayEmptyValue, inlineItems },
+              index,
+            ) => (
               <SummaryOverviewBoxItem
-                key={`${boxId}-${field}`}
-                field={field}
+                key={`${boxId}-${boxItemTitle ?? index}`}
                 title={boxItemTitle}
                 translations={translations}
                 userData={userData}

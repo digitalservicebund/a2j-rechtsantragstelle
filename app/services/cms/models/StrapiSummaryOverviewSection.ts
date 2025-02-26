@@ -16,11 +16,8 @@ const StrapiSummaryOverviewBoxSchema = z
       .array(
         z.object({
           title: StrapiStringOptionalSchema,
-          field: z.string(),
           displayEmptyValue: StrapiStringOptionalSchema,
-          inlineItems: z
-            .array(StrapiSummaryOverviewBoxItemInlineSchema)
-            .optional(),
+          inlineItems: z.array(StrapiSummaryOverviewBoxItemInlineSchema),
         }),
       )
       .nonempty(),

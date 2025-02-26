@@ -10,7 +10,9 @@ describe("getItemValueBox", () => {
     };
     const userData: Context = { status: "active" };
 
-    const actual = getItemValueBox(translations, userData, "status");
+    const actual = getItemValueBox(translations, userData, [
+      { field: "status" },
+    ]);
     expect(actual).toBe("Aktiv");
   });
 
@@ -21,7 +23,7 @@ describe("getItemValueBox", () => {
     const actual = getItemValueBox(
       translations,
       userData,
-      "status",
+      [{ field: "status" }],
       "Keine Angabe",
     );
 
@@ -34,7 +36,9 @@ describe("getItemValueBox", () => {
     };
     const userData: Context = { status: "unknown" };
 
-    const actual = getItemValueBox(translations, userData, "status");
+    const actual = getItemValueBox(translations, userData, [
+      { field: "status" },
+    ]);
 
     expect(actual).toBe("Default Status");
   });
@@ -43,7 +47,9 @@ describe("getItemValueBox", () => {
     const translations: Translations = {};
     const userData: Context = { status: "pending" };
 
-    const actual = getItemValueBox(translations, userData, "status");
+    const actual = getItemValueBox(translations, userData, [
+      { field: "status" },
+    ]);
 
     expect(actual).toBe("pending");
   });
@@ -52,25 +58,31 @@ describe("getItemValueBox", () => {
     const translations: Translations = {};
     const userData: Context = { status: "approved" };
 
-    const actual = getItemValueBox(translations, userData, "status");
+    const actual = getItemValueBox(translations, userData, [
+      { field: "status" },
+    ]);
 
     expect(actual).toBe("approved");
   });
 
-  test("returns value when is nested in an object", () => {
+  test("returns value when it is nested in an object", () => {
     const translations: Translations = {};
     const userData: Context = { status: { approved: "true" } };
 
-    const actual = getItemValueBox(translations, userData, "status.approved");
+    const actual = getItemValueBox(translations, userData, [
+      { field: "status.approved" },
+    ]);
 
     expect(actual).toBe("true");
   });
 
-  test("returns value empty when does not exist in the object", () => {
+  test("returns empty value when it does not exist in the object", () => {
     const translations: Translations = {};
     const userData: Context = { status: { approved: "true" } };
 
-    const actual = getItemValueBox(translations, userData, "status.fail");
+    const actual = getItemValueBox(translations, userData, [
+      { field: "status.fail" },
+    ]);
 
     expect(actual).toBe("");
   });
