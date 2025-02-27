@@ -18,7 +18,7 @@ export const beratungshilfeVorabcheckXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: "ergebnis/rechtsschutzversicherung-abbruch",
+            target: "rechtsschutzversicherung-details",
             guard: ({ context }) => context.rechtsschutzversicherung === "yes",
           },
           {
@@ -28,8 +28,43 @@ export const beratungshilfeVorabcheckXstateConfig = {
         ],
       },
     },
+    "rechtsschutzversicherung-details": {
+      on: {
+        SUBMIT: [
+          {
+            guard: ({ context }) => context.rsvCoverage === "yes",
+            target: "ergebnis/rechtsschutzversicherung-abbruch",
+          },
+          {
+            guard: ({ context }) => context.rsvCoverage === "tooExpensive",
+            target: "rechtsschutzversicherung-hinweis-selbstbeteiligung",
+          },
+          {
+            guard: ({ context }) => context.rsvCoverage === "unknown",
+            target: "ergebnis/rechtsschutzversicherung-ungewiss-abbruch",
+          },
+          "rechtsschutzversicherung-hinweis-kostenuebernahme",
+        ],
+        BACK: "rechtsschutzversicherung",
+      },
+    },
+    "rechtsschutzversicherung-hinweis-selbstbeteiligung": {
+      on: {
+        SUBMIT: "wurde-verklagt",
+        BACK: "rechtsschutzversicherung-details",
+      },
+    },
+    "rechtsschutzversicherung-hinweis-kostenuebernahme": {
+      on: {
+        SUBMIT: "wurde-verklagt",
+        BACK: "rechtsschutzversicherung-details",
+      },
+    },
+    "ergebnis/rechtsschutzversicherung-ungewiss-abbruch": {
+      on: { BACK: "rechtsschutzversicherung-details" },
+    },
     "ergebnis/rechtsschutzversicherung-abbruch": {
-      on: { BACK: "rechtsschutzversicherung" },
+      on: { BACK: "rechtsschutzversicherung-details" },
     },
     "wurde-verklagt": {
       on: {
@@ -43,7 +78,18 @@ export const beratungshilfeVorabcheckXstateConfig = {
             guard: ({ context }) => context.wurdeVerklagt === "no",
           },
         ],
-        BACK: "rechtsschutzversicherung",
+        BACK: [
+          {
+            target: "rechtsschutzversicherung-hinweis-selbstbeteiligung",
+            guard: ({ context }) => context.rsvCoverage === "tooExpensive",
+          },
+          {
+            target: "rechtsschutzversicherung-hinweis-kostenuebernahme",
+            guard: ({ context }) =>
+              context.rsvCoverage === "partly" || context.rsvCoverage === "no",
+          },
+          "rechtsschutzversicherung",
+        ],
       },
     },
     "ergebnis/wurde-verklagt-abbruch": {
