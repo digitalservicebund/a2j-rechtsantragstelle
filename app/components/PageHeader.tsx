@@ -1,7 +1,6 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 import classNames from "classnames";
-import { decode } from "html-entities";
 import { alignToContainer } from "~/components";
 import Kopfzeile from "~/components/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
@@ -60,7 +59,7 @@ export default function Header({
             />
             <StandaloneLink
               url={"/gebaerdensprache"}
-              text={decode(translations.gebaerdensprache)}
+              text={translations.gebaerdensprache}
               className="flex basis ds-label-03-reg items-center"
               icon={<SignLanguage className="inline mr-10" />}
             />
