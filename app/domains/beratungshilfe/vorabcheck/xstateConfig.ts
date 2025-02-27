@@ -41,7 +41,7 @@ export const beratungshilfeVorabcheckXstateConfig = {
           },
           {
             guard: ({ context }) => context.rsvCoverage === "unknown",
-            target: "",
+            target: "ergebnis/rechtsschutzversicherung-ungewiss-abbruch",
           },
           "rechtsschutzversicherung-hinweis-kostenuebernahme",
         ],
@@ -59,6 +59,9 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: "wurde-verklagt",
         BACK: "rechtsschutzversicherung-details",
       },
+    },
+    "ergebnis/rechtsschutzversicherung-ungewiss-abbruch": {
+      on: { BACK: "rechtsschutzversicherung" },
     },
     "ergebnis/rechtsschutzversicherung-abbruch": {
       on: { BACK: "rechtsschutzversicherung" },
