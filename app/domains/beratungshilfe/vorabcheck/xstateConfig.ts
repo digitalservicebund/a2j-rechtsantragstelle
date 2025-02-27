@@ -1,5 +1,4 @@
 import { and, not } from "xstate";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { type BeratungshilfeVorabcheckContext } from "./context";
 import { isIncomeTooHigh } from "./isIncomeTooHigh";
@@ -19,9 +18,7 @@ export const beratungshilfeVorabcheckXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: (await isFeatureFlagEnabled("showRSVIteration"))
-              ? "rechtsschutzversicherung-details"
-              : "ergebnis/rechtsschutzversicherung-abbruch",
+            target: "rechtsschutzversicherung-details",
             guard: ({ context }) => context.rechtsschutzversicherung === "yes",
           },
           {
@@ -67,11 +64,7 @@ export const beratungshilfeVorabcheckXstateConfig = {
       on: { BACK: "rechtsschutzversicherung-details" },
     },
     "ergebnis/rechtsschutzversicherung-abbruch": {
-      on: {
-        BACK: (await isFeatureFlagEnabled("showRSVIteration"))
-          ? "rechtsschutzversicherung-details"
-          : "rechtsschutzversicherung",
-      },
+      on: { BACK: "rechtsschutzversicherung-details" },
     },
     "wurde-verklagt": {
       on: {
@@ -85,21 +78,18 @@ export const beratungshilfeVorabcheckXstateConfig = {
             guard: ({ context }) => context.wurdeVerklagt === "no",
           },
         ],
-        BACK: (await isFeatureFlagEnabled("showRSVIteration"))
-          ? [
-              {
-                target: "rechtsschutzversicherung-hinweis-selbstbeteiligung",
-                guard: ({ context }) => context.rsvCoverage === "tooExpensive",
-              },
-              {
-                target: "rechtsschutzversicherung-hinweis-kostenuebernahme",
-                guard: ({ context }) =>
-                  context.rsvCoverage === "partly" ||
-                  context.rsvCoverage === "no",
-              },
-              "rechtsschutzversicherung",
-            ]
-          : "rechtsschutzversicherung",
+        BACK: [
+          {
+            target: "rechtsschutzversicherung-hinweis-selbstbeteiligung",
+            guard: ({ context }) => context.rsvCoverage === "tooExpensive",
+          },
+          {
+            target: "rechtsschutzversicherung-hinweis-kostenuebernahme",
+            guard: ({ context }) =>
+              context.rsvCoverage === "partly" || context.rsvCoverage === "no",
+          },
+          "rechtsschutzversicherung",
+        ],
       },
     },
     "ergebnis/wurde-verklagt-abbruch": {
