@@ -9,10 +9,12 @@ test.describe("Data submission", () => {
 
     await page.getByLabel("Ja").click();
     await page.getByText("Weiter").click();
+    await page.getByLabel("Ja, komplett").click();
+    await page.getByText("Weiter").click();
     await expect(
       page.getByText("wahrscheinlich keine Beratungshilfe"),
     ).toBeVisible();
     await page.getByRole("link", { name: "Zurück", exact: true }).click();
-    await expect(page.getByLabel("Ja")).toBeChecked();
+    await expect(page.getByLabel("Ja, komplett")).toBeChecked();
   });
 });
