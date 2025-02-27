@@ -3,7 +3,7 @@ import { StrapiAutoSuggestInputComponentSchema } from "../components/StrapiAutoS
 import { StrapiCheckboxComponentSchema } from "../components/StrapiCheckbox";
 import { StrapiDateInputComponentSchema } from "../components/StrapiDateInput";
 import { StrapiDropdownComponentSchema } from "../components/StrapiDropdown";
-import { StrapiFilesUploadComponentSchema } from "../components/StrapiFileInput";
+import { StrapiFilesUploadComponentSchema } from "../components/StrapiFilesUpload";
 import { StrapiHiddenInputComponentSchema } from "../components/StrapiHiddenInput";
 import { StrapiInputComponentSchema } from "../components/StrapiInput";
 import { StrapiSelectComponentSchema } from "../components/StrapiSelect";

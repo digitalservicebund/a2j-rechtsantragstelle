@@ -18,7 +18,9 @@ export const pdfFileSchema = (
   )
   .refine(
     (file?: File) =>
-      file?.type === "application/pdf" && file?.name.endsWith(".pdf"),
+      (file?.type === "application/pdf" && file?.name.endsWith(".pdf")) ||
+      (file?.type === "image/tiff" && file?.name.endsWith(".tiff")) ||
+      (file?.type === "image/tif" && file?.name.endsWith(".tif")),
     errorStateMap.wrongFileType,
   )
   .refine(

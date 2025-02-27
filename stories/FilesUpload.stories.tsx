@@ -1,6 +1,6 @@
 import { remixContext } from ".storybook/remixContext";
 import type { Meta, StoryObj } from "@storybook/react";
-import { FilesUpload } from "~/components/filesUpload/FilesUpload";
+import FilesUpload from "~/components/filesUpload/FilesUpload";
 
 const meta = {
   title: "Component/FilesUpload",
@@ -19,10 +19,7 @@ export const Default: Story = {
     formId: "formId",
     fileName: "testFile.pdf",
     fileSize: 1024,
-    warningTitle: "Warning Title",
     deleteButtonLabel: "Delete",
-    submitButtonLabel: "Upload Files",
-    warningDescription: "Maximum files reached",
   },
   decorators: [(Story) => remixContext(Story)],
 };

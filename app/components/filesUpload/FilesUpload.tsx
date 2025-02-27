@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { FileInputsNoJS } from "./FileInputsNoJS";
 import { FilesUploadHeader } from "./FilesUploadHeader";
-import { FileUploadError } from "./FileUploadError";
 import { FileUploadInfo } from "./FileUploadInfo";
-import { FileUploadWarning } from "./FileUploadWarning";
+import { InlineNotice, InlineNoticeProps } from "../InlineNotice";
 import { FileInput } from "../inputs/FileInput";
 
 export type FilesUploadProps = {
@@ -12,48 +10,50 @@ export type FilesUploadProps = {
   formId?: string;
   fileName?: string;
   fileSize?: number;
-  warningTitle?: string;
   description?: string;
-  errorMessage?: string;
   deleteButtonLabel?: string;
-  submitButtonLabel?: string;
-  warningDescription?: string;
+  inlineNotices?: InlineNoticeProps[];
 };
 
-export const FilesUpload = ({
+const FilesUpload = ({
   name,
   title,
   formId,
   fileName,
   fileSize,
   description,
-  errorMessage,
-  warningTitle,
+  inlineNotices,
   deleteButtonLabel,
-  submitButtonLabel,
-  warningDescription,
 }: FilesUploadProps) => {
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
 
+  const maxNumberOfFiles = 5;
+
+  if (!jsAvailable) {
+    return (
+      <div className="w-full flex flex-col bg-white p-16">
+        {Array.from({ length: maxNumberOfFiles }).map(() => (
+          <input className="p-8" type="file" key={`${name}`} name={name} />
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="w-full bg-white p-16">
       <FilesUploadHeader title={title} description={description} />
-      {!jsAvailable ? (
-        <FileInputsNoJS name={name} submitButtonLabel={submitButtonLabel} />
-      ) : (
-        <FileInput name={name} formId={formId} />
-      )}
+      <FileInput name={name} formId={formId} />
       <FileUploadInfo
         fileName={fileName}
         fileSize={fileSize}
         deleteButtonLabel={deleteButtonLabel}
       />
-      <FileUploadError errorMessage={errorMessage} />
-      <FileUploadWarning
-        warningTitle={warningTitle}
-        warningDescription={warningDescription}
-      />
+      {inlineNotices?.map((inlineNotice) => (
+        <InlineNotice key={inlineNotice.title} {...inlineNotice} />
+      ))}
     </div>
   );
 };
+
+export default FilesUpload;
