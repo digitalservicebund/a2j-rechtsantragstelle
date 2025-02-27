@@ -37,8 +37,10 @@ function ValidatedFlowForm({
       action={pathname}
     >
       <input type="hidden" name={CSRFKey} value={csrf} />
-      <div className="ds-stack-40">
-        <div className="ds-stack-40">
+      <div className={formElements.length === 0 ? "ds-stack-0" : "ds-stack-40"}>
+        <div
+          className={formElements.length === 0 ? "ds-stack-0" : "ds-stack-40"}
+        >
           <StrapiFormComponents components={formElements} />
         </div>
         <ButtonNavigation {...buttonNavigationProps} />
