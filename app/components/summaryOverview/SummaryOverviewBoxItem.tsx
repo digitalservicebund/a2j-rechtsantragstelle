@@ -5,9 +5,9 @@ import { getItemValueBox } from "./getItemValueBox";
 
 export type SummaryOverviewBoxItemType = {
   readonly title?: string;
-  readonly displayEmptyValue?: string;
   readonly inlineItems: Array<{
     readonly field: string;
+    readonly displayEmptyValue?: string;
   }>;
 };
 
@@ -19,30 +19,18 @@ type Props = SummaryOverviewBoxItemType & {
 const buildItemValue = (
   userData: Context,
   translations: Translations,
-  inlineItems: Array<{ field: string }>,
-  displayEmptyValue?: string,
+  inlineItems: Array<{ field: string; displayEmptyValue?: string }>,
 ) => {
-  return getItemValueBox(
-    translations,
-    userData,
-    inlineItems,
-    displayEmptyValue,
-  );
+  return getItemValueBox(translations, userData, inlineItems);
 };
 
 const SummaryOverviewBoxItem = ({
   userData,
   translations,
   title,
-  displayEmptyValue,
   inlineItems,
 }: Props) => {
-  const itemValue = buildItemValue(
-    userData,
-    translations,
-    inlineItems,
-    displayEmptyValue,
-  );
+  const itemValue = buildItemValue(userData, translations, inlineItems);
 
   if (isFieldEmptyOrUndefined(itemValue.trim())) {
     return null;

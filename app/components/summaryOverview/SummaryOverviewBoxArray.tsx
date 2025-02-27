@@ -21,8 +21,7 @@ const SummaryOverviewBoxArray = ({ boxId, boxItems, title, stepId }: Props) => {
 
   return arrayObject.map((object, index) => (
     <SummaryOverviewBox
-      // eslint-disable-next-line react/no-array-index-key
-      key={boxId + index}
+      key={`${boxId}-${title?.text ?? index}`}
       boxId={boxId}
       stepId={addArrayIndexToPathUrl(stepId, index)}
       userData={object}

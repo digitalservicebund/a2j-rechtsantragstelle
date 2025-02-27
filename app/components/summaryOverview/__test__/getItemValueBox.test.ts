@@ -20,14 +20,11 @@ describe("getItemValueBox", () => {
     const translations: Translations = {};
     const userData: Context = { status: "" };
 
-    const actual = getItemValueBox(
-      translations,
-      userData,
-      [{ field: "status" }],
-      "Keine Angabe",
-    );
+    const actual = getItemValueBox(translations, userData, [
+      { field: "status" },
+    ]);
 
-    expect(actual).toBe("Keine Angabe");
+    expect(actual).toBe("");
   });
 
   test("returns field.value translation if no direct translation exists", () => {
@@ -85,5 +82,17 @@ describe("getItemValueBox", () => {
     ]);
 
     expect(actual).toBe("");
+  });
+
+  test("returns concatenated values for multiple fields", () => {
+    const translations: Translations = {};
+    const userData: Context = { status: "active", role: "admin" };
+
+    const actual = getItemValueBox(translations, userData, [
+      { field: "status" },
+      { field: "role" },
+    ]);
+
+    expect(actual).toBe("active admin");
   });
 });

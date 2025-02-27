@@ -29,21 +29,15 @@ const SummaryOverviewBox = ({
         {title && <Heading {...title} className="mb-16" />}
 
         <dl>
-          {boxItems.map(
-            (
-              { title: boxItemTitle, displayEmptyValue, inlineItems },
-              index,
-            ) => (
-              <SummaryOverviewBoxItem
-                key={`${boxId}-${boxItemTitle ?? index}`}
-                title={boxItemTitle}
-                translations={translations}
-                userData={userData}
-                displayEmptyValue={displayEmptyValue}
-                inlineItems={inlineItems}
-              />
-            ),
-          )}
+          {boxItems.map(({ title: boxItemTitle, inlineItems }, index) => (
+            <SummaryOverviewBoxItem
+              key={`${boxId}-${boxItemTitle ?? index}`}
+              title={boxItemTitle}
+              translations={translations}
+              userData={userData}
+              inlineItems={inlineItems}
+            />
+          ))}
         </dl>
 
         <Button

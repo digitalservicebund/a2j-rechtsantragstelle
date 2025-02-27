@@ -6,6 +6,7 @@ import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
 
 const StrapiSummaryOverviewBoxItemInlineSchema = z.object({
   field: z.string(),
+  displayEmptyValue: StrapiStringOptionalSchema,
 });
 
 const StrapiSummaryOverviewBoxSchema = z
@@ -16,7 +17,6 @@ const StrapiSummaryOverviewBoxSchema = z
       .array(
         z.object({
           title: StrapiStringOptionalSchema,
-          displayEmptyValue: StrapiStringOptionalSchema,
           inlineItems: z.array(StrapiSummaryOverviewBoxItemInlineSchema),
         }),
       )

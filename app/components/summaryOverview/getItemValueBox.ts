@@ -24,10 +24,9 @@ const getFieldName = (field: string): string => {
 export const getItemValueBox = (
   translations: Translations,
   userData: Context,
-  inlineItems: Array<{ field: string }>,
-  displayEmptyValue?: string,
+  inlineItems: Array<{ field: string; displayEmptyValue?: string }>,
 ) => {
-  const itemValues = inlineItems.map(({ field }) => {
+  const itemValues = inlineItems.map(({ field, displayEmptyValue }) => {
     const fieldName = getFieldName(field);
     const itemValue = fieldName.includes(".")
       ? getNestedValue(userData, fieldName)
