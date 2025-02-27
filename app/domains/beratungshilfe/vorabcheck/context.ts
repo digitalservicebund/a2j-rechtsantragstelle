@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { bereich } from "~/domains/beratungshilfe/formular/rechtsproblem/context";
+import { rsvCoverage } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/context";
 import { staatlicheLeistungen } from "~/domains/shared/formular/finanzielleAngaben/context";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -40,6 +41,10 @@ export const kidsSchema = z
 
 export const context = {
   rechtsschutzversicherung: YesNoAnswer,
+  rsvCoverage: z.union([
+    rsvCoverage,
+    z.enum(["tooExpensive"], customRequiredErrorMessage),
+  ]),
   klageEingereicht: YesNoAnswer,
   hamburgOderBremen: YesNoAnswer,
   beratungshilfeBeantragt: YesNoAnswer,
