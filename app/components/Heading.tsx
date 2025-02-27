@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import { decode } from "html-entities";
 import type { AriaRole, LegacyRef, ReactNode } from "react";
 
 export type HeadingProps = Readonly<{
@@ -40,7 +39,7 @@ function Heading({
       data-testid={dataTestid}
       className={cssClasses}
     >
-      {children ?? decode(text)}
+      {children ?? text}
     </Tag>
   );
 }
