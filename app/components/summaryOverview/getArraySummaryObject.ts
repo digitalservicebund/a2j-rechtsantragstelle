@@ -11,6 +11,11 @@ export const getArraySummaryObject = (
     return undefined;
   }
 
-  const arrayObjectName = boxItems[0].field.split(arrayChar)[0];
-  return userData[arrayObjectName];
+  for (const item of boxItems) {
+    const inlineItem = item.inlineItems.find((item) => item.field);
+    if (inlineItem) {
+      const arrayObjectName = inlineItem.field.split(arrayChar)[0];
+      return userData[arrayObjectName];
+    }
+  }
 };
