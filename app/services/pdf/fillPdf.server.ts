@@ -1,6 +1,5 @@
 import path from "node:path";
 import fontkit from "@pdf-lib/fontkit";
-import type { PDFFont } from "pdf-lib";
 import { PDFDocument } from "pdf-lib";
 import type { FlowId } from "~/domains/flowIds";
 import { addDruckvermerk } from "./druckvermerk";
@@ -31,8 +30,6 @@ const bundesSansCondensed = await readRelativeFileToBuffer(
   "/data/pdf/fonts/BundesSansCond-DTP-Regular.otf",
 );
 
-export let customPdfFormFont: PDFFont;
-
 type FillPdfProps = {
   flowId: FlowId;
   pdfValues: PdfValues;
@@ -52,15 +49,13 @@ export async function fillPdf({
   const pdfDoc = await PDFDocument.load(global.__pdfFileBuffers[flowId]!);
   resizeToA4(pdfDoc);
   pdfDoc.registerFontkit(fontkit);
-  customPdfFormFont = await pdfDoc.embedFont(bundesSansCondensed, {
-    features: {
-      liga: false,
-    },
-  });
   addDruckvermerk(pdfDoc, yPositionsDruckvermerk, xPositionsDruckvermerk);
 
   const form = pdfDoc.getForm();
 
+  const customPdfFormFont = await pdfDoc.embedFont(bundesSansCondensed, {
+    features: { liga: false },
+  });
   const rawUpdateFieldAppearances = form.updateFieldAppearances.bind(form);
   form.updateFieldAppearances = () =>
     rawUpdateFieldAppearances(customPdfFormFont);

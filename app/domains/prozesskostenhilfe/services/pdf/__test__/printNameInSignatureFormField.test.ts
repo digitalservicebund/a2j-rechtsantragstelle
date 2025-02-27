@@ -1,6 +1,5 @@
 import type { PDFDocument } from "pdf-lib";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
-import { customPdfFormFont } from "~/services/pdf/fillPdf.server";
 import { printNameInSignatureFormField } from "../printNameInSignatureFormField";
 
 vi.mock("pdf-lib", async () => {
@@ -37,7 +36,6 @@ describe("printNameInSignatureFormField", () => {
       x: 200,
       y: 75,
       size: 10,
-      font: customPdfFormFont,
     });
   });
 
