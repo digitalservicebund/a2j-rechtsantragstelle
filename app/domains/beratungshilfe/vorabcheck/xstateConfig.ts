@@ -61,10 +61,10 @@ export const beratungshilfeVorabcheckXstateConfig = {
       },
     },
     "ergebnis/rechtsschutzversicherung-ungewiss-abbruch": {
-      on: { BACK: "rechtsschutzversicherung" },
+      on: { BACK: "rechtsschutzversicherung-details" },
     },
     "ergebnis/rechtsschutzversicherung-abbruch": {
-      on: { BACK: "rechtsschutzversicherung" },
+      on: { BACK: "rechtsschutzversicherung-details" },
     },
     "wurde-verklagt": {
       on: {
