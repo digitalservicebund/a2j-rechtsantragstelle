@@ -24,9 +24,9 @@ const getFieldName = (field: string): string => {
 export const getItemValueBox = (
   translations: Translations,
   userData: Context,
-  inlineItems: Array<{ field: string; displayEmptyValue?: string }>,
+  inlineItems: Array<{ field: string; emptyValuePlaceholder?: string }>,
 ) => {
-  const itemValues = inlineItems.map(({ field, displayEmptyValue }) => {
+  const itemValues = inlineItems.map(({ field, emptyValuePlaceholder }) => {
     const fieldName = getFieldName(field);
     const itemValue = fieldName.includes(".")
       ? getNestedValue(userData, fieldName)
@@ -42,10 +42,10 @@ export const getItemValueBox = (
     if (
       typeof itemValue === "string" &&
       itemValue.length === 0 &&
-      typeof displayEmptyValue !== "undefined" &&
-      displayEmptyValue.length > 0
+      typeof emptyValuePlaceholder !== "undefined" &&
+      emptyValuePlaceholder.length > 0
     ) {
-      return displayEmptyValue;
+      return emptyValuePlaceholder;
     }
 
     // Fallback to string replacement translation or the original item value

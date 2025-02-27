@@ -7,7 +7,7 @@ export type SummaryOverviewBoxItemType = {
   readonly title?: string;
   readonly inlineItems: Array<{
     readonly field: string;
-    readonly displayEmptyValue?: string;
+    readonly emptyValuePlaceholder?: string;
   }>;
 };
 
@@ -19,7 +19,7 @@ type Props = SummaryOverviewBoxItemType & {
 const buildItemValue = (
   userData: Context,
   translations: Translations,
-  inlineItems: Array<{ field: string; displayEmptyValue?: string }>,
+  inlineItems: Array<{ field: string; emptyValuePlaceholder?: string }>,
 ) => {
   return getItemValueBox(translations, userData, inlineItems);
 };
