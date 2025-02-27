@@ -95,4 +95,38 @@ describe("getItemValueBox", () => {
 
     expect(actual).toBe("active admin");
   });
+
+  test("returns emptyValuePlaceholder when item value is empty and placeholder is provided", () => {
+    const translations: Translations = {};
+    const userData: Context = { status: "" };
+
+    const actual = getItemValueBox(translations, userData, [
+      { field: "status", emptyValuePlaceholder: "No Status" },
+    ]);
+
+    expect(actual).toBe("No Status");
+  });
+
+  test("returns emptyValuePlaceholder when nested item value is empty and placeholder is provided", () => {
+    const translations: Translations = {};
+    const userData: Context = { status: { approved: "" } };
+
+    const actual = getItemValueBox(translations, userData, [
+      { field: "status.approved", emptyValuePlaceholder: "Not Approved" },
+    ]);
+
+    expect(actual).toBe("Not Approved");
+  });
+
+  test("returns concatenated values with placeholders for multiple fields", () => {
+    const translations: Translations = {};
+    const userData: Context = { status: "", role: "admin" };
+
+    const actual = getItemValueBox(translations, userData, [
+      { field: "status", emptyValuePlaceholder: "No Status" },
+      { field: "role" },
+    ]);
+
+    expect(actual).toBe("No Status admin");
+  });
 });
