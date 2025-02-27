@@ -90,15 +90,8 @@ export const fetchTranslations = async (
 ): Promise<Translations> => {
   const filters = [{ field: "scope", value: name }];
   try {
-    const entry = await fetchCollectionEntry(
-      "translations",
-      filters,
-      defaultLocale,
-    );
-    if (!entry) return {};
-    return Object.fromEntries(
-      entry.field.map(({ name, value }) => [name, value]),
-    );
+    return (await fetchCollectionEntry("translations", filters, defaultLocale))
+      .entries;
   } catch {
     return {};
   }
@@ -111,14 +104,7 @@ export async function fetchMultipleTranslations(scopes: string[]) {
     filters: [{ field: "scope", operation: "$in", value: scopes }],
   });
   return Object.fromEntries(
-    translations.map((scopedTranslations) => {
-      return [
-        scopedTranslations.scope,
-        Object.fromEntries(
-          scopedTranslations.field.map(({ name, value }) => [name, value]),
-        ),
-      ];
-    }),
+    translations.map(({ scope, entries }) => [scope, entries]),
   );
 }
 
