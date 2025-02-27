@@ -9,4 +9,8 @@ export const StrapiTranslationSchema = z
       z.object({ name: z.string(), value: stringWithHtmlEntities }),
     ),
   })
-  .merge(HasStrapiLocaleSchema);
+  .merge(HasStrapiLocaleSchema)
+  .transform(({ scope, field }) => ({
+    scope,
+    entries: Object.fromEntries(field.map(({ name, value }) => [name, value])),
+  }));
