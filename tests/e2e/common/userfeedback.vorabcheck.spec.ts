@@ -33,10 +33,12 @@ async function setupFeedbackTests({
       "rechtsschutzversicherung",
       "yes",
     );
+    await vorabcheck.fillRadioPageNonJavascript("rsvCoverage", "yes");
   } else {
     const cookieSettings = new CookieSettings(page);
     await cookieSettings.acceptCookieBanner();
     await vorabcheck.fillRadioPage("rechtsschutzversicherung", "yes");
+    await vorabcheck.fillRadioPage("rsvCoverage", "yes");
   }
 }
 
