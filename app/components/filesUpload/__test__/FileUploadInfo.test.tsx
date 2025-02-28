@@ -14,7 +14,7 @@ describe("FileUploadInfo", () => {
     const fileIcon = screen.getByTestId("InsertDriveFileIcon");
     expect(fileNames).toBeInTheDocument();
     expect(fileNames).toHaveClass(
-      "text-base text-black font-400 mr-8 ml-10 truncate",
+      "ds-body-01-reg text-black mr-8 ml-10 truncate",
     );
     expect(fileIcon).toBeInTheDocument();
     expect(fileIcon).toHaveClass("shrink-0 fill-gray-900");

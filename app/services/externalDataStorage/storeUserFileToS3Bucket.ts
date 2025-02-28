@@ -6,7 +6,6 @@ import { sendSentryMessage } from "~/services/logging";
 import { getSessionIdByFlowId } from "~/services/session.server";
 
 const USER_FILES_FOLDER = "user-files";
-
 const bytesInKilobyte = 1024;
 
 const createFolderKey = (sessionId: string, flowId: FlowId) => {
