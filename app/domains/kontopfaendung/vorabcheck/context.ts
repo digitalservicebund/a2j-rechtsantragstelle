@@ -126,4 +126,4 @@ export const context = {
 } as const;
 
 const _contextObject = z.object(context).partial();
-export type kontopfaendungWegweiserContext = z.infer<typeof _contextObject>;
+export type kontopfaendungVorabcheckContext = z.infer<typeof _contextObject>;

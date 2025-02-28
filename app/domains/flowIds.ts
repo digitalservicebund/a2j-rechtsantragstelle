@@ -6,7 +6,7 @@ export const flowIds = [
   "/fluggastrechte/vorabcheck",
   "/fluggastrechte/formular",
   "/prozesskostenhilfe/formular",
-  "/schulden/kontopfaendung/wegweiser",
+  "/kontopfaendung/vorabcheck",
 ] as const;
 
 export type FlowId = (typeof flowIds)[number];
