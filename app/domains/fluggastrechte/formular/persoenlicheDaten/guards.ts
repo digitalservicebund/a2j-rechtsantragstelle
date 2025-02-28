@@ -8,6 +8,7 @@ export const persoenlichDatenGuards = {
     context: { pageData, weiterePersonen },
   }) => isValidArrayIndex(weiterePersonen, pageData),
   ...yesNoGuards("isWeiterePersonen"),
+  personDone,
   persoenlichenDatenDone: ({ context }) =>
     personDone({ context }) && weiterePersonenDone({ context }),
   isMissingAddWeiterePersonen: ({
