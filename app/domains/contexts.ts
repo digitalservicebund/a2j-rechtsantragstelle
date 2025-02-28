@@ -5,8 +5,8 @@ import { fluggastrechtContext } from "~/domains/fluggastrechte/formular/context"
 import { fluggastrechteVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
 import { context as geldEinklagenFormularContext } from "~/domains/geldEinklagen/formular/context";
 import { context as geldEinklagenContext } from "~/domains/geldEinklagen/vorabcheck/context";
+import { context as kontopfaendungWegweiserContext } from "~/domains/kontopfaendung/vorabcheck/context";
 import { prozesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
-import { context as kontopfaendungWegweiserContext } from "~/domains/schulden/vorabcheck/context";
 import type { FlowId } from "./flowIds";
 
 export type BasicTypes = string | number | boolean;
