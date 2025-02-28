@@ -1,10 +1,10 @@
+import { kontopfaendungWegweiser } from "app/domains/kontopfaendung/wegweiser";
 import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
 import { beratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck";
 import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
 import { fluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck";
 import { geldEinklagenFormular } from "~/domains/geldEinklagen/formular";
 import { geldEinklagenVorabcheck } from "~/domains/geldEinklagen/vorabcheck";
-import { kontopfaendungWegweiser } from "~/domains/kontopfaendung/vorabcheck";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import type { Replacements } from "~/util/fillTemplate";
@@ -39,5 +39,5 @@ export const flows = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
   "/fluggastrechte/formular": fluggastrechtFlow,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
-  "/kontopfaendung/vorabcheck": kontopfaendungWegweiser,
+  "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
 } satisfies Record<FlowId, Flow>;

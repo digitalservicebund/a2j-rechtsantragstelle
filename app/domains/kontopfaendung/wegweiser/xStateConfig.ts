@@ -1,8 +1,8 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { kontopfaendungVorabcheckContext } from "./context";
+import { kontopfaendungWegweiserContext } from "./context";
 
 export const kontopfaendungWegweiserXstateConfig = {
-  id: "/kontopfaendung/vorabcheck",
+  id: "/kontopfaendung/wegweiser",
   initial: "start",
   states: {
     start: {
@@ -302,4 +302,4 @@ export const kontopfaendungWegweiserXstateConfig = {
       },
     },
   },
-} satisfies Config<kontopfaendungVorabcheckContext>;
+} satisfies Config<kontopfaendungWegweiserContext>;
