@@ -58,7 +58,7 @@ describe("StrapiSummaryOverviewSchema", () => {
           title: null,
           boxItems: [
             {
-              field: "one",
+              inlineItems: [{ field: "vorname" }],
             },
           ],
         },
@@ -83,7 +83,7 @@ describe("StrapiSummaryOverviewSchema", () => {
           id: 10,
           boxItems: [
             {
-              field: "one",
+              inlineItems: [{ field: "vorname" }],
             },
           ],
         },

@@ -23,8 +23,9 @@ vi.mock("../SummaryOverviewBox", () => ({
 describe("SummaryOverviewBoxArray", () => {
   const mockUserData = { someKey: "someValue" };
   const mockBoxItems = [
-    { field: "field1", label: "Label 1" },
-    { field: "field2", label: "Label 2" },
+    {
+      inlineItems: [{ field: "inlineField1" }],
+    },
   ];
   const mockStepId = "test-step";
   const mockBoxId = 1;

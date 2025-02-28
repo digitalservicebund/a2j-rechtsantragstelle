@@ -14,7 +14,11 @@ const mockSummaryOverviewProps = {
       stepId: "stepId",
       boxItems: [
         {
-          field: "fields",
+          inlineItems: [
+            {
+              field: "fields",
+            },
+          ],
         },
       ],
       id: 10,

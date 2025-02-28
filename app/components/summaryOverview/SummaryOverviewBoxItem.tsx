@@ -1,15 +1,13 @@
 import { Context } from "~/domains/contexts";
 import { Translations } from "~/services/translations/getTranslationByKey";
 import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
-import { getInlineItemValues } from "./getInlineItemValues";
 import { getItemValueBox } from "./getItemValueBox";
 
 export type SummaryOverviewBoxItemType = {
-  readonly field: string;
   readonly title?: string;
-  readonly displayEmptyValue?: string;
-  readonly inlineItems?: Array<{
+  readonly inlineItems: Array<{
     readonly field: string;
+    readonly emptyValuePlaceholder?: string;
   }>;
 };
 
@@ -21,41 +19,18 @@ type Props = SummaryOverviewBoxItemType & {
 const buildItemValue = (
   userData: Context,
   translations: Translations,
-  field: string,
-  displayEmptyValue?: string,
-  inlineItems?: Array<{ field: string }>,
+  inlineItems: Array<{ field: string; emptyValuePlaceholder?: string }>,
 ) => {
-  const itemValue = getItemValueBox(
-    translations,
-    userData,
-    field,
-    displayEmptyValue,
-  );
-
-  const inlineItemValues = getInlineItemValues(
-    userData,
-    translations,
-    inlineItems,
-  );
-
-  return inlineItemValues.length > 0 ? inlineItemValues : (itemValue ?? "");
+  return getItemValueBox(translations, userData, inlineItems);
 };
 
 const SummaryOverviewBoxItem = ({
-  field,
   userData,
   translations,
   title,
-  displayEmptyValue,
   inlineItems,
 }: Props) => {
-  const itemValue = buildItemValue(
-    userData,
-    translations,
-    field,
-    displayEmptyValue,
-    inlineItems,
-  );
+  const itemValue = buildItemValue(userData, translations, inlineItems);
 
   if (isFieldEmptyOrUndefined(itemValue.trim())) {
     return null;
