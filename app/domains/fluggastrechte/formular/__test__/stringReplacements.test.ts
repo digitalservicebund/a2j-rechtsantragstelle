@@ -15,6 +15,7 @@ import {
   getFirstZwischenstoppAirportName,
   getPersonNachname,
   getPersonVorname,
+  getResponsibleAirportForCourt,
   getResponsibleCourt,
   getSecondZwischenstoppAirportName,
   getStartAirportName,
@@ -556,6 +557,69 @@ describe("stringReplacements", () => {
       expect(actual).toEqual({
         hasBothAirportsPartnerCourts: false,
       });
+    });
+  });
+});
+
+describe("getResponsibleAirportForCourt", () => {
+  const mockAirportData = {
+    iata: "",
+    country_code: "",
+    airport: "",
+    latitude: 0,
+    longitude: 0,
+    city: "",
+    country: "",
+  };
+
+  const airportWithPartnerCourt = {
+    ...mockAirportData,
+    zipCodePilotCourt: "hasZipCode",
+  };
+  const airportWithoutPartnerCourt = {
+    ...mockAirportData,
+    zipCodePilotCourt: "",
+  };
+
+  it("should return Startflughafen when the responsible court is based on the start airport", () => {
+    vi.mocked(getAirportByIataCode).mockImplementation((airport) => {
+      if (airport === "BER") {
+        return airportWithPartnerCourt;
+      }
+
+      return airportWithoutPartnerCourt;
+    });
+
+    const context = {
+      startAirport: "BER",
+      endAirport: "JFK",
+    };
+
+    const actual = getResponsibleAirportForCourt(context);
+
+    expect(actual).toEqual({
+      responsibleAirportForCourt: "Startflughafen",
+    });
+  });
+
+  it("should return Zielflughafen when the responsible court is based on the end airport", () => {
+    vi.mocked(getAirportByIataCode).mockImplementation((airport) => {
+      if (airport === "BER") {
+        return airportWithPartnerCourt;
+      }
+
+      return airportWithoutPartnerCourt;
+    });
+
+    const context = {
+      startAirport: "CDG",
+      endAirport: "BER",
+    };
+
+    const actual = getResponsibleAirportForCourt(context);
+
+    expect(actual).toEqual({
+      responsibleAirportForCourt: "Zielflughafen",
     });
   });
 });

@@ -32,6 +32,7 @@ import {
   getFirstZwischenstoppAirportName,
   getPersonNachname,
   getPersonVorname,
+  getResponsibleAirportForCourt,
   getResponsibleCourt,
   getSecondZwischenstoppAirportName,
   getStartAirportName,
@@ -96,6 +97,7 @@ export const fluggastrechtFlow = {
     ...getStreitwert(context),
     ...getAnnullierungInfo(context),
     ...hasBothAirportsPartnerCourts(context),
+    ...getResponsibleAirportForCourt(context),
     isClaimWillSucceddedAboveLimit:
       isTotalClaimWillSucceddedAboveLimit(context),
   }),
