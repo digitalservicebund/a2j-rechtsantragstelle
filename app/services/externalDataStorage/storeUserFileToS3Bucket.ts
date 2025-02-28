@@ -30,7 +30,7 @@ export async function uploadUserFiles(
     )
   ).map(({ fieldName, file, s3UploadResult }) => ({
     etag: s3UploadResult?.ETag,
-    createdOn: new Date(),
+    createdOn: new Date().toString(),
     filename: file.name,
     sizeKb: file.size / bytesInKilobyte,
     fieldName,

@@ -1,7 +1,8 @@
+import classNames from "classnames";
 import { useField } from "remix-validated-form";
+import InputError from "~/components/inputs/InputError";
 import { ErrorMessageProps } from ".";
 import Button from "../Button";
-import InputError from "./InputError";
 
 export type FileInputProps = {
   name: string;
@@ -10,6 +11,7 @@ export type FileInputProps = {
   helperText?: string;
   selectFilesButtonLabel?: string;
   errorMessages?: ErrorMessageProps[];
+  jsEnabled?: boolean;
 };
 
 export const FileInput = ({
@@ -18,25 +20,39 @@ export const FileInput = ({
   helperText,
   errorMessages,
   selectFilesButtonLabel,
+  jsEnabled = false,
 }: FileInputProps) => {
-  const { error, getInputProps } = useField(name, { formId });
+  const { error } = useField(name, { formId });
   const errorId = `${name}-error`;
   const helperId = `${name}-helper`;
 
+  const classes = classNames("overflow-hidden absolute z-0 cursor-pointer", {
+    "w-0.1 h-0.1": jsEnabled,
+    "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary": !jsEnabled,
+  });
   return (
     <div>
       <label htmlFor={name}>
         <input
-          {...getInputProps({ id: name })}
-          multiple
+          name={name}
           type="file"
           accept=".pdf, .tiff, .tif"
           data-testid="fileUploadInput"
           aria-invalid={error !== undefined}
           aria-errormessage={error && errorId}
-          className="w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
+          className={classes}
         />
-        <Button look="tertiary" text={selectFilesButtonLabel} />
+        {jsEnabled && <Button look="tertiary" text={selectFilesButtonLabel} />}
+        {!jsEnabled && (
+          <Button
+            name="_action"
+            value={`fileUpload.${name}`}
+            type="submit"
+            look="primary"
+            text="hochladen"
+            size="large"
+          />
+        )}
       </label>
       <div className="label-text mt-6" id={helperId}>
         {helperText}

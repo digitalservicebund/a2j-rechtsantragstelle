@@ -1,59 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { unstable_parseMultipartFormData } from "@remix-run/node";
-import { ValidationResult } from "remix-validated-form";
-import { uploadUserFiles } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
-import { validateFormData } from "~/services/validation/validateFormData.server";
 
-export async function parseAndValidateFormData(
-  request: Request,
-  pathname: string,
-): Promise<ValidationResult<any>> {
-  const formFieldsMap = await parseMultipartFormData(request);
-
-  const validationResult = await validateFormData(pathname, formFieldsMap);
-  if (validationResult.error) {
-    return validationResult;
-  }
-  const fileUploads = Object.entries(formFieldsMap).filter(
-    ([_, value]) => typeof value === "object",
-  );
-
-  if (fileUploads.length > 0) {
-    (
-      await uploadUserFiles(
-        fileUploads.map(([fieldName, value]) => [fieldName, value as File]),
-        request,
-      )
-    ).forEach(({ fieldName, ...fileMetadata }) => {
-      validationResult.data[fieldName] = fileMetadata;
-    });
-  }
-
-  return validationResult;
-}
-
-async function parseMultipartFormData(request: Request) {
-  const formFieldsMap: Record<string, string | File> = {};
+export async function getFileFromFormData(request: Request, fieldName: string) {
+  let file: File | undefined;
   await unstable_parseMultipartFormData(
     request,
     async ({ filename, data, name, contentType }) => {
-      let value: string | File | undefined;
-      if (name.startsWith("_")) {
-        // filter out metadata
-        return;
-      } else if (!filename) {
-        // non-file input (normal input)
-        for await (const part of data) {
-          value = new TextDecoder().decode(part);
-        }
-      } else {
-        value = await convertAsyncBufferToFile(data, filename, contentType);
+      if (name !== fieldName || !filename) {
+        return "";
       }
-      formFieldsMap[name] = value ?? "";
+      file = await convertAsyncBufferToFile(data, filename, contentType);
       return undefined;
     },
   );
-  return formFieldsMap;
+  return file;
 }
 
 async function convertAsyncBufferToFile(
@@ -66,4 +25,13 @@ async function convertAsyncBufferToFile(
     dataArr.push(chunk);
   }
   return new File(dataArr, filename, { type: contentType });
+}
+
+export function convertFileToMetadata(file?: File) {
+  return {
+    filename: file?.name,
+    fileType: file?.type,
+    fileSize: file?.size,
+    createdOn: file?.lastModified ? new Date(file.lastModified).toString() : "",
+  };
 }

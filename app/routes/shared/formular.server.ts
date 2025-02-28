@@ -1,6 +1,8 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
+import { withZod } from "@remix-validated-form/with-zod";
 import { validationError } from "remix-validated-form";
+import { z } from "zod";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -22,7 +24,10 @@ import {
   validateFlowTransition,
   getFlowTransitionConfig,
 } from "~/services/flow/server/flowTransitionValidation";
-import { parseAndValidateFormData } from "~/services/flow/server/parseMultipartFormData.server";
+import {
+  convertFileToMetadata,
+  getFileFromFormData as getFileFromMultipartFormData,
+} from "~/services/flow/server/parseMultipartFormData.server";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { logWarning } from "~/services/logging";
@@ -41,7 +46,10 @@ import { deleteArrayItem } from "~/services/session.server/arrayDeletion";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
+import { fileMetaDataSchema } from "~/util/file/pdfFileSchema";
+import { filterFormData } from "~/util/filterFormData";
 
 export const loader = async ({
   params,
@@ -68,7 +76,8 @@ export const loader = async ({
 
   if (
     !flowController.isReachable(stepId) &&
-    !skipFlowParamAllowedAndEnabled(searchParams)
+    !skipFlowParamAllowedAndEnabled(searchParams) &&
+    stepId !== "/file-upload"
   )
     return redirectDocument(flowController.getInitial());
 
@@ -226,12 +235,42 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
   const clonedFormData = await request.clone().formData();
-  if (clonedFormData.get("_action") === "delete") {
+  const formAction = clonedFormData.get("_action");
+  if (formAction === "delete") {
     // array item deletion, skip everything else
     return await deleteArrayItem(flowId, clonedFormData, request);
+  } else if (
+    typeof formAction === "string" &&
+    formAction.startsWith("fileUpload")
+  ) {
+    const inputName = formAction.split(".")[1];
+    const file = await getFileFromMultipartFormData(request, inputName);
+    const fileMeta = convertFileToMetadata(file);
+    const validationResult = await withZod(
+      // TODO: find a way to not hardcode this
+      z.object({ belege: z.array(fileMetaDataSchema) }),
+    ).validate({ [inputName]: fileMeta });
+    if (validationResult.error) {
+      return validationError(
+        {
+          ...validationResult.error,
+          fieldErrors: Object.fromEntries(
+            Object.entries(validationResult.error.fieldErrors)
+              .map(([key, val]) => [key.split(".")[0], val])
+              .filter(([key]) => key === inputName),
+          ),
+        },
+        validationResult.submittedData,
+      );
+    }
+    // TODO:
+    // 1. save to S3
+    // 2. write it to the session in context
+    return new Response(null, { status: 200 });
   }
 
-  const validationResult = await parseAndValidateFormData(request, pathname);
+  const relevantFormData = filterFormData(clonedFormData);
+  const validationResult = await validateFormData(pathname, relevantFormData);
 
   if (validationResult?.error) {
     return validationError(

@@ -9,6 +9,16 @@ const errorStateMap = {
   fileRequired: "File required",
 };
 
+export const fileMetaDataSchema = z.object({
+  filename: z.string(),
+  etag: z.string().optional(),
+  fileType: z.literal("application/pdf"),
+  fileSize: z.number().max(TEN_MB_IN_BYTES, errorStateMap.fileSizeTooBig),
+  createdOn: z.string(),
+});
+
+export type FileMetadata = z.infer<typeof fileMetaDataSchema>;
+
 export const pdfFileSchema = (
   typeof window === "undefined" ? z.any() : z.instanceof(File)
 )

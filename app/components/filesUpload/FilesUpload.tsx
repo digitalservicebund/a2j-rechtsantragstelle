@@ -48,12 +48,10 @@ const FilesUpload = ({
       <FilesUploadHeader title={title} description={description} />
       <div className="w-full flex flex-col">
         {Array.from({ length: maxNumberOfFiles }).map((_, index) => (
-          <input
-            className="body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary"
-            type="file"
-            // eslint-disable-next-line react/no-array-index-key
+          <FileInput
             key={index}
-            name={name}
+            name={`${name}[${index}]`}
+            selectFilesButtonLabel="Datei Auswählen"
           />
         ))}
       </div>
