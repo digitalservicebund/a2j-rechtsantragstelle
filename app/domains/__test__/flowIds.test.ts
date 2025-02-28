@@ -28,8 +28,8 @@ describe("flowIdFromPathname", () => {
       "/beratungshilfe/antrag",
     );
 
-    expect(flowIdFromPathname("/schulden/kontopfaendung/wegweiser")).toEqual(
-      "/schulden/kontopfaendung/wegweiser",
+    expect(flowIdFromPathname("/kontopfaendung/wegweiser")).toEqual(
+      "/kontopfaendung/wegweiser",
     );
   });
 

@@ -2,7 +2,7 @@ import type { Config } from "~/services/flow/server/buildFlowController";
 import { kontopfaendungWegweiserContext } from "./context";
 
 export const kontopfaendungWegweiserXstateConfig = {
-  id: "/schulden/kontopfaendung/wegweiser",
+  id: "/kontopfaendung/wegweiser",
   initial: "start",
   states: {
     start: {
