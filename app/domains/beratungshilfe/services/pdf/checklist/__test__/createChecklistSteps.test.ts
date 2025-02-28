@@ -27,10 +27,7 @@ describe("createChecklistSteps", () => {
     );
     expect(mockPDFDocument.text).toHaveBeenCalledWith("4. Antrag abgeben");
     expect(mockPDFDocument.list).toHaveBeenCalledWith(
-      [
-        "Unterlagen zu Ihrem rechtlichen Problem",
-        "Kopie Ihres aktuellen Mietvertrags",
-      ],
+      ["Unterlagen zu Ihrem rechtlichen Problem"],
       expect.any(Number),
       expect.any(Number),
       expect.any(Object),
@@ -54,10 +51,7 @@ describe("createChecklistSteps", () => {
       "3. Antrag über das Portal Mein Justizpostfach versenden",
     );
     expect(mockPDFDocument.list).toHaveBeenCalledWith(
-      [
-        "Unterlagen zu Ihrem rechtlichen Problem",
-        "Kopie Ihres aktuellen Mietvertrags",
-      ],
+      ["Unterlagen zu Ihrem rechtlichen Problem"],
       expect.any(Number),
       expect.any(Number),
       expect.any(Object),
@@ -81,7 +75,7 @@ describe("createChecklistSteps", () => {
     expect(mockPDFDocument.list).toHaveBeenCalledWith(
       expect.arrayContaining([
         "Unterlagen zu Ihrem rechtlichen Problem",
-        "Kopie Ihres aktuellen Mietvertrags",
+
         "Ihren aktuellen Bürgergeld-Bescheid",
         "Kontoauszüge der letzten 3 Monate",
         "Kopie des letzten Jahreskontoauszugs für Ihre Lebensversicherung",

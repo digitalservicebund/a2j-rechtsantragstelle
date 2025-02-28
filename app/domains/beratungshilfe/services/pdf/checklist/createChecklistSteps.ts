@@ -14,10 +14,10 @@ const documents = {
   hasBuergergeld: "Ihren aktuellen Bürgergeld-Bescheid",
   hasBuergergeldOrNoSozialleistung: "Kontoauszüge der letzten 3 Monate",
   hasGrundsicherung:
-    "Ihren aktuellen Bescheid über Grundsicherung oder Sozialhilfe",
+    "Kopie Ihres aktuellen Bescheids über Grundsicherung oder Sozialhilfe",
   arbeitslosenGeld: "Kopie Ihres aktuellen Arbeitslosengeld-Bescheids",
   hasAsylbewerberleistungen:
-    "Ihren aktuellen Bescheid über Asylbewerberleistungen",
+    "Kopie Ihres aktuellen Bescheids über Asylbewerberleistungen",
   wohngeld: "Kopie Ihres aktuellen Wohngeld-Bescheids",
   bafoeg:
     "Kopie Ihres aktuellen Bescheids über Bafoeg- oder Ausbildungsförderung",
@@ -94,7 +94,6 @@ export const createChecklistSteps = (
 
   const relevantDocuments = [
     "Unterlagen zu Ihrem rechtlichen Problem",
-    "Kopie Ihres aktuellen Mietvertrags",
     ...Object.keys(documents)
       .filter((key) => conditions[key as ReplacementKey])
       .map((key) => documents[key as keyof typeof documents]),
