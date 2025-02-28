@@ -4,7 +4,7 @@ const TEN_MB_IN_BYTES = 10 * 1024 * 1024;
 const maxFileSize = TEN_MB_IN_BYTES;
 
 const errorStateMap = {
-  wrongFileType: "Only PDF files allowed",
+  wrongFileType: "Only PDF and TIFF files allowed",
   fileSizeTooBig: "Max file size is 10MB",
   fileRequired: "File required",
 };
@@ -18,7 +18,9 @@ export const pdfFileSchema = (
   )
   .refine(
     (file?: File) =>
-      file?.type === "application/pdf" && file?.name.endsWith(".pdf"),
+      (file?.type === "application/pdf" && file?.name.endsWith(".pdf")) ||
+      (file?.type === "image/tiff" && file?.name.endsWith(".tiff")) ||
+      (file?.type === "image/tif" && file?.name.endsWith(".tif")),
     errorStateMap.wrongFileType,
   )
   .refine(
