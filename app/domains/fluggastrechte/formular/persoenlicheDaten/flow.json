@@ -8,7 +8,10 @@
       "states": {
         "daten": {
           "on": {
-            "SUBMIT": "#weitere-personen.frage",
+            "SUBMIT": {
+              "guard": "personDone",
+              "target": "#weitere-personen.frage"
+            },
             "BACK": "#flugdaten.zusaetzliche-angaben"
           }
         }
@@ -30,7 +33,10 @@
                 "target": "#prozessfuehrung.zeugen"
               }
             ],
-            "BACK": "#person.daten"
+            "BACK": {
+              "guard": "personDone",
+              "target": "#person.daten"
+            }
           }
         },
         "uebersicht": {
