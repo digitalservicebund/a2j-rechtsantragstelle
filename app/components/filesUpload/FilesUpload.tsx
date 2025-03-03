@@ -33,7 +33,11 @@ const FilesUpload = ({
     return (
       <div className="w-full flex flex-col bg-white p-16">
         <FilesUploadHeader title={title} description={description} />
-        <FileInput name={name} formId={formId} />
+        <FileInput
+          name={name}
+          formId={formId}
+          selectFilesButtonLabel="Datei Auswählen"
+        />
         <FileUploadInfo
           fileName={fileName}
           fileSize={fileSize}
