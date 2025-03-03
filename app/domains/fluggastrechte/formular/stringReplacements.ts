@@ -185,3 +185,16 @@ export const hasBothAirportsPartnerCourts = (context: FluggastrechtContext) => {
       objectKeysNonEmpty(endAirport, ["zipCodePilotCourt"]),
   };
 };
+
+export const getResponsibleAirportForCourt = (
+  context: FluggastrechtContext,
+) => {
+  const startAirport = getAirportByIataCode(context.startAirport ?? "");
+  const isStartAirportResponsible =
+    startAirport && startAirport.zipCodePilotCourt.length > 0;
+  return {
+    responsibleAirportForCourt: isStartAirportResponsible
+      ? "Startflughafen"
+      : "Zielflughafen",
+  };
+};
