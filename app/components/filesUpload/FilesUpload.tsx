@@ -43,6 +43,9 @@ const FilesUpload = ({
           fileSize={fileSize}
           deleteButtonLabel={deleteButtonLabel}
         />
+        {inlineNotices?.map((inlineNotice) => (
+          <InlineNotice key={inlineNotice.title} {...inlineNotice} />
+        ))}
       </div>
     );
   }
@@ -53,15 +56,13 @@ const FilesUpload = ({
       <div className="w-full flex flex-col">
         {Array.from({ length: maxNumberOfFiles }).map((_, index) => (
           <FileInput
-            key={index}
+            // eslint-disable-next-line react/no-array-index-key
+            key={`${name}[${index}]`}
             name={`${name}[${index}]`}
             selectFilesButtonLabel="Datei Auswählen"
           />
         ))}
       </div>
-      {inlineNotices?.map((inlineNotice) => (
-        <InlineNotice key={inlineNotice.title} {...inlineNotice} />
-      ))}
     </div>
   );
 };
