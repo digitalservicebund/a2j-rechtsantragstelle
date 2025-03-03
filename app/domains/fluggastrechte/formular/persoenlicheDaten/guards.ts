@@ -9,8 +9,7 @@ export const persoenlichDatenGuards = {
   }) => isValidArrayIndex(weiterePersonen, pageData),
   ...yesNoGuards("isWeiterePersonen"),
   personDone,
-  persoenlichenDatenDone: ({ context }) =>
-    personDone({ context }) && weiterePersonenDone({ context }),
+  weiterePersonenDone,
   isMissingAddWeiterePersonen: ({
     context: { isWeiterePersonen, weiterePersonen },
   }) => {

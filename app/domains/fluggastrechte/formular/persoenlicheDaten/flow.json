@@ -29,14 +29,11 @@
                 "target": "uebersicht"
               },
               {
-                "guard": "persoenlichenDatenDone",
+                "guard": "weiterePersonenDone",
                 "target": "#prozessfuehrung.zeugen"
               }
             ],
-            "BACK": {
-              "guard": "personDone",
-              "target": "#person.daten"
-            }
+            "BACK": "#person.daten"
           }
         },
         "uebersicht": {
@@ -48,7 +45,7 @@
                 "target": "#weitere-personen.warnung"
               },
               {
-                "guard": "persoenlichenDatenDone",
+                "guard": "weiterePersonenDone",
                 "target": "#prozessfuehrung.zeugen"
               }
             ],
