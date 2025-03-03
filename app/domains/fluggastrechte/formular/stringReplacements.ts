@@ -191,7 +191,7 @@ export const getResponsibleAirportForCourt = (
 ) => {
   const startAirport = getAirportByIataCode(context.startAirport ?? "");
   const isStartAirportResponsible =
-    (startAirport?.zipCodePilotCourt?.length ?? 0) > 0;
+    startAirport && startAirport.zipCodePilotCourt.length > 0;
   return {
     responsibleAirportForCourt: isStartAirportResponsible
       ? "Startflughafen"
