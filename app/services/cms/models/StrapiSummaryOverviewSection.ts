@@ -6,7 +6,7 @@ import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
 
 const StrapiSummaryOverviewBoxItemInlineSchema = z.object({
   field: z.string(),
-  displayEmptyValue: StrapiStringOptionalSchema,
+  emptyValuePlaceholder: StrapiStringOptionalSchema,
 });
 
 const StrapiSummaryOverviewBoxSchema = z
