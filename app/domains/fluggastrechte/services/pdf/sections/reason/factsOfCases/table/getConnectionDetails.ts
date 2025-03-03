@@ -124,7 +124,7 @@ const getConnectionDetailsCancel = (
   };
 };
 
-function getDurationAndInfo(
+function getAmountOfDelay(
   startDate?: string,
   startTime?: string,
   endDate?: string,
@@ -152,7 +152,7 @@ function getConnectionDetailsDelayOrNoBoarding(
   } = userData;
 
   if (tatsaechlicherFlug === "yes") {
-    const info = getDurationAndInfo(
+    const info = getAmountOfDelay(
       direktAnkunftsDatum,
       direktAnkunftsZeit,
       userData.tatsaechlicherAnkunftsDatum,
@@ -187,7 +187,7 @@ function getConnectionDetailsDelayOrNoBoarding(
   switch (ersatzverbindungArt) {
     case "flug":
       return {
-        info: getDurationAndInfo(
+        info: getAmountOfDelay(
           direktAnkunftsDatum,
           direktAnkunftsZeit,
           userData.ersatzFlugAnkunftsDatum,
@@ -199,7 +199,7 @@ function getConnectionDetailsDelayOrNoBoarding(
 
     case "etwasAnderes":
       return {
-        info: getDurationAndInfo(
+        info: getAmountOfDelay(
           direktAnkunftsDatum,
           direktAnkunftsZeit,
           userData.andereErsatzverbindungAnkunftsDatum,
