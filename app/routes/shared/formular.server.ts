@@ -281,7 +281,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       flowSession,
       resolveArraysFromKeys(validationResult.data as Context),
     );
-    return new Response(null, { status: 200 });
+    return new Response(null, {
+      status: 200,
+      headers: { "Set-Cookie": await commitSession(flowSession) },
+    });
   }
 
   const relevantFormData = filterFormData(clonedFormData);
