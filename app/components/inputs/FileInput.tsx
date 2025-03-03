@@ -1,7 +1,9 @@
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { useField } from "remix-validated-form";
+import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
+import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { ErrorMessageProps } from ".";
 import Button from "../Button";
 
@@ -23,9 +25,10 @@ export const FileInput = ({
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
 
-  const { error } = useField(name, { formId });
+  const { error, getInputProps } = useField(name, { formId });
   const errorId = `${name}-error`;
-  const helperId = `${name}-helper`;
+  const { defaultValue } = getInputProps();
+  const fileMetadata = defaultValue as PDFFileMetadata | undefined;
 
   const classes = classNames(
     "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary",
@@ -63,12 +66,18 @@ export const FileInput = ({
           />
         )}
       </label>
-      <div className="label-text mt-6" id={helperId}>
-        {helperText}
-      </div>
+      {fileMetadata && (
+        <FileUploadInfo
+          fileName={fileMetadata.filename}
+          fileSize={fileMetadata.fileSize}
+          deleteButtonLabel={"Löschen"}
+          hasError={!!error}
+        />
+      )}
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === error)?.text ?? error}
       </InputError>
+      <div className="label-text mt-6">{helperText}</div>
     </div>
   );
 };

@@ -67,9 +67,13 @@ export const loader = async ({
   const currentFlow = flows[flowId];
   const { prunedData: prunedUserData, validFlowPaths } =
     await pruneIrrelevantData(userData, flowId);
-  const userDataWithPageData = addPageDataToUserData(prunedUserData, {
-    arrayIndexes,
-  });
+  // TODO: revert me!
+  const userDataWithPageData = addPageDataToUserData(
+    { ...prunedUserData, ...userData },
+    {
+      arrayIndexes,
+    },
+  );
   const flowController = buildFlowController({
     config: currentFlow.config,
     data: userDataWithPageData,
@@ -249,15 +253,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const [fieldName, input] = inputName.split("[");
     const inputIndex = input.charAt(0);
     const file = await getFileFromMultipartFormData(request, inputName);
-    if (!file) {
-      return new Response(new Error(`Parsed file is undefined`).message, {
-        status: 422,
-      });
-    }
     const fileMeta = convertFileToMetadata(file);
     const validationResult = await withZod(
       z.object({ belege: z.array(pdfFileMetaDataSchema.optional()) }),
-    ).validate({ [inputName]: fileMeta });
+    ).validate({ ...flowSession.data, [inputName]: fileMeta });
     if (validationResult.error) {
       const validationErrorResult = validationError(
         {

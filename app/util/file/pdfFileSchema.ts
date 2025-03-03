@@ -12,7 +12,10 @@ export const pdfFileMetaDataSchema = z.object({
   filename: z.string(),
   etag: z.string().optional(),
   fileType: z.string().regex(/application\/pdf/),
-  fileSize: z.number().max(TEN_MB_IN_BYTES, errorStateMap.fileSizeTooBig),
+  fileSize: z
+    .number()
+    .max(TEN_MB_IN_BYTES, errorStateMap.fileSizeTooBig)
+    .min(1, errorStateMap.fileRequired),
   createdOn: z.string(),
 });
 
