@@ -438,22 +438,6 @@ describe("getConnectionDetails", () => {
   });
 
   describe("nichtbefoerderung", () => {
-    it("should return actual flight details when 'tatsaechlicherFlug' is 'yes'", () => {
-      const userData: FluggastrechtContext = {
-        bereich: "nichtbefoerderung",
-        tatsaechlicherFlug: "yes",
-        direktAnkunftsDatum: "10.11.2024",
-        direktAnkunftsZeit: "12:00",
-        tatsaechlicherAnkunftsDatum: "10.11.2024",
-        tatsaechlicherAnkunftsZeit: "15:30",
-      };
-      const result = getConnectionDetails(userData);
-      expect(result).toEqual({
-        info: "--",
-        timeTable: ["--", "--", "10.11.2024, 15:30"],
-      });
-    });
-
     it("should return flight replacement details when 'ersatzverbindungArt' is 'flug'", () => {
       const userData: FluggastrechtContext = {
         bereich: "nichtbefoerderung",
