@@ -9,13 +9,14 @@ export type NavigationA11yLabels = {
 export type FlowNavigationProps = Readonly<{
   navItems: NavItem[];
   a11yLabels?: NavigationA11yLabels;
+  className?: string;
 }>;
 
 export const NavigationList = ({
   navItems,
   ...props
 }: FlowNavigationProps & { isChild?: boolean }) => (
-  <ul className="pl-0">
+  <ul className={`pl-0 ${props.className ?? ""}`}>
     {navItems.map((navItem) => (
       <NavItem {...navItem} key={navItem.destination} {...props} />
     ))}
