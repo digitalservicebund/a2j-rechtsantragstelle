@@ -1,14 +1,14 @@
 import { z } from "zod";
 import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
-import { fileMetaDataSchema } from "~/util/file/pdfFileSchema";
+import { pdfFileMetaDataSchema } from "~/util/file/pdfFileSchema";
 
 export const abgabeContext = {
   abgabeArt: z.enum(["online", "ausdrucken"], customRequiredErrorMessage),
 };
 
 export const belegeContext = {
-  belege: z.array(fileMetaDataSchema).max(5),
-  belege1: z.array(fileMetaDataSchema).max(5),
+  belege: z.array(pdfFileMetaDataSchema).max(5),
+  belege1: z.array(pdfFileMetaDataSchema).max(5),
   // belege: pdfFileSchema,
   // belege1: pdfFileSchema,
 };

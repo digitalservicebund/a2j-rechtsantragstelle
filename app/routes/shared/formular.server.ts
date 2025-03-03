@@ -3,6 +3,7 @@ import { json, redirectDocument } from "@remix-run/node";
 import { withZod } from "@remix-validated-form/with-zod";
 import { validationError } from "remix-validated-form";
 import { z } from "zod";
+import { Context } from "~/domains/contexts";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -15,6 +16,7 @@ import {
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
+import { uploadUserFileToS3 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
 import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
@@ -48,7 +50,7 @@ import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { fileMetaDataSchema } from "~/util/file/pdfFileSchema";
+import { pdfFileMetaDataSchema } from "~/util/file/pdfFileSchema";
 import { filterFormData } from "~/util/filterFormData";
 
 export const loader = async ({
@@ -244,14 +246,20 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     formAction.startsWith("fileUpload")
   ) {
     const inputName = formAction.split(".")[1];
+    const [fieldName, input] = inputName.split("[");
+    const inputIndex = input.charAt(0);
     const file = await getFileFromMultipartFormData(request, inputName);
+    if (!file) {
+      return new Response(new Error(`Parsed file is undefined`).message, {
+        status: 422,
+      });
+    }
     const fileMeta = convertFileToMetadata(file);
     const validationResult = await withZod(
-      // TODO: find a way to not hardcode this
-      z.object({ belege: z.array(fileMetaDataSchema) }),
+      z.object({ belege: z.array(pdfFileMetaDataSchema.optional()) }),
     ).validate({ [inputName]: fileMeta });
     if (validationResult.error) {
-      return validationError(
+      const validationErrorResult = validationError(
         {
           ...validationResult.error,
           fieldErrors: Object.fromEntries(
@@ -262,10 +270,17 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         },
         validationResult.submittedData,
       );
+      return validationErrorResult;
     }
-    // TODO:
-    // 1. save to S3
-    // 2. write it to the session in context
+    const result = await uploadUserFileToS3(cookieHeader, request.url, file);
+    fileMeta.etag = result?.ETag?.replaceAll(/"/g, "");
+    validationResult.data[fieldName as keyof typeof validationResult.data][
+      Number(inputIndex)
+    ] = fileMeta;
+    updateSession(
+      flowSession,
+      resolveArraysFromKeys(validationResult.data as Context),
+    );
     return new Response(null, { status: 200 });
   }
 

@@ -1,4 +1,5 @@
 import { unstable_parseMultipartFormData } from "@remix-run/node";
+import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 export async function getFileFromFormData(request: Request, fieldName: string) {
   let file: File | undefined;
@@ -27,11 +28,11 @@ async function convertAsyncBufferToFile(
   return new File(dataArr, filename, { type: contentType });
 }
 
-export function convertFileToMetadata(file?: File) {
+export function convertFileToMetadata(file: File): PDFFileMetadata {
   return {
-    filename: file?.name,
-    fileType: file?.type,
-    fileSize: file?.size,
-    createdOn: file?.lastModified ? new Date(file.lastModified).toString() : "",
+    filename: file.name,
+    fileType: file.type,
+    fileSize: file.size,
+    createdOn: new Date(file.lastModified).toString(),
   };
 }
