@@ -8,7 +8,10 @@
       "states": {
         "daten": {
           "on": {
-            "SUBMIT": "#weitere-personen.frage",
+            "SUBMIT": {
+              "guard": "personDone",
+              "target": "#weitere-personen.frage"
+            },
             "BACK": "#flugdaten.zusaetzliche-angaben"
           }
         }
@@ -26,7 +29,7 @@
                 "target": "uebersicht"
               },
               {
-                "guard": "persoenlichenDatenDone",
+                "guard": "weiterePersonenDone",
                 "target": "#prozessfuehrung.zeugen"
               }
             ],
@@ -42,7 +45,7 @@
                 "target": "#weitere-personen.warnung"
               },
               {
-                "guard": "persoenlichenDatenDone",
+                "guard": "weiterePersonenDone",
                 "target": "#prozessfuehrung.zeugen"
               }
             ],
