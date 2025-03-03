@@ -20,6 +20,13 @@ const baseContext = {
 
 const cases = [
   [
+    baseContext,
+    [
+      "/persoenliche-daten/person/daten",
+      "/persoenliche-daten/weitere-personen/frage",
+    ],
+  ],
+  [
     {
       ...baseContext,
       isWeiterePersonen: "no",
