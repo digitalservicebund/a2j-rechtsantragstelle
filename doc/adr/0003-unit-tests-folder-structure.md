@@ -1,10 +1,12 @@
 # 3. Unit tess folder structure
 
-Date: 2024-04-02
-
 ## Status
 
-Accepted
+- 2024-04-02: Drafted
+- 2024-04-05: Merged
+- 2024-04-26: Edited (Rewording to simplify)
+- 2024-05-17: Edited (Fixed title index)
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

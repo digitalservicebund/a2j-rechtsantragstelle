@@ -1,10 +1,11 @@
 # 6. Express Rate Limiting
 
-Date: 2024-06-04
-
 ## Status
 
-Accepted
+- 2024-06-04: Drafted
+- 2024-06-24: Approved
+- 2024-07-24: Edited (Fixed title number)
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

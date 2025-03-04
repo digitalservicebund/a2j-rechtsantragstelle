@@ -1,10 +1,10 @@
 # 4. Preview/Test Environment
 
-Date: 2024-05-13
-
 ## Status
 
-Accepted
+- 2024-05-14: Drafted
+- 2024-05-17: Merged
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 
