@@ -19,10 +19,8 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
   const svgAltText =
     !alternativeText || alternativeText === "" ? "image" : alternativeText;
 
-  if (isSvg) {
-    return (
-      <Svg {...props} src={url} title={svgAltText} role="img" height="100%" />
-    );
+  if (!isSvg) {
+    return <img {...props} src={url} alt={alternativeText ?? ""} />;
   }
 
   if (!jsAvailable) {
@@ -36,8 +34,9 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
       </noscript>
     );
   }
-
-  return <img {...props} src={url} alt={alternativeText ?? ""} />;
+  return (
+    <Svg {...props} src={url} title={svgAltText} role="img" height="100%" />
+  );
 }
 
 export default Image;
