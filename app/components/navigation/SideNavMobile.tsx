@@ -11,7 +11,7 @@ type SideNavMobileProps = Readonly<{
 
 export default function SideNavMobile(props: SideNavMobileProps) {
   return (
-    <div className={props.className}>
+    <div className={props.className ?? ""}>
       <input type="checkbox" id="menu-toggle" className="peer hidden" />
       <div
         className={"bg-black h-screen opacity-70 hidden peer-checked:block"}
@@ -26,8 +26,10 @@ export default function SideNavMobile(props: SideNavMobileProps) {
           <span className="font-semibold">{props.currentPageTitle}</span>
         </span>
       </label>
-      <div className="w-full hidden peer-checked:block bg-white">
-        <NavigationList navItems={props.navItems} />
+      <div className="w-full hidden peer-checked:block bg-white text-[14px]">
+        <div className={"bg-white border border-blue-400 mx-10 mb-10"}>
+          <NavigationList navItems={props.navItems} />
+        </div>
       </div>
     </div>
   );
