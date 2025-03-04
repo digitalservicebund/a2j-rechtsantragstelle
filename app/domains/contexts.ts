@@ -10,7 +10,7 @@ import { prozesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/
 import type { FlowId } from "./flowIds";
 
 export type BasicTypes = string | number | boolean;
-export type ArrayData = Array<Record<string, BasicTypes>>;
+export type ArrayData = Array<Record<string, BasicTypes> | undefined>;
 export type ObjectType = Record<
   string,
   | BasicTypes
