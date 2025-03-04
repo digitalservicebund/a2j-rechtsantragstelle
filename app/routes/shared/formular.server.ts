@@ -1,7 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
-import { Context } from "~/domains/contexts";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -246,12 +245,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       formAction,
       request,
       flowSession.data,
+      flowId,
     );
     if (validationError) return validationError;
-    updateSession(
-      flowSession,
-      resolveArraysFromKeys(validationResult!.data as Context),
-    );
+    updateSession(flowSession, resolveArraysFromKeys(validationResult!.data));
     return new Response(null, {
       status: 200,
       headers: { "Set-Cookie": await commitSession(flowSession) },

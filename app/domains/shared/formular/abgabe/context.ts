@@ -1,16 +1,22 @@
 import { z } from "zod";
 import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
-import { pdfFileMetaDataSchema } from "~/util/file/pdfFileSchema";
+import {
+  fileUploadErrorMap,
+  fileUploadLimit,
+  pdfFileMetaDataSchema,
+} from "~/util/file/pdfFileSchema";
 
 export const abgabeContext = {
   abgabeArt: z.enum(["online", "ausdrucken"], customRequiredErrorMessage),
 };
 
 export const belegeContext = {
-  belege: z.array(pdfFileMetaDataSchema).max(5),
-  belege1: z.array(pdfFileMetaDataSchema).max(5),
-  // belege: pdfFileSchema,
-  // belege1: pdfFileSchema,
+  belege: z
+    .array(pdfFileMetaDataSchema.optional())
+    .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
+  belege1: z
+    .array(pdfFileMetaDataSchema.optional())
+    .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
 };
 export const _belegeContextObject = z.object(belegeContext).partial();
 export type BelegeContext = z.infer<typeof _belegeContextObject>;

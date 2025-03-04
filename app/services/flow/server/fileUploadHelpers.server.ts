@@ -8,35 +8,36 @@ import {
   SuccessResult,
   validationError,
   ValidationErrorResponseData,
+  ValidationResult,
 } from "remix-validated-form";
-import { z } from "zod";
-import { Context } from "~/domains/contexts";
+import { z, ZodTypeAny } from "zod";
+import { ArrayData, Context, getContext } from "~/domains/contexts";
+import { FlowId } from "~/domains/flowIds";
 import { uploadUserFileToS3 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
-import {
-  fileUploadErrorMap,
-  fileUploadLimit,
-  PDFFileMetadata,
-  pdfFileMetaDataSchema,
-} from "~/util/file/pdfFileSchema";
+import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 export async function uploadUserFile(
   formAction: string,
   request: Request,
   userData: Context,
+  flowId: FlowId,
 ): Promise<{
   validationError?: TypedResponse<ValidationErrorResponseData>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  validationResult?: SuccessResult<any>;
+  validationResult?: SuccessResult<Context>;
 }> {
   const inputName = formAction.split(".")[1];
   const [fieldName, input] = inputName.split("[");
   const inputIndex = input.charAt(0);
   const file = await parseFileFromFormData(request, inputName);
   const fileMeta = convertFileToMetadata(file);
+  const scopedContext = Object.fromEntries(
+    Object.entries(getContext(flowId)).filter(([key]) => key === fieldName),
+  );
   const validationResult = await validateUploadedFile(
     inputName,
     fileMeta,
     userData,
+    scopedContext,
   );
   if (validationResult.error) {
     return { validationError: buildFileUploadError(validationResult) };
@@ -47,9 +48,8 @@ export async function uploadUserFile(
     file,
   );
   fileMeta.etag = result?.ETag?.replaceAll(/"/g, "");
-  validationResult.data[fieldName as keyof typeof validationResult.data][
-    Number(inputIndex)
-  ] = fileMeta;
+  (validationResult.data[fieldName] as ArrayData)[Number(inputIndex)] =
+    fileMeta;
   return { validationResult };
 }
 
@@ -75,14 +75,9 @@ export async function validateUploadedFile(
   inputName: string,
   file: PDFFileMetadata,
   sessionData: Context,
-) {
-  return await withZod(
-    z.object({
-      belege: z
-        .array(pdfFileMetaDataSchema.optional())
-        .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
-    }),
-  ).validate({
+  schema: Record<string, ZodTypeAny>,
+): Promise<ValidationResult<Context>> {
+  return await withZod(z.object(schema)).validate({
     ...sessionData,
     [inputName]: file,
   });
