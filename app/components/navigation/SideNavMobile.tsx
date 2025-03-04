@@ -13,6 +13,9 @@ export default function SideNavMobile(props: SideNavMobileProps) {
   return (
     <div className={props.className}>
       <input type="checkbox" id="menu-toggle" className="peer hidden" />
+      <div
+        className={"bg-black h-screen opacity-70 hidden peer-checked:block"}
+      ></div>
       <label
         htmlFor="menu-toggle"
         className={`flex gap-8 text-sm py-16 px-10 bg-white cursor-pointer`}
