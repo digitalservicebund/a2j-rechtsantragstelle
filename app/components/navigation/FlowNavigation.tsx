@@ -6,9 +6,10 @@ export default function FlowNavigation(props: FlowNavigationProps) {
   return (
     <nav role="navigation" aria-label={props.a11yLabels?.menuLabel}>
       <SideNavMobile
-        className={"fixed bottom-0 w-full md:hidden"}
+        className={"fixed bottom-0 w-full md:hidden z-50"}
         label={"Bereich"}
         currentPageTitle={"Anwaltliche Vertretung"}
+        navItems={props.navItems}
       />
       <NavigationList
         {...props}

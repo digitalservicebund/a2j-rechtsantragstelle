@@ -32,7 +32,7 @@ export default function Footer({
     translations,
   );
   return (
-    <Container paddingTop="48" paddingBottom="0">
+    <Container paddingTop="48" paddingBottom="56">
       <div
         className="flex flex-wrap items-start justify-between gap-y-32 mb-32"
         data-testid="footer"
