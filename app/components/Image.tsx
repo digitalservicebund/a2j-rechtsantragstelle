@@ -19,25 +19,10 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
   const svgAltText =
     !alternativeText || alternativeText === "" ? "image" : alternativeText;
 
-  const renderSvg = () => {
+  if (isSvg) {
     return (
-      <Svg
-        {...props}
-        id="svg-image"
-        src={url}
-        title={svgAltText}
-        role="img"
-        height="100%"
-      />
+      <Svg {...props} src={url} title={svgAltText} role="img" height="100%" />
     );
-  };
-
-  const renderImage = () => {
-    return <img {...props} src={url} alt={alternativeText ?? ""} />;
-  };
-
-  if (!isSvg) {
-    return renderImage();
   }
 
   if (!jsAvailable) {
@@ -45,10 +30,14 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
      * <noscript> tag prevents that <img> is cached by the browser when js is available
      * more details here: https://github.com/tanem/react-svg/issues/197 and https://serverfault.com/a/856948
      */
-    return <noscript>{renderImage()}</noscript>;
+    return (
+      <noscript>
+        <img {...props} src={url} alt={alternativeText ?? ""} />
+      </noscript>
+    );
   }
 
-  return renderSvg();
+  return <img {...props} src={url} alt={alternativeText ?? ""} />;
 }
 
 export default Image;
