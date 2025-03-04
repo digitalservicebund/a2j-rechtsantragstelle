@@ -1,8 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirectDocument } from "@remix-run/node";
-import { withZod } from "@remix-validated-form/with-zod";
 import { validationError } from "remix-validated-form";
-import { z } from "zod";
 import { Context } from "~/domains/contexts";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
@@ -23,13 +21,15 @@ import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
 import {
+  buildFileUploadError,
+  convertFileToMetadata,
+  parseFileFromFormData,
+  validateUploadedFile,
+} from "~/services/flow/server/fileUploadHelpers.server";
+import {
   validateFlowTransition,
   getFlowTransitionConfig,
 } from "~/services/flow/server/flowTransitionValidation";
-import {
-  convertFileToMetadata,
-  getFileFromFormData as getFileFromMultipartFormData,
-} from "~/services/flow/server/parseMultipartFormData.server";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { logWarning } from "~/services/logging";
@@ -50,11 +50,6 @@ import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import {
-  fileUploadLimit,
-  fileUploadErrorMap,
-  pdfFileMetaDataSchema,
-} from "~/util/file/pdfFileSchema";
 import { filterFormData } from "~/util/filterFormData";
 
 export const loader = async ({
@@ -256,31 +251,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const inputName = formAction.split(".")[1];
     const [fieldName, input] = inputName.split("[");
     const inputIndex = input.charAt(0);
-    const file = await getFileFromMultipartFormData(request, inputName);
+    const file = await parseFileFromFormData(request, inputName);
     const fileMeta = convertFileToMetadata(file);
-    const validationResult = await withZod(
-      z.object({
-        belege: z
-          .array(pdfFileMetaDataSchema.optional())
-          .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
-      }),
-    ).validate({
-      ...flowSession.data,
-      [inputName]: fileMeta,
-    });
+    const validationResult = await validateUploadedFile(
+      inputName,
+      fileMeta,
+      flowSession.data,
+    );
     if (validationResult.error) {
-      const validationErrorResult = validationError(
-        {
-          ...validationResult.error,
-          fieldErrors: Object.fromEntries(
-            Object.entries(validationResult.error.fieldErrors).map(
-              ([key, val]) => [key.split(".")[0], val],
-            ),
-          ),
-        },
-        validationResult.submittedData,
-      );
-      return validationErrorResult;
+      return buildFileUploadError(validationResult);
     }
     const result = await uploadUserFileToS3(cookieHeader, request.url, file);
     fileMeta.etag = result?.ETag?.replaceAll(/"/g, "");
