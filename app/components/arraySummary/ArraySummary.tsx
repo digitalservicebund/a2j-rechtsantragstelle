@@ -57,21 +57,19 @@ const ArraySummary = ({
         )}
         {description && <RichText html={description} />}
         <div className="space-y-32">
-          {arrayData.data
-            .filter((items) => items !== undefined)
-            .map((items, index) => (
-              <ArraySummaryDataItems
-                // eslint-disable-next-line react/no-array-index-key
-                key={`${subtitle}_${index}`}
-                configuration={arrayData.configuration}
-                itemIndex={index}
-                items={items}
-                category={category}
-                csrf={csrf}
-                headingTitleTagNameItem={hasTitleHeading ? "h3" : "h2"}
-                translations={translations}
-              />
-            ))}
+          {arrayData.data.map((items, index) => (
+            <ArraySummaryDataItems
+              // eslint-disable-next-line react/no-array-index-key
+              key={`${subtitle}_${index}`}
+              configuration={arrayData.configuration}
+              itemIndex={index}
+              items={items}
+              category={category}
+              csrf={csrf}
+              headingTitleTagNameItem={hasTitleHeading ? "h3" : "h2"}
+              translations={translations}
+            />
+          ))}
           <Button
             look="primary"
             size="small"

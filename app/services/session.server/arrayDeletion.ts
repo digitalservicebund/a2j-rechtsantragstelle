@@ -52,10 +52,7 @@ export async function deleteArrayItem(
   try {
     const { arrayName, index } = arrayIndexFromFormData(relevantFormData);
     const arrayToMutate = arrayFromSession(arrayName, flowSession);
-    deleteFromArrayInplace(
-      arrayToMutate.filter((data) => data !== undefined),
-      index,
-    );
+    deleteFromArrayInplace(arrayToMutate, index);
     updateSession(flowSession, { [arrayName]: arrayToMutate });
     const headers = { "Set-Cookie": await commitSession(flowSession) };
     return new Response("success", { status: 200, headers });

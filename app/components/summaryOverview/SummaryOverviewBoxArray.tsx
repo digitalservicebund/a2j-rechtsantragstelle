@@ -19,19 +19,17 @@ const SummaryOverviewBoxArray = ({ boxId, boxItems, title, stepId }: Props) => {
     return null;
   }
 
-  return arrayObject
-    .filter((object) => object !== undefined)
-    .map((object, index) => (
-      <SummaryOverviewBox
-        // eslint-disable-next-line react/no-array-index-key
-        key={boxId + index}
-        boxId={boxId}
-        stepId={addArrayIndexToPathUrl(stepId, index)}
-        userData={object}
-        boxItems={boxItems}
-        title={title}
-      />
-    ));
+  return arrayObject.map((object, index) => (
+    <SummaryOverviewBox
+      // eslint-disable-next-line react/no-array-index-key
+      key={boxId + index}
+      boxId={boxId}
+      stepId={addArrayIndexToPathUrl(stepId, index)}
+      userData={object}
+      boxItems={boxItems}
+      title={title}
+    />
+  ));
 };
 
 export default SummaryOverviewBoxArray;
