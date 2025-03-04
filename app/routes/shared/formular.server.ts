@@ -14,18 +14,12 @@ import {
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
-import { uploadUserFileToS3 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
 import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
-import {
-  buildFileUploadError,
-  convertFileToMetadata,
-  parseFileFromFormData,
-  validateUploadedFile,
-} from "~/services/flow/server/fileUploadHelpers.server";
+import { uploadUserFile } from "~/services/flow/server/fileUploadHelpers.server";
 import {
   validateFlowTransition,
   getFlowTransitionConfig,
@@ -248,27 +242,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     typeof formAction === "string" &&
     formAction.startsWith("fileUpload")
   ) {
-    const inputName = formAction.split(".")[1];
-    const [fieldName, input] = inputName.split("[");
-    const inputIndex = input.charAt(0);
-    const file = await parseFileFromFormData(request, inputName);
-    const fileMeta = convertFileToMetadata(file);
-    const validationResult = await validateUploadedFile(
-      inputName,
-      fileMeta,
+    const { validationResult, validationError } = await uploadUserFile(
+      formAction,
+      request,
       flowSession.data,
     );
-    if (validationResult.error) {
-      return buildFileUploadError(validationResult);
-    }
-    const result = await uploadUserFileToS3(cookieHeader, request.url, file);
-    fileMeta.etag = result?.ETag?.replaceAll(/"/g, "");
-    validationResult.data[fieldName as keyof typeof validationResult.data][
-      Number(inputIndex)
-    ] = fileMeta;
+    if (validationError) return validationError;
     updateSession(
       flowSession,
-      resolveArraysFromKeys(validationResult.data as Context),
+      resolveArraysFromKeys(validationResult!.data as Context),
     );
     return new Response(null, {
       status: 200,

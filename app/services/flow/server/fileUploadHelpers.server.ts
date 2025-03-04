@@ -1,14 +1,57 @@
-import { unstable_parseMultipartFormData } from "@remix-run/node";
+import {
+  TypedResponse,
+  unstable_parseMultipartFormData,
+} from "@remix-run/node";
 import { withZod } from "@remix-validated-form/with-zod";
-import { ErrorResult, validationError } from "remix-validated-form";
+import {
+  ErrorResult,
+  SuccessResult,
+  validationError,
+  ValidationErrorResponseData,
+} from "remix-validated-form";
 import { z } from "zod";
 import { Context } from "~/domains/contexts";
+import { uploadUserFileToS3 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
 import {
   fileUploadErrorMap,
   fileUploadLimit,
   PDFFileMetadata,
   pdfFileMetaDataSchema,
 } from "~/util/file/pdfFileSchema";
+
+export async function uploadUserFile(
+  formAction: string,
+  request: Request,
+  userData: Context,
+): Promise<{
+  validationError?: TypedResponse<ValidationErrorResponseData>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  validationResult?: SuccessResult<any>;
+}> {
+  const inputName = formAction.split(".")[1];
+  const [fieldName, input] = inputName.split("[");
+  const inputIndex = input.charAt(0);
+  const file = await parseFileFromFormData(request, inputName);
+  const fileMeta = convertFileToMetadata(file);
+  const validationResult = await validateUploadedFile(
+    inputName,
+    fileMeta,
+    userData,
+  );
+  if (validationResult.error) {
+    return { validationError: buildFileUploadError(validationResult) };
+  }
+  const result = await uploadUserFileToS3(
+    request.headers.get("Cookie"),
+    request.url,
+    file,
+  );
+  fileMeta.etag = result?.ETag?.replaceAll(/"/g, "");
+  validationResult.data[fieldName as keyof typeof validationResult.data][
+    Number(inputIndex)
+  ] = fileMeta;
+  return { validationResult };
+}
 
 export async function parseFileFromFormData(
   request: Request,
