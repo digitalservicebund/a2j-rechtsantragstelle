@@ -31,7 +31,6 @@ import {
 } from "~/services/cms/index.server";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
@@ -95,7 +94,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     translations,
     hasAnyUserData,
     mainSession,
-    showKopfzeile,
   ] = await Promise.all([
     fetchSingleEntry("page-header", defaultLocale),
     fetchSingleEntry("footer", defaultLocale),
@@ -112,7 +110,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     ]),
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
-    isFeatureFlagEnabled("showKopfzeile"),
   ]);
 
   const shouldAddCacheControl = shouldSetCacheControlHeader(
@@ -127,7 +124,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
         alignToMainContainer:
           !flowIdFromPathname(pathname)?.match(/formular|antrag/),
-        showKopfzeile,
       },
       footer: strapiFooter,
       cookieBannerContent: cookieBannerContent,
