@@ -35,7 +35,7 @@ import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities"
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
-import Header from "./components/PageHeader";
+import PageHeader from "./components/PageHeader";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
@@ -223,7 +223,7 @@ function App() {
             target={skipToContentLinkTarget}
           />
           <CookieBanner content={cookieBannerContent} />
-          <Header {...header} translations={pageHeaderTranslations} />
+          <PageHeader {...header} translations={pageHeaderTranslations} />
           <Breadcrumbs
             breadcrumbs={breadcrumbs}
             alignToMainContainer={header.alignToMainContainer}
@@ -264,7 +264,7 @@ export function ErrorBoundary() {
       </head>
       <body className="flex flex-col min-h-screen">
         {loaderData && (
-          <Header
+          <PageHeader
             {...loaderData.header}
             translations={loaderData.pageHeaderTranslations}
           />

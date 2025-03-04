@@ -17,7 +17,7 @@ type PageHeaderProps = {
   };
 };
 
-export default function Header({
+export default function PageHeader({
   title,
   linkLabel,
   hideLinks,
