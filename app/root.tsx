@@ -119,8 +119,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   return json(
     {
-      header: {
+      pageHeaderProps: {
         ...strapiHeader,
+        translations: extractTranslations(
+          ["leichtesprache", "gebaerdensprache", "mainNavigationAriaLabel"],
+          translations.pageHeader,
+        ),
         hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
         alignToMainContainer:
           !flowIdFromPathname(pathname)?.match(/formular|antrag/),
@@ -136,10 +140,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       deletionLabel: translations["delete-data"].footerLinkLabel,
       hasAnyUserData,
       feedbackTranslations: translations.feedback,
-      pageHeaderTranslations: extractTranslations(
-        ["leichtesprache", "gebaerdensprache", "mainNavigationAriaLabel"],
-        translations.pageHeader,
-      ),
       videoTranslations: translations.video,
       accessibilityTranslations: translations.accessibility,
       feedback: getFeedbackData(mainSession, pathname),
@@ -153,14 +153,13 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
 function App() {
   const {
-    header,
+    pageHeaderProps,
     footer,
     cookieBannerContent,
     hasTrackingConsent,
     deletionLabel,
     hasAnyUserData,
     feedbackTranslations,
-    pageHeaderTranslations,
     videoTranslations,
     accessibilityTranslations,
   } = useLoaderData<RootLoader>();
@@ -223,11 +222,11 @@ function App() {
             target={skipToContentLinkTarget}
           />
           <CookieBanner content={cookieBannerContent} />
-          <PageHeader {...header} translations={pageHeaderTranslations} />
+          <PageHeader {...pageHeaderProps} />
           <Breadcrumbs
             breadcrumbs={breadcrumbs}
-            alignToMainContainer={header.alignToMainContainer}
-            linkLabel={header.linkLabel}
+            alignToMainContainer={pageHeaderProps.alignToMainContainer}
+            linkLabel={pageHeaderProps.linkLabel}
             translations={{ ...accessibilityTranslations }}
           />
           <TranslationContext.Provider value={translationMemo}>
@@ -263,12 +262,7 @@ export function ErrorBoundary() {
         <meta name="darkreader-lock" />
       </head>
       <body className="flex flex-col min-h-screen">
-        {loaderData && (
-          <PageHeader
-            {...loaderData.header}
-            translations={loaderData.pageHeaderTranslations}
-          />
-        )}
+        {loaderData && <PageHeader {...loaderData.pageHeaderProps} />}
         <main className="flex-grow">
           <ErrorBox
             errorPages={loaderData?.errorPages}
