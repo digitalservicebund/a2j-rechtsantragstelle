@@ -18,7 +18,7 @@ export const belegeContext = {
     .array(pdfFileMetaDataSchema.optional())
     .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
 };
-export const _belegeContextObject = z.object(belegeContext).partial();
+const _belegeContextObject = z.object(belegeContext).partial();
 export type BelegeContext = z.infer<typeof _belegeContextObject>;
 
 const _contextObject = z.object(abgabeContext).partial();
