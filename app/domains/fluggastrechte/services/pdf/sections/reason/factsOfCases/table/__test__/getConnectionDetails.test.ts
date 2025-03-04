@@ -436,4 +436,60 @@ describe("getConnectionDetails", () => {
       });
     });
   });
+
+  describe("nichtbefoerderung", () => {
+    it("should return flight replacement details when 'ersatzverbindungArt' is 'flug'", () => {
+      const userData: FluggastrechtContext = {
+        bereich: "nichtbefoerderung",
+        ersatzverbindungArt: "flug",
+        direktAnkunftsDatum: "10.11.2024",
+        direktAnkunftsZeit: "12:00",
+        ersatzFlugAnkunftsDatum: "10.11.2024",
+        ersatzFlugAnkunftsZeit: "15:30",
+        ersatzFlugnummer: "AB123",
+      };
+      const result = getConnectionDetails(userData);
+      expect(result).toEqual({
+        info: "--",
+        timeTable: ["AB123", "--", "10.11.2024, 15:30"],
+      });
+    });
+
+    it("should return alternative transportation details when 'ersatzverbindungArt' is 'etwasAnderes'", () => {
+      const userData: FluggastrechtContext = {
+        bereich: "nichtbefoerderung",
+        ersatzverbindungArt: "etwasAnderes",
+        direktAnkunftsDatum: "10.11.2024",
+        direktAnkunftsZeit: "12:00",
+        andereErsatzverbindungAnkunftsDatum: "10.11.2024",
+        andereErsatzverbindungAnkunftsZeit: "14:30",
+      };
+      const result = getConnectionDetails(userData);
+      expect(result).toEqual({
+        info: "--",
+        timeTable: ["--", "--", "10.11.2024, 14:30"],
+      });
+    });
+
+    it("should return not measure and did not arrive text for 'keineAnkunft' ersatzverbindungArt", () => {
+      const userData: FluggastrechtContext = {
+        ersatzverbindungArt: "keineAnkunft",
+        bereich: "nichtbefoerderung",
+      };
+      const result = getConnectionDetails(userData);
+      expect(result).toEqual({
+        info: NOT_MEASURE_DID_NOT_ARRIVE_TEXT,
+        timeTable: ["--", "--", "--"],
+      });
+    });
+
+    it("should return error if no valid ersatzverbindungArt or tatsaechlicherFlug is provided", () => {
+      const userData: FluggastrechtContext = { bereich: "nichtbefoerderung" };
+      const result = getConnectionDetails(userData);
+      expect(result).toEqual({
+        info: "error",
+        timeTable: ["error", "error", "error"],
+      });
+    });
+  });
 });

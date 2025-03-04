@@ -87,6 +87,6 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   const showBacklinks = url.searchParams.get("showBacklinks") !== null;
   const machine = createMachine(config as Config, { guards });
   const graph = getVisualizationString(machine, showBacklinks);
-  const mermaidUrl = `https://mermaid.ink/img/pako:${compressBase64(graph)}?bgColor=!white`;
+  const mermaidUrl = `https://mermaid.ink/svg/pako:${compressBase64(graph)}?bgColor=!white`;
   return json({ url: mermaidUrl });
 };

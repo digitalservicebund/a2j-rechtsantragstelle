@@ -124,9 +124,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: "zwischenseite-cash",
-            guard: ({ context }) =>
-              context.verheiratet === "nein" ||
-              context.verheiratet === "verwitwet",
+            guard: ({ context }) => context.verheiratet === "nein",
           },
           "partner-wohnen-zusammen",
         ],
