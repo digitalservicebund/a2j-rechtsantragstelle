@@ -50,7 +50,11 @@ import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { pdfFileMetaDataSchema } from "~/util/file/pdfFileSchema";
+import {
+  fileUploadLimit,
+  fileUploadErrorMap,
+  pdfFileMetaDataSchema,
+} from "~/util/file/pdfFileSchema";
 import { filterFormData } from "~/util/filterFormData";
 
 export const loader = async ({
@@ -255,16 +259,23 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const file = await getFileFromMultipartFormData(request, inputName);
     const fileMeta = convertFileToMetadata(file);
     const validationResult = await withZod(
-      z.object({ belege: z.array(pdfFileMetaDataSchema.optional()) }),
-    ).validate({ ...flowSession.data, [inputName]: fileMeta });
+      z.object({
+        belege: z
+          .array(pdfFileMetaDataSchema.optional())
+          .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
+      }),
+    ).validate({
+      ...flowSession.data,
+      [inputName]: fileMeta,
+    });
     if (validationResult.error) {
       const validationErrorResult = validationError(
         {
           ...validationResult.error,
           fieldErrors: Object.fromEntries(
-            Object.entries(validationResult.error.fieldErrors)
-              .map(([key, val]) => [key.split(".")[0], val])
-              .filter(([key]) => key === inputName),
+            Object.entries(validationResult.error.fieldErrors).map(
+              ([key, val]) => [key.split(".")[0], val],
+            ),
           ),
         },
         validationResult.submittedData,
