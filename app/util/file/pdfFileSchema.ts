@@ -14,7 +14,9 @@ export const fileUploadErrorMap = {
 export const pdfFileMetaDataSchema = z.object({
   filename: z.string(),
   etag: z.string().optional(),
-  fileType: z.string().regex(/application\/pdf/),
+  fileType: z
+    .string()
+    .regex(/application\/pdf/, fileUploadErrorMap.wrongFileType),
   fileSize: z
     .number()
     .max(TEN_MB_IN_BYTES, fileUploadErrorMap.fileSizeTooBig)

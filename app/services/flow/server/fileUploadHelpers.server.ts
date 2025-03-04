@@ -108,7 +108,7 @@ export function buildFileUploadError(validationResult: ErrorResult) {
   );
 }
 
-async function convertAsyncBufferToFile(
+export async function convertAsyncBufferToFile(
   data: AsyncIterable<Uint8Array<ArrayBufferLike>>,
   filename: string,
   contentType: string,
