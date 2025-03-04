@@ -51,22 +51,24 @@ const FilesUpload = ({
   });
 
   return (
-    <div className={classes}>
-      <FilesUploadHeader title={title} description={description} />
-      <div className="w-full flex flex-col gap-32">
-        {Array.from({ length: fileUploadLimit }).map((_, index) => (
-          <FileInput
-            // eslint-disable-next-line react/no-array-index-key
-            key={`${name}[${index}]`}
-            name={`${name}[${index}]`}
-            selectFilesButtonLabel="Datei Auswählen"
-          />
-        ))}
+    <noscript>
+      <div className={classes}>
+        <FilesUploadHeader title={title} description={description} />
+        <div className="w-full flex flex-col gap-32">
+          {Array.from({ length: fileUploadLimit }).map((_, index) => (
+            <FileInput
+              // eslint-disable-next-line react/no-array-index-key
+              key={`${name}[${index}]`}
+              name={`${name}[${index}]`}
+              selectFilesButtonLabel="Datei Auswählen"
+            />
+          ))}
+        </div>
       </div>
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === error)?.text ?? error}
       </InputError>
-    </div>
+    </noscript>
   );
 };
 
