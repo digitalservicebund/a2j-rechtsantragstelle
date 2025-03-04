@@ -40,7 +40,9 @@ export async function uploadUserFile(
     scopedContext,
   );
   if (validationResult.error) {
-    return { validationError: buildFileUploadError(validationResult) };
+    return {
+      validationError: buildFileUploadError(validationResult, inputName),
+    };
   }
   const result = await uploadUserFileToS3(
     request.headers.get("Cookie"),
@@ -93,15 +95,17 @@ export async function validateUploadedFile(
  * @param validationResult error result returned from `withZod().validate()`
  * @returns TypedResponse<ValidationErrorResponseData>
  */
-export function buildFileUploadError(validationResult: ErrorResult) {
+export function buildFileUploadError(
+  validationResult: ErrorResult,
+  inputName: string,
+) {
   return validationError(
     {
       ...validationResult.error,
       fieldErrors: Object.fromEntries(
-        Object.entries(validationResult.error.fieldErrors).map(([key, val]) => [
-          key.split(".")[0],
-          val,
-        ]),
+        Object.entries(validationResult.error.fieldErrors)
+          .map(([key, val]) => [key.split(".")[0], val])
+          .filter(([key]) => key === inputName),
       ),
     },
     validationResult.submittedData,

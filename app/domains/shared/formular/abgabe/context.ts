@@ -12,10 +12,10 @@ export const abgabeContext = {
 
 export const belegeContext = {
   belege: z
-    .array(pdfFileMetaDataSchema.optional())
+    .array(pdfFileMetaDataSchema)
     .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
   belege1: z
-    .array(pdfFileMetaDataSchema.optional())
+    .array(pdfFileMetaDataSchema)
     .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
 };
 const _belegeContextObject = z.object(belegeContext).partial();

@@ -74,7 +74,7 @@ describe("File Upload helpers", () => {
           ],
         },
       };
-      const validationError = buildFileUploadError(errorResult);
+      const validationError = buildFileUploadError(errorResult, "belege[0]");
       expect(validationError.ok).toBe(false);
       expect(validationError.status).toBe(422);
       const responseData = await validationError.json();
