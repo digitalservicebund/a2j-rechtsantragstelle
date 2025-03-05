@@ -14,9 +14,7 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
 
-  const containerClasses = classNames(
-    "bg-white p-4 border-2 border-transparent forced-colors:bg-black border-2 border-white",
-  );
+  const containerClasses = classNames("forced-colors:bg-black");
 
   const imageClasses = classNames(
     "forced-colors:brightness-0 forced-colors:invert",
