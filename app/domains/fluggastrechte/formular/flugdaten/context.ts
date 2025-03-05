@@ -64,7 +64,10 @@ export const fluggastrechteFlugdaten = {
   ersatzFlugAnkunftsDatum: fourYearsAgoSchema,
   ersatzFlugAnkunftsZeit: timeSchema,
   zusaetzlicheAngaben: stringOptionalSchema,
-  annullierungErsatzverbindungFlugnummer: optionalOrSchema(flightNumberSchema),
+  annullierungErsatzverbindungFlugnummer: optionalOrSchema(
+    flightNumberSchema,
+    z.literal(""),
+  ),
   annullierungErsatzverbindungAbflugsDatum: optionalOrSchema(
     fourYearsAgoSchema,
     z.literal(""), // we need to set default value (empty string), so that the client-side validation works
