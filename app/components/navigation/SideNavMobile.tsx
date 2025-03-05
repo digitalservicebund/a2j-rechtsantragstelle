@@ -33,8 +33,8 @@ export default function SideNavMobile(props: SideNavMobileProps) {
         className="inline-flex gap-8 text-sm py-16 px-10 bg-white cursor-pointer w-11/12"
       >
         <span>
-          {props.label}:{" "}
-          <span className="font-semibold">{props.currentPageTitle}</span>
+          {props.label}:
+          <span className="font-semibold ml-4">{props.currentPageTitle}</span>
         </span>
       </label>
 

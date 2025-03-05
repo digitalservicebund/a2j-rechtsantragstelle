@@ -8,17 +8,6 @@ const dummyNavItems: NavItem[] = [
 ];
 
 describe("SideNavMobile", () => {
-  beforeEach(() => {
-    render(
-      <SideNavMobile
-        label="Menu"
-        currentPageTitle="Home"
-        navItems={dummyNavItems}
-        className="test-class"
-      />,
-    );
-  });
-
   it("renders the container with the provided className", () => {
     render(
       <SideNavMobile
@@ -33,6 +22,14 @@ describe("SideNavMobile", () => {
   });
 
   it("renders the hidden checkbox with id 'menu-toggle' and 'peer' class", () => {
+    render(
+      <SideNavMobile
+        label="Menu"
+        currentPageTitle="Home"
+        navItems={dummyNavItems}
+        className="test-class"
+      />,
+    );
     const checkbox = document.getElementById("menu-toggle") as HTMLInputElement;
     expect(checkbox).toBeInTheDocument();
     expect(checkbox).toHaveClass("peer");
@@ -40,6 +37,14 @@ describe("SideNavMobile", () => {
   });
 
   it("renders the overlay label for closing the menu with correct aria-label and sr-only text", () => {
+    render(
+      <SideNavMobile
+        label="Menu"
+        currentPageTitle="Home"
+        navItems={dummyNavItems}
+        className="test-class"
+      />,
+    );
     const overlayLabel = screen.getByTestId("close-overlay");
     expect(overlayLabel).toBeInTheDocument();
     expect(overlayLabel.querySelector("span")).toHaveClass("sr-only");
@@ -69,6 +74,14 @@ describe("SideNavMobile", () => {
   });
 
   it("renders the main menu toggle label with correct aria-label and text", () => {
+    render(
+      <SideNavMobile
+        label="Menu"
+        currentPageTitle="Home"
+        navItems={dummyNavItems}
+        className="test-class"
+      />,
+    );
     const toggleLabel = screen.getByLabelText("Main menu toggle");
     expect(toggleLabel).toBeInTheDocument();
     expect(toggleLabel).toHaveTextContent("Menu:");
@@ -76,6 +89,14 @@ describe("SideNavMobile", () => {
   });
 
   it("renders the NavigationList container with expected classes and content", () => {
+    render(
+      <SideNavMobile
+        label="Menu"
+        currentPageTitle="Home"
+        navItems={dummyNavItems}
+        className="test-class"
+      />,
+    );
     const navContainer = document.querySelector(
       ".w-full.hidden.peer-checked\\:block.bg-white.pb-10",
     );
