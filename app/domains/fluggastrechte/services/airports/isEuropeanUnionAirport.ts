@@ -28,12 +28,20 @@ const EU_COUNTRIES = [
   "SI",
   "ES",
   "SE",
+  // Handled as EU
   "CH",
+  "AX",
   "GF",
   "GP",
   "MQ",
   "RE",
-  "AX",
+  "YT",
+  "MF",
+  "BL",
+  "EA",
+  "LI",
+  "IS",
+  "NO",
 ];
 
 export function isEuropeanUnionAirport(

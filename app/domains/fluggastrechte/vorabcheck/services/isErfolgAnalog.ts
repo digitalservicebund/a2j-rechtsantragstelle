@@ -2,6 +2,7 @@ import { hasAirportPartnerCourt } from "~/domains/fluggastrechte/services/airpor
 import { isGermanAirport } from "~/domains/fluggastrechte/services/airports/isGermanAirport";
 import type { FluggastrechtVorabcheckContext } from "../context";
 import { isFluggesellschaftInEU } from "./isFluggesellschaftInEU";
+import { isEuropeanUnionAirport } from "../../services/airports/isEuropeanUnionAirport";
 
 export const isErfolgAnalog = ({
   startAirport,
@@ -20,14 +21,14 @@ export const isErfolgAnalog = ({
   const isStartAirportGerman = isGermanAirport(startAirport);
   const isEndAirportGerman = isGermanAirport(endAirport);
   const isAirlineInEu = isFluggesellschaftInEU(fluggesellschaft);
+  const isStartAirportInEu = isEuropeanUnionAirport(startAirport);
 
   // only with german destination
   if (
     isEndAirportGerman &&
     !isStartAirportGerman &&
     !hasEndAirportPartnerCourt &&
-    isAirlineInEu &&
-    fluggesellschaft !== "sonstiges"
+    ((isAirlineInEu && fluggesellschaft !== "sonstiges") || isStartAirportInEu)
   ) {
     return true;
   }
