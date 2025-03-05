@@ -1,10 +1,12 @@
 # 16. Data Rendering pipeline overview
 
-Date: 2025-01-31
-
 ## Status
 
-Accepted
+- 2025-01-15: Drafted
+- 2025-01-20: Merged
+- 2025-01-22: Edited (Renumbered from `0015`)
+- 2025-01-31: Edited (Include zod transform)
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

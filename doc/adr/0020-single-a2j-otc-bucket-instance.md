@@ -1,10 +1,10 @@
 # 20. Single OTC Bucket Instance for RAST and ZOV
 
-Date: 2025-01-28
-
 ## Status
 
-Accepted
+- 2025-01-28: Drafted
+- 2025-01-31: Accepted
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

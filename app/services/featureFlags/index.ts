@@ -6,7 +6,6 @@ export type FeatureFlag =
   | "showGeldEinklagenFlow"
   | "showProzesskostenhilfeFlow"
   | "showERV"
-  | "showKopfzeile"
   | "showBundID"
   | "showFileUpload"
   | "showKontopfaendungWegweiserFlow";

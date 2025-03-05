@@ -1,10 +1,10 @@
 # 10. No Caching while cookie banner visible
 
-Date: 2024-09-09
-
 ## Status
 
-Accepted
+- 2024-09-02: Drafted
+- 2024-09-09: Accepted
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

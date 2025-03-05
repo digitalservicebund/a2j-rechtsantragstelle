@@ -1,10 +1,10 @@
 # 14. Introduce a pruner function to filter relevant data
 
-Date: 2024-10-24
-
 ## Status
 
-Accepted
+- 2024-10-24: Drafted
+- 2024-10-31: Merged
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

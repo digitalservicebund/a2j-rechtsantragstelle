@@ -1,10 +1,10 @@
 # 8. Staging environment public
 
-Date: 2024-06-28
-
 ## Status
 
-Agreed
+- 2024-06-28: Drafted
+- 2024-07-02: Accepted
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 
