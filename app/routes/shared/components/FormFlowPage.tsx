@@ -1,4 +1,4 @@
-import { useLoaderData, useLocation } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { useMemo } from "react";
 import ArraySummary from "~/components/arraySummary/ArraySummary";
 import Background from "~/components/Background";
@@ -8,7 +8,6 @@ import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
-import SummaryDataOverview from "~/domains/fluggastrechte/components/SummaryDataOverview";
 import type { loader } from "../formular.server";
 
 export function FormFlowPage() {
@@ -30,7 +29,6 @@ export function FormFlowPage() {
     validFlowPaths,
     flowId,
   } = useLoaderData<typeof loader>();
-  const { pathname } = useLocation();
 
   const formFlowMemo = useMemo(
     () => ({
@@ -71,14 +69,6 @@ export function FormFlowPage() {
               sortedFields={migration.sortedFields}
               buttonUrl={migration.buttonUrl}
             />
-
-            {/* TODO: temporary solution - ZOV will make a component out of it*/}
-            {pathname === "/fluggastrechte/formular/zusammenfassung/start" && (
-              <SummaryDataOverview
-                userData={prunedUserData}
-                translations={translations}
-              />
-            )}
             {arraySummaryData &&
               Object.keys(arraySummaryData).length !== 0 &&
               Object.entries(arraySummaryData).map(([category, array]) => (
