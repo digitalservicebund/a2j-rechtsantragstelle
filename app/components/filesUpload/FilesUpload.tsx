@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useState, useEffect } from "react";
-import { useField } from "remix-validated-form";
+import { useFieldArray } from "remix-validated-form";
 import { ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
 import { fileUploadLimit } from "~/util/file/pdfFileSchema";
@@ -24,7 +24,7 @@ const FilesUpload = ({
   errorMessages,
 }: FilesUploadProps) => {
   const [jsAvailable, setJsAvailable] = useState(false);
-  const { error } = useField(name);
+  const [items, , error] = useFieldArray(name);
   const errorId = `${name}-error`;
   useEffect(() => setJsAvailable(true), []);
 
@@ -37,15 +37,19 @@ const FilesUpload = ({
       <div className={classes}>
         <FilesUploadHeader title={title} description={description} />
         <div className="w-full flex flex-col gap-24">
-          {Array.from({ length: fileUploadLimit }).map((_, index) => (
-            <FileInput
-              // eslint-disable-next-line react/no-array-index-key
-              key={`${name}[${index}]`}
-              jsAvailable={jsAvailable}
-              name={`${name}[${index}]`}
-              selectFilesButtonLabel="Datei Auswählen"
-            />
-          ))}
+          {Array.from(
+            {
+              length: jsAvailable ? Math.max(items.length, 1) : fileUploadLimit,
+            },
+            (_, index) => (
+              <FileInput
+                key={`${name}[${index}]`}
+                jsAvailable={jsAvailable}
+                name={`${name}[${index}]`}
+                selectFilesButtonLabel="Datei Auswählen"
+              />
+            ),
+          )}
         </div>
       </div>
       <InputError id={errorId}>
