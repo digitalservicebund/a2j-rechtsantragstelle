@@ -25,7 +25,7 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
   if (!url) return null;
 
   const isSvg = url.endsWith(".svg");
-  const svgAltText =
+  const altText =
     !alternativeText || alternativeText === "" ? "image" : alternativeText;
 
   if (!isSvg) {
@@ -35,7 +35,8 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
           className={imageClasses}
           {...props}
           src={url}
-          alt={alternativeText ?? ""}
+          alt={altText}
+          title={altText}
         />
       </div>
     );
@@ -53,7 +54,8 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
             className={imageClasses}
             {...props}
             src={url}
-            alt={alternativeText ?? ""}
+            alt={altText}
+            title={altText}
           />
         </div>
       </noscript>
@@ -63,10 +65,10 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
     <Svg
       {...props}
       /* This id ensures black SVG paths don't disappear in high-contrast mode. 
-      For implementation details check app/styles.css */
+        For implementation details check app/styles.css */
       id="svg-image"
       src={url}
-      title={svgAltText}
+      title={altText}
       role="img"
       height="100%"
     />
