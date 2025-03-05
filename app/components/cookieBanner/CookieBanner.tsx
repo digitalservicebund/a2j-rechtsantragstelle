@@ -38,6 +38,11 @@ export function CookieBanner({
       posthog.init(POSTHOG_API_KEY, {
         api_host: POSTHOG_API_HOST,
 
+        session_recording: {
+          // Masking text elements to prevent sensitive data being shown on pages
+          maskTextSelector: "*",
+        },
+
         cross_subdomain_cookie: false, // set cookie for subdomain only
 
         opt_out_persistence_by_default: true,
