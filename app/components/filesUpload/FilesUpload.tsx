@@ -11,7 +11,6 @@ import { FileInput } from "../inputs/FileInput";
 export type FilesUploadProps = {
   name: string;
   title?: string;
-  formId?: string;
   description?: string;
   inlineNotices?: InlineNoticeProps[];
   errorMessages?: ErrorMessageProps[];
@@ -20,7 +19,6 @@ export type FilesUploadProps = {
 const FilesUpload = ({
   name,
   title,
-  formId,
   description,
   inlineNotices,
   errorMessages,
@@ -30,28 +28,12 @@ const FilesUpload = ({
   const errorId = `${name}-error`;
   useEffect(() => setJsAvailable(true), []);
 
-  if (jsAvailable) {
-    return (
-      <div className="w-full flex flex-col bg-white p-16">
-        <FilesUploadHeader title={title} description={description} />
-        <FileInput
-          name={name}
-          formId={formId}
-          selectFilesButtonLabel="Datei Auswählen"
-        />
-        {inlineNotices?.map((inlineNotice) => (
-          <InlineNotice key={inlineNotice.title} {...inlineNotice} />
-        ))}
-      </div>
-    );
-  }
-
   const classes = classNames("w-full bg-white p-16", {
     "bg-red-200 border border-red-900": !!error,
   });
 
   return (
-    <noscript>
+    <NoscriptWrapper jsAvailable={jsAvailable}>
       <div className={classes}>
         <FilesUploadHeader title={title} description={description} />
         <div className="w-full flex flex-col gap-24">
@@ -59,6 +41,7 @@ const FilesUpload = ({
             <FileInput
               // eslint-disable-next-line react/no-array-index-key
               key={`${name}[${index}]`}
+              jsAvailable={jsAvailable}
               name={`${name}[${index}]`}
               selectFilesButtonLabel="Datei Auswählen"
             />
@@ -68,8 +51,19 @@ const FilesUpload = ({
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === error)?.text ?? error}
       </InputError>
-    </noscript>
+      {inlineNotices?.map((inlineNotice) => (
+        <InlineNotice key={inlineNotice.title} {...inlineNotice} />
+      ))}
+    </NoscriptWrapper>
   );
 };
+
+const NoscriptWrapper = ({
+  jsAvailable,
+  children,
+}: {
+  jsAvailable: boolean;
+  children: React.ReactNode;
+}) => (jsAvailable ? <div>{children}</div> : <noscript>{children}</noscript>);
 
 export default FilesUpload;

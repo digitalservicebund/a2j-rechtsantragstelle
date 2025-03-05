@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import { useEffect, useState } from "react";
 import { useField } from "remix-validated-form";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
@@ -9,7 +8,7 @@ import Button from "../Button";
 
 export type FileInputProps = {
   name: string;
-  formId?: string;
+  jsAvailable: boolean;
   helperText?: string;
   selectFilesButtonLabel?: string;
   errorMessages?: ErrorMessageProps[];
@@ -17,15 +16,12 @@ export type FileInputProps = {
 
 export const FileInput = ({
   name,
-  formId,
+  jsAvailable,
   helperText,
   errorMessages,
   selectFilesButtonLabel,
 }: FileInputProps) => {
-  const [jsAvailable, setJsAvailable] = useState(false);
-  useEffect(() => setJsAvailable(true), []);
-
-  const { error, getInputProps } = useField(name, { formId });
+  const { error, getInputProps } = useField(name);
   const errorId = `${name}-error`;
   const { defaultValue } = getInputProps();
   const fileMetadata = defaultValue as PDFFileMetadata | undefined;
@@ -49,10 +45,9 @@ export const FileInput = ({
           aria-errormessage={error && errorId}
           className={classes}
         />
-        {jsAvailable && (
+        {jsAvailable ? (
           <Button look="tertiary" text={selectFilesButtonLabel} />
-        )}
-        {!jsAvailable && (
+        ) : (
           <Button
             name="_action"
             value={`fileUpload.${name}`}

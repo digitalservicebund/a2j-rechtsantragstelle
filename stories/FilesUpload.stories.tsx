@@ -16,7 +16,6 @@ export const Default: Story = {
   args: {
     name: "file upload",
     title: "Upload your files",
-    formId: "formId",
   },
   decorators: [(Story) => remixContext(Story)],
 };
