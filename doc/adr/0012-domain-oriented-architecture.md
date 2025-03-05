@@ -1,10 +1,10 @@
 # 12. Splitting domain configurations and application logic
 
-Date: 2024-10-07
-
 ## Status
 
-Accepted
+- 2024-10-07: Drafted
+- 2024-10-17: Accepted
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

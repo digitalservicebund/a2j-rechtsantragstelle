@@ -1,10 +1,10 @@
 # 13. No Caching on routes with FlowId
 
-Date: 2024-10-18
-
 ## Status
 
-Accepted
+- 2024-10-18: Drafted
+- 2024-10-23: Merged
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

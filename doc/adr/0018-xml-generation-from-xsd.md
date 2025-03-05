@@ -1,10 +1,11 @@
 # 18. Generating XMLs filled with user data according to given XSDs (xjustiz)
 
-Date: 2025-01-14
-
 ## Status
 
-Accepted
+- 2025-01-14: Drafted
+- 2025-01-16: Accepted
+- 2025-01-22: Edited (Renumbered from `0017`)
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

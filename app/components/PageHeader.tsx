@@ -10,7 +10,6 @@ type PageHeaderProps = {
   linkLabel: string;
   hideLinks: boolean;
   alignToMainContainer?: boolean;
-  showKopfzeile?: boolean;
   translations: {
     leichtesprache: string;
     gebaerdensprache: string;
@@ -18,13 +17,12 @@ type PageHeaderProps = {
   };
 };
 
-export default function Header({
+export default function PageHeader({
   title,
   linkLabel,
   hideLinks,
   alignToMainContainer,
   translations,
-  showKopfzeile,
 }: Readonly<PageHeaderProps>) {
   const navClassNames = classNames(
     "py-20 px-16 flex flex-wrap justify-between",
@@ -35,9 +33,7 @@ export default function Header({
 
   return (
     <header>
-      {showKopfzeile && (
-        <Kopfzeile alignToMainContainer={alignToMainContainer} />
-      )}
+      <Kopfzeile alignToMainContainer={alignToMainContainer} />
       <nav
         className={navClassNames}
         aria-label={translations.mainNavigationAriaLabel}

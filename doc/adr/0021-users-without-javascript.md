@@ -1,10 +1,10 @@
 # 21. Supporting Users Without JavaScript
 
-Date: 2025-02-11
-
 ## Status
 
-Accepted
+- 2025-02-11: Drafted
+- 2025-02-25: Accepted
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

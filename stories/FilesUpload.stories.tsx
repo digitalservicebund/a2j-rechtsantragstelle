@@ -17,9 +17,6 @@ export const Default: Story = {
     name: "file upload",
     title: "Upload your files",
     formId: "formId",
-    fileName: "testFile.pdf",
-    fileSize: 1024,
-    deleteButtonLabel: "Delete",
   },
   decorators: [(Story) => remixContext(Story)],
 };

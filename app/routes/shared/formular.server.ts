@@ -18,11 +18,11 @@ import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
+import { uploadUserFile } from "~/services/flow/server/fileUploadHelpers.server";
 import {
   validateFlowTransition,
   getFlowTransitionConfig,
 } from "~/services/flow/server/flowTransitionValidation";
-import { parseAndValidateFormData } from "~/services/flow/server/parseMultipartFormData.server";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { logWarning } from "~/services/logging";
@@ -41,7 +41,9 @@ import { deleteArrayItem } from "~/services/session.server/arrayDeletion";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
+import { filterFormData } from "~/util/filterFormData";
 
 export const loader = async ({
   params,
@@ -226,12 +228,30 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
   const clonedFormData = await request.clone().formData();
-  if (clonedFormData.get("_action") === "delete") {
+  const formAction = clonedFormData.get("_action");
+  if (formAction === "delete") {
     // array item deletion, skip everything else
     return await deleteArrayItem(flowId, clonedFormData, request);
+  } else if (
+    typeof formAction === "string" &&
+    formAction.startsWith("fileUpload")
+  ) {
+    const { validationResult, validationError } = await uploadUserFile(
+      formAction,
+      request,
+      flowSession.data,
+      flowId,
+    );
+    if (validationError) return validationError;
+    updateSession(flowSession, resolveArraysFromKeys(validationResult!.data));
+    return new Response(null, {
+      status: 200,
+      headers: { "Set-Cookie": await commitSession(flowSession) },
+    });
   }
 
-  const validationResult = await parseAndValidateFormData(request, pathname);
+  const relevantFormData = filterFormData(clonedFormData);
+  const validationResult = await validateFormData(pathname, relevantFormData);
 
   if (validationResult?.error) {
     return validationError(

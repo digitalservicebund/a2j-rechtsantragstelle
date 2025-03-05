@@ -1,10 +1,9 @@
 # 1. Record any decisions
 
-Date: 2023-08-24
-
 ## Status
 
-Accepted
+- 2023-08-24: Drafted
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 
