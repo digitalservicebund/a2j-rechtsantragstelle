@@ -39,7 +39,7 @@ export function CookieBanner({
         api_host: POSTHOG_API_HOST,
 
         session_recording: {
-          // Masking text elements to prevent sensitive data being shown in summary/array pages
+          // Masking text elements to prevent sensitive data being shown on pages
           maskTextSelector: "*",
         },
 
