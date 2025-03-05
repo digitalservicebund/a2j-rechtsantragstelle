@@ -1,10 +1,11 @@
 # 4. Disable console.log
 
-Date: 2024-04-24
-
 ## Status
 
-Accepted
+- 2024-04-24: Drafted
+- 2024-04-26: Merged
+- 2024-05-17: Edited (Fixed title index)
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

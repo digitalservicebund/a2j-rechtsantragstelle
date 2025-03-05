@@ -1,10 +1,11 @@
 # 2. Remove snapshot tests
 
-Date: 2024-03-12
-
 ## Status
 
-Accepted
+- 2024-03-12: Drafted
+- 2024-03-14: Merged
+- 2024-05-17: Edited (Fixed title index)
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

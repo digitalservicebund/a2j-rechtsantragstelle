@@ -1,10 +1,10 @@
 # 11. Distinguishing userInputSchema, UserDataType, userdata, and Context
 
-Date: 2024-09-12
-
 ## Status
 
-Accepted
+- 2024-09-10: Drafted
+- 2024-09-12: Accepted
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

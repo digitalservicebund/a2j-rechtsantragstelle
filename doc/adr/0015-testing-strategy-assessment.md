@@ -2,7 +2,11 @@
 
 ## Status
 
-Accepted
+- 2024-10-14: Drafted
+- 2024-10-28: Accepted
+- 2024-11-25: Edited (Updated file path)
+- 2025-01-22: Edited (Renumbered from `0014`)
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

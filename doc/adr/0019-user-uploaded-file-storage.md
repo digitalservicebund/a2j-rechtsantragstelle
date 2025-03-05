@@ -1,10 +1,12 @@
 # 19. User-uploaded File Storage
 
-Date: 2025-01-21
-
 ## Status
 
-Accepted
+- 2025-01-20: Drafted
+- 2025-01-21: Merged
+- 2025-01-22: Edited (Renumbered from `0015`)
+- 2025-01-27: Edited (Added TTL, clarified retrieval)
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 
