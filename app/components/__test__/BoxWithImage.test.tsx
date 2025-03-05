@@ -34,7 +34,8 @@ describe("BoxWithImage", () => {
           content="Wow great image!"
         />,
       );
-      const imageContainer = getByAltText(imageAltText).parentElement;
+      const imageContainer =
+        getByAltText(imageAltText).parentElement?.parentElement;
       const shouldWrap = imageVariant === "XL" || imageVariant === "XXL";
       const flexContainer = imageContainer?.parentElement;
       expect(flexContainer).toHaveClass(
@@ -52,6 +53,6 @@ describe("BoxWithImage", () => {
     );
     const image = getByAltText(imageAltText);
     expect(image).toBeInTheDocument();
-    expect(image.parentElement).toHaveClass("max-w-full");
+    expect(image.parentElement?.parentElement).toHaveClass("max-w-full");
   });
 });

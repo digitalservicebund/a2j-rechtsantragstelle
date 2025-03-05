@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { useState, useEffect } from "react";
 import Svg from "react-inlinesvg";
 
@@ -13,6 +14,14 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
 
+  const containerClasses = classNames(
+    "bg-white p-4 border-2 border-transparent forced-colors:bg-black border-2 border-white",
+  );
+
+  const imageClasses = classNames(
+    "forced-colors:brightness-0 forced-colors:invert",
+  );
+
   if (!url) return null;
 
   const isSvg = url.endsWith(".svg");
@@ -20,7 +29,16 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
     !alternativeText || alternativeText === "" ? "image" : alternativeText;
 
   if (!isSvg) {
-    return <img {...props} src={url} alt={alternativeText ?? ""} />;
+    return (
+      <div className={containerClasses}>
+        <img
+          className={imageClasses}
+          {...props}
+          src={url}
+          alt={alternativeText ?? ""}
+        />
+      </div>
+    );
   }
 
   if (!jsAvailable) {
@@ -30,12 +48,28 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
      */
     return (
       <noscript>
-        <img {...props} src={url} alt={alternativeText ?? ""} />
+        <div className={containerClasses}>
+          <img
+            className={imageClasses}
+            {...props}
+            src={url}
+            alt={alternativeText ?? ""}
+          />
+        </div>
       </noscript>
     );
   }
   return (
-    <Svg {...props} src={url} title={svgAltText} role="img" height="100%" />
+    <Svg
+      {...props}
+      /* This id ensures black SVG paths don't disappear in high-contrast mode. 
+      For implementation details check app/styles.css */
+      id="svg-image"
+      src={url}
+      title={svgAltText}
+      role="img"
+      height="100%"
+    />
   );
 }
 
