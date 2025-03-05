@@ -28,7 +28,7 @@ const EU_COUNTRIES = [
   "SI",
   "ES",
   "SE",
-  // Handled as EU
+  // Special cases
   "CH",
   "AX",
   "GF",
