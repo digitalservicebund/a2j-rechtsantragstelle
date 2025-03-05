@@ -18,7 +18,7 @@ export const FileUploadInfo = ({
   hasError,
 }: FileUploadInfoProps) => {
   const classes = classNames(
-    "w-full h-64 flex justify-between items-center px-16 my-14",
+    "w-full md:h-64 flex flex-col md:flex-row justify-between items-start md:items-center py-16 md:py-0 px-16 my-14",
     {
       "bg-gray-100": !hasError,
       "bg-red-200 border border-red-900": hasError,
@@ -26,7 +26,7 @@ export const FileUploadInfo = ({
   );
   return (
     <div className={classes}>
-      <div className="max-w-md flex justify-between">
+      <div className="max-w-full flex justify-between items-center">
         <InsertFileIcon className="shrink-0 fill-gray-900" aria-hidden="true" />
         <p className="ds-body-01-reg text-black mr-8 ml-10 truncate">
           {fileName}
@@ -36,8 +36,9 @@ export const FileUploadInfo = ({
         </p>
       </div>
       <Button
-        iconLeft={<DeleteIcon className="shrink-0" aria-hidden="true" />}
+        iconLeft={<DeleteIcon className="" aria-hidden="true" />}
         look="ghost"
+        className="pl-0 md:pl-12"
         text={deleteButtonLabel}
         type="submit"
       />

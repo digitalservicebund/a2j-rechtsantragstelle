@@ -31,18 +31,15 @@ export const FileInput = ({
   const fileMetadata = defaultValue as PDFFileMetadata | undefined;
 
   const classes = classNames(
-    "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary",
+    "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary w-full",
     {
       "w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer":
         jsAvailable,
     },
   );
   return (
-    <div>
-      <label
-        htmlFor={name}
-        className={classNames({ "flex justify-between": !jsAvailable })}
-      >
+    <div className="flex-col">
+      <label htmlFor={name} className={"flex flex-col md:flex-row"}>
         <input
           name={name}
           type="file"
@@ -59,6 +56,7 @@ export const FileInput = ({
           <Button
             name="_action"
             value={`fileUpload.${name}`}
+            className="w-fit"
             type="submit"
             look="primary"
             text="Hochladen"

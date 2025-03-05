@@ -54,7 +54,7 @@ const FilesUpload = ({
     <noscript>
       <div className={classes}>
         <FilesUploadHeader title={title} description={description} />
-        <div className="w-full flex flex-col gap-32">
+        <div className="w-full flex flex-col gap-24">
           {Array.from({ length: fileUploadLimit }).map((_, index) => (
             <FileInput
               // eslint-disable-next-line react/no-array-index-key
