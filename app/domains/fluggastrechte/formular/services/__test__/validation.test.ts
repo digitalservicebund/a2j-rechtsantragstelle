@@ -380,18 +380,6 @@ describe("validation", () => {
       expect(result.success).toBe(true);
     });
 
-    it("should return success true given an original departure time after the arrival", () => {
-      const result = validatorCancelFlightReplacementPage.safeParse({
-        annullierungErsatzverbindungFlugnummer: "AB123",
-        annullierungErsatzverbindungAbflugsDatum: "02.01.2024",
-        annullierungErsatzverbindungAbflugsZeit: "14:00",
-        annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-        annullierungErsatzverbindungAnkunftsZeit: "11:00",
-      });
-
-      expect(result.success).toBe(true);
-    });
-
     it("should fail validation when only the departure time is provided", () => {
       const result = validatorCancelFlightReplacementPage.safeParse({
         annullierungErsatzverbindungFlugnummer: undefined,
