@@ -470,8 +470,9 @@ describe("validation", () => {
       ).toBe(true);
     });
 
-    it("should fail validation for all empty fields when at least one field is filled", () => {
+    it("should fail validation for all empty fields when at least two field is filled", () => {
       const result = validatorCancelFlightReplacementPage.safeParse({
+        annullierungErsatzverbindungFlugnummer: "AB1234",
         annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
         annullierungErsatzverbindungAbflugsZeit: undefined,
         annullierungErsatzverbindungAnkunftsDatum: undefined,
@@ -479,13 +480,9 @@ describe("validation", () => {
       });
 
       expect(result.success).toBe(false);
-      expect(result.error?.errors).toHaveLength(4);
+      expect(result.error?.errors).toHaveLength(3);
       expect(result.error?.errors).toEqual(
         expect.arrayContaining([
-          expect.objectContaining({
-            message: "optionalFieldRequired",
-            path: ["annullierungErsatzverbindungFlugnummer"],
-          }),
           expect.objectContaining({
             message: "optionalFieldRequired",
             path: ["annullierungErsatzverbindungAbflugsZeit"],
