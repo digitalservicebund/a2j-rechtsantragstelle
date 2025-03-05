@@ -18,6 +18,7 @@ export default function SideNavMobile(props: SideNavMobileProps) {
       <label
         htmlFor="menu-toggle"
         className="bg-black h-screen opacity-70 hidden peer-checked:block"
+        data-testid="close-overlay"
         aria-label="Close menu"
       >
         <span className="sr-only">Close menu</span>
