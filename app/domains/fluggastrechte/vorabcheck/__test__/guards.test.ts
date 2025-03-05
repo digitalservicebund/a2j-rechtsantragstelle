@@ -528,7 +528,7 @@ describe("fluggastrechteGuard", () => {
 
       it("should return false given a destination airport without partner court and non eu airline", () => {
         const context: FluggastrechtVorabcheckContext = {
-          startAirport: "AMS",
+          startAirport: "JFK",
           endAirport: "DRS",
           fluggesellschaft: "DL",
           gericht: "no",
@@ -541,7 +541,37 @@ describe("fluggastrechteGuard", () => {
         expect(actual).toBe(false);
       });
 
-      it("should return false given a destination airport without partner court and sonstiges airline ", () => {
+      it("should return true given a destination airport without partner court, start airport in EU and non eu airline", () => {
+        const context: FluggastrechtVorabcheckContext = {
+          startAirport: "AMS",
+          endAirport: "DRS",
+          fluggesellschaft: "DL",
+          gericht: "no",
+        };
+
+        const actual = guards.isErfolgAnalogGuard({
+          context,
+        });
+
+        expect(actual).toBe(true);
+      });
+
+      it("should return false given a start airport not in EU and destination airport without partner court and sonstiges airline ", () => {
+        const context: FluggastrechtVorabcheckContext = {
+          startAirport: "JFK",
+          endAirport: "DRS",
+          fluggesellschaft: "sonstiges",
+          gericht: "no",
+        };
+
+        const actual = guards.isErfolgAnalogGuard({
+          context,
+        });
+
+        expect(actual).toBe(false);
+      });
+
+      it("should return true given a start airport in EU and destination airport without partner court and sonstiges airline ", () => {
         const context: FluggastrechtVorabcheckContext = {
           startAirport: "AMS",
           endAirport: "DRS",
@@ -553,7 +583,7 @@ describe("fluggastrechteGuard", () => {
           context,
         });
 
-        expect(actual).toBe(false);
+        expect(actual).toBe(true);
       });
 
       it("should return false given a destination airport with partner court and eu airline", () => {
