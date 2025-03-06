@@ -34,18 +34,16 @@ export default function SideNavMobile(props: SideNavMobileProps) {
           <span className="sr-only">Close menu</span>
         </label>
 
-        <MenuIcon className="inline-flex peer-checked:hidden pl-10 h-[52px] w-1/12 bg-white cursor-pointer text-blue-800" />
-        <Close className="hidden peer-checked:inline-flex pl-10 h-[52px] w-1/12 bg-white cursor-pointer text-blue-800" />
+        <MenuIcon className="inline-flex peer-checked:hidden pl-10 h-[60px] w-1/12 bg-white cursor-pointer text-blue-800" />
+        <Close className="hidden peer-checked:inline-flex pl-10 h-[60px] w-1/12 bg-white cursor-pointer text-blue-800" />
 
         <label
           htmlFor="menu-toggle"
           aria-label="Main menu toggle"
-          className="inline-flex gap-8 text-sm py-16 px-10 bg-white cursor-pointer w-11/12"
+          className="inline-flex gap-8 text-sm py-20 px-10 bg-white cursor-pointer w-11/12"
         >
-          <span>
-            {props.label}:
-            <span className="font-semibold ml-4">{props.currentPageTitle}</span>
-          </span>
+          <span className="text-gray-900">{props.label}: </span>
+          <span className="font-semibold ml-4">{props.currentPageTitle}</span>
         </label>
 
         <div className="w-full hidden peer-checked:block bg-white pb-10">
@@ -72,13 +70,11 @@ export default function SideNavMobile(props: SideNavMobileProps) {
 
       <MenuIcon
         onClick={toggleMenu}
-        className={`inline-flex pl-10 h-[52px] w-1/12 bg-white cursor-pointer text-blue-800 ${
-          menuOpen ? "hidden" : "block"
-        }`}
+        className={`inline-flex pl-10 h-[60px] w-1/12 bg-white cursor-pointer text-blue-800 ${menuOpen ? "hidden" : "block"}`}
       />
       <Close
         onClick={toggleMenu}
-        className={`pl-10 h-[52px] w-1/12 bg-white cursor-pointer text-blue-800 ${
+        className={`pl-10 h-[60px] w-1/12 bg-white cursor-pointer text-blue-800 ${
           menuOpen ? "inline-flex" : "hidden"
         }`}
       />
@@ -86,17 +82,15 @@ export default function SideNavMobile(props: SideNavMobileProps) {
       <button
         onClick={toggleMenu}
         aria-label="Main menu toggle"
-        className="inline-flex gap-8 text-sm py-16 px-10 bg-white cursor-pointer w-11/12"
+        className="inline-flex gap-8 text-sm py-20 px-10 bg-white cursor-pointer w-11/12"
       >
-        <span>
-          {props.label}:{" "}
-          <span className="font-semibold ml-4">{props.currentPageTitle}</span>
-        </span>
+        <span className="text-gray-900">{props.label}: </span>
+        <span className="font-semibold">{props.currentPageTitle}</span>
       </button>
 
       {menuOpen && (
         <button
-          className="bg-black h-screen opacity-70 absolute inset-0 z-30"
+          className="bg-black h-screen opacity-70 absolute inset-0 "
           data-testid="close-overlay"
           aria-label="Close menu"
           onClick={toggleMenu}
