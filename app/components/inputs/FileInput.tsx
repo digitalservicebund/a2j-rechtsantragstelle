@@ -1,6 +1,11 @@
 import { useLoaderData, useSubmit } from "@remix-run/react";
 import classNames from "classnames";
-import { useField } from "remix-validated-form";
+import { useEffect, useRef } from "react";
+import {
+  FieldArrayHelpers,
+  useControlField,
+  useField,
+} from "remix-validated-form";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
 import { loader } from "~/routes/shared/formular.server";
@@ -12,6 +17,8 @@ import Button from "../Button";
 export type FileInputProps = {
   name: string;
   jsAvailable: boolean;
+  index: number;
+  fieldArrayHelpers: FieldArrayHelpers<PDFFileMetadata>;
   helperText?: string;
   selectFilesButtonLabel?: string;
   errorMessages?: ErrorMessageProps[];
@@ -20,15 +27,27 @@ export type FileInputProps = {
 export const FileInput = ({
   name,
   jsAvailable,
+  index,
+  fieldArrayHelpers,
   helperText,
   errorMessages,
   selectFilesButtonLabel,
 }: FileInputProps) => {
-  const { error, getInputProps } = useField(name);
+  const { error: fieldError } = useField(name);
+  const [selectedFile, setSelectedFile] =
+    useControlField<PDFFileMetadata>(name);
   const { onFileUpload } = useFileUploadHandler();
   const errorId = `${name}-error`;
-  const { defaultValue } = getInputProps();
-  const fileMetadata = defaultValue as PDFFileMetadata | undefined;
+
+  const error = useRef(fieldError);
+  const valueHasChanged = useRef(false);
+
+  useEffect(() => {
+    if (valueHasChanged.current) {
+      error.current = fieldError;
+      valueHasChanged.current = false;
+    }
+  }, [fieldError, name]);
 
   const classes = classNames(
     "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary w-full",
@@ -38,17 +57,26 @@ export const FileInput = ({
     },
   );
 
+  const onFileSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    const fileMeta = convertFileToMetadata(file);
+    fieldArrayHelpers.replace(index, fileMeta);
+    setSelectedFile(fileMeta);
+    onFileUpload(name, file);
+    valueHasChanged.current = true;
+  };
+
   return (
     <div className="flex-col">
       <label htmlFor={name} className={"flex flex-col md:flex-row"}>
         <input
           name={name}
-          onChange={(event) => onFileUpload(name, event.target.files?.[0])}
+          onChange={onFileSelected}
           type="file"
           accept=".pdf, .tiff, .tif"
           data-testid="fileUploadInput"
-          aria-invalid={error !== undefined}
-          aria-errormessage={error && errorId}
+          aria-invalid={error.current !== undefined}
+          aria-errormessage={error.current && errorId}
           className={classes}
         />
         {jsAvailable ? (
@@ -65,21 +93,33 @@ export const FileInput = ({
           />
         )}
       </label>
-      {fileMetadata && (
+      {selectedFile && (
         <FileUploadInfo
-          fileName={fileMetadata.filename}
-          fileSize={fileMetadata.fileSize}
+          fileName={selectedFile.filename}
+          fileSize={selectedFile.fileSize}
           deleteButtonLabel={"Löschen"}
-          hasError={!!error}
+          hasError={!!error.current}
         />
       )}
       <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === error)?.text ?? error}
+        {errorMessages?.find((err) => err.code === error.current)?.text ??
+          error.current}
       </InputError>
       <div className="label-text mt-6">{helperText}</div>
     </div>
   );
 };
+
+export function convertFileToMetadata(file?: File): PDFFileMetadata {
+  return {
+    filename: file?.name ?? "",
+    fileType: file?.type ?? "",
+    fileSize: file?.size ?? 0,
+    createdOn: file?.lastModified
+      ? new Date(file?.lastModified).toString()
+      : "",
+  };
+}
 
 export function useFileUploadHandler() {
   const { csrf } = useLoaderData<typeof loader>();

@@ -11,6 +11,7 @@ import {
   ValidationResult,
 } from "remix-validated-form";
 import { z, ZodTypeAny } from "zod";
+import { convertFileToMetadata } from "~/components/inputs/FileInput";
 import { ArrayData, Context, getContext } from "~/domains/contexts";
 import { FlowId } from "~/domains/flowIds";
 import { uploadUserFileToS3 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
@@ -122,15 +123,4 @@ export async function convertAsyncBufferToFile(
     dataArr.push(chunk);
   }
   return new File(dataArr, filename, { type: contentType });
-}
-
-export function convertFileToMetadata(file?: File): PDFFileMetadata {
-  return {
-    filename: file?.name ?? "",
-    fileType: file?.type ?? "",
-    fileSize: file?.size ?? 0,
-    createdOn: file?.lastModified
-      ? new Date(file?.lastModified).toString()
-      : "",
-  };
 }

@@ -1,4 +1,7 @@
-import { useFileUploadHandler } from "~/components/inputs/FileInput";
+import {
+  convertFileToMetadata,
+  useFileUploadHandler,
+} from "~/components/inputs/FileInput";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
 const useLoaderDataMock = vi.hoisted(() =>
@@ -27,6 +30,29 @@ describe("useFileUploadHandler", () => {
     expect(submitMock).toHaveBeenCalledWith(mockFormData, {
       method: "post",
       encType: "multipart/form-data",
+    });
+  });
+});
+
+describe("convertFileToMetadata", () => {
+  it("should set default values when a file is not provided", () => {
+    const result = convertFileToMetadata();
+    expect(result).toEqual({
+      filename: "",
+      fileType: "",
+      fileSize: 0,
+      createdOn: "",
+    });
+  });
+
+  it("should successfully convert a file to metadata", () => {
+    const mockFile = new File([], "filename", { type: "application/pdf" });
+    const result = convertFileToMetadata(mockFile);
+    expect(result).toEqual({
+      filename: "filename",
+      fileType: "application/pdf",
+      fileSize: 0,
+      createdOn: new Date(mockFile.lastModified).toString(),
     });
   });
 });

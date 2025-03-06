@@ -24,7 +24,7 @@ const FilesUpload = ({
   errorMessages,
 }: FilesUploadProps) => {
   const [jsAvailable, setJsAvailable] = useState(false);
-  const [items, , error] = useFieldArray(name);
+  const [items, fieldArrayHelpers, error] = useFieldArray(name);
   const errorId = `${name}-error`;
   useEffect(() => setJsAvailable(true), []);
 
@@ -43,12 +43,24 @@ const FilesUpload = ({
             },
             (_, index) => (
               <FileInput
+                fieldArrayHelpers={fieldArrayHelpers}
+                index={index}
                 key={`${name}[${index}]`}
                 jsAvailable={jsAvailable}
                 name={`${name}[${index}]`}
                 selectFilesButtonLabel="Datei Auswählen"
               />
             ),
+          )}
+          {jsAvailable && items.length < fileUploadLimit && (
+            <FileInput
+              fieldArrayHelpers={fieldArrayHelpers}
+              key={`${name}[${items.length + 1}]`}
+              index={items.length}
+              jsAvailable={jsAvailable}
+              name={`${name}[${items.length + 1}]`}
+              selectFilesButtonLabel="Weitere Datei Auswählen"
+            />
           )}
         </div>
       </div>
