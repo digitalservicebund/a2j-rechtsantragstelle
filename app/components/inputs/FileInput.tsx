@@ -1,7 +1,10 @@
+import { useLoaderData, useSubmit } from "@remix-run/react";
 import classNames from "classnames";
 import { useField } from "remix-validated-form";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
+import { loader } from "~/routes/shared/formular.server";
+import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { ErrorMessageProps } from ".";
 import Button from "../Button";
@@ -22,6 +25,7 @@ export const FileInput = ({
   selectFilesButtonLabel,
 }: FileInputProps) => {
   const { error, getInputProps } = useField(name);
+  const { onFileUpload } = useFileUploadHandler();
   const errorId = `${name}-error`;
   const { defaultValue } = getInputProps();
   const fileMetadata = defaultValue as PDFFileMetadata | undefined;
@@ -33,11 +37,13 @@ export const FileInput = ({
         jsAvailable,
     },
   );
+
   return (
     <div className="flex-col">
       <label htmlFor={name} className={"flex flex-col md:flex-row"}>
         <input
           name={name}
+          onChange={(event) => onFileUpload(name, event.target.files?.[0])}
           type="file"
           accept=".pdf, .tiff, .tif"
           data-testid="fileUploadInput"
@@ -74,3 +80,20 @@ export const FileInput = ({
     </div>
   );
 };
+
+export function useFileUploadHandler() {
+  const { csrf } = useLoaderData<typeof loader>();
+  const submit = useSubmit();
+  return {
+    onFileUpload: (fieldName: string, file: File | undefined) => {
+      const formData = new FormData();
+      formData.append("_action", `fileUpload.${fieldName}`);
+      formData.append(CSRFKey, csrf);
+      formData.append(fieldName, file ?? "");
+      submit(formData, {
+        method: "post",
+        encType: "multipart/form-data",
+      });
+    },
+  };
+}
