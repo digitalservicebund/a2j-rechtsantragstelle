@@ -236,56 +236,34 @@ export function validateDepartureAfterArrival(
 export function validateCancelFlightReplacementPage(
   baseSchema: MultiFieldsValidationBaseSchema,
 ) {
-  return baseSchema.superRefine(
-    (
-      {
-        annullierungErsatzverbindungAbflugsDatum,
-        annullierungErsatzverbindungAbflugsZeit,
-        annullierungErsatzverbindungAnkunftsDatum,
-        annullierungErsatzverbindungAnkunftsZeit,
-      },
-      ctx,
-    ) => {
-      const addIssueToContext = (path: string[]) => {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "optionalFieldRequired", // these fields are optional, but if one is filled, the other must be filled as well
-          path,
-          fatal: true,
-        });
-      };
+  return baseSchema.superRefine((data, ctx) => {
+    const fieldsForValidation = [
+      "annullierungErsatzverbindungFlugnummer",
+      "annullierungErsatzverbindungAbflugsDatum",
+      "annullierungErsatzverbindungAbflugsZeit",
+      "annullierungErsatzverbindungAnkunftsDatum",
+      "annullierungErsatzverbindungAnkunftsZeit",
+    ];
 
-      const validateFieldPair = (
-        field1: string,
-        field2: string,
-        path1: string[],
-        path2: string[],
-      ) => {
-        const isEmpty1 = isFieldEmptyOrUndefined(field1);
-        const isEmpty2 = isFieldEmptyOrUndefined(field2);
+    const fields = fieldsForValidation.map((path) => ({
+      value: data[path],
+      path: [path],
+    }));
 
-        if (isEmpty1 && !isEmpty2) {
-          addIssueToContext(path1);
+    const isAnyFieldFilled = fields.some(
+      ({ value }) => !isFieldEmptyOrUndefined(value),
+    );
+
+    if (isAnyFieldFilled) {
+      for (const { value, path } of fields) {
+        if (isFieldEmptyOrUndefined(value)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "optionalFieldRequired",
+            path,
+          });
         }
-
-        if (isEmpty2 && !isEmpty1) {
-          addIssueToContext(path2);
-        }
-      };
-
-      validateFieldPair(
-        annullierungErsatzverbindungAbflugsDatum,
-        annullierungErsatzverbindungAbflugsZeit,
-        ["annullierungErsatzverbindungAbflugsDatum"],
-        ["annullierungErsatzverbindungAbflugsZeit"],
-      );
-
-      validateFieldPair(
-        annullierungErsatzverbindungAnkunftsDatum,
-        annullierungErsatzverbindungAnkunftsZeit,
-        ["annullierungErsatzverbindungAnkunftsDatum"],
-        ["annullierungErsatzverbindungAnkunftsZeit"],
-      );
-    },
-  );
+      }
+    }
+  });
 }
