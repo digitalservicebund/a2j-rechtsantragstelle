@@ -1,4 +1,5 @@
-import SVG from "react-inlinesvg";
+import { useState, useEffect } from "react";
+import Svg from "react-inlinesvg";
 
 export type ImageProps = Readonly<{
   url?: string;
@@ -9,22 +10,41 @@ export type ImageProps = Readonly<{
 }>;
 
 function Image({ url, alternativeText, ...props }: ImageProps) {
+  const [jsAvailable, setJsAvailable] = useState(false);
+  useEffect(() => setJsAvailable(true), []);
+
   if (!url) return null;
+
   const isSvg = url.endsWith(".svg");
-  const svgAltText =
+  const altText =
     !alternativeText || alternativeText === "" ? "image" : alternativeText;
 
-  return isSvg ? (
-    <SVG
+  const ImageComponent = (
+    <img {...props} src={url} alt={altText} title={altText} />
+  );
+
+  if (!isSvg) {
+    return ImageComponent;
+  }
+
+  if (!jsAvailable) {
+    /**
+     * <noscript> tag prevents that <img> is cached by the browser when js is available
+     * more details here: https://github.com/tanem/react-svg/issues/197 and https://serverfault.com/a/856948
+     */
+    return <noscript>{ImageComponent}</noscript>;
+  }
+  return (
+    <Svg
       {...props}
-      id="svg-image"
+      /* This class ensures black SVG paths don't disappear in high-contrast mode. 
+        For implementation details check app/styles.css */
+      className="svg-image"
       src={url}
-      title={svgAltText}
+      title={altText}
       role="img"
       height="100%"
     />
-  ) : (
-    <img {...props} src={url} alt={alternativeText ?? ""} />
   );
 }
 
