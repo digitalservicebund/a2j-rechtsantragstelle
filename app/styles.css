@@ -35,7 +35,7 @@ svg {
 
 /* Ensure black SVG paths don't disappear in high-contrast mode */
 @media (forced-colors: active) {
-  #svg-image path[fill="#000"] {
+  .svg-image path[fill="#000"] {
     stroke: white;
     stroke-width: 0.75;
   }
