@@ -18,8 +18,8 @@ html {
 }
 
 body {
-  font-family: "BundesSansWeb", "Calibri", "Verdana", "Arial", "Helvetica",
-    sans-serif;
+  font-family:
+    "BundesSansWeb", "Calibri", "Verdana", "Arial", "Helvetica", sans-serif;
   font-size: 18px;
   line-height: 1.5;
   min-height: 100vh;
