@@ -94,6 +94,17 @@ export default function SideNavMobile(props: SideNavMobileProps) {
         </span>
       </button>
 
+      {menuOpen && (
+        <button
+          className="bg-black h-screen opacity-70 absolute inset-0 z-30"
+          data-testid="close-overlay"
+          aria-label="Close menu"
+          onClick={toggleMenu}
+        >
+          <span className="sr-only">Close menu</span>
+        </button>
+      )}
+
       <div className={`w-full ${menuOpen ? "block" : "hidden"} bg-white pb-10`}>
         <div className="bg-white border border-blue-400 mx-10 mb-10">
           <NavigationList navItems={props.navItems} />
