@@ -70,7 +70,7 @@ describe("drawTableColumnsHead", () => {
       yPosition: expect.anything(),
       width: COLUMN_WIDTH,
       height: COLUMN_HEIGHT,
-      boldText: "Ankunft, Zeit",
+      boldText: "Ankunft Datum, Zeit",
       regularText: "Zielflughafen",
       shouldAddSilverBackground: true,
       textAlign: "left",

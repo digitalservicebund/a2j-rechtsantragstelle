@@ -15,7 +15,7 @@ const headers = [
     subtitle: "Startflughafen",
   },
   {
-    title: "Ankunft, Zeit",
+    title: "Ankunft Datum, Zeit",
     subtitle: "Zielflughafen",
   },
 ];
