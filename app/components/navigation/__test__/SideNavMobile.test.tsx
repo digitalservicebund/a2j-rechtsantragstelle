@@ -12,7 +12,6 @@ describe("SideNavMobile", () => {
     render(
       <SideNavMobile
         label="Menu"
-        currentPageTitle="Home"
         navItems={dummyNavItems}
         className="test-class"
       />,
@@ -25,7 +24,6 @@ describe("SideNavMobile", () => {
     render(
       <SideNavMobile
         label="Menu"
-        currentPageTitle="Home"
         navItems={dummyNavItems}
         className="test-class"
       />,
@@ -40,7 +38,6 @@ describe("SideNavMobile", () => {
     render(
       <SideNavMobile
         label="Menu"
-        currentPageTitle="Home"
         navItems={dummyNavItems}
         className="test-class"
       />,
@@ -58,7 +55,6 @@ describe("SideNavMobile", () => {
     render(
       <SideNavMobile
         label="Menu"
-        currentPageTitle="Home"
         navItems={dummyNavItems}
         className="test-class"
       />,
@@ -66,6 +62,6 @@ describe("SideNavMobile", () => {
     const toggleLabel = screen.getByLabelText("Main menu toggle");
     expect(toggleLabel).toBeInTheDocument();
     expect(toggleLabel).toHaveTextContent("Menu:");
-    expect(toggleLabel).toHaveTextContent("Home");
+    expect(toggleLabel).toHaveTextContent("Page 1");
   });
 });

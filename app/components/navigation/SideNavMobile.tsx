@@ -3,11 +3,11 @@ import MenuIcon from "@digitalservicebund/icons/Menu";
 import { useEffect, useState } from "react";
 import { NavigationList } from "~/components/navigation/NavigationList";
 import { NavItem } from "~/components/navigation/NavItem";
+import { stateIsCurrent } from "~/services/navigation/navState";
 
 type SideNavMobileProps = Readonly<{
   className?: string;
   label: string;
-  currentPageTitle: string;
   navItems: NavItem[];
 }>;
 
@@ -19,6 +19,10 @@ export default function SideNavMobile(props: SideNavMobileProps) {
   useEffect(() => {
     setJsAvailable(true);
   }, []);
+
+  const currentPageTitle = props.navItems.find(({ state }) =>
+    stateIsCurrent(state),
+  )?.label;
 
   if (!jsAvailable) {
     return (
@@ -43,7 +47,7 @@ export default function SideNavMobile(props: SideNavMobileProps) {
           className="inline-flex gap-8 text-sm py-20 px-10 bg-white cursor-pointer w-11/12"
         >
           <span className="text-gray-900">{props.label}: </span>
-          <span className="font-semibold ml-4">{props.currentPageTitle}</span>
+          <span className="font-semibold ml-4">{currentPageTitle}</span>
         </label>
 
         <div className="w-full hidden peer-checked:block bg-white pb-10">
@@ -85,7 +89,7 @@ export default function SideNavMobile(props: SideNavMobileProps) {
         className="inline-flex gap-8 text-sm py-20 px-10 bg-white cursor-pointer w-11/12"
       >
         <span className="text-gray-900">{props.label}: </span>
-        <span className="font-semibold">{props.currentPageTitle}</span>
+        <span className="font-semibold">{currentPageTitle}</span>
       </button>
 
       {menuOpen && (
