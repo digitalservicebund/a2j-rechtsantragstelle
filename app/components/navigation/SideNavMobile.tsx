@@ -1,6 +1,6 @@
 import Close from "@digitalservicebund/icons/Close";
 import MenuIcon from "@digitalservicebund/icons/Menu";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NavigationList } from "~/components/navigation/NavigationList";
 import { NavItem } from "~/components/navigation/NavItem";
 import { stateIsCurrent } from "~/services/navigation/navState";
@@ -12,101 +12,46 @@ type SideNavMobileProps = Readonly<{
 }>;
 
 export default function SideNavMobile(props: SideNavMobileProps) {
-  const [jsAvailable, setJsAvailable] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen((prev) => !prev);
-
-  useEffect(() => {
-    setJsAvailable(true);
-  }, []);
 
   const currentPageTitle = props.navItems.find(({ state }) =>
     stateIsCurrent(state),
   )?.label;
 
-  if (!jsAvailable) {
-    return (
-      <div className={props.className ?? ""}>
-        <input type="checkbox" id="menu-toggle" className="peer hidden" />
-
-        <label
-          htmlFor="menu-toggle"
-          className="bg-black h-screen opacity-70 hidden peer-checked:block"
-          data-testid="close-overlay"
-          aria-label="Close menu"
-        >
-          <span className="sr-only">Close menu</span>
-        </label>
-
-        <MenuIcon className="inline-flex peer-checked:hidden pl-10 h-[60px] w-1/12 bg-white cursor-pointer text-blue-800" />
-        <Close className="hidden peer-checked:inline-flex pl-10 h-[60px] w-1/12 bg-white cursor-pointer text-blue-800" />
-
-        <label
-          htmlFor="menu-toggle"
-          aria-label="Main menu toggle"
-          className="inline-flex gap-8 text-sm py-20 px-10 bg-white cursor-pointer w-11/12"
-        >
-          <span className="text-gray-900">{props.label}: </span>
-          <span className="font-semibold ml-4">{currentPageTitle}</span>
-        </label>
-
-        <div className="w-full hidden peer-checked:block bg-white pb-10">
-          <div className="bg-white border border-blue-400 mx-10 mb-10">
-            <NavigationList navItems={props.navItems} />
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const buttonClasses = "h-[24px] w-1/12 cursor-pointer text-blue-800";
+  const Icon = menuOpen ? Close : MenuIcon;
 
   return (
-    <div className={props.className ?? ""}>
-      <input type="checkbox" id="menu-toggle" className="hidden" />
-
-      <button
-        onClick={toggleMenu}
-        data-testid="close-overlay"
-        aria-label="Close menu"
-        className={`bg-black h-screen opacity-70 ${menuOpen ? "block" : "hidden"}`}
-      >
-        <span className="sr-only">Close menu</span>
-      </button>
-
-      <MenuIcon
-        onClick={toggleMenu}
-        className={`inline-flex pl-10 h-[60px] w-1/12 bg-white cursor-pointer text-blue-800 ${menuOpen ? "hidden" : "block"}`}
-      />
-      <Close
-        onClick={toggleMenu}
-        className={`pl-10 h-[60px] w-1/12 bg-white cursor-pointer text-blue-800 ${
-          menuOpen ? "inline-flex" : "hidden"
-        }`}
-      />
-
-      <button
-        onClick={toggleMenu}
-        aria-label="Main menu toggle"
-        className="inline-flex gap-8 text-sm py-20 px-10 bg-white cursor-pointer w-11/12"
-      >
-        <span className="text-gray-900">{props.label}: </span>
-        <span className="font-semibold">{currentPageTitle}</span>
-      </button>
-
+    <div className={`flex flex-col ${props.className ?? ""}`}>
       {menuOpen && (
         <button
-          className="bg-black h-screen opacity-70 absolute inset-0 "
+          onClick={toggleMenu}
           data-testid="close-overlay"
           aria-label="Close menu"
-          onClick={toggleMenu}
-        >
-          <span className="sr-only">Close menu</span>
-        </button>
+          className="bg-black h-screen opacity-70"
+        />
       )}
 
-      <div className={`w-full ${menuOpen ? "block" : "hidden"} bg-white pb-10`}>
-        <div className="bg-white border border-blue-400 mx-10 mb-10">
-          <NavigationList navItems={props.navItems} />
-        </div>
+      <div className="bg-white max-h-[80vh]">
+        <button
+          onClick={toggleMenu}
+          aria-label="Main menu toggle"
+          className="flex items-center  gap-8 text-sm py-20 px-10 cursor-pointer w-full"
+        >
+          <Icon className={buttonClasses} />
+          <span className="text-gray-900">{props.label}: </span>
+          <span className="font-semibold">{currentPageTitle}</span>
+        </button>
+
+        {menuOpen && (
+          <div className="pb-10">
+            <NavigationList
+              navItems={props.navItems}
+              className="border border-blue-400 mx-10 mb-10 overflow-auto"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

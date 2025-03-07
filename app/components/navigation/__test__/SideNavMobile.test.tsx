@@ -1,65 +1,50 @@
-import { render, screen } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import type { NavItem } from "~/components/navigation/NavItem";
 import { NavState } from "~/services/navigation/navState";
 import SideNavMobile from "../SideNavMobile";
 
 const dummyNavItems: NavItem[] = [
   { destination: "/page1", label: "Page 1", state: NavState.Current },
+  { destination: "/page2", label: "Page 2", state: NavState.Open },
 ];
 
 describe("SideNavMobile", () => {
-  it("renders the container with the provided className", () => {
-    render(
-      <SideNavMobile
-        label="Menu"
-        navItems={dummyNavItems}
-        className="test-class"
-      />,
+  it("clicking the menu opens the menu", () => {
+    const { container, getByRole } = render(
+      <SideNavMobile label="Menu" navItems={dummyNavItems} />,
     );
-    const wrapper = document.querySelector(".test-class");
-    expect(wrapper).toBeInTheDocument();
+
+    const menuButton = getByRole("button");
+    expect(container).not.toHaveTextContent("Page 2");
+    fireEvent.click(menuButton);
+    expect(container).toHaveTextContent("Page 2");
+    fireEvent.click(menuButton);
+    expect(container).not.toHaveTextContent("Page 2");
   });
 
-  it("renders the hidden checkbox with id 'menu-toggle' and 'peer' class", () => {
-    render(
-      <SideNavMobile
-        label="Menu"
-        navItems={dummyNavItems}
-        className="test-class"
-      />,
+  it("clicking the overlay closes the menu", () => {
+    const { container, getByRole, getByTestId } = render(
+      <SideNavMobile label="Menu" navItems={dummyNavItems} />,
     );
-    const checkbox = document.getElementById("menu-toggle") as HTMLInputElement;
-    expect(checkbox).toBeInTheDocument();
-    // expect(checkbox).toHaveClass("peer");
-    expect(checkbox).toHaveClass("hidden");
+    const menuButton = getByRole("button");
+    expect(container).not.toHaveTextContent("Page 2");
+    fireEvent.click(menuButton);
+    expect(container).toHaveTextContent("Page 2");
+    const overlay = getByTestId("close-overlay");
+    expect(overlay).toHaveClass("bg-black");
+    fireEvent.click(overlay);
+    expect(container).not.toHaveTextContent("Page 2");
   });
 
-  it("renders the overlay label for closing the menu with correct aria-label and sr-only text", () => {
-    render(
+  it("renders the main menu toggle with correct aria-label and text", () => {
+    const { getByRole } = render(
       <SideNavMobile
         label="Menu"
         navItems={dummyNavItems}
         className="test-class"
       />,
     );
-    const overlayLabel = screen.getByTestId("close-overlay");
-    expect(overlayLabel).toBeInTheDocument();
-    expect(overlayLabel.querySelector("span")).toHaveClass("sr-only");
-    expect(overlayLabel.querySelector("span")?.textContent).toBe("Close menu");
-    expect(overlayLabel).toHaveClass("bg-black");
-    expect(overlayLabel).toHaveClass("h-screen");
-    expect(overlayLabel).toHaveClass("opacity-70");
-  });
-
-  it("renders the main menu toggle label with correct aria-label and text", () => {
-    render(
-      <SideNavMobile
-        label="Menu"
-        navItems={dummyNavItems}
-        className="test-class"
-      />,
-    );
-    const toggleLabel = screen.getByLabelText("Main menu toggle");
+    const toggleLabel = getByRole("button");
     expect(toggleLabel).toBeInTheDocument();
     expect(toggleLabel).toHaveTextContent("Menu:");
     expect(toggleLabel).toHaveTextContent("Page 1");
