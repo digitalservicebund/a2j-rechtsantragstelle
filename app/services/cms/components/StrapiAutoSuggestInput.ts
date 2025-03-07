@@ -6,6 +6,10 @@ import {
 } from "~/services/cms/flattenStrapiErrors";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import {
+  strapiWidthToFieldWidth,
+  strapiWidthSchema,
+} from "../models/strapiWidth";
 
 const DataListSchema = z.enum(["airports", "airlines"]);
 
@@ -15,18 +19,7 @@ const StrapiAutoSuggestInputSchema = z
     label: z.string().nullable(),
     placeholder: z.string().nullable(),
     errors: StrapiErrorRelationSchema,
-    width: z
-      .enum([
-        "characters3",
-        "characters5",
-        "characters7",
-        "characters10",
-        "characters16",
-        "characters24",
-        "characters36",
-        "characters54",
-      ])
-      .nullable(),
+    width: strapiWidthSchema.nullable(),
     dataList: DataListSchema,
     noSuggestionMessage: z.string().nullable(),
     isDisabled: z
@@ -55,9 +48,6 @@ export const getAutoSuggestInputProps = (
   cmsData: StrapiAutoSuggestInput,
 ): AutoSuggestInputProps => ({
   ...omitNull(cmsData),
-  width: cmsData.width?.replace(
-    "characters",
-    "",
-  ) as AutoSuggestInputProps["width"],
+  width: strapiWidthToFieldWidth(cmsData.width),
   errorMessages: flattenStrapiErrors(cmsData.errors),
 });
