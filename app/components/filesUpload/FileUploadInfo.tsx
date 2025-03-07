@@ -5,6 +5,7 @@ import Button from "../Button";
 import { bytesToMegabytesString } from "./bytesToMegabytesString";
 
 type FileUploadInfoProps = {
+  inputName: string;
   fileName?: string;
   fileSize?: number;
   deleteButtonLabel?: string;
@@ -12,6 +13,7 @@ type FileUploadInfoProps = {
 };
 
 export const FileUploadInfo = ({
+  inputName,
   fileName,
   fileSize,
   deleteButtonLabel,
@@ -40,6 +42,8 @@ export const FileUploadInfo = ({
         look="ghost"
         className="pl-0 md:pl-12"
         text={deleteButtonLabel}
+        name="_action"
+        value={`deleteFile.${inputName}`}
         type="submit"
       />
     </div>

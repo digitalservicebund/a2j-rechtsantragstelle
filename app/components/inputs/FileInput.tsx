@@ -40,6 +40,7 @@ export const FileInput = ({
     <div className="flex-col">
       {selectedFile ? (
         <FileUploadInfo
+          inputName={name}
           fileName={selectedFile.filename}
           fileSize={selectedFile.fileSize}
           deleteButtonLabel={"Löschen"}

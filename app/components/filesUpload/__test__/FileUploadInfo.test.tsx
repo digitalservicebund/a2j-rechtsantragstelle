@@ -5,6 +5,7 @@ describe("FileUploadInfo", () => {
   it("renders an icon, file name and size", () => {
     render(
       <FileUploadInfo
+        inputName={"belege[0]"}
         fileName={"testfile1.pdf"}
         fileSize={3145728}
         deleteButtonLabel={"Delete"}

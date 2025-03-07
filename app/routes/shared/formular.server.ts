@@ -252,6 +252,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       status: 200,
       headers: { "Set-Cookie": await commitSession(flowSession) },
     });
+  } else if (
+    typeof formAction === "string" &&
+    formAction.startsWith("deleteFile")
+  ) {
+    return new Response(null, {
+      status: 200,
+      headers: { "Set-Cookie": await commitSession(flowSession) },
+    });
   }
 
   const relevantFormData = filterFormData(clonedFormData);
