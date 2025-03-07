@@ -24,7 +24,7 @@ const FilesUpload = ({
   errorMessages,
 }: FilesUploadProps) => {
   const [jsAvailable, setJsAvailable] = useState(false);
-  const [items, fieldArrayHelpers, error] = useFieldArray(name);
+  const [items, , error] = useFieldArray(name);
   const errorId = `${name}-error`;
   useEffect(() => setJsAvailable(true), []);
 
@@ -37,29 +37,23 @@ const FilesUpload = ({
       <div className={classes}>
         <FilesUploadHeader title={title} description={description} />
         <div className="w-full flex flex-col gap-24">
-          {Array.from(
-            {
-              length: jsAvailable ? Math.max(items.length, 1) : fileUploadLimit,
-            },
-            (_, index) => (
-              <FileInput
-                fieldArrayHelpers={fieldArrayHelpers}
-                index={index}
-                key={`${name}[${index}]`}
-                jsAvailable={jsAvailable}
-                name={`${name}[${index}]`}
-                selectFilesButtonLabel="Datei Auswählen"
-              />
-            ),
-          )}
-          {jsAvailable && items.length < fileUploadLimit && (
+          {items.map((item, index) => (
             <FileInput
-              fieldArrayHelpers={fieldArrayHelpers}
-              key={`${name}[${items.length + 1}]`}
-              index={items.length}
+              key={item.key}
               jsAvailable={jsAvailable}
-              name={`${name}[${items.length + 1}]`}
-              selectFilesButtonLabel="Weitere Datei Auswählen"
+              name={`${name}[${index}]`}
+              selectFilesButtonLabel="Datei Auswählen"
+            />
+          ))}
+          {(items.length < fileUploadLimit || items.length === 0) && (
+            <FileInput
+              jsAvailable={jsAvailable}
+              name={`${name}[${items.length}]`}
+              selectFilesButtonLabel={
+                items.length === 0
+                  ? "Datei Auswählen"
+                  : "Weitere Datei Auswählen"
+              }
             />
           )}
         </div>
