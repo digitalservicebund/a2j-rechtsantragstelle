@@ -23,7 +23,7 @@ export default function FlowNavigation(props: FlowNavigationProps) {
       <NavigationList
         {...props}
         className={classNames(
-          "md:block md:ml-32 md:mr-0 mx-[5vw] bg-white border-[1px] border-blue-400",
+          "md:block md:ml-32 md:mr-0 mb-32 mx-[5vw] bg-white border-[1px] border-blue-400",
           { hidden: jsAvailable },
         )}
       />
