@@ -96,7 +96,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",
     "@eslint/eslintrc": "^3.3.0",
-    "@faker-js/faker": "^9.5.1",
+    "@faker-js/faker": "^9.6.0",
     "@playwright/test": "^1.51.0",
     "@remix-run/dev": "^2.16.0",
     "@remix-run/testing": "^2.16.0",
