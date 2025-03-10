@@ -10,7 +10,7 @@ type Props = {
 
 const SummaryOverviewSection = ({ title, boxes }: Props) => {
   return (
-    <div>
+    <>
       <Heading {...title} className="mt-20" />
       {boxes.map(({ id, stepId, boxItems, title: boxTitle }) => (
         <SummaryOverviewBoxWrapped
@@ -21,7 +21,7 @@ const SummaryOverviewSection = ({ title, boxes }: Props) => {
           boxItems={boxItems}
         />
       ))}
-    </div>
+    </>
   );
 };
 

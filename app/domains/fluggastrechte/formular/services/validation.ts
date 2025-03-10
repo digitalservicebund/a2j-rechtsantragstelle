@@ -259,7 +259,7 @@ export function validateCancelFlightReplacementPage(
         if (isFieldEmptyOrUndefined(value)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: "optionalFieldRequired",
+            message: "fillAllOrNone",
             path,
           });
         }

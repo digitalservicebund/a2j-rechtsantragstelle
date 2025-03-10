@@ -39,14 +39,14 @@ const SummaryOverviewBoxItem = ({
   return (
     <>
       {title && (
-        <dt
+        <div
           data-testid="summary-box-item-title"
           className="ds-label-01-bold mt-16"
         >
           {title}
-        </dt>
+        </div>
       )}
-      <dd data-testid="summary-box-item-value">{itemValue}</dd>
+      <div data-testid="summary-box-item-value">{itemValue}</div>
     </>
   );
 };

@@ -9,20 +9,32 @@ describe("Image", () => {
   });
 
   it("should render an image as an <img> tag", () => {
-    const { getByAltText } = render(
+    const { getByRole } = render(
       <Image url="photo.jpg" alternativeText={altText} />,
     );
-    const image = getByAltText(altText);
+    const image = getByRole("img");
     expect(image).toBeInTheDocument();
     expect(image).toBeInstanceOf(HTMLImageElement);
   });
 
   it("should render an svg image inline instead of as an <img> tag", async () => {
-    const { queryByAltText } = await act(() =>
+    const { queryByRole } = await act(() =>
       render(<Image url="image.svg" alternativeText={altText} />),
     );
     // since react-inlinesvg parses an actual svg to create the DOM,
     // we basically just need to ensure that an <img> isn't present
-    expect(queryByAltText(altText)).not.toBeInTheDocument();
+    expect(queryByRole("img")).not.toBeInTheDocument();
+  });
+
+  it("should render a noscript without JS", async () => {
+    vi.mock(import("react"), async (importOriginal) => ({
+      ...(await importOriginal()),
+      useState: vi.fn().mockReturnValue([false, vi.fn()]),
+    }));
+
+    const { baseElement } = await act(() =>
+      render(<Image url="image.svg" alternativeText={altText} />),
+    );
+    expect(baseElement).toContainHTML("<noscript>");
   });
 });

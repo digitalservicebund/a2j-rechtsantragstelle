@@ -485,15 +485,15 @@ describe("validation", () => {
       expect(result.error?.errors).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            message: "optionalFieldRequired",
+            message: "fillAllOrNone",
             path: ["annullierungErsatzverbindungAbflugsZeit"],
           }),
           expect.objectContaining({
-            message: "optionalFieldRequired",
+            message: "fillAllOrNone",
             path: ["annullierungErsatzverbindungAnkunftsDatum"],
           }),
           expect.objectContaining({
-            message: "optionalFieldRequired",
+            message: "fillAllOrNone",
             path: ["annullierungErsatzverbindungAnkunftsZeit"],
           }),
         ]),
