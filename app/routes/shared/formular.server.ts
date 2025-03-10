@@ -251,17 +251,25 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     );
     if (validationError) return validationError;
     updateSession(flowSession, resolveArraysFromKeys(validationResult!.data));
-    return new Response(null, {
-      status: 200,
+    return json(validationResult!.data, {
       headers: { "Set-Cookie": await commitSession(flowSession) },
     });
   } else if (
     typeof formAction === "string" &&
     formAction.startsWith("deleteFile")
   ) {
-    await deleteUserFile(formAction, request, flowSession.data, flowId);
-    return new Response(null, {
-      status: 200,
+    const newUserData = await deleteUserFile(
+      formAction,
+      request,
+      flowSession.data,
+      flowId,
+    );
+    updateSession(flowSession, newUserData, (_, newData) => {
+      if (Array.isArray(newData)) {
+        return newData;
+      }
+    });
+    return json(newUserData, {
       headers: { "Set-Cookie": await commitSession(flowSession) },
     });
   }

@@ -16,7 +16,7 @@ import { ArrayData, Context, getContext } from "~/domains/contexts";
 import { FlowId } from "~/domains/flowIds";
 import {
   uploadUserFileToS3,
-  // deleteUserFileFromS3,
+  deleteUserFileFromS3,
 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
 import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
@@ -61,21 +61,29 @@ export async function uploadUserFile(
 
 export async function deleteUserFile(
   formAction: string,
-  _request: Request,
+  request: Request,
   userData: Context,
-  _flowId: FlowId,
-) {
-  // belege[0]
+  flowId: FlowId,
+): Promise<Context> {
   const inputName = formAction.split(".")[1];
   const fieldName = inputName.split("[")[0];
   const inputIndex = Number(inputName.at(-2));
-  const savedFile = (userData[fieldName] as ArrayData)[inputIndex] as
-    | PDFFileMetadata
-    | undefined;
+  const savedFile = (userData[fieldName] as ArrayData | undefined)?.at(
+    inputIndex,
+  ) as PDFFileMetadata | undefined;
   if (savedFile) {
-    // await deleteUserFileFromS3(savedFile.savedFileKey);
-    await Promise.resolve(console.log(inputIndex));
+    await deleteUserFileFromS3(
+      request.headers.get("Cookie"),
+      flowId,
+      savedFile.savedFileKey!,
+    );
+    return {
+      [fieldName]: (userData[fieldName] as ArrayData).filter(
+        (_, index) => index !== inputIndex,
+      ),
+    };
   }
+  return userData;
 }
 
 export async function parseFileFromFormData(

@@ -1,6 +1,5 @@
 import { useLoaderData, useSubmit } from "@remix-run/react";
 import classNames from "classnames";
-import { useControlField, useField } from "remix-validated-form";
 import Button from "~/components/Button";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
@@ -11,7 +10,9 @@ import { ErrorMessageProps } from ".";
 
 export type FileInputProps = {
   name: string;
+  selectedFile: PDFFileMetadata | undefined;
   jsAvailable: boolean;
+  error?: string;
   helperText?: string;
   selectFilesButtonLabel?: string;
   errorMessages?: ErrorMessageProps[];
@@ -20,14 +21,12 @@ export type FileInputProps = {
 export const FileInput = ({
   name,
   jsAvailable,
+  selectedFile,
+  error,
   helperText,
   errorMessages,
   selectFilesButtonLabel,
 }: FileInputProps) => {
-  const { error } = useField(name, {});
-  const [selectedFile, setSelectedFile] = useControlField<
-    PDFFileMetadata | undefined
-  >(name);
   const { onFileDelete, onFileUpload } = useFileHandler();
   const errorId = `${name}-error`;
 
@@ -55,10 +54,7 @@ export const FileInput = ({
         <label htmlFor={name} className={"flex flex-col md:flex-row"}>
           <input
             name={name}
-            onChange={(event) => {
-              setSelectedFile(convertFileToMetadata(event.target.files?.[0]));
-              onFileUpload(name, event.target.files?.[0]);
-            }}
+            onChange={(event) => onFileUpload(name, event.target.files?.[0])}
             type="file"
             accept=".pdf, .tiff, .tif"
             data-testid="fileUploadInput"

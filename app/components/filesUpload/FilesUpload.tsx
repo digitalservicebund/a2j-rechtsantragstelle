@@ -1,9 +1,12 @@
+import { useActionData } from "@remix-run/react";
 import classNames from "classnames";
+import get from "lodash/get";
 import { useState, useEffect } from "react";
-import { useFieldArray } from "remix-validated-form";
+import { useField, ValidationErrorResponseData } from "remix-validated-form";
 import { ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
-import { fileUploadLimit } from "~/util/file/pdfFileSchema";
+import { Context } from "~/domains/contexts";
+import { fileUploadLimit, PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { FilesUploadHeader } from "./FilesUploadHeader";
 import { InlineNotice, InlineNoticeProps } from "../InlineNotice";
 import { FileInput } from "../inputs/FileInput";
@@ -24,12 +27,27 @@ const FilesUpload = ({
   errorMessages,
 }: FilesUploadProps) => {
   const [jsAvailable, setJsAvailable] = useState(false);
-  const [items, , error] = useFieldArray(name);
+  const response = useActionData<
+    ValidationErrorResponseData | Context | undefined
+  >();
+  const { defaultValue } = useField(name);
+  const items: Array<PDFFileMetadata | undefined> =
+    get(response?.repopulateFields, name) ??
+    get(response, name) ??
+    defaultValue;
+  const scopedErrors = Object.fromEntries(
+    Object.entries(response?.fieldErrors ?? {}).filter(
+      ([key]) => key.split("[")[0] === name,
+    ),
+  );
   const errorId = `${name}-error`;
+
   useEffect(() => setJsAvailable(true), []);
 
+  const groupError: string | undefined = get(scopedErrors, name);
+
   const classes = classNames("w-full bg-white p-16", {
-    "bg-red-200 border border-red-900": !!error,
+    "bg-red-200 border border-red-900": !!groupError,
   });
 
   return (
@@ -37,29 +55,37 @@ const FilesUpload = ({
       <div className={classes}>
         <FilesUploadHeader title={title} description={description} />
         <div className="w-full flex flex-col gap-24">
-          {items.map((item, index) => (
-            <FileInput
-              key={item.key}
-              jsAvailable={jsAvailable}
-              name={`${name}[${index}]`}
-              selectFilesButtonLabel="Datei Auswählen"
-            />
-          ))}
-          {(items.length < fileUploadLimit || items.length === 0) && (
-            <FileInput
-              jsAvailable={jsAvailable}
-              name={`${name}[${items.length}]`}
-              selectFilesButtonLabel={
-                items.length === 0
-                  ? "Datei Auswählen"
-                  : "Weitere Datei Auswählen"
-              }
-            />
-          )}
+          {items.map((value, index) => {
+            const inputName = `${name}[${index}]`;
+            return (
+              <FileInput
+                key={inputName}
+                selectedFile={value}
+                error={get(scopedErrors, inputName)}
+                jsAvailable={jsAvailable}
+                name={inputName}
+                selectFilesButtonLabel="Datei Auswählen"
+              />
+            );
+          })}
+          {(items.length < fileUploadLimit || items.length === 0) &&
+            Object.entries(scopedErrors).length === 0 && (
+              <FileInput
+                selectedFile={undefined}
+                jsAvailable={jsAvailable}
+                name={`${name}[${items.length}]`}
+                selectFilesButtonLabel={
+                  items.length === 0
+                    ? "Datei Auswählen"
+                    : "Weitere Datei Auswählen"
+                }
+              />
+            )}
         </div>
       </div>
       <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === error)?.text ?? error}
+        {errorMessages?.find((err) => err.code === groupError)?.text ??
+          groupError}
       </InputError>
       {inlineNotices?.map((inlineNotice) => (
         <InlineNotice key={inlineNotice.title} {...inlineNotice} />

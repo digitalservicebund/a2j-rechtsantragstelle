@@ -31,12 +31,6 @@ export const FileUploadInfo = ({
     },
   );
 
-  const getButtonType = () => {
-    if (jsAvailable) {
-      return hasError ? "reset" : "button";
-    }
-    return "submit";
-  };
   return (
     <div className={classes}>
       <div className="max-w-full flex justify-between items-center">
@@ -56,7 +50,7 @@ export const FileUploadInfo = ({
         text={deleteButtonLabel}
         name="_action"
         value={`deleteFile.${inputName}`}
-        type={getButtonType()}
+        type={jsAvailable ? "button" : "submit"}
       />
     </div>
   );
