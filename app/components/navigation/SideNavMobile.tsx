@@ -5,9 +5,15 @@ import { NavigationList } from "~/components/navigation/NavigationList";
 import { NavItem } from "~/components/navigation/NavItem";
 import { stateIsCurrent } from "~/services/navigation/navState";
 
+export type MobileNavigationLabels = {
+  currentArea: string;
+  closeMenu: string;
+  toggleMenu: string;
+};
+
 type SideNavMobileProps = Readonly<{
   className?: string;
-  label: string;
+  labels?: MobileNavigationLabels;
   navItems: NavItem[];
 }>;
 
@@ -28,7 +34,7 @@ export default function SideNavMobile(props: SideNavMobileProps) {
         <button
           onClick={toggleMenu}
           data-testid="close-overlay"
-          aria-label="Close menu"
+          aria-label={props.labels?.closeMenu}
           className="bg-black h-screen opacity-70"
         />
       )}
@@ -36,11 +42,11 @@ export default function SideNavMobile(props: SideNavMobileProps) {
       <div className="bg-white max-h-[80vh]">
         <button
           onClick={toggleMenu}
-          aria-label="Main menu toggle"
+          aria-label={props.labels?.toggleMenu}
           className="flex items-center  gap-8 text-sm py-20 px-10 cursor-pointer w-full"
         >
           <Icon className={buttonClasses} />
-          <span className="text-gray-900">{props.label}: </span>
+          <span className="text-gray-900">{props.labels?.currentArea}: </span>
           <span className="font-semibold">{currentPageTitle}</span>
         </button>
 

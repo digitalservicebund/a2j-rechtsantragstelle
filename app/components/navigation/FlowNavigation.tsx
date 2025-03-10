@@ -15,7 +15,7 @@ export default function FlowNavigation(props: FlowNavigationProps) {
       {jsAvailable && (
         <SideNavMobile
           className="fixed bottom-0 w-full md:hidden z-50"
-          label={"Bereich"} //TODO: fetch from CMS
+          labels={props.mobileLabels}
           navItems={props.navItems}
         />
       )}

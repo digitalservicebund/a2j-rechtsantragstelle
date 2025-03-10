@@ -9,9 +9,14 @@ const dummyNavItems: NavItem[] = [
 ];
 
 describe("SideNavMobile", () => {
+  const labelsValues = {
+    currentArea: "Menu",
+    closeMenu: "Close Menu",
+    toggleMenu: "Toggle Menu",
+  };
   it("clicking the menu opens the menu", () => {
     const { container, getByRole } = render(
-      <SideNavMobile label="Menu" navItems={dummyNavItems} />,
+      <SideNavMobile labels={labelsValues} navItems={dummyNavItems} />,
     );
 
     const menuButton = getByRole("button");
@@ -24,7 +29,7 @@ describe("SideNavMobile", () => {
 
   it("clicking the overlay closes the menu", () => {
     const { container, getByRole, getByTestId } = render(
-      <SideNavMobile label="Menu" navItems={dummyNavItems} />,
+      <SideNavMobile labels={labelsValues} navItems={dummyNavItems} />,
     );
     const menuButton = getByRole("button");
     expect(container).not.toHaveTextContent("Page 2");
@@ -39,7 +44,7 @@ describe("SideNavMobile", () => {
   it("renders the main menu toggle with correct aria-label and text", () => {
     const { getByRole } = render(
       <SideNavMobile
-        label="Menu"
+        labels={labelsValues}
         navItems={dummyNavItems}
         className="test-class"
       />,

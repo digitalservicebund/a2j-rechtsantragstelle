@@ -27,6 +27,7 @@ export function FormFlowPage() {
     stepData,
     translations,
     navigationA11yLabels,
+    navigationMobileLabels,
     validFlowPaths,
     flowId,
   } = useLoaderData<typeof loader>();
@@ -50,6 +51,7 @@ export function FormFlowPage() {
             <FlowNavigation
               navItems={navItems}
               a11yLabels={navigationA11yLabels}
+              mobileLabels={navigationMobileLabels}
             />
           </div>
           <div

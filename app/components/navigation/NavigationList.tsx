@@ -1,3 +1,4 @@
+import { MobileNavigationLabels } from "~/components/navigation/SideNavMobile";
 import { NavItem } from "./NavItem";
 
 export type NavigationA11yLabels = {
@@ -10,6 +11,7 @@ export type FlowNavigationProps = Readonly<{
   navItems: NavItem[];
   a11yLabels?: NavigationA11yLabels;
   className?: string;
+  mobileLabels?: MobileNavigationLabels;
 }>;
 
 export const NavigationList = ({
