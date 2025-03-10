@@ -14,7 +14,10 @@ import { z, ZodTypeAny } from "zod";
 import { convertFileToMetadata } from "~/components/inputs/FileInput";
 import { ArrayData, Context, getContext } from "~/domains/contexts";
 import { FlowId } from "~/domains/flowIds";
-import { uploadUserFileToS3 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
+import {
+  uploadUserFileToS3,
+  // deleteUserFileFromS3,
+} from "~/services/externalDataStorage/storeUserFileToS3Bucket";
 import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 export async function uploadUserFile(
@@ -45,12 +48,12 @@ export async function uploadUserFile(
       validationError: buildFileUploadError(validationResult, inputName),
     };
   }
-  const result = await uploadUserFileToS3(
+  const savedFileKey = await uploadUserFileToS3(
     request.headers.get("Cookie"),
     flowId,
     file,
   );
-  fileMeta.etag = result?.ETag?.replaceAll(/"/g, "");
+  fileMeta.savedFileKey = savedFileKey;
   (validationResult.data[fieldName] as ArrayData)[Number(inputIndex)] =
     fileMeta;
   return { validationResult };
@@ -66,7 +69,11 @@ export async function deleteUserFile(
   const inputName = formAction.split(".")[1];
   const fieldName = inputName.split("[")[0];
   const inputIndex = Number(inputName.at(-2));
-  if ((userData[fieldName] as ArrayData)[inputIndex]) {
+  const savedFile = (userData[fieldName] as ArrayData)[inputIndex] as
+    | PDFFileMetadata
+    | undefined;
+  if (savedFile) {
+    // await deleteUserFileFromS3(savedFile.savedFileKey);
     await Promise.resolve(console.log(inputIndex));
   }
 }
