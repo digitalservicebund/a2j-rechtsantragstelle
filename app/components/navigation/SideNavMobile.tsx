@@ -39,7 +39,7 @@ export default function SideNavMobile(props: SideNavMobileProps) {
         />
       )}
 
-      <div className="bg-white max-h-[80vh] border-[1px] border-blue-400">
+      <div className="bg-white max-h-[80vh] border-[1px] border-blue-400 overflow-auto">
         <button
           onClick={toggleMenu}
           aria-label={props.labels?.toggleMenu}
