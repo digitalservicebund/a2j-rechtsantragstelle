@@ -47,7 +47,7 @@ export async function uploadUserFile(
   }
   const result = await uploadUserFileToS3(
     request.headers.get("Cookie"),
-    request.url,
+    flowId,
     file,
   );
   fileMeta.etag = result?.ETag?.replaceAll(/"/g, "");

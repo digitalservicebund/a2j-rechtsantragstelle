@@ -1,5 +1,5 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { FlowId, flowIdFromPathname } from "~/domains/flowIds";
+import { FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
 import { createClientS3DataStorage } from "~/services/externalDataStorage/createClientS3DataStorage";
 import { sendSentryMessage } from "~/services/logging";
@@ -7,22 +7,21 @@ import { getSessionIdByFlowId } from "~/services/session.server";
 
 const USER_FILES_FOLDER = "user-files";
 
+export const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";
+
 const createFolderKey = (sessionId: string, flowId: FlowId) => {
   return `${USER_FILES_FOLDER}${flowId}/${sessionId}/${crypto.randomUUID()}`;
 };
 
 export async function uploadUserFileToS3(
   cookieHeader: string | null,
-  url: string,
-  file?: File,
+  flowId: FlowId,
+  file: File | undefined,
 ) {
   try {
     const s3Client = createClientS3DataStorage();
-    const flowId = flowIdFromPathname(new URL(url).pathname);
-    if (!flowId)
-      throw new Error(`Attempted to upload user file outside of known flow`);
     if (!file) {
-      throw new Error(`Attempted to upload undefined file`);
+      throw new Error(UNDEFINED_FILE_ERROR);
     }
     const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
 
@@ -43,3 +42,5 @@ export async function uploadUserFileToS3(
     );
   }
 }
+
+// export async function deleteUserFileFromS3

@@ -2,7 +2,10 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
-import { uploadUserFileToS3 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
+import {
+  UNDEFINED_FILE_ERROR,
+  uploadUserFileToS3,
+} from "~/services/externalDataStorage/storeUserFileToS3Bucket";
 import { sendSentryMessage } from "../../logging";
 import { getSessionIdByFlowId } from "../../session.server";
 import { createClientS3DataStorage } from "../createClientS3DataStorage";
@@ -11,7 +14,7 @@ vi.mock("@aws-sdk/client-s3", () => ({
   PutObjectCommand: vi.fn(),
 }));
 
-let mockFlowId: FlowId | undefined = "/prozesskostenhilfe/formular";
+const mockFlowId: FlowId = "/prozesskostenhilfe/formular";
 vi.mock("~/domains/flowIds", () => ({
   parsePathname: vi.fn(),
   flowIdFromPathname: vi.fn(() => mockFlowId),
@@ -70,11 +73,7 @@ describe("uploadUserFileToS3", () => {
 
     setupFileMocks(mockSessionId, mockConfig);
 
-    await uploadUserFileToS3(
-      mockCookie,
-      `http://localhost:3000/${mockFlowId}`,
-      mockFile,
-    );
+    await uploadUserFileToS3(mockCookie, mockFlowId, mockFile);
 
     expect(createClientS3DataStorage).toHaveBeenCalled();
     expect(getSessionIdByFlowId).toHaveBeenCalledWith(mockFlowId, mockCookie);
@@ -90,12 +89,8 @@ describe("uploadUserFileToS3", () => {
     expect(mockS3Client.send).toBeCalled();
   });
 
-  it("handles error if called from outside a valid flowId", async () => {
-    const mockError = new Error(
-      "Attempted to upload user file outside of known flow",
-    );
-
-    mockFlowId = undefined;
+  it("handles error if the user tries to upload an undefined file", async () => {
+    const mockError = new Error(UNDEFINED_FILE_ERROR);
 
     const mockSessionId = "test-session-id";
     const mockConfig = {
@@ -104,11 +99,7 @@ describe("uploadUserFileToS3", () => {
     };
     setupFileMocks(mockSessionId, mockConfig);
 
-    await uploadUserFileToS3(
-      mockCookie,
-      `http://localhost:3000/${mockFlowId}`,
-      mockFile,
-    );
+    await uploadUserFileToS3(mockCookie, mockFlowId, undefined);
 
     expect(sendSentryMessage).toHaveBeenCalledWith(
       `Error storing user uploaded file to S3 bucket: ${mockError.message}`,
