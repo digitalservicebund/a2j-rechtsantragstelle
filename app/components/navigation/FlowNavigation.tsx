@@ -20,7 +20,7 @@ export default function FlowNavigation(props: FlowNavigationProps) {
       ) : (
         <NavigationList
           {...props}
-          className="md:block ml-32 bg-white border-[1px] border-blue-400"
+          className="md:block md:ml-32 md:mr-0 mx-[5vw] bg-white border-[1px] border-blue-400"
         />
       )}
     </nav>
