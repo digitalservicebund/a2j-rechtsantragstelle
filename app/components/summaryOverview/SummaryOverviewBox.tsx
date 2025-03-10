@@ -28,7 +28,7 @@ const SummaryOverviewBox = ({
       <div className="bg-white pt-32 pb-44 px-32">
         {title && <Heading {...title} className="mb-16" />}
 
-        <dl>
+        <div>
           {boxItems.map(({ title: boxItemTitle, inlineItems }, index) => (
             <SummaryOverviewBoxItem
               key={`${boxId}-${boxItemTitle ?? index}`}
@@ -38,7 +38,7 @@ const SummaryOverviewBox = ({
               inlineItems={inlineItems}
             />
           ))}
-        </dl>
+        </div>
 
         <Button
           iconLeft={<EditButton />}

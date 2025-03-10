@@ -4,10 +4,7 @@ import { RouterProvider, createMemoryRouter } from "react-router-dom";
 import { z } from "zod";
 import { getStrapiCheckboxComponent } from "tests/factories/cmsModels/strapiCheckboxComponent";
 import { getStrapiDropdownComponent } from "tests/factories/cmsModels/strapiDropdownComponent";
-import {
-  getStrapiInputComponent,
-  StrapiInputType,
-} from "tests/factories/cmsModels/strapiInputComponent";
+import { getStrapiInputComponent } from "tests/factories/cmsModels/strapiInputComponent";
 import { getStrapiSelectComponent } from "tests/factories/cmsModels/strapiSelectComponent";
 import { getStrapiTextareaComponent } from "tests/factories/cmsModels/strapiTextareaComponent";
 import { getStrapiTileGroupComponent } from "tests/factories/cmsModels/strapiTileGroupComponent";
@@ -50,7 +47,7 @@ describe("ValidatedFlowForm", () => {
   describe("Input Component", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
-        withZod(z.object({ myInput: integerSchema })),
+        withZod(z.object({ inputName: integerSchema })),
       );
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent({
@@ -59,12 +56,10 @@ describe("ValidatedFlowForm", () => {
     });
 
     it("should display an error if the user enters an invalid integer", async () => {
-      const { getByText, getByPlaceholderText } = renderValidatedFlowForm([
-        component,
-      ]);
+      const { getByText, getByRole } = renderValidatedFlowForm([component]);
 
       const nextButton = getByText("NEXT");
-      const inputComponent = getByPlaceholderText("input");
+      const inputComponent = getByRole("textbox");
       expect(nextButton).toBeInTheDocument();
 
       fireEvent.input(inputComponent, {
@@ -81,9 +76,10 @@ describe("ValidatedFlowForm", () => {
     });
 
     it("should not display an error for correct input", async () => {
-      const { getByText, getByPlaceholderText, queryByTestId } =
-        renderValidatedFlowForm([component]);
-      const inputComponent = getByPlaceholderText("input");
+      const { getByText, getByRole, queryByTestId } = renderValidatedFlowForm([
+        component,
+      ]);
+      const inputComponent = getByRole("textbox");
 
       fireEvent.input(inputComponent, {
         target: { value: "123" },
@@ -100,7 +96,7 @@ describe("ValidatedFlowForm", () => {
   describe("Date Input Component", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
-        withZod(z.object({ myDateInput: createDateSchema() })),
+        withZod(z.object({ inputName: createDateSchema() })),
       );
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent(
@@ -108,16 +104,14 @@ describe("ValidatedFlowForm", () => {
         code: "invalid",
         text: "Please enter a valid date.",
       },
-      StrapiInputType.Date,
+      "date",
     );
 
     it("should display an error if the user enters an invalid date", async () => {
-      const { getByText, getByPlaceholderText } = renderValidatedFlowForm([
-        component,
-      ]);
+      const { getByText, getByRole } = renderValidatedFlowForm([component]);
 
       const nextButton = getByText("NEXT");
-      const dateInputComponent = getByPlaceholderText("date input");
+      const dateInputComponent = getByRole("textbox");
       expect(nextButton).toBeInTheDocument();
 
       fireEvent.input(dateInputComponent, {
@@ -134,9 +128,10 @@ describe("ValidatedFlowForm", () => {
     });
 
     it("should not display an error for correct input", async () => {
-      const { getByText, getByPlaceholderText, queryByTestId } =
-        renderValidatedFlowForm([component]);
-      const dateInputComponent = getByPlaceholderText("date input");
+      const { getByText, getByRole, queryByTestId } = renderValidatedFlowForm([
+        component,
+      ]);
+      const dateInputComponent = getByRole("textbox");
 
       fireEvent.input(dateInputComponent, {
         target: { value: "10.12.2024" },
@@ -153,7 +148,7 @@ describe("ValidatedFlowForm", () => {
   describe("Time Input Component", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
-        withZod(z.object({ myTimeInput: timeSchema })),
+        withZod(z.object({ inputName: timeSchema })),
       );
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent(
@@ -161,16 +156,14 @@ describe("ValidatedFlowForm", () => {
         code: "invalid",
         text: "Please enter a valid time.",
       },
-      StrapiInputType.Time,
+      "time",
     );
 
     it("should display an error if the user enters an invalid time", async () => {
-      const { getByText, getByPlaceholderText } = renderValidatedFlowForm([
-        component,
-      ]);
+      const { getByText, getByRole } = renderValidatedFlowForm([component]);
 
       const nextButton = getByText("NEXT");
-      const timeInputComponent = getByPlaceholderText("time input");
+      const timeInputComponent = getByRole("textbox");
       expect(nextButton).toBeInTheDocument();
 
       fireEvent.input(timeInputComponent, {
@@ -187,9 +180,10 @@ describe("ValidatedFlowForm", () => {
     });
 
     it("should not display an error for correct input", async () => {
-      const { getByText, getByPlaceholderText, queryByTestId } =
-        renderValidatedFlowForm([component]);
-      const timeInputComponent = getByPlaceholderText("time input");
+      const { getByText, getByRole, queryByTestId } = renderValidatedFlowForm([
+        component,
+      ]);
+      const timeInputComponent = getByRole("textbox");
 
       fireEvent.input(timeInputComponent, {
         target: { value: "23:59" },
@@ -216,12 +210,10 @@ describe("ValidatedFlowForm", () => {
       });
 
     it("should display an error if the user leaves the textarea empty", async () => {
-      const { getByText, getByPlaceholderText } = renderValidatedFlowForm([
-        component,
-      ]);
+      const { getByText, getByRole } = renderValidatedFlowForm([component]);
 
       const nextButton = getByText("NEXT");
-      const textareaComponent = getByPlaceholderText("textarea");
+      const textareaComponent = getByRole("textbox");
       expect(nextButton).toBeInTheDocument();
 
       fireEvent.blur(textareaComponent);
@@ -235,9 +227,10 @@ describe("ValidatedFlowForm", () => {
     });
 
     it("should not display an error for correct input", async () => {
-      const { getByText, getByPlaceholderText, queryByTestId } =
-        renderValidatedFlowForm([component]);
-      const textareaComponent = getByPlaceholderText("textarea");
+      const { getByText, getByRole, queryByTestId } = renderValidatedFlowForm([
+        component,
+      ]);
+      const textareaComponent = getByRole("textbox");
 
       fireEvent.input(textareaComponent, {
         target: { value: "Hello World" },
