@@ -56,6 +56,21 @@ export async function uploadUserFile(
   return { validationResult };
 }
 
+export async function deleteUserFile(
+  formAction: string,
+  _request: Request,
+  userData: Context,
+  _flowId: FlowId,
+) {
+  // belege[0]
+  const inputName = formAction.split(".")[1];
+  const fieldName = inputName.split("[")[0];
+  const inputIndex = Number(inputName.at(-2));
+  if ((userData[fieldName] as ArrayData)[inputIndex]) {
+    await Promise.resolve(console.log(inputIndex));
+  }
+}
+
 export async function parseFileFromFormData(
   request: Request,
   fieldName: string,

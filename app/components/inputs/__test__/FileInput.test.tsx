@@ -1,6 +1,6 @@
 import {
   convertFileToMetadata,
-  useFileUploadHandler,
+  useFileHandler,
 } from "~/components/inputs/FileInput";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
@@ -17,9 +17,9 @@ vi.mock("@remix-run/react", () => ({
 }));
 const mockFile = new File([], "mockFile");
 
-describe("useFileUploadHandler", () => {
+describe("useFileHandler", () => {
   it("should return a file upload handler", () => {
-    const { onFileUpload } = useFileUploadHandler();
+    const { onFileUpload } = useFileHandler();
     expect(onFileUpload).toBeDefined();
     expect(useLoaderDataMock).toHaveBeenCalled();
     const mockFormData = new FormData();
@@ -27,6 +27,20 @@ describe("useFileUploadHandler", () => {
     mockFormData.append(CSRFKey, "csrf");
     mockFormData.append("fieldName", mockFile);
     onFileUpload("fieldName", mockFile);
+    expect(submitMock).toHaveBeenCalledWith(mockFormData, {
+      method: "post",
+      encType: "multipart/form-data",
+    });
+  });
+
+  it("should return a file deletion handler", () => {
+    const { onFileDelete } = useFileHandler();
+    expect(onFileDelete).toBeDefined();
+    expect(useLoaderDataMock).toHaveBeenCalled();
+    const mockFormData = new FormData();
+    mockFormData.append("_action", `deleteFile.fieldName`);
+    mockFormData.append(CSRFKey, "csrf");
+    onFileDelete("fieldName");
     expect(submitMock).toHaveBeenCalledWith(mockFormData, {
       method: "post",
       encType: "multipart/form-data",

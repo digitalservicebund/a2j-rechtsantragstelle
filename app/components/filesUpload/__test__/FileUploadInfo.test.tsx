@@ -5,6 +5,8 @@ describe("FileUploadInfo", () => {
   it("renders an icon, file name and size", () => {
     render(
       <FileUploadInfo
+        jsAvailable={true}
+        onFileDelete={vi.fn()}
         inputName={"belege[0]"}
         fileName={"testfile1.pdf"}
         fileSize={3145728}

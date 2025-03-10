@@ -18,7 +18,10 @@ import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
-import { uploadUserFile } from "~/services/flow/server/fileUploadHelpers.server";
+import {
+  deleteUserFile,
+  uploadUserFile,
+} from "~/services/flow/server/fileUploadHelpers.server";
 import {
   validateFlowTransition,
   getFlowTransitionConfig,
@@ -256,6 +259,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     typeof formAction === "string" &&
     formAction.startsWith("deleteFile")
   ) {
+    await deleteUserFile(formAction, request, flowSession.data, flowId);
     return new Response(null, {
       status: 200,
       headers: { "Set-Cookie": await commitSession(flowSession) },

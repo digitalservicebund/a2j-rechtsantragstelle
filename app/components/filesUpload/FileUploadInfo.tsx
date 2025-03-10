@@ -6,6 +6,8 @@ import { bytesToMegabytesString } from "./bytesToMegabytesString";
 
 type FileUploadInfoProps = {
   inputName: string;
+  jsAvailable: boolean;
+  onFileDelete: (fieldName: string) => void;
   fileName?: string;
   fileSize?: number;
   deleteButtonLabel?: string;
@@ -14,6 +16,8 @@ type FileUploadInfoProps = {
 
 export const FileUploadInfo = ({
   inputName,
+  jsAvailable,
+  onFileDelete,
   fileName,
   fileSize,
   deleteButtonLabel,
@@ -26,6 +30,13 @@ export const FileUploadInfo = ({
       "bg-red-200 border border-red-900": hasError,
     },
   );
+
+  const getButtonType = () => {
+    if (jsAvailable) {
+      return hasError ? "reset" : "button";
+    }
+    return "submit";
+  };
   return (
     <div className={classes}>
       <div className="max-w-full flex justify-between items-center">
@@ -40,11 +51,12 @@ export const FileUploadInfo = ({
       <Button
         iconLeft={<DeleteIcon className="" aria-hidden="true" />}
         look="ghost"
+        onClick={() => onFileDelete(inputName)}
         className="pl-0 md:pl-12"
         text={deleteButtonLabel}
         name="_action"
         value={`deleteFile.${inputName}`}
-        type="submit"
+        type={getButtonType()}
       />
     </div>
   );
