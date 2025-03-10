@@ -43,6 +43,8 @@ const allowedWebsites = [
   "www.schlichtung-reise-und-verkehr.de",
   "https://www.personalausweisportal.de",
   "https://www.mjp.justiz.de",
+  "https://europa.eu",
+  "https://www.brak.de",
 ];
 
 const allowedEmails = [

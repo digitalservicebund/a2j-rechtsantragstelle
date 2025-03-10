@@ -188,6 +188,12 @@ export const loader = async ({
     itemOpen: defaultStrings.navigationItemOpenA11yLabel,
   };
 
+  const navigationMobileLabels = {
+    currentArea: defaultStrings.navigationMobileCurrentArea,
+    closeMenu: defaultStrings.navigationMobileCloseMenu,
+    toggleMenu: defaultStrings.navigationMobileToggleMenu,
+  };
+
   return json(
     {
       arraySummaryData,
@@ -215,6 +221,7 @@ export const loader = async ({
       stepData,
       translations: stringTranslations,
       navigationA11yLabels,
+      navigationMobileLabels,
       validFlowPaths,
       flowId,
     },
