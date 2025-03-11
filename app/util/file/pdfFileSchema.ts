@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const TEN_MB_IN_BYTES = 10 * 1024 * 1024;
+export const TEN_MB_IN_BYTES = 10 * 1024 * 1024;
 export const fileUploadLimit = 5;
 
 export const fileUploadErrorMap = {

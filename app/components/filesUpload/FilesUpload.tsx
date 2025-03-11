@@ -14,6 +14,7 @@ import { FileInput } from "../inputs/FileInput";
 export type FilesUploadProps = {
   name: string;
   title?: string;
+  formId?: string;
   description?: string;
   inlineNotices?: InlineNoticeProps[];
   errorMessages?: ErrorMessageProps[];
@@ -22,6 +23,7 @@ export type FilesUploadProps = {
 const FilesUpload = ({
   name,
   title,
+  formId,
   description,
   inlineNotices,
   errorMessages,
@@ -30,11 +32,12 @@ const FilesUpload = ({
   const response = useActionData<
     ValidationErrorResponseData | Context | undefined
   >();
-  const { defaultValue } = useField(name);
+  const { defaultValue } = useField(name, { formId });
   const items: Array<PDFFileMetadata | undefined> =
     get(response?.repopulateFields, name) ??
     get(response, name) ??
-    defaultValue;
+    defaultValue ??
+    [];
   const scopedErrors = Object.fromEntries(
     Object.entries(response?.fieldErrors ?? {}).filter(
       ([key]) => key.split("[")[0] === name,
