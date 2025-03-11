@@ -1,8 +1,13 @@
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
 import {
+  deleteUserFileFromS3,
   UNDEFINED_FILE_ERROR,
   uploadUserFileToS3,
 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
@@ -12,6 +17,7 @@ import { createClientS3DataStorage } from "../createClientS3DataStorage";
 
 vi.mock("@aws-sdk/client-s3", () => ({
   PutObjectCommand: vi.fn(),
+  DeleteObjectCommand: vi.fn(),
 }));
 
 const mockFlowId: FlowId = "/prozesskostenhilfe/formular";
@@ -105,5 +111,30 @@ describe("uploadUserFileToS3", () => {
       `Error storing user uploaded file to S3 bucket: ${mockError.message}`,
       "error",
     );
+  });
+});
+
+describe("deleteUserFileFromS3", () => {
+  it("should successfully delete a user file", async () => {
+    const mockSessionId = "test-session-id";
+    const mockConfig = {
+      ...config(),
+      S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
+    };
+
+    setupFileMocks(mockSessionId, mockConfig);
+    await deleteUserFileFromS3(mockCookie, mockFlowId, mockUUID);
+
+    expect(createClientS3DataStorage).toHaveBeenCalled();
+    expect(getSessionIdByFlowId).toHaveBeenCalledWith(mockFlowId, mockCookie);
+
+    expect(DeleteObjectCommand).toHaveBeenCalledWith(
+      expect.objectContaining({
+        Bucket: mockConfig.S3_DATA_STORAGE_BUCKET_NAME,
+        Key: `user-files${mockFlowId}/${mockSessionId}/${mockUUID}`,
+      }),
+    );
+
+    expect(mockS3Client.send).toBeCalled();
   });
 });
