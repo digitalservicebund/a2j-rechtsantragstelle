@@ -14,14 +14,17 @@ const componentNameMap = {
 export function getStrapiInputComponent<T extends InputType = "input">(
   errorCode: z.infer<typeof StrapiFieldErrorSchema>,
   type: T = "input" as T,
-) {
+): {
+  component: Partial<StrapiFormComponent>;
+  expectInputErrorToExist: () => Promise<void>;
+} {
   return {
     component: {
       __component: componentNameMap[type],
       name: "inputName",
       label: "inputLabel",
       placeholder: "placeholder",
-      errors: [{ name: "", id: 0, errorCodes: [errorCode] }],
+      errors: [errorCode],
     },
     expectInputErrorToExist: async function () {
       await waitFor(() => {

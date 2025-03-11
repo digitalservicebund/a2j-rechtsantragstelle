@@ -1,9 +1,6 @@
 import { z } from "zod";
 import { InputProps } from "~/components/inputs/Input";
-import {
-  flattenStrapiErrors,
-  StrapiErrorRelationSchema,
-} from "~/services/cms/flattenStrapiErrors";
+import { StrapiErrorRelationSchema } from "~/services/cms/flattenStrapiErrors";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
@@ -24,5 +21,4 @@ type StrapiTimeInput = z.infer<typeof StrapiTimeInputSchema>;
 
 export const getTimeInputProps = (cmsData: StrapiTimeInput): InputProps => ({
   ...omitNull(cmsData),
-  errorMessages: flattenStrapiErrors(cmsData.errors),
 });

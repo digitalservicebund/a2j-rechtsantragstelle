@@ -1,9 +1,6 @@
 import { z } from "zod";
 import { type InputProps } from "~/components/inputs/Input";
-import {
-  flattenStrapiErrors,
-  StrapiErrorRelationSchema,
-} from "~/services/cms/flattenStrapiErrors";
+import { StrapiErrorRelationSchema } from "~/services/cms/flattenStrapiErrors";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import { strapiWidthSchema } from "../models/strapiWidth";
@@ -29,5 +26,4 @@ export const StrapiInputComponentSchema = StrapiInputSchema.extend({
 
 export const getInputProps = (cmsData: StrapiInput): InputProps => ({
   ...omitNull(cmsData),
-  errorMessages: flattenStrapiErrors(cmsData.errors),
 });

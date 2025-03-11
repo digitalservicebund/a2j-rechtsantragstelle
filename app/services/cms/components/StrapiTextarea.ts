@@ -1,9 +1,6 @@
 import { z } from "zod";
 import { TextareaProps } from "~/components/inputs/Textarea";
-import {
-  flattenStrapiErrors,
-  StrapiErrorRelationSchema,
-} from "~/services/cms/flattenStrapiErrors";
+import { StrapiErrorRelationSchema } from "~/services/cms/flattenStrapiErrors";
 import { StrapiDetailsSchema } from "~/services/cms/models/StrapiDetails";
 import { buildRichTextValidation } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
@@ -29,5 +26,4 @@ type StrapiTextarea = z.infer<typeof StrapiTextareaSchema>;
 
 export const getTextareaProps = (cmsData: StrapiTextarea): TextareaProps => ({
   ...omitNull(cmsData),
-  errorMessages: flattenStrapiErrors(cmsData.errors),
 });

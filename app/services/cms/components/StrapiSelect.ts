@@ -1,9 +1,6 @@
 import { z } from "zod";
 import { RadioGroupProps } from "~/components/inputs/RadioGroup";
-import {
-  flattenStrapiErrors,
-  StrapiErrorRelationSchema,
-} from "~/services/cms/flattenStrapiErrors";
+import { StrapiErrorRelationSchema } from "~/services/cms/flattenStrapiErrors";
 import { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
@@ -36,5 +33,4 @@ export const isStrapiSelectComponent = (
  */
 export const getRadioGroupProps = (cmsData: StrapiSelect): RadioGroupProps => ({
   ...omitNull(cmsData),
-  errorMessages: flattenStrapiErrors(cmsData.errors),
 });

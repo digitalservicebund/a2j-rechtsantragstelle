@@ -4,10 +4,7 @@ import { StrapiErrorCategorySchema } from "~/services/cms/models/StrapiErrorCate
 
 export const StrapiErrorRelationSchema = z
   .array(StrapiErrorCategorySchema.merge(HasStrapiIdSchema))
-  .optional();
-
-type StrapiErrorRelation = z.infer<typeof StrapiErrorRelationSchema>;
-
-export const flattenStrapiErrors = (cmsDataErrors: StrapiErrorRelation) => {
-  return cmsDataErrors?.flatMap((cmsError) => cmsError.errorCodes);
-};
+  .optional()
+  .transform((cmsDataErrors) =>
+    cmsDataErrors?.flatMap((cmsError) => cmsError.errorCodes),
+  );
