@@ -32,7 +32,7 @@ export const FileUploadInfo = ({
   );
 
   return (
-    <div className={classes}>
+    <div className={classes} data-testid={`file-upload-info-${inputName}`}>
       <div className="max-w-full flex justify-between items-center">
         <InsertFileIcon className="shrink-0 fill-gray-900" aria-hidden="true" />
         <p className="ds-body-01-reg text-black mr-8 ml-10 truncate">
@@ -45,7 +45,7 @@ export const FileUploadInfo = ({
       <Button
         iconLeft={<DeleteIcon className="" aria-hidden="true" />}
         look="ghost"
-        onClick={() => onFileDelete(inputName)}
+        onClick={() => (jsAvailable ? onFileDelete(inputName) : undefined)}
         className="pl-0 md:pl-12"
         text={deleteButtonLabel}
         name="_action"
