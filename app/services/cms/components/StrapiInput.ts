@@ -6,10 +6,7 @@ import {
 } from "~/services/cms/flattenStrapiErrors";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import {
-  strapiWidthSchema,
-  strapiWidthToFieldWidth,
-} from "../models/strapiWidth";
+import { strapiWidthSchema } from "../models/strapiWidth";
 
 const StrapiInputSchema = z
   .object({
@@ -32,6 +29,5 @@ export const StrapiInputComponentSchema = StrapiInputSchema.extend({
 
 export const getInputProps = (cmsData: StrapiInput): InputProps => ({
   ...omitNull(cmsData),
-  width: strapiWidthToFieldWidth(cmsData.width),
   errorMessages: flattenStrapiErrors(cmsData.errors),
 });

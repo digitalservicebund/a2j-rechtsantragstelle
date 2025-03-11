@@ -24,8 +24,7 @@ const optionsToFieldWidth = {
   characters54: "54",
 } as const satisfies Record<string, FieldWidth>;
 
-export const strapiWidthSchema = z.enum(options).nullable();
-
-export const strapiWidthToFieldWidth = (
-  strapiWidth: z.infer<typeof strapiWidthSchema>,
-) => optionsToFieldWidth[strapiWidth ?? ""];
+export const strapiWidthSchema = z
+  .enum(options)
+  .nullable()
+  .transform((strapiWidth) => optionsToFieldWidth[strapiWidth ?? ""]);
