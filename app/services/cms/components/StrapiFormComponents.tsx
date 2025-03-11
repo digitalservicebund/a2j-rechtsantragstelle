@@ -12,7 +12,6 @@ import TimeInput from "~/components/inputs/TimeInput";
 import { getAutoSuggestInputProps } from "~/services/cms/components/StrapiAutoSuggestInput";
 import { getCheckboxProps } from "~/services/cms/components/StrapiCheckbox";
 import { getFilesUploadProps } from "~/services/cms/components/StrapiFilesUpload";
-import { getHiddenInputProps } from "~/services/cms/components/StrapiHiddenInput";
 import { getInputProps } from "~/services/cms/components/StrapiInput";
 import { getRadioGroupProps } from "~/services/cms/components/StrapiSelect";
 import { getTextareaProps } from "~/services/cms/components/StrapiTextarea";
@@ -48,7 +47,7 @@ const FormComponent = ({
     case "form-elements.tile-group":
       return <TileGroup {...getTileGroupProps(component)} />;
     case "form-elements.hidden-input":
-      return <HiddenInput {...getHiddenInputProps(component)} />;
+      return <HiddenInput {...component} />;
   }
 };
 
