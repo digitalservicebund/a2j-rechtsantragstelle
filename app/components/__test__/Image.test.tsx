@@ -1,4 +1,5 @@
 import { act, render } from "@testing-library/react";
+import React from "react";
 import Image from "../Image";
 
 describe("Image", () => {
@@ -36,5 +37,28 @@ describe("Image", () => {
       render(<Image url="image.svg" alternativeText={altText} />),
     );
     expect(baseElement).toContainHTML("<noscript>");
+  });
+
+  it("should render an image wrapped in a noscript tag when JS is not available", () => {
+    
+    vi.spyOn(React, "useState").mockImplementationOnce(() => [false, vi.fn()]);
+    vi.spyOn(React, "useEffect").mockImplementationOnce(vi.fn());
+      
+    
+    const { container, debug } = render(
+      <Image url="logo.jpg" alternativeText={altText} />,
+    );
+
+    debug();
+
+    const noscriptTag = container.querySelector("noscript");
+    expect(noscriptTag).not.toBeNull();
+
+    const html = container.innerHTML;
+
+    expect(html).toContain("<noscript><img");
+    expect(html).toContain('src="logo.jpg"');
+    expect(html).toContain('alt="Alt Text"');
+
   });
 });
