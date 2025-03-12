@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import Accordion from "~/components/Accordion";
 import Heading from "~/components/Heading";
 import Video from "~/components/video/Video";
 import { keyFromElement } from "~/services/cms/keyFromElement";
@@ -78,6 +79,8 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
       return <UserFeedback {...strapiContent} />;
     case "page.summary-overview-section":
       return <SummaryOverviewSection {...strapiContent} />;
+    case "page.accordion":
+      return <Accordion {...strapiContent} />;
     default:
       return <></>;
   }
