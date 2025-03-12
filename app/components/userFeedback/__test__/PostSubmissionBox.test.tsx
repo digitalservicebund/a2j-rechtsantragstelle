@@ -13,8 +13,6 @@ const contextObj = {
     ["feedback-helps"]: FEEDBACK_HELPS,
     ["text-post-submission"]: TEXT_POST_SUBMISSION,
   } satisfies Record<PostSubmissionTranslationKeys, string>,
-  video: {},
-  accessibility: {},
 };
 
 describe("PostSubmissionBox", () => {

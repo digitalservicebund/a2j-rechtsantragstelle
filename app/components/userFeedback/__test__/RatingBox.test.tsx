@@ -17,8 +17,6 @@ describe("RatingBox", () => {
           ["yes-rating"]: YES_RATING,
           ["no-rating"]: NO_RATING,
         } satisfies Record<RatingBoxTranslationKeys, string>,
-        video: {},
-        accessibility: {},
       }),
       [],
     );

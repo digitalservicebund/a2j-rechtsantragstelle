@@ -7,12 +7,12 @@ type TranslationContext = {
   accessibility: Translations;
 };
 
-export const TranslationContext = createContext<TranslationContext>({
+export const TranslationContext = createContext<Partial<TranslationContext>>({
   feedback: {},
   video: {},
   accessibility: {},
 });
 
-export function useTranslations(): TranslationContext {
+export function useTranslations() {
   return useContext(TranslationContext);
 }
