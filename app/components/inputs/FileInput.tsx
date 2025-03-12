@@ -1,10 +1,8 @@
-import { useLoaderData, useSubmit } from "@remix-run/react";
 import classNames from "classnames";
 import Button from "~/components/Button";
+import { useFileHandler } from "~/components/filesUpload/fileUploadHelpers";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
-import { loader } from "~/routes/shared/formular.server";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { ErrorMessageProps } from ".";
 
@@ -84,40 +82,3 @@ export const FileInput = ({
     </div>
   );
 };
-
-export function convertFileToMetadata(file?: File): PDFFileMetadata {
-  return {
-    filename: file?.name ?? "",
-    fileType: file?.type ?? "",
-    fileSize: file?.size ?? 0,
-    createdOn: file?.lastModified
-      ? new Date(file?.lastModified).toString()
-      : "",
-  };
-}
-
-export function useFileHandler() {
-  const { csrf } = useLoaderData<typeof loader>();
-  const submit = useSubmit();
-  return {
-    onFileUpload: (fieldName: string, file: File | undefined) => {
-      const formData = new FormData();
-      formData.append("_action", `fileUpload.${fieldName}`);
-      formData.append(CSRFKey, csrf);
-      formData.append(fieldName, file ?? "");
-      submit(formData, {
-        method: "post",
-        encType: "multipart/form-data",
-      });
-    },
-    onFileDelete: (fieldName: string) => {
-      const formData = new FormData();
-      formData.append("_action", `deleteFile.${fieldName}`);
-      formData.append(CSRFKey, csrf);
-      submit(formData, {
-        method: "post",
-        encType: "multipart/form-data",
-      });
-    },
-  };
-}

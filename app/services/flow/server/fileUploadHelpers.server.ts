@@ -11,7 +11,7 @@ import {
   ValidationResult,
 } from "remix-validated-form";
 import { z, ZodTypeAny } from "zod";
-import { convertFileToMetadata } from "~/components/inputs/FileInput";
+import { convertFileToMetadata } from "~/components/filesUpload/fileUploadHelpers";
 import { ArrayData, Context, getContext } from "~/domains/contexts";
 import { FlowId } from "~/domains/flowIds";
 import {

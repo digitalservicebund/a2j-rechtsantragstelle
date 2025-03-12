@@ -1,53 +1,12 @@
 import { render } from "@testing-library/react";
-import * as FileInputFunctions from "~/components/inputs/FileInput";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
+import { FileInput } from "~/components/inputs/FileInput";
 
-const FileInput = FileInputFunctions.FileInput;
-
-const useLoaderDataMock = vi.hoisted(() =>
-  vi.fn(() => ({
-    csrf: "csrf",
-  })),
-);
-
-const submitMock = vi.fn();
 vi.mock("@remix-run/react", () => ({
-  useLoaderData: useLoaderDataMock,
-  useSubmit: () => submitMock,
+  useLoaderData: vi.fn(() => ({ csrf: "csrf" })),
+  useSubmit: vi.fn(),
 }));
-const mockFile = new File([], "mockFile");
+
 const inputName = "belege[0]";
-
-describe("useFileHandler", () => {
-  it("should return a file upload handler", () => {
-    const { onFileUpload } = FileInputFunctions.useFileHandler();
-    expect(onFileUpload).toBeDefined();
-    expect(useLoaderDataMock).toHaveBeenCalled();
-    const mockFormData = new FormData();
-    mockFormData.append("_action", `fileUpload.fieldName`);
-    mockFormData.append(CSRFKey, "csrf");
-    mockFormData.append("fieldName", mockFile);
-    onFileUpload("fieldName", mockFile);
-    expect(submitMock).toHaveBeenCalledWith(mockFormData, {
-      method: "post",
-      encType: "multipart/form-data",
-    });
-  });
-
-  it("should return a file deletion handler", () => {
-    const { onFileDelete } = FileInputFunctions.useFileHandler();
-    expect(onFileDelete).toBeDefined();
-    expect(useLoaderDataMock).toHaveBeenCalled();
-    const mockFormData = new FormData();
-    mockFormData.append("_action", `deleteFile.fieldName`);
-    mockFormData.append(CSRFKey, "csrf");
-    onFileDelete("fieldName");
-    expect(submitMock).toHaveBeenCalledWith(mockFormData, {
-      method: "post",
-      encType: "multipart/form-data",
-    });
-  });
-});
 
 describe("FileInput", () => {
   it("should render correctly if javascript is enabled", () => {
@@ -93,28 +52,5 @@ describe("FileInput", () => {
     expect(uploadButton).toHaveAttribute("type", "submit");
     expect(uploadButton).toHaveAttribute("name", "_action");
     expect(uploadButton).toHaveAttribute("value", `fileUpload.${inputName}`);
-  });
-});
-
-describe("convertFileToMetadata", () => {
-  it("should set default values when a file is not provided", () => {
-    const result = FileInputFunctions.convertFileToMetadata();
-    expect(result).toEqual({
-      filename: "",
-      fileType: "",
-      fileSize: 0,
-      createdOn: "",
-    });
-  });
-
-  it("should successfully convert a file to metadata", () => {
-    const mockFile = new File([], "filename", { type: "application/pdf" });
-    const result = FileInputFunctions.convertFileToMetadata(mockFile);
-    expect(result).toEqual({
-      filename: "filename",
-      fileType: "application/pdf",
-      fileSize: 0,
-      createdOn: new Date(mockFile.lastModified).toString(),
-    });
   });
 });
