@@ -3,6 +3,7 @@ import Button from "~/components/Button";
 import { useFileHandler } from "~/components/filesUpload/fileUploadHelpers";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
+import { useTranslations } from "~/services/translations/translationsContext";
 import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { ErrorMessageProps } from ".";
 
@@ -12,7 +13,6 @@ export type FileInputProps = {
   jsAvailable: boolean;
   error?: string;
   helperText?: string;
-  selectFilesButtonLabel?: string;
   errorMessages?: ErrorMessageProps[];
 };
 
@@ -23,9 +23,9 @@ export const FileInput = ({
   error,
   helperText,
   errorMessages,
-  selectFilesButtonLabel,
 }: FileInputProps) => {
   const { onFileDelete, onFileUpload } = useFileHandler();
+  const { fileUpload: translations } = useTranslations();
   const errorId = `${name}-error`;
 
   const classes = classNames(
@@ -35,6 +35,7 @@ export const FileInput = ({
         jsAvailable,
     },
   );
+  const inputIndex = Number(name.at(-2));
 
   return (
     <div className="flex-col">
@@ -45,7 +46,7 @@ export const FileInput = ({
           jsAvailable={jsAvailable}
           fileName={selectedFile.filename}
           fileSize={selectedFile.fileSize}
-          deleteButtonLabel={"Löschen"}
+          deleteButtonLabel={translations?.delete}
           hasError={!!error}
         />
       ) : (
@@ -61,7 +62,14 @@ export const FileInput = ({
             className={classes}
           />
           {jsAvailable ? (
-            <Button look="tertiary" text={selectFilesButtonLabel} />
+            <Button
+              look="tertiary"
+              text={
+                inputIndex === 0
+                  ? translations?.select
+                  : translations?.addAnother
+              }
+            />
           ) : (
             <Button
               name="_action"
@@ -69,7 +77,7 @@ export const FileInput = ({
               className="w-fit"
               type="submit"
               look="primary"
-              text="Hochladen"
+              text={translations?.upload}
               size="large"
             />
           )}

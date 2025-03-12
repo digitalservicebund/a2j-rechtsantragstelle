@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import { FileInput } from "~/components/inputs/FileInput";
+import { TranslationContext } from "~/services/translations/translationsContext";
 
 vi.mock("@remix-run/react", () => ({
   useLoaderData: vi.fn(() => ({ csrf: "csrf" })),
@@ -13,13 +14,16 @@ describe("FileInput", () => {
     const helperText = "Input a file";
     const selectFilesButtonLabel = "Select a file";
     const { getByText, getByTestId } = render(
-      <FileInput
-        name={inputName}
-        selectedFile={undefined}
-        jsAvailable={true}
-        helperText={helperText}
-        selectFilesButtonLabel={selectFilesButtonLabel}
-      />,
+      <TranslationContext.Provider
+        value={{ fileUpload: { select: selectFilesButtonLabel } }}
+      >
+        <FileInput
+          name={inputName}
+          selectedFile={undefined}
+          jsAvailable={true}
+          helperText={helperText}
+        />
+      </TranslationContext.Provider>,
     );
     expect(getByText(selectFilesButtonLabel)).toBeInTheDocument();
     const input = getByTestId("fileUploadInput");
@@ -33,11 +37,13 @@ describe("FileInput", () => {
 
   it("should render correctly without javascript", () => {
     const { getByTestId, getByRole } = render(
-      <FileInput
-        name={inputName}
-        selectedFile={undefined}
-        jsAvailable={false}
-      />,
+      <TranslationContext.Provider value={{}}>
+        <FileInput
+          name={inputName}
+          selectedFile={undefined}
+          jsAvailable={false}
+        />
+      </TranslationContext.Provider>,
     );
     const input = getByTestId("fileUploadInput");
     expect(input).toBeInTheDocument();

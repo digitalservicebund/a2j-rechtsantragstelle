@@ -70,7 +70,6 @@ const FilesUpload = ({
                 error={scopedErrors[inputName]}
                 jsAvailable={jsAvailable}
                 name={inputName}
-                selectFilesButtonLabel="Datei Auswählen"
               />
             );
           })}
@@ -79,11 +78,6 @@ const FilesUpload = ({
               selectedFile={undefined}
               jsAvailable={jsAvailable}
               name={`${name}[${items.length}]`}
-              selectFilesButtonLabel={
-                items.length === 0
-                  ? "Datei Auswählen"
-                  : "Weitere Datei Auswählen"
-              }
             />
           )}
         </div>
