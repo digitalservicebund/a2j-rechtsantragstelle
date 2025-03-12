@@ -54,7 +54,7 @@ export const interpolateFormularServerTranslations = async (
 
   return {
     ...arrayTranslations,
-    ...flowTranslationsAfterInterpolation,
     ...overviewTranslationsAfterInterpolation,
+    ...flowTranslationsAfterInterpolation,
   };
 };
