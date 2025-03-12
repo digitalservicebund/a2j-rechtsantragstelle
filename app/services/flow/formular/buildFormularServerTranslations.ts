@@ -1,9 +1,9 @@
 import type { Context } from "~/domains/contexts";
 import type { Flow } from "~/domains/flows.server";
-import { getArraySummaryPageTranslations } from "~/services/array/getArraySummaryPageTranslations";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import { interpolateSerializableObject } from "~/util/fillTemplate";
+import { interpolateFormularServerTranslations } from "./interpolateFormularServerTranslations";
 
 type BuildFormularServerTranslations = {
   currentFlow: Flow;
@@ -35,25 +35,6 @@ const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
   };
 };
 
-function interpolateTranslations(
-  currentFlow: Flow,
-  translation: Translations,
-  data: Context | undefined,
-): Translations {
-  if (
-    typeof data === "undefined" ||
-    typeof currentFlow.stringReplacements === "undefined" ||
-    typeof translation === "undefined"
-  ) {
-    return translation;
-  }
-
-  return interpolateSerializableObject(
-    translation,
-    currentFlow.stringReplacements(data),
-  );
-}
-
 export const buildFormularServerTranslations = async ({
   currentFlow,
   flowTranslations,
@@ -63,32 +44,14 @@ export const buildFormularServerTranslations = async ({
   formPageContent,
   userDataWithPageData,
 }: BuildFormularServerTranslations) => {
-  /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports
-    can not be translated, so it's required to be interpolated
-  */
-  const flowTranslationsAfterInterpolation = interpolateTranslations(
+  const stringTranslations = await interpolateFormularServerTranslations(
     currentFlow,
     flowTranslations,
     migrationData,
-  );
-
-  /* On the Fluggastrechte pages on the Summary page data as airlines and airports
-    can not be translated, so it's required to be interpolated
-  */
-  const overviewTranslationsAfterInterpolation = interpolateTranslations(
-    currentFlow,
+    arrayCategories,
     overviewTranslations,
     userDataWithPageData,
   );
-
-  const arrayTranslations =
-    await getArraySummaryPageTranslations(arrayCategories);
-
-  const stringTranslations = {
-    ...arrayTranslations,
-    ...flowTranslationsAfterInterpolation,
-    ...overviewTranslationsAfterInterpolation,
-  };
 
   // structure cms content -> merge with getting data?
   const cmsContent = interpolateSerializableObject(
