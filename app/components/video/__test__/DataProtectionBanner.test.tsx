@@ -16,9 +16,7 @@ describe("Datenschutz Component", () => {
     );
 
     const { getByText } = render(
-      <TranslationContext.Provider
-        value={{ video: videoTranslations, feedback: {}, accessibility: {} }}
-      >
+      <TranslationContext.Provider value={{ video: videoTranslations }}>
         <DataProtectionBanner onCookiesAccepted={vi.fn()} />
       </TranslationContext.Provider>,
     );
