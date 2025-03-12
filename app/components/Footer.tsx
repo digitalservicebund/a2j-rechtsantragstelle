@@ -32,15 +32,19 @@ export default function Footer({
     translations,
   );
   return (
-    <Container paddingTop="48" paddingBottom="0">
+    <Container paddingTop="48" paddingBottom="56">
       <div
         className="flex flex-wrap items-start justify-between gap-y-32 mb-32"
         data-testid="footer"
       >
         <div className="flex flex-col flex-col-reverse sm:flex-row gap-y-8 gap-x-16">
           {image?.url && (
-            <div>
-              <Image {...image} width={120} />
+            <div className="forced-colors:bg-black">
+              <Image
+                {...image}
+                width={120}
+                className="forced-colors:brightness-0 forced-colors:invert"
+              />
             </div>
           )}
           <div className="ds-stack-8">

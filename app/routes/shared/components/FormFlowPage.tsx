@@ -26,6 +26,7 @@ export function FormFlowPage() {
     stepData,
     translations,
     navigationA11yLabels,
+    navigationMobileLabels,
     validFlowPaths,
     flowId,
   } = useLoaderData<typeof loader>();
@@ -44,10 +45,11 @@ export function FormFlowPage() {
     <FormFlowContext.Provider value={formFlowMemo}>
       <Background backgroundColor="blue">
         <div className="pt-32 min-h-screen flex flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start">
-          <div className="pb-48 mx-32 md:w-[248px] md:mr-0 md:mt-[1.65rem]">
+          <div className="md:w-[248px] md:mr-0 md:mt-[1.65rem]">
             <FlowNavigation
               navItems={navItems}
               a11yLabels={navigationA11yLabels}
+              mobileLabels={navigationMobileLabels}
             />
           </div>
           <div
