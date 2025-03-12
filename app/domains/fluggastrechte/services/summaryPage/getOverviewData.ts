@@ -11,7 +11,7 @@ export const getPersonData = (userData: FluggastrechtContext) => {
   const address = `${getStringWithSpaceIfStringExists(anrede) + getStringWithSpaceIfStringExists(userData.title) + getStringWithSpaceIfStringExists(userData.vorname) + getStringWithSpaceIfStringExists(userData.nachname)}\n${userData.strasseHausnummer}\n${userData.plz} ${userData.ort}`;
   return {
     person: address,
-    telefonnummer: userData.telefonnummer || NO_SPECIFICATION,
+    telefonnummer: userData.telefonnummer ?? NO_SPECIFICATION,
     kontodaten: userData.iban
       ? `${userData.iban} \n ${userData.kontoinhaber}`
       : NO_SPECIFICATION,
