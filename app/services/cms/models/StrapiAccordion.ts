@@ -1,15 +1,17 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasOptionalStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
+
+export const StrapiAccordionItemSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+});
 
 export const StrapiAccordionSchema = z
   .object({
-    title: z.string(),
-    description: z.string(),
+    items: z.array(StrapiAccordionItemSchema),
   })
   .merge(HasOptionalStrapiIdSchema)
   .transform((cmsData) => ({
     __component: "page.accordion" as const,
     ...cmsData,
   }));
-
-export type StrapiAccordion = z.input<typeof StrapiAccordionSchema>;

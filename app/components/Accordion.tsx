@@ -1,18 +1,13 @@
 import { useState, useEffect } from "react";
+import AccordionItem, { AccordionItemProps } from "~/components/AccordionItem";
 
 export type AccordionProps = {
-  title: string;
-  description: string;
-  className?: string;
+  items: AccordionItemProps[];
+  id?: number;
 };
 
-export default function Accordion({
-  title,
-  description,
-  className,
-}: Readonly<AccordionProps>): JSX.Element {
+export default function Accordion({ items }: AccordionProps) {
   const [jsEnabled, setJsEnabled] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setJsEnabled(true);
@@ -20,29 +15,28 @@ export default function Accordion({
 
   if (jsEnabled) {
     return (
-      <div className={className}>
-        <button
-          type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
-          aria-expanded={isOpen}
-          className="w-full text-left cursor-pointer text-lg font-medium py-4 px-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-        >
-          {title}
-        </button>
-        {isOpen && <div className="p-4">{description}</div>}
+      <div>
+        {items.map((item, index) => (
+          <AccordionItem key={item.id ?? index} {...item} />
+        ))}
       </div>
     );
   }
 
-  // Fallback for no JavaScript using native details/summary.
+  // Fallback for no JavaScript using native details/summary,
+  // which allows multiple items to be open.
   return (
-    <div className={className}>
-      <details>
-        <summary className="cursor-pointer text-lg font-medium py-4 px-2">
-          {title}
-        </summary>
-        <div className="p-4">{description}</div>
-      </details>
+    <div>
+      {items.map((item, index) => (
+        <div key={item.id ?? index}>
+          <details>
+            <summary className="cursor-pointer text-lg font-medium py-4 px-2">
+              {item.title}
+            </summary>
+            <div className="p-4">{item.description}</div>
+          </details>
+        </div>
+      ))}
     </div>
   );
 }
