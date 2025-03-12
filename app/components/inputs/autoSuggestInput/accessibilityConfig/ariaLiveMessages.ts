@@ -31,7 +31,7 @@ import {
   SCREEN_READER_STATUS,
 } from "./ariaTranslationKeys";
 
-export const ariaLiveMessages = (translations: Translations) => ({
+export const ariaLiveMessages = (translations?: Translations) => ({
   guidance: (props: AriaGuidanceProps) => {
     const { isSearchable, tabSelectsValue, context, isInitialFocus } = props;
 
@@ -183,7 +183,7 @@ export const ariaLiveMessages = (translations: Translations) => ({
 
 // **Updated screenReaderStatus Function**
 export const screenReaderStatus =
-  (translations: Translations) =>
+  (translations?: Translations) =>
   ({ count }: { count: number }) => {
     const message = getTranslationByKey(SCREEN_READER_STATUS, translations);
     const optionsText = count !== 1 ? "en" : "";

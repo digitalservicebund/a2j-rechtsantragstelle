@@ -1,35 +1,29 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render } from "@testing-library/react";
-import { useMemo } from "react";
 import { FeedbackType } from "~/components/userFeedback";
 import { TranslationContext } from "~/services/translations/translationsContext";
 import { FEEDBACK_FIELD_NAME, FeedbackFormBox } from "../FeedbackFormBox";
-import type { FeedbackTranslationKeys } from "../feedbackTranslations";
 
 const SUBMIT_BUTTON_FEEDBACK = "Submit button";
 
+const contextObj = {
+  feedback: {
+    "heading-feedback": "placeholder",
+    "submit-button-feedback": SUBMIT_BUTTON_FEEDBACK,
+    "placeholder-feedback": "placeholder",
+    "heading-personal-data-feedback": "placeholder",
+    "positive-feedback-question": "placeholder",
+    "negative-feedback-question": "placeholder",
+    "success-message": "placeholder",
+    "antwort-uebermittelt": "placeholder",
+    "feedback-helps": "placeholder",
+  },
+};
+
 describe("FeedbackFormBox", () => {
   const FeedbackContextComponent = (props: { children: React.ReactNode }) => {
-    const feedbackTranslationMemo = useMemo(
-      () => ({
-        feedback: {
-          "heading-feedback": "placeholder",
-          "submit-button-feedback": SUBMIT_BUTTON_FEEDBACK,
-          "placeholder-feedback": "placeholder",
-          "heading-personal-data-feedback": "placeholder",
-          "positive-feedback-question": "placeholder",
-          "negative-feedback-question": "placeholder",
-          "success-message": "placeholder",
-          "antwort-uebermittelt": "placeholder",
-          "feedback-helps": "placeholder",
-        } satisfies Record<FeedbackTranslationKeys, string>,
-        video: {},
-        accessibility: {},
-      }),
-      [],
-    );
     return (
-      <TranslationContext.Provider value={feedbackTranslationMemo}>
+      <TranslationContext.Provider value={contextObj}>
         {props.children}
       </TranslationContext.Provider>
     );
