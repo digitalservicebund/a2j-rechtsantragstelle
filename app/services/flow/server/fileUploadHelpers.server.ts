@@ -17,7 +17,7 @@ import { FlowId } from "~/domains/flowIds";
 import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
-} from "~/services/externalDataStorage/storeUserFileToS3Bucket";
+} from "~/services/externalDataStorage/userFileS3Helpers";
 import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 export async function uploadUserFile(

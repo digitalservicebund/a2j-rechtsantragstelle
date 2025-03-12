@@ -62,12 +62,9 @@ export const loader = async ({
   const currentFlow = flows[flowId];
   const { prunedData: prunedUserData, validFlowPaths } =
     await pruneIrrelevantData(userData, flowId);
-  const userDataWithPageData = addPageDataToUserData(
-    { ...prunedUserData, ...userData },
-    {
-      arrayIndexes,
-    },
-  );
+  const userDataWithPageData = addPageDataToUserData(prunedUserData, {
+    arrayIndexes,
+  });
   const flowController = buildFlowController({
     config: currentFlow.config,
     data: userDataWithPageData,
@@ -76,8 +73,7 @@ export const loader = async ({
 
   if (
     !flowController.isReachable(stepId) &&
-    !skipFlowParamAllowedAndEnabled(searchParams) &&
-    stepId !== "/file-upload"
+    !skipFlowParamAllowedAndEnabled(searchParams)
   )
     return redirectDocument(flowController.getInitial());
 

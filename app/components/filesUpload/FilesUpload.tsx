@@ -1,6 +1,5 @@
 import { useActionData } from "@remix-run/react";
 import classNames from "classnames";
-import get from "lodash/get";
 import { useState, useEffect } from "react";
 import { useField, ValidationErrorResponseData } from "remix-validated-form";
 import { ErrorMessageProps } from "~/components/inputs";
@@ -34,8 +33,8 @@ const FilesUpload = ({
   >();
   const { defaultValue } = useField(name, { formId });
   const items: Array<PDFFileMetadata | undefined> =
-    get(response?.repopulateFields, name) ??
-    get(response, name) ??
+    (response?.repopulateFields as Context | undefined)?.[name] ??
+    (response as Context | undefined)?.[name] ??
     defaultValue ??
     [];
   const scopedErrors = Object.fromEntries(
@@ -47,11 +46,15 @@ const FilesUpload = ({
 
   useEffect(() => setJsAvailable(true), []);
 
-  const groupError: string | undefined = get(scopedErrors, name);
+  const groupError: string | undefined = scopedErrors[name];
 
   const classes = classNames("w-full bg-white p-16", {
     "bg-red-200 border border-red-900": !!groupError,
   });
+
+  const showAddMoreButton =
+    (items.length < fileUploadLimit || items.length === 0) &&
+    Object.entries(scopedErrors).length === 0;
 
   return (
     <NoscriptWrapper jsAvailable={jsAvailable}>
@@ -64,26 +67,25 @@ const FilesUpload = ({
               <FileInput
                 key={inputName}
                 selectedFile={value}
-                error={get(scopedErrors, inputName)}
+                error={scopedErrors[inputName]}
                 jsAvailable={jsAvailable}
                 name={inputName}
                 selectFilesButtonLabel="Datei Auswählen"
               />
             );
           })}
-          {(items.length < fileUploadLimit || items.length === 0) &&
-            Object.entries(scopedErrors).length === 0 && (
-              <FileInput
-                selectedFile={undefined}
-                jsAvailable={jsAvailable}
-                name={`${name}[${items.length}]`}
-                selectFilesButtonLabel={
-                  items.length === 0
-                    ? "Datei Auswählen"
-                    : "Weitere Datei Auswählen"
-                }
-              />
-            )}
+          {showAddMoreButton && (
+            <FileInput
+              selectedFile={undefined}
+              jsAvailable={jsAvailable}
+              name={`${name}[${items.length}]`}
+              selectFilesButtonLabel={
+                items.length === 0
+                  ? "Datei Auswählen"
+                  : "Weitere Datei Auswählen"
+              }
+            />
+          )}
         </div>
       </div>
       <InputError id={errorId}>
