@@ -16,7 +16,7 @@ export const StrapiListItemSchema = z
       .nullable()
       .transform(omitNull)
       .optional(),
-    accordion: StrapiAccordionSchema.optional().nullable().transform(omitNull),
+    accordion: StrapiAccordionSchema.nullable().transform(omitNull),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);
