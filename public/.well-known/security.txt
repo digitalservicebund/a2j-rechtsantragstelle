@@ -1,6 +1,6 @@
 Contact: mailto:security@digitalservice.bund.de
-Expires: 2024-12-31T23:59:59.000Z
+Expires: 2025-12-31T23:59:59.000Z
 Preferred-Languages: en, de
 Policy: https://raw.githubusercontent.com/digitalservicebund/a2j-rechtsantragstelle/main/SECURITY.md
 Canonical: https://service.justiz.de/.well-known/security.txt
-Hiring: https://digitalservice.bund.de/en/career
+Hiring: https://digitalservice.bund.de/en/careers
