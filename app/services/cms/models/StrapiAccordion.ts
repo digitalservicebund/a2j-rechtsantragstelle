@@ -10,4 +10,8 @@ export const StrapiAccordionSchema = z
       }),
     ),
   })
-  .merge(HasOptionalStrapiIdSchema);
+  .merge(HasOptionalStrapiIdSchema)
+  .transform((cmsData) => ({
+    __component: "page.accordion" as const,
+    ...cmsData,
+  }));

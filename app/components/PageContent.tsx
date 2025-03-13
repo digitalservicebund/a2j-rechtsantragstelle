@@ -17,6 +17,7 @@ import List from "./List";
 import RichText from "./RichText";
 import SummaryOverviewSection from "./summaryOverview/SummaryOverviewSection";
 import UserFeedback from "./userFeedback";
+import Accordion from "~/components/Accordion";
 
 function wrapInContainer(
   cmsData: StrapiContentComponent,
@@ -78,6 +79,8 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
       return <UserFeedback {...strapiContent} />;
     case "page.summary-overview-section":
       return <SummaryOverviewSection {...strapiContent} />;
+    case "page.accordion":
+      return <Accordion {...strapiContent} />;
     default:
       return <></>;
   }

@@ -6,10 +6,7 @@ export type AccordionProps = Readonly<{
   className?: string;
 }>;
 
-export default function Accordion({
-  items,
-  className,
-}: AccordionProps): JSX.Element {
+export default function Accordion({ items, className }: AccordionProps) {
   const [jsEnabled, setJsEnabled] = useState<boolean>(false);
   const [openIndex, setOpenIndex] = useState<number>(-1);
   const hasItems = items && items.length > 0;
