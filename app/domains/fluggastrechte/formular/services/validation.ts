@@ -295,7 +295,7 @@ export function validateStopoverDuplicates(
       for (const duplicate of duplicates) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "sameDepartureAndArrivalAirports",
+          message: "stopoverDuplicates",
           path: [duplicate.fieldName],
         });
       }
