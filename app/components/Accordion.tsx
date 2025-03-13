@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import AccordionItem, { AccordionItemProps } from "~/components/AccordionItem";
 
 export type AccordionProps = Readonly<{
-  items: Omit<AccordionItemProps, "isOpen" | "onToggle">[];
+  items: Array<Omit<AccordionItemProps, "isOpen" | "onToggle">>;
   className?: string;
 }>;
 
