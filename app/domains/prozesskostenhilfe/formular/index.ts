@@ -152,16 +152,23 @@ export const prozesskostenhilfeFormular = {
           },
           "#gesetzliche-vertretung",
         ],
-        nextFlowEntrypoint: "#abgabe",
+        nextFlowEntrypoint: "#weitere-angaben",
       }),
+
       "weitere-angaben": {
         id: "weitere-angaben",
-        initial: "start",
-        on: {
-          BACK: "persoenliche-daten",
-          SUBMIT: "abgabe",
+        initial: "weitere-angaben",
+        meta: { done: prozesskostenhilfePersoenlicheDatenDone },
+        states: {
+          "weitere-angaben": {
+            on: {
+              SUBMIT: "#abgabe",
+              BACK: "#persoenliche-daten.beruf",
+            },
+          },
         },
       },
+
       ...((await isFeatureFlagEnabled("showFileUpload")) && {
         "file-upload": {
           on: {
