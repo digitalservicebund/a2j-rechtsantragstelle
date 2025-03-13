@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import AccordionItem, { AccordionItemProps } from "~/components/AccordionItem";
 
-export type AccordionProps = {
+export type AccordionProps = Readonly<{
   items: AccordionItemProps[];
   className?: string;
-};
+}>;
 
 export default function Accordion({ items, className }: AccordionProps) {
   const [jsEnabled, setJsEnabled] = useState<boolean>(false);

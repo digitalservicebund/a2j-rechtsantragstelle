@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-export type AccordionItemProps = {
+export type AccordionItemProps = Readonly<{
   title: string;
   description: string;
   id?: number;
-};
+}>;
 
 export default function AccordionItem({
   title,
