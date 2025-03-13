@@ -8,6 +8,7 @@ export type AccordionProps = Readonly<{
 
 export default function Accordion({ items, className }: AccordionProps) {
   const [jsEnabled, setJsEnabled] = useState<boolean>(false);
+  const hasItems = items && items.length > 0;
 
   useEffect(() => {
     setJsEnabled(true);
@@ -16,8 +17,10 @@ export default function Accordion({ items, className }: AccordionProps) {
   if (jsEnabled) {
     return (
       <>
-        {items && items.length > 0 && (
-          <section className="rounded-lg border-2 border-blue-500">
+        {hasItems && (
+          <section
+            className={`rounded-lg border-2 border-blue-500" ${className ?? ""}`}
+          >
             {items.map((item, index) => (
               <AccordionItem key={item.id ?? index} {...item} />
             ))}
@@ -29,8 +32,10 @@ export default function Accordion({ items, className }: AccordionProps) {
 
   return (
     <>
-      {items && items.length > 0 && (
-        <section className={className ?? "rounded-lg border-2 border-blue-500"}>
+      {hasItems && (
+        <section
+          className={`rounded-lg border-2 border-blue-500" ${className ?? ""}`}
+        >
           {items.map((item, index) => (
             <div key={item.id ?? index} className="mb-4">
               <details>
