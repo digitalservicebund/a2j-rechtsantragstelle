@@ -1,3 +1,5 @@
+import RichText from "~/components/RichText";
+
 export type AccordionItemProps = Readonly<{
   title: string;
   description: string;
@@ -29,7 +31,7 @@ export default function AccordionItem({
             {isOpen ? "⌃ Ausblenden" : "⌄ Einblenden"}
           </span>
         </button>
-        {isOpen && <div className="p-4">{description}</div>}
+        {isOpen && <RichText className="ds-body-01-reg" html={description} />}
       </div>
     );
   }
@@ -44,7 +46,7 @@ export default function AccordionItem({
             <span className="hidden group-open:block">⌃ Ausblenden</span>
           </span>
         </summary>
-        <div className="p-4">{description}</div>
+        <RichText className="ds-body-01-reg" html={description} />
       </details>
     </div>
   );
