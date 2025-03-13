@@ -49,8 +49,11 @@ const ListItem = ({
           )}
         </div>
       </div>
-      {/*todo: add styles*/}
-      {accordion && <Accordion {...accordion} />}
+      {accordion && (
+        <div className="m-16">
+          <Accordion {...accordion} />
+        </div>
+      )}
     </>
   );
 };

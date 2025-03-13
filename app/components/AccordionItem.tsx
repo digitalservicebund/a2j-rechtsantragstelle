@@ -8,16 +8,22 @@ export type AccordionItemProps = {
 
 const AccordionItem = ({ title, description }: AccordionItemProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const toggleAccordion = (): void => {
+    setIsOpen((prev) => !prev);
+  };
 
   return (
-    <div>
+    <div className={"border-2 border-blue-300"}>
       <button
         type="button"
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={toggleAccordion}
         aria-expanded={isOpen}
-        className="w-full text-left cursor-pointer text-lg font-medium py-4 px-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+        className="w-full flex justify-between items-center text-left cursor-pointer text-lg font-medium py-4 px-2 bg-blue-100"
       >
-        {title}
+        <span className={"p-4 ds-label-01-bold"}>{title}</span>
+        <span className="p-4 text-blue-800">
+          {isOpen ? "⌃ Ausblenden" : "⌄ Einblenden"}
+        </span>
       </button>
       {isOpen && <div className="p-4">{description}</div>}
     </div>
