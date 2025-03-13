@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { StrapiAccordionSchema } from "~/services/cms/models/StrapiAccordion";
 import { StrapiVideoSchema } from "~/services/cms/models/StrapiVideo";
 import { StrapiArraySummaryComponentSchema } from "./StrapiArraySummary";
 import { StrapiBoxSchema } from "./StrapiBox";
@@ -13,7 +14,6 @@ import { StrapiListSchema } from "./StrapiList";
 import { StrapiParagraphSchema } from "./StrapiParagraph";
 import { StrapiSummaryOverviewSectionSchema } from "./StrapiSummaryOverviewSection";
 import { StrapiUserFeedbackSchema } from "./StrapiUserFeedback";
-import { StrapiAccordionSchema } from "~/services/cms/models/StrapiAccordion";
 
 export const StrapiContentComponentSchema = z.union([
   StrapiBoxSchema,

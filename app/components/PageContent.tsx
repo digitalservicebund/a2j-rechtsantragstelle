@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import Accordion from "~/components/Accordion";
 import Heading from "~/components/Heading";
 import Video from "~/components/video/Video";
 import { keyFromElement } from "~/services/cms/keyFromElement";
@@ -17,7 +18,6 @@ import List from "./List";
 import RichText from "./RichText";
 import SummaryOverviewSection from "./summaryOverview/SummaryOverviewSection";
 import UserFeedback from "./userFeedback";
-import Accordion from "~/components/Accordion";
 
 function wrapInContainer(
   cmsData: StrapiContentComponent,
