@@ -559,10 +559,10 @@ describe("validation", () => {
       expect(result.success).toBe(false);
       expect(result.error?.format()).toMatchObject({
         ersterZwischenstopp: {
-          _errors: expect.arrayContaining(["sameDepartureAndArrivalAirports"]),
+          _errors: expect.arrayContaining(["stopoverDuplicates"]),
         },
         dritterZwischenstopp: {
-          _errors: expect.arrayContaining(["sameDepartureAndArrivalAirports"]),
+          _errors: expect.arrayContaining(["stopoverDuplicates"]),
         },
       });
     });
@@ -577,13 +577,13 @@ describe("validation", () => {
       expect(result.success).toBe(false);
       expect(result.error?.format()).toMatchObject({
         ersterZwischenstopp: {
-          _errors: expect.arrayContaining(["sameDepartureAndArrivalAirports"]),
+          _errors: expect.arrayContaining(["stopoverDuplicates"]),
         },
         zweiterZwischenstopp: {
-          _errors: expect.arrayContaining(["sameDepartureAndArrivalAirports"]),
+          _errors: expect.arrayContaining(["stopoverDuplicates"]),
         },
         dritterZwischenstopp: {
-          _errors: expect.arrayContaining(["sameDepartureAndArrivalAirports"]),
+          _errors: expect.arrayContaining(["stopoverDuplicates"]),
         },
       });
     });
