@@ -2,49 +2,39 @@ import { useState, useEffect } from "react";
 import AccordionItem, { AccordionItemProps } from "~/components/AccordionItem";
 
 export type AccordionProps = Readonly<{
-  items: AccordionItemProps[];
+  items: Omit<AccordionItemProps, "isOpen" | "onToggle">[];
   className?: string;
 }>;
 
-export default function Accordion({ items, className }: AccordionProps) {
+export default function Accordion({
+  items,
+  className,
+}: AccordionProps): JSX.Element {
   const [jsEnabled, setJsEnabled] = useState<boolean>(false);
+  const [openIndex, setOpenIndex] = useState<number>(-1);
   const hasItems = items && items.length > 0;
 
   useEffect(() => {
     setJsEnabled(true);
   }, []);
 
-  if (jsEnabled) {
-    return (
-      <>
-        {hasItems && (
-          <section
-            className={`rounded-lg border-2 border-blue-500" ${className ?? ""}`}
-          >
-            {items.map((item, index) => (
-              <AccordionItem key={item.id ?? index} {...item} />
-            ))}
-          </section>
-        )}
-      </>
-    );
-  }
-
   return (
     <>
       {hasItems && (
         <section
-          className={`rounded-lg border-2 border-blue-500" ${className ?? ""}`}
+          className={`rounded-lg border-2 border-blue-500 ${className ?? ""}`}
         >
           {items.map((item, index) => (
-            <div key={item.id ?? index} className="mb-4">
-              <details>
-                <summary className="cursor-pointer text-lg font-medium py-4 px-2">
-                  {item.title}
-                </summary>
-                <div className="p-4">{item.description}</div>
-              </details>
-            </div>
+            <AccordionItem
+              key={item.id ?? index}
+              title={item.title}
+              description={item.description}
+              isOpen={openIndex === index}
+              onToggle={() =>
+                setOpenIndex((prev) => (prev === index ? -1 : index))
+              }
+              jsEnabled={jsEnabled}
+            />
           ))}
         </section>
       )}
