@@ -1,6 +1,9 @@
 import classNames from "classnames";
 import Button from "~/components/Button";
-import { useFileHandler } from "~/components/filesUpload/fileUploadHelpers";
+import {
+  splitFieldName,
+  useFileHandler,
+} from "~/components/filesUpload/fileUploadHelpers";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
 import { useTranslations } from "~/services/translations/translationsContext";
@@ -35,7 +38,6 @@ export const FileInput = ({
         jsAvailable,
     },
   );
-  const inputIndex = Number(name.at(-2));
 
   return (
     <div className="flex-col">
@@ -65,7 +67,7 @@ export const FileInput = ({
             <Button
               look="tertiary"
               text={
-                inputIndex === 0
+                splitFieldName(name).inputIndex === 0
                   ? translations?.select
                   : translations?.addAnother
               }

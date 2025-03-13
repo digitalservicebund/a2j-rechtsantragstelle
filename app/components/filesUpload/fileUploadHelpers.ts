@@ -14,6 +14,15 @@ export function convertFileToMetadata(file?: File): PDFFileMetadata {
   };
 }
 
+export const splitFieldName = (fieldName: string) => ({
+  fieldName: fieldName.split("[")[0],
+  inputIndex: Number(
+    RegExp(/\[\d+\]/)
+      .exec(fieldName)?.[0]
+      .replaceAll(/[[\]]/g, ""),
+  ),
+});
+
 export function useFileHandler() {
   const { csrf } = useLoaderData<typeof loader>();
   const submit = useSubmit();

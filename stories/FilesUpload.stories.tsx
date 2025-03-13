@@ -3,6 +3,8 @@ import { faker } from "@faker-js/faker";
 import { ActionFunctionArgs } from "@remix-run/node";
 import type { Meta, StoryObj } from "@storybook/react";
 import FilesUpload from "~/components/filesUpload/FilesUpload";
+import { splitFieldName } from "~/components/filesUpload/fileUploadHelpers";
+import { TranslationContext } from "~/services/translations/translationsContext";
 import { PDFFileMetadata, TEN_MB_IN_BYTES } from "~/util/file/pdfFileSchema";
 
 const meta = {
@@ -38,27 +40,39 @@ export const Default: Story = {
     formId: "formId",
   },
   decorators: [
-    (Story) =>
-      remixContext(
-        Story,
-        () => ({ csrf: "csrf" }),
-        async ({ request }: ActionFunctionArgs) => {
-          const formData = await request.formData();
-          const formAction = formData.get("_action");
-          if (
-            typeof formAction === "string" &&
-            formAction.startsWith("deleteFile")
-          ) {
-            mockUploadedFiles = mockUploadedFiles.filter(
-              (_, index) => index !== Number(formAction.at(-2)),
-            );
-          } else {
-            mockUploadedFiles.push(generateRandomPDFFileMetadata());
-          }
-          return {
-            [fieldName]: mockUploadedFiles,
-          };
-        },
-      ),
+    (Story) => (
+      <TranslationContext.Provider
+        value={{
+          fileUpload: {
+            delete: "Löschen",
+            select: "Datei Auswählen",
+            addAnother: "Weitere Datei Auswählen",
+          },
+        }}
+      >
+        {remixContext(
+          Story,
+          () => ({ csrf: "csrf" }),
+          async ({ request }: ActionFunctionArgs) => {
+            const formData = await request.formData();
+            const formAction = formData.get("_action");
+            if (
+              typeof formAction === "string" &&
+              formAction.startsWith("deleteFile")
+            ) {
+              const { inputIndex } = splitFieldName(formAction.split(".")[1]);
+              mockUploadedFiles = mockUploadedFiles.filter(
+                (_, index) => index !== inputIndex,
+              );
+            } else {
+              mockUploadedFiles.push(generateRandomPDFFileMetadata());
+            }
+            return {
+              [fieldName]: mockUploadedFiles,
+            };
+          },
+        )}
+      </TranslationContext.Provider>
+    ),
   ],
 };

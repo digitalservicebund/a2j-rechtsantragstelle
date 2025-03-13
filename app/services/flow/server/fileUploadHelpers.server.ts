@@ -11,7 +11,10 @@ import {
   ValidationResult,
 } from "remix-validated-form";
 import { z, ZodTypeAny } from "zod";
-import { convertFileToMetadata } from "~/components/filesUpload/fileUploadHelpers";
+import {
+  convertFileToMetadata,
+  splitFieldName,
+} from "~/components/filesUpload/fileUploadHelpers";
 import { ArrayData, Context, getContext } from "~/domains/contexts";
 import { FlowId } from "~/domains/flowIds";
 import {
@@ -30,8 +33,7 @@ export async function uploadUserFile(
   validationResult?: SuccessResult<Context>;
 }> {
   const inputName = formAction.split(".")[1];
-  const [fieldName, input] = inputName.split("[");
-  const inputIndex = input.charAt(0);
+  const { fieldName, inputIndex } = splitFieldName(inputName);
   const file = await parseFileFromFormData(request, inputName);
   const fileMeta = convertFileToMetadata(file);
   const scopedContext = Object.fromEntries(
@@ -66,8 +68,7 @@ export async function deleteUserFile(
   flowId: FlowId,
 ): Promise<Context> {
   const inputName = formAction.split(".")[1];
-  const fieldName = inputName.split("[")[0];
-  const inputIndex = Number(inputName.at(-2));
+  const { fieldName, inputIndex } = splitFieldName(inputName);
   const savedFile = (userData[fieldName] as ArrayData | undefined)?.at(
     inputIndex,
   ) as PDFFileMetadata | undefined;
