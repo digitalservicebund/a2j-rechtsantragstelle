@@ -6,7 +6,10 @@ export type AccordionItemProps = {
   id?: number;
 };
 
-const AccordionItem = ({ title, description }: AccordionItemProps) => {
+export default function AccordionItem({
+  title,
+  description,
+}: AccordionItemProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggleAccordion = (): void => {
     setIsOpen((prev) => !prev);
@@ -28,6 +31,4 @@ const AccordionItem = ({ title, description }: AccordionItemProps) => {
       {isOpen && <div className="p-4">{description}</div>}
     </div>
   );
-};
-
-export default AccordionItem;
+}
