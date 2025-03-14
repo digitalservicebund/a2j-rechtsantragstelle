@@ -8,7 +8,7 @@ export type ListProps = {
   identifier?: string;
   heading?: HeadingProps;
   subheading?: string;
-  isNumeric?: boolean;
+  variant?: "unordered" | "numbered";
 };
 
 const List = ({
@@ -16,7 +16,7 @@ const List = ({
   items,
   heading,
   subheading,
-  isNumeric,
+  variant = "unordered",
 }: ListProps) => {
   return (
     <div className="ds-stack-8 scroll-my-40" id={identifier}>
@@ -31,7 +31,10 @@ const List = ({
               key={item.identifier ?? item.headline?.text ?? item.content}
               className="first:pt-0 scroll-my-40"
             >
-              <ListItem {...item} index={isNumeric ? index + 1 : undefined} />
+              <ListItem
+                {...item}
+                index={variant === "numbered" ? index + 1 : undefined}
+              />
             </li>
           ))}
       </ol>
