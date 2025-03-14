@@ -8,7 +8,7 @@ type TranslationContext = {
   fileUpload: Translations;
 };
 
-export const TranslationContext = createContext<Partial<TranslationContext>>({
+export const TranslationContext = createContext<TranslationContext>({
   feedback: {},
   video: {},
   accessibility: {},
