@@ -34,7 +34,7 @@ const renderMigrationValue = (
   const translation = translations[`${key}.${value}`];
 
   if (typeof translation === "undefined") {
-    return translations[`${key}.value`];
+    return translations[`${key}.migration.value`];
   }
 
   return translation;
