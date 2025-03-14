@@ -16,7 +16,7 @@ export default function Accordion({ items, className }: AccordionProps) {
   }, []);
 
   return (
-    <>
+    <div>
       {hasItems && (
         <section
           className={`rounded-lg border-2 border-blue-500 ${className ?? ""}`}
@@ -35,6 +35,6 @@ export default function Accordion({ items, className }: AccordionProps) {
           ))}
         </section>
       )}
-    </>
+    </div>
   );
 }
