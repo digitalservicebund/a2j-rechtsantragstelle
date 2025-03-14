@@ -7,7 +7,6 @@ import FilesUpload, {
 } from "~/components/filesUpload/FilesUpload";
 import { Context } from "~/domains/contexts";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { TranslationContext } from "~/services/translations/translationsContext";
 import { fileUploadErrorMap, PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 const deleteLabel = "Löschen";
@@ -24,6 +23,16 @@ vi.mock("@remix-run/react", async () => ({
   useLoaderData: vi.fn(() => ({ csrf: "csrf" })),
   useActionData: () => actionResponse,
   useSubmit: () => mockSubmit,
+}));
+
+vi.mock("~/services/translations/translationsContext", () => ({
+  useTranslations: () => ({
+    fileUpload: {
+      delete: deleteLabel,
+      select: selectLabel,
+      addAnother: addAnotherLabel,
+    },
+  }),
 }));
 
 let defaultValue: PDFFileMetadata[] = [];
@@ -137,22 +146,12 @@ describe("FilesUpload", () => {
 
 const renderFilesUpload = ({ ...args }: Partial<FilesUploadProps> = {}) =>
   render(
-    <TranslationContext.Provider
-      value={{
-        fileUpload: {
-          delete: deleteLabel,
-          select: selectLabel,
-          addAnother: addAnotherLabel,
+    <RouterProvider
+      router={createMemoryRouter([
+        {
+          path: "/",
+          element: <FilesUpload name={fieldName} formId="formId" {...args} />,
         },
-      }}
-    >
-      <RouterProvider
-        router={createMemoryRouter([
-          {
-            path: "/",
-            element: <FilesUpload name={fieldName} formId="formId" {...args} />,
-          },
-        ])}
-      />
-    </TranslationContext.Provider>,
+      ])}
+    />,
   );

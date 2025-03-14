@@ -48,6 +48,9 @@ export const Default: Story = {
             select: "Datei Auswählen",
             addAnother: "Weitere Datei Auswählen",
           },
+          feedback: {},
+          video: {},
+          accessibility: {},
         }}
       >
         {remixContext(

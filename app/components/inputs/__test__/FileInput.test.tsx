@@ -1,10 +1,18 @@
 import { render } from "@testing-library/react";
 import { FileInput } from "~/components/inputs/FileInput";
-import { TranslationContext } from "~/services/translations/translationsContext";
 
 vi.mock("@remix-run/react", () => ({
   useLoaderData: vi.fn(() => ({ csrf: "csrf" })),
   useSubmit: vi.fn(),
+}));
+
+const selectFilesButtonLabel = "Select a file";
+vi.mock("~/services/translations/translationsContext", () => ({
+  useTranslations: () => ({
+    fileUpload: {
+      select: selectFilesButtonLabel,
+    },
+  }),
 }));
 
 const inputName = "belege[0]";
@@ -12,18 +20,13 @@ const inputName = "belege[0]";
 describe("FileInput", () => {
   it("should render correctly if javascript is enabled", () => {
     const helperText = "Input a file";
-    const selectFilesButtonLabel = "Select a file";
     const { getByText, getByTestId } = render(
-      <TranslationContext.Provider
-        value={{ fileUpload: { select: selectFilesButtonLabel } }}
-      >
-        <FileInput
-          name={inputName}
-          selectedFile={undefined}
-          jsAvailable={true}
-          helperText={helperText}
-        />
-      </TranslationContext.Provider>,
+      <FileInput
+        name={inputName}
+        selectedFile={undefined}
+        jsAvailable={true}
+        helperText={helperText}
+      />,
     );
     expect(getByText(selectFilesButtonLabel)).toBeInTheDocument();
     const input = getByTestId("fileUploadInput");
@@ -37,13 +40,11 @@ describe("FileInput", () => {
 
   it("should render correctly without javascript", () => {
     const { getByTestId, getByRole } = render(
-      <TranslationContext.Provider value={{}}>
-        <FileInput
-          name={inputName}
-          selectedFile={undefined}
-          jsAvailable={false}
-        />
-      </TranslationContext.Provider>,
+      <FileInput
+        name={inputName}
+        selectedFile={undefined}
+        jsAvailable={false}
+      />,
     );
     const input = getByTestId("fileUploadInput");
     expect(input).toBeInTheDocument();
