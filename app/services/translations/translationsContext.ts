@@ -5,12 +5,14 @@ type TranslationContext = {
   feedback: Translations;
   video: Translations;
   accessibility: Translations;
+  fileUpload: Translations;
 };
 
 export const TranslationContext = createContext<TranslationContext>({
   feedback: {},
   video: {},
   accessibility: {},
+  fileUpload: {},
 });
 
 export function useTranslations() {
