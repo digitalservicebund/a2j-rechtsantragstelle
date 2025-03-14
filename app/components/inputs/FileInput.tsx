@@ -57,7 +57,7 @@ export const FileInput = ({
             name={name}
             onChange={(event) => onFileUpload(name, event.target.files?.[0])}
             type="file"
-            accept=".pdf, .tiff, .tif"
+            accept=".pdf"
             data-testid="fileUploadInput"
             aria-invalid={error !== undefined}
             aria-errormessage={error && errorId}

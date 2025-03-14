@@ -20,6 +20,7 @@ import { buildFlowController } from "~/services/flow/server/buildFlowController"
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
 import {
   deleteUserFile,
+  getUpdatedField,
   uploadUserFile,
 } from "~/services/flow/server/fileUploadHelpers.server";
 import {
@@ -261,18 +262,27 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     typeof formAction === "string" &&
     formAction.startsWith("deleteFile")
   ) {
-    const newUserData = await deleteUserFile(
+    const fileDeleted = await deleteUserFile(
       formAction,
-      request,
+      request.headers.get("Cookie"),
       flowSession.data,
       flowId,
     );
-    updateSession(flowSession, newUserData, (_, newData) => {
-      if (Array.isArray(newData)) {
-        return newData;
-      }
-    });
-    return json(newUserData, {
+    if (fileDeleted) {
+      updateSession(
+        flowSession,
+        getUpdatedField(formAction.split(".")[1], flowSession.data),
+        /**
+         * if the new data is an array, fully overwrite existing data as lodash can't overwrite an existing array with an empty array (if all files are deleted)
+         */
+        (_, newData) => {
+          if (Array.isArray(newData)) {
+            return newData;
+          }
+        },
+      );
+    }
+    return json(flowSession.data, {
       headers: { "Set-Cookie": await commitSession(flowSession) },
     });
   }

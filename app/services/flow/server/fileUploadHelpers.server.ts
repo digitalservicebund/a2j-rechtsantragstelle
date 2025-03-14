@@ -63,28 +63,21 @@ export async function uploadUserFile(
 
 export async function deleteUserFile(
   formAction: string,
-  request: Request,
+  cookieHeader: string | null,
   userData: Context,
   flowId: FlowId,
-): Promise<Context> {
+) {
   const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
+  // Check if a file is saved in Redis; if so, delete it
   const savedFile = (userData[fieldName] as ArrayData | undefined)?.at(
     inputIndex,
   ) as PDFFileMetadata | undefined;
   if (savedFile) {
-    await deleteUserFileFromS3(
-      request.headers.get("Cookie"),
-      flowId,
-      savedFile.savedFileKey!,
-    );
-    return {
-      [fieldName]: (userData[fieldName] as ArrayData).filter(
-        (_, index) => index !== inputIndex,
-      ),
-    };
+    await deleteUserFileFromS3(cookieHeader, flowId, savedFile.savedFileKey!);
+    return true;
   }
-  return userData;
+  return false;
 }
 
 export async function parseFileFromFormData(
@@ -142,6 +135,20 @@ export function buildFileUploadError(
     },
     validationResult.submittedData,
   );
+}
+
+/**
+ * Helper function that deletes an entry in an existing field array
+ * @param inputName name of the array that's being modified
+ * @param userData existing user data in Context
+ */
+export function getUpdatedField(inputName: string, userData: Context): Context {
+  const { fieldName, inputIndex } = splitFieldName(inputName);
+  return {
+    [fieldName]: (userData[fieldName] as ArrayData).filter(
+      (_, index) => index !== inputIndex,
+    ),
+  };
 }
 
 export async function convertAsyncBufferToFile(
