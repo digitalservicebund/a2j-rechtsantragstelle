@@ -11,9 +11,16 @@ import {
   ValidationResult,
 } from "remix-validated-form";
 import { z, ZodTypeAny } from "zod";
+import {
+  convertFileToMetadata,
+  splitFieldName,
+} from "~/components/filesUpload/fileUploadHelpers";
 import { ArrayData, Context, getContext } from "~/domains/contexts";
 import { FlowId } from "~/domains/flowIds";
-import { uploadUserFileToS3 } from "~/services/externalDataStorage/storeUserFileToS3Bucket";
+import {
+  uploadUserFileToS3,
+  deleteUserFileFromS3,
+} from "~/services/externalDataStorage/userFileS3Helpers";
 import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 export async function uploadUserFile(
@@ -26,8 +33,7 @@ export async function uploadUserFile(
   validationResult?: SuccessResult<Context>;
 }> {
   const inputName = formAction.split(".")[1];
-  const [fieldName, input] = inputName.split("[");
-  const inputIndex = input.charAt(0);
+  const { fieldName, inputIndex } = splitFieldName(inputName);
   const file = await parseFileFromFormData(request, inputName);
   const fileMeta = convertFileToMetadata(file);
   const scopedContext = Object.fromEntries(
@@ -44,15 +50,34 @@ export async function uploadUserFile(
       validationError: buildFileUploadError(validationResult, inputName),
     };
   }
-  const result = await uploadUserFileToS3(
+  const savedFileKey = await uploadUserFileToS3(
     request.headers.get("Cookie"),
-    request.url,
+    flowId,
     file,
   );
-  fileMeta.etag = result?.ETag?.replaceAll(/"/g, "");
+  fileMeta.savedFileKey = savedFileKey;
   (validationResult.data[fieldName] as ArrayData)[Number(inputIndex)] =
     fileMeta;
   return { validationResult };
+}
+
+export async function deleteUserFile(
+  formAction: string,
+  cookieHeader: string | null,
+  userData: Context,
+  flowId: FlowId,
+) {
+  const inputName = formAction.split(".")[1];
+  const { fieldName, inputIndex } = splitFieldName(inputName);
+  // Check if a file is saved in Redis; if so, delete it
+  const savedFile = (userData[fieldName] as ArrayData | undefined)?.at(
+    inputIndex,
+  ) as PDFFileMetadata | undefined;
+  if (savedFile) {
+    await deleteUserFileFromS3(cookieHeader, flowId, savedFile.savedFileKey!);
+    return true;
+  }
+  return false;
 }
 
 export async function parseFileFromFormData(
@@ -112,6 +137,20 @@ export function buildFileUploadError(
   );
 }
 
+/**
+ * Helper function that deletes an entry in an existing field array
+ * @param inputName name of the array that's being modified
+ * @param userData existing user data in Context
+ */
+export function getUpdatedField(inputName: string, userData: Context): Context {
+  const { fieldName, inputIndex } = splitFieldName(inputName);
+  return {
+    [fieldName]: (userData[fieldName] as ArrayData).filter(
+      (_, index) => index !== inputIndex,
+    ),
+  };
+}
+
 export async function convertAsyncBufferToFile(
   data: AsyncIterable<Uint8Array<ArrayBufferLike>>,
   filename: string,
@@ -122,15 +161,4 @@ export async function convertAsyncBufferToFile(
     dataArr.push(chunk);
   }
   return new File(dataArr, filename, { type: contentType });
-}
-
-export function convertFileToMetadata(file?: File): PDFFileMetadata {
-  return {
-    filename: file?.name ?? "",
-    fileType: file?.type ?? "",
-    fileSize: file?.size ?? 0,
-    createdOn: file?.lastModified
-      ? new Date(file?.lastModified).toString()
-      : "",
-  };
 }
