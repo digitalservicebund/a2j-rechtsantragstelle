@@ -40,7 +40,7 @@ const SummaryOverviewBox = ({
           />
         )}
 
-        <div>
+        <dl>
           {boxItems.map(({ title: boxItemTitle, inlineItems }, index) => (
             <SummaryOverviewBoxItem
               key={`${boxId}-${boxItemTitle ?? index}`}
@@ -50,7 +50,7 @@ const SummaryOverviewBox = ({
               inlineItems={inlineItems}
             />
           ))}
-        </div>
+        </dl>
 
         <Button
           iconLeft={<EditButton />}
