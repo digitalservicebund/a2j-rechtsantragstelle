@@ -26,7 +26,7 @@ export default function AccordionItem({
           type="button"
           onClick={onToggle}
           aria-expanded={isOpen}
-          className="w-full flex justify-between items-center text-left cursor-pointer text-lg font-medium py-4 px-2 bg-blue-100"
+          className="w-full flex justify-between items-center text-left cursor-pointer text-lg font-medium px-2 bg-blue-100"
         >
           <span className="p-16 ds-label-01-bold">{title}</span>
           <span className="p-16 text-blue-800 flex items-center">
@@ -41,7 +41,9 @@ export default function AccordionItem({
             )}
           </span>
         </button>
-        {isOpen && <RichText className="ds-body-01-reg" html={description} />}
+        {isOpen && (
+          <RichText className="ds-body-01-reg p-16" html={description} />
+        )}
       </div>
     );
   }
@@ -49,7 +51,7 @@ export default function AccordionItem({
   return (
     <div key={id} className="mb-4">
       <details className="group border-2 border-blue-300">
-        <summary className="cursor-pointer text-lg font-medium py-4 px-2 bg-blue-100 flex justify-between items-center">
+        <summary className="cursor-pointer text-lg font-medium px-2 bg-blue-100 flex justify-between items-center">
           <span className="p-4 ds-label-01-bold">{title}</span>
           <span className="p-4 text-blue-800">
             <span className="block group-open:hidden">⌄ Einblenden</span>
