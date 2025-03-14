@@ -63,7 +63,7 @@ export const geldEinklagenFormular = {
                 context.gegenseite.privatperson?.ort &&
                 context.gegenseite.privatperson?.telefonnummer &&
                 context.gegenseite.privatperson?.bevollmaechtigtePerson &&
-                context.gegenseite.privatperson?.vorname) ||
+                context.gegenseite.privatperson?.vorname) ??
                 (context.gegenseite?.typ === "unternehmen" &&
                   context.gegenseite.unternehmen?.name &&
                   context.gegenseite.unternehmen?.inhaber &&

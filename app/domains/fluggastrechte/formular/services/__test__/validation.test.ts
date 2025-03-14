@@ -5,6 +5,7 @@ import {
   validateCancelFlightReplacementPage,
   validateReplacementConnectionPage,
   validateSameFlightPage,
+  validateStopoverDuplicates,
 } from "../validation";
 
 describe("validation", () => {
@@ -509,6 +510,82 @@ describe("validation", () => {
       });
 
       expect(result.success).toBe(true);
+    });
+  });
+
+  describe("validateStopoverDuplicates", () => {
+    const baseSchema = z.object({
+      ersterZwischenstopp: z.string().optional(),
+      zweiterZwischenstopp: z.string().optional(),
+      dritterZwischenstopp: z.string().optional(),
+    });
+
+    const schema = validateStopoverDuplicates(baseSchema);
+
+    it("should pass when only ersterZwischenstopp is filled", () => {
+      const result = schema.safeParse({
+        ersterZwischenstopp: "FRA",
+      });
+      expect(result.success).toBe(true);
+    });
+
+    it("should pass when only zweiterZwischenstopp or dritterZwischenstopp is filled", () => {
+      const firstResult = schema.safeParse({
+        zweiterZwischenstopp: "JFK",
+      });
+      expect(firstResult.success).toBe(true);
+
+      const secondResult = schema.safeParse({
+        dritterZwischenstopp: "LHR",
+      });
+      expect(secondResult.success).toBe(true);
+    });
+
+    it("should pass when all stopovers are filled with different values", () => {
+      const result = schema.safeParse({
+        ersterZwischenstopp: "FRA",
+        zweiterZwischenstopp: "JFK",
+        dritterZwischenstopp: "LHR",
+      });
+      expect(result.success).toBe(true);
+    });
+
+    it("should fail when duplicate stopovers exist", () => {
+      const result = schema.safeParse({
+        ersterZwischenstopp: "JFK",
+        dritterZwischenstopp: "JFK",
+      });
+
+      expect(result.success).toBe(false);
+      expect(result.error?.format()).toMatchObject({
+        ersterZwischenstopp: {
+          _errors: expect.arrayContaining(["stopoverDuplicates"]),
+        },
+        dritterZwischenstopp: {
+          _errors: expect.arrayContaining(["stopoverDuplicates"]),
+        },
+      });
+    });
+
+    it("should fail when all stopovers contain the same value", () => {
+      const result = schema.safeParse({
+        ersterZwischenstopp: "FRA",
+        zweiterZwischenstopp: "FRA",
+        dritterZwischenstopp: "FRA",
+      });
+
+      expect(result.success).toBe(false);
+      expect(result.error?.format()).toMatchObject({
+        ersterZwischenstopp: {
+          _errors: expect.arrayContaining(["stopoverDuplicates"]),
+        },
+        zweiterZwischenstopp: {
+          _errors: expect.arrayContaining(["stopoverDuplicates"]),
+        },
+        dritterZwischenstopp: {
+          _errors: expect.arrayContaining(["stopoverDuplicates"]),
+        },
+      });
     });
   });
 });

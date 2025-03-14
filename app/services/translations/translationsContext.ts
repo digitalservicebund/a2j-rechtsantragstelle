@@ -13,6 +13,6 @@ export const TranslationContext = createContext<TranslationContext>({
   accessibility: {},
 });
 
-export function useTranslations(): TranslationContext {
+export function useTranslations() {
   return useContext(TranslationContext);
 }

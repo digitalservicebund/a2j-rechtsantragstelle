@@ -1,42 +1,25 @@
 import { json } from "@remix-run/node";
 import { createRemixStub } from "@remix-run/testing";
 import { fireEvent, render } from "@testing-library/react";
-import { useMemo } from "react";
-import { TranslationContext } from "~/services/translations/translationsContext";
-import type { RatingBoxTranslationKeys } from "../feedbackTranslations";
 import { RatingBox } from "../RatingBox";
 
 const YES_RATING = "yes";
 const NO_RATING = "no";
 
-describe("RatingBox", () => {
-  const FeedbackContextComponent = (props: { children: React.ReactNode }) => {
-    const feedbackTranslationMemo = useMemo(
-      () => ({
-        feedback: {
-          ["yes-rating"]: YES_RATING,
-          ["no-rating"]: NO_RATING,
-        } satisfies Record<RatingBoxTranslationKeys, string>,
-        video: {},
-        accessibility: {},
-      }),
-      [],
-    );
-    return (
-      <TranslationContext.Provider value={feedbackTranslationMemo}>
-        {props.children}
-      </TranslationContext.Provider>
-    );
-  };
+vi.mock("~/components/userFeedback/feedbackTranslations", () => ({
+  useFeedbackTranslations: () => ({
+    ["yes-rating"]: YES_RATING,
+    ["no-rating"]: NO_RATING,
+  }),
+}));
 
+describe("RatingBox", () => {
   it("should render the component with the given translations", () => {
     const RatingBoxWithRemixStub = createRemixStub([
       {
         path: "",
         Component: () => (
-          <FeedbackContextComponent>
-            <RatingBox heading="heading" url="url" onSubmit={vitest.fn()} />
-          </FeedbackContextComponent>
+          <RatingBox heading="heading" url="url" onSubmit={vitest.fn()} />
         ),
       },
     ]);
@@ -53,9 +36,7 @@ describe("RatingBox", () => {
       {
         path: "",
         Component: () => (
-          <FeedbackContextComponent>
-            <RatingBox heading="heading" url="url" onSubmit={onSubmitMock} />
-          </FeedbackContextComponent>
+          <RatingBox heading="heading" url="url" onSubmit={onSubmitMock} />
         ),
       },
       {
@@ -78,9 +59,7 @@ describe("RatingBox", () => {
       {
         path: "",
         Component: () => (
-          <FeedbackContextComponent>
-            <RatingBox heading="heading" url="url" onSubmit={onSubmitMock} />
-          </FeedbackContextComponent>
+          <RatingBox heading="heading" url="url" onSubmit={onSubmitMock} />
         ),
       },
       {
