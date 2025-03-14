@@ -1,3 +1,5 @@
+import KeyboardArrowDownIcon from "@digitalservicebund/icons/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@digitalservicebund/icons/KeyboardArrowUp";
 import RichText from "~/components/RichText";
 
 export type AccordionItemProps = Readonly<{
@@ -26,9 +28,17 @@ export default function AccordionItem({
           aria-expanded={isOpen}
           className="w-full flex justify-between items-center text-left cursor-pointer text-lg font-medium py-4 px-2 bg-blue-100"
         >
-          <span className="p-4 ds-label-01-bold">{title}</span>
-          <span className="p-4 text-blue-800">
-            {isOpen ? "⌃ Ausblenden" : "⌄ Einblenden"}
+          <span className="p-16 ds-label-01-bold">{title}</span>
+          <span className="p-16 text-blue-800 flex items-center">
+            {isOpen ? (
+              <>
+                <KeyboardArrowUpIcon /> Ausblenden
+              </>
+            ) : (
+              <>
+                <KeyboardArrowDownIcon /> Einblenden
+              </>
+            )}
           </span>
         </button>
         {isOpen && <RichText className="ds-body-01-reg" html={description} />}
