@@ -162,13 +162,12 @@ export const prozesskostenhilfeFormular = {
         states: {
           "weitere-angaben": {
             on: {
-              SUBMIT: "#abgabe",
               BACK: "#persoenliche-daten.beruf",
+              SUBMIT: "#abgabe",
             },
           },
         },
       },
-
       ...((await isFeatureFlagEnabled("showFileUpload")) && {
         "file-upload": {
           on: {
@@ -203,7 +202,7 @@ export const prozesskostenhilfeFormular = {
           },
           ende: {
             on: {
-              BACK: "#persoenliche-daten.beruf",
+              BACK: "#weitere-angaben",
             },
           },
         },
