@@ -518,14 +518,16 @@ describe("validation", () => {
       ersterZwischenstopp: z.string().optional(),
       zweiterZwischenstopp: z.string().optional(),
       dritterZwischenstopp: z.string().optional(),
-      startAirport: z.string().optional(),
-      endAirport: z.string().optional(),
+      startAirport: z.string(),
+      endAirport: z.string(),
     });
 
     const schema = validateStopoverDuplicates(baseSchema);
 
     it("should pass when only ersterZwischenstopp is filled", () => {
       const result = schema.safeParse({
+        startAirport: "BER",
+        endAirport: "JFK",
         ersterZwischenstopp: "FRA",
       });
       expect(result.success).toBe(true);
@@ -533,11 +535,15 @@ describe("validation", () => {
 
     it("should pass when only zweiterZwischenstopp or dritterZwischenstopp is filled", () => {
       const firstResult = schema.safeParse({
-        zweiterZwischenstopp: "JFK",
+        startAirport: "BER",
+        endAirport: "JFK",
+        zweiterZwischenstopp: "MUC",
       });
       expect(firstResult.success).toBe(true);
 
       const secondResult = schema.safeParse({
+        startAirport: "BER",
+        endAirport: "JFK",
         dritterZwischenstopp: "LHR",
       });
       expect(secondResult.success).toBe(true);
@@ -545,8 +551,10 @@ describe("validation", () => {
 
     it("should pass when all stopovers are filled with different values", () => {
       const result = schema.safeParse({
+        startAirport: "BER",
+        endAirport: "JFK",
         ersterZwischenstopp: "FRA",
-        zweiterZwischenstopp: "JFK",
+        zweiterZwischenstopp: "CDG",
         dritterZwischenstopp: "LHR",
       });
       expect(result.success).toBe(true);
@@ -554,6 +562,8 @@ describe("validation", () => {
 
     it("should fail when duplicate stopovers exist", () => {
       const result = schema.safeParse({
+        startAirport: "BER",
+        endAirport: "JFK",
         ersterZwischenstopp: "JFK",
         dritterZwischenstopp: "JFK",
       });
@@ -571,6 +581,8 @@ describe("validation", () => {
 
     it("should fail when all stopovers contain the same value", () => {
       const result = schema.safeParse({
+        startAirport: "BER",
+        endAirport: "JFK",
         ersterZwischenstopp: "FRA",
         zweiterZwischenstopp: "FRA",
         dritterZwischenstopp: "FRA",
@@ -592,9 +604,10 @@ describe("validation", () => {
 
     it("should fail when a stopover is the same as the start airport", () => {
       const result = schema.safeParse({
-        startAirport: "FRA",
-        ersterZwischenstopp: "FRA",
-        zweiterZwischenstopp: "JFK",
+        startAirport: "BER",
+        endAirport: "JFK",
+        ersterZwischenstopp: "BER",
+        zweiterZwischenstopp: "HAM",
       });
 
       expect(result.success).toBe(false);
@@ -607,6 +620,7 @@ describe("validation", () => {
 
     it("should fail when a stopover is the same as the end airport", () => {
       const result = schema.safeParse({
+        startAirport: "BER",
         endAirport: "LHR",
         ersterZwischenstopp: "FRA",
         zweiterZwischenstopp: "LHR",
