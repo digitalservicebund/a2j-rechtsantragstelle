@@ -4,21 +4,23 @@ import {
   DataProtectionBanner,
   DATA_PROTECTION_TRANSLATION_VALUES,
 } from "~/components/video/DataProtectionBanner";
-import { TranslationContext } from "~/services/translations/translationsContext";
+
+const videoTranslations = Object.fromEntries(
+  DATA_PROTECTION_TRANSLATION_VALUES.map((key) => [
+    key,
+    faker.lorem.sentence(),
+  ]),
+);
+vi.mock("~/services/translations/translationsContext", () => ({
+  useTranslations: () => ({
+    video: videoTranslations,
+  }),
+}));
 
 describe("Datenschutz Component", () => {
   it("should fetch content from video context", () => {
-    const videoTranslations = Object.fromEntries(
-      DATA_PROTECTION_TRANSLATION_VALUES.map((key) => [
-        key,
-        faker.lorem.sentence(),
-      ]),
-    );
-
     const { getByText } = render(
-      <TranslationContext.Provider value={{ video: videoTranslations }}>
-        <DataProtectionBanner onCookiesAccepted={vi.fn()} />
-      </TranslationContext.Provider>,
+      <DataProtectionBanner onCookiesAccepted={vi.fn()} />,
     );
 
     DATA_PROTECTION_TRANSLATION_VALUES.forEach((key) => {

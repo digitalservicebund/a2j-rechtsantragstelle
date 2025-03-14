@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const TEN_MB_IN_BYTES = 10 * 1024 * 1024;
+export const TEN_MB_IN_BYTES = 10 * 1024 * 1024;
 export const fileUploadLimit = 5;
 
 export const fileUploadErrorMap = {
@@ -13,7 +13,7 @@ export const fileUploadErrorMap = {
 
 export const pdfFileMetaDataSchema = z.object({
   filename: z.string(),
-  etag: z.string().optional(),
+  savedFileKey: z.string().optional(),
   fileType: z
     .string()
     .regex(/application\/pdf/, fileUploadErrorMap.wrongFileType),
