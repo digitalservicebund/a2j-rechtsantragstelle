@@ -157,7 +157,6 @@ function stepStates(
 
   const statesWithDoneFunctionOrSubstates = Object.values(
     stateNode.states ?? {},
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   ).filter((state) => state.meta?.done || Object.keys(state.states).length > 0);
 
   return statesWithDoneFunctionOrSubstates.map((state) => {

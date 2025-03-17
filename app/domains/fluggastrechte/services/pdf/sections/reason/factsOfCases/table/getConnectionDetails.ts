@@ -111,7 +111,6 @@ const getConnectionDetailsCancel = (
   return {
     info: `${announcementDescription}\n${replacementFlightDescription}`,
     timeTable: [
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       annullierungErsatzverbindungFlugnummer || "--",
       formatAnnullierungDateHour(
         annullierungErsatzverbindungAbflugsDatum,
