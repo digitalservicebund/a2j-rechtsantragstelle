@@ -2,6 +2,7 @@ import { type Page, type Response, expect, test } from "@playwright/test";
 import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
+import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
 import { startFinanzielleAngabenGrundsicherung } from "./finanzielleAngabenGrundsicherung";
@@ -73,6 +74,10 @@ test("invalid array index redirects to initial step of subflow", async ({
 });
 
 async function startAbgabe(page: Page) {
+  // beratungshilfe/antrag/abgabe/dokumente
+  if (await isFeatureFlagEnabled("showFileUpload")) {
+    await beratungshilfeFormular.clickNext();
+  }
   // beratungshilfe/antrag/abgabe/art
   await beratungshilfeFormular.fillRadioPage("abgabeArt", "ausdrucken");
   // beratungshilfe/antrag/abgabe/ausdrucken
