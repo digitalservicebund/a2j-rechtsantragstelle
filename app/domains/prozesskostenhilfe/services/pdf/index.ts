@@ -34,6 +34,7 @@ import { fillWohnkosten } from "./pdfForm/H_wohnkosten";
 import { fillBelastungen } from "./pdfForm/J_belastungen";
 import { fillFooter } from "./pdfForm/K_footer";
 import { printNameInSignatureFormField } from "./printNameInSignatureFormField";
+import { createWeitereAngaben } from "./weitereAngabenAnhang/createWeitereAngaben";
 export { getProzesskostenhilfeParameters };
 
 export type PkhPdfFillFunction = PdfFillFunction<
@@ -66,6 +67,11 @@ const buildProzesskostenhilfePDFDocument: PDFDocumentBuilder<
   if (requiresBelege(userData)) {
     buildBelegeList({ doc, documentStruct, userData, translations });
   }
+
+  if (userData.weitereAngaben) {
+    createWeitereAngaben(doc, documentStruct, userData);
+  }
+
   createFooter(doc, documentStruct, "Anhang");
 };
 
