@@ -141,7 +141,7 @@
     "storybook": "^8.6.6",
     "tailwindcss": "^3.4.17",
     "tsx": "~4.19.3",
-    "typescript": "^5.7.3",
+    "typescript": "^5.8.2",
     "typescript-eslint": "^8.26.1",
     "vite": "^6.2.2",
     "vite-env-only": "^3.0.3",
@@ -149,6 +149,9 @@
     "vitest": "^3.0.9"
   },
   "overrides": {
+    "eslint-plugin-storybook": {
+      "typescript": "$typescript"
+    },
     "@remix-run/server-runtime": {
       "cookie": "^0.7.2"
     },
