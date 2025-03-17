@@ -39,7 +39,7 @@ import {
   belegeStrings,
   getMissingInformationStrings,
 } from "./stringReplacements";
-import { ProzesskostenhilfeWeitereAngabenContext } from "./weitereAngaben/context";
+import type { ProzesskostenhilfeWeitereAngabenContext } from "./weitereAngaben/context";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
 
 export const prozesskostenhilfeFormular = {
@@ -165,14 +165,6 @@ export const prozesskostenhilfeFormular = {
           },
         },
       },
-      ...((await isFeatureFlagEnabled("showFileUpload")) && {
-        "file-upload": {
-          on: {
-            BACK: "persoenliche-daten",
-            SUBMIT: "abgabe",
-          },
-        },
-      }),
       abgabe: {
         id: "abgabe",
         initial: "ueberpruefung",
@@ -229,5 +221,4 @@ export type ProzesskostenhilfeFormularContext =
     ProzesskostenhilfeFinanzielleAngabenContext &
     ProzesskostenhilfeGesetzlicheVertretung &
     ProzesskostenhilfePersoenlicheDaten &
-    BelegeContext &
     ProzesskostenhilfeWeitereAngabenContext;

@@ -13,6 +13,5 @@ export const prozesskostenhilfeFormularContext = {
   ...prozesskostenhilfeFinanzielleAngabenContext,
   ...prozesskostenhilfeGesetzlicheVertretungContext,
   ...prozesskostenhilfePersoenlicheDatenContext,
-  ...belegeContext,
   ...prozesskostenhilfeWeitereAngabenContext,
 } as const;
