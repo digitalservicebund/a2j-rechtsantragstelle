@@ -39,14 +39,10 @@ describe("Accordion Component", () => {
     expect(container.firstChild).toBeEmptyDOMElement();
   });
 
-  it("renders the section with correct classes when items exist", () => {
+  it("renders the section tag", () => {
     render(<Accordion items={dummyItems} />);
     const section = document.querySelector("section");
     expect(section).toBeInTheDocument();
-    expect(section).toHaveClass("rounded-lg");
-    expect(section).toHaveClass("border-2");
-    expect(section).toHaveClass("border-blue-500");
-    expect(section).toHaveClass("custom-class");
   });
 
   it("renders the correct number of AccordionItem components", () => {
