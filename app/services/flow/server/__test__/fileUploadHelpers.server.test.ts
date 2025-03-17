@@ -2,7 +2,6 @@ import { z } from "zod";
 import {
   buildFileUploadError,
   convertAsyncBufferToFile,
-  convertFileToMetadata,
   validateUploadedFile,
 } from "~/services/flow/server/fileUploadHelpers.server";
 import {
@@ -119,29 +118,6 @@ describe("File Upload helpers", () => {
       expect(result.size).toBe(0);
       expect(result.name).toBe("test");
       expect(result.type).toBe("application/pdf");
-    });
-  });
-
-  describe("convertFileToMetadata", () => {
-    it("should set default values when a file is not provided", () => {
-      const result = convertFileToMetadata();
-      expect(result).toEqual({
-        filename: "",
-        fileType: "",
-        fileSize: 0,
-        createdOn: "",
-      });
-    });
-
-    it("should successfully convert a file to metadata", () => {
-      const mockFile = new File([], "filename", { type: "application/pdf" });
-      const result = convertFileToMetadata(mockFile);
-      expect(result).toEqual({
-        filename: "filename",
-        fileType: "application/pdf",
-        fileSize: 0,
-        createdOn: new Date(mockFile.lastModified).toString(),
-      });
     });
   });
 });

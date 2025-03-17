@@ -17,7 +17,7 @@ const Radio = ({ name, value, onClick, text, formId }: RadioProps) => {
     <div className="flex">
       <input
         {...getInputProps({ type: "radio", id, value })}
-        className="ds-radio forced-color-adjust-none"
+        className="ds-radio forced-colors:appearance-auto forced-colors:focus-visible:outline-none"
         aria-describedby={error && `${name}-error`}
         onClick={onClick}
       />
