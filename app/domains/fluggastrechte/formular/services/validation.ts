@@ -292,6 +292,17 @@ export function validateStopoverDuplicates(
           other.value === current.value,
       );
 
+      if (
+        userData.startAirport === current.value ||
+        userData.endAirport === current.value
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "initialFlightDuplicates",
+          path: [current.fieldName],
+        });
+      }
+
       for (const duplicate of duplicates) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,

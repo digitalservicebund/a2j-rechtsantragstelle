@@ -19,14 +19,12 @@ import { grundvoraussetzungenXstateConfig } from "~/domains/prozesskostenhilfe/f
 import { prozesskostenhilfePersoenlicheDatenDone } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/doneFunctions";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/xstateConfig";
-import { BelegeContext } from "~/domains/shared/formular/abgabe/context";
 import {
   getKinderStrings,
   getArrayIndexStrings,
   eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
 } from "~/domains/shared/formular/stringReplacements";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import { prozesskostenhilfeFinanzielleAngabeDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
@@ -153,14 +151,6 @@ export const prozesskostenhilfeFormular = {
         ],
         nextFlowEntrypoint: "#abgabe",
       }),
-      ...((await isFeatureFlagEnabled("showFileUpload")) && {
-        "file-upload": {
-          on: {
-            BACK: "persoenliche-daten",
-            SUBMIT: "abgabe",
-          },
-        },
-      }),
       abgabe: {
         id: "abgabe",
         initial: "ueberpruefung",
@@ -216,5 +206,4 @@ export type ProzesskostenhilfeFormularContext =
     ProzesskostenhilfeRechtsschutzversicherungContext &
     ProzesskostenhilfeFinanzielleAngabenContext &
     ProzesskostenhilfeGesetzlicheVertretung &
-    ProzesskostenhilfePersoenlicheDaten &
-    BelegeContext;
+    ProzesskostenhilfePersoenlicheDaten;
