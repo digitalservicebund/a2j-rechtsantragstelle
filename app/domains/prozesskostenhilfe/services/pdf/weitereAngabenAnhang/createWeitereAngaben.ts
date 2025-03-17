@@ -11,6 +11,7 @@ export const createWeitereAngaben = (
   createHeading(doc, documentStruct, "Weitere Angaben (Freitext)", "H2");
   documentStruct.add(
     doc.struct("P", {}, () => {
+      doc.moveUp(1);
       doc
         .fontSize(pdfStyles.page.fontSize)
         .font(pdfStyles.page.font)
