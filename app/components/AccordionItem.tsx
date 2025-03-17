@@ -55,10 +55,10 @@ export default function AccordionItem({
       <summary className="cursor-pointer text-lg font-medium px-2 bg-blue-100 flex justify-between items-center">
         <span className="p-16 ds-label-01-bold">{title}</span>
         <span className="p-16 text-blue-800 flex items-center">
-          <span className="block group-open:hidden">
+          <span className="flex group-open:hidden">
             <KeyboardArrowDownIcon /> {accordion.accordionItemShow}
           </span>
-          <span className="hidden group-open:block">
+          <span className="hidden group-open:flex">
             <KeyboardArrowUpIcon /> {accordion.accordionItemHide}
           </span>
         </span>
