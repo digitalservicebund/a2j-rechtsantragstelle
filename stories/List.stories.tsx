@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import List from "../app/components/List";
 import Background from "../app/components/Background";
 import Container from "../app/components/Container";
+import { faker } from "@faker-js/faker";
 
 const meta = {
   title: "Page/List",
@@ -35,16 +36,13 @@ export const Example: Story = {
     },
     items: [
       {
-        identifier: "default-list-item-id-1",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        headline: {
+          text: "This is an item headline",
+          look: "ds-heading-03-reg",
+        },
+        content: faker.lorem.paragraph(),
       },
-      {
-        identifier: "default-list-item-id-2",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      },
+      { content: faker.lorem.paragraph() },
     ],
-    isNumeric: true,
   },
 };
