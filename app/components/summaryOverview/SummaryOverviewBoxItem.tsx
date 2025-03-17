@@ -16,21 +16,13 @@ type Props = SummaryOverviewBoxItemType & {
   readonly translations: Translations;
 };
 
-const buildItemValue = (
-  userData: Context,
-  translations: Translations,
-  inlineItems: Array<{ field: string; emptyValuePlaceholder?: string }>,
-) => {
-  return getItemValueBox(translations, userData, inlineItems);
-};
-
 const SummaryOverviewBoxItem = ({
   userData,
   translations,
   title,
   inlineItems,
 }: Props) => {
-  const itemValue = buildItemValue(userData, translations, inlineItems);
+  const itemValue = getItemValueBox(translations, userData, inlineItems);
 
   if (isFieldEmptyOrUndefined(itemValue.trim())) {
     return null;
@@ -39,14 +31,14 @@ const SummaryOverviewBoxItem = ({
   return (
     <>
       {title && (
-        <div
+        <dt
           data-testid="summary-box-item-title"
           className="ds-label-01-bold mt-16"
         >
           {title}
-        </div>
+        </dt>
       )}
-      <div data-testid="summary-box-item-value">{itemValue}</div>
+      <dd data-testid="summary-box-item-value">{itemValue}</dd>
     </>
   );
 };
