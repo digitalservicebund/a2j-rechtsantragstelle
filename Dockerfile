@@ -2,7 +2,7 @@
 ARG CONTENT_IMAGE=content
 ARG APP_IMAGE=app
 
-FROM node:20-alpine AS app-base
+FROM node:22-alpine AS app-base
 
 WORKDIR /a2j
 
@@ -24,7 +24,7 @@ COPY ./content.json /
 # === PROD IMAGE
 FROM ${CONTENT_IMAGE} AS contentStageForCopy
 FROM ${APP_IMAGE} AS appStageForCopy
-FROM node:20-alpine AS prod
+FROM node:22-alpine AS prod
 RUN apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
 
 USER node
