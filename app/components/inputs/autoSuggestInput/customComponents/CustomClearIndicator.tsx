@@ -27,7 +27,7 @@ const CustomClearIndicator = (
       }}
       tabIndex={0}
     >
-      <CloseIcon className="text-blue-800" />
+      <CloseIcon className="text-blue-800 forced-colors:text-[ButtonText]" />
     </button>
   );
 };
