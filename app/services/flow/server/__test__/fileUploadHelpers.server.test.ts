@@ -1,11 +1,15 @@
-import { belegeContext } from "~/domains/shared/formular/abgabe/context";
+import { z } from "zod";
 import {
   buildFileUploadError,
   convertAsyncBufferToFile,
-  convertFileToMetadata,
   validateUploadedFile,
 } from "~/services/flow/server/fileUploadHelpers.server";
-import { fileUploadErrorMap, PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import {
+  fileUploadErrorMap,
+  fileUploadLimit,
+  PDFFileMetadata,
+  pdfFileMetaDataSchema,
+} from "~/util/file/pdfFileSchema";
 
 describe("File Upload helpers", () => {
   describe("validateUploadedFile", () => {
@@ -22,7 +26,11 @@ describe("File Upload helpers", () => {
         {
           belege1: [],
         },
-        { ...belegeContext },
+        {
+          belege1: z
+            .array(pdfFileMetaDataSchema)
+            .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
+        },
       );
       expect(validationResult.error).toBeUndefined();
       expect(validationResult.submittedData).toEqual({
@@ -45,10 +53,12 @@ describe("File Upload helpers", () => {
       const validationResult = await validateUploadedFile(
         "belege[0]",
         mockFileMetadata,
+        {},
         {
-          belege1: [],
+          belege: z
+            .array(pdfFileMetaDataSchema)
+            .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
         },
-        { ...belegeContext },
       );
       expect(validationResult.error).toBeDefined();
       expect(validationResult.error?.fieldErrors).toEqual({
@@ -108,29 +118,6 @@ describe("File Upload helpers", () => {
       expect(result.size).toBe(0);
       expect(result.name).toBe("test");
       expect(result.type).toBe("application/pdf");
-    });
-  });
-
-  describe("convertFileToMetadata", () => {
-    it("should set default values when a file is not provided", () => {
-      const result = convertFileToMetadata();
-      expect(result).toEqual({
-        filename: "",
-        fileType: "",
-        fileSize: 0,
-        createdOn: "",
-      });
-    });
-
-    it("should successfully convert a file to metadata", () => {
-      const mockFile = new File([], "filename", { type: "application/pdf" });
-      const result = convertFileToMetadata(mockFile);
-      expect(result).toEqual({
-        filename: "filename",
-        fileType: "application/pdf",
-        fileSize: 0,
-        createdOn: new Date(mockFile.lastModified).toString(),
-      });
     });
   });
 });

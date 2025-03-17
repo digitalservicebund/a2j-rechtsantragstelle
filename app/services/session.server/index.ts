@@ -1,7 +1,8 @@
 import crypto from "crypto";
 import type { Cookie, Session } from "@remix-run/node";
 import { createSessionStorage, createCookie } from "@remix-run/node";
-import merge from "lodash/merge";
+import { MergeWithCustomizer } from "lodash";
+import mergeWith from "lodash/mergeWith";
 import { type Context } from "~/domains/contexts";
 import { flowIds, type FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
@@ -69,8 +70,12 @@ export const getSessionData = async (
   return { userData, debugId: contextSession.getDebugId(id) };
 };
 
-export const updateSession = (session: Session, validatedData: Context) => {
-  const mergedData = merge(session.data, validatedData);
+export const updateSession = (
+  session: Session,
+  validatedData: Context,
+  mergeCustomizer?: MergeWithCustomizer,
+) => {
+  const mergedData = mergeWith(session.data, validatedData, mergeCustomizer);
   Object.entries(mergedData).forEach(([key, value]) => {
     session.set(key, value);
   });

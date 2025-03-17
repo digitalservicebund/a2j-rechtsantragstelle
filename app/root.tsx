@@ -107,6 +107,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       "pageHeader",
       "video",
       "accessibility",
+      "fileUpload",
     ]),
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
@@ -142,6 +143,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       feedbackTranslations: translations.feedback,
       videoTranslations: translations.video,
       accessibilityTranslations: translations.accessibility,
+      fileUploadTranslations: translations.fileUpload,
       feedback: getFeedbackData(mainSession, pathname),
       postSubmissionText: parseAndSanitizeMarkdown(
         translations.feedback["text-post-submission"],
@@ -162,6 +164,7 @@ function App() {
     feedbackTranslations,
     videoTranslations,
     accessibilityTranslations,
+    fileUploadTranslations,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
@@ -187,8 +190,14 @@ function App() {
       video: videoTranslations,
       feedback: feedbackTranslations,
       accessibility: accessibilityTranslations,
+      fileUpload: fileUploadTranslations,
     }),
-    [videoTranslations, feedbackTranslations, accessibilityTranslations],
+    [
+      videoTranslations,
+      feedbackTranslations,
+      accessibilityTranslations,
+      fileUploadTranslations,
+    ],
   );
 
   return (
