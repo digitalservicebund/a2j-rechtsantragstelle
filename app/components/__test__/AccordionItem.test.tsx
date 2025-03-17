@@ -1,6 +1,21 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { vi } from "vitest";
+import { vi as vitestVi } from "vitest"; //import vi as vitestVi
 import AccordionItem, { AccordionItemProps } from "~/components/AccordionItem";
+import { useTranslations } from "~/services/translations/translationsContext";
+
+vi.mock("~/services/translations/translationsContext", () => ({
+  useTranslations: vitestVi.fn(),
+}));
+
+vi.mock("@digitalservicebund/icons/KeyboardArrowDown", () => ({
+  __esModule: true,
+  default: () => <div data-testid="keyboard-arrow-down-icon" />,
+}));
+
+vi.mock("@digitalservicebund/icons/KeyboardArrowUp", () => ({
+  __esModule: true,
+  default: () => <div data-testid="keyboard-arrow-up-icon" />,
+}));
 
 describe("AccordionItem Component", () => {
   const defaultProps: AccordionItemProps = {
@@ -11,6 +26,21 @@ describe("AccordionItem Component", () => {
     onToggle: vi.fn(),
     jsEnabled: true,
   };
+
+  const mockTranslations = {
+    feedback: {},
+    video: {},
+    accessibility: {},
+    fileUpload: {},
+    accordion: {
+      accordionItemShow: "Einblenden",
+      accordionItemHide: "Ausblenden",
+    },
+  };
+
+  beforeEach(() => {
+    vi.mocked(useTranslations).mockReturnValue(mockTranslations);
+  });
 
   afterEach(() => {
     vi.clearAllMocks();
