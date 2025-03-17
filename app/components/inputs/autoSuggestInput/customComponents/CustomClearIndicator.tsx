@@ -21,7 +21,7 @@ const CustomClearIndicator = (
       )}
       ref={buttonExclusionRef}
       data-testid="clear-input-button"
-      className="outline-none focus-visible:outline-blue-800 focus-visible:outline-4 outline-offset-4 hover:outline-[1px] hover:outline-gray-900"
+      className="outline-none focus-visible:outline-blue-800 focus-visible:outline-4 outline-offset-4 hover:outline-[2px] hover:outline-gray-900"
       onClick={() => {
         props.clearValue();
       }}
