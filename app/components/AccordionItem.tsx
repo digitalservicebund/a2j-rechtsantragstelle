@@ -23,12 +23,12 @@ export default function AccordionItem({
   const { accordion } = useTranslations();
   if (jsEnabled) {
     return (
-      <div className="border-2 border-blue-300">
+      <div className="border-2 rounded border-blue-500">
         <button
           type="button"
           onClick={onToggle}
           aria-expanded={isOpen}
-          className="w-full flex justify-between items-center text-left cursor-pointer text-lg font-medium px-16 gap-x-8 bg-blue-100"
+          className="w-full flex justify-between text-left cursor-pointer text-lg gap-x-8 bg-blue-100"
         >
           <span className="p-16 ds-label-01-bold">{title}</span>
           <span className="p-16 text-blue-800 flex items-center">
@@ -45,7 +45,7 @@ export default function AccordionItem({
         </button>
         {isOpen && (
           <RichText
-            className="ds-body-01-reg px-16 pt-16 pb-24 gap-y-32"
+            className="ds-body-02-reg px-16 pt-16 pb-24 gap-y-32"
             html={description}
           />
         )}
@@ -54,8 +54,8 @@ export default function AccordionItem({
   }
 
   return (
-    <details key={id} className="group border-2 border-blue-300">
-      <summary className="cursor-pointer text-lg font-medium px-2 bg-blue-100 flex justify-between items-center">
+    <details key={id} className="group border-2 rounded border-blue-500">
+      <summary className="w-full flex justify-between items-center text-left cursor-pointer text-lg font-medium px-16 gap-x-8 bg-blue-100">
         <span className="p-16 ds-label-01-bold">{title}</span>
         <span className="p-16 text-blue-800 flex items-center">
           <span className="flex group-open:hidden">
@@ -66,7 +66,10 @@ export default function AccordionItem({
           </span>
         </span>
       </summary>
-      <RichText className="ds-body-01-reg p-16" html={description} />
+      <RichText
+        className="ds-body-02-reg px-16 pt-16 pb-24 gap-y-32"
+        html={description}
+      />
     </details>
   );
 }
