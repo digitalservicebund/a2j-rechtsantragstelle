@@ -111,7 +111,7 @@
     "@types/follow-redirects": "^1.14.4",
     "@types/lodash": "^4.17.16",
     "@types/mustache": "^4.2.5",
-    "@types/node": "^20.17.24",
+    "@types/node": "^22.13.10",
     "@types/pdfkit": "^0.13.9",
     "@types/react": "^18.3.13",
     "@types/react-dom": "^18.3.1",
@@ -160,7 +160,7 @@
     }
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "prettier": {
     "trailingComma": "all"
