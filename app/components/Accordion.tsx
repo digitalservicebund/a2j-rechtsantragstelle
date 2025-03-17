@@ -3,10 +3,9 @@ import AccordionItem, { AccordionItemProps } from "~/components/AccordionItem";
 
 export type AccordionProps = Readonly<{
   items: AccordionItemProps[];
-  className?: string;
 }>;
 
-export default function Accordion({ items, className }: AccordionProps) {
+export default function Accordion({ items }: AccordionProps) {
   const [jsEnabled, setJsEnabled] = useState<boolean>(false);
   const [openIndex, setOpenIndex] = useState<number>(-1);
 
@@ -15,9 +14,7 @@ export default function Accordion({ items, className }: AccordionProps) {
   }, []);
 
   return (
-    <section
-      className={`rounded-lg border-2 border-blue-500 ${className ?? ""}`}
-    >
+    <section>
       {items.map((item, index) => (
         <AccordionItem
           key={item.id ?? index}

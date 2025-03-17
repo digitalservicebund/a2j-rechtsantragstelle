@@ -40,7 +40,7 @@ describe("Accordion Component", () => {
   });
 
   it("renders the section with correct classes when items exist", () => {
-    render(<Accordion items={dummyItems} className="custom-class" />);
+    render(<Accordion items={dummyItems} />);
     const section = document.querySelector("section");
     expect(section).toBeInTheDocument();
     expect(section).toHaveClass("rounded-lg");
