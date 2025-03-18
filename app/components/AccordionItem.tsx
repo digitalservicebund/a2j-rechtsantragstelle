@@ -18,52 +18,49 @@ export default function AccordionItem({
   isOpen,
   onToggle,
   jsEnabled,
-  id,
 }: AccordionItemProps) {
   const { accordion } = useTranslations();
-  if (jsEnabled) {
-    return (
-      <div className="border-2 rounded border-blue-500">
-        <button
-          type="button"
-          onClick={onToggle}
-          aria-expanded={isOpen}
-          className="w-full flex justify-between text-left cursor-pointer text-lg gap-x-8 bg-blue-100"
-        >
-          <span className="p-16 ds-label-01-bold">{title}</span>
-          <span className="p-16 text-blue-800 flex items-center">
-            {isOpen ? (
-              <>
-                <KeyboardArrowUpIcon /> {accordion.accordionItemHide}
-              </>
-            ) : (
-              <>
-                <KeyboardArrowDownIcon /> {accordion.accordionItemShow}
-              </>
-            )}
-          </span>
-        </button>
-        {isOpen && (
-          <RichText
-            className="ds-body-02-reg px-16 pt-16 pb-24 gap-y-32"
-            html={description}
-          />
-        )}
-      </div>
-    );
-  }
+
+  // When JS is enabled, intercept clicks on the summary to prevent
+  // the default native toggle behavior and instead call the parent's handler.
+  const handleSummaryClick = (event: React.MouseEvent) => {
+    if (jsEnabled) {
+      event.preventDefault();
+      onToggle?.();
+    }
+  };
 
   return (
-    <details key={id} className="group border-2 rounded border-blue-500">
-      <summary className="w-full flex justify-between items-center text-left cursor-pointer text-lg font-medium px-16 gap-x-8 bg-blue-100">
+    <details
+      className="group border-2 rounded border-blue-500"
+      // When JS is enabled, control the open state via the parent's state.
+      {...(jsEnabled ? { open: isOpen } : {})}
+    >
+      <summary
+        onClick={handleSummaryClick}
+        className="w-full flex justify-between items-center text-left cursor-pointer text-lg font-medium px-16 gap-x-8 bg-blue-100"
+      >
         <span className="p-16 ds-label-01-bold">{title}</span>
         <span className="p-16 text-blue-800 flex items-center">
-          <span className="flex group-open:hidden">
-            <KeyboardArrowDownIcon /> {accordion.accordionItemShow}
-          </span>
-          <span className="hidden group-open:flex">
-            <KeyboardArrowUpIcon /> {accordion.accordionItemHide}
-          </span>
+          {jsEnabled ? (
+            <>
+              <span className={isOpen ? "flex" : "hidden"}>
+                <KeyboardArrowUpIcon /> {accordion.accordionItemHide}
+              </span>
+              <span className={!isOpen ? "flex" : "hidden"}>
+                <KeyboardArrowDownIcon /> {accordion.accordionItemShow}
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="flex group-open:hidden">
+                <KeyboardArrowDownIcon /> {accordion.accordionItemShow}
+              </span>
+              <span className="hidden group-open:flex">
+                <KeyboardArrowUpIcon /> {accordion.accordionItemHide}
+              </span>
+            </>
+          )}
         </span>
       </summary>
       <RichText
