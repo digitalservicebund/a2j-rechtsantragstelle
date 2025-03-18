@@ -35,7 +35,7 @@ const FormComponent = ({
       return <DateInput {...getDateInputProps(component)} />;
     case "form-elements.time-input":
       return <TimeInput {...getTimeInputProps(component)} />;
-    case "form-elements.file-input":
+    case "form-elements.files-upload":
       return <FilesUpload {...getFilesUploadProps(component)} />;
     case "form-elements.textarea":
       return <Textarea {...getTextareaProps(component)} />;
