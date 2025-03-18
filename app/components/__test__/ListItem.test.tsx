@@ -49,7 +49,7 @@ describe("ListItem", () => {
       <ListItem
         variant="numbered"
         accordion={{
-          items: [{ title: "title", description: "content", id: 1 }],
+          items: [{ title: "title", description: "content" }],
         }}
       />,
     );

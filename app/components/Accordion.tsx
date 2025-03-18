@@ -1,31 +1,30 @@
-import { useState, useEffect } from "react";
-import AccordionItem, {
-  type AccordionItemProps,
-} from "~/components/AccordionItem";
+import { useRef } from "react";
+import AccordionItem, { type AccordionItemProps } from "./AccordionItem";
 
 export type AccordionProps = Readonly<{
   items: AccordionItemProps[];
 }>;
 
 export default function Accordion({ items }: AccordionProps) {
-  const [jsEnabled, setJsEnabled] = useState<boolean>(false);
-  const [openIndex, setOpenIndex] = useState<number>(-1);
-
-  useEffect(() => {
-    setJsEnabled(true);
-  }, []);
+  const itemsRef = useRef<HTMLDetailsElement[]>([]);
 
   return (
     <section className="border-2 rounded-lg border-blue-500">
       {items.map((item, index) => (
         <AccordionItem
-          key={item.id ?? index}
-          id={item.id}
+          key={item.title}
           title={item.title}
           description={item.description}
-          isOpen={openIndex === index}
-          onToggle={() => setOpenIndex((prev) => (prev === index ? -1 : index))}
-          jsEnabled={jsEnabled}
+          ref={(el) => {
+            if (el) itemsRef.current[index] = el;
+          }}
+          onSummaryClick={(event) =>
+            itemsRef.current
+              .filter((item) => item !== event.currentTarget.parentElement)
+              .forEach((item) => {
+                item.open = false;
+              })
+          }
         />
       ))}
     </section>
