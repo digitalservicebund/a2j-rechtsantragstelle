@@ -287,7 +287,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     });
   }
 
-  const relevantFormData = filterFormData(clonedFormData);
+  const relevantFormData = filterFormData(clonedFormData, flowSession.data);
   const validationResult = await validateFormData(pathname, relevantFormData);
 
   if (validationResult?.error) {

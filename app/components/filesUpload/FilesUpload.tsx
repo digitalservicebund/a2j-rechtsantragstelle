@@ -53,8 +53,9 @@ const FilesUpload = ({
   });
 
   const showAddMoreButton =
-    (items.length < fileUploadLimit || items.length === 0) &&
-    Object.entries(scopedErrors).length === 0;
+    items.length === 0 ||
+    (items.length < fileUploadLimit &&
+      Object.entries(scopedErrors).length === 0);
 
   return (
     title !== "" && (

@@ -4,9 +4,7 @@ import { FlowId } from "~/domains/flowIds";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { filterFormData } from "~/util/filterFormData";
 
-export function arrayIndexFromFormData(
-  relevantFormData: Record<string, FormDataEntryValue>,
-) {
+export function arrayIndexFromFormData(relevantFormData: Context) {
   const [arrayName, indexString] = Object.entries(relevantFormData)[0];
   const index = parseInt(indexString as string);
 
