@@ -1,11 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import AccordionItem from "~/components/AccordionItem";
 
-vi.mock("@digitalservicebund/icons/KeyboardArrowDown", () => ({
-  __esModule: true,
-  default: () => <div data-testid="keyboard-arrow-down-icon" />,
-}));
-
 const defaultProps = {
   title: "Test Title",
   description: "Test Description",
@@ -25,7 +20,7 @@ describe("AccordionItem Component", () => {
     expect(summary).toHaveTextContent("Test Title");
     expect(summary).toHaveTextContent("Einblenden");
     expect(summary).toHaveTextContent("Einblenden");
-    // expect(screen.getByTestId("keyboard-arrow-down-icon")).toBeInTheDocument();
+    expect(screen.getByTestId("KeyboardArrowDownIcon")).toBeInTheDocument();
   });
 
   it("calls onSummary when summary is clicked", () => {
