@@ -32,8 +32,8 @@ const ListItem = ({
   accordion,
 }: ListItemProps) => {
   return (
-    <div>
-      <div id={identifier} className="flex flex-row gap-16">
+    <div id={identifier}>
+      <div className="flex flex-row gap-16">
         <div className="text-center basis-[40px] shrink-0">
           <ListIcon index={index} />
         </div>
