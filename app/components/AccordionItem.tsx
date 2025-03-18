@@ -3,13 +3,17 @@ import KeyboardArrowUpIcon from "@digitalservicebund/icons/KeyboardArrowUp";
 import RichText from "~/components/RichText";
 import { useTranslations } from "~/services/translations/translationsContext";
 
+export type props = AccordionItemProps &
+  Readonly<{
+    isOpen: boolean;
+    onToggle: () => void;
+    jsEnabled: boolean;
+  }>;
+
 export type AccordionItemProps = Readonly<{
   title: string;
   description: string;
   id: number;
-  isOpen?: boolean;
-  onToggle?: () => void;
-  jsEnabled?: boolean;
 }>;
 
 export default function AccordionItem({
@@ -18,7 +22,7 @@ export default function AccordionItem({
   isOpen,
   onToggle,
   jsEnabled,
-}: AccordionItemProps) {
+}: props) {
   const { accordion } = useTranslations();
 
   // When JS is enabled, intercept clicks on the summary to prevent
@@ -32,7 +36,7 @@ export default function AccordionItem({
 
   return (
     <details
-      className="group border-2 rounded border-blue-500"
+      className="group border border-blue-500"
       // When JS is enabled, control the open state via the parent's state.
       {...(jsEnabled ? { open: isOpen } : {})}
     >

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { vi as vitestVi } from "vitest";
-import AccordionItem, { AccordionItemProps } from "~/components/AccordionItem";
+import AccordionItem, { props } from "~/components/AccordionItem";
 import { useTranslations } from "~/services/translations/translationsContext";
 
 vi.mock("~/services/translations/translationsContext", () => ({
@@ -18,7 +18,7 @@ vi.mock("@digitalservicebund/icons/KeyboardArrowUp", () => ({
 }));
 
 describe("AccordionItem Component", () => {
-  const defaultProps: AccordionItemProps = {
+  const defaultProps: props = {
     title: "Test Title",
     description: "Test Description",
     id: 1,
@@ -46,7 +46,7 @@ describe("AccordionItem Component", () => {
     vitestVi.clearAllMocks();
   });
 
-  const fallbackProps: AccordionItemProps = {
+  const fallbackProps: props = {
     ...defaultProps,
     jsEnabled: false,
   };

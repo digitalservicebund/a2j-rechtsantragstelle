@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { vi } from "vitest";
-import type { AccordionItemProps } from "~/components/AccordionItem";
+import type { props as AccordionProps } from "~/components/AccordionItem";
 import Accordion from "../Accordion";
 
 const dummyItems = [
@@ -17,7 +17,7 @@ vi.mock("~/components/AccordionItem", () => ({
     isOpen,
     onToggle,
     jsEnabled,
-  }: AccordionItemProps) => (
+  }: AccordionProps) => (
     <div data-testid="accordion-item">
       <div data-testid="accordion-title">{title}</div>
       <div data-testid="accordion-description">{isOpen ? description : ""}</div>
