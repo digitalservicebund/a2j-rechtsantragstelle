@@ -3,7 +3,7 @@ import { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/
 import { createHeading } from "~/services/pdf/createHeading";
 import { pdfStyles } from "~/services/pdf/pdfStyles";
 
-export const createWeitereAngaben = (
+export const createWeitereAngabenAnhang = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: ProzesskostenhilfeFormularContext,
