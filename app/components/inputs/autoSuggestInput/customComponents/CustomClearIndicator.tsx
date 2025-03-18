@@ -1,5 +1,6 @@
+import CloseIcon from "@digitalservicebund/icons/Close";
 import type { RefObject } from "react";
-import { components, type ClearIndicatorProps } from "react-select";
+import type { ClearIndicatorProps } from "react-select";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import { useTranslations } from "~/services/translations/translationsContext";
@@ -20,16 +21,13 @@ const CustomClearIndicator = (
       )}
       ref={buttonExclusionRef}
       data-testid="clear-input-button"
-      className="outline-none focus-visible:ring-blue-800 focus-visible:ring-4"
+      className="outline-none focus-visible:outline-blue-800 focus-visible:outline-4 outline-offset-4 hover:outline-[2px] hover:outline-gray-900"
       onClick={() => {
         props.clearValue();
       }}
       tabIndex={0}
     >
-      <components.ClearIndicator
-        className="text-blue-800 hover:text-blue-300"
-        {...props}
-      />
+      <CloseIcon className="text-blue-800 forced-colors:text-[ButtonText]" />
     </button>
   );
 };
