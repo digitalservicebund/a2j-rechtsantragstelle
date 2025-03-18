@@ -5,7 +5,8 @@
 - 2025-01-14: Drafted
 - 2025-01-16: Accepted
 - 2025-01-22: Edited (Renumbered from `0017`)
-- 2025-04-04: Edited (Added chronological status)
+- 2025-03-04: Edited (Added chronological status)
+- 2025-03-18: Rephrasing and adding argument to disadvantages
 
 ## Context
 
@@ -47,8 +48,8 @@ For the initial generation we could even still use a library for the one-time ge
     - More complexity in testing
     - We will have to maintain at least two different XJustiz versions at the same time for interoperability.
   - If the XJustiz version changes:
-    - it may be difficult to find the changes
     - manual adjustments required
+    - it may be difficult to find the changes
 
 ### (3) Generating Java objects from the XSD & generating XML in a separate Java microservice.
 
@@ -61,19 +62,20 @@ Also, we create two very distinct places to handle business logic.
 
   - A well-maintained library
   - could be used as a microservice:
-    - XJustiz versioning would be easier because it can be done with less manual customisation.
+    - Adapting to new XJustiz versions would be easier because it can be done with less manual customisation.
     - Adds less complexity to the current code base
     - KomPla could also use the service in the future.
     - No need for new functions/methods to implement types like selections as they are part of the library
       - Tests for those new methods/functions are not needed as they are part of the library.
     - Tests to check if a message is a valid XJustiz message are not needed as this is part of the library
     - Clear separation of services (user flow, xml generation, sending data with FITKO)
-    - With FITKO Java is already part of our project
+    - With the [ERV-Wrapper](https://github.com/digitalservicebund/a2j-erv-wrapper) Java is already part of our project
     - Once we send the xml, changes to the user data will probably occur very rarely (we can only send data that is reflected in the xsd, and the xsd is [in theory] a representation of the required data).
 
 - Disadvantages:
   - Microservice can be an overhead:
     - Requires additional infrastructure
+    - Requires additional maintenance and attention
     - If the data structure changes (e.g. name of a variable or adding/removing variables), both services need to be updated and there will be temporal interoperability issues.
 
 ## Decision
