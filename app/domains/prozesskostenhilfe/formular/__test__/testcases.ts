@@ -52,7 +52,10 @@ const cases = [
       "/antragstellende-person/empfaenger",
     ],
   ],
-  [{}, ["/persoenliche-daten/beruf", "/weitere-angaben"]],
+  [
+    {},
+    ["/persoenliche-daten/beruf", "/weitere-angaben", "/abgabe/ueberpruefung"],
+  ],
   ...antragstellendePersonTransitionCases,
   ...testCasesPKHFormularFinanzielleAngabenEinkuenfte,
   ...testCasesPKHFormularFinanzielleAngabenPartner,
