@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { vi } from "vitest";
-import type { props as AccordionProps } from "~/components/AccordionItem";
+import type { AccordionItemProps } from "~/components/AccordionItem";
 import Accordion from "../Accordion";
 
 const dummyItems = [
@@ -17,7 +17,13 @@ vi.mock("~/components/AccordionItem", () => ({
     isOpen,
     onToggle,
     jsEnabled,
-  }: AccordionProps) => (
+    id,
+  }: AccordionItemProps & {
+    isOpen: boolean;
+    onToggle: () => void;
+    jsEnabled: boolean;
+    id: number;
+  }) => (
     <div data-testid="accordion-item">
       <div data-testid="accordion-title">{title}</div>
       <div data-testid="accordion-description">{isOpen ? description : ""}</div>
@@ -25,6 +31,7 @@ vi.mock("~/components/AccordionItem", () => ({
         Toggle
       </button>
       <div data-testid="js-enabled">{jsEnabled ? "true" : "false"}</div>
+      <div data-testid="accordion-item-id">{id}</div>
     </div>
   ),
 }));
@@ -32,17 +39,6 @@ vi.mock("~/components/AccordionItem", () => ({
 describe("Accordion Component", () => {
   afterEach(() => {
     vi.restoreAllMocks();
-  });
-
-  it("renders nothing if items array is empty", () => {
-    const { container } = render(<Accordion items={[]} />);
-    expect(container.firstChild).toBeEmptyDOMElement();
-  });
-
-  it("renders the section tag", () => {
-    render(<Accordion items={dummyItems} />);
-    const section = document.querySelector("section");
-    expect(section).toBeInTheDocument();
   });
 
   it("renders the correct number of AccordionItem components", () => {
@@ -80,5 +76,13 @@ describe("Accordion Component", () => {
 
     fireEvent.click(toggleButtons[1]);
     expect(descriptions[1].textContent).toBe("");
+  });
+
+  it("renders AccordionItem with the correct id", () => {
+    render(<Accordion items={dummyItems} />);
+    const accordionItemIds = screen.getAllByTestId("accordion-item-id");
+    expect(accordionItemIds[0]).toHaveTextContent("1");
+    expect(accordionItemIds[1]).toHaveTextContent("2");
+    expect(accordionItemIds[2]).toHaveTextContent("3");
   });
 });

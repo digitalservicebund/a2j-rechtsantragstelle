@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { vi as vitestVi } from "vitest";
 import AccordionItem, { props } from "~/components/AccordionItem";
 import { useTranslations } from "~/services/translations/translationsContext";
@@ -46,41 +46,72 @@ describe("AccordionItem Component", () => {
     vitestVi.clearAllMocks();
   });
 
-  const fallbackProps: props = {
-    ...defaultProps,
-    jsEnabled: false,
-  };
+  describe("JS Enabled Branch", () => {
+    it("renders correctly in closed state", () => {
+      render(<AccordionItem {...defaultProps} />);
+      expect(screen.getByText("Test Title")).toBeInTheDocument();
+      expect(
+        screen.getByTestId("keyboard-arrow-down-icon"),
+      ).toBeInTheDocument();
+      expect(screen.queryByText("Test Description")).not.toBeVisible();
+    });
 
-  it("renders fallback markup using native details/summary with translations and icons", () => {
-    render(<AccordionItem {...fallbackProps} />);
-    const detailsElem = screen.getByRole("group", { hidden: true });
-    expect(detailsElem).toBeInTheDocument();
-    const summary = detailsElem.querySelector("summary");
-    expect(summary).toBeInTheDocument();
-    expect(summary).toHaveTextContent("Test Title");
-    expect(summary).toHaveTextContent("Einblenden");
-    expect(screen.getByTestId("keyboard-arrow-down-icon")).toBeInTheDocument();
+    it("renders correctly in open state", () => {
+      render(<AccordionItem {...defaultProps} isOpen={true} />);
+      expect(screen.getByText("Test Title")).toBeInTheDocument();
+      expect(screen.getByTestId("keyboard-arrow-up-icon")).toBeInTheDocument();
+      expect(screen.getByText("Test Description")).toBeInTheDocument();
+    });
+
+    it("calls onToggle when summary is clicked", () => {
+      const onToggleMock = vi.fn();
+      render(<AccordionItem {...defaultProps} onToggle={onToggleMock} />);
+      fireEvent.click(
+        screen.getByRole("group", { hidden: true }).querySelector("summary")!,
+      );
+      expect(onToggleMock).toHaveBeenCalledTimes(1);
+    });
   });
 
-  it("renders description when fallback details is open", () => {
-    render(<AccordionItem {...fallbackProps} />);
-    const detailsElem = screen.getByRole("group", { hidden: true });
-    detailsElem.setAttribute("open", "");
-    expect(screen.getByText("Test Description")).toBeInTheDocument();
-  });
+  describe("Fallback (No JS) Branch", () => {
+    const fallbackProps: props = {
+      ...defaultProps,
+      jsEnabled: false,
+    };
 
-  it("renders open state fallback markup with hide translations and icons", () => {
-    render(<AccordionItem {...fallbackProps} />);
-    const detailsElem = screen.getByRole("group", { hidden: true });
-    detailsElem.setAttribute("open", "");
-    const summary = detailsElem.querySelector("summary");
-    expect(summary).toHaveTextContent("Ausblenden");
-    expect(screen.getByTestId("keyboard-arrow-up-icon")).toBeInTheDocument();
-  });
+    it("renders fallback markup using native details/summary with translations and icons", () => {
+      render(<AccordionItem {...fallbackProps} />);
+      const detailsElem = screen.getByRole("group", { hidden: true });
+      expect(detailsElem).toBeInTheDocument();
+      const summary = detailsElem.querySelector("summary");
+      expect(summary).toBeInTheDocument();
+      expect(summary).toHaveTextContent("Test Title");
+      expect(summary).toHaveTextContent("Einblenden");
+      expect(
+        screen.getByTestId("keyboard-arrow-down-icon"),
+      ).toBeInTheDocument();
+    });
 
-  it("renders correctly with empty title and description", () => {
-    render(<AccordionItem {...fallbackProps} title="" description="" />);
-    const detailsElem = screen.getByRole("group", { hidden: true });
-    expect(detailsElem).toBeInTheDocument();
+    it("renders description when fallback details is open", () => {
+      render(<AccordionItem {...fallbackProps} />);
+      const detailsElem = screen.getByRole("group", { hidden: true });
+      detailsElem.setAttribute("open", "");
+      expect(screen.getByText("Test Description")).toBeInTheDocument();
+    });
+
+    it("renders open state fallback markup with hide translations and icons", () => {
+      render(<AccordionItem {...fallbackProps} />);
+      const detailsElem = screen.getByRole("group", { hidden: true });
+      detailsElem.setAttribute("open", "");
+      const summary = detailsElem.querySelector("summary");
+      expect(summary).toHaveTextContent("Ausblenden");
+      expect(screen.getByTestId("keyboard-arrow-up-icon")).toBeInTheDocument();
+    });
+
+    it("renders correctly with empty title and description", () => {
+      render(<AccordionItem {...fallbackProps} title="" description="" />);
+      const detailsElem = screen.getByRole("group", { hidden: true });
+      expect(detailsElem).toBeInTheDocument();
+    });
   });
 });

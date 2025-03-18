@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import ListItem from "../ListItem";
 
 describe("ListItem", () => {
@@ -26,5 +26,14 @@ describe("ListItem", () => {
   it("should render no buttons for empty array", () => {
     const { queryByRole } = render(<ListItem buttons={[]} />);
     expect(queryByRole("button")).not.toBeInTheDocument();
+  });
+
+  it("renders Accordion component if accordion prop is provided", () => {
+    render(
+      <ListItem
+        accordion={{ items: [{ title: "test", id: 1, description: "test" }] }}
+      />,
+    );
+    expect(screen.getByRole("region")).toBeInTheDocument();
   });
 });
