@@ -57,39 +57,41 @@ const FilesUpload = ({
     Object.entries(scopedErrors).length === 0;
 
   return (
-    <NoscriptWrapper jsAvailable={jsAvailable}>
-      <div className={classes}>
-        <FilesUploadHeader title={title} description={description} />
-        <div className="w-full flex flex-col gap-24">
-          {items.map((value, index) => {
-            const inputName = `${name}[${index}]`;
-            return (
+    title !== "" && (
+      <NoscriptWrapper jsAvailable={jsAvailable}>
+        <div className={classes}>
+          <FilesUploadHeader title={title} description={description} />
+          <div className="w-full flex flex-col gap-24">
+            {items.map((value, index) => {
+              const inputName = `${name}[${index}]`;
+              return (
+                <FileInput
+                  key={inputName}
+                  selectedFile={value}
+                  error={scopedErrors[inputName]}
+                  jsAvailable={jsAvailable}
+                  name={inputName}
+                />
+              );
+            })}
+            {showAddMoreButton && (
               <FileInput
-                key={inputName}
-                selectedFile={value}
-                error={scopedErrors[inputName]}
+                selectedFile={undefined}
                 jsAvailable={jsAvailable}
-                name={inputName}
+                name={`${name}[${items.length}]`}
               />
-            );
-          })}
-          {showAddMoreButton && (
-            <FileInput
-              selectedFile={undefined}
-              jsAvailable={jsAvailable}
-              name={`${name}[${items.length}]`}
-            />
-          )}
+            )}
+          </div>
         </div>
-      </div>
-      <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === groupError)?.text ??
-          groupError}
-      </InputError>
-      {inlineNotices?.map((inlineNotice) => (
-        <InlineNotice key={inlineNotice.title} {...inlineNotice} />
-      ))}
-    </NoscriptWrapper>
+        <InputError id={errorId}>
+          {errorMessages?.find((err) => err.code === groupError)?.text ??
+            groupError}
+        </InputError>
+        {inlineNotices?.map((inlineNotice) => (
+          <InlineNotice key={inlineNotice.title} {...inlineNotice} />
+        ))}
+      </NoscriptWrapper>
+    )
   );
 };
 

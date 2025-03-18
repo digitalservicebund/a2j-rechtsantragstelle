@@ -181,7 +181,7 @@ const AutoSuggestInput = ({
         aria-invalid={error !== undefined}
         ariaLiveMessages={ariaLiveMessages(translations)}
         className={classNames(
-          "w-full",
+          "w-full forced-colors:border-2",
           { "has-error": error },
           { "option-was-selected": optionWasSelected },
           { "auto-suggest-input-disabled": isDisabled },

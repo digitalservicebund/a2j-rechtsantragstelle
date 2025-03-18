@@ -110,7 +110,7 @@
   {
     "name": "Air Caraibes",
     "iata": "TX",
-    "isInEU": false,
+    "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
   {
@@ -630,6 +630,12 @@
     "arbitrationBoard": "BfJ"
   },
   {
+    "name": "EWA Air",
+    "iata": "ZD",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
+  },
+  {
     "name": "Finnair PLC",
     "iata": "AY",
     "isInEU": true,
@@ -759,7 +765,7 @@
   {
     "name": "Icelandair",
     "iata": "FI",
-    "isInEU": false,
+    "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
   {
@@ -934,7 +940,7 @@
   {
     "name": "Norwegian Air Shuttle",
     "iata": "DY",
-    "isInEU": false,
+    "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
   {
@@ -973,7 +979,7 @@
     "isInEU": false,
     "arbitrationBoard": "BfJ"
   },
-  { "name": "Play", "iata": "OG", "isInEU": false, "arbitrationBoard": "BfJ" },
+  { "name": "Play", "iata": "OG", "isInEU": true, "arbitrationBoard": "BfJ" },
   {
     "name": "Plus Ultra Lineas Aereas S.A.",
     "iata": "PU",
@@ -1027,6 +1033,12 @@
     "iata": "FR",
     "isInEU": true,
     "arbitrationBoard": "RV"
+  },
+  {
+    "name": "Saint Barth Commuters",
+    "iata": "PV",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ"
   },
   {
     "name": "S7 Airlines",
@@ -1327,7 +1339,7 @@
   {
     "name": "Widerøe´s Flyveselskap",
     "iata": "WF",
-    "isInEU": false,
+    "isInEU": true,
     "arbitrationBoard": "BfJ"
   },
   {
