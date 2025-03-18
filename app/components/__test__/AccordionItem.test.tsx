@@ -38,13 +38,7 @@ describe("AccordionItem Component", () => {
     },
   };
 
-  beforeEach(() => {
-    vitestVi.mocked(useTranslations).mockReturnValue(mockTranslations);
-  });
-
-  afterEach(() => {
-    vitestVi.clearAllMocks();
-  });
+  vitestVi.mocked(useTranslations).mockReturnValue(mockTranslations);
 
   describe("JS Enabled Branch", () => {
     it("renders correctly in closed state", () => {
