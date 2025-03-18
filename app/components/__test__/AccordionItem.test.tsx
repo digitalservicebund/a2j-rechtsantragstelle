@@ -37,9 +37,3 @@ describe("AccordionItem Component", () => {
     expect(onSummaryClick).toHaveBeenCalledTimes(1);
   });
 });
-
-it("renders correctly with empty title and description", () => {
-  render(<AccordionItem {...defaultProps} title="" description="" />);
-  const detailsElem = screen.getByRole("group", { hidden: true });
-  expect(detailsElem).toBeInTheDocument();
-});

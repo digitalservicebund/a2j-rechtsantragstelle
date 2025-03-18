@@ -45,6 +45,20 @@ describe("Accordion Component", () => {
     expect(descriptions[2]).not.toBeVisible();
   });
 
+  it("doesn't rendern empty items", () => {
+    const { getAllByRole } = render(
+      <Accordion
+        items={[
+          { title: "title1", description: "" },
+          { title: "", description: "hallo" },
+          { title: "", description: "" },
+        ]}
+      />,
+    );
+    const summaries = getAllByRole("button");
+    expect(summaries).toHaveLength(2);
+  });
+
   vi.mock("~/services/translations/translationsContext", () => ({
     useTranslations: vi.fn(),
   }));
