@@ -200,6 +200,11 @@ svg {
   @apply bg-blue-800;
 }
 
+.ds-input::placeholder,
+.ds-textarea::placeholder {
+  color: #4e596a;
+}
+
 .ds-tile input[type="radio"]:focus + label,
 .ds-tile input[type="radio"]:focus-visible + label,
 .ds-tile input[type="radio"]:checked + label {
