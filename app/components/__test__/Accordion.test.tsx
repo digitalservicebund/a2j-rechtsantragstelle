@@ -1,4 +1,5 @@
 import { render, fireEvent } from "@testing-library/react";
+import { useTranslations } from "~/services/translations/translationsContext";
 import Accordion from "../Accordion";
 import type { AccordionItemProps } from "../AccordionItem";
 
@@ -42,5 +43,24 @@ describe("Accordion Component", () => {
     expect(descriptions[0]).not.toBeVisible();
     expect(descriptions[1]).not.toBeVisible();
     expect(descriptions[2]).not.toBeVisible();
+  });
+
+  vi.mock("~/services/translations/translationsContext", () => ({
+    useTranslations: vi.fn(),
+  }));
+
+  vi.mocked(useTranslations).mockReturnValue({
+    feedback: {},
+    video: {},
+    accessibility: {},
+    fileUpload: {},
+    accordion: {
+      accordionItemShow: "Einblenden",
+      accordionItemHide: "Ausblenden",
+    },
+  });
+  it("applies translations", () => {
+    const { getAllByText } = render(<Accordion items={dummyItems} />);
+    getAllByText("Einblenden").forEach((el) => expect(el).toBeVisible());
   });
 });

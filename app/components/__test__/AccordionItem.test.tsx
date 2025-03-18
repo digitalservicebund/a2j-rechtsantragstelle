@@ -1,36 +1,19 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { vi as vitestVi } from "vitest";
-import AccordionItem, {
-  type AccordionItemProps,
-} from "~/components/AccordionItem";
-import { useTranslations } from "~/services/translations/translationsContext";
-
-vi.mock("~/services/translations/translationsContext", () => ({
-  useTranslations: vitestVi.fn(),
-}));
+import AccordionItem from "~/components/AccordionItem";
 
 vi.mock("@digitalservicebund/icons/KeyboardArrowDown", () => ({
   __esModule: true,
   default: () => <div data-testid="keyboard-arrow-down-icon" />,
 }));
 
-const defaultProps: AccordionItemProps = {
+const defaultProps = {
   title: "Test Title",
   description: "Test Description",
-};
-
-const mockTranslations = {
-  feedback: {},
-  video: {},
-  accessibility: {},
-  fileUpload: {},
-  accordion: {
-    accordionItemShow: "Einblenden",
-    accordionItemHide: "Ausblenden",
+  labels: {
+    show: "Einblenden",
+    hide: "Ausblenden",
   },
 };
-
-vitestVi.mocked(useTranslations).mockReturnValue(mockTranslations);
 
 describe("AccordionItem Component", () => {
   it("renders native details/summary with translations and icons", () => {
@@ -56,7 +39,7 @@ describe("AccordionItem Component", () => {
 });
 
 it("renders correctly with empty title and description", () => {
-  render(<AccordionItem title="" description="" />);
+  render(<AccordionItem {...defaultProps} title="" description="" />);
   const detailsElem = screen.getByRole("group", { hidden: true });
   expect(detailsElem).toBeInTheDocument();
 });

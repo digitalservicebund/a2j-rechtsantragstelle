@@ -2,7 +2,6 @@ import KeyboardArrowDownIcon from "@digitalservicebund/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@digitalservicebund/icons/KeyboardArrowUp";
 import { forwardRef, type MouseEventHandler } from "react";
 import RichText from "~/components/RichText";
-import { useTranslations } from "~/services/translations/translationsContext";
 
 export type AccordionItemProps = Readonly<{
   title: string;
@@ -11,10 +10,14 @@ export type AccordionItemProps = Readonly<{
 
 export default forwardRef<
   HTMLDetailsElement,
-  AccordionItemProps & { onSummaryClick?: MouseEventHandler }
->(function AccordionItem({ title, description, onSummaryClick }, ref) {
-  const { accordion } = useTranslations();
-
+  AccordionItemProps & {
+    onSummaryClick?: MouseEventHandler;
+    labels: {
+      show: string;
+      hide: string;
+    };
+  }
+>(function AccordionItem({ title, description, onSummaryClick, labels }, ref) {
   return (
     <details
       className="group border last:border-b-0 border-b-2 p-2 border-blue-500 align-middle"
@@ -27,10 +30,10 @@ export default forwardRef<
       >
         <span className="ds-label-01-bold">{title}</span>
         <span className="flex group-open:hidden text-blue-800">
-          <KeyboardArrowDownIcon /> {accordion?.accordionItemShow}
+          <KeyboardArrowDownIcon /> {labels.show}
         </span>
         <span className="hidden group-open:flex text-blue-800">
-          <KeyboardArrowUpIcon /> {accordion?.accordionItemHide}
+          <KeyboardArrowUpIcon /> {labels.hide}
         </span>
       </summary>
       <RichText
