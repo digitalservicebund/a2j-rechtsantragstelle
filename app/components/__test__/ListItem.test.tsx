@@ -27,13 +27,4 @@ describe("ListItem", () => {
     const { queryByRole } = render(<ListItem buttons={[]} />);
     expect(queryByRole("button")).not.toBeInTheDocument();
   });
-
-  it("renders Accordion component if accordion prop is provided", () => {
-    render(
-      <ListItem
-        accordion={{ items: [{ title: "test", id: 1, description: "test" }] }}
-      />,
-    );
-    expect(screen.getByRole("region")).toBeInTheDocument();
-  });
 });

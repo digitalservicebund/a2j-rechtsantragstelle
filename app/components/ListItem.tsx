@@ -50,7 +50,7 @@ const ListItem = ({
         </div>
       </div>
       {accordion && (
-        <div role="region" className="w-full ml-56 mt-16">
+        <div className="w-full ml-56 mt-16">
           <Accordion {...accordion} />
         </div>
       )}
