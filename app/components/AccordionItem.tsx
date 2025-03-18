@@ -38,10 +38,10 @@ export default function AccordionItem({
     >
       <summary
         onClick={handleSummaryClick}
-        className="flex justify-between cursor-pointer bg-blue-100"
+        className="flex justify-between cursor-pointer p-16 bg-blue-100"
       >
-        <span className="p-16 ds-label-01-bold">{title}</span>
-        <span className="p-16 text-blue-800 flex items-center">
+        <span className="ds-label-01-bold">{title}</span>
+        <span className="text-blue-800">
           {jsEnabled ? (
             <>
               <span className={isOpen ? "flex" : "hidden"}>
