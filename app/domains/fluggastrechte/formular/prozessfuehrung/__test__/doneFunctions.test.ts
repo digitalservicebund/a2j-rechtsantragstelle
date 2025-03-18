@@ -4,8 +4,20 @@ describe("prozessfuehrungDone", () => {
   it("should return true, if all the prozessfuehrung has been full filled", () => {
     const actual = prozessfuehrungDone({
       context: {
+        hasZeugen: "yes",
         versaeumnisurteil: "yes",
         videoverhandlung: "yes",
+      },
+    });
+
+    expect(actual).toBe(true);
+  });
+  it("should return true if videoverhandlung was answered with noSpecification", () => {
+    const actual = prozessfuehrungDone({
+      context: {
+        hasZeugen: "yes",
+        versaeumnisurteil: "yes",
+        videoverhandlung: "noSpecification",
       },
     });
 
@@ -15,6 +27,7 @@ describe("prozessfuehrungDone", () => {
   it("should return false, if versaeumnisurteil is missing", () => {
     const actual = prozessfuehrungDone({
       context: {
+        hasZeugen: "yes",
         videoverhandlung: "yes",
       },
     });
@@ -25,7 +38,19 @@ describe("prozessfuehrungDone", () => {
   it("should return false, if videoverhandlung is missing", () => {
     const actual = prozessfuehrungDone({
       context: {
+        hasZeugen: "yes",
         versaeumnisurteil: "yes",
+      },
+    });
+
+    expect(actual).toBe(false);
+  });
+
+  it("should return false when hasZeugen is missing", () => {
+    const actual = prozessfuehrungDone({
+      context: {
+        videoverhandlung: "no",
+        versaeumnisurteil: "no",
       },
     });
 

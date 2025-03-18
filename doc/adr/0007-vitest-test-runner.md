@@ -1,10 +1,11 @@
 # 7. Using vitest as test runner
 
-Date: 2024-06-07
-
 ## Status
 
-Agreed
+- 2024-06-04: Drafted
+- 2024-06-07: Merged
+- 2024-07-24: Edited (Renumbered to `0007`)
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

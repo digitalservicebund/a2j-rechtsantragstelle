@@ -1,3 +1,4 @@
+import FilesUpload from "~/components/filesUpload/FilesUpload";
 import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
 import Checkbox from "~/components/inputs/Checkbox";
 import DateInput from "~/components/inputs/DateInput";
@@ -10,6 +11,7 @@ import TileGroup from "~/components/inputs/tile/TileGroup";
 import TimeInput from "~/components/inputs/TimeInput";
 import { getAutoSuggestInputProps } from "~/services/cms/components/StrapiAutoSuggestInput";
 import { getCheckboxProps } from "~/services/cms/components/StrapiCheckbox";
+import { getFilesUploadProps } from "~/services/cms/components/StrapiFilesUpload";
 import { getHiddenInputProps } from "~/services/cms/components/StrapiHiddenInput";
 import { getInputProps } from "~/services/cms/components/StrapiInput";
 import { getRadioGroupProps } from "~/services/cms/components/StrapiSelect";
@@ -33,9 +35,8 @@ const FormComponent = ({
       return <DateInput {...getDateInputProps(component)} />;
     case "form-elements.time-input":
       return <TimeInput {...getTimeInputProps(component)} />;
-    case "form-elements.file-input":
-      // Currently not used/implemented, but still exists in Strapi
-      return null;
+    case "form-elements.files-upload":
+      return <FilesUpload {...getFilesUploadProps(component)} />;
     case "form-elements.textarea":
       return <Textarea {...getTextareaProps(component)} />;
     case "form-elements.select":

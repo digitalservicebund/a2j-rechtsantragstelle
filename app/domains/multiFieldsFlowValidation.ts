@@ -24,6 +24,7 @@ const multiFieldsFlowValidation = {
   "/fluggastrechte/vorabcheck": fluggastrechtVorabcheckMultiFieldsValidation,
   "/fluggastrechte/formular": fluggastrechtMultiFieldsValidation,
   "/prozesskostenhilfe/formular": undefined,
+  "/kontopfaendung/wegweiser": undefined,
 } as const satisfies Record<FlowId, MultiFieldsStepIdValidation | undefined>;
 
 export const getMultiFieldsValidation = (flowId: FlowId) =>

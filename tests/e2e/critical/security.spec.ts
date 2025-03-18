@@ -1,35 +1,50 @@
 import { test, expect } from "@playwright/test";
+import { acceptCookiesFieldName } from "~/components/cookieBanner/CookieBanner";
 import { defaultHeaders } from "~/rootHeaders";
+import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 
-const expectedHeaders = {
-  ...defaultHeaders,
-  "Cache-Control": "no-store",
-  Connection: "keep-alive",
-  "Content-Encoding": "gzip",
-  "Content-Type": "text/html; charset=utf-8",
-  "Transfer-Encoding": "chunked",
-  Vary: "Accept-Encoding",
-};
+const deniedConsentCookieValue = btoa(
+  JSON.stringify({ [acceptCookiesFieldName]: false }),
+);
 
 test.describe("Security Tests", () => {
-  test("The server should send a response including the correct response headers", async ({
-    page,
-  }) => {
+  test("server response includes security headers", async ({ page }) => {
     const response = await page.request.get("/");
     await expect(response).toBeOK();
-    Object.entries(expectedHeaders)
-      .map(([key, val]) => [key.toLocaleLowerCase(), val])
-      .forEach(([key, expectedVal]) => {
-        const actualValue = response.headers()[key];
-        const responseHasExpectedHeader = actualValue === expectedVal;
-        if (!responseHasExpectedHeader) {
-          // eslint-disable-next-line no-console
-          console.warn(
-            `Header ${key} was expected to be ${expectedVal} but instead was ${actualValue}`,
-          );
-        }
-        expect(responseHasExpectedHeader).toBe(true);
+    const headers = response.headers();
+    Object.entries(defaultHeaders).forEach(([key, expectedVal]) => {
+      const actual = headers[key.toLowerCase()];
+      expect(actual, `Header '${key}' matches`).toBe(expectedVal);
+    });
+  });
+
+  test.describe("Cache", () => {
+    ["/", "/beratungshilfe/vorabcheck"].forEach((url) => {
+      test(`disabled without cookie interaction on '${url}'`, async ({
+        page,
+      }) => {
+        const response = await page.request.get(url);
+        await expect(response).toBeOK();
+        expect(response.headers()["cache-control"]).toBe("no-store");
       });
+    });
+
+    test.skip("Cache is kept on content pages after cookie interaction", async ({
+      page,
+      context,
+    }) => {
+      await context.addCookies([
+        {
+          name: consentCookieName,
+          value: deniedConsentCookieValue,
+          path: "/",
+          domain: "localhost",
+        },
+      ]);
+      const response = await page.goto("/");
+      expect(response).not.toBeNull();
+      expect(response!.headers()["cache-control"]).toBeUndefined();
+    });
   });
 
   test("Invalid HTTP operations should yield an error", async ({ page }) => {

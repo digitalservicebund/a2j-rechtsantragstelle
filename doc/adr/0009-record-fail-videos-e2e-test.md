@@ -1,10 +1,10 @@
 # 9. Recording Fail Videos from E2E Tests
 
-Date: 2024-08-19
-
 ## Status
 
-Agreed
+- 2024-08-19: Drafted
+- 2024-08-21: Accepted
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

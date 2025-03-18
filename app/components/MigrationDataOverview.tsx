@@ -4,8 +4,8 @@ import {
   type Translations,
 } from "~/services/translations/getTranslationByKey";
 import { lookupOrKey } from "~/util/lookupOrKey";
-import Button from "./Button";
 import Heading from "./Heading";
+import { StandaloneLink } from "./StandaloneLink";
 
 type MigrationDataProps = {
   readonly userData?: Context;
@@ -34,7 +34,7 @@ const renderMigrationValue = (
   const translation = translations[`${key}.${value}`];
 
   if (typeof translation === "undefined") {
-    return translations[`${key}.value`];
+    return translations[`${key}.migration.value`];
   }
 
   return translation;
@@ -81,9 +81,15 @@ export default function MigrationDataOverview({
       ))}
 
       {buttonUrl && (
-        <Button href={buttonUrl} look="tertiary" size="large" className="w-fit">
-          {getTranslationByKey(MIGRATION_BUTTON_TEXT_TRANSLATION, translations)}
-        </Button>
+        <div className="!mt-32">
+          <StandaloneLink
+            url={buttonUrl}
+            text={getTranslationByKey(
+              MIGRATION_BUTTON_TEXT_TRANSLATION,
+              translations,
+            )}
+          />
+        </div>
       )}
     </div>
   );

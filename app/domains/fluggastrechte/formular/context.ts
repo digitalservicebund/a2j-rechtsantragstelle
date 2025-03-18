@@ -19,7 +19,6 @@ export const fluggastrechtContext = {
   ...fluggastrechteProzessfuehrungDaten,
   ...fluggastrechteGrundvoraussetzungen,
   ankuendigung: stringOptionalSchema,
-  ersatzflug: stringOptionalSchema,
   ersatzflugStartenEinStunde: stringOptionalSchema,
   ersatzflugLandenZweiStunden: stringOptionalSchema,
   ersatzflugStartenZweiStunden: stringOptionalSchema,

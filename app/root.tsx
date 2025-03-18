@@ -31,14 +31,11 @@ import {
 } from "~/services/cms/index.server";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
-import Header from "./components/PageHeader";
-import { getCookieBannerProps } from "./services/cms/models/StrapiCookieBannerSchema";
-import { getFooterProps } from "./services/cms/models/StrapiFooter";
-import { getPageHeaderProps } from "./services/cms/models/StrapiPageHeader";
+import PageHeader from "./components/PageHeader";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
@@ -51,7 +48,6 @@ import {
 } from "./services/translations/getTranslationByKey";
 import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
-import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 
 export { headers } from "./rootHeaders";
 
@@ -98,7 +94,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     translations,
     hasAnyUserData,
     mainSession,
-    showKopfzeile,
   ] = await Promise.all([
     fetchSingleEntry("page-header", defaultLocale),
     fetchSingleEntry("footer", defaultLocale),
@@ -112,10 +107,10 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       "pageHeader",
       "video",
       "accessibility",
+      "fileUpload",
     ]),
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
-    isFeatureFlagEnabled("showKopfzeile"),
   ]);
 
   const shouldAddCacheControl = shouldSetCacheControlHeader(
@@ -125,12 +120,17 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   return json(
     {
-      header: {
-        ...getPageHeaderProps(strapiHeader),
+      pageHeaderProps: {
+        ...strapiHeader,
+        translations: extractTranslations(
+          ["leichtesprache", "gebaerdensprache", "mainNavigationAriaLabel"],
+          translations.pageHeader,
+        ),
         hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
-        showKopfzeile,
+        alignToMainContainer:
+          !flowIdFromPathname(pathname)?.match(/formular|antrag/),
       },
-      footer: getFooterProps(strapiFooter),
+      footer: strapiFooter,
       cookieBannerContent: cookieBannerContent,
       hasTrackingConsent: trackingConsent
         ? trackingConsent === "true"
@@ -141,12 +141,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       deletionLabel: translations["delete-data"].footerLinkLabel,
       hasAnyUserData,
       feedbackTranslations: translations.feedback,
-      pageHeaderTranslations: extractTranslations(
-        ["leichtesprache", "gebaerdensprache", "mainNavigationAriaLabel"],
-        translations.pageHeader,
-      ),
       videoTranslations: translations.video,
       accessibilityTranslations: translations.accessibility,
+      fileUploadTranslations: translations.fileUpload,
       feedback: getFeedbackData(mainSession, pathname),
       postSubmissionText: parseAndSanitizeMarkdown(
         translations.feedback["text-post-submission"],
@@ -158,16 +155,16 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
 function App() {
   const {
-    header,
+    pageHeaderProps,
     footer,
     cookieBannerContent,
     hasTrackingConsent,
     deletionLabel,
     hasAnyUserData,
     feedbackTranslations,
-    pageHeaderTranslations,
     videoTranslations,
     accessibilityTranslations,
+    fileUploadTranslations,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
@@ -193,8 +190,14 @@ function App() {
       video: videoTranslations,
       feedback: feedbackTranslations,
       accessibility: accessibilityTranslations,
+      fileUpload: fileUploadTranslations,
     }),
-    [videoTranslations, feedbackTranslations, accessibilityTranslations],
+    [
+      videoTranslations,
+      feedbackTranslations,
+      accessibilityTranslations,
+      fileUploadTranslations,
+    ],
   );
 
   return (
@@ -227,9 +230,14 @@ function App() {
             )}
             target={skipToContentLinkTarget}
           />
-          <CookieBanner content={getCookieBannerProps(cookieBannerContent)} />
-          <Header {...header} translations={pageHeaderTranslations} />
-          <Breadcrumbs breadcrumbs={breadcrumbs} linkLabel={header.linkLabel} />
+          <CookieBanner content={cookieBannerContent} />
+          <PageHeader {...pageHeaderProps} />
+          <Breadcrumbs
+            breadcrumbs={breadcrumbs}
+            alignToMainContainer={pageHeaderProps.alignToMainContainer}
+            linkLabel={pageHeaderProps.linkLabel}
+            translations={{ ...accessibilityTranslations }}
+          />
           <TranslationContext.Provider value={translationMemo}>
             <main className="flex-grow" id="main">
               <Outlet />
@@ -240,6 +248,7 @@ function App() {
               {...footer}
               deletionLabel={deletionLabel}
               showDeletionBanner={hasAnyUserData}
+              translations={{ ...accessibilityTranslations }}
             />
           </footer>
           <ScrollRestoration nonce={nonce} />
@@ -262,19 +271,19 @@ export function ErrorBoundary() {
         <meta name="darkreader-lock" />
       </head>
       <body className="flex flex-col min-h-screen">
-        {loaderData && (
-          <Header
-            {...loaderData.header}
-            translations={loaderData.pageHeaderTranslations}
-          />
-        )}
+        {loaderData && <PageHeader {...loaderData.pageHeaderProps} />}
         <main className="flex-grow">
           <ErrorBox
             errorPages={loaderData?.errorPages}
             context={loaderData?.context ?? {}}
           />
         </main>
-        {loaderData && <Footer {...loaderData.footer} />}
+        {loaderData && (
+          <Footer
+            {...loaderData.footer}
+            translations={{ ...loaderData.accessibilityTranslations }}
+          />
+        )}
       </body>
     </html>
   );

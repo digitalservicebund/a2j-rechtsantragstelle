@@ -236,56 +236,80 @@ export function validateDepartureAfterArrival(
 export function validateCancelFlightReplacementPage(
   baseSchema: MultiFieldsValidationBaseSchema,
 ) {
-  return baseSchema.superRefine(
-    (
-      {
-        annullierungErsatzverbindungAbflugsDatum,
-        annullierungErsatzverbindungAbflugsZeit,
-        annullierungErsatzverbindungAnkunftsDatum,
-        annullierungErsatzverbindungAnkunftsZeit,
-      },
-      ctx,
-    ) => {
-      const addIssueToContext = (path: string[]) => {
+  return baseSchema.superRefine((data, ctx) => {
+    const fieldsForValidation = [
+      "annullierungErsatzverbindungFlugnummer",
+      "annullierungErsatzverbindungAbflugsDatum",
+      "annullierungErsatzverbindungAbflugsZeit",
+      "annullierungErsatzverbindungAnkunftsDatum",
+      "annullierungErsatzverbindungAnkunftsZeit",
+    ];
+
+    const fields = fieldsForValidation.map((path) => ({
+      value: data[path],
+      path: [path],
+    }));
+
+    const isAnyFieldFilled = fields.some(
+      ({ value }) => !isFieldEmptyOrUndefined(value),
+    );
+
+    if (isAnyFieldFilled) {
+      for (const { value, path } of fields) {
+        if (isFieldEmptyOrUndefined(value)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "fillAllOrNone",
+            path,
+          });
+        }
+      }
+    }
+  });
+}
+
+export function validateStopoverDuplicates(
+  baseSchema: MultiFieldsValidationBaseSchema,
+) {
+  return baseSchema.superRefine((userData, ctx) => {
+    const fieldsForValidation = [
+      "ersterZwischenstopp",
+      "zweiterZwischenstopp",
+      "dritterZwischenstopp",
+    ];
+
+    const filledFields = fieldsForValidation
+      .filter((fieldName) => userData[fieldName])
+      .map((fieldName) => ({
+        fieldName,
+        value: userData[fieldName],
+      }));
+
+    for (const current of filledFields) {
+      const duplicates = filledFields.filter(
+        (other) =>
+          other.fieldName !== current.fieldName &&
+          other.value === current.value,
+      );
+
+      if (
+        userData.startAirport === current.value ||
+        userData.endAirport === current.value
+      ) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "optionalFieldRequired", // these fields are optional, but if one is filled, the other must be filled as well
-          path,
-          fatal: true,
+          message: "initialFlightDuplicates",
+          path: [current.fieldName],
         });
-      };
+      }
 
-      const validateFieldPair = (
-        field1: string,
-        field2: string,
-        path1: string[],
-        path2: string[],
-      ) => {
-        const isEmpty1 = isFieldEmptyOrUndefined(field1);
-        const isEmpty2 = isFieldEmptyOrUndefined(field2);
-
-        if (isEmpty1 && !isEmpty2) {
-          addIssueToContext(path1);
-        }
-
-        if (isEmpty2 && !isEmpty1) {
-          addIssueToContext(path2);
-        }
-      };
-
-      validateFieldPair(
-        annullierungErsatzverbindungAbflugsDatum,
-        annullierungErsatzverbindungAbflugsZeit,
-        ["annullierungErsatzverbindungAbflugsDatum"],
-        ["annullierungErsatzverbindungAbflugsZeit"],
-      );
-
-      validateFieldPair(
-        annullierungErsatzverbindungAnkunftsDatum,
-        annullierungErsatzverbindungAnkunftsZeit,
-        ["annullierungErsatzverbindungAnkunftsDatum"],
-        ["annullierungErsatzverbindungAnkunftsZeit"],
-      );
-    },
-  );
+      for (const duplicate of duplicates) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "stopoverDuplicates",
+          path: [duplicate.fieldName],
+        });
+      }
+    }
+  });
 }

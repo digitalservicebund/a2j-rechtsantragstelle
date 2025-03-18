@@ -19,6 +19,11 @@ import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
 import {
+  deleteUserFile,
+  getUpdatedField,
+  uploadUserFile,
+} from "~/services/flow/server/fileUploadHelpers.server";
+import {
   validateFlowTransition,
   getFlowTransitionConfig,
 } from "~/services/flow/server/flowTransitionValidation";
@@ -36,11 +41,7 @@ import {
   getSessionManager,
   updateSession,
 } from "~/services/session.server";
-import {
-  arrayFromSession,
-  arrayIndexFromFormData,
-  deleteFromArrayInplace,
-} from "~/services/session.server/arrayDeletion";
+import { deleteArrayItem } from "~/services/session.server/arrayDeletion";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
@@ -60,7 +61,8 @@ export const loader = async ({
   context.debugId = debugId; // For showing in errors
 
   const currentFlow = flows[flowId];
-  const prunedUserData = await pruneIrrelevantData(userData, flowId);
+  const { prunedData: prunedUserData, validFlowPaths } =
+    await pruneIrrelevantData(userData, flowId);
   const userDataWithPageData = addPageDataToUserData(prunedUserData, {
     arrayIndexes,
   });
@@ -183,6 +185,12 @@ export const loader = async ({
     itemOpen: defaultStrings.navigationItemOpenA11yLabel,
   };
 
+  const navigationMobileLabels = {
+    currentArea: defaultStrings.navigationMobileCurrentArea,
+    closeMenu: defaultStrings.navigationMobileCloseMenu,
+    toggleMenu: defaultStrings.navigationMobileToggleMenu,
+  };
+
   return json(
     {
       arraySummaryData,
@@ -210,6 +218,9 @@ export const loader = async ({
       stepData,
       translations: stringTranslations,
       navigationA11yLabels,
+      navigationMobileLabels,
+      validFlowPaths,
+      flowId,
     },
     { headers },
   );
@@ -227,32 +238,67 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
-  const formData = await request.formData();
-  const relevantFormData = filterFormData(formData);
-
-  if (formData.get("_action") === "delete") {
-    try {
-      const { arrayName, index } = arrayIndexFromFormData(relevantFormData);
-      const arrayToMutate = arrayFromSession(arrayName, flowSession);
-      deleteFromArrayInplace(arrayToMutate, index);
-      updateSession(flowSession, { [arrayName]: arrayToMutate });
-      const headers = { "Set-Cookie": await commitSession(flowSession) };
-      return new Response("success", { status: 200, headers });
-    } catch (err) {
-      return new Response((err as Error).message, { status: 422 });
+  const clonedFormData = await request.clone().formData();
+  const formAction = clonedFormData.get("_action");
+  if (formAction === "delete") {
+    // array item deletion, skip everything else
+    return await deleteArrayItem(flowId, clonedFormData, request);
+  } else if (
+    typeof formAction === "string" &&
+    formAction.startsWith("fileUpload")
+  ) {
+    const { validationResult, validationError } = await uploadUserFile(
+      formAction,
+      request,
+      flowSession.data,
+      flowId,
+    );
+    if (validationError) return validationError;
+    updateSession(flowSession, resolveArraysFromKeys(validationResult!.data));
+    return json(validationResult!.data, {
+      headers: { "Set-Cookie": await commitSession(flowSession) },
+    });
+  } else if (
+    typeof formAction === "string" &&
+    formAction.startsWith("deleteFile")
+  ) {
+    const fileDeleted = await deleteUserFile(
+      formAction,
+      request.headers.get("Cookie"),
+      flowSession.data,
+      flowId,
+    );
+    if (fileDeleted) {
+      updateSession(
+        flowSession,
+        getUpdatedField(formAction.split(".")[1], flowSession.data),
+        /**
+         * if the new data is an array, fully overwrite existing data as lodash can't overwrite an existing array with an empty array (if all files are deleted)
+         */
+        (_, newData) => {
+          if (Array.isArray(newData)) {
+            return newData;
+          }
+        },
+      );
     }
+    return json(flowSession.data, {
+      headers: { "Set-Cookie": await commitSession(flowSession) },
+    });
   }
 
+  const relevantFormData = filterFormData(clonedFormData);
   const validationResult = await validateFormData(pathname, relevantFormData);
 
-  if (validationResult.error)
+  if (validationResult?.error) {
     return validationError(
       validationResult.error,
       validationResult.submittedData,
     );
+  }
 
   const resolvedData = resolveArraysFromKeys(
-    validationResult.data,
+    validationResult?.data,
     arrayIndexes,
   );
   updateSession(flowSession, resolvedData);
@@ -279,7 +325,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     sendCustomAnalyticsEvent({
       request,
       eventName: customAnalyticsEventName,
-      properties: validationResult.data,
+      properties: validationResult?.data,
     });
   }
 

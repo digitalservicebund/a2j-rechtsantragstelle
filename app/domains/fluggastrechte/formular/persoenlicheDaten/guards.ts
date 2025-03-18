@@ -8,6 +8,14 @@ export const persoenlichDatenGuards = {
     context: { pageData, weiterePersonen },
   }) => isValidArrayIndex(weiterePersonen, pageData),
   ...yesNoGuards("isWeiterePersonen"),
-  persoenlichenDatenDone: ({ context }) =>
-    personDone({ context }) && weiterePersonenDone({ context }),
+  personDone,
+  weiterePersonenDone,
+  isMissingAddWeiterePersonen: ({
+    context: { isWeiterePersonen, weiterePersonen },
+  }) => {
+    return (
+      isWeiterePersonen === "yes" &&
+      (typeof weiterePersonen === "undefined" || weiterePersonen.length === 0)
+    );
+  },
 } satisfies Guards<FluggastrechtePersoenlichDaten>;

@@ -26,18 +26,21 @@ function ValidatedFlowForm({
   const { pathname } = useLocation();
   const fieldNames = formElements.map((entry) => entry.name);
   const validator = validatorForFieldNames(fieldNames, pathname);
+  const stackClass = formElements.length === 0 ? "ds-stack-0" : "ds-stack-40";
+
   return (
     <ValidatedForm
       id={`${stepId}_form`}
       method="post"
+      encType="multipart/form-data"
       validator={validator}
       defaultValues={stepData}
       noValidate
       action={pathname}
     >
       <input type="hidden" name={CSRFKey} value={csrf} />
-      <div className="ds-stack-40">
-        <div className="ds-stack-40">
+      <div className={stackClass}>
+        <div className={stackClass}>
           <StrapiFormComponents components={formElements} />
         </div>
         <ButtonNavigation {...buttonNavigationProps} />

@@ -19,6 +19,12 @@ import { grundvoraussetzungenXstateConfig } from "~/domains/prozesskostenhilfe/f
 import { prozesskostenhilfePersoenlicheDatenDone } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/doneFunctions";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/xstateConfig";
+import {
+  getKinderStrings,
+  getArrayIndexStrings,
+  eigentumZusammenfassungShowPartnerschaftWarnings,
+  geldAnlagenStrings,
+} from "~/domains/shared/formular/stringReplacements";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import { prozesskostenhilfeFinanzielleAngabeDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
@@ -34,12 +40,6 @@ import {
   getMissingInformationStrings,
 } from "./stringReplacements";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
-import {
-  eigentumZusammenfassungShowPartnerschaftWarnings,
-  geldAnlagenStrings,
-  getArrayIndexStrings,
-  getKinderStrings,
-} from "../../shared/formular/stringReplacements";
 
 export const prozesskostenhilfeFormular = {
   flowType: "formFlow",

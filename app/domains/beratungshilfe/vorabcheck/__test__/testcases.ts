@@ -35,8 +35,39 @@ const cases = [
   [{}, ["/rechtsschutzversicherung"]],
   [happyPathData, happyPathSteps],
   [
-    { rechtsschutzversicherung: "yes" },
-    ["/rechtsschutzversicherung", "/ergebnis/rechtsschutzversicherung-abbruch"],
+    { rsvCoverage: "yes" },
+    [
+      "/rechtsschutzversicherung-details",
+      "/ergebnis/rechtsschutzversicherung-abbruch",
+    ],
+  ],
+  [
+    { rsvCoverage: "tooExpensive" },
+    [
+      "/rechtsschutzversicherung-details",
+      "/rechtsschutzversicherung-hinweis-selbstbeteiligung",
+    ],
+  ],
+  [
+    { rsvCoverage: "unknown" },
+    [
+      "/rechtsschutzversicherung-details",
+      "/ergebnis/rechtsschutzversicherung-ungewiss-abbruch",
+    ],
+  ],
+  [
+    { rsvCoverage: "no" },
+    [
+      "/rechtsschutzversicherung-details",
+      "/rechtsschutzversicherung-hinweis-kostenuebernahme",
+    ],
+  ],
+  [
+    { rsvCoverage: "partly" },
+    [
+      "/rechtsschutzversicherung-details",
+      "/rechtsschutzversicherung-hinweis-kostenuebernahme",
+    ],
   ],
   [
     { wurdeVerklagt: "yes" },

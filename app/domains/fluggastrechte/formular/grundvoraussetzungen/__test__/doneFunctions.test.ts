@@ -2,7 +2,7 @@ import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { grundvoraussetzungenDone } from "../doneFunctions";
 
 describe("doneFunctions", () => {
-  it("should return true, if all the data were migrated given", () => {
+  it("should return true, if all the data were migrated given when streitbeilegung is yes", () => {
     const actual = grundvoraussetzungenDone({
       context: {
         startAirport: "BER",
@@ -11,6 +11,21 @@ describe("doneFunctions", () => {
         bereich: "bereich",
         datenverarbeitungZustimmung: CheckboxValue.on,
         streitbeilegung: "yes",
+      },
+    });
+
+    expect(actual).toBe(true);
+  });
+
+  it("should return true, if all the data were migrated given when streitbeilegung is noSpecification", () => {
+    const actual = grundvoraussetzungenDone({
+      context: {
+        startAirport: "BER",
+        endAirport: "FRA",
+        fluggesellschaft: "LH",
+        bereich: "bereich",
+        datenverarbeitungZustimmung: CheckboxValue.on,
+        streitbeilegung: "noSpecification",
       },
     });
 
@@ -26,7 +41,7 @@ describe("doneFunctions", () => {
         bereich: "bereich",
         datenverarbeitungZustimmung: CheckboxValue.on,
         streitbeilegung: "no",
-        streitbeilegungGruende: "yesAirlineAgainst",
+        streitbeilegungGruende: "yes",
       },
     });
 

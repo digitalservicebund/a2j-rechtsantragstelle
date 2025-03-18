@@ -1,5 +1,7 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
+import classNames from "classnames";
+import { alignToContainer } from "~/components";
 import Kopfzeile from "~/components/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
 
@@ -7,7 +9,7 @@ type PageHeaderProps = {
   title: string;
   linkLabel: string;
   hideLinks: boolean;
-  showKopfzeile?: boolean;
+  alignToMainContainer?: boolean;
   translations: {
     leichtesprache: string;
     gebaerdensprache: string;
@@ -15,18 +17,25 @@ type PageHeaderProps = {
   };
 };
 
-export default function Header({
+export default function PageHeader({
   title,
   linkLabel,
   hideLinks,
+  alignToMainContainer,
   translations,
-  showKopfzeile,
 }: Readonly<PageHeaderProps>) {
+  const navClassNames = classNames(
+    "py-20 px-16 flex flex-wrap justify-between",
+    {
+      [`${alignToContainer} !py-20`]: alignToMainContainer,
+    },
+  );
+
   return (
     <header>
-      {showKopfzeile && <Kopfzeile />}
+      <Kopfzeile alignToMainContainer={alignToMainContainer} />
       <nav
-        className="py-20 px-16 flex flex-wrap justify-between"
+        className={navClassNames}
         aria-label={translations.mainNavigationAriaLabel}
       >
         <a
@@ -37,17 +46,17 @@ export default function Header({
           {title}
         </a>
         {!hideLinks && (
-          <div className="flex gap-20 max-sm:pt-16">
+          <div className="flex gap-20 max-[425px]:pt-16">
             <StandaloneLink
               url={"/leichtesprache"}
               text={translations.leichtesprache}
-              className="flex basis-1/2 ds-label-03-reg items-center"
+              className="flex basis ds-label-03-reg items-center"
               icon={<LocalLibrary className="inline mr-10" />}
             />
             <StandaloneLink
               url={"/gebaerdensprache"}
               text={translations.gebaerdensprache}
-              className="flex basis-1/2 ds-label-03-reg items-center"
+              className="flex basis ds-label-03-reg items-center"
               icon={<SignLanguage className="inline mr-10" />}
             />
           </div>

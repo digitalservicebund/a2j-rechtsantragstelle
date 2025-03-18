@@ -8,7 +8,10 @@
       "states": {
         "daten": {
           "on": {
-            "SUBMIT": "#weitere-personen.frage",
+            "SUBMIT": {
+              "guard": "personDone",
+              "target": "#weitere-personen.frage"
+            },
             "BACK": "#flugdaten.zusaetzliche-angaben"
           }
         }
@@ -25,7 +28,10 @@
                 "guard": "isWeiterePersonenYes",
                 "target": "uebersicht"
               },
-              "#weitere-personen.zeugen"
+              {
+                "guard": "weiterePersonenDone",
+                "target": "#prozessfuehrung.zeugen"
+              }
             ],
             "BACK": "#person.daten"
           }
@@ -33,7 +39,16 @@
         "uebersicht": {
           "on": {
             "BACK": "frage",
-            "SUBMIT": "#weitere-personen.zeugen",
+            "SUBMIT": [
+              {
+                "guard": "isMissingAddWeiterePersonen",
+                "target": "#weitere-personen.warnung"
+              },
+              {
+                "guard": "weiterePersonenDone",
+                "target": "#prozessfuehrung.zeugen"
+              }
+            ],
             "add-weiterePersonen": {
               "guard": "isValidWeiterePersonenArrayIndex",
               "target": "person"
@@ -51,21 +66,9 @@
             }
           }
         },
-        "zeugen": {
+        "warnung": {
           "on": {
-            "BACK": [
-              {
-                "guard": "isWeiterePersonenYes",
-                "target": "#weitere-personen.uebersicht"
-              },
-              "#weitere-personen.frage"
-            ],
-            "SUBMIT": [
-              {
-                "guard": "persoenlichenDatenDone",
-                "target": "#prozessfuehrung.videoverhandlung"
-              }
-            ]
+            "BACK": "#weitere-personen.uebersicht"
           }
         }
       }

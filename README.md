@@ -8,7 +8,7 @@ First draft of implementing a platform to create requests to the Rechtsantragste
 
 ### Requirements
 
-- Node.js >= 20.0.0
+- Node.js LTS (currently v22)
 - Docker (Redis dependency)
 - npm 7 or greater
 - strapi ([see below](#strapi))
@@ -92,6 +92,15 @@ The git hooks check formatting, linting, unit tests, typecheck (see `lefthook.ya
 3. Run `npm run build:pdf`
 
 After running the command, a new file named `prozesskostenhilfe.generated.ts` will be generated in the specified directory. You can use this file to fill out the PDF based on the input fields defined within it.
+
+### How to generate TypeScript type declarations from xJustiz XSD's
+
+In order to have type safety when generating an xJustiz XML at the end of an Antrag, we need to occasionally generate TypeScript type declarations from xJustiz XSD files.
+**NOTE: the XSD files can be found at https://xjustiz.justiz.de/, and are not checked into the repository. You will need to download them and place them at `data/xml/schemas` to run the following script:**
+Simply run `npm run build:typesFromXSD`. This manual command has you download and run `@wikipathways/cxsd`. We haven't added it as a dependency to our project, as it's several years out-of-date, and the generation shouldn't happen often.
+
+- The generated TS files can be found at `data/xml/generated`, and due to issues with the underlying library, will need to have their imports renamed/fixed.
+- You will also need to remove "junk" files, like `din-spec-XXX`, which aren't used.
 
 ### How to add a new Array page to a form flow (UNDER CONSTRUCTION)
 
@@ -274,6 +283,21 @@ In development mode, run the `npm run start:storybook` command.
 `npm run build:airlines-data "AIRLINE_FILE_PATH"`
 
 The `AIRLINE_FILE_PATH` corresponds to the file that contains airlines data that will be transformed into `json` via the `build:airlines-data ` task. For further details and access to the source, please reach out to the maintainers of this repository.
+
+## Known issues
+
+When running S3 LocalStack alongside an AVM FritzBox, you might encounter issues accessing LocalStack due to DNS rebind protection. For more details, you can check [this guide](https://docs.localstack.cloud/user-guide/tools/dns-server/#:~:text=Route53%20documentation.-,DNS%20rebind%20protection,-If%20you%20rely) and [this discussion](https://discuss.localstack.cloud/t/localstack-cloud-never-resolves-in-browser-ping/924).
+
+To resolve this, you need to allow `localhost.localstack.cloud` in your FritzBox's DNS Rebind Protection settings. You can find step-by-step instructions [here](https://avm.de/service/wissensdatenbank/dok/FRITZ-Box-7590/3565_FRITZ-Box-meldet-Der-DNS-Rebind-Schutz-hat-Ihre-Anfrage-aus-Sicherheitsgrunden-abgewiesen/), and be sure to select your router model.
+
+## Code Language Conventions
+
+This project uses a hybrid approach to language in code, mixing English and German.
+While technical implementation uses English (e.g., `function validateData()`), domain-specific terms can be kept in German (e.g., `hasRechtsschutzversicherung: boolean`).
+This is crucial because many German administrative terms lack precise English equivalents, leading to inconsistencies and communication overhead when translated.
+This hybrid approach ensures clear communication with domain experts and maintains code readability within our specific context.
+While we acknowledge this might pose a barrier for non-German speaking contributors, we believe it's the most effective solution for our project.
+We encourage contributors to ask questions about any unfamiliar German terms.
 
 ## Contributing
 

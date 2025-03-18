@@ -111,6 +111,7 @@ const getConnectionDetailsCancel = (
   return {
     info: `${announcementDescription}\n${replacementFlightDescription}`,
     timeTable: [
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       annullierungErsatzverbindungFlugnummer || "--",
       formatAnnullierungDateHour(
         annullierungErsatzverbindungAbflugsDatum,
@@ -124,10 +125,27 @@ const getConnectionDetailsCancel = (
   };
 };
 
+function getAmountOfDelay(
+  startDate?: string,
+  startTime?: string,
+  endDate?: string,
+  endTime?: string,
+  bereich?: string,
+) {
+  const duration = calculateDuration({
+    startDate: startDate ?? "",
+    startTime: startTime ?? "",
+    endDate: endDate ?? "",
+    endTime: endTime ?? "",
+  });
+  return bereich === "nichtbefoerderung" ? "--" : duration;
+}
+
 function getConnectionDetailsDelayOrNoBoarding(
   userData: FluggastrechtContext,
 ): ConnectionDetailsType {
   const {
+    bereich,
     tatsaechlicherFlug,
     ersatzverbindungArt,
     direktAnkunftsDatum,
@@ -135,12 +153,14 @@ function getConnectionDetailsDelayOrNoBoarding(
   } = userData;
 
   if (tatsaechlicherFlug === "yes") {
-    const info = calculateDuration({
-      startDate: direktAnkunftsDatum ?? "",
-      startTime: direktAnkunftsZeit ?? "",
-      endDate: userData.tatsaechlicherAnkunftsDatum ?? "",
-      endTime: userData.tatsaechlicherAnkunftsZeit ?? "",
-    });
+    const info = getAmountOfDelay(
+      direktAnkunftsDatum,
+      direktAnkunftsZeit,
+      userData.tatsaechlicherAnkunftsDatum,
+      userData.tatsaechlicherAnkunftsZeit,
+      bereich,
+    );
+
     return {
       info,
       timeTable: [
@@ -151,44 +171,51 @@ function getConnectionDetailsDelayOrNoBoarding(
     };
   }
 
+  const timeTableMapping: Record<string, string[]> = {
+    flug: [
+      userData.ersatzFlugnummer ?? "--",
+      "--",
+      `${userData.ersatzFlugAnkunftsDatum}, ${userData.ersatzFlugAnkunftsZeit}`,
+    ],
+    etwasAnderes: [
+      "--",
+      "--",
+      `${userData.andereErsatzverbindungAnkunftsDatum}, ${userData.andereErsatzverbindungAnkunftsZeit}`,
+    ],
+    keineAnkunft: ["--", "--", "--"],
+  };
+
   switch (ersatzverbindungArt) {
-    case "flug": {
-      const info = calculateDuration({
-        startDate: direktAnkunftsDatum ?? "",
-        startTime: direktAnkunftsZeit ?? "",
-        endDate: userData.ersatzFlugAnkunftsDatum ?? "",
-        endTime: userData.ersatzFlugAnkunftsZeit ?? "",
-      });
+    case "flug":
       return {
-        info,
-        timeTable: [
-          userData.ersatzFlugnummer ?? "--",
-          "--",
-          `${userData.ersatzFlugAnkunftsDatum}, ${userData.ersatzFlugAnkunftsZeit}`,
-        ],
+        info: getAmountOfDelay(
+          direktAnkunftsDatum,
+          direktAnkunftsZeit,
+          userData.ersatzFlugAnkunftsDatum,
+          userData.ersatzFlugAnkunftsZeit,
+          bereich,
+        ),
+        timeTable: timeTableMapping.flug,
       };
-    }
-    case "etwasAnderes": {
-      const info = calculateDuration({
-        startDate: direktAnkunftsDatum ?? "",
-        startTime: direktAnkunftsZeit ?? "",
-        endDate: userData.andereErsatzverbindungAnkunftsDatum ?? "",
-        endTime: userData.andereErsatzverbindungAnkunftsZeit ?? "",
-      });
+
+    case "etwasAnderes":
       return {
-        info,
-        timeTable: [
-          "--",
-          "--",
-          `${userData.andereErsatzverbindungAnkunftsDatum}, ${userData.andereErsatzverbindungAnkunftsZeit}`,
-        ],
+        info: getAmountOfDelay(
+          direktAnkunftsDatum,
+          direktAnkunftsZeit,
+          userData.andereErsatzverbindungAnkunftsDatum,
+          userData.andereErsatzverbindungAnkunftsZeit,
+          bereich,
+        ),
+        timeTable: timeTableMapping.etwasAnderes,
       };
-    }
+
     case "keineAnkunft":
       return {
         info: NOT_MEASURE_DID_NOT_ARRIVE_TEXT,
-        timeTable: ["--", "--", "--"],
+        timeTable: timeTableMapping.keineAnkunft,
       };
+
     default:
       return { info: "error", timeTable: ["error", "error", "error"] };
   }

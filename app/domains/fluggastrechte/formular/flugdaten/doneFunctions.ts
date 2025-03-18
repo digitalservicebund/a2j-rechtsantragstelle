@@ -46,6 +46,7 @@ function hasOptionalString(value: string | undefined): boolean {
 
 const hasDefaultFlugdaten: FluggastrechteFlugdatenGuard = ({ context }) => {
   return objectKeysNonEmpty(context, [
+    "fluggesellschaftLand",
     "fluggesellschaftOrt",
     "fluggesellschaftPostleitzahl",
     "fluggesellschaftStrasseHausnummer",
@@ -169,11 +170,12 @@ const hasAnnullierungErsatzverbindungDone: FluggastrechteFlugdatenGuard = ({
   context,
 }) => {
   return (
-    hasOptionalString(context.annullierungErsatzverbindungFlugnummer) &&
-    hasOptionalString(context.annullierungErsatzverbindungAbflugsDatum) &&
-    hasOptionalString(context.annullierungErsatzverbindungAbflugsZeit) &&
-    hasOptionalString(context.annullierungErsatzverbindungAnkunftsDatum) &&
-    hasOptionalString(context.annullierungErsatzverbindungAnkunftsZeit)
+    (hasOptionalString(context.annullierungErsatzverbindungFlugnummer) &&
+      hasOptionalString(context.annullierungErsatzverbindungAbflugsDatum) &&
+      hasOptionalString(context.annullierungErsatzverbindungAbflugsZeit) &&
+      hasOptionalString(context.annullierungErsatzverbindungAnkunftsDatum) &&
+      hasOptionalString(context.annullierungErsatzverbindungAnkunftsZeit)) ||
+    context.ersatzflug === "no"
   );
 };
 

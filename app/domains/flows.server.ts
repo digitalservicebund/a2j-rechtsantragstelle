@@ -1,3 +1,4 @@
+import { kontopfaendungWegweiser } from "app/domains/kontopfaendung/wegweiser";
 import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
 import { beratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck";
 import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
@@ -38,4 +39,5 @@ export const flows = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
   "/fluggastrechte/formular": fluggastrechtFlow,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
+  "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
 } satisfies Record<FlowId, Flow>;

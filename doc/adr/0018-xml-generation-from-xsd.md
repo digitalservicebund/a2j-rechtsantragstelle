@@ -2,8 +2,10 @@
 
 ## Status
 
-- Accepted: 2025-01-14
-- Edited: 2025-02-12
+- 2025-01-14: Drafted
+- 2025-01-16: Accepted
+- 2025-01-22: Edited (Renumbered from `0017`)
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

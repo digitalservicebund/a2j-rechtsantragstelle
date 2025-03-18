@@ -1,3 +1,4 @@
+import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import Background from "./Background";
 import Container from "./Container";
 import Image, { type ImageProps } from "./Image";
@@ -15,6 +16,7 @@ export type FooterProps = Readonly<{
   image?: ImageProps;
   deletionLabel?: string;
   showDeletionBanner?: boolean;
+  translations?: Record<string, string>;
 }>;
 
 export default function Footer({
@@ -23,17 +25,26 @@ export default function Footer({
   links = [],
   deletionLabel,
   showDeletionBanner = false,
+  translations,
 }: FooterProps) {
+  const ariaLabelTranslation = getTranslationByKey(
+    "footer-navigation",
+    translations,
+  );
   return (
-    <Container paddingTop="48" paddingBottom="0">
+    <Container paddingTop="48" paddingBottom="56">
       <div
         className="flex flex-wrap items-start justify-between gap-y-32 mb-32"
         data-testid="footer"
       >
         <div className="flex flex-col flex-col-reverse sm:flex-row gap-y-8 gap-x-16">
           {image?.url && (
-            <div>
-              <Image {...image} width={120} />
+            <div className="forced-colors:bg-black">
+              <Image
+                {...image}
+                width={120}
+                className="forced-colors:brightness-0 forced-colors:invert"
+              />
             </div>
           )}
           <div className="ds-stack-8">
@@ -45,7 +56,10 @@ export default function Footer({
           </div>
         </div>
 
-        <nav className="flex flex-wrap gap-x-32 gap-y-8" aria-label="Footer">
+        <nav
+          className="flex flex-wrap gap-x-32 gap-y-8"
+          aria-label={ariaLabelTranslation}
+        >
           <ul className="list-none m-0 p-0 space-y-8 columns-2">
             {links.map((link) => (
               <li key={link.url} className="leading-snug ds-label-03-reg">

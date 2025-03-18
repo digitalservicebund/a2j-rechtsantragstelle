@@ -2,7 +2,8 @@
 ARG CONTENT_IMAGE=content
 ARG APP_IMAGE=app
 
-FROM node:20-alpine AS app-base
+FROM node:22-alpine AS app-base
+
 WORKDIR /a2j
 
 COPY package.json package-lock.json ./
@@ -23,12 +24,8 @@ COPY ./content.json /
 # === PROD IMAGE
 FROM ${CONTENT_IMAGE} AS contentStageForCopy
 FROM ${APP_IMAGE} AS appStageForCopy
-FROM node:20-alpine AS prod
-
-# TODO: Check https://hub.docker.com/r/library/node/tags?name=alpine3.20
-# - Remove npm upgrade if CVE-2024-21538 is fixed (https://scout.docker.com/vulnerabilities/id/CVE-2024-21538?s=github) 
-RUN npm update -g npm && npm cache clean --force && \
-    apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
+FROM node:22-alpine AS prod
+RUN apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
 
 USER node
 WORKDIR /a2j

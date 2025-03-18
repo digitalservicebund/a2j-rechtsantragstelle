@@ -1,4 +1,5 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { parsePathname } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
 import { today, toGermanDateFormat } from "~/util/date";
 import { createClientS3DataStorage } from "./createClientS3DataStorage";
@@ -17,11 +18,11 @@ const getFolderDate = () => {
   return toGermanDateFormat(today()).replaceAll(".", "-");
 };
 
-const createFolderKey = (sessionId: string) => {
-  return `${DATA_CONSENT_FGR_FOLDER}/${getFolderDate()}/${sessionId}.csv`;
+const createFolderKey = (sessionId: string, identifier: string) => {
+  return `${DATA_CONSENT_FGR_FOLDER}/${getFolderDate()}/${sessionId}-${identifier}.csv`;
 };
 
-export const storeConsentFgrToS3Bucket = async ({ headers }: Request) => {
+const uploadConsentDataToS3 = async (headers: Headers, identifier: string) => {
   try {
     const s3Client = createClientS3DataStorage();
     const cookieHeader = headers.get("Cookie");
@@ -31,7 +32,7 @@ export const storeConsentFgrToS3Bucket = async ({ headers }: Request) => {
     );
 
     const buffer = createConsentDataBuffer(sessionId, headers);
-    const key = createFolderKey(sessionId);
+    const key = createFolderKey(sessionId, identifier);
 
     await s3Client.send(
       new PutObjectCommand({
@@ -49,4 +50,23 @@ export const storeConsentFgrToS3Bucket = async ({ headers }: Request) => {
       "error",
     );
   }
+};
+
+export const storeMultiplePersonsConsent = async ({
+  headers,
+  url,
+}: Request) => {
+  const { pathname } = new URL(url);
+  const { arrayIndexes } = parsePathname(pathname);
+  const additionalPersonIndex = arrayIndexes?.at(0);
+
+  if (additionalPersonIndex === undefined) {
+    throw new Error("Consent(Error): Array index is missing or undefined");
+  }
+
+  await uploadConsentDataToS3(headers, additionalPersonIndex.toString());
+};
+
+export const storeMainPersonConsent = async ({ headers }: Request) => {
+  await uploadConsentDataToS3(headers, "main");
 };

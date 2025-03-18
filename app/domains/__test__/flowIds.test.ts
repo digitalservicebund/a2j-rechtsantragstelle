@@ -23,9 +23,13 @@ describe("parsePathname", () => {
 });
 
 describe("flowIdFromPathname", () => {
-  it("extracts the first two path segments", () => {
+  it("extracts the existing valid flowIds", () => {
     expect(flowIdFromPathname("/beratungshilfe/antrag")).toEqual(
       "/beratungshilfe/antrag",
+    );
+
+    expect(flowIdFromPathname("/kontopfaendung/wegweiser")).toEqual(
+      "/kontopfaendung/wegweiser",
     );
   });
 

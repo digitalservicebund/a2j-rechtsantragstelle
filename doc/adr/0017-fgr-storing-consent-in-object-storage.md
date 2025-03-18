@@ -1,10 +1,11 @@
 # 17. FGR - Storing consent in OTC object storage (OBS)
 
-Date: 2025-01-13
-
 ## Status
 
-Accepted
+- 2025-01-13: Drafted
+- 2025-01-15: Accepted
+- 2025-01-22: Edited (Renumbered from `0016`)
+- 2025-04-04: Edited (Added chronological status)
 
 ## Context
 

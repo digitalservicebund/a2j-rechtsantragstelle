@@ -10,99 +10,104 @@ const machine: FlowStateMachine = createMachine(
   { guards: fluggastrechteGuards },
 );
 
+const baseContext = {
+  vorname: "test",
+  nachname: "test",
+  strasseHausnummer: "test",
+  ort: "test",
+  plz: "13055",
+};
+
 const cases = [
   [
+    baseContext,
+    [
+      "/persoenliche-daten/person/daten",
+      "/persoenliche-daten/weitere-personen/frage",
+    ],
+  ],
+  [
     {
-      anrede: "herr",
-      vorname: "test",
-      nachname: "test",
-      strasseHausnummer: "test",
-      ort: "test",
-      plz: "13055",
+      ...baseContext,
       isWeiterePersonen: "no",
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",
       "/persoenliche-daten/weitere-personen/frage",
-      "/persoenliche-daten/weitere-personen/zeugen",
+      "/prozessfuehrung/zeugen",
       "/prozessfuehrung/videoverhandlung",
     ],
   ],
   [
     {
-      anrede: "herr",
-      vorname: "test",
-      nachname: "test",
-      strasseHausnummer: "test",
-      ort: "test",
-      plz: "13055",
+      ...baseContext,
       isWeiterePersonen: "no",
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",
       "/persoenliche-daten/weitere-personen/frage",
-      "/persoenliche-daten/weitere-personen/zeugen",
+      "/prozessfuehrung/zeugen",
       "/prozessfuehrung/videoverhandlung",
     ],
   ],
   [
     {
-      anrede: "herr",
-      vorname: "test",
-      nachname: "test",
-      strasseHausnummer: "test",
-      ort: "test",
-      plz: "13055",
+      ...baseContext,
       isWeiterePersonen: "yes",
       weiterePersonen: [
         {
-          anrede: "herr",
-          vorname: "test",
-          nachname: "test",
-          strasseHausnummer: "test",
-          ort: "test",
-          plz: "13055",
+          ...baseContext,
         },
       ],
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",
       "/persoenliche-daten/weitere-personen/frage",
       "/persoenliche-daten/weitere-personen/uebersicht",
-      "/persoenliche-daten/weitere-personen/zeugen",
+      "/prozessfuehrung/zeugen",
       "/prozessfuehrung/videoverhandlung",
     ],
   ],
   [
     {
-      anrede: "herr",
-      vorname: "test",
-      nachname: "test",
-      strasseHausnummer: "test",
-      ort: "test",
-      plz: "13055",
+      ...baseContext,
       isWeiterePersonen: "yes",
       weiterePersonen: [
         {
-          anrede: "herr",
-          vorname: "test",
-          nachname: "test",
-          strasseHausnummer: "test",
-          ort: "test",
-          plz: "13055",
+          ...baseContext,
         },
       ],
-      hasZeugen: "no",
     },
     [
       "/persoenliche-daten/person/daten",
       "/persoenliche-daten/weitere-personen/frage",
       "/persoenliche-daten/weitere-personen/uebersicht",
-      "/persoenliche-daten/weitere-personen/zeugen",
-      "/prozessfuehrung/videoverhandlung",
+      "/prozessfuehrung/zeugen",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      isWeiterePersonen: "yes",
+      weiterePersonen: [],
+    },
+    [
+      "/persoenliche-daten/person/daten",
+      "/persoenliche-daten/weitere-personen/frage",
+      "/persoenliche-daten/weitere-personen/uebersicht",
+      "/persoenliche-daten/weitere-personen/warnung",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      isWeiterePersonen: "yes",
+    },
+    [
+      "/persoenliche-daten/person/daten",
+      "/persoenliche-daten/weitere-personen/frage",
+      "/persoenliche-daten/weitere-personen/uebersicht",
+      "/persoenliche-daten/weitere-personen/warnung",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtContext>;

@@ -13,11 +13,11 @@ type ReplacementKey = keyof ReturnType<typeof stringReplacements>;
 const documents = {
   hasBuergergeld: "Ihren aktuellen Bürgergeld-Bescheid",
   hasBuergergeldOrNoSozialleistung: "Kontoauszüge der letzten 3 Monate",
-  staatlicheLeistungenIsGrundsicherung:
-    "Ihren aktuellen Bescheid über Grundsicherung oder Sozialhilfe",
+  hasGrundsicherung:
+    "Kopie Ihres aktuellen Bescheids über Grundsicherung oder Sozialhilfe",
   arbeitslosenGeld: "Kopie Ihres aktuellen Arbeitslosengeld-Bescheids",
-  staatlicheLeistungenIsAsylbewerberleistungen:
-    "Ihren aktuellen Bescheid über Asylbewerberleistungen",
+  hasAsylbewerberleistungen:
+    "Kopie Ihres aktuellen Bescheids über Asylbewerberleistungen",
   wohngeld: "Kopie Ihres aktuellen Wohngeld-Bescheids",
   bafoeg:
     "Kopie Ihres aktuellen Bescheids über Bafoeg- oder Ausbildungsförderung",
@@ -37,7 +37,7 @@ const documents = {
   hasGrundeigentum: "Kopie des Grundbuchauszugs von Ihrem Grundeigentum",
   hasSchwangerschaft: "Angabe des voraussichtlichen Entbindungstermins",
   hasSchwerbehinderung:
-    "Kopie des Schwerbehindertensuasweis, oder Nachweis über die Behinderung",
+    "Kopie des Schwerbehindertenausweises, oder Nachweis über die Behinderung",
   hasMedicalReasons:
     "Bescheinigung der medizinischen Notwendigkeit der kostenaufwändigen Ernährung",
   hasWeitereAusgaben:
@@ -94,7 +94,6 @@ export const createChecklistSteps = (
 
   const relevantDocuments = [
     "Unterlagen zu Ihrem rechtlichen Problem",
-    "Kopie Ihres aktuellen Mietvertrags",
     ...Object.keys(documents)
       .filter((key) => conditions[key as ReplacementKey])
       .map((key) => documents[key as keyof typeof documents]),

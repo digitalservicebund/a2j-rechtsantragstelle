@@ -13,7 +13,7 @@
         "SUBMIT": [
           {
             "target": "streitbeilegung-gruende",
-            "guard": "streitbeilegungNo"
+            "guard": "hasNoStreitbeilegung"
           },
           "prozessfaehig"
         ],
@@ -32,7 +32,7 @@
         "BACK": [
           {
             "target": "streitbeilegung-gruende",
-            "guard": "streitbeilegungNo"
+            "guard": "hasNoStreitbeilegung"
           },
           "streitbeilegung"
         ]
@@ -46,13 +46,19 @@
     },
     "daten-uebernahme": {
       "on": {
+        "SUBMIT": "amtsgericht",
+        "BACK": "ausgleichszahlung"
+      }
+    },
+    "amtsgericht": {
+      "on": {
         "SUBMIT": [
           {
             "target": "#streitwert-kosten.gerichtskosten",
             "guard": "grundvoraussetzungenDone"
           }
         ],
-        "BACK": "ausgleichszahlung"
+        "BACK": "daten-uebernahme"
       }
     }
   }

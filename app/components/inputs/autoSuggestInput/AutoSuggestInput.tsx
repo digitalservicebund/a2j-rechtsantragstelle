@@ -5,6 +5,7 @@ import Select, { type InputActionMeta } from "react-select";
 import { useField } from "remix-validated-form";
 import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import { useTranslations } from "~/services/translations/translationsContext";
 import { type ErrorMessageProps } from "..";
 import {
   CustomClearIndicator,
@@ -19,6 +20,10 @@ import Input from "../Input";
 import InputError from "../InputError";
 import InputLabel from "../InputLabel";
 import { widthClassname, type FieldWidth } from "../width";
+import {
+  ariaLiveMessages,
+  screenReaderStatus,
+} from "./accessibilityConfig/ariaLiveMessages";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
@@ -124,6 +129,7 @@ const AutoSuggestInput = ({
   const [optionWasSelected, setOptionWasSelected] = useState(false);
   useEffect(() => setJsAvailable(true), []);
   const [options, setOptions] = useState<DataListOptions[]>([]);
+  const { accessibility: translations } = useTranslations();
 
   const onInputChange = (value: string, { action }: InputActionMeta) => {
     if (action === "input-change") {
@@ -173,6 +179,7 @@ const AutoSuggestInput = ({
         aria-describedby={error && errorId}
         aria-errormessage={error && errorId}
         aria-invalid={error !== undefined}
+        ariaLiveMessages={ariaLiveMessages(translations)}
         className={classNames(
           "w-full",
           { "has-error": error },
@@ -220,6 +227,7 @@ const AutoSuggestInput = ({
         onInputChange={onInputChange}
         options={options}
         placeholder={placeholder ?? ""}
+        screenReaderStatus={screenReaderStatus(translations)}
         styles={customStyles(hasError)}
         tabIndex={isDisabled ? -1 : 0}
         value={currentItemValue}

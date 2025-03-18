@@ -35,6 +35,7 @@ export const fluggastrechteFlugdaten = {
   fluggesellschaftStrasseHausnummer: stringRequiredSchema,
   fluggesellschaftPostleitzahl: stringRequiredSchema,
   fluggesellschaftOrt: stringRequiredSchema,
+  fluggesellschaftLand: stringRequiredSchema,
   zwischenstoppAnzahl: z.enum(
     ["no", "oneStop", "twoStop", "threeStop"],
     customRequiredErrorMessage,
@@ -55,6 +56,7 @@ export const fluggastrechteFlugdaten = {
   zweiterZwischenstopp: airportSchema,
   dritterZwischenstopp: airportSchema,
   bereich: stringOptionalSchema,
+  ersatzflug: stringOptionalSchema,
   andereErsatzverbindungBeschreibung: stringOptionalSchema,
   andereErsatzverbindungAnkunftsDatum: fourYearsAgoSchema,
   andereErsatzverbindungAnkunftsZeit: timeSchema,
@@ -62,13 +64,26 @@ export const fluggastrechteFlugdaten = {
   ersatzFlugAnkunftsDatum: fourYearsAgoSchema,
   ersatzFlugAnkunftsZeit: timeSchema,
   zusaetzlicheAngaben: stringOptionalSchema,
-  annullierungErsatzverbindungFlugnummer: optionalOrSchema(flightNumberSchema),
-  annullierungErsatzverbindungAbflugsDatum:
-    optionalOrSchema(fourYearsAgoSchema),
-  annullierungErsatzverbindungAbflugsZeit: optionalOrSchema(timeSchema),
-  annullierungErsatzverbindungAnkunftsDatum:
-    optionalOrSchema(fourYearsAgoSchema),
-  annullierungErsatzverbindungAnkunftsZeit: optionalOrSchema(timeSchema),
+  annullierungErsatzverbindungFlugnummer: optionalOrSchema(
+    flightNumberSchema,
+    z.literal(""),
+  ),
+  annullierungErsatzverbindungAbflugsDatum: optionalOrSchema(
+    fourYearsAgoSchema,
+    z.literal(""), // we need to set default value (empty string), so that the client-side validation works
+  ),
+  annullierungErsatzverbindungAbflugsZeit: optionalOrSchema(
+    timeSchema,
+    z.literal(""),
+  ),
+  annullierungErsatzverbindungAnkunftsDatum: optionalOrSchema(
+    fourYearsAgoSchema,
+    z.literal(""),
+  ),
+  annullierungErsatzverbindungAnkunftsZeit: optionalOrSchema(
+    timeSchema,
+    z.literal(""),
+  ),
 };
 
 const _contextObject = z.object(fluggastrechteFlugdaten).partial();

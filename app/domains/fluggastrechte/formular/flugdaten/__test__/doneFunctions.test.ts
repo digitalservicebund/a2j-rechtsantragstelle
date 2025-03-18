@@ -1,11 +1,10 @@
 import { FluggastrechtContext } from "../../context";
 import { flugdatenDone } from "../doneFunctions";
+import { fluggesellschaftAddresse } from "./flugdatenMock";
 
 const baseContext: FluggastrechtContext = {
+  ...fluggesellschaftAddresse,
   direktFlugnummer: "AB6303",
-  fluggesellschaftOrt: "Berlin",
-  fluggesellschaftPostleitzahl: "10969",
-  fluggesellschaftStrasseHausnummer: "Prinzessinnenstraße 8-14",
   buchungsNummer: "X36Q9C",
   direktAbflugsDatum: "10.03.2024",
   direktAbflugsZeit: "09:09",
@@ -155,6 +154,7 @@ describe("flugdatenDone", () => {
         annullierungErsatzverbindungAbflugsZeit: "10:10",
         annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
+        ersatzflug: "yes",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(true);
@@ -169,6 +169,7 @@ describe("flugdatenDone", () => {
         annullierungErsatzverbindungAbflugsZeit: "10:10",
         annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
+        ersatzflug: "yes",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(false);
@@ -183,6 +184,7 @@ describe("flugdatenDone", () => {
         annullierungErsatzverbindungAbflugsZeit: "10:10",
         annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
+        ersatzflug: "yes",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(false);
@@ -197,6 +199,7 @@ describe("flugdatenDone", () => {
         annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
         annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
+        ersatzflug: "yes",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(false);
@@ -212,6 +215,7 @@ describe("flugdatenDone", () => {
         annullierungErsatzverbindungAbflugsZeit: "10:10",
         annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
+        ersatzflug: "yes",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(false);
@@ -228,6 +232,7 @@ describe("flugdatenDone", () => {
         annullierungErsatzverbindungAbflugsZeit: "10:10",
         annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
+        ersatzflug: "yes",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(false);
@@ -245,6 +250,7 @@ describe("flugdatenDone", () => {
         annullierungErsatzverbindungAbflugsZeit: "10:10",
         annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
+        ersatzflug: "yes",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(false);
@@ -264,6 +270,18 @@ describe("flugdatenDone", () => {
         annullierungErsatzverbindungAbflugsZeit: "10:10",
         annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
+        ersatzflug: "yes",
+      } as const;
+
+      expect(flugdatenDone({ context })).toBe(true);
+    });
+
+    test("returns true when all required fields are present for 'annullierung' and ersatzflug is no", () => {
+      const context = {
+        ...baseContext,
+        zwischenstoppAnzahl: "no",
+        bereich: "annullierung",
+        ersatzflug: "no",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(true);
