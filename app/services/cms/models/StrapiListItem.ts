@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { StrapiAccordionSchema } from "~/services/cms/models/StrapiAccordion";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
@@ -15,7 +16,7 @@ export const StrapiListItemSchema = z
       .nullable()
       .transform(omitNull)
       .optional(),
+    accordion: StrapiAccordionSchema.nullable().transform(omitNull),
   })
   .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema)
-  .transform((cmsData) => cmsData);
+  .merge(OptionalStrapiLinkIdentifierSchema);
