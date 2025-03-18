@@ -6,7 +6,7 @@ import { useTranslations } from "~/services/translations/translationsContext";
 export type AccordionItemProps = Readonly<{
   title: string;
   description: string;
-  id?: number;
+  id: number;
   isOpen?: boolean;
   onToggle?: () => void;
   jsEnabled?: boolean;

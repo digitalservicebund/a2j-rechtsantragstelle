@@ -18,6 +18,7 @@ export default function Accordion({ items }: AccordionProps) {
       {items.map((item, index) => (
         <AccordionItem
           key={item.id ?? index}
+          id={item.id}
           title={item.title}
           description={item.description}
           isOpen={openIndex === index}

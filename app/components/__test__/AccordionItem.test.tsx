@@ -124,11 +124,5 @@ describe("AccordionItem Component", () => {
       const detailsElem = screen.getByRole("group", { hidden: true });
       expect(detailsElem).toBeInTheDocument();
     });
-
-    it("renders correctly when id is undefined", () => {
-      render(<AccordionItem {...fallbackProps} id={undefined} />);
-      const detailsElem = screen.getByRole("group", { hidden: true });
-      expect(detailsElem).toBeInTheDocument();
-    });
   });
 });
