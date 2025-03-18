@@ -154,7 +154,7 @@ export const prozesskostenhilfeFormular = {
       }),
       "weitere-angaben": {
         id: "weitere-angaben",
-        meta: { done: () => true},
+        meta: { done: () => true },
         on: {
           BACK: "#persoenliche-daten.beruf",
           SUBMIT: "#abgabe",
