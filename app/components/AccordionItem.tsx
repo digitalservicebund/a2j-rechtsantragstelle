@@ -3,7 +3,7 @@ import KeyboardArrowUpIcon from "@digitalservicebund/icons/KeyboardArrowUp";
 import RichText from "~/components/RichText";
 import { useTranslations } from "~/services/translations/translationsContext";
 
-export type props = AccordionItemProps &
+export type Props = AccordionItemProps &
   Readonly<{
     isOpen: boolean;
     onToggle: () => void;
@@ -22,7 +22,7 @@ export default function AccordionItem({
   isOpen,
   onToggle,
   jsEnabled,
-}: props) {
+}: Props) {
   const { accordion } = useTranslations();
 
   // When JS is enabled, intercept clicks on the summary to prevent
@@ -30,7 +30,7 @@ export default function AccordionItem({
   const handleSummaryClick = (event: React.MouseEvent) => {
     if (jsEnabled) {
       event.preventDefault();
-      onToggle?.();
+      onToggle();
     }
   };
 
