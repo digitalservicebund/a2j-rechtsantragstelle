@@ -3,9 +3,11 @@ import Heading, { type HeadingProps } from "./Heading";
 import ListItem, { type ListItemProps } from "./ListItem";
 import RichText from "./RichText";
 
+export type ListVariant = "unordered" | "numbered" | "stepByStep";
+
 export type ListProps = {
   items: ListItemProps[];
-  variant: "unordered" | "numbered";
+  variant: ListVariant;
   identifier?: string;
   heading?: HeadingProps;
   subheading?: string;
@@ -27,14 +29,8 @@ const List = ({
           // Need to filter out empty list items when conditionally rendering with mustache templating
           .filter(listItemNotEmpty)
           .map((item, index) => (
-            <li
-              key={item.identifier ?? item.headline?.text ?? item.content}
-              className="first:pt-0 scroll-my-40"
-            >
-              <ListItem
-                {...item}
-                index={variant === "numbered" ? index + 1 : undefined}
-              />
+            <li key={item.identifier ?? item.headline?.text ?? item.content}>
+              <ListItem {...item} index={index + 1} variant={variant} />
             </li>
           ))}
       </ol>
