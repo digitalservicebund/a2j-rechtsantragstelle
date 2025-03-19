@@ -7,7 +7,7 @@
     "geburtsdatum": { "on": { "BACK": "name", "SUBMIT": "adresse" } },
     "adresse": { "on": { "BACK": "geburtsdatum", "SUBMIT": "telefonnummer" } },
     "telefonnummer": {
-      "on": { "BACK": "adresse", "SUBMIT": "#zusammenfassung" }
+      "on": { "BACK": "adresse" }
     }
   }
 }
