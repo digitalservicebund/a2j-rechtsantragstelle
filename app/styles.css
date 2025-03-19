@@ -249,7 +249,7 @@ svg {
 }
 
 /* for mobile or touch screens, it does not need to see if it's hover */
-@media only screen and (max-device-width: 1024px) {
+@media only screen and (max-width: 1024px) {
   .ds-tile-radio-group:has(label > input[type="radio"]:checked) {
     background: var(--background-color-blue-300, #dce8ef);
     box-shadow: 0 0 0 0.125rem #004b76;
