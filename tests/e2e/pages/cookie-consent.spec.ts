@@ -5,7 +5,7 @@ import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 import { CookieSettings } from "../domains/shared/CookieSettings";
 import { testPageToBeAccessible } from "../util/testPageToBeAccessible";
 
-const pageUrl = "/cookie-einstellungen";
+const pageUrl = "/datenschutz";
 const encode = (str: string): string =>
   Buffer.from(str, "binary").toString("base64");
 
@@ -80,8 +80,8 @@ test.describe(pageUrl, () => {
   });
 });
 
-test.describe("/cookie-einstellungen/erfolg", () => {
-  testPageToBeAccessible("/cookie-einstellungen/erfolg");
+test.describe("/datenschutz/erfolg", () => {
+  testPageToBeAccessible("/datenschutz/erfolg");
 });
 
 test.describe("Cookie Banner", () => {
