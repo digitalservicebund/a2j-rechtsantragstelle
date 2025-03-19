@@ -479,7 +479,21 @@ describe("fluggastrechteGuard", () => {
       expect(actual).toBe(false);
     });
 
-    it("should return true given an destination german airport, a non departure german airport and sonstiges airline", () => {
+    it("should return true given a start airport outside EU, a destination german airport and sonstiges airline", () => {
+      const context: FluggastrechtVorabcheckContext = {
+        startAirport: "JFK",
+        endAirport: "DRS",
+        fluggesellschaft: "sonstiges",
+      };
+
+      const actual = guards.isGermanEndAirportsAndOtherAirline({
+        context,
+      });
+
+      expect(actual).toBe(true);
+    });
+
+    it("should return false given a start airport inside EU, a destination airport without partner court in Germany and sonstiges airline", () => {
       const context: FluggastrechtVorabcheckContext = {
         startAirport: "AMS",
         endAirport: "DRS",
@@ -490,7 +504,7 @@ describe("fluggastrechteGuard", () => {
         context,
       });
 
-      expect(actual).toBe(true);
+      expect(actual).toBe(false);
     });
   });
 
@@ -616,7 +630,7 @@ describe("fluggastrechteGuard", () => {
         expect(actual).toBe(false);
       });
 
-      it("should return false given a destination airport with partner court and sonstiges airline", () => {
+      it("should return true given a destination airport with partner court and sonstiges airline", () => {
         const context: FluggastrechtVorabcheckContext = {
           startAirport: "AMS",
           endAirport: "BER",
@@ -628,7 +642,7 @@ describe("fluggastrechteGuard", () => {
           context,
         });
 
-        expect(actual).toBe(false);
+        expect(actual).toBe(true);
       });
     });
 

@@ -62,6 +62,7 @@ export const guards = {
     return (
       isEndAirportGerman &&
       !isStartAirportGerman &&
+      !isEuropeanUnionAirport(startAirport) &&
       fluggesellschaft === "sonstiges"
     );
   },

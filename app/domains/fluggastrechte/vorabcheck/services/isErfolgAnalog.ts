@@ -23,12 +23,22 @@ export const isErfolgAnalog = ({
   const isAirlineInEu = isFluggesellschaftInEU(fluggesellschaft);
   const isStartAirportInEu = isEuropeanUnionAirport(startAirport);
 
-  // only with german destination
+  // only with german destination and no partner court
   if (
     isEndAirportGerman &&
     !isStartAirportGerman &&
     !hasEndAirportPartnerCourt &&
-    ((isAirlineInEu && fluggesellschaft !== "sonstiges") || isStartAirportInEu)
+    (isStartAirportInEu || (isAirlineInEu && fluggesellschaft !== "sonstiges"))
+  ) {
+    return true;
+  }
+  // only with german destination and partner court and airline sonstiges
+  if (
+    isEndAirportGerman &&
+    !isStartAirportGerman &&
+    hasEndAirportPartnerCourt &&
+    fluggesellschaft === "sonstiges" &&
+    (isStartAirportInEu || isAirlineInEu)
   ) {
     return true;
   }
