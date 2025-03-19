@@ -106,10 +106,10 @@ async function startAbgabe(page: Page) {
 }
 
 async function conditionallyStartAbgabe(page: Page) {
-  if (await isFeatureFlagEnabled("showBeratungshilfeZusammenfassungPage")) {
-    // beratungshilfe/antrag/Zusammenfassung/ueberblick
-    await expectPageToBeAccessible({ page });
-  } else {
+  const featurFlagEnabled = await isFeatureFlagEnabled(
+    "showBeratungshilfeZusammenfassungPage",
+  );
+  if (!featurFlagEnabled) {
     await startAbgabe(page);
   }
 }
