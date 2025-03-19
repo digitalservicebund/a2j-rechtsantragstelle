@@ -143,7 +143,7 @@ describe("NavigationItem", () => {
     expect(getByRole("link")).not.toHaveAttribute("aria-describedby");
   });
 
-  it("should not render aria-describedby for the link given state isDone true", () => {
+  it("should render aria-describedby for the link given state isDone true", () => {
     const { getByRole } = render(
       <NavItem destination={destination} label={label} state={NavState.Done} />,
     );
@@ -173,7 +173,7 @@ describe("NavigationItem", () => {
     expect(getByRole("button")).not.toHaveAttribute("aria-describedby");
   });
 
-  it("should not render aria-describedby for the button given state isDone true for subflows", () => {
+  it("should render aria-describedby for the button given state isDone true for subflows", () => {
     const subflows = [
       {
         destination: "/subflow",
