@@ -133,4 +133,64 @@ describe("NavigationItem", () => {
       "ds-label-02-bold bg-blue-400",
     );
   });
+
+  it("should not render aria-describedby for the link given state isDone false", () => {
+    const { getByRole } = render(
+      <NavItem destination={destination} label={label} state={NavState.Open} />,
+    );
+
+    expect(getByRole("link")).toBeInTheDocument();
+    expect(getByRole("link")).not.toHaveAttribute("aria-describedby");
+  });
+
+  it("should not render aria-describedby for the link given state isDone true", () => {
+    const { getByRole } = render(
+      <NavItem destination={destination} label={label} state={NavState.Done} />,
+    );
+
+    expect(getByRole("link")).toBeInTheDocument();
+    expect(getByRole("link")).toHaveAttribute("aria-describedby");
+  });
+
+  it("should not render aria-describedby for the button given state isDone false for subflows", () => {
+    const subflows = [
+      {
+        destination: "/subflow",
+        label: "subflowLabel",
+        state: NavState.Open,
+      },
+    ];
+    const { getByRole } = render(
+      <NavItem
+        destination={destination}
+        label={label}
+        state={NavState.Open}
+        subflows={subflows}
+      />,
+    );
+
+    expect(getByRole("button")).toBeInTheDocument();
+    expect(getByRole("button")).not.toHaveAttribute("aria-describedby");
+  });
+
+  it("should not render aria-describedby for the button given state isDone true for subflows", () => {
+    const subflows = [
+      {
+        destination: "/subflow",
+        label: "subflowLabel",
+        state: NavState.Done,
+      },
+    ];
+    const { getByRole } = render(
+      <NavItem
+        destination={destination}
+        label={label}
+        state={NavState.Done}
+        subflows={subflows}
+      />,
+    );
+
+    expect(getByRole("button")).toBeInTheDocument();
+    expect(getByRole("button")).toHaveAttribute("aria-describedby");
+  });
 });

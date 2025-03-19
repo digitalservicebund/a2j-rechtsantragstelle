@@ -77,7 +77,8 @@ export function NavItem({
             aria-disabled={isDisabled}
             aria-expanded={collapse.isExpanded}
             {...collapse.getToggleProps()}
-            aria-describedby={iconId}
+            aria-describedby={isDone ? iconId : undefined}
+            role={undefined} // due the rest operator, the role is assigned to the button in the server side rendering
           >
             {label}
             {collapse.isExpanded ? (
@@ -87,7 +88,10 @@ export function NavItem({
             )}
             {isDone && <StateIcon id={iconId} a11yLabels={a11yLabels} />}
           </button>
-          <section {...collapse.getCollapseProps()}>
+          {
+            // due the rest operator, the role is assigned to the section in the server side rendering
+          }
+          <section {...collapse.getCollapseProps()} role={undefined}>
             <NavigationList
               navItems={visibleChildItems}
               a11yLabels={a11yLabels}
@@ -101,7 +105,7 @@ export function NavItem({
           className={itemClassNames}
           aria-disabled={isDisabled}
           aria-current={isCurrent}
-          aria-describedby={iconId}
+          aria-describedby={isDone ? iconId : undefined}
         >
           {label}
           {isDone && <StateIcon id={iconId} a11yLabels={a11yLabels} />}
