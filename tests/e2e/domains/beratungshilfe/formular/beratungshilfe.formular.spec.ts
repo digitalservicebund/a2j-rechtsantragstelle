@@ -2,7 +2,7 @@ import { type Page, type Response, expect, test } from "@playwright/test";
 import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
-import { FeatureFlag, isFeatureFlagEnabled } from "~/services/featureFlags";
+import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
 import { startFinanzielleAngabenGrundsicherung } from "./finanzielleAngabenGrundsicherung";
@@ -50,7 +50,7 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startRechtsproblem(page, beratungshilfeFormular);
   await startFinanzielleAngabenGrundsicherung(beratungshilfeFormular);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
-  await conditionallyStartAbgabe(page, "showBeratungshilfeZusammenfassungPage");
+  await conditionallyStartAbgabe(page);
 });
 
 test("invalid array index redirects to initial step of subflow", async ({
@@ -105,16 +105,11 @@ async function startAbgabe(page: Page) {
   );
 }
 
-async function conditionallyStartAbgabe(page: Page, flagName: FeatureFlag) {
-  if (await isFeatureFlagEnabled(flagName)) {
-    await startZusammenfassung(page);
+async function conditionallyStartAbgabe(page: Page) {
+  if (await isFeatureFlagEnabled("showBeratungshilfeZusammenfassungPage")) {
+    // beratungshilfe/antrag/Zusammenfassung/ueberblick
+    await expectPageToBeAccessible({ page });
   } else {
     await startAbgabe(page);
   }
-}
-
-export async function startZusammenfassung(page: Page) {
-  // beratungshilfe/antrag/Zusammenfassung/ueberblick
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.clickNext();
 }
