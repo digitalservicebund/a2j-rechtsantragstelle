@@ -43,7 +43,7 @@ const TileRadio = ({
       >
         <input
           {...getInputProps({ type: "radio", id, value })}
-          className="ds-radio"
+          className="ds-radio forced-colors:appearance-auto forced-colors:focus-visible:outline-none"
           name={name}
           type="radio"
           aria-describedby={error && `${name}-error`}
