@@ -50,7 +50,9 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startRechtsproblem(page, beratungshilfeFormular);
   await startFinanzielleAngabenGrundsicherung(beratungshilfeFormular);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
-  await startAbgabe(page);
+  if (!(await isFeatureFlagEnabled("showBeratungshilfeZusammenfassungPage"))) {
+    await startAbgabe(page);
+  }
 });
 
 test("invalid array index redirects to initial step of subflow", async ({
