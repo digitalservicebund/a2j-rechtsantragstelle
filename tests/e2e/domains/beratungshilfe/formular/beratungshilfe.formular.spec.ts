@@ -2,7 +2,7 @@ import { type Page, type Response, expect, test } from "@playwright/test";
 import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { FeatureFlag, isFeatureFlagEnabled } from "~/services/featureFlags";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
 import { startFinanzielleAngabenGrundsicherung } from "./finanzielleAngabenGrundsicherung";
@@ -50,9 +50,7 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startRechtsproblem(page, beratungshilfeFormular);
   await startFinanzielleAngabenGrundsicherung(beratungshilfeFormular);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
-  if (!(await isFeatureFlagEnabled("showBeratungshilfeZusammenfassungPage"))) {
-    await startAbgabe(page);
-  }
+  await conditionallyStartAbgabe(page, "showBeratungshilfeZusammenfassungPage");
 });
 
 test("invalid array index redirects to initial step of subflow", async ({
@@ -105,4 +103,18 @@ async function startAbgabe(page: Page) {
   expect(await newTabResponse?.headerValue("content-type")).toBe(
     "application/pdf",
   );
+}
+
+async function conditionallyStartAbgabe(page: Page, flagName: FeatureFlag) {
+  if (await isFeatureFlagEnabled(flagName)) {
+    await startZusammenfassung(page);
+  } else {
+    await startAbgabe(page);
+  }
+}
+
+export async function startZusammenfassung(page: Page) {
+  // beratungshilfe/antrag/Zusammenfassung/ueberblick
+  await expectPageToBeAccessible({ page });
+  await beratungshilfeFormular.clickNext();
 }
