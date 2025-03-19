@@ -1,10 +1,12 @@
 import { useLoaderData, useSubmit } from "@remix-run/react";
 import classNames from "classnames";
 import Button from "~/components/Button";
+import { splitFieldName } from "~/components/filesUpload/fileUploadHelpers";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
 import { loader } from "~/routes/shared/formular.server";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
+import { useTranslations } from "~/services/translations/translationsContext";
 import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { ErrorMessageProps } from ".";
 
@@ -14,7 +16,6 @@ export type FileInputProps = {
   jsAvailable: boolean;
   error?: string;
   helperText?: string;
-  selectFilesButtonLabel?: string;
   errorMessages?: ErrorMessageProps[];
 };
 
@@ -25,9 +26,9 @@ export const FileInput = ({
   error,
   helperText,
   errorMessages,
-  selectFilesButtonLabel,
 }: FileInputProps) => {
   const { onFileDelete, onFileUpload } = useFileHandler();
+  const { fileUpload: translations } = useTranslations();
   const errorId = `${name}-error`;
 
   const classes = classNames(
@@ -47,7 +48,7 @@ export const FileInput = ({
           jsAvailable={jsAvailable}
           fileName={selectedFile.filename}
           fileSize={selectedFile.fileSize}
-          deleteButtonLabel={"Löschen"}
+          deleteButtonLabel={translations?.delete}
           hasError={!!error}
         />
       ) : (
@@ -56,14 +57,21 @@ export const FileInput = ({
             name={name}
             onChange={(event) => onFileUpload(name, event.target.files?.[0])}
             type="file"
-            accept=".pdf, .tiff, .tif"
+            accept=".pdf"
             data-testid="fileUploadInput"
             aria-invalid={error !== undefined}
             aria-errormessage={error && errorId}
             className={classes}
           />
           {jsAvailable ? (
-            <Button look="tertiary" text={selectFilesButtonLabel} />
+            <Button
+              look="tertiary"
+              text={
+                splitFieldName(name).inputIndex === 0
+                  ? translations?.select
+                  : translations?.addAnother
+              }
+            />
           ) : (
             <Button
               name="_action"
@@ -71,7 +79,7 @@ export const FileInput = ({
               className="w-fit"
               type="submit"
               look="primary"
-              text="Hochladen"
+              text={translations?.upload}
               size="large"
             />
           )}

@@ -12,6 +12,7 @@ type Props = Pick<
 > & {
   readonly boxId: number;
   readonly userData: Context;
+  readonly arrayPositionTitle?: number;
 };
 
 const SummaryOverviewBox = ({
@@ -20,15 +21,26 @@ const SummaryOverviewBox = ({
   userData,
   boxItems,
   title,
+  arrayPositionTitle,
 }: Props) => {
   const { translations, flowId } = useFormFlow();
 
   return (
     <div className="mt-8">
       <div className="bg-white pt-32 pb-44 px-32">
-        {title && <Heading {...title} className="mb-16" />}
+        {title && (
+          <Heading
+            {...title}
+            text={
+              arrayPositionTitle
+                ? `${title.text} ${arrayPositionTitle}`
+                : title.text
+            }
+            className="mb-16"
+          />
+        )}
 
-        <div>
+        <dl>
           {boxItems.map(({ title: boxItemTitle, inlineItems }, index) => (
             <SummaryOverviewBoxItem
               key={`${boxId}-${boxItemTitle ?? index}`}
@@ -38,7 +50,7 @@ const SummaryOverviewBox = ({
               inlineItems={inlineItems}
             />
           ))}
-        </div>
+        </dl>
 
         <Button
           iconLeft={<EditButton />}

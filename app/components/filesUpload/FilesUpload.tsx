@@ -1,6 +1,5 @@
 import { useActionData } from "@remix-run/react";
 import classNames from "classnames";
-import get from "lodash/get";
 import { useState, useEffect } from "react";
 import { useField, ValidationErrorResponseData } from "remix-validated-form";
 import { ErrorMessageProps } from "~/components/inputs";
@@ -15,6 +14,7 @@ export type FilesUploadProps = {
   name: string;
   title?: string;
   description?: string;
+  formId?: string;
   inlineNotices?: InlineNoticeProps[];
   errorMessages?: ErrorMessageProps[];
 };
@@ -24,17 +24,19 @@ const FilesUpload = ({
   title,
   description,
   inlineNotices,
+  formId,
   errorMessages,
 }: FilesUploadProps) => {
   const [jsAvailable, setJsAvailable] = useState(false);
   const response = useActionData<
     ValidationErrorResponseData | Context | undefined
   >();
-  const { defaultValue } = useField(name);
+  const { defaultValue } = useField(name, { formId });
   const items: Array<PDFFileMetadata | undefined> =
-    get(response?.repopulateFields, name) ??
-    get(response, name) ??
-    defaultValue;
+    (response?.repopulateFields as Context | undefined)?.[name] ??
+    (response as Context | undefined)?.[name] ??
+    defaultValue ??
+    [];
   const scopedErrors = Object.fromEntries(
     Object.entries(response?.fieldErrors ?? {}).filter(
       ([key]) => key.split("[")[0] === name,
@@ -44,53 +46,52 @@ const FilesUpload = ({
 
   useEffect(() => setJsAvailable(true), []);
 
-  const groupError: string | undefined = get(scopedErrors, name);
+  const groupError: string | undefined = scopedErrors[name];
 
   const classes = classNames("w-full bg-white p-16", {
     "bg-red-200 border border-red-900": !!groupError,
   });
 
+  const showAddMoreButton =
+    (items.length < fileUploadLimit || items.length === 0) &&
+    Object.entries(scopedErrors).length === 0;
+
   return (
-    <NoscriptWrapper jsAvailable={jsAvailable}>
-      <div className={classes}>
-        <FilesUploadHeader title={title} description={description} />
-        <div className="w-full flex flex-col gap-24">
-          {items.map((value, index) => {
-            const inputName = `${name}[${index}]`;
-            return (
-              <FileInput
-                key={inputName}
-                selectedFile={value}
-                error={get(scopedErrors, inputName)}
-                jsAvailable={jsAvailable}
-                name={inputName}
-                selectFilesButtonLabel="Datei Auswählen"
-              />
-            );
-          })}
-          {(items.length < fileUploadLimit || items.length === 0) &&
-            Object.entries(scopedErrors).length === 0 && (
+    title !== "" && (
+      <NoscriptWrapper jsAvailable={jsAvailable}>
+        <div className={classes}>
+          <FilesUploadHeader title={title} description={description} />
+          <div className="w-full flex flex-col gap-24">
+            {items.map((value, index) => {
+              const inputName = `${name}[${index}]`;
+              return (
+                <FileInput
+                  key={inputName}
+                  selectedFile={value}
+                  error={scopedErrors[inputName]}
+                  jsAvailable={jsAvailable}
+                  name={inputName}
+                />
+              );
+            })}
+            {showAddMoreButton && (
               <FileInput
                 selectedFile={undefined}
                 jsAvailable={jsAvailable}
                 name={`${name}[${items.length}]`}
-                selectFilesButtonLabel={
-                  items.length === 0
-                    ? "Datei Auswählen"
-                    : "Weitere Datei Auswählen"
-                }
               />
             )}
+          </div>
         </div>
-      </div>
-      <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === groupError)?.text ??
-          groupError}
-      </InputError>
-      {inlineNotices?.map((inlineNotice) => (
-        <InlineNotice key={inlineNotice.title} {...inlineNotice} />
-      ))}
-    </NoscriptWrapper>
+        <InputError id={errorId}>
+          {errorMessages?.find((err) => err.code === groupError)?.text ??
+            groupError}
+        </InputError>
+        {inlineNotices?.map((inlineNotice) => (
+          <InlineNotice key={inlineNotice.title} {...inlineNotice} />
+        ))}
+      </NoscriptWrapper>
+    )
   );
 };
 

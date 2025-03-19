@@ -43,18 +43,14 @@ describe("SummaryOverviewBox", () => {
     look: "",
   } as HeadingProps;
 
-  beforeEach(() => {
-    vi.clearAllMocks();
+  vi.mocked(useFormFlow).mockReturnValue({
+    translations: mockTranslations,
+    userData: mockUserData,
+    validFlowPages: {},
+    flowId: "/beratungshilfe/antrag",
   });
 
   it("should render the heading when title is provided", () => {
-    vi.mocked(useFormFlow).mockReturnValue({
-      translations: mockTranslations,
-      userData: mockUserData,
-      validFlowPages: {},
-      flowId: "/beratungshilfe/antrag",
-    });
-
     const { getByTestId } = render(
       <SummaryOverviewBox
         boxId={boxId}
@@ -68,14 +64,22 @@ describe("SummaryOverviewBox", () => {
     expect(getByTestId("heading")).toHaveTextContent(titleMock.text ?? "");
   });
 
-  it("should render SummaryOverviewBoxItem for each field", () => {
-    vi.mocked(useFormFlow).mockReturnValue({
-      translations: mockTranslations,
-      userData: mockUserData,
-      validFlowPages: {},
-      flowId: "/beratungshilfe/antrag",
-    });
+  it("should render the heading when title is provided with arrayPositionTitle", () => {
+    const { getByTestId } = render(
+      <SummaryOverviewBox
+        boxId={boxId}
+        stepId={stepId}
+        userData={mockUserData}
+        boxItems={boxItems}
+        title={titleMock}
+        arrayPositionTitle={2}
+      />,
+    );
 
+    expect(getByTestId("heading")).toHaveTextContent(`${titleMock.text} 2`);
+  });
+
+  it("should render SummaryOverviewBoxItem for each field", () => {
     const { getAllByTestId } = render(
       <SummaryOverviewBox
         boxId={boxId}
@@ -91,13 +95,6 @@ describe("SummaryOverviewBox", () => {
   });
 
   it("should render the edit button with correct href", () => {
-    vi.mocked(useFormFlow).mockReturnValue({
-      translations: mockTranslations,
-      userData: mockUserData,
-      validFlowPages: {},
-      flowId: "/beratungshilfe/antrag",
-    });
-
     const { getByTestId } = render(
       <SummaryOverviewBox
         boxId={boxId}

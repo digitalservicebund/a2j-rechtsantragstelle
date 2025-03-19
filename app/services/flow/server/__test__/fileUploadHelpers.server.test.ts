@@ -1,10 +1,15 @@
-import { belegeContext } from "~/domains/shared/formular/abgabe/context";
+import { z } from "zod";
 import {
   buildFileUploadError,
   convertAsyncBufferToFile,
   validateUploadedFile,
 } from "~/services/flow/server/fileUploadHelpers.server";
-import { fileUploadErrorMap, PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import {
+  fileUploadErrorMap,
+  fileUploadLimit,
+  PDFFileMetadata,
+  pdfFileMetaDataSchema,
+} from "~/util/file/pdfFileSchema";
 
 describe("File Upload helpers", () => {
   describe("validateUploadedFile", () => {
@@ -21,7 +26,11 @@ describe("File Upload helpers", () => {
         {
           belege1: [],
         },
-        { ...belegeContext },
+        {
+          belege1: z
+            .array(pdfFileMetaDataSchema)
+            .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
+        },
       );
       expect(validationResult.error).toBeUndefined();
       expect(validationResult.submittedData).toEqual({
@@ -44,10 +53,12 @@ describe("File Upload helpers", () => {
       const validationResult = await validateUploadedFile(
         "belege[0]",
         mockFileMetadata,
+        {},
         {
-          belege1: [],
+          belege: z
+            .array(pdfFileMetaDataSchema)
+            .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
         },
-        { ...belegeContext },
       );
       expect(validationResult.error).toBeDefined();
       expect(validationResult.error?.fieldErrors).toEqual({

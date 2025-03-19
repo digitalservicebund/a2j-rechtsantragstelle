@@ -45,6 +45,9 @@ const allowedWebsites = [
   "https://www.mjp.justiz.de",
   "https://europa.eu",
   "https://www.brak.de",
+  "https://formulare.bfdi.bund.de",
+  "https://www.justizadressen.nrw.de",
+  "https://www.datenschutzkonferenz-online.de",
 ];
 
 const allowedEmails = [
@@ -62,6 +65,11 @@ const allowedEmails = [
   "sophie.lieb@aq-rheinbach.nrw.de",
   "heike.parpart@ag-koeln.nrw.de",
   "juergen.meier@ag-bielefeld.nrw.de",
+  "feedback-justiz-services@digitalservice.bund.de",
+  "wolfgang.kracker-thieme@ag-n.bayern.de",
+  "poststelle@justiz.saarland.de",
+  "b.spaniol@agotw.justiz.saarland.de",
+  "poststelle@justiz.saarland.de",
 ];
 
 const regexValidator = {

@@ -1,3 +1,4 @@
+import Accordion, { AccordionProps } from "~/components/Accordion";
 import { arrayIsNonEmpty } from "~/util/array";
 import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";
@@ -10,6 +11,7 @@ export type ListItemProps = {
   content?: string;
   buttons?: ButtonProps[];
   index?: number;
+  accordion?: AccordionProps;
 };
 
 const ListIcon = ({ index }: { index?: number }) =>
@@ -27,23 +29,31 @@ const ListItem = ({
   content,
   buttons,
   index,
+  accordion,
 }: ListItemProps) => {
   return (
-    <div id={identifier} className="flex flex-row gap-16">
-      <div className="text-center basis-[40px] shrink-0">
-        <ListIcon index={index} />
+    <div id={identifier}>
+      <div className="flex flex-row gap-16">
+        <div className="text-center basis-[40px] shrink-0">
+          <ListIcon index={index} />
+        </div>
+        <div className="basis-auto ds-stack-8">
+          {headline && <Heading {...headline} />}
+          {content && <RichText html={content} />}
+          {arrayIsNonEmpty(buttons) && (
+            <ButtonContainer className="mt-16">
+              {buttons.map((button) => (
+                <Button key={button.text ?? button.href} {...button} />
+              ))}
+            </ButtonContainer>
+          )}
+        </div>
       </div>
-      <div className="basis-auto ds-stack-8">
-        {headline && <Heading {...headline} />}
-        {content && <RichText html={content} />}
-        {arrayIsNonEmpty(buttons) && (
-          <ButtonContainer className="mt-16">
-            {buttons.map((button) => (
-              <Button key={button.text ?? button.href} {...button} />
-            ))}
-          </ButtonContainer>
-        )}
-      </div>
+      {accordion && (
+        <div className="w-full ml-56 mt-16">
+          <Accordion {...accordion} />
+        </div>
+      )}
     </div>
   );
 };

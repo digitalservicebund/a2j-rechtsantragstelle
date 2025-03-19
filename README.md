@@ -8,7 +8,7 @@ First draft of implementing a platform to create requests to the Rechtsantragste
 
 ### Requirements
 
-- Node.js >= 20.0.0
+- Node.js LTS (currently v22)
 - Docker (Redis dependency)
 - npm 7 or greater
 - strapi ([see below](#strapi))

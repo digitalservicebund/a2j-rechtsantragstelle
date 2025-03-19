@@ -1,4 +1,5 @@
 import type { AbgabeContext } from "~/domains/shared/formular/abgabe/context";
+import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { beratungshilfeAbgabeGuards } from "./guards";
 
@@ -13,9 +14,19 @@ export const abgabeXstateConfig = {
       },
       always: {
         guard: beratungshilfeAbgabeGuards.readyForAbgabe,
-        target: "art",
+        target: (await isFeatureFlagEnabled("showFileUpload"))
+          ? "dokumente"
+          : "art",
       },
     },
+    ...((await isFeatureFlagEnabled("showFileUpload")) && {
+      dokumente: {
+        on: {
+          BACK: "#persoenliche-daten.telefonnummer",
+          SUBMIT: "art",
+        },
+      },
+    }),
     art: {
       on: {
         SUBMIT: [
@@ -28,7 +39,9 @@ export const abgabeXstateConfig = {
             guard: beratungshilfeAbgabeGuards.abgabeAusdrucken,
           },
         ],
-        BACK: "#persoenliche-daten.telefonnummer",
+        BACK: (await isFeatureFlagEnabled("showFileUpload"))
+          ? "dokumente"
+          : "#persoenliche-daten.telefonnummer",
       },
     },
     ausdrucken: {

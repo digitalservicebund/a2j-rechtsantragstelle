@@ -107,6 +107,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       "pageHeader",
       "video",
       "accessibility",
+      "fileUpload",
+      "accordion",
     ]),
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
@@ -142,10 +144,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       feedbackTranslations: translations.feedback,
       videoTranslations: translations.video,
       accessibilityTranslations: translations.accessibility,
+      fileUploadTranslations: translations.fileUpload,
       feedback: getFeedbackData(mainSession, pathname),
       postSubmissionText: parseAndSanitizeMarkdown(
         translations.feedback["text-post-submission"],
       ),
+      accordionTranslation: translations.accordion,
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
@@ -162,6 +166,8 @@ function App() {
     feedbackTranslations,
     videoTranslations,
     accessibilityTranslations,
+    fileUploadTranslations,
+    accordionTranslation,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
@@ -187,8 +193,16 @@ function App() {
       video: videoTranslations,
       feedback: feedbackTranslations,
       accessibility: accessibilityTranslations,
+      fileUpload: fileUploadTranslations,
+      accordion: accordionTranslation,
     }),
-    [videoTranslations, feedbackTranslations, accessibilityTranslations],
+    [
+      videoTranslations,
+      feedbackTranslations,
+      accessibilityTranslations,
+      fileUploadTranslations,
+      accordionTranslation,
+    ],
   );
 
   return (

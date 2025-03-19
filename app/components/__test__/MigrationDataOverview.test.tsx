@@ -34,14 +34,14 @@ describe("MigrationDataOverview", () => {
     expect(getByText(translations["bereich.verspaetet"])).toBeInTheDocument();
   });
 
-  it("should render the component based on the migration data and the specific translation with .value", () => {
+  it("should render the component based on the migration data and the specific translation with .migration.value", () => {
     const migrationUserData = {
       startAirport: "BER",
     };
 
     const translations = {
       startAirport: "Startflughafen",
-      "startAirport.value": "Berlin Brandenburg Flughafen (BER)",
+      "startAirport.migration.value": "Berlin Brandenburg Flughafen (BER)",
     };
 
     const { container, getByText } = render(
@@ -53,7 +53,9 @@ describe("MigrationDataOverview", () => {
 
     expect(container).not.toBeEmptyDOMElement();
     expect(getByText(translations.startAirport)).toBeInTheDocument();
-    expect(getByText(translations["startAirport.value"])).toBeInTheDocument();
+    expect(
+      getByText(translations["startAirport.migration.value"]),
+    ).toBeInTheDocument();
   });
 
   it("should render the component based on the migration userData when it contains nested objects and translations", () => {
