@@ -1,10 +1,18 @@
 import { fireEvent, render } from "@testing-library/react";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
+import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 const deleteButtonLabel = "Delete";
 const fileName = "testfile1.pdf";
 const inputName = "belege[0]";
 const fileSize = 3145728;
+const mockFile: PDFFileMetadata = {
+  filename: fileName,
+  fileSize: fileSize,
+  fileType: "application/pdf",
+  createdOn: new Date().toString(),
+};
+
 describe("FileUploadInfo", () => {
   it("renders an icon, file name and size", () => {
     const { getByText, getByTestId } = render(
@@ -12,8 +20,7 @@ describe("FileUploadInfo", () => {
         jsAvailable={true}
         onFileDelete={vi.fn()}
         inputName={inputName}
-        fileName={fileName}
-        fileSize={fileSize}
+        file={mockFile}
         deleteButtonLabel={deleteButtonLabel}
       />,
     );
@@ -36,8 +43,7 @@ describe("FileUploadInfo", () => {
         jsAvailable={true}
         onFileDelete={vi.fn()}
         inputName={inputName}
-        fileName={fileName}
-        fileSize={fileSize}
+        file={mockFile}
         deleteButtonLabel={deleteButtonLabel}
         hasError={true}
       />,
@@ -54,8 +60,7 @@ describe("FileUploadInfo", () => {
           jsAvailable={true}
           onFileDelete={onFileDelete}
           inputName={inputName}
-          fileName={fileName}
-          fileSize={fileSize}
+          file={mockFile}
           deleteButtonLabel={deleteButtonLabel}
         />,
       );
@@ -73,8 +78,7 @@ describe("FileUploadInfo", () => {
           jsAvailable={false}
           onFileDelete={onFileDelete}
           inputName={inputName}
-          fileName={fileName}
-          fileSize={fileSize}
+          file={mockFile}
           deleteButtonLabel={deleteButtonLabel}
         />,
       );

@@ -31,7 +31,7 @@ const FilesUpload = ({
   const response = useActionData<
     ValidationErrorResponseData | Context | undefined
   >();
-  const { defaultValue } = useField(name, { formId });
+  const { defaultValue, error } = useField(name, { formId });
   const items: Array<PDFFileMetadata | undefined> =
     (response?.repopulateFields as Context | undefined)?.[name] ??
     (response as Context | undefined)?.[name] ??
@@ -46,16 +46,23 @@ const FilesUpload = ({
 
   useEffect(() => setJsAvailable(true), []);
 
-  const groupError: string | undefined = scopedErrors[name];
-
   const classes = classNames("w-full bg-white p-16", {
-    "bg-red-200 border border-red-900": !!groupError,
+    "bg-red-200 border border-red-900": !!error,
   });
 
   const showAddMoreButton =
     items.length === 0 ||
     (items.length < fileUploadLimit &&
       Object.entries(scopedErrors).length === 0);
+
+  /**
+   * if the non-JS component doesn't have a value, or has an error displayed, normally nothing is submitted in the FormData.
+   * We need to send at least an empty array, to display an array-level error that it's empty
+   */
+  const shouldSubmitEmptyArray =
+    !jsAvailable &&
+    (items.length === 0 ||
+      (items.length === 1 && Object.entries(scopedErrors).length > 0));
 
   return (
     title !== "" && (
@@ -84,9 +91,11 @@ const FilesUpload = ({
             )}
           </div>
         </div>
+        {shouldSubmitEmptyArray && (
+          <input type="hidden" name={"arrayPostfix"} value={name} />
+        )}
         <InputError id={errorId}>
-          {errorMessages?.find((err) => err.code === groupError)?.text ??
-            groupError}
+          {errorMessages?.find((err) => err.code === error)?.text ?? error}
         </InputError>
         {inlineNotices?.map((inlineNotice) => (
           <InlineNotice key={inlineNotice.title} {...inlineNotice} />

@@ -1,14 +1,11 @@
-import { Context } from "~/domains/contexts";
-
-export const filterFormData = (formData: FormData, context?: Context) =>
+export const filterFormData = (formData: FormData) =>
   // Note: fromEntries() reduces same-named form fields to the last one
   Object.fromEntries(
     Array.from(formData.entries())
-      .filter(([key]) => !key.startsWith("_"))
+      .filter(([key, val]) => !key.startsWith("_") && typeof val === "string")
       .map(([key, val]) => {
-        if (typeof val === "object") {
-          const arrayName = key.split("[")[0];
-          return [arrayName, context?.[arrayName] ?? []];
+        if (key === "arrayPostfix") {
+          return [val, []];
         }
         return [key, val];
       }),

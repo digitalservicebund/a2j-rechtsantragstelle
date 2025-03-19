@@ -22,6 +22,9 @@ export function buildStepValidator(
         throw Error(`No schema found for ${arrayFieldName as string}`);
       }
       fieldValidators[fieldName] = objectSchemas[arrayFieldName];
+    } else if (new RegExp(/\[\d+\]/).test(fieldName)) {
+      const arrayName = fieldName.split("[")[0];
+      fieldValidators[arrayName] = schemas[arrayName];
     } else {
       const stepOrFieldName = fieldName.split(".")[0];
       if (!isKeyOfObject(stepOrFieldName, schemas)) {
