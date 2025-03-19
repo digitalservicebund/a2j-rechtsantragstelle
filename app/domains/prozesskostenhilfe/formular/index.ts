@@ -39,6 +39,7 @@ import {
   belegeStrings,
   getMissingInformationStrings,
 } from "./stringReplacements";
+import type { ProzesskostenhilfeWeitereAngabenContext } from "./weitereAngaben/context";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
 
 export const prozesskostenhilfeFormular = {
@@ -149,8 +150,16 @@ export const prozesskostenhilfeFormular = {
           },
           "#gesetzliche-vertretung",
         ],
-        nextFlowEntrypoint: "#abgabe",
+        nextFlowEntrypoint: "#weitere-angaben",
       }),
+      "weitere-angaben": {
+        id: "weitere-angaben",
+        meta: { done: () => false },
+        on: {
+          BACK: "#persoenliche-daten.beruf",
+          SUBMIT: "#abgabe",
+        },
+      },
       abgabe: {
         id: "abgabe",
         initial: "ueberpruefung",
@@ -158,7 +167,7 @@ export const prozesskostenhilfeFormular = {
         states: {
           ueberpruefung: {
             on: {
-              BACK: "#persoenliche-daten.beruf",
+              BACK: "#weitere-angaben",
             },
             always: {
               guard: ({
@@ -177,7 +186,7 @@ export const prozesskostenhilfeFormular = {
           },
           ende: {
             on: {
-              BACK: "#persoenliche-daten.beruf",
+              BACK: "#weitere-angaben",
             },
           },
         },
@@ -206,4 +215,5 @@ export type ProzesskostenhilfeFormularContext =
     ProzesskostenhilfeRechtsschutzversicherungContext &
     ProzesskostenhilfeFinanzielleAngabenContext &
     ProzesskostenhilfeGesetzlicheVertretung &
-    ProzesskostenhilfePersoenlicheDaten;
+    ProzesskostenhilfePersoenlicheDaten &
+    ProzesskostenhilfeWeitereAngabenContext;

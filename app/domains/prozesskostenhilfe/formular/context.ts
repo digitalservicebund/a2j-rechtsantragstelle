@@ -4,6 +4,7 @@ import { prozesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngabe
 import { prozesskostenhilfeGesetzlicheVertretungContext } from "./gesetzlicheVertretung/context";
 import { prozesskostenhilfePersoenlicheDatenContext } from "./persoenlicheDaten/context";
 import { prozesskostenhilfeRsvContext } from "./rechtsschutzversicherung/context";
+import { prozesskostenhilfeWeitereAngabenContext } from "./weitereAngaben/context";
 
 export const prozesskostenhilfeFormularContext = {
   ...prozesskostenhilfeGrundvoraussetzungen,
@@ -12,4 +13,5 @@ export const prozesskostenhilfeFormularContext = {
   ...prozesskostenhilfeFinanzielleAngabenContext,
   ...prozesskostenhilfeGesetzlicheVertretungContext,
   ...prozesskostenhilfePersoenlicheDatenContext,
+  ...prozesskostenhilfeWeitereAngabenContext,
 } as const;
