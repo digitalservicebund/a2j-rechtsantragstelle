@@ -51,6 +51,7 @@ export const Default: Story = {
           feedback: {},
           video: {},
           accessibility: {},
+          accordion: {},
         }}
       >
         {remixContext(
