@@ -1,5 +1,6 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { machine } from "./testMachine";
 
 const cases = [
@@ -32,7 +33,9 @@ const cases = [
       "/persoenliche-daten/geburtsdatum",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
-      "/abgabe/ueberpruefung",
+      (await isFeatureFlagEnabled("showBeratungshilfeZusammenfassungPage"))
+        ? "/zusammenfassung/ueberblick"
+        : "/abgabe/ueberpruefung",
     ],
   ],
   [
@@ -82,7 +85,9 @@ const cases = [
       "/persoenliche-daten/geburtsdatum",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
-      "/abgabe/ueberpruefung",
+      (await isFeatureFlagEnabled("showBeratungshilfeZusammenfassungPage"))
+        ? "/zusammenfassung/ueberblick"
+        : "/abgabe/ueberpruefung",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFormularContext>;
