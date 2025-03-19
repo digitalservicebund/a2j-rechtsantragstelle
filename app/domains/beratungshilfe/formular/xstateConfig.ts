@@ -1,4 +1,5 @@
 import merge from "lodash/merge";
+import { zusammenfassungXstateConfig } from "~/domains/beratungshilfe/formular/zusammenfassung/xstateConfig";
 import persoenlicheDatenFlow from "~/domains/shared/formular/persoenlicheDaten/flow.json";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
@@ -74,11 +75,12 @@ export const beratungshilfeXstateConfig = {
         },
         telefonnummer: {
           on: {
-            SUBMIT: "#abgabe",
+            SUBMIT: "#zusammenfassung",
           },
         },
       },
     }),
+    zusammenfassung: zusammenfassungXstateConfig,
     abgabe: abgabeXstateConfig,
   },
 } satisfies Config<BeratungshilfeFormularContext>;

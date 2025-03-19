@@ -35,6 +35,11 @@ export const Example: Story = {
       },
       {
         destination: ".",
+        label: "Zusammenfassung",
+        state: NavState.Open,
+      },
+      {
+        destination: ".",
         label: "Abgabe",
         state: NavState.Disabled,
       },
