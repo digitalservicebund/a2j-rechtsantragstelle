@@ -7,7 +7,7 @@ const decode = (str: string): string =>
 
 export class CookieSettings {
   readonly page: Page;
-  readonly url = "/cookie-einstellungen";
+  readonly url = "/datenschutz";
   readonly radioLabelAccept = "Analyse-Cookies einverstanden";
   readonly radioLabelDecline = "Analyse-Cookies nicht einverstanden";
   readonly buttonAcceptCookieWithJSTestId = "accept-cookie_with_js";
