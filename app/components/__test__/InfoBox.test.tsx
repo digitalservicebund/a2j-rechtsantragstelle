@@ -21,14 +21,14 @@ const mockInfoBoxItems = [
 describe("InfoBox", () => {
   it("has expected padding when the separator is enabled", () => {
     render(<InfoBox separator={true} items={mockInfoBoxItems} />);
-    expect(screen.getByRole("list")).toHaveClass("ds-stack-32");
+    expect(screen.getByRole("list")).toHaveClass("ds-stack ds-stack-32");
   });
   it("has expected padding when the separator is disabled", () => {
     render(<InfoBox separator={false} items={mockInfoBoxItems} />);
-    expect(screen.getByRole("list")).toHaveClass("ds-stack-48");
+    expect(screen.getByRole("list")).toHaveClass("ds-stack ds-stack-48");
   });
   it("has expected padding when the separator is unset", () => {
     render(<InfoBox items={mockInfoBoxItems} />);
-    expect(screen.getByRole("list")).toHaveClass("ds-stack-32");
+    expect(screen.getByRole("list")).toHaveClass("ds-stack ds-stack-32");
   });
 });
