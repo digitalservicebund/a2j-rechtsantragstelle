@@ -78,8 +78,8 @@ const cases = [
   [
     {
       ...baseContext,
-      startAirport: "CDG",
-      endAirport: "DRS",
+      startAirport: "JFK",
+      endAirport: "BER",
       fluggesellschaft: "sonstiges",
     },
     [
@@ -97,8 +97,8 @@ const cases = [
   [
     {
       ...baseContext,
-      startAirport: "AMS",
-      endAirport: "BER",
+      startAirport: "JFK",
+      endAirport: "DRS",
       fluggesellschaft: "sonstiges",
     },
     [
