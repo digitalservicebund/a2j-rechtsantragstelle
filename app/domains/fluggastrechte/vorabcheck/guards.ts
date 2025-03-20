@@ -21,12 +21,14 @@ export const guards = {
   isGermanEndAirportsAndIsNotClaimable: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
-    const isStartAirportGerman = isGermanAirport(startAirport);
     const isEndAirportGerman = isGermanAirport(endAirport);
+    const isStartAirportGerman = isGermanAirport(startAirport);
+    const isStartAirportEU = isEuropeanUnionAirport(startAirport);
 
     return (
       isEndAirportGerman &&
       !isStartAirportGerman &&
+      !isStartAirportEU &&
       !isFluggesellschaftInEU(fluggesellschaft)
     );
   },
