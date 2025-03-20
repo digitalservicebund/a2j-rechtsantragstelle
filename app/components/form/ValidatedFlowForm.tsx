@@ -26,7 +26,8 @@ function ValidatedFlowForm({
   const { pathname } = useLocation();
   const fieldNames = formElements.map((entry) => entry.name);
   const validator = validatorForFieldNames(fieldNames, pathname);
-  const stackClass = formElements.length === 0 ? "ds-stack-0" : "ds-stack-40";
+  const stackClass =
+    formElements.length === 0 ? "ds-stack ds-stack-0" : "ds-stack ds-stack-40";
 
   return (
     <ValidatedForm

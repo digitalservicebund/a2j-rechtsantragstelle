@@ -40,7 +40,7 @@ export const InlineNotice = ({
   return (
     !shouldHideNotice && (
       <div
-        className={`ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
+        className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
         id={identifier}
         role="note"
       >

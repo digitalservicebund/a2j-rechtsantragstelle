@@ -9,7 +9,7 @@ type CourtFinderHeaderProps = PropsWithChildren<{
 const CourtFinderHeader = ({ label, children }: CourtFinderHeaderProps) => {
   return (
     <Container>
-      <div className="ds-stack-24">
+      <div className="ds-stack ds-stack-24">
         <Heading tagName="div" look="ds-label-03-reg" text={label} />
         <Heading tagName="h1" look="ds-heading-02-reg">
           {children}

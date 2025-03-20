@@ -46,7 +46,7 @@ const ArraySummary = ({
 
   return (
     <div>
-      <div className="ds-stack-8">
+      <div className="ds-stack ds-stack-8">
         {hasTitleHeading && (
           <Heading
             dataTestid="array-summary-title"
