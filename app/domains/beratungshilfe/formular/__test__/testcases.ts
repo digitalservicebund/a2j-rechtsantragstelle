@@ -3,10 +3,9 @@ import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/for
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { machine } from "./testMachine";
 
-vi.mock("~/services/featureFlags", () => ({
-  isFeatureFlagEnabled: vi.fn().mockResolvedValue(true),
-}));
-
+const showZusammenfassungPage = await isFeatureFlagEnabled(
+  "showBeratungshilfeZusammenfassungPage",
+);
 const cases = [
   [
     {
@@ -37,7 +36,7 @@ const cases = [
       "/persoenliche-daten/geburtsdatum",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
-      (await isFeatureFlagEnabled("showBeratungshilfeZusammenfassungPage"))
+      showZusammenfassungPage
         ? "/zusammenfassung/ueberblick"
         : "/abgabe/ueberpruefung",
     ],
@@ -89,7 +88,7 @@ const cases = [
       "/persoenliche-daten/geburtsdatum",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
-      (await isFeatureFlagEnabled("showBeratungshilfeZusammenfassungPage"))
+      showZusammenfassungPage
         ? "/zusammenfassung/ueberblick"
         : "/abgabe/ueberpruefung",
     ],
