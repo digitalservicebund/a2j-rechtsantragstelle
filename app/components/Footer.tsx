@@ -56,10 +56,10 @@ export default function Footer({
   return (
     <Container paddingTop="48" paddingBottom="56">
       <div
-        className="flex flex-col md:flex-row justify-between gap-8 mb-32"
+        className="flex flex-col md:flex-row gap-32 mb-32 pr-16 pl-16"
         data-testid="footer"
       >
-        <div className="flex flex-col gap-y-8">
+        <div className="flex flex-col min-w-[288px] gap-y-8">
           {image?.url && (
             <div className="forced-colors:bg-black">
               <Image
@@ -79,13 +79,13 @@ export default function Footer({
         </div>
 
         <nav
-          className="flex flex-row sm:gap-x-32"
+          className="flex flex-col sm:flex-row gap-16"
           aria-label={ariaLabelTranslation}
         >
           {categorizedLinks?.map((category) => (
             <div key={category.id}>
-              <p>{category.title}</p>
-              <ul className="list-none m-0 p-0 space-y-8">
+              <p className="ds-label-03-bold mb-7">{category.title}</p>
+              <ul className="list-none pl-2 space-y-10">
                 <Links links={category.links} />
               </ul>
             </div>
