@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Background from "~/components/Background";
 import Button from "~/components/Button";
@@ -35,13 +35,13 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     replacements: { postcode: zipCode ?? "" },
   });
 
-  return json({
+  return {
     resultListHeading,
     edgeCasesGroupedByLetter: splitObjectsByFirstLetter(edgeCases, "street"),
     common,
     meta,
     url: `/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`,
-  });
+  };
 };
 
 export default function Index() {
