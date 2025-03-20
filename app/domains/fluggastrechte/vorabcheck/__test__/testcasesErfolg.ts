@@ -10,6 +10,9 @@ const machine: FlowStateMachine = createMachine(
   { guards },
 );
 
+const EU_AIRLINE = "LH";
+const NON_EU_AIRLINE = "DL";
+
 const baseContext: FluggastrechtVorabcheckContext = {
   bereich: "verspaetet",
   verspaetung: "yes",
@@ -47,27 +50,81 @@ const cases = [
   [
     {
       ...baseContext,
+      startAirport: "JFK",
+      endAirport: "MUC",
+      fluggesellschaft: EU_AIRLINE,
+    },
+    validSteps,
+  ],
+  [
+    {
+      ...baseContext,
+      startAirport: "BER",
+      endAirport: "JFK",
+      fluggesellschaft: EU_AIRLINE,
+    },
+    validSteps,
+  ],
+  [
+    {
+      ...baseContext,
+      startAirport: "BER",
+      endAirport: "AMS",
+      fluggesellschaft: EU_AIRLINE,
+    },
+    validSteps,
+  ],
+  [
+    {
+      ...baseContext,
+      startAirport: "BER",
+      endAirport: "JFK",
+      fluggesellschaft: NON_EU_AIRLINE,
+    },
+    validSteps,
+  ],
+  [
+    {
+      ...baseContext,
+      startAirport: "BER",
+      endAirport: "AMS",
+      fluggesellschaft: NON_EU_AIRLINE,
+    },
+    validSteps,
+  ],
+  [
+    {
+      ...baseContext,
+      startAirport: "BER",
+      endAirport: "MUC",
+      fluggesellschaft: EU_AIRLINE,
+    },
+    validSteps,
+  ],
+  [
+    {
+      ...baseContext,
+      startAirport: "BER",
+      endAirport: "MUC",
+      fluggesellschaft: NON_EU_AIRLINE,
+    },
+    validSteps,
+  ],
+  [
+    {
+      ...baseContext,
       startAirport: "AMS",
       endAirport: "MUC",
-      fluggesellschaft: "LH",
+      fluggesellschaft: EU_AIRLINE,
     },
     validSteps,
   ],
   [
     {
       ...baseContext,
-      startAirport: "BER",
+      startAirport: "AMS",
       endAirport: "MUC",
-      fluggesellschaft: "LH",
-    },
-    validSteps,
-  ],
-  [
-    {
-      ...baseContext,
-      startAirport: "BER",
-      endAirport: "MUC",
-      fluggesellschaft: "DL",
+      fluggesellschaft: NON_EU_AIRLINE,
     },
     validSteps,
   ],
