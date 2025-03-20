@@ -22,9 +22,10 @@ First draft of implementing a platform to create requests to the Rechtsantragste
    - [Start strapi locally](https://github.com/digitalservicebund/a2j-rechtsantragstelle-strapi),
    - configure `.env` with `CMS=STRAPI` and `STRAPI_API` pointing to your local strapi instance (`cp .env.example .env` should do the trick)
 2. Using the the deployed staging strapi instance:
-   - Set `STRAPI_API=<STRAPI_STAGING_URL>/api` and set `STRAPI_ACCESS_KEY` to your token (create a new key in the strapi GUI at "Settings" > "API Tokens" > "Create new API Token")
+   - Set `STRAPI_API=<STRAPI_STAGING_URL>/api` and set `STRAPI_ACCESS_KEY` to your token
+     - create a new token (access key) in the strapi GUI at "Settings" > "API Tokens" > "Create new API Token"
+     - set the token type to **read-only**
 3. Use a local content file:
-
    - Set `STRAPI_API` and `STRAPI_ACCESS_KEY` to point to staging like in option 2.
    - Set `CMS=FILE`
    - Run `npm run build:localContent` (should have generated a `content.json` file)
