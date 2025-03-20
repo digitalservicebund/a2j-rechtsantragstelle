@@ -57,7 +57,7 @@ export default function Index() {
     <>
       <PageContent content={content} />
       <Container paddingTop="0">
-        <Form method="post" className="ds-stack-24">
+        <Form method="post" className="ds-stack ds-stack-24">
           <Heading
             tagName="h2"
             text={cookieTranslations?.heading}
@@ -67,7 +67,7 @@ export default function Index() {
           />
 
           <fieldset
-            className="border-0 p-0 m-0 ds-stack-16"
+            className="border-0 p-0 m-0 ds-stack ds-stack-16"
             disabled={isSubmitting}
             onChange={() => setSubmitButtonDisabled(false)}
           >

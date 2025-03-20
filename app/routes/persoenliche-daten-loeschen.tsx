@@ -39,7 +39,7 @@ export default function PersoenlicheDatenLoeschen() {
       <Container paddingTop="0">
         <Form
           method="post"
-          className="ds-stack-24"
+          className="ds-stack ds-stack-24"
           action="/action/delete-data"
         >
           <ButtonContainer>
