@@ -10,6 +10,10 @@ const machine: FlowStateMachine = createMachine(
   { guards },
 );
 
+const EU_AIRLINE = "LH";
+const NON_EU_AIRLINE = "DL";
+const SONSTIGES_AIRLINE = "sonstiges";
+
 const baseContext: FluggastrechtVorabcheckContext = {
   bereich: "verspaetet",
   verspaetung: "yes",
@@ -47,9 +51,9 @@ const cases = [
   [
     {
       ...baseContext,
-      startAirport: "AMS",
+      startAirport: "JFK",
       endAirport: "DRS",
-      fluggesellschaft: "LH",
+      fluggesellschaft: EU_AIRLINE,
     },
     validSteps,
   ],
@@ -58,7 +62,7 @@ const cases = [
       ...baseContext,
       startAirport: "DRS",
       endAirport: "ERF",
-      fluggesellschaft: "LH",
+      fluggesellschaft: EU_AIRLINE,
     },
     validSteps,
   ],
@@ -67,7 +71,7 @@ const cases = [
       ...baseContext,
       startAirport: "DRS",
       endAirport: "ERF",
-      fluggesellschaft: "DL",
+      fluggesellschaft: NON_EU_AIRLINE,
     },
     validSteps,
   ],
@@ -76,7 +80,7 @@ const cases = [
       ...baseContext,
       startAirport: "DRS",
       endAirport: "ERF",
-      fluggesellschaft: "sonstiges",
+      fluggesellschaft: SONSTIGES_AIRLINE,
     },
     validSteps,
   ],
@@ -85,7 +89,43 @@ const cases = [
       ...baseContext,
       startAirport: "BER",
       endAirport: "MUC",
-      fluggesellschaft: "sonstiges",
+      fluggesellschaft: SONSTIGES_AIRLINE,
+    },
+    validSteps,
+  ],
+  [
+    {
+      ...baseContext,
+      startAirport: "AMS",
+      endAirport: "DRS",
+      fluggesellschaft: EU_AIRLINE,
+    },
+    validSteps,
+  ],
+  [
+    {
+      ...baseContext,
+      startAirport: "AMS",
+      endAirport: "DRS",
+      fluggesellschaft: NON_EU_AIRLINE,
+    },
+    validSteps,
+  ],
+  [
+    {
+      ...baseContext,
+      startAirport: "AMS",
+      endAirport: "DRS",
+      fluggesellschaft: SONSTIGES_AIRLINE,
+    },
+    validSteps,
+  ],
+  [
+    {
+      ...baseContext,
+      startAirport: "AMS",
+      endAirport: "BER",
+      fluggesellschaft: SONSTIGES_AIRLINE,
     },
     validSteps,
   ],
