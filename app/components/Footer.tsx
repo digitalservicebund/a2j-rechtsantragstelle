@@ -56,10 +56,10 @@ export default function Footer({
   return (
     <Container paddingTop="48" paddingBottom="56">
       <div
-        className="flex flex-wrap items-start justify-between gap-y-32 mb-32"
+        className="flex flex-col md:flex-row justify-between gap-8 mb-32"
         data-testid="footer"
       >
-        <div className="flex flex-col flex-col-reverse sm:flex-row gap-y-8 gap-x-16">
+        <div className="flex flex-col gap-y-8">
           {image?.url && (
             <div className="forced-colors:bg-black">
               <Image
@@ -79,19 +79,17 @@ export default function Footer({
         </div>
 
         <nav
-          className="flex flex-wrap gap-x-32 gap-y-8"
+          className="flex flex-row sm:gap-x-32"
           aria-label={ariaLabelTranslation}
         >
-          <ul className="list-none m-0 p-0 space-y-8 columns-2">
-            {categorizedLinks?.map((category) => {
-              return (
-                <div key={category.id}>
-                  <p>{category.title}</p>
-                  <Links links={category.links} />
-                </div>
-              );
-            })}
-          </ul>
+          {categorizedLinks?.map((category) => (
+            <div key={category.id}>
+              <p>{category.title}</p>
+              <ul className="list-none m-0 p-0 space-y-8">
+                <Links links={category.links} />
+              </ul>
+            </div>
+          ))}
         </nav>
       </div>
       {showDeletionBanner && (
