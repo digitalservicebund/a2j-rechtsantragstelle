@@ -50,7 +50,7 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startRechtsproblem(page, beratungshilfeFormular);
   await startFinanzielleAngabenGrundsicherung(beratungshilfeFormular);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
-  await conditionallyStartAbgabe(page);
+  await conditionallySkipZusammenfassung(page);
 });
 
 test("invalid array index redirects to initial step of subflow", async ({
@@ -105,11 +105,12 @@ async function startAbgabe(page: Page) {
   );
 }
 
-async function conditionallyStartAbgabe(page: Page) {
+async function conditionallySkipZusammenfassung(page: Page) {
   const featurFlagEnabled = await isFeatureFlagEnabled(
     "showBeratungshilfeZusammenfassungPage",
   );
-  if (!featurFlagEnabled) {
-    await startAbgabe(page);
+  if (featurFlagEnabled) {
+    await beratungshilfeFormular.clickNext();
   }
+  await startAbgabe(page);
 }
