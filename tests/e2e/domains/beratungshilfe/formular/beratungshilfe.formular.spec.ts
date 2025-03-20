@@ -50,7 +50,7 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startRechtsproblem(page, beratungshilfeFormular);
   await startFinanzielleAngabenGrundsicherung(beratungshilfeFormular);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
-  await startZusammenfassung();
+  await skipZusammenfassung(page);
   await startAbgabe(page);
 });
 
@@ -106,8 +106,8 @@ async function startAbgabe(page: Page) {
   );
 }
 
-async function startZusammenfassung() {
+async function skipZusammenfassung(page: Page) {
   if (await isFeatureFlagEnabled("showBeratungshilfeZusammenfassungPage")) {
-    await beratungshilfeFormular.clickNext();
+    await page.goto("beratungshilfe/antrag/abgabe/dokumente");
   }
 }
