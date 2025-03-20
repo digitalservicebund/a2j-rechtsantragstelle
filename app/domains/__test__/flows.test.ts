@@ -39,6 +39,7 @@ import type { FlowStateMachine } from "~/services/flow/server/buildFlowControlle
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
 import { testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugNo } from "../fluggastrechte/formular/flugdaten/__test__/testcasesAnnullierungWithErsatzflugNo";
+import { testCasesFluggastrechteFluggesellschaftAbbruch } from "../fluggastrechte/vorabcheck/__test__/testcasesFluggesellschaftAbbruch";
 
 function getEnabledSteps({
   machine,
@@ -130,6 +131,7 @@ describe.sequential("state machine form flows", () => {
     testCasesFluggastrechteErfolgEU,
     testcasesFluggastrechteErfolgAnalog,
     testCasesFluggastrechteFormularProzessfuehrung,
+    testCasesFluggastrechteFluggesellschaftAbbruch,
   } as const;
   const transitionTypes = ["SUBMIT", "BACK"] as const;
 
