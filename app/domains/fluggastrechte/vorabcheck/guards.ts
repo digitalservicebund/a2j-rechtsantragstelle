@@ -168,11 +168,12 @@ export const guards = {
 
     // If the start airport is outside the EU, but the end airport is in the EU,
     // check if the airline is based in the EU
-    if (!isStartAirportEU && isEndAirportEU) {
-      return isFluggesellschaftInEU(fluggesellschaft);
-    }
 
-    return false;
+    return (
+      !isStartAirportEU &&
+      isEndAirportEU &&
+      isFluggesellschaftInEU(fluggesellschaft)
+    );
   },
 
   isErfolgAnalogGuard: ({ context }) => {
