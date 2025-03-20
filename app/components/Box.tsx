@@ -14,8 +14,8 @@ export type BoxProps = {
 
 const Box = ({ identifier, label, heading, content, buttons }: BoxProps) => {
   return (
-    <div className="ds-stack-16 scroll-my-40" id={identifier}>
-      <div className="ds-stack-8">
+    <div className="ds-stack ds-stack-16 scroll-my-40" id={identifier}>
+      <div className="ds-stack ds-stack-8">
         {label && <Heading {...label} />}
         {heading && <Heading {...heading} />}
         {content && (

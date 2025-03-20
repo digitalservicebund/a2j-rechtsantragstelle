@@ -93,14 +93,14 @@ export function CookieBanner({
         }`}
       >
         <Container paddingTop="32" paddingBottom="40">
-          <div className="ds-stack-16">
+          <div className="ds-stack ds-stack-16">
             <Heading
               tagName={content.heading.tagName}
               text={content.heading.text}
               look={content.heading.look}
             />
             <div>
-              <div className="ds-stack-8">
+              <div className="ds-stack ds-stack-8">
                 {content.paragraphs.map((paragraph) => (
                   <RichText key={paragraph.html} html={paragraph.html} />
                 ))}

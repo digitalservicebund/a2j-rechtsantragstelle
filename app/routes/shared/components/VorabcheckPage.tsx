@@ -19,12 +19,12 @@ export function VorabcheckPage() {
     <Background backgroundColor="blue">
       <div className="min-h-screen">
         <Container paddingTop="24" paddingBottom="64">
-          <div className="ds-stack-16">
+          <div className="ds-stack ds-stack-16">
             <ProgressBar {...progressProps} />
-            <div className="ds-stack-40">
+            <div className="ds-stack ds-stack-40">
               <PageContent
                 content={contentElements}
-                className="ds-stack-16"
+                className="ds-stack ds-stack-16"
                 fullScreen={false}
               />
               <ValidatedFlowForm
