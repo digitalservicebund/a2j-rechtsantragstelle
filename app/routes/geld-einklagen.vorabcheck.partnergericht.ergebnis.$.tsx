@@ -114,7 +114,7 @@ export const Component = () => {
               paddingBottom="40"
               overhangingBackground
             >
-              <div className="ds-stack-8">
+              <div className="ds-stack ds-stack-8">
                 <RichText html={hintText.html} />
               </div>
             </Container>

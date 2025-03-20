@@ -53,15 +53,15 @@ export function FormFlowPage() {
             />
           </div>
           <div
-            className={`ds-stack-40 container md:flex-1 ${navItems && "!ml-0 !mr-0"}`}
+            className={`ds-stack ds-stack-40 container md:flex-1 ${navItems && "!ml-0 !mr-0"}`}
           >
-            <div className="ds-stack-16" id="form-flow-page-content">
+            <div className="ds-stack ds-stack-16" id="form-flow-page-content">
               {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
               <Heading text={heading} look="ds-heading-02-reg" />
               <PageContent
                 content={content}
                 fullScreen={false}
-                className="ds-stack-16"
+                className="ds-stack ds-stack-16"
               />
             </div>
 
