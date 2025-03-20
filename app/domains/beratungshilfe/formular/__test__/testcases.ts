@@ -3,6 +3,10 @@ import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/for
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { machine } from "./testMachine";
 
+vi.mock("~/services/featureFlags", () => ({
+  isFeatureFlagEnabled: vi.fn().mockResolvedValue(true),
+}));
+
 const cases = [
   [
     {
