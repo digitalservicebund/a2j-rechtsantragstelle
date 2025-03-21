@@ -10,7 +10,7 @@ export const dokumenteContext = {
     .array(pdfFileMetaDataSchema)
     .nonempty()
     .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached())
-    .optional(),
+    .optional(), // remove after e2e tests have been added
 };
 
 const _contextObject = z.object(dokumenteContext).partial();

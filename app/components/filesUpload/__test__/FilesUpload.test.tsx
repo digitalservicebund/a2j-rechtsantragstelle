@@ -36,9 +36,11 @@ vi.mock("~/services/translations/translationsContext", () => ({
 }));
 
 let defaultValue: PDFFileMetadata[] = [];
+let error: string | undefined;
 vi.mock("remix-validated-form", () => ({
   useField: () => ({
     defaultValue,
+    error,
   }),
 }));
 
@@ -103,11 +105,7 @@ describe("FilesUpload", () => {
   });
 
   it("should display a top-level error", () => {
-    actionResponse = {
-      fieldErrors: {
-        [fieldName]: minimumFileError,
-      },
-    };
+    error = minimumFileError;
     const { getByText, queryByText } = renderFilesUpload();
     expect(getByText(minimumFileError)).toBeInTheDocument();
     expect(queryByText(addAnotherLabel)).not.toBeInTheDocument();

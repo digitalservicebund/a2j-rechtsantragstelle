@@ -42,6 +42,7 @@ export async function uploadUserFileToS3(
       `Error storing user uploaded file to S3 bucket: ${errorDescription}`,
       "error",
     );
+    throw error;
   }
 }
 
@@ -67,5 +68,6 @@ export async function deleteUserFileFromS3(
       `Error storing user uploaded file to S3 bucket: ${errorDescription}`,
       "error",
     );
+    throw error;
   }
 }
