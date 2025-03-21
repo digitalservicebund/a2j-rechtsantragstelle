@@ -4,9 +4,9 @@ import { StrapiFooterSchema } from "../StrapiFooter";
 
 describe("StrapiFooterSchema", () => {
   it("should validate correct footer data", () => {
-    const result = StrapiFooterSchema.parse(getStrapiFooter());
-    expect(result).toBeDefined();
-    expect(result).not.toHaveProperty("locale");
+    const result = StrapiFooterSchema.safeParse(getStrapiFooter());
+    expect(result.success).toBe(true);
+    expect(result.success && result.data).not.toHaveProperty("locale");
   });
 
   it("should allow footer without image", () => {
@@ -14,8 +14,9 @@ describe("StrapiFooterSchema", () => {
       ...getStrapiFooter(),
       image: null,
     };
-    const result = StrapiFooterSchema.parse(dataWithoutImage);
-    expect(result.image).toBeUndefined(); // Check for undefined instead of null
+    const result = StrapiFooterSchema.safeParse(dataWithoutImage);
+    expect(result.success).toBe(true);
+    expect(result.success && result.data.image).toBeUndefined();
   });
 
   it("should require non-empty categorizedLinks array", () => {
@@ -23,9 +24,8 @@ describe("StrapiFooterSchema", () => {
       ...getStrapiFooter(),
       categorizedLinks: [],
     };
-    expect(() =>
-      StrapiFooterSchema.parse(dataWithEmptyCategories),
-    ).toThrowError();
+    const result = StrapiFooterSchema.safeParse(dataWithEmptyCategories);
+    expect(result.success).toBe(false);
   });
 
   it("should require non-empty links array in categories", () => {
@@ -40,7 +40,8 @@ describe("StrapiFooterSchema", () => {
         },
       ],
     };
-    expect(() => StrapiFooterSchema.parse(dataWithEmptyLinks)).toThrowError();
+    const result = StrapiFooterSchema.safeParse(dataWithEmptyLinks);
+    expect(result.success).toBe(false);
   });
 
   it("should require non-empty category title", () => {
@@ -62,6 +63,7 @@ describe("StrapiFooterSchema", () => {
         },
       ],
     };
-    expect(() => StrapiFooterSchema.parse(dataWithEmptyTitle)).toThrowError();
+    const result = StrapiFooterSchema.safeParse(dataWithEmptyTitle);
+    expect(result.success).toBe(false);
   });
 });
