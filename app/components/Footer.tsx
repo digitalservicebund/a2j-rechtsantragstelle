@@ -17,7 +17,6 @@ type CategorizedLinkProps = {
 };
 
 export type FooterProps = Readonly<{
-  links?: LinkProps[];
   categorizedLinks?: CategorizedLinkProps[];
   paragraphs?: RichTextProps[];
   image?: ImageProps;
@@ -30,11 +29,7 @@ const Links = ({ links }: Pick<CategorizedLinkProps, "links">) => {
   return links.map((link) => {
     return (
       <li key={link.url} className="leading-snug ds-label-03-reg">
-        <StandaloneLink
-          text={link.text ?? ""}
-          url={link.url}
-          className="pb-6" // adding extra space to avoid bug in safari
-        />
+        <StandaloneLink text={link.text ?? ""} url={link.url} />
       </li>
     );
   });
@@ -43,7 +38,6 @@ const Links = ({ links }: Pick<CategorizedLinkProps, "links">) => {
 export default function Footer({
   image,
   paragraphs = [],
-  links = [],
   categorizedLinks,
   deletionLabel,
   showDeletionBanner = false,

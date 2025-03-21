@@ -17,26 +17,25 @@ describe("Footer", () => {
     expect(getByText("paragraph2")).toBeInTheDocument();
   });
 
-  it("should render multiple links in single list", () => {
+  it("should render categorized links", () => {
+    const categorizedLinks = [
+      {
+        id: 1,
+        title: "Category 1",
+        links: [
+          { url: "/url1", text: "link1" },
+          { url: "/url2", text: "link2" },
+        ],
+      },
+    ];
     const { getByText, getAllByRole } = render(
-      <Footer
-        links={[
-          { url: "url1", text: "link1" },
-          { url: "url2", text: "link2" },
-        ]}
-      />,
+      <Footer categorizedLinks={categorizedLinks} />,
     );
     expect(getAllByRole("link")).toHaveLength(2);
     expect(getAllByRole("list")).toHaveLength(1);
+    expect(getByText("Category 1")).toBeInTheDocument();
     expect(getByText("link1")).toBeInTheDocument();
     expect(getByText("link2")).toBeInTheDocument();
-  });
-
-  it("should render link with className pb-6", () => {
-    const { getByRole } = render(
-      <Footer links={[{ url: "url1", text: "link1" }]} />,
-    );
-    expect(getByRole("link")).toHaveClass("pb-6");
   });
 
   it("should render deletionBanner", () => {

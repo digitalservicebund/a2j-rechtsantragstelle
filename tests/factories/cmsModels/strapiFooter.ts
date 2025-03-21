@@ -10,12 +10,11 @@ export function getStrapiFooter(): StrapiFooter {
     locale: defaultLocale,
     image: getStrapiImage(),
     paragraphs: faker.helpers.multiple(getStrapiParagraph, { count: 2 }),
-    links: faker.helpers.multiple(getStrapiLink, { count: 7 }),
     categorizedLinks: [
       {
         id: faker.number.int(),
         title: faker.word.sample(),
-        links: faker.helpers.multiple(getStrapiLink, { count: 3 }),
+        links: faker.helpers.multiple(getStrapiLink),
       },
     ],
   };
