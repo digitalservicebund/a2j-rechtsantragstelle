@@ -1,13 +1,13 @@
 import type { AbgabeContext } from "~/domains/shared/formular/abgabe/context";
+import { config } from "~/services/env/env.server";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { beratungshilfeAbgabeGuards } from "./guards";
 
-const showZusammenfassungOrTelefonnummer = (await isFeatureFlagEnabled(
-  "showBeratungshilfeZusammenfassungPage",
-))
-  ? "#zusammenfassung"
-  : "#persoenliche-daten.telefonnummer";
+const showZusammenfassungOrTelefonnummer =
+  config().ENVIRONMENT !== "production"
+    ? "#zusammenfassung"
+    : "#persoenliche-daten.telefonnummer";
 
 export const abgabeXstateConfig = {
   initial: "ueberpruefung",
