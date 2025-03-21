@@ -43,7 +43,7 @@ const RadioGroup = ({
     >
       {altLabel && <legend className="sr-only">{altLabel}</legend>}
       {renderHiddenField && <input type="hidden" name={name} />}
-      <div className="ds-stack-16">
+      <div className="ds-stack ds-stack-16">
         {label && <legend>{label}</legend>}
         {options.map((o) => (
           <Radio
