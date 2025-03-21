@@ -1,5 +1,7 @@
 import merge from "lodash/merge";
+import { zusammenfassungXstateConfig } from "~/domains/beratungshilfe/formular/zusammenfassung/xstateConfig";
 import persoenlicheDatenFlow from "~/domains/shared/formular/persoenlicheDaten/flow.json";
+import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
 import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
@@ -11,6 +13,10 @@ import type { BeratungshilfeFormularContext } from "./index";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
+
+const showZusammenfassung = await isFeatureFlagEnabled(
+  "showBeratungshilfeZusammenfassungPage",
+);
 
 export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
@@ -74,11 +80,12 @@ export const beratungshilfeXstateConfig = {
         },
         telefonnummer: {
           on: {
-            SUBMIT: "#abgabe",
+            SUBMIT: showZusammenfassung ? "#zusammenfassung" : "#abgabe",
           },
         },
       },
     }),
+    zusammenfassung: zusammenfassungXstateConfig,
     abgabe: abgabeXstateConfig,
   },
 } satisfies Config<BeratungshilfeFormularContext>;
