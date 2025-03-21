@@ -9,7 +9,8 @@ export const dokumenteContext = {
   rechtsschutzversicherungBeweis: z
     .array(pdfFileMetaDataSchema)
     .nonempty()
-    .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
+    .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached())
+    .optional(), // remove after e2e tests have been added
 };
 
 const _contextObject = z.object(dokumenteContext).partial();
