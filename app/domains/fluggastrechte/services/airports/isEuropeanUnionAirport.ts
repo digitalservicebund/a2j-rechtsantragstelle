@@ -42,6 +42,7 @@ const EU_COUNTRIES = [
   "LI",
   "IS",
   "NO",
+  "SX",
 ];
 
 export function isEuropeanUnionAirport(

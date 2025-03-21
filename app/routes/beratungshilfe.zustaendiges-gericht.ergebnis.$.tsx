@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import Background from "~/components/Background";
@@ -36,7 +36,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     fetchPage(slug),
   ]);
 
-  return json({ court, content, meta: pageMeta, common });
+  return { court, content, meta: pageMeta, common };
 };
 
 export const Component = () => {

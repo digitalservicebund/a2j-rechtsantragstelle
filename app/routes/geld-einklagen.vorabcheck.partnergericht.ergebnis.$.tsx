@@ -1,7 +1,6 @@
 import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
 import HighlightOff from "@digitalservicebund/icons/HighlightOff";
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { ReactElement } from "react";
 import Background from "~/components/Background";
@@ -67,7 +66,7 @@ export const loader = async ({
     ],
   );
 
-  return json({
+  return {
     courts,
     freeZone,
     heading,
@@ -75,7 +74,7 @@ export const loader = async ({
     pageType,
     meta: pageMeta,
     common,
-  });
+  };
 };
 
 const iconCSS = "inline-block mr-8 !h-[36px] !w-[36px]";
