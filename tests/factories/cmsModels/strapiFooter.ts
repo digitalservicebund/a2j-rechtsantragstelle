@@ -13,8 +13,8 @@ export function getStrapiFooter(): StrapiFooter {
     categorizedLinks: [
       {
         id: faker.number.int(),
-        title: faker.word.sample(),
-        links: faker.helpers.multiple(getStrapiLink),
+        title: faker.word.noun(),
+        links: [getStrapiLink()],
       },
     ],
   };

@@ -11,13 +11,13 @@ type LinkProps = {
 };
 
 type CategorizedLinkProps = {
-  id: number;
-  title: string;
-  links: LinkProps[];
+  readonly id: number;
+  readonly title: string;
+  readonly links: LinkProps[];
 };
 
 export type FooterProps = Readonly<{
-  categorizedLinks?: CategorizedLinkProps[];
+  categorizedLinks: CategorizedLinkProps[];
   paragraphs?: RichTextProps[];
   image?: ImageProps;
   deletionLabel?: string;
@@ -76,7 +76,7 @@ export default function Footer({
           className="flex flex-col sm:flex-row gap-16"
           aria-label={ariaLabelTranslation}
         >
-          {categorizedLinks?.map((category) => (
+          {categorizedLinks.map((category) => (
             <div key={category.id}>
               <p className="ds-label-03-bold mb-7">{category.title}</p>
               <ul className="list-none pl-2 space-y-10">

@@ -11,12 +11,17 @@ export const StrapiFooterSchema = z
   .object({
     image: StrapiImageOptionalSchema,
     paragraphs: z.array(StrapiParagraphSchema),
-    categorizedLinks: z.array(
-      z
-        .object({ title: z.string(), links: z.array(StrapiLinkSchema) })
-        .merge(OptionalStrapiLinkIdentifierSchema)
-        .merge(HasStrapiIdSchema),
-    ),
+    categorizedLinks: z
+      .array(
+        z
+          .object({
+            title: z.string().nonempty(),
+            links: z.array(StrapiLinkSchema).nonempty(),
+          })
+          .merge(OptionalStrapiLinkIdentifierSchema)
+          .merge(HasStrapiIdSchema),
+      )
+      .nonempty(),
   })
   .merge(HasStrapiLocaleSchema)
   .transform((cmsData) => omit(cmsData, "locale"));
