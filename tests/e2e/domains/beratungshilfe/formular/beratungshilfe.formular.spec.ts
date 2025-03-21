@@ -2,6 +2,7 @@ import { type Page, type Response, expect, test } from "@playwright/test";
 import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
+import { config } from "~/services/env/env.server";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
@@ -107,7 +108,7 @@ async function startAbgabe(page: Page) {
 }
 
 async function skipZusammenfassung(page: Page) {
-  if (await isFeatureFlagEnabled("showBeratungshilfeZusammenfassungPage")) {
+  if (config().ENVIRONMENT !== "production") {
     await page.goto("beratungshilfe/antrag/abgabe/dokumente");
   }
 }
