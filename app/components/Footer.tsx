@@ -10,8 +10,14 @@ type LinkProps = {
   text?: string;
 };
 
+type CategorizedLinkProps = {
+  readonly id: number;
+  readonly title: string;
+  readonly links: LinkProps[];
+};
+
 export type FooterProps = Readonly<{
-  links?: LinkProps[];
+  categorizedLinks: CategorizedLinkProps[];
   paragraphs?: RichTextProps[];
   image?: ImageProps;
   deletionLabel?: string;
@@ -19,10 +25,20 @@ export type FooterProps = Readonly<{
   translations?: Record<string, string>;
 }>;
 
+const Links = ({ links }: Pick<CategorizedLinkProps, "links">) => {
+  return links.map((link) => {
+    return (
+      <li key={link.url} className="leading-snug ds-label-03-reg">
+        <StandaloneLink text={link.text ?? ""} url={link.url} />
+      </li>
+    );
+  });
+};
+
 export default function Footer({
   image,
   paragraphs = [],
-  links = [],
+  categorizedLinks,
   deletionLabel,
   showDeletionBanner = false,
   translations,
@@ -34,10 +50,10 @@ export default function Footer({
   return (
     <Container paddingTop="48" paddingBottom="56">
       <div
-        className="flex flex-wrap items-start justify-between gap-y-32 mb-32"
+        className="flex flex-col md:flex-row gap-32 mb-32 pr-16 pl-16"
         data-testid="footer"
       >
-        <div className="flex flex-col flex-col-reverse sm:flex-row gap-y-8 gap-x-16">
+        <div className="flex flex-col min-w-[288px] gap-y-8">
           {image?.url && (
             <div className="forced-colors:bg-black">
               <Image
@@ -57,20 +73,17 @@ export default function Footer({
         </div>
 
         <nav
-          className="flex flex-wrap gap-x-32 gap-y-8"
+          className="flex flex-col sm:flex-row gap-16"
           aria-label={ariaLabelTranslation}
         >
-          <ul className="list-none m-0 p-0 space-y-8 columns-2">
-            {links.map((link) => (
-              <li key={link.url} className="leading-snug ds-label-03-reg">
-                <StandaloneLink
-                  text={link.text ?? ""}
-                  url={link.url}
-                  className="pb-6" // adding extra space to avoid bug in safari
-                />
-              </li>
-            ))}
-          </ul>
+          {categorizedLinks.map((category) => (
+            <div key={category.id}>
+              <p className="ds-label-03-bold mb-7">{category.title}</p>
+              <ul className="list-none pl-2 space-y-10">
+                <Links links={category.links} />
+              </ul>
+            </div>
+          ))}
         </nav>
       </div>
       {showDeletionBanner && (
