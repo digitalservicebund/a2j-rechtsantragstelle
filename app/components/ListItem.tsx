@@ -32,25 +32,23 @@ const ListItem = ({
   accordion,
 }: ListItemProps) => {
   return (
-    <div id={identifier}>
-      <div className="flex flex-row gap-16">
-        <div className="text-center basis-[40px] shrink-0">
-          <ListIcon index={index} />
+    <div id={identifier} className="flex flex-row gap-16 pb-32">
+      <div className="text-center basis-[40px] shrink-0">
+        <ListIcon index={index} />
+      </div>
+      <div className="ds-stack ds-stack-32">
+        <div className="ds-stack ds-stack-8">
+          {headline && <Heading {...headline} />}
+          {content && <RichText html={content} />}
+          {arrayIsNonEmpty(buttons) && (
+            <ButtonContainer className="mt-16">
+              {buttons.map((button) => (
+                <Button key={button.text ?? button.href} {...button} />
+              ))}
+            </ButtonContainer>
+          )}
         </div>
-        <div className="ds-stack ds-stack-32 pb-32">
-          <div className="ds-stack ds-stack-8">
-            {headline && <Heading {...headline} />}
-            {content && <RichText html={content} />}
-            {arrayIsNonEmpty(buttons) && (
-              <ButtonContainer className="mt-16">
-                {buttons.map((button) => (
-                  <Button key={button.text ?? button.href} {...button} />
-                ))}
-              </ButtonContainer>
-            )}
-          </div>
-          {accordion && <Accordion {...accordion} />}
-        </div>
+        {accordion && <Accordion {...accordion} />}
       </div>
     </div>
   );
