@@ -11,7 +11,7 @@ export default function FlowNavigation(props: FlowNavigationProps) {
   }, []);
 
   return (
-    <nav role="navigation" aria-label={props.a11yLabels?.menuLabel}>
+    <nav aria-label={props.a11yLabels?.menuLabel}>
       {jsAvailable && (
         <SideNavMobile
           className="fixed bottom-0 w-full md:hidden z-50"
