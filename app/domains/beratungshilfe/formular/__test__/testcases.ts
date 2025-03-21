@@ -1,9 +1,11 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { config } from "~/services/env/env.server";
+import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { machine } from "./testMachine";
 
-const showZusammenfassungPage = config().ENVIRONMENT !== "production";
+const showZusammenfassungPage = await isFeatureFlagEnabled(
+  "showBeratungshilfeZusammenfassungPage",
+);
 
 const cases = [
   [

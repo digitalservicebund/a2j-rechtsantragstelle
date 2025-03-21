@@ -3,6 +3,12 @@ import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { beratungshilfeAbgabeGuards } from "./guards";
 
+const showZusammenfassungOrTelefonnummer = (await isFeatureFlagEnabled(
+  "showBeratungshilfeZusammenfassungPage",
+))
+  ? "#zusammenfassung"
+  : "#persoenliche-daten.telefonnummer";
+
 export const abgabeXstateConfig = {
   initial: "ueberpruefung",
   id: "abgabe",
@@ -10,7 +16,7 @@ export const abgabeXstateConfig = {
   states: {
     ueberpruefung: {
       on: {
-        BACK: "#persoenliche-daten.telefonnummer",
+        BACK: showZusammenfassungOrTelefonnummer,
       },
       always: {
         guard: beratungshilfeAbgabeGuards.readyForAbgabe,
@@ -22,7 +28,7 @@ export const abgabeXstateConfig = {
     ...((await isFeatureFlagEnabled("showFileUpload")) && {
       dokumente: {
         on: {
-          BACK: "#persoenliche-daten.telefonnummer",
+          BACK: showZusammenfassungOrTelefonnummer,
           SUBMIT: "art",
         },
       },
@@ -41,7 +47,7 @@ export const abgabeXstateConfig = {
         ],
         BACK: (await isFeatureFlagEnabled("showFileUpload"))
           ? "dokumente"
-          : "#persoenliche-daten.telefonnummer",
+          : showZusammenfassungOrTelefonnummer,
       },
     },
     ausdrucken: {
