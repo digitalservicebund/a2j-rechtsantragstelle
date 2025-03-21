@@ -14,6 +14,10 @@ import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFun
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
 
+const showZusammenfassung = await isFeatureFlagEnabled(
+  "showBeratungshilfeZusammenfassungPage",
+);
+
 export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
   initial: "start",
@@ -76,11 +80,7 @@ export const beratungshilfeXstateConfig = {
         },
         telefonnummer: {
           on: {
-            SUBMIT: (await isFeatureFlagEnabled(
-              "showBeratungshilfeZusammenfassungPage",
-            ))
-              ? "#zusammenfassung"
-              : "#abgabe",
+            SUBMIT: showZusammenfassung ? "#zusammenfassung" : "#abgabe",
           },
         },
       },
