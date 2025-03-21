@@ -3,6 +3,8 @@ import {
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
 import { withZod } from "@remix-validated-form/with-zod";
+// import get from "lodash/get";
+import pickBy from "lodash/pickBy";
 import {
   ErrorResult,
   SuccessResult,
@@ -36,9 +38,14 @@ export async function uploadUserFile(
   const { fieldName, inputIndex } = splitFieldName(inputName);
   const file = await parseFileFromFormData(request, inputName);
   const fileMeta = convertFileToMetadata(file);
-  const scopedContext = Object.fromEntries(
-    Object.entries(getContext(flowId)).filter(([key]) => key === fieldName),
-  );
+  /**
+   * Need to scope the context, otherwise we validate against the entire context,
+   * of which we only have partial data at this point
+   */
+  const scopedContext = pickBy(
+    getContext(flowId),
+    (_val, key) => key === fieldName,
+  ) as Record<string, ZodTypeAny>;
   const validationResult = await validateUploadedFile(
     inputName,
     fileMeta,

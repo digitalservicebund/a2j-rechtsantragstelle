@@ -9,7 +9,7 @@ const StrapiFilesUploadSchema = z
   .object({
     name: z.string(),
     title: z.string(),
-    description: z.string().optional(),
+    description: z.string().nullable(),
     inlineNotice: z.array(StrapiInlineNoticeSchema).optional(),
     errors: StrapiErrorRelationSchema,
   })

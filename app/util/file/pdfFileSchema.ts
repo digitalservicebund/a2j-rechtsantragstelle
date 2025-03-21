@@ -18,9 +18,15 @@ export const pdfFileMetaDataSchema = z.object({
     .string()
     .regex(/application\/pdf/, fileUploadErrorMap.wrongFileType),
   fileSize: z
-    .number()
-    .max(TEN_MB_IN_BYTES, fileUploadErrorMap.fileSizeTooBig)
-    .min(1, fileUploadErrorMap.fileRequired),
+    // Need to have string here as html input types (our hidden inputs) always submit strings
+    .string()
+    .transform((str) => parseInt(str))
+    .or(
+      z
+        .number()
+        .max(TEN_MB_IN_BYTES, fileUploadErrorMap.fileSizeTooBig)
+        .min(1, fileUploadErrorMap.fileRequired),
+    ),
   createdOn: z.string(),
 });
 
