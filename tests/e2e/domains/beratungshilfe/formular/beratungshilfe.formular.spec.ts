@@ -2,6 +2,7 @@ import { type Page, type Response, expect, test } from "@playwright/test";
 import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
+import { config } from "~/services/env/env.server";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
@@ -50,6 +51,7 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startRechtsproblem(page, beratungshilfeFormular);
   await startFinanzielleAngabenGrundsicherung(beratungshilfeFormular);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
+  await skipZusammenfassung(page);
   await startAbgabe(page);
 });
 
@@ -103,4 +105,10 @@ async function startAbgabe(page: Page) {
   expect(await newTabResponse?.headerValue("content-type")).toBe(
     "application/pdf",
   );
+}
+
+async function skipZusammenfassung(page: Page) {
+  if (config().ENVIRONMENT !== "production") {
+    await page.goto("beratungshilfe/antrag/abgabe/dokumente");
+  }
 }

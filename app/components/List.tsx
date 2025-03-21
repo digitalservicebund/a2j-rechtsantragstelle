@@ -5,10 +5,10 @@ import RichText from "./RichText";
 
 export type ListProps = {
   items: ListItemProps[];
+  variant: "unordered" | "numbered";
   identifier?: string;
   heading?: HeadingProps;
   subheading?: string;
-  variant?: "unordered" | "numbered";
 };
 
 const List = ({
@@ -16,7 +16,7 @@ const List = ({
   items,
   heading,
   subheading,
-  variant = "unordered",
+  variant,
 }: ListProps) => {
   return (
     <div className="ds-stack ds-stack-8 scroll-my-40" id={identifier}>
