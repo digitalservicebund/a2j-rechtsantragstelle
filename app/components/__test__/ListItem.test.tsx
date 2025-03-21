@@ -20,8 +20,8 @@ describe("ListItem", () => {
   });
 
   it("renders no indexLabel for unordered", () => {
-    const { getByText } = render(<ListItem index={1} variant="unordered" />);
-    expect(getByText("1")).not.toBeInTheDocument();
+    const { queryByText } = render(<ListItem index={1} variant="unordered" />);
+    expect(queryByText("1")).not.toBeInTheDocument();
   });
 
   it("should render buttons with labels", () => {

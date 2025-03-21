@@ -24,12 +24,15 @@ const List = ({
     <div className="ds-stack ds-stack-8 scroll-my-40" id={identifier}>
       {heading && <Heading {...heading} />}
       {subheading && <RichText html={subheading} className="pt-16" />}
-      <ol className="list-none ds-stack ds-stack-32 ps-0">
+      <ol className="list-none ps-0 ">
         {items
           // Need to filter out empty list items when conditionally rendering with mustache templating
           .filter(listItemNotEmpty)
           .map((item, index) => (
-            <li key={item.identifier ?? item.headline?.text ?? item.content}>
+            <li
+              key={item.identifier ?? item.headline?.text ?? item.content}
+              className="group"
+            >
               <ListItem {...item} index={index + 1} variant={variant} />
             </li>
           ))}
