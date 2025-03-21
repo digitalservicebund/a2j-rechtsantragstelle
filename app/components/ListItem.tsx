@@ -37,23 +37,21 @@ const ListItem = ({
         <div className="text-center basis-[40px] shrink-0">
           <ListIcon index={index} />
         </div>
-        <div className="basis-auto ds-stack ds-stack-8">
-          {headline && <Heading {...headline} />}
-          {content && <RichText html={content} />}
-          {arrayIsNonEmpty(buttons) && (
-            <ButtonContainer className="mt-16">
-              {buttons.map((button) => (
-                <Button key={button.text ?? button.href} {...button} />
-              ))}
-            </ButtonContainer>
-          )}
+        <div className="ds-stack ds-stack-32 pb-32">
+          <div className="ds-stack ds-stack-8">
+            {headline && <Heading {...headline} />}
+            {content && <RichText html={content} />}
+            {arrayIsNonEmpty(buttons) && (
+              <ButtonContainer className="mt-16">
+                {buttons.map((button) => (
+                  <Button key={button.text ?? button.href} {...button} />
+                ))}
+              </ButtonContainer>
+            )}
+          </div>
+          {accordion && <Accordion {...accordion} />}
         </div>
       </div>
-      {accordion && (
-        <div className="w-full ml-56 mt-16">
-          <Accordion {...accordion} />
-        </div>
-      )}
     </div>
   );
 };
