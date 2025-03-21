@@ -21,10 +21,12 @@ const List = ({
   variant,
 }: ListProps) => {
   return (
-    <div className="ds-stack ds-stack-8 scroll-my-40" id={identifier}>
-      {heading && <Heading {...heading} />}
-      {subheading && <RichText html={subheading} className="pt-16" />}
-      <ol className="list-none ps-0 ">
+    <div className="ds-stack ds-stack-32" id={identifier}>
+      <div className="ds-stack ds-stack-16">
+        {heading && <Heading {...heading} />}
+        {subheading && <RichText html={subheading} />}
+      </div>
+      <ol className="list-none ps-0">
         {items
           // Need to filter out empty list items when conditionally rendering with mustache templating
           .filter(listItemNotEmpty)
