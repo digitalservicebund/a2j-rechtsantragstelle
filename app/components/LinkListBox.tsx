@@ -21,12 +21,12 @@ const LinkListBox = ({
   buttons,
 }: LinkListBoxProps) => {
   return (
-    <div className="ds-stack-16" id={identifier}>
-      <div className="ds-stack-8">
+    <div className="ds-stack ds-stack-16" id={identifier}>
+      <div className="ds-stack ds-stack-8">
         {label && <Heading {...label} />}
         {heading && <Heading {...heading} />}
         {links && links.length > 0 && (
-          <ul className="list-none pl-0 ds-stack-16">
+          <ul className="list-none pl-0 ds-stack ds-stack-16">
             {links.map((link) => (
               <li key={link.text ?? link.url}>
                 <Link

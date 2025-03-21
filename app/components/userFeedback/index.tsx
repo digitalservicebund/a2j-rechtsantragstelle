@@ -47,7 +47,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
         fullScreen={false}
       >
         <div
-          className="ds-stack-16"
+          className="ds-stack ds-stack-16"
           data-testid={USER_FEEDBACK_ID}
           id={USER_FEEDBACK_ID}
         >

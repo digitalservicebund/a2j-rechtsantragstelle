@@ -31,7 +31,7 @@ type LicenseListProps = {
 };
 
 const LicenseList = ({ dependencies }: LicenseListProps) => (
-  <div className="ds-stack-8 ">
+  <div className="ds-stack ds-stack-8 ">
     <ul>
       {Object.entries(dependencies.directDependencies).map(
         ([dependencyString, infos]) =>

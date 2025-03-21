@@ -29,7 +29,7 @@ const Checkbox = ({
     formId,
   });
   const errorId = `${name}-error`;
-  const className = `ds-checkbox forced-color-adjust-none ${error ? "has-error" : ""}`;
+  const className = `ds-checkbox forced-colors:outline forced-colors:border-[ButtonText] ${error ? "has-error" : ""}`;
   // HTML Forms do not send unchecked checkboxes.
   // For server-side validation we need a same-named hidden field
   // For front-end validation, we need to hide that field if checkbox is checked

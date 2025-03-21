@@ -8,6 +8,7 @@ import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { startGesetzlicheVertretung } from "./gesetzlicheVertretung";
 import { startPersoenlicheDaten } from "./persoenlicheDaten";
+import { startWeitereAngaben } from "./weitereAngaben";
 
 let prozesskostenhilfeFormular: ProzesskostenhilfeFormular;
 
@@ -55,6 +56,9 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
 
   // /prozesskostenhilfe/formular/persoenliche-daten/start
   await startPersoenlicheDaten(page, prozesskostenhilfeFormular);
+
+  // /prozesskostenhilfe/formular/weitere-angaben/start
+  await startWeitereAngaben(page, prozesskostenhilfeFormular);
 
   // /prozesskostenhilfe/formular/abgabe/ende
   await startAbgabe(page);
