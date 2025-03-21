@@ -1,7 +1,7 @@
 export const zusammenfassungXstateConfig = {
   id: "zusammenfassung",
   initial: "ueberblick",
-  meta: { done: () => true },
+  meta: { done: () => false },
   states: {
     ueberblick: {
       on: {
