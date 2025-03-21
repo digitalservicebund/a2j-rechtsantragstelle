@@ -14,8 +14,7 @@ import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFun
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
 
-const showZusammenfassungOrTelefonnummer =
-  config().ENVIRONMENT !== "production" ? "#zusammenfassung" : "#abgabe";
+const showZusammenfassung = config().ENVIRONMENT !== "production";
 
 export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
@@ -78,13 +77,17 @@ export const beratungshilfeXstateConfig = {
           },
         },
         telefonnummer: {
-          on: {
-            SUBMIT: showZusammenfassungOrTelefonnummer,
-          },
+          on: { SUBMIT: showZusammenfassung ? "#zusammenfassung" : "#abgabe" },
         },
       },
     }),
-    zusammenfassung: zusammenfassungXstateConfig,
-    abgabe: abgabeXstateConfig,
+    ...(showZusammenfassung && {
+      zusammenfassung: zusammenfassungXstateConfig,
+    }),
+    abgabe: await abgabeXstateConfig(
+      showZusammenfassung
+        ? "#zusammenfassung"
+        : "#persoenliche-daten.telefonnummer",
+    ),
   },
 } satisfies Config<BeratungshilfeFormularContext>;
