@@ -35,6 +35,9 @@ const Links = ({ links }: Pick<CategorizedLinkProps, "links">) => {
   });
 };
 
+const dashifyLowercase = (text: string) =>
+  text.toLowerCase().replace(/\s+/g, "-");
+
 export default function Footer({
   image,
   paragraphs = [],
@@ -53,7 +56,7 @@ export default function Footer({
         className="flex flex-col md:flex-row gap-32 mb-32 pr-16 pl-16"
         data-testid="footer"
       >
-        <div className="flex flex-col min-w-[288px] gap-y-8">
+        <div className="flex flex-col max-w-[288px] gap-y-8">
           {image?.url && (
             <div className="forced-colors:bg-black">
               <Image
@@ -66,7 +69,10 @@ export default function Footer({
           <div className="ds-stack ds-stack-8">
             {paragraphs.map((paragraph) => (
               <div key={paragraph.html}>
-                <RichText {...paragraph} className="ds-label-03-reg" />
+                <RichText
+                  {...paragraph}
+                  className="ds-label-03-reg [&_a]:inline-block"
+                />
               </div>
             ))}
           </div>
@@ -76,14 +82,22 @@ export default function Footer({
           className="flex flex-col sm:flex-row gap-16"
           aria-label={ariaLabelTranslation}
         >
-          {categorizedLinks.map((category) => (
-            <div key={category.id}>
-              <p className="ds-label-03-bold mb-7">{category.title}</p>
-              <ul className="list-none pl-2 space-y-10">
-                <Links links={category.links} />
-              </ul>
-            </div>
-          ))}
+          {categorizedLinks.map((category) => {
+            const ariaLabelledBy = `footer-list-${dashifyLowercase(category.title)}`;
+            return (
+              <div key={category.id}>
+                <h2 id={ariaLabelledBy} className="ds-label-03-bold">
+                  {category.title}
+                </h2>
+                <ul
+                  aria-labelledby={ariaLabelledBy}
+                  className="list-none pt-[7px] pl-2 space-y-10"
+                >
+                  <Links links={category.links} />
+                </ul>
+              </div>
+            );
+          })}
         </nav>
       </div>
       {showDeletionBanner && (
