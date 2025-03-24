@@ -23,15 +23,23 @@ export const Example: Story = {
       { html: "<p>Lorem ipsum 1 <a href='/'>Link</a></p>" },
       { html: "<p>Lorem ipsum 2 <a href='/'>Link</a></p>" },
     ],
-    links: [
+    categorizedLinks: [
       {
-        url: "https://digitalservice.bund.de",
-        text: "DigitalService",
+        id: 1,
+        title: "Category 1",
+        links: [
+          { url: "url1", text: "link1" },
+          { url: "url1", text: "link1" },
+        ],
       },
-      { url: "/url1", text: "Lorem ipsum 1" },
-      { url: "/url2", text: "Lorem ipsum 2" },
-      { url: "/url3", text: "Lorem ipsum 3" },
-      { url: "/url4", text: "Lorem ipsum 4" },
+      {
+        id: 1,
+        title: "Category 2",
+        links: [
+          { url: "url2", text: "link1" },
+          { url: "url2", text: "link" },
+        ],
+      },
     ],
   },
 };
