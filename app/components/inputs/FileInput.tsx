@@ -46,15 +46,14 @@ export const FileInput = ({
           inputName={name}
           onFileDelete={onFileDelete}
           jsAvailable={jsAvailable}
-          fileName={selectedFile.filename}
-          fileSize={selectedFile.fileSize}
+          file={selectedFile}
           deleteButtonLabel={translations?.delete}
           hasError={!!error}
         />
       ) : (
         <label htmlFor={name} className={"flex flex-col md:flex-row"}>
           <input
-            name={name}
+            name={jsAvailable ? undefined : name}
             onChange={(event) => onFileUpload(name, event.target.files?.[0])}
             type="file"
             accept=".pdf"
