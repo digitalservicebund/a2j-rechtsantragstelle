@@ -4,6 +4,7 @@ import Container from "./Container";
 import Image, { type ImageProps } from "./Image";
 import RichText, { type RichTextProps } from "./RichText";
 import { StandaloneLink } from "./StandaloneLink";
+import Heading from "./Heading";
 
 type LinkProps = {
   url: string;
@@ -86,9 +87,13 @@ export default function Footer({
             const ariaLabelledBy = `footer-list-${dashifyLowercase(category.title)}`;
             return (
               <div key={category.id}>
-                <h2 id={ariaLabelledBy} className="ds-label-03-bold">
+                <Heading
+                  tagName="h2"
+                  elementId={ariaLabelledBy}
+                  className="ds-label-03-bold"
+                >
                   {category.title}
-                </h2>
+                </Heading>
                 <ul
                   aria-labelledby={ariaLabelledBy}
                   className="list-none pt-[7px] pl-2 space-y-10"
