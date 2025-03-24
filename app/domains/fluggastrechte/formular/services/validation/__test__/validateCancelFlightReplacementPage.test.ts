@@ -8,6 +8,13 @@ describe("validateCancelFlightReplacementPage", () => {
     annullierungErsatzverbindungAbflugsZeit: z.string().optional(),
     annullierungErsatzverbindungAnkunftsDatum: z.string().optional(),
     annullierungErsatzverbindungAnkunftsZeit: z.string().optional(),
+    ankuendigung: z.string().optional(),
+    ersatzflugStartenZweiStunden: z.string().optional(),
+    ersatzflugLandenVierStunden: z.string().optional(),
+    direktAbflugsDatum: z.string().optional(),
+    direktAbflugsZeit: z.string().optional(),
+    direktAnkunftsDatum: z.string().optional(),
+    direktAnkunftsZeit: z.string().optional(),
   });
 
   const validatorCancelFlightReplacementPage =
@@ -166,5 +173,41 @@ describe("validateCancelFlightReplacementPage", () => {
     });
 
     expect(result.success).toBe(true);
+  });
+
+  describe("validate when ankuendigung between7And13Days", () => {
+    describe("check departure", () => {
+      it("should fail validation given departure less than two hours from the original and ersatzflugStartenZweiStunden yes", () => {
+        const result = validatorCancelFlightReplacementPage.safeParse({
+          annullierungErsatzverbindungFlugnummer: "AB123",
+          annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+          annullierungErsatzverbindungAbflugsZeit: "10:00",
+          annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
+          annullierungErsatzverbindungAnkunftsZeit: "18:00",
+          ankuendigung: "between7And13Days",
+          direktAbflugsDatum: "01.01.2024",
+          direktAbflugsZeit: "11:59",
+          direktAnkunftsDatum: "01.01.2024",
+          direktAnkunftsZeit: "23:00",
+          ersatzflugStartenZweiStunden: "yes",
+          ersatzflugLandenVierStunden: "yes",
+        });
+
+        expect(result.success).toBe(false);
+        expect(result.error?.errors).toHaveLength(2);
+        expect(result.error?.errors).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              message: "departureTwoHoursLateFromOriginalDeparture",
+              path: ["annullierungErsatzverbindungAbflugsDatum"],
+            }),
+            expect.objectContaining({
+              message: "departureTwoHoursLateFromOriginalDeparture",
+              path: ["annullierungErsatzverbindungAbflugsZeit"],
+            }),
+          ]),
+        );
+      });
+    });
   });
 });
