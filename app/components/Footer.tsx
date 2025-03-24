@@ -1,10 +1,10 @@
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import Background from "./Background";
 import Container from "./Container";
+import Heading from "./Heading";
 import Image, { type ImageProps } from "./Image";
 import RichText, { type RichTextProps } from "./RichText";
 import { StandaloneLink } from "./StandaloneLink";
-import Heading from "./Heading";
 
 type LinkProps = {
   url: string;
