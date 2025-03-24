@@ -1,5 +1,8 @@
+import FileDownloadIcon from "@digitalservicebund/icons/FileDownload";
 import { useLoaderData } from "@remix-run/react";
+import { useEffect } from "react";
 import Background from "~/components/Background";
+import Button from "~/components/Button";
 import Container from "~/components/Container";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
@@ -14,7 +17,16 @@ export function VorabcheckPage() {
     formElements,
     progressProps,
     buttonNavigationProps,
+    shouldPrint,
   } = useLoaderData<typeof loader>();
+
+  useEffect(() => {
+    if (shouldPrint) {
+      window.print();
+      window.close();
+    }
+  }, [shouldPrint]);
+
   return (
     <Background backgroundColor="blue">
       <div className="min-h-screen">
@@ -26,6 +38,12 @@ export function VorabcheckPage() {
                 content={contentElements}
                 className="ds-stack ds-stack-16"
                 fullScreen={false}
+              />
+              <Button
+                iconLeft={<FileDownloadIcon />}
+                text="Anleitung Herunterladen"
+                size="large"
+                href="/kontopfaendung/wegweiser/sozialleistungen-einmalzahlung?print"
               />
               <ValidatedFlowForm
                 stepData={stepData}
