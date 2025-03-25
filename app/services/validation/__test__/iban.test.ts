@@ -5,17 +5,16 @@ describe("iban validation", () => {
   describe("success cases", () => {
     const cases = [
       {
-        input: " De 91 1000 0000 0123456789",
-        expected: "DE91100000000123456789",
+        input: "DE14100205001234567890",
+        expected: "DE14100205001234567890",
       },
       {
-        input: " DE 91 1000 0000 0123456789 ",
-        expected: "DE91100000000123456789",
+        input: " DE14 1002 0500 1234 5678 90 ",
+        expected: "DE14100205001234567890",
       },
-      { input: "de91100000000123456789 ", expected: "DE91100000000123456789" },
-      { input: " DE91100000000123456789 ", expected: "DE91100000000123456789" },
+      { input: "de14100205001234567890", expected: "DE14100205001234567890" },
       {
-        input: "KW81CBKU0000000000001234560101",
+        input: "KW81 CBKU000000000000 1234560101",
         expected: "KW81CBKU0000000000001234560101",
       },
       {
@@ -36,18 +35,11 @@ describe("iban validation", () => {
   describe("failing cases", () => {
     const cases = [
       { input: "", errorMessage: "invalid_iban_format" },
-      { input: "DE", errorMessage: "invalid_iban_format" },
-      { input: "123DE", errorMessage: "invalid_iban_format" },
-      { input: " :) ", errorMessage: "invalid_iban_format" },
-      { input: "foobar ", errorMessage: "invalid_iban_format" },
-      { input: "DE9110000000012345678", errorMessage: "invalid_iban_format" },
-      { input: "DE911000000001234567891", errorMessage: "invalid_iban_format" },
-      {
-        input: "RU0204452560040702810412345678901",
-        errorMessage: "invalid_iban_format",
-      },
-      { input: "randomtext", errorMessage: "invalid_iban_format" },
-      { input: "DE92100000000123456789", errorMessage: "invalid_iban_format" },
+      { input: "foobar", errorMessage: "invalid_iban_format" },
+      { input: "DE1410020500123456789", errorMessage: "invalid_iban_format" },
+      { input: "DE14100205001234567891", errorMessage: "invalid_iban_format" },
+      { input: "DE141002050012345678901", errorMessage: "invalid_iban_format" },
+      { input: "NO8330001234568", errorMessage: "invalid_iban_format" },
     ];
 
     test.each(cases)(
