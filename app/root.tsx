@@ -84,7 +84,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname, searchParams } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
 
-  const shouldPrintParam = searchParams.get("print") !== null;
+  const shouldPrint = searchParams.get("print") !== null;
 
   const [
     strapiHeader,
@@ -152,7 +152,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         translations.feedback["text-post-submission"],
       ),
       accordionTranslation: translations.accordion,
-      shouldPrint: shouldPrintParam,
+      shouldPrint,
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );

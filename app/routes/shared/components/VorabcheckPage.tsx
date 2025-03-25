@@ -15,7 +15,6 @@ export function VorabcheckPage() {
     progressProps,
     buttonNavigationProps,
   } = useLoaderData<typeof loader>();
-
   return (
     <Background backgroundColor="blue">
       <div className="min-h-screen">
