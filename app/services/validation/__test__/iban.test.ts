@@ -19,10 +19,6 @@ describe("iban validation", () => {
         expected: "KW81CBKU0000000000001234560101",
       },
       {
-        input: " RU0204452560040702810412345678901",
-        expected: "RU0204452560040702810412345678901",
-      },
-      {
         input: " NO8330001234567 ",
         expected: "NO8330001234567",
       },
@@ -46,6 +42,10 @@ describe("iban validation", () => {
       { input: "foobar ", errorMessage: "invalid_iban_format" },
       { input: "DE9110000000012345678", errorMessage: "invalid_iban_format" },
       { input: "DE911000000001234567891", errorMessage: "invalid_iban_format" },
+      {
+        input: "RU0204452560040702810412345678901",
+        errorMessage: "invalid_iban_format",
+      },
       { input: "randomtext", errorMessage: "invalid_iban_format" },
       { input: "DE92100000000123456789", errorMessage: "invalid_iban_format" },
     ];

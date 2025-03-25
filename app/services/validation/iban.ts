@@ -1,10 +1,8 @@
-import { isValidIBAN } from "ibantools";
+import isIBAN from "validator/lib/isIBAN";
 import { z } from "zod";
 
 export const ibanSchema = z
   .string()
   .toUpperCase()
   .transform((ibanInput) => ibanInput.replaceAll(" ", ""))
-  .refine(isValidIBAN, {
-    message: "invalid_iban_format",
-  });
+  .refine(isIBAN, { message: "invalid_iban_format" });
