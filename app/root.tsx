@@ -81,8 +81,10 @@ export const meta: MetaFunction<RootLoader> = () => {
 export type RootLoader = typeof loader;
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
-  const { pathname } = new URL(request.url);
+  const { pathname, searchParams } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
+
+  const shouldPrintParam = searchParams.get("print") !== null;
 
   const [
     strapiHeader,
@@ -150,6 +152,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         translations.feedback["text-post-submission"],
       ),
       accordionTranslation: translations.accordion,
+      shouldPrint: shouldPrintParam,
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
@@ -168,6 +171,7 @@ function App() {
     accessibilityTranslations,
     fileUploadTranslations,
     accordionTranslation,
+    shouldPrint,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
@@ -187,6 +191,13 @@ function App() {
       setSkipToContentLinkTarget("#form-flow-page-content");
     }
   }, []);
+
+  useEffect(() => {
+    if (shouldPrint) {
+      window.print();
+      window.close();
+    }
+  }, [shouldPrint]);
 
   const translationMemo = useMemo(
     () => ({

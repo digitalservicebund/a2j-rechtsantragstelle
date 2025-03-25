@@ -14,6 +14,12 @@ describe("isFileDownloadUrl", () => {
   });
 });
 
+describe("isPrintUrl", () => {
+  it("returns true for print urls", () => {
+    expect(isFileDownloadUrl("?print")).toBeTruthy();
+  });
+});
+
 describe("getYoutubeVideoId", () => {
   it('should grab the youtube video id from a "shared" url', () => {
     expect(

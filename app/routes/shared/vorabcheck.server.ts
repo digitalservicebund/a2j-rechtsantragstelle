@@ -40,8 +40,6 @@ export const loader = async ({
   const { flowId, stepId } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
 
-  const shouldPrintParam = searchParams.get("print") !== null;
-
   const { userData, debugId } = await getSessionData(flowId, cookieHeader);
   context.debugId = debugId; // For showing in errors
 
@@ -120,7 +118,6 @@ export const loader = async ({
       meta,
       progressProps,
       buttonNavigationProps,
-      shouldPrint: shouldPrintParam,
     },
     { headers },
   );
