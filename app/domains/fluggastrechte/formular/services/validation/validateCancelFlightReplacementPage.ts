@@ -3,6 +3,7 @@ import { MultiFieldsValidationBaseSchema } from "~/domains/multiFieldsFlowValida
 import { convertToTimestamp } from "~/util/date";
 import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 
+const ONE_HOUR_MILLISECONDS = 1 * 60 * 60 * 1000;
 const TWO_HOURS_MILLISECONDS = 2 * 60 * 60 * 1000;
 const FOUR_HOURS_MILLISECONDS = 4 * 60 * 60 * 1000;
 
@@ -68,10 +69,7 @@ const getDatesTimes = (data: Record<string, string>) => {
   };
 };
 
-const addIssueToAnnullierungErsatzverbindungAbflug = (
-  ctx: z.RefinementCtx,
-  message: string,
-) => {
+const addIssueToAbflugFields = (ctx: z.RefinementCtx, message: string) => {
   ctx.addIssue({
     code: z.ZodIssueCode.custom,
     message: message,
@@ -85,10 +83,7 @@ const addIssueToAnnullierungErsatzverbindungAbflug = (
   });
 };
 
-const addIssueToAnnullierungErsatzverbindungAnkunft = (
-  ctx: z.RefinementCtx,
-  message: string,
-) => {
+const addIssueToAnkunftFields = (ctx: z.RefinementCtx, message: string) => {
   ctx.addIssue({
     code: z.ZodIssueCode.custom,
     message: message,
@@ -100,6 +95,65 @@ const addIssueToAnnullierungErsatzverbindungAnkunft = (
     message: message,
     path: ["annullierungErsatzverbindungAnkunftsZeit"],
   });
+};
+
+const validateFieldsNoOrUntil6Days = (
+  data: Record<string, string>,
+  ctx: z.RefinementCtx,
+) => {
+  const ersatzflugStartenEinStunde = data.ersatzflugStartenEinStunde;
+  const ersatzflugLandenZweiStunden = data.ersatzflugLandenZweiStunden;
+
+  const {
+    originalDepartureDateTime,
+    departureDateTime,
+    originalArrivalDateTime,
+    arrivalDateTime,
+  } = getDatesTimes(data);
+
+  if (
+    ersatzflugStartenEinStunde === "yes" &&
+    isStartTimestampLessThan(
+      departureDateTime,
+      originalDepartureDateTime,
+      ONE_HOUR_MILLISECONDS,
+    )
+  ) {
+    addIssueToAbflugFields(ctx, "departureOneHourLateFromOriginalDeparture");
+  }
+
+  if (
+    ersatzflugStartenEinStunde === "no" &&
+    isStartTimestampMoreThan(
+      originalDepartureDateTime,
+      departureDateTime,
+      ONE_HOUR_MILLISECONDS,
+    )
+  ) {
+    addIssueToAbflugFields(ctx, "departureOneHourLessFromOriginalDeparture");
+  }
+
+  if (
+    ersatzflugLandenZweiStunden === "yes" &&
+    isStartTimestampLessThan(
+      arrivalDateTime,
+      originalArrivalDateTime,
+      TWO_HOURS_MILLISECONDS,
+    )
+  ) {
+    addIssueToAnkunftFields(ctx, "arrivalTwoHoursLateFromOriginalArrival");
+  }
+
+  if (
+    ersatzflugLandenZweiStunden === "no" &&
+    isStartTimestampMoreThan(
+      originalArrivalDateTime,
+      arrivalDateTime,
+      TWO_HOURS_MILLISECONDS,
+    )
+  ) {
+    addIssueToAnkunftFields(ctx, "arrivalTwoHoursLessFromOriginalArrival");
+  }
 };
 
 const validateFieldsBetween7And13Days = (
@@ -124,10 +178,7 @@ const validateFieldsBetween7And13Days = (
       TWO_HOURS_MILLISECONDS,
     )
   ) {
-    addIssueToAnnullierungErsatzverbindungAbflug(
-      ctx,
-      "departureTwoHoursLateFromOriginalDeparture",
-    );
+    addIssueToAbflugFields(ctx, "departureTwoHoursLateFromOriginalDeparture");
   }
 
   if (
@@ -138,10 +189,7 @@ const validateFieldsBetween7And13Days = (
       TWO_HOURS_MILLISECONDS,
     )
   ) {
-    addIssueToAnnullierungErsatzverbindungAbflug(
-      ctx,
-      "departureTwoHoursLessFromOriginalDeparture",
-    );
+    addIssueToAbflugFields(ctx, "departureTwoHoursLessFromOriginalDeparture");
   }
 
   if (
@@ -152,10 +200,7 @@ const validateFieldsBetween7And13Days = (
       FOUR_HOURS_MILLISECONDS,
     )
   ) {
-    addIssueToAnnullierungErsatzverbindungAnkunft(
-      ctx,
-      "arrivalFourHoursLateFromOriginalDeparture",
-    );
+    addIssueToAnkunftFields(ctx, "arrivalFourHoursLateFromOriginalArrival");
   }
 
   if (
@@ -166,10 +211,7 @@ const validateFieldsBetween7And13Days = (
       FOUR_HOURS_MILLISECONDS,
     )
   ) {
-    addIssueToAnnullierungErsatzverbindungAnkunft(
-      ctx,
-      "arrivalFourHoursLessFromOriginalDeparture",
-    );
+    addIssueToAnkunftFields(ctx, "arrivalFourHoursLessFromOriginalArrival");
   }
 };
 
@@ -199,6 +241,10 @@ export function validateCancelFlightReplacementPage(
 
     if (data.ankuendigung === "between7And13Days") {
       validateFieldsBetween7And13Days(data, ctx);
+    }
+
+    if (data.ankuendigung === "no" || data.ankuendigung === "until6Days") {
+      validateFieldsNoOrUntil6Days(data, ctx);
     }
   });
 }
