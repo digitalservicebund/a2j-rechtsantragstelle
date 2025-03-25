@@ -3,7 +3,6 @@ import {
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
 import { withZod } from "@remix-validated-form/with-zod";
-// import get from "lodash/get";
 import pickBy from "lodash/pickBy";
 import {
   ErrorResult,
@@ -13,16 +12,16 @@ import {
   ValidationResult,
 } from "remix-validated-form";
 import { z, ZodTypeAny } from "zod";
-import {
-  convertFileToMetadata,
-  splitFieldName,
-} from "~/components/filesUpload/fileUploadHelpers";
 import { ArrayData, Context, getContext } from "~/domains/contexts";
 import { FlowId } from "~/domains/flowIds";
 import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
+import {
+  convertFileToMetadata,
+  splitFieldName,
+} from "~/services/upload/fileUploadHelpers";
 import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 export async function uploadUserFile(

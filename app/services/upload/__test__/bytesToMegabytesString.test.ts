@@ -1,4 +1,4 @@
-import { bytesToMegabytesString } from "../bytesToMegabytesString";
+import { bytesToMegabytesString } from "../../../services/upload/bytesToMegabytesString";
 
 describe("bytesToMegabytesString", () => {
   it("should convert bytes to megabytes correctly", () => {

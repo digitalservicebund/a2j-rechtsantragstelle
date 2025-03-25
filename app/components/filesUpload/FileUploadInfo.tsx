@@ -2,8 +2,8 @@ import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import InsertFileIcon from "@digitalservicebund/icons/InsertDriveFile";
 import classNames from "classnames";
 import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { bytesToMegabytesString } from "../../services/upload/bytesToMegabytesString";
 import Button from "../Button";
-import { bytesToMegabytesString } from "./bytesToMegabytesString";
 
 type FileUploadInfoProps = {
   inputName: string;
