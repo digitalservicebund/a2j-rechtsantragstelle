@@ -25,4 +25,4 @@ const cases = [
 const machine: FlowStateMachine = createMachine(
   kontopfaendungWegweiserXstateConfig,
 );
-export const testCasesKontopfaendung = { machine, cases };
+export const testCasesKontopfaendungWegweiser = { machine, cases };

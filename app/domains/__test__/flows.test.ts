@@ -30,7 +30,7 @@ import { testCasesFluggastrechteNichtBefoerderungAbbruch } from "~/domains/flugg
 import { testcasesFluggastrechtOtherErfolgs } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesOtherErfolgs";
 import { testCasesFluggastrechteVerspaetetAbbruch } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesVerspaetetAbbruch";
 import { testCasesGeldEinklagen } from "~/domains/geldEinklagen/vorabcheck/__test__/testcases";
-import { testCasesKontopfaendung } from "~/domains/kontopfaendung/__test__/testcases";
+import { testCasesKontopfaendungWegweiser } from "~/domains/kontopfaendung/__test__/testcases";
 import {
   testCasesProzesskostenhilfeFormular,
   testCasesProzesskostenhilfeSubmitOnly,
@@ -133,7 +133,7 @@ describe.sequential("state machine form flows", () => {
     testcasesFluggastrechteErfolgAnalog,
     testCasesFluggastrechteFormularProzessfuehrung,
     testCasesFluggastrechteFluggesellschaftAbbruch,
-    testCasesKontopfaendung,
+    testCasesKontopfaendung: testCasesKontopfaendungWegweiser,
   } as const;
   const transitionTypes = ["SUBMIT", "BACK"] as const;
 
