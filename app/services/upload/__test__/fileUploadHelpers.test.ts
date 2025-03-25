@@ -1,9 +1,9 @@
+import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import {
   convertFileToMetadata,
   splitFieldName,
   useFileHandler,
-} from "~/components/filesUpload/fileUploadHelpers";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
+} from "~/services/upload/fileUploadHelpers";
 
 const mockFile = new File([], "mockFile");
 

@@ -1,12 +1,12 @@
 import classNames from "classnames";
 import Button from "~/components/Button";
-import {
-  splitFieldName,
-  useFileHandler,
-} from "~/components/filesUpload/fileUploadHelpers";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
 import { useTranslations } from "~/services/translations/translationsContext";
+import {
+  splitFieldName,
+  useFileHandler,
+} from "~/services/upload/fileUploadHelpers";
 import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { ErrorMessageProps } from ".";
 

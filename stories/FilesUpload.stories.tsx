@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 import { ActionFunctionArgs } from "@remix-run/node";
 import type { Meta, StoryObj } from "@storybook/react";
 import FilesUpload from "~/components/filesUpload/FilesUpload";
-import { splitFieldName } from "~/components/filesUpload/fileUploadHelpers";
+import { splitFieldName } from "~/services/upload/fileUploadHelpers";
 import { TranslationContext } from "~/services/translations/translationsContext";
 import { PDFFileMetadata, TEN_MB_IN_BYTES } from "~/util/file/pdfFileSchema";
 

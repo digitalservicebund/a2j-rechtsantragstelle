@@ -3,7 +3,7 @@ import {
   buildFileUploadError,
   convertAsyncBufferToFile,
   validateUploadedFile,
-} from "~/services/flow/server/fileUploadHelpers.server";
+} from "~/services/upload/fileUploadHelpers.server";
 import {
   fileUploadErrorMap,
   fileUploadLimit,
