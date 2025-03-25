@@ -60,9 +60,33 @@ export const kontopfaendungWegweiserXstateConfig = {
             target: "glaeubiger-unbekannt",
             guard: ({ context }) => context.schuldenBei === "weissNicht",
           },
+          {
+            target: "unerlaubten-handlung",
+            guard: ({ context }) =>
+              context.schuldenBei === "staatsanwaltschaft" ||
+              context.schuldenBei === "kasse",
+          },
+          {
+            target: "unterhalts-zahlungen",
+            guard: ({ context }) =>
+              context.schuldenBei === "privat" ||
+              context.schuldenBei === "jugendamt",
+          },
           "euro-schwelle",
         ],
         BACK: "p-konto",
+      },
+    },
+    "unerlaubten-handlung": {
+      on: {
+        SUBMIT: "euro-schwelle",
+        BACK: "glaeubiger",
+      },
+    },
+    "unterhalts-zahlungen": {
+      on: {
+        SUBMIT: "euro-schwelle",
+        BACK: "glaeubiger",
       },
     },
     "glaeubiger-unbekannt": {

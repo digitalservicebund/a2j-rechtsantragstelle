@@ -26,6 +26,9 @@ export const schuldenBei = z.enum(
     "hauptzollamt",
     "nichtSagen",
     "weissNicht",
+    "staatsanwaltschaft",
+    "kasse",
+    "jugendamt",
   ],
   { errorMap },
 );
@@ -123,6 +126,8 @@ export const context = {
   socialAmountHigher500: YesNoAnswer,
   hasSozialleistungenEinmalzahlung: YesNoAnswer,
   besondereAusgaben,
+  unerlaubtenHandlung: YesNoAnswer,
+  unterhaltszahlungen: YesNoAnswer,
 } as const;
 
 const _contextObject = z.object(context).partial();
