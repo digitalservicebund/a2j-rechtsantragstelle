@@ -65,12 +65,9 @@ const Textarea = ({
         })}
         maxLength={maxLength}
         rows={TEXT_AREA_ROWS}
-        className={classNames(
-          "ds-textarea forced-color-adjust-none placeholder-gray-600",
-          {
-            "has-error": error,
-          },
-        )}
+        className={classNames("ds-textarea forced-color-adjust-none", {
+          "has-error": error,
+        })}
         ref={innerRef}
         aria-invalid={error !== undefined}
         aria-describedby={error && errorId}
