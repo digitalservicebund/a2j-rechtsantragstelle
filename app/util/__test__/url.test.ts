@@ -12,6 +12,12 @@ describe("isFileDownloadUrl", () => {
   it("returns true for internal links to downloads", () => {
     expect(isFileDownloadUrl("/download/pdf")).toBeTruthy();
   });
+  it("checks for ?print query parameter in the url", () => {
+    expect(isFileDownloadUrl("/test/url?print")).toBeTruthy();
+  });
+  it("", () => {
+    expect(isFileDownloadUrl("/test")).toBeFalsy();
+  });
 });
 
 describe("getYoutubeVideoId", () => {
