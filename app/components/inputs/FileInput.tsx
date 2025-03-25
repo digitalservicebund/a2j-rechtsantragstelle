@@ -1,12 +1,12 @@
 import classNames from "classnames";
 import Button from "~/components/Button";
-import {
-  splitFieldName,
-  useFileHandler,
-} from "~/components/filesUpload/fileUploadHelpers";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
 import { useTranslations } from "~/services/translations/translationsContext";
+import {
+  splitFieldName,
+  useFileHandler,
+} from "~/services/upload/fileUploadHelpers";
 import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { ErrorMessageProps } from ".";
 
@@ -46,15 +46,14 @@ export const FileInput = ({
           inputName={name}
           onFileDelete={onFileDelete}
           jsAvailable={jsAvailable}
-          fileName={selectedFile.filename}
-          fileSize={selectedFile.fileSize}
+          file={selectedFile}
           deleteButtonLabel={translations?.delete}
           hasError={!!error}
         />
       ) : (
         <label htmlFor={name} className={"flex flex-col md:flex-row"}>
           <input
-            name={name}
+            name={jsAvailable ? undefined : name}
             onChange={(event) => onFileUpload(name, event.target.files?.[0])}
             type="file"
             accept=".pdf"

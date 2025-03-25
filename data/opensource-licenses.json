@@ -1,4 +1,12 @@
 {
+  "@aws-sdk/client-s3": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/aws/aws-sdk-js-v3",
+    "publisher": "AWS SDK for JavaScript Team",
+    "path": "a2j-rechtsantragstelle/node_modules/@aws-sdk/client-s3",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@aws-sdk/client-s3/LICENSE",
+    "direct": true
+  },
   "@digitalservice4germany/angie": {
     "licenses": "MIT",
     "repository": "https://github.com/digitalservicebund/angie",
@@ -331,7 +339,7 @@
     "repository": "https://github.com/JedWatson/react-select.git#master",
     "publisher": "Jed Watson",
     "path": "a2j-rechtsantragstelle/node_modules/react-select",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/react-select/README.md",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/react-select/LICENSE",
     "direct": true
   },
   "react": {

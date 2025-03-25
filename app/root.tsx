@@ -212,7 +212,10 @@ function App() {
         {description && <meta name="description" content={description} />}
         <meta property="og:title" content={ogTitle ?? title} />
         <meta property="og:description" content={description} />
-        <meta name="darkreader-lock" />
+        <meta
+          name="darkreader-lock"
+          content="1e82dc17-d02f-4566-8487-ae413a504055"
+        />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{

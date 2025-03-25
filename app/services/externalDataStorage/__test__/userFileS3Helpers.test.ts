@@ -105,8 +105,9 @@ describe("userFileS3Helpers", () => {
         S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
       };
       setupFileMocks(mockSessionId, mockConfig);
-
-      await uploadUserFileToS3(mockCookie, mockFlowId, undefined);
+      await expect(
+        uploadUserFileToS3(mockCookie, mockFlowId, undefined),
+      ).rejects.toThrow();
 
       expect(sendSentryMessage).toHaveBeenCalledWith(
         `Error storing user uploaded file to S3 bucket: ${mockError.message}`,

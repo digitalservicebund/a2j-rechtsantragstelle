@@ -3,12 +3,14 @@ import Heading, { type HeadingProps } from "./Heading";
 import ListItem, { type ListItemProps } from "./ListItem";
 import RichText from "./RichText";
 
+export type ListVariant = "unordered" | "numbered" | "stepByStep";
+
 export type ListProps = {
   items: ListItemProps[];
+  variant: ListVariant;
   identifier?: string;
   heading?: HeadingProps;
   subheading?: string;
-  variant?: "unordered" | "numbered";
 };
 
 const List = ({
@@ -16,25 +18,24 @@ const List = ({
   items,
   heading,
   subheading,
-  variant = "unordered",
+  variant,
 }: ListProps) => {
   return (
-    <div className="ds-stack ds-stack-8 scroll-my-40" id={identifier}>
-      {heading && <Heading {...heading} />}
-      {subheading && <RichText html={subheading} className="pt-16" />}
-      <ol className="list-none ds-stack ds-stack-32 ps-0">
+    <div className="ds-stack ds-stack-32" id={identifier}>
+      <div className="ds-stack ds-stack-16">
+        {heading && <Heading {...heading} />}
+        {subheading && <RichText html={subheading} />}
+      </div>
+      <ol className="list-none ps-0">
         {items
           // Need to filter out empty list items when conditionally rendering with mustache templating
           .filter(listItemNotEmpty)
           .map((item, index) => (
             <li
               key={item.identifier ?? item.headline?.text ?? item.content}
-              className="first:pt-0 scroll-my-40"
+              className="group"
             >
-              <ListItem
-                {...item}
-                index={variant === "numbered" ? index + 1 : undefined}
-              />
+              <ListItem {...item} index={index + 1} variant={variant} />
             </li>
           ))}
       </ol>

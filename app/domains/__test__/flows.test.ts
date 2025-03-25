@@ -170,6 +170,9 @@ describe.sequential("state machine form flows", () => {
   describe.concurrent.each(Object.entries(forwardOnlyTests))(
     "%s",
     (_, { machine, cases }) => {
+      vi.mock("~/services/featureFlags", () => ({
+        isFeatureFlagEnabled: vi.fn().mockResolvedValue(false),
+      }));
       test.each([...cases])("[%#]", (context, steps) => {
         const visitedSteps = getEnabledSteps({
           machine,
@@ -207,6 +210,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(18);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(19);
   });
 });

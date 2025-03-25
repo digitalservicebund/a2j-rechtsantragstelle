@@ -1,8 +1,10 @@
+import classNames from "classnames";
 import Accordion, { AccordionProps } from "~/components/Accordion";
 import { arrayIsNonEmpty } from "~/util/array";
 import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 import Heading, { type HeadingProps } from "./Heading";
+import type { ListVariant } from "./List";
 import RichText from "./RichText";
 
 export type ListItemProps = {
@@ -14,14 +16,26 @@ export type ListItemProps = {
   accordion?: AccordionProps;
 };
 
-const ListIcon = ({ index }: { index?: number }) =>
-  index ? (
-    <div className="h-[40px] w-[40px] pt-[4px] border-2 border-solid border-gray-400 rounded-full">
-      {index}
-    </div>
-  ) : (
-    <div className="w-[16px] h-[2px] border border-solid border-black mt-[19.5px] ml-[12.5px]" />
-  );
+const ListIcon = ({
+  index,
+  variant,
+}: {
+  index?: number;
+  variant: ListVariant;
+}) => (
+  <div
+    className={classNames("shrink-0 flex justify-center items-center", {
+      "w-[16px] h-[2px] border border-black mt-[19.5px] ":
+        variant === "unordered",
+      "h-[40px] w-full border-2 border-gray-400 rounded-full":
+        variant === "numbered",
+      "h-[40px] w-full bg-blue-800 text-white rounded-full":
+        variant === "stepByStep",
+    })}
+  >
+    {variant === "unordered" ? null : index}
+  </div>
+);
 
 const ListItem = ({
   identifier,
@@ -30,14 +44,18 @@ const ListItem = ({
   buttons,
   index,
   accordion,
-}: ListItemProps) => {
+  variant,
+}: ListItemProps & { variant: ListVariant }) => {
   return (
-    <div id={identifier}>
-      <div className="flex flex-row gap-16">
-        <div className="text-center basis-[40px] shrink-0">
-          <ListIcon index={index} />
-        </div>
-        <div className="basis-auto ds-stack ds-stack-8">
+    <div id={identifier} className="flex flex-row gap-16">
+      <div className="text-center shrink-0 flex flex-col items-center w-[40px]">
+        <ListIcon index={index} variant={variant} />
+        {variant === "stepByStep" && (
+          <div className="w-2 h-full group-last:hidden bg-blue-500"></div>
+        )}
+      </div>
+      <div className="ds-stack ds-stack-24 pb-48">
+        <div className="ds-stack ds-stack-8">
           {headline && <Heading {...headline} />}
           {content && <RichText html={content} />}
           {arrayIsNonEmpty(buttons) && (
@@ -48,12 +66,8 @@ const ListItem = ({
             </ButtonContainer>
           )}
         </div>
+        {accordion && <Accordion {...accordion} />}
       </div>
-      {accordion && (
-        <div className="w-full ml-56 mt-16">
-          <Accordion {...accordion} />
-        </div>
-      )}
     </div>
   );
 };
