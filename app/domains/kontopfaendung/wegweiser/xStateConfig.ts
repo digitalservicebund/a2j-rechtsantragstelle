@@ -1,5 +1,5 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { kontopfaendungWegweiserContext } from "./context";
+import { KontopfaendungWegweiserContext } from "./context";
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/kontopfaendung/wegweiser",
@@ -324,4 +324,4 @@ export const kontopfaendungWegweiserXstateConfig = {
       },
     },
   },
-} satisfies Config<kontopfaendungWegweiserContext>;
+} satisfies Config<KontopfaendungWegweiserContext>;

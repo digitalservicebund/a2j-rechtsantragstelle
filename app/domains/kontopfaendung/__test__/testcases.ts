@@ -1,5 +1,5 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
-import { kontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
+import { KontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
 import { machine } from "./testMachine";
 const cases = [
   [
@@ -17,6 +17,6 @@ const cases = [
       "/ergebnisseite",
     ],
   ],
-] as const satisfies TestCases<kontopfaendungWegweiserContext>;
+] as const satisfies TestCases<KontopfaendungWegweiserContext>;
 
 export const testCasesKontopfaendungWegweiser = { machine, cases };
