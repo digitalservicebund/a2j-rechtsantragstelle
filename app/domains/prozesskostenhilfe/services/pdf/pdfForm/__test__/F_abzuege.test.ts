@@ -15,6 +15,7 @@ describe("F_abzuege", () => {
         pdfValues: pdfParams,
         userData: {
           selbststaendigAbzuege: "250",
+          arbeitsausgaben: [],
         },
       });
       expect(pdfValues.monatlicheAbzuegeinEuro1.value).toBe("250 €");
@@ -29,6 +30,7 @@ describe("F_abzuege", () => {
         userData: {
           arbeitsweg: "publicTransport",
           monatlicheOPNVKosten: "49",
+          arbeitsausgaben: [],
         },
       });
       expect(pdfValues.steuernSolidaritaetszuschlag_2.value).toBe("ÖPNV");
@@ -39,6 +41,7 @@ describe("F_abzuege", () => {
         userData: {
           arbeitsweg: "privateVehicle",
           arbeitsplatzEntfernung: 10,
+          arbeitsausgaben: [],
         },
       }));
       expect(pdfValues.steuernSolidaritaetszuschlag_2.value).toBe("KFZ");
@@ -83,6 +86,67 @@ describe("F_abzuege", () => {
       }));
 
       expect(attachment?.at(0)).toEqual({ title: "F Abzüge", level: "h2" });
+    });
+    it("should display the description with item value and frequency in Sonstige Werbungskosten", () => {
+      const attachment = fillSelfAbzuege({
+        pdfValues: pdfParams,
+        userData: {
+          arbeitsausgaben: [
+            {
+              beschreibung: "Buch",
+              betrag: "100",
+              zahlungsfrequenz: "yearly",
+            },
+          ],
+        },
+      });
+      expect(attachment.pdfValues.sozialversicherungsbeitraege_2.value).toBe(
+        "Buch (100 € Jährlich)",
+      );
+    });
+    it("should calculate one monthly Sonstige Werbungskosten correctly", () => {
+      const attachment = fillSelfAbzuege({
+        pdfValues: pdfParams,
+        userData: {
+          arbeitsausgaben: [
+            {
+              beschreibung: "Buch",
+              betrag: "100",
+              zahlungsfrequenz: "yearly",
+            },
+          ],
+        },
+      });
+      expect(attachment.pdfValues.monatlicheAbzuegeinEuro5.value).toBe(
+        "8,33 €",
+      );
+    });
+    it("should calculate multiple monthly Sonstige Werbungskosten correctly", () => {
+      const attachment = fillSelfAbzuege({
+        pdfValues: pdfParams,
+        userData: {
+          arbeitsausgaben: [
+            {
+              beschreibung: "Buch",
+              betrag: "75",
+              zahlungsfrequenz: "yearly",
+            },
+            {
+              beschreibung: "Workshop",
+              betrag: "100",
+              zahlungsfrequenz: "yearly",
+            },
+            {
+              beschreibung: "Team Offsite",
+              betrag: "200",
+              zahlungsfrequenz: "yearly",
+            },
+          ],
+        },
+      });
+      expect(attachment.pdfValues.monatlicheAbzuegeinEuro5.value).toBe(
+        "31,25 €",
+      );
     });
   });
 });
