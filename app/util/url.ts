@@ -5,7 +5,7 @@ export function isExternalUrl(url: string) {
 }
 
 export function isFileDownloadUrl(url: string) {
-  return url.endsWith("/download/pdf");
+  return url.endsWith("/download/pdf") || url.endsWith("?print");
 }
 
 const youtubeLinkRegex = RegExp(/(?:youtu\.be\/|youtube\.com\/watch\?v=)(\w+)/);
