@@ -27,8 +27,7 @@ function isStartTimestampLessThan(
   endTimestamp: number,
   threshold: number,
 ) {
-  const actualTimeDifferenceInMs = endTimestamp - startTimestamp;
-  return actualTimeDifferenceInMs < threshold;
+  return startTimestamp <= endTimestamp - threshold;
 }
 
 function isStartTimestampMoreThan(
@@ -36,8 +35,7 @@ function isStartTimestampMoreThan(
   endTimestamp: number,
   threshold: number,
 ) {
-  const actualTimeDifferenceInMs = endTimestamp - startTimestamp;
-  return actualTimeDifferenceInMs > threshold;
+  return startTimestamp >= endTimestamp - threshold;
 }
 
 const getDatesTimes = (data: Record<string, string>) => {
@@ -113,7 +111,7 @@ const validateFieldsNoOrUntil6Days = (
 
   if (
     ersatzflugStartenEinStunde === "yes" &&
-    isStartTimestampLessThan(
+    isStartTimestampMoreThan(
       departureDateTime,
       originalDepartureDateTime,
       ONE_HOUR_MILLISECONDS,
@@ -124,9 +122,9 @@ const validateFieldsNoOrUntil6Days = (
 
   if (
     ersatzflugStartenEinStunde === "no" &&
-    isStartTimestampMoreThan(
-      originalDepartureDateTime,
+    isStartTimestampLessThan(
       departureDateTime,
+      originalDepartureDateTime,
       ONE_HOUR_MILLISECONDS,
     )
   ) {
@@ -135,9 +133,9 @@ const validateFieldsNoOrUntil6Days = (
 
   if (
     ersatzflugLandenZweiStunden === "yes" &&
-    isStartTimestampLessThan(
-      arrivalDateTime,
+    isStartTimestampMoreThan(
       originalArrivalDateTime,
+      arrivalDateTime,
       TWO_HOURS_MILLISECONDS,
     )
   ) {
@@ -146,7 +144,7 @@ const validateFieldsNoOrUntil6Days = (
 
   if (
     ersatzflugLandenZweiStunden === "no" &&
-    isStartTimestampMoreThan(
+    isStartTimestampLessThan(
       originalArrivalDateTime,
       arrivalDateTime,
       TWO_HOURS_MILLISECONDS,
@@ -172,7 +170,7 @@ const validateFieldsBetween7And13Days = (
 
   if (
     ersatzflugStartenZweiStunden === "yes" &&
-    isStartTimestampLessThan(
+    isStartTimestampMoreThan(
       departureDateTime,
       originalDepartureDateTime,
       TWO_HOURS_MILLISECONDS,
@@ -183,9 +181,9 @@ const validateFieldsBetween7And13Days = (
 
   if (
     ersatzflugStartenZweiStunden === "no" &&
-    isStartTimestampMoreThan(
-      originalDepartureDateTime,
+    isStartTimestampLessThan(
       departureDateTime,
+      originalDepartureDateTime,
       TWO_HOURS_MILLISECONDS,
     )
   ) {
@@ -194,9 +192,9 @@ const validateFieldsBetween7And13Days = (
 
   if (
     ersatzflugLandenVierStunden === "yes" &&
-    isStartTimestampLessThan(
-      arrivalDateTime,
+    isStartTimestampMoreThan(
       originalArrivalDateTime,
+      arrivalDateTime,
       FOUR_HOURS_MILLISECONDS,
     )
   ) {
@@ -205,7 +203,7 @@ const validateFieldsBetween7And13Days = (
 
   if (
     ersatzflugLandenVierStunden === "no" &&
-    isStartTimestampMoreThan(
+    isStartTimestampLessThan(
       originalArrivalDateTime,
       arrivalDateTime,
       FOUR_HOURS_MILLISECONDS,
