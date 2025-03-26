@@ -127,7 +127,7 @@ export const context = {
   hasSozialleistungenEinmalzahlung: YesNoAnswer,
   besondereAusgaben,
   unerlaubtenHandlung: YesNoAnswer,
-  unterhaltszahlungen: YesNoAnswer,
+  unterhaltsZahlungen: YesNoAnswer,
 } as const;
 
 const _contextObject = z.object(context).partial();
