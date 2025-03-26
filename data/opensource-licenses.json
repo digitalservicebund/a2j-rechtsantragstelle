@@ -185,14 +185,6 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/html-entities/LICENSE",
     "direct": true
   },
-  "ibantools": {
-    "licenses": "MIT*",
-    "repository": "https://github.com/Simplify/ibantools",
-    "publisher": "Saša Jovanić",
-    "path": "a2j-rechtsantragstelle/node_modules/ibantools",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/ibantools/LICENSE",
-    "direct": true
-  },
   "ioredis": {
     "licenses": "MIT",
     "repository": "https://github.com/luin/ioredis",
