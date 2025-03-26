@@ -1,9 +1,15 @@
 /* eslint-disable no-console */
 import fs from "fs";
-import { getName } from "i18n-iso-countries";
+import * as countries from "i18n-iso-countries";
 import uniqBy from "lodash/uniqBy";
 import { z } from "zod";
 import type { Airport } from "~/domains/fluggastrechte/services/airports/type";
+
+/* This is a workaround, otherwise you'll get this error
+ *  SyntaxError: The requested module 'i18n-iso-countries' does not provide an export named 'getName'
+ */
+const germanLocale = await import("i18n-iso-countries/langs/de.json");
+countries.registerLocale(germanLocale.default);
 
 const FILE_PATH_AIRPORTS_DATA = "data/airports/data.json";
 const GERMAN_LOCALE = "de";
@@ -87,7 +93,7 @@ function filteredLargeMediumAirports(airports: AirportDataSource[]): Airport[] {
       return {
         iata: airport.iata,
         country_code: airport.country_code,
-        country: getName(airport.country_code, GERMAN_LOCALE) ?? "",
+        country: countries.getName(airport.country_code, GERMAN_LOCALE) ?? "",
         airport: translateAirportName(airport.airport),
         latitude: airport.latitude,
         longitude: airport.longitude,
