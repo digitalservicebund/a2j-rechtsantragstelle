@@ -1,15 +1,9 @@
 /* eslint-disable no-console */
 import fs from "fs";
-import * as countries from "i18n-iso-countries";
+import countries from "i18n-iso-countries";
 import uniqBy from "lodash/uniqBy";
 import { z } from "zod";
 import type { Airport } from "~/domains/fluggastrechte/services/airports/type";
-
-/* This is a workaround, otherwise you'll get this error
- *  SyntaxError: The requested module 'i18n-iso-countries' does not provide an export named 'getName'
- */
-const germanLocale = await import("i18n-iso-countries/langs/de.json");
-countries.registerLocale(germanLocale.default);
 
 const FILE_PATH_AIRPORTS_DATA = "data/airports/data.json";
 const GERMAN_LOCALE = "de";
