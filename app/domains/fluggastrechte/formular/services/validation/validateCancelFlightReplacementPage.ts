@@ -38,61 +38,44 @@ function isStartTimestampMoreThan(
   return startTimestamp >= endTimestamp - threshold;
 }
 
-const getDatesTimes = (data: Record<string, string>) => {
-  const originalDepartureDateTime = convertToTimestamp(
+const getFlightTimestamps = (data: Record<string, string>) => ({
+  originalDepartureDateTime: convertToTimestamp(
     data.direktAbflugsDatum,
     data.direktAbflugsZeit,
-  );
-
-  const departureDateTime = convertToTimestamp(
+  ),
+  departureDateTime: convertToTimestamp(
     data.annullierungErsatzverbindungAbflugsDatum,
     data.annullierungErsatzverbindungAbflugsZeit,
-  );
-
-  const originalArrivalDateTime = convertToTimestamp(
+  ),
+  originalArrivalDateTime: convertToTimestamp(
     data.direktAnkunftsDatum,
     data.direktAnkunftsZeit,
-  );
-
-  const arrivalDateTime = convertToTimestamp(
+  ),
+  arrivalDateTime: convertToTimestamp(
     data.annullierungErsatzverbindungAnkunftsDatum,
     data.annullierungErsatzverbindungAnkunftsZeit,
+  ),
+});
+
+const addIssue = (
+  ctx: z.RefinementCtx,
+  message: string,
+  type: "departure" | "arrival",
+) => {
+  const fields =
+    type === "departure"
+      ? [
+          "annullierungErsatzverbindungAbflugsDatum",
+          "annullierungErsatzverbindungAbflugsZeit",
+        ]
+      : [
+          "annullierungErsatzverbindungAnkunftsDatum",
+          "annullierungErsatzverbindungAnkunftsZeit",
+        ];
+
+  fields.forEach((field) =>
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message, path: [field] }),
   );
-
-  return {
-    originalDepartureDateTime,
-    departureDateTime,
-    originalArrivalDateTime,
-    arrivalDateTime,
-  };
-};
-
-const addIssueToAbflugFields = (ctx: z.RefinementCtx, message: string) => {
-  ctx.addIssue({
-    code: z.ZodIssueCode.custom,
-    message: message,
-    path: ["annullierungErsatzverbindungAbflugsDatum"],
-  });
-
-  ctx.addIssue({
-    code: z.ZodIssueCode.custom,
-    message: message,
-    path: ["annullierungErsatzverbindungAbflugsZeit"],
-  });
-};
-
-const addIssueToAnkunftFields = (ctx: z.RefinementCtx, message: string) => {
-  ctx.addIssue({
-    code: z.ZodIssueCode.custom,
-    message: message,
-    path: ["annullierungErsatzverbindungAnkunftsDatum"],
-  });
-
-  ctx.addIssue({
-    code: z.ZodIssueCode.custom,
-    message: message,
-    path: ["annullierungErsatzverbindungAnkunftsZeit"],
-  });
 };
 
 const validateFieldsNoOrUntil6Days = (
@@ -107,7 +90,7 @@ const validateFieldsNoOrUntil6Days = (
     departureDateTime,
     originalArrivalDateTime,
     arrivalDateTime,
-  } = getDatesTimes(data);
+  } = getFlightTimestamps(data);
 
   if (
     ersatzflugStartenEinStunde === "yes" &&
@@ -117,7 +100,7 @@ const validateFieldsNoOrUntil6Days = (
       ONE_HOUR_MILLISECONDS,
     )
   ) {
-    addIssueToAbflugFields(ctx, "departureOneHourLateFromOriginalDeparture");
+    addIssue(ctx, "departureOneHourLateFromOriginalDeparture", "departure");
   }
 
   if (
@@ -128,7 +111,7 @@ const validateFieldsNoOrUntil6Days = (
       ONE_HOUR_MILLISECONDS,
     )
   ) {
-    addIssueToAbflugFields(ctx, "departureOneHourLessFromOriginalDeparture");
+    addIssue(ctx, "departureOneHourLessFromOriginalDeparture", "departure");
   }
 
   if (
@@ -139,7 +122,7 @@ const validateFieldsNoOrUntil6Days = (
       TWO_HOURS_MILLISECONDS,
     )
   ) {
-    addIssueToAnkunftFields(ctx, "arrivalTwoHoursLateFromOriginalArrival");
+    addIssue(ctx, "arrivalTwoHoursLateFromOriginalArrival", "arrival");
   }
 
   if (
@@ -150,7 +133,7 @@ const validateFieldsNoOrUntil6Days = (
       TWO_HOURS_MILLISECONDS,
     )
   ) {
-    addIssueToAnkunftFields(ctx, "arrivalTwoHoursLessFromOriginalArrival");
+    addIssue(ctx, "arrivalTwoHoursLessFromOriginalArrival", "arrival");
   }
 };
 
@@ -166,7 +149,7 @@ const validateFieldsBetween7And13Days = (
     departureDateTime,
     originalArrivalDateTime,
     arrivalDateTime,
-  } = getDatesTimes(data);
+  } = getFlightTimestamps(data);
 
   if (
     ersatzflugStartenZweiStunden === "yes" &&
@@ -176,7 +159,7 @@ const validateFieldsBetween7And13Days = (
       TWO_HOURS_MILLISECONDS,
     )
   ) {
-    addIssueToAbflugFields(ctx, "departureTwoHoursLateFromOriginalDeparture");
+    addIssue(ctx, "departureTwoHoursLateFromOriginalDeparture", "departure");
   }
 
   if (
@@ -187,7 +170,7 @@ const validateFieldsBetween7And13Days = (
       TWO_HOURS_MILLISECONDS,
     )
   ) {
-    addIssueToAbflugFields(ctx, "departureTwoHoursLessFromOriginalDeparture");
+    addIssue(ctx, "departureTwoHoursLessFromOriginalDeparture", "departure");
   }
 
   if (
@@ -198,7 +181,7 @@ const validateFieldsBetween7And13Days = (
       FOUR_HOURS_MILLISECONDS,
     )
   ) {
-    addIssueToAnkunftFields(ctx, "arrivalFourHoursLateFromOriginalArrival");
+    addIssue(ctx, "arrivalFourHoursLateFromOriginalArrival", "arrival");
   }
 
   if (
@@ -209,7 +192,7 @@ const validateFieldsBetween7And13Days = (
       FOUR_HOURS_MILLISECONDS,
     )
   ) {
-    addIssueToAnkunftFields(ctx, "arrivalFourHoursLessFromOriginalArrival");
+    addIssue(ctx, "arrivalFourHoursLessFromOriginalArrival", "arrival");
   }
 };
 
