@@ -7,7 +7,7 @@ import express, { type RequestHandler } from "express";
 import type { ViteDevServer } from "vite";
 import { getPosthogClient } from "./services/analytics/posthogClient.server";
 import { config } from "./services/env/env.server";
-import { pinoHttpLogger } from "./services/logging/createPinoHttpLogger";
+import { createPinoHttpLogger } from "./services/logging/createPinoHttpLogger";
 import { createRateLimitRequestHandler } from "./services/rateLimit";
 import { getRedisInstance, quitRedis } from "./services/redis/redisClient";
 
@@ -22,6 +22,7 @@ export const expressApp = (
   const app = express();
 
   app.use(compression());
+  const pinoHttpLogger = createPinoHttpLogger();
   app.use(pinoHttpLogger);
 
   // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
