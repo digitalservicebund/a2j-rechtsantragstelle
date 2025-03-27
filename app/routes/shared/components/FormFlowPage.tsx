@@ -8,6 +8,7 @@ import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
+import { ReportProblem } from "~/components/userFeedback/ReportProblem";
 import type { loader } from "../formular.server";
 
 export function FormFlowPage() {
@@ -40,6 +41,10 @@ export function FormFlowPage() {
     }),
     [prunedUserData, validFlowPaths, translations, flowId],
   );
+
+  const showPosthogSurvey =
+    flowId === "/beratungshilfe/antrag" ||
+    flowId === "/prozesskostenhilfe/formular";
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
@@ -91,6 +96,7 @@ export function FormFlowPage() {
             <PageContent content={postFormContent} fullScreen={false} />
           </div>
         </div>
+        {showPosthogSurvey && <ReportProblem />}
       </Background>
     </FormFlowContext.Provider>
   );
