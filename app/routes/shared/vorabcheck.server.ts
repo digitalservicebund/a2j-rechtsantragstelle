@@ -3,6 +3,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
+import { getPageSchema } from "~/domains/pages";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import {
   fetchFlowPage,
@@ -93,7 +94,10 @@ export const loader = async ({
   );
 
   // filter user data for current step
-  const fieldNames = formElements.map((entry) => entry.name);
+  const pageSchema = getPageSchema(flowId, stepId);
+  const fieldNames = pageSchema
+    ? Object.keys(pageSchema)
+    : formElements.map((entry) => entry.name);
   const stepData = fieldsFromContext(userData, fieldNames);
 
   const { headers, csrf } = await updateMainSession({

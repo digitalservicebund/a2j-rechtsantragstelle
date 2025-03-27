@@ -1,8 +1,12 @@
 import { and, not } from "xstate";
 import type { Config } from "~/services/flow/server/buildFlowController";
+import { objectKeyMap } from "~/util/objects";
 import { isIncomeTooHigh } from "./isIncomeTooHigh";
+import { beratungshilfeVorabcheckPages } from "./pages";
 import { type BeratungshilfeVorabcheckUserData } from "./userData";
 import type { GenericGuard } from "../../guards.server";
+
+const stepIds = objectKeyMap(beratungshilfeVorabcheckPages);
 
 const staatlicheLeistungenYes: GenericGuard<
   BeratungshilfeVorabcheckUserData
@@ -12,23 +16,23 @@ const staatlicheLeistungenYes: GenericGuard<
 
 export const beratungshilfeVorabcheckXstateConfig = {
   id: "/beratungshilfe/vorabcheck",
-  initial: "rechtsschutzversicherung",
+  initial: stepIds.rechtsschutzversicherung,
   states: {
-    rechtsschutzversicherung: {
+    [stepIds.rechtsschutzversicherung]: {
       on: {
         SUBMIT: [
           {
-            target: "rechtsschutzversicherung-details",
+            target: stepIds["rechtsschutzversicherung-details"],
             guard: ({ context }) => context.rechtsschutzversicherung === "yes",
           },
           {
-            target: "wurde-verklagt",
+            target: stepIds["wurde-verklagt"],
             guard: ({ context }) => context.rechtsschutzversicherung === "no",
           },
         ],
       },
     },
-    "rechtsschutzversicherung-details": {
+    [stepIds["rechtsschutzversicherung-details"]]: {
       on: {
         SUBMIT: [
           {
@@ -45,18 +49,18 @@ export const beratungshilfeVorabcheckXstateConfig = {
           },
           "rechtsschutzversicherung-hinweis-kostenuebernahme",
         ],
-        BACK: "rechtsschutzversicherung",
+        BACK: stepIds.rechtsschutzversicherung,
       },
     },
     "rechtsschutzversicherung-hinweis-selbstbeteiligung": {
       on: {
-        SUBMIT: "wurde-verklagt",
+        SUBMIT: stepIds["wurde-verklagt"],
         BACK: "rechtsschutzversicherung-details",
       },
     },
     "rechtsschutzversicherung-hinweis-kostenuebernahme": {
       on: {
-        SUBMIT: "wurde-verklagt",
+        SUBMIT: stepIds["wurde-verklagt"],
         BACK: "rechtsschutzversicherung-details",
       },
     },
@@ -66,7 +70,7 @@ export const beratungshilfeVorabcheckXstateConfig = {
     "ergebnis/rechtsschutzversicherung-abbruch": {
       on: { BACK: "rechtsschutzversicherung-details" },
     },
-    "wurde-verklagt": {
+    [stepIds["wurde-verklagt"]]: {
       on: {
         SUBMIT: [
           {
@@ -88,14 +92,14 @@ export const beratungshilfeVorabcheckXstateConfig = {
             guard: ({ context }) =>
               context.rsvCoverage === "partly" || context.rsvCoverage === "no",
           },
-          "rechtsschutzversicherung",
+          stepIds.rechtsschutzversicherung,
         ],
       },
     },
     "ergebnis/wurde-verklagt-abbruch": {
-      on: { BACK: "wurde-verklagt" },
+      on: { BACK: stepIds["wurde-verklagt"] },
     },
-    "klage-eingereicht": {
+    [stepIds["klage-eingereicht"]]: {
       on: {
         SUBMIT: [
           {
@@ -107,12 +111,12 @@ export const beratungshilfeVorabcheckXstateConfig = {
             guard: ({ context }) => context.klageEingereicht === "yes",
           },
         ],
-        BACK: "wurde-verklagt",
+        BACK: stepIds["wurde-verklagt"],
       },
     },
     "ergebnis/klage-eingereicht-abbruch": {
       on: {
-        BACK: "klage-eingereicht",
+        BACK: stepIds["klage-eingereicht"],
       },
     },
     "hamburg-oder-bremen": {

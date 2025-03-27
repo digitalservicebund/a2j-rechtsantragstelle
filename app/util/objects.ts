@@ -4,6 +4,10 @@ export const objectMap = <V, R>(
 ) =>
   Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]));
 
+export const objectKeyMap = <T extends Record<string | number, unknown>>(
+  obj: T,
+) => objectMap(obj, (_, key) => key) as Record<keyof T, string>;
+
 export function isKeyOfObject<T extends object>(
   key: string | number | symbol,
   obj: T,
