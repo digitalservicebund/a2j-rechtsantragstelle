@@ -3,6 +3,7 @@ import type { BeratungshilfeVorabcheckContext } from "~/domains/beratungshilfe/v
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
 import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
+import { KontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
 import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfe/formular";
 
 export type TestCases<
@@ -12,5 +13,6 @@ export type TestCases<
     | GeldEinklagenVorabcheckContext
     | FluggastrechtVorabcheckContext
     | FluggastrechtContext
-    | ProzesskostenhilfeFormularContext,
+    | ProzesskostenhilfeFormularContext
+    | KontopfaendungWegweiserContext,
 > = Readonly<Array<Readonly<[T, readonly string[]]>>>;
