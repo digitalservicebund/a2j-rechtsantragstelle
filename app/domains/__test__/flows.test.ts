@@ -133,7 +133,7 @@ describe.sequential("state machine form flows", () => {
     testcasesFluggastrechteErfolgAnalog,
     testCasesFluggastrechteFormularProzessfuehrung,
     testCasesFluggastrechteFluggesellschaftAbbruch,
-    testCasesKontopfaendung: testCasesKontopfaendungWegweiser,
+    testCasesKontopfaendungWegweiser,
   } as const;
   const transitionTypes = ["SUBMIT", "BACK"] as const;
 
@@ -212,6 +212,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(47);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(19);
   });
 });

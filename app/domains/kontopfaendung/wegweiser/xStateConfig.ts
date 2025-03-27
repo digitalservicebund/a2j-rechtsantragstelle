@@ -74,7 +74,14 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           "euro-schwelle",
         ],
-        BACK: "p-konto",
+        BACK: [
+          {
+            target: "p-konto",
+            guard: ({ context }) =>
+              context.hasPKonto === "ja" || context.hasPKonto === "nein",
+          },
+          "p-konto-probleme",
+        ],
       },
     },
     "unerlaubten-handlung": {
@@ -109,7 +116,13 @@ export const kontopfaendungWegweiserXstateConfig = {
             target: "glaeubiger-unbekannt",
             guard: ({ context }) => context.schuldenBei === "weissNicht",
           },
-          "glaeubiger",
+          {
+            target: "unerlaubten-handlung",
+            guard: ({ context }) =>
+              context.schuldenBei === "staatsanwaltschaft" ||
+              context.schuldenBei === "kasse",
+          },
+          "unterhalts-zahlungen",
         ],
       },
     },
@@ -210,7 +223,7 @@ export const kontopfaendungWegweiserXstateConfig = {
     arbeitsweise: {
       on: {
         SUBMIT: "nachzahlung-arbeitgeber",
-        BACK: "start",
+        BACK: "ermittlung-betrags",
       },
     },
     "nachzahlung-arbeitgeber": {
@@ -234,7 +247,7 @@ export const kontopfaendungWegweiserXstateConfig = {
     "zahlung-arbeitgeber": {
       on: {
         SUBMIT: "sozialleistungen",
-        BACK: "nachzahlung-arbeitgeber",
+        BACK: "zahlungslimit",
       },
     },
     sozialleistungen: {
@@ -246,13 +259,7 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           "sozialleistung-nachzahlung",
         ],
-        BACK: [
-          {
-            target: "start",
-            guard: ({ context }) => context.hasArbeit === "no",
-          },
-          "zahlung-arbeitgeber",
-        ],
+        BACK: "zahlung-arbeitgeber",
       },
     },
     "sozialleistungen-umstaende": {
@@ -310,7 +317,7 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: "",
+            target: "ergebnisseite",
           },
         ],
         BACK: [
