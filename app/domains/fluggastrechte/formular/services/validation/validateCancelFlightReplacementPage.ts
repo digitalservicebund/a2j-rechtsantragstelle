@@ -27,7 +27,7 @@ function isStartTimestampLessThan(
   endTimestamp: number,
   threshold: number,
 ) {
-  return startTimestamp <= endTimestamp - threshold;
+  return startTimestamp < endTimestamp - threshold;
 }
 
 function isStartTimestampMoreThan(

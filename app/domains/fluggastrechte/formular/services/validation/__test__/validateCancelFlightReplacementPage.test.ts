@@ -352,7 +352,7 @@ describe("validateCancelFlightReplacementPage", () => {
           direktAnkunftsZeit: "12:00",
           ersatzflugLandenZweiStunden: "no",
           annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-          annullierungErsatzverbindungAnkunftsZeit: "10:30",
+          annullierungErsatzverbindungAnkunftsZeit: "14:00",
         });
 
         expect(result.success).toBe(true);
@@ -535,7 +535,7 @@ describe("validateCancelFlightReplacementPage", () => {
           direktAnkunftsZeit: "12:00",
           ersatzflugLandenZweiStunden: "no",
           annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-          annullierungErsatzverbindungAnkunftsZeit: "10:30",
+          annullierungErsatzverbindungAnkunftsZeit: "14:00",
         });
 
         expect(result.success).toBe(true);
