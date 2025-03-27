@@ -27,7 +27,11 @@ const cases = [
     ],
   ],
   [
-    { schuldenBei: "privat", unterhaltszahlungen: "yes", euroSchwelle: "ja" },
+    {
+      schuldenBei: "jugendamt",
+      unterhaltszahlungen: "yes",
+      euroSchwelle: "ja",
+    },
     ["/glaeubiger", "/unterhalts-zahlungen", "/euro-schwelle"],
   ],
   [
@@ -95,6 +99,11 @@ const cases = [
       "/besondere-ausgaben",
     ],
   ],
+  [
+    { hasKinder: "yes", verheiratet: "verwitwet" },
+    ["/partner", "/partner-wohnen-zusammen"],
+  ],
+  [{ hasPKonto: "nichtAktiv" }, ["/p-konto", "/p-konto-probleme"]],
 ] as const satisfies TestCases<KontopfaendungWegweiserContext>;
 
 export const testCasesKontopfaendungWegweiser = { machine, cases };
