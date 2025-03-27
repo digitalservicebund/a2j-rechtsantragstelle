@@ -2,11 +2,9 @@ import { PDFDocument } from "pdf-lib";
 import { pdfDownloadLoader } from "../pdfDownloadLoader";
 
 vi.mock("~/services/flow/pruner", () => ({
-  pruneIrrelevantData: vi
-    .fn()
-    .mockResolvedValue({
-      prunedData: { vorname: "Zoe", nachname: "Müller", arbeitsausgaben: [] },
-    }),
+  pruneIrrelevantData: vi.fn().mockResolvedValue({
+    prunedData: { vorname: "Zoe", nachname: "Müller" },
+  }),
 }));
 
 vi.mock("~/services/cms/index.server.ts", () => ({

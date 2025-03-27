@@ -43,23 +43,20 @@ export const fillSelfAbzuege: PkhPdfFillFunction = ({
   if (versicherungenNeedsAttachment || arbeitsausgabenNeedsAttachment) {
     attachment.push({ title: "F Abzüge", level: "h2" });
   }
-  const averageMonthlyExpenses = getTotalMonthlyFinancialEntries(
-    userData.arbeitsausgaben!,
-  );
 
   if (userData.arbeitsausgaben?.length === 1) {
     const { beschreibung, betrag } = userData.arbeitsausgaben[0];
     const arbeitsausgabe = userData.arbeitsausgaben[0];
     pdfValues.sozialversicherungsbeitraege_2.value = `${beschreibung} (${betrag} € ${zahlungsfrequenzMapping[arbeitsausgabe.zahlungsfrequenz]})`;
-    pdfValues.monatlicheAbzuegeinEuro5.value = `${averageMonthlyExpenses} €`;
+    pdfValues.monatlicheAbzuegeinEuro5.value = `${getTotalMonthlyFinancialEntries(userData.arbeitsausgaben)} €`;
   } else if (arbeitsausgabenNeedsAttachment) {
     pdfValues.sozialversicherungsbeitraege_2.value =
       SEE_IN_ATTACHMENT_DESCRIPTION;
-    pdfValues.monatlicheAbzuegeinEuro5.value = `${averageMonthlyExpenses} €`;
+    pdfValues.monatlicheAbzuegeinEuro5.value = `${getTotalMonthlyFinancialEntries(userData.arbeitsausgaben!)} €`;
     attachment.push({
       title: "Sonstige Werbungskosten/Betriebsausgaben",
       level: "h3",
-      text: `Durchschnittliche Gesamtkosten pro Monat: ${averageMonthlyExpenses} €`,
+      text: `Durchschnittliche Gesamtkosten pro Monat: ${getTotalMonthlyFinancialEntries(userData.arbeitsausgaben!)} €`,
     });
     userData.arbeitsausgaben!.forEach((arbeitsausgabe) => {
       attachment.push({
@@ -109,23 +106,19 @@ export const fillPartnerAbzuege: PkhPdfFillFunction = ({
     attachment.push({ title: "F Abzüge", level: "h2" });
   }
 
-  const averageMonthlyExpenses = getTotalMonthlyFinancialEntries(
-    userData["partner-arbeitsausgaben"]!,
-  );
-
   if (userData["partner-arbeitsausgaben"]?.length === 1) {
     const { beschreibung, betrag } = userData["partner-arbeitsausgaben"][0];
     const arbeitsausgabe = userData["partner-arbeitsausgaben"][0];
     pdfValues.sonstigewerbungskostenEhegatte.value = `${beschreibung} (${betrag} € ${zahlungsfrequenzMapping[arbeitsausgabe.zahlungsfrequenz]})`;
-    pdfValues.monatlicheAbzuegeinEuro10.value = `${averageMonthlyExpenses} €`;
+    pdfValues.monatlicheAbzuegeinEuro10.value = `${getTotalMonthlyFinancialEntries(userData["partner-arbeitsausgaben"])} €`;
   } else if (arbeitsausgabenNeedsAttachment) {
     pdfValues.sonstigewerbungskostenEhegatte.value =
       SEE_IN_ATTACHMENT_DESCRIPTION;
-    pdfValues.monatlicheAbzuegeinEuro10.value = `${averageMonthlyExpenses} €`;
+    pdfValues.monatlicheAbzuegeinEuro10.value = `${getTotalMonthlyFinancialEntries(userData["partner-arbeitsausgaben"]!)} €`;
     attachment.push({
       title: "Sonstige Werbungskosten/Betriebsausgaben - Partner:in",
       level: "h3",
-      text: `Durchschnittliche Gesamtkosten pro Monat: ${averageMonthlyExpenses} €`,
+      text: `Durchschnittliche Gesamtkosten pro Monat: ${getTotalMonthlyFinancialEntries(userData["partner-arbeitsausgaben"]!)} €`,
     });
     userData["partner-arbeitsausgaben"]!.forEach((arbeitsausgabe) => {
       attachment.push({

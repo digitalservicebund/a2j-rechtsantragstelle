@@ -15,7 +15,6 @@ describe("F_abzuege", () => {
         pdfValues: pdfParams,
         userData: {
           selbststaendigAbzuege: "250",
-          arbeitsausgaben: [],
         },
       });
       expect(pdfValues.monatlicheAbzuegeinEuro1.value).toBe("250 €");
@@ -30,7 +29,6 @@ describe("F_abzuege", () => {
         userData: {
           arbeitsweg: "publicTransport",
           monatlicheOPNVKosten: "49",
-          arbeitsausgaben: [],
         },
       });
       expect(pdfValues.steuernSolidaritaetszuschlag_2.value).toBe("ÖPNV");
@@ -41,7 +39,6 @@ describe("F_abzuege", () => {
         userData: {
           arbeitsweg: "privateVehicle",
           arbeitsplatzEntfernung: 10,
-          arbeitsausgaben: [],
         },
       }));
       expect(pdfValues.steuernSolidaritaetszuschlag_2.value).toBe("KFZ");
