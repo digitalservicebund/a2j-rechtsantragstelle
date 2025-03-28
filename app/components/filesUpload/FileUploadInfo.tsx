@@ -85,11 +85,6 @@ export const HiddenFileInputs = ({
         name={`${inputName}.fileSize`}
         value={file.fileSize}
       />
-      <input
-        type="hidden"
-        name={`${inputName}.createdOn`}
-        value={file.createdOn}
-      />
     </>
   );
 };

@@ -77,7 +77,6 @@ describe("fileUploadHelpers", () => {
         filename: "",
         fileType: "",
         fileSize: 0,
-        createdOn: "",
       });
     });
 
@@ -88,7 +87,6 @@ describe("fileUploadHelpers", () => {
         filename: "filename",
         fileType: "application/pdf",
         fileSize: 0,
-        createdOn: new Date(mockFile.lastModified).toString(),
       });
     });
   });

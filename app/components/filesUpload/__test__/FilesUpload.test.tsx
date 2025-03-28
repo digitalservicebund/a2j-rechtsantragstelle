@@ -87,7 +87,6 @@ describe("FilesUpload", () => {
         filename: "test.pdf",
         fileType: "application/pdf",
         fileSize: 1000,
-        createdOn: new Date().toString(),
       },
     ];
     const { getByText } = renderFilesUpload();
@@ -122,7 +121,6 @@ describe("FilesUpload", () => {
         filename: "test.pdf",
         fileType: "application/pdf",
         fileSize: 0,
-        createdOn: new Date().toString(),
       },
     ];
     const { getByText, queryByText } = renderFilesUpload();
@@ -135,7 +133,6 @@ describe("FilesUpload", () => {
       filename: "test.pdf",
       fileType: "application/pdf",
       fileSize: 0,
-      createdOn: new Date().toString(),
     }));
     const { queryByText } = renderFilesUpload();
     expect(queryByText(addAnotherLabel)).not.toBeInTheDocument();

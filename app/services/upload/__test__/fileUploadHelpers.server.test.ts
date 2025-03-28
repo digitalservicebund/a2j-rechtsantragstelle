@@ -17,7 +17,6 @@ describe("File Upload helpers", () => {
       const mockFileMetadata: PDFFileMetadata = {
         filename: "test.pdf",
         fileType: "application/pdf",
-        createdOn: new Date().toString(),
         fileSize: 1000,
       };
       const validationResult = await validateUploadedFile(
@@ -47,7 +46,6 @@ describe("File Upload helpers", () => {
       const mockFileMetadata: PDFFileMetadata = {
         filename: "test.pdf",
         fileType: "application/svg+xml",
-        createdOn: new Date().toString(),
         fileSize: 1000,
       };
       const validationResult = await validateUploadedFile(
