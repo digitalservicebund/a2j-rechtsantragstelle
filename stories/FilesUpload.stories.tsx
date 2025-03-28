@@ -27,7 +27,6 @@ const generateRandomPDFFileMetadata = (): PDFFileMetadata => {
       faker.system.fileExt("application/pdf"),
     fileType: "application/pdf",
     fileSize: faker.number.int({ min: 1024, max: TEN_MB_IN_BYTES }),
-    createdOn: faker.date.recent().toString(),
   };
 };
 
