@@ -27,7 +27,6 @@ export const pdfFileMetaDataSchema = z.object({
         .max(TEN_MB_IN_BYTES, fileUploadErrorMap.fileSizeTooBig)
         .min(1, fileUploadErrorMap.fileRequired),
     ),
-  createdOn: z.string(),
 });
 
 export type PDFFileMetadata = z.infer<typeof pdfFileMetaDataSchema>;

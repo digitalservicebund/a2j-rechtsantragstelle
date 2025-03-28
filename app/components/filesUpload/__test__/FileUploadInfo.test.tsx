@@ -10,7 +10,6 @@ const mockFile: PDFFileMetadata = {
   filename: fileName,
   fileSize: fileSize,
   fileType: "application/pdf",
-  createdOn: new Date().toString(),
 };
 
 describe("FileUploadInfo", () => {
