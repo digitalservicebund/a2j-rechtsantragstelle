@@ -44,7 +44,7 @@
     "verify:websites": "tsx ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.775.0",
+    "@aws-sdk/client-s3": "^3.777.0",
     "@digitalservice4germany/angie": "^2.0.1",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@digitalservicebund/icons": "^2.0.1",
