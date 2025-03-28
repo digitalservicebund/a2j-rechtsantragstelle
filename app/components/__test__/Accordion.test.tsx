@@ -9,6 +9,10 @@ const dummyItems = [
   { title: "Item 3", description: "Description 3", id: 3 },
 ];
 
+vi.mock("@remix-run/react", () => ({
+  useLoaderData: vi.fn(() => ({ replacements: {} })),
+}));
+
 vi.mock("~/components/AccordionItem", () => ({
   __esModule: true,
   default: ({
