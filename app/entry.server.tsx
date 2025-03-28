@@ -18,7 +18,7 @@ import { originFromUrlString } from "./util/originFromUrlString";
 import { stripTrailingSlashFromURL } from "./util/strings";
 export { expressApp } from "./expressApp"; //re-exported to be called from server.js
 
-const ABORT_DELAY = 5000;
+const ABORT_DELAY = 9000;
 const CONNECT_SOURCES = [originFromUrlString(webConfig().SENTRY_DSN)].filter(
   (origin) => origin !== undefined,
 );
