@@ -8,6 +8,7 @@ import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
+import { ReportProblem } from "~/components/userFeedback/ReportProblem";
 import type { loader } from "../formular.server";
 
 export function FormFlowPage() {
@@ -41,11 +42,15 @@ export function FormFlowPage() {
     [prunedUserData, validFlowPaths, translations, flowId],
   );
 
+  const showPosthogSurvey =
+    flowId === "/beratungshilfe/antrag" ||
+    flowId === "/prozesskostenhilfe/formular";
+
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
       <Background backgroundColor="blue">
-        <div className="pt-32 min-h-screen flex flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start">
-          <div className="md:mr-0 md:mt-[1.65rem]">
+        <div className="pt-32 min-h-screen flex flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start gap-48">
+          <div className="md:ml-32 md:w-[248px]">
             <FlowNavigation
               navItems={navItems}
               a11yLabels={navigationA11yLabels}
@@ -53,7 +58,7 @@ export function FormFlowPage() {
             />
           </div>
           <div
-            className={`ds-stack ds-stack-40 container md:flex-1 ${navItems && "!ml-0 !mr-0"}`}
+            className={`ds-stack ds-stack-40 container md:pl-0 md:flex-1 !pt-0 ${navItems && "!ml-0 !mr-0"}`}
           >
             <div className="ds-stack ds-stack-16" id="form-flow-page-content">
               {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
@@ -91,6 +96,7 @@ export function FormFlowPage() {
             <PageContent content={postFormContent} fullScreen={false} />
           </div>
         </div>
+        {showPosthogSurvey && <ReportProblem />}
       </Background>
     </FormFlowContext.Provider>
   );
