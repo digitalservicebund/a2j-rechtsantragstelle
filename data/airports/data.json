@@ -50,6 +50,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "VMU",
+    "country_code": "PG",
+    "country": "Papua-Neuguinea",
+    "airport": "Baimuru Flughafen",
+    "latitude": -7.49686002731,
+    "longitude": 144.819900513,
+    "city": "Baimuru",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "BUA",
     "country_code": "PG",
     "country": "Papua-Neuguinea",
@@ -57,6 +67,16 @@
     "latitude": -5.4223198890686035,
     "longitude": 154.67300415039062,
     "city": "Buka",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "OPU",
+    "country_code": "PG",
+    "country": "Papua-Neuguinea",
+    "airport": "Balimo Flughafen",
+    "latitude": -8.05000019073,
+    "longitude": 142.932998657,
+    "city": "Balimo",
     "zipCodePilotCourt": ""
   },
   {
@@ -264,8 +284,8 @@
     "country_code": "GL",
     "country": "Grönland",
     "airport": "Nuuk Flughafen",
-    "latitude": 64.193022,
-    "longitude": -51.676512,
+    "latitude": 64.191066,
+    "longitude": -51.67914,
     "city": "Nuuk",
     "zipCodePilotCourt": ""
   },
@@ -383,9 +403,9 @@
     "iata": "RKV",
     "country_code": "IS",
     "country": "Island",
-    "airport": "Reykjavik Flughafen",
-    "latitude": 64.1299972534,
-    "longitude": -21.9405994415,
+    "airport": "Reykjavík Domestic Flughafen",
+    "latitude": 64.128732,
+    "longitude": -21.93759,
     "city": "Reykjavik",
     "zipCodePilotCourt": ""
   },
@@ -433,7 +453,7 @@
     "iata": "CZH",
     "country_code": "BZ",
     "country": "Belize",
-    "airport": "Corozal Municipal Flughafen",
+    "airport": "Corozal Flughafen",
     "latitude": 18.3822,
     "longitude": -88.411903,
     "city": "Corozal",
@@ -447,16 +467,6 @@
     "latitude": 16.98251,
     "longitude": -88.230988,
     "city": "Dangriga",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "PLJ",
-    "country_code": "BZ",
-    "country": "Belize",
-    "airport": "Placencia Flughafen",
-    "latitude": 16.536957,
-    "longitude": -88.361511,
-    "city": "Placencia",
     "zipCodePilotCourt": ""
   },
   {
@@ -520,16 +530,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "YZA",
-    "country_code": "CA",
-    "country": "Kanada",
-    "airport": "Cache Creek-Ashcroft Regional Flughafen",
-    "latitude": 50.775258,
-    "longitude": -121.321314,
-    "city": "Cache Creek/Ashcroft",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "ZEL",
     "country_code": "CA",
     "country": "Kanada",
@@ -537,86 +537,6 @@
     "latitude": 52.185001,
     "longitude": -128.156994,
     "city": "Bella Bella",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "ZQZ",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Zhangjiakou Ningyuan Flughafen",
-    "latitude": 40.738602,
-    "longitude": 114.93,
-    "city": "Zhangjiakou",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "BSD",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Baoshan Yunrui Flughafen",
-    "latitude": 25.053301,
-    "longitude": 99.168297,
-    "city": "Baoshan",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "LNJ",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Lincang Boshang Flughafen",
-    "latitude": 23.7381,
-    "longitude": 100.025002,
-    "city": "Lincang",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "RKZ",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Xigaze Peace Flughafen",
-    "latitude": 29.3519,
-    "longitude": 89.311401,
-    "city": "Xigaze/Rikaze",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "PZI",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Panzhihua Baoanying Flughafen",
-    "latitude": 26.54,
-    "longitude": 101.79852,
-    "city": "Panzhihua",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "FUO",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Foshan Shadi Flughafen",
-    "latitude": 23.0833,
-    "longitude": 113.07,
-    "city": "Foshan",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "XAI",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Xinyang Minggang Flughafen",
-    "latitude": 32.540819,
-    "longitude": 114.079141,
-    "city": "Xinyang",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "HUZ",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Huizhou Pingtan Flughafen",
-    "latitude": 23.049999,
-    "longitude": 114.599998,
-    "city": "Huizhou",
     "zipCodePilotCourt": ""
   },
   {
@@ -640,56 +560,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "AEB",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Baise Youjiang Flughafen",
-    "latitude": 23.7206,
-    "longitude": 106.959999,
-    "city": "Baise",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "LYG",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Lianyungang Huaguoshan International Flughafen",
-    "latitude": 34.41406,
-    "longitude": 119.17899,
-    "city": "Lianyungang",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "AAT",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Altay Xuedu Flughafen",
-    "latitude": 47.749886,
-    "longitude": 88.085808,
-    "city": "Altay",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "THQ",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Tianshui Maijishan Flughafen",
-    "latitude": 34.5601,
-    "longitude": 105.860343,
-    "city": "Tianshui",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "DDG",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Dandong Langtou Flughafen",
-    "latitude": 40.025453,
-    "longitude": 124.28669,
-    "city": "Dandong",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "DDR",
     "country_code": "CN",
     "country": "China",
@@ -707,36 +577,6 @@
     "latitude": 37.661333,
     "longitude": 75.288877,
     "city": "Tashikuergan",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "ZHA",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Zhanjiang Wuchuan Flughafen",
-    "latitude": 21.481667,
-    "longitude": 110.590278,
-    "city": "Zhanjiang",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "NTG",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Nantong Xingdong International Flughafen",
-    "latitude": 32.073566,
-    "longitude": 120.980076,
-    "city": "Nantong",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "GEC",
-    "country_code": "CY",
-    "country": "Zypern",
-    "airport": "Lefkoniko Flughafen",
-    "latitude": 35.23591,
-    "longitude": 33.720088,
-    "city": "Gecitkale",
     "zipCodePilotCourt": ""
   },
   {
@@ -900,16 +740,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "YCH",
-    "country_code": "CA",
-    "country": "Kanada",
-    "airport": "Miramichi Flughafen",
-    "latitude": 47.007801,
-    "longitude": -65.449203,
-    "city": "Miramichi",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "YCL",
     "country_code": "CA",
     "country": "Kanada",
@@ -1050,16 +880,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "YHD",
-    "country_code": "CA",
-    "country": "Kanada",
-    "airport": "Dryden Regional Flughafen",
-    "latitude": 49.831699,
-    "longitude": -92.744202,
-    "city": "Dryden",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "YHM",
     "country_code": "CA",
     "country": "Kanada",
@@ -1073,9 +893,9 @@
     "iata": "YHU",
     "country_code": "CA",
     "country": "Kanada",
-    "airport": "Montréal / Saint-Hubert Flughafen",
-    "latitude": 45.5175018311,
-    "longitude": -73.4169006348,
+    "airport": "Montréal / Saint-Hubert Metropolitan Flughafen",
+    "latitude": 45.517502,
+    "longitude": -73.416901,
     "city": "Montreal",
     "zipCodePilotCourt": ""
   },
@@ -2200,16 +2020,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "HRM",
-    "country_code": "DZ",
-    "country": "Algerien",
-    "airport": "Hassi RMel Flughafen",
-    "latitude": 32.930401,
-    "longitude": 3.31154,
-    "city": "Hassi R'mel",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "TIN",
     "country_code": "DZ",
     "country": "Algerien",
@@ -2334,8 +2144,8 @@
     "country_code": "DZ",
     "country": "Algerien",
     "airport": "Guemar Flughafen",
-    "latitude": 33.5113983154,
-    "longitude": 6.77679014206,
+    "latitude": 33.511398,
+    "longitude": 6.77679,
     "city": "El Oued",
     "zipCodePilotCourt": ""
   },
@@ -2377,16 +2187,6 @@
     "latitude": 6.357230186462402,
     "longitude": 2.384350061416626,
     "city": "Cotonou",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "DBC",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Baicheng Changan Flughafen",
-    "latitude": 45.505278,
-    "longitude": 123.019722,
-    "city": "Baicheng",
     "zipCodePilotCourt": ""
   },
   {
@@ -2550,6 +2350,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "GMO",
+    "country_code": "NG",
+    "country": "Nigeria",
+    "airport": "Gombe Lawanti International Flughafen",
+    "latitude": 10.298889,
+    "longitude": 10.9,
+    "city": "Gombe",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "IBA",
     "country_code": "NG",
     "country": "Nigeria",
@@ -2634,8 +2444,8 @@
     "country_code": "NG",
     "country": "Nigeria",
     "airport": "Murtala Muhammed International Flughafen",
-    "latitude": 6.5773701667785645,
-    "longitude": 3.321160078048706,
+    "latitude": 6.57737,
+    "longitude": 3.32116,
     "city": "Lagos",
     "zipCodePilotCourt": ""
   },
@@ -2657,6 +2467,16 @@
     "latitude": 12.916299819946289,
     "longitude": 5.207190036773682,
     "city": "Sokoto",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "QRW",
+    "country_code": "NG",
+    "country": "Nigeria",
+    "airport": "Warri Flughafen",
+    "latitude": 5.59821,
+    "longitude": 5.8187,
+    "city": "Warri",
     "zipCodePilotCourt": ""
   },
   {
@@ -2797,16 +2617,6 @@
     "latitude": 6.16561,
     "longitude": 1.25451,
     "city": "Lome",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "DZH",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Dazhou Jinya Flughafen",
-    "latitude": 31.048815,
-    "longitude": 107.435646,
-    "city": "Dazhou (Dachuan)",
     "zipCodePilotCourt": ""
   },
   {
@@ -3174,8 +2984,8 @@
     "country_code": "EE",
     "country": "Estland",
     "airport": "Tartu Flughafen",
-    "latitude": 58.307499,
-    "longitude": 26.690399,
+    "latitude": 58.307438,
+    "longitude": 26.686473,
     "city": "Tartu",
     "zipCodePilotCourt": ""
   },
@@ -3413,7 +3223,7 @@
     "iata": "BHX",
     "country_code": "GB",
     "country": "Vereinigtes Königreich",
-    "airport": "Birmingham International Flughafen",
+    "airport": "Birmingham Flughafen",
     "latitude": 52.453899,
     "longitude": -1.74803,
     "city": "Birmingham",
@@ -3604,8 +3414,8 @@
     "country_code": "GB",
     "country": "Vereinigtes Königreich",
     "airport": "Humberside Flughafen",
-    "latitude": 53.57440185546875,
-    "longitude": -0.350832998752594,
+    "latitude": 53.576152,
+    "longitude": -0.34954,
     "city": "Humberside",
     "zipCodePilotCourt": ""
   },
@@ -3633,7 +3443,7 @@
     "iata": "NCL",
     "country_code": "GB",
     "country": "Vereinigtes Königreich",
-    "airport": "Newcastle Flughafen",
+    "airport": "Newcastle International Flughafen",
     "latitude": 55.037958,
     "longitude": -1.689577,
     "city": "Newcastle",
@@ -3900,16 +3710,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "EHU",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Ezhou Huahu Flughafen",
-    "latitude": 30.341178,
-    "longitude": 115.03926,
-    "city": "Ezhou",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "ORK",
     "country_code": "IE",
     "country": "Irland",
@@ -3917,16 +3717,6 @@
     "latitude": 51.841301,
     "longitude": -8.49111,
     "city": "Cork",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "GWY",
-    "country_code": "IE",
-    "country": "Irland",
-    "airport": "Galway Flughafen",
-    "latitude": 53.300201416015625,
-    "longitude": -8.941590309143066,
-    "city": "Galway",
     "zipCodePilotCourt": ""
   },
   {
@@ -4067,16 +3857,6 @@
     "latitude": 54.96440124511719,
     "longitude": 9.791729927062988,
     "city": "Sonderborg",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "CNL",
-    "country_code": "DK",
-    "country": "Dänemark",
-    "airport": "Sindal Flughafen",
-    "latitude": 57.503502,
-    "longitude": 10.2294,
-    "city": "Sindal",
     "zipCodePilotCourt": ""
   },
   {
@@ -4500,16 +4280,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "ENY",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Yanan Nanniwan Flughafen",
-    "latitude": 36.479413,
-    "longitude": 109.464083,
-    "city": "Yan'an",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "SVG",
     "country_code": "NO",
     "country": "Norwegen",
@@ -4564,8 +4334,8 @@
     "country_code": "PL",
     "country": "Polen",
     "airport": "Lublin Flughafen",
-    "latitude": 51.240278,
-    "longitude": 22.713611,
+    "latitude": 51.240157,
+    "longitude": 22.713461,
     "city": "Lublin",
     "zipCodePilotCourt": ""
   },
@@ -4737,16 +4507,6 @@
     "latitude": 61.158393,
     "longitude": 12.842503,
     "city": "Salen",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "KID",
-    "country_code": "SE",
-    "country": "Schweden",
-    "airport": "Kristianstad Flughafen",
-    "latitude": 55.9217,
-    "longitude": 14.0855,
-    "city": "Kristianstad",
     "zipCodePilotCourt": ""
   },
   {
@@ -5103,7 +4863,7 @@
     "iata": "ELS",
     "country_code": "ZA",
     "country": "Südafrika",
-    "airport": "Ben Schoeman Flughafen",
+    "airport": "King Phalo Flughafen",
     "latitude": -33.035599,
     "longitude": 27.825899,
     "city": "Ost-London",
@@ -5160,16 +4920,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "AAM",
-    "country_code": "ZA",
-    "country": "Südafrika",
-    "airport": "Malamala Flughafen",
-    "latitude": -24.816866,
-    "longitude": 31.544085,
-    "city": "Mala Mala",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "MGH",
     "country_code": "ZA",
     "country": "Südafrika",
@@ -5207,16 +4957,6 @@
     "latitude": -33.984901,
     "longitude": 25.6173,
     "city": "Port Elizabeth",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "PBZ",
-    "country_code": "ZA",
-    "country": "Südafrika",
-    "airport": "Plettenberg Bay Flughafen",
-    "latitude": -34.08816,
-    "longitude": 23.328723,
-    "city": "Plettenberg Bay",
     "zipCodePilotCourt": ""
   },
   {
@@ -5300,16 +5040,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "JWA",
-    "country_code": "BW",
-    "country": "Botswana",
-    "airport": "Jwaneng Flughafen",
-    "latitude": -24.602301,
-    "longitude": 24.691,
-    "city": "Jwaneng",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "BBK",
     "country_code": "BW",
     "country": "Botswana",
@@ -5324,8 +5054,8 @@
     "country_code": "BW",
     "country": "Botswana",
     "airport": "Maun Flughafen",
-    "latitude": -19.97260093688965,
-    "longitude": 23.431100845336914,
+    "latitude": -19.970491,
+    "longitude": 23.431409,
     "city": "Maun",
     "zipCodePilotCourt": ""
   },
@@ -5340,16 +5070,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "PKW",
-    "country_code": "BW",
-    "country": "Botswana",
-    "airport": "Selebi Phikwe Flughafen",
-    "latitude": -22.0583,
-    "longitude": 27.8288,
-    "city": "Selebi-Phikwe",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "BZV",
     "country_code": "CG",
     "country": "Republik Kongo",
@@ -5357,16 +5077,6 @@
     "latitude": -4.251699924468994,
     "longitude": 15.253000259399414,
     "city": "Brazzaville",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "DIS",
-    "country_code": "CG",
-    "country": "Republik Kongo",
-    "airport": "Ngot Nzoungou Flughafen",
-    "latitude": -4.20635,
-    "longitude": 12.6599,
-    "city": "Dolisie",
     "zipCodePilotCourt": ""
   },
   {
@@ -5494,8 +5204,8 @@
     "country_code": "CM",
     "country": "Kamerun",
     "airport": "Yaoundé Nsimalen International Flughafen",
-    "latitude": 3.722559928894043,
-    "longitude": 11.553299903869629,
+    "latitude": 3.72256,
+    "longitude": 11.5533,
     "city": "Yaounde",
     "zipCodePilotCourt": ""
   },
@@ -5550,16 +5260,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "NWA",
-    "country_code": "KM",
-    "country": "Komoren",
-    "airport": "Mohéli Bandar Es Eslam Flughafen",
-    "latitude": -12.2981,
-    "longitude": 43.766399,
-    "city": "Moheli",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "AJN",
     "country_code": "KM",
     "country": "Komoren",
@@ -5610,16 +5310,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "ZVA",
-    "country_code": "MG",
-    "country": "Madagaskar",
-    "airport": "Miandrivazo Flughafen",
-    "latitude": -19.562799,
-    "longitude": 45.450802,
-    "city": "Miandrivazo",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "SMS",
     "country_code": "MG",
     "country": "Madagaskar",
@@ -5657,36 +5347,6 @@
     "latitude": -12.3494,
     "longitude": 49.291698,
     "city": "Antsiranana",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "WMR",
-    "country_code": "MG",
-    "country": "Madagaskar",
-    "airport": "Mananara Nord Flughafen",
-    "latitude": -16.16390037536621,
-    "longitude": 49.773799896240234,
-    "city": "Mananara Avaratra",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "ANM",
-    "country_code": "MG",
-    "country": "Madagaskar",
-    "airport": "Antsirabe Flughafen",
-    "latitude": -14.9994,
-    "longitude": 50.320202,
-    "city": "Antalaha",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "HVA",
-    "country_code": "MG",
-    "country": "Madagaskar",
-    "airport": "Analalava Flughafen",
-    "latitude": -14.629514,
-    "longitude": 47.763555,
-    "city": "Analalava",
     "zipCodePilotCourt": ""
   },
   {
@@ -5740,26 +5400,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "VOH",
-    "country_code": "MG",
-    "country": "Madagaskar",
-    "airport": "Vohemar Flughafen",
-    "latitude": -13.3758,
-    "longitude": 50.0028,
-    "city": "Vohimarina",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "WAI",
-    "country_code": "MG",
-    "country": "Madagaskar",
-    "airport": "Ambalabe Flughafen",
-    "latitude": -14.898799896240234,
-    "longitude": 47.993900299072266,
-    "city": "Antsohihy",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "FTU",
     "country_code": "MG",
     "country": "Madagaskar",
@@ -5770,26 +5410,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "WFI",
-    "country_code": "MG",
-    "country": "Madagaskar",
-    "airport": "Fianarantsoa Flughafen",
-    "latitude": -21.441601,
-    "longitude": 47.111698,
-    "city": "Fianarantsoa",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "WVK",
-    "country_code": "MG",
-    "country": "Madagaskar",
-    "airport": "Manakara Flughafen",
-    "latitude": -22.119699,
-    "longitude": 48.021702,
-    "city": "Manakara",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "MNJ",
     "country_code": "MG",
     "country": "Madagaskar",
@@ -5797,16 +5417,6 @@
     "latitude": -21.201799,
     "longitude": 48.358299,
     "city": "Mananjary",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "MXM",
-    "country_code": "MG",
-    "country": "Madagaskar",
-    "airport": "Morombe Flughafen",
-    "latitude": -21.753837,
-    "longitude": 43.374753,
-    "city": "Morombe",
     "zipCodePilotCourt": ""
   },
   {
@@ -5950,26 +5560,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "KOU",
-    "country_code": "GA",
-    "country": "Gabun",
-    "airport": "Koulamoutou Mabimbi Flughafen",
-    "latitude": -1.1846100091934,
-    "longitude": 12.441300392151,
-    "city": "Koulamoutou",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "MJL",
-    "country_code": "GA",
-    "country": "Gabun",
-    "airport": "Mouilla Ville Flughafen",
-    "latitude": -1.845139980316162,
-    "longitude": 11.056699752807617,
-    "city": "Mouila",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "OYE",
     "country_code": "GA",
     "country": "Gabun",
@@ -6044,8 +5634,8 @@
     "country_code": "MZ",
     "country": "Mosambik",
     "airport": "Beira Flughafen",
-    "latitude": -19.79640007019043,
-    "longitude": 34.90760040283203,
+    "latitude": -19.7964,
+    "longitude": 34.9076,
     "city": "Beira",
     "zipCodePilotCourt": ""
   },
@@ -6104,8 +5694,8 @@
     "country_code": "MZ",
     "country": "Mosambik",
     "airport": "Pemba Flughafen",
-    "latitude": -12.991762161254883,
-    "longitude": 40.52401351928711,
+    "latitude": -12.993302,
+    "longitude": 40.524867,
     "city": "Pemba",
     "zipCodePilotCourt": ""
   },
@@ -6170,16 +5760,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "MQQ",
-    "country_code": "TD",
-    "country": "Tschad",
-    "airport": "Moundou Flughafen",
-    "latitude": 8.62441,
-    "longitude": 16.0714,
-    "city": "Moundou",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "NDJ",
     "country_code": "TD",
     "country": "Tschad",
@@ -6233,9 +5813,9 @@
     "iata": "LLW",
     "country_code": "MW",
     "country": "Malawi",
-    "airport": "Lilongwe International Flughafen",
-    "latitude": -13.7894001007,
-    "longitude": 33.78099823,
+    "airport": "Kamuzu International Flughafen",
+    "latitude": -13.7894,
+    "longitude": 33.780998,
     "city": "Lilongwe",
     "zipCodePilotCourt": ""
   },
@@ -6244,8 +5824,8 @@
     "country_code": "LS",
     "country": "Lesotho",
     "airport": "Moshoeshoe I International Flughafen",
-    "latitude": -29.462299346923828,
-    "longitude": 27.552499771118164,
+    "latitude": -29.462299,
+    "longitude": 27.5525,
     "city": "Maseru",
     "zipCodePilotCourt": ""
   },
@@ -6304,8 +5884,8 @@
     "country_code": "NA",
     "country": "Namibia",
     "airport": "Walvis Bay Flughafen",
-    "latitude": -22.9799,
-    "longitude": 14.6453,
+    "latitude": -22.979332,
+    "longitude": 14.647102,
     "city": "Walvis Bay",
     "zipCodePilotCourt": ""
   },
@@ -6510,16 +6090,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "KYS",
-    "country_code": "ML",
-    "country": "Mali",
-    "airport": "Kayes Dag Dag Flughafen",
-    "latitude": 14.4812,
-    "longitude": -11.4044,
-    "city": "Kayes",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "MZI",
     "country_code": "ML",
     "country": "Mali",
@@ -6630,26 +6200,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "KBS",
-    "country_code": "SL",
-    "country": "Sierra Leone",
-    "airport": "Bo Flughafen",
-    "latitude": 7.9444,
-    "longitude": -11.761,
-    "city": "Bo",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "KEN",
-    "country_code": "SL",
-    "country": "Sierra Leone",
-    "airport": "Kenema Flughafen",
-    "latitude": 7.896364,
-    "longitude": -11.174126,
-    "city": "Kenema",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "FNA",
     "country_code": "SL",
     "country": "Sierra Leone",
@@ -6657,16 +6207,6 @@
     "latitude": 8.61644,
     "longitude": -13.1955,
     "city": "Freetown",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "WYE",
-    "country_code": "SL",
-    "country": "Sierra Leone",
-    "airport": "Yengema Flughafen",
-    "latitude": 8.610469818115234,
-    "longitude": -11.04539966583252,
-    "city": "Yengema",
     "zipCodePilotCourt": ""
   },
   {
@@ -6750,16 +6290,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "SMW",
-    "country_code": "EH",
-    "country": "Westsahara",
-    "airport": "Smara Flughafen",
-    "latitude": 26.731987,
-    "longitude": -11.683655,
-    "city": "Semara",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "RBA",
     "country_code": "MA",
     "country": "Marokko",
@@ -6824,8 +6354,8 @@
     "country_code": "MA",
     "country": "Marokko",
     "airport": "Menara Flughafen",
-    "latitude": 31.606899261499997,
-    "longitude": -8.03629970551,
+    "latitude": 31.606899,
+    "longitude": -8.0363,
     "city": "Marrakech",
     "zipCodePilotCourt": ""
   },
@@ -6837,26 +6367,6 @@
     "latitude": 30.9391002655,
     "longitude": -6.909430027010001,
     "city": "Ouarzazate",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "GMQ",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Golog Maqên Flughafen",
-    "latitude": 34.418066,
-    "longitude": 100.301144,
-    "city": "Golog",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "AHU",
-    "country_code": "MA",
-    "country": "Marokko",
-    "airport": "Cherif Al Idrissi Flughafen",
-    "latitude": 35.177101135253906,
-    "longitude": -3.83951997756958,
-    "city": "Al Hoceima",
     "zipCodePilotCourt": ""
   },
   {
@@ -6884,19 +6394,9 @@
     "country_code": "SN",
     "country": "Senegal",
     "airport": "Blaise Diagne International Flughafen",
-    "latitude": 14.67,
-    "longitude": -17.073333,
+    "latitude": 14.670878,
+    "longitude": -17.072829,
     "city": "Dakar",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "ZIG",
-    "country_code": "SN",
-    "country": "Senegal",
-    "airport": "Ziguinchor Flughafen",
-    "latitude": 12.5556,
-    "longitude": -16.281799,
-    "city": "Ziguinchor",
     "zipCodePilotCourt": ""
   },
   {
@@ -6907,36 +6407,6 @@
     "latitude": 12.39533,
     "longitude": -16.748,
     "city": "Kappe Skiring",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "MAX",
-    "country_code": "SN",
-    "country": "Senegal",
-    "airport": "Ouro Sogui Flughafen",
-    "latitude": 15.5936,
-    "longitude": -13.3228,
-    "city": "Matam",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "XLS",
-    "country_code": "SN",
-    "country": "Senegal",
-    "airport": "Saint Louis Flughafen",
-    "latitude": 16.049814,
-    "longitude": -16.461039,
-    "city": "St-Louis",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "TUD",
-    "country_code": "SN",
-    "country": "Senegal",
-    "airport": "Tambacounda Flughafen",
-    "latitude": 13.736800193786621,
-    "longitude": -13.65310001373291,
-    "city": "Tambacounda",
     "zipCodePilotCourt": ""
   },
   {
@@ -7294,8 +6764,8 @@
     "country_code": "EG",
     "country": "Ägypten",
     "airport": "Luxor International Flughafen",
-    "latitude": 25.674629,
-    "longitude": 32.700012,
+    "latitude": 25.671037,
+    "longitude": 32.706451,
     "city": "Luxor",
     "zipCodePilotCourt": ""
   },
@@ -7324,8 +6794,8 @@
     "country_code": "EG",
     "country": "Ägypten",
     "airport": "Suhaj Mubarak International Flughafen",
-    "latitude": 26.339115,
-    "longitude": 31.737624,
+    "latitude": 26.342515,
+    "longitude": 31.743017,
     "city": "Sohag",
     "zipCodePilotCourt": ""
   },
@@ -7380,33 +6850,13 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "MSW",
-    "country_code": "ER",
-    "country": "Eritrea",
-    "airport": "Massawa International Flughafen",
-    "latitude": 15.670000076293945,
-    "longitude": 39.37009811401367,
-    "city": "Massawa",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "ASA",
     "country_code": "ER",
     "country": "Eritrea",
     "airport": "Assab International Flughafen",
-    "latitude": 13.071800231933594,
-    "longitude": 42.64500045776367,
+    "latitude": 13.0718,
+    "longitude": 42.645,
     "city": "Assab",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "HIA",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Huaian Lianshui International Flughafen",
-    "latitude": 33.790833,
-    "longitude": 119.125,
-    "city": "Huai'an",
     "zipCodePilotCourt": ""
   },
   {
@@ -7460,16 +6910,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "LKG",
-    "country_code": "KE",
-    "country": "Kenia",
-    "airport": "Lokichoggio Flughafen",
-    "latitude": 4.20412015914917,
-    "longitude": 34.348201751708984,
-    "city": "Lokichogio",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "LAU",
     "country_code": "KE",
     "country": "Kenia",
@@ -7510,16 +6950,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "WIL",
-    "country_code": "KE",
-    "country": "Kenia",
-    "airport": "Nairobi Wilson Flughafen",
-    "latitude": -1.321720004081726,
-    "longitude": 36.81480026245117,
-    "city": "Nairobi",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "NYK",
     "country_code": "KE",
     "country": "Kenia",
@@ -7527,6 +6957,16 @@
     "latitude": -0.062399,
     "longitude": 37.041008,
     "city": "Nanyuki",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "WIL",
+    "country_code": "KE",
+    "country": "Kenia",
+    "airport": "Nairobi Wilson Flughafen",
+    "latitude": -1.321720004081726,
+    "longitude": 36.81480026245117,
+    "city": "Nairobi",
     "zipCodePilotCourt": ""
   },
   {
@@ -7710,26 +7150,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "MAK",
-    "country_code": "SS",
-    "country": "Südsudan",
-    "airport": "Malakal Flughafen",
-    "latitude": 9.55897,
-    "longitude": 31.652201,
-    "city": "Malakal",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "WUU",
-    "country_code": "SS",
-    "country": "Südsudan",
-    "airport": "Wau Flughafen",
-    "latitude": 7.72583,
-    "longitude": 27.975,
-    "city": "Wau",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "ARK",
     "country_code": "TZ",
     "country": "Tansania, Vereinigte Republik",
@@ -7860,36 +7280,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "KXB",
-    "country_code": "ID",
-    "country": "Indonesien",
-    "airport": "Sangia Nibandera Flughafen",
-    "latitude": -4.338158,
-    "longitude": 121.524047,
-    "city": "Kolaka",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "NAM",
-    "country_code": "ID",
-    "country": "Indonesien",
-    "airport": "Namniwel Flughafen",
-    "latitude": -3.143159,
-    "longitude": 126.976469,
-    "city": "Namniwel",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "SQG",
-    "country_code": "ID",
-    "country": "Indonesien",
-    "airport": "Tebelian Flughafen",
-    "latitude": -0.045214,
-    "longitude": 111.458049,
-    "city": "Sintang",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "UGU",
     "country_code": "ID",
     "country": "Indonesien",
@@ -7910,13 +7300,13 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "GOX",
+    "iata": "NMI",
     "country_code": "IN",
     "country": "Indien",
-    "airport": "Manohar International Flughafen",
-    "latitude": 15.744257,
-    "longitude": 73.860625,
-    "city": "Goa",
+    "airport": "Navi Mumbai International Flughafen",
+    "latitude": 18.988686,
+    "longitude": 73.068523,
+    "city": "Navi Mumbai",
     "zipCodePilotCourt": ""
   },
   {
@@ -7927,56 +7317,6 @@
     "latitude": 26.96683,
     "longitude": 93.638792,
     "city": "Hollongi",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "ISG",
-    "country_code": "JP",
-    "country": "Japan",
-    "airport": "New Ishigaki Flughafen",
-    "latitude": 24.396389,
-    "longitude": 124.245,
-    "city": "Ishigaki",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "JGD",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Daxinganling Elunchun Flughafen",
-    "latitude": 50.371389,
-    "longitude": 124.1175,
-    "city": "Jiagedaqi",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "JIQ",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Qianjiang Wulingshan Flughafen",
-    "latitude": 29.5133333333,
-    "longitude": 108.831111111,
-    "city": "Qianjiang",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "JJD",
-    "country_code": "BR",
-    "country": "Brasilien",
-    "airport": "Comandante Ariston Pessoa Flughafen",
-    "latitude": -2.906425,
-    "longitude": -40.357338,
-    "city": "Cruz",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "JNZ",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Jinzhou Bay Flughafen",
-    "latitude": 40.936032,
-    "longitude": 121.277114,
-    "city": "Jinzhou",
     "zipCodePilotCourt": ""
   },
   {
@@ -8774,8 +8114,8 @@
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
     "airport": "Easterwood Field Flughafen",
-    "latitude": 30.58860016,
-    "longitude": -96.36380005,
+    "latitude": 30.5886,
+    "longitude": -96.3638,
     "city": "College Station",
     "zipCodePilotCourt": ""
   },
@@ -9993,7 +9333,7 @@
     "iata": "AZA",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
-    "airport": "Phoenix–Mesa Gateway Flughafen",
+    "airport": "Mesa Gateway Flughafen",
     "latitude": 33.3078,
     "longitude": -111.654999,
     "city": "Phoenix",
@@ -10384,8 +9724,8 @@
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
     "airport": "MBS International Flughafen",
-    "latitude": 43.532902,
-    "longitude": -84.079597,
+    "latitude": 43.531913,
+    "longitude": -84.082275,
     "city": "Saginaw/Midland/Bay C.",
     "zipCodePilotCourt": ""
   },
@@ -10917,16 +10257,6 @@
     "latitude": 37.74010086,
     "longitude": -87.16680145,
     "city": "Owensboro",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "RGO",
-    "country_code": "KP",
-    "country": "Nordkorea",
-    "airport": "Orang (Chongjin) Flughafen",
-    "latitude": 41.428538,
-    "longitude": 129.647555,
-    "city": "Chongjin",
     "zipCodePilotCourt": ""
   },
   {
@@ -12160,16 +11490,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "KWY",
-    "country_code": "KE",
-    "country": "Kenia",
-    "airport": "Kiwayu Flughafen",
-    "latitude": -1.9605599641799927,
-    "longitude": 41.29750061035156,
-    "city": "Kiwayu",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "WYS",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
@@ -12187,6 +11507,16 @@
     "latitude": 36.281898,
     "longitude": -94.306801,
     "city": "Fayetteville/Springd.",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "XWA",
+    "country_code": "US",
+    "country": "Vereinigte Staaten von Amerika",
+    "airport": "Williston Basin International Flughafen",
+    "latitude": 48.258387,
+    "longitude": -103.748797,
+    "city": "Williston",
     "zipCodePilotCourt": ""
   },
   {
@@ -12267,6 +11597,16 @@
     "latitude": 35.152337,
     "longitude": 33.506584,
     "city": "Ercan",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "GEC",
+    "country_code": "CY",
+    "country": "Zypern",
+    "airport": "Lefkoniko Flughafen",
+    "latitude": 35.23591,
+    "longitude": 33.720088,
+    "city": "Gecitkale",
     "zipCodePilotCourt": ""
   },
   {
@@ -12407,16 +11747,6 @@
     "latitude": 43.301102,
     "longitude": -2.91061,
     "city": "Bilbao",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "RGS",
-    "country_code": "ES",
-    "country": "Spanien",
-    "airport": "Burgos Flughafen",
-    "latitude": 42.357601,
-    "longitude": -3.62076,
-    "city": "Burgos",
     "zipCodePilotCourt": ""
   },
   {
@@ -13140,16 +12470,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "VNE",
-    "country_code": "FR",
-    "country": "Frankreich",
-    "airport": "Vannes-Meucon Flughafen",
-    "latitude": 47.723301,
-    "longitude": -2.71856,
-    "city": "Vannes/Meucon",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "SNR",
     "country_code": "FR",
     "country": "Frankreich",
@@ -13207,16 +12527,6 @@
     "latitude": 43.097301,
     "longitude": 6.14603,
     "city": "Toulon/Hyeres",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "RZV",
-    "country_code": "TR",
-    "country": "Türkei",
-    "airport": "Rize–Artvin Flughafen",
-    "latitude": 41.179625,
-    "longitude": 40.850796,
-    "city": "Rize",
     "zipCodePilotCourt": ""
   },
   {
@@ -13390,16 +12700,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "DRP",
-    "country_code": "PH",
-    "country": "Philippinen",
-    "airport": "Bicol International Flughafen",
-    "latitude": 13.111915,
-    "longitude": 123.676829,
-    "city": "Legazpi",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "PVK",
     "country_code": "GR",
     "country": "Griechenland",
@@ -13526,7 +12826,7 @@
     "airport": "Pécs-Pogány Flughafen",
     "latitude": 45.988891,
     "longitude": 18.242044,
-    "city": "Pogány",
+    "city": "Pécs",
     "zipCodePilotCourt": ""
   },
   {
@@ -13890,6 +13190,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "QSR",
+    "country_code": "IT",
+    "country": "Italien",
+    "airport": "Salerno Costa dAmalfi Flughafen",
+    "latitude": 40.620399,
+    "longitude": 14.9113,
+    "city": "Salerno",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "EBA",
     "country_code": "IT",
     "country": "Italien",
@@ -14243,7 +13553,7 @@
     "iata": "LIS",
     "country_code": "PT",
     "country": "Portugal",
-    "airport": "Humberto Delgado Flughafen",
+    "airport": "Lisbon Humberto Delgado Flughafen",
     "latitude": 38.7813,
     "longitude": -9.13592,
     "city": "Lissabon",
@@ -14284,8 +13594,8 @@
     "country_code": "BA",
     "country": "Bosnien und Herzegowina",
     "airport": "Banja Luka International Flughafen",
-    "latitude": 44.94139862060547,
-    "longitude": 17.297500610351562,
+    "latitude": 44.941399,
+    "longitude": 17.297501,
     "city": "Banja Luka",
     "zipCodePilotCourt": ""
   },
@@ -14360,6 +13670,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "GHV",
+    "country_code": "RO",
+    "country": "Rumänien",
+    "airport": "Brașov-Ghimbav International Flughafen",
+    "latitude": 45.70558,
+    "longitude": 25.522871,
+    "city": "Brașov (Ghimbav)",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "CND",
     "country_code": "RO",
     "country": "Rumänien",
@@ -14417,16 +13737,6 @@
     "latitude": 44.572127,
     "longitude": 26.103396,
     "city": "Bukarest",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "GHV",
-    "country_code": "RO",
-    "country": "Rumänien",
-    "airport": "Brașov-Ghimbav International Flughafen",
-    "latitude": 45.70558,
-    "longitude": 25.522871,
-    "city": "Brașov (Ghimbav)",
     "zipCodePilotCourt": ""
   },
   {
@@ -14627,16 +13937,6 @@
     "latitude": 37.7855987549,
     "longitude": 29.7012996674,
     "city": "Denizli",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "ISL",
-    "country_code": "TR",
-    "country": "Türkei",
-    "airport": "İstanbul Atatürk Flughafen",
-    "latitude": 40.971913,
-    "longitude": 28.823714,
-    "city": "Istanbul",
     "zipCodePilotCourt": ""
   },
   {
@@ -14910,6 +14210,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "COV",
+    "country_code": "TR",
+    "country": "Türkei",
+    "airport": "Çukurova International Flughafen",
+    "latitude": 36.890908,
+    "longitude": 35.070522,
+    "city": "Tarsus",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "ISE",
     "country_code": "TR",
     "country": "Türkei",
@@ -14954,8 +14264,8 @@
     "country_code": "TR",
     "country": "Türkei",
     "airport": "Samsun-Çarşamba Flughafen",
-    "latitude": 41.26556,
-    "longitude": 36.54861,
+    "latitude": 41.253988,
+    "longitude": 36.567546,
     "city": "Samsun",
     "zipCodePilotCourt": ""
   },
@@ -14977,6 +14287,16 @@
     "latitude": 41.261297,
     "longitude": 28.741951,
     "city": "Istanbul",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "RZV",
+    "country_code": "TR",
+    "country": "Türkei",
+    "airport": "Rize–Artvin Flughafen",
+    "latitude": 41.179766,
+    "longitude": 40.848802,
+    "city": "Rize",
     "zipCodePilotCourt": ""
   },
   {
@@ -15260,13 +14580,13 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "GSJ",
+    "iata": "RER",
     "country_code": "GT",
     "country": "Guatemala",
-    "airport": "San José Flughafen",
-    "latitude": 13.936200141899999,
-    "longitude": -90.83580017090001,
-    "city": "Puerto San José",
+    "airport": "Retalhuleu Flughafen",
+    "latitude": 14.521431,
+    "longitude": -91.697001,
+    "city": "Retalhuleu",
     "zipCodePilotCourt": ""
   },
   {
@@ -15383,17 +14703,17 @@
     "iata": "ACA",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional Juan N. Álvarez Flughafen",
+    "airport": "General Juan N. Álvarez International Flughafen",
     "latitude": 16.757126,
     "longitude": -99.753113,
-    "city": "Ciudad de Acapulco",
+    "city": "Acapulco",
     "zipCodePilotCourt": ""
   },
   {
     "iata": "AGU",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional Jesús Terán Peredo Flughafen",
+    "airport": "Jesús Terán Peredo International Flughafen",
     "latitude": 21.699589,
     "longitude": -102.318372,
     "city": "Aguascalientes",
@@ -15433,9 +14753,9 @@
     "iata": "CTM",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional de Chetumal Flughafen",
-    "latitude": 18.5047,
-    "longitude": -88.326797,
+    "airport": "Chetumal International Flughafen",
+    "latitude": 18.504985,
+    "longitude": -88.328018,
     "city": "Chetumal",
     "zipCodePilotCourt": ""
   },
@@ -15474,8 +14794,8 @@
     "country_code": "MX",
     "country": "Mexiko",
     "airport": "General Roberto Fierro Villalobos International Flughafen",
-    "latitude": 28.702899932900003,
-    "longitude": -105.964996338,
+    "latitude": 28.7029,
+    "longitude": -105.964996,
     "city": "Chihuahua",
     "zipCodePilotCourt": ""
   },
@@ -15493,20 +14813,20 @@
     "iata": "CZM",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional de Cozumel Flughafen",
-    "latitude": 20.511425,
-    "longitude": -86.930287,
-    "city": "Ciudad de Cozumel",
+    "airport": "Cozumel International Flughafen",
+    "latitude": 20.514922,
+    "longitude": -86.928538,
+    "city": "Cozumel",
     "zipCodePilotCourt": ""
   },
   {
     "iata": "DGO",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional General Guadalupe Victoria Flughafen",
-    "latitude": 24.125908,
-    "longitude": -104.533904,
-    "city": "Ciudad de Durango",
+    "airport": "General Guadalupe Victoria International Flughafen",
+    "latitude": 24.125468,
+    "longitude": -104.527938,
+    "city": "Durango",
     "zipCodePilotCourt": ""
   },
   {
@@ -15553,7 +14873,7 @@
     "iata": "CLQ",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional Licenciado Miguel de la Madrid Flughafen",
+    "airport": "Licenciado Miguel de la Madrid International Flughafen",
     "latitude": 19.277,
     "longitude": -103.577002,
     "city": "Colima",
@@ -15563,9 +14883,9 @@
     "iata": "IZT",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Nacional General Antonio Cárdenas Rodríguez Flughafen",
-    "latitude": 16.438915,
-    "longitude": -95.090328,
+    "airport": "General Antonio Cárdenas Rodríguez National Flughafen",
+    "latitude": 16.445961,
+    "longitude": -95.093708,
     "city": "Ixtepec",
     "zipCodePilotCourt": ""
   },
@@ -15583,7 +14903,7 @@
     "iata": "BJX",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional del Bajío Flughafen",
+    "airport": "Del Bajío International Flughafen",
     "latitude": 20.992695,
     "longitude": -101.480284,
     "city": "Silao",
@@ -15594,8 +14914,8 @@
     "country_code": "MX",
     "country": "Mexiko",
     "airport": "Manuel Márquez de León International Flughafen",
-    "latitude": 24.072700500499998,
-    "longitude": -110.361999512,
+    "latitude": 24.072701,
+    "longitude": -110.362,
     "city": "La Paz",
     "zipCodePilotCourt": ""
   },
@@ -15623,17 +14943,17 @@
     "iata": "MID",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional Manuel Crescencio Rejón Flughafen",
-    "latitude": 20.933384,
-    "longitude": -89.662621,
-    "city": "Ciudad de Mérida",
+    "airport": "Manuel Crescencio Rejón International Flughafen",
+    "latitude": 20.930485,
+    "longitude": -89.645462,
+    "city": "Mérida",
     "zipCodePilotCourt": ""
   },
   {
     "iata": "MXL",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional Gral. Rodolfo Sánchez Taboada Flughafen",
+    "airport": "General Rodolfo Sánchez Taboada International Flughafen",
     "latitude": 32.630629,
     "longitude": -115.242805,
     "city": "Mexicali",
@@ -15703,7 +15023,7 @@
     "iata": "OAX",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional Xoxocotlán Flughafen",
+    "airport": "Xoxocotlán International Flughafen",
     "latitude": 17.000814,
     "longitude": -96.72197,
     "city": "Oaxaca",
@@ -15723,7 +15043,7 @@
     "iata": "PBC",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional Hermanos Serdán Flughafen",
+    "airport": "Hermanos Serdán International Flughafen",
     "latitude": 19.158465,
     "longitude": -98.371582,
     "city": "Puebla",
@@ -15763,9 +15083,9 @@
     "iata": "PXM",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional de Puerto Escondido Flughafen",
-    "latitude": 15.874859,
-    "longitude": -97.091868,
+    "airport": "Puerto Escondido International Flughafen",
+    "latitude": 15.876808,
+    "longitude": -97.0891,
     "city": "Puerto Escondido",
     "zipCodePilotCourt": ""
   },
@@ -15793,7 +15113,7 @@
     "iata": "SJD",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional de Los Cabos Flughafen",
+    "airport": "Los Cabos International Flughafen",
     "latitude": 23.151919,
     "longitude": -109.720731,
     "city": "San José del Cabo",
@@ -15803,7 +15123,7 @@
     "iata": "NLU",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional General Felipe Ángeles Flughafen",
+    "airport": "General Felipe Ángeles International Flughafen",
     "latitude": 19.7357,
     "longitude": -99.0257,
     "city": "Mexico City",
@@ -15843,10 +15163,10 @@
     "iata": "TIJ",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional Gral. Abelardo Rodriguez Flughafen",
-    "latitude": 32.545963,
-    "longitude": -116.975856,
-    "city": "Ciudad de Tijuana",
+    "airport": "General Abelardo L. Rodriguez International Flughafen",
+    "latitude": 32.541043,
+    "longitude": -116.969976,
+    "city": "Tijuana",
     "zipCodePilotCourt": ""
   },
   {
@@ -15883,9 +15203,9 @@
     "iata": "TAP",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional de Tapachula Flughafen",
-    "latitude": 14.790371,
-    "longitude": -92.36883,
+    "airport": "Tapachula International Flughafen",
+    "latitude": 14.794549,
+    "longitude": -92.369871,
     "city": "Tapachula",
     "zipCodePilotCourt": ""
   },
@@ -15893,7 +15213,7 @@
     "iata": "CUN",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional de Cancún Flughafen",
+    "airport": "Cancún International Flughafen",
     "latitude": 21.039444,
     "longitude": -86.874304,
     "city": "Cancún",
@@ -15904,8 +15224,8 @@
     "country_code": "MX",
     "country": "Mexiko",
     "airport": "Carlos Rovirosa Pérez International Flughafen",
-    "latitude": 17.996999740600586,
-    "longitude": -92.81739807128906,
+    "latitude": 17.997,
+    "longitude": -92.817398,
     "city": "Villahermosa",
     "zipCodePilotCourt": ""
   },
@@ -15923,7 +15243,7 @@
     "iata": "ZCL",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional General Leobardo C. Ruiz Flughafen",
+    "airport": "General Leobardo C. Ruiz International Flughafen",
     "latitude": 22.8971,
     "longitude": -102.686996,
     "city": "Zacatecas",
@@ -15933,7 +15253,7 @@
     "iata": "ZIH",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional de Zihuatanejo Flughafen",
+    "airport": "Ixtapa-Zihuatanejo International Flughafen",
     "latitude": 17.601771,
     "longitude": -101.460629,
     "city": "Ixtapa",
@@ -15943,7 +15263,7 @@
     "iata": "ZLO",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Aeropuerto Internacional Playa de Oro Flughafen",
+    "airport": "Playa de Oro International Flughafen",
     "latitude": 19.1448,
     "longitude": -104.558998,
     "city": "Manzanillo",
@@ -16110,16 +15430,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "PMZ",
-    "country_code": "CR",
-    "country": "Costa Rica",
-    "airport": "Palmar Sur Flughafen",
-    "latitude": 8.95103,
-    "longitude": -83.468597,
-    "city": "Palmar Sur",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "SYQ",
     "country_code": "CR",
     "country": "Costa Rica",
@@ -16150,12 +15460,22 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "ILS",
+    "country_code": "SV",
+    "country": "El Salvador",
+    "airport": "Ilopango International Flughafen",
+    "latitude": 13.6995,
+    "longitude": -89.119904,
+    "city": "San Salvador",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "CYA",
     "country_code": "HT",
     "country": "Haiti",
-    "airport": "Les Cayes Flughafen",
-    "latitude": 18.271099090576172,
-    "longitude": -73.78829956054688,
+    "airport": "Antoine-Simon International Flughafen",
+    "latitude": 18.271099,
+    "longitude": -73.7883,
     "city": "Les Cayes",
     "zipCodePilotCourt": ""
   },
@@ -16174,9 +15494,9 @@
     "country_code": "HT",
     "country": "Haiti",
     "airport": "Jérémie Flughafen",
-    "latitude": 18.66309928894043,
-    "longitude": -74.17030334472656,
-    "city": "Jeremie",
+    "latitude": 18.663099,
+    "longitude": -74.170303,
+    "city": "Carrefour Sanon",
     "zipCodePilotCourt": ""
   },
   {
@@ -16184,8 +15504,8 @@
     "country_code": "HT",
     "country": "Haiti",
     "airport": "Toussaint Louverture International Flughafen",
-    "latitude": 18.58,
-    "longitude": -72.292503,
+    "latitude": 18.580023,
+    "longitude": -72.292596,
     "city": "Port-au-Prince",
     "zipCodePilotCourt": ""
   },
@@ -16207,16 +15527,6 @@
     "latitude": 20.3964,
     "longitude": -76.621399,
     "city": "Bayamo",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "AVI",
-    "country_code": "CU",
-    "country": "Kuba",
-    "airport": "Máximo Gómez Flughafen",
-    "latitude": 22.0271,
-    "longitude": -78.789597,
-    "city": "Ciro Redondo",
     "zipCodePilotCourt": ""
   },
   {
@@ -16424,9 +15734,9 @@
     "country_code": "BS",
     "country": "Bahamas",
     "airport": "Chub Cay Flughafen",
-    "latitude": 25.41710090637207,
-    "longitude": -77.88089752197266,
-    "city": "",
+    "latitude": 25.417101,
+    "longitude": -77.880898,
+    "city": "Chub Cay",
     "zipCodePilotCourt": ""
   },
   {
@@ -16514,8 +15824,8 @@
     "country_code": "BS",
     "country": "Bahamas",
     "airport": "Inagua Flughafen",
-    "latitude": 20.975000381469727,
-    "longitude": -73.66690063476562,
+    "latitude": 20.975,
+    "longitude": -73.666901,
     "city": "Matthew Town",
     "zipCodePilotCourt": ""
   },
@@ -16546,7 +15856,7 @@
     "airport": "Mayaguana Flughafen",
     "latitude": 22.379499,
     "longitude": -73.013494,
-    "city": "Abrahams Bay",
+    "city": "Abraham Bay Settlement",
     "zipCodePilotCourt": ""
   },
   {
@@ -16580,13 +15890,13 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "NBS",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Changbaishan Flughafen",
-    "latitude": 42.066944,
-    "longitude": 127.602222,
-    "city": "Baishan",
+    "iata": "PLJ",
+    "country_code": "BZ",
+    "country": "Belize",
+    "airport": "Placencia Flughafen",
+    "latitude": 16.536957,
+    "longitude": -88.361511,
+    "city": "Placencia",
     "zipCodePilotCourt": ""
   },
   {
@@ -16657,26 +15967,6 @@
     "latitude": -18.58530044555664,
     "longitude": -173.96200561523438,
     "city": "Vava'u",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "GMO",
-    "country_code": "NG",
-    "country": "Nigeria",
-    "airport": "Gombe Lawanti International Flughafen",
-    "latitude": 10.298889,
-    "longitude": 10.9,
-    "city": "Gombe",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "QRW",
-    "country_code": "NG",
-    "country": "Nigeria",
-    "airport": "Warri Flughafen",
-    "latitude": 5.59611,
-    "longitude": 5.81778,
-    "city": "Warri",
     "zipCodePilotCourt": ""
   },
   {
@@ -17000,16 +16290,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "ZGU",
-    "country_code": "VU",
-    "country": "Vanuatu",
-    "airport": "Gaua Island Flughafen",
-    "latitude": -14.218099594099998,
-    "longitude": 167.587005615,
-    "city": "Insel Gaua",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "SON",
     "country_code": "VU",
     "country": "Vanuatu",
@@ -17044,8 +16324,8 @@
     "country_code": "NC",
     "country": "Neukaledonien",
     "airport": "Tiga Flughafen",
-    "latitude": -21.096099853515625,
-    "longitude": 167.8040008544922,
+    "latitude": -21.096407,
+    "longitude": 167.80379,
     "city": "Tiga",
     "zipCodePilotCourt": ""
   },
@@ -17074,8 +16354,8 @@
     "country_code": "NC",
     "country": "Neukaledonien",
     "airport": "Lifou Flughafen",
-    "latitude": -20.774799346923828,
-    "longitude": 167.24000549316406,
+    "latitude": -20.774563,
+    "longitude": 167.239328,
     "city": "Lifou",
     "zipCodePilotCourt": ""
   },
@@ -17094,8 +16374,8 @@
     "country_code": "NC",
     "country": "Neukaledonien",
     "airport": "Maré Flughafen",
-    "latitude": -21.481700897216797,
-    "longitude": 168.03799438476562,
+    "latitude": -21.482438,
+    "longitude": 168.038465,
     "city": "Stute",
     "zipCodePilotCourt": ""
   },
@@ -17114,8 +16394,8 @@
     "country_code": "NC",
     "country": "Neukaledonien",
     "airport": "Ouvéa Flughafen",
-    "latitude": -20.640600204467773,
-    "longitude": 166.572998046875,
+    "latitude": -20.640932,
+    "longitude": 166.573024,
     "city": "Ouvea",
     "zipCodePilotCourt": ""
   },
@@ -17270,16 +16550,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "OAM",
-    "country_code": "NZ",
-    "country": "Neuseeland",
-    "airport": "Oamaru Flughafen",
-    "latitude": -44.970001220703125,
-    "longitude": 171.08200073242188,
-    "city": "Oamaru",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "PMR",
     "country_code": "NZ",
     "country": "Neuseeland",
@@ -17364,8 +16634,8 @@
     "country_code": "NZ",
     "country": "Neuseeland",
     "airport": "Wellington International Flughafen",
-    "latitude": -41.3272018433,
-    "longitude": 174.804992676,
+    "latitude": -41.327202,
+    "longitude": 174.804993,
     "city": "Wellington",
     "zipCodePilotCourt": ""
   },
@@ -17477,6 +16747,16 @@
     "latitude": 25.285299,
     "longitude": 49.485199,
     "city": "Hof",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "ULH",
+    "country_code": "SA",
+    "country": "Saudi-Arabien",
+    "airport": "Majeed Bin Abdulaziz Flughafen",
+    "latitude": 26.483333,
+    "longitude": 38.116944,
+    "city": "AlUla",
     "zipCodePilotCourt": ""
   },
   {
@@ -17827,6 +17107,16 @@
     "latitude": 27.379601,
     "longitude": 52.737701,
     "city": "Asaloyeh",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "KHK",
+    "country_code": "IR",
+    "country": "Iran",
+    "airport": "Khark Flughafen",
+    "latitude": 29.260503,
+    "longitude": 50.322193,
+    "city": "Khark",
     "zipCodePilotCourt": ""
   },
   {
@@ -18320,16 +17610,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "DSK",
-    "country_code": "PK",
-    "country": "Pakistan",
-    "airport": "Dera Ismael Khan Flughafen",
-    "latitude": 31.909400939941406,
-    "longitude": 70.89659881591797,
-    "city": "Dera Ismail Khan",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "LYP",
     "country_code": "PK",
     "country": "Pakistan",
@@ -18343,9 +17623,9 @@
     "iata": "GWD",
     "country_code": "PK",
     "country": "Pakistan",
-    "airport": "Gwadar International Flughafen",
-    "latitude": 25.232391,
-    "longitude": 62.327671,
+    "airport": "New Gwadar International Flughafen",
+    "latitude": 25.296733,
+    "longitude": 62.498822,
     "city": "Gwadar",
     "zipCodePilotCourt": ""
   },
@@ -18390,26 +17670,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "MFG",
-    "country_code": "PK",
-    "country": "Pakistan",
-    "airport": "Muzaffarabad Flughafen",
-    "latitude": 34.3390007019043,
-    "longitude": 73.50859832763672,
-    "city": "Muzaffarabad",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "MJD",
-    "country_code": "PK",
-    "country": "Pakistan",
-    "airport": "Moenjodaro Flughafen",
-    "latitude": 27.3351993560791,
-    "longitude": 68.14309692382812,
-    "city": "Moenjodaro",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "MUX",
     "country_code": "PK",
     "country": "Pakistan",
@@ -18427,26 +17687,6 @@
     "latitude": 26.2194,
     "longitude": 68.390099,
     "city": "Nawabshah",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "PJG",
-    "country_code": "PK",
-    "country": "Pakistan",
-    "airport": "Panjgur Flughafen",
-    "latitude": 26.954500198364258,
-    "longitude": 64.13249969482422,
-    "city": "Panjgur",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "PSI",
-    "country_code": "PK",
-    "country": "Pakistan",
-    "airport": "Pasni Flughafen",
-    "latitude": 25.29050064086914,
-    "longitude": 63.34510040283203,
-    "city": "Pasni",
     "zipCodePilotCourt": ""
   },
   {
@@ -18480,16 +17720,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "RAZ",
-    "country_code": "PK",
-    "country": "Pakistan",
-    "airport": "Rawalakot Flughafen",
-    "latitude": 33.849700927734375,
-    "longitude": 73.79810333251953,
-    "city": "Rawala Kot",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "KDU",
     "country_code": "PK",
     "country": "Pakistan",
@@ -18507,26 +17737,6 @@
     "latitude": 27.722000122070312,
     "longitude": 68.79170227050781,
     "city": "Sukkur",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "SYW",
-    "country_code": "PK",
-    "country": "Pakistan",
-    "airport": "Sehwan Sharif Flughafen",
-    "latitude": 26.473100662231445,
-    "longitude": 67.71720123291016,
-    "city": "Sehwan",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "SDT",
-    "country_code": "PK",
-    "country": "Pakistan",
-    "airport": "Saidu Sharif Flughafen",
-    "latitude": 34.8135986328125,
-    "longitude": 72.35279846191406,
-    "city": "Saidu Sharif",
     "zipCodePilotCourt": ""
   },
   {
@@ -18670,16 +17880,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "HOD",
-    "country_code": "YE",
-    "country": "Jemen",
-    "airport": "Hodeidah International Flughafen",
-    "latitude": 14.753000259399414,
-    "longitude": 42.97629928588867,
-    "city": "Hodeidah",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "RIY",
     "country_code": "YE",
     "country": "Jemen",
@@ -18694,8 +17894,8 @@
     "country_code": "YE",
     "country": "Jemen",
     "airport": "Sanaa International Flughafen",
-    "latitude": 15.476300239562988,
-    "longitude": 44.21969985961914,
+    "latitude": 15.4763,
+    "longitude": 44.2197,
     "city": "Sana'a",
     "zipCodePilotCourt": ""
   },
@@ -18704,8 +17904,8 @@
     "country_code": "YE",
     "country": "Jemen",
     "airport": "Socotra International Flughafen",
-    "latitude": 12.63070011138916,
-    "longitude": 53.905799865722656,
+    "latitude": 12.6307,
+    "longitude": 53.9058,
     "city": "Sokotra",
     "zipCodePilotCourt": ""
   },
@@ -18727,16 +17927,6 @@
     "latitude": 13.6859998703,
     "longitude": 44.139099121099996,
     "city": "Taizz",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "OZG",
-    "country_code": "MA",
-    "country": "Marokko",
-    "airport": "Zagora Flughafen",
-    "latitude": 30.263858,
-    "longitude": -5.853341,
-    "city": "Zagora",
     "zipCodePilotCourt": ""
   },
   {
@@ -19340,26 +18530,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "OPU",
-    "country_code": "PG",
-    "country": "Papua-Neuguinea",
-    "airport": "Balimo Flughafen",
-    "latitude": -8.05000019073,
-    "longitude": 142.932998657,
-    "city": "Balimo",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "VMU",
-    "country_code": "PG",
-    "country": "Papua-Neuguinea",
-    "airport": "Baimuru Flughafen",
-    "latitude": -7.49686002731,
-    "longitude": 144.819900513,
-    "city": "Baimuru",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "ROP",
     "country_code": "MP",
     "country": "Nördliche Marianen",
@@ -19397,26 +18567,6 @@
     "latitude": 14.998101,
     "longitude": 145.61923,
     "city": "Tinian Island",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "CGY",
-    "country_code": "PH",
-    "country": "Philippinen",
-    "airport": "Laguindingan International Flughafen",
-    "latitude": 8.612203,
-    "longitude": 124.456496,
-    "city": "Cagayan de Oro",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "LLC",
-    "country_code": "PH",
-    "country": "Philippinen",
-    "airport": "Cagayan North International Flughafen",
-    "latitude": 18.182388,
-    "longitude": 121.745853,
-    "city": "Lal-lo",
     "zipCodePilotCourt": ""
   },
   {
@@ -19530,16 +18680,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "KAI",
-    "country_code": "GY",
-    "country": "Guyana",
-    "airport": "Kaieteur International Flughafen",
-    "latitude": 5.17275476456,
-    "longitude": -59.491481781,
-    "city": "Kaieteur",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "KWA",
     "country_code": "MH",
     "country": "Marshallinseln",
@@ -19644,8 +18784,8 @@
     "country_code": "TW",
     "country": "Taiwan",
     "airport": "Matsu Nangan Flughafen",
-    "latitude": 26.1598,
-    "longitude": 119.958,
+    "latitude": 26.159656,
+    "longitude": 119.958376,
     "city": "Matsu (Nangan)",
     "zipCodePilotCourt": ""
   },
@@ -19674,19 +18814,9 @@
     "country_code": "TW",
     "country": "Taiwan",
     "airport": "Chiayi Flughafen",
-    "latitude": 23.46179962158203,
-    "longitude": 120.39299774169922,
+    "latitude": 23.462577,
+    "longitude": 120.390544,
     "city": "Chiayi",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "HCN",
-    "country_code": "TW",
-    "country": "Taiwan",
-    "airport": "Hengchun Flughafen",
-    "latitude": 22.041099548339844,
-    "longitude": 120.7300033569336,
-    "city": "Hengchun",
     "zipCodePilotCourt": ""
   },
   {
@@ -19743,9 +18873,9 @@
     "iata": "PIF",
     "country_code": "TW",
     "country": "Taiwan",
-    "airport": "Pingtung North Flughafen",
-    "latitude": 22.700199127197266,
-    "longitude": 120.48200225830078,
+    "airport": "Pingtung Air Force Base North Flughafen",
+    "latitude": 22.700199,
+    "longitude": 120.482002,
     "city": "Pingtung Süd",
     "zipCodePilotCourt": ""
   },
@@ -19754,8 +18884,8 @@
     "country_code": "TW",
     "country": "Taiwan",
     "airport": "Taipei Songshan Flughafen",
-    "latitude": 25.069400787353516,
-    "longitude": 121.552001953125,
+    "latitude": 25.069401,
+    "longitude": 121.552002,
     "city": "Taipeh",
     "zipCodePilotCourt": ""
   },
@@ -20134,8 +19264,8 @@
     "country_code": "JP",
     "country": "Japan",
     "airport": "Okinoerabu Flughafen",
-    "latitude": 27.425501,
-    "longitude": 128.701004,
+    "latitude": 27.431604,
+    "longitude": 128.705564,
     "city": "Okierabu",
     "zipCodePilotCourt": ""
   },
@@ -20154,8 +19284,8 @@
     "country_code": "JP",
     "country": "Japan",
     "airport": "Tokunoshima Flughafen",
-    "latitude": 27.836399,
-    "longitude": 128.880997,
+    "latitude": 27.836382,
+    "longitude": 128.881356,
     "city": "Tokunoshima",
     "zipCodePilotCourt": ""
   },
@@ -20650,6 +19780,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "ISG",
+    "country_code": "JP",
+    "country": "Japan",
+    "airport": "New Ishigaki Flughafen",
+    "latitude": 24.396389,
+    "longitude": 124.245,
+    "city": "Ishigaki",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "UEO",
     "country_code": "JP",
     "country": "Japan",
@@ -20674,8 +19814,8 @@
     "country_code": "JP",
     "country": "Japan",
     "airport": "Miyako Flughafen",
-    "latitude": 24.782800674399997,
-    "longitude": 125.294998169,
+    "latitude": 24.782801,
+    "longitude": 125.294998,
     "city": "Miyakojima",
     "zipCodePilotCourt": ""
   },
@@ -20690,12 +19830,22 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "SHI",
+    "country_code": "JP",
+    "country": "Japan",
+    "airport": "Shimojishima Flughafen",
+    "latitude": 24.8267,
+    "longitude": 125.144997,
+    "city": "Miyakojima",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "TRA",
     "country_code": "JP",
     "country": "Japan",
     "airport": "Tarama Flughafen",
-    "latitude": 24.653900146499996,
-    "longitude": 124.675003052,
+    "latitude": 24.653793,
+    "longitude": 124.675453,
     "city": "Tarama",
     "zipCodePilotCourt": ""
   },
@@ -20704,8 +19854,8 @@
     "country_code": "JP",
     "country": "Japan",
     "airport": "Yoron Flughafen",
-    "latitude": 27.044001,
-    "longitude": 128.401993,
+    "latitude": 27.043847,
+    "longitude": 128.401648,
     "city": "Yoron",
     "zipCodePilotCourt": ""
   },
@@ -20747,6 +19897,16 @@
     "latitude": 18.176121,
     "longitude": 120.531034,
     "city": "Laoag",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "DRP",
+    "country_code": "PH",
+    "country": "Philippinen",
+    "airport": "Bicol International Flughafen",
+    "latitude": 13.111915,
+    "longitude": 123.676829,
+    "city": "Legazpi",
     "zipCodePilotCourt": ""
   },
   {
@@ -20814,8 +19974,8 @@
     "country_code": "PH",
     "country": "Philippinen",
     "airport": "Jolo Flughafen",
-    "latitude": 6.0536699295043945,
-    "longitude": 121.01100158691406,
+    "latitude": 6.05367,
+    "longitude": 121.011002,
     "city": "Jolo",
     "zipCodePilotCourt": ""
   },
@@ -20870,13 +20030,13 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "TDG",
+    "iata": "CGY",
     "country_code": "PH",
     "country": "Philippinen",
-    "airport": "Tandag Flughafen",
-    "latitude": 9.072002,
-    "longitude": 126.17132,
-    "city": "Tandag",
+    "airport": "Laguindingan International Flughafen",
+    "latitude": 8.612203,
+    "longitude": 124.456496,
+    "city": "Cagayan de Oro",
     "zipCodePilotCourt": ""
   },
   {
@@ -20884,8 +20044,8 @@
     "country_code": "PH",
     "country": "Philippinen",
     "airport": "Zamboanga International Flughafen",
-    "latitude": 6.922420024871826,
-    "longitude": 122.05999755859375,
+    "latitude": 6.92242,
+    "longitude": 122.059998,
     "city": "Zamboanga",
     "zipCodePilotCourt": ""
   },
@@ -20904,8 +20064,8 @@
     "country_code": "PH",
     "country": "Philippinen",
     "airport": "Loakan Flughafen",
-    "latitude": 16.375099182128906,
-    "longitude": 120.62000274658203,
+    "latitude": 16.375034,
+    "longitude": 120.619949,
     "city": "Baguio",
     "zipCodePilotCourt": ""
   },
@@ -20937,26 +20097,6 @@
     "latitude": 20.4513,
     "longitude": 121.980003,
     "city": "Basco",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "BQA",
-    "country_code": "PH",
-    "country": "Philippinen",
-    "airport": "Dr Juan C Angara Flughafen",
-    "latitude": 15.729309,
-    "longitude": 121.500034,
-    "city": "Ballenpresse",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "SFE",
-    "country_code": "PH",
-    "country": "Philippinen",
-    "airport": "San Fernando Flughafen",
-    "latitude": 16.595600128173828,
-    "longitude": 120.3030014038086,
-    "city": "San Fernando",
     "zipCodePilotCourt": ""
   },
   {
@@ -21014,8 +20154,8 @@
     "country_code": "PH",
     "country": "Philippinen",
     "airport": "Calbayog Flughafen",
-    "latitude": 12.072699546813965,
-    "longitude": 124.54499816894531,
+    "latitude": 12.072574,
+    "longitude": 124.54508,
     "city": "Calbayog",
     "zipCodePilotCourt": ""
   },
@@ -21140,13 +20280,13 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "GRV",
+    "iata": "EIK",
     "country_code": "RU",
     "country": "Russische Föderation",
-    "airport": "Grozny Flughafen",
-    "latitude": 43.388106,
-    "longitude": 45.699772,
-    "city": "Grosny",
+    "airport": "Yeysk Flughafen",
+    "latitude": 46.68,
+    "longitude": 38.21,
+    "city": "Yeysk",
     "zipCodePilotCourt": ""
   },
   {
@@ -21323,7 +20463,7 @@
     "iata": "FMA",
     "country_code": "AR",
     "country": "Argentinien",
-    "airport": "Aeropuerto Nacional de Formosa Flughafen",
+    "airport": "Formosa National Flughafen",
     "latitude": -26.2127,
     "longitude": -58.2281,
     "city": "Formosa",
@@ -21370,16 +20510,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "TTG",
-    "country_code": "AR",
-    "country": "Argentinien",
-    "airport": "General Enrique Mosconi Flughafen",
-    "latitude": -22.6196,
-    "longitude": -63.793701,
-    "city": "Tartagal",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "CRD",
     "country_code": "AR",
     "country": "Argentinien",
@@ -21393,9 +20523,9 @@
     "iata": "EQS",
     "country_code": "AR",
     "country": "Argentinien",
-    "airport": "Brigadier Antonio Parodi Flughafen",
-    "latitude": -42.908000946,
-    "longitude": -71.139503479,
+    "airport": "Esquel Brigadier Antonio Parodi International Flughafen",
+    "latitude": -42.908001,
+    "longitude": -71.139503,
     "city": "Esquel",
     "zipCodePilotCourt": ""
   },
@@ -21483,40 +20613,20 @@
     "iata": "USH",
     "country_code": "AR",
     "country": "Argentinien",
-    "airport": "Malvinas Argentinas Flughafen",
+    "airport": "Ushuaia - Malvinas Argentinas International Flughafen",
     "latitude": -54.8433,
     "longitude": -68.2958,
     "city": "Ushuaia",
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "ULA",
-    "country_code": "AR",
-    "country": "Argentinien",
-    "airport": "Capitan D Daniel Vazquez Flughafen",
-    "latitude": -49.306816,
-    "longitude": -67.802596,
-    "city": "San Julian",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "PMQ",
     "country_code": "AR",
     "country": "Argentinien",
-    "airport": "Perito Moreno Flughafen",
+    "airport": "Perito Moreno Jalil Hamer Flughafen",
     "latitude": -46.537899,
     "longitude": -70.978699,
     "city": "Perito Moreno",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "RZA",
-    "country_code": "AR",
-    "country": "Argentinien",
-    "airport": "Santa Cruz Flughafen",
-    "latitude": -50.0165,
-    "longitude": -68.5792,
-    "city": "Puerto Santa Cruz",
     "zipCodePilotCourt": ""
   },
   {
@@ -21583,7 +20693,7 @@
     "iata": "BRC",
     "country_code": "AR",
     "country": "Argentinien",
-    "airport": "San Carlos De Bariloche Flughafen",
+    "airport": "San Carlos de Bariloche Flughafen",
     "latitude": -41.151199,
     "longitude": -71.157501,
     "city": "San Carlos Bariloche",
@@ -21597,6 +20707,16 @@
     "latitude": -40.075401,
     "longitude": -71.137299,
     "city": "San Martin los Andes",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "JTC",
+    "country_code": "BR",
+    "country": "Brasilien",
+    "airport": "Bauru/Arealva–Moussa Nakhal Tobias State Flughafen",
+    "latitude": -22.160755,
+    "longitude": -49.070325,
+    "city": "Bauru",
     "zipCodePilotCourt": ""
   },
   {
@@ -21950,6 +21070,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "JJD",
+    "country_code": "BR",
+    "country": "Brasilien",
+    "airport": "Comandante Ariston Pessoa Flughafen",
+    "latitude": -2.906425,
+    "longitude": -40.357338,
+    "city": "Cruz",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "JDF",
     "country_code": "BR",
     "country": "Brasilien",
@@ -22013,9 +21143,9 @@
     "iata": "LDB",
     "country_code": "BR",
     "country": "Brasilien",
-    "airport": "Governador José Richa Flughafen",
-    "latitude": -23.333599,
-    "longitude": -51.1301,
+    "airport": "Governor José Richa Flughafen",
+    "latitude": -23.334375,
+    "longitude": -51.128365,
     "city": "Londrina",
     "zipCodePilotCourt": ""
   },
@@ -22027,26 +21157,6 @@
     "latitude": -5.36859,
     "longitude": -49.138,
     "city": "Maraba",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "MEU",
-    "country_code": "BR",
-    "country": "Brasilien",
-    "airport": "Monte Dourado - Serra do Areão Flughafen",
-    "latitude": -0.889839,
-    "longitude": -52.6022,
-    "city": "Monte Dourado",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "MEA",
-    "country_code": "BR",
-    "country": "Brasilien",
-    "airport": "Macaé Benedito Lacerda Flughafen",
-    "latitude": -22.343,
-    "longitude": -41.765999,
-    "city": "Macae",
     "zipCodePilotCourt": ""
   },
   {
@@ -22170,6 +21280,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "PGZ",
+    "country_code": "BR",
+    "country": "Brasilien",
+    "airport": "Ponta Grossa Flughafen",
+    "latitude": -25.184476,
+    "longitude": -50.143822,
+    "city": "Ponta Grossa",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "PMW",
     "country_code": "BR",
     "country": "Brasilien",
@@ -22237,6 +21357,16 @@
     "latitude": -9.869031,
     "longitude": -67.893984,
     "city": "Rio Branco",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "ROO",
+    "country_code": "BR",
+    "country": "Brasilien",
+    "airport": "Maestro Marinho Franco Flughafen",
+    "latitude": -16.584292,
+    "longitude": -54.724803,
+    "city": "Rondonopolis",
     "zipCodePilotCourt": ""
   },
   {
@@ -22444,8 +21574,8 @@
     "country_code": "BR",
     "country": "Brasilien",
     "airport": "Mário de Almeida Franco Flughafen",
-    "latitude": -19.764722824097,
-    "longitude": -47.966110229492,
+    "latitude": -19.765036,
+    "longitude": -47.964805,
     "city": "Uberaba",
     "zipCodePilotCourt": ""
   },
@@ -22593,7 +21723,7 @@
     "iata": "ZOS",
     "country_code": "CL",
     "country": "Chile",
-    "airport": "Cañal Bajo Carlos - Hott Siebert Flughafen",
+    "airport": "Cañal Bajo Carlos Hott Siebert Flughafen",
     "latitude": -40.611198,
     "longitude": -73.060997,
     "city": "Osorno",
@@ -22773,9 +21903,9 @@
     "iata": "ENO",
     "country_code": "PY",
     "country": "Paraguay",
-    "airport": "Aeropuerto Internacional Tte. Amin Ayub González Flughafen",
-    "latitude": -27.221691,
-    "longitude": -55.833807,
+    "airport": "Lieutenant Amin Ayub González International Flughafen",
+    "latitude": -27.227537,
+    "longitude": -55.837584,
     "city": "Encarnación",
     "zipCodePilotCourt": ""
   },
@@ -22783,20 +21913,10 @@
     "iata": "AGT",
     "country_code": "PY",
     "country": "Paraguay",
-    "airport": "Aeropuerto Internacional Guaraní Flughafen",
+    "airport": "Guaraní International Flughafen",
     "latitude": -25.457186,
     "longitude": -54.839544,
     "city": "Ciudad del Este",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "JTC",
-    "country_code": "BR",
-    "country": "Brasilien",
-    "airport": "Bauru/Arealva–Moussa Nakhal Tobias State Flughafen",
-    "latitude": -22.160755,
-    "longitude": -49.070325,
-    "city": "Bauru",
     "zipCodePilotCourt": ""
   },
   {
@@ -22994,8 +22114,8 @@
     "country_code": "CO",
     "country": "Kolumbien",
     "airport": "Enrique Olaya Herrera Flughafen",
-    "latitude": 6.220549,
-    "longitude": -75.590582,
+    "latitude": 6.219686,
+    "longitude": -75.590597,
     "city": "Medellin",
     "zipCodePilotCourt": ""
   },
@@ -23213,7 +22333,7 @@
     "iata": "EYP",
     "country_code": "CO",
     "country": "Kolumbien",
-    "airport": "El Yopal Flughafen",
+    "airport": "El Alcaravan - Yopal Flughafen",
     "latitude": 5.31911,
     "longitude": -72.384,
     "city": "Yopal",
@@ -23434,8 +22554,8 @@
     "country_code": "PE",
     "country": "Peru",
     "airport": "Mayor General FAP Armando Revoredo Iglesias Flughafen",
-    "latitude": -7.1391801834106445,
-    "longitude": -78.4894027709961,
+    "latitude": -7.13918,
+    "longitude": -78.489403,
     "city": "Cajamarca",
     "zipCodePilotCourt": ""
   },
@@ -23464,8 +22584,8 @@
     "country_code": "PE",
     "country": "Peru",
     "airport": "Moises Benzaquen Rengifo Flughafen",
-    "latitude": -5.893770217895508,
-    "longitude": -76.11820220947266,
+    "latitude": -5.89377,
+    "longitude": -76.118202,
     "city": "Yurimaguas",
     "zipCodePilotCourt": ""
   },
@@ -23590,36 +22710,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "SQD",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Shangrao Sanqingshan Flughafen",
-    "latitude": 28.3797,
-    "longitude": 117.9643,
-    "city": "Shangrao",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "SQJ",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Sanming Shaxian Flughafen",
-    "latitude": 26.4263,
-    "longitude": 117.8336,
-    "city": "Sanming",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "PGZ",
-    "country_code": "BR",
-    "country": "Brasilien",
-    "airport": "Ponta Grossa Flughafen",
-    "latitude": -25.184476,
-    "longitude": -50.143822,
-    "city": "Ponta Grossa",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "PDP",
     "country_code": "UY",
     "country": "Uruguay",
@@ -23637,16 +22727,6 @@
     "latitude": -34.835647,
     "longitude": -56.026497,
     "city": "Montevideo",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "AGV",
-    "country_code": "VE",
-    "country": "Venezuela",
-    "airport": "Oswaldo Guevara Mujica Flughafen",
-    "latitude": 9.553375,
-    "longitude": -69.237869,
-    "city": "Acarigua",
     "zipCodePilotCourt": ""
   },
   {
@@ -23677,16 +22757,6 @@
     "latitude": 10.042747,
     "longitude": -69.35862,
     "city": "Barquisimeto",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "MYC",
-    "country_code": "VE",
-    "country": "Venezuela",
-    "airport": "Escuela Mariscal Sucre Flughafen",
-    "latitude": 10.249978065490723,
-    "longitude": -67.64942169189453,
-    "city": "Maracay",
     "zipCodePilotCourt": ""
   },
   {
@@ -23750,16 +22820,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "MRD",
-    "country_code": "VE",
-    "country": "Venezuela",
-    "airport": "Alberto Carnevalli Flughafen",
-    "latitude": 8.582078,
-    "longitude": -71.161041,
-    "city": "Merida",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "PMV",
     "country_code": "VE",
     "country": "Venezuela",
@@ -23773,7 +22833,7 @@
     "iata": "CCS",
     "country_code": "VE",
     "country": "Venezuela",
-    "airport": "Simón Bolívar International Flughafen",
+    "airport": "Maiquetía Simón Bolívar International Flughafen",
     "latitude": 10.601194,
     "longitude": -66.991222,
     "city": "Caracas",
@@ -23787,16 +22847,6 @@
     "latitude": 9.749023,
     "longitude": -63.153348,
     "city": "Maturin",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "PYH",
-    "country_code": "VE",
-    "country": "Venezuela",
-    "airport": "Cacique Aramare Flughafen",
-    "latitude": 5.6199898719788,
-    "longitude": -67.606101989746,
-    "city": "Puerto Ayacucho",
     "zipCodePilotCourt": ""
   },
   {
@@ -23880,16 +22930,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "ROO",
-    "country_code": "BR",
-    "country": "Brasilien",
-    "airport": "Maestro Marinho Franco Flughafen",
-    "latitude": -16.584292,
-    "longitude": -54.724803,
-    "city": "Rondonopolis",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "GEO",
     "country_code": "GY",
     "country": "Guyana",
@@ -23910,6 +22950,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "KAI",
+    "country_code": "GY",
+    "country": "Guyana",
+    "airport": "Kaieteur International Flughafen",
+    "latitude": 5.17275476456,
+    "longitude": -59.491481781,
+    "city": "Kaieteur",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "LTM",
     "country_code": "GY",
     "country": "Guyana",
@@ -23917,16 +22967,6 @@
     "latitude": 3.37276,
     "longitude": -59.789398,
     "city": "Lethem",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "TAO",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Qingdao Jiaodong International Flughafen",
-    "latitude": 36.361953,
-    "longitude": 120.088171,
-    "city": "Qingdao",
     "zipCodePilotCourt": ""
   },
   {
@@ -23993,9 +23033,9 @@
     "iata": "SFG",
     "country_code": "MF",
     "country": "Saint-Martin",
-    "airport": "Grand Case-Espérance Flughafen",
-    "latitude": 18.099899,
-    "longitude": -63.047199,
+    "airport": "Grand Case-lEspérance Flughafen",
+    "latitude": 18.100057,
+    "longitude": -63.047444,
     "city": "Grand Case",
     "zipCodePilotCourt": ""
   },
@@ -24003,10 +23043,10 @@
     "iata": "SBH",
     "country_code": "BL",
     "country": "Saint-Barthélemy",
-    "airport": "Saint Barthélemy - Rémy de Haenen Flughafen",
+    "airport": "Saint Barthélemy - Gustaf III Flughafen",
     "latitude": 17.9044,
     "longitude": -62.843601,
-    "city": "Gustavia / Saint-Jean",
+    "city": "Gustavia",
     "zipCodePilotCourt": ""
   },
   {
@@ -24016,14 +23056,14 @@
     "airport": "Marie-Galante Flughafen",
     "latitude": 15.868925,
     "longitude": -61.270087,
-    "city": "Grand Bourg",
+    "city": "Grand-Bourg",
     "zipCodePilotCourt": ""
   },
   {
     "iata": "PTP",
     "country_code": "GP",
     "country": "Guadeloupe",
-    "airport": "Pointe-à-Pitre Le Raizet International  Flughafen",
+    "airport": "Guadeloupe - Maryse Condé International Flughafen",
     "latitude": 16.265301,
     "longitude": -61.531799,
     "city": "Pointe-à-Pitre",
@@ -24054,8 +23094,8 @@
     "country_code": "VI",
     "country": "Amerikanische Jungferninseln",
     "airport": "Henry E Rohlsen Flughafen",
-    "latitude": 17.701567,
-    "longitude": -64.801634,
+    "latitude": 17.701413,
+    "longitude": -64.802608,
     "city": "Christiansted",
     "zipCodePilotCourt": ""
   },
@@ -24196,7 +23236,7 @@
     "airport": "Flamingo International Flughafen",
     "latitude": 12.131,
     "longitude": -68.268501,
-    "city": "Kralendijk, Bonaire",
+    "city": "Kralendijk",
     "zipCodePilotCourt": ""
   },
   {
@@ -24214,9 +23254,9 @@
     "country_code": "BQ",
     "country": "Bonaire",
     "airport": "F. D. Roosevelt Flughafen",
-    "latitude": 17.49650001525879,
-    "longitude": -62.979400634765625,
-    "city": "Sint Eustatius",
+    "latitude": 17.4965,
+    "longitude": -62.979401,
+    "city": "Oranjestad",
     "zipCodePilotCourt": ""
   },
   {
@@ -24226,7 +23266,7 @@
     "airport": "Princess Juliana International Flughafen",
     "latitude": 18.041,
     "longitude": -63.108898,
-    "city": "Saint Martin",
+    "city": "Sint Maarten",
     "zipCodePilotCourt": ""
   },
   {
@@ -24236,7 +23276,7 @@
     "airport": "Juancho E. Yrausquin Flughafen",
     "latitude": 17.645351,
     "longitude": -63.220571,
-    "city": "Saba",
+    "city": "Zions Hill",
     "zipCodePilotCourt": ""
   },
   {
@@ -24286,7 +23326,7 @@
     "airport": "Terrance B. Lettsome International Flughafen",
     "latitude": 18.445492,
     "longitude": -64.541707,
-    "city": "Road Town",
+    "city": "Beef Island",
     "zipCodePilotCourt": ""
   },
   {
@@ -24297,6 +23337,16 @@
     "latitude": 13.156695,
     "longitude": -61.149945,
     "city": "Kingstown",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "BQU",
+    "country_code": "VC",
+    "country": "St. Vincent und die Grenadinen",
+    "airport": "J F Mitchell Flughafen",
+    "latitude": 12.9884,
+    "longitude": -61.262001,
+    "city": "Bequia",
     "zipCodePilotCourt": ""
   },
   {
@@ -24316,7 +23366,7 @@
     "airport": "Mustique Flughafen",
     "latitude": 12.8879,
     "longitude": -61.180199,
-    "city": "Mustique Island",
+    "city": "Lovell",
     "zipCodePilotCourt": ""
   },
   {
@@ -24410,16 +23460,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "IKU",
-    "country_code": "KG",
-    "country": "Kirgisistan",
-    "airport": "Issyk-Kul International Flughafen",
-    "latitude": 42.585584,
-    "longitude": 76.701181,
-    "city": "Tamchy",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "FRU",
     "country_code": "KG",
     "country": "Kirgisistan",
@@ -24434,8 +23474,8 @@
     "country_code": "KG",
     "country": "Kirgisistan",
     "airport": "Osh Flughafen",
-    "latitude": 40.6090011597,
-    "longitude": 72.793296814,
+    "latitude": 40.609001,
+    "longitude": 72.793297,
     "city": "Osh Flughafen",
     "zipCodePilotCourt": ""
   },
@@ -24600,6 +23640,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "IKU",
+    "country_code": "KG",
+    "country": "Kirgisistan",
+    "airport": "Issyk-Kul International Flughafen",
+    "latitude": 42.585584,
+    "longitude": 76.701181,
+    "city": "Tamchy",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "LWN",
     "country_code": "AM",
     "country": "Armenien",
@@ -24664,8 +23714,8 @@
     "country_code": "RU",
     "country": "Russische Föderation",
     "airport": "Ust-Nera Flughafen",
-    "latitude": 64.550003051758,
-    "longitude": 143.11500549316,
+    "latitude": 64.550003,
+    "longitude": 143.115005,
     "city": "Ust-Nera",
     "zipCodePilotCourt": ""
   },
@@ -24767,6 +23817,16 @@
     "latitude": 65.7485,
     "longitude": 150.8889,
     "city": "Zyryanka",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "ZIX",
+    "country_code": "RU",
+    "country": "Russische Föderation",
+    "airport": "Zhigansk Flughafen",
+    "latitude": 66.7965011597,
+    "longitude": 123.361000061,
+    "city": "Zhigansk",
     "zipCodePilotCourt": ""
   },
   {
@@ -25044,8 +24104,8 @@
     "country_code": "UA",
     "country": "Ukraine",
     "airport": "Kharkiv International Flughafen",
-    "latitude": 49.924801,
-    "longitude": 36.290001,
+    "latitude": 49.926943,
+    "longitude": 36.290814,
     "city": "Charkiw",
     "zipCodePilotCourt": ""
   },
@@ -25160,16 +24220,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "CEE",
-    "country_code": "RU",
-    "country": "Russische Föderation",
-    "airport": "Cherepovets Flughafen",
-    "latitude": 59.273601532,
-    "longitude": 38.015800476100004,
-    "city": "Tscherepowez",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "AMV",
     "country_code": "RU",
     "country": "Russische Föderation",
@@ -25177,16 +24227,6 @@
     "latitude": 69.76329803466797,
     "longitude": 61.556400299072266,
     "city": "Amderma",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "ULH",
-    "country_code": "SA",
-    "country": "Saudi-Arabien",
-    "airport": "Majeed Bin Abdulaziz Flughafen",
-    "latitude": 26.48,
-    "longitude": 38.128889,
-    "city": "AlUla",
     "zipCodePilotCourt": ""
   },
   {
@@ -25240,6 +24280,26 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "CEE",
+    "country_code": "RU",
+    "country": "Russische Föderation",
+    "airport": "Cherepovets Flughafen",
+    "latitude": 59.273601532,
+    "longitude": 38.015800476100004,
+    "city": "Tscherepowez",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "VUS",
+    "country_code": "RU",
+    "country": "Russische Föderation",
+    "airport": "Velikiy Ustyug Flughafen",
+    "latitude": 60.7883,
+    "longitude": 46.259998,
+    "city": "Velikiy Ustyug",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "BQT",
     "country_code": "BY",
     "country": "Belarus",
@@ -25267,16 +24327,6 @@
     "latitude": 54.88999938964844,
     "longitude": 20.592599868774414,
     "city": "Kaliningrad",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "GNA",
-    "country_code": "BY",
-    "country": "Belarus",
-    "airport": "Hrodna Flughafen",
-    "latitude": 53.60200119018555,
-    "longitude": 24.053800582885742,
-    "city": "Grodno",
     "zipCodePilotCourt": ""
   },
   {
@@ -25470,16 +24520,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "EIK",
-    "country_code": "RU",
-    "country": "Russische Föderation",
-    "airport": "Yeysk Flughafen",
-    "latitude": 46.68,
-    "longitude": 38.21,
-    "city": "Yeysk",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "GDZ",
     "country_code": "RU",
     "country": "Russische Föderation",
@@ -25497,6 +24537,16 @@
     "latitude": 45.034698,
     "longitude": 39.170502,
     "city": "Krasnodar",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "GRV",
+    "country_code": "RU",
+    "country": "Russische Föderation",
+    "airport": "Grozny Flughafen",
+    "latitude": 43.388106,
+    "longitude": 45.699772,
+    "city": "Grosny",
     "zipCodePilotCourt": ""
   },
   {
@@ -25620,16 +24670,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "XWA",
-    "country_code": "US",
-    "country": "Vereinigte Staaten von Amerika",
-    "airport": "Williston Basin International Flughafen",
-    "latitude": 48.258387,
-    "longitude": -103.748797,
-    "city": "Williston",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "CEK",
     "country_code": "RU",
     "country": "Russische Föderation",
@@ -25700,6 +24740,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "EYK",
+    "country_code": "RU",
+    "country": "Russische Föderation",
+    "airport": "Beloyarskiy Flughafen",
+    "latitude": 63.686901,
+    "longitude": 66.698601,
+    "city": "Beloyarsky",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "OVS",
     "country_code": "RU",
     "country": "Russische Föderation",
@@ -25717,16 +24767,6 @@
     "latitude": 60.103298,
     "longitude": 64.826698,
     "city": "Uray",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "EYK",
-    "country_code": "RU",
-    "country": "Russische Föderation",
-    "airport": "Beloyarskiy Flughafen",
-    "latitude": 63.686901,
-    "longitude": 66.698601,
-    "city": "Beloyarsky",
     "zipCodePilotCourt": ""
   },
   {
@@ -25923,9 +24963,9 @@
     "iata": "DYU",
     "country_code": "TJ",
     "country": "Tadschikistan",
-    "airport": "Dushanbe Flughafen",
-    "latitude": 38.543301,
-    "longitude": 68.824997,
+    "airport": "Dushanbe International Flughafen",
+    "latitude": 38.543746,
+    "longitude": 68.822977,
     "city": "Duschanbe",
     "zipCodePilotCourt": ""
   },
@@ -26223,9 +25263,9 @@
     "iata": "GOJ",
     "country_code": "RU",
     "country": "Russische Föderation",
-    "airport": "Nizhny Novgorod Strigino International Flughafen",
-    "latitude": 56.230098724365,
-    "longitude": 43.784000396729,
+    "airport": "Nizhny Novgorod / Strigino International Flughafen",
+    "latitude": 56.228254,
+    "longitude": 43.785197,
     "city": "Nishnij Nowgorod",
     "zipCodePilotCourt": ""
   },
@@ -26244,8 +25284,8 @@
     "country_code": "RU",
     "country": "Russische Föderation",
     "airport": "Kazan International Flughafen",
-    "latitude": 55.606201171875,
-    "longitude": 49.278701782227,
+    "latitude": 55.606201,
+    "longitude": 49.278702,
     "city": "Kasan",
     "zipCodePilotCourt": ""
   },
@@ -26254,19 +25294,9 @@
     "country_code": "RU",
     "country": "Russische Föderation",
     "airport": "Begishevo Flughafen",
-    "latitude": 55.564701080322266,
-    "longitude": 52.092498779296875,
+    "latitude": 55.564701,
+    "longitude": 52.092499,
     "city": "Nizhnekamsk",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "JOK",
-    "country_code": "RU",
-    "country": "Russische Föderation",
-    "airport": "Yoshkar-Ola Flughafen",
-    "latitude": 56.700599670410156,
-    "longitude": 47.904701232910156,
-    "city": "Yoshkar-Ola",
     "zipCodePilotCourt": ""
   },
   {
@@ -26274,19 +25304,9 @@
     "country_code": "RU",
     "country": "Russische Föderation",
     "airport": "Cheboksary Flughafen",
-    "latitude": 56.090301513671875,
-    "longitude": 47.3473014831543,
+    "latitude": 56.090302,
+    "longitude": 47.347301,
     "city": "Tscheboksary",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "ZIX",
-    "country_code": "RU",
-    "country": "Russische Föderation",
-    "airport": "Zhigansk Flughafen",
-    "latitude": 66.7965011597,
-    "longitude": 123.361000061,
-    "city": "Zhigansk",
     "zipCodePilotCourt": ""
   },
   {
@@ -26440,16 +25460,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "PAB",
-    "country_code": "IN",
-    "country": "Indien",
-    "airport": "Bilaspur Flughafen",
-    "latitude": 21.9884,
-    "longitude": 82.111,
-    "city": "Bilaspur",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "BHJ",
     "country_code": "IN",
     "country": "Indien",
@@ -26497,16 +25507,6 @@
     "latitude": 21.752199173,
     "longitude": 72.1852035522,
     "city": "Bhavnagar",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "GOI",
-    "country_code": "IN",
-    "country": "Indien",
-    "airport": "Dabolim Flughafen",
-    "latitude": 15.3808,
-    "longitude": 73.831398,
-    "city": "Tura",
     "zipCodePilotCourt": ""
   },
   {
@@ -26587,6 +25587,16 @@
     "latitude": 21.317101,
     "longitude": 70.270401,
     "city": "Keshod",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "LTU",
+    "country_code": "IN",
+    "country": "Indien",
+    "airport": "Murod Kond Flughafen",
+    "latitude": 18.411501,
+    "longitude": 76.464699,
+    "city": "Latur",
     "zipCodePilotCourt": ""
   },
   {
@@ -26744,8 +25754,8 @@
     "country_code": "LK",
     "country": "Sri Lanka",
     "airport": "China Bay Flughafen",
-    "latitude": 8.5385103225708,
-    "longitude": 81.18190002441406,
+    "latitude": 8.539159,
+    "longitude": 81.18128,
     "city": "Trincomalee",
     "zipCodePilotCourt": ""
   },
@@ -26790,16 +25800,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "DBR",
-    "country_code": "IN",
-    "country": "Indien",
-    "airport": "Darbhanga Flughafen",
-    "latitude": 26.192801,
-    "longitude": 85.916901,
-    "city": "Darbhanga",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "IXA",
     "country_code": "IN",
     "country": "Indien",
@@ -26830,6 +25830,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "VNS",
+    "country_code": "IN",
+    "country": "Indien",
+    "airport": "Lal Bahadur Shastri Flughafen",
+    "latitude": 25.452129,
+    "longitude": 82.861805,
+    "city": "Varanasi",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "BBI",
     "country_code": "IN",
     "country": "Indien",
@@ -26837,6 +25847,16 @@
     "latitude": 20.244400024399997,
     "longitude": 85.8178024292,
     "city": "Bhubaneshwar",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "PAB",
+    "country_code": "IN",
+    "country": "Indien",
+    "airport": "Bilaspur Flughafen",
+    "latitude": 21.9884,
+    "longitude": 82.111,
+    "city": "Bilaspur",
     "zipCodePilotCourt": ""
   },
   {
@@ -26857,6 +25877,16 @@
     "latitude": 23.6225,
     "longitude": 87.243,
     "city": "Durgapur",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "DBR",
+    "country_code": "IN",
+    "country": "Indien",
+    "airport": "Darbhanga Flughafen",
+    "latitude": 26.192801,
+    "longitude": 85.916901,
+    "city": "Darbhanga",
     "zipCodePilotCourt": ""
   },
   {
@@ -27030,6 +26060,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "DAC",
+    "country_code": "BD",
+    "country": "Bangladesch",
+    "airport": "Hazrat Shahjalal International Flughafen",
+    "latitude": 23.843347,
+    "longitude": 90.397783,
+    "city": "Dhaka",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "JSR",
     "country_code": "BD",
     "country": "Bangladesch",
@@ -27070,16 +26110,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "DAC",
-    "country_code": "BD",
-    "country": "Bangladesch",
-    "airport": "Hazrat Shahjalal International Flughafen",
-    "latitude": 23.843347,
-    "longitude": 90.397783,
-    "city": "Dhaka",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "HKG",
     "country_code": "HK",
     "country": "Hongkong",
@@ -27117,16 +26147,6 @@
     "latitude": 31.7096,
     "longitude": 74.797302,
     "city": "Amritsar",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "VNS",
-    "country_code": "IN",
-    "country": "Indien",
-    "airport": "Lal Bahadur Shastri Flughafen",
-    "latitude": 25.452129,
-    "longitude": 82.861805,
-    "city": "Varanasi",
     "zipCodePilotCourt": ""
   },
   {
@@ -27280,6 +26300,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "MZS",
+    "country_code": "IN",
+    "country": "Indien",
+    "airport": "Moradabad Flughafen",
+    "latitude": 28.81746,
+    "longitude": 78.92187,
+    "city": "Moradabad",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "IXP",
     "country_code": "IN",
     "country": "Indien",
@@ -27350,16 +26380,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "VDH",
-    "country_code": "VN",
-    "country": "Vietnam",
-    "airport": "Dong Hoi Flughafen",
-    "latitude": 17.515,
-    "longitude": 106.590556,
-    "city": "Dong Hoi",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "BWA",
     "country_code": "NP",
     "country": "Nepal",
@@ -27420,16 +26440,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "LTU",
-    "country_code": "IN",
-    "country": "Indien",
-    "airport": "Murod Kond Flughafen",
-    "latitude": 18.411501,
-    "longitude": 76.464699,
-    "city": "Latur",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "AGX",
     "country_code": "IN",
     "country": "Indien",
@@ -27474,8 +26484,8 @@
     "country_code": "IN",
     "country": "Indien",
     "airport": "Cochin International Flughafen",
-    "latitude": 10.152,
-    "longitude": 76.401901,
+    "latitude": 10.151047,
+    "longitude": 76.400838,
     "city": "Kochi",
     "zipCodePilotCourt": ""
   },
@@ -27497,6 +26507,26 @@
     "latitude": 14.513154,
     "longitude": 78.769183,
     "city": "Cuddapah",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "GOX",
+    "country_code": "IN",
+    "country": "Indien",
+    "airport": "Manohar International Flughafen",
+    "latitude": 15.744257,
+    "longitude": 73.860625,
+    "city": "Goa",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "GOI",
+    "country_code": "IN",
+    "country": "Indien",
+    "airport": "Dabolim Flughafen",
+    "latitude": 15.3808,
+    "longitude": 73.831398,
+    "city": "Tura",
     "zipCodePilotCourt": ""
   },
   {
@@ -27693,7 +26723,7 @@
     "iata": "VAM",
     "country_code": "MV",
     "country": "Malediven",
-    "airport": "Villa Flughafen",
+    "airport": "Villa International Flughafen",
     "latitude": 3.470556,
     "longitude": 72.835833,
     "city": "Maamigili-Insel",
@@ -28100,11 +27130,21 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "VDH",
+    "country_code": "VN",
+    "country": "Vietnam",
+    "airport": "Dong Hoi Flughafen",
+    "latitude": 17.515,
+    "longitude": 106.590556,
+    "city": "Dong Hoi",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "DLI",
     "country_code": "VN",
     "country": "Vietnam",
     "airport": "Lien Khuong Flughafen",
-    "latitude": 11.75,
+    "latitude": 11.750556,
     "longitude": 108.366997,
     "city": "Da Lat",
     "zipCodePilotCourt": ""
@@ -28230,16 +27270,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "NYT",
-    "country_code": "MM",
-    "country": "Myanmar",
-    "airport": "Nay Pyi Taw International Flughafen",
-    "latitude": 19.623501,
-    "longitude": 96.200996,
-    "city": "Nay Pyi Taw",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "KET",
     "country_code": "MM",
     "country": "Myanmar",
@@ -28330,6 +27360,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "NYT",
+    "country_code": "MM",
+    "country": "Myanmar",
+    "airport": "Nay Pyi Taw International Flughafen",
+    "latitude": 19.623501,
+    "longitude": 96.200996,
+    "city": "Nay Pyi Taw",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "PBU",
     "country_code": "MM",
     "country": "Myanmar",
@@ -28413,9 +27453,9 @@
     "iata": "DPS",
     "country_code": "ID",
     "country": "Indonesien",
-    "airport": "Ngurah Rai (Bali) International Flughafen",
-    "latitude": -8.74817,
-    "longitude": 115.167,
+    "airport": "Denpasar I Gusti Ngurah Rai International Flughafen",
+    "latitude": -8.748409,
+    "longitude": 115.167123,
     "city": "Denpasar-Bali",
     "zipCodePilotCourt": ""
   },
@@ -28424,9 +27464,19 @@
     "country_code": "ID",
     "country": "Indonesien",
     "airport": "Lombok International Flughafen",
-    "latitude": -8.757792,
-    "longitude": 116.275435,
+    "latitude": -8.759962,
+    "longitude": 116.278169,
     "city": "Praya",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "TTE",
+    "country_code": "ID",
+    "country": "Indonesien",
+    "airport": "Sultan Babullah Flughafen",
+    "latitude": 0.831012,
+    "longitude": 127.381611,
+    "city": "Ternate",
     "zipCodePilotCourt": ""
   },
   {
@@ -28520,16 +27570,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "BEJ",
-    "country_code": "ID",
-    "country": "Indonesien",
-    "airport": "Kalimarau Flughafen",
-    "latitude": 2.1555,
-    "longitude": 117.431999,
-    "city": "Tanjung Redeb",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "BPN",
     "country_code": "ID",
     "country": "Indonesien",
@@ -28564,8 +27604,8 @@
     "country_code": "ID",
     "country": "Indonesien",
     "airport": "Naha Flughafen",
-    "latitude": 3.68321,
-    "longitude": 125.528,
+    "latitude": 3.68478,
+    "longitude": 125.527162,
     "city": "Tahuna",
     "zipCodePilotCourt": ""
   },
@@ -28574,19 +27614,9 @@
     "country_code": "ID",
     "country": "Indonesien",
     "airport": "Sam Ratulangi Flughafen",
-    "latitude": 1.54926,
-    "longitude": 124.926003,
+    "latitude": 1.549266,
+    "longitude": 124.926319,
     "city": "Manado",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "TTE",
-    "country_code": "ID",
-    "country": "Indonesien",
-    "airport": "Sultan Babullah Flughafen",
-    "latitude": 0.831012,
-    "longitude": 127.381611,
-    "city": "Ternate",
     "zipCodePilotCourt": ""
   },
   {
@@ -28620,6 +27650,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "NAM",
+    "country_code": "ID",
+    "country": "Indonesien",
+    "airport": "Namniwel Flughafen",
+    "latitude": -3.143159,
+    "longitude": 126.976469,
+    "city": "Namniwel",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "AMQ",
     "country_code": "ID",
     "country": "Indonesien",
@@ -28627,6 +27667,16 @@
     "latitude": -3.71026,
     "longitude": 128.089005,
     "city": "Ambon",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "BEJ",
+    "country_code": "ID",
+    "country": "Indonesien",
+    "airport": "Kalimarau Flughafen",
+    "latitude": 2.14776,
+    "longitude": 117.430705,
+    "city": "Tanjung Redeb",
     "zipCodePilotCourt": ""
   },
   {
@@ -28643,7 +27693,7 @@
     "iata": "JOG",
     "country_code": "ID",
     "country": "Indonesien",
-    "airport": "Adisutjipto International Flughafen",
+    "airport": "Adisutjipto Flughafen",
     "latitude": -7.78818,
     "longitude": 110.431999,
     "city": "Yogyakarta",
@@ -28653,7 +27703,7 @@
     "iata": "SOC",
     "country_code": "ID",
     "country": "Indonesien",
-    "airport": "Adisumarmo International Flughafen",
+    "airport": "Adisumarmo Flughafen",
     "latitude": -7.516044,
     "longitude": 110.757492,
     "city": "Surakarta (Solo)",
@@ -28710,6 +27760,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "SOQ",
+    "country_code": "ID",
+    "country": "Indonesien",
+    "airport": "Domine Eduard Osok Flughafen",
+    "latitude": -0.894,
+    "longitude": 131.287,
+    "city": "Sorong",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "WMX",
     "country_code": "ID",
     "country": "Indonesien",
@@ -28730,13 +27790,13 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "SOQ",
+    "iata": "KXB",
     "country_code": "ID",
     "country": "Indonesien",
-    "airport": "Domine Eduard Osok Flughafen",
-    "latitude": -0.894,
-    "longitude": 131.287,
-    "city": "Sorong",
+    "airport": "Sangia Nibandera Flughafen",
+    "latitude": -4.338158,
+    "longitude": 121.524047,
+    "city": "Kolaka",
     "zipCodePilotCourt": ""
   },
   {
@@ -28844,8 +27904,8 @@
     "country_code": "MY",
     "country": "Malaysia",
     "airport": "Labuan Flughafen",
-    "latitude": 5.300680160522461,
-    "longitude": 115.25,
+    "latitude": 5.301667,
+    "longitude": 115.248333,
     "city": "Labuan",
     "zipCodePilotCourt": ""
   },
@@ -28980,16 +28040,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "AEG",
-    "country_code": "ID",
-    "country": "Indonesien",
-    "airport": "Aek Godang Flughafen",
-    "latitude": 1.4001,
-    "longitude": 99.430496,
-    "city": "Padangsidempuan",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "KNO",
     "country_code": "ID",
     "country": "Indonesien",
@@ -29024,8 +28074,8 @@
     "country_code": "ID",
     "country": "Indonesien",
     "airport": "Nanga Pinoh Flughafen",
-    "latitude": -0.34886899590492,
-    "longitude": 111.74800109863,
+    "latitude": -0.34864,
+    "longitude": 111.746155,
     "city": "Nangapinoh",
     "zipCodePilotCourt": ""
   },
@@ -29034,8 +28084,8 @@
     "country_code": "ID",
     "country": "Indonesien",
     "airport": "Rahadi Osman Flughafen",
-    "latitude": -1.816845,
-    "longitude": 109.963331,
+    "latitude": -1.817165,
+    "longitude": 109.963469,
     "city": "Ketapang",
     "zipCodePilotCourt": ""
   },
@@ -29064,9 +28114,19 @@
     "country_code": "ID",
     "country": "Indonesien",
     "airport": "Pangsuma Flughafen",
-    "latitude": 0.8355780243873596,
-    "longitude": 112.93699645996094,
+    "latitude": 0.834579,
+    "longitude": 112.940217,
     "city": "Putussibau",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "SQG",
+    "country_code": "ID",
+    "country": "Indonesien",
+    "airport": "Tebelian Flughafen",
+    "latitude": -0.045214,
+    "longitude": 111.458049,
+    "city": "Sintang",
     "zipCodePilotCourt": ""
   },
   {
@@ -29290,16 +28350,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "WUZ",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Wuzhou Xijiang Flughafen",
-    "latitude": 23.40316,
-    "longitude": 111.09331,
-    "city": "Wuzhou",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "ALH",
     "country_code": "AU",
     "country": "Australien",
@@ -29434,8 +28484,8 @@
     "country_code": "AU",
     "country": "Australien",
     "airport": "Bedourie Flughafen",
-    "latitude": -24.346099853515625,
-    "longitude": 139.4600067138672,
+    "latitude": -24.3461,
+    "longitude": 139.460007,
     "city": "Bedourie",
     "zipCodePilotCourt": ""
   },
@@ -29500,16 +28550,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "YBP",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Yibin Wuliangye Flughafen",
-    "latitude": 28.858431,
-    "longitude": 104.526157,
-    "city": "Yibin",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "PPP",
     "country_code": "AU",
     "country": "Australien",
@@ -29567,16 +28607,6 @@
     "latitude": -19.252904,
     "longitude": 146.766512,
     "city": "Townsville",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "BLT",
-    "country_code": "AU",
-    "country": "Australien",
-    "airport": "Blackwater Flughafen",
-    "latitude": -23.603099822998047,
-    "longitude": 148.8070068359375,
-    "city": "Schwarzwasser",
     "zipCodePilotCourt": ""
   },
   {
@@ -29757,6 +28787,16 @@
     "latitude": -33.684399,
     "longitude": 121.822998,
     "city": "Esperance",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "FIZ",
+    "country_code": "AU",
+    "country": "Australien",
+    "airport": "Fitzroy Crossing Flughafen",
+    "latitude": -18.183596,
+    "longitude": 125.559783,
+    "city": "",
     "zipCodePilotCourt": ""
   },
   {
@@ -29984,8 +29024,8 @@
     "country_code": "AU",
     "country": "Australien",
     "airport": "Hobart International Flughafen",
-    "latitude": -42.836101532,
-    "longitude": 147.509994507,
+    "latitude": -42.8371,
+    "longitude": 147.51295,
     "city": "Hobart",
     "zipCodePilotCourt": ""
   },
@@ -30004,8 +29044,8 @@
     "country_code": "AU",
     "country": "Australien",
     "airport": "Launceston Flughafen",
-    "latitude": -41.54529953,
-    "longitude": 147.214004517,
+    "latitude": -41.544935,
+    "longitude": 147.210785,
     "city": "Launceston",
     "zipCodePilotCourt": ""
   },
@@ -30023,9 +29063,9 @@
     "iata": "MEL",
     "country_code": "AU",
     "country": "Australien",
-    "airport": "Melbourne International Flughafen",
-    "latitude": -37.673302,
-    "longitude": 144.843002,
+    "airport": "Melbourne Flughafen",
+    "latitude": -37.661548,
+    "longitude": 144.836432,
     "city": "Melbourne",
     "zipCodePilotCourt": ""
   },
@@ -30097,16 +29137,6 @@
     "latitude": -30.3192005157,
     "longitude": 149.82699585,
     "city": "Narrabri",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "YNT",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Yantai Penglai International Flughafen",
-    "latitude": 37.659724,
-    "longitude": 120.978124,
-    "city": "Yantai",
     "zipCodePilotCourt": ""
   },
   {
@@ -30323,7 +29353,7 @@
     "iata": "CBR",
     "country_code": "AU",
     "country": "Australien",
-    "airport": "Canberra International Flughafen",
+    "airport": "Canberra Flughafen",
     "latitude": -35.3069,
     "longitude": 149.195007,
     "city": "Canberra",
@@ -30384,8 +29414,8 @@
     "country_code": "AU",
     "country": "Australien",
     "airport": "Sydney Kingsford Smith International Flughafen",
-    "latitude": -33.94609832763672,
-    "longitude": 151.177001953125,
+    "latitude": -33.946098,
+    "longitude": 151.177002,
     "city": "Sydney",
     "zipCodePilotCourt": ""
   },
@@ -30403,7 +29433,7 @@
     "iata": "WGA",
     "country_code": "AU",
     "country": "Australien",
-    "airport": "Wagga Wagga City Flughafen",
+    "airport": "Wagga Wagga Flughafen",
     "latitude": -35.163484,
     "longitude": 147.46832,
     "city": "Wagga Wagga",
@@ -30440,22 +29470,12 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "TRO",
-    "country_code": "AU",
-    "country": "Australien",
-    "airport": "Taree Flughafen",
-    "latitude": -31.888599,
-    "longitude": 152.514008,
-    "city": "Taree",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "WNR",
     "country_code": "AU",
     "country": "Australien",
     "airport": "Windorah Flughafen",
-    "latitude": -25.41309928894043,
-    "longitude": 142.66700744628906,
+    "latitude": -25.410641,
+    "longitude": 142.668428,
     "city": "Windorah",
     "zipCodePilotCourt": ""
   },
@@ -30467,6 +29487,16 @@
     "latitude": -33.05889892578125,
     "longitude": 137.51400756835938,
     "city": "Whyalla",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "WGE",
+    "country_code": "AU",
+    "country": "Australien",
+    "airport": "Walgett Flughafen",
+    "latitude": -30.032801,
+    "longitude": 148.126007,
+    "city": "",
     "zipCodePilotCourt": ""
   },
   {
@@ -30507,16 +29537,6 @@
     "latitude": -40.997039,
     "longitude": 145.726,
     "city": "Burnie",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "YYA",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Yueyang Sanhe Flughafen",
-    "latitude": 29.311699,
-    "longitude": 113.281574,
-    "city": "Yueyang",
     "zipCodePilotCourt": ""
   },
   {
@@ -30743,7 +29763,7 @@
     "iata": "TYN",
     "country_code": "CN",
     "country": "China",
-    "airport": "Taiyuan Wusu Flughafen",
+    "airport": "Taiyuan Wusu International Flughafen",
     "latitude": 37.746899,
     "longitude": 112.627998,
     "city": "Taiyuan",
@@ -30757,6 +29777,16 @@
     "latitude": 40.926,
     "longitude": 107.7428,
     "city": "Bayannur",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "ZQZ",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Zhangjiakou Ningyuan Flughafen",
+    "latitude": 40.738602,
+    "longitude": 114.930278,
+    "city": "Zhangjiakou",
     "zipCodePilotCourt": ""
   },
   {
@@ -30777,6 +29807,16 @@
     "latitude": 21.5394,
     "longitude": 109.293999,
     "city": "Beihai (Yinhai)",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "AEB",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Baise (Bose) Bama Flughafen",
+    "latitude": 23.7206,
+    "longitude": 106.959999,
+    "city": "Baise",
     "zipCodePilotCourt": ""
   },
   {
@@ -30810,6 +29850,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "FUO",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Foshan Shadi Flughafen",
+    "latitude": 23.0825,
+    "longitude": 113.070833,
+    "city": "Foshan",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "CAN",
     "country_code": "CN",
     "country": "China",
@@ -30840,6 +29890,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "HUZ",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Huizhou Pingtan Flughafen",
+    "latitude": 23.049999,
+    "longitude": 114.599998,
+    "city": "Huizhou",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "KWL",
     "country_code": "CN",
     "country": "China",
@@ -30864,8 +29924,8 @@
     "country_code": "CN",
     "country": "China",
     "airport": "Nanning Wuxu Flughafen",
-    "latitude": 22.608299,
-    "longitude": 108.171997,
+    "latitude": 22.608544,
+    "longitude": 108.175335,
     "city": "Nanning",
     "zipCodePilotCourt": ""
   },
@@ -30910,6 +29970,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "WUZ",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Wuzhou Xijiang Flughafen",
+    "latitude": 23.40316,
+    "longitude": 111.09331,
+    "city": "Wuzhou",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "YLX",
     "country_code": "CN",
     "country": "China",
@@ -30917,6 +29987,16 @@
     "latitude": 22.438056,
     "longitude": 110.120833,
     "city": "Yùlín",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "YYA",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Yueyang Sanhe Flughafen",
+    "latitude": 29.311699,
+    "longitude": 113.281574,
+    "city": "Yueyang",
     "zipCodePilotCourt": ""
   },
   {
@@ -30930,6 +30010,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "ZHA",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Zhanjiang Wuchuan Flughafen",
+    "latitude": 21.481667,
+    "longitude": 110.590278,
+    "city": "Zhanjiang",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "CGO",
     "country_code": "CN",
     "country": "China",
@@ -30937,6 +30027,16 @@
     "latitude": 34.526497,
     "longitude": 113.849165,
     "city": "Zhengzhou",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "EHU",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Ezhou Huahu Flughafen",
+    "latitude": 30.341178,
+    "longitude": 115.03926,
+    "city": "Ezhou",
     "zipCodePilotCourt": ""
   },
   {
@@ -31010,6 +30110,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "XAI",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Xinyang Minggang Flughafen",
+    "latitude": 32.540819,
+    "longitude": 114.079141,
+    "city": "Xinyang",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "YIH",
     "country_code": "CN",
     "country": "China",
@@ -31050,6 +30160,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "RGO",
+    "country_code": "KP",
+    "country": "Nordkorea",
+    "airport": "Orang (Chongjin) Flughafen",
+    "latitude": 41.428538,
+    "longitude": 129.647555,
+    "city": "Chongjin",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "FNJ",
     "country_code": "KP",
     "country": "Nordkorea",
@@ -31087,6 +30207,16 @@
     "latitude": 40.161098,
     "longitude": 94.809196,
     "city": "Dunhuang",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "GMQ",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Golog Maqên Flughafen",
+    "latitude": 34.418066,
+    "longitude": 100.301144,
+    "city": "Golog",
     "zipCodePilotCourt": ""
   },
   {
@@ -31160,6 +30290,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "THQ",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Tianshui Maijishan Flughafen",
+    "latitude": 34.5601,
+    "longitude": 105.860343,
+    "city": "Tianshui",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "GXH",
     "country_code": "CN",
     "country": "China",
@@ -31187,6 +30327,26 @@
     "latitude": 34.447102,
     "longitude": 108.751999,
     "city": "Xi'an",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "ENY",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Yanan Nanniwan Flughafen",
+    "latitude": 36.479413,
+    "longitude": 109.464083,
+    "city": "Yan'an",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "YUS",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Yushu Batang Flughafen",
+    "latitude": 32.836389,
+    "longitude": 97.036389,
+    "city": "Yushu",
     "zipCodePilotCourt": ""
   },
   {
@@ -31280,6 +30440,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "BSD",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Baoshan Yunrui Flughafen",
+    "latitude": 25.053301,
+    "longitude": 99.168297,
+    "city": "Baoshan",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "CWJ",
     "country_code": "CN",
     "country": "China",
@@ -31327,6 +30497,16 @@
     "latitude": 22.417733,
     "longitude": 99.784012,
     "city": "Lancang",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "LNJ",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Lincang Boshang Flughafen",
+    "latitude": 23.7381,
+    "longitude": 100.025002,
+    "city": "Lincang",
     "zipCodePilotCourt": ""
   },
   {
@@ -31384,8 +30564,8 @@
     "country_code": "CN",
     "country": "China",
     "airport": "Changzhou Benniu International Flughafen",
-    "latitude": 31.919701,
-    "longitude": 119.778999,
+    "latitude": 31.920485,
+    "longitude": 119.77546,
     "city": "Changzhou",
     "zipCodePilotCourt": ""
   },
@@ -31397,6 +30577,16 @@
     "latitude": 28.864815,
     "longitude": 115.90271,
     "city": "Nanchang",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "DOY",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Dongying Shengli Flughafen",
+    "latitude": 37.50137,
+    "longitude": 118.789863,
+    "city": "Dongying (Kenli)",
     "zipCodePilotCourt": ""
   },
   {
@@ -31474,18 +30664,28 @@
     "country_code": "CN",
     "country": "China",
     "airport": "Quzhou Flughafen",
-    "latitude": 28.965799,
-    "longitude": 118.899002,
+    "latitude": 28.96613,
+    "longitude": 118.898793,
     "city": "Quzhou",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "LYG",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Lianyungang Huaguoshan International Flughafen",
+    "latitude": 34.41406,
+    "longitude": 119.17899,
+    "city": "Lianyungang",
     "zipCodePilotCourt": ""
   },
   {
     "iata": "LCX",
     "country_code": "CN",
     "country": "China",
-    "airport": "Longyan Guanzhishan Flughafen",
-    "latitude": 25.6747,
-    "longitude": 116.747002,
+    "airport": "Liancheng Guanzhishan Flughafen",
+    "latitude": 25.67592,
+    "longitude": 116.745907,
     "city": "Longyan",
     "zipCodePilotCourt": ""
   },
@@ -31530,6 +30730,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "NTG",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Nantong Xingdong International Flughafen",
+    "latitude": 32.073566,
+    "longitude": 120.980076,
+    "city": "Nantong",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "HFE",
     "country_code": "CN",
     "country": "China",
@@ -31550,12 +30760,22 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "TAO",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Qingdao Jiaodong International Flughafen",
+    "latitude": 36.361953,
+    "longitude": 120.088171,
+    "city": "Qingdao",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "JJN",
     "country_code": "CN",
     "country": "China",
     "airport": "Quanzhou Jinjiang International Flughafen",
-    "latitude": 24.7964,
-    "longitude": 118.589996,
+    "latitude": 24.796587,
+    "longitude": 118.588883,
     "city": "Quanzhou",
     "zipCodePilotCourt": ""
   },
@@ -31567,6 +30787,36 @@
     "latitude": 35.405033,
     "longitude": 119.324403,
     "city": "Rizhao",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "HIA",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Huaian Lianshui International Flughafen",
+    "latitude": 33.790833,
+    "longitude": 119.125,
+    "city": "Huai'an",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "SQJ",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Sanming Shaxian Flughafen",
+    "latitude": 26.4263,
+    "longitude": 117.8336,
+    "city": "Sanming",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "SQD",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Shangrao Sanqingshan Flughafen",
+    "latitude": 28.3797,
+    "longitude": 117.9643,
+    "city": "Shangrao",
     "zipCodePilotCourt": ""
   },
   {
@@ -31644,8 +30894,8 @@
     "country_code": "CN",
     "country": "China",
     "airport": "Wenzhou Longwan International Flughafen",
-    "latitude": 27.912201,
-    "longitude": 120.851997,
+    "latitude": 27.910572,
+    "longitude": 120.853465,
     "city": "Wenzhou",
     "zipCodePilotCourt": ""
   },
@@ -31690,12 +30940,22 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "YNT",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Yantai Penglai International Flughafen",
+    "latitude": 37.659724,
+    "longitude": 120.978124,
+    "city": "Yantai",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "YIW",
     "country_code": "CN",
     "country": "China",
     "airport": "Yiwu Flughafen",
-    "latitude": 29.3446998596,
-    "longitude": 120.031997681,
+    "latitude": 29.342095,
+    "longitude": 120.03116,
     "city": "Yiwu",
     "zipCodePilotCourt": ""
   },
@@ -31714,8 +30974,8 @@
     "country_code": "CN",
     "country": "China",
     "airport": "Ngari Gunsa Flughafen",
-    "latitude": 32.1,
-    "longitude": 80.053056,
+    "latitude": 32.09794,
+    "longitude": 80.053971,
     "city": "Shiquanhe",
     "zipCodePilotCourt": ""
   },
@@ -31757,6 +31017,16 @@
     "latitude": 29.712254,
     "longitude": 106.651895,
     "city": "Chongqing",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "DZH",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Dazhou Jinya Flughafen",
+    "latitude": 31.048815,
+    "longitude": 107.435646,
+    "city": "Dazhou (Dachuan)",
     "zipCodePilotCourt": ""
   },
   {
@@ -31890,6 +31160,26 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "JIQ",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Qianjiang Wulingshan Flughafen",
+    "latitude": 29.5133333333,
+    "longitude": 108.831111111,
+    "city": "Qianjiang",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "RKZ",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Xigaze Peace Flughafen",
+    "latitude": 29.3519,
+    "longitude": 89.311401,
+    "city": "Xigaze/Rikaze",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "TCZ",
     "country_code": "CN",
     "country": "China",
@@ -31950,6 +31240,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "YBP",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Yibin Wuliangye Flughafen",
+    "latitude": 28.858431,
+    "longitude": 104.526157,
+    "city": "Yibin",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "ACX",
     "country_code": "CN",
     "country": "China",
@@ -31957,6 +31257,16 @@
     "latitude": 25.083423,
     "longitude": 104.960804,
     "city": "Xingyi",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "PZI",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Panzhihua Baoanying Flughafen",
+    "latitude": 26.54,
+    "longitude": 101.79852,
+    "city": "Panzhihua",
     "zipCodePilotCourt": ""
   },
   {
@@ -31977,6 +31287,16 @@
     "latitude": 41.262501,
     "longitude": 80.291702,
     "city": "Aksu",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "AAT",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Altay Xuedu Flughafen",
+    "latitude": 47.749886,
+    "longitude": 88.085808,
+    "city": "Altay",
     "zipCodePilotCourt": ""
   },
   {
@@ -32073,9 +31393,9 @@
     "iata": "KHG",
     "country_code": "CN",
     "country": "China",
-    "airport": "Kashgar Flughafen",
-    "latitude": 39.5429000854,
-    "longitude": 76.0199966431,
+    "airport": "Kashgar Laining International Flughafen",
+    "latitude": 39.5429,
+    "longitude": 76.019997,
     "city": "Kashi",
     "zipCodePilotCourt": ""
   },
@@ -32120,6 +31440,26 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "DBC",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Baicheng Changan Flughafen",
+    "latitude": 45.505278,
+    "longitude": 123.019722,
+    "city": "Baicheng",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "NBS",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Changbaishan Flughafen",
+    "latitude": 42.066944,
+    "longitude": 127.602222,
+    "city": "Baishan",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "CGQ",
     "country_code": "CN",
     "country": "China",
@@ -32150,6 +31490,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "DDG",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Dandong Langtou Flughafen",
+    "latitude": 40.025453,
+    "longitude": 124.28669,
+    "city": "Dandong",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "DTU",
     "country_code": "CN",
     "country": "China",
@@ -32163,7 +31513,7 @@
     "iata": "FYJ",
     "country_code": "CN",
     "country": "China",
-    "airport": "Fuyuan Dongji Aiport Flughafen",
+    "airport": "Fuyuan Dongji Flughafen",
     "latitude": 48.197219,
     "longitude": 134.36298,
     "city": "Fuyuan",
@@ -32187,6 +31537,16 @@
     "latitude": 50.171621,
     "longitude": 127.308884,
     "city": "Heihe",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "JGD",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Daxinganling Elunchun Flughafen",
+    "latitude": 50.371389,
+    "longitude": 124.1175,
+    "city": "Jiagedaqi",
     "zipCodePilotCourt": ""
   },
   {
@@ -32220,6 +31580,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "JNZ",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Jinzhou Bay Flughafen",
+    "latitude": 40.936032,
+    "longitude": 121.277114,
+    "city": "Jinzhou",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "LDS",
     "country_code": "CN",
     "country": "China",
@@ -32227,16 +31597,6 @@
     "latitude": 47.752056,
     "longitude": 129.019125,
     "city": "Yichun (Heilongjiang)",
-    "zipCodePilotCourt": ""
-  },
-  {
-    "iata": "YUS",
-    "country_code": "CN",
-    "country": "China",
-    "airport": "Yushu Batang Flughafen",
-    "latitude": 32.836389,
-    "longitude": 97.036389,
-    "city": "Yushu",
     "zipCodePilotCourt": ""
   },
   {
