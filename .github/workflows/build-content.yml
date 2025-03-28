@@ -60,6 +60,7 @@ jobs:
       - run: ./docker.sh --push content
       - run: ./docker.sh --build prod
       - run: ./docker.sh --push prod
+      - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
       - name: Install cosign
         uses: sigstore/cosign-installer@dc72c7d5c4d10cd6bcb8cf6e3fd625a9e5e537da # v3.7.0
       - name: Generate cosign vulnerability scan record for PROD image
