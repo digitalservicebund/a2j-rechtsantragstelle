@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import fs from "fs";
-import { getName } from "i18n-iso-countries";
+import countries from "i18n-iso-countries";
 import uniqBy from "lodash/uniqBy";
 import { z } from "zod";
 import type { Airport } from "~/domains/fluggastrechte/services/airports/type";
@@ -87,7 +87,8 @@ function filteredLargeMediumAirports(airports: AirportDataSource[]): Airport[] {
       return {
         iata: airport.iata,
         country_code: airport.country_code,
-        country: getName(airport.country_code, GERMAN_LOCALE) ?? "",
+        // eslint-disable-next-line import/no-named-as-default-member
+        country: countries.getName(airport.country_code, GERMAN_LOCALE) ?? "",
         airport: translateAirportName(airport.airport),
         latitude: airport.latitude,
         longitude: airport.longitude,
