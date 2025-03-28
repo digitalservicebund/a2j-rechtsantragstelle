@@ -55,6 +55,7 @@ jobs:
       - run: ./docker.sh --push content
       - run: ./docker.sh --build prod
       - run: ./docker.sh --push prod
+      - run: ./docker.sh --sign
       - id: prod_image_tag
         run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
     outputs:
