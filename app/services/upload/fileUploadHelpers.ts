@@ -8,9 +8,6 @@ export function convertFileToMetadata(file?: File): PDFFileMetadata {
     filename: file?.name ?? "",
     fileType: file?.type ?? "",
     fileSize: file?.size ?? 0,
-    createdOn: file?.lastModified
-      ? new Date(file?.lastModified).toString()
-      : "",
   };
 }
 
