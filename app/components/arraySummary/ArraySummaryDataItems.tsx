@@ -6,7 +6,7 @@ import {
   getTranslationByKey,
   type Translations,
 } from "~/services/translations/getTranslationByKey";
-import { interpolateSerializableObject } from "~/util/fillTemplate";
+import { recursivelyReplaceStrings } from "~/util/recursivelyReplaceStrings";
 import Heading from "../Heading";
 
 type ArraySummaryItemProps = {
@@ -38,7 +38,7 @@ const ArraySummaryDataItems = ({
     return null;
   }
 
-  const heading = interpolateSerializableObject(
+  const heading = recursivelyReplaceStrings(
     translations[`${category}.label.heading`] ?? "",
     {
       indexArray: (itemIndex + (displayIndexOffset ?? 1)).toString(),

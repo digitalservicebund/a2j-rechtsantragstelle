@@ -28,7 +28,7 @@ import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { interpolateSerializableObject } from "~/util/fillTemplate";
+import { recursivelyReplaceStrings } from "~/util/recursivelyReplaceStrings";
 import { filterFormData } from "~/util/filterFormData";
 
 export const loader = async ({
@@ -63,7 +63,7 @@ export const loader = async ({
   ]);
 
   // Do string replacement in content if necessary
-  const contentElements = interpolateSerializableObject(
+  const contentElements = recursivelyReplaceStrings(
     vorabcheckPage.pre_form,
     "stringReplacements" in currentFlow
       ? currentFlow.stringReplacements(userData)

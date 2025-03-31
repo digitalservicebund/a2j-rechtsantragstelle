@@ -3,7 +3,7 @@ import type { Flow } from "~/domains/flows.server";
 import { getArraySummaryPageTranslations } from "~/services/array/getArraySummaryPageTranslations";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import type { Translations } from "~/services/translations/getTranslationByKey";
-import { interpolateSerializableObject } from "~/util/fillTemplate";
+import { recursivelyReplaceStrings } from "~/util/recursivelyReplaceStrings";
 
 type BuildFormularServerTranslations = {
   currentFlow: Flow;
@@ -48,7 +48,7 @@ function interpolateTranslations(
     return translation;
   }
 
-  return interpolateSerializableObject(
+  return recursivelyReplaceStrings(
     translation,
     currentFlow.stringReplacements(data),
   );
@@ -91,7 +91,7 @@ export const buildFormularServerTranslations = async ({
   };
 
   // structure cms content -> merge with getting data?
-  const cmsContent = interpolateSerializableObject(
+  const cmsContent = recursivelyReplaceStrings(
     structureCmsContent(formPageContent),
     typeof currentFlow.stringReplacements !== "undefined"
       ? {

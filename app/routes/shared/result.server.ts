@@ -12,7 +12,7 @@ import { skipFlowParamAllowedAndEnabled } from "~/services/params";
 import { getSessionData } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { interpolateSerializableObject } from "~/util/fillTemplate";
+import { recursivelyReplaceStrings } from "~/util/recursivelyReplaceStrings";
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname, searchParams } = new URL(request.url);
@@ -43,7 +43,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("defaultTranslations"),
   ]);
 
-  const cmsContent = interpolateSerializableObject(
+  const cmsContent = recursivelyReplaceStrings(
     resultPageContent,
     "stringReplacements" in currentFlow
       ? currentFlow.stringReplacements(userData)
