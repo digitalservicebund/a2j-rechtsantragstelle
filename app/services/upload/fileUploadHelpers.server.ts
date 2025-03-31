@@ -1,19 +1,19 @@
 import {
-  TypedResponse,
+  type TypedResponse,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
 import { withZod } from "@remix-validated-form/with-zod";
 import pickBy from "lodash/pickBy";
 import {
-  ErrorResult,
-  SuccessResult,
+  type ErrorResult,
+  type SuccessResult,
   validationError,
-  ValidationErrorResponseData,
-  ValidationResult,
+  type ValidationErrorResponseData,
+  type ValidationResult,
 } from "remix-validated-form";
-import { z, ZodTypeAny } from "zod";
-import { ArrayData, Context, getContext } from "~/domains/contexts";
-import { FlowId } from "~/domains/flowIds";
+import { z, type ZodTypeAny } from "zod";
+import { type ArrayData, type Context, getContext } from "~/domains/contexts";
+import { type FlowId } from "~/domains/flowIds";
 import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
@@ -22,7 +22,7 @@ import {
   convertFileToMetadata,
   splitFieldName,
 } from "~/services/upload/fileUploadHelpers";
-import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 export async function uploadUserFile(
   formAction: string,

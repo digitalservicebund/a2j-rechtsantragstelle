@@ -1,4 +1,4 @@
-import { Renderer } from "marked";
+import { type Renderer } from "marked";
 import { z } from "zod";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";

@@ -7,7 +7,7 @@ import {
 import {
   fileUploadErrorMap,
   fileUploadLimit,
-  PDFFileMetadata,
+  type PDFFileMetadata,
   pdfFileMetaDataSchema,
 } from "~/util/file/pdfFileSchema";
 

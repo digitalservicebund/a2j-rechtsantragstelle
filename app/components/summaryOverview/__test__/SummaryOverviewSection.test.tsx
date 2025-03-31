@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { HeadingProps } from "../../Heading";
+import { type HeadingProps } from "../../Heading";
 import SummaryOverviewSection from "../SummaryOverviewSection";
 
 const mockSummaryOverviewProps = {

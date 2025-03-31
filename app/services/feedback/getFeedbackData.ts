@@ -1,5 +1,5 @@
 import { type Session } from "@remix-run/node";
-import { BannerState, FeedbackType } from "~/components/userFeedback";
+import { BannerState, type FeedbackType } from "~/components/userFeedback";
 
 export const bannerStateName = "bannerState";
 export const userRatingFieldName = "wasHelpful";

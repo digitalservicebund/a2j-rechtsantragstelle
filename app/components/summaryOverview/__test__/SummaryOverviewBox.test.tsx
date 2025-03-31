@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { describe, it, vi, expect } from "vitest";
-import { HeadingProps } from "~/components/Heading";
+import { type HeadingProps } from "~/components/Heading";
 import { useFormFlow } from "../../form/formFlowContext";
 import SummaryOverviewBox from "../SummaryOverviewBox";
 

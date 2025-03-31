@@ -1,6 +1,6 @@
-import { Context } from "~/domains/contexts";
+import { type Context } from "~/domains/contexts";
 import { arrayChar } from "~/services/array";
-import { Translations } from "~/services/translations/getTranslationByKey";
+import { type Translations } from "~/services/translations/getTranslationByKey";
 
 const getNestedValue = (userData: Context, fieldName: string): string => {
   const [nestedObjectName, nestedValueName] = fieldName.split(".");

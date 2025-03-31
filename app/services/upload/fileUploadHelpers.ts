@@ -1,7 +1,7 @@
 import { useLoaderData, useSubmit } from "@remix-run/react";
-import { loader } from "~/routes/shared/formular.server";
+import { type loader } from "~/routes/shared/formular.server";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 export function convertFileToMetadata(file?: File): PDFFileMetadata {
   return {

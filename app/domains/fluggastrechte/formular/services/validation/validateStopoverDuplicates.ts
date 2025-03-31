@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { MultiFieldsValidationBaseSchema } from "~/domains/multiFieldsFlowValidation";
+import { type MultiFieldsValidationBaseSchema } from "~/domains/multiFieldsFlowValidation";
 
 export function validateStopoverDuplicates(
   baseSchema: MultiFieldsValidationBaseSchema,

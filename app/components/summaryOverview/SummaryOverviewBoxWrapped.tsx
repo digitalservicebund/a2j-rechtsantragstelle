@@ -1,8 +1,8 @@
 import SummaryOverviewBox from "./SummaryOverviewBox";
 import SummaryOverviewBoxArray from "./SummaryOverviewBoxArray";
-import { SummaryOverviewBoxItemType } from "./SummaryOverviewBoxItem";
+import { type SummaryOverviewBoxItemType } from "./SummaryOverviewBoxItem";
 import { useFormFlow } from "../form/formFlowContext";
-import { HeadingProps } from "../Heading";
+import { type HeadingProps } from "../Heading";
 
 export type SummaryOverviewBoxWrappedProps = {
   readonly title?: HeadingProps;

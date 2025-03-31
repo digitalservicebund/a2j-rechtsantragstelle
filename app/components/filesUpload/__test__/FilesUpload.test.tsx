@@ -1,13 +1,16 @@
 import { fireEvent, render } from "@testing-library/react";
 import times from "lodash/times";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import { ValidationErrorResponseData } from "remix-validated-form";
+import { type ValidationErrorResponseData } from "remix-validated-form";
 import FilesUpload, {
-  FilesUploadProps,
+  type FilesUploadProps,
 } from "~/components/filesUpload/FilesUpload";
-import { Context } from "~/domains/contexts";
+import { type Context } from "~/domains/contexts";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { fileUploadErrorMap, PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import {
+  fileUploadErrorMap,
+  type PDFFileMetadata,
+} from "~/util/file/pdfFileSchema";
 
 const deleteLabel = "Löschen";
 const selectLabel = "Datei Auswählen";

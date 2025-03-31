@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import AccordionItem, { AccordionItemProps } from "~/components/AccordionItem";
+import AccordionItem, {
+  type AccordionItemProps,
+} from "~/components/AccordionItem";
 
 export type AccordionProps = Readonly<{
   items: AccordionItemProps[];

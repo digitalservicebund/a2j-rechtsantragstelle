@@ -1,9 +1,9 @@
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
-import { Context } from "~/domains/contexts";
+import { type Context } from "~/domains/contexts";
 import Heading from "../Heading";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 import Button from "../Button";
-import { SummaryOverviewBoxWrappedProps } from "./SummaryOverviewBoxWrapped";
+import { type SummaryOverviewBoxWrappedProps } from "./SummaryOverviewBoxWrapped";
 import { useFormFlow } from "../form/formFlowContext";
 
 type Props = Pick<

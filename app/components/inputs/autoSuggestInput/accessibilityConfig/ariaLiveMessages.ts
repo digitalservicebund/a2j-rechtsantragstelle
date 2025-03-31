@@ -1,10 +1,10 @@
 import {
-  AriaGuidanceProps,
-  AriaOnChangeProps,
-  AriaOnFilterProps,
-  AriaOnFocusProps,
-  GroupBase,
-  OptionsOrGroups,
+  type AriaGuidanceProps,
+  type AriaOnChangeProps,
+  type AriaOnFilterProps,
+  type AriaOnFocusProps,
+  type GroupBase,
+  type OptionsOrGroups,
 } from "react-select";
 import {
   getTranslationByKey,

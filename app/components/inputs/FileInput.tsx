@@ -7,8 +7,8 @@ import {
   splitFieldName,
   useFileHandler,
 } from "~/services/upload/fileUploadHelpers";
-import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
-import { ErrorMessageProps } from ".";
+import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type ErrorMessageProps } from ".";
 
 export type FileInputProps = {
   name: string;

@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { ListItemProps } from "~/components/ListItem";
+import { type ListItemProps } from "~/components/ListItem";
 import List, { listItemNotEmpty } from "../List";
 
 describe("List", () => {

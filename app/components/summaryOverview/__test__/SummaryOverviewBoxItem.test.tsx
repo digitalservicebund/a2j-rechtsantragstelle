@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
-import { Context } from "~/domains/contexts";
-import { Translations } from "~/services/translations/getTranslationByKey";
+import { type Context } from "~/domains/contexts";
+import { type Translations } from "~/services/translations/getTranslationByKey";
 import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 import { getItemValueBox } from "../getItemValueBox";
 import SummaryOverviewBoxItem from "../SummaryOverviewBoxItem";

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import Accordion, { AccordionProps } from "~/components/Accordion";
+import Accordion, { type AccordionProps } from "~/components/Accordion";
 import { arrayIsNonEmpty } from "~/util/array";
 import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";

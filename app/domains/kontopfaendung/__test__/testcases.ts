@@ -1,5 +1,5 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
-import { KontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
+import { type KontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
 import { machine } from "./testMachine";
 
 const cases = [

@@ -1,5 +1,5 @@
 import CheckCircleIcon from "@digitalservicebund/icons/CheckCircle";
-import { LegacyRef } from "react";
+import { type LegacyRef } from "react";
 
 export const FeedbackTitle = ({
   title,

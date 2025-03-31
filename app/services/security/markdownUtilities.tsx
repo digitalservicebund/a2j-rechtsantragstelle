@@ -1,4 +1,4 @@
-import { Marked, Renderer } from "marked";
+import { Marked, type Renderer } from "marked";
 import { renderToString } from "react-dom/server";
 import * as xssImport from "xss";
 import { openInNewAllowedAttributes } from "~/components/OpenInNewTabIcon";

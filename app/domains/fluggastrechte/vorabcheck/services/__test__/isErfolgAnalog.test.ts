@@ -1,4 +1,4 @@
-import { FluggastrechtVorabcheckContext } from "../../context";
+import { type FluggastrechtVorabcheckContext } from "../../context";
 import { isErfolgAnalog } from "../isErfolgAnalog";
 
 const EU_AIRLINE = "LH";
