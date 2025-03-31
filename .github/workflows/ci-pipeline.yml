@@ -215,7 +215,6 @@ jobs:
       [
         code-quality,
         get-content-file,
-        verify-local-e2e,
         build-push-app-image,
         deploy-staging,
         deploy-preview,
