@@ -23,6 +23,39 @@ describe("recursivelyReplaceStrings", () => {
     expect(interpolatedObj.prop2.prop3.prop4).toBe("New String!");
   });
 
+  describe("should remove objects with an isVisible value that evaluates to false", () => {
+    it("should remove flat objects", () => {
+      const inputObj = {
+        isVisible: "hasArbeit",
+      };
+      expect(recursivelyReplaceStrings(inputObj, { hasArbeit: false })).toEqual(
+        undefined,
+      );
+    });
+
+    it("should remove objects inside of arrays", () => {
+      const inputObj = {
+        arr: [{}, { isVisible: "hasArbeit" }, { isVisible: "hasBuergergeld" }],
+      };
+      expect(recursivelyReplaceStrings(inputObj, { hasArbeit: false })).toEqual(
+        { ...inputObj, arr: [{}, { isVisible: "hasBuergergeld" }] },
+      );
+    });
+    it("should remove deeply nested objects", () => {
+      const inputObj = {
+        nested: {
+          isVisible: "hasArbeit",
+        },
+        key: "value",
+      };
+      expect(recursivelyReplaceStrings(inputObj, { hasArbeit: false })).toEqual(
+        {
+          key: "value",
+        },
+      );
+    });
+  });
+
   it("should replace the template strings in an object with the given replacements", () => {
     const inputObj = {
       prop1: "bar",

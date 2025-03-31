@@ -2,6 +2,9 @@ import mustache from "mustache";
 
 export type Replacements = Record<string, string | boolean | undefined>;
 
+/**
+ * Deeply replaces values with stringReplacements, removing content that shouldn't be visible
+ */
 export function recursivelyReplaceStrings<T>(
   content: T,
   stringReplacements?: Replacements,
