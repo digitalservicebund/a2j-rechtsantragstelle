@@ -12,9 +12,29 @@ const fileUploadSchema = z
   .optional(); // remove after e2e tests have been added
 
 export const dokumenteContext = {
-  rechtsschutzversicherungBeweis: fileUploadSchema,
+  arbeitslosengeldBeweis: fileUploadSchema,
+  wohngeldBeweis: fileUploadSchema,
+  bafoegBeweis: fileUploadSchema,
+
+  krankengeldBeweis: fileUploadSchema,
+  elterngeldBeweis: fileUploadSchema,
   buergergeldBeweis: fileUploadSchema,
-  wertpapierBeweis: fileUploadSchema,
+  asylbewerberleistungenBeweis: fileUploadSchema,
+  keineLeistungenBeweis: fileUploadSchema,
+  grundsicherungBeweis: fileUploadSchema,
+
+  lebensversicherungBeweis: fileUploadSchema,
+  bausparvertragBeweis: fileUploadSchema,
+  wertpapiereBeweis: fileUploadSchema,
+  guthabenkontoBeweis: fileUploadSchema,
+  sparkontoBeweis: fileUploadSchema,
+  grundeigentumBeweis: fileUploadSchema,
+
+  schwangerschaftAngabe: fileUploadSchema,
+  schwerbehinderungBeweis: fileUploadSchema,
+  medizinischeGruendeBeweis: fileUploadSchema,
+
+  weitereAusgabenBeweis: fileUploadSchema,
 };
 
 const _contextObject = z.object(dokumenteContext).partial();
