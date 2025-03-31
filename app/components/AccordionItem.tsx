@@ -14,7 +14,6 @@ export type AccordionItemProps = Readonly<{
   title: string;
   description: string;
   id: number;
-  shouldDisplay?: string;
 }>;
 
 export default function AccordionItem({

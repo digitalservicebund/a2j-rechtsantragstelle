@@ -114,7 +114,6 @@ export const loader = async ({
       csrf,
       stepData,
       contentElements,
-      replacements: currentFlow.stringReplacements(userData),
       formElements,
       meta,
       progressProps,

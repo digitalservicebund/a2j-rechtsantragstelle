@@ -1,10 +1,6 @@
 import { render } from "@testing-library/react";
 import ListItem from "../ListItem";
 
-vi.mock("@remix-run/react", () => ({
-  useLoaderData: vi.fn(() => ({ replacements: {} })),
-}));
-
 describe("ListItem", () => {
   it("headline and content  should be rendered", () => {
     const { getByText } = render(

@@ -10,7 +10,7 @@ export const StrapiAccordionSchema = z.object({
         .object({
           title: z.string(),
           description: buildRichTextValidation(),
-          shouldDisplay: z.string().nullable().transform(omitNull),
+          isVisible: z.string().nullable().transform(omitNull),
         })
         .merge(HasStrapiIdSchema),
     )
