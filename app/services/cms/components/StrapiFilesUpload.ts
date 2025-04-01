@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { type FilesUploadProps } from "~/components/filesUpload/FilesUpload";
-import { StrapiErrorRelationSchema } from "~/services/cms/flattenStrapiErrors";
+import {
+  flattenStrapiErrors,
+  StrapiErrorRelationSchema,
+} from "~/services/cms/flattenStrapiErrors";
 import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNotice";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
@@ -26,5 +29,6 @@ export function getFilesUploadProps(
 ): FilesUploadProps {
   return {
     ...omitNull(props),
+    errorMessages: flattenStrapiErrors(props.errors),
   };
 }
