@@ -6,7 +6,7 @@ import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTrans
 import { PosthogSurvey } from "~/components/userFeedback/Survey";
 import { config } from "~/services/env/web";
 
-const feedbackSurveyId = "01956b7e-2774-0000-49d7-d34d26811373";
+export const feedbackSurveyId = "01956b7e-2774-0000-49d7-d34d26811373";
 
 export const ReportProblem = () => {
   const feedbackTranslations = useFeedbackTranslations();

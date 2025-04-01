@@ -12,7 +12,10 @@ export const PosthogSurvey = ({ survey, closeSurvey }: PosthogSurveyProps) => {
   const [isComplete, setIsComplete] = useState(false);
   console.log(survey);
   return (
-    <div className="border-2 border-blue-800 bg-white absolute bottom-[80%] p-24">
+    <div
+      data-testid="posthog-survey"
+      className="border-2 border-blue-800 bg-white absolute bottom-[80%] p-24"
+    >
       <SurveyButtons
         isComplete={isComplete}
         closeSurvey={closeSurvey}
