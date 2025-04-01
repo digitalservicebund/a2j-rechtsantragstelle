@@ -7,10 +7,7 @@ import FilesUpload, {
 } from "~/components/filesUpload/FilesUpload";
 import { type Context } from "~/domains/contexts";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import {
-  fileUploadErrorMap,
-  type PDFFileMetadata,
-} from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 const deleteLabel = "Löschen";
 const selectLabel = "Datei Auswählen";
@@ -116,7 +113,7 @@ describe("FilesUpload", () => {
   it("should render individual file input errors", () => {
     actionResponse = {
       fieldErrors: {
-        [`${fieldName}[0]`]: fileUploadErrorMap.fileSizeTooBig,
+        [`${fieldName}[0]`]: "fileSizeTooBig",
       },
     };
     defaultValue = [
@@ -127,7 +124,7 @@ describe("FilesUpload", () => {
       },
     ];
     const { getByText, queryByText } = renderFilesUpload();
-    expect(getByText(fileUploadErrorMap.fileSizeTooBig)).toBeInTheDocument();
+    expect(getByText("fileSizeTooBig")).toBeInTheDocument();
     expect(queryByText(addAnotherLabel)).not.toBeInTheDocument();
   });
 

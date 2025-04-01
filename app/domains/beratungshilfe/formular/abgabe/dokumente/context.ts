@@ -2,13 +2,12 @@ import { z } from "zod";
 import {
   pdfFileMetaDataSchema,
   fileUploadLimit,
-  fileUploadErrorMap,
 } from "~/util/file/pdfFileSchema";
 
 const fileUploadSchema = z
   .array(pdfFileMetaDataSchema)
-  .nonempty()
-  .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached())
+  .nonempty({ message: "fileRequired" })
+  .max(fileUploadLimit, { message: "fileLimitReached" })
   .optional(); // remove after e2e tests have been added
 
 export const dokumenteContext = {

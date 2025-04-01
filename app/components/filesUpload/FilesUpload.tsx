@@ -83,6 +83,7 @@ const FilesUpload = ({
                   key={inputName}
                   selectedFile={value}
                   error={scopedErrors[inputName]}
+                  errorMessages={errorMessages}
                   jsAvailable={jsAvailable}
                   name={inputName}
                 />
