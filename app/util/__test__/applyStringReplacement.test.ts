@@ -1,10 +1,10 @@
-import { recursivelyReplaceStrings } from "~/util/recursivelyReplaceStrings";
+import { applyStringReplacement } from "~/util/applyStringReplacement";
 
-describe("recursivelyReplaceStrings", () => {
+describe("applyStringReplacement", () => {
   it("should replace the template strings in a string with the given replacements", () => {
     const string = "{{replaceMe}}";
     expect(
-      recursivelyReplaceStrings(string, { replaceMe: "New String!" }),
+      applyStringReplacement(string, { replaceMe: "New String!" }),
     ).toEqual("New String!");
   });
 
@@ -17,7 +17,7 @@ describe("recursivelyReplaceStrings", () => {
         },
       },
     };
-    const interpolatedObj = recursivelyReplaceStrings(inputObj, {
+    const interpolatedObj = applyStringReplacement(inputObj, {
       replaceMe: "New String!",
     });
     expect(interpolatedObj.prop2.prop3.prop4).toBe("New String!");
@@ -28,7 +28,7 @@ describe("recursivelyReplaceStrings", () => {
       const inputObj = {
         isVisible: "hasArbeit",
       };
-      expect(recursivelyReplaceStrings(inputObj, { hasArbeit: false })).toEqual(
+      expect(applyStringReplacement(inputObj, { hasArbeit: false })).toEqual(
         undefined,
       );
     });
@@ -37,9 +37,10 @@ describe("recursivelyReplaceStrings", () => {
       const inputObj = {
         arr: [{}, { isVisible: "hasArbeit" }, { isVisible: "hasBuergergeld" }],
       };
-      expect(recursivelyReplaceStrings(inputObj, { hasArbeit: false })).toEqual(
-        { ...inputObj, arr: [{}, { isVisible: "hasBuergergeld" }] },
-      );
+      expect(applyStringReplacement(inputObj, { hasArbeit: false })).toEqual({
+        ...inputObj,
+        arr: [{}, { isVisible: "hasBuergergeld" }],
+      });
     });
     it("should remove deeply nested objects", () => {
       const inputObj = {
@@ -48,11 +49,9 @@ describe("recursivelyReplaceStrings", () => {
         },
         key: "value",
       };
-      expect(recursivelyReplaceStrings(inputObj, { hasArbeit: false })).toEqual(
-        {
-          key: "value",
-        },
-      );
+      expect(applyStringReplacement(inputObj, { hasArbeit: false })).toEqual({
+        key: "value",
+      });
     });
   });
 
@@ -61,7 +60,7 @@ describe("recursivelyReplaceStrings", () => {
       prop1: "bar",
       prop2: "{{replaceMe}}",
     };
-    const interpolatedObj = recursivelyReplaceStrings(inputObj, {
+    const interpolatedObj = applyStringReplacement(inputObj, {
       replaceMe: "New String!",
     });
     expect(interpolatedObj.prop2).toBe("New String!");
@@ -69,7 +68,7 @@ describe("recursivelyReplaceStrings", () => {
 
   it("should disregard whitespace found inside template strings", () => {
     const string = "{{ replaceMe  }}";
-    const interpolatedString = recursivelyReplaceStrings(string, {
+    const interpolatedString = applyStringReplacement(string, {
       replaceMe: "New String!",
     });
     expect(interpolatedString).not.toEqual(" New String!  ");
@@ -79,7 +78,7 @@ describe("recursivelyReplaceStrings", () => {
   it("should throw an error if there is an unclosed placeholder", () => {
     const stringWithoutEnd = "{{replaceMe";
     expect(() => {
-      recursivelyReplaceStrings(stringWithoutEnd, {
+      applyStringReplacement(stringWithoutEnd, {
         replaceMe: "New String!",
       });
     }).toThrow();
@@ -88,14 +87,14 @@ describe("recursivelyReplaceStrings", () => {
   it("should ignore incorrectly formatte placeholders", () => {
     const stringWithoutBeginning = "replaceMe}}";
     expect(
-      recursivelyReplaceStrings(stringWithoutBeginning, {
+      applyStringReplacement(stringWithoutBeginning, {
         replaceMe: "New String!",
       }),
     ).toEqual(stringWithoutBeginning);
 
     const stringIncorrectNumBrackets = "{replaceMe}";
     expect(
-      recursivelyReplaceStrings(stringIncorrectNumBrackets, {
+      applyStringReplacement(stringIncorrectNumBrackets, {
         replaceMe: "New String!",
       }),
     ).toEqual(stringIncorrectNumBrackets);

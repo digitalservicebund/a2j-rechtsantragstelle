@@ -11,8 +11,8 @@ import { buildFlowController } from "~/services/flow/server/buildFlowController"
 import { skipFlowParamAllowedAndEnabled } from "~/services/params";
 import { getSessionData } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { recursivelyReplaceStrings } from "~/util/recursivelyReplaceStrings";
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname, searchParams } = new URL(request.url);
@@ -43,7 +43,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("defaultTranslations"),
   ]);
 
-  const cmsContent = recursivelyReplaceStrings(
+  const cmsContent = applyStringReplacement(
     resultPageContent,
     "stringReplacements" in currentFlow
       ? currentFlow.stringReplacements(userData)

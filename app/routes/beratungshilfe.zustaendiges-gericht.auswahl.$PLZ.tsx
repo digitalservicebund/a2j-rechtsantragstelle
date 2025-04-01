@@ -10,7 +10,7 @@ import Heading from "~/components/Heading";
 import RichText from "~/components/RichText";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { recursivelyReplaceStrings } from "~/util/recursivelyReplaceStrings";
+import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { splitObjectsByFirstLetter } from "~/util/strings";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -30,10 +30,9 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     fetchMeta({ filterValue }),
   ]);
 
-  const resultListHeading = recursivelyReplaceStrings(
-    common.resultListHeading,
-    { postcode: zipCode ?? "" },
-  );
+  const resultListHeading = applyStringReplacement(common.resultListHeading, {
+    postcode: zipCode ?? "",
+  });
 
   return {
     resultListHeading,

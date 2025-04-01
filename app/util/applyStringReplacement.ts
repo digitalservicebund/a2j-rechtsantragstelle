@@ -2,14 +2,19 @@ import mustache from "mustache";
 
 export type Replacements = Record<string, string | boolean | undefined>;
 
-/**
- * Deeply replaces values with stringReplacements, removing content that shouldn't be visible
- */
-export function recursivelyReplaceStrings<T>(
+export function applyStringReplacement<T>(
+  content: T,
+  replacements?: Replacements,
+) {
+  if (!replacements) return content;
+  return deeplyReplaceTemplateStrings(content, replacements);
+}
+
+function deeplyReplaceTemplateStrings<T>(
   content: T,
   stringReplacements?: Replacements,
 ): T {
-  if (!stringReplacements || !content) return content;
+  if (!content) return content;
   if (typeof content === "string") {
     return mustache.render(content, stringReplacements) as T;
   }
@@ -26,7 +31,7 @@ export function recursivelyReplaceStrings<T>(
 
   if (Array.isArray(content)) {
     return content
-      .map((item) => recursivelyReplaceStrings(item, stringReplacements))
+      .map((item) => deeplyReplaceTemplateStrings(item, stringReplacements))
       .filter((item) => item !== undefined) as T;
   }
 
@@ -34,7 +39,7 @@ export function recursivelyReplaceStrings<T>(
     Object.entries(content)
       .map(([key, value]) => [
         key,
-        recursivelyReplaceStrings(value, stringReplacements),
+        deeplyReplaceTemplateStrings(value, stringReplacements),
       ])
       .filter(([, value]) => value !== undefined),
   );

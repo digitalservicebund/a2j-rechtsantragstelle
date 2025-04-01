@@ -6,7 +6,7 @@ import {
   getTranslationByKey,
   type Translations,
 } from "~/services/translations/getTranslationByKey";
-import { recursivelyReplaceStrings } from "~/util/recursivelyReplaceStrings";
+import { applyStringReplacement } from "~/util/applyStringReplacement";
 import Heading from "../Heading";
 
 type ArraySummaryItemProps = {
@@ -38,7 +38,7 @@ const ArraySummaryDataItems = ({
     return null;
   }
 
-  const heading = recursivelyReplaceStrings(
+  const heading = applyStringReplacement(
     translations[`${category}.label.heading`] ?? "",
     {
       indexArray: (itemIndex + (displayIndexOffset ?? 1)).toString(),
