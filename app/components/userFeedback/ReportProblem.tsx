@@ -42,7 +42,12 @@ export const ReportProblem = () => {
 
   return (
     <div className="p-24 justify-end flex relative">
-      {surveyOpen && survey && <PosthogSurvey survey={survey} />}
+      {surveyOpen && survey && (
+        <PosthogSurvey
+          survey={survey}
+          closeSurvey={() => setSurveyOpen(false)}
+        />
+      )}
       <Button
         look="tertiary"
         disabled={!survey}
