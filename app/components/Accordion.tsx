@@ -16,7 +16,7 @@ export default function Accordion({ items }: AccordionProps) {
   }, []);
 
   return (
-    <section className="rounded border-2 border-blue-500">
+    <section className="border-2 rounded-lg border-blue-500">
       {items.map((item, index) => (
         <AccordionItem
           key={item.id ?? index}
