@@ -107,62 +107,18 @@ describe("FormatOptionLabel", () => {
     ).toBe(mockInputValue);
   });
 
-  it("should handle special regex characters in search input", () => {
-    const dataListOption = [
+  describe("handling special characters in search input", () => {
+    const testCases = [
       {
         label: "Berlin (BER)",
-        subDescription: "Berlin Brandenburg Airport (BER)",
-        value: "BER",
+        input: "(BER)",
+        shouldHighlightLabel: true,
       },
-    ];
-
-    const specialCharInput = "(BER)";
-
-    const { queryByTestId } = render(
-      FormatOptionLabel(dataListOption[0], {
-        context: "menu",
-        inputValue: specialCharInput,
-        selectValue: dataListOption,
-      }),
-    );
-
-    expect(
-      queryByTestId("suggestion-item-label-highlight"),
-    ).toBeInTheDocument();
-    expect(queryByTestId("suggestion-item-label-highlight")?.innerHTML).toBe(
-      specialCharInput,
-    );
-  });
-
-  it("should handle regex metacharacters in search input", () => {
-    const dataListOption = [
       {
         label: "Test [airport]",
-        subDescription: "Test Description *special*",
-        value: "TEST",
+        input: "[airport]",
+        shouldHighlightLabel: true,
       },
-    ];
-
-    const metaCharInput = "[airport]";
-
-    const { queryByTestId } = render(
-      FormatOptionLabel(dataListOption[0], {
-        context: "menu",
-        inputValue: metaCharInput,
-        selectValue: dataListOption,
-      }),
-    );
-
-    expect(
-      queryByTestId("suggestion-item-label-highlight"),
-    ).toBeInTheDocument();
-    expect(queryByTestId("suggestion-item-label-highlight")?.innerHTML).toBe(
-      metaCharInput,
-    );
-  });
-
-  it("should handle multiple special characters in search input", () => {
-    const testCases = [
       {
         label: "Test (BER) [Airport]",
         input: "(BER) [Airport]",
@@ -181,34 +137,34 @@ describe("FormatOptionLabel", () => {
     ];
 
     testCases.forEach(({ label, input, shouldHighlightLabel }) => {
-      const dataListOption = [
-        {
-          label,
-          subDescription: label,
-          value: "TEST",
-        },
-      ];
+      it(`should ${shouldHighlightLabel ? "" : "not "}highlight "${input}" in "${label}"`, () => {
+        const dataListOption = [
+          {
+            label,
+            subDescription: label,
+            value: "TEST",
+          },
+        ];
 
-      const { queryByTestId, unmount } = render(
-        FormatOptionLabel(dataListOption[0], {
-          context: "menu",
-          inputValue: input,
-          selectValue: dataListOption,
-        }),
-      );
+        const { queryByTestId } = render(
+          FormatOptionLabel(dataListOption[0], {
+            context: "menu",
+            inputValue: input,
+            selectValue: dataListOption,
+          }),
+        );
 
-      const highlightedElement = queryByTestId(
-        "suggestion-item-label-highlight",
-      );
+        const highlightedElement = queryByTestId(
+          "suggestion-item-label-highlight",
+        );
 
-      if (shouldHighlightLabel) {
-        expect(highlightedElement).toBeInTheDocument();
-        expect(highlightedElement?.innerHTML).toBe(input);
-      } else {
-        expect(highlightedElement).not.toBeInTheDocument();
-      }
-
-      unmount();
+        if (shouldHighlightLabel) {
+          expect(highlightedElement).toBeInTheDocument();
+          expect(highlightedElement?.innerHTML).toBe(input);
+        } else {
+          expect(highlightedElement).not.toBeInTheDocument();
+        }
+      });
     });
   });
 });
