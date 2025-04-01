@@ -1,5 +1,6 @@
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
-import { type AllContexts } from "../../common";
+import type { GeldEinklagenFormularContext } from "../formular/context";
+import type { GeldEinklagenVorabcheckContext } from "../vorabcheck/context";
 
 const gerichtskostenvorschuss = {
   below_500: 114,
@@ -11,7 +12,9 @@ const gerichtskostenvorschuss = {
   above_4000: 483,
 } as const;
 
-export const getGerichtskostenvorschuss = (context: AllContexts) => {
+export const getGerichtskostenvorschuss = (
+  context: GeldEinklagenVorabcheckContext,
+) => {
   if (
     !("geldspanne" in context) ||
     !context.geldspanne ||
@@ -32,7 +35,7 @@ export const gerichtskostenFromBetrag = (betrag: number) => {
   return gerichtskostenvorschuss.above_4000;
 };
 
-export const gesamtKosten = (context: AllContexts) => {
+export const gesamtKosten = (context: GeldEinklagenFormularContext) => {
   return "forderung" in context && typeof context.forderung === "object"
     ? parseCurrencyStringDE(context.forderung?.forderung2?.betrag) +
         parseCurrencyStringDE(context.forderung?.forderung1?.betrag)

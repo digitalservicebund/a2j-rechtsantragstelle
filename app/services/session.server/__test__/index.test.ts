@@ -1,5 +1,5 @@
 import { createSession } from "@remix-run/node";
-import { MergeWithCustomizer } from "lodash";
+import { type MergeWithCustomizer } from "lodash";
 import { updateSession } from "~/services/session.server";
 
 describe("index", () => {

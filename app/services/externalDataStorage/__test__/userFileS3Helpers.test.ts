@@ -1,10 +1,10 @@
 import {
   DeleteObjectCommand,
   PutObjectCommand,
-  S3Client,
+  type S3Client,
 } from "@aws-sdk/client-s3";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { FlowId } from "~/domains/flowIds";
+import { type FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
 import {
   deleteUserFileFromS3,

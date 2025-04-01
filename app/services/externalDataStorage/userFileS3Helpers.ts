@@ -1,10 +1,10 @@
 import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
-import { FlowId } from "~/domains/flowIds";
+import { type FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
 import { createClientS3DataStorage } from "~/services/externalDataStorage/createClientS3DataStorage";
 import { sendSentryMessage } from "~/services/logging";
 import { getSessionIdByFlowId } from "~/services/session.server";
-import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 const USER_FILES_FOLDER = "user-files";
 export const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";

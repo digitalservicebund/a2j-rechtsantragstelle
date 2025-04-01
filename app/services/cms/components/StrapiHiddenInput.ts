@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HiddenInputProps } from "~/components/inputs/HiddenInput";
+import { type HiddenInputProps } from "~/components/inputs/HiddenInput";
 import { HasOptionalStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
 import { omitNull } from "~/util/omitNull";
 

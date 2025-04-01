@@ -5,9 +5,8 @@ import {
   validateUploadedFile,
 } from "~/services/upload/fileUploadHelpers.server";
 import {
-  fileUploadErrorMap,
   fileUploadLimit,
-  PDFFileMetadata,
+  type PDFFileMetadata,
   pdfFileMetaDataSchema,
 } from "~/util/file/pdfFileSchema";
 
@@ -28,7 +27,7 @@ describe("File Upload helpers", () => {
         {
           belege1: z
             .array(pdfFileMetaDataSchema)
-            .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
+            .max(fileUploadLimit, "fileLimitReached"),
         },
       );
       expect(validationResult.error).toBeUndefined();
@@ -55,12 +54,12 @@ describe("File Upload helpers", () => {
         {
           belege: z
             .array(pdfFileMetaDataSchema)
-            .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
+            .max(fileUploadLimit, "fileLimitReached"),
         },
       );
       expect(validationResult.error).toBeDefined();
       expect(validationResult.error?.fieldErrors).toEqual({
-        "belege[0].fileType": fileUploadErrorMap.wrongFileType,
+        "belege[0].fileType": "wrongFileType",
       });
     });
   });

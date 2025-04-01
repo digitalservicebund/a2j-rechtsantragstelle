@@ -1,13 +1,13 @@
 import { fireEvent, render } from "@testing-library/react";
 import times from "lodash/times";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import { ValidationErrorResponseData } from "remix-validated-form";
+import { type ValidationErrorResponseData } from "remix-validated-form";
 import FilesUpload, {
-  FilesUploadProps,
+  type FilesUploadProps,
 } from "~/components/filesUpload/FilesUpload";
-import { Context } from "~/domains/contexts";
+import { type Context } from "~/domains/contexts";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { fileUploadErrorMap, PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 const deleteLabel = "Löschen";
 const selectLabel = "Datei Auswählen";
@@ -113,7 +113,7 @@ describe("FilesUpload", () => {
   it("should render individual file input errors", () => {
     actionResponse = {
       fieldErrors: {
-        [`${fieldName}[0]`]: fileUploadErrorMap.fileSizeTooBig,
+        [`${fieldName}[0]`]: "fileSizeTooBig",
       },
     };
     defaultValue = [
@@ -124,7 +124,7 @@ describe("FilesUpload", () => {
       },
     ];
     const { getByText, queryByText } = renderFilesUpload();
-    expect(getByText(fileUploadErrorMap.fileSizeTooBig)).toBeInTheDocument();
+    expect(getByText("fileSizeTooBig")).toBeInTheDocument();
     expect(queryByText(addAnotherLabel)).not.toBeInTheDocument();
   });
 

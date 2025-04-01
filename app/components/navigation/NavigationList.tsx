@@ -1,4 +1,4 @@
-import { MobileNavigationLabels } from "~/components/navigation/SideNavMobile";
+import { type MobileNavigationLabels } from "~/components/navigation/SideNavMobile";
 import { NavItem } from "./NavItem";
 
 export type NavigationA11yLabels = {

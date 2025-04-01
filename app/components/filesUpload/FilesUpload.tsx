@@ -1,13 +1,19 @@
 import { useActionData } from "@remix-run/react";
 import classNames from "classnames";
 import { useState, useEffect } from "react";
-import { useField, ValidationErrorResponseData } from "remix-validated-form";
-import { ErrorMessageProps } from "~/components/inputs";
+import {
+  useField,
+  type ValidationErrorResponseData,
+} from "remix-validated-form";
+import { type ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
-import { Context } from "~/domains/contexts";
-import { fileUploadLimit, PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type Context } from "~/domains/contexts";
+import {
+  fileUploadLimit,
+  type PDFFileMetadata,
+} from "~/util/file/pdfFileSchema";
 import { FilesUploadHeader } from "./FilesUploadHeader";
-import { InlineNotice, InlineNoticeProps } from "../InlineNotice";
+import { InlineNotice, type InlineNoticeProps } from "../InlineNotice";
 import { FileInput } from "../inputs/FileInput";
 
 export type FilesUploadProps = {
@@ -77,6 +83,7 @@ const FilesUpload = ({
                   key={inputName}
                   selectedFile={value}
                   error={scopedErrors[inputName]}
+                  errorMessages={errorMessages}
                   jsAvailable={jsAvailable}
                   name={inputName}
                 />

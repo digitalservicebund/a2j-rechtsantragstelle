@@ -1,5 +1,5 @@
 import { getArraySummaryObject } from "../getArraySummaryObject";
-import { SummaryOverviewBoxItemType } from "../SummaryOverviewBoxItem";
+import { type SummaryOverviewBoxItemType } from "../SummaryOverviewBoxItem";
 
 describe("getArraySummaryObject", () => {
   it("should return an array object given the box items fields and mock user data", () => {
