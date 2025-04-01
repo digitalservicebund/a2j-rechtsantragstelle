@@ -106,4 +106,58 @@ describe("FormatOptionLabel", () => {
       queryByTestId("suggestion-item-subDescription-highlight")?.innerHTML,
     ).toBe(mockInputValue);
   });
+
+  it("should handle special regex characters in search input", () => {
+    const dataListOption = [
+      {
+        label: "Berlin (BER)",
+        subDescription: "Berlin Brandenburg Airport (BER)",
+        value: "BER",
+      },
+    ];
+
+    const specialCharInput = "(BER)";
+
+    const { queryByTestId } = render(
+      FormatOptionLabel(dataListOption[0], {
+        context: "menu",
+        inputValue: specialCharInput,
+        selectValue: dataListOption,
+      }),
+    );
+
+    expect(
+      queryByTestId("suggestion-item-label-highlight"),
+    ).toBeInTheDocument();
+    expect(queryByTestId("suggestion-item-label-highlight")?.innerHTML).toBe(
+      specialCharInput,
+    );
+  });
+
+  it("should handle regex metacharacters in search input", () => {
+    const dataListOption = [
+      {
+        label: "Test [airport]",
+        subDescription: "Test Description *special*",
+        value: "TEST",
+      },
+    ];
+
+    const metaCharInput = "[airport]";
+
+    const { queryByTestId } = render(
+      FormatOptionLabel(dataListOption[0], {
+        context: "menu",
+        inputValue: metaCharInput,
+        selectValue: dataListOption,
+      }),
+    );
+
+    expect(
+      queryByTestId("suggestion-item-label-highlight"),
+    ).toBeInTheDocument();
+    expect(queryByTestId("suggestion-item-label-highlight")?.innerHTML).toBe(
+      metaCharInput,
+    );
+  });
 });
