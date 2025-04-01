@@ -17,7 +17,7 @@ type AllContexts =
   | FluggastrechtContext
   | ProzesskostenhilfeFormularContext;
 
-export type KeysOfUnion<T> = T extends T ? keyof T : never;
+type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type AllContextKeys = KeysOfUnion<AllContexts>;
 
 export function getReasonsToDisplay(
