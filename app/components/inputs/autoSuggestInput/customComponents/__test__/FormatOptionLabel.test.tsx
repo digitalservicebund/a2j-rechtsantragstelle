@@ -160,4 +160,55 @@ describe("FormatOptionLabel", () => {
       metaCharInput,
     );
   });
+
+  it("should handle multiple special characters in search input", () => {
+    const testCases = [
+      {
+        label: "Test (BER) [Airport]",
+        input: "(BER) [Airport]",
+        shouldHighlightLabel: true,
+      },
+      {
+        label: "Test {BER} |Airport|",
+        input: "{BER} |Airport|",
+        shouldHighlightLabel: true,
+      },
+      {
+        label: "Test",
+        input: ".*+?^${}()|[]\\",
+        shouldHighlightLabel: false,
+      },
+    ];
+
+    testCases.forEach(({ label, input, shouldHighlightLabel }) => {
+      const dataListOption = [
+        {
+          label,
+          subDescription: label,
+          value: "TEST",
+        },
+      ];
+
+      const { queryByTestId, unmount } = render(
+        FormatOptionLabel(dataListOption[0], {
+          context: "menu",
+          inputValue: input,
+          selectValue: dataListOption,
+        }),
+      );
+
+      const highlightedElement = queryByTestId(
+        "suggestion-item-label-highlight",
+      );
+
+      if (shouldHighlightLabel) {
+        expect(highlightedElement).toBeInTheDocument();
+        expect(highlightedElement?.innerHTML).toBe(input);
+      } else {
+        expect(highlightedElement).not.toBeInTheDocument();
+      }
+
+      unmount();
+    });
+  });
 });
