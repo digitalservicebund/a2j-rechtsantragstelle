@@ -96,7 +96,6 @@ const cases = [
       "/sozialleistung-nachzahlung",
       "/sozialleistung-nachzahlung-amount",
       "/sozialleistungen-einmalzahlung",
-      "/besondere-ausgaben",
     ],
   ],
   [

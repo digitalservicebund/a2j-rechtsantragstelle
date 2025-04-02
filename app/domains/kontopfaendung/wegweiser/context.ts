@@ -92,18 +92,6 @@ export const sozialleistungenUmstaende = z.object(
   },
 );
 
-export const besondereAusgaben = z.object(
-  {
-    erkrankungBehinderung: checkedOptional,
-    KostenWegenHoherMiete: checkedOptional,
-    weitere: checkedOptional,
-    nein: checkedOptional,
-  },
-  {
-    errorMap,
-  },
-);
-
 export const context = {
   hasKontopfaendung,
   hasPKonto,
@@ -125,7 +113,6 @@ export const context = {
   hasSozialleistungNachzahlung: YesNoAnswer,
   socialAmountHigher500: YesNoAnswer,
   hasSozialleistungenEinmalzahlung: YesNoAnswer,
-  besondereAusgaben,
   unerlaubtenHandlung: YesNoAnswer,
   unterhaltszahlungen: YesNoAnswer,
 } as const;
