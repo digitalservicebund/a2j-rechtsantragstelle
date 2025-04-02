@@ -33,6 +33,10 @@ svg {
   fill: currentColor;
 }
 
+details summary::-webkit-details-marker {
+  display: none;
+}
+
 /* Ensure black SVG paths don't disappear in high-contrast mode */
 @media (forced-colors: active) {
   .svg-image path[fill="#000"] {
