@@ -12,6 +12,9 @@ const feedbackTranslationsKeys = [
   "antwort-uebermittelt",
   "feedback-helps",
   "report-problem",
+  "cancel",
+  "submit-problem",
+  "close",
 ] as const;
 export type FeedbackTranslationKeys = (typeof feedbackTranslationsKeys)[number];
 

@@ -1,26 +1,26 @@
-import { fireEvent, render, waitFor } from "@testing-library/react";
-import {
-  feedbackSurveyId,
-  ReportProblem,
-} from "~/components/userFeedback/ReportProblem";
+import { fireEvent, render } from "@testing-library/react";
+import { ReportProblem } from "~/components/userFeedback/ReportProblem";
 
-const REPORT_PROBLEM_BUTTON = "Problem melden";
+const reportProblem = "Problem melden";
+const cancel = "Abbrechen";
+const submitProblem = "Problem absenden";
 
 vi.mock("~/components/userFeedback/feedbackTranslations", () => ({
   useFeedbackTranslations: () => ({
-    "report-problem": REPORT_PROBLEM_BUTTON,
+    "report-problem": reportProblem,
+    cancel: cancel,
+    "submit-problem": submitProblem,
   }),
 }));
 
 vi.mock("posthog-js", () => ({
   posthog: {
     init: vi.fn(),
-    getSurveys: vi.fn(() => [
-      {
-        id: feedbackSurveyId,
-      },
-    ]),
   },
+}));
+
+vi.mock("~/services/analytics/posthogHelpers", () => ({
+  fetchSurvey: vi.fn(() => ({})),
 }));
 
 describe("ReportProblem", () => {
@@ -28,17 +28,16 @@ describe("ReportProblem", () => {
     const { getByRole } = render(<ReportProblem />);
     const reportButton = getByRole("button");
     expect(reportButton).toBeInTheDocument();
-    expect(reportButton.textContent).toBe(` ${REPORT_PROBLEM_BUTTON} `);
+    expect(reportButton.textContent).toBe(` ${reportProblem} `);
     expect(reportButton.id).toBe("survey-button");
   });
 
-  it.skip("should trigger the Survey popup", async () => {
-    const { getByRole, getByTestId } = render(<ReportProblem />);
+  it("should trigger the Survey popup", async () => {
+    const { getByRole, getByText } = render(<ReportProblem />);
     const reportButton = getByRole("button");
     expect(reportButton).toBeInTheDocument();
     fireEvent.click(reportButton);
-    await waitFor(() => {
-      expect(getByTestId("posthog-survey")).toBeInTheDocument();
-    });
+    expect(getByText(cancel)).toBeInTheDocument();
+    expect(getByText(submitProblem)).toBeInTheDocument();
   });
 });

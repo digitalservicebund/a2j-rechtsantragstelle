@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import Button from "~/components/Button";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import { PosthogSurvey } from "~/components/userFeedback/Survey";
+import { fetchSurvey } from "~/services/analytics/posthogHelpers";
 import { config } from "~/services/env/web";
-
-export const feedbackSurveyId = "01956b7e-2774-0000-49d7-d34d26811373";
 
 export const ReportProblem = () => {
   const feedbackTranslations = useFeedbackTranslations();
@@ -14,24 +13,18 @@ export const ReportProblem = () => {
   const [survey, setSurvey] = useState<Survey>();
   const [surveyOpen, setSurveyOpen] = useState<boolean>();
 
-  const fetchSurvey = () => {
-    posthog.getSurveys((surveys) =>
-      setSurvey(surveys.find((survey) => survey.id === feedbackSurveyId)),
-    );
-  };
-
   useEffect(() => {
     if (!posthog.__loaded) {
       if (POSTHOG_API_KEY) {
         posthog.init(POSTHOG_API_KEY, {
           api_host: POSTHOG_API_HOST,
           loaded: () => {
-            fetchSurvey();
+            setSurvey(fetchSurvey());
           },
         });
       }
     }
-    fetchSurvey();
+    setSurvey(fetchSurvey());
   }, [POSTHOG_API_HOST, POSTHOG_API_KEY]);
 
   const onButtonPressed = () => {

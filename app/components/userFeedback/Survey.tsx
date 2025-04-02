@@ -2,6 +2,7 @@ import { type Survey } from "posthog-js";
 import { useState } from "react";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
+import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 
 type PosthogSurveyProps = {
   survey: Survey;
@@ -12,10 +13,7 @@ export const PosthogSurvey = ({ survey, closeSurvey }: PosthogSurveyProps) => {
   const [isComplete, setIsComplete] = useState(false);
   console.log(survey);
   return (
-    <div
-      data-testid="posthog-survey"
-      className="border-2 border-blue-800 bg-white absolute bottom-[80%] p-24"
-    >
+    <div className="border-2 border-blue-800 bg-white absolute bottom-[80%] p-24">
       <SurveyButtons
         isComplete={isComplete}
         closeSurvey={closeSurvey}
@@ -35,15 +33,22 @@ const SurveyButtons = ({
   closeSurvey,
   submitSurvey,
 }: SurveyButtonsProps) => {
+  const feedbackTranslations = useFeedbackTranslations();
   return (
     <ButtonContainer>
       <Button
         look={isComplete ? "primary" : "tertiary"}
         onClick={closeSurvey}
-        text={isComplete ? "Schließen" : "Abbrechen"}
+        text={
+          isComplete ? feedbackTranslations.close : feedbackTranslations.cancel
+        }
       />
       {!isComplete && (
-        <Button look="primary" text="Problem absenden" onClick={submitSurvey} />
+        <Button
+          look="primary"
+          text={feedbackTranslations["submit-problem"]}
+          onClick={submitSurvey}
+        />
       )}
     </ButtonContainer>
   );
