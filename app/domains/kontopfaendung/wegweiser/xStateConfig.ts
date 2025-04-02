@@ -1,3 +1,4 @@
+import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { type KontopfaendungWegweiserContext } from "./context";
 
@@ -247,7 +248,13 @@ export const kontopfaendungWegweiserXstateConfig = {
     "zahlung-arbeitgeber": {
       on: {
         SUBMIT: "sozialleistungen",
-        BACK: "zahlungslimit",
+        BACK: [
+          {
+            target: "nachzahlung-arbeitgeber",
+            guard: ({ context }) => context.nachzahlungArbeitgeber === "no",
+          },
+          "zahlungslimit",
+        ],
       },
     },
     sozialleistungen: {
@@ -259,20 +266,33 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           "sozialleistung-nachzahlung",
         ],
-        BACK: "zahlung-arbeitgeber",
+        BACK: [
+          {
+            target: "ermittlung-betrags",
+            guard: ({ context }) => context.hasArbeit === "no",
+          },
+          "zahlung-arbeitgeber",
+        ],
       },
     },
     "sozialleistungen-umstaende": {
       on: {
         SUBMIT: [
           {
-            target: "sozialleistung-nachzahlung",
+            target: "pflegegeld",
             guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.nein === "off",
+              context.sozialleistungenUmstaende?.pflegegeld ===
+              CheckboxValue.on,
           },
-          "besondere-ausgaben",
+          "sozialleistung-nachzahlung",
         ],
         BACK: "sozialleistungen",
+      },
+    },
+    pflegegeld: {
+      on: {
+        SUBMIT: "sozialleistung-nachzahlung",
+        BACK: "sozialleistungen-umstaende",
       },
     },
     "sozialleistung-nachzahlung": {
@@ -288,9 +308,9 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: [
           {
             target: "sozialleistungen-umstaende",
-            guard: ({ context }) => context.hasSozialleistungen === "nein",
+            guard: ({ context }) => context.hasPflegegeld === undefined,
           },
-          "sozialleistungen",
+          "pflegegeld",
         ],
       },
     },
@@ -302,7 +322,7 @@ export const kontopfaendungWegweiserXstateConfig = {
     },
     "sozialleistungen-einmalzahlung": {
       on: {
-        SUBMIT: "besondere-ausgaben",
+        SUBMIT: "ergebnisseite",
         BACK: [
           {
             target: "sozialleistung-nachzahlung",
@@ -310,23 +330,6 @@ export const kontopfaendungWegweiserXstateConfig = {
               context.hasSozialleistungNachzahlung === "no",
           },
           "sozialleistung-nachzahlung-amount",
-        ],
-      },
-    },
-    "besondere-ausgaben": {
-      on: {
-        SUBMIT: [
-          {
-            target: "ergebnisseite",
-          },
-        ],
-        BACK: [
-          {
-            target: "sozialleistungen-umstaende",
-            guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.nein === "on",
-          },
-          "sozialleistungen-einmalzahlung",
         ],
       },
     },

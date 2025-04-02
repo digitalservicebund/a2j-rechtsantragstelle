@@ -1,16 +1,19 @@
 import { z } from "zod";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import {
+  customRequiredErrorMessage,
+  YesNoAnswer,
+} from "~/services/validation/YesNoAnswer";
 
-const errorMap = () => ({ message: `Bitte treffen Sie eine Auswahl.` });
+export const hasKontopfaendung = z.enum(
+  ["nein", "ja", "weissNicht"],
+  customRequiredErrorMessage,
+);
 
-export const hasKontopfaendung = z.enum(["nein", "ja", "weissNicht"], {
-  errorMap,
-});
-
-export const hasPKonto = z.enum(["nein", "ja", "nichtAktiv", "bank"], {
-  errorMap,
-});
+export const hasPKonto = z.enum(
+  ["nein", "ja", "nichtAktiv", "bank"],
+  customRequiredErrorMessage,
+);
 
 export const schuldenBei = z.enum(
   [
@@ -30,43 +33,37 @@ export const schuldenBei = z.enum(
     "kasse",
     "jugendamt",
   ],
-  { errorMap },
+  customRequiredErrorMessage,
 );
 
 export const euroSchwelle = z.enum(
   ["nein", "ja", "weissNicht", "unterschiedlich"],
-  { errorMap },
+  customRequiredErrorMessage,
 );
 
 export const verheiratet = z.enum(
   ["nein", "ja", "getrennt", "geschieden", "verwitwet"],
-  { errorMap },
+  customRequiredErrorMessage,
 );
 
-export const kinderLebtMit = z.enum(["nein", "ja", "teilweise"], {
-  errorMap,
+export const kinderLebtMit = z.enum(
+  ["nein", "ja", "weissNicht"],
+  customRequiredErrorMessage,
+);
+
+export const arbeitsweise = z.object({
+  angestellt: checkedOptional,
+  selbstaendig: checkedOptional,
 });
 
-export const arbeitsweise = z.object(
-  { angestellt: checkedOptional, selbstaendig: checkedOptional },
-  {
-    errorMap,
-  },
-);
-
-export const zahlungArbeitgeber = z.object(
-  {
-    urlaubsgeld: checkedOptional,
-    weihnachtsgeld: checkedOptional,
-    ueberstundenBezahlt: checkedOptional,
-    abfindung: checkedOptional,
-    anderes: checkedOptional,
-    nein: checkedOptional,
-  },
-  {
-    errorMap,
-  },
-);
+export const zahlungArbeitgeber = z.object({
+  urlaubsgeld: checkedOptional,
+  weihnachtsgeld: checkedOptional,
+  ueberstundenBezahlt: checkedOptional,
+  abfindung: checkedOptional,
+  anderes: checkedOptional,
+  nein: checkedOptional,
+});
 
 export const hasSozialleistungen = z.enum(
   [
@@ -75,38 +72,20 @@ export const hasSozialleistungen = z.enum(
     "asylbewerberleistungen",
     "nein",
   ],
-  {
-    errorMap,
-  },
+  customRequiredErrorMessage,
 );
 
-export const sozialleistungenUmstaende = z.object(
-  {
-    pflegegeld: z.enum(["off", "on"]),
-    kindergeld: z.enum(["off", "on"]),
-    wohngeld: z.enum(["off", "on"]),
-    nein: z.enum(["off", "on"]),
-  },
-  {
-    errorMap,
-  },
-);
-
-export const besondereAusgaben = z.object(
-  {
-    erkrankungBehinderung: checkedOptional,
-    KostenWegenHoherMiete: checkedOptional,
-    weitere: checkedOptional,
-    nein: checkedOptional,
-  },
-  {
-    errorMap,
-  },
-);
-
-export const pflegegeld = z.enum(["selbst", "fremd"], {
-  errorMap,
+export const sozialleistungenUmstaende = z.object({
+  pflegegeld: checkedOptional,
+  kindergeld: checkedOptional,
+  wohngeld: checkedOptional,
+  nein: checkedOptional,
 });
+
+export const hasPflegegeld = z.enum(
+  ["hasPflegegeldSelbst", "hasPflegegeldFremd"],
+  customRequiredErrorMessage,
+);
 
 export const context = {
   hasKontopfaendung,
@@ -129,10 +108,9 @@ export const context = {
   hasSozialleistungNachzahlung: YesNoAnswer,
   socialAmountHigher500: YesNoAnswer,
   hasSozialleistungenEinmalzahlung: YesNoAnswer,
-  besondereAusgaben,
   unerlaubtenHandlung: YesNoAnswer,
   unterhaltszahlungen: YesNoAnswer,
-  pflegegeld,
+  hasPflegegeld,
 } as const;
 
 const _contextObject = z.object(context).partial();

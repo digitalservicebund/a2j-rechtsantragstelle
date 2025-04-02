@@ -1,3 +1,4 @@
+import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { type KontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
 import { machine } from "./testMachine";
@@ -65,10 +66,10 @@ const cases = [
       nachzahlungArbeitgeber: "yes",
       hasSozialleistungen: "nein",
       sozialleistungenUmstaende: {
-        nein: "off",
-        kindergeld: "on",
-        pflegegeld: "off",
-        wohngeld: "off",
+        nein: CheckboxValue.off,
+        kindergeld: CheckboxValue.on,
+        pflegegeld: CheckboxValue.off,
+        wohngeld: CheckboxValue.off,
       },
       hasSozialleistungNachzahlung: "yes",
     },
@@ -96,7 +97,6 @@ const cases = [
       "/sozialleistung-nachzahlung",
       "/sozialleistung-nachzahlung-amount",
       "/sozialleistungen-einmalzahlung",
-      "/besondere-ausgaben",
     ],
   ],
   [
