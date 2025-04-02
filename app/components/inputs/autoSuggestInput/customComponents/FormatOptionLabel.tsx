@@ -1,8 +1,8 @@
 import type { FormatOptionLabelMeta } from "react-select";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
-function escapeSpecialCharacters(string: string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function escapeParentheses(string: string) {
+  return string.replace(/[()]/g, "\\$&");
 }
 
 function splitHighlightWord(
@@ -13,9 +13,7 @@ function splitHighlightWord(
     return [];
   }
 
-  return text.split(
-    new RegExp(`(${escapeSpecialCharacters(matchWord)})`, "gi"),
-  );
+  return text.split(new RegExp(`(${escapeParentheses(matchWord)})`, "gi"));
 }
 
 const renderHighlightText = (

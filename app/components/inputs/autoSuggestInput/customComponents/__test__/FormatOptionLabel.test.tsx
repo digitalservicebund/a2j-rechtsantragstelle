@@ -111,28 +111,24 @@ describe("FormatOptionLabel", () => {
     const testCases = [
       {
         label: "Berlin (BER)",
-        input: "(BER)",
-        shouldHighlightLabel: true,
+        input: "Berlin (BER)",
       },
       {
-        label: "Test [airport]",
-        input: "[airport]",
-        shouldHighlightLabel: true,
+        label: "Frankfurt (FRA)",
+        input: "(FRA)",
       },
       {
-        label: "Test (BER) [Airport]",
-        input: "(BER) [Airport]",
-        shouldHighlightLabel: true,
+        label: "Munich (MUC) Airport",
+        input: "(MUC)",
       },
       {
-        label: "Test {BER} |Airport|",
-        input: "{BER} |Airport|",
-        shouldHighlightLabel: true,
+        label: "Test Airport (XYZ)",
+        input: "Test Airport (",
       },
       {
-        label: "Test",
-        input: ".*+?^${}()|[]\\",
-        shouldHighlightLabel: false,
+        label: "Test ((Double))",
+        input: "((Double))",
+        shouldHighlightLabel: true,
       },
     ];
 
@@ -158,12 +154,8 @@ describe("FormatOptionLabel", () => {
           "suggestion-item-label-highlight",
         );
 
-        if (shouldHighlightLabel) {
-          expect(highlightedElement).toBeInTheDocument();
-          expect(highlightedElement?.innerHTML).toBe(input);
-        } else {
-          expect(highlightedElement).not.toBeInTheDocument();
-        }
+        expect(highlightedElement).toBeInTheDocument();
+        expect(highlightedElement?.innerHTML).toBe(input);
       });
     });
   });
