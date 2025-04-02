@@ -107,14 +107,14 @@ export const getPflegegeldSelbstStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasPflegegeldSelbst: userData.pflegegeld === "selbst",
+    hasPflegegeldSelbst: userData.hasPflegegeld === "hasPflegegeldSelbst",
   };
 };
 export const getPflegegeldFremdStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasPflegegeldFremd: userData.pflegegeld === "fremd",
+    hasPflegegeldFremd: userData.hasPflegegeld === "hasPflegegeldFremd",
   };
 };
 export const getBehordenschuldenStrings = (

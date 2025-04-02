@@ -176,7 +176,9 @@ describe("stringReplacements", () => {
   });
   describe("getPflegegeldSelbstStrings", () => {
     it("should return correct Pflegegeld Selbst strings", () => {
-      const userData: KontopfaendungWegweiserContext = { pflegegeld: "selbst" };
+      const userData: KontopfaendungWegweiserContext = {
+        hasPflegegeld: "hasPflegegeldSelbst",
+      };
       expect(getPflegegeldSelbstStrings(userData)).toEqual({
         hasPflegegeldSelbst: true,
       });
@@ -184,7 +186,9 @@ describe("stringReplacements", () => {
   });
   describe("getPflegegeldFremdStrings", () => {
     it("should return correct Pflegegeld Fremd strings", () => {
-      const userData: KontopfaendungWegweiserContext = { pflegegeld: "fremd" };
+      const userData: KontopfaendungWegweiserContext = {
+        hasPflegegeld: "hasPflegegeldFremd",
+      };
       expect(getPflegegeldFremdStrings(userData)).toEqual({
         hasPflegegeldFremd: true,
       });
