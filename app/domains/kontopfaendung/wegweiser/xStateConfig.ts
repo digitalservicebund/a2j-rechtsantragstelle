@@ -1,5 +1,5 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { type KontopfaendungWegweiserContext } from "./context";
+import { hasPflegegeld, type KontopfaendungWegweiserContext } from "./context";
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/kontopfaendung/wegweiser",
@@ -276,8 +276,21 @@ export const kontopfaendungWegweiserXstateConfig = {
     },
     "sozialleistungen-umstaende": {
       on: {
-        SUBMIT: ["sozialleistung-nachzahlung"],
+        SUBMIT: [
+          {
+            target: "pflegegeld",
+            guard: ({ context }) =>
+              context.sozialleistungenUmstaende?.pflegegeld === "on",
+          },
+          "sozialleistung-nachzahlung",
+        ],
         BACK: "sozialleistungen",
+      },
+    },
+    pflegegeld: {
+      on: {
+        SUBMIT: "sozialleistung-nachzahlung",
+        BACK: "sozialleistungen-umstaende",
       },
     },
     "sozialleistung-nachzahlung": {
@@ -293,9 +306,9 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: [
           {
             target: "sozialleistungen-umstaende",
-            guard: ({ context }) => context.hasSozialleistungen === "nein",
+            guard: ({ context }) => context.hasPflegegeld === undefined,
           },
-          "sozialleistungen",
+          "pflegegeld",
         ],
       },
     },

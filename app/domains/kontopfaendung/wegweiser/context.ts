@@ -80,13 +80,15 @@ export const hasSozialleistungen = z.enum(
   },
 );
 
-export const sozialleistungenUmstaende = z.object(
-  {
-    pflegegeld: z.enum(["off", "on"]),
-    kindergeld: z.enum(["off", "on"]),
-    wohngeld: z.enum(["off", "on"]),
-    nein: z.enum(["off", "on"]),
-  },
+export const sozialleistungenUmstaende = z.object({
+  pflegegeld: z.enum(["off", "on"]),
+  kindergeld: z.enum(["off", "on"]),
+  wohngeld: z.enum(["off", "on"]),
+  nein: z.enum(["off", "on"]),
+});
+
+export const hasPflegegeld = z.enum(
+  ["hasPflegegeldSelbst", "hasPflegegeldFremd"],
   {
     errorMap,
   },
@@ -115,6 +117,7 @@ export const context = {
   hasSozialleistungenEinmalzahlung: YesNoAnswer,
   unerlaubtenHandlung: YesNoAnswer,
   unterhaltszahlungen: YesNoAnswer,
+  hasPflegegeld,
 } as const;
 
 const _contextObject = z.object(context).partial();
