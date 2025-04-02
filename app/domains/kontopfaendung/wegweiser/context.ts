@@ -76,10 +76,10 @@ export const hasSozialleistungen = z.enum(
 );
 
 export const sozialleistungenUmstaende = z.object({
-  pflegegeld: z.enum(["off", "on"]),
-  kindergeld: z.enum(["off", "on"]),
-  wohngeld: z.enum(["off", "on"]),
-  nein: z.enum(["off", "on"]),
+  pflegegeld: checkedOptional,
+  kindergeld: checkedOptional,
+  wohngeld: checkedOptional,
+  nein: checkedOptional,
 });
 
 export const hasPflegegeld = z.enum(
