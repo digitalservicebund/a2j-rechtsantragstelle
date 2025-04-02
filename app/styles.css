@@ -158,11 +158,6 @@ details:not(:has(.summary-content:focus-visible)) {
   }
 }
 
-/* when focus without the keyboard, remove the outline of the children*/
-details:not(:has(.summary-content:focus-visible)) {
-  @apply outline-none;
-}
-
 .increase-tap-area {
   @apply relative;
   @apply inline-block;
