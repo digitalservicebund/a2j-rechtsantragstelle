@@ -46,6 +46,21 @@ details summary::-webkit-details-marker {
   }
 }
 
+/* This will prevent hover states appear when screen touch gesture starts*/
+/* and ensures hover applies only in desktop */
+@media (hover: hover) {
+  .summary-content:hover {
+    @apply underline;
+    @apply underline-offset-2;
+    @apply decoration-2;
+  }
+}
+
+/* when focus without the keyboard, remove the outline of the children*/
+details:not(:has(.summary-content:focus-visible)) {
+  @apply outline-none;
+}
+
 /* Tailwind's container core plugin is disabled,
  * because its breakpoint-based nature does not fit our needs */
 .container {

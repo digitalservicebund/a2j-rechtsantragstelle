@@ -37,7 +37,7 @@ export const Details = ({ title, content }: DetailsProps) => {
     >
       <summary
         aria-expanded={isOpen}
-        className="flex items-baseline focus:outline-none cursor-pointer list-none hover:underline hover:underline-offset-2 hover:decoration-2"
+        className="summary-content flex items-baseline focus:outline-none cursor-pointer list-none"
       >
         <span className="mr-[8px]">
           <ArrowIcon />
