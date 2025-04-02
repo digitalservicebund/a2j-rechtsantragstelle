@@ -47,26 +47,19 @@ export const kinderLebtMit = z.enum(["nein", "ja", "weissNicht"], {
   errorMap,
 });
 
-export const arbeitsweise = z.object(
-  { angestellt: checkedOptional, selbstaendig: checkedOptional },
-  {
-    errorMap,
-  },
-);
+export const arbeitsweise = z.object({
+  angestellt: checkedOptional,
+  selbstaendig: checkedOptional,
+});
 
-export const zahlungArbeitgeber = z.object(
-  {
-    urlaubsgeld: checkedOptional,
-    weihnachtsgeld: checkedOptional,
-    ueberstundenBezahlt: checkedOptional,
-    abfindung: checkedOptional,
-    anderes: checkedOptional,
-    nein: checkedOptional,
-  },
-  {
-    errorMap,
-  },
-);
+export const zahlungArbeitgeber = z.object({
+  urlaubsgeld: checkedOptional,
+  weihnachtsgeld: checkedOptional,
+  ueberstundenBezahlt: checkedOptional,
+  abfindung: checkedOptional,
+  anderes: checkedOptional,
+  nein: checkedOptional,
+});
 
 export const hasSozialleistungen = z.enum(
   [

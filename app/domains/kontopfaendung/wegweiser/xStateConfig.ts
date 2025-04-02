@@ -1,5 +1,5 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { hasPflegegeld, type KontopfaendungWegweiserContext } from "./context";
+import { type KontopfaendungWegweiserContext } from "./context";
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/kontopfaendung/wegweiser",
