@@ -33,32 +33,12 @@ svg {
   fill: currentColor;
 }
 
-/* This is a fix where in Safari the details summary icon appears twice */
-details summary::-webkit-details-marker {
-  display: none;
-}
-
 /* Ensure black SVG paths don't disappear in high-contrast mode */
 @media (forced-colors: active) {
   .svg-image path[fill="#000"] {
     stroke: white;
     stroke-width: 0.75;
   }
-}
-
-/* This will prevent hover states appear when screen touch gesture starts*/
-/* and ensures hover applies only in desktop */
-@media (hover: hover) {
-  .summary-content:hover {
-    @apply underline;
-    @apply underline-offset-2;
-    @apply decoration-2;
-  }
-}
-
-/* when focus without the keyboard, remove the outline of the children*/
-details:not(:has(.summary-content:focus-visible)) {
-  @apply outline-none;
 }
 
 /* Tailwind's container core plugin is disabled,
@@ -155,6 +135,26 @@ details:not(:has(.summary-content:focus-visible)) {
 
 .text-link:active {
   @apply text-black;
+}
+
+/* This is a fix where in Safari the details summary icon appears twice */
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* This will prevent hover states appear when screen touch gesture starts*/
+/* and ensures hover applies only in desktop */
+@media (hover: hover) {
+  .summary-content:hover {
+    @apply underline;
+    @apply underline-offset-2;
+    @apply decoration-2;
+  }
+}
+
+/* when focus without the keyboard, remove the outline of the children*/
+details:not(:has(.summary-content:focus-visible)) {
+  @apply outline-none;
 }
 
 .increase-tap-area {
