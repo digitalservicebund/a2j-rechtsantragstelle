@@ -1,6 +1,6 @@
+import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { type KontopfaendungWegweiserContext } from "./context";
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/kontopfaendung/wegweiser",
