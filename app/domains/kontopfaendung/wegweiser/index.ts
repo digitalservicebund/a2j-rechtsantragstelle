@@ -28,7 +28,6 @@ export const kontopfaendungWegweiser = {
   flowType: "vorabCheck",
   config: kontopfaendungWegweiserXstateConfig,
   guards: {},
-
   stringReplacements: (userData: KontopfaendungWegweiserContext) => ({
     ...getPKontoStrings(userData),
     ...getPrivilegierteForderungStrings(userData),
