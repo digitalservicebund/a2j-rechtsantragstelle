@@ -19,7 +19,9 @@ export const StrapiListSchema = z
     heading: StrapiHeadingOptionalSchema,
     subheading: StrapiRichTextOptionalSchema(listRenderer),
     items: z.array(StrapiListItemSchema),
-    variant: z.enum(["unordered", "numbered"]).default("unordered"),
+    variant: z
+      .enum(["unordered", "numbered", "stepByStep"])
+      .default("unordered"),
     outerBackground: StrapiBackgroundSchema.nullable(),
     container: StrapiContainerSchema,
   })
