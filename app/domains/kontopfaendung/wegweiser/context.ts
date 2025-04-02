@@ -43,7 +43,7 @@ export const verheiratet = z.enum(
   { errorMap },
 );
 
-export const kinderLebtMit = z.enum(["nein", "ja", "weissNicht"], {
+export const kinderLebtMit = z.enum(["nein", "ja", "teilweise"], {
   errorMap,
 });
 
@@ -104,6 +104,10 @@ export const besondereAusgaben = z.object(
   },
 );
 
+export const pflegegeld = z.enum(["selbst", "fremd"], {
+  errorMap,
+});
+
 export const context = {
   hasKontopfaendung,
   hasPKonto,
@@ -128,6 +132,7 @@ export const context = {
   besondereAusgaben,
   unerlaubtenHandlung: YesNoAnswer,
   unterhaltszahlungen: YesNoAnswer,
+  pflegegeld,
 } as const;
 
 const _contextObject = z.object(context).partial();
