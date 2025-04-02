@@ -247,7 +247,13 @@ export const kontopfaendungWegweiserXstateConfig = {
     "zahlung-arbeitgeber": {
       on: {
         SUBMIT: "sozialleistungen",
-        BACK: "zahlungslimit",
+        BACK: [
+          {
+            target: "nachzahlung-arbeitgeber",
+            guard: ({ context }) => context.nachzahlungArbeitgeber === "no",
+          },
+          "zahlungslimit",
+        ],
       },
     },
     sozialleistungen: {
@@ -259,7 +265,13 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           "sozialleistung-nachzahlung",
         ],
-        BACK: "zahlung-arbeitgeber",
+        BACK: [
+          {
+            target: "ermittlung-betrags",
+            guard: ({ context }) => context.hasArbeit === "no",
+          },
+          "zahlung-arbeitgeber",
+        ],
       },
     },
     "sozialleistungen-umstaende": {
