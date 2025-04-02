@@ -1,5 +1,6 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { type KontopfaendungWegweiserContext } from "./context";
+import { CheckboxValue } from "~/components/inputs/Checkbox";
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/kontopfaendung/wegweiser",
@@ -280,7 +281,8 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "pflegegeld",
             guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.pflegegeld === "on",
+              context.sozialleistungenUmstaende?.pflegegeld ===
+              CheckboxValue.on,
           },
           "sozialleistung-nachzahlung",
         ],
