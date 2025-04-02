@@ -1,5 +1,11 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { type KontopfaendungWegweiserContext } from "./context";
+
+export const getArbeitStrings = (userData: KontopfaendungWegweiserContext) => {
+  return {
+    hasArbeit: userData.hasArbeit === "yes",
+  };
+};
 export const getPKontoStrings = (userData: KontopfaendungWegweiserContext) => {
   return {
     hasPKonto: userData.hasPKonto === "ja",

@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { type KontopfaendungWegweiserContext } from "../wegweiser/context";
 import {
+  getArbeitStrings,
   getPKontoStrings,
   getPrivilegierteForderungStrings,
   getErhoehungsbetragStrings,
@@ -25,6 +26,14 @@ import {
 } from "../wegweiser/stringReplacements";
 
 describe("stringReplacements", () => {
+  describe("getArbeitStrings", () => {
+    it("should return correct Arbeit strings", () => {
+      const userData: KontopfaendungWegweiserContext = { hasArbeit: "yes" };
+      expect(getArbeitStrings(userData)).toEqual({
+        hasArbeit: true,
+      });
+    });
+  });
   describe("getPkontoStrings", () => {
     it("should return correct PKonto strings", () => {
       const userData: KontopfaendungWegweiserContext = { hasPKonto: "ja" };
