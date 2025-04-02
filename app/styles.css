@@ -137,33 +137,6 @@ svg {
   @apply text-black;
 }
 
-.details .summary-content {
-  @apply bg-[position:0_8px];
-  background-image: url("data:image/svg+xml,%3Csvg width='16' height='10' viewBox='0 0 16 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 0L16 0L8 10L0 0Z' fill='%23005576'/%3E%3C/svg%3E%0A");
-}
-
-.details[open] .summary-content {
-  background-image: url("data:image/svg+xml,%3Csvg width='16' height='10' viewBox='0 0 16 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 10L16 10L8 0L0 10Z' fill='%23005576'/%3E%3C/svg%3E%0A");
-}
-
-.summary-content::-webkit-details-marker {
-  display: none;
-}
-
-/* when focus without the keyboard, remove the outline of the children*/
-.details:not(:has(.summary-content:focus-visible)) {
-  @apply outline-none;
-}
-
-/* Only apply hover effect on devices that support it, see https://stackoverflow.com/a/28058919 */
-@media (hover: hover) {
-  .summary-content:hover {
-    @apply underline;
-    @apply underline-offset-2;
-    @apply decoration-2;
-  }
-}
-
 .increase-tap-area {
   @apply relative;
   @apply inline-block;
