@@ -33,6 +33,7 @@ svg {
   fill: currentColor;
 }
 
+/* This is a fix where in Safari the details summary icon appears twice */
 details summary::-webkit-details-marker {
   display: none;
 }
