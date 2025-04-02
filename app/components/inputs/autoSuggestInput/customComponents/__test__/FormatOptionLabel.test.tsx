@@ -128,12 +128,23 @@ describe("FormatOptionLabel", () => {
       {
         label: "Test ((Double))",
         input: "((Double))",
-        shouldHighlightLabel: true,
+      },
+      {
+        label: "Test\\Backslash",
+        input: "Test\\Backslash",
+      },
+      {
+        label: "Multiple\\\\Backslashes",
+        input: "Multiple\\\\",
+      },
+      {
+        label: "Mixed (Test)\\Case",
+        input: "(Test)\\Case",
       },
     ];
 
-    testCases.forEach(({ label, input, shouldHighlightLabel }) => {
-      it(`should ${shouldHighlightLabel ? "" : "not "}highlight "${input}" in "${label}"`, () => {
+    testCases.forEach(({ label, input }) => {
+      it(`should highlight "${input}" in "${label}"`, () => {
         const dataListOption = [
           {
             label,

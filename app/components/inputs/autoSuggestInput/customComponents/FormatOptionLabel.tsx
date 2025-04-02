@@ -2,7 +2,7 @@ import type { FormatOptionLabelMeta } from "react-select";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 function escapeParentheses(string: string) {
-  return string.replace(/[()]/g, "\\$&");
+  return string.replace(/[\\()]/g, "\\$&");
 }
 
 function splitHighlightWord(
