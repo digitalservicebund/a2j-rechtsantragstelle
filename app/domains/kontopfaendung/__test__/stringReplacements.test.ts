@@ -69,9 +69,9 @@ describe("stringReplacements", () => {
       const userData: KontopfaendungWegweiserContext = {
         sozialleistungenUmstaende: {
           kindergeld: CheckboxValue.on,
-          nein: "on",
-          pflegegeld: "on",
-          wohngeld: "on",
+          nein: CheckboxValue.off,
+          pflegegeld: CheckboxValue.off,
+          wohngeld: CheckboxValue.off,
         },
       };
       expect(getKindergeldStrings(userData)).toEqual({
@@ -84,9 +84,9 @@ describe("stringReplacements", () => {
       const userData: KontopfaendungWegweiserContext = {
         sozialleistungenUmstaende: {
           wohngeld: CheckboxValue.on,
-          nein: "on",
-          pflegegeld: "on",
-          kindergeld: "on",
+          nein: CheckboxValue.off,
+          pflegegeld: CheckboxValue.off,
+          kindergeld: CheckboxValue.off,
         },
       };
       expect(getWohngeldStrings(userData)).toEqual({
