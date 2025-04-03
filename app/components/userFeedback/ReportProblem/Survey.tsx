@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { SurveyQuestionType, type Survey } from "posthog-js";
+import posthog, { SurveyQuestionType, type Survey } from "posthog-js";
 import { type ElementType, useState } from "react";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
@@ -41,6 +41,16 @@ export const PosthogSurvey = ({
     styleOverrides,
   );
 
+  const onFeedbackSubmitted = () => {
+    if (responses) {
+      posthog.capture("survey sent", {
+        $survey_id: survey.id,
+        ...responses,
+      });
+      setIsComplete(true);
+    }
+  };
+
   return (
     <div className={containerClasses}>
       {isComplete ? (
@@ -80,12 +90,10 @@ export const PosthogSurvey = ({
             />
             <Button
               look="primary"
+              disabled={!responses}
               className="justify-center"
               text={feedbackTranslations["submit-problem"]}
-              onClick={() => {
-                console.log(responses);
-                setIsComplete(true);
-              }}
+              onClick={onFeedbackSubmitted}
             />
           </>
         )}

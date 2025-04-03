@@ -18,10 +18,17 @@ vi.mock("posthog-js", () => ({
   posthog: {
     init: vi.fn(),
   },
+  SurveyQuestionType: {
+    Open: "open",
+    MultipleChoice: "multiple_choice",
+    SingleChoice: "single_choice",
+    Rating: "rating",
+    Link: "link",
+  },
 }));
 
 vi.mock("~/services/analytics/posthogHelpers", () => ({
-  fetchSurvey: vi.fn(() => ({})),
+  fetchSurvey: vi.fn(() => ({ questions: [] })),
 }));
 
 describe("ReportProblem", () => {

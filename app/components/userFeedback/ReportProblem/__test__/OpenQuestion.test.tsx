@@ -22,12 +22,12 @@ describe("OpenQuestion", () => {
       question: questionText,
       description: descriptionText,
     };
-    const { getByText, getByRole } = render(
+    const { getByText, getByPlaceholderText, getByRole } = render(
       <OpenQuestion question={question} setResponses={mockSetResponses} />,
     );
     expect(getByText(questionText)).toBeInTheDocument();
     expect(getByText(descriptionText)).toBeInTheDocument();
-    expect(getByText(placeholderText)).toBeInTheDocument();
+    expect(getByPlaceholderText(placeholderText)).toBeInTheDocument();
     expect(getByRole("textbox")).toBeInTheDocument();
     fireEvent.change(getByRole("textbox"), { target: { value: "Feedback" } });
     expect(mockSetResponses).toHaveBeenCalled();
