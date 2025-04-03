@@ -1,6 +1,7 @@
 import { type Page, type Response, expect, test } from "@playwright/test";
 import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
+import { testReportProblemButton } from "tests/e2e/domains/shared/reportProblem";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { config } from "~/services/env/env.server";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
@@ -46,6 +47,7 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.clickNext();
 
+  await testReportProblemButton(page);
   await startGrundvoraussetzungen(page, beratungshilfeFormular);
   await startAnwaltlicheVertretung(beratungshilfeFormular);
   await startRechtsproblem(page, beratungshilfeFormular);

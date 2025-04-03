@@ -33,13 +33,6 @@ export const MultipleChoiceQuestion = ({
     });
   };
 
-  const onCheckboxKeydown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.code === "Space") {
-      event.currentTarget.click();
-      event.preventDefault();
-    }
-  };
-
   return (
     <div className="flex flex-col gap-16">
       <p className="ds-body-01-bold">{question.question}</p>
@@ -48,21 +41,18 @@ export const MultipleChoiceQuestion = ({
           const choiceName = choice.replaceAll(" ", "_");
           return (
             <div className="flex flex-col flex-nowrap" key={choiceName}>
-              <div
-                className="flex items-center"
-                role="button"
-                onKeyDown={onCheckboxKeydown}
-                tabIndex={0}
-                onClick={() => onCheckboxClicked(idx, choice)}
-              >
-                <input
-                  type="checkbox"
-                  readOnly
-                  checked={checkboxStates[idx]}
-                  name={choiceName}
-                  className="ds-checkbox forced-colors:outline forced-colors:border-[ButtonText]"
-                />
-                <label htmlFor={choiceName}>{choice}</label>
+              <div className="flex items-center">
+                <label className="w-full flex items-center gap-16">
+                  <input
+                    type="checkbox"
+                    checked={checkboxStates[idx]}
+                    name={choiceName}
+                    readOnly
+                    onClick={() => onCheckboxClicked(idx, choice)}
+                    className="ds-checkbox forced-colors:outline forced-colors:border-[ButtonText]"
+                  />
+                  {choice}
+                </label>
               </div>
             </div>
           );
