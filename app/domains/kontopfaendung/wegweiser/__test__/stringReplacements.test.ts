@@ -47,7 +47,7 @@ describe("stringReplacements", () => {
   describe("getPrivilegierteForderungStrings", () => {
     it("should return correct Privilegierte Forderung strings", () => {
       const userData: KontopfaendungWegweiserContext = {
-        unerlaubtenHandlung: "yes",
+        unerlaubteHandlung: "yes",
         unterhaltszahlungen: "no",
       };
       expect(getPrivilegierteForderungStrings(userData)).toEqual({
@@ -58,7 +58,9 @@ describe("stringReplacements", () => {
   });
   describe("getErhoehungsbetragStrings", () => {
     it("should return correct Erhoehungsbetrag strings", () => {
-      const userData: KontopfaendungWegweiserContext = { kinderLebtMit: "ja" };
+      const userData: KontopfaendungWegweiserContext = {
+        kinderWohnenZusammen: "ja",
+      };
       expect(getErhoehungsbetragStrings(userData)).toEqual({
         hasErhoehungsbetrag: true,
       });
@@ -177,7 +179,7 @@ describe("stringReplacements", () => {
   describe("getPflegegeldSelbstStrings", () => {
     it("should return correct Pflegegeld Selbst strings", () => {
       const userData: KontopfaendungWegweiserContext = {
-        hasPflegegeld: "hasPflegegeldSelbst",
+        pflegegeld: "selbst",
       };
       expect(getPflegegeldSelbstStrings(userData)).toEqual({
         hasPflegegeldSelbst: true,
@@ -187,7 +189,7 @@ describe("stringReplacements", () => {
   describe("getPflegegeldFremdStrings", () => {
     it("should return correct Pflegegeld Fremd strings", () => {
       const userData: KontopfaendungWegweiserContext = {
-        hasPflegegeld: "hasPflegegeldFremd",
+        pflegegeld: "fremd",
       };
       expect(getPflegegeldFremdStrings(userData)).toEqual({
         hasPflegegeldFremd: true,
