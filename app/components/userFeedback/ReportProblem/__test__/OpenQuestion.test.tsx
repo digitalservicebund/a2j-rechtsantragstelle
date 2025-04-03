@@ -6,6 +6,13 @@ import { OpenQuestion } from "~/components/userFeedback/ReportProblem/OpenQuesti
 const mockSetResponses = vi.fn();
 const questionText = "Some very important question.";
 const descriptionText = "An even more important description";
+const placeholderText = "Beschreibung des Problems....";
+
+vi.mock("~/components/userFeedback/feedbackTranslations", () => ({
+  useFeedbackTranslations: () => ({
+    "open-feedback-placeholder": placeholderText,
+  }),
+}));
 
 describe("OpenQuestion", () => {
   it("should render a basic open question", () => {
@@ -20,6 +27,7 @@ describe("OpenQuestion", () => {
     );
     expect(getByText(questionText)).toBeInTheDocument();
     expect(getByText(descriptionText)).toBeInTheDocument();
+    expect(getByText(placeholderText)).toBeInTheDocument();
     expect(getByRole("textbox")).toBeInTheDocument();
     fireEvent.change(getByRole("textbox"), { target: { value: "Feedback" } });
     expect(mockSetResponses).toHaveBeenCalled();

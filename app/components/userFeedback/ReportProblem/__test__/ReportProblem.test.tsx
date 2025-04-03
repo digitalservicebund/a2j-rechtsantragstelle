@@ -10,6 +10,7 @@ vi.mock("~/components/userFeedback/feedbackTranslations", () => ({
     "report-problem": reportProblem,
     cancel: cancel,
     "submit-problem": submitProblem,
+    "open-feedback-placeholder": "Beschreibung des Problems....",
   }),
 }));
 
@@ -32,7 +33,7 @@ describe("ReportProblem", () => {
     expect(reportButton.id).toBe("survey-button");
   });
 
-  it("should trigger the Survey popup", async () => {
+  it("should trigger the Survey popup", () => {
     const { getByRole, getByText } = render(<ReportProblem />);
     const reportButton = getByRole("button");
     expect(reportButton).toBeInTheDocument();
