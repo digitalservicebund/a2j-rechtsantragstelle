@@ -9,6 +9,7 @@ export const getArbeitStrings = (userData: KontopfaendungWegweiserContext) => {
 export const getPKontoStrings = (userData: KontopfaendungWegweiserContext) => {
   return {
     hasPKonto: userData.hasPKonto === "ja",
+    hasNoPKonto: userData.hasPKonto === "nein",
     hasPKontoBank: userData.hasPKonto === "nichtEingerichtet",
     hasPKontoNichtAktive: userData.hasPKonto === "nichtAktiv",
   };

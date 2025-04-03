@@ -43,19 +43,16 @@ export const Example: Story = {
   args: {
     items: [
       {
-        id: 1,
         title: "Accordion Item 1",
         description:
           "This is the description for accordion item 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       },
       {
-        id: 2,
         title: "Accordion Item 2",
         description:
           "This is the description for accordion item 2. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       },
       {
-        id: 3,
         title: "Accordion Item 3",
         description:
           "This is the description for accordion item 3. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
