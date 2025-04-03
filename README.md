@@ -178,7 +178,7 @@ config: _.merge(<flow>, {
             initialInputUrl: "daten",
             event: "add-<Plural name>",
          },
-      } satisfies Partial<Record<AllContextKeys, ArrayConfigServer>>,
+      } satisfies Partial<Record<CorrespondingContext, ArrayConfigServer>>,
    }
 })
 ```
