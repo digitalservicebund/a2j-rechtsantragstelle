@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { SurveyQuestionType, type Survey } from "posthog-js";
 import { type ElementType, useState } from "react";
 import Button from "~/components/Button";
@@ -10,6 +11,7 @@ import { OpenQuestion } from "~/components/userFeedback/ReportProblem/OpenQuesti
 type PosthogSurveyProps = {
   survey: Survey;
   closeSurvey: () => void;
+  styleOverrides?: string;
 };
 
 export type SurveyResponses = Record<string, string | string[]>;
@@ -22,15 +24,25 @@ const questionTypes: Record<string, ElementType> = {
   [SurveyQuestionType.Link]: () => <></>,
 };
 
-export const PosthogSurvey = ({ survey, closeSurvey }: PosthogSurveyProps) => {
+export const PosthogSurvey = ({
+  survey,
+  closeSurvey,
+  styleOverrides,
+}: PosthogSurveyProps) => {
   const [isComplete, setIsComplete] = useState(false);
   const feedbackTranslations = useFeedbackTranslations();
   const [responses, setResponses] = useState<SurveyResponses>();
 
+  const containerClasses = classNames(
+    "border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-[80%] p-24 flex flex-col",
+    {
+      "gap-40": !isComplete,
+    },
+    styleOverrides,
+  );
+
   return (
-    <div
-      className={`border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-[80%] p-24 flex flex-col ${isComplete ? "" : "gap-40"}`}
-    >
+    <div className={containerClasses}>
       {isComplete ? (
         <FeedbackTitle
           title={feedbackTranslations["success-message"]}
