@@ -11,7 +11,7 @@ export const hasKontopfaendung = z.enum(
 );
 
 export const hasPKonto = z.enum(
-  ["nein", "ja", "nichtAktiv", "bank"],
+  ["nein", "ja", "nichtAktiv", "nichtEingerichtet"],
   customRequiredErrorMessage,
 );
 
