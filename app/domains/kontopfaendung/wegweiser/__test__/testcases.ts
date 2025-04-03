@@ -4,10 +4,10 @@ import { type KontopfaendungWegweiserContext } from "~/domains/kontopfaendung/we
 import { machine } from "./testMachine";
 
 const cases = [
-  [{}, ["/start", "/kontopfaendung", "/ergebnisseite"]],
+  [{}, ["/start", "/kontopfaendung", "/ergebnis/keine-kontopfaendung"]],
   [
     { hasKontopfaendung: "nein" },
-    ["/start", "/kontopfaendung", "/ergebnisseite"],
+    ["/start", "/kontopfaendung", "/ergebnis/keine-kontopfaendung"],
   ],
   [
     { hasKontopfaendung: "ja", hasPKonto: "nichtAktiv" },
@@ -50,7 +50,7 @@ const cases = [
     {
       euroSchwelle: "nein",
     },
-    ["/euro-schwelle", "/ergebnisseite"],
+    ["/euro-schwelle", "/ergebnis/geringe-einkuenfte"],
   ],
   [
     {

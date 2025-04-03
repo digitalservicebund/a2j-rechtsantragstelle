@@ -18,10 +18,13 @@ export const kontopfaendungWegweiserXstateConfig = {
             target: "p-konto",
             guard: ({ context }) => context.hasKontopfaendung === "ja",
           },
-          "ergebnisseite",
+          "ergebnis/keine-kontopfaendung",
         ],
         BACK: "start",
       },
+    },
+    "ergebnis/keine-kontopfaendung": {
+      on: { BACK: "kontopfaendung" },
     },
     "p-konto": {
       on: {
@@ -96,7 +99,7 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: "ergebnisseite",
+            target: "ergebnis/geringe-einkuenfte",
             guard: ({ context }) => context.euroSchwelle === "nein",
           },
           "zwischenseite-unterhalt",
@@ -121,6 +124,9 @@ export const kontopfaendungWegweiserXstateConfig = {
           "glaeubiger",
         ],
       },
+    },
+    "ergebnis/geringe-einkuenfte": {
+      on: { BACK: "euro-schwelle" },
     },
     "zwischenseite-unterhalt": {
       on: {
@@ -319,7 +325,7 @@ export const kontopfaendungWegweiserXstateConfig = {
     },
     "sozialleistungen-einmalzahlung": {
       on: {
-        SUBMIT: "ergebnisseite",
+        SUBMIT: "ergebnis/naechste-schritte",
         BACK: [
           {
             target: "sozialleistung-nachzahlung",
@@ -330,7 +336,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         ],
       },
     },
-    ergebnisseite: {
+    "ergebnis/naechste-schritte": {
       on: {
         BACK: [
           {
