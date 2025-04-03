@@ -25,10 +25,12 @@ const questionTypes: Record<string, ElementType> = {
 export const PosthogSurvey = ({ survey, closeSurvey }: PosthogSurveyProps) => {
   const [isComplete, setIsComplete] = useState(false);
   const feedbackTranslations = useFeedbackTranslations();
-  const [, setResponses] = useState<SurveyResponses>();
+  const [responses, setResponses] = useState<SurveyResponses>();
 
   return (
-    <div className="border-2 border-blue-800 bg-white absolute bottom-[80%] p-24 flex flex-col gap-40">
+    <div
+      className={`border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-[80%] p-24 flex flex-col ${isComplete ? "" : "gap-40"}`}
+    >
       {isComplete ? (
         <FeedbackTitle
           title={feedbackTranslations["success-message"]}
@@ -48,10 +50,11 @@ export const PosthogSurvey = ({ survey, closeSurvey }: PosthogSurveyProps) => {
           })}
         </div>
       )}
-      <ButtonContainer>
+      <ButtonContainer className="flex flex-col-reverse sm:flex-row">
         {isComplete ? (
           <Button
             look={"primary"}
+            className="justify-center"
             onClick={closeSurvey}
             text={feedbackTranslations.close}
           />
@@ -59,13 +62,16 @@ export const PosthogSurvey = ({ survey, closeSurvey }: PosthogSurveyProps) => {
           <>
             <Button
               look={"tertiary"}
+              className="justify-center"
               onClick={closeSurvey}
               text={feedbackTranslations.cancel}
             />
             <Button
               look="primary"
+              className="justify-center"
               text={feedbackTranslations["submit-problem"]}
               onClick={() => {
+                console.log(responses);
                 setIsComplete(true);
               }}
             />
