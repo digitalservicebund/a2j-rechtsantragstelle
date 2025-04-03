@@ -25,7 +25,8 @@ export const ReportProblem = () => {
       }
     }
     setSurvey(fetchSurvey());
-  }, [POSTHOG_API_HOST, POSTHOG_API_KEY]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onButtonPressed = () => {
     if (survey) {
