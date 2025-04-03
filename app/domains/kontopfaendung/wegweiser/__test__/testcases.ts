@@ -4,63 +4,109 @@ import { type KontopfaendungWegweiserContext } from "~/domains/kontopfaendung/we
 import { machine } from "./testMachine";
 
 const cases = [
+  [{}, ["/start", "/kontopfaendung", "/ergebnisseite"]],
   [
     { hasKontopfaendung: "nein" },
     ["/start", "/kontopfaendung", "/ergebnisseite"],
   ],
   [
-    {
-      hasKontopfaendung: "ja",
-      hasPKonto: "bank",
-      schuldenBei: "privat",
-      unterhaltszahlungen: "yes",
-      euroSchwelle: "nein",
-    },
-    [
-      "/start",
-      "/kontopfaendung",
-      "/p-konto",
-      "/p-konto-probleme",
-      "/glaeubiger",
-      "/unterhalts-zahlungen",
-      "/euro-schwelle",
-      "/ergebnisseite",
-    ],
+    { hasKontopfaendung: "ja", hasPKonto: "nichtAktiv" },
+    ["/kontopfaendung", "/p-konto", "/p-konto-probleme", "/glaeubiger"],
   ],
+  // Glaeubiger
+  [{}, ["/glaeubiger", "/euro-schwelle"]],
   [
     {
-      schuldenBei: "jugendamt",
-      unterhaltszahlungen: "yes",
-      euroSchwelle: "ja",
+      schuldenBei: "privat",
     },
     ["/glaeubiger", "/unterhalts-zahlungen", "/euro-schwelle"],
   ],
   [
     {
+      schuldenBei: "jugendamt",
+    },
+    ["/glaeubiger", "/unterhalts-zahlungen", "/euro-schwelle"],
+  ],
+  [
+    {
+      schuldenBei: "weissNicht",
+    },
+    ["/glaeubiger", "/glaeubiger-unbekannt", "/euro-schwelle"],
+  ],
+  [
+    {
       schuldenBei: "staatsanwaltschaft",
-      unerlaubtenHandlung: "yes",
-      euroSchwelle: "ja",
     },
     ["/glaeubiger", "/unerlaubten-handlung", "/euro-schwelle"],
   ],
   [
     {
-      schuldenBei: "weissNicht",
-      unerlaubtenHandlung: "yes",
+      schuldenBei: "kasse",
+    },
+    ["/glaeubiger", "/unerlaubten-handlung", "/euro-schwelle"],
+  ],
+  // euro-schwelle
+  [
+    {
+      euroSchwelle: "nein",
+    },
+    ["/euro-schwelle", "/ergebnisseite"],
+  ],
+  [
+    {
       euroSchwelle: "ja",
     },
-    ["/glaeubiger", "/glaeubiger-unbekannt"],
+    ["/euro-schwelle", "/zwischenseite-unterhalt"],
   ],
-  [{}, ["/partner", "/partner-wohnen-zusammen", "/partner-support"]],
+  // Unterhalt
+  [
+    {},
+    ["/zwischenseite-unterhalt", "/kinder", "/partner", "/zwischenseite-cash"],
+  ],
+  [
+    { hasKinder: "yes" },
+    ["/kinder", "/kinder-wohnen-zusammen", "/kinder-support", "/partner"],
+  ],
+  [
+    { verheiratet: "ja" },
+    [
+      "/partner",
+      "/partner-wohnen-zusammen",
+      "/partner-support",
+      "/zwischenseite-cash",
+    ],
+  ],
+  // Cash
+  // [{}, ["/zwischenseite-cash", "/ermittlung-betrags", "/sozialleistungen", "/sozialleistungen-umstaende"]], //TODO nächste Seiten (bis Ergebnis) klären
+  [
+    { hasArbeit: "yes" },
+    [
+      "/ermittlung-betrags",
+      "/arbeitsweise",
+      "/nachzahlung-arbeitgeber",
+      "/zahlung-arbeitgeber",
+      "/sozialleistungen",
+    ],
+  ],
+  [
+    { hasArbeit: "yes", nachzahlungArbeitgeber: "yes" },
+    [
+      "/arbeitsweise",
+      "/nachzahlung-arbeitgeber",
+      "/zahlungslimit",
+      "/zahlung-arbeitgeber",
+      "/sozialleistungen",
+    ],
+  ],
   [
     {
       hasKontopfaendung: "ja",
-      hasPKonto: "bank",
+      hasPKonto: "nichtEingerichtet",
       schuldenBei: "privat",
       unterhaltszahlungen: "yes",
       euroSchwelle: "ja",
       hasKinder: "yes",
-      kinderSupport: "no",
+      kinderUnterhalt: "no",
       verheiratet: "nein",
       hasArbeit: "yes",
       nachzahlungArbeitgeber: "yes",
@@ -99,11 +145,6 @@ const cases = [
       "/sozialleistungen-einmalzahlung",
     ],
   ],
-  [
-    { hasKinder: "yes", verheiratet: "verwitwet" },
-    ["/partner", "/partner-wohnen-zusammen"],
-  ],
-  [{ hasPKonto: "nichtAktiv" }, ["/p-konto", "/p-konto-probleme"]],
 ] as const satisfies TestCases<KontopfaendungWegweiserContext>;
 
 export const testCasesKontopfaendungWegweiser = { machine, cases };

@@ -9,7 +9,7 @@ export const getArbeitStrings = (userData: KontopfaendungWegweiserContext) => {
 export const getPKontoStrings = (userData: KontopfaendungWegweiserContext) => {
   return {
     hasPKonto: userData.hasPKonto === "ja",
-    hasPKontoBank: userData.hasPKonto === "bank",
+    hasPKontoBank: userData.hasPKonto === "nichtEingerichtet",
     hasPKontoNichtAktive: userData.hasPKonto === "nichtAktiv",
   };
 };
@@ -17,7 +17,7 @@ export const getPrivilegierteForderungStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    isPrivilegierteForderungStrafe: userData.unerlaubtenHandlung === "yes",
+    isPrivilegierteForderungStrafe: userData.unerlaubteHandlung === "yes",
     isPrivilegierteForderungUnterhalt: userData.unterhaltszahlungen === "yes",
   };
 };
@@ -25,7 +25,7 @@ export const getErhoehungsbetragStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasErhoehungsbetrag: userData.kinderLebtMit === "ja",
+    hasErhoehungsbetrag: userData.kinderWohnenZusammen === "ja",
   };
 };
 export const getKindergeldStrings = (
@@ -56,14 +56,16 @@ export const getNachzahlungSozialUnter500Strings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasNachzahlungSozialUnter500: userData.socialAmountHigher500 === "no",
+    hasNachzahlungSozialUnter500:
+      userData.sozialleistungNachzahlungHigherThan === "no",
   };
 };
 export const getNachzahlungSozialMehr500Strings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasNachzahlungSozialMehr500: userData.socialAmountHigher500 === "yes",
+    hasNachzahlungSozialMehr500:
+      userData.sozialleistungNachzahlungHigherThan === "yes",
   };
 };
 export const getNachzahlungArbeitUnter500Strings = (
@@ -107,14 +109,14 @@ export const getPflegegeldSelbstStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasPflegegeldSelbst: userData.hasPflegegeld === "hasPflegegeldSelbst",
+    hasPflegegeldSelbst: userData.pflegegeld === "selbst",
   };
 };
 export const getPflegegeldFremdStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasPflegegeldFremd: userData.hasPflegegeld === "hasPflegegeldFremd",
+    hasPflegegeldFremd: userData.pflegegeld === "fremd",
   };
 };
 export const getBehordenschuldenStrings = (
