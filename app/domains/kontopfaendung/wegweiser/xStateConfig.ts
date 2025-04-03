@@ -308,7 +308,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: [
           {
             target: "sozialleistungen-umstaende",
-            guard: ({ context }) => context.hasPflegegeld === undefined,
+            guard: ({ context }) => context.pflegegeld === undefined,
           },
           "pflegegeld",
         ],

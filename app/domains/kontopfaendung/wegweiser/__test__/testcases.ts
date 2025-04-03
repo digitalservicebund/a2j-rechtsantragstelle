@@ -38,7 +38,7 @@ const cases = [
   [
     {
       schuldenBei: "staatsanwaltschaft",
-      unerlaubtenHandlung: "yes",
+      unerlaubteHandlung: "yes",
       euroSchwelle: "ja",
     },
     ["/glaeubiger", "/unerlaubten-handlung", "/euro-schwelle"],
@@ -46,7 +46,7 @@ const cases = [
   [
     {
       schuldenBei: "weissNicht",
-      unerlaubtenHandlung: "yes",
+      unerlaubteHandlung: "yes",
       euroSchwelle: "ja",
     },
     ["/glaeubiger", "/glaeubiger-unbekannt"],
@@ -60,7 +60,7 @@ const cases = [
       unterhaltszahlungen: "yes",
       euroSchwelle: "ja",
       hasKinder: "yes",
-      kinderSupport: "no",
+      kinderUnterhalt: "no",
       verheiratet: "nein",
       hasArbeit: "yes",
       nachzahlungArbeitgeber: "yes",

@@ -41,13 +41,13 @@ export const euroSchwelle = z.enum(
   customRequiredErrorMessage,
 );
 
-export const verheiratet = z.enum(
-  ["nein", "ja", "getrennt", "geschieden", "verwitwet"],
+export const kinderWohnenZusammen = z.enum(
+  ["nein", "ja", "teilweise"],
   customRequiredErrorMessage,
 );
 
-export const kinderLebtMit = z.enum(
-  ["nein", "ja", "weissNicht"],
+export const verheiratet = z.enum(
+  ["nein", "ja", "getrennt", "geschieden", "verwitwet"],
   customRequiredErrorMessage,
 );
 
@@ -82,8 +82,8 @@ export const sozialleistungenUmstaende = z.object({
   nein: checkedOptional,
 });
 
-export const hasPflegegeld = z.enum(
-  ["hasPflegegeldSelbst", "hasPflegegeldFremd"],
+export const pflegegeld = z.enum(
+  ["selbst", "fremd"],
   customRequiredErrorMessage,
 );
 
@@ -93,24 +93,24 @@ export const context = {
   schuldenBei,
   euroSchwelle,
   hasKinder: YesNoAnswer,
-  kinderLebtMit,
+  kinderWohnenZusammen,
   verheiratet,
-  kinderSupport: YesNoAnswer,
+  kinderUnterhalt: YesNoAnswer,
   partnerWohnenZusammen: YesNoAnswer,
-  partnerSupport: YesNoAnswer,
+  partnerUnterhalt: YesNoAnswer,
   hasArbeit: YesNoAnswer,
   arbeitsweise,
   nachzahlungArbeitgeber: YesNoAnswer,
-  arbeitgeberAmountHigherThan: YesNoAnswer,
+  arbeitgeberNachzahlungHigherThan: YesNoAnswer,
   zahlungArbeitgeber,
   hasSozialleistungen,
   sozialleistungenUmstaende,
   hasSozialleistungNachzahlung: YesNoAnswer,
-  socialAmountHigher500: YesNoAnswer,
+  sozialleistungNachzahlungHigherThan: YesNoAnswer,
   hasSozialleistungenEinmalzahlung: YesNoAnswer,
-  unerlaubtenHandlung: YesNoAnswer,
+  unerlaubteHandlung: YesNoAnswer,
   unterhaltszahlungen: YesNoAnswer,
-  hasPflegegeld,
+  pflegegeld,
 } as const;
 
 const _contextObject = z.object(context).partial();
