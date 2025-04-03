@@ -86,5 +86,18 @@ describe("Select", () => {
       const element = screen.getByRole("combobox");
       expect(element).toHaveAttribute("aria-required", "false");
     });
+
+    it("should have class name for the high contrast mode", () => {
+      render(
+        <Select
+          name="select"
+          options={[]}
+          label="Test Label"
+          formId="formId"
+        />,
+      );
+      const element = screen.getByRole("combobox");
+      expect(element).toHaveClass("forced-color-adjust-none");
+    });
   });
 });
