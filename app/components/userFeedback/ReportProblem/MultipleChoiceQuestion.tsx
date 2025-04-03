@@ -31,20 +31,27 @@ export const MultipleChoiceQuestion = ({
     });
   };
 
-  return question.choices.map((choice) => {
-    const choiceName = choice.replaceAll(" ", "_");
-    return (
-      <div className="flex flex-col flex-nowrap" key={choiceName}>
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            name={choiceName}
-            className="ds-checkbox forced-colors:outline forced-colors:border-[ButtonText]"
-            onClick={(event) => onCheckboxClicked(event, choice)}
-          />
-          <label htmlFor={choiceName}>{choice}</label>
-        </div>
+  return (
+    <div className="flex flex-col gap-16">
+      <p className="ds-body-01-bold">{question.question}</p>
+      <div className="flex flex-col gap-16">
+        {question.choices.map((choice) => {
+          const choiceName = choice.replaceAll(" ", "_");
+          return (
+            <div className="flex flex-col flex-nowrap" key={choiceName}>
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  name={choiceName}
+                  className="ds-checkbox forced-colors:outline forced-colors:border-[ButtonText]"
+                  onClick={(event) => onCheckboxClicked(event, choice)}
+                />
+                <label htmlFor={choiceName}>{choice}</label>
+              </div>
+            </div>
+          );
+        })}
       </div>
-    );
-  });
+    </div>
+  );
 };
