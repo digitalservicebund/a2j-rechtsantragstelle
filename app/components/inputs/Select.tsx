@@ -29,7 +29,7 @@ const Select = ({
   const { error, getInputProps } = useField(name, { formId });
 
   const selectClassName = classNames(
-    "ds-select",
+    "ds-select forced-color-adjust-none",
     {
       "has-error": error,
     },
