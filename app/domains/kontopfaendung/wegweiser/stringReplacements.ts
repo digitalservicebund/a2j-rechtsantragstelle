@@ -56,14 +56,16 @@ export const getNachzahlungSozialUnter500Strings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasNachzahlungSozialUnter500: userData.socialAmountHigher500 === "no",
+    hasNachzahlungSozialUnter500:
+      userData.sozialleistungNachzahlungHigherThan === "no",
   };
 };
 export const getNachzahlungSozialMehr500Strings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasNachzahlungSozialMehr500: userData.socialAmountHigher500 === "yes",
+    hasNachzahlungSozialMehr500:
+      userData.sozialleistungNachzahlungHigherThan === "yes",
   };
 };
 export const getNachzahlungArbeitUnter500Strings = (

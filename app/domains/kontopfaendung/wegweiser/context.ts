@@ -106,7 +106,7 @@ export const context = {
   hasSozialleistungen,
   sozialleistungenUmstaende,
   hasSozialleistungNachzahlung: YesNoAnswer,
-  socialAmountHigher500: YesNoAnswer,
+  sozialleistungNachzahlungHigherThan: YesNoAnswer,
   hasSozialleistungenEinmalzahlung: YesNoAnswer,
   unerlaubteHandlung: YesNoAnswer,
   unterhaltszahlungen: YesNoAnswer,
