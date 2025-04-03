@@ -36,16 +36,16 @@ export default function AccordionItem({
 
   return (
     <details
-      className="group border border-blue-500"
+      className="group last:border-b-0 border-b-2 p-2 border-blue-500 align-middle"
       // When JS is enabled, control the open state via the parent's state.
       {...(jsEnabled ? { open: isOpen } : {})}
     >
       <summary
         onClick={handleSummaryClick}
-        className="flex justify-between cursor-pointer p-16 bg-blue-100"
+        className="flex align-middle justify-between cursor-pointer p-16 bg-blue-100"
       >
         <span className="ds-label-01-bold">{title}</span>
-        <span className="text-blue-800">
+        <span className="align-middle text-blue-800 ds-label-03-bold">
           {jsEnabled ? (
             <>
               <span className={isOpen ? "flex" : "hidden"}>

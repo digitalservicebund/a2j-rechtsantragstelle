@@ -1,3 +1,4 @@
+import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { type KontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
 import { machine } from "./testMachine";
@@ -37,7 +38,7 @@ const cases = [
   [
     {
       schuldenBei: "staatsanwaltschaft",
-      unerlaubtenHandlung: "yes",
+      unerlaubteHandlung: "yes",
       euroSchwelle: "ja",
     },
     ["/glaeubiger", "/unerlaubten-handlung", "/euro-schwelle"],
@@ -45,7 +46,7 @@ const cases = [
   [
     {
       schuldenBei: "weissNicht",
-      unerlaubtenHandlung: "yes",
+      unerlaubteHandlung: "yes",
       euroSchwelle: "ja",
     },
     ["/glaeubiger", "/glaeubiger-unbekannt"],
@@ -59,16 +60,16 @@ const cases = [
       unterhaltszahlungen: "yes",
       euroSchwelle: "ja",
       hasKinder: "yes",
-      kinderSupport: "no",
+      kinderUnterhalt: "no",
       verheiratet: "nein",
       hasArbeit: "yes",
       nachzahlungArbeitgeber: "yes",
       hasSozialleistungen: "nein",
       sozialleistungenUmstaende: {
-        nein: "off",
-        kindergeld: "on",
-        pflegegeld: "off",
-        wohngeld: "off",
+        nein: CheckboxValue.off,
+        kindergeld: CheckboxValue.on,
+        pflegegeld: CheckboxValue.off,
+        wohngeld: CheckboxValue.off,
       },
       hasSozialleistungNachzahlung: "yes",
     },
@@ -96,7 +97,6 @@ const cases = [
       "/sozialleistung-nachzahlung",
       "/sozialleistung-nachzahlung-amount",
       "/sozialleistungen-einmalzahlung",
-      "/besondere-ausgaben",
     ],
   ],
   [

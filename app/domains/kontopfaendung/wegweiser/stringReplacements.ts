@@ -17,7 +17,7 @@ export const getPrivilegierteForderungStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    isPrivilegierteForderungStrafe: userData.unerlaubtenHandlung === "yes",
+    isPrivilegierteForderungStrafe: userData.unerlaubteHandlung === "yes",
     isPrivilegierteForderungUnterhalt: userData.unterhaltszahlungen === "yes",
   };
 };
@@ -25,7 +25,7 @@ export const getErhoehungsbetragStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasErhoehungsbetrag: userData.kinderLebtMit === "ja",
+    hasErhoehungsbetrag: userData.kinderWohnenZusammen === "ja",
   };
 };
 export const getKindergeldStrings = (

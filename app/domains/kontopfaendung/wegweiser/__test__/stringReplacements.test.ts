@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { type KontopfaendungWegweiserContext } from "../wegweiser/context";
+import { type KontopfaendungWegweiserContext } from "../context";
 import {
   getArbeitStrings,
   getPKontoStrings,
@@ -23,7 +23,7 @@ import {
   getSelbststaendigStrings,
   getAngestelltStrings,
   getKinderStrings,
-} from "../wegweiser/stringReplacements";
+} from "../stringReplacements";
 
 describe("stringReplacements", () => {
   describe("getArbeitStrings", () => {
@@ -47,7 +47,7 @@ describe("stringReplacements", () => {
   describe("getPrivilegierteForderungStrings", () => {
     it("should return correct Privilegierte Forderung strings", () => {
       const userData: KontopfaendungWegweiserContext = {
-        unerlaubtenHandlung: "yes",
+        unerlaubteHandlung: "yes",
         unterhaltszahlungen: "no",
       };
       expect(getPrivilegierteForderungStrings(userData)).toEqual({
@@ -58,7 +58,9 @@ describe("stringReplacements", () => {
   });
   describe("getErhoehungsbetragStrings", () => {
     it("should return correct Erhoehungsbetrag strings", () => {
-      const userData: KontopfaendungWegweiserContext = { kinderLebtMit: "ja" };
+      const userData: KontopfaendungWegweiserContext = {
+        kinderWohnenZusammen: "ja",
+      };
       expect(getErhoehungsbetragStrings(userData)).toEqual({
         hasErhoehungsbetrag: true,
       });
@@ -176,7 +178,9 @@ describe("stringReplacements", () => {
   });
   describe("getPflegegeldSelbstStrings", () => {
     it("should return correct Pflegegeld Selbst strings", () => {
-      const userData: KontopfaendungWegweiserContext = { pflegegeld: "selbst" };
+      const userData: KontopfaendungWegweiserContext = {
+        pflegegeld: "selbst",
+      };
       expect(getPflegegeldSelbstStrings(userData)).toEqual({
         hasPflegegeldSelbst: true,
       });
@@ -184,7 +188,9 @@ describe("stringReplacements", () => {
   });
   describe("getPflegegeldFremdStrings", () => {
     it("should return correct Pflegegeld Fremd strings", () => {
-      const userData: KontopfaendungWegweiserContext = { pflegegeld: "fremd" };
+      const userData: KontopfaendungWegweiserContext = {
+        pflegegeld: "fremd",
+      };
       expect(getPflegegeldFremdStrings(userData)).toEqual({
         hasPflegegeldFremd: true,
       });
