@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { type KontopfaendungWegweiserContext } from "../wegweiser/context";
+import { type KontopfaendungWegweiserContext } from "../context";
 import {
   getArbeitStrings,
   getPKontoStrings,
@@ -23,7 +23,7 @@ import {
   getSelbststaendigStrings,
   getAngestelltStrings,
   getKinderStrings,
-} from "../wegweiser/stringReplacements";
+} from "../stringReplacements";
 
 describe("stringReplacements", () => {
   describe("getArbeitStrings", () => {
