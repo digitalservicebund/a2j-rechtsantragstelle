@@ -54,7 +54,7 @@ const ListItem = ({
           <div className="w-2 h-full group-last:hidden bg-blue-500"></div>
         )}
       </div>
-      <div className="ds-stack ds-stack-24 pb-48">
+      <div className="ds-stack ds-stack-24 pb-48 w-full">
         <div className="ds-stack ds-stack-8">
           {headline && <Heading {...headline} />}
           {content && <RichText html={content} />}
