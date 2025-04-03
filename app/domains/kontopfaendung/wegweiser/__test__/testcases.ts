@@ -76,8 +76,21 @@ const cases = [
       "/zwischenseite-cash",
     ],
   ],
+  [
+    { verheiratet: "getrennt" },
+    ["/partner", "/partner-support", "/zwischenseite-cash"],
+  ],
   // Cash
-  // [{}, ["/zwischenseite-cash", "/ermittlung-betrags", "/sozialleistungen", "/sozialleistungen-umstaende"]], //TODO nächste Seiten (bis Ergebnis) klären
+  [
+    {},
+    [
+      "/zwischenseite-cash",
+      "/ermittlung-betrags",
+      "/sozialleistungen",
+      "/sozialleistungen-umstaende",
+      "/ergebnis/naechste-schritte",
+    ],
+  ],
   [
     { hasArbeit: "yes" },
     [
@@ -96,6 +109,120 @@ const cases = [
       "/zahlungslimit",
       "/zahlung-arbeitgeber",
       "/sozialleistungen",
+    ],
+  ],
+  [
+    { hasSozialleistungen: "nein" },
+    [
+      "/sozialleistungen",
+      "/sozialleistungen-umstaende",
+      "/ergebnis/naechste-schritte",
+    ],
+  ],
+  [
+    {
+      hasSozialleistungen: "nein",
+      sozialleistungenUmstaende: {
+        pflegegeld: CheckboxValue.on,
+        kindergeld: CheckboxValue.off,
+        wohngeld: CheckboxValue.off,
+        nein: CheckboxValue.off,
+      },
+    },
+    [
+      "/sozialleistungen",
+      "/sozialleistungen-umstaende",
+      "/pflegegeld",
+      "/sozialleistung-nachzahlung",
+      "/sozialleistungen-einmalzahlung",
+      "/ergebnis/naechste-schritte",
+    ],
+  ],
+  [
+    {
+      hasSozialleistungen: "nein",
+      sozialleistungenUmstaende: {
+        pflegegeld: CheckboxValue.off,
+        kindergeld: CheckboxValue.off,
+        wohngeld: CheckboxValue.off,
+        nein: CheckboxValue.off,
+      },
+    },
+    [
+      "/sozialleistungen",
+      "/sozialleistungen-umstaende",
+      "/ergebnis/naechste-schritte",
+    ],
+  ],
+  [
+    {
+      hasSozialleistungen: "nein",
+      sozialleistungenUmstaende: {
+        pflegegeld: CheckboxValue.off,
+        kindergeld: CheckboxValue.on,
+        wohngeld: CheckboxValue.on,
+        nein: CheckboxValue.off,
+      },
+    },
+    [
+      "/sozialleistungen",
+      "/sozialleistungen-umstaende",
+      "/sozialleistung-nachzahlung",
+      "/sozialleistungen-einmalzahlung",
+      "/ergebnis/naechste-schritte",
+    ],
+  ],
+  [
+    {
+      hasSozialleistungen: "nein",
+      sozialleistungenUmstaende: {
+        pflegegeld: CheckboxValue.off,
+        kindergeld: CheckboxValue.on,
+        wohngeld: CheckboxValue.on,
+        nein: CheckboxValue.off,
+      },
+    },
+    [
+      "/sozialleistungen",
+      "/sozialleistungen-umstaende",
+      "/sozialleistung-nachzahlung",
+      "/sozialleistungen-einmalzahlung",
+      "/ergebnis/naechste-schritte",
+    ],
+  ],
+  [
+    {
+      hasSozialleistungen: "nein",
+      sozialleistungenUmstaende: {
+        pflegegeld: CheckboxValue.off,
+        kindergeld: CheckboxValue.on,
+        wohngeld: CheckboxValue.on,
+        nein: CheckboxValue.off,
+      },
+      hasSozialleistungNachzahlung: "no",
+    },
+    [
+      "/sozialleistung-nachzahlung",
+      "/sozialleistungen-einmalzahlung",
+      "/ergebnis/naechste-schritte",
+    ],
+  ],
+  [
+    {
+      hasSozialleistungen: "nein",
+      sozialleistungenUmstaende: {
+        pflegegeld: CheckboxValue.off,
+        kindergeld: CheckboxValue.on,
+        wohngeld: CheckboxValue.on,
+        nein: CheckboxValue.off,
+      },
+      hasSozialleistungNachzahlung: "yes",
+    },
+    [
+      "/sozialleistung-nachzahlung",
+      "/sozialleistung-nachzahlung-amount",
+      "/sozialleistungen-einmalzahlung",
+      "/ergebnis/naechste-schritte",
     ],
   ],
   [
