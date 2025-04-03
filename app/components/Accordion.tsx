@@ -1,33 +1,45 @@
-import { useState, useEffect } from "react";
+import { useRef } from "react";
 import AccordionItem, {
   type AccordionItemProps,
 } from "~/components/AccordionItem";
+import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
+import { useTranslations } from "~/services/translations/translationsContext";
 
 export type AccordionProps = Readonly<{
   items: AccordionItemProps[];
 }>;
 
 export default function Accordion({ items }: AccordionProps) {
-  const [jsEnabled, setJsEnabled] = useState<boolean>(false);
-  const [openIndex, setOpenIndex] = useState<number>(-1);
-
-  useEffect(() => {
-    setJsEnabled(true);
-  }, []);
+  const itemsRef = useRef<HTMLDetailsElement[]>([]);
+  const { accordion } = useTranslations();
+  const labels = {
+    show: getTranslationByKey("accordionItemShow", accordion),
+    hide: getTranslationByKey("accordionItemHide", accordion),
+  };
 
   return (
-    <section className="border-2 rounded-lg border-blue-500">
-      {items.map((item, index) => (
-        <AccordionItem
-          key={item.id ?? index}
-          id={item.id}
-          title={item.title}
-          description={item.description}
-          isOpen={openIndex === index}
-          onToggle={() => setOpenIndex((prev) => (prev === index ? -1 : index))}
-          jsEnabled={jsEnabled}
-        />
-      ))}
+    // without overflow-hidden the rounded borders are overwritten by square content edges
+    <section className="border-2 rounded-lg border-blue-500 overflow-hidden">
+      {items
+        .filter((item) => item.title || item.description)
+        .map((item, index) => (
+          <AccordionItem
+            key={item.title}
+            title={item.title}
+            description={item.description}
+            labels={labels}
+            ref={(el) => {
+              if (el) itemsRef.current[index] = el;
+            }}
+            onSummaryClick={(event) =>
+              itemsRef.current
+                .filter((item) => item !== event.currentTarget.parentElement)
+                .forEach((item) => {
+                  item.open = false;
+                })
+            }
+          />
+        ))}
     </section>
   );
 }
