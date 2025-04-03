@@ -1,5 +1,4 @@
 import merge from "lodash/merge";
-import type { AllContextKeys } from "~/domains/common";
 import type { Flow } from "~/domains/flows.server";
 import type { ArrayConfigServer } from "~/services/array";
 import {
@@ -113,7 +112,9 @@ export const fluggastrechtFlow = {
           displayIndexOffset: WEITERE_PERSONEN_START_INDEX,
           shouldDisableAddButton: isTotalClaimWillSucceddedAboveLimit,
         },
-      } satisfies Partial<Record<AllContextKeys, ArrayConfigServer>>,
+      } satisfies Partial<
+        Record<keyof FluggastrechtContext, ArrayConfigServer>
+      >,
     },
     id: "/fluggastrechte/formular",
     initial: "intro",

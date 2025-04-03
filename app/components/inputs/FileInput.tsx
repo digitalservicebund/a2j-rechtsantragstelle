@@ -1,14 +1,14 @@
-import { useLoaderData, useSubmit } from "@remix-run/react";
 import classNames from "classnames";
 import Button from "~/components/Button";
-import { splitFieldName } from "~/components/filesUpload/fileUploadHelpers";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
-import { loader } from "~/routes/shared/formular.server";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { useTranslations } from "~/services/translations/translationsContext";
-import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
-import { ErrorMessageProps } from ".";
+import {
+  splitFieldName,
+  useFileHandler,
+} from "~/services/upload/fileUploadHelpers";
+import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type ErrorMessageProps } from ".";
 
 export type FileInputProps = {
   name: string;
@@ -46,15 +46,14 @@ export const FileInput = ({
           inputName={name}
           onFileDelete={onFileDelete}
           jsAvailable={jsAvailable}
-          fileName={selectedFile.filename}
-          fileSize={selectedFile.fileSize}
+          file={selectedFile}
           deleteButtonLabel={translations?.delete}
           hasError={!!error}
         />
       ) : (
         <label htmlFor={name} className={"flex flex-col md:flex-row"}>
           <input
-            name={name}
+            name={jsAvailable ? undefined : name}
             onChange={(event) => onFileUpload(name, event.target.files?.[0])}
             type="file"
             accept=".pdf"
@@ -98,34 +97,5 @@ export function convertFileToMetadata(file?: File): PDFFileMetadata {
     filename: file?.name ?? "",
     fileType: file?.type ?? "",
     fileSize: file?.size ?? 0,
-    createdOn: file?.lastModified
-      ? new Date(file?.lastModified).toString()
-      : "",
-  };
-}
-
-export function useFileHandler() {
-  const { csrf } = useLoaderData<typeof loader>();
-  const submit = useSubmit();
-  return {
-    onFileUpload: (fieldName: string, file: File | undefined) => {
-      const formData = new FormData();
-      formData.append("_action", `fileUpload.${fieldName}`);
-      formData.append(CSRFKey, csrf);
-      formData.append(fieldName, file ?? "");
-      submit(formData, {
-        method: "post",
-        encType: "multipart/form-data",
-      });
-    },
-    onFileDelete: (fieldName: string) => {
-      const formData = new FormData();
-      formData.append("_action", `deleteFile.${fieldName}`);
-      formData.append(CSRFKey, csrf);
-      submit(formData, {
-        method: "post",
-        encType: "multipart/form-data",
-      });
-    },
   };
 }

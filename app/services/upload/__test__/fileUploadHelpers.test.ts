@@ -1,9 +1,9 @@
+import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import {
   convertFileToMetadata,
   splitFieldName,
   useFileHandler,
-} from "~/components/filesUpload/fileUploadHelpers";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
+} from "~/services/upload/fileUploadHelpers";
 
 const mockFile = new File([], "mockFile");
 
@@ -77,7 +77,6 @@ describe("fileUploadHelpers", () => {
         filename: "",
         fileType: "",
         fileSize: 0,
-        createdOn: "",
       });
     });
 
@@ -88,7 +87,6 @@ describe("fileUploadHelpers", () => {
         filename: "filename",
         fileType: "application/pdf",
         fileSize: 0,
-        createdOn: new Date(mockFile.lastModified).toString(),
       });
     });
   });

@@ -1,4 +1,4 @@
-import { Flow } from "~/domains/flows.server";
+import { type Flow } from "~/domains/flows.server";
 
 function getAsyncFlowActions(currentFlow: Flow) {
   return "asyncFlowActions" in currentFlow

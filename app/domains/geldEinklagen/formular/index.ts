@@ -4,7 +4,6 @@ import type { Flow } from "~/domains/flows.server";
 import type { GeldEinklagenFormularContext } from "./context";
 import geldEinklagenFormularFlow from "./flow.json";
 import { guards } from "./guards";
-import { type AllContexts } from "../../common";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
 import {
   gerichtskostenFromBetrag,
@@ -13,7 +12,7 @@ import {
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
-  stringReplacements: (context: AllContexts) => {
+  stringReplacements: (context: GeldEinklagenFormularContext) => {
     if (!("forderung" in context && typeof context.forderung === "object"))
       return {};
     const gesamtForderung = gesamtKosten(context);

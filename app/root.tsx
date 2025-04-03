@@ -81,8 +81,10 @@ export const meta: MetaFunction<RootLoader> = () => {
 export type RootLoader = typeof loader;
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
-  const { pathname } = new URL(request.url);
+  const { pathname, searchParams } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
+
+  const shouldPrint = searchParams.get("print") !== null;
 
   const [
     strapiHeader,
@@ -150,6 +152,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         translations.feedback["text-post-submission"],
       ),
       accordionTranslation: translations.accordion,
+      shouldPrint,
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
@@ -168,6 +171,7 @@ function App() {
     accessibilityTranslations,
     fileUploadTranslations,
     accordionTranslation,
+    shouldPrint,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
@@ -187,6 +191,13 @@ function App() {
       setSkipToContentLinkTarget("#form-flow-page-content");
     }
   }, []);
+
+  useEffect(() => {
+    if (shouldPrint) {
+      window.print();
+      window.close();
+    }
+  }, [shouldPrint]);
 
   const translationMemo = useMemo(
     () => ({
@@ -212,7 +223,10 @@ function App() {
         {description && <meta name="description" content={description} />}
         <meta property="og:title" content={ogTitle ?? title} />
         <meta property="og:description" content={description} />
-        <meta name="darkreader-lock" />
+        <meta
+          name="darkreader-lock"
+          content="1e82dc17-d02f-4566-8487-ae413a504055"
+        />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{

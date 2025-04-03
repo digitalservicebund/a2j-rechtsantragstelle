@@ -1,27 +1,28 @@
 import {
-  TypedResponse,
+  type TypedResponse,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
 import { withZod } from "@remix-validated-form/with-zod";
+import pickBy from "lodash/pickBy";
 import {
-  ErrorResult,
-  SuccessResult,
+  type ErrorResult,
+  type SuccessResult,
   validationError,
-  ValidationErrorResponseData,
-  ValidationResult,
+  type ValidationErrorResponseData,
+  type ValidationResult,
 } from "remix-validated-form";
-import { z, ZodTypeAny } from "zod";
-import {
-  convertFileToMetadata,
-  splitFieldName,
-} from "~/components/filesUpload/fileUploadHelpers";
-import { ArrayData, Context, getContext } from "~/domains/contexts";
-import { FlowId } from "~/domains/flowIds";
+import { z, type ZodTypeAny } from "zod";
+import { type ArrayData, type Context, getContext } from "~/domains/contexts";
+import { type FlowId } from "~/domains/flowIds";
 import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
-import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import {
+  convertFileToMetadata,
+  splitFieldName,
+} from "~/services/upload/fileUploadHelpers";
+import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 export async function uploadUserFile(
   formAction: string,
@@ -36,9 +37,14 @@ export async function uploadUserFile(
   const { fieldName, inputIndex } = splitFieldName(inputName);
   const file = await parseFileFromFormData(request, inputName);
   const fileMeta = convertFileToMetadata(file);
-  const scopedContext = Object.fromEntries(
-    Object.entries(getContext(flowId)).filter(([key]) => key === fieldName),
-  );
+  /**
+   * Need to scope the context, otherwise we validate against the entire context,
+   * of which we only have partial data at this point
+   */
+  const scopedContext = pickBy(
+    getContext(flowId),
+    (_val, key) => key === fieldName,
+  ) as Record<string, ZodTypeAny>;
   const validationResult = await validateUploadedFile(
     inputName,
     fileMeta,

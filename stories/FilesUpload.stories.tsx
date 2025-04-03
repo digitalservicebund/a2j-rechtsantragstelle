@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 import { ActionFunctionArgs } from "@remix-run/node";
 import type { Meta, StoryObj } from "@storybook/react";
 import FilesUpload from "~/components/filesUpload/FilesUpload";
-import { splitFieldName } from "~/components/filesUpload/fileUploadHelpers";
+import { splitFieldName } from "~/services/upload/fileUploadHelpers";
 import { TranslationContext } from "~/services/translations/translationsContext";
 import { PDFFileMetadata, TEN_MB_IN_BYTES } from "~/util/file/pdfFileSchema";
 
@@ -27,7 +27,6 @@ const generateRandomPDFFileMetadata = (): PDFFileMetadata => {
       faker.system.fileExt("application/pdf"),
     fileType: "application/pdf",
     fileSize: faker.number.int({ min: 1024, max: TEN_MB_IN_BYTES }),
-    createdOn: faker.date.recent().toString(),
   };
 };
 

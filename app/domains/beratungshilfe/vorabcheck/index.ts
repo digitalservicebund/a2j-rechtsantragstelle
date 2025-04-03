@@ -1,10 +1,12 @@
 import type { Flow } from "~/domains/flows.server";
+import type { BeratungshilfeVorabcheckContext } from "./context";
 import { getVerfuegbaresEinkommenFreibetrag } from "./freibetrag";
 import { isIncomeTooHigh } from "./isIncomeTooHigh";
 import { beratungshilfeVorabcheckXstateConfig } from "./xstateConfig";
-import { type AllContexts } from "../../common";
 
-export function reasonsToDisplayBeratungshilfe(context: AllContexts) {
+export function reasonsToDisplayBeratungshilfe(
+  context: BeratungshilfeVorabcheckContext,
+) {
   const shortPathIncomeTooHigh =
     "genauigkeit" in context &&
     context.genauigkeit == "no" &&
@@ -23,7 +25,7 @@ export function reasonsToDisplayBeratungshilfe(context: AllContexts) {
 
 export const beratungshilfeVorabcheck = {
   flowType: "vorabCheck",
-  stringReplacements: (context: AllContexts) => ({
+  stringReplacements: (context: BeratungshilfeVorabcheckContext) => ({
     verfuegbaresEinkommenFreibetrag:
       getVerfuegbaresEinkommenFreibetrag(context).toString(),
   }),

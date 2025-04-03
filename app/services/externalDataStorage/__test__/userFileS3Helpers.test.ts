@@ -1,10 +1,10 @@
 import {
   DeleteObjectCommand,
   PutObjectCommand,
-  S3Client,
+  type S3Client,
 } from "@aws-sdk/client-s3";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { FlowId } from "~/domains/flowIds";
+import { type FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
 import {
   deleteUserFileFromS3,
@@ -105,8 +105,9 @@ describe("userFileS3Helpers", () => {
         S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
       };
       setupFileMocks(mockSessionId, mockConfig);
-
-      await uploadUserFileToS3(mockCookie, mockFlowId, undefined);
+      await expect(
+        uploadUserFileToS3(mockCookie, mockFlowId, undefined),
+      ).rejects.toThrow();
 
       expect(sendSentryMessage).toHaveBeenCalledWith(
         `Error storing user uploaded file to S3 bucket: ${mockError.message}`,

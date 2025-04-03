@@ -1,13 +1,13 @@
 import { fireEvent, render } from "@testing-library/react";
 import times from "lodash/times";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import { ValidationErrorResponseData } from "remix-validated-form";
+import { type ValidationErrorResponseData } from "remix-validated-form";
 import FilesUpload, {
-  FilesUploadProps,
+  type FilesUploadProps,
 } from "~/components/filesUpload/FilesUpload";
-import { Context } from "~/domains/contexts";
+import { type Context } from "~/domains/contexts";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { fileUploadErrorMap, PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 const deleteLabel = "Löschen";
 const selectLabel = "Datei Auswählen";
@@ -36,9 +36,11 @@ vi.mock("~/services/translations/translationsContext", () => ({
 }));
 
 let defaultValue: PDFFileMetadata[] = [];
+let error: string | undefined;
 vi.mock("remix-validated-form", () => ({
   useField: () => ({
     defaultValue,
+    error,
   }),
 }));
 
@@ -85,7 +87,6 @@ describe("FilesUpload", () => {
         filename: "test.pdf",
         fileType: "application/pdf",
         fileSize: 1000,
-        createdOn: new Date().toString(),
       },
     ];
     const { getByText } = renderFilesUpload();
@@ -103,11 +104,7 @@ describe("FilesUpload", () => {
   });
 
   it("should display a top-level error", () => {
-    actionResponse = {
-      fieldErrors: {
-        [fieldName]: minimumFileError,
-      },
-    };
+    error = minimumFileError;
     const { getByText, queryByText } = renderFilesUpload();
     expect(getByText(minimumFileError)).toBeInTheDocument();
     expect(queryByText(addAnotherLabel)).not.toBeInTheDocument();
@@ -116,7 +113,7 @@ describe("FilesUpload", () => {
   it("should render individual file input errors", () => {
     actionResponse = {
       fieldErrors: {
-        [`${fieldName}[0]`]: fileUploadErrorMap.fileSizeTooBig,
+        [`${fieldName}[0]`]: "fileSizeTooBig",
       },
     };
     defaultValue = [
@@ -124,11 +121,10 @@ describe("FilesUpload", () => {
         filename: "test.pdf",
         fileType: "application/pdf",
         fileSize: 0,
-        createdOn: new Date().toString(),
       },
     ];
     const { getByText, queryByText } = renderFilesUpload();
-    expect(getByText(fileUploadErrorMap.fileSizeTooBig)).toBeInTheDocument();
+    expect(getByText("fileSizeTooBig")).toBeInTheDocument();
     expect(queryByText(addAnotherLabel)).not.toBeInTheDocument();
   });
 
@@ -137,7 +133,6 @@ describe("FilesUpload", () => {
       filename: "test.pdf",
       fileType: "application/pdf",
       fileSize: 0,
-      createdOn: new Date().toString(),
     }));
     const { queryByText } = renderFilesUpload();
     expect(queryByText(addAnotherLabel)).not.toBeInTheDocument();

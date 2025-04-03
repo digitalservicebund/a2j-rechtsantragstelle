@@ -2,7 +2,7 @@ import {
   mockPdfKitDocumentStructure,
   mockPdfKitDocument,
 } from "tests/factories/mockPdfKit";
-import { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import { type ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { createWeitereAngabenAnhang } from "../createWeitereAngabenAnhang";
 
 describe("createWeitereAngabenAnhang", () => {

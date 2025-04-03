@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { RadioGroupProps } from "~/components/inputs/RadioGroup";
+import { type RadioGroupProps } from "~/components/inputs/RadioGroup";
 import { StrapiErrorRelationSchema } from "~/services/cms/flattenStrapiErrors";
-import { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import { StrapiSelectOptionSchema } from "../models/StrapiSelectOption";

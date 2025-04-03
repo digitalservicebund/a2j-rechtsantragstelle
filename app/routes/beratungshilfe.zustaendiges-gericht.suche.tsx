@@ -65,7 +65,7 @@ export default function Index() {
     <Background backgroundColor="blue">
       <div className="min-h-screen">
         <Container>
-          <PageContent className="ds-stack-32" content={pre_form} />
+          <PageContent className="ds-stack ds-stack-32" content={pre_form} />
         </Container>
         <ValidatedForm method="post" validator={validatorClient} noValidate>
           <Container>

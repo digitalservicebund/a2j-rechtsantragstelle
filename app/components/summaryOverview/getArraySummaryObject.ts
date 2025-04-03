@@ -1,7 +1,7 @@
-import { Context } from "~/domains/contexts";
+import { type Context } from "~/domains/contexts";
 import { arrayChar } from "~/services/array";
 import { arrayIsNonEmpty } from "~/util/array";
-import { SummaryOverviewBoxItemType } from "./SummaryOverviewBoxItem";
+import { type SummaryOverviewBoxItemType } from "./SummaryOverviewBoxItem";
 
 export const getArraySummaryObject = (
   boxItems: SummaryOverviewBoxItemType[],

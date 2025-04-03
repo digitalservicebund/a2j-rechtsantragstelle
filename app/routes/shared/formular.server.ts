@@ -19,11 +19,6 @@ import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
 import {
-  deleteUserFile,
-  getUpdatedField,
-  uploadUserFile,
-} from "~/services/flow/server/fileUploadHelpers.server";
-import {
   validateFlowTransition,
   getFlowTransitionConfig,
 } from "~/services/flow/server/flowTransitionValidation";
@@ -45,6 +40,11 @@ import { deleteArrayItem } from "~/services/session.server/arrayDeletion";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import {
+  deleteUserFile,
+  getUpdatedField,
+  uploadUserFile,
+} from "~/services/upload/fileUploadHelpers.server";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { filterFormData } from "~/util/filterFormData";

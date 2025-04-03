@@ -1,13 +1,19 @@
 import { useActionData } from "@remix-run/react";
 import classNames from "classnames";
 import { useState, useEffect } from "react";
-import { useField, ValidationErrorResponseData } from "remix-validated-form";
-import { ErrorMessageProps } from "~/components/inputs";
+import {
+  useField,
+  type ValidationErrorResponseData,
+} from "remix-validated-form";
+import { type ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
-import { Context } from "~/domains/contexts";
-import { fileUploadLimit, PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type Context } from "~/domains/contexts";
+import {
+  fileUploadLimit,
+  type PDFFileMetadata,
+} from "~/util/file/pdfFileSchema";
 import { FilesUploadHeader } from "./FilesUploadHeader";
-import { InlineNotice, InlineNoticeProps } from "../InlineNotice";
+import { InlineNotice, type InlineNoticeProps } from "../InlineNotice";
 import { FileInput } from "../inputs/FileInput";
 
 export type FilesUploadProps = {
@@ -31,7 +37,7 @@ const FilesUpload = ({
   const response = useActionData<
     ValidationErrorResponseData | Context | undefined
   >();
-  const { defaultValue } = useField(name, { formId });
+  const { defaultValue, error } = useField(name, { formId });
   const items: Array<PDFFileMetadata | undefined> =
     (response?.repopulateFields as Context | undefined)?.[name] ??
     (response as Context | undefined)?.[name] ??
@@ -46,15 +52,23 @@ const FilesUpload = ({
 
   useEffect(() => setJsAvailable(true), []);
 
-  const groupError: string | undefined = scopedErrors[name];
-
   const classes = classNames("w-full bg-white p-16", {
-    "bg-red-200 border border-red-900": !!groupError,
+    "bg-red-200 border border-red-900": !!error,
   });
 
   const showAddMoreButton =
-    (items.length < fileUploadLimit || items.length === 0) &&
-    Object.entries(scopedErrors).length === 0;
+    items.length === 0 ||
+    (items.length < fileUploadLimit &&
+      Object.entries(scopedErrors).length === 0);
+
+  /**
+   * if the non-JS component doesn't have a value, or has an error displayed, normally nothing is submitted in the FormData.
+   * We need to send at least an empty array, to display an array-level error that it's empty
+   */
+  const shouldSubmitEmptyArray =
+    !jsAvailable &&
+    (items.length === 0 ||
+      (items.length === 1 && Object.entries(scopedErrors).length > 0));
 
   return (
     title !== "" && (
@@ -69,6 +83,7 @@ const FilesUpload = ({
                   key={inputName}
                   selectedFile={value}
                   error={scopedErrors[inputName]}
+                  errorMessages={errorMessages}
                   jsAvailable={jsAvailable}
                   name={inputName}
                 />
@@ -83,9 +98,11 @@ const FilesUpload = ({
             )}
           </div>
         </div>
+        {shouldSubmitEmptyArray && (
+          <input type="hidden" name={"arrayPostfix"} value={name} />
+        )}
         <InputError id={errorId}>
-          {errorMessages?.find((err) => err.code === groupError)?.text ??
-            groupError}
+          {errorMessages?.find((err) => err.code === error)?.text ?? error}
         </InputError>
         {inlineNotices?.map((inlineNotice) => (
           <InlineNotice key={inlineNotice.title} {...inlineNotice} />

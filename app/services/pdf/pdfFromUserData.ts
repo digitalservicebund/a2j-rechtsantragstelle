@@ -1,10 +1,10 @@
 import type PDFDocument from "pdfkit";
-import type { AllContexts } from "~/domains/common";
+import type { Context } from "~/domains/contexts";
 import { createPdfKitDocument } from "~/services/pdf/createPdfKitDocument";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import type { AttachmentEntries } from "./attachment";
 
-export type PDFDocumentBuilder<TContext extends AllContexts> = (
+export type PDFDocumentBuilder<TContext extends Context> = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: TContext,
@@ -12,7 +12,7 @@ export type PDFDocumentBuilder<TContext extends AllContexts> = (
   translations?: Translations,
 ) => void;
 
-export async function pdfFromUserData<TContext extends AllContexts>(
+export async function pdfFromUserData<TContext extends Context>(
   userData: TContext,
   buildPDFDocument: PDFDocumentBuilder<TContext>,
   attachment?: AttachmentEntries,

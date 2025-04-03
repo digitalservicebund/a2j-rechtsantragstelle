@@ -3,11 +3,10 @@ import {
   buildFileUploadError,
   convertAsyncBufferToFile,
   validateUploadedFile,
-} from "~/services/flow/server/fileUploadHelpers.server";
+} from "~/services/upload/fileUploadHelpers.server";
 import {
-  fileUploadErrorMap,
   fileUploadLimit,
-  PDFFileMetadata,
+  type PDFFileMetadata,
   pdfFileMetaDataSchema,
 } from "~/util/file/pdfFileSchema";
 
@@ -17,7 +16,6 @@ describe("File Upload helpers", () => {
       const mockFileMetadata: PDFFileMetadata = {
         filename: "test.pdf",
         fileType: "application/pdf",
-        createdOn: new Date().toString(),
         fileSize: 1000,
       };
       const validationResult = await validateUploadedFile(
@@ -29,7 +27,7 @@ describe("File Upload helpers", () => {
         {
           belege1: z
             .array(pdfFileMetaDataSchema)
-            .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
+            .max(fileUploadLimit, "fileLimitReached"),
         },
       );
       expect(validationResult.error).toBeUndefined();
@@ -47,7 +45,6 @@ describe("File Upload helpers", () => {
       const mockFileMetadata: PDFFileMetadata = {
         filename: "test.pdf",
         fileType: "application/svg+xml",
-        createdOn: new Date().toString(),
         fileSize: 1000,
       };
       const validationResult = await validateUploadedFile(
@@ -57,12 +54,12 @@ describe("File Upload helpers", () => {
         {
           belege: z
             .array(pdfFileMetaDataSchema)
-            .max(fileUploadLimit, fileUploadErrorMap.fileLimitReached()),
+            .max(fileUploadLimit, "fileLimitReached"),
         },
       );
       expect(validationResult.error).toBeDefined();
       expect(validationResult.error?.fieldErrors).toEqual({
-        "belege[0].fileType": fileUploadErrorMap.wrongFileType,
+        "belege[0].fileType": "wrongFileType",
       });
     });
   });

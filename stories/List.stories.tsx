@@ -29,6 +29,7 @@ export const Example: Story = {
   ],
   args: {
     identifier: "default-list-id",
+    variant: "unordered",
     heading: {
       text: "This is a heading text for list",
       tagName: "h2",

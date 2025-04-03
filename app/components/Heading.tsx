@@ -11,6 +11,7 @@ export type HeadingProps = Readonly<{
   role?: AriaRole;
   tabIndex?: number;
   innerRef?: LegacyRef<HTMLHeadingElement>;
+  elementId?: string;
 }>;
 
 function Heading({
@@ -23,6 +24,7 @@ function Heading({
   role,
   tabIndex,
   innerRef,
+  elementId,
 }: HeadingProps) {
   const Tag: keyof JSX.IntrinsicElements = tagName;
   const cssClasses = classNames(look === "default" ? null : look, className);
@@ -38,6 +40,7 @@ function Heading({
       role={role}
       data-testid={dataTestid}
       className={cssClasses}
+      id={elementId}
     >
       {children ?? text}
     </Tag>

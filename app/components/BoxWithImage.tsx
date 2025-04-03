@@ -41,7 +41,7 @@ const BoxWithImage = ({
         <Image {...image} />
       </div>
       {hasTextContent && (
-        <div className={`ds-stack-8 break-words min-w-[120px] max-w-[696px]`}>
+        <div className="ds-stack ds-stack-8 break-words min-w-[120px] max-w-[696px]">
           {heading && <Heading {...heading} />}
           {content && <RichText html={content} />}
         </div>

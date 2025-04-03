@@ -44,7 +44,7 @@ const Textarea = ({
   const errorId = `${name}-error`;
 
   return (
-    <div className="ds-stack-8">
+    <div className="ds-stack ds-stack-8">
       {label && (
         <InputLabel
           classname={description ? "ds-heading-03-reg" : classNameLabel}
@@ -65,12 +65,9 @@ const Textarea = ({
         })}
         maxLength={maxLength}
         rows={TEXT_AREA_ROWS}
-        className={classNames(
-          "ds-textarea forced-color-adjust-none placeholder-gray-600",
-          {
-            "has-error": error,
-          },
-        )}
+        className={classNames("ds-textarea forced-color-adjust-none", {
+          "has-error": error,
+        })}
         ref={innerRef}
         aria-invalid={error !== undefined}
         aria-describedby={error && errorId}

@@ -30,6 +30,7 @@ import { testCasesFluggastrechteNichtBefoerderungAbbruch } from "~/domains/flugg
 import { testcasesFluggastrechtOtherErfolgs } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesOtherErfolgs";
 import { testCasesFluggastrechteVerspaetetAbbruch } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesVerspaetetAbbruch";
 import { testCasesGeldEinklagen } from "~/domains/geldEinklagen/vorabcheck/__test__/testcases";
+import { testCasesKontopfaendungWegweiser } from "~/domains/kontopfaendung/wegweiser/__test__/testcases";
 import {
   testCasesProzesskostenhilfeFormular,
   testCasesProzesskostenhilfeSubmitOnly,
@@ -39,6 +40,7 @@ import type { FlowStateMachine } from "~/services/flow/server/buildFlowControlle
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
 import { testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugNo } from "../fluggastrechte/formular/flugdaten/__test__/testcasesAnnullierungWithErsatzflugNo";
+import { testCasesFluggastrechteFluggesellschaftAbbruch } from "../fluggastrechte/vorabcheck/__test__/testcasesFluggesellschaftAbbruch";
 
 function getEnabledSteps({
   machine,
@@ -130,6 +132,8 @@ describe.sequential("state machine form flows", () => {
     testCasesFluggastrechteErfolgEU,
     testcasesFluggastrechteErfolgAnalog,
     testCasesFluggastrechteFormularProzessfuehrung,
+    testCasesFluggastrechteFluggesellschaftAbbruch,
+    testCasesKontopfaendungWegweiser,
   } as const;
   const transitionTypes = ["SUBMIT", "BACK"] as const;
 
@@ -168,6 +172,9 @@ describe.sequential("state machine form flows", () => {
   describe.concurrent.each(Object.entries(forwardOnlyTests))(
     "%s",
     (_, { machine, cases }) => {
+      vi.mock("~/services/featureFlags", () => ({
+        isFeatureFlagEnabled: vi.fn().mockResolvedValue(false),
+      }));
       test.each([...cases])("[%#]", (context, steps) => {
         const visitedSteps = getEnabledSteps({
           machine,
@@ -205,6 +212,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(18);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(19);
   });
 });

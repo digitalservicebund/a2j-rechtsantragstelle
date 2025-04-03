@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
-import { Context } from "~/domains/contexts";
-import { Translations } from "~/services/translations/getTranslationByKey";
+import { type Context } from "~/domains/contexts";
+import { type Translations } from "~/services/translations/getTranslationByKey";
 import { getItemValueBox } from "../getItemValueBox";
 
 describe("getItemValueBox", () => {

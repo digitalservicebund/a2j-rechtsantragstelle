@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TextareaProps } from "~/components/inputs/Textarea";
+import { type TextareaProps } from "~/components/inputs/Textarea";
 import { StrapiErrorRelationSchema } from "~/services/cms/flattenStrapiErrors";
 import { StrapiDetailsSchema } from "~/services/cms/models/StrapiDetails";
 import { buildRichTextValidation } from "~/services/validation/richtext";

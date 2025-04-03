@@ -1,4 +1,4 @@
-import { Marked, Renderer } from "marked";
+import { Marked, type Renderer } from "marked";
 import { renderToString } from "react-dom/server";
 import * as xssImport from "xss";
 import { openInNewAllowedAttributes } from "~/components/OpenInNewTabIcon";
@@ -24,6 +24,7 @@ const allowList = {
   h4: xss.getDefaultWhiteList().h4?.concat(["class"]),
   h5: xss.getDefaultWhiteList().h5?.concat(["class"]),
   h6: xss.getDefaultWhiteList().h6?.concat(["class"]),
+  dt: xss.getDefaultWhiteList().dt?.concat(["class"]),
   ...openInNewAllowedAttributes,
 };
 

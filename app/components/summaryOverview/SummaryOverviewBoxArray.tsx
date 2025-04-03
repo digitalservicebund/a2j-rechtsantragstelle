@@ -2,7 +2,7 @@ import { WEITERE_PERSONEN_START_INDEX } from "~/domains/fluggastrechte/formular/
 import { addArrayIndexToPathUrl } from "./addArrayIndexToPathUrl";
 import { getArraySummaryObject } from "./getArraySummaryObject";
 import SummaryOverviewBox from "./SummaryOverviewBox";
-import { SummaryOverviewBoxWrappedProps } from "./SummaryOverviewBoxWrapped";
+import { type SummaryOverviewBoxWrappedProps } from "./SummaryOverviewBoxWrapped";
 import { useFormFlow } from "../form/formFlowContext";
 
 type Props = Pick<

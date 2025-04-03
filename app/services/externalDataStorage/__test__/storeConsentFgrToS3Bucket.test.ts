@@ -1,4 +1,4 @@
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { PutObjectCommand, type S3Client } from "@aws-sdk/client-s3";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { parsePathname } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";

@@ -11,7 +11,7 @@ export default function FlowNavigation(props: FlowNavigationProps) {
   }, []);
 
   return (
-    <nav role="navigation" aria-label={props.a11yLabels?.menuLabel}>
+    <nav aria-label={props.a11yLabels?.menuLabel}>
       {jsAvailable && (
         <SideNavMobile
           className="fixed bottom-0 w-full md:hidden z-50"
@@ -23,7 +23,7 @@ export default function FlowNavigation(props: FlowNavigationProps) {
       <NavigationList
         {...props}
         className={classNames(
-          "md:block md:ml-32 md:mr-0 mb-32 mx-[5vw] bg-white border-[1px] border-blue-400",
+          "md:block bg-white border-[1px] border-blue-400",
           { hidden: jsAvailable },
         )}
       />

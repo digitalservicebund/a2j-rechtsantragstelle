@@ -8,7 +8,7 @@ import type { BeratungshilfeFormularContext } from "./beratungshilfe/formular";
 import { reasonsToDisplayBeratungshilfe } from "./beratungshilfe/vorabcheck";
 import type { ProzesskostenhilfeFormularContext } from "./prozesskostenhilfe/formular";
 
-export type AllContexts =
+type AllContexts =
   | GeldEinklagenFormularContext
   | GeldEinklagenVorabcheckContext
   | BeratungshilfeVorabcheckContext
@@ -17,13 +17,13 @@ export type AllContexts =
   | FluggastrechtContext
   | ProzesskostenhilfeFormularContext;
 
-export type KeysOfUnion<T> = T extends T ? keyof T : never;
+type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type AllContextKeys = KeysOfUnion<AllContexts>;
 
 export function getReasonsToDisplay(
   context: AllContexts,
 ): Record<string, boolean> {
-  if ("rechtsschutzversicherung" in context) {
+  if ("rsvCoverage" in context) {
     return reasonsToDisplayBeratungshilfe(context);
   }
   return {};

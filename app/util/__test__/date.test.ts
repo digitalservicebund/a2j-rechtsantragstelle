@@ -1,6 +1,7 @@
 import {
   addDays,
   addYears,
+  convertToTimestamp,
   dateUTCFromGermanDateString,
   pdfDateFormat,
   toGermanDateFormat,
@@ -55,6 +56,18 @@ describe("date", () => {
   describe("pdfDateFormat()", () => {
     it("formats correctly", () => {
       expect(pdfDateFormat(new Date("2000-01-01"))).toEqual("01_01_2000");
+    });
+  });
+
+  describe("convertToTimestamp", () => {
+    it("should convert a valid date and time to a timestamp", () => {
+      const date = "24.03.2025";
+      const time = "15:30";
+      const expectedTimestamp = new Date(2025, 2, 24, 15, 30).getTime();
+
+      const actual = convertToTimestamp(date, time);
+
+      expect(actual).toBe(expectedTimestamp);
     });
   });
 });

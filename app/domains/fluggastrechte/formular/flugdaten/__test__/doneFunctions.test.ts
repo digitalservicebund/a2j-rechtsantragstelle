@@ -1,4 +1,4 @@
-import { FluggastrechtContext } from "../../context";
+import { type FluggastrechtContext } from "../../context";
 import { flugdatenDone } from "../doneFunctions";
 import { fluggesellschaftAddresse } from "./flugdatenMock";
 

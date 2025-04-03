@@ -8,7 +8,7 @@ export type HeaderProps = Readonly<{
 
 export default function Header({ heading, content }: HeaderProps) {
   return (
-    <div className="ds-stack-16">
+    <div className="ds-stack ds-stack-16">
       <Heading {...heading} />
       {content && (
         <RichText className="ds-heading-03-reg" html={content.html} />

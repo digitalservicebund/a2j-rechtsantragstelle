@@ -2,7 +2,7 @@ import Close from "@digitalservicebund/icons/Close";
 import MenuIcon from "@digitalservicebund/icons/Menu";
 import { useState } from "react";
 import { NavigationList } from "~/components/navigation/NavigationList";
-import { NavItem } from "~/components/navigation/NavItem";
+import { type NavItem } from "~/components/navigation/NavItem";
 import { stateIsCurrent } from "~/services/navigation/navState";
 
 export type MobileNavigationLabels = {

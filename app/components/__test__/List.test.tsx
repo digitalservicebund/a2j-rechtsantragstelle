@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { ListItemProps } from "~/components/ListItem";
+import { type ListItemProps } from "~/components/ListItem";
 import List, { listItemNotEmpty } from "../List";
 
 describe("List", () => {
@@ -7,7 +7,7 @@ describe("List", () => {
     const mockSubheadinText = "subheadingText";
 
     const { getByText } = render(
-      <List items={[]} subheading={mockSubheadinText} />,
+      <List items={[]} variant="unordered" subheading={mockSubheadinText} />,
     );
 
     expect(getByText(mockSubheadinText)).toBeInTheDocument();
@@ -15,7 +15,7 @@ describe("List", () => {
 
   it("should not render subheading when it is not given", () => {
     const mockSubheadinText = "subheadingText";
-    const { queryByText } = render(<List items={[]} />);
+    const { queryByText } = render(<List items={[]} variant="unordered" />);
 
     expect(queryByText(mockSubheadinText)).not.toBeInTheDocument();
   });

@@ -38,3 +38,10 @@ export const pdfDateFormat = (date: Date) =>
       year: "numeric",
     })
     .replaceAll(".", "_");
+
+// Helper function to convert German date/time format to timestamp
+export function convertToTimestamp(date: string, time: string): number {
+  const [day, month, year] = date.split(".").map(Number);
+  const [hours, minutes] = time.split(":").map(Number);
+  return new Date(year, month - 1, day, hours, minutes).getTime();
+}

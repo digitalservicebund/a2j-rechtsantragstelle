@@ -1,12 +1,10 @@
 import type { MultiFieldsStepIdValidation } from "~/domains/multiFieldsFlowValidation";
-import {
-  validateAnotherFlightPage,
-  validateDepartureAfterArrival,
-  validateCancelFlightReplacementPage,
-  validateReplacementConnectionPage,
-  validateSameFlightPage,
-  validateStopoverDuplicates,
-} from "./services/validation";
+import { validateAnotherFlightPage } from "./services/validation/validateAnotherFlightPage";
+import { validateCancelFlightReplacementPage } from "./services/validation/validateCancelFlightReplacementPage";
+import { validateDepartureAfterArrival } from "./services/validation/validateDepartureAfterArrival";
+import { validateReplacementConnectionPage } from "./services/validation/validateReplacementConnectionPage";
+import { validateSameFlightPage } from "./services/validation/validateSameFlightPage";
+import { validateStopoverDuplicates } from "./services/validation/validateStopoverDuplicates";
 
 export const fluggastrechtMultiFieldsValidation: MultiFieldsStepIdValidation = {
   "/flugdaten/geplanter-flug": validateDepartureAfterArrival,

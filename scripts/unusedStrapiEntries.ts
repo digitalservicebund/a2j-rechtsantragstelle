@@ -4,7 +4,7 @@ import partition from "lodash/partition";
 import { flows } from "~/domains/flows.server";
 import {
   strapiFileSchema,
-  StrapiSchemasOutput,
+  type StrapiSchemasOutput,
   type StrapiSchemas,
 } from "~/services/cms/schemas";
 import { type Config } from "~/services/flow/server/buildFlowController";

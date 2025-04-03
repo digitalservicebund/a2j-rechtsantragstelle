@@ -23,29 +23,29 @@ export const isErfolgAnalog = ({
   const isAirlineInEu = isFluggesellschaftInEU(fluggesellschaft);
   const isStartAirportInEu = isEuropeanUnionAirport(startAirport);
 
-  // only with german destination
-  if (
-    isEndAirportGerman &&
-    !isStartAirportGerman &&
-    !hasEndAirportPartnerCourt &&
-    ((isAirlineInEu && fluggesellschaft !== "sonstiges") || isStartAirportInEu)
-  ) {
-    return true;
+  // departure outside EU only Destination in DE
+  if (!isStartAirportInEu && isEndAirportGerman) {
+    // destination without partner court
+    return (
+      !hasEndAirportPartnerCourt &&
+      isAirlineInEu &&
+      fluggesellschaft !== "sonstiges"
+    );
   }
 
-  // german departure without partner court
-  if (
-    isStartAirportGerman &&
-    !hasStartAirportPartnerCourt &&
-    !hasEndAirportPartnerCourt
-  ) {
-    return true;
+  // only departure DE or both in DE
+  if (isStartAirportGerman) {
+    // both airports have no partner court or fluggesellschaft is "sonstiges"
+    return (
+      (!hasStartAirportPartnerCourt && !hasEndAirportPartnerCourt) ||
+      fluggesellschaft === "sonstiges"
+    );
   }
 
-  // german departure with partner court either in departure or destination
-  return (
-    isStartAirportGerman &&
-    (hasStartAirportPartnerCourt || hasEndAirportPartnerCourt) &&
-    fluggesellschaft === "sonstiges"
-  );
+  // departure in EU and destination in DE
+  if (isStartAirportInEu && isEndAirportGerman) {
+    return !hasEndAirportPartnerCourt || fluggesellschaft === "sonstiges";
+  }
+
+  return false;
 };

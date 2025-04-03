@@ -21,12 +21,14 @@ export const guards = {
   isGermanEndAirportsAndIsNotClaimable: ({
     context: { startAirport, endAirport, fluggesellschaft },
   }) => {
-    const isStartAirportGerman = isGermanAirport(startAirport);
     const isEndAirportGerman = isGermanAirport(endAirport);
+    const isStartAirportGerman = isGermanAirport(startAirport);
+    const isStartAirportEU = isEuropeanUnionAirport(startAirport);
 
     return (
       isEndAirportGerman &&
       !isStartAirportGerman &&
+      !isStartAirportEU &&
       !isFluggesellschaftInEU(fluggesellschaft)
     );
   },
@@ -58,10 +60,12 @@ export const guards = {
   }) => {
     const isStartAirportGerman = isGermanAirport(startAirport);
     const isEndAirportGerman = isGermanAirport(endAirport);
+    const isStartAirportEU = isEuropeanUnionAirport(startAirport);
 
     return (
       isEndAirportGerman &&
       !isStartAirportGerman &&
+      !isStartAirportEU &&
       fluggesellschaft === "sonstiges"
     );
   },
@@ -164,11 +168,12 @@ export const guards = {
 
     // If the start airport is outside the EU, but the end airport is in the EU,
     // check if the airline is based in the EU
-    if (!isStartAirportEU && isEndAirportEU) {
-      return isFluggesellschaftInEU(fluggesellschaft);
-    }
 
-    return false;
+    return (
+      !isStartAirportEU &&
+      isEndAirportEU &&
+      isFluggesellschaftInEU(fluggesellschaft)
+    );
   },
 
   isErfolgAnalogGuard: ({ context }) => {

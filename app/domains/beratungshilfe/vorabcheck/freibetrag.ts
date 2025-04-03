@@ -1,6 +1,6 @@
 import mapValues from "lodash/mapValues";
 import { today } from "~/util/date";
-import { type AllContexts } from "../../common";
+import type { BeratungshilfeVorabcheckContext } from "./context";
 
 type Freibetraege = {
   selfAllowance: number;
@@ -136,7 +136,9 @@ function freibetragShort(
   );
 }
 
-export const getVerfuegbaresEinkommenFreibetrag = (context: AllContexts) => {
+export const getVerfuegbaresEinkommenFreibetrag = (
+  context: BeratungshilfeVorabcheckContext,
+) => {
   const isWorking =
     "erwerbstaetigkeit" in context && context.erwerbstaetigkeit == "yes";
   const isInPartnership =

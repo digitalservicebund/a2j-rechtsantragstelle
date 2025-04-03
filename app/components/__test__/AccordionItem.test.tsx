@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { vi as vitestVi } from "vitest";
-import AccordionItem, { Props } from "~/components/AccordionItem";
+import AccordionItem, { type Props } from "~/components/AccordionItem";
 import { useTranslations } from "~/services/translations/translationsContext";
 
 vi.mock("~/services/translations/translationsContext", () => ({

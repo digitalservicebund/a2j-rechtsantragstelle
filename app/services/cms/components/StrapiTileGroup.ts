@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TileGroupProps } from "~/components/inputs/tile/TileGroup";
+import { type TileGroupProps } from "~/components/inputs/tile/TileGroup";
 import { omitNull } from "~/util/omitNull";
 import {
   HasOptionalStrapiIdSchema,

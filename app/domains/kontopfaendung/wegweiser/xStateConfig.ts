@@ -1,5 +1,6 @@
+import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { kontopfaendungWegweiserContext } from "./context";
+import { type KontopfaendungWegweiserContext } from "./context";
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/kontopfaendung/wegweiser",
@@ -14,23 +15,12 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: "ergebnisseite",
-            guard: ({ context }) => context.hasKontopfaendung === "nein",
+            target: "p-konto",
+            guard: ({ context }) => context.hasKontopfaendung === "ja",
           },
-          "p-konto",
+          "ergebnisseite",
         ],
         BACK: "start",
-      },
-    },
-    ergebnisseite: {
-      on: {
-        BACK: [
-          {
-            target: "euro-schwelle",
-            guard: ({ context }) => context.euroSchwelle === "nein",
-          },
-          "kontopfaendung",
-        ],
       },
     },
     "p-konto": {
@@ -39,7 +29,7 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "p-konto-probleme",
             guard: ({ context }) =>
-              context.hasPKonto === "bank" ||
+              context.hasPKonto === "nichtEingerichtet" ||
               context.hasPKonto === "nichtAktiv",
           },
           "glaeubiger",
@@ -60,9 +50,40 @@ export const kontopfaendungWegweiserXstateConfig = {
             target: "glaeubiger-unbekannt",
             guard: ({ context }) => context.schuldenBei === "weissNicht",
           },
+          {
+            target: "unerlaubten-handlung",
+            guard: ({ context }) =>
+              context.schuldenBei === "staatsanwaltschaft" ||
+              context.schuldenBei === "kasse",
+          },
+          {
+            target: "unterhalts-zahlungen",
+            guard: ({ context }) =>
+              context.schuldenBei === "privat" ||
+              context.schuldenBei === "jugendamt",
+          },
           "euro-schwelle",
         ],
-        BACK: "p-konto",
+        BACK: [
+          {
+            target: "p-konto",
+            guard: ({ context }) =>
+              context.hasPKonto === "ja" || context.hasPKonto === "nein",
+          },
+          "p-konto-probleme",
+        ],
+      },
+    },
+    "unerlaubten-handlung": {
+      on: {
+        SUBMIT: "euro-schwelle",
+        BACK: "glaeubiger",
+      },
+    },
+    "unterhalts-zahlungen": {
+      on: {
+        SUBMIT: "euro-schwelle",
+        BACK: "glaeubiger",
       },
     },
     "glaeubiger-unbekannt": {
@@ -84,6 +105,18 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "glaeubiger-unbekannt",
             guard: ({ context }) => context.schuldenBei === "weissNicht",
+          },
+          {
+            target: "unerlaubten-handlung",
+            guard: ({ context }) =>
+              context.schuldenBei === "staatsanwaltschaft" ||
+              context.schuldenBei === "kasse",
+          },
+          {
+            target: "unterhalts-zahlungen",
+            guard: ({ context }) =>
+              context.schuldenBei === "privat" ||
+              context.schuldenBei === "jugendamt",
           },
           "glaeubiger",
         ],
@@ -123,10 +156,11 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: "zwischenseite-cash",
-            guard: ({ context }) => context.verheiratet === "nein",
+            target: "partner-wohnen-zusammen",
+            guard: ({ context }) =>
+              !!context.verheiratet && context.verheiratet !== "nein",
           },
-          "partner-wohnen-zusammen",
+          "zwischenseite-cash",
         ],
         BACK: [
           {
@@ -162,15 +196,15 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: "ermittlung-betrags",
         BACK: [
           {
-            target: "partner",
+            target: "partner-support",
             guard: ({ context }) =>
-              context.verheiratet === "nein" ||
-              context.verheiratet === "verwitwet",
+              !!context.verheiratet && context.verheiratet !== "nein",
           },
-          "partner-support",
+          "partner",
         ],
       },
     },
+    // TODO rename
     "ermittlung-betrags": {
       on: {
         SUBMIT: [
@@ -186,7 +220,7 @@ export const kontopfaendungWegweiserXstateConfig = {
     arbeitsweise: {
       on: {
         SUBMIT: "nachzahlung-arbeitgeber",
-        BACK: "start",
+        BACK: "ermittlung-betrags",
       },
     },
     "nachzahlung-arbeitgeber": {
@@ -196,6 +230,7 @@ export const kontopfaendungWegweiserXstateConfig = {
             target: "zahlungslimit",
             guard: ({ context }) => context.nachzahlungArbeitgeber === "yes",
           },
+          // TODO Rename
           "zahlung-arbeitgeber",
         ],
         BACK: "arbeitsweise",
@@ -210,7 +245,13 @@ export const kontopfaendungWegweiserXstateConfig = {
     "zahlung-arbeitgeber": {
       on: {
         SUBMIT: "sozialleistungen",
-        BACK: "nachzahlung-arbeitgeber",
+        BACK: [
+          {
+            target: "zahlungslimit",
+            guard: ({ context }) => context.nachzahlungArbeitgeber === "yes",
+          },
+          "nachzahlung-arbeitgeber",
+        ],
       },
     },
     sozialleistungen: {
@@ -224,7 +265,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         ],
         BACK: [
           {
-            target: "start",
+            target: "ermittlung-betrags",
             guard: ({ context }) => context.hasArbeit === "no",
           },
           "zahlung-arbeitgeber",
@@ -235,13 +276,20 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: "sozialleistung-nachzahlung",
+            target: "pflegegeld",
             guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.nein === "off",
+              context.sozialleistungenUmstaende?.pflegegeld ===
+              CheckboxValue.on,
           },
-          "besondere-ausgaben",
+          "sozialleistung-nachzahlung",
         ],
         BACK: "sozialleistungen",
+      },
+    },
+    pflegegeld: {
+      on: {
+        SUBMIT: "sozialleistung-nachzahlung",
+        BACK: "sozialleistungen-umstaende",
       },
     },
     "sozialleistung-nachzahlung": {
@@ -257,9 +305,9 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: [
           {
             target: "sozialleistungen-umstaende",
-            guard: ({ context }) => context.hasSozialleistungen === "nein",
+            guard: ({ context }) => context.pflegegeld === undefined,
           },
-          "sozialleistungen",
+          "pflegegeld",
         ],
       },
     },
@@ -271,7 +319,7 @@ export const kontopfaendungWegweiserXstateConfig = {
     },
     "sozialleistungen-einmalzahlung": {
       on: {
-        SUBMIT: "besondere-ausgaben",
+        SUBMIT: "ergebnisseite",
         BACK: [
           {
             target: "sozialleistung-nachzahlung",
@@ -282,22 +330,16 @@ export const kontopfaendungWegweiserXstateConfig = {
         ],
       },
     },
-    "besondere-ausgaben": {
+    ergebnisseite: {
       on: {
-        SUBMIT: [
-          {
-            target: "",
-          },
-        ],
         BACK: [
           {
-            target: "sozialleistungen-umstaende",
-            guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.nein === "on",
+            target: "euro-schwelle",
+            guard: ({ context }) => context.euroSchwelle === "nein",
           },
-          "sozialleistungen-einmalzahlung",
+          "kontopfaendung",
         ],
       },
     },
   },
-} satisfies Config<kontopfaendungWegweiserContext>;
+} satisfies Config<KontopfaendungWegweiserContext>;

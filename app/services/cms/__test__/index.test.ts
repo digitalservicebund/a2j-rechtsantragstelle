@@ -9,7 +9,7 @@ import {
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { StrapiFooterSchema } from "~/services/cms/models/StrapiFooter";
-import { StrapiSchemas } from "~/services/cms/schemas";
+import { type StrapiSchemas } from "~/services/cms/schemas";
 import { fetchAllFormFields } from "../fetchAllFormFields";
 import { getStrapiEntry } from "../getStrapiEntry";
 

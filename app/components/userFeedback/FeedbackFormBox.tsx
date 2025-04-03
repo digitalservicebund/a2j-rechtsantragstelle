@@ -91,7 +91,7 @@ export const FeedbackFormBox = ({
         title={feedbackTranslations["success-message"]}
         subtitle={feedbackTranslations["antwort-uebermittelt"]}
       />
-      <div role="status" className="ds-stack-16">
+      <div role="status" className="ds-stack ds-stack-16">
         <div>
           <label htmlFor={FEEDBACK_FIELD_NAME} className="ds-label-01-bold">
             {feedbackText}

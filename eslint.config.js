@@ -129,6 +129,10 @@ export default tseslint.config(
       "sonarjs/deprecation": "off", // enable after remix upgrades to react router v7 and we move to Single Fetch
 
       // typescript-eslint
+      "@typescript-eslint/consistent-type-imports": [
+        "warn",
+        { fixStyle: "inline-type-imports" },
+      ],
       "@typescript-eslint/only-throw-error": "off", // disabled, as remix/react-router can throw redirects
       "@typescript-eslint/no-unused-vars": [
         "warn",

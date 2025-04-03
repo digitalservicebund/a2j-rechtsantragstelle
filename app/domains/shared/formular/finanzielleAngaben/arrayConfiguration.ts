@@ -1,4 +1,4 @@
-import type { AllContextKeys } from "~/domains/common";
+import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
 import type { ArrayConfigServer } from "~/services/array";
 
 export function finanzielleAngabenArrayConfig(prefix: string) {
@@ -46,5 +46,7 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       statementKey: "hasWeitereUnterhaltszahlungen",
       event: "add-unterhaltszahlungen",
     },
-  } satisfies Partial<Record<AllContextKeys, ArrayConfigServer>>;
+  } satisfies Partial<
+    Record<keyof BeratungshilfeFinanzielleAngaben, ArrayConfigServer>
+  >;
 }

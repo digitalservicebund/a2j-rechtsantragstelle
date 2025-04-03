@@ -1,4 +1,3 @@
-import { json } from "@remix-run/node";
 import { createRemixStub } from "@remix-run/testing";
 import { fireEvent, render } from "@testing-library/react";
 import { RatingBox } from "../RatingBox";
@@ -42,7 +41,7 @@ describe("RatingBox", () => {
       {
         path: "/action/send-rating",
         action() {
-          return json({});
+          return {};
         },
       },
     ]);
@@ -65,7 +64,7 @@ describe("RatingBox", () => {
       {
         path: "/action/send-rating",
         action() {
-          return json({});
+          return {};
         },
       },
     ]);

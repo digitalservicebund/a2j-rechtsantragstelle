@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Background from "~/components/Background";
 import Button from "~/components/Button";
@@ -10,7 +10,7 @@ import Heading from "~/components/Heading";
 import RichText from "~/components/RichText";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { fillTemplate } from "~/util/fillTemplate";
+import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { splitObjectsByFirstLetter } from "~/util/strings";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -30,18 +30,17 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     fetchMeta({ filterValue }),
   ]);
 
-  const resultListHeading = fillTemplate({
-    template: common.resultListHeading,
-    replacements: { postcode: zipCode ?? "" },
+  const resultListHeading = applyStringReplacement(common.resultListHeading, {
+    postcode: zipCode ?? "",
   });
 
-  return json({
+  return {
     resultListHeading,
     edgeCasesGroupedByLetter: splitObjectsByFirstLetter(edgeCases, "street"),
     common,
     meta,
     url: `/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`,
-  });
+  };
 };
 
 export default function Index() {

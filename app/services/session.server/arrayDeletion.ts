@@ -1,6 +1,6 @@
 import type { Session } from "@remix-run/node";
 import type { Context, ObjectType } from "~/domains/contexts";
-import { FlowId } from "~/domains/flowIds";
+import { type FlowId } from "~/domains/flowIds";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { filterFormData } from "~/util/filterFormData";
 
