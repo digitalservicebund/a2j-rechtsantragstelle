@@ -39,6 +39,7 @@ describe("stringReplacements", () => {
       const userData: KontopfaendungWegweiserContext = { hasPKonto: "ja" };
       expect(getPKontoStrings(userData)).toEqual({
         hasPKonto: true,
+        hasNoPKonto: false,
         hasPKontoBank: false,
         hasPKontoNichtAktive: false,
       });
