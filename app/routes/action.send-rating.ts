@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs, Session, SessionData } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { data as remixData, redirect } from "@remix-run/node";
 import { withZod } from "@remix-validated-form/with-zod";
 import { validationError } from "remix-validated-form";
 import { z } from "zod";
@@ -58,7 +58,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
   if (clientJavaScriptAvailable) {
-    return json({ success: true }, { headers });
+    return remixData({ success: true }, { headers });
   }
 
   return redirect(`${url}?wasHelpful=${data?.wasHelpful}#${USER_FEEDBACK_ID}`, {

@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { data, redirect } from "@remix-run/node";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import {
@@ -68,7 +68,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   const cmsData = { ...cmsContent, nextSteps, documents };
 
-  return json(
+  return data(
     {
       flowId,
       common: defaultStrings,
