@@ -172,7 +172,10 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: "partner-support",
-            guard: ({ context }) => context.verheiratet === "getrennt",
+            guard: ({ context }) =>
+              context.verheiratet === "getrennt" ||
+              context.verheiratet === "geschieden" ||
+              context.verheiratet === "verwitwet",
           },
           {
             target: "partner-wohnen-zusammen",
@@ -275,12 +278,8 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: "sozialleistung-nachzahlung",
-            guard: ({ context }) =>
-              !!context.hasSozialleistungen &&
-              context.hasSozialleistungen !== "nein",
+            target: "sozialleistungen-umstaende",
           },
-          "sozialleistungen-umstaende",
         ],
         BACK: [
           {
