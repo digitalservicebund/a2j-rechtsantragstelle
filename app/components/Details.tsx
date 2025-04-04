@@ -2,7 +2,6 @@ import { useState } from "react";
 import RichText from "./RichText";
 
 export type DetailsProps = {
-  identifier?: string;
   title?: string;
   content?: string;
 };
