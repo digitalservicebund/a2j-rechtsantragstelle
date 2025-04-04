@@ -66,9 +66,10 @@ const FilesUpload = ({
    * We need to send at least an empty array, to display an array-level error that it's empty
    */
   const shouldSubmitEmptyArray =
-    // TODO: remove when e2e test is written
-    (!process.env.CI && items.length === 0) ||
-    (items.length === 1 && Object.entries(scopedErrors).length > 0);
+    // TODO: remove !jsAvailable when e2e test is written
+    !jsAvailable &&
+    (items.length === 0 ||
+      (items.length === 1 && Object.entries(scopedErrors).length > 0));
 
   return (
     title !== "" && (
