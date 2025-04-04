@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirectDocument } from "@remix-run/node";
+import { data, redirectDocument } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
@@ -191,7 +191,7 @@ export const loader = async ({
     toggleMenu: defaultStrings.navigationMobileToggleMenu,
   };
 
-  return json(
+  return data(
     {
       arraySummaryData,
       prunedUserData,
@@ -255,7 +255,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     );
     if (validationError) return validationError;
     updateSession(flowSession, resolveArraysFromKeys(validationResult!.data));
-    return json(flowSession.data, {
+    return data(flowSession.data, {
       headers: { "Set-Cookie": await commitSession(flowSession) },
     });
   } else if (
@@ -282,7 +282,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         },
       );
     }
-    return json(flowSession.data, {
+    return data(flowSession.data, {
       headers: { "Set-Cookie": await commitSession(flowSession) },
     });
   }

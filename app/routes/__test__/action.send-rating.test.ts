@@ -1,3 +1,4 @@
+import { type DataWithResponseInit } from "@remix-run/router/dist/utils";
 import { getSessionManager } from "~/services/session.server";
 import { action } from "../action.send-rating";
 
@@ -26,8 +27,12 @@ describe("/action/send-rating route", () => {
       options,
     );
     const response = await action({ request, params: {}, context: {} });
-    expect(response.status).toEqual(200);
-    expect(response.ok).toBeTruthy();
+
+    if ("data" in response) {
+      expect(response.data.success).toEqual(true);
+    } else {
+      throw new Error("Response does not contain 'data' property");
+    }
   });
 
   it("returns redirect without JS", async () => {
@@ -37,7 +42,13 @@ describe("/action/send-rating route", () => {
       `http://localhost:3000/action/send-rating?url=${ratingPath}&js=false`,
       options,
     );
-    const response = await action({ request, params: {}, context: {} });
+
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as Response; // TODO revisit this type casting
+
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(expectedPath);
   });
@@ -47,9 +58,18 @@ describe("/action/send-rating route", () => {
       `http://localhost:3000/action/send-rating?url=http://external.com&js=false`,
       options,
     );
-    const response = await action({ request, params: {}, context: {} });
-    expect(response.status).toEqual(400);
-    expect(response.ok).not.toBeTruthy();
+
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as DataWithResponseInit<{ success: boolean }>;
+
+    if (response.init !== null) {
+      expect(response.init.status).toEqual(400);
+    } else {
+      throw new Error("Response does not contain 'init' property");
+    }
   });
 
   it("fails if wasHelpful parameter does not exist in the body", async () => {
@@ -59,7 +79,13 @@ describe("/action/send-rating route", () => {
       `http://localhost:3000/action/send-rating?url=/asd&js=true`,
       optionsWithoutBody,
     );
-    const response = await action({ request, params: {}, context: {} });
+
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as Response;
+
     expect(response.status).toEqual(422);
     expect(response.ok).not.toBeTruthy();
   });

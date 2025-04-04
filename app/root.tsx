@@ -3,7 +3,7 @@ import type {
   LoaderFunctionArgs,
   MetaFunction,
 } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { data } from "@remix-run/node";
 import {
   Links,
   Meta,
@@ -121,7 +121,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     trackingConsent,
   );
 
-  return json(
+  return data(
     {
       pageHeaderProps: {
         ...strapiHeader,
