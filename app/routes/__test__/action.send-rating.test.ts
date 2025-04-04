@@ -47,7 +47,7 @@ describe("/action/send-rating route", () => {
       request,
       params: {},
       context: {},
-    })) as Response;
+    })) as Response; // TODO revisit this type casting
 
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(expectedPath);
