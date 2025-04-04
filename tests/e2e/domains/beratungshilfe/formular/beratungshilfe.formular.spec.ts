@@ -1,6 +1,9 @@
+import fs from "node:fs";
+import path from "node:path";
 import { type Page, type Response, expect, test } from "@playwright/test";
 import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
+import { startFinanzielleAngabenPartner } from "tests/e2e/domains/shared/finanzielleAngaben/finanzielleAngabenPartner";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { config } from "~/services/env/env.server";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
@@ -11,7 +14,6 @@ import { startGrundvoraussetzungen } from "./grundvoraussetzungen";
 import { startPersoenlicheDaten } from "./persoenlicheDaten";
 import { startRechtsproblem } from "./rechtsproblem";
 import { startFinanzielleAngabenKinder } from "../../shared/finanzielleAngaben/finanzielleAngabenKinder";
-import { startFinanzielleAngabenPartner } from "../../shared/finanzielleAngaben/finanzielleAngabenPartner";
 
 let beratungshilfeFormular: BeratungshilfeFormular;
 const TEN_SECONDS_TIMEOUT_POPUP = 10 * 1000;
@@ -52,6 +54,9 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startFinanzielleAngabenGrundsicherung(beratungshilfeFormular);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
   await skipZusammenfassung(page);
+  if (await isFeatureFlagEnabled("showFileUpload")) {
+    await startDocumentUpload(page, beratungshilfeFormular);
+  }
   await startAbgabe(page);
 });
 
@@ -75,11 +80,58 @@ test("invalid array index redirects to initial step of subflow", async ({
   );
 });
 
-async function startAbgabe(page: Page) {
+async function startDocumentUpload(
+  page: Page,
+  formular: BeratungshilfeFormular,
+) {
   // beratungshilfe/antrag/abgabe/dokumente
-  if (await isFeatureFlagEnabled("showFileUpload")) {
-    await beratungshilfeFormular.clickNext();
-  }
+  await expectPageToBeAccessible({ page });
+  await formular.clickNext();
+
+  // Test empty form submission
+  const errorMessage = page.getByTestId("inputError");
+  await expect(errorMessage).toBeVisible();
+
+  // Test file upload with a file that's too large
+  const dummyFilePathTooBig = path.resolve(
+    path.join(process.cwd(), "tooBig.pdf"),
+  );
+  fs.writeFileSync(dummyFilePathTooBig, Buffer.alloc(1024 * 1024 * 11));
+  await page.getByTestId("fileUploadInput").setInputFiles(dummyFilePathTooBig);
+  const fileUploadInfo = page.getByTestId(
+    "file-upload-info-grundsicherungBeweis[0]",
+  );
+  await expect(fileUploadInfo).toBeVisible();
+  await expect(errorMessage).toBeVisible();
+
+  await page.getByRole("button", { name: "Löschen" }).click();
+
+  // Test file upload with a file that's of the wrong type
+  const dummyFilePathWrongType = path.resolve(
+    path.join(process.cwd(), "wrongType.txt"),
+  );
+  fs.writeFileSync(dummyFilePathWrongType, "test");
+  await page
+    .getByTestId("fileUploadInput")
+    .setInputFiles(dummyFilePathWrongType);
+  await page
+    .getByTestId("fileUploadInput")
+    .setInputFiles(dummyFilePathWrongType);
+  await expect(fileUploadInfo).toBeVisible();
+  await expect(errorMessage).toBeVisible();
+
+  await page.getByRole("button", { name: "Löschen" }).click();
+
+  // Test file upload with a valid file
+  const dummyFilePath = path.resolve(path.join(process.cwd(), "test.pdf"));
+  fs.writeFileSync(dummyFilePath, Buffer.alloc(1024 * 1024 * 1));
+  await page.getByTestId("fileUploadInput").setInputFiles(dummyFilePath);
+  await expect(fileUploadInfo).toBeVisible();
+  await expect(errorMessage).not.toBeVisible();
+  await page.getByRole("button", { name: "Weiter" }).click();
+}
+
+async function startAbgabe(page: Page) {
   // beratungshilfe/antrag/abgabe/art
   await beratungshilfeFormular.fillRadioPage("abgabeArt", "ausdrucken");
   // beratungshilfe/antrag/abgabe/ausdrucken
