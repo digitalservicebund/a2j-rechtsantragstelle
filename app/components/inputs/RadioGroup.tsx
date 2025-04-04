@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useState, useEffect, useRef } from "react";
 import { useStringField } from "~/services/validation/useStringField";
 import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
@@ -25,6 +25,7 @@ const RadioGroup = ({
   formId,
 }: RadioGroupProps) => {
   const { error, defaultValue } = useStringField(name, { formId });
+  const errorRef = useRef<HTMLDivElement>(null);
   const errorId = `${name}-error`;
   const errorToDisplay =
     errorMessages?.find((err) => err.code === error)?.text ?? error;
@@ -33,6 +34,12 @@ const RadioGroup = ({
   const [renderHiddenField, setRenderHiddenField] = useState(
     defaultValue === undefined,
   );
+
+  useEffect(() => {
+    if (errorToDisplay && errorRef.current) {
+      errorRef.current.focus();
+    }
+  }, [errorToDisplay]);
 
   return (
     <fieldset
@@ -56,7 +63,9 @@ const RadioGroup = ({
           />
         ))}
         {errorToDisplay && (
-          <InputError id={errorId}>{errorToDisplay}</InputError>
+          <InputError id={errorId} ref={errorRef} tabIndex={0}>
+            {errorToDisplay}
+          </InputError>
         )}
       </div>
     </fieldset>

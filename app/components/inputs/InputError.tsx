@@ -1,16 +1,23 @@
 import ErrorOutline from "@digitalservicebund/icons/ErrorOutline";
 import type { PropsWithChildren } from "react";
+import { forwardRef } from "react";
 
 type InputErrorProps = PropsWithChildren<{
   readonly id: string;
+  readonly tabIndex?: number;
 }>;
 
-const InputError = ({ id, children }: InputErrorProps) => {
+function InputError(
+  { id, children, tabIndex }: InputErrorProps,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
   return (
-    <div aria-live="assertive">
+    <div>
       {children && (
         <p
           id={id}
+          ref={ref}
+          tabIndex={tabIndex}
           data-testid="inputError"
           className="mt-4 text-red-800 flex gap-x-4"
         >
@@ -20,6 +27,6 @@ const InputError = ({ id, children }: InputErrorProps) => {
       )}
     </div>
   );
-};
+}
 
-export default InputError;
+export default forwardRef<HTMLDivElement, InputErrorProps>(InputError);
