@@ -2,6 +2,13 @@ import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { type KontopfaendungWegweiserContext } from "./context";
 
+const sozialleistungenUmstaendeSelected = (
+  context: KontopfaendungWegweiserContext,
+) =>
+  context.sozialleistungenUmstaende?.kindergeld === CheckboxValue.on ||
+  context.sozialleistungenUmstaende?.wohngeld === CheckboxValue.on ||
+  context.sozialleistungenUmstaende?.pflegegeld === CheckboxValue.on;
+
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/kontopfaendung/wegweiser",
   initial: "start",
@@ -164,6 +171,10 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         SUBMIT: [
           {
+            target: "partner-support",
+            guard: ({ context }) => context.verheiratet === "getrennt",
+          },
+          {
             target: "partner-wohnen-zusammen",
             guard: ({ context }) =>
               !!context.verheiratet && context.verheiratet !== "nein",
@@ -191,9 +202,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: [
           {
             target: "partner",
-            guard: ({ context }) =>
-              context.verheiratet === "nein" ||
-              context.verheiratet === "verwitwet",
+            guard: ({ context }) => context.verheiratet === "getrennt",
           },
           "partner-wohnen-zusammen",
         ],
@@ -266,17 +275,19 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: "sozialleistungen-umstaende",
-            guard: ({ context }) => context.hasSozialleistungen === "nein",
+            target: "sozialleistung-nachzahlung",
+            guard: ({ context }) =>
+              !!context.hasSozialleistungen &&
+              context.hasSozialleistungen !== "nein",
           },
-          "sozialleistung-nachzahlung",
+          "sozialleistungen-umstaende",
         ],
         BACK: [
           {
-            target: "ermittlung-betrags",
-            guard: ({ context }) => context.hasArbeit === "no",
+            target: "zahlung-arbeitgeber",
+            guard: ({ context }) => context.hasArbeit === "yes",
           },
-          "zahlung-arbeitgeber",
+          "ermittlung-betrags",
         ],
       },
     },
@@ -289,7 +300,11 @@ export const kontopfaendungWegweiserXstateConfig = {
               context.sozialleistungenUmstaende?.pflegegeld ===
               CheckboxValue.on,
           },
-          "sozialleistung-nachzahlung",
+          {
+            target: "sozialleistung-nachzahlung",
+            guard: ({ context }) => sozialleistungenUmstaendeSelected(context),
+          },
+          "ergebnis/naechste-schritte",
         ],
         BACK: "sozialleistungen",
       },
@@ -312,10 +327,17 @@ export const kontopfaendungWegweiserXstateConfig = {
         ],
         BACK: [
           {
-            target: "sozialleistungen-umstaende",
-            guard: ({ context }) => context.pflegegeld === undefined,
+            target: "pflegegeld",
+            guard: ({ context }) =>
+              context.sozialleistungenUmstaende?.pflegegeld == CheckboxValue.on,
           },
-          "pflegegeld",
+          {
+            target: "sozialleistungen",
+            guard: ({ context }) =>
+              !!context.hasSozialleistungen &&
+              context.hasSozialleistungen !== "nein",
+          },
+          "sozialleistungen-umstaende",
         ],
       },
     },
@@ -330,11 +352,11 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: "ergebnis/naechste-schritte",
         BACK: [
           {
-            target: "sozialleistung-nachzahlung",
+            target: "sozialleistung-nachzahlung-amount",
             guard: ({ context }) =>
-              context.hasSozialleistungNachzahlung === "no",
+              context.hasSozialleistungNachzahlung === "yes",
           },
-          "sozialleistung-nachzahlung-amount",
+          "sozialleistung-nachzahlung",
         ],
       },
     },
@@ -342,10 +364,12 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         BACK: [
           {
-            target: "euro-schwelle",
-            guard: ({ context }) => context.euroSchwelle === "nein",
+            target: "sozialleistungen-einmalzahlung",
+            guard: ({ context }) => sozialleistungenUmstaendeSelected(context),
           },
-          "kontopfaendung",
+          {
+            target: "sozialleistungen-umstaende",
+          },
         ],
       },
     },

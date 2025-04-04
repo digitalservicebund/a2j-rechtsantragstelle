@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { PosthogSurvey } from "~/components/userFeedback/ReportProblem/Survey";
+import { PosthogSurvey } from "~/components/userFeedback/reportProblem/Survey";
 import { TranslationContext } from "~/services/translations/translationsContext";
 import { SurveyQuestionType, SurveyType } from "posthog-js";
 import Background from "~/components/Background";
