@@ -77,12 +77,6 @@ export const ausgabenStrings = (context: BeratungshilfeFormularContext) => {
   };
 };
 
-export const getDokumenteStrings = () => {
-  return {
-    hasRechtsschutzversicherung: true,
-  };
-};
-
 export const getAnwaltStrings = (context: BeratungshilfeFormularContext) => {
   return { hasNoAnwalt: context.anwaltskanzlei !== "yes" };
 };
