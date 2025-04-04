@@ -62,13 +62,12 @@ const FilesUpload = ({
       Object.entries(scopedErrors).length === 0);
 
   /**
-   * if the non-JS component doesn't have a value, or has an error displayed, normally nothing is submitted in the FormData.
+   * if the component doesn't have a value, or has an error displayed, normally nothing is submitted in the FormData.
    * We need to send at least an empty array, to display an array-level error that it's empty
    */
   const shouldSubmitEmptyArray =
-    !jsAvailable &&
-    (items.length === 0 ||
-      (items.length === 1 && Object.entries(scopedErrors).length > 0));
+    items.length === 0 ||
+    (items.length === 1 && Object.entries(scopedErrors).length > 0);
 
   return (
     title !== "" && (
