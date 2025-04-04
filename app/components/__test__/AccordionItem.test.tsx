@@ -28,7 +28,7 @@ describe("AccordionItem Component", () => {
     const { getByRole } = render(
       <AccordionItem {...defaultProps} onSummaryClick={onSummaryClick} />,
     );
-    fireEvent.click(getByRole("button"));
+    fireEvent.click(getByRole("group").children[0]);
     expect(onSummaryClick).toHaveBeenCalledTimes(1);
   });
 });

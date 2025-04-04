@@ -26,7 +26,6 @@ export default forwardRef<
       <summary
         onClick={onSummaryClick}
         className="flex justify-between cursor-pointer p-16 bg-blue-100 "
-        role="button"
       >
         <span className="ds-label-01-bold">{title}</span>
         <span className="flex group-open:hidden text-blue-800 ds-label-03-bold items-center">
