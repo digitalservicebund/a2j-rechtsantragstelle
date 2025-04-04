@@ -26,7 +26,11 @@ export const getErhoehungsbetragStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasErhoehungsbetrag: userData.kinderWohnenZusammen === "ja",
+    hasErhoehungsbetrag:
+      userData.kinderUnterhalt === "yes" ||
+      userData.kinderWohnenZusammen === "ja" ||
+      userData.partnerUnterhalt === "yes" ||
+      userData.partnerWohnenZusammen === "yes",
   };
 };
 export const getKindergeldStrings = (
