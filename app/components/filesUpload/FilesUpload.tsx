@@ -53,7 +53,7 @@ const FilesUpload = ({
   useEffect(() => setJsAvailable(true), []);
 
   const classes = classNames("w-full bg-white p-16", {
-    "bg-red-200 border border-red-900": !!error,
+    "!bg-red-200 border border-red-900": !!error,
   });
 
   const showAddMoreButton =
@@ -66,15 +66,13 @@ const FilesUpload = ({
    * We need to send at least an empty array, to display an array-level error that it's empty
    */
   const shouldSubmitEmptyArray =
-    // TODO: remove !jsAvailable when e2e test is written
-    !jsAvailable &&
-    (items.length === 0 ||
-      (items.length === 1 && Object.entries(scopedErrors).length > 0));
+    items.length === 0 ||
+    (items.length === 1 && Object.entries(scopedErrors).length > 0);
 
   return (
     title !== "" && (
       <NoscriptWrapper jsAvailable={jsAvailable}>
-        <div className={classes}>
+        <div data-testid={`files-upload-${name}`} className={classes}>
           <FilesUploadHeader title={title} description={description} />
           <div className="w-full flex flex-col gap-24">
             {items.map((value, index) => {

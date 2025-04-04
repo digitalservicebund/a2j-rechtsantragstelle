@@ -32,16 +32,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   updateBannerState(session, BannerState.FeedbackGiven, url);
   const headers = { "Set-Cookie": await commitSession(session) };
 
-  sendCustomAnalyticsEvent({
-    eventName: "feedback given",
-    request,
-    properties: {
-      wasHelpful: userRatingsWasHelpful[url],
-      feedback: result.data?.feedback ?? "",
-      url,
-      flowId: flowIdFromPathname(url) ?? "",
-    },
-  });
+  if (result.data?.feedback && result.data.feedback !== "") {
+    sendCustomAnalyticsEvent({
+      eventName: "feedback given",
+      request,
+      properties: {
+        wasHelpful: userRatingsWasHelpful[url],
+        feedback: result.data.feedback,
+        url,
+        flowId: flowIdFromPathname(url) ?? "",
+      },
+    });
+  }
 
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
 

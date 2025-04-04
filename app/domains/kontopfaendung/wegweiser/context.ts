@@ -62,7 +62,6 @@ export const zahlungArbeitgeber = z.object({
   ueberstundenBezahlt: checkedOptional,
   abfindung: checkedOptional,
   anderes: checkedOptional,
-  nein: checkedOptional,
 });
 
 export const hasSozialleistungen = z.enum(

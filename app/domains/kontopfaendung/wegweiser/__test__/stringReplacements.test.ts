@@ -226,7 +226,6 @@ describe("stringReplacements", () => {
       const userData: KontopfaendungWegweiserContext = {
         zahlungArbeitgeber: {
           urlaubsgeld: CheckboxValue.off,
-          nein: CheckboxValue.off,
           weihnachtsgeld: CheckboxValue.on,
           ueberstundenBezahlt: CheckboxValue.off,
           abfindung: CheckboxValue.off,

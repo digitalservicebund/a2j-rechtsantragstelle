@@ -10,20 +10,16 @@ const dummyItems = [
 ] as const satisfies AccordionItemProps[];
 
 describe("Accordion Component", () => {
-  it("renders the correct number of AccordionItem components", () => {
+  it("renders the correct number of details", () => {
     const { getAllByRole } = render(<Accordion items={dummyItems} />);
-    const summaries = getAllByRole("button");
-    const descriptions = getAllByRole("group");
-    expect(summaries).toHaveLength(dummyItems.length);
-    expect(descriptions).toHaveLength(dummyItems.length);
+    expect(getAllByRole("group")).toHaveLength(dummyItems.length);
   });
 
   it("allows toggling so that only one AccordionItem is open at a time", () => {
     const { getAllByRole } = render(<Accordion items={dummyItems} />);
-    const summaries = getAllByRole("button");
-    const descriptions = getAllByRole("group").map(
-      (item) => item.childNodes[1],
-    );
+    const details = getAllByRole("group");
+    const summaries = details.map((item) => item.childNodes[0]);
+    const descriptions = details.map((item) => item.childNodes[1]);
 
     descriptions.forEach((desc) => {
       expect(desc).not.toBeVisible();
@@ -55,8 +51,8 @@ describe("Accordion Component", () => {
         ]}
       />,
     );
-    const summaries = getAllByRole("button");
-    expect(summaries).toHaveLength(2);
+    const details = getAllByRole("group");
+    expect(details).toHaveLength(2);
   });
 
   vi.mock("~/services/translations/translationsContext", () => ({

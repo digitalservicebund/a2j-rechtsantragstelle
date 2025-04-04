@@ -255,7 +255,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     );
     if (validationError) return validationError;
     updateSession(flowSession, resolveArraysFromKeys(validationResult!.data));
-    return data(validationResult!.data, {
+    return data(flowSession.data, {
       headers: { "Set-Cookie": await commitSession(flowSession) },
     });
   } else if (
