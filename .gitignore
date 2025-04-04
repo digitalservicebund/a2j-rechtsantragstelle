@@ -13,6 +13,7 @@ tsconfig.tsbuildinfo
 /test-results/
 /playwright-report/
 /playwright/.cache/
+/playwright/generated/*
 
 # IDEs
 .idea

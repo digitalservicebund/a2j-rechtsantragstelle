@@ -94,7 +94,7 @@ async function startDocumentUpload(
 
   // Test file upload with a file that's too large
   const dummyFilePathTooBig = path.resolve(
-    path.join(process.cwd(), "tooBig.pdf"),
+    path.join(process.cwd(), "playwright/generated/", "tooBig.pdf"),
   );
   fs.writeFileSync(dummyFilePathTooBig, Buffer.alloc(1024 * 1024 * 11));
   await page.getByTestId("fileUploadInput").setInputFiles(dummyFilePathTooBig);
@@ -108,7 +108,7 @@ async function startDocumentUpload(
 
   // Test file upload with a file that's of the wrong type
   const dummyFilePathWrongType = path.resolve(
-    path.join(process.cwd(), "wrongType.txt"),
+    path.join(process.cwd(), "playwright/generated/", "wrongType.txt"),
   );
   fs.writeFileSync(dummyFilePathWrongType, "test");
   await page
@@ -123,12 +123,15 @@ async function startDocumentUpload(
   await page.getByRole("button", { name: "Löschen" }).click();
 
   // Test file upload with a valid file
-  const dummyFilePath = path.resolve(path.join(process.cwd(), "test.pdf"));
+  const dummyFilePath = path.resolve(
+    path.join(process.cwd(), "playwright/generated/", "test.pdf"),
+  );
   fs.writeFileSync(dummyFilePath, Buffer.alloc(1024 * 1024 * 1));
   await page.getByTestId("fileUploadInput").setInputFiles(dummyFilePath);
   await expect(fileUploadInfo).toBeVisible();
   await expect(errorMessage).not.toBeVisible();
   await page.getByRole("button", { name: "Weiter" }).click();
+  await page.waitForNavigation();
 }
 
 async function startAbgabe(page: Page) {
