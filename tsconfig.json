@@ -11,7 +11,7 @@
     "preserveSymlinks": true,
     "incremental": true,
     "skipLibCheck": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -19,7 +19,7 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
-    "target": "ESNext",
+    "target": "ES2022",
     "types": [
       "@testing-library/jest-dom",
       "node",
