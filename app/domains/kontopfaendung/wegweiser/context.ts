@@ -23,8 +23,6 @@ export const schuldenBei = z.enum(
     "krankenkasse",
     "rechnung",
     "beitragsservice",
-    "unterhalt",
-    "strafe",
     "finanzamt",
     "hauptzollamt",
     "nichtSagen",
