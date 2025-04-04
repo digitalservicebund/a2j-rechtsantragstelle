@@ -209,8 +209,6 @@ describe("stringReplacements", () => {
         hasBehordenschuldenKrankenkasse: false,
         hasBehordenschuldenRechnung: false,
         hasBehordenschuldenBeitragsservice: false,
-        hasBehordenschuldenUnterhalt: false,
-        hasBehordenschuldenStrafe: false,
         hasBehordenschuldenFinanzamt: false,
         hasBehordenschuldenHauptzollamt: false,
         hasBehordenschuldenNichtSagen: false,

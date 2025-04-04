@@ -135,8 +135,6 @@ export const getBehordenschuldenStrings = (
     hasBehordenschuldenRechnung: userData.schuldenBei === "rechnung",
     hasBehordenschuldenBeitragsservice:
       userData.schuldenBei === "beitragsservice",
-    hasBehordenschuldenUnterhalt: userData.schuldenBei === "unterhalt",
-    hasBehordenschuldenStrafe: userData.schuldenBei === "strafe",
     hasBehordenschuldenFinanzamt: userData.schuldenBei === "finanzamt",
     hasBehordenschuldenHauptzollamt: userData.schuldenBei === "hauptzollamt",
     hasBehordenschuldenNichtSagen: userData.schuldenBei === "nichtSagen",
