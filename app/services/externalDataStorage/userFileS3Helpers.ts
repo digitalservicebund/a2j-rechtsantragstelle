@@ -7,7 +7,6 @@ import { getSessionIdByFlowId } from "~/services/session.server";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 const USER_FILES_FOLDER = "user-files";
-export const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";
 
 const getObjectKey = (sessionId: string, flowId: FlowId, fileKey: string) => {
   return `${USER_FILES_FOLDER}${flowId}/${sessionId}/${fileKey}`;
@@ -16,13 +15,10 @@ const getObjectKey = (sessionId: string, flowId: FlowId, fileKey: string) => {
 export async function uploadUserFileToS3(
   cookieHeader: string | null,
   flowId: FlowId,
-  fileArrayBuffer: ArrayBuffer | undefined,
+  fileArrayBuffer: ArrayBuffer,
 ) {
   try {
     const s3Client = createClientS3DataStorage();
-    if (!fileArrayBuffer) {
-      throw new Error(UNDEFINED_FILE_ERROR);
-    }
     const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
     const fileKey = crypto.randomUUID();
 
