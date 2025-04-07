@@ -3,9 +3,7 @@ import { type TypedResponse } from "@remix-run/node";
 import { withZod } from "@remix-validated-form/with-zod";
 import pickBy from "lodash/pickBy";
 import {
-  type ErrorResult,
   type SuccessResult,
-  validationError,
   type ValidationErrorResponseData,
   type ValidationResult,
 } from "remix-validated-form";
@@ -18,6 +16,7 @@ import {
 } from "~/services/externalDataStorage/userFileS3Helpers";
 import { splitFieldName } from "~/services/upload/fileUploadHelpers";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { buildFileUploadError } from "./buildFileUploadError";
 
 export async function uploadUserFile(
   formAction: string,
@@ -107,33 +106,6 @@ export async function validateUploadedFile(
     ...sessionData,
     [inputName]: file,
   });
-}
-
-/**
- * Need to remove the validation error's object notation to conform to what the frontend expects
- * i.e. from
- * "belege[0].fileType": "Only PDF and TIFF files allowed"
- * to
- * "belege[0]": "Only PDF and TIFF files allowed"
- *
- * @param validationResult error result returned from `withZod().validate()`
- * @returns TypedResponse<ValidationErrorResponseData>
- */
-export function buildFileUploadError(
-  validationResult: ErrorResult,
-  inputName: string,
-) {
-  return validationError(
-    {
-      ...validationResult.error,
-      fieldErrors: Object.fromEntries(
-        Object.entries(validationResult.error.fieldErrors)
-          .map(([key, val]) => [key.split(".")[0], val])
-          .filter(([key]) => key === inputName),
-      ),
-    },
-    validationResult.submittedData,
-  );
 }
 
 /**
