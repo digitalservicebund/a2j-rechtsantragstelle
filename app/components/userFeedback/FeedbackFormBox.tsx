@@ -35,7 +35,7 @@ export const feedbackValidator = withZod(
   }),
 );
 
-export type FeedbackBoxProps = {
+type FeedbackBoxProps = {
   readonly destination: string;
   readonly shouldFocus: boolean;
   readonly onSubmit: () => void;

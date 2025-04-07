@@ -21,7 +21,7 @@ export type NavItem = {
   a11yLabels?: NavigationA11yLabels;
 };
 
-export const StateIcon: FC<{
+const StateIcon: FC<{
   id: string;
   a11yLabels?: NavigationA11yLabels;
 }> = ({ id, a11yLabels }) => (

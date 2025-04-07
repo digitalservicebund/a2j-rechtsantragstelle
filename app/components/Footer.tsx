@@ -17,7 +17,7 @@ type CategorizedLinkProps = {
   readonly links: LinkProps[];
 };
 
-export type FooterProps = Readonly<{
+type FooterProps = Readonly<{
   categorizedLinks: CategorizedLinkProps[];
   paragraphs?: RichTextProps[];
   image?: ImageProps;

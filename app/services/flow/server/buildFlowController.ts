@@ -47,26 +47,25 @@ export type Config<TContext extends MachineContext = Context> = MachineConfig<
   Meta
 >;
 
-export type TransitionConfigOrTarget<
-  TContext extends MachineContext = Context,
-> = XStateTransitionConfigOrTarget<
-  TContext,
-  FlowStateMachineEvents,
-  FlowStateMachineEvents,
-  never,
-  never,
-  { type: string; params: unknown },
-  never,
-  never,
-  Meta
->;
+type TransitionConfigOrTarget<TContext extends MachineContext = Context> =
+  XStateTransitionConfigOrTarget<
+    TContext,
+    FlowStateMachineEvents,
+    FlowStateMachineEvents,
+    never,
+    never,
+    { type: string; params: unknown },
+    never,
+    never,
+    Meta
+  >;
 
 export type FlowConfigTransitions = {
   backToCallingFlow?: TransitionConfigOrTarget;
   nextFlowEntrypoint?: TransitionConfigOrTarget;
 };
 
-export type Meta = {
+type Meta = {
   customAnalyticsEventName?: string;
   done?: GenericGuard<Context>;
   arrays?: Record<string, ArrayConfigServer>;

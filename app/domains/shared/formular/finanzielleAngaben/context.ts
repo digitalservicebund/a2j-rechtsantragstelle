@@ -220,5 +220,3 @@ export const besondereBelastungenSchema = z.object({
   disability: checkedOptional,
   medicalReasons: checkedOptional,
 });
-
-export type Unterhaltszahlung = z.infer<typeof unterhaltszahlungSchema>;

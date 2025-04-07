@@ -5,7 +5,7 @@ import type { ApiId } from "./schemas";
  * See https://docs.strapi.io/dev-docs/api/rest/filters-locale-publication#filtering
  * for all available filter operations and add them here as necessary
  */
-export type FilterOperation = "$eq" | "$in";
+type FilterOperation = "$eq" | "$in";
 
 export type Filter = {
   field: string;

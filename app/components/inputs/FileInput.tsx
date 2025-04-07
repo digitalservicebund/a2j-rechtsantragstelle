@@ -10,7 +10,7 @@ import {
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { type ErrorMessageProps } from ".";
 
-export type FileInputProps = {
+type FileInputProps = {
   name: string;
   selectedFile: PDFFileMetadata | undefined;
   jsAvailable: boolean;
