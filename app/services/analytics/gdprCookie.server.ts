@@ -28,11 +28,6 @@ export async function trackingCookieValue({ request }: CookieArgs) {
   return cookie[acceptCookiesFieldName];
 }
 
-export async function hasTrackingConsent({ request }: CookieArgs) {
-  const consentGiven = await trackingCookieValue({ request });
-  return consentGiven ? consentGiven === "true" : undefined;
-}
-
 async function createTrackingCookie({
   request,
   consent,
