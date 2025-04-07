@@ -24,6 +24,7 @@ export default defineConfig(({ isSsrBuild }) => ({
           v3_throwAbortReason: true,
           v3_lazyRouteDiscovery: false,
           v3_singleFetch: true,
+          v3_routeConfig: false,
         },
       }),
     !isStorybook &&
