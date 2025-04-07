@@ -22,7 +22,7 @@ export type Eigentumer = z.infer<typeof Eigentuemer>;
 
 const MINUS_150_YEARS = -150;
 
-export const GrundeigentumArt = z.enum(
+const GrundeigentumArt = z.enum(
   [
     "eigentumswohnung",
     "einfamilienhaus",

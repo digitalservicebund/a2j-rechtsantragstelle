@@ -10,7 +10,7 @@ type StandaloneLinkProps = Readonly<{
   className?: string;
 }>;
 
-export const OPEN_NEW_TAB = "öffnet neues Fenster";
+const OPEN_NEW_TAB = "öffnet neues Fenster";
 
 export const StandaloneLink = ({
   url,

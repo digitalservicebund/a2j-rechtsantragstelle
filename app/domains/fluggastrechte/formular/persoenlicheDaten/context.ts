@@ -11,14 +11,14 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const anredeSchema = z.enum(["herr", "frau", "none"]);
 
-export const persoenlicheDatenSchema = {
+const persoenlicheDatenSchema = {
   anrede: anredeSchema,
   ...persoenlicheDaten,
   land: stringRequiredSchema,
   plz: stringRequiredSchema,
 };
 
-export const paymentDetailsSchema = {
+const paymentDetailsSchema = {
   iban: optionalOrSchema(ibanSchema),
   kontoinhaber: stringOptionalSchema,
 };

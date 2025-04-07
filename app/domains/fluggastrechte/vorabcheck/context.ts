@@ -6,7 +6,7 @@ import {
   customRequiredErrorMessage,
 } from "~/services/validation/YesNoAnswer";
 
-export const fluggastBereichSchema = z.enum(
+const fluggastBereichSchema = z.enum(
   ["nichtbefoerderung", "verspaetet", "annullierung", "anderes"],
   customRequiredErrorMessage,
 );

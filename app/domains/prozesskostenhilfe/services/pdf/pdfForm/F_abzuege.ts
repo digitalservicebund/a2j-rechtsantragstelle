@@ -73,10 +73,7 @@ export const fillSelfAbzuege: PkhPdfFillFunction = ({
   return { pdfValues, attachment };
 };
 
-export const fillPartnerAbzuege: PkhPdfFillFunction = ({
-  userData,
-  pdfValues,
-}) => {
+const fillPartnerAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   if (
     userData.partnerschaft !== "yes" ||
     userData.partnerEinkommen === "no" ||

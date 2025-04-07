@@ -4,7 +4,7 @@ import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 
 //otherwise error: Server-only module referenced by client
-export const findCourtServer = serverOnly$((zipCode: string) =>
+const findCourtServer = serverOnly$((zipCode: string) =>
   findCourt({ zipCode }),
 );
 

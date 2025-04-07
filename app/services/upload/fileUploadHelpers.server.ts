@@ -86,10 +86,7 @@ export async function deleteUserFile(
   return false;
 }
 
-export async function parseFileFromFormData(
-  request: Request,
-  fieldName: string,
-) {
+async function parseFileFromFormData(request: Request, fieldName: string) {
   let file: File | undefined;
   await unstable_parseMultipartFormData(
     request,
