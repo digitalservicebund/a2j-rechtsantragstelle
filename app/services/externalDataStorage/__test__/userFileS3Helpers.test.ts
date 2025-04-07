@@ -1,4 +1,4 @@
-/* import {
+import {
   DeleteObjectCommand,
   PutObjectCommand,
   type S3Client,
@@ -8,10 +8,8 @@ import { type FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
 import {
   deleteUserFileFromS3,
-  UNDEFINED_FILE_ERROR,
   uploadUserFileToS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
-import { sendSentryMessage } from "../../logging";
 import { getSessionIdByFlowId } from "../../session.server";
 import { createClientS3DataStorage } from "../createClientS3DataStorage";
 
@@ -59,7 +57,7 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-const mockFile = new File([], "filename");
+const mockFileArrayBuffer = new ArrayBuffer(8);
 
 const mockUUID = "some-fancy-uuid";
 Object.defineProperty(global, "crypto", {
@@ -80,7 +78,7 @@ describe("userFileS3Helpers", () => {
 
       setupFileMocks(mockSessionId, mockConfig);
 
-      await uploadUserFileToS3(mockCookie, mockFlowId, mockFile);
+      await uploadUserFileToS3(mockCookie, mockFlowId, mockFileArrayBuffer);
 
       expect(createClientS3DataStorage).toHaveBeenCalled();
       expect(getSessionIdByFlowId).toHaveBeenCalledWith(mockFlowId, mockCookie);
@@ -88,31 +86,12 @@ describe("userFileS3Helpers", () => {
       expect(PutObjectCommand).toHaveBeenCalledWith(
         expect.objectContaining({
           Bucket: mockConfig.S3_DATA_STORAGE_BUCKET_NAME,
-          Body: new Uint8Array(await mockFile.arrayBuffer()),
+          Body: new Uint8Array(mockFileArrayBuffer),
           Key: mockKey,
         }),
       );
 
       expect(mockS3Client.send).toBeCalled();
-    });
-
-    it("handles error if the user tries to upload an undefined file", async () => {
-      const mockError = new Error(UNDEFINED_FILE_ERROR);
-
-      const mockSessionId = "test-session-id";
-      const mockConfig = {
-        ...config(),
-        S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
-      };
-      setupFileMocks(mockSessionId, mockConfig);
-      await expect(
-        uploadUserFileToS3(mockCookie, mockFlowId, undefined),
-      ).rejects.toThrow();
-
-      expect(sendSentryMessage).toHaveBeenCalledWith(
-        `Error storing user uploaded file to S3 bucket: ${mockError.message}`,
-        "error",
-      );
     });
   });
 
@@ -141,4 +120,3 @@ describe("userFileS3Helpers", () => {
     });
   });
 });
- */
