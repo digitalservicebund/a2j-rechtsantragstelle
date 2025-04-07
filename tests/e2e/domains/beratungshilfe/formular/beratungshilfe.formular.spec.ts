@@ -131,6 +131,7 @@ async function startDocumentUpload(
   await expect(fileUploadInfo).toBeVisible();
   await expect(errorMessage).not.toBeVisible();
   await page.getByRole("button", { name: "Weiter" }).click();
+  // eslint-disable-next-line sonarjs/deprecation
   await page.waitForNavigation();
 }
 
