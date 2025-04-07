@@ -13,7 +13,7 @@ import type { FlowId } from "./flowIds";
 import type { Guards } from "./guards.server";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 
-export type FlowMigration = {
+type FlowMigration = {
   source: FlowId;
   sortedFields: string[];
   buttonUrl?: string;

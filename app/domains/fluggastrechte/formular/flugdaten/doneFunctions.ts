@@ -2,7 +2,7 @@ import type { GenericGuard } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import type { FluggastrechteFlugdatenContext } from "./context";
 
-export type FluggastrechteFlugdatenGuard =
+type FluggastrechteFlugdatenGuard =
   GenericGuard<FluggastrechteFlugdatenContext>;
 
 const hasZwischenStoppData: FluggastrechteFlugdatenGuard = ({ context }) => {

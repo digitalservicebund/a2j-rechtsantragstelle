@@ -2,7 +2,7 @@ import Heading, { type HeadingProps } from "./Heading";
 import Image, { type ImageProps } from "./Image";
 import RichText from "./RichText";
 
-export type BoxWithImageProps = {
+type BoxWithImageProps = {
   image: ImageProps;
   variant?: Variant;
   identifier?: string;

@@ -1,7 +1,7 @@
 import Heading, { type HeadingProps } from "./Heading";
 import RichText, { type RichTextProps } from "./RichText";
 
-export type HeaderProps = Readonly<{
+type HeaderProps = Readonly<{
   heading: HeadingProps;
   content?: RichTextProps;
 }>;
