@@ -8,7 +8,7 @@ vi.mock("~/services/validation/useStringField", () => ({
   useStringField: vi.fn(),
 }));
 
-const createUseStrinFieldMock = (error?: string) => ({
+const createUseStringFieldMock = (error?: string) => ({
   error,
   defaultValue: undefined,
   clearError: vi.fn(),
@@ -50,7 +50,7 @@ const renderRadioGroup = (props = {}) => {
 
 describe("RadioGroup", () => {
   beforeEach(() => {
-    vi.mocked(useStringField).mockReturnValue(createUseStrinFieldMock());
+    vi.mocked(useStringField).mockReturnValue(createUseStringFieldMock());
   });
 
   it("renders all radio options", () => {
@@ -67,7 +67,7 @@ describe("RadioGroup", () => {
 
   it("shows error message when error is present", () => {
     vi.mocked(useStringField).mockReturnValue(
-      createUseStrinFieldMock("required"),
+      createUseStringFieldMock("required"),
     );
     renderRadioGroup();
     expect(screen.getByText("This field is required")).toBeInTheDocument();
@@ -82,7 +82,7 @@ describe("RadioGroup", () => {
 
   it("sets aria-invalid when there is an error", () => {
     vi.mocked(useStringField).mockReturnValue(
-      createUseStrinFieldMock("required"),
+      createUseStringFieldMock("required"),
     );
     renderRadioGroup();
     const fieldset = screen.getByRole("group");
@@ -91,7 +91,7 @@ describe("RadioGroup", () => {
 
   it("handles focus on first radio button when receiving focus", () => {
     vi.mocked(useStringField).mockReturnValue({
-      ...createUseStrinFieldMock(),
+      ...createUseStringFieldMock(),
     });
 
     renderRadioGroup();
