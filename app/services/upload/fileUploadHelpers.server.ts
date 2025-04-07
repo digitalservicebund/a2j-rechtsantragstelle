@@ -149,15 +149,3 @@ export function getUpdatedField(inputName: string, userData: Context): Context {
     ),
   };
 }
-
-export async function convertAsyncBufferToFile(
-  data: AsyncIterable<Uint8Array<ArrayBufferLike>>,
-  filename: string,
-  contentType: string,
-): Promise<File> {
-  const dataArr = [];
-  for await (const chunk of data) {
-    dataArr.push(chunk);
-  }
-  return new File(dataArr, filename, { type: contentType });
-}

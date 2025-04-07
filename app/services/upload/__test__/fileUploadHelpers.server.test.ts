@@ -1,7 +1,6 @@
 import { z } from "zod";
 import {
   buildFileUploadError,
-  convertAsyncBufferToFile,
   validateUploadedFile,
 } from "~/services/upload/fileUploadHelpers.server";
 import {
@@ -97,24 +96,6 @@ describe("File Upload helpers", () => {
           ],
         },
       });
-    });
-  });
-
-  describe("convertAsyncBufferToFile", () => {
-    it("should iterate over an async buffer to create a file", async () => {
-      const mockAsyncIterator = {
-        async *[Symbol.asyncIterator]() {
-          yield* await Promise.resolve([]);
-        },
-      };
-      const result = await convertAsyncBufferToFile(
-        mockAsyncIterator,
-        "test",
-        "application/pdf",
-      );
-      expect(result.size).toBe(0);
-      expect(result.name).toBe("test");
-      expect(result.type).toBe("application/pdf");
     });
   });
 });
