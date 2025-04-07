@@ -1,7 +1,5 @@
-import {
-  type TypedResponse,
-  unstable_parseMultipartFormData,
-} from "@remix-run/node";
+import { type FileUpload, parseFormData } from "@mjackson/form-data-parser";
+import { type TypedResponse } from "@remix-run/node";
 import { withZod } from "@remix-validated-form/with-zod";
 import pickBy from "lodash/pickBy";
 import {
@@ -18,10 +16,7 @@ import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
-import {
-  convertFileToMetadata,
-  splitFieldName,
-} from "~/services/upload/fileUploadHelpers";
+import { splitFieldName } from "~/services/upload/fileUploadHelpers";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 export async function uploadUserFile(
@@ -36,7 +31,12 @@ export async function uploadUserFile(
   const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
   const file = await parseFileFromFormData(request, inputName);
-  const fileMeta = convertFileToMetadata(file);
+  const fileArrayBuffer = await file?.arrayBuffer();
+  const fileMeta: PDFFileMetadata = {
+    filename: file?.name ?? "",
+    fileType: file?.type ?? "",
+    fileSize: fileArrayBuffer ? fileArrayBuffer.byteLength : 0,
+  };
   /**
    * Need to scope the context, otherwise we validate against the entire context,
    * of which we only have partial data at this point
@@ -59,8 +59,9 @@ export async function uploadUserFile(
   const savedFileKey = await uploadUserFileToS3(
     request.headers.get("Cookie"),
     flowId,
-    file,
+    fileArrayBuffer,
   );
+
   fileMeta.savedFileKey = savedFileKey;
   (validationResult.data[fieldName] as ArrayData)[Number(inputIndex)] =
     fileMeta;
@@ -86,22 +87,14 @@ export async function deleteUserFile(
   return false;
 }
 
-export async function parseFileFromFormData(
-  request: Request,
-  fieldName: string,
-) {
-  let file: File | undefined;
-  await unstable_parseMultipartFormData(
-    request,
-    async ({ filename, data, name, contentType }) => {
-      if (name !== fieldName || !filename) {
-        return "";
-      }
-      file = await convertAsyncBufferToFile(data, filename, contentType);
-      return undefined;
-    },
-  );
-  return file;
+async function parseFileFromFormData(request: Request, fieldName: string) {
+  let matchedFile: File | undefined;
+  await parseFormData(request, (fileUpload: FileUpload) => {
+    if (fileUpload.fieldName === fieldName && fileUpload.name) {
+      matchedFile = fileUpload;
+    }
+  });
+  return matchedFile;
 }
 
 export async function validateUploadedFile(

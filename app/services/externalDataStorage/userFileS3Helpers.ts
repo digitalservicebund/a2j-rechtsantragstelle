@@ -16,11 +16,11 @@ const getObjectKey = (sessionId: string, flowId: FlowId, fileKey: string) => {
 export async function uploadUserFileToS3(
   cookieHeader: string | null,
   flowId: FlowId,
-  file: File | undefined,
+  fileArrayBuffer: ArrayBuffer | undefined,
 ) {
   try {
     const s3Client = createClientS3DataStorage();
-    if (!file) {
+    if (!fileArrayBuffer) {
       throw new Error(UNDEFINED_FILE_ERROR);
     }
     const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
@@ -29,7 +29,7 @@ export async function uploadUserFileToS3(
     await s3Client.send(
       new PutObjectCommand({
         Bucket: config().S3_DATA_STORAGE_BUCKET_NAME,
-        Body: new Uint8Array(await file.arrayBuffer()),
+        Body: new Uint8Array(fileArrayBuffer),
         Key: getObjectKey(sessionId, flowId, fileKey),
       }),
     );

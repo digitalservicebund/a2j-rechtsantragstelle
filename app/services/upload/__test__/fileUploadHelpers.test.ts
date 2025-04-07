@@ -1,6 +1,5 @@
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import {
-  convertFileToMetadata,
   splitFieldName,
   useFileHandler,
 } from "~/services/upload/fileUploadHelpers";
@@ -67,27 +66,6 @@ describe("fileUploadHelpers", () => {
     it("should handle two-digit indices", () => {
       const { inputIndex } = splitFieldName("fieldName[10]");
       expect(inputIndex).toEqual(10);
-    });
-  });
-
-  describe("convertFileToMetadata", () => {
-    it("should set default values when a file is not provided", () => {
-      const result = convertFileToMetadata();
-      expect(result).toEqual({
-        filename: "",
-        fileType: "",
-        fileSize: 0,
-      });
-    });
-
-    it("should successfully convert a file to metadata", () => {
-      const mockFile = new File([], "filename", { type: "application/pdf" });
-      const result = convertFileToMetadata(mockFile);
-      expect(result).toEqual({
-        filename: "filename",
-        fileType: "application/pdf",
-        fileSize: 0,
-      });
     });
   });
 });
