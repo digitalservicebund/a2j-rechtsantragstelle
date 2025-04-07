@@ -14,9 +14,9 @@ import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissing
 export const LEGAL_ASSESSMENT_TEXT = "II. Rechtliche Würdigung";
 export const CLAIM_FULL_JUSTIFIED_TEXT =
   "Die Klage ist vollumfänglich begründet.";
-export const ADVANCE_COURT_COSTS_FIRST_TEXT =
+const ADVANCE_COURT_COSTS_FIRST_TEXT =
   "Das Gericht wird gebeten, der klagenden Partei das Aktenzeichnen des Gerichts mitzuteilen, den Gerichtskostenvorschuss in Höhe von";
-export const ADVANCE_COURT_COSTS_SECOND_TEXT =
+const ADVANCE_COURT_COSTS_SECOND_TEXT =
   "€ anzufordern und die Klage nach der Zahlung schnellstmöglich an die beklagte Partei zuzustellen.";
 
 const getAssumedSettlementSectionText = ({

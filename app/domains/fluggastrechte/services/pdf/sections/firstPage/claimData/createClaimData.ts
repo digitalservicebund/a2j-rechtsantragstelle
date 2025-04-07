@@ -11,8 +11,8 @@ import { addPlannedFlightDetails } from "./addPlannedFlightDetails";
 export const IN_THE_MATTER = "in der Sache";
 export const AGAINST = "gegen";
 
-export const MAIN_TITLE = "Klage";
-export const MAIN_SUBTITLE = "Neueingang";
+const MAIN_TITLE = "Klage";
+const MAIN_SUBTITLE = "Neueingang";
 
 export const createClaimData = (
   doc: typeof PDFDocument,
