@@ -244,7 +244,7 @@ describe("ValidatedFlowForm", () => {
     });
   });
 
-  describe("Select Component", () => {
+  describe("Select Component (Radio)", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
         withZod(z.object({ mySelect: YesNoAnswer })),
@@ -263,6 +263,18 @@ describe("ValidatedFlowForm", () => {
       fireEvent.click(nextButton);
       await waitFor(async () => {
         await expectSelectErrorToExist();
+      });
+    });
+
+    it("should focus on first radio button when navigating with keyboard", async () => {
+      const { getByText, getByLabelText } = renderValidatedFlowForm([
+        component,
+      ]);
+      const nextButton = getByText("NEXT");
+      fireEvent.click(nextButton);
+
+      await waitFor(() => {
+        expect(getByLabelText("Ja")).toHaveFocus();
       });
     });
 

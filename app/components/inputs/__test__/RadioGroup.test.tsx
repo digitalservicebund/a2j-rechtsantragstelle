@@ -88,18 +88,4 @@ describe("RadioGroup", () => {
     const fieldset = screen.getByRole("group");
     expect(fieldset).toHaveAttribute("aria-invalid", "true");
   });
-
-  it("handles focus on first radio button when receiving focus", () => {
-    vi.mocked(useStringField).mockReturnValue({
-      ...createUseStringFieldMock(),
-    });
-
-    renderRadioGroup();
-    const firstRadio = screen.getByLabelText("Option 1");
-    const secondRadio = screen.getByLabelText("Option 2");
-    firstRadio.focus();
-
-    expect(document.activeElement).toBe(firstRadio);
-    expect(document.activeElement).not.toBe(secondRadio);
-  });
 });
