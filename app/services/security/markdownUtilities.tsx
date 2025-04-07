@@ -91,9 +91,14 @@ export function parseAndSanitizeMarkdown(
  */
 export function handleNestedLists(html: string) {
   const openingTagPosition = html.search(/<ul>|<ol>/);
-  const conditionalPosition = html.search(/{{\s*#|{{\s*\^/);
+  const openingConditionalStartPosition = html.search(/{{\s*#|{{\s*\^/);
+
   // if there's an opening list tag after a conditional, we need to correctly un-nest the list tags.
-  if (conditionalPosition !== -1 && openingTagPosition > conditionalPosition) {
+  if (
+    openingConditionalStartPosition !== -1 &&
+    openingTagPosition > openingConditionalStartPosition &&
+    !contentExistsBeforeList(html)
+  ) {
     const closingTagPosition = html.search(/<\/ul>|<\/ol>/);
     const openingTag = html.substring(
       openingTagPosition,
@@ -105,11 +110,33 @@ export function handleNestedLists(html: string) {
     );
     const htmlListTagsRemoved = html.replaceAll(/<ul>|<ol>|<\/ul>|<\/ol>/g, "");
     const final =
-      htmlListTagsRemoved.substring(0, conditionalPosition) +
+      htmlListTagsRemoved.substring(0, openingConditionalStartPosition) +
       openingTag +
-      htmlListTagsRemoved.substring(conditionalPosition) +
+      htmlListTagsRemoved.substring(openingConditionalStartPosition) +
       closingTag;
     return final;
   }
   return html;
+}
+
+/**
+ * An exception to the above handling is when a list is inside a conditonal, but there
+ * is content that comes before the start of the list, e.g.
+ *
+ * {{ #variable }}
+ * Please add the following things:
+ * * Thing 1
+ * * Thing 2
+ * {{ /variable }}
+ *
+ * In this case, we need to fall back to the default handling and show/hide it all.
+ */
+export function contentExistsBeforeList(html: string) {
+  const strippedContentString = html.replaceAll(/(<\/*p+>)|\s+/g, "");
+  const openingTagPosition = strippedContentString.search(/<ul>|<ol>/);
+  const beforeOpeningTag = strippedContentString.substring(
+    openingTagPosition - 2,
+    openingTagPosition,
+  );
+  return beforeOpeningTag !== "}}";
 }

@@ -1,3 +1,4 @@
+import { type DataWithResponseInit } from "@remix-run/router/dist/utils";
 import { USER_FEEDBACK_ID } from "~/components/userFeedback";
 import { getSessionManager } from "~/services/session.server";
 import { action } from "../action.send-feedback";
@@ -26,9 +27,17 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=http://external.com&js=false`,
       options,
     );
-    const response = await action({ request, params: {}, context: {} });
-    expect(response.status).toEqual(400);
-    expect(response.ok).not.toBeTruthy();
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as DataWithResponseInit<{ success: boolean }>;
+
+    if (response.init !== null) {
+      expect(response.init.status).toEqual(400);
+    } else {
+      throw new Error("Response does not contain 'init' property");
+    }
   });
 
   it("should fail if feedback parameter does not exist in the body", async () => {
@@ -38,7 +47,12 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=/asd&js=true`,
       optionsWithoutBody,
     );
-    const response = await action({ request, params: {}, context: {} });
+
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as Response;
     expect(response.status).toEqual(422);
     expect(response.ok).not.toBeTruthy();
   });
@@ -49,7 +63,12 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=${feedbackPath}&js=true`,
       options,
     );
-    const response = await action({ request, params: {}, context: {} });
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as Response;
+
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(feedbackPath);
   });
@@ -60,7 +79,13 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=${feedbackPath}&js=false`,
       options,
     );
-    const response = await action({ request, params: {}, context: {} });
+
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as Response;
+
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(
       `${feedbackPath}#${USER_FEEDBACK_ID}`,

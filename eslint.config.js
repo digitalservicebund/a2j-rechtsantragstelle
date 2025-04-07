@@ -125,9 +125,6 @@ export default tseslint.config(
       "sonarjs/anchor-has-content": "off",
       "sonarjs/no-invalid-await": "off",
 
-      // TODO: to be enabled later
-      "sonarjs/deprecation": "off", // enable after remix upgrades to react router v7 and we move to Single Fetch
-
       // typescript-eslint
       "@typescript-eslint/consistent-type-imports": [
         "warn",

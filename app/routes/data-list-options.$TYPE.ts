@@ -10,7 +10,7 @@ export function loader({ params }: LoaderFunctionArgs) {
   const dataListTypeParse = DataListTypeSchema.safeParse(dataListTypeParameter);
 
   if (dataListTypeParse.success) {
-    return getDataListOptions(dataListTypeParse.data);
+    return Response.json(getDataListOptions(dataListTypeParse.data));
   }
 
   return [];
