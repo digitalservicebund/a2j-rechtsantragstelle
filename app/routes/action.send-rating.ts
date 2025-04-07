@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs, Session, SessionData } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { data, redirect } from "@remix-run/node";
 import { withZod } from "@remix-validated-form/with-zod";
 import { validationError } from "remix-validated-form";
 import { z } from "zod";
@@ -31,16 +31,20 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (redirectNonRelative) return redirectNonRelative;
 
   const formData = await request.formData();
-  const { error, submittedData, data } = await withZod(
-    z.object({ wasHelpful: z.enum(["yes", "no"]) }),
-  ).validate(formData);
+  const {
+    error,
+    submittedData,
+    data: feedbackData,
+  } = await withZod(z.object({ wasHelpful: z.enum(["yes", "no"]) })).validate(
+    formData,
+  );
   if (error) {
     return validationError(error, submittedData);
   }
 
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(request.headers.get("Cookie"));
-  updateRatingWasHepful(session, data.wasHelpful, url);
+  updateRatingWasHepful(session, feedbackData.wasHelpful, url);
   updateBannerState(session, BannerState.ShowFeedback, url);
   const headers = { "Set-Cookie": await commitSession(session) };
 
@@ -48,20 +52,23 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     eventName: "rating given",
     request,
     properties: {
-      wasHelpful: data.wasHelpful === "yes",
+      wasHelpful: feedbackData.wasHelpful === "yes",
       url,
       flowId: flowIdFromPathname(url) ?? "",
     },
   });
 
-  searchParams.set("wasHelpful", data.wasHelpful);
+  searchParams.set("wasHelpful", feedbackData.wasHelpful);
 
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
   if (clientJavaScriptAvailable) {
-    return json({ success: true }, { headers });
+    return data({ success: true }, { headers });
   }
 
-  return redirect(`${url}?wasHelpful=${data?.wasHelpful}#${USER_FEEDBACK_ID}`, {
-    headers,
-  });
+  return redirect(
+    `${url}?wasHelpful=${feedbackData?.wasHelpful}#${USER_FEEDBACK_ID}`,
+    {
+      headers,
+    },
+  );
 };
