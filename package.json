@@ -98,6 +98,8 @@
     "@faker-js/faker": "^9.6.0",
     "@playwright/test": "^1.51.1",
     "@remix-run/dev": "^2.16.4",
+    "@remix-run/fs-routes": "^2.16.4",
+    "@remix-run/route-config": "^2.16.4",
     "@remix-run/testing": "^2.16.4",
     "@size-limit/file": "^11.2.0",
     "@storybook/addon-a11y": "^8.6.12",
