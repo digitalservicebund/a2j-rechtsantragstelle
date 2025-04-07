@@ -18,6 +18,8 @@ import { splitFieldName } from "~/services/upload/fileUploadHelpers";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { buildFileUploadError } from "./buildFileUploadError";
 
+export const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";
+
 export async function uploadUserFile(
   formAction: string,
   request: Request,
@@ -30,12 +32,19 @@ export async function uploadUserFile(
   const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
   const file = await parseFileFromFormData(request, inputName);
-  const fileArrayBuffer = await file?.arrayBuffer();
+
+  /**
+   * The file is a FileUpload class coming from the library @mjackson/form-data-parser,
+   * which is a wrapper around the native File interface and it is not possible to get the file size.
+   * We need to convert it to an ArrayBuffer to get the size.
+   */
+  const fileArrayBuffer = await file.arrayBuffer();
   const fileMeta: PDFFileMetadata = {
-    filename: file?.name ?? "",
-    fileType: file?.type ?? "",
-    fileSize: fileArrayBuffer ? fileArrayBuffer.byteLength : 0,
+    filename: file.name,
+    fileType: file.type,
+    fileSize: fileArrayBuffer.byteLength,
   };
+
   /**
    * Need to scope the context, otherwise we validate against the entire context,
    * of which we only have partial data at this point
@@ -44,12 +53,14 @@ export async function uploadUserFile(
     getContext(flowId),
     (_val, key) => key === fieldName,
   ) as Record<string, ZodTypeAny>;
+
   const validationResult = await validateUploadedFile(
     inputName,
     fileMeta,
     userData,
     scopedContext,
   );
+
   if (validationResult.error) {
     return {
       validationError: buildFileUploadError(validationResult, inputName),
@@ -93,6 +104,11 @@ async function parseFileFromFormData(request: Request, fieldName: string) {
       matchedFile = fileUpload;
     }
   });
+
+  if (typeof matchedFile === "undefined") {
+    throw new Error(UNDEFINED_FILE_ERROR);
+  }
+
   return matchedFile;
 }
 
