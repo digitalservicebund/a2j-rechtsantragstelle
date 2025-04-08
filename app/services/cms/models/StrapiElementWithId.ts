@@ -8,5 +8,3 @@ export const StrapiElementWithIdSchema = z
     element: z.array(StrapiContentComponentSchema),
   })
   .merge(HasStrapiLocaleSchema);
-
-export type StrapiElementWithId = z.infer<typeof StrapiElementWithIdSchema>;

@@ -26,7 +26,6 @@ import { fillBesitz } from "./pdfForm/F_besitz/F_besitz";
 import { fillFooter } from "./pdfForm/footer";
 import { fillAusgaben } from "./pdfForm/G_ausgaben";
 import { fillHeader } from "./pdfForm/header";
-export { getBeratungshilfeParameters };
 
 export type BerHPdfFillFunction = PdfFillFunction<
   BeratungshilfeFormularContext,

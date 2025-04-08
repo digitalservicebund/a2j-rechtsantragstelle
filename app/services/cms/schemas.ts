@@ -15,7 +15,6 @@ export const entrySchemas = {
 };
 export type SingleEntryId = keyof typeof entrySchemas;
 const _entrySchemas = z.object(entrySchemas);
-export type EntrySchemas = z.infer<typeof _entrySchemas>;
 
 export const flowPageSchemas = {
   "result-pages": z.array(StrapiResultPageSchema),

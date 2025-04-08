@@ -2,7 +2,7 @@ import classNames from "classnames";
 import Heading, { type HeadingProps } from "./Heading";
 import InfoBoxItem, { type InfoBoxItemProps } from "./InfoBoxItem";
 
-export type InfoBoxProps = {
+type InfoBoxProps = {
   identifier?: string;
   heading?: HeadingProps;
   separator?: boolean;

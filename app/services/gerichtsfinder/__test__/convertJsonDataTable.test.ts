@@ -13,7 +13,7 @@ import type {
 
 const validTypInfo: TypInfo = "Zivilgericht - Amtsgericht";
 
-export const plzOrtkEntry: Jmtd14VTErwerberPlzortk = {
+const plzOrtkEntry: Jmtd14VTErwerberPlzortk = {
   ANGELEGENHEIT_INFO: "Prozesskostenhilfe eingehend",
   GERBEH_AG: "string",
   GERBEH_LG: "string",
@@ -41,7 +41,7 @@ export const gerbehAmtsgericht: Jmtd14VTErwerberGerbeh = {
   XML_SUPPORT: "JA",
 } as const;
 
-export const plzStrnEntry: Jmtd14VTErwerberPlzstrn = {
+const plzStrnEntry: Jmtd14VTErwerberPlzstrn = {
   AG: "string",
   ANGELEGENHEIT_INFO: "Prozesskostenhilfe eingehend",
   HNR_BIS: "string",

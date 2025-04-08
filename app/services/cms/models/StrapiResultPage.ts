@@ -24,5 +24,3 @@ export const StrapiResultPageSchema = z
   })
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiMetaSchema);
-
-export type StrapiResultPage = z.infer<typeof StrapiResultPageSchema>;

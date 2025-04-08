@@ -56,7 +56,7 @@ export const FileUploadInfo = ({
   );
 };
 
-export const HiddenFileInputs = ({
+const HiddenFileInputs = ({
   inputName,
   file,
 }: {

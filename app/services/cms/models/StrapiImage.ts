@@ -44,6 +44,3 @@ export const StrapiImageSchema = z
 export const StrapiImageOptionalSchema = StrapiImageSchema.nullable()
   .transform(omitNull)
   .optional();
-
-export type StrapiImage = z.infer<typeof StrapiImageSchema>;
-export type StrapiImageInput = z.input<typeof StrapiImageSchema>;

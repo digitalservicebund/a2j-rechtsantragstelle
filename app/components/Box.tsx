@@ -4,7 +4,7 @@ import ButtonContainer from "./ButtonContainer";
 import Heading, { type HeadingProps } from "./Heading";
 import RichText, { type RichTextProps } from "./RichText";
 
-export type BoxProps = {
+type BoxProps = {
   identifier?: string;
   label?: HeadingProps;
   heading?: HeadingProps;

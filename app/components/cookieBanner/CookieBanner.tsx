@@ -11,7 +11,7 @@ import { StandaloneLink } from "../StandaloneLink";
 
 export const acceptCookiesFieldName = "accept-cookies";
 
-export type CookieBannerContentProps = {
+type CookieBannerContentProps = {
   heading: HeadingProps;
   paragraphs: RichTextProps[];
   acceptButtonLabel: string;

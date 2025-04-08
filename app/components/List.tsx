@@ -5,7 +5,7 @@ import RichText from "./RichText";
 
 export type ListVariant = "unordered" | "numbered" | "stepByStep";
 
-export type ListProps = {
+type ListProps = {
   items: ListItemProps[];
   variant: ListVariant;
   identifier?: string;
