@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useState, useRef } from "react";
 import { useStringField } from "~/services/validation/useStringField";
 import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
@@ -24,7 +24,11 @@ const RadioGroup = ({
   errorMessages,
   formId,
 }: RadioGroupProps) => {
-  const { error, defaultValue } = useStringField(name, { formId });
+  const radioRef = useRef<HTMLInputElement>(null);
+  const { error, defaultValue } = useStringField(name, {
+    formId,
+    handleReceiveFocus: () => radioRef.current?.focus(),
+  });
   const errorId = `${name}-error`;
   const errorToDisplay =
     errorMessages?.find((err) => err.code === error)?.text ?? error;
@@ -45,7 +49,7 @@ const RadioGroup = ({
       {renderHiddenField && <input type="hidden" name={name} />}
       <div className="ds-stack ds-stack-16">
         {label && <legend>{label}</legend>}
-        {options.map((o) => (
+        {options.map((o, index) => (
           <Radio
             key={o.value}
             name={name}
@@ -53,6 +57,8 @@ const RadioGroup = ({
             text={o.text}
             formId={formId}
             onClick={() => setRenderHiddenField(false)}
+            // Only assign the ref to the first radio button (https://www.w3.org/WAI/ARIA/apg/patterns/radio/)
+            ref={index === 0 ? radioRef : null}
           />
         ))}
         {errorToDisplay && (

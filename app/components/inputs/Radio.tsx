@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { forwardRef } from "react";
 import { useField } from "remix-validated-form";
 
 type RadioProps = {
@@ -9,7 +10,10 @@ type RadioProps = {
   readonly formId?: string;
 };
 
-const Radio = ({ name, value, onClick, text, formId }: RadioProps) => {
+function Radio(
+  { name, value, onClick, text, formId }: RadioProps,
+  ref: React.Ref<HTMLInputElement>,
+) {
   const { error, getInputProps } = useField(name, { formId });
   const id = `${name}-${value}`;
 
@@ -20,10 +24,11 @@ const Radio = ({ name, value, onClick, text, formId }: RadioProps) => {
         className="ds-radio forced-colors:outline forced-colors:border-[ButtonText]"
         aria-describedby={error && `${name}-error`}
         onClick={onClick}
+        ref={ref}
       />
-      {<label htmlFor={id}>{text}</label>}
+      <label htmlFor={id}>{text}</label>
     </div>
   );
-};
+}
 
-export default Radio;
+export default forwardRef(Radio);
