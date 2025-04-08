@@ -1,7 +1,6 @@
-import { redirect } from "@remix-run/node";
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { Form, useLoaderData, useNavigation } from "@remix-run/react";
 import { useState, useEffect } from "react";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+import { redirect, Form, useLoaderData, useNavigation } from "react-router";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
 import { acceptCookiesFieldName } from "~/components/cookieBanner/CookieBanner";

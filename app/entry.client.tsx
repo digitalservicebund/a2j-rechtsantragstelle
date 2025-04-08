@@ -1,7 +1,8 @@
-import { useLocation, useMatches, RemixBrowser } from "@remix-run/react";
 import * as Sentry from "@sentry/remix";
 import { startTransition, StrictMode, useEffect } from "react";
 import { hydrateRoot } from "react-dom/client";
+import { useLocation, useMatches } from "react-router";
+import { HydratedRouter } from "react-router/dom";
 import { config } from "~/services/env/web";
 
 const { SENTRY_DSN, ENVIRONMENT } = config();
@@ -24,7 +25,7 @@ function hydrate() {
     hydrateRoot(
       document,
       <StrictMode>
-        <RemixBrowser />
+        <HydratedRouter />
       </StrictMode>,
     );
   });

@@ -1,5 +1,5 @@
-import { createRemixStub } from "@remix-run/testing";
 import { render, screen, fireEvent } from "@testing-library/react";
+import { createRoutesStub } from "react-router";
 import Textarea, { TEXT_AREA_ROWS } from "~/components/inputs/Textarea";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 
@@ -34,7 +34,7 @@ describe("Textarea component", () => {
       placeholder: "Test Placeholder",
     }));
 
-    const RemixStub = createRemixStub([
+    const RemixStub = createRoutesStub([
       {
         path: "",
         Component: () => (
@@ -60,7 +60,7 @@ describe("Textarea component", () => {
   });
 
   it("renders without errors when description is provided", () => {
-    const RemixStub = createRemixStub([
+    const RemixStub = createRoutesStub([
       {
         path: "",
         Component: () => (
@@ -84,7 +84,7 @@ describe("Textarea component", () => {
     vi.mock("~/components/Details", () => ({
       Details: () => <div>Text-Beispiel</div>,
     }));
-    const RemixStub = createRemixStub([
+    const RemixStub = createRoutesStub([
       {
         path: "",
         Component: () => (
@@ -108,7 +108,7 @@ describe("Textarea component", () => {
 
   it("renders error message when error is present", () => {
     error = "error";
-    const RemixStub = createRemixStub([
+    const RemixStub = createRoutesStub([
       {
         path: "",
         Component: () => (
@@ -131,7 +131,7 @@ describe("Textarea component", () => {
   });
 
   it("allows users to type in the textarea", () => {
-    const RemixStub = createRemixStub([
+    const RemixStub = createRoutesStub([
       {
         path: "",
         Component: () => <Textarea name="componentName" label="Test Label" />,
@@ -147,7 +147,7 @@ describe("Textarea component", () => {
   });
 
   it("should render the textarea with the define rows from the variable TEXT_AREA_ROWS", () => {
-    const RemixStub = createRemixStub([
+    const RemixStub = createRoutesStub([
       {
         path: "",
         Component: () => <Textarea name="componentName" label="Test Label" />,
@@ -167,7 +167,7 @@ describe("Textarea component", () => {
       id: "componentName",
     }));
 
-    const RemixStub = createRemixStub([
+    const RemixStub = createRoutesStub([
       {
         path: "",
         Component: () => (

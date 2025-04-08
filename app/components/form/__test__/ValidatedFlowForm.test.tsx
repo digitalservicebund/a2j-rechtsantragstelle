@@ -1,6 +1,6 @@
-import { withZod } from "@remix-validated-form/with-zod";
+import { withZod } from "@rvf/zod";
 import { fireEvent, render, waitFor } from "@testing-library/react";
-import { RouterProvider, createMemoryRouter } from "react-router-dom";
+import { RouterProvider, createMemoryRouter } from "react-router";
 import { z } from "zod";
 import { getStrapiCheckboxComponent } from "tests/factories/cmsModels/strapiCheckboxComponent";
 import { getStrapiDropdownComponent } from "tests/factories/cmsModels/strapiDropdownComponent";
@@ -20,13 +20,6 @@ import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
-
-vi.mock("@remix-run/react", () => ({
-  useParams: vi.fn(),
-  useLocation: vi.fn(() => ({
-    pathname: "",
-  })),
-}));
 
 vi.mock("~/services/params", () => ({
   splatFromParams: vi.fn(),
@@ -400,13 +393,18 @@ function renderValidatedFlowForm(
 ) {
   const router = createMemoryRouter([
     {
-      path: "/",
+      path: "/beratungshilfe/antrag/start",
       element: (
         <ValidatedFlowForm
           stepData={{}}
           // @ts-expect-error Incompatible types, as we're only mocking partials of FormElements
           formElements={formElements}
-          buttonNavigationProps={{ next: { destination: "", label: "NEXT" } }}
+          buttonNavigationProps={{
+            next: {
+              destination: "/beratungshilfe/antrag/start",
+              label: "NEXT",
+            },
+          }}
           csrf={""}
         />
       ),

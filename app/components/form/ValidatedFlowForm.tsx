@@ -1,5 +1,5 @@
-import { useParams, useLocation } from "@remix-run/react";
-import { ValidatedForm } from "remix-validated-form";
+import { FormProvider, useForm } from "@rvf/react-router";
+import { useParams, useLocation } from "react-router";
 import type { ButtonNavigationProps } from "~/components/form/ButtonNavigation";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import type { Context } from "~/domains/contexts";
@@ -29,24 +29,27 @@ function ValidatedFlowForm({
   const stackClass =
     formElements.length === 0 ? "ds-stack ds-stack-0" : "ds-stack ds-stack-40";
 
+  const form = useForm({
+    id: `${stepId}_form`,
+    validator: validator,
+    method: "post",
+    encType: "multipart/form-data",
+    defaultValues: stepData,
+    action: pathname,
+  });
+
   return (
-    <ValidatedForm
-      id={`${stepId}_form`}
-      method="post"
-      encType="multipart/form-data"
-      validator={validator}
-      defaultValues={stepData}
-      noValidate
-      action={pathname}
-    >
-      <input type="hidden" name={CSRFKey} value={csrf} />
-      <div className={stackClass}>
+    <FormProvider scope={form.scope()}>
+      <form {...form.getFormProps()}>
+        <input type="hidden" name={CSRFKey} value={csrf} />
         <div className={stackClass}>
-          <StrapiFormComponents components={formElements} />
+          <div className={stackClass}>
+            <StrapiFormComponents components={formElements} />
+          </div>
+          <ButtonNavigation {...buttonNavigationProps} />
         </div>
-        <ButtonNavigation {...buttonNavigationProps} />
-      </div>
-    </ValidatedForm>
+      </form>
+    </FormProvider>
   );
 }
 

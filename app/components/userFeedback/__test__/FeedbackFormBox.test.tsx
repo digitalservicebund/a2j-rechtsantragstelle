@@ -1,5 +1,5 @@
-import { createRemixStub } from "@remix-run/testing";
 import { render } from "@testing-library/react";
+import { createRoutesStub } from "react-router";
 import { FeedbackType } from "~/components/userFeedback";
 import { FEEDBACK_FIELD_NAME, FeedbackFormBox } from "../FeedbackFormBox";
 
@@ -13,7 +13,7 @@ vi.mock("~/components/userFeedback/feedbackTranslations", () => ({
 
 describe("FeedbackFormBox", () => {
   it("should render the component with the given translations", () => {
-    const FeedbackFormBoxWithRemixStub = createRemixStub([
+    const FeedbackFormBoxWithRemixStub = createRoutesStub([
       {
         path: "",
         Component: () => (
@@ -32,7 +32,7 @@ describe("FeedbackFormBox", () => {
   });
 
   it("should render the component with the focus on the text area ", () => {
-    const FeedbackFormBoxWithRemixStub = createRemixStub([
+    const FeedbackFormBoxWithRemixStub = createRoutesStub([
       {
         path: "",
         Component: () => (

@@ -1,4 +1,4 @@
-import type { Session } from "@remix-run/node";
+import type { Session } from "react-router";
 import type { Context, ObjectType } from "~/domains/contexts";
 import { type FlowId } from "~/domains/flowIds";
 import { getSessionManager, updateSession } from "~/services/session.server";

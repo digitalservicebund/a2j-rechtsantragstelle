@@ -1,5 +1,5 @@
-import { createRemixStub } from "@remix-run/testing";
 import { fireEvent, render } from "@testing-library/react";
+import { createRoutesStub } from "react-router";
 import { RatingBox } from "../RatingBox";
 
 const YES_RATING = "yes";
@@ -14,7 +14,7 @@ vi.mock("~/components/userFeedback/feedbackTranslations", () => ({
 
 describe("RatingBox", () => {
   it("should render the component with the given translations", () => {
-    const RatingBoxWithRemixStub = createRemixStub([
+    const RatingBoxWithRemixStub = createRoutesStub([
       {
         path: "",
         Component: () => (
@@ -31,7 +31,7 @@ describe("RatingBox", () => {
   it("should call onSubmit method when clicks on the Yes button", () => {
     const onSubmitMock = vitest.fn();
 
-    const RatingBoxWithRemixStub = createRemixStub([
+    const RatingBoxWithRemixStub = createRoutesStub([
       {
         path: "",
         Component: () => (
@@ -54,7 +54,7 @@ describe("RatingBox", () => {
   it("should call obSubmit method when clicks on the No button", () => {
     const onSubmitMock = vitest.fn();
 
-    const RatingBoxWithRemixStub = createRemixStub([
+    const RatingBoxWithRemixStub = createRoutesStub([
       {
         path: "",
         Component: () => (

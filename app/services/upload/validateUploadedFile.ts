@@ -1,5 +1,5 @@
-import { withZod } from "@remix-validated-form/with-zod";
-import { type ValidationResult } from "remix-validated-form";
+import { type ValidationResult } from "@rvf/react-router";
+import { withZod } from "@rvf/zod";
 import { z, type ZodTypeAny } from "zod";
 import { type Context } from "~/domains/contexts";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";

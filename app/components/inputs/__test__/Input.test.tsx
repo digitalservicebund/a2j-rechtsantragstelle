@@ -1,25 +1,40 @@
+import * as rvfReactRouter from "@rvf/react-router";
 import { render, screen } from "@testing-library/react";
-import * as remixValidatedForm from "remix-validated-form";
 import type { InputProps } from "../Input";
 import Input from "../Input";
 
-vi.mock("remix-validated-form", () => ({
+vi.mock("@rvf/react-router", () => ({
   useField: vi.fn(),
 }));
 
-beforeEach(() => {
-  vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
-    error: undefined,
+beforeEach(() =>
+  vi.spyOn(rvfReactRouter, "useField").mockReturnValue({
+    error: vi.fn(),
     getInputProps: vi.fn().mockReturnValue({
       id: "inputId",
       placeholder: "Any placeholder",
     }),
     clearError: vi.fn(),
     validate: vi.fn(),
-    touched: false,
+    touched: vi.fn(),
     setTouched: vi.fn(),
-  });
-});
+    getControlProps: vi.fn(),
+    getHiddenInputProps: vi.fn(),
+    refs: {
+      controlled: vi.fn(),
+      transient: vi.fn(),
+    },
+    name: vi.fn(),
+    onChange: vi.fn(),
+    onBlur: vi.fn(),
+    value: vi.fn(),
+    setValue: vi.fn(),
+    defaultValue: vi.fn(),
+    dirty: vi.fn(),
+    setDirty: vi.fn(),
+    reset: vi.fn(),
+  }),
+);
 
 afterEach(() => {
   vi.restoreAllMocks(); // This clears all mocks after each test

@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs } from "@remix-run/node";
+import { type LoaderFunctionArgs } from "react-router";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 import { loader as lastStepLoader } from "~/services/flow/server/lastStep";
 export { FormFlowPage as default } from "~/routes/shared/components/FormFlowPage";

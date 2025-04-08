@@ -1,7 +1,7 @@
-import { useLocation } from "@remix-run/react";
-import { withZod } from "@remix-validated-form/with-zod";
+import { ValidatedForm } from "@rvf/react-router";
+import { withZod } from "@rvf/zod";
 import { useEffect, useRef, useState } from "react";
-import { ValidatedForm } from "remix-validated-form";
+import { useLocation } from "react-router";
 import { z } from "zod";
 import Textarea from "~/components/inputs/Textarea";
 import { FeedbackType } from "~/components/userFeedback";
@@ -12,7 +12,6 @@ import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
-const FEEDBACK_FORM_NAME = "feedbackForm";
 export const FEEDBACK_FIELD_NAME = "feedback";
 
 enum FeedbackButtons {
@@ -81,7 +80,6 @@ export const FeedbackFormBox = ({
   return (
     <ValidatedForm
       validator={feedbackValidator}
-      subaction={FEEDBACK_FORM_NAME}
       method="post"
       action={`/action/send-feedback?url=${destination}&js=${String(jsAvailable)}`}
       preventScrollReset={true}

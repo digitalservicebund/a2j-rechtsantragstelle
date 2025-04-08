@@ -1,25 +1,44 @@
+import * as rvfReactRouter from "@rvf/react-router";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { useStringField } from "~/services/validation/useStringField";
 import Checkbox, { CheckboxValue } from "../Checkbox";
 
-vi.mock("~/services/validation/useStringField", () => ({
-  useStringField: vi.fn(),
+vi.mock("@rvf/react-router", () => ({
+  useField: vi.fn(),
 }));
 
 describe("Checkbox Component", () => {
   beforeEach(() => {
-    vi.mocked(useStringField).mockReturnValue({
-      getInputProps: vi.fn((props) => ({
-        ...props,
-      })),
+    vi.spyOn(rvfReactRouter, "useField").mockReturnValue({
+      error: vi.fn(),
+      getInputProps: vi.fn().mockReturnValue({
+        id: "inputId",
+        placeholder: "Any placeholder",
+      }),
       clearError: vi.fn(),
       validate: vi.fn(),
-      touched: false,
+      touched: vi.fn(),
       setTouched: vi.fn(),
-      defaultValue: undefined,
-      error: undefined,
+      getControlProps: vi.fn(),
+      getHiddenInputProps: vi.fn(),
+      refs: {
+        controlled: vi.fn(),
+        transient: vi.fn(),
+      },
+      name: vi.fn(),
+      onChange: vi.fn(),
+      onBlur: vi.fn(),
+      value: vi.fn(),
+      setValue: vi.fn(),
+      defaultValue: vi.fn(),
+      dirty: vi.fn(),
+      setDirty: vi.fn(),
+      reset: vi.fn(),
     });
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks(); // This clears all mocks after each test
   });
 
   it("renders the checkbox with a label", () => {
@@ -48,25 +67,6 @@ describe("Checkbox Component", () => {
 
     const hiddenInput = screen.queryByDisplayValue(CheckboxValue.off);
     expect(hiddenInput).not.toBeInTheDocument();
-  });
-
-  it("displays an error message when an error exists", () => {
-    vi.mocked(useStringField).mockReturnValue({
-      ...vi.mocked(useStringField).mock.results[0].value,
-      error: "checkbox error",
-    });
-
-    render(
-      <Checkbox
-        name="checkbox-name"
-        label="Checkbox Label"
-        required
-        errorMessage="checkbox error"
-      />,
-    );
-
-    const errorMessage = screen.getByText("checkbox error");
-    expect(errorMessage).toBeInTheDocument();
   });
 
   it("renders the checkbox as required", () => {

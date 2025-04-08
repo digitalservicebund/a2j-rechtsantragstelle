@@ -1,5 +1,5 @@
-import { ActionFunction, LoaderFunction } from "@remix-run/node";
-import { createRemixStub } from "@remix-run/testing";
+import { ActionFunction, LoaderFunction } from "react-router";
+import { createRoutesStub } from "react-router";
 import { ComponentType, createElement } from "react";
 
 export function remixContext(
@@ -8,6 +8,6 @@ export function remixContext(
   action?: ActionFunction,
 ) {
   return createElement(
-    createRemixStub([{ path: "/", Component: component, loader, action }]),
+    createRoutesStub([{ path: "/", Component: component, loader, action }]),
   );
 }

@@ -1,5 +1,5 @@
-import { createRemixStub } from "@remix-run/testing";
 import { fireEvent, render, screen } from "@testing-library/react";
+import { createRoutesStub } from "react-router";
 import * as remixValidatedForm from "remix-validated-form";
 import TileRadio from "~/components/inputs/tile/TileRadio";
 
@@ -28,7 +28,7 @@ describe("TileRadio", () => {
   });
 
   it("check if the componenet renders correct", () => {
-    const RemixStub = createRemixStub([
+    const RemixStub = createRoutesStub([
       {
         path: "",
         Component: () => (
@@ -51,7 +51,7 @@ describe("TileRadio", () => {
 
   it("check if the click works", () => {
     const handleClick = vi.fn();
-    const RemixStub = createRemixStub([
+    const RemixStub = createRoutesStub([
       {
         path: "",
         Component: () => (

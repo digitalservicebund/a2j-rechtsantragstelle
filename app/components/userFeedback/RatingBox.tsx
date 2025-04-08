@@ -1,7 +1,7 @@
 import ThumbDownIcon from "@digitalservicebund/icons/ThumbDownOutlined";
 import ThumbUpIcon from "@digitalservicebund/icons/ThumbUpOutlined";
-import { useFetcher } from "@remix-run/react";
 import { useEffect, useState } from "react";
+import { useFetcher } from "react-router";
 import { FeedbackType } from "~/components/userFeedback";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import Button from "../Button";

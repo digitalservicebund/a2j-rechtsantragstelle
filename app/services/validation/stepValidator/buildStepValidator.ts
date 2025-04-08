@@ -1,4 +1,4 @@
-import { withZod } from "@remix-validated-form/with-zod";
+import { withZod } from "@rvf/zod";
 import { z } from "zod";
 import type { FunctionMultiFieldsValidation } from "~/domains/multiFieldsFlowValidation";
 import { isKeyOfObject } from "~/util/objects";
@@ -14,6 +14,9 @@ export function buildStepValidator(
   const fieldValidators: Record<string, z.ZodTypeAny> = {};
 
   for (const fieldName of fieldNames) {
+    if (fieldName === "rvfFormId") {
+      continue;
+    }
     if (fieldIsArray(fieldName)) {
       const [arrayName, arrayFieldName] = splitArrayName(fieldName);
       const arraySchema = schemas[arrayName] as z.ZodArray<z.AnyZodObject>;

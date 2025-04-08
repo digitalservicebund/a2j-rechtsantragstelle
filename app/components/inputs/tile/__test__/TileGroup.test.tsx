@@ -1,5 +1,5 @@
-import { createRemixStub } from "@remix-run/testing";
 import { render } from "@testing-library/react";
+import { createRoutesStub } from "react-router";
 import * as remixValidatedForm from "remix-validated-form";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 
@@ -34,7 +34,7 @@ describe("TileGroup", () => {
   });
 
   it("should render the component TileRadio", () => {
-    const RemixStub = createRemixStub([
+    const RemixStub = createRoutesStub([
       {
         path: "",
         Component: () => (

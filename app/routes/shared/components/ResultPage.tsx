@@ -1,8 +1,8 @@
 import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
 import HighlightOff from "@digitalservicebund/icons/HighlightOff";
 import WarningAmber from "@digitalservicebund/icons/WarningAmber";
-import { useLoaderData } from "@remix-run/react";
 import { type ReactElement } from "react";
+import { useLoaderData } from "react-router";
 import type { BackgroundColor } from "~/components";
 import Background from "~/components/Background";
 import ButtonContainer from "~/components/ButtonContainer";

@@ -1,10 +1,7 @@
 import { type FileUpload, parseFormData } from "@mjackson/form-data-parser";
-import { type TypedResponse } from "@remix-run/node";
+import { type ValidationErrorResponseData } from "@rvf/react-router";
 import pickBy from "lodash/pickBy";
-import {
-  type SuccessResult,
-  type ValidationErrorResponseData,
-} from "remix-validated-form";
+import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { type ZodTypeAny } from "zod";
 import { type ArrayData, type Context, getContext } from "~/domains/contexts";
 import { type FlowId } from "~/domains/flowIds";
@@ -34,8 +31,8 @@ export async function uploadUserFile(
   userData: Context,
   flowId: FlowId,
 ): Promise<{
-  validationError?: TypedResponse<ValidationErrorResponseData>;
-  validationResult?: SuccessResult<Context>;
+  validationError?: UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
+  validationResult?: UNSAFE_DataWithResponseInit<Context>;
 }> {
   const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
@@ -79,7 +76,9 @@ export async function uploadUserFile(
   fileMeta.savedFileKey = savedFileKey;
   (validationResult.data[fieldName] as ArrayData)[Number(inputIndex)] =
     fileMeta;
-  return { validationResult };
+  return {
+    validationResult: { type: "success", init: {}, ...validationResult },
+  };
 }
 
 export async function deleteUserFile(

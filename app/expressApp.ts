@@ -1,9 +1,9 @@
 /* eslint-disable import/no-named-as-default-member, no-console */
-import { createRequestHandler } from "@remix-run/express";
-import type { ServerBuild } from "@remix-run/node";
+import { createRequestHandler } from "@react-router/express";
 import * as Sentry from "@sentry/remix";
 import compression from "compression";
 import express, { type RequestHandler } from "express";
+import type { ServerBuild } from "react-router";
 import type { ViteDevServer } from "vite";
 import { getPosthogClient } from "./services/analytics/posthogClient.server";
 import { config } from "./services/env/env.server";

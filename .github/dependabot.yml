@@ -19,7 +19,8 @@ updates:
           - storybook
       remix:
         patterns:
-          - "@remix-run/*"
+          - "@react-router/*"
+          - "react-router"
       vitest:
         patterns:
           - "vitest*"

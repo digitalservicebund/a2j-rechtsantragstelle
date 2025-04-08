@@ -1,9 +1,11 @@
+import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
+import { useEffect, useMemo, useState } from "react";
 import type {
   LinksFunction,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
-import { data } from "@remix-run/node";
+} from "react-router";
+import "~/styles.css";
 import {
   Links,
   Meta,
@@ -14,11 +16,9 @@ import {
   useRouteLoaderData,
   useRouteError,
   Outlet,
-} from "@remix-run/react";
-import "~/styles.css";
+  data,
+} from "react-router";
 import "@digitalservice4germany/angie/fonts.css";
-import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
-import { useEffect, useMemo, useState } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";

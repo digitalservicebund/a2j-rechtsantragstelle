@@ -1,5 +1,5 @@
+import { useField } from "@rvf/react-router";
 import { useEffect, useState } from "react";
-import { useStringField } from "~/services/validation/useStringField";
 import InputError from "./InputError";
 import RichText from "../RichText";
 
@@ -21,21 +21,18 @@ const Checkbox = ({
   name,
   value = CheckboxValue.on,
   label,
-  formId,
   required = false,
   errorMessage,
 }: CheckboxProps) => {
-  const { error, getInputProps, defaultValue } = useStringField(name, {
-    formId,
-  });
+  const field = useField(name);
   const errorId = `${name}-error`;
-  const className = `ds-checkbox forced-colors:outline forced-colors:border-[ButtonText] ${error ? "has-error" : ""}`;
+  const className = `ds-checkbox forced-colors:outline forced-colors:border-[ButtonText] ${field.error() ? "has-error" : ""}`;
   // HTML Forms do not send unchecked checkboxes.
   // For server-side validation we need a same-named hidden field
   // For front-end validation, we need to hide that field if checkbox is checked
   // const alreadyChecked = defaultValue === value
   const [renderHiddenField, setRenderHiddenField] = useState(
-    defaultValue !== value,
+    field.defaultValue() !== value,
   );
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
@@ -47,12 +44,12 @@ const Checkbox = ({
           <input type="hidden" name={name} value={CheckboxValue.off} />
         )}
         <input
-          {...getInputProps({ type: "checkbox", id: name, value })}
+          {...field.getInputProps({ type: "checkbox", id: name, value })}
           className={className}
-          aria-describedby={error && errorId}
+          aria-describedby={field.error() ? errorId : undefined}
           onClick={() => setRenderHiddenField(!renderHiddenField)}
           required={required}
-          defaultChecked={defaultValue === value}
+          defaultChecked={field.defaultValue() === value}
         />
 
         {label && (
@@ -61,7 +58,9 @@ const Checkbox = ({
           </label>
         )}
       </div>
-      {error && <InputError id={errorId}>{errorMessage ?? error}</InputError>}
+      {field.error() && (
+        <InputError id={errorId}>{errorMessage ?? field.error()}</InputError>
+      )}
     </div>
   );
 };

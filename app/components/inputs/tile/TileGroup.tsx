@@ -1,6 +1,6 @@
+import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { type ReactNode, useState } from "react";
-import { useStringField } from "~/services/validation/useStringField";
 import { type ErrorMessageProps } from "..";
 import TileRadio, { type TileOptions } from "./TileRadio";
 import InputError from "../InputError";
@@ -24,21 +24,22 @@ const TileGroup = ({
   useTwoColumns,
   formId,
 }: TileGroupProps) => {
-  const { error, defaultValue } = useStringField(name, { formId });
+  const field = useField(name);
   const errorId = `${name}-error`;
   const errorToDisplay =
-    errorMessages?.find((err) => err.code === error)?.text ?? error;
+    errorMessages?.find((err) => err.code === field.error())?.text ??
+    field.error();
   // Without JS, we need a same-named hidden field for validation without user input
   // It gets removed on clicking any Tile option to still allow for front-end validation
   const [renderHiddenField, setRenderHiddenField] = useState(
-    defaultValue === undefined,
+    field.defaultValue() === undefined,
   );
 
   return (
     <fieldset
-      aria-invalid={error !== undefined}
-      aria-describedby={error && errorId}
-      aria-errormessage={error && errorId}
+      aria-invalid={field.error() !== undefined}
+      aria-describedby={field.error() ? errorId : undefined}
+      aria-errormessage={field.error() ? errorId : undefined}
     >
       {altLabel && <legend className="sr-only">{altLabel}</legend>}
       {renderHiddenField && <input type="hidden" name={name} />}

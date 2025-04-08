@@ -13,7 +13,7 @@ const useLoaderDataMock = vi.hoisted(() =>
 );
 
 const submitMock = vi.fn();
-vi.mock("@remix-run/react", () => ({
+vi.mock("react-router", () => ({
   useLoaderData: useLoaderDataMock,
   useSubmit: () => submitMock,
 }));

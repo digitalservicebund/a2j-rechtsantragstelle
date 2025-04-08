@@ -1,6 +1,4 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { type LoaderFunctionArgs, redirect, useLoaderData } from "react-router";
 import Background from "~/components/Background";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";

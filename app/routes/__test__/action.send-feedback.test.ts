@@ -1,4 +1,4 @@
-import { type DataWithResponseInit } from "@remix-run/router/dist/utils";
+import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { USER_FEEDBACK_ID } from "~/components/userFeedback";
 import { getSessionManager } from "~/services/session.server";
 import { action } from "../action.send-feedback";
@@ -31,7 +31,7 @@ describe("/action/send-feedback route", () => {
       request,
       params: {},
       context: {},
-    })) as DataWithResponseInit<{ success: boolean }>;
+    })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
 
     if (response.init !== null) {
       expect(response.init.status).toEqual(400);

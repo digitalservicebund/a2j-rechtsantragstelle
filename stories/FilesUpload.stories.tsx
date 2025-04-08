@@ -1,6 +1,6 @@
 import { remixContext } from ".storybook/remixContext";
 import { faker } from "@faker-js/faker";
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs } from "react-router";
 import type { Meta, StoryObj } from "@storybook/react";
 import FilesUpload from "~/components/filesUpload/FilesUpload";
 import { splitFieldName } from "~/services/upload/fileUploadHelpers";

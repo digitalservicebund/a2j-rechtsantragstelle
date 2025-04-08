@@ -1,7 +1,7 @@
-import { createRemixStub } from "@remix-run/testing";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { act } from "react";
+import { createRoutesStub } from "react-router";
 import UserFeedback, {
   BannerState,
   USER_FEEDBACK_ID,
@@ -15,7 +15,7 @@ describe("UserFeedback", () => {
   };
 
   it("renders correct id for the url fragment", () => {
-    const UserFeedbackWithRemixStub = createRemixStub([
+    const UserFeedbackWithRemixStub = createRoutesStub([
       {
         path: "",
         Component: () => <UserFeedback {...mockedProps} />,
@@ -35,7 +35,7 @@ describe("UserFeedback", () => {
   });
 
   it("renders RatingBox when bannerState is ShowRating", () => {
-    const UserFeedbackWithRemixStub = createRemixStub([
+    const UserFeedbackWithRemixStub = createRoutesStub([
       {
         path: "",
         Component: () => <UserFeedback {...mockedProps} />,
@@ -55,7 +55,7 @@ describe("UserFeedback", () => {
   });
 
   it("renders FeedbackFormBox when bannerState is ShowFeedback", () => {
-    const UserFeedbackWithRemixStub = createRemixStub([
+    const UserFeedbackWithRemixStub = createRoutesStub([
       {
         path: "",
         Component: () => <UserFeedback {...mockedProps} />,
@@ -74,7 +74,7 @@ describe("UserFeedback", () => {
   });
 
   it("renders PostSubmissionBox when bannerState is FeedbackGiven", () => {
-    const UserFeedbackWithRemixStub = createRemixStub([
+    const UserFeedbackWithRemixStub = createRoutesStub([
       {
         path: "",
         Component: () => <UserFeedback {...mockedProps} />,
@@ -98,7 +98,7 @@ describe("UserFeedback", () => {
   });
 
   it("sets shouldFocus to true when applyFocus is called", async () => {
-    const UserFeedbackWithRemixStub = createRemixStub([
+    const UserFeedbackWithRemixStub = createRoutesStub([
       {
         path: "",
         Component: () => <UserFeedback {...mockedProps} />,
@@ -125,7 +125,7 @@ describe("UserFeedback", () => {
   });
 
   it("renders rating buttons when in ShowRating state", async () => {
-    const UserFeedbackWithRemixStub = createRemixStub([
+    const UserFeedbackWithRemixStub = createRoutesStub([
       {
         path: "",
         Component: () => <UserFeedback {...mockedProps} />,
