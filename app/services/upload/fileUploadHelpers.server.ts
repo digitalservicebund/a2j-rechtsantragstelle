@@ -1,13 +1,11 @@
 import { type FileUpload, parseFormData } from "@mjackson/form-data-parser";
 import { type TypedResponse } from "@remix-run/node";
-import { withZod } from "@remix-validated-form/with-zod";
 import pickBy from "lodash/pickBy";
 import {
   type SuccessResult,
   type ValidationErrorResponseData,
-  type ValidationResult,
 } from "remix-validated-form";
-import { z, type ZodTypeAny } from "zod";
+import { type ZodTypeAny } from "zod";
 import { type ArrayData, type Context, getContext } from "~/domains/contexts";
 import { type FlowId } from "~/domains/flowIds";
 import {
@@ -17,6 +15,7 @@ import {
 import { splitFieldName } from "~/services/upload/fileUploadHelpers";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { buildFileUploadError } from "./buildFileUploadError";
+import { validateUploadedFile } from "./validateUploadedFile";
 
 export const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";
 
@@ -110,18 +109,6 @@ async function parseFileFromFormData(request: Request, fieldName: string) {
   }
 
   return matchedFile;
-}
-
-export async function validateUploadedFile(
-  inputName: string,
-  file: PDFFileMetadata,
-  sessionData: Context,
-  schema: Record<string, ZodTypeAny>,
-): Promise<ValidationResult<Context>> {
-  return await withZod(z.object(schema)).validate({
-    ...sessionData,
-    [inputName]: file,
-  });
 }
 
 /**
