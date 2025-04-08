@@ -99,6 +99,13 @@ export default tseslint.config(
       // import
       "import/no-cycle": "off", // VERY slow, only enable if needed
       "import/namespace": "off", // slow and unneeded
+      "import/no-unused-modules": [
+        "off", // slow but useful to find unused exports. you might need to create an empty .eslintrc file, see https://github.com/import-js/eslint-plugin-import/issues/3079
+        {
+          unusedExports: true,
+          ignoreExports: ["app/routes/"],
+        },
+      ],
       "import/order": [
         "warn",
         {

@@ -5,17 +5,17 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
-export const hasKontopfaendung = z.enum(
+const hasKontopfaendung = z.enum(
   ["nein", "ja", "weissNicht"],
   customRequiredErrorMessage,
 );
 
-export const hasPKonto = z.enum(
+const hasPKonto = z.enum(
   ["nein", "ja", "nichtAktiv", "nichtEingerichtet"],
   customRequiredErrorMessage,
 );
 
-export const schuldenBei = z.enum(
+const schuldenBei = z.enum(
   [
     "privat",
     "behoerden",
@@ -34,27 +34,27 @@ export const schuldenBei = z.enum(
   customRequiredErrorMessage,
 );
 
-export const euroSchwelle = z.enum(
+const euroSchwelle = z.enum(
   ["nein", "ja", "weissNicht", "unterschiedlich"],
   customRequiredErrorMessage,
 );
 
-export const kinderWohnenZusammen = z.enum(
+const kinderWohnenZusammen = z.enum(
   ["nein", "ja", "teilweise"],
   customRequiredErrorMessage,
 );
 
-export const verheiratet = z.enum(
+const verheiratet = z.enum(
   ["nein", "ja", "getrennt", "geschieden", "verwitwet"],
   customRequiredErrorMessage,
 );
 
-export const arbeitsweise = z.object({
+const arbeitsweise = z.object({
   angestellt: checkedOptional,
   selbstaendig: checkedOptional,
 });
 
-export const zahlungArbeitgeber = z.object({
+const zahlungArbeitgeber = z.object({
   urlaubsgeld: checkedOptional,
   weihnachtsgeld: checkedOptional,
   ueberstundenBezahlt: checkedOptional,
@@ -62,7 +62,7 @@ export const zahlungArbeitgeber = z.object({
   anderes: checkedOptional,
 });
 
-export const hasSozialleistungen = z.enum(
+const hasSozialleistungen = z.enum(
   [
     "buergergeld",
     "grundsicherungSozialhilfe",
@@ -72,17 +72,14 @@ export const hasSozialleistungen = z.enum(
   customRequiredErrorMessage,
 );
 
-export const sozialleistungenUmstaende = z.object({
+const sozialleistungenUmstaende = z.object({
   pflegegeld: checkedOptional,
   kindergeld: checkedOptional,
   wohngeld: checkedOptional,
   nein: checkedOptional,
 });
 
-export const pflegegeld = z.enum(
-  ["selbst", "fremd"],
-  customRequiredErrorMessage,
-);
+const pflegegeld = z.enum(["selbst", "fremd"], customRequiredErrorMessage);
 
 export const context = {
   hasKontopfaendung,

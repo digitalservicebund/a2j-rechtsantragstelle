@@ -49,7 +49,7 @@ type Step = {
   value: string | ((validAmtsgericht: boolean) => string);
 };
 
-export const dynamicSteps: Record<string, Step[]> = {
+const dynamicSteps: Record<string, Step[]> = {
   [abgabeContext.abgabeArt.Enum.ausdrucken]: [
     { title: "Antrag ausdrucken", value: "" },
     {

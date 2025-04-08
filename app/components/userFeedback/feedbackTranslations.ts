@@ -17,19 +17,18 @@ const feedbackTranslationsKeys = [
   "close",
   "open-feedback-placeholder",
 ] as const;
-export type FeedbackTranslationKeys = (typeof feedbackTranslationsKeys)[number];
+type FeedbackTranslationKeys = (typeof feedbackTranslationsKeys)[number];
 
 const postSubmissionTranslationKeys = [
   "success-message",
   "feedback-helps",
   "text-post-submission",
 ] as const;
-export type PostSubmissionTranslationKeys =
+type PostSubmissionTranslationKeys =
   (typeof postSubmissionTranslationKeys)[number];
 
 const ratingBoxTranslationsKeys = ["yes-rating", "no-rating"] as const;
-export type RatingBoxTranslationKeys =
-  (typeof ratingBoxTranslationsKeys)[number];
+type RatingBoxTranslationKeys = (typeof ratingBoxTranslationsKeys)[number];
 
 export function useFeedbackTranslations() {
   const { feedback: translations } = useTranslations();

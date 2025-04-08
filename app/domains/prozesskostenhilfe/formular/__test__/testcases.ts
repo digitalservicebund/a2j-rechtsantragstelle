@@ -16,7 +16,7 @@ import { testCasesPKHFormularFinanzielleAngabenPartner } from "../finanzielleAng
 import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../finanzielleAngaben/__test__/testcasesWohnung";
 import { testCasesProzesskostenhilfeRsv } from "../rechtsschutzversicherung/__test__/testcases";
 
-export const machine: FlowStateMachine = createMachine(
+const machine: FlowStateMachine = createMachine(
   { ...prozesskostenhilfeFormular.config, context: {} },
   { guards: prozesskostenhilfeFormular.guards },
 );

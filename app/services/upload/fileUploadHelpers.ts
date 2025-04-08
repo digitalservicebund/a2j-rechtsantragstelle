@@ -1,15 +1,6 @@
 import { useLoaderData, useSubmit } from "@remix-run/react";
 import { type loader } from "~/routes/shared/formular.server";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
-
-export function convertFileToMetadata(file?: File): PDFFileMetadata {
-  return {
-    filename: file?.name ?? "",
-    fileType: file?.type ?? "",
-    fileSize: file?.size ?? 0,
-  };
-}
 
 export const splitFieldName = (fieldName: string) => ({
   fieldName: fieldName.split("[")[0],

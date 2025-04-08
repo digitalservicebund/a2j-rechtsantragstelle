@@ -5,7 +5,7 @@ import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 import Heading, { type HeadingProps } from "./Heading";
 
-export type LinkListBoxProps = {
+type LinkListBoxProps = {
   identifier?: string;
   label?: HeadingProps;
   heading?: HeadingProps;

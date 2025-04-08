@@ -2,7 +2,7 @@ import type { GenericGuard } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import type { FluggastrechtContext } from "../context";
 
-export type FluggastrechteGrundvoraussetzungenDaten =
+type FluggastrechteGrundvoraussetzungenDaten =
   GenericGuard<FluggastrechtContext>;
 
 const hasStreitbeilegungGruende = (context: FluggastrechtContext) => {

@@ -22,7 +22,7 @@ export type Eigentumer = z.infer<typeof Eigentuemer>;
 
 const MINUS_150_YEARS = -150;
 
-export const GrundeigentumArt = z.enum(
+const GrundeigentumArt = z.enum(
   [
     "eigentumswohnung",
     "einfamilienhaus",
@@ -220,5 +220,3 @@ export const besondereBelastungenSchema = z.object({
   disability: checkedOptional,
   medicalReasons: checkedOptional,
 });
-
-export type Unterhaltszahlung = z.infer<typeof unterhaltszahlungSchema>;

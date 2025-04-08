@@ -12,7 +12,7 @@ import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
-export const FEEDBACK_FORM_NAME = "feedbackForm";
+const FEEDBACK_FORM_NAME = "feedbackForm";
 export const FEEDBACK_FIELD_NAME = "feedback";
 
 enum FeedbackButtons {
@@ -35,7 +35,7 @@ export const feedbackValidator = withZod(
   }),
 );
 
-export type FeedbackBoxProps = {
+type FeedbackBoxProps = {
   readonly destination: string;
   readonly shouldFocus: boolean;
   readonly onSubmit: () => void;
