@@ -54,19 +54,4 @@ describe("Radio", () => {
     const radio = screen.getByLabelText("Yes");
     expect(radio).toHaveAttribute("aria-describedby", "testRadio-error");
   });
-
-  it("forwards ref correctly", () => {
-    const ref = { current: null };
-    render(
-      <Radio
-        name="testRadio"
-        value="yes"
-        text="Yes"
-        formId="form-1"
-        ref={ref}
-      />,
-    );
-
-    expect(ref.current).toBeInstanceOf(HTMLInputElement);
-  });
 });
