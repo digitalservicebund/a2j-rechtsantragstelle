@@ -19,6 +19,15 @@ import { validateUploadedFile } from "./validateUploadedFile";
 
 export const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";
 
+const createFileMeta = (
+  file: File,
+  fileArrayBuffer: ArrayBuffer,
+): PDFFileMetadata => ({
+  filename: file.name,
+  fileType: file.type,
+  fileSize: fileArrayBuffer.byteLength,
+});
+
 export async function uploadUserFile(
   formAction: string,
   request: Request,
@@ -38,11 +47,7 @@ export async function uploadUserFile(
    * We need to convert it to an ArrayBuffer to get the size.
    */
   const fileArrayBuffer = await file.arrayBuffer();
-  const fileMeta: PDFFileMetadata = {
-    filename: file.name,
-    fileType: file.type,
-    fileSize: fileArrayBuffer.byteLength,
-  };
+  const fileMeta = createFileMeta(file, fileArrayBuffer);
 
   /**
    * Need to scope the context, otherwise we validate against the entire context,
