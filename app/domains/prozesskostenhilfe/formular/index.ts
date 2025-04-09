@@ -25,6 +25,7 @@ import {
   eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
 } from "~/domains/shared/formular/stringReplacements";
+import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
 import { prozesskostenhilfeFinanzielleAngabeDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
@@ -41,6 +42,8 @@ import {
 } from "./stringReplacements";
 import type { ProzesskostenhilfeWeitereAngabenContext } from "./weitereAngaben/context";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
+
+const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
 
 export const prozesskostenhilfeFormular = {
   flowType: "formFlow",
@@ -181,9 +184,12 @@ export const prozesskostenhilfeFormular = {
                 prozesskostenhilfePersoenlicheDatenDone({
                   context,
                 }),
-              target: "ende",
+              target: showFileUpload ? "dokumente" : "ende",
             },
           },
+          ...(showFileUpload && {
+            dokumente: { on: { BACK: "#weitere-angaben", SUBMIT: "ende" } },
+          }),
           ende: {
             on: {
               BACK: "#weitere-angaben",
