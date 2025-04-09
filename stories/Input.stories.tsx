@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { remixContext } from "../.storybook/remixContext";
 import Input from "../app/components/inputs/Input";
+import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 
 const meta = {
   title: "Component/Input",
@@ -28,7 +29,14 @@ export const Default: Story = {
     helperText: undefined,
     width: undefined,
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      remixContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };
 
 export const WithPrefix: Story = {
@@ -38,7 +46,14 @@ export const WithPrefix: Story = {
     formId: "formId",
     prefix: "€",
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      remixContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };
 
 export const WithSuffix: Story = {
@@ -48,7 +63,14 @@ export const WithSuffix: Story = {
     formId: "formId",
     suffix: "€",
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      remixContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };
 
 export const WithHelperText: Story = {
@@ -58,5 +80,12 @@ export const WithHelperText: Story = {
     formId: "formId",
     helperText: "Helper",
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      remixContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };

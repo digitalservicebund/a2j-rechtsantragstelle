@@ -6,6 +6,7 @@ import FilesUpload from "~/components/filesUpload/FilesUpload";
 import { splitFieldName } from "~/services/upload/fileUploadHelpers";
 import { TranslationContext } from "~/services/translations/translationsContext";
 import { PDFFileMetadata, TEN_MB_IN_BYTES } from "~/util/file/pdfFileSchema";
+import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 
 const meta = {
   title: "Component/FilesUpload",
@@ -54,7 +55,11 @@ export const Default: Story = {
         }}
       >
         {remixContext(
-          Story,
+          () => (
+            <RFCFormerProvider>
+              <Story />
+            </RFCFormerProvider>
+          ),
           () => ({ csrf: "csrf" }),
           async ({ request }: ActionFunctionArgs) => {
             const formData = await request.formData();

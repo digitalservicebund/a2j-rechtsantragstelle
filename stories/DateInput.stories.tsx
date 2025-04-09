@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import DateInput from "../app/components/inputs/DateInput";
 import { remixContext } from "../.storybook/remixContext";
+import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 
 const meta = {
   title: "Component/DateInput",
@@ -21,5 +22,12 @@ export const Default: Story = {
     label: "Geburtsdatum",
     formId: "formId",
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      remixContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };

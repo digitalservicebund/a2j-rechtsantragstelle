@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { remixContext } from "../.storybook/remixContext";
 import Select from "../app/components/inputs/Select";
+import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 
 const meta = {
   title: "Component/Select",
@@ -27,7 +28,14 @@ export const Default: Story = {
     placeholder: undefined,
     errorMessages: undefined,
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      remixContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };
 
 export const WithPlaceholder: Story = {
@@ -41,5 +49,12 @@ export const WithPlaceholder: Story = {
     ],
     placeholder: "Placeholder",
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      remixContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };
