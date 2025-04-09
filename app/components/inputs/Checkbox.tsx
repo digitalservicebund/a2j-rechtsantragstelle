@@ -10,7 +10,6 @@ export enum CheckboxValue {
 
 export type CheckboxProps = Readonly<{
   name: string;
-  value?: string; // Defaults to "on", see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input/checkbox#value
   label?: string;
   formId?: string;
   required?: boolean;
@@ -19,7 +18,6 @@ export type CheckboxProps = Readonly<{
 
 const Checkbox = ({
   name,
-  value = CheckboxValue.on,
   label,
   required = false,
   errorMessage,
@@ -31,9 +29,8 @@ const Checkbox = ({
   // HTML Forms do not send unchecked checkboxes.
   // For server-side validation we need a same-named hidden field
   // For front-end validation, we need to hide that field if checkbox is checked
-  // const alreadyChecked = defaultValue === value
   const [renderHiddenField, setRenderHiddenField] = useState(
-    (field.defaultValue() as string) !== value,
+    (field.defaultValue() as CheckboxValue) !== CheckboxValue.on,
   );
   const [jsAvailable, setJsAvailable] = useState(false);
   useEffect(() => setJsAvailable(true), []);
@@ -45,16 +42,15 @@ const Checkbox = ({
           <input type="hidden" name={name} value={CheckboxValue.off} />
         )}
         <input
-          {...field.getInputProps({
-            type: "checkbox",
-            id: name,
-            value: field.defaultValue() as string,
-          })}
+          type="checkbox"
+          id={name}
+          name={name}
+          defaultChecked={field.defaultValue() === CheckboxValue.on}
+          value={CheckboxValue.on}
           className={className}
           aria-describedby={field.error() ? errorId : undefined}
           onClick={() => setRenderHiddenField(!renderHiddenField)}
           required={required}
-          defaultChecked={field.defaultValue() === value}
         />
 
         {label && (
