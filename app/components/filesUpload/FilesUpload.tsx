@@ -9,6 +9,7 @@ import { type ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
 import { type Context } from "~/domains/contexts";
 import {
+  errorStyling,
   fileUploadLimit,
   type PDFFileMetadata,
 } from "~/util/file/pdfFileSchema";
@@ -52,8 +53,8 @@ const FilesUpload = ({
 
   useEffect(() => setJsAvailable(true), []);
 
-  const classes = classNames("w-full bg-white p-16", {
-    "!bg-red-200 border border-red-900": !!error,
+  const classes = classNames("w-full bg-white p-16 flex flex-col gap-16", {
+    [errorStyling]: !!error,
   });
 
   const showAddMoreButton =
@@ -74,7 +75,7 @@ const FilesUpload = ({
       <NoscriptWrapper jsAvailable={jsAvailable}>
         <div data-testid={`files-upload-${name}`} className={classes}>
           <FilesUploadHeader title={title} description={description} />
-          <div className="w-full flex flex-col gap-24">
+          <div className="w-full flex flex-col gap-16">
             {items.map((value, index) => {
               const inputName = `${name}[${index}]`;
               return (
@@ -96,6 +97,10 @@ const FilesUpload = ({
               />
             )}
           </div>
+          {items.length === fileUploadLimit &&
+            inlineNotices?.map((inlineNotice) => (
+              <InlineNotice key={inlineNotice.title} {...inlineNotice} />
+            ))}
         </div>
         {shouldSubmitEmptyArray && (
           <input type="hidden" name={"arrayPostfix"} value={name} />
@@ -103,9 +108,6 @@ const FilesUpload = ({
         <InputError id={errorId}>
           {errorMessages?.find((err) => err.code === error)?.text ?? error}
         </InputError>
-        {inlineNotices?.map((inlineNotice) => (
-          <InlineNotice key={inlineNotice.title} {...inlineNotice} />
-        ))}
       </NoscriptWrapper>
     )
   );
