@@ -192,7 +192,7 @@ export const prozesskostenhilfeFormular = {
           }),
           ende: {
             on: {
-              BACK: "#weitere-angaben",
+              BACK: showFileUpload ? "dokumente" : "#weitere-angaben",
             },
           },
         },
