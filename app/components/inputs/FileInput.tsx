@@ -32,7 +32,7 @@ export const FileInput = ({
   const errorId = `${name}-error`;
 
   const inputClasses = classNames(
-    "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary w-full",
+    "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary file:ds-button-large w-full",
     {
       "w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer":
         jsAvailable,
@@ -66,7 +66,7 @@ export const FileInput = ({
       ) : (
         <label htmlFor={name} className={"flex flex-col md:flex-row"}>
           {jsAvailable ? (
-            <div className="ds-button ds-button-tertiary">
+            <div className="ds-button ds-button-tertiary ds-button-large">
               <span className="ds-button-label">
                 {splitFieldName(name).inputIndex === 0
                   ? translations?.select
