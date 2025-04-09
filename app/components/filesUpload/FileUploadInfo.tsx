@@ -1,7 +1,7 @@
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import InsertFileIcon from "@digitalservicebund/icons/InsertDriveFile";
 import classNames from "classnames";
-import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { errorStyling, type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { bytesToMegabytesString } from "../../services/upload/bytesToMegabytesString";
 import Button from "../Button";
 
@@ -23,10 +23,10 @@ export const FileUploadInfo = ({
   hasError,
 }: FileUploadInfoProps) => {
   const classes = classNames(
-    "w-full md:h-64 flex flex-col md:flex-row justify-between items-start md:items-center py-16 md:py-0 px-16 my-14",
+    "w-full md:h-64 flex flex-col md:flex-row justify-between items-start md:items-center py-16 md:py-0 px-16",
     {
       "bg-gray-100": !hasError,
-      "bg-red-200 border border-red-900": hasError,
+      [errorStyling]: hasError,
     },
   );
 
