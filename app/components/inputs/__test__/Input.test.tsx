@@ -1,29 +1,16 @@
 import { render, screen } from "@testing-library/react";
-import * as remixValidatedForm from "remix-validated-form";
 import type { InputProps } from "../Input";
 import Input from "../Input";
 
-vi.mock("remix-validated-form", () => ({
-  useField: vi.fn(),
-}));
-
-beforeEach(() => {
-  vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
-    error: undefined,
+vi.mock("@rvf/remix", () => ({
+  useField: () => ({
     getInputProps: vi.fn().mockReturnValue({
       id: "inputId",
       placeholder: "Any placeholder",
     }),
-    clearError: vi.fn(),
-    validate: vi.fn(),
-    touched: false,
-    setTouched: vi.fn(),
-  });
-});
-
-afterEach(() => {
-  vi.restoreAllMocks(); // This clears all mocks after each test
-});
+    error: vi.fn(),
+  }),
+}));
 
 describe("Input", () => {
   const cases = [

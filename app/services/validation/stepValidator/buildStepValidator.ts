@@ -1,4 +1,4 @@
-import { withZod } from "@remix-validated-form/with-zod";
+import { withZod } from "@rvf/zod";
 import { z } from "zod";
 import type { FunctionMultiFieldsValidation } from "~/domains/multiFieldsFlowValidation";
 import { isKeyOfObject } from "~/util/objects";

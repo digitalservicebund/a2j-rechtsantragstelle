@@ -1,11 +1,11 @@
 import { createRemixStub } from "@remix-run/testing";
+import { useField } from "@rvf/remix";
 import { fireEvent, render, waitFor } from "@testing-library/react";
-import * as remixValidatedForm from "remix-validated-form";
 import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
 import * as useDataListOptions from "~/components/inputs/autoSuggestInput/useDataListOptions";
 import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
-vi.mock("remix-validated-form", () => ({
+vi.mock("@rvf/remix", () => ({
   useField: vi.fn(),
 }));
 
@@ -14,16 +14,31 @@ const COMPONENT_NAME = "test-autoSuggestInput";
 const PLACEHOLDER_MOCK = "Test Placeholder";
 
 beforeEach(() => {
-  vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
-    error: undefined,
+  vi.mocked(useField).mockReturnValue({
     getInputProps: vi.fn().mockReturnValue({
       id: COMPONENT_NAME,
       placeholder: PLACEHOLDER_MOCK,
     }),
-    clearError: vi.fn(),
-    validate: mockedValidate,
-    touched: false,
+    error: vi.fn().mockReturnValue(undefined),
+    getControlProps: vi.fn(),
+    getHiddenInputProps: vi.fn(),
+    refs: {
+      controlled: vi.fn(),
+      transient: vi.fn(),
+    },
+    name: vi.fn(),
+    onChange: vi.fn(),
+    onBlur: vi.fn(),
+    value: vi.fn(),
+    setValue: vi.fn(),
+    defaultValue: vi.fn(),
+    touched: vi.fn(),
     setTouched: vi.fn(),
+    dirty: vi.fn(),
+    setDirty: vi.fn(),
+    clearError: vi.fn(),
+    reset: vi.fn(),
+    validate: mockedValidate,
   });
 
   vi.spyOn(useDataListOptions, "default").mockReturnValue(

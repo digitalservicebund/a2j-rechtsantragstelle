@@ -1,10 +1,7 @@
 import { useActionData } from "@remix-run/react";
+import { useField, type ValidationErrorResponseData } from "@rvf/remix";
 import classNames from "classnames";
 import { useState, useEffect } from "react";
-import {
-  useField,
-  type ValidationErrorResponseData,
-} from "remix-validated-form";
 import { type ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
 import { type Context } from "~/domains/contexts";
@@ -28,7 +25,6 @@ export type FilesUploadProps = {
 const FilesUpload = ({
   name,
   title,
-  formId,
   description,
   inlineNotices,
   errorMessages,
@@ -37,12 +33,13 @@ const FilesUpload = ({
   const response = useActionData<
     ValidationErrorResponseData | Context | undefined
   >();
-  const { defaultValue, error } = useField(name, { formId });
-  const items: Array<PDFFileMetadata | undefined> =
-    (response?.repopulateFields as Context | undefined)?.[name] ??
+  const field = useField(name);
+  const items: Array<PDFFileMetadata | undefined> = ((
+    response?.repopulateFields as Context | undefined
+  )?.[name] ??
     (response as Context | undefined)?.[name] ??
-    defaultValue ??
-    [];
+    field.defaultValue() ??
+    []) as Array<PDFFileMetadata | undefined>;
   const scopedErrors = Object.fromEntries(
     Object.entries(response?.fieldErrors ?? {}).filter(
       ([key]) => key.split("[")[0] === name,
@@ -53,7 +50,7 @@ const FilesUpload = ({
   useEffect(() => setJsAvailable(true), []);
 
   const classes = classNames("w-full bg-white p-16", {
-    "!bg-red-200 border border-red-900": !!error,
+    "!bg-red-200 border border-red-900": !!field.error(),
   });
 
   const showAddMoreButton =
@@ -101,7 +98,8 @@ const FilesUpload = ({
           <input type="hidden" name={"arrayPostfix"} value={name} />
         )}
         <InputError id={errorId}>
-          {errorMessages?.find((err) => err.code === error)?.text ?? error}
+          {errorMessages?.find((err) => err.code === field.error())?.text ??
+            field.error()}
         </InputError>
         {inlineNotices?.map((inlineNotice) => (
           <InlineNotice key={inlineNotice.title} {...inlineNotice} />
