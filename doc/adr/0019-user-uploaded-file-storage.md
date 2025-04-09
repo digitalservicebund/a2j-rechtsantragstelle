@@ -7,6 +7,7 @@
 - 2025-01-22: Edited (Renumbered from `0015`)
 - 2025-01-27: Edited (Added TTL, clarified retrieval)
 - 2025-04-04: Edited (Added chronological status)
+- 2025-04-08: Edited (Added Bucket Flooding section)
 
 ## Context
 
@@ -17,7 +18,7 @@ When users fill out an Antrag, oftentimes they will need to upload additional do
 
 ## Proposal
 
-We store the actual file in bucket storage, and the accompanying metadata along with the user's session data in Redis. The flow might look someting like this:
+We store the actual file in bucket storage, and the accompanying metadata along with the user's session data in Redis. The flow might look something like this:
 
 1. User clicks upload button. API request to bucket storage is made with the file and session ID/some hash of the current session to link the two together.
    1. Upon failure, display error to user
@@ -35,6 +36,11 @@ To think about later:
 
 - [Redis Pub/Sub client listening to EXPIRY events](https://redis.io/docs/latest/develop/use/keyspace-notifications/#timing-of-expired-events); upon EXPIRY, delete any associated files in bucket storage
   - Could live in the app as a singleton service that listens to Redis expiration events
+
+## S3 Flooding
+
+We tested accessing an existing and a no-existing file in production. For the existing one we got InvalidArgument error and for no-existing file we got Access Denied. After some research for a solution, we found one lead but it would mean changing the bucket's default settings.
+After some consideration, we decided to keep it as it is right now (trying to access an existing file might expose users data) until we find a better solution.
 
 ## Alternatives considered
 
