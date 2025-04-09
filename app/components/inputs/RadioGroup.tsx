@@ -1,5 +1,6 @@
 import { useField } from "@rvf/remix";
 import { type ReactNode, useState } from "react";
+import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
 import Radio from "./Radio";
@@ -26,6 +27,7 @@ const RadioGroup = ({
   const field = useField(name);
 
   const errorId = `${name}-error`;
+  const hasError = !isFieldEmptyOrUndefined(field.error() ?? "");
   const errorToDisplay =
     errorMessages?.find((err) => err.code === field.error())?.text ??
     field.error();
@@ -38,9 +40,9 @@ const RadioGroup = ({
   return (
     <fieldset
       className="border-0 p-0 m-0"
-      aria-invalid={field.error() !== undefined}
-      aria-describedby={field.error() ? errorId : undefined}
-      aria-errormessage={field.error() ? errorId : undefined}
+      aria-invalid={hasError}
+      aria-describedby={hasError ? errorId : undefined}
+      aria-errormessage={hasError ? errorId : undefined}
     >
       {altLabel && <legend className="sr-only">{altLabel}</legend>}
       {renderHiddenField && <input type="hidden" name={name} />}
@@ -54,7 +56,7 @@ const RadioGroup = ({
             text={o.text}
             onClick={() => setRenderHiddenField(false)}
             // Only assign the ref to the first radio button (https://www.w3.org/WAI/ARIA/apg/patterns/radio/)
-            ref={index === 0 ? field.refs.controlled() : null}
+            ref={index === 0 && hasError ? field.refs.controlled() : null}
           />
         ))}
         {errorToDisplay && (
