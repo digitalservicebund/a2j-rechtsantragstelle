@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStringField } from "~/services/validation/useStringField";
 import InputError from "./InputError";
 import RichText from "../RichText";
@@ -25,8 +25,10 @@ const Checkbox = ({
   required = false,
   errorMessage,
 }: CheckboxProps) => {
+  const checkboxRef = useRef<HTMLInputElement>(null);
   const { error, getInputProps, defaultValue } = useStringField(name, {
     formId,
+    handleReceiveFocus: () => checkboxRef.current?.focus(),
   });
   const errorId = `${name}-error`;
   const className = `ds-checkbox forced-colors:outline forced-colors:border-[ButtonText] ${error ? "has-error" : ""}`;
@@ -51,6 +53,7 @@ const Checkbox = ({
           className={className}
           aria-describedby={error && errorId}
           onClick={() => setRenderHiddenField(!renderHiddenField)}
+          ref={checkboxRef}
           required={required}
           defaultChecked={defaultValue === value}
         />
