@@ -35,7 +35,6 @@ describe("Select", () => {
           options={[]}
           width={widthProps as SelectProps["width"]}
           label="Test Label"
-          formId="formId"
         />,
       );
 
@@ -52,7 +51,6 @@ describe("Select", () => {
           name="select"
           options={[]}
           label="Test Label"
-          formId="formId"
           errorMessages={[{ code: "required", text: "error" }]}
         />,
       );
@@ -66,7 +64,6 @@ describe("Select", () => {
           name="select"
           options={[]}
           label="Test Label"
-          formId="formId"
           errorMessages={undefined}
         />,
       );
@@ -75,14 +72,7 @@ describe("Select", () => {
     });
 
     it("should have class name for the high contrast mode", () => {
-      render(
-        <Select
-          name="select"
-          options={[]}
-          label="Test Label"
-          formId="formId"
-        />,
-      );
+      render(<Select name="select" options={[]} label="Test Label" />);
       const element = screen.getByRole("combobox");
       expect(element).toHaveClass("forced-color-adjust-none");
     });

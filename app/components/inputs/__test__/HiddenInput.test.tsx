@@ -11,9 +11,7 @@ vi.mock("@rvf/remix", () => ({
 
 describe("HiddenInput", () => {
   it("should render an input hidden", () => {
-    const { getByRole } = render(
-      <HiddenInput name="hiddenInput" formId="formId" />,
-    );
+    const { getByRole } = render(<HiddenInput name="hiddenInput" />);
 
     expect(getByRole("textbox", { hidden: true })).toBeInTheDocument();
   });

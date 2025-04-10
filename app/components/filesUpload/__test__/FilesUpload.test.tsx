@@ -60,7 +60,7 @@ const renderFilesUpload = ({ ...args }: Partial<FilesUploadProps> = {}) =>
       router={createMemoryRouter([
         {
           path: "/",
-          element: <FilesUpload name={fieldName} formId="formId" {...args} />,
+          element: <FilesUpload name={fieldName} {...args} />,
         },
       ])}
     />,

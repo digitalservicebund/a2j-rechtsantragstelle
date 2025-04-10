@@ -20,7 +20,6 @@ export const Default: Story = {
   args: {
     name: "input",
     label: "Lorem ipsum dolor sit amet",
-    formId: "formId",
     type: "text",
     placeholder: "placeholder",
     prefix: undefined,
@@ -43,7 +42,6 @@ export const WithPrefix: Story = {
   args: {
     name: "input",
     label: "Lorem ipsum dolor sit amet",
-    formId: "formId",
     prefix: "€",
   },
   decorators: [
@@ -60,7 +58,6 @@ export const WithSuffix: Story = {
   args: {
     name: "input",
     label: "Lorem ipsum dolor sit amet",
-    formId: "formId",
     suffix: "€",
   },
   decorators: [
@@ -77,7 +74,6 @@ export const WithHelperText: Story = {
   args: {
     name: "input",
     label: "Lorem ipsum dolor sit amet",
-    formId: "formId",
     helperText: "Helper",
   },
   decorators: [

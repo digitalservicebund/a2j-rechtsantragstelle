@@ -33,9 +33,7 @@ describe("Textarea component", () => {
       placeholder: "Test Placeholder",
     }));
 
-    render(
-      <Textarea name={componentName} label="Test Label" formId="formId" />,
-    );
+    render(<Textarea name={componentName} label="Test Label" />);
 
     const element = screen.getByRole("textbox");
     const elementByLabel = screen.getByLabelText("Test Label");
@@ -57,7 +55,6 @@ describe("Textarea component", () => {
         name="test-textarea"
         label="Test Label"
         description="Test Description"
-        formId="formId"
       />,
     );
 
@@ -78,7 +75,6 @@ describe("Textarea component", () => {
           title: "Text-Beispiel",
           content: "Lorem ipsum",
         }}
-        formId="formId"
       />,
     );
     const accordion = screen.getByText("Text-Beispiel");
@@ -92,7 +88,6 @@ describe("Textarea component", () => {
       <Textarea
         name="test"
         errorMessages={[{ code: "required", text: "error" }]}
-        formId="formId"
       />,
     );
 
@@ -130,7 +125,6 @@ describe("Textarea component", () => {
       <Textarea
         name="componentName"
         label="Test Label"
-        formId="formId"
         maxLength={maxLength}
       />,
     );
@@ -145,7 +139,6 @@ describe("Textarea component", () => {
         <Textarea
           name="test"
           errorMessages={[{ code: "required", text: "error" }]}
-          formId="formId"
         />,
       );
       const element = screen.getByRole("textbox");
@@ -153,9 +146,7 @@ describe("Textarea component", () => {
     });
 
     it("has aria-required attribute set to false if errorMessages do not contain inputRequired", () => {
-      render(
-        <Textarea name="test" errorMessages={undefined} formId="formId" />,
-      );
+      render(<Textarea name="test" errorMessages={undefined} />);
       const element = screen.getByRole("textbox");
       expect(element).toHaveAttribute("aria-required", "false");
     });

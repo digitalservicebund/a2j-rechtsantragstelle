@@ -17,7 +17,6 @@ import { FileInput } from "../inputs/FileInput";
 export type FilesUploadProps = {
   name: string;
   title?: string;
-  formId?: string;
   description?: string;
   inlineNotices?: InlineNoticeProps[];
   errorMessages?: ErrorMessageProps[];

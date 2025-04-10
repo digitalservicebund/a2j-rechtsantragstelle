@@ -14,7 +14,6 @@ export type RadioGroupProps = Readonly<{
   label?: ReactNode;
   altLabel?: string;
   errorMessages?: ErrorMessageProps[];
-  formId?: string;
 }>;
 
 const RadioGroup = ({

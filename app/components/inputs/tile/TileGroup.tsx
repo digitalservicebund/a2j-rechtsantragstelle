@@ -12,7 +12,6 @@ export type TileGroupProps = Readonly<{
   altLabel?: string;
   errorMessages?: ErrorMessageProps[];
   useTwoColumns?: boolean;
-  formId?: string;
 }>;
 
 const TileGroup = ({
@@ -22,7 +21,6 @@ const TileGroup = ({
   altLabel,
   errorMessages,
   useTwoColumns,
-  formId,
 }: TileGroupProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -59,7 +57,6 @@ const TileGroup = ({
             tagDescription={tagDescription}
             image={image}
             title={title}
-            formId={formId}
           />
         ))}
       </div>

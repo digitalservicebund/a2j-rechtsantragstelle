@@ -14,7 +14,6 @@ export type SelectProps = {
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
   width?: "16" | "24" | "36" | "54";
-  formId?: string;
 };
 
 const Select = ({

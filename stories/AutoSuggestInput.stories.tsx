@@ -22,7 +22,6 @@ function getDataListValues<T extends { dataList?: any }>(
 
 const defaulType: AutoSuggestInputProps = {
   name: "autoSuggestInput",
-  formId: "formId",
   label: "Airports",
   noSuggestionMessage: "No data selected",
   errorMessages: undefined,

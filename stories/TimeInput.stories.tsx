@@ -20,7 +20,6 @@ export const Default: Story = {
   args: {
     name: "arrivalTime",
     label: "arrival time",
-    formId: "formId",
     width: "5",
     helperText: "Please write in HH:MM format",
   },

@@ -19,7 +19,6 @@ type TileProps = TileOptions &
   Readonly<{
     name: string;
     onClick: () => void;
-    formId?: string;
   }>;
 
 const TileRadio = ({

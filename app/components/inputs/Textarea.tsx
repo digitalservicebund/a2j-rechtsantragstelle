@@ -19,7 +19,6 @@ export type TextareaProps = Readonly<{
   placeholder?: string;
   maxLength?: number;
   errorMessages?: ErrorMessageProps[];
-  formId?: string;
   classNameLabel?: string;
   role?: AriaRole;
   innerRef?: React.Ref<HTMLTextAreaElement>;

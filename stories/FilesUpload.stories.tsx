@@ -37,7 +37,6 @@ export const Default: Story = {
   args: {
     name: fieldName,
     title: "Upload your files",
-    formId: "formId",
   },
   decorators: [
     (Story) => (

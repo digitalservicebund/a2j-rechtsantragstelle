@@ -20,7 +20,6 @@ export const Default: Story = {
   args: {
     name: "textarea",
     label: "Lorem ipsum dolor sit amet",
-    formId: "formId",
   },
   decorators: [
     (Story) =>
@@ -37,7 +36,6 @@ export const WithDescription: Story = {
     name: "textarea",
     description: "Lorem **ipsum**\n\n* _Lorem ipsum_\n* _Lorem ipsum_",
     label: "Lorem ipsum dolor sit amet",
-    formId: "formId",
   },
   decorators: [
     (Story) =>
@@ -57,7 +55,6 @@ export const Withdetails: Story = {
       content: "Lorem ipsum",
     },
     label: "Lorem ipsum dolor sit amet",
-    formId: "formId",
   },
   decorators: [
     (Story) =>

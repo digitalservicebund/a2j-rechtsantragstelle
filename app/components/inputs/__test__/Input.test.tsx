@@ -38,7 +38,6 @@ describe("Input", () => {
           name="input"
           width={widthProps as InputProps["width"]}
           label="Test Label"
-          formId="formId"
         />,
       );
 
@@ -55,7 +54,6 @@ describe("Input", () => {
           name="input"
           width="54"
           label="Test Label"
-          formId="formId"
           helperText="Test Helper Text"
         />,
       );
@@ -74,7 +72,6 @@ describe("Input", () => {
               text: "Bitte geben Sie eine gültige Uhrzeit ein.",
             },
           ]}
-          formId="formId"
         />,
       );
       const element = screen.getByRole("textbox");
@@ -82,7 +79,7 @@ describe("Input", () => {
     });
 
     it("has aria-required attribute set to false if errorMessages do not contain inputRequired", () => {
-      render(<Input name="test" errorMessages={undefined} formId="formId" />);
+      render(<Input name="test" errorMessages={undefined} />);
       const element = screen.getByRole("textbox");
       expect(element).toHaveAttribute("aria-required", "false");
     });

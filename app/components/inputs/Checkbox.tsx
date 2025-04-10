@@ -11,7 +11,6 @@ export enum CheckboxValue {
 export type CheckboxProps = Readonly<{
   name: string;
   label?: string;
-  formId?: string;
   required?: boolean;
   errorMessage?: string;
 }>;

@@ -17,7 +17,6 @@ export type InputProps = Readonly<{
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
   width?: FieldWidth;
-  formId?: string;
   helperText?: string;
 }>;
 

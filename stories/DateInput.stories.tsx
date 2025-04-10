@@ -20,7 +20,6 @@ export const Default: Story = {
   args: {
     name: "birthday",
     label: "Geburtsdatum",
-    formId: "formId",
   },
   decorators: [
     (Story) =>

@@ -35,7 +35,6 @@ export type AutoSuggestInputProps = Readonly<{
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
   width?: FieldWidth;
-  formId?: string;
   noSuggestionMessage?: string;
   dataList: DataListType;
   isDisabled: boolean;
