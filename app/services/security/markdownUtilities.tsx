@@ -3,6 +3,7 @@ import { renderToString } from "react-dom/server";
 import * as xssImport from "xss";
 import { openInNewAllowedAttributes } from "~/components/OpenInNewTabIcon";
 import { StandaloneLink } from "~/components/StandaloneLink";
+import { mustachePlaceholderRegex } from "./mustachePlaceholder";
 
 // Note: type recast of import due to wrong default type export
 const xss = xssImport.default as unknown as typeof xssImport;
@@ -28,16 +29,13 @@ const allowList = {
   ...openInNewAllowedAttributes,
 };
 
-// Mustache template placeholders
-export const PLACEHOLDER_REGEX = /^\{{2,3}[a-zA-Z0-9._-]+\}{2,3}$/;
-
 const sanitizer = new xss.FilterXSS({
   allowList,
   stripIgnoreTagBody: true,
   onTagAttr: (tag, name, value) => {
     // Allow hrefs that use template placeholders like {{courtWebsite}} or {{{courtWebsite}}}
     const ahref = tag === "a" && name === "href";
-    if (ahref && PLACEHOLDER_REGEX.test(value)) {
+    if (ahref && mustachePlaceholderRegex.test(value)) {
       return `${name}="${value}"`;
     }
   },
@@ -57,6 +55,7 @@ const defaultRenderer: Partial<Renderer> = {
   },
 } as const;
 
+// TODO: refactor to split into markdown service
 export function parseAndSanitizeMarkdown(
   markdown: string,
   renderer: Partial<Renderer> = defaultRenderer,

@@ -1,7 +1,7 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render } from "@testing-library/react";
-import { FeedbackType } from "~/components/userFeedback";
 import { FEEDBACK_FIELD_NAME, FeedbackFormBox } from "../FeedbackFormBox";
+import { FeedbackType } from "../FeedbackType";
 
 const SUBMIT_BUTTON_FEEDBACK = "Submit button";
 
