@@ -11,7 +11,6 @@ import {
   stateIsDone,
   type NavState,
 } from "~/services/navigation/navState";
-// eslint-disable-next-line import/no-cycle
 import { NavigationList, type NavigationA11yLabels } from "./NavigationList";
 
 export type NavItem = {
