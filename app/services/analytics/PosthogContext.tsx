@@ -23,10 +23,10 @@ export function usePosthog() {
   return {
     posthog,
     cookieHeader,
+    /**
+     * Surveys aren't yet supported in the NodeJS PostHog SDK, so we have to fall back to the JS version :/
+     */
     fetchSurvey: (surveyId: string = feedbackSurveyId) => {
-      /**
-       * Surveys aren't yet supported in the NodeJS PostHog SDK, so we have to fall back to the JS version :/
-       */
       if (!posthogJS.__loaded) {
         posthogJS.init(posthog?.apiKey ?? "", {
           api_host: posthog?.host,

@@ -6,15 +6,6 @@ import { isFeatureFlagEnabled } from "../index";
 
 type PartialPostHogParams = Partial<PostHog & PostHogOptions>;
 
-// Mock the PostHog module
-vi.mock("posthog-node", () => {
-  return {
-    PostHog: vi.fn(() => ({
-      isFeatureEnabled: vi.fn(),
-    })),
-  };
-});
-
 // Mock the config module
 vi.mock("~/services/env/web", () => ({
   config: vi.fn(),
