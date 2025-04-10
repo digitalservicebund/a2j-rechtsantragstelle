@@ -209,16 +209,22 @@ const AutoSuggestInput = ({
         onBlur={() => {
           // call the validation only if an option was selected
           if (optionWasSelected) {
-            field.validate();
             setOptionWasSelected(false);
+
+            if (hasError) {
+              field.validate();
+            }
           }
         }}
         onChange={(newValue, { action }) => {
-          field.validate();
           // remix remove the focus on the input when clicks with the keyboard to clear the value, so we need to force the focus again
           setOptionWasSelected(action === "select-option");
           if (action === "clear" || action === "select-option") {
             focusOnInput(inputId);
+            // TODO: check later why the field.validate() is validating all the fields in the form
+            if (hasError) {
+              field.validate();
+            }
           }
           setCurrentItemValue(newValue);
         }}

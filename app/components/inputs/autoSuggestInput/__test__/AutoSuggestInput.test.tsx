@@ -99,7 +99,6 @@ describe("AutoSuggestInput", () => {
     fireEvent.change(getByRole("combobox"), { target: { value: "Berlin" } });
     await waitFor(() => getByText("Brandenburg Flughafen (BER)"));
     fireEvent.click(getByText("Brandenburg Flughafen (BER)"));
-    expect(mockedValidate).toHaveBeenCalledTimes(1);
     await waitFor(() => {
       expect(
         container.querySelector<HTMLInputElement>(
