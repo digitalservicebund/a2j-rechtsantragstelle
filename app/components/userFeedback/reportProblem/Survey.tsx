@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { posthog, SurveyQuestionType, type Survey } from "posthog-js";
+import { posthog, type Survey, SurveyQuestionType } from "posthog-js";
 import { type ElementType, useState } from "react";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
@@ -9,7 +9,7 @@ import { MultipleChoiceQuestion } from "~/components/userFeedback/reportProblem/
 import { OpenQuestion } from "~/components/userFeedback/reportProblem/OpenQuestion";
 
 type PosthogSurveyProps = {
-  survey: Survey;
+  survey: Pick<Survey, "id" | "questions">;
   closeSurvey: () => void;
   styleOverrides?: string;
 };

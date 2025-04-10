@@ -1,29 +1,18 @@
 import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
-import { posthog, type Survey } from "posthog-js";
+import { type Survey } from "posthog-js";
 import { useEffect, useState } from "react";
 import Button from "~/components/Button";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import { PosthogSurvey } from "~/components/userFeedback/reportProblem/Survey";
-import { fetchSurvey } from "~/services/analytics/posthogHelpers";
-import { config } from "~/services/env/web";
+import { usePosthog } from "~/services/analytics/PosthogContext";
 
 export const ReportProblem = () => {
   const feedbackTranslations = useFeedbackTranslations();
-  const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
-  const [survey, setSurvey] = useState<Survey>();
+  const { fetchSurvey } = usePosthog();
+  const [survey, setSurvey] = useState<Pick<Survey, "id" | "questions">>();
   const [surveyOpen, setSurveyOpen] = useState<boolean>();
 
   useEffect(() => {
-    if (!posthog.__loaded) {
-      if (POSTHOG_API_KEY) {
-        posthog.init(POSTHOG_API_KEY, {
-          api_host: POSTHOG_API_HOST,
-          loaded: () => {
-            setSurvey(fetchSurvey());
-          },
-        });
-      }
-    }
     setSurvey(fetchSurvey());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

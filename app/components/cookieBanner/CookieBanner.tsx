@@ -42,8 +42,7 @@ export function CookieBanner({
     };
 
     captureConsent().catch((reason) => {
-      console.log("failed :(");
-      console.error(reason);
+      throw Error(reason);
     });
   }, [location, hasTrackingConsent, posthog]);
 
