@@ -1,6 +1,7 @@
 import { createSession, type Session } from "@remix-run/node";
 import { describe, test, expect } from "vitest";
-import { BannerState, FeedbackType } from "~/components/userFeedback";
+import { BannerState } from "~/components/userFeedback";
+import { FeedbackType } from "~/components/userFeedback/FeedbackType";
 import {
   bannerStateName,
   userRatingFieldName,

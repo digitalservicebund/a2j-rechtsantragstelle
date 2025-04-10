@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
 import Textarea from "~/components/inputs/Textarea";
-import { FeedbackType } from "~/components/userFeedback";
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
+import { FeedbackType } from "./FeedbackType";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 
