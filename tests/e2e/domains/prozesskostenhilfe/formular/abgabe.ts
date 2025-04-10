@@ -1,7 +1,11 @@
 import type { Page, Response } from "@playwright/test";
 import { expect } from "@playwright/test";
+import { type Formular } from "../../shared/Formular";
 
-export async function startAbgabe(page: Page) {
+export async function startAbgabe(page: Page, formular: Formular) {
+  // prozesskostenhilfe/abgabe/dokumente
+  await formular.clickNext();
+
   // prozesskostenhilfe/antrag/abgabe/ende
   // Observe context for requests to /download/pdf
   let newTabResponse: Response | undefined;
