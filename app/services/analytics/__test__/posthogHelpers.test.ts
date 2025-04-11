@@ -15,12 +15,12 @@ vi.mock("cookie", () => ({
 describe("posthogHelpers", () => {
   describe("idFromCookie", () => {
     it("should return ENVIRONMENT if POSTHOG_API_KEY is unavailable", () => {
-      expect(idFromCookie("cookieString")).toBe("local");
+      expect(idFromCookie("cookieString")).toBe("client-local");
     });
 
     it("should return ENVIRONMENT if the posthog cookie's distinct_id is undefined", () => {
       mockAPIKey = "mockAPIKey";
-      expect(idFromCookie("cookieString")).toBe("local");
+      expect(idFromCookie("cookieString")).toBe("client-local");
     });
 
     it("should return the posthog cookie's distinct_id", () => {

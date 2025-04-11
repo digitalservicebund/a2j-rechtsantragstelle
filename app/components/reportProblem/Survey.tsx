@@ -3,10 +3,10 @@ import { posthog, type Survey, SurveyQuestionType } from "posthog-js";
 import { type ElementType, useState } from "react";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
-import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
-import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import { MultipleChoiceQuestion } from "~/components/reportProblem/MultipleChoiceQuestion";
 import { OpenQuestion } from "~/components/reportProblem/OpenQuestion";
+import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
+import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 
 type PosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
