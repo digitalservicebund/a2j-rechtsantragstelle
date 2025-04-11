@@ -1,8 +1,8 @@
+import { useState } from "react";
 import { useJsAvailable } from "~/services/useJsAvailabe";
 import { useStringField } from "~/services/validation/useStringField";
 import InputError from "./InputError";
 import RichText from "../RichText";
-import { useState } from "react";
 
 export enum CheckboxValue {
   on = "on",

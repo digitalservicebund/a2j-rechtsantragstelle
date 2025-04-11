@@ -8,7 +8,7 @@ import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
-import { ReportProblem } from "~/components/userFeedback/reportProblem/ReportProblem";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { loader } from "../formular.server";
 
 export function FormFlowPage() {

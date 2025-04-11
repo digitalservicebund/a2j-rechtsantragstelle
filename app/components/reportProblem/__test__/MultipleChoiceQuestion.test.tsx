@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { fireEvent, render } from "@testing-library/react";
 import { type MultipleSurveyQuestion, SurveyQuestionType } from "posthog-js";
-import { MultipleChoiceQuestion } from "~/components/userFeedback/reportProblem/MultipleChoiceQuestion";
+import { MultipleChoiceQuestion } from "~/components/reportProblem/MultipleChoiceQuestion";
 
 const mockSetResponses = vi.fn();
 

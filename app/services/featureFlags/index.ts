@@ -1,4 +1,4 @@
-import { PostHog } from "posthog-node";
+import { getPosthogClient } from "~/services/analytics/posthogClient.server";
 import { config } from "~/services/env/web";
 
 export type FeatureFlag =
@@ -11,11 +11,10 @@ export type FeatureFlag =
   | "showKontopfaendungWegweiserFlow";
 
 export const isFeatureFlagEnabled = async (featureFlag: FeatureFlag) => {
-  const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
   const posthogDistinctId = "backend";
   if (config().ENVIRONMENT !== "production") return true;
-  if (POSTHOG_API_KEY) {
-    const client = new PostHog(POSTHOG_API_KEY, { host: POSTHOG_API_HOST });
-    return await client.isFeatureEnabled(featureFlag, posthogDistinctId);
-  }
+  return await getPosthogClient()?.isFeatureEnabled(
+    featureFlag,
+    posthogDistinctId,
+  );
 };
