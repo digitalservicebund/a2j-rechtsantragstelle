@@ -12,5 +12,5 @@ export const RFCFormerProvider = ({ children }: Props) => {
     validator: withZod(z.object({ name: z.string().optional() })),
   });
 
-  return <FormProvider scope={form.scope()}> {children}</FormProvider>;
+  return <FormProvider scope={form.scope()}>{children}</FormProvider>;
 };
