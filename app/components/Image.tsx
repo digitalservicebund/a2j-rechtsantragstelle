@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 import Svg from "react-inlinesvg";
+import { useJsAvailable } from "~/services/useJsAvailabe";
 
 export type ImageProps = Readonly<{
   url?: string;
@@ -10,8 +10,7 @@ export type ImageProps = Readonly<{
 }>;
 
 function Image({ url, alternativeText, ...props }: ImageProps) {
-  const [jsAvailable, setJsAvailable] = useState(false);
-  useEffect(() => setJsAvailable(true), []);
+  const jsAvailable = useJsAvailable();
 
   if (!url) return null;
 
