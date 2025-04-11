@@ -5,8 +5,8 @@ import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
-import { MultipleChoiceQuestion } from "~/components/userFeedback/reportProblem/MultipleChoiceQuestion";
-import { OpenQuestion } from "~/components/userFeedback/reportProblem/OpenQuestion";
+import { MultipleChoiceQuestion } from "~/components/reportProblem/MultipleChoiceQuestion";
+import { OpenQuestion } from "~/components/reportProblem/OpenQuestion";
 
 type PosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;

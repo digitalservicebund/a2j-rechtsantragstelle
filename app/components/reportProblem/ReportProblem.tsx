@@ -1,21 +1,15 @@
 import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
-import { type Survey } from "posthog-js";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "~/components/Button";
+import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
-import { PosthogSurvey } from "~/components/userFeedback/reportProblem/Survey";
 import { usePosthog } from "~/services/analytics/PosthogContext";
 
 export const ReportProblem = () => {
   const feedbackTranslations = useFeedbackTranslations();
   const { fetchSurvey } = usePosthog();
-  const [survey, setSurvey] = useState<Pick<Survey, "id" | "questions">>();
+  const survey = fetchSurvey();
   const [surveyOpen, setSurveyOpen] = useState<boolean>();
-
-  useEffect(() => {
-    setSurvey(fetchSurvey());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const onButtonPressed = () => {
     if (survey) {

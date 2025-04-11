@@ -2,7 +2,7 @@ import { type BasicSurveyQuestion } from "posthog-js";
 import { type Dispatch, type SetStateAction } from "react";
 import { TEXT_AREA_ROWS } from "~/components/inputs/Textarea";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
-import { type SurveyResponses } from "~/components/userFeedback/reportProblem/Survey";
+import { type SurveyResponses } from "~/components/reportProblem/Survey";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 
 type OpenQuestionProps = {

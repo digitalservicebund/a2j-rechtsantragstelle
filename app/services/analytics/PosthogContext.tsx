@@ -30,6 +30,15 @@ export function usePosthog() {
       if (!posthogJS.__loaded) {
         posthogJS.init(posthog?.apiKey ?? "", {
           api_host: posthog?.host,
+          session_recording: {
+            // Masking input and text elements to prevent sensitive data being shown on pages
+            maskTextSelector: "*",
+            maskAllInputs: true,
+          },
+
+          cross_subdomain_cookie: false, // set cookie for subdomain only
+
+          opt_out_persistence_by_default: true,
           loaded: () => {
             return fetchSurvey(surveyId);
           },
