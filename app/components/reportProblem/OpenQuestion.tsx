@@ -1,9 +1,10 @@
 import { type BasicSurveyQuestion } from "posthog-js";
 import { type Dispatch, type SetStateAction } from "react";
 import { TEXT_AREA_ROWS } from "~/components/inputs/Textarea";
-import { type SurveyResponses } from "~/components/reportProblem/Survey";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
+
+export type SurveyResponses = Record<string, string | string[]>;
 
 type OpenQuestionProps = {
   question: BasicSurveyQuestion;
