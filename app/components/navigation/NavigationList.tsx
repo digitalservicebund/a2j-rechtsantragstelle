@@ -1,5 +1,4 @@
 import { type MobileNavigationLabels } from "~/components/navigation/SideNavMobile";
-// eslint-disable-next-line import/no-cycle
 import { NavItem } from "./NavItem";
 
 export type NavigationA11yLabels = {

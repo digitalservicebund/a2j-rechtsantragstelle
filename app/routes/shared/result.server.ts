@@ -8,6 +8,7 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
+import { stepMeta } from "~/services/meta/formStepMeta";
 import { skipFlowParamAllowedAndEnabled } from "~/services/params";
 import { getSessionData } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
@@ -68,12 +69,18 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   const cmsData = { ...cmsContent, nextSteps, documents };
 
+  const meta = applyStringReplacement(
+    stepMeta(cmsContent.pageMeta, parentMeta),
+    "stringReplacements" in currentFlow
+      ? currentFlow.stringReplacements(userData)
+      : undefined,
+  );
   return data(
     {
       flowId,
       common: defaultStrings,
       cmsData,
-      meta: { ...cmsContent.pageMeta, breadcrumb: parentMeta?.breadcrumb },
+      meta: meta,
       backButton,
     },
     { headers },

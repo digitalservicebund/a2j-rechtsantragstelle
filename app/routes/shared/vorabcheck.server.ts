@@ -84,7 +84,12 @@ export const loader = async ({
     return strapiFormElement;
   });
 
-  const meta = stepMeta(vorabcheckPage.pageMeta, parentMeta);
+  const meta = applyStringReplacement(
+    stepMeta(vorabcheckPage.pageMeta, parentMeta),
+    "stringReplacements" in currentFlow
+      ? currentFlow.stringReplacements(userData)
+      : undefined,
+  );
 
   // filter user data for current step
   const fieldNames = formElements.map((entry) => entry.name);
