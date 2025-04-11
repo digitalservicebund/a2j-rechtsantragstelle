@@ -6,6 +6,7 @@ import Select, { type InputActionMeta } from "react-select";
 import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import { useTranslations } from "~/services/translations/translationsContext";
+import { useJsAvailable } from "~/services/useJsAvailabe";
 import { type ErrorMessageProps } from "..";
 import {
   CustomClearIndicator,
@@ -123,9 +124,8 @@ const AutoSuggestInput = ({
   const inputId = `input-${name}`;
   const buttonExclusionRef = useRef<HTMLButtonElement>(null);
 
-  const [jsAvailable, setJsAvailable] = useState(false);
+  const jsAvailable = useJsAvailable();
   const [optionWasSelected, setOptionWasSelected] = useState(false);
-  useEffect(() => setJsAvailable(true), []);
   const [options, setOptions] = useState<DataListOptions[]>([]);
   const { accessibility: translations } = useTranslations();
 

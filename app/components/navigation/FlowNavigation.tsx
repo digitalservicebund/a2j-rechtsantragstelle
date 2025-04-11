@@ -1,14 +1,11 @@
 import classNames from "classnames";
-import { useEffect, useState } from "react";
 import type { FlowNavigationProps } from "~/components/navigation/NavigationList";
 import { NavigationList } from "~/components/navigation/NavigationList";
 import SideNavMobile from "~/components/navigation/SideNavMobile";
+import { useJsAvailable } from "~/services/useJsAvailabe";
 
 export default function FlowNavigation(props: FlowNavigationProps) {
-  const [jsAvailable, setJsAvailable] = useState(false);
-  useEffect(() => {
-    setJsAvailable(true);
-  }, []);
+  const jsAvailable = useJsAvailable();
 
   return (
     <nav

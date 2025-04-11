@@ -1,5 +1,6 @@
 import { useField } from "@rvf/remix";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useJsAvailable } from "~/services/useJsAvailabe";
 import InputError from "./InputError";
 import RichText from "../RichText";
 
@@ -31,8 +32,7 @@ const Checkbox = ({
   const [renderHiddenField, setRenderHiddenField] = useState(
     (field.defaultValue() as CheckboxValue) !== CheckboxValue.on,
   );
-  const [jsAvailable, setJsAvailable] = useState(false);
-  useEffect(() => setJsAvailable(true), []);
+  const jsAvailable = useJsAvailable();
 
   return (
     <div className="flex flex-col flex-nowrap">
