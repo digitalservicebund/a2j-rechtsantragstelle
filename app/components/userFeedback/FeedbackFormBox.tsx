@@ -1,10 +1,11 @@
 import { useLocation } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
 import Textarea from "~/components/inputs/Textarea";
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
+import { useJsAvailable } from "~/services/useJsAvailabe";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { FeedbackType } from "./FeedbackType";
@@ -52,8 +53,7 @@ export const FeedbackFormBox = ({
   onSubmit,
   feedback,
 }: FeedbackBoxProps) => {
-  const [jsAvailable, setJsAvailable] = useState(false);
-  useEffect(() => setJsAvailable(true), []);
+  const jsAvailable = useJsAvailable();
   const location = useLocation();
 
   const textAreaReference = useRef<HTMLTextAreaElement | null>(null);
