@@ -11,10 +11,15 @@ export default function FlowNavigation(props: FlowNavigationProps) {
   }, []);
 
   return (
-    <nav aria-label={props.a11yLabels?.menuLabel}>
+    <nav
+      aria-label={props.a11yLabels?.menuLabel}
+      className={classNames("w-full md:border-[1px] md:border-blue-400", {
+        "fixed bottom-0 z-50 md:static md:z-auto": jsAvailable,
+      })}
+    >
       {jsAvailable && (
         <SideNavMobile
-          className="fixed bottom-0 w-full md:hidden z-50"
+          className="md:hidden"
           labels={props.mobileLabels}
           navItems={props.navItems}
         />
@@ -22,10 +27,7 @@ export default function FlowNavigation(props: FlowNavigationProps) {
 
       <NavigationList
         {...props}
-        className={classNames(
-          "md:block bg-white border-[1px] border-blue-400",
-          { hidden: jsAvailable },
-        )}
+        className={classNames("md:block", { hidden: jsAvailable })}
       />
     </nav>
   );
