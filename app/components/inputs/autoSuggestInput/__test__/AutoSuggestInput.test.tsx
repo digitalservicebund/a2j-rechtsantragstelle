@@ -1,4 +1,3 @@
-import { createRemixStub } from "@remix-run/testing";
 import { useField } from "@rvf/remix";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
@@ -52,22 +51,15 @@ afterEach(() => {
 
 describe("AutoSuggestInput", () => {
   it("it should render the component with the placeholder, label and the input name", () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <AutoSuggestInput
-            name={COMPONENT_NAME}
-            placeholder="placeholder"
-            dataList="airports"
-            label="label"
-            isDisabled={false}
-          />
-        ),
-      },
-    ]);
-
-    const { getByText, container } = render(<RemixStub />);
+    const { getByText, container } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        placeholder="placeholder"
+        dataList="airports"
+        label="label"
+        isDisabled={false}
+      />,
+    );
 
     expect(getByText("placeholder")).toBeInTheDocument();
     expect(getByText("label")).toBeInTheDocument();
@@ -77,22 +69,15 @@ describe("AutoSuggestInput", () => {
   });
 
   it("it should render select the first (BER) input after enter Berlin", async () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <AutoSuggestInput
-            name={COMPONENT_NAME}
-            placeholder="placeholder"
-            dataList="airports"
-            label="label"
-            isDisabled={false}
-          />
-        ),
-      },
-    ]);
-
-    const { getByText, getByRole, container } = render(<RemixStub />);
+    const { getByText, getByRole, container } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        placeholder="placeholder"
+        dataList="airports"
+        label="label"
+        isDisabled={false}
+      />,
+    );
 
     fireEvent.change(getByRole("combobox"), { target: { value: "Berlin" } });
     await waitFor(() => getByText("Brandenburg Flughafen (BER)"));
@@ -109,23 +94,16 @@ describe("AutoSuggestInput", () => {
   it("it should render show an no suggestion message in case enter a not existing input", async () => {
     const noSuggestionMessage = "Not possible to find your input";
 
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <AutoSuggestInput
-            name={COMPONENT_NAME}
-            placeholder="placeholder"
-            dataList="airports"
-            label="label"
-            noSuggestionMessage={noSuggestionMessage}
-            isDisabled={false}
-          />
-        ),
-      },
-    ]);
-
-    const { getByText, getByRole } = render(<RemixStub />);
+    const { getByText, getByRole } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        placeholder="placeholder"
+        dataList="airports"
+        label="label"
+        noSuggestionMessage={noSuggestionMessage}
+        isDisabled={false}
+      />,
+    );
 
     fireEvent.change(getByRole("combobox"), {
       target: { value: "DATA DONT EXIST" },
@@ -136,23 +114,14 @@ describe("AutoSuggestInput", () => {
   });
 
   it("it should remove the value in case click on clear button", async () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <AutoSuggestInput
-            name={COMPONENT_NAME}
-            placeholder="placeholder"
-            dataList="airports"
-            label="label"
-            isDisabled={false}
-          />
-        ),
-      },
-    ]);
-
     const { getByText, getByRole, container, getByTestId } = render(
-      <RemixStub />,
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        placeholder="placeholder"
+        dataList="airports"
+        label="label"
+        isDisabled={false}
+      />,
     );
 
     fireEvent.change(getByRole("combobox"), { target: { value: "Berlin" } });
@@ -179,22 +148,15 @@ describe("AutoSuggestInput", () => {
   });
 
   it("it should have the className `option-was-selected` after selected one option and not have when move out of the field", async () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <AutoSuggestInput
-            name={`${COMPONENT_NAME}-option-was-selected`} // change this props avoid the react-select calls the onBlur method when click on the airport option
-            placeholder="placeholder"
-            dataList="airports"
-            label="label"
-            isDisabled={false}
-          />
-        ),
-      },
-    ]);
-
-    const { container, getByRole, getByText } = render(<RemixStub />);
+    const { container, getByRole, getByText } = render(
+      <AutoSuggestInput
+        name={`${COMPONENT_NAME}-option-was-selected`} // change this props avoid the react-select calls the onBlur method when click on the airport option
+        placeholder="placeholder"
+        dataList="airports"
+        label="label"
+        isDisabled={false}
+      />,
+    );
 
     expect(
       container.querySelector(`.option-was-selected`),
@@ -220,43 +182,29 @@ describe("AutoSuggestInput", () => {
   });
 
   it("should have the testid input-COMPONENT_NAME-loaded", () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <AutoSuggestInput
-            name={COMPONENT_NAME}
-            placeholder="placeholder"
-            dataList="airports"
-            label="label"
-            isDisabled={false}
-          />
-        ),
-      },
-    ]);
-
-    const { getByTestId } = render(<RemixStub />);
+    const { getByTestId } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        placeholder="placeholder"
+        dataList="airports"
+        label="label"
+        isDisabled={false}
+      />,
+    );
 
     expect(getByTestId(`input-${COMPONENT_NAME}-loaded`)).toBeInTheDocument();
   });
 
   it("should have className auto-suggest-input-disabled if the component is disabled", () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <AutoSuggestInput
-            name={COMPONENT_NAME}
-            placeholder="placeholder"
-            dataList="airports"
-            label="label"
-            isDisabled
-          />
-        ),
-      },
-    ]);
-
-    const { container } = render(<RemixStub />);
+    const { container } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        placeholder="placeholder"
+        dataList="airports"
+        label="label"
+        isDisabled
+      />,
+    );
 
     expect(
       container.querySelector(`.auto-suggest-input-disabled`),
