@@ -195,22 +195,10 @@ export const loader = async ({
     toggleMenu: defaultStrings.navigationMobileToggleMenu,
   };
 
-  const shouldSendUserData = cmsContent.content.some(
-    ({ __component }) => __component === "page.summary-overview-section",
-  );
-
-  const shouldSendAllTranslations =
-    migrationData !== undefined ||
-    cmsContent.content.some(
-      ({ __component }) =>
-        __component === "page.array-summary" ||
-        __component === "page.summary-overview-section",
-    );
-
   return data(
     {
       arraySummaryData,
-      prunedUserData: shouldSendUserData ? prunedUserData : {},
+      prunedUserData,
       buttonNavigationProps,
       content: cmsContent.content,
       csrf,
@@ -232,10 +220,10 @@ export const loader = async ({
       postFormContent: cmsContent.postFormContent,
       preHeading: cmsContent.preHeading,
       stepData,
-      translations: shouldSendAllTranslations ? stringTranslations : {},
+      translations: stringTranslations,
       navigationA11yLabels,
       navigationMobileLabels,
-      validFlowPaths: shouldSendUserData ? validFlowPaths : {},
+      validFlowPaths,
       flowId,
     },
     { headers },
