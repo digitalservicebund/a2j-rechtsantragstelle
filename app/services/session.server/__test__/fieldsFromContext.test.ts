@@ -8,10 +8,8 @@ describe("fieldsFromContext()", () => {
     });
   });
 
-  it.skip("should handle missing data", () => {
-    expect(fieldsFromContext({}, ["a"])).toStrictEqual({
-      a: undefined,
-    });
+  it("should handle missing data", () => {
+    expect(fieldsFromContext({}, ["a"])).toStrictEqual({});
   });
 
   it("should work for nested data", () => {
