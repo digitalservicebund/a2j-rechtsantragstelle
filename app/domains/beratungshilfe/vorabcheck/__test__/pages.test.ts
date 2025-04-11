@@ -1,4 +1,4 @@
-import { withZod } from "@remix-validated-form/with-zod";
+import { withZod } from "@rvf/zod";
 import { kidsSchema } from "~/domains/beratungshilfe/vorabcheck/context";
 
 describe("kidsSchema validation", () => {

@@ -1,47 +1,24 @@
-import { createRemixStub } from "@remix-run/testing";
 import { fireEvent, render, screen } from "@testing-library/react";
-import * as remixValidatedForm from "remix-validated-form";
 import TileRadio from "~/components/inputs/tile/TileRadio";
 
 const COMPONENT_NAME = "TileRadio";
 
-vi.mock("remix-validated-form", () => ({
-  useField: vi.fn(),
+vi.mock("@rvf/remix", () => ({
+  useField: () => ({
+    getInputProps: vi.fn().mockReturnValue({
+      id: COMPONENT_NAME,
+      placeholder: "Test Placeholder",
+    }),
+    error: vi.fn(),
+    defaultValue: vi.fn(),
+  }),
 }));
 
 describe("TileRadio", () => {
-  beforeEach(() => {
-    vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
-      getInputProps: vi.fn().mockReturnValue({
-        id: COMPONENT_NAME,
-        placeholder: "Test Placeholder",
-      }),
-      clearError: vi.fn(),
-      validate: vi.fn(),
-      touched: false,
-      setTouched: vi.fn(),
-    });
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  it("check if the componenet renders correct", () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <TileRadio
-            name={COMPONENT_NAME}
-            value="any value"
-            onClick={vi.fn()}
-          />
-        ),
-      },
-    ]);
-
-    const { container, queryByRole } = render(<RemixStub />);
+  it("check if the component renders correct", () => {
+    const { container, queryByRole } = render(
+      <TileRadio name={COMPONENT_NAME} value="any value" onClick={vi.fn()} />,
+    );
 
     expect(container.getElementsByClassName("ds-tile-radio-group").length).toBe(
       1,
@@ -51,20 +28,14 @@ describe("TileRadio", () => {
 
   it("check if the click works", () => {
     const handleClick = vi.fn();
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <TileRadio
-            name={COMPONENT_NAME}
-            value="any value"
-            onClick={handleClick}
-          />
-        ),
-      },
-    ]);
 
-    render(<RemixStub />);
+    render(
+      <TileRadio
+        name={COMPONENT_NAME}
+        value="any value"
+        onClick={handleClick}
+      />,
+    );
     fireEvent.click(screen.getByRole("radio"));
 
     expect(handleClick).toHaveBeenCalled();

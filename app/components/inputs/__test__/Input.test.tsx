@@ -1,29 +1,16 @@
 import { render, screen } from "@testing-library/react";
-import * as remixValidatedForm from "remix-validated-form";
 import type { InputProps } from "../Input";
 import Input from "../Input";
 
-vi.mock("remix-validated-form", () => ({
-  useField: vi.fn(),
-}));
-
-beforeEach(() => {
-  vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
-    error: undefined,
+vi.mock("@rvf/remix", () => ({
+  useField: () => ({
     getInputProps: vi.fn().mockReturnValue({
       id: "inputId",
       placeholder: "Any placeholder",
     }),
-    clearError: vi.fn(),
-    validate: vi.fn(),
-    touched: false,
-    setTouched: vi.fn(),
-  });
-});
-
-afterEach(() => {
-  vi.restoreAllMocks(); // This clears all mocks after each test
-});
+    error: vi.fn(),
+  }),
+}));
 
 describe("Input", () => {
   const cases = [
@@ -51,7 +38,6 @@ describe("Input", () => {
           name="input"
           width={widthProps as InputProps["width"]}
           label="Test Label"
-          formId="formId"
         />,
       );
 
@@ -68,7 +54,6 @@ describe("Input", () => {
           name="input"
           width="54"
           label="Test Label"
-          formId="formId"
           helperText="Test Helper Text"
         />,
       );
@@ -87,7 +72,6 @@ describe("Input", () => {
               text: "Bitte geben Sie eine gültige Uhrzeit ein.",
             },
           ]}
-          formId="formId"
         />,
       );
       const element = screen.getByRole("textbox");
@@ -95,7 +79,7 @@ describe("Input", () => {
     });
 
     it("has aria-required attribute set to false if errorMessages do not contain inputRequired", () => {
-      render(<Input name="test" errorMessages={undefined} formId="formId" />);
+      render(<Input name="test" errorMessages={undefined} />);
       const element = screen.getByRole("textbox");
       expect(element).toHaveAttribute("aria-required", "false");
     });

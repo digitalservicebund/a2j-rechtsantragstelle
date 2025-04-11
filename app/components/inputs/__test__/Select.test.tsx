@@ -1,29 +1,16 @@
 import { render, screen } from "@testing-library/react";
-import * as remixValidatedForm from "remix-validated-form";
 import type { SelectProps } from "../Select";
 import Select from "../Select";
 
-vi.mock("remix-validated-form", () => ({
-  useField: vi.fn(),
-}));
-
-beforeEach(() => {
-  vi.spyOn(remixValidatedForm, "useField").mockReturnValue({
-    error: undefined,
+vi.mock("@rvf/remix", () => ({
+  useField: () => ({
     getInputProps: vi.fn().mockReturnValue({
       id: "selectId",
       placeholder: "Any placeholder",
     }),
-    clearError: vi.fn(),
-    validate: vi.fn(),
-    touched: false,
-    setTouched: vi.fn(),
-  });
-});
-
-afterEach(() => {
-  vi.restoreAllMocks(); // This clears all mocks after each test
-});
+    error: vi.fn(),
+  }),
+}));
 
 describe("Select", () => {
   const cases = [
@@ -48,7 +35,6 @@ describe("Select", () => {
           options={[]}
           width={widthProps as SelectProps["width"]}
           label="Test Label"
-          formId="formId"
         />,
       );
 
@@ -65,7 +51,6 @@ describe("Select", () => {
           name="select"
           options={[]}
           label="Test Label"
-          formId="formId"
           errorMessages={[{ code: "required", text: "error" }]}
         />,
       );
@@ -79,7 +64,6 @@ describe("Select", () => {
           name="select"
           options={[]}
           label="Test Label"
-          formId="formId"
           errorMessages={undefined}
         />,
       );
@@ -88,14 +72,7 @@ describe("Select", () => {
     });
 
     it("should have class name for the high contrast mode", () => {
-      render(
-        <Select
-          name="select"
-          options={[]}
-          label="Test Label"
-          formId="formId"
-        />,
-      );
+      render(<Select name="select" options={[]} label="Test Label" />);
       const element = screen.getByRole("combobox");
       expect(element).toHaveClass("forced-color-adjust-none");
     });

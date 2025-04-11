@@ -1,29 +1,26 @@
 import { render, screen } from "@testing-library/react";
-import { useField } from "remix-validated-form";
 import Radio from "../Radio";
 
-vi.mock("remix-validated-form", () => ({
-  useField: vi.fn(),
+const getErrorMock = vi.fn();
+
+vi.mock("@rvf/remix", () => ({
+  useField: () => ({
+    getInputProps: vi.fn((props) => ({ ...props })),
+    error: getErrorMock,
+  }),
 }));
 
-const createUseFieldMock = (error?: string) => ({
-  error,
-  defaultValue: undefined,
-  clearError: vi.fn(),
-  validate: vi.fn(),
-  touched: false,
-  setTouched: vi.fn(),
-  getInputProps: vi.fn((props) => ({ ...props })),
+const mockError = (error: string) => {
+  getErrorMock.mockReturnValue(error);
+};
+
+beforeEach(() => {
+  vi.resetAllMocks();
 });
 
 describe("Radio", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    vi.mocked(useField).mockReturnValue(createUseFieldMock());
-  });
-
   it("renders correctly with label and value", () => {
-    render(<Radio name="testRadio" value="yes" text="Yes" formId="form-1" />);
+    render(<Radio name="testRadio" value="yes" text="Yes" />);
     const radio = screen.getByLabelText("Yes");
     expect(radio).toBeInTheDocument();
     expect(radio).toHaveAttribute("value", "yes");
@@ -32,13 +29,7 @@ describe("Radio", () => {
   it("calls onClick when clicked", () => {
     const onClickMock = vi.fn();
     render(
-      <Radio
-        name="testRadio"
-        value="yes"
-        text="Yes"
-        formId="form-1"
-        onClick={onClickMock}
-      />,
+      <Radio name="testRadio" value="yes" text="Yes" onClick={onClickMock} />,
     );
     const radio = screen.getByLabelText("Yes");
     radio.click();
@@ -46,11 +37,9 @@ describe("Radio", () => {
   });
 
   it("sets aria-describedby when error is present", () => {
-    vi.mocked(useField).mockReturnValue(
-      createUseFieldMock("This field has an error"),
-    );
+    mockError("This field has an error");
 
-    render(<Radio name="testRadio" value="yes" text="Yes" formId="form-1" />);
+    render(<Radio name="testRadio" value="yes" text="Yes" />);
     const radio = screen.getByLabelText("Yes");
     expect(radio).toHaveAttribute("aria-describedby", "testRadio-error");
   });

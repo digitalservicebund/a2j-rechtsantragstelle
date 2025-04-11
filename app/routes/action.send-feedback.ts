@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { validationError } from "remix-validated-form";
+import { validationError } from "@rvf/remix";
 import { BannerState, USER_FEEDBACK_ID } from "~/components/userFeedback";
 import { feedbackValidator } from "~/components/userFeedback/FeedbackFormBox";
 import { userRatingFieldname } from "~/components/userFeedback/RatingBox";

@@ -1,8 +1,8 @@
+import { useField } from "@rvf/remix";
+import { useState } from "react";
 import { useJsAvailable } from "~/services/useJsAvailabe";
-import { useStringField } from "~/services/validation/useStringField";
 import InputError from "./InputError";
 import RichText from "../RichText";
-import { useState } from "react";
 
 export enum CheckboxValue {
   on = "on",
@@ -11,32 +11,26 @@ export enum CheckboxValue {
 
 export type CheckboxProps = Readonly<{
   name: string;
-  value?: string; // Defaults to "on", see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input/checkbox#value
   label?: string;
-  formId?: string;
   required?: boolean;
   errorMessage?: string;
 }>;
 
 const Checkbox = ({
   name,
-  value = CheckboxValue.on,
   label,
-  formId,
   required = false,
   errorMessage,
 }: CheckboxProps) => {
-  const { error, getInputProps, defaultValue } = useStringField(name, {
-    formId,
-  });
+  const field = useField(name);
+
   const errorId = `${name}-error`;
-  const className = `ds-checkbox forced-colors:outline forced-colors:border-[ButtonText] ${error ? "has-error" : ""}`;
+  const className = `ds-checkbox forced-colors:outline forced-colors:border-[ButtonText] ${field.error() ? "has-error" : ""}`;
   // HTML Forms do not send unchecked checkboxes.
   // For server-side validation we need a same-named hidden field
   // For front-end validation, we need to hide that field if checkbox is checked
-  // const alreadyChecked = defaultValue === value
   const [renderHiddenField, setRenderHiddenField] = useState(
-    defaultValue !== value,
+    (field.defaultValue() as CheckboxValue) !== CheckboxValue.on,
   );
   const jsAvailable = useJsAvailable();
 
@@ -47,12 +41,15 @@ const Checkbox = ({
           <input type="hidden" name={name} value={CheckboxValue.off} />
         )}
         <input
-          {...getInputProps({ type: "checkbox", id: name, value })}
+          type="checkbox"
+          id={name}
+          name={name}
+          defaultChecked={field.defaultValue() === CheckboxValue.on}
+          value={CheckboxValue.on}
           className={className}
-          aria-describedby={error && errorId}
+          aria-describedby={field.error() ? errorId : undefined}
           onClick={() => setRenderHiddenField(!renderHiddenField)}
           required={required}
-          defaultChecked={defaultValue === value}
         />
 
         {label && (
@@ -61,7 +58,9 @@ const Checkbox = ({
           </label>
         )}
       </div>
-      {error && <InputError id={errorId}>{errorMessage ?? error}</InputError>}
+      {field.error() && (
+        <InputError id={errorId}>{errorMessage ?? field.error()}</InputError>
+      )}
     </div>
   );
 };

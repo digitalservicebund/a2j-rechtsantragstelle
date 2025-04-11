@@ -1,6 +1,6 @@
+import { useField } from "@rvf/remix";
 import classNames from "classnames";
 import type React from "react";
-import { useField } from "remix-validated-form";
 import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
@@ -17,7 +17,6 @@ export type InputProps = Readonly<{
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
   width?: FieldWidth;
-  formId?: string;
   helperText?: string;
 }>;
 
@@ -32,10 +31,9 @@ const Input = function InputComponent({
   errorMessages,
   helperText,
   width,
-  formId,
   innerRef,
 }: InputProps & { innerRef?: React.Ref<HTMLInputElement> }) {
-  const { error, getInputProps } = useField(name, { formId });
+  const field = useField(name);
   const errorId = `${name}-error`;
   const helperId = `${name}-helper`;
   return (
@@ -45,7 +43,7 @@ const Input = function InputComponent({
         {prefix && <div className="ds-input-prefix">{prefix}</div>}
         <input
           maxLength={INPUT_CHAR_LIMIT}
-          {...getInputProps({
+          {...field.getInputProps({
             type: type === "number" ? "text" : type,
             step,
             id: name,
@@ -56,15 +54,16 @@ const Input = function InputComponent({
           className={classNames(
             "ds-input forced-color-adjust-none",
             {
-              "has-error": error,
+              "has-error": field.error(),
             },
             widthClassname(width),
           )}
-          aria-invalid={error !== undefined}
-          aria-describedby={[error && errorId, helperText && helperId].join(
-            " ",
-          )}
-          aria-errormessage={error && errorId}
+          aria-invalid={field.error() !== undefined}
+          aria-describedby={[
+            field.error() && errorId,
+            helperText && helperId,
+          ].join(" ")}
+          aria-errormessage={field.error() ? errorId : undefined}
           aria-required={
             !!errorMessages?.find((err) => err.code === "required")
           }
@@ -79,7 +78,8 @@ const Input = function InputComponent({
         {helperText}
       </div>
       <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === error)?.text ?? error}
+        {errorMessages?.find((err) => err.code === field.error())?.text ??
+          field.error()}
       </InputError>
     </div>
   );

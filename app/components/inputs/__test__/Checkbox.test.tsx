@@ -1,27 +1,25 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { useStringField } from "~/services/validation/useStringField";
 import Checkbox, { CheckboxValue } from "../Checkbox";
 
-vi.mock("~/services/validation/useStringField", () => ({
-  useStringField: vi.fn(),
+const getErrorMock = vi.fn();
+
+vi.mock("@rvf/remix", () => ({
+  useField: () => ({
+    getInputProps: vi.fn((props) => ({ ...props })),
+    error: getErrorMock,
+    defaultValue: vi.fn(),
+  }),
 }));
 
-describe("Checkbox Component", () => {
-  beforeEach(() => {
-    vi.mocked(useStringField).mockReturnValue({
-      getInputProps: vi.fn((props) => ({
-        ...props,
-      })),
-      clearError: vi.fn(),
-      validate: vi.fn(),
-      touched: false,
-      setTouched: vi.fn(),
-      defaultValue: undefined,
-      error: undefined,
-    });
-  });
+const mockError = (error: string) => {
+  getErrorMock.mockReturnValue(error);
+};
 
+beforeEach(() => {
+  vi.resetAllMocks();
+});
+
+describe("Checkbox", () => {
   it("renders the checkbox with a label", () => {
     render(<Checkbox name="checkbox-name" label="Checkbox Label" required />);
     const checkbox = screen.getByRole("checkbox", { name: "Checkbox Label" });
@@ -51,10 +49,7 @@ describe("Checkbox Component", () => {
   });
 
   it("displays an error message when an error exists", () => {
-    vi.mocked(useStringField).mockReturnValue({
-      ...vi.mocked(useStringField).mock.results[0].value,
-      error: "checkbox error",
-    });
+    mockError("checkbox error");
 
     render(
       <Checkbox
