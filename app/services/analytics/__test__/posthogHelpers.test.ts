@@ -1,31 +1,59 @@
+import { parse } from "cookie";
 import { idFromCookie } from "~/services/analytics/posthogHelpers";
+import { config } from "~/services/env/web";
 
-let mockAPIKey: string | undefined;
+const mockAPIKey = "mockAPIKey";
 vi.mock("~/services/env/web", () => ({
-  config: () => ({ POSTHOG_API_KEY: mockAPIKey, ENVIRONMENT: "local" }),
+  config: vi.fn(),
 }));
 
-let phCookieString: string | undefined;
 vi.mock("cookie", () => ({
-  parse: () => ({
-    [`ph_${mockAPIKey}_posthog`]: phCookieString,
-  }),
+  parse: vi.fn(),
 }));
 
 describe("posthogHelpers", () => {
   describe("idFromCookie", () => {
+    beforeEach(() => {
+      vi.resetAllMocks();
+    });
+
+    afterEach(() => {
+      vi.clearAllMocks();
+    });
+
     it("should return ENVIRONMENT if POSTHOG_API_KEY is unavailable", () => {
+      vi.mocked(config).mockReturnValue({
+        POSTHOG_API_KEY: undefined,
+        POSTHOG_API_HOST: "",
+        SENTRY_DSN: undefined,
+        ENVIRONMENT: "local",
+      });
       expect(idFromCookie("cookieString")).toBe("client-local");
     });
 
     it("should return ENVIRONMENT if the posthog cookie's distinct_id is undefined", () => {
-      mockAPIKey = "mockAPIKey";
+      vi.mocked(config).mockReturnValue({
+        POSTHOG_API_KEY: mockAPIKey,
+        POSTHOG_API_HOST: "",
+        SENTRY_DSN: undefined,
+        ENVIRONMENT: "local",
+      });
+      vi.mocked(parse).mockReturnValue({
+        [`ph_${mockAPIKey}_posthog`]: "{}",
+      });
       expect(idFromCookie("cookieString")).toBe("client-local");
     });
 
     it("should return the posthog cookie's distinct_id", () => {
-      mockAPIKey = "mockAPIKey";
-      phCookieString = '{"distinct_id": "mockDistinctId"}';
+      vi.mocked(config).mockReturnValue({
+        POSTHOG_API_KEY: mockAPIKey,
+        POSTHOG_API_HOST: "",
+        SENTRY_DSN: undefined,
+        ENVIRONMENT: "local",
+      });
+      vi.mocked(parse).mockReturnValue({
+        [`ph_${mockAPIKey}_posthog`]: '{"distinct_id": "mockDistinctId"}',
+      });
       expect(idFromCookie("cookieString")).toBe("mockDistinctId");
     });
   });
