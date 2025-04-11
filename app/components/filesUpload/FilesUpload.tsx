@@ -1,6 +1,5 @@
 import { useActionData } from "@remix-run/react";
 import classNames from "classnames";
-import { useState, useEffect } from "react";
 import {
   useField,
   type ValidationErrorResponseData,
@@ -8,6 +7,7 @@ import {
 import { type ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
 import { type Context } from "~/domains/contexts";
+import { useJsAvailable } from "~/services/useJsAvailabe";
 import {
   errorStyling,
   fileUploadLimit,
@@ -34,7 +34,7 @@ const FilesUpload = ({
   inlineNotices,
   errorMessages,
 }: FilesUploadProps) => {
-  const [jsAvailable, setJsAvailable] = useState(false);
+  const jsAvailable = useJsAvailable();
   const response = useActionData<
     ValidationErrorResponseData | Context | undefined
   >();
@@ -50,9 +50,6 @@ const FilesUpload = ({
     ),
   );
   const errorId = `${name}-error`;
-
-  useEffect(() => setJsAvailable(true), []);
-
   const classes = classNames("w-full bg-white p-16 flex flex-col gap-16", {
     [errorStyling]: !!error,
   });

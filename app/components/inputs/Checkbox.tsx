@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useJsAvailable } from "~/services/useJsAvailabe";
 import { useStringField } from "~/services/validation/useStringField";
 import InputError from "./InputError";
 import RichText from "../RichText";
+import { useState } from "react";
 
 export enum CheckboxValue {
   on = "on",
@@ -37,8 +38,7 @@ const Checkbox = ({
   const [renderHiddenField, setRenderHiddenField] = useState(
     defaultValue !== value,
   );
-  const [jsAvailable, setJsAvailable] = useState(false);
-  useEffect(() => setJsAvailable(true), []);
+  const jsAvailable = useJsAvailable();
 
   return (
     <div className="flex flex-col flex-nowrap">

@@ -1,5 +1,4 @@
 import { type MobileNavigationLabels } from "~/components/navigation/SideNavMobile";
-// eslint-disable-next-line import/no-cycle
 import { NavItem } from "./NavItem";
 
 export type NavigationA11yLabels = {
@@ -19,7 +18,7 @@ export const NavigationList = ({
   navItems,
   ...props
 }: FlowNavigationProps & { isChild?: boolean }) => (
-  <ul className={`pl-0 ${props.className ?? ""}`}>
+  <ul className={`pl-0 bg-white ${props.className ?? ""}`}>
     {navItems.map((navItem) => (
       <NavItem {...navItem} key={navItem.destination} {...props} />
     ))}
