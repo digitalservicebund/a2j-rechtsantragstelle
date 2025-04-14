@@ -1,7 +1,7 @@
 import type { ActionFunctionArgs, Session, SessionData } from "@remix-run/node";
 import { data, redirect } from "@remix-run/node";
-import { withZod } from "@remix-validated-form/with-zod";
-import { validationError } from "remix-validated-form";
+import { validationError } from "@rvf/remix";
+import { withZod } from "@rvf/zod";
 import { z } from "zod";
 import { BannerState, USER_FEEDBACK_ID } from "~/components/userFeedback";
 import { userRatingFieldname } from "~/components/userFeedback/RatingBox";

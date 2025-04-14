@@ -1,8 +1,8 @@
+import { useField } from "@rvf/remix";
 import classNames from "classnames";
 import { matchSorter } from "match-sorter";
 import { type RefObject, useEffect, useRef, useState } from "react";
 import Select, { type InputActionMeta } from "react-select";
-import { useField } from "remix-validated-form";
 import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import { useTranslations } from "~/services/translations/translationsContext";
@@ -36,7 +36,6 @@ export type AutoSuggestInputProps = Readonly<{
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
   width?: FieldWidth;
-  formId?: string;
   noSuggestionMessage?: string;
   dataList: DataListType;
   isDisabled: boolean;
@@ -111,7 +110,6 @@ const AutoSuggestInput = ({
   placeholder,
   errorMessages,
   width,
-  formId,
   dataList,
   noSuggestionMessage,
   isDisabled,
@@ -119,10 +117,10 @@ const AutoSuggestInput = ({
   const items = useDataListOptions(dataList);
   const [currentItemValue, setCurrentItemValue] =
     useState<DataListOptions | null>();
-  const { error, getInputProps, validate } = useField(name, { formId });
-  const { defaultValue } = getInputProps();
+  const field = useField(name);
+  const { defaultValue } = field.getInputProps();
   const errorId = `${name}-error`;
-  const hasError = typeof error !== "undefined" && error.length > 0;
+  const hasError = (field.error()?.length ?? 0) > 0;
   const inputId = `input-${name}`;
   const buttonExclusionRef = useRef<HTMLButtonElement>(null);
 
@@ -165,7 +163,6 @@ const AutoSuggestInput = ({
         name={name}
         label={label}
         placeholder={placeholder}
-        formId={formId}
         width={width}
         errorMessages={errorMessages}
       />
@@ -176,13 +173,13 @@ const AutoSuggestInput = ({
     <div data-testid={items.length > 0 ? `${inputId}-loaded` : ""}>
       {label && <InputLabel id={inputId}>{label}</InputLabel>}
       <Select
-        aria-describedby={error && errorId}
-        aria-errormessage={error && errorId}
-        aria-invalid={error !== undefined}
+        aria-describedby={field.error() && errorId}
+        aria-errormessage={field.error() ? errorId : undefined}
+        aria-invalid={field.error() !== undefined}
         ariaLiveMessages={ariaLiveMessages(translations)}
         className={classNames(
           "w-full forced-colors:border-2",
-          { "has-error": error },
+          { "has-error": field.error() },
           { "option-was-selected": optionWasSelected },
           { "auto-suggest-input-disabled": isDisabled },
           widthClassname(width),
@@ -211,16 +208,22 @@ const AutoSuggestInput = ({
         onBlur={() => {
           // call the validation only if an option was selected
           if (optionWasSelected) {
-            validate();
             setOptionWasSelected(false);
+
+            if (hasError) {
+              field.validate();
+            }
           }
         }}
         onChange={(newValue, { action }) => {
-          validate();
           // remix remove the focus on the input when clicks with the keyboard to clear the value, so we need to force the focus again
           setOptionWasSelected(action === "select-option");
           if (action === "clear" || action === "select-option") {
             focusOnInput(inputId);
+            // TODO: check later why the field.validate() is validating all the fields in the form
+            if (hasError) {
+              field.validate();
+            }
           }
           setCurrentItemValue(newValue);
         }}
@@ -234,7 +237,8 @@ const AutoSuggestInput = ({
       />
 
       <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === error)?.text ?? error}
+        {errorMessages?.find((err) => err.code === field.error())?.text ??
+          field.error()}
       </InputError>
     </div>
   );
