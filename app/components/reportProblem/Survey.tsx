@@ -1,20 +1,21 @@
 import classNames from "classnames";
-import { posthog, SurveyQuestionType, type Survey } from "posthog-js";
+import { posthog, type Survey, SurveyQuestionType } from "posthog-js";
 import { type ElementType, useState } from "react";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
+import { MultipleChoiceQuestion } from "~/components/reportProblem/MultipleChoiceQuestion";
+import {
+  OpenQuestion,
+  type SurveyResponses,
+} from "~/components/reportProblem/OpenQuestion";
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
-import { MultipleChoiceQuestion } from "~/components/userFeedback/reportProblem/MultipleChoiceQuestion";
-import { OpenQuestion } from "~/components/userFeedback/reportProblem/OpenQuestion";
 
 type PosthogSurveyProps = {
-  survey: Survey;
+  survey: Pick<Survey, "id" | "questions">;
   closeSurvey: () => void;
   styleOverrides?: string;
 };
-
-export type SurveyResponses = Record<string, string | string[]>;
 
 const questionTypes: Record<string, ElementType> = {
   [SurveyQuestionType.Open]: OpenQuestion,
