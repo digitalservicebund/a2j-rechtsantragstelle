@@ -1,5 +1,5 @@
 import { fireEvent, render, waitFor } from "@testing-library/react";
-import { RouterProvider, createMemoryRouter } from "react-router";
+import { RouterProvider, createBrowserRouter } from "react-router";
 import { z } from "zod";
 import { getStrapiCheckboxComponent } from "tests/factories/cmsModels/strapiCheckboxComponent";
 import { getStrapiDropdownComponent } from "tests/factories/cmsModels/strapiDropdownComponent";
@@ -29,7 +29,7 @@ const fieldNameValidatorSpy = vi.spyOn(
   "validatorForFieldNames",
 );
 
-describe.skip("ValidatedFlowForm", () => {
+describe("ValidatedFlowForm", () => {
   it("should render", () => {
     fieldNameValidatorSpy.mockImplementationOnce(vi.fn());
     const { getByText } = renderValidatedFlowForm([]);
@@ -396,33 +396,27 @@ describe.skip("ValidatedFlowForm", () => {
 function renderValidatedFlowForm(
   formElements: Array<Partial<StrapiFormComponent>>,
 ) {
-  const router = createMemoryRouter(
-    [
-      {
-        path: "/beratungshilfe/antrag/start",
-        element: (
-          <ValidatedFlowForm
-            stepData={{}}
-            // @ts-expect-error Incompatible types, as we're only mocking partials of FormElements
-            formElements={formElements}
-            buttonNavigationProps={{
-              next: {
-                destination: "/beratungshilfe/antrag/start",
-                label: "NEXT",
-              },
-            }}
-            csrf={""}
-          />
-        ),
-
-        action() {
-          return true;
-        },
-      },
-    ],
+  const router = createBrowserRouter([
     {
-      initialEntries: ["/beratungshilfe/antrag/start"],
+      path: "/",
+      element: (
+        <ValidatedFlowForm
+          stepData={{}}
+          // @ts-expect-error Incompatible types, as we're only mocking partials of FormElements
+          formElements={formElements}
+          buttonNavigationProps={{
+            next: {
+              label: "NEXT",
+            },
+          }}
+          csrf={""}
+        />
+      ),
+
+      action() {
+        return true;
+      },
     },
-  );
+  ]);
   return render(<RouterProvider router={router} />);
 }
