@@ -6,7 +6,6 @@ import type { StrapiFieldErrorSchema } from "~/services/cms/models/StrapiFieldEr
 type CheckboxConfig = {
   name?: string;
   label?: string;
-  testId?: string;
   id?: number;
 };
 
