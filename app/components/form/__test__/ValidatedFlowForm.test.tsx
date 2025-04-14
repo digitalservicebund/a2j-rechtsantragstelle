@@ -398,7 +398,7 @@ function renderValidatedFlowForm(
 ) {
   const RouteStubValidationForm = createRoutesStub([
     {
-      path: "/",
+      path: "/fluggastrechte/vorabcheck/start",
       Component: () => (
         <ValidatedFlowForm
           stepData={{}}
@@ -417,5 +417,9 @@ function renderValidatedFlowForm(
       },
     },
   ]);
-  return render(<RouteStubValidationForm />);
+  return render(
+    <RouteStubValidationForm
+      initialEntries={["/fluggastrechte/vorabcheck/start"]}
+    />,
+  );
 }
