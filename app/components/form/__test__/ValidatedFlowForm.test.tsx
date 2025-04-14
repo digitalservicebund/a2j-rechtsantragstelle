@@ -1,5 +1,5 @@
 import { fireEvent, render, waitFor } from "@testing-library/react";
-import { RouterProvider, createBrowserRouter } from "react-router";
+import { createRoutesStub } from "react-router";
 import { z } from "zod";
 import { getStrapiCheckboxComponent } from "tests/factories/cmsModels/strapiCheckboxComponent";
 import { getStrapiDropdownComponent } from "tests/factories/cmsModels/strapiDropdownComponent";
@@ -396,10 +396,10 @@ describe("ValidatedFlowForm", () => {
 function renderValidatedFlowForm(
   formElements: Array<Partial<StrapiFormComponent>>,
 ) {
-  const router = createBrowserRouter([
+  const RouteStubValidationForm = createRoutesStub([
     {
       path: "/",
-      element: (
+      Component: () => (
         <ValidatedFlowForm
           stepData={{}}
           // @ts-expect-error Incompatible types, as we're only mocking partials of FormElements
@@ -412,11 +412,10 @@ function renderValidatedFlowForm(
           csrf={""}
         />
       ),
-
       action() {
-        return true;
+        return {};
       },
     },
   ]);
-  return render(<RouterProvider router={router} />);
+  return render(<RouteStubValidationForm />);
 }
