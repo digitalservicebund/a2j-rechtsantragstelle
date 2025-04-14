@@ -1,5 +1,5 @@
-import { useLocation } from "@remix-run/react";
-import { ValidatedForm } from "@rvf/remix";
+import { ValidatedForm } from "@rvf/react-router";
+import { useLocation } from "react-router";
 import type { ButtonNavigationProps } from "~/components/form/ButtonNavigation";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import type { Context } from "~/domains/contexts";
@@ -31,7 +31,7 @@ function ValidatedFlowForm({
     <ValidatedForm
       method="post"
       encType="multipart/form-data"
-      validator={validator}
+      schema={validator}
       defaultValues={stepData}
       noValidate
       action={pathname}

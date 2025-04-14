@@ -1,6 +1,6 @@
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
-import { useFetcher, useLocation } from "@remix-run/react";
+import { useFetcher, useLocation } from "react-router";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";

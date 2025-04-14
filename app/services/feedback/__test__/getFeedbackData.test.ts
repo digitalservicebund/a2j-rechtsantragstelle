@@ -1,4 +1,4 @@
-import { createSession, type Session } from "@remix-run/node";
+import { createSession, type Session } from "react-router";
 import { describe, test, expect } from "vitest";
 import { BannerState } from "~/components/userFeedback";
 import { FeedbackType } from "~/components/userFeedback/FeedbackType";

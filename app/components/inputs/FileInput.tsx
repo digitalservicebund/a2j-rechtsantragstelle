@@ -42,7 +42,12 @@ export const FileInput = ({
   const FileInput = (
     <input
       name={jsAvailable ? undefined : name}
-      onChange={(event) => onFileUpload(name, event.target.files?.[0])}
+      onChange={(event) => {
+        const file = event.target.files?.[0];
+        if (file) {
+          void onFileUpload(name, file);
+        }
+      }}
       type="file"
       accept=".pdf"
       data-testid="fileUploadInput"
@@ -57,7 +62,9 @@ export const FileInput = ({
       {selectedFile ? (
         <FileUploadInfo
           inputName={name}
-          onFileDelete={onFileDelete}
+          onFileDelete={(fileName) => {
+            void onFileDelete(fileName);
+          }}
           jsAvailable={jsAvailable}
           file={selectedFile}
           deleteButtonLabel={translations?.delete}

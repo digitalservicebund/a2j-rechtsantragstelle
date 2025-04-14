@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { remixContext } from "../.storybook/remixContext";
+import { reactRouterContext } from "../.storybook/reactRouterContext";
 import RadioGroup from "~/components/inputs/RadioGroup";
 
 const meta = {
@@ -25,7 +25,7 @@ export const Default: Story = {
     ],
     errorMessages: undefined,
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [(Story) => reactRouterContext(Story)],
 };
 
 export const WithLabel: Story = {
@@ -37,5 +37,5 @@ export const WithLabel: Story = {
       { value: "option2", text: "Option 2" },
     ],
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [(Story) => reactRouterContext(Story)],
 };

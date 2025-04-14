@@ -1,5 +1,5 @@
 import ArrowDownward from "@digitalservicebund/icons/ArrowDownward";
-import { Link } from "@remix-run/react";
+import { Link } from "react-router";
 import { arrayIsNonEmpty } from "~/util/array";
 import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";

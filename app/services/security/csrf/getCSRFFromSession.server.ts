@@ -1,4 +1,4 @@
-import type { Session } from "@remix-run/node";
+import type { Session } from "react-router";
 import { CSRFKey } from "./csrfKey";
 
 export const getCSRFFromSession = (session: Session) =>

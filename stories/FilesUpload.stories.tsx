@@ -1,12 +1,12 @@
-import { remixContext } from ".storybook/remixContext";
 import { faker } from "@faker-js/faker";
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs } from "react-router";
 import type { Meta, StoryObj } from "@storybook/react";
 import FilesUpload from "~/components/filesUpload/FilesUpload";
 import { splitFieldName } from "~/services/upload/fileUploadHelpers";
 import { TranslationContext } from "~/services/translations/translationsContext";
 import { PDFFileMetadata, TEN_MB_IN_BYTES } from "~/util/file/pdfFileSchema";
 import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
+import { reactRouterContext } from ".storybook/reactRouterContext";
 
 const meta = {
   title: "Component/FilesUpload",
@@ -53,7 +53,7 @@ export const Default: Story = {
           accordion: {},
         }}
       >
-        {remixContext(
+        {reactRouterContext(
           () => (
             <RFCFormerProvider>
               <Story />

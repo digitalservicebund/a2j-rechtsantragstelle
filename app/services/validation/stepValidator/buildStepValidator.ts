@@ -1,4 +1,3 @@
-import { withZod } from "@rvf/zod";
 import { z } from "zod";
 import type { FunctionMultiFieldsValidation } from "~/domains/multiFieldsFlowValidation";
 import { isKeyOfObject } from "~/util/objects";
@@ -40,5 +39,5 @@ export function buildStepValidator(
     ? multiFieldsValidation(validationFieldsSchema)
     : validationFieldsSchema;
 
-  return withZod(validationSchema);
+  return validationSchema;
 }

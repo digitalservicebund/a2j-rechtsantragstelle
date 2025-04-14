@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import UserFeedback, { BannerState } from "../app/components/userFeedback";
-import { createRemixStub } from "@remix-run/testing";
+import { createRoutesStub } from "react-router";
 
 const meta = {
   title: "Content/UserFeedback",
@@ -22,7 +22,7 @@ export const Example: StoryObj<typeof meta> = {
   },
   decorators: [
     (Story) => {
-      const RemixStub = createRemixStub([
+      const RouteStub = createRoutesStub([
         {
           id: "root",
           loader: () => {
@@ -45,7 +45,7 @@ export const Example: StoryObj<typeof meta> = {
         },
       ]);
 
-      return <RemixStub />;
+      return <RouteStub />;
     },
   ],
 };

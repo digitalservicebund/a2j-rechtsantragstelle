@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { remixContext } from "../.storybook/remixContext";
+import { reactRouterContext } from "../.storybook/reactRouterContext";
 import Input from "../app/components/inputs/Input";
 import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 
@@ -30,7 +30,7 @@ export const Default: Story = {
   },
   decorators: [
     (Story) =>
-      remixContext(() => (
+      reactRouterContext(() => (
         <RFCFormerProvider>
           <Story />
         </RFCFormerProvider>
@@ -46,7 +46,7 @@ export const WithPrefix: Story = {
   },
   decorators: [
     (Story) =>
-      remixContext(() => (
+      reactRouterContext(() => (
         <RFCFormerProvider>
           <Story />
         </RFCFormerProvider>
@@ -62,7 +62,7 @@ export const WithSuffix: Story = {
   },
   decorators: [
     (Story) =>
-      remixContext(() => (
+      reactRouterContext(() => (
         <RFCFormerProvider>
           <Story />
         </RFCFormerProvider>
@@ -78,7 +78,7 @@ export const WithHelperText: Story = {
   },
   decorators: [
     (Story) =>
-      remixContext(() => (
+      reactRouterContext(() => (
         <RFCFormerProvider>
           <Story />
         </RFCFormerProvider>

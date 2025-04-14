@@ -1,4 +1,4 @@
-import type { Session, SessionData } from "@remix-run/node";
+import type { Session, SessionData } from "react-router";
 import type { BannerState } from "~/components/userFeedback";
 import { bannerStateName } from "./getFeedbackData";
 

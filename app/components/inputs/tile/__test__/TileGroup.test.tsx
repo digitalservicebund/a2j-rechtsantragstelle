@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 
-vi.mock("@rvf/remix", () => ({
+vi.mock("@rvf/react-router", () => ({
   useField: () => ({
     getInputProps: vi.fn().mockReturnValue({
       id: COMPONENT_NAME,

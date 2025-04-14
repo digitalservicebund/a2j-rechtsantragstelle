@@ -3,7 +3,7 @@ import TileRadio from "~/components/inputs/tile/TileRadio";
 
 const COMPONENT_NAME = "TileRadio";
 
-vi.mock("@rvf/remix", () => ({
+vi.mock("@rvf/react-router", () => ({
   useField: () => ({
     getInputProps: vi.fn().mockReturnValue({
       id: COMPONENT_NAME,

@@ -3,7 +3,7 @@ import Checkbox, { CheckboxValue } from "../Checkbox";
 
 const getErrorMock = vi.fn();
 
-vi.mock("@rvf/remix", () => ({
+vi.mock("@rvf/react-router", () => ({
   useField: () => ({
     getInputProps: vi.fn((props) => ({ ...props })),
     error: getErrorMock,

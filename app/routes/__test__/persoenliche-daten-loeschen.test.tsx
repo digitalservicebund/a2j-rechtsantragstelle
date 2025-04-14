@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
-import { createRemixStub } from "@remix-run/testing";
 import { screen, render, waitFor } from "@testing-library/react";
+import { createRoutesStub } from "react-router";
 import PersoenlicheDatenLoeschen from "../persoenliche-daten-loeschen";
 
 vi.mock("~/components/PageContent", () => ({
@@ -13,7 +13,7 @@ describe("Persoenliche Daten", () => {
   });
 
   it("should render PageContent", async () => {
-    const RemixStub = createRemixStub([
+    const RemixStub = createRoutesStub([
       {
         path: "/",
         Component: PersoenlicheDatenLoeschen,
@@ -35,7 +35,7 @@ describe("Persoenliche Daten", () => {
   });
 
   it("should render back button with value of root when no referrer", async () => {
-    const RemixStub = createRemixStub([
+    const RemixStub = createRoutesStub([
       {
         path: "/",
         Component: PersoenlicheDatenLoeschen,

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { remixContext } from "../.storybook/remixContext";
+import { reactRouterContext } from "../.storybook/reactRouterContext";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 import Container from "~/components/Container";
 import { bucketUrl } from "~/services/cms/bucketUrl";
@@ -13,7 +13,7 @@ const meta = {
     },
   },
   tags: ["autodocs"],
-  decorators: [(Story) => <Container>{remixContext(Story)}</Container>],
+  decorators: [(Story) => <Container>{reactRouterContext(Story)}</Container>],
 } satisfies Meta<typeof TileGroup>;
 
 export default meta;

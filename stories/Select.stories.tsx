@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { remixContext } from "../.storybook/remixContext";
+import { reactRouterContext } from "../.storybook/reactRouterContext";
 import Select from "../app/components/inputs/Select";
 import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 
@@ -29,7 +29,7 @@ export const Default: Story = {
   },
   decorators: [
     (Story) =>
-      remixContext(() => (
+      reactRouterContext(() => (
         <RFCFormerProvider>
           <Story />
         </RFCFormerProvider>
@@ -49,7 +49,7 @@ export const WithPlaceholder: Story = {
   },
   decorators: [
     (Story) =>
-      remixContext(() => (
+      reactRouterContext(() => (
         <RFCFormerProvider>
           <Story />
         </RFCFormerProvider>
