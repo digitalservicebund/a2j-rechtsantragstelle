@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { createRoutesStub } from "react-router";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { FEEDBACK_FIELD_NAME, FeedbackFormBox } from "../FeedbackFormBox";
 import { FeedbackType } from "../FeedbackType";
 
@@ -11,41 +11,41 @@ vi.mock("~/components/userFeedback/feedbackTranslations", () => ({
   }),
 }));
 
-describe("FeedbackFormBox", () => {
-  it("should render the component with the given translations", () => {
-    const FeedbackFormBoxWithRemixStub = createRoutesStub([
+function renderFeedbackFormBox() {
+  const router = createMemoryRouter(
+    [
       {
-        path: "",
-        Component: () => (
+        path: "/",
+        element: (
           <FeedbackFormBox
             destination="destination"
-            shouldFocus={false}
+            shouldFocus={true}
             feedback={FeedbackType.Positive}
             onSubmit={vitest.fn}
           />
         ),
+
+        action() {
+          return true;
+        },
       },
-    ]);
-    const { getByText } = render(<FeedbackFormBoxWithRemixStub />);
+    ],
+    {
+      initialEntries: ["/"],
+    },
+  );
+  return render(<RouterProvider router={router} />);
+}
+
+describe("FeedbackFormBox", () => {
+  it("should render the component with the given translations", () => {
+    const { getByText } = renderFeedbackFormBox();
 
     expect(getByText(SUBMIT_BUTTON_FEEDBACK)).toBeInTheDocument();
   });
 
   it("should render the component with the focus on the text area ", () => {
-    const FeedbackFormBoxWithRemixStub = createRoutesStub([
-      {
-        path: "",
-        Component: () => (
-          <FeedbackFormBox
-            destination="destination"
-            shouldFocus
-            feedback={FeedbackType.Positive}
-            onSubmit={vitest.fn}
-          />
-        ),
-      },
-    ]);
-    const { container } = render(<FeedbackFormBoxWithRemixStub />);
+    const { container } = renderFeedbackFormBox();
 
     expect(container.querySelector(`#${FEEDBACK_FIELD_NAME}`)).toHaveFocus();
   });
