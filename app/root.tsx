@@ -23,6 +23,8 @@ import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentCon
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
+import { getPosthogClient } from "~/services/analytics/posthogClient.server";
+import { PosthogContext } from "~/services/analytics/PosthogContext";
 import {
   fetchMeta,
   fetchSingleEntry,
@@ -134,6 +136,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
           !flowIdFromPathname(pathname)?.match(/formular|antrag/),
       },
       footer: strapiFooter,
+      cookieHeader,
+      posthog: getPosthogClient(),
       cookieBannerContent: cookieBannerContent,
       hasTrackingConsent: trackingConsent
         ? trackingConsent === "true"
@@ -162,6 +166,8 @@ function App() {
   const {
     pageHeaderProps,
     footer,
+    cookieHeader,
+    posthog,
     cookieBannerContent,
     hasTrackingConsent,
     deletionLabel,
@@ -216,6 +222,11 @@ function App() {
     ],
   );
 
+  const posthogMemo = useMemo(
+    () => ({ posthog, cookieHeader }),
+    [cookieHeader, posthog],
+  );
+
   return (
     <html lang="de">
       <head>
@@ -242,36 +253,38 @@ function App() {
       </head>
       <body className="flex flex-col min-h-screen">
         <CookieConsentContext.Provider value={hasTrackingConsent}>
-          <SkipToContentLink
-            label={getTranslationByKey(
-              SKIP_TO_CONTENT_TRANSLATION_KEY,
-              accessibilityTranslations,
-            )}
-            target={skipToContentLinkTarget}
-          />
-          <CookieBanner content={cookieBannerContent} />
-          <PageHeader {...pageHeaderProps} />
-          <Breadcrumbs
-            breadcrumbs={breadcrumbs}
-            alignToMainContainer={pageHeaderProps.alignToMainContainer}
-            linkLabel={pageHeaderProps.linkLabel}
-            translations={{ ...accessibilityTranslations }}
-          />
-          <TranslationContext.Provider value={translationMemo}>
-            <main className="flex-grow" id="main">
-              <Outlet />
-            </main>
-          </TranslationContext.Provider>
-          <footer>
-            <Footer
-              {...footer}
-              deletionLabel={deletionLabel}
-              showDeletionBanner={hasAnyUserData}
+          <PosthogContext.Provider value={posthogMemo}>
+            <SkipToContentLink
+              label={getTranslationByKey(
+                SKIP_TO_CONTENT_TRANSLATION_KEY,
+                accessibilityTranslations,
+              )}
+              target={skipToContentLinkTarget}
+            />
+            <CookieBanner content={cookieBannerContent} />
+            <PageHeader {...pageHeaderProps} />
+            <Breadcrumbs
+              breadcrumbs={breadcrumbs}
+              alignToMainContainer={pageHeaderProps.alignToMainContainer}
+              linkLabel={pageHeaderProps.linkLabel}
               translations={{ ...accessibilityTranslations }}
             />
-          </footer>
-          <ScrollRestoration nonce={nonce} />
-          <Scripts nonce={nonce} />
+            <TranslationContext.Provider value={translationMemo}>
+              <main className="flex-grow" id="main">
+                <Outlet />
+              </main>
+            </TranslationContext.Provider>
+            <footer>
+              <Footer
+                {...footer}
+                deletionLabel={deletionLabel}
+                showDeletionBanner={hasAnyUserData}
+                translations={{ ...accessibilityTranslations }}
+              />
+            </footer>
+            <ScrollRestoration nonce={nonce} />
+            <Scripts nonce={nonce} />
+          </PosthogContext.Provider>
         </CookieConsentContext.Provider>
       </body>
     </html>
