@@ -50,6 +50,7 @@ const Checkbox = ({
           aria-describedby={field.error() ? errorId : undefined}
           onClick={() => setRenderHiddenField(!renderHiddenField)}
           aria-required={required}
+          ref={field.error() ? field.refs.controlled() : null}
         />
 
         {label && (
