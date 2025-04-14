@@ -1,4 +1,4 @@
-import { useField } from "remix-validated-form";
+import { useField } from "@rvf/remix";
 import TileTag, { type TileDescriptionProps } from "./TileTag";
 import Image, { type ImageProps } from "../../Image";
 import RichText from "../../RichText";
@@ -19,7 +19,6 @@ type TileProps = TileOptions &
   Readonly<{
     name: string;
     onClick: () => void;
-    formId?: string;
   }>;
 
 const TileRadio = ({
@@ -30,9 +29,8 @@ const TileRadio = ({
   image,
   tagDescription,
   onClick,
-  formId,
 }: TileProps) => {
-  const { error, getInputProps } = useField(name, { formId });
+  const field = useField(name);
   const id = `${name}-${value}`;
 
   return (
@@ -42,11 +40,11 @@ const TileRadio = ({
         htmlFor={id}
       >
         <input
-          {...getInputProps({ type: "radio", id, value })}
+          {...field.getInputProps({ type: "radio", id, value })}
           className="ds-radio forced-colors:outline forced-colors:border-[ButtonText]"
           name={name}
           type="radio"
-          aria-describedby={error && `${name}-error`}
+          aria-describedby={field.error() ? `${name}-error` : undefined}
           onClick={onClick}
         />
         <div className="h-full pl-24 space-y-8">

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { remixContext } from "../.storybook/remixContext";
 import Textarea from "../app/components/inputs/Textarea";
+import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 
 const meta = {
   title: "Component/Textarea",
@@ -19,9 +20,15 @@ export const Default: Story = {
   args: {
     name: "textarea",
     label: "Lorem ipsum dolor sit amet",
-    formId: "formId",
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      remixContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };
 
 export const WithDescription: Story = {
@@ -29,9 +36,15 @@ export const WithDescription: Story = {
     name: "textarea",
     description: "Lorem **ipsum**\n\n* _Lorem ipsum_\n* _Lorem ipsum_",
     label: "Lorem ipsum dolor sit amet",
-    formId: "formId",
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      remixContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };
 
 export const Withdetails: Story = {
@@ -42,7 +55,13 @@ export const Withdetails: Story = {
       content: "Lorem ipsum",
     },
     label: "Lorem ipsum dolor sit amet",
-    formId: "formId",
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      remixContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };
