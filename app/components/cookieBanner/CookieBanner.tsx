@@ -1,4 +1,3 @@
-import { posthog } from "posthog-js";
 import { useContext, useEffect, useState } from "react";
 import { useFetcher, useLocation } from "react-router";
 import Button from "~/components/Button";
@@ -6,7 +5,8 @@ import Container from "~/components/Container";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import Heading, { type HeadingProps } from "~/components/Heading";
 import RichText, { type RichTextProps } from "~/components/RichText";
-import { config } from "~/services/env/web";
+import { usePosthog } from "~/services/analytics/PosthogContext";
+import { idFromCookie } from "~/services/analytics/posthogHelpers";
 import { StandaloneLink } from "../StandaloneLink";
 
 export const acceptCookiesFieldName = "accept-cookies";
@@ -26,51 +26,37 @@ export function CookieBanner({
   content: CookieBannerContentProps;
 }>) {
   const hasTrackingConsent = useContext(CookieConsentContext);
-  const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
-  const [posthogLoaded, setPosthogLoaded] = useState(false);
+  const { posthog, cookieHeader } = usePosthog();
   const [clientJavaScriptAvailable, setClientJavaScriptAvailable] =
     useState(false);
   const analyticsFetcher = useFetcher();
   const location = useLocation();
 
   useEffect(() => {
-    if (hasTrackingConsent && !posthogLoaded && POSTHOG_API_KEY) {
-      posthog.init(POSTHOG_API_KEY, {
-        api_host: POSTHOG_API_HOST,
+    const captureConsent = async () => {
+      if (!hasTrackingConsent && posthog?.optOut) {
+        await posthog.optOut();
+      } else if (hasTrackingConsent && posthog?.optIn) {
+        await posthog.optIn();
+      }
+    };
 
-        session_recording: {
-          // Masking input and text elements to prevent sensitive data being shown on pages
-          maskTextSelector: "*",
-          maskAllInputs: true,
-        },
-
-        cross_subdomain_cookie: false, // set cookie for subdomain only
-
-        opt_out_persistence_by_default: true,
-        loaded: () => {
-          setPosthogLoaded(true);
-        },
-      });
-    } else if (!hasTrackingConsent && posthogLoaded) {
-      posthog.opt_out_capturing();
-    } else if (hasTrackingConsent && posthogLoaded) {
-      posthog.opt_in_capturing();
-    }
-  }, [
-    location,
-    hasTrackingConsent,
-    posthogLoaded,
-    POSTHOG_API_KEY,
-    POSTHOG_API_HOST,
-  ]);
+    captureConsent().catch((reason) => {
+      throw Error(reason);
+    });
+  }, [location, hasTrackingConsent, posthog]);
 
   const buttonAcceptCookieTestId = clientJavaScriptAvailable
     ? "accept-cookie_with_js"
     : "accept-cookie_without_js";
 
   useEffect(() => {
-    if (posthogLoaded) posthog.capture("$pageview");
-  }, [posthogLoaded, location.pathname]);
+    if (posthog?.capture)
+      posthog.capture({
+        event: "$pageview",
+        distinctId: idFromCookie(cookieHeader),
+      });
+  }, [posthog, location.pathname, cookieHeader]);
 
   useEffect(() => {
     setClientJavaScriptAvailable(true);
