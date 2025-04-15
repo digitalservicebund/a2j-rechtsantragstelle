@@ -13,7 +13,7 @@ describe("Persoenliche Daten", () => {
   });
 
   it("should render PageContent", async () => {
-    const RemixStub = createRoutesStub([
+    const RouteStub = createRoutesStub([
       {
         path: "/",
         Component: PersoenlicheDatenLoeschen,
@@ -28,14 +28,14 @@ describe("Persoenliche Daten", () => {
       },
     ]);
 
-    render(<RemixStub />);
+    render(<RouteStub />);
     await waitFor(() =>
       expect(screen.getByText("PageContent")).toBeInTheDocument(),
     );
   });
 
   it("should render back button with value of root when no referrer", async () => {
-    const RemixStub = createRoutesStub([
+    const RouteStub = createRoutesStub([
       {
         path: "/",
         Component: PersoenlicheDatenLoeschen,
@@ -53,7 +53,7 @@ describe("Persoenliche Daten", () => {
       },
     ]);
 
-    render(<RemixStub />);
+    render(<RouteStub />);
     await waitFor(() => {
       const backButton = screen.getByText("mock back text");
       expect(backButton).toBeInTheDocument();
