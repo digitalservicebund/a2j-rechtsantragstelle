@@ -3,6 +3,7 @@ import { reactRouterContext } from "../.storybook/reactRouterContext";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 import Container from "~/components/Container";
 import { bucketUrl } from "~/services/cms/bucketUrl";
+import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 
 const meta = {
   title: "Component/TileGroup",
@@ -13,7 +14,17 @@ const meta = {
     },
   },
   tags: ["autodocs"],
-  decorators: [(Story) => <Container>{reactRouterContext(Story)}</Container>],
+  decorators: [
+    (Story) => (
+      <Container>
+        {reactRouterContext(() => (
+          <RFCFormerProvider>
+            <Story />
+          </RFCFormerProvider>
+        ))}
+      </Container>
+    ),
+  ],
 } satisfies Meta<typeof TileGroup>;
 
 export default meta;
