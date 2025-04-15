@@ -291,8 +291,7 @@ function App() {
   );
 }
 
-// eslint-disable-next-line sonarjs/prefer-read-only-props
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
   const loaderData = useRouteLoaderData<RootLoader>("root");
   Sentry.captureException(error);
   return (
