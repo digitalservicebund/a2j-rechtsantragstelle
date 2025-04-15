@@ -69,14 +69,48 @@ export async function beratungshilfePdfFromUserdata(
   cookieHeader: string | null,
   flowId: FlowId,
 ) {
+  const extractSavedFileKeys = (userData: BeratungshilfeFormularContext) => {
+    const allKeys: string[] = [];
+    for (const value of Object.values(userData)) {
+      if (Array.isArray(value)) {
+        for (const file of value) {
+          if (file.savedFileKey) {
+            allKeys.push(file.savedFileKey);
+          }
+        }
+      }
+    }
+    return allKeys;
+  };
 
-const file = await downloadUserFile(
-  cookieHeader,
-  flowId,
-  "3d33d0b6-9832-47f5-b849-eade8c710602",
-);
+  async function embedUserFilesToPdf(
+    mainPdfBuffer: Uint8Array,
+    userData: BeratungshilfeFormularContext,
+    cookieHeader: string | null,
+    flowId: FlowId,
+  ) : Promise<Uint8Array> {
+  const mainPdfDocument = await PDFDocument.load(mainPdfBuffer);
+  const savedFileKeys = extractSavedFileKeys(userData);
+  
+  for (const savedFileKey of savedFileKeys) {
+    const userFileBuffer = await downloadUserFile(
+      cookieHeader,
+      flowId,
+      savedFileKey,
+    );
 
-const { pdfValues, attachment } = pdfFillReducer({
+    const pages = await mainPdfDocument.embedPdf(userFileBuffer);
+
+    for (const page of pages) {
+      const newPage = mainPdfDocument.addPage();
+      newPage.drawPage(page);
+    }
+  }
+  const finalPdf = mainPdfDocument.save();
+  return finalPdf;
+}
+
+  const { pdfValues, attachment } = pdfFillReducer({
     userData,
     pdfParams: getBeratungshilfeParameters(),
     fillFunctions: [
@@ -111,14 +145,10 @@ const { pdfValues, attachment } = pdfFillReducer({
   );
   const mainPdfDocument = await PDFDocument.load(pdfKitBuffer);
 
-  const userPdfFilesToEmbed = await PDFDocument.load(file)
-
-  const pages = await mainPdfDocument.embedPdf(userPdfFilesToEmbed);
-
-  for (const page of pages) {
-    const newPage = mainPdfDocument.addPage();
-
-    newPage.drawPage(page);
+  if(userData.abgabeArt === "online") {
+    const filledPdfBuffer = await filledPdfFormDocumentWithMetadata.save();
+    return embedUserFilesToPdf(filledPdfBuffer, userData, cookieHeader, flowId);
   }
+
   return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
 }
