@@ -2,15 +2,6 @@ import { useLoaderData, useSubmit } from "react-router";
 import { type loader } from "~/routes/shared/formular.server";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
-export const splitFieldName = (fieldName: string) => ({
-  fieldName: fieldName.split("[")[0],
-  inputIndex: Number(
-    RegExp(/\[\d+\]/)
-      .exec(fieldName)?.[0]
-      .replaceAll(/[[\]]/g, ""),
-  ),
-});
-
 export function useFileHandler() {
   const { csrf } = useLoaderData<typeof loader>();
   const submit = useSubmit();

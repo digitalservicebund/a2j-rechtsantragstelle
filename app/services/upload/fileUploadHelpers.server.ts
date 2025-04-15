@@ -9,9 +9,9 @@ import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
-import { splitFieldName } from "~/services/upload/fileUploadHelpers";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { buildFileUploadError } from "./buildFileUploadError";
+import { splitFieldName } from "./splitFieldName";
 import { validateUploadedFile } from "./validateUploadedFile";
 
 export const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";

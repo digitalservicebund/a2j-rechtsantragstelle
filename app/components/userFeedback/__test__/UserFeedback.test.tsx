@@ -2,10 +2,8 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { act } from "react";
 import { createRoutesStub } from "react-router";
-import UserFeedback, {
-  BannerState,
-  USER_FEEDBACK_ID,
-} from "~/components/userFeedback";
+import UserFeedback, { USER_FEEDBACK_ID } from "~/components/userFeedback";
+import { BannerState } from "~/components/userFeedback/BannerState";
 
 vi.mock("~/components/userFeedback/FeedbackFormBox", () => ({
   FeedbackFormBox: () => <div>Mock FeedbackFormBox</div>,

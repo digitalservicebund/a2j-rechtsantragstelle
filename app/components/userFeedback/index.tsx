@@ -6,13 +6,8 @@ import { PostSubmissionBox } from "./PostSubmissionBox";
 import { type RatingBoxProps, RatingBox } from "./RatingBox";
 import Background from "../Background";
 import Container from "../Container";
+import { BannerState } from "./BannerState";
 import { FeedbackType } from "./FeedbackType";
-
-export enum BannerState {
-  ShowRating = "showRating",
-  ShowFeedback = "showFeedback",
-  FeedbackGiven = "feedbackGiven",
-}
 
 type UserFeedbackProps = {
   rating: Pick<RatingBoxProps, "heading">;

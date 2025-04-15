@@ -3,12 +3,10 @@ import Button from "~/components/Button";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
 import { useTranslations } from "~/services/translations/translationsContext";
-import {
-  splitFieldName,
-  useFileHandler,
-} from "~/services/upload/fileUploadHelpers";
+import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { type ErrorMessageProps } from ".";
+import { useFileHandler } from "../filesUpload/useFileHandler";
 
 type FileInputProps = {
   name: string;
