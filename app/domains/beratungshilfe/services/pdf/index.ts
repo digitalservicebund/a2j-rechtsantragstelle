@@ -69,6 +69,11 @@ export async function beratungshilfePdfFromUserdata(
   cookieHeader: string | null,
   flowId: FlowId,
 ) {
+  /**
+   * Extracts all saved file keys from userData.
+   * @param userData user data which can contain saved file keys in the form of arrays of objects
+   * @returns an array of all saved file keys
+   */
   const extractSavedFileKeys = (userData: BeratungshilfeFormularContext) => {
     const allKeys: string[] = [];
     for (const value of Object.values(userData)) {
@@ -82,7 +87,14 @@ export async function beratungshilfePdfFromUserdata(
     }
     return allKeys;
   };
-
+  /**
+   * Embeds user uploaded files into a PDF document.
+   * @param mainPdfBuffer The PDF document as a Uint8Array
+   * @param userData The user data containing saved file keys
+   * @param cookieHeader The cookie header for the request for authentication
+   * @param flowId The flow ID for the request
+   * @returns The resulting PDF document as a Uint8Array
+   */
   async function embedUserFilesToPdf(
     mainPdfBuffer: Uint8Array,
     userData: BeratungshilfeFormularContext,
@@ -146,9 +158,12 @@ export async function beratungshilfePdfFromUserdata(
   const mainPdfDocument = await PDFDocument.load(pdfKitBuffer);
 
   if(userData.abgabeArt === "online") {
-    const filledPdfBuffer = await filledPdfFormDocumentWithMetadata.save();
-    return embedUserFilesToPdf(filledPdfBuffer, userData, cookieHeader, flowId);
-  }
-
-  return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
+      const embeddedPdfBuffer = await embedUserFilesToPdf(pdfKitBuffer, userData, cookieHeader, flowId);
+      const embeddedPdfDocument = await PDFDocument.load(embeddedPdfBuffer);
+      return appendPagesToPdf(filledPdfFormDocumentWithMetadata, embeddedPdfDocument);    
+    } else {
+      return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument); 
+    }
 }
+
+
