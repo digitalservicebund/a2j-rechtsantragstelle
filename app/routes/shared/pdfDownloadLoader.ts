@@ -24,6 +24,8 @@ export type PdfConfig = PdfFlowContexts extends infer T
     ? {
         pdfFunction: (
           userData: T,
+          flowId: FlowId,
+          cookieHeader: string | null,
           translations?: Translations,
         ) => Promise<Uint8Array>;
         filenameFunction: () => string;
@@ -33,14 +35,16 @@ export type PdfConfig = PdfFlowContexts extends infer T
 
 const pdfConfigs = {
   "/beratungshilfe/antrag": {
-    pdfFunction: async (userData: BeratungshilfeFormularContext) =>
-      await beratungshilfePdfFromUserdata(userData),
+    pdfFunction: async (userData: BeratungshilfeFormularContext, flowId: FlowId, cookieHeader: string | null) =>
+      await beratungshilfePdfFromUserdata(userData, cookieHeader, flowId),
     filenameFunction: () =>
       `Antrag_Beratungshilfe_${pdfDateFormat(today())}.pdf`,
   },
   "/prozesskostenhilfe/formular": {
     pdfFunction: async (
       userData: ProzesskostenhilfeFormularContext,
+      _flowId: FlowId,
+      _cookieHeader: string | null,
       translations?: Translations,
     ) => await prozesskostenhilfePdfFromUserdata(userData, translations),
     filenameFunction: () =>
@@ -69,7 +73,7 @@ export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
   );
   if (isEmpty(userData)) return redirect(flowId);
 
-  const fileContent = await pdfFunction(userData, flowTranslations);
+  const fileContent = await pdfFunction(userData, flowId, request.headers.get("Cookie"),flowTranslations);
   const fileSize = fileContent.length;
   const filename = filenameFunction();
 

@@ -2,6 +2,7 @@ import { PDFDocument } from "pdf-lib";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { type FlowId } from "~/domains/flowIds";
 import {
   addMetadataToPdf,
   type Metadata,
@@ -16,6 +17,7 @@ import { fillPdf } from "~/services/pdf/fillPdf.server";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
+import { downloadUserFile } from "~/services/upload/fileUploadHelpers.server";
 import { createChecklistPage } from "./checklist/createChecklistPage";
 import { fillAngelegenheit } from "./pdfForm/A_angelegenheit";
 import { fillVorraussetzungen } from "./pdfForm/B_vorraussetzungen";
@@ -64,8 +66,17 @@ const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
 
 export async function beratungshilfePdfFromUserdata(
   userData: BeratungshilfeFormularContext,
+  cookieHeader: string | null,
+  flowId: FlowId,
 ) {
-  const { pdfValues, attachment } = pdfFillReducer({
+
+const file = await downloadUserFile(
+  cookieHeader,
+  flowId,
+  "3d33d0b6-9832-47f5-b849-eade8c710602",
+);
+
+const { pdfValues, attachment } = pdfFillReducer({
     userData,
     pdfParams: getBeratungshilfeParameters(),
     fillFunctions: [
@@ -100,5 +111,14 @@ export async function beratungshilfePdfFromUserdata(
   );
   const mainPdfDocument = await PDFDocument.load(pdfKitBuffer);
 
+  const userPdfFilesToEmbed = await PDFDocument.load(file)
+
+  const pages = await mainPdfDocument.embedPdf(userPdfFilesToEmbed);
+
+  for (const page of pages) {
+    const newPage = mainPdfDocument.addPage();
+
+    newPage.drawPage(page);
+  }
   return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
 }
