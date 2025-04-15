@@ -84,12 +84,20 @@ describe("Checkbox", () => {
     expect(errorMessage).toBeInTheDocument();
   });
 
-  it("sets aria-required attribute based on required prop", () => {
+  it("sets aria-required to true when required is true", () => {
     render(
       <Checkbox name="checkbox-name" label="Checkbox Label" required={true} />,
     );
     const checkbox = screen.getByRole("checkbox");
     expect(checkbox).toHaveAttribute("aria-required", "true");
+  });
+
+  it("does set aria-required to false when required is false", () => {
+    render(
+      <Checkbox name="checkbox-name" label="Checkbox Label" required={false} />,
+    );
+    const checkbox = screen.getByRole("checkbox");
+    expect(checkbox).toHaveAttribute("aria-required", "false");
   });
 
   it("renders label with RichText component", () => {
