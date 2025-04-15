@@ -137,6 +137,7 @@
     "p-map": "^7.0.3",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
+    "react-router-dom": "^7.5.0",
     "size-limit": "^11.2.0",
     "storybook": "^8.6.12",
     "tailwindcss": "^3.4.17",

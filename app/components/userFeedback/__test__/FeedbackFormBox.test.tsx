@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router";
+import { createMemoryRouter, RouterProvider } from "react-router-dom"; // use react-router-dom only for test, the react-router-dom does not work
 import { FEEDBACK_FIELD_NAME, FeedbackFormBox } from "../FeedbackFormBox";
 import { FeedbackType } from "../FeedbackType";
 
@@ -10,6 +10,17 @@ vi.mock("~/components/userFeedback/feedbackTranslations", () => ({
     "submit-button-feedback": SUBMIT_BUTTON_FEEDBACK,
   }),
 }));
+
+vi.mock("react-router", async () => {
+  const actual = await vi.importActual("react-router");
+
+  return {
+    ...actual,
+    useLocation: () => ({
+      pathname: "/",
+    }),
+  };
+});
 
 function renderFeedbackFormBox() {
   const router = createMemoryRouter(

@@ -1,5 +1,5 @@
 import { fireEvent, render, waitFor } from "@testing-library/react";
-import { createRoutesStub } from "react-router";
+import { createMemoryRouter, RouterProvider } from "react-router-dom"; // use react-router-dom only for test, the react-router-dom does not work
 import { z } from "zod";
 import { getStrapiCheckboxComponent } from "tests/factories/cmsModels/strapiCheckboxComponent";
 import { getStrapiDropdownComponent } from "tests/factories/cmsModels/strapiDropdownComponent";
@@ -19,6 +19,17 @@ import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
+
+vi.mock("react-router", async () => {
+  const actual = await vi.importActual("react-router");
+
+  return {
+    ...actual,
+    useLocation: () => ({
+      pathname: "/",
+    }),
+  };
+});
 
 vi.mock("~/services/params", () => ({
   splatFromParams: vi.fn(),
@@ -396,30 +407,22 @@ describe("ValidatedFlowForm", () => {
 function renderValidatedFlowForm(
   formElements: Array<Partial<StrapiFormComponent>>,
 ) {
-  const RouteStubValidationForm = createRoutesStub([
+  const router = createMemoryRouter([
     {
-      path: "/fluggastrechte/vorabcheck/start",
-      Component: () => (
+      path: "/",
+      element: (
         <ValidatedFlowForm
           stepData={{}}
           // @ts-expect-error Incompatible types, as we're only mocking partials of FormElements
           formElements={formElements}
-          buttonNavigationProps={{
-            next: {
-              label: "NEXT",
-            },
-          }}
+          buttonNavigationProps={{ next: { destination: "", label: "NEXT" } }}
           csrf={""}
         />
       ),
-      action() {
-        return {};
+      action: () => {
+        return { someActionValue: "foo" };
       },
     },
   ]);
-  return render(
-    <RouteStubValidationForm
-      initialEntries={["/fluggastrechte/vorabcheck/start"]}
-    />,
-  );
+  return render(<RouterProvider router={router} />);
 }
