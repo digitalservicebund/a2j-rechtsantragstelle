@@ -3,7 +3,6 @@ import { render, screen } from "@testing-library/react";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 
 const COMPONENT_NAME = "TileGroup";
-const COMPONENT_TILE_RADIO_TEXT = "TileRadio";
 
 const mockControlledRef = vi.fn();
 
