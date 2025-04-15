@@ -6,7 +6,7 @@ import type { Context } from "~/domains/contexts";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { validatorForFieldNames } from "~/services/validation/stepValidator/validatorForFieldNames";
+import { schemaForFieldNames } from "~/services/validation/stepValidator/schemaForFieldNames";
 
 type ValidatedFlowFormProps = {
   stepData: Context;
@@ -23,7 +23,7 @@ function ValidatedFlowForm({
 }: Readonly<ValidatedFlowFormProps>) {
   const { pathname } = useLocation();
   const fieldNames = formElements.map((entry) => entry.name);
-  const validator = validatorForFieldNames(fieldNames, pathname);
+  const schema = schemaForFieldNames(fieldNames, pathname);
   const stackClass =
     formElements.length === 0 ? "ds-stack ds-stack-0" : "ds-stack ds-stack-40";
 
@@ -31,7 +31,7 @@ function ValidatedFlowForm({
     <ValidatedForm
       method="post"
       encType="multipart/form-data"
-      schema={validator}
+      schema={schema}
       defaultValues={stepData}
       noValidate
       action={pathname}

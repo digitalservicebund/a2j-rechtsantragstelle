@@ -5,7 +5,7 @@ import { fieldIsArray, splitArrayName } from "../../array";
 
 type Schemas = Record<string, z.ZodTypeAny>;
 
-export function buildStepValidator(
+export function buildStepSchema(
   schemas: Schemas,
   fieldNames: string[],
   multiFieldsValidation?: FunctionMultiFieldsValidation,

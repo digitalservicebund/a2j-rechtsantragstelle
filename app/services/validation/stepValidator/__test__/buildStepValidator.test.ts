@@ -1,8 +1,8 @@
 import { z } from "zod";
 import type { FunctionMultiFieldsValidation } from "~/domains/multiFieldsFlowValidation";
-import { buildStepValidator } from "~/services/validation/stepValidator/buildStepValidator";
+import { buildStepSchema } from "../buildStepSchema";
 
-describe("buildStepValidator", () => {
+describe("buildStepSchema", () => {
   describe("nested fields", () => {
     it("should throw an error for an not existing field name", () => {
       const schemas = {
@@ -11,10 +11,10 @@ describe("buildStepValidator", () => {
         }),
       };
       const fieldNames = ["step2.field1"];
-      expect(() => buildStepValidator(schemas, fieldNames)).toThrow();
+      expect(() => buildStepSchema(schemas, fieldNames)).toThrow();
     });
 
-    it("should return a valid validation for a existing field", () => {
+    it("should return a valid validation for positive entry", () => {
       const schemas = {
         step1: z.object({
           field1: z.string(),
@@ -22,15 +22,14 @@ describe("buildStepValidator", () => {
       };
       const fieldNames = ["step1.field1"];
 
-      const validator = buildStepValidator(schemas, fieldNames);
-      const actual1 = validator.safeParse({
+      const stepSchema = buildStepSchema(schemas, fieldNames);
+      const actual = stepSchema.safeParse({
         step1: {
           field1: "value",
         },
       });
 
-      // Expect a positive validation
-      expect(actual1).toEqual(
+      expect(actual).toEqual(
         expect.objectContaining({
           success: true,
           data: {
@@ -40,13 +39,23 @@ describe("buildStepValidator", () => {
           },
         }),
       );
+    });
 
-      // Expect a negative validation after validation because of different fields
-      const actual2 = validator.safeParse({
+    it("should return an error because of different fields", () => {
+      const schemas = {
+        step1: z.object({
+          field1: z.string(),
+        }),
+      };
+      const fieldNames = ["step1.field1"];
+
+      const stepSchema = buildStepSchema(schemas, fieldNames);
+
+      const actual = stepSchema.safeParse({
         step1: {},
       });
 
-      expect(actual2.error).toBeDefined();
+      expect(actual.error).toBeDefined();
     });
   });
 
@@ -56,23 +65,22 @@ describe("buildStepValidator", () => {
         field1: z.string(),
       };
       const fieldNames = ["field2"];
-      expect(() => buildStepValidator(schemas, fieldNames)).toThrow();
+      expect(() => buildStepSchema(schemas, fieldNames)).toThrow();
     });
 
-    it("should return a valid validation for a existing field", () => {
+    it("should return a valid validation for positive entry", () => {
       const schemas = {
         field1: z.string(),
       };
       const fieldNames = ["field1"];
 
-      const validator = buildStepValidator(schemas, fieldNames);
+      const stepSchema = buildStepSchema(schemas, fieldNames);
 
-      const actual1 = validator.safeParse({
+      const actual = stepSchema.safeParse({
         field1: "value",
       });
 
-      // Expect a positive validation
-      expect(actual1).toEqual(
+      expect(actual).toEqual(
         expect.objectContaining({
           success: true,
           data: {
@@ -80,10 +88,17 @@ describe("buildStepValidator", () => {
           },
         }),
       );
-      // Expect a negative validation after validation because of different fields
-      const actual2 = validator.safeParse({});
+    });
 
-      expect(actual2.error).toBeDefined();
+    it("should return an error because of different fields", () => {
+      const schemas = {
+        field1: z.string(),
+      };
+      const fieldNames = ["field1"];
+      const stepSchema = buildStepSchema(schemas, fieldNames);
+      const actual = stepSchema.safeParse({});
+
+      expect(actual.error).toBeDefined();
     });
   });
 
@@ -107,13 +122,13 @@ describe("buildStepValidator", () => {
     const fieldNames = ["field1", "field2"];
 
     it("should return an error object given the field1 bigger than field2", () => {
-      const validator = buildStepValidator(
+      const stepSchema = buildStepSchema(
         schemas,
         fieldNames,
         multiFieldsValidation,
       );
 
-      const actualValidation = validator.safeParse({
+      const actualValidation = stepSchema.safeParse({
         field1: 1,
         field2: 0,
       });
@@ -126,13 +141,13 @@ describe("buildStepValidator", () => {
     });
 
     it("should return data object given the field1 smaller than field2", () => {
-      const validator = buildStepValidator(
+      const stepSchema = buildStepSchema(
         schemas,
         fieldNames,
         multiFieldsValidation,
       );
 
-      const actualValidation = validator.safeParse({
+      const actualValidation = stepSchema.safeParse({
         field1: 1,
         field2: 2,
       });

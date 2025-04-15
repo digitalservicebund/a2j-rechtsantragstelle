@@ -1,9 +1,9 @@
 import { parseFormData } from "@rvf/react-router";
 import { type Context } from "~/domains/contexts";
-import { validatorForFieldNames } from "./stepValidator/validatorForFieldNames";
+import { schemaForFieldNames } from "./stepValidator/schemaForFieldNames";
 
 export async function validateFormData(pathname: string, formData: FormData) {
   const formDataKeys = Object.keys(formData);
-  const validator = validatorForFieldNames(formDataKeys, pathname);
+  const validator = schemaForFieldNames(formDataKeys, pathname);
   return parseFormData<Context>(formData, validator);
 }

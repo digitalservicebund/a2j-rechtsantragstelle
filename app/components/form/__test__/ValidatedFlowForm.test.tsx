@@ -12,7 +12,7 @@ import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormCompon
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
-import * as validatorForFieldNames from "~/services/validation/stepValidator/validatorForFieldNames";
+import * as schemaForFieldNames from "~/services/validation/stepValidator/schemaForFieldNames";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
 import {
@@ -36,8 +36,8 @@ vi.mock("~/services/params", () => ({
 }));
 
 const fieldNameValidatorSpy = vi.spyOn(
-  validatorForFieldNames,
-  "validatorForFieldNames",
+  schemaForFieldNames,
+  "schemaForFieldNames",
 );
 
 describe("ValidatedFlowForm", () => {
