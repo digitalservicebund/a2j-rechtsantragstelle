@@ -2,7 +2,7 @@ import classNames from "classnames";
 import type { FlowNavigationProps } from "~/components/navigation/NavigationList";
 import { NavigationList } from "~/components/navigation/NavigationList";
 import SideNavMobile from "~/components/navigation/SideNavMobile";
-import { useJsAvailable } from "~/services/useJsAvailabe";
+import { useJsAvailable } from "~/services/useJsAvailable";
 
 export default function FlowNavigation(props: FlowNavigationProps) {
   const jsAvailable = useJsAvailable();
