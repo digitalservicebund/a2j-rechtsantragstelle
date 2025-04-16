@@ -1,4 +1,5 @@
 import { useField } from "@rvf/react-router";
+import { forwardRef } from "react";
 import TileTag, { type TileDescriptionProps } from "./TileTag";
 import Image, { type ImageProps } from "../../Image";
 import RichText from "../../RichText";
@@ -21,15 +22,18 @@ type TileProps = TileOptions &
     onClick: () => void;
   }>;
 
-const TileRadio = ({
-  name,
-  description,
-  value,
-  title,
-  image,
-  tagDescription,
-  onClick,
-}: TileProps) => {
+function TileRadio(
+  {
+    name,
+    description,
+    value,
+    title,
+    image,
+    tagDescription,
+    onClick,
+  }: TileProps,
+  ref: React.Ref<HTMLInputElement>,
+) {
   const field = useField(name);
   const id = `${name}-${value}`;
 
@@ -46,6 +50,7 @@ const TileRadio = ({
           type="radio"
           aria-describedby={field.error() ? `${name}-error` : undefined}
           onClick={onClick}
+          ref={ref}
         />
         <div className="h-full pl-24 space-y-8">
           <div className="flex flex-row justify-between">
@@ -65,6 +70,6 @@ const TileRadio = ({
       </label>
     </div>
   );
-};
+}
 
-export default TileRadio;
+export default forwardRef(TileRadio);
