@@ -100,27 +100,31 @@ export async function beratungshilfePdfFromUserdata(
     userData: BeratungshilfeFormularContext,
     cookieHeader: string | null,
     flowId: FlowId,
-  ) : Promise<Uint8Array> {
-  const mainPdfDocument = await PDFDocument.load(mainPdfBuffer);
-  const savedFileKeys = extractSavedFileKeys(userData);
-  
-  for (const savedFileKey of savedFileKeys) {
-    const userFileBuffer = await downloadUserFile(
-      cookieHeader,
-      flowId,
-      savedFileKey,
-    );
+  ): Promise<Uint8Array> {
+    const mainPdfDocument = await PDFDocument.load(mainPdfBuffer);
+    const savedFileKeys = extractSavedFileKeys(userData);
 
-    const pages = await mainPdfDocument.embedPdf(userFileBuffer);
+    for (const savedFileKey of savedFileKeys) {
+      const userFileBuffer = await downloadUserFile(
+        cookieHeader,
+        flowId,
+        savedFileKey,
+      );
 
-    for (const page of pages) {
-      const newPage = mainPdfDocument.addPage();
-      newPage.drawPage(page);
+      const userPdfFile = await PDFDocument.load(userFileBuffer);
+
+      const copiedPdfFilePages = await mainPdfDocument.copyPages(
+        userPdfFile,
+        userPdfFile.getPageIndices(),
+      );
+
+      for (const copiedPdfFilePage of copiedPdfFilePages) {
+        mainPdfDocument.addPage(copiedPdfFilePage);
+      }
     }
+    const finalPdf = await mainPdfDocument.save();
+    return finalPdf;
   }
-  const finalPdf = mainPdfDocument.save();
-  return finalPdf;
-}
 
   const { pdfValues, attachment } = pdfFillReducer({
     userData,
@@ -157,13 +161,19 @@ export async function beratungshilfePdfFromUserdata(
   );
   const mainPdfDocument = await PDFDocument.load(pdfKitBuffer);
 
-  if(userData.abgabeArt === "online") {
-      const embeddedPdfBuffer = await embedUserFilesToPdf(pdfKitBuffer, userData, cookieHeader, flowId);
-      const embeddedPdfDocument = await PDFDocument.load(embeddedPdfBuffer);
-      return appendPagesToPdf(filledPdfFormDocumentWithMetadata, embeddedPdfDocument);    
-    } else {
-      return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument); 
-    }
+  if (userData.abgabeArt === "online") {
+    const embeddedPdfBuffer = await embedUserFilesToPdf(
+      pdfKitBuffer,
+      userData,
+      cookieHeader,
+      flowId,
+    );
+    const embeddedPdfDocument = await PDFDocument.load(embeddedPdfBuffer);
+    return appendPagesToPdf(
+      filledPdfFormDocumentWithMetadata,
+      embeddedPdfDocument,
+    );
+  } else {
+    return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
+  }
 }
-
-
