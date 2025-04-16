@@ -1,4 +1,4 @@
-import type { NavItem } from "~/components/navigation/NavItem";
+import { type NavItem } from "~/components/navigation/types";
 import { type StepState } from "./flow/server/buildFlowController";
 import { NavState, stateIsCurrent } from "./navigation/navState";
 import type { Translations } from "./translations/getTranslationByKey";

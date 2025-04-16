@@ -2,14 +2,8 @@ import Close from "@digitalservicebund/icons/Close";
 import MenuIcon from "@digitalservicebund/icons/Menu";
 import { useState } from "react";
 import { NavigationList } from "~/components/navigation/NavigationList";
-import { type NavItem } from "~/components/navigation/NavItem";
 import { stateIsCurrent } from "~/services/navigation/navState";
-
-export type MobileNavigationLabels = {
-  currentArea: string;
-  closeMenu: string;
-  toggleMenu: string;
-};
+import { type MobileNavigationLabels, type NavItem } from "./types";
 
 type SideNavMobileProps = Readonly<{
   className?: string;
