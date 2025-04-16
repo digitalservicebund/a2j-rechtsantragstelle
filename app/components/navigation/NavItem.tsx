@@ -10,7 +10,7 @@ import {
   stateIsDisabled,
   stateIsDone,
 } from "~/services/navigation/navState";
-import { NavigationList } from "./NavigationList";
+import { NavigationListSubflows } from "./NavigationListSubflows";
 import { type NavItem, type NavigationA11yLabels } from "./types";
 
 const StateIcon: FC<{
@@ -84,10 +84,12 @@ export function NavItem({
             // due the rest operator, the role is assigned to the section in the server side rendering
           }
           <section {...collapse.getCollapseProps()} role={undefined}>
-            <NavigationList
+            {
+              // create sub-component to avoid circular files import
+            }
+            <NavigationListSubflows
               navItems={visibleChildItems}
               a11yLabels={a11yLabels}
-              isChild={true}
             />
           </section>
         </>
