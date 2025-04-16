@@ -1,6 +1,6 @@
 import { useField } from "@rvf/remix";
 import { useState } from "react";
-import { useJsAvailable } from "~/services/useJsAvailabe";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import InputError from "./InputError";
 import RichText from "../RichText";
 

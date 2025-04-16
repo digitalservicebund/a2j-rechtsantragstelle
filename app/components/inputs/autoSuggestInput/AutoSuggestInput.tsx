@@ -6,7 +6,7 @@ import Select, { type InputActionMeta } from "react-select";
 import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import { useTranslations } from "~/services/translations/translationsContext";
-import { useJsAvailable } from "~/services/useJsAvailabe";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import { type ErrorMessageProps } from "..";
 import {
   CustomClearIndicator,
