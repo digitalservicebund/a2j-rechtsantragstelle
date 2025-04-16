@@ -1,6 +1,7 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { type ReactNode, useState } from "react";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import { type ErrorMessageProps } from "..";
 import TileRadio, { type TileOptions } from "./TileRadio";
 import InputError from "../InputError";
@@ -32,6 +33,7 @@ const TileGroup = ({
   const [renderHiddenField, setRenderHiddenField] = useState(
     field.defaultValue() === undefined,
   );
+  const jsAvailable = useJsAvailable();
 
   return (
     <fieldset
@@ -40,7 +42,9 @@ const TileGroup = ({
       aria-errormessage={field.error() ? errorId : undefined}
     >
       {altLabel && <legend className="sr-only">{altLabel}</legend>}
-      {renderHiddenField && <input type="hidden" name={name} />}
+      {(!jsAvailable || renderHiddenField) && (
+        <input type="hidden" name={name} />
+      )}
       <div
         className={classNames("grid gap-24", {
           "grid-cols-[repeat(auto-fit,minmax(290px,1fr))]": useTwoColumns,

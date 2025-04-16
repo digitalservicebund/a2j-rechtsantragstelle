@@ -1,5 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { type ReactNode, useState } from "react";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
@@ -35,6 +36,7 @@ const RadioGroup = ({
   const [renderHiddenField, setRenderHiddenField] = useState(
     field.defaultValue() === undefined,
   );
+  const jsAvailable = useJsAvailable();
 
   return (
     <fieldset
@@ -44,7 +46,9 @@ const RadioGroup = ({
       aria-errormessage={hasError ? errorId : undefined}
     >
       {altLabel && <legend className="sr-only">{altLabel}</legend>}
-      {renderHiddenField && <input type="hidden" name={name} />}
+      {(!jsAvailable || renderHiddenField) && (
+        <input type="hidden" name={name} />
+      )}
       <div className="ds-stack ds-stack-16">
         {label && <legend>{label}</legend>}
         {options.map((o, index) => (

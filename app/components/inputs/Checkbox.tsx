@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { useState } from "react";
-import { useJsAvailable } from "~/services/useJsAvailabe";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import InputError from "./InputError";
 import RichText from "../RichText";
 
@@ -49,7 +49,8 @@ const Checkbox = ({
           className={className}
           aria-describedby={field.error() ? errorId : undefined}
           onClick={() => setRenderHiddenField(!renderHiddenField)}
-          required={required}
+          aria-required={required}
+          ref={field.error() ? field.refs.controlled() : null}
         />
 
         {label && (

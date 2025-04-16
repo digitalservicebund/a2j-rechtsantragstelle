@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import { z } from "zod";
 import Textarea from "~/components/inputs/Textarea";
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
-import { useJsAvailable } from "~/services/useJsAvailabe";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { FeedbackType } from "./FeedbackType";

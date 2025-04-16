@@ -1,7 +1,7 @@
 import ThumbDownIcon from "@digitalservicebund/icons/ThumbDownOutlined";
 import ThumbUpIcon from "@digitalservicebund/icons/ThumbUpOutlined";
 import { useFetcher } from "react-router";
-import { useJsAvailable } from "~/services/useJsAvailabe";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { FeedbackType } from "./FeedbackType";
 import Button from "../Button";
