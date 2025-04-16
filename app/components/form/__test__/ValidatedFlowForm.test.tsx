@@ -404,16 +404,19 @@ describe("ValidatedFlowForm", () => {
       fieldNameValidatorSpy.mockImplementation(() =>
         withZod(
           z.object({
-            myTileGroup: z.enum(["tile1"], customRequiredErrorMessage),
+            myTileGroup: z.enum(["tileGroup"], customRequiredErrorMessage),
           }),
         ),
       );
     });
     const { component, expectTileGroupErrorToExist } =
-      getStrapiTileGroupComponent({
-        code: "required",
-        text: "Selection required.",
-      });
+      getStrapiTileGroupComponent(
+        {
+          code: "required",
+          text: "Selection required.",
+        },
+        ["First Tile", "Second Tile"],
+      );
 
     it("should display an error if the user doesn't select a tile", async () => {
       const { getByText } = renderValidatedFlowForm([component]);
@@ -426,11 +429,27 @@ describe("ValidatedFlowForm", () => {
 
     it("should not display an error if the user has selected a tile", async () => {
       const { getByText, queryByTestId } = renderValidatedFlowForm([component]);
-      fireEvent.click(getByText("Tile 1"));
+      fireEvent.click(getByText("First Tile"));
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should focus on first tile when error appears", async () => {
+      const { getByText, getAllByRole, queryByTestId } =
+        renderValidatedFlowForm([component]);
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(queryByTestId("ErrorOutlineIcon")).toBeInTheDocument();
+        const radioButtons = getAllByRole("radio");
+        const firstRadio = radioButtons[0];
+        const secondRadio = radioButtons[1];
+
+        expect(radioButtons).toHaveLength(2);
+        expect(firstRadio).toHaveFocus();
+        expect(secondRadio).not.toHaveFocus();
       });
     });
   });

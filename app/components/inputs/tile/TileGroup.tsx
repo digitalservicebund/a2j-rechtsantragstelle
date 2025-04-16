@@ -51,18 +51,23 @@ const TileGroup = ({
         })}
       >
         {label && <legend>{label}</legend>}
-        {options.map(({ value, description, tagDescription, image, title }) => (
-          <TileRadio
-            key={value}
-            name={name}
-            onClick={() => setRenderHiddenField(false)}
-            value={value}
-            description={description}
-            tagDescription={tagDescription}
-            image={image}
-            title={title}
-          />
-        ))}
+        {options.map(
+          ({ value, description, tagDescription, image, title }, index) => (
+            <TileRadio
+              key={value}
+              name={name}
+              onClick={() => setRenderHiddenField(false)}
+              value={value}
+              description={description}
+              tagDescription={tagDescription}
+              image={image}
+              title={title}
+              ref={
+                index === 0 && field.error() ? field.refs.controlled() : null
+              }
+            />
+          ),
+        )}
       </div>
       <div className="pt-16">
         {errorToDisplay && (
