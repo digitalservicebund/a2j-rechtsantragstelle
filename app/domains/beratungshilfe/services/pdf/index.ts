@@ -110,14 +110,15 @@ export async function beratungshilfePdfFromUserdata(
         flowId,
         savedFileKey,
       );
-
       const userPdfFile = await PDFDocument.load(userFileBuffer);
 
+      // Copy the pages from the user PDF file to the main PDF document
       const copiedPdfFilePages = await mainPdfDocument.copyPages(
         userPdfFile,
         userPdfFile.getPageIndices(),
       );
 
+      // Add the copied pages to the main PDF document
       for (const copiedPdfFilePage of copiedPdfFilePages) {
         mainPdfDocument.addPage(copiedPdfFilePage);
       }

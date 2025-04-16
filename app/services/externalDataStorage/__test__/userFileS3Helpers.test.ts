@@ -1,5 +1,7 @@
+import { Readable } from "stream";
 import {
   DeleteObjectCommand,
+  GetObjectCommand,
   PutObjectCommand,
   type S3Client,
 } from "@aws-sdk/client-s3";
@@ -8,6 +10,7 @@ import { type FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
 import {
   deleteUserFileFromS3,
+  downloadUserFileFromS3,
   uploadUserFileToS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
 import { getSessionIdByFlowId } from "../../session.server";
@@ -16,6 +19,7 @@ import { createClientS3DataStorage } from "../createClientS3DataStorage";
 vi.mock("@aws-sdk/client-s3", () => ({
   PutObjectCommand: vi.fn(),
   DeleteObjectCommand: vi.fn(),
+  GetObjectCommand: vi.fn(),
 }));
 
 const mockFlowId: FlowId = "/prozesskostenhilfe/formular";
@@ -117,6 +121,40 @@ describe("userFileS3Helpers", () => {
       );
 
       expect(mockS3Client.send).toBeCalled();
+    });
+  });
+
+  describe("downloadUserFileFromS3", () => {
+    it("should successfully download a user file", async () => {
+      const mockSessionId = "test-session-id";
+      const mockConfig = {
+        ...config(),
+        S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
+      };
+      setupFileMocks(mockSessionId, mockConfig);
+
+      const mockStream = new Readable();
+      mockStream.push("test data")
+      mockStream.push(null);
+
+      // Mock the S3 clients send method to return a response with a body
+      mockS3Client.send = vi.fn().mockResolvedValue({
+        Body: mockStream,
+      });
+    
+      await expect(
+        downloadUserFileFromS3(mockCookie, mockFlowId, mockUUID),
+      ).resolves.toBeInstanceOf(Buffer);
+
+      expect(createClientS3DataStorage).toHaveBeenCalled();
+      expect(getSessionIdByFlowId).toHaveBeenCalledWith(mockFlowId, mockCookie);
+
+      expect(GetObjectCommand).toHaveBeenCalledWith(
+        expect.objectContaining({
+          Bucket: mockConfig.S3_DATA_STORAGE_BUCKET_NAME,
+          Key: `user-files${mockFlowId}/${mockSessionId}/${mockUUID}`,
+        }),
+      );
     });
   });
 });
