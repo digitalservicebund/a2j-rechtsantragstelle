@@ -1,9 +1,9 @@
 import ThumbDownIcon from "@digitalservicebund/icons/ThumbDownOutlined";
 import ThumbUpIcon from "@digitalservicebund/icons/ThumbUpOutlined";
 import { useFetcher } from "@remix-run/react";
-import { useEffect, useState } from "react";
-import { FeedbackType } from "~/components/userFeedback";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import { useFeedbackTranslations } from "./feedbackTranslations";
+import { FeedbackType } from "./FeedbackType";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 import Heading from "../Heading";
@@ -18,9 +18,7 @@ export type RatingBoxProps = {
 
 export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
   const ratingFetcher = useFetcher();
-  const [jsAvailable, setJsAvailable] = useState(false);
-  useEffect(() => setJsAvailable(true), []);
-
+  const jsAvailable = useJsAvailable();
   const feedbackTranslations = useFeedbackTranslations();
   return (
     <>

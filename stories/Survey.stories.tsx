@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { PosthogSurvey } from "~/components/userFeedback/reportProblem/Survey";
+import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { TranslationContext } from "~/services/translations/translationsContext";
-import { SurveyQuestionType, SurveyType } from "posthog-js";
+import { SurveyQuestionType } from "posthog-js";
 import Background from "~/components/Background";
 import Container from "~/components/Container";
 
@@ -46,13 +46,6 @@ export const Example: Story = {
   args: {
     survey: {
       id: "",
-      name: "",
-      description: "",
-      type: SurveyType.Popover,
-      feature_flag_keys: null,
-      linked_flag_key: null,
-      targeting_flag_key: null,
-      internal_targeting_flag_key: null,
       questions: [
         {
           id: "",
@@ -67,12 +60,6 @@ export const Example: Story = {
           description: "Please answer me:)",
         },
       ],
-      appearance: null,
-      conditions: null,
-      start_date: null,
-      end_date: null,
-      current_iteration: null,
-      current_iteration_start_date: null,
     },
     closeSurvey: () => undefined,
     styleOverrides: "relative",

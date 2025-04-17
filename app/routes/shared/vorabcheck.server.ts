@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { data, redirectDocument } from "@remix-run/node";
-import { validationError } from "remix-validated-form";
+import { validationError } from "@rvf/remix";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -84,7 +84,12 @@ export const loader = async ({
     return strapiFormElement;
   });
 
-  const meta = stepMeta(vorabcheckPage.pageMeta, parentMeta);
+  const meta = applyStringReplacement(
+    stepMeta(vorabcheckPage.pageMeta, parentMeta),
+    "stringReplacements" in currentFlow
+      ? currentFlow.stringReplacements(userData)
+      : undefined,
+  );
 
   // filter user data for current step
   const fieldNames = formElements.map((entry) => entry.name);

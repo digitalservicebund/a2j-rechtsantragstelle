@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { data, redirectDocument } from "@remix-run/node";
-import { validationError } from "remix-validated-form";
+import { validationError } from "@rvf/remix";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -46,6 +46,7 @@ import {
   uploadUserFile,
 } from "~/services/upload/fileUploadHelpers.server";
 import { validateFormData } from "~/services/validation/validateFormData.server";
+import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { filterFormData } from "~/util/filterFormData";
 
@@ -142,7 +143,10 @@ export const loader = async ({
     return strapiFormElement;
   });
 
-  const meta = stepMeta(formPageContent.pageMeta, parentMeta);
+  const meta = applyStringReplacement(
+    stepMeta(formPageContent.pageMeta, parentMeta),
+    stringTranslations,
+  );
 
   // Retrieve user data for current step
   const fieldNames = formPageContent.form.map((entry) => entry.name);

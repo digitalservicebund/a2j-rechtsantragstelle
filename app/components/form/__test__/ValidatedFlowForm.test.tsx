@@ -1,4 +1,4 @@
-import { withZod } from "@remix-validated-form/with-zod";
+import { withZod } from "@rvf/zod";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
 import { z } from "zod";
@@ -266,7 +266,7 @@ describe("ValidatedFlowForm", () => {
       });
     });
 
-    it("should focus on first radio button when navigating with keyboard", async () => {
+    it("should focus on first radio button when data submission fails", async () => {
       const { getByText, getByLabelText } = renderValidatedFlowForm([
         component,
       ]);
@@ -336,32 +336,61 @@ describe("ValidatedFlowForm", () => {
       fieldNameValidatorSpy.mockImplementation(() =>
         withZod(
           z.object({
-            myCheckbox: checkedRequired,
+            checkbox1: checkedRequired,
+            checkbox2: checkedRequired,
           }),
         ),
       );
     });
-    const { component, expectCheckboxErrorToExist } =
-      getStrapiCheckboxComponent({
-        code: "required",
-        text: "Selection required.",
+
+    const errorCode = {
+      code: "required",
+      text: "Selection required.",
+    };
+
+    const checkbox1 = getStrapiCheckboxComponent(errorCode, {
+      name: "checkbox1",
+      label: "Checkbox 1",
+      id: 1,
+    });
+
+    const checkbox2 = getStrapiCheckboxComponent(errorCode, {
+      name: "checkbox2",
+      label: "Checkbox 2",
+      id: 2,
+    });
+
+    it("should focus on first checkbox when data submission fails", async () => {
+      const { getByText, getByLabelText } = renderValidatedFlowForm([
+        checkbox1.component,
+        checkbox2.component,
+      ]);
+      const nextButton = getByText("NEXT");
+      fireEvent.click(nextButton);
+
+      await waitFor(() => {
+        expect(getByLabelText("Checkbox 1")).toHaveFocus();
+        expect(getByLabelText("Checkbox 2")).not.toHaveFocus();
       });
+    });
 
     it("should display an error if the user doesn't select the checkbox", async () => {
-      const { getByText, getByLabelText } = renderValidatedFlowForm([
-        component,
-      ]);
+      const { getByText, getByLabelText, getByTestId } =
+        renderValidatedFlowForm([checkbox1.component]);
 
       const nextButton = getByText("NEXT");
       expect(nextButton).toBeInTheDocument();
-      fireEvent.blur(getByLabelText("Checkbox"));
-      await expectCheckboxErrorToExist();
+      fireEvent.click(nextButton);
+      await waitFor(() => {
+        expect(getByTestId("inputError")).toBeInTheDocument();
+        expect(getByLabelText("Checkbox 1")).toHaveFocus();
+      });
     });
 
     it("should not display an error if the user has selected the checkbox", async () => {
       const { getByText, queryByTestId, getByLabelText } =
-        renderValidatedFlowForm([component]);
-      fireEvent.click(getByLabelText("Checkbox"));
+        renderValidatedFlowForm([checkbox1.component]);
+      fireEvent.click(getByLabelText("Checkbox 1"));
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
@@ -375,16 +404,19 @@ describe("ValidatedFlowForm", () => {
       fieldNameValidatorSpy.mockImplementation(() =>
         withZod(
           z.object({
-            myTileGroup: z.enum(["tile1"], customRequiredErrorMessage),
+            myTileGroup: z.enum(["tileGroup"], customRequiredErrorMessage),
           }),
         ),
       );
     });
     const { component, expectTileGroupErrorToExist } =
-      getStrapiTileGroupComponent({
-        code: "required",
-        text: "Selection required.",
-      });
+      getStrapiTileGroupComponent(
+        {
+          code: "required",
+          text: "Selection required.",
+        },
+        ["First Tile", "Second Tile"],
+      );
 
     it("should display an error if the user doesn't select a tile", async () => {
       const { getByText } = renderValidatedFlowForm([component]);
@@ -397,11 +429,27 @@ describe("ValidatedFlowForm", () => {
 
     it("should not display an error if the user has selected a tile", async () => {
       const { getByText, queryByTestId } = renderValidatedFlowForm([component]);
-      fireEvent.click(getByText("Tile 1"));
+      fireEvent.click(getByText("First Tile"));
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should focus on first tile when error appears", async () => {
+      const { getByText, getAllByRole, queryByTestId } =
+        renderValidatedFlowForm([component]);
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(queryByTestId("ErrorOutlineIcon")).toBeInTheDocument();
+        const radioButtons = getAllByRole("radio");
+        const firstRadio = radioButtons[0];
+        const secondRadio = radioButtons[1];
+
+        expect(radioButtons).toHaveLength(2);
+        expect(firstRadio).toHaveFocus();
+        expect(secondRadio).not.toHaveFocus();
       });
     });
   });

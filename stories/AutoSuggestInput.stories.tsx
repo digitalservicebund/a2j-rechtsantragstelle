@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { remixContext } from "../.storybook/remixContext";
 import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
 import type { AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
+import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 
 function getDataListValues<T extends { dataList?: any }>(
   props: T,
@@ -21,7 +22,6 @@ function getDataListValues<T extends { dataList?: any }>(
 
 const defaulType: AutoSuggestInputProps = {
   name: "autoSuggestInput",
-  formId: "formId",
   label: "Airports",
   noSuggestionMessage: "No data selected",
   errorMessages: undefined,
@@ -53,7 +53,14 @@ export const Default: Story = {
   args: {
     ...defaulType,
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      remixContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };
 
 export const WithPlaceholder: Story = {
@@ -61,5 +68,12 @@ export const WithPlaceholder: Story = {
     ...defaulType,
     placeholder: "With placeholder",
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      remixContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };

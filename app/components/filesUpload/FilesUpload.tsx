@@ -1,13 +1,10 @@
 import { useActionData } from "@remix-run/react";
+import { useField, type ValidationErrorResponseData } from "@rvf/remix";
 import classNames from "classnames";
-import { useState, useEffect } from "react";
-import {
-  useField,
-  type ValidationErrorResponseData,
-} from "remix-validated-form";
 import { type ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
 import { type Context } from "~/domains/contexts";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import {
   errorStyling,
   fileUploadLimit,
@@ -20,7 +17,6 @@ import { FileInput } from "../inputs/FileInput";
 export type FilesUploadProps = {
   name: string;
   title?: string;
-  formId?: string;
   description?: string;
   inlineNotices?: InlineNoticeProps[];
   errorMessages?: ErrorMessageProps[];
@@ -29,32 +25,29 @@ export type FilesUploadProps = {
 const FilesUpload = ({
   name,
   title,
-  formId,
   description,
   inlineNotices,
   errorMessages,
 }: FilesUploadProps) => {
-  const [jsAvailable, setJsAvailable] = useState(false);
+  const jsAvailable = useJsAvailable();
   const response = useActionData<
     ValidationErrorResponseData | Context | undefined
   >();
-  const { defaultValue, error } = useField(name, { formId });
-  const items: Array<PDFFileMetadata | undefined> =
-    (response?.repopulateFields as Context | undefined)?.[name] ??
+  const field = useField(name);
+  const items: Array<PDFFileMetadata | undefined> = ((
+    response?.repopulateFields as Context | undefined
+  )?.[name] ??
     (response as Context | undefined)?.[name] ??
-    defaultValue ??
-    [];
+    field.defaultValue() ??
+    []) as Array<PDFFileMetadata | undefined>;
   const scopedErrors = Object.fromEntries(
     Object.entries(response?.fieldErrors ?? {}).filter(
       ([key]) => key.split("[")[0] === name,
     ),
   );
   const errorId = `${name}-error`;
-
-  useEffect(() => setJsAvailable(true), []);
-
   const classes = classNames("w-full bg-white p-16 flex flex-col gap-16", {
-    [errorStyling]: !!error,
+    [errorStyling]: !!field.error(),
   });
 
   const showAddMoreButton =
@@ -106,7 +99,8 @@ const FilesUpload = ({
           <input type="hidden" name={"arrayPostfix"} value={name} />
         )}
         <InputError id={errorId}>
-          {errorMessages?.find((err) => err.code === error)?.text ?? error}
+          {errorMessages?.find((err) => err.code === field.error())?.text ??
+            field.error()}
         </InputError>
       </NoscriptWrapper>
     )
