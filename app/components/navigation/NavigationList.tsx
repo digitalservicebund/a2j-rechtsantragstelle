@@ -1,18 +1,5 @@
-import { type MobileNavigationLabels } from "~/components/navigation/SideNavMobile";
 import { NavItem } from "./NavItem";
-
-export type NavigationA11yLabels = {
-  menuLabel: string;
-  itemFinished: string;
-  itemOpen: string;
-};
-
-export type FlowNavigationProps = Readonly<{
-  navItems: NavItem[];
-  a11yLabels?: NavigationA11yLabels;
-  className?: string;
-  mobileLabels?: MobileNavigationLabels;
-}>;
+import { type FlowNavigationProps } from "./types";
 
 export const NavigationList = ({
   navItems,

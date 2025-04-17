@@ -1,7 +1,7 @@
 import { render, fireEvent } from "@testing-library/react";
-import type { NavItem } from "~/components/navigation/NavItem";
 import { NavState } from "~/services/navigation/navState";
 import SideNavMobile from "../SideNavMobile";
+import { type NavItem } from "../types";
 
 const dummyNavItems: NavItem[] = [
   { destination: "/page1", label: "Page 1", state: NavState.Current },

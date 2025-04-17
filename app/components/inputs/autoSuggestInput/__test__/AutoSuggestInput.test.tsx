@@ -210,4 +210,41 @@ describe("AutoSuggestInput", () => {
       container.querySelector(`.auto-suggest-input-disabled`),
     ).toBeInTheDocument();
   });
+
+  it("should have the attribute aria-required as true for the input when has an error message for required", async () => {
+    const { container } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        placeholder="placeholder"
+        dataList="airports"
+        label="label"
+        isDisabled={false}
+        errorMessages={[{ code: "required", text: "error" }]}
+      />,
+    );
+
+    await waitFor(() =>
+      expect(
+        container.querySelector(`#input-${COMPONENT_NAME}`),
+      ).toHaveAttribute("aria-required", "true"),
+    );
+  });
+
+  it("should have the attribute aria-required as false for the input when does not have error message for required", async () => {
+    const { container } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        placeholder="placeholder"
+        dataList="airports"
+        label="label"
+        isDisabled={false}
+      />,
+    );
+
+    await waitFor(() =>
+      expect(
+        container.querySelector(`#input-${COMPONENT_NAME}`),
+      ).toHaveAttribute("aria-required", "false"),
+    );
+  });
 });

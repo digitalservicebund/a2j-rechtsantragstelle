@@ -54,7 +54,7 @@
     "@react-router/node": "^7.5.0",
     "@rvf/react-router": "^7.1.1",
     "@rvf/zod": "^7.0.3",
-    "@sentry/react-router": "^9.12.0",
+    "@sentry/react-router": "^9.13.0",
     "@sentry/vite-plugin": "^3.3.1",
     "@xstate/graph": "^3.0.2",
     "axios": "^1.8.4",
@@ -76,7 +76,7 @@
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.17.0",
     "posthog-js": "^1.236.1",
-    "posthog-node": "^4.11.6",
+    "posthog-node": "^4.11.7",
     "rate-limit-redis": "^4.2.0",
     "react": "^18.3.1",
     "react-collapsed": "^4.2.0",
@@ -91,7 +91,7 @@
     "validator": "^13.15.0",
     "xss": "^1.0.15",
     "xstate": "^5.19.2",
-    "zod": "^3.24.2"
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",
