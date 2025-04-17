@@ -3,7 +3,7 @@ import { type Context } from "~/domains/contexts";
 import Heading from "../Heading";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 import Button from "../Button";
-import { type SummaryOverviewBoxWrappedProps } from "./SummaryOverviewBoxWrapped";
+import { type SummaryOverviewBoxWrappedProps } from "./types";
 import { useFormFlow } from "../form/formFlowContext";
 
 type Props = Pick<

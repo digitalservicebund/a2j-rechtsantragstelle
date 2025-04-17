@@ -9,7 +9,7 @@ const meta = {
   component: TileGroup,
   parameters: {
     controls: {
-      exclude: ["formId", "title", "name"],
+      exclude: ["title", "name"],
     },
   },
   tags: ["autodocs"],
@@ -38,7 +38,6 @@ const tileGroupProps = {
   errorMessages: undefined,
   options: [tileGroupOptionOneProps, tileGroupOptionTwoProps],
   useTwoColumns: false,
-  formId: "formId",
 };
 
 const imgUrl1 = bucketUrl + "/nichtbefoerderung_622132fec8.svg";

@@ -5,6 +5,7 @@ import type { StrapiFieldErrorSchema } from "~/services/cms/models/StrapiFieldEr
 
 export function getStrapiTileGroupComponent(
   errorCode: z.infer<typeof StrapiFieldErrorSchema>,
+  tiles: string[] = ["Tile 1"],
 ): {
   component: Partial<z.infer<typeof StrapiTileGroupComponentSchema>>;
   expectTileGroupErrorToExist: () => Promise<void>;
@@ -13,14 +14,12 @@ export function getStrapiTileGroupComponent(
     component: {
       __component: "form-elements.tile-group",
       name: "myTileGroup",
-      options: [
-        {
-          title: "Tile 1",
-          value: "tile1",
-          description: null,
-          tagDescription: null,
-        },
-      ],
+      options: tiles.map((title, index) => ({
+        title,
+        value: `tile ${index}`,
+        description: null,
+        tagDescription: null,
+      })),
       errors: [
         {
           name: "",

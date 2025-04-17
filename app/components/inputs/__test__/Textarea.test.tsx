@@ -1,17 +1,16 @@
-import { createRemixStub } from "@remix-run/testing";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Textarea, { TEXT_AREA_ROWS } from "~/components/inputs/Textarea";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 
 const getInputProps = vi.fn();
-let error: string | undefined = undefined;
+const getError = vi.fn();
 
-vi.mock("remix-validated-form", async () => {
-  const rmf = await vi.importActual("remix-validated-form");
+vi.mock("@rvf/remix", async () => {
+  const rmf = await vi.importActual("@rvf/remix");
   return {
     ...rmf,
     useField: () => ({
-      error,
+      error: getError,
       getInputProps: getInputProps,
       clearError: vi.fn(),
       validate: vi.fn(),
@@ -34,16 +33,7 @@ describe("Textarea component", () => {
       placeholder: "Test Placeholder",
     }));
 
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <Textarea name={componentName} label="Test Label" formId="formId" />
-        ),
-      },
-    ]);
-
-    render(<RemixStub />);
+    render(<Textarea name={componentName} label="Test Label" />);
 
     const element = screen.getByRole("textbox");
     const elementByLabel = screen.getByLabelText("Test Label");
@@ -60,21 +50,13 @@ describe("Textarea component", () => {
   });
 
   it("renders without errors when description is provided", () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <Textarea
-            name="test-textarea"
-            label="Test Label"
-            description="Test Description"
-            formId="formId"
-          />
-        ),
-      },
-    ]);
-
-    render(<RemixStub />);
+    render(
+      <Textarea
+        name="test-textarea"
+        label="Test Label"
+        description="Test Description"
+      />,
+    );
 
     expect(screen.getByText("Test Description")).toBeInTheDocument();
     expect(screen.getByText("Test Label")).toHaveClass("ds-heading-03-reg");
@@ -84,44 +66,30 @@ describe("Textarea component", () => {
     vi.mock("~/components/Details", () => ({
       Details: () => <div>Text-Beispiel</div>,
     }));
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <Textarea
-            name="test-textarea"
-            label="Test Label"
-            details={{
-              title: "Text-Beispiel",
-              content: "Lorem ipsum",
-            }}
-            formId="formId"
-          />
-        ),
-      },
-    ]);
 
-    render(<RemixStub />);
+    render(
+      <Textarea
+        name="test-textarea"
+        label="Test Label"
+        details={{
+          title: "Text-Beispiel",
+          content: "Lorem ipsum",
+        }}
+      />,
+    );
     const accordion = screen.getByText("Text-Beispiel");
     expect(accordion).toBeInTheDocument();
   });
 
   it("renders error message when error is present", () => {
-    error = "error";
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <Textarea
-            name="test"
-            errorMessages={[{ code: "required", text: "error" }]}
-            formId="formId"
-          />
-        ),
-      },
-    ]);
+    getError.mockReturnValue("error");
 
-    render(<RemixStub />);
+    render(
+      <Textarea
+        name="test"
+        errorMessages={[{ code: "required", text: "error" }]}
+      />,
+    );
 
     const element = screen.getByRole("textbox");
     expect(element).toHaveClass("has-error");
@@ -131,14 +99,7 @@ describe("Textarea component", () => {
   });
 
   it("allows users to type in the textarea", () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => <Textarea name="componentName" label="Test Label" />,
-      },
-    ]);
-
-    render(<RemixStub />);
+    render(<Textarea name="componentName" label="Test Label" />);
 
     const textarea = screen.getByRole("textbox");
     fireEvent.change(textarea, { target: { value: "Test input" } });
@@ -147,14 +108,7 @@ describe("Textarea component", () => {
   });
 
   it("should render the textarea with the define rows from the variable TEXT_AREA_ROWS", () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => <Textarea name="componentName" label="Test Label" />,
-      },
-    ]);
-
-    render(<RemixStub />);
+    render(<Textarea name="componentName" label="Test Label" />);
 
     const textarea = screen.getByRole("textbox");
 
@@ -167,21 +121,13 @@ describe("Textarea component", () => {
       id: "componentName",
     }));
 
-    const RemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => (
-          <Textarea
-            name="componentName"
-            label="Test Label"
-            formId="formId"
-            maxLength={maxLength}
-          />
-        ),
-      },
-    ]);
-
-    render(<RemixStub />);
+    render(
+      <Textarea
+        name="componentName"
+        label="Test Label"
+        maxLength={maxLength}
+      />,
+    );
     const textarea = screen.getByRole("textbox");
 
     expect(textarea.getAttribute("maxLength")).toBe(maxLength.toString());
@@ -193,7 +139,6 @@ describe("Textarea component", () => {
         <Textarea
           name="test"
           errorMessages={[{ code: "required", text: "error" }]}
-          formId="formId"
         />,
       );
       const element = screen.getByRole("textbox");
@@ -201,9 +146,7 @@ describe("Textarea component", () => {
     });
 
     it("has aria-required attribute set to false if errorMessages do not contain inputRequired", () => {
-      render(
-        <Textarea name="test" errorMessages={undefined} formId="formId" />,
-      );
+      render(<Textarea name="test" errorMessages={undefined} />);
       const element = screen.getByRole("textbox");
       expect(element).toHaveAttribute("aria-required", "false");
     });

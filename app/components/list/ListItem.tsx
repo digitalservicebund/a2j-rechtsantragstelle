@@ -1,20 +1,11 @@
 import classNames from "classnames";
-import Accordion, { type AccordionProps } from "~/components/Accordion";
+import Accordion from "~/components/Accordion";
 import { arrayIsNonEmpty } from "~/util/array";
-import Button, { type ButtonProps } from "./Button";
-import ButtonContainer from "./ButtonContainer";
-import Heading, { type HeadingProps } from "./Heading";
-import type { ListVariant } from "./List";
-import RichText from "./RichText";
-
-export type ListItemProps = {
-  identifier?: string;
-  headline?: HeadingProps;
-  content?: string;
-  buttons?: ButtonProps[];
-  index?: number;
-  accordion?: AccordionProps;
-};
+import Button from "../Button";
+import ButtonContainer from "../ButtonContainer";
+import Heading from "../Heading";
+import RichText from "../RichText";
+import { type ListVariant, type ListItemProps } from "./types";
 
 const ListIcon = ({
   index,

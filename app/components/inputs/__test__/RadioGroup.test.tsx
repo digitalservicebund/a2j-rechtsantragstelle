@@ -1,22 +1,36 @@
-import { createRemixStub } from "@remix-run/testing";
+import { useField } from "@rvf/remix";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ValidatedForm } from "remix-validated-form";
-import { useStringField } from "~/services/validation/useStringField";
 import RadioGroup from "../RadioGroup";
 
-vi.mock("~/services/validation/useStringField", () => ({
-  useStringField: vi.fn(),
+vi.mock("@rvf/remix", () => ({
+  useField: vi.fn(),
 }));
 
-const createUseStringFieldMock = (error?: string) => ({
-  error,
-  defaultValue: undefined,
-  clearError: vi.fn(),
-  validate: vi.fn(),
-  touched: false,
-  setTouched: vi.fn(),
-  getInputProps: vi.fn((props) => ({ ...props })),
-});
+const mockUseField = (error?: string): void => {
+  vi.mocked(useField).mockReturnValue({
+    getInputProps: vi.fn((props) => ({ ...props })),
+    error: vi.fn().mockReturnValue(error),
+    getControlProps: vi.fn(),
+    getHiddenInputProps: vi.fn(),
+    refs: {
+      controlled: vi.fn(),
+      transient: vi.fn(),
+    },
+    name: vi.fn(),
+    onChange: vi.fn(),
+    onBlur: vi.fn(),
+    value: vi.fn(),
+    setValue: vi.fn(),
+    defaultValue: vi.fn(),
+    touched: vi.fn(),
+    setTouched: vi.fn(),
+    dirty: vi.fn(),
+    setDirty: vi.fn(),
+    clearError: vi.fn(),
+    reset: vi.fn(),
+    validate: vi.fn(),
+  });
+};
 
 const mockOptions = [
   { value: "option1", text: "Option 1" },
@@ -28,29 +42,20 @@ const mockErrorMessages = [
 ];
 
 const renderRadioGroup = (props = {}) => {
-  const RemixStub = createRemixStub([
-    {
-      path: "/",
-      Component: () => (
-        <ValidatedForm validator={{ validate: vi.fn() }} method="post">
-          <RadioGroup
-            name="test"
-            options={mockOptions}
-            label="Test Label"
-            errorMessages={mockErrorMessages}
-            {...props}
-          />
-        </ValidatedForm>
-      ),
-    },
-  ]);
-
-  return render(<RemixStub />);
+  return render(
+    <RadioGroup
+      name="test"
+      options={mockOptions}
+      label="Test Label"
+      errorMessages={mockErrorMessages}
+      {...props}
+    />,
+  );
 };
 
 describe("RadioGroup", () => {
   beforeEach(() => {
-    vi.mocked(useStringField).mockReturnValue(createUseStringFieldMock());
+    mockUseField();
   });
 
   it("renders all radio options", () => {
@@ -66,9 +71,7 @@ describe("RadioGroup", () => {
   });
 
   it("shows error message when error is present", () => {
-    vi.mocked(useStringField).mockReturnValue(
-      createUseStringFieldMock("required"),
-    );
+    mockUseField("required");
     renderRadioGroup();
     expect(screen.getByText("This field is required")).toBeInTheDocument();
   });
@@ -81,9 +84,7 @@ describe("RadioGroup", () => {
   });
 
   it("sets aria-invalid when there is an error", () => {
-    vi.mocked(useStringField).mockReturnValue(
-      createUseStringFieldMock("required"),
-    );
+    mockUseField("required");
     renderRadioGroup();
     const fieldset = screen.getByRole("group");
     expect(fieldset).toHaveAttribute("aria-invalid", "true");
