@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
-import { type ListItemProps } from "~/components/ListItem";
 import List, { listItemNotEmpty } from "../List";
+import { type ListItemProps } from "../types";
 
 describe("List", () => {
   it("should render subheading when it is given", () => {
