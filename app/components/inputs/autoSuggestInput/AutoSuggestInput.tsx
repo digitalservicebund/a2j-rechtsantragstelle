@@ -129,6 +129,8 @@ const AutoSuggestInput = ({
   const [options, setOptions] = useState<DataListOptions[]>([]);
   const { accessibility: translations } = useTranslations();
 
+  const isRequired = !!errorMessages?.find((err) => err.code === "required");
+
   const onInputChange = (value: string, { action }: InputActionMeta) => {
     if (action === "input-change") {
       if (value.length < MINIMUM_SEARCH_SUGGESTION_CHARACTERS) {
@@ -182,6 +184,7 @@ const AutoSuggestInput = ({
           { "has-error": field.error() },
           { "option-was-selected": optionWasSelected },
           { "auto-suggest-input-disabled": isDisabled },
+          { "auto-suggest-input-required": isRequired },
           widthClassname(width),
         )}
         components={{
