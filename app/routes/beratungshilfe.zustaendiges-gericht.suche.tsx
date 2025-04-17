@@ -73,7 +73,7 @@ export default function Index() {
         <ValidatedForm
           method="post"
           schema={clientSchema}
-          defaultValues={{}}
+          defaultValues={{ postcode: "" }}
           noValidate
         >
           <Container>

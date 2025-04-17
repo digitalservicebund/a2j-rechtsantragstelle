@@ -77,7 +77,7 @@ export const FeedbackFormBox = ({
   return (
     <ValidatedForm
       schema={feedbackSchema}
-      defaultValues={{}}
+      defaultValues={{ feedback: "" }}
       method="post"
       action={`/action/send-feedback?url=${destination}&js=${String(jsAvailable)}`}
       preventScrollReset={true}
