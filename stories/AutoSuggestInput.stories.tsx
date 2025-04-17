@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { remixContext } from "../.storybook/remixContext";
 import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
 import type { AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/types";
 import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
+import { reactRouterContext } from ".storybook/reactRouterContext";
 
 function getDataListValues<T extends { dataList?: any }>(
   props: T,
@@ -55,7 +55,7 @@ export const Default: Story = {
   },
   decorators: [
     (Story) =>
-      remixContext(() => (
+      reactRouterContext(() => (
         <RFCFormerProvider>
           <Story />
         </RFCFormerProvider>
@@ -70,7 +70,7 @@ export const WithPlaceholder: Story = {
   },
   decorators: [
     (Story) =>
-      remixContext(() => (
+      reactRouterContext(() => (
         <RFCFormerProvider>
           <Story />
         </RFCFormerProvider>

@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "react-router";
 import { loader as formularLoader } from "~/routes/shared/formular.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 

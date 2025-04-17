@@ -1,4 +1,4 @@
-export const filterFormData = (formData: FormData) =>
+export const filterFormData = (formData: FormData): FormData =>
   // Note: fromEntries() reduces same-named form fields to the last one
   Object.fromEntries(
     Array.from(formData.entries())

@@ -1,4 +1,4 @@
-import type { useMatches } from "@remix-run/react";
+import type { useMatches } from "react-router";
 import type { Breadcrumb } from "~/components/Breadcrumbs";
 import type { StrapiContentComponent } from "../cms/models/StrapiContentComponent";
 import { isStrapiHeader } from "../cms/models/StrapiHeader";

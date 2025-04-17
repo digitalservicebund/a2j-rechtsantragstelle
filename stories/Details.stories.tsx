@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Details } from "../app/components/Details";
-import { remixContext } from "../.storybook/remixContext";
+import { reactRouterContext } from "../.storybook/reactRouterContext";
 import Container from "~/components/Container";
 
 const meta = {
@@ -25,7 +25,7 @@ export const Default: Story = {
   decorators: [
     (Story) => (
       <Container paddingTop="24" paddingBottom="64">
-        {remixContext(Story)}
+        {reactRouterContext(Story)}
       </Container>
     ),
   ],

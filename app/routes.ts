@@ -1,5 +1,5 @@
-import { flatRoutes } from "@remix-run/fs-routes";
-import { type RouteConfig } from "@remix-run/route-config";
+import { type RouteConfig } from "@react-router/dev/routes";
+import { flatRoutes } from "@react-router/fs-routes";
 
 // This can be extended using route("/hello", "routes/hello.tsx")
 // See https://remix.run/docs/en/main/start/future-flags#v3_routeconfig

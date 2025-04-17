@@ -1,7 +1,7 @@
-import { data } from "@remix-run/node";
+import { data } from "react-router";
 import { getRedirectForNonRelativeUrl } from "../getRedirectForNonRelativeUrl";
 
-vitest.mock("@remix-run/node", () => ({
+vitest.mock("react-router", () => ({
   data: vitest.fn(),
 }));
 

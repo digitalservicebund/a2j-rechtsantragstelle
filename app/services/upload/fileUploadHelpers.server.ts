@@ -1,7 +1,7 @@
 import { type FileUpload, parseFormData } from "@mjackson/form-data-parser";
-import { type TypedResponse } from "@remix-run/node";
-import { type ValidationErrorResponseData } from "@rvf/remix";
+import { type ValidationErrorResponseData } from "@rvf/react-router";
 import pickBy from "lodash/pickBy";
+import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { type ZodTypeAny } from "zod";
 import { type ArrayData, type Context, getContext } from "~/domains/contexts";
 import { type FlowId } from "~/domains/flowIds";
@@ -9,9 +9,9 @@ import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
-import { splitFieldName } from "~/services/upload/fileUploadHelpers";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { buildFileUploadError } from "./buildFileUploadError";
+import { splitFieldName } from "./splitFieldName";
 import { validateUploadedFile } from "./validateUploadedFile";
 
 export const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";
@@ -31,7 +31,7 @@ export async function uploadUserFile(
   userData: Context,
   flowId: FlowId,
 ): Promise<{
-  validationError?: TypedResponse<ValidationErrorResponseData>;
+  validationError?: UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
   validationResult?: { data: Context };
 }> {
   const inputName = formAction.split(".")[1];

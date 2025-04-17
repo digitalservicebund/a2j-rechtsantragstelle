@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import type { SelectProps } from "../Select";
 import Select from "../Select";
 
-vi.mock("@rvf/remix", () => ({
+vi.mock("@rvf/react-router", () => ({
   useField: () => ({
     getInputProps: vi.fn().mockReturnValue({
       id: "selectId",

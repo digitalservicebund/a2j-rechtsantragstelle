@@ -1,6 +1,6 @@
 import { deflateSync } from "node:zlib";
-import { type LoaderFunctionArgs } from "@remix-run/node";
 import { toDirectedGraph } from "@xstate/graph";
+import { type LoaderFunctionArgs } from "react-router";
 import { createMachine, type AnyStateMachine } from "xstate";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";

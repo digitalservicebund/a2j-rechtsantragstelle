@@ -1,4 +1,4 @@
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { Outlet, useLoaderData } from "react-router";
 import Button from "~/components/Button";
 import {
   getBundIdIdentityProvider,

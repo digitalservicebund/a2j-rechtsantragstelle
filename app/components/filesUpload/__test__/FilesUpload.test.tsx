@@ -1,7 +1,7 @@
-import { type ValidationErrorResponseData } from "@rvf/remix";
+import { type ValidationErrorResponseData } from "@rvf/react-router";
 import { fireEvent, render } from "@testing-library/react";
 import times from "lodash/times";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import FilesUpload, {
   type FilesUploadProps,
 } from "~/components/filesUpload/FilesUpload";
@@ -18,8 +18,8 @@ const minimumFileError = "You must select at least one file";
 
 const mockSubmit = vi.fn();
 let actionResponse: ValidationErrorResponseData | Context | undefined;
-vi.mock("@remix-run/react", async () => ({
-  ...(await vi.importActual("@remix-run/react")),
+vi.mock("react-router", async () => ({
+  ...(await vi.importActual("react-router")),
   useLoaderData: vi.fn(() => ({ csrf: "csrf" })),
   useActionData: () => actionResponse,
   useSubmit: () => mockSubmit,
@@ -38,7 +38,7 @@ vi.mock("~/services/translations/translationsContext", () => ({
 const getDefaultMock = vi.fn();
 const getErrorMock = vi.fn();
 
-vi.mock("@rvf/remix", () => ({
+vi.mock("@rvf/react-router", () => ({
   useField: () => ({
     getInputProps: vi.fn((props) => ({ ...props })),
     defaultValue: getDefaultMock,

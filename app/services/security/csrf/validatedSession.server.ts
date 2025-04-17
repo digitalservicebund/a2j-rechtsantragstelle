@@ -1,4 +1,4 @@
-import type { Session } from "@remix-run/node";
+import type { Session } from "react-router";
 import type { Unit } from "true-myth";
 import { Result } from "true-myth";
 import { mainSessionFromCookieHeader } from "~/services/session.server";

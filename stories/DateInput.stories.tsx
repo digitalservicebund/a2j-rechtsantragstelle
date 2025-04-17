@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import DateInput from "../app/components/inputs/DateInput";
-import { remixContext } from "../.storybook/remixContext";
+import { reactRouterContext } from "../.storybook/reactRouterContext";
 import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 
 const meta = {
@@ -23,7 +23,7 @@ export const Default: Story = {
   },
   decorators: [
     (Story) =>
-      remixContext(() => (
+      reactRouterContext(() => (
         <RFCFormerProvider>
           <Story />
         </RFCFormerProvider>

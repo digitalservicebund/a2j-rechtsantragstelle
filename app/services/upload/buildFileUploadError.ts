@@ -1,4 +1,4 @@
-import { validationError, type ValidationResult } from "@rvf/remix";
+import { validationError, type ValidationResult } from "@rvf/react-router";
 import { type Context } from "~/domains/contexts";
 
 /**
@@ -8,7 +8,7 @@ import { type Context } from "~/domains/contexts";
  * to
  * "belege[0]": "Only PDF and TIFF files allowed"
  *
- * @param validationResult error result returned from `withZod().validate()`
+ * @param validationResult error result returned from `@rvf/react-router`
  * @returns DataWithResponseInit
  */
 export function buildFileUploadError(

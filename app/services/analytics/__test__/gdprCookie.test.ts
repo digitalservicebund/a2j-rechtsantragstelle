@@ -1,4 +1,4 @@
-import { createCookie } from "@remix-run/node";
+import { createCookie } from "react-router";
 import { acceptCookiesFieldName } from "~/components/cookieBanner/CookieBanner";
 import { consentCookieName, trackingCookieValue } from "../gdprCookie.server";
 

@@ -1,5 +1,5 @@
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { createCookie, redirect } from "@remix-run/node";
+import type { ActionFunctionArgs } from "react-router";
+import { createCookie, redirect } from "react-router";
 import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 import {
   allSessionContexts,

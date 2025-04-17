@@ -1,4 +1,4 @@
-import type { Session } from "@remix-run/node";
+import type { Session } from "react-router";
 
 type GetBackURLSchema = {
   request: Request;

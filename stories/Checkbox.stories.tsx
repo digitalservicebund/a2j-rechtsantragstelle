@@ -1,7 +1,7 @@
 import type { StoryObj } from "@storybook/react";
 import Checkbox from "../app/components/inputs/Checkbox";
 import { RFCFormerProvider } from "../.storybook/RFCFormerProvider";
-import { remixContext } from ".storybook/remixContext";
+import { reactRouterContext } from ".storybook/reactRouterContext";
 
 const meta = {
   title: "Component/Checkbox",
@@ -17,7 +17,7 @@ export const Default = {
   },
   decorators: [
     (Story) =>
-      remixContext(() => (
+      reactRouterContext(() => (
         <RFCFormerProvider>
           <Story />
         </RFCFormerProvider>

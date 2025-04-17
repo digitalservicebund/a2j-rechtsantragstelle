@@ -1,12 +1,10 @@
-import type { Session } from "@remix-run/node";
+import type { Session } from "react-router";
 import type { Context, ObjectType } from "~/domains/contexts";
 import { type FlowId } from "~/domains/flowIds";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { filterFormData } from "~/util/filterFormData";
 
-function arrayIndexFromFormData(
-  relevantFormData: Record<string, FormDataEntryValue>,
-) {
+function arrayIndexFromFormData(relevantFormData: FormData) {
   const [arrayName, indexString] = Object.entries(relevantFormData)[0];
   const index = parseInt(indexString as string);
 

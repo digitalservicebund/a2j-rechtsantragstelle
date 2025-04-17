@@ -8,7 +8,7 @@ const viteDevServer = shouldStartDevServer
   : undefined;
 
 const build = viteDevServer
-  ? () => viteDevServer.ssrLoadModule("virtual:remix/server-build")
+  ? () => viteDevServer.ssrLoadModule("virtual:react-router/server-build")
   : await import("./build/server/index.js");
 
 // When running a dev server, build() is a function to enable HMR

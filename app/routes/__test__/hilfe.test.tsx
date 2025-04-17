@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "react-router";
 import { loader } from "~/routes/hilfe";
 
 describe("/hilfe route", () => {

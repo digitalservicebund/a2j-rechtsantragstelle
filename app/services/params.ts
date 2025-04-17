@@ -1,4 +1,4 @@
-import type { Params } from "@remix-run/react";
+import type { Params } from "react-router";
 import invariant from "tiny-invariant";
 import { config } from "./env/web";
 

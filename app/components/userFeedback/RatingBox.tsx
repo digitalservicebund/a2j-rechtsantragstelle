@@ -1,6 +1,6 @@
 import ThumbDownIcon from "@digitalservicebund/icons/ThumbDownOutlined";
 import ThumbUpIcon from "@digitalservicebund/icons/ThumbUpOutlined";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher } from "react-router";
 import { useJsAvailable } from "~/services/useJsAvailable";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { FeedbackType } from "./FeedbackType";

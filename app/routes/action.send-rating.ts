@@ -1,9 +1,9 @@
-import type { ActionFunctionArgs, Session, SessionData } from "@remix-run/node";
-import { data, redirect } from "@remix-run/node";
-import { validationError } from "@rvf/remix";
-import { withZod } from "@rvf/zod";
+import { parseFormData, validationError } from "@rvf/react-router";
+import type { ActionFunctionArgs, Session, SessionData } from "react-router";
+import { data, redirect } from "react-router";
 import { z } from "zod";
-import { BannerState, USER_FEEDBACK_ID } from "~/components/userFeedback";
+import { USER_FEEDBACK_ID } from "~/components/userFeedback";
+import { BannerState } from "~/components/userFeedback/BannerState";
 import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -12,6 +12,9 @@ import { updateBannerState } from "~/services/feedback/updateBannerState";
 import { getSessionManager } from "~/services/session.server";
 
 export const loader = () => redirect("/");
+
+const actionSendRatingSchema = z.object({ wasHelpful: z.enum(["yes", "no"]) });
+type ActionSendRating = z.infer<typeof actionSendRatingSchema>;
 
 const updateRatingWasHepful = (
   session: Session<SessionData, SessionData>,
@@ -35,9 +38,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     error,
     submittedData,
     data: feedbackData,
-  } = await withZod(z.object({ wasHelpful: z.enum(["yes", "no"]) })).validate(
-    formData,
-  );
+  } = await parseFormData<ActionSendRating>(formData, actionSendRatingSchema);
   if (error) {
     return validationError(error, submittedData);
   }

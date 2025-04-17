@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { FileInput } from "~/components/inputs/FileInput";
 
-vi.mock("@remix-run/react", () => ({
+vi.mock("react-router", () => ({
   useLoaderData: vi.fn(() => ({ csrf: "csrf" })),
   useSubmit: vi.fn(),
 }));

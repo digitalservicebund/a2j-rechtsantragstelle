@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "react-router";
 
 export const loader = ({ params }: LoaderFunctionArgs) => {
   const errorCode = Number(params.code);

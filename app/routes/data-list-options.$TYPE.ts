@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs } from "@remix-run/node";
+import { type LoaderFunctionArgs } from "react-router";
 import { z } from "zod";
 import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";

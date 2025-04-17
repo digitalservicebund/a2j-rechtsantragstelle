@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
+import { type LoaderFunctionArgs, redirect } from "react-router";
 import { getSessionManager } from "~/services/session.server";
 
 // Workaround to reset FGR data when user wants to update flight data

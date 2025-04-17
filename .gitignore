@@ -35,3 +35,6 @@ lefthook-local.yml
 
 # docker s3 bucket
 /volume
+
+# react router
+.react-router/

@@ -206,7 +206,7 @@ Loader->>CMS: Fetch data (REST / JSON file lookup)
 CMS-->>Loader: CMS Data (JSON)
 Loader->>Validation: zod.validate()
 Validation-->>Loader: typed StrapiData
-Loader->>PageComponent: Remix (json({content}) -> useLoaderData)
+Loader->>PageComponent: React router ({content} -> useLoaderData)
 PageComponent->>StrapiComponent: Typed Strapi Data (Prop drilling)
 StrapiComponent->>AppComponent: sanatize & map
 AppComponent->>StrapiComponent: JSX Element(s)

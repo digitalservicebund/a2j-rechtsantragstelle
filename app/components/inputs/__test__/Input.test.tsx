@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import type { InputProps } from "../Input";
 import Input from "../Input";
 
-vi.mock("@rvf/remix", () => ({
+vi.mock("@rvf/react-router", () => ({
   useField: () => ({
     getInputProps: vi.fn().mockReturnValue({
       id: "inputId",

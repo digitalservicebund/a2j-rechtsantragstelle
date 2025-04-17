@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import * as Sentry from "@sentry/remix";
+import * as Sentry from "@sentry/react-router";
 import { config } from "~/services/env/web";
 
 const { SENTRY_DSN, ENVIRONMENT } = config();
@@ -22,19 +22,11 @@ type Error = {
   request?: Request;
 };
 
-export function logError({
-  message = undefined,
-  error,
-  request = undefined,
-}: Error) {
+export function logError({ message = undefined, error }: Error) {
   if (message) console.error(message, error);
   else console.error(error);
   // Log server exceptions to Sentry if possible
-  if (error instanceof Error && request) {
-    void Sentry.captureRemixServerException(error, "server", request);
-  } else {
-    Sentry.captureException(error);
-  }
+  Sentry.captureException(error);
 }
 
 export function sendSentryMessage(

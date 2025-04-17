@@ -1,5 +1,5 @@
-import { useFetcher, useLocation } from "@remix-run/react";
 import { useContext, useEffect, useState } from "react";
+import { useFetcher, useLocation } from "react-router";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";

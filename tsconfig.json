@@ -5,7 +5,8 @@
     "stories/**/*",
     "tests/**/*",
     "data/**/*.ts",
-    "scripts/*.ts"
+    "scripts/*.ts",
+    ".react-router/types/**/*"
   ],
   "compilerOptions": {
     "preserveSymlinks": true,
@@ -24,7 +25,7 @@
       "@testing-library/jest-dom",
       "node",
       "vitest/globals",
-      "@remix-run/node",
+      "@react-router/node",
       "vite/client"
     ],
     "strict": true,
@@ -41,6 +42,7 @@
       ]
     },
     // Vite takes care of building everything
-    "noEmit": true
+    "noEmit": true,
+    "rootDirs": [".", "./.react-router/types"]
   }
 }

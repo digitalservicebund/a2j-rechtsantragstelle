@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import HiddenInput from "../HiddenInput";
 
-vi.mock("@rvf/remix", () => ({
+vi.mock("@rvf/react-router", () => ({
   useField: () => ({
     getInputProps: vi.fn().mockReturnValue({
       id: "selectId",

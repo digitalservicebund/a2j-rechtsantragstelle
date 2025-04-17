@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { remixContext } from "../.storybook/remixContext";
+import { reactRouterContext } from "../.storybook/reactRouterContext";
 import Textarea from "../app/components/inputs/Textarea";
 import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 
@@ -23,7 +23,7 @@ export const Default: Story = {
   },
   decorators: [
     (Story) =>
-      remixContext(() => (
+      reactRouterContext(() => (
         <RFCFormerProvider>
           <Story />
         </RFCFormerProvider>
@@ -39,7 +39,7 @@ export const WithDescription: Story = {
   },
   decorators: [
     (Story) =>
-      remixContext(() => (
+      reactRouterContext(() => (
         <RFCFormerProvider>
           <Story />
         </RFCFormerProvider>
@@ -58,7 +58,7 @@ export const Withdetails: Story = {
   },
   decorators: [
     (Story) =>
-      remixContext(() => (
+      reactRouterContext(() => (
         <RFCFormerProvider>
           <Story />
         </RFCFormerProvider>
