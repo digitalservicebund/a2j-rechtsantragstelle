@@ -3,11 +3,9 @@ import classNames from "classnames";
 import { matchSorter } from "match-sorter";
 import { type RefObject, useEffect, useRef, useState } from "react";
 import Select, { type InputActionMeta } from "react-select";
-import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import { useTranslations } from "~/services/translations/translationsContext";
 import { useJsAvailable } from "~/services/useJsAvailable";
-import { type ErrorMessageProps } from "..";
 import {
   CustomClearIndicator,
   CustomControl,
@@ -20,26 +18,16 @@ import useDataListOptions from "./useDataListOptions";
 import Input from "../Input";
 import InputError from "../InputError";
 import InputLabel from "../InputLabel";
-import { widthClassname, type FieldWidth } from "../width";
+import { widthClassname } from "../width";
 import {
   ariaLiveMessages,
   screenReaderStatus,
 } from "./accessibilityConfig/ariaLiveMessages";
+import { type AutoSuggestInputProps } from "./types";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
 const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 10;
-
-export type AutoSuggestInputProps = Readonly<{
-  name: string;
-  label?: string;
-  placeholder?: string;
-  errorMessages?: ErrorMessageProps[];
-  width?: FieldWidth;
-  noSuggestionMessage?: string;
-  dataList: DataListType;
-  isDisabled: boolean;
-}>;
 
 const filterOption = (option: DataListOptions, inputValue: string) => {
   if (inputValue.length < MINIMUM_SEARCH_SUGGESTION_CHARACTERS) {

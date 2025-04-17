@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
+import type { AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/types";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
