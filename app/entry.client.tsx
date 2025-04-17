@@ -4,12 +4,16 @@ import { hydrateRoot } from "react-dom/client";
 import { HydratedRouter } from "react-router/dom";
 import { config } from "~/services/env/web";
 
+// Ignore a few common errors that are not useful to track
+const SENTRY_IGNORE_ERRORS = ["Error in input stream", "Load failed"];
+
 const { SENTRY_DSN, ENVIRONMENT } = config();
 if (SENTRY_DSN !== undefined) {
   Sentry.init({
     dsn: SENTRY_DSN,
     environment: ENVIRONMENT,
     integrations: [Sentry.browserTracingIntegration()],
+    ignoreErrors: SENTRY_IGNORE_ERRORS,
   });
 }
 
