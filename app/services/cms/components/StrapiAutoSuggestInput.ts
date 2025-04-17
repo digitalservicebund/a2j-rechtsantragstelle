@@ -1,5 +1,4 @@
 import { z } from "zod";
-import type { AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/types";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
@@ -44,9 +43,7 @@ export const StrapiAutoSuggestInputComponentSchema =
     __component: z.literal("form-elements.auto-suggest-input"),
   });
 
-export const getAutoSuggestInputProps = (
-  cmsData: StrapiAutoSuggestInput,
-): AutoSuggestInputProps => ({
+export const getAutoSuggestInputProps = (cmsData: StrapiAutoSuggestInput) => ({
   ...omitNull(cmsData),
   width: strapiWidthToFieldWidth(cmsData.width),
   errorMessages: flattenStrapiErrors(cmsData.errors),
