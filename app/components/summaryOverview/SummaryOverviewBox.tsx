@@ -1,4 +1,4 @@
-import EditButton from "@digitalservicebund/icons/CreateOutlined";
+import EditIcon from "@digitalservicebund/icons/EditOutlined";
 import { type Context } from "~/domains/contexts";
 import Heading from "../Heading";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
@@ -27,37 +27,35 @@ const SummaryOverviewBox = ({
 
   return (
     <div className="mt-8">
-      <div className="bg-white pt-32 pb-44 px-32">
-        {title && (
-          <Heading
-            {...title}
-            text={
-              arrayPositionTitle
-                ? `${title.text} ${arrayPositionTitle}`
-                : title.text
-            }
-            className="mb-16"
-          />
-        )}
-
-        <dl>
-          {boxItems.map(({ title: boxItemTitle, inlineItems }, index) => (
-            <SummaryOverviewBoxItem
-              key={`${boxId}-${boxItemTitle ?? index}`}
-              title={boxItemTitle}
-              translations={translations}
-              userData={userData}
-              inlineItems={inlineItems}
+      <div className="bg-white pt-32 pb-44 px-32 flex flex-row justify-between items-start">
+        <div>
+          {title && (
+            <Heading
+              {...title}
+              text={
+                arrayPositionTitle
+                  ? `${title.text} ${arrayPositionTitle}`
+                  : title.text
+              }
+              className="mb-16"
             />
-          ))}
-        </dl>
-
+          )}
+          <dl>
+            {boxItems.map(({ title: boxItemTitle, inlineItems }, index) => (
+              <SummaryOverviewBoxItem
+                key={`${boxId}-${boxItemTitle ?? index}`}
+                title={boxItemTitle}
+                translations={translations}
+                userData={userData}
+                inlineItems={inlineItems}
+              />
+            ))}
+          </dl>
+        </div>
         <Button
-          iconLeft={<EditButton />}
+          iconLeft={<EditIcon className="shrink-0" />}
           href={`${flowId}${stepId}`}
-          look="tertiary"
-          size="large"
-          className="w-fit mt-16"
+          look="ghost"
         >
           Bearbeiten
         </Button>
