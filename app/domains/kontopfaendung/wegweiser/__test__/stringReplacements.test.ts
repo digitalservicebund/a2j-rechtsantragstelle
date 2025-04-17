@@ -48,8 +48,8 @@ describe("stringReplacements", () => {
   describe("getPrivilegierteForderungStrings", () => {
     it("should return correct Privilegierte Forderung strings", () => {
       const userData: KontopfaendungWegweiserContext = {
-        unerlaubteHandlung: "yes",
-        unterhaltszahlungen: "no",
+        pfaendungStrafe: "yes",
+        pfaendungUnterhalt: "no",
       };
       expect(getPrivilegierteForderungStrings(userData)).toEqual({
         isPrivilegierteForderungStrafe: true,
@@ -238,7 +238,7 @@ describe("stringReplacements", () => {
   describe("getSelbststaendigStrings", () => {
     it("should return correct Selbststaendig strings", () => {
       const userData: KontopfaendungWegweiserContext = {
-        arbeitsweise: {
+        arbeitArt: {
           selbstaendig: CheckboxValue.on,
           angestellt: CheckboxValue.off,
         },
@@ -251,7 +251,7 @@ describe("stringReplacements", () => {
   describe("getAngestelltStrings", () => {
     it("should return correct Angestellt strings", () => {
       const userData: KontopfaendungWegweiserContext = {
-        arbeitsweise: {
+        arbeitArt: {
           angestellt: CheckboxValue.on,
           selbstaendig: CheckboxValue.off,
         },
