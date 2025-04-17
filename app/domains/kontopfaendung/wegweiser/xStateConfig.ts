@@ -63,18 +63,18 @@ export const kontopfaendungWegweiserXstateConfig = {
             guard: ({ context }) => context.schuldenBei === "weissNicht",
           },
           {
-            target: "unerlaubten-handlung",
+            target: "pfaendung-strafe",
             guard: ({ context }) =>
               context.schuldenBei === "staatsanwaltschaft" ||
               context.schuldenBei === "kasse",
           },
           {
-            target: "unterhalts-zahlungen",
+            target: "pfaendung-unterhalt",
             guard: ({ context }) =>
               context.schuldenBei === "privat" ||
               context.schuldenBei === "jugendamt",
           },
-          "euro-schwelle",
+          "sockelbetrag",
         ],
         BACK: [
           {
@@ -86,30 +86,30 @@ export const kontopfaendungWegweiserXstateConfig = {
         ],
       },
     },
-    "unerlaubten-handlung": {
+    "pfaendung-strafe": {
       on: {
-        SUBMIT: "euro-schwelle",
+        SUBMIT: "sockelbetrag",
         BACK: "glaeubiger",
       },
     },
-    "unterhalts-zahlungen": {
+    "pfaendung-unterhalt": {
       on: {
-        SUBMIT: "euro-schwelle",
+        SUBMIT: "sockelbetrag",
         BACK: "glaeubiger",
       },
     },
     "glaeubiger-unbekannt": {
       on: {
-        SUBMIT: "euro-schwelle",
+        SUBMIT: "sockelbetrag",
         BACK: "glaeubiger",
       },
     },
-    "euro-schwelle": {
+    sockelbetrag: {
       on: {
         SUBMIT: [
           {
             target: "ergebnis/geringe-einkuenfte",
-            guard: ({ context }) => context.euroSchwelle === "nein",
+            guard: ({ context }) => context.sockelbetrag === "nein",
           },
           "zwischenseite-unterhalt",
         ],
@@ -119,13 +119,13 @@ export const kontopfaendungWegweiserXstateConfig = {
             guard: ({ context }) => context.schuldenBei === "weissNicht",
           },
           {
-            target: "unerlaubten-handlung",
+            target: "pfaendung-strafe",
             guard: ({ context }) =>
               context.schuldenBei === "staatsanwaltschaft" ||
               context.schuldenBei === "kasse",
           },
           {
-            target: "unterhalts-zahlungen",
+            target: "pfaendung-unterhalt",
             guard: ({ context }) =>
               context.schuldenBei === "privat" ||
               context.schuldenBei === "jugendamt",
@@ -135,12 +135,12 @@ export const kontopfaendungWegweiserXstateConfig = {
       },
     },
     "ergebnis/geringe-einkuenfte": {
-      on: { BACK: "euro-schwelle" },
+      on: { BACK: "sockelbetrag" },
     },
     "zwischenseite-unterhalt": {
       on: {
         SUBMIT: "kinder",
-        BACK: "euro-schwelle",
+        BACK: "sockelbetrag",
       },
     },
     kinder: {
@@ -157,11 +157,11 @@ export const kontopfaendungWegweiserXstateConfig = {
     },
     "kinder-wohnen-zusammen": {
       on: {
-        SUBMIT: "kinder-support",
+        SUBMIT: "kinder-unterhalt",
         BACK: "kinder",
       },
     },
-    "kinder-support": {
+    "kinder-unterhalt": {
       on: {
         SUBMIT: "partner",
         BACK: "kinder-wohnen-zusammen",
@@ -171,7 +171,7 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: "partner-support",
+            target: "partner-unterhalt",
             guard: ({ context }) =>
               context.verheiratet === "getrennt" ||
               context.verheiratet === "geschieden" ||
@@ -182,11 +182,11 @@ export const kontopfaendungWegweiserXstateConfig = {
             guard: ({ context }) =>
               !!context.verheiratet && context.verheiratet !== "nein",
           },
-          "zwischenseite-cash",
+          "zwischenseite-einkuenfte",
         ],
         BACK: [
           {
-            target: "kinder-support",
+            target: "kinder-unterhalt",
             guard: ({ context }) => context.hasKinder === "yes",
           },
           "kinder",
@@ -195,13 +195,13 @@ export const kontopfaendungWegweiserXstateConfig = {
     },
     "partner-wohnen-zusammen": {
       on: {
-        SUBMIT: "partner-support",
+        SUBMIT: "partner-unterhalt",
         BACK: "partner",
       },
     },
-    "partner-support": {
+    "partner-unterhalt": {
       on: {
-        SUBMIT: "zwischenseite-cash",
+        SUBMIT: "zwischenseite-einkuenfte",
         BACK: [
           {
             target: "partner",
@@ -211,12 +211,12 @@ export const kontopfaendungWegweiserXstateConfig = {
         ],
       },
     },
-    "zwischenseite-cash": {
+    "zwischenseite-einkuenfte": {
       on: {
-        SUBMIT: "ermittlung-betrags",
+        SUBMIT: "arbeit",
         BACK: [
           {
-            target: "partner-support",
+            target: "partner-unterhalt",
             guard: ({ context }) =>
               !!context.verheiratet && context.verheiratet !== "nein",
           },
@@ -224,50 +224,48 @@ export const kontopfaendungWegweiserXstateConfig = {
         ],
       },
     },
-    // TODO rename
-    "ermittlung-betrags": {
+    arbeit: {
       on: {
         SUBMIT: [
           {
-            target: "arbeitsweise",
+            target: "arbeit-art",
             guard: ({ context }) => context.hasArbeit === "yes",
           },
           "sozialleistungen",
         ],
-        BACK: "zwischenseite-cash",
+        BACK: "zwischenseite-einkuenfte",
       },
     },
-    arbeitsweise: {
+    "arbeit-art": {
       on: {
         SUBMIT: "nachzahlung-arbeitgeber",
-        BACK: "ermittlung-betrags",
+        BACK: "arbeit",
       },
     },
     "nachzahlung-arbeitgeber": {
       on: {
         SUBMIT: [
           {
-            target: "zahlungslimit",
+            target: "hoehe-nachzahlung-arbeitgeber",
             guard: ({ context }) => context.nachzahlungArbeitgeber === "yes",
           },
-          // TODO Rename
-          "zahlung-arbeitgeber",
+          "einmalzahlung-arbeitgeber",
         ],
-        BACK: "arbeitsweise",
+        BACK: "arbeit-art",
       },
     },
-    zahlungslimit: {
+    "hoehe-nachzahlung-arbeitgeber": {
       on: {
-        SUBMIT: "zahlung-arbeitgeber",
+        SUBMIT: "einmalzahlung-arbeitgeber",
         BACK: "nachzahlung-arbeitgeber",
       },
     },
-    "zahlung-arbeitgeber": {
+    "einmalzahlung-arbeitgeber": {
       on: {
         SUBMIT: "sozialleistungen",
         BACK: [
           {
-            target: "zahlungslimit",
+            target: "hoehe-nachzahlung-arbeitgeber",
             guard: ({ context }) => context.nachzahlungArbeitgeber === "yes",
           },
           "nachzahlung-arbeitgeber",
@@ -283,10 +281,10 @@ export const kontopfaendungWegweiserXstateConfig = {
         ],
         BACK: [
           {
-            target: "zahlung-arbeitgeber",
+            target: "einmalzahlung-arbeitgeber",
             guard: ({ context }) => context.hasArbeit === "yes",
           },
-          "ermittlung-betrags",
+          "arbeit",
         ],
       },
     },
@@ -318,7 +316,7 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: "sozialleistung-nachzahlung-amount",
+            target: "hoehe-nachzahlung-sozialleistung",
             guard: ({ context }) =>
               context.hasSozialleistungNachzahlung === "yes",
           },
@@ -340,7 +338,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         ],
       },
     },
-    "sozialleistung-nachzahlung-amount": {
+    "hoehe-nachzahlung-sozialleistung": {
       on: {
         SUBMIT: "sozialleistungen-einmalzahlung",
         BACK: "sozialleistung-nachzahlung",
@@ -351,7 +349,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: "ergebnis/naechste-schritte",
         BACK: [
           {
-            target: "sozialleistung-nachzahlung-amount",
+            target: "hoehe-nachzahlung-sozialleistung",
             guard: ({ context }) =>
               context.hasSozialleistungNachzahlung === "yes",
           },

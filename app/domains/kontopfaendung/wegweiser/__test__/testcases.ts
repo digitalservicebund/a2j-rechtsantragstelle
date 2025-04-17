@@ -14,78 +14,83 @@ const cases = [
     ["/kontopfaendung", "/p-konto", "/p-konto-probleme", "/glaeubiger"],
   ],
   // Glaeubiger
-  [{}, ["/glaeubiger", "/euro-schwelle"]],
+  [{}, ["/glaeubiger", "/sockelbetrag"]],
   [
     {
       schuldenBei: "privat",
     },
-    ["/glaeubiger", "/unterhalts-zahlungen", "/euro-schwelle"],
+    ["/glaeubiger", "/pfaendung-unterhalt", "/sockelbetrag"],
   ],
   [
     {
       schuldenBei: "jugendamt",
     },
-    ["/glaeubiger", "/unterhalts-zahlungen", "/euro-schwelle"],
+    ["/glaeubiger", "/pfaendung-unterhalt", "/sockelbetrag"],
   ],
   [
     {
       schuldenBei: "weissNicht",
     },
-    ["/glaeubiger", "/glaeubiger-unbekannt", "/euro-schwelle"],
+    ["/glaeubiger", "/glaeubiger-unbekannt", "/sockelbetrag"],
   ],
   [
     {
       schuldenBei: "staatsanwaltschaft",
     },
-    ["/glaeubiger", "/unerlaubten-handlung", "/euro-schwelle"],
+    ["/glaeubiger", "/pfaendung-strafe", "/sockelbetrag"],
   ],
   [
     {
       schuldenBei: "kasse",
     },
-    ["/glaeubiger", "/unerlaubten-handlung", "/euro-schwelle"],
+    ["/glaeubiger", "/pfaendung-strafe", "/sockelbetrag"],
   ],
-  // euro-schwelle
+  // sockelbetrag
   [
     {
-      euroSchwelle: "nein",
+      sockelbetrag: "nein",
     },
-    ["/euro-schwelle", "/ergebnis/geringe-einkuenfte"],
+    ["/sockelbetrag", "/ergebnis/geringe-einkuenfte"],
   ],
   [
     {
-      euroSchwelle: "ja",
+      sockelbetrag: "ja",
     },
-    ["/euro-schwelle", "/zwischenseite-unterhalt"],
+    ["/sockelbetrag", "/zwischenseite-unterhalt"],
   ],
   // Unterhalt
   [
     {},
-    ["/zwischenseite-unterhalt", "/kinder", "/partner", "/zwischenseite-cash"],
+    [
+      "/zwischenseite-unterhalt",
+      "/kinder",
+      "/partner",
+      "/zwischenseite-einkuenfte",
+    ],
   ],
   [
     { hasKinder: "yes" },
-    ["/kinder", "/kinder-wohnen-zusammen", "/kinder-support", "/partner"],
+    ["/kinder", "/kinder-wohnen-zusammen", "/kinder-unterhalt", "/partner"],
   ],
   [
     { verheiratet: "ja" },
     [
       "/partner",
       "/partner-wohnen-zusammen",
-      "/partner-support",
-      "/zwischenseite-cash",
+      "/partner-unterhalt",
+      "/zwischenseite-einkuenfte",
     ],
   ],
   [
     { verheiratet: "getrennt" },
-    ["/partner", "/partner-support", "/zwischenseite-cash"],
+    ["/partner", "/partner-unterhalt", "/zwischenseite-einkuenfte"],
   ],
   // Cash
   [
     {},
     [
-      "/zwischenseite-cash",
-      "/ermittlung-betrags",
+      "/zwischenseite-einkuenfte",
+      "/arbeit",
       "/sozialleistungen",
       "/sozialleistungen-umstaende",
       "/ergebnis/naechste-schritte",
@@ -94,20 +99,20 @@ const cases = [
   [
     { hasArbeit: "yes" },
     [
-      "/ermittlung-betrags",
-      "/arbeitsweise",
+      "/arbeit",
+      "/arbeit-art",
       "/nachzahlung-arbeitgeber",
-      "/zahlung-arbeitgeber",
+      "/einmalzahlung-arbeitgeber",
       "/sozialleistungen",
     ],
   ],
   [
     { hasArbeit: "yes", nachzahlungArbeitgeber: "yes" },
     [
-      "/arbeitsweise",
+      "/arbeit-art",
       "/nachzahlung-arbeitgeber",
-      "/zahlungslimit",
-      "/zahlung-arbeitgeber",
+      "/hoehe-nachzahlung-arbeitgeber",
+      "/einmalzahlung-arbeitgeber",
       "/sozialleistungen",
     ],
   ],
@@ -220,7 +225,7 @@ const cases = [
     },
     [
       "/sozialleistung-nachzahlung",
-      "/sozialleistung-nachzahlung-amount",
+      "/hoehe-nachzahlung-sozialleistung",
       "/sozialleistungen-einmalzahlung",
       "/ergebnis/naechste-schritte",
     ],
@@ -230,8 +235,8 @@ const cases = [
       hasKontopfaendung: "ja",
       hasPKonto: "nichtEingerichtet",
       schuldenBei: "privat",
-      unterhaltszahlungen: "yes",
-      euroSchwelle: "ja",
+      pfaendungUnterhalt: "yes",
+      sockelbetrag: "ja",
       hasKinder: "yes",
       kinderUnterhalt: "no",
       verheiratet: "nein",
@@ -252,23 +257,23 @@ const cases = [
       "/p-konto",
       "/p-konto-probleme",
       "/glaeubiger",
-      "/unterhalts-zahlungen",
-      "/euro-schwelle",
+      "/pfaendung-unterhalt",
+      "/sockelbetrag",
       "/zwischenseite-unterhalt",
       "/kinder",
       "/kinder-wohnen-zusammen",
-      "/kinder-support",
+      "/kinder-unterhalt",
       "/partner",
-      "/zwischenseite-cash",
-      "/ermittlung-betrags",
-      "/arbeitsweise",
+      "/zwischenseite-einkuenfte",
+      "/arbeit",
+      "/arbeit-art",
       "/nachzahlung-arbeitgeber",
-      "/zahlungslimit",
-      "/zahlung-arbeitgeber",
+      "/hoehe-nachzahlung-arbeitgeber",
+      "/einmalzahlung-arbeitgeber",
       "/sozialleistungen",
       "/sozialleistungen-umstaende",
       "/sozialleistung-nachzahlung",
-      "/sozialleistung-nachzahlung-amount",
+      "/hoehe-nachzahlung-sozialleistung",
       "/sozialleistungen-einmalzahlung",
     ],
   ],

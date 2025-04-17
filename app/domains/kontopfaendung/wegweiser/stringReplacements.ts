@@ -18,8 +18,8 @@ export const getPrivilegierteForderungStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    isPrivilegierteForderungStrafe: userData.unerlaubteHandlung === "yes",
-    isPrivilegierteForderungUnterhalt: userData.unterhaltszahlungen === "yes",
+    isPrivilegierteForderungStrafe: userData.pfaendungStrafe === "yes",
+    isPrivilegierteForderungUnterhalt: userData.pfaendungUnterhalt === "yes",
   };
 };
 export const getErhoehungsbetragStrings = (
@@ -160,14 +160,14 @@ export const getSelbststaendigStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    isSelbststaendig: userData.arbeitsweise?.selbstaendig === CheckboxValue.on,
+    isSelbststaendig: userData.arbeitArt?.selbstaendig === CheckboxValue.on,
   };
 };
 export const getAngestelltStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    isAngestellt: userData.arbeitsweise?.angestellt === CheckboxValue.on,
+    isAngestellt: userData.arbeitArt?.angestellt === CheckboxValue.on,
   };
 };
 export const getKinderStrings = (userData: KontopfaendungWegweiserContext) => {
