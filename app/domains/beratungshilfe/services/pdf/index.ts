@@ -2,6 +2,7 @@ import { PDFDocument } from "pdf-lib";
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { type FlowId } from "~/domains/flowIds";
 import {
   addMetadataToPdf,
   type Metadata,
@@ -26,6 +27,7 @@ import { fillBesitz } from "./pdfForm/F_besitz/F_besitz";
 import { fillFooter } from "./pdfForm/footer";
 import { fillAusgaben } from "./pdfForm/G_ausgaben";
 import { fillHeader } from "./pdfForm/header";
+import { embedUserFilesToPdf } from "./userUploadedFilesToPdf/embedUserUploadedFilesToPdf";
 
 export type BerHPdfFillFunction = PdfFillFunction<
   BeratungshilfeFormularContext,
@@ -64,6 +66,8 @@ const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
 
 export async function beratungshilfePdfFromUserdata(
   userData: BeratungshilfeFormularContext,
+  cookieHeader: string | null,
+  flowId: FlowId,
 ) {
   const { pdfValues, attachment } = pdfFillReducer({
     userData,
@@ -100,5 +104,19 @@ export async function beratungshilfePdfFromUserdata(
   );
   const mainPdfDocument = await PDFDocument.load(pdfKitBuffer);
 
-  return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
+  if (userData.abgabeArt === "online") {
+    const embeddedPdfBuffer = await embedUserFilesToPdf(
+      pdfKitBuffer,
+      userData,
+      cookieHeader,
+      flowId,
+    );
+    const embeddedPdfDocument = await PDFDocument.load(embeddedPdfBuffer);
+    return appendPagesToPdf(
+      filledPdfFormDocumentWithMetadata,
+      embeddedPdfDocument,
+    );
+  } else {
+    return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
+  }
 }

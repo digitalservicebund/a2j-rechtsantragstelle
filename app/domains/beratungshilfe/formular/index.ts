@@ -1,5 +1,6 @@
 import { getRechtsproblemStrings } from "~/domains/beratungshilfe/formular/rechtsproblem/stringReplacements";
 import type { Flow } from "~/domains/flows.server";
+import { type DokumenteContext } from "./abgabe/dokumente/context";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import type { BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
 import { beratungshilfeAnwaltlicheVertretungGuards } from "./anwaltlicheVertretung/guards";
@@ -57,4 +58,5 @@ export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &
   BeratungshilfeRechtsproblem &
   BeratungshilfeFinanzielleAngaben &
   BeratungshilfePersoenlicheDaten &
-  AbgabeContext;
+  AbgabeContext &
+  DokumenteContext;
