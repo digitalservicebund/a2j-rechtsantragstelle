@@ -75,9 +75,7 @@ describe("fileUploadHelpers", () => {
     it("should return a buffer of a file from S3", async () => {
       const mockedBuffer = new Uint8Array([1, 2, 3]);
 
-      vi.spyOn(s3Utils, "downloadUserFile").mockResolvedValue(
-        mockedBuffer,
-      );
+      vi.spyOn(s3Utils, "downloadUserFile").mockResolvedValue(mockedBuffer);
 
       const cookieHeader = "testCookieHeader";
       const flowId = "/beratungshilfe/antrag";

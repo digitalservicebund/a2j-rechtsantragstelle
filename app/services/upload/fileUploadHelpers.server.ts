@@ -106,11 +106,7 @@ export async function downloadUserFile(
   flowId: FlowId,
   savedFileKey: NonNullable<PDFFileMetadata["savedFileKey"]>,
 ): Promise<Uint8Array> {
-  const file = await downloadUserFileFromS3(
-    cookieHeader,
-    flowId,
-    savedFileKey,
-  );
+  const file = await downloadUserFileFromS3(cookieHeader, flowId, savedFileKey);
   return file;
 }
 

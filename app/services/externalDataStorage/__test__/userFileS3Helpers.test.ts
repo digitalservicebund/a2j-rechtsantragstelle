@@ -134,14 +134,14 @@ describe("userFileS3Helpers", () => {
       setupFileMocks(mockSessionId, mockConfig);
 
       const mockStream = new Readable();
-      mockStream.push("test data")
+      mockStream.push("test data");
       mockStream.push(null);
 
       // Mock the S3 clients send method to return a response with a body
       mockS3Client.send = vi.fn().mockResolvedValue({
         Body: mockStream,
       });
-    
+
       await expect(
         downloadUserFileFromS3(mockCookie, mockFlowId, mockUUID),
       ).resolves.toBeInstanceOf(Buffer);

@@ -36,8 +36,6 @@ export const dokumenteContext = {
   weitereAusgabenBeweis: fileUploadSchema,
 };
 
-const _contextObject = z
-  .object(dokumenteContext)
-  .partial();
+const _contextObject = z.object(dokumenteContext).partial();
 
 export type DokumenteContext = z.infer<typeof _contextObject>;
