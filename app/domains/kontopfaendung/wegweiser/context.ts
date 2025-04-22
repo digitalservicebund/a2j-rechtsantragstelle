@@ -34,7 +34,7 @@ const schuldenBei = z.enum(
   customRequiredErrorMessage,
 );
 
-const euroSchwelle = z.enum(
+const sockelbetrag = z.enum(
   ["nein", "ja", "weissNicht", "unterschiedlich"],
   customRequiredErrorMessage,
 );
@@ -49,7 +49,7 @@ const verheiratet = z.enum(
   customRequiredErrorMessage,
 );
 
-const arbeitsweise = z.object({
+const arbeitArt = z.object({
   angestellt: checkedOptional,
   selbstaendig: checkedOptional,
 });
@@ -85,7 +85,7 @@ export const context = {
   hasKontopfaendung,
   hasPKonto,
   schuldenBei,
-  euroSchwelle,
+  sockelbetrag,
   hasKinder: YesNoAnswer,
   kinderWohnenZusammen,
   verheiratet,
@@ -93,7 +93,7 @@ export const context = {
   partnerWohnenZusammen: YesNoAnswer,
   partnerUnterhalt: YesNoAnswer,
   hasArbeit: YesNoAnswer,
-  arbeitsweise,
+  arbeitArt,
   nachzahlungArbeitgeber: YesNoAnswer,
   arbeitgeberNachzahlungHigherThan: YesNoAnswer,
   zahlungArbeitgeber,
@@ -102,8 +102,8 @@ export const context = {
   hasSozialleistungNachzahlung: YesNoAnswer,
   sozialleistungNachzahlungHigherThan: YesNoAnswer,
   hasSozialleistungenEinmalzahlung: YesNoAnswer,
-  unerlaubteHandlung: YesNoAnswer,
-  unterhaltszahlungen: YesNoAnswer,
+  pfaendungStrafe: YesNoAnswer,
+  pfaendungUnterhalt: YesNoAnswer,
   pflegegeld,
 } as const;
 
