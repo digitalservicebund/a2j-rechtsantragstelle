@@ -91,18 +91,16 @@ export async function downloadUserFileFromS3(
     }
     if (response.Body instanceof Readable) {
       return await streamToBuffer(response.Body);
-    } else if (response.Body instanceof Blob) {
+    }
+    if (response.Body instanceof Blob) {
       return await response.Body.arrayBuffer().then((buffer) => {
         return Buffer.from(buffer);
       });
     }
     throw new Error("Response body is not a readable stream");
   } catch (error) {
-    const errorDescription =
-      error instanceof Error ? error.message : "Unknown error";
-
     sendSentryMessage(
-      `Error downloading user uploaded file from S3 bucket: ${errorDescription}`,
+      "Error downloading user uploaded file from S3 bucket",
       "error",
     );
     throw error;
