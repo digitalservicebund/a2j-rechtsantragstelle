@@ -56,7 +56,7 @@ const SummaryOverviewBox = ({
           iconLeft={<EditIcon className="shrink-0" />}
           href={`${flowId}${stepId}`}
           look="ghost"
-          className="self-start justify-end"
+          className="items-start justify-end"
         >
           Bearbeiten
         </Button>
