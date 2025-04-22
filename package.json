@@ -97,7 +97,7 @@
     "@axe-core/playwright": "^4.10.1",
     "@eslint/eslintrc": "^3.3.1",
     "@faker-js/faker": "^9.7.0",
-    "@playwright/test": "^1.51.1",
+    "@playwright/test": "^1.52.0",
     "@react-router/dev": "^7.5.0",
     "@react-router/fs-routes": "^7.5.0",
     "@size-limit/file": "^11.2.0",
