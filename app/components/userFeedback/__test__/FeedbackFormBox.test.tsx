@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom"; // use react-router-dom only for test, the react-router-dom does not work
+import { createMemoryRouter, RouterProvider } from "react-router-dom"; // use react-router-dom only for test, the react-router does not work
 import { FEEDBACK_FIELD_NAME, FeedbackFormBox } from "../FeedbackFormBox";
 import { FeedbackType } from "../FeedbackType";
 

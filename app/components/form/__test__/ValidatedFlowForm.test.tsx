@@ -1,5 +1,5 @@
 import { fireEvent, render, waitFor } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom"; // use react-router-dom only for test, the react-router-dom does not work
+import { createMemoryRouter, RouterProvider } from "react-router-dom"; // use react-router-dom only for test, the react-router does not work
 import { z } from "zod";
 import { getStrapiCheckboxComponent } from "tests/factories/cmsModels/strapiCheckboxComponent";
 import { getStrapiDropdownComponent } from "tests/factories/cmsModels/strapiDropdownComponent";
