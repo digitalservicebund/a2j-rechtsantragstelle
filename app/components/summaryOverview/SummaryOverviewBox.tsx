@@ -27,7 +27,7 @@ const SummaryOverviewBox = ({
 
   return (
     <div className="mt-8">
-      <div className="bg-white pt-32 pb-44 px-32 flex flex-row justify-between items-start">
+      <div className="bg-white pt-32 pb-44 px-32 flex flex-col sm:flex-row justify-between">
         <div>
           {title && (
             <Heading
@@ -56,6 +56,7 @@ const SummaryOverviewBox = ({
           iconLeft={<EditIcon className="shrink-0" />}
           href={`${flowId}${stepId}`}
           look="ghost"
+          className="justify-end"
         >
           Bearbeiten
         </Button>
