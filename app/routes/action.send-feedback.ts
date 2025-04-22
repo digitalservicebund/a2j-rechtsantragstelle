@@ -1,7 +1,6 @@
 import { parseFormData, validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs } from "react-router";
 import { redirect } from "react-router";
-import { type z } from "zod";
 import { USER_FEEDBACK_ID } from "~/components/userFeedback";
 import { BannerState } from "~/components/userFeedback/BannerState";
 import { feedbackSchema } from "~/components/userFeedback/FeedbackFormBox";
@@ -21,10 +20,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (redirectNonRelative) return redirectNonRelative;
 
   const formData = await request.formData();
-  const result = await parseFormData<z.infer<typeof feedbackSchema>>(
-    formData,
-    feedbackSchema,
-  );
+  const result = await parseFormData(formData, feedbackSchema);
   if (result.error) {
     return validationError(result.error, result.submittedData);
   }

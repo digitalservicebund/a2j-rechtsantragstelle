@@ -14,7 +14,6 @@ import { getSessionManager } from "~/services/session.server";
 export const loader = () => redirect("/");
 
 const actionSendRatingSchema = z.object({ wasHelpful: z.enum(["yes", "no"]) });
-type ActionSendRating = z.infer<typeof actionSendRatingSchema>;
 
 const updateRatingWasHepful = (
   session: Session<SessionData, SessionData>,
@@ -38,7 +37,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     error,
     submittedData,
     data: feedbackData,
-  } = await parseFormData<ActionSendRating>(formData, actionSendRatingSchema);
+  } = await parseFormData(formData, actionSendRatingSchema);
   if (error) {
     return validationError(error, submittedData);
   }

@@ -24,8 +24,6 @@ const serverSchema = clientSchema.refine(
   { path: ["postcode"], message: "notFound" },
 );
 
-type ServerData = z.infer<typeof serverSchema>;
-
 export async function loader({ request }: LoaderFunctionArgs) {
   const sessionManager = getSessionManager("/beratungshilfe/vorabcheck");
 
@@ -50,10 +48,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  const result = await parseFormData<ServerData>(
-    await request.formData(),
-    serverSchema,
-  );
+  const result = await parseFormData(await request.formData(), serverSchema);
   if (result.error) return validationError(result.error, result.submittedData);
   const { pathname } = new URL(request.url);
   const urlStem = pathname.substring(0, pathname.lastIndexOf("/"));
