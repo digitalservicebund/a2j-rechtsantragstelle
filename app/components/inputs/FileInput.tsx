@@ -42,9 +42,7 @@ export const FileInput = ({
       name={jsAvailable ? undefined : name}
       onChange={(event) => {
         const file = event.target.files?.[0];
-        if (file) {
-          void onFileUpload(name, file);
-        }
+        void onFileUpload(name, file);
       }}
       type="file"
       accept=".pdf"

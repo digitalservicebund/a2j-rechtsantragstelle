@@ -15,6 +15,10 @@ vi.mock("react-router", () => ({
   useSubmit: () => submitMock,
 }));
 
+beforeEach(() => {
+  vi.clearAllMocks();
+});
+
 describe("fileUploadHelpers", () => {
   describe("useFileHandler", () => {
     it("should return a file upload handler", async () => {
@@ -30,6 +34,14 @@ describe("fileUploadHelpers", () => {
         method: "post",
         encType: "multipart/form-data",
       });
+    });
+
+    it("should handle undefined file", async () => {
+      const { onFileUpload } = useFileHandler();
+
+      await onFileUpload("fieldName", undefined);
+
+      expect(submitMock).not.toBeCalled();
     });
 
     it("should return a file deletion handler", async () => {

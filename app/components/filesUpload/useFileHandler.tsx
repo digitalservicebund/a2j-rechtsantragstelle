@@ -7,10 +7,14 @@ export function useFileHandler() {
   const submit = useSubmit();
   return {
     onFileUpload: async (fieldName: string, file: File | undefined) => {
+      if (typeof file === "undefined") {
+        return;
+      }
+
       const formData = new FormData();
       formData.append("_action", `fileUpload.${fieldName}`);
       formData.append(CSRFKey, csrf);
-      formData.append(fieldName, file ?? "");
+      formData.append(fieldName, file);
       await submit(formData, {
         method: "post",
         encType: "multipart/form-data",
