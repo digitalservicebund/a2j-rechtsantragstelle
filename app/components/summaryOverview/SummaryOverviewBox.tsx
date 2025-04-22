@@ -27,7 +27,7 @@ const SummaryOverviewBox = ({
 
   return (
     <div className="mt-8">
-      <div className="bg-white p-16 flex flex-col sm:flex-row justify-between">
+      <div className="bg-white pt-32 pb-44 px-32 flex flex-col sm:flex-row justify-between">
         <div>
           {title && (
             <Heading
