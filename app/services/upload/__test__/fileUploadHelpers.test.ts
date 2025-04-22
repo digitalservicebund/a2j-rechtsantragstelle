@@ -3,8 +3,6 @@ import {
   splitFieldName,
   useFileHandler,
 } from "~/services/upload/fileUploadHelpers";
-import { downloadUserFile } from "../fileUploadHelpers.server";
-import * as s3Utils from "../fileUploadHelpers.server";
 
 const mockFile = new File([], "mockFile");
 
@@ -68,22 +66,6 @@ describe("fileUploadHelpers", () => {
     it("should handle two-digit indices", () => {
       const { inputIndex } = splitFieldName("fieldName[10]");
       expect(inputIndex).toEqual(10);
-    });
-  });
-
-  describe("downloadUserFile", () => {
-    it("should return a buffer of a file from S3", async () => {
-      const mockedBuffer = new Uint8Array([1, 2, 3]);
-
-      vi.spyOn(s3Utils, "downloadUserFile").mockResolvedValue(mockedBuffer);
-
-      const cookieHeader = "testCookieHeader";
-      const flowId = "/beratungshilfe/antrag";
-      const savedFileKey = "test-savedFileKey";
-
-      const file = await downloadUserFile(cookieHeader, flowId, savedFileKey);
-      expect(file).toEqual(mockedBuffer);
-      expect(file).toBeInstanceOf(Uint8Array);
     });
   });
 });

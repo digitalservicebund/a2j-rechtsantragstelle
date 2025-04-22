@@ -8,7 +8,6 @@ import { type FlowId } from "~/domains/flowIds";
 import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
-  downloadUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
 import { splitFieldName } from "~/services/upload/fileUploadHelpers";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
@@ -99,15 +98,6 @@ export async function deleteUserFile(
     return true;
   }
   return false;
-}
-
-export async function downloadUserFile(
-  cookieHeader: string | null,
-  flowId: FlowId,
-  savedFileKey: NonNullable<PDFFileMetadata["savedFileKey"]>,
-): Promise<Uint8Array> {
-  const file = await downloadUserFileFromS3(cookieHeader, flowId, savedFileKey);
-  return file;
 }
 
 async function parseFileFromFormData(request: Request, fieldName: string) {
