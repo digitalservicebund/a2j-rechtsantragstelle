@@ -24,8 +24,6 @@ function ValidatedFlowForm({
   const { pathname } = useLocation();
   const fieldNames = formElements.map((entry) => entry.name);
   const schema = schemaForFieldNames(fieldNames, pathname);
-  const stackClass =
-    formElements.length === 0 ? "ds-stack ds-stack-0" : "ds-stack ds-stack-40";
 
   return (
     <ValidatedForm
@@ -37,10 +35,8 @@ function ValidatedFlowForm({
       action={pathname}
     >
       <input type="hidden" name={CSRFKey} value={csrf} />
-      <div className={stackClass}>
-        <div className={stackClass}>
-          <StrapiFormComponents components={formElements} />
-        </div>
+      <div className="ds-stack ds-stack-40">
+        <StrapiFormComponents components={formElements} />
         <ButtonNavigation {...buttonNavigationProps} />
       </div>
     </ValidatedForm>
