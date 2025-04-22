@@ -1,28 +1,21 @@
 import { PDFDocument } from "pdf-lib";
-import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { type Context } from "~/domains/contexts";
 import { type FlowId } from "~/domains/flowIds";
-import { downloadUserFile } from "~/services/upload/fileUploadHelpers.server";
+import { downloadUserFileFromS3 } from "~/services/externalDataStorage/userFileS3Helpers";
 
 /**
- * Extracts all saved file keys from userData.
- * @param userData user data which can contain saved file keys in the form of arrays of objects
- * @returns an array of all saved file keys
+ * Extracts the saved file keys from the user data.
+ * @param userData The user data to extract the saved file keys from
+ * @returns An array of saved file keys
  */
-export const extractSavedFileKeys = (
-  userData: BeratungshilfeFormularContext,
-) => {
-  const allKeys: string[] = [];
-  for (const value of Object.values(userData)) {
-    if (Array.isArray(value)) {
-      for (const file of value) {
-        if (file.savedFileKey) {
-          allKeys.push(file.savedFileKey);
-        }
-      }
-    }
-  }
-  return allKeys;
-};
+const extractSavedFileKeys = (userData: Context) =>
+  Object.values(userData)
+    .filter((value) => Array.isArray(value))
+    .flatMap((files) => files)
+    .filter(
+      (file) => file.savedFileKey && typeof file.savedFileKey === "string",
+    )
+    .map((file) => file.savedFileKey as string);
 
 /**
  * Embeds user uploaded files into a PDF document.
@@ -34,7 +27,7 @@ export const extractSavedFileKeys = (
  */
 export async function embedUserFilesToPdf(
   mainPdfBuffer: Uint8Array,
-  userData: BeratungshilfeFormularContext,
+  userData: Context,
   cookieHeader: string | null,
   flowId: FlowId,
 ): Promise<Uint8Array> {
@@ -42,7 +35,7 @@ export async function embedUserFilesToPdf(
   const savedFileKeys = extractSavedFileKeys(userData);
 
   for (const savedFileKey of savedFileKeys) {
-    const userFileBuffer = await downloadUserFile(
+    const userFileBuffer = await downloadUserFileFromS3(
       cookieHeader,
       flowId,
       savedFileKey,
@@ -60,6 +53,5 @@ export async function embedUserFilesToPdf(
       mainPdfDocument.addPage(copiedPdfFilePage);
     }
   }
-  const finalPdf = await mainPdfDocument.save();
-  return finalPdf;
+  return mainPdfDocument.save();
 }

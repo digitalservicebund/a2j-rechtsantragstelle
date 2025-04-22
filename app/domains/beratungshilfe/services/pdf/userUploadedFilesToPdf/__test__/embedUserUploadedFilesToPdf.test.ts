@@ -1,29 +1,14 @@
 import { PDFDocument } from "pdf-lib";
 import { vi, type Mock } from "vitest";
 import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { downloadUserFile } from "~/services/upload/fileUploadHelpers.server";
-import {
-  embedUserFilesToPdf,
-  extractSavedFileKeys,
-} from "../embedUserUploadedFilesToPdf";
+import { downloadUserFileFromS3 } from "~/services/externalDataStorage/userFileS3Helpers";
+import { embedUserFilesToPdf } from "../embedUserUploadedFilesToPdf";
 
-vi.mock("~/services/upload/fileUploadHelpers.server", () => ({
-  downloadUserFile: vi.fn(),
+vi.mock("~/services/externalDataStorage/userFileS3Helpers", () => ({
+  downloadUserFileFromS3: vi.fn(),
 }));
 
 describe("embedUserUploadedFilesToPdf", () => {
-  describe("extractSavedFileKeys", () => {
-    it("should extract saved file keys from userData", () => {
-      const userData = {
-        someField: [{ savedFileKey: "file1" }, { savedFileKey: "file2" }],
-        anotherField: [{ savedFileKey: "file3" }],
-      } as BeratungshilfeFormularContext;
-
-      const result = extractSavedFileKeys(userData);
-      expect(result).toEqual(["file1", "file2", "file3"]);
-    });
-  });
-
   describe("embedUserFilesToPdf", () => {
     const cookieHeader = "test-cookie-header";
     const flowId = "/beratungshilfe/antrag";
@@ -45,8 +30,8 @@ describe("embedUserUploadedFilesToPdf", () => {
       userPdfDoc.addPage();
       mockUserPDFBuffer = await userPdfDoc.save();
 
-      // Mock downloadUserFile to return the user PDF buffer
-      (downloadUserFile as Mock).mockResolvedValue(mockUserPDFBuffer);
+      // Mock downloadUserFileFromS3 to return the user PDF buffer
+      (downloadUserFileFromS3 as Mock).mockResolvedValue(mockUserPDFBuffer);
     });
 
     it("should embed one user uploaded file into the main PDF", async () => {
