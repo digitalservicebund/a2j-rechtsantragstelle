@@ -36,8 +36,8 @@ import {
   testCasesProzesskostenhilfeSubmitOnly,
 } from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";
-import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
+import type { FlowStateMachine } from "~/services/flow/server/types";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
 import { testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugNo } from "../fluggastrechte/formular/flugdaten/__test__/testcasesAnnullierungWithErsatzflugNo";
 import { testCasesFluggastrechteFluggesellschaftAbbruch } from "../fluggastrechte/vorabcheck/__test__/testcasesFluggesellschaftAbbruch";
