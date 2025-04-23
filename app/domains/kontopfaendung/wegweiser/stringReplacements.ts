@@ -77,14 +77,16 @@ export const getNachzahlungArbeitUnter500Strings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasNachzahlungArbeitUnter500: userData.nachzahlungArbeitgeber === "no",
+    hasNachzahlungArbeitUnter500:
+      userData.arbeitgeberNachzahlungHigherThan === "no",
   };
 };
 export const getNachzahlungArbeitMehr500Strings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasNachzahlungArbeitMehr500: userData.nachzahlungArbeitgeber === "yes",
+    hasNachzahlungArbeitMehr500:
+      userData.arbeitgeberNachzahlungHigherThan === "yes",
   };
 };
 export const getBuergergeldStrings = (
