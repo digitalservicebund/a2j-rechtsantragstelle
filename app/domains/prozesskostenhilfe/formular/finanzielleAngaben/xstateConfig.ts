@@ -9,8 +9,8 @@ import {
   kinderDone,
   partnerDone,
   wohnungDone,
+  eigentumDone,
 } from "./doneFunctions";
-import { eigentumDone } from "./eigentumDone";
 import { einkuenfteDone } from "./einkuenfte/doneFunctions";
 import { partnerEinkuenfteGuards } from "./einkuenfte/guards";
 import { getProzesskostenhilfeEinkuenfteSubflow } from "./einkuenfte/xStateConfig";
