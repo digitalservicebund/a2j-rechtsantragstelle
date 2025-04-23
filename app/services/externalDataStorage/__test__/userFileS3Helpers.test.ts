@@ -156,5 +156,73 @@ describe("userFileS3Helpers", () => {
         }),
       );
     });
+
+    it("should throw when an error happens", async () => {
+      const mockSessionId = "test-session-id";
+      const mockConfig = {
+        ...config(),
+        S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
+      };
+      setupFileMocks(mockSessionId, mockConfig);
+
+      // Mock the S3 clients send method to throw an error
+      mockS3Client.send = vi
+        .fn()
+        .mockRejectedValue(new Error("Error downloading user uploaded file"));
+
+      await expect(
+        downloadUserFileFromS3(mockCookie, mockFlowId, mockUUID),
+      ).rejects.toThrow("Error downloading user uploaded file");
+    });
+
+    it("should return correctly when response.Body is instance of Readable", async () => {
+      const mockSessionId = "test-session-id";
+      const mockConfig = {
+        ...config(),
+        S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
+      };
+      setupFileMocks(mockSessionId, mockConfig);
+
+      const mockStream = new Readable();
+      mockStream.push("test data");
+      mockStream.push(null);
+
+      // Mock the S3 clients send method to return a response with a body
+      mockS3Client.send = vi.fn().mockResolvedValue({
+        Body: mockStream,
+      });
+
+      const result = await downloadUserFileFromS3(
+        mockCookie,
+        mockFlowId,
+        mockUUID,
+      );
+
+      expect(result).toBeInstanceOf(Buffer);
+    });
+
+    it("should return correctly when response.Body is instance of Blob", async () => {
+      const mockSessionId = "test-session-id";
+      const mockConfig = {
+        ...config(),
+        S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
+      };
+      setupFileMocks(mockSessionId, mockConfig);
+
+      const mockBlob = new Blob(["test data"], { type: "text/plain" });
+
+      // Mock the S3 clients send method to return a response with a body
+      mockS3Client.send = vi.fn().mockResolvedValue({
+        Body: mockBlob,
+      });
+
+      const result = await downloadUserFileFromS3(
+        mockCookie,
+        mockFlowId,
+        mockUUID,
+      );
+
+      expect(result).toBeInstanceOf(Buffer);
+    });
   });
 });
