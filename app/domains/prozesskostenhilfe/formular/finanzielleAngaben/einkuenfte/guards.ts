@@ -8,7 +8,7 @@ import {
 } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-import { eigentumDone } from "../eigentumDone";
+import { eigentumDone } from "../doneFunctions";
 
 const hasAndereArbeitsausgaben: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
   ({ context }) => context.hasArbeitsausgaben === "yes";

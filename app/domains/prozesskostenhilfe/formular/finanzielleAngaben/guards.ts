@@ -35,8 +35,7 @@ import {
   prozesskostenhilfeFinanzielleAngabenContext,
   type ProzesskostenhilfeFinanzielleAngabenContext,
 } from "./context";
-import { ausgabenDone } from "./doneFunctions";
-import { eigentumDone } from "./eigentumDone";
+import { ausgabenDone, eigentumDone } from "./doneFunctions";
 import { yesNoGuards, type Guards } from "../../../guards.server";
 
 export const finanzielleAngabeGuards = {

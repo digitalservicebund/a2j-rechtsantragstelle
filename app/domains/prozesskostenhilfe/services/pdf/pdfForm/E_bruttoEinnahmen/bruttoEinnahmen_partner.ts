@@ -7,11 +7,11 @@ import {
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { removeDecimalsFromCurrencyString } from "~/util/strings";
-import type { PkhPdfFillFunction } from "../..";
 import {
   nettoString,
   zahlungsfrequenzMapping,
 } from "./bruttoEinnahmen_eigenes";
+import type { PkhPdfFillFunction } from "../../types";
 
 // PDF Form Field Names:
 // Nichtselbstständige Arbeit - nein_23, ja_22
