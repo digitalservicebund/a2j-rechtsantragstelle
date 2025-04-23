@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { FunctionMultiFieldsValidation } from "~/domains/multiFieldsFlowValidation";
+import type { FunctionMultiFieldsValidation } from "~/domains/types";
 import { buildStepValidator } from "~/services/validation/stepValidator/buildStepValidator";
 
 describe("buildStepValidator", () => {

@@ -1,4 +1,4 @@
-import type { MultiFieldsStepIdValidation } from "~/domains/multiFieldsFlowValidation";
+import { type MultiFieldsStepIdValidation } from "~/domains/types";
 import { validateAnotherFlightPage } from "./services/validation/validateAnotherFlightPage";
 import { validateCancelFlightReplacementPage } from "./services/validation/validateCancelFlightReplacementPage";
 import { validateDepartureAfterArrival } from "./services/validation/validateDepartureAfterArrival";

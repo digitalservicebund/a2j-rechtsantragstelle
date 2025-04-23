@@ -31,10 +31,7 @@ const SummaryOverviewBoxItem = ({
   return (
     <>
       {title && (
-        <dt
-          data-testid="summary-box-item-title"
-          className="ds-label-01-bold mt-16"
-        >
+        <dt data-testid="summary-box-item-title" className="ds-label-01-bold">
           {title}
         </dt>
       )}

@@ -1,4 +1,4 @@
-import type { MultiFieldsStepIdValidation } from "~/domains/multiFieldsFlowValidation";
+import type { MultiFieldsStepIdValidation } from "~/domains/types";
 import { validateSameDepartureAndArrivalAirports } from "./services/validation";
 
 export const fluggastrechtVorabcheckMultiFieldsValidation: MultiFieldsStepIdValidation =
