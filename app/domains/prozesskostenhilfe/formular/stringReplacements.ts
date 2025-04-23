@@ -9,8 +9,8 @@ import {
   eigentumZusammenfassungDone,
   kinderDone,
   partnerDone,
+  eigentumDone,
 } from "./finanzielleAngaben/doneFunctions";
-import { eigentumDone } from "./finanzielleAngaben/eigentumDone";
 import type { ProzesskostenhilfeFormularContext } from "./index";
 import { prozesskostenhilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "./rechtsschutzversicherung/doneFunctions";

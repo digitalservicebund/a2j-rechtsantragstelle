@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { type MultiFieldsValidationBaseSchema } from "~/domains/multiFieldsFlowValidation";
+import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
 import { isStartTimestampLessThanThreeHours } from "./isStartTimestampLessThanThreeHours";
 

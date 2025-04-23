@@ -9,7 +9,6 @@ import {
   prozesskostenhilfeFinanzielleAngabenContext,
   type ProzesskostenhilfeFinanzielleAngabenContext,
 } from "./context";
-import { eigentumDone } from "./eigentumDone";
 import type { GenericGuard } from "../../../guards.server";
 import {
   bankKontoDone,
@@ -20,6 +19,17 @@ import {
 
 export type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenContext>;
+
+export const eigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.staatlicheLeistungen == "grundsicherung" ||
+  context.staatlicheLeistungen == "asylbewerberleistungen" ||
+  (context.hasBankkonto !== undefined &&
+    context.hasKraftfahrzeug !== undefined &&
+    context.hasGeldanlage !== undefined &&
+    context.hasGrundeigentum !== undefined &&
+    context.hasWertsache !== undefined);
 
 const partnerNameDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,

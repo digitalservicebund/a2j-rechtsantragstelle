@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getStrapiEntryFromApi } from "~/services/cms/getStrapiEntryFromApi";
 import { stagingLocale } from "~/services/cms/models/StrapiLocale";
-import type { GetStrapiEntryOpts } from "../filters";
+import type { GetStrapiEntryOpts } from "../schemas";
 
 const API_URL = "test://cms/api/";
 
