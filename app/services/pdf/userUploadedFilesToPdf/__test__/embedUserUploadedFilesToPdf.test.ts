@@ -1,6 +1,5 @@
 import { PDFDocument } from "pdf-lib";
 import { vi, type Mock } from "vitest";
-import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { downloadUserFileFromS3 } from "~/services/externalDataStorage/userFileS3Helpers";
 import { embedUserFilesToPdf } from "../embedUserUploadedFilesToPdf";
 
@@ -41,7 +40,7 @@ describe("embedUserUploadedFilesToPdf", () => {
 
       const resultBuffer = await embedUserFilesToPdf(
         mockMainPDFBuffer,
-        mockedUserData as BeratungshilfeFormularContext,
+        mockedUserData,
         cookieHeader,
         flowId,
       );
@@ -59,7 +58,7 @@ describe("embedUserUploadedFilesToPdf", () => {
 
       const resultBuffer = await embedUserFilesToPdf(
         mockMainPDFBuffer,
-        mockedUserData as BeratungshilfeFormularContext,
+        mockedUserData,
         cookieHeader,
         flowId,
       );

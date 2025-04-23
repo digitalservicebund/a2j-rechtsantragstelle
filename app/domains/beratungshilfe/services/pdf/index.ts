@@ -17,6 +17,7 @@ import { fillPdf } from "~/services/pdf/fillPdf.server";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
+import { embedUserFilesToPdf } from "~/services/pdf/userUploadedFilesToPdf/embedUserUploadedFilesToPdf";
 import { createChecklistPage } from "./checklist/createChecklistPage";
 import { fillAngelegenheit } from "./pdfForm/A_angelegenheit";
 import { fillVorraussetzungen } from "./pdfForm/B_vorraussetzungen";
@@ -27,7 +28,6 @@ import { fillBesitz } from "./pdfForm/F_besitz/F_besitz";
 import { fillFooter } from "./pdfForm/footer";
 import { fillAusgaben } from "./pdfForm/G_ausgaben";
 import { fillHeader } from "./pdfForm/header";
-import { embedUserFilesToPdf } from "./userUploadedFilesToPdf/embedUserUploadedFilesToPdf";
 
 export type BerHPdfFillFunction = PdfFillFunction<
   BeratungshilfeFormularContext,
