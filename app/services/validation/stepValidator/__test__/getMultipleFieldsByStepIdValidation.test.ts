@@ -1,8 +1,8 @@
+import { getMultiFieldsValidation } from "~/domains/multiFieldsFlowValidation";
 import type {
   MultiFieldsValidationBaseSchema,
   MultiFieldsStepIdValidation,
-} from "~/domains/multiFieldsFlowValidation";
-import { getMultiFieldsValidation } from "~/domains/multiFieldsFlowValidation";
+} from "~/domains/types";
 import { getMultiFieldsByStepIdValidation } from "../getMultiFieldsByStepIdValidation";
 
 vi.mock("~/domains/multiFieldsFlowValidation");
