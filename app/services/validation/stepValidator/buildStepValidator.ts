@@ -1,6 +1,6 @@
 import { withZod } from "@rvf/zod";
 import { z } from "zod";
-import type { FunctionMultiFieldsValidation } from "~/domains/multiFieldsFlowValidation";
+import { type FunctionMultiFieldsValidation } from "~/domains/types";
 import { isKeyOfObject } from "~/util/objects";
 import { fieldIsArray, splitArrayName } from "../../array";
 

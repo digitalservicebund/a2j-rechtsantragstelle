@@ -1,20 +1,7 @@
-import type { z } from "zod";
 import type { FlowId } from "./flowIds";
 import { fluggastrechtMultiFieldsValidation } from "./fluggastrechte/formular/multiFieldsValidation";
 import { fluggastrechtVorabcheckMultiFieldsValidation } from "./fluggastrechte/vorabcheck/multiFieldsValidation";
-
-export type MultiFieldsValidationBaseSchema = z.ZodObject<
-  Record<string, z.ZodTypeAny>
->;
-
-export type FunctionMultiFieldsValidation = (
-  baseSchema: MultiFieldsValidationBaseSchema,
-) => z.ZodTypeAny;
-
-export type MultiFieldsStepIdValidation = Record<
-  string,
-  FunctionMultiFieldsValidation
->;
+import { type MultiFieldsStepIdValidation } from "./types";
 
 const multiFieldsFlowValidation = {
   "/beratungshilfe/antrag": undefined,
