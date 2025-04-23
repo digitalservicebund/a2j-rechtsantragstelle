@@ -1,13 +1,8 @@
-import type { GetStrapiEntryOpts } from "./filters";
 import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";
 import { getStrapiEntryFromFile } from "./getStrapiEntryFromFile";
-import type { ApiId, StrapiSchemas } from "./schemas";
 import { config } from "../env/env.server";
 import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
-
-export type GetStrapiEntry = <T extends ApiId>(
-  opts: GetStrapiEntryOpts<T> & { apiId: T },
-) => Promise<StrapiSchemas[T] | [null]>;
+import { type GetStrapiEntry } from "./schemas";
 
 const getterFunction =
   config().CMS === "FILE" ? getStrapiEntryFromFile : getStrapiEntryFromApi;
