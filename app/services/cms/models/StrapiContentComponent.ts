@@ -34,8 +34,3 @@ export const StrapiContentComponentSchema = z.union([
 export type StrapiContentComponent = z.infer<
   typeof StrapiContentComponentSchema
 >;
-
-export const isStrapiHeadingComponent = (
-  strapiContent: StrapiContentComponent,
-): strapiContent is z.infer<typeof StrapiHeadingSchema> =>
-  strapiContent.__component === "basic.heading";
