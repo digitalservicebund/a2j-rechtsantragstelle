@@ -7,13 +7,13 @@ import { geldEinklagenFormular } from "~/domains/geldEinklagen/formular";
 import { geldEinklagenVorabcheck } from "~/domains/geldEinklagen/vorabcheck";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
-import type { Replacements } from "~/util/fillTemplate";
+import type { Replacements } from "~/util/applyStringReplacement";
 import type { Context } from "./contexts";
 import type { FlowId } from "./flowIds";
 import type { Guards } from "./guards.server";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 
-export type FlowMigration = {
+type FlowMigration = {
   source: FlowId;
   sortedFields: string[];
   buttonUrl?: string;

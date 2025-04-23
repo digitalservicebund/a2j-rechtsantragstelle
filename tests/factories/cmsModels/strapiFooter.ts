@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { StrapiFooter } from "~/services/cms/models/StrapiFooter";
+import { type StrapiFooter } from "~/services/cms/models/StrapiFooter";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { getStrapiImage } from "./strapiImage";
 import { getStrapiLink } from "./strapiLink";

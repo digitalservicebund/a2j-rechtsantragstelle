@@ -13,6 +13,9 @@ const CustomInput = (props: InputProps<DataListOptions, false>) => (
     }}
     {...props}
     maxLength={INPUT_CHAR_LIMIT}
+    aria-required={props.selectProps.className?.includes(
+      "auto-suggest-input-required",
+    )}
   />
 );
 

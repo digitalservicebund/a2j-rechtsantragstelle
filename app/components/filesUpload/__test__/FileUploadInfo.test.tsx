@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
-import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { errorStyling, type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 const deleteButtonLabel = "Delete";
 const fileName = "testfile1.pdf";
@@ -48,7 +48,7 @@ describe("FileUploadInfo", () => {
       />,
     );
     const parentDiv = getByTestId(`file-upload-info-belege[0]`);
-    expect(parentDiv).toHaveClass("bg-red-200 border border-red-900");
+    expect(parentDiv).toHaveClass(errorStyling);
   });
 
   describe("Delete Button", () => {

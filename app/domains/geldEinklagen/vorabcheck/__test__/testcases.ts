@@ -5,7 +5,7 @@ import { happyPathData } from "~/domains/geldEinklagen/vorabcheck/__test__/geldE
 import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import geldEinklagenFlow from "~/domains/geldEinklagen/vorabcheck/flow.json";
 import { guards } from "~/domains/geldEinklagen/vorabcheck/guards";
-import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+import type { FlowStateMachine } from "~/services/flow/server/types";
 
 const machine: FlowStateMachine = createMachine(
   { ...geldEinklagenFlow, context: {} },

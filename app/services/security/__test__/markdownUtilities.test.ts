@@ -1,4 +1,5 @@
 import {
+  contentExistsBeforeList,
   handleNestedLists,
   sanitize,
 } from "~/services/security/markdownUtilities";
@@ -106,6 +107,47 @@ describe("markdownUtilities", () => {
       const htmlWithCorrectList =
         "<ul>{{ #conditional }}<li>item 1</li>{{ /conditional }}</ul>";
       expect(handleNestedLists(htmlWithCorrectList)).toBe(htmlWithCorrectList);
+    });
+
+    it("should leave the html unmodified if a list has contextual content preceding it, inside of a conditional", () => {
+      const htmlString = `
+        {{ #variable }}
+        Please upload the following:
+        <ul>
+        <li>Thing 1</li>
+        <li>Thing 2</li>
+        </ul>
+        {{ /variable }}
+      `;
+      expect(handleNestedLists(htmlString)).toBe(htmlString);
+    });
+  });
+
+  describe("contentExistsBeforeList", () => {
+    it("should return true if content appears before the list", () => {
+      const htmlString = `
+        {{ #variable }}
+        Please upload the following:
+        <ul>
+        <li>Thing 1</li>
+        <li>Thing 2</li>
+        </ul>
+        {{ /variable }}
+      `;
+      expect(contentExistsBeforeList(htmlString)).toBe(true);
+    });
+
+    it("should return false if the conditional is purely list content", () => {
+      const htmlString = `
+        Please upload the following:
+        {{ #variable }}
+        <ul>
+        <li>Thing 1</li>
+        <li>Thing 2</li>
+        </ul>
+        {{ /variable }}
+      `;
+      expect(contentExistsBeforeList(htmlString)).toBe(false);
     });
   });
 });

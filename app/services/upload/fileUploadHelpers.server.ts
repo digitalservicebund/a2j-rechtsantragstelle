@@ -1,28 +1,29 @@
-import {
-  TypedResponse,
-  unstable_parseMultipartFormData,
-} from "@remix-run/node";
-import { withZod } from "@remix-validated-form/with-zod";
+import { type FileUpload, parseFormData } from "@mjackson/form-data-parser";
+import { type TypedResponse } from "@remix-run/node";
+import { type ValidationErrorResponseData } from "@rvf/remix";
 import pickBy from "lodash/pickBy";
-import {
-  ErrorResult,
-  SuccessResult,
-  validationError,
-  ValidationErrorResponseData,
-  ValidationResult,
-} from "remix-validated-form";
-import { z, ZodTypeAny } from "zod";
-import { ArrayData, Context, getContext } from "~/domains/contexts";
-import { FlowId } from "~/domains/flowIds";
+import { type ZodTypeAny } from "zod";
+import { type ArrayData, type Context, getContext } from "~/domains/contexts";
+import { type FlowId } from "~/domains/flowIds";
 import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
-import {
-  convertFileToMetadata,
-  splitFieldName,
-} from "~/services/upload/fileUploadHelpers";
-import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { splitFieldName } from "~/services/upload/fileUploadHelpers";
+import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { buildFileUploadError } from "./buildFileUploadError";
+import { validateUploadedFile } from "./validateUploadedFile";
+
+export const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";
+
+const createFileMeta = (
+  file: File,
+  fileArrayBuffer: ArrayBuffer,
+): PDFFileMetadata => ({
+  filename: file.name,
+  fileType: file.type,
+  fileSize: fileArrayBuffer.byteLength,
+});
 
 export async function uploadUserFile(
   formAction: string,
@@ -31,12 +32,20 @@ export async function uploadUserFile(
   flowId: FlowId,
 ): Promise<{
   validationError?: TypedResponse<ValidationErrorResponseData>;
-  validationResult?: SuccessResult<Context>;
+  validationResult?: { data: Context };
 }> {
   const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
   const file = await parseFileFromFormData(request, inputName);
-  const fileMeta = convertFileToMetadata(file);
+
+  /**
+   * The file is a FileUpload class coming from the library @mjackson/form-data-parser,
+   * which is a wrapper around the native File interface and it is not possible to get the file size.
+   * We need to convert it to an ArrayBuffer to get the size.
+   */
+  const fileArrayBuffer = await file.arrayBuffer();
+  const fileMeta = createFileMeta(file, fileArrayBuffer);
+
   /**
    * Need to scope the context, otherwise we validate against the entire context,
    * of which we only have partial data at this point
@@ -45,12 +54,14 @@ export async function uploadUserFile(
     getContext(flowId),
     (_val, key) => key === fieldName,
   ) as Record<string, ZodTypeAny>;
+
   const validationResult = await validateUploadedFile(
     inputName,
     fileMeta,
     userData,
     scopedContext,
   );
+
   if (validationResult.error) {
     return {
       validationError: buildFileUploadError(validationResult, inputName),
@@ -59,12 +70,15 @@ export async function uploadUserFile(
   const savedFileKey = await uploadUserFileToS3(
     request.headers.get("Cookie"),
     flowId,
-    file,
+    fileArrayBuffer,
   );
+
   fileMeta.savedFileKey = savedFileKey;
   (validationResult.data[fieldName] as ArrayData)[Number(inputIndex)] =
     fileMeta;
-  return { validationResult };
+  return {
+    validationResult: { ...validationResult },
+  };
 }
 
 export async function deleteUserFile(
@@ -86,61 +100,19 @@ export async function deleteUserFile(
   return false;
 }
 
-export async function parseFileFromFormData(
-  request: Request,
-  fieldName: string,
-) {
-  let file: File | undefined;
-  await unstable_parseMultipartFormData(
-    request,
-    async ({ filename, data, name, contentType }) => {
-      if (name !== fieldName || !filename) {
-        return "";
-      }
-      file = await convertAsyncBufferToFile(data, filename, contentType);
-      return undefined;
-    },
-  );
-  return file;
-}
-
-export async function validateUploadedFile(
-  inputName: string,
-  file: PDFFileMetadata,
-  sessionData: Context,
-  schema: Record<string, ZodTypeAny>,
-): Promise<ValidationResult<Context>> {
-  return await withZod(z.object(schema)).validate({
-    ...sessionData,
-    [inputName]: file,
+async function parseFileFromFormData(request: Request, fieldName: string) {
+  let matchedFile: File | undefined;
+  await parseFormData(request, (fileUpload: FileUpload) => {
+    if (fileUpload.fieldName === fieldName && fileUpload.name) {
+      matchedFile = fileUpload;
+    }
   });
-}
 
-/**
- * Need to remove the validation error's object notation to conform to what the frontend expects
- * i.e. from
- * "belege[0].fileType": "Only PDF and TIFF files allowed"
- * to
- * "belege[0]": "Only PDF and TIFF files allowed"
- *
- * @param validationResult error result returned from `withZod().validate()`
- * @returns TypedResponse<ValidationErrorResponseData>
- */
-export function buildFileUploadError(
-  validationResult: ErrorResult,
-  inputName: string,
-) {
-  return validationError(
-    {
-      ...validationResult.error,
-      fieldErrors: Object.fromEntries(
-        Object.entries(validationResult.error.fieldErrors)
-          .map(([key, val]) => [key.split(".")[0], val])
-          .filter(([key]) => key === inputName),
-      ),
-    },
-    validationResult.submittedData,
-  );
+  if (typeof matchedFile === "undefined") {
+    throw new Error(UNDEFINED_FILE_ERROR);
+  }
+
+  return matchedFile;
 }
 
 /**
@@ -155,16 +127,4 @@ export function getUpdatedField(inputName: string, userData: Context): Context {
       (_, index) => index !== inputIndex,
     ),
   };
-}
-
-export async function convertAsyncBufferToFile(
-  data: AsyncIterable<Uint8Array<ArrayBufferLike>>,
-  filename: string,
-  contentType: string,
-): Promise<File> {
-  const dataArr = [];
-  for await (const chunk of data) {
-    dataArr.push(chunk);
-  }
-  return new File(dataArr, filename, { type: contentType });
 }

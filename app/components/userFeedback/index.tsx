@@ -6,6 +6,7 @@ import { PostSubmissionBox } from "./PostSubmissionBox";
 import { type RatingBoxProps, RatingBox } from "./RatingBox";
 import Background from "../Background";
 import Container from "../Container";
+import { FeedbackType } from "./FeedbackType";
 
 export enum BannerState {
   ShowRating = "showRating",
@@ -13,16 +14,11 @@ export enum BannerState {
   FeedbackGiven = "feedbackGiven",
 }
 
-export type UserFeedbackProps = {
+type UserFeedbackProps = {
   rating: Pick<RatingBoxProps, "heading">;
 };
 
 export const USER_FEEDBACK_ID = "user-feedback-banner";
-
-export enum FeedbackType {
-  Positive = "positive",
-  Negative = "negative",
-}
 
 export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const { pathname } = useLocation();

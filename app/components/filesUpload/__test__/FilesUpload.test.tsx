@@ -1,13 +1,13 @@
+import { type ValidationErrorResponseData } from "@rvf/remix";
 import { fireEvent, render } from "@testing-library/react";
 import times from "lodash/times";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import { ValidationErrorResponseData } from "remix-validated-form";
 import FilesUpload, {
-  FilesUploadProps,
+  type FilesUploadProps,
 } from "~/components/filesUpload/FilesUpload";
-import { Context } from "~/domains/contexts";
+import { type Context } from "~/domains/contexts";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { fileUploadErrorMap, PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 const deleteLabel = "Löschen";
 const selectLabel = "Datei Auswählen";
@@ -35,18 +35,39 @@ vi.mock("~/services/translations/translationsContext", () => ({
   }),
 }));
 
-let defaultValue: PDFFileMetadata[] = [];
-let error: string | undefined;
-vi.mock("remix-validated-form", () => ({
+const getDefaultMock = vi.fn();
+const getErrorMock = vi.fn();
+
+vi.mock("@rvf/remix", () => ({
   useField: () => ({
-    defaultValue,
-    error,
+    getInputProps: vi.fn((props) => ({ ...props })),
+    defaultValue: getDefaultMock,
+    error: getErrorMock,
   }),
 }));
 
+const mockDefaultValue = (value: PDFFileMetadata[]) => {
+  getDefaultMock.mockReturnValue(value);
+};
+
+const mockError = (error: string) => {
+  getErrorMock.mockReturnValue(error);
+};
+
+const renderFilesUpload = ({ ...args }: Partial<FilesUploadProps> = {}) =>
+  render(
+    <RouterProvider
+      router={createMemoryRouter([
+        {
+          path: "/",
+          element: <FilesUpload name={fieldName} {...args} />,
+        },
+      ])}
+    />,
+  );
+
 beforeEach(() => {
-  defaultValue = [];
-  actionResponse = undefined;
+  vi.resetAllMocks();
 });
 
 describe("FilesUpload", () => {
@@ -82,13 +103,14 @@ describe("FilesUpload", () => {
   });
 
   it("should allow a user to delete a file", () => {
-    defaultValue = [
+    mockDefaultValue([
       {
         filename: "test.pdf",
         fileType: "application/pdf",
         fileSize: 1000,
       },
-    ];
+    ]);
+
     const { getByText } = renderFilesUpload();
     const deleteButton = getByText(deleteLabel);
     expect(deleteButton).toBeInTheDocument();
@@ -104,7 +126,7 @@ describe("FilesUpload", () => {
   });
 
   it("should display a top-level error", () => {
-    error = minimumFileError;
+    mockError(minimumFileError);
     const { getByText, queryByText } = renderFilesUpload();
     expect(getByText(minimumFileError)).toBeInTheDocument();
     expect(queryByText(addAnotherLabel)).not.toBeInTheDocument();
@@ -113,40 +135,31 @@ describe("FilesUpload", () => {
   it("should render individual file input errors", () => {
     actionResponse = {
       fieldErrors: {
-        [`${fieldName}[0]`]: fileUploadErrorMap.fileSizeTooBig,
+        [`${fieldName}[0]`]: "fileSizeTooBig",
       },
     };
-    defaultValue = [
+    mockDefaultValue([
       {
         filename: "test.pdf",
         fileType: "application/pdf",
         fileSize: 0,
       },
-    ];
+    ]);
     const { getByText, queryByText } = renderFilesUpload();
-    expect(getByText(fileUploadErrorMap.fileSizeTooBig)).toBeInTheDocument();
+    expect(getByText("fileSizeTooBig")).toBeInTheDocument();
     expect(queryByText(addAnotherLabel)).not.toBeInTheDocument();
   });
 
   it('should hide the "add another" button when the file upload limit is reached', () => {
-    defaultValue = times(5).map(() => ({
+    const defaultValueMocked = times(5).map(() => ({
       filename: "test.pdf",
       fileType: "application/pdf",
       fileSize: 0,
     }));
+
+    mockDefaultValue(defaultValueMocked);
+
     const { queryByText } = renderFilesUpload();
     expect(queryByText(addAnotherLabel)).not.toBeInTheDocument();
   });
 });
-
-const renderFilesUpload = ({ ...args }: Partial<FilesUploadProps> = {}) =>
-  render(
-    <RouterProvider
-      router={createMemoryRouter([
-        {
-          path: "/",
-          element: <FilesUpload name={fieldName} formId="formId" {...args} />,
-        },
-      ])}
-    />,
-  );

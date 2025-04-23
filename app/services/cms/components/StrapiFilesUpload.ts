@@ -1,16 +1,19 @@
 import { z } from "zod";
-import { FilesUploadProps } from "~/components/filesUpload/FilesUpload";
-import { StrapiErrorRelationSchema } from "~/services/cms/flattenStrapiErrors";
+import { type FilesUploadProps } from "~/components/filesUpload/FilesUpload";
+import {
+  flattenStrapiErrors,
+  StrapiErrorRelationSchema,
+} from "~/services/cms/flattenStrapiErrors";
+import { HasOptionalStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
 import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNotice";
 import { omitNull } from "~/util/omitNull";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
 const StrapiFilesUploadSchema = z
   .object({
     name: z.string(),
     title: z.string(),
     description: z.string().nullable(),
-    inlineNotice: z.array(StrapiInlineNoticeSchema).optional(),
+    inlineNotices: z.array(StrapiInlineNoticeSchema).optional(),
     errors: StrapiErrorRelationSchema,
   })
   .merge(HasOptionalStrapiIdSchema);
@@ -26,5 +29,6 @@ export function getFilesUploadProps(
 ): FilesUploadProps {
   return {
     ...omitNull(props),
+    errorMessages: flattenStrapiErrors(props.errors),
   };
 }

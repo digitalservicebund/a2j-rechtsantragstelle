@@ -19,7 +19,7 @@ import { getTextareaProps } from "~/services/cms/components/StrapiTextarea";
 import { getTileGroupProps } from "~/services/cms/components/StrapiTileGroup";
 import { getTimeInputProps } from "~/services/cms/components/StrapiTimeInput";
 import { keyFromElement } from "~/services/cms/keyFromElement";
-import { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { getDateInputProps } from "./StrapiDateInput";
 import { getSelectProps } from "./StrapiDropdown";
 

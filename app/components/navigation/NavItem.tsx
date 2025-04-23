@@ -9,19 +9,11 @@ import {
   stateIsActive,
   stateIsDisabled,
   stateIsDone,
-  type NavState,
 } from "~/services/navigation/navState";
-import { NavigationList, type NavigationA11yLabels } from "./NavigationList";
+import { NavigationList } from "./NavigationList";
+import { type NavItem, type NavigationA11yLabels } from "./types";
 
-export type NavItem = {
-  destination: string;
-  label: string;
-  state: NavState;
-  subflows?: NavItem[];
-  a11yLabels?: NavigationA11yLabels;
-};
-
-export const StateIcon: FC<{
+const StateIcon: FC<{
   id: string;
   a11yLabels?: NavigationA11yLabels;
 }> = ({ id, a11yLabels }) => (

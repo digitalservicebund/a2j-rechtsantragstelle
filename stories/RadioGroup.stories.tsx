@@ -18,7 +18,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     name: "input",
-    formId: "formId",
     label: undefined,
     options: [
       { value: "option1", text: "Option 1" },
@@ -32,7 +31,6 @@ export const Default: Story = {
 export const WithLabel: Story = {
   args: {
     name: "input",
-    formId: "formId",
     label: "Lorem ipsum dolor sit amet",
     options: [
       { value: "option1", text: "Option 1" },

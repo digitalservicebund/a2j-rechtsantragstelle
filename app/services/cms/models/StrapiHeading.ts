@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import type { StrapiContentComponent } from "./StrapiContentComponent";
 import { stringWithHtmlEntities } from "./stringWithHtmlEntities";
 
 export const StrapiHeadingSchema = z
@@ -41,8 +40,3 @@ export const StrapiHeadingSchema = z
 export const StrapiHeadingOptionalSchema = StrapiHeadingSchema.nullable()
   .transform(omitNull)
   .optional();
-
-export const isStrapiHeadingComponent = (
-  strapiContent: StrapiContentComponent,
-): strapiContent is z.infer<typeof StrapiHeadingSchema> =>
-  strapiContent.__component === "basic.heading";

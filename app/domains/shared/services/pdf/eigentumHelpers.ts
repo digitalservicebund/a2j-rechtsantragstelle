@@ -8,7 +8,7 @@ import type {
 } from "~/domains/shared/formular/finanzielleAngaben/context";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 
-export const befristungMapping = {
+const befristungMapping = {
   lifeInsurance: "Lebensversicherung",
   buildingSavingsContract: "Bausparvertrag",
   fixedDepositAccount: "Festgeldkonto",
@@ -33,7 +33,7 @@ export const grundeigentumArtMapping: Record<
   garage: "Garagen(-hof)",
 };
 
-export const geldanlageArtMapping: Record<string, string> = {
+const geldanlageArtMapping: Record<string, string> = {
   bargeld: "Bargeld",
   wertpapiere: "Wertpapiere",
   guthabenkontoKrypto: "Guthabenkonto oder Kryptowährung",

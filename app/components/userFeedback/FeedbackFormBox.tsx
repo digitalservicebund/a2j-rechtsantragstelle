@@ -1,18 +1,18 @@
 import { useLocation } from "@remix-run/react";
-import { withZod } from "@remix-validated-form/with-zod";
-import { useEffect, useRef, useState } from "react";
-import { ValidatedForm } from "remix-validated-form";
+import { ValidatedForm } from "@rvf/remix";
+import { withZod } from "@rvf/zod";
+import { useEffect, useRef } from "react";
 import { z } from "zod";
 import Textarea from "~/components/inputs/Textarea";
-import { FeedbackType } from "~/components/userFeedback";
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
+import { FeedbackType } from "./FeedbackType";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
-export const FEEDBACK_FORM_NAME = "feedbackForm";
 export const FEEDBACK_FIELD_NAME = "feedback";
 
 enum FeedbackButtons {
@@ -35,7 +35,7 @@ export const feedbackValidator = withZod(
   }),
 );
 
-export type FeedbackBoxProps = {
+type FeedbackBoxProps = {
   readonly destination: string;
   readonly shouldFocus: boolean;
   readonly onSubmit: () => void;
@@ -52,8 +52,7 @@ export const FeedbackFormBox = ({
   onSubmit,
   feedback,
 }: FeedbackBoxProps) => {
-  const [jsAvailable, setJsAvailable] = useState(false);
-  useEffect(() => setJsAvailable(true), []);
+  const jsAvailable = useJsAvailable();
   const location = useLocation();
 
   const textAreaReference = useRef<HTMLTextAreaElement | null>(null);
@@ -81,7 +80,6 @@ export const FeedbackFormBox = ({
   return (
     <ValidatedForm
       validator={feedbackValidator}
-      subaction={FEEDBACK_FORM_NAME}
       method="post"
       action={`/action/send-feedback?url=${destination}&js=${String(jsAvailable)}`}
       preventScrollReset={true}

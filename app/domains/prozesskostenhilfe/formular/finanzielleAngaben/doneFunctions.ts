@@ -9,7 +9,6 @@ import {
   prozesskostenhilfeFinanzielleAngabenContext,
   type ProzesskostenhilfeFinanzielleAngabenContext,
 } from "./context";
-import { eigentumDone } from "./eigentumDone";
 import type { GenericGuard } from "../../../guards.server";
 import {
   bankKontoDone,
@@ -21,7 +20,18 @@ import {
 export type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenContext>;
 
-export const partnerNameDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+export const eigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.staatlicheLeistungen == "grundsicherung" ||
+  context.staatlicheLeistungen == "asylbewerberleistungen" ||
+  (context.hasBankkonto !== undefined &&
+    context.hasKraftfahrzeug !== undefined &&
+    context.hasGeldanlage !== undefined &&
+    context.hasGrundeigentum !== undefined &&
+    context.hasWertsache !== undefined);
+
+const partnerNameDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.partnerVorname !== undefined && context.partnerNachname !== undefined;
@@ -46,18 +56,19 @@ export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
     partnerBesondersAusgabenDone({ context }));
 
 // Reuse the existing einkuenfteDone guard by removing the partner- prefix from context values
-export const partnerEinkuenfteDone: ProzesskostenhilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    einkuenfteDone({
-      context: {
-        ...context,
-        ...Object.fromEntries(
-          Object.entries(context)
-            .filter(([key]) => key.includes("partner-"))
-            .map(([key, val]) => [key.replace("partner-", ""), val]),
-        ),
-      },
-    }) && partnerSupportDone({ context });
+const partnerEinkuenfteDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  einkuenfteDone({
+    context: {
+      ...context,
+      ...Object.fromEntries(
+        Object.entries(context)
+          .filter(([key]) => key.includes("partner-"))
+          .map(([key, val]) => [key.replace("partner-", ""), val]),
+      ),
+    },
+  }) && partnerSupportDone({ context });
 
 export const partnerBesondersAusgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
@@ -87,7 +98,7 @@ export const andereUnterhaltszahlungenDone: ProzesskostenhilfeFinanzielleAngaben
     context.hasWeitereUnterhaltszahlungen == "no" ||
     arrayIsNonEmpty(context.unterhaltszahlungen);
 
-export const geldanlagenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+const geldanlagenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasGeldanlage === "no" ||
@@ -95,7 +106,7 @@ export const geldanlagenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
     arrayIsNonEmpty(context.geldanlagen) &&
     context.geldanlagen.every(geldanlageDone));
 
-export const grundeigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+const grundeigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasGrundeigentum === "no" ||
@@ -117,7 +128,7 @@ export const kraftfahrzeugDone = (
       kfz.kilometerstand !== undefined &&
       kfz.baujahr !== undefined));
 
-export const kraftfahrzeugeDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+const kraftfahrzeugeDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasKraftfahrzeug === "no" ||
@@ -125,7 +136,7 @@ export const kraftfahrzeugeDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
     arrayIsNonEmpty(context.kraftfahrzeuge) &&
     context.kraftfahrzeuge.every(kraftfahrzeugDone));
 
-export const wertsachenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+const wertsachenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasWertsache === "no" ||

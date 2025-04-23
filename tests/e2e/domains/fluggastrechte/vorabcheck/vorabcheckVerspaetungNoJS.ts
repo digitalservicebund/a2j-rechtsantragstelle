@@ -9,8 +9,18 @@ export async function startFluggastrechteVorabcheckVerspaetungNoJS(
   await vorabcheck.goto();
   await vorabcheck.clickNextWithoutJavaScript();
 
+  // TileGroup - Simulate an error to click twice in the next button, it should not go to next page
+  await vorabcheck.clickNextWithoutJavaScript();
+
+  await vorabcheck.clickNextWithoutJavaScript();
+
   // fluggastrechte/vorabcheck/bereich
   await vorabcheck.fillRadioPageNonJavascript("bereich", "verspaetet");
+
+  // RadioGroup - Simulate an error to click twice in the next button, it should not go to next page
+  await vorabcheck.clickNextWithoutJavaScript();
+
+  await vorabcheck.clickNextWithoutJavaScript();
 
   // fluggastrechte/vorabcheck/verspaetung
   await vorabcheck.fillRadioPageNonJavascript("verspaetung", "yes");

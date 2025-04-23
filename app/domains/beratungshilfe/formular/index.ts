@@ -17,7 +17,6 @@ import {
   ausgabenStrings,
   weiteresEinkommenStrings,
   eigentumZusammenfassungShowTotalWorthWarnings,
-  getDokumenteStrings,
 } from "./stringReplacements";
 import { beratungshilfeXstateConfig } from "./xstateConfig";
 import type { AbgabeContext } from "../../shared/formular/abgabe/context";
@@ -49,7 +48,6 @@ export const beratungshilfeFormular = {
     ...getMissingInformationStrings(context),
     ...ausgabenStrings(context),
     ...geldAnlagenStrings(context),
-    ...getDokumenteStrings(),
     ...weiteresEinkommenStrings(context),
   }),
 } satisfies Flow;

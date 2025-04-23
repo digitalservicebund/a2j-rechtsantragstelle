@@ -1,6 +1,6 @@
+import { useField } from "@rvf/remix";
 import classNames from "classnames";
 import type { ReactNode } from "react";
-import { useField } from "remix-validated-form";
 import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
@@ -14,7 +14,6 @@ export type SelectProps = {
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
   width?: "16" | "24" | "36" | "54";
-  formId?: string;
 };
 
 const Select = ({
@@ -23,15 +22,14 @@ const Select = ({
   options,
   placeholder,
   errorMessages,
-  formId,
   width,
 }: SelectProps) => {
-  const { error, getInputProps } = useField(name, { formId });
+  const field = useField(name);
 
   const selectClassName = classNames(
-    "ds-select",
+    "ds-select forced-color-adjust-none",
     {
-      "has-error": error,
+      "has-error": field.error(),
     },
     widthClassname(width),
   );
@@ -42,11 +40,11 @@ const Select = ({
       {label && <InputLabel id={name}>{label}</InputLabel>}
 
       <select
-        {...getInputProps({ id: name })}
+        {...field.getInputProps({ id: name })}
         className={selectClassName}
-        aria-invalid={error !== undefined}
-        aria-describedby={error && errorId}
-        aria-errormessage={error && errorId}
+        aria-invalid={field.error() !== undefined}
+        aria-describedby={field.error() ? errorId : undefined}
+        aria-errormessage={field.error() ? errorId : undefined}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
       >
         {placeholder && <option value="">{placeholder}</option>}
@@ -59,7 +57,8 @@ const Select = ({
         })}
       </select>
       <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === error)?.text ?? error}
+        {errorMessages?.find((err) => err.code === field.error())?.text ??
+          field.error()}
       </InputError>
     </div>
   );

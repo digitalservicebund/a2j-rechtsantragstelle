@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TextareaProps } from "~/components/inputs/Textarea";
+import { type TextareaProps } from "~/components/inputs/Textarea";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,

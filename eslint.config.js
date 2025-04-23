@@ -99,6 +99,13 @@ export default tseslint.config(
       // import
       "import/no-cycle": "off", // VERY slow, only enable if needed
       "import/namespace": "off", // slow and unneeded
+      "import/no-unused-modules": [
+        "off", // slow but useful to find unused exports. you might need to create an empty .eslintrc file, see https://github.com/import-js/eslint-plugin-import/issues/3079
+        {
+          unusedExports: true,
+          ignoreExports: ["app/routes/"],
+        },
+      ],
       "import/order": [
         "warn",
         {
@@ -125,10 +132,11 @@ export default tseslint.config(
       "sonarjs/anchor-has-content": "off",
       "sonarjs/no-invalid-await": "off",
 
-      // TODO: to be enabled later
-      "sonarjs/deprecation": "off", // enable after remix upgrades to react router v7 and we move to Single Fetch
-
       // typescript-eslint
+      "@typescript-eslint/consistent-type-imports": [
+        "warn",
+        { fixStyle: "inline-type-imports" },
+      ],
       "@typescript-eslint/only-throw-error": "off", // disabled, as remix/react-router can throw redirects
       "@typescript-eslint/no-unused-vars": [
         "warn",

@@ -1,7 +1,7 @@
 import { createRemixStub } from "@remix-run/testing";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { act } from "react-dom/test-utils";
+import { act } from "react";
 import UserFeedback, {
   BannerState,
   USER_FEEDBACK_ID,

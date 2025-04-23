@@ -30,14 +30,14 @@ import { testCasesFluggastrechteNichtBefoerderungAbbruch } from "~/domains/flugg
 import { testcasesFluggastrechtOtherErfolgs } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesOtherErfolgs";
 import { testCasesFluggastrechteVerspaetetAbbruch } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesVerspaetetAbbruch";
 import { testCasesGeldEinklagen } from "~/domains/geldEinklagen/vorabcheck/__test__/testcases";
-import { testCasesKontopfaendungWegweiser } from "~/domains/kontopfaendung/__test__/testcases";
+import { testCasesKontopfaendungWegweiser } from "~/domains/kontopfaendung/wegweiser/__test__/testcases";
 import {
   testCasesProzesskostenhilfeFormular,
   testCasesProzesskostenhilfeSubmitOnly,
 } from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";
-import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
+import type { FlowStateMachine } from "~/services/flow/server/types";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
 import { testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugNo } from "../fluggastrechte/formular/flugdaten/__test__/testcasesAnnullierungWithErsatzflugNo";
 import { testCasesFluggastrechteFluggesellschaftAbbruch } from "../fluggastrechte/vorabcheck/__test__/testcasesFluggesellschaftAbbruch";

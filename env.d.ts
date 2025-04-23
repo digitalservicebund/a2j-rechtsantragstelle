@@ -10,3 +10,9 @@ declare module "vitest" {
   interface Assertion<T = any> extends CustomMatchers<T> {}
   interface AsymmetricMatchersContaining extends CustomMatchers {}
 }
+
+declare module "@remix-run/node" {
+  interface Future {
+    v3_singleFetch: true;
+  }
+}

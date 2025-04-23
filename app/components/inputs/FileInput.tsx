@@ -7,10 +7,10 @@ import {
   splitFieldName,
   useFileHandler,
 } from "~/services/upload/fileUploadHelpers";
-import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
-import { ErrorMessageProps } from ".";
+import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type ErrorMessageProps } from ".";
 
-export type FileInputProps = {
+type FileInputProps = {
   name: string;
   selectedFile: PDFFileMetadata | undefined;
   jsAvailable: boolean;
@@ -31,12 +31,25 @@ export const FileInput = ({
   const { fileUpload: translations } = useTranslations();
   const errorId = `${name}-error`;
 
-  const classes = classNames(
-    "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary w-full",
+  const inputClasses = classNames(
+    "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary file:ds-button-large w-full",
     {
       "w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer":
         jsAvailable,
     },
+  );
+
+  const FileInput = (
+    <input
+      name={jsAvailable ? undefined : name}
+      onChange={(event) => onFileUpload(name, event.target.files?.[0])}
+      type="file"
+      accept=".pdf"
+      data-testid="fileUploadInput"
+      aria-invalid={error !== undefined}
+      aria-errormessage={error && errorId}
+      className={inputClasses}
+    />
   );
 
   return (
@@ -52,35 +65,28 @@ export const FileInput = ({
         />
       ) : (
         <label htmlFor={name} className={"flex flex-col md:flex-row"}>
-          <input
-            name={jsAvailable ? undefined : name}
-            onChange={(event) => onFileUpload(name, event.target.files?.[0])}
-            type="file"
-            accept=".pdf"
-            data-testid="fileUploadInput"
-            aria-invalid={error !== undefined}
-            aria-errormessage={error && errorId}
-            className={classes}
-          />
           {jsAvailable ? (
-            <Button
-              look="tertiary"
-              text={
-                splitFieldName(name).inputIndex === 0
+            <div className="ds-button ds-button-tertiary ds-button-large">
+              <span className="ds-button-label">
+                {splitFieldName(name).inputIndex === 0
                   ? translations?.select
-                  : translations?.addAnother
-              }
-            />
+                  : translations?.addAnother}
+              </span>
+              {FileInput}
+            </div>
           ) : (
-            <Button
-              name="_action"
-              value={`fileUpload.${name}`}
-              className="w-fit"
-              type="submit"
-              look="primary"
-              text={translations?.upload}
-              size="large"
-            />
+            <>
+              {FileInput}
+              <Button
+                name="_action"
+                value={`fileUpload.${name}`}
+                className="w-fit"
+                type="submit"
+                look="primary"
+                text={translations?.upload}
+                size="large"
+              />
+            </>
           )}
         </label>
       )}

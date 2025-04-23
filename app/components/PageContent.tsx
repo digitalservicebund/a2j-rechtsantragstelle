@@ -13,7 +13,7 @@ import Header from "./Header";
 import InfoBox from "./InfoBox";
 import { InlineNotice } from "./InlineNotice";
 import LinkListBox from "./LinkListBox";
-import List from "./List";
+import List from "./list/List";
 import RichText from "./RichText";
 import SummaryOverviewSection from "./summaryOverview/SummaryOverviewSection";
 import UserFeedback from "./userFeedback";

@@ -1,7 +1,6 @@
 export type RichTextProps = {
   html: string;
   className?: string;
-  text?: string;
 };
 
 const RichText = ({ html, className }: RichTextProps) => {

@@ -14,7 +14,3 @@ export function loader({ params }: LoaderFunctionArgs) {
   }
   return redirect(redirectionMap[requestedSite as keyof typeof redirectionMap]);
 }
-
-export default function View() {
-  return <></>;
-}

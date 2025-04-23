@@ -7,11 +7,12 @@ import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentCon
 import Heading, { type HeadingProps } from "~/components/Heading";
 import RichText, { type RichTextProps } from "~/components/RichText";
 import { config } from "~/services/env/web";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import { StandaloneLink } from "../StandaloneLink";
 
 export const acceptCookiesFieldName = "accept-cookies";
 
-export type CookieBannerContentProps = {
+type CookieBannerContentProps = {
   heading: HeadingProps;
   paragraphs: RichTextProps[];
   acceptButtonLabel: string;
@@ -28,8 +29,7 @@ export function CookieBanner({
   const hasTrackingConsent = useContext(CookieConsentContext);
   const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
   const [posthogLoaded, setPosthogLoaded] = useState(false);
-  const [clientJavaScriptAvailable, setClientJavaScriptAvailable] =
-    useState(false);
+  const jsAvailable = useJsAvailable();
   const analyticsFetcher = useFetcher();
   const location = useLocation();
 
@@ -37,7 +37,6 @@ export function CookieBanner({
     if (hasTrackingConsent && !posthogLoaded && POSTHOG_API_KEY) {
       posthog.init(POSTHOG_API_KEY, {
         api_host: POSTHOG_API_HOST,
-
         session_recording: {
           // Masking input and text elements to prevent sensitive data being shown on pages
           maskTextSelector: "*",
@@ -64,17 +63,13 @@ export function CookieBanner({
     POSTHOG_API_HOST,
   ]);
 
-  const buttonAcceptCookieTestId = clientJavaScriptAvailable
+  const buttonAcceptCookieTestId = jsAvailable
     ? "accept-cookie_with_js"
     : "accept-cookie_without_js";
 
   useEffect(() => {
     if (posthogLoaded) posthog.capture("$pageview");
   }, [posthogLoaded, location.pathname]);
-
-  useEffect(() => {
-    setClientJavaScriptAvailable(true);
-  }, []);
 
   if (hasTrackingConsent !== undefined) {
     return <></>;
@@ -88,9 +83,7 @@ export function CookieBanner({
     >
       <analyticsFetcher.Form
         method="post"
-        action={`/action/set-analytics${
-          clientJavaScriptAvailable ? "?js=1" : ""
-        }`}
+        action={`/action/set-analytics${jsAvailable ? "?js=1" : ""}`}
       >
         <Container paddingTop="32" paddingBottom="40">
           <div className="ds-stack ds-stack-16">
