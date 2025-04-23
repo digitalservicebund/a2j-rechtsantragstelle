@@ -2,9 +2,7 @@ import { getPosthogClient } from "~/services/analytics/posthogClient.server";
 import { config } from "~/services/env/web";
 
 export type FeatureFlag =
-  | "showFluggastrechteFormular"
   | "showGeldEinklagenFlow"
-  | "showProzesskostenhilfeFlow"
   | "showERV"
   | "showBundID"
   | "showFileUpload"

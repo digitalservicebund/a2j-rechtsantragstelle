@@ -32,7 +32,7 @@ describe("isFeatureFlagEnabled", () => {
       SENTRY_DSN: "undefined",
     });
 
-    const result = await isFeatureFlagEnabled("showFluggastrechteFormular");
+    const result = await isFeatureFlagEnabled("showGeldEinklagenFlow");
 
     expect(result).toBe(true);
   });
@@ -61,11 +61,11 @@ describe("isFeatureFlagEnabled", () => {
     it("should handle PostHog client returning false", async () => {
       mockIsFeatureEnabled.mockResolvedValue(false);
 
-      const result = await isFeatureFlagEnabled("showProzesskostenhilfeFlow");
+      const result = await isFeatureFlagEnabled("showGeldEinklagenFlow");
 
       expect(result).toBe(false);
       expect(mockIsFeatureEnabled).toHaveBeenCalledWith(
-        "showProzesskostenhilfeFlow",
+        "showGeldEinklagenFlow",
         "backend",
       );
     });

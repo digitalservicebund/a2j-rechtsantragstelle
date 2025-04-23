@@ -241,38 +241,38 @@ function App() {
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
+        <SkipToContentLink
+          label={getTranslationByKey(
+            SKIP_TO_CONTENT_TRANSLATION_KEY,
+            accessibilityTranslations,
+          )}
+          target={skipToContentLinkTarget}
+        />
+        <PageHeader {...pageHeaderProps} />
+        <Breadcrumbs
+          breadcrumbs={breadcrumbs}
+          alignToMainContainer={pageHeaderProps.alignToMainContainer}
+          linkLabel={pageHeaderProps.linkLabel}
+          translations={{ ...accessibilityTranslations }}
+        />
         <CookieConsentContext.Provider value={hasTrackingConsent}>
-          <SkipToContentLink
-            label={getTranslationByKey(
-              SKIP_TO_CONTENT_TRANSLATION_KEY,
-              accessibilityTranslations,
-            )}
-            target={skipToContentLinkTarget}
-          />
-          <CookieBanner content={cookieBannerContent} />
-          <PageHeader {...pageHeaderProps} />
-          <Breadcrumbs
-            breadcrumbs={breadcrumbs}
-            alignToMainContainer={pageHeaderProps.alignToMainContainer}
-            linkLabel={pageHeaderProps.linkLabel}
-            translations={{ ...accessibilityTranslations }}
-          />
           <TranslationContext.Provider value={translationMemo}>
             <main className="flex-grow" id="main">
               <Outlet />
             </main>
           </TranslationContext.Provider>
-          <footer>
-            <Footer
-              {...footer}
-              deletionLabel={deletionLabel}
-              showDeletionBanner={hasAnyUserData}
-              translations={{ ...accessibilityTranslations }}
-            />
-          </footer>
-          <ScrollRestoration nonce={nonce} />
-          <Scripts nonce={nonce} />
+          <CookieBanner content={cookieBannerContent} />
         </CookieConsentContext.Provider>
+        <footer>
+          <Footer
+            {...footer}
+            deletionLabel={deletionLabel}
+            showDeletionBanner={hasAnyUserData}
+            translations={{ ...accessibilityTranslations }}
+          />
+        </footer>
+        <ScrollRestoration nonce={nonce} />
+        <Scripts nonce={nonce} />
       </body>
     </html>
   );
