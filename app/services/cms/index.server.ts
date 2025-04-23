@@ -4,7 +4,7 @@ import {
   type StrapiLocale,
 } from "~/services/cms/models/StrapiLocale";
 import type { Translations } from "~/services/translations/getTranslationByKey";
-import type { Filter, GetStrapiEntryOpts } from "./filters";
+import type { Filter } from "./filters";
 import { getStrapiEntry } from "./getStrapiEntry";
 import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
 import { type StrapiPage } from "./models/StrapiPage";
@@ -15,6 +15,7 @@ import type {
   SingleEntryId,
   ApiId,
   StrapiSchemasOutput,
+  GetStrapiEntryOpts,
 } from "./schemas";
 
 export async function fetchMeta(
