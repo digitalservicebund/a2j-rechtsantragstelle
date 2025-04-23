@@ -3,7 +3,7 @@ import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
   type AttachmentEntries,
 } from "~/services/pdf/attachment";
-import type { BerHPdfFillFunction } from "..";
+import type { BerHPdfFillFunction } from "../types";
 
 export const THEMA_RECHTSPROBLEM_TITLE = "Thema des Rechtsproblems";
 export const GEGNER_TITLE = "Gegner";
