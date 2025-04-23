@@ -1,16 +1,23 @@
 import { pinoHttp } from "pino-http";
 
+const IGNORED_PATHS = [
+  "/assets/",
+  "/app/",
+  "/@",
+  "/node_modules/",
+  "/site.webmanifest",
+  "/favicon",
+  "/health",
+  "/data/",
+];
+
 export const createPinoHttpLogger = () => {
   return pinoHttp({
     autoLogging: {
       ignore: (req) =>
-        (req.url ?? "").startsWith("/assets/") ||
-        (req.url ?? "").startsWith("/app/") ||
-        (req.url ?? "").startsWith("/@") ||
-        (req.url ?? "").startsWith("/node_modules/") ||
-        (req.url ?? "").startsWith("/data/"),
+        IGNORED_PATHS.some((prefix) => (req.url ?? "").startsWith(prefix)),
     },
-    customLogLevel: function (req, res, err) {
+    customLogLevel: function (_req, res, err) {
       if (res.statusCode >= 400 && res.statusCode < 500) {
         return "warn";
       } else if (res.statusCode >= 500 || err) {
@@ -29,6 +36,7 @@ export const createPinoHttpLogger = () => {
       res: (res) => ({
         statusCode: res.statusCode,
       }),
+      err: (err) => (err ? { message: err.message, stack: err.stack } : err),
     },
   });
 };
