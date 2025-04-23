@@ -1,6 +1,6 @@
 import { getFillUnterhalt } from "~/domains/shared/services/pdf/unterhaltHelpers";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
-import type { BerHPdfFillFunction } from "..";
+import type { BerHPdfFillFunction } from "../types";
 
 export const ATTACHMENT_DESCRIPTION_SECTION_E = "Feld E: Unterhaltszahlungen";
 

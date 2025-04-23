@@ -1,6 +1,6 @@
 import { today, toGermanDateFormat } from "~/util/date";
 import { uppercaseFirstLetter } from "~/util/strings";
-import type { BerHPdfFillFunction } from "..";
+import type { BerHPdfFillFunction } from "../types";
 
 export const fillFooter: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   if (userData.anwaltskanzlei === "yes") {
