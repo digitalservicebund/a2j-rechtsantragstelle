@@ -10,7 +10,7 @@ import {
   fetchMeta,
   fetchTranslations,
 } from "~/services/cms/index.server";
-import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiHeading";
+import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiContentComponent";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { logWarning } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";

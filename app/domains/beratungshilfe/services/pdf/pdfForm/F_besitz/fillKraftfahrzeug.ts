@@ -4,7 +4,7 @@ import {
   attachKraftfahrzeugeToAnhang,
 } from "~/domains/shared/services/pdf/eigentumHelpers";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
-import type { BerHPdfFillFunction } from "../..";
+import type { BerHPdfFillFunction } from "../../types";
 
 const KRAFTFAHRZEUG_ART_FIELD_MAX_CHARS = 96;
 

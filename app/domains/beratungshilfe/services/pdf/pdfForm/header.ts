@@ -6,7 +6,7 @@ import {
   type AttachmentEntries,
 } from "~/services/pdf/attachment";
 import { checkboxListToString } from "~/services/pdf/checkboxListToString";
-import type { BerHPdfFillFunction } from "..";
+import type { BerHPdfFillFunction } from "../types";
 
 const weiteresEinkommenMapping = {
   unterhaltszahlungen: "Unterhaltszahlungen",

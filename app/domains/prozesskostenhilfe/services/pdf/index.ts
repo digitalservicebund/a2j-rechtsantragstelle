@@ -1,5 +1,4 @@
 import { PDFDocument } from "pdf-lib";
-import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import { belegeStrings } from "~/domains/prozesskostenhilfe/formular/stringReplacements";
@@ -9,10 +8,7 @@ import type { Metadata } from "~/services/pdf/addMetadataToPdf";
 import { addMetadataToPdf } from "~/services/pdf/addMetadataToPdf";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
-import {
-  type PdfFillFunction,
-  pdfFillReducer,
-} from "~/services/pdf/fillOutFunction";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillPdf } from "~/services/pdf/fillPdf.server";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import {
@@ -35,11 +31,6 @@ import { fillBelastungen } from "./pdfForm/J_belastungen";
 import { fillFooter } from "./pdfForm/K_footer";
 import { printNameInSignatureFormField } from "./printNameInSignatureFormField";
 import { createWeitereAngabenAnhang } from "./weitereAngabenAnhang/createWeitereAngabenAnhang";
-
-export type PkhPdfFillFunction = PdfFillFunction<
-  ProzesskostenhilfeFormularContext,
-  ProzesskostenhilfePDF
->;
 
 const METADATA: Metadata = {
   AUTHOR: "Bundesministerium der Justiz",

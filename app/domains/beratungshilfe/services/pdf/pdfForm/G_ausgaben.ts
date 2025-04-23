@@ -7,7 +7,7 @@ import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
 } from "~/services/pdf/attachment";
 import { checkboxListToString } from "~/services/pdf/checkboxListToString";
-import type { BerHPdfFillFunction } from "..";
+import type { BerHPdfFillFunction } from "../types";
 
 const AUSGABEN_MAX_COUNT_FIELDS = 4;
 const AUSGABEN_MAX_CHARS_FIELD = 19;
