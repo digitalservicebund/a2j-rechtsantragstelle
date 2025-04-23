@@ -26,41 +26,39 @@ const SummaryOverviewBox = ({
   const { translations, flowId } = useFormFlow();
 
   return (
-    <div className="mt-8">
-      <div className="bg-white pt-32 pb-44 px-32 flex flex-col sm:flex-row justify-between">
-        <div>
-          {title && (
-            <Heading
-              {...title}
-              text={
-                arrayPositionTitle
-                  ? `${title.text} ${arrayPositionTitle}`
-                  : title.text
-              }
-              className="mb-16"
+    <div className="bg-white mt-8 p-16 flex flex-col content-between sm:flex-row sm:justify-between">
+      <div>
+        {title && (
+          <Heading
+            {...title}
+            text={
+              arrayPositionTitle
+                ? `${title.text} ${arrayPositionTitle}`
+                : title.text
+            }
+            className="mb-16"
+          />
+        )}
+        <dl>
+          {boxItems.map(({ title: boxItemTitle, inlineItems }, index) => (
+            <SummaryOverviewBoxItem
+              key={`${boxId}-${boxItemTitle ?? index}`}
+              title={boxItemTitle}
+              translations={translations}
+              userData={userData}
+              inlineItems={inlineItems}
             />
-          )}
-          <dl>
-            {boxItems.map(({ title: boxItemTitle, inlineItems }, index) => (
-              <SummaryOverviewBoxItem
-                key={`${boxId}-${boxItemTitle ?? index}`}
-                title={boxItemTitle}
-                translations={translations}
-                userData={userData}
-                inlineItems={inlineItems}
-              />
-            ))}
-          </dl>
-        </div>
-        <Button
-          iconLeft={<EditIcon className="shrink-0" />}
-          href={`${flowId}${stepId}`}
-          look="ghost"
-          className="items-start justify-end"
-        >
-          Bearbeiten
-        </Button>
+          ))}
+        </dl>
       </div>
+      <Button
+        iconLeft={<EditIcon className="shrink-0" />}
+        href={`${flowId}${stepId}`}
+        look="ghost"
+        className="p-0 items-start justify-end"
+      >
+        Bearbeiten
+      </Button>
     </div>
   );
 };
