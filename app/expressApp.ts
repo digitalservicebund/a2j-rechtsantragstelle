@@ -22,8 +22,12 @@ export const expressApp = (
   const app = express();
 
   app.use(compression());
-  const pinoHttpLogger = createPinoHttpLogger();
-  app.use(pinoHttpLogger);
+
+  // Only enable pino logger in non development environment
+  if (config().ENVIRONMENT !== "development") {
+    const pinoHttpLogger = createPinoHttpLogger();
+    app.use(pinoHttpLogger);
+  }
 
   // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
   app.disable("x-powered-by");
