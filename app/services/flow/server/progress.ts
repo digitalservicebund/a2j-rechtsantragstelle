@@ -1,6 +1,6 @@
 import { createMachine } from "xstate";
 import { flows } from "~/domains/flows.server";
-import { type FlowStateMachine } from "./buildFlowController";
+import { type FlowStateMachine } from "./types";
 import { stateIdToStepId } from "../stepIdConverter";
 
 export function progressLookupForMachine(machine: FlowStateMachine) {

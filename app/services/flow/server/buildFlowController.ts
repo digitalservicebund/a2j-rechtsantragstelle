@@ -14,24 +14,13 @@ import {
   stepIdToPath,
 } from "~/services/flow/stepIdConverter";
 import { progressLookupForMachine, vorabcheckProgresses } from "./progress";
+import type {
+  FlowStateMachineEvents,
+  FlowStateMachine,
+  StateMachineTypes,
+} from "./types";
 
 type Event = "SUBMIT" | "BACK";
-type FlowStateMachineEvents =
-  | { type: "SUBMIT" }
-  | { type: "BACK" }
-  | { type: ArrayConfigServer["event"] };
-
-type StateMachineTypes = {
-  context: Context;
-  events: FlowStateMachineEvents;
-};
-
-const _genericMachine = setup({
-  types: {} as StateMachineTypes,
-  guards: {} as Guards,
-});
-
-export type FlowStateMachine = ReturnType<typeof _genericMachine.createMachine>;
 
 export type Config<TContext extends MachineContext = Context> = MachineConfig<
   TContext,
