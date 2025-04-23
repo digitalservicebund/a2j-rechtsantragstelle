@@ -76,7 +76,6 @@
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
     "pino-http": "^10.4.0",
-    "pino-pretty": "^13.0.0",
     "pdfkit": "^0.17.0",
     "posthog-js": "^1.236.5",
     "posthog-node": "4.11.7",

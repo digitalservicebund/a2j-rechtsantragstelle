@@ -20,9 +20,6 @@ export const createPinoHttpLogger = () => {
       }
       return "info";
     },
-    transport: {
-      target: "pino-pretty", // Makes logs readable (optional)
-    },
     serializers: {
       req: (req) => ({
         method: req.method,
