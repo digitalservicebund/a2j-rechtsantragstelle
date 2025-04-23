@@ -6,7 +6,7 @@ import {
 } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { removeDecimalsFromCurrencyString } from "~/util/strings";
-import type { PkhPdfFillFunction } from "../..";
+import type { PkhPdfFillFunction } from "../../types";
 
 export const zahlungsfrequenzMapping = {
   monthly: "Monatlich",

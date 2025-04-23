@@ -1,7 +1,7 @@
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
-import type { PkhPdfFillFunction } from "..";
+import type { PkhPdfFillFunction } from "../types";
 import { getTotalMonthlyFinancialEntries } from "../util";
 import { zahlungsfrequenzMapping } from "./E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
 
