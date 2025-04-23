@@ -33,11 +33,7 @@ describe("/action/send-feedback route", () => {
       context: {},
     })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
 
-    if (response.init !== null) {
-      expect(response.init.status).toEqual(400);
-    } else {
-      throw new Error("Response does not contain 'init' property");
-    }
+    expect(response.init?.status).toBe(400);
   });
 
   it("should fail if feedback parameter does not exist in the body", async () => {
@@ -54,11 +50,7 @@ describe("/action/send-feedback route", () => {
       context: {},
     })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
 
-    if (response.init !== null) {
-      expect(response.init.status).toEqual(422);
-    } else {
-      throw new Error("Response does not contain 'init' property");
-    }
+    expect(response.init?.status).toBe(422);
   });
 
   it("should return redirect to the location from the url parameter", async () => {
