@@ -1,5 +1,5 @@
 import type { ArrayConfigServer } from "~/services/array";
-import type { ProzesskostenhilfeFormularContext } from "../index";
+import type { ProzesskostenhilfeFormularContext } from "../context";
 
 export function finanzielleAngabenArrayConfig(prefix: string) {
   return {
