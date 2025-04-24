@@ -280,7 +280,11 @@ function App() {
 
 export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
   const loaderData = useRouteLoaderData<RootLoader>("root");
-  Sentry.captureException(error);
+
+  if (error && error instanceof Error) {
+    Sentry.captureException(error);
+  }
+
   return (
     <html lang="de">
       <head>
