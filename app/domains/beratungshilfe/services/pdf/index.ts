@@ -107,7 +107,6 @@ export async function beratungshilfePdfFromUserdata(
       filledPdfFormDocumentWithMetadata,
       embeddedPdfDocument,
     );
-  } else {
-    return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
   }
+  return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
 }
