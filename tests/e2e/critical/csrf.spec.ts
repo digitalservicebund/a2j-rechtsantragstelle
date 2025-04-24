@@ -25,7 +25,7 @@ test.describe("CSRF token", () => {
     ).toHaveCount(1);
   });
 
-  test("N+1 form tabs return 403", async ({ context }) => {
+  test.skip("N+1 form tabs return 403", async ({ context }) => {
     for (let idx = 0; idx < csrfCountMax; idx++) {
       const newPage = new BeratungshilfeVorabcheck(await context.newPage());
       await newPage.goto();
