@@ -19,12 +19,11 @@ type PdfFlowContexts =
   | FluggastrechteFlugdatenContext
   | ProzesskostenhilfeFormularContext;
 
-export type PdfConfig = PdfFlowContexts extends infer T
+type PdfConfig = PdfFlowContexts extends infer T
   ? T extends PdfFlowContexts
     ? {
         pdfFunction: (
           userData: T,
-          flowId: FlowId,
           cookieHeader: string | null,
           translations?: Translations,
         ) => Promise<Uint8Array>;
@@ -37,16 +36,14 @@ const pdfConfigs = {
   "/beratungshilfe/antrag": {
     pdfFunction: async (
       userData: BeratungshilfeFormularContext,
-      flowId: FlowId,
       cookieHeader: string | null,
-    ) => await beratungshilfePdfFromUserdata(userData, cookieHeader, flowId),
+    ) => await beratungshilfePdfFromUserdata(userData, cookieHeader),
     filenameFunction: () =>
       `Antrag_Beratungshilfe_${pdfDateFormat(today())}.pdf`,
   },
   "/prozesskostenhilfe/formular": {
     pdfFunction: async (
       userData: ProzesskostenhilfeFormularContext,
-      _flowId: FlowId,
       _cookieHeader: string | null,
       translations?: Translations,
     ) => await prozesskostenhilfePdfFromUserdata(userData, translations),
@@ -78,7 +75,6 @@ export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
 
   const fileContent = await pdfFunction(
     userData,
-    flowId,
     request.headers.get("Cookie"),
     flowTranslations,
   );

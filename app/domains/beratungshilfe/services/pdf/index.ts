@@ -1,7 +1,6 @@
 import { PDFDocument } from "pdf-lib";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { type FlowId } from "~/domains/flowIds";
 import {
   addMetadataToPdf,
   type Metadata,
@@ -58,7 +57,6 @@ const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
 export async function beratungshilfePdfFromUserdata(
   userData: BeratungshilfeFormularContext,
   cookieHeader: string | null,
-  flowId: FlowId,
 ) {
   const { pdfValues, attachment } = pdfFillReducer({
     userData,
@@ -100,7 +98,7 @@ export async function beratungshilfePdfFromUserdata(
       pdfKitBuffer,
       userData,
       cookieHeader,
-      flowId,
+      "/beratungshilfe/antrag",
     );
     const embeddedPdfDocument = await PDFDocument.load(embeddedPdfBuffer);
     return appendPagesToPdf(
