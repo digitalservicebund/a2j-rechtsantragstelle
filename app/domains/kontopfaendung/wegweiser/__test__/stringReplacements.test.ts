@@ -129,6 +129,7 @@ describe("stringReplacements", () => {
     it("should return correct Nachzahlung Arbeit Unter 500 strings", () => {
       const userData: KontopfaendungWegweiserContext = {
         arbeitgeberNachzahlungHigherThan: "no",
+        nachzahlungArbeitgeber: "yes",
       };
       expect(getNachzahlungArbeitUnter500Strings(userData)).toEqual({
         hasNachzahlungArbeitUnter500: true,
@@ -139,6 +140,7 @@ describe("stringReplacements", () => {
     it("should return correct Nachzahlung Arbeit Mehr 500 strings", () => {
       const userData: KontopfaendungWegweiserContext = {
         arbeitgeberNachzahlungHigherThan: "yes",
+        nachzahlungArbeitgeber: "yes",
       };
       expect(getNachzahlungArbeitMehr500Strings(userData)).toEqual({
         hasNachzahlungArbeitMehr500: true,

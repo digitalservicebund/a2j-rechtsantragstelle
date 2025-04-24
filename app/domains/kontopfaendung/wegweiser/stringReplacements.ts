@@ -78,6 +78,7 @@ export const getNachzahlungArbeitUnter500Strings = (
 ) => {
   return {
     hasNachzahlungArbeitUnter500:
+      userData.nachzahlungArbeitgeber === "yes" &&
       userData.arbeitgeberNachzahlungHigherThan === "no",
   };
 };
@@ -86,6 +87,7 @@ export const getNachzahlungArbeitMehr500Strings = (
 ) => {
   return {
     hasNachzahlungArbeitMehr500:
+      userData.nachzahlungArbeitgeber === "yes" &&
       userData.arbeitgeberNachzahlungHigherThan === "yes",
   };
 };
