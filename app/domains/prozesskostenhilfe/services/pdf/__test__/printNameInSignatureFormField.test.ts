@@ -1,5 +1,5 @@
 import type { PDFDocument } from "pdf-lib";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 import { printNameInSignatureFormField } from "../printNameInSignatureFormField";
 
 vi.mock("pdf-lib", async () => {

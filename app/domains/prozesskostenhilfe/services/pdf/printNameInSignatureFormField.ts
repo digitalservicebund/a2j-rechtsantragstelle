@@ -1,5 +1,5 @@
 import type { PDFDocument } from "pdf-lib";
-import type { ProzesskostenhilfeFormularContext } from "../../formular";
+import type { ProzesskostenhilfeFormularContext } from "../../formular/context";
 
 export function printNameInSignatureFormField(
   pdfDoc: PDFDocument,

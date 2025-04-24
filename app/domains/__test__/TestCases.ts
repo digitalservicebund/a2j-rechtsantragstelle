@@ -4,7 +4,7 @@ import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/con
 import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
 import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import { type KontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
-import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfe/formular";
+import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfe/formular/context";
 
 export type TestCases<
   T extends
