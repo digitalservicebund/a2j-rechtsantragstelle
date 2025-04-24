@@ -1,9 +1,9 @@
 import merge from "lodash/merge";
+import { zusammenfassungXstateConfig } from "~/domains/beratungshilfe/formular/zusammenfassung/xstateConfig";
 import persoenlicheDatenFlow from "~/domains/shared/formular/persoenlicheDaten/flow.json";
 import { config } from "~/services/env/env.server";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
+import { abgabeXstateConfig } from "./abgabe/xstateConfig";
 import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
 import { finanzielleAngabenArrayConfig as beratungshilfeFormularFinanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
@@ -15,8 +15,6 @@ import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
 
 const showZusammenfassung = config().ENVIRONMENT !== "production";
-const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
-
 
 export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
@@ -84,58 +82,13 @@ export const beratungshilfeXstateConfig = {
       },
     }),
     ...(showZusammenfassung && {
-      zusammenfassung: {
-        id: "zusammenfassung",
-        initial: "ueberblick",
-        meta: { done: () => false },
-        states: {
-          ueberblick: {
-            on: {
-              BACK: "#persoenliche-daten.telefonnummer",
-              SUBMIT: "#abgabe",
-            },
-          },
-        },
-      },
+      zusammenfassung: zusammenfassungXstateConfig,
     }),
-    abgabe: {
-      initial: "ueberpruefung",
-        id: "abgabe",
-        meta: { done: () => false },
-        states: {
-          ueberpruefung: {
-            on: { BACK: showZusammenfassung ? "#zusammenfassung" : "#persoenliche-daten.telefonnummer" },
-            always: {
-              guard: beratungshilfeAbgabeGuards.readyForAbgabe,
-              target: "art",
-            },
-          },
-      
-          art: {
-            on: {
-              BACK: "#zusammenfassung",
-              SUBMIT: [
-                {
-                  target: "dokumente",
-                  guard: beratungshilfeAbgabeGuards.abgabeOnline,
-                },
-                {
-                  target: "ausdrucken",
-                  guard: beratungshilfeAbgabeGuards.abgabeAusdrucken,
-                },
-              ],
-            },
-          },
-      
-          ...(showFileUpload && {
-            dokumente: { on: { BACK: "art", SUBMIT: "online" } },
-          }),
-      
-          ausdrucken: {
-            on: { BACK: { target: "art" } },
-          },
-          online: { on: { BACK: { target: "art" } } },
-        },
-    }
+    
+    abgabe: await abgabeXstateConfig(
+      showZusammenfassung
+        ? "#zusammenfassung"
+        : "#persoenliche-daten.telefonnummer",
+    ),
   },
 } satisfies Config<BeratungshilfeFormularContext>;
