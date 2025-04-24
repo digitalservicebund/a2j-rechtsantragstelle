@@ -1,7 +1,11 @@
 import axios from "axios";
-import type { Filter, GetStrapiEntryOpts } from "./filters";
-import type { GetStrapiEntry } from "./getStrapiEntry";
-import type { ApiId, StrapiSchemas } from "./schemas";
+import type { Filter } from "./filters";
+import type {
+  ApiId,
+  StrapiSchemas,
+  GetStrapiEntry,
+  GetStrapiEntryOpts,
+} from "./schemas";
 import { config } from "../env/env.server";
 
 function buildFilters(filters?: Filter[]) {

@@ -9,8 +9,8 @@ import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { arrayIsNonEmpty } from "~/util/array";
 import { fillKraftfahrzeug } from "./fillKraftfahrzeug";
-import type { BerHPdfFillFunction } from "../..";
 import { fillVermoegenswerte } from "./fillVermoegenswerte";
+import type { BerHPdfFillFunction } from "../../types";
 
 export const fillBesitz: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   const attachment: AttachmentEntries = [];

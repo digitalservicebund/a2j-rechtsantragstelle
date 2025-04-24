@@ -1,5 +1,4 @@
 import { PDFDocument } from "pdf-lib";
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { type FlowId } from "~/domains/flowIds";
@@ -9,10 +8,7 @@ import {
 } from "~/services/pdf/addMetadataToPdf";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
-import {
-  pdfFillReducer,
-  type PdfFillFunction,
-} from "~/services/pdf/fillOutFunction";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillPdf } from "~/services/pdf/fillPdf.server";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
@@ -28,11 +24,6 @@ import { fillBesitz } from "./pdfForm/F_besitz/F_besitz";
 import { fillFooter } from "./pdfForm/footer";
 import { fillAusgaben } from "./pdfForm/G_ausgaben";
 import { fillHeader } from "./pdfForm/header";
-
-export type BerHPdfFillFunction = PdfFillFunction<
-  BeratungshilfeFormularContext,
-  BeratungshilfePDF
->;
 
 const METADATA: Metadata = {
   AUTHOR: "Bundesministerium der Justiz",
