@@ -62,6 +62,7 @@ export const getNachzahlungSozialUnter500Strings = (
 ) => {
   return {
     hasNachzahlungSozialUnter500:
+      userData.hasSozialleistungNachzahlung === "yes" &&
       userData.sozialleistungNachzahlungHigherThan === "no",
   };
 };
@@ -70,6 +71,7 @@ export const getNachzahlungSozialMehr500Strings = (
 ) => {
   return {
     hasNachzahlungSozialMehr500:
+      userData.hasSozialleistungNachzahlung === "yes" &&
       userData.sozialleistungNachzahlungHigherThan === "yes",
   };
 };

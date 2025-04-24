@@ -108,6 +108,7 @@ describe("stringReplacements", () => {
   describe("getNachzahlungSozialUnter500Strings", () => {
     it("should return correct Nachzahlung Sozial Unter 500 strings", () => {
       const userData: KontopfaendungWegweiserContext = {
+        hasSozialleistungNachzahlung: "yes",
         sozialleistungNachzahlungHigherThan: "no",
       };
       expect(getNachzahlungSozialUnter500Strings(userData)).toEqual({
@@ -118,6 +119,7 @@ describe("stringReplacements", () => {
   describe("getNachzahlungSozialMehr500Strings", () => {
     it("should return correct Nachzahlung Sozial Mehr 500 strings", () => {
       const userData: KontopfaendungWegweiserContext = {
+        hasSozialleistungNachzahlung: "yes",
         sozialleistungNachzahlungHigherThan: "yes",
       };
       expect(getNachzahlungSozialMehr500Strings(userData)).toEqual({
