@@ -54,7 +54,7 @@
     "@react-router/node": "^7.5.1",
     "@rvf/react-router": "^7.1.1",
     "@rvf/zod": "^7.0.3",
-    "@sentry/react-router": "^9.13.0",
+    "@sentry/react-router": "^9.14.0",
     "@sentry/vite-plugin": "^3.3.1",
     "@xstate/graph": "^3.0.2",
     "axios": "^1.8.4",
