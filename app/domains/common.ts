@@ -5,7 +5,7 @@ import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vo
 import type { GeldEinklagenFormularContext } from "~/domains/geldEinklagen/formular/context";
 import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import type { BeratungshilfeFormularContext } from "./beratungshilfe/formular";
-import type { ProzesskostenhilfeFormularContext } from "./prozesskostenhilfe/formular";
+import type { ProzesskostenhilfeFormularContext } from "./prozesskostenhilfe/formular/context";
 
 type AllContexts =
   | GeldEinklagenFormularContext

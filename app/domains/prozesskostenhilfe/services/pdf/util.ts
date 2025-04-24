@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 import { belegeStrings } from "~/domains/prozesskostenhilfe/formular/stringReplacements";
 import type { FinancialEntry } from "~/domains/shared/formular/finanzielleAngaben/context";
 import { createHeading } from "~/services/pdf/createHeading";
