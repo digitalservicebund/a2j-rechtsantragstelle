@@ -1,6 +1,6 @@
 import { hasPartnerschaftYes } from "./finanzielleAngaben/guards";
 import type { BeratungshilfeFormularContext } from "../../beratungshilfe/formular";
-import type { ProzesskostenhilfeFormularContext } from "../../prozesskostenhilfe/formular";
+import type { ProzesskostenhilfeFormularContext } from "../../prozesskostenhilfe/formular/context";
 
 export const getKinderStrings = (
   context: BeratungshilfeFormularContext | ProzesskostenhilfeFormularContext,

@@ -131,7 +131,6 @@ const cases = [
         pflegegeld: CheckboxValue.on,
         kindergeld: CheckboxValue.off,
         wohngeld: CheckboxValue.off,
-        nein: CheckboxValue.off,
       },
     },
     [
@@ -150,7 +149,6 @@ const cases = [
         pflegegeld: CheckboxValue.off,
         kindergeld: CheckboxValue.off,
         wohngeld: CheckboxValue.off,
-        nein: CheckboxValue.off,
       },
     },
     [
@@ -166,25 +164,6 @@ const cases = [
         pflegegeld: CheckboxValue.off,
         kindergeld: CheckboxValue.on,
         wohngeld: CheckboxValue.on,
-        nein: CheckboxValue.off,
-      },
-    },
-    [
-      "/sozialleistungen",
-      "/sozialleistungen-umstaende",
-      "/sozialleistung-nachzahlung",
-      "/sozialleistungen-einmalzahlung",
-      "/ergebnis/naechste-schritte",
-    ],
-  ],
-  [
-    {
-      hasSozialleistungen: "nein",
-      sozialleistungenUmstaende: {
-        pflegegeld: CheckboxValue.off,
-        kindergeld: CheckboxValue.on,
-        wohngeld: CheckboxValue.on,
-        nein: CheckboxValue.off,
       },
     },
     [
@@ -202,7 +181,23 @@ const cases = [
         pflegegeld: CheckboxValue.off,
         kindergeld: CheckboxValue.on,
         wohngeld: CheckboxValue.on,
-        nein: CheckboxValue.off,
+      },
+    },
+    [
+      "/sozialleistungen",
+      "/sozialleistungen-umstaende",
+      "/sozialleistung-nachzahlung",
+      "/sozialleistungen-einmalzahlung",
+      "/ergebnis/naechste-schritte",
+    ],
+  ],
+  [
+    {
+      hasSozialleistungen: "nein",
+      sozialleistungenUmstaende: {
+        pflegegeld: CheckboxValue.off,
+        kindergeld: CheckboxValue.on,
+        wohngeld: CheckboxValue.on,
       },
       hasSozialleistungNachzahlung: "no",
     },
@@ -219,7 +214,6 @@ const cases = [
         pflegegeld: CheckboxValue.off,
         kindergeld: CheckboxValue.on,
         wohngeld: CheckboxValue.on,
-        nein: CheckboxValue.off,
       },
       hasSozialleistungNachzahlung: "yes",
     },
@@ -244,7 +238,6 @@ const cases = [
       nachzahlungArbeitgeber: "yes",
       hasSozialleistungen: "nein",
       sozialleistungenUmstaende: {
-        nein: CheckboxValue.off,
         kindergeld: CheckboxValue.on,
         pflegegeld: CheckboxValue.off,
         wohngeld: CheckboxValue.off,

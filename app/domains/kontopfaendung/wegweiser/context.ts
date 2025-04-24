@@ -76,7 +76,6 @@ const sozialleistungenUmstaende = z.object({
   pflegegeld: checkedOptional,
   kindergeld: checkedOptional,
   wohngeld: checkedOptional,
-  nein: checkedOptional,
 });
 
 const pflegegeld = z.enum(["selbst", "fremd"], customRequiredErrorMessage);

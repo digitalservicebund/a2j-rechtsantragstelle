@@ -2,7 +2,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 import * as createAttachmentEntriesModule from "~/services/pdf/attachment/createAttachmentEntries";
 import * as createHeadingModule from "~/services/pdf/createHeading";
 import * as createHeaderModule from "~/services/pdf/header/createHeader";

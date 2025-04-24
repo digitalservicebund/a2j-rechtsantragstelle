@@ -72,7 +72,6 @@ describe("stringReplacements", () => {
       const userData: KontopfaendungWegweiserContext = {
         sozialleistungenUmstaende: {
           kindergeld: CheckboxValue.on,
-          nein: CheckboxValue.off,
           pflegegeld: CheckboxValue.off,
           wohngeld: CheckboxValue.off,
         },
@@ -87,7 +86,6 @@ describe("stringReplacements", () => {
       const userData: KontopfaendungWegweiserContext = {
         sozialleistungenUmstaende: {
           wohngeld: CheckboxValue.on,
-          nein: CheckboxValue.off,
           pflegegeld: CheckboxValue.off,
           kindergeld: CheckboxValue.off,
         },
