@@ -1,8 +1,8 @@
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
 import {
   unterhaltBekommeIch,
   unterhaltLeisteIch,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 import {
   erstantrag,
   nachueberpruefung,

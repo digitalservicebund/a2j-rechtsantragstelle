@@ -3,7 +3,6 @@ import { getAbgabeStrings } from "~/domains/prozesskostenhilfe/formular/abgabe/s
 import {
   couldLiveFromUnterhalt,
   unterhaltLeisteIch,
-  type ProzesskostenhilfeAntragstellendePersonContext,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
 import { getAntragstellendePersonStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/stringReplacements";
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/xStateConfig";
@@ -13,7 +12,6 @@ import {
   nachueberpruefung,
   versandDigitalAnwalt,
   versandDigitalGericht,
-  type ProzesskostenhilfeGrundvoraussetzungenContext,
 } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/context";
 import { grundvoraussetzungenXstateConfig } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/xStateConfig";
 import { prozesskostenhilfePersoenlicheDatenDone } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/doneFunctions";
@@ -26,21 +24,17 @@ import {
   geldAnlagenStrings,
 } from "~/domains/shared/formular/stringReplacements";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
-import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./finanzielleAngaben/context";
+import { type ProzesskostenhilfeFormularContext } from "./context";
 import { prozesskostenhilfeFinanzielleAngabeDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
-import type { ProzesskostenhilfeGesetzlicheVertretung } from "./gesetzlicheVertretung/context";
 import { hasGesetzlicheVertretungYes } from "./gesetzlicheVertretung/guards";
 import { gesetzlicheVertretungXstateConfig } from "./gesetzlicheVertretung/xStateConfig";
-import type { ProzesskostenhilfePersoenlicheDaten } from "./persoenlicheDaten/context";
 import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
-import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./rechtsschutzversicherung/context";
 import {
   belegeStrings,
   getMissingInformationStrings,
 } from "./stringReplacements";
-import type { ProzesskostenhilfeWeitereAngabenContext } from "./weitereAngaben/context";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
 
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
@@ -214,12 +208,3 @@ export const prozesskostenhilfeFormular = {
     ...belegeStrings(context),
   }),
 } satisfies Flow;
-
-export type ProzesskostenhilfeFormularContext =
-  ProzesskostenhilfeGrundvoraussetzungenContext &
-    ProzesskostenhilfeAntragstellendePersonContext &
-    ProzesskostenhilfeRechtsschutzversicherungContext &
-    ProzesskostenhilfeFinanzielleAngabenContext &
-    ProzesskostenhilfeGesetzlicheVertretung &
-    ProzesskostenhilfePersoenlicheDaten &
-    ProzesskostenhilfeWeitereAngabenContext;

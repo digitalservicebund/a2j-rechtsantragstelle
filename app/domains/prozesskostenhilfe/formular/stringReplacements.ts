@@ -2,6 +2,7 @@ import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { antragstellendePersonDone } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
 import { einkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
+import type { ProzesskostenhilfeFormularContext } from "./context";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
@@ -11,7 +12,6 @@ import {
   partnerDone,
   eigentumDone,
 } from "./finanzielleAngaben/doneFunctions";
-import type { ProzesskostenhilfeFormularContext } from "./index";
 import { prozesskostenhilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "./rechtsschutzversicherung/doneFunctions";
 
