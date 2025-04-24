@@ -62,6 +62,7 @@ export const getNachzahlungSozialUnter500Strings = (
 ) => {
   return {
     hasNachzahlungSozialUnter500:
+      userData.hasSozialleistungNachzahlung === "yes" &&
       userData.sozialleistungNachzahlungHigherThan === "no",
   };
 };
@@ -70,6 +71,7 @@ export const getNachzahlungSozialMehr500Strings = (
 ) => {
   return {
     hasNachzahlungSozialMehr500:
+      userData.hasSozialleistungNachzahlung === "yes" &&
       userData.sozialleistungNachzahlungHigherThan === "yes",
   };
 };
@@ -77,14 +79,18 @@ export const getNachzahlungArbeitUnter500Strings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasNachzahlungArbeitUnter500: userData.nachzahlungArbeitgeber === "no",
+    hasNachzahlungArbeitUnter500:
+      userData.nachzahlungArbeitgeber === "yes" &&
+      userData.arbeitgeberNachzahlungHigherThan === "no",
   };
 };
 export const getNachzahlungArbeitMehr500Strings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
   return {
-    hasNachzahlungArbeitMehr500: userData.nachzahlungArbeitgeber === "yes",
+    hasNachzahlungArbeitMehr500:
+      userData.nachzahlungArbeitgeber === "yes" &&
+      userData.arbeitgeberNachzahlungHigherThan === "yes",
   };
 };
 export const getBuergergeldStrings = (
