@@ -12,7 +12,7 @@ import {
   fetchMeta,
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
-import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
+import { isStrapiArraySummary } from "~/services/cms/models/isStrapiArraySummary";
 import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
