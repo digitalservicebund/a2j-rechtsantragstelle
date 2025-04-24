@@ -1,5 +1,4 @@
-import { FormProvider, useForm } from "@rvf/remix";
-import { withZod } from "@rvf/zod";
+import { FormProvider, useForm } from "@rvf/react-router";
 import { ReactNode } from "react";
 import { z } from "zod";
 
@@ -9,7 +8,8 @@ type Props = {
 
 export const RFCFormerProvider = ({ children }: Props) => {
   const form = useForm({
-    validator: withZod(z.object({ name: z.string().optional() })),
+    schema: z.object({ name: z.string().optional() }),
+    defaultValues: { name: "" },
   });
 
   return <FormProvider scope={form.scope()}>{children}</FormProvider>;

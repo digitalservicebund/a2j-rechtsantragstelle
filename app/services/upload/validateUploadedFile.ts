@@ -1,4 +1,5 @@
-import { type ValidationResult } from "@rvf/remix";
+/* eslint-disable sonarjs/deprecation */
+import { type ValidationResult } from "@rvf/react-router";
 import { withZod } from "@rvf/zod";
 import { z, type ZodTypeAny } from "zod";
 import { type Context } from "~/domains/contexts";

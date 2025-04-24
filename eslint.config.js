@@ -121,7 +121,6 @@ export default tseslint.config(
       "sonarjs/function-return-type": "off",
       "sonarjs/aws-restricted-ip-admin-access": "off", // slow and unneeded
       "sonarjs/no-async-constructor": "off", // slow and unneeded
-      "sonarjs/deprecation": "off", // temporarily disabled while upgrading react-router & rvf
       // duplicates of typescript-eslint rules (prefer typescript-eslint as their rule pages are clearer)
       "sonarjs/sonar-no-unused-vars": "off",
       "sonarjs/no-misused-promises": "off",
