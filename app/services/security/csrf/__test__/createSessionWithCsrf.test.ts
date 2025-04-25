@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { createSession } from "@remix-run/node";
+import { createSession } from "react-router";
 import { mainSessionFromCookieHeader } from "~/services/session.server";
 import { createSessionWithCsrf } from "../createSessionWithCsrf.server";
 import { csrfCountMax, CSRFKey } from "../csrfKey";

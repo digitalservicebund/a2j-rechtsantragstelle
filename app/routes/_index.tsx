@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 import PageContent from "~/components/PageContent";
 import { fetchPage } from "~/services/cms/index.server";
 

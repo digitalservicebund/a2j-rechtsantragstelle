@@ -1,4 +1,4 @@
-import type { HeadersArgs } from "@remix-run/node";
+import type { HeadersArgs } from "react-router";
 
 export const defaultHeaders = {
   "X-Frame-Options": "SAMEORIGIN",

@@ -1,7 +1,6 @@
-import { useLocation } from "@remix-run/react";
-import { ValidatedForm } from "@rvf/remix";
-import { withZod } from "@rvf/zod";
+import { ValidatedForm } from "@rvf/react-router";
 import { useEffect, useRef } from "react";
+import { useLocation } from "react-router";
 import { z } from "zod";
 import Textarea from "~/components/inputs/Textarea";
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
@@ -19,21 +18,19 @@ enum FeedbackButtons {
   Submit = "submit",
 }
 
-export const feedbackValidator = withZod(
-  z.object({
-    feedback: z
-      .string()
-      .max(TEXTAREA_CHAR_LIMIT, { message: "max" })
-      .refine(
-        (feedback) => !/\s0\d/.test(feedback),
-        "Bitte geben sie keine Telefonnummer ein.",
-      )
-      .refine(
-        (feedback) => !feedback.includes("@"),
-        "Bitte geben sie keine E-Mailadresse ein.",
-      ),
-  }),
-);
+export const feedbackSchema = z.object({
+  feedback: z
+    .string()
+    .max(TEXTAREA_CHAR_LIMIT, { message: "max" })
+    .refine(
+      (feedback) => !/\s0\d/.test(feedback),
+      "Bitte geben sie keine Telefonnummer ein.",
+    )
+    .refine(
+      (feedback) => !feedback.includes("@"),
+      "Bitte geben sie keine E-Mailadresse ein.",
+    ),
+});
 
 type FeedbackBoxProps = {
   readonly destination: string;
@@ -79,7 +76,8 @@ export const FeedbackFormBox = ({
 
   return (
     <ValidatedForm
-      validator={feedbackValidator}
+      schema={feedbackSchema}
+      defaultValues={{ feedback: "" }}
       method="post"
       action={`/action/send-feedback?url=${destination}&js=${String(jsAvailable)}`}
       preventScrollReset={true}

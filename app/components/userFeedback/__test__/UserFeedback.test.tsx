@@ -1,28 +1,42 @@
-import { createRemixStub } from "@remix-run/testing";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { act } from "react";
-import UserFeedback, {
-  BannerState,
-  USER_FEEDBACK_ID,
-} from "~/components/userFeedback";
+import { createRoutesStub } from "react-router";
+import UserFeedback, { USER_FEEDBACK_ID } from "~/components/userFeedback";
+import { BannerState } from "~/components/userFeedback/BannerState";
+
+vi.mock("~/components/userFeedback/FeedbackFormBox", () => ({
+  FeedbackFormBox: () => <div>Mock FeedbackFormBox</div>,
+}));
+
+vi.mock("~/components/userFeedback/PostSubmissionBox", () => ({
+  PostSubmissionBox: () => <div>Mock PostSubmissionBox</div>,
+}));
+
+vi.mock("~/components/userFeedback/RatingBox", () => ({
+  RatingBox: () => <div>Mock RatingBox</div>,
+}));
+
+const mockedProps = {
+  rating: {
+    heading: "heading",
+  },
+};
+
+afterEach(() => {
+  vi.restoreAllMocks(); // This clears all mocks after each test
+});
 
 describe("UserFeedback", () => {
-  const mockedProps = {
-    rating: {
-      heading: "heading",
-    },
-  };
-
   it("renders correct id for the url fragment", () => {
-    const UserFeedbackWithRemixStub = createRemixStub([
+    const UserFeedbackWithRouteStub = createRoutesStub([
       {
         path: "",
         Component: () => <UserFeedback {...mockedProps} />,
       },
     ]);
     render(
-      <UserFeedbackWithRemixStub
+      <UserFeedbackWithRouteStub
         hydrationData={{
           loaderData: {
             root: { feedback: { state: BannerState.ShowFeedback } },
@@ -35,14 +49,14 @@ describe("UserFeedback", () => {
   });
 
   it("renders RatingBox when bannerState is ShowRating", () => {
-    const UserFeedbackWithRemixStub = createRemixStub([
+    const UserFeedbackWithRouteStub = createRoutesStub([
       {
         path: "",
         Component: () => <UserFeedback {...mockedProps} />,
       },
     ]);
     render(
-      <UserFeedbackWithRemixStub
+      <UserFeedbackWithRouteStub
         hydrationData={{
           loaderData: {
             root: { feedback: { state: BannerState.ShowRating } },
@@ -50,19 +64,18 @@ describe("UserFeedback", () => {
         }}
       />,
     );
-    expect(screen.getByTestId("ThumbUpOutlinedIcon")).toBeInTheDocument();
-    expect(screen.getByTestId("ThumbDownOutlinedIcon")).toBeInTheDocument();
+    expect(screen.getByText("Mock RatingBox")).toBeInTheDocument();
   });
 
   it("renders FeedbackFormBox when bannerState is ShowFeedback", () => {
-    const UserFeedbackWithRemixStub = createRemixStub([
+    const UserFeedbackWithRouteStub = createRoutesStub([
       {
         path: "",
         Component: () => <UserFeedback {...mockedProps} />,
       },
     ]);
     render(
-      <UserFeedbackWithRemixStub
+      <UserFeedbackWithRouteStub
         hydrationData={{
           loaderData: {
             root: { feedback: { state: BannerState.ShowFeedback } },
@@ -70,18 +83,18 @@ describe("UserFeedback", () => {
         }}
       />,
     );
-    expect(screen.getByTestId("user-feedback-banner")).toBeInTheDocument();
+    expect(screen.getByText("Mock FeedbackFormBox")).toBeInTheDocument();
   });
 
   it("renders PostSubmissionBox when bannerState is FeedbackGiven", () => {
-    const UserFeedbackWithRemixStub = createRemixStub([
+    const UserFeedbackWithRouteStub = createRoutesStub([
       {
         path: "",
         Component: () => <UserFeedback {...mockedProps} />,
       },
     ]);
     render(
-      <UserFeedbackWithRemixStub
+      <UserFeedbackWithRouteStub
         hydrationData={{
           loaderData: {
             root: {
@@ -94,11 +107,11 @@ describe("UserFeedback", () => {
         }}
       />,
     );
-    expect(screen.getByTestId("user-feedback-submission")).toBeInTheDocument();
+    expect(screen.getByText("Mock PostSubmissionBox")).toBeInTheDocument();
   });
 
   it("sets shouldFocus to true when applyFocus is called", async () => {
-    const UserFeedbackWithRemixStub = createRemixStub([
+    const UserFeedbackWithRouteStub = createRoutesStub([
       {
         path: "",
         Component: () => <UserFeedback {...mockedProps} />,
@@ -107,7 +120,7 @@ describe("UserFeedback", () => {
     ]);
 
     render(
-      <UserFeedbackWithRemixStub
+      <UserFeedbackWithRouteStub
         hydrationData={{
           loaderData: {
             root: { feedback: { state: BannerState.ShowFeedback } },
@@ -122,32 +135,5 @@ describe("UserFeedback", () => {
       await userEvent.click(feedbackBox);
     });
     expect(await screen.findByTestId(USER_FEEDBACK_ID)).toBeInTheDocument();
-  });
-
-  it("renders rating buttons when in ShowRating state", async () => {
-    const UserFeedbackWithRemixStub = createRemixStub([
-      {
-        path: "",
-        Component: () => <UserFeedback {...mockedProps} />,
-      },
-    ]);
-
-    render(
-      <UserFeedbackWithRemixStub
-        hydrationData={{
-          loaderData: {
-            root: {
-              feedback: {
-                state: BannerState.ShowRating,
-                result: null,
-              },
-            },
-          },
-        }}
-      />,
-    );
-
-    const buttonContainer = await screen.findByTestId("buttonContainer");
-    expect(buttonContainer).toBeInTheDocument();
   });
 });

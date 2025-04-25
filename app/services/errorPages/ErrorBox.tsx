@@ -1,5 +1,5 @@
-import type { AppLoadContext } from "@remix-run/node";
-import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
+import type { AppLoadContext } from "react-router";
+import { isRouteErrorResponse, useRouteError } from "react-router";
 import Container from "~/components/Container";
 import { config } from "~/services/env/web";
 import fallbackStrapiInfoBox from "./fallbackInfobox";

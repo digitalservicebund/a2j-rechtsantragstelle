@@ -1,8 +1,8 @@
 import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
 import HighlightOff from "@digitalservicebund/icons/HighlightOff";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
 import type { ReactElement } from "react";
+import type { LoaderFunctionArgs } from "react-router";
+import { useLoaderData } from "react-router";
 import Background from "~/components/Background";
 import Container from "~/components/Container";
 import CourtDetails from "~/components/CourtDetails";

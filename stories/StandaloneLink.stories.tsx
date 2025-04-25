@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { StandaloneLink } from "../app/components/StandaloneLink";
-import { remixContext } from "../.storybook/remixContext";
+import { reactRouterContext } from "../.storybook/reactRouterContext";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 
 const component = StandaloneLink;
@@ -17,7 +17,7 @@ export const Default = {
     text: "External Link",
     url: "https://www.google.com",
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [(Story) => reactRouterContext(Story)],
 } satisfies StoryObj<typeof meta>;
 
 export const InternalLeftIcon = {
@@ -34,7 +34,7 @@ export const InternalLeftIcon = {
       },
     }),
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [(Story) => reactRouterContext(Story)],
 } satisfies StoryObj<typeof meta>;
 
 export default meta;

@@ -1,10 +1,12 @@
+import * as Sentry from "@sentry/react-router";
+import { useEffect, useMemo, useState } from "react";
 import type {
   LinksFunction,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
-import { data } from "@remix-run/node";
+} from "react-router";
 import {
+  data,
   Links,
   Meta,
   Scripts,
@@ -12,13 +14,10 @@ import {
   useLoaderData,
   useMatches,
   useRouteLoaderData,
-  useRouteError,
   Outlet,
-} from "@remix-run/react";
+} from "react-router";
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
-import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
-import { useEffect, useMemo, useState } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
@@ -32,6 +31,7 @@ import {
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
+import type { Route } from "./+types/root";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
@@ -278,9 +278,13 @@ function App() {
   );
 }
 
-export function ErrorBoundary() {
+export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
   const loaderData = useRouteLoaderData<RootLoader>("root");
-  captureRemixErrorBoundaryError(useRouteError());
+
+  if (error && error instanceof Error) {
+    Sentry.captureException(error);
+  }
+
   return (
     <html lang="de">
       <head>
@@ -307,4 +311,4 @@ export function ErrorBoundary() {
     </html>
   );
 }
-export default withSentry(App);
+export default App;

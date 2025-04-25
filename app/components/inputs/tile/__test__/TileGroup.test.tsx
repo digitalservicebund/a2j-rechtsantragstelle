@@ -1,4 +1,4 @@
-import { useField } from "@rvf/remix";
+import { useField } from "@rvf/react-router";
 import { render, screen } from "@testing-library/react";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 
@@ -30,7 +30,7 @@ const mockUseField = (error?: string) => ({
   validate: vi.fn(),
 });
 
-vi.mock("@rvf/remix", () => ({
+vi.mock("@rvf/react-router", () => ({
   useField: vi.fn(),
 }));
 
