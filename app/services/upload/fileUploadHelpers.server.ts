@@ -13,6 +13,7 @@ import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { buildFileUploadError } from "./buildFileUploadError";
 import { splitFieldName } from "./splitFieldName";
 import { validateUploadedFile } from "./validateUploadedFile";
+import { getSessionIdByFlowId } from "../session.server";
 
 export const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";
 
@@ -37,6 +38,10 @@ export async function uploadUserFile(
   const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
   const file = await parseFileFromFormData(request, inputName);
+  const sessionId = await getSessionIdByFlowId(
+    flowId,
+    request.headers.get("Cookie"),
+  );
 
   /**
    * The file is a FileUpload class coming from the library @mjackson/form-data-parser,
@@ -68,7 +73,7 @@ export async function uploadUserFile(
     };
   }
   const savedFileKey = await uploadUserFileToS3(
-    request.headers.get("Cookie"),
+    sessionId,
     flowId,
     fileArrayBuffer,
   );
@@ -93,11 +98,10 @@ export async function deleteUserFile(
   const savedFile = (userData[fieldName] as ArrayData | undefined)?.at(
     inputIndex,
   ) as PDFFileMetadata | undefined;
-  if (savedFile) {
-    await deleteUserFileFromS3(cookieHeader, flowId, savedFile.savedFileKey!);
-    return true;
-  }
-  return false;
+  if (!savedFile?.savedFileKey) return false;
+  const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
+  await deleteUserFileFromS3(sessionId, flowId, savedFile.savedFileKey);
+  return true;
 }
 
 async function parseFileFromFormData(request: Request, fieldName: string) {
