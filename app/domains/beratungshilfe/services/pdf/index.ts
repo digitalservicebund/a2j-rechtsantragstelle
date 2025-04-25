@@ -7,12 +7,12 @@ import {
 } from "~/services/pdf/addMetadataToPdf";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
+import { attachUserUploadedFilesToPdf } from "~/services/pdf/attachUserUploadedFilesToPdf/attachUserUploadedFilesToPdf";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillPdf } from "~/services/pdf/fillPdf.server";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
-import { embedUserFilesToPdf } from "~/services/pdf/userUploadedFilesToPdf/embedUserUploadedFilesToPdf";
 import { createChecklistPage } from "./checklist/createChecklistPage";
 import { fillAngelegenheit } from "./pdfForm/A_angelegenheit";
 import { fillVorraussetzungen } from "./pdfForm/B_vorraussetzungen";
@@ -94,16 +94,16 @@ export async function beratungshilfePdfFromUserdata(
   const mainPdfDocument = await PDFDocument.load(pdfKitBuffer);
 
   if (userData.abgabeArt === "online") {
-    const embeddedPdfBuffer = await embedUserFilesToPdf(
+    const userFilesPdfBuffer = await attachUserUploadedFilesToPdf(
       pdfKitBuffer,
       userData,
       cookieHeader,
       "/beratungshilfe/antrag",
     );
-    const embeddedPdfDocument = await PDFDocument.load(embeddedPdfBuffer);
+    const userFilesPdfDocument = await PDFDocument.load(userFilesPdfBuffer);
     return appendPagesToPdf(
       filledPdfFormDocumentWithMetadata,
-      embeddedPdfDocument,
+      userFilesPdfDocument,
     );
   }
   return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);

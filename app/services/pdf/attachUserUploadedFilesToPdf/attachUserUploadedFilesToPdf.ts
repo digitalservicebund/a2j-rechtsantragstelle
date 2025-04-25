@@ -18,14 +18,14 @@ const extractSavedFileKeys = (userData: Context) =>
     .map((file) => file.savedFileKey as string);
 
 /**
- * Embeds user uploaded files into a PDF document.
+ * Attaches user uploaded files into a PDF document.
  * @param mainPdfBuffer The PDF document as a Uint8Array
  * @param userData The user data containing saved file keys
  * @param cookieHeader The cookie header for the request for authentication
  * @param flowId The flow ID for the request
  * @returns The resulting PDF document as a Uint8Array
  */
-export async function embedUserFilesToPdf(
+export async function attachUserUploadedFilesToPdf(
   mainPdfBuffer: Uint8Array,
   userData: Context,
   cookieHeader: string | null,
