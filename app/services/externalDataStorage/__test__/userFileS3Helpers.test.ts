@@ -10,7 +10,6 @@ import {
   deleteUserFileFromS3,
   uploadUserFileToS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
-import { getSessionIdByFlowId } from "../../session.server";
 import { createClientS3DataStorage } from "../createClientS3DataStorage";
 
 vi.mock("@aws-sdk/client-s3", () => ({
@@ -32,26 +31,9 @@ vi.mock("../../logging", () => ({
   sendSentryMessage: vi.fn(),
 }));
 
-vi.mock("../../session.server", () => ({
-  getSessionIdByFlowId: vi.fn(),
-}));
-
 vi.mock("~/services/env/env.server", () => ({
   config: vi.fn(),
 }));
-
-const mockS3Client = { send: vi.fn() } as unknown as S3Client;
-
-const mockCookie = "test-cookie";
-
-const setupFileMocks = (
-  mockSessionId: string,
-  mockConfig: ReturnType<typeof config>,
-) => {
-  vi.mocked(createClientS3DataStorage).mockReturnValue(mockS3Client);
-  vi.mocked(getSessionIdByFlowId).mockResolvedValue(mockSessionId);
-  vi.mocked(config).mockReturnValue(mockConfig);
-};
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -67,21 +49,22 @@ Object.defineProperty(global, "crypto", {
 });
 
 describe("userFileS3Helpers", () => {
+  const mockSessionId = "test-session-id";
+  const mockS3Client = { send: vi.fn() } as unknown as S3Client;
+
+  const mockConfig = {
+    ...config(),
+    S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
+  };
+  vi.mocked(createClientS3DataStorage).mockReturnValue(mockS3Client);
+  vi.mocked(config).mockReturnValue(mockConfig);
+
   describe("uploadUserFileToS3", () => {
     it("stores user uploaded file to S3 bucket", async () => {
-      const mockSessionId = "test-session-id";
-      const mockConfig = {
-        ...config(),
-        S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
-      };
       const mockKey = `user-files${mockFlowId}/${mockSessionId}/${mockUUID}`;
 
-      setupFileMocks(mockSessionId, mockConfig);
-
-      await uploadUserFileToS3(mockCookie, mockFlowId, mockFileArrayBuffer);
-
+      await uploadUserFileToS3(mockSessionId, mockFlowId, mockFileArrayBuffer);
       expect(createClientS3DataStorage).toHaveBeenCalled();
-      expect(getSessionIdByFlowId).toHaveBeenCalledWith(mockFlowId, mockCookie);
 
       expect(PutObjectCommand).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -97,17 +80,8 @@ describe("userFileS3Helpers", () => {
 
   describe("deleteUserFileFromS3", () => {
     it("should successfully delete a user file", async () => {
-      const mockSessionId = "test-session-id";
-      const mockConfig = {
-        ...config(),
-        S3_DATA_STORAGE_BUCKET_NAME: "test-bucket",
-      };
-
-      setupFileMocks(mockSessionId, mockConfig);
-      await deleteUserFileFromS3(mockCookie, mockFlowId, mockUUID);
-
+      await deleteUserFileFromS3(mockSessionId, mockFlowId, mockUUID);
       expect(createClientS3DataStorage).toHaveBeenCalled();
-      expect(getSessionIdByFlowId).toHaveBeenCalledWith(mockFlowId, mockCookie);
 
       expect(DeleteObjectCommand).toHaveBeenCalledWith(
         expect.objectContaining({

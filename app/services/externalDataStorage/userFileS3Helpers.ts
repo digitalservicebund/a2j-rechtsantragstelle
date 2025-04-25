@@ -3,7 +3,6 @@ import { type FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
 import { createClientS3DataStorage } from "~/services/externalDataStorage/createClientS3DataStorage";
 import { sendSentryMessage } from "~/services/logging";
-import { getSessionIdByFlowId } from "~/services/session.server";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 const USER_FILES_FOLDER = "user-files";
@@ -13,13 +12,12 @@ const getObjectKey = (sessionId: string, flowId: FlowId, fileKey: string) => {
 };
 
 export async function uploadUserFileToS3(
-  cookieHeader: string | null,
+  sessionId: string,
   flowId: FlowId,
   fileArrayBuffer: ArrayBuffer,
 ) {
   try {
     const s3Client = createClientS3DataStorage();
-    const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
     const fileKey = crypto.randomUUID();
 
     await s3Client.send(
@@ -43,13 +41,12 @@ export async function uploadUserFileToS3(
 }
 
 export async function deleteUserFileFromS3(
-  cookieHeader: string | null,
+  sessionId: string,
   flowId: FlowId,
   savedFileKey: NonNullable<PDFFileMetadata["savedFileKey"]>,
 ) {
   try {
     const s3Client = createClientS3DataStorage();
-    const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
     await s3Client.send(
       new DeleteObjectCommand({
         Bucket: config().S3_DATA_STORAGE_BUCKET_NAME,
