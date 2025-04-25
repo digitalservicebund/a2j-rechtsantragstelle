@@ -37,14 +37,16 @@ export const abgabeXstateConfig = async (backDestination: string) => {
         },
       },
 
-       ...(showFileUpload && {
+      ...(showFileUpload && {
         dokumente: { on: { BACK: "art", SUBMIT: "online" } },
-       }),
+      }),
 
       ausdrucken: {
         on: { BACK: { target: "art" } },
       },
-      online: { on: { BACK: { target: showFileUpload ? "dokumente" : "art" } } },
+      online: {
+        on: { BACK: { target: showFileUpload ? "dokumente" : "art" } },
+      },
     },
   } satisfies Config<AbgabeContext>;
 };
