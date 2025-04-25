@@ -3,12 +3,10 @@ import Button from "~/components/Button";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
 import { useTranslations } from "~/services/translations/translationsContext";
-import {
-  splitFieldName,
-  useFileHandler,
-} from "~/services/upload/fileUploadHelpers";
+import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { type ErrorMessageProps } from ".";
+import { useFileHandler } from "../filesUpload/useFileHandler";
 
 type FileInputProps = {
   name: string;
@@ -42,7 +40,10 @@ export const FileInput = ({
   const FileInput = (
     <input
       name={jsAvailable ? undefined : name}
-      onChange={(event) => onFileUpload(name, event.target.files?.[0])}
+      onChange={(event) => {
+        const file = event.target.files?.[0];
+        void onFileUpload(name, file);
+      }}
       type="file"
       accept=".pdf"
       data-testid="fileUploadInput"
@@ -57,7 +58,9 @@ export const FileInput = ({
       {selectedFile ? (
         <FileUploadInfo
           inputName={name}
-          onFileDelete={onFileDelete}
+          onFileDelete={(fileName) => {
+            void onFileDelete(fileName);
+          }}
           jsAvailable={jsAvailable}
           file={selectedFile}
           deleteButtonLabel={translations?.delete}

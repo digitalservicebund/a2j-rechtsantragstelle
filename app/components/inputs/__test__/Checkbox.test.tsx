@@ -1,4 +1,4 @@
-import { useField } from "@rvf/remix";
+import { useField } from "@rvf/react-router";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Checkbox, { CheckboxValue } from "../Checkbox";
 
@@ -27,7 +27,7 @@ const createMockFieldReturn = (overrides = {}) => ({
   ...overrides,
 });
 
-vi.mock("@rvf/remix", () => ({
+vi.mock("@rvf/react-router", () => ({
   useField: vi.fn(() => createMockFieldReturn()),
 }));
 

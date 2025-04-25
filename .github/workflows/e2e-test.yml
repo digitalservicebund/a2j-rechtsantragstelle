@@ -16,7 +16,7 @@ on:
         required: false
 
 env:
-  files_exis_subfolder_test_results: "false"
+  files_exist_subfolder_test_results: "false"
 
 jobs:
   e2e-tests:
@@ -71,18 +71,19 @@ jobs:
           path: blob-report/*.zip
           retention-days: 1
 
-      - name: Check for files in subfolders of test-results
+      - name: Check for files in sub-folders of test-results
+        if: always()
         id: check_subfolders
         run: |
           # Check if there are any files in subdirectories of test-results
           if find test-results -type f -mindepth 2 | grep -q .; then
-            echo "files_exis_subfolder_test_results=true" >> $GITHUB_ENV
+            echo "files_exist_subfolder_test_results=true" >> $GITHUB_ENV
           else
-            echo "files_exis_subfolder_test_results=false" >> $GITHUB_ENV
+            echo "files_exist_subfolder_test_results=false" >> $GITHUB_ENV
           fi
 
       - name: Upload Failed Test results
-        if: ${{ env.files_exis_subfolder_test_results == 'true' }}
+        if: ${{ always() && env.files_exist_subfolder_test_results == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: video-test-results-${{ inputs.e2e-target }}-${{ matrix.shard }}

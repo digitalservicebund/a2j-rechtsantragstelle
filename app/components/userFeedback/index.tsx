@@ -1,18 +1,13 @@
-import { useLocation, useRouteLoaderData } from "@remix-run/react";
 import { useCallback, useState } from "react";
+import { useLocation, useRouteLoaderData } from "react-router";
 import type { RootLoader } from "~/root";
 import { FeedbackFormBox } from "./FeedbackFormBox";
 import { PostSubmissionBox } from "./PostSubmissionBox";
 import { type RatingBoxProps, RatingBox } from "./RatingBox";
 import Background from "../Background";
 import Container from "../Container";
+import { BannerState } from "./BannerState";
 import { FeedbackType } from "./FeedbackType";
-
-export enum BannerState {
-  ShowRating = "showRating",
-  ShowFeedback = "showFeedback",
-  FeedbackGiven = "feedbackGiven",
-}
 
 type UserFeedbackProps = {
   rating: Pick<RatingBoxProps, "heading">;

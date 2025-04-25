@@ -5,8 +5,8 @@ import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 const getInputProps = vi.fn();
 const getError = vi.fn();
 
-vi.mock("@rvf/remix", async () => {
-  const rmf = await vi.importActual("@rvf/remix");
+vi.mock("@rvf/react-router", async () => {
+  const rmf = await vi.importActual("@rvf/react-router");
   return {
     ...rmf,
     useField: () => ({

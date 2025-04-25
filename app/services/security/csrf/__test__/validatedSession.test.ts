@@ -1,4 +1,4 @@
-import { createSession, type Session } from "@remix-run/node";
+import { createSession, type Session } from "react-router";
 import { mainSessionFromCookieHeader } from "~/services/session.server";
 import { CSRFKey } from "../csrfKey";
 import {

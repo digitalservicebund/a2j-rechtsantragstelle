@@ -20,7 +20,7 @@ const mockProps = {
   },
 };
 
-vi.mock("@rvf/remix", () => ({
+vi.mock("@rvf/react-router", () => ({
   useField: () => ({
     getInputProps: vi.fn((props) => ({ ...props })),
     error: vi.fn().mockReturnValue(mockError),

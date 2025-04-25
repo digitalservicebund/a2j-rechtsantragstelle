@@ -1,9 +1,9 @@
 /* eslint-disable import/no-named-as-default-member, no-console */
-import { createRequestHandler } from "@remix-run/express";
-import type { ServerBuild } from "@remix-run/node";
-import * as Sentry from "@sentry/remix";
+import { createRequestHandler } from "@react-router/express";
+import * as Sentry from "@sentry/react-router";
 import compression from "compression";
 import express, { type RequestHandler } from "express";
+import type { ServerBuild } from "react-router";
 import type { ViteDevServer } from "vite";
 import { getPosthogClient } from "./services/analytics/posthogClient.server";
 import { config } from "./services/env/env.server";
@@ -17,7 +17,7 @@ export const expressApp = (
   viteDevServer: ViteDevServer,
 ) => {
   const redisClient = getRedisInstance();
-  const remixHandler = createRequestHandler({ build }) as RequestHandler; // express 4 doesn't handle returned promises
+  const reactRouterHandler = createRequestHandler({ build }) as RequestHandler; // express 4 doesn't handle returned promises
 
   const app = express();
 
@@ -52,12 +52,12 @@ export const expressApp = (
 
   if (config().ENVIRONMENT === "production") {
     // On production, we let the app handle all calls to /storybook to serve normal 404s
-    app.use("/storybook", remixHandler);
+    app.use("/storybook", reactRouterHandler);
   }
   // Everything else (like favicon.ico) is cached for an hour
   // You may want to be more aggressive with this caching.
   app.use(express.static("build/client", { maxAge: "1h" }));
-  app.all("*", remixHandler);
+  app.all("*", reactRouterHandler);
 
   return {
     app,
