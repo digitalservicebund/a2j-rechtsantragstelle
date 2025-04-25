@@ -1,6 +1,5 @@
-import { withZod } from "@rvf/zod";
 import { fireEvent, render, waitFor } from "@testing-library/react";
-import { RouterProvider, createMemoryRouter } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router-dom"; // use react-router-dom only for test, the react-router does not work
 import { z } from "zod";
 import { getStrapiCheckboxComponent } from "tests/factories/cmsModels/strapiCheckboxComponent";
 import { getStrapiDropdownComponent } from "tests/factories/cmsModels/strapiDropdownComponent";
@@ -13,7 +12,7 @@ import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormCompon
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
-import * as validatorForFieldNames from "~/services/validation/stepValidator/validatorForFieldNames";
+import * as schemaForFieldNames from "~/services/validation/stepValidator/schemaForFieldNames";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
 import {
@@ -21,20 +20,24 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
-vi.mock("@remix-run/react", () => ({
-  useParams: vi.fn(),
-  useLocation: vi.fn(() => ({
-    pathname: "",
-  })),
-}));
+vi.mock("react-router", async () => {
+  const actual = await vi.importActual("react-router");
+
+  return {
+    ...actual,
+    useLocation: () => ({
+      pathname: "/",
+    }),
+  };
+});
 
 vi.mock("~/services/params", () => ({
   splatFromParams: vi.fn(),
 }));
 
 const fieldNameValidatorSpy = vi.spyOn(
-  validatorForFieldNames,
-  "validatorForFieldNames",
+  schemaForFieldNames,
+  "schemaForFieldNames",
 );
 
 describe("ValidatedFlowForm", () => {
@@ -47,7 +50,7 @@ describe("ValidatedFlowForm", () => {
   describe("Input Component", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
-        withZod(z.object({ inputName: integerSchema })),
+        z.object({ inputName: integerSchema }),
       );
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent({
@@ -96,7 +99,7 @@ describe("ValidatedFlowForm", () => {
   describe("Date Input Component", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
-        withZod(z.object({ inputName: createDateSchema() })),
+        z.object({ inputName: createDateSchema() }),
       );
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent(
@@ -148,7 +151,7 @@ describe("ValidatedFlowForm", () => {
   describe("Time Input Component", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
-        withZod(z.object({ inputName: timeSchema })),
+        z.object({ inputName: timeSchema }),
       );
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent(
@@ -200,7 +203,7 @@ describe("ValidatedFlowForm", () => {
   describe("Textarea Component", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
-        withZod(z.object({ myTextarea: stringRequiredSchema })),
+        z.object({ myTextarea: stringRequiredSchema }),
       );
     });
     const { component, expectTextareaErrorToExist } =
@@ -247,7 +250,7 @@ describe("ValidatedFlowForm", () => {
   describe("Select Component (Radio)", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
-        withZod(z.object({ mySelect: YesNoAnswer })),
+        z.object({ mySelect: YesNoAnswer }),
       );
     });
     const { component, expectSelectErrorToExist } = getStrapiSelectComponent({
@@ -294,14 +297,12 @@ describe("ValidatedFlowForm", () => {
   describe("Dropdown Component", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
-        withZod(
-          z.object({
-            myDropdown: z.enum(
-              ["option1", "option2", "option3"],
-              customRequiredErrorMessage,
-            ),
-          }),
-        ),
+        z.object({
+          myDropdown: z.enum(
+            ["option1", "option2", "option3"],
+            customRequiredErrorMessage,
+          ),
+        }),
       );
     });
     const { component, expectDropdownErrorToExist } =
@@ -334,12 +335,10 @@ describe("ValidatedFlowForm", () => {
   describe("Checkbox Component", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
-        withZod(
-          z.object({
-            checkbox1: checkedRequired,
-            checkbox2: checkedRequired,
-          }),
-        ),
+        z.object({
+          checkbox1: checkedRequired,
+          checkbox2: checkedRequired,
+        }),
       );
     });
 
@@ -402,11 +401,9 @@ describe("ValidatedFlowForm", () => {
   describe("TileGroup Component", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
-        withZod(
-          z.object({
-            myTileGroup: z.enum(["tileGroup"], customRequiredErrorMessage),
-          }),
-        ),
+        z.object({
+          myTileGroup: z.enum(["tileGroup"], customRequiredErrorMessage),
+        }),
       );
     });
     const { component, expectTileGroupErrorToExist } =
@@ -470,8 +467,8 @@ function renderValidatedFlowForm(
           csrf={""}
         />
       ),
-      action() {
-        return true;
+      action: () => {
+        return { someActionValue: "foo" };
       },
     },
   ]);

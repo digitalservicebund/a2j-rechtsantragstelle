@@ -1,4 +1,4 @@
-import { type DataWithResponseInit } from "@remix-run/router/dist/utils";
+import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { getSessionManager } from "~/services/session.server";
 import { action } from "../action.send-rating";
 
@@ -26,13 +26,13 @@ describe("/action/send-rating route", () => {
       `http://localhost:3000/action/send-rating?url=/asd&js=true`,
       options,
     );
-    const response = await action({ request, params: {}, context: {} });
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
 
-    if ("data" in response) {
-      expect(response.data.success).toEqual(true);
-    } else {
-      throw new Error("Response does not contain 'data' property");
-    }
+    expect(response.data.success).toEqual(true);
   });
 
   it("returns redirect without JS", async () => {
@@ -63,13 +63,9 @@ describe("/action/send-rating route", () => {
       request,
       params: {},
       context: {},
-    })) as DataWithResponseInit<{ success: boolean }>;
+    })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
 
-    if (response.init !== null) {
-      expect(response.init.status).toEqual(400);
-    } else {
-      throw new Error("Response does not contain 'init' property");
-    }
+    expect(response.init?.status).toBe(400);
   });
 
   it("fails if wasHelpful parameter does not exist in the body", async () => {
@@ -84,9 +80,8 @@ describe("/action/send-rating route", () => {
       request,
       params: {},
       context: {},
-    })) as Response;
+    })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
 
-    expect(response.status).toEqual(422);
-    expect(response.ok).not.toBeTruthy();
+    expect(response.init?.status).toBe(422);
   });
 });

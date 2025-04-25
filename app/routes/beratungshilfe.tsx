@@ -1,5 +1,5 @@
-import { type LoaderFunctionArgs } from "@remix-run/node";
-import { Outlet } from "@remix-run/react";
+import { type LoaderFunctionArgs } from "react-router";
+import { Outlet } from "react-router";
 import { fetchMeta } from "~/services/cms/index.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {

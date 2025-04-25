@@ -1,13 +1,9 @@
 import { PassThrough } from "stream";
-import type {
-  ActionFunctionArgs,
-  EntryContext,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
-import { createReadableStreamFromReadable, redirect } from "@remix-run/node";
-import { RemixServer } from "@remix-run/react";
+import { createReadableStreamFromReadable } from "@react-router/node";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
+import type { EntryContext } from "react-router";
+import { redirect, ServerRouter } from "react-router";
 import { config } from "./services/env/env.server";
 import { config as webConfig } from "./services/env/web";
 import { logError } from "./services/logging";
@@ -23,18 +19,15 @@ const CONNECT_SOURCES = [originFromUrlString(webConfig().SENTRY_DSN)].filter(
   (origin) => origin !== undefined,
 );
 
-export function handleError(
-  error: unknown,
-  { request }: LoaderFunctionArgs | ActionFunctionArgs,
-): void {
-  logError({ error, request });
+export function handleError(error: unknown): void {
+  logError({ error });
 }
 
 export default function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext,
+  reactRouterContext: EntryContext,
 ) {
   const urlIfChanged = stripTrailingSlashFromURL(request.url);
   if (urlIfChanged !== undefined) return redirect(urlIfChanged, 301);
@@ -44,13 +37,13 @@ export default function handleRequest(
         request,
         responseStatusCode,
         responseHeaders,
-        remixContext,
+        reactRouterContext,
       )
     : handleBrowserRequest(
         request,
         responseStatusCode,
         responseHeaders,
-        remixContext,
+        reactRouterContext,
       );
 }
 
@@ -58,13 +51,13 @@ function handleBotRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext,
+  reactRouterContext: EntryContext,
 ) {
   return new Promise((resolve, reject) => {
     let didError = false;
 
     const { pipe, abort } = renderToPipeableStream(
-      <RemixServer context={remixContext} url={request.url} />,
+      <ServerRouter context={reactRouterContext} url={request.url} />,
       {
         onAllReady() {
           const body = new PassThrough();
@@ -99,7 +92,7 @@ function handleBrowserRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext,
+  reactRouterContext: EntryContext,
 ) {
   return new Promise((resolve, reject) => {
     let didError = false;
@@ -116,8 +109,8 @@ function handleBrowserRequest(
 
     const { pipe, abort } = renderToPipeableStream(
       <NonceContext.Provider value={cspNonce}>
-        <RemixServer
-          context={remixContext}
+        <ServerRouter
+          context={reactRouterContext}
           url={request.url}
           nonce={cspNonce}
         />

@@ -1,4 +1,4 @@
-import { data } from "@remix-run/node";
+import { data } from "react-router";
 
 export function getRedirectForNonRelativeUrl(searchParameterUrl: string) {
   if (!searchParameterUrl.startsWith("/")) {

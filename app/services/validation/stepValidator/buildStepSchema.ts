@@ -1,4 +1,3 @@
-import { withZod } from "@rvf/zod";
 import { z } from "zod";
 import { type FunctionMultiFieldsValidation } from "~/domains/types";
 import { isKeyOfObject } from "~/util/objects";
@@ -6,7 +5,7 @@ import { fieldIsArray, splitArrayName } from "../../array";
 
 type Schemas = Record<string, z.ZodTypeAny>;
 
-export function buildStepValidator(
+export function buildStepSchema(
   schemas: Schemas,
   fieldNames: string[],
   multiFieldsValidation?: FunctionMultiFieldsValidation,
@@ -40,5 +39,5 @@ export function buildStepValidator(
     ? multiFieldsValidation(validationFieldsSchema)
     : validationFieldsSchema;
 
-  return withZod(validationSchema);
+  return validationSchema;
 }
