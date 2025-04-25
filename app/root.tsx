@@ -294,12 +294,19 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
         <meta name="darkreader-lock" />
       </head>
       <body className="flex flex-col min-h-screen">
-        {loaderData && <PageHeader {...loaderData.pageHeaderProps} />}
+        <PageHeader
+          alignToMainContainer
+          hideLinks={false}
+          linkLabel="Zurück zur Startseite"
+          title="Justiz-Services"
+          translations={{
+            leichtesprache: "Leichte Sprache",
+            gebaerdensprache: "Gebärdensprache",
+            mainNavigationAriaLabel: "Hauptmenü",
+          }}
+        />
         <main className="flex-grow">
-          <ErrorBox
-            errorPages={loaderData?.errorPages}
-            context={loaderData?.context ?? {}}
-          />
+          <ErrorBox context={loaderData?.context ?? {}} />
         </main>
         {loaderData && (
           <Footer
