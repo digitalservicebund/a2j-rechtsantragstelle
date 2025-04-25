@@ -26,7 +26,7 @@ export const abgabeXstateConfig = async (backDestination: string) => {
             : "#persoenliche-daten.telefonnummer",
           SUBMIT: [
             {
-              target: "dokumente",
+              target: showFileUpload ? "dokumente" : "art",
               guard: beratungshilfeAbgabeGuards.abgabeOnline,
             },
             {
@@ -37,14 +37,14 @@ export const abgabeXstateConfig = async (backDestination: string) => {
         },
       },
 
-      ...(showFileUpload && {
+       ...(showFileUpload && {
         dokumente: { on: { BACK: "art", SUBMIT: "online" } },
-      }),
+       }),
 
       ausdrucken: {
         on: { BACK: { target: "art" } },
       },
-      online: { on: { BACK: { target: "dokumente" } } },
+      online: { on: { BACK: { target: showFileUpload ? "dokumente" : "art" } } },
     },
   } satisfies Config<AbgabeContext>;
 };

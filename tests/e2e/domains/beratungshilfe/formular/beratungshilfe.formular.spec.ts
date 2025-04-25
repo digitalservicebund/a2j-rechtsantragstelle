@@ -53,11 +53,19 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startRechtsproblem(page, beratungshilfeFormular);
   await startFinanzielleAngabenGrundsicherung(beratungshilfeFormular);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
-  await skipZusammenfassung(page);
-  if (await isFeatureFlagEnabled("showFileUpload")) {
-    await startDocumentUpload(page, beratungshilfeFormular);
+  await showZusammenfassung(page);
+
+  const ausdruckenAbgabe = "ausdrucken";
+
+  if (ausdruckenAbgabe) {
+    await startAusdruckenAbgabe(page);
+  } else {
+    await startOnlineAbgabe(page);
+    if (await isFeatureFlagEnabled("showFileUpload")) {
+      await startDocumentUpload(page, beratungshilfeFormular);
+    }
+    await downloadOnlineAbgabe(page);
   }
-  await startAbgabe(page);
 });
 
 test("invalid array index redirects to initial step of subflow", async ({
@@ -135,7 +143,7 @@ async function startDocumentUpload(
   await page.waitForNavigation();
 }
 
-async function startAbgabe(page: Page) {
+async function startAusdruckenAbgabe(page: Page) {
   // beratungshilfe/antrag/abgabe/art
   await beratungshilfeFormular.fillRadioPage("abgabeArt", "ausdrucken");
   // beratungshilfe/antrag/abgabe/ausdrucken
@@ -162,9 +170,38 @@ async function startAbgabe(page: Page) {
     "application/pdf",
   );
 }
+async function startOnlineAbgabe(page: Page) {
+  // beratungshilfe/antrag/abgabe/art
+  await beratungshilfeFormular.fillRadioPage("abgabeArt", "online");
+  // beratungshilfe/antrag/abgabe/online
+  await expectPageToBeAccessible({ page });
+}
 
-async function skipZusammenfassung(page: Page) {
+async function downloadOnlineAbgabe(page: Page) {
+  // Observe context for requests to /download/pdf
+  let newTabResponse: Response | undefined;
+  page.context().on("request", async (request) => {
+    const response = await request.response();
+    if (request.url().endsWith("/download/pdf") && response !== null) {
+      newTabResponse = response;
+    }
+  });
+
+  const popupPromise = page.waitForEvent("popup", {
+    timeout: TEN_SECONDS_TIMEOUT_POPUP,
+  });
+  await page.getByRole("link").getByText("pdf").click();
+  await popupPromise;
+
+  expect(newTabResponse).not.toBeUndefined();
+  expect(newTabResponse?.status()).toBe(200);
+  expect(await newTabResponse?.headerValue("content-type")).toBe(
+    "application/pdf",
+  );
+}
+
+async function showZusammenfassung(page: Page) {
   if (config().ENVIRONMENT !== "production") {
-    await page.goto("beratungshilfe/antrag/abgabe/dokumente");
+    await page.goto("beratungshilfe/antrag/abgabe/art");
   }
 }
