@@ -5,7 +5,7 @@ import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 import Heading, { type HeadingProps } from "./Heading";
 
-type LinkListBoxProps = {
+type Props = {
   identifier?: string;
   label?: HeadingProps;
   heading?: HeadingProps;
@@ -13,13 +13,13 @@ type LinkListBoxProps = {
   buttons?: ButtonProps[];
 };
 
-const LinkListBox = ({
+const TableOfContents = ({
   identifier,
   label,
   heading,
   links,
   buttons,
-}: LinkListBoxProps) => {
+}: Props) => {
   return (
     <div className="ds-stack ds-stack-16" id={identifier}>
       <div className="ds-stack ds-stack-8">
@@ -54,4 +54,4 @@ const LinkListBox = ({
   );
 };
 
-export default LinkListBox;
+export default TableOfContents;
