@@ -10,7 +10,10 @@ import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/
 import { fetchTranslations } from "~/services/cms/index.server";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
-import { getSessionData } from "~/services/session.server";
+import {
+  getSessionData,
+  getSessionIdByFlowId,
+} from "~/services/session.server";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import { pdfDateFormat, today } from "~/util/date";
 
@@ -24,7 +27,7 @@ type PdfConfig = PdfFlowContexts extends infer T
     ? {
         pdfFunction: (
           userData: T,
-          cookieHeader: string | null,
+          sessionId: string,
           translations?: Translations,
         ) => Promise<Uint8Array>;
         filenameFunction: () => string;
@@ -36,8 +39,8 @@ const pdfConfigs = {
   "/beratungshilfe/antrag": {
     pdfFunction: async (
       userData: BeratungshilfeFormularContext,
-      cookieHeader: string | null,
-    ) => await beratungshilfePdfFromUserdata(userData, cookieHeader),
+      sessionId: string,
+    ) => await beratungshilfePdfFromUserdata(userData, sessionId),
     filenameFunction: () =>
       `Antrag_Beratungshilfe_${pdfDateFormat(today())}.pdf`,
   },
@@ -72,12 +75,12 @@ export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
     flowId,
   );
   if (isEmpty(userData)) return redirect(flowId);
-
-  const fileContent = await pdfFunction(
-    userData,
+  const sessionId = await getSessionIdByFlowId(
+    flowId,
     request.headers.get("Cookie"),
-    flowTranslations,
   );
+
+  const fileContent = await pdfFunction(userData, sessionId, flowTranslations);
   const fileSize = fileContent.length;
   const filename = filenameFunction();
 

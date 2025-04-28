@@ -56,7 +56,7 @@ const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
 
 export async function beratungshilfePdfFromUserdata(
   userData: BeratungshilfeFormularContext,
-  cookieHeader: string | null,
+  sessionId: string,
 ) {
   const { pdfValues, attachment } = pdfFillReducer({
     userData,
@@ -97,7 +97,7 @@ export async function beratungshilfePdfFromUserdata(
     const userFilesPdfBuffer = await attachUserUploadedFilesToPdf(
       pdfKitBuffer,
       userData,
-      cookieHeader,
+      sessionId,
       "/beratungshilfe/antrag",
     );
     const userFilesPdfDocument = await PDFDocument.load(userFilesPdfBuffer);

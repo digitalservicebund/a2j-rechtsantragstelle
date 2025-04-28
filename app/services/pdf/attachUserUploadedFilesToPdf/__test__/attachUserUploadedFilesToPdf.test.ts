@@ -8,7 +8,7 @@ vi.mock("~/services/externalDataStorage/userFileS3Helpers", () => ({
 }));
 
 describe("attachUserUploadedFilesToPdf", () => {
-  const cookieHeader = "test-cookie-header";
+  const sessionId = "test-cookie-header";
   const flowId = "/beratungshilfe/antrag";
 
   let mockMainPDFBuffer: Uint8Array;
@@ -40,7 +40,7 @@ describe("attachUserUploadedFilesToPdf", () => {
     const resultBuffer = await attachUserUploadedFilesToPdf(
       mockMainPDFBuffer,
       mockedUserData,
-      cookieHeader,
+      sessionId,
       flowId,
     );
 
@@ -58,7 +58,7 @@ describe("attachUserUploadedFilesToPdf", () => {
     const resultBuffer = await attachUserUploadedFilesToPdf(
       mockMainPDFBuffer,
       mockedUserData,
-      cookieHeader,
+      sessionId,
       flowId,
     );
 

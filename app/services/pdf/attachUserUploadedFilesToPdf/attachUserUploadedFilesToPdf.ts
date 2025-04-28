@@ -21,14 +21,14 @@ const extractSavedFileKeys = (userData: Context) =>
  * Attaches user uploaded files into a PDF document.
  * @param mainPdfBuffer The PDF document as a Uint8Array
  * @param userData The user data containing saved file keys
- * @param cookieHeader The cookie header for the request for authentication
+ * @param sessionId The session Id for the request for authentication
  * @param flowId The flow ID for the request
  * @returns The resulting PDF document as a Uint8Array
  */
 export async function attachUserUploadedFilesToPdf(
   mainPdfBuffer: Uint8Array,
   userData: Context,
-  cookieHeader: string | null,
+  sessionId: string,
   flowId: FlowId,
 ): Promise<Uint8Array> {
   const mainPdfDocument = await PDFDocument.load(mainPdfBuffer);
@@ -36,7 +36,7 @@ export async function attachUserUploadedFilesToPdf(
 
   for (const savedFileKey of savedFileKeys) {
     const userFileBuffer = await downloadUserFileFromS3(
-      cookieHeader,
+      sessionId,
       flowId,
       savedFileKey,
     );

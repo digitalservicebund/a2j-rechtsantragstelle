@@ -8,7 +8,6 @@ import { type FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
 import { createClientS3DataStorage } from "~/services/externalDataStorage/createClientS3DataStorage";
 import { sendSentryMessage } from "~/services/logging";
-import { getSessionIdByFlowId } from "~/services/session.server";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 const USER_FILES_FOLDER = "user-files";
@@ -18,13 +17,12 @@ const getObjectKey = (sessionId: string, flowId: FlowId, fileKey: string) => {
 };
 
 export async function uploadUserFileToS3(
-  cookieHeader: string | null,
+  sessionId: string,
   flowId: FlowId,
   fileArrayBuffer: ArrayBuffer,
 ) {
   try {
     const s3Client = createClientS3DataStorage();
-    const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
     const fileKey = crypto.randomUUID();
 
     await s3Client.send(
@@ -36,25 +34,18 @@ export async function uploadUserFileToS3(
     );
     return fileKey;
   } catch (error) {
-    const errorDescription =
-      error instanceof Error ? error.message : "Unknown error";
-
-    sendSentryMessage(
-      `Error storing user uploaded file to S3 bucket: ${errorDescription}`,
-      "error",
-    );
+    sendSentryMessage("Error storing user uploaded file to S3 bucket", "error");
     throw error;
   }
 }
 
 export async function deleteUserFileFromS3(
-  cookieHeader: string | null,
+  sessionId: string,
   flowId: FlowId,
   savedFileKey: NonNullable<PDFFileMetadata["savedFileKey"]>,
 ) {
   try {
     const s3Client = createClientS3DataStorage();
-    const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
     await s3Client.send(
       new DeleteObjectCommand({
         Bucket: config().S3_DATA_STORAGE_BUCKET_NAME,
@@ -62,24 +53,17 @@ export async function deleteUserFileFromS3(
       }),
     );
   } catch (error) {
-    const errorDescription =
-      error instanceof Error ? error.message : "Unknown error";
-
-    sendSentryMessage(
-      `Error storing user uploaded file to S3 bucket: ${errorDescription}`,
-      "error",
-    );
+    sendSentryMessage("Error storing user uploaded file to S3 bucket", "error");
     throw error;
   }
 }
 export async function downloadUserFileFromS3(
-  cookieHeader: string | null,
+  sessionId: string,
   flowId: FlowId,
   savedFileKey: NonNullable<PDFFileMetadata["savedFileKey"]>,
 ) {
   try {
     const s3Client = createClientS3DataStorage();
-    const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
     const response = await s3Client.send(
       new GetObjectCommand({
         Bucket: config().S3_DATA_STORAGE_BUCKET_NAME,
