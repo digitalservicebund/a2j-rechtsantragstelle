@@ -7,7 +7,7 @@ const cases = [
     {
       abgabeArt: "online",
     },
-    ["/abgabe/art", "/abgabe/dokumente", "/abgabe/online"],
+    ["/abgabe/art", "/abgabe/online"],
   ],
   [
     {
