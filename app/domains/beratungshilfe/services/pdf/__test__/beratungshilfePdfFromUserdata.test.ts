@@ -2,7 +2,7 @@ import { PDFDocument } from "pdf-lib";
 import { beratungshilfePdfFromUserdata } from "..";
 
 describe("beratungshilfePdfFromUserdata", () => {
-  const mockCookieHeader = "mock-cookie";
+  const mockSessionId = "mock-session-id";
   it("values are set from context", async () => {
     const pdfDoc = await PDFDocument.load(
       await beratungshilfePdfFromUserdata(
@@ -10,7 +10,7 @@ describe("beratungshilfePdfFromUserdata", () => {
           vorname: "vorname",
           nachname: "nachname",
         },
-        mockCookieHeader,
+        mockSessionId,
       ),
     );
 
@@ -28,7 +28,7 @@ describe("beratungshilfePdfFromUserdata", () => {
           vorname: "vorname",
           nachname: "nachname",
         },
-        mockCookieHeader,
+        mockSessionId,
       ),
     );
 
@@ -42,7 +42,7 @@ describe("beratungshilfePdfFromUserdata", () => {
           nachname: "nachname2",
           vorname: "vorname2",
         },
-        mockCookieHeader,
+        mockSessionId,
       ),
     );
 
@@ -56,7 +56,7 @@ describe("beratungshilfePdfFromUserdata", () => {
           vorname: "Włodzimierz",
           nachname: "Ćwikła",
         },
-        mockCookieHeader,
+        mockSessionId,
       ),
     );
 
@@ -70,7 +70,7 @@ describe("beratungshilfePdfFromUserdata", () => {
           vorname: "🚂",
           nachname: "🫑",
         },
-        mockCookieHeader,
+        mockSessionId,
       ),
     );
 
