@@ -27,22 +27,12 @@ const postSubmissionTranslationKeys = [
 type PostSubmissionTranslationKeys =
   (typeof postSubmissionTranslationKeys)[number];
 
-const ratingBoxTranslationsKeys = ["yes-rating", "no-rating"] as const;
-type RatingBoxTranslationKeys = (typeof ratingBoxTranslationsKeys)[number];
-
 export function useFeedbackTranslations() {
   const { feedback: translations } = useTranslations();
 
   return Object.fromEntries(
-    [
-      ...feedbackTranslationsKeys,
-      ...postSubmissionTranslationKeys,
-      ...ratingBoxTranslationsKeys,
-    ].map((key) => [key, getTranslationByKey(key, translations)]),
-  ) as Record<
-    | FeedbackTranslationKeys
-    | PostSubmissionTranslationKeys
-    | RatingBoxTranslationKeys,
-    string
-  >;
+    [...feedbackTranslationsKeys, ...postSubmissionTranslationKeys].map(
+      (key) => [key, getTranslationByKey(key, translations)],
+    ),
+  ) as Record<FeedbackTranslationKeys | PostSubmissionTranslationKeys, string>;
 }
