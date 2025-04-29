@@ -5,7 +5,11 @@ import { HydratedRouter } from "react-router/dom";
 import { config } from "~/services/env/web";
 
 // Ignore a few common errors that are not useful to track
-const SENTRY_IGNORE_ERRORS = ["Error in input stream", "Load failed"];
+const SENTRY_IGNORE_ERRORS = [
+  "Error in input stream",
+  "Load failed",
+  "Detected manifest version mismatch, reloading...",
+];
 
 const { SENTRY_DSN, ENVIRONMENT } = config();
 if (SENTRY_DSN !== undefined) {
