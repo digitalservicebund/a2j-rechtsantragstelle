@@ -181,12 +181,6 @@ export const getKinderStrings = (userData: KontopfaendungWegweiserContext) => {
     hasKinder: userData.hasKinder === "yes",
   };
 };
-/**
- * Returns an object with a single key `schuldnerberatungsstelleIsVisible` which is an object of boolean values.
- * The keys of this object are the names of the conditions that make the Schuldnerberatungsstelle visible.
- * The values of this object are the results of the corresponding string replacement functions.
- * The Schuldnerberatungsstelle is visible if any of the conditions are true.
- */
 export const getSchuldnerberatungsstelleStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
@@ -202,26 +196,18 @@ export const getSchuldnerberatungsstelleStrings = (
   const { hasAsylbewerberleistung } = getAsylbewerberleistungStrings(userData);
   const hasPflegegeldSelbst =
     getPflegegeldSelbstStrings(userData).hasPflegegeldSelbst;
-  return {
-    schuldnerberatungsstelleIsVisible: {
-      hasErhoehungsbetrag,
-      hasKindergeld,
-      hasEinmalSozialleistung,
-      hasNachzahlungSozialUnter500,
-      hasNachzahlungArbeitUnter500,
-      hasBuergergeld,
-      hasGrundsicherung,
-      hasAsylbewerberleistung,
-      hasPflegegeldSelbst,
-    },
-  };
+  const schuldnerberatungsstelleIsVisible =
+    hasErhoehungsbetrag ||
+    hasKindergeld ||
+    hasEinmalSozialleistung ||
+    hasNachzahlungSozialUnter500 ||
+    hasNachzahlungArbeitUnter500 ||
+    hasBuergergeld ||
+    hasGrundsicherung ||
+    hasAsylbewerberleistung ||
+    hasPflegegeldSelbst;
+  return { schuldnerberatungsstelleIsVisible };
 };
-/**
- * Returns an object with a single key `amtsgerichtIsVisible` which is an object of boolean values.
- * The keys of this object are the names of the conditions that make the Amtsgericht accordion visible.
- * The values of this object are the results of the corresponding string replacement functions.
- * The Amtsgericht accordion is visible if any of the conditions are true.
- */
 export const getAmtsgerichtStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
@@ -234,23 +220,15 @@ export const getAmtsgerichtStrings = (
     getNachzahlungSozialMehr500Strings(userData).hasNachzahlungSozialMehr500;
   const { isSelbststaendig } = getSelbststaendigStrings(userData);
   const { hasWohngeld } = getWohngeldStrings(userData);
-  return {
-    amtsgerichtIsVisible: {
-      hasPflegegeldFremd,
-      hasArbeitsentgeltEinmalig,
-      hasNachzahlungArbeitMehr500,
-      hasNachzahlungSozialMehr500,
-      isSelbststaendig,
-      hasWohngeld,
-    },
-  };
+  const amtsgerichtIsVisible =
+    hasPflegegeldFremd ||
+    hasArbeitsentgeltEinmalig ||
+    hasNachzahlungArbeitMehr500 ||
+    hasNachzahlungSozialMehr500 ||
+    isSelbststaendig ||
+    hasWohngeld;
+  return { amtsgerichtIsVisible };
 };
-/**
- * Returns an object with a single key `infoZumPKontoIsVisible` which is an object of boolean values.
- * The keys of this object are the names of the conditions that make the "Info zum PKonto" accordion visible.
- * The values of this object are the results of the corresponding string replacement functions.
- * The "Info zum PKonto" accordion is visible if any of the conditions are true.
- */
 export const getInfoZumPKontoStrings = (
   userData: KontopfaendungWegweiserContext,
 ) => {
@@ -258,13 +236,11 @@ export const getInfoZumPKontoStrings = (
     getPKontoStrings(userData);
   const { isPrivilegierteForderungStrafe, isPrivilegierteForderungUnterhalt } =
     getPrivilegierteForderungStrings(userData);
-  return {
-    infoZumPKontoIsVisible: {
-      hasNoPKonto,
-      hasPKontoBank,
-      hasPKontoNichtAktive,
-      isPrivilegierteForderungStrafe,
-      isPrivilegierteForderungUnterhalt,
-    },
-  };
+  const infoZumPKontoIsVisible =
+    hasNoPKonto ||
+    hasPKontoBank ||
+    hasPKontoNichtAktive ||
+    isPrivilegierteForderungStrafe ||
+    isPrivilegierteForderungUnterhalt;
+  return { infoZumPKontoIsVisible };
 };

@@ -275,7 +275,7 @@ describe("stringReplacements", () => {
     });
   });
   describe("getSchuldnerberatungsstelleStrings", () => {
-    it("should return schuldnerberatungsstelleIsVisible as true so the Schuldnerberatungsstelle accordion is visible", () => {
+    it("should return schuldnerberatungsstelleIsVisible as true when at least one sub variable is true", () => {
       const userData: KontopfaendungWegweiserContext = {
         kinderWohnenZusammen: "ja",
         sozialleistungenUmstaende: {
@@ -293,20 +293,10 @@ describe("stringReplacements", () => {
       };
 
       expect(getSchuldnerberatungsstelleStrings(userData)).toEqual({
-        schuldnerberatungsstelleIsVisible: {
-          hasErhoehungsbetrag: true,
-          hasKindergeld: true,
-          hasEinmalSozialleistung: true,
-          hasNachzahlungSozialUnter500: true,
-          hasNachzahlungArbeitUnter500: true,
-          hasBuergergeld: true,
-          hasGrundsicherung: false,
-          hasAsylbewerberleistung: false,
-          hasPflegegeldSelbst: true,
-        },
+        schuldnerberatungsstelleIsVisible: true,
       });
     });
-    it("should return schuldnerberatungsstelleIsVisible as false so the Schuldnerberatungsstelle accordion is not visible", () => {
+    it("should return schuldnerberatungsstelleIsVisible as false when all sub variables are false", () => {
       const userData: KontopfaendungWegweiserContext = {
         kinderWohnenZusammen: "nein",
         sozialleistungenUmstaende: {
@@ -324,23 +314,13 @@ describe("stringReplacements", () => {
       };
 
       expect(getSchuldnerberatungsstelleStrings(userData)).toEqual({
-        schuldnerberatungsstelleIsVisible: {
-          hasErhoehungsbetrag: false,
-          hasKindergeld: false,
-          hasEinmalSozialleistung: false,
-          hasNachzahlungSozialUnter500: false,
-          hasNachzahlungArbeitUnter500: false,
-          hasBuergergeld: false,
-          hasGrundsicherung: false,
-          hasAsylbewerberleistung: false,
-          hasPflegegeldSelbst: false,
-        },
+        schuldnerberatungsstelleIsVisible: false,
       });
     });
   });
 
   describe("getAmtsgerichtStrings", () => {
-    it("should return amtsgerichtIsVisible as true so the Amtsgericht accordion is visible", () => {
+    it("should return amtsgerichtIsVisible as true when at least one sub variable is true", () => {
       const userData: KontopfaendungWegweiserContext = {
         pflegegeld: "fremd",
         nachzahlungArbeitgeber: "no",
@@ -358,17 +338,10 @@ describe("stringReplacements", () => {
         },
       };
       expect(getAmtsgerichtStrings(userData)).toEqual({
-        amtsgerichtIsVisible: {
-          hasPflegegeldFremd: true,
-          hasArbeitsentgeltEinmalig: false,
-          hasNachzahlungArbeitMehr500: false,
-          hasNachzahlungSozialMehr500: true,
-          isSelbststaendig: true,
-          hasWohngeld: true,
-        },
+        amtsgerichtIsVisible: true,
       });
     });
-    it("should return amtsgerichtIsVisible as false so the Amtsgericht accordion is not visible", () => {
+    it("should return amtsgerichtIsVisible as false when all sub variants are false", () => {
       const userData: KontopfaendungWegweiserContext = {
         pflegegeld: "selbst",
         nachzahlungArbeitgeber: "no",
@@ -386,49 +359,30 @@ describe("stringReplacements", () => {
         },
       };
       expect(getAmtsgerichtStrings(userData)).toEqual({
-        amtsgerichtIsVisible: {
-          hasPflegegeldFremd: false,
-          hasArbeitsentgeltEinmalig: false,
-          hasNachzahlungArbeitMehr500: false,
-          hasNachzahlungSozialMehr500: false,
-          isSelbststaendig: false,
-          hasWohngeld: false,
-        },
+        amtsgerichtIsVisible: false,
       });
     });
   });
 
   describe("getInfoZumPKontoStrings", () => {
-    it("should return infoZumPKontoIsVisible as true so the Info zum PKonto accordion is visible", () => {
+    it("should return infoZumPKontoIsVisible as true when at least one sub variable is true", () => {
       const userData: KontopfaendungWegweiserContext = {
         hasPKonto: "nein",
         pfaendungStrafe: "yes",
         pfaendungUnterhalt: "yes",
       };
       expect(getInfoZumPKontoStrings(userData)).toEqual({
-        infoZumPKontoIsVisible: {
-          hasNoPKonto: true,
-          hasPKontoBank: false,
-          hasPKontoNichtAktive: false,
-          isPrivilegierteForderungStrafe: true,
-          isPrivilegierteForderungUnterhalt: true,
-        },
+        infoZumPKontoIsVisible: true,
       });
     });
-    it("should return infoZumPKontoIsVisible as false so the Info zum PKonto accordion is not visible", () => {
+    it("should return infoZumPKontoIsVisible as false when all sub variables are false", () => {
       const userData: KontopfaendungWegweiserContext = {
         hasPKonto: "ja",
         pfaendungStrafe: "no",
         pfaendungUnterhalt: "no",
       };
       expect(getInfoZumPKontoStrings(userData)).toEqual({
-        infoZumPKontoIsVisible: {
-          hasNoPKonto: false,
-          hasPKontoBank: false,
-          hasPKontoNichtAktive: false,
-          isPrivilegierteForderungStrafe: false,
-          isPrivilegierteForderungUnterhalt: false,
-        },
+        infoZumPKontoIsVisible: false,
       });
     });
   });
