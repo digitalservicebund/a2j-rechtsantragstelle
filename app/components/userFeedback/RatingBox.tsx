@@ -2,7 +2,6 @@ import ThumbDownIcon from "@digitalservicebund/icons/ThumbDownOutlined";
 import ThumbUpIcon from "@digitalservicebund/icons/ThumbUpOutlined";
 import { useFetcher } from "react-router";
 import { useJsAvailable } from "~/services/useJsAvailable";
-import { useFeedbackTranslations } from "./feedbackTranslations";
 import { FeedbackType } from "./FeedbackType";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
@@ -19,7 +18,6 @@ export type RatingBoxProps = {
 export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
   const ratingFetcher = useFetcher();
   const jsAvailable = useJsAvailable();
-  const feedbackTranslations = useFeedbackTranslations();
   return (
     <>
       <Heading look="ds-label-01-bold" tagName="h2" text={heading} />
@@ -38,9 +36,9 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
             onClick={() => {
               onSubmit(FeedbackType.Positive);
             }}
-            aria-label={`${heading}, ${feedbackTranslations["yes-rating"]}`}
+            aria-label={`${heading}, Ja`}
           >
-            {feedbackTranslations["yes-rating"]}
+            Ja
           </Button>
           <Button
             iconLeft={<ThumbDownIcon />}
@@ -51,9 +49,9 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
             onClick={() => {
               onSubmit(FeedbackType.Negative);
             }}
-            aria-label={`${heading}, ${feedbackTranslations["no-rating"]}`}
+            aria-label={`${heading}, Nein`}
           >
-            {feedbackTranslations["no-rating"]}
+            Nein
           </Button>
         </ButtonContainer>
       </ratingFetcher.Form>
