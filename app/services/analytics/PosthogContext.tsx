@@ -2,6 +2,7 @@ import { posthog as posthogJS } from "posthog-js";
 import { type PostHog } from "posthog-node";
 import { createContext, useContext } from "react";
 import { fetchSurvey } from "~/services/analytics/posthogHelpers";
+import { config } from "~/services/env/web";
 
 const feedbackSurveyId = "01956b7e-2774-0000-49d7-d34d26811373";
 
@@ -20,6 +21,7 @@ export const PosthogContext = createContext<PosthogContext>({
 
 export function usePosthog() {
   const { posthog, cookieHeader } = useContext(PosthogContext);
+  const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
   return {
     posthog,
     cookieHeader,
@@ -28,8 +30,8 @@ export function usePosthog() {
      */
     fetchSurvey: (surveyId: string = feedbackSurveyId) => {
       if (!posthogJS.__loaded) {
-        posthogJS.init(posthog?.apiKey ?? "", {
-          api_host: posthog?.host,
+        posthogJS.init(posthog?.apiKey ?? POSTHOG_API_KEY ?? "", {
+          api_host: posthog?.host ?? POSTHOG_API_HOST,
           session_recording: {
             // Masking input and text elements to prevent sensitive data being shown on pages
             maskTextSelector: "*",

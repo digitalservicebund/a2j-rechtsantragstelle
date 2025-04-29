@@ -1,7 +1,8 @@
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { useLoaderData } from "react-router";
 import ArraySummary from "~/components/arraySummary/ArraySummary";
 import Background from "~/components/Background";
+import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import { FormFlowContext } from "~/components/form/formFlowContext";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import Heading from "~/components/Heading";
@@ -44,9 +45,11 @@ export function FormFlowPage() {
   );
 
   const jsAvailable = useJsAvailable();
+  const hasTrackingConsent = useContext(CookieConsentContext);
 
   const showPosthogSurvey =
     jsAvailable &&
+    hasTrackingConsent &&
     (flowId === "/beratungshilfe/antrag" ||
       flowId === "/prozesskostenhilfe/formular");
 
