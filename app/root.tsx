@@ -234,10 +234,6 @@ function App() {
           }}
         />
         <Meta />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Fira+Sans"
-        ></link>
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
