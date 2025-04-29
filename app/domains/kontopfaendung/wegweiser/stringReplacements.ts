@@ -181,3 +181,66 @@ export const getKinderStrings = (userData: KontopfaendungWegweiserContext) => {
     hasKinder: userData.hasKinder === "yes",
   };
 };
+export const getSchuldnerberatungsstelleStrings = (
+  userData: KontopfaendungWegweiserContext,
+) => {
+  const { hasErhoehungsbetrag } = getErhoehungsbetragStrings(userData);
+  const { hasKindergeld } = getKindergeldStrings(userData);
+  const { hasEinmalSozialleistung } = getEinmalSozialleistungStrings(userData);
+  const { hasNachzahlungSozialUnter500 } =
+    getNachzahlungSozialUnter500Strings(userData);
+  const { hasNachzahlungArbeitUnter500 } =
+    getNachzahlungArbeitUnter500Strings(userData);
+  const { hasBuergergeld } = getBuergergeldStrings(userData);
+  const { hasGrundsicherung } = getGrundsicherungStrings(userData);
+  const { hasAsylbewerberleistung } = getAsylbewerberleistungStrings(userData);
+  const hasPflegegeldSelbst =
+    getPflegegeldSelbstStrings(userData).hasPflegegeldSelbst;
+  const schuldnerberatungsstelleIsVisible =
+    hasErhoehungsbetrag ||
+    hasKindergeld ||
+    hasEinmalSozialleistung ||
+    hasNachzahlungSozialUnter500 ||
+    hasNachzahlungArbeitUnter500 ||
+    hasBuergergeld ||
+    hasGrundsicherung ||
+    hasAsylbewerberleistung ||
+    hasPflegegeldSelbst;
+  return { schuldnerberatungsstelleIsVisible };
+};
+export const getAmtsgerichtStrings = (
+  userData: KontopfaendungWegweiserContext,
+) => {
+  const { hasPflegegeldFremd } = getPflegegeldFremdStrings(userData);
+  const hasArbeitsentgeltEinmalig =
+    getArbeitsentgeltEinmaligStrings(userData).hasArbeitsentgeltEinmalig;
+  const hasNachzahlungArbeitMehr500 =
+    getNachzahlungArbeitMehr500Strings(userData).hasNachzahlungArbeitMehr500;
+  const hasNachzahlungSozialMehr500 =
+    getNachzahlungSozialMehr500Strings(userData).hasNachzahlungSozialMehr500;
+  const { isSelbststaendig } = getSelbststaendigStrings(userData);
+  const { hasWohngeld } = getWohngeldStrings(userData);
+  const amtsgerichtIsVisible =
+    hasPflegegeldFremd ||
+    hasArbeitsentgeltEinmalig ||
+    hasNachzahlungArbeitMehr500 ||
+    hasNachzahlungSozialMehr500 ||
+    isSelbststaendig ||
+    hasWohngeld;
+  return { amtsgerichtIsVisible };
+};
+export const getInfoZumPKontoStrings = (
+  userData: KontopfaendungWegweiserContext,
+) => {
+  const { hasNoPKonto, hasPKontoNichtAktive, hasPKontoBank } =
+    getPKontoStrings(userData);
+  const { isPrivilegierteForderungStrafe, isPrivilegierteForderungUnterhalt } =
+    getPrivilegierteForderungStrings(userData);
+  const infoZumPKontoIsVisible =
+    hasNoPKonto ||
+    hasPKontoBank ||
+    hasPKontoNichtAktive ||
+    isPrivilegierteForderungStrafe ||
+    isPrivilegierteForderungUnterhalt;
+  return { infoZumPKontoIsVisible };
+};
