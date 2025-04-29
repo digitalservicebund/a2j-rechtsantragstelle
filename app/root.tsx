@@ -63,10 +63,6 @@ export const links: LinksFunction = () => [
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
   { rel: "manifest", href: "/site.webmanifest" },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css?family=Fira+Sans",
-  },
 ];
 
 export const meta: MetaFunction<RootLoader> = () => {
