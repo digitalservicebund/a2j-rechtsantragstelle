@@ -4,7 +4,6 @@ import { config } from "~/services/env/web";
 export type FeatureFlag =
   | "showGeldEinklagenFlow"
   | "showERV"
-  | "showBundID"
   | "showFileUpload"
   | "showKontopfaendungWegweiserFlow";
 
