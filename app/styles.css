@@ -289,3 +289,10 @@ details:not(:has(.summary-content:focus-visible)) {
 .auto-suggest-input-disabled {
   box-shadow: none;
 }
+
+@font-face {
+  font-family: "Fira Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url(/fonts/fira-sans/google_noto.woff2) format("woff2");
+}
