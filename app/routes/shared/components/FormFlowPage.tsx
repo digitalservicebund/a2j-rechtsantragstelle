@@ -1,13 +1,16 @@
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { useLoaderData } from "react-router";
 import ArraySummary from "~/components/arraySummary/ArraySummary";
 import Background from "~/components/Background";
+import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import { FormFlowContext } from "~/components/form/formFlowContext";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import type { loader } from "../formular.server";
 
 export function FormFlowPage() {
@@ -40,6 +43,16 @@ export function FormFlowPage() {
     }),
     [prunedUserData, validFlowPaths, translations, flowId],
   );
+
+  const jsAvailable = useJsAvailable();
+  const hasTrackingConsent = useContext(CookieConsentContext);
+
+  const showPosthogSurvey =
+    jsAvailable &&
+    hasTrackingConsent &&
+    (flowId === "/beratungshilfe/antrag" ||
+      flowId === "/prozesskostenhilfe/formular");
+
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
       <Background backgroundColor="blue">
@@ -90,6 +103,7 @@ export function FormFlowPage() {
             <PageContent content={postFormContent} fullScreen={false} />
           </div>
         </div>
+        {showPosthogSurvey && <ReportProblem />}
       </Background>
     </FormFlowContext.Provider>
   );
