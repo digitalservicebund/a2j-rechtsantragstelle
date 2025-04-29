@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { type Page, type Response, expect, test } from "@playwright/test";
+import { PDFDocument } from "pdf-lib";
 import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { startFinanzielleAngabenPartner } from "tests/e2e/domains/shared/finanzielleAngaben/finanzielleAngabenPartner";
@@ -129,7 +130,7 @@ async function startDocumentUpload(
   const dummyFilePath = path.resolve(
     path.join(process.cwd(), "playwright/generated/", "test.pdf"),
   );
-  fs.writeFileSync(dummyFilePath, Buffer.alloc(1024 * 1024 * 1));
+  fs.writeFileSync(dummyFilePath, await (await PDFDocument.create()).save());
   await page.getByTestId("fileUploadInput").setInputFiles(dummyFilePath);
   await expect(fileUploadInfo).toBeVisible();
   await expect(errorMessage).not.toBeVisible();
