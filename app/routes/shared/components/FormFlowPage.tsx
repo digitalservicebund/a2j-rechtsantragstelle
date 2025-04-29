@@ -9,6 +9,7 @@ import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import type { loader } from "../formular.server";
 
 export function FormFlowPage() {
@@ -42,9 +43,12 @@ export function FormFlowPage() {
     [prunedUserData, validFlowPaths, translations, flowId],
   );
 
+  const jsAvailable = useJsAvailable();
+
   const showPosthogSurvey =
-    flowId === "/beratungshilfe/antrag" ||
-    flowId === "/prozesskostenhilfe/formular";
+    jsAvailable &&
+    (flowId === "/beratungshilfe/antrag" ||
+      flowId === "/prozesskostenhilfe/formular");
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
@@ -96,7 +100,6 @@ export function FormFlowPage() {
             <PageContent content={postFormContent} fullScreen={false} />
           </div>
         </div>
-        {/* Temp. disabled due to browser issues */}
         {showPosthogSurvey && <ReportProblem />}
       </Background>
     </FormFlowContext.Provider>
