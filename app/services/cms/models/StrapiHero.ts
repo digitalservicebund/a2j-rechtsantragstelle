@@ -6,7 +6,7 @@ import { StrapiContainerSchema } from "./StrapiContainer";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiParagraphSchema } from "./StrapiParagraph";
 
-export const StrapiHeaderSchema = z
+export const StrapiHeroSchema = z
   .object({
     heading: StrapiHeadingSchema,
     content: StrapiParagraphSchema.nullable().transform(omitNull),
@@ -15,6 +15,6 @@ export const StrapiHeaderSchema = z
   })
   .merge(HasOptionalStrapiIdSchema)
   .transform((cmsData) => ({
-    __component: "page.header" as const,
+    __component: "page.hero" as const,
     ...cmsData,
   }));
