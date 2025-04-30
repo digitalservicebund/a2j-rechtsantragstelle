@@ -1,5 +1,7 @@
 import { fireEvent, render } from "@testing-library/react";
+import { type Survey, type SurveyQuestion } from "posthog-js";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
+import { usePosthog } from "~/services/analytics/PosthogContext";
 
 const reportProblem = "Problem melden";
 const cancel = "Abbrechen";
@@ -15,11 +17,16 @@ vi.mock("~/components/userFeedback/feedbackTranslations", () => ({
 }));
 
 vi.mock("~/services/analytics/PosthogContext", () => ({
-  usePosthog: () => ({ fetchSurvey: vi.fn(() => ({ questions: [] })) }),
+  usePosthog: vi.fn(),
 }));
 
 describe("ReportProblem", () => {
   it("should render the Report Problem button with correct label", () => {
+    vi.mocked(usePosthog).mockReturnValue({
+      fetchSurvey: () => ({ questions: [] as SurveyQuestion[] }) as Survey,
+      posthog: undefined,
+      cookieHeader: null,
+    });
     const { getByRole } = render(<ReportProblem />);
     const reportButton = getByRole("button");
     expect(reportButton).toBeInTheDocument();
@@ -28,11 +35,26 @@ describe("ReportProblem", () => {
   });
 
   it("should trigger the Survey popup", () => {
+    vi.mocked(usePosthog).mockReturnValue({
+      fetchSurvey: () => ({ questions: [] as SurveyQuestion[] }) as Survey,
+      posthog: undefined,
+      cookieHeader: null,
+    });
     const { getByRole, getByText } = render(<ReportProblem />);
     const reportButton = getByRole("button");
     expect(reportButton).toBeInTheDocument();
     fireEvent.click(reportButton);
     expect(getByText(cancel)).toBeInTheDocument();
     expect(getByText(submitProblem)).toBeInTheDocument();
+  });
+
+  it("should not render if the survey isn't available", () => {
+    vi.mocked(usePosthog).mockReturnValue({
+      fetchSurvey: () => undefined,
+      posthog: undefined,
+      cookieHeader: null,
+    });
+    const { queryByRole } = render(<ReportProblem />);
+    expect(queryByRole("button")).not.toBeInTheDocument();
   });
 });
