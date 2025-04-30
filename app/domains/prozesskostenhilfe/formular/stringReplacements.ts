@@ -19,7 +19,7 @@ export const getMissingInformationStrings = (
   context: ProzesskostenhilfeFormularContext,
 ) => {
   return {
-    antragstellendePersonMissingInformation: antragstellendePersonDone({
+    antragstellendePersonMissingInformation: !antragstellendePersonDone({
       context,
     }),
     rechtsschutzversicherungMissingInformation:
