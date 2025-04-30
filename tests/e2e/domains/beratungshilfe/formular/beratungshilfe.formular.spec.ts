@@ -130,7 +130,15 @@ async function startDocumentUpload(
   const dummyFilePath = path.resolve(
     path.join(process.cwd(), "playwright/generated/", "test.pdf"),
   );
-  fs.writeFileSync(dummyFilePath, await (await PDFDocument.create()).save());
+
+  fs.writeFileSync(
+    dummyFilePath,
+    await PDFDocument.create().then((doc) =>
+      doc.save().catch((error) => {
+        throw new Error("Error creating PDF file", error);
+      }),
+    ),
+  );
   await page.getByTestId("fileUploadInput").setInputFiles(dummyFilePath);
   await expect(fileUploadInfo).toBeVisible();
   await expect(errorMessage).not.toBeVisible();
