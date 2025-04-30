@@ -12,10 +12,10 @@ import { Details } from "./Details";
 import Header from "./Header";
 import InfoBox from "./InfoBox";
 import { InlineNotice } from "./InlineNotice";
-import LinkListBox from "./LinkListBox";
 import List from "./list/List";
 import RichText from "./RichText";
 import SummaryOverviewSection from "./summaryOverview/SummaryOverviewSection";
+import TableOfContents from "./TableOfContents";
 import UserFeedback from "./userFeedback";
 
 function wrapInContainer(
@@ -62,8 +62,8 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
       return <Box {...strapiContent} />;
     case "page.info-box":
       return <InfoBox {...strapiContent} />;
-    case "page.link-list-box":
-      return <LinkListBox {...strapiContent} />;
+    case "page.table-of-contents":
+      return <TableOfContents {...strapiContent} />;
     case "page.box-with-image":
       return <BoxWithImage {...strapiContent} />;
     case "page.list":

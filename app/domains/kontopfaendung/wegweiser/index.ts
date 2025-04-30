@@ -21,6 +21,9 @@ import {
   getSelbststaendigStrings,
   getAngestelltStrings,
   getKinderStrings,
+  getSchuldnerberatungsstelleStrings,
+  getAmtsgerichtStrings,
+  getInfoZumPKontoStrings,
 } from "./stringReplacements";
 import { kontopfaendungWegweiserXstateConfig } from "./xStateConfig";
 
@@ -49,5 +52,8 @@ export const kontopfaendungWegweiser = {
     ...getSelbststaendigStrings(userData),
     ...getAngestelltStrings(userData),
     ...getKinderStrings(userData),
+    ...getSchuldnerberatungsstelleStrings(userData),
+    ...getAmtsgerichtStrings(userData),
+    ...getInfoZumPKontoStrings(userData),
   }),
 } satisfies Flow;
