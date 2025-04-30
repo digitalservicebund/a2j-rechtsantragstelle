@@ -99,7 +99,7 @@ export async function prozesskostenhilfePdfFromUserdata(
     xPositionsDruckvermerk: 9,
   });
 
-  printNameInSignatureFormField(filledPdfFormDocument, userData);
+  await printNameInSignatureFormField(filledPdfFormDocument, userData);
 
   const filledPdfFormDocumentWithMetadata = addMetadataToPdf(
     filledPdfFormDocument,
