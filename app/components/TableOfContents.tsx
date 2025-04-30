@@ -1,25 +1,25 @@
 import ArrowDownward from "@digitalservicebund/icons/ArrowDownward";
-import { Link } from "react-router";
 import { arrayIsNonEmpty } from "~/util/array";
 import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 import Heading, { type HeadingProps } from "./Heading";
+import { StandaloneLink } from "./StandaloneLink";
 
-type LinkListBoxProps = {
+type Props = {
   identifier?: string;
   label?: HeadingProps;
   heading?: HeadingProps;
-  links?: Array<{ text?: string; url?: string }>;
+  links?: Array<{ text?: string; url: string }>;
   buttons?: ButtonProps[];
 };
 
-const LinkListBox = ({
+const TableOfContents = ({
   identifier,
   label,
   heading,
   links,
   buttons,
-}: LinkListBoxProps) => {
+}: Props) => {
   return (
     <div className="ds-stack ds-stack-16" id={identifier}>
       <div className="ds-stack ds-stack-8">
@@ -29,15 +29,14 @@ const LinkListBox = ({
           <ul className="list-none pl-0 ds-stack ds-stack-16">
             {links.map((link) => (
               <li key={link.text ?? link.url}>
-                <Link
-                  className="text-link visited:text-black !text-black"
-                  to={link.url ?? ""}
-                >
-                  <span>
-                    <ArrowDownward className="h-[1em] w-[1em] inline-block" />{" "}
-                    {link.text}
-                  </span>
-                </Link>
+                <StandaloneLink
+                  className="visited:text-black !text-black"
+                  url={link.url}
+                  text={link.text ?? ""}
+                  icon={
+                    <ArrowDownward className="h-[1em] w-[1em] inline-block" />
+                  }
+                ></StandaloneLink>
               </li>
             ))}
           </ul>
@@ -54,4 +53,4 @@ const LinkListBox = ({
   );
 };
 
-export default LinkListBox;
+export default TableOfContents;

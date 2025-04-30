@@ -8,10 +8,10 @@ import { StrapiHeaderSchema } from "./StrapiHeader";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiInfoBoxSchema } from "./StrapiInfoBox";
 import { StrapiInlineNoticeSchema } from "./StrapiInlineNotice";
-import { StrapiLinkListBoxSchema } from "./StrapiLinkListBox";
 import { StrapiListSchema } from "./StrapiList";
 import { StrapiParagraphSchema } from "./StrapiParagraph";
 import { StrapiSummaryOverviewSectionSchema } from "./StrapiSummaryOverviewSection";
+import { StrapiTableOfContentsSchema } from "./StrapiTableOfContents";
 import { StrapiUserFeedbackSchema } from "./StrapiUserFeedback";
 
 export const StrapiContentComponentSchema = z.union([
@@ -22,7 +22,7 @@ export const StrapiContentComponentSchema = z.union([
   StrapiInfoBoxSchema,
   StrapiParagraphSchema,
   StrapiVideoSchema,
-  StrapiLinkListBoxSchema,
+  StrapiTableOfContentsSchema,
   StrapiListSchema,
   StrapiArraySummaryComponentSchema,
   StrapiInlineNoticeSchema,
