@@ -7,7 +7,7 @@ import { StrapiContainerSchema } from "./StrapiContainer";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 import { StrapiLinkSchema } from "./StrapiLink";
 
-export const StrapiLinkListBoxSchema = z
+export const StrapiTableOfContentsSchema = z
   .object({
     label: StrapiHeadingOptionalSchema,
     heading: StrapiHeadingOptionalSchema,
@@ -19,6 +19,6 @@ export const StrapiLinkListBoxSchema = z
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema)
   .transform((cmsData) => ({
-    __component: "page.link-list-box" as const,
+    __component: "page.table-of-contents" as const,
     ...cmsData,
   }));

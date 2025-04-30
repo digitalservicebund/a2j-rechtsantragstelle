@@ -84,6 +84,7 @@ export const beratungshilfeXstateConfig = {
     ...(showZusammenfassung && {
       zusammenfassung: zusammenfassungXstateConfig,
     }),
+
     abgabe: await abgabeXstateConfig(
       showZusammenfassung
         ? "#zusammenfassung"

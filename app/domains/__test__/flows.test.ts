@@ -93,6 +93,10 @@ function allStepsFromMachine(machine: FlowStateMachine) {
  * - system under test should be in a certain state (step)
  */
 
+vi.mock("~/services/featureFlags", () => ({
+  isFeatureFlagEnabled: vi.fn().mockResolvedValue(false),
+}));
+
 describe.sequential("state machine form flows", () => {
   const allVisitedSteps: Record<
     string,
@@ -172,9 +176,6 @@ describe.sequential("state machine form flows", () => {
   describe.concurrent.each(Object.entries(forwardOnlyTests))(
     "%s",
     (_, { machine, cases }) => {
-      vi.mock("~/services/featureFlags", () => ({
-        isFeatureFlagEnabled: vi.fn().mockResolvedValue(false),
-      }));
       test.each([...cases])("[%#]", (context, steps) => {
         const visitedSteps = getEnabledSteps({
           machine,
