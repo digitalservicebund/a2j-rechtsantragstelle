@@ -24,9 +24,6 @@ export const StrapiHeadingSchema = z
       "ds-body-01-reg",
       "ds-body-02-reg",
     ]),
-    className: z.string().optional(),
-    dataTestid: z.string().optional(),
-    tagId: z.string().optional(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .nullable()
