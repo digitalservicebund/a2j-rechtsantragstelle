@@ -1,3 +1,4 @@
+import { URLSearchParams } from "node:url";
 import { fireEvent, render } from "@testing-library/react";
 import { createRoutesStub } from "react-router";
 import { RatingBox } from "../RatingBox";
@@ -12,7 +13,10 @@ vi.mock("~/components/userFeedback/feedbackTranslations", () => ({
   }),
 }));
 
-describe.skip("RatingBox", () => {
+// This is a workaround for the issue with URLSearchParams in the test environment
+vi.stubGlobal("URLSearchParams", URLSearchParams);
+
+describe("RatingBox", () => {
   it("should render the component with the given translations", () => {
     const RatingBoxWithRouteStub = createRoutesStub([
       {
