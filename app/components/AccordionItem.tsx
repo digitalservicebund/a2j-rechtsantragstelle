@@ -8,16 +8,17 @@ export type AccordionItemProps = Readonly<{
   description: string;
 }>;
 
+const translations = {
+  show: "Einblenden",
+  hide: "Ausblenden",
+} as const;
+
 export default forwardRef<
   HTMLDetailsElement,
   AccordionItemProps & {
     onSummaryClick?: MouseEventHandler;
-    labels: {
-      show: string;
-      hide: string;
-    };
   }
->(function AccordionItem({ title, description, onSummaryClick, labels }, ref) {
+>(function AccordionItem({ title, description, onSummaryClick }, ref) {
   return (
     <details
       className="group last:border-b-0 border-b-2 border-blue-500"
@@ -29,10 +30,10 @@ export default forwardRef<
       >
         <span className="ds-label-01-bold">{title}</span>
         <span className="flex group-open:hidden text-blue-800 ds-label-03-bold items-center">
-          <KeyboardArrowDownIcon /> {labels.show}
+          <KeyboardArrowDownIcon /> {translations.show}
         </span>
         <span className="hidden group-open:flex text-blue-800 ds-label-03-bold items-center">
-          <KeyboardArrowUpIcon /> {labels.hide}
+          <KeyboardArrowUpIcon /> {translations.hide}
         </span>
       </summary>
       <RichText
