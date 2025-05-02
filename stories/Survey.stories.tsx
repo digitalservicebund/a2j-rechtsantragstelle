@@ -32,7 +32,6 @@ export const Example: Story = {
           },
           video: {},
           accessibility: {},
-          accordion: {},
         }}
       >
         <Background paddingTop="32" paddingBottom="32">

@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import Accordion from "../app/components/Accordion";
 import Container from "../app/components/Container";
-import { TranslationContext } from "~/services/translations/translationsContext";
 
 const meta = {
   title: "Page/Accordion",
@@ -19,22 +18,9 @@ type Story = StoryObj<typeof meta>;
 export const Example: Story = {
   decorators: [
     (Story) => (
-      <TranslationContext.Provider
-        value={{
-          fileUpload: {},
-          feedback: {},
-          video: {},
-          accessibility: {},
-          accordion: {
-            accordionItemShow: "Einblenden",
-            accordionItemHide: "Ausblenden",
-          },
-        }}
-      >
-        <Container paddingTop="32" paddingBottom="40">
-          <Story />
-        </Container>
-      </TranslationContext.Provider>
+      <Container paddingTop="32" paddingBottom="40">
+        <Story />
+      </Container>
     ),
   ],
   args: {

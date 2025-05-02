@@ -110,7 +110,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       "video",
       "accessibility",
       "fileUpload",
-      "accordion",
     ]),
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
@@ -151,7 +150,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       postSubmissionText: parseAndSanitizeMarkdown(
         translations.feedback["text-post-submission"],
       ),
-      accordionTranslation: translations.accordion,
       shouldPrint,
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
@@ -170,7 +168,6 @@ function App() {
     videoTranslations,
     accessibilityTranslations,
     fileUploadTranslations,
-    accordionTranslation,
     shouldPrint,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
@@ -205,14 +202,12 @@ function App() {
       feedback: feedbackTranslations,
       accessibility: accessibilityTranslations,
       fileUpload: fileUploadTranslations,
-      accordion: accordionTranslation,
     }),
     [
       videoTranslations,
       feedbackTranslations,
       accessibilityTranslations,
       fileUploadTranslations,
-      accordionTranslation,
     ],
   );
 
