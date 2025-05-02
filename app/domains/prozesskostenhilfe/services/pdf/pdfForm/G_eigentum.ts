@@ -1,4 +1,4 @@
-import type { PkhPdfFillFunction } from "~/domains/prozesskostenhilfe/services/pdf";
+import type { PkhPdfFillFunction } from "~/domains/prozesskostenhilfe/services/pdf/types";
 import {
   eigentuemerMapping,
   attachBankkontenToAnhang,

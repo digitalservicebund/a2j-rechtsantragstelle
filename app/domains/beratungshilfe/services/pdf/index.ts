@@ -1,5 +1,4 @@
 import { PDFDocument } from "pdf-lib";
-import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import {
@@ -8,10 +7,8 @@ import {
 } from "~/services/pdf/addMetadataToPdf";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
-import {
-  pdfFillReducer,
-  type PdfFillFunction,
-} from "~/services/pdf/fillOutFunction";
+import { attachUserUploadedFilesToPdf } from "~/services/pdf/attachUserUploadedFilesToPdf/attachUserUploadedFilesToPdf";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillPdf } from "~/services/pdf/fillPdf.server";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
@@ -26,12 +23,6 @@ import { fillBesitz } from "./pdfForm/F_besitz/F_besitz";
 import { fillFooter } from "./pdfForm/footer";
 import { fillAusgaben } from "./pdfForm/G_ausgaben";
 import { fillHeader } from "./pdfForm/header";
-export { getBeratungshilfeParameters };
-
-export type BerHPdfFillFunction = PdfFillFunction<
-  BeratungshilfeFormularContext,
-  BeratungshilfePDF
->;
 
 const METADATA: Metadata = {
   AUTHOR: "Bundesministerium der Justiz",
@@ -65,6 +56,7 @@ const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
 
 export async function beratungshilfePdfFromUserdata(
   userData: BeratungshilfeFormularContext,
+  sessionId: string,
 ) {
   const { pdfValues, attachment } = pdfFillReducer({
     userData,
@@ -101,5 +93,18 @@ export async function beratungshilfePdfFromUserdata(
   );
   const mainPdfDocument = await PDFDocument.load(pdfKitBuffer);
 
+  if (userData.abgabeArt === "online") {
+    const userFilesPdfBuffer = await attachUserUploadedFilesToPdf(
+      pdfKitBuffer,
+      userData,
+      sessionId,
+      "/beratungshilfe/antrag",
+    );
+    const userFilesPdfDocument = await PDFDocument.load(userFilesPdfBuffer);
+    return appendPagesToPdf(
+      filledPdfFormDocumentWithMetadata,
+      userFilesPdfDocument,
+    );
+  }
   return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
 }

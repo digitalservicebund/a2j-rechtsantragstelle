@@ -1,8 +1,8 @@
 import crypto from "crypto";
-import type { Cookie, Session } from "@remix-run/node";
-import { createSessionStorage, createCookie } from "@remix-run/node";
-import { MergeWithCustomizer } from "lodash";
+import { type MergeWithCustomizer } from "lodash";
 import mergeWith from "lodash/mergeWith";
+import type { Cookie, Session } from "react-router";
+import { createSessionStorage, createCookie } from "react-router";
 import { type Context } from "~/domains/contexts";
 import { flowIds, type FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";

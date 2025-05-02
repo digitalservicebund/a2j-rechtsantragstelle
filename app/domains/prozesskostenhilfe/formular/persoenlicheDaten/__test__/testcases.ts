@@ -1,6 +1,6 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+import type { FlowStateMachine } from "~/services/flow/server/types";
 import type { ProzesskostenhilfePersoenlicheDaten } from "../context";
 import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "../xstateConfig";
 

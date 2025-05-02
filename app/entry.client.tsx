@@ -1,21 +1,23 @@
-import { useLocation, useMatches, RemixBrowser } from "@remix-run/react";
-import * as Sentry from "@sentry/remix";
-import { startTransition, StrictMode, useEffect } from "react";
+import * as Sentry from "@sentry/react-router";
+import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
+import { HydratedRouter } from "react-router/dom";
 import { config } from "~/services/env/web";
+
+// Ignore a few common errors that are not useful to track
+const SENTRY_IGNORE_ERRORS = [
+  "Error in input stream",
+  "Load failed",
+  "Detected manifest version mismatch, reloading...",
+];
 
 const { SENTRY_DSN, ENVIRONMENT } = config();
 if (SENTRY_DSN !== undefined) {
   Sentry.init({
     dsn: SENTRY_DSN,
     environment: ENVIRONMENT,
-    integrations: [
-      Sentry.browserTracingIntegration({
-        useEffect,
-        useLocation,
-        useMatches,
-      }),
-    ],
+    integrations: [Sentry.browserTracingIntegration()],
+    ignoreErrors: SENTRY_IGNORE_ERRORS,
   });
 }
 
@@ -24,7 +26,7 @@ function hydrate() {
     hydrateRoot(
       document,
       <StrictMode>
-        <RemixBrowser />
+        <HydratedRouter />
       </StrictMode>,
     );
   });

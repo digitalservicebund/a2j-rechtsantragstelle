@@ -13,6 +13,7 @@ tsconfig.tsbuildinfo
 /test-results/
 /playwright-report/
 /playwright/.cache/
+/playwright/generated/*
 
 # IDEs
 .idea
@@ -34,3 +35,6 @@ lefthook-local.yml
 
 # docker s3 bucket
 /volume
+
+# react router
+.react-router/

@@ -1,3 +1,4 @@
+import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { getSessionManager } from "~/services/session.server";
 import { action } from "../action.send-rating";
 
@@ -25,9 +26,13 @@ describe("/action/send-rating route", () => {
       `http://localhost:3000/action/send-rating?url=/asd&js=true`,
       options,
     );
-    const response = await action({ request, params: {}, context: {} });
-    expect(response.status).toEqual(200);
-    expect(response.ok).toBeTruthy();
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
+
+    expect(response.data.success).toEqual(true);
   });
 
   it("returns redirect without JS", async () => {
@@ -37,7 +42,13 @@ describe("/action/send-rating route", () => {
       `http://localhost:3000/action/send-rating?url=${ratingPath}&js=false`,
       options,
     );
-    const response = await action({ request, params: {}, context: {} });
+
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as Response; // TODO revisit this type casting
+
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(expectedPath);
   });
@@ -47,9 +58,14 @@ describe("/action/send-rating route", () => {
       `http://localhost:3000/action/send-rating?url=http://external.com&js=false`,
       options,
     );
-    const response = await action({ request, params: {}, context: {} });
-    expect(response.status).toEqual(400);
-    expect(response.ok).not.toBeTruthy();
+
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
+
+    expect(response.init?.status).toBe(400);
   });
 
   it("fails if wasHelpful parameter does not exist in the body", async () => {
@@ -59,8 +75,13 @@ describe("/action/send-rating route", () => {
       `http://localhost:3000/action/send-rating?url=/asd&js=true`,
       optionsWithoutBody,
     );
-    const response = await action({ request, params: {}, context: {} });
-    expect(response.status).toEqual(422);
-    expect(response.ok).not.toBeTruthy();
+
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
+
+    expect(response.init?.status).toBe(422);
   });
 });

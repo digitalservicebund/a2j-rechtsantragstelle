@@ -16,19 +16,17 @@ let courtdata: Record<string, object> | undefined = undefined;
 let partnerCourtsGerbehIndex: Record<string, object> | undefined = undefined;
 
 function getCourtData() {
-  if (courtdata === undefined) courtdata = getEncrypted();
+  courtdata ??= getEncrypted();
   return courtdata;
 }
 
 function getPartnerCourtsGerbehIndex() {
-  if (partnerCourtsGerbehIndex === undefined) {
-    partnerCourtsGerbehIndex = Object.fromEntries(
-      Object.entries(partnerGerichte).map(([courtPostcode, courtInfos]) => [
-        gerbehIndexForPlz(courtPostcode),
-        courtInfos,
-      ]),
-    );
-  }
+  partnerCourtsGerbehIndex ??= Object.fromEntries(
+    Object.entries(partnerGerichte).map(([courtPostcode, courtInfos]) => [
+      gerbehIndexForPlz(courtPostcode),
+      courtInfos,
+    ]),
+  );
   return partnerCourtsGerbehIndex;
 }
 

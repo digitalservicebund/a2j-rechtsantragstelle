@@ -1,7 +1,6 @@
 import { PDFDocument } from "pdf-lib";
-import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 import { belegeStrings } from "~/domains/prozesskostenhilfe/formular/stringReplacements";
 import { fillZahlungsverpflichtungen } from "~/domains/prozesskostenhilfe/services/pdf/pdfForm/I_zahlungsverpflichtungen";
 import { buildBelegeList } from "~/domains/prozesskostenhilfe/services/pdf/util";
@@ -9,10 +8,7 @@ import type { Metadata } from "~/services/pdf/addMetadataToPdf";
 import { addMetadataToPdf } from "~/services/pdf/addMetadataToPdf";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
-import {
-  type PdfFillFunction,
-  pdfFillReducer,
-} from "~/services/pdf/fillOutFunction";
+import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillPdf } from "~/services/pdf/fillPdf.server";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import {
@@ -34,12 +30,7 @@ import { fillWohnkosten } from "./pdfForm/H_wohnkosten";
 import { fillBelastungen } from "./pdfForm/J_belastungen";
 import { fillFooter } from "./pdfForm/K_footer";
 import { printNameInSignatureFormField } from "./printNameInSignatureFormField";
-export { getProzesskostenhilfeParameters };
-
-export type PkhPdfFillFunction = PdfFillFunction<
-  ProzesskostenhilfeFormularContext,
-  ProzesskostenhilfePDF
->;
+import { createWeitereAngabenAnhang } from "./weitereAngabenAnhang/createWeitereAngabenAnhang";
 
 const METADATA: Metadata = {
   AUTHOR: "Bundesministerium der Justiz",
@@ -66,6 +57,11 @@ const buildProzesskostenhilfePDFDocument: PDFDocumentBuilder<
   if (requiresBelege(userData)) {
     buildBelegeList({ doc, documentStruct, userData, translations });
   }
+
+  if (userData.weitereAngaben) {
+    createWeitereAngabenAnhang(doc, documentStruct, userData);
+  }
+
   createFooter(doc, documentStruct, "Anhang");
 };
 
@@ -103,7 +99,7 @@ export async function prozesskostenhilfePdfFromUserdata(
     xPositionsDruckvermerk: 9,
   });
 
-  printNameInSignatureFormField(filledPdfFormDocument, userData);
+  await printNameInSignatureFormField(filledPdfFormDocument, userData);
 
   const filledPdfFormDocumentWithMetadata = addMetadataToPdf(
     filledPdfFormDocument,

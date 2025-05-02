@@ -1,6 +1,6 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirectDocument } from "@remix-run/node";
-import { validationError } from "remix-validated-form";
+import { validationError } from "@rvf/react-router";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -12,17 +12,12 @@ import {
   fetchMeta,
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
-import { isStrapiArraySummary } from "~/services/cms/models/StrapiArraySummary";
+import { isStrapiArraySummary } from "~/services/cms/models/isStrapiArraySummary";
 import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
-import {
-  deleteUserFile,
-  getUpdatedField,
-  uploadUserFile,
-} from "~/services/flow/server/fileUploadHelpers.server";
 import {
   validateFlowTransition,
   getFlowTransitionConfig,
@@ -45,7 +40,13 @@ import { deleteArrayItem } from "~/services/session.server/arrayDeletion";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import {
+  deleteUserFile,
+  getUpdatedField,
+  uploadUserFile,
+} from "~/services/upload/fileUploadHelpers.server";
 import { validateFormData } from "~/services/validation/validateFormData.server";
+import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { filterFormData } from "~/util/filterFormData";
 
@@ -142,7 +143,10 @@ export const loader = async ({
     return strapiFormElement;
   });
 
-  const meta = stepMeta(formPageContent.pageMeta, parentMeta);
+  const meta = applyStringReplacement(
+    stepMeta(formPageContent.pageMeta, parentMeta),
+    stringTranslations,
+  );
 
   // Retrieve user data for current step
   const fieldNames = formPageContent.form.map((entry) => entry.name);
@@ -191,7 +195,7 @@ export const loader = async ({
     toggleMenu: defaultStrings.navigationMobileToggleMenu,
   };
 
-  return json(
+  return data(
     {
       arraySummaryData,
       prunedUserData,
@@ -255,7 +259,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     );
     if (validationError) return validationError;
     updateSession(flowSession, resolveArraysFromKeys(validationResult!.data));
-    return json(validationResult!.data, {
+    return data(flowSession.data, {
       headers: { "Set-Cookie": await commitSession(flowSession) },
     });
   } else if (
@@ -282,7 +286,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         },
       );
     }
-    return json(flowSession.data, {
+    return data(flowSession.data, {
       headers: { "Set-Cookie": await commitSession(flowSession) },
     });
   }

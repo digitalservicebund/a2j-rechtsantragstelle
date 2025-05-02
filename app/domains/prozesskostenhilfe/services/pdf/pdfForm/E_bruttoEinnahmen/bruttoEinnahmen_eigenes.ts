@@ -6,7 +6,7 @@ import {
 } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { removeDecimalsFromCurrencyString } from "~/util/strings";
-import type { PkhPdfFillFunction } from "../..";
+import type { PkhPdfFillFunction } from "../../types";
 
 export const zahlungsfrequenzMapping = {
   monthly: "Monatlich",
@@ -91,7 +91,7 @@ export const fillRente: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   return { pdfValues };
 };
 
-export const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
+const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   if (userData.unterhaltsanspruch === "unterhalt") {
     pdfValues.ja_10.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro8.value = `${removeDecimalsFromCurrencyString(userData.unterhaltsSumme)} ${nettoString}`;

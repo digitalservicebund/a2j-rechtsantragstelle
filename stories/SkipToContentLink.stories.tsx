@@ -1,4 +1,4 @@
-import { remixContext } from ".storybook/remixContext";
+import { reactRouterContext } from ".storybook/reactRouterContext";
 import type { Meta, StoryObj } from "@storybook/react";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 
@@ -17,5 +17,5 @@ export const Default: Story = {
     label: "Zum Hauptinhalt springen",
     target: "#main",
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [(Story) => reactRouterContext(Story)],
 };

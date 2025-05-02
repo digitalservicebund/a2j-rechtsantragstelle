@@ -1,8 +1,8 @@
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/maritalDescriptionMapping";
 import { type AttachmentEntries } from "~/services/pdf/attachment";
 import { fillPdfField } from "~/services/pdf/fillPdfField";
-import type { PkhPdfFillFunction } from "..";
+import type { PkhPdfFillFunction } from "../types";
 
 export const concatenateGesetzlicherVertreterString = ({
   gesetzlicheVertretungDaten,

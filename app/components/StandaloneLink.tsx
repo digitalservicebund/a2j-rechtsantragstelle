@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { PLACEHOLDER_REGEX } from "~/services/security/markdownUtilities";
+import { mustachePlaceholderRegex } from "~/services/security/mustachePlaceholder";
 import { isExternalUrl, isFileDownloadUrl } from "~/util/url";
 import { OpenInNewTabIcon } from "./OpenInNewTabIcon";
 
@@ -10,7 +10,7 @@ type StandaloneLinkProps = Readonly<{
   className?: string;
 }>;
 
-export const OPEN_NEW_TAB = "öffnet neues Fenster";
+const OPEN_NEW_TAB = "öffnet neues Fenster";
 
 export const StandaloneLink = ({
   url,
@@ -19,7 +19,9 @@ export const StandaloneLink = ({
   className,
 }: StandaloneLinkProps) => {
   const shouldOpenNewTab =
-    isExternalUrl(url) || PLACEHOLDER_REGEX.test(url) || isFileDownloadUrl(url);
+    isExternalUrl(url) ||
+    mustachePlaceholderRegex.test(url) ||
+    isFileDownloadUrl(url);
   const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
     href: url,
     className: classNames("text-link min-h-[24px]", className),

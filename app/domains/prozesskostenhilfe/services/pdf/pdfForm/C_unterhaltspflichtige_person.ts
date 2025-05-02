@@ -1,5 +1,5 @@
 import { familyRelationshipMap } from "~/domains/shared/services/pdf/unterhaltHelpers";
-import type { PkhPdfFillFunction } from "..";
+import type { PkhPdfFillFunction } from "../types";
 
 export const fillUnterhaltsanspruch: PkhPdfFillFunction = ({
   userData,

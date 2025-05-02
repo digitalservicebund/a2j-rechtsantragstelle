@@ -10,7 +10,7 @@ https://www.zugang-zum-recht-projekte.de/
 
 ### Requirements
 
-- Node (>= 20)
+- Node (>= 22)
 - Docker (Redis dependency)
 - npm 7 or greater
 - strapi ([see below](#strapi))

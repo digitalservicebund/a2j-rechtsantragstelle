@@ -8,7 +8,7 @@ vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
 const startAirportMock = "BER";
 const endAirportMock = "FRA";
 
-export const pilotCourtStartAirportAmtsgericht: Jmtd14VTErwerberGerbeh = {
+const pilotCourtStartAirportAmtsgericht: Jmtd14VTErwerberGerbeh = {
   AG: "start",
   BEZEICHNUNG: "start",
   LG: "start",
@@ -22,7 +22,7 @@ export const pilotCourtStartAirportAmtsgericht: Jmtd14VTErwerberGerbeh = {
   XML_SUPPORT: "JA",
 } as const;
 
-export const pilotCourtEndAirportAmtsgericht: Jmtd14VTErwerberGerbeh = {
+const pilotCourtEndAirportAmtsgericht: Jmtd14VTErwerberGerbeh = {
   AG: "end",
   BEZEICHNUNG: "end",
   LG: "end",

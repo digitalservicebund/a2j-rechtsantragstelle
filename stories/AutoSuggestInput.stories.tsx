@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { remixContext } from "../.storybook/remixContext";
 import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
-import type { AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
+import type { AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/types";
+import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
+import { reactRouterContext } from ".storybook/reactRouterContext";
 
 function getDataListValues<T extends { dataList?: any }>(
   props: T,
@@ -19,9 +20,8 @@ function getDataListValues<T extends { dataList?: any }>(
   );
 }
 
-const defaulType: AutoSuggestInputProps = {
+const defaultType: AutoSuggestInputProps = {
   name: "autoSuggestInput",
-  formId: "formId",
   label: "Airports",
   noSuggestionMessage: "No data selected",
   errorMessages: undefined,
@@ -39,7 +39,7 @@ const meta = {
   tags: ["autodocs"],
   argTypes: {
     dataList: {
-      options: getDataListValues<AutoSuggestInputProps>(defaulType),
+      options: getDataListValues<AutoSuggestInputProps>(defaultType),
       control: { type: "select" },
     },
   },
@@ -51,15 +51,29 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    ...defaulType,
+    ...defaultType,
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      reactRouterContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };
 
 export const WithPlaceholder: Story = {
   args: {
-    ...defaulType,
+    ...defaultType,
     placeholder: "With placeholder",
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      reactRouterContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };

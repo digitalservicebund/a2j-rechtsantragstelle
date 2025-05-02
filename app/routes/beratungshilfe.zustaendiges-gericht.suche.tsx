@@ -1,8 +1,10 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { withZod } from "@remix-validated-form/with-zod";
-import { ValidatedForm, validationError } from "remix-validated-form";
+import {
+  parseFormData,
+  ValidatedForm,
+  validationError,
+} from "@rvf/react-router";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
 import Background from "~/components/Background";
 import Container from "~/components/Container";
@@ -17,14 +19,10 @@ import { getSessionManager } from "~/services/session.server";
 import { postcodeSchema } from "~/services/validation/postcode";
 
 const clientSchema = z.object({ postcode: postcodeSchema });
-
 const serverSchema = clientSchema.refine(
   (postcodeObj) => courtForPlz(postcodeObj.postcode) !== undefined,
   { path: ["postcode"], message: "notFound" },
 );
-
-const validatorClient = withZod(clientSchema);
-const validatorServer = withZod(serverSchema);
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const sessionManager = getSessionManager("/beratungshilfe/vorabcheck");
@@ -43,14 +41,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
     session: await sessionManager.getSession(request.headers.get("Cookie")),
   });
   const headers = { "Set-Cookie": await sessionManager.commitSession(session) };
-  return json(
+  return data(
     { common, pre_form, form, meta: pageMeta, backURL, nextButtonLabel },
     { headers },
   );
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  const result = await validatorServer.validate(await request.formData());
+  const result = await parseFormData(await request.formData(), serverSchema);
   if (result.error) return validationError(result.error, result.submittedData);
   const { pathname } = new URL(request.url);
   const urlStem = pathname.substring(0, pathname.lastIndexOf("/"));
@@ -65,9 +63,14 @@ export default function Index() {
     <Background backgroundColor="blue">
       <div className="min-h-screen">
         <Container>
-          <PageContent className="ds-stack-32" content={pre_form} />
+          <PageContent className="ds-stack ds-stack-32" content={pre_form} />
         </Container>
-        <ValidatedForm method="post" validator={validatorClient} noValidate>
+        <ValidatedForm
+          method="post"
+          schema={clientSchema}
+          defaultValues={{ postcode: "" }}
+          noValidate
+        >
           <Container>
             <StrapiFormComponents components={form} />
           </Container>

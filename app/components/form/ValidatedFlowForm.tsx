@@ -1,13 +1,12 @@
-import { useParams, useLocation } from "@remix-run/react";
-import { ValidatedForm } from "remix-validated-form";
+import { ValidatedForm } from "@rvf/react-router";
+import { useLocation } from "react-router";
 import type { ButtonNavigationProps } from "~/components/form/ButtonNavigation";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import type { Context } from "~/domains/contexts";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
-import { splatFromParams } from "~/services/params";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { validatorForFieldNames } from "~/services/validation/stepValidator/validatorForFieldNames";
+import { schemaForFieldNames } from "~/services/validation/stepValidator/schemaForFieldNames";
 
 type ValidatedFlowFormProps = {
   stepData: Context;
@@ -22,27 +21,22 @@ function ValidatedFlowForm({
   buttonNavigationProps,
   csrf,
 }: Readonly<ValidatedFlowFormProps>) {
-  const stepId = splatFromParams(useParams());
   const { pathname } = useLocation();
   const fieldNames = formElements.map((entry) => entry.name);
-  const validator = validatorForFieldNames(fieldNames, pathname);
-  const stackClass = formElements.length === 0 ? "ds-stack-0" : "ds-stack-40";
+  const schema = schemaForFieldNames(fieldNames, pathname);
 
   return (
     <ValidatedForm
-      id={`${stepId}_form`}
       method="post"
       encType="multipart/form-data"
-      validator={validator}
+      schema={schema}
       defaultValues={stepData}
       noValidate
       action={pathname}
     >
       <input type="hidden" name={CSRFKey} value={csrf} />
-      <div className={stackClass}>
-        <div className={stackClass}>
-          <StrapiFormComponents components={formElements} />
-        </div>
+      <div className="ds-stack ds-stack-40">
+        <StrapiFormComponents components={formElements} />
         <ButtonNavigation {...buttonNavigationProps} />
       </div>
     </ValidatedForm>

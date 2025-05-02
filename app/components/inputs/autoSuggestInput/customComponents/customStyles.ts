@@ -31,6 +31,7 @@ const customStyles = (
   return {
     control: (base, { menuIsOpen }) => ({
       ...base,
+      transition: "none",
       borderRadius: "",
       backgroundImage: "none",
       borderColor: "",
@@ -53,10 +54,7 @@ const customStyles = (
     },
     clearIndicator: (base) => ({
       ...base,
-      color: "",
-      ":hover": {
-        color: "",
-      },
+      transition: "none",
     }),
   };
 };

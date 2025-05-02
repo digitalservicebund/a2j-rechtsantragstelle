@@ -1,28 +1,19 @@
-import { useLocation, useRouteLoaderData } from "@remix-run/react";
 import { useCallback, useState } from "react";
+import { useLocation, useRouteLoaderData } from "react-router";
 import type { RootLoader } from "~/root";
 import { FeedbackFormBox } from "./FeedbackFormBox";
 import { PostSubmissionBox } from "./PostSubmissionBox";
 import { type RatingBoxProps, RatingBox } from "./RatingBox";
 import Background from "../Background";
 import Container from "../Container";
+import { BannerState } from "./BannerState";
+import { FeedbackType } from "./FeedbackType";
 
-export enum BannerState {
-  ShowRating = "showRating",
-  ShowFeedback = "showFeedback",
-  FeedbackGiven = "feedbackGiven",
-}
-
-export type UserFeedbackProps = {
+type UserFeedbackProps = {
   rating: Pick<RatingBoxProps, "heading">;
 };
 
 export const USER_FEEDBACK_ID = "user-feedback-banner";
-
-export enum FeedbackType {
-  Positive = "positive",
-  Negative = "negative",
-}
 
 export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const { pathname } = useLocation();
@@ -47,7 +38,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
         fullScreen={false}
       >
         <div
-          className="ds-stack-16"
+          className="ds-stack ds-stack-16"
           data-testid={USER_FEEDBACK_ID}
           id={USER_FEEDBACK_ID}
         >

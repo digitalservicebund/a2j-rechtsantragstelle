@@ -1,4 +1,4 @@
-import { SafeParseError } from "zod";
+import { type SafeParseError } from "zod";
 import { listRenderer } from "~/services/cms/models/StrapiList";
 import { tileRenderer } from "~/services/cms/models/StrapiTile";
 import { buildRichTextValidation } from "~/services/validation/richtext";

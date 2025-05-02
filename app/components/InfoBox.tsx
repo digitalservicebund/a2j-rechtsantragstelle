@@ -2,7 +2,7 @@ import classNames from "classnames";
 import Heading, { type HeadingProps } from "./Heading";
 import InfoBoxItem, { type InfoBoxItemProps } from "./InfoBoxItem";
 
-export type InfoBoxProps = {
+type InfoBoxProps = {
   identifier?: string;
   heading?: HeadingProps;
   separator?: boolean;
@@ -16,11 +16,11 @@ const InfoBox = ({
   items,
 }: InfoBoxProps) => {
   return (
-    <div className="ds-stack-8 scroll-my-40" id={identifier}>
+    <div className="ds-stack ds-stack-8 scroll-my-40" id={identifier}>
       {heading && <Heading {...heading} />}
       {items.length > 0 && (
         <ul
-          className={classNames("list-none ps-0 info-box", {
+          className={classNames("list-none ps-0 info-box ds-stack", {
             "ds-stack-48": !separator,
             "ds-stack-32": separator,
           })}

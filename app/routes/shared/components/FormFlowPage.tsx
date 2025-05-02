@@ -1,13 +1,16 @@
-import { useLoaderData } from "@remix-run/react";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
+import { useLoaderData } from "react-router";
 import ArraySummary from "~/components/arraySummary/ArraySummary";
 import Background from "~/components/Background";
+import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import { FormFlowContext } from "~/components/form/formFlowContext";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import type { loader } from "../formular.server";
 
 export function FormFlowPage() {
@@ -41,11 +44,20 @@ export function FormFlowPage() {
     [prunedUserData, validFlowPaths, translations, flowId],
   );
 
+  const jsAvailable = useJsAvailable();
+  const hasTrackingConsent = useContext(CookieConsentContext);
+
+  const showPosthogSurvey =
+    jsAvailable &&
+    hasTrackingConsent &&
+    (flowId === "/beratungshilfe/antrag" ||
+      flowId === "/prozesskostenhilfe/formular");
+
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
       <Background backgroundColor="blue">
-        <div className="pt-32 min-h-screen flex flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start">
-          <div className="md:w-[248px] md:mr-0 md:mt-[1.65rem]">
+        <div className="pt-32 min-h-screen flex flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start gap-48">
+          <div className="md:ml-32 md:w-[248px]">
             <FlowNavigation
               navItems={navItems}
               a11yLabels={navigationA11yLabels}
@@ -53,15 +65,15 @@ export function FormFlowPage() {
             />
           </div>
           <div
-            className={`ds-stack-40 container md:flex-1 ${navItems && "!ml-0 !mr-0"}`}
+            className={`ds-stack ds-stack-40 container md:pl-0 md:flex-1 !pt-0 ${navItems && "!ml-0 !mr-0"}`}
           >
-            <div className="ds-stack-16" id="form-flow-page-content">
+            <div className="ds-stack ds-stack-16" id="form-flow-page-content">
               {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
               <Heading text={heading} look="ds-heading-02-reg" />
               <PageContent
                 content={content}
                 fullScreen={false}
-                className="ds-stack-16"
+                className="ds-stack ds-stack-16"
               />
             </div>
 
@@ -91,6 +103,7 @@ export function FormFlowPage() {
             <PageContent content={postFormContent} fullScreen={false} />
           </div>
         </div>
+        {showPosthogSurvey && <ReportProblem />}
       </Background>
     </FormFlowContext.Provider>
   );

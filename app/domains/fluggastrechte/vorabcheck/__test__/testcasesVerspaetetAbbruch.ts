@@ -3,7 +3,7 @@ import type { TestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
 import fluggastrechte from "~/domains/fluggastrechte/vorabcheck/flow.json";
 import { guards } from "~/domains/fluggastrechte/vorabcheck/guards";
-import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+import type { FlowStateMachine } from "~/services/flow/server/types";
 
 const machine: FlowStateMachine = createMachine(
   { ...fluggastrechte, context: {} },
@@ -98,116 +98,6 @@ const cases = [
       "/verjaehrung",
       "/flughaefen",
       "/ergebnis/flughaefen-entfernung-abbruch",
-    ],
-  ],
-  [
-    {
-      bereich: "verspaetet",
-      verspaetung: "yes",
-      gruende: "yes",
-      verjaehrung: "yes",
-      startAirport: "CDG",
-      endAirport: "DRS",
-      fluggesellschaft: "DL",
-    },
-    [
-      "/start",
-      "/bereich",
-      "/verspaetung",
-      "/gruende",
-      "/gruende-hinweis",
-      "/verjaehrung",
-      "/flughaefen",
-      "/fluggesellschaft",
-      "/ergebnis/fluggesellschaft-nicht-eu-abbruch",
-    ],
-  ],
-  [
-    {
-      bereich: "verspaetet",
-      verspaetung: "yes",
-      gruende: "yes",
-      verjaehrung: "yes",
-      startAirport: "CDG",
-      endAirport: "DRS",
-      fluggesellschaft: "sonstiges",
-    },
-    [
-      "/start",
-      "/bereich",
-      "/verspaetung",
-      "/gruende",
-      "/gruende-hinweis",
-      "/verjaehrung",
-      "/flughaefen",
-      "/fluggesellschaft",
-      "/ergebnis/fluggesellschaft-abbruch",
-    ],
-  ],
-  [
-    {
-      bereich: "verspaetet",
-      verspaetung: "yes",
-      gruende: "yes",
-      verjaehrung: "yes",
-      startAirport: "AMS",
-      endAirport: "BER",
-      fluggesellschaft: "sonstiges",
-    },
-    [
-      "/start",
-      "/bereich",
-      "/verspaetung",
-      "/gruende",
-      "/gruende-hinweis",
-      "/verjaehrung",
-      "/flughaefen",
-      "/fluggesellschaft",
-      "/ergebnis/fluggesellschaft-abbruch",
-    ],
-  ],
-  [
-    {
-      bereich: "verspaetet",
-      verspaetung: "yes",
-      gruende: "yes",
-      verjaehrung: "yes",
-      startAirport: "JFK",
-      endAirport: "AMS",
-      fluggesellschaft: "sonstiges",
-    },
-    [
-      "/start",
-      "/bereich",
-      "/verspaetung",
-      "/gruende",
-      "/gruende-hinweis",
-      "/verjaehrung",
-      "/flughaefen",
-      "/fluggesellschaft",
-      "/ergebnis/fluggesellschaft-abbruch-eu",
-    ],
-  ],
-  [
-    {
-      bereich: "verspaetet",
-      verspaetung: "yes",
-      gruende: "yes",
-      verjaehrung: "yes",
-      startAirport: "CDG",
-      endAirport: "BER",
-      fluggesellschaft: "DL",
-    },
-    [
-      "/start",
-      "/bereich",
-      "/verspaetung",
-      "/gruende",
-      "/gruende-hinweis",
-      "/verjaehrung",
-      "/flughaefen",
-      "/fluggesellschaft",
-      "/ergebnis/fluggesellschaft-nicht-eu-abbruch",
     ],
   ],
   [

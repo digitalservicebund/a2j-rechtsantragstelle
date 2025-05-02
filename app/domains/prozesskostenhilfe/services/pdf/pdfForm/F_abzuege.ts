@@ -1,7 +1,7 @@
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
-import type { PkhPdfFillFunction } from "..";
+import type { PkhPdfFillFunction } from "../types";
 import { getTotalMonthlyFinancialEntries } from "../util";
 import { zahlungsfrequenzMapping } from "./E_bruttoEinnahmen/bruttoEinnahmen_eigenes";
 
@@ -44,17 +44,18 @@ export const fillSelfAbzuege: PkhPdfFillFunction = ({
     attachment.push({ title: "F Abzüge", level: "h2" });
   }
 
+  const averageMonthlyExpenses = getTotalMonthlyFinancialEntries(
+    userData.arbeitsausgaben ?? [],
+  );
+
   if (userData.arbeitsausgaben?.length === 1) {
     const { beschreibung, betrag } = userData.arbeitsausgaben[0];
-    pdfValues.sozialversicherungsbeitraege_2.value = beschreibung;
-    pdfValues.monatlicheAbzuegeinEuro5.value = `${betrag} €`;
+    const arbeitsausgabe = userData.arbeitsausgaben[0];
+    pdfValues.sozialversicherungsbeitraege_2.value = `${beschreibung} (${betrag} € ${zahlungsfrequenzMapping[arbeitsausgabe.zahlungsfrequenz]})`;
+    pdfValues.monatlicheAbzuegeinEuro5.value = `${averageMonthlyExpenses} €`;
   } else if (arbeitsausgabenNeedsAttachment) {
     pdfValues.sozialversicherungsbeitraege_2.value =
       SEE_IN_ATTACHMENT_DESCRIPTION;
-
-    const averageMonthlyExpenses = getTotalMonthlyFinancialEntries(
-      userData.arbeitsausgaben!,
-    );
     pdfValues.monatlicheAbzuegeinEuro5.value = `${averageMonthlyExpenses} €`;
     attachment.push({
       title: "Sonstige Werbungskosten/Betriebsausgaben",
@@ -72,10 +73,7 @@ export const fillSelfAbzuege: PkhPdfFillFunction = ({
   return { pdfValues, attachment };
 };
 
-export const fillPartnerAbzuege: PkhPdfFillFunction = ({
-  userData,
-  pdfValues,
-}) => {
+const fillPartnerAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   if (
     userData.partnerschaft !== "yes" ||
     userData.partnerEinkommen === "no" ||
@@ -109,17 +107,18 @@ export const fillPartnerAbzuege: PkhPdfFillFunction = ({
     attachment.push({ title: "F Abzüge", level: "h2" });
   }
 
+  const averageMonthlyExpenses = getTotalMonthlyFinancialEntries(
+    userData["partner-arbeitsausgaben"] ?? [],
+  );
+
   if (userData["partner-arbeitsausgaben"]?.length === 1) {
     const { beschreibung, betrag } = userData["partner-arbeitsausgaben"][0];
-    pdfValues.sonstigewerbungskostenEhegatte.value = beschreibung;
-    pdfValues.monatlicheAbzuegeinEuro10.value = `${betrag} €`;
+    const arbeitsausgabe = userData["partner-arbeitsausgaben"][0];
+    pdfValues.sonstigewerbungskostenEhegatte.value = `${beschreibung} (${betrag} € ${zahlungsfrequenzMapping[arbeitsausgabe.zahlungsfrequenz]})`;
+    pdfValues.monatlicheAbzuegeinEuro10.value = `${averageMonthlyExpenses} €`;
   } else if (arbeitsausgabenNeedsAttachment) {
     pdfValues.sonstigewerbungskostenEhegatte.value =
       SEE_IN_ATTACHMENT_DESCRIPTION;
-
-    const averageMonthlyExpenses = getTotalMonthlyFinancialEntries(
-      userData["partner-arbeitsausgaben"]!,
-    );
     pdfValues.monatlicheAbzuegeinEuro10.value = `${averageMonthlyExpenses} €`;
     attachment.push({
       title: "Sonstige Werbungskosten/Betriebsausgaben - Partner:in",

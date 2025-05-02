@@ -1,7 +1,11 @@
+import fs from "fs";
+import fontkit from "@pdf-lib/fontkit";
 import type { PDFDocument } from "pdf-lib";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 import { printNameInSignatureFormField } from "../printNameInSignatureFormField";
 
+vi.mock("fs");
+vi.mock("@pdf-lib/fontkit");
 vi.mock("pdf-lib", async () => {
   const original = await vi.importActual("pdf-lib");
   return {
@@ -16,22 +20,22 @@ const mockPdfDoc = {
   getPage: vi.fn().mockReturnValue({
     drawText: vi.fn(),
   }),
+  registerFontkit: vi.fn(),
+  embedFont: vi.fn(),
 } as unknown as PDFDocument;
-
-const userData: ProzesskostenhilfeFormularContext = {
-  vorname: "Rosa",
-  nachname: "Ritter",
-  versandArt: "digital",
-};
 
 describe("printNameInSignatureFormField", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
 
-  it('should call drawText with correct arguments when versandArt is "digital"', () => {
-    printNameInSignatureFormField(mockPdfDoc, userData);
-
+  it('should call drawText with correct arguments when versandArt is "digital"', async () => {
+    const userData: ProzesskostenhilfeFormularContext = {
+      vorname: "Rosa",
+      nachname: "Ritter",
+      versandArt: "digital",
+    };
+    await printNameInSignatureFormField(mockPdfDoc, userData);
     expect(mockPdfDoc.getPage(3).drawText).toHaveBeenCalledWith("Rosa Ritter", {
       x: 200,
       y: 75,
@@ -39,14 +43,43 @@ describe("printNameInSignatureFormField", () => {
     });
   });
 
-  it('should not call drawText when versandArt is "analog"', () => {
+  it('should not call drawText when versandArt is "analog"', async () => {
     const userDataAnalog: ProzesskostenhilfeFormularContext = {
-      ...userData,
+      vorname: "Rosa",
+      nachname: "Ritter",
       versandArt: "analog",
     };
-
-    printNameInSignatureFormField(mockPdfDoc, userDataAnalog);
-
+    await printNameInSignatureFormField(mockPdfDoc, userDataAnalog);
     expect(mockPdfDoc.getPage(3).drawText).not.toHaveBeenCalled();
+  });
+
+  it("should handle correctly special characters", async () => {
+    const userData: ProzesskostenhilfeFormularContext = {
+      vorname: "Włodzimierz",
+      nachname: "Ćwikłań",
+      versandArt: "digital",
+    };
+    vi.mocked(fs.readFileSync).mockReturnValue(Buffer.from("mock font data"));
+
+    await printNameInSignatureFormField(mockPdfDoc, userData);
+
+    expect(mockPdfDoc.registerFontkit).toHaveBeenCalledWith(fontkit);
+
+    expect(fs.readFileSync).toHaveBeenCalledWith(
+      "public/fonts/BundesSansWeb-Regular.woff",
+    );
+    expect(mockPdfDoc.embedFont).toHaveBeenCalledWith(
+      Buffer.from("mock font data"),
+      { subset: true },
+    );
+
+    expect(mockPdfDoc.getPage(3).drawText).toHaveBeenCalledWith(
+      "Włodzimierz Ćwikłań",
+      {
+        x: 200,
+        y: 75,
+        size: 10,
+      },
+    );
   });
 });

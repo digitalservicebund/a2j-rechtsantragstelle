@@ -1,19 +1,22 @@
-import { useActionData } from "@remix-run/react";
+import { useField, type ValidationErrorResponseData } from "@rvf/react-router";
 import classNames from "classnames";
-import { useState, useEffect } from "react";
-import { useField, ValidationErrorResponseData } from "remix-validated-form";
-import { ErrorMessageProps } from "~/components/inputs";
+import { useActionData } from "react-router";
+import { type ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
-import { Context } from "~/domains/contexts";
-import { fileUploadLimit, PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type Context } from "~/domains/contexts";
+import { useJsAvailable } from "~/services/useJsAvailable";
+import {
+  errorStyling,
+  fileUploadLimit,
+  type PDFFileMetadata,
+} from "~/util/file/pdfFileSchema";
 import { FilesUploadHeader } from "./FilesUploadHeader";
-import { InlineNotice, InlineNoticeProps } from "../InlineNotice";
+import { InlineNotice, type InlineNoticeProps } from "../InlineNotice";
 import { FileInput } from "../inputs/FileInput";
 
 export type FilesUploadProps = {
   name: string;
   title?: string;
-  formId?: string;
   description?: string;
   inlineNotices?: InlineNoticeProps[];
   errorMessages?: ErrorMessageProps[];
@@ -22,74 +25,85 @@ export type FilesUploadProps = {
 const FilesUpload = ({
   name,
   title,
-  formId,
   description,
   inlineNotices,
   errorMessages,
 }: FilesUploadProps) => {
-  const [jsAvailable, setJsAvailable] = useState(false);
+  const jsAvailable = useJsAvailable();
   const response = useActionData<
     ValidationErrorResponseData | Context | undefined
   >();
-  const { defaultValue } = useField(name, { formId });
-  const items: Array<PDFFileMetadata | undefined> =
-    (response?.repopulateFields as Context | undefined)?.[name] ??
+  const field = useField(name);
+  const items: Array<PDFFileMetadata | undefined> = ((
+    response?.repopulateFields as Context | undefined
+  )?.[name] ??
     (response as Context | undefined)?.[name] ??
-    defaultValue ??
-    [];
+    field.defaultValue() ??
+    []) as Array<PDFFileMetadata | undefined>;
   const scopedErrors = Object.fromEntries(
     Object.entries(response?.fieldErrors ?? {}).filter(
       ([key]) => key.split("[")[0] === name,
     ),
   );
   const errorId = `${name}-error`;
-
-  useEffect(() => setJsAvailable(true), []);
-
-  const groupError: string | undefined = scopedErrors[name];
-
-  const classes = classNames("w-full bg-white p-16", {
-    "bg-red-200 border border-red-900": !!groupError,
+  const classes = classNames("w-full bg-white p-16 flex flex-col gap-16", {
+    [errorStyling]: !!field.error(),
   });
 
   const showAddMoreButton =
-    (items.length < fileUploadLimit || items.length === 0) &&
-    Object.entries(scopedErrors).length === 0;
+    items.length === 0 ||
+    (items.length < fileUploadLimit &&
+      Object.entries(scopedErrors).length === 0);
+
+  /**
+   * if the component doesn't have a value, or has an error displayed, normally nothing is submitted in the FormData.
+   * We need to send at least an empty array, to display an array-level error that it's empty
+   */
+  const shouldSubmitEmptyArray =
+    items.length === 0 ||
+    (items.length === 1 && Object.entries(scopedErrors).length > 0);
 
   return (
-    <NoscriptWrapper jsAvailable={jsAvailable}>
-      <div className={classes}>
-        <FilesUploadHeader title={title} description={description} />
-        <div className="w-full flex flex-col gap-24">
-          {items.map((value, index) => {
-            const inputName = `${name}[${index}]`;
-            return (
+    title !== "" && (
+      <NoscriptWrapper jsAvailable={jsAvailable}>
+        <div data-testid={`files-upload-${name}`} className={classes}>
+          <FilesUploadHeader title={title} description={description} />
+          <div className="w-full flex flex-col gap-16">
+            {items.map((value, index) => {
+              const inputName = `${name}[${index}]`;
+              return (
+                <FileInput
+                  key={inputName}
+                  selectedFile={value}
+                  error={scopedErrors[inputName]}
+                  errorMessages={errorMessages}
+                  jsAvailable={jsAvailable}
+                  name={inputName}
+                />
+              );
+            })}
+            {showAddMoreButton && (
               <FileInput
-                key={inputName}
-                selectedFile={value}
-                error={scopedErrors[inputName]}
+                selectedFile={undefined}
                 jsAvailable={jsAvailable}
-                name={inputName}
+                name={`${name}[${items.length}]`}
               />
-            );
-          })}
-          {showAddMoreButton && (
-            <FileInput
-              selectedFile={undefined}
-              jsAvailable={jsAvailable}
-              name={`${name}[${items.length}]`}
-            />
-          )}
+            )}
+          </div>
+          {items.length === fileUploadLimit &&
+            inlineNotices?.map((inlineNotice) => (
+              <InlineNotice key={inlineNotice.title} {...inlineNotice} />
+            ))}
         </div>
-      </div>
-      <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === groupError)?.text ??
-          groupError}
-      </InputError>
-      {inlineNotices?.map((inlineNotice) => (
-        <InlineNotice key={inlineNotice.title} {...inlineNotice} />
-      ))}
-    </NoscriptWrapper>
+        {shouldSubmitEmptyArray && (
+          <input type="hidden" name={"arrayPostfix"} value={name} />
+        )}
+        <InputError id={errorId}>
+          {errorMessages?.find((err) => err.code === field.error())?.text ??
+            field.error()}
+        </InputError>
+      </NoscriptWrapper>
+    )
   );
 };
 

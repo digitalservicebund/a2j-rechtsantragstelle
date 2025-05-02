@@ -1,11 +1,12 @@
-import { remixContext } from ".storybook/remixContext";
 import { faker } from "@faker-js/faker";
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs } from "react-router";
 import type { Meta, StoryObj } from "@storybook/react";
 import FilesUpload from "~/components/filesUpload/FilesUpload";
-import { splitFieldName } from "~/components/filesUpload/fileUploadHelpers";
 import { TranslationContext } from "~/services/translations/translationsContext";
 import { PDFFileMetadata, TEN_MB_IN_BYTES } from "~/util/file/pdfFileSchema";
+import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
+import { reactRouterContext } from ".storybook/reactRouterContext";
+import { splitFieldName } from "~/services/upload/splitFieldName";
 
 const meta = {
   title: "Component/FilesUpload",
@@ -27,7 +28,6 @@ const generateRandomPDFFileMetadata = (): PDFFileMetadata => {
       faker.system.fileExt("application/pdf"),
     fileType: "application/pdf",
     fileSize: faker.number.int({ min: 1024, max: TEN_MB_IN_BYTES }),
-    createdOn: faker.date.recent().toString(),
   };
 };
 
@@ -37,7 +37,6 @@ export const Default: Story = {
   args: {
     name: fieldName,
     title: "Upload your files",
-    formId: "formId",
   },
   decorators: [
     (Story) => (
@@ -51,10 +50,15 @@ export const Default: Story = {
           feedback: {},
           video: {},
           accessibility: {},
+          accordion: {},
         }}
       >
-        {remixContext(
-          Story,
+        {reactRouterContext(
+          () => (
+            <RFCFormerProvider>
+              <Story />
+            </RFCFormerProvider>
+          ),
           () => ({ csrf: "csrf" }),
           async ({ request }: ActionFunctionArgs) => {
             const formData = await request.formData();

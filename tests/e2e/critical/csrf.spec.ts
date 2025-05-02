@@ -30,6 +30,10 @@ test.describe("CSRF token", () => {
       const newPage = new BeratungshilfeVorabcheck(await context.newPage());
       await newPage.goto();
     }
+
+    // workaround for preview tests, it should open a new page after open the limits of tabs above
+    await new BeratungshilfeVorabcheck(await context.newPage()).goto();
+
     await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
     await expect(vorabcheck.page.getByText("403")).toHaveCount(1);
   });

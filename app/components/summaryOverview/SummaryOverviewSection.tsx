@@ -1,7 +1,6 @@
-import Heading, { HeadingProps } from "../Heading";
-import SummaryOverviewBoxWrapped, {
-  SummaryOverviewBoxWrappedProps,
-} from "./SummaryOverviewBoxWrapped";
+import Heading, { type HeadingProps } from "../Heading";
+import SummaryOverviewBoxWrapped from "./SummaryOverviewBoxWrapped";
+import { type SummaryOverviewBoxWrappedProps } from "./types";
 
 type Props = {
   readonly title: HeadingProps;

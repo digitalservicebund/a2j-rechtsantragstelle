@@ -8,8 +8,8 @@ export const FilesUploadHeader = ({
   description,
 }: FilesUploadHeaderProps) => {
   return (
-    <div className="mb-16">
-      <p className="ds-label-02-bold font-black">{title}</p>
+    <div>
+      <p className="ds-label-02-bold font-black pb-6">{title}</p>
       <p className="ds-body-01-reg text-gray-800">{description}</p>
     </div>
   );

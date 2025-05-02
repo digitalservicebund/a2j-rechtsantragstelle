@@ -19,7 +19,7 @@ import { getTextareaProps } from "~/services/cms/components/StrapiTextarea";
 import { getTileGroupProps } from "~/services/cms/components/StrapiTileGroup";
 import { getTimeInputProps } from "~/services/cms/components/StrapiTimeInput";
 import { keyFromElement } from "~/services/cms/keyFromElement";
-import { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { getDateInputProps } from "./StrapiDateInput";
 import { getSelectProps } from "./StrapiDropdown";
 
@@ -35,7 +35,7 @@ const FormComponent = ({
       return <DateInput {...getDateInputProps(component)} />;
     case "form-elements.time-input":
       return <TimeInput {...getTimeInputProps(component)} />;
-    case "form-elements.file-input":
+    case "form-elements.files-upload":
       return <FilesUpload {...getFilesUploadProps(component)} />;
     case "form-elements.textarea":
       return <Textarea {...getTextareaProps(component)} />;

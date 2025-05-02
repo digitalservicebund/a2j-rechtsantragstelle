@@ -1,4 +1,4 @@
-import { createCookie } from "@remix-run/node";
+import { createCookie } from "react-router";
 import { useSecureCookie } from "~/util/useSecureCookie";
 import { sendCustomAnalyticsEvent } from "./customEvent";
 import { acceptCookiesFieldName } from "../../components/cookieBanner/CookieBanner";
@@ -26,11 +26,6 @@ async function parseTrackingCookie({ request }: CookieArgs) {
 export async function trackingCookieValue({ request }: CookieArgs) {
   const cookie = await parseTrackingCookie({ request });
   return cookie[acceptCookiesFieldName];
-}
-
-export async function hasTrackingConsent({ request }: CookieArgs) {
-  const consentGiven = await trackingCookieValue({ request });
-  return consentGiven ? consentGiven === "true" : undefined;
 }
 
 async function createTrackingCookie({

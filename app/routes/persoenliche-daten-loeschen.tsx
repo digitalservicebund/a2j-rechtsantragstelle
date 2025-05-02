@@ -1,5 +1,5 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { Form, useLoaderData, useNavigation } from "@remix-run/react";
+import type { LoaderFunctionArgs } from "react-router";
+import { Form, useLoaderData, useNavigation } from "react-router";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
@@ -39,7 +39,7 @@ export default function PersoenlicheDatenLoeschen() {
       <Container paddingTop="0">
         <Form
           method="post"
-          className="ds-stack-24"
+          className="ds-stack ds-stack-24"
           action="/action/delete-data"
         >
           <ButtonContainer>

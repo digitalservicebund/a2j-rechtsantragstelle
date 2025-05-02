@@ -1,16 +1,14 @@
 import classNames from "classnames";
 import Button from "~/components/Button";
-import {
-  splitFieldName,
-  useFileHandler,
-} from "~/components/filesUpload/fileUploadHelpers";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
 import { useTranslations } from "~/services/translations/translationsContext";
-import { PDFFileMetadata } from "~/util/file/pdfFileSchema";
-import { ErrorMessageProps } from ".";
+import { splitFieldName } from "~/services/upload/splitFieldName";
+import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type ErrorMessageProps } from ".";
+import { useFileHandler } from "../filesUpload/useFileHandler";
 
-export type FileInputProps = {
+type FileInputProps = {
   name: string;
   selectedFile: PDFFileMetadata | undefined;
   jsAvailable: boolean;
@@ -31,12 +29,28 @@ export const FileInput = ({
   const { fileUpload: translations } = useTranslations();
   const errorId = `${name}-error`;
 
-  const classes = classNames(
-    "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary w-full",
+  const inputClasses = classNames(
+    "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary file:ds-button-large w-full",
     {
       "w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer":
         jsAvailable,
     },
+  );
+
+  const FileInput = (
+    <input
+      name={jsAvailable ? undefined : name}
+      onChange={(event) => {
+        const file = event.target.files?.[0];
+        void onFileUpload(name, file);
+      }}
+      type="file"
+      accept=".pdf"
+      data-testid="fileUploadInput"
+      aria-invalid={error !== undefined}
+      aria-errormessage={error && errorId}
+      className={inputClasses}
+    />
   );
 
   return (
@@ -44,44 +58,38 @@ export const FileInput = ({
       {selectedFile ? (
         <FileUploadInfo
           inputName={name}
-          onFileDelete={onFileDelete}
+          onFileDelete={(fileName) => {
+            void onFileDelete(fileName);
+          }}
           jsAvailable={jsAvailable}
-          fileName={selectedFile.filename}
-          fileSize={selectedFile.fileSize}
+          file={selectedFile}
           deleteButtonLabel={translations?.delete}
           hasError={!!error}
         />
       ) : (
         <label htmlFor={name} className={"flex flex-col md:flex-row"}>
-          <input
-            name={name}
-            onChange={(event) => onFileUpload(name, event.target.files?.[0])}
-            type="file"
-            accept=".pdf"
-            data-testid="fileUploadInput"
-            aria-invalid={error !== undefined}
-            aria-errormessage={error && errorId}
-            className={classes}
-          />
           {jsAvailable ? (
-            <Button
-              look="tertiary"
-              text={
-                splitFieldName(name).inputIndex === 0
+            <div className="ds-button ds-button-tertiary ds-button-large">
+              <span className="ds-button-label">
+                {splitFieldName(name).inputIndex === 0
                   ? translations?.select
-                  : translations?.addAnother
-              }
-            />
+                  : translations?.addAnother}
+              </span>
+              {FileInput}
+            </div>
           ) : (
-            <Button
-              name="_action"
-              value={`fileUpload.${name}`}
-              className="w-fit"
-              type="submit"
-              look="primary"
-              text={translations?.upload}
-              size="large"
-            />
+            <>
+              {FileInput}
+              <Button
+                name="_action"
+                value={`fileUpload.${name}`}
+                className="w-fit"
+                type="submit"
+                look="primary"
+                text={translations?.upload}
+                size="large"
+              />
+            </>
           )}
         </label>
       )}

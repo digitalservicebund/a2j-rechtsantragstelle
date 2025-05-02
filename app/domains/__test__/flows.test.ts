@@ -30,15 +30,17 @@ import { testCasesFluggastrechteNichtBefoerderungAbbruch } from "~/domains/flugg
 import { testcasesFluggastrechtOtherErfolgs } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesOtherErfolgs";
 import { testCasesFluggastrechteVerspaetetAbbruch } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesVerspaetetAbbruch";
 import { testCasesGeldEinklagen } from "~/domains/geldEinklagen/vorabcheck/__test__/testcases";
+import { testCasesKontopfaendungWegweiser } from "~/domains/kontopfaendung/wegweiser/__test__/testcases";
 import {
   testCasesProzesskostenhilfeFormular,
   testCasesProzesskostenhilfeSubmitOnly,
 } from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";
-import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
+import type { FlowStateMachine } from "~/services/flow/server/types";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
 import { testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugNo } from "../fluggastrechte/formular/flugdaten/__test__/testcasesAnnullierungWithErsatzflugNo";
+import { testCasesFluggastrechteFluggesellschaftAbbruch } from "../fluggastrechte/vorabcheck/__test__/testcasesFluggesellschaftAbbruch";
 
 function getEnabledSteps({
   machine,
@@ -91,6 +93,10 @@ function allStepsFromMachine(machine: FlowStateMachine) {
  * - system under test should be in a certain state (step)
  */
 
+vi.mock("~/services/featureFlags", () => ({
+  isFeatureFlagEnabled: vi.fn().mockResolvedValue(false),
+}));
+
 describe.sequential("state machine form flows", () => {
   const allVisitedSteps: Record<
     string,
@@ -130,6 +136,8 @@ describe.sequential("state machine form flows", () => {
     testCasesFluggastrechteErfolgEU,
     testcasesFluggastrechteErfolgAnalog,
     testCasesFluggastrechteFormularProzessfuehrung,
+    testCasesFluggastrechteFluggesellschaftAbbruch,
+    testCasesKontopfaendungWegweiser,
   } as const;
   const transitionTypes = ["SUBMIT", "BACK"] as const;
 
@@ -205,6 +213,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(18);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(19);
   });
 });

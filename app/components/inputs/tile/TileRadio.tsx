@@ -1,4 +1,5 @@
-import { useField } from "remix-validated-form";
+import { useField } from "@rvf/react-router";
+import { forwardRef } from "react";
 import TileTag, { type TileDescriptionProps } from "./TileTag";
 import Image, { type ImageProps } from "../../Image";
 import RichText from "../../RichText";
@@ -19,20 +20,21 @@ type TileProps = TileOptions &
   Readonly<{
     name: string;
     onClick: () => void;
-    formId?: string;
   }>;
 
-const TileRadio = ({
-  name,
-  description,
-  value,
-  title,
-  image,
-  tagDescription,
-  onClick,
-  formId,
-}: TileProps) => {
-  const { error, getInputProps } = useField(name, { formId });
+function TileRadio(
+  {
+    name,
+    description,
+    value,
+    title,
+    image,
+    tagDescription,
+    onClick,
+  }: TileProps,
+  ref: React.Ref<HTMLInputElement>,
+) {
+  const field = useField(name);
   const id = `${name}-${value}`;
 
   return (
@@ -42,12 +44,13 @@ const TileRadio = ({
         htmlFor={id}
       >
         <input
-          {...getInputProps({ type: "radio", id, value })}
-          className="ds-radio"
+          {...field.getInputProps({ type: "radio", id, value })}
+          className="ds-radio forced-colors:outline forced-colors:border-[ButtonText]"
           name={name}
           type="radio"
-          aria-describedby={error && `${name}-error`}
+          aria-describedby={field.error() ? `${name}-error` : undefined}
           onClick={onClick}
+          ref={ref}
         />
         <div className="h-full pl-24 space-y-8">
           <div className="flex flex-row justify-between">
@@ -67,6 +70,6 @@ const TileRadio = ({
       </label>
     </div>
   );
-};
+}
 
-export default TileRadio;
+export default forwardRef(TileRadio);

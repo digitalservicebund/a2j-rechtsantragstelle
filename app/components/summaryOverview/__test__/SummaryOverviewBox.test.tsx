@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { describe, it, vi, expect } from "vitest";
-import { HeadingProps } from "~/components/Heading";
+import { type HeadingProps } from "~/components/Heading";
 import { useFormFlow } from "../../form/formFlowContext";
 import SummaryOverviewBox from "../SummaryOverviewBox";
 
@@ -95,7 +95,7 @@ describe("SummaryOverviewBox", () => {
   });
 
   it("should render the edit button with correct href", () => {
-    const { getByTestId } = render(
+    const { getByRole } = render(
       <SummaryOverviewBox
         boxId={boxId}
         stepId={stepId}
@@ -105,8 +105,8 @@ describe("SummaryOverviewBox", () => {
       />,
     );
 
-    const editButton = getByTestId("edit-button");
-    expect(editButton).toHaveAttribute("href", "/beratungshilfe/antrag/step-1");
-    expect(editButton).toHaveTextContent("Bearbeiten");
+    const editLink = getByRole("link");
+    expect(editLink).toHaveAttribute("href", "/beratungshilfe/antrag/step-1");
+    expect(editLink).toHaveTextContent("Bearbeiten");
   });
 });

@@ -1,10 +1,12 @@
+import * as Sentry from "@sentry/react-router";
+import { useEffect, useMemo, useState } from "react";
 import type {
   LinksFunction,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
+} from "react-router";
 import {
+  data,
   Links,
   Meta,
   Scripts,
@@ -12,13 +14,10 @@ import {
   useLoaderData,
   useMatches,
   useRouteLoaderData,
-  useRouteError,
   Outlet,
-} from "@remix-run/react";
+} from "react-router";
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
-import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
-import { useEffect, useMemo, useState } from "react";
 import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
@@ -32,6 +31,7 @@ import {
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
+import type { Route } from "./+types/root";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
@@ -63,10 +63,6 @@ export const links: LinksFunction = () => [
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
   { rel: "manifest", href: "/site.webmanifest" },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css?family=Fira+Sans|Noto+Sans|Roboto",
-  },
 ];
 
 export const meta: MetaFunction<RootLoader> = () => {
@@ -81,8 +77,10 @@ export const meta: MetaFunction<RootLoader> = () => {
 export type RootLoader = typeof loader;
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
-  const { pathname } = new URL(request.url);
+  const { pathname, searchParams } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
+
+  const shouldPrint = searchParams.get("print") !== null;
 
   const [
     strapiHeader,
@@ -108,6 +106,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       "video",
       "accessibility",
       "fileUpload",
+      "accordion",
     ]),
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
@@ -118,7 +117,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     trackingConsent,
   );
 
-  return json(
+  return data(
     {
       pageHeaderProps: {
         ...strapiHeader,
@@ -148,6 +147,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       postSubmissionText: parseAndSanitizeMarkdown(
         translations.feedback["text-post-submission"],
       ),
+      accordionTranslation: translations.accordion,
+      shouldPrint,
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
@@ -165,6 +166,8 @@ function App() {
     videoTranslations,
     accessibilityTranslations,
     fileUploadTranslations,
+    accordionTranslation,
+    shouldPrint,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
@@ -185,18 +188,27 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    if (shouldPrint) {
+      window.print();
+      window.close();
+    }
+  }, [shouldPrint]);
+
   const translationMemo = useMemo(
     () => ({
       video: videoTranslations,
       feedback: feedbackTranslations,
       accessibility: accessibilityTranslations,
       fileUpload: fileUploadTranslations,
+      accordion: accordionTranslation,
     }),
     [
       videoTranslations,
       feedbackTranslations,
       accessibilityTranslations,
       fileUploadTranslations,
+      accordionTranslation,
     ],
   );
 
@@ -207,7 +219,10 @@ function App() {
         {description && <meta name="description" content={description} />}
         <meta property="og:title" content={ogTitle ?? title} />
         <meta property="og:description" content={description} />
-        <meta name="darkreader-lock" />
+        <meta
+          name="darkreader-lock"
+          content="1e82dc17-d02f-4566-8487-ae413a504055"
+        />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
@@ -215,53 +230,53 @@ function App() {
           }}
         />
         <Meta />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Fira+Sans|Noto+Sans|Roboto"
-        ></link>
         <Links />
       </head>
       <body className="flex flex-col min-h-screen">
+        <SkipToContentLink
+          label={getTranslationByKey(
+            SKIP_TO_CONTENT_TRANSLATION_KEY,
+            accessibilityTranslations,
+          )}
+          target={skipToContentLinkTarget}
+        />
+        <PageHeader {...pageHeaderProps} />
+        <Breadcrumbs
+          breadcrumbs={breadcrumbs}
+          alignToMainContainer={pageHeaderProps.alignToMainContainer}
+          linkLabel={pageHeaderProps.linkLabel}
+          translations={{ ...accessibilityTranslations }}
+        />
         <CookieConsentContext.Provider value={hasTrackingConsent}>
-          <SkipToContentLink
-            label={getTranslationByKey(
-              SKIP_TO_CONTENT_TRANSLATION_KEY,
-              accessibilityTranslations,
-            )}
-            target={skipToContentLinkTarget}
-          />
-          <CookieBanner content={cookieBannerContent} />
-          <PageHeader {...pageHeaderProps} />
-          <Breadcrumbs
-            breadcrumbs={breadcrumbs}
-            alignToMainContainer={pageHeaderProps.alignToMainContainer}
-            linkLabel={pageHeaderProps.linkLabel}
-            translations={{ ...accessibilityTranslations }}
-          />
           <TranslationContext.Provider value={translationMemo}>
             <main className="flex-grow" id="main">
               <Outlet />
             </main>
           </TranslationContext.Provider>
-          <footer>
-            <Footer
-              {...footer}
-              deletionLabel={deletionLabel}
-              showDeletionBanner={hasAnyUserData}
-              translations={{ ...accessibilityTranslations }}
-            />
-          </footer>
-          <ScrollRestoration nonce={nonce} />
-          <Scripts nonce={nonce} />
+          <CookieBanner content={cookieBannerContent} />
         </CookieConsentContext.Provider>
+        <footer>
+          <Footer
+            {...footer}
+            deletionLabel={deletionLabel}
+            showDeletionBanner={hasAnyUserData}
+            translations={{ ...accessibilityTranslations }}
+          />
+        </footer>
+        <ScrollRestoration nonce={nonce} />
+        <Scripts nonce={nonce} />
       </body>
     </html>
   );
 }
 
-export function ErrorBoundary() {
+export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
   const loaderData = useRouteLoaderData<RootLoader>("root");
-  captureRemixErrorBoundaryError(useRouteError());
+
+  if (error && error instanceof Error) {
+    Sentry.captureException(error);
+  }
+
   return (
     <html lang="de">
       <head>
@@ -271,12 +286,19 @@ export function ErrorBoundary() {
         <meta name="darkreader-lock" />
       </head>
       <body className="flex flex-col min-h-screen">
-        {loaderData && <PageHeader {...loaderData.pageHeaderProps} />}
+        <PageHeader
+          alignToMainContainer
+          hideLinks={false}
+          linkLabel="Zurück zur Startseite"
+          title="Justiz-Services"
+          translations={{
+            leichtesprache: "Leichte Sprache",
+            gebaerdensprache: "Gebärdensprache",
+            mainNavigationAriaLabel: "Hauptmenü",
+          }}
+        />
         <main className="flex-grow">
-          <ErrorBox
-            errorPages={loaderData?.errorPages}
-            context={loaderData?.context ?? {}}
-          />
+          <ErrorBox context={loaderData?.context ?? {}} />
         </main>
         {loaderData && (
           <Footer
@@ -288,4 +310,4 @@ export function ErrorBoundary() {
     </html>
   );
 }
-export default withSentry(App);
+export default App;

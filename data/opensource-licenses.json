@@ -1,4 +1,12 @@
 {
+  "@aws-sdk/client-s3": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/aws/aws-sdk-js-v3",
+    "publisher": "AWS SDK for JavaScript Team",
+    "path": "a2j-rechtsantragstelle/node_modules/@aws-sdk/client-s3",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@aws-sdk/client-s3/LICENSE",
+    "direct": true
+  },
   "@digitalservice4germany/angie": {
     "licenses": "MIT",
     "repository": "https://github.com/digitalservicebund/angie",
@@ -25,6 +33,15 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@digitalservicebund/icons/README.md",
     "direct": true
   },
+  "@mjackson/form-data-parser": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mjackson/remix-the-web",
+    "publisher": "Michael Jackson",
+    "email": "mjijackson@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/@mjackson/form-data-parser",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@mjackson/form-data-parser/LICENSE",
+    "direct": true
+  },
   "@pdf-lib/fontkit": {
     "licenses": "MIT",
     "repository": "https://github.com/Hopding/fontkit",
@@ -34,40 +51,42 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@pdf-lib/fontkit/README.md",
     "direct": true
   },
-  "@remix-run/express": {
+  "@react-router/express": {
     "licenses": "MIT",
-    "repository": "https://github.com/remix-run/remix",
-    "path": "a2j-rechtsantragstelle/node_modules/@remix-run/express",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@remix-run/express/LICENSE.md",
+    "repository": "https://github.com/remix-run/react-router",
+    "path": "a2j-rechtsantragstelle/node_modules/@react-router/express",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@react-router/express/LICENSE.md",
     "direct": true
   },
-  "@remix-run/node": {
+  "@react-router/node": {
     "licenses": "MIT",
-    "repository": "https://github.com/remix-run/remix",
-    "path": "a2j-rechtsantragstelle/node_modules/@remix-run/node",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@remix-run/node/LICENSE.md",
+    "repository": "https://github.com/remix-run/react-router",
+    "path": "a2j-rechtsantragstelle/node_modules/@react-router/node",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@react-router/node/LICENSE.md",
     "direct": true
   },
-  "@remix-run/react": {
-    "licenses": "MIT",
-    "repository": "https://github.com/remix-run/remix",
-    "path": "a2j-rechtsantragstelle/node_modules/@remix-run/react",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@remix-run/react/LICENSE.md",
-    "direct": true
-  },
-  "@remix-validated-form/with-zod": {
+  "@rvf/react-router": {
     "licenses": "MIT",
     "repository": "https://github.com/airjp73/remix-validated-form",
-    "path": "a2j-rechtsantragstelle/node_modules/@remix-validated-form/with-zod",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@remix-validated-form/with-zod/README.md",
+    "publisher": "Aaron Pettengill",
+    "email": "pettengill.aaron@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/@rvf/react-router",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@rvf/react-router/README.md",
     "direct": true
   },
-  "@sentry/remix": {
+  "@rvf/zod": {
+    "licenses": "MIT",
+    "repository": "https://github.com/airjp73/remix-validated-form",
+    "path": "a2j-rechtsantragstelle/node_modules/@rvf/zod",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@rvf/zod/README.md",
+    "direct": true
+  },
+  "@sentry/react-router": {
     "licenses": "MIT",
     "repository": "https://github.com/getsentry/sentry-javascript",
     "publisher": "Sentry",
-    "path": "a2j-rechtsantragstelle/node_modules/@sentry/remix",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@sentry/remix/LICENSE",
+    "path": "a2j-rechtsantragstelle/node_modules/@sentry/react-router",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@sentry/react-router/LICENSE",
     "direct": true
   },
   "@sentry/vite-plugin": {
@@ -175,14 +194,6 @@
     "email": "mdevils@yandex.ru",
     "path": "a2j-rechtsantragstelle/node_modules/html-entities",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/html-entities/LICENSE",
-    "direct": true
-  },
-  "ibantools": {
-    "licenses": "MIT*",
-    "repository": "https://github.com/Simplify/ibantools",
-    "publisher": "Saša Jovanić",
-    "path": "a2j-rechtsantragstelle/node_modules/ibantools",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/ibantools/LICENSE",
     "direct": true
   },
   "ioredis": {
@@ -326,12 +337,21 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/react-inlinesvg/LICENSE",
     "direct": true
   },
+  "react-router": {
+    "licenses": "MIT",
+    "repository": "https://github.com/remix-run/react-router",
+    "publisher": "Remix Software",
+    "email": "hello@remix.run",
+    "path": "a2j-rechtsantragstelle/node_modules/react-router",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/react-router/LICENSE.md",
+    "direct": true
+  },
   "react-select": {
     "licenses": "MIT",
     "repository": "https://github.com/JedWatson/react-select.git#master",
     "publisher": "Jed Watson",
     "path": "a2j-rechtsantragstelle/node_modules/react-select",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/react-select/README.md",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/react-select/LICENSE",
     "direct": true
   },
   "react": {
@@ -339,23 +359,6 @@
     "repository": "https://github.com/facebook/react",
     "path": "a2j-rechtsantragstelle/node_modules/react",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/react/LICENSE",
-    "direct": true
-  },
-  "remix-validated-form": {
-    "licenses": "MIT",
-    "repository": "https://github.com/airjp73/remix-validated-form",
-    "publisher": "Aaron Pettengill",
-    "email": "pettengill.aaron@gmail.com",
-    "path": "a2j-rechtsantragstelle/node_modules/remix-validated-form",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/remix-validated-form/README.md",
-    "direct": true
-  },
-  "samlify": {
-    "licenses": "MIT",
-    "repository": "https://github.com/tngan/samlify",
-    "publisher": "tngan",
-    "path": "a2j-rechtsantragstelle/node_modules/samlify",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/samlify/LICENSE",
     "direct": true
   },
   "tiny-invariant": {

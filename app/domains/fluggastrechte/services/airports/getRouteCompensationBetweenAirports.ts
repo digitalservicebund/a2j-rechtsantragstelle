@@ -1,7 +1,7 @@
 import { calculateDistanceBetweenAirportsInKilometers } from "./calculateDistanceBetweenAirports";
 import { isEuropeanUnionAirport } from "./isEuropeanUnionAirport";
 
-export type RouteCompensation =
+type RouteCompensation =
   | "shortDistance"
   | "middleDistance"
   | "longDistanceInsideEU"

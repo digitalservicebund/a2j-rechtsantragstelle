@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 import Background from "~/components/Background";
 import Container from "~/components/Container";
 import { ProgressBar } from "~/components/form/ProgressBar";
@@ -19,21 +19,19 @@ export function VorabcheckPage() {
     <Background backgroundColor="blue">
       <div className="min-h-screen">
         <Container paddingTop="24" paddingBottom="64">
-          <div className="ds-stack-16">
+          <div className="ds-stack ds-stack-40">
             <ProgressBar {...progressProps} />
-            <div className="ds-stack-40">
-              <PageContent
-                content={contentElements}
-                className="ds-stack-16"
-                fullScreen={false}
-              />
-              <ValidatedFlowForm
-                stepData={stepData}
-                csrf={csrf}
-                formElements={formElements}
-                buttonNavigationProps={buttonNavigationProps}
-              />
-            </div>
+            <PageContent
+              content={contentElements}
+              className="ds-stack ds-stack-16"
+              fullScreen={false}
+            />
+            <ValidatedFlowForm
+              stepData={stepData}
+              csrf={csrf}
+              formElements={formElements}
+              buttonNavigationProps={buttonNavigationProps}
+            />
           </div>
         </Container>
       </div>

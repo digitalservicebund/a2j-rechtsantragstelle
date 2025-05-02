@@ -1,6 +1,6 @@
+import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import type { AriaRole, ReactNode } from "react";
-import { useField } from "remix-validated-form";
 import { Details } from "~/components/Details";
 import InputLabel from "~/components/inputs/InputLabel";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
@@ -19,7 +19,6 @@ export type TextareaProps = Readonly<{
   placeholder?: string;
   maxLength?: number;
   errorMessages?: ErrorMessageProps[];
-  formId?: string;
   classNameLabel?: string;
   role?: AriaRole;
   innerRef?: React.Ref<HTMLTextAreaElement>;
@@ -30,7 +29,6 @@ export const TEXT_AREA_ROWS = 3;
 const Textarea = ({
   name,
   description,
-  formId,
   label,
   details,
   placeholder,
@@ -40,11 +38,11 @@ const Textarea = ({
   role,
   innerRef,
 }: TextareaProps) => {
-  const { error, getInputProps } = useField(name, { formId });
+  const field = useField(name);
   const errorId = `${name}-error`;
 
   return (
-    <div className="ds-stack-8">
+    <div className="ds-stack ds-stack-8">
       {label && (
         <InputLabel
           classname={description ? "ds-heading-03-reg" : classNameLabel}
@@ -59,26 +57,24 @@ const Textarea = ({
       )}
       {details && <Details {...details} />}
       <textarea
-        {...getInputProps({
+        {...field.getInputProps({
           id: name,
           placeholder,
         })}
         maxLength={maxLength}
         rows={TEXT_AREA_ROWS}
-        className={classNames(
-          "ds-textarea forced-color-adjust-none placeholder-gray-600",
-          {
-            "has-error": error,
-          },
-        )}
+        className={classNames("ds-textarea forced-color-adjust-none", {
+          "has-error": field.error(),
+        })}
         ref={innerRef}
-        aria-invalid={error !== undefined}
-        aria-describedby={error && errorId}
-        aria-errormessage={error && errorId}
+        aria-invalid={field.error() !== undefined}
+        aria-describedby={field.error() ? errorId : undefined}
+        aria-errormessage={field.error() ? errorId : undefined}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
       />
       <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === error)?.text ?? error}
+        {errorMessages?.find((err) => err.code === field.error())?.text ??
+          field.error()}
       </InputError>
     </div>
   );

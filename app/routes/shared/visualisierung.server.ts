@@ -1,6 +1,6 @@
 import { deflateSync } from "node:zlib";
-import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { toDirectedGraph } from "@xstate/graph";
+import { type LoaderFunctionArgs } from "react-router";
 import { createMachine, type AnyStateMachine } from "xstate";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
@@ -88,5 +88,5 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   const machine = createMachine(config as Config, { guards });
   const graph = getVisualizationString(machine, showBacklinks);
   const mermaidUrl = `https://mermaid.ink/svg/pako:${compressBase64(graph)}?bgColor=!white`;
-  return json({ url: mermaidUrl });
+  return { url: mermaidUrl };
 };
