@@ -1,21 +1,13 @@
 # A2J / Access to Justice / Zugang zu Recht
 
-This repository runs https://service.justiz.de/. We provide user-centered
+This repository runs https://service.justiz.de/. We provide user-centered access to digital justice services. To find out more, check our [project homepage](https://www.zugang-zum-recht-projekte.de/)
 
-https://www.zugang-zum-recht-projekte.de/
+## Requirements
 
-[interactive code map](https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=digitalservicebund%2Fa2j-rechtsantragstelle)
+- Node (>= 22) + npm
+- Docker (Redis, S3 bucket)
 
-## Development
-
-### Requirements
-
-- Node (>= 22)
-- Docker (Redis dependency)
-- npm 7 or greater
-- strapi ([see below](#strapi))
-
-### Run Server in Development Mode
+### Local development
 
 ```sh
 npm install
@@ -23,8 +15,13 @@ docker compose up -d
 npm run dev
 ```
 
-This starts your app in development mode, rebuilding assets on file changes.
-Open the app in `localhost:3000`
+The app will be served on http://localhost:3000, assets are rebuilt on file save. Note: Environment variables are currently cached - changing them requires a restart of the app!
+
+To explore the codebase, you can use this [interactive code map](https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=digitalservicebund%2Fa2j-rechtsantragstelle).
+
+### Content
+
+There are several options for fetching content: Local CMS, staging CMS, local content file. To find out more, check `/docs/content.md`.
 
 ### Tests
 
@@ -42,14 +39,13 @@ Open the app in `localhost:3000`
 
 ### Git Hooks
 
-We use [lefthook](https://github.com/evilmartians/lefthook) for running several pre-commit hooks,install them using `npm run init`.
+We use [lefthook](https://github.com/evilmartians/lefthook) for running several pre-commit hooks, install them using `npm run init`.
 
-The git hooks check formatting, linting, unit tests, typecheck (see `lefthook.yaml` for more details). You may execute them before commiting using `lefthook run pre-commit`.
+The git hooks check formatting, linting, unit tests, typecheck. You may execute them before committing using `lefthook run pre-commit`. See `lefthook.yaml` for more details.
 
 ### Storybook
 
-We have a storybook instance running. On the Staging and preview environments it can be accessed via `/storybook`.
-In development mode, run the `npm run start:storybook` command.
+Storybook containing our components is running on staging and [preview](https://a2j-test.dev.ds4g.net/storybook/). To run it locally, use `npm run start:storybook`.
 
 ## Known issues
 
