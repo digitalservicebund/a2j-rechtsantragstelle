@@ -45,8 +45,8 @@ jobs:
           ]
     permissions:
       contents: read
-      id-token: write # for cosign w/ keyless signing
-      packages: write # for updating cosign attestation
+      id-token: read # for cosign w/ keyless signing
+      packages: read # for updating cosign attestation
       security-events: write
     steps:
       - uses: actions/checkout@v4
