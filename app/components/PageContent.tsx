@@ -9,7 +9,7 @@ import BoxWithImage from "./BoxWithImage";
 import { wrapperPropsFromCms } from "./CommonWrapperProps";
 import Container from "./Container";
 import { Details } from "./Details";
-import Header from "./Header";
+import Hero from "./Hero";
 import InfoBox from "./InfoBox";
 import { InlineNotice } from "./InlineNotice";
 import List from "./list/List";
@@ -56,8 +56,8 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
       return <Heading {...strapiContent} />;
     case "basic.paragraph":
       return <RichText {...strapiContent} />;
-    case "page.header":
-      return <Header {...strapiContent} />;
+    case "page.hero":
+      return <Hero {...strapiContent} />;
     case "page.box":
       return <Box {...strapiContent} />;
     case "page.info-box":
