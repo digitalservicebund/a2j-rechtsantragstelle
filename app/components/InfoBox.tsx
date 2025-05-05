@@ -19,11 +19,12 @@ const InfoBox = ({
     <div className="ds-stack ds-stack-8 scroll-my-40" id={identifier}>
       {heading && <Heading {...heading} />}
       {items.length > 0 && (
-        <ul
-          className={classNames("list-none ps-0 info-box ds-stack", {
+        <div
+          className={classNames("ps-0 info-box ds-stack", {
             "ds-stack-48": !separator,
             "ds-stack-32": separator,
           })}
+          data-testid="info-box-item-container"
         >
           {items.map((item) => (
             <InfoBoxItem
@@ -38,7 +39,7 @@ const InfoBox = ({
               }
             />
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
