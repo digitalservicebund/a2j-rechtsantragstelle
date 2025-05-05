@@ -9,6 +9,9 @@ const IGNORED_PATHS = [
   "/favicon",
   "/health",
   "/data/",
+  "/apple",
+  "/__manifest",
+  "/.well-known/",
 ];
 
 export const createPinoHttpLogger = () => {
