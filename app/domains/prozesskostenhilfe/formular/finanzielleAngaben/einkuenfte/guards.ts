@@ -34,6 +34,9 @@ export const finanzielleAngabeEinkuenfteGuards = {
   staatlicheLeistungenIsArbeitslosengeld: ({ context }) =>
     context.staatlicheLeistungen === "arbeitslosengeld",
   notEmployed: ({ context }) => context.currentlyEmployed === "no",
+  incomeWithBuergergeld: ({ context }) =>
+    context.currentlyEmployed === "yes" &&
+    staatlicheLeistungenIsBuergergeld({ context }),
   isEmployee: ({ context }) =>
     context.employmentType === "employed" ||
     context.employmentType === "employedAndSelfEmployed",
@@ -80,6 +83,9 @@ export const partnerEinkuenfteGuards = {
   staatlicheLeistungenIsArbeitslosengeld: ({ context }) =>
     context["partner-staatlicheLeistungen"] === "arbeitslosengeld",
   notEmployed: ({ context }) => context["partner-currentlyEmployed"] === "no",
+  incomeWithBuergergeld: ({ context }) =>
+    context["partner-currentlyEmployed"] === "yes" &&
+    context["partner-staatlicheLeistungen"] === "buergergeld",
   isEmployee: ({ context }) =>
     context["partner-employmentType"] === "employed" ||
     context["partner-employmentType"] === "employedAndSelfEmployed",
