@@ -53,7 +53,7 @@ const SummaryOverviewBox = ({
       </div>
       <StandaloneLink
         url={`${flowId}${stepId}`}
-        className="flex basis gap-2 pl-2 ds-link-01-bold items-start justify-end"
+        className="flex basis gap-2 pl-2 ds-link-01-bold items-start justify-end h-min"
         icon={<EditIcon className="shrink-0 inline" />}
         text={"Bearbeiten"}
       />
