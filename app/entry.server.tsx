@@ -2,7 +2,7 @@ import { PassThrough } from "stream";
 import { createReadableStreamFromReadable } from "@react-router/node";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
-import type { EntryContext } from "react-router";
+import type { EntryContext, HandleErrorFunction } from "react-router";
 import { redirect, ServerRouter } from "react-router";
 import { config } from "./services/env/env.server";
 import { config as webConfig } from "./services/env/web";
@@ -19,9 +19,12 @@ const CONNECT_SOURCES = [originFromUrlString(webConfig().SENTRY_DSN)].filter(
   (origin) => origin !== undefined,
 );
 
-export function handleError(error: unknown): void {
-  logError({ error });
-}
+export const handleError: HandleErrorFunction = (error, { request }) => {
+  // React Router may abort some interrupted requests, don't log those
+  if (!request.signal.aborted) {
+    logError({ error });
+  }
+};
 
 export default function handleRequest(
   request: Request,
