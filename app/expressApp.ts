@@ -17,7 +17,7 @@ export const expressApp = (
   viteDevServer: ViteDevServer,
 ) => {
   const redisClient = getRedisInstance();
-  const reactRouterHandler = createRequestHandler({ build }) as RequestHandler; // express 4 doesn't handle returned promises
+  const reactRouterHandler = createRequestHandler({ build }) as RequestHandler; // express 5 doesn't handle returned promises
 
   const app = express();
 
@@ -48,7 +48,8 @@ export const expressApp = (
   app.set("trust proxy", 2);
 
   // Limit calls to routes ending in /pdf or /pdf/, as they are expensive
-  app.use("/*/pdf", createRateLimitRequestHandler(redisClient));
+  // Express 5 must have the wildcard * with name. Check https://expressjs.com/en/guide/migrating-5.html#path-syntax
+  app.use("/*splat/pdf", createRateLimitRequestHandler(redisClient));
 
   if (config().ENVIRONMENT === "production") {
     // On production, we let the app handle all calls to /storybook to serve normal 404s
@@ -57,7 +58,8 @@ export const expressApp = (
   // Everything else (like favicon.ico) is cached for an hour
   // You may want to be more aggressive with this caching.
   app.use(express.static("build/client", { maxAge: "1h" }));
-  app.all("*", reactRouterHandler);
+  // Express 5 must have the wildcard * with name. Check https://expressjs.com/en/guide/migrating-5.html#path-syntax
+  app.all("/{*splat}", reactRouterHandler);
 
   return {
     app,
