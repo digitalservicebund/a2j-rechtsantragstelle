@@ -1,13 +1,13 @@
 import { PDFDocument } from "pdf-lib";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { attachUserUploadedFilesToPdf } from "~/domains/beratungshilfe/services/pdf/attachUserUploadedFilesToPdf/attachUserUploadedFilesToPdf";
 import {
   addMetadataToPdf,
   type Metadata,
 } from "~/services/pdf/addMetadataToPdf";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
-import { attachUserUploadedFilesToPdf } from "~/services/pdf/attachUserUploadedFilesToPdf/attachUserUploadedFilesToPdf";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillPdf } from "~/services/pdf/fillPdf.server";
 import { createFooter } from "~/services/pdf/footer/createFooter";
