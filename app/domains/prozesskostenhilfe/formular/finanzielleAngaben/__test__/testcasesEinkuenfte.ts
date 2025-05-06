@@ -17,6 +17,43 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = [
     [prefix + "/staatliche-leistungen", prefix + "/buergergeld"],
   ],
   [
+    {
+      staatlicheLeistungen: "buergergeld",
+      buergergeld: "1000",
+      currentlyEmployed: "yes",
+      employmentType: "employed",
+      nettoEinkuenfteAlsArbeitnehmer: "1000",
+    },
+    [
+      prefix + "/staatliche-leistungen",
+      prefix + "/buergergeld",
+      prefix + "/einkommen/erwerbstaetig",
+      prefix + "/einkommen/art",
+      prefix + "/einkommen/netto-einkommen",
+      prefix + "/rente-frage",
+    ],
+  ],
+  [
+    {
+      staatlicheLeistungen: "buergergeld",
+      buergergeld: "1000",
+      currentlyEmployed: "yes",
+      employmentType: "selfEmployed",
+      selbststaendigMonatlichesEinkommen: "1000",
+      selbststaendigBruttoNetto: "brutto",
+      selbststaendigAbzuege: "100",
+    },
+    [
+      prefix + "/staatliche-leistungen",
+      prefix + "/buergergeld",
+      prefix + "/einkommen/erwerbstaetig",
+      prefix + "/einkommen/art",
+      prefix + "/einkommen/selbststaendig",
+      prefix + "/einkommen/selbststaendig-abzuege",
+      prefix + "/rente-frage",
+    ],
+  ],
+  [
     { staatlicheLeistungen: "arbeitslosengeld" },
     [prefix + "/staatliche-leistungen", prefix + "/arbeitslosengeld"],
   ],
