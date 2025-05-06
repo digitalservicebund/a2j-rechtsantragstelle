@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { I18nextProvider } from "react-i18next";
 import type {
   LinksFunction,
   LoaderFunctionArgs,
@@ -36,6 +37,7 @@ import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
 import PageHeader from "./components/PageHeader";
+import i18n from "./i18n";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
@@ -248,11 +250,13 @@ function App() {
           translations={{ ...accessibilityTranslations }}
         />
         <CookieConsentContext.Provider value={hasTrackingConsent}>
-          <TranslationContext.Provider value={translationMemo}>
-            <main className="flex-grow" id="main">
-              <Outlet />
-            </main>
-          </TranslationContext.Provider>
+          <I18nextProvider i18n={i18n}>
+            <TranslationContext.Provider value={translationMemo}>
+              <main className="flex-grow" id="main">
+                <Outlet />
+              </main>
+            </TranslationContext.Provider>
+          </I18nextProvider>
           <CookieBanner content={cookieBannerContent} />
         </CookieConsentContext.Provider>
         <footer>
