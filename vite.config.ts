@@ -35,7 +35,7 @@ export default defineConfig((config) => ({
   ],
   build: {
     sourcemap: buildSentrySourceMaps,
-    target: config.isSsrBuild ? "esnext" : undefined, // Allows top-level await in server-only files
+    target: "esnext", // Allows top-level await in server-only files
   },
   test: {
     globals: true,
