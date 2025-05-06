@@ -59,7 +59,7 @@ export const expressApp = (
   // You may want to be more aggressive with this caching.
   app.use(express.static("build/client", { maxAge: "1h" }));
   // Express 5 must have the wildcard * with name. Check https://expressjs.com/en/guide/migrating-5.html#path-syntax
-  app.all("/{*splat}", reactRouterHandler);
+  app.all("*splat", reactRouterHandler);
 
   return {
     app,
