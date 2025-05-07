@@ -6,9 +6,9 @@ export const getRelevantFiles = (
   flowId: "/beratungshilfe/antrag",
   condition?: boolean,
 ) => {
-    const relevantFilesPromises: Array<Array<Promise<Uint8Array>>> = [];
+  const relevantFilesPromises: Array<Array<Promise<Uint8Array>>> = [];
 
-    if (condition && evidence) {
+  if (condition && evidence) {
     relevantFilesPromises.push(
       evidence.map((fileMeta) =>
         downloadUserFileFromS3(sessionId, flowId, fileMeta.savedFileKey ?? ""),

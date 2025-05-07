@@ -6,6 +6,7 @@ import {
   ausgabenStrings,
 } from "~/domains/beratungshilfe/formular/stringReplacements";
 import { geldAnlagenStrings } from "~/domains/shared/formular/stringReplacements";
+import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import { getRelevantFiles } from "./getRelevantFiles";
 
 export async function attachUserUploadedFilesToPdf(
@@ -166,22 +167,11 @@ export async function attachUserUploadedFilesToPdf(
     )),
   );
 
-  
-  if (relevantFiles.length === 0) {
-    return mainPdfBuffer;
-  }
-
   const pdfWithUserFiles = await PDFDocument.load(mainPdfBuffer);
 
   for (const file of relevantFiles) {
     const userPdfFile = await PDFDocument.load(file);
-    const copiedPdfFilePages = await pdfWithUserFiles.copyPages(
-      userPdfFile,
-      userPdfFile.getPageIndices(),
-    );
-    for (const copiedPdfFilePage of copiedPdfFilePages) {
-      pdfWithUserFiles.addPage(copiedPdfFilePage);
-    }
+    await appendPagesToPdf(pdfWithUserFiles, userPdfFile);
   }
   return pdfWithUserFiles.save();
 }
