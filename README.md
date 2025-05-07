@@ -37,6 +37,8 @@ There are several options for fetching content: Local CMS, staging CMS, local co
 - run: `npm run test:e2e`
 - UI: `npm run test:e2e:ui`
 
+For more details, check `/doc/e2e-tests.md`
+
 ### Git Hooks
 
 We use [lefthook](https://github.com/evilmartians/lefthook) for running several pre-commit hooks, install them using `npm run init`.
