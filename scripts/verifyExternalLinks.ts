@@ -48,6 +48,22 @@ const allowedWebsites = [
   "https://formulare.bfdi.bund.de",
   "https://www.justizadressen.nrw.de",
   "https://www.datenschutzkonferenz-online.de",
+  "https://www.diakonie.de/",
+  "https://www.dgb.de",
+  "https://fachstelle.antidiskriminierung.org",
+  "https://www.unterstuetzung-die-ankommt.de",
+  "https://www.vdk.de",
+  "https://einrichtungsdatenbank.awo.org",
+  "https://mieterbund.de",
+  "https://www.woundwie.de",
+  "https://www.meine-schulden.de",
+  "https://www.schuldnerberatung.de",
+  "https://www.hilfe-info.de",
+  "https://www.frauenhauskoordinierung.de",
+  "https://www.bke.de",
+  "https://www.unterstuetzung-die-ankommt.de",
+  "https://www.dajeb.de",
+  "https://www.caritas.de",
 ];
 
 const allowedEmails = [

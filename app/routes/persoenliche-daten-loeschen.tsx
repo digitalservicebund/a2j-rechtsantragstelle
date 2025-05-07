@@ -34,7 +34,7 @@ export default function PersoenlicheDatenLoeschen() {
   const isSubmitting = useNavigation().state === "submitting";
 
   return (
-    <>
+    <div className="flex flex-col flex-grow">
       <PageContent content={content} />
       <Container paddingTop="0">
         <Form
@@ -61,6 +61,6 @@ export default function PersoenlicheDatenLoeschen() {
           </ButtonContainer>
         </Form>
       </Container>
-    </>
+    </div>
   );
 }

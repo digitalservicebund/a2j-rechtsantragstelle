@@ -13,7 +13,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export default function Kitchensink() {
   const loaderData = useLoaderData<typeof loader>();
   return (
-    <div>
+    <div className="flex flex-grow">
       {loaderData.content ? (
         <PageContent content={loaderData.content} />
       ) : (
