@@ -47,7 +47,7 @@ export default function Index() {
     useLoaderData<typeof loader>();
 
   return (
-    <>
+    <div className="flex flex-col flex-grow">
       <Background backgroundColor="blue">
         <CourtFinderHeader label={common.featureName}>
           <RichText html={resultListHeading} />
@@ -97,6 +97,6 @@ export default function Index() {
           </Button>
         </ButtonContainer>
       </Container>
-    </>
+    </div>
   );
 }
