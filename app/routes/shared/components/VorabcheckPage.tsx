@@ -17,7 +17,7 @@ export function VorabcheckPage() {
   } = useLoaderData<typeof loader>();
   return (
     <Background backgroundColor="blue">
-      <div className="min-w-[100vw]">
+      <div className="min-h-screen">
         <Container paddingTop="24" paddingBottom="64">
           <div className="ds-stack ds-stack-40">
             <ProgressBar {...progressProps} />

@@ -232,31 +232,29 @@ function App() {
         <Meta />
         <Links />
       </head>
-      <body className="flex flex-col">
-        <div className="flex flex-col min-h-screen">
-          <SkipToContentLink
-            label={getTranslationByKey(
-              SKIP_TO_CONTENT_TRANSLATION_KEY,
-              accessibilityTranslations,
-            )}
-            target={skipToContentLinkTarget}
-          />
-          <PageHeader {...pageHeaderProps} />
-          <Breadcrumbs
-            breadcrumbs={breadcrumbs}
-            alignToMainContainer={pageHeaderProps.alignToMainContainer}
-            linkLabel={pageHeaderProps.linkLabel}
-            translations={{ ...accessibilityTranslations }}
-          />
-          <CookieConsentContext.Provider value={hasTrackingConsent}>
-            <TranslationContext.Provider value={translationMemo}>
-              <main className="flex-grow flex" id="main">
-                <Outlet />
-              </main>
-            </TranslationContext.Provider>
-            <CookieBanner content={cookieBannerContent} />
-          </CookieConsentContext.Provider>
-        </div>
+      <body className="flex flex-col min-h-screen">
+        <SkipToContentLink
+          label={getTranslationByKey(
+            SKIP_TO_CONTENT_TRANSLATION_KEY,
+            accessibilityTranslations,
+          )}
+          target={skipToContentLinkTarget}
+        />
+        <PageHeader {...pageHeaderProps} />
+        <Breadcrumbs
+          breadcrumbs={breadcrumbs}
+          alignToMainContainer={pageHeaderProps.alignToMainContainer}
+          linkLabel={pageHeaderProps.linkLabel}
+          translations={{ ...accessibilityTranslations }}
+        />
+        <CookieConsentContext.Provider value={hasTrackingConsent}>
+          <TranslationContext.Provider value={translationMemo}>
+            <main className="flex-grow" id="main">
+              <Outlet />
+            </main>
+          </TranslationContext.Provider>
+          <CookieBanner content={cookieBannerContent} />
+        </CookieConsentContext.Provider>
         <footer>
           <Footer
             {...footer}
@@ -287,23 +285,21 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
         <Links />
         <meta name="darkreader-lock" />
       </head>
-      <body className="flex flex-col">
-        <div className="min-h-screen">
-          <PageHeader
-            alignToMainContainer
-            hideLinks={false}
-            linkLabel="Zurück zur Startseite"
-            title="Justiz-Services"
-            translations={{
-              leichtesprache: "Leichte Sprache",
-              gebaerdensprache: "Gebärdensprache",
-              mainNavigationAriaLabel: "Hauptmenü",
-            }}
-          />
-          <main className="flex-grow">
-            <ErrorBox context={loaderData?.context ?? {}} />
-          </main>
-        </div>
+      <body className="flex flex-col min-h-screen">
+        <PageHeader
+          alignToMainContainer
+          hideLinks={false}
+          linkLabel="Zurück zur Startseite"
+          title="Justiz-Services"
+          translations={{
+            leichtesprache: "Leichte Sprache",
+            gebaerdensprache: "Gebärdensprache",
+            mainNavigationAriaLabel: "Hauptmenü",
+          }}
+        />
+        <main className="flex-grow">
+          <ErrorBox context={loaderData?.context ?? {}} />
+        </main>
         {loaderData && (
           <Footer
             {...loaderData.footer}
