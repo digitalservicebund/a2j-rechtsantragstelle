@@ -18,14 +18,15 @@ on:
 env:
   files_exist_subfolder_test_results: "false"
 
+permissions:
+  contents: read
+
 jobs:
   e2e-tests:
     strategy:
       fail-fast: false
       matrix:
         shard: [1, 2, 3, 4]
-    permissions:
-      packages: read
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
