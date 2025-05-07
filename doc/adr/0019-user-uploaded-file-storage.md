@@ -8,6 +8,7 @@
 - 2025-01-27: Edited (Added TTL, clarified retrieval)
 - 2025-04-04: Edited (Added chronological status)
 - 2025-04-08: Edited (Added Bucket Flooding section)
+- 2025-05-06: Edited (Edited & renamed `Bucket Flooding` to `Bucket Security`)
 
 ## Context
 
@@ -37,10 +38,15 @@ To think about later:
 - [Redis Pub/Sub client listening to EXPIRY events](https://redis.io/docs/latest/develop/use/keyspace-notifications/#timing-of-expired-events); upon EXPIRY, delete any associated files in bucket storage
   - Could live in the app as a singleton service that listens to Redis expiration events
 
-## S3 Flooding
+## Bucket security / Known issues
 
-We tested accessing an existing and a no-existing file in production. For the existing one we got InvalidArgument error and for no-existing file we got Access Denied. After some research for a solution, we found one lead but it would mean changing the bucket's default settings.
-After some consideration, we decided to keep it as it is right now (trying to access an existing file might expose users data) until we find a better solution.
+### Leaking of file existence
+
+Accessing an existing file lead to different error (`InvalidArgument`) than accessing a non-existing path (`Access Denied`). This leaks information about file existence, ie a side channel attack. No easy solution via configuration was found. We have decided to accept this risk, as filenames are randomized, not attributable and only valid for 24 hours.
+
+### Bucket size and alerts
+
+The only way to restrict a buckets size is via the OTC API. There is also no way to set up alerts. We accept this risk for now.
 
 ## Alternatives considered
 
