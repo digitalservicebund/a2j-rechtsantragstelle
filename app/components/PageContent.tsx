@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import type { ReactElement } from "react";
 import Heading from "~/components/Heading";
 import Video from "~/components/video/Video";
@@ -97,7 +96,7 @@ function PageContent({
 }: PageContentProps) {
   if (content.length === 0) return <></>;
   return (
-    <div className={classNames(className, "min-w-[100vw]")}>
+    <div className={className}>
       {content
         .filter((el) => el.__component !== "page.array-summary")
         .map((el) => (
