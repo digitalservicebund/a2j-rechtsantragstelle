@@ -1,7 +1,6 @@
 import { PDFDocument } from "pdf-lib";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { attachUserUploadedFilesToPdf } from "~/domains/beratungshilfe/services/pdf/attachUserUploadedFilesToPdf/attachUserUploadedFilesToPdf";
 import {
   addMetadataToPdf,
   type Metadata,
@@ -13,6 +12,7 @@ import { fillPdf } from "~/services/pdf/fillPdf.server";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
+import { attachUserUploadedFilesToPdf } from "./attachUserUploadedFilesToPdf";
 import { createChecklistPage } from "./checklist/createChecklistPage";
 import { fillAngelegenheit } from "./pdfForm/A_angelegenheit";
 import { fillVorraussetzungen } from "./pdfForm/B_vorraussetzungen";
@@ -96,9 +96,9 @@ export async function beratungshilfePdfFromUserdata(
   if (userData.abgabeArt === "online") {
     const userFilesPdfBuffer = await attachUserUploadedFilesToPdf(
       pdfKitBuffer,
-      userData,
       sessionId,
       "/beratungshilfe/antrag",
+      userData,
     );
     const userFilesPdfDocument = await PDFDocument.load(userFilesPdfBuffer);
     return appendPagesToPdf(

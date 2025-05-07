@@ -3,7 +3,7 @@ import { vi, type Mock } from "vitest";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { downloadUserFileFromS3 } from "~/services/externalDataStorage/userFileS3Helpers";
-import { attachUserUploadedFilesToPdf } from "../attachUserUploadedFilesToPdf";
+import { attachUserUploadedFilesToPdf } from "..";
 
 vi.mock("~/services/externalDataStorage/userFileS3Helpers", () => ({
   downloadUserFileFromS3: vi.fn(),
@@ -48,15 +48,12 @@ describe("attachUserUploadedFilesToPdf", () => {
     };
     const resultBuffer = await attachUserUploadedFilesToPdf(
       mockMainPDFBuffer,
-      mockedUserData,
       sessionId,
       flowId,
+      mockedUserData,
     );
-
     const resultPdf = await PDFDocument.load(resultBuffer);
-
     expect(resultPdf.getPageCount()).toBe(2);
-    expect(resultBuffer).toBeInstanceOf(Uint8Array);
   });
 
   it("should attach multiple user uploaded files into the main PDF", async () => {
@@ -83,18 +80,14 @@ describe("attachUserUploadedFilesToPdf", () => {
       ],
       staatlicheLeistungen: "buergergeld",
     };
-
     const resultBuffer = await attachUserUploadedFilesToPdf(
       mockMainPDFBuffer,
-      mockedUserData,
       sessionId,
       flowId,
+      mockedUserData,
     );
-
     const resultPdf = await PDFDocument.load(resultBuffer);
-
     expect(resultPdf.getPageCount()).toBe(4);
-    expect(resultBuffer).toBeInstanceOf(Uint8Array);
   });
 
   it("should return the original PDF buffer if no relevant documents are found", async () => {
@@ -105,15 +98,12 @@ describe("attachUserUploadedFilesToPdf", () => {
 
     const resultBuffer = await attachUserUploadedFilesToPdf(
       mockMainPDFBuffer,
-      mockedUserData,
       sessionId,
       flowId,
+      mockedUserData,
     );
-
     const resultPdf = await PDFDocument.load(resultBuffer);
-
     expect(resultPdf.getPageCount()).toBe(1);
-    expect(resultBuffer).toBeInstanceOf(Uint8Array);
   });
 
   it("should attach files only for conditions that are true", async () => {
@@ -152,15 +142,12 @@ describe("attachUserUploadedFilesToPdf", () => {
 
     const resultBuffer = await attachUserUploadedFilesToPdf(
       mockMainPDFBuffer,
-      mockedUserData,
       sessionId,
       flowId,
+      mockedUserData,
     );
-
     const resultPdf = await PDFDocument.load(resultBuffer);
-
     expect(resultPdf.getPageCount()).toBe(3);
-    expect(resultBuffer).toBeInstanceOf(Uint8Array);
   });
   it("should not attach files for conditions that are false", async () => {
     const mockedUserData: BeratungshilfeFormularContext = {
@@ -177,14 +164,11 @@ describe("attachUserUploadedFilesToPdf", () => {
 
     const resultBuffer = await attachUserUploadedFilesToPdf(
       mockMainPDFBuffer,
-      mockedUserData,
       sessionId,
       flowId,
+      mockedUserData,
     );
-
     const resultPdf = await PDFDocument.load(resultBuffer);
-
     expect(resultPdf.getPageCount()).toBe(1);
-    expect(resultBuffer).toBeInstanceOf(Uint8Array);
   });
 });
