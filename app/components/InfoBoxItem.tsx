@@ -33,7 +33,7 @@ const InfoBoxItem = ({
   separator,
 }: InfoBoxItemProps) => {
   return (
-    <li
+    <div
       id={identifier}
       className={classNames(
         "flex flex-row items-center justify-center max-w-none max-[499px]:flex-col first:pt-0 scroll-my-40",
@@ -71,7 +71,7 @@ const InfoBoxItem = ({
           </ButtonContainer>
         )}
       </div>
-    </li>
+    </div>
   );
 };
 

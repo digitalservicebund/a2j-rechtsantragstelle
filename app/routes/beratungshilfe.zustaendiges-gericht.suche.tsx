@@ -61,7 +61,7 @@ export default function Index() {
 
   return (
     <Background backgroundColor="blue">
-      <div className="min-h-screen">
+      <div className="min-w-[100vw]">
         <Container>
           <PageContent className="ds-stack ds-stack-32" content={pre_form} />
         </Container>

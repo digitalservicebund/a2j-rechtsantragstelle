@@ -212,7 +212,12 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
                   guard: guards.isSelfEmployed,
                   target: stepIds.selbststaendig,
                 },
-                `#${stepIds.id}.${stepIds.abzuege}`,
+                {
+                  guard: ({ context }) =>
+                    !guards.incomeWithBuergergeld({ context }),
+                  target: `#${stepIds.id}.${stepIds.abzuege}`,
+                },
+                `#${stepIds.id}.${stepIds.renteFrage}`,
               ],
               BACK: stepIds.art,
             },
@@ -232,7 +237,14 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
           [stepIds.selbststaendigAbzuege]: {
             on: {
               BACK: stepIds.selbststaendig,
-              SUBMIT: `#${stepIds.id}.${stepIds.abzuege}`,
+              SUBMIT: [
+                {
+                  guard: ({ context }) =>
+                    !guards.incomeWithBuergergeld({ context }),
+                  target: `#${stepIds.id}.${stepIds.abzuege}`,
+                },
+                `#${stepIds.id}.${stepIds.renteFrage}`,
+              ],
             },
           },
         },
@@ -371,6 +383,18 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
             {
               guard: guards.notEmployed,
               target: stepIds.einkommen,
+            },
+            {
+              guard: ({ context }) =>
+                guards.incomeWithBuergergeld({ context }) &&
+                guards.isSelfEmployed({ context }),
+              target: `#${stepIds.id}.${stepIds.einkommen}.${stepIds.selbststaendigAbzuege}`,
+            },
+            {
+              guard: ({ context }) =>
+                guards.incomeWithBuergergeld({ context }) &&
+                !guards.isSelfEmployed({ context }),
+              target: `#${stepIds.id}.${stepIds.einkommen}.${stepIds.nettoEinkommen}`,
             },
             {
               guard: guards.hasAndereArbeitsausgaben,

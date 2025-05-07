@@ -29,7 +29,7 @@ export const dokumenteContext = {
   sparkontoBeweis: fileUploadSchema,
   grundeigentumBeweis: fileUploadSchema,
 
-  schwangerschaftAngabe: fileUploadSchema,
+  schwangerschaftAngabeBeweis: fileUploadSchema,
   schwerbehinderungBeweis: fileUploadSchema,
   medizinischeGruendeBeweis: fileUploadSchema,
 

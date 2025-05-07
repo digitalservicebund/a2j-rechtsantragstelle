@@ -136,6 +136,43 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = [
     ],
   ],
   [
+    {
+      "partner-staatlicheLeistungen": "buergergeld",
+      "partner-buergergeld": "1000",
+      "partner-currentlyEmployed": "yes",
+      "partner-employmentType": "employed",
+      "partner-nettoEinkuenfteAlsArbeitnehmer": "1000",
+    },
+    [
+      prefixEinkuenfte + "/partner-staatliche-leistungen",
+      prefixEinkuenfte + "/partner-buergergeld",
+      prefixEinkuenfte + "/partner-einkommen/partner-erwerbstaetig",
+      prefixEinkuenfte + "/partner-einkommen/partner-art",
+      prefixEinkuenfte + "/partner-einkommen/partner-netto-einkommen",
+      prefixEinkuenfte + "/partner-rente-frage",
+    ],
+  ],
+  [
+    {
+      "partner-staatlicheLeistungen": "buergergeld",
+      "partner-buergergeld": "1000",
+      "partner-currentlyEmployed": "yes",
+      "partner-employmentType": "selfEmployed",
+      "partner-selbststaendigMonatlichesEinkommen": "1000",
+      "partner-selbststaendigBruttoNetto": "brutto",
+      "partner-selbststaendigAbzuege": "100",
+    },
+    [
+      prefixEinkuenfte + "/partner-staatliche-leistungen",
+      prefixEinkuenfte + "/partner-buergergeld",
+      prefixEinkuenfte + "/partner-einkommen/partner-erwerbstaetig",
+      prefixEinkuenfte + "/partner-einkommen/partner-art",
+      prefixEinkuenfte + "/partner-einkommen/partner-selbststaendig",
+      prefixEinkuenfte + "/partner-einkommen/partner-selbststaendig-abzuege",
+      prefixEinkuenfte + "/partner-rente-frage",
+    ],
+  ],
+  [
     { "partner-staatlicheLeistungen": "arbeitslosengeld" },
     [
       prefixEinkuenfte + "/partner-staatliche-leistungen",
