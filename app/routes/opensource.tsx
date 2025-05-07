@@ -18,11 +18,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export default function Index() {
   const { content, dependencies } = useLoaderData<typeof loader>();
   return (
-    <>
+    <div className="flex flex-col flex-grow">
       <PageContent content={content} />
       <Container>
         <LicenseList dependencies={dependencies} />
       </Container>
-    </>
+    </div>
   );
 }
