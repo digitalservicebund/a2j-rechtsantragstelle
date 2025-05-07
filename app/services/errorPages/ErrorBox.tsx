@@ -26,7 +26,7 @@ export function ErrorBox({ context }: ErrorBoxProps) {
   const debugId = context.debugId as string | undefined;
   const isProd = config().ENVIRONMENT === "production";
   return (
-    <div>
+    <div className="flex flex-col flex-grow">
       <PageContent content={matchingError(routerError)} />
       <Container>
         {debugId && <pre>ID: {debugId}</pre>}
