@@ -18,9 +18,13 @@ const { expressApp } = await initialBuild.entry.module;
 const { app, cleanup } = expressApp(build, viteDevServer);
 
 const port = process.env.PORT || 3000;
-const server = app.listen(port, () =>
-  console.log(`Express server listening at http://localhost:${port}`),
-);
+const server = app.listen(port, (error) => {
+  // Express 5 receive an error event. Check https://expressjs.com/en/guide/migrating-5.html#app.listen
+  if (error) {
+    throw error;
+  }
+  console.log(`Express server listening at http://localhost:${port}`);
+});
 
 function cleanupAndShutdown() {
   if (isShuttingDown) return;
