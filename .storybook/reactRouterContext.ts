@@ -7,6 +7,13 @@ export function reactRouterContext(
   action?: ActionFunction,
 ) {
   return createElement(
-    createRoutesStub([{ path: "/", Component: component, loader, action }]),
+    createRoutesStub([
+      {
+        path: "/",
+        Component: () => createElement(component),
+        loader,
+        action,
+      },
+    ]),
   );
 }
