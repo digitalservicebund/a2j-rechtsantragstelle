@@ -1,5 +1,6 @@
 import { PDFDocument } from "pdf-lib";
 import { vi, type Mock } from "vitest";
+import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
 import { downloadUserFileFromS3 } from "~/services/externalDataStorage/userFileS3Helpers";
 import { attachUserUploadedFilesToPdf } from "../attachUserUploadedFilesToPdf";
 
@@ -23,7 +24,6 @@ describe("attachUserUploadedFilesToPdf", () => {
     mockMainPDFBuffer = await mainPdfDoc.save();
 
     // Create PDF from user uploaded file
-
     const userPdfDoc = await PDFDocument.create();
     userPdfDoc.addPage();
     mockUserPDFBuffer = await userPdfDoc.save();
@@ -32,39 +32,75 @@ describe("attachUserUploadedFilesToPdf", () => {
     (downloadUserFileFromS3 as Mock).mockResolvedValue(mockUserPDFBuffer);
   });
 
-  it("should attach one user uploaded file into the main PDF", async () => {
-    const mockedUserData = {
-      someField: [{ savedFileKey: "file1" }],
+  it("should attach user uploaded file into the main PDF", async () => {
+    const mockedUserData: BeratungshilfeFormularContext = {
+      buergergeldBeweis: [
+        {
+          filename: "testfile.pdf",
+          fileType: "application/pdf",
+          fileSize: 5938,
+          savedFileKey: "xyz123-lmn456-opq789",
+        },
+      ],
+      staatlicheLeistungen: "buergergeld",
     };
-
     const resultBuffer = await attachUserUploadedFilesToPdf(
       mockMainPDFBuffer,
-      mockedUserData,
       sessionId,
       flowId,
+      mockedUserData,
     );
-
     const resultPdf = await PDFDocument.load(resultBuffer);
-
     expect(resultPdf.getPageCount()).toBe(2);
-    expect(resultBuffer).toBeInstanceOf(Uint8Array);
   });
+
   it("should attach multiple user uploaded files into the main PDF", async () => {
-    const mockedUserData = {
-      someField: [{ savedFileKey: "file1" }, { savedFileKey: "file2" }],
-      anotherField: [{ savedFileKey: "file3" }],
+    const mockedUserData: BeratungshilfeFormularContext = {
+      buergergeldBeweis: [
+        {
+          filename: "testfile1.pdf",
+          fileType: "application/pdf",
+          fileSize: 5938,
+          savedFileKey: "xyz123-lmn456-opq789",
+        },
+        {
+          filename: "testfile2.pdf",
+          fileType: "application/pdf",
+          fileSize: 19718,
+          savedFileKey: "xyz789-lmn654-opq321",
+        },
+        {
+          filename: "testfile3.pdf",
+          fileType: "application/pdf",
+          fileSize: 1234,
+          savedFileKey: "xyz789-lmn654-opq321",
+        },
+      ],
+      staatlicheLeistungen: "buergergeld",
+    };
+    const resultBuffer = await attachUserUploadedFilesToPdf(
+      mockMainPDFBuffer,
+      sessionId,
+      flowId,
+      mockedUserData,
+    );
+    const resultPdf = await PDFDocument.load(resultBuffer);
+    expect(resultPdf.getPageCount()).toBe(4);
+  });
+
+  it("should return the original PDF buffer if no relevant documents are found", async () => {
+    const mockedUserData: BeratungshilfeFormularContext = {
+      keineLeistungenBeweis: undefined,
+      staatlicheLeistungen: "keine",
     };
 
     const resultBuffer = await attachUserUploadedFilesToPdf(
       mockMainPDFBuffer,
-      mockedUserData,
       sessionId,
       flowId,
+      mockedUserData,
     );
-
     const resultPdf = await PDFDocument.load(resultBuffer);
-
-    expect(resultPdf.getPageCount()).toBe(4);
-    expect(resultBuffer).toBeInstanceOf(Uint8Array);
+    expect(resultPdf.getPageCount()).toBe(1);
   });
 });
