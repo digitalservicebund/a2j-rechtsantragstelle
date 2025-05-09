@@ -58,13 +58,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: content-file
+      - name: Install cosign
+        uses: sigstore/cosign-installer@3454372f43399081ed03b604cb2d021dabca52bb # v3.8.2
       - run: ./docker.sh --build content
       - run: ./docker.sh --push content
       - run: ./docker.sh --build prod
-      - run: ./docker.sh --push prod
       - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
-      - name: Install cosign
-        uses: sigstore/cosign-installer@3454372f43399081ed03b604cb2d021dabca52bb # v3.8.2
       - name: Generate cosign vulnerability scan record for PROD image
         uses: aquasecurity/trivy-action@6c175e9c4083a92bbca2f9724c8a5e33bc2d97a5 # v0.30.0
         env:
@@ -73,6 +72,7 @@ jobs:
           image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.PROD_IMAGE_TAG }}
           format: "cosign-vuln"
           output: "vulnerabilities.json"
+      - run: ./docker.sh --push prod
       - run: ./docker.sh --sign
       - id: prod_image_tag
         run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
