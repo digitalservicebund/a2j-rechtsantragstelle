@@ -4,36 +4,43 @@ import {
   fileUploadLimit,
 } from "~/util/file/pdfFileSchema";
 
-const fileUploadSchema = z
+const fileUploadRequiredSchema = z
   .array(pdfFileMetaDataSchema)
   .nonempty({ message: "fileRequired" })
   .max(fileUploadLimit, { message: "fileLimitReached" })
   .optional(); // remove after e2e tests have been added
 
+const fileUploadOptionalSchema = z
+  .array(pdfFileMetaDataSchema)
+  .max(fileUploadLimit, { message: "fileLimitReached" })
+  .optional(); // remove after e2e tests have been added
+
 export const dokumenteContext = {
-  arbeitslosengeldBeweis: fileUploadSchema,
-  wohngeldBeweis: fileUploadSchema,
-  bafoegBeweis: fileUploadSchema,
+  arbeitslosengeldBeweis: fileUploadRequiredSchema,
+  wohngeldBeweis: fileUploadRequiredSchema,
+  bafoegBeweis: fileUploadRequiredSchema,
 
-  krankengeldBeweis: fileUploadSchema,
-  elterngeldBeweis: fileUploadSchema,
-  buergergeldBeweis: fileUploadSchema,
-  asylbewerberleistungenBeweis: fileUploadSchema,
-  keineLeistungenBeweis: fileUploadSchema,
-  grundsicherungBeweis: fileUploadSchema,
+  krankengeldBeweis: fileUploadRequiredSchema,
+  elterngeldBeweis: fileUploadRequiredSchema,
+  buergergeldBeweis: fileUploadRequiredSchema,
+  asylbewerberleistungenBeweis: fileUploadRequiredSchema,
+  keineLeistungenBeweis: fileUploadRequiredSchema,
+  grundsicherungBeweis: fileUploadRequiredSchema,
 
-  lebensversicherungBeweis: fileUploadSchema,
-  bausparvertragBeweis: fileUploadSchema,
-  wertpapiereBeweis: fileUploadSchema,
-  guthabenkontoBeweis: fileUploadSchema,
-  sparkontoBeweis: fileUploadSchema,
-  grundeigentumBeweis: fileUploadSchema,
+  lebensversicherungBeweis: fileUploadRequiredSchema,
+  bausparvertragBeweis: fileUploadRequiredSchema,
+  wertpapiereBeweis: fileUploadRequiredSchema,
+  guthabenkontoBeweis: fileUploadRequiredSchema,
+  sparkontoBeweis: fileUploadRequiredSchema,
+  grundeigentumBeweis: fileUploadRequiredSchema,
 
-  schwangerschaftAngabeBeweis: fileUploadSchema,
-  schwerbehinderungBeweis: fileUploadSchema,
-  medizinischeGruendeBeweis: fileUploadSchema,
+  schwangerschaftAngabeBeweis: fileUploadRequiredSchema,
+  schwerbehinderungBeweis: fileUploadRequiredSchema,
+  medizinischeGruendeBeweis: fileUploadRequiredSchema,
 
-  weitereAusgabenBeweis: fileUploadSchema,
+  weitereAusgabenBeweis: fileUploadRequiredSchema,
+
+  weitereDokumenteBeweis: fileUploadOptionalSchema,
 };
 
 const _contextObject = z.object(dokumenteContext).partial();
