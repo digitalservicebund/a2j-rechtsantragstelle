@@ -38,7 +38,9 @@ export const dokumenteContext = {
   schwerbehinderungBeweis: fileUploadRequiredSchema,
   medizinischeGruendeBeweis: fileUploadRequiredSchema,
 
-  weitereAusgabenBeweis: fileUploadOptionalSchema,
+  weitereAusgabenBeweis: fileUploadRequiredSchema,
+
+  weitereDokumenteBeweis: fileUploadOptionalSchema,
 };
 
 const _contextObject = z.object(dokumenteContext).partial();

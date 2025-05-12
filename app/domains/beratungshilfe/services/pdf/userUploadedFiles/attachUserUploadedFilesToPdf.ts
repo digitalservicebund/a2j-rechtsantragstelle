@@ -4,6 +4,7 @@ import {
   getStaatlicheLeistungenStrings,
   weiteresEinkommenStrings,
   ausgabenStrings,
+  getWeitereDokumenteStrings,
 } from "~/domains/beratungshilfe/formular/stringReplacements";
 import { geldAnlagenStrings } from "~/domains/shared/formular/stringReplacements";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
@@ -19,6 +20,7 @@ export async function attachUserUploadedFilesToPdf(
   const weiteresEinkommen = weiteresEinkommenStrings(userData);
   const ausgaben = ausgabenStrings(userData);
   const geldAnlagen = geldAnlagenStrings(userData);
+  const weitereDokumente = getWeitereDokumenteStrings(userData);
 
   const relevantFiles: Uint8Array[] = [];
 
@@ -164,6 +166,15 @@ export async function attachUserUploadedFilesToPdf(
       sessionId,
       flowId,
       ausgaben.hasWeitereAusgaben,
+    )),
+  );
+
+  relevantFiles.push(
+    ...(await getRelevantFiles(
+      userData.weitereDokumenteBeweis,
+      sessionId,
+      flowId,
+      weitereDokumente.hasWeitereDokumente,
     )),
   );
 
