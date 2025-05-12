@@ -1,5 +1,7 @@
-import type { LoaderFunctionArgs } from "react-router";
-import { redirect, useLoaderData } from "react-router";
+import debounce from "lodash/debounce";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+import { data, redirect, useFetcher, useLoaderData } from "react-router";
+import AsyncSelect from "react-select";
 import Background from "~/components/Background";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
@@ -8,28 +10,12 @@ import CourtFinderHeader from "~/components/CourtFinderHeader";
 import Heading from "~/components/Heading";
 import RichText from "~/components/RichText";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
-import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import {
+  edgeCaseStreets,
+  fetchOpenPLZData,
+} from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { splitObjectsByFirstLetter } from "~/util/strings";
-
-const OPENPLZ_URL = "https://openplzapi.org/de";
-
-type OpenPLZResult = {
-  name: string;
-  postalCode: string;
-  locality: string;
-  borough: string;
-  suburb: string;
-  municipality: {
-    key: string;
-    name: string;
-    type: string;
-  };
-  federalState: {
-    key: string;
-    name: string;
-  };
-};
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;
@@ -39,16 +25,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   if (edgeCases.length == 0) {
     return redirect(`/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`);
   }
-
-  const openPlzResponse = await fetch(
-    OPENPLZ_URL + `/Streets?postalCode=${zipCode}&page=1&pageSize=10`,
-  );
-  if (!openPlzResponse.ok) {
-    throw new Error(
-      `OpenPLZ Error: ${openPlzResponse.status} ${openPlzResponse.statusText}`,
-    );
-  }
-  const openPlzResults: OpenPLZResult[] = await openPlzResponse.json();
 
   // Remove PLZ from slug
   const { pathname } = new URL(request.url);
@@ -64,7 +40,11 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   return {
     resultListHeading,
-    openPlzResults,
+    openPlzResults: (await fetchOpenPLZData(zipCode)).map((result) => ({
+      value: result.name.toLowerCase().replaceAll(/\s+/g, ""),
+      label: result.name,
+    })),
+    pathname,
     edgeCasesGroupedByLetter: splitObjectsByFirstLetter(edgeCases, "street"),
     common,
     meta,
@@ -72,14 +52,33 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   };
 };
 
+export const action = async ({ params, request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+  const searchTerm = formData.get("searchTerm") as string;
+  return data({
+    openPlzResults: (
+      await fetchOpenPLZData(params.PLZ ?? "", searchTerm?.toString() ?? "")
+    ).map((result) => ({
+      value: result.name.toLowerCase().replaceAll(/\s+/g, ""),
+      label: result.name,
+    })),
+  });
+};
+
 export default function Index() {
   const {
     resultListHeading,
+    pathname,
     openPlzResults,
     edgeCasesGroupedByLetter,
     common,
     url,
   } = useLoaderData<typeof loader>();
+  const fetcher = useFetcher();
+
+  const onInputChange = debounce((value: string) => {
+    void fetcher.submit({ searchTerm: value }, { method: "POST" });
+  }, 500);
 
   return (
     <div className="flex flex-col flex-grow">
@@ -118,6 +117,16 @@ export default function Index() {
               ),
             )}
         </ul>
+        <Container>
+          <fetcher.Form method="post" action={pathname}>
+            <AsyncSelect
+              placeholder="Tippen..."
+              options={fetcher.data?.openPlzResults ?? openPlzResults}
+              onInputChange={onInputChange}
+              components={{ DropdownIndicator: null, LoadingMessage }}
+            />
+          </fetcher.Form>
+        </Container>
         <ButtonContainer>
           <Button
             href="/beratungshilfe/zustaendiges-gericht/suche"
@@ -132,11 +141,10 @@ export default function Index() {
           </Button>
         </ButtonContainer>
       </Container>
-      <ul>
-        {openPlzResults.map((result) => (
-          <li key={result.name}>{result.name}</li>
-        ))}
-      </ul>
     </div>
   );
+}
+
+function LoadingMessage() {
+  return <p>Loading...</p>;
 }

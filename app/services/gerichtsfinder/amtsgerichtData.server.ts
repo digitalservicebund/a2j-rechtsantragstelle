@@ -15,6 +15,25 @@ import type { Jmtd14VTErwerberPlzortk, Jmtd14VTErwerberPlzstrn } from "./types";
 let courtdata: Record<string, object> | undefined = undefined;
 let partnerCourtsGerbehIndex: Record<string, object> | undefined = undefined;
 
+const OPENPLZ_URL = "https://openplzapi.org/de";
+
+type OpenPLZResult = {
+  name: string;
+  postalCode: string;
+  locality: string;
+  borough: string;
+  suburb: string;
+  municipality: {
+    key: string;
+    name: string;
+    type: string;
+  };
+  federalState: {
+    key: string;
+    name: string;
+  };
+};
+
 function getCourtData() {
   courtdata ??= getEncrypted();
   return courtdata;
@@ -144,4 +163,23 @@ export function isPartnerCourt(zipCode?: string) {
   if (!zipCode || !partnerCourtGerbehIndices) return false;
   const gerbehIndex = gerbehIndexForPlz(zipCode);
   return gerbehIndex !== undefined && gerbehIndex in partnerCourtGerbehIndices;
+}
+
+export async function fetchOpenPLZData(
+  zipCode: string,
+  searchTerm?: string,
+  page = 1,
+) {
+  const queryString = searchTerm ? `name=^${searchTerm}&` : "";
+  const openPlzResponse = await fetch(
+    OPENPLZ_URL +
+      `/Streets?${queryString}postalCode=${zipCode}&page=${page.toString()}&pageSize=50`,
+  );
+  if (!openPlzResponse.ok) {
+    throw new Error(
+      `OpenPLZ Error: ${openPlzResponse.status} ${openPlzResponse.statusText}`,
+    );
+  }
+  const openPlzResults: OpenPLZResult[] = await openPlzResponse.json();
+  return openPlzResults;
 }
