@@ -12,6 +12,25 @@ import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.serve
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { splitObjectsByFirstLetter } from "~/util/strings";
 
+const OPENPLZ_URL = "https://openplzapi.org/de";
+
+type OpenPLZResult = {
+  name: string;
+  postalCode: string;
+  locality: string;
+  borough: string;
+  suburb: string;
+  municipality: {
+    key: string;
+    name: string;
+    type: string;
+  };
+  federalState: {
+    key: string;
+    name: string;
+  };
+};
+
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;
   if (zipCode === undefined)
@@ -20,6 +39,16 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   if (edgeCases.length == 0) {
     return redirect(`/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`);
   }
+
+  const openPlzResponse = await fetch(
+    OPENPLZ_URL + `/Streets?postalCode=${zipCode}&page=1&pageSize=10`,
+  );
+  if (!openPlzResponse.ok) {
+    throw new Error(
+      `OpenPLZ Error: ${openPlzResponse.status} ${openPlzResponse.statusText}`,
+    );
+  }
+  const openPlzResults: OpenPLZResult[] = await openPlzResponse.json();
 
   // Remove PLZ from slug
   const { pathname } = new URL(request.url);
@@ -35,6 +64,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   return {
     resultListHeading,
+    openPlzResults,
     edgeCasesGroupedByLetter: splitObjectsByFirstLetter(edgeCases, "street"),
     common,
     meta,
@@ -43,8 +73,13 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 };
 
 export default function Index() {
-  const { resultListHeading, edgeCasesGroupedByLetter, common, url } =
-    useLoaderData<typeof loader>();
+  const {
+    resultListHeading,
+    openPlzResults,
+    edgeCasesGroupedByLetter,
+    common,
+    url,
+  } = useLoaderData<typeof loader>();
 
   return (
     <div className="flex flex-col flex-grow">
@@ -97,6 +132,11 @@ export default function Index() {
           </Button>
         </ButtonContainer>
       </Container>
+      <ul>
+        {openPlzResults.map((result) => (
+          <li key={result.name}>{result.name}</li>
+        ))}
+      </ul>
     </div>
   );
 }
