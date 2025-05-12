@@ -7,7 +7,6 @@ import {
 } from "~/services/pdf/addMetadataToPdf";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
-import { attachUserUploadedFilesToPdf } from "~/services/pdf/attachUserUploadedFilesToPdf/attachUserUploadedFilesToPdf";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillPdf } from "~/services/pdf/fillPdf.server";
 import { createFooter } from "~/services/pdf/footer/createFooter";
@@ -23,6 +22,7 @@ import { fillBesitz } from "./pdfForm/F_besitz/F_besitz";
 import { fillFooter } from "./pdfForm/footer";
 import { fillAusgaben } from "./pdfForm/G_ausgaben";
 import { fillHeader } from "./pdfForm/header";
+import { attachUserUploadedFilesToPdf } from "./userUploadedFiles/attachUserUploadedFilesToPdf";
 
 const METADATA: Metadata = {
   AUTHOR: "Bundesministerium der Justiz",
@@ -96,9 +96,9 @@ export async function beratungshilfePdfFromUserdata(
   if (userData.abgabeArt === "online") {
     const userFilesPdfBuffer = await attachUserUploadedFilesToPdf(
       pdfKitBuffer,
-      userData,
       sessionId,
       "/beratungshilfe/antrag",
+      userData,
     );
     const userFilesPdfDocument = await PDFDocument.load(userFilesPdfBuffer);
     return appendPagesToPdf(
