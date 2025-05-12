@@ -1,31 +1,11 @@
 import { StrapiHeroSchema } from "../StrapiHero";
 
 describe("StrapiHero", () => {
-  it("should return false given undefined container", () => {
-    const undefinedContainer = {
-      heading: {
-        text: "someText",
-      },
-      content: null,
-      outerBackground: null,
-      container: undefined,
-    };
-
-    const actual = StrapiHeroSchema.safeParse(undefinedContainer);
-
-    expect(actual.success).toBe(false);
-  });
-
   it("should return false given undefined heading", () => {
     const undefinedHeading = {
       heading: undefined,
       content: null,
       outerBackground: null,
-      container: {
-        backgroundColor: "blue",
-        paddingBottom: "default",
-        paddingTop: "default",
-      },
     };
 
     const actual = StrapiHeroSchema.safeParse(undefinedHeading);
@@ -42,11 +22,6 @@ describe("StrapiHero", () => {
       },
       content: null,
       outerBackground: null,
-      container: {
-        backgroundColor: "blue",
-        paddingBottom: "default",
-        paddingTop: "default",
-      },
     };
 
     const actual = StrapiHeroSchema.safeParse(withCorrectData);
@@ -60,11 +35,6 @@ describe("StrapiHero", () => {
         __component: "basic.heading",
       },
       outerBackground: null,
-      container: {
-        backgroundColor: "blue",
-        paddingBottom: "default",
-        paddingTop: "default",
-      },
       __component: "page.hero",
     });
   });
