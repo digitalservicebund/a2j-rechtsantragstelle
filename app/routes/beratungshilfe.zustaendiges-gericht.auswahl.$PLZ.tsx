@@ -1,4 +1,5 @@
 import debounce from "lodash/debounce";
+import { useState } from "react";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirect, useFetcher, useLoaderData } from "react-router";
 import AsyncSelect from "react-select";
@@ -8,6 +9,8 @@ import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import Heading from "~/components/Heading";
+import CustomControl from "~/components/inputs/autoSuggestInput/customComponents/CustomControl";
+import CustomInput from "~/components/inputs/autoSuggestInput/customComponents/CustomInput";
 import RichText from "~/components/RichText";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
 import {
@@ -16,6 +19,11 @@ import {
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { splitObjectsByFirstLetter } from "~/util/strings";
+
+type SelectOption = {
+  value: string;
+  label: string;
+};
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;
@@ -66,15 +74,11 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 };
 
 export default function Index() {
-  const {
-    resultListHeading,
-    pathname,
-    openPlzResults,
-    edgeCasesGroupedByLetter,
-    common,
-    url,
-  } = useLoaderData<typeof loader>();
+  const { resultListHeading, pathname, openPlzResults, common, url } =
+    useLoaderData<typeof loader>();
   const fetcher = useFetcher();
+  const [street, setStreet] = useState<string>();
+  const [houseNumber, setHouseNumber] = useState<number>();
 
   const onInputChange = debounce((value: string) => {
     void fetcher.submit({ searchTerm: value }, { method: "POST" });
@@ -91,42 +95,39 @@ export default function Index() {
         <Heading
           tagName="h2"
           look="ds-heading-03-reg"
-          text={common.resultListSubHeading}
+          text="Geben Sie bitte Ihre genaue Straße und Hausnummer ein"
+          className="pb-16"
         />
-        <ul className="list-none pl-0 pt-48 pb-32" id="resultList">
-          {edgeCasesGroupedByLetter &&
-            Object.entries(edgeCasesGroupedByLetter).map(
-              ([firstLetter, edgeCasesForLetter]) => (
-                <li key={firstLetter}>
-                  <h2 className="ds-label-01-bold p-8 bg-blue-100">
-                    {firstLetter}
-                  </h2>
-                  <ul className="list-none py-10 pl-0">
-                    {edgeCasesForLetter.map((edgeCase) => (
-                      <li key={edgeCase.slug} className="px-8">
-                        <a
-                          href={`${url}/${edgeCase.slug}`}
-                          className="leading-9 underline"
-                        >
-                          {edgeCase.street}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ),
-            )}
-        </ul>
-        <Container>
-          <fetcher.Form method="post" action={pathname}>
-            <AsyncSelect
-              placeholder="Tippen..."
-              options={fetcher.data?.openPlzResults ?? openPlzResults}
-              onInputChange={onInputChange}
-              components={{ DropdownIndicator: null, LoadingMessage }}
-            />
-          </fetcher.Form>
-        </Container>
+        <p>
+          {street} {houseNumber}
+        </p>
+        <fetcher.Form
+          method="post"
+          action={pathname}
+          className="pb-16 flex gap-8 flex-col"
+        >
+          <AsyncSelect
+            placeholder="Nach Straßenname suchen..."
+            options={fetcher.data?.openPlzResults ?? openPlzResults}
+            onInputChange={onInputChange}
+            onChange={(option) => setStreet((option as SelectOption).label)}
+            components={{
+              DropdownIndicator: null,
+              Input: CustomInput,
+              Control: CustomControl,
+            }}
+          />
+          <input
+            type="number"
+            min={1}
+            className="ds-input max-w-[50%]"
+            required
+            onChange={(e) => {
+              const val = e.target.value;
+              setHouseNumber(val.length > 0 ? parseInt(val) : undefined);
+            }}
+          />
+        </fetcher.Form>
         <ButtonContainer>
           <Button
             href="/beratungshilfe/zustaendiges-gericht/suche"
@@ -143,8 +144,4 @@ export default function Index() {
       </Container>
     </div>
   );
-}
-
-function LoadingMessage() {
-  return <p>Loading...</p>;
 }
