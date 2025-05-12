@@ -2,7 +2,7 @@ import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import InsertFileIcon from "@digitalservicebund/icons/InsertDriveFile";
 import classNames from "classnames";
 import { errorStyling, type PDFFileMetadata } from "~/util/file/pdfFileSchema";
-import { bytesToMegabytesString } from "../../services/upload/bytesToMegabytesString";
+import { formatFileSizeToString } from "../../services/upload/formatFileSizeToString";
 import Button from "../Button";
 
 type FileUploadInfoProps = {
@@ -38,7 +38,7 @@ export const FileUploadInfo = ({
           {file.filename}
         </p>
         <p className="ds-body-01-reg text-gray-900">
-          {bytesToMegabytesString(file.fileSize ?? 0)}
+          {formatFileSizeToString(file.fileSize ?? 0)}
         </p>
       </div>
       {!hasError && <HiddenFileInputs inputName={inputName} file={file} />}
