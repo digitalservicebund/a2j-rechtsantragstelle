@@ -135,11 +135,14 @@ const gerbehIndexForPlz = (zipCode: string) => {
 export const findCourt = ({
   zipCode,
   streetSlug,
+  houseNumber,
 }: {
   zipCode: string;
   streetSlug?: string;
+  houseNumber?: string;
 }) => {
   if (streetSlug && streetSlug !== "default") {
+    console.log(houseNumber);
     const edgeCases = edgeCasesForPlz(zipCode);
     const edgeCase = edgeCases.find((e) => buildStreetSlug(e) === streetSlug);
     if (!edgeCase) return undefined;
