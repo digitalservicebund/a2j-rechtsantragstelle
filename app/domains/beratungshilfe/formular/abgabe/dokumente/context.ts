@@ -7,8 +7,8 @@ import {
 const fileUploadRequiredSchema = z
   .array(pdfFileMetaDataSchema)
   .nonempty({ message: "fileRequired" })
-  .max(fileUploadLimit, { message: "fileLimitReached" });
-// .optional(); // remove after e2e tests have been added
+  .max(fileUploadLimit, { message: "fileLimitReached" })
+  .optional(); // Must remain despite being required, as the zod schema has no knowledge of which field is required
 
 const fileUploadOptionalSchema = z
   .array(pdfFileMetaDataSchema)
