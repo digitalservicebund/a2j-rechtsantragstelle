@@ -12,13 +12,12 @@ import Heading from "~/components/Heading";
 import CustomControl from "~/components/inputs/autoSuggestInput/customComponents/CustomControl";
 import CustomInput from "~/components/inputs/autoSuggestInput/customComponents/CustomInput";
 import RichText from "~/components/RichText";
-import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
+import { fetchTranslations } from "~/services/cms/index.server";
 import {
   edgeCaseStreets,
   fetchOpenPLZData,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
-import { splitObjectsByFirstLetter } from "~/util/strings";
 
 type SelectOption = {
   value: string;
@@ -36,11 +35,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   // Remove PLZ from slug
   const { pathname } = new URL(request.url);
-  const filterValue = pathname.substring(0, pathname.lastIndexOf("/"));
-  const [common, meta] = await Promise.all([
-    fetchTranslations("amtsgericht"),
-    fetchMeta({ filterValue }),
-  ]);
+  const [common] = await Promise.all([fetchTranslations("amtsgericht")]);
 
   const resultListHeading = applyStringReplacement(common.resultListHeading, {
     postcode: zipCode ?? "",
@@ -53,9 +48,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       label: result.name,
     })),
     pathname,
-    edgeCasesGroupedByLetter: splitObjectsByFirstLetter(edgeCases, "street"),
     common,
-    meta,
     url: `/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`,
   };
 };
@@ -137,11 +130,28 @@ export default function Index() {
           >
             {common.backButton}
           </Button>
+          <Button
+            href={`${url}/${buildOpenPlzResultUrl(street ?? "", houseNumber ?? 0)}`}
+            size="large"
+            disabled={!street || !houseNumber}
+            id="weiterButton"
+          >
+            Weiter
+          </Button>
           <Button href={`${url}/default`} size="large" id="defaultButton">
-            {common.continueWithDefaultStreet}
+            Ich finde meine Straße nicht
           </Button>
         </ButtonContainer>
       </Container>
     </div>
   );
+}
+
+export function buildOpenPlzResultUrl(streetName: string, houseNumber: number) {
+  return `${streetName
+    .toLowerCase()
+    .replace(/ä/g, "ae")
+    .replace(/ö/g, "oe")
+    .replace(/ü/g, "ue")
+    .replaceAll(/\s+/g, "_")}/${houseNumber}`;
 }

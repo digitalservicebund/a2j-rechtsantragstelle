@@ -1,3 +1,4 @@
+import uniqBy from "lodash/uniqBy";
 import partnerGerichte from "data/courts/partnerGerichte.json";
 import courtURLs from "data/courts/sanitizedURLs.json";
 import { stripLeadingZeros, uppercaseFirstLetter } from "~/util/strings";
@@ -180,6 +181,5 @@ export async function fetchOpenPLZData(
       `OpenPLZ Error: ${openPlzResponse.status} ${openPlzResponse.statusText}`,
     );
   }
-  const openPlzResults: OpenPLZResult[] = await openPlzResponse.json();
-  return openPlzResults;
+  return uniqBy((await openPlzResponse.json()) as OpenPLZResult[], "name");
 }
