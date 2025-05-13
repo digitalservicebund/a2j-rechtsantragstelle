@@ -7,13 +7,13 @@ import {
 const fileUploadRequiredSchema = z
   .array(pdfFileMetaDataSchema)
   .nonempty({ message: "fileRequired" })
-  .max(fileUploadLimit, { message: "fileLimitReached" })
-  .optional(); // remove after e2e tests have been added
+  .max(fileUploadLimit, { message: "fileLimitReached" });
+// .optional(); // remove after e2e tests have been added
 
 const fileUploadOptionalSchema = z
   .array(pdfFileMetaDataSchema)
   .max(fileUploadLimit, { message: "fileLimitReached" })
-  .optional(); // remove after e2e tests have been added
+  .optional();
 
 export const dokumenteContext = {
   arbeitslosengeldBeweis: fileUploadRequiredSchema,

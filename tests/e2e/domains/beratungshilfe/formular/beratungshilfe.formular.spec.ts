@@ -101,7 +101,9 @@ async function startDocumentUpload(
     path.join(process.cwd(), "playwright/generated/", "tooBig.pdf"),
   );
   fs.writeFileSync(dummyFilePathTooBig, Buffer.alloc(1024 * 1024 * 11));
-  await page.getByTestId("fileUploadInput").setInputFiles(dummyFilePathTooBig);
+  await page
+    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
+    .setInputFiles(dummyFilePathTooBig);
   const fileUploadInfo = page.getByTestId(
     "file-upload-info-grundsicherungBeweis[0]",
   );
@@ -116,10 +118,7 @@ async function startDocumentUpload(
   );
   fs.writeFileSync(dummyFilePathWrongType, "test");
   await page
-    .getByTestId("fileUploadInput")
-    .setInputFiles(dummyFilePathWrongType);
-  await page
-    .getByTestId("fileUploadInput")
+    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
     .setInputFiles(dummyFilePathWrongType);
   await expect(fileUploadInfo).toBeVisible();
   await expect(errorMessage).toBeVisible();
@@ -139,7 +138,9 @@ async function startDocumentUpload(
       }),
     ),
   );
-  await page.getByTestId("fileUploadInput").setInputFiles(dummyFilePath);
+  await page
+    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
+    .setInputFiles(dummyFilePath);
   await expect(fileUploadInfo).toBeVisible();
   await expect(errorMessage).not.toBeVisible();
   await page.getByRole("button", { name: "Weiter" }).click();
