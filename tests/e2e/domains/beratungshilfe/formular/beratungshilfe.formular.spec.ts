@@ -59,7 +59,7 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
 
   await startOnlineAbgabe(page);
   if (await isFeatureFlagEnabled("showFileUpload")) {
-    await startDocumentUpload(page, beratungshilfeFormular);
+    await startDocumentUpload(page);
   }
   await downloadOnlineAbgabe(page);
 });
@@ -84,13 +84,10 @@ test("invalid array index redirects to initial step of subflow", async ({
   );
 });
 
-async function startDocumentUpload(
-  page: Page,
-  formular: BeratungshilfeFormular,
-) {
+async function startDocumentUpload(page: Page) {
   // beratungshilfe/antrag/abgabe/dokumente
   await expectPageToBeAccessible({ page });
-  await formular.clickNext();
+  await page.getByRole("button", { name: "Weiter" }).click();
 
   // Test empty form submission
   const errorMessage = page.getByTestId("inputError");
@@ -101,7 +98,9 @@ async function startDocumentUpload(
     path.join(process.cwd(), "playwright/generated/", "tooBig.pdf"),
   );
   fs.writeFileSync(dummyFilePathTooBig, Buffer.alloc(1024 * 1024 * 11));
-  await page.getByTestId("fileUploadInput").setInputFiles(dummyFilePathTooBig);
+  await page
+    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
+    .setInputFiles(dummyFilePathTooBig);
   const fileUploadInfo = page.getByTestId(
     "file-upload-info-grundsicherungBeweis[0]",
   );
@@ -116,10 +115,7 @@ async function startDocumentUpload(
   );
   fs.writeFileSync(dummyFilePathWrongType, "test");
   await page
-    .getByTestId("fileUploadInput")
-    .setInputFiles(dummyFilePathWrongType);
-  await page
-    .getByTestId("fileUploadInput")
+    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
     .setInputFiles(dummyFilePathWrongType);
   await expect(fileUploadInfo).toBeVisible();
   await expect(errorMessage).toBeVisible();
@@ -131,20 +127,22 @@ async function startDocumentUpload(
     path.join(process.cwd(), "playwright/generated/", "test.pdf"),
   );
 
-  fs.writeFileSync(
-    dummyFilePath,
-    await PDFDocument.create().then((doc) =>
-      doc.save().catch((error) => {
-        throw new Error("Error creating PDF file", error);
-      }),
-    ),
-  );
-  await page.getByTestId("fileUploadInput").setInputFiles(dummyFilePath);
+  const pdfDoc = await PDFDocument.create();
+  const pdfPage = pdfDoc.addPage([600, 800]);
+  pdfPage.drawText("Test PDF", {
+    x: 50,
+    y: 700,
+    size: 30,
+  });
+
+  const pdfBytes = await pdfDoc.save();
+  fs.writeFileSync(dummyFilePath, pdfBytes);
+  await page
+    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
+    .setInputFiles(dummyFilePath);
   await expect(fileUploadInfo).toBeVisible();
   await expect(errorMessage).not.toBeVisible();
   await page.getByRole("button", { name: "Weiter" }).click();
-  // eslint-disable-next-line sonarjs/deprecation
-  await page.waitForNavigation();
 }
 async function startOnlineAbgabe(page: Page) {
   // beratungshilfe/antrag/abgabe/art
