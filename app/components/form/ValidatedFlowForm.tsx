@@ -34,8 +34,8 @@ function ValidatedFlowForm({
     flags: { "conversion-rate-pkh-flow": "test" },
   });
 
-  // Get the feature flag value for the ab test
-  // Using the "test" variant to display the estimated time string in the form
+  // Get the feature flag key for the ab test
+  // Using the "test" variant key to display the estimated time string in the form
   // When the variant value is "control" the string will not be displayed
   const getPKHABTestFeatureFlag =
     posthog.getFeatureFlag("conversion-rate-pkh-flow") === "test";
