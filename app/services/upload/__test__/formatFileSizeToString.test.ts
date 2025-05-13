@@ -19,4 +19,12 @@ describe("formatFileSizeToString", () => {
     const bytesCount = 0;
     expect(formatFileSizeToString(bytesCount)).toBe("0 B");
   });
+  it("should convert negative values correctly", () => {
+    const bytesCount = -500;
+    expect(formatFileSizeToString(bytesCount)).toBe("0 B");
+  });
+  it("should convert NaN values correctly", () => {
+    const bytesCount = NaN;
+    expect(formatFileSizeToString(bytesCount)).toBe("0 B");
+  });
 });

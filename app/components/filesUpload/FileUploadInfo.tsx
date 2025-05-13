@@ -38,7 +38,7 @@ export const FileUploadInfo = ({
           {file.filename}
         </p>
         <p className="ds-body-01-reg text-gray-900">
-          {formatFileSizeToString(file.fileSize ?? 0)}
+          {formatFileSizeToString(file.fileSize)}
         </p>
       </div>
       {!hasError && <HiddenFileInputs inputName={inputName} file={file} />}
