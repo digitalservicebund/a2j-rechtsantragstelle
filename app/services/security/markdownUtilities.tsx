@@ -70,7 +70,7 @@ export function parseAndSanitizeMarkdown(
 }
 
 /**
- * Sometimes, it's possible for a list to be nested inside a conditional, like so:
+ * If a user defines the first element of a list inside a conditional like so:
  *
  * {{ #conditional }}
  * * Item 1
@@ -87,33 +87,23 @@ export function parseAndSanitizeMarkdown(
  *
  * and if "conditional" evaluates to false, the templating engine (mustache) will remove Item 1, as well as
  * the opening <ul> tag, leaving incomplete html that's inaccessible.
+ *
+ * This function iteratively walks through the input html, swapping the order of opening list tags and opening conditionals.
  */
 export function handleNestedLists(html: string) {
-  const openingTagPosition = html.search(/<ul>|<ol>/);
-  const openingConditionalStartPosition = html.search(/{{\s*#|{{\s*\^/);
-
-  // if there's an opening list tag after a conditional, we need to correctly un-nest the list tags.
-  if (
-    openingConditionalStartPosition !== -1 &&
-    openingTagPosition > openingConditionalStartPosition &&
-    !contentExistsBeforeList(html)
-  ) {
-    const closingTagPosition = html.search(/<\/ul>|<\/ol>/);
-    const openingTag = html.substring(
-      openingTagPosition,
-      openingTagPosition + 4,
-    );
-    const closingTag = html.substring(
-      closingTagPosition,
-      closingTagPosition + 5,
-    );
-    const htmlListTagsRemoved = html.replaceAll(/<ul>|<ol>|<\/ul>|<\/ol>/g, "");
-    const final =
-      htmlListTagsRemoved.substring(0, openingConditionalStartPosition) +
-      openingTag +
-      htmlListTagsRemoved.substring(openingConditionalStartPosition) +
-      closingTag;
-    return final;
+  const nestedLists = [...html.matchAll(/{{\s*#\w+\s*}}(?=.*\n*(<ul>|<ol>))/g)];
+  if (nestedLists.length > 0 && !contentExistsBeforeList(html)) {
+    let fixedMarkup = html;
+    for (const nestedList of nestedLists) {
+      const openingTag = [...fixedMarkup.matchAll(/<ul>|<ol>/g)].find(
+        (tag) => tag.index > nestedList.index,
+      )!;
+      fixedMarkup =
+        fixedMarkup.substring(0, nestedList.index) +
+        openingTag[0] +
+        fixedMarkup.substring(nestedList.index).replace(openingTag[0], "");
+    }
+    return fixedMarkup;
   }
   return html;
 }
