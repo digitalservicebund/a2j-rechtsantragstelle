@@ -54,7 +54,7 @@ function ValidatedFlowForm({
         <StrapiFormComponents components={formElements} />
         {/*THIS IS A TEMPORARY SOLUTION FOR THE AB TEST IN PROZESSKOSTENHILFE*/}
         {/* Rendering the estimated time string in the form for the ab test in prozesskostenhilfe */}
-        {pathname.includes("prozesskostenhilfe/formular") &&
+        {pathname.includes("prozesskostenhilfe/formular/start/start") &&
           getPKHABTestFeatureFlag && (
             <span className="flex items-center ds-body-02-reg text-gray-900">
               <TimerOutlinedIcon className="shrink-0 fill-gray-900 mr-4" />{" "}
