@@ -91,7 +91,9 @@ export function parseAndSanitizeMarkdown(
  * This function iteratively walks through the input html, swapping the order of opening list tags and opening conditionals.
  */
 export function handleNestedLists(html: string) {
-  const nestedLists = [...html.matchAll(/{{\s*#\w+\s*}}(?=.*\n*(<ul>|<ol>))/g)];
+  const nestedLists = [
+    ...html.matchAll(/{{\s*[#|^]\w+\s*}}(?=.*\n*(<ul>|<ol>))/g),
+  ];
   if (nestedLists.length > 0 && !contentExistsBeforeList(html)) {
     let fixedMarkup = html;
     for (const nestedList of nestedLists) {
