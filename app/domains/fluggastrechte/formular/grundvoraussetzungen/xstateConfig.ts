@@ -1,4 +1,4 @@
-export const fluggastrechteGrundvoraussetzungen = {
+export const grundvoraussetzungenXstateConfig = {
   id: "grundvoraussetzungen",
   initial: "datenverarbeitung",
   states: {

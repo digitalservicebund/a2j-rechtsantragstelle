@@ -1,4 +1,4 @@
-export const fluggastrechteFlugdaten = {
+export const flugdatenXstateConfig = {
   id: "flugdaten",
   initial: "adresse-fluggesellschaft",
   states: {

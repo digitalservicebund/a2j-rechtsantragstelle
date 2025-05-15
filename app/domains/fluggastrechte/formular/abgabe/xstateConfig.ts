@@ -1,4 +1,4 @@
-export const fluggastrechteAbgabe = {
+export const abgabeXstateConfig = {
   id: "abgabe",
   initial: "start",
   states: {

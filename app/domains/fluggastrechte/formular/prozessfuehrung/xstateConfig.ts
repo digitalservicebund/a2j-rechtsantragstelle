@@ -1,4 +1,4 @@
-export const fluggastrechteProzessfuehrung = {
+export const prozessfuehrungXstateConfig = {
   id: "prozessfuehrung",
   initial: "zeugen",
   states: {

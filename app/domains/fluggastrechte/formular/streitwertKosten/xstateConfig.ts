@@ -1,4 +1,4 @@
-export const fluggastrechteStreitwertKosten = {
+export const streitwertKostenXstateConfig = {
   id: "streitwert-kosten",
   initial: "gerichtskosten",
   states: {

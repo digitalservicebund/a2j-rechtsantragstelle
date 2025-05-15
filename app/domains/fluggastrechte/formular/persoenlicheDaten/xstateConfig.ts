@@ -1,4 +1,4 @@
-export const fluggastrechtePersoenlicheDaten = {
+export const persoenlicheDatenXstateConfig = {
   id: "persoenliche-daten",
   initial: "person",
   states: {
