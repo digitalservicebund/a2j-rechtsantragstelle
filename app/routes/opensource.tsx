@@ -20,9 +20,11 @@ export default function Index() {
   return (
     <div className="flex flex-col flex-grow">
       <PageContent content={content} />
-      <Container>
-        <LicenseList dependencies={dependencies} />
-      </Container>
+      <div className="w-full">
+        <Container>
+          <LicenseList dependencies={dependencies} />
+        </Container>
+      </div>
     </div>
   );
 }
