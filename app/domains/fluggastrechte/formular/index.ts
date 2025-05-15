@@ -6,23 +6,23 @@ import {
   storeMultiplePersonsConsent,
 } from "~/services/externalDataStorage/storeConsentFgrToS3Bucket";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
-import abgabeFlow from "./abgabe/flow.json";
+import { fluggastrechteAbgabe } from "./abgabe/xstateConfig";
 import type { FluggastrechtContext } from "./context";
 import { flugdatenDone } from "./flugdaten/doneFunctions";
-import flugdatenFlow from "./flugdaten/flow.json";
+import { fluggastrechteFlugdaten } from "./flugdaten/xstateConfig";
 import { grundvoraussetzungenDone } from "./grundvoraussetzungen/doneFunctions";
-import grundvoraussetzungenFlow from "./grundvoraussetzungen/flow.json";
+import { fluggastrechteGrundvoraussetzungen } from "./grundvoraussetzungen/xstateConfig";
 import { fluggastrechteGuards } from "./guards";
 import {
   personDone,
   weiterePersonenDone,
 } from "./persoenlicheDaten/doneFunctions";
-import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
+import { fluggastrechtePersoenlicheDaten } from "./persoenlicheDaten/xstateConfig";
 import { prozessfuehrungDone } from "./prozessfuehrung/doneFunctions";
-import prozessfuehrungFlow from "./prozessfuehrung/flow.json";
+import { fluggastrechteProzessfuehrung } from "./prozessfuehrung/xstateConfig";
 import { isTotalClaimWillSucceddedAboveLimit } from "./services/isTotalClaimAboveLimit";
 import { streitwertKostenDone } from "./streitwertKosten/doneFunctions";
-import streitwertKostenFlow from "./streitwertKosten/flow.json";
+import { fluggastrechteStreitwertKosten } from "./streitwertKosten/xstateConfig";
 import {
   getAirlineName,
   getAnnullierungInfo,
@@ -45,7 +45,7 @@ import {
   isWeiterePersonen,
   WEITERE_PERSONEN_START_INDEX,
 } from "./stringReplacements";
-import zusammenfassungFlow from "./zusammenfassung/flow.json";
+import { fluggastrechteZusammenfassung } from "./zusammenfassung/xstateConfig";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
@@ -133,26 +133,28 @@ export const fluggastrechtFlow = {
           "redirect-vorabcheck-ergebnis": { on: {} },
         },
       },
-      grundvoraussetzungen: merge(grundvoraussetzungenFlow, {
+      grundvoraussetzungen: merge(fluggastrechteGrundvoraussetzungen, {
         meta: { done: grundvoraussetzungenDone },
       }),
-      "streitwert-kosten": merge(streitwertKostenFlow, {
+      "streitwert-kosten": merge(fluggastrechteStreitwertKosten, {
         meta: { done: streitwertKostenDone },
       }),
-      flugdaten: merge(flugdatenFlow, { meta: { done: flugdatenDone } }),
-      "persoenliche-daten": merge(persoenlicheDatenFlow, {
+      flugdaten: merge(fluggastrechteFlugdaten, {
+        meta: { done: flugdatenDone },
+      }),
+      "persoenliche-daten": merge(fluggastrechtePersoenlicheDaten, {
         states: {
           person: { meta: { done: personDone } },
           "weitere-personen": { meta: { done: weiterePersonenDone } },
         },
       }),
-      prozessfuehrung: merge(prozessfuehrungFlow, {
+      prozessfuehrung: merge(fluggastrechteProzessfuehrung, {
         meta: { done: prozessfuehrungDone },
       }),
-      zusammenfassung: merge(zusammenfassungFlow, {
+      zusammenfassung: merge(fluggastrechteZusammenfassung, {
         meta: { done: () => false },
       }),
-      abgabe: merge(abgabeFlow, {
+      abgabe: merge(fluggastrechteAbgabe, {
         meta: { done: () => false },
       }),
     },
