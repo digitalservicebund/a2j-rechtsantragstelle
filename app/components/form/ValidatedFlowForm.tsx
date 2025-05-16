@@ -1,9 +1,9 @@
 import { ValidatedForm } from "@rvf/react-router";
 import { useLocation } from "react-router";
+import { EstimatedTimeAbTest } from "~/components/aBTest/EstimatedTimeAbTest";
 import type { ButtonNavigationProps } from "~/components/form/ButtonNavigation";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import type { Context } from "~/domains/contexts";
-import { EstimatedTimeAbTest } from "~/domains/prozesskostenhilfe/services/aBTest/EstimatedTimeAbTest";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
