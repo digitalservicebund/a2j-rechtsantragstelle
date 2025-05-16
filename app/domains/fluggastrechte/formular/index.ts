@@ -1,4 +1,3 @@
-import merge from "lodash/merge";
 import type { Flow } from "~/domains/flows.server";
 import type { ArrayConfigServer } from "~/services/array";
 import {
@@ -8,20 +7,12 @@ import {
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
 import type { FluggastrechtContext } from "./context";
-import { flugdatenDone } from "./flugdaten/doneFunctions";
 import { flugdatenXstateConfig } from "./flugdaten/xstateConfig";
-import { grundvoraussetzungenDone } from "./grundvoraussetzungen/doneFunctions";
 import { grundvoraussetzungenXstateConfig } from "./grundvoraussetzungen/xstateConfig";
 import { fluggastrechteGuards } from "./guards";
-import {
-  personDone,
-  weiterePersonenDone,
-} from "./persoenlicheDaten/doneFunctions";
 import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
-import { prozessfuehrungDone } from "./prozessfuehrung/doneFunctions";
 import { prozessfuehrungXstateConfig } from "./prozessfuehrung/xstateConfig";
 import { isTotalClaimWillSucceddedAboveLimit } from "./services/isTotalClaimAboveLimit";
-import { streitwertKostenDone } from "./streitwertKosten/doneFunctions";
 import { streitwertKostenXstateConfig } from "./streitwertKosten/xstateConfig";
 import {
   getAirlineName,
@@ -133,30 +124,13 @@ export const fluggastrechtFlow = {
           "redirect-vorabcheck-ergebnis": { on: {} },
         },
       },
-      grundvoraussetzungen: merge(grundvoraussetzungenXstateConfig, {
-        meta: { done: grundvoraussetzungenDone },
-      }),
-      "streitwert-kosten": merge(streitwertKostenXstateConfig, {
-        meta: { done: streitwertKostenDone },
-      }),
-      flugdaten: merge(flugdatenXstateConfig, {
-        meta: { done: flugdatenDone },
-      }),
-      "persoenliche-daten": merge(persoenlicheDatenXstateConfig, {
-        states: {
-          person: { meta: { done: personDone } },
-          "weitere-personen": { meta: { done: weiterePersonenDone } },
-        },
-      }),
-      prozessfuehrung: merge(prozessfuehrungXstateConfig, {
-        meta: { done: prozessfuehrungDone },
-      }),
-      zusammenfassung: merge(zusammenfassungXstateConfig, {
-        meta: { done: () => false },
-      }),
-      abgabe: merge(abgabeXstateConfig, {
-        meta: { done: () => false },
-      }),
+      grundvoraussetzungen: grundvoraussetzungenXstateConfig,
+      "streitwert-kosten": streitwertKostenXstateConfig,
+      flugdaten: flugdatenXstateConfig,
+      "persoenliche-daten": persoenlicheDatenXstateConfig,
+      prozessfuehrung: prozessfuehrungXstateConfig,
+      zusammenfassung: zusammenfassungXstateConfig,
+      abgabe: abgabeXstateConfig,
     },
   },
   guards: fluggastrechteGuards,

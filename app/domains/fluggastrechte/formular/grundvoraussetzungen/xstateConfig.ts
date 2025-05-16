@@ -1,4 +1,7 @@
+import { grundvoraussetzungenDone } from "./doneFunctions";
+
 export const grundvoraussetzungenXstateConfig = {
+  meta: { done: grundvoraussetzungenDone },
   id: "grundvoraussetzungen",
   initial: "datenverarbeitung",
   states: {

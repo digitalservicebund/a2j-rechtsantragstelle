@@ -1,4 +1,7 @@
+import { prozessfuehrungDone } from "./doneFunctions";
+
 export const prozessfuehrungXstateConfig = {
+  meta: { done: prozessfuehrungDone },
   id: "prozessfuehrung",
   initial: "zeugen",
   states: {

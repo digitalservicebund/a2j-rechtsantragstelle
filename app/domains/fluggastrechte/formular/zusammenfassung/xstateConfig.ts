@@ -1,4 +1,5 @@
 export const zusammenfassungXstateConfig = {
+  meta: { done: () => false },
   id: "zusammenfassung",
   initial: "start",
   states: {

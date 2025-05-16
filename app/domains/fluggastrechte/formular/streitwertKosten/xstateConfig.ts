@@ -1,4 +1,7 @@
+import { streitwertKostenDone } from "./doneFunctions";
+
 export const streitwertKostenXstateConfig = {
+  meta: { done: streitwertKostenDone },
   id: "streitwert-kosten",
   initial: "gerichtskosten",
   states: {

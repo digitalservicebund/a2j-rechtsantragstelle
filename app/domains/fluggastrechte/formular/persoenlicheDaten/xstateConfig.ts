@@ -1,8 +1,11 @@
+import { personDone, weiterePersonenDone } from "./doneFunctions";
+
 export const persoenlicheDatenXstateConfig = {
   id: "persoenliche-daten",
   initial: "person",
   states: {
     person: {
+      meta: { done: personDone },
       id: "person",
       initial: "daten",
       states: {
@@ -18,6 +21,7 @@ export const persoenlicheDatenXstateConfig = {
       },
     },
     "weitere-personen": {
+      meta: { done: weiterePersonenDone },
       id: "weitere-personen",
       initial: "frage",
       states: {
