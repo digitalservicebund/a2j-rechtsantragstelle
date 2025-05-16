@@ -10,6 +10,7 @@ import type { FluggastrechtContext } from "./context";
 import { flugdatenXstateConfig } from "./flugdaten/xstateConfig";
 import { grundvoraussetzungenXstateConfig } from "./grundvoraussetzungen/xstateConfig";
 import { fluggastrechteGuards } from "./guards";
+import { introXstateConfig } from "./intro/xstateConfig";
 import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 import { prozessfuehrungXstateConfig } from "./prozessfuehrung/xstateConfig";
 import { isTotalClaimWillSucceddedAboveLimit } from "./services/isTotalClaimAboveLimit";
@@ -110,20 +111,7 @@ export const fluggastrechtFlow = {
     id: "/fluggastrechte/formular",
     initial: "intro",
     states: {
-      intro: {
-        id: "intro",
-        initial: "start",
-        meta: { done: () => true },
-        states: {
-          start: {
-            on: {
-              SUBMIT: "#grundvoraussetzungen.datenverarbeitung",
-              BACK: "redirect-vorabcheck-ergebnis",
-            },
-          },
-          "redirect-vorabcheck-ergebnis": { on: {} },
-        },
-      },
+      intro: introXstateConfig,
       grundvoraussetzungen: grundvoraussetzungenXstateConfig,
       "streitwert-kosten": streitwertKostenXstateConfig,
       flugdaten: flugdatenXstateConfig,
