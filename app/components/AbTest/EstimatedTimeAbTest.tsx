@@ -1,6 +1,7 @@
 import TimerOutlinedIcon from "@digitalservicebund/icons/TimerOutlined";
 import { useFeatureFlagVariantKey } from "posthog-js/react";
 import { useLocation } from "react-router";
+import { config } from "~/services/env/web";
 
 export function EstimatedTimeAbTest() {
   /**
@@ -25,9 +26,15 @@ export function EstimatedTimeAbTest() {
     return isOnPKHFlowStartPage && isTestGroup;
   }
 
+  const displayEstimatedTime = useDisplayEstimatedTimeAbTest();
+
+  if (!config().POSTHOG_API_KEY) {
+    return null;
+  }
+
   return (
     <>
-      {useDisplayEstimatedTimeAbTest() && (
+      {displayEstimatedTime && (
         <span className="flex items-center ds-body-02-reg text-gray-900">
           <TimerOutlinedIcon className="shrink-0 fill-gray-900 mr-4" />
           {"Geschätzte Zeit: 20 Minuten"}
