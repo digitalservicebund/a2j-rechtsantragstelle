@@ -1,6 +1,7 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { antragstellendePersonDone } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
 import { einkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
+import { prozesskostenhilfeGesetzlicheVertretungDone } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/doneFunctions";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import type { ProzesskostenhilfeFormularContext } from "./context";
 import {
@@ -39,6 +40,8 @@ export const getMissingInformationStrings = (
     ausgabenZusammenfassungMissingInformation: !ausgabenZusammenfassungDone({
       context,
     }),
+    gesetzlicheVertretungMissingInformation:
+      !prozesskostenhilfeGesetzlicheVertretungDone({ context }),
     persoenlicheDatenMissingInformation:
       !prozesskostenhilfePersoenlicheDatenDone({ context }),
   };

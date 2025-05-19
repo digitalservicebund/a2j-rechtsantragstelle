@@ -8,6 +8,7 @@ import { getAntragstellendePersonStrings } from "~/domains/prozesskostenhilfe/fo
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/arrayConfiguration";
 import { finanzielleAngabeEinkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
+import { prozesskostenhilfeGesetzlicheVertretungDone } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/doneFunctions";
 import {
   nachueberpruefung,
   versandDigitalAnwalt,
@@ -173,6 +174,7 @@ export const prozesskostenhilfeFormular = {
                 context: ProzesskostenhilfeFormularContext;
               }) =>
                 prozesskostenhilfeFinanzielleAngabeDone({ context }) &&
+                prozesskostenhilfeGesetzlicheVertretungDone({ context }) &&
                 (rechtsschutzversicherungDone({ context }) ||
                   context.formularArt === "nachueberpruefung") &&
                 prozesskostenhilfePersoenlicheDatenDone({
