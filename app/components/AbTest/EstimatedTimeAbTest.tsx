@@ -29,7 +29,7 @@ export function EstimatedTimeAbTest() {
   const displayEstimatedTime = useDisplayEstimatedTimeAbTest();
 
   if (!config().POSTHOG_API_KEY) {
-    return null;
+    return false;
   }
 
   return (
