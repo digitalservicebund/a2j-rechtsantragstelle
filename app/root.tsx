@@ -1,4 +1,6 @@
 import * as Sentry from "@sentry/react-router";
+import { posthog } from "posthog-js";
+import { PostHogProvider } from "posthog-js/react";
 import { useEffect, useMemo, useState } from "react";
 import type {
   LinksFunction,
@@ -29,7 +31,7 @@ import {
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
-import { config as configWeb } from "~/services/env/web";
+import { config, config as configWeb } from "~/services/env/web";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import type { Route } from "./+types/root";
 import Breadcrumbs from "./components/Breadcrumbs";
@@ -212,6 +214,21 @@ function App() {
     ],
   );
 
+  const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
+
+  if (POSTHOG_API_KEY) {
+    posthog.init(POSTHOG_API_KEY, {
+      api_host: POSTHOG_API_HOST,
+      session_recording: {
+        // Masking input and text elements to prevent sensitive data being shown on pages
+        maskTextSelector: "*",
+        maskAllInputs: true,
+      },
+      cross_subdomain_cookie: false, // set cookie for subdomain only
+      opt_out_persistence_by_default: true,
+    });
+  }
+
   return (
     <html lang="de">
       <head>
@@ -249,12 +266,14 @@ function App() {
             translations={{ ...accessibilityTranslations }}
           />
           <CookieConsentContext.Provider value={hasTrackingConsent}>
-            <TranslationContext.Provider value={translationMemo}>
-              <main className="flex-grow flex" id="main">
-                <Outlet />
-              </main>
-            </TranslationContext.Provider>
-            <CookieBanner content={cookieBannerContent} />
+            <PostHogProvider client={posthog}>
+              <TranslationContext.Provider value={translationMemo}>
+                <main className="flex-grow flex" id="main">
+                  <Outlet />
+                </main>
+              </TranslationContext.Provider>
+              <CookieBanner content={cookieBannerContent} />
+            </PostHogProvider>
           </CookieConsentContext.Provider>
         </div>
         <footer>
