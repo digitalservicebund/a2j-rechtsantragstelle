@@ -19,7 +19,7 @@ export function EstimatedTimeAbTest() {
     const { pathname } = useLocation();
     const variantKey = useFeatureFlagVariantKey("conversion-rate-pkh-flow");
     const isOnPKHFlowStartPage = pathname.includes(
-      "prozesskostenhilfe/formular/start/start",
+      "/prozesskostenhilfe/formular/start/start",
     );
     const isTestGroup = variantKey === "test";
 

@@ -14,6 +14,11 @@ vi.mock("react-router", () => {
     useLocation: vi.fn(),
   };
 });
+vi.mock("~/services/env/web", () => ({
+  config: () => ({
+    POSTHOG_API_KEY: "test-key",
+  }),
+}));
 
 const useFeatureFlagVariantKeyMock = useFeatureFlagVariantKey as Mock;
 const useLocationMock = useLocation as Mock;
