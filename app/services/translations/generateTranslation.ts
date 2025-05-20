@@ -53,7 +53,9 @@ try {
   const outputPath = path.join(currentDir, "translations.ts");
 
   const fileContent = `// This file is auto-generated. Do not edit manually.
-export const translations = ${JSON.stringify(transformedTranslations, null, 2)};
+  import { type TranslationRecord } from "~/services/translations/getTranslationByKey";
+
+export const translations: TranslationRecord = ${JSON.stringify(transformedTranslations, null, 2)};
 `;
 
   writeFileSync(outputPath, fileContent, "utf8");
