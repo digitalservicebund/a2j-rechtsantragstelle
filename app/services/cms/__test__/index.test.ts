@@ -189,7 +189,7 @@ describe("services/cms", () => {
   });
 
   describe("fetchMultipleTranslations", () => {
-    test("returns translations for multiple scopes", () => {
+    test("returns translations for multiple scopes", async () => {
       const mockedTranslations: TranslationRecord = {
         amtsgericht: {
           amtsgerichtKey: { de: "amtsgerichtValue" },
@@ -205,7 +205,9 @@ describe("services/cms", () => {
         mockedTranslations,
       );
 
-      expect(fetchMultipleTranslations(["amtsgericht", "ausgaben"])).toEqual({
+      expect(
+        await fetchMultipleTranslations(["amtsgericht", "ausgaben"]),
+      ).toEqual({
         amtsgericht: {
           amtsgerichtKey: "amtsgerichtValue",
           amtsgerichtKey2: "amtsgerichtValue2",

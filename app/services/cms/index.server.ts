@@ -117,16 +117,15 @@ export function fetchMultipleTranslations(
       `No matching translation scopes found for ${scopes.join(", ")}`,
     );
   }
-  return Promise.resolve(
-    scopes
-      .filter((scope) => Object.hasOwn(translations, scope))
-      .reduce((prev, current) => {
-        return {
-          ...prev,
-          [current]: fetchTranslations(current),
-        };
-      }, {}),
-  );
+  return scopes
+    .filter((scope) => Object.hasOwn(translations, scope))
+    .reduce(async (prev, current) => {
+      const currentTranslations = await fetchTranslations(current);
+      return {
+        ...(await prev),
+        [current]: currentTranslations,
+      };
+    }, Promise.resolve({}));
 }
 
 export const fetchPage = (slug: string) =>
