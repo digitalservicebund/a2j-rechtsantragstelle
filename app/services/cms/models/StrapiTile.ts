@@ -10,12 +10,6 @@ export const createTileRenderer = (value: string): Partial<Renderer> => ({
   },
 });
 
-export const tileRenderer: Partial<Renderer> = {
-  paragraph({ text }) {
-    return `<p class="ds-subhead">${text}</p>`;
-  },
-};
-
 export const StrapiTileSchema = z
   .object({
     title: z.string(),
