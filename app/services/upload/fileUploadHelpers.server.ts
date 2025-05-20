@@ -111,11 +111,9 @@ async function parseFileFromFormData(request: Request, fieldName: string) {
       matchedFile = fileUpload;
     }
   });
-
   if (typeof matchedFile === "undefined") {
     throw new Error(UNDEFINED_FILE_ERROR);
   }
-
   return matchedFile;
 }
 

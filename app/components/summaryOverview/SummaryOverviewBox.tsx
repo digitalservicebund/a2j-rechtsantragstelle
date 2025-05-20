@@ -2,9 +2,9 @@ import EditIcon from "@digitalservicebund/icons/EditOutlined";
 import { type Context } from "~/domains/contexts";
 import Heading from "../Heading";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
-import Button from "../Button";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
 import { useFormFlow } from "../form/formFlowContext";
+import { StandaloneLink } from "../StandaloneLink";
 
 type Props = Pick<
   SummaryOverviewBoxWrappedProps,
@@ -26,7 +26,7 @@ const SummaryOverviewBox = ({
   const { translations, flowId } = useFormFlow();
 
   return (
-    <div className="bg-white mt-8 p-16 flex flex-col content-between sm:flex-row sm:justify-between">
+    <div className="bg-white mt-8 p-16 gap-4 flex flex-col content-between sm:flex-row sm:justify-between">
       <div>
         {title && (
           <Heading
@@ -51,14 +51,12 @@ const SummaryOverviewBox = ({
           ))}
         </dl>
       </div>
-      <Button
-        iconLeft={<EditIcon className="shrink-0" />}
-        href={`${flowId}${stepId}`}
-        look="ghost"
-        className="p-0 items-start justify-end"
-      >
-        Bearbeiten
-      </Button>
+      <StandaloneLink
+        url={`${flowId}${stepId}`}
+        className="flex basis gap-2 pl-2 ds-link-01-bold items-start justify-end h-min"
+        icon={<EditIcon className="shrink-0 inline" />}
+        text={"Bearbeiten"}
+      />
     </div>
   );
 };

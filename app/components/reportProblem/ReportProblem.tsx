@@ -17,9 +17,11 @@ export const ReportProblem = () => {
     }
   };
 
+  if (!survey) return null;
+
   return (
     <div className="p-24 justify-end flex relative">
-      {surveyOpen && survey && (
+      {surveyOpen && (
         <PosthogSurvey
           survey={survey}
           closeSurvey={() => setSurveyOpen(false)}
@@ -27,7 +29,6 @@ export const ReportProblem = () => {
       )}
       <Button
         look="tertiary"
-        disabled={!survey}
         onClick={onButtonPressed}
         id="survey-button"
         className="h-40 px-24 py-10 min-w-full justify-center sm:min-w-fit"

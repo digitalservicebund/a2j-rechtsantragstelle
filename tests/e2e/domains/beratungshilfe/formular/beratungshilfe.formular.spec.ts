@@ -1,11 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { type Page, type Response, expect, test } from "@playwright/test";
+import { PDFDocument } from "pdf-lib";
 import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { startFinanzielleAngabenPartner } from "tests/e2e/domains/shared/finanzielleAngaben/finanzielleAngabenPartner";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
-import { config } from "~/services/env/env.server";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
@@ -53,11 +53,15 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startRechtsproblem(page, beratungshilfeFormular);
   await startFinanzielleAngabenGrundsicherung(beratungshilfeFormular);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
-  await skipZusammenfassung(page);
+
+  // beratungshilfe/antrag/abgabe/art
+  await beratungshilfeFormular.clickNext();
+
+  await startOnlineAbgabe(page);
   if (await isFeatureFlagEnabled("showFileUpload")) {
-    await startDocumentUpload(page, beratungshilfeFormular);
+    await startDocumentUpload(page);
   }
-  await startAbgabe(page);
+  await downloadOnlineAbgabe(page);
 });
 
 test("invalid array index redirects to initial step of subflow", async ({
@@ -80,13 +84,10 @@ test("invalid array index redirects to initial step of subflow", async ({
   );
 });
 
-async function startDocumentUpload(
-  page: Page,
-  formular: BeratungshilfeFormular,
-) {
+async function startDocumentUpload(page: Page) {
   // beratungshilfe/antrag/abgabe/dokumente
   await expectPageToBeAccessible({ page });
-  await formular.clickNext();
+  await page.getByRole("button", { name: "Weiter" }).click();
 
   // Test empty form submission
   const errorMessage = page.getByTestId("inputError");
@@ -97,7 +98,9 @@ async function startDocumentUpload(
     path.join(process.cwd(), "playwright/generated/", "tooBig.pdf"),
   );
   fs.writeFileSync(dummyFilePathTooBig, Buffer.alloc(1024 * 1024 * 11));
-  await page.getByTestId("fileUploadInput").setInputFiles(dummyFilePathTooBig);
+  await page
+    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
+    .setInputFiles(dummyFilePathTooBig);
   const fileUploadInfo = page.getByTestId(
     "file-upload-info-grundsicherungBeweis[0]",
   );
@@ -112,10 +115,7 @@ async function startDocumentUpload(
   );
   fs.writeFileSync(dummyFilePathWrongType, "test");
   await page
-    .getByTestId("fileUploadInput")
-    .setInputFiles(dummyFilePathWrongType);
-  await page
-    .getByTestId("fileUploadInput")
+    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
     .setInputFiles(dummyFilePathWrongType);
   await expect(fileUploadInfo).toBeVisible();
   await expect(errorMessage).toBeVisible();
@@ -126,21 +126,31 @@ async function startDocumentUpload(
   const dummyFilePath = path.resolve(
     path.join(process.cwd(), "playwright/generated/", "test.pdf"),
   );
-  fs.writeFileSync(dummyFilePath, Buffer.alloc(1024 * 1024 * 1));
-  await page.getByTestId("fileUploadInput").setInputFiles(dummyFilePath);
+
+  const pdfDoc = await PDFDocument.create();
+  const pdfPage = pdfDoc.addPage([600, 800]);
+  pdfPage.drawText("Test PDF", {
+    x: 50,
+    y: 700,
+    size: 30,
+  });
+
+  const pdfBytes = await pdfDoc.save();
+  fs.writeFileSync(dummyFilePath, pdfBytes);
+  await page
+    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
+    .setInputFiles(dummyFilePath);
   await expect(fileUploadInfo).toBeVisible();
   await expect(errorMessage).not.toBeVisible();
   await page.getByRole("button", { name: "Weiter" }).click();
-  // eslint-disable-next-line sonarjs/deprecation
-  await page.waitForNavigation();
 }
-
-async function startAbgabe(page: Page) {
+async function startOnlineAbgabe(page: Page) {
   // beratungshilfe/antrag/abgabe/art
-  await beratungshilfeFormular.fillRadioPage("abgabeArt", "ausdrucken");
-  // beratungshilfe/antrag/abgabe/ausdrucken
+  await beratungshilfeFormular.fillRadioPage("abgabeArt", "online");
+  // beratungshilfe/antrag/abgabe/online
   await expectPageToBeAccessible({ page });
-
+}
+async function downloadOnlineAbgabe(page: Page) {
   // Observe context for requests to /download/pdf
   let newTabResponse: Response | undefined;
   page.context().on("request", async (request) => {
@@ -161,10 +171,4 @@ async function startAbgabe(page: Page) {
   expect(await newTabResponse?.headerValue("content-type")).toBe(
     "application/pdf",
   );
-}
-
-async function skipZusammenfassung(page: Page) {
-  if (config().ENVIRONMENT !== "production") {
-    await page.goto("beratungshilfe/antrag/abgabe/dokumente");
-  }
 }

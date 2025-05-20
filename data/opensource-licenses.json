@@ -361,14 +361,6 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/react/LICENSE",
     "direct": true
   },
-  "samlify": {
-    "licenses": "MIT",
-    "repository": "https://github.com/tngan/samlify",
-    "publisher": "tngan",
-    "path": "a2j-rechtsantragstelle/node_modules/samlify",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/samlify/LICENSE",
-    "direct": true
-  },
   "tiny-invariant": {
     "licenses": "MIT",
     "repository": "https://github.com/alexreardon/tiny-invariant",

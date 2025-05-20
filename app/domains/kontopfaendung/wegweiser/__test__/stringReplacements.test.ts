@@ -23,6 +23,9 @@ import {
   getSelbststaendigStrings,
   getAngestelltStrings,
   getKinderStrings,
+  getSchuldnerberatungsstelleStrings,
+  getAmtsgerichtStrings,
+  getInfoZumPKontoStrings,
 } from "../stringReplacements";
 
 describe("stringReplacements", () => {
@@ -268,6 +271,118 @@ describe("stringReplacements", () => {
       const userData: KontopfaendungWegweiserContext = { hasKinder: "yes" };
       expect(getKinderStrings(userData)).toEqual({
         hasKinder: true,
+      });
+    });
+  });
+  describe("getSchuldnerberatungsstelleStrings", () => {
+    it("should return schuldnerberatungsstelleIsVisible as true when at least one sub variable is true", () => {
+      const userData: KontopfaendungWegweiserContext = {
+        kinderWohnenZusammen: "ja",
+        sozialleistungenUmstaende: {
+          kindergeld: CheckboxValue.on,
+          pflegegeld: CheckboxValue.off,
+          wohngeld: CheckboxValue.off,
+        },
+        hasSozialleistungenEinmalzahlung: "yes",
+        hasSozialleistungNachzahlung: "yes",
+        sozialleistungNachzahlungHigherThan: "no",
+        nachzahlungArbeitgeber: "yes",
+        arbeitgeberNachzahlungHigherThan: "no",
+        hasSozialleistungen: "buergergeld",
+        pflegegeld: "selbst",
+      };
+
+      expect(getSchuldnerberatungsstelleStrings(userData)).toEqual({
+        schuldnerberatungsstelleIsVisible: true,
+      });
+    });
+    it("should return schuldnerberatungsstelleIsVisible as false when all sub variables are false", () => {
+      const userData: KontopfaendungWegweiserContext = {
+        kinderWohnenZusammen: "nein",
+        sozialleistungenUmstaende: {
+          kindergeld: CheckboxValue.off,
+          pflegegeld: CheckboxValue.off,
+          wohngeld: CheckboxValue.off,
+        },
+        hasSozialleistungenEinmalzahlung: "no",
+        hasSozialleistungNachzahlung: "no",
+        sozialleistungNachzahlungHigherThan: "no",
+        nachzahlungArbeitgeber: "no",
+        arbeitgeberNachzahlungHigherThan: "no",
+        hasSozialleistungen: "nein",
+        pflegegeld: "fremd",
+      };
+
+      expect(getSchuldnerberatungsstelleStrings(userData)).toEqual({
+        schuldnerberatungsstelleIsVisible: false,
+      });
+    });
+  });
+
+  describe("getAmtsgerichtStrings", () => {
+    it("should return amtsgerichtIsVisible as true when at least one sub variable is true", () => {
+      const userData: KontopfaendungWegweiserContext = {
+        pflegegeld: "fremd",
+        nachzahlungArbeitgeber: "no",
+        arbeitgeberNachzahlungHigherThan: "no",
+        hasSozialleistungNachzahlung: "yes",
+        sozialleistungNachzahlungHigherThan: "yes",
+        arbeitArt: {
+          angestellt: CheckboxValue.off,
+          selbstaendig: CheckboxValue.on,
+        },
+        sozialleistungenUmstaende: {
+          kindergeld: CheckboxValue.off,
+          pflegegeld: CheckboxValue.off,
+          wohngeld: CheckboxValue.on,
+        },
+      };
+      expect(getAmtsgerichtStrings(userData)).toEqual({
+        amtsgerichtIsVisible: true,
+      });
+    });
+    it("should return amtsgerichtIsVisible as false when all sub variants are false", () => {
+      const userData: KontopfaendungWegweiserContext = {
+        pflegegeld: "selbst",
+        nachzahlungArbeitgeber: "no",
+        arbeitgeberNachzahlungHigherThan: "no",
+        hasSozialleistungNachzahlung: "no",
+        sozialleistungNachzahlungHigherThan: "no",
+        arbeitArt: {
+          angestellt: CheckboxValue.on,
+          selbstaendig: CheckboxValue.off,
+        },
+        sozialleistungenUmstaende: {
+          kindergeld: CheckboxValue.on,
+          pflegegeld: CheckboxValue.off,
+          wohngeld: CheckboxValue.off,
+        },
+      };
+      expect(getAmtsgerichtStrings(userData)).toEqual({
+        amtsgerichtIsVisible: false,
+      });
+    });
+  });
+
+  describe("getInfoZumPKontoStrings", () => {
+    it("should return infoZumPKontoIsVisible as true when at least one sub variable is true", () => {
+      const userData: KontopfaendungWegweiserContext = {
+        hasPKonto: "nein",
+        pfaendungStrafe: "yes",
+        pfaendungUnterhalt: "yes",
+      };
+      expect(getInfoZumPKontoStrings(userData)).toEqual({
+        infoZumPKontoIsVisible: true,
+      });
+    });
+    it("should return infoZumPKontoIsVisible as false when all sub variables are false", () => {
+      const userData: KontopfaendungWegweiserContext = {
+        hasPKonto: "ja",
+        pfaendungStrafe: "no",
+        pfaendungUnterhalt: "no",
+      };
+      expect(getInfoZumPKontoStrings(userData)).toEqual({
+        infoZumPKontoIsVisible: false,
       });
     });
   });

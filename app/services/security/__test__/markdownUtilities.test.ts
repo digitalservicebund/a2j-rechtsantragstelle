@@ -71,14 +71,14 @@ describe("markdownUtilities", () => {
       expect(handleNestedLists(html)).toBe(html);
     });
 
-    it("should reorder the opening and closing list tags if needed", () => {
+    it("should reorder an opening list tag if needed", () => {
       const htmlNestedList =
-        "{{ #conditional }}<ul><li>item 1</li></ul>{{ /conditional }}";
+        "{{ #conditional }}<ul><li>item 1</li>{{ /conditional }}</ul>";
       const expectedHtml =
         "<ul>{{ #conditional }}<li>item 1</li>{{ /conditional }}</ul>";
       expect(handleNestedLists(htmlNestedList)).toBe(expectedHtml);
       const invertedConditionHtml =
-        "{{^conditional}}<ul><li>item 1</li></ul>{{/conditional}}";
+        "{{^conditional}}<ul><li>item 1</li>{{/conditional}}</ul>";
       const expectedInvertedConditionHtml =
         "<ul>{{^conditional}}<li>item 1</li>{{/conditional}}</ul>";
       expect(handleNestedLists(invertedConditionHtml)).toBe(
@@ -86,18 +86,18 @@ describe("markdownUtilities", () => {
       );
     });
 
-    it("should only retain one set of opening and closing list tags", () => {
+    it("should handle multiple lists", () => {
       const htmlNestedUnorderedList =
-        "{{ #conditional }}<ul><li>item 1</li></ul><ul><li>item 2</li></ul>{{ /conditional }}";
+        "{{ #conditional }}<ul><li>item 1</li>{{ /conditional }}</ul>{{ #conditional2 }}<ul><li>item 2</li>{{ /conditional2 }}</ul>";
       const expectedHtmlUnorderedList =
-        "<ul>{{ #conditional }}<li>item 1</li><li>item 2</li>{{ /conditional }}</ul>";
+        "<ul>{{ #conditional }}<li>item 1</li>{{ /conditional }}</ul><ul>{{ #conditional2 }}<li>item 2</li>{{ /conditional2 }}</ul>";
       expect(handleNestedLists(htmlNestedUnorderedList)).toBe(
         expectedHtmlUnorderedList,
       );
       const htmlNestedOrderedList =
-        "{{ #conditional }}<ol><li>item 1</li></ol><ol><li>item 2</li></ol>{{ /conditional }}";
+        "{{ #conditional }}<ol><li>item 1</li>{{ /conditional }}</ol>{{ #conditional2 }}<ol><li>item 2</li>{{ /conditional2 }}</ol>";
       const expectedHtmlOrderedList =
-        "<ol>{{ #conditional }}<li>item 1</li><li>item 2</li>{{ /conditional }}</ol>";
+        "<ol>{{ #conditional }}<li>item 1</li>{{ /conditional }}</ol><ol>{{ #conditional2 }}<li>item 2</li>{{ /conditional2 }}</ol>";
       expect(handleNestedLists(htmlNestedOrderedList)).toBe(
         expectedHtmlOrderedList,
       );
