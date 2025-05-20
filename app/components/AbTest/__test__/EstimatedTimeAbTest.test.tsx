@@ -43,6 +43,7 @@ describe("EstimatedTimeAbTest", () => {
     useLocationMock.mockReturnValue({
       pathname: "/prozesskostenhilfe/formular/other",
     });
+    render(<EstimatedTimeAbTest />);
     expect(
       screen.queryByText("Geschätzte Zeit: 20 Minuten"),
     ).not.toBeInTheDocument();
@@ -54,6 +55,7 @@ describe("EstimatedTimeAbTest", () => {
     useLocationMock.mockReturnValue({
       pathname: "/prozesskostenhilfe/formular/start/start",
     });
+    render(<EstimatedTimeAbTest />);
     expect(
       screen.queryByText("Geschätzte Zeit: 20 Minuten"),
     ).not.toBeInTheDocument();
@@ -65,6 +67,7 @@ describe("EstimatedTimeAbTest", () => {
     useLocationMock.mockReturnValue({
       pathname: "/prozesskostenhilfe/formular/start/start",
     });
+    render(<EstimatedTimeAbTest />);
     expect(
       screen.queryByText("Geschätzte Zeit: 20 Minuten"),
     ).not.toBeInTheDocument();
