@@ -16,7 +16,12 @@ export function EstimatedTimeAbTest() {
    * @returns {boolean} Whether to display the estimated time string and icon.
    */
   function useDisplayEstimatedTimeAbTest(): boolean {
+    if (!config().POSTHOG_API_KEY) {
+      return false;
+    }
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const { pathname } = useLocation();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const variantKey = useFeatureFlagVariantKey("conversion-rate-pkh-flow");
     const isOnPKHFlowStartPage = pathname.includes(
       "/prozesskostenhilfe/formular/start/start",
@@ -27,10 +32,6 @@ export function EstimatedTimeAbTest() {
   }
 
   const displayEstimatedTime = useDisplayEstimatedTimeAbTest();
-
-  if (!config().POSTHOG_API_KEY) {
-    return false;
-  }
 
   return (
     <>
