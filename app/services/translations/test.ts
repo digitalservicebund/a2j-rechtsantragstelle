@@ -5,7 +5,7 @@ type TranslationRecord = Record<
   Record<string, Partial<Record<Lang, string>>>
 >;
 
-const trans: TranslationRecord = {
+export const translations: TranslationRecord = {
   vorabcheck: {
     ["bankkonten.blah"]: {
       de: "Kontostand (in Euro)",
@@ -16,14 +16,3 @@ const trans: TranslationRecord = {
     },
   },
 };
-
-// trans.vorabcheck["bankkonten.kontostand"].de
-
-// const umgekehrt = {
-//     de: {
-
-//     },
-//     en: {
-
-//     }
-// }
