@@ -22,7 +22,7 @@ type TileProps = TileOptions &
     onClick: () => void;
   }>;
 
-const getDescriptionId = (
+const getAriaDescribedBy = (
   errorId: string,
   descriptionId: string,
   error: string | null,
@@ -56,7 +56,7 @@ function TileRadio(
   const errorId = `${name}-error`;
   const descriptionId = `${value}-description`;
 
-  const ariaDescribedBy = getDescriptionId(
+  const ariaDescribedBy = getAriaDescribedBy(
     errorId,
     descriptionId,
     field.error(),
