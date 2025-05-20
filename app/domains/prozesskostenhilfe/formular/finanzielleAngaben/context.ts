@@ -12,7 +12,7 @@ import {
   financialEntrySchema,
   livingSituationSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/context";
-import { finanzielleAngabenPartnerContext } from "~/domains/shared/formular/finanzielleAngaben/partner/context";
+import { finanzielleAngabenPartnerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/partner/inputSchema";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
@@ -35,7 +35,7 @@ export const zahlungspflichtigerSchema = z.enum(
 );
 
 export const prozesskostenhilfeFinanzielleAngabenContext = {
-  ...finanzielleAngabenPartnerContext,
+  ...finanzielleAngabenPartnerInputSchema,
   ...duplicateContext(
     prozesskostenhilfeFinanzielleAngabenEinkuenfteContext,
     "partner",

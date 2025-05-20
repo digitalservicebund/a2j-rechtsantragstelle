@@ -1,7 +1,7 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { rechtsproblemDone } from "./context";
-import type { BeratungshilfeAnwaltlicheVertretung } from "../anwaltlicheVertretung/context";
+import { rechtsproblemDone } from "./userData";
 import { beratungshilfeAnwaltlicheVertretungGuards } from "../anwaltlicheVertretung/guards";
+import { type BeratungshilfeAnwaltlicheVertretungUserData } from "../anwaltlicheVertretung/userData";
 
 export const rechtsproblemXstateConfig = {
   initial: "start",
@@ -40,4 +40,4 @@ export const rechtsproblemXstateConfig = {
       },
     },
   },
-} satisfies Config<BeratungshilfeAnwaltlicheVertretung>;
+} satisfies Config<BeratungshilfeAnwaltlicheVertretungUserData>;

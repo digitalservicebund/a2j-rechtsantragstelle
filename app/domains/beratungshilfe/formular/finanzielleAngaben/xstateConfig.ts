@@ -1,5 +1,4 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
-import type { BeratungshilfeFinanzielleAngaben } from "./context";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
@@ -11,6 +10,7 @@ import {
 } from "./doneFunctions";
 import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
 import { finanzielleAngabeGuards as guards } from "./guards";
+import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 
 export const beratungshilfeFinanzielleAngabenXstateConfig = {
   initial: "einkommen",
@@ -832,4 +832,4 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
       },
     },
   },
-} satisfies Config<BeratungshilfeFinanzielleAngaben>;
+} satisfies Config<BeratungshilfeFinanzielleAngabenUserData>;

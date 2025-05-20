@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { bereich } from "~/domains/beratungshilfe/formular/rechtsproblem/context";
+import { bereich } from "~/domains/beratungshilfe/formular/rechtsproblem/userData";
 import { rsvCoverage } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/context";
 import { staatlicheLeistungen } from "~/domains/shared/formular/finanzielleAngaben/context";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";

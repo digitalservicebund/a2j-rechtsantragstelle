@@ -1,6 +1,6 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
+import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 import type { besondereBelastungenSchema } from "~/domains/shared/formular/finanzielleAngaben/context";
 import {
   type AttachmentEntries,
@@ -85,7 +85,7 @@ export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
 };
 
 function fillAusgabenInPDF(
-  ausgaben: NonNullable<BeratungshilfeFinanzielleAngaben["ausgaben"]>,
+  ausgaben: NonNullable<BeratungshilfeFinanzielleAngabenUserData["ausgaben"]>,
   pdfValues: BeratungshilfePDF,
 ) {
   for (let i = 0; i < ausgaben.length; i++) {

@@ -1,6 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 import { redirect, type LoaderFunctionArgs } from "react-router";
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services/pdf";
 import { parsePathname, type FlowId } from "~/domains/flowIds";
 import type { FluggastrechteFlugdatenContext } from "~/domains/fluggastrechte/formular/flugdaten/context";
@@ -18,7 +18,7 @@ import type { Translations } from "~/services/translations/getTranslationByKey";
 import { pdfDateFormat, today } from "~/util/date";
 
 type PdfFlowContexts =
-  | BeratungshilfeFormularContext
+  | BeratungshilfeFormularUserData
   | FluggastrechteFlugdatenContext
   | ProzesskostenhilfeFormularContext;
 
@@ -38,7 +38,7 @@ type PdfConfig = PdfFlowContexts extends infer T
 const pdfConfigs = {
   "/beratungshilfe/antrag": {
     pdfFunction: async (
-      userData: BeratungshilfeFormularContext,
+      userData: BeratungshilfeFormularUserData,
       sessionId: string,
     ) => await beratungshilfePdfFromUserdata(userData, sessionId),
     filenameFunction: () =>

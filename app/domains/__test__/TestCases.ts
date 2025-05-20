@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import type { BeratungshilfeVorabcheckContext } from "~/domains/beratungshilfe/vorabcheck/context";
 import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
@@ -9,7 +9,7 @@ import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfe/fo
 export type TestCases<
   T extends
     | BeratungshilfeVorabcheckContext
-    | BeratungshilfeFormularContext
+    | BeratungshilfeFormularUserData
     | GeldEinklagenVorabcheckContext
     | FluggastrechtVorabcheckContext
     | FluggastrechtContext

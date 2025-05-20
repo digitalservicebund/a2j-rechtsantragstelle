@@ -11,7 +11,7 @@ import {
   wertsachenArraySchema,
   livingSituationSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/context";
-import { finanzielleAngabenPartnerContext } from "~/domains/shared/formular/finanzielleAngaben/partner/context";
+import { finanzielleAngabenPartnerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/partner/inputSchema";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
@@ -24,8 +24,8 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
 
-export const beratungshilfeFinanzielleAngaben = {
-  ...finanzielleAngabenPartnerContext,
+export const beratungshilfeFinanzielleAngabenInputSchema = {
+  ...finanzielleAngabenPartnerInputSchema,
   einkommen: buildMoneyValidationSchema(),
   erwerbstaetig: YesNoAnswer,
   staatlicheLeistungen,
@@ -92,5 +92,5 @@ export const beratungshilfeFinanzielleAngaben = {
   pageData: pageDataSchema,
 };
 
-const _contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();
-export type BeratungshilfeFinanzielleAngaben = z.infer<typeof _contextObject>;
+const _partialSchema = z.object(beratungshilfeFinanzielleAngabenInputSchema).partial();
+export type BeratungshilfeFinanzielleAngabenUserData = z.infer<typeof _partialSchema>;

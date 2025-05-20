@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/maritalDescriptionMapping";
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import {
@@ -91,7 +91,7 @@ const staatlicheLeistungMapping = {
 } as const;
 
 const getOccupationDetails = (
-  userData: BeratungshilfeFormularContext,
+  userData: BeratungshilfeFormularUserData,
   withAdditionalIncome = true,
 ) => {
   const description: string[] = [];

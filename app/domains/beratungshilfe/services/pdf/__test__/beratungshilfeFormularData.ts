@@ -1,7 +1,7 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 
-export const happyPathData: BeratungshilfeFormularContext = {
+export const happyPathData: BeratungshilfeFormularUserData = {
   rechtsschutzversicherung: "no",
   wurdeVerklagt: "no",
   klageEingereicht: "no",

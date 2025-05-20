@@ -1,6 +1,6 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine";
-import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
+import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 const finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeArbeitsweg =
   "/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/arbeitsweg";
 const finanzielleAngabenEigentumZusammenfassungKraftfahrzeugeWert =
