@@ -2,7 +2,7 @@ import { getRechtsproblemStrings } from "~/domains/beratungshilfe/formular/recht
 import type { Flow } from "~/domains/flows.server";
 import { type DokumenteContext } from "./abgabe/dokumente/context";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
-import type { BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
+import type { BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/userData";
 import { beratungshilfeAnwaltlicheVertretungGuards } from "./anwaltlicheVertretung/guards";
 import type { BeratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
