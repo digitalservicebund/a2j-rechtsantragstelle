@@ -1,6 +1,6 @@
 import type { ZodTypeAny } from "zod";
 import { context as beratungshilfeContext } from "~/domains/beratungshilfe/vorabcheck/context";
-import { fluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import { fluggastrechteInputSchema } from "~/domains/fluggastrechte/formular/userData";
 import { fluggastrechteVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
 import { context as geldEinklagenFormularContext } from "~/domains/geldEinklagen/formular/context";
 import { context as geldEinklagenContext } from "~/domains/geldEinklagen/vorabcheck/context";
@@ -25,7 +25,7 @@ const contexts = {
   "/geld-einklagen/vorabcheck": geldEinklagenContext,
   "/geld-einklagen/formular": geldEinklagenFormularContext,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckContext,
-  "/fluggastrechte/formular": fluggastrechtContext,
+  "/fluggastrechte/formular": fluggastrechteInputSchema,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularContext,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiserContext,
 } as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;

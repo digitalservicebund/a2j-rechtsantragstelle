@@ -1,5 +1,5 @@
 import isEmpty from "lodash/isEmpty";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { FluggastrechtAnkuendigungType } from "~/domains/fluggastrechte/vorabcheck/context";
 import { calculateDuration } from "./calculateDuration";
 
@@ -27,7 +27,7 @@ export const NO_OFFER_REPLACEMENT_RECEIVED_TEXT =
   "Kein Angebot einer Ersatzverbindung erhalten.";
 
 const getReplacementFlightLandedDescription = (
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ): string => {
   const {
     ersatzflugLandenZweiStunden,
@@ -47,7 +47,7 @@ const getReplacementFlightLandedDescription = (
 };
 
 const getReplacementFlightDepartureDescription = (
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ): string => {
   const {
     ersatzflugStartenEinStunde,
@@ -67,7 +67,7 @@ const getReplacementFlightDepartureDescription = (
 };
 
 const getReplacementFlightDescription = (
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ): string => {
   const { ersatzflug } = userData;
 
@@ -91,7 +91,7 @@ const formatAnnullierungDateHour = (date?: string, hour?: string) => {
 };
 
 const getConnectionDetailsCancel = (
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ): ConnectionDetailsType => {
   const {
     ankuendigung,
@@ -142,7 +142,7 @@ function getAmountOfDelay(
 }
 
 function getConnectionDetailsDelayOrNoBoarding(
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ): ConnectionDetailsType {
   const {
     bereich,
@@ -221,7 +221,7 @@ function getConnectionDetailsDelayOrNoBoarding(
   }
 }
 
-export function getConnectionDetails(userData: FluggastrechtContext) {
+export function getConnectionDetails(userData: FluggastrechteUserData) {
   const { bereich } = userData;
 
   if (bereich === "annullierung") {

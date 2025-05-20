@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import {
   MARGIN_BETWEEN_SECTIONS,
   MARGIN_RIGHT,
@@ -38,7 +38,7 @@ const getTextTelefonNumber = (telefonnummer?: string) => {
 
 export const addMultiplePersonsText = (
   doc: typeof PDFDocument,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) => {
   if (
     userData.isWeiterePersonen === "no" ||

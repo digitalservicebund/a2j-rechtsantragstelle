@@ -4,7 +4,7 @@ import { getAirportByIataCode } from "../../services/airports/getAirportByIataCo
 import { getAirportNameByIataCode } from "../../services/airports/getAirportNameByIataCode";
 import { getCompensationPayment } from "../../services/airports/getCompensationPayment";
 import { getCourtByStartAndEndAirport } from "../../services/getCourtByStartAndEndAirport";
-import type { FluggastrechtContext } from "../context";
+import type { FluggastrechteUserData } from "../userData";
 import { getTotalClaimingPeople } from "../services/getTotalClaimingPeople";
 import { getTotalCompensationClaim } from "../services/getTotalCompensationClaim";
 import {
@@ -59,7 +59,7 @@ describe("stringReplacements", () => {
 
   describe("getWeiterePersonenNameStrings", () => {
     it("should return vorname and nachname for given context", () => {
-      const context: FluggastrechtContext = {
+      const context: FluggastrechteUserData = {
         weiterePersonen: [
           {
             title: "",
@@ -84,7 +84,7 @@ describe("stringReplacements", () => {
     });
 
     it("should return an empty object when arrayIndex is too high", () => {
-      const context: FluggastrechtContext = {
+      const context: FluggastrechteUserData = {
         weiterePersonen: [
           {
             title: "",
@@ -393,7 +393,7 @@ describe("stringReplacements", () => {
       vi.mocked(getTotalClaimingPeople).mockReturnValue(3);
       vi.mocked(getTotalCompensationClaim).mockReturnValue(750);
 
-      const context: FluggastrechtContext = {
+      const context: FluggastrechteUserData = {
         weiterePersonen: [
           { vorname: "Zweiter", nachname: "Person" },
           { vorname: "Dritter", nachname: "Person" },
@@ -417,7 +417,7 @@ describe("stringReplacements", () => {
       vi.mocked(getTotalClaimingPeople).mockReturnValue(1);
       vi.mocked(getTotalCompensationClaim).mockReturnValue(0);
 
-      const context: FluggastrechtContext = {};
+      const context: FluggastrechteUserData = {};
 
       const expected = {
         courtCost: "114",
@@ -436,7 +436,7 @@ describe("stringReplacements", () => {
       vi.mocked(getTotalClaimingPeople).mockReturnValue(1);
       vi.mocked(getTotalCompensationClaim).mockReturnValue(250);
 
-      const context: FluggastrechtContext = {
+      const context: FluggastrechteUserData = {
         weiterePersonen: [],
       };
 
@@ -454,7 +454,7 @@ describe("stringReplacements", () => {
 
   describe("getAnnullierungInfo", () => {
     it("should return correct annullierung info based on context", () => {
-      const context: FluggastrechtContext = {
+      const context: FluggastrechteUserData = {
         ersatzflugStartenEinStunde: "yes",
         ersatzflugLandenZweiStunden: "yes",
       };

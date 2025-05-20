@@ -3,7 +3,7 @@ import { redirect, type LoaderFunctionArgs } from "react-router";
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services/pdf";
 import { parsePathname, type FlowId } from "~/domains/flowIds";
-import type { FluggastrechteFlugdatenContext } from "~/domains/fluggastrechte/formular/flugdaten/context";
+import type { FluggastrechteFlugdatenUserData } from "~/domains/fluggastrechte/formular/flugdaten/userData";
 import { fluggastrechtePdfFromUserdata } from "~/domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
 import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
@@ -19,7 +19,7 @@ import { pdfDateFormat, today } from "~/util/date";
 
 type PdfFlowContexts =
   | BeratungshilfeFormularUserData
-  | FluggastrechteFlugdatenContext
+  | FluggastrechteFlugdatenUserData
   | ProzesskostenhilfeFormularContext;
 
 type PdfConfig = PdfFlowContexts extends infer T
@@ -54,7 +54,7 @@ const pdfConfigs = {
       `Antrag_Prozesskostenhilfe_${pdfDateFormat(today())}.pdf`,
   },
   "/fluggastrechte/formular": {
-    pdfFunction: async (userData: FluggastrechteFlugdatenContext) =>
+    pdfFunction: async (userData: FluggastrechteFlugdatenUserData) =>
       await fluggastrechtePdfFromUserdata(userData),
     filenameFunction: () =>
       `Fluggastrechte_Klage_${pdfDateFormat(today())}.pdf`,

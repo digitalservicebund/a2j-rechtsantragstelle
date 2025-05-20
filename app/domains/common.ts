@@ -1,6 +1,6 @@
 import type { ZodTypeAny } from "zod";
 import type { BeratungshilfeVorabcheckContext } from "~/domains/beratungshilfe/vorabcheck/context";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
 import type { GeldEinklagenFormularContext } from "~/domains/geldEinklagen/formular/context";
 import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
@@ -13,7 +13,7 @@ type AllContexts =
   | BeratungshilfeVorabcheckContext
   | BeratungshilfeFormularUserData
   | FluggastrechtVorabcheckContext
-  | FluggastrechtContext
+  | FluggastrechteUserData
   | ProzesskostenhilfeFormularContext;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;

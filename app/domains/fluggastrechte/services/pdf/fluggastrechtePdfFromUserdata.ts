@@ -1,4 +1,4 @@
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
 import { createFooter } from "./sections/createFooter";
@@ -7,7 +7,7 @@ import { createReasonPage } from "./sections/reason/createReasonPage";
 import { setPdfMetadata } from "./setPdfMetadata";
 
 const buildFluggastrechtePDFDocument: PDFDocumentBuilder<
-  FluggastrechtContext
+  FluggastrechteUserData
 > = (doc, documentStruct, userData) => {
   setPdfMetadata(doc);
   createFirstPage(doc, documentStruct, userData);
@@ -16,6 +16,8 @@ const buildFluggastrechtePDFDocument: PDFDocumentBuilder<
   createFooter(doc, documentStruct, userData);
 };
 
-export function fluggastrechtePdfFromUserdata(userData: FluggastrechtContext) {
+export function fluggastrechtePdfFromUserdata(
+  userData: FluggastrechteUserData,
+) {
   return pdfFromUserData(userData, buildFluggastrechtePDFDocument);
 }
