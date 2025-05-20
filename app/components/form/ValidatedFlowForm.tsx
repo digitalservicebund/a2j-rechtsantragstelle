@@ -7,7 +7,7 @@ import { StrapiFormComponents } from "~/services/cms/components/StrapiFormCompon
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { schemaForFieldNames } from "~/services/validation/stepValidator/schemaForFieldNames";
-import { EstimatedTimeAbTest } from "../AbTest/EstimatedTimeAbTest";
+import { EstimatedTimeAbTest } from "../abTest/EstimatedTimeAbTest";
 
 type ValidatedFlowFormProps = {
   stepData: Context;
