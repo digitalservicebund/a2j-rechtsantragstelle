@@ -20,7 +20,7 @@ type Translation = {
   publishedAt: string;
 };
 
-type TransformedTranslations = Record<
+export type TransformedTranslations = Record<
   string,
   Record<string, Record<string, string>>
 >;
@@ -50,12 +50,13 @@ const transformedTranslations = transformTranslations(translationsRaw);
 
 try {
   const currentDir = path.dirname(fileURLToPath(import.meta.url));
-  const outputPath = path.join(currentDir, "transformedTranslations.json");
-  writeFileSync(
-    outputPath,
-    JSON.stringify(transformedTranslations, null, 2),
-    "utf8",
-  );
+  const outputPath = path.join(currentDir, "translations.ts");
+
+  const fileContent = `// This file is auto-generated. Do not edit manually.
+export const translations = ${JSON.stringify(transformedTranslations, null, 2)};
+`;
+
+  writeFileSync(outputPath, fileContent, "utf8");
   console.log(`Translations successfully written to ${outputPath}`);
 } catch (error) {
   console.error("Error writing translations file:", error);
