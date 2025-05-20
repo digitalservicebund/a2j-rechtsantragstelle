@@ -1,4 +1,4 @@
-const thing = [
+export const translationsRaw = [
   {
     id: 1,
     scope: "global",
