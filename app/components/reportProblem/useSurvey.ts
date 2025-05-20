@@ -23,6 +23,7 @@ export function useSurvey() {
     return new Promise<Survey | null>((resolve) => {
       // getSurveys returns a callback with an array of surveys
       posthog.getSurveys((surveys: Survey[]) => {
+        console.log("surveys", surveys);
         const survey = findSurveyById(surveys);
         resolve(survey ?? null);
       });

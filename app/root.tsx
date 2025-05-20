@@ -265,16 +265,16 @@ function App() {
             linkLabel={pageHeaderProps.linkLabel}
             translations={{ ...accessibilityTranslations }}
           />
-          <CookieConsentContext.Provider value={hasTrackingConsent}>
-            <PostHogProvider client={posthog}>
+          <PostHogProvider client={posthog}>
+            <CookieConsentContext.Provider value={hasTrackingConsent}>
               <TranslationContext.Provider value={translationMemo}>
                 <main className="flex-grow flex" id="main">
                   <Outlet />
                 </main>
               </TranslationContext.Provider>
               <CookieBanner content={cookieBannerContent} />
-            </PostHogProvider>
-          </CookieConsentContext.Provider>
+            </CookieConsentContext.Provider>
+          </PostHogProvider>
         </div>
         <footer>
           <Footer
