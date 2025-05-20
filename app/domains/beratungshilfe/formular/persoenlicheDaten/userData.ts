@@ -10,5 +10,9 @@ export const beratungshilfePersoenlicheDatenInputSchema = {
   geburtsdatum,
 };
 
-const _partialSchema = z.object(beratungshilfePersoenlicheDatenInputSchema).partial();
-export type BeratungshilfePersoenlicheDatenUserData = z.infer<typeof _partialSchema>;
+const _partialSchema = z
+  .object(beratungshilfePersoenlicheDatenInputSchema)
+  .partial();
+export type BeratungshilfePersoenlicheDatenUserData = z.infer<
+  typeof _partialSchema
+>;

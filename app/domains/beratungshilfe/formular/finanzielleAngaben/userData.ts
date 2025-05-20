@@ -92,5 +92,9 @@ export const beratungshilfeFinanzielleAngabenInputSchema = {
   pageData: pageDataSchema,
 };
 
-const _partialSchema = z.object(beratungshilfeFinanzielleAngabenInputSchema).partial();
-export type BeratungshilfeFinanzielleAngabenUserData = z.infer<typeof _partialSchema>;
+const _partialSchema = z
+  .object(beratungshilfeFinanzielleAngabenInputSchema)
+  .partial();
+export type BeratungshilfeFinanzielleAngabenUserData = z.infer<
+  typeof _partialSchema
+>;

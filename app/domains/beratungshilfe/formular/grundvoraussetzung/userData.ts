@@ -11,8 +11,12 @@ export const beratungshilfeGrundvoraussetzungenInputSchema = {
   eigeninitiativeGrundvorraussetzung: YesNoAnswer,
 };
 
-const _partialSchema = z.object(beratungshilfeGrundvoraussetzungenInputSchema).partial();
-export type BeratungshilfeGrundvoraussetzungenUserData = z.infer<typeof _partialSchema>;
+const _partialSchema = z
+  .object(beratungshilfeGrundvoraussetzungenInputSchema)
+  .partial();
+export type BeratungshilfeGrundvoraussetzungenUserData = z.infer<
+  typeof _partialSchema
+>;
 
 export const grundvoraussetzungDone: GenericGuard<
   BeratungshilfeGrundvoraussetzungenUserData

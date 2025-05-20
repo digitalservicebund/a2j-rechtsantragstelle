@@ -1,6 +1,6 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine";
-import type { BeratungshilfeFinanzielleAngabenUserData} from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
+import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 
 const finanzielleAngabenStart = "/finanzielle-angaben/einkommen/start";
 const finanzielleAngabenEinkommenStaatlicheLeistungen =

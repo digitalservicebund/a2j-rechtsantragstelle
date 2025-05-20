@@ -7,7 +7,10 @@ import { beratungshilfeAnwaltlicheVertretungGuards } from "./anwaltlicheVertretu
 import { type BeratungshilfeAnwaltlicheVertretungUserData } from "./anwaltlicheVertretung/userData";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./finanzielleAngaben/userData";
-import { beratungshilfeGrundvoraussetzungenGuards, type BeratungshilfeGrundvoraussetzungenUserData } from "./grundvoraussetzung/userData";
+import {
+  beratungshilfeGrundvoraussetzungenGuards,
+  type BeratungshilfeGrundvoraussetzungenUserData,
+} from "./grundvoraussetzung/userData";
 import { type BeratungshilfePersoenlicheDatenUserData } from "./persoenlicheDaten/userData";
 import { type BeratungshilfeRechtsproblemUserData } from "./rechtsproblem/userData";
 import {
@@ -54,10 +57,11 @@ export const beratungshilfeFormularUserData = {
   }),
 } satisfies Flow;
 
-export type BeratungshilfeFormularUserData = BeratungshilfeGrundvoraussetzungenUserData &
-  BeratungshilfeAnwaltlicheVertretungUserData &
-  BeratungshilfeRechtsproblemUserData &
-  BeratungshilfeFinanzielleAngabenUserData &
-  BeratungshilfePersoenlicheDatenUserData &
-  AbgabeUserData &
-  DokumenteUserData;
+export type BeratungshilfeFormularUserData =
+  BeratungshilfeGrundvoraussetzungenUserData &
+    BeratungshilfeAnwaltlicheVertretungUserData &
+    BeratungshilfeRechtsproblemUserData &
+    BeratungshilfeFinanzielleAngabenUserData &
+    BeratungshilfePersoenlicheDatenUserData &
+    AbgabeUserData &
+    DokumenteUserData;

@@ -8,7 +8,8 @@ import { arrayIsNonEmpty } from "~/util/array";
 import { type GenericGuard, yesNoGuards } from "../../../guards.server";
 
 export type FinanzielleAngabenGuard = GenericGuard<
-  ProzesskostenhilfeFinanzielleAngabenContext | BeratungshilfeFinanzielleAngabenUserData
+  | ProzesskostenhilfeFinanzielleAngabenContext
+  | BeratungshilfeFinanzielleAngabenUserData
 >;
 export const staatlicheLeistungenIsBuergergeld: FinanzielleAngabenGuard = ({
   context,

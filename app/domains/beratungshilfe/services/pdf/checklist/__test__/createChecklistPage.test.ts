@@ -3,7 +3,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
-import { abgabeInputSchema} from "~/domains/shared/formular/abgabe/userData";
+import { abgabeInputSchema } from "~/domains/shared/formular/abgabe/userData";
 import { createChecklistPage } from "../createChecklistPage";
 
 describe("createChecklistPage", () => {

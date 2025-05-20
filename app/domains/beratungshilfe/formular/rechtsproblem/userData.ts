@@ -26,12 +26,16 @@ export const beratungshilfeRechtsproblemInputSchema = {
   eigeninitiativeBeschreibung: stringRequiredSchema,
 };
 
-const _partialSchema = z.object(beratungshilfeRechtsproblemInputSchema).partial();
-export type BeratungshilfeRechtsproblemUserData = z.infer<typeof _partialSchema>;
+const _partialSchema = z
+  .object(beratungshilfeRechtsproblemInputSchema)
+  .partial();
+export type BeratungshilfeRechtsproblemUserData = z.infer<
+  typeof _partialSchema
+>;
 
-export const rechtsproblemDone: GenericGuard<BeratungshilfeRechtsproblemUserData> = ({
-  context,
-}) =>
+export const rechtsproblemDone: GenericGuard<
+  BeratungshilfeRechtsproblemUserData
+> = ({ context }) =>
   Boolean(
     context.bereich &&
       context.gegenseite &&
