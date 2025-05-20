@@ -108,17 +108,22 @@ export const fetchTranslations = (
   return scopedTranslations;
 };
 
-export async function fetchMultipleTranslations(scopes: string[]) {
-  // scopes.forEach((scope) => {if(!Object.hasOwn(translations, scope)) throw new Error(`Translation ${scope} not found`)})
-
-  const translations = await fetchEntries({
-    apiId: "translations",
-    locale: "de",
-    filters: [{ field: "scope", operation: "$in", value: scopes }],
-  });
-  return Object.fromEntries(
-    translations.map(({ scope, entries }) => [scope, entries]),
-  );
+export function fetchMultipleTranslations(
+  scopes: string[],
+): Record<string, Translations> {
+  if (!scopes.some((scope) => Object.hasOwn(translations, scope))) {
+    throw new Error(
+      `No matching translation scopes found for ${scopes.join(", ")}`,
+    );
+  }
+  return scopes
+    .filter((scope) => Object.hasOwn(translations, scope))
+    .reduce((prev, current) => {
+      return {
+        ...prev,
+        [current]: fetchTranslations(current),
+      };
+    }, {});
 }
 
 export const fetchPage = (slug: string) =>
