@@ -22,6 +22,23 @@ type TileProps = TileOptions &
     onClick: () => void;
   }>;
 
+const getDescriptionId = (
+  errorId: string,
+  descriptionId: string,
+  error: string | null,
+  description: string | null | undefined,
+) => {
+  if (error) {
+    return errorId;
+  }
+
+  if (description) {
+    return descriptionId;
+  }
+
+  return undefined;
+};
+
 function TileRadio(
   {
     name,
@@ -36,19 +53,29 @@ function TileRadio(
 ) {
   const field = useField(name);
   const id = `${name}-${value}`;
+  const errorId = `${name}-error`;
+  const descriptionId = `${value}-description`;
+
+  const ariaDescribedBy = getDescriptionId(
+    errorId,
+    descriptionId,
+    field.error(),
+    description,
+  );
 
   return (
     <div className="ds-tile-radio-group rounded-lg border-2 border-[#B3C9D6] bg-white">
       <label
         className="flex flex-row items-center cursor-pointer touch-manipulation p-24 h-full"
         htmlFor={id}
+        aria-label={title}
       >
         <input
           {...field.getInputProps({ type: "radio", id, value })}
           className="ds-radio forced-colors:outline forced-colors:border-[ButtonText]"
           name={name}
           type="radio"
-          aria-describedby={field.error() ? `${name}-error` : undefined}
+          aria-describedby={ariaDescribedBy}
           onClick={onClick}
           ref={ref}
         />
