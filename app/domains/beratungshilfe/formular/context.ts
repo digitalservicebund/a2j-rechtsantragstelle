@@ -1,5 +1,6 @@
 import { dokumenteContext } from "~/domains/beratungshilfe/formular/abgabe/dokumente/context";
 import { beratungshilfePersoenlicheDaten } from "~/domains/beratungshilfe/formular/persoenlicheDaten/context";
+import { weitereAngabenContext } from "~/domains/shared/formular/weitereAngaben/context";
 import { beratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
 import { beratungshilfeFinanzielleAngaben } from "./finanzielleAngaben/context";
 import { beratungshilfeGrundvoraussetzungen } from "./grundvoraussetzung/context";
@@ -12,6 +13,7 @@ export const beratungshilfeFormularContext = {
   ...beratungshilfeRechtsproblem,
   ...beratungshilfeFinanzielleAngaben,
   ...beratungshilfePersoenlicheDaten,
+  ...weitereAngabenContext,
   ...dokumenteContext,
   ...abgabeContext,
 } as const;

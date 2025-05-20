@@ -77,18 +77,24 @@ export const beratungshilfeXstateConfig = {
           },
         },
         telefonnummer: {
-          on: { SUBMIT: showZusammenfassung ? "#zusammenfassung" : "#abgabe" },
+          on: { SUBMIT: "#weitere-angaben" },
         },
       },
     }),
+    "weitere-angaben": {
+      id: "weitere-angaben",
+      meta: { done: beratungshilfePersoenlicheDatenDone },
+      on: {
+        BACK: "#persoenliche-daten.telefonnummer",
+        SUBMIT: showZusammenfassung ? "#zusammenfassung" : "#abgabe",
+      },
+    },
     ...(showZusammenfassung && {
       zusammenfassung: zusammenfassungXstateConfig,
     }),
 
     abgabe: await abgabeXstateConfig(
-      showZusammenfassung
-        ? "#zusammenfassung"
-        : "#persoenliche-daten.telefonnummer",
+      showZusammenfassung ? "#zusammenfassung" : "#weitere-angaben",
     ),
   },
 } satisfies Config<BeratungshilfeFormularContext>;

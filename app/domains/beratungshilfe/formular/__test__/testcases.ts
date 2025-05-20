@@ -35,6 +35,7 @@ const cases = [
       "/persoenliche-daten/geburtsdatum",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
+      "/weitere-angaben",
       showZusammenfassungPage
         ? "/zusammenfassung/ueberblick"
         : "/abgabe/ueberpruefung",
@@ -87,6 +88,7 @@ const cases = [
       "/persoenliche-daten/geburtsdatum",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
+      "/weitere-angaben",
       showZusammenfassungPage
         ? "/zusammenfassung/ueberblick"
         : "/abgabe/ueberpruefung",

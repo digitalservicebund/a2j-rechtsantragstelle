@@ -23,9 +23,9 @@ import {
   prozesskostenhilfeRsvContext,
 } from "./rechtsschutzversicherung/context";
 import {
-  type ProzesskostenhilfeWeitereAngabenContext,
-  prozesskostenhilfeWeitereAngabenContext,
-} from "./weitereAngaben/context";
+  type WeitereAngabenContext,
+  weitereAngabenContext,
+} from "../../shared/formular/weitereAngaben/context";
 
 export const prozesskostenhilfeFormularContext = {
   ...prozesskostenhilfeGrundvoraussetzungen,
@@ -34,7 +34,7 @@ export const prozesskostenhilfeFormularContext = {
   ...prozesskostenhilfeFinanzielleAngabenContext,
   ...prozesskostenhilfeGesetzlicheVertretungContext,
   ...prozesskostenhilfePersoenlicheDatenContext,
-  ...prozesskostenhilfeWeitereAngabenContext,
+  ...weitereAngabenContext,
 } as const;
 
 export type ProzesskostenhilfeFormularContext =
@@ -44,4 +44,4 @@ export type ProzesskostenhilfeFormularContext =
     ProzesskostenhilfeFinanzielleAngabenContext &
     ProzesskostenhilfeGesetzlicheVertretung &
     ProzesskostenhilfePersoenlicheDaten &
-    ProzesskostenhilfeWeitereAngabenContext;
+    WeitereAngabenContext;
