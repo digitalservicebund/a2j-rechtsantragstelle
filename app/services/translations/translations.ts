@@ -1,5 +1,7 @@
+import { type TranslationRecord } from "~/services/translations/getTranslationByKey";
+
 // This file is auto-generated. Do not edit manually.
-export const translations = {
+export const translations: TranslationRecord = {
   global: {
     headerLinkText: {
       de: "Justiz-Services",
