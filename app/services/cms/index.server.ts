@@ -1,3 +1,4 @@
+import { decode } from "html-entities";
 import type { FlowId } from "~/domains/flowIds";
 import {
   defaultLocale,
@@ -90,10 +91,10 @@ export async function fetchEntries<T extends ApiId>(
   return parsedEntries.data as StrapiSchemasOutput[T];
 }
 
-export const fetchTranslations = (
+export const fetchTranslations = async (
   name: string,
   locale: Locale = defaultLocale,
-): Translations => {
+): Promise<Translations> => {
   if (!Object.hasOwn(translations, name))
     throw new Error(`Translation ${name} not found`);
   const scopedTranslations = Object.fromEntries(
@@ -102,28 +103,30 @@ export const fetchTranslations = (
         throw new Error(
           `Translation ${name}.${key} not found for locale ${locale}`,
         );
-      return [key, value[locale]!];
+      return [key, decode(value[locale])];
     }),
   );
-  return scopedTranslations;
+  return Promise.resolve(scopedTranslations);
 };
 
 export function fetchMultipleTranslations(
   scopes: string[],
-): Record<string, Translations> {
+): Promise<Record<string, Translations>> {
   if (!scopes.some((scope) => Object.hasOwn(translations, scope))) {
     throw new Error(
       `No matching translation scopes found for ${scopes.join(", ")}`,
     );
   }
-  return scopes
-    .filter((scope) => Object.hasOwn(translations, scope))
-    .reduce((prev, current) => {
-      return {
-        ...prev,
-        [current]: fetchTranslations(current),
-      };
-    }, {});
+  return Promise.resolve(
+    scopes
+      .filter((scope) => Object.hasOwn(translations, scope))
+      .reduce((prev, current) => {
+        return {
+          ...prev,
+          [current]: fetchTranslations(current),
+        };
+      }, {}),
+  );
 }
 
 export const fetchPage = (slug: string) =>
