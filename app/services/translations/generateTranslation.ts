@@ -1,3 +1,6 @@
+import { writeFileSync } from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import { translationsRaw } from "./translationsRaw";
 
 type TranslationField = {
@@ -44,4 +47,16 @@ function transformTranslations(
 }
 
 const transformedTranslations = transformTranslations(translationsRaw);
-console.log(transformedTranslations);
+
+try {
+  const currentDir = path.dirname(fileURLToPath(import.meta.url));
+  const outputPath = path.join(currentDir, "transformedTranslations.json");
+  writeFileSync(
+    outputPath,
+    JSON.stringify(transformedTranslations, null, 2),
+    "utf8",
+  );
+  console.log(`Translations successfully written to ${outputPath}`);
+} catch (error) {
+  console.error("Error writing translations file:", error);
+}
