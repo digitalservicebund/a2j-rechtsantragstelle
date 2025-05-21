@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { bereich } from "~/domains/beratungshilfe/formular/rechtsproblem/userData";
 import { rsvCoverage } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/context";
-import { staatlicheLeistungen } from "~/domains/shared/formular/finanzielleAngaben/context";
+import { staatlicheLeistungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import {
@@ -51,7 +51,7 @@ export const beratungshilfeVorabcheckInputSchema = {
   eigeninitiative: YesNoAnswer,
   wurdeVerklagt: YesNoAnswer,
   bereich,
-  staatlicheLeistungen,
+  staatlicheLeistungen: staatlicheLeistungenInputSchema,
   erwerbstaetigkeit: YesNoAnswer,
   vermoegen: z.enum(["below_10k", "above_10k"], customRequiredErrorMessage),
   genauigkeit: YesNoAnswer,

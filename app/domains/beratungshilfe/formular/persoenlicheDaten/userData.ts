@@ -3,7 +3,7 @@ import { z } from "zod";
 import {
   persoenlicheDaten,
   geburtsdatum,
-} from "~/domains/shared/formular/persoenlicheDaten/context";
+} from "~/domains/shared/formular/persoenlicheDaten/userData";
 
 export const beratungshilfePersoenlicheDatenInputSchema = {
   ...omit(persoenlicheDaten, ["title"]),

@@ -1,18 +1,18 @@
 import { z } from "zod";
 import { duplicateContext } from "~/domains/common";
+import { finanzielleAngabenPartnerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/partner/inputSchema";
 import {
-  besondereBelastungenSchema,
+  besondereBelastungenInputSchema,
   bankkontenArraySchema,
   geldanlagenArraySchema,
   grundeigentumArraySchema,
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
-  unterhaltszahlungSchema,
+  unterhaltszahlungInputSchema,
   wertsachenArraySchema,
-  financialEntrySchema,
-  livingSituationSchema,
-} from "~/domains/shared/formular/finanzielleAngaben/context";
-import { finanzielleAngabenPartnerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/partner/inputSchema";
+  financialEntryInputSchema,
+  livingSituationInputSchema,
+} from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
@@ -43,7 +43,7 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   "partner-receivesSupport": YesNoAnswer,
   "partner-supportAmount": buildMoneyValidationSchema(),
   partnerHasBesondersAusgaben: YesNoAnswer,
-  partnerBesondersAusgabe: financialEntrySchema.pick({
+  partnerBesondersAusgabe: financialEntryInputSchema.pick({
     beschreibung: true,
     betrag: true,
   }),
@@ -60,10 +60,10 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   hasWertsache: YesNoAnswer,
   wertsachen: wertsachenArraySchema,
   hasWeitereUnterhaltszahlungen: YesNoAnswer,
-  unterhaltszahlungen: z.array(unterhaltszahlungSchema),
+  unterhaltszahlungen: z.array(unterhaltszahlungInputSchema),
   hasAusgaben: YesNoAnswer,
-  besondereBelastungen: besondereBelastungenSchema,
-  livingSituation: livingSituationSchema,
+  besondereBelastungen: besondereBelastungenInputSchema,
+  livingSituation: livingSituationInputSchema,
   apartmentSizeSqm: integerSchema,
   numberOfRooms: integerSchema,
   rentsApartment: YesNoAnswer,

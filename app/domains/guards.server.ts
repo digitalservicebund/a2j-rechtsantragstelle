@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import type { AllContextKeys } from "./common";
 import type { Context } from "./userData";
 

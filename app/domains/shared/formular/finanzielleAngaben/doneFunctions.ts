@@ -1,9 +1,9 @@
+import type { FinanzielleAngabenGuard } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import type {
   GeldanlagenArraySchema,
   GrundeigentumArraySchema,
   KinderArraySchema,
-} from "~/domains/shared/formular/finanzielleAngaben/context";
-import type { FinanzielleAngabenGuard } from "~/domains/shared/formular/finanzielleAngaben/guards";
+} from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { arrayIsNonEmpty } from "~/util/array";
 
 export const bankKontoDone: FinanzielleAngabenGuard = ({ context }) =>

@@ -1,17 +1,17 @@
 import { z } from "zod";
+import { finanzielleAngabenPartnerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/partner/inputSchema";
 import {
-  besondereBelastungenSchema,
+  besondereBelastungenInputSchema,
   bankkontenArraySchema,
   geldanlagenArraySchema,
   grundeigentumArraySchema,
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
-  staatlicheLeistungen,
-  unterhaltszahlungSchema,
+  staatlicheLeistungenInputSchema,
+  unterhaltszahlungInputSchema,
   wertsachenArraySchema,
-  livingSituationSchema,
-} from "~/domains/shared/formular/finanzielleAngaben/context";
-import { finanzielleAngabenPartnerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/partner/inputSchema";
+  livingSituationInputSchema,
+} from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
@@ -28,7 +28,7 @@ export const beratungshilfeFinanzielleAngabenInputSchema = {
   ...finanzielleAngabenPartnerInputSchema,
   einkommen: buildMoneyValidationSchema(),
   erwerbstaetig: YesNoAnswer,
-  staatlicheLeistungen,
+  staatlicheLeistungen: staatlicheLeistungenInputSchema,
   berufart: z.object({
     selbststaendig: checkedOptional,
     festangestellt: checkedOptional,
@@ -66,16 +66,16 @@ export const beratungshilfeFinanzielleAngabenInputSchema = {
   grundeigentum: grundeigentumArraySchema,
   hasWertsache: YesNoAnswer,
   wertsachen: wertsachenArraySchema,
-  livingSituation: livingSituationSchema,
+  livingSituation: livingSituationInputSchema,
   apartmentSizeSqm: integerSchema,
   apartmentPersonCount: integerSchema,
   apartmentCostOwnShare: buildMoneyValidationSchema(),
   apartmentCostFull: buildMoneyValidationSchema(),
   apartmentCostAlone: buildMoneyValidationSchema(),
   hasWeitereUnterhaltszahlungen: YesNoAnswer,
-  unterhaltszahlungen: z.array(unterhaltszahlungSchema),
+  unterhaltszahlungen: z.array(unterhaltszahlungInputSchema),
   hasAusgaben: YesNoAnswer,
-  ausgabensituation: besondereBelastungenSchema,
+  ausgabensituation: besondereBelastungenInputSchema,
   ausgaben: z.array(
     z
       .object({

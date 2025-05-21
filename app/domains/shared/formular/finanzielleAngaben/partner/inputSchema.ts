@@ -1,10 +1,10 @@
-import { partnerschaftSchema } from "~/domains/shared/formular/finanzielleAngaben/context";
+import { partnerschaftInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const finanzielleAngabenPartnerInputSchema = {
-  partnerschaft: partnerschaftSchema,
+  partnerschaft: partnerschaftInputSchema,
   zusammenleben: YesNoAnswer,
   unterhalt: YesNoAnswer,
   partnerUnterhaltsSumme: buildMoneyValidationSchema(),

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { persoenlicheDaten } from "~/domains/shared/formular/persoenlicheDaten/context";
+import { persoenlicheDaten } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
