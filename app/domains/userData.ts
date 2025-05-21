@@ -1,6 +1,6 @@
 import type { ZodTypeAny } from "zod";
 import { fluggastrechteInputSchema } from "~/domains/fluggastrechte/formular/userData";
-import { fluggastrechteVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
+import { fluggastrechteVorabcheckInputSchema } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { context as geldEinklagenFormularContext } from "~/domains/geldEinklagen/formular/context";
 import { context as geldEinklagenContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import { context as kontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
@@ -24,7 +24,7 @@ const contexts = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckInputSchema,
   "/geld-einklagen/vorabcheck": geldEinklagenContext,
   "/geld-einklagen/formular": geldEinklagenFormularContext,
-  "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckContext,
+  "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckInputSchema,
   "/fluggastrechte/formular": fluggastrechteInputSchema,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularContext,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiserContext,

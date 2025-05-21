@@ -1,5 +1,5 @@
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/context";
+import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { drawCell } from "./drawCell";
 import {
   COLUMN_HEIGHT,

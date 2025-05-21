@@ -1,6 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import type { FluggastrechtAnkuendigungType } from "~/domains/fluggastrechte/vorabcheck/context";
+import type { FluggastrechtAnkuendigungType } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { calculateDuration } from "./calculateDuration";
 
 const announcementMapping = {

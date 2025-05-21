@@ -1,7 +1,7 @@
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import type { BeratungshilfeVorabcheckUserData } from "~/domains/beratungshilfe/vorabcheck/userData";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
+import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
 import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import { type KontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
 import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfe/formular/context";
@@ -11,7 +11,7 @@ export type TestCases<
     | BeratungshilfeVorabcheckUserData
     | BeratungshilfeFormularUserData
     | GeldEinklagenVorabcheckContext
-    | FluggastrechtVorabcheckContext
+    | FluggastrechtVorabcheckUserData
     | FluggastrechteUserData
     | ProzesskostenhilfeFormularContext
     | KontopfaendungWegweiserContext,

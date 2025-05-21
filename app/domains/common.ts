@@ -1,7 +1,7 @@
 import type { ZodTypeAny } from "zod";
 import type { BeratungshilfeVorabcheckUserData } from "~/domains/beratungshilfe/vorabcheck/userData";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
+import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
 import type { GeldEinklagenFormularContext } from "~/domains/geldEinklagen/formular/context";
 import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import type { BeratungshilfeFormularUserData } from "./beratungshilfe/formular";
@@ -12,7 +12,7 @@ type AllContexts =
   | GeldEinklagenVorabcheckContext
   | BeratungshilfeVorabcheckUserData
   | BeratungshilfeFormularUserData
-  | FluggastrechtVorabcheckContext
+  | FluggastrechtVorabcheckUserData
   | FluggastrechteUserData
   | ProzesskostenhilfeFormularContext;
 

@@ -4,7 +4,7 @@ import {
   MARGIN_BETWEEN_SECTIONS,
   MARGIN_RIGHT,
 } from "~/domains/fluggastrechte/services/pdf/configurations";
-import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/context";
+import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
