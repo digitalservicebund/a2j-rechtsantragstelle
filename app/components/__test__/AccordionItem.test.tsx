@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import AccordionItem from "~/components/AccordionItem";
+import { AccordionItem } from "../AccordionItem";
 
 const defaultProps = {
   title: "Test Title",
@@ -8,6 +8,7 @@ const defaultProps = {
     show: "Einblenden",
     hide: "Ausblenden",
   },
+  ref: { current: null },
 };
 
 describe("AccordionItem Component", () => {
