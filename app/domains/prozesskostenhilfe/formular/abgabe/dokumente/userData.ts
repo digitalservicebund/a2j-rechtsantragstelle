@@ -61,7 +61,8 @@ export const prozesskostenhilfeDokumenteInputSchema = {
   kostenaufwaendigeErnaehrungBeweis: fileUploadRequiredSchema,
   versicherungenBeweis: fileUploadRequiredSchema,
   ratenzahlungenBeweis: fileUploadRequiredSchema,
-  sonstigeAusgabenBeweis: fileUploadOptionalSchema,
+  sonstigeAusgabenBeweis: fileUploadRequiredSchema,
+  weitereDokumenteBeweis: fileUploadOptionalSchema,
 };
 
 const _partialSchema = z

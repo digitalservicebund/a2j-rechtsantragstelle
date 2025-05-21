@@ -29,3 +29,11 @@ export const getAbgabeStrings = (
     nachueberpruefung: nachueberpruefung({ context }),
   };
 };
+
+export const getWeitereDokumenteStrings = (
+  context: ProzesskostenhilfeFormularContext,
+) => {
+  return {
+    hasWeitereDokumente: context.weitereDokumenteBeweis !== null,
+  };
+};
