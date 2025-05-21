@@ -6,8 +6,8 @@ import type {
   TransitionConfigOrTarget as XStateTransitionConfigOrTarget,
 } from "xstate";
 import { initialTransition, pathToStateValue, setup, transition } from "xstate";
-import type { Context } from "~/domains/contexts";
 import type { GenericGuard, Guards } from "~/domains/guards.server";
+import type { Context } from "~/domains/userData";
 import type { ArrayConfigServer } from "~/services/array";
 import {
   stateValueToStepIds,

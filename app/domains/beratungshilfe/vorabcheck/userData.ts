@@ -39,7 +39,7 @@ export const kidsSchema = z
     }
   });
 
-export const context = {
+export const beratungshilfeVorabcheckInputSchema = {
   rechtsschutzversicherung: YesNoAnswer,
   rsvCoverage: z.union([
     rsvCoverage,
@@ -70,5 +70,5 @@ export const context = {
   weitereZahlungenSumme: buildMoneyValidationSchema(),
 } as const;
 
-const _contextObject = z.object(context).partial();
-export type BeratungshilfeVorabcheckContext = z.infer<typeof _contextObject>;
+const _partialSchema = z.object(beratungshilfeVorabcheckInputSchema).partial();
+export type BeratungshilfeVorabcheckUserData = z.infer<typeof _partialSchema>;

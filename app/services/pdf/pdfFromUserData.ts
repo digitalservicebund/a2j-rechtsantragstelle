@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { Context } from "~/domains/contexts";
+import type { Context } from "~/domains/userData";
 import { createPdfKitDocument } from "~/services/pdf/createPdfKitDocument";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import type { AttachmentEntries } from "./attachment";

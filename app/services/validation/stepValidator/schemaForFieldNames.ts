@@ -1,5 +1,5 @@
-import { getContext } from "~/domains/contexts";
 import { parsePathname } from "~/domains/flowIds";
+import { getContext } from "~/domains/userData";
 import { buildStepSchema } from "./buildStepSchema";
 import { getMultiFieldsByStepIdValidation } from "./getMultiFieldsByStepIdValidation";
 

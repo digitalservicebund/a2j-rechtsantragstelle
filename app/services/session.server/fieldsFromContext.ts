@@ -1,5 +1,5 @@
 import pick from "lodash/pick";
-import type { Context } from "~/domains/contexts";
+import type { Context } from "~/domains/userData";
 import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";

@@ -1,6 +1,6 @@
 import pick from "lodash/pick";
 import { type ValidFlowPagesType } from "~/components/form/formFlowContext";
-import type { Context } from "~/domains/contexts";
+import type { Context } from "~/domains/userData";
 import type { FlowId } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { buildFlowController } from "./server/buildFlowController";

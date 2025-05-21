@@ -6,7 +6,7 @@ import {
   invertStrapiFormFields,
   zodKeys,
 } from "tests/integration/util";
-import { getContext } from "~/domains/contexts";
+import { getContext } from "~/domains/userData";
 import type { FlowId } from "~/domains/flowIds";
 import { flowIds } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
