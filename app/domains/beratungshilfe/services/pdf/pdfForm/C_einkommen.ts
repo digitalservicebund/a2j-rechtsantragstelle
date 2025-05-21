@@ -1,4 +1,4 @@
-import type { BerHPdfFillFunction } from "..";
+import type { BerHPdfFillFunction } from "../types";
 
 export const fillEinkommen: BerHPdfFillFunction = ({
   userData: { einkommen, partnerEinkommenSumme },

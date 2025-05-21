@@ -1,10 +1,10 @@
-import EditButton from "@digitalservicebund/icons/CreateOutlined";
-import { Context } from "~/domains/contexts";
+import EditIcon from "@digitalservicebund/icons/EditOutlined";
+import { type Context } from "~/domains/contexts";
 import Heading from "../Heading";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
-import Button from "../Button";
-import { SummaryOverviewBoxWrappedProps } from "./SummaryOverviewBoxWrapped";
+import { type SummaryOverviewBoxWrappedProps } from "./types";
 import { useFormFlow } from "../form/formFlowContext";
+import { StandaloneLink } from "../StandaloneLink";
 
 type Props = Pick<
   SummaryOverviewBoxWrappedProps,
@@ -26,8 +26,8 @@ const SummaryOverviewBox = ({
   const { translations, flowId } = useFormFlow();
 
   return (
-    <div className="mt-8">
-      <div className="bg-white pt-32 pb-44 px-32">
+    <div className="bg-white mt-8 p-16 gap-4 flex flex-col content-between sm:flex-row sm:justify-between">
+      <div>
         {title && (
           <Heading
             {...title}
@@ -39,7 +39,6 @@ const SummaryOverviewBox = ({
             className="mb-16"
           />
         )}
-
         <dl>
           {boxItems.map(({ title: boxItemTitle, inlineItems }, index) => (
             <SummaryOverviewBoxItem
@@ -51,17 +50,13 @@ const SummaryOverviewBox = ({
             />
           ))}
         </dl>
-
-        <Button
-          iconLeft={<EditButton />}
-          href={`${flowId}${stepId}`}
-          look="tertiary"
-          size="large"
-          className="w-fit mt-16"
-        >
-          Bearbeiten
-        </Button>
       </div>
+      <StandaloneLink
+        url={`${flowId}${stepId}`}
+        className="flex basis gap-2 pl-2 ds-link-01-bold items-start justify-end h-min"
+        icon={<EditIcon className="shrink-0 inline" />}
+        text={"Bearbeiten"}
+      />
     </div>
   );
 };

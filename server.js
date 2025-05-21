@@ -8,7 +8,7 @@ const viteDevServer = shouldStartDevServer
   : undefined;
 
 const build = viteDevServer
-  ? () => viteDevServer.ssrLoadModule("virtual:remix/server-build")
+  ? () => viteDevServer.ssrLoadModule("virtual:react-router/server-build")
   : await import("./build/server/index.js");
 
 // When running a dev server, build() is a function to enable HMR
@@ -18,9 +18,13 @@ const { expressApp } = await initialBuild.entry.module;
 const { app, cleanup } = expressApp(build, viteDevServer);
 
 const port = process.env.PORT || 3000;
-const server = app.listen(port, () =>
-  console.log(`Express server listening at http://localhost:${port}`),
-);
+const server = app.listen(port, (error) => {
+  // Express 5 receive an error event. Check https://expressjs.com/en/guide/migrating-5.html#app.listen
+  if (error) {
+    throw error;
+  }
+  console.log(`Express server listening at http://localhost:${port}`);
+});
 
 function cleanupAndShutdown() {
   if (isShuttingDown) return;

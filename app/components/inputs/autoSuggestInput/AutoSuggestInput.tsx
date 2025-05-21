@@ -1,12 +1,11 @@
+import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { matchSorter } from "match-sorter";
 import { type RefObject, useEffect, useRef, useState } from "react";
 import Select, { type InputActionMeta } from "react-select";
-import { useField } from "remix-validated-form";
-import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import { useTranslations } from "~/services/translations/translationsContext";
-import { type ErrorMessageProps } from "..";
+import { useJsAvailable } from "~/services/useJsAvailable";
 import {
   CustomClearIndicator,
   CustomControl,
@@ -19,27 +18,16 @@ import useDataListOptions from "./useDataListOptions";
 import Input from "../Input";
 import InputError from "../InputError";
 import InputLabel from "../InputLabel";
-import { widthClassname, type FieldWidth } from "../width";
+import { widthClassname } from "../width";
 import {
   ariaLiveMessages,
   screenReaderStatus,
 } from "./accessibilityConfig/ariaLiveMessages";
+import { type AutoSuggestInputProps } from "./types";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
 const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 10;
-
-export type AutoSuggestInputProps = Readonly<{
-  name: string;
-  label?: string;
-  placeholder?: string;
-  errorMessages?: ErrorMessageProps[];
-  width?: FieldWidth;
-  formId?: string;
-  noSuggestionMessage?: string;
-  dataList: DataListType;
-  isDisabled: boolean;
-}>;
 
 const filterOption = (option: DataListOptions, inputValue: string) => {
   if (inputValue.length < MINIMUM_SEARCH_SUGGESTION_CHARACTERS) {
@@ -72,7 +60,7 @@ const focusOnInput = (inputId: string) => {
 // When leave the input, it should focus on the exclusion button when it uses the tab, due problems for change the className in the component CustomValueContainer
 const keyDownOnInput = (
   inputId: string,
-  buttonExclusionRef: RefObject<HTMLButtonElement>,
+  buttonExclusionRef: RefObject<HTMLButtonElement | null>,
 ) => {
   const inputElement = document.querySelector<HTMLInputElement>(`#${inputId}`);
 
@@ -110,7 +98,6 @@ const AutoSuggestInput = ({
   placeholder,
   errorMessages,
   width,
-  formId,
   dataList,
   noSuggestionMessage,
   isDisabled,
@@ -118,18 +105,19 @@ const AutoSuggestInput = ({
   const items = useDataListOptions(dataList);
   const [currentItemValue, setCurrentItemValue] =
     useState<DataListOptions | null>();
-  const { error, getInputProps, validate } = useField(name, { formId });
-  const { defaultValue } = getInputProps();
+  const field = useField(name);
+  const { defaultValue } = field.getInputProps();
   const errorId = `${name}-error`;
-  const hasError = typeof error !== "undefined" && error.length > 0;
+  const hasError = (field.error()?.length ?? 0) > 0;
   const inputId = `input-${name}`;
   const buttonExclusionRef = useRef<HTMLButtonElement>(null);
 
-  const [jsAvailable, setJsAvailable] = useState(false);
+  const jsAvailable = useJsAvailable();
   const [optionWasSelected, setOptionWasSelected] = useState(false);
-  useEffect(() => setJsAvailable(true), []);
   const [options, setOptions] = useState<DataListOptions[]>([]);
   const { accessibility: translations } = useTranslations();
+
+  const isRequired = !!errorMessages?.find((err) => err.code === "required");
 
   const onInputChange = (value: string, { action }: InputActionMeta) => {
     if (action === "input-change") {
@@ -165,7 +153,6 @@ const AutoSuggestInput = ({
         name={name}
         label={label}
         placeholder={placeholder}
-        formId={formId}
         width={width}
         errorMessages={errorMessages}
       />
@@ -176,15 +163,16 @@ const AutoSuggestInput = ({
     <div data-testid={items.length > 0 ? `${inputId}-loaded` : ""}>
       {label && <InputLabel id={inputId}>{label}</InputLabel>}
       <Select
-        aria-describedby={error && errorId}
-        aria-errormessage={error && errorId}
-        aria-invalid={error !== undefined}
+        aria-describedby={field.error() && errorId}
+        aria-errormessage={field.error() ? errorId : undefined}
+        aria-invalid={field.error() !== undefined}
         ariaLiveMessages={ariaLiveMessages(translations)}
         className={classNames(
-          "w-full",
-          { "has-error": error },
+          "w-full forced-colors:border-2",
+          { "has-error": field.error() },
           { "option-was-selected": optionWasSelected },
           { "auto-suggest-input-disabled": isDisabled },
+          { "auto-suggest-input-required": isRequired },
           widthClassname(width),
         )}
         components={{
@@ -211,16 +199,22 @@ const AutoSuggestInput = ({
         onBlur={() => {
           // call the validation only if an option was selected
           if (optionWasSelected) {
-            validate();
             setOptionWasSelected(false);
+
+            if (hasError) {
+              field.validate();
+            }
           }
         }}
         onChange={(newValue, { action }) => {
-          validate();
           // remix remove the focus on the input when clicks with the keyboard to clear the value, so we need to force the focus again
           setOptionWasSelected(action === "select-option");
           if (action === "clear" || action === "select-option") {
             focusOnInput(inputId);
+            // TODO: check later why the field.validate() is validating all the fields in the form
+            if (hasError) {
+              field.validate();
+            }
           }
           setCurrentItemValue(newValue);
         }}
@@ -234,7 +228,8 @@ const AutoSuggestInput = ({
       />
 
       <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === error)?.text ?? error}
+        {errorMessages?.find((err) => err.code === field.error())?.text ??
+          field.error()}
       </InputError>
     </div>
   );

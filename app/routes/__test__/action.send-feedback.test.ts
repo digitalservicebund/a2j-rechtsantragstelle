@@ -1,3 +1,4 @@
+import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { USER_FEEDBACK_ID } from "~/components/userFeedback";
 import { getSessionManager } from "~/services/session.server";
 import { action } from "../action.send-feedback";
@@ -26,9 +27,13 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=http://external.com&js=false`,
       options,
     );
-    const response = await action({ request, params: {}, context: {} });
-    expect(response.status).toEqual(400);
-    expect(response.ok).not.toBeTruthy();
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
+
+    expect(response.init?.status).toBe(400);
   });
 
   it("should fail if feedback parameter does not exist in the body", async () => {
@@ -38,9 +43,14 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=/asd&js=true`,
       optionsWithoutBody,
     );
-    const response = await action({ request, params: {}, context: {} });
-    expect(response.status).toEqual(422);
-    expect(response.ok).not.toBeTruthy();
+
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
+
+    expect(response.init?.status).toBe(422);
   });
 
   it("should return redirect to the location from the url parameter", async () => {
@@ -49,7 +59,12 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=${feedbackPath}&js=true`,
       options,
     );
-    const response = await action({ request, params: {}, context: {} });
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as Response;
+
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(feedbackPath);
   });
@@ -60,7 +75,13 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=${feedbackPath}&js=false`,
       options,
     );
-    const response = await action({ request, params: {}, context: {} });
+
+    const response = (await action({
+      request,
+      params: {},
+      context: {},
+    })) as Response;
+
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(
       `${feedbackPath}#${USER_FEEDBACK_ID}`,

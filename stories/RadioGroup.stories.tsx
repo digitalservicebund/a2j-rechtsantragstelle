@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { remixContext } from "../.storybook/remixContext";
+import { reactRouterContext } from "../.storybook/reactRouterContext";
 import RadioGroup from "~/components/inputs/RadioGroup";
+import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 
 const meta = {
   title: "Component/RadioGroup",
@@ -18,7 +19,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     name: "input",
-    formId: "formId",
     label: undefined,
     options: [
       { value: "option1", text: "Option 1" },
@@ -26,18 +26,31 @@ export const Default: Story = {
     ],
     errorMessages: undefined,
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      reactRouterContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };
 
 export const WithLabel: Story = {
   args: {
     name: "input",
-    formId: "formId",
     label: "Lorem ipsum dolor sit amet",
     options: [
       { value: "option1", text: "Option 1" },
       { value: "option2", text: "Option 2" },
     ],
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      reactRouterContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };

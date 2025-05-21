@@ -1,7 +1,6 @@
 // @vitest-environment jsdom
-import { json } from "@remix-run/node";
-import { createRemixStub } from "@remix-run/testing";
 import { screen, render, waitFor } from "@testing-library/react";
+import { createRoutesStub } from "react-router";
 import PersoenlicheDatenLoeschen from "../persoenliche-daten-loeschen";
 
 vi.mock("~/components/PageContent", () => ({
@@ -14,34 +13,34 @@ describe("Persoenliche Daten", () => {
   });
 
   it("should render PageContent", async () => {
-    const RemixStub = createRemixStub([
+    const RouteStub = createRoutesStub([
       {
         path: "/",
         Component: PersoenlicheDatenLoeschen,
         loader() {
-          return json({
+          return {
             meta: undefined,
             content: undefined,
             translations: {},
             backButton: "",
-          });
+          };
         },
       },
     ]);
 
-    render(<RemixStub />);
+    render(<RouteStub />);
     await waitFor(() =>
       expect(screen.getByText("PageContent")).toBeInTheDocument(),
     );
   });
 
   it("should render back button with value of root when no referrer", async () => {
-    const RemixStub = createRemixStub([
+    const RouteStub = createRoutesStub([
       {
         path: "/",
         Component: PersoenlicheDatenLoeschen,
         loader() {
-          return json({
+          return {
             meta: undefined,
             content: undefined,
             translations: {
@@ -49,12 +48,12 @@ describe("Persoenliche Daten", () => {
               confirm: "mock confirm text",
             },
             backButton: "/",
-          });
+          };
         },
       },
     ]);
 
-    render(<RemixStub />);
+    render(<RouteStub />);
     await waitFor(() => {
       const backButton = screen.getByText("mock back text");
       expect(backButton).toBeInTheDocument();

@@ -1,13 +1,13 @@
+import { type ValidationErrorResponseData } from "@rvf/react-router";
 import { fireEvent, render } from "@testing-library/react";
 import times from "lodash/times";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import { ValidationErrorResponseData } from "remix-validated-form";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import FilesUpload, {
-  FilesUploadProps,
+  type FilesUploadProps,
 } from "~/components/filesUpload/FilesUpload";
-import { Context } from "~/domains/contexts";
+import { type Context } from "~/domains/contexts";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { fileUploadErrorMap, PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 const deleteLabel = "Löschen";
 const selectLabel = "Datei Auswählen";
@@ -18,8 +18,8 @@ const minimumFileError = "You must select at least one file";
 
 const mockSubmit = vi.fn();
 let actionResponse: ValidationErrorResponseData | Context | undefined;
-vi.mock("@remix-run/react", async () => ({
-  ...(await vi.importActual("@remix-run/react")),
+vi.mock("react-router", async () => ({
+  ...(await vi.importActual("react-router")),
   useLoaderData: vi.fn(() => ({ csrf: "csrf" })),
   useActionData: () => actionResponse,
   useSubmit: () => mockSubmit,
@@ -35,16 +35,39 @@ vi.mock("~/services/translations/translationsContext", () => ({
   }),
 }));
 
-let defaultValue: PDFFileMetadata[] = [];
-vi.mock("remix-validated-form", () => ({
+const getDefaultMock = vi.fn();
+const getErrorMock = vi.fn();
+
+vi.mock("@rvf/react-router", () => ({
   useField: () => ({
-    defaultValue,
+    getInputProps: vi.fn((props) => ({ ...props })),
+    defaultValue: getDefaultMock,
+    error: getErrorMock,
   }),
 }));
 
+const mockDefaultValue = (value: PDFFileMetadata[]) => {
+  getDefaultMock.mockReturnValue(value);
+};
+
+const mockError = (error: string) => {
+  getErrorMock.mockReturnValue(error);
+};
+
+const renderFilesUpload = ({ ...args }: Partial<FilesUploadProps> = {}) =>
+  render(
+    <RouterProvider
+      router={createMemoryRouter([
+        {
+          path: "/",
+          element: <FilesUpload name={fieldName} {...args} />,
+        },
+      ])}
+    />,
+  );
+
 beforeEach(() => {
-  defaultValue = [];
-  actionResponse = undefined;
+  vi.resetAllMocks();
 });
 
 describe("FilesUpload", () => {
@@ -66,7 +89,9 @@ describe("FilesUpload", () => {
       type: "application/pdf",
     });
     const { getByTestId } = renderFilesUpload();
-    const input = getByTestId("fileUploadInput") as HTMLInputElement;
+    const input = getByTestId(
+      "file-upload-input-belege[0]",
+    ) as HTMLInputElement;
     fireEvent.change(input, { target: { files: [mockFile] } });
     expect(input.files).toHaveLength(1);
     const mockFormData = new FormData();
@@ -80,14 +105,14 @@ describe("FilesUpload", () => {
   });
 
   it("should allow a user to delete a file", () => {
-    defaultValue = [
+    mockDefaultValue([
       {
         filename: "test.pdf",
         fileType: "application/pdf",
         fileSize: 1000,
-        createdOn: new Date().toString(),
       },
-    ];
+    ]);
+
     const { getByText } = renderFilesUpload();
     const deleteButton = getByText(deleteLabel);
     expect(deleteButton).toBeInTheDocument();
@@ -103,11 +128,7 @@ describe("FilesUpload", () => {
   });
 
   it("should display a top-level error", () => {
-    actionResponse = {
-      fieldErrors: {
-        [fieldName]: minimumFileError,
-      },
-    };
+    mockError(minimumFileError);
     const { getByText, queryByText } = renderFilesUpload();
     expect(getByText(minimumFileError)).toBeInTheDocument();
     expect(queryByText(addAnotherLabel)).not.toBeInTheDocument();
@@ -116,42 +137,31 @@ describe("FilesUpload", () => {
   it("should render individual file input errors", () => {
     actionResponse = {
       fieldErrors: {
-        [`${fieldName}[0]`]: fileUploadErrorMap.fileSizeTooBig,
+        [`${fieldName}[0]`]: "fileSizeTooBig",
       },
     };
-    defaultValue = [
+    mockDefaultValue([
       {
         filename: "test.pdf",
         fileType: "application/pdf",
         fileSize: 0,
-        createdOn: new Date().toString(),
       },
-    ];
+    ]);
     const { getByText, queryByText } = renderFilesUpload();
-    expect(getByText(fileUploadErrorMap.fileSizeTooBig)).toBeInTheDocument();
+    expect(getByText("fileSizeTooBig")).toBeInTheDocument();
     expect(queryByText(addAnotherLabel)).not.toBeInTheDocument();
   });
 
   it('should hide the "add another" button when the file upload limit is reached', () => {
-    defaultValue = times(5).map(() => ({
+    const defaultValueMocked = times(5).map(() => ({
       filename: "test.pdf",
       fileType: "application/pdf",
       fileSize: 0,
-      createdOn: new Date().toString(),
     }));
+
+    mockDefaultValue(defaultValueMocked);
+
     const { queryByText } = renderFilesUpload();
     expect(queryByText(addAnotherLabel)).not.toBeInTheDocument();
   });
 });
-
-const renderFilesUpload = ({ ...args }: Partial<FilesUploadProps> = {}) =>
-  render(
-    <RouterProvider
-      router={createMemoryRouter([
-        {
-          path: "/",
-          element: <FilesUpload name={fieldName} formId="formId" {...args} />,
-        },
-      ])}
-    />,
-  );

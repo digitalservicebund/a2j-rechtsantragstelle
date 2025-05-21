@@ -1,9 +1,9 @@
-import type { ActionFunctionArgs, Session, SessionData } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { withZod } from "@remix-validated-form/with-zod";
-import { validationError } from "remix-validated-form";
+import { parseFormData, validationError } from "@rvf/react-router";
+import type { ActionFunctionArgs, Session, SessionData } from "react-router";
+import { data, redirect } from "react-router";
 import { z } from "zod";
-import { BannerState, USER_FEEDBACK_ID } from "~/components/userFeedback";
+import { USER_FEEDBACK_ID } from "~/components/userFeedback";
+import { BannerState } from "~/components/userFeedback/BannerState";
 import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -12,6 +12,8 @@ import { updateBannerState } from "~/services/feedback/updateBannerState";
 import { getSessionManager } from "~/services/session.server";
 
 export const loader = () => redirect("/");
+
+const actionSendRatingSchema = z.object({ wasHelpful: z.enum(["yes", "no"]) });
 
 const updateRatingWasHepful = (
   session: Session<SessionData, SessionData>,
@@ -31,16 +33,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (redirectNonRelative) return redirectNonRelative;
 
   const formData = await request.formData();
-  const { error, submittedData, data } = await withZod(
-    z.object({ wasHelpful: z.enum(["yes", "no"]) }),
-  ).validate(formData);
+  const {
+    error,
+    submittedData,
+    data: feedbackData,
+  } = await parseFormData(formData, actionSendRatingSchema);
   if (error) {
     return validationError(error, submittedData);
   }
 
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(request.headers.get("Cookie"));
-  updateRatingWasHepful(session, data.wasHelpful, url);
+  updateRatingWasHepful(session, feedbackData.wasHelpful, url);
   updateBannerState(session, BannerState.ShowFeedback, url);
   const headers = { "Set-Cookie": await commitSession(session) };
 
@@ -48,20 +52,23 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     eventName: "rating given",
     request,
     properties: {
-      wasHelpful: data.wasHelpful === "yes",
+      wasHelpful: feedbackData.wasHelpful === "yes",
       url,
       flowId: flowIdFromPathname(url) ?? "",
     },
   });
 
-  searchParams.set("wasHelpful", data.wasHelpful);
+  searchParams.set("wasHelpful", feedbackData.wasHelpful);
 
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
   if (clientJavaScriptAvailable) {
-    return json({ success: true }, { headers });
+    return data({ success: true }, { headers });
   }
 
-  return redirect(`${url}?wasHelpful=${data?.wasHelpful}#${USER_FEEDBACK_ID}`, {
-    headers,
-  });
+  return redirect(
+    `${url}?wasHelpful=${feedbackData?.wasHelpful}#${USER_FEEDBACK_ID}`,
+    {
+      headers,
+    },
+  );
 };

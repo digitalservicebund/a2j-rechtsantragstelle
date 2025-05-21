@@ -1,11 +1,11 @@
-import type { NavItem } from "~/components/navigation/NavItem";
+import { type NavItem } from "~/components/navigation/types";
 import { type StepState } from "./flow/server/buildFlowController";
 import { NavState, stateIsCurrent } from "./navigation/navState";
 import type { Translations } from "./translations/getTranslationByKey";
 
 function isStepStateIdCurrent(stepStateId: string, stepId: string) {
   // subflows might start with the same name, need to check the following char
-  return stepId.includes(stepStateId + "/");
+  return new RegExp(`^${stepStateId}/*`).test(stepId);
 }
 
 function isSubflowCurrent(subflows: NavItem[]) {

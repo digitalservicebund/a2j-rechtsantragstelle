@@ -1,12 +1,12 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
-import fluggastrechte from "~/domains/fluggastrechte/vorabcheck/flow.json";
 import { guards } from "~/domains/fluggastrechte/vorabcheck/guards";
-import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+import type { FlowStateMachine } from "~/services/flow/server/types";
+import { fluggastrechteVorabcheckXstateConfig } from "../xstateConfig";
 
 const machine: FlowStateMachine = createMachine(
-  { ...fluggastrechte, context: {} },
+  { ...fluggastrechteVorabcheckXstateConfig, context: {} },
   { guards },
 );
 
@@ -106,150 +106,6 @@ const cases = [
       "/gruende-hinweis",
       "/verjaehrung",
       "/ergebnis/verjaehrung-abbruch",
-    ],
-  ],
-  [
-    {
-      bereich: "annullierung",
-      ankuendigung: "no",
-      vertretbareGruendeAnnullierung: "yes",
-      verjaehrung: "yes",
-      ersatzflug: "no",
-      startAirport: "JFK",
-      endAirport: "BER",
-      fluggesellschaft: "DL",
-    },
-    [
-      "/start",
-      "/bereich",
-      "/ankuendigung",
-      "/ersatzflug",
-      "/vertretbare-gruende-annullierung",
-      "/gruende-hinweis",
-      "/verjaehrung",
-      "/flughaefen",
-      "/fluggesellschaft",
-      "/ergebnis/fluggesellschaft-nicht-eu-abbruch",
-    ],
-  ],
-  [
-    {
-      bereich: "annullierung",
-      ankuendigung: "no",
-      vertretbareGruendeAnnullierung: "yes",
-      verjaehrung: "yes",
-      ersatzflug: "no",
-      startAirport: "JFK",
-      endAirport: "AMS",
-      fluggesellschaft: "sonstiges",
-    },
-    [
-      "/start",
-      "/bereich",
-      "/ankuendigung",
-      "/ersatzflug",
-      "/vertretbare-gruende-annullierung",
-      "/gruende-hinweis",
-      "/verjaehrung",
-      "/flughaefen",
-      "/fluggesellschaft",
-      "/ergebnis/fluggesellschaft-abbruch-eu",
-    ],
-  ],
-  [
-    {
-      bereich: "annullierung",
-      ankuendigung: "no",
-      vertretbareGruendeAnnullierung: "yes",
-      verjaehrung: "yes",
-      ersatzflug: "no",
-      startAirport: "CDG",
-      endAirport: "DRS",
-      fluggesellschaft: "DL",
-    },
-    [
-      "/start",
-      "/bereich",
-      "/ankuendigung",
-      "/ersatzflug",
-      "/vertretbare-gruende-annullierung",
-      "/gruende-hinweis",
-      "/verjaehrung",
-      "/flughaefen",
-      "/fluggesellschaft",
-      "/ergebnis/fluggesellschaft-nicht-eu-abbruch",
-    ],
-  ],
-  [
-    {
-      bereich: "annullierung",
-      ankuendigung: "no",
-      vertretbareGruendeAnnullierung: "yes",
-      verjaehrung: "yes",
-      ersatzflug: "no",
-      startAirport: "CDG",
-      endAirport: "DRS",
-      fluggesellschaft: "sonstiges",
-    },
-    [
-      "/start",
-      "/bereich",
-      "/ankuendigung",
-      "/ersatzflug",
-      "/vertretbare-gruende-annullierung",
-      "/gruende-hinweis",
-      "/verjaehrung",
-      "/flughaefen",
-      "/fluggesellschaft",
-      "/ergebnis/fluggesellschaft-abbruch",
-    ],
-  ],
-  [
-    {
-      bereich: "annullierung",
-      ankuendigung: "no",
-      vertretbareGruendeAnnullierung: "yes",
-      verjaehrung: "yes",
-      ersatzflug: "no",
-      startAirport: "AMS",
-      endAirport: "BER",
-      fluggesellschaft: "sonstiges",
-    },
-    [
-      "/start",
-      "/bereich",
-      "/ankuendigung",
-      "/ersatzflug",
-      "/vertretbare-gruende-annullierung",
-      "/gruende-hinweis",
-      "/verjaehrung",
-      "/flughaefen",
-      "/fluggesellschaft",
-      "/ergebnis/fluggesellschaft-abbruch",
-    ],
-  ],
-  [
-    {
-      bereich: "annullierung",
-      ankuendigung: "no",
-      vertretbareGruendeAnnullierung: "yes",
-      verjaehrung: "yes",
-      ersatzflug: "no",
-      startAirport: "CDG",
-      endAirport: "BER",
-      fluggesellschaft: "DL",
-    },
-    [
-      "/start",
-      "/bereich",
-      "/ankuendigung",
-      "/ersatzflug",
-      "/vertretbare-gruende-annullierung",
-      "/gruende-hinweis",
-      "/verjaehrung",
-      "/flughaefen",
-      "/fluggesellschaft",
-      "/ergebnis/fluggesellschaft-nicht-eu-abbruch",
     ],
   ],
   [

@@ -1,5 +1,4 @@
 /// <reference types="vite/client" />
-/// <reference types="@remix-run/node" />
 import type { Assertion } from "vitest";
 
 interface CustomMatchers<R = unknown> {

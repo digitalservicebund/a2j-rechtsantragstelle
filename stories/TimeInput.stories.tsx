@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import TimeInput from "../app/components/inputs/TimeInput";
-import { remixContext } from "../.storybook/remixContext";
+import { reactRouterContext } from "../.storybook/reactRouterContext";
+import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 
 const meta = {
   title: "Component/TimeInput",
@@ -19,9 +20,15 @@ export const Default: Story = {
   args: {
     name: "arrivalTime",
     label: "arrival time",
-    formId: "formId",
     width: "5",
     helperText: "Please write in HH:MM format",
   },
-  decorators: [(Story) => remixContext(Story)],
+  decorators: [
+    (Story) =>
+      reactRouterContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
 };

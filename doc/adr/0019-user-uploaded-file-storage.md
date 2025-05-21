@@ -7,6 +7,8 @@
 - 2025-01-22: Edited (Renumbered from `0015`)
 - 2025-01-27: Edited (Added TTL, clarified retrieval)
 - 2025-04-04: Edited (Added chronological status)
+- 2025-04-08: Edited (Added Bucket Flooding section)
+- 2025-05-06: Edited (Edited & renamed `Bucket Flooding` to `Bucket Security`)
 
 ## Context
 
@@ -17,7 +19,7 @@ When users fill out an Antrag, oftentimes they will need to upload additional do
 
 ## Proposal
 
-We store the actual file in bucket storage, and the accompanying metadata along with the user's session data in Redis. The flow might look someting like this:
+We store the actual file in bucket storage, and the accompanying metadata along with the user's session data in Redis. The flow might look something like this:
 
 1. User clicks upload button. API request to bucket storage is made with the file and session ID/some hash of the current session to link the two together.
    1. Upon failure, display error to user
@@ -35,6 +37,16 @@ To think about later:
 
 - [Redis Pub/Sub client listening to EXPIRY events](https://redis.io/docs/latest/develop/use/keyspace-notifications/#timing-of-expired-events); upon EXPIRY, delete any associated files in bucket storage
   - Could live in the app as a singleton service that listens to Redis expiration events
+
+## Bucket security / Known issues
+
+### Leaking of file existence
+
+Accessing an existing file lead to different error (`InvalidArgument`) than accessing a non-existing path (`Access Denied`). This leaks information about file existence, ie a side channel attack. No easy solution via configuration was found. We have decided to accept this risk, as filenames are randomized, not attributable and only valid for 24 hours.
+
+### Bucket size and alerts
+
+The only way to restrict a buckets size is via the OTC API. There is also no way to set up alerts. We accept this risk for now.
 
 ## Alternatives considered
 

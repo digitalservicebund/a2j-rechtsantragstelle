@@ -12,7 +12,7 @@ const metadata: Metadata = {
   TITLE: "Title",
 };
 
-export const mockPdfLibDocument = () => {
+const mockPdfLibDocument = () => {
   return {
     setAuthor: vi.fn(),
     setCreator: vi.fn(),

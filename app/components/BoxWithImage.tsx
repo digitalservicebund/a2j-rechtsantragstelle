@@ -2,7 +2,7 @@ import Heading, { type HeadingProps } from "./Heading";
 import Image, { type ImageProps } from "./Image";
 import RichText from "./RichText";
 
-export type BoxWithImageProps = {
+type BoxWithImageProps = {
   image: ImageProps;
   variant?: Variant;
   identifier?: string;
@@ -36,12 +36,12 @@ const BoxWithImage = ({
       className={`flex flex-wrap ${shouldWrapByDefault ? "md:flex-wrap" : "sm:flex-nowrap"} items-start gap-24 text-base`}
     >
       <div
-        className={`lg:shrink-0 overflow-hidden ${hasTextContent ? variantWidths[variant] : "max-w-full"}`}
+        className={`shrink-0 overflow-hidden ${hasTextContent ? variantWidths[variant] : "max-w-full"}`}
       >
         <Image {...image} />
       </div>
       {hasTextContent && (
-        <div className={`ds-stack-8 break-words min-w-[120px] max-w-[696px]`}>
+        <div className="ds-stack ds-stack-8 break-words min-w-[120px] max-w-[696px]">
           {heading && <Heading {...heading} />}
           {content && <RichText html={content} />}
         </div>

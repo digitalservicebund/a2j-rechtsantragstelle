@@ -1,12 +1,10 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import {
-  prozesskostenhilfeFormular,
-  type ProzesskostenhilfeFormularContext,
-} from "~/domains/prozesskostenhilfe/formular";
+import { prozesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular";
 import { happyPathData } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import { antragstellendePersonTransitionCases } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
-import type { FlowStateMachine } from "~/services/flow/server/buildFlowController";
+import type { FlowStateMachine } from "~/services/flow/server/types";
+import { type ProzesskostenhilfeFormularContext } from "../context";
 import { testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen } from "../finanzielleAngaben/__test__/testcasesAndereUnterhalt";
 import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "../finanzielleAngaben/__test__/testcasesAusgaben";
 import { testCasesPKHFormularFinanzielleAngabenEigentum } from "../finanzielleAngaben/__test__/testcasesEigentum";
@@ -16,7 +14,7 @@ import { testCasesPKHFormularFinanzielleAngabenPartner } from "../finanzielleAng
 import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../finanzielleAngaben/__test__/testcasesWohnung";
 import { testCasesProzesskostenhilfeRsv } from "../rechtsschutzversicherung/__test__/testcases";
 
-export const machine: FlowStateMachine = createMachine(
+const machine: FlowStateMachine = createMachine(
   { ...prozesskostenhilfeFormular.config, context: {} },
   { guards: prozesskostenhilfeFormular.guards },
 );
@@ -52,7 +50,10 @@ const cases = [
       "/antragstellende-person/empfaenger",
     ],
   ],
-  [{}, ["/persoenliche-daten/beruf", "/abgabe/ueberpruefung"]],
+  [
+    {},
+    ["/persoenliche-daten/beruf", "/weitere-angaben", "/abgabe/ueberpruefung"],
+  ],
   ...antragstellendePersonTransitionCases,
   ...testCasesPKHFormularFinanzielleAngabenEinkuenfte,
   ...testCasesPKHFormularFinanzielleAngabenPartner,
@@ -73,6 +74,7 @@ const cases = [
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
       "/persoenliche-daten/beruf",
+      "/weitere-angaben",
       "/abgabe/ende",
     ],
   ],

@@ -1,5 +1,6 @@
-import { type Session } from "@remix-run/node";
-import { BannerState, FeedbackType } from "~/components/userFeedback";
+import { type Session } from "react-router";
+import { BannerState } from "~/components/userFeedback/BannerState";
+import { type FeedbackType } from "~/components/userFeedback/FeedbackType";
 
 export const bannerStateName = "bannerState";
 export const userRatingFieldName = "wasHelpful";

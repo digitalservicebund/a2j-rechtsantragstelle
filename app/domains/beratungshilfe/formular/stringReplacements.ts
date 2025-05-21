@@ -126,3 +126,11 @@ export const getMissingInformationStrings = (
     ...requiresEinkommenDone,
   };
 };
+
+export const getWeitereDokumenteStrings = (
+  context: BeratungshilfeFormularContext,
+) => {
+  return {
+    hasWeitereDokumente: context.weitereDokumenteBeweis !== null,
+  };
+};

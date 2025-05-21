@@ -1,5 +1,5 @@
-import { Context } from "~/domains/contexts";
-import { Translations } from "~/services/translations/getTranslationByKey";
+import { type Context } from "~/domains/contexts";
+import { type Translations } from "~/services/translations/getTranslationByKey";
 import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 import { getItemValueBox } from "./getItemValueBox";
 
@@ -31,10 +31,7 @@ const SummaryOverviewBoxItem = ({
   return (
     <>
       {title && (
-        <dt
-          data-testid="summary-box-item-title"
-          className="ds-label-01-bold mt-16"
-        >
+        <dt data-testid="summary-box-item-title" className="ds-label-01-bold">
           {title}
         </dt>
       )}

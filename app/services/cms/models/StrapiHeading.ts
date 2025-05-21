@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import type { StrapiContentComponent } from "./StrapiContentComponent";
 import { stringWithHtmlEntities } from "./stringWithHtmlEntities";
 
 export const StrapiHeadingSchema = z
@@ -25,9 +24,6 @@ export const StrapiHeadingSchema = z
       "ds-body-01-reg",
       "ds-body-02-reg",
     ]),
-    className: z.string().optional(),
-    dataTestid: z.string().optional(),
-    tagId: z.string().optional(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .nullable()
@@ -41,8 +37,3 @@ export const StrapiHeadingSchema = z
 export const StrapiHeadingOptionalSchema = StrapiHeadingSchema.nullable()
   .transform(omitNull)
   .optional();
-
-export const isStrapiHeadingComponent = (
-  strapiContent: StrapiContentComponent,
-): strapiContent is z.infer<typeof StrapiHeadingSchema> =>
-  strapiContent.__component === "basic.heading";

@@ -5,7 +5,8 @@
     "stories/**/*",
     "tests/**/*",
     "data/**/*.ts",
-    "scripts/*.ts"
+    "scripts/*.ts",
+    ".react-router/types/**/*"
   ],
   "compilerOptions": {
     "preserveSymlinks": true,
@@ -16,11 +17,17 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
-    "module": "ES2022",
+    "module": "ESNext",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "target": "ES2022",
-    "types": ["@testing-library/jest-dom", "node", "vitest/globals"],
+    "types": [
+      "@testing-library/jest-dom",
+      "node",
+      "vitest/globals",
+      "@react-router/node",
+      "vite/client"
+    ],
     "strict": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
@@ -35,6 +42,7 @@
       ]
     },
     // Vite takes care of building everything
-    "noEmit": true
+    "noEmit": true,
+    "rootDirs": [".", "./.react-router/types"]
   }
 }

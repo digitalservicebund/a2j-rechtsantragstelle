@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import List from "../app/components/List";
+import List from "../app/components/list/List";
 import Background from "../app/components/Background";
 import Container from "../app/components/Container";
 import { faker } from "@faker-js/faker";
@@ -29,6 +29,7 @@ export const Example: Story = {
   ],
   args: {
     identifier: "default-list-id",
+    variant: "unordered",
     heading: {
       text: "This is a heading text for list",
       tagName: "h2",

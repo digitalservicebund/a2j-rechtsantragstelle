@@ -1,8 +1,9 @@
-import { Marked, Renderer } from "marked";
+import { Marked, type Renderer } from "marked";
 import { renderToString } from "react-dom/server";
 import * as xssImport from "xss";
 import { openInNewAllowedAttributes } from "~/components/OpenInNewTabIcon";
 import { StandaloneLink } from "~/components/StandaloneLink";
+import { mustachePlaceholderRegex } from "./mustachePlaceholder";
 
 // Note: type recast of import due to wrong default type export
 const xss = xssImport.default as unknown as typeof xssImport;
@@ -17,18 +18,16 @@ const CSS_HEADING_CLASSES = [
 const allowList = {
   ...xss.getDefaultWhiteList(),
   a: xss.getDefaultWhiteList().a?.concat(["rel", "aria-label", "class"]),
-  p: xss.getDefaultWhiteList().p?.concat(["class"]),
+  p: xss.getDefaultWhiteList().p?.concat(["class", "id"]),
   h1: xss.getDefaultWhiteList().h1?.concat(["class"]),
   h2: xss.getDefaultWhiteList().h2?.concat(["class"]),
   h3: xss.getDefaultWhiteList().h3?.concat(["class"]),
   h4: xss.getDefaultWhiteList().h4?.concat(["class"]),
   h5: xss.getDefaultWhiteList().h5?.concat(["class"]),
   h6: xss.getDefaultWhiteList().h6?.concat(["class"]),
+  dt: xss.getDefaultWhiteList().dt?.concat(["class"]),
   ...openInNewAllowedAttributes,
 };
-
-// Mustache template placeholders
-export const PLACEHOLDER_REGEX = /^\{{2,3}[a-zA-Z0-9._-]+\}{2,3}$/;
 
 const sanitizer = new xss.FilterXSS({
   allowList,
@@ -36,7 +35,7 @@ const sanitizer = new xss.FilterXSS({
   onTagAttr: (tag, name, value) => {
     // Allow hrefs that use template placeholders like {{courtWebsite}} or {{{courtWebsite}}}
     const ahref = tag === "a" && name === "href";
-    if (ahref && PLACEHOLDER_REGEX.test(value)) {
+    if (ahref && mustachePlaceholderRegex.test(value)) {
       return `${name}="${value}"`;
     }
   },
@@ -56,6 +55,7 @@ const defaultRenderer: Partial<Renderer> = {
   },
 } as const;
 
+// TODO: refactor to split into markdown service
 export function parseAndSanitizeMarkdown(
   markdown: string,
   renderer: Partial<Renderer> = defaultRenderer,
@@ -70,7 +70,7 @@ export function parseAndSanitizeMarkdown(
 }
 
 /**
- * Sometimes, it's possible for a list to be nested inside a conditional, like so:
+ * If a user defines the first element of a list inside a conditional like so:
  *
  * {{ #conditional }}
  * * Item 1
@@ -87,28 +87,47 @@ export function parseAndSanitizeMarkdown(
  *
  * and if "conditional" evaluates to false, the templating engine (mustache) will remove Item 1, as well as
  * the opening <ul> tag, leaving incomplete html that's inaccessible.
+ *
+ * This function iteratively walks through the input html, swapping the order of opening list tags and opening conditionals.
  */
 export function handleNestedLists(html: string) {
-  const openingTagPosition = html.search(/<ul>|<ol>/);
-  const conditionalPosition = html.search(/{{\s*#|{{\s*\^/);
-  // if there's an opening list tag after a conditional, we need to correctly un-nest the list tags.
-  if (conditionalPosition !== -1 && openingTagPosition > conditionalPosition) {
-    const closingTagPosition = html.search(/<\/ul>|<\/ol>/);
-    const openingTag = html.substring(
-      openingTagPosition,
-      openingTagPosition + 4,
-    );
-    const closingTag = html.substring(
-      closingTagPosition,
-      closingTagPosition + 5,
-    );
-    const htmlListTagsRemoved = html.replaceAll(/<ul>|<ol>|<\/ul>|<\/ol>/g, "");
-    const final =
-      htmlListTagsRemoved.substring(0, conditionalPosition) +
-      openingTag +
-      htmlListTagsRemoved.substring(conditionalPosition) +
-      closingTag;
-    return final;
+  const nestedLists = [
+    ...html.matchAll(/{{\s*[#|^]\w+\s*}}(?=.*\n*(<ul>|<ol>))/g),
+  ];
+  if (nestedLists.length > 0 && !contentExistsBeforeList(html)) {
+    let fixedMarkup = html;
+    for (const nestedList of nestedLists) {
+      const openingTag = [...fixedMarkup.matchAll(/<ul>|<ol>/g)].find(
+        (tag) => tag.index > nestedList.index,
+      )!;
+      fixedMarkup =
+        fixedMarkup.substring(0, nestedList.index) +
+        openingTag[0] +
+        fixedMarkup.substring(nestedList.index).replace(openingTag[0], "");
+    }
+    return fixedMarkup;
   }
   return html;
+}
+
+/**
+ * An exception to the above handling is when a list is inside a conditonal, but there
+ * is content that comes before the start of the list, e.g.
+ *
+ * {{ #variable }}
+ * Please add the following things:
+ * * Thing 1
+ * * Thing 2
+ * {{ /variable }}
+ *
+ * In this case, we need to fall back to the default handling and show/hide it all.
+ */
+export function contentExistsBeforeList(html: string) {
+  const strippedContentString = html.replaceAll(/(<\/*p+>)|\s+/g, "");
+  const openingTagPosition = strippedContentString.search(/<ul>|<ol>/);
+  const beforeOpeningTag = strippedContentString.substring(
+    openingTagPosition - 2,
+    openingTagPosition,
+  );
+  return beforeOpeningTag !== "}}";
 }

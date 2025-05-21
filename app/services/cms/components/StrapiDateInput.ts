@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { InputProps } from "~/components/inputs/Input";
+import { type InputProps } from "~/components/inputs/Input";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,

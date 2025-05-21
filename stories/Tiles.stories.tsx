@@ -1,19 +1,30 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { remixContext } from "../.storybook/remixContext";
+import { reactRouterContext } from "../.storybook/reactRouterContext";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 import Container from "~/components/Container";
 import { bucketUrl } from "~/services/cms/bucketUrl";
+import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 
 const meta = {
   title: "Component/TileGroup",
   component: TileGroup,
   parameters: {
     controls: {
-      exclude: ["formId", "title", "name"],
+      exclude: ["title", "name"],
     },
   },
   tags: ["autodocs"],
-  decorators: [(Story) => <Container>{remixContext(Story)}</Container>],
+  decorators: [
+    (Story) => (
+      <Container>
+        {reactRouterContext(() => (
+          <RFCFormerProvider>
+            <Story />
+          </RFCFormerProvider>
+        ))}
+      </Container>
+    ),
+  ],
 } satisfies Meta<typeof TileGroup>;
 
 export default meta;
@@ -38,7 +49,6 @@ const tileGroupProps = {
   errorMessages: undefined,
   options: [tileGroupOptionOneProps, tileGroupOptionTwoProps],
   useTwoColumns: false,
-  formId: "formId",
 };
 
 const imgUrl1 = bucketUrl + "/nichtbefoerderung_622132fec8.svg";

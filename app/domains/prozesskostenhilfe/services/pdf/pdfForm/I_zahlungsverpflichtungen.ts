@@ -1,11 +1,11 @@
 import partition from "lodash/partition";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import { eigentuemerMapping } from "~/domains/shared/services/pdf/eigentumHelpers";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
-import type { PkhPdfFillFunction } from "..";
+import type { PkhPdfFillFunction } from "../types";
 
 type Ratenzahlung = NonNullable<
   ProzesskostenhilfeFormularContext["ratenzahlungen"]

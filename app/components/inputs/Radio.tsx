@@ -1,29 +1,30 @@
+import { useField } from "@rvf/react-router";
 import type { ReactNode } from "react";
-import { useField } from "remix-validated-form";
 
 type RadioProps = {
   readonly name: string;
   readonly value: string;
   readonly onClick?: () => void;
   readonly text?: ReactNode;
-  readonly formId?: string;
+  readonly ref: React.Ref<HTMLInputElement>;
 };
 
-const Radio = ({ name, value, onClick, text, formId }: RadioProps) => {
-  const { error, getInputProps } = useField(name, { formId });
+function Radio({ name, value, onClick, text, ref }: RadioProps) {
+  const field = useField(name);
   const id = `${name}-${value}`;
 
   return (
     <div className="flex">
       <input
-        {...getInputProps({ type: "radio", id, value })}
-        className="ds-radio forced-colors:appearance-auto forced-colors:focus-visible:outline-none"
-        aria-describedby={error && `${name}-error`}
+        {...field.getInputProps({ type: "radio", id, value })}
+        className="ds-radio forced-colors:outline forced-colors:border-[ButtonText]"
+        aria-describedby={field.error() ? `${name}-error` : undefined}
         onClick={onClick}
+        ref={ref}
       />
-      {<label htmlFor={id}>{text}</label>}
+      <label htmlFor={id}>{text}</label>
     </div>
   );
-};
+}
 
 export default Radio;

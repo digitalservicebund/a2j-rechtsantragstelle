@@ -1,8 +1,8 @@
 import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
 import HighlightOff from "@digitalservicebund/icons/HighlightOff";
 import WarningAmber from "@digitalservicebund/icons/WarningAmber";
-import { useLoaderData } from "@remix-run/react";
 import { type ReactElement } from "react";
+import { useLoaderData } from "react-router";
 import type { BackgroundColor } from "~/components";
 import Background from "~/components/Background";
 import ButtonContainer from "~/components/ButtonContainer";
@@ -36,7 +36,7 @@ export function ResultPage() {
   const content = cmsData.freeZone;
 
   return (
-    <>
+    <div className="flex flex-col min-w-full">
       <Background backgroundColor="blue" paddingTop="40" paddingBottom="48">
         <div className={backgrounds[cmsData.pageType]}>
           <Container
@@ -91,6 +91,6 @@ export function ResultPage() {
       <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
         <PageContent content={nextSteps} />
       </div>
-    </>
+    </div>
   );
 }

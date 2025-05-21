@@ -10,13 +10,10 @@ import { prozesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/
 import type { FlowId } from "./flowIds";
 
 export type BasicTypes = string | number | boolean;
+export type ObjectType = {
+  [key: string]: BasicTypes | BasicTypes[] | ObjectType;
+};
 export type ArrayData = Array<Record<string, BasicTypes>>;
-export type ObjectType = Record<
-  string,
-  | BasicTypes
-  | BasicTypes[]
-  | Record<string, BasicTypes | Record<string, BasicTypes>> // TODO: check whether GeldEinklagenFormularContext should be triple nested
->;
 export type Context = Record<
   string,
   BasicTypes | ObjectType | ArrayData | undefined

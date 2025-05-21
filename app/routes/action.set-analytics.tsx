@@ -1,5 +1,5 @@
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import type { ActionFunctionArgs } from "react-router";
+import { data, redirect } from "react-router";
 import { consentCookieFromRequest } from "~/services/analytics/gdprCookie.server";
 
 export const loader = () => redirect("/");
@@ -11,8 +11,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const headers = await consentCookieFromRequest({ request });
 
   if (clientJavaScriptAvailable) {
-    return json({ success: true }, { headers });
+    return data({ success: true }, { headers });
   }
 
-  return redirect("/cookie-einstellungen", { headers });
+  return redirect("/datenschutz", { headers });
 };

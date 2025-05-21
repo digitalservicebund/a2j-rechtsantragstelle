@@ -1,12 +1,11 @@
-import { useField } from "remix-validated-form";
+import { useField } from "@rvf/react-router";
 
 export type HiddenInputProps = {
   name: string;
-  formId?: string;
 };
 
-const HiddenInput = ({ formId, name }: HiddenInputProps) => {
-  const { getInputProps } = useField(name, { formId });
+const HiddenInput = ({ name }: HiddenInputProps) => {
+  const { getInputProps } = useField(name);
 
   return (
     <input

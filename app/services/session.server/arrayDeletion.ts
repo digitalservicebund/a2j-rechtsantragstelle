@@ -1,12 +1,10 @@
-import type { Session } from "@remix-run/node";
+import type { Session } from "react-router";
 import type { Context, ObjectType } from "~/domains/contexts";
-import { FlowId } from "~/domains/flowIds";
+import { type FlowId } from "~/domains/flowIds";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { filterFormData } from "~/util/filterFormData";
 
-export function arrayIndexFromFormData(
-  relevantFormData: Record<string, FormDataEntryValue>,
-) {
+function arrayIndexFromFormData(relevantFormData: FormData) {
   const [arrayName, indexString] = Object.entries(relevantFormData)[0];
   const index = parseInt(indexString as string);
 
@@ -18,7 +16,7 @@ export function arrayIndexFromFormData(
   return { arrayName, index };
 }
 
-export function arrayFromSession(arrayName: string, flowSession: Session) {
+function arrayFromSession(arrayName: string, flowSession: Session) {
   const arrayToMutate = flowSession.get(arrayName) as
     | Context[string]
     | undefined;
@@ -31,7 +29,7 @@ export function arrayFromSession(arrayName: string, flowSession: Session) {
   return arrayToMutate;
 }
 
-export function deleteFromArrayInplace(array: ObjectType[], index: number) {
+function deleteFromArrayInplace(array: ObjectType[], index: number) {
   if (array.length <= index) {
     throw Error(
       `Requested array isn't long enough. Deletion request at index ${index}, but array is only of length ${array.length}.`,

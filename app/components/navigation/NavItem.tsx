@@ -9,19 +9,11 @@ import {
   stateIsActive,
   stateIsDisabled,
   stateIsDone,
-  type NavState,
 } from "~/services/navigation/navState";
-import { NavigationList, type NavigationA11yLabels } from "./NavigationList";
+import { NavigationList } from "./NavigationList";
+import { type NavItem, type NavigationA11yLabels } from "./types";
 
-export type NavItem = {
-  destination: string;
-  label: string;
-  state: NavState;
-  subflows?: NavItem[];
-  a11yLabels?: NavigationA11yLabels;
-};
-
-export const StateIcon: FC<{
+const StateIcon: FC<{
   id: string;
   a11yLabels?: NavigationA11yLabels;
 }> = ({ id, a11yLabels }) => (
@@ -77,7 +69,8 @@ export function NavItem({
             aria-disabled={isDisabled}
             aria-expanded={collapse.isExpanded}
             {...collapse.getToggleProps()}
-            aria-describedby={iconId}
+            aria-describedby={isDone ? iconId : undefined}
+            role={undefined} // due the rest operator, the role is assigned to the button in the server side rendering
           >
             {label}
             {collapse.isExpanded ? (
@@ -87,7 +80,10 @@ export function NavItem({
             )}
             {isDone && <StateIcon id={iconId} a11yLabels={a11yLabels} />}
           </button>
-          <section {...collapse.getCollapseProps()}>
+          {
+            // due the rest operator, the role is assigned to the section in the server side rendering
+          }
+          <section {...collapse.getCollapseProps()} role={undefined}>
             <NavigationList
               navItems={visibleChildItems}
               a11yLabels={a11yLabels}
@@ -101,7 +97,7 @@ export function NavItem({
           className={itemClassNames}
           aria-disabled={isDisabled}
           aria-current={isCurrent}
-          aria-describedby={iconId}
+          aria-describedby={isDone ? iconId : undefined}
         >
           {label}
           {isDone && <StateIcon id={iconId} a11yLabels={a11yLabels} />}

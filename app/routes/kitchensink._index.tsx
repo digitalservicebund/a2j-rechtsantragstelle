@@ -1,6 +1,5 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import type { LoaderFunctionArgs } from "react-router";
+import { useLoaderData } from "react-router";
 import PageContent from "~/components/PageContent";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { throw404OnProduction } from "~/services/errorPages/throw404";
@@ -8,13 +7,13 @@ import { throw404OnProduction } from "~/services/errorPages/throw404";
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   throw404OnProduction();
   const { content, pageMeta } = await strapiPageFromRequest({ request });
-  return json({ content, meta: pageMeta });
+  return { content, meta: pageMeta };
 };
 
 export default function Kitchensink() {
   const loaderData = useLoaderData<typeof loader>();
   return (
-    <div>
+    <div className="flex flex-grow">
       {loaderData.content ? (
         <PageContent content={loaderData.content} />
       ) : (

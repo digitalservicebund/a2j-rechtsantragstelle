@@ -1,7 +1,7 @@
-import type { useMatches } from "@remix-run/react";
+import type { useMatches } from "react-router";
 import type { Breadcrumb } from "~/components/Breadcrumbs";
+import { isStrapiHero } from "../cms/models/isStrapiHero";
 import type { StrapiContentComponent } from "../cms/models/StrapiContentComponent";
-import { isStrapiHeader } from "../cms/models/StrapiHeader";
 import type { StrapiMeta } from "../cms/models/StrapiMeta";
 
 type RouteMatchKnown = Omit<ReturnType<typeof useMatches>[0], "data"> & {
@@ -17,7 +17,7 @@ function isMatchesWithDataObject(
 }
 
 function headerTextFromContent(content?: StrapiContentComponent[]) {
-  return content?.find(isStrapiHeader)?.content?.html;
+  return content?.find(isStrapiHero)?.content?.html;
 }
 
 function breadcrumbFromMatch(match: RouteMatchKnown) {

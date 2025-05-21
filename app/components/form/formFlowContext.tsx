@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
-import { Context } from "~/domains/contexts";
-import { FlowId } from "~/domains/flowIds";
-import { Translations } from "~/services/translations/getTranslationByKey";
+import { type Context } from "~/domains/contexts";
+import { type FlowId } from "~/domains/flowIds";
+import { type Translations } from "~/services/translations/getTranslationByKey";
 
 export type ValidFlowPagesType = Record<
   string,

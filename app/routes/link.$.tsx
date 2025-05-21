@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
+import { type LoaderFunctionArgs, redirect } from "react-router";
 
 const redirectionMap = {
   pkh: "/prozesskostenhilfe/direktlink",
@@ -13,8 +13,4 @@ export function loader({ params }: LoaderFunctionArgs) {
     throw new Response(null, { status: 404 });
   }
   return redirect(redirectionMap[requestedSite as keyof typeof redirectionMap]);
-}
-
-export default function View() {
-  return <></>;
 }

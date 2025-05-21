@@ -1,8 +1,9 @@
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { validationError } from "remix-validated-form";
-import { BannerState, USER_FEEDBACK_ID } from "~/components/userFeedback";
-import { feedbackValidator } from "~/components/userFeedback/FeedbackFormBox";
+import { parseFormData, validationError } from "@rvf/react-router";
+import type { ActionFunctionArgs } from "react-router";
+import { redirect } from "react-router";
+import { USER_FEEDBACK_ID } from "~/components/userFeedback";
+import { BannerState } from "~/components/userFeedback/BannerState";
+import { feedbackSchema } from "~/components/userFeedback/FeedbackFormBox";
 import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -19,7 +20,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (redirectNonRelative) return redirectNonRelative;
 
   const formData = await request.formData();
-  const result = await feedbackValidator.validate(formData);
+  const result = await parseFormData(formData, feedbackSchema);
   if (result.error) {
     return validationError(result.error, result.submittedData);
   }
@@ -32,16 +33,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   updateBannerState(session, BannerState.FeedbackGiven, url);
   const headers = { "Set-Cookie": await commitSession(session) };
 
-  sendCustomAnalyticsEvent({
-    eventName: "feedback given",
-    request,
-    properties: {
-      wasHelpful: userRatingsWasHelpful[url],
-      feedback: result.data?.feedback ?? "",
-      url,
-      flowId: flowIdFromPathname(url) ?? "",
-    },
-  });
+  if (result.data?.feedback && result.data.feedback !== "") {
+    sendCustomAnalyticsEvent({
+      eventName: "feedback given",
+      request,
+      properties: {
+        wasHelpful: userRatingsWasHelpful[url],
+        feedback: result.data.feedback,
+        url,
+        flowId: flowIdFromPathname(url) ?? "",
+      },
+    });
+  }
 
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
 

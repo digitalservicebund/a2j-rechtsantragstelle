@@ -33,7 +33,7 @@ const InfoBoxItem = ({
   separator,
 }: InfoBoxItemProps) => {
   return (
-    <li
+    <div
       id={identifier}
       className={classNames(
         "flex flex-row items-center justify-center max-w-none max-[499px]:flex-col first:pt-0 scroll-my-40",
@@ -50,7 +50,7 @@ const InfoBoxItem = ({
         />
       )}
       <div
-        className={`ds-stack-16 break-words w-full ${
+        className={`ds-stack ds-stack-16 break-words w-full ${
           image ? "min-[500px]:ml-16" : ""
         }`}
       >
@@ -71,7 +71,7 @@ const InfoBoxItem = ({
           </ButtonContainer>
         )}
       </div>
-    </li>
+    </div>
   );
 };
 

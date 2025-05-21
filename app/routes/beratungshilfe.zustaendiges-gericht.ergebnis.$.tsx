@@ -1,6 +1,5 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import type { LoaderFunctionArgs } from "react-router";
+import { redirect, useLoaderData } from "react-router";
 import invariant from "tiny-invariant";
 import Background from "~/components/Background";
 import Container from "~/components/Container";
@@ -36,14 +35,14 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     fetchPage(slug),
   ]);
 
-  return json({ court, content, meta: pageMeta, common });
+  return { court, content, meta: pageMeta, common };
 };
 
 export const Component = () => {
   const { court, content, common } = useLoaderData<typeof loader>();
 
   return (
-    <>
+    <div className="flex flex-col flex-grow">
       <Background backgroundColor="blue">
         <CourtFinderHeader label={common.featureName}>
           {common.resultHeading}
@@ -72,7 +71,7 @@ export const Component = () => {
         </Container>
       </Background>
       <PageContent content={content} />
-    </>
+    </div>
   );
 };
 

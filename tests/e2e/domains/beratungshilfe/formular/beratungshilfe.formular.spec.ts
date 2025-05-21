@@ -1,6 +1,10 @@
+import fs from "node:fs";
+import path from "node:path";
 import { type Page, type Response, expect, test } from "@playwright/test";
+import { PDFDocument } from "pdf-lib";
 import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
+import { startFinanzielleAngabenPartner } from "tests/e2e/domains/shared/finanzielleAngaben/finanzielleAngabenPartner";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
@@ -10,7 +14,6 @@ import { startGrundvoraussetzungen } from "./grundvoraussetzungen";
 import { startPersoenlicheDaten } from "./persoenlicheDaten";
 import { startRechtsproblem } from "./rechtsproblem";
 import { startFinanzielleAngabenKinder } from "../../shared/finanzielleAngaben/finanzielleAngabenKinder";
-import { startFinanzielleAngabenPartner } from "../../shared/finanzielleAngaben/finanzielleAngabenPartner";
 
 let beratungshilfeFormular: BeratungshilfeFormular;
 const TEN_SECONDS_TIMEOUT_POPUP = 10 * 1000;
@@ -50,7 +53,15 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startRechtsproblem(page, beratungshilfeFormular);
   await startFinanzielleAngabenGrundsicherung(beratungshilfeFormular);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
-  await startAbgabe(page);
+
+  // beratungshilfe/antrag/abgabe/art
+  await beratungshilfeFormular.clickNext();
+
+  await startOnlineAbgabe(page);
+  if (await isFeatureFlagEnabled("showFileUpload")) {
+    await startDocumentUpload(page);
+  }
+  await downloadOnlineAbgabe(page);
 });
 
 test("invalid array index redirects to initial step of subflow", async ({
@@ -73,16 +84,73 @@ test("invalid array index redirects to initial step of subflow", async ({
   );
 });
 
-async function startAbgabe(page: Page) {
+async function startDocumentUpload(page: Page) {
   // beratungshilfe/antrag/abgabe/dokumente
-  if (await isFeatureFlagEnabled("showFileUpload")) {
-    await beratungshilfeFormular.clickNext();
-  }
-  // beratungshilfe/antrag/abgabe/art
-  await beratungshilfeFormular.fillRadioPage("abgabeArt", "ausdrucken");
-  // beratungshilfe/antrag/abgabe/ausdrucken
   await expectPageToBeAccessible({ page });
+  await page.getByRole("button", { name: "Weiter" }).click();
 
+  // Test empty form submission
+  const errorMessage = page.getByTestId("inputError");
+  await expect(errorMessage).toBeVisible();
+
+  // Test file upload with a file that's too large
+  const dummyFilePathTooBig = path.resolve(
+    path.join(process.cwd(), "playwright/generated/", "tooBig.pdf"),
+  );
+  fs.writeFileSync(dummyFilePathTooBig, Buffer.alloc(1024 * 1024 * 11));
+  await page
+    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
+    .setInputFiles(dummyFilePathTooBig);
+  const fileUploadInfo = page.getByTestId(
+    "file-upload-info-grundsicherungBeweis[0]",
+  );
+  await expect(fileUploadInfo).toBeVisible();
+  await expect(errorMessage).toBeVisible();
+
+  await page.getByRole("button", { name: "Löschen" }).click();
+
+  // Test file upload with a file that's of the wrong type
+  const dummyFilePathWrongType = path.resolve(
+    path.join(process.cwd(), "playwright/generated/", "wrongType.txt"),
+  );
+  fs.writeFileSync(dummyFilePathWrongType, "test");
+  await page
+    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
+    .setInputFiles(dummyFilePathWrongType);
+  await expect(fileUploadInfo).toBeVisible();
+  await expect(errorMessage).toBeVisible();
+
+  await page.getByRole("button", { name: "Löschen" }).click();
+
+  // Test file upload with a valid file
+  const dummyFilePath = path.resolve(
+    path.join(process.cwd(), "playwright/generated/", "test.pdf"),
+  );
+
+  const pdfDoc = await PDFDocument.create();
+  const pdfPage = pdfDoc.addPage([600, 800]);
+  pdfPage.drawText("Test PDF", {
+    x: 50,
+    y: 700,
+    size: 30,
+  });
+
+  const pdfBytes = await pdfDoc.save();
+  fs.writeFileSync(dummyFilePath, pdfBytes);
+  await page
+    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
+    .setInputFiles(dummyFilePath);
+  await expect(fileUploadInfo).toBeVisible();
+  await expect(errorMessage).not.toBeVisible();
+  await page.getByRole("button", { name: "Weiter" }).click();
+}
+async function startOnlineAbgabe(page: Page) {
+  // beratungshilfe/antrag/abgabe/art
+  await beratungshilfeFormular.fillRadioPage("abgabeArt", "online");
+  // beratungshilfe/antrag/abgabe/online
+  await expectPageToBeAccessible({ page });
+}
+async function downloadOnlineAbgabe(page: Page) {
   // Observe context for requests to /download/pdf
   let newTabResponse: Response | undefined;
   page.context().on("request", async (request) => {

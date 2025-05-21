@@ -1,4 +1,4 @@
-import type { PkhPdfFillFunction } from "..";
+import type { PkhPdfFillFunction } from "../types";
 
 export const fillGrundvoraussetzungen: PkhPdfFillFunction = ({
   userData,

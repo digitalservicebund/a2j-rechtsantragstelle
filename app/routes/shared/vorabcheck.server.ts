@@ -1,6 +1,6 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirectDocument } from "@remix-run/node";
-import { validationError } from "remix-validated-form";
+import { validationError } from "@rvf/react-router";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -10,7 +10,7 @@ import {
   fetchMeta,
   fetchTranslations,
 } from "~/services/cms/index.server";
-import { isStrapiHeadingComponent } from "~/services/cms/models/StrapiHeading";
+import { isStrapiHeadingComponent } from "~/services/cms/models/isStrapiHeadingComponent";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { logWarning } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";
@@ -27,8 +27,8 @@ import {
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { validateFormData } from "~/services/validation/validateFormData.server";
+import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { interpolateSerializableObject } from "~/util/fillTemplate";
 import { filterFormData } from "~/util/filterFormData";
 
 export const loader = async ({
@@ -63,7 +63,7 @@ export const loader = async ({
   ]);
 
   // Do string replacement in content if necessary
-  const contentElements = interpolateSerializableObject(
+  const contentElements = applyStringReplacement(
     vorabcheckPage.pre_form,
     "stringReplacements" in currentFlow
       ? currentFlow.stringReplacements(userData)
@@ -84,7 +84,12 @@ export const loader = async ({
     return strapiFormElement;
   });
 
-  const meta = stepMeta(vorabcheckPage.pageMeta, parentMeta);
+  const meta = applyStringReplacement(
+    stepMeta(vorabcheckPage.pageMeta, parentMeta),
+    "stringReplacements" in currentFlow
+      ? currentFlow.stringReplacements(userData)
+      : undefined,
+  );
 
   // filter user data for current step
   const fieldNames = formElements.map((entry) => entry.name);
@@ -109,7 +114,7 @@ export const loader = async ({
     label: translations.progressBarLabel,
   };
 
-  return json(
+  return data(
     {
       csrf,
       stepData,

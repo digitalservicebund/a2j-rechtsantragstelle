@@ -1,4 +1,4 @@
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular";
+import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 
 export const getAntragstellendePersonStrings = (
   context: ProzesskostenhilfeFormularContext,

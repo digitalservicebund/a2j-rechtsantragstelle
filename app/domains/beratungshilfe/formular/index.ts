@@ -1,5 +1,6 @@
 import { getRechtsproblemStrings } from "~/domains/beratungshilfe/formular/rechtsproblem/stringReplacements";
 import type { Flow } from "~/domains/flows.server";
+import { type DokumenteContext } from "./abgabe/dokumente/context";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import type { BeratungshilfeAnwaltlicheVertretung } from "./anwaltlicheVertretung/context";
 import { beratungshilfeAnwaltlicheVertretungGuards } from "./anwaltlicheVertretung/guards";
@@ -17,6 +18,7 @@ import {
   ausgabenStrings,
   weiteresEinkommenStrings,
   eigentumZusammenfassungShowTotalWorthWarnings,
+  getWeitereDokumenteStrings,
 } from "./stringReplacements";
 import { beratungshilfeXstateConfig } from "./xstateConfig";
 import type { AbgabeContext } from "../../shared/formular/abgabe/context";
@@ -49,6 +51,7 @@ export const beratungshilfeFormular = {
     ...ausgabenStrings(context),
     ...geldAnlagenStrings(context),
     ...weiteresEinkommenStrings(context),
+    ...getWeitereDokumenteStrings(context),
   }),
 } satisfies Flow;
 
@@ -57,4 +60,5 @@ export type BeratungshilfeFormularContext = BeratungshilfeGrundvoraussetzungen &
   BeratungshilfeRechtsproblem &
   BeratungshilfeFinanzielleAngaben &
   BeratungshilfePersoenlicheDaten &
-  AbgabeContext;
+  AbgabeContext &
+  DokumenteContext;
