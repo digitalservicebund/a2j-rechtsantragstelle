@@ -18,7 +18,7 @@ const CSS_HEADING_CLASSES = [
 const allowList = {
   ...xss.getDefaultWhiteList(),
   a: xss.getDefaultWhiteList().a?.concat(["rel", "aria-label", "class"]),
-  p: xss.getDefaultWhiteList().p?.concat(["class"]),
+  p: xss.getDefaultWhiteList().p?.concat(["class", "id"]),
   h1: xss.getDefaultWhiteList().h1?.concat(["class"]),
   h2: xss.getDefaultWhiteList().h2?.concat(["class"]),
   h3: xss.getDefaultWhiteList().h3?.concat(["class"]),
