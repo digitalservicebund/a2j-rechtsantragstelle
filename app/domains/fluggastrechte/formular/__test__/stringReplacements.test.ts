@@ -4,7 +4,6 @@ import { getAirportByIataCode } from "../../services/airports/getAirportByIataCo
 import { getAirportNameByIataCode } from "../../services/airports/getAirportNameByIataCode";
 import { getCompensationPayment } from "../../services/airports/getCompensationPayment";
 import { getCourtByStartAndEndAirport } from "../../services/getCourtByStartAndEndAirport";
-import type { FluggastrechteUserData } from "../userData";
 import { getTotalClaimingPeople } from "../services/getTotalClaimingPeople";
 import { getTotalCompensationClaim } from "../services/getTotalCompensationClaim";
 import {
@@ -28,6 +27,7 @@ import {
   isVerspaetet,
   isWeiterePersonen,
 } from "../stringReplacements";
+import type { FluggastrechteUserData } from "../userData";
 
 vi.mock("../../services/airports/getCompensationPayment");
 vi.mock("../../services/airports/getAirportNameByIataCode");
