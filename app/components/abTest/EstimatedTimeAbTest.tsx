@@ -4,12 +4,11 @@ import { useLocation } from "react-router";
 import { config } from "~/services/env/web";
 
 export function EstimatedTimeAbTest() {
+  const { pathname } = useLocation();
   function useDisplayEstimatedTimeAbTest(): boolean {
     if (!config().POSTHOG_API_KEY) {
       return false;
     }
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { pathname } = useLocation();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const variantKey = useFeatureFlagVariantKey("conversion-rate-pkh-flow");
     const isOnPKHFlowStartPage = pathname.includes(
