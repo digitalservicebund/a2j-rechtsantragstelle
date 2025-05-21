@@ -11,6 +11,7 @@ const mockProps = {
   title: "Test Title",
   description: "Test Description",
   tagDescription: "New",
+  ref: { current: null },
   image: {
     url: "test.jpg",
     alternativeText: "test image",
@@ -42,9 +43,7 @@ beforeEach(() => {
 
 describe("TileRadio", () => {
   it("check if the component renders correct", () => {
-    const { container, queryByRole } = render(
-      <TileRadio name={COMPONENT_NAME} value="any value" onClick={vi.fn()} />,
-    );
+    const { container, queryByRole } = render(<TileRadio {...mockProps} />);
 
     expect(container.getElementsByClassName("ds-tile-radio-group").length).toBe(
       1,
@@ -55,13 +54,7 @@ describe("TileRadio", () => {
   it("check if the click works", () => {
     const handleClick = vi.fn();
 
-    render(
-      <TileRadio
-        name={COMPONENT_NAME}
-        value="any-value"
-        onClick={handleClick}
-      />,
-    );
+    render(<TileRadio {...mockProps} onClick={handleClick} />);
     fireEvent.click(screen.getByRole("radio"));
 
     expect(handleClick).toHaveBeenCalled();

@@ -1,18 +1,15 @@
 import { useField } from "@rvf/react-router";
 import type { ReactNode } from "react";
-import { forwardRef } from "react";
 
 type RadioProps = {
   readonly name: string;
   readonly value: string;
   readonly onClick?: () => void;
   readonly text?: ReactNode;
+  readonly ref: React.Ref<HTMLInputElement>;
 };
 
-function Radio(
-  { name, value, onClick, text }: RadioProps,
-  ref: React.Ref<HTMLInputElement>,
-) {
+function Radio({ name, value, onClick, text, ref }: RadioProps) {
   const field = useField(name);
   const id = `${name}-${value}`;
 
@@ -30,4 +27,4 @@ function Radio(
   );
 }
 
-export default forwardRef(Radio);
+export default Radio;
