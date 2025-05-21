@@ -1,5 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { fireEvent, render, waitFor } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
 import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
 import * as useDataListOptions from "~/components/inputs/autoSuggestInput/useDataListOptions";
 import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
@@ -246,5 +247,26 @@ describe("AutoSuggestInput", () => {
         container.querySelector(`#input-${COMPONENT_NAME}`),
       ).toHaveAttribute("aria-required", "false"),
     );
+  });
+
+  it("should be focusable and handle keyboard interactions when read-only", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        placeholder="placeholder"
+        dataList="airports"
+        label="label"
+        isDisabled
+      />,
+    );
+
+    const input = getByRole("combobox");
+
+    await user.tab();
+    expect(input).toHaveFocus();
+
+    await user.tab();
+    expect(input).not.toHaveFocus();
   });
 });

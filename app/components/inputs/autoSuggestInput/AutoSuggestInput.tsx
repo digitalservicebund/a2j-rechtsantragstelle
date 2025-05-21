@@ -223,7 +223,7 @@ const AutoSuggestInput = ({
         placeholder={placeholder ?? ""}
         screenReaderStatus={screenReaderStatus(translations)}
         styles={customStyles(hasError)}
-        tabIndex={isDisabled ? -1 : 0}
+        tabIndex={0}
         value={currentItemValue}
       />
 
