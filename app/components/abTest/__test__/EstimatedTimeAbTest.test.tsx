@@ -34,10 +34,10 @@ describe("EstimatedTimeAbTest", () => {
       pathname: "/prozesskostenhilfe/formular/start/start",
     });
 
-    render(<EstimatedTimeAbTest />);
+    const { getByText, getByTestId } = render(<EstimatedTimeAbTest />);
 
-    expect(screen.getByText("Geschätzte Zeit: 20 Minuten")).toBeInTheDocument();
-    expect(screen.getByTestId("TimerOutlinedIcon")).toBeInTheDocument();
+    expect(getByText("Geschätzte Zeit: 20 Minuten")).toBeInTheDocument();
+    expect(getByTestId("TimerOutlinedIcon")).toBeInTheDocument();
   });
 
   it("should not render estimated time when not on PKH flow start page", () => {
@@ -46,12 +46,10 @@ describe("EstimatedTimeAbTest", () => {
       pathname: "/prozesskostenhilfe/formular/other",
     });
 
-    render(<EstimatedTimeAbTest />);
+    const { queryByText, queryByTestId } = render(<EstimatedTimeAbTest />);
 
-    expect(
-      screen.queryByText("Geschätzte Zeit: 20 Minuten"),
-    ).not.toBeInTheDocument();
-    expect(screen.queryByTestId("TimerOutlinedIcon")).not.toBeInTheDocument();
+    expect(queryByText("Geschätzte Zeit: 20 Minuten")).not.toBeInTheDocument();
+    expect(queryByTestId("TimerOutlinedIcon")).not.toBeInTheDocument();
   });
 
   it("should not render estimated time when in control group", () => {
@@ -60,12 +58,10 @@ describe("EstimatedTimeAbTest", () => {
       pathname: "/prozesskostenhilfe/formular/start/start",
     });
 
-    render(<EstimatedTimeAbTest />);
+    const { queryByText, queryByTestId } = render(<EstimatedTimeAbTest />);
 
-    expect(
-      screen.queryByText("Geschätzte Zeit: 20 Minuten"),
-    ).not.toBeInTheDocument();
-    expect(screen.queryByTestId("TimerOutlinedIcon")).not.toBeInTheDocument();
+    expect(queryByText("Geschätzte Zeit: 20 Minuten")).not.toBeInTheDocument();
+    expect(queryByTestId("TimerOutlinedIcon")).not.toBeInTheDocument();
   });
 
   it("should not render estimated time when variantKey is undefined", () => {
@@ -74,11 +70,9 @@ describe("EstimatedTimeAbTest", () => {
       pathname: "/prozesskostenhilfe/formular/start/start",
     });
 
-    render(<EstimatedTimeAbTest />);
+    const { queryByText, queryByTestId } = render(<EstimatedTimeAbTest />);
 
-    expect(
-      screen.queryByText("Geschätzte Zeit: 20 Minuten"),
-    ).not.toBeInTheDocument();
-    expect(screen.queryByTestId("TimerOutlinedIcon")).not.toBeInTheDocument();
+    expect(queryByText("Geschätzte Zeit: 20 Minuten")).not.toBeInTheDocument();
+    expect(queryByTestId("TimerOutlinedIcon")).not.toBeInTheDocument();
   });
 });
