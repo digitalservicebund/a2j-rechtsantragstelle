@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { useFeatureFlagVariantKey } from "posthog-js/react";
 import { useLocation } from "react-router";
 import { vi, type Mock } from "vitest";
