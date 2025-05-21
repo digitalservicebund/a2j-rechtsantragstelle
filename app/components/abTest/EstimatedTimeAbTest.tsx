@@ -4,17 +4,6 @@ import { useLocation } from "react-router";
 import { config } from "~/services/env/web";
 
 export function EstimatedTimeAbTest() {
-  /**
-   * Hook to determine whether to display the estimated time string and icon.
-   *
-   * The hook uses the PostHog useFeatureFlagVariantKey hook to determine whether the
-   * user is in the test or control group of the "conversion-rate-pkh-flow" feature flag.
-   *
-   * If the user is on the start page of the PKH flow and is in the test group, the hook
-   * returns true. Otherwise, it returns false.
-   *
-   * @returns {boolean} Whether to display the estimated time string and icon.
-   */
   function useDisplayEstimatedTimeAbTest(): boolean {
     if (!config().POSTHOG_API_KEY) {
       return false;
