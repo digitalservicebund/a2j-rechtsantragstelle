@@ -14,13 +14,20 @@ const mockError = (error: string) => {
   getErrorMock.mockReturnValue(error);
 };
 
+const defaultProps = {
+  name: "testRadio",
+  value: "yes",
+  text: "Yes",
+  ref: { current: null },
+};
+
 beforeEach(() => {
   vi.resetAllMocks();
 });
 
 describe("Radio", () => {
   it("renders correctly with label and value", () => {
-    render(<Radio name="testRadio" value="yes" text="Yes" />);
+    render(<Radio {...defaultProps} />);
     const radio = screen.getByLabelText("Yes");
     expect(radio).toBeInTheDocument();
     expect(radio).toHaveAttribute("value", "yes");
@@ -28,9 +35,7 @@ describe("Radio", () => {
 
   it("calls onClick when clicked", () => {
     const onClickMock = vi.fn();
-    render(
-      <Radio name="testRadio" value="yes" text="Yes" onClick={onClickMock} />,
-    );
+    render(<Radio {...defaultProps} onClick={onClickMock} />);
     const radio = screen.getByLabelText("Yes");
     radio.click();
     expect(onClickMock).toHaveBeenCalled();
@@ -39,7 +44,7 @@ describe("Radio", () => {
   it("sets aria-describedby when error is present", () => {
     mockError("This field has an error");
 
-    render(<Radio name="testRadio" value="yes" text="Yes" />);
+    render(<Radio {...defaultProps} />);
     const radio = screen.getByLabelText("Yes");
     expect(radio).toHaveAttribute("aria-describedby", "testRadio-error");
   });
