@@ -19,6 +19,7 @@ export const staatlicheLeistungenDone: ProzesskostenhilfeFinanzielleAngabenEinku
 
 export const arbeitsabzuegeDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) => {
+    if (guards.incomeWithBuergergeld({ context })) return true;
     if (context.arbeitsweg === undefined) return false;
 
     const arbeitsplatzDone =
