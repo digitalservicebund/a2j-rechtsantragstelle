@@ -4,10 +4,10 @@ import { airportSchema } from "~/services/validation/airport";
 import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { fluggastrechteFlugdatenInputSchema } from "./flugdaten/userData";
-import { fluggastrechteGrundvoraussetzungen } from "./grundvoraussetzungen/context";
-import { fluggastrechtePersoenlicheDatenInputSchema } from "./persoenlicheDaten/context";
-import { fluggastrechteProzessfuehrungDaten } from "./prozessfuehrung/context";
-import { fluggastrechteStreitKostenDaten } from "./streitwertKosten/context";
+import { fluggastrechteGrundvoraussetzungenInputSchema } from "./grundvoraussetzungen/userData";
+import { fluggastrechtePersoenlicheDatenInputSchema } from "./persoenlicheDaten/userData";
+import { fluggastrechteProzessfuehrungInputSchema } from "./prozessfuehrung/userData";
+import { fluggastrechteStreitKostenInputSchema } from "./streitwertKosten/userData";
 
 export const fluggastrechteInputSchema = {
   startAirport: optionalOrSchema(airportSchema),
@@ -15,9 +15,9 @@ export const fluggastrechteInputSchema = {
   fluggesellschaft: optionalOrSchema(airlineSchema),
   ...fluggastrechteFlugdatenInputSchema,
   ...fluggastrechtePersoenlicheDatenInputSchema,
-  ...fluggastrechteStreitKostenDaten,
-  ...fluggastrechteProzessfuehrungDaten,
-  ...fluggastrechteGrundvoraussetzungen,
+  ...fluggastrechteStreitKostenInputSchema,
+  ...fluggastrechteProzessfuehrungInputSchema,
+  ...fluggastrechteGrundvoraussetzungenInputSchema,
   ankuendigung: stringOptionalSchema,
   ersatzflugStartenEinStunde: stringOptionalSchema,
   ersatzflugLandenZweiStunden: stringOptionalSchema,

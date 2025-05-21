@@ -1,6 +1,6 @@
 import { type Guards, yesNoGuards } from "~/domains/guards.server";
 import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
-import type { FluggastrechtePersoenlichDaten } from "./context";
+import type { FluggastrechtePersoenlichDaten } from "./userData";
 import { personDone, weiterePersonenDone } from "./doneFunctions";
 
 export const persoenlichDatenGuards = {
