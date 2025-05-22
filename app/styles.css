@@ -272,9 +272,7 @@ details:not(:has(.summary-content:focus-visible)) {
   outline-offset: -4px;
 }
 
-.auto-suggest-input-disabled:hover,
-.auto-suggest-input-disabled:focus,
-.auto-suggest-input-disabled:focus-within {
+.auto-suggest-input-disabled:hover {
   outline-offset: 0 !important;
   outline: none !important;
   @apply bg-white !important;
