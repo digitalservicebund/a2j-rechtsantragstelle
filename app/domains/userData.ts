@@ -6,7 +6,7 @@ import { fluggastrechteVorabcheckContext } from "~/domains/fluggastrechte/vorabc
 import { context as geldEinklagenFormularContext } from "~/domains/geldEinklagen/formular/context";
 import { context as geldEinklagenContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import { context as kontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
-import { prozesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import { prozesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import type { FlowId } from "./flowIds";
 
 export type BasicTypes = string | number | boolean;
@@ -26,7 +26,7 @@ const contexts = {
   "/geld-einklagen/formular": geldEinklagenFormularContext,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckContext,
   "/fluggastrechte/formular": fluggastrechtContext,
-  "/prozesskostenhilfe/formular": prozesskostenhilfeFormularContext,
+  "/prozesskostenhilfe/formular": prozesskostenhilfeFormularUserData,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiserContext,
 } as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;
 

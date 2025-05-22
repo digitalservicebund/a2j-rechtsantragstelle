@@ -2,12 +2,12 @@ import type {
   Config,
   FlowConfigTransitions,
 } from "~/services/flow/server/buildFlowController";
-import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./context";
+import type { ProzesskostenhilfeRechtsschutzversicherungUserData } from "./userData";
 import { rechtsschutzversicherungDone } from "./doneFunctions";
 
 export function getProzesskostenhilfeRsvXstateConfig(
   transitions?: FlowConfigTransitions,
-): Config<ProzesskostenhilfeRechtsschutzversicherungContext> {
+): Config<ProzesskostenhilfeRechtsschutzversicherungUserData> {
   const nextFlowEntrypoint = Array.isArray(transitions?.nextFlowEntrypoint)
     ? transitions.nextFlowEntrypoint
     : [transitions?.nextFlowEntrypoint];

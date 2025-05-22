@@ -5,7 +5,7 @@ import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vo
 import type { GeldEinklagenFormularContext } from "~/domains/geldEinklagen/formular/context";
 import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import type { BeratungshilfeFormularContext } from "./beratungshilfe/formular";
-import type { ProzesskostenhilfeFormularContext } from "./prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "./prozesskostenhilfe/formular/userData";
 
 type AllContexts =
   | GeldEinklagenFormularContext
@@ -14,7 +14,7 @@ type AllContexts =
   | BeratungshilfeFormularContext
   | FluggastrechtVorabcheckContext
   | FluggastrechtContext
-  | ProzesskostenhilfeFormularContext;
+  | ProzesskostenhilfeFormularUserData;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type AllContextKeys = KeysOfUnion<AllContexts>;

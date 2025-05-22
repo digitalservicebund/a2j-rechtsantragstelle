@@ -1,5 +1,5 @@
 import type { Session } from "react-router";
-import type { Context, ObjectType } from "~/domains/contexts";
+import type { Context, ObjectType } from "~/domains/userData";
 import { type FlowId } from "~/domains/flowIds";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { filterFormData } from "~/util/filterFormData";

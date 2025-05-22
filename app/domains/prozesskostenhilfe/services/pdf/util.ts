@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 import { belegeStrings } from "~/domains/prozesskostenhilfe/formular/stringReplacements";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import type { FinancialEntry } from "~/domains/shared/formular/finanzielleAngaben/context";
 import { createHeading } from "~/services/pdf/createHeading";
 import { pdfStyles } from "~/services/pdf/pdfStyles";
@@ -39,7 +39,7 @@ export const buildBelegeList = ({
 }: {
   doc: typeof PDFDocument;
   documentStruct: PDFKit.PDFStructureElement;
-  userData: ProzesskostenhilfeFormularContext;
+  userData: ProzesskostenhilfeFormularUserData;
   translations?: Translations;
 }) => {
   if (!translations) return;

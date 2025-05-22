@@ -1,4 +1,4 @@
-import { getContext } from "~/domains/contexts";
+import { getContext } from "~/domains/userData";
 import type { FlowId } from "~/domains/flowIds";
 import type { Flow } from "~/domains/flows.server";
 import { pruneIrrelevantData } from "~/services/flow/pruner";

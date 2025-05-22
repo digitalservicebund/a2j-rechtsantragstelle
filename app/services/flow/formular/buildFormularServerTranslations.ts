@@ -1,4 +1,4 @@
-import type { Context } from "~/domains/contexts";
+import type { Context } from "~/domains/userData";
 import type { Flow } from "~/domains/flows.server";
 import { getArraySummaryPageTranslations } from "~/services/array/getArraySummaryPageTranslations";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";

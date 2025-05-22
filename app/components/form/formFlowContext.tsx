@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { type Context } from "~/domains/contexts";
+import { type Context } from "~/domains/userData";
 import { type FlowId } from "~/domains/flowIds";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 

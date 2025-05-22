@@ -5,7 +5,7 @@ import { createMemoryRouter, RouterProvider } from "react-router";
 import FilesUpload, {
   type FilesUploadProps,
 } from "~/components/filesUpload/FilesUpload";
-import { type Context } from "~/domains/contexts";
+import { type Context } from "~/domains/userData";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 

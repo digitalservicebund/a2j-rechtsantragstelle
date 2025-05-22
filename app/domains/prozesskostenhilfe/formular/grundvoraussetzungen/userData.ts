@@ -3,7 +3,7 @@ import type { GenericGuard } from "~/domains/guards.server";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
-export const prozesskostenhilfeGrundvoraussetzungen = {
+export const prozesskostenhilfeGrundvoraussetzungenInputSchema = {
   formularArt: z.enum(
     ["nachueberpruefung", "erstantrag"],
     customRequiredErrorMessage,
@@ -17,38 +17,38 @@ export const prozesskostenhilfeGrundvoraussetzungen = {
   versandArt: z.enum(["digital", "analog"], customRequiredErrorMessage),
 };
 
-const _contextObject = z
-  .object(prozesskostenhilfeGrundvoraussetzungen)
+const _partialSchema = z
+  .object(prozesskostenhilfeGrundvoraussetzungenInputSchema)
   .partial();
-export type ProzesskostenhilfeGrundvoraussetzungenContext = z.infer<
-  typeof _contextObject
+export type ProzesskostenhilfeGrundvoraussetzungenUserData = z.infer<
+  typeof _partialSchema
 >;
 
 export const verfahrenAnwalt: GenericGuard<
-  ProzesskostenhilfeGrundvoraussetzungenContext
+  ProzesskostenhilfeGrundvoraussetzungenUserData
 > = ({ context }) => context.verfahrenArt === "verfahrenAnwalt";
 
 export const erstantrag: GenericGuard<
-  ProzesskostenhilfeGrundvoraussetzungenContext
+  ProzesskostenhilfeGrundvoraussetzungenUserData
 > = ({ context }) => context.formularArt === "erstantrag";
 
 export const nachueberpruefung: GenericGuard<
-  ProzesskostenhilfeGrundvoraussetzungenContext
+  ProzesskostenhilfeGrundvoraussetzungenUserData
 > = ({ context }) => context.formularArt === "nachueberpruefung";
 
 export const verfahrenSelbststaendig: GenericGuard<
-  ProzesskostenhilfeGrundvoraussetzungenContext
+  ProzesskostenhilfeGrundvoraussetzungenUserData
 > = ({ context }) => context.verfahrenArt === "verfahrenSelbststaendig";
 
 export const versandDigitalAnwalt: GenericGuard<
-  ProzesskostenhilfeGrundvoraussetzungenContext
+  ProzesskostenhilfeGrundvoraussetzungenUserData
 > = ({ context }) =>
   erstantrag({ context }) &&
   verfahrenAnwalt({ context }) &&
   context.versandArt === "digital";
 
 export const versandDigitalGericht: GenericGuard<
-  ProzesskostenhilfeGrundvoraussetzungenContext
+  ProzesskostenhilfeGrundvoraussetzungenUserData
 > = ({ context }) =>
   (erstantrag({ context }) &&
     verfahrenSelbststaendig({ context }) &&
@@ -57,7 +57,7 @@ export const versandDigitalGericht: GenericGuard<
     context.versandArt === "digital");
 
 export const grundvoraussetzungenDone: GenericGuard<
-  ProzesskostenhilfeGrundvoraussetzungenContext
+  ProzesskostenhilfeGrundvoraussetzungenUserData
 > = ({ context }) => {
   const shouldTestVerfahrenArt = erstantrag({ context });
   return !(

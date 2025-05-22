@@ -7,7 +7,7 @@ import {
   beruf,
 } from "~/domains/shared/formular/persoenlicheDaten/context";
 
-export const prozesskostenhilfePersoenlicheDatenContext = {
+export const prozesskostenhilfePersoenlicheDatenInputSchema = {
   ...vornameNachnameSchema,
   ...adresseSchema,
   geburtsdatum,
@@ -15,9 +15,9 @@ export const prozesskostenhilfePersoenlicheDatenContext = {
   beruf,
 };
 
-const _contextObject = z
-  .object(prozesskostenhilfePersoenlicheDatenContext)
+const _partialSchema = z
+  .object(prozesskostenhilfePersoenlicheDatenInputSchema)
   .partial();
-export type ProzesskostenhilfePersoenlicheDaten = z.infer<
-  typeof _contextObject
+export type ProzesskostenhilfePersoenlicheDatenUserData = z.infer<
+  typeof _partialSchema
 >;

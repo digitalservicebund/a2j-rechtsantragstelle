@@ -1,5 +1,5 @@
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import {
@@ -51,7 +51,7 @@ describe("D_angehoerige", () => {
         },
       ],
     },
-  } satisfies Record<string, ProzesskostenhilfeFormularContext>;
+  } satisfies Record<string, ProzesskostenhilfeFormularUserData>;
 
   test.each(Object.entries(testContexts))(
     "fills unterhalt into attachment for %s",

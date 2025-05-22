@@ -1,5 +1,5 @@
 import { setup } from "xstate";
-import { type Context } from "~/domains/contexts";
+import { type Context } from "~/domains/userData";
 import type { Guards } from "~/domains/guards.server";
 import { type ArrayConfigServer } from "~/services/array";
 

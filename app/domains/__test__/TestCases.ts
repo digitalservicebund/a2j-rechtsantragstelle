@@ -4,7 +4,7 @@ import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/con
 import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
 import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import { type KontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
-import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "../prozesskostenhilfe/formular/userData";
 
 export type TestCases<
   T extends
@@ -13,6 +13,6 @@ export type TestCases<
     | GeldEinklagenVorabcheckContext
     | FluggastrechtVorabcheckContext
     | FluggastrechtContext
-    | ProzesskostenhilfeFormularContext
+    | ProzesskostenhilfeFormularUserData
     | KontopfaendungWegweiserContext,
 > = Readonly<Array<Readonly<[T, readonly string[]]>>>;

@@ -1,5 +1,5 @@
 import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
-import type { ProzesskostenhilfeFinanzielleAngabenContext } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/context";
+import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
 import {
   firstArrayIndex,
   isValidArrayIndex,
@@ -8,7 +8,8 @@ import { arrayIsNonEmpty } from "~/util/array";
 import { type GenericGuard, yesNoGuards } from "../../../guards.server";
 
 export type FinanzielleAngabenGuard = GenericGuard<
-  ProzesskostenhilfeFinanzielleAngabenContext | BeratungshilfeFinanzielleAngaben
+  | ProzesskostenhilfeFinanzielleAngabenUserData
+  | BeratungshilfeFinanzielleAngaben
 >;
 export const staatlicheLeistungenIsBuergergeld: FinanzielleAngabenGuard = ({
   context,

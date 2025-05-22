@@ -5,7 +5,7 @@ import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services
 import { parsePathname, type FlowId } from "~/domains/flowIds";
 import type { FluggastrechteFlugdatenContext } from "~/domains/fluggastrechte/formular/flugdaten/context";
 import { fluggastrechtePdfFromUserdata } from "~/domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { fetchTranslations } from "~/services/cms/index.server";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
@@ -20,7 +20,7 @@ import { pdfDateFormat, today } from "~/util/date";
 type PdfFlowContexts =
   | BeratungshilfeFormularContext
   | FluggastrechteFlugdatenContext
-  | ProzesskostenhilfeFormularContext;
+  | ProzesskostenhilfeFormularUserData;
 
 type PdfConfig = PdfFlowContexts extends infer T
   ? T extends PdfFlowContexts
@@ -46,7 +46,7 @@ const pdfConfigs = {
   },
   "/prozesskostenhilfe/formular": {
     pdfFunction: async (
-      userData: ProzesskostenhilfeFormularContext,
+      userData: ProzesskostenhilfeFormularUserData,
       _sessionId: string,
       translations?: Translations,
     ) => await prozesskostenhilfePdfFromUserdata(userData, translations),

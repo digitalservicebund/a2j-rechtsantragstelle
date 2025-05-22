@@ -9,14 +9,14 @@ export const rsvCoverage = z.enum(
   customRequiredErrorMessage,
 );
 
-export const prozesskostenhilfeRsvContext = {
+export const prozesskostenhilfeRsvInputSchema = {
   hasRsv: YesNoAnswer,
   hasRsvCoverage: rsvCoverage,
   hasRsvThroughOrg: YesNoAnswer,
   hasOrgCoverage: rsvCoverage,
 };
 
-const _contextObject = z.object(prozesskostenhilfeRsvContext).partial();
-export type ProzesskostenhilfeRechtsschutzversicherungContext = z.infer<
-  typeof _contextObject
+const _partialSchema = z.object(prozesskostenhilfeRsvInputSchema).partial();
+export type ProzesskostenhilfeRechtsschutzversicherungUserData = z.infer<
+  typeof _partialSchema
 >;

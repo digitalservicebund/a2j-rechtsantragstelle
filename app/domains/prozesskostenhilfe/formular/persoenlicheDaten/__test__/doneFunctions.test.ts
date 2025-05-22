@@ -1,7 +1,7 @@
-import type { ProzesskostenhilfePersoenlicheDaten } from "../context";
 import { prozesskostenhilfePersoenlicheDatenDone } from "../doneFunctions";
+import type { ProzesskostenhilfePersoenlicheDatenUserData } from "../userData";
 
-const context: ProzesskostenhilfePersoenlicheDaten = {
+const context: ProzesskostenhilfePersoenlicheDatenUserData = {
   beruf: "Software Engineer",
   geburtsdatum: "01.01.2021",
   vorname: "John",
