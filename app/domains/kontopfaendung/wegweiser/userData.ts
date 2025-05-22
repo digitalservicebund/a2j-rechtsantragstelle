@@ -5,17 +5,17 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
-const hasKontopfaendung = z.enum(
+const kontopfaendungInputSchema = z.enum(
   ["nein", "ja", "weissNicht"],
   customRequiredErrorMessage,
 );
 
-const hasPKonto = z.enum(
+const pKontoInputSchema = z.enum(
   ["nein", "ja", "nichtAktiv", "nichtEingerichtet"],
   customRequiredErrorMessage,
 );
 
-const schuldenBei = z.enum(
+const schuldenBeiInputSchema = z.enum(
   [
     "privat",
     "behoerden",
@@ -34,27 +34,27 @@ const schuldenBei = z.enum(
   customRequiredErrorMessage,
 );
 
-const sockelbetrag = z.enum(
+const sockelbetragInputSchema = z.enum(
   ["nein", "ja", "weissNicht", "unterschiedlich"],
   customRequiredErrorMessage,
 );
 
-const kinderWohnenZusammen = z.enum(
+const kinderWohnenZusammenInputSchema = z.enum(
   ["nein", "ja", "teilweise"],
   customRequiredErrorMessage,
 );
 
-const verheiratet = z.enum(
+const verheiratetInputSchema = z.enum(
   ["nein", "ja", "getrennt", "geschieden", "verwitwet"],
   customRequiredErrorMessage,
 );
 
-const arbeitArt = z.object({
+const arbeitArtInputSchema = z.object({
   angestellt: checkedOptional,
   selbstaendig: checkedOptional,
 });
 
-const zahlungArbeitgeber = z.object({
+const zahlungArbeitgeberInputSchema = z.object({
   urlaubsgeld: checkedOptional,
   weihnachtsgeld: checkedOptional,
   ueberstundenBezahlt: checkedOptional,
@@ -62,7 +62,7 @@ const zahlungArbeitgeber = z.object({
   anderes: checkedOptional,
 });
 
-const hasSozialleistungen = z.enum(
+const sozialleistungenInputSchema = z.enum(
   [
     "buergergeld",
     "grundsicherungSozialhilfe",
@@ -72,39 +72,42 @@ const hasSozialleistungen = z.enum(
   customRequiredErrorMessage,
 );
 
-const sozialleistungenUmstaende = z.object({
+const sozialleistungenUmstaendeInputSchema = z.object({
   pflegegeld: checkedOptional,
   kindergeld: checkedOptional,
   wohngeld: checkedOptional,
 });
 
-const pflegegeld = z.enum(["selbst", "fremd"], customRequiredErrorMessage);
+const pflegegeldInputSchema = z.enum(
+  ["selbst", "fremd"],
+  customRequiredErrorMessage,
+);
 
-export const context = {
-  hasKontopfaendung,
-  hasPKonto,
-  schuldenBei,
-  sockelbetrag,
+export const kontopfaendungWegweiserInputSchema = {
+  hasKontopfaendung: kontopfaendungInputSchema,
+  hasPKonto: pKontoInputSchema,
+  schuldenBei: schuldenBeiInputSchema,
+  sockelbetrag: sockelbetragInputSchema,
   hasKinder: YesNoAnswer,
-  kinderWohnenZusammen,
-  verheiratet,
+  kinderWohnenZusammen: kinderWohnenZusammenInputSchema,
+  verheiratet: verheiratetInputSchema,
   kinderUnterhalt: YesNoAnswer,
   partnerWohnenZusammen: YesNoAnswer,
   partnerUnterhalt: YesNoAnswer,
   hasArbeit: YesNoAnswer,
-  arbeitArt,
+  arbeitArt: arbeitArtInputSchema,
   nachzahlungArbeitgeber: YesNoAnswer,
   arbeitgeberNachzahlungHigherThan: YesNoAnswer,
-  zahlungArbeitgeber,
-  hasSozialleistungen,
-  sozialleistungenUmstaende,
+  zahlungArbeitgeber: zahlungArbeitgeberInputSchema,
+  hasSozialleistungen: sozialleistungenInputSchema,
+  sozialleistungenUmstaende: sozialleistungenUmstaendeInputSchema,
   hasSozialleistungNachzahlung: YesNoAnswer,
   sozialleistungNachzahlungHigherThan: YesNoAnswer,
   hasSozialleistungenEinmalzahlung: YesNoAnswer,
   pfaendungStrafe: YesNoAnswer,
   pfaendungUnterhalt: YesNoAnswer,
-  pflegegeld,
+  pflegegeld: pflegegeldInputSchema,
 } as const;
 
-const _contextObject = z.object(context).partial();
-export type KontopfaendungWegweiserContext = z.infer<typeof _contextObject>;
+const _partialSchema = z.object(kontopfaendungWegweiserInputSchema).partial();
+export type KontopfaendungWegweiserUserData = z.infer<typeof _partialSchema>;

@@ -3,11 +3,11 @@ import { fluggastrechteInputSchema } from "~/domains/fluggastrechte/formular/use
 import { fluggastrechteVorabcheckInputSchema } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { context as geldEinklagenFormularContext } from "~/domains/geldEinklagen/formular/context";
 import { context as geldEinklagenContext } from "~/domains/geldEinklagen/vorabcheck/context";
-import { context as kontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
 import { prozesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { beratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
 import { beratungshilfeVorabcheckInputSchema } from "./beratungshilfe/vorabcheck/userData";
 import type { FlowId } from "./flowIds";
+import { kontopfaendungWegweiserInputSchema } from "./kontopfaendung/wegweiser/userData";
 
 export type BasicTypes = string | number | boolean;
 export type ObjectType = {
@@ -27,7 +27,7 @@ const contexts = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckInputSchema,
   "/fluggastrechte/formular": fluggastrechteInputSchema,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularUserData,
-  "/kontopfaendung/wegweiser": kontopfaendungWegweiserContext,
+  "/kontopfaendung/wegweiser": kontopfaendungWegweiserInputSchema,
 } as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;
 
 export const getContext = (flowId: FlowId) => contexts[flowId];

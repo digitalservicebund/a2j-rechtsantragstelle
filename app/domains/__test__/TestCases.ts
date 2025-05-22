@@ -3,7 +3,7 @@ import type { BeratungshilfeVorabcheckUserData } from "~/domains/beratungshilfe/
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
 import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
-import { type KontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
+import { type KontopfaendungWegweiserUserData } from "../kontopfaendung/wegweiser/userData";
 import type { ProzesskostenhilfeFormularUserData } from "../prozesskostenhilfe/formular/userData";
 
 export type TestCases<
@@ -14,5 +14,5 @@ export type TestCases<
     | FluggastrechtVorabcheckUserData
     | FluggastrechteUserData
     | ProzesskostenhilfeFormularUserData
-    | KontopfaendungWegweiserContext,
+    | KontopfaendungWegweiserUserData,
 > = Readonly<Array<Readonly<[T, readonly string[]]>>>;
