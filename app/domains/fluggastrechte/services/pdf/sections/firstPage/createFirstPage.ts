@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { createFlightCompensationClaim } from "./createFlightCompensationClaim";
 import { createLocalCourtAndDate } from "./createLocalCourtAndDate";
 import { createStatementClaim } from "./createStatementClaim";
@@ -7,7 +7,7 @@ import { createStatementClaim } from "./createStatementClaim";
 export const createFirstPage = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) => {
   createLocalCourtAndDate(doc, documentStruct, userData);
   doc.moveDown(2);

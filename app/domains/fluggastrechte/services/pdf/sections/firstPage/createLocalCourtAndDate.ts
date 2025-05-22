@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { getCourtByStartAndEndAirport } from "~/domains/fluggastrechte/services/getCourtByStartAndEndAirport";
 import {
   FONTS_BUNDESSANS_BOLD,
@@ -13,7 +13,7 @@ export const TO_THE_COURT_TEXT = "An das";
 export const createLocalCourtAndDate = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  { startAirport, endAirport }: FluggastrechtContext,
+  { startAirport, endAirport }: FluggastrechteUserData,
 ) => {
   const amtsgericht = getCourtByStartAndEndAirport(startAirport, endAirport);
   const creationDate = `${CREATION_PDF_TEXT} ${toGermanDateFormat(today())}`;

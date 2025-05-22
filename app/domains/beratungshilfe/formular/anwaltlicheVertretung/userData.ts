@@ -4,7 +4,7 @@ import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-export const beratungshilfeAnwaltlicheVertretung = {
+export const beratungshilfeAnwaltlicheVertretungInputSchema = {
   anwaltskanzlei: YesNoAnswer,
   beratungStattgefunden: YesNoAnswer,
   beratungStattgefundenDatum: createDateSchema(),
@@ -14,7 +14,9 @@ export const beratungshilfeAnwaltlicheVertretung = {
   anwaltOrt: stringRequiredSchema,
 };
 
-const _contextObject = z.object(beratungshilfeAnwaltlicheVertretung).partial();
-export type BeratungshilfeAnwaltlicheVertretung = z.infer<
-  typeof _contextObject
+const _partialSchema = z
+  .object(beratungshilfeAnwaltlicheVertretungInputSchema)
+  .partial();
+export type BeratungshilfeAnwaltlicheVertretungUserData = z.infer<
+  typeof _partialSchema
 >;

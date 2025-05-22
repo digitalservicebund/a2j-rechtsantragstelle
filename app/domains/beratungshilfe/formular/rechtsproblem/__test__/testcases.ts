@@ -1,6 +1,6 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine";
-import { type BeratungshilfeRechtsproblem } from "~/domains/beratungshilfe/formular/rechtsproblem/context";
+import { type BeratungshilfeRechtsproblemUserData } from "~/domains/beratungshilfe/formular/rechtsproblem/userData";
 
 const cases = [
   [
@@ -18,7 +18,7 @@ const cases = [
       "/finanzielle-angaben/einkommen/start",
     ],
   ],
-] as const satisfies TestCases<BeratungshilfeRechtsproblem>;
+] as const satisfies TestCases<BeratungshilfeRechtsproblemUserData>;
 
 export const testCasesBeratungshilfeRechtsproblem = {
   machine,

@@ -1,4 +1,4 @@
-import { type Context } from "~/domains/contexts";
+import { type Context } from "~/domains/userData";
 import { idFromCookie } from "~/services/analytics/posthogHelpers";
 import { getPosthogClient } from "./posthogClient.server";
 

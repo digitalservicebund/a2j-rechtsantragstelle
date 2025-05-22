@@ -4,7 +4,7 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-export const prozesskostenhilfeGesetzlicheVertretungContext = {
+export const prozesskostenhilfeGesetzlicheVertretungInputSchema = {
   hasGesetzlicheVertretung: YesNoAnswer,
   gesetzlicheVertretungDaten: z.object({
     vorname: stringRequiredSchema,
@@ -16,9 +16,9 @@ export const prozesskostenhilfeGesetzlicheVertretungContext = {
   }),
 };
 
-const _contextObject = z
-  .object(prozesskostenhilfeGesetzlicheVertretungContext)
+const _partialSchema = z
+  .object(prozesskostenhilfeGesetzlicheVertretungInputSchema)
   .partial();
-export type ProzesskostenhilfeGesetzlicheVertretung = z.infer<
-  typeof _contextObject
+export type ProzesskostenhilfeGesetzlicheVertretungUserData = z.infer<
+  typeof _partialSchema
 >;

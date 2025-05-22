@@ -1,9 +1,9 @@
 import { anwaltlicheVertretungDone } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/guards";
 import {
   grundvoraussetzungDone,
-  type BeratungshilfeGrundvoraussetzungen,
-} from "~/domains/beratungshilfe/formular/grundvoraussetzung/context";
-import { rechtsproblemDone } from "~/domains/beratungshilfe/formular/rechtsproblem/context";
+  type BeratungshilfeGrundvoraussetzungenUserData,
+} from "~/domains/beratungshilfe/formular/grundvoraussetzung/userData";
+import { rechtsproblemDone } from "~/domains/beratungshilfe/formular/rechtsproblem/userData";
 import { dropEachProperty } from "~/util/objects";
 
 describe("grundvoraussetzungDone", () => {
@@ -28,7 +28,7 @@ describe("grundvoraussetzungDone", () => {
       klageEingereicht: "no",
       beratungshilfeBeantragt: "no",
       eigeninitiativeGrundvorraussetzung: "no",
-    } satisfies BeratungshilfeGrundvoraussetzungen;
+    } satisfies BeratungshilfeGrundvoraussetzungenUserData;
 
     dropEachProperty(validContext).forEach((context) => {
       expect(grundvoraussetzungDone({ context })).toBeFalsy();

@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_HEIGHT_SEIZE,
@@ -9,7 +9,7 @@ import {
 export const createBankInformation = (
   doc: typeof PDFDocument,
   footerSect: PDFKit.PDFStructureElement,
-  { kontoinhaber, vorname, nachname, iban }: FluggastrechtContext,
+  { kontoinhaber, vorname, nachname, iban }: FluggastrechteUserData,
 ) => {
   const bankAccountHolder =
     typeof kontoinhaber !== "undefined" && kontoinhaber.trim().length > 0

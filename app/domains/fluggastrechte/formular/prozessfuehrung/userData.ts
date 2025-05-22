@@ -4,7 +4,7 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
-export const fluggastrechteProzessfuehrungDaten = {
+export const fluggastrechteProzessfuehrungInputSchema = {
   hasZeugen: YesNoAnswer,
   versaeumnisurteil: YesNoAnswer,
   videoverhandlung: z.enum(
@@ -13,7 +13,9 @@ export const fluggastrechteProzessfuehrungDaten = {
   ),
 };
 
-const _contextObject = z.object(fluggastrechteProzessfuehrungDaten).partial();
+const _partialSchema = z
+  .object(fluggastrechteProzessfuehrungInputSchema)
+  .partial();
 export type FluggastrechteProzessfuehrungContext = z.infer<
-  typeof _contextObject
+  typeof _partialSchema
 >;

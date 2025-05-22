@@ -1,11 +1,11 @@
 import fs from "fs";
 import fontkit from "@pdf-lib/fontkit";
 import type { PDFDocument } from "pdf-lib";
-import type { ProzesskostenhilfeFormularContext } from "../../formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "../../formular/userData";
 
 export async function printNameInSignatureFormField(
   pdfDoc: PDFDocument,
-  userData: ProzesskostenhilfeFormularContext,
+  userData: ProzesskostenhilfeFormularUserData,
 ) {
   if (userData.versandArt === "digital") {
     // registering fontkit with PDFDocument to encode and embed Unicode characters like "ń", "ś", "ł"

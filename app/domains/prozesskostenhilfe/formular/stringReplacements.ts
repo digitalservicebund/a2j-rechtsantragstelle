@@ -1,9 +1,8 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { antragstellendePersonDone } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
+import { antragstellendePersonDone } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
 import { einkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { prozesskostenhilfeGesetzlicheVertretungDone } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/doneFunctions";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
-import type { ProzesskostenhilfeFormularContext } from "./context";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
@@ -15,9 +14,10 @@ import {
 } from "./finanzielleAngaben/doneFunctions";
 import { prozesskostenhilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "./rechtsschutzversicherung/doneFunctions";
+import type { ProzesskostenhilfeFormularUserData } from "./userData";
 
 export const getMissingInformationStrings = (
-  context: ProzesskostenhilfeFormularContext,
+  context: ProzesskostenhilfeFormularUserData,
 ) => {
   return {
     antragstellendePersonMissingInformation: !antragstellendePersonDone({
@@ -47,7 +47,7 @@ export const getMissingInformationStrings = (
   };
 };
 
-export const belegeStrings = (context: ProzesskostenhilfeFormularContext) => {
+export const belegeStrings = (context: ProzesskostenhilfeFormularUserData) => {
   return {
     rsvDeckung:
       context.hasRsvCoverage === "partly" || context.hasRsvCoverage === "no",

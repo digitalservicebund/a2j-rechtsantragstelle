@@ -1,6 +1,6 @@
-import type { BeratungshilfeVorabcheckContext } from "~/domains/beratungshilfe/vorabcheck/context";
+import type { BeratungshilfeVorabcheckUserData } from "~/domains/beratungshilfe/vorabcheck/userData";
 
-export const happyPathData: BeratungshilfeVorabcheckContext = {
+export const happyPathData: BeratungshilfeVorabcheckUserData = {
   rechtsschutzversicherung: "no",
   wurdeVerklagt: "no",
   klageEingereicht: "no",

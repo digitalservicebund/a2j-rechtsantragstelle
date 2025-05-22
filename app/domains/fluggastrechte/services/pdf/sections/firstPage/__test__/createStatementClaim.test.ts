@@ -2,8 +2,8 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { addDefendantPartyList } from "../claimData/addDefendantPartyList";
@@ -60,7 +60,7 @@ describe("createStatementClaim", () => {
       const userDataMockWithVersaeumnisurteil = {
         ...userDataMock,
         versaeumnisurteil: "yes",
-      } satisfies FluggastrechtContext;
+      } satisfies FluggastrechteUserData;
 
       createStatementClaim(
         mockDoc,
@@ -81,7 +81,7 @@ describe("createStatementClaim", () => {
       const userDataMockWithoutVersaeumnisurteil = {
         ...userDataMock,
         versaeumnisurteil: "no",
-      } satisfies FluggastrechtContext;
+      } satisfies FluggastrechteUserData;
 
       createStatementClaim(
         mockDoc,
@@ -104,7 +104,7 @@ describe("createStatementClaim", () => {
       const userDataMockWithVideorverhandlungRequest = {
         ...userDataMock,
         videoverhandlung: "yes",
-      } satisfies FluggastrechtContext;
+      } satisfies FluggastrechteUserData;
 
       createStatementClaim(
         mockDoc,
@@ -125,7 +125,7 @@ describe("createStatementClaim", () => {
       const userDataMockWithVideoTrialConcerns = {
         ...userDataMock,
         videoverhandlung: "no",
-      } satisfies FluggastrechtContext;
+      } satisfies FluggastrechteUserData;
 
       createStatementClaim(
         mockDoc,
@@ -146,7 +146,7 @@ describe("createStatementClaim", () => {
       const userDataMockWithVideoverhandlungNoSpecification = {
         ...userDataMock,
         videoverhandlung: "noSpecification",
-      } satisfies FluggastrechtContext;
+      } satisfies FluggastrechteUserData;
 
       createStatementClaim(
         mockDoc,
@@ -167,7 +167,7 @@ describe("createStatementClaim", () => {
       const userDataMockWithVideoverhandlungNoSpecification = {
         ...userDataMock,
         videoverhandlung: "noSpecification",
-      } satisfies FluggastrechtContext;
+      } satisfies FluggastrechteUserData;
 
       createStatementClaim(
         mockDoc,

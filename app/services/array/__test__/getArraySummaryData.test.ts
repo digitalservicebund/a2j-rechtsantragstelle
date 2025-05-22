@@ -1,4 +1,4 @@
-import type { ArrayData } from "~/domains/contexts";
+import type { ArrayData } from "~/domains/userData";
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
 import type { ArrayConfigClient } from "..";
 

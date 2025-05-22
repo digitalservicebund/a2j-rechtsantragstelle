@@ -1,5 +1,5 @@
 import type { AllContextKeys } from "./common";
-import type { Context } from "./contexts";
+import type { Context } from "./userData";
 
 export type GenericGuard<TContext extends Context> = ({
   context,
