@@ -1,10 +1,10 @@
-import type { FluggastrechtContext } from "../context";
+import type { FluggastrechteUserData } from "../userData";
 
 const numOfPlaintiff = 1;
 
 export const getTotalClaimingPeople = ({
   weiterePersonen,
-}: FluggastrechtContext) => {
+}: FluggastrechteUserData) => {
   return (
     numOfPlaintiff +
     (typeof weiterePersonen !== "undefined" ? weiterePersonen.length : 0)

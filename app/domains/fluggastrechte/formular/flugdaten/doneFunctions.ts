@@ -1,9 +1,9 @@
 import type { GenericGuard } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import type { FluggastrechteFlugdatenContext } from "./context";
+import type { FluggastrechteFlugdatenUserData } from "./userData";
 
 type FluggastrechteFlugdatenGuard =
-  GenericGuard<FluggastrechteFlugdatenContext>;
+  GenericGuard<FluggastrechteFlugdatenUserData>;
 
 const hasZwischenStoppData: FluggastrechteFlugdatenGuard = ({ context }) => {
   switch (context.zwischenstoppAnzahl) {

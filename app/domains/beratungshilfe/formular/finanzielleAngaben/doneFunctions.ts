@@ -1,5 +1,5 @@
 import type { BeratungshilfeFinanzielleAngabenGuard } from "~/domains/beratungshilfe/formular/finanzielleAngaben/BeratungshilfeFinanzielleAngabenGuardType";
-import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
+import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 import {
   childDone,
   geldanlageDone,
@@ -77,7 +77,7 @@ export const andereUnterhaltszahlungenDone: BeratungshilfeFinanzielleAngabenGuar
     arrayIsNonEmpty(context.unterhaltszahlungen);
 
 export const ausgabeDone = (
-  ausgabe: NonNullable<BeratungshilfeFinanzielleAngaben["ausgaben"]>[0],
+  ausgabe: NonNullable<BeratungshilfeFinanzielleAngabenUserData["ausgaben"]>[0],
 ) =>
   ausgabe.art !== undefined &&
   ausgabe.zahlungsempfaenger !== undefined &&
@@ -118,7 +118,7 @@ export const grundeigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
 
 const kraftfahrzeugDone = (
   kraftfahrzeug: NonNullable<
-    BeratungshilfeFinanzielleAngaben["kraftfahrzeuge"]
+    BeratungshilfeFinanzielleAngabenUserData["kraftfahrzeuge"]
   >[0],
 ) =>
   kraftfahrzeug.hasArbeitsweg !== undefined &&

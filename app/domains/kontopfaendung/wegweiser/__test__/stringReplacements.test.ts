@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { type KontopfaendungWegweiserContext } from "../context";
 import {
   getArbeitStrings,
   getPKontoStrings,
@@ -27,11 +26,12 @@ import {
   getAmtsgerichtStrings,
   getInfoZumPKontoStrings,
 } from "../stringReplacements";
+import { type KontopfaendungWegweiserUserData } from "../userData";
 
 describe("stringReplacements", () => {
   describe("getArbeitStrings", () => {
     it("should return correct Arbeit strings", () => {
-      const userData: KontopfaendungWegweiserContext = { hasArbeit: "yes" };
+      const userData: KontopfaendungWegweiserUserData = { hasArbeit: "yes" };
       expect(getArbeitStrings(userData)).toEqual({
         hasArbeit: true,
       });
@@ -39,7 +39,7 @@ describe("stringReplacements", () => {
   });
   describe("getPkontoStrings", () => {
     it("should return correct PKonto strings", () => {
-      const userData: KontopfaendungWegweiserContext = { hasPKonto: "ja" };
+      const userData: KontopfaendungWegweiserUserData = { hasPKonto: "ja" };
       expect(getPKontoStrings(userData)).toEqual({
         hasPKonto: true,
         hasNoPKonto: false,
@@ -50,7 +50,7 @@ describe("stringReplacements", () => {
   });
   describe("getPrivilegierteForderungStrings", () => {
     it("should return correct Privilegierte Forderung strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         pfaendungStrafe: "yes",
         pfaendungUnterhalt: "no",
       };
@@ -62,7 +62,7 @@ describe("stringReplacements", () => {
   });
   describe("getErhoehungsbetragStrings", () => {
     it("should return correct Erhoehungsbetrag strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         kinderWohnenZusammen: "ja",
       };
       expect(getErhoehungsbetragStrings(userData)).toEqual({
@@ -72,7 +72,7 @@ describe("stringReplacements", () => {
   });
   describe("getKindergeldStrings", () => {
     it("should return correct Kindergeld strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         sozialleistungenUmstaende: {
           kindergeld: CheckboxValue.on,
           pflegegeld: CheckboxValue.off,
@@ -86,7 +86,7 @@ describe("stringReplacements", () => {
   });
   describe("getWohngeldStrings", () => {
     it("should return correct Wohngeld strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         sozialleistungenUmstaende: {
           wohngeld: CheckboxValue.on,
           pflegegeld: CheckboxValue.off,
@@ -100,7 +100,7 @@ describe("stringReplacements", () => {
   });
   describe("getEinmalSozialleistungStrings", () => {
     it("should return correct Einmal Sozialleistung strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         hasSozialleistungenEinmalzahlung: "yes",
       };
       expect(getEinmalSozialleistungStrings(userData)).toEqual({
@@ -110,7 +110,7 @@ describe("stringReplacements", () => {
   });
   describe("getNachzahlungSozialUnter500Strings", () => {
     it("should return correct Nachzahlung Sozial Unter 500 strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         hasSozialleistungNachzahlung: "yes",
         sozialleistungNachzahlungHigherThan: "no",
       };
@@ -121,7 +121,7 @@ describe("stringReplacements", () => {
   });
   describe("getNachzahlungSozialMehr500Strings", () => {
     it("should return correct Nachzahlung Sozial Mehr 500 strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         hasSozialleistungNachzahlung: "yes",
         sozialleistungNachzahlungHigherThan: "yes",
       };
@@ -132,7 +132,7 @@ describe("stringReplacements", () => {
   });
   describe("getNachzahlungArbeitUnter500Strings", () => {
     it("should return correct Nachzahlung Arbeit Unter 500 strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         arbeitgeberNachzahlungHigherThan: "no",
         nachzahlungArbeitgeber: "yes",
       };
@@ -143,7 +143,7 @@ describe("stringReplacements", () => {
   });
   describe("getNachzahlungArbeitMehr500Strings", () => {
     it("should return correct Nachzahlung Arbeit Mehr 500 strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         arbeitgeberNachzahlungHigherThan: "yes",
         nachzahlungArbeitgeber: "yes",
       };
@@ -154,7 +154,7 @@ describe("stringReplacements", () => {
   });
   describe("getBuergergeldStrings", () => {
     it("should return correct Buergergeld strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         hasSozialleistungen: "buergergeld",
       };
       expect(getBuergergeldStrings(userData)).toEqual({
@@ -164,7 +164,7 @@ describe("stringReplacements", () => {
   });
   describe("getGrundsicherungStrings", () => {
     it("should return correct Grundsicherung strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         hasSozialleistungen: "grundsicherungSozialhilfe",
       };
       expect(getGrundsicherungStrings(userData)).toEqual({
@@ -174,7 +174,7 @@ describe("stringReplacements", () => {
   });
   describe("getAsylbewerberleistungStrings", () => {
     it("should return correct Asylbewerberleistung strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         hasSozialleistungen: "asylbewerberleistungen",
       };
       expect(getAsylbewerberleistungStrings(userData)).toEqual({
@@ -184,7 +184,7 @@ describe("stringReplacements", () => {
   });
   describe("getPflegegeldSelbstStrings", () => {
     it("should return correct Pflegegeld Selbst strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         pflegegeld: "selbst",
       };
       expect(getPflegegeldSelbstStrings(userData)).toEqual({
@@ -194,7 +194,7 @@ describe("stringReplacements", () => {
   });
   describe("getPflegegeldFremdStrings", () => {
     it("should return correct Pflegegeld Fremd strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         pflegegeld: "fremd",
       };
       expect(getPflegegeldFremdStrings(userData)).toEqual({
@@ -204,7 +204,7 @@ describe("stringReplacements", () => {
   });
   describe("getBehordenschuldenStrings", () => {
     it("should return correct Behordenschulden strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         schuldenBei: "privat",
       };
       expect(getBehordenschuldenStrings(userData)).toEqual({
@@ -226,7 +226,7 @@ describe("stringReplacements", () => {
   });
   describe("getArbeitsentgeltEinmaligStrings", () => {
     it("should return correct Arbeitsentgelt Einmalig strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         zahlungArbeitgeber: {
           urlaubsgeld: CheckboxValue.off,
           weihnachtsgeld: CheckboxValue.on,
@@ -242,7 +242,7 @@ describe("stringReplacements", () => {
   });
   describe("getSelbststaendigStrings", () => {
     it("should return correct Selbststaendig strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         arbeitArt: {
           selbstaendig: CheckboxValue.on,
           angestellt: CheckboxValue.off,
@@ -255,7 +255,7 @@ describe("stringReplacements", () => {
   });
   describe("getAngestelltStrings", () => {
     it("should return correct Angestellt strings", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         arbeitArt: {
           angestellt: CheckboxValue.on,
           selbstaendig: CheckboxValue.off,
@@ -268,7 +268,7 @@ describe("stringReplacements", () => {
   });
   describe("getKinderStrings", () => {
     it("should return correct Kinder strings", () => {
-      const userData: KontopfaendungWegweiserContext = { hasKinder: "yes" };
+      const userData: KontopfaendungWegweiserUserData = { hasKinder: "yes" };
       expect(getKinderStrings(userData)).toEqual({
         hasKinder: true,
       });
@@ -276,7 +276,7 @@ describe("stringReplacements", () => {
   });
   describe("getSchuldnerberatungsstelleStrings", () => {
     it("should return schuldnerberatungsstelleIsVisible as true when at least one sub variable is true", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         kinderWohnenZusammen: "ja",
         sozialleistungenUmstaende: {
           kindergeld: CheckboxValue.on,
@@ -297,7 +297,7 @@ describe("stringReplacements", () => {
       });
     });
     it("should return schuldnerberatungsstelleIsVisible as false when all sub variables are false", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         kinderWohnenZusammen: "nein",
         sozialleistungenUmstaende: {
           kindergeld: CheckboxValue.off,
@@ -321,7 +321,7 @@ describe("stringReplacements", () => {
 
   describe("getAmtsgerichtStrings", () => {
     it("should return amtsgerichtIsVisible as true when at least one sub variable is true", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         pflegegeld: "fremd",
         nachzahlungArbeitgeber: "no",
         arbeitgeberNachzahlungHigherThan: "no",
@@ -342,7 +342,7 @@ describe("stringReplacements", () => {
       });
     });
     it("should return amtsgerichtIsVisible as false when all sub variants are false", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         pflegegeld: "selbst",
         nachzahlungArbeitgeber: "no",
         arbeitgeberNachzahlungHigherThan: "no",
@@ -366,7 +366,7 @@ describe("stringReplacements", () => {
 
   describe("getInfoZumPKontoStrings", () => {
     it("should return infoZumPKontoIsVisible as true when at least one sub variable is true", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         hasPKonto: "nein",
         pfaendungStrafe: "yes",
         pfaendungUnterhalt: "yes",
@@ -376,7 +376,7 @@ describe("stringReplacements", () => {
       });
     });
     it("should return infoZumPKontoIsVisible as false when all sub variables are false", () => {
-      const userData: KontopfaendungWegweiserContext = {
+      const userData: KontopfaendungWegweiserUserData = {
         hasPKonto: "ja",
         pfaendungStrafe: "no",
         pfaendungUnterhalt: "no",

@@ -1,12 +1,12 @@
 import type PDFDocument from "pdfkit";
-import { type ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { createHeading } from "~/services/pdf/createHeading";
 import { pdfStyles } from "~/services/pdf/pdfStyles";
 
 export const createWeitereAngabenAnhang = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: ProzesskostenhilfeFormularContext,
+  userData: ProzesskostenhilfeFormularUserData,
 ) => {
   createHeading(doc, documentStruct, "Weitere Angaben (Freitext)", "H2");
   const originalText = userData.weitereAngaben ?? "";

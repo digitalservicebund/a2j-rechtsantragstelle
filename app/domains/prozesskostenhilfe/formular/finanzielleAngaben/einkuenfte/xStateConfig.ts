@@ -4,14 +4,14 @@ import type { Flow } from "~/domains/flows.server";
 import {
   couldLiveFromUnterhalt,
   unterhaltLeisteIch,
-} from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
+} from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { einkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
 import {
   finanzielleAngabeEinkuenfteGuards,
   partnerEinkuenfteGuards,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
-import { nachueberpruefung } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/context";
+import { nachueberpruefung } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import {
   isOrganizationCoverageNone,
   isOrganizationCoveragePartly,

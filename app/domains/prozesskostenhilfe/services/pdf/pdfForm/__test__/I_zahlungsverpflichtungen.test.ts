@@ -1,6 +1,6 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { fillZahlungsverpflichtungen } from "../I_zahlungsverpflichtungen";
 
@@ -12,7 +12,7 @@ describe("I_zahlungsverpflichtungen", () => {
   });
 
   it("should fill the PDF values for 1 short description", () => {
-    const userData: ProzesskostenhilfeFormularContext = {
+    const userData: ProzesskostenhilfeFormularUserData = {
       ratenzahlungen: [
         {
           art: "Ratenzahlung",
@@ -47,7 +47,7 @@ describe("I_zahlungsverpflichtungen", () => {
   });
 
   it("should fill the PDF values for 2 short descriptions", () => {
-    const userData: ProzesskostenhilfeFormularContext = {
+    const userData: ProzesskostenhilfeFormularUserData = {
       ratenzahlungen: [
         {
           art: "Ratenzahlung",
@@ -96,7 +96,7 @@ describe("I_zahlungsverpflichtungen", () => {
   });
 
   it("should fill the PDF values for 3 short descriptions", () => {
-    const userData: ProzesskostenhilfeFormularContext = {
+    const userData: ProzesskostenhilfeFormularUserData = {
       ratenzahlungen: [
         {
           art: "Ratenzahlung",
@@ -152,7 +152,7 @@ describe("I_zahlungsverpflichtungen", () => {
   });
 
   it("should create an attachment if there are more than 3 short descriptions", () => {
-    const userData: ProzesskostenhilfeFormularContext = {
+    const userData: ProzesskostenhilfeFormularUserData = {
       ratenzahlungen: [
         {
           art: "Ratenzahlung",
@@ -223,7 +223,7 @@ describe("I_zahlungsverpflichtungen", () => {
   });
 
   it("should create an attachment if there is one long description", () => {
-    const userData: ProzesskostenhilfeFormularContext = {
+    const userData: ProzesskostenhilfeFormularUserData = {
       ratenzahlungen: [
         {
           art: "Ratenzahlung mit sehr langer Beschreibung die länger als 41 Zeichen ist",

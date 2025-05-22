@@ -1,7 +1,7 @@
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 
 export const getRechtsproblemStrings = (
-  context: BeratungshilfeFormularContext,
+  context: BeratungshilfeFormularUserData,
 ) => {
   return {
     rechtsProblemIsAuthorities: context.bereich === "authorities",

@@ -1,6 +1,6 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import type { ProzesskostenhilfeFinanzielleAngabenContext } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/context";
+import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
 const prefix = "/finanzielle-angaben/partner";
 
 // Since these are generated from the same config as einkuenftige, not every transition is tested
@@ -230,4 +230,4 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = [
       prefixEinkuenfte + "/partner-weitere-einkuenfte/partner-frage",
     ],
   ],
-] as const satisfies TestCases<ProzesskostenhilfeFinanzielleAngabenContext>;
+] as const satisfies TestCases<ProzesskostenhilfeFinanzielleAngabenUserData>;

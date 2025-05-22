@@ -1,11 +1,11 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillEinkommen } from "../C_einkommen";
 
 describe("C_einkommen", () => {
   it("should fill partner einkommen pdf fields when context is partner", () => {
-    const userData: BeratungshilfeFormularContext = {
+    const userData: BeratungshilfeFormularUserData = {
       partnerschaft: "yes",
       zusammenleben: "yes",
       partnerEinkommen: "yes",

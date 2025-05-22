@@ -1,5 +1,5 @@
 import type { GenericGuard } from "~/domains/guards.server";
-import type { BeratungshilfeFinanzielleAngaben } from "./context";
+import type { BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 
 export type BeratungshilfeFinanzielleAngabenGuard =
-  GenericGuard<BeratungshilfeFinanzielleAngaben>;
+  GenericGuard<BeratungshilfeFinanzielleAngabenUserData>;
