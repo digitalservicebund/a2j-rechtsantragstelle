@@ -2,8 +2,8 @@ import type {
   Config,
   FlowConfigTransitions,
 } from "~/services/flow/server/buildFlowController";
-import type { ProzesskostenhilfeRechtsschutzversicherungUserData } from "./userData";
 import { rechtsschutzversicherungDone } from "./doneFunctions";
+import type { ProzesskostenhilfeRechtsschutzversicherungUserData } from "./userData";
 
 export function getProzesskostenhilfeRsvXstateConfig(
   transitions?: FlowConfigTransitions,

@@ -1,6 +1,6 @@
-import { getContext } from "~/domains/userData";
 import type { FlowId } from "~/domains/flowIds";
 import type { Flow } from "~/domains/flows.server";
+import { getContext } from "~/domains/userData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { type CookieHeader, getSessionData } from ".";
 
