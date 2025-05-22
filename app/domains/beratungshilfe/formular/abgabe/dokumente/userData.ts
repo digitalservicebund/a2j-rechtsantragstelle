@@ -15,34 +15,28 @@ const fileUploadOptionalSchema = z
   .max(fileUploadLimit, { message: "fileLimitReached" })
   .optional();
 
-export const dokumenteContext = {
+export const dokumenteInputSchema = {
   arbeitslosengeldBeweis: fileUploadRequiredSchema,
   wohngeldBeweis: fileUploadRequiredSchema,
   bafoegBeweis: fileUploadRequiredSchema,
-
   krankengeldBeweis: fileUploadRequiredSchema,
   elterngeldBeweis: fileUploadRequiredSchema,
   buergergeldBeweis: fileUploadRequiredSchema,
   asylbewerberleistungenBeweis: fileUploadRequiredSchema,
   keineLeistungenBeweis: fileUploadRequiredSchema,
   grundsicherungBeweis: fileUploadRequiredSchema,
-
   lebensversicherungBeweis: fileUploadRequiredSchema,
   bausparvertragBeweis: fileUploadRequiredSchema,
   wertpapiereBeweis: fileUploadRequiredSchema,
   guthabenkontoBeweis: fileUploadRequiredSchema,
   sparkontoBeweis: fileUploadRequiredSchema,
   grundeigentumBeweis: fileUploadRequiredSchema,
-
   schwangerschaftAngabeBeweis: fileUploadRequiredSchema,
   schwerbehinderungBeweis: fileUploadRequiredSchema,
   medizinischeGruendeBeweis: fileUploadRequiredSchema,
-
   weitereAusgabenBeweis: fileUploadRequiredSchema,
-
   weitereDokumenteBeweis: fileUploadOptionalSchema,
 };
 
-const _contextObject = z.object(dokumenteContext).partial();
-
-export type DokumenteContext = z.infer<typeof _contextObject>;
+const _partialSchema = z.object(dokumenteInputSchema).partial();
+export type DokumenteUserData = z.infer<typeof _partialSchema>;

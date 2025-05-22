@@ -18,7 +18,7 @@ const fourYearsAgoSchema = createDateSchema({
   latest: () => today(),
 });
 
-export const fluggastrechteFlugdaten = {
+export const fluggastrechteFlugdatenInputSchema = {
   direktFlugnummer: flightNumberSchema,
   buchungsNummer: bookingNumberFlightSchema,
   direktAbflugsDatum: fourYearsAgoSchema,
@@ -86,5 +86,5 @@ export const fluggastrechteFlugdaten = {
   ),
 };
 
-const _contextObject = z.object(fluggastrechteFlugdaten).partial();
-export type FluggastrechteFlugdatenContext = z.infer<typeof _contextObject>;
+const _partialObject = z.object(fluggastrechteFlugdatenInputSchema).partial();
+export type FluggastrechteFlugdatenUserData = z.infer<typeof _partialObject>;

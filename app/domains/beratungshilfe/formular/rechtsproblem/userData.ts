@@ -18,7 +18,7 @@ export const bereich = z.enum(
   customRequiredErrorMessage,
 );
 
-export const beratungshilfeRechtsproblem = {
+export const beratungshilfeRechtsproblemInputSchema = {
   bereich,
   gegenseite: stringRequiredSchema,
   beschreibung: stringRequiredSchema,
@@ -26,12 +26,16 @@ export const beratungshilfeRechtsproblem = {
   eigeninitiativeBeschreibung: stringRequiredSchema,
 };
 
-const _contextObject = z.object(beratungshilfeRechtsproblem).partial();
-export type BeratungshilfeRechtsproblem = z.infer<typeof _contextObject>;
+const _partialSchema = z
+  .object(beratungshilfeRechtsproblemInputSchema)
+  .partial();
+export type BeratungshilfeRechtsproblemUserData = z.infer<
+  typeof _partialSchema
+>;
 
-export const rechtsproblemDone: GenericGuard<BeratungshilfeRechtsproblem> = ({
-  context,
-}) =>
+export const rechtsproblemDone: GenericGuard<
+  BeratungshilfeRechtsproblemUserData
+> = ({ context }) =>
   Boolean(
     context.bereich &&
       context.gegenseite &&

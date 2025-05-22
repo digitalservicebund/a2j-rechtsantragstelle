@@ -1,5 +1,5 @@
 import { kontopfaendungWegweiser } from "app/domains/kontopfaendung/wegweiser";
-import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
+import { beratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { beratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck";
 import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
 import { fluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck";
@@ -32,7 +32,7 @@ export type Flow = {
 };
 
 export const flows = {
-  "/beratungshilfe/antrag": beratungshilfeFormular,
+  "/beratungshilfe/antrag": beratungshilfeFormularUserData,
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheck,
   "/geld-einklagen/vorabcheck": geldEinklagenVorabcheck,
   "/geld-einklagen/formular": geldEinklagenFormular,

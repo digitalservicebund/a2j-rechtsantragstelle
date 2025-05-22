@@ -1,9 +1,9 @@
 import { z } from "zod";
 import {
-  financialEntrySchema,
-  staatlicheLeistungen,
-} from "~/domains/shared/formular/finanzielleAngaben/context";
-import { adresseSchema } from "~/domains/shared/formular/persoenlicheDaten/context";
+  financialEntryInputSchema,
+  staatlicheLeistungenInputSchema,
+} from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { adresseSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
@@ -15,7 +15,7 @@ import {
 
 export const prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema = {
   staatlicheLeistungen: z.enum(
-    [...staatlicheLeistungen.options, "arbeitslosengeld"],
+    [...staatlicheLeistungenInputSchema.options, "arbeitslosengeld"],
     customRequiredErrorMessage,
   ),
   buergergeld: buildMoneyValidationSchema(),
@@ -42,7 +42,7 @@ export const prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema = {
     message: "invalidInteger",
   }),
   hasArbeitsausgaben: YesNoAnswer,
-  arbeitsausgaben: z.array(financialEntrySchema),
+  arbeitsausgaben: z.array(financialEntryInputSchema),
   receivesPension: YesNoAnswer,
   pensionAmount: buildMoneyValidationSchema(),
   hasWohngeld: checkedOptional,
@@ -54,7 +54,7 @@ export const prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema = {
   elterngeldAmount: buildMoneyValidationSchema(),
   kindergeldAmount: buildMoneyValidationSchema(),
   hasFurtherIncome: YesNoAnswer,
-  weitereEinkuenfte: z.array(financialEntrySchema),
+  weitereEinkuenfte: z.array(financialEntryInputSchema),
   pageData: pageDataSchema,
 };
 

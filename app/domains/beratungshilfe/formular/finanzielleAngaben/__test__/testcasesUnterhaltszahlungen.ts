@@ -1,6 +1,6 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine";
-import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
+import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 
 const cases = [
   [
@@ -43,7 +43,7 @@ const cases = [
     { hasWeitereUnterhaltszahlungen: "yes" },
     ["/finanzielle-angaben/andere-unterhaltszahlungen/person/daten"],
   ],
-] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
+] as const satisfies TestCases<BeratungshilfeFinanzielleAngabenUserData>;
 
 export const testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen =
   {

@@ -1,9 +1,9 @@
 import isEmpty from "lodash/isEmpty";
 import { redirect, type LoaderFunctionArgs } from "react-router";
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services/pdf";
 import { parsePathname, type FlowId } from "~/domains/flowIds";
-import type { FluggastrechteFlugdatenContext } from "~/domains/fluggastrechte/formular/flugdaten/context";
+import type { FluggastrechteFlugdatenUserData } from "~/domains/fluggastrechte/formular/flugdaten/userData";
 import { fluggastrechtePdfFromUserdata } from "~/domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
@@ -18,8 +18,8 @@ import type { Translations } from "~/services/translations/getTranslationByKey";
 import { pdfDateFormat, today } from "~/util/date";
 
 type PdfFlowContexts =
-  | BeratungshilfeFormularContext
-  | FluggastrechteFlugdatenContext
+  | BeratungshilfeFormularUserData
+  | FluggastrechteFlugdatenUserData
   | ProzesskostenhilfeFormularUserData;
 
 type PdfConfig = PdfFlowContexts extends infer T
@@ -38,7 +38,7 @@ type PdfConfig = PdfFlowContexts extends infer T
 const pdfConfigs = {
   "/beratungshilfe/antrag": {
     pdfFunction: async (
-      userData: BeratungshilfeFormularContext,
+      userData: BeratungshilfeFormularUserData,
       sessionId: string,
     ) => await beratungshilfePdfFromUserdata(userData, sessionId),
     filenameFunction: () =>
@@ -54,7 +54,7 @@ const pdfConfigs = {
       `Antrag_Prozesskostenhilfe_${pdfDateFormat(today())}.pdf`,
   },
   "/fluggastrechte/formular": {
-    pdfFunction: async (userData: FluggastrechteFlugdatenContext) =>
+    pdfFunction: async (userData: FluggastrechteFlugdatenUserData) =>
       await fluggastrechtePdfFromUserdata(userData),
     filenameFunction: () =>
       `Fluggastrechte_Klage_${pdfDateFormat(today())}.pdf`,

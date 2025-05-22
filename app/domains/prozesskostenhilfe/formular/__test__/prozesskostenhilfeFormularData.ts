@@ -9,10 +9,10 @@ import {
 import { prozesskostenhilfeGrundvoraussetzungenInputSchema as grundvoraussetzungenSchema } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import {
-  Eigentuemer,
-  financialEntrySchema,
-  unterhaltszahlungSchema,
-} from "~/domains/shared/formular/finanzielleAngaben/context";
+  eigentuemerInputSchema,
+  financialEntryInputSchema,
+  unterhaltszahlungInputSchema,
+} from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
@@ -20,7 +20,7 @@ export const createFinancialEntry = () => ({
   beschreibung: faker.word.sample(),
   betrag: faker.finance.amount(),
   zahlungsfrequenz: faker.helpers.arrayElement(
-    financialEntrySchema.shape.zahlungsfrequenz.options,
+    financialEntryInputSchema.shape.zahlungsfrequenz.options,
   ),
 });
 
@@ -73,7 +73,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
   hasWeitereUnterhaltszahlungen: YesNoAnswer.Enum.yes,
   bankkonten: [
     {
-      kontoEigentuemer: Eigentuemer.Enum.myself,
+      kontoEigentuemer: eigentuemerInputSchema.Enum.myself,
       bankName: faker.finance.accountName(),
       kontostand: faker.finance.amount(),
       iban: faker.finance.iban(),
@@ -84,14 +84,14 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
     {
       art: "sonstiges",
       verwendungszweck: faker.lorem.sentence(),
-      eigentuemer: Eigentuemer.Enum.myself,
+      eigentuemer: eigentuemerInputSchema.Enum.myself,
       wert: faker.finance.amount(),
     },
   ],
   wertsachen: [
     {
       art: faker.commerce.productName(),
-      eigentuemer: Eigentuemer.Enum.myself,
+      eigentuemer: eigentuemerInputSchema.Enum.myself,
       wert: faker.finance.amount(),
     },
   ],
@@ -99,7 +99,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
     {
       hasArbeitsweg: YesNoAnswer.Enum.yes,
       wert: "unsure",
-      eigentuemer: Eigentuemer.Enum.partner,
+      eigentuemer: eigentuemerInputSchema.Enum.partner,
       art: faker.vehicle.vehicle(),
       marke: faker.vehicle.manufacturer(),
       kilometerstand: faker.number.int(),
@@ -112,7 +112,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
     {
       isBewohnt: "yes",
       art: "einfamilienhaus",
-      eigentuemer: Eigentuemer.Enum.myselfAndSomeoneElse,
+      eigentuemer: eigentuemerInputSchema.Enum.myselfAndSomeoneElse,
       flaeche: faker.number.int().toString(),
       verkaufswert: faker.finance.amount(),
       strassehausnummer: faker.location.streetAddress(),
@@ -135,7 +135,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
   unterhaltszahlungen: [
     {
       familyRelationship:
-        unterhaltszahlungSchema.shape.familyRelationship.Enum.mother,
+        unterhaltszahlungInputSchema.shape.familyRelationship.Enum.mother,
       firstName: faker.person.firstName(),
       surname: faker.person.lastName(),
       birthday: faker.date.past().toString(),

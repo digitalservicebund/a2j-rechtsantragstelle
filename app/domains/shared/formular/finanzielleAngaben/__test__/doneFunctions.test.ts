@@ -1,13 +1,13 @@
-import type {
-  GeldanlagenArraySchema,
-  GrundeigentumArraySchema,
-  KinderArraySchema,
-} from "~/domains/shared/formular/finanzielleAngaben/context";
 import {
   childDone,
   geldanlageDone,
   singleGrundeigentumDone,
 } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
+import type {
+  GeldanlagenArraySchema,
+  GrundeigentumArraySchema,
+  KinderArraySchema,
+} from "~/domains/shared/formular/finanzielleAngaben/userData";
 
 const mockCompletedChild: KinderArraySchema[0] = {
   vorname: "Child",

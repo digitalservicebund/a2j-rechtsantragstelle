@@ -2,7 +2,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { type FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import { type FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
@@ -53,7 +53,7 @@ describe("createLegalAssessment", () => {
     const mockDataStreitbeilegung = {
       ...userDataMock,
       streitbeilegung: "yes",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
 
@@ -70,7 +70,7 @@ describe("createLegalAssessment", () => {
       ...userDataMock,
       streitbeilegung: "no",
       streitbeilegungGruende: "yes",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
 
@@ -87,7 +87,7 @@ describe("createLegalAssessment", () => {
       ...userDataMock,
       streitbeilegung: "no",
       streitbeilegungGruende: "no",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
 
@@ -104,7 +104,7 @@ describe("createLegalAssessment", () => {
       ...userDataMock,
       streitbeilegung: "no",
       streitbeilegungGruende: "noSpecification",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
 

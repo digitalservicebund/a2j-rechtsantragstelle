@@ -2,7 +2,7 @@ import { z } from "zod";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
-export const fluggastrechteGrundvoraussetzungen = {
+export const fluggastrechteGrundvoraussetzungenInputSchema = {
   datenverarbeitungZustimmung: checkedRequired,
   streitbeilegungGruende: z.enum(
     ["yes", "no", "noSpecification"],
@@ -14,7 +14,9 @@ export const fluggastrechteGrundvoraussetzungen = {
   ),
 };
 
-const _contextObject = z.object(fluggastrechteGrundvoraussetzungen).partial();
-export type FluggastrechteGrundvoraussetzungenContext = z.infer<
-  typeof _contextObject
+const _partialSchema = z
+  .object(fluggastrechteGrundvoraussetzungenInputSchema)
+  .partial();
+export type FluggastrechteGrundvoraussetzungenUserData = z.infer<
+  typeof _partialSchema
 >;

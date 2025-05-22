@@ -1,9 +1,9 @@
 import { hasPartnerschaftYes } from "./finanzielleAngaben/guards";
-import type { BeratungshilfeFormularContext } from "../../beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "../../beratungshilfe/formular";
 import type { ProzesskostenhilfeFormularUserData } from "../../prozesskostenhilfe/formular/userData";
 
 export const getKinderStrings = (
-  context: BeratungshilfeFormularContext | ProzesskostenhilfeFormularUserData,
+  context: BeratungshilfeFormularUserData | ProzesskostenhilfeFormularUserData,
 ) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
   if (
@@ -20,7 +20,7 @@ export const getKinderStrings = (
 };
 
 export const getArrayIndexStrings = (
-  context: BeratungshilfeFormularContext | ProzesskostenhilfeFormularUserData,
+  context: BeratungshilfeFormularUserData | ProzesskostenhilfeFormularUserData,
 ) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
   return typeof arrayIndex !== "undefined"
@@ -29,7 +29,7 @@ export const getArrayIndexStrings = (
 };
 
 export const geldAnlagenStrings = (
-  context: BeratungshilfeFormularContext | ProzesskostenhilfeFormularUserData,
+  context: BeratungshilfeFormularUserData | ProzesskostenhilfeFormularUserData,
 ) => {
   return {
     hasLebensversicherung:
@@ -62,7 +62,7 @@ export const geldAnlagenStrings = (
 };
 
 export const eigentumZusammenfassungShowPartnerschaftWarnings = (
-  context: BeratungshilfeFormularContext | ProzesskostenhilfeFormularUserData,
+  context: BeratungshilfeFormularUserData | ProzesskostenhilfeFormularUserData,
 ) => {
   return {
     hasPartnerschaftYes: hasPartnerschaftYes({
