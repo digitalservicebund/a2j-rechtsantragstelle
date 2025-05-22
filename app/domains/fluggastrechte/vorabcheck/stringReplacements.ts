@@ -2,7 +2,7 @@ import airlines from "data/airlines/data.json";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 import { getRouteCompensationBetweenAirports } from "~/domains/fluggastrechte/services/airports/getRouteCompensationBetweenAirports";
 import { toGermanDateFormat, today } from "~/util/date";
-import type { FluggastrechtVorabcheckContext } from "./context";
+import type { FluggastrechtVorabcheckUserData } from "./userData";
 import { isErfolgAnalog } from "./services/isErfolgAnalog";
 
 export const COMPENSATION_VALUE_250 = "250";
@@ -17,7 +17,7 @@ const ARBITRATION_BOARD_RV = "RV";
 export function getCompensationPaymentString({
   startAirport = "",
   endAirport = "",
-}: FluggastrechtVorabcheckContext) {
+}: FluggastrechtVorabcheckUserData) {
   const routeCompensation = getRouteCompensationBetweenAirports(
     startAirport,
     endAirport,
@@ -56,14 +56,14 @@ export function getLastDayFromFourYearsAgoDate(): string {
 
 export function getStartAirportName({
   startAirport = "",
-}: FluggastrechtVorabcheckContext) {
+}: FluggastrechtVorabcheckUserData) {
   const airportName = getAirportNameByIataCode(startAirport);
   return airportName.length > 0 ? { startAirport: airportName } : {};
 }
 
 export function getEndAirportName({
   endAirport = "",
-}: FluggastrechtVorabcheckContext) {
+}: FluggastrechtVorabcheckUserData) {
   const airportName = getAirportNameByIataCode(endAirport);
   return airportName.length > 0 ? { endAirport: airportName } : {};
 }
@@ -71,7 +71,7 @@ export function getEndAirportName({
 export function hasCompensationLongDistanceInsideEU({
   startAirport = "",
   endAirport = "",
-}: FluggastrechtVorabcheckContext) {
+}: FluggastrechtVorabcheckUserData) {
   const routeCompensation = getRouteCompensationBetweenAirports(
     startAirport,
     endAirport,
@@ -85,7 +85,7 @@ export function hasCompensationLongDistanceInsideEU({
 export function hasCompensationLongDistanceOutsideEU({
   startAirport = "",
   endAirport = "",
-}: FluggastrechtVorabcheckContext) {
+}: FluggastrechtVorabcheckUserData) {
   const routeCompensation = getRouteCompensationBetweenAirports(
     startAirport,
     endAirport,
@@ -99,7 +99,7 @@ export function hasCompensationLongDistanceOutsideEU({
 export function hasCompensationMiddleDistance({
   startAirport = "",
   endAirport = "",
-}: FluggastrechtVorabcheckContext) {
+}: FluggastrechtVorabcheckUserData) {
   const routeCompensation = getRouteCompensationBetweenAirports(
     startAirport,
     endAirport,
@@ -111,7 +111,7 @@ export function hasCompensationMiddleDistance({
 export function hasCompensationShortDistance({
   startAirport = "",
   endAirport = "",
-}: FluggastrechtVorabcheckContext) {
+}: FluggastrechtVorabcheckUserData) {
   const routeCompensation = getRouteCompensationBetweenAirports(
     startAirport,
     endAirport,
@@ -130,7 +130,7 @@ function getAirlineByIataCode(iataCode?: string) {
 
 export function hasArbitrationBoardBfJ({
   fluggesellschaft,
-}: FluggastrechtVorabcheckContext) {
+}: FluggastrechtVorabcheckUserData) {
   const airline = getAirlineByIataCode(fluggesellschaft);
 
   return {
@@ -143,7 +143,7 @@ export function hasArbitrationBoardBfJ({
 
 export function hasArbitrationBoardRV({
   fluggesellschaft,
-}: FluggastrechtVorabcheckContext) {
+}: FluggastrechtVorabcheckUserData) {
   const airline = getAirlineByIataCode(fluggesellschaft);
 
   return {
@@ -155,7 +155,7 @@ export function hasArbitrationBoardRV({
 }
 
 export const getButtonURLForClaimViaPost = (
-  context: FluggastrechtVorabcheckContext,
+  context: FluggastrechtVorabcheckUserData,
 ) => {
   const cameFromAnalogResultPage = isErfolgAnalog(context);
   return {

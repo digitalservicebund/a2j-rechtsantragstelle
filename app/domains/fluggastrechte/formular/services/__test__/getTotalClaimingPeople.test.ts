@@ -1,21 +1,21 @@
-import type { FluggastrechtContext } from "../../context";
+import type { FluggastrechteUserData } from "../../userData";
 import { getTotalClaimingPeople } from "../getTotalClaimingPeople";
 
 describe("getTotalClaimingPeople", () => {
   it("should return 1 when there are no additional people", () => {
-    const context: FluggastrechtContext = {};
+    const context: FluggastrechteUserData = {};
     const result = getTotalClaimingPeople(context);
     expect(result).toBe(1);
   });
 
   it("should return 1 when weiterePersonen is an empty array (add & delete)", () => {
-    const context: FluggastrechtContext = { weiterePersonen: [] };
+    const context: FluggastrechteUserData = { weiterePersonen: [] };
     const result = getTotalClaimingPeople(context);
     expect(result).toBe(1);
   });
 
   it("should return 2 when there is one additional person", () => {
-    const context: FluggastrechtContext = {
+    const context: FluggastrechteUserData = {
       weiterePersonen: [{ vorname: "erster", nachname: "person" }],
     };
     const result = getTotalClaimingPeople(context);

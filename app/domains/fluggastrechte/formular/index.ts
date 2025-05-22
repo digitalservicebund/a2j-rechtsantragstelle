@@ -6,7 +6,6 @@ import {
 } from "~/services/externalDataStorage/storeConsentFgrToS3Bucket";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
-import type { FluggastrechtContext } from "./context";
 import { flugdatenXstateConfig } from "./flugdaten/xstateConfig";
 import { grundvoraussetzungenXstateConfig } from "./grundvoraussetzungen/xstateConfig";
 import { fluggastrechteGuards } from "./guards";
@@ -37,6 +36,7 @@ import {
   isWeiterePersonen,
   WEITERE_PERSONEN_START_INDEX,
 } from "./stringReplacements";
+import type { FluggastrechteUserData } from "./userData";
 import { zusammenfassungXstateConfig } from "./zusammenfassung/xstateConfig";
 
 const flowTransitionConfig: FlowTransitionConfig = {
@@ -69,7 +69,7 @@ export const fluggastrechtFlow = {
     ],
     buttonUrl: "/fluggastrechte/formular/redirect-to-vorabcheck",
   },
-  stringReplacements: (context: FluggastrechtContext) => ({
+  stringReplacements: (context: FluggastrechteUserData) => ({
     ...getStartAirportName(context),
     ...getEndAirportName(context),
     ...getPersonVorname(context),
@@ -105,7 +105,7 @@ export const fluggastrechtFlow = {
           shouldDisableAddButton: isTotalClaimWillSucceddedAboveLimit,
         },
       } satisfies Partial<
-        Record<keyof FluggastrechtContext, ArrayConfigServer>
+        Record<keyof FluggastrechteUserData, ArrayConfigServer>
       >,
     },
     id: "/fluggastrechte/formular",

@@ -3,8 +3,8 @@ import { type ValidationErrorResponseData } from "@rvf/react-router";
 import pickBy from "lodash/pickBy";
 import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { type ZodTypeAny } from "zod";
-import { type ArrayData, type Context, getContext } from "~/domains/contexts";
 import { type FlowId } from "~/domains/flowIds";
+import { type ArrayData, type Context, getContext } from "~/domains/userData";
 import {
   uploadUserFileToS3,
   deleteUserFileFromS3,

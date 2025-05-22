@@ -2,7 +2,7 @@ import { z } from "zod";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { type GenericGuard, type Guards } from "../../../guards.server";
 
-export const beratungshilfeGrundvoraussetzungen = {
+export const beratungshilfeGrundvoraussetzungenInputSchema = {
   rechtsschutzversicherung: YesNoAnswer,
   wurdeVerklagt: YesNoAnswer,
   klageEingereicht: YesNoAnswer,
@@ -11,11 +11,15 @@ export const beratungshilfeGrundvoraussetzungen = {
   eigeninitiativeGrundvorraussetzung: YesNoAnswer,
 };
 
-const _contextObject = z.object(beratungshilfeGrundvoraussetzungen).partial();
-export type BeratungshilfeGrundvoraussetzungen = z.infer<typeof _contextObject>;
+const _partialSchema = z
+  .object(beratungshilfeGrundvoraussetzungenInputSchema)
+  .partial();
+export type BeratungshilfeGrundvoraussetzungenUserData = z.infer<
+  typeof _partialSchema
+>;
 
 export const grundvoraussetzungDone: GenericGuard<
-  BeratungshilfeGrundvoraussetzungen
+  BeratungshilfeGrundvoraussetzungenUserData
 > = ({ context }) =>
   Boolean(
     context.rechtsschutzversicherung === "no" &&
@@ -27,4 +31,4 @@ export const grundvoraussetzungDone: GenericGuard<
 
 export const beratungshilfeGrundvoraussetzungenGuards = {
   grundvoraussetzungDone,
-} satisfies Guards<BeratungshilfeGrundvoraussetzungen>;
+} satisfies Guards<BeratungshilfeGrundvoraussetzungenUserData>;

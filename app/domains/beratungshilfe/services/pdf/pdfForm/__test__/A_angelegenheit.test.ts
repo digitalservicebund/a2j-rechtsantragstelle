@@ -1,5 +1,5 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import {
@@ -13,7 +13,7 @@ import {
 
 describe("A_angelegenheit", () => {
   it("should fill angelegenheit in the attachment when exceeded new line limit count", () => {
-    const userData: BeratungshilfeFormularContext = {
+    const userData: BeratungshilfeFormularUserData = {
       bereich: "authorities",
       gegenseite: "gegner",
       beschreibung: "beschreibung",
@@ -56,7 +56,7 @@ describe("A_angelegenheit", () => {
   });
 
   it("should fill angelegenheit in the attachment when exceeded character limit length", () => {
-    const userData: BeratungshilfeFormularContext = {
+    const userData: BeratungshilfeFormularUserData = {
       bereich: "authorities",
       gegenseite: "gegner gegner gegner gegner gegner",
       beschreibung:

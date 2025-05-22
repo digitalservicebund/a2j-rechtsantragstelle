@@ -1,4 +1,4 @@
-import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
+import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 import type { ArrayConfigServer } from "~/services/array";
 
 export function finanzielleAngabenArrayConfig(prefix: string) {
@@ -47,6 +47,6 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       event: "add-unterhaltszahlungen",
     },
   } satisfies Partial<
-    Record<keyof BeratungshilfeFinanzielleAngaben, ArrayConfigServer>
+    Record<keyof BeratungshilfeFinanzielleAngabenUserData, ArrayConfigServer>
   >;
 }

@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
@@ -14,7 +14,7 @@ import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMiss
 export const ARTICLE_AIR_PASSENGER_REGULATION_TEXT =
   "Damit ergibt sich nach Art. 7 der Fluggastrechteverordnung (EG) 261/2004 eine Entschädigung in Höhe von";
 
-const getDistanceText = (userData: FluggastrechtContext): string => {
+const getDistanceText = (userData: FluggastrechteUserData): string => {
   const startAirportName = getAirportNameByIataCode(userData.startAirport);
   const endAirportName = getAirportNameByIataCode(userData.endAirport);
 
@@ -44,7 +44,7 @@ const getDistanceText = (userData: FluggastrechtContext): string => {
 
 export const addDistanceInfo = (
   doc: typeof PDFDocument,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) => {
   const distanceText = getDistanceText(userData);
 

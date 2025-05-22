@@ -2,7 +2,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -46,7 +46,7 @@ describe("addFlightTextArea", () => {
       ...userDataMock,
       zwischenstoppAnzahl: "oneStop",
       anschlussFlugVerpasst: YesNoAnswer.Enum.no,
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     addFlightTextArea(mockDoc, userDataVerspaetetMock);
 
@@ -64,7 +64,7 @@ describe("addFlightTextArea", () => {
       ...userDataMock,
       zwischenstoppAnzahl: "oneStop",
       anschlussFlugVerpasst: YesNoAnswer.Enum.yes,
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     addFlightTextArea(mockDoc, userDataVerspaetetMock);
 
@@ -83,7 +83,7 @@ describe("addFlightTextArea", () => {
       bereich: "annullierung",
       zwischenstoppAnzahl: "oneStop",
       anschlussFlugVerpasst: YesNoAnswer.Enum.no,
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     addFlightTextArea(mockDoc, userDataAnnullierung);
 
@@ -102,7 +102,7 @@ describe("addFlightTextArea", () => {
       bereich: "annullierung",
       zwischenstoppAnzahl: "oneStop",
       anschlussFlugVerpasst: YesNoAnswer.Enum.yes,
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     addFlightTextArea(mockDoc, userDataAnnullierung);
 
@@ -121,7 +121,7 @@ describe("addFlightTextArea", () => {
       bereich: "nichtbefoerderung",
       zwischenstoppAnzahl: "oneStop",
       anschlussFlugVerpasst: YesNoAnswer.Enum.no,
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     addFlightTextArea(mockDoc, userDataNichtBefoerderungMock);
 
@@ -140,7 +140,7 @@ describe("addFlightTextArea", () => {
       bereich: "nichtbefoerderung",
       zwischenstoppAnzahl: "oneStop",
       anschlussFlugVerpasst: YesNoAnswer.Enum.yes,
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     addFlightTextArea(mockDoc, userDataNichtBefoerderungMock);
 

@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 
@@ -10,7 +10,7 @@ export const WITNESS_EVIDENCE_MULTIPLE_PERSONS_TEXT =
 
 export const addWitnessesInfo = (
   doc: typeof PDFDocument,
-  { hasZeugen, isWeiterePersonen }: FluggastrechtContext,
+  { hasZeugen, isWeiterePersonen }: FluggastrechteUserData,
 ) => {
   if (hasZeugen === "yes") {
     addNewPageInCaseMissingVerticalSpace(doc);

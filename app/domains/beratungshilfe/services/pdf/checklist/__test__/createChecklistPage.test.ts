@@ -2,18 +2,18 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { abgabeContext } from "~/domains/shared/formular/abgabe/context";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import { abgabeInputSchema } from "~/domains/shared/formular/abgabe/userData";
 import { createChecklistPage } from "../createChecklistPage";
 
 describe("createChecklistPage", () => {
   it("should create checklist page for 'ausdrucken' abgabeArt", () => {
     const mockDocumentStruct = mockPdfKitDocumentStructure();
     const mockPDFDocument = mockPdfKitDocument(mockDocumentStruct);
-    const userData: BeratungshilfeFormularContext = {
+    const userData: BeratungshilfeFormularUserData = {
       vorname: "Luca",
       nachname: "Mustermensch",
-      abgabeArt: abgabeContext.abgabeArt.Enum.ausdrucken,
+      abgabeArt: abgabeInputSchema.abgabeArt.Enum.ausdrucken,
     };
     createChecklistPage(mockPDFDocument, mockDocumentStruct, userData);
 
@@ -34,10 +34,10 @@ describe("createChecklistPage", () => {
   it("should create checklist page for 'online' abgabeArt", () => {
     const mockDocumentStruct = mockPdfKitDocumentStructure();
     const mockPDFDocument = mockPdfKitDocument(mockDocumentStruct);
-    const userData: BeratungshilfeFormularContext = {
+    const userData: BeratungshilfeFormularUserData = {
       vorname: "Luca",
       nachname: "Mustermensch",
-      abgabeArt: abgabeContext.abgabeArt.Enum.online,
+      abgabeArt: abgabeInputSchema.abgabeArt.Enum.online,
     };
     createChecklistPage(mockPDFDocument, mockDocumentStruct, userData);
 

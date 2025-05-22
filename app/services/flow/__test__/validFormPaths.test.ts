@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { flows } from "~/domains/flows.server";
 import { buildFlowController } from "../server/buildFlowController";
 import { validFormPaths } from "../validFormPaths";
@@ -7,7 +7,7 @@ describe("validFormPaths", () => {
   const { config, guards } = flows["/beratungshilfe/antrag"];
 
   it("returns base path with reachable steps", () => {
-    const data: BeratungshilfeFormularContext = {
+    const data: BeratungshilfeFormularUserData = {
       rechtsschutzversicherung: "no",
     };
     expect(
@@ -26,7 +26,7 @@ describe("validFormPaths", () => {
   });
 
   describe("works for arrays", () => {
-    const baseData: BeratungshilfeFormularContext = {
+    const baseData: BeratungshilfeFormularUserData = {
       rechtsschutzversicherung: "no",
       wurdeVerklagt: "no",
       klageEingereicht: "no",
@@ -36,7 +36,7 @@ describe("validFormPaths", () => {
     };
 
     it("includes paths for multiple array entries", () => {
-      const data: BeratungshilfeFormularContext = {
+      const data: BeratungshilfeFormularUserData = {
         ...baseData,
         hasBankkonto: "yes",
         hasKraftfahrzeug: "no",
@@ -80,7 +80,7 @@ describe("validFormPaths", () => {
     });
 
     it("excludes arrays if statement key not 'yes'", () => {
-      const data: BeratungshilfeFormularContext = {
+      const data: BeratungshilfeFormularUserData = {
         ...baseData,
         hasBankkonto: "no",
         bankkonten: [
@@ -115,7 +115,7 @@ describe("validFormPaths", () => {
     });
 
     it("excludes array if it can't be reached", () => {
-      const data: BeratungshilfeFormularContext = {
+      const data: BeratungshilfeFormularUserData = {
         rechtsschutzversicherung: "yes",
         hasBankkonto: "yes",
         bankkonten: [

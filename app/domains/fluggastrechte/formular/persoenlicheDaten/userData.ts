@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { persoenlicheDaten } from "~/domains/shared/formular/persoenlicheDaten/context";
+import { persoenlicheDaten } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
@@ -11,7 +11,7 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const anredeSchema = z.enum(["herr", "frau", "none"]);
 
-const persoenlicheDatenSchema = {
+const persoenlicheDatenInputSchema = {
   anrede: anredeSchema,
   ...persoenlicheDaten,
   land: stringRequiredSchema,
@@ -23,14 +23,14 @@ const paymentDetailsSchema = {
   kontoinhaber: stringOptionalSchema,
 };
 
-export const fluggastrechtePersoenlichDaten = {
-  ...persoenlicheDatenSchema,
+export const fluggastrechtePersoenlicheDatenInputSchema = {
+  ...persoenlicheDatenInputSchema,
   isWeiterePersonen: YesNoAnswer,
   ...paymentDetailsSchema,
   weiterePersonen: z.array(
     z
       .object({
-        ...persoenlicheDatenSchema,
+        ...persoenlicheDatenInputSchema,
         buchungsnummer: optionalOrSchema(bookingNumberFlightSchema),
         datenverarbeitungZustimmung: checkedRequired,
       })
@@ -39,5 +39,7 @@ export const fluggastrechtePersoenlichDaten = {
   pageData: pageDataSchema,
 };
 
-const _contextObject = z.object(fluggastrechtePersoenlichDaten).partial();
-export type FluggastrechtePersoenlichDaten = z.infer<typeof _contextObject>;
+const _partialSchema = z
+  .object(fluggastrechtePersoenlicheDatenInputSchema)
+  .partial();
+export type FluggastrechtePersoenlichDaten = z.infer<typeof _partialSchema>;

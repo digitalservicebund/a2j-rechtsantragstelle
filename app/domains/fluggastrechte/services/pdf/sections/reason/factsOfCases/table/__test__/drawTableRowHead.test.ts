@@ -2,7 +2,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { drawCell } from "../drawCell";
 import { drawTableRowHead } from "../drawTableRowHead";
@@ -55,7 +55,7 @@ describe("drawTableRowHead", () => {
     const userDataTatsaechlicherFlugYesMock = {
       ...userDataMock,
       tatsaechlicherFlug: "yes",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     drawTableRowHead(mockDoc, mockStruct, 0, userDataTatsaechlicherFlugYesMock);
 
@@ -79,7 +79,7 @@ describe("drawTableRowHead", () => {
       ...userDataMock,
       ersatzverbindungArt: "flug",
       tatsaechlicherFlug: "no",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     drawTableRowHead(
       mockDoc,
@@ -108,7 +108,7 @@ describe("drawTableRowHead", () => {
       ...userDataMock,
       ersatzverbindungArt: "etwasAnderes",
       tatsaechlicherFlug: "no",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     drawTableRowHead(
       mockDoc,
@@ -137,7 +137,7 @@ describe("drawTableRowHead", () => {
       ...userDataMock,
       ersatzverbindungArt: "keineAnkunft",
       tatsaechlicherFlug: "no",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     drawTableRowHead(
       mockDoc,
@@ -184,7 +184,7 @@ describe("drawTableRowHead", () => {
       ...userDataMock,
       bereich: "annullierung",
       ersatzverbindungArt: undefined,
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     drawTableRowHead(mockDoc, mockStruct, 0, userDataAnnullierungMock);
 
@@ -218,7 +218,7 @@ describe("drawTableRowHead", () => {
     const userDataNichtbefoerderungMock = {
       ...userDataMock,
       bereich: "nichtbefoerderung",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     drawTableRowHead(mockDoc, mockStruct, 0, userDataNichtbefoerderungMock);
 
