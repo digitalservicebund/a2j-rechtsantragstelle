@@ -1,7 +1,6 @@
 import { render } from "@testing-library/react";
 import type { ArrayConfigClient } from "~/services/array";
 import ArraySummary from "../ArraySummary";
-import ArraySummaryDataItems from "../ArraySummaryDataItems";
 
 const mockArrayConfiguration: ArrayConfigClient = {
   event: "add-unterhaltszahlungen",
@@ -23,8 +22,10 @@ const arrayData = {
   ],
 };
 
-vi.mock("../ArraySummaryDataItems", () => ({
-  default: vi.fn(),
+vi.mock("~/components/arraySummary/ArraySummaryDataItems", () => ({
+  default: (props: { headingTitleTagNameItem: string }) => (
+    <div> Mock ArraySummaryDataItems {props.headingTitleTagNameItem} </div>
+  ),
 }));
 
 describe("ArraySummary", () => {
@@ -44,7 +45,7 @@ describe("ArraySummary", () => {
       "unterhaltszahlungen.monthlyPayment": "Monatliche Unterhaltszahlungen",
     };
 
-    render(
+    const { getByText } = render(
       <ArraySummary
         arrayData={arrayData}
         translations={translations}
@@ -53,12 +54,7 @@ describe("ArraySummary", () => {
       />,
     );
 
-    expect(ArraySummaryDataItems).toHaveBeenCalledWith(
-      expect.objectContaining({
-        headingTitleTagNameItem: "h2",
-      }),
-      expect.anything(),
-    );
+    expect(getByText("Mock ArraySummaryDataItems h2")).toBeInTheDocument();
   });
 
   it("should call <ArraySummaryDataItems> with headingTitleTagNameItem as h3 when the title has value", () => {
@@ -73,7 +69,7 @@ describe("ArraySummary", () => {
       "unterhaltszahlungen.monthlyPayment": "Monatliche Unterhaltszahlungen",
     };
 
-    render(
+    const { getByText } = render(
       <ArraySummary
         arrayData={arrayData}
         translations={translations}
@@ -82,12 +78,7 @@ describe("ArraySummary", () => {
       />,
     );
 
-    expect(ArraySummaryDataItems).toHaveBeenCalledWith(
-      expect.objectContaining({
-        headingTitleTagNameItem: "h3",
-      }),
-      expect.anything(),
-    );
+    expect(getByText("Mock ArraySummaryDataItems h3")).toBeInTheDocument();
   });
 
   it("should have class is-disabled pointer-events-none on button given disableAddButton true", () => {

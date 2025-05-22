@@ -1,6 +1,6 @@
 import KeyboardArrowDownIcon from "@digitalservicebund/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@digitalservicebund/icons/KeyboardArrowUp";
-import { forwardRef, type MouseEventHandler } from "react";
+import { type MouseEventHandler } from "react";
 import RichText from "~/components/RichText";
 
 export type AccordionItemProps = Readonly<{
@@ -8,16 +8,22 @@ export type AccordionItemProps = Readonly<{
   description: string;
 }>;
 
-export default forwardRef<
-  HTMLDetailsElement,
-  AccordionItemProps & {
-    onSummaryClick?: MouseEventHandler;
-    labels: {
-      show: string;
-      hide: string;
-    };
-  }
->(function AccordionItem({ title, description, onSummaryClick, labels }, ref) {
+type Props = AccordionItemProps & {
+  onSummaryClick?: MouseEventHandler;
+  labels: {
+    show: string;
+    hide: string;
+  };
+  ref: React.Ref<HTMLDetailsElement>;
+};
+
+export function AccordionItem({
+  title,
+  description,
+  onSummaryClick,
+  labels,
+  ref,
+}: Props) {
   return (
     <details
       className="group last:border-b-0 border-b-2 border-blue-500"
@@ -41,4 +47,4 @@ export default forwardRef<
       />
     </details>
   );
-});
+}
