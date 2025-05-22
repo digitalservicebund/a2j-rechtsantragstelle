@@ -1,4 +1,4 @@
-import type { Context } from "~/domains/contexts";
+import type { Context } from "~/domains/userData";
 import {
   getTranslationByKey,
   type Translations,

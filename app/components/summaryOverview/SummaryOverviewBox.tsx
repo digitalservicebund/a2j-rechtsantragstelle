@@ -1,5 +1,5 @@
 import EditIcon from "@digitalservicebund/icons/EditOutlined";
-import { type Context } from "~/domains/contexts";
+import { type Context } from "~/domains/userData";
 import Heading from "../Heading";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 import { type SummaryOverviewBoxWrappedProps } from "./types";

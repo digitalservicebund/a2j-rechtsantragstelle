@@ -1,12 +1,12 @@
 import type { ZodTypeAny } from "zod";
-import { beratungshilfeFormularContext } from "~/domains/beratungshilfe/formular/context";
-import { context as beratungshilfeContext } from "~/domains/beratungshilfe/vorabcheck/context";
-import { fluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import { fluggastrechteVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
+import { fluggastrechteInputSchema } from "~/domains/fluggastrechte/formular/userData";
+import { fluggastrechteVorabcheckInputSchema } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { context as geldEinklagenFormularContext } from "~/domains/geldEinklagen/formular/context";
 import { context as geldEinklagenContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import { context as kontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
 import { prozesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import { beratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
+import { beratungshilfeVorabcheckInputSchema } from "./beratungshilfe/vorabcheck/userData";
 import type { FlowId } from "./flowIds";
 
 export type BasicTypes = string | number | boolean;
@@ -20,12 +20,12 @@ export type Context = Record<
 >;
 
 const contexts = {
-  "/beratungshilfe/antrag": beratungshilfeFormularContext,
-  "/beratungshilfe/vorabcheck": beratungshilfeContext,
+  "/beratungshilfe/antrag": beratungshilfeFormularUserData,
+  "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckInputSchema,
   "/geld-einklagen/vorabcheck": geldEinklagenContext,
   "/geld-einklagen/formular": geldEinklagenFormularContext,
-  "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckContext,
-  "/fluggastrechte/formular": fluggastrechtContext,
+  "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckInputSchema,
+  "/fluggastrechte/formular": fluggastrechteInputSchema,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularContext,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiserContext,
 } as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;

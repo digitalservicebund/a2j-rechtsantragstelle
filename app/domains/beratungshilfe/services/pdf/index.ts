@@ -1,6 +1,6 @@
 import { PDFDocument } from "pdf-lib";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import {
   addMetadataToPdf,
   type Metadata,
@@ -35,7 +35,7 @@ const METADATA: Metadata = {
 };
 
 const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
-  BeratungshilfeFormularContext
+  BeratungshilfeFormularUserData
 > = (doc, documentStruct, userData, attachment) => {
   if (attachment && attachment.length > 0) {
     // Attachment holds content of form fields which is too long - output as needed
@@ -55,7 +55,7 @@ const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
 };
 
 export async function beratungshilfePdfFromUserdata(
-  userData: BeratungshilfeFormularContext,
+  userData: BeratungshilfeFormularUserData,
   sessionId: string,
 ) {
   const { pdfValues, attachment } = pdfFillReducer({

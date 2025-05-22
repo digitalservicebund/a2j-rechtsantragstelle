@@ -1,5 +1,5 @@
 import set from "lodash/set";
-import type { Context } from "~/domains/contexts";
+import type { Context } from "~/domains/userData";
 import { resolveArrayCharacter } from "./resolveArrayCharacter";
 
 export const resolveArraysFromKeys = (

@@ -1,4 +1,4 @@
-import { type Context } from "~/domains/contexts";
+import { type Context } from "~/domains/userData";
 import { arrayChar } from "~/services/array";
 import { arrayIsNonEmpty } from "~/util/array";
 import { type SummaryOverviewBoxItemType } from "./SummaryOverviewBoxItem";

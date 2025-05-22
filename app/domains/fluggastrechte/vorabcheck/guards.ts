@@ -1,4 +1,4 @@
-import type { FluggastrechtVorabcheckContext } from "./context";
+import type { FluggastrechtVorabcheckUserData } from "./userData";
 import { yesNoGuards, type Guards } from "../../guards.server";
 import { isErfolgAnalog } from "./services/isErfolgAnalog";
 import { isFluggesellschaftInEU } from "./services/isFluggesellschaftInEU";
@@ -194,4 +194,4 @@ export const guards = {
   ...yesNoGuards("vertretbareGruende"),
   ...yesNoGuards("vertretbareGruendeAnnullierung"),
   ...yesNoGuards("ersatzflug"),
-} satisfies Guards<FluggastrechtVorabcheckContext>;
+} satisfies Guards<FluggastrechtVorabcheckUserData>;

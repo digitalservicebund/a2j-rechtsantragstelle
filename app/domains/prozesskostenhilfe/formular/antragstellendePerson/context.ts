@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { GenericGuard } from "~/domains/guards.server";
-import { familyRelationshipSchema } from "~/domains/shared/formular/finanzielleAngaben/context";
-import { vornameNachnameSchema } from "~/domains/shared/formular/persoenlicheDaten/context";
+import { familyRelationshipInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { vornameNachnameSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import {
@@ -20,12 +20,12 @@ export const prozesskostenhilfeAntragstellendePersonContext = {
   livesPrimarilyFromUnterhalt: YesNoAnswer,
   unterhaltspflichtigePerson: z
     .object({
-      beziehung: familyRelationshipSchema,
+      beziehung: familyRelationshipInputSchema,
       ...vornameNachnameSchema,
     })
     .optional(),
   couldLiveFromUnterhalt: YesNoAnswer,
-  personWhoCouldPayUnterhaltBeziehung: familyRelationshipSchema,
+  personWhoCouldPayUnterhaltBeziehung: familyRelationshipInputSchema,
   whyNoUnterhalt: stringRequiredSchema,
 };
 

@@ -1,10 +1,10 @@
 import { createMachine } from "xstate";
-import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
+import { beratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import type { FlowStateMachine } from "~/services/flow/server/types";
 
 export const machine: FlowStateMachine = createMachine(
-  beratungshilfeFormular.config,
+  beratungshilfeFormularUserData.config,
   {
-    guards: beratungshilfeFormular.guards,
+    guards: beratungshilfeFormularUserData.guards,
   },
 );

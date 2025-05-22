@@ -13,16 +13,16 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
-export const Eigentuemer = z.enum(
+export const eigentuemerInputSchema = z.enum(
   ["myself", "partner", "myselfAndPartner", "myselfAndSomeoneElse"],
   customRequiredErrorMessage,
 );
 
-export type Eigentumer = z.infer<typeof Eigentuemer>;
+export type Eigentumer = z.infer<typeof eigentuemerInputSchema>;
 
 const MINUS_150_YEARS = -150;
 
-const GrundeigentumArt = z.enum(
+const grundeigentumArtInputSchema = z.enum(
   [
     "eigentumswohnung",
     "einfamilienhaus",
@@ -34,7 +34,7 @@ const GrundeigentumArt = z.enum(
   customRequiredErrorMessage,
 );
 
-export const familyRelationshipSchema = z.enum(
+export const familyRelationshipInputSchema = z.enum(
   [
     "mother",
     "father",
@@ -48,10 +48,10 @@ export const familyRelationshipSchema = z.enum(
   customRequiredErrorMessage,
 );
 
-export const unterhaltszahlungSchema = z.object({
+export const unterhaltszahlungInputSchema = z.object({
   firstName: stringRequiredSchema,
   surname: stringRequiredSchema,
-  familyRelationship: familyRelationshipSchema,
+  familyRelationship: familyRelationshipInputSchema,
   birthday: createDateSchema({
     earliest: () => addYears(today(), MINUS_150_YEARS),
     latest: () => today(),
@@ -59,7 +59,7 @@ export const unterhaltszahlungSchema = z.object({
   monthlyPayment: buildMoneyValidationSchema(),
 });
 
-export const staatlicheLeistungen = z.enum(
+export const staatlicheLeistungenInputSchema = z.enum(
   ["grundsicherung", "asylbewerberleistungen", "buergergeld", "keine"],
   customRequiredErrorMessage,
 );
@@ -71,12 +71,12 @@ export const bankkontenArraySchema = z.array(
     bankName: stringRequiredSchema,
     kontostand: buildMoneyValidationSchema({}),
     iban: stringOptionalSchema,
-    kontoEigentuemer: Eigentuemer,
+    kontoEigentuemer: eigentuemerInputSchema,
     kontoDescription: stringOptionalSchema,
   }),
 );
 
-export const financialEntrySchema = z.object({
+export const financialEntryInputSchema = z.object({
   beschreibung: stringRequiredSchema,
   betrag: buildMoneyValidationSchema(),
   zahlungsfrequenz: z.enum(
@@ -85,14 +85,14 @@ export const financialEntrySchema = z.object({
   ),
 });
 
-export type FinancialEntry = z.infer<typeof financialEntrySchema>;
+export type FinancialEntry = z.infer<typeof financialEntryInputSchema>;
 
-export const kraftfahrzeugWert = z.enum(
+export const kraftfahrzeugWertInputSchema = z.enum(
   ["under10000", "over10000", "unsure"],
   customRequiredErrorMessage,
 );
 
-export const livingSituationSchema = z.enum(
+export const livingSituationInputSchema = z.enum(
   ["alone", "withRelatives", "withOthers"],
   customRequiredErrorMessage,
 );
@@ -106,7 +106,7 @@ export const kraftfahrzeugeArraySchema = z.array(
     .object({
       art: stringRequiredSchema,
       marke: stringRequiredSchema,
-      eigentuemer: Eigentuemer,
+      eigentuemer: eigentuemerInputSchema,
       verkaufswert: optionalOrSchema(buildMoneyValidationSchema()),
       kilometerstand: integerSchema,
       anschaffungsjahr: createYearSchema({
@@ -115,7 +115,7 @@ export const kraftfahrzeugeArraySchema = z.array(
       }),
       baujahr: createYearSchema({ latest: () => today().getFullYear() }),
       hasArbeitsweg: YesNoAnswer,
-      wert: kraftfahrzeugWert,
+      wert: kraftfahrzeugWertInputSchema,
     })
     .partial(),
 );
@@ -137,7 +137,7 @@ export const geldanlagenArraySchema = z.array(
         ],
         customRequiredErrorMessage,
       ),
-      eigentuemer: Eigentuemer,
+      eigentuemer: eigentuemerInputSchema,
       wert: buildMoneyValidationSchema(),
 
       kontoBankName: stringOptionalSchema,
@@ -164,8 +164,8 @@ export const grundeigentumArraySchema = z.array(
   z
     .object({
       isBewohnt: z.enum(["yes", "family", "no"], customRequiredErrorMessage),
-      art: GrundeigentumArt,
-      eigentuemer: Eigentuemer,
+      art: grundeigentumArtInputSchema,
+      eigentuemer: eigentuemerInputSchema,
       flaeche: stringRequiredSchema,
       verkaufswert: buildMoneyValidationSchema(),
       strassehausnummer: stringRequiredSchema,
@@ -181,12 +181,12 @@ export type WertsachenArraySchema = z.infer<typeof wertsachenArraySchema>;
 export const wertsachenArraySchema = z.array(
   z.object({
     art: stringRequiredSchema,
-    eigentuemer: Eigentuemer,
+    eigentuemer: eigentuemerInputSchema,
     wert: buildMoneyValidationSchema(),
   }),
 );
 
-export const partnerschaftSchema = z.enum(
+export const partnerschaftInputSchema = z.enum(
   ["yes", "no", "separated", "widowed"],
   customRequiredErrorMessage,
 );
@@ -214,7 +214,7 @@ export const kinderArraySchema = z.array(
 
 export type KinderArraySchema = z.infer<typeof kinderArraySchema>;
 
-export const besondereBelastungenSchema = z.object({
+export const besondereBelastungenInputSchema = z.object({
   pregnancy: checkedOptional,
   singleParent: checkedOptional,
   disability: checkedOptional,

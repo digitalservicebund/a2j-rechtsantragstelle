@@ -5,7 +5,7 @@ import type {
   GrundeigentumArraySchema,
   KraftfahrzeugeArraySchema,
   WertsachenArraySchema,
-} from "~/domains/shared/formular/finanzielleAngaben/context";
+} from "~/domains/shared/formular/finanzielleAngaben/userData";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 
 const befristungMapping = {

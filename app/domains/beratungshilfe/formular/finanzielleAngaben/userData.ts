@@ -1,17 +1,17 @@
 import { z } from "zod";
+import { finanzielleAngabenPartnerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/partner/inputSchema";
 import {
-  besondereBelastungenSchema,
+  besondereBelastungenInputSchema,
   bankkontenArraySchema,
   geldanlagenArraySchema,
   grundeigentumArraySchema,
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
-  staatlicheLeistungen,
-  unterhaltszahlungSchema,
+  staatlicheLeistungenInputSchema,
+  unterhaltszahlungInputSchema,
   wertsachenArraySchema,
-  livingSituationSchema,
-} from "~/domains/shared/formular/finanzielleAngaben/context";
-import { finanzielleAngabenPartnerContext } from "~/domains/shared/formular/finanzielleAngaben/partner/context";
+  livingSituationInputSchema,
+} from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
@@ -24,11 +24,11 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
 
-export const beratungshilfeFinanzielleAngaben = {
-  ...finanzielleAngabenPartnerContext,
+export const beratungshilfeFinanzielleAngabenInputSchema = {
+  ...finanzielleAngabenPartnerInputSchema,
   einkommen: buildMoneyValidationSchema(),
   erwerbstaetig: YesNoAnswer,
-  staatlicheLeistungen,
+  staatlicheLeistungen: staatlicheLeistungenInputSchema,
   berufart: z.object({
     selbststaendig: checkedOptional,
     festangestellt: checkedOptional,
@@ -66,16 +66,16 @@ export const beratungshilfeFinanzielleAngaben = {
   grundeigentum: grundeigentumArraySchema,
   hasWertsache: YesNoAnswer,
   wertsachen: wertsachenArraySchema,
-  livingSituation: livingSituationSchema,
+  livingSituation: livingSituationInputSchema,
   apartmentSizeSqm: integerSchema,
   apartmentPersonCount: integerSchema,
   apartmentCostOwnShare: buildMoneyValidationSchema(),
   apartmentCostFull: buildMoneyValidationSchema(),
   apartmentCostAlone: buildMoneyValidationSchema(),
   hasWeitereUnterhaltszahlungen: YesNoAnswer,
-  unterhaltszahlungen: z.array(unterhaltszahlungSchema),
+  unterhaltszahlungen: z.array(unterhaltszahlungInputSchema),
   hasAusgaben: YesNoAnswer,
-  ausgabensituation: besondereBelastungenSchema,
+  ausgabensituation: besondereBelastungenInputSchema,
   ausgaben: z.array(
     z
       .object({
@@ -92,5 +92,9 @@ export const beratungshilfeFinanzielleAngaben = {
   pageData: pageDataSchema,
 };
 
-const _contextObject = z.object(beratungshilfeFinanzielleAngaben).partial();
-export type BeratungshilfeFinanzielleAngaben = z.infer<typeof _contextObject>;
+const _partialSchema = z
+  .object(beratungshilfeFinanzielleAngabenInputSchema)
+  .partial();
+export type BeratungshilfeFinanzielleAngabenUserData = z.infer<
+  typeof _partialSchema
+>;

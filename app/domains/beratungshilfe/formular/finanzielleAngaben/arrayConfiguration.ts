@@ -1,5 +1,5 @@
 import type { ArrayConfigServer } from "~/services/array";
-import type { BeratungshilfeFormularContext } from "../index";
+import type { BeratungshilfeFormularUserData } from "../index";
 
 export function finanzielleAngabenArrayConfig(prefix: string) {
   return {
@@ -11,6 +11,6 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       event: "add-ausgaben",
     },
   } satisfies Partial<
-    Record<keyof BeratungshilfeFormularContext, ArrayConfigServer>
+    Record<keyof BeratungshilfeFormularUserData, ArrayConfigServer>
   >;
 }

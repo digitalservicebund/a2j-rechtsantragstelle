@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { getStrapiEntry } from "~/services/cms/getStrapiEntry";
 import type { StrapiSchemas } from "~/services/cms/schemas";
 import { filterFormFields, pruneIrrelevantData } from "../pruner";
@@ -192,7 +192,7 @@ describe("pruner", () => {
             einnahmen: "0",
           },
         ],
-      } satisfies BeratungshilfeFormularContext;
+      } satisfies BeratungshilfeFormularUserData;
       const flowId = "/beratungshilfe/antrag";
 
       const { prunedData } = await pruneIrrelevantData(userData, flowId);
@@ -292,7 +292,7 @@ describe("pruner", () => {
           einnahmen: "0",
         },
       ],
-    } satisfies BeratungshilfeFormularContext;
+    } satisfies BeratungshilfeFormularUserData;
     const flowId = "/beratungshilfe/antrag";
 
     const { validFlowPaths } = await pruneIrrelevantData(userData, flowId);
