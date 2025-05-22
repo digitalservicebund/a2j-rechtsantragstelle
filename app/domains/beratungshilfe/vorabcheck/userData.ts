@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { bereich } from "~/domains/beratungshilfe/formular/rechtsproblem/userData";
-import { rsvCoverage } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/context";
+import { rsvCoverage } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/userData";
 import { staatlicheLeistungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";

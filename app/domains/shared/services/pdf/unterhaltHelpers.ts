@@ -1,7 +1,7 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 import type { PdfFillFunction } from "~/services/pdf/fillOutFunction";
 
@@ -19,7 +19,7 @@ export const familyRelationshipMap = {
 export function getFillUnterhalt<
   Context extends
     | BeratungshilfeFormularUserData
-    | ProzesskostenhilfeFormularContext,
+    | ProzesskostenhilfeFormularUserData,
   Pdf extends BeratungshilfePDF | ProzesskostenhilfePDF,
 >(
   attachmentTitle: string,

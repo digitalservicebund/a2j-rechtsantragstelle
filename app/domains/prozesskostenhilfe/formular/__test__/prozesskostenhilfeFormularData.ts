@@ -1,13 +1,13 @@
 import { faker } from "@faker-js/faker";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { prozesskostenhilfeAntragstellendePersonContext as antragstellendePersonSchema } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import { prozesskostenhilfeAntragstellendePersonInputSchema as antragstellendePersonSchema } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
+import { prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema as einkuenfteSchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
 import {
-  prozesskostenhilfeFinanzielleAngabenContext,
-  zahlungspflichtigerSchema,
-} from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/context";
-import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/context";
-import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/context";
+  prozesskostenhilfeFinanzielleAngabenInputSchema,
+  zahlungspflichtigerInputSchema,
+} from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
+import { prozesskostenhilfeGrundvoraussetzungenInputSchema as grundvoraussetzungenSchema } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import {
   eigentuemerInputSchema,
   financialEntryInputSchema,
@@ -24,7 +24,7 @@ export const createFinancialEntry = () => ({
   ),
 });
 
-export const happyPathData: ProzesskostenhilfeFormularContext = {
+export const happyPathData: ProzesskostenhilfeFormularUserData = {
   formularArt: grundvoraussetzungenSchema.formularArt.Enum.erstantrag,
   verfahrenArt: grundvoraussetzungenSchema.verfahrenArt.Enum.verfahrenAnwalt,
   versandArt: grundvoraussetzungenSchema.versandArt.Enum.digital,
@@ -151,8 +151,8 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   },
   versicherungen: [
     {
-      art: prozesskostenhilfeFinanzielleAngabenContext.versicherungen.element
-        .shape.art.Enum.sonstige,
+      art: prozesskostenhilfeFinanzielleAngabenInputSchema.versicherungen
+        .element.shape.art.Enum.sonstige,
       beitrag: faker.finance.amount(),
       sonstigeArt: faker.commerce.productName(),
     },
@@ -161,7 +161,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
     {
       art: faker.commerce.productName(),
       zahlungsempfaenger: faker.company.name(),
-      zahlungspflichtiger: zahlungspflichtigerSchema.Enum.myself,
+      zahlungspflichtiger: zahlungspflichtigerInputSchema.Enum.myself,
       betragEigenerAnteil: faker.finance.amount(),
       betragGesamt: faker.finance.amount(),
       restschuld: faker.finance.amount(),
@@ -172,7 +172,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
     {
       art: faker.commerce.productName(),
       zahlungsempfaenger: faker.company.name(),
-      zahlungspflichtiger: zahlungspflichtigerSchema.Enum.myself,
+      zahlungspflichtiger: zahlungspflichtigerInputSchema.Enum.myself,
       betragEigenerAnteil: faker.finance.amount(),
       betragGesamt: faker.finance.amount(),
     },

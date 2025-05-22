@@ -1,5 +1,5 @@
 import type { ArrayConfigServer } from "~/services/array";
-import type { ProzesskostenhilfeFormularContext } from "../context";
+import type { ProzesskostenhilfeFormularUserData } from "../userData";
 
 export function finanzielleAngabenArrayConfig(prefix: string) {
   return {
@@ -48,6 +48,6 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       event: "add-sonstigeAusgaben",
     },
   } satisfies Partial<
-    Record<keyof ProzesskostenhilfeFormularContext, ArrayConfigServer>
+    Record<keyof ProzesskostenhilfeFormularUserData, ArrayConfigServer>
   >;
 }

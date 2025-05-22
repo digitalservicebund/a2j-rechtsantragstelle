@@ -6,7 +6,7 @@ import {
   versandDigitalAnwalt,
   versandDigitalGericht,
   erstantrag,
-} from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/context";
+} from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 
 describe("PKH Grundvoraussetzungen Context", () => {
   describe("guards", () => {

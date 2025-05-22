@@ -1,8 +1,8 @@
 import type { GenericGuard } from "~/domains/guards.server";
-import type { ProzesskostenhilfePersoenlicheDaten } from "./context";
+import type { ProzesskostenhilfePersoenlicheDatenUserData } from "./userData";
 
 export const prozesskostenhilfePersoenlicheDatenDone: GenericGuard<
-  ProzesskostenhilfePersoenlicheDaten
+  ProzesskostenhilfePersoenlicheDatenUserData
 > = ({ context }) =>
   Boolean(
     context.vorname &&

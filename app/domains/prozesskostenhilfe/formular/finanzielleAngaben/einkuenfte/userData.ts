@@ -13,7 +13,7 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
-export const prozesskostenhilfeFinanzielleAngabenEinkuenfteContext = {
+export const prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema = {
   staatlicheLeistungen: z.enum(
     [...staatlicheLeistungenInputSchema.options, "arbeitslosengeld"],
     customRequiredErrorMessage,
@@ -58,9 +58,9 @@ export const prozesskostenhilfeFinanzielleAngabenEinkuenfteContext = {
   pageData: pageDataSchema,
 };
 
-const _contextObject = z
-  .object(prozesskostenhilfeFinanzielleAngabenEinkuenfteContext)
+const _partialSchema = z
+  .object(prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema)
   .partial();
-export type ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext = z.infer<
-  typeof _contextObject
+export type ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData = z.infer<
+  typeof _partialSchema
 >;

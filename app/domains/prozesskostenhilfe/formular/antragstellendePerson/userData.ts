@@ -10,7 +10,7 @@ import {
 } from "~/services/validation/YesNoAnswer";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
-export const prozesskostenhilfeAntragstellendePersonContext = {
+export const prozesskostenhilfeAntragstellendePersonInputSchema = {
   empfaenger: z.enum(["ich", "anderePerson"], customRequiredErrorMessage),
   unterhaltsanspruch: z.enum(
     ["keine", "unterhalt", "anspruchNoUnterhalt"],
@@ -30,26 +30,26 @@ export const prozesskostenhilfeAntragstellendePersonContext = {
 };
 
 export const unterhaltLeisteIch: GenericGuard<
-  ProzesskostenhilfeAntragstellendePersonContext
+  ProzesskostenhilfeAntragstellendePersonUserData
 > = ({ context }) => context.empfaenger === "anderePerson";
 
 export const unterhaltBekommeIch: GenericGuard<
-  ProzesskostenhilfeAntragstellendePersonContext
+  ProzesskostenhilfeAntragstellendePersonUserData
 > = ({ context }) => context.livesPrimarilyFromUnterhalt === "yes";
 
 export const couldLiveFromUnterhalt: GenericGuard<
-  ProzesskostenhilfeAntragstellendePersonContext
+  ProzesskostenhilfeAntragstellendePersonUserData
 > = ({ context }) => context.couldLiveFromUnterhalt === "yes";
 
-const _contextObject = z
-  .object(prozesskostenhilfeAntragstellendePersonContext)
+const _partialSchema = z
+  .object(prozesskostenhilfeAntragstellendePersonInputSchema)
   .partial();
-export type ProzesskostenhilfeAntragstellendePersonContext = z.infer<
-  typeof _contextObject
+export type ProzesskostenhilfeAntragstellendePersonUserData = z.infer<
+  typeof _partialSchema
 >;
 
 export const antragstellendePersonDone: GenericGuard<
-  ProzesskostenhilfeAntragstellendePersonContext
+  ProzesskostenhilfeAntragstellendePersonUserData
 > = ({ context }) =>
   unterhaltLeisteIch({ context }) ||
   context.unterhaltsanspruch === "keine" ||

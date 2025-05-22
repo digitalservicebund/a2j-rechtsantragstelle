@@ -24,20 +24,20 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
-import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "./einkuenfte/context";
-import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "./einkuenfte/context";
+import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "./einkuenfte/userData";
+import { prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema } from "./einkuenfte/userData";
 
-const optionalMoneySchema = buildMoneyValidationSchema().or(z.literal(""));
+const optionalMoneyInputSchema = buildMoneyValidationSchema().or(z.literal(""));
 
-export const zahlungspflichtigerSchema = z.enum(
+export const zahlungspflichtigerInputSchema = z.enum(
   ["myself", "myselfAndPartner", "myselfAndSomeoneElse"],
   customRequiredErrorMessage,
 );
 
-export const prozesskostenhilfeFinanzielleAngabenContext = {
+export const prozesskostenhilfeFinanzielleAngabenInputSchema = {
   ...finanzielleAngabenPartnerInputSchema,
   ...duplicateContext(
-    prozesskostenhilfeFinanzielleAngabenEinkuenfteContext,
+    prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema,
     "partner",
   ),
   "partner-receivesSupport": YesNoAnswer,
@@ -69,10 +69,10 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   rentsApartment: YesNoAnswer,
   apartmentPersonCount: integerSchema,
   totalRent: buildMoneyValidationSchema(),
-  rentWithoutUtilities: optionalMoneySchema,
+  rentWithoutUtilities: optionalMoneyInputSchema,
   sharedRent: buildMoneyValidationSchema(),
-  utilitiesCost: optionalMoneySchema,
-  heatingCosts: optionalMoneySchema,
+  utilitiesCost: optionalMoneyInputSchema,
+  heatingCosts: optionalMoneyInputSchema,
   utilitiesCostOwned: buildMoneyValidationSchema(),
   heatingCostsOwned: buildMoneyValidationSchema(),
   utilitiesCostOwnShared: buildMoneyValidationSchema(),
@@ -98,7 +98,7 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
       .object({
         art: stringRequiredSchema,
         zahlungsempfaenger: stringRequiredSchema,
-        zahlungspflichtiger: zahlungspflichtigerSchema,
+        zahlungspflichtiger: zahlungspflichtigerInputSchema,
         betragEigenerAnteil: buildMoneyValidationSchema().optional(),
         betragGesamt: buildMoneyValidationSchema(),
         restschuld: buildMoneyValidationSchema(),
@@ -113,7 +113,7 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
       .object({
         art: stringRequiredSchema,
         zahlungsempfaenger: stringRequiredSchema,
-        zahlungspflichtiger: zahlungspflichtigerSchema,
+        zahlungspflichtiger: zahlungspflichtigerInputSchema,
         betragEigenerAnteil: buildMoneyValidationSchema().optional(),
         betragGesamt: buildMoneyValidationSchema(),
       })
@@ -122,12 +122,12 @@ export const prozesskostenhilfeFinanzielleAngabenContext = {
   pageData: pageDataSchema,
 };
 
-const _contextObject = z
-  .object(prozesskostenhilfeFinanzielleAngabenContext)
+const _partialSchema = z
+  .object(prozesskostenhilfeFinanzielleAngabenInputSchema)
   .partial();
 
-export type PartnerEinkuenfteContext = {
-  [key in keyof ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext as `partner-${key}`]: ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext[key];
+export type PartnerEinkuenfteUserData = {
+  [key in keyof ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData as `partner-${key}`]: ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData[key];
 } & {
   "partner-receivesSupport"?: "yes" | "no";
   "partner-supportAmount"?: string;
@@ -136,8 +136,8 @@ export type PartnerEinkuenfteContext = {
   };
 };
 
-export type ProzesskostenhilfeFinanzielleAngabenContext = z.infer<
-  typeof _contextObject
+export type ProzesskostenhilfeFinanzielleAngabenUserData = z.infer<
+  typeof _partialSchema
 > &
-  ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext &
-  PartnerEinkuenfteContext;
+  ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData &
+  PartnerEinkuenfteUserData;

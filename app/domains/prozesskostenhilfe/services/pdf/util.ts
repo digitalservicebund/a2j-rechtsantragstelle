@@ -1,10 +1,10 @@
 import type PDFDocument from "pdfkit";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 import { belegeStrings } from "~/domains/prozesskostenhilfe/formular/stringReplacements";
 import type { FinancialEntry } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { createHeading } from "~/services/pdf/createHeading";
 import { pdfStyles } from "~/services/pdf/pdfStyles";
 import type { Translations } from "~/services/translations/getTranslationByKey";
+import { type ProzesskostenhilfeFormularUserData } from "../../formular/userData";
 
 export const getTotalMonthlyFinancialEntries = (
   financialEntries: FinancialEntry[],
@@ -39,7 +39,7 @@ export const buildBelegeList = ({
 }: {
   doc: typeof PDFDocument;
   documentStruct: PDFKit.PDFStructureElement;
-  userData: ProzesskostenhilfeFormularContext;
+  userData: ProzesskostenhilfeFormularUserData;
   translations?: Translations;
 }) => {
   if (!translations) return;

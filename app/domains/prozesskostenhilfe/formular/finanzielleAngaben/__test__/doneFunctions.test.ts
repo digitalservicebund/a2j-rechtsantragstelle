@@ -1,4 +1,3 @@
-import type { ProzesskostenhilfeFinanzielleAngabenContext } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/context";
 import {
   hasRatenzahlungDone,
   hasSonstigeAusgabeDone,
@@ -13,9 +12,10 @@ import {
   versicherungDone,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
 import { kraftfahrzeugWertInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 
 const mockedCompleteRatenzahlung: NonNullable<
-  ProzesskostenhilfeFinanzielleAngabenContext["ratenzahlungen"]
+  ProzesskostenhilfeFinanzielleAngabenUserData["ratenzahlungen"]
 >[0] = {
   art: "art",
   zahlungsempfaenger: "Someone",
@@ -26,7 +26,7 @@ const mockedCompleteRatenzahlung: NonNullable<
 };
 
 const mockedCompleteSonstigeAusgabe: NonNullable<
-  ProzesskostenhilfeFinanzielleAngabenContext["sonstigeAusgaben"]
+  ProzesskostenhilfeFinanzielleAngabenUserData["sonstigeAusgaben"]
 >[0] = {
   art: "art",
   zahlungsempfaenger: "Someone",
@@ -35,7 +35,7 @@ const mockedCompleteSonstigeAusgabe: NonNullable<
 };
 
 const mockedCompleteKraftfahrzeug: NonNullable<
-  ProzesskostenhilfeFinanzielleAngabenContext["kraftfahrzeuge"]
+  ProzesskostenhilfeFinanzielleAngabenUserData["kraftfahrzeuge"]
 >[0] = {
   hasArbeitsweg: "yes",
   wert: "over10000",

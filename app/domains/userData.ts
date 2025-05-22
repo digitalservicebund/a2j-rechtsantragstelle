@@ -4,7 +4,7 @@ import { fluggastrechteVorabcheckInputSchema } from "~/domains/fluggastrechte/vo
 import { context as geldEinklagenFormularContext } from "~/domains/geldEinklagen/formular/context";
 import { context as geldEinklagenContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import { context as kontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
-import { prozesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import { prozesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { beratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
 import { beratungshilfeVorabcheckInputSchema } from "./beratungshilfe/vorabcheck/userData";
 import type { FlowId } from "./flowIds";
@@ -26,7 +26,7 @@ const contexts = {
   "/geld-einklagen/formular": geldEinklagenFormularContext,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckInputSchema,
   "/fluggastrechte/formular": fluggastrechteInputSchema,
-  "/prozesskostenhilfe/formular": prozesskostenhilfeFormularContext,
+  "/prozesskostenhilfe/formular": prozesskostenhilfeFormularUserData,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiserContext,
 } as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;
 
