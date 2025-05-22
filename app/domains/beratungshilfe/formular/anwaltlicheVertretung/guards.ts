@@ -1,10 +1,10 @@
-import type { BeratungshilfeAnwaltlicheVertretung } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/context";
+import type { BeratungshilfeAnwaltlicheVertretungUserData } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/userData";
 import type { GenericGuard, Guards } from "~/domains/guards.server";
 import { dateUTCFromGermanDateString, today } from "~/util/date";
 
-const anwaltskanzleiYes: GenericGuard<BeratungshilfeAnwaltlicheVertretung> = ({
-  context,
-}) => context.anwaltskanzlei === "yes";
+const anwaltskanzleiYes: GenericGuard<
+  BeratungshilfeAnwaltlicheVertretungUserData
+> = ({ context }) => context.anwaltskanzlei === "yes";
 
 export const beratungshilfeAnwaltlicheVertretungGuards = {
   anwaltskanzleiYes,
@@ -21,10 +21,10 @@ export const beratungshilfeAnwaltlicheVertretungGuards = {
     const FOUR_WEEKS_IN_DAYS = 28;
     return differenceInDays > FOUR_WEEKS_IN_DAYS;
   },
-} satisfies Guards<BeratungshilfeAnwaltlicheVertretung>;
+} satisfies Guards<BeratungshilfeAnwaltlicheVertretungUserData>;
 
 export const anwaltlicheVertretungDone: GenericGuard<
-  BeratungshilfeAnwaltlicheVertretung
+  BeratungshilfeAnwaltlicheVertretungUserData
 > = ({ context }) =>
   Boolean(
     context.anwaltskanzlei === "no" || context.beratungStattgefunden === "no",

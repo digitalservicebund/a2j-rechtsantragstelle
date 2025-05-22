@@ -1,8 +1,8 @@
-import { type FluggastrechtContext } from "../../context";
+import { type FluggastrechteUserData } from "../../userData";
 import { flugdatenDone } from "../doneFunctions";
 import { fluggesellschaftAddresse } from "./flugdatenMock";
 
-const baseContext: FluggastrechtContext = {
+const baseContext: FluggastrechteUserData = {
   ...fluggesellschaftAddresse,
   direktFlugnummer: "AB6303",
   buchungsNummer: "X36Q9C",

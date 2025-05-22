@@ -1,5 +1,5 @@
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
+import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { drawCell } from "./drawCell";
 import {
   COLUMN_HEIGHT,
@@ -25,19 +25,19 @@ const DELAY_STATUS = {
 const getActualConnectionType = ({
   tatsaechlicherFlug,
   ersatzverbindungArt,
-}: FluggastrechtContext) => {
+}: FluggastrechteUserData) => {
   if (tatsaechlicherFlug === "yes") return CONNECTION_REPLACEMENT.gleicherFlug;
   return ersatzverbindungArt ? CONNECTION_REPLACEMENT[ersatzverbindungArt] : "";
 };
 
-const getDelayType = ({ bereich }: FluggastrechtContext): string =>
+const getDelayType = ({ bereich }: FluggastrechteUserData): string =>
   DELAY_STATUS[bereich as FluggastrechtBereichType] ?? "";
 
 export function drawTableRowHead(
   doc: PDFKit.PDFDocument,
   tableStruct: PDFKit.PDFStructureElement,
   startTableY: number,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) {
   const { bereich } = userData;
   const headers = [

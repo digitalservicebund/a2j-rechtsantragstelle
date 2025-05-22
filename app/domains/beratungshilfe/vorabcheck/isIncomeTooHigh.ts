@@ -1,11 +1,11 @@
-import type { BeratungshilfeVorabcheckContext } from "./context";
 import { calculateFreibetrag } from "./freibetrag";
+import type { BeratungshilfeVorabcheckUserData } from "./userData";
 import moneyToCents from "../../../services/validation/money/moneyToCents";
 import { type GenericGuard } from "../../guards.server";
 
-export const isIncomeTooHigh: GenericGuard<BeratungshilfeVorabcheckContext> = ({
-  context,
-}) => {
+export const isIncomeTooHigh: GenericGuard<
+  BeratungshilfeVorabcheckUserData
+> = ({ context }) => {
   const einkommen = moneyToCents(context.einkommen) ?? 0;
   const miete = moneyToCents(context.miete) ?? 0;
   const zahlungen = moneyToCents(context.weitereZahlungenSumme) ?? 0;

@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -17,7 +17,7 @@ const MAIN_SUBTITLE = "Neueingang";
 export const createClaimData = (
   doc: typeof PDFDocument,
   flightCompensationClaimSect: PDFKit.PDFStructureElement,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) => {
   flightCompensationClaimSect.add(
     doc.struct("H1", {}, () => {

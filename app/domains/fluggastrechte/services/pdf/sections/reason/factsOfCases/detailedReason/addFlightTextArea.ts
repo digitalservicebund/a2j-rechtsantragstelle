@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { getStartAndEndAirportDelayNames } from "./getStartAndEndAirportDelayNames";
 
@@ -10,7 +10,7 @@ export const REASON_CANCEL_FLIGHT_LOST_CONNECTION =
 export const REASON_NON_TRANSPORTE_FLIGHT_LOST_CONNECTION =
   "Aufgrund der Nicht-Beförderung wurde der Anschlussflug verpasst.";
 
-const getFlightTextByBereich = (userdata: FluggastrechtContext) => {
+const getFlightTextByBereich = (userdata: FluggastrechteUserData) => {
   const { startAirportName, endAirportName } =
     getStartAndEndAirportDelayNames(userdata);
   const { bereich, anschlussFlugVerpasst } = userdata;
@@ -41,7 +41,7 @@ const getFlightTextByBereich = (userdata: FluggastrechtContext) => {
 
 export const addFlightTextArea = (
   doc: typeof PDFDocument,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) => {
   if (userData.zwischenstoppAnzahl !== "no") {
     doc.text(getFlightTextByBereich(userData), PDF_MARGIN_HORIZONTAL);

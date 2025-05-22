@@ -1,5 +1,5 @@
 import { PDFDocument } from "pdf-lib";
-import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular/index";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/index";
 import {
   getStaatlicheLeistungenStrings,
   weiteresEinkommenStrings,
@@ -14,7 +14,7 @@ export async function attachUserUploadedFilesToPdf(
   mainPdfBuffer: Uint8Array,
   sessionId: string,
   flowId: "/beratungshilfe/antrag",
-  userData: BeratungshilfeFormularContext,
+  userData: BeratungshilfeFormularUserData,
 ): Promise<Uint8Array> {
   const leistungen = getStaatlicheLeistungenStrings(userData);
   const weiteresEinkommen = weiteresEinkommenStrings(userData);

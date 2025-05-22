@@ -16,7 +16,7 @@ const ankuendigungSchema = z.enum(
   customRequiredErrorMessage,
 );
 
-export const fluggastrechteVorabcheckContext = {
+export const fluggastrechteVorabcheckInputSchema = {
   startAirport: airportSchema,
   endAirport: airportSchema,
   fluggesellschaft: airlineSchema,
@@ -43,7 +43,7 @@ export const fluggastrechteVorabcheckContext = {
   ersatzflugLandenVierStunden: YesNoAnswer,
 } as const;
 
-const _contextObject = z.object(fluggastrechteVorabcheckContext).partial();
-export type FluggastrechtVorabcheckContext = z.infer<typeof _contextObject>;
+const _partialSchema = z.object(fluggastrechteVorabcheckInputSchema).partial();
+export type FluggastrechtVorabcheckUserData = z.infer<typeof _partialSchema>;
 export type FluggastrechtBereichType = z.infer<typeof fluggastBereichSchema>;
 export type FluggastrechtAnkuendigungType = z.infer<typeof ankuendigungSchema>;

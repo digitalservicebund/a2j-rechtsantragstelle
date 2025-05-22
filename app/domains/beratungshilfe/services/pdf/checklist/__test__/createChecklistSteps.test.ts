@@ -2,8 +2,8 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import { abgabeContext } from "~/domains/shared/formular/abgabe/context";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import { abgabeInputSchema } from "~/domains/shared/formular/abgabe/userData";
 import { createChecklistSteps } from "../createChecklistSteps";
 
 describe("createChecklistSteps", () => {
@@ -13,8 +13,8 @@ describe("createChecklistSteps", () => {
   mockPDFDocument.y = 0;
 
   it("should create checklist steps for 'ausdrucken' abgabeArt", () => {
-    const userData: BeratungshilfeFormularContext = {
-      abgabeArt: abgabeContext.abgabeArt.Enum.ausdrucken,
+    const userData: BeratungshilfeFormularUserData = {
+      abgabeArt: abgabeInputSchema.abgabeArt.Enum.ausdrucken,
     };
     createChecklistSteps(mockPDFDocument, mockDocumentStruct, userData);
 
@@ -35,8 +35,8 @@ describe("createChecklistSteps", () => {
   });
 
   it("should create checklist steps for 'online' abgabeArt", () => {
-    const onlineUserData: BeratungshilfeFormularContext = {
-      abgabeArt: abgabeContext.abgabeArt.Enum.online,
+    const onlineUserData: BeratungshilfeFormularUserData = {
+      abgabeArt: abgabeInputSchema.abgabeArt.Enum.online,
     };
 
     createChecklistSteps(mockPDFDocument, mockDocumentStruct, onlineUserData);
@@ -59,8 +59,8 @@ describe("createChecklistSteps", () => {
   });
 
   it("should include relevant documents based on user data conditions", () => {
-    const customUserData: BeratungshilfeFormularContext = {
-      abgabeArt: abgabeContext.abgabeArt.Enum.ausdrucken,
+    const customUserData: BeratungshilfeFormularUserData = {
+      abgabeArt: abgabeInputSchema.abgabeArt.Enum.ausdrucken,
       staatlicheLeistungen: "buergergeld",
       hasGeldanlage: "yes",
       geldanlagen: [

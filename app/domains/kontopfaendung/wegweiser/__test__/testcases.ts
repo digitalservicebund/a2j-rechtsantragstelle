@@ -1,7 +1,7 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import { type KontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
 import { machine } from "./testMachine";
+import { type KontopfaendungWegweiserUserData } from "../userData";
 
 const cases = [
   [{}, ["/start", "/kontopfaendung", "/ergebnis/keine-kontopfaendung"]],
@@ -270,6 +270,6 @@ const cases = [
       "/sozialleistungen-einmalzahlung",
     ],
   ],
-] as const satisfies TestCases<KontopfaendungWegweiserContext>;
+] as const satisfies TestCases<KontopfaendungWegweiserUserData>;
 
 export const testCasesKontopfaendungWegweiser = { machine, cases };

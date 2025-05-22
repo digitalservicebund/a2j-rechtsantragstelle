@@ -1,12 +1,12 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillKraftfahrzeug } from "../fillKraftfahrzeug";
 
 describe("fillKraftfahrzeug", () => {
   it("should fill kraftfahrzeug pdf field when kraftfahrzeug is given in context", () => {
-    const userData: BeratungshilfeFormularContext = {
+    const userData: BeratungshilfeFormularUserData = {
       hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
         {
@@ -39,7 +39,7 @@ describe("fillKraftfahrzeug", () => {
   });
 
   it("should fill multiple kraftfahrzeug pdf field when kraftfahrzeug is given in context", () => {
-    const userData: BeratungshilfeFormularContext = {
+    const userData: BeratungshilfeFormularUserData = {
       hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
         {
@@ -103,7 +103,7 @@ describe("fillKraftfahrzeug", () => {
   });
 
   it("should fill multiple kraftfahrzeug data only with the hasArbeitsweg and not fill other data even they are filled in the context for wert under10000", () => {
-    const userData: BeratungshilfeFormularContext = {
+    const userData: BeratungshilfeFormularUserData = {
       hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
         {

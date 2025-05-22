@@ -1,6 +1,6 @@
 import { hasAirportPartnerCourt } from "~/domains/fluggastrechte/services/airports/hasPartnerCourt";
 import { isGermanAirport } from "~/domains/fluggastrechte/services/airports/isGermanAirport";
-import type { FluggastrechtVorabcheckContext } from "../context";
+import type { FluggastrechtVorabcheckUserData } from "../userData";
 import { isFluggesellschaftInEU } from "./isFluggesellschaftInEU";
 import { isEuropeanUnionAirport } from "../../services/airports/isEuropeanUnionAirport";
 
@@ -9,7 +9,7 @@ export const isErfolgAnalog = ({
   endAirport,
   gericht,
   fluggesellschaft,
-}: FluggastrechtVorabcheckContext) => {
+}: FluggastrechtVorabcheckUserData) => {
   // If the case is already in court, it's not an Analog success
   if (gericht === "yes") {
     return false;

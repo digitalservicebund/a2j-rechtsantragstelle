@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { bereich } from "~/domains/beratungshilfe/formular/rechtsproblem/context";
-import { rsvCoverage } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/context";
-import { staatlicheLeistungen } from "~/domains/shared/formular/finanzielleAngaben/context";
+import { bereich } from "~/domains/beratungshilfe/formular/rechtsproblem/userData";
+import { rsvCoverage } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/userData";
+import { staatlicheLeistungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import {
@@ -39,7 +39,7 @@ export const kidsSchema = z
     }
   });
 
-export const context = {
+export const beratungshilfeVorabcheckInputSchema = {
   rechtsschutzversicherung: YesNoAnswer,
   rsvCoverage: z.union([
     rsvCoverage,
@@ -51,7 +51,7 @@ export const context = {
   eigeninitiative: YesNoAnswer,
   wurdeVerklagt: YesNoAnswer,
   bereich,
-  staatlicheLeistungen,
+  staatlicheLeistungen: staatlicheLeistungenInputSchema,
   erwerbstaetigkeit: YesNoAnswer,
   vermoegen: z.enum(["below_10k", "above_10k"], customRequiredErrorMessage),
   genauigkeit: YesNoAnswer,
@@ -70,5 +70,5 @@ export const context = {
   weitereZahlungenSumme: buildMoneyValidationSchema(),
 } as const;
 
-const _contextObject = z.object(context).partial();
-export type BeratungshilfeVorabcheckContext = z.infer<typeof _contextObject>;
+const _partialSchema = z.object(beratungshilfeVorabcheckInputSchema).partial();
+export type BeratungshilfeVorabcheckUserData = z.infer<typeof _partialSchema>;

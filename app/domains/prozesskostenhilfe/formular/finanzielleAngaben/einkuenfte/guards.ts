@@ -1,7 +1,7 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { Guards } from "~/domains/guards.server";
-import type { PartnerEinkuenfteContext } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/context";
-import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/context";
+import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
+import type { PartnerEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
 import {
   staatlicheLeistungenIsBuergergeld,
   staatlicheLeistungenIsKeine,
@@ -10,16 +10,16 @@ import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 import { eigentumDone } from "../doneFunctions";
 
-const hasAndereArbeitsausgaben: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
+const hasAndereArbeitsausgaben: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData>[string] =
   ({ context }) => context.hasArbeitsausgaben === "yes";
 
-const partnerHasAndereArbeitsausgaben: Guards<PartnerEinkuenfteContext>[string] =
+const partnerHasAndereArbeitsausgaben: Guards<PartnerEinkuenfteUserData>[string] =
   ({ context }) => context["partner-hasArbeitsausgaben"] === "yes";
 
-const hasFurtherIncome: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>[string] =
+const hasFurtherIncome: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData>[string] =
   ({ context }) => context.hasFurtherIncome === "yes";
 
-const partnerHasFurtherIncome: Guards<PartnerEinkuenfteContext>[string] = ({
+const partnerHasFurtherIncome: Guards<PartnerEinkuenfteUserData>[string] = ({
   context,
 }) => context["partner-hasFurtherIncome"] === "yes";
 
@@ -70,7 +70,7 @@ export const finanzielleAngabeEinkuenfteGuards = {
   isValidEinkuenfteArrayIndex: ({
     context: { pageData, weitereEinkuenfte: furtherIncome },
   }) => isValidArrayIndex(furtherIncome, pageData),
-} satisfies Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>;
+} satisfies Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData>;
 
 export const partnerEinkuenfteGuards = {
   hasGrundsicherungOrAsylbewerberleistungen: ({ context }) =>
@@ -123,4 +123,4 @@ export const partnerEinkuenfteGuards = {
     !arrayIsNonEmpty(context["partner-weitereEinkuenfte"]),
   isValidEinkuenfteArrayIndex: ({ context }) =>
     isValidArrayIndex(context["partner-weitereEinkuenfte"], context.pageData),
-} satisfies Guards<PartnerEinkuenfteContext>;
+} satisfies Guards<PartnerEinkuenfteUserData>;

@@ -2,7 +2,7 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { happyPathData } from "~/domains/beratungshilfe/vorabcheck/__test__/beratungshilfeVorabcheckData";
-import type { BeratungshilfeVorabcheckContext } from "~/domains/beratungshilfe/vorabcheck/context";
+import type { BeratungshilfeVorabcheckUserData } from "~/domains/beratungshilfe/vorabcheck/userData";
 import { beratungshilfeVorabcheckXstateConfig } from "~/domains/beratungshilfe/vorabcheck/xstateConfig";
 import type { FlowStateMachine } from "~/services/flow/server/types";
 
@@ -175,7 +175,7 @@ const cases = [
       "/ergebnis/weitere-zahlungen-summe-abschluss-vielleicht",
     ],
   ],
-] as const satisfies TestCases<BeratungshilfeVorabcheckContext>;
+] as const satisfies TestCases<BeratungshilfeVorabcheckUserData>;
 
 const machine: FlowStateMachine = createMachine(
   beratungshilfeVorabcheckXstateConfig,

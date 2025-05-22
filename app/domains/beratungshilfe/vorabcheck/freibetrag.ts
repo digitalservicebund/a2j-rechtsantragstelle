@@ -1,6 +1,6 @@
 import mapValues from "lodash/mapValues";
 import { today } from "~/util/date";
-import type { BeratungshilfeVorabcheckContext } from "./context";
+import type { BeratungshilfeVorabcheckUserData } from "./userData";
 
 type Freibetraege = {
   selfAllowance: number;
@@ -137,7 +137,7 @@ function freibetragShort(
 }
 
 export const getVerfuegbaresEinkommenFreibetrag = (
-  context: BeratungshilfeVorabcheckContext,
+  context: BeratungshilfeVorabcheckUserData,
 ) => {
   const isWorking =
     "erwerbstaetigkeit" in context && context.erwerbstaetigkeit == "yes";

@@ -1,4 +1,4 @@
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import {
   EARLIER_STARTED,
   getConnectionDetails,
@@ -13,7 +13,7 @@ import {
 describe("getConnectionDetails", () => {
   describe("verspaetet", () => {
     it("should return actual flight details when 'tatsaechlicherFlug' is 'yes'", () => {
-      const userData: FluggastrechtContext = {
+      const userData: FluggastrechteUserData = {
         bereich: "verspaetet",
         tatsaechlicherFlug: "yes",
         direktAnkunftsDatum: "10.11.2024",
@@ -29,7 +29,7 @@ describe("getConnectionDetails", () => {
     });
 
     it("should return flight replacement details when 'ersatzverbindungArt' is 'flug'", () => {
-      const userData: FluggastrechtContext = {
+      const userData: FluggastrechteUserData = {
         bereich: "verspaetet",
         ersatzverbindungArt: "flug",
         direktAnkunftsDatum: "10.11.2024",
@@ -46,7 +46,7 @@ describe("getConnectionDetails", () => {
     });
 
     it("should return alternative transportation details when 'ersatzverbindungArt' is 'etwasAnderes'", () => {
-      const userData: FluggastrechtContext = {
+      const userData: FluggastrechteUserData = {
         bereich: "verspaetet",
         ersatzverbindungArt: "etwasAnderes",
         direktAnkunftsDatum: "10.11.2024",
@@ -62,7 +62,7 @@ describe("getConnectionDetails", () => {
     });
 
     it("should return not measure and did not arrive text for 'keineAnkunft' ersatzverbindungArt", () => {
-      const userData: FluggastrechtContext = {
+      const userData: FluggastrechteUserData = {
         ersatzverbindungArt: "keineAnkunft",
         bereich: "verspaetet",
       };
@@ -74,7 +74,7 @@ describe("getConnectionDetails", () => {
     });
 
     it("should return error if no valid ersatzverbindungArt or tatsaechlicherFlug is provided", () => {
-      const userData: FluggastrechtContext = { bereich: "verspaetet" };
+      const userData: FluggastrechteUserData = { bereich: "verspaetet" };
       const result = getConnectionDetails(userData);
       expect(result).toEqual({
         info: "error",
@@ -83,7 +83,7 @@ describe("getConnectionDetails", () => {
     });
 
     it("should handle missing or invalid dates", () => {
-      const userData: FluggastrechtContext = {
+      const userData: FluggastrechteUserData = {
         bereich: "verspaetet",
         tatsaechlicherFlug: "yes",
         direktAnkunftsDatum: "10.11.2024",
@@ -102,7 +102,7 @@ describe("getConnectionDetails", () => {
   describe("annullierung", () => {
     describe("ankuendigung no", () => {
       it("should return the text of no offer replacement received given ersatzflug no", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "no",
           ersatzflug: "no",
@@ -116,7 +116,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given yes for ersatzflugStartenEinStunde and ersatzflugLandenZweiStunden", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "no",
           ersatzflug: "yes",
@@ -132,7 +132,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given no for ersatzflugStartenEinStunde and ersatzflugLandenZweiStunden", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "no",
           ersatzflug: "yes",
@@ -148,7 +148,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given yes for ersatzflugStartenEinStunde and no ersatzflugLandenZweiStunden", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "no",
           ersatzflug: "yes",
@@ -164,7 +164,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given no for ersatzflugStartenEinStunde and yes ersatzflugLandenZweiStunden", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "no",
           ersatzflug: "yes",
@@ -180,7 +180,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given no for ersatzflugStartenEinStunde, yes ersatzflugLandenZweiStunden and empty replacement flights info", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "no",
           ersatzflug: "yes",
@@ -201,7 +201,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the text of no offer replacement received and date and time, given ersatzflug no and replacement flights info", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "no",
           ersatzflug: "no",
@@ -222,7 +222,7 @@ describe("getConnectionDetails", () => {
 
     describe("ankuendigung until6Days", () => {
       it("should return the correct given yes for ersatzflugStartenEinStunde and ersatzflugLandenZweiStunden", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "until6Days",
           ersatzflug: "yes",
@@ -238,7 +238,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given no for ersatzflugStartenEinStunde and ersatzflugLandenZweiStunden", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "until6Days",
           ersatzflug: "yes",
@@ -254,7 +254,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given yes for ersatzflugStartenEinStunde and no ersatzflugLandenZweiStunden", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "until6Days",
           ersatzflug: "yes",
@@ -270,7 +270,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given no for ersatzflugStartenEinStunde and yes ersatzflugLandenZweiStunden", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "until6Days",
           ersatzflug: "yes",
@@ -286,7 +286,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given no for ersatzflugStartenEinStunde, yes ersatzflugLandenZweiStunden and empty replacement flights info", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "until6Days",
           ersatzflug: "yes",
@@ -307,7 +307,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given no for ersatzflugStartenEinStunde, yes ersatzflugLandenZweiStunden and flight info replacement", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "until6Days",
           ersatzflug: "yes",
@@ -330,7 +330,7 @@ describe("getConnectionDetails", () => {
 
     describe("ankuendigung between7And13Days", () => {
       it("should return the correct given yes for ersatzflugStartenZweiStunden and ersatzflugLandenVierStunden", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "between7And13Days",
           ersatzflug: "yes",
@@ -346,7 +346,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given no for ersatzflugStartenZweiStunden and ersatzflugLandenVierStunden", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "between7And13Days",
           ersatzflug: "yes",
@@ -362,7 +362,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given yes for ersatzflugStartenZweiStunden and no ersatzflugLandenVierStunden", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "between7And13Days",
           ersatzflug: "yes",
@@ -378,7 +378,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given no for ersatzflugStartenZweiStunden and yes ersatzflugLandenVierStunden", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "between7And13Days",
           ersatzflug: "yes",
@@ -394,7 +394,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given no for ersatzflugStartenZweiStunden, yes ersatzflugLandenVierStunden and empty replacement flights info", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "between7And13Days",
           ersatzflug: "yes",
@@ -415,7 +415,7 @@ describe("getConnectionDetails", () => {
       });
 
       it("should return the correct given no for ersatzflugStartenZweiStunden, yes ersatzflugLandenVierStunden and flight info replacement", () => {
-        const userData: FluggastrechtContext = {
+        const userData: FluggastrechteUserData = {
           bereich: "annullierung",
           ankuendigung: "between7And13Days",
           ersatzflug: "yes",
@@ -439,7 +439,7 @@ describe("getConnectionDetails", () => {
 
   describe("nichtbefoerderung", () => {
     it("should return flight replacement details when 'ersatzverbindungArt' is 'flug'", () => {
-      const userData: FluggastrechtContext = {
+      const userData: FluggastrechteUserData = {
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "flug",
         direktAnkunftsDatum: "10.11.2024",
@@ -456,7 +456,7 @@ describe("getConnectionDetails", () => {
     });
 
     it("should return alternative transportation details when 'ersatzverbindungArt' is 'etwasAnderes'", () => {
-      const userData: FluggastrechtContext = {
+      const userData: FluggastrechteUserData = {
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "etwasAnderes",
         direktAnkunftsDatum: "10.11.2024",
@@ -472,7 +472,7 @@ describe("getConnectionDetails", () => {
     });
 
     it("should return not measure and did not arrive text for 'keineAnkunft' ersatzverbindungArt", () => {
-      const userData: FluggastrechtContext = {
+      const userData: FluggastrechteUserData = {
         ersatzverbindungArt: "keineAnkunft",
         bereich: "nichtbefoerderung",
       };
@@ -484,7 +484,7 @@ describe("getConnectionDetails", () => {
     });
 
     it("should return error if no valid ersatzverbindungArt or tatsaechlicherFlug is provided", () => {
-      const userData: FluggastrechtContext = { bereich: "nichtbefoerderung" };
+      const userData: FluggastrechteUserData = { bereich: "nichtbefoerderung" };
       const result = getConnectionDetails(userData);
       expect(result).toEqual({
         info: "error",

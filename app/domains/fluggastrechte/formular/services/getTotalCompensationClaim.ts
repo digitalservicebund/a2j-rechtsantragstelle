@@ -1,8 +1,8 @@
 import { getCompensationPayment } from "../../services/airports/getCompensationPayment";
-import type { FluggastrechtContext } from "../context";
+import type { FluggastrechteUserData } from "../userData";
 import { getTotalClaimingPeople } from "./getTotalClaimingPeople";
 
-export const getTotalCompensationClaim = (context: FluggastrechtContext) => {
+export const getTotalCompensationClaim = (context: FluggastrechteUserData) => {
   const { startAirport, endAirport } = context;
   const compensationByDistance = getCompensationPayment({
     startAirport,

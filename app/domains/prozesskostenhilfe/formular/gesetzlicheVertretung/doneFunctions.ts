@@ -1,9 +1,9 @@
 import type { GenericGuard } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import type { ProzesskostenhilfeGesetzlicheVertretung } from "./context";
+import type { ProzesskostenhilfeGesetzlicheVertretungUserData } from "./userData";
 
 export const prozesskostenhilfeGesetzlicheVertretungDone: GenericGuard<
-  ProzesskostenhilfeGesetzlicheVertretung
+  ProzesskostenhilfeGesetzlicheVertretungUserData
 > = ({ context }) =>
   Boolean(
     context.hasGesetzlicheVertretung === "no" ||

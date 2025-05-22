@@ -5,7 +5,7 @@ import {
   namePrivatPerson,
   persoenlicheDaten as sharedPersoenlicheDaten,
   telefonnummer,
-} from "~/domains/shared/formular/persoenlicheDaten/context";
+} from "~/domains/shared/formular/persoenlicheDaten/userData";
 import {
   checkedOptional,
   checkedRequired,

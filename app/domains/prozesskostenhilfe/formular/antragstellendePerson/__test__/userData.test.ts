@@ -3,7 +3,7 @@ import {
   couldLiveFromUnterhalt,
   unterhaltBekommeIch,
   unterhaltLeisteIch,
-} from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
+} from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
 
 describe("PKH Antragstellende Person Context", () => {
   describe("guards", () => {

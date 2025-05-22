@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { type Context } from "~/domains/contexts";
+import { type Context } from "~/domains/userData";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import { getItemValueBox } from "../getItemValueBox";
 

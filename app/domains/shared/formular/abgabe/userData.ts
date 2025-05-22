@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
-export const abgabeContext = {
+export const abgabeInputSchema = {
   abgabeArt: z.enum(["online", "ausdrucken"], customRequiredErrorMessage),
 };
 
-const _contextObject = z.object(abgabeContext).partial();
-export type AbgabeContext = z.infer<typeof _contextObject>;
+const _partialSchema = z.object(abgabeInputSchema).partial();
+export type AbgabeUserData = z.infer<typeof _partialSchema>;
