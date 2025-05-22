@@ -1,5 +1,4 @@
 import type { Flow } from "~/domains/flows.server";
-import { type KontopfaendungWegweiserContext } from "./context";
 import {
   getPKontoStrings,
   getPrivilegierteForderungStrings,
@@ -25,13 +24,14 @@ import {
   getAmtsgerichtStrings,
   getInfoZumPKontoStrings,
 } from "./stringReplacements";
+import { type KontopfaendungWegweiserUserData } from "./userData";
 import { kontopfaendungWegweiserXstateConfig } from "./xStateConfig";
 
 export const kontopfaendungWegweiser = {
   flowType: "vorabCheck",
   config: kontopfaendungWegweiserXstateConfig,
   guards: {},
-  stringReplacements: (userData: KontopfaendungWegweiserContext) => ({
+  stringReplacements: (userData: KontopfaendungWegweiserUserData) => ({
     ...getPKontoStrings(userData),
     ...getPrivilegierteForderungStrings(userData),
     ...getErhoehungsbetragStrings(userData),

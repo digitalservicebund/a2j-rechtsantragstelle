@@ -1,18 +1,18 @@
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
-import type { BeratungshilfeVorabcheckContext } from "~/domains/beratungshilfe/vorabcheck/context";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
-import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
-import { type KontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
-import type { ProzesskostenhilfeFormularContext } from "../prozesskostenhilfe/formular/context";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeVorabcheckUserData } from "~/domains/beratungshilfe/vorabcheck/userData";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
+import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
+import type { GeldEinklagenVorabcheckUserData } from "~/domains/geldEinklagen/vorabcheck/userData";
+import { type KontopfaendungWegweiserUserData } from "../kontopfaendung/wegweiser/userData";
+import type { ProzesskostenhilfeFormularUserData } from "../prozesskostenhilfe/formular/userData";
 
 export type TestCases<
   T extends
-    | BeratungshilfeVorabcheckContext
-    | BeratungshilfeFormularContext
-    | GeldEinklagenVorabcheckContext
-    | FluggastrechtVorabcheckContext
-    | FluggastrechtContext
-    | ProzesskostenhilfeFormularContext
-    | KontopfaendungWegweiserContext,
+    | BeratungshilfeVorabcheckUserData
+    | BeratungshilfeFormularUserData
+    | GeldEinklagenVorabcheckUserData
+    | FluggastrechtVorabcheckUserData
+    | FluggastrechteUserData
+    | ProzesskostenhilfeFormularUserData
+    | KontopfaendungWegweiserUserData,
 > = Readonly<Array<Readonly<[T, readonly string[]]>>>;

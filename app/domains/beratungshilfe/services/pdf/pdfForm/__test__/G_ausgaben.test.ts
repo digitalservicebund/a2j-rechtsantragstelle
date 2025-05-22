@@ -1,6 +1,6 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { AUSGABEN_ATTACHMENT_TITLE, fillAusgaben } from "../G_ausgaben";
 
@@ -48,7 +48,7 @@ describe("G_ausgaben", () => {
     });
 
     it("fills attachment when count is greater than the available field", () => {
-      const mockuserData: BeratungshilfeFormularContext = {
+      const mockuserData: BeratungshilfeFormularUserData = {
         ausgaben: [
           {
             art: "ausgaben art 1",
@@ -102,7 +102,7 @@ describe("G_ausgaben", () => {
     });
 
     it("fills attachment when char is greater than max char of the field", () => {
-      const mockuserData: BeratungshilfeFormularContext = {
+      const mockuserData: BeratungshilfeFormularUserData = {
         ausgaben: [
           {
             art: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",

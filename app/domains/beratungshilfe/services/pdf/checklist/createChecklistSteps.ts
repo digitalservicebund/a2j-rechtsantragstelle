@@ -1,13 +1,13 @@
 import type PDFDocument from "pdfkit";
 import {
-  beratungshilfeFormular,
-  type BeratungshilfeFormularContext,
+  beratungshilfeFormularUserData,
+  type BeratungshilfeFormularUserData,
 } from "~/domains/beratungshilfe/formular";
-import { abgabeContext } from "~/domains/shared/formular/abgabe/context";
+import { abgabeInputSchema } from "~/domains/shared/formular/abgabe/userData";
 import { createHeading } from "~/services/pdf/createHeading";
 import { pdfStyles } from "~/services/pdf/pdfStyles";
 
-const { stringReplacements } = beratungshilfeFormular;
+const { stringReplacements } = beratungshilfeFormularUserData;
 type ReplacementKey = keyof ReturnType<typeof stringReplacements>;
 
 const documents = {
@@ -50,7 +50,7 @@ type Step = {
 };
 
 const dynamicSteps: Record<string, Step[]> = {
-  [abgabeContext.abgabeArt.Enum.ausdrucken]: [
+  [abgabeInputSchema.abgabeArt.Enum.ausdrucken]: [
     { title: "Antrag ausdrucken", value: "" },
     {
       title: "Antrag unterschreiben",
@@ -67,7 +67,7 @@ const dynamicSteps: Record<string, Step[]> = {
         `Sie können den Antrag direkt im Amtsgericht abgeben oder per Post schicken. ${validAmtsgericht ? "Die Adresse des zuständigen Amtsgericht finden Sie auf der ersten Seite des Antrags im Adressfeld." : "Ihr zuständiges Amtsgericht finden Sie über den Service “Amtsgericht finden” auf https://service.justiz.de/beratungshilfe."}`,
     },
   ],
-  [abgabeContext.abgabeArt.Enum.online]: [
+  [abgabeInputSchema.abgabeArt.Enum.online]: [
     {
       title: "Antrag prüfen und speichern",
       value:
@@ -88,7 +88,7 @@ const dynamicSteps: Record<string, Step[]> = {
 export const createChecklistSteps = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: BeratungshilfeFormularContext,
+  userData: BeratungshilfeFormularUserData,
 ) => {
   const conditions = stringReplacements(userData);
 

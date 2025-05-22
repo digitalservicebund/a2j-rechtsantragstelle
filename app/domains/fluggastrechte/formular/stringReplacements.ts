@@ -1,6 +1,6 @@
 import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/shared/gerichtskosten";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import type { FluggastrechtContext } from "./context";
+import type { FluggastrechteUserData } from "./userData";
 import { getAirlineNameByIataCode } from "../services/airlines/getAirlineNameByIataCode";
 import { getAirportByIataCode } from "../services/airports/getAirportByIataCode";
 import { getAirportNameByIataCode } from "../services/airports/getAirportNameByIataCode";
@@ -13,19 +13,19 @@ export const WEITERE_PERSONEN_START_INDEX = 2;
 
 export function getStartAirportName({
   startAirport = "",
-}: FluggastrechtContext) {
+}: FluggastrechteUserData) {
   const airportName = getAirportNameByIataCode(startAirport);
   return airportName.length > 0 ? { startAirport: airportName } : {};
 }
 
-export function getEndAirportName({ endAirport = "" }: FluggastrechtContext) {
+export function getEndAirportName({ endAirport = "" }: FluggastrechteUserData) {
   const airportName = getAirportNameByIataCode(endAirport);
   return airportName.length > 0 ? { endAirport: airportName } : {};
 }
 
 export function getFirstZwischenstoppAirportName({
   ersterZwischenstopp = "",
-}: FluggastrechtContext) {
+}: FluggastrechteUserData) {
   const airportName = getAirportNameByIataCode(ersterZwischenstopp);
   return airportName.length > 0
     ? { firstZwischenstoppAirport: airportName }
@@ -34,7 +34,7 @@ export function getFirstZwischenstoppAirportName({
 
 export function getSecondZwischenstoppAirportName({
   zweiterZwischenstopp = "",
-}: FluggastrechtContext) {
+}: FluggastrechteUserData) {
   const airportName = getAirportNameByIataCode(zweiterZwischenstopp);
   return airportName.length > 0
     ? { secondZwischenstoppAirport: airportName }
@@ -43,32 +43,34 @@ export function getSecondZwischenstoppAirportName({
 
 export function getThirdZwischenstoppAirportName({
   dritterZwischenstopp = "",
-}: FluggastrechtContext) {
+}: FluggastrechteUserData) {
   const airportName = getAirportNameByIataCode(dritterZwischenstopp);
   return airportName.length > 0
     ? { thirdZwischenstoppAirport: airportName }
     : {};
 }
 
-export function isVerspaetet({ bereich = "" }: FluggastrechtContext) {
+export function isVerspaetet({ bereich = "" }: FluggastrechteUserData) {
   return {
     isVerspaetet: bereich === "verspaetet",
   };
 }
 
-export function isNichtBefoerderung({ bereich = "" }: FluggastrechtContext) {
+export function isNichtBefoerderung({ bereich = "" }: FluggastrechteUserData) {
   return {
     isNichtBefoerderung: bereich === "nichtbefoerderung",
   };
 }
 
-export function isAnnullierung({ bereich = "" }: FluggastrechtContext) {
+export function isAnnullierung({ bereich = "" }: FluggastrechteUserData) {
   return {
     isAnnullierung: bereich === "annullierung",
   };
 }
 
-export function isWeiterePersonen({ isWeiterePersonen }: FluggastrechtContext) {
+export function isWeiterePersonen({
+  isWeiterePersonen,
+}: FluggastrechteUserData) {
   return {
     isWeiterePersonen: isWeiterePersonen === "yes",
   };
@@ -76,7 +78,7 @@ export function isWeiterePersonen({ isWeiterePersonen }: FluggastrechtContext) {
 
 export function getAirlineName({
   fluggesellschaft = "",
-}: FluggastrechtContext) {
+}: FluggastrechteUserData) {
   if (fluggesellschaft.length === 0) {
     return {};
   }
@@ -86,16 +88,16 @@ export function getAirlineName({
   return airlineName.length > 0 ? { airlineName: airlineName } : {};
 }
 
-export function getPersonVorname({ vorname }: FluggastrechtContext) {
+export function getPersonVorname({ vorname }: FluggastrechteUserData) {
   return { personVorname: vorname };
 }
 
-export function getPersonNachname({ nachname }: FluggastrechtContext) {
+export function getPersonNachname({ nachname }: FluggastrechteUserData) {
   return { personNachname: nachname };
 }
 
 export const getArrayWeiterePersonenIndexStrings = (
-  context: FluggastrechtContext,
+  context: FluggastrechteUserData,
 ) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
   return typeof arrayIndex !== "undefined"
@@ -108,7 +110,7 @@ export const getArrayWeiterePersonenIndexStrings = (
 };
 
 export const getWeiterePersonenNameStrings = (
-  context: FluggastrechtContext,
+  context: FluggastrechteUserData,
 ) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
   if (
@@ -125,7 +127,7 @@ export const getWeiterePersonenNameStrings = (
     };
 };
 
-export const getResponsibleCourt = (context: FluggastrechtContext) => {
+export const getResponsibleCourt = (context: FluggastrechteUserData) => {
   const court = getCourtByStartAndEndAirport(
     context.startAirport ?? "",
     context.endAirport ?? "",
@@ -143,7 +145,7 @@ export const getResponsibleCourt = (context: FluggastrechtContext) => {
   return {};
 };
 
-export const getStreitwert = (context: FluggastrechtContext) => {
+export const getStreitwert = (context: FluggastrechteUserData) => {
   const totalCompensation = getTotalCompensationClaim(context);
   return {
     courtCost: gerichtskostenFromBetrag(totalCompensation).toString(),
@@ -156,7 +158,7 @@ export const getStreitwert = (context: FluggastrechtContext) => {
   };
 };
 
-export const getAnnullierungInfo = (context: FluggastrechtContext) => {
+export const getAnnullierungInfo = (context: FluggastrechteUserData) => {
   return {
     hasAnnullierungCase: context.bereich === "annullierung",
     hasNoAnkuendigung: context.ankuendigung === "no",
@@ -175,7 +177,9 @@ export const getAnnullierungInfo = (context: FluggastrechtContext) => {
   };
 };
 
-export const hasBothAirportsPartnerCourts = (context: FluggastrechtContext) => {
+export const hasBothAirportsPartnerCourts = (
+  context: FluggastrechteUserData,
+) => {
   const startAirport = getAirportByIataCode(context.startAirport ?? "");
   const endAirport = getAirportByIataCode(context.endAirport ?? "");
 
@@ -187,7 +191,7 @@ export const hasBothAirportsPartnerCourts = (context: FluggastrechtContext) => {
 };
 
 export const getResponsibleAirportForCourt = (
-  context: FluggastrechtContext,
+  context: FluggastrechteUserData,
 ) => {
   const startAirport = getAirportByIataCode(context.startAirport ?? "");
   const isStartAirportResponsible =

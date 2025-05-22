@@ -1,7 +1,7 @@
 import fs from "fs";
 import fontkit from "@pdf-lib/fontkit";
 import type { PDFDocument } from "pdf-lib";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { printNameInSignatureFormField } from "../printNameInSignatureFormField";
 
 vi.mock("fs");
@@ -30,7 +30,7 @@ describe("printNameInSignatureFormField", () => {
   });
 
   it('should call drawText with correct arguments when versandArt is "digital"', async () => {
-    const userData: ProzesskostenhilfeFormularContext = {
+    const userData: ProzesskostenhilfeFormularUserData = {
       vorname: "Rosa",
       nachname: "Ritter",
       versandArt: "digital",
@@ -44,7 +44,7 @@ describe("printNameInSignatureFormField", () => {
   });
 
   it('should not call drawText when versandArt is "analog"', async () => {
-    const userDataAnalog: ProzesskostenhilfeFormularContext = {
+    const userDataAnalog: ProzesskostenhilfeFormularUserData = {
       vorname: "Rosa",
       nachname: "Ritter",
       versandArt: "analog",
@@ -54,7 +54,7 @@ describe("printNameInSignatureFormField", () => {
   });
 
   it("should handle correctly special characters", async () => {
-    const userData: ProzesskostenhilfeFormularContext = {
+    const userData: ProzesskostenhilfeFormularUserData = {
       vorname: "Włodzimierz",
       nachname: "Ćwikłań",
       versandArt: "digital",

@@ -1,5 +1,5 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import type { PkhPdfFillFunction } from "../types";
 
 export const fillRechtsschutzversicherung: PkhPdfFillFunction = ({
@@ -42,7 +42,7 @@ export const fillRechtsschutzversicherung: PkhPdfFillFunction = ({
 
 type FillCoverageProps = {
   pdfValues: ProzesskostenhilfePDF;
-  userData: ProzesskostenhilfeFormularContext;
+  userData: ProzesskostenhilfeFormularUserData;
   field1Text: string;
   field2Text: string;
 };

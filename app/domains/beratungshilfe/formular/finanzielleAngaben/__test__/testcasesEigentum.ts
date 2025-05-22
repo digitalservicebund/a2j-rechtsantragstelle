@@ -1,6 +1,6 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine";
-import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
+import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 
 const finanzielleAngabenEigentumInfo =
   "/finanzielle-angaben/eigentum/eigentum-info";
@@ -133,7 +133,7 @@ const cases = [
       "/finanzielle-angaben/ausgaben/ausgaben-frage",
     ],
   ],
-] as const satisfies TestCases<BeratungshilfeFinanzielleAngaben>;
+] as const satisfies TestCases<BeratungshilfeFinanzielleAngabenUserData>;
 
 export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
   machine,

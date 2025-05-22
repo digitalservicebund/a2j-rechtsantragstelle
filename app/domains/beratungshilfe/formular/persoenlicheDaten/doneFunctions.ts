@@ -1,8 +1,8 @@
-import type { BeratungshilfePersoenlicheDaten } from "~/domains/beratungshilfe/formular/persoenlicheDaten/context";
+import type { BeratungshilfePersoenlicheDatenUserData } from "~/domains/beratungshilfe/formular/persoenlicheDaten/userData";
 import type { GenericGuard } from "~/domains/guards.server";
 
 export const beratungshilfePersoenlicheDatenDone: GenericGuard<
-  BeratungshilfePersoenlicheDaten
+  BeratungshilfePersoenlicheDatenUserData
 > = ({ context }) =>
   Boolean(
     context.vorname &&

@@ -1,4 +1,4 @@
-import { type Context } from "~/domains/contexts";
+import { type Context } from "~/domains/userData";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 import { getItemValueBox } from "./getItemValueBox";

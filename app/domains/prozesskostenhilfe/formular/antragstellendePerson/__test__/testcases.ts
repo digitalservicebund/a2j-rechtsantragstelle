@@ -1,5 +1,5 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 
 const erstAntragCase = [
   [
@@ -81,12 +81,12 @@ const erstAntragCase = [
       "/rechtsschutzversicherung/rsv-frage",
     ],
   ],
-] satisfies TestCases<ProzesskostenhilfeFormularContext>;
+] satisfies TestCases<ProzesskostenhilfeFormularUserData>;
 
 const nachueberpruefungCase = erstAntragCase.map(([context, expectedPaths]) => [
   { ...context, formularArt: "nachueberpruefung" },
   [...expectedPaths.slice(0, -1), "/finanzielle-angaben/einkuenfte/start"],
-]) satisfies TestCases<ProzesskostenhilfeFormularContext>;
+]) satisfies TestCases<ProzesskostenhilfeFormularUserData>;
 
 /**
  * Specifically test the "BACK" transitions pointing to antragstellende-person,
@@ -96,4 +96,4 @@ const nachueberpruefungCase = erstAntragCase.map(([context, expectedPaths]) => [
 export const antragstellendePersonTransitionCases = [
   ...erstAntragCase,
   ...nachueberpruefungCase,
-] satisfies TestCases<ProzesskostenhilfeFormularContext>;
+] satisfies TestCases<ProzesskostenhilfeFormularUserData>;
