@@ -5,7 +5,7 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
-export const context = {
+export const geldEinklagenVorabcheckInputSchema = {
   forderung: z.enum(
     ["money", "action", "moneyAndAction"],
     customRequiredErrorMessage,
@@ -65,5 +65,5 @@ export const context = {
   ),
 } as const;
 
-const _contextObject = z.object(context).partial();
-export type GeldEinklagenVorabcheckContext = z.infer<typeof _contextObject>;
+const _partialSchema = z.object(geldEinklagenVorabcheckInputSchema).partial();
+export type GeldEinklagenVorabcheckUserData = z.infer<typeof _partialSchema>;
