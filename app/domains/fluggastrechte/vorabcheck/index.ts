@@ -1,7 +1,6 @@
 import type { Flow } from "~/domains/flows.server";
 import { guards as fluggastrechteVorabcheckGuards } from "~/domains/fluggastrechte/vorabcheck/guards";
 import { fluggastrechteVorabcheckXstateConfig } from "~/domains/fluggastrechte/vorabcheck/xstateConfig";
-import type { FluggastrechtVorabcheckUserData } from "./userData";
 import {
   getButtonURLForClaimViaPost,
   getCompensationPaymentString,
@@ -15,6 +14,7 @@ import {
   hasCompensationMiddleDistance,
   hasCompensationShortDistance,
 } from "./stringReplacements";
+import type { FluggastrechtVorabcheckUserData } from "./userData";
 import { getResponsibleCourt } from "../formular/stringReplacements";
 
 export const fluggastrechteVorabcheck = {

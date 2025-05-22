@@ -1,7 +1,7 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { guards } from "~/domains/fluggastrechte/vorabcheck/guards";
+import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
 import type { FlowStateMachine } from "~/services/flow/server/types";
 import { fluggastrechteVorabcheckXstateConfig } from "../xstateConfig";
 

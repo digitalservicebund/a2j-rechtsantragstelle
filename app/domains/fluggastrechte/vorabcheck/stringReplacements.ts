@@ -2,8 +2,8 @@ import airlines from "data/airlines/data.json";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 import { getRouteCompensationBetweenAirports } from "~/domains/fluggastrechte/services/airports/getRouteCompensationBetweenAirports";
 import { toGermanDateFormat, today } from "~/util/date";
-import type { FluggastrechtVorabcheckUserData } from "./userData";
 import { isErfolgAnalog } from "./services/isErfolgAnalog";
+import type { FluggastrechtVorabcheckUserData } from "./userData";
 
 export const COMPENSATION_VALUE_250 = "250";
 export const COMPENSATION_VALUE_400 = "400";

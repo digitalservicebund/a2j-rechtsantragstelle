@@ -1,7 +1,7 @@
 import { Result } from "true-myth";
 import { calculateDistanceBetweenAirportsInKilometers } from "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports";
-import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { guards } from "~/domains/fluggastrechte/vorabcheck/guards";
+import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
 
 vi.mock(
   "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports",
