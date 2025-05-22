@@ -1,4 +1,4 @@
-import type { Context } from "~/domains/userData";
+import type { UserData } from "~/domains/userData";
 import {
   getTranslationByKey,
   type Translations,
@@ -8,7 +8,7 @@ import Heading from "./Heading";
 import { StandaloneLink } from "./StandaloneLink";
 
 type MigrationDataProps = {
-  readonly userData?: Context;
+  readonly userData?: UserData;
   readonly translations: Translations;
   readonly sortedFields?: string[];
   readonly buttonUrl?: string;
@@ -16,11 +16,11 @@ type MigrationDataProps = {
 
 const MIGRATION_BUTTON_TEXT_TRANSLATION = "migrationButtonText";
 
-type ValueOfContext = Context[keyof Context];
+type ValueOfUserData = UserData[keyof UserData];
 
 const renderMigrationValue = (
   translations: Translations,
-  value: ValueOfContext,
+  value: ValueOfUserData,
   key: string,
 ) => {
   if (typeof value === "object" && value !== null) {
@@ -41,7 +41,7 @@ const renderMigrationValue = (
 };
 
 const getSortedFieldsUserData = (
-  userData: Context,
+  userData: UserData,
   sortedFields?: string[],
 ) => {
   if (typeof sortedFields === "undefined" || sortedFields.length === 0) {
@@ -53,7 +53,7 @@ const getSortedFieldsUserData = (
       sortedUserData[key] = userData[key];
     }
     return sortedUserData;
-  }, {} as Context);
+  }, {} as UserData);
 };
 
 export default function MigrationDataOverview({
