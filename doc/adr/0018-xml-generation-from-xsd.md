@@ -70,7 +70,7 @@ Also, we create two very distinct places to handle business logic.
     - Tests to check if a message is a valid XJustiz message are not needed as this is part of the library
     - Clear separation of services (user flow, xml generation, sending data with FITKO)
     - With the [ERV-Wrapper](https://github.com/digitalservicebund/a2j-erv-wrapper) Java is already part of our project
-    - Once we send the xml, changes to the user data will probably occur very rarely (we can only send data that is reflected in the xsd, and the xsd is [in theory] a representation of the required data).
+    - Interoperability problems may be less severe, as changes to the user data schema will probably be rare after the first version is live. Furthermore, since the XJusitz standard should serve as a representation of the necessary data for a specific use case, the possible changes to the userData schema are limited and might rather be the result of changes in the XJusitz standard, which would result in a new version anyway.
 
 - Disadvantages:
   - Microservice can be an overhead:
