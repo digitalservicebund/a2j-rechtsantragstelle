@@ -20,7 +20,7 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
-const persoenlicheDaten = {
+const persoenlicheDatenInputSchema = {
   ...sharedPersoenlicheDaten,
   bevollmaechtigtePerson: z.enum(
     ["lawyer", "yes", "no"],
@@ -28,15 +28,15 @@ const persoenlicheDaten = {
   ),
 };
 
-export const context = {
+export const geldEinklagenInputSchema = {
   anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
-  ...persoenlicheDaten,
+  ...persoenlicheDatenInputSchema,
   volljaehrig: YesNoAnswer,
   gesetzlicheVertretung: YesNoAnswer,
   gegenseite: z
     .object({
       typ: z.enum(["privatperson", "unternehmen"], customRequiredErrorMessage),
-      privatperson: z.object(persoenlicheDaten).partial(),
+      privatperson: z.object(persoenlicheDatenInputSchema).partial(),
       unternehmen: z
         .object({
           name: stringRequiredSchema,
@@ -84,5 +84,5 @@ export const context = {
   zahlungOptional: checkedOptional,
 } as const;
 
-const _contextObject = z.object(context).partial();
-export type GeldEinklagenFormularContext = z.infer<typeof _contextObject>;
+const _partialSchema = z.object(geldEinklagenInputSchema).partial();
+export type GeldEinklagenFormularUserData = z.infer<typeof _partialSchema>;

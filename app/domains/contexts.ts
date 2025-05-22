@@ -3,8 +3,8 @@ import { beratungshilfeFormularContext } from "~/domains/beratungshilfe/formular
 import { context as beratungshilfeContext } from "~/domains/beratungshilfe/vorabcheck/context";
 import { fluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { fluggastrechteVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
-import { context as geldEinklagenFormularContext } from "~/domains/geldEinklagen/formular/context";
-import { context as geldEinklagenContext } from "~/domains/geldEinklagen/vorabcheck/context";
+import { geldEinklagenInputSchema } from "~/domains/geldEinklagen/formular/userData";
+import { geldEinklagenVorabcheckInputSchema } from "~/domains/geldEinklagen/vorabcheck/userData";
 import { context as kontopfaendungWegweiserContext } from "~/domains/kontopfaendung/wegweiser/context";
 import { prozesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 import type { FlowId } from "./flowIds";
@@ -22,8 +22,8 @@ export type Context = Record<
 const contexts = {
   "/beratungshilfe/antrag": beratungshilfeFormularContext,
   "/beratungshilfe/vorabcheck": beratungshilfeContext,
-  "/geld-einklagen/vorabcheck": geldEinklagenContext,
-  "/geld-einklagen/formular": geldEinklagenFormularContext,
+  "/geld-einklagen/vorabcheck": geldEinklagenVorabcheckInputSchema,
+  "/geld-einklagen/formular": geldEinklagenInputSchema,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckContext,
   "/fluggastrechte/formular": fluggastrechtContext,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularContext,
