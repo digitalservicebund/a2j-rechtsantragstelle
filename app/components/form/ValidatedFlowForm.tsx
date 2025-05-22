@@ -7,7 +7,6 @@ import { StrapiFormComponents } from "~/services/cms/components/StrapiFormCompon
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { schemaForFieldNames } from "~/services/validation/stepValidator/schemaForFieldNames";
-import { EstimatedTimeAbTest } from "../abTest/EstimatedTimeAbTest";
 
 type ValidatedFlowFormProps = {
   stepData: Context;
@@ -38,8 +37,6 @@ function ValidatedFlowForm({
       <input type="hidden" name={CSRFKey} value={csrf} />
       <div className="ds-stack ds-stack-40">
         <StrapiFormComponents components={formElements} />
-        {/*THIS IS A TEMPORARY SOLUTION FOR THE AB TEST IN PROZESSKOSTENHILFE*/}
-        <EstimatedTimeAbTest />
         <ButtonNavigation {...buttonNavigationProps} />
       </div>
     </ValidatedForm>
