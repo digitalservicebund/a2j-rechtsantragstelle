@@ -1,4 +1,4 @@
-import type { ArrayData, Context } from "~/domains/contexts";
+import type { ArrayData, UserData } from "~/domains/userData";
 import type { ArrayConfigServer, ArrayConfigClient } from ".";
 
 type ArraySummaryData =
@@ -14,7 +14,7 @@ type ArraySummaryData =
 export function getArraySummaryData(
   categories: string[],
   arrayConfigurations: Record<string, ArrayConfigServer> | undefined,
-  userData: Context,
+  userData: UserData,
 ): ArraySummaryData {
   if (!arrayConfigurations) {
     return undefined;

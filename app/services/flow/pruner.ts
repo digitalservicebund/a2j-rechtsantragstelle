@@ -1,8 +1,8 @@
 import pick from "lodash/pick";
 import { type ValidFlowPagesType } from "~/components/form/formFlowContext";
-import type { Context } from "~/domains/contexts";
 import type { FlowId } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
+import type { UserData } from "~/domains/userData";
 import { buildFlowController } from "./server/buildFlowController";
 import { validFormPaths, type Path } from "./validFormPaths";
 import { resolveArrayCharacter } from "../array/resolveArrayCharacter";
@@ -11,7 +11,7 @@ import {
   type FormFieldsMap,
 } from "../cms/fetchAllFormFields";
 
-export async function pruneIrrelevantData(data: Context, flowId: FlowId) {
+export async function pruneIrrelevantData(data: UserData, flowId: FlowId) {
   const formFields = await fetchAllFormFields(flowId);
   const { guards, config } = flows[flowId];
   const flowController = buildFlowController({ guards, config, data });

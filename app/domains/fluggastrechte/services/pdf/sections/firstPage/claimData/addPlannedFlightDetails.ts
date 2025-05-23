@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -15,7 +15,7 @@ export const PLANNED_DEPARTURE_DATE_TEXT = "Geplantes Abflugdatum:";
 
 export const addPlannedFlightDetails = (
   doc: typeof PDFDocument,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) => {
   const compensationByDistance = getTotalCompensationClaim(userData);
   doc

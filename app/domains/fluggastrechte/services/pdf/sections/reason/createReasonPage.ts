@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { createFactsOfCases } from "./factsOfCases/createFactsOfCases";
 import { createLegalAssessment } from "./legalAssessment/createLegalAssessment";
@@ -9,7 +9,7 @@ export const REASON_TITLE_TEXT = "Begründung";
 export const createReasonPage = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) => {
   doc
     .fontSize(16)

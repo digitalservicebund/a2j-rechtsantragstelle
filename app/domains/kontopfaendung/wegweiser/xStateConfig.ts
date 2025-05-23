@@ -1,9 +1,9 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { type KontopfaendungWegweiserContext } from "./context";
+import { type KontopfaendungWegweiserUserData } from "./userData";
 
 const sozialleistungenUmstaendeSelected = (
-  context: KontopfaendungWegweiserContext,
+  context: KontopfaendungWegweiserUserData,
 ) =>
   context.sozialleistungenUmstaende?.kindergeld === CheckboxValue.on ||
   context.sozialleistungenUmstaende?.wohngeld === CheckboxValue.on ||
@@ -371,4 +371,4 @@ export const kontopfaendungWegweiserXstateConfig = {
       },
     },
   },
-} satisfies Config<KontopfaendungWegweiserContext>;
+} satisfies Config<KontopfaendungWegweiserUserData>;

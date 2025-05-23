@@ -6,8 +6,8 @@ import type {
   TransitionConfigOrTarget as XStateTransitionConfigOrTarget,
 } from "xstate";
 import { initialTransition, pathToStateValue, setup, transition } from "xstate";
-import type { Context } from "~/domains/contexts";
 import type { GenericGuard, Guards } from "~/domains/guards.server";
+import type { UserData } from "~/domains/userData";
 import type { ArrayConfigServer } from "~/services/array";
 import {
   stateValueToStepIds,
@@ -22,7 +22,7 @@ import type {
 
 type Event = "SUBMIT" | "BACK";
 
-export type Config<TContext extends MachineContext = Context> = MachineConfig<
+export type Config<TContext extends MachineContext = UserData> = MachineConfig<
   TContext,
   FlowStateMachineEvents,
   never,
@@ -36,9 +36,9 @@ export type Config<TContext extends MachineContext = Context> = MachineConfig<
   Meta
 >;
 
-type TransitionConfigOrTarget<TContext extends MachineContext = Context> =
+type TransitionConfigOrTarget<TUserData extends MachineContext = UserData> =
   XStateTransitionConfigOrTarget<
-    TContext,
+    TUserData,
     FlowStateMachineEvents,
     FlowStateMachineEvents,
     never,
@@ -56,7 +56,7 @@ export type FlowConfigTransitions = {
 
 type Meta = {
   customAnalyticsEventName?: string;
-  done?: GenericGuard<Context>;
+  done?: GenericGuard<UserData>;
   arrays?: Record<string, ArrayConfigServer>;
 };
 
@@ -82,7 +82,7 @@ export const nextStepId = (
   machine: FlowStateMachine,
   stepId: string,
   type: Event,
-  context: Context,
+  context: UserData,
 ) => {
   // First, resolve the state with the given step and context
   const resolvedState = machine.resolveState({
@@ -141,7 +141,7 @@ function stepStates(
 ): StepState[] {
   // Recurse a statenode until encountering a done function or no more substates are left
   // For each encountered statenode a StepState object is returned, containing whether the state is reachable, done and its URL
-  const context = (stateNode.machine.config.context ?? {}) as Context;
+  const context = (stateNode.machine.config.context ?? {}) as UserData;
 
   const statesWithDoneFunctionOrSubstates = Object.values(
     stateNode.states ?? {},
@@ -202,7 +202,7 @@ export const buildFlowController = ({
   guards,
 }: {
   config: Config;
-  data?: Context;
+  data?: UserData;
   guards?: Guards;
 }) => {
   const machine = setup({

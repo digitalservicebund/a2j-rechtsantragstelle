@@ -6,9 +6,9 @@ import {
 import { arrayIsNonEmpty } from "~/util/array";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import {
-  prozesskostenhilfeFinanzielleAngabenContext,
-  type ProzesskostenhilfeFinanzielleAngabenContext,
-} from "./context";
+  prozesskostenhilfeFinanzielleAngabenInputSchema,
+  type ProzesskostenhilfeFinanzielleAngabenUserData,
+} from "./userData";
 import type { GenericGuard } from "../../../guards.server";
 import {
   bankKontoDone,
@@ -18,7 +18,7 @@ import {
 } from "../../../shared/formular/finanzielleAngaben/doneFunctions";
 
 export type ProzesskostenhilfeFinanzielleAngabenGuard =
-  GenericGuard<ProzesskostenhilfeFinanzielleAngabenContext>;
+  GenericGuard<ProzesskostenhilfeFinanzielleAngabenUserData>;
 
 export const eigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
@@ -116,7 +116,7 @@ const grundeigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 
 export const kraftfahrzeugDone = (
   kfz: NonNullable<
-    ProzesskostenhilfeFinanzielleAngabenContext["kraftfahrzeuge"]
+    ProzesskostenhilfeFinanzielleAngabenUserData["kraftfahrzeuge"]
   >[0],
 ) =>
   kfz.hasArbeitsweg !== undefined &&
@@ -177,7 +177,7 @@ export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   (context.hasAusgaben !== undefined &&
     context.besondereBelastungen !== undefined) ||
   context.hasAusgaben ==
-    prozesskostenhilfeFinanzielleAngabenContext.hasAusgaben.Enum.no;
+    prozesskostenhilfeFinanzielleAngabenInputSchema.hasAusgaben.Enum.no;
 
 export const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
@@ -185,14 +185,14 @@ export const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGu
       context,
     }) ||
     context.hasAusgaben ==
-      prozesskostenhilfeFinanzielleAngabenContext.hasAusgaben.Enum.no ||
+      prozesskostenhilfeFinanzielleAngabenInputSchema.hasAusgaben.Enum.no ||
     hasVersicherungDone({ context }) ||
     hasRatenzahlungDone({ context }) ||
     hasSonstigeAusgabeDone({ context });
 
 export const versicherungDone = (
   versicherung: NonNullable<
-    ProzesskostenhilfeFinanzielleAngabenContext["versicherungen"]
+    ProzesskostenhilfeFinanzielleAngabenUserData["versicherungen"]
   >[0],
 ) => {
   if (versicherung.art === "sonstige") {
@@ -209,7 +209,7 @@ export const hasVersicherungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 
 export const ratenzahlungDone = (
   ratenzahlung: NonNullable<
-    ProzesskostenhilfeFinanzielleAngabenContext["ratenzahlungen"]
+    ProzesskostenhilfeFinanzielleAngabenUserData["ratenzahlungen"]
   >[0],
 ) =>
   !!ratenzahlung &&
@@ -230,7 +230,7 @@ export const hasRatenzahlungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 
 export const sonstigeAusgabeDone = (
   sonstigeAusgabe: NonNullable<
-    ProzesskostenhilfeFinanzielleAngabenContext["sonstigeAusgaben"]
+    ProzesskostenhilfeFinanzielleAngabenUserData["sonstigeAusgaben"]
   >[0],
 ) =>
   !!sonstigeAusgabe &&

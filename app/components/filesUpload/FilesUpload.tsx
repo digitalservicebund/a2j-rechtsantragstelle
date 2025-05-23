@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useActionData } from "react-router";
 import { type ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
-import { type Context } from "~/domains/contexts";
+import { type UserData } from "~/domains/userData";
 import { useJsAvailable } from "~/services/useJsAvailable";
 import {
   errorStyling,
@@ -31,13 +31,13 @@ const FilesUpload = ({
 }: FilesUploadProps) => {
   const jsAvailable = useJsAvailable();
   const response = useActionData<
-    ValidationErrorResponseData | Context | undefined
+    ValidationErrorResponseData | UserData | undefined
   >();
   const field = useField(name);
   const items: Array<PDFFileMetadata | undefined> = ((
-    response?.repopulateFields as Context | undefined
+    response?.repopulateFields as UserData | undefined
   )?.[name] ??
-    (response as Context | undefined)?.[name] ??
+    (response as UserData | undefined)?.[name] ??
     field.defaultValue() ??
     []) as Array<PDFFileMetadata | undefined>;
   const scopedErrors = Object.fromEntries(

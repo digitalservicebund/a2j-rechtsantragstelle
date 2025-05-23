@@ -1,4 +1,4 @@
-import { type Context } from "~/domains/contexts";
+import { type UserData } from "~/domains/userData";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 import { getItemValueBox } from "./getItemValueBox";
@@ -12,7 +12,7 @@ export type SummaryOverviewBoxItemType = {
 };
 
 type Props = SummaryOverviewBoxItemType & {
-  readonly userData: Context;
+  readonly userData: UserData;
   readonly translations: Translations;
 };
 

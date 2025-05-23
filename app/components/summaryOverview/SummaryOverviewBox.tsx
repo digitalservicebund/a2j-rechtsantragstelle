@@ -1,5 +1,5 @@
 import EditIcon from "@digitalservicebund/icons/EditOutlined";
-import { type Context } from "~/domains/contexts";
+import { type UserData } from "~/domains/userData";
 import Heading from "../Heading";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
@@ -11,7 +11,7 @@ type Props = Pick<
   "title" | "boxItems" | "stepId"
 > & {
   readonly boxId: number;
-  readonly userData: Context;
+  readonly userData: UserData;
   readonly arrayPositionTitle?: number;
 };
 

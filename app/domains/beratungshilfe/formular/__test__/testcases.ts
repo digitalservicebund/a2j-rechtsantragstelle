@@ -1,5 +1,5 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { config } from "~/services/env/env.server";
 import { machine } from "./testMachine";
 
@@ -35,6 +35,7 @@ const cases = [
       "/persoenliche-daten/geburtsdatum",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
+      "/weitere-angaben",
       showZusammenfassungPage
         ? "/zusammenfassung/ueberblick"
         : "/abgabe/ueberpruefung",
@@ -87,12 +88,13 @@ const cases = [
       "/persoenliche-daten/geburtsdatum",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
+      "/weitere-angaben",
       showZusammenfassungPage
         ? "/zusammenfassung/ueberblick"
         : "/abgabe/ueberpruefung",
     ],
   ],
-] as const satisfies TestCases<BeratungshilfeFormularContext>;
+] as const satisfies TestCases<BeratungshilfeFormularUserData>;
 
 export const testCasesBeratungshilfeFormular = {
   machine,

@@ -5,6 +5,7 @@ import { PDFDocument } from "pdf-lib";
 import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { startFinanzielleAngabenPartner } from "tests/e2e/domains/shared/finanzielleAngaben/finanzielleAngabenPartner";
+import { startWeitereAngaben } from "tests/e2e/domains/shared/weitereAngaben";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
@@ -53,6 +54,9 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startRechtsproblem(page, beratungshilfeFormular);
   await startFinanzielleAngabenGrundsicherung(beratungshilfeFormular);
   await startPersoenlicheDaten(page, beratungshilfeFormular);
+
+  // /beratungshilfe/antrag/weitere-angaben
+  await startWeitereAngaben(page, beratungshilfeFormular);
 
   // beratungshilfe/antrag/abgabe/art
   await beratungshilfeFormular.clickNext();

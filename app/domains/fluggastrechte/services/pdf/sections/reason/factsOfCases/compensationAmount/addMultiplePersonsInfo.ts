@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import {
   MARGIN_BETWEEN_SECTIONS,
   MARGIN_RIGHT,
@@ -30,7 +30,7 @@ export const addMultiplePersonsInfo = (
     weiterePersonen,
     hasZeugen,
     bereich,
-  }: FluggastrechtContext,
+  }: FluggastrechteUserData,
 ) => {
   if (isWeiterePersonen === "no" || !arrayIsNonEmpty(weiterePersonen)) {
     return;

@@ -1,6 +1,6 @@
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import {
   fillOrgCoverage,
   fillRechtsschutzversicherung,
@@ -11,7 +11,7 @@ let pdfParams: ProzesskostenhilfePDF;
 
 const testCases: Array<
   [
-    ProzesskostenhilfeFormularContext,
+    ProzesskostenhilfeFormularUserData,
     {
       [val in keyof Partial<ProzesskostenhilfePDF>]: {
         value?: boolean | string;

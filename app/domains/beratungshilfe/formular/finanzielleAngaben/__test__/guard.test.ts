@@ -1,11 +1,11 @@
-import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
 import { finanzielleAngabeGuards } from "~/domains/beratungshilfe/formular/finanzielleAngaben/guards";
+import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 import * as pageDataSchemaModule from "~/services/flow/pageDataSchema";
 
 describe("finanzielleAngabeGuards", () => {
   describe("hasPartnerschaftYes", () => {
     it("should return truthy for married context", () => {
-      const context: BeratungshilfeFinanzielleAngaben = {
+      const context: BeratungshilfeFinanzielleAngabenUserData = {
         partnerschaft: "yes",
       };
 
@@ -19,7 +19,7 @@ describe("finanzielleAngabeGuards", () => {
 
   describe("hasPartnerschaftNoOrWidowed", () => {
     it("should return truthy for single context", () => {
-      const context: BeratungshilfeFinanzielleAngaben = {
+      const context: BeratungshilfeFinanzielleAngabenUserData = {
         partnerschaft: "no",
       };
 
@@ -31,7 +31,7 @@ describe("finanzielleAngabeGuards", () => {
     });
 
     it("should return truthy for widowed context", () => {
-      const context: BeratungshilfeFinanzielleAngaben = {
+      const context: BeratungshilfeFinanzielleAngabenUserData = {
         partnerschaft: "widowed",
       };
 

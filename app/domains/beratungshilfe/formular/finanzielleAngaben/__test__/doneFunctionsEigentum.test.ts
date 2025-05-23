@@ -1,4 +1,4 @@
-import type { BeratungshilfeFinanzielleAngaben } from "~/domains/beratungshilfe/formular/finanzielleAngaben/context";
+import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import {
   geldanlagenDone,
@@ -12,7 +12,7 @@ import {
 } from "../doneFunctions";
 
 const mockedCompleteAusgabe: NonNullable<
-  BeratungshilfeFinanzielleAngaben["ausgaben"]
+  BeratungshilfeFinanzielleAngabenUserData["ausgaben"]
 >[0] = {
   art: "Art und Weise",
   zahlungsempfaenger: "Empfänger",

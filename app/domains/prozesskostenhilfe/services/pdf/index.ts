@@ -1,7 +1,7 @@
 import { PDFDocument } from "pdf-lib";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
 import { belegeStrings } from "~/domains/prozesskostenhilfe/formular/stringReplacements";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { fillZahlungsverpflichtungen } from "~/domains/prozesskostenhilfe/services/pdf/pdfForm/I_zahlungsverpflichtungen";
 import { buildBelegeList } from "~/domains/prozesskostenhilfe/services/pdf/util";
 import type { Metadata } from "~/services/pdf/addMetadataToPdf";
@@ -30,7 +30,7 @@ import { fillWohnkosten } from "./pdfForm/H_wohnkosten";
 import { fillBelastungen } from "./pdfForm/J_belastungen";
 import { fillFooter } from "./pdfForm/K_footer";
 import { printNameInSignatureFormField } from "./printNameInSignatureFormField";
-import { createWeitereAngabenAnhang } from "./weitereAngabenAnhang/createWeitereAngabenAnhang";
+import { createWeitereAngabenAnhang } from "../../../../services/pdf/weitereAngabenAnhang/createWeitereAngabenAnhang";
 
 const METADATA: Metadata = {
   AUTHOR: "Bundesministerium der Justiz",
@@ -44,7 +44,7 @@ const METADATA: Metadata = {
 };
 
 const buildProzesskostenhilfePDFDocument: PDFDocumentBuilder<
-  ProzesskostenhilfeFormularContext
+  ProzesskostenhilfeFormularUserData
 > = (doc, documentStruct, userData, attachment, translations) => {
   // Attachment holds content of form fields which is too long - output as needed
   createAttachmentPages({
@@ -65,11 +65,11 @@ const buildProzesskostenhilfePDFDocument: PDFDocumentBuilder<
   createFooter(doc, documentStruct, "Anhang");
 };
 
-const requiresBelege = (userData: ProzesskostenhilfeFormularContext) =>
+const requiresBelege = (userData: ProzesskostenhilfeFormularUserData) =>
   Object.values(belegeStrings(userData)).some((val) => val === true);
 
 export async function prozesskostenhilfePdfFromUserdata(
-  userData: ProzesskostenhilfeFormularContext,
+  userData: ProzesskostenhilfeFormularUserData,
   flowTranslations?: Translations,
 ) {
   const { pdfValues, attachment } = pdfFillReducer({
