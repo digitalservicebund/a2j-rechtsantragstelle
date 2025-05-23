@@ -1,20 +1,20 @@
 import type PDFDocument from "pdfkit";
-import type { Context } from "~/domains/userData";
+import type { UserData } from "~/domains/userData";
 import { createPdfKitDocument } from "~/services/pdf/createPdfKitDocument";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import type { AttachmentEntries } from "./attachment";
 
-export type PDFDocumentBuilder<TContext extends Context> = (
+export type PDFDocumentBuilder<TUserData extends UserData> = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: TContext,
+  userData: TUserData,
   attachment?: AttachmentEntries,
   translations?: Translations,
 ) => void;
 
-export async function pdfFromUserData<TContext extends Context>(
-  userData: TContext,
-  buildPDFDocument: PDFDocumentBuilder<TContext>,
+export async function pdfFromUserData<TUserData extends UserData>(
+  userData: TUserData,
+  buildPDFDocument: PDFDocumentBuilder<TUserData>,
   attachment?: AttachmentEntries,
   translations?: Translations,
 ): Promise<Buffer> {

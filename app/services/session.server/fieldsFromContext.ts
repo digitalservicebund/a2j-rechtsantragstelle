@@ -1,15 +1,15 @@
 import pick from "lodash/pick";
-import type { Context } from "~/domains/userData";
+import type { UserData } from "~/domains/userData";
 import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 
 function flattenObjectWithArrayKeys(
-  obj: Context,
+  obj: UserData,
   arrayPage: number,
   prefix = "",
-): Record<string, Context> {
-  const result: Record<string, Context> = {};
+): Record<string, UserData> {
+  const result: Record<string, UserData> = {};
 
   for (const key in obj) {
     const value = obj[key];
@@ -24,14 +24,14 @@ function flattenObjectWithArrayKeys(
       );
       Object.assign(result, flattenedChild);
     } else {
-      result[newKey] = (value ?? {}) as Context;
+      result[newKey] = (value ?? {}) as UserData;
     }
   }
 
   return result;
 }
 
-export const fieldsFromContext = (context: Context, fieldNames: string[]) => {
+export const fieldsFromContext = (context: UserData, fieldNames: string[]) => {
   const parsedPageData = pageDataSchema.safeParse(context?.pageData);
   const arrayIndexes = parsedPageData.success
     ? parsedPageData.data.arrayIndexes
@@ -44,7 +44,7 @@ export const fieldsFromContext = (context: Context, fieldNames: string[]) => {
   const object = pick(context, resolvedFieldNames);
 
   if (arrayIsNonEmpty(arrayIndexes)) {
-    return flattenObjectWithArrayKeys(object, arrayIndexes[0]) as Context;
+    return flattenObjectWithArrayKeys(object, arrayIndexes[0]) as UserData;
   }
 
   return object;

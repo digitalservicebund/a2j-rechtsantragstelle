@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { duplicateContext } from "~/domains/common";
+import { duplicateUserData } from "~/domains/common";
 import { finanzielleAngabenPartnerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/partner/inputSchema";
 import {
   besondereBelastungenInputSchema,
@@ -36,7 +36,7 @@ export const zahlungspflichtigerInputSchema = z.enum(
 
 export const prozesskostenhilfeFinanzielleAngabenInputSchema = {
   ...finanzielleAngabenPartnerInputSchema,
-  ...duplicateContext(
+  ...duplicateUserData(
     prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema,
     "partner",
   ),

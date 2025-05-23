@@ -7,7 +7,7 @@ import type { GeldEinklagenVorabcheckUserData } from "~/domains/geldEinklagen/vo
 import type { BeratungshilfeFormularUserData } from "./beratungshilfe/formular";
 import type { ProzesskostenhilfeFormularUserData } from "./prozesskostenhilfe/formular/userData";
 
-type AllContexts =
+type AllUserData =
   | GeldEinklagenFormularUserData
   | GeldEinklagenVorabcheckUserData
   | BeratungshilfeVorabcheckUserData
@@ -17,9 +17,9 @@ type AllContexts =
   | ProzesskostenhilfeFormularUserData;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type AllContextKeys = KeysOfUnion<AllContexts>;
+export type AllUserDataKeys = KeysOfUnion<AllUserData>;
 
-export const duplicateContext = (
+export const duplicateUserData = (
   context: Record<string, ZodTypeAny>,
   prefix: string,
 ) => {
