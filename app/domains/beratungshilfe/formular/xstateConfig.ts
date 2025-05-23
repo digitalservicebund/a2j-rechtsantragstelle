@@ -9,7 +9,7 @@ import { finanzielleAngabenArrayConfig as beratungshilfeFormularFinanzielleAngab
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { beratungshilfeFinanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConfig";
-import type { BeratungshilfeFormularContext } from "./index";
+import type { BeratungshilfeFormularUserData } from "./index";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
@@ -97,4 +97,4 @@ export const beratungshilfeXstateConfig = {
       showZusammenfassung ? "#zusammenfassung" : "#weitere-angaben",
     ),
   },
-} satisfies Config<BeratungshilfeFormularContext>;
+} satisfies Config<BeratungshilfeFormularUserData>;

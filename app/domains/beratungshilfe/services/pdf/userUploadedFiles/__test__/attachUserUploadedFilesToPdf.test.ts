@@ -1,6 +1,6 @@
 import { PDFDocument } from "pdf-lib";
 import { vi, type Mock } from "vitest";
-import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { downloadUserFileFromS3 } from "~/services/externalDataStorage/userFileS3Helpers";
 import { attachUserUploadedFilesToPdf } from "../attachUserUploadedFilesToPdf";
 
@@ -33,7 +33,7 @@ describe("attachUserUploadedFilesToPdf", () => {
   });
 
   it("should attach user uploaded file into the main PDF", async () => {
-    const mockedUserData: BeratungshilfeFormularContext = {
+    const mockedUserData: BeratungshilfeFormularUserData = {
       buergergeldBeweis: [
         {
           filename: "testfile.pdf",
@@ -55,7 +55,7 @@ describe("attachUserUploadedFilesToPdf", () => {
   });
 
   it("should attach multiple user uploaded files into the main PDF", async () => {
-    const mockedUserData: BeratungshilfeFormularContext = {
+    const mockedUserData: BeratungshilfeFormularUserData = {
       buergergeldBeweis: [
         {
           filename: "testfile1.pdf",
@@ -89,7 +89,7 @@ describe("attachUserUploadedFilesToPdf", () => {
   });
 
   it("should return the original PDF buffer if no relevant documents are found", async () => {
-    const mockedUserData: BeratungshilfeFormularContext = {
+    const mockedUserData: BeratungshilfeFormularUserData = {
       keineLeistungenBeweis: undefined,
       staatlicheLeistungen: "keine",
     };

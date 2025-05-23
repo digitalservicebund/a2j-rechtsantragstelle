@@ -1,18 +1,18 @@
 import { faker } from "@faker-js/faker";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { prozesskostenhilfeAntragstellendePersonContext as antragstellendePersonSchema } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import { prozesskostenhilfeAntragstellendePersonInputSchema as antragstellendePersonSchema } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
+import { prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema as einkuenfteSchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
 import {
-  prozesskostenhilfeFinanzielleAngabenContext,
-  zahlungspflichtigerSchema,
-} from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/context";
-import { prozesskostenhilfeFinanzielleAngabenEinkuenfteContext as einkuenfteSchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/context";
-import { prozesskostenhilfeGrundvoraussetzungen as grundvoraussetzungenSchema } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/context";
+  prozesskostenhilfeFinanzielleAngabenInputSchema,
+  zahlungspflichtigerInputSchema,
+} from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
+import { prozesskostenhilfeGrundvoraussetzungenInputSchema as grundvoraussetzungenSchema } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import {
-  Eigentuemer,
-  financialEntrySchema,
-  unterhaltszahlungSchema,
-} from "~/domains/shared/formular/finanzielleAngaben/context";
+  eigentuemerInputSchema,
+  financialEntryInputSchema,
+  unterhaltszahlungInputSchema,
+} from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
@@ -20,11 +20,11 @@ export const createFinancialEntry = () => ({
   beschreibung: faker.word.sample(),
   betrag: faker.finance.amount(),
   zahlungsfrequenz: faker.helpers.arrayElement(
-    financialEntrySchema.shape.zahlungsfrequenz.options,
+    financialEntryInputSchema.shape.zahlungsfrequenz.options,
   ),
 });
 
-export const happyPathData: ProzesskostenhilfeFormularContext = {
+export const happyPathData: ProzesskostenhilfeFormularUserData = {
   formularArt: grundvoraussetzungenSchema.formularArt.Enum.erstantrag,
   verfahrenArt: grundvoraussetzungenSchema.verfahrenArt.Enum.verfahrenAnwalt,
   versandArt: grundvoraussetzungenSchema.versandArt.Enum.digital,
@@ -73,7 +73,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   hasWeitereUnterhaltszahlungen: YesNoAnswer.Enum.yes,
   bankkonten: [
     {
-      kontoEigentuemer: Eigentuemer.Enum.myself,
+      kontoEigentuemer: eigentuemerInputSchema.Enum.myself,
       bankName: faker.finance.accountName(),
       kontostand: faker.finance.amount(),
       iban: faker.finance.iban(),
@@ -84,14 +84,14 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
     {
       art: "sonstiges",
       verwendungszweck: faker.lorem.sentence(),
-      eigentuemer: Eigentuemer.Enum.myself,
+      eigentuemer: eigentuemerInputSchema.Enum.myself,
       wert: faker.finance.amount(),
     },
   ],
   wertsachen: [
     {
       art: faker.commerce.productName(),
-      eigentuemer: Eigentuemer.Enum.myself,
+      eigentuemer: eigentuemerInputSchema.Enum.myself,
       wert: faker.finance.amount(),
     },
   ],
@@ -99,7 +99,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
     {
       hasArbeitsweg: YesNoAnswer.Enum.yes,
       wert: "unsure",
-      eigentuemer: Eigentuemer.Enum.partner,
+      eigentuemer: eigentuemerInputSchema.Enum.partner,
       art: faker.vehicle.vehicle(),
       marke: faker.vehicle.manufacturer(),
       kilometerstand: faker.number.int(),
@@ -112,7 +112,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
     {
       isBewohnt: "yes",
       art: "einfamilienhaus",
-      eigentuemer: Eigentuemer.Enum.myselfAndSomeoneElse,
+      eigentuemer: eigentuemerInputSchema.Enum.myselfAndSomeoneElse,
       flaeche: faker.number.int().toString(),
       verkaufswert: faker.finance.amount(),
       strassehausnummer: faker.location.streetAddress(),
@@ -135,7 +135,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   unterhaltszahlungen: [
     {
       familyRelationship:
-        unterhaltszahlungSchema.shape.familyRelationship.Enum.mother,
+        unterhaltszahlungInputSchema.shape.familyRelationship.Enum.mother,
       firstName: faker.person.firstName(),
       surname: faker.person.lastName(),
       birthday: faker.date.past().toString(),
@@ -151,8 +151,8 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
   },
   versicherungen: [
     {
-      art: prozesskostenhilfeFinanzielleAngabenContext.versicherungen.element
-        .shape.art.Enum.sonstige,
+      art: prozesskostenhilfeFinanzielleAngabenInputSchema.versicherungen
+        .element.shape.art.Enum.sonstige,
       beitrag: faker.finance.amount(),
       sonstigeArt: faker.commerce.productName(),
     },
@@ -161,7 +161,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
     {
       art: faker.commerce.productName(),
       zahlungsempfaenger: faker.company.name(),
-      zahlungspflichtiger: zahlungspflichtigerSchema.Enum.myself,
+      zahlungspflichtiger: zahlungspflichtigerInputSchema.Enum.myself,
       betragEigenerAnteil: faker.finance.amount(),
       betragGesamt: faker.finance.amount(),
       restschuld: faker.finance.amount(),
@@ -172,7 +172,7 @@ export const happyPathData: ProzesskostenhilfeFormularContext = {
     {
       art: faker.commerce.productName(),
       zahlungsempfaenger: faker.company.name(),
-      zahlungspflichtiger: zahlungspflichtigerSchema.Enum.myself,
+      zahlungspflichtiger: zahlungspflichtigerInputSchema.Enum.myself,
       betragEigenerAnteil: faker.finance.amount(),
       betragGesamt: faker.finance.amount(),
     },

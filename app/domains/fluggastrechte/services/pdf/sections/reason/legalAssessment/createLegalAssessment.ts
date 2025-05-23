@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/shared/gerichtskosten";
 import {
   FONTS_BUNDESSANS_BOLD,
@@ -22,7 +22,7 @@ const ADVANCE_COURT_COSTS_SECOND_TEXT =
 const getAssumedSettlementSectionText = ({
   streitbeilegung,
   streitbeilegungGruende,
-}: FluggastrechtContext): string => {
+}: FluggastrechteUserData): string => {
   if (streitbeilegung === "noSpecification") {
     return "";
   }
@@ -71,7 +71,7 @@ function checkAndNewPage(
 export const createLegalAssessment = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) => {
   const assumedSettlementSectionText =
     getAssumedSettlementSectionText(userData);

@@ -1,4 +1,4 @@
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 
 export const getStartAndEndAirportDelayNames = ({
@@ -8,7 +8,7 @@ export const getStartAndEndAirportDelayNames = ({
   ersterZwischenstopp,
   zweiterZwischenstopp,
   dritterZwischenstopp,
-}: FluggastrechtContext) => {
+}: FluggastrechteUserData) => {
   if (typeof verspaeteterFlug === "undefined") {
     return {
       startAirportName: "",
@@ -17,7 +17,7 @@ export const getStartAndEndAirportDelayNames = ({
   }
 
   const airportMapping: Record<
-    Exclude<FluggastrechtContext["verspaeteterFlug"], undefined>,
+    Exclude<FluggastrechteUserData["verspaeteterFlug"], undefined>,
     [string | undefined, string | undefined]
   > = {
     startAirportFirstZwischenstopp: [startAirport, ersterZwischenstopp],

@@ -2,9 +2,9 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { happyPathData } from "~/domains/geldEinklagen/vorabcheck/__test__/geldEinklagenVorabcheckData";
-import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
 import geldEinklagenFlow from "~/domains/geldEinklagen/vorabcheck/flow.json";
 import { guards } from "~/domains/geldEinklagen/vorabcheck/guards";
+import type { GeldEinklagenVorabcheckUserData } from "~/domains/geldEinklagen/vorabcheck/userData";
 import type { FlowStateMachine } from "~/services/flow/server/types";
 
 const machine: FlowStateMachine = createMachine(
@@ -62,6 +62,6 @@ const cases = [
     ["/gegenseite-frist", "/frist-warnung", "/digital-ausweisen"],
   ],
   [happyPathData, happyPathSteps],
-] as const satisfies TestCases<GeldEinklagenVorabcheckContext>;
+] as const satisfies TestCases<GeldEinklagenVorabcheckUserData>;
 
 export const testCasesGeldEinklagen = { machine, cases };

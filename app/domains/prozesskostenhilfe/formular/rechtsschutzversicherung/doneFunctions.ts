@@ -1,8 +1,8 @@
 import type { GenericGuard } from "~/domains/guards.server";
-import { type ProzesskostenhilfeRechtsschutzversicherungContext } from "./context";
+import { type ProzesskostenhilfeRechtsschutzversicherungUserData } from "./userData";
 
 export const rechtsschutzversicherungDone: GenericGuard<
-  ProzesskostenhilfeRechtsschutzversicherungContext
+  ProzesskostenhilfeRechtsschutzversicherungUserData
 > = ({ context }) =>
   Boolean(
     (context.hasRsv === "no" ||

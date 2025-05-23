@@ -1,4 +1,4 @@
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { addTableInfo } from "./addTableInfo";
 import { drawTableColumnsHead } from "./drawTableColumnHead";
 import { drawTableColumnsValues } from "./drawTableColumnsValues";
@@ -9,7 +9,7 @@ export function addTable(
   doc: PDFKit.PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   startTableY: number,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) {
   const tableSect = doc.struct("Sect"); // Create new section for the table
   const table = doc.struct("Table"); // Create new table structure element

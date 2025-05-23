@@ -10,7 +10,7 @@ import Heading from "~/components/Heading";
 import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
 import { parsePathname } from "~/domains/flowIds";
-import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
+import type { GeldEinklagenVorabcheckUserData } from "~/domains/geldEinklagen/vorabcheck/userData";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 import {
@@ -34,13 +34,13 @@ export const loader = async ({
   const { data, id } = await sessionManager.getSession(cookieHeader);
   context.debugId = sessionManager.getDebugId(id); // For showing in errors
 
-  const contextData = data as GeldEinklagenVorabcheckContext;
+  const userData = data as GeldEinklagenVorabcheckUserData;
   const zipCodes = [
-    contextData.schadenPlz,
-    contextData.wohnraumPlz,
-    contextData.ortLeistungPlz,
-    contextData.gegenseitePersonPlz,
-    contextData.gegenseiteUnternehmenPlz,
+    userData.schadenPlz,
+    userData.wohnraumPlz,
+    userData.ortLeistungPlz,
+    userData.gegenseitePersonPlz,
+    userData.gegenseiteUnternehmenPlz,
   ];
   const pageType = splatFromParams(params);
 

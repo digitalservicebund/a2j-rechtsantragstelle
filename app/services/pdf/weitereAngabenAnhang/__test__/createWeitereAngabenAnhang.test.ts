@@ -2,7 +2,7 @@ import {
   mockPdfKitDocumentStructure,
   mockPdfKitDocument,
 } from "tests/factories/mockPdfKit";
-import { type ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { createWeitereAngabenAnhang } from "../createWeitereAngabenAnhang";
 
 describe("createWeitereAngabenAnhang", () => {
@@ -11,7 +11,7 @@ describe("createWeitereAngabenAnhang", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
     const userData = {
       weitereAngaben: "Weitere Angaben Example Text",
-    } as ProzesskostenhilfeFormularContext;
+    } as ProzesskostenhilfeFormularUserData;
 
     createWeitereAngabenAnhang(mockDoc, mockStruct, userData);
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
@@ -20,7 +20,7 @@ describe("createWeitereAngabenAnhang", () => {
   it("should not add weitereAngaben section to the pdf if weitereAngaben is not provided", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
-    const userData = {} as ProzesskostenhilfeFormularContext;
+    const userData = {} as ProzesskostenhilfeFormularUserData;
 
     createWeitereAngabenAnhang(mockDoc, mockStruct, userData);
     expect(mockDoc.text).not.toHaveBeenCalledWith(userData.weitereAngaben);

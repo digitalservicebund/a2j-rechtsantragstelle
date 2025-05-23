@@ -1,4 +1,4 @@
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 
 export const userDataMock = {
   startAirport: "BER",
@@ -37,4 +37,4 @@ export const userDataMock = {
   fluggesellschaftPostleitzahl: "10970",
   fluggesellschaftOrt: "Berlin",
   fluggesellschaftLand: "Deutschland",
-} satisfies FluggastrechtContext;
+} satisfies FluggastrechteUserData;

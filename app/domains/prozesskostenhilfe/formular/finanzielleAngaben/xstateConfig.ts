@@ -1,6 +1,5 @@
 import merge from "lodash/merge";
 import type { Config } from "~/services/flow/server/buildFlowController";
-import type { ProzesskostenhilfeFinanzielleAngabenContext } from "./context";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
@@ -14,6 +13,7 @@ import {
 import { einkuenfteDone } from "./einkuenfte/doneFunctions";
 import { partnerEinkuenfteGuards } from "./einkuenfte/guards";
 import { getProzesskostenhilfeEinkuenfteSubflow } from "./einkuenfte/xStateConfig";
+import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
 
 export const finanzielleAngabenXstateConfig = {
   initial: "einkuenfte",
@@ -877,4 +877,4 @@ export const finanzielleAngabenXstateConfig = {
       },
     },
   },
-} satisfies Config<ProzesskostenhilfeFinanzielleAngabenContext>;
+} satisfies Config<ProzesskostenhilfeFinanzielleAngabenUserData>;

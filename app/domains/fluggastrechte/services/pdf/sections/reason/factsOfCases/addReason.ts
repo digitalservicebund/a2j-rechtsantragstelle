@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -19,7 +19,7 @@ export const FINAL_COLON_SENTENCE = ":";
 
 const getPlaintiffBookedText = ({
   isWeiterePersonen,
-}: FluggastrechtContext) => {
+}: FluggastrechteUserData) => {
   if (isWeiterePersonen === "yes") {
     return PLAINTIFF_BOOKED_MULTIPLE_PERSONS_TEXT;
   }
@@ -27,7 +27,7 @@ const getPlaintiffBookedText = ({
   return PLAINTIFF_BOOKED_TEXT;
 };
 
-const getBereichArticleText = ({ bereich }: FluggastrechtContext) => {
+const getBereichArticleText = ({ bereich }: FluggastrechteUserData) => {
   if (bereich === "nichtbefoerderung") {
     return ARTICLE_NOT_MOVE_TEXT;
   }
@@ -35,7 +35,7 @@ const getBereichArticleText = ({ bereich }: FluggastrechtContext) => {
   return ARTICLE_DELAY_CANCEL_TEXT;
 };
 
-const getBereichText = ({ bereich }: FluggastrechtContext) => {
+const getBereichText = ({ bereich }: FluggastrechteUserData) => {
   if (bereich === "verspaetet") {
     return DELAY_TEXT;
   }
@@ -54,7 +54,7 @@ const getBereichText = ({ bereich }: FluggastrechtContext) => {
 export const addReason = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) => {
   const reasonSect = doc.struct("Sect");
   reasonSect.add(
