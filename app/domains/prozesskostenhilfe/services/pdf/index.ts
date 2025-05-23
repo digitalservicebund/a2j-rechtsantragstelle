@@ -30,7 +30,7 @@ import { fillWohnkosten } from "./pdfForm/H_wohnkosten";
 import { fillBelastungen } from "./pdfForm/J_belastungen";
 import { fillFooter } from "./pdfForm/K_footer";
 import { printNameInSignatureFormField } from "./printNameInSignatureFormField";
-import { createWeitereAngabenAnhang } from "./weitereAngabenAnhang/createWeitereAngabenAnhang";
+import { createWeitereAngabenAnhang } from "../../../../services/pdf/weitereAngabenAnhang/createWeitereAngabenAnhang";
 
 const METADATA: Metadata = {
   AUTHOR: "Bundesministerium der Justiz",

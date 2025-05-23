@@ -5,7 +5,7 @@ export const zusammenfassungXstateConfig = {
   states: {
     ueberblick: {
       on: {
-        BACK: "#persoenliche-daten.telefonnummer",
+        BACK: "#weitere-angaben",
         SUBMIT: "#abgabe",
       },
     },

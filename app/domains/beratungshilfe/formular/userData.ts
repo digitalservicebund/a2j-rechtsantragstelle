@@ -1,5 +1,6 @@
 import { beratungshilfePersoenlicheDatenInputSchema } from "~/domains/beratungshilfe/formular/persoenlicheDaten/userData";
 import { abgabeInputSchema } from "~/domains/shared/formular/abgabe/userData";
+import { weitereAngabenSchema } from "~/domains/shared/formular/weitereAngaben/userData";
 import { dokumenteInputSchema } from "./abgabe/dokumente/userData";
 import { beratungshilfeAnwaltlicheVertretungInputSchema } from "./anwaltlicheVertretung/userData";
 import { beratungshilfeFinanzielleAngabenInputSchema } from "./finanzielleAngaben/userData";
@@ -13,5 +14,6 @@ export const beratungshilfeFormularUserData = {
   ...beratungshilfeFinanzielleAngabenInputSchema,
   ...beratungshilfePersoenlicheDatenInputSchema,
   ...dokumenteInputSchema,
+  ...weitereAngabenSchema,
   ...abgabeInputSchema,
 } as const;
