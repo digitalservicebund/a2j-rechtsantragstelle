@@ -1,13 +1,13 @@
-import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "./context";
+import type { ProzesskostenhilfeRechtsschutzversicherungUserData } from "./userData";
 
 export function isOrganizationCoveragePartly(
-  context: ProzesskostenhilfeRechtsschutzversicherungContext,
+  context: ProzesskostenhilfeRechtsschutzversicherungUserData,
 ): boolean {
   return Boolean(context.hasOrgCoverage === "partly");
 }
 
 export function isOrganizationCoverageNone(
-  context: ProzesskostenhilfeRechtsschutzversicherungContext,
+  context: ProzesskostenhilfeRechtsschutzversicherungUserData,
 ): boolean {
   return Boolean(context.hasOrgCoverage === "no");
 }

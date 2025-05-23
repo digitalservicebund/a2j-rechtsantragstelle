@@ -1,12 +1,12 @@
 import { CheckboxValue } from "~/components/inputs/Checkbox";
-import { type KontopfaendungWegweiserContext } from "./context";
+import { type KontopfaendungWegweiserUserData } from "./userData";
 
-export const getArbeitStrings = (userData: KontopfaendungWegweiserContext) => {
+export const getArbeitStrings = (userData: KontopfaendungWegweiserUserData) => {
   return {
     hasArbeit: userData.hasArbeit === "yes",
   };
 };
-export const getPKontoStrings = (userData: KontopfaendungWegweiserContext) => {
+export const getPKontoStrings = (userData: KontopfaendungWegweiserUserData) => {
   return {
     hasPKonto: userData.hasPKonto === "ja",
     hasNoPKonto: userData.hasPKonto === "nein",
@@ -15,7 +15,7 @@ export const getPKontoStrings = (userData: KontopfaendungWegweiserContext) => {
   };
 };
 export const getPrivilegierteForderungStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     isPrivilegierteForderungStrafe: userData.pfaendungStrafe === "yes",
@@ -23,7 +23,7 @@ export const getPrivilegierteForderungStrings = (
   };
 };
 export const getErhoehungsbetragStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasErhoehungsbetrag:
@@ -34,7 +34,7 @@ export const getErhoehungsbetragStrings = (
   };
 };
 export const getKindergeldStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasKindergeld:
@@ -42,7 +42,7 @@ export const getKindergeldStrings = (
   };
 };
 export const getWohngeldStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasWohngeld:
@@ -50,7 +50,7 @@ export const getWohngeldStrings = (
   };
 };
 export const getEinmalSozialleistungStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasEinmalSozialleistung:
@@ -58,7 +58,7 @@ export const getEinmalSozialleistungStrings = (
   };
 };
 export const getNachzahlungSozialUnter500Strings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasNachzahlungSozialUnter500:
@@ -67,7 +67,7 @@ export const getNachzahlungSozialUnter500Strings = (
   };
 };
 export const getNachzahlungSozialMehr500Strings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasNachzahlungSozialMehr500:
@@ -76,7 +76,7 @@ export const getNachzahlungSozialMehr500Strings = (
   };
 };
 export const getNachzahlungArbeitUnter500Strings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasNachzahlungArbeitUnter500:
@@ -85,7 +85,7 @@ export const getNachzahlungArbeitUnter500Strings = (
   };
 };
 export const getNachzahlungArbeitMehr500Strings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasNachzahlungArbeitMehr500:
@@ -94,14 +94,14 @@ export const getNachzahlungArbeitMehr500Strings = (
   };
 };
 export const getBuergergeldStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasBuergergeld: userData.hasSozialleistungen === "buergergeld",
   };
 };
 export const getGrundsicherungStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasGrundsicherung:
@@ -109,7 +109,7 @@ export const getGrundsicherungStrings = (
   };
 };
 export const getAsylbewerberleistungStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasAsylbewerberleistung:
@@ -117,21 +117,21 @@ export const getAsylbewerberleistungStrings = (
   };
 };
 export const getPflegegeldSelbstStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasPflegegeldSelbst: userData.pflegegeld === "selbst",
   };
 };
 export const getPflegegeldFremdStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasPflegegeldFremd: userData.pflegegeld === "fremd",
   };
 };
 export const getBehordenschuldenStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasBehordenschuldenPrivat: userData.schuldenBei === "privat",
@@ -152,7 +152,7 @@ export const getBehordenschuldenStrings = (
   };
 };
 export const getArbeitsentgeltEinmaligStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     hasArbeitsentgeltEinmalig:
@@ -163,26 +163,26 @@ export const getArbeitsentgeltEinmaligStrings = (
   };
 };
 export const getSelbststaendigStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     isSelbststaendig: userData.arbeitArt?.selbstaendig === CheckboxValue.on,
   };
 };
 export const getAngestelltStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
     isAngestellt: userData.arbeitArt?.angestellt === CheckboxValue.on,
   };
 };
-export const getKinderStrings = (userData: KontopfaendungWegweiserContext) => {
+export const getKinderStrings = (userData: KontopfaendungWegweiserUserData) => {
   return {
     hasKinder: userData.hasKinder === "yes",
   };
 };
 export const getSchuldnerberatungsstelleStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   const { hasErhoehungsbetrag } = getErhoehungsbetragStrings(userData);
   const { hasKindergeld } = getKindergeldStrings(userData);
@@ -209,7 +209,7 @@ export const getSchuldnerberatungsstelleStrings = (
   return { schuldnerberatungsstelleIsVisible };
 };
 export const getAmtsgerichtStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   const { hasPflegegeldFremd } = getPflegegeldFremdStrings(userData);
   const hasArbeitsentgeltEinmalig =
@@ -230,7 +230,7 @@ export const getAmtsgerichtStrings = (
   return { amtsgerichtIsVisible };
 };
 export const getInfoZumPKontoStrings = (
-  userData: KontopfaendungWegweiserContext,
+  userData: KontopfaendungWegweiserUserData,
 ) => {
   const { hasNoPKonto, hasPKontoNichtAktive, hasPKontoBank } =
     getPKontoStrings(userData);

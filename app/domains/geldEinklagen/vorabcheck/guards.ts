@@ -1,8 +1,8 @@
 import { isPartnerCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import type { GeldEinklagenVorabcheckContext } from "./context";
+import type { GeldEinklagenVorabcheckUserData } from "./userData";
 import { yesNoGuards, type Guards } from "../../guards.server";
 
-const privatpersonEligible: Guards<GeldEinklagenVorabcheckContext>[string] = ({
+const privatpersonEligible: Guards<GeldEinklagenVorabcheckUserData>[string] = ({
   context,
 }) => ["yes", "nonSingle", "representing"].includes(context.privatperson ?? "");
 const yesNoGuardsFlug = yesNoGuards("flug");
@@ -52,4 +52,4 @@ export const guards = {
   digitalAusweisenNo: ({ context }) => context.digitalAusweisen === "no",
   livingAndWohnraumeYes: ({ context }) =>
     context.bereich === "living" && context.wohnraeume == "yes",
-} satisfies Guards<GeldEinklagenVorabcheckContext>;
+} satisfies Guards<GeldEinklagenVorabcheckUserData>;

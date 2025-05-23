@@ -1,6 +1,6 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine";
-import type { BeratungshilfeGrundvoraussetzungen } from "~/domains/beratungshilfe/formular/grundvoraussetzung/context";
+import type { BeratungshilfeGrundvoraussetzungenUserData } from "~/domains/beratungshilfe/formular/grundvoraussetzung/userData";
 
 const start = "/grundvoraussetzungen/start";
 const rechtsschutzversicherung =
@@ -133,7 +133,7 @@ const cases = [
       "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung-hinweis",
     ],
   ],
-] as const satisfies TestCases<BeratungshilfeGrundvoraussetzungen>;
+] as const satisfies TestCases<BeratungshilfeGrundvoraussetzungenUserData>;
 
 export const testCasesBeratungshilfeFormularGrundvoraussetzungen = {
   machine,

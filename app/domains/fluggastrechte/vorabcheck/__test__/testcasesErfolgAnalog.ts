@@ -1,7 +1,7 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
 import { guards } from "~/domains/fluggastrechte/vorabcheck/guards";
+import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
 import type { FlowStateMachine } from "~/services/flow/server/types";
 import { fluggastrechteVorabcheckXstateConfig } from "../xstateConfig";
 
@@ -14,7 +14,7 @@ const EU_AIRLINE = "LH";
 const NON_EU_AIRLINE = "DL";
 const SONSTIGES_AIRLINE = "sonstiges";
 
-const baseContext: FluggastrechtVorabcheckContext = {
+const baseContext: FluggastrechtVorabcheckUserData = {
   bereich: "verspaetet",
   verspaetung: "yes",
   gruende: "yes",
@@ -129,7 +129,7 @@ const cases = [
     },
     validSteps,
   ],
-] as const satisfies TestCases<FluggastrechtVorabcheckContext>;
+] as const satisfies TestCases<FluggastrechtVorabcheckUserData>;
 
 export const testcasesFluggastrechteErfolgAnalog = {
   machine,

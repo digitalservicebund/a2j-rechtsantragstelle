@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -26,7 +26,7 @@ const videoTrialAgreement = (videoverhandlung: string | undefined): string => {
 export const createStatementClaim = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) => {
   const { prozesszinsen, versaeumnisurteil, videoverhandlung } = userData;
   const compensationByDistance = getTotalCompensationClaim(userData);

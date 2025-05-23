@@ -1,5 +1,4 @@
 import CheckCircleIcon from "@digitalservicebund/icons/CheckCircle";
-import { type LegacyRef } from "react";
 
 export const FeedbackTitle = ({
   title,
@@ -8,7 +7,7 @@ export const FeedbackTitle = ({
 }: {
   title: string;
   subtitle: string;
-  innerRef?: LegacyRef<HTMLParagraphElement>;
+  innerRef?: React.Ref<HTMLParagraphElement>;
 }) => {
   return (
     <div className="flex max-sm:flex-col sm:items-center text-base mb-[1em]">

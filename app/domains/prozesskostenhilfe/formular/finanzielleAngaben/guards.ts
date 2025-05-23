@@ -31,11 +31,11 @@ import {
 } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-import {
-  prozesskostenhilfeFinanzielleAngabenContext,
-  type ProzesskostenhilfeFinanzielleAngabenContext,
-} from "./context";
 import { ausgabenDone, eigentumDone } from "./doneFunctions";
+import {
+  prozesskostenhilfeFinanzielleAngabenInputSchema,
+  type ProzesskostenhilfeFinanzielleAngabenUserData,
+} from "./userData";
 import { yesNoGuards, type Guards } from "../../../guards.server";
 
 export const finanzielleAngabeGuards = {
@@ -90,8 +90,8 @@ export const finanzielleAngabeGuards = {
     if (arrayIndex === undefined) return false;
     return (
       versicherungen?.at(arrayIndex)?.art ===
-      prozesskostenhilfeFinanzielleAngabenContext.versicherungen.element.shape
-        .art.Enum.sonstige
+      prozesskostenhilfeFinanzielleAngabenInputSchema.versicherungen.element
+        .shape.art.Enum.sonstige
     );
   },
   sonstigeAusgabeAnteiligYes: ({ context: { pageData, sonstigeAusgaben } }) => {
@@ -105,4 +105,4 @@ export const finanzielleAngabeGuards = {
     return ratenzahlungen?.at(arrayIndex)?.zahlungspflichtiger !== "myself";
   },
   ausgabenDone,
-} satisfies Guards<ProzesskostenhilfeFinanzielleAngabenContext>;
+} satisfies Guards<ProzesskostenhilfeFinanzielleAngabenUserData>;

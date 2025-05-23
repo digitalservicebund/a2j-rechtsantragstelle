@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import AccordionItem, {
+import {
+  AccordionItem,
   type AccordionItemProps,
 } from "~/components/AccordionItem";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";

@@ -1,6 +1,6 @@
-import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
+import type { GeldEinklagenVorabcheckUserData } from "~/domains/geldEinklagen/vorabcheck/userData";
 
-export const happyPathData: GeldEinklagenVorabcheckContext = {
+export const happyPathData: GeldEinklagenVorabcheckUserData = {
   forderung: "money",
   geldspanne: "above_1500",
   bereich: "shopping",

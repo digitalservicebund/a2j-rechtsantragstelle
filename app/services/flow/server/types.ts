@@ -1,6 +1,6 @@
 import { setup } from "xstate";
-import { type Context } from "~/domains/contexts";
 import type { Guards } from "~/domains/guards.server";
+import { type Context } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
 
 export type FlowStateMachineEvents =

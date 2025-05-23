@@ -1,5 +1,5 @@
 import { PDFDocument } from "pdf-lib";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { addMetadataToPdf } from "~/services/pdf/addMetadataToPdf";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
@@ -27,7 +27,7 @@ vi.mock("../loadHinweisblatt", () => ({
   default: vi.fn(),
 }));
 
-const userData: ProzesskostenhilfeFormularContext = {
+const userData: ProzesskostenhilfeFormularUserData = {
   vorname: "Angelika",
   nachname: "M",
 };

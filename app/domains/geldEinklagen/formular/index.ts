@@ -1,10 +1,10 @@
 import cloneDeep from "lodash/cloneDeep";
 import merge from "lodash/merge";
 import type { Flow } from "~/domains/flows.server";
-import type { GeldEinklagenFormularContext } from "./context";
 import geldEinklagenFormularFlow from "./flow.json";
 import { guards } from "./guards";
 import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
+import type { GeldEinklagenFormularUserData } from "./userData";
 import {
   gerichtskostenFromBetrag,
   gesamtKosten,
@@ -12,7 +12,7 @@ import {
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
-  stringReplacements: (context: GeldEinklagenFormularContext) => {
+  stringReplacements: (context: GeldEinklagenFormularUserData) => {
     if (!("forderung" in context && typeof context.forderung === "object"))
       return {};
     const gesamtForderung = gesamtKosten(context);
@@ -31,7 +31,7 @@ export const geldEinklagenFormular = {
     states: {
       "persoenliche-daten": merge(cloneDeep(persoenlicheDatenFlow), {
         meta: {
-          done: ({ context }: { context: GeldEinklagenFormularContext }) =>
+          done: ({ context }: { context: GeldEinklagenFormularUserData }) =>
             Boolean(
               context.anzahl &&
                 context.vorname &&
@@ -52,7 +52,7 @@ export const geldEinklagenFormular = {
       }),
       gegenseite: {
         meta: {
-          done: ({ context }: { context: GeldEinklagenFormularContext }) =>
+          done: ({ context }: { context: GeldEinklagenFormularUserData }) =>
             Boolean(
               (context.gegenseite?.typ === "privatperson" &&
                 context.gegenseite.privatperson?.vorname &&

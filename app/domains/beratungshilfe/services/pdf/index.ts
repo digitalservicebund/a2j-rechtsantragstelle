@@ -1,6 +1,6 @@
 import { PDFDocument } from "pdf-lib";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import {
   addMetadataToPdf,
   type Metadata,
@@ -12,6 +12,7 @@ import { fillPdf } from "~/services/pdf/fillPdf.server";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
+import { createWeitereAngabenAnhang } from "~/services/pdf/weitereAngabenAnhang/createWeitereAngabenAnhang";
 import { createChecklistPage } from "./checklist/createChecklistPage";
 import { fillAngelegenheit } from "./pdfForm/A_angelegenheit";
 import { fillVorraussetzungen } from "./pdfForm/B_vorraussetzungen";
@@ -35,7 +36,7 @@ const METADATA: Metadata = {
 };
 
 const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
-  BeratungshilfeFormularContext
+  BeratungshilfeFormularUserData
 > = (doc, documentStruct, userData, attachment) => {
   if (attachment && attachment.length > 0) {
     // Attachment holds content of form fields which is too long - output as needed
@@ -46,8 +47,13 @@ const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
       attachment,
       headerText: "Anhang: Antrag auf Bewilligung von Beratungshilfe",
     });
-    doc.addPage();
   }
+
+  if (userData.weitereAngaben) {
+    createWeitereAngabenAnhang(doc, documentStruct, userData);
+  }
+
+  doc.addPage();
 
   // Checklist will always be output
   createChecklistPage(doc, documentStruct, userData);
@@ -55,7 +61,7 @@ const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
 };
 
 export async function beratungshilfePdfFromUserdata(
-  userData: BeratungshilfeFormularContext,
+  userData: BeratungshilfeFormularUserData,
   sessionId: string,
 ) {
   const { pdfValues, attachment } = pdfFillReducer({

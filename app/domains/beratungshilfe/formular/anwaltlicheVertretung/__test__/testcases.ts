@@ -1,6 +1,6 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine";
-import type { BeratungshilfeAnwaltlicheVertretung } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/context";
+import type { BeratungshilfeAnwaltlicheVertretungUserData } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/userData";
 import { addDays, today, toGermanDateFormat } from "~/util/date";
 
 const rechtsproblemStart = "/rechtsproblem/start";
@@ -73,7 +73,7 @@ const cases = [
       "/anwaltliche-vertretung/anwalt-ende",
     ],
   ],
-] as const satisfies TestCases<BeratungshilfeAnwaltlicheVertretung>;
+] as const satisfies TestCases<BeratungshilfeAnwaltlicheVertretungUserData>;
 
 export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = {
   machine,
