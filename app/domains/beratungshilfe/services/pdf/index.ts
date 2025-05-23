@@ -12,6 +12,7 @@ import { fillPdf } from "~/services/pdf/fillPdf.server";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
+import { createWeitereAngabenAnhang } from "~/services/pdf/weitereAngabenAnhang/createWeitereAngabenAnhang";
 import { createChecklistPage } from "./checklist/createChecklistPage";
 import { fillAngelegenheit } from "./pdfForm/A_angelegenheit";
 import { fillVorraussetzungen } from "./pdfForm/B_vorraussetzungen";
@@ -46,8 +47,13 @@ const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
       attachment,
       headerText: "Anhang: Antrag auf Bewilligung von Beratungshilfe",
     });
-    doc.addPage();
   }
+
+  if (userData.weitereAngaben) {
+    createWeitereAngabenAnhang(doc, documentStruct, userData);
+  }
+
+  doc.addPage();
 
   // Checklist will always be output
   createChecklistPage(doc, documentStruct, userData);

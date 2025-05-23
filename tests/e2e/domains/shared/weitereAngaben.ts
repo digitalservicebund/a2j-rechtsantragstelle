@@ -1,6 +1,6 @@
 import { type Page } from "@playwright/test";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
-import { type Formular } from "../../shared/Formular";
+import { type Formular } from "./Formular";
 
 export async function startWeitereAngaben(page: Page, formular: Formular) {
   await expectPageToBeAccessible({ page });

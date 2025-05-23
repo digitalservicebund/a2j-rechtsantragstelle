@@ -1,6 +1,7 @@
 import { getRechtsproblemStrings } from "~/domains/beratungshilfe/formular/rechtsproblem/stringReplacements";
 import type { Flow } from "~/domains/flows.server";
 import { type AbgabeUserData } from "~/domains/shared/formular/abgabe/userData";
+import { type WeitereAngabenUserData } from "~/domains/shared/formular/weitereAngaben/userData";
 import { type DokumenteUserData } from "./abgabe/dokumente/userData";
 import { beratungshilfeAbgabeGuards } from "./abgabe/guards";
 import { beratungshilfeAnwaltlicheVertretungGuards } from "./anwaltlicheVertretung/guards";
@@ -63,5 +64,6 @@ export type BeratungshilfeFormularUserData =
     BeratungshilfeRechtsproblemUserData &
     BeratungshilfeFinanzielleAngabenUserData &
     BeratungshilfePersoenlicheDatenUserData &
+    WeitereAngabenUserData &
     AbgabeUserData &
     DokumenteUserData;
