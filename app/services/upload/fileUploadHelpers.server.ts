@@ -4,7 +4,7 @@ import pickBy from "lodash/pickBy";
 import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { type ZodTypeAny } from "zod";
 import { type FlowId } from "~/domains/flowIds";
-import { type ArrayData, type Context, getContext } from "~/domains/userData";
+import { type ArrayData, type UserData, getContext } from "~/domains/userData";
 import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
@@ -29,11 +29,11 @@ const createFileMeta = (
 export async function uploadUserFile(
   formAction: string,
   request: Request,
-  userData: Context,
+  userData: UserData,
   flowId: FlowId,
 ): Promise<{
   validationError?: UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
-  validationResult?: { data: Context };
+  validationResult?: { data: UserData };
 }> {
   const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
@@ -55,7 +55,7 @@ export async function uploadUserFile(
    * Need to scope the context, otherwise we validate against the entire context,
    * of which we only have partial data at this point
    */
-  const scopedContext = pickBy(
+  const scopedUserData = pickBy(
     getContext(flowId),
     (_val, key) => key === fieldName,
   ) as Record<string, ZodTypeAny>;
@@ -64,7 +64,7 @@ export async function uploadUserFile(
     inputName,
     fileMeta,
     userData,
-    scopedContext,
+    scopedUserData,
   );
 
   if (validationResult.error) {
@@ -89,7 +89,7 @@ export async function uploadUserFile(
 export async function deleteUserFile(
   formAction: string,
   cookieHeader: string | null,
-  userData: Context,
+  userData: UserData,
   flowId: FlowId,
 ) {
   const inputName = formAction.split(".")[1];
@@ -122,7 +122,10 @@ async function parseFileFromFormData(request: Request, fieldName: string) {
  * @param inputName name of the array that's being modified
  * @param userData existing user data in Context
  */
-export function getUpdatedField(inputName: string, userData: Context): Context {
+export function getUpdatedField(
+  inputName: string,
+  userData: UserData,
+): UserData {
   const { fieldName, inputIndex } = splitFieldName(inputName);
   return {
     [fieldName]: (userData[fieldName] as ArrayData).filter(

@@ -1,8 +1,8 @@
-import { type Context } from "~/domains/userData";
+import { type UserData } from "~/domains/userData";
 import { arrayChar } from "~/services/array";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 
-const getNestedValue = (userData: Context, fieldName: string): string => {
+const getNestedValue = (userData: UserData, fieldName: string): string => {
   const [nestedObjectName, nestedValueName] = fieldName.split(".");
   const nestedObject = userData[nestedObjectName];
 
@@ -23,7 +23,7 @@ const getFieldName = (field: string): string => {
 
 export const getItemValueBox = (
   translations: Translations,
-  userData: Context,
+  userData: UserData,
   inlineItems: Array<{ field: string; emptyValuePlaceholder?: string }>,
 ) => {
   const itemValues = inlineItems.map(({ field, emptyValuePlaceholder }) => {

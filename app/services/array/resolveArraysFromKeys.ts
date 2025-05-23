@@ -1,12 +1,12 @@
 import set from "lodash/set";
-import type { Context } from "~/domains/userData";
+import type { UserData } from "~/domains/userData";
 import { resolveArrayCharacter } from "./resolveArrayCharacter";
 
 export const resolveArraysFromKeys = (
-  data: Context,
+  data: UserData,
   arrayIndexes: number[] = [],
 ) => {
-  const resolvedObject: Context = {};
+  const resolvedObject: UserData = {};
   Object.entries(data).forEach(([key, value]) =>
     set(resolvedObject, resolveArrayCharacter(key, arrayIndexes), value),
   );

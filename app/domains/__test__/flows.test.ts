@@ -35,7 +35,7 @@ import {
   testCasesProzesskostenhilfeSubmitOnly,
 } from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";
-import { type Context } from "~/domains/userData";
+import { type UserData } from "~/domains/userData";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import type { FlowStateMachine } from "~/services/flow/server/types";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
@@ -49,7 +49,7 @@ function getEnabledSteps({
   steps,
 }: {
   machine: FlowStateMachine;
-  context: Context;
+  context: UserData;
   transitionType: "SUBMIT" | "BACK";
   steps: readonly string[];
 }) {
