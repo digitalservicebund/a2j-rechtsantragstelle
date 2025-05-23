@@ -94,32 +94,31 @@ export default function Index() {
         <p>
           {street} {houseNumber}
         </p>
-        <fetcher.Form
-          method="post"
-          action={pathname}
-          className="pb-16 flex gap-8 flex-col"
-        >
-          <AsyncSelect
-            placeholder="Nach Straßenname suchen..."
-            options={fetcher.data?.openPlzResults ?? openPlzResults}
-            onInputChange={onInputChange}
-            onChange={(option) => setStreet((option as SelectOption).label)}
-            components={{
-              DropdownIndicator: null,
-              Input: CustomInput,
-              Control: CustomControl,
-            }}
-          />
-          <input
-            type="number"
-            min={1}
-            className="ds-input max-w-[50%]"
-            required
-            onChange={(e) => {
-              const val = e.target.value;
-              setHouseNumber(val.length > 0 ? parseInt(val) : undefined);
-            }}
-          />
+        <fetcher.Form method="post" action={pathname}>
+          <div className="pb-16 flex gap-8">
+            <AsyncSelect
+              placeholder="Nach Straßenname suchen..."
+              className="flex-grow"
+              options={fetcher.data?.openPlzResults ?? openPlzResults}
+              onInputChange={onInputChange}
+              onChange={(option) => setStreet((option as SelectOption).label)}
+              components={{
+                DropdownIndicator: null,
+                Input: CustomInput,
+                Control: CustomControl,
+              }}
+            />
+            <input
+              type="number"
+              min={1}
+              className="ds-input max-w-[25%]"
+              required
+              onChange={(e) => {
+                const val = e.target.value;
+                setHouseNumber(val.length > 0 ? parseInt(val) : undefined);
+              }}
+            />
+          </div>
         </fetcher.Form>
         <ButtonContainer>
           <Button
