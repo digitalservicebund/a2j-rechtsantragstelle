@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { PosthogSurvey } from "~/components/reportProblem/Survey";
+import { PostHogSurvey } from "~/components/reportProblem/Survey";
 import { TranslationContext } from "~/services/translations/translationsContext";
 import { SurveyQuestionType } from "posthog-js";
 import Background from "~/components/Background";
@@ -7,12 +7,12 @@ import Container from "~/components/Container";
 
 const meta = {
   title: "Component/Survey",
-  component: PosthogSurvey,
+  component: PostHogSurvey,
   parameters: {
     layout: "fullscreen",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof PosthogSurvey>;
+} satisfies Meta<typeof PostHogSurvey>;
 
 export default meta;
 

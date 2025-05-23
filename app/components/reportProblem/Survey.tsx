@@ -11,7 +11,7 @@ import {
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 
-type PosthogSurveyProps = {
+type PostHogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
   closeSurvey: () => void;
   styleOverrides?: string;
@@ -25,11 +25,11 @@ const questionTypes: Record<string, ElementType> = {
   [SurveyQuestionType.Link]: () => <></>,
 };
 
-export const PosthogSurvey = ({
+export const PostHogSurvey = ({
   survey,
   closeSurvey,
   styleOverrides,
-}: PosthogSurveyProps) => {
+}: PostHogSurveyProps) => {
   const [isComplete, setIsComplete] = useState(false);
   const feedbackTranslations = useFeedbackTranslations();
   const [responses, setResponses] = useState<SurveyResponses>();
