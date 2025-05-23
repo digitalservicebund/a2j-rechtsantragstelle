@@ -9,6 +9,7 @@ import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
+import { useFocusHeadingTag } from "~/components/useFocusHeadingTag";
 import { useJsAvailable } from "~/services/useJsAvailable";
 import type { loader } from "../formular.server";
 
@@ -51,6 +52,8 @@ export function FormFlowPage() {
     hasTrackingConsent &&
     (flowId === "/beratungshilfe/antrag" ||
       flowId === "/prozesskostenhilfe/formular");
+
+  useFocusHeadingTag();
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>

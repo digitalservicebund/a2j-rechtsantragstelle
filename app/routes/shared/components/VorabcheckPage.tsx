@@ -4,6 +4,7 @@ import Container from "~/components/Container";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import PageContent from "~/components/PageContent";
+import { useFocusHeadingTag } from "~/components/useFocusHeadingTag";
 import type { loader } from "../vorabcheck.server";
 
 export function VorabcheckPage() {
@@ -15,6 +16,9 @@ export function VorabcheckPage() {
     progressProps,
     buttonNavigationProps,
   } = useLoaderData<typeof loader>();
+
+  useFocusHeadingTag();
+
   return (
     <Background backgroundColor="blue">
       <div className="min-w-[100vw]">
