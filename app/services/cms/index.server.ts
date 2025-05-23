@@ -1,9 +1,14 @@
+import { decode } from "html-entities";
 import type { FlowId } from "~/domains/flowIds";
 import {
   defaultLocale,
   type StrapiLocale,
 } from "~/services/cms/models/StrapiLocale";
-import type { Translations } from "~/services/translations/getTranslationByKey";
+import type {
+  Locale,
+  Translations,
+} from "~/services/translations/getTranslationByKey";
+import { translations } from "~/services/translations/translations";
 import type { Filter } from "./filters";
 import { getStrapiEntry } from "./getStrapiEntry";
 import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
@@ -88,25 +93,39 @@ export async function fetchEntries<T extends ApiId>(
 
 export const fetchTranslations = async (
   name: string,
+  locale: Locale = defaultLocale,
 ): Promise<Translations> => {
-  const filters = [{ field: "scope", value: name }];
-  try {
-    return (await fetchCollectionEntry("translations", filters, defaultLocale))
-      .entries;
-  } catch {
-    return {};
-  }
+  if (!Object.hasOwn(translations, name))
+    throw new Error(`Translation ${name} not found`);
+  const scopedTranslations = Object.fromEntries(
+    Object.entries(translations[name]).map(([key, value]) => {
+      if (!Object.hasOwn(value, locale))
+        throw new Error(
+          `Translation ${name}.${key} not found for locale ${locale}`,
+        );
+      return [key, decode(value[locale])];
+    }),
+  );
+  return Promise.resolve(scopedTranslations);
 };
 
-export async function fetchMultipleTranslations(scopes: string[]) {
-  const translations = await fetchEntries({
-    apiId: "translations",
-    locale: "de",
-    filters: [{ field: "scope", operation: "$in", value: scopes }],
-  });
-  return Object.fromEntries(
-    translations.map(({ scope, entries }) => [scope, entries]),
-  );
+export function fetchMultipleTranslations(
+  scopes: string[],
+): Promise<Record<string, Translations>> {
+  if (!scopes.some((scope) => Object.hasOwn(translations, scope))) {
+    throw new Error(
+      `No matching translation scopes found for ${scopes.join(", ")}`,
+    );
+  }
+  return scopes
+    .filter((scope) => Object.hasOwn(translations, scope))
+    .reduce(async (prev, current) => {
+      const currentTranslations = await fetchTranslations(current);
+      return {
+        ...(await prev),
+        [current]: currentTranslations,
+      };
+    }, Promise.resolve({}));
 }
 
 export const fetchPage = (slug: string) =>
