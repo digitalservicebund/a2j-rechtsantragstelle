@@ -1,7 +1,7 @@
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 
 export const getAntragstellendePersonStrings = (
-  context: ProzesskostenhilfeFormularContext,
+  context: ProzesskostenhilfeFormularUserData,
 ) => {
   return {
     unterhaltspflichtigePersonName: `${context.unterhaltspflichtigePerson?.vorname ?? ""} ${context.unterhaltspflichtigePerson?.nachname ?? ""}`,

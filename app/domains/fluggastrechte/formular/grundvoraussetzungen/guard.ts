@@ -1,6 +1,6 @@
 import { type Guards } from "~/domains/guards.server";
-import { type FluggastrechteGrundvoraussetzungenContext } from "./context";
+import { type FluggastrechteGrundvoraussetzungenUserData } from "./userData";
 
 export const fluggastrechteGrundvoraussetzungenGuards = {
   hasNoStreitbeilegung: ({ context }) => context.streitbeilegung === "no",
-} satisfies Guards<FluggastrechteGrundvoraussetzungenContext>;
+} satisfies Guards<FluggastrechteGrundvoraussetzungenUserData>;

@@ -1,11 +1,11 @@
 import { and, not } from "xstate";
 import type { Config } from "~/services/flow/server/buildFlowController";
-import { type BeratungshilfeVorabcheckContext } from "./context";
 import { isIncomeTooHigh } from "./isIncomeTooHigh";
+import { type BeratungshilfeVorabcheckUserData } from "./userData";
 import type { GenericGuard } from "../../guards.server";
 
 const staatlicheLeistungenYes: GenericGuard<
-  BeratungshilfeVorabcheckContext
+  BeratungshilfeVorabcheckUserData
 > = ({ context }) =>
   context.staatlicheLeistungen === "grundsicherung" ||
   context.staatlicheLeistungen === "asylbewerberleistungen";
@@ -531,4 +531,4 @@ export const beratungshilfeVorabcheckXstateConfig = {
       },
     },
   },
-} satisfies Config<BeratungshilfeVorabcheckContext>;
+} satisfies Config<BeratungshilfeVorabcheckUserData>;

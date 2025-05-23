@@ -1,11 +1,11 @@
 import type { GenericGuard } from "~/domains/guards.server";
-import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/context";
 import { finanzielleAngabeEinkuenfteGuards as guards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
+import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
 import { staatlicheLeistungenIsBuergergeld } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 export type ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
-  GenericGuard<ProzesskostenhilfeFinanzielleAngabenEinkuenfteContext>;
+  GenericGuard<ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData>;
 
 export const staatlicheLeistungenDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) =>
@@ -19,6 +19,7 @@ export const staatlicheLeistungenDone: ProzesskostenhilfeFinanzielleAngabenEinku
 
 export const arbeitsabzuegeDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) => {
+    if (guards.incomeWithBuergergeld({ context })) return true;
     if (context.arbeitsweg === undefined) return false;
 
     const arbeitsplatzDone =

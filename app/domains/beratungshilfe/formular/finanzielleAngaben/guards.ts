@@ -41,12 +41,12 @@ import {
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
-import { type BeratungshilfeFinanzielleAngaben } from "./context";
 import {
   eigentumDone,
   hasNoStaatlicheLeistungen,
   hasStaatlicheLeistungen,
 } from "./doneFunctions";
+import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards } from "../../../guards.server";
 import type { Guards } from "../../../guards.server";
 
@@ -131,4 +131,4 @@ export const finanzielleAngabeGuards = {
 
   hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
-} satisfies Guards<BeratungshilfeFinanzielleAngaben>;
+} satisfies Guards<BeratungshilfeFinanzielleAngabenUserData>;

@@ -1,5 +1,5 @@
 import ArraySummaryItemButton from "~/components/arraySummary/ArraySummaryItemButton";
-import type { BasicTypes } from "~/domains/contexts";
+import type { BasicTypes } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import {
   extractTranslations,

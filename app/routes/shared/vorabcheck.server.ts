@@ -4,13 +4,13 @@ import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
 import {
   fetchFlowPage,
   fetchMeta,
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { isStrapiHeadingComponent } from "~/services/cms/models/isStrapiHeadingComponent";
+import { isStrapiSelectComponent } from "~/services/cms/models/isStrapiSelectComponent";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { logWarning } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";

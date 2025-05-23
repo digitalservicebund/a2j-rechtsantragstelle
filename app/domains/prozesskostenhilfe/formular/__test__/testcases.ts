@@ -4,7 +4,6 @@ import { prozesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formula
 import { happyPathData } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import { antragstellendePersonTransitionCases } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/types";
-import { type ProzesskostenhilfeFormularContext } from "../context";
 import { testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen } from "../finanzielleAngaben/__test__/testcasesAndereUnterhalt";
 import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "../finanzielleAngaben/__test__/testcasesAusgaben";
 import { testCasesPKHFormularFinanzielleAngabenEigentum } from "../finanzielleAngaben/__test__/testcasesEigentum";
@@ -13,6 +12,7 @@ import { testCasesPKHFormularFinanzielleAngabenKinder } from "../finanzielleAnga
 import { testCasesPKHFormularFinanzielleAngabenPartner } from "../finanzielleAngaben/__test__/testcasesPartner";
 import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../finanzielleAngaben/__test__/testcasesWohnung";
 import { testCasesProzesskostenhilfeRsv } from "../rechtsschutzversicherung/__test__/testcases";
+import { type ProzesskostenhilfeFormularUserData } from "../userData";
 
 const machine: FlowStateMachine = createMachine(
   { ...prozesskostenhilfeFormular.config, context: {} },
@@ -78,7 +78,7 @@ const cases = [
       "/abgabe/ende",
     ],
   ],
-] satisfies TestCases<ProzesskostenhilfeFormularContext>;
+] satisfies TestCases<ProzesskostenhilfeFormularUserData>;
 
 export const testCasesProzesskostenhilfeSubmitOnly = {
   machine,
@@ -139,7 +139,7 @@ export const testCasesProzesskostenhilfeSubmitOnly = {
         "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
       ],
     ],
-  ] satisfies TestCases<ProzesskostenhilfeFormularContext>,
+  ] satisfies TestCases<ProzesskostenhilfeFormularUserData>,
 };
 
 export const testCasesProzesskostenhilfeFormular = {

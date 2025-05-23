@@ -2,12 +2,12 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { createHeader } from "../createHeader";
 
 describe("createHeader", () => {
   it("should create header with header text and user names", () => {
-    const userData: ProzesskostenhilfeFormularContext = {
+    const userData: ProzesskostenhilfeFormularUserData = {
       vorname: "Alfred J.",
       nachname: "Kwack",
     };

@@ -8,7 +8,7 @@ import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 import { startGesetzlicheVertretung } from "./gesetzlicheVertretung";
 import { startPersoenlicheDaten } from "./persoenlicheDaten";
-import { startWeitereAngaben } from "./weitereAngaben";
+import { startWeitereAngaben } from "../../shared/weitereAngaben";
 
 let prozesskostenhilfeFormular: ProzesskostenhilfeFormular;
 

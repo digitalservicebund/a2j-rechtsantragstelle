@@ -1,4 +1,4 @@
-import type { AbgabeContext } from "~/domains/shared/formular/abgabe/context";
+import type { AbgabeUserData } from "~/domains/shared/formular/abgabe/userData";
 import { config } from "~/services/env/env.server";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import type { Config } from "~/services/flow/server/buildFlowController";
@@ -48,5 +48,5 @@ export const abgabeXstateConfig = async (backDestination: string) => {
         on: { BACK: { target: showFileUpload ? "dokumente" : "art" } },
       },
     },
-  } satisfies Config<AbgabeContext>;
+  } satisfies Config<AbgabeUserData>;
 };

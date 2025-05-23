@@ -1,10 +1,10 @@
-import type { ProzesskostenhilfeAntragstellendePersonContext } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
+import type { ProzesskostenhilfeAntragstellendePersonUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
 import {
   couldLiveFromUnterhalt,
   unterhaltBekommeIch,
   unterhaltLeisteIch,
   antragstellendePersonDone,
-} from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
+} from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
 import type {
   Config,
   FlowConfigTransitions,
@@ -112,5 +112,5 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
         },
       },
     },
-  } satisfies Config<ProzesskostenhilfeAntragstellendePersonContext>;
+  } satisfies Config<ProzesskostenhilfeAntragstellendePersonUserData>;
 };

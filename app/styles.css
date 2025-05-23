@@ -33,10 +33,13 @@ svg {
 }
 
 /* Ensure black SVG paths don't disappear in high-contrast mode */
-@media (forced-colors: active) {
+@media (forced-colors: active) and (prefers-color-scheme: dark) {
   .svg-image path[fill="#000"] {
     stroke: white;
     stroke-width: 0.75;
+  }
+  .svg-image path[fill="black"] {
+    fill: white;
   }
 }
 
@@ -269,9 +272,7 @@ details:not(:has(.summary-content:focus-visible)) {
   outline-offset: -4px;
 }
 
-.auto-suggest-input-disabled:hover,
-.auto-suggest-input-disabled:focus,
-.auto-suggest-input-disabled:focus-within {
+.auto-suggest-input-disabled:hover {
   outline-offset: 0 !important;
   outline: none !important;
   @apply bg-white !important;

@@ -46,7 +46,7 @@ export const FileInput = ({
       }}
       type="file"
       accept=".pdf"
-      data-testid="fileUploadInput"
+      data-testid={`file-upload-input-${name}`}
       aria-invalid={error !== undefined}
       aria-errormessage={error && errorId}
       className={inputClasses}

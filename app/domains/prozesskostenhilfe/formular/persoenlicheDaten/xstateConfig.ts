@@ -2,12 +2,12 @@ import type {
   Config,
   FlowConfigTransitions,
 } from "~/services/flow/server/buildFlowController";
-import type { ProzesskostenhilfePersoenlicheDaten } from "./context";
 import { prozesskostenhilfePersoenlicheDatenDone } from "./doneFunctions";
+import type { ProzesskostenhilfePersoenlicheDatenUserData } from "./userData";
 
 export function getProzesskostenhilfePersoenlicheDatenXstateConfig(
   transitions?: FlowConfigTransitions,
-): Config<ProzesskostenhilfePersoenlicheDaten> {
+): Config<ProzesskostenhilfePersoenlicheDatenUserData> {
   return {
     id: "persoenliche-daten",
     initial: "start",

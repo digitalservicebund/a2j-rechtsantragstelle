@@ -1,4 +1,4 @@
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { drawCell } from "./drawCell";
 import { getConnectionDetails } from "./getConnectionDetails";
 import {
@@ -13,7 +13,7 @@ export function drawTableColumnsValues(
   doc: PDFKit.PDFDocument,
   tableStruct: PDFKit.PDFStructureElement,
   startTableY: number,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) {
   const { info, timeTable } = getConnectionDetails(userData);
   const plannedFlight = [

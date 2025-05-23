@@ -102,7 +102,7 @@ const errorPage500: StrapiContentComponent = {
         id: 606,
       },
       content:
-        "<p>Leider ist ein Fehler ist aufgetreten. Wir arbeiten ständig an der Verbesserung unserer Service und sind bereits informiert.</p>\n<p>Bitte versuchen Sie es später noch einmal.</p>\n",
+        "<p>Leider ist ein unbekannter Fehler aufgetreten. Wir arbeiten ständig an der Verbesserung unserer Services und sind bereits informiert.</p>\n<p>Bitte versuchen Sie es später noch einmal.</p>\n",
       id: 364,
       detailsSummary: [],
       inlineNotice: [],

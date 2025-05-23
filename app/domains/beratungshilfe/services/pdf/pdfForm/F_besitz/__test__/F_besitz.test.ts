@@ -1,5 +1,5 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import { type BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import {
@@ -11,7 +11,7 @@ import { fillVermoegenswerte } from "../fillVermoegenswerte";
 describe("F_besitz", () => {
   describe("fillFinancialBankkonto", () => {
     it("should fill one bankkonto when context has one bankkonto is given", () => {
-      const userData: BeratungshilfeFormularContext = {
+      const userData: BeratungshilfeFormularUserData = {
         hasBankkonto: "yes",
         bankkonten: [
           {
@@ -38,7 +38,7 @@ describe("F_besitz", () => {
     });
 
     it("should fill multiple bankkonto when context has multiple bankkonto is given", () => {
-      const userData: BeratungshilfeFormularContext = {
+      const userData: BeratungshilfeFormularUserData = {
         hasBankkonto: "yes",
         bankkonten: [
           {
@@ -94,7 +94,7 @@ describe("F_besitz", () => {
 
   describe("fillFinancialGrundeigentum", () => {
     it("should fill grundeigentum pdf field when grundeigentum is given in context", () => {
-      const userData: BeratungshilfeFormularContext = {
+      const userData: BeratungshilfeFormularUserData = {
         hasGrundeigentum: "yes",
         grundeigentum: [
           {
@@ -127,7 +127,7 @@ describe("F_besitz", () => {
     });
 
     it("should create attachment when multiple grundeigentum is given in context", () => {
-      const userData: BeratungshilfeFormularContext = {
+      const userData: BeratungshilfeFormularUserData = {
         hasGrundeigentum: "yes",
         grundeigentum: [
           {
@@ -293,7 +293,7 @@ describe("F_besitz", () => {
     });
 
     it("should add attachment when multiple vermoegen is present", () => {
-      const userData: BeratungshilfeFormularContext = {
+      const userData: BeratungshilfeFormularUserData = {
         hasWertsache: "yes",
         hasGeldanlage: "yes",
         wertsachen: [

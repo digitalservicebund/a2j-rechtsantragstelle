@@ -2,7 +2,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import * as createAttachmentEntriesModule from "~/services/pdf/attachment/createAttachmentEntries";
 import * as createHeadingModule from "~/services/pdf/createHeading";
 import * as createHeaderModule from "~/services/pdf/header/createHeader";
@@ -22,7 +22,7 @@ describe("createAttachmentPages", () => {
       "createAttachmentEntries",
     );
 
-    const userData: ProzesskostenhilfeFormularContext = {
+    const userData: ProzesskostenhilfeFormularUserData = {
       vorname: "Alfred J.",
       nachname: "Kwack",
     };

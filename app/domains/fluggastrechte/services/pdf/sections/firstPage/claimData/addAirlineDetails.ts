@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { getAirlineNameByIataCode } from "~/domains/fluggastrechte/services/airlines/getAirlineNameByIataCode";
 import {
   FONTS_BUNDESSANS_BOLD,
@@ -15,7 +15,7 @@ export const addAirlineDetails = (
     fluggesellschaftPostleitzahl,
     fluggesellschaftOrt,
     fluggesellschaftLand,
-  }: FluggastrechtContext,
+  }: FluggastrechteUserData,
 ) => {
   const airlineName = getAirlineNameByIataCode(fluggesellschaft);
   const address = fluggesellschaftStrasseHausnummer ?? "";

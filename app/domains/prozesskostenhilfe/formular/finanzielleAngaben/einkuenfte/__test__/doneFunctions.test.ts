@@ -49,6 +49,17 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
       expect(done).toBe(false);
     });
 
+    it("should return true if the user has Bürgergeld and income", () => {
+      expect(
+        arbeitsabzuegeDone({
+          context: {
+            staatlicheLeistungen: "buergergeld",
+            currentlyEmployed: "yes",
+          },
+        }),
+      ).toBe(true);
+    });
+
     it("should return false if the user uses public transport and hasn't entered their monthly costs, or their place of work", () => {
       const done = arbeitsabzuegeDone({
         context: { arbeitsweg: "publicTransport" },

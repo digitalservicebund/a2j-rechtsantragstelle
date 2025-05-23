@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 import {
   FONTS_BUNDESSANS_BOLD,
@@ -22,7 +22,7 @@ type FlightDetail = {
 
 const addZwischenstoppToFlightDetails = (
   flightDetails: FlightDetail[],
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) => {
   if (typeof userData.ersterZwischenstopp !== "undefined") {
     flightDetails.push({
@@ -46,7 +46,7 @@ const addZwischenstoppToFlightDetails = (
   }
 };
 
-const getFlightDetails = (userData: FluggastrechtContext): FlightDetail[] => {
+const getFlightDetails = (userData: FluggastrechteUserData): FlightDetail[] => {
   const flightDetails: FlightDetail[] = [];
 
   flightDetails.push({
@@ -82,7 +82,7 @@ const getFlightDetails = (userData: FluggastrechtContext): FlightDetail[] => {
 export const addFlightDetails = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) => {
   const originalFlightDetailsSect = doc.struct("Sect");
   const flightDetails = getFlightDetails(userData);
