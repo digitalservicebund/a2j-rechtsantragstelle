@@ -1,5 +1,5 @@
 import type { Flow } from "~/domains/flows.server";
-import type { Context } from "~/domains/userData";
+import type { UserData } from "~/domains/userData";
 import { getArraySummaryPageTranslations } from "~/services/array/getArraySummaryPageTranslations";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import type { Translations } from "~/services/translations/getTranslationByKey";
@@ -8,11 +8,11 @@ import { applyStringReplacement } from "~/util/applyStringReplacement";
 type BuildFormularServerTranslations = {
   currentFlow: Flow;
   flowTranslations: Translations;
-  migrationData: Context | undefined;
+  migrationData: UserData | undefined;
   arrayCategories: string[];
   overviewTranslations: Translations;
   formPageContent: StrapiFormFlowPage;
-  userDataWithPageData: Context;
+  userDataWithPageData: UserData;
 };
 
 const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
@@ -38,7 +38,7 @@ const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
 function interpolateTranslations(
   currentFlow: Flow,
   translation: Translations,
-  data: Context | undefined,
+  data: UserData | undefined,
 ): Translations {
   if (
     typeof data === "undefined" ||

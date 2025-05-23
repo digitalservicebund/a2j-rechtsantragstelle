@@ -1,6 +1,6 @@
 import { setup } from "xstate";
 import type { Guards } from "~/domains/guards.server";
-import { type Context } from "~/domains/userData";
+import { type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
 
 export type FlowStateMachineEvents =
@@ -9,7 +9,7 @@ export type FlowStateMachineEvents =
   | { type: ArrayConfigServer["event"] };
 
 export type StateMachineTypes = {
-  context: Context;
+  context: UserData;
   events: FlowStateMachineEvents;
 };
 

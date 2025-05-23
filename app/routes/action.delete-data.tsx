@@ -2,7 +2,7 @@ import type { ActionFunctionArgs } from "react-router";
 import { createCookie, redirect } from "react-router";
 import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 import {
-  allSessionContexts,
+  allSessionUserData,
   getSessionManager,
 } from "~/services/session.server";
 
@@ -10,8 +10,8 @@ export const loader = () => redirect("/");
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
-  for (const context of allSessionContexts) {
-    const sessionManager = getSessionManager(context);
+  for (const userData of allSessionUserData) {
+    const sessionManager = getSessionManager(userData);
     const session = await sessionManager.getSession(cookieHeader);
     await sessionManager.destroySession(session);
   }

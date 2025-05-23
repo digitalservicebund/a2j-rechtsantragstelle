@@ -2,14 +2,14 @@ import { ValidatedForm } from "@rvf/react-router";
 import { useLocation } from "react-router";
 import type { ButtonNavigationProps } from "~/components/form/ButtonNavigation";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import type { Context } from "~/domains/userData";
+import type { UserData } from "~/domains/userData";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { schemaForFieldNames } from "~/services/validation/stepValidator/schemaForFieldNames";
 
 type ValidatedFlowFormProps = {
-  stepData: Context;
+  stepData: UserData;
   formElements: StrapiFormComponent[];
   buttonNavigationProps: ButtonNavigationProps;
   csrf: string;

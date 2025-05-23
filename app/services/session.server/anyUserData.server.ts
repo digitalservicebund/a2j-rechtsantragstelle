@@ -1,8 +1,8 @@
-import { allSessionContexts, getSessionManager } from ".";
+import { allSessionUserData, getSessionManager } from ".";
 
 export async function anyUserData(request: Request) {
   const cookieHeader = request.headers.get("Cookie");
-  const sessionDataSizesPromises = allSessionContexts.map((context) =>
+  const sessionDataSizesPromises = allSessionUserData.map((context) =>
     getSessionManager(context)
       .getSession(cookieHeader)
       .then((session) => Object.keys(session.data).length),

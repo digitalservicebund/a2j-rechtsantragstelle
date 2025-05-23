@@ -1,4 +1,4 @@
-import { type Context } from "~/domains/userData";
+import { type UserData } from "~/domains/userData";
 import { idFromCookie } from "~/services/analytics/posthogHelpers";
 import { getPosthogClient } from "./posthogClient.server";
 
@@ -9,7 +9,7 @@ export function sendCustomAnalyticsEvent({
 }: {
   request: Request;
   eventName: string;
-  properties?: Context;
+  properties?: UserData;
 }) {
   getPosthogClient()?.capture({
     distinctId: idFromCookie(request.headers.get("Cookie")),
