@@ -297,3 +297,7 @@ details:not(:has(.summary-content:focus-visible)) {
   font-weight: 400;
   src: url(/fonts/Fira-Sans.woff2) format("woff2");
 }
+
+h1:focus {
+  outline: none;
+}

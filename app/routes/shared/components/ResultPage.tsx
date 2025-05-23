@@ -10,6 +10,7 @@ import Container from "~/components/Container";
 import Heading from "~/components/Heading";
 import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
+import { useFocusFirstH1 } from "~/components/useFocusFirstH1";
 import type { loader } from "~/routes/shared/result.server";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
@@ -34,6 +35,8 @@ export function ResultPage() {
   const documentsList = cmsData.documents;
   const nextSteps = cmsData.nextSteps;
   const content = cmsData.freeZone;
+
+  useFocusFirstH1();
 
   return (
     <div className="flex flex-col min-w-full">
