@@ -11,7 +11,7 @@ import type { Replacements } from "~/util/applyStringReplacement";
 import type { FlowId } from "./flowIds";
 import type { Guards } from "./guards.server";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
-import type { Context } from "./userData";
+import type { UserData } from "./userData";
 
 type FlowMigration = {
   source: FlowId;
@@ -27,7 +27,7 @@ export type Flow = {
   guards: Guards;
   migration?: FlowMigration;
   flowTransitionConfig?: FlowTransitionConfig;
-  stringReplacements?: (context: Context) => Replacements;
+  stringReplacements?: (context: UserData) => Replacements;
   asyncFlowActions?: Record<string, (request: Request) => Promise<void>>;
 };
 

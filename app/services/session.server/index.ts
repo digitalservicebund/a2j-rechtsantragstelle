@@ -4,7 +4,7 @@ import mergeWith from "lodash/mergeWith";
 import type { Cookie, Session } from "react-router";
 import { createSessionStorage, createCookie } from "react-router";
 import { flowIds, type FlowId } from "~/domains/flowIds";
-import { type Context } from "~/domains/userData";
+import { type UserData } from "~/domains/userData";
 import { config } from "~/services/env/env.server";
 import { useSecureCookie } from "~/util/useSecureCookie";
 import {
@@ -14,8 +14,8 @@ import {
   updateDataForSession,
 } from "./redis";
 
-export const allSessionContexts = [...flowIds, "main"] as const;
-type SessionContext = (typeof allSessionContexts)[number];
+export const allSessionUserData = [...flowIds, "main"] as const;
+type SessionUserData = (typeof allSessionUserData)[number];
 const fullId = (context: string, id: string) => `${context}_${id}`;
 
 function createDatabaseSessionStorage({
@@ -23,7 +23,7 @@ function createDatabaseSessionStorage({
   context,
 }: {
   cookie: Cookie;
-  context: SessionContext;
+  context: SessionUserData;
 }) {
   return createSessionStorage({
     cookie,
@@ -44,7 +44,7 @@ function createDatabaseSessionStorage({
   });
 }
 
-export function getSessionManager(context: SessionContext) {
+export function getSessionManager(context: SessionUserData) {
   const { getSession, commitSession, destroySession } =
     createDatabaseSessionStorage({
       cookie: createCookie("__session", {
@@ -66,13 +66,13 @@ export const getSessionData = async (
 ) => {
   const contextSession = getSessionManager(flowId);
   const { data, id } = await contextSession.getSession(cookieHeader);
-  const userData: Context = data; // Recast for now to get type safety
+  const userData: UserData = data; // Recast for now to get type safety
   return { userData, debugId: contextSession.getDebugId(id) };
 };
 
 export const updateSession = (
   session: Session,
-  validatedData: Context,
+  validatedData: UserData,
   mergeCustomizer?: MergeWithCustomizer,
 ) => {
   const mergedData = mergeWith(session.data, validatedData, mergeCustomizer);
