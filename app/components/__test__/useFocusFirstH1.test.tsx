@@ -1,19 +1,19 @@
 import { render, waitFor } from "@testing-library/react";
-import { useFocusHeadingTag } from "../useFocusHeadingTag";
+import { useFocusFirstH1 } from "../useFocusFirstH1";
 
 const TEXT_HEADING_LABEL = "Test Heading";
 
 function DummyComponentWithH1() {
-  useFocusHeadingTag();
+  useFocusFirstH1();
   return <h1>{TEXT_HEADING_LABEL}</h1>;
 }
 
 function DummyComponentWithoutH1() {
-  useFocusHeadingTag();
+  useFocusFirstH1();
   return <h2>{TEXT_HEADING_LABEL}</h2>;
 }
 
-describe("useFocusHeadingTag", () => {
+describe("useFocusFirstH1", () => {
   it("should set tabindex and focus in case h1 element is present", async () => {
     const { getByText } = render(<DummyComponentWithH1 />);
 
