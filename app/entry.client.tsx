@@ -16,7 +16,7 @@ if (SENTRY_DSN !== undefined) {
   Sentry.init({
     dsn: SENTRY_DSN,
     environment: ENVIRONMENT,
-    integrations: [Sentry.browserTracingIntegration()],
+    integrations: [Sentry.reactRouterTracingIntegration()],
     ignoreErrors: SENTRY_IGNORE_ERRORS,
   });
 }
