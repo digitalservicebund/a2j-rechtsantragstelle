@@ -39,8 +39,8 @@ describe("StrapiHero", () => {
     });
   });
 
-  it("should handle hero with buttons", () => {
-    const withButtons = {
+  it("should handle hero with button", () => {
+    const withButton = {
       heading: {
         text: "someText",
         tagName: "h1",
@@ -48,34 +48,30 @@ describe("StrapiHero", () => {
       },
       content: null,
       outerBackground: null,
-      buttons: [
-        {
-          text: "Button 1",
-          href: "/link-1",
-          look: "primary",
-          size: "medium",
-          fullWidth: false,
-          __component: "form-elements.button",
-        },
-      ],
-    };
-
-    const actualWithButtons = StrapiHeroSchema.safeParse(withButtons);
-    expect(actualWithButtons.success).toBe(true);
-    expect(actualWithButtons?.data?.buttons).toEqual([
-      {
-        text: "Button 1",
-        href: "/link-1",
+      button: {
+        text: "Button",
+        href: "/link",
         look: "primary",
         size: "medium",
         fullWidth: false,
         __component: "form-elements.button",
       },
-    ]);
+    };
+
+    const actualWithButton = StrapiHeroSchema.safeParse(withButton);
+    expect(actualWithButton.success).toBe(true);
+    expect(actualWithButton?.data?.button).toEqual({
+      text: "Button",
+      href: "/link",
+      look: "primary",
+      size: "medium",
+      fullWidth: false,
+      __component: "form-elements.button",
+    });
   });
 
-  it("should handle hero without buttons", () => {
-    const withoutButtons = {
+  it("should handle hero without button", () => {
+    const withoutButton = {
       heading: {
         text: "someText",
         tagName: "h1",
@@ -85,8 +81,8 @@ describe("StrapiHero", () => {
       outerBackground: null,
     };
 
-    const actualWithoutButtons = StrapiHeroSchema.safeParse(withoutButtons);
-    expect(actualWithoutButtons.success).toBe(true);
-    expect(actualWithoutButtons?.data?.buttons).toBeUndefined();
+    const actualWithoutButton = StrapiHeroSchema.safeParse(withoutButton);
+    expect(actualWithoutButton.success).toBe(true);
+    expect(actualWithoutButton?.data?.button).toBeUndefined();
   });
 });

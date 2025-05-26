@@ -16,22 +16,18 @@ describe("Hero", () => {
     expect(queryByText("someContent")).toBeInTheDocument();
   });
 
-  it("should render buttons when provided", () => {
+  it("should render button when provided", () => {
     const { queryByText } = render(
       <Hero
         heading={{ text: "someText" }}
-        buttons={[
-          { text: "Button 1", href: "/link-1", look: "primary" },
-          { text: "Button 2", href: "/link-2", look: "secondary" },
-        ]}
+        button={{ text: "Button 1", href: "/link-1", look: "primary" }}
       />,
     );
 
     expect(queryByText("Button 1")).toBeInTheDocument();
-    expect(queryByText("Button 2")).toBeInTheDocument();
   });
 
-  it("should not render ButtonContainer when no buttons provided", () => {
+  it("should not render ButtonContainer when no button provided", () => {
     const { container } = render(<Hero heading={{ text: "someText" }} />);
 
     expect(
