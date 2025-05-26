@@ -12,12 +12,13 @@ import Heading from "~/components/Heading";
 import CustomControl from "~/components/inputs/autoSuggestInput/customComponents/CustomControl";
 import CustomInput from "~/components/inputs/autoSuggestInput/customComponents/CustomInput";
 import RichText from "~/components/RichText";
-import { fetchTranslations } from "~/services/cms/index.server";
+import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
 import { type DataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import {
-  edgeCaseStreets,
-  fetchOpenPLZData,
-} from "~/services/gerichtsfinder/amtsgerichtData.server";
+  fetchStreetnamesForZipcode,
+  buildOpenPlzResultUrl,
+} from "~/services/gerichtsfinder/openPLZ";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -31,7 +32,11 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   // Remove PLZ from slug
   const { pathname } = new URL(request.url);
-  const [common] = await Promise.all([fetchTranslations("amtsgericht")]);
+  const filterValue = pathname.substring(0, pathname.lastIndexOf("/"));
+  const [common, meta] = await Promise.all([
+    fetchTranslations("amtsgericht"),
+    fetchMeta({ filterValue }),
+  ]);
 
   const resultListHeading = applyStringReplacement(common.resultListHeading, {
     postcode: zipCode ?? "",
@@ -39,12 +44,15 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   return {
     resultListHeading,
-    openPlzResults: (await fetchOpenPLZData(zipCode)).map((result) => ({
-      value: result.name.toLowerCase().replaceAll(/\s+/g, ""),
-      label: result.name,
-    })),
+    streetNameOptions: (await fetchStreetnamesForZipcode(zipCode)).map(
+      (result) => ({
+        value: result.name.toLowerCase().replaceAll(/\s+/g, ""),
+        label: result.name,
+      }),
+    ),
     pathname,
     common,
+    meta,
     url: `/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`,
   };
 };
@@ -54,7 +62,10 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   const searchTerm = formData.get("searchTerm") as string;
   return data({
     openPlzResults: (
-      await fetchOpenPLZData(params.PLZ ?? "", searchTerm?.toString() ?? "")
+      await fetchStreetnamesForZipcode(
+        params.PLZ ?? "",
+        searchTerm?.toString() ?? "",
+      )
     ).map((result) => ({
       value: result.name.toLowerCase().replaceAll(/\s+/g, ""),
       label: result.name,
@@ -63,7 +74,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 };
 
 export default function Index() {
-  const { resultListHeading, pathname, openPlzResults, common, url } =
+  const { resultListHeading, pathname, streetNameOptions, common, url } =
     useLoaderData<typeof loader>();
   const fetcher = useFetcher();
   const [selectedStreet, setSelectedStreet] =
@@ -93,7 +104,7 @@ export default function Index() {
             <AsyncSelect
               placeholder="Nach Straßenname suchen..."
               className="flex-grow"
-              options={fetcher.data?.openPlzResults ?? openPlzResults}
+              options={fetcher.data?.streetNameOptions ?? streetNameOptions}
               value={selectedStreet}
               onInputChange={onInputChange}
               onChange={(option) => setSelectedStreet(option)}
@@ -141,13 +152,4 @@ export default function Index() {
       </Container>
     </div>
   );
-}
-
-export function buildOpenPlzResultUrl(streetName: string, houseNumber: number) {
-  return `${streetName
-    .toLowerCase()
-    .replace(/ä/g, "ae")
-    .replace(/ö/g, "oe")
-    .replace(/ü/g, "ue")
-    .replaceAll(/\s+/g, "_")}/${houseNumber}`;
 }
