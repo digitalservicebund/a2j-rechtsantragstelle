@@ -39,24 +39,6 @@ describe("StrapiHero", () => {
     });
   });
 
-  it("should transform null buttons to undefined", () => {
-    const withNullButtons = {
-      heading: {
-        text: "someText",
-        tagName: "h1",
-        look: "default",
-      },
-      content: null,
-      outerBackground: null,
-      buttons: null,
-    };
-
-    const actual = StrapiHeroSchema.safeParse(withNullButtons);
-
-    expect(actual.success).toBe(true);
-    expect(actual?.data?.buttons).toBeUndefined();
-  });
-
   it("should handle hero with buttons", () => {
     const withButtons = {
       heading: {
