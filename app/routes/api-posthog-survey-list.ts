@@ -1,5 +1,3 @@
-import { type Survey } from "posthog-js";
-
 export async function loader() {
   const FEEDBACK_SURVEY_ID = process.env.FEEDBACK_SURVEY_ID;
   const POSTHOG_PROJECT_ID = process.env.POSTHOG_PROJECT_ID;
@@ -24,21 +22,6 @@ export async function loader() {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
-  const surveys = await response.json();
-  if (FEEDBACK_SURVEY_ID) {
-    let filteredSurveys;
-    if (surveys.results) {
-      filteredSurveys = surveys.filter(
-        (survey: Survey) => survey.id === FEEDBACK_SURVEY_ID,
-      );
-    } else if (surveys.id === FEEDBACK_SURVEY_ID) {
-      filteredSurveys = [surveys];
-    } else {
-      filteredSurveys = [];
-    }
-    return {
-      ...surveys,
-      results: filteredSurveys,
-    };
-  }
+  const survey = await response.json();
+  return survey;
 }
