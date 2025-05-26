@@ -1,10 +1,6 @@
 import type { Flow } from "~/domains/flows.server";
 import { getAbgabeStrings } from "~/domains/prozesskostenhilfe/formular/abgabe/stringReplacements";
 import { getAntragstellendePersonStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/stringReplacements";
-import {
-  couldLiveFromUnterhalt,
-  unterhaltLeisteIch,
-} from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/arrayConfiguration";
 import { finanzielleAngabeEinkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
@@ -37,6 +33,10 @@ import {
 } from "./stringReplacements";
 import { type ProzesskostenhilfeFormularUserData } from "./userData";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
+import {
+  couldLiveFromUnterhalt,
+  unterhaltLeisteIch,
+} from "./antragstellendePerson/userData";
 
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
 
