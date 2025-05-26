@@ -19,7 +19,7 @@ export default function Hero({ heading, content, button }: Props) {
       )}
       {button && (
         <ButtonContainer>
-          <Button key={button.text ?? button.href} {...button} />
+          <Button {...button} />
         </ButtonContainer>
       )}
     </div>
