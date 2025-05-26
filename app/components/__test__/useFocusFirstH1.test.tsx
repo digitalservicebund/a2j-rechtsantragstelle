@@ -31,7 +31,7 @@ describe("useFocusFirstH1", () => {
     const element = getByText(TEXT_HEADING_LABEL);
 
     await waitFor(() => {
-      expect(element.getAttribute("tabindex")).not.toBe("-1");
+      expect(element).not.toHaveAttribute("tabindex");
       expect(element).not.toHaveFocus();
     });
   });
