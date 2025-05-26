@@ -2,7 +2,7 @@ import debounce from "lodash/debounce";
 import { useState } from "react";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirect, useFetcher, useLoaderData } from "react-router";
-import AsyncSelect from "react-select";
+import AsyncSelect, { type SingleValue } from "react-select";
 import Background from "~/components/Background";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
@@ -13,16 +13,12 @@ import CustomControl from "~/components/inputs/autoSuggestInput/customComponents
 import CustomInput from "~/components/inputs/autoSuggestInput/customComponents/CustomInput";
 import RichText from "~/components/RichText";
 import { fetchTranslations } from "~/services/cms/index.server";
+import { type DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import {
   edgeCaseStreets,
   fetchOpenPLZData,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
-
-type SelectOption = {
-  value: string;
-  label: string;
-};
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;
@@ -70,7 +66,8 @@ export default function Index() {
   const { resultListHeading, pathname, openPlzResults, common, url } =
     useLoaderData<typeof loader>();
   const fetcher = useFetcher();
-  const [street, setStreet] = useState<string>();
+  const [selectedStreet, setSelectedStreet] =
+    useState<SingleValue<DataListOptions>>();
   const [houseNumber, setHouseNumber] = useState<number>();
 
   const onInputChange = debounce((value: string) => {
@@ -91,17 +88,15 @@ export default function Index() {
           text="Geben Sie bitte Ihre genaue Straße und Hausnummer ein"
           className="pb-16"
         />
-        <p>
-          {street} {houseNumber}
-        </p>
         <fetcher.Form method="post" action={pathname}>
           <div className="pb-16 flex gap-8">
             <AsyncSelect
               placeholder="Nach Straßenname suchen..."
               className="flex-grow"
               options={fetcher.data?.openPlzResults ?? openPlzResults}
+              value={selectedStreet}
               onInputChange={onInputChange}
-              onChange={(option) => setStreet((option as SelectOption).label)}
+              onChange={(option) => setSelectedStreet(option)}
               components={{
                 DropdownIndicator: null,
                 Input: CustomInput,
@@ -111,6 +106,7 @@ export default function Index() {
             <input
               type="number"
               min={1}
+              value={houseNumber}
               className="ds-input max-w-[25%]"
               required
               onChange={(e) => {
@@ -130,9 +126,9 @@ export default function Index() {
             {common.backButton}
           </Button>
           <Button
-            href={`${url}/${buildOpenPlzResultUrl(street ?? "", houseNumber ?? 0)}`}
+            href={`${url}/${buildOpenPlzResultUrl(selectedStreet?.label ?? "", houseNumber ?? 0)}`}
             size="large"
-            disabled={!street || !houseNumber}
+            disabled={!selectedStreet || !houseNumber}
             id="weiterButton"
           >
             Weiter
