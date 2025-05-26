@@ -1,8 +1,4 @@
 import {
-  dokumenteInputSchema,
-  type DokumenteUserData,
-} from "~/domains/beratungshilfe/formular/abgabe/dokumente/userData";
-import {
   prozesskostenhilfeGrundvoraussetzungenInputSchema,
   type ProzesskostenhilfeGrundvoraussetzungenUserData,
 } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
@@ -10,6 +6,10 @@ import {
   abgabeInputSchema,
   type AbgabeUserData,
 } from "~/domains/shared/formular/abgabe/userData";
+import {
+  prozesskostenhilfeDokumenteInputSchema,
+  type ProzesskostenhilfeDokumenteUserData,
+} from "./abgabe/dokumente/userData";
 import {
   prozesskostenhilfeAntragstellendePersonInputSchema,
   type ProzesskostenhilfeAntragstellendePersonUserData,
@@ -43,7 +43,7 @@ export const prozesskostenhilfeFormularUserData = {
   ...prozesskostenhilfeGesetzlicheVertretungInputSchema,
   ...prozesskostenhilfePersoenlicheDatenInputSchema,
   ...prozesskostenhilfeWeitereAngabenInputSchema,
-  ...dokumenteInputSchema,
+  ...prozesskostenhilfeDokumenteInputSchema,
   ...abgabeInputSchema,
 } as const;
 
@@ -55,5 +55,5 @@ export type ProzesskostenhilfeFormularUserData =
     ProzesskostenhilfeGesetzlicheVertretungUserData &
     ProzesskostenhilfePersoenlicheDatenUserData &
     ProzesskostenhilfeWeitereAngabenUserData &
-    DokumenteUserData &
+    ProzesskostenhilfeDokumenteUserData &
     AbgabeUserData;
