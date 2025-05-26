@@ -6,6 +6,8 @@ import { startGrundvoraussetzungen } from "tests/e2e/domains/prozesskostenhilfe/
 import { ProzesskostenhilfeFormular } from "tests/e2e/domains/prozesskostenhilfe/formular/ProzesskostenhilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
+import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { startDocumentUpload } from "./dokumente";
 import { startGesetzlicheVertretung } from "./gesetzlicheVertretung";
 import { startPersoenlicheDaten } from "./persoenlicheDaten";
 import { startWeitereAngaben } from "../../shared/weitereAngaben";
@@ -60,6 +62,10 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
   // /prozesskostenhilfe/formular/weitere-angaben/start
   await startWeitereAngaben(page, prozesskostenhilfeFormular);
 
+  if (await isFeatureFlagEnabled("showFileUpload")) {
+    // prozesskostenhilfe/abgabe/dokumente
+    await startDocumentUpload(page);
+  }
   // /prozesskostenhilfe/formular/abgabe/ende
   await startAbgabe(page);
 });
