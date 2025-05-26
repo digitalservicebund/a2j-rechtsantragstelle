@@ -1,3 +1,6 @@
+import { posthog } from "posthog-js";
+import { type ActionFunctionArgs } from "react-router";
+
 export async function loader() {
   const FEEDBACK_SURVEY_ID = process.env.FEEDBACK_SURVEY_ID;
   const POSTHOG_PROJECT_ID = process.env.POSTHOG_PROJECT_ID;
@@ -27,4 +30,24 @@ export async function loader() {
     id: survey.id,
     questions: survey.questions,
   };
+}
+
+export async function action({ request }: ActionFunctionArgs) {
+  try {
+    const body = await request.json();
+    const { surveyId, responses } = body;
+    posthog.capture("survey sent", {
+      $survey_id: surveyId,
+      ...responses,
+    });
+    return new Response(
+      JSON.stringify({
+        success: true,
+        message: "Survey submitted successfully",
+      }),
+      { headers: { "Content-Type": "application/json" } },
+    );
+  } catch {
+    return new Response("Error submitting survey", { status: 500 });
+  }
 }

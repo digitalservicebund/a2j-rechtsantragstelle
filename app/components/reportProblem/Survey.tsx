@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { posthog, type Survey, SurveyQuestionType } from "posthog-js";
+import { type Survey, SurveyQuestionType } from "posthog-js";
 import { type ElementType, useState } from "react";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
@@ -44,11 +44,16 @@ export const PostHogSurvey = ({
 
   const onFeedbackSubmitted = () => {
     if (responses) {
-      posthog.capture("survey sent", {
-        $survey_id: survey.id,
-        ...responses,
-      });
-      setIsComplete(true);
+      void fetch("/api-posthog-survey-list", {
+        body: JSON.stringify({
+          surveyId: survey.id,
+          responses,
+        }),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(() => setIsComplete(true));
     }
   };
 
