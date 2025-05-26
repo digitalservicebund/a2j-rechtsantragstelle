@@ -21,6 +21,10 @@ import {
   geldAnlagenStrings,
 } from "~/domains/shared/formular/stringReplacements";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import {
+  couldLiveFromUnterhalt,
+  unterhaltLeisteIch,
+} from "./antragstellendePerson/userData";
 import { prozesskostenhilfeFinanzielleAngabeDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
@@ -33,10 +37,6 @@ import {
 } from "./stringReplacements";
 import { type ProzesskostenhilfeFormularUserData } from "./userData";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
-import {
-  couldLiveFromUnterhalt,
-  unterhaltLeisteIch,
-} from "./antragstellendePerson/userData";
 
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
 
