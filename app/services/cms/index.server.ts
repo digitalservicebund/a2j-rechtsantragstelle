@@ -95,8 +95,10 @@ export const fetchTranslations = async (
   name: string,
   locale: Locale = defaultLocale,
 ): Promise<Translations> => {
-  if (!Object.hasOwn(translations, name))
-    throw new Error(`Translation ${name} not found`);
+  if (!Object.hasOwn(translations, name)) {
+    console.warn(`Translation ${name} not found`);
+    return Promise.resolve({});
+  }
   const scopedTranslations = Object.fromEntries(
     Object.entries(translations[name]).map(([key, value]) => {
       if (!Object.hasOwn(value, locale))
