@@ -108,6 +108,7 @@ export default function Index() {
               min={1}
               value={houseNumber}
               className="ds-input max-w-[25%]"
+              alt="Hausnummer"
               required
               onChange={(e) => {
                 const val = e.target.value;
