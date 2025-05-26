@@ -30,9 +30,9 @@ export const PostHogSurvey = ({
   closeSurvey,
   styleOverrides,
 }: PostHogSurveyProps) => {
-  const [isComplete, setIsComplete] = useState(false);
   const feedbackTranslations = useFeedbackTranslations();
   const [responses, setResponses] = useState<SurveyResponses>();
+  const [isComplete, setIsComplete] = useState(false);
 
   const containerClasses = classNames(
     "border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-[80%] p-24 flex flex-col",

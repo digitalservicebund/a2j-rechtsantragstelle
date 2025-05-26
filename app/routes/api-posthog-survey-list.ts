@@ -23,5 +23,8 @@ export async function loader() {
   }
 
   const survey = await response.json();
-  return survey;
+  return {
+    id: survey.id,
+    questions: survey.questions,
+  };
 }

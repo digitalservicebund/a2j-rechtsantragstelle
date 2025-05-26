@@ -20,10 +20,6 @@ export const ReportProblem = () => {
 
         if (response.ok) {
           const surveyData = await response.json();
-          setSurvey({
-            id: surveyData.id,
-            questions: surveyData.questions,
-          });
           setSurvey(surveyData);
         }
       } catch (error) {
