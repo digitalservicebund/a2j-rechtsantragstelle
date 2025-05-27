@@ -7,7 +7,7 @@ export type SummaryOverviewBoxWrappedProps = {
   readonly boxItems: SummaryOverviewBoxItemType[];
 };
 
-export type SummaryOverviewBoxItemType = {
+type SummaryOverviewBoxItemType = {
   readonly title?: string;
   readonly inlineItems: Array<{
     readonly field: string;
