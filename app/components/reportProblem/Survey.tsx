@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { posthog, type Survey, SurveyQuestionType } from "posthog-js";
+import { type Survey, SurveyQuestionType } from "posthog-js";
 import { type ElementType, useState } from "react";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
@@ -11,7 +11,7 @@ import {
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 
-type PosthogSurveyProps = {
+type PostHogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
   closeSurvey: () => void;
   styleOverrides?: string;
@@ -25,14 +25,14 @@ const questionTypes: Record<string, ElementType> = {
   [SurveyQuestionType.Link]: () => <></>,
 };
 
-export const PosthogSurvey = ({
+export const PostHogSurvey = ({
   survey,
   closeSurvey,
   styleOverrides,
-}: PosthogSurveyProps) => {
-  const [isComplete, setIsComplete] = useState(false);
+}: PostHogSurveyProps) => {
   const feedbackTranslations = useFeedbackTranslations();
   const [responses, setResponses] = useState<SurveyResponses>();
+  const [isComplete, setIsComplete] = useState(false);
 
   const containerClasses = classNames(
     "border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-[80%] p-24 flex flex-col",
@@ -44,11 +44,16 @@ export const PosthogSurvey = ({
 
   const onFeedbackSubmitted = () => {
     if (responses) {
-      posthog.capture("survey sent", {
-        $survey_id: survey.id,
-        ...responses,
-      });
-      setIsComplete(true);
+      void fetch("/api-posthog-survey-list", {
+        body: JSON.stringify({
+          surveyId: survey.id,
+          responses,
+        }),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(() => setIsComplete(true));
     }
   };
 
