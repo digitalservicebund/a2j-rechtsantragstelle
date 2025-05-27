@@ -1,11 +1,11 @@
 import { render, fireEvent } from "@testing-library/react";
-import { NavState } from "~/services/navigation/navState";
+import { type NavState } from "~/services/navigation/navState";
 import SideNavMobile from "../SideNavMobile";
 import { type NavItem } from "../types";
 
 const dummyNavItems: NavItem[] = [
-  { destination: "/page1", label: "Page 1", state: NavState.Current },
-  { destination: "/page2", label: "Page 2", state: NavState.Open },
+  { destination: "/page1", label: "Page 1", state: "Current" as NavState },
+  { destination: "/page2", label: "Page 2", state: "Open" as NavState },
 ];
 
 describe("SideNavMobile", () => {
