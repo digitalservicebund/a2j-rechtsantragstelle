@@ -221,14 +221,9 @@ const AutoSuggestInput = ({
         isSearchable={!isDisabled}
         menuShouldScrollIntoView
         name={name}
-        noOptionsMessage={({ inputValue }) => {
-          return inputValue.length > 2 ? (
-            <span aria-live="assertive" id={ariaDescribedById}>
-              {" "}
-              {noSuggestionMessage}{" "}
-            </span>
-          ) : null;
-        }}
+        noOptionsMessage={({ inputValue }) =>
+          inputValue.length > 2 ? noSuggestionMessage : null
+        }
         onBlur={() => {
           // call the validation only if an option was selected
           if (optionWasSelected) {
