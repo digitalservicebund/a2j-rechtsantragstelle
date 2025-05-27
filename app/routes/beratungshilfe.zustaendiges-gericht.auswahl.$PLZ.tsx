@@ -1,16 +1,24 @@
+import { useState } from "react";
 import type { LoaderFunctionArgs } from "react-router";
-import { redirect, useLoaderData } from "react-router";
+import { redirect, useFetcher, useLoaderData } from "react-router";
+import Select, { type SingleValue } from "react-select";
 import Background from "~/components/Background";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import Heading from "~/components/Heading";
+import CustomControl from "~/components/inputs/autoSuggestInput/customComponents/CustomControl";
+import CustomInput from "~/components/inputs/autoSuggestInput/customComponents/CustomInput";
 import RichText from "~/components/RichText";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
+import { type DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import {
+  fetchStreetnamesForZipcode,
+  buildOpenPlzResultUrl,
+} from "~/services/gerichtsfinder/openPLZ";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
-import { splitObjectsByFirstLetter } from "~/util/strings";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;
@@ -35,7 +43,13 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   return {
     resultListHeading,
-    edgeCasesGroupedByLetter: splitObjectsByFirstLetter(edgeCases, "street"),
+    streetNameOptions: (await fetchStreetnamesForZipcode(zipCode)).map(
+      (result) => ({
+        value: result.name.toLowerCase().replaceAll(/\s+/g, ""),
+        label: result.name,
+      }),
+    ),
+    pathname,
     common,
     meta,
     url: `/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`,
@@ -43,8 +57,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 };
 
 export default function Index() {
-  const { resultListHeading, edgeCasesGroupedByLetter, common, url } =
+  const { resultListHeading, pathname, streetNameOptions, common, url } =
     useLoaderData<typeof loader>();
+  const fetcher = useFetcher();
+  const [selectedStreet, setSelectedStreet] =
+    useState<SingleValue<DataListOptions>>();
+  const [houseNumber, setHouseNumber] = useState<number>();
 
   return (
     <div className="flex flex-col flex-grow">
@@ -57,32 +75,37 @@ export default function Index() {
         <Heading
           tagName="h2"
           look="ds-heading-03-reg"
-          text={common.resultListSubHeading}
+          text="Geben Sie bitte Ihre genaue Straße und Hausnummer ein"
+          className="pb-16"
         />
-        <ul className="list-none pl-0 pt-48 pb-32" id="resultList">
-          {edgeCasesGroupedByLetter &&
-            Object.entries(edgeCasesGroupedByLetter).map(
-              ([firstLetter, edgeCasesForLetter]) => (
-                <li key={firstLetter}>
-                  <h2 className="ds-label-01-bold p-8 bg-blue-100">
-                    {firstLetter}
-                  </h2>
-                  <ul className="list-none py-10 pl-0">
-                    {edgeCasesForLetter.map((edgeCase) => (
-                      <li key={edgeCase.slug} className="px-8">
-                        <a
-                          href={`${url}/${edgeCase.slug}`}
-                          className="leading-9 underline"
-                        >
-                          {edgeCase.street}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ),
-            )}
-        </ul>
+        <fetcher.Form method="post" action={pathname}>
+          <div className="pb-16 flex gap-8">
+            <Select
+              placeholder="Nach Straßenname suchen..."
+              className="flex-grow"
+              options={fetcher.data?.streetNameOptions ?? streetNameOptions}
+              value={selectedStreet}
+              onChange={(option) => setSelectedStreet(option)}
+              components={{
+                DropdownIndicator: null,
+                Input: CustomInput,
+                Control: CustomControl,
+              }}
+            />
+            <input
+              type="number"
+              min={1}
+              value={houseNumber}
+              className="ds-input max-w-[25%]"
+              alt="Hausnummer"
+              required
+              onChange={(e) => {
+                const val = e.target.value;
+                setHouseNumber(val.length > 0 ? parseInt(val) : undefined);
+              }}
+            />
+          </div>
+        </fetcher.Form>
         <ButtonContainer>
           <Button
             href="/beratungshilfe/zustaendiges-gericht/suche"
@@ -92,8 +115,16 @@ export default function Index() {
           >
             {common.backButton}
           </Button>
+          <Button
+            href={`${url}/${buildOpenPlzResultUrl(selectedStreet?.label ?? "", houseNumber ?? 0)}`}
+            size="large"
+            disabled={!selectedStreet || !houseNumber}
+            id="weiterButton"
+          >
+            Weiter
+          </Button>
           <Button href={`${url}/default`} size="large" id="defaultButton">
-            {common.continueWithDefaultStreet}
+            Ich finde meine Straße nicht
           </Button>
         </ButtonContainer>
       </Container>
