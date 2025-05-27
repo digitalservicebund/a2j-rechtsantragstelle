@@ -34,5 +34,33 @@ export async function fetchStreetnamesForZipcode(zipCode: string) {
       `OpenPLZ Error: ${openPlzResponse.status} ${openPlzResponse.statusText}`,
     );
   }
-  return uniqBy((await openPlzResponse.json()) as OpenPLZResult[], "name");
+  const results: OpenPLZResult[] = await openPlzResponse.json();
+  const numPages = parseInt(openPlzResponse.headers.get("x-total-pages") ?? "");
+  if (numPages > 1) {
+    const requests: Array<Promise<Response>> = [];
+    for (let page = 2; page <= numPages; page++) {
+      requests.push(
+        fetch(
+          OPENPLZ_URL +
+            `/Streets?postalCode=${zipCode}&page=${page}&pageSize=50`,
+        ),
+      );
+    }
+    const responses = await Promise.all(requests);
+    if (responses.some((response) => !response.ok)) {
+      const failedRequest = responses.find((response) => !response.ok)!;
+      throw new Error(
+        `OpenPLZ Error: ${failedRequest.status} ${failedRequest.statusText}`,
+      );
+    }
+    const newResults = (
+      await Promise.all(
+        responses.map(
+          async (response) => (await response.json()) as OpenPLZResult[],
+        ),
+      )
+    ).flat();
+    results.push(...newResults);
+  }
+  return uniqBy(results, "name");
 }

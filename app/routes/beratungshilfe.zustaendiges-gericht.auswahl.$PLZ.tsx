@@ -1,7 +1,6 @@
-import debounce from "lodash/debounce";
 import { useState } from "react";
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
-import { data, redirect, useFetcher, useLoaderData } from "react-router";
+import type { LoaderFunctionArgs } from "react-router";
+import { redirect, useFetcher, useLoaderData } from "react-router";
 import AsyncSelect, { type SingleValue } from "react-select";
 import Background from "~/components/Background";
 import Button from "~/components/Button";
@@ -57,22 +56,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   };
 };
 
-export const action = async ({ params, request }: ActionFunctionArgs) => {
-  const formData = await request.formData();
-  const searchTerm = formData.get("searchTerm") as string;
-  return data({
-    openPlzResults: (
-      await fetchStreetnamesForZipcode(
-        params.PLZ ?? "",
-        searchTerm?.toString() ?? "",
-      )
-    ).map((result) => ({
-      value: result.name.toLowerCase().replaceAll(/\s+/g, ""),
-      label: result.name,
-    })),
-  });
-};
-
 export default function Index() {
   const { resultListHeading, pathname, streetNameOptions, common, url } =
     useLoaderData<typeof loader>();
@@ -80,10 +63,6 @@ export default function Index() {
   const [selectedStreet, setSelectedStreet] =
     useState<SingleValue<DataListOptions>>();
   const [houseNumber, setHouseNumber] = useState<number>();
-
-  const onInputChange = debounce((value: string) => {
-    void fetcher.submit({ searchTerm: value }, { method: "POST" });
-  }, 500);
 
   return (
     <div className="flex flex-col flex-grow">
@@ -101,12 +80,12 @@ export default function Index() {
         />
         <fetcher.Form method="post" action={pathname}>
           <div className="pb-16 flex gap-8">
+            {/* Use regular Select instead of Async? */}
             <AsyncSelect
               placeholder="Nach Straßenname suchen..."
               className="flex-grow"
               options={fetcher.data?.streetNameOptions ?? streetNameOptions}
               value={selectedStreet}
-              onInputChange={onInputChange}
               onChange={(option) => setSelectedStreet(option)}
               components={{
                 DropdownIndicator: null,
