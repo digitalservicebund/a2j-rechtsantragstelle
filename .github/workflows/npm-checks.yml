@@ -1,4 +1,6 @@
 name: NPMChecks
+on:
+  workflow_call:
 
 jobs:
   code-quality:
