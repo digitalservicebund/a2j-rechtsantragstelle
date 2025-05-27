@@ -3,7 +3,7 @@ import { beratungshilfePersoenlicheDatenDone } from "~/domains/beratungshilfe/fo
 import type { Guards } from "../../../guards.server";
 import { anwaltlicheVertretungDone } from "../anwaltlicheVertretung/guards";
 import { beratungshilfeFinanzielleAngabeDone } from "../finanzielleAngaben/beratungshilfeFinanzielleAngabeDone";
-import { grundvoraussetzungDone } from "../grundvoraussetzung/userData";
+import { grundvoraussetzungDone } from "../grundvoraussetzung/grundvoraussetzungDone";
 import { rechtsproblemDone } from "../rechtsproblem/userData";
 
 export const beratungshilfeAbgabeGuards = {

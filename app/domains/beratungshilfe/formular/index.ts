@@ -8,10 +8,7 @@ import { beratungshilfeAnwaltlicheVertretungGuards } from "./anwaltlicheVertretu
 import { type BeratungshilfeAnwaltlicheVertretungUserData } from "./anwaltlicheVertretung/userData";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./finanzielleAngaben/userData";
-import {
-  beratungshilfeGrundvoraussetzungenGuards,
-  type BeratungshilfeGrundvoraussetzungenUserData,
-} from "./grundvoraussetzung/userData";
+import { type BeratungshilfeGrundvoraussetzungenUserData } from "./grundvoraussetzung/userData";
 import { type BeratungshilfePersoenlicheDatenUserData } from "./persoenlicheDaten/userData";
 import { type BeratungshilfeRechtsproblemUserData } from "./rechtsproblem/userData";
 import {
@@ -36,7 +33,6 @@ export const beratungshilfeFormularUserData = {
   flowType: "formFlow",
   config: beratungshilfeXstateConfig,
   guards: {
-    ...beratungshilfeGrundvoraussetzungenGuards,
     ...beratungshilfeAnwaltlicheVertretungGuards,
     ...beratungshilfeAbgabeGuards,
     ...finanzielleAngabeGuards,

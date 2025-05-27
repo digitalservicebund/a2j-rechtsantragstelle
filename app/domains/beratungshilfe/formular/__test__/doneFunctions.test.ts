@@ -1,13 +1,11 @@
 import { anwaltlicheVertretungDone } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/guards";
-import {
-  grundvoraussetzungDone,
-  type BeratungshilfeGrundvoraussetzungenUserData,
-} from "~/domains/beratungshilfe/formular/grundvoraussetzung/userData";
+import { type BeratungshilfeGrundvoraussetzungenUserData } from "~/domains/beratungshilfe/formular/grundvoraussetzung/userData";
 import { rechtsproblemDone } from "~/domains/beratungshilfe/formular/rechtsproblem/userData";
 import { dropEachProperty } from "~/util/objects";
+import { grundvoraussetzungDone } from "../grundvoraussetzung/grundvoraussetzungDone";
 
 describe("grundvoraussetzungDone", () => {
-  it("tests all revelant fields", () => {
+  it("tests all relevant fields", () => {
     expect(
       grundvoraussetzungDone({
         context: {
