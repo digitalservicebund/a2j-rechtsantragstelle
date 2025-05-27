@@ -15,4 +15,23 @@ describe("Hero", () => {
 
     expect(queryByText("someContent")).toBeInTheDocument();
   });
+
+  it("should render button when provided", () => {
+    const { queryByText } = render(
+      <Hero
+        heading={{ text: "someText" }}
+        button={{ text: "Button 1", href: "/link-1", look: "primary" }}
+      />,
+    );
+
+    expect(queryByText("Button 1")).toBeInTheDocument();
+  });
+
+  it("should not render ButtonContainer when no button provided", () => {
+    const { container } = render(<Hero heading={{ text: "someText" }} />);
+
+    expect(
+      container.querySelector(".ds-button-container"),
+    ).not.toBeInTheDocument();
+  });
 });
