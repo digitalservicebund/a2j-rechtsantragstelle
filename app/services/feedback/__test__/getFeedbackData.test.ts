@@ -1,6 +1,6 @@
 import { createSession, type Session } from "react-router";
 import { describe, test, expect } from "vitest";
-import { BannerState } from "~/components/userFeedback/BannerState";
+import { type BannerState } from "~/components/userFeedback/BannerState";
 import { type FeedbackType } from "~/components/userFeedback/FeedbackType";
 import {
   bannerStateName,
@@ -13,12 +13,12 @@ describe("getFeedbackData", () => {
     const mockSession: Session = createSession();
     const url = "/hilfe";
 
-    mockSession.set(bannerStateName, { [url]: BannerState.ShowFeedback });
+    mockSession.set(bannerStateName, { [url]: "showFeedback" as BannerState });
     mockSession.set(userRatingFieldName, { [url]: "positive" as FeedbackType });
 
     const { state, result } = getFeedbackData(mockSession, url);
 
-    expect(state).toStrictEqual(BannerState.ShowFeedback);
+    expect(state).toStrictEqual("showFeedback");
     expect(result).toStrictEqual("positive");
   });
 
@@ -26,12 +26,12 @@ describe("getFeedbackData", () => {
     const mockSession: Session = createSession();
     const url = "/hilfe";
 
-    mockSession.set(bannerStateName, { [url]: BannerState.ShowFeedback });
+    mockSession.set(bannerStateName, { [url]: "showFeedback" as BannerState });
     mockSession.set(userRatingFieldName, { [url]: "negative" as FeedbackType });
 
     const { state, result } = getFeedbackData(mockSession, url);
 
-    expect(state).toStrictEqual(BannerState.ShowFeedback);
+    expect(state).toStrictEqual("showFeedback");
     expect(result).toStrictEqual("negative");
   });
 
@@ -41,7 +41,7 @@ describe("getFeedbackData", () => {
 
     const { state, result } = getFeedbackData(mockSession, url);
 
-    expect(state).toStrictEqual(BannerState.ShowRating);
+    expect(state).toStrictEqual("showRating");
     expect(result).toBeUndefined();
   });
 
@@ -49,11 +49,11 @@ describe("getFeedbackData", () => {
     const mockSession: Session = createSession();
     const url = "/hilfe";
 
-    mockSession.set(bannerStateName, { [url]: BannerState.ShowFeedback });
+    mockSession.set(bannerStateName, { [url]: "showFeedback" as BannerState });
 
     const { state, result } = getFeedbackData(mockSession, url);
 
-    expect(state).toStrictEqual(BannerState.ShowFeedback);
+    expect(state).toStrictEqual("showFeedback");
     expect(result).toBeUndefined();
   });
 });

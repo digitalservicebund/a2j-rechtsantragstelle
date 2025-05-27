@@ -3,7 +3,6 @@ import userEvent from "@testing-library/user-event";
 import { act } from "react";
 import { createRoutesStub } from "react-router";
 import UserFeedback, { USER_FEEDBACK_ID } from "~/components/userFeedback";
-import { BannerState } from "~/components/userFeedback/BannerState";
 
 vi.mock("~/components/userFeedback/FeedbackFormBox", () => ({
   FeedbackFormBox: () => <div>Mock FeedbackFormBox</div>,
@@ -39,7 +38,7 @@ describe("UserFeedback", () => {
       <UserFeedbackWithRouteStub
         hydrationData={{
           loaderData: {
-            root: { feedback: { state: BannerState.ShowFeedback } },
+            root: { feedback: { state: "showFeedback" } },
           },
         }}
       />,
@@ -48,7 +47,7 @@ describe("UserFeedback", () => {
     expect(id).toBe(USER_FEEDBACK_ID);
   });
 
-  it("renders RatingBox when bannerState is ShowRating", () => {
+  it("renders RatingBox when bannerState is showRating", () => {
     const UserFeedbackWithRouteStub = createRoutesStub([
       {
         path: "",
@@ -59,7 +58,7 @@ describe("UserFeedback", () => {
       <UserFeedbackWithRouteStub
         hydrationData={{
           loaderData: {
-            root: { feedback: { state: BannerState.ShowRating } },
+            root: { feedback: { state: "showRating" } },
           },
         }}
       />,
@@ -67,7 +66,7 @@ describe("UserFeedback", () => {
     expect(screen.getByText("Mock RatingBox")).toBeInTheDocument();
   });
 
-  it("renders FeedbackFormBox when bannerState is ShowFeedback", () => {
+  it("renders FeedbackFormBox when bannerState is showFeedback", () => {
     const UserFeedbackWithRouteStub = createRoutesStub([
       {
         path: "",
@@ -78,7 +77,7 @@ describe("UserFeedback", () => {
       <UserFeedbackWithRouteStub
         hydrationData={{
           loaderData: {
-            root: { feedback: { state: BannerState.ShowFeedback } },
+            root: { feedback: { state: "showFeedback" } },
           },
         }}
       />,
@@ -86,7 +85,7 @@ describe("UserFeedback", () => {
     expect(screen.getByText("Mock FeedbackFormBox")).toBeInTheDocument();
   });
 
-  it("renders PostSubmissionBox when bannerState is FeedbackGiven", () => {
+  it("renders PostSubmissionBox when bannerState is feedbackGiven", () => {
     const UserFeedbackWithRouteStub = createRoutesStub([
       {
         path: "",
@@ -99,7 +98,7 @@ describe("UserFeedback", () => {
           loaderData: {
             root: {
               feedback: {
-                state: BannerState.FeedbackGiven,
+                state: "feedbackGiven",
                 result: true,
               },
             },
@@ -123,7 +122,7 @@ describe("UserFeedback", () => {
       <UserFeedbackWithRouteStub
         hydrationData={{
           loaderData: {
-            root: { feedback: { state: BannerState.ShowFeedback } },
+            root: { feedback: { state: "showFeedback" } },
           },
         }}
       />,

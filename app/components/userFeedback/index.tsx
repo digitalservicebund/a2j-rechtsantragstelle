@@ -6,7 +6,7 @@ import { PostSubmissionBox } from "./PostSubmissionBox";
 import { type RatingBoxProps, RatingBox } from "./RatingBox";
 import Background from "../Background";
 import Container from "../Container";
-import { BannerState } from "./BannerState";
+import { type BannerState } from "./BannerState";
 
 type UserFeedbackProps = {
   rating: Pick<RatingBoxProps, "heading">;
@@ -18,7 +18,8 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const { pathname } = useLocation();
   const [shouldFocus, setShouldFocus] = useState(false);
   const rootLoaderData = useRouteLoaderData<RootLoader>("root");
-  const bannerState = rootLoaderData?.feedback.state ?? BannerState.ShowRating;
+  const bannerState =
+    rootLoaderData?.feedback.state ?? ("showRating" as BannerState);
   const feedbackResult = rootLoaderData?.feedback.result
     ? "positive"
     : "negative";
@@ -43,14 +44,14 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
         >
           {
             {
-              [BannerState.ShowRating]: (
+              ["showRating"]: (
                 <RatingBox
                   url={pathname}
                   heading={props.rating.heading}
                   onSubmit={applyFocus}
                 />
               ),
-              [BannerState.ShowFeedback]: (
+              ["showFeedback"]: (
                 <FeedbackFormBox
                   destination={pathname}
                   shouldFocus={shouldFocus}
@@ -58,7 +59,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
                   onSubmit={applyFocus}
                 />
               ),
-              [BannerState.FeedbackGiven]: (
+              ["feedbackGiven"]: (
                 <PostSubmissionBox
                   shouldFocus={shouldFocus}
                   postSubmissionText={rootLoaderData?.postSubmissionText}

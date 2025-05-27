@@ -11,11 +11,11 @@ const meta = {
 
 export default meta;
 
-let bannerStateMemo = BannerState.ShowRating;
+let bannerStateMemo = "showRating" as BannerState;
 const nextBannerState = (bannerState: BannerState) =>
-  bannerState === BannerState.ShowRating
-    ? BannerState.ShowFeedback
-    : BannerState.FeedbackGiven;
+  bannerState === "showRating"
+    ? "showFeedback"
+    : ("feedbackGiven" as BannerState);
 
 export const Example: StoryObj<typeof meta> = {
   args: {

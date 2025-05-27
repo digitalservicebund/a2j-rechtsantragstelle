@@ -2,7 +2,6 @@ import { parseFormData, validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs } from "react-router";
 import { redirect } from "react-router";
 import { USER_FEEDBACK_ID } from "~/components/userFeedback";
-import { BannerState } from "~/components/userFeedback/BannerState";
 import { feedbackSchema } from "~/components/userFeedback/FeedbackFormBox";
 import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
 import { flowIdFromPathname } from "~/domains/flowIds";
@@ -30,7 +29,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const userRatingsWasHelpful =
     (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
 
-  updateBannerState(session, BannerState.FeedbackGiven, url);
+  updateBannerState(session, "feedbackGiven", url);
   const headers = { "Set-Cookie": await commitSession(session) };
 
   if (result.data?.feedback && result.data.feedback !== "") {
