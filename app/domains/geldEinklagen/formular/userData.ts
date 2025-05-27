@@ -11,7 +11,7 @@ import {
   checkedRequired,
 } from "~/services/validation/checkedCheckbox";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
+import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -47,7 +47,7 @@ export const geldEinklagenInputSchema = {
             ["lawyer", "yes", "no"],
             customRequiredErrorMessage,
           ),
-          telefonnummer: optionalOrSchema(phoneNumberSchema),
+          telefonnummer: schemaOrEmptyString(phoneNumberSchema),
         })
         .partial(),
     })

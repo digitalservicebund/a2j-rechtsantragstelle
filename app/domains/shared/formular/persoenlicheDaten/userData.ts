@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createDateSchema } from "~/services/validation/date";
-import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
+import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -14,7 +14,7 @@ export const vornameNachnameSchema = {
   nachname: stringRequiredSchema,
 };
 
-export const telefonnummer = optionalOrSchema(phoneNumberSchema);
+export const telefonnummer = schemaOrEmptyString(phoneNumberSchema);
 
 export const namePrivatPerson = {
   title: titleSchema,
