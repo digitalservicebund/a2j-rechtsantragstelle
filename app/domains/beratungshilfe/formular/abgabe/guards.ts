@@ -4,7 +4,7 @@ import type { Guards } from "../../../guards.server";
 import { anwaltlicheVertretungDone } from "../anwaltlicheVertretung/guards";
 import { beratungshilfeFinanzielleAngabeDone } from "../finanzielleAngaben/beratungshilfeFinanzielleAngabeDone";
 import { grundvoraussetzungDone } from "../grundvoraussetzung/grundvoraussetzungDone";
-import { rechtsproblemDone } from "../rechtsproblem/userData";
+import { rechtsproblemDone } from "../rechtsproblem/rechtsproblemDone";
 
 export const beratungshilfeAbgabeGuards = {
   readyForAbgabe: ({ context }) =>
