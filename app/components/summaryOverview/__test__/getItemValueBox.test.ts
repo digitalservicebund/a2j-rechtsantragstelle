@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { type Context } from "~/domains/contexts";
+import { type UserData } from "~/domains/userData";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import { getItemValueBox } from "../getItemValueBox";
 
@@ -8,7 +8,7 @@ describe("getItemValueBox", () => {
     const translations: Translations = {
       "status.active": "Aktiv",
     };
-    const userData: Context = { status: "active" };
+    const userData: UserData = { status: "active" };
 
     const actual = getItemValueBox(translations, userData, [
       { field: "status" },
@@ -18,7 +18,7 @@ describe("getItemValueBox", () => {
 
   test("returns empty value when item value is empty", () => {
     const translations: Translations = {};
-    const userData: Context = { status: "" };
+    const userData: UserData = { status: "" };
 
     const actual = getItemValueBox(translations, userData, [
       { field: "status" },
@@ -31,7 +31,7 @@ describe("getItemValueBox", () => {
     const translations: Translations = {
       "status.value": "Default Status",
     };
-    const userData: Context = { status: "unknown" };
+    const userData: UserData = { status: "unknown" };
 
     const actual = getItemValueBox(translations, userData, [
       { field: "status" },
@@ -42,7 +42,7 @@ describe("getItemValueBox", () => {
 
   test("returns the original item value if no translations exist", () => {
     const translations: Translations = {};
-    const userData: Context = { status: "pending" };
+    const userData: UserData = { status: "pending" };
 
     const actual = getItemValueBox(translations, userData, [
       { field: "status" },
@@ -53,7 +53,7 @@ describe("getItemValueBox", () => {
 
   test("returns the original item value when translation.value is not available", () => {
     const translations: Translations = {};
-    const userData: Context = { status: "approved" };
+    const userData: UserData = { status: "approved" };
 
     const actual = getItemValueBox(translations, userData, [
       { field: "status" },
@@ -64,7 +64,7 @@ describe("getItemValueBox", () => {
 
   test("returns value when it is nested in an object", () => {
     const translations: Translations = {};
-    const userData: Context = { status: { approved: "true" } };
+    const userData: UserData = { status: { approved: "true" } };
 
     const actual = getItemValueBox(translations, userData, [
       { field: "status.approved" },
@@ -75,7 +75,7 @@ describe("getItemValueBox", () => {
 
   test("returns empty value when it does not exist in the object", () => {
     const translations: Translations = {};
-    const userData: Context = { status: { approved: "true" } };
+    const userData: UserData = { status: { approved: "true" } };
 
     const actual = getItemValueBox(translations, userData, [
       { field: "status.fail" },
@@ -86,7 +86,7 @@ describe("getItemValueBox", () => {
 
   test("returns concatenated values for multiple fields", () => {
     const translations: Translations = {};
-    const userData: Context = { status: "active", role: "admin" };
+    const userData: UserData = { status: "active", role: "admin" };
 
     const actual = getItemValueBox(translations, userData, [
       { field: "status" },
@@ -98,7 +98,7 @@ describe("getItemValueBox", () => {
 
   test("returns emptyValuePlaceholder when item value is empty and placeholder is provided", () => {
     const translations: Translations = {};
-    const userData: Context = { status: "" };
+    const userData: UserData = { status: "" };
 
     const actual = getItemValueBox(translations, userData, [
       { field: "status", emptyValuePlaceholder: "No Status" },
@@ -109,7 +109,7 @@ describe("getItemValueBox", () => {
 
   test("returns emptyValuePlaceholder when nested item value is empty and placeholder is provided", () => {
     const translations: Translations = {};
-    const userData: Context = { status: { approved: "" } };
+    const userData: UserData = { status: { approved: "" } };
 
     const actual = getItemValueBox(translations, userData, [
       { field: "status.approved", emptyValuePlaceholder: "Not Approved" },
@@ -120,7 +120,7 @@ describe("getItemValueBox", () => {
 
   test("returns concatenated values with placeholders for multiple fields", () => {
     const translations: Translations = {};
-    const userData: Context = { status: "", role: "admin" };
+    const userData: UserData = { status: "", role: "admin" };
 
     const actual = getItemValueBox(translations, userData, [
       { field: "status", emptyValuePlaceholder: "No Status" },

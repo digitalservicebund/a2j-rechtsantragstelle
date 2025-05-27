@@ -2,7 +2,7 @@ import {
   getProzesskostenhilfeParameters,
   type ProzesskostenhilfePDF,
 } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import {
   concatenateAnschriftString,
   concatenateGesetzlicherVertreterString,
@@ -11,7 +11,7 @@ import {
 } from "../A_person";
 
 let pdfParams: ProzesskostenhilfePDF;
-const userData: ProzesskostenhilfeFormularContext = {
+const userData: ProzesskostenhilfeFormularUserData = {
   vorname: "Angelika",
   nachname: "M",
   beruf: "Musterberuf",

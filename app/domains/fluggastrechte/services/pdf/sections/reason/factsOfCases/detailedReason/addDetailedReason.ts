@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import {
   MARGIN_BETWEEN_SECTIONS,
   MARGIN_RIGHT,
@@ -26,7 +26,7 @@ export const PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT =
 
 const getConfirmationBookingTexts = ({
   isWeiterePersonen,
-}: FluggastrechtContext) => {
+}: FluggastrechteUserData) => {
   if (isWeiterePersonen === "yes") {
     return {
       confirmationBooking: CONFIRM_BOOKING_MULTIPLE_PERSONS_TEXT,
@@ -44,7 +44,7 @@ const getConfirmationBookingTexts = ({
 export const addDetailedReason = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) => {
   const detailedReasonSect = doc.struct("Sect");
 

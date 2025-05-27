@@ -1,4 +1,3 @@
-import merge from "lodash/merge";
 import type { Flow } from "~/domains/flows.server";
 import type { ArrayConfigServer } from "~/services/array";
 import {
@@ -6,23 +5,15 @@ import {
   storeMultiplePersonsConsent,
 } from "~/services/externalDataStorage/storeConsentFgrToS3Bucket";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
-import abgabeFlow from "./abgabe/flow.json";
-import type { FluggastrechtContext } from "./context";
-import { flugdatenDone } from "./flugdaten/doneFunctions";
-import flugdatenFlow from "./flugdaten/flow.json";
-import { grundvoraussetzungenDone } from "./grundvoraussetzungen/doneFunctions";
-import grundvoraussetzungenFlow from "./grundvoraussetzungen/flow.json";
+import { abgabeXstateConfig } from "./abgabe/xstateConfig";
+import { flugdatenXstateConfig } from "./flugdaten/xstateConfig";
+import { grundvoraussetzungenXstateConfig } from "./grundvoraussetzungen/xstateConfig";
 import { fluggastrechteGuards } from "./guards";
-import {
-  personDone,
-  weiterePersonenDone,
-} from "./persoenlicheDaten/doneFunctions";
-import persoenlicheDatenFlow from "./persoenlicheDaten/flow.json";
-import { prozessfuehrungDone } from "./prozessfuehrung/doneFunctions";
-import prozessfuehrungFlow from "./prozessfuehrung/flow.json";
+import { introXstateConfig } from "./intro/xstateConfig";
+import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
+import { prozessfuehrungXstateConfig } from "./prozessfuehrung/xstateConfig";
 import { isTotalClaimWillSucceddedAboveLimit } from "./services/isTotalClaimAboveLimit";
-import { streitwertKostenDone } from "./streitwertKosten/doneFunctions";
-import streitwertKostenFlow from "./streitwertKosten/flow.json";
+import { streitwertKostenXstateConfig } from "./streitwertKosten/xstateConfig";
 import {
   getAirlineName,
   getAnnullierungInfo,
@@ -45,7 +36,8 @@ import {
   isWeiterePersonen,
   WEITERE_PERSONEN_START_INDEX,
 } from "./stringReplacements";
-import zusammenfassungFlow from "./zusammenfassung/flow.json";
+import type { FluggastrechteUserData } from "./userData";
+import { zusammenfassungXstateConfig } from "./zusammenfassung/xstateConfig";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
@@ -77,7 +69,7 @@ export const fluggastrechtFlow = {
     ],
     buttonUrl: "/fluggastrechte/formular/redirect-to-vorabcheck",
   },
-  stringReplacements: (context: FluggastrechtContext) => ({
+  stringReplacements: (context: FluggastrechteUserData) => ({
     ...getStartAirportName(context),
     ...getEndAirportName(context),
     ...getPersonVorname(context),
@@ -113,48 +105,20 @@ export const fluggastrechtFlow = {
           shouldDisableAddButton: isTotalClaimWillSucceddedAboveLimit,
         },
       } satisfies Partial<
-        Record<keyof FluggastrechtContext, ArrayConfigServer>
+        Record<keyof FluggastrechteUserData, ArrayConfigServer>
       >,
     },
     id: "/fluggastrechte/formular",
     initial: "intro",
     states: {
-      intro: {
-        id: "intro",
-        initial: "start",
-        meta: { done: () => true },
-        states: {
-          start: {
-            on: {
-              SUBMIT: "#grundvoraussetzungen.datenverarbeitung",
-              BACK: "redirect-vorabcheck-ergebnis",
-            },
-          },
-          "redirect-vorabcheck-ergebnis": { on: {} },
-        },
-      },
-      grundvoraussetzungen: merge(grundvoraussetzungenFlow, {
-        meta: { done: grundvoraussetzungenDone },
-      }),
-      "streitwert-kosten": merge(streitwertKostenFlow, {
-        meta: { done: streitwertKostenDone },
-      }),
-      flugdaten: merge(flugdatenFlow, { meta: { done: flugdatenDone } }),
-      "persoenliche-daten": merge(persoenlicheDatenFlow, {
-        states: {
-          person: { meta: { done: personDone } },
-          "weitere-personen": { meta: { done: weiterePersonenDone } },
-        },
-      }),
-      prozessfuehrung: merge(prozessfuehrungFlow, {
-        meta: { done: prozessfuehrungDone },
-      }),
-      zusammenfassung: merge(zusammenfassungFlow, {
-        meta: { done: () => false },
-      }),
-      abgabe: merge(abgabeFlow, {
-        meta: { done: () => false },
-      }),
+      intro: introXstateConfig,
+      grundvoraussetzungen: grundvoraussetzungenXstateConfig,
+      "streitwert-kosten": streitwertKostenXstateConfig,
+      flugdaten: flugdatenXstateConfig,
+      "persoenliche-daten": persoenlicheDatenXstateConfig,
+      prozessfuehrung: prozessfuehrungXstateConfig,
+      zusammenfassung: zusammenfassungXstateConfig,
+      abgabe: abgabeXstateConfig,
     },
   },
   guards: fluggastrechteGuards,

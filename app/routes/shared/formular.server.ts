@@ -6,13 +6,13 @@ import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
-import { isStrapiSelectComponent } from "~/services/cms/components/StrapiSelect";
 import {
   fetchFlowPage,
   fetchMeta,
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { isStrapiArraySummary } from "~/services/cms/models/isStrapiArraySummary";
+import { isStrapiSelectComponent } from "~/services/cms/models/isStrapiSelectComponent";
 import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";

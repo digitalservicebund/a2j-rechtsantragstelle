@@ -9,7 +9,7 @@ import { finanzielleAngabenArrayConfig as beratungshilfeFormularFinanzielleAngab
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { beratungshilfeFinanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConfig";
-import type { BeratungshilfeFormularContext } from "./index";
+import type { BeratungshilfeFormularUserData } from "./index";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
@@ -77,18 +77,24 @@ export const beratungshilfeXstateConfig = {
           },
         },
         telefonnummer: {
-          on: { SUBMIT: showZusammenfassung ? "#zusammenfassung" : "#abgabe" },
+          on: { SUBMIT: "#weitere-angaben" },
         },
       },
     }),
+    "weitere-angaben": {
+      id: "weitere-angaben",
+      meta: { done: beratungshilfePersoenlicheDatenDone },
+      on: {
+        BACK: "#persoenliche-daten.telefonnummer",
+        SUBMIT: showZusammenfassung ? "#zusammenfassung" : "#abgabe",
+      },
+    },
     ...(showZusammenfassung && {
       zusammenfassung: zusammenfassungXstateConfig,
     }),
 
     abgabe: await abgabeXstateConfig(
-      showZusammenfassung
-        ? "#zusammenfassung"
-        : "#persoenliche-daten.telefonnummer",
+      showZusammenfassung ? "#zusammenfassung" : "#weitere-angaben",
     ),
   },
-} satisfies Config<BeratungshilfeFormularContext>;
+} satisfies Config<BeratungshilfeFormularUserData>;

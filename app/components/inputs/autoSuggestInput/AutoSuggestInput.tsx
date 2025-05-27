@@ -60,7 +60,7 @@ const focusOnInput = (inputId: string) => {
 // When leave the input, it should focus on the exclusion button when it uses the tab, due problems for change the className in the component CustomValueContainer
 const keyDownOnInput = (
   inputId: string,
-  buttonExclusionRef: RefObject<HTMLButtonElement>,
+  buttonExclusionRef: RefObject<HTMLButtonElement | null>,
 ) => {
   const inputElement = document.querySelector<HTMLInputElement>(`#${inputId}`);
 
@@ -256,7 +256,7 @@ const AutoSuggestInput = ({
         placeholder={placeholder ?? ""}
         screenReaderStatus={screenReaderStatus(translations)}
         styles={customStyles(hasError)}
-        tabIndex={isDisabled ? -1 : 0}
+        tabIndex={0}
         value={currentItemValue}
       />
 

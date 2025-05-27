@@ -1,6 +1,6 @@
 import type { GenericGuard } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import type { FluggastrechtePersoenlichDaten } from "./context";
+import type { FluggastrechtePersoenlichDaten } from "./userData";
 
 type FluggastrechtePersoenlichDatenGuard =
   GenericGuard<FluggastrechtePersoenlichDaten>;

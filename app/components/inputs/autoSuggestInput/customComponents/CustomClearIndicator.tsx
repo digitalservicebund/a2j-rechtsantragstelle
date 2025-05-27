@@ -10,7 +10,7 @@ const AUTO_SUGGESTION_INPUT_BUTTON_ARIAL_KEY =
 
 const CustomClearIndicator = (
   props: ClearIndicatorProps<DataListOptions, false>,
-  buttonExclusionRef: RefObject<HTMLButtonElement>,
+  buttonExclusionRef: RefObject<HTMLButtonElement | null>,
 ) => {
   const { accessibility: translations } = useTranslations();
   return (

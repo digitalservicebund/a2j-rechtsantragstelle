@@ -25,9 +25,9 @@ export default function PageHeader({
   translations,
 }: Readonly<PageHeaderProps>) {
   const navClassNames = classNames(
-    "py-20 px-16 flex flex-wrap justify-between",
+    "!pt-16 !pb-24 px-16 flex flex-wrap justify-between",
     {
-      [`${alignToContainer} !py-20`]: alignToMainContainer,
+      [`${alignToContainer}`]: alignToMainContainer,
     },
   );
 

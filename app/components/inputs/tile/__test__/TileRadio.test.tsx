@@ -2,16 +2,16 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import TileRadio from "~/components/inputs/tile/TileRadio";
 
 const COMPONENT_NAME = "TileRadio";
-
-const mockError = "error-message";
+const mockErrorMessage = "error-message";
 
 const mockProps = {
   name: COMPONENT_NAME,
-  value: "any value",
+  value: "any-value",
   onClick: vi.fn(),
   title: "Test Title",
   description: "Test Description",
   tagDescription: "New",
+  ref: { current: null },
   image: {
     url: "test.jpg",
     alternativeText: "test image",
@@ -20,10 +20,12 @@ const mockProps = {
   },
 };
 
+const getErrorMock = vi.fn();
+
 vi.mock("@rvf/react-router", () => ({
   useField: () => ({
     getInputProps: vi.fn((props) => ({ ...props })),
-    error: vi.fn().mockReturnValue(mockError),
+    error: getErrorMock,
     defaultValue: vi.fn(),
     refs: {
       controlled: vi.fn(),
@@ -31,15 +33,17 @@ vi.mock("@rvf/react-router", () => ({
   }),
 }));
 
-describe("TileRadio", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
+const mockError = (error: string) => {
+  getErrorMock.mockReturnValue(error);
+};
 
+beforeEach(() => {
+  vi.resetAllMocks();
+});
+
+describe("TileRadio", () => {
   it("check if the component renders correct", () => {
-    const { container, queryByRole } = render(
-      <TileRadio name={COMPONENT_NAME} value="any value" onClick={vi.fn()} />,
-    );
+    const { container, queryByRole } = render(<TileRadio {...mockProps} />);
 
     expect(container.getElementsByClassName("ds-tile-radio-group").length).toBe(
       1,
@@ -50,13 +54,7 @@ describe("TileRadio", () => {
   it("check if the click works", () => {
     const handleClick = vi.fn();
 
-    render(
-      <TileRadio
-        name={COMPONENT_NAME}
-        value="any value"
-        onClick={handleClick}
-      />,
-    );
+    render(<TileRadio {...mockProps} onClick={handleClick} />);
     fireEvent.click(screen.getByRole("radio"));
 
     expect(handleClick).toHaveBeenCalled();
@@ -68,7 +66,7 @@ describe("TileRadio", () => {
     render(
       <TileRadio
         name={COMPONENT_NAME}
-        value="any value"
+        value="any-value"
         onClick={vi.fn()}
         ref={ref}
       />,
@@ -79,12 +77,24 @@ describe("TileRadio", () => {
   });
 
   it("sets proper aria attributes when there is an error", () => {
+    mockError(mockErrorMessage);
+
     render(<TileRadio {...mockProps} />);
 
     const radio = screen.getByRole("radio");
     expect(radio).toHaveAttribute(
       "aria-describedby",
       `${COMPONENT_NAME}-error`,
+    );
+  });
+
+  it("sets proper aria attributes when does not an error and contains a description", () => {
+    render(<TileRadio {...mockProps} />);
+
+    const radio = screen.getByRole("radio");
+    expect(radio).toHaveAttribute(
+      "aria-describedby",
+      `${mockProps.value}-description`,
     );
   });
 });

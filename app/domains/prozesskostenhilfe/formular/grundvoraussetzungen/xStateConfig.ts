@@ -1,4 +1,4 @@
-import type { ProzesskostenhilfeGrundvoraussetzungenContext } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/context";
+import type { ProzesskostenhilfeGrundvoraussetzungenUserData } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import {
   grundvoraussetzungenDone,
   nachueberpruefung,
@@ -6,7 +6,7 @@ import {
   verfahrenSelbststaendig,
   versandDigitalAnwalt,
   versandDigitalGericht,
-} from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/context";
+} from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import type { Config } from "~/services/flow/server/buildFlowController";
 
 export const grundvoraussetzungenXstateConfig = {
@@ -128,4 +128,4 @@ export const grundvoraussetzungenXstateConfig = {
       },
     },
   },
-} satisfies Config<ProzesskostenhilfeGrundvoraussetzungenContext>;
+} satisfies Config<ProzesskostenhilfeGrundvoraussetzungenUserData>;

@@ -1,5 +1,5 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import {
@@ -51,7 +51,7 @@ describe("E_unterhalt", () => {
         },
       ],
     },
-  } satisfies Record<string, BeratungshilfeFormularContext>;
+  } satisfies Record<string, BeratungshilfeFormularUserData>;
 
   test.each(Object.entries(testContexts))(
     "fills unterhalt into attachment for %s",

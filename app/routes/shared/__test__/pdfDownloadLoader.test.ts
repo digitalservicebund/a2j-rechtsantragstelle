@@ -28,7 +28,7 @@ describe("pdfDownloadLoader", () => {
 
     expect(response.status).toBe(200);
     expect(response.headers.get("Content-Type")).toBe("application/pdf");
-    expect(pdfDoc.getPageCount()).toBe(4);
+    expect(pdfDoc.getPageCount()).toBe(5);
     expect(nameField.getText()).toBe("Müller, Zoe");
   });
 

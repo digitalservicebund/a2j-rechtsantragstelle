@@ -1,6 +1,6 @@
 import type { Session } from "react-router";
-import type { Context, ObjectType } from "~/domains/contexts";
 import { type FlowId } from "~/domains/flowIds";
+import type { UserData, ObjectType } from "~/domains/userData";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { filterFormData } from "~/util/filterFormData";
 
@@ -18,7 +18,7 @@ function arrayIndexFromFormData(relevantFormData: FormData) {
 
 function arrayFromSession(arrayName: string, flowSession: Session) {
   const arrayToMutate = flowSession.get(arrayName) as
-    | Context[string]
+    | UserData[string]
     | undefined;
 
   if (!Array.isArray(arrayToMutate)) {

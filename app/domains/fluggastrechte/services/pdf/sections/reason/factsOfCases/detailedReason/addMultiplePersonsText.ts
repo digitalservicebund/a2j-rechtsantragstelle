@@ -1,10 +1,10 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import {
   MARGIN_BETWEEN_SECTIONS,
   MARGIN_RIGHT,
 } from "~/domains/fluggastrechte/services/pdf/configurations";
-import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/context";
+import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -38,7 +38,7 @@ const getTextTelefonNumber = (telefonnummer?: string) => {
 
 export const addMultiplePersonsText = (
   doc: typeof PDFDocument,
-  userData: FluggastrechtContext,
+  userData: FluggastrechteUserData,
 ) => {
   if (
     userData.isWeiterePersonen === "no" ||

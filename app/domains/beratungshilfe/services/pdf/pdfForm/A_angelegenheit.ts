@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularContext } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
   type AttachmentEntries,
@@ -60,7 +60,7 @@ export const fillAngelegenheit: BerHPdfFillFunction = ({
 };
 
 function getAngelegenheitAttachmentDescriptions(
-  userData: BeratungshilfeFormularContext,
+  userData: BeratungshilfeFormularUserData,
 ): AttachmentEntries {
   const attachment: AttachmentEntries = [];
 

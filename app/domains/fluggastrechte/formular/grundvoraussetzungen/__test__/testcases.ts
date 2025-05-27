@@ -2,8 +2,8 @@ import { createMachine } from "xstate";
 import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
 import { fluggastrechteGuards } from "~/domains/fluggastrechte/formular/guards";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { FlowStateMachine } from "~/services/flow/server/types";
 
 const machine: FlowStateMachine = createMachine(
@@ -67,7 +67,7 @@ const cases = [
       "/streitwert-kosten/gerichtskosten",
     ],
   ],
-] as const satisfies TestCases<FluggastrechtContext>;
+] as const satisfies TestCases<FluggastrechteUserData>;
 
 export const testCasesFluggastrechteFormularGrundvoraussetzungen = {
   machine,

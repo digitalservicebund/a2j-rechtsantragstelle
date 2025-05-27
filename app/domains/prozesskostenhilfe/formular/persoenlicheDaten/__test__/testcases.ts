@@ -1,7 +1,7 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import type { FlowStateMachine } from "~/services/flow/server/types";
-import type { ProzesskostenhilfePersoenlicheDaten } from "../context";
+import type { ProzesskostenhilfePersoenlicheDatenUserData } from "../userData";
 import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "../xstateConfig";
 
 const machine: FlowStateMachine = createMachine(
@@ -20,7 +20,7 @@ const cases = [
       "/beruf",
     ],
   ],
-] as const satisfies TestCases<ProzesskostenhilfePersoenlicheDaten>;
+] as const satisfies TestCases<ProzesskostenhilfePersoenlicheDatenUserData>;
 
 export const testCasesProzesskostenhilfePersoenlicheDaten = {
   machine,

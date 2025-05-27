@@ -1,4 +1,4 @@
-import type { FluggastrechtContext } from "./context";
+import type { FluggastrechteUserData } from "./userData";
 import { type Guards } from "../../guards.server";
 import { fluggastrechteFlugdatenGuards } from "./flugdaten/guards";
 import { grundvoraussetzungenDone } from "./grundvoraussetzungen/doneFunctions";
@@ -19,4 +19,4 @@ export const fluggastrechteGuards = {
   prozessfuehrungDone,
   isClaimNotExceedingLimit: ({ context }) =>
     getTotalCompensationClaim(context) < TOTAL_COMPENSATION_CLAIM_LIMIT,
-} satisfies Guards<FluggastrechtContext>;
+} satisfies Guards<FluggastrechteUserData>;

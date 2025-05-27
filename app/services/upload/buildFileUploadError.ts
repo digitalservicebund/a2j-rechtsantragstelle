@@ -1,5 +1,5 @@
 import { validationError, type ValidationResult } from "@rvf/react-router";
-import { type Context } from "~/domains/contexts";
+import { type UserData } from "~/domains/userData";
 
 /**
  * Need to remove the validation error's object notation to conform to what the frontend expects
@@ -12,7 +12,7 @@ import { type Context } from "~/domains/contexts";
  * @returns DataWithResponseInit
  */
 export function buildFileUploadError(
-  validationResult: ValidationResult<Context>,
+  validationResult: ValidationResult<UserData>,
   inputName: string,
 ) {
   return validationError(

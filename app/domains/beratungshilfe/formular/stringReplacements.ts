@@ -13,11 +13,11 @@ import {
 } from "./finanzielleAngaben/doneFunctions";
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import { eigentumTotalWorthLessThan10000 } from "./finanzielleAngaben/guards";
-import type { BeratungshilfeFormularContext } from "./index";
-import { rechtsproblemDone } from "./rechtsproblem/context";
+import type { BeratungshilfeFormularUserData } from "./index";
+import { rechtsproblemDone } from "./rechtsproblem/userData";
 
 export const getAmtsgerichtStrings = (
-  context: BeratungshilfeFormularContext,
+  context: BeratungshilfeFormularUserData,
 ) => {
   const court = findCourtIfUnique(context.plz);
   return {
@@ -31,7 +31,7 @@ export const getAmtsgerichtStrings = (
 };
 
 export const getStaatlicheLeistungenStrings = (
-  context: BeratungshilfeFormularContext,
+  context: BeratungshilfeFormularUserData,
 ) => {
   return {
     hasBuergergeld: context.staatlicheLeistungen === "buergergeld",
@@ -46,7 +46,7 @@ export const getStaatlicheLeistungenStrings = (
 };
 
 export const weiteresEinkommenStrings = (
-  context: BeratungshilfeFormularContext,
+  context: BeratungshilfeFormularUserData,
 ) => {
   const { weitereseinkommen } = context;
   return {
@@ -59,7 +59,7 @@ export const weiteresEinkommenStrings = (
   };
 };
 
-export const ausgabenStrings = (context: BeratungshilfeFormularContext) => {
+export const ausgabenStrings = (context: BeratungshilfeFormularUserData) => {
   return {
     hasSchwangerschaft:
       context.hasAusgaben === "yes" &&
@@ -77,12 +77,12 @@ export const ausgabenStrings = (context: BeratungshilfeFormularContext) => {
   };
 };
 
-export const getAnwaltStrings = (context: BeratungshilfeFormularContext) => {
+export const getAnwaltStrings = (context: BeratungshilfeFormularUserData) => {
   return { hasNoAnwalt: context.anwaltskanzlei !== "yes" };
 };
 
 export const eigentumZusammenfassungShowTotalWorthWarnings = (
-  context: BeratungshilfeFormularContext,
+  context: BeratungshilfeFormularUserData,
 ) => {
   return {
     eigentumTotalWorthLessThan10000: eigentumTotalWorthLessThan10000({
@@ -92,7 +92,7 @@ export const eigentumZusammenfassungShowTotalWorthWarnings = (
 };
 
 export const getMissingInformationStrings = (
-  context: BeratungshilfeFormularContext,
+  context: BeratungshilfeFormularUserData,
 ) => {
   const alwaysChecked = {
     anwaltlicheVertretungMissingInformation: !anwaltlicheVertretungDone({
@@ -124,5 +124,13 @@ export const getMissingInformationStrings = (
   return {
     ...alwaysChecked,
     ...requiresEinkommenDone,
+  };
+};
+
+export const getWeitereDokumenteStrings = (
+  context: BeratungshilfeFormularUserData,
+) => {
+  return {
+    hasWeitereDokumente: context.weitereDokumenteBeweis !== null,
   };
 };

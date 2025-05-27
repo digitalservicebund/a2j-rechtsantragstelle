@@ -2,15 +2,15 @@
 import { type ValidationResult } from "@rvf/react-router";
 import { withZod } from "@rvf/zod";
 import { z, type ZodTypeAny } from "zod";
-import { type Context } from "~/domains/contexts";
+import { type UserData } from "~/domains/userData";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
 export async function validateUploadedFile(
   inputName: string,
   file: PDFFileMetadata,
-  sessionData: Context,
+  sessionData: UserData,
   schema: Record<string, ZodTypeAny>,
-): Promise<ValidationResult<Context>> {
+): Promise<ValidationResult<UserData>> {
   return await withZod(z.object(schema)).validate({
     ...sessionData,
     [inputName]: file,

@@ -1,5 +1,5 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
-import type { ProzesskostenhilfeFinanzielleAngabenContext } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/context";
+import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
 const prefix = "/finanzielle-angaben/wohnung";
 export const testCasesPKHFormularFinanzielleAngabenWohnung = [
   [
@@ -52,4 +52,4 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = [
       "/finanzielle-angaben/eigentum/eigentum-info",
     ],
   ],
-] as const satisfies TestCases<ProzesskostenhilfeFinanzielleAngabenContext>;
+] as const satisfies TestCases<ProzesskostenhilfeFinanzielleAngabenUserData>;

@@ -1,4 +1,4 @@
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 import { getStartAndEndAirportDelayNames } from "../getStartAndEndAirportDelayNames";
 
@@ -16,7 +16,7 @@ const userDataBaseMock = {
   ersterZwischenstopp: "FRA",
   zweiterZwischenstopp: "MUC",
   dritterZwischenstopp: "DRS",
-} satisfies FluggastrechtContext;
+} satisfies FluggastrechteUserData;
 
 beforeEach(() => {
   vi.mocked(getAirportNameByIataCode).mockImplementation((airport) => {
@@ -54,7 +54,7 @@ describe("getStartAndEndAirportDelayNames", () => {
     const userDataMock = {
       ...userDataBaseMock,
       verspaeteterFlug: "startAirportFirstZwischenstopp",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);
 
@@ -66,7 +66,7 @@ describe("getStartAndEndAirportDelayNames", () => {
     const userDataMock = {
       ...userDataBaseMock,
       verspaeteterFlug: "firstAirportSecondZwischenstopp",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);
 
@@ -78,7 +78,7 @@ describe("getStartAndEndAirportDelayNames", () => {
     const userDataMock = {
       ...userDataBaseMock,
       verspaeteterFlug: "firstZwischenstoppEndAirport",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);
 
@@ -90,7 +90,7 @@ describe("getStartAndEndAirportDelayNames", () => {
     const userDataMock = {
       ...userDataBaseMock,
       verspaeteterFlug: "secondAirportThirdZwischenstopp",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);
 
@@ -102,7 +102,7 @@ describe("getStartAndEndAirportDelayNames", () => {
     const userDataMock = {
       ...userDataBaseMock,
       verspaeteterFlug: "secondZwischenstoppEndAirport",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);
 
@@ -114,7 +114,7 @@ describe("getStartAndEndAirportDelayNames", () => {
     const userDataMock = {
       ...userDataBaseMock,
       verspaeteterFlug: "thirdZwischenstoppEndAirport",
-    } satisfies FluggastrechtContext;
+    } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);
 

@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
-import { type Context } from "~/domains/contexts";
+import { type UserData } from "~/domains/userData";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 import { getItemValueBox } from "../getItemValueBox";
@@ -22,7 +22,7 @@ describe("SummaryOverviewBoxItem", () => {
   });
 
   test("renders nothing when item value is missing", () => {
-    const userData: Context = { status: "" };
+    const userData: UserData = { status: "" };
 
     vi.mocked(getItemValueBox).mockReturnValue("");
     vi.mocked(isFieldEmptyOrUndefined).mockReturnValue(true);
@@ -40,7 +40,7 @@ describe("SummaryOverviewBoxItem", () => {
   });
 
   test("renders title and value correctly", () => {
-    const userData: Context = { status: "active" };
+    const userData: UserData = { status: "active" };
 
     vi.mocked(getItemValueBox).mockReturnValue("Aktiv");
     vi.mocked(isFieldEmptyOrUndefined).mockReturnValue(false);
@@ -61,7 +61,7 @@ describe("SummaryOverviewBoxItem", () => {
   });
 
   test("renders even if title is missing", () => {
-    const userData: Context = { status: "inactive" };
+    const userData: UserData = { status: "inactive" };
 
     vi.mocked(getItemValueBox).mockReturnValue("Inaktiv");
     vi.mocked(isFieldEmptyOrUndefined).mockReturnValue(false);
@@ -80,7 +80,7 @@ describe("SummaryOverviewBoxItem", () => {
   });
 
   test("renders item value based on the  inlineItemValues", () => {
-    const userData: Context = { status: "inactive" };
+    const userData: UserData = { status: "inactive" };
 
     vi.mocked(getItemValueBox).mockReturnValue("Inaktiv");
 

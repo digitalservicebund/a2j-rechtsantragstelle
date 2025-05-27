@@ -1,5 +1,5 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
-import type { ProzesskostenhilfeRechtsschutzversicherungContext } from "../context";
+import type { ProzesskostenhilfeRechtsschutzversicherungUserData } from "../userData";
 const prefix = "/rechtsschutzversicherung";
 
 export const testCasesProzesskostenhilfeRsv = (
@@ -82,4 +82,4 @@ export const testCasesProzesskostenhilfeRsv = (
 ).map(([data, steps]) => [
   data,
   steps.map((stepId) => prefix + stepId),
-]) satisfies TestCases<ProzesskostenhilfeRechtsschutzversicherungContext>;
+]) satisfies TestCases<ProzesskostenhilfeRechtsschutzversicherungUserData>;

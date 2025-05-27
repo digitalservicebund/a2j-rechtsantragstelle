@@ -1,25 +1,25 @@
 import type { ZodTypeAny } from "zod";
-import type { BeratungshilfeVorabcheckContext } from "~/domains/beratungshilfe/vorabcheck/context";
-import type { FluggastrechtContext } from "~/domains/fluggastrechte/formular/context";
-import type { FluggastrechtVorabcheckContext } from "~/domains/fluggastrechte/vorabcheck/context";
-import type { GeldEinklagenFormularContext } from "~/domains/geldEinklagen/formular/context";
-import type { GeldEinklagenVorabcheckContext } from "~/domains/geldEinklagen/vorabcheck/context";
-import type { BeratungshilfeFormularContext } from "./beratungshilfe/formular";
-import type { ProzesskostenhilfeFormularContext } from "./prozesskostenhilfe/formular/context";
+import type { BeratungshilfeVorabcheckUserData } from "~/domains/beratungshilfe/vorabcheck/userData";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
+import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
+import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
+import type { GeldEinklagenVorabcheckUserData } from "~/domains/geldEinklagen/vorabcheck/userData";
+import type { BeratungshilfeFormularUserData } from "./beratungshilfe/formular";
+import type { ProzesskostenhilfeFormularUserData } from "./prozesskostenhilfe/formular/userData";
 
-type AllContexts =
-  | GeldEinklagenFormularContext
-  | GeldEinklagenVorabcheckContext
-  | BeratungshilfeVorabcheckContext
-  | BeratungshilfeFormularContext
-  | FluggastrechtVorabcheckContext
-  | FluggastrechtContext
-  | ProzesskostenhilfeFormularContext;
+type AllUserData =
+  | GeldEinklagenFormularUserData
+  | GeldEinklagenVorabcheckUserData
+  | BeratungshilfeVorabcheckUserData
+  | BeratungshilfeFormularUserData
+  | FluggastrechtVorabcheckUserData
+  | FluggastrechteUserData
+  | ProzesskostenhilfeFormularUserData;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type AllContextKeys = KeysOfUnion<AllContexts>;
+export type AllUserDataKeys = KeysOfUnion<AllUserData>;
 
-export const duplicateContext = (
+export const duplicateUserData = (
   context: Record<string, ZodTypeAny>,
   prefix: string,
 ) => {

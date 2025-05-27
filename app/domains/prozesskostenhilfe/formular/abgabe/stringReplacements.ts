@@ -1,19 +1,19 @@
 import {
-  unterhaltBekommeIch,
-  unterhaltLeisteIch,
-} from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/context";
-import type { ProzesskostenhilfeFormularContext } from "~/domains/prozesskostenhilfe/formular/context";
-import {
   erstantrag,
   nachueberpruefung,
   verfahrenAnwalt,
   verfahrenSelbststaendig,
   versandDigitalAnwalt,
   versandDigitalGericht,
-} from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/context";
+} from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import {
+  unterhaltBekommeIch,
+  unterhaltLeisteIch,
+} from "../antragstellendePerson/userData";
 
 export const getAbgabeStrings = (
-  context: ProzesskostenhilfeFormularContext,
+  context: ProzesskostenhilfeFormularUserData,
 ) => {
   return {
     paysOrReceivesUnterhalt:
@@ -27,5 +27,13 @@ export const getAbgabeStrings = (
     verfahrenSelbststaendig: verfahrenSelbststaendig({ context }),
     erstantrag: erstantrag({ context }),
     nachueberpruefung: nachueberpruefung({ context }),
+  };
+};
+
+export const getWeitereDokumenteStrings = (
+  context: ProzesskostenhilfeFormularUserData,
+) => {
+  return {
+    hasWeitereDokumente: context.weitereDokumenteBeweis !== null,
   };
 };
