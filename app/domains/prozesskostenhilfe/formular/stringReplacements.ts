@@ -2,7 +2,7 @@ import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { einkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { prozesskostenhilfeGesetzlicheVertretungDone } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/doneFunctions";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
-import { antragstellendePersonDone } from "./antragstellendePerson/userData";
+import { antragstellendePersonDone } from "./antragstellendePerson/guards";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,

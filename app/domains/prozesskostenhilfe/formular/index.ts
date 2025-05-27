@@ -27,7 +27,7 @@ import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import {
   couldLiveFromUnterhalt,
   unterhaltLeisteIch,
-} from "./antragstellendePerson/userData";
+} from "./antragstellendePerson/guards";
 import { prozesskostenhilfeFinanzielleAngabeDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";

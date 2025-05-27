@@ -10,7 +10,7 @@ import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskosten
 import {
   unterhaltBekommeIch,
   unterhaltLeisteIch,
-} from "../antragstellendePerson/userData";
+} from "../antragstellendePerson/guards";
 
 export const getAbgabeStrings = (
   context: ProzesskostenhilfeFormularUserData,
