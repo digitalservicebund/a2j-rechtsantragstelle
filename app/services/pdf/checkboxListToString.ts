@@ -1,4 +1,4 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
+import { type CheckboxValue } from "~/components/inputs/Checkbox";
 
 export function checkboxListToString(
   mapping: Record<string, string>,
@@ -7,7 +7,7 @@ export function checkboxListToString(
   if (!options) return "";
 
   return Object.entries(options)
-    .filter(([key, value]) => key in mapping && value === CheckboxValue.on)
+    .filter(([key, value]) => key in mapping && value === "on")
     .map(([key]) => mapping[key])
     .join(", ");
 }

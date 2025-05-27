@@ -1,4 +1,3 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 
 export const happyPathData: BeratungshilfeFormularUserData = {
@@ -14,17 +13,17 @@ export const happyPathData: BeratungshilfeFormularUserData = {
   erwerbstaetig: "no",
   berufsituation: "no",
   weitereseinkommen: {
-    unterhaltszahlungen: CheckboxValue.off,
-    arbeitlosengeld: CheckboxValue.off,
-    wohngeld: CheckboxValue.off,
-    kindergeld: CheckboxValue.off,
-    bafoeg: CheckboxValue.off,
-    krankengeld: CheckboxValue.off,
-    rente: CheckboxValue.off,
-    elterngeld: CheckboxValue.off,
-    insolvenzgeld: CheckboxValue.off,
-    ueberbrueckungsgeld: CheckboxValue.off,
-    others: CheckboxValue.on,
+    unterhaltszahlungen: "off",
+    arbeitlosengeld: "off",
+    wohngeld: "off",
+    kindergeld: "off",
+    bafoeg: "off",
+    krankengeld: "off",
+    rente: "off",
+    elterngeld: "off",
+    insolvenzgeld: "off",
+    ueberbrueckungsgeld: "off",
+    others: "on",
   },
   einkommen: "4,00",
   partnerschaft: "no",

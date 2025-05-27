@@ -1,4 +1,3 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { type KontopfaendungWegweiserUserData } from "./userData";
 
 export const getArbeitStrings = (userData: KontopfaendungWegweiserUserData) => {
@@ -37,16 +36,14 @@ export const getKindergeldStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
-    hasKindergeld:
-      userData.sozialleistungenUmstaende?.kindergeld === CheckboxValue.on,
+    hasKindergeld: userData.sozialleistungenUmstaende?.kindergeld === "on",
   };
 };
 export const getWohngeldStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
-    hasWohngeld:
-      userData.sozialleistungenUmstaende?.wohngeld === CheckboxValue.on,
+    hasWohngeld: userData.sozialleistungenUmstaende?.wohngeld === "on",
   };
 };
 export const getEinmalSozialleistungStrings = (
@@ -158,7 +155,7 @@ export const getArbeitsentgeltEinmaligStrings = (
     hasArbeitsentgeltEinmalig:
       typeof userData.zahlungArbeitgeber !== "undefined" &&
       Object.values(userData.zahlungArbeitgeber).some(
-        (value) => value === CheckboxValue.on,
+        (value) => value === "on",
       ),
   };
 };
@@ -166,14 +163,14 @@ export const getSelbststaendigStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
-    isSelbststaendig: userData.arbeitArt?.selbstaendig === CheckboxValue.on,
+    isSelbststaendig: userData.arbeitArt?.selbstaendig === "on",
   };
 };
 export const getAngestelltStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
-    isAngestellt: userData.arbeitArt?.angestellt === CheckboxValue.on,
+    isAngestellt: userData.arbeitArt?.angestellt === "on",
   };
 };
 export const getKinderStrings = (userData: KontopfaendungWegweiserUserData) => {

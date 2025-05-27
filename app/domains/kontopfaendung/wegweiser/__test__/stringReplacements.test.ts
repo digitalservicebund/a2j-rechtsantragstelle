@@ -1,5 +1,4 @@
 import { describe, it, expect } from "vitest";
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import {
   getArbeitStrings,
   getPKontoStrings,
@@ -74,9 +73,9 @@ describe("stringReplacements", () => {
     it("should return correct Kindergeld strings", () => {
       const userData: KontopfaendungWegweiserUserData = {
         sozialleistungenUmstaende: {
-          kindergeld: CheckboxValue.on,
-          pflegegeld: CheckboxValue.off,
-          wohngeld: CheckboxValue.off,
+          kindergeld: "on",
+          pflegegeld: "off",
+          wohngeld: "off",
         },
       };
       expect(getKindergeldStrings(userData)).toEqual({
@@ -88,9 +87,9 @@ describe("stringReplacements", () => {
     it("should return correct Wohngeld strings", () => {
       const userData: KontopfaendungWegweiserUserData = {
         sozialleistungenUmstaende: {
-          wohngeld: CheckboxValue.on,
-          pflegegeld: CheckboxValue.off,
-          kindergeld: CheckboxValue.off,
+          wohngeld: "on",
+          pflegegeld: "off",
+          kindergeld: "off",
         },
       };
       expect(getWohngeldStrings(userData)).toEqual({
@@ -228,11 +227,11 @@ describe("stringReplacements", () => {
     it("should return correct Arbeitsentgelt Einmalig strings", () => {
       const userData: KontopfaendungWegweiserUserData = {
         zahlungArbeitgeber: {
-          urlaubsgeld: CheckboxValue.off,
-          weihnachtsgeld: CheckboxValue.on,
-          ueberstundenBezahlt: CheckboxValue.off,
-          abfindung: CheckboxValue.off,
-          anderes: CheckboxValue.off,
+          urlaubsgeld: "off",
+          weihnachtsgeld: "on",
+          ueberstundenBezahlt: "off",
+          abfindung: "off",
+          anderes: "off",
         },
       };
       expect(getArbeitsentgeltEinmaligStrings(userData)).toEqual({
@@ -244,8 +243,8 @@ describe("stringReplacements", () => {
     it("should return correct Selbststaendig strings", () => {
       const userData: KontopfaendungWegweiserUserData = {
         arbeitArt: {
-          selbstaendig: CheckboxValue.on,
-          angestellt: CheckboxValue.off,
+          selbstaendig: "on",
+          angestellt: "off",
         },
       };
       expect(getSelbststaendigStrings(userData)).toEqual({
@@ -257,8 +256,8 @@ describe("stringReplacements", () => {
     it("should return correct Angestellt strings", () => {
       const userData: KontopfaendungWegweiserUserData = {
         arbeitArt: {
-          angestellt: CheckboxValue.on,
-          selbstaendig: CheckboxValue.off,
+          angestellt: "on",
+          selbstaendig: "off",
         },
       };
       expect(getAngestelltStrings(userData)).toEqual({
@@ -279,9 +278,9 @@ describe("stringReplacements", () => {
       const userData: KontopfaendungWegweiserUserData = {
         kinderWohnenZusammen: "ja",
         sozialleistungenUmstaende: {
-          kindergeld: CheckboxValue.on,
-          pflegegeld: CheckboxValue.off,
-          wohngeld: CheckboxValue.off,
+          kindergeld: "on",
+          pflegegeld: "off",
+          wohngeld: "off",
         },
         hasSozialleistungenEinmalzahlung: "yes",
         hasSozialleistungNachzahlung: "yes",
@@ -300,9 +299,9 @@ describe("stringReplacements", () => {
       const userData: KontopfaendungWegweiserUserData = {
         kinderWohnenZusammen: "nein",
         sozialleistungenUmstaende: {
-          kindergeld: CheckboxValue.off,
-          pflegegeld: CheckboxValue.off,
-          wohngeld: CheckboxValue.off,
+          kindergeld: "off",
+          pflegegeld: "off",
+          wohngeld: "off",
         },
         hasSozialleistungenEinmalzahlung: "no",
         hasSozialleistungNachzahlung: "no",
@@ -328,13 +327,13 @@ describe("stringReplacements", () => {
         hasSozialleistungNachzahlung: "yes",
         sozialleistungNachzahlungHigherThan: "yes",
         arbeitArt: {
-          angestellt: CheckboxValue.off,
-          selbstaendig: CheckboxValue.on,
+          angestellt: "off",
+          selbstaendig: "on",
         },
         sozialleistungenUmstaende: {
-          kindergeld: CheckboxValue.off,
-          pflegegeld: CheckboxValue.off,
-          wohngeld: CheckboxValue.on,
+          kindergeld: "off",
+          pflegegeld: "off",
+          wohngeld: "on",
         },
       };
       expect(getAmtsgerichtStrings(userData)).toEqual({
@@ -349,13 +348,13 @@ describe("stringReplacements", () => {
         hasSozialleistungNachzahlung: "no",
         sozialleistungNachzahlungHigherThan: "no",
         arbeitArt: {
-          angestellt: CheckboxValue.on,
-          selbstaendig: CheckboxValue.off,
+          angestellt: "on",
+          selbstaendig: "off",
         },
         sozialleistungenUmstaende: {
-          kindergeld: CheckboxValue.on,
-          pflegegeld: CheckboxValue.off,
-          wohngeld: CheckboxValue.off,
+          kindergeld: "on",
+          pflegegeld: "off",
+          wohngeld: "off",
         },
       };
       expect(getAmtsgerichtStrings(userData)).toEqual({

@@ -1,4 +1,3 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { Guards } from "~/domains/guards.server";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
 import type { PartnerEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
@@ -55,14 +54,10 @@ export const finanzielleAngabeEinkuenfteGuards = {
     context: { pageData, arbeitsausgaben },
   }) => isValidArrayIndex(arbeitsausgaben, pageData),
   receivesPension: ({ context }) => context.receivesPension === "yes",
-  hasWohngeld: ({ context: { hasWohngeld } }) =>
-    hasWohngeld === CheckboxValue.on,
-  hasKrankengeld: ({ context: { hasKrankengeld } }) =>
-    hasKrankengeld === CheckboxValue.on,
-  hasElterngeld: ({ context: { hasElterngeld } }) =>
-    hasElterngeld === CheckboxValue.on,
-  hasKindergeld: ({ context: { hasKindergeld } }) =>
-    hasKindergeld === CheckboxValue.on,
+  hasWohngeld: ({ context: { hasWohngeld } }) => hasWohngeld === "on",
+  hasKrankengeld: ({ context: { hasKrankengeld } }) => hasKrankengeld === "on",
+  hasElterngeld: ({ context: { hasElterngeld } }) => hasElterngeld === "on",
+  hasKindergeld: ({ context: { hasKindergeld } }) => hasKindergeld === "on",
   hasFurtherIncome,
   hasFurtherIncomeAndEmptyArray: ({ context }) =>
     hasFurtherIncome({ context }) &&
@@ -109,14 +104,10 @@ export const partnerEinkuenfteGuards = {
     context["partner-receivesPension"] === "yes",
   receivesSupport: ({ context }) =>
     context["partner-receivesSupport"] === "yes",
-  hasWohngeld: ({ context }) =>
-    context["partner-hasWohngeld"] === CheckboxValue.on,
-  hasKrankengeld: ({ context }) =>
-    context["partner-hasKrankengeld"] === CheckboxValue.on,
-  hasElterngeld: ({ context }) =>
-    context["partner-hasElterngeld"] === CheckboxValue.on,
-  hasKindergeld: ({ context }) =>
-    context["partner-hasKindergeld"] === CheckboxValue.on,
+  hasWohngeld: ({ context }) => context["partner-hasWohngeld"] === "on",
+  hasKrankengeld: ({ context }) => context["partner-hasKrankengeld"] === "on",
+  hasElterngeld: ({ context }) => context["partner-hasElterngeld"] === "on",
+  hasKindergeld: ({ context }) => context["partner-hasKindergeld"] === "on",
   hasFurtherIncome: partnerHasFurtherIncome,
   hasFurtherIncomeAndEmptyArray: ({ context }) =>
     partnerHasFurtherIncome({ context }) &&

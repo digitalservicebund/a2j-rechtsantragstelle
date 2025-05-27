@@ -1,4 +1,3 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { grundvoraussetzungenDone } from "../doneFunctions";
 
 describe("doneFunctions", () => {
@@ -9,7 +8,7 @@ describe("doneFunctions", () => {
         endAirport: "FRA",
         fluggesellschaft: "LH",
         bereich: "bereich",
-        datenverarbeitungZustimmung: CheckboxValue.on,
+        datenverarbeitungZustimmung: "on",
         streitbeilegung: "yes",
       },
     });
@@ -24,7 +23,7 @@ describe("doneFunctions", () => {
         endAirport: "FRA",
         fluggesellschaft: "LH",
         bereich: "bereich",
-        datenverarbeitungZustimmung: CheckboxValue.on,
+        datenverarbeitungZustimmung: "on",
         streitbeilegung: "noSpecification",
       },
     });
@@ -39,7 +38,7 @@ describe("doneFunctions", () => {
         endAirport: "FRA",
         fluggesellschaft: "LH",
         bereich: "bereich",
-        datenverarbeitungZustimmung: CheckboxValue.on,
+        datenverarbeitungZustimmung: "on",
         streitbeilegung: "no",
         streitbeilegungGruende: "yes",
       },
@@ -87,7 +86,7 @@ describe("doneFunctions", () => {
         endAirport: "FRA",
         fluggesellschaft: "LH",
         bereich: "bereich",
-        datenverarbeitungZustimmung: CheckboxValue.on,
+        datenverarbeitungZustimmung: "on",
         streitbeilegung: "no",
       },
     });

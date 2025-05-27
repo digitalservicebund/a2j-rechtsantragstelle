@@ -1,4 +1,3 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { machine } from "./testMachine";
 import { type KontopfaendungWegweiserUserData } from "../userData";
@@ -128,9 +127,9 @@ const cases = [
     {
       hasSozialleistungen: "nein",
       sozialleistungenUmstaende: {
-        pflegegeld: CheckboxValue.on,
-        kindergeld: CheckboxValue.off,
-        wohngeld: CheckboxValue.off,
+        pflegegeld: "on",
+        kindergeld: "off",
+        wohngeld: "off",
       },
     },
     [
@@ -146,9 +145,9 @@ const cases = [
     {
       hasSozialleistungen: "nein",
       sozialleistungenUmstaende: {
-        pflegegeld: CheckboxValue.off,
-        kindergeld: CheckboxValue.off,
-        wohngeld: CheckboxValue.off,
+        pflegegeld: "off",
+        kindergeld: "off",
+        wohngeld: "off",
       },
     },
     [
@@ -161,26 +160,9 @@ const cases = [
     {
       hasSozialleistungen: "nein",
       sozialleistungenUmstaende: {
-        pflegegeld: CheckboxValue.off,
-        kindergeld: CheckboxValue.on,
-        wohngeld: CheckboxValue.on,
-      },
-    },
-    [
-      "/sozialleistungen",
-      "/sozialleistungen-umstaende",
-      "/sozialleistung-nachzahlung",
-      "/sozialleistungen-einmalzahlung",
-      "/ergebnis/naechste-schritte",
-    ],
-  ],
-  [
-    {
-      hasSozialleistungen: "nein",
-      sozialleistungenUmstaende: {
-        pflegegeld: CheckboxValue.off,
-        kindergeld: CheckboxValue.on,
-        wohngeld: CheckboxValue.on,
+        pflegegeld: "off",
+        kindergeld: "on",
+        wohngeld: "on",
       },
     },
     [
@@ -195,9 +177,26 @@ const cases = [
     {
       hasSozialleistungen: "nein",
       sozialleistungenUmstaende: {
-        pflegegeld: CheckboxValue.off,
-        kindergeld: CheckboxValue.on,
-        wohngeld: CheckboxValue.on,
+        pflegegeld: "off",
+        kindergeld: "on",
+        wohngeld: "on",
+      },
+    },
+    [
+      "/sozialleistungen",
+      "/sozialleistungen-umstaende",
+      "/sozialleistung-nachzahlung",
+      "/sozialleistungen-einmalzahlung",
+      "/ergebnis/naechste-schritte",
+    ],
+  ],
+  [
+    {
+      hasSozialleistungen: "nein",
+      sozialleistungenUmstaende: {
+        pflegegeld: "off",
+        kindergeld: "on",
+        wohngeld: "on",
       },
       hasSozialleistungNachzahlung: "no",
     },
@@ -211,9 +210,9 @@ const cases = [
     {
       hasSozialleistungen: "nein",
       sozialleistungenUmstaende: {
-        pflegegeld: CheckboxValue.off,
-        kindergeld: CheckboxValue.on,
-        wohngeld: CheckboxValue.on,
+        pflegegeld: "off",
+        kindergeld: "on",
+        wohngeld: "on",
       },
       hasSozialleistungNachzahlung: "yes",
     },
@@ -238,9 +237,9 @@ const cases = [
       nachzahlungArbeitgeber: "yes",
       hasSozialleistungen: "nein",
       sozialleistungenUmstaende: {
-        kindergeld: CheckboxValue.on,
-        pflegegeld: CheckboxValue.off,
-        wohngeld: CheckboxValue.off,
+        kindergeld: "on",
+        pflegegeld: "off",
+        wohngeld: "off",
       },
       hasSozialleistungNachzahlung: "yes",
     },
