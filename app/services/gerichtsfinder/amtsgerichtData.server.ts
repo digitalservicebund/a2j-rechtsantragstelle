@@ -1,5 +1,10 @@
 import partnerGerichte from "data/courts/partnerGerichte.json";
 import courtURLs from "data/courts/sanitizedURLs.json";
+import { getEncrypted } from "~/services/gerichtsfinder/encryptedStorage.server";
+import {
+  type Jmtd14VTErwerberPlzstrn,
+  type Jmtd14VTErwerberPlzortk,
+} from "~/services/gerichtsfinder/types";
 import { stripLeadingZeros, uppercaseFirstLetter } from "~/util/strings";
 import type {
   GerbehFile,
@@ -8,8 +13,6 @@ import type {
   PlzStrnFile,
 } from "./convertJsonDataTable";
 import { gerbehIndex } from "./convertJsonDataTable";
-import { getEncrypted } from "./encryptedStorage.server";
-import type { Jmtd14VTErwerberPlzortk, Jmtd14VTErwerberPlzstrn } from "./types";
 
 // Encrypted court data & gerbehIndex of partner courts are cached
 let courtdata: Record<string, object> | undefined = undefined;
@@ -115,15 +118,40 @@ const gerbehIndexForPlz = (zipCode: string) => {
 export const findCourt = ({
   zipCode,
   streetSlug,
+  houseNumber,
 }: {
   zipCode: string;
   streetSlug?: string;
+  houseNumber?: string;
 }) => {
   if (streetSlug && streetSlug !== "default") {
+    const decodedStreetName = streetSlug
+      .replaceAll(/_/g, " ")
+      .replaceAll(/([Ss]tr\.)/g, "strasse");
     const edgeCases = edgeCasesForPlz(zipCode);
-    const edgeCase = edgeCases.find((e) => buildStreetSlug(e) === streetSlug);
-    if (!edgeCase) return undefined;
-    return courtAddress(edgeCase);
+    const matchingEdgeCases = edgeCases.filter((e) =>
+      e.STRN.toLowerCase()
+        .replace(/ä/g, "ae")
+        .replace(/ö/g, "oe")
+        .replace(/ü/g, "ue")
+        .startsWith(decodedStreetName),
+    );
+    const rangedMatches = matchingEdgeCases.filter((e) => {
+      const houseNumberInRange =
+        parseInt(e.HNR_VON) <= parseInt(houseNumber!) &&
+        parseInt(e.HNR_BIS) >= parseInt(houseNumber!);
+      return houseNumberInRange;
+    });
+    if (rangedMatches.length === 1) return courtAddress(rangedMatches[0]);
+    if (rangedMatches.length > 1) {
+      const finalMatch = rangedMatches.find((e) => {
+        const houseNumberEven = parseInt(houseNumber!) % 2 === 0;
+        return houseNumberEven
+          ? e.HNR_MERKMAL_INFO === "gerade Hausnummern"
+          : e.HNR_MERKMAL_INFO === "ungerade Hausnummern";
+      });
+      if (finalMatch) return courtAddress(finalMatch);
+    }
   }
 
   const court = courtForPlz(zipCode);

@@ -1,10 +1,9 @@
 import type { Flow } from "~/domains/flows.server";
-import { getAbgabeStrings } from "~/domains/prozesskostenhilfe/formular/abgabe/stringReplacements";
-import { getAntragstellendePersonStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/stringReplacements";
 import {
-  couldLiveFromUnterhalt,
-  unterhaltLeisteIch,
-} from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
+  getAbgabeStrings,
+  getWeitereDokumenteStrings,
+} from "~/domains/prozesskostenhilfe/formular/abgabe/stringReplacements";
+import { getAntragstellendePersonStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/stringReplacements";
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/arrayConfiguration";
 import { finanzielleAngabeEinkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
@@ -25,6 +24,10 @@ import {
   geldAnlagenStrings,
 } from "~/domains/shared/formular/stringReplacements";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import {
+  couldLiveFromUnterhalt,
+  unterhaltLeisteIch,
+} from "./antragstellendePerson/userData";
 import { prozesskostenhilfeFinanzielleAngabeDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
@@ -208,5 +211,6 @@ export const prozesskostenhilfeFormular = {
     ...getAbgabeStrings(context),
     ...getMissingInformationStrings(context),
     ...belegeStrings(context),
+    ...getWeitereDokumenteStrings(context),
   }),
 } satisfies Flow;

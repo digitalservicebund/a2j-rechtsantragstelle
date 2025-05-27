@@ -13,8 +13,8 @@ const mockedValidate = vi.fn();
 const COMPONENT_NAME = "test-autoSuggestInput";
 const PLACEHOLDER_MOCK = "Test Placeholder";
 
-beforeEach(() => {
-  vi.mocked(useField).mockReturnValue({
+function getMockUseFieldReturnValue() {
+  return {
     getInputProps: vi.fn().mockReturnValue({
       id: COMPONENT_NAME,
       placeholder: PLACEHOLDER_MOCK,
@@ -39,7 +39,11 @@ beforeEach(() => {
     clearError: vi.fn(),
     reset: vi.fn(),
     validate: mockedValidate,
-  });
+  };
+}
+
+beforeEach(() => {
+  vi.mocked(useField).mockReturnValue(getMockUseFieldReturnValue());
 
   vi.spyOn(useDataListOptions, "default").mockReturnValue(
     getDataListOptions("airports"),
@@ -268,5 +272,28 @@ describe("AutoSuggestInput", () => {
 
     await user.tab();
     expect(input).not.toHaveFocus();
+  });
+
+  it("adds aria-describedby to the input when there's an error", () => {
+    const mockField = getMockUseFieldReturnValue();
+    mockField.error.mockReturnValue("required");
+
+    vi.mocked(useField).mockReturnValue(mockField);
+    const { getByRole } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        placeholder="placeholder"
+        dataList="airports"
+        errorMessages={[{ code: "required", text: "Field is required" }]}
+        isDisabled={false}
+      />,
+    );
+
+    const input = getByRole("combobox");
+
+    expect(input).toHaveAttribute(
+      "aria-describedby",
+      `${COMPONENT_NAME}-error`,
+    );
   });
 });

@@ -98,6 +98,7 @@ async function startDocumentUpload(page: Page) {
   await expect(errorMessage).toBeVisible();
 
   // Test file upload with a file that's too large
+  // TODO: move to e2e/testData
   const dummyFilePathTooBig = path.resolve(
     path.join(process.cwd(), "playwright/generated/", "tooBig.pdf"),
   );
@@ -114,6 +115,7 @@ async function startDocumentUpload(page: Page) {
   await page.getByRole("button", { name: "Löschen" }).click();
 
   // Test file upload with a file that's of the wrong type
+  // TODO: move to e2e/testData
   const dummyFilePathWrongType = path.resolve(
     path.join(process.cwd(), "playwright/generated/", "wrongType.txt"),
   );
@@ -127,6 +129,7 @@ async function startDocumentUpload(page: Page) {
   await page.getByRole("button", { name: "Löschen" }).click();
 
   // Test file upload with a valid file
+  // TODO: move to e2e/testData
   const dummyFilePath = path.resolve(
     path.join(process.cwd(), "playwright/generated/", "test.pdf"),
   );
