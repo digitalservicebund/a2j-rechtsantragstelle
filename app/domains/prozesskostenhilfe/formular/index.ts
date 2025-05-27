@@ -8,11 +8,6 @@ import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/domains/proz
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/arrayConfiguration";
 import { finanzielleAngabeEinkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import { prozesskostenhilfeGesetzlicheVertretungDone } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/doneFunctions";
-import {
-  nachueberpruefung,
-  versandDigitalAnwalt,
-  versandDigitalGericht,
-} from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import { grundvoraussetzungenXstateConfig } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/xStateConfig";
 import { prozesskostenhilfePersoenlicheDatenDone } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/doneFunctions";
@@ -33,6 +28,11 @@ import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import { hasGesetzlicheVertretungYes } from "./gesetzlicheVertretung/guards";
 import { gesetzlicheVertretungXstateConfig } from "./gesetzlicheVertretung/xStateConfig";
+import {
+  isNachueberpruefung,
+  versandDigitalAnwalt,
+  versandDigitalGericht,
+} from "./grundvoraussetzungen/guards";
 import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 import {
   belegeStrings,
@@ -80,7 +80,7 @@ export const prozesskostenhilfeFormular = {
           ],
           nextFlowEntrypoint: [
             {
-              guard: ({ context }) => nachueberpruefung({ context }),
+              guard: ({ context }) => isNachueberpruefung({ context }),
               target: "#finanzielle-angaben",
             },
             "#rechtsschutzversicherung",

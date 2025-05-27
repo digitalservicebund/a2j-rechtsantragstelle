@@ -1,12 +1,12 @@
 import type { ProzesskostenhilfeGrundvoraussetzungenUserData } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import {
   grundvoraussetzungenDone,
-  nachueberpruefung,
+  isNachueberpruefung,
   verfahrenAnwalt,
   verfahrenSelbststaendig,
   versandDigitalAnwalt,
   versandDigitalGericht,
-} from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
+} from "./guards";
 import type { Config } from "~/services/flow/server/buildFlowController";
 
 export const grundvoraussetzungenXstateConfig = {
@@ -18,7 +18,7 @@ export const grundvoraussetzungenXstateConfig = {
       on: {
         SUBMIT: [
           {
-            guard: nachueberpruefung,
+            guard: isNachueberpruefung,
             target: "nachueberpruefung.name-gericht",
           },
           "antrag.klageersteller",
@@ -84,7 +84,7 @@ export const grundvoraussetzungenXstateConfig = {
             ],
             BACK: [
               {
-                guard: nachueberpruefung,
+                guard: isNachueberpruefung,
                 target: "#grundvorsaussetzungen.nachueberpruefung.aktenzeichen",
               },
               {
