@@ -7,16 +7,12 @@ import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { useJsAvailable } from "~/services/useJsAvailable";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
-import { FeedbackType } from "./FeedbackType";
+import { type FeedbackType } from "./FeedbackType";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 export const FEEDBACK_FIELD_NAME = "feedback";
-
-enum FeedbackButtons {
-  Submit = "submit",
-}
 
 export const feedbackSchema = z.object({
   feedback: z
@@ -64,14 +60,14 @@ export const FeedbackFormBox = ({
 
   if (!feedback) {
     const wasHelpful = getFeedbackFromUrl(location.search);
-    if (wasHelpful === "yes") feedback = FeedbackType.Positive;
-    else if (wasHelpful === "no") feedback = FeedbackType.Negative;
+    if (wasHelpful === "yes") feedback = "positive";
+    else if (wasHelpful === "no") feedback = "negative";
     else return null;
   }
 
   const feedbackText = {
-    [FeedbackType.Positive]: feedbackTranslations["positive-feedback-question"],
-    [FeedbackType.Negative]: feedbackTranslations["negative-feedback-question"],
+    ["positive"]: feedbackTranslations["positive-feedback-question"],
+    ["negative"]: feedbackTranslations["negative-feedback-question"],
   }[feedback];
 
   return (
@@ -107,7 +103,7 @@ export const FeedbackFormBox = ({
           <Button
             look="primary"
             name={FEEDBACK_BUTTON_FIELD_NAME}
-            value={FeedbackButtons.Submit}
+            value={"submit"}
             type="submit"
           >
             {feedbackTranslations["submit-button-feedback"]}

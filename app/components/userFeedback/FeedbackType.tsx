@@ -1,4 +1,1 @@
-export enum FeedbackType {
-  Positive = "positive",
-  Negative = "negative",
-}
+export type FeedbackType = "positive" | "negative";

@@ -7,7 +7,6 @@ import { type RatingBoxProps, RatingBox } from "./RatingBox";
 import Background from "../Background";
 import Container from "../Container";
 import { BannerState } from "./BannerState";
-import { FeedbackType } from "./FeedbackType";
 
 type UserFeedbackProps = {
   rating: Pick<RatingBoxProps, "heading">;
@@ -21,8 +20,8 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   const rootLoaderData = useRouteLoaderData<RootLoader>("root");
   const bannerState = rootLoaderData?.feedback.state ?? BannerState.ShowRating;
   const feedbackResult = rootLoaderData?.feedback.result
-    ? FeedbackType.Positive
-    : FeedbackType.Negative;
+    ? "positive"
+    : "negative";
 
   const applyFocus = useCallback(() => {
     setShouldFocus(true);
