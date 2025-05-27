@@ -8,7 +8,6 @@ import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessibl
 export async function startAbgabe(page: Page) {
   // prozesskostenhilfe/abgabe/dokumente
   await expectPageToBeAccessible({ page });
-  await page.getByRole("button", { name: "Weiter" }).click();
 
   const fileUploadInfo = page.getByTestId(
     "file-upload-info-grundsicherungSozialhilfeBeweis[0]",
