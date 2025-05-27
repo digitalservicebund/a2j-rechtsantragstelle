@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { LoaderFunctionArgs } from "react-router";
 import { redirect, useFetcher, useLoaderData } from "react-router";
-import AsyncSelect, { type SingleValue } from "react-select";
+import Select, { type SingleValue } from "react-select";
 import Background from "~/components/Background";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
@@ -80,8 +80,7 @@ export default function Index() {
         />
         <fetcher.Form method="post" action={pathname}>
           <div className="pb-16 flex gap-8">
-            {/* Use regular Select instead of Async? */}
-            <AsyncSelect
+            <Select
               placeholder="Nach Straßenname suchen..."
               className="flex-grow"
               options={fetcher.data?.streetNameOptions ?? streetNameOptions}
