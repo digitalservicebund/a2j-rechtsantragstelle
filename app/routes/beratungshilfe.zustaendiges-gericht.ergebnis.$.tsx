@@ -16,12 +16,12 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const splat = params["*"];
   invariant(typeof splat !== "undefined");
 
-  const [zipCode, streetSlug] = splat.split("/");
+  const [zipCode, streetSlug, houseNumber] = splat.split("/");
   if (edgeCasesForPlz(zipCode).length > 0 && !streetSlug) {
     return redirect(`/beratungshilfe/zustaendiges-gericht/auswahl/${zipCode}`);
   }
 
-  const court = findCourt({ zipCode, streetSlug });
+  const court = findCourt({ zipCode, streetSlug, houseNumber });
   if (!court) {
     throw new Response(null, {
       status: 404,

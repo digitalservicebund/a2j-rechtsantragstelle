@@ -44,6 +44,7 @@ function Button({
       "ds-button-with-icon": iconLeft ?? iconRight,
       "ds-button-with-icon-only": (iconLeft ?? iconRight) && !children,
       "ds-button-full-width": fullWidth,
+      "is-disabled": props.disabled,
     },
     "contrast-more:border-4 forced-colors:border-4 border-solid contrast-more:border-black", // TODO: move into angie?
     props.className,
@@ -74,7 +75,7 @@ function Button({
     return (
       <a
         {...props}
-        href={href}
+        href={props.disabled ? undefined : href}
         className={buttonClasses}
         onKeyDown={onKeyDown}
         {...opts}

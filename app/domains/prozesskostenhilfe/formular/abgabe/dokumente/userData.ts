@@ -69,6 +69,6 @@ const _partialSchema = z
   .object(prozesskostenhilfeDokumenteInputSchema)
   .partial();
 
-export type prozesskostenhilfeDokumenteUserData = z.infer<
+export type ProzesskostenhilfeDokumenteUserData = z.infer<
   typeof _partialSchema
 >;
