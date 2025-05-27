@@ -92,23 +92,6 @@ const getSortingAirportsByCode = (
   return filteredOptions;
 };
 
-const getAriaDescribedById = (
-  errorId: string,
-  noOptionMessageId: string,
-  hasError: boolean,
-  hasOption: boolean,
-) => {
-  if (hasError) {
-    return errorId;
-  }
-
-  if (hasOption) {
-    return noOptionMessageId;
-  }
-
-  return undefined;
-};
-
 const AutoSuggestInput = ({
   name,
   label,
@@ -127,7 +110,6 @@ const AutoSuggestInput = ({
   const errorId = `${name}-error`;
   const hasError = (field.error()?.length ?? 0) > 0;
   const inputId = `input-${name}`;
-  const noOptionMessageId = `${name}-no-option-message`;
   const buttonExclusionRef = useRef<HTMLButtonElement>(null);
 
   const jsAvailable = useJsAvailable();
@@ -136,16 +118,13 @@ const AutoSuggestInput = ({
   const { accessibility: translations } = useTranslations();
 
   const isRequired = !!errorMessages?.find((err) => err.code === "required");
-  const [hasOptions, setHasOptions] = useState<boolean>(false);
 
   const onInputChange = (value: string, { action }: InputActionMeta) => {
     if (action === "input-change") {
       if (value.length < MINIMUM_SEARCH_SUGGESTION_CHARACTERS) {
         setOptions([]);
-        setHasOptions(false);
         return;
       }
-      setHasOptions(true);
       let filteredOptions = items.filter((item) => filterOption(item, value));
 
       // In case is the airports list, sorting by the code
@@ -167,13 +146,6 @@ const AutoSuggestInput = ({
     setCurrentItemValue(value);
   }, [defaultValue, items]);
 
-  const ariaDescribedById = getAriaDescribedById(
-    errorId,
-    noOptionMessageId,
-    hasError,
-    hasOptions,
-  );
-
   // In case user does not have Javascript, it should render the Input as suggestion input
   if (!jsAvailable) {
     return (
@@ -191,9 +163,9 @@ const AutoSuggestInput = ({
     <div data-testid={items.length > 0 ? `${inputId}-loaded` : ""}>
       {label && <InputLabel id={inputId}>{label}</InputLabel>}
       <Select
-        aria-describedby={ariaDescribedById}
-        aria-errormessage={ariaDescribedById}
-        aria-invalid={ariaDescribedById !== undefined}
+        aria-describedby={field.error() && errorId}
+        aria-errormessage={field.error() ? errorId : undefined}
+        aria-invalid={field.error() !== undefined}
         ariaLiveMessages={ariaLiveMessages(translations)}
         className={classNames(
           "w-full forced-colors:border-2",
