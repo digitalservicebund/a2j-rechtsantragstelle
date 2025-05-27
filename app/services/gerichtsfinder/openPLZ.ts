@@ -25,15 +25,9 @@ export function buildOpenPlzResultUrl(streetName: string, houseNumber: number) {
     .replace(/ü/g, "ue")
     .replaceAll(/\s+/g, "_")}/${houseNumber}`;
 }
-export async function fetchStreetnamesForZipcode(
-  zipCode: string,
-  searchTerm?: string,
-  page = 1,
-) {
-  const queryString = searchTerm ? `name=^${searchTerm}&` : "";
+export async function fetchStreetnamesForZipcode(zipCode: string) {
   const openPlzResponse = await fetch(
-    OPENPLZ_URL +
-      `/Streets?${queryString}postalCode=${zipCode}&page=${page.toString()}&pageSize=50`,
+    OPENPLZ_URL + `/Streets?postalCode=${zipCode}&page=1&pageSize=50`,
   );
   if (!openPlzResponse.ok) {
     throw new Error(
