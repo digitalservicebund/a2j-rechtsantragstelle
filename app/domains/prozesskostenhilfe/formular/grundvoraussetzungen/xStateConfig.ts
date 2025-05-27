@@ -1,4 +1,5 @@
 import type { ProzesskostenhilfeGrundvoraussetzungenUserData } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
+import type { Config } from "~/services/flow/server/buildFlowController";
 import {
   grundvoraussetzungenDone,
   isNachueberpruefung,
@@ -7,7 +8,6 @@ import {
   versandDigitalAnwalt,
   versandDigitalGericht,
 } from "./guards";
-import type { Config } from "~/services/flow/server/buildFlowController";
 
 export const grundvoraussetzungenXstateConfig = {
   id: "grundvorsaussetzungen",

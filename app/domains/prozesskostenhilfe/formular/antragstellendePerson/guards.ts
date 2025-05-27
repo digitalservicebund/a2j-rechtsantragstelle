@@ -1,6 +1,6 @@
 import type { GenericGuard } from "~/domains/guards.server";
-import type { ProzesskostenhilfeAntragstellendePersonUserData } from "./userData";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import type { ProzesskostenhilfeAntragstellendePersonUserData } from "./userData";
 
 export const unterhaltLeisteIch: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData

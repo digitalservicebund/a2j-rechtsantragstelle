@@ -1,3 +1,8 @@
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import {
+  unterhaltBekommeIch,
+  unterhaltLeisteIch,
+} from "../antragstellendePerson/guards";
 import {
   isErstantrag,
   isNachueberpruefung,
@@ -6,11 +11,6 @@ import {
   versandDigitalAnwalt,
   versandDigitalGericht,
 } from "../grundvoraussetzungen/guards";
-import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
-import {
-  unterhaltBekommeIch,
-  unterhaltLeisteIch,
-} from "../antragstellendePerson/guards";
 
 export const getAbgabeStrings = (
   context: ProzesskostenhilfeFormularUserData,
