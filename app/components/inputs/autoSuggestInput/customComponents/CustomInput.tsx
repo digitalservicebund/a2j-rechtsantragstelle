@@ -7,6 +7,7 @@ import {
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 
+//Will become obsolete with the next version bump: https://github.com/JedWatson/react-select/pull/6016
 type CustomSelectProps = Props<
   DataListOptions,
   false,
