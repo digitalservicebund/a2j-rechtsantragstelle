@@ -1,5 +1,4 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { happyPathData } from "~/domains/beratungshilfe/services/pdf/__test__/beratungshilfeFormularData";
 import { gerbehAmtsgericht } from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";
@@ -13,8 +12,8 @@ describe("fillHeader", () => {
       staatlicheLeistungen: "keine",
       erwerbstaetig: "yes",
       berufart: {
-        selbststaendig: CheckboxValue.on,
-        festangestellt: CheckboxValue.off,
+        selbststaendig: "on",
+        festangestellt: "off",
       },
       weitereseinkommen: happyPathData.weitereseinkommen,
     };

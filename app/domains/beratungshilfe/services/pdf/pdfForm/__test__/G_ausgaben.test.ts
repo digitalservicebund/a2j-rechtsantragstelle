@@ -1,5 +1,4 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { AUSGABEN_ATTACHMENT_TITLE, fillAusgaben } from "../G_ausgaben";
@@ -150,10 +149,10 @@ describe("besondere belastungen", () => {
     const { pdfValues } = pdfFillReducer({
       userData: {
         ausgabensituation: {
-          pregnancy: CheckboxValue.on,
-          singleParent: CheckboxValue.on,
-          disability: CheckboxValue.off,
-          medicalReasons: CheckboxValue.off,
+          pregnancy: "on",
+          singleParent: "on",
+          disability: "off",
+          medicalReasons: "off",
         },
       },
       pdfParams: getBeratungshilfeParameters(),
@@ -167,19 +166,19 @@ describe("besondere belastungen", () => {
   test.each([
     [
       {
-        pregnancy: CheckboxValue.on,
-        singleParent: CheckboxValue.off,
-        disability: CheckboxValue.off,
-        medicalReasons: CheckboxValue.off,
+        pregnancy: "on",
+        singleParent: "off",
+        disability: "off",
+        medicalReasons: "off",
       },
       [false, true],
     ],
     [
       {
-        pregnancy: CheckboxValue.off,
-        singleParent: CheckboxValue.off,
-        disability: CheckboxValue.off,
-        medicalReasons: CheckboxValue.off,
+        pregnancy: "off",
+        singleParent: "off",
+        disability: "off",
+        medicalReasons: "off",
       },
       [true, false],
     ],

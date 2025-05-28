@@ -3,7 +3,6 @@ import type { ActionFunctionArgs, Session, SessionData } from "react-router";
 import { data, redirect } from "react-router";
 import { z } from "zod";
 import { USER_FEEDBACK_ID } from "~/components/userFeedback";
-import { BannerState } from "~/components/userFeedback/BannerState";
 import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -45,7 +44,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(request.headers.get("Cookie"));
   updateRatingWasHepful(session, feedbackData.wasHelpful, url);
-  updateBannerState(session, BannerState.ShowFeedback, url);
+  updateBannerState(session, "showFeedback", url);
   const headers = { "Set-Cookie": await commitSession(session) };
 
   sendCustomAnalyticsEvent({

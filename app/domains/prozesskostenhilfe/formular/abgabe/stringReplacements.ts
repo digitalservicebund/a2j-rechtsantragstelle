@@ -1,16 +1,16 @@
-import {
-  erstantrag,
-  nachueberpruefung,
-  verfahrenAnwalt,
-  verfahrenSelbststaendig,
-  versandDigitalAnwalt,
-  versandDigitalGericht,
-} from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import {
   unterhaltBekommeIch,
   unterhaltLeisteIch,
-} from "../antragstellendePerson/userData";
+} from "../antragstellendePerson/guards";
+import {
+  isErstantrag,
+  isNachueberpruefung,
+  verfahrenAnwalt,
+  verfahrenSelbststaendig,
+  versandDigitalAnwalt,
+  versandDigitalGericht,
+} from "../grundvoraussetzungen/guards";
 
 export const getAbgabeStrings = (
   context: ProzesskostenhilfeFormularUserData,
@@ -25,8 +25,8 @@ export const getAbgabeStrings = (
     versandDigitalGericht: versandDigitalGericht({ context }),
     verfahrenAnwalt: verfahrenAnwalt({ context }),
     verfahrenSelbststaendig: verfahrenSelbststaendig({ context }),
-    erstantrag: erstantrag({ context }),
-    nachueberpruefung: nachueberpruefung({ context }),
+    erstantrag: isErstantrag({ context }),
+    nachueberpruefung: isNachueberpruefung({ context }),
   };
 };
 

@@ -3,7 +3,7 @@ import ThumbUpIcon from "@digitalservicebund/icons/ThumbUpOutlined";
 import { useFetcher } from "react-router";
 import { useJsAvailable } from "~/services/useJsAvailable";
 import { useFeedbackTranslations } from "./feedbackTranslations";
-import { FeedbackType } from "./FeedbackType";
+import { type FeedbackType } from "./FeedbackType";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 import Heading from "../Heading";
@@ -36,7 +36,7 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
             value="yes"
             type="submit"
             onClick={() => {
-              onSubmit(FeedbackType.Positive);
+              onSubmit("positive");
             }}
             aria-label={`${heading}, ${feedbackTranslations["yes-rating"]}`}
           >
@@ -49,7 +49,7 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
             value="no"
             type="submit"
             onClick={() => {
-              onSubmit(FeedbackType.Negative);
+              onSubmit("negative");
             }}
             aria-label={`${heading}, ${feedbackTranslations["no-rating"]}`}
           >

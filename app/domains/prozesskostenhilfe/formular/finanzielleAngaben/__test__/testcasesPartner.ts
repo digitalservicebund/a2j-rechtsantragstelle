@@ -1,4 +1,3 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
 const prefix = "/finanzielle-angaben/partner";
@@ -212,10 +211,10 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = [
   ],
   [
     {
-      "partner-hasWohngeld": CheckboxValue.on,
-      "partner-hasKrankengeld": CheckboxValue.on,
-      "partner-hasElterngeld": CheckboxValue.on,
-      "partner-hasKindergeld": CheckboxValue.on,
+      "partner-hasWohngeld": "on",
+      "partner-hasKrankengeld": "on",
+      "partner-hasElterngeld": "on",
+      "partner-hasKindergeld": "on",
       "partner-wohngeldAmount": "500",
       "partner-krankengeldAmount": "500",
       "partner-elterngeldAmount": "500",

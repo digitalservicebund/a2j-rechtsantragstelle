@@ -1,7 +1,7 @@
 import uniqBy from "lodash/uniqBy";
 
-export const OPENPLZ_URL = "https://openplzapi.org/de";
-export type OpenPLZResult = {
+const OPENPLZ_URL = "https://openplzapi.org/de";
+type OpenPLZResult = {
   name: string;
   postalCode: string;
   locality: string;

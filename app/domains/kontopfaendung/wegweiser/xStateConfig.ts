@@ -1,13 +1,12 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { type KontopfaendungWegweiserUserData } from "./userData";
 
 const sozialleistungenUmstaendeSelected = (
   context: KontopfaendungWegweiserUserData,
 ) =>
-  context.sozialleistungenUmstaende?.kindergeld === CheckboxValue.on ||
-  context.sozialleistungenUmstaende?.wohngeld === CheckboxValue.on ||
-  context.sozialleistungenUmstaende?.pflegegeld === CheckboxValue.on;
+  context.sozialleistungenUmstaende?.kindergeld === "on" ||
+  context.sozialleistungenUmstaende?.wohngeld === "on" ||
+  context.sozialleistungenUmstaende?.pflegegeld === "on";
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/kontopfaendung/wegweiser",
@@ -294,8 +293,7 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "pflegegeld",
             guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.pflegegeld ===
-              CheckboxValue.on,
+              context.sozialleistungenUmstaende?.pflegegeld === "on",
           },
           {
             target: "sozialleistung-nachzahlung",
@@ -326,7 +324,7 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "pflegegeld",
             guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.pflegegeld == CheckboxValue.on,
+              context.sozialleistungenUmstaende?.pflegegeld == "on",
           },
           {
             target: "sozialleistungen",

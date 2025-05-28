@@ -1,4 +1,3 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { finanzielleAngabeEinkuenfteGuards as guards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import {
   type AttachmentEntries,
@@ -109,28 +108,28 @@ export const fillAndereLeistungen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  if (userData.hasWohngeld === CheckboxValue.on) {
+  if (userData.hasWohngeld === "on") {
     pdfValues.ja_19.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchWohngeldinEuro7.value = `${removeDecimalsFromCurrencyString(userData.wohngeldAmount)} ${nettoString}`;
   } else if (userData.hasFurtherIncome) {
     pdfValues.nein_20.value = true;
   }
 
-  if (userData.hasKrankengeld === CheckboxValue.on) {
+  if (userData.hasKrankengeld === "on") {
     pdfValues.ja_18.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro12.value = `${removeDecimalsFromCurrencyString(userData.krankengeldAmount)} ${nettoString}`;
   } else if (userData.hasFurtherIncome) {
     pdfValues.nein_19.value = true;
   }
 
-  if (userData.hasElterngeld === CheckboxValue.on) {
+  if (userData.hasElterngeld === "on") {
     pdfValues.ja_20.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchNichtselbststaendigeArbeitinEuro13.value = `${removeDecimalsFromCurrencyString(userData.elterngeldAmount)} ${nettoString}`;
   } else if (userData.hasFurtherIncome) {
     pdfValues.nein_21.value = true;
   }
 
-  if (userData.hasKindergeld === CheckboxValue.on) {
+  if (userData.hasKindergeld === "on") {
     pdfValues.ja_17.value = true;
     pdfValues.monatlicheBruttoeinnahmendurchKindergeldIKinderzuschlaginEuro6.value = `${removeDecimalsFromCurrencyString(userData.kindergeldAmount)} ${nettoString}`;
   } else if (userData.hasFurtherIncome) {

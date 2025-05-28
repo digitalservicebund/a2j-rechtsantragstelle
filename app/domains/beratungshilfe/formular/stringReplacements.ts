@@ -1,4 +1,3 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { beratungshilfePersoenlicheDatenDone } from "~/domains/beratungshilfe/formular/persoenlicheDaten/doneFunctions";
 import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
@@ -14,7 +13,7 @@ import {
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import { eigentumTotalWorthLessThan10000 } from "./finanzielleAngaben/guards";
 import type { BeratungshilfeFormularUserData } from "./index";
-import { rechtsproblemDone } from "./rechtsproblem/userData";
+import { rechtsproblemDone } from "./rechtsproblem/rechtsproblemDone";
 
 export const getAmtsgerichtStrings = (
   context: BeratungshilfeFormularUserData,
@@ -50,12 +49,12 @@ export const weiteresEinkommenStrings = (
 ) => {
   const { weitereseinkommen } = context;
   return {
-    arbeitslosenGeld: weitereseinkommen?.arbeitlosengeld === CheckboxValue.on,
-    wohngeld: weitereseinkommen?.wohngeld === CheckboxValue.on,
-    bafoeg: weitereseinkommen?.bafoeg === CheckboxValue.on,
-    rente: weitereseinkommen?.rente === CheckboxValue.on,
-    krankengeld: weitereseinkommen?.krankengeld === CheckboxValue.on,
-    elterngeld: weitereseinkommen?.elterngeld === CheckboxValue.on,
+    arbeitslosenGeld: weitereseinkommen?.arbeitlosengeld === "on",
+    wohngeld: weitereseinkommen?.wohngeld === "on",
+    bafoeg: weitereseinkommen?.bafoeg === "on",
+    rente: weitereseinkommen?.rente === "on",
+    krankengeld: weitereseinkommen?.krankengeld === "on",
+    elterngeld: weitereseinkommen?.elterngeld === "on",
   };
 };
 
@@ -63,13 +62,13 @@ export const ausgabenStrings = (context: BeratungshilfeFormularUserData) => {
   return {
     hasSchwangerschaft:
       context.hasAusgaben === "yes" &&
-      context.ausgabensituation?.pregnancy === CheckboxValue.on,
+      context.ausgabensituation?.pregnancy === "on",
     hasSchwerbehinderung:
       context.hasAusgaben === "yes" &&
-      context.ausgabensituation?.disability === CheckboxValue.on,
+      context.ausgabensituation?.disability === "on",
     hasMedicalReasons:
       context.hasAusgaben === "yes" &&
-      context.ausgabensituation?.medicalReasons === CheckboxValue.on,
+      context.ausgabensituation?.medicalReasons === "on",
     hasWeitereAusgaben:
       context.hasAusgaben === "yes" &&
       context.ausgaben &&

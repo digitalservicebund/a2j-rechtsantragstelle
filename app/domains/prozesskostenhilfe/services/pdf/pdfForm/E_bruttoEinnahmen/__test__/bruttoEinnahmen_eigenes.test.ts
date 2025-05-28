@@ -1,7 +1,6 @@
 import { faker } from "@faker-js/faker";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { createFinancialEntry } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import {
@@ -237,7 +236,7 @@ describe("bruttoEinnahmen_eigenes", () => {
 
     it("should indicate if a user receives Wohngeld", () => {
       const { pdfValues } = fillAndereLeistungen({
-        userData: { hasWohngeld: CheckboxValue.on, wohngeldAmount: "100" },
+        userData: { hasWohngeld: "on", wohngeldAmount: "100" },
         pdfValues: pdfParams,
       });
       expect(pdfValues.ja_19.value).toBe(true);
@@ -248,7 +247,7 @@ describe("bruttoEinnahmen_eigenes", () => {
     it("should indicate if a user receives Krankengeld", () => {
       const { pdfValues } = fillAndereLeistungen({
         userData: {
-          hasKrankengeld: CheckboxValue.on,
+          hasKrankengeld: "on",
           krankengeldAmount: "250",
         },
         pdfValues: pdfParams,
@@ -262,7 +261,7 @@ describe("bruttoEinnahmen_eigenes", () => {
     });
     it("should indicate if a user receives Elterngeld", () => {
       const { pdfValues } = fillAndereLeistungen({
-        userData: { hasElterngeld: CheckboxValue.on, elterngeldAmount: "50" },
+        userData: { hasElterngeld: "on", elterngeldAmount: "50" },
         pdfValues: pdfParams,
       });
       expect(pdfValues.ja_20.value).toBe(true);
@@ -275,7 +274,7 @@ describe("bruttoEinnahmen_eigenes", () => {
     it("should indicate if a user receives Kindergeld", () => {
       const { pdfValues } = fillAndereLeistungen({
         userData: {
-          hasKindergeld: CheckboxValue.on,
+          hasKindergeld: "on",
           kindergeldAmount: "10000",
         },
         pdfValues: pdfParams,

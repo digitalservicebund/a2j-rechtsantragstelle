@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { NavState } from "~/services/navigation/navState";
+import { type NavState } from "~/services/navigation/navState";
 import { NavItem } from "../NavItem";
 
 describe("NavigationItem", () => {
@@ -8,11 +8,7 @@ describe("NavigationItem", () => {
 
   it("renders one navigation item", () => {
     render(
-      <NavItem
-        destination={destination}
-        label={label}
-        state={NavState.Current}
-      />,
+      <NavItem destination={destination} label={label} state={"Current"} />,
     );
 
     expect(screen.getByRole("link")).toHaveTextContent(label);
@@ -20,9 +16,7 @@ describe("NavigationItem", () => {
     expect(screen.getByRole("listitem")).toBeInstanceOf(HTMLLIElement);
   });
   it("renders navigation item with a checkmark icon when state is done", () => {
-    render(
-      <NavItem destination={destination} label={label} state={NavState.Done} />,
-    );
+    render(<NavItem destination={destination} label={label} state={"Done"} />);
 
     const checkCircle = screen.getByTestId("CheckCircleIcon");
     expect(checkCircle).toHaveClass("shrink-0 fill-green-700");
@@ -30,11 +24,7 @@ describe("NavigationItem", () => {
 
   it("renders navigation item with the correct classNames when state is disabled", () => {
     render(
-      <NavItem
-        destination={destination}
-        label={label}
-        state={NavState.Disabled}
-      />,
+      <NavItem destination={destination} label={label} state={"Disabled"} />,
     );
 
     screen
@@ -47,11 +37,7 @@ describe("NavigationItem", () => {
 
   it("renders navigation item with correct classNames when state is current", () => {
     render(
-      <NavItem
-        destination={destination}
-        label={label}
-        state={NavState.Current}
-      />,
+      <NavItem destination={destination} label={label} state={"Current"} />,
     );
 
     expect(screen.getByRole("listitem")).toHaveClass(
@@ -64,7 +50,7 @@ describe("NavigationItem", () => {
       <NavItem
         destination={destination}
         label={label}
-        state={NavState.Current}
+        state={"Current"}
         isChild={true}
       />,
     );
@@ -79,19 +65,19 @@ describe("NavigationItem", () => {
       {
         destination: "/subflow1",
         label: "subflowLabel1",
-        state: NavState.Open,
+        state: "Open" as NavState,
       },
       {
         destination: "/subflow2",
         label: "subflowLabel2",
-        state: NavState.Disabled,
+        state: "Disabled" as NavState,
       },
     ];
     render(
       <NavItem
         destination={destination}
         label={label}
-        state={NavState.Current}
+        state={"Current"}
         subflows={subflows}
       />,
     );
@@ -107,14 +93,14 @@ describe("NavigationItem", () => {
       {
         destination: "/subflow",
         label: "subflowLabel",
-        state: NavState.Open,
+        state: "Open" as NavState,
       },
     ];
     render(
       <NavItem
         destination={destination}
         label={label}
-        state={NavState.Current}
+        state={"Current"}
         subflows={subflows}
       />,
     );
@@ -123,11 +109,7 @@ describe("NavigationItem", () => {
 
   it("renders items with correct classNames when the state is current and item doesn't have subflows", () => {
     render(
-      <NavItem
-        destination={destination}
-        label={label}
-        state={NavState.Current}
-      />,
+      <NavItem destination={destination} label={label} state={"Current"} />,
     );
     expect(screen.getByRole("link")).toHaveClass(
       "ds-label-02-bold bg-blue-400",
@@ -136,7 +118,7 @@ describe("NavigationItem", () => {
 
   it("should not render aria-describedby for the link given state isDone false", () => {
     const { getByRole } = render(
-      <NavItem destination={destination} label={label} state={NavState.Open} />,
+      <NavItem destination={destination} label={label} state={"Open"} />,
     );
 
     expect(getByRole("link")).toBeInTheDocument();
@@ -145,7 +127,7 @@ describe("NavigationItem", () => {
 
   it("should render aria-describedby for the link given state isDone true", () => {
     const { getByRole } = render(
-      <NavItem destination={destination} label={label} state={NavState.Done} />,
+      <NavItem destination={destination} label={label} state={"Done"} />,
     );
 
     expect(getByRole("link")).toBeInTheDocument();
@@ -157,14 +139,14 @@ describe("NavigationItem", () => {
       {
         destination: "/subflow",
         label: "subflowLabel",
-        state: NavState.Open,
+        state: "Open" as NavState,
       },
     ];
     const { getByRole } = render(
       <NavItem
         destination={destination}
         label={label}
-        state={NavState.Open}
+        state={"Open"}
         subflows={subflows}
       />,
     );
@@ -178,14 +160,14 @@ describe("NavigationItem", () => {
       {
         destination: "/subflow",
         label: "subflowLabel",
-        state: NavState.Done,
+        state: "Done" as NavState,
       },
     ];
     const { getByRole } = render(
       <NavItem
         destination={destination}
         label={label}
-        state={NavState.Done}
+        state={"Done"}
         subflows={subflows}
       />,
     );

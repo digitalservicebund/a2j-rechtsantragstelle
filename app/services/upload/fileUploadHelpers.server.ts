@@ -15,7 +15,7 @@ import { splitFieldName } from "./splitFieldName";
 import { validateUploadedFile } from "./validateUploadedFile";
 import { getSessionIdByFlowId } from "../session.server";
 
-export const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";
+const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";
 
 const createFileMeta = (
   file: File,

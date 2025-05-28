@@ -14,7 +14,7 @@ type PosthogContext = {
   cookieHeader: string | null;
 };
 
-export const PosthogContext = createContext<PosthogContext>({
+const PosthogContext = createContext<PosthogContext>({
   posthog: undefined,
   cookieHeader: null,
 });

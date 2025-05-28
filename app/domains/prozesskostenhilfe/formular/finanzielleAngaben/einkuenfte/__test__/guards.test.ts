@@ -1,4 +1,3 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { finanzielleAngabeEinkuenfteGuards as guards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 
 describe("Einkünfte guards", () => {
@@ -138,7 +137,7 @@ describe("Einkünfte guards", () => {
     it("should return true if the user receives wohngeld", () => {
       expect(
         guards.hasWohngeld({
-          context: { hasWohngeld: CheckboxValue.on },
+          context: { hasWohngeld: "on" },
         }),
       ).toBe(true);
     });
@@ -147,7 +146,7 @@ describe("Einkünfte guards", () => {
     it("should return true if the user receives krankengeld", () => {
       expect(
         guards.hasKrankengeld({
-          context: { hasKrankengeld: CheckboxValue.on },
+          context: { hasKrankengeld: "on" },
         }),
       ).toBe(true);
     });
@@ -156,7 +155,7 @@ describe("Einkünfte guards", () => {
     it("should return true if the user receives elterngeld", () => {
       expect(
         guards.hasElterngeld({
-          context: { hasElterngeld: CheckboxValue.on },
+          context: { hasElterngeld: "on" },
         }),
       ).toBe(true);
     });
@@ -165,7 +164,7 @@ describe("Einkünfte guards", () => {
     it("should return true if the user receives kindergeld", () => {
       expect(
         guards.hasKindergeld({
-          context: { hasKindergeld: CheckboxValue.on },
+          context: { hasKindergeld: "on" },
         }),
       ).toBe(true);
     });

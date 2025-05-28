@@ -1,8 +1,7 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { einkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { prozesskostenhilfeGesetzlicheVertretungDone } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/doneFunctions";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
-import { antragstellendePersonDone } from "./antragstellendePerson/userData";
+import { antragstellendePersonDone } from "./antragstellendePerson/guards";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
@@ -67,9 +66,9 @@ export const belegeStrings = (context: ProzesskostenhilfeFormularUserData) => {
     hasAbzuege: parseCurrencyStringDE(context.selbststaendigAbzuege) > 0,
     hasWerbungskosten: context.hasArbeitsausgaben === "yes",
     hasRente: context.receivesPension === "yes",
-    hasWohngeld: context.hasWohngeld === CheckboxValue.on,
-    hasKrankengeld: context.hasKrankengeld === CheckboxValue.on,
-    hasElterngeld: context.hasElterngeld === CheckboxValue.on,
+    hasWohngeld: context.hasWohngeld === "on",
+    hasKrankengeld: context.hasKrankengeld === "on",
+    hasElterngeld: context.hasElterngeld === "on",
     hasWeitereEinkuenfte:
       context.weitereEinkuenfte && context.weitereEinkuenfte.length > 0,
     partnerHasBuergergeld:
@@ -90,10 +89,9 @@ export const belegeStrings = (context: ProzesskostenhilfeFormularUserData) => {
       parseCurrencyStringDE(context["partner-selbststaendigAbzuege"]) > 0,
     partnerHasWerbungskosten: context["partner-hasArbeitsausgaben"] === "yes",
     partnerHasRente: context["partner-receivesPension"] === "yes",
-    partnerHasWohngeld: context["partner-hasWohngeld"] === CheckboxValue.on,
-    partnerHasKrankengeld:
-      context["partner-hasKrankengeld"] === CheckboxValue.on,
-    partnerHasElterngeld: context["partner-hasElterngeld"] === CheckboxValue.on,
+    partnerHasWohngeld: context["partner-hasWohngeld"] === "on",
+    partnerHasKrankengeld: context["partner-hasKrankengeld"] === "on",
+    partnerHasElterngeld: context["partner-hasElterngeld"] === "on",
     partnerWeitereEinkuenfte:
       context["partner-weitereEinkuenfte"] &&
       context["partner-weitereEinkuenfte"].length > 0,
@@ -116,12 +114,10 @@ export const belegeStrings = (context: ProzesskostenhilfeFormularUserData) => {
     hasGiroTagesSparKonto: context.geldanlagen?.some(
       (geldanlage) => geldanlage.art === "giroTagesgeldSparkonto",
     ),
-    hasSchwangerschaft:
-      context.besondereBelastungen?.pregnancy === CheckboxValue.on,
-    hasSchwerbehinderung:
-      context.besondereBelastungen?.disability === CheckboxValue.on,
+    hasSchwangerschaft: context.besondereBelastungen?.pregnancy === "on",
+    hasSchwerbehinderung: context.besondereBelastungen?.disability === "on",
     hasKostenaufwaendigeErnaehrung:
-      context.besondereBelastungen?.medicalReasons === CheckboxValue.on,
+      context.besondereBelastungen?.medicalReasons === "on",
     hasVersicherung:
       context.versicherungen && context.versicherungen?.length > 0,
     hasRatenzahlung:

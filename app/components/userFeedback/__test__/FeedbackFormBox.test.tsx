@@ -1,7 +1,6 @@
 import { render } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom"; // use react-router-dom only for test, the react-router does not work
 import { FEEDBACK_FIELD_NAME, FeedbackFormBox } from "../FeedbackFormBox";
-import { FeedbackType } from "../FeedbackType";
 
 const SUBMIT_BUTTON_FEEDBACK = "Submit button";
 
@@ -31,7 +30,7 @@ function renderFeedbackFormBox() {
           <FeedbackFormBox
             destination="destination"
             shouldFocus={true}
-            feedback={FeedbackType.Positive}
+            feedback={"positive"}
             onSubmit={vitest.fn}
           />
         ),

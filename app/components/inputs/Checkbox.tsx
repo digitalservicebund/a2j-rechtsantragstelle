@@ -4,10 +4,7 @@ import { useJsAvailable } from "~/services/useJsAvailable";
 import InputError from "./InputError";
 import RichText from "../RichText";
 
-export enum CheckboxValue {
-  on = "on",
-  off = "off",
-}
+export type CheckboxValue = "on" | "off";
 
 export type CheckboxProps = Readonly<{
   name: string;
@@ -30,7 +27,7 @@ const Checkbox = ({
   // For server-side validation we need a same-named hidden field
   // For front-end validation, we need to hide that field if checkbox is checked
   const [renderHiddenField, setRenderHiddenField] = useState(
-    (field.defaultValue() as CheckboxValue) !== CheckboxValue.on,
+    (field.defaultValue() as CheckboxValue) !== "on",
   );
   const jsAvailable = useJsAvailable();
 
@@ -38,14 +35,14 @@ const Checkbox = ({
     <div className="flex flex-col flex-nowrap">
       <div className="flex items-center">
         {(!jsAvailable || renderHiddenField) && (
-          <input type="hidden" name={name} value={CheckboxValue.off} />
+          <input type="hidden" name={name} value={"off"} />
         )}
         <input
           type="checkbox"
           id={name}
           name={name}
-          defaultChecked={field.defaultValue() === CheckboxValue.on}
-          value={CheckboxValue.on}
+          defaultChecked={field.defaultValue() === "on"}
+          value={"on"}
           className={className}
           aria-describedby={field.error() ? errorId : undefined}
           onClick={() => setRenderHiddenField(!renderHiddenField)}
