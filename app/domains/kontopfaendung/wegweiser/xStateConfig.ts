@@ -22,9 +22,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: "p-konto",
-            guard: ({ context }) =>
-              context.hasKontopfaendung === "ja" ||
-              context.hasKontopfaendung === "weissNicht",
+            guard: ({ context }) => context.hasKontopfaendung === "ja",
           },
           "ergebnis/keine-kontopfaendung",
         ],
@@ -39,107 +37,22 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: "p-konto-probleme",
-            guard: ({ context }) =>
-              context.hasPKonto === "nichtEingerichtet" ||
-              context.hasPKonto === "nichtAktiv",
           },
-          "glaeubiger",
+          "zwischenseite-unterhalt",
         ],
         BACK: "kontopfaendung",
       },
     },
     "p-konto-probleme": {
       on: {
-        SUBMIT: "glaeubiger",
+        SUBMIT: "zwischenseite-unterhalt",
         BACK: "p-konto",
       },
-    },
-    glaeubiger: {
-      on: {
-        SUBMIT: [
-          {
-            target: "glaeubiger-unbekannt",
-            guard: ({ context }) => context.schuldenBei === "weissNicht",
-          },
-          {
-            target: "pfaendung-strafe",
-            guard: ({ context }) =>
-              context.schuldenBei === "staatsanwaltschaft" ||
-              context.schuldenBei === "kasse",
-          },
-          {
-            target: "pfaendung-unterhalt",
-            guard: ({ context }) =>
-              context.schuldenBei === "privat" ||
-              context.schuldenBei === "jugendamt",
-          },
-          "sockelbetrag",
-        ],
-        BACK: [
-          {
-            target: "p-konto",
-            guard: ({ context }) =>
-              context.hasPKonto === "ja" || context.hasPKonto === "nein",
-          },
-          "p-konto-probleme",
-        ],
-      },
-    },
-    "pfaendung-strafe": {
-      on: {
-        SUBMIT: "sockelbetrag",
-        BACK: "glaeubiger",
-      },
-    },
-    "pfaendung-unterhalt": {
-      on: {
-        SUBMIT: "sockelbetrag",
-        BACK: "glaeubiger",
-      },
-    },
-    "glaeubiger-unbekannt": {
-      on: {
-        SUBMIT: "sockelbetrag",
-        BACK: "glaeubiger",
-      },
-    },
-    sockelbetrag: {
-      on: {
-        SUBMIT: [
-          {
-            target: "ergebnis/geringe-einkuenfte",
-            guard: ({ context }) => context.sockelbetrag === "nein",
-          },
-          "zwischenseite-unterhalt",
-        ],
-        BACK: [
-          {
-            target: "glaeubiger-unbekannt",
-            guard: ({ context }) => context.schuldenBei === "weissNicht",
-          },
-          {
-            target: "pfaendung-strafe",
-            guard: ({ context }) =>
-              context.schuldenBei === "staatsanwaltschaft" ||
-              context.schuldenBei === "kasse",
-          },
-          {
-            target: "pfaendung-unterhalt",
-            guard: ({ context }) =>
-              context.schuldenBei === "privat" ||
-              context.schuldenBei === "jugendamt",
-          },
-          "glaeubiger",
-        ],
-      },
-    },
-    "ergebnis/geringe-einkuenfte": {
-      on: { BACK: "sockelbetrag" },
     },
     "zwischenseite-unterhalt": {
       on: {
         SUBMIT: "kinder",
-        BACK: "sockelbetrag",
+        BACK: "p-konto-probleme",
       },
     },
     kinder: {
@@ -172,7 +85,6 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "partner-unterhalt",
             guard: ({ context }) =>
-              context.verheiratet === "getrennt" ||
               context.verheiratet === "geschieden" ||
               context.verheiratet === "verwitwet",
           },
@@ -204,7 +116,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: [
           {
             target: "partner",
-            guard: ({ context }) => context.verheiratet === "getrennt",
+            guard: ({ context }) => context.verheiratet === "nein",
           },
           "partner-wohnen-zusammen",
         ],
