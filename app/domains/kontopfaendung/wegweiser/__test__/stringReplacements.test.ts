@@ -16,7 +16,6 @@ import {
   getAsylbewerberleistungStrings,
   getPflegegeldSelbstStrings,
   getPflegegeldFremdStrings,
-  getBehordenschuldenStrings,
   getArbeitsentgeltEinmaligStrings,
   getSelbststaendigStrings,
   getAngestelltStrings,
@@ -198,28 +197,6 @@ describe("stringReplacements", () => {
       };
       expect(getPflegegeldFremdStrings(userData)).toEqual({
         hasPflegegeldFremd: true,
-      });
-    });
-  });
-  describe("getBehordenschuldenStrings", () => {
-    it("should return correct Behordenschulden strings", () => {
-      const userData: KontopfaendungWegweiserUserData = {
-        schuldenBei: "privat",
-      };
-      expect(getBehordenschuldenStrings(userData)).toEqual({
-        hasBehordenschuldenPrivat: true,
-        hasBehordenschuldenBehoerden: false,
-        hasBehordenschuldenKredit: false,
-        hasBehordenschuldenKrankenkasse: false,
-        hasBehordenschuldenRechnung: false,
-        hasBehordenschuldenBeitragsservice: false,
-        hasBehordenschuldenFinanzamt: false,
-        hasBehordenschuldenHauptzollamt: false,
-        hasBehordenschuldenNichtSagen: false,
-        hasBehordenschuldenWeissNicht: false,
-        hasBehordenschuldenStaatsanwaltschaft: false,
-        hasBehordenschuldenKasse: false,
-        hasBehordenschuldenJugendamt: false,
       });
     });
   });

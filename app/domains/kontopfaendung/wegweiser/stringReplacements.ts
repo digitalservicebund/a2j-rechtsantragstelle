@@ -127,27 +127,6 @@ export const getPflegegeldFremdStrings = (
     hasPflegegeldFremd: userData.pflegegeld === "fremd",
   };
 };
-export const getBehordenschuldenStrings = (
-  userData: KontopfaendungWegweiserUserData,
-) => {
-  return {
-    hasBehordenschuldenPrivat: userData.schuldenBei === "privat",
-    hasBehordenschuldenBehoerden: userData.schuldenBei === "behoerden",
-    hasBehordenschuldenKredit: userData.schuldenBei === "kredit",
-    hasBehordenschuldenKrankenkasse: userData.schuldenBei === "krankenkasse",
-    hasBehordenschuldenRechnung: userData.schuldenBei === "rechnung",
-    hasBehordenschuldenBeitragsservice:
-      userData.schuldenBei === "beitragsservice",
-    hasBehordenschuldenFinanzamt: userData.schuldenBei === "finanzamt",
-    hasBehordenschuldenHauptzollamt: userData.schuldenBei === "hauptzollamt",
-    hasBehordenschuldenNichtSagen: userData.schuldenBei === "nichtSagen",
-    hasBehordenschuldenWeissNicht: userData.schuldenBei === "weissNicht",
-    hasBehordenschuldenStaatsanwaltschaft:
-      userData.schuldenBei === "staatsanwaltschaft",
-    hasBehordenschuldenKasse: userData.schuldenBei === "kasse",
-    hasBehordenschuldenJugendamt: userData.schuldenBei === "jugendamt",
-  };
-};
 export const getArbeitsentgeltEinmaligStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {

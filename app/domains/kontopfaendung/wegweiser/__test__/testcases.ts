@@ -10,52 +10,12 @@ const cases = [
   ],
   [
     { hasKontopfaendung: "ja", hasPKonto: "nichtAktiv" },
-    ["/kontopfaendung", "/p-konto", "/p-konto-probleme", "/glaeubiger"],
-  ],
-  // Glaeubiger
-  [{}, ["/glaeubiger", "/sockelbetrag"]],
-  [
-    {
-      schuldenBei: "privat",
-    },
-    ["/glaeubiger", "/pfaendung-unterhalt", "/sockelbetrag"],
-  ],
-  [
-    {
-      schuldenBei: "jugendamt",
-    },
-    ["/glaeubiger", "/pfaendung-unterhalt", "/sockelbetrag"],
-  ],
-  [
-    {
-      schuldenBei: "weissNicht",
-    },
-    ["/glaeubiger", "/glaeubiger-unbekannt", "/sockelbetrag"],
-  ],
-  [
-    {
-      schuldenBei: "staatsanwaltschaft",
-    },
-    ["/glaeubiger", "/pfaendung-strafe", "/sockelbetrag"],
-  ],
-  [
-    {
-      schuldenBei: "kasse",
-    },
-    ["/glaeubiger", "/pfaendung-strafe", "/sockelbetrag"],
-  ],
-  // sockelbetrag
-  [
-    {
-      sockelbetrag: "nein",
-    },
-    ["/sockelbetrag", "/ergebnis/geringe-einkuenfte"],
-  ],
-  [
-    {
-      sockelbetrag: "ja",
-    },
-    ["/sockelbetrag", "/zwischenseite-unterhalt"],
+    [
+      "/kontopfaendung",
+      "/p-konto",
+      "/p-konto-probleme",
+      "/zwischenseite-unterhalt",
+    ],
   ],
   // Unterhalt
   [
@@ -80,10 +40,7 @@ const cases = [
       "/zwischenseite-einkuenfte",
     ],
   ],
-  [
-    { verheiratet: "getrennt" },
-    ["/partner", "/partner-unterhalt", "/zwischenseite-einkuenfte"],
-  ],
+  [{ verheiratet: "nein" }, ["/partner", "/zwischenseite-einkuenfte"]],
   // Cash
   [
     {},
@@ -227,9 +184,7 @@ const cases = [
     {
       hasKontopfaendung: "ja",
       hasPKonto: "nichtEingerichtet",
-      schuldenBei: "privat",
       pfaendungUnterhalt: "yes",
-      sockelbetrag: "ja",
       hasKinder: "yes",
       kinderUnterhalt: "no",
       verheiratet: "nein",
@@ -248,9 +203,6 @@ const cases = [
       "/kontopfaendung",
       "/p-konto",
       "/p-konto-probleme",
-      "/glaeubiger",
-      "/pfaendung-unterhalt",
-      "/sockelbetrag",
       "/zwischenseite-unterhalt",
       "/kinder",
       "/kinder-wohnen-zusammen",
