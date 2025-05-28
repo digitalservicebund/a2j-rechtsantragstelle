@@ -1,14 +1,14 @@
 import type { ProzesskostenhilfeAntragstellendePersonUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
-import {
-  couldLiveFromUnterhalt,
-  unterhaltBekommeIch,
-  unterhaltLeisteIch,
-  antragstellendePersonDone,
-} from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
 import type {
   Config,
   FlowConfigTransitions,
 } from "~/services/flow/server/buildFlowController";
+import {
+  antragstellendePersonDone,
+  couldLiveFromUnterhalt,
+  unterhaltBekommeIch,
+  unterhaltLeisteIch,
+} from "./guards";
 
 export const getProzesskostenhilfeAntragstellendePersonConfig = (
   transitions?: FlowConfigTransitions,

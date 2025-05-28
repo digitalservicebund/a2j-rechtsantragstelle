@@ -1,21 +1,21 @@
 import mapValues from "lodash/mapValues";
 import { and } from "xstate";
 import type { Flow } from "~/domains/flows.server";
-import {
-  couldLiveFromUnterhalt,
-  unterhaltLeisteIch,
-} from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { einkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
 import {
   finanzielleAngabeEinkuenfteGuards,
   partnerEinkuenfteGuards,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
-import { nachueberpruefung } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import {
   isOrganizationCoverageNone,
   isOrganizationCoveragePartly,
 } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/guards";
+import {
+  couldLiveFromUnterhalt,
+  unterhaltLeisteIch,
+} from "../../antragstellendePerson/guards";
+import { isNachueberpruefung } from "../../grundvoraussetzungen/guards";
 
 type PKHEinkuenfteSubflowTypes = "partner";
 
@@ -84,19 +84,19 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
             SUBMIT: stepIds.staatlicheLeistungen,
             BACK: [
               {
-                guard: and([nachueberpruefung, unterhaltLeisteIch]),
+                guard: and([isNachueberpruefung, unterhaltLeisteIch]),
                 target: "#antragstellende-person.zwei-formulare",
               },
               {
                 guard: and([
-                  nachueberpruefung,
+                  isNachueberpruefung,
                   ({ context }) => context.unterhaltsanspruch === "keine",
                 ]),
                 target: "#antragstellende-person.unterhaltsanspruch",
               },
               {
                 guard: and([
-                  nachueberpruefung,
+                  isNachueberpruefung,
                   ({ context }) => context.unterhaltsanspruch === "unterhalt",
                   ({ context }) => context.livesPrimarilyFromUnterhalt === "no",
                 ]),
@@ -105,7 +105,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               },
               {
                 guard: and([
-                  nachueberpruefung,
+                  isNachueberpruefung,
                   ({ context }) => context.unterhaltsanspruch === "unterhalt",
                   ({ context }) =>
                     context.livesPrimarilyFromUnterhalt === "yes",
@@ -113,11 +113,11 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
                 target: "#antragstellende-person.eigenes-exemplar",
               },
               {
-                guard: and([nachueberpruefung, couldLiveFromUnterhalt]),
+                guard: and([isNachueberpruefung, couldLiveFromUnterhalt]),
                 target: "#antragstellende-person.warum-keiner-unterhalt",
               },
               {
-                guard: nachueberpruefung,
+                guard: isNachueberpruefung,
                 target: "#antragstellende-person.unterhalt-leben-frage",
               },
               {

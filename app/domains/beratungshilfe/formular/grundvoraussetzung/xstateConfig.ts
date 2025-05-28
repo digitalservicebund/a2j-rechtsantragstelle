@@ -1,6 +1,6 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
+import { grundvoraussetzungDone } from "./grundvoraussetzungDone";
 import type { BeratungshilfeGrundvoraussetzungenUserData } from "./userData";
-import { grundvoraussetzungDone } from "./userData";
 
 export const grundvorraussetzungXstateConfig = {
   initial: "start",
