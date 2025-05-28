@@ -1,3 +1,4 @@
+import { decode } from "html-entities";
 import type { FlowId } from "~/domains/flowIds";
 import {
   defaultLocale,
@@ -104,7 +105,7 @@ export const fetchTranslations = (
         throw new Error(
           `Translation ${name}.${key} not found for locale ${locale}`,
         );
-      return [key, value[locale]!];
+      return [key, decode(value[locale])];
     }),
   );
   return Promise.resolve(scopedTranslations);
