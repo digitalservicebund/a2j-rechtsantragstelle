@@ -4002,10 +4002,10 @@ export const translationsRaw = [
     id: 50,
     scope: "accessibility",
     createdAt: "2024-11-07T12:41:13.122Z",
-    updatedAt: "2025-03-25T07:52:40.200Z",
+    updatedAt: "2025-05-27T13:00:26.776Z",
     locale: "de",
     documentId: "fydem5ubxaf1gv10rl4fod46",
-    publishedAt: "2025-03-25T07:52:40.134Z",
+    publishedAt: "2025-05-27T13:00:26.722Z",
     field: [
       {
         id: 2256,
@@ -4136,6 +4136,21 @@ export const translationsRaw = [
         id: 2385,
         name: "footer-navigation",
         value: "Rechtliche und weiterführende Informationen",
+      },
+      {
+        id: 2618,
+        name: "navigationLabel",
+        value: "Schritt-für-Schritt",
+      },
+      {
+        id: 2619,
+        name: "navigationItemFinishedLabel",
+        value: "Abgeschlossen",
+      },
+      {
+        id: 2620,
+        name: "navigationItemOpenLabel",
+        value: "Offen",
       },
     ],
   },

@@ -2272,6 +2272,15 @@ export const translations: TranslationRecord = {
     "footer-navigation": {
       de: "Rechtliche und weiterführende Informationen",
     },
+    navigationLabel: {
+      de: "Schritt-für-Schritt",
+    },
+    navigationItemFinishedLabel: {
+      de: "Abgeschlossen",
+    },
+    navigationItemOpenLabel: {
+      de: "Offen",
+    },
   },
   weiterePersonen: {
     "weiterePersonen.label.subtitle": {
