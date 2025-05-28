@@ -47,7 +47,6 @@ export const Default: Story = {
             select: "Datei Auswählen",
             addAnother: "Weitere Datei Auswählen",
           },
-          video: {},
           accessibility: {},
           accordion: {},
         }}

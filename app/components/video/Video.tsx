@@ -1,8 +1,7 @@
 import { useCallback, useState } from "react";
 import Container from "~/components/Container";
 import { DataProtectionBanner } from "~/components/video/DataProtectionBanner";
-import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
-import { useTranslations } from "~/services/translations/translationsContext";
+import { translations } from "~/services/translations/translations";
 import { getYoutubeVideoId } from "~/util/url";
 
 type VideoProps = {
@@ -30,10 +29,9 @@ const YoutubeIFrame = ({
 );
 
 const YoutubeThumbnail = ({ videoId }: { videoId?: string }) => {
-  const { video: translations } = useTranslations();
   return (
     <img
-      alt={getTranslationByKey(THUMBNAIL_TRANSLATION_KEY, translations)}
+      alt={translations.video[THUMBNAIL_TRANSLATION_KEY].de}
       className="opacity-60"
       src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
     ></img>

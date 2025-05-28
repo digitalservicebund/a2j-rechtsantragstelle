@@ -22,7 +22,6 @@ export const Example: Story = {
       <TranslationContext.Provider
         value={{
           fileUpload: {},
-          video: {},
           accessibility: {},
           accordion: {
             accordionItemShow: "Einblenden",

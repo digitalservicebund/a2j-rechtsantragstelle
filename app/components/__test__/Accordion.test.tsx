@@ -60,7 +60,6 @@ describe("Accordion Component", () => {
   }));
 
   vi.mocked(useTranslations).mockReturnValue({
-    video: {},
     accessibility: {},
     fileUpload: {},
     accordion: {

@@ -97,12 +97,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     trackingCookieValue({ request }),
     fetchErrors(),
     fetchMeta({ filterValue: "/" }),
-    fetchMultipleTranslations([
-      "video",
-      "accessibility",
-      "fileUpload",
-      "accordion",
-    ]),
+    fetchMultipleTranslations(["accessibility", "fileUpload", "accordion"]),
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
   ]);
@@ -129,7 +124,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       meta,
       context,
       hasAnyUserData,
-      videoTranslations: translations.video,
       accessibilityTranslations: translations.accessibility,
       fileUploadTranslations: translations.fileUpload,
       feedback: getFeedbackData(mainSession, pathname),
@@ -150,7 +144,6 @@ function App() {
     cookieBannerContent,
     hasTrackingConsent,
     hasAnyUserData,
-    videoTranslations,
     accessibilityTranslations,
     fileUploadTranslations,
     accordionTranslation,
@@ -184,17 +177,11 @@ function App() {
 
   const translationMemo = useMemo(
     () => ({
-      video: videoTranslations,
       accessibility: accessibilityTranslations,
       fileUpload: fileUploadTranslations,
       accordion: accordionTranslation,
     }),
-    [
-      videoTranslations,
-      accessibilityTranslations,
-      fileUploadTranslations,
-      accordionTranslation,
-    ],
+    [accessibilityTranslations, fileUploadTranslations, accordionTranslation],
   );
 
   return (
