@@ -10,7 +10,7 @@ vi.mock("@rvf/react-router", () => ({
 }));
 
 vi.mock("react-router", () => ({
-  useLoaderData: vi.fn(() => ({
+  useRouteLoaderData: vi.fn(() => ({
     accessibilityTranslations: {},
   })),
 }));
