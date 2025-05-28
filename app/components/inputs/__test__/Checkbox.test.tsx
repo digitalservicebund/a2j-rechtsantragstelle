@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { render, screen, fireEvent } from "@testing-library/react";
-import Checkbox, { CheckboxValue } from "../Checkbox";
+import Checkbox from "../Checkbox";
 
 const createMockFieldReturn = (overrides = {}) => ({
   getInputProps: vi.fn((props) => ({ ...props })),
@@ -50,7 +50,7 @@ describe("Checkbox", () => {
 
   it("renders the hidden input when the checkbox is not checked", () => {
     render(<Checkbox name="checkbox-name" label="Another Checkbox Label" />);
-    const hiddenInput = screen.getByDisplayValue(CheckboxValue.off);
+    const hiddenInput = screen.getByDisplayValue("off");
     expect(hiddenInput).toBeInTheDocument();
   });
 
@@ -61,7 +61,7 @@ describe("Checkbox", () => {
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    const hiddenInput = screen.queryByDisplayValue(CheckboxValue.off);
+    const hiddenInput = screen.queryByDisplayValue("off");
     expect(hiddenInput).not.toBeInTheDocument();
   });
 

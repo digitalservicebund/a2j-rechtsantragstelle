@@ -1,4 +1,4 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
+import { type CheckboxValue } from "~/components/inputs/Checkbox";
 import {
   arbeitDone,
   arbeitsabzuegeDone,
@@ -118,7 +118,7 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
       ({ typ, expected }) => {
         const done = leistungenDone({
           context: {
-            [`has${typ}`]: CheckboxValue.on,
+            [`has${typ}`]: "on" as CheckboxValue,
           },
         });
         expect(done).toBe(expected);

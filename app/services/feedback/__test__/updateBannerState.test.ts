@@ -1,6 +1,5 @@
 import { createSession, type Session } from "react-router";
 import { describe, test, expect } from "vitest";
-import { BannerState } from "~/components/userFeedback/BannerState";
 import { bannerStateName } from "../getFeedbackData";
 import { updateBannerState } from "../updateBannerState";
 
@@ -10,7 +9,7 @@ describe("updateBannerState", () => {
     const url = "existing-url";
     const value = { [url]: "showFeedback" };
     mockSession.set(bannerStateName, value);
-    const newBannerState = BannerState.FeedbackGiven;
+    const newBannerState = "feedbackGiven";
 
     updateBannerState(mockSession, newBannerState, url);
 

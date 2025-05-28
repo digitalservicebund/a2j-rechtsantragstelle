@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import { NavState } from "~/services/navigation/navState";
+import { type NavState } from "~/services/navigation/navState";
 import { NavigationList } from "../NavigationList";
 
 describe("NavigationList", () => {
   it("renders a navigation list with one navigation item", () => {
     const destination = "/destination";
     const label = "navLabel";
-    const state = NavState.Current;
+    const state = "Current" as NavState;
 
     render(<NavigationList navItems={[{ destination, label, state }]} />);
 

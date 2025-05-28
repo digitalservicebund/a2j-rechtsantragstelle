@@ -1,4 +1,3 @@
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
 const prefix = "/finanzielle-angaben/einkuenfte";
@@ -160,10 +159,10 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = [
   ],
   [
     {
-      hasWohngeld: CheckboxValue.on,
-      hasKrankengeld: CheckboxValue.on,
-      hasElterngeld: CheckboxValue.on,
-      hasKindergeld: CheckboxValue.on,
+      hasWohngeld: "on",
+      hasKrankengeld: "on",
+      hasElterngeld: "on",
+      hasKindergeld: "on",
       wohngeldAmount: "500",
       krankengeldAmount: "500",
       elterngeldAmount: "500",
@@ -180,10 +179,10 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = [
   ],
   [
     {
-      hasWohngeld: CheckboxValue.off,
-      hasKrankengeld: CheckboxValue.off,
-      hasElterngeld: CheckboxValue.off,
-      hasKindergeld: CheckboxValue.off,
+      hasWohngeld: "off",
+      hasKrankengeld: "off",
+      hasElterngeld: "off",
+      hasKindergeld: "off",
     },
     [
       "/finanzielle-angaben/einkuenfte/leistungen/frage",

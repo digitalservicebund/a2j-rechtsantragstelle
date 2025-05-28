@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
-import { NavState } from "~/services/navigation/navState";
 
 const meta = {
   title: "Page/FlowNavigation",
@@ -21,22 +20,22 @@ export const Example: Story = {
       {
         destination: ".",
         label: "Das Rechtsproblem",
-        state: NavState.Done,
+        state: "Done",
       },
       {
         destination: ".",
         label: "Finanzielle Angaben",
-        state: NavState.Current,
+        state: "Current",
       },
       {
         destination: ".",
         label: "Persönliche Daten",
-        state: NavState.Open,
+        state: "Open",
       },
       {
         destination: ".",
         label: "Abgabe",
-        state: NavState.Disabled,
+        state: "Disabled",
       },
     ],
   },

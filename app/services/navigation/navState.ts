@@ -1,23 +1,12 @@
-export enum NavState {
-  Done,
-  DoneCurrent,
-  Current,
-  Open,
-  Disabled,
-}
+export type NavState = "Done" | "DoneCurrent" | "Current" | "Open" | "Disabled";
 
 export const stateIsCurrent = (state: NavState) =>
-  state === NavState.Current || state === NavState.DoneCurrent;
+  state === "Current" || state === "DoneCurrent";
 
 export const stateIsActive = (state: NavState) =>
-  [
-    NavState.DoneCurrent,
-    NavState.Current,
-    NavState.Open,
-    NavState.Done,
-  ].includes(state);
+  ["DoneCurrent", "Current", "Open", "Done"].includes(state);
 
 export const stateIsDone = (state: NavState) =>
-  state === NavState.Done || state === NavState.DoneCurrent;
+  state === "Done" || state === "DoneCurrent";
 
-export const stateIsDisabled = (state: NavState) => state === NavState.Disabled;
+export const stateIsDisabled = (state: NavState) => state === "Disabled";

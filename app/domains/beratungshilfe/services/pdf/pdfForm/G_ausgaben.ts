@@ -1,5 +1,4 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 import { type besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import {
@@ -40,9 +39,7 @@ export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
 
   const { ausgabensituation } = userData;
   const belastungen = Object.values(ausgabensituation ?? {});
-  const hasBesondereBelastung = belastungen.some(
-    (value) => value === CheckboxValue.on,
-  );
+  const hasBesondereBelastung = belastungen.some((value) => value === "on");
   const noBesondereBelastung = !hasBesondereBelastung && belastungen.length > 0;
 
   pdfValues.g9SonstigeBelastungenJ.value = hasBesondereBelastung;

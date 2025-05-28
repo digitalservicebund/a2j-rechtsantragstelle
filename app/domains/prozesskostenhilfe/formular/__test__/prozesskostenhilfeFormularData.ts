@@ -1,5 +1,4 @@
 import { faker } from "@faker-js/faker";
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { prozesskostenhilfeAntragstellendePersonInputSchema as antragstellendePersonSchema } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
 import { prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema as einkuenfteSchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
 import {
@@ -144,10 +143,10 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
   ],
   hasAusgaben: YesNoAnswer.Enum.yes,
   besondereBelastungen: {
-    pregnancy: CheckboxValue.on,
-    singleParent: CheckboxValue.on,
-    disability: CheckboxValue.on,
-    medicalReasons: CheckboxValue.on,
+    pregnancy: "on",
+    singleParent: "on",
+    disability: "on",
+    medicalReasons: "on",
   },
   versicherungen: [
     {

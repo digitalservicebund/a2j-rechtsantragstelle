@@ -1,7 +1,6 @@
 import { faker } from "@faker-js/faker";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import { createFinancialEntry } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import * as fillOutFunctions from "~/services/pdf/fillOutFunction";
@@ -237,7 +236,7 @@ describe("bruttoEinnahmen_partner", () => {
     it("should indicate if a user's partner receives Wohngeld", () => {
       const { pdfValues } = fillAndereLeistungenPartner({
         userData: {
-          "partner-hasWohngeld": CheckboxValue.on,
+          "partner-hasWohngeld": "on",
           "partner-wohngeldAmount": "100",
         },
         pdfValues: pdfParams,
@@ -248,7 +247,7 @@ describe("bruttoEinnahmen_partner", () => {
     it("should indicate if a user's partner receives Krankengeld", () => {
       const { pdfValues } = fillAndereLeistungenPartner({
         userData: {
-          "partner-hasKrankengeld": CheckboxValue.on,
+          "partner-hasKrankengeld": "on",
           "partner-krankengeldAmount": "250",
         },
         pdfValues: pdfParams,
@@ -259,7 +258,7 @@ describe("bruttoEinnahmen_partner", () => {
     it("should indicate if a user's partner receives Elterngeld", () => {
       const { pdfValues } = fillAndereLeistungenPartner({
         userData: {
-          "partner-hasElterngeld": CheckboxValue.on,
+          "partner-hasElterngeld": "on",
           "partner-elterngeldAmount": "50",
         },
         pdfValues: pdfParams,
@@ -270,7 +269,7 @@ describe("bruttoEinnahmen_partner", () => {
     it("should indicate if a user's partner receives Kindergeld", () => {
       const { pdfValues } = fillAndereLeistungenPartner({
         userData: {
-          "partner-hasKindergeld": CheckboxValue.on,
+          "partner-hasKindergeld": "on",
           "partner-kindergeldAmount": "10000",
         },
         pdfValues: pdfParams,

@@ -1,5 +1,1 @@
-export enum BannerState {
-  ShowRating = "showRating",
-  ShowFeedback = "showFeedback",
-  FeedbackGiven = "feedbackGiven",
-}
+export type BannerState = "showRating" | "showFeedback" | "feedbackGiven";

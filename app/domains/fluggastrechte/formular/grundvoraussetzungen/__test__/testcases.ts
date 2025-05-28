@@ -1,5 +1,4 @@
 import { createMachine } from "xstate";
-import { CheckboxValue } from "~/components/inputs/Checkbox";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
 import { fluggastrechteGuards } from "~/domains/fluggastrechte/formular/guards";
@@ -25,7 +24,7 @@ const happyPathSteps = [
 const cases = [
   [
     {
-      datenverarbeitungZustimmung: CheckboxValue.on,
+      datenverarbeitungZustimmung: "on",
       fluggesellschaft: "TAP",
       bereich: "bereich",
       startAirport: "BER",
@@ -36,7 +35,7 @@ const cases = [
   ],
   [
     {
-      datenverarbeitungZustimmung: CheckboxValue.on,
+      datenverarbeitungZustimmung: "on",
       fluggesellschaft: "TAP",
       bereich: "bereich",
       startAirport: "BER",
@@ -47,7 +46,7 @@ const cases = [
   ],
   [
     {
-      datenverarbeitungZustimmung: CheckboxValue.on,
+      datenverarbeitungZustimmung: "on",
       fluggesellschaft: "TAP",
       bereich: "bereich",
       startAirport: "BER",

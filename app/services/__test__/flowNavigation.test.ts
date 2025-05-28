@@ -3,7 +3,6 @@ import {
   navItemsFromStepStates,
   navState,
 } from "~/services/flowNavigation.server";
-import { NavState } from "~/services/navigation/navState";
 
 describe("flowNavigation", () => {
   describe("navState", () => {
@@ -14,10 +13,10 @@ describe("flowNavigation", () => {
     };
 
     const validStates = [
-      [{}, NavState.Disabled],
-      [{ isCurrent: true }, NavState.Current],
-      [{ isReachable: true }, NavState.Open],
-      [{ isDone: true, isReachable: true }, NavState.Done],
+      [{}, "Disabled"],
+      [{ isCurrent: true }, "Current"],
+      [{ isReachable: true }, "Open"],
+      [{ isDone: true, isReachable: true }, "Done"],
     ] as const;
 
     test.each(validStates)("navState(%o) => %i", (testValues, expected) => {
@@ -50,7 +49,7 @@ describe("flowNavigation", () => {
         {
           destination: parentStepState.url,
           label: parentStepState.stepId,
-          state: NavState.Current,
+          state: "Current",
           subflows: undefined,
         },
       ]);
@@ -63,12 +62,12 @@ describe("flowNavigation", () => {
         {
           destination: parentStepState.url,
           label: parentStepState.stepId,
-          state: NavState.Current,
+          state: "Current",
           subflows: [
             {
               label: childStepState.stepId,
               destination: childStepState.url,
-              state: NavState.Current,
+              state: "Current",
               subflows: undefined,
             },
           ],
@@ -83,12 +82,12 @@ describe("flowNavigation", () => {
         {
           destination: parentStepState.url,
           label: parentStepState.stepId,
-          state: NavState.Open,
+          state: "Open",
           subflows: [
             {
               label: childStepState.stepId,
               destination: childStepState.url,
-              state: NavState.Open,
+              state: "Open",
               subflows: undefined,
             },
           ],

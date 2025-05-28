@@ -160,6 +160,11 @@ export default tseslint.config(
           message:
             "German umlauts must be written as NFC (normalized form canonical composition) and not NFD (normalized form canonical decomposition). E.g. use 'ä' instead of the character 'a' followed by the combining diacritical marks ' ̈'.",
         },
+        "error",
+        {
+          selector: "TSEnumDeclaration",
+          message: "Do not declare enums",
+        },
       ],
     },
   },
