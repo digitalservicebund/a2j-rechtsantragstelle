@@ -55,7 +55,7 @@ try {
   const fileContent = `// This file is auto-generated. Do not edit manually.
   import { type TranslationRecord } from "~/services/translations/getTranslationByKey";
 
-export const translations: TranslationRecord = ${JSON.stringify(transformedTranslations, null, 2)};
+export const translations = ${JSON.stringify(transformedTranslations, null, 2)} satisfies TranslationRecord;
 `;
 
   writeFileSync(outputPath, fileContent, "utf8");

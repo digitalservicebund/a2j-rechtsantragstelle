@@ -42,10 +42,7 @@ import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
-import {
-  extractTranslations,
-  getTranslationByKey,
-} from "./services/translations/getTranslationByKey";
+import { getTranslationByKey } from "./services/translations/getTranslationByKey";
 import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 
@@ -102,7 +99,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchMultipleTranslations([
       "delete-data",
       "feedback",
-      "pageHeader",
       "video",
       "accessibility",
       "fileUpload",
@@ -121,10 +117,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     {
       pageHeaderProps: {
         ...strapiHeader,
-        translations: extractTranslations(
-          ["leichtesprache", "gebaerdensprache", "mainNavigationAriaLabel"],
-          translations.pageHeader,
-        ),
         hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
         alignToMainContainer:
           !flowIdFromPathname(pathname)?.match(/formular|antrag/),
@@ -294,11 +286,6 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
             hideLinks={false}
             linkLabel="Zurück zur Startseite"
             title="Justiz-Services"
-            translations={{
-              leichtesprache: "Leichte Sprache",
-              gebaerdensprache: "Gebärdensprache",
-              mainNavigationAriaLabel: "Hauptmenü",
-            }}
           />
           <main className="flex-grow">
             <ErrorBox context={loaderData?.context ?? {}} />

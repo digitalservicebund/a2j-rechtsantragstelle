@@ -1,7 +1,7 @@
 // This file is auto-generated. Do not edit manually.
 import { type TranslationRecord } from "~/services/translations/getTranslationByKey";
 
-export const translations: TranslationRecord = {
+export const translations = {
   global: {
     headerLinkText: {
       de: "Justiz-Services",
@@ -2469,4 +2469,4 @@ export const translations: TranslationRecord = {
       de: "Main menu toggle",
     },
   },
-};
+} satisfies TranslationRecord;

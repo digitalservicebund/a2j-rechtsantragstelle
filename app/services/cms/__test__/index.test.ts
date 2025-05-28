@@ -9,8 +9,7 @@ import {
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { StrapiFooterSchema } from "~/services/cms/models/StrapiFooter";
-import { type TranslationRecord } from "~/services/translations/getTranslationByKey";
-import * as translations from "~/services/translations/translations";
+import { type StrapiSchemas } from "~/services/cms/schemas";
 import { fetchAllFormFields } from "../fetchAllFormFields";
 import { getStrapiEntry } from "../getStrapiEntry";
 
@@ -190,20 +189,26 @@ describe("services/cms", () => {
 
   describe("fetchMultipleTranslations", () => {
     test("returns translations for multiple scopes", async () => {
-      const mockedTranslations: TranslationRecord = {
-        amtsgericht: {
-          amtsgerichtKey: { de: "amtsgerichtValue" },
-          amtsgerichtKey2: { de: "amtsgerichtValue2" },
+      const mockedTranslations: StrapiSchemas["translations"] = [
+        {
+          scope: "amtsgericht",
+          locale: "de",
+          field: [
+            { name: "amtsgerichtKey", value: "amtsgerichtValue" },
+            { name: "amtsgerichtKey2", value: "amtsgerichtValue2" },
+          ],
         },
-        ausgaben: {
-          ausgabenKey: { de: "ausgabenValue" },
-          ausgabenKey2: { de: "ausgabenValue2" },
+        {
+          scope: "ausgaben",
+          locale: "de",
+          field: [
+            { name: "ausgabenKey", value: "ausgabenValue" },
+            { name: "ausgabenKey2", value: "ausgabenValue2" },
+          ],
         },
-      };
+      ];
 
-      vi.spyOn(translations, "translations", "get").mockReturnValue(
-        mockedTranslations,
-      );
+      vi.mocked(getStrapiEntry).mockResolvedValue(mockedTranslations);
 
       expect(
         await fetchMultipleTranslations(["amtsgericht", "ausgaben"]),
