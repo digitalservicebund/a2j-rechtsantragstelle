@@ -1,7 +1,8 @@
 import Button from "~/components/Button";
 import Heading from "~/components/Heading";
+import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { extractTranslations } from "~/services/translations/getTranslationByKey";
-import { useTranslations } from "~/services/translations/translationsContext";
+import { translations as staticTranslations } from "~/services/translations/translations";
 import { StandaloneLink } from "../StandaloneLink";
 
 const DATA_PROTECTION_TRANSLATION_KEYS = {
@@ -15,6 +16,13 @@ export const DATA_PROTECTION_TRANSLATION_VALUES = Object.values(
   DATA_PROTECTION_TRANSLATION_KEYS,
 );
 
+export const videoTranslations = Object.fromEntries(
+  Object.entries(staticTranslations.video).map(([key, value]) => [
+    key,
+    value[defaultLocale],
+  ]),
+);
+
 export const DataProtectionBanner = ({
   onCookiesAccepted,
 }: {
@@ -22,7 +30,7 @@ export const DataProtectionBanner = ({
 }) => {
   const translations = extractTranslations(
     DATA_PROTECTION_TRANSLATION_VALUES,
-    useTranslations().video,
+    videoTranslations,
   );
 
   return (

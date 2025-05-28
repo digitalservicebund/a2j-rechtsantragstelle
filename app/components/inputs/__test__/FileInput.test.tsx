@@ -1,19 +1,13 @@
 import { render } from "@testing-library/react";
 import { FileInput } from "~/components/inputs/FileInput";
+import { translations } from "~/services/translations/translations";
 
 vi.mock("react-router", () => ({
   useLoaderData: vi.fn(() => ({ csrf: "csrf" })),
   useSubmit: vi.fn(),
 }));
 
-const selectFilesButtonLabel = "Select a file";
-vi.mock("~/services/translations/translationsContext", () => ({
-  useTranslations: () => ({
-    fileUpload: {
-      select: selectFilesButtonLabel,
-    },
-  }),
-}));
+const selectFilesButtonLabel = translations.fileUpload.select.de;
 
 const inputName = "belege[0]";
 

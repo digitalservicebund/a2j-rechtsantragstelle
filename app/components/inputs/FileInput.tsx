@@ -2,7 +2,7 @@ import classNames from "classnames";
 import Button from "~/components/Button";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
-import { useTranslations } from "~/services/translations/translationsContext";
+import { translations } from "~/services/translations/translations";
 import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { type ErrorMessageProps } from ".";
@@ -26,7 +26,6 @@ export const FileInput = ({
   errorMessages,
 }: FileInputProps) => {
   const { onFileDelete, onFileUpload } = useFileHandler();
-  const { fileUpload: translations } = useTranslations();
   const errorId = `${name}-error`;
 
   const inputClasses = classNames(
@@ -63,7 +62,7 @@ export const FileInput = ({
           }}
           jsAvailable={jsAvailable}
           file={selectedFile}
-          deleteButtonLabel={translations?.delete}
+          deleteButtonLabel={translations.fileUpload.delete.de}
           hasError={!!error}
         />
       ) : (
@@ -72,8 +71,8 @@ export const FileInput = ({
             <div className="ds-button ds-button-tertiary ds-button-large">
               <span className="ds-button-label">
                 {splitFieldName(name).inputIndex === 0
-                  ? translations?.select
-                  : translations?.addAnother}
+                  ? translations.fileUpload.select.de
+                  : translations.fileUpload.addAnother.de}
               </span>
               {FileInput}
             </div>
@@ -86,7 +85,7 @@ export const FileInput = ({
                 className="w-fit"
                 type="submit"
                 look="primary"
-                text={translations?.upload}
+                text={translations.fileUpload.upload.de}
                 size="large"
               />
             </>

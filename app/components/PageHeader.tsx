@@ -4,17 +4,13 @@ import classNames from "classnames";
 import { alignToContainer } from "~/components";
 import Kopfzeile from "~/components/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
+import { translations } from "~/services/translations/translations";
 
 type PageHeaderProps = {
   title: string;
   linkLabel: string;
   hideLinks: boolean;
   alignToMainContainer?: boolean;
-  translations: {
-    leichtesprache: string;
-    gebaerdensprache: string;
-    mainNavigationAriaLabel: string;
-  };
 };
 
 export default function PageHeader({
@@ -22,7 +18,6 @@ export default function PageHeader({
   linkLabel,
   hideLinks,
   alignToMainContainer,
-  translations,
 }: Readonly<PageHeaderProps>) {
   const navClassNames = classNames(
     "!pt-16 !pb-24 px-16 flex flex-wrap justify-between",
@@ -36,7 +31,7 @@ export default function PageHeader({
       <Kopfzeile alignToMainContainer={alignToMainContainer} />
       <nav
         className={navClassNames}
-        aria-label={translations.mainNavigationAriaLabel}
+        aria-label={translations.pageHeader.mainNavigationAriaLabel.de}
       >
         <a
           href="/"
@@ -49,13 +44,15 @@ export default function PageHeader({
           <div className="flex gap-20 max-[425px]:pt-16">
             <StandaloneLink
               url={"/leichtesprache"}
-              text={translations.leichtesprache}
+              text={translations.pageHeader.leichtesprache.de}
               className="flex basis ds-label-03-reg items-center"
               icon={<LocalLibrary className="inline mr-10" />}
             />
             <StandaloneLink
               url={"/gebaerdensprache"}
-              text={translations.gebaerdensprache}
+              text={
+                "Gebärdensprache" /* translations.pageHeader.gebaerdensprache.de */
+              }
               className="flex basis ds-label-03-reg items-center"
               icon={<SignLanguage className="inline mr-10" />}
             />

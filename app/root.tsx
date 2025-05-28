@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type {
   LinksFunction,
   LoaderFunctionArgs,
@@ -26,11 +26,12 @@ import {
   fetchMeta,
   fetchSingleEntry,
   fetchErrors,
-  fetchMultipleTranslations,
+  fetchTranslations,
 } from "~/services/cms/index.server";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
+import { translations as staticTranslations } from "~/services/translations/translations";
 import type { Route } from "./+types/root";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
@@ -42,11 +43,7 @@ import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
-import {
-  extractTranslations,
-  getTranslationByKey,
-} from "./services/translations/getTranslationByKey";
-import { TranslationContext } from "./services/translations/translationsContext";
+import { getTranslationByKey } from "./services/translations/getTranslationByKey";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 
 export { headers } from "./rootHeaders";
@@ -89,7 +86,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     trackingConsent,
     errorPages,
     meta,
-    translations,
+    accessibilityTranslations,
     hasAnyUserData,
     mainSession,
   ] = await Promise.all([
@@ -99,15 +96,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     trackingCookieValue({ request }),
     fetchErrors(),
     fetchMeta({ filterValue: "/" }),
-    fetchMultipleTranslations([
-      "delete-data",
-      "feedback",
-      "pageHeader",
-      "video",
-      "accessibility",
-      "fileUpload",
-      "accordion",
-    ]),
+    fetchTranslations("accessibility"),
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
   ]);
@@ -121,10 +110,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     {
       pageHeaderProps: {
         ...strapiHeader,
-        translations: extractTranslations(
-          ["leichtesprache", "gebaerdensprache", "mainNavigationAriaLabel"],
-          translations.pageHeader,
-        ),
         hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
         alignToMainContainer:
           !flowIdFromPathname(pathname)?.match(/formular|antrag/),
@@ -137,17 +122,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       errorPages,
       meta,
       context,
-      deletionLabel: translations["delete-data"].footerLinkLabel,
       hasAnyUserData,
-      feedbackTranslations: translations.feedback,
-      videoTranslations: translations.video,
-      accessibilityTranslations: translations.accessibility,
-      fileUploadTranslations: translations.fileUpload,
+      accessibilityTranslations,
       feedback: getFeedbackData(mainSession, pathname),
       postSubmissionText: parseAndSanitizeMarkdown(
-        translations.feedback["text-post-submission"],
+        staticTranslations.feedback["text-post-submission"].de,
       ),
-      accordionTranslation: translations.accordion,
       shouldPrint,
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
@@ -160,13 +140,8 @@ function App() {
     footer,
     cookieBannerContent,
     hasTrackingConsent,
-    deletionLabel,
     hasAnyUserData,
-    feedbackTranslations,
-    videoTranslations,
     accessibilityTranslations,
-    fileUploadTranslations,
-    accordionTranslation,
     shouldPrint,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
@@ -194,23 +169,6 @@ function App() {
       window.close();
     }
   }, [shouldPrint]);
-
-  const translationMemo = useMemo(
-    () => ({
-      video: videoTranslations,
-      feedback: feedbackTranslations,
-      accessibility: accessibilityTranslations,
-      fileUpload: fileUploadTranslations,
-      accordion: accordionTranslation,
-    }),
-    [
-      videoTranslations,
-      feedbackTranslations,
-      accessibilityTranslations,
-      fileUploadTranslations,
-      accordionTranslation,
-    ],
-  );
 
   return (
     <html lang="de">
@@ -249,18 +207,15 @@ function App() {
             translations={{ ...accessibilityTranslations }}
           />
           <CookieConsentContext.Provider value={hasTrackingConsent}>
-            <TranslationContext.Provider value={translationMemo}>
-              <main className="flex-grow flex" id="main">
-                <Outlet />
-              </main>
-            </TranslationContext.Provider>
+            <main className="flex-grow flex" id="main">
+              <Outlet />
+            </main>
             <CookieBanner content={cookieBannerContent} />
           </CookieConsentContext.Provider>
         </div>
         <footer>
           <Footer
             {...footer}
-            deletionLabel={deletionLabel}
             showDeletionBanner={hasAnyUserData}
             translations={{ ...accessibilityTranslations }}
           />
@@ -294,11 +249,6 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
             hideLinks={false}
             linkLabel="Zurück zur Startseite"
             title="Justiz-Services"
-            translations={{
-              leichtesprache: "Leichte Sprache",
-              gebaerdensprache: "Gebärdensprache",
-              mainNavigationAriaLabel: "Hauptmenü",
-            }}
           />
           <main className="flex-grow">
             <ErrorBox context={loaderData?.context ?? {}} />
