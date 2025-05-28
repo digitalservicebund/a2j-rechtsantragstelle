@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-// import { startAbgabe } from "tests/e2e/domains/prozesskostenhilfe/formular/abgabe";
+import { startAbgabe } from "tests/e2e/domains/prozesskostenhilfe/formular/abgabe";
 import { startAntragstellendePerson } from "tests/e2e/domains/prozesskostenhilfe/formular/antragstellendePerson";
 import { startFinanzielleAngabenEinkuenfte } from "tests/e2e/domains/prozesskostenhilfe/formular/finanzielleAngabenEinkuenfte";
 import { startGrundvoraussetzungen } from "tests/e2e/domains/prozesskostenhilfe/formular/grundvoraussetzungen";
@@ -61,6 +61,5 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
   await startWeitereAngaben(page, prozesskostenhilfeFormular);
 
   // /prozesskostenhilfe/formular/abgabe/ende
-  // Temporary disable testing abgabe - comment back in after content release
-  // await startAbgabe(page);
+  await startAbgabe(page);
 });
