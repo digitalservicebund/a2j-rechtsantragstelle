@@ -31,6 +31,7 @@ import {
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
+import { translations as staticTranslations } from "~/services/translations/translations";
 import type { Route } from "./+types/root";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
@@ -97,7 +98,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchErrors(),
     fetchMeta({ filterValue: "/" }),
     fetchMultipleTranslations([
-      "feedback",
       "video",
       "accessibility",
       "fileUpload",
@@ -129,13 +129,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       meta,
       context,
       hasAnyUserData,
-      feedbackTranslations: translations.feedback,
       videoTranslations: translations.video,
       accessibilityTranslations: translations.accessibility,
       fileUploadTranslations: translations.fileUpload,
       feedback: getFeedbackData(mainSession, pathname),
       postSubmissionText: parseAndSanitizeMarkdown(
-        translations.feedback["text-post-submission"],
+        staticTranslations.feedback["text-post-submission"].de,
       ),
       accordionTranslation: translations.accordion,
       shouldPrint,
@@ -151,7 +150,6 @@ function App() {
     cookieBannerContent,
     hasTrackingConsent,
     hasAnyUserData,
-    feedbackTranslations,
     videoTranslations,
     accessibilityTranslations,
     fileUploadTranslations,
@@ -187,14 +185,12 @@ function App() {
   const translationMemo = useMemo(
     () => ({
       video: videoTranslations,
-      feedback: feedbackTranslations,
       accessibility: accessibilityTranslations,
       fileUpload: fileUploadTranslations,
       accordion: accordionTranslation,
     }),
     [
       videoTranslations,
-      feedbackTranslations,
       accessibilityTranslations,
       fileUploadTranslations,
       accordionTranslation,

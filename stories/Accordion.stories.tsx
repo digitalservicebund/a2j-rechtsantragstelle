@@ -22,7 +22,6 @@ export const Example: Story = {
       <TranslationContext.Provider
         value={{
           fileUpload: {},
-          feedback: {},
           video: {},
           accessibility: {},
           accordion: {

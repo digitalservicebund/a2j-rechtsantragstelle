@@ -24,12 +24,6 @@ export const Example: Story = {
       <TranslationContext.Provider
         value={{
           fileUpload: {},
-          feedback: {
-            "report-problem": "Problem melden",
-            cancel: "Abbrechen",
-            "submit-problem": "Problem absenden",
-            "open-feedback-placeholder": "Beschreibung des Problems....",
-          },
           video: {},
           accessibility: {},
           accordion: {},
