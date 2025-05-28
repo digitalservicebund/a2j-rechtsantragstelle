@@ -103,7 +103,7 @@ jobs:
           app: a2j-rast-preview
           argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
-          argocd_sync_timeout: 420
+          argocd_sync_timeout: 600
 
   verify-preview-e2e:
     needs: [deploy-preview]
@@ -137,7 +137,7 @@ jobs:
           app: a2j-rast-production
           argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
-          argocd_sync_timeout: 420
+          argocd_sync_timeout: 600
 
   test-production-text:
     needs: [deploy-production]
