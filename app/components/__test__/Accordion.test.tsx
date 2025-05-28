@@ -54,9 +54,6 @@ describe("Accordion Component", () => {
     expect(details).toHaveLength(2);
   });
 
-  vi.mock("~/services/translations/translationsContext", () => ({
-    useTranslations: vi.fn(),
-  }));
   it("applies translations", () => {
     const { getAllByText } = render(<Accordion items={dummyItems} />);
     getAllByText("Einblenden").forEach((el) => expect(el).toBeVisible());

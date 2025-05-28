@@ -1555,7 +1555,7 @@ export const translations = {
   },
   accordion: {
     show: {
-      de: "Einbleinden",
+      de: "Einblenden",
     },
     hide: {
       de: "Ausblenden",

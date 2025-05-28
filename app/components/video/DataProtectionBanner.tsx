@@ -16,6 +16,13 @@ export const DATA_PROTECTION_TRANSLATION_VALUES = Object.values(
   DATA_PROTECTION_TRANSLATION_KEYS,
 );
 
+export const videoTranslations = Object.fromEntries(
+  Object.entries(staticTranslations.video).map(([key, value]) => [
+    key,
+    value[defaultLocale],
+  ]),
+);
+
 export const DataProtectionBanner = ({
   onCookiesAccepted,
 }: {
@@ -23,12 +30,7 @@ export const DataProtectionBanner = ({
 }) => {
   const translations = extractTranslations(
     DATA_PROTECTION_TRANSLATION_VALUES,
-    Object.fromEntries(
-      Object.entries(staticTranslations.video).map(([key, value]) => [
-        key,
-        value[defaultLocale],
-      ]),
-    ),
+    videoTranslations,
   );
 
   return (

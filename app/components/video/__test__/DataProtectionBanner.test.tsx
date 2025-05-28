@@ -1,21 +1,9 @@
-import { faker } from "@faker-js/faker";
 import { fireEvent, render } from "@testing-library/react";
 import {
   DataProtectionBanner,
   DATA_PROTECTION_TRANSLATION_VALUES,
+  videoTranslations,
 } from "~/components/video/DataProtectionBanner";
-
-const videoTranslations = Object.fromEntries(
-  DATA_PROTECTION_TRANSLATION_VALUES.map((key) => [
-    key,
-    faker.lorem.sentence(),
-  ]),
-);
-vi.mock("~/services/translations/translationsContext", () => ({
-  useTranslations: () => ({
-    video: videoTranslations,
-  }),
-}));
 
 describe("Datenschutz Component", () => {
   it("should fetch content from video context", () => {

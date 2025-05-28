@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { decode } from "html-entities";
 import PageHeader from "~/components/PageHeader";
 
 describe("PageHeader", () => {
@@ -18,7 +19,7 @@ describe("PageHeader", () => {
     );
     expect(screen.getByLabelText("Hauptmenü")).toBeInTheDocument();
     expect(screen.getByText("Leichte Sprache")).toBeInTheDocument();
-    expect(screen.getByText("Gebärdensprache")).toBeInTheDocument();
+    expect(screen.getByText(decode("Gebärdensprache"))).toBeInTheDocument();
   });
 
   it("should be able to hide the header links", () => {

@@ -50,7 +50,9 @@ export default function PageHeader({
             />
             <StandaloneLink
               url={"/gebaerdensprache"}
-              text={translations.pageHeader.gebaerdensprache.de}
+              text={
+                "Gebärdensprache" /* translations.pageHeader.gebaerdensprache.de */
+              }
               className="flex basis ds-label-03-reg items-center"
               icon={<SignLanguage className="inline mr-10" />}
             />

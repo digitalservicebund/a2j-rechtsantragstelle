@@ -1,4 +1,5 @@
 import { render } from "@testing-library/react";
+import { translations } from "~/services/translations/translations";
 import Footer from "../Footer";
 
 describe("Footer", () => {
@@ -48,7 +49,9 @@ describe("Footer", () => {
     const { getByText } = render(
       <Footer showDeletionBanner={true} categorizedLinks={[]} />,
     );
-    expect(getByText("deletionLabel")).toBeInTheDocument();
+    expect(
+      getByText(translations["delete-data"].footerLinkLabel.de),
+    ).toBeInTheDocument();
   });
 
   it("should render aria label translation", () => {
