@@ -2,6 +2,13 @@ import { sendSentryMessage } from "~/services/logging";
 
 export type Translations = Record<string, string>;
 
+export type Locale = "de" | "en";
+
+export type TranslationRecord = Record<
+  string,
+  Record<string, Partial<Record<Locale, string>>>
+>;
+
 export function getTranslationByKey(
   key: string,
   translations?: Translations,
