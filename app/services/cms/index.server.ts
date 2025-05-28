@@ -1,4 +1,3 @@
-import { decode } from "html-entities";
 import type { FlowId } from "~/domains/flowIds";
 import {
   defaultLocale,
@@ -91,7 +90,7 @@ export async function fetchEntries<T extends ApiId>(
   return parsedEntries.data as StrapiSchemasOutput[T];
 }
 
-export const fetchTranslations = async (
+export const fetchTranslations = (
   name: string,
   locale: Locale = defaultLocale,
 ): Promise<Translations> => {
@@ -105,7 +104,7 @@ export const fetchTranslations = async (
         throw new Error(
           `Translation ${name}.${key} not found for locale ${locale}`,
         );
-      return [key, decode(value[locale])];
+      return [key, value[locale]!];
     }),
   );
   return Promise.resolve(scopedTranslations);

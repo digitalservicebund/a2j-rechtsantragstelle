@@ -7,6 +7,7 @@ import type { StrapiLocale } from "./models/StrapiLocale";
 import { StrapiPageSchema } from "./models/StrapiPage";
 import { StrapiPageHeaderSchema } from "./models/StrapiPageHeader";
 import { StrapiResultPageSchema } from "./models/StrapiResultPage";
+import { StrapiTranslationSchema } from "./models/StrapiTranslations";
 import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
 
 export const entrySchemas = {
@@ -27,6 +28,7 @@ export type FlowPageId = keyof typeof flowPageSchemas;
 
 export const collectionSchemas = {
   pages: z.array(StrapiPageSchema),
+  translations: z.array(StrapiTranslationSchema),
   ...flowPageSchemas,
 };
 

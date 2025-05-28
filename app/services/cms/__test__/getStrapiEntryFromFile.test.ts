@@ -65,6 +65,7 @@ describe("services/cms", () => {
           form: [],
         }),
       ],
+      translations: [],
     } satisfies StrapiSchemas;
     vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify(fileContent));
 
