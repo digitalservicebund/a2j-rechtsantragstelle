@@ -1,5 +1,6 @@
+import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
-import { useTranslations } from "~/services/translations/translationsContext";
+import { translations } from "~/services/translations/translations";
 
 const feedbackTranslationsKeys = [
   "heading-feedback",
@@ -31,14 +32,18 @@ const ratingBoxTranslationsKeys = ["yes-rating", "no-rating"] as const;
 type RatingBoxTranslationKeys = (typeof ratingBoxTranslationsKeys)[number];
 
 export function useFeedbackTranslations() {
-  const { feedback: translations } = useTranslations();
-
+  const feedbackTranslations = Object.fromEntries(
+    Object.entries(translations.feedback).map(([key, value]) => [
+      key,
+      value[defaultLocale],
+    ]),
+  );
   return Object.fromEntries(
     [
       ...feedbackTranslationsKeys,
       ...postSubmissionTranslationKeys,
       ...ratingBoxTranslationsKeys,
-    ].map((key) => [key, getTranslationByKey(key, translations)]),
+    ].map((key) => [key, getTranslationByKey(key, feedbackTranslations)]),
   ) as Record<
     | FeedbackTranslationKeys
     | PostSubmissionTranslationKeys

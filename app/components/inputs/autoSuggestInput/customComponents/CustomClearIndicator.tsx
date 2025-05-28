@@ -1,9 +1,10 @@
 import CloseIcon from "@digitalservicebund/icons/Close";
 import type { RefObject } from "react";
+import { useLoaderData } from "react-router";
 import type { ClearIndicatorProps } from "react-select";
+import { type RootLoader } from "~/root";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
-import { useTranslations } from "~/services/translations/translationsContext";
 
 const AUTO_SUGGESTION_INPUT_BUTTON_ARIAL_KEY =
   "auto-suggestion-input-button-arial";
@@ -12,12 +13,12 @@ const CustomClearIndicator = (
   props: ClearIndicatorProps<DataListOptions, false>,
   buttonExclusionRef: RefObject<HTMLButtonElement | null>,
 ) => {
-  const { accessibility: translations } = useTranslations();
+  const { accessibilityTranslations } = useLoaderData<RootLoader>();
   return (
     <button
       aria-label={getTranslationByKey(
         AUTO_SUGGESTION_INPUT_BUTTON_ARIAL_KEY,
-        translations,
+        accessibilityTranslations,
       )}
       ref={buttonExclusionRef}
       data-testid="clear-input-button"

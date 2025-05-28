@@ -9,6 +9,12 @@ vi.mock("@rvf/react-router", () => ({
   useField: vi.fn(),
 }));
 
+vi.mock("react-router", () => ({
+  useLoaderData: vi.fn(() => ({
+    accessibilityTranslations: {},
+  })),
+}));
+
 const mockedValidate = vi.fn();
 const COMPONENT_NAME = "test-autoSuggestInput";
 const PLACEHOLDER_MOCK = "Test Placeholder";

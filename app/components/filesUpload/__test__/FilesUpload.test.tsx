@@ -7,11 +7,12 @@ import FilesUpload, {
 } from "~/components/filesUpload/FilesUpload";
 import { type UserData } from "~/domains/userData";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
+import { translations } from "~/services/translations/translations";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 
-const deleteLabel = "Löschen";
-const selectLabel = "Datei Auswählen";
-const addAnotherLabel = "Weitere Datei Auswahlen";
+const deleteLabel = translations.fileUpload.delete.de;
+const selectLabel = translations.fileUpload.select.de;
+const addAnotherLabel = translations.fileUpload.addAnother.de;
 
 const fieldName = "belege";
 const minimumFileError = "You must select at least one file";
@@ -23,16 +24,6 @@ vi.mock("react-router", async () => ({
   useLoaderData: vi.fn(() => ({ csrf: "csrf" })),
   useActionData: () => actionResponse,
   useSubmit: () => mockSubmit,
-}));
-
-vi.mock("~/services/translations/translationsContext", () => ({
-  useTranslations: () => ({
-    fileUpload: {
-      delete: deleteLabel,
-      select: selectLabel,
-      addAnother: addAnotherLabel,
-    },
-  }),
 }));
 
 const getDefaultMock = vi.fn();
