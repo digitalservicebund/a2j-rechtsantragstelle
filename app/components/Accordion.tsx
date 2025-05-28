@@ -3,8 +3,7 @@ import {
   AccordionItem,
   type AccordionItemProps,
 } from "~/components/AccordionItem";
-import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
-import { useTranslations } from "~/services/translations/translationsContext";
+import { translations } from "~/services/translations/translations";
 
 export type AccordionProps = Readonly<{
   items: AccordionItemProps[];
@@ -12,10 +11,9 @@ export type AccordionProps = Readonly<{
 
 export default function Accordion({ items }: AccordionProps) {
   const itemsRef = useRef<HTMLDetailsElement[]>([]);
-  const { accordion } = useTranslations();
   const labels = {
-    show: getTranslationByKey("accordionItemShow", accordion),
-    hide: getTranslationByKey("accordionItemHide", accordion),
+    show: translations.accordion.show.de,
+    hide: translations.accordion.hide.de,
   };
 
   return (

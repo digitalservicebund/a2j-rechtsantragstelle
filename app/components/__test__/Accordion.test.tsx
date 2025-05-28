@@ -61,10 +61,6 @@ describe("Accordion Component", () => {
 
   vi.mocked(useTranslations).mockReturnValue({
     accessibility: {},
-    accordion: {
-      accordionItemShow: "Einblenden",
-      accordionItemHide: "Ausblenden",
-    },
   });
   it("applies translations", () => {
     const { getAllByText } = render(<Accordion items={dummyItems} />);

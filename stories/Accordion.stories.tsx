@@ -22,10 +22,6 @@ export const Example: Story = {
       <TranslationContext.Provider
         value={{
           accessibility: {},
-          accordion: {
-            accordionItemShow: "Einblenden",
-            accordionItemHide: "Ausblenden",
-          },
         }}
       >
         <Container paddingTop="32" paddingBottom="40">

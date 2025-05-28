@@ -26,7 +26,7 @@ import {
   fetchMeta,
   fetchSingleEntry,
   fetchErrors,
-  fetchMultipleTranslations,
+  fetchTranslations,
 } from "~/services/cms/index.server";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configWeb } from "~/services/env/web";
@@ -87,7 +87,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     trackingConsent,
     errorPages,
     meta,
-    translations,
+    accessibilityTranslations,
     hasAnyUserData,
     mainSession,
   ] = await Promise.all([
@@ -97,7 +97,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     trackingCookieValue({ request }),
     fetchErrors(),
     fetchMeta({ filterValue: "/" }),
-    fetchMultipleTranslations(["accessibility", "accordion"]),
+    fetchTranslations("accessibility"),
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
   ]);
@@ -124,12 +124,11 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       meta,
       context,
       hasAnyUserData,
-      accessibilityTranslations: translations.accessibility,
+      accessibilityTranslations,
       feedback: getFeedbackData(mainSession, pathname),
       postSubmissionText: parseAndSanitizeMarkdown(
         staticTranslations.feedback["text-post-submission"].de,
       ),
-      accordionTranslation: translations.accordion,
       shouldPrint,
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
@@ -144,7 +143,6 @@ function App() {
     hasTrackingConsent,
     hasAnyUserData,
     accessibilityTranslations,
-    accordionTranslation,
     shouldPrint,
   } = useLoaderData<RootLoader>();
   const matches = useMatches();
@@ -176,9 +174,8 @@ function App() {
   const translationMemo = useMemo(
     () => ({
       accessibility: accessibilityTranslations,
-      accordion: accordionTranslation,
     }),
-    [accessibilityTranslations, accordionTranslation],
+    [accessibilityTranslations],
   );
 
   return (

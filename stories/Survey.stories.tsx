@@ -24,7 +24,6 @@ export const Example: Story = {
       <TranslationContext.Provider
         value={{
           accessibility: {},
-          accordion: {},
         }}
       >
         <Background paddingTop="32" paddingBottom="32">

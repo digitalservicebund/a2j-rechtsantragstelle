@@ -43,7 +43,6 @@ export const Default: Story = {
       <TranslationContext.Provider
         value={{
           accessibility: {},
-          accordion: {},
         }}
       >
         {reactRouterContext(
