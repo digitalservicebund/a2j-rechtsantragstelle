@@ -1,5 +1,4 @@
 import { render, fireEvent } from "@testing-library/react";
-import { useTranslations } from "~/services/translations/translationsContext";
 import Accordion from "../Accordion";
 import type { AccordionItemProps } from "../AccordionItem";
 
@@ -58,10 +57,6 @@ describe("Accordion Component", () => {
   vi.mock("~/services/translations/translationsContext", () => ({
     useTranslations: vi.fn(),
   }));
-
-  vi.mocked(useTranslations).mockReturnValue({
-    accessibility: {},
-  });
   it("applies translations", () => {
     const { getAllByText } = render(<Accordion items={dummyItems} />);
     getAllByText("Einblenden").forEach((el) => expect(el).toBeVisible());

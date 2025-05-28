@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type {
   LinksFunction,
   LoaderFunctionArgs,
@@ -44,7 +44,6 @@ import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
-import { TranslationContext } from "./services/translations/translationsContext";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 
 export { headers } from "./rootHeaders";
@@ -171,13 +170,6 @@ function App() {
     }
   }, [shouldPrint]);
 
-  const translationMemo = useMemo(
-    () => ({
-      accessibility: accessibilityTranslations,
-    }),
-    [accessibilityTranslations],
-  );
-
   return (
     <html lang="de">
       <head>
@@ -215,11 +207,9 @@ function App() {
             translations={{ ...accessibilityTranslations }}
           />
           <CookieConsentContext.Provider value={hasTrackingConsent}>
-            <TranslationContext.Provider value={translationMemo}>
-              <main className="flex-grow flex" id="main">
-                <Outlet />
-              </main>
-            </TranslationContext.Provider>
+            <main className="flex-grow flex" id="main">
+              <Outlet />
+            </main>
             <CookieBanner content={cookieBannerContent} />
           </CookieConsentContext.Provider>
         </div>

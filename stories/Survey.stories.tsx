@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
-import { TranslationContext } from "~/services/translations/translationsContext";
 import { SurveyQuestionType } from "posthog-js";
 import Background from "~/components/Background";
 import Container from "~/components/Container";
@@ -21,17 +20,11 @@ type Story = StoryObj<typeof meta>;
 export const Example: Story = {
   decorators: [
     (Story) => (
-      <TranslationContext.Provider
-        value={{
-          accessibility: {},
-        }}
-      >
-        <Background paddingTop="32" paddingBottom="32">
-          <Container paddingTop="32" paddingBottom="40">
-            <Story />
-          </Container>
-        </Background>
-      </TranslationContext.Provider>
+      <Background paddingTop="32" paddingBottom="32">
+        <Container paddingTop="32" paddingBottom="40">
+          <Story />
+        </Container>
+      </Background>
     ),
   ],
   args: {
