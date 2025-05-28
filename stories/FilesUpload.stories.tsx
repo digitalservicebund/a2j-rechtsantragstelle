@@ -42,11 +42,6 @@ export const Default: Story = {
     (Story) => (
       <TranslationContext.Provider
         value={{
-          fileUpload: {
-            delete: "Löschen",
-            select: "Datei Auswählen",
-            addAnother: "Weitere Datei Auswählen",
-          },
           accessibility: {},
           accordion: {},
         }}

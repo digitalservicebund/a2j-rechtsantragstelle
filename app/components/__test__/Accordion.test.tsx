@@ -61,7 +61,6 @@ describe("Accordion Component", () => {
 
   vi.mocked(useTranslations).mockReturnValue({
     accessibility: {},
-    fileUpload: {},
     accordion: {
       accordionItemShow: "Einblenden",
       accordionItemHide: "Ausblenden",

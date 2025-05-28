@@ -97,7 +97,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     trackingCookieValue({ request }),
     fetchErrors(),
     fetchMeta({ filterValue: "/" }),
-    fetchMultipleTranslations(["accessibility", "fileUpload", "accordion"]),
+    fetchMultipleTranslations(["accessibility", "accordion"]),
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
   ]);
@@ -125,7 +125,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       context,
       hasAnyUserData,
       accessibilityTranslations: translations.accessibility,
-      fileUploadTranslations: translations.fileUpload,
       feedback: getFeedbackData(mainSession, pathname),
       postSubmissionText: parseAndSanitizeMarkdown(
         staticTranslations.feedback["text-post-submission"].de,
@@ -145,7 +144,6 @@ function App() {
     hasTrackingConsent,
     hasAnyUserData,
     accessibilityTranslations,
-    fileUploadTranslations,
     accordionTranslation,
     shouldPrint,
   } = useLoaderData<RootLoader>();
@@ -178,10 +176,9 @@ function App() {
   const translationMemo = useMemo(
     () => ({
       accessibility: accessibilityTranslations,
-      fileUpload: fileUploadTranslations,
       accordion: accordionTranslation,
     }),
-    [accessibilityTranslations, fileUploadTranslations, accordionTranslation],
+    [accessibilityTranslations, accordionTranslation],
   );
 
   return (
