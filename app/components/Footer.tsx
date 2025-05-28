@@ -1,4 +1,5 @@
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
+import { translations as staticTranslations } from "~/services/translations/translations";
 import Background from "./Background";
 import Container from "./Container";
 import Heading from "./Heading";
@@ -21,7 +22,6 @@ type FooterProps = Readonly<{
   categorizedLinks: CategorizedLinkProps[];
   paragraphs?: RichTextProps[];
   image?: ImageProps;
-  deletionLabel?: string;
   showDeletionBanner?: boolean;
   translations?: Record<string, string>;
 }>;
@@ -43,7 +43,6 @@ export default function Footer({
   image,
   paragraphs = [],
   categorizedLinks,
-  deletionLabel,
   showDeletionBanner = false,
   translations,
 }: FooterProps) {
@@ -110,7 +109,10 @@ export default function Footer({
           <div className="text-center">
             <StandaloneLink
               className="ds-label-03-reg"
-              text={deletionLabel ?? "Persönliche Daten löschen"}
+              text={
+                staticTranslations["delete-data"].footerLinkLabel.de ??
+                "Persönliche Daten löschen"
+              }
               url="/persoenliche-daten-loeschen"
             />
           </div>

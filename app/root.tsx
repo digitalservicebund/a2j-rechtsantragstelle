@@ -97,7 +97,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchErrors(),
     fetchMeta({ filterValue: "/" }),
     fetchMultipleTranslations([
-      "delete-data",
       "feedback",
       "video",
       "accessibility",
@@ -129,7 +128,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       errorPages,
       meta,
       context,
-      deletionLabel: translations["delete-data"].footerLinkLabel,
       hasAnyUserData,
       feedbackTranslations: translations.feedback,
       videoTranslations: translations.video,
@@ -152,7 +150,6 @@ function App() {
     footer,
     cookieBannerContent,
     hasTrackingConsent,
-    deletionLabel,
     hasAnyUserData,
     feedbackTranslations,
     videoTranslations,
@@ -252,7 +249,6 @@ function App() {
         <footer>
           <Footer
             {...footer}
-            deletionLabel={deletionLabel}
             showDeletionBanner={hasAnyUserData}
             translations={{ ...accessibilityTranslations }}
           />

@@ -46,11 +46,7 @@ describe("Footer", () => {
 
   it("should render deletionBanner", () => {
     const { getByText } = render(
-      <Footer
-        showDeletionBanner={true}
-        deletionLabel="deletionLabel"
-        categorizedLinks={[]}
-      />,
+      <Footer showDeletionBanner={true} categorizedLinks={[]} />,
     );
     expect(getByText("deletionLabel")).toBeInTheDocument();
   });
