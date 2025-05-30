@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { decode } from "html-entities";
 import PageHeader from "~/components/PageHeader";
 
 describe("PageHeader", () => {
@@ -8,11 +9,6 @@ describe("PageHeader", () => {
         title={"Justiz-Services"}
         linkLabel={"Zurück zur Startseite"}
         hideLinks={false}
-        translations={{
-          gebaerdensprache: "Gebärdensprache",
-          leichtesprache: "Leichte Sprache",
-          mainNavigationAriaLabel: "Hauptmenü",
-        }}
       />,
     );
     const title = screen.getByText("Justiz-Services");
@@ -23,21 +19,12 @@ describe("PageHeader", () => {
     );
     expect(screen.getByLabelText("Hauptmenü")).toBeInTheDocument();
     expect(screen.getByText("Leichte Sprache")).toBeInTheDocument();
-    expect(screen.getByText("Gebärdensprache")).toBeInTheDocument();
+    expect(screen.getByText(decode("Gebärdensprache"))).toBeInTheDocument();
   });
 
   it("should be able to hide the header links", () => {
     render(
-      <PageHeader
-        title={"Test Page"}
-        linkLabel={"Test Page"}
-        translations={{
-          gebaerdensprache: "Gebärdensprache",
-          leichtesprache: "Leichte Sprache",
-          mainNavigationAriaLabel: "Hauptmenü",
-        }}
-        hideLinks
-      />,
+      <PageHeader title={"Test Page"} linkLabel={"Test Page"} hideLinks />,
     );
     expect(screen.queryByText("Leichte Sprache")).not.toBeInTheDocument();
     expect(screen.queryByText("Gebärdensprache")).not.toBeInTheDocument();

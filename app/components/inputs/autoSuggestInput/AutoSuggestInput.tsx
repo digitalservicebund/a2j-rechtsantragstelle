@@ -2,9 +2,10 @@ import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { matchSorter } from "match-sorter";
 import { type RefObject, useEffect, useRef, useState } from "react";
+import { useRouteLoaderData } from "react-router";
 import Select, { type InputActionMeta } from "react-select";
+import { type RootLoader } from "~/root";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
-import { useTranslations } from "~/services/translations/translationsContext";
 import { useJsAvailable } from "~/services/useJsAvailable";
 import {
   CustomClearIndicator,
@@ -115,7 +116,7 @@ const AutoSuggestInput = ({
   const jsAvailable = useJsAvailable();
   const [optionWasSelected, setOptionWasSelected] = useState(false);
   const [options, setOptions] = useState<DataListOptions[]>([]);
-  const { accessibility: translations } = useTranslations();
+  const rootLoaderData = useRouteLoaderData<RootLoader>("root");
 
   const isRequired = !!errorMessages?.find((err) => err.code === "required");
 
@@ -166,7 +167,9 @@ const AutoSuggestInput = ({
         aria-describedby={field.error() && errorId}
         aria-errormessage={field.error() ? errorId : undefined}
         aria-invalid={field.error() !== undefined}
-        ariaLiveMessages={ariaLiveMessages(translations)}
+        ariaLiveMessages={ariaLiveMessages(
+          rootLoaderData?.accessibilityTranslations,
+        )}
         className={classNames(
           "w-full forced-colors:border-2",
           { "has-error": field.error() },
@@ -221,7 +224,9 @@ const AutoSuggestInput = ({
         onInputChange={onInputChange}
         options={options}
         placeholder={placeholder ?? ""}
-        screenReaderStatus={screenReaderStatus(translations)}
+        screenReaderStatus={screenReaderStatus(
+          rootLoaderData?.accessibilityTranslations,
+        )}
         styles={customStyles(hasError)}
         tabIndex={0}
         value={currentItemValue}

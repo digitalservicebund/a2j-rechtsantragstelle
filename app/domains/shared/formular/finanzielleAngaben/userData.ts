@@ -3,7 +3,7 @@ import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
+import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { createYearSchema } from "~/services/validation/year";
@@ -107,7 +107,7 @@ export const kraftfahrzeugeArraySchema = z.array(
       art: stringRequiredSchema,
       marke: stringRequiredSchema,
       eigentuemer: eigentuemerInputSchema,
-      verkaufswert: optionalOrSchema(buildMoneyValidationSchema()),
+      verkaufswert: schemaOrEmptyString(buildMoneyValidationSchema()),
       kilometerstand: integerSchema,
       anschaffungsjahr: createYearSchema({
         optional: true,
