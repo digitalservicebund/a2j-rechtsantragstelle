@@ -73,8 +73,6 @@ export default function Index() {
         >
           <Container>
             <StrapiFormComponents components={form} />
-          </Container>
-          <Container>
             <ButtonNavigation
               back={{
                 destination: backURL,
