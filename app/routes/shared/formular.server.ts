@@ -100,6 +100,7 @@ export const loader = async ({
       "defaultTranslations",
       flowId,
       `${flowId}/summaryPage`,
+      "accessibility",
     ]),
   ]);
 
@@ -184,9 +185,9 @@ export const loader = async ({
     ) ?? [];
 
   const navigationA11yLabels = {
-    menuLabel: defaultStrings.navigationA11yLabel,
-    itemFinished: defaultStrings.navigationItemFinishedA11yLabel,
-    itemOpen: defaultStrings.navigationItemOpenA11yLabel,
+    menuLabel: translations.accessibility.navigationLabel,
+    itemFinished: translations.accessibility.navigationItemFinishedLabel,
+    itemOpen: translations.accessibility.navigationItemOpenLabel,
   };
 
   const navigationMobileLabels = {
