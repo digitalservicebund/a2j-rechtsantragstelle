@@ -14,28 +14,34 @@ import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig"
 import { prozessfuehrungXstateConfig } from "./prozessfuehrung/xstateConfig";
 import { isTotalClaimWillSucceddedAboveLimit } from "./services/isTotalClaimAboveLimit";
 import { streitwertKostenXstateConfig } from "./streitwertKosten/xstateConfig";
+import { getAirlineName } from "./stringReplacements/airline";
 import {
-  getAirlineName,
-  getAnnullierungInfo,
-  getArrayWeiterePersonenIndexStrings,
   getEndAirportName,
   getFirstZwischenstoppAirportName,
-  getPersonNachname,
-  getPersonVorname,
-  getResponsibleAirportForCourt,
-  getResponsibleCourt,
   getSecondZwischenstoppAirportName,
   getStartAirportName,
-  getStreitwert,
   getThirdZwischenstoppAirportName,
-  getWeiterePersonenNameStrings,
-  hasBothAirportsPartnerCourts,
+} from "./stringReplacements/airports";
+import {
+  getAnnullierungInfo,
   isAnnullierung,
   isNichtBefoerderung,
   isVerspaetet,
+} from "./stringReplacements/flightStatus";
+import {
+  getResponsibleAirportForCourt,
+  getResponsibleCourt,
+  getStreitwert,
+  hasBothAirportsPartnerCourts,
+} from "./stringReplacements/legalCourts";
+import {
+  getArrayWeiterePersonenIndexStrings,
+  getPersonNachname,
+  getPersonVorname,
+  getWeiterePersonenNameStrings,
   isWeiterePersonen,
   WEITERE_PERSONEN_START_INDEX,
-} from "./stringReplacements";
+} from "./stringReplacements/person";
 import type { FluggastrechteUserData } from "./userData";
 import { zusammenfassungXstateConfig } from "./zusammenfassung/xstateConfig";
 

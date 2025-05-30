@@ -15,7 +15,7 @@ import {
   hasCompensationShortDistance,
 } from "./stringReplacements";
 import type { FluggastrechtVorabcheckUserData } from "./userData";
-import { getResponsibleCourt } from "../formular/stringReplacements";
+import { getResponsibleCourt } from "../formular/stringReplacements/legalCourts";
 
 export const fluggastrechteVorabcheck = {
   flowType: "vorabCheck",
