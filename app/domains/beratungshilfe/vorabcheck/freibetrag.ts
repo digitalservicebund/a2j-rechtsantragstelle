@@ -139,12 +139,10 @@ function freibetragShort(
 export const getVerfuegbaresEinkommenFreibetrag = (
   context: BeratungshilfeVorabcheckUserData,
 ) => {
-  const isWorking =
-    "erwerbstaetigkeit" in context && context.erwerbstaetigkeit == "yes";
-  const isInPartnership =
-    "partnerschaft" in context && context.partnerschaft == "yes";
+  const isWorking = context.erwerbstaetigkeit === "yes";
+  const isInPartnership = context.partnerschaft === "yes";
   const kidsCountTotal =
-    "kinderKurz" in context && context.kinderKurz == "yes"
+    context.kinderKurz === "yes"
       ? parseFloat(context.kinderAnzahlKurz ?? "0")
       : 0;
   return freibetragShort(isWorking, isInPartnership, kidsCountTotal);
