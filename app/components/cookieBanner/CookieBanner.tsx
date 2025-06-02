@@ -44,16 +44,20 @@ export function CookieBanner({
         },
 
         cross_subdomain_cookie: false, // set cookie for subdomain only
-
+        opt_out_capturing_by_default: false, // we only reach initialization when tracking consent has been given
         opt_out_persistence_by_default: true,
         loaded: () => {
           setPosthogLoaded(true);
         },
       });
-    } else if (!hasTrackingConsent && posthogLoaded) {
-      posthog.opt_out_capturing();
-    } else if (hasTrackingConsent && posthogLoaded) {
-      posthog.opt_in_capturing();
+    }
+
+    if (posthogLoaded) {
+      if (!hasTrackingConsent && posthog.has_opted_in_capturing()) {
+        posthog.opt_out_capturing();
+      } else if (hasTrackingConsent && posthog.has_opted_out_capturing()) {
+        posthog.opt_in_capturing();
+      }
     }
   }, [
     location,
@@ -66,10 +70,6 @@ export function CookieBanner({
   const buttonAcceptCookieTestId = jsAvailable
     ? "accept-cookie_with_js"
     : "accept-cookie_without_js";
-
-  useEffect(() => {
-    if (posthogLoaded) posthog.capture("$pageview");
-  }, [posthogLoaded, location.pathname]);
 
   if (hasTrackingConsent !== undefined) {
     return <></>;

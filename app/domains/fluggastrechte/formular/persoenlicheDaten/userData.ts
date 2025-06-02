@@ -4,7 +4,7 @@ import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { ibanSchema } from "~/services/validation/iban";
-import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
+import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -19,7 +19,7 @@ const persoenlicheDatenInputSchema = {
 };
 
 const paymentDetailsSchema = {
-  iban: optionalOrSchema(ibanSchema),
+  iban: schemaOrEmptyString(ibanSchema),
   kontoinhaber: stringOptionalSchema,
 };
 
@@ -31,7 +31,7 @@ export const fluggastrechtePersoenlicheDatenInputSchema = {
     z
       .object({
         ...persoenlicheDatenInputSchema,
-        buchungsnummer: optionalOrSchema(bookingNumberFlightSchema),
+        buchungsnummer: schemaOrEmptyString(bookingNumberFlightSchema),
         datenverarbeitungZustimmung: checkedRequired,
       })
       .partial(),
