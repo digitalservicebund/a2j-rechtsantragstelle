@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { posthog, type Survey, SurveyQuestionType } from "posthog-js";
+import { type Survey, SurveyQuestionType } from "posthog-js";
 import { type ElementType, useState } from "react";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
@@ -10,6 +10,7 @@ import {
 } from "~/components/reportProblem/OpenQuestion";
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
+import { usePosthog } from "~/services/analytics/PosthogContext";
 
 type PosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
@@ -33,6 +34,7 @@ export const PosthogSurvey = ({
   const [isComplete, setIsComplete] = useState(false);
   const feedbackTranslations = useFeedbackTranslations();
   const [responses, setResponses] = useState<SurveyResponses>();
+  const { posthogClient } = usePosthog();
 
   const containerClasses = classNames(
     "border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-[80%] p-24 flex flex-col",
@@ -43,8 +45,8 @@ export const PosthogSurvey = ({
   );
 
   const onFeedbackSubmitted = () => {
-    if (responses) {
-      posthog.capture("survey sent", {
+    if (responses && posthogClient) {
+      posthogClient.capture("survey sent", {
         $survey_id: survey.id,
         ...responses,
       });
