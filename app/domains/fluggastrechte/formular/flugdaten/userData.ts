@@ -3,7 +3,7 @@ import { airportSchema } from "~/services/validation/airport";
 import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
 import { createDateSchema } from "~/services/validation/date";
 import { flightNumberSchema } from "~/services/validation/flightNumber";
-import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
+import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
@@ -64,26 +64,14 @@ export const fluggastrechteFlugdatenInputSchema = {
   ersatzFlugAnkunftsDatum: fourYearsAgoSchema,
   ersatzFlugAnkunftsZeit: timeSchema,
   zusaetzlicheAngaben: stringOptionalSchema,
-  annullierungErsatzverbindungFlugnummer: optionalOrSchema(
-    flightNumberSchema,
-    z.literal(""),
-  ),
-  annullierungErsatzverbindungAbflugsDatum: optionalOrSchema(
-    fourYearsAgoSchema,
-    z.literal(""), // we need to set default value (empty string), so that the client-side validation works
-  ),
-  annullierungErsatzverbindungAbflugsZeit: optionalOrSchema(
-    timeSchema,
-    z.literal(""),
-  ),
-  annullierungErsatzverbindungAnkunftsDatum: optionalOrSchema(
-    fourYearsAgoSchema,
-    z.literal(""),
-  ),
-  annullierungErsatzverbindungAnkunftsZeit: optionalOrSchema(
-    timeSchema,
-    z.literal(""),
-  ),
+  annullierungErsatzverbindungFlugnummer:
+    schemaOrEmptyString(flightNumberSchema),
+  annullierungErsatzverbindungAbflugsDatum:
+    schemaOrEmptyString(fourYearsAgoSchema),
+  annullierungErsatzverbindungAbflugsZeit: schemaOrEmptyString(timeSchema),
+  annullierungErsatzverbindungAnkunftsDatum:
+    schemaOrEmptyString(fourYearsAgoSchema),
+  annullierungErsatzverbindungAnkunftsZeit: schemaOrEmptyString(timeSchema),
 };
 
 const _partialObject = z.object(fluggastrechteFlugdatenInputSchema).partial();

@@ -1,9 +1,6 @@
 name: NPMChecks
 on:
   workflow_call:
-    secrets:
-      SONAR_TOKEN:
-        required: true
 
 jobs:
   code-quality:
@@ -20,8 +17,10 @@ jobs:
           fetch-depth: 0
       - uses: ./.github/actions/cached-checkout-install
       - run: npm run ${{ matrix.npmCMD }}
-      - name: SonarCloud Scan
-        if: ${{ github.actor != 'dependabot[bot]' && matrix.npmCMD == 'test:coverage' }}
-        uses: SonarSource/sonarqube-scan-action@2500896589ef8f7247069a56136f8dc177c27ccf # v5.2.0
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Upload coverage
+        if: ${{ matrix.npmCMD == 'test:coverage' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+          retention-days: 1

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { writeFileSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -50,7 +51,11 @@ const transformedTranslations = transformTranslations(translationsRaw);
 
 try {
   const currentDir = path.dirname(fileURLToPath(import.meta.url));
-  const outputPath = path.join(currentDir, "translations.ts");
+  const projectRoot = path.resolve(currentDir, "..");
+  const outputPath = path.join(
+    projectRoot,
+    "app/services/translations/translations.ts",
+  );
 
   const fileContent = `// This file is auto-generated. Do not edit manually.
   import { type TranslationRecord } from "~/services/translations/getTranslationByKey";

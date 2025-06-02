@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { airlineSchema } from "~/services/validation/airline";
 import { airportSchema } from "~/services/validation/airport";
-import { optionalOrSchema } from "~/services/validation/optionalOrSchema";
+import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { fluggastrechteFlugdatenInputSchema } from "./flugdaten/userData";
 import { fluggastrechteGrundvoraussetzungenInputSchema } from "./grundvoraussetzungen/userData";
@@ -10,9 +10,9 @@ import { fluggastrechteProzessfuehrungInputSchema } from "./prozessfuehrung/user
 import { fluggastrechteStreitKostenInputSchema } from "./streitwertKosten/userData";
 
 export const fluggastrechteInputSchema = {
-  startAirport: optionalOrSchema(airportSchema),
-  endAirport: optionalOrSchema(airportSchema),
-  fluggesellschaft: optionalOrSchema(airlineSchema),
+  startAirport: schemaOrEmptyString(airportSchema),
+  endAirport: schemaOrEmptyString(airportSchema),
+  fluggesellschaft: schemaOrEmptyString(airlineSchema),
   ...fluggastrechteFlugdatenInputSchema,
   ...fluggastrechtePersoenlicheDatenInputSchema,
   ...fluggastrechteStreitKostenInputSchema,
