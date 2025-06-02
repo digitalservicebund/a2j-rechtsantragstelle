@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { omitNull } from "~/util/omitNull";
 import { HasStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
@@ -22,7 +21,7 @@ export const StrapiResultPageSchema = z
     nextSteps: StrapiElementWithIdSchema.merge(HasStrapiIdSchema).nullable(),
     freeZone: z.array(StrapiContentComponentSchema),
     nextLink: StrapiLinkSchema.nullable(),
-    backButtonLabel: z.string().nullable().transform(omitNull).optional(),
+    backButtonLabel: z.string().nullable(),
   })
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiMetaSchema);
