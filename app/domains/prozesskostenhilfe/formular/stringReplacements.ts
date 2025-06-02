@@ -124,5 +124,6 @@ export const belegeStrings = (context: ProzesskostenhilfeFormularUserData) => {
       context.ratenzahlungen && context.ratenzahlungen?.length > 0,
     hasSonstigeAusgaben:
       context.sonstigeAusgaben && context.sonstigeAusgaben?.length > 0,
+    hasWeitereDokumente: context.weitereDokumenteBeweis !== null,
   };
 };
