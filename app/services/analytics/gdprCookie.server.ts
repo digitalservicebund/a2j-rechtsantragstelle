@@ -39,7 +39,7 @@ async function createTrackingCookie({
   cookie[acceptCookiesFieldName] =
     consent === undefined ? undefined : stringifiedConsentValue;
   sendCustomAnalyticsEvent({
-    eventName: "cookie consent given",
+    eventName: "clicked cookie banner",
     request,
     properties: { consent: stringifiedConsentValue },
   });
