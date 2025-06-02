@@ -22,9 +22,7 @@ type CookieBannerContentProps = {
 
 export function CookieBanner({
   content,
-}: Readonly<{
-  content: CookieBannerContentProps;
-}>) {
+}: Readonly<{ content: CookieBannerContentProps }>) {
   const hasTrackingConsent = useContext(CookieConsentContext);
   const { posthogClient } = usePosthog();
   const jsAvailable = useJsAvailable();

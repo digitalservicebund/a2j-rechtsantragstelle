@@ -150,24 +150,21 @@ function App() {
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
   const { POSTHOG_API_HOST, POSTHOG_API_KEY } = config();
-  const posthogClient =
-    POSTHOG_API_KEY && POSTHOG_API_HOST
-      ? posthog.init(POSTHOG_API_KEY ?? "", {
-          api_host: POSTHOG_API_HOST ?? "",
-          session_recording: {
-            // Masking input and text elements to prevent sensitive data being shown on pages
-            maskTextSelector: "*",
-            maskAllInputs: true,
-          },
-
-          cross_subdomain_cookie: false, // set cookie for subdomain only
-          opt_out_capturing_by_default: true, // we only reach initialization when tracking consent has been given
-          opt_out_persistence_by_default: true,
-          // loaded: () => {
-          //   setPosthogLoaded(true);
-          // },
-        })
-      : undefined;
+  const shouldLoadPosthog =
+    POSTHOG_API_KEY && POSTHOG_API_HOST && hasTrackingConsent !== false;
+  const posthogClient = shouldLoadPosthog
+    ? posthog.init(POSTHOG_API_KEY, {
+        api_host: POSTHOG_API_HOST,
+        session_recording: {
+          // Masking input and text elements to prevent sensitive data being shown on replays
+          maskTextSelector: "*",
+          maskAllInputs: true,
+        },
+        cross_subdomain_cookie: false, // set cookie for subdomain only
+        opt_out_capturing_by_default: true,
+        opt_out_persistence_by_default: true,
+      })
+    : undefined;
   const [skipToContentLinkTarget, setSkipToContentLinkTarget] =
     useState("#main");
 
