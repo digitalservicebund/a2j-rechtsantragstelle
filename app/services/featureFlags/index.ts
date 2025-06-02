@@ -1,4 +1,4 @@
-import { getPosthogClient } from "~/services/analytics/posthogClient.server";
+import { getPosthogNodeClient } from "~/services/analytics/posthogClient.server";
 import { config } from "~/services/env/web";
 
 export type FeatureFlag =
@@ -10,7 +10,7 @@ export type FeatureFlag =
 export const isFeatureFlagEnabled = async (featureFlag: FeatureFlag) => {
   const posthogDistinctId = "backend";
   if (config().ENVIRONMENT !== "production") return true;
-  return await getPosthogClient()?.isFeatureEnabled(
+  return await getPosthogNodeClient()?.isFeatureEnabled(
     featureFlag,
     posthogDistinctId,
   );
