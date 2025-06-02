@@ -1,9 +1,9 @@
 import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
-import { type Survey } from "posthog-js";
 import { useState } from "react";
 import Button from "~/components/Button";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
+import { fetchSurvey } from "~/services/analytics/fetchSurveys";
 import { usePosthog } from "~/services/analytics/PosthogContext";
 
 const feedbackSurveyId = "01956b7e-2774-0000-49d7-d34d26811373";
@@ -12,18 +12,7 @@ export const ReportProblem = () => {
   const feedbackTranslations = useFeedbackTranslations();
   const { posthogClient } = usePosthog();
   const [surveyOpen, setSurveyOpen] = useState<boolean>();
-
-  const onButtonPressed = () => {
-    if (survey) {
-      setSurveyOpen(true);
-    }
-  };
-
-  if (!posthogClient) return null;
-  let survey: Survey | undefined;
-  posthogClient.getSurveys((surveys) => {
-    survey = surveys.find((survey) => survey.id === feedbackSurveyId);
-  });
+  const survey = fetchSurvey(feedbackSurveyId, posthogClient);
   if (!survey) return null;
 
   return (
@@ -36,7 +25,7 @@ export const ReportProblem = () => {
       )}
       <Button
         look="tertiary"
-        onClick={onButtonPressed}
+        onClick={() => setSurveyOpen(true)}
         id="survey-button"
         className="h-40 px-24 py-10 min-w-full justify-center sm:min-w-fit"
         text={feedbackTranslations["report-problem"]}
