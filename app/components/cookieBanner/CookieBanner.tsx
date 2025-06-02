@@ -2,7 +2,6 @@ import { useContext, useEffect } from "react";
 import { useFetcher } from "react-router";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
-import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import Heading, { type HeadingProps } from "~/components/Heading";
 import RichText, { type RichTextProps } from "~/components/RichText";
 import { usePosthog } from "~/services/analytics/PosthogContext";
@@ -23,8 +22,7 @@ type CookieBannerContentProps = {
 export function CookieBanner({
   content,
 }: Readonly<{ content: CookieBannerContentProps }>) {
-  const hasTrackingConsent = useContext(CookieConsentContext);
-  const { posthogClient } = usePosthog();
+  const { posthogClient, hasTrackingConsent } = usePosthog();
   const jsAvailable = useJsAvailable();
   const analyticsFetcher = useFetcher();
 

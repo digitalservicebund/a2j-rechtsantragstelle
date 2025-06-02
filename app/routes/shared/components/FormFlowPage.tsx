@@ -1,7 +1,6 @@
-import { useContext, useMemo } from "react";
+import { useMemo } from "react";
 import { useLoaderData } from "react-router";
 import ArraySummary from "~/components/arraySummary/ArraySummary";
-import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import { FormFlowContext } from "~/components/form/formFlowContext";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import Heading from "~/components/Heading";
@@ -10,6 +9,7 @@ import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { useFocusFirstH1 } from "~/components/useFocusFirstH1";
+import { usePosthog } from "~/services/analytics/PosthogContext";
 import { useJsAvailable } from "~/services/useJsAvailable";
 import type { loader } from "../formular.server";
 
@@ -45,7 +45,7 @@ export function FormFlowPage() {
   );
 
   const jsAvailable = useJsAvailable();
-  const hasTrackingConsent = useContext(CookieConsentContext);
+  const { hasTrackingConsent } = usePosthog();
 
   const showPosthogSurvey =
     jsAvailable &&

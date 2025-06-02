@@ -19,7 +19,6 @@ import {
 } from "react-router";
 import "~/styles.css";
 import "@digitalservice4germany/angie/fonts.css";
-import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
@@ -209,39 +208,37 @@ function App() {
         <Links />
       </head>
       <body className="flex flex-col">
-        <div className="flex flex-col min-h-screen">
-          <SkipToContentLink
-            label={getTranslationByKey(
-              SKIP_TO_CONTENT_TRANSLATION_KEY,
-              accessibilityTranslations,
-            )}
-            target={skipToContentLinkTarget}
-          />
-          <PageHeader {...pageHeaderProps} />
-          <Breadcrumbs
-            breadcrumbs={breadcrumbs}
-            alignToMainContainer={pageHeaderProps.alignToMainContainer}
-            linkLabel={pageHeaderProps.linkLabel}
-            translations={{ ...accessibilityTranslations }}
-          />
-          <PosthogContext value={{ posthogClient }}>
-            <CookieConsentContext.Provider value={hasTrackingConsent}>
-              <main className="flex-grow flex" id="main">
-                <Outlet />
-              </main>
-              <CookieBanner content={cookieBannerContent} />
-            </CookieConsentContext.Provider>
-          </PosthogContext>
-        </div>
-        <footer>
-          <Footer
-            {...footer}
-            showDeletionBanner={hasAnyUserData}
-            translations={{ ...accessibilityTranslations }}
-          />
-        </footer>
-        <ScrollRestoration nonce={nonce} />
-        <Scripts nonce={nonce} />
+        <PosthogContext value={{ posthogClient, hasTrackingConsent }}>
+          <div className="flex flex-col min-h-screen">
+            <SkipToContentLink
+              label={getTranslationByKey(
+                SKIP_TO_CONTENT_TRANSLATION_KEY,
+                accessibilityTranslations,
+              )}
+              target={skipToContentLinkTarget}
+            />
+            <PageHeader {...pageHeaderProps} />
+            <Breadcrumbs
+              breadcrumbs={breadcrumbs}
+              alignToMainContainer={pageHeaderProps.alignToMainContainer}
+              linkLabel={pageHeaderProps.linkLabel}
+              translations={{ ...accessibilityTranslations }}
+            />
+            <main className="flex-grow flex" id="main">
+              <Outlet />
+            </main>
+            <CookieBanner content={cookieBannerContent} />
+          </div>
+          <footer>
+            <Footer
+              {...footer}
+              showDeletionBanner={hasAnyUserData}
+              translations={{ ...accessibilityTranslations }}
+            />
+          </footer>
+          <ScrollRestoration nonce={nonce} />
+          <Scripts nonce={nonce} />
+        </PosthogContext>
       </body>
     </html>
   );
