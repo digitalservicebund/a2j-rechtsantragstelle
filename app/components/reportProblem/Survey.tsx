@@ -10,7 +10,7 @@ import {
 } from "~/components/reportProblem/OpenQuestion";
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
-import { usePosthog } from "~/services/analytics/PosthogContext";
+import { useAnalytics } from "~/services/analytics/useAnalytics";
 
 type PosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
@@ -34,7 +34,7 @@ export const PosthogSurvey = ({
   const [isComplete, setIsComplete] = useState(false);
   const feedbackTranslations = useFeedbackTranslations();
   const [responses, setResponses] = useState<SurveyResponses>();
-  const { posthogClient } = usePosthog();
+  const { posthogClient } = useAnalytics();
 
   const containerClasses = classNames(
     "border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-[80%] p-24 flex flex-col",

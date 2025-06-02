@@ -4,7 +4,7 @@ import Button from "~/components/Button";
 import Container from "~/components/Container";
 import Heading, { type HeadingProps } from "~/components/Heading";
 import RichText, { type RichTextProps } from "~/components/RichText";
-import { usePosthog } from "~/services/analytics/PosthogContext";
+import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { useJsAvailable } from "~/services/useJsAvailable";
 import { StandaloneLink } from "../StandaloneLink";
 
@@ -22,7 +22,7 @@ type CookieBannerContentProps = {
 export function CookieBanner({
   content,
 }: Readonly<{ content: CookieBannerContentProps }>) {
-  const { posthogClient, hasTrackingConsent } = usePosthog();
+  const { posthogClient, hasTrackingConsent } = useAnalytics();
   const jsAvailable = useJsAvailable();
   const analyticsFetcher = useFetcher();
 

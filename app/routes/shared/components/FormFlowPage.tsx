@@ -9,7 +9,7 @@ import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { useFocusFirstH1 } from "~/components/useFocusFirstH1";
-import { usePosthog } from "~/services/analytics/PosthogContext";
+import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { useJsAvailable } from "~/services/useJsAvailable";
 import type { loader } from "../formular.server";
 
@@ -45,7 +45,7 @@ export function FormFlowPage() {
   );
 
   const jsAvailable = useJsAvailable();
-  const { hasTrackingConsent } = usePosthog();
+  const { hasTrackingConsent } = useAnalytics();
 
   const showPosthogSurvey =
     jsAvailable &&

@@ -4,13 +4,13 @@ import Button from "~/components/Button";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import { fetchSurvey } from "~/services/analytics/fetchSurveys";
-import { usePosthog } from "~/services/analytics/PosthogContext";
+import { useAnalytics } from "~/services/analytics/useAnalytics";
 
 const feedbackSurveyId = "01956b7e-2774-0000-49d7-d34d26811373";
 
 export const ReportProblem = () => {
   const feedbackTranslations = useFeedbackTranslations();
-  const { posthogClient } = usePosthog();
+  const { posthogClient } = useAnalytics();
   const [surveyOpen, setSurveyOpen] = useState<boolean>();
   const survey = fetchSurvey(feedbackSurveyId, posthogClient);
   if (!survey) return null;

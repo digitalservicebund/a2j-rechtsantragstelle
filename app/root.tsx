@@ -22,7 +22,7 @@ import "@digitalservice4germany/angie/fonts.css";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
-import { PosthogContext } from "~/services/analytics/PosthogContext";
+import { AnalyticsContext } from "~/services/analytics/useAnalytics";
 import {
   fetchMeta,
   fetchSingleEntry,
@@ -208,7 +208,7 @@ function App() {
         <Links />
       </head>
       <body className="flex flex-col">
-        <PosthogContext value={{ posthogClient, hasTrackingConsent }}>
+        <AnalyticsContext value={{ posthogClient, hasTrackingConsent }}>
           <div className="flex flex-col min-h-screen">
             <SkipToContentLink
               label={getTranslationByKey(
@@ -238,7 +238,7 @@ function App() {
           </footer>
           <ScrollRestoration nonce={nonce} />
           <Scripts nonce={nonce} />
-        </PosthogContext>
+        </AnalyticsContext>
       </body>
     </html>
   );
