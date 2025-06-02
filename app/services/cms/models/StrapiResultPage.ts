@@ -21,6 +21,7 @@ export const StrapiResultPageSchema = z
     nextSteps: StrapiElementWithIdSchema.merge(HasStrapiIdSchema).nullable(),
     freeZone: z.array(StrapiContentComponentSchema),
     nextLink: StrapiLinkSchema.nullable(),
+    backButtonLabel: z.string().nullable(),
   })
   .merge(HasStrapiLocaleSchema)
   .merge(HasStrapiMetaSchema);
