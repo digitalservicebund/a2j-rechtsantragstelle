@@ -114,7 +114,7 @@ jobs:
   #     e2e-target: preview
 
   deploy-production:
-    needs: [verify-preview-e2e, build-push-content-image]
+    needs: [build-push-content-image]
     runs-on: ubuntu-latest
     environment: production
     steps:

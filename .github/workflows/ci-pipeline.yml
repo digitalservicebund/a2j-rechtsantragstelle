@@ -192,7 +192,7 @@ jobs:
   #     e2e-target: preview
 
   deploy-production:
-    needs: [verify-preview-e2e, build-push-app-image]
+    needs: [deploy-staging, build-push-app-image]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
@@ -225,15 +225,14 @@ jobs:
 
   alert-pipeline-failure:
     name: Send failure message to Slack
-    needs:
-      [
+    needs: [
         code-quality,
         get-content-file,
         verify-local-e2e,
         build-push-app-image,
         deploy-staging,
-        deploy-preview,
-        verify-preview-e2e,
+        # deploy-preview,
+        # verify-preview-e2e,
         deploy-production,
         test-production-text,
       ]
