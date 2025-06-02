@@ -1,5 +1,4 @@
 import * as Sentry from "@sentry/react-router";
-import { posthog } from "posthog-js";
 import { useEffect, useState } from "react";
 import type {
   LinksFunction,
@@ -30,7 +29,7 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
-import { config, config as configWeb } from "~/services/env/web";
+import { config as configWeb } from "~/services/env/web";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { translations as staticTranslations } from "~/services/translations/translations";
 import type { Route } from "./+types/root";
@@ -38,6 +37,7 @@ import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/Footer";
 import PageHeader from "./components/PageHeader";
+import { initPosthog } from "./services/analytics/initPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
@@ -148,22 +148,7 @@ function App() {
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
-  const { POSTHOG_API_HOST, POSTHOG_API_KEY } = config();
-  const shouldLoadPosthog =
-    POSTHOG_API_KEY && POSTHOG_API_HOST && hasTrackingConsent !== false;
-  const posthogClient = shouldLoadPosthog
-    ? posthog.init(POSTHOG_API_KEY, {
-        api_host: POSTHOG_API_HOST,
-        session_recording: {
-          // Masking input and text elements to prevent sensitive data being shown on replays
-          maskTextSelector: "*",
-          maskAllInputs: true,
-        },
-        cross_subdomain_cookie: false, // set cookie for subdomain only
-        opt_out_capturing_by_default: true,
-        opt_out_persistence_by_default: true,
-      })
-    : undefined;
+  const posthogClient = initPosthog(hasTrackingConsent);
   const [skipToContentLinkTarget, setSkipToContentLinkTarget] =
     useState("#main");
 
