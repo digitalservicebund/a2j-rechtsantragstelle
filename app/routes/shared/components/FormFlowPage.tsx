@@ -9,8 +9,6 @@ import FlowNavigation from "~/components/navigation/FlowNavigation";
 import PageContent from "~/components/PageContent";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { useFocusFirstH1 } from "~/components/useFocusFirstH1";
-import { useAnalytics } from "~/services/analytics/useAnalytics";
-import { useJsAvailable } from "~/services/useJsAvailable";
 import type { loader } from "../formular.server";
 
 export function FormFlowPage() {
@@ -44,14 +42,9 @@ export function FormFlowPage() {
     [prunedUserData, validFlowPaths, translations, flowId],
   );
 
-  const jsAvailable = useJsAvailable();
-  const { hasTrackingConsent } = useAnalytics();
-
-  const showPosthogSurvey =
-    jsAvailable &&
-    hasTrackingConsent &&
-    (flowId === "/beratungshilfe/antrag" ||
-      flowId === "/prozesskostenhilfe/formular");
+  const showReportProblem =
+    flowId === "/beratungshilfe/antrag" ||
+    flowId === "/prozesskostenhilfe/formular";
 
   useFocusFirstH1();
 
@@ -105,7 +98,7 @@ export function FormFlowPage() {
             <PageContent content={postFormContent} fullScreen={false} />
           </div>
         </div>
-        {showPosthogSurvey && <ReportProblem />}
+        {showReportProblem && <ReportProblem />}
       </div>
     </FormFlowContext.Provider>
   );

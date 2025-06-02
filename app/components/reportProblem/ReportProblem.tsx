@@ -10,8 +10,9 @@ const feedbackSurveyId = "01956b7e-2774-0000-49d7-d34d26811373";
 
 export const ReportProblem = () => {
   const feedbackTranslations = useFeedbackTranslations();
-  const { posthogClient } = useAnalytics();
+  const { posthogClient, hasTrackingConsent } = useAnalytics();
   const [surveyOpen, setSurveyOpen] = useState<boolean>();
+  if (!hasTrackingConsent) return null;
   const survey = fetchSurvey(feedbackSurveyId, posthogClient);
   if (!survey) return null;
 
