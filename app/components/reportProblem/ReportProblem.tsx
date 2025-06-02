@@ -1,14 +1,16 @@
 import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
+import { type Survey } from "posthog-js";
 import { useState } from "react";
 import Button from "~/components/Button";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import { usePosthog } from "~/services/analytics/PosthogContext";
 
+const feedbackSurveyId = "01956b7e-2774-0000-49d7-d34d26811373";
+
 export const ReportProblem = () => {
   const feedbackTranslations = useFeedbackTranslations();
-  const { fetchSurvey } = usePosthog();
-  const survey = fetchSurvey();
+  const { posthogClient } = usePosthog();
   const [surveyOpen, setSurveyOpen] = useState<boolean>();
 
   const onButtonPressed = () => {
@@ -17,6 +19,11 @@ export const ReportProblem = () => {
     }
   };
 
+  if (!posthogClient) return null;
+  let survey: Survey | undefined;
+  posthogClient.getSurveys((surveys) => {
+    survey = surveys.find((survey) => survey.id === feedbackSurveyId);
+  });
   if (!survey) return null;
 
   return (

@@ -1,5 +1,5 @@
 import { type UserData } from "~/domains/userData";
-import { idFromCookie } from "~/services/analytics/posthogHelpers";
+import { posthogIdFromCookie } from "~/services/analytics/posthogIdFromCookie";
 import { getPosthogNodeClient } from "./posthogClient.server";
 
 export function sendCustomAnalyticsEvent({
@@ -12,7 +12,7 @@ export function sendCustomAnalyticsEvent({
   properties?: UserData;
 }) {
   getPosthogNodeClient()?.capture({
-    distinctId: idFromCookie(request.headers.get("Cookie")),
+    distinctId: posthogIdFromCookie(request.headers.get("Cookie")),
     event: eventName,
     properties: {
       $current_url: new URL(request.url).pathname,
