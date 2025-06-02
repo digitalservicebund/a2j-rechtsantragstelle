@@ -16,5 +16,7 @@ export const initPosthog = (hasTrackingConsent?: boolean) => {
     cross_subdomain_cookie: false, // set cookie for subdomain only
     opt_out_capturing_by_default: true,
     opt_out_persistence_by_default: true,
+    advanced_only_evaluate_survey_feature_flags: true,
+    secure_cookie: true,
   });
 };
