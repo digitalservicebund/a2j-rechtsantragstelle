@@ -6,36 +6,12 @@ import {
 } from "~/services/validation/YesNoAnswer";
 
 const kontopfaendungInputSchema = z.enum(
-  ["nein", "ja", "weissNicht"],
+  ["nein", "ja"],
   customRequiredErrorMessage,
 );
 
 const pKontoInputSchema = z.enum(
   ["nein", "ja", "nichtAktiv", "nichtEingerichtet"],
-  customRequiredErrorMessage,
-);
-
-const schuldenBeiInputSchema = z.enum(
-  [
-    "privat",
-    "behoerden",
-    "kredit",
-    "krankenkasse",
-    "rechnung",
-    "beitragsservice",
-    "finanzamt",
-    "hauptzollamt",
-    "nichtSagen",
-    "weissNicht",
-    "staatsanwaltschaft",
-    "kasse",
-    "jugendamt",
-  ],
-  customRequiredErrorMessage,
-);
-
-const sockelbetragInputSchema = z.enum(
-  ["nein", "ja", "weissNicht", "unterschiedlich"],
   customRequiredErrorMessage,
 );
 
@@ -45,7 +21,7 @@ const kinderWohnenZusammenInputSchema = z.enum(
 );
 
 const verheiratetInputSchema = z.enum(
-  ["nein", "ja", "getrennt", "geschieden", "verwitwet"],
+  ["nein", "ja", "geschieden", "verwitwet"],
   customRequiredErrorMessage,
 );
 
@@ -86,8 +62,6 @@ const pflegegeldInputSchema = z.enum(
 export const kontopfaendungWegweiserInputSchema = {
   hasKontopfaendung: kontopfaendungInputSchema,
   hasPKonto: pKontoInputSchema,
-  schuldenBei: schuldenBeiInputSchema,
-  sockelbetrag: sockelbetragInputSchema,
   hasKinder: YesNoAnswer,
   kinderWohnenZusammen: kinderWohnenZusammenInputSchema,
   verheiratet: verheiratetInputSchema,
