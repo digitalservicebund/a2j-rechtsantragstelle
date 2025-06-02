@@ -1,4 +1,3 @@
-import { posthog } from "posthog-js";
 import { useContext, useEffect } from "react";
 import { useFetcher } from "react-router";
 import Button from "~/components/Button";
@@ -33,10 +32,13 @@ export function CookieBanner({
 
   useEffect(() => {
     if (posthogClient) {
-      if (!hasTrackingConsent && posthog.has_opted_in_capturing()) {
-        posthog.opt_out_capturing();
-      } else if (hasTrackingConsent && posthog.has_opted_out_capturing()) {
-        posthog.opt_in_capturing();
+      if (!hasTrackingConsent && posthogClient.has_opted_in_capturing()) {
+        posthogClient.opt_out_capturing();
+      } else if (
+        hasTrackingConsent &&
+        posthogClient.has_opted_out_capturing()
+      ) {
+        posthogClient.opt_in_capturing();
       }
     }
   }, [hasTrackingConsent, posthogClient]);
