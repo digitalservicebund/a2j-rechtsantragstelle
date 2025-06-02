@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/react-router";
+import type { PostHog } from "posthog-js";
 import { useEffect, useState } from "react";
 import type {
   LinksFunction,
@@ -40,6 +41,7 @@ import PageHeader from "./components/PageHeader";
 import { initPosthog } from "./services/analytics/initPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
+import { logError } from "./services/logging";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
@@ -148,7 +150,15 @@ function App() {
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
-  const posthogClient = initPosthog(hasTrackingConsent);
+  const [posthogClient, setPosthogClient] = useState<PostHog | undefined>();
+  useEffect(() => {
+    initPosthog(hasTrackingConsent)
+      .then((client) => {
+        setPosthogClient(client);
+      })
+      .catch(logError);
+  });
+
   const [skipToContentLinkTarget, setSkipToContentLinkTarget] =
     useState("#main");
 
