@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/react-router";
+import { posthog } from "posthog-js";
 import { useEffect, useState } from "react";
 import type {
   LinksFunction,
@@ -22,6 +23,7 @@ import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentCon
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
+import { PosthogContext } from "~/services/analytics/PosthogContext";
 import {
   fetchMeta,
   fetchSingleEntry,
@@ -29,7 +31,7 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
-import { config as configWeb } from "~/services/env/web";
+import { config, config as configWeb } from "~/services/env/web";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { translations as staticTranslations } from "~/services/translations/translations";
 import type { Route } from "./+types/root";
@@ -147,6 +149,25 @@ function App() {
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
+  const { POSTHOG_API_HOST, POSTHOG_API_KEY } = config();
+  const posthogClient =
+    POSTHOG_API_KEY && POSTHOG_API_HOST
+      ? posthog.init(POSTHOG_API_KEY ?? "", {
+          api_host: POSTHOG_API_HOST ?? "",
+          session_recording: {
+            // Masking input and text elements to prevent sensitive data being shown on pages
+            maskTextSelector: "*",
+            maskAllInputs: true,
+          },
+
+          cross_subdomain_cookie: false, // set cookie for subdomain only
+          opt_out_capturing_by_default: true, // we only reach initialization when tracking consent has been given
+          opt_out_persistence_by_default: true,
+          // loaded: () => {
+          //   setPosthogLoaded(true);
+          // },
+        })
+      : undefined;
   const [skipToContentLinkTarget, setSkipToContentLinkTarget] =
     useState("#main");
 
@@ -206,12 +227,14 @@ function App() {
             linkLabel={pageHeaderProps.linkLabel}
             translations={{ ...accessibilityTranslations }}
           />
-          <CookieConsentContext.Provider value={hasTrackingConsent}>
-            <main className="flex-grow flex" id="main">
-              <Outlet />
-            </main>
-            <CookieBanner content={cookieBannerContent} />
-          </CookieConsentContext.Provider>
+          <PosthogContext value={{ posthogClient }}>
+            <CookieConsentContext.Provider value={hasTrackingConsent}>
+              <main className="flex-grow flex" id="main">
+                <Outlet />
+              </main>
+              <CookieBanner content={cookieBannerContent} />
+            </CookieConsentContext.Provider>
+          </PosthogContext>
         </div>
         <footer>
           <Footer
