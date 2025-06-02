@@ -52,7 +52,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   );
 
   const { back: backButton } = getButtonNavigationProps({
-    backButtonLabel: defaultStrings.backButtonDefaultLabel,
+    backButtonLabel:
+      resultPageContent.backButtonLabel ??
+      defaultStrings.backButtonDefaultLabel,
     nextButtonLabel:
       cmsContent.nextLink?.text ?? defaultStrings.nextButtonDefaultLabel,
     backDestination: flowController.getPrevious(stepId),
