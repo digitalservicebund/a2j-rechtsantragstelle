@@ -3,6 +3,7 @@ import { type Dispatch, type SetStateAction } from "react";
 import { TEXT_AREA_ROWS } from "~/components/inputs/Textarea";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
+import { questionToAnswerId } from "./questionToAnswerId";
 
 export type SurveyResponses = Record<string, string | string[]>;
 
@@ -24,7 +25,7 @@ export const OpenQuestion = ({ question, setResponses }: OpenQuestionProps) => {
           onChange={(event) =>
             setResponses((surveyResponses) => ({
               ...surveyResponses,
-              [`$survey_response_${question.id}`]: event.target.value,
+              [questionToAnswerId(question)]: event.target.value,
             }))
           }
           maxLength={TEXTAREA_CHAR_LIMIT}
