@@ -1,5 +1,5 @@
 import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Button from "~/components/Button";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
@@ -9,11 +9,13 @@ import { useAnalytics } from "~/services/analytics/useAnalytics";
 const feedbackSurveyId = "01956b7e-2774-0000-49d7-d34d26811373";
 
 export const ReportProblem = () => {
-  const feedbackTranslations = useFeedbackTranslations();
-  const { posthogClient, hasTrackingConsent } = useAnalytics();
   const [surveyOpen, setSurveyOpen] = useState<boolean>();
-  if (!hasTrackingConsent) return null;
-  const survey = fetchSurvey(feedbackSurveyId, posthogClient);
+  const feedbackTranslations = useFeedbackTranslations();
+  const { posthogClient } = useAnalytics();
+  const survey = useMemo(
+    () => fetchSurvey(feedbackSurveyId, posthogClient),
+    [posthogClient],
+  );
   if (!survey) return null;
 
   return (
