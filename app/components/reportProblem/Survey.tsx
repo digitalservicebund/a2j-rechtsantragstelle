@@ -10,8 +10,8 @@ import {
 } from "~/components/reportProblem/OpenQuestion";
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
+import { isCompleted } from "~/services/analytics/surveys/isCompleted";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
-import { questionToAnswerId } from "../../services/analytics/surveys/questionToAnswerId";
 
 type PosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
@@ -36,6 +36,7 @@ export const PosthogSurvey = ({
   const feedbackTranslations = useFeedbackTranslations();
   const [responses, setResponses] = useState<SurveyResponses>();
   const { posthogClient } = useAnalytics();
+  const isCompletelyFilled = isCompleted(survey, responses);
 
   const containerClasses = classNames(
     "border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-[80%] p-24 flex flex-col",
@@ -46,7 +47,7 @@ export const PosthogSurvey = ({
   );
 
   const onFeedbackSubmitted = () => {
-    if (responses && posthogClient) {
+    if (isCompletelyFilled && posthogClient) {
       posthogClient.capture("survey sent", {
         $survey_id: survey.id,
         ...responses,
@@ -94,7 +95,7 @@ export const PosthogSurvey = ({
             />
             <Button
               look="primary"
-              disabled={!responses}
+              disabled={!isCompletelyFilled}
               className="justify-center"
               text={feedbackTranslations["submit-problem"]}
               onClick={onFeedbackSubmitted}
