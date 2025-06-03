@@ -11,6 +11,7 @@ import {
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
+import { questionToAnswerId } from "./questionToAnswerId";
 
 type PosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
@@ -31,7 +32,7 @@ export const PosthogSurvey = ({
   closeSurvey,
   styleOverrides,
 }: PosthogSurveyProps) => {
-  const [isComplete, setIsComplete] = useState(false);
+  const [wasSubmitted, setWasSubmitted] = useState(false);
   const feedbackTranslations = useFeedbackTranslations();
   const [responses, setResponses] = useState<SurveyResponses>();
   const { posthogClient } = useAnalytics();
@@ -39,7 +40,7 @@ export const PosthogSurvey = ({
   const containerClasses = classNames(
     "border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-[80%] p-24 flex flex-col",
     {
-      "gap-40": !isComplete,
+      "gap-40": !wasSubmitted,
     },
     styleOverrides,
   );
@@ -50,13 +51,13 @@ export const PosthogSurvey = ({
         $survey_id: survey.id,
         ...responses,
       });
-      setIsComplete(true);
+      setWasSubmitted(true);
     }
   };
 
   return (
     <div className={containerClasses}>
-      {isComplete ? (
+      {wasSubmitted ? (
         <FeedbackTitle
           title={feedbackTranslations["success-message"]}
           subtitle={feedbackTranslations["feedback-helps"]}
@@ -76,7 +77,7 @@ export const PosthogSurvey = ({
         </div>
       )}
       <ButtonContainer className="flex flex-col-reverse sm:flex-row">
-        {isComplete ? (
+        {wasSubmitted ? (
           <Button
             look={"primary"}
             className="justify-center"
