@@ -3,7 +3,7 @@ import { type Dispatch, type SetStateAction } from "react";
 import { TEXT_AREA_ROWS } from "~/components/inputs/Textarea";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
-import { questionToAnswerId } from "./questionToAnswerId";
+import { questionToAnswerId } from "../../services/analytics/surveys/questionToAnswerId";
 
 export type SurveyResponses = Record<string, string | string[]>;
 

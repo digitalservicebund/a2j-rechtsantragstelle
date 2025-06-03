@@ -11,7 +11,7 @@ import {
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
-import { questionToAnswerId } from "./questionToAnswerId";
+import { questionToAnswerId } from "../../services/analytics/surveys/questionToAnswerId";
 
 type PosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;

@@ -3,7 +3,7 @@ import { useState } from "react";
 import Button from "~/components/Button";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
-import { fetchSurvey } from "~/services/analytics/fetchSurveys";
+import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 
 const feedbackSurveyId = "01956b7e-2774-0000-49d7-d34d26811373";
