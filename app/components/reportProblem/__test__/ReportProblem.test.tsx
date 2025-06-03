@@ -1,22 +1,22 @@
 import { fireEvent, render } from "@testing-library/react";
-import type { Survey } from "posthog-js";
+import type { PostHog, Survey } from "posthog-js";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 
 describe("ReportProblem", () => {
-  vi.mock("~/services/analytics/surveys/fetchSurveys");
-  vi.mock("~/services/analytics/useAnalytics");
-
-  vi.mocked(fetchSurvey).mockReturnValue({
-    questions: [],
-  } as unknown as Survey);
-  vi.mocked(useAnalytics).mockReturnValue({
-    posthogClient: undefined,
-    hasTrackingConsent: true,
-  });
-
   it("should trigger the Survey popup", () => {
+    vi.mock("~/services/analytics/fetchSurveys");
+    vi.mock("~/services/analytics/useAnalytics");
+
+    vi.mocked(fetchSurvey).mockReturnValueOnce({
+      questions: [],
+    } as unknown as Survey);
+
+    vi.mocked(useAnalytics).mockReturnValue({
+      posthogClient: {} as PostHog,
+    });
+
     const { getByRole, getByText } = render(<ReportProblem />);
     const reportButton = getByRole("button");
     expect(reportButton).toBeVisible();
@@ -25,18 +25,14 @@ describe("ReportProblem", () => {
     expect(getByText("Problem absenden")).toBeInTheDocument();
   });
 
-  it("should not render if the survey isn't available", () => {
+  it("should render null if the survey isn't available", () => {
     vi.mocked(fetchSurvey).mockReturnValueOnce(undefined);
-    const { queryByRole } = render(<ReportProblem />);
-    expect(queryByRole("button")).not.toBeInTheDocument();
+    const { container } = render(<ReportProblem />);
+    expect(container.firstChild).toBeNull();
   });
 
-  it("should not render without trackingConsent", () => {
-    vi.mocked(useAnalytics).mockReturnValueOnce({
-      posthogClient: undefined,
-      hasTrackingConsent: false,
-    });
-    const { queryByRole } = render(<ReportProblem />);
-    expect(queryByRole("button")).not.toBeInTheDocument();
+  it("should not render without posthog client", () => {
+    const { container } = render(<ReportProblem />);
+    expect(container.firstChild).toBeNull();
   });
 });
