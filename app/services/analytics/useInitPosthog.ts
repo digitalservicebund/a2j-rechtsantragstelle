@@ -1,11 +1,13 @@
 import { posthog, type PostHog } from "posthog-js";
+import { useEffect, useState } from "react";
 import { config } from "../env/web";
 
-export const initPosthog = (hasTrackingConsent?: boolean) =>
-  new Promise<PostHog | undefined>((resolve) => {
-    const { POSTHOG_API_HOST, POSTHOG_API_KEY } = config();
-    if (!POSTHOG_API_KEY || !POSTHOG_API_HOST || hasTrackingConsent === false)
-      return;
+export const useInitPosthog = (hasTrackingConsent?: boolean) => {
+  const [posthogClient, setPosthogClient] = useState<PostHog | undefined>();
+  const { POSTHOG_API_HOST, POSTHOG_API_KEY } = config();
+
+  useEffect(() => {
+    if (!POSTHOG_API_KEY || !hasTrackingConsent) return;
 
     posthog.init(POSTHOG_API_KEY, {
       api_host: POSTHOG_API_HOST,
@@ -19,6 +21,9 @@ export const initPosthog = (hasTrackingConsent?: boolean) =>
       opt_out_persistence_by_default: true,
       advanced_only_evaluate_survey_feature_flags: true,
       secure_cookie: true,
-      loaded: () => resolve(posthog),
+      loaded: () => setPosthogClient(posthog),
     });
-  });
+  }, [POSTHOG_API_KEY, POSTHOG_API_HOST, hasTrackingConsent]);
+
+  return posthogClient;
+};
