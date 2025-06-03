@@ -44,12 +44,18 @@ export const buildBelegeList = ({
 }) => {
   if (!translations) return;
   const conditions = belegeStrings(userData);
-  createHeading(doc, documentStruct, translations.belegeAnhangHeading, "H2");
+  if (userData.versandArt === "analog") {
+    createHeading(doc, documentStruct, translations.belegeAnhangHeading, "H2");
+  }
   doc.moveUp(1);
   doc
     .fontSize(pdfStyles.page.fontSize)
     .font(pdfStyles.page.font)
-    .text(translations.belegeAnhangSubheading)
+    .text(
+      userData.versandArt === "analog"
+        ? translations.belegeAnhangHeading
+        : translations.belegeAnhangSubheadingOnline,
+    )
     .moveDown(1);
   const belegeList = Object.entries(conditions)
     .filter(([, val]) => val === true)

@@ -59,6 +59,11 @@ export const FileInput = ({
           inputName={name}
           onFileDelete={(fileName) => {
             void onFileDelete(fileName);
+            (
+              document.getElementsByClassName(
+                inputClasses,
+              )[0] as HTMLInputElement
+            ).value = "";
           }}
           jsAvailable={jsAvailable}
           file={selectedFile}

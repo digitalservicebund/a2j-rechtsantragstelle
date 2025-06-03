@@ -53,7 +53,7 @@ describe("prozesskostenhilfePdfFromUserdata", () => {
     vi.mocked(appendPagesToPdf).mockResolvedValue(mockUint8Array);
     vi.mocked(loadHinweisblatt).mockResolvedValue(mockPdfDocument);
 
-    await prozesskostenhilfePdfFromUserdata(userData);
+    await prozesskostenhilfePdfFromUserdata(userData, "");
 
     expect(pdfFillReducer).toHaveBeenCalled();
     expect(fillPdf).toHaveBeenCalled();

@@ -2,6 +2,17 @@ import { PDFDocument } from "pdf-lib";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import {
+  getStaatlicheLeistungenStrings,
+  weiteresEinkommenStrings,
+  ausgabenStrings,
+  getWeitereDokumenteStrings,
+} from "~/domains/beratungshilfe/formular/stringReplacements";
+import { geldAnlagenStrings } from "~/domains/shared/formular/stringReplacements";
+import {
+  attachUserUploadedFilesToPdf,
+  type RelevantFiles,
+} from "~/domains/shared/services/pdf/userUploadedFiles/attachUserUploadedFilesToPdf";
+import {
   addMetadataToPdf,
   type Metadata,
 } from "~/services/pdf/addMetadataToPdf";
@@ -23,7 +34,6 @@ import { fillBesitz } from "./pdfForm/F_besitz/F_besitz";
 import { fillFooter } from "./pdfForm/footer";
 import { fillAusgaben } from "./pdfForm/G_ausgaben";
 import { fillHeader } from "./pdfForm/header";
-import { attachUserUploadedFilesToPdf } from "./userUploadedFiles/attachUserUploadedFilesToPdf";
 
 const METADATA: Metadata = {
   AUTHOR: "Bundesministerium der Justiz",
@@ -104,7 +114,7 @@ export async function beratungshilfePdfFromUserdata(
       pdfKitBuffer,
       sessionId,
       "/beratungshilfe/antrag",
-      userData,
+      relevantBeratungshilfeFilesList(userData),
     );
     const userFilesPdfDocument = await PDFDocument.load(userFilesPdfBuffer);
     return appendPagesToPdf(
@@ -113,4 +123,39 @@ export async function beratungshilfePdfFromUserdata(
     );
   }
   return appendPagesToPdf(filledPdfFormDocumentWithMetadata, mainPdfDocument);
+}
+
+function relevantBeratungshilfeFilesList(
+  userData: BeratungshilfeFormularUserData,
+): RelevantFiles {
+  const leistungen = getStaatlicheLeistungenStrings(userData);
+  const weiteresEinkommen = weiteresEinkommenStrings(userData);
+  const ausgaben = ausgabenStrings(userData);
+  const geldAnlagen = geldAnlagenStrings(userData);
+  const weitereDokumente = getWeitereDokumenteStrings(userData);
+
+  return [
+    [weiteresEinkommen.wohngeld, userData.wohngeldBeweis],
+    [weiteresEinkommen.bafoeg, userData.bafoegBeweis],
+    [weiteresEinkommen.krankengeld, userData.krankengeldBeweis],
+    [weiteresEinkommen.elterngeld, userData.elterngeldBeweis],
+    [leistungen.hasBuergergeld, userData.buergergeldBeweis],
+    [
+      leistungen.hasAsylbewerberleistungen,
+      userData.asylbewerberleistungenBeweis,
+    ],
+    [leistungen.hasNoSozialleistung, userData.keineLeistungenBeweis],
+    [leistungen.hasGrundsicherung, userData.grundsicherungBeweis],
+    [geldAnlagen.hasLebensversicherung, userData.lebensversicherungBeweis],
+    [geldAnlagen.hasBausparvertrag, userData.bausparvertragBeweis],
+    [geldAnlagen.hasWertpapiere, userData.wertpapiereBeweis],
+    [geldAnlagen.hasGutenhabenKrypto, userData.guthabenkontoBeweis],
+    [geldAnlagen.hasGiroTagesSparkonto, userData.sparkontoBeweis],
+    [geldAnlagen.hasGrundeigentum, userData.grundeigentumBeweis],
+    [ausgaben.hasSchwangerschaft, userData.schwangerschaftAngabeBeweis],
+    [ausgaben.hasSchwerbehinderung, userData.schwerbehinderungBeweis],
+    [ausgaben.hasMedicalReasons, userData.medizinischeGruendeBeweis],
+    [ausgaben.hasWeitereAusgaben, userData.weitereAusgabenBeweis],
+    [weitereDokumente.hasWeitereDokumente, userData.weitereDokumenteBeweis],
+  ];
 }

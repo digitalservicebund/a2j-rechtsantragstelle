@@ -47,9 +47,14 @@ const pdfConfigs = {
   "/prozesskostenhilfe/formular": {
     pdfFunction: async (
       userData: ProzesskostenhilfeFormularUserData,
-      _sessionId: string,
+      sessionId: string,
       translations?: Translations,
-    ) => await prozesskostenhilfePdfFromUserdata(userData, translations),
+    ) =>
+      await prozesskostenhilfePdfFromUserdata(
+        userData,
+        sessionId,
+        translations,
+      ),
     filenameFunction: () =>
       `Antrag_Prozesskostenhilfe_${pdfDateFormat(today())}.pdf`,
   },
