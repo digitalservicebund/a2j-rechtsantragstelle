@@ -218,6 +218,7 @@ export const loader = async ({
             : undefined,
       },
       navItems,
+      isValidationPage: flowController.getMeta(stepId)?.validationPage,
       postFormContent: cmsContent.postFormContent,
       preHeading: cmsContent.preHeading,
       stepData,
