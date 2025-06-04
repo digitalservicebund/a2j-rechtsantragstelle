@@ -29,7 +29,7 @@ export const FileInput = ({
   const errorId = `${name}-error`;
 
   const inputClasses = classNames(
-    "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary file:ds-button-large w-full",
+    "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary file:ds-button-large w-fit",
     {
       "w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer":
         jsAvailable,
