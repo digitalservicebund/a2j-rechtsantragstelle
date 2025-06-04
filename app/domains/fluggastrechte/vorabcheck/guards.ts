@@ -96,14 +96,6 @@ export const guards = {
       (context?.ankuendigung === "until6Days" || context?.ankuendigung === "no")
     );
   },
-  isErsatzflugGelandet2StundenNoAndErsatzflugGestartet1StundeNo: ({
-    context,
-  }) => {
-    return (
-      context.ersatzflugLandenZweiStunden === "no" &&
-      context.ersatzflugStartenEinStunde === "no"
-    );
-  },
   isErsatzflugGelandet4StundenNoAndErsatzflugGestartet2StundenNo: ({
     context,
   }) => {
