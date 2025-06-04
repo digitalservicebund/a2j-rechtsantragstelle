@@ -138,7 +138,6 @@ export const guards = {
   ...yesNoGuards("gruende"),
   ...yesNoGuards("entschaedigung"),
   ...yesNoGuards("abtretung"),
-  ...yesNoGuards("kostenlos"),
   ...yesNoGuards("rabatt"),
   ...yesNoGuards("buchung"),
   ...yesNoGuards("verjaehrung"),

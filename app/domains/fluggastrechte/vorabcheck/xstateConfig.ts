@@ -406,7 +406,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "ergebnis/kostenlos-abbruch",
-            guard: "kostenlosYes",
+            guard: ({ context }) => context.kostenlos === "yes",
           },
           {
             target: "rabatt",
