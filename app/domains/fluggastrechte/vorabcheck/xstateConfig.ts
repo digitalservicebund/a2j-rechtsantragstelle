@@ -381,7 +381,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "verjaehrung",
-            guard: "vertretbareGruendeNo",
+            guard: ({ context }) => context.vertretbareGruende === "no",
           },
           {
             target: "ergebnis/vertretbare-gruende-abbruch",
