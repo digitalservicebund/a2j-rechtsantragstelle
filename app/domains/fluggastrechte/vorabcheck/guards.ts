@@ -134,7 +134,6 @@ export const guards = {
     return isErfolgAnalog(context);
   },
 
-  ...yesNoGuards("verspaetung"),
   ...yesNoGuards("checkin"),
   ...yesNoGuards("gruende"),
   ...yesNoGuards("entschaedigung"),

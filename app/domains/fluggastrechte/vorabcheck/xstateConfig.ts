@@ -43,7 +43,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "gruende",
-            guard: "verspaetungYes",
+            guard: ({ context }) => context.verspaetung === "yes",
           },
           {
             target: "ergebnis/verspaetung-abbruch",
