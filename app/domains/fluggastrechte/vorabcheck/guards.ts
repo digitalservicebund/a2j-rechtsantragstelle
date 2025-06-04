@@ -90,12 +90,6 @@ export const guards = {
 
     return !isStartAirportEU && !isEndAirportEU;
   },
-  isAnkuendigungBetween7And13DaysAndErsatzflugYes: ({ context }) => {
-    return (
-      context.ankuendigung === "between7And13Days" &&
-      context.ersatzflug === "yes"
-    );
-  },
   isBereichAnnullierungAndVertretbareGruendeAnnullierungYes: ({ context }) => {
     return (
       context.bereich === "annullierung" &&

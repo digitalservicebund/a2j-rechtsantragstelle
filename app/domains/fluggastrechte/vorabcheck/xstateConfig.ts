@@ -90,7 +90,9 @@ export const fluggastrechteVorabcheckXstateConfig = {
           },
           {
             target: "ersatzflug-landen-vier-stunden",
-            guard: "isAnkuendigungBetween7And13DaysAndErsatzflugYes",
+            guard: ({ context }) =>
+              context.ankuendigung === "between7And13Days" &&
+              context.ersatzflug === "yes",
           },
           "ankuendigung",
         ],
