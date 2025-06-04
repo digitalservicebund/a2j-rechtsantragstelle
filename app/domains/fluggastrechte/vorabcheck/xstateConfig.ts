@@ -80,7 +80,9 @@ export const fluggastrechteVorabcheckXstateConfig = {
         BACK: [
           {
             target: "ersatzflug",
-            guard: "isErsatzflugNoAndNotAnkuendigungMoreThan13Days",
+            guard: ({ context }) =>
+              context.ankuendigung !== "moreThan13Days" &&
+              context.ersatzflug === "no",
           },
           {
             target: "ersatzflug-landen-zwei-stunden",
