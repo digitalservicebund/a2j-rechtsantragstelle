@@ -505,7 +505,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "ergebnis/erfolg-gericht",
-            guard: "gerichtYes",
+            guard: ({ context }) => context.gericht === "yes",
           },
           {
             target: "ergebnis/erfolg-eu",
