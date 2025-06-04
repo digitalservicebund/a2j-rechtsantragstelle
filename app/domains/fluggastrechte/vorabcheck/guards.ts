@@ -7,7 +7,6 @@ import { isEuropeanUnionAirport } from "../services/airports/isEuropeanUnionAirp
 import { isGermanAirport } from "../services/airports/isGermanAirport";
 
 export const guards = {
-  bereichVerspaetet: ({ context }) => context.bereich === "verspaetet",
   bereichNichtBefoerderung: ({ context }) =>
     context.bereich === "nichtbefoerderung",
   bereichAnnullierung: ({ context }) => context.bereich === "annullierung",

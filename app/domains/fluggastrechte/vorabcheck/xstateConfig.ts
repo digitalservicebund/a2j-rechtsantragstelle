@@ -1,3 +1,6 @@
+import type { Config } from "~/services/flow/server/buildFlowController";
+import type { FluggastrechtVorabcheckUserData } from "./userData";
+
 export const fluggastrechteVorabcheckXstateConfig = {
   id: "/fluggastrechte/vorabcheck",
   initial: "start",
@@ -13,7 +16,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "verspaetung",
-            guard: "bereichVerspaetet",
+            guard: ({ context }) => context.bereich === "verspaetet",
           },
           {
             target: "ausgleich",
@@ -295,7 +298,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
           },
           {
             target: "checkin",
-            guard: "bereichVerspaetet",
+            guard: ({ context }) => context.bereich === "verspaetet",
           },
           "kostenlos",
         ],
@@ -386,7 +389,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         BACK: [
           {
             target: "checkin",
-            guard: "bereichVerspaetet",
+            guard: ({ context }) => context.bereich === "verspaetet",
           },
           "fluggesellschaft",
         ],
@@ -530,4 +533,4 @@ export const fluggastrechteVorabcheckXstateConfig = {
     },
     "ergebnis/erfolg-per-post-klagen": {},
   },
-};
+} satisfies Config<FluggastrechtVorabcheckUserData>;
