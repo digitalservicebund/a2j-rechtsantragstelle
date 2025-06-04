@@ -24,7 +24,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
           },
           {
             target: "ankuendigung",
-            guard: "bereichAnnullierung",
+            guard: ({ context }) => context.bereich === "annullierung",
           },
           {
             target: "ergebnis/bereich-abbruch",
@@ -195,7 +195,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         BACK: [
           {
             target: "vertretbare-gruende-annullierung",
-            guard: "bereichAnnullierung",
+            guard: ({ context }) => context.bereich === "annullierung",
           },
           {
             target: "gruende",
@@ -213,7 +213,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
           },
           {
             target: "vertretbare-gruende-annullierung",
-            guard: "bereichAnnullierung",
+            guard: ({ context }) => context.bereich === "annullierung",
           },
           {
             target: "vertretbare-gruende",
