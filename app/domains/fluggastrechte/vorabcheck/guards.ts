@@ -7,8 +7,6 @@ import { isEuropeanUnionAirport } from "../services/airports/isEuropeanUnionAirp
 import { isGermanAirport } from "../services/airports/isGermanAirport";
 
 export const guards = {
-  bereichNichtBefoerderung: ({ context }) =>
-    context.bereich === "nichtbefoerderung",
   bereichAnnullierung: ({ context }) => context.bereich === "annullierung",
   isInvalidAirportDistance: ({ context }) => {
     const distance = calculateDistanceBetweenAirportsInKilometers(

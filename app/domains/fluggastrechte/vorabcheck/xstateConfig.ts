@@ -20,7 +20,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
           },
           {
             target: "ausgleich",
-            guard: "bereichNichtBefoerderung",
+            guard: ({ context }) => context.bereich === "nichtbefoerderung",
           },
           {
             target: "ankuendigung",
@@ -359,7 +359,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         BACK: [
           {
             target: "checkin-nicht-befoerderung",
-            guard: "bereichNichtBefoerderung",
+            guard: ({ context }) => context.bereich === "nichtbefoerderung",
           },
           "checkin",
         ],
