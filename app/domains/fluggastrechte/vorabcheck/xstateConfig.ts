@@ -213,7 +213,9 @@ export const fluggastrechteVorabcheckXstateConfig = {
         BACK: [
           {
             target: "gruende-hinweis",
-            guard: "isBereichAnnullierungAndVertretbareGruendeAnnullierungYes",
+            guard: ({ context }) =>
+              context.bereich === "annullierung" &&
+              context.vertretbareGruendeAnnullierung === "yes",
           },
           {
             target: "vertretbare-gruende-annullierung",
