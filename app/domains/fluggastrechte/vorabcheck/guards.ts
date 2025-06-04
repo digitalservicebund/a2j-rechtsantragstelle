@@ -142,6 +142,5 @@ export const guards = {
   ...yesNoGuards("buchung"),
   ...yesNoGuards("verjaehrung"),
   ...yesNoGuards("ausgleich"),
-  ...yesNoGuards("vertretbareGruendeAnnullierung"),
   ...yesNoGuards("ersatzflug"),
 } satisfies Guards<FluggastrechtVorabcheckUserData>;
