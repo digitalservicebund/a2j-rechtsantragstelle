@@ -69,7 +69,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "ergebnis/ankuendigung-abbruch",
-            guard: "isAnkuendigungMoreThan13Days",
+            guard: ({ context }) => context.ankuendigung === "moreThan13Days",
           },
           "ersatzflug",
         ],
