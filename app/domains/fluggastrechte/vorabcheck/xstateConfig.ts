@@ -156,8 +156,9 @@ export const fluggastrechteVorabcheckXstateConfig = {
         BACK: "ersatzflug-starten-zwei-stunden",
         SUBMIT: [
           {
-            guard:
-              "isErsatzflugGelandet4StundenNoAndErsatzflugGestartet2StundenNo",
+            guard: ({ context }) =>
+              context.ersatzflugLandenVierStunden === "no" &&
+              context.ersatzflugStartenZweiStunden === "no",
             target: "ergebnis/ersatzflug-starten-zwei-landen-vier-abbruch",
           },
           "vertretbare-gruende-annullierung",
