@@ -90,12 +90,6 @@ export const guards = {
 
     return !isStartAirportEU && !isEndAirportEU;
   },
-  isVertretbareGruendeNoBereichNichtBefoerderung: ({ context }) => {
-    return (
-      context?.bereich === "nichtbefoerderung" &&
-      context?.vertretbareGruende === "no"
-    );
-  },
   isAnkuendigungMoreThan13Days: ({ context }) => {
     return context.ankuendigung === "moreThan13Days";
   },

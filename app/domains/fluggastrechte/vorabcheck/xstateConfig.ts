@@ -217,7 +217,9 @@ export const fluggastrechteVorabcheckXstateConfig = {
           },
           {
             target: "vertretbare-gruende",
-            guard: "isVertretbareGruendeNoBereichNichtBefoerderung",
+            guard: ({ context }) =>
+              context?.bereich === "nichtbefoerderung" &&
+              context?.vertretbareGruende === "no",
           },
           {
             target: "gruende",
