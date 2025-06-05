@@ -6,6 +6,7 @@ describe("isCompleted", () => {
     questions: [
       { id: "1", optional: false },
       { id: "2", optional: false },
+      { id: "3", optional: true },
     ],
   } as Survey;
 
