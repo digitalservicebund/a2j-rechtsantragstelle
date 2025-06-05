@@ -4,7 +4,7 @@ import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 
-vi.mock("~/services/analytics/fetchSurveys");
+vi.mock("~/services/analytics/surveys/fetchSurveys");
 vi.mock("~/services/analytics/useAnalytics");
 
 describe("ReportProblem", () => {
