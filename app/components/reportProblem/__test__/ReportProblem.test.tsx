@@ -4,11 +4,11 @@ import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 
+vi.mock("~/services/analytics/fetchSurveys");
+vi.mock("~/services/analytics/useAnalytics");
+
 describe("ReportProblem", () => {
   it("should trigger the Survey popup", () => {
-    vi.mock("~/services/analytics/fetchSurveys");
-    vi.mock("~/services/analytics/useAnalytics");
-
     vi.mocked(fetchSurvey).mockReturnValueOnce({
       questions: [],
     } as unknown as Survey);
