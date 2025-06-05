@@ -1,6 +1,7 @@
 import { type MultipleSurveyQuestion } from "posthog-js";
 import { useState, type Dispatch, type SetStateAction } from "react";
 import { type SurveyResponses } from "./OpenQuestion";
+import { questionToAnswerId } from "../../services/analytics/surveys/questionToAnswerId";
 
 type MultipleChoiceQuestionProps = {
   question: MultipleSurveyQuestion;
@@ -20,15 +21,14 @@ export const MultipleChoiceQuestion = ({
     setCheckboxStates((prev) => prev.map((c, i) => (i === idx ? checked : c)));
     setResponses((surveyResponses) => {
       const existingResponses =
-        (surveyResponses?.[`$survey_response_${question.id!}`] as string[]) ??
-        [];
+        (surveyResponses?.[questionToAnswerId(question)] as string[]) ?? [];
       const newAnswers = checked
         ? [...existingResponses, choice]
         : existingResponses.filter((c) => c !== choice);
 
       return {
         ...surveyResponses,
-        [`$survey_response_${question.id!}`]: newAnswers,
+        [questionToAnswerId(question)]: newAnswers,
       };
     });
   };

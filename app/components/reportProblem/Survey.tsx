@@ -10,6 +10,7 @@ import {
 } from "~/components/reportProblem/OpenQuestion";
 import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
+import { isCompleted } from "~/services/analytics/surveys/isCompleted";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 
 type PosthogSurveyProps = {
@@ -31,32 +32,33 @@ export const PosthogSurvey = ({
   closeSurvey,
   styleOverrides,
 }: PosthogSurveyProps) => {
-  const [isComplete, setIsComplete] = useState(false);
+  const [wasSubmitted, setWasSubmitted] = useState(false);
   const feedbackTranslations = useFeedbackTranslations();
   const [responses, setResponses] = useState<SurveyResponses>();
   const { posthogClient } = useAnalytics();
+  const isCompletelyFilled = isCompleted(survey, responses);
 
   const containerClasses = classNames(
     "border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-[80%] p-24 flex flex-col",
     {
-      "gap-40": !isComplete,
+      "gap-40": !wasSubmitted,
     },
     styleOverrides,
   );
 
   const onFeedbackSubmitted = () => {
-    if (responses && posthogClient) {
+    if (isCompletelyFilled && posthogClient) {
       posthogClient.capture("survey sent", {
         $survey_id: survey.id,
         ...responses,
       });
-      setIsComplete(true);
+      setWasSubmitted(true);
     }
   };
 
   return (
     <div className={containerClasses}>
-      {isComplete ? (
+      {wasSubmitted ? (
         <FeedbackTitle
           title={feedbackTranslations["success-message"]}
           subtitle={feedbackTranslations["feedback-helps"]}
@@ -76,7 +78,7 @@ export const PosthogSurvey = ({
         </div>
       )}
       <ButtonContainer className="flex flex-col-reverse sm:flex-row">
-        {isComplete ? (
+        {wasSubmitted ? (
           <Button
             look={"primary"}
             className="justify-center"
@@ -93,7 +95,7 @@ export const PosthogSurvey = ({
             />
             <Button
               look="primary"
-              disabled={!responses}
+              disabled={!isCompletelyFilled}
               className="justify-center"
               text={feedbackTranslations["submit-problem"]}
               onClick={onFeedbackSubmitted}
