@@ -4,18 +4,22 @@ import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { fetchSurvey } from "~/services/analytics/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 
-describe("ReportProblem", () => {
-  it("should trigger the Survey popup", () => {
-    vi.mock("~/services/analytics/fetchSurveys");
-    vi.mock("~/services/analytics/useAnalytics");
+vi.mock("~/services/analytics/fetchSurveys");
+vi.mock("~/services/analytics/useAnalytics");
 
+describe("ReportProblem", () => {
+  vi.mocked(useAnalytics).mockReturnValue({
+    posthogClient: {} as PostHog,
+  });
+
+  afterAll(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should trigger the Survey popup", () => {
     vi.mocked(fetchSurvey).mockReturnValueOnce({
       questions: [],
     } as unknown as Survey);
-
-    vi.mocked(useAnalytics).mockReturnValue({
-      posthogClient: {} as PostHog,
-    });
 
     const { getByRole, getByText } = render(<ReportProblem />);
     const reportButton = getByRole("button");
@@ -32,6 +36,7 @@ describe("ReportProblem", () => {
   });
 
   it("should not render without posthog client", () => {
+    vi.mocked(useAnalytics).mockReturnValueOnce({ posthogClient: undefined });
     const { container } = render(<ReportProblem />);
     expect(container.firstChild).toBeNull();
   });
