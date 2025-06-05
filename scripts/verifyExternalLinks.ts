@@ -87,6 +87,7 @@ const allowedEmails = [
   "b.spaniol@agotw.justiz.saarland.de",
   "poststelle@justiz.saarland.de",
   "kontakt@service.justiz.de",
+  "teilnahme@service.justiz.de",
 ];
 
 const regexValidator = {
