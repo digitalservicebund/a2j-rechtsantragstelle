@@ -1,6 +1,6 @@
 import { serverOnly$ } from "vite-env-only/macros";
 import { z } from "zod";
-import { validPostcodes } from "data/validPostcodes.server";
+import { validPostcodes } from "data/validation/validPostcodes.server";
 
 function isValidPostcode(postcode: string) {
   const postcodeNum = parseInt(postcode, 10);
