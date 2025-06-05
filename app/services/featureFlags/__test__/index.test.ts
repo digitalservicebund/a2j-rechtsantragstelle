@@ -10,7 +10,7 @@ vi.mock("~/services/env/web", () => ({
 const mockIsFeatureEnabled = vi.fn();
 
 vi.mock("~/services/analytics/posthogClient.server", () => ({
-  getPosthogClient: () => ({
+  getPosthogNodeClient: () => ({
     isFeatureEnabled: mockIsFeatureEnabled,
   }),
 }));

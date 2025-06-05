@@ -1,6 +1,6 @@
 import { type UserData } from "~/domains/userData";
-import { idFromCookie } from "~/services/analytics/posthogHelpers";
-import { getPosthogClient } from "./posthogClient.server";
+import { posthogIdFromCookie } from "~/services/analytics/posthogIdFromCookie";
+import { getPosthogNodeClient } from "./posthogClient.server";
 
 export function sendCustomAnalyticsEvent({
   request,
@@ -11,8 +11,8 @@ export function sendCustomAnalyticsEvent({
   eventName: string;
   properties?: UserData;
 }) {
-  getPosthogClient()?.capture({
-    distinctId: idFromCookie(request.headers.get("Cookie")),
+  getPosthogNodeClient()?.capture({
+    distinctId: posthogIdFromCookie(request.headers.get("Cookie")),
     event: eventName,
     properties: {
       $current_url: new URL(request.url).pathname,

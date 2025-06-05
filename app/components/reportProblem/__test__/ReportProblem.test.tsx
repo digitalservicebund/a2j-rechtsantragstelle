@@ -1,60 +1,43 @@
 import { fireEvent, render } from "@testing-library/react";
-import { type Survey, type SurveyQuestion } from "posthog-js";
+import type { PostHog, Survey } from "posthog-js";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import { usePosthog } from "~/services/analytics/PosthogContext";
+import { fetchSurvey } from "~/services/analytics/fetchSurveys";
+import { useAnalytics } from "~/services/analytics/useAnalytics";
 
-const reportProblem = "Problem melden";
-const cancel = "Abbrechen";
-const submitProblem = "Problem absenden";
-
-vi.mock("~/components/userFeedback/feedbackTranslations", () => ({
-  useFeedbackTranslations: () => ({
-    "report-problem": reportProblem,
-    cancel: cancel,
-    "submit-problem": submitProblem,
-    "open-feedback-placeholder": "Beschreibung des Problems....",
-  }),
-}));
-
-vi.mock("~/services/analytics/PosthogContext", () => ({
-  usePosthog: vi.fn(),
-}));
+vi.mock("~/services/analytics/fetchSurveys");
+vi.mock("~/services/analytics/useAnalytics");
 
 describe("ReportProblem", () => {
-  it("should render the Report Problem button with correct label", () => {
-    vi.mocked(usePosthog).mockReturnValue({
-      fetchSurvey: () => ({ questions: [] as SurveyQuestion[] }) as Survey,
-      posthog: undefined,
-      cookieHeader: null,
-    });
-    const { getByRole } = render(<ReportProblem />);
-    const reportButton = getByRole("button");
-    expect(reportButton).toBeInTheDocument();
-    expect(reportButton.textContent).toBe(` ${reportProblem} `);
-    expect(reportButton.id).toBe("survey-button");
+  vi.mocked(useAnalytics).mockReturnValue({
+    posthogClient: {} as PostHog,
+  });
+
+  afterAll(() => {
+    vi.clearAllMocks();
   });
 
   it("should trigger the Survey popup", () => {
-    vi.mocked(usePosthog).mockReturnValue({
-      fetchSurvey: () => ({ questions: [] as SurveyQuestion[] }) as Survey,
-      posthog: undefined,
-      cookieHeader: null,
-    });
+    vi.mocked(fetchSurvey).mockReturnValueOnce({
+      questions: [],
+    } as unknown as Survey);
+
     const { getByRole, getByText } = render(<ReportProblem />);
     const reportButton = getByRole("button");
-    expect(reportButton).toBeInTheDocument();
+    expect(reportButton).toBeVisible();
     fireEvent.click(reportButton);
-    expect(getByText(cancel)).toBeInTheDocument();
-    expect(getByText(submitProblem)).toBeInTheDocument();
+    expect(getByText("Abbrechen")).toBeInTheDocument();
+    expect(getByText("Problem absenden")).toBeInTheDocument();
   });
 
-  it("should not render if the survey isn't available", () => {
-    vi.mocked(usePosthog).mockReturnValue({
-      fetchSurvey: () => undefined,
-      posthog: undefined,
-      cookieHeader: null,
-    });
-    const { queryByRole } = render(<ReportProblem />);
-    expect(queryByRole("button")).not.toBeInTheDocument();
+  it("should render null if the survey isn't available", () => {
+    vi.mocked(fetchSurvey).mockReturnValueOnce(undefined);
+    const { container } = render(<ReportProblem />);
+    expect(container.firstChild).toBeNull();
+  });
+
+  it("should not render without posthog client", () => {
+    vi.mocked(useAnalytics).mockReturnValueOnce({ posthogClient: undefined });
+    const { container } = render(<ReportProblem />);
+    expect(container.firstChild).toBeNull();
   });
 });
