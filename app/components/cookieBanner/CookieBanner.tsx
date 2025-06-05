@@ -1,12 +1,10 @@
-import { posthog } from "posthog-js";
-import { useContext, useEffect, useState } from "react";
-import { useFetcher, useLocation } from "react-router";
+import { useEffect } from "react";
+import { useFetcher } from "react-router";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
-import { CookieConsentContext } from "~/components/cookieBanner/CookieConsentContext";
 import Heading, { type HeadingProps } from "~/components/Heading";
 import RichText, { type RichTextProps } from "~/components/RichText";
-import { config } from "~/services/env/web";
+import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { useJsAvailable } from "~/services/useJsAvailable";
 import { StandaloneLink } from "../StandaloneLink";
 
@@ -23,49 +21,23 @@ type CookieBannerContentProps = {
 
 export function CookieBanner({
   content,
-}: Readonly<{
-  content: CookieBannerContentProps;
-}>) {
-  const hasTrackingConsent = useContext(CookieConsentContext);
-  const { POSTHOG_API_KEY, POSTHOG_API_HOST } = config();
-  const [posthogLoaded, setPosthogLoaded] = useState(false);
+}: Readonly<{ content: CookieBannerContentProps }>) {
+  const { posthogClient, hasTrackingConsent } = useAnalytics();
   const jsAvailable = useJsAvailable();
   const analyticsFetcher = useFetcher();
-  const location = useLocation();
 
   useEffect(() => {
-    if (hasTrackingConsent && !posthogLoaded && POSTHOG_API_KEY) {
-      posthog.init(POSTHOG_API_KEY, {
-        api_host: POSTHOG_API_HOST,
-        session_recording: {
-          // Masking input and text elements to prevent sensitive data being shown on pages
-          maskTextSelector: "*",
-          maskAllInputs: true,
-        },
-
-        cross_subdomain_cookie: false, // set cookie for subdomain only
-        opt_out_capturing_by_default: false, // we only reach initialization when tracking consent has been given
-        opt_out_persistence_by_default: true,
-        loaded: () => {
-          setPosthogLoaded(true);
-        },
-      });
-    }
-
-    if (posthogLoaded) {
-      if (!hasTrackingConsent && posthog.has_opted_in_capturing()) {
-        posthog.opt_out_capturing();
-      } else if (hasTrackingConsent && posthog.has_opted_out_capturing()) {
-        posthog.opt_in_capturing();
+    if (posthogClient) {
+      if (!hasTrackingConsent && posthogClient.has_opted_in_capturing()) {
+        posthogClient.opt_out_capturing();
+      } else if (
+        hasTrackingConsent &&
+        posthogClient.has_opted_out_capturing()
+      ) {
+        posthogClient.opt_in_capturing();
       }
     }
-  }, [
-    location,
-    hasTrackingConsent,
-    posthogLoaded,
-    POSTHOG_API_KEY,
-    POSTHOG_API_HOST,
-  ]);
+  }, [hasTrackingConsent, posthogClient]);
 
   const buttonAcceptCookieTestId = jsAvailable
     ? "accept-cookie_with_js"

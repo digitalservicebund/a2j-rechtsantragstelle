@@ -5,7 +5,7 @@ import compression from "compression";
 import express, { type RequestHandler } from "express";
 import type { ServerBuild } from "react-router";
 import type { ViteDevServer } from "vite";
-import { getPosthogClient } from "./services/analytics/posthogClient.server";
+import { getPosthogNodeClient } from "./services/analytics/posthogClient.server";
 import { config } from "./services/env/env.server";
 import { createPinoHttpLogger } from "./services/logging/createPinoHttpLogger";
 import { createRateLimitRequestHandler } from "./services/rateLimit";
@@ -72,7 +72,7 @@ export const expressApp = (
         Sentry.close(shutdownTimeoutMs).then(() => {
           console.log("✅ Sentry client shut down");
         }),
-        getPosthogClient()
+        getPosthogNodeClient()
           ?.shutdown(shutdownTimeoutMs)
           .then(() => {
             console.log("✅ Posthog client shut down");
