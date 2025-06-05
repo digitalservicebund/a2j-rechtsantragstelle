@@ -10,16 +10,16 @@ describe("isCompleted", () => {
     ],
   } as Survey;
 
-  test("should return true if non-optional questions are answered", () => {
+  it("should return true if non-optional questions are answered", () => {
     const responses = { $survey_response_1: "a", $survey_response_2: ["a"] };
     expect(isCompleted(mockSurvey, responses)).toBe(true);
   });
 
-  test("should return false if any non-optional questions is missing", () => {
+  it("should return false if any non-optional questions is missing", () => {
     const responses = { $survey_response_1: "a" };
     expect(isCompleted(mockSurvey, responses)).toBe(false);
   });
-  test("should return false if any non-optional questions is empty array", () => {
+  it("should return false if any non-optional questions is empty array", () => {
     const responses = { $survey_response_1: "a", $survey_response_2: [] };
     expect(isCompleted(mockSurvey, responses)).toBe(false);
   });
