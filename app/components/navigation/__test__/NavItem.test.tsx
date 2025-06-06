@@ -120,7 +120,7 @@ describe("NavigationItem", () => {
         destination={destination}
         label={label}
         state={"Done"}
-        expanded={true}
+        forceExpanded={true}
         subflows={subflows}
       />,
     );

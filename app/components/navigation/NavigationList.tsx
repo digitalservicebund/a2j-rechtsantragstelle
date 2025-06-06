@@ -10,7 +10,7 @@ export const NavigationList = ({
       <NavItem
         {...navItem}
         key={navItem.destination}
-        expanded={props.expandAll}
+        forceExpanded={props.expandAll}
         {...props}
       />
     ))}

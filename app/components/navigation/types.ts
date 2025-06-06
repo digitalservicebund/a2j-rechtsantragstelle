@@ -18,7 +18,7 @@ export type NavItem = {
   destination: string;
   label: string;
   state: NavState;
-  expanded?: boolean;
+  forceExpanded?: boolean;
   subflows?: NavItem[];
   a11yLabels?: NavigationA11yLabels;
 };
