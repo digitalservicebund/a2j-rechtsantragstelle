@@ -19,4 +19,47 @@ describe("NavigationList", () => {
     expect(item[0].href).toContain(destination);
     expect(item[0].parentNode).toBeInstanceOf(HTMLLIElement);
   });
+
+  it("should expand all subflows when expandAll=true", () => {
+    const navItems = [
+      {
+        destination: "/destination",
+        label: "navLabel",
+        state: "Done" as NavState,
+        subflows: [
+          {
+            destination: "/subflow",
+            label: "subflowLabel",
+            state: "Done" as NavState,
+          },
+        ],
+      },
+      {
+        destination: "/destination",
+        label: "navLabel",
+        state: "Open" as NavState,
+        subflows: [
+          {
+            destination: "/subflow",
+            label: "subflowLabel",
+            state: "Open" as NavState,
+          },
+        ],
+      },
+      {
+        destination: "/destination",
+        label: "navLabel",
+        state: "Done" as NavState,
+        subflows: [
+          {
+            destination: "/subflow",
+            label: "subflowLabel",
+            state: "Done" as NavState,
+          },
+        ],
+      },
+    ];
+    render(<NavigationList navItems={navItems} expandAll={true} />);
+    expect(screen.getAllByTestId("ExpandLessIcon")).toHaveLength(3);
+  });
 });

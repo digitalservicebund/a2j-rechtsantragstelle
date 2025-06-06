@@ -167,6 +167,7 @@ export const prozesskostenhilfeFormular = {
         meta: { done: () => false },
         states: {
           ueberpruefung: {
+            meta: { expandValidation: true },
             on: {
               BACK: "#weitere-angaben",
             },

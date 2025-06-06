@@ -30,6 +30,7 @@ export function NavItem({
   state,
   subflows = [],
   a11yLabels,
+  forceExpanded,
   isChild = false,
 }: Readonly<NavItem & { isChild?: boolean }>) {
   const visibleChildItems = subflows.filter((subItem) =>
@@ -39,7 +40,7 @@ export function NavItem({
   const isDisabled = stateIsDisabled(state);
   const isCurrent = stateIsCurrent(state);
   const isDone = stateIsDone(state);
-  const collapse = useCollapse({ defaultExpanded: isCurrent });
+  const collapse = useCollapse({ defaultExpanded: forceExpanded ?? isCurrent });
 
   // Transparent last: borders to avoid layout shifts
   const liClassNames = classNames(
