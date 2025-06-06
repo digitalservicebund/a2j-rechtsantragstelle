@@ -125,16 +125,23 @@ export const findCourt = ({
   houseNumber?: string;
 }) => {
   if (streetSlug && streetSlug !== "default") {
-    const decodedStreetName = streetSlug
-      .replaceAll(/_/g, " ")
-      .replaceAll(/([Ss]tr\.)/g, "strasse");
-    const edgeCases = edgeCasesForPlz(zipCode);
-    const matchingEdgeCases = edgeCases.filter((e) =>
-      e.STRN.toLowerCase()
+    const decodedStreetName = streetSlug.replaceAll(/_/g, " ");
+    const decodedStreetnameFull = decodedStreetName.replaceAll(
+      /([Ss]tr\.)/g,
+      "strasse",
+    );
+    const edgeCases = edgeCasesForPlz(zipCode).map((e) => ({
+      ...e,
+      STRN_NORMALIZED: e.STRN.toLowerCase()
         .replace(/ä/g, "ae")
         .replace(/ö/g, "oe")
-        .replace(/ü/g, "ue")
-        .startsWith(decodedStreetName),
+        .replace(/ü/g, "ue"),
+    }));
+
+    const matchingEdgeCases = edgeCases.filter(
+      ({ STRN_NORMALIZED }) =>
+        STRN_NORMALIZED.startsWith(decodedStreetName) ||
+        STRN_NORMALIZED.startsWith(decodedStreetnameFull),
     );
     const rangedMatches = matchingEdgeCases.filter((e) => {
       const houseNumberInRange =

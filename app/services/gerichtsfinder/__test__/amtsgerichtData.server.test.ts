@@ -63,6 +63,23 @@ const mockCourtData = {
         ORTK: "HAMBURG",
       },
     ],
+    10789: [
+      {
+        HNR_BIS: "999",
+        HNR_MERKMAL_INFO: "fortlaufende Hausnummern",
+        AG: "01",
+        HNR_VON: "019",
+        ANGELEGENHEIT_INFO: "Prozesskostenhilfe eingehend",
+        STRN: "AUGSBURGER STR.",
+        LKZ: "11",
+        OLG: "1",
+        LG: "01",
+        TYP_INFO: "Zivilgericht - Amtsgericht",
+        PLZ: "10789",
+        ORTK: "BERLIN",
+        STRN_NORMALIZED: "augsburger str.",
+      },
+    ],
   },
   "JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json": {
     "02_1_01_01_zivilgericht-amtsgericht": {
@@ -116,6 +133,32 @@ const mockCourtData = {
       FAX: "040 427983-179",
       ERV_FG: "J",
       ORTK: "HAMBURG",
+      ERV_STRAF: "J",
+    },
+    "11_1_01_01_zivilgericht-amtsgericht": {
+      PLZ_GROSSEMPFAENGER: "14046",
+      XJUSTIZID: "F1103",
+      URL2: "www.berlin.de/sen/justiz/",
+      URL1: "https://www.berlin.de/gerichte/amtsgericht-charlottenburg/",
+      AG: "01",
+      PLZ_ZUSTELLBEZIRK: "14057",
+      ERV_ZIVIL: "J",
+      OLG: "1",
+      TYP_INFO: "Zivilgericht - Amtsgericht",
+      AUT_MAHN_VERF_MERKMAL_INFO:
+        "AMVM für dieses AG (Beleg, EDA). Zentrale Zuständigkeit",
+      ORT: "Berlin",
+      STR_HNR: "Amtsgerichtsplatz 1",
+      ERV_GRUNDBUCH: "J",
+      XML_SUPPORT: "JA",
+      KAMMER_FUER_HANDELSSACH: "NEIN",
+      BEZEICHNUNG: "Amtsgericht Charlottenburg",
+      LKZ: "11",
+      TEL: "030 90177-0",
+      LG: "01",
+      FAX: "030 90177-447",
+      ERV_FG: "J",
+      ORTK: "BERLIN",
       ERV_STRAF: "J",
     },
   },
@@ -174,6 +217,16 @@ describe("amtsGerichtData Helpers", () => {
           houseNumber: "12",
         }),
       ).toHaveProperty("STR_HNR", "Sievekingplatz 1");
+    });
+
+    it("should also handle streets saved as `strasse` instead of `str.`", () => {
+      expect(
+        findCourt({
+          zipCode: "10789",
+          streetSlug: "augsburger_str.",
+          houseNumber: "19",
+        }),
+      ).toHaveProperty("STR_HNR", "Amtsgerichtsplatz 1");
     });
   });
 });
