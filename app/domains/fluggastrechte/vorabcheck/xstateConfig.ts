@@ -1,3 +1,6 @@
+import type { Config } from "~/services/flow/server/buildFlowController";
+import type { FluggastrechtVorabcheckUserData } from "./userData";
+
 export const fluggastrechteVorabcheckXstateConfig = {
   id: "/fluggastrechte/vorabcheck",
   initial: "start",
@@ -13,15 +16,15 @@ export const fluggastrechteVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "verspaetung",
-            guard: "bereichVerspaetet",
+            guard: ({ context }) => context.bereich === "verspaetet",
           },
           {
             target: "ausgleich",
-            guard: "bereichNichtBefoerderung",
+            guard: ({ context }) => context.bereich === "nichtbefoerderung",
           },
           {
             target: "ankuendigung",
-            guard: "bereichAnnullierung",
+            guard: ({ context }) => context.bereich === "annullierung",
           },
           {
             target: "ergebnis/bereich-abbruch",
@@ -40,7 +43,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "gruende",
-            guard: "verspaetungYes",
+            guard: ({ context }) => context.verspaetung === "yes",
           },
           {
             target: "ergebnis/verspaetung-abbruch",
@@ -66,7 +69,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "ergebnis/ankuendigung-abbruch",
-            guard: "isAnkuendigungMoreThan13Days",
+            guard: ({ context }) => context.ankuendigung === "moreThan13Days",
           },
           "ersatzflug",
         ],
@@ -77,7 +80,9 @@ export const fluggastrechteVorabcheckXstateConfig = {
         BACK: [
           {
             target: "ersatzflug",
-            guard: "isErsatzflugNoAndNotAnkuendigungMoreThan13Days",
+            guard: ({ context }) =>
+              context.ankuendigung !== "moreThan13Days" &&
+              context.ersatzflug === "no",
           },
           {
             target: "ersatzflug-landen-zwei-stunden",
@@ -85,14 +90,17 @@ export const fluggastrechteVorabcheckXstateConfig = {
           },
           {
             target: "ersatzflug-landen-vier-stunden",
-            guard: "isAnkuendigungBetween7And13DaysAndErsatzflugYes",
+            guard: ({ context }) =>
+              context.ankuendigung === "between7And13Days" &&
+              context.ersatzflug === "yes",
           },
           "ankuendigung",
         ],
         SUBMIT: [
           {
             target: "gruende-hinweis",
-            guard: "vertretbareGruendeAnnullierungYes",
+            guard: ({ context }) =>
+              context.vertretbareGruendeAnnullierung === "yes",
           },
           {
             target: "verjaehrung",
@@ -129,8 +137,9 @@ export const fluggastrechteVorabcheckXstateConfig = {
         BACK: "ersatzflug-starten-eine-stunde",
         SUBMIT: [
           {
-            guard:
-              "isErsatzflugGelandet2StundenNoAndErsatzflugGestartet1StundeNo",
+            guard: ({ context }) =>
+              context.ersatzflugLandenZweiStunden === "no" &&
+              context.ersatzflugStartenEinStunde === "no",
             target: "ergebnis/ersatzflug-starten-eine-landen-zwei-abbruch",
           },
           "vertretbare-gruende-annullierung",
@@ -148,8 +157,9 @@ export const fluggastrechteVorabcheckXstateConfig = {
         BACK: "ersatzflug-starten-zwei-stunden",
         SUBMIT: [
           {
-            guard:
-              "isErsatzflugGelandet4StundenNoAndErsatzflugGestartet2StundenNo",
+            guard: ({ context }) =>
+              context.ersatzflugLandenVierStunden === "no" &&
+              context.ersatzflugStartenZweiStunden === "no",
             target: "ergebnis/ersatzflug-starten-zwei-landen-vier-abbruch",
           },
           "vertretbare-gruende-annullierung",
@@ -192,7 +202,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         BACK: [
           {
             target: "vertretbare-gruende-annullierung",
-            guard: "bereichAnnullierung",
+            guard: ({ context }) => context.bereich === "annullierung",
           },
           {
             target: "gruende",
@@ -206,15 +216,19 @@ export const fluggastrechteVorabcheckXstateConfig = {
         BACK: [
           {
             target: "gruende-hinweis",
-            guard: "isBereichAnnullierungAndVertretbareGruendeAnnullierungYes",
+            guard: ({ context }) =>
+              context.bereich === "annullierung" &&
+              context.vertretbareGruendeAnnullierung === "yes",
           },
           {
             target: "vertretbare-gruende-annullierung",
-            guard: "bereichAnnullierung",
+            guard: ({ context }) => context.bereich === "annullierung",
           },
           {
             target: "vertretbare-gruende",
-            guard: "isVertretbareGruendeNoBereichNichtBefoerderung",
+            guard: ({ context }) =>
+              context?.bereich === "nichtbefoerderung" &&
+              context?.vertretbareGruende === "no",
           },
           {
             target: "gruende",
@@ -295,7 +309,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
           },
           {
             target: "checkin",
-            guard: "bereichVerspaetet",
+            guard: ({ context }) => context.bereich === "verspaetet",
           },
           "kostenlos",
         ],
@@ -356,7 +370,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         BACK: [
           {
             target: "checkin-nicht-befoerderung",
-            guard: "bereichNichtBefoerderung",
+            guard: ({ context }) => context.bereich === "nichtbefoerderung",
           },
           "checkin",
         ],
@@ -368,7 +382,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "verjaehrung",
-            guard: "vertretbareGruendeNo",
+            guard: ({ context }) => context.vertretbareGruende === "no",
           },
           {
             target: "ergebnis/vertretbare-gruende-abbruch",
@@ -386,14 +400,14 @@ export const fluggastrechteVorabcheckXstateConfig = {
         BACK: [
           {
             target: "checkin",
-            guard: "bereichVerspaetet",
+            guard: ({ context }) => context.bereich === "verspaetet",
           },
           "fluggesellschaft",
         ],
         SUBMIT: [
           {
             target: "ergebnis/kostenlos-abbruch",
-            guard: "kostenlosYes",
+            guard: ({ context }) => context.kostenlos === "yes",
           },
           {
             target: "rabatt",
@@ -492,7 +506,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: "ergebnis/erfolg-gericht",
-            guard: "gerichtYes",
+            guard: ({ context }) => context.gericht === "yes",
           },
           {
             target: "ergebnis/erfolg-eu",
@@ -530,4 +544,4 @@ export const fluggastrechteVorabcheckXstateConfig = {
     },
     "ergebnis/erfolg-per-post-klagen": {},
   },
-};
+} satisfies Config<FluggastrechtVorabcheckUserData>;
