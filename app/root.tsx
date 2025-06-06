@@ -203,6 +203,7 @@ function App() {
               )}
               target={skipToContentLinkTarget}
             />
+            <CookieBanner content={cookieBannerContent} />
             <PageHeader {...pageHeaderProps} />
             <Breadcrumbs
               breadcrumbs={breadcrumbs}
@@ -213,7 +214,6 @@ function App() {
             <main className="flex-grow flex" id="main">
               <Outlet />
             </main>
-            <CookieBanner content={cookieBannerContent} />
           </div>
           <footer>
             <Footer
