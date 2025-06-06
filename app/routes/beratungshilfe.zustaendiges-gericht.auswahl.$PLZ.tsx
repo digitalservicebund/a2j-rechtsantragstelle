@@ -18,6 +18,7 @@ import {
   fetchStreetnamesForZipcode,
   buildOpenPlzResultUrl,
 } from "~/services/gerichtsfinder/openPLZ";
+import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -37,9 +38,9 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     fetchMeta({ filterValue }),
   ]);
 
-  const resultListHeading = applyStringReplacement(common.resultListHeading, {
-    postcode: zipCode ?? "",
-  });
+  const resultListHeading = parseAndSanitizeMarkdown(
+    applyStringReplacement(common.resultListHeading, { postcode: zipCode }),
+  );
 
   return {
     resultListHeading,
