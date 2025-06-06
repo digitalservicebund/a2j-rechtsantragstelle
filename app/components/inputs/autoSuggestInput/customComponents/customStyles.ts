@@ -58,8 +58,9 @@ const customStyles = (
     }),
     input: (base) => ({
       ...base,
+      gridTemplateColumns: "auto",
       input: {
-        gridColumn: "1/4 !important",
+        gridColumn: "1/3 !important",
       },
     }),
   };
