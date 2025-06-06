@@ -7,13 +7,13 @@ const cases = [
     {
       abgabeArt: "online",
     },
-    ["/abgabe/art", "/abgabe/online"],
+    ["/abgabe/zusammenfassung", "/abgabe/art", "/abgabe/online"],
   ],
   [
     {
       abgabeArt: "ausdrucken",
     },
-    ["/abgabe/art", "/abgabe/ausdrucken"],
+    ["/abgabe/zusammenfassung", "/abgabe/art", "/abgabe/ausdrucken"],
   ],
 ] as const satisfies TestCases<BeratungshilfeFormularUserData>;
 

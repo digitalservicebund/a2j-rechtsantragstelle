@@ -1,7 +1,5 @@
 import merge from "lodash/merge";
-import { zusammenfassungXstateConfig } from "~/domains/beratungshilfe/formular/zusammenfassung/xstateConfig";
 import persoenlicheDatenFlow from "~/domains/shared/formular/persoenlicheDaten/flow.json";
-import { config } from "~/services/env/env.server";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
 import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
@@ -13,8 +11,6 @@ import type { BeratungshilfeFormularUserData } from "./index";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
-
-const showZusammenfassung = config().ENVIRONMENT !== "production";
 
 export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
@@ -84,17 +80,8 @@ export const beratungshilfeXstateConfig = {
     "weitere-angaben": {
       id: "weitere-angaben",
       meta: { done: beratungshilfePersoenlicheDatenDone },
-      on: {
-        BACK: "#persoenliche-daten.telefonnummer",
-        SUBMIT: showZusammenfassung ? "#zusammenfassung" : "#abgabe",
-      },
+      on: { BACK: "#persoenliche-daten.telefonnummer", SUBMIT: "#abgabe" },
     },
-    ...(showZusammenfassung && {
-      zusammenfassung: zusammenfassungXstateConfig,
-    }),
-
-    abgabe: await abgabeXstateConfig(
-      showZusammenfassung ? "#zusammenfassung" : "#weitere-angaben",
-    ),
+    abgabe: await abgabeXstateConfig("#weitere-angaben"),
   },
 } satisfies Config<BeratungshilfeFormularUserData>;
