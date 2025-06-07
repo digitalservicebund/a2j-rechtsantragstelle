@@ -56,6 +56,13 @@ const customStyles = (
       ...base,
       transition: "none",
     }),
+    input: (base) => ({
+      ...base,
+      gridTemplateColumns: "auto",
+      input: {
+        gridColumn: "1/3 !important",
+      },
+    }),
   };
 };
 
