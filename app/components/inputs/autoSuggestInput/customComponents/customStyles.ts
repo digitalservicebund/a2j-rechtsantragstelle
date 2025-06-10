@@ -56,8 +56,13 @@ const customStyles = (
       ...base,
       transition: "none",
     }),
+    valueContainer: (base) => ({
+      ...base,
+      height: "100%",
+    }),
     input: (base) => ({
       ...base,
+      height: "100%",
       gridTemplateColumns: "auto",
       input: {
         gridColumn: "1/3 !important",
