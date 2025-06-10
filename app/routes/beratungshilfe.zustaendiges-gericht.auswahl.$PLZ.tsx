@@ -9,7 +9,6 @@ import Container from "~/components/Container";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import Heading from "~/components/Heading";
 import CustomControl from "~/components/inputs/autoSuggestInput/customComponents/CustomControl";
-import CustomInput from "~/components/inputs/autoSuggestInput/customComponents/CustomInput";
 import RichText from "~/components/RichText";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
 import { type DataListOptions } from "~/services/dataListOptions/getDataListOptions";
@@ -89,7 +88,6 @@ export default function Index() {
               onChange={(option) => setSelectedStreet(option)}
               components={{
                 DropdownIndicator: null,
-                Input: CustomInput,
                 Control: CustomControl,
               }}
             />
