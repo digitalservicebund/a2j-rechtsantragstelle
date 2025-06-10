@@ -41,10 +41,10 @@ export const kidsSchema = z
 
 export const beratungshilfeVorabcheckInputSchema = {
   rechtsschutzversicherung: YesNoAnswer,
-  rsvCoverage: z.union([
-    rsvCoverage,
-    z.enum(["tooExpensive"], customRequiredErrorMessage),
-  ]),
+  rsvCoverage: z.enum(
+    [...rsvCoverage.options, "tooExpensive"],
+    customRequiredErrorMessage,
+  ),
   klageEingereicht: YesNoAnswer,
   hamburgOderBremen: YesNoAnswer,
   beratungshilfeBeantragt: YesNoAnswer,
