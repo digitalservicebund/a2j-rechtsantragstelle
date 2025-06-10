@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import { configDotenv } from "dotenv";
-import { allowedEmails } from "../data/validation/allowedEmails.server";
-import { allowedWebsites } from "../data/validation/allowedWebsites.server";
+import { allowedEmails } from "./data/allowedEmails.server";
+import { allowedWebsites } from "./data/allowedWebsites.server";
 
 const regexValidator = {
   email: /(^[\w.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)/g,
