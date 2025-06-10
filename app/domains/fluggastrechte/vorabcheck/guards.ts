@@ -7,10 +7,6 @@ import { isEuropeanUnionAirport } from "../services/airports/isEuropeanUnionAirp
 import { isGermanAirport } from "../services/airports/isGermanAirport";
 
 export const guards = {
-  bereichVerspaetet: ({ context }) => context.bereich === "verspaetet",
-  bereichNichtBefoerderung: ({ context }) =>
-    context.bereich === "nichtbefoerderung",
-  bereichAnnullierung: ({ context }) => context.bereich === "annullierung",
   isInvalidAirportDistance: ({ context }) => {
     const distance = calculateDistanceBetweenAirportsInKilometers(
       context.startAirport ?? "",
@@ -94,52 +90,10 @@ export const guards = {
 
     return !isStartAirportEU && !isEndAirportEU;
   },
-  isVertretbareGruendeNoBereichNichtBefoerderung: ({ context }) => {
-    return (
-      context?.bereich === "nichtbefoerderung" &&
-      context?.vertretbareGruende === "no"
-    );
-  },
-  isAnkuendigungMoreThan13Days: ({ context }) => {
-    return context.ankuendigung === "moreThan13Days";
-  },
-  isErsatzflugNoAndNotAnkuendigungMoreThan13Days: ({ context }) => {
-    return (
-      context.ankuendigung !== "moreThan13Days" && context.ersatzflug === "no"
-    );
-  },
-  isAnkuendigungBetween7And13DaysAndErsatzflugYes: ({ context }) => {
-    return (
-      context.ankuendigung === "between7And13Days" &&
-      context.ersatzflug === "yes"
-    );
-  },
-  isBereichAnnullierungAndVertretbareGruendeAnnullierungYes: ({ context }) => {
-    return (
-      context.bereich === "annullierung" &&
-      context.vertretbareGruendeAnnullierung === "yes"
-    );
-  },
   isErsatzflugYesAndAnkuendigungUntil6DaysOrNo: ({ context }) => {
     return (
       context?.ersatzflug === "yes" &&
       (context?.ankuendigung === "until6Days" || context?.ankuendigung === "no")
-    );
-  },
-  isErsatzflugGelandet2StundenNoAndErsatzflugGestartet1StundeNo: ({
-    context,
-  }) => {
-    return (
-      context.ersatzflugLandenZweiStunden === "no" &&
-      context.ersatzflugStartenEinStunde === "no"
-    );
-  },
-  isErsatzflugGelandet4StundenNoAndErsatzflugGestartet2StundenNo: ({
-    context,
-  }) => {
-    return (
-      context.ersatzflugLandenVierStunden === "no" &&
-      context.ersatzflugStartenZweiStunden === "no"
     );
   },
   isErfolgEU: ({
@@ -180,18 +134,13 @@ export const guards = {
     return isErfolgAnalog(context);
   },
 
-  ...yesNoGuards("verspaetung"),
   ...yesNoGuards("checkin"),
   ...yesNoGuards("gruende"),
   ...yesNoGuards("entschaedigung"),
-  ...yesNoGuards("gericht"),
   ...yesNoGuards("abtretung"),
-  ...yesNoGuards("kostenlos"),
   ...yesNoGuards("rabatt"),
   ...yesNoGuards("buchung"),
   ...yesNoGuards("verjaehrung"),
   ...yesNoGuards("ausgleich"),
-  ...yesNoGuards("vertretbareGruende"),
-  ...yesNoGuards("vertretbareGruendeAnnullierung"),
   ...yesNoGuards("ersatzflug"),
 } satisfies Guards<FluggastrechtVorabcheckUserData>;
