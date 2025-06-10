@@ -31,7 +31,7 @@ const CustomInput = (props: InputProps<DataListOptions, false>) => {
         }
       }}
       {...props}
-      innerRef={field.refs.controlled()}
+      innerRef={field.error() ? field.refs.controlled() : undefined}
       maxLength={INPUT_CHAR_LIMIT}
       aria-describedby={selectProps["aria-describedby"]}
       aria-required={props.selectProps.className?.includes(
