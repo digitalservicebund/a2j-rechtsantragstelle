@@ -119,7 +119,7 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
       "zwei-formulare": {
         on: {
           BACK: "empfaenger",
-          SUBMIT: nextFlowEntrypoint,
+          SUBMIT: "#finanzielle-angaben",
         },
       },
     },

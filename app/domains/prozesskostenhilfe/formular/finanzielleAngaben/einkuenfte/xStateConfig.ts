@@ -84,10 +84,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
             SUBMIT: stepIds.staatlicheLeistungen,
             BACK: [
               {
-                guard: and([
-                  isNachueberpruefung,
-                  unterhaltLeisteIchAnderePerson,
-                ]),
+                guard: unterhaltLeisteIchAnderePerson,
                 target: "#antragstellende-person.zwei-formulare",
               },
               {

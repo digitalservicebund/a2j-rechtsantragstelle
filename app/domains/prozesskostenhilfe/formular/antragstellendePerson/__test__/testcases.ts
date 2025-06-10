@@ -9,7 +9,7 @@ const erstAntragCase = [
     [
       "/antragstellende-person/empfaenger",
       "/antragstellende-person/zwei-formulare",
-      "/rechtsschutzversicherung/rsv-frage",
+      "/finanzielle-angaben/einkuenfte/start",
     ],
   ],
   [
