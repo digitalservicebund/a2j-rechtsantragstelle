@@ -91,7 +91,7 @@
     "validator": "^13.15.15",
     "xss": "^1.0.15",
     "xstate": "^5.19.4",
-    "zod": "^3.25.56"
+    "zod": "^3.25.57"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
@@ -113,10 +113,10 @@
     "@types/mustache": "^4.2.6",
     "@types/node": "^24.0.0",
     "@types/pdfkit": "^0.13.9",
-    "@types/react": "^19.1.6",
+    "@types/react": "^19.1.7",
     "@types/react-dom": "^19.1.6",
     "@types/validator": "^13.15.1",
-    "@vitest/coverage-istanbul": "^3.2.2",
+    "@vitest/coverage-istanbul": "^3.2.3",
     "@vitest/eslint-plugin": "^1.2.1",
     "@vitest/expect": "^3.2.2",
     "autoprefixer": "^10.4.21",
@@ -127,7 +127,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-sonarjs": "^3.0.2",
-    "eslint-plugin-storybook": "^9.0.6",
+    "eslint-plugin-storybook": "^9.0.7",
     "follow-redirects": "^1.15.9",
     "globals": "^16.2.0",
     "i18n-iso-countries": "^7.14.0",
