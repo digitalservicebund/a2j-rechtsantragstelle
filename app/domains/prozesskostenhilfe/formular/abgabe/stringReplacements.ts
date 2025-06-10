@@ -1,7 +1,7 @@
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import {
   unterhaltBekommeIch,
-  unterhaltLeisteIch,
+  unterhaltLeisteIchAnderePerson,
 } from "../antragstellendePerson/guards";
 import {
   isErstantrag,
@@ -17,8 +17,9 @@ export const getAbgabeStrings = (
 ) => {
   return {
     paysOrReceivesUnterhalt:
-      unterhaltBekommeIch({ context }) || unterhaltLeisteIch({ context }),
-    unterhaltLeisteIch: unterhaltLeisteIch({ context }),
+      unterhaltBekommeIch({ context }) ||
+      unterhaltLeisteIchAnderePerson({ context }),
+    unterhaltLeisteIchAnderePerson: unterhaltLeisteIchAnderePerson({ context }),
     unterhaltBekommeIch: unterhaltBekommeIch({ context }),
     versandAnalog: context.versandArt === "analog",
     versandDigitalAnwalt: versandDigitalAnwalt({ context }),

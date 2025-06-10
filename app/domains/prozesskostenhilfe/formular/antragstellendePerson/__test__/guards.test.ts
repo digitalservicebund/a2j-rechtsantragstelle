@@ -2,14 +2,14 @@ import {
   antragstellendePersonDone,
   couldLiveFromUnterhalt,
   unterhaltBekommeIch,
-  unterhaltLeisteIch,
+  unterhaltLeisteIchAnderePerson,
 } from "../guards";
 
 describe("guards", () => {
   describe("unterhaltLeisteIch", () => {
     it("should return true if the user is filling out the form for someone other than themselves", () => {
       expect(
-        unterhaltLeisteIch({
+        unterhaltLeisteIchAnderePerson({
           context: {
             empfaenger: "anderePerson",
           },
@@ -19,7 +19,7 @@ describe("guards", () => {
 
     it("should return false if the user is filling out the form for themselves", () => {
       expect(
-        unterhaltLeisteIch({
+        unterhaltLeisteIchAnderePerson({
           context: {
             empfaenger: "ich",
           },
@@ -29,7 +29,7 @@ describe("guards", () => {
 
     it("should return false if the user hasn't answered the recipient question", () => {
       expect(
-        unterhaltLeisteIch({
+        unterhaltLeisteIchAnderePerson({
           context: {},
         }),
       ).toBe(false);

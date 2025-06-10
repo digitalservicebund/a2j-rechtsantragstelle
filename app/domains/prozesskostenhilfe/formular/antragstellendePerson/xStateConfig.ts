@@ -7,7 +7,7 @@ import {
   antragstellendePersonDone,
   couldLiveFromUnterhalt,
   unterhaltBekommeIch,
-  unterhaltLeisteIch,
+  unterhaltLeisteIchAnderePerson,
 } from "./guards";
 
 export const getProzesskostenhilfeAntragstellendePersonConfig = (
@@ -26,7 +26,7 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
           BACK: transitions?.backToCallingFlow,
           SUBMIT: [
             {
-              guard: unterhaltLeisteIch,
+              guard: unterhaltLeisteIchAnderePerson,
               target: "zwei-formulare",
             },
             "unterhaltsanspruch",

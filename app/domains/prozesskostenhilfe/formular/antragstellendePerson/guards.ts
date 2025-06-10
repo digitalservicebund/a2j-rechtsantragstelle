@@ -2,9 +2,13 @@ import type { GenericGuard } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import type { ProzesskostenhilfeAntragstellendePersonUserData } from "./userData";
 
-export const unterhaltLeisteIch: GenericGuard<
+export const unterhaltLeisteIchAnderePerson: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
 > = ({ context }) => context.empfaenger === "anderePerson";
+
+export const unterhaltLeisteIchKind: GenericGuard<
+  ProzesskostenhilfeAntragstellendePersonUserData
+> = ({ context }) => context.empfaenger === "kind";
 
 export const unterhaltBekommeIch: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
@@ -16,7 +20,7 @@ export const couldLiveFromUnterhalt: GenericGuard<
 export const antragstellendePersonDone: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
 > = ({ context }) =>
-  unterhaltLeisteIch({ context }) ||
+  unterhaltLeisteIchAnderePerson({ context }) ||
   context.unterhaltsanspruch === "keine" ||
   (context.unterhaltsanspruch === "unterhalt" &&
     context.unterhaltsSumme !== undefined &&

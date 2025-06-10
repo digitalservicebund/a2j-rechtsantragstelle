@@ -9,7 +9,10 @@ import {
 } from "~/services/validation/YesNoAnswer";
 
 export const prozesskostenhilfeAntragstellendePersonInputSchema = {
-  empfaenger: z.enum(["ich", "anderePerson"], customRequiredErrorMessage),
+  empfaenger: z.enum(
+    ["ich", "kind", "anderePerson"],
+    customRequiredErrorMessage,
+  ),
   unterhaltsanspruch: z.enum(
     ["keine", "unterhalt", "anspruchNoUnterhalt"],
     customRequiredErrorMessage,
