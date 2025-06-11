@@ -3,10 +3,6 @@ import Image from "../Image";
 
 describe("Image", () => {
   const altText = "Alt Text";
-  it("should not render if the url is not provided", () => {
-    const { queryByAltText } = render(<Image alternativeText={altText} />);
-    expect(queryByAltText(altText)).not.toBeInTheDocument();
-  });
 
   it("should render an image as an <img> tag", () => {
     const { getByRole } = render(

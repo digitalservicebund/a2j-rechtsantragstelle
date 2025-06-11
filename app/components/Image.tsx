@@ -2,7 +2,7 @@ import Svg from "react-inlinesvg";
 import { useJsAvailable } from "~/services/useJsAvailable";
 
 export type ImageProps = Readonly<{
-  url?: string;
+  url: string;
   width?: number;
   height?: number;
   alternativeText?: string;
@@ -11,8 +11,6 @@ export type ImageProps = Readonly<{
 
 function Image({ url, alternativeText, ...props }: ImageProps) {
   const jsAvailable = useJsAvailable();
-
-  if (!url) return null;
 
   const isSvg = url.endsWith(".svg");
   const altText =
