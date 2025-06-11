@@ -4,7 +4,7 @@ export async function startAntragstellendePerson(
   formular: ProzesskostenhilfeFormular,
 ) {
   // /prozesskostenhilfe/formular/antragstellende-person/empfaenger
-  await formular.fillRadioPage("empfaenger", "ich");
+  await formular.fillRadioPage("empfaenger", "myself");
 
   // /prozesskostenhilfe/formular/antragstellende-person/unterhaltsanspruch
   await formular.fillRadioPage("unterhaltsanspruch", "keine");

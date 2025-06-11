@@ -109,5 +109,37 @@ describe("flowNavigation", () => {
       expect(navItems[0].label).toBe("Parent");
       expect(navItems[0].subflows[0].label).toBe("Child");
     });
+
+    it("only has one current", () => {
+      expect(
+        navItemsFromStepStates("/a-b/b", [
+          {
+            url: "/",
+            isDone: true,
+            stepId: "/a",
+            isReachable: true,
+          },
+          {
+            url: "/",
+            isDone: false,
+            stepId: "/a-b",
+            isReachable: true,
+          },
+        ]),
+      ).toStrictEqual([
+        {
+          destination: "/",
+          label: "/a",
+          subflows: undefined,
+          state: "Done",
+        },
+        {
+          destination: "/",
+          label: "/a-b",
+          subflows: undefined,
+          state: "Current",
+        },
+      ]);
+    });
   });
 });
