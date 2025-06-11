@@ -1,10 +1,15 @@
 import type { GenericGuard } from "~/domains/guards.server";
+import { vereinfachteErklaerungDone } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import type { ProzesskostenhilfeAntragstellendePersonUserData } from "./userData";
 
-export const unterhaltLeisteIch: GenericGuard<
+export const empfaengerIsAnderePerson: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
-> = ({ context }) => context.empfaenger === "anderePerson";
+> = ({ context }) => context.empfaenger === "otherPerson";
+
+export const empfaengerIsChild: GenericGuard<
+  ProzesskostenhilfeAntragstellendePersonUserData
+> = ({ context }) => context.empfaenger === "child";
 
 export const unterhaltBekommeIch: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
@@ -16,7 +21,8 @@ export const couldLiveFromUnterhalt: GenericGuard<
 export const antragstellendePersonDone: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
 > = ({ context }) =>
-  unterhaltLeisteIch({ context }) ||
+  (empfaengerIsChild({ context }) && vereinfachteErklaerungDone({ context })) ||
+  empfaengerIsAnderePerson({ context }) ||
   context.unterhaltsanspruch === "keine" ||
   (context.unterhaltsanspruch === "unterhalt" &&
     context.unterhaltsSumme !== undefined &&

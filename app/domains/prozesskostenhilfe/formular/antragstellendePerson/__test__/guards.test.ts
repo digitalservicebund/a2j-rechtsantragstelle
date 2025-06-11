@@ -2,16 +2,17 @@ import {
   antragstellendePersonDone,
   couldLiveFromUnterhalt,
   unterhaltBekommeIch,
-  unterhaltLeisteIch,
+  empfaengerIsAnderePerson,
+  empfaengerIsChild,
 } from "../guards";
 
 describe("guards", () => {
-  describe("unterhaltLeisteIch", () => {
+  describe("empfaengerIsAnderePerson", () => {
     it("should return true if the user is filling out the form for someone other than themselves", () => {
       expect(
-        unterhaltLeisteIch({
+        empfaengerIsAnderePerson({
           context: {
-            empfaenger: "anderePerson",
+            empfaenger: "otherPerson",
           },
         }),
       ).toBe(true);
@@ -19,9 +20,9 @@ describe("guards", () => {
 
     it("should return false if the user is filling out the form for themselves", () => {
       expect(
-        unterhaltLeisteIch({
+        empfaengerIsAnderePerson({
           context: {
-            empfaenger: "ich",
+            empfaenger: "myself",
           },
         }),
       ).toBe(false);
@@ -29,10 +30,22 @@ describe("guards", () => {
 
     it("should return false if the user hasn't answered the recipient question", () => {
       expect(
-        unterhaltLeisteIch({
+        empfaengerIsAnderePerson({
           context: {},
         }),
       ).toBe(false);
+    });
+  });
+
+  describe("empfaengerIsChild", () => {
+    it("should return true if the user is filling out the form for a child", () => {
+      expect(
+        empfaengerIsChild({
+          context: {
+            empfaenger: "child",
+          },
+        }),
+      ).toBe(true);
     });
   });
 
@@ -92,7 +105,7 @@ describe("guards", () => {
 describe("antragstellendePersonDone", () => {
   it("should return true if the user pays Unterhalt", () => {
     expect(
-      antragstellendePersonDone({ context: { empfaenger: "anderePerson" } }),
+      antragstellendePersonDone({ context: { empfaenger: "otherPerson" } }),
     ).toBe(true);
   });
 

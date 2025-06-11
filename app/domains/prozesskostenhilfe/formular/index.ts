@@ -21,7 +21,7 @@ import {
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import {
   couldLiveFromUnterhalt,
-  unterhaltLeisteIch,
+  empfaengerIsAnderePerson,
 } from "./antragstellendePerson/guards";
 import { prozesskostenhilfeFinanzielleAngabeDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
@@ -89,7 +89,7 @@ export const prozesskostenhilfeFormular = {
       rechtsschutzversicherung: getProzesskostenhilfeRsvXstateConfig({
         backToCallingFlow: [
           {
-            guard: unterhaltLeisteIch,
+            guard: empfaengerIsAnderePerson,
             target: "#antragstellende-person.zwei-formulare",
           },
           {
