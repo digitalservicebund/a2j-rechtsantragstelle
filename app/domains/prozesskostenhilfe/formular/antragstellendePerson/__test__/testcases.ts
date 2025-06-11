@@ -4,7 +4,7 @@ import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskosten
 const erstAntragCase = [
   [
     {
-      empfaenger: "anderePerson",
+      empfaenger: "otherPerson",
     },
     [
       "/antragstellende-person/empfaenger",
@@ -14,7 +14,7 @@ const erstAntragCase = [
   ],
   [
     {
-      empfaenger: "ich",
+      empfaenger: "myself",
       unterhaltsanspruch: "keine",
     },
     [
@@ -25,7 +25,7 @@ const erstAntragCase = [
   ],
   [
     {
-      empfaenger: "ich",
+      empfaenger: "myself",
       unterhaltsanspruch: "unterhalt",
       livesPrimarilyFromUnterhalt: "no",
     },
@@ -39,7 +39,7 @@ const erstAntragCase = [
   ],
   [
     {
-      empfaenger: "ich",
+      empfaenger: "myself",
       unterhaltsanspruch: "unterhalt",
       livesPrimarilyFromUnterhalt: "yes",
     },
@@ -55,7 +55,7 @@ const erstAntragCase = [
   ],
   [
     {
-      empfaenger: "ich",
+      empfaenger: "myself",
       unterhaltsanspruch: "anspruchNoUnterhalt",
       couldLiveFromUnterhalt: "no",
     },
@@ -68,7 +68,7 @@ const erstAntragCase = [
   ],
   [
     {
-      empfaenger: "ich",
+      empfaenger: "myself",
       unterhaltsanspruch: "anspruchNoUnterhalt",
       couldLiveFromUnterhalt: "yes",
     },

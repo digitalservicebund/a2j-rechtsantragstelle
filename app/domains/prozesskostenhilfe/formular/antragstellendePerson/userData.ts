@@ -14,7 +14,7 @@ import {
 
 export const prozesskostenhilfeAntragstellendePersonInputSchema = {
   empfaenger: z.enum(
-    ["ich", "kind", "anderePerson"],
+    ["myself", "child", "otherPerson"],
     customRequiredErrorMessage,
   ),
   ...prozesskostenhilfeVereinfachteErklaerungInputSchema,

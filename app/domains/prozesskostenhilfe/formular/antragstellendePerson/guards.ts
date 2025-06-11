@@ -5,11 +5,11 @@ import type { ProzesskostenhilfeAntragstellendePersonUserData } from "./userData
 
 export const empfaengerIsAnderePerson: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
-> = ({ context }) => context.empfaenger === "anderePerson";
+> = ({ context }) => context.empfaenger === "otherPerson";
 
 export const empfaengerIsChild: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
-> = ({ context }) => context.empfaenger === "kind";
+> = ({ context }) => context.empfaenger === "child";
 
 export const unterhaltBekommeIch: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
