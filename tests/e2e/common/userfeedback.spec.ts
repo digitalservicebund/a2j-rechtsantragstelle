@@ -1,46 +1,16 @@
 import { test, expect, type Page } from "@playwright/test";
-import { BeratungshilfeVorabcheck } from "tests/e2e/domains/beratungshilfe/vorabcheck/BeratungshilfeVorabcheck";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
-
-let vorabcheck: BeratungshilfeVorabcheck;
 
 const POST_SUBMISSION_BOX = "user-feedback-submission";
 const TOP_BREADCRUMB_ICON = "HomeOutlinedIcon";
 const USER_FEEDBACK_BANNER = "user-feedback-banner";
-
-type SetupOptions = {
-  page: Page;
-  javaScriptEnabled: boolean;
-};
+const BERATUNGSHILFE_PAGE = "/beratungshilfe";
 
 type FeedbackOptions = {
   page: Page;
   feedbackIconTestId: "ThumbUpOutlinedIcon" | "ThumbDownOutlinedIcon";
   message: string;
 };
-
-async function setupFeedbackTests({
-  page,
-  javaScriptEnabled = true,
-}: SetupOptions) {
-  vorabcheck = new BeratungshilfeVorabcheck(page);
-
-  await vorabcheck.goto();
-  if (!javaScriptEnabled) {
-    await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
-    await vorabcheck.goto();
-    await vorabcheck.fillRadioPageNonJavascript(
-      "rechtsschutzversicherung",
-      "yes",
-    );
-    await vorabcheck.fillRadioPageNonJavascript("rsvCoverage", "yes");
-  } else {
-    const cookieSettings = new CookieSettings(page);
-    await cookieSettings.acceptCookieBanner();
-    await vorabcheck.fillRadioPage("rechtsschutzversicherung", "yes");
-    await vorabcheck.fillRadioPage("rsvCoverage", "yes");
-  }
-}
 
 async function submitFeedback({
   page,
@@ -57,10 +27,10 @@ async function submitFeedback({
 }
 
 test.describe("User Feedback with JavaScript", () => {
-  const javaScriptEnabled = true;
-
   test.beforeEach(async ({ page }) => {
-    await setupFeedbackTests({ page, javaScriptEnabled });
+    await page.goto(BERATUNGSHILFE_PAGE);
+    const cookieSettings = new CookieSettings(page);
+    await cookieSettings.acceptCookieBanner();
   });
 
   test("positive feedback submission", async ({ page }) => {
@@ -85,7 +55,9 @@ test.describe("User Feedback without JavaScript", () => {
 
   test.use({ javaScriptEnabled });
   test.beforeEach(async ({ page }) => {
-    await setupFeedbackTests({ page, javaScriptEnabled });
+    await page.goto(BERATUNGSHILFE_PAGE);
+    await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
+    await page.goto(BERATUNGSHILFE_PAGE);
   });
 
   test("positive feedback submission", async ({ page }) => {
