@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
-const DATA_LIST_API_PATH = "/data-list-options";
+const API_PATH = "/api";
 
 const useDataListOptions = (dataListType: DataListType) => {
   const [dataListOptions, setDataListOptions] = useState<DataListOptions[]>([]);
+  const FLUGGASTRECHTE_RESOURCE_PATH = `${API_PATH}/${dataListType}/list`;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${DATA_LIST_API_PATH}/${dataListType}`);
+        const response = await fetch(FLUGGASTRECHTE_RESOURCE_PATH);
 
         if (response.ok) {
           const json = await response.json();
@@ -23,7 +24,7 @@ const useDataListOptions = (dataListType: DataListType) => {
 
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData();
-  }, [dataListType]);
+  }, [FLUGGASTRECHTE_RESOURCE_PATH, dataListType]);
 
   return dataListOptions;
 };
