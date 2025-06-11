@@ -1,4 +1,5 @@
 import type { ProzesskostenhilfeAntragstellendePersonUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
+import { getProzesskostenhilfeVereinfachteErklaerungConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/xStateConfig";
 import type {
   Config,
   FlowConfigTransitions,
@@ -7,7 +8,8 @@ import {
   antragstellendePersonDone,
   couldLiveFromUnterhalt,
   unterhaltBekommeIch,
-  unterhaltLeisteIch,
+  empfaengerIsAnderePerson,
+  empfaengerIsChild,
 } from "./guards";
 
 export const getProzesskostenhilfeAntragstellendePersonConfig = (
@@ -26,13 +28,22 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
           BACK: transitions?.backToCallingFlow,
           SUBMIT: [
             {
-              guard: unterhaltLeisteIch,
+              guard: empfaengerIsChild /* () => true */,
+              target: "vereinfachte-erklaerung",
+            },
+            {
+              guard: empfaengerIsAnderePerson,
               target: "zwei-formulare",
             },
             "unterhaltsanspruch",
           ],
         },
       },
+      "vereinfachte-erklaerung":
+        getProzesskostenhilfeVereinfachteErklaerungConfig({
+          backToCallingFlow: "#antragstellende-person.empfaenger",
+          nextFlowEntrypoint,
+        }),
       unterhaltsanspruch: {
         on: {
           BACK: "empfaenger",
@@ -108,7 +119,7 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
       "zwei-formulare": {
         on: {
           BACK: "empfaenger",
-          SUBMIT: nextFlowEntrypoint,
+          SUBMIT: "#finanzielle-angaben",
         },
       },
     },
