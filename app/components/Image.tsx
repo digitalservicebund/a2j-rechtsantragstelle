@@ -3,6 +3,7 @@ import { useJsAvailable } from "~/services/useJsAvailable";
 
 export type ImageProps = Readonly<{
   url: string;
+  svgAriaHidden?: boolean;
   width?: number;
   height?: number;
   alternativeText?: string;
@@ -12,7 +13,7 @@ export type ImageProps = Readonly<{
 // Create a constant variable to avoid complains from Sonar
 const SVG_ROLE = "img";
 
-function Image({ url, alternativeText, ...props }: ImageProps) {
+function Image({ url, svgAriaHidden, alternativeText, ...props }: ImageProps) {
   const jsAvailable = useJsAvailable();
 
   const isSvg = url.endsWith(".svg");
@@ -43,6 +44,7 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
       src={url}
       title={altText}
       role={SVG_ROLE}
+      aria-hidden={svgAriaHidden}
       height="100%"
     />
   );
