@@ -4,4 +4,4 @@ import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 export const vereinfachteErklaerungDone: GenericGuard<
   ProzesskostenhilfeVereinfachteErklaerungUserData
-> = ({ context }) => objectKeysNonEmpty(context.kind, ["vorname", "nachname"]);
+> = ({ context }) => objectKeysNonEmpty(context.child, ["vorname", "nachname"]);

@@ -3,11 +3,11 @@ import { vereinfachteErklaerungDone } from "~/domains/prozesskostenhilfe/formula
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import type { ProzesskostenhilfeAntragstellendePersonUserData } from "./userData";
 
-export const unterhaltLeisteIchAnderePerson: GenericGuard<
+export const empfaengerIsAnderePerson: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
 > = ({ context }) => context.empfaenger === "anderePerson";
 
-export const unterhaltLeisteIchKind: GenericGuard<
+export const empfaengerIsChild: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
 > = ({ context }) => context.empfaenger === "kind";
 
@@ -21,9 +21,8 @@ export const couldLiveFromUnterhalt: GenericGuard<
 export const antragstellendePersonDone: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
 > = ({ context }) =>
-  (unterhaltLeisteIchKind({ context }) &&
-    vereinfachteErklaerungDone({ context })) ||
-  unterhaltLeisteIchAnderePerson({ context }) ||
+  (empfaengerIsChild({ context }) && vereinfachteErklaerungDone({ context })) ||
+  empfaengerIsAnderePerson({ context }) ||
   context.unterhaltsanspruch === "keine" ||
   (context.unterhaltsanspruch === "unterhalt" &&
     context.unterhaltsSumme !== undefined &&

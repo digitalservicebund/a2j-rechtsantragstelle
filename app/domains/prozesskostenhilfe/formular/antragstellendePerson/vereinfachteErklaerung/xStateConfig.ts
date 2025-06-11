@@ -11,13 +11,17 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
   const nextFlowEntrypoint = Array.isArray(transitions?.nextFlowEntrypoint)
     ? transitions.nextFlowEntrypoint
     : [transitions?.nextFlowEntrypoint];
-  console.log(nextFlowEntrypoint);
   return {
     id: "vereinfachte-erklaerung",
     initial: "kind",
     meta: { done: vereinfachteErklaerungDone },
     states: {
-      kind: { on: { BACK: transitions?.backToCallingFlow } },
+      kind: {
+        on: {
+          BACK: transitions?.backToCallingFlow,
+          SUBMIT: nextFlowEntrypoint,
+        },
+      },
     },
   } satisfies Config<ProzesskostenhilfeVereinfachteErklaerungUserData>;
 };

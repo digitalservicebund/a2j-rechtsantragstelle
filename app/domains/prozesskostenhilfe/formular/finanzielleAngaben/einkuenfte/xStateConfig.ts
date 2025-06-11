@@ -13,7 +13,7 @@ import {
 } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/guards";
 import {
   couldLiveFromUnterhalt,
-  unterhaltLeisteIchAnderePerson,
+  empfaengerIsAnderePerson,
 } from "../../antragstellendePerson/guards";
 import { isNachueberpruefung } from "../../grundvoraussetzungen/guards";
 
@@ -84,7 +84,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
             SUBMIT: stepIds.staatlicheLeistungen,
             BACK: [
               {
-                guard: unterhaltLeisteIchAnderePerson,
+                guard: empfaengerIsAnderePerson,
                 target: "#antragstellende-person.zwei-formulare",
               },
               {
