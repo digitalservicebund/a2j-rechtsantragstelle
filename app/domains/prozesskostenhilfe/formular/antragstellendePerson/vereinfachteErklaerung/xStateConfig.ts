@@ -19,8 +19,11 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
       kind: {
         on: {
           BACK: transitions?.backToCallingFlow,
-          SUBMIT: nextFlowEntrypoint,
+          SUBMIT: "hinweis-voraussetzung",
         },
+      },
+      "hinweis-voraussetzung": {
+        on: { BACK: "kind", SUBMIT: nextFlowEntrypoint },
       },
     },
   } satisfies Config<ProzesskostenhilfeVereinfachteErklaerungUserData>;
