@@ -141,5 +141,25 @@ describe("flowNavigation", () => {
         },
       ]);
     });
+
+    it('should have the correct "current" status if the step is a top-level step', () => {
+      expect(
+        navItemsFromStepStates("/a-b", [
+          {
+            url: "/",
+            isDone: false,
+            stepId: "/a-b",
+            isReachable: true,
+          },
+        ]),
+      ).toStrictEqual([
+        {
+          destination: "/",
+          label: "/a-b",
+          subflows: undefined,
+          state: "Current",
+        },
+      ]);
+    });
   });
 });

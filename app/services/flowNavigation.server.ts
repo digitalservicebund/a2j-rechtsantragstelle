@@ -5,7 +5,7 @@ import type { Translations } from "./translations/getTranslationByKey";
 
 function isStepStateIdCurrent(stepStateId: string, stepId: string) {
   // subflows might start with the same name, need to check the following char
-  return stepId.startsWith(stepStateId + "/");
+  return stepId.startsWith(stepStateId + "/") || stepId === stepStateId;
 }
 
 function isSubflowCurrent(subflows: NavItem[]) {
