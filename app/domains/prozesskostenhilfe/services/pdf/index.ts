@@ -225,7 +225,7 @@ function relevantProzesskostenhilfeFilesList(
     [partnerHasKrankengeld, userData.krankengeldPartnerBeweis],
     [partnerHasElterngeld, userData.elterngeldPartnerBeweis],
     [partnerWeitereEinkuenfte, userData.weitereEinkuenftePartnerBeweis],
-    [isRenter, userData.renteBeweis],
+    [isRenter, userData.mieteBeweis],
     [isHomeowner, userData.wohngeldBeweis],
     [hasGrundeigentum, userData.grundeigentumBeweis],
     [hasKraftfahrzeug, userData.kraftfahrzeugeBeweis],
