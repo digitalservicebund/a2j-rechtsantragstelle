@@ -151,6 +151,7 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "warn",
+      // TODO: Align both streams for enabling exhaustiveness check globally
       "@typescript-eslint/switch-exhaustiveness-check": "warn",
       "no-restricted-syntax": [
         "error",
