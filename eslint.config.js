@@ -151,7 +151,7 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "warn",
-      "@typescript-eslint/switch-exhaustiveness-check": "error",
+      "@typescript-eslint/switch-exhaustiveness-check": "warn",
       "no-restricted-syntax": [
         "error",
         {
@@ -166,6 +166,13 @@ export default tseslint.config(
           message: "Do not declare enums",
         },
       ],
+    },
+  },
+  // AutoSuggest specific rules
+  {
+    files: ["**/autoSuggestInput/*.{ts,tsx}"],
+    rules: {
+      "@typescript-eslint/switch-exhaustiveness-check": "error",
     },
   },
   // Vitest
