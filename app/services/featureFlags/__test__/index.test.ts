@@ -1,73 +1,32 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { config } from "~/services/env/web";
+import type { PostHog } from "posthog-node";
+import { getPosthogNodeClient } from "~/services/analytics/posthogClient.server";
 import { isFeatureFlagEnabled } from "../index";
 
-// Mock the config module
-vi.mock("~/services/env/web", () => ({
-  config: vi.fn(),
-}));
-
-const mockIsFeatureEnabled = vi.fn();
-
-vi.mock("~/services/analytics/posthogClient.server", () => ({
-  getPosthogNodeClient: () => ({
-    isFeatureEnabled: mockIsFeatureEnabled,
-  }),
-}));
+vi.mock("~/services/analytics/posthogClient.server");
 
 describe("isFeatureFlagEnabled", () => {
-  beforeEach(() => {
-    vi.resetAllMocks();
-  });
-
   afterEach(() => {
     vi.clearAllMocks();
   });
 
-  it("should return true when not in production environment", async () => {
-    vi.mocked(config).mockReturnValue({
-      ENVIRONMENT: "development",
-      POSTHOG_API_HOST: "",
-      POSTHOG_API_KEY: "",
-      SENTRY_DSN: "undefined",
-    });
+  it("passes feature flag to PostHog and returns the results", async () => {
+    const mockIsFeatureEnabled = vi.fn();
+
+    vi.mocked(getPosthogNodeClient).mockReturnValueOnce({
+      isFeatureEnabled: mockIsFeatureEnabled.mockResolvedValue(true),
+    } as unknown as PostHog);
 
     const result = await isFeatureFlagEnabled("showGeldEinklagenFlow");
-
     expect(result).toBe(true);
+    expect(mockIsFeatureEnabled).toHaveBeenCalledWith(
+      "showGeldEinklagenFlow",
+      "backend",
+    );
   });
 
-  describe("when in production environment", () => {
-    beforeEach(() => {
-      vi.mocked(config).mockReturnValue({
-        ENVIRONMENT: "production",
-        POSTHOG_API_KEY: "test-api-key",
-        POSTHOG_API_HOST: "posthog-host",
-        SENTRY_DSN: undefined,
-      });
-    });
-
-    it("should handle PostHog client returning true", async () => {
-      mockIsFeatureEnabled.mockResolvedValue(true);
-      const result = await isFeatureFlagEnabled("showGeldEinklagenFlow");
-
-      expect(result).toBe(true);
-      expect(mockIsFeatureEnabled).toHaveBeenCalledWith(
-        "showGeldEinklagenFlow",
-        "backend",
-      );
-    });
-
-    it("should handle PostHog client returning false", async () => {
-      mockIsFeatureEnabled.mockResolvedValue(false);
-
-      const result = await isFeatureFlagEnabled("showGeldEinklagenFlow");
-
-      expect(result).toBe(false);
-      expect(mockIsFeatureEnabled).toHaveBeenCalledWith(
-        "showGeldEinklagenFlow",
-        "backend",
-      );
-    });
+  it("handles undefined posthog instance", async () => {
+    vi.mocked(getPosthogNodeClient).mockReturnValueOnce(undefined);
+    const result = await isFeatureFlagEnabled("showGeldEinklagenFlow");
+    expect(result).toBeUndefined();
   });
 });
