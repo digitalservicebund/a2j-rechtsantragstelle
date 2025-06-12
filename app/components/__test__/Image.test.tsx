@@ -33,4 +33,31 @@ describe("Image", () => {
     );
     expect(baseElement).toContainHTML("<noscript>");
   });
+
+  it("should render an image as with aria-hidden as true", () => {
+    const { container } = render(
+      <Image url="photo.jpg" alternativeText={altText} ariaHidden />,
+    );
+    const image = container.querySelector("img");
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("should render an image as with aria-hidden as false", () => {
+    const { container } = render(
+      <Image url="photo.jpg" alternativeText={altText} ariaHidden={false} />,
+    );
+    const image = container.querySelector("img");
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveAttribute("aria-hidden", "false");
+  });
+
+  it("should render an image as with aria-hidden as undefined", () => {
+    const { container } = render(
+      <Image url="photo.jpg" alternativeText={altText} />,
+    );
+    const image = container.querySelector("img");
+    expect(image).toBeInTheDocument();
+    expect(image).not.toHaveAttribute("aria-hidden");
+  });
 });
