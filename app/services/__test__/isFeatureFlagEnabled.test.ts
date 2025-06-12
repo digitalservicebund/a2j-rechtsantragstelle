@@ -1,6 +1,6 @@
 import type { PostHog } from "posthog-node";
 import { getPosthogNodeClient } from "~/services/analytics/posthogClient.server";
-import { isFeatureFlagEnabled } from "../index";
+import { isFeatureFlagEnabled } from "../isFeatureFlagEnabled.server";
 
 vi.mock("~/services/analytics/posthogClient.server");
 

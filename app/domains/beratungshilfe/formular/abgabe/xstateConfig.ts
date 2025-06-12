@@ -1,6 +1,6 @@
 import type { AbgabeUserData } from "~/domains/shared/formular/abgabe/userData";
 import { config } from "~/services/env/env.server";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { beratungshilfeAbgabeGuards } from "./guards";
 
