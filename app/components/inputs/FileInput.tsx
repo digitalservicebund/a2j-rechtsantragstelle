@@ -49,6 +49,7 @@ export const FileInput = ({
       aria-invalid={error !== undefined}
       aria-errormessage={error && errorId}
       className={inputClasses}
+      {...(selectedFile ? { value: selectedFile.filename } : {})}
     />
   );
 

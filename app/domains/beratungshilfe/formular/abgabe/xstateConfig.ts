@@ -4,8 +4,9 @@ import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { beratungshilfeAbgabeGuards } from "./guards";
 
+export const shouldShowZusammenfassung = config().ENVIRONMENT !== "production";
+
 export const abgabeXstateConfig = async (backDestination: string) => {
-  const showZusammenfassung = config().ENVIRONMENT !== "production";
   const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
   return {
     initial: "ueberpruefung",
@@ -16,14 +17,13 @@ export const abgabeXstateConfig = async (backDestination: string) => {
         on: { BACK: backDestination },
         always: {
           guard: beratungshilfeAbgabeGuards.readyForAbgabe,
-          target: "art",
+          target: shouldShowZusammenfassung ? "zusammenfassung" : "art",
         },
       },
+      zusammenfassung: { on: { BACK: backDestination, SUBMIT: "art" } },
       art: {
         on: {
-          BACK: showZusammenfassung
-            ? "#zusammenfassung"
-            : "#persoenliche-daten.telefonnummer",
+          BACK: shouldShowZusammenfassung ? "zusammenfassung" : backDestination,
           SUBMIT: [
             {
               target: showFileUpload ? "dokumente" : "online",

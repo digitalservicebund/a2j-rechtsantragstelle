@@ -1,3 +1,4 @@
+import { useField } from "@rvf/react-router";
 import {
   components,
   type InputProps,
@@ -18,6 +19,8 @@ type CustomSelectProps = Props<
 
 const CustomInput = (props: InputProps<DataListOptions, false>) => {
   const selectProps = props.selectProps as CustomSelectProps;
+  const field = useField(props.selectProps.id ?? "");
+
   return (
     <components.Input
       // avoid to clear the previous auto suggestion input when press enter
@@ -28,6 +31,7 @@ const CustomInput = (props: InputProps<DataListOptions, false>) => {
         }
       }}
       {...props}
+      innerRef={field.error() ? field.refs.controlled() : undefined}
       maxLength={INPUT_CHAR_LIMIT}
       aria-describedby={selectProps["aria-describedby"]}
       aria-required={props.selectProps.className?.includes(
@@ -36,4 +40,5 @@ const CustomInput = (props: InputProps<DataListOptions, false>) => {
     />
   );
 };
+
 export default CustomInput;

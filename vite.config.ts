@@ -48,5 +48,31 @@ export default defineConfig((config) => ({
       exclude: ["app/**/__test__/**", "app/routes/**"],
       reporter: ["text", "lcov"],
     },
+    projects: [
+      {
+        extends: true,
+        test: {
+          include: ["./app/**/__test__/*.test.{ts,tsx}"],
+          exclude: ["./app/components/**/__test__/*.test.{ts,tsx}"],
+          name: "unit",
+        },
+      },
+      {
+        extends: true,
+        test: {
+          include: ["./app/components/**/__test__/*.test.{ts,tsx}"],
+          name: "component",
+          environment: "jsdom",
+        },
+      },
+      {
+        extends: true,
+        test: {
+          dir: "./tests/integration",
+          name: "integration",
+          pool: "forks",
+        },
+      },
+    ],
   },
 }));
