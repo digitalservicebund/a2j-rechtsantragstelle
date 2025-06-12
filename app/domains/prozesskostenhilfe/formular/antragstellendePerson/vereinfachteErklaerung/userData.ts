@@ -1,8 +1,13 @@
 import { z } from "zod";
 import { vornameNachnameSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
+import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const prozesskostenhilfeVereinfachteErklaerungInputSchema = {
   child: z.object(vornameNachnameSchema),
+  livesTogether: YesNoAnswer,
+  unterhaltsSumme: buildMoneyValidationSchema(),
+  minderjaehrig: YesNoAnswer,
 };
 
 const _partialSchema = z
