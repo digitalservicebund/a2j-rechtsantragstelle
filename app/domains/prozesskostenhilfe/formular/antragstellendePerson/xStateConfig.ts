@@ -9,6 +9,7 @@ import {
   couldLiveFromUnterhalt,
   unterhaltBekommeIch,
   empfaengerIsAnderePerson,
+  empfaengerIsChild,
 } from "./guards";
 
 export const getProzesskostenhilfeAntragstellendePersonConfig = (
@@ -27,7 +28,7 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
           BACK: transitions?.backToCallingFlow,
           SUBMIT: [
             {
-              guard: /* empfaengerIsChild */ () => true,
+              guard: empfaengerIsChild /* () => true */,
               target: "vereinfachte-erklaerung",
             },
             {

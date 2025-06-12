@@ -49,8 +49,11 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
             },
             "zusammenleben",
           ],
-          SUBMIT: nextFlowEntrypoint,
+          SUBMIT: "geburtsdatum",
         },
+      },
+      geburtsdatum: {
+        on: { BACK: "minderjaehrig", SUBMIT: nextFlowEntrypoint },
       },
     },
   } satisfies Config<ProzesskostenhilfeVereinfachteErklaerungUserData>;
