@@ -1,5 +1,6 @@
 import {
   childLivesSeparately,
+  unterhaltsOrAbstammungssachen,
   vereinfachteErklaerungDone,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 import { type ProzesskostenhilfeVereinfachteErklaerungUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/userData";
@@ -53,7 +54,37 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
         },
       },
       geburtsdatum: {
-        on: { BACK: "minderjaehrig", SUBMIT: nextFlowEntrypoint },
+        on: { BACK: "minderjaehrig", SUBMIT: "worum-gehts" },
+      },
+      "worum-gehts": {
+        on: {
+          BACK: "geburtsdatum",
+          SUBMIT: [
+            {
+              guard: unterhaltsOrAbstammungssachen,
+              target: "rechtliches-thema",
+            },
+            "einnahmen",
+          ],
+        },
+      },
+      "rechtliches-thema": {
+        on: {
+          BACK: "worum-gehts",
+          SUBMIT: "einnahmen",
+        },
+      },
+      einnahmen: {
+        on: {
+          BACK: [
+            {
+              guard: unterhaltsOrAbstammungssachen,
+              target: "rechtliches-thema",
+            },
+            "worum-gehts",
+          ],
+          SUBMIT: nextFlowEntrypoint,
+        },
       },
     },
   } satisfies Config<ProzesskostenhilfeVereinfachteErklaerungUserData>;

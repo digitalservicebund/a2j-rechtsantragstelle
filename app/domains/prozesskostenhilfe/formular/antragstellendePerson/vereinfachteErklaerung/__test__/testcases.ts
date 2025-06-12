@@ -20,10 +20,21 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung = (
     ],
     [
       {
-        child: { vorname: "Max", nachname: "Mustermann" },
+        child: {
+          vorname: "Max",
+          nachname: "Mustermann",
+          geburtsdatum: "01.01.2015",
+        },
         livesTogether: "yes",
       },
-      ["/kind", "/hinweis-voraussetzung", "/zusammenleben", "/minderjaehrig"],
+      [
+        "/kind",
+        "/hinweis-voraussetzung",
+        "/zusammenleben",
+        "/minderjaehrig",
+        "/geburtsdatum",
+        "/worum-gehts",
+      ],
     ],
   ] as const
 ).map(([data, steps]) => [

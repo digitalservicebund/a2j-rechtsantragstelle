@@ -6,6 +6,10 @@ export const childLivesSeparately: GenericGuard<
   ProzesskostenhilfeVereinfachteErklaerungUserData
 > = ({ context }) => context.livesTogether === "no";
 
+export const unterhaltsOrAbstammungssachen: GenericGuard<
+  ProzesskostenhilfeVereinfachteErklaerungUserData
+> = ({ context }) => context.unterhaltsOrAbstammungssachen === "yes";
+
 export const vereinfachteErklaerungDone: GenericGuard<
   ProzesskostenhilfeVereinfachteErklaerungUserData
 > = ({ context }) => objectKeysNonEmpty(context.child, ["vorname", "nachname"]);
