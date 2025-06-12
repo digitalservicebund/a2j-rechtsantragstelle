@@ -23,6 +23,7 @@ import {
   getSchuldnerberatungsstelleStrings,
   getAmtsgerichtStrings,
   getInfoZumPKontoStrings,
+  getHasErhöhungStrings,
 } from "../stringReplacements";
 import { type KontopfaendungWegweiserUserData } from "../userData";
 
@@ -359,6 +360,40 @@ describe("stringReplacements", () => {
       };
       expect(getInfoZumPKontoStrings(userData)).toEqual({
         infoZumPKontoIsVisible: false,
+      });
+    });
+  });
+  describe("getHasErhöhungStrings", () => {
+    it("should return hasErhöhung as true when at least one sub variable is true", () => {
+      const userData: KontopfaendungWegweiserUserData = {
+        kinderWohnenZusammen: "ja",
+        sozialleistungenUmstaende: {
+          kindergeld: "on",
+          pflegegeld: "off",
+          wohngeld: "off",
+        },
+        hasSozialleistungenEinmalzahlung: "yes",
+        hasSozialleistungNachzahlung: "yes",
+        sozialleistungNachzahlungHigherThan: "no",
+      };
+      expect(getHasErhöhungStrings(userData)).toEqual({
+        hasErhöhung: true,
+      });
+    });
+    it("should return hasErhöhung as false when all sub variables are false", () => {
+      const userData: KontopfaendungWegweiserUserData = {
+        kinderWohnenZusammen: "nein",
+        sozialleistungenUmstaende: {
+          kindergeld: "off",
+          pflegegeld: "off",
+          wohngeld: "off",
+        },
+        hasSozialleistungenEinmalzahlung: "no",
+        hasSozialleistungNachzahlung: "no",
+        sozialleistungNachzahlungHigherThan: "no",
+      };
+      expect(getHasErhöhungStrings(userData)).toEqual({
+        hasErhöhung: false,
       });
     });
   });
