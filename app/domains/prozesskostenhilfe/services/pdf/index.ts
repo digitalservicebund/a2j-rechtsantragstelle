@@ -131,9 +131,13 @@ export async function prozesskostenhilfePdfFromUserdata(
       userFilesDocument,
     );
   } else {
+    const anhang = await appendPagesToPdf(
+      await PDFDocument.load(pdfKitBuffer),
+      await loadHinweisblatt(),
+    );
     await appendPagesToPdf(
       filledPdfFormDocumentWithMetadata,
-      await loadHinweisblatt(),
+      await PDFDocument.load(anhang),
     );
   }
 
