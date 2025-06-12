@@ -1,12 +1,17 @@
-import { loader as airportsLoader } from "~/routes/api.airports.list";
+import type { LoaderFunctionArgs } from "react-router";
+import { createDataListLoader } from "~/services/dataListOptions/createDataListLoader";
+import { loader } from "../api.airports.list";
+
+vi.mock("~/services/dataListOptions/createDataListLoader", () => ({
+  createDataListLoader: vi.fn(() => () => new Response()),
+}));
 
 describe("Airports API", () => {
-  test("returns array of airport options", () => {
-    const response = airportsLoader();
+  it("uses airports datalist loader", async () => {
+    await loader({
+      request: new Request("https://a2j.forever/airports"),
+    } as LoaderFunctionArgs);
 
-    expect(response.length).toBeGreaterThan(0);
-    expect(response[0]).toHaveProperty("label");
-    expect(response[0]).toHaveProperty("value");
-    expect(response[0]).toHaveProperty("subDescription");
+    expect(createDataListLoader).toHaveBeenCalledWith("airports");
   });
 });

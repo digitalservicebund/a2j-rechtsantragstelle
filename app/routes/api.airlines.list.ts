@@ -1,5 +1,3 @@
-import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import { createDataListLoader } from "~/services/dataListOptions/createDataListLoader";
 
-export function loader() {
-  return getDataListOptions("airlines");
-}
+export const loader = createDataListLoader("airlines");

@@ -1,11 +1,17 @@
-import { loader as airlinesLoader } from "~/routes/api.airlines.list";
+import type { LoaderFunctionArgs } from "react-router";
+import { createDataListLoader } from "~/services/dataListOptions/createDataListLoader";
+import { loader } from "../api.airlines.list";
+
+vi.mock("~/services/dataListOptions/createDataListLoader", () => ({
+  createDataListLoader: vi.fn(() => () => new Response()),
+}));
 
 describe("Airlines API", () => {
-  test("returns array of airline options", () => {
-    const response = airlinesLoader();
+  it("uses airlines datalist loader", async () => {
+    await loader({
+      request: new Request("https://a2j.forever/airlines"),
+    } as LoaderFunctionArgs);
 
-    expect(response.length).toBeGreaterThan(0);
-    expect(response[0]).toHaveProperty("label");
-    expect(response[0]).toHaveProperty("value");
+    expect(createDataListLoader).toHaveBeenCalledWith("airlines");
   });
 });
