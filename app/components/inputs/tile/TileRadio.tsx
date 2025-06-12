@@ -85,7 +85,7 @@ function TileRadio({
                 {...image}
                 width={IMAGE_WIDTH}
                 height={IMAGE_HEIGHT}
-                svgAriaHidden={true}
+                ariaHidden={true}
               />
             )}
             <TileTag tagDescription={tagDescription} />
