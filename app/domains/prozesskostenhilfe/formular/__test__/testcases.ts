@@ -3,6 +3,7 @@ import type { TestCases } from "~/domains/__test__/TestCases";
 import { prozesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular";
 import { happyPathData } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import { antragstellendePersonTransitionCases } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
+import { testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/types";
 import { testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen } from "../finanzielleAngaben/__test__/testcasesAndereUnterhalt";
 import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "../finanzielleAngaben/__test__/testcasesAusgaben";
@@ -55,6 +56,7 @@ const cases = [
     ["/persoenliche-daten/beruf", "/weitere-angaben", "/abgabe/ueberpruefung"],
   ],
   ...antragstellendePersonTransitionCases,
+  ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
   ...testCasesPKHFormularFinanzielleAngabenEinkuenfte,
   ...testCasesPKHFormularFinanzielleAngabenPartner,
   ...testCasesPKHFormularFinanzielleAngabenWohnung,
