@@ -6,6 +6,7 @@ import {
   ERROR_MESSAGE_TOKEN_SESSION,
   ERROR_MESSAGE_TOKEN_SESSION_NOT_MATCH,
   validatedSession,
+  validateCsrfSessionFormless,
 } from "../validatedSession.server";
 
 vi.mock("~/services/session.server");
@@ -92,6 +93,36 @@ describe("validatedSession", () => {
     const request = new Request("http://localhost:3000", options);
 
     const actual = await validatedSession(request);
+    expect(actual.isOk).toBe(true);
+  });
+});
+
+describe("validateCsrfSessionFormless", () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+  });
+
+  it("should return a result error if csrf token is missing in session", async () => {
+    const mockSession: Session = createSession();
+    mockMainSessionFromCookieHeader(mockSession);
+
+    const request = new Request("http://localhost:3000");
+    const actual = await validateCsrfSessionFormless(request);
+
+    expect(actual.isErr).toBe(true);
+    expect(actual.isErr ? actual.error : "").toEqual(
+      ERROR_MESSAGE_TOKEN_SESSION,
+    );
+  });
+
+  it("should return a result ok if csrf token exists in session", async () => {
+    const mockSession: Session = createSession();
+    mockMainSessionFromCookieHeader(mockSession);
+    mockSession.set(CSRFKey, "csrf-token");
+
+    const request = new Request("http://localhost:3000");
+    const actual = await validateCsrfSessionFormless(request);
+
     expect(actual.isOk).toBe(true);
   });
 });
