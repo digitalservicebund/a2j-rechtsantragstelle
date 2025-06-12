@@ -7,7 +7,7 @@ import type { Airport } from "~/domains/fluggastrechte/services/airports/type";
 
 const FILE_PATH_AIRPORTS_DATA = "data/airports/data.json";
 const GERMAN_LOCALE = "de";
-const CITIES_AIRPORTS_DE = "scripts/cities_airports_de.csv";
+const CITIES_AIRPORTS_DE = "scripts/data/cities_airports_de.csv";
 const AIRPORTS_URL_DATA_SOURCE =
   "https://davidmegginson.github.io/ourairports-data/airports.csv";
 
