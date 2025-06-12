@@ -20,7 +20,7 @@ import {
   eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
 } from "~/domains/shared/formular/stringReplacements";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import {
   couldLiveFromUnterhalt,
   empfaengerIsAnderePerson,
