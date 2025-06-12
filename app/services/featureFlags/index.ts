@@ -3,7 +3,6 @@ import { config } from "~/services/env/web";
 
 export type FeatureFlag =
   | "showGeldEinklagenFlow"
-  | "showERV"
   | "showFileUpload"
   | "showKontopfaendungWegweiserFlow";
 
