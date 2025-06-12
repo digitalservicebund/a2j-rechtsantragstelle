@@ -151,7 +151,7 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "warn",
-
+      "@typescript-eslint/switch-exhaustiveness-check": "error",
       "no-restricted-syntax": [
         "error",
         {

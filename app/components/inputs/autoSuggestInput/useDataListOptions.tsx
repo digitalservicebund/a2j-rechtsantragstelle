@@ -4,14 +4,26 @@ import type { DataListOptions } from "~/services/dataListOptions/getDataListOpti
 
 const API_PATH = "/api";
 
+function getResourcePath(type: DataListType): string {
+  switch (type) {
+    case "airports":
+      return `${API_PATH}/airports/list`;
+    case "airlines":
+      return `${API_PATH}/airlines/list`;
+    default: {
+      throw new Error(`Unhandled type: ${String(type)}`);
+    }
+  }
+}
+
 const useDataListOptions = (dataListType: DataListType) => {
   const [dataListOptions, setDataListOptions] = useState<DataListOptions[]>([]);
-  const FLUGGASTRECHTE_RESOURCE_PATH = `${API_PATH}/${dataListType}/list`;
+  const resourcePath = getResourcePath(dataListType);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(FLUGGASTRECHTE_RESOURCE_PATH);
+        const response = await fetch(resourcePath);
 
         if (response.ok) {
           const json = await response.json();
@@ -24,7 +36,7 @@ const useDataListOptions = (dataListType: DataListType) => {
 
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData();
-  }, [FLUGGASTRECHTE_RESOURCE_PATH, dataListType]);
+  }, [resourcePath, dataListType]);
 
   return dataListOptions;
 };
