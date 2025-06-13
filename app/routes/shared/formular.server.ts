@@ -37,10 +37,10 @@ import { validateFormData } from "~/services/validation/validateFormData.server"
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { filterFormData } from "~/util/filterFormData";
-import { getUserAndFlow } from "./formular/getUserAndFlow";
+import { getUserDataAndFlow } from "./formular/getUserDataAndFlow";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
-  const resultUserAndFlow = await getUserAndFlow(request);
+  const resultUserAndFlow = await getUserDataAndFlow(request);
 
   if (resultUserAndFlow.isErr) {
     return redirectDocument(resultUserAndFlow.error.redirectTo);
@@ -54,9 +54,10 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       current: currentFlow,
       validFlowPaths,
     },
-    page: { stepId, arrayIndexes, pathname },
+    page: { stepId, arrayIndexes },
   } = resultUserAndFlow.value;
 
+  const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
 
   const [formPageContent, parentMeta, translations] = await Promise.all([
