@@ -24,10 +24,7 @@ describe("FileInput", () => {
     );
     expect(getByText(selectFilesButtonLabel)).toBeInTheDocument();
     const input = getByTestId("file-upload-input-belege[0]");
-    expect(input).toBeInTheDocument();
-    expect(input).toHaveClass(
-      "w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer",
-    );
+    expect(input).toHaveClass("hidden");
     expect(getByText(selectFilesButtonLabel)).toBeInTheDocument();
     expect(getByText(helperText)).toBeInTheDocument();
   });
