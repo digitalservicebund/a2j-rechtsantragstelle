@@ -6,12 +6,8 @@ import { type UserData } from "~/domains/userData";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import {
-  getFlowTransitionConfig,
-  validateFlowTransition,
-} from "~/services/flow/server/flowTransitionValidation";
-import { skipFlowParamAllowedAndEnabled } from "~/services/params";
 import { getSessionData } from "~/services/session.server";
+import { validateStepIdFlow } from "./validateStepIdFlow";
 
 type OkResult = {
   userData: UserData & {
@@ -27,8 +23,7 @@ type OkResult = {
   };
   page: {
     stepId: string;
-    arrayIndexes: number[];
-    pathname: string;
+    arrayIndexes?: number[];
   };
 };
 
@@ -36,10 +31,10 @@ type ErrorResult = {
   redirectTo: string;
 };
 
-export const getUserAndFlow = async (
+export const getUserDataAndFlow = async (
   request: Request,
 ): Promise<Result<OkResult, ErrorResult>> => {
-  const { pathname, searchParams } = new URL(request.url);
+  const { pathname } = new URL(request.url);
   const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
   const { userData } = await getSessionData(flowId, cookieHeader);
@@ -56,27 +51,15 @@ export const getUserAndFlow = async (
     guards: currentFlow.guards,
   });
 
-  if (
-    !flowController.isReachable(stepId) &&
-    !skipFlowParamAllowedAndEnabled(searchParams)
-  )
-    return Result.err({
-      redirectTo: flowController.getInitial(),
-    });
+  const validationFlowResult = await validateStepIdFlow(
+    stepId,
+    request,
+    flowController,
+    currentFlow,
+  );
 
-  const flowTransitionConfig = getFlowTransitionConfig(currentFlow);
-  if (flowTransitionConfig) {
-    const eligibilityResult = await validateFlowTransition(
-      flows,
-      cookieHeader,
-      flowTransitionConfig,
-    );
-
-    if (!eligibilityResult.isEligible && eligibilityResult.redirectTo) {
-      return Result.err({
-        redirectTo: eligibilityResult.redirectTo,
-      });
-    }
+  if (validationFlowResult.isErr) {
+    return Result.err({ redirectTo: validationFlowResult.error.redirectTo });
   }
 
   return Result.ok({
@@ -89,9 +72,7 @@ export const getUserAndFlow = async (
     },
     page: {
       stepId,
-      arrayIndexes: arrayIndexes ?? [],
-      pathname,
-      cookieHeader,
+      arrayIndexes,
     },
   });
 };
