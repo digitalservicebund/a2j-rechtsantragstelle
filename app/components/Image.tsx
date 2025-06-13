@@ -2,24 +2,32 @@ import Svg from "react-inlinesvg";
 import { useJsAvailable } from "~/services/useJsAvailable";
 
 export type ImageProps = Readonly<{
-  url?: string;
+  url: string;
+  ariaHidden?: boolean;
   width?: number;
   height?: number;
   alternativeText?: string;
   className?: string;
 }>;
 
-function Image({ url, alternativeText, ...props }: ImageProps) {
-  const jsAvailable = useJsAvailable();
+// Create a constant variable to avoid complains from Sonar
+const SVG_ROLE = "img";
 
-  if (!url) return null;
+function Image({ url, ariaHidden, alternativeText, ...props }: ImageProps) {
+  const jsAvailable = useJsAvailable();
 
   const isSvg = url.endsWith(".svg");
   const altText =
     !alternativeText || alternativeText === "" ? "image" : alternativeText;
 
   const ImageComponent = (
-    <img {...props} src={url} alt={altText} title={altText} />
+    <img
+      {...props}
+      src={url}
+      alt={altText}
+      title={altText}
+      aria-hidden={ariaHidden}
+    />
   );
 
   if (!isSvg) {
@@ -41,7 +49,8 @@ function Image({ url, alternativeText, ...props }: ImageProps) {
       className="svg-image"
       src={url}
       title={altText}
-      role="img"
+      role={SVG_ROLE}
+      aria-hidden={ariaHidden}
       height="100%"
     />
   );
