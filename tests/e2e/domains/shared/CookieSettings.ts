@@ -8,8 +8,6 @@ const decode = (str: string): string =>
 export class CookieSettings {
   readonly page: Page;
   readonly url = "/datenschutz";
-  readonly radioLabelAccept = "Analyse-Cookies einverstanden";
-  readonly radioLabelDecline = "Analyse-Cookies nicht einverstanden";
   readonly buttonAcceptCookieWithJSTestId = "accept-cookie_with_js";
 
   constructor(page: Page) {
@@ -30,12 +28,12 @@ export class CookieSettings {
   }
 
   async acceptCookies() {
-    await this.page.getByLabel(this.radioLabelAccept).click();
+    await this.page.locator(`label[for="cookieTrue"]`).click();
     await this.submitForm();
   }
 
   async declineCookies() {
-    await this.page.getByLabel(this.radioLabelDecline).click();
+    await this.page.locator(`label[for="cookieFalse"]`).click();
     await this.submitForm();
   }
 

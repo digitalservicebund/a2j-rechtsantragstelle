@@ -1,4 +1,8 @@
 import { z } from "zod";
+import {
+  prozesskostenhilfeVereinfachteErklaerungInputSchema,
+  type ProzesskostenhilfeVereinfachteErklaerungUserData,
+} from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/userData";
 import { familyRelationshipInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { vornameNachnameSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -9,7 +13,11 @@ import {
 } from "~/services/validation/YesNoAnswer";
 
 export const prozesskostenhilfeAntragstellendePersonInputSchema = {
-  empfaenger: z.enum(["ich", "anderePerson"], customRequiredErrorMessage),
+  empfaenger: z.enum(
+    ["myself", "child", "otherPerson"],
+    customRequiredErrorMessage,
+  ),
+  ...prozesskostenhilfeVereinfachteErklaerungInputSchema,
   unterhaltsanspruch: z.enum(
     ["keine", "unterhalt", "anspruchNoUnterhalt"],
     customRequiredErrorMessage,
@@ -32,4 +40,5 @@ const _partialSchema = z
   .partial();
 export type ProzesskostenhilfeAntragstellendePersonUserData = z.infer<
   typeof _partialSchema
->;
+> &
+  ProzesskostenhilfeVereinfachteErklaerungUserData;

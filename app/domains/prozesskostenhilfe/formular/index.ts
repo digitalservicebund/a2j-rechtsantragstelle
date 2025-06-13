@@ -4,6 +4,7 @@ import {
   getWeitereDokumenteStrings,
 } from "~/domains/prozesskostenhilfe/formular/abgabe/stringReplacements";
 import { getAntragstellendePersonStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/stringReplacements";
+import { getVereinfachteErklaerungStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/stringReplacements";
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/arrayConfiguration";
 import { finanzielleAngabeEinkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
@@ -21,7 +22,7 @@ import {
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import {
   couldLiveFromUnterhalt,
-  unterhaltLeisteIch,
+  empfaengerIsAnderePerson,
 } from "./antragstellendePerson/guards";
 import { prozesskostenhilfeFinanzielleAngabeDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
@@ -89,7 +90,7 @@ export const prozesskostenhilfeFormular = {
       rechtsschutzversicherung: getProzesskostenhilfeRsvXstateConfig({
         backToCallingFlow: [
           {
-            guard: unterhaltLeisteIch,
+            guard: empfaengerIsAnderePerson,
             target: "#antragstellende-person.zwei-formulare",
           },
           {
@@ -206,6 +207,7 @@ export const prozesskostenhilfeFormular = {
     ...getKinderStrings(context),
     ...getArrayIndexStrings(context),
     ...getAntragstellendePersonStrings(context),
+    ...getVereinfachteErklaerungStrings(context),
     ...eigentumZusammenfassungShowPartnerschaftWarnings(context),
     ...geldAnlagenStrings(context),
     ...getAbgabeStrings(context),

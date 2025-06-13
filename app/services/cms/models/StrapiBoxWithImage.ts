@@ -31,5 +31,4 @@ export const StrapiBoxWithImageSchema = z
   .transform((cmsData) => ({
     __component: "page.box-with-image" as const,
     ...cmsData,
-    image: cmsData.image ?? {},
   }));

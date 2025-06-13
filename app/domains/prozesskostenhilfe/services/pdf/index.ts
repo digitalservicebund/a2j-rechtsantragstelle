@@ -131,9 +131,13 @@ export async function prozesskostenhilfePdfFromUserdata(
       userFilesDocument,
     );
   } else {
+    const anhang = await appendPagesToPdf(
+      await PDFDocument.load(pdfKitBuffer),
+      await loadHinweisblatt(),
+    );
     await appendPagesToPdf(
       filledPdfFormDocumentWithMetadata,
-      await loadHinweisblatt(),
+      await PDFDocument.load(anhang),
     );
   }
 
@@ -221,7 +225,7 @@ function relevantProzesskostenhilfeFilesList(
     [partnerHasKrankengeld, userData.krankengeldPartnerBeweis],
     [partnerHasElterngeld, userData.elterngeldPartnerBeweis],
     [partnerWeitereEinkuenfte, userData.weitereEinkuenftePartnerBeweis],
-    [isRenter, userData.renteBeweis],
+    [isRenter, userData.mieteBeweis],
     [isHomeowner, userData.wohngeldBeweis],
     [hasGrundeigentum, userData.grundeigentumBeweis],
     [hasKraftfahrzeug, userData.kraftfahrzeugeBeweis],
