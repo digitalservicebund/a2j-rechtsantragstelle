@@ -93,7 +93,7 @@ function allStepsFromMachine(machine: FlowStateMachine) {
  * - system under test should be in a certain state (step)
  */
 
-vi.mock("~/services/featureFlags", () => ({
+vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
   isFeatureFlagEnabled: vi.fn().mockResolvedValue(false),
 }));
 

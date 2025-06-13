@@ -7,7 +7,7 @@ import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { startFinanzielleAngabenPartner } from "tests/e2e/domains/shared/finanzielleAngaben/finanzielleAngabenPartner";
 import { startWeitereAngaben } from "tests/e2e/domains/shared/weitereAngaben";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
 import { startFinanzielleAngabenGrundsicherung } from "./finanzielleAngabenGrundsicherung";
