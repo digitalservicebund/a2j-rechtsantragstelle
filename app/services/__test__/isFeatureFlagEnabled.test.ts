@@ -1,8 +1,17 @@
 import type { PostHog } from "posthog-node";
 import { getPosthogNodeClient } from "~/services/analytics/posthogClient.server";
+import { config } from "../env/web";
 import { isFeatureFlagEnabled } from "../isFeatureFlagEnabled.server";
 
 vi.mock("~/services/analytics/posthogClient.server");
+
+vi.mock("~/services/env/web", () => ({
+  config: vi.fn().mockReturnValue({
+    ENVIRONMENT: "any",
+    POSTHOG_API_KEY: "",
+    POSTHOG_API_HOST: "",
+  }),
+}));
 
 describe("isFeatureFlagEnabled", () => {
   afterEach(() => {
@@ -28,5 +37,20 @@ describe("isFeatureFlagEnabled", () => {
     vi.mocked(getPosthogNodeClient).mockReturnValueOnce(undefined);
     const result = await isFeatureFlagEnabled("showGeldEinklagenFlow");
     expect(result).toBeUndefined();
+  });
+
+  it("falls back to local config in development environment", async () => {
+    const resultBefore = await isFeatureFlagEnabled("showGeldEinklagenFlow");
+
+    vi.mocked(config).mockReturnValueOnce({
+      ENVIRONMENT: "development",
+      POSTHOG_API_KEY: "",
+      POSTHOG_API_HOST: "",
+      SENTRY_DSN: undefined,
+    });
+    const resultAfter = await isFeatureFlagEnabled("showGeldEinklagenFlow");
+
+    expect(resultBefore).toBe(undefined);
+    expect(resultAfter).toBe(true);
   });
 });
