@@ -1,5 +1,9 @@
 import {
   childLivesSeparately,
+  frageVermoegen,
+  hasEinnahmen,
+  hasEinnahmenAndEmptyArray,
+  hasVermoegen,
   unterhaltsOrAbstammungssachen,
   vereinfachteErklaerungDone,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
@@ -82,6 +86,104 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
               target: "rechtliches-thema",
             },
             "worum-gehts",
+          ],
+          SUBMIT: [
+            {
+              guard: hasEinnahmen,
+              target: "einnahmen-value",
+            },
+            {
+              guard: frageVermoegen,
+              target: "vermoegen",
+            },
+            "hinweis-weiteres-formular",
+          ],
+        },
+      },
+      "einnahmen-value": {
+        on: {
+          SUBMIT: "einnahmen-uebersicht",
+          BACK: "einnahmen",
+        },
+      },
+      "einnahmen-uebersicht": {
+        id: "einnahmen-uebersicht",
+        on: {
+          BACK: "einnahmen-value",
+          SUBMIT: [
+            {
+              guard: hasEinnahmenAndEmptyArray,
+              target: "einnahmen-warnung",
+            },
+            {
+              guard: frageVermoegen,
+              target: "vermoegen",
+            },
+            "hinweis-weiteres-formular",
+          ],
+          "add-einnahmen": "#einnahme",
+        },
+      },
+      einnahme: {
+        id: "einnahme",
+        initial: "daten",
+        states: {
+          daten: {
+            on: {
+              SUBMIT: "#einnahmen-uebersicht",
+              BACK: "#einnahmen-uebersicht",
+            },
+          },
+        },
+      },
+      "einnahmen-warnung": {
+        on: {
+          BACK: "einnahmen-uebersicht",
+          SUBMIT: [
+            {
+              guard: frageVermoegen,
+              target: "vermoegen",
+            },
+            "hinweis-weiteres-formular",
+          ],
+        },
+      },
+      vermoegen: {
+        on: {
+          BACK: [
+            {
+              guard: ({ context }) => !hasEinnahmen({ context }),
+              target: "einnahmen",
+            },
+            "einnahmen-uebersicht",
+          ],
+          SUBMIT: [
+            { guard: hasVermoegen, target: "vermoegen-value" },
+            "hinweis-vereinfachte-erklaerung",
+          ],
+        },
+      },
+      "vermoegen-value": {},
+      "hinweis-weiteres-formular": {
+        on: {
+          BACK: [
+            { guard: frageVermoegen, target: "vermoegen" },
+            {
+              guard: hasEinnahmen,
+              target: "einnahmen-uebersicht",
+            },
+            "einnahmen",
+          ],
+          SUBMIT: nextFlowEntrypoint,
+        },
+      },
+      "hinweis-vereinfachte-erklaerung": {
+        on: {
+          BACK: [
+            {
+              guard: ({ context }) => !hasVermoegen({ context }),
+              target: "vermoegen",
+            },
           ],
           SUBMIT: nextFlowEntrypoint,
         },

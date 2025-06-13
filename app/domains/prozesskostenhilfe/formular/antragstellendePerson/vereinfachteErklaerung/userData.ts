@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { financialEntryInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import {
   geburtsdatum,
   vornameNachnameSchema,
@@ -20,6 +21,9 @@ export const prozesskostenhilfeVereinfachteErklaerungInputSchema = {
     customRequiredErrorMessage,
   ),
   hasEinnahmen: YesNoAnswer,
+  einnahmen: z.array(financialEntryInputSchema),
+  hohesEinkommen: YesNoAnswer,
+  hasVermoegen: YesNoAnswer,
 };
 
 const _partialSchema = z
