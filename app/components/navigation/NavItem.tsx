@@ -4,6 +4,8 @@ import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
 import classNames from "classnames";
 import { useId, type FC } from "react";
 import { useCollapse } from "react-collapsed";
+import { useRouteLoaderData } from "react-router";
+import { type RootLoader } from "~/root";
 import {
   stateIsCurrent,
   stateIsActive,
@@ -11,25 +13,28 @@ import {
   stateIsDone,
 } from "~/services/navigation/navState";
 import { NavigationList } from "./NavigationList";
-import { type NavItem, type NavigationA11yLabels } from "./types";
+import { type NavItem } from "./types";
 
 const StateIcon: FC<{
   id: string;
-  a11yLabels?: NavigationA11yLabels;
-}> = ({ id, a11yLabels }) => (
-  <CheckCircle
-    id={id}
-    className="shrink-0 fill-green-700"
-    aria-label={a11yLabels?.itemFinished}
-  />
-);
+}> = ({ id }) => {
+  const rootLoaderData = useRouteLoaderData<RootLoader>("root");
+  return (
+    <CheckCircle
+      id={id}
+      className="shrink-0 fill-green-700"
+      aria-label={
+        rootLoaderData?.accessibilityTranslations?.navigationItemFinishedLabel
+      }
+    />
+  );
+};
 
 export function NavItem({
   destination,
   label,
   state,
   subflows = [],
-  a11yLabels,
   isChild = false,
 }: Readonly<NavItem & { isChild?: boolean }>) {
   const visibleChildItems = subflows.filter((subItem) =>
@@ -78,17 +83,13 @@ export function NavItem({
             ) : (
               <ExpandMoreIcon className="ml-auto" />
             )}
-            {isDone && <StateIcon id={iconId} a11yLabels={a11yLabels} />}
+            {isDone && <StateIcon id={iconId} />}
           </button>
           {
             // due the rest operator, the role is assigned to the section in the server side rendering
           }
           <section {...collapse.getCollapseProps()} role={undefined}>
-            <NavigationList
-              navItems={visibleChildItems}
-              a11yLabels={a11yLabels}
-              isChild={true}
-            />
+            <NavigationList navItems={visibleChildItems} isChild={true} />
           </section>
         </>
       ) : (
@@ -100,7 +101,7 @@ export function NavItem({
           aria-describedby={isDone ? iconId : undefined}
         >
           {label}
-          {isDone && <StateIcon id={iconId} a11yLabels={a11yLabels} />}
+          {isDone && <StateIcon id={iconId} />}
         </a>
       )}
     </li>

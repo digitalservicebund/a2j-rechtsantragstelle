@@ -26,7 +26,6 @@ export function FormFlowPage() {
     preHeading,
     stepData,
     translations,
-    navigationA11yLabels,
     navigationMobileLabels,
     validFlowPaths,
     flowId,
@@ -55,7 +54,6 @@ export function FormFlowPage() {
           <div className="md:ml-32 md:w-[248px]">
             <FlowNavigation
               navItems={navItems}
-              a11yLabels={navigationA11yLabels}
               mobileLabels={navigationMobileLabels}
             />
           </div>
