@@ -1,4 +1,3 @@
-// This file is auto-generated. Do not edit manually.
 import { type TranslationRecord } from "~/services/translations/getTranslationByKey";
 
 export const translations = {
