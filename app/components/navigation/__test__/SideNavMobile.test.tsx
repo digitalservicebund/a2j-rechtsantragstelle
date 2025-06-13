@@ -9,14 +9,9 @@ const dummyNavItems: NavItem[] = [
 ];
 
 describe("SideNavMobile", () => {
-  const labelsValues = {
-    currentArea: "Menu",
-    closeMenu: "Close Menu",
-    toggleMenu: "Toggle Menu",
-  };
   it("clicking the menu opens the menu", () => {
     const { container, getByRole } = render(
-      <SideNavMobile labels={labelsValues} navItems={dummyNavItems} />,
+      <SideNavMobile navItems={dummyNavItems} />,
     );
 
     const menuButton = getByRole("button");
@@ -29,7 +24,7 @@ describe("SideNavMobile", () => {
 
   it("clicking the overlay closes the menu", () => {
     const { container, getByRole, getByTestId } = render(
-      <SideNavMobile labels={labelsValues} navItems={dummyNavItems} />,
+      <SideNavMobile navItems={dummyNavItems} />,
     );
     const menuButton = getByRole("button");
     expect(container).not.toHaveTextContent("Page 2");
@@ -43,15 +38,11 @@ describe("SideNavMobile", () => {
 
   it("renders the main menu toggle with correct aria-label and text", () => {
     const { getByRole } = render(
-      <SideNavMobile
-        labels={labelsValues}
-        navItems={dummyNavItems}
-        className="test-class"
-      />,
+      <SideNavMobile navItems={dummyNavItems} className="test-class" />,
     );
     const toggleLabel = getByRole("button");
     expect(toggleLabel).toBeInTheDocument();
-    expect(toggleLabel).toHaveTextContent("Menu:");
+    expect(toggleLabel).toHaveTextContent("Bereich:");
     expect(toggleLabel).toHaveTextContent("Page 1");
   });
 });

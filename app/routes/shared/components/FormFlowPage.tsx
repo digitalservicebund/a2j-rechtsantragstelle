@@ -26,8 +26,6 @@ export function FormFlowPage() {
     preHeading,
     stepData,
     translations,
-    navigationA11yLabels,
-    navigationMobileLabels,
     validFlowPaths,
     flowId,
   } = useLoaderData<typeof loader>();
@@ -53,11 +51,7 @@ export function FormFlowPage() {
       <div className="flex flex-col min-w-[100vw] bg-blue-100">
         <div className="pt-32 flex flex-grow flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start gap-48">
           <div className="md:ml-32 md:w-[248px]">
-            <FlowNavigation
-              navItems={navItems}
-              a11yLabels={navigationA11yLabels}
-              mobileLabels={navigationMobileLabels}
-            />
+            <FlowNavigation navItems={navItems} />
           </div>
           <div
             className={`ds-stack ds-stack-40 container md:pl-0 md:flex-1 !pt-0 ${navItems && "!ml-0 !mr-0"}`}
