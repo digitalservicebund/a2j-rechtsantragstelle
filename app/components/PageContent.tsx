@@ -52,6 +52,7 @@ function wrapInBackground(
 }
 
 function cmsToReact(strapiContent: StrapiContentComponent) {
+  // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
   switch (strapiContent.__component) {
     case "basic.heading":
       return <Heading {...strapiContent} />;
