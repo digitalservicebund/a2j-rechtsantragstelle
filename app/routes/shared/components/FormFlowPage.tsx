@@ -22,6 +22,7 @@ export function FormFlowPage() {
     heading,
     migration,
     navItems,
+    isValidationPage,
     postFormContent,
     preHeading,
     stepData,
@@ -55,6 +56,7 @@ export function FormFlowPage() {
           <div className="md:ml-32 md:w-[248px]">
             <FlowNavigation
               navItems={navItems}
+              expandAll={isValidationPage}
               a11yLabels={navigationA11yLabels}
               mobileLabels={navigationMobileLabels}
             />
