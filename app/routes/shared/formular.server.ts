@@ -184,12 +184,6 @@ export const loader = async ({
       translations[`${flowId}/menu`],
     ) ?? [];
 
-  const navigationMobileLabels = {
-    currentArea: defaultStrings.navigationMobileCurrentArea,
-    closeMenu: defaultStrings.navigationMobileCloseMenu,
-    toggleMenu: defaultStrings.navigationMobileToggleMenu,
-  };
-
   return data(
     {
       arraySummaryData,
@@ -216,7 +210,6 @@ export const loader = async ({
       preHeading: cmsContent.preHeading,
       stepData,
       translations: stringTranslations,
-      navigationMobileLabels,
       validFlowPaths,
       flowId,
     },

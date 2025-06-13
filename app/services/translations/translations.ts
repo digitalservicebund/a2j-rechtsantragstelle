@@ -131,4 +131,15 @@ export const translations = {
       de: "Hauptmenü",
     },
   },
+  navigationMobile: {
+    currentArea: {
+      de: "Bereich",
+    },
+    closeMenu: {
+      de: "Close menu",
+    },
+    toggleMenu: {
+      de: "Main menu toggle",
+    },
+  },
 } satisfies TranslationRecord;
