@@ -50,16 +50,11 @@ import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { filterFormData } from "~/util/filterFormData";
 
-export const loader = async ({
-  params,
-  request,
-  context,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const { pathname, searchParams } = new URL(request.url);
   const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
-  const { userData, debugId } = await getSessionData(flowId, cookieHeader);
-  context.debugId = debugId; // For showing in errors
+  const { userData } = await getSessionData(flowId, cookieHeader);
 
   const currentFlow = flows[flowId];
   const { prunedData: prunedUserData, validFlowPaths } =
