@@ -216,6 +216,7 @@ function getConnectionDetailsDelayOrNoBoarding(
         timeTable: timeTableMapping.keineAnkunft,
       };
 
+    case undefined:
     default:
       return { info: "error", timeTable: ["error", "error", "error"] };
   }

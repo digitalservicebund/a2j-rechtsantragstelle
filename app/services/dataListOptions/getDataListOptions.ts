@@ -29,6 +29,7 @@ export function getDataListOptions(
           subDescription: `${airport.city}, ${airport.country}`,
         }));
     }
+    case undefined:
     default: {
       return [];
     }

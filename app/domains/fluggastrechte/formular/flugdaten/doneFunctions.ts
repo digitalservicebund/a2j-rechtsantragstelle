@@ -34,6 +34,7 @@ const hasZwischenStoppData: FluggastrechteFlugdatenGuard = ({ context }) => {
       ]);
     }
 
+    case undefined:
     default: {
       return false;
     }
