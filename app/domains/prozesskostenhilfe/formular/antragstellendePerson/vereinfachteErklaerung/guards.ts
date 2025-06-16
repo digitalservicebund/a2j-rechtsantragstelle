@@ -59,6 +59,14 @@ export const hasVermoegenAndEmptyArray: GenericGuard<
 > = ({ context }) =>
   hasVermoegen({ context }) && !arrayIsNonEmpty(context.vermoegen);
 
+export const qualifiesForVereinfachteErklaerung: GenericGuard<
+  ProzesskostenhilfeVereinfachteErklaerungUserData
+> = ({ context }) =>
+  frageVermoegen({ context }) &&
+  (!hasVermoegen({ context }) ||
+    (vermoegenUnder10000({ context }) &&
+      !hasVermoegenAndEmptyArray({ context })));
+
 export const vereinfachteErklaerungDone: GenericGuard<
   ProzesskostenhilfeVereinfachteErklaerungUserData
 > = ({ context }) => {
