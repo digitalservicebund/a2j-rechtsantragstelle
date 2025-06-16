@@ -84,6 +84,7 @@ export const ariaLiveMessages = (translations?: Translations) => ({
   ) => {
     const { action, label = "", labels } = props;
     switch (action) {
+      case "deselect-option":
       case "pop-value":
       case "remove-value": {
         const message = getTranslationByKey(ON_CHANGE_DESELECTED, translations);
@@ -105,6 +106,7 @@ export const ariaLiveMessages = (translations?: Translations) => ({
         );
         return message.replace("{{label}}", label);
       }
+      case "create-option":
       default:
         return "";
     }
