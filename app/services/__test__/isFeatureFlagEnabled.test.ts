@@ -1,16 +1,14 @@
 import type { PostHog } from "posthog-node";
 import { getPosthogNodeClient } from "~/services/analytics/posthogClient.server";
-import { config } from "../env/web";
+import { config } from "../env/env.server";
 import { isFeatureFlagEnabled } from "../isFeatureFlagEnabled.server";
 
 vi.mock("~/services/analytics/posthogClient.server");
 
-vi.mock("~/services/env/web", () => ({
+vi.mock("../env/env.server", () => ({
   config: vi.fn().mockReturnValue({
-    ENVIRONMENT: "any",
-    POSTHOG_API_KEY: "",
-    POSTHOG_API_HOST: "",
-  }),
+    USE_LOCAL_FEATURE_FLAGS: false,
+  } as unknown as ReturnType<typeof config>),
 }));
 
 describe("isFeatureFlagEnabled", () => {
@@ -39,18 +37,15 @@ describe("isFeatureFlagEnabled", () => {
     expect(result).toBeUndefined();
   });
 
-  it("falls back to local config in development environment", async () => {
+  it("falls back to local config if USE_LOCAL_FEATURE_FLAGS is enabled", async () => {
     const resultBefore = await isFeatureFlagEnabled("showGeldEinklagenFlow");
 
     vi.mocked(config).mockReturnValueOnce({
-      ENVIRONMENT: "development",
-      POSTHOG_API_KEY: "",
-      POSTHOG_API_HOST: "",
-      SENTRY_DSN: undefined,
-    });
+      USE_LOCAL_FEATURE_FLAGS: true,
+    } as unknown as ReturnType<typeof config>);
     const resultAfter = await isFeatureFlagEnabled("showGeldEinklagenFlow");
 
     expect(resultBefore).toBe(undefined);
-    expect(resultAfter).toBe(true);
+    expect(resultAfter).toBe(false);
   });
 });
