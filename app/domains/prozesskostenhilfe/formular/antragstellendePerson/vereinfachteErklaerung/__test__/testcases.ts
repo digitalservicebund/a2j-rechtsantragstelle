@@ -3,6 +3,158 @@ import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskosten
 
 const prefix = "/antragstellende-person/vereinfachte-erklaerung";
 
+const frageVermoegenFulfilled = [
+  [
+    {
+      minderjaehrig: "yes",
+      unterhaltsOrAbstammungssachen: "yes",
+      rechtlichesThema: "unterhalt",
+      hasEinnahmen: "no",
+    },
+    [
+      "/minderjaehrig",
+      "/geburtsdatum",
+      "/worum-gehts",
+      "/rechtliches-thema",
+      "/einnahmen",
+      "/vermoegen",
+    ],
+  ],
+  [
+    {
+      minderjaehrig: "yes",
+      unterhaltsOrAbstammungssachen: "yes",
+      rechtlichesThema: "vollstreckung",
+      hasEinnahmen: "no",
+    },
+    [
+      "/minderjaehrig",
+      "/geburtsdatum",
+      "/worum-gehts",
+      "/rechtliches-thema",
+      "/einnahmen",
+      "/vermoegen",
+    ],
+  ],
+  [
+    {
+      minderjaehrig: "yes",
+      unterhaltsOrAbstammungssachen: "yes",
+      rechtlichesThema: "abstammung",
+      hasEinnahmen: "no",
+    },
+    [
+      "/minderjaehrig",
+      "/geburtsdatum",
+      "/worum-gehts",
+      "/rechtliches-thema",
+      "/einnahmen",
+      "/vermoegen",
+    ],
+  ],
+  [
+    {
+      minderjaehrig: "yes",
+      unterhaltsOrAbstammungssachen: "yes",
+      rechtlichesThema: "unterhalt",
+      hasEinnahmen: "yes",
+      hohesEinkommen: "no",
+      einnahmen: [
+        {
+          beschreibung: "Einnahme",
+          betrag: "100",
+          zahlungsfrequenz: "quarterly",
+        },
+      ],
+    },
+    [
+      "/minderjaehrig",
+      "/geburtsdatum",
+      "/worum-gehts",
+      "/rechtliches-thema",
+      "/einnahmen",
+      "/einnahmen-value",
+      "/einnahmen-uebersicht",
+      "/vermoegen",
+    ],
+  ],
+];
+
+const frageVermoegenNotFulfilled = [
+  [
+    {
+      minderjaehrig: "no",
+      unterhaltsOrAbstammungssachen: "yes",
+      rechtlichesThema: "unterhalt",
+      hasEinnahmen: "no",
+    },
+    [
+      "/minderjaehrig",
+      "/geburtsdatum",
+      "/worum-gehts",
+      "/rechtliches-thema",
+      "/einnahmen",
+      "/hinweis-weiteres-formular",
+    ],
+  ],
+  [
+    {
+      minderjaehrig: "yes",
+      unterhaltsOrAbstammungssachen: "no",
+      hasEinnahmen: "no",
+    },
+    [
+      "/minderjaehrig",
+      "/geburtsdatum",
+      "/worum-gehts",
+      "/einnahmen",
+      "/hinweis-weiteres-formular",
+    ],
+  ],
+  [
+    {
+      minderjaehrig: "yes",
+      unterhaltsOrAbstammungssachen: "yes",
+      rechtlichesThema: "other",
+      hasEinnahmen: "no",
+    },
+    [
+      "/minderjaehrig",
+      "/geburtsdatum",
+      "/worum-gehts",
+      "/rechtliches-thema",
+      "/einnahmen",
+      "/hinweis-weiteres-formular",
+    ],
+  ],
+  [
+    {
+      minderjaehrig: "yes",
+      unterhaltsOrAbstammungssachen: "yes",
+      rechtlichesThema: "unterhalt",
+      hasEinnahmen: "yes",
+      hohesEinkommen: "yes",
+      einnahmen: [
+        {
+          beschreibung: "Einnahme",
+          betrag: "100",
+          zahlungsfrequenz: "quarterly",
+        },
+      ],
+    },
+    [
+      "/minderjaehrig",
+      "/geburtsdatum",
+      "/worum-gehts",
+      "/rechtliches-thema",
+      "/einnahmen",
+      "/einnahmen-value",
+      "/einnahmen-uebersicht",
+      "/hinweis-weiteres-formular",
+    ],
+  ],
+];
+
 export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung = (
   [
     [
@@ -22,31 +174,19 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung = (
         "/minderjaehrig",
       ],
     ],
+    ...frageVermoegenFulfilled,
+    ...frageVermoegenNotFulfilled,
     [
       {
-        minderjaehrig: "no",
-        unterhaltsOrAbstammungssachen: "yes",
-        rechtlichesThama: "unterhalt",
-        hohesEinkommen: "yes",
-        hasEinnahmen: "yes",
-        einnahmen: [
-          {
-            beschreibung: "Einnahme",
-            betrag: "100",
-            zahlungsfrequenz: "quarterly",
-          },
-        ],
+        hasVermoegen: "no",
       },
-      [
-        "/minderjaehrig",
-        "/geburtsdatum",
-        "/worum-gehts",
-        "/rechtliches-thema",
-        "/einnahmen",
-        "/einnahmen-value",
-        "/einnahmen-uebersicht",
-        "/hinweis-weiteres-formular",
-      ],
+      ["/vermoegen", "/hinweis-vereinfachte-erklaerung"],
+    ],
+    [
+      {
+        hasVermoegen: "yes",
+      },
+      ["/vermoegen", "/vermoegen-value"],
     ],
   ] as Array<[ProzesskostenhilfeFormularUserData, string[]]>
 ).map(([data, steps]) => [

@@ -163,7 +163,9 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
           ],
         },
       },
-      "vermoegen-value": {},
+      "vermoegen-value": {
+        on: { BACK: "vermoegen" },
+      },
       "hinweis-weiteres-formular": {
         on: {
           BACK: [
