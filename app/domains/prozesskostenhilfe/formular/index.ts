@@ -3,6 +3,7 @@ import {
   getAbgabeStrings,
   getWeitereDokumenteStrings,
 } from "~/domains/prozesskostenhilfe/formular/abgabe/stringReplacements";
+import { antragstellendePersonArrayConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/arrayConfiguration";
 import { getAntragstellendePersonStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/stringReplacements";
 import { getVereinfachteErklaerungStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/stringReplacements";
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/xStateConfig";
@@ -56,6 +57,9 @@ export const prozesskostenhilfeFormular = {
         ),
         ...pkhFormularFinanzielleAngabenArrayConfig(
           "/prozesskostenhilfe/formular/finanzielle-angaben",
+        ),
+        ...antragstellendePersonArrayConfig(
+          "/prozesskostenhilfe/formular/antragstellende-person",
         ),
       },
     },
