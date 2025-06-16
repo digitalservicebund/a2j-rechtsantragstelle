@@ -60,7 +60,7 @@ export default defineConfig({
     {
       name: "mobile",
       use: { ...devices["Galaxy S8"] },
-      testIgnore: ["**/critical/**.spec.ts"],
+      testIgnore: ["**/critical/**.spec.ts", "**/accessibilityScans.spec.ts"],
     },
   ],
 
