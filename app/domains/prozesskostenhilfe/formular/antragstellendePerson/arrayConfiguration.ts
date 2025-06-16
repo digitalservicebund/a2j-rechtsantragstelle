@@ -9,6 +9,12 @@ export function antragstellendePersonArrayConfig(prefix: string) {
       statementKey: "hasEinnahmen",
       event: "add-einnahmen",
     },
+    vermoegen: {
+      url: `${prefix}/vereinfachte-erklaerung/vermoegen-eintrag`,
+      initialInputUrl: "daten",
+      statementKey: "vermoegenUnder10000",
+      event: "add-vermoegen",
+    },
   } satisfies Partial<
     Record<
       keyof ProzesskostenhilfeAntragstellendePersonUserData,

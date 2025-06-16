@@ -4,8 +4,10 @@ import {
   hasEinnahmen,
   hasEinnahmenAndEmptyArray,
   hasVermoegen,
+  hasVermoegenAndEmptyArray,
   unterhaltsOrAbstammungssachen,
   vereinfachteErklaerungDone,
+  vermoegenUnder10000,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 import { type ProzesskostenhilfeVereinfachteErklaerungUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/userData";
 import {
@@ -164,12 +166,54 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
         },
       },
       "vermoegen-value": {
-        on: { BACK: "vermoegen" },
+        on: {
+          BACK: "vermoegen",
+          SUBMIT: [
+            { guard: vermoegenUnder10000, target: "vermoegen-uebersicht" },
+            "hinweis-weiteres-formular",
+          ],
+        },
+      },
+      "vermoegen-uebersicht": {
+        id: "vermoegen-uebersicht",
+        on: {
+          BACK: "vermoegen-value",
+          SUBMIT: [
+            {
+              guard: hasVermoegenAndEmptyArray,
+              target: "vermoegen-warnung",
+            },
+            "hinweis-vereinfachte-erklaerung",
+          ],
+          "add-vermoegen": "#vermoegen-eintrag",
+        },
+      },
+      "vermoegen-eintrag": {
+        id: "vermoegen-eintrag",
+        initial: "daten",
+        states: {
+          daten: {
+            on: {
+              SUBMIT: "#vermoegen-uebersicht",
+              BACK: "#vermoegen-uebersicht",
+            },
+          },
+        },
+      },
+      "vermoegen-warnung": {
+        on: {
+          BACK: "vermoegen-uebersicht",
+          SUBMIT: "hinweis-vereinfachte-erklaerung",
+        },
       },
       "hinweis-weiteres-formular": {
         on: {
           BACK: [
-            { guard: frageVermoegen, target: "vermoegen" },
+            {
+              guard: ({ context }) =>
+                hasVermoegen({ context }) && !vermoegenUnder10000({ context }),
+              target: "vermoegen-value",
+            },
             {
               guard: hasEinnahmen,
               target: "einnahmen-uebersicht",
@@ -182,6 +226,11 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
       "hinweis-vereinfachte-erklaerung": {
         on: {
           BACK: [
+            {
+              guard: ({ context }) =>
+                hasVermoegen({ context }) && vermoegenUnder10000({ context }),
+              target: "vermoegen-uebersicht",
+            },
             {
               guard: ({ context }) => !hasVermoegen({ context }),
               target: "vermoegen",

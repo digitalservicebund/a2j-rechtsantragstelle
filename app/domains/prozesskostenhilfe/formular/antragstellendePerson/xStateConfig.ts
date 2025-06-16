@@ -28,7 +28,7 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
           BACK: transitions?.backToCallingFlow,
           SUBMIT: [
             {
-              guard: empfaengerIsChild,
+              guard: empfaengerIsChild /* () => true */,
               target: "vereinfachte-erklaerung",
             },
             {

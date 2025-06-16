@@ -5,6 +5,7 @@ import {
   vornameNachnameSchema,
 } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import {
   customRequiredErrorMessage,
   YesNoAnswer,
@@ -24,6 +25,15 @@ export const prozesskostenhilfeVereinfachteErklaerungInputSchema = {
   einnahmen: z.array(financialEntryInputSchema),
   hohesEinkommen: YesNoAnswer,
   hasVermoegen: YesNoAnswer,
+  vermoegenUnder10000: YesNoAnswer,
+  vermoegen: z.array(
+    z
+      .object({
+        beschreibung: stringRequiredSchema,
+        wert: buildMoneyValidationSchema(),
+      })
+      .partial(),
+  ),
 };
 
 const _partialSchema = z

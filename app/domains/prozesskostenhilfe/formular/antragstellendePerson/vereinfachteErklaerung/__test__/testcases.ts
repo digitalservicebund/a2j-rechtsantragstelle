@@ -178,6 +178,12 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung = (
     ...frageVermoegenNotFulfilled,
     [
       {
+        hasEinnahmen: "yes",
+      },
+      ["/einnahmen-uebersicht", "/einnahmen-warnung"],
+    ],
+    [
+      {
         hasVermoegen: "no",
       },
       ["/vermoegen", "/hinweis-vereinfachte-erklaerung"],
@@ -185,8 +191,34 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung = (
     [
       {
         hasVermoegen: "yes",
+        vermoegenUnder10000: "no",
       },
-      ["/vermoegen", "/vermoegen-value"],
+      ["/vermoegen", "/vermoegen-value", "/hinweis-weiteres-formular"],
+    ],
+    [
+      {
+        hasVermoegen: "yes",
+        vermoegenUnder10000: "yes",
+      },
+      [
+        "/vermoegen",
+        "/vermoegen-value",
+        "/vermoegen-uebersicht",
+        "/vermoegen-warnung",
+      ],
+    ],
+    [
+      {
+        hasVermoegen: "yes",
+        vermoegenUnder10000: "yes",
+        vermoegen: [{ beschreibung: "Test", wert: "1000" }],
+      },
+      [
+        "/vermoegen",
+        "/vermoegen-value",
+        "/vermoegen-uebersicht",
+        "/hinweis-vereinfachte-erklaerung",
+      ],
     ],
   ] as Array<[ProzesskostenhilfeFormularUserData, string[]]>
 ).map(([data, steps]) => [

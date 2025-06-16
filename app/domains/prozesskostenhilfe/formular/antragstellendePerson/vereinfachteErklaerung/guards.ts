@@ -54,6 +54,15 @@ export const frageVermoegen: GenericGuard<
   famFG({ context }) &&
   (geringesEinkommen({ context }) || keinEinkommen({ context }));
 
+export const vermoegenUnder10000: GenericGuard<
+  ProzesskostenhilfeVereinfachteErklaerungUserData
+> = ({ context }) => context.vermoegenUnder10000 === "yes";
+
+export const hasVermoegenAndEmptyArray: GenericGuard<
+  ProzesskostenhilfeVereinfachteErklaerungUserData
+> = ({ context }) =>
+  hasVermoegen({ context }) && !arrayIsNonEmpty(context.vermoegen);
+
 export const vereinfachteErklaerungFulfilled: GenericGuard<
   ProzesskostenhilfeVereinfachteErklaerungUserData
 > = ({ context }) => frageVermoegen({ context }) && !hasVermoegen({ context });

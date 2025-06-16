@@ -5,9 +5,11 @@ import {
   hasEinnahmen,
   hasEinnahmenAndEmptyArray,
   hasVermoegen,
+  hasVermoegenAndEmptyArray,
   keinEinkommen,
   minderjaehrig,
   unterhaltsOrAbstammungssachen,
+  vermoegenUnder10000,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 
 describe("guards", () => {
@@ -234,6 +236,55 @@ describe("guards", () => {
         unterhaltsOrAbstammungssachen({
           context: {
             unterhaltsOrAbstammungssachen: "no",
+          },
+        }),
+      ).toBe(false);
+    });
+  });
+
+  describe("vermoegenUnder10000", () => {
+    it("should return true if the user's child has under 10.000€ worth of vermoegen", () => {
+      expect(
+        vermoegenUnder10000({
+          context: {
+            vermoegenUnder10000: "yes",
+          },
+        }),
+      ).toBe(true);
+    });
+    it("should return false if the user's child has over 10.000€ worth of vermoegen", () => {
+      expect(
+        vermoegenUnder10000({
+          context: {
+            vermoegenUnder10000: "no",
+          },
+        }),
+      ).toBe(false);
+    });
+  });
+
+  describe("hasVermoegenAndEmptyArray", () => {
+    it("should return true if the user's child has vermoegen but the vermoegen array is empty", () => {
+      expect(
+        hasVermoegen({
+          context: {
+            hasVermoegen: "yes",
+          },
+        }),
+      ).toBe(true);
+    });
+
+    it("should return false if the user's child has vermoegen with entries for each", () => {
+      expect(
+        hasVermoegenAndEmptyArray({
+          context: {
+            hasVermoegen: "no",
+            vermoegen: [
+              {
+                wert: "100",
+                beschreibung: "Test",
+              },
+            ],
           },
         }),
       ).toBe(false);
