@@ -9,8 +9,10 @@ import {
   keinEinkommen,
   minderjaehrig,
   unterhaltsOrAbstammungssachen,
+  vereinfachteErklaerungDone,
   vermoegenUnder10000,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
+import { type ProzesskostenhilfeVereinfachteErklaerungUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/userData";
 
 describe("guards", () => {
   describe("childLivesSeparately", () => {
@@ -288,6 +290,81 @@ describe("guards", () => {
           },
         }),
       ).toBe(false);
+    });
+  });
+
+  describe("vereinfachteErklaerungDone", () => {
+    it("should return true when the Vereinfachte Erklärung section is done", () => {
+      const askVermoegenHappyPathContext: Partial<ProzesskostenhilfeVereinfachteErklaerungUserData> =
+        {
+          child: {
+            vorname: "Max",
+            nachname: "Mustermann",
+            geburtsdatum: "01.01.2020",
+          },
+          livesTogether: "no",
+          unterhaltsSumme: "100",
+          minderjaehrig: "yes",
+          unterhaltsOrAbstammungssachen: "yes",
+          rechtlichesThema: "abstammung",
+          hasEinnahmen: "no",
+        };
+
+      expect(
+        vereinfachteErklaerungDone({
+          context: {
+            child: {
+              vorname: "Max",
+              nachname: "Mustermann",
+              geburtsdatum: "01.01.2020",
+            },
+            livesTogether: "no",
+            unterhaltsSumme: "100",
+            minderjaehrig: "no",
+            unterhaltsOrAbstammungssachen: "yes",
+            rechtlichesThema: "abstammung",
+            hasEinnahmen: "yes",
+            hohesEinkommen: "no",
+            einnahmen: [
+              {
+                beschreibung: "Einnahme",
+                betrag: "100",
+                zahlungsfrequenz: "quarterly",
+              },
+            ],
+          },
+        }),
+      ).toBe(true);
+
+      expect(
+        vereinfachteErklaerungDone({
+          context: {
+            ...askVermoegenHappyPathContext,
+            hasVermoegen: "no",
+          },
+        }),
+      ).toBe(true);
+
+      expect(
+        vereinfachteErklaerungDone({
+          context: {
+            ...askVermoegenHappyPathContext,
+            hasVermoegen: "yes",
+            vermoegenUnder10000: "no",
+          },
+        }),
+      ).toBe(true);
+
+      expect(
+        vereinfachteErklaerungDone({
+          context: {
+            ...askVermoegenHappyPathContext,
+            hasVermoegen: "yes",
+            vermoegenUnder10000: "yes",
+            vermoegen: [{ beschreibung: "Test", wert: "100" }],
+          },
+        }),
+      ).toBe(true);
     });
   });
 });

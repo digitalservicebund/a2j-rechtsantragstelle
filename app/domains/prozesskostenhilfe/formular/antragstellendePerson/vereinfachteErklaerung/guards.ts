@@ -43,10 +43,6 @@ export const unterhaltsOrAbstammungssachen: GenericGuard<
   ProzesskostenhilfeVereinfachteErklaerungUserData
 > = ({ context }) => context.unterhaltsOrAbstammungssachen === "yes";
 
-export const vereinfachteErklaerungDone: GenericGuard<
-  ProzesskostenhilfeVereinfachteErklaerungUserData
-> = ({ context }) => objectKeysNonEmpty(context.child, ["vorname", "nachname"]);
-
 export const frageVermoegen: GenericGuard<
   ProzesskostenhilfeVereinfachteErklaerungUserData
 > = ({ context }) =>
@@ -63,6 +59,39 @@ export const hasVermoegenAndEmptyArray: GenericGuard<
 > = ({ context }) =>
   hasVermoegen({ context }) && !arrayIsNonEmpty(context.vermoegen);
 
-export const vereinfachteErklaerungFulfilled: GenericGuard<
+export const vereinfachteErklaerungDone: GenericGuard<
   ProzesskostenhilfeVereinfachteErklaerungUserData
-> = ({ context }) => frageVermoegen({ context }) && !hasVermoegen({ context });
+> = ({ context }) => {
+  const vermoegenEntered =
+    context.vermoegenUnder10000 !== undefined &&
+    vermoegenUnder10000({ context })
+      ? arrayIsNonEmpty(context.vermoegen)
+      : true;
+  const vermoegenDone =
+    context.hasVermoegen !== undefined &&
+    (hasVermoegen({ context }) ? vermoegenEntered : true);
+  return (
+    objectKeysNonEmpty(context.child, [
+      "vorname",
+      "nachname",
+      "geburtsdatum",
+    ]) &&
+    objectKeysNonEmpty(context, [
+      "livesTogether",
+      "minderjaehrig",
+      "unterhaltsOrAbstammungssachen",
+      "hasEinnahmen",
+    ]) &&
+    (childLivesSeparately({ context })
+      ? context.unterhaltsSumme !== undefined
+      : true) &&
+    (unterhaltsOrAbstammungssachen({ context })
+      ? context.rechtlichesThema !== undefined
+      : true) &&
+    (hasEinnahmen({ context })
+      ? arrayIsNonEmpty(context.einnahmen) &&
+        context.hohesEinkommen !== undefined
+      : true) &&
+    (frageVermoegen({ context }) ? vermoegenDone : true)
+  );
+};
