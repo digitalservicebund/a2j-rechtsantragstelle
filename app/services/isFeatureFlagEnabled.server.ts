@@ -14,7 +14,7 @@ export type FeatureFlag = keyof typeof localFeatureFlags;
 const posthogDistinctId = "backend";
 
 export const isFeatureFlagEnabled = async (featureFlag: FeatureFlag) =>
-  config().USE_LOCAL_FEATURE_FLAGS
+  config().USE_LOCAL_FEATURE_FLAGS || getPosthogNodeClient() === undefined
     ? localFeatureFlags[featureFlag]
     : await getPosthogNodeClient()?.isFeatureEnabled(
         featureFlag,

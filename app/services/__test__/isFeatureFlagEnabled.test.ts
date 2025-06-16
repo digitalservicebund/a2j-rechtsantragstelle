@@ -12,17 +12,17 @@ vi.mock("../env/env.server", () => ({
 }));
 
 describe("isFeatureFlagEnabled", () => {
+  const mockIsFeatureEnabled = vi.fn();
+
+  vi.mocked(getPosthogNodeClient).mockReturnValue({
+    isFeatureEnabled: mockIsFeatureEnabled.mockResolvedValue(true),
+  } as unknown as PostHog);
+
   afterEach(() => {
     vi.clearAllMocks();
   });
 
   it("passes feature flag to PostHog and returns the results", async () => {
-    const mockIsFeatureEnabled = vi.fn();
-
-    vi.mocked(getPosthogNodeClient).mockReturnValueOnce({
-      isFeatureEnabled: mockIsFeatureEnabled.mockResolvedValue(true),
-    } as unknown as PostHog);
-
     const result = await isFeatureFlagEnabled("showGeldEinklagenFlow");
     expect(result).toBe(true);
     expect(mockIsFeatureEnabled).toHaveBeenCalledWith(
@@ -31,10 +31,10 @@ describe("isFeatureFlagEnabled", () => {
     );
   });
 
-  it("handles undefined posthog instance", async () => {
+  it("falls back to local config if posthog instance is undefined", async () => {
     vi.mocked(getPosthogNodeClient).mockReturnValueOnce(undefined);
     const result = await isFeatureFlagEnabled("showGeldEinklagenFlow");
-    expect(result).toBeUndefined();
+    expect(result).toBe(false);
   });
 
   it("falls back to local config if USE_LOCAL_FEATURE_FLAGS is enabled", async () => {
@@ -43,9 +43,9 @@ describe("isFeatureFlagEnabled", () => {
     vi.mocked(config).mockReturnValueOnce({
       USE_LOCAL_FEATURE_FLAGS: true,
     } as unknown as ReturnType<typeof config>);
-    const resultAfter = await isFeatureFlagEnabled("showGeldEinklagenFlow");
 
-    expect(resultBefore).toBe(undefined);
+    const resultAfter = await isFeatureFlagEnabled("showGeldEinklagenFlow");
+    expect(resultBefore).toBe(true);
     expect(resultAfter).toBe(false);
   });
 });
