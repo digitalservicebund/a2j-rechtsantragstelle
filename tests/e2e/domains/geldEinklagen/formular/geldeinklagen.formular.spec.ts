@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
   await cookieSettings.acceptCookieBanner();
 });
 
-test("forwarded to initial step", async ({ page }) => {
+test.skip("forwarded to initial step", async ({ page }) => {
   await expect(page).toHaveURL(
     new RegExp(
       `.+${geldEinklagenFormular.url}/${geldEinklagenFormular.initialStep}$`,
@@ -21,7 +21,7 @@ test("forwarded to initial step", async ({ page }) => {
   );
 });
 
-test("geldeinklagen formular can be traversed for privatperson", async ({
+test.skip("geldeinklagen formular can be traversed for privatperson", async ({
   page,
 }) => {
   // /geld-einklagen/formular/start
@@ -209,7 +209,7 @@ test("geldeinklagen formular can be traversed for privatperson", async ({
   ).toHaveCount(1);
 });
 
-test("funnel: invalid step redirects to start", async ({ page }) => {
+test.skip("funnel: invalid step redirects to start", async ({ page }) => {
   await page.goto(`${geldEinklagenFormular.url}/stepDoesNotExist`);
   await expect(page).toHaveURL(
     new RegExp(

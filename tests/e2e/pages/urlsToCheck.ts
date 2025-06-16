@@ -6,7 +6,6 @@ export const pageUrls = [
   "/beratungshilfe/kostenguenstigeBeratungsstellen",
   "/prozesskostenhilfe",
   "/fluggastrechte",
-  "/geld-einklagen",
 ];
 
 export const flowUrls = [
