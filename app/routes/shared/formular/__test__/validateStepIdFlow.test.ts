@@ -23,7 +23,7 @@ const currentFlow = {
 } as unknown as Flow;
 
 describe("validateStepIdFlow", () => {
-  it("should return an error and the to redirect to initial flow page in case the page is not reachable", async () => {
+  it("should return an error and redirect to initial flow page in case the page is not reachable", async () => {
     const mockFlowController = getMockFlowController(false);
 
     const result = await validateStepIdFlow(
@@ -37,7 +37,7 @@ describe("validateStepIdFlow", () => {
     expect(result.isErr ? result.error.redirectTo : "").toBe(INITIAL_PAGE_FLOW);
   });
 
-  it("should return an error and the to redirect to the page from the parameter `redirectTo` in case the page is not eligible", async () => {
+  it("should return an error and redirect to the page from the parameter `redirectTo` in case the page is not eligible", async () => {
     const mockFlowController = getMockFlowController(true);
 
     const currentFlowNotEligible = {
