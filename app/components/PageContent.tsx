@@ -79,6 +79,7 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
       return <UserFeedback {...strapiContent} />;
     case "page.summary-overview-section":
       return <SummaryOverviewSection {...strapiContent} />;
+    case "page.array-summary":
     default:
       return <></>;
   }
