@@ -15,7 +15,7 @@ docker compose up -d
 npm run dev
 ```
 
-The app will be served on http://localhost:3000, assets are rebuilt on file save. Note: Environment variables are currently cached - changing them requires a restart of the app!
+The app will be served on http://localhost:3000, assets are rebuilt on file save.
 
 To explore the codebase, you can use this [interactive code map](https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=digitalservicebund%2Fa2j-rechtsantragstelle).
 
