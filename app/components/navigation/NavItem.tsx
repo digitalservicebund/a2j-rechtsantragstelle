@@ -23,6 +23,7 @@ const StateIcon: FC<{
     <CheckCircle
       id={id}
       className="shrink-0 fill-green-700"
+      // TODO: Move this aria-label to translations folder and remove from the root loader
       aria-label={
         rootLoaderData?.accessibilityTranslations?.navigationItemFinishedLabel
       }
