@@ -34,10 +34,12 @@ export const FileUploadInfo = ({
     <div className={classes} data-testid={`file-upload-info-${inputName}`}>
       <div className="max-w-full grid grid-cols-[24px_1fr_auto] gap-x-12 items-center">
         <InsertFileIcon className="shrink-0 fill-gray-900" aria-hidden="true" />
-        <p className="ds-body-01-reg text-black truncate">{file.filename}</p>
-        <p className="ds-body-01-reg text-gray-900 text-16">
+        <span className="ds-body-01-reg text-black truncate">
+          {file.filename}
+        </span>
+        <span className="text-gray-900 ds-body-02-reg">
           {formatFileSizeToString(file.fileSize)}
-        </p>
+        </span>
       </div>
       {!hasError && <HiddenFileInputs inputName={inputName} file={file} />}
       <Button

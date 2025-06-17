@@ -36,7 +36,6 @@ export const FileInput = ({
 
   const FileInput = (
     <input
-      id={name}
       name={jsAvailable ? undefined : name}
       type="file"
       accept=".pdf"
