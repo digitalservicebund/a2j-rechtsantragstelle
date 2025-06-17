@@ -28,8 +28,12 @@ const cases = [
     ],
   ],
   [
-    { hasKinder: "yes" },
+    { hasKinder: "yes", kinderWohnenZusammen: "nein" },
     ["/kinder", "/kinder-wohnen-zusammen", "/kinder-unterhalt", "/partner"],
+  ],
+  [
+    { hasKinder: "yes", kinderWohnenZusammen: "ja" },
+    ["/kinder", "/kinder-wohnen-zusammen", "/partner"],
   ],
   [
     { verheiratet: "ja" },
@@ -186,6 +190,7 @@ const cases = [
       hasPKonto: "nichtEingerichtet",
       pfaendungUnterhalt: "yes",
       hasKinder: "yes",
+      kinderWohnenZusammen: "nein",
       kinderUnterhalt: "no",
       verheiratet: "nein",
       hasArbeit: "yes",
