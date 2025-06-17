@@ -28,10 +28,9 @@ export const FileInput = ({
   const { onFileDelete, onFileUpload } = useFileHandler();
   const errorId = `${name}-error`;
 
-  // When JS is available, we hide the native file input and use a custom button as the trigger instead
   const inputClasses = classNames(
     jsAvailable
-      ? "hidden"
+      ? "w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
       : "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary file:ds-button-large w-fit file:cursor-pointer",
   );
 
