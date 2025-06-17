@@ -45,6 +45,7 @@ const cases = [
     ["/partner", "/partner-wohnen-zusammen", "/zwischenseite-einkuenfte"],
   ],
   [{ verheiratet: "nein" }, ["/partner", "/zwischenseite-einkuenfte"]],
+  [{ verheiratet: "verwitwet" }, ["/partner", "/zwischenseite-einkuenfte"]],
   // Cash
   [
     {},
