@@ -87,7 +87,7 @@ export const FileInput = ({
             </>
           ) : (
             <div className="flex flex-row">
-              {FileInput}
+              <label htmlFor={name}>{FileInput}</label>
               <Button
                 name="_action"
                 value={`fileUpload.${name}`}
