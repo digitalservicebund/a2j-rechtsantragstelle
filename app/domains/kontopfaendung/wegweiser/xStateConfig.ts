@@ -69,7 +69,15 @@ export const kontopfaendungWegweiserXstateConfig = {
     },
     "kinder-wohnen-zusammen": {
       on: {
-        SUBMIT: "kinder-unterhalt",
+        SUBMIT: [
+          {
+            target: "kinder-unterhalt",
+            guard: ({ context }) =>
+              context.kinderWohnenZusammen === "nein" ||
+              context.kinderWohnenZusammen === "teilweise",
+          },
+          "partner",
+        ],
         BACK: "kinder",
       },
     },
@@ -95,6 +103,13 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: [
           {
             target: "kinder-unterhalt",
+            guard: ({ context }) =>
+              context.hasKinder === "yes" &&
+              (context.kinderWohnenZusammen === "nein" ||
+                context.kinderWohnenZusammen === "teilweise"),
+          },
+          {
+            target: "kinder-wohnen-zusammen",
             guard: ({ context }) => context.hasKinder === "yes",
           },
           "kinder",
