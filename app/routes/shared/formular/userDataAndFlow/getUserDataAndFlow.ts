@@ -1,12 +1,11 @@
 import { Result } from "true-myth";
 import { type ValidFlowPagesType } from "~/components/form/formFlowContext";
-import { type FlowId, parsePathname } from "~/domains/flowIds";
-import { flows, type Flow } from "~/domains/flows.server";
+import { type FlowId } from "~/domains/flowIds";
+import { type Flow } from "~/domains/flows.server";
 import { type UserData } from "~/domains/userData";
-import { addPageDataToUserData } from "~/services/flow/pageData";
-import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { getSessionData } from "~/services/session.server";
+import { getPageAndFlowDataFromRequest } from "./getPageAndFlowDataFromRequest";
+import { getUserPrunedDataFromRequest } from "./getUserPrunedDataFromRequest";
 import { validateStepIdFlow } from "./validateStepIdFlow";
 
 type OkResult = {
@@ -34,17 +33,12 @@ type ErrorResult = {
 export const getUserDataAndFlow = async (
   request: Request,
 ): Promise<Result<OkResult, ErrorResult>> => {
-  const { pathname } = new URL(request.url);
-  const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
-  const cookieHeader = request.headers.get("Cookie");
-  const { userData } = await getSessionData(flowId, cookieHeader);
+  const { flowId, stepId, arrayIndexes, currentFlow } =
+    getPageAndFlowDataFromRequest(request);
 
-  const currentFlow = flows[flowId];
-  const { prunedData: prunedUserData, validFlowPaths } =
-    await pruneIrrelevantData(userData, flowId);
-  const userDataWithPageData = addPageDataToUserData(prunedUserData, {
-    arrayIndexes,
-  });
+  const { userDataWithPageData, validFlowPaths } =
+    await getUserPrunedDataFromRequest(request);
+
   const flowController = buildFlowController({
     config: currentFlow.config,
     data: userDataWithPageData,

@@ -1,21 +1,12 @@
 import { Result } from "true-myth";
-import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getUserDataAndFlow } from "../getUserDataAndFlow";
+import { getUserPrunedDataFromRequest } from "../getUserPrunedDataFromRequest";
 import { validateStepIdFlow } from "../validateStepIdFlow";
 
-const mockPrunerData = {
-  prunedData: { name: "someName" },
-  validFlowPaths: {
-    "/grundvoraussetzungen/klage-eingereicht": {
-      isArrayPage: false,
-    },
-  },
-};
-
-vi.mock("~/services/flow/pruner");
-
-vi.mocked(pruneIrrelevantData).mockResolvedValue(mockPrunerData);
+vi.mock("~/services/flow/server/buildFlowController");
+vi.mock("../getUserPrunedDataFromRequest");
+vi.mock("../validateStepIdFlow");
 
 const mockRequest = new Request(
   "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
@@ -25,11 +16,20 @@ const mockBuildFlowController = vi.fn() as unknown as ReturnType<
   typeof buildFlowController
 >;
 
-vi.mock("~/services/flow/server/buildFlowController");
+const mockPrunerData = {
+  userDataWithPageData: {
+    name: "someName",
+    pageData: { arrayIndexes: [] },
+  },
+  validFlowPaths: {
+    "/grundvoraussetzungen/klage-eingereicht": {
+      isArrayPage: false,
+    },
+  },
+};
 
+vi.mocked(getUserPrunedDataFromRequest).mockResolvedValue(mockPrunerData);
 vi.mocked(buildFlowController).mockReturnValue(mockBuildFlowController);
-
-vi.mock("../validateStepIdFlow");
 
 describe("getUserDataAndFlow", () => {
   it("should return an error and redirect in case the stepId is not valid", async () => {
@@ -50,7 +50,7 @@ describe("getUserDataAndFlow", () => {
 
     expect(result.isOk).toBe(true);
     expect(result.isOk ? result.value : undefined).toMatchObject({
-      userData: mockPrunerData.prunedData,
+      userData: mockPrunerData.userDataWithPageData,
       flow: {
         id: "/beratungshilfe/antrag",
         current: expect.anything(),

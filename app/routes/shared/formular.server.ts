@@ -37,7 +37,7 @@ import { validateFormData } from "~/services/validation/validateFormData.server"
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { filterFormData } from "~/util/filterFormData";
-import { getUserDataAndFlow } from "./formular/getUserDataAndFlow";
+import { getUserDataAndFlow } from "./formular/userDataAndFlow/getUserDataAndFlow";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
