@@ -30,7 +30,7 @@ export const FileInput = ({
 
   const inputClasses = classNames(
     jsAvailable
-      ? "w-0.1 h-0.1 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
+      ? "w-[100%] h-[100%] left-0 top-0 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
       : "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary file:ds-button-large w-fit file:cursor-pointer",
   );
 
@@ -73,11 +73,11 @@ export const FileInput = ({
         <>
           {jsAvailable ? (
             <>
-              {FileInput}
               <label
                 htmlFor={name}
                 className="relative inline-flex items-center ds-button ds-button-tertiary ds-button-large cursor-pointer w-fit"
               >
+                {FileInput}
                 <span className="ds-button-label">
                   {splitFieldName(name).inputIndex === 0
                     ? translations.fileUpload.select.de
@@ -87,16 +87,18 @@ export const FileInput = ({
             </>
           ) : (
             <div className="flex flex-row">
-              <label htmlFor={name}>{FileInput}</label>
-              <Button
-                name="_action"
-                value={`fileUpload.${name}`}
-                className="w-fit"
-                type="submit"
-                look="primary"
-                text={translations.fileUpload.upload.de}
-                size="large"
-              />
+              <label htmlFor={name}>
+                {FileInput}
+                <Button
+                  name="_action"
+                  value={`fileUpload.${name}`}
+                  className="w-fit"
+                  type="submit"
+                  look="primary"
+                  text={translations.fileUpload.upload.de}
+                  size="large"
+                />
+              </label>
             </div>
           )}
         </>
