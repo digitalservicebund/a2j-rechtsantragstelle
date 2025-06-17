@@ -28,6 +28,7 @@ export const FileInput = ({
   const { onFileDelete, onFileUpload } = useFileHandler();
   const errorId = `${name}-error`;
 
+  // When JS is available, we hide the native file input and use a custom button as the trigger instead
   const inputClasses = classNames(
     jsAvailable
       ? "hidden"
@@ -37,9 +38,10 @@ export const FileInput = ({
   const FileInput = (
     <input
       id={name}
-      name={name}
+      name={jsAvailable ? undefined : name}
       type="file"
       accept=".pdf"
+      value={selectedFile?.filename ?? ""}
       data-testid={`file-upload-input-${name}`}
       aria-invalid={error !== undefined}
       aria-errormessage={error && errorId}
@@ -51,9 +53,9 @@ export const FileInput = ({
     />
   );
 
-  if (selectedFile) {
-    return (
-      <>
+  return (
+    <>
+      {selectedFile ? (
         <FileUploadInfo
           inputName={name}
           onFileDelete={(fileName) => {
@@ -69,44 +71,42 @@ export const FileInput = ({
           deleteButtonLabel={translations.fileUpload.delete.de}
           hasError={!!error}
         />
-        {error && (
-          <InputError id={errorId}>
-            {errorMessages?.find((err) => err.code === error)?.text ?? error}
-          </InputError>
-        )}
-      </>
-    );
-  }
-
-  return (
-    <>
-      {jsAvailable ? (
-        <>
-          {FileInput}
-          <label
-            htmlFor={name}
-            className="relative inline-flex items-center ds-button ds-button-tertiary ds-button-large cursor-pointer w-fit"
-          >
-            <span className="ds-button-label">
-              {splitFieldName(name).inputIndex === 0
-                ? translations.fileUpload.select.de
-                : translations.fileUpload.addAnother.de}
-            </span>
-          </label>
-        </>
       ) : (
-        <div className="flex flex-row">
-          {FileInput}
-          <Button
-            name="_action"
-            value={`fileUpload.${name}`}
-            className="w-fit"
-            type="submit"
-            look="primary"
-            text={translations.fileUpload.upload.de}
-            size="large"
-          />
-        </div>
+        <>
+          {jsAvailable ? (
+            <>
+              {FileInput}
+              <label
+                htmlFor={name}
+                className="relative inline-flex items-center ds-button ds-button-tertiary ds-button-large cursor-pointer w-fit"
+              >
+                <span className="ds-button-label">
+                  {splitFieldName(name).inputIndex === 0
+                    ? translations.fileUpload.select.de
+                    : translations.fileUpload.addAnother.de}
+                </span>
+              </label>
+            </>
+          ) : (
+            <div className="flex flex-row">
+              {FileInput}
+              <Button
+                name="_action"
+                value={`fileUpload.${name}`}
+                className="w-fit"
+                type="submit"
+                look="primary"
+                text={translations.fileUpload.upload.de}
+                size="large"
+              />
+            </div>
+          )}
+        </>
+      )}
+      {error && (
+        <InputError id={errorId}>
+          {errorMessages?.find((err) => err.code === error)?.text ?? error}
+        </InputError>
       )}
       {helperText && <div className="label-text mt-6">{helperText}</div>}
     </>
