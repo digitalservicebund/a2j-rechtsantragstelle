@@ -84,14 +84,11 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: "partner-unterhalt",
-            guard: ({ context }) =>
-              context.verheiratet === "geschieden" ||
-              context.verheiratet === "verwitwet",
+            guard: ({ context }) => context.verheiratet === "geschieden",
           },
           {
             target: "partner-wohnen-zusammen",
-            guard: ({ context }) =>
-              !!context.verheiratet && context.verheiratet !== "nein",
+            guard: ({ context }) => context.verheiratet === "ja",
           },
           "zwischenseite-einkuenfte",
         ],
@@ -106,7 +103,16 @@ export const kontopfaendungWegweiserXstateConfig = {
     },
     "partner-wohnen-zusammen": {
       on: {
-        SUBMIT: "partner-unterhalt",
+        SUBMIT: [
+          {
+            target: "zwischenseite-einkuenfte",
+            guard: ({ context }) => context.partnerWohnenZusammen === "yes",
+          },
+          {
+            target: "partner-unterhalt",
+            guard: ({ context }) => context.partnerWohnenZusammen === "no",
+          },
+        ],
         BACK: "partner",
       },
     },
@@ -115,10 +121,13 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: "zwischenseite-einkuenfte",
         BACK: [
           {
-            target: "partner",
-            guard: ({ context }) => context.verheiratet === "nein",
+            target: "partner-wohnen-zusammen",
+            guard: ({ context }) =>
+              context.verheiratet === "ja" &&
+              context.partnerWohnenZusammen === "no",
           },
-          "partner-wohnen-zusammen",
+
+          "partner",
         ],
       },
     },
@@ -128,8 +137,11 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: [
           {
             target: "partner-unterhalt",
-            guard: ({ context }) =>
-              !!context.verheiratet && context.verheiratet !== "nein",
+            guard: ({ context }) => context.partnerWohnenZusammen === "no",
+          },
+          {
+            target: "partner-wohnen-zusammen",
+            guard: ({ context }) => context.partnerWohnenZusammen === "yes",
           },
           "partner",
         ],
