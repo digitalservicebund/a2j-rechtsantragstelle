@@ -14,7 +14,7 @@ const inputName = "belege[0]";
 describe("FileInput", () => {
   it("should render correctly if javascript is enabled", () => {
     const helperText = "Input a file";
-    const { getByText, getByTestId } = render(
+    const { getByText } = render(
       <FileInput
         name={inputName}
         selectedFile={undefined}
@@ -23,7 +23,6 @@ describe("FileInput", () => {
       />,
     );
     expect(getByText(selectFilesButtonLabel)).toBeInTheDocument();
-    const input = getByTestId("file-upload-input-belege[0]");
     expect(getByText(selectFilesButtonLabel)).toBeInTheDocument();
     expect(getByText(helperText)).toBeInTheDocument();
   });
