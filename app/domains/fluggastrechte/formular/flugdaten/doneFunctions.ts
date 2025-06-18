@@ -1,4 +1,5 @@
 import type { GenericGuard } from "~/domains/guards.server";
+import { hasOptionalString } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import type { FluggastrechteFlugdatenUserData } from "./userData";
 
@@ -40,10 +41,6 @@ const hasZwischenStoppData: FluggastrechteFlugdatenGuard = ({ context }) => {
     }
   }
 };
-
-function hasOptionalString(value: string | undefined): boolean {
-  return typeof value === "string";
-}
 
 const hasDefaultFlugdaten: FluggastrechteFlugdatenGuard = ({ context }) => {
   return objectKeysNonEmpty(context, [
