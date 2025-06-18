@@ -28,17 +28,21 @@ const cases = [
     ],
   ],
   [
-    { hasKinder: "yes" },
+    { hasKinder: "yes", kinderWohnenZusammen: "nein" },
     ["/kinder", "/kinder-wohnen-zusammen", "/kinder-unterhalt", "/partner"],
   ],
   [
-    { verheiratet: "ja" },
+    { verheiratet: "ja", partnerWohnenZusammen: "no" },
     [
       "/partner",
       "/partner-wohnen-zusammen",
       "/partner-unterhalt",
       "/zwischenseite-einkuenfte",
     ],
+  ],
+  [
+    { verheiratet: "ja", partnerWohnenZusammen: "yes" },
+    ["/partner", "/partner-wohnen-zusammen", "/zwischenseite-einkuenfte"],
   ],
   [{ verheiratet: "nein" }, ["/partner", "/zwischenseite-einkuenfte"]],
   // Cash
@@ -186,6 +190,7 @@ const cases = [
       hasPKonto: "nichtEingerichtet",
       pfaendungUnterhalt: "yes",
       hasKinder: "yes",
+      kinderWohnenZusammen: "nein",
       kinderUnterhalt: "no",
       verheiratet: "nein",
       hasArbeit: "yes",
