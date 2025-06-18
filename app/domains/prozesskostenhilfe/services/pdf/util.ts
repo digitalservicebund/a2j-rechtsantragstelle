@@ -31,6 +31,23 @@ export const getTotalMonthlyFinancialEntries = (
       maximumFractionDigits: 2,
     });
 
+export const getFinancialEntryMonthlyAverage = (
+  financialEntry: FinancialEntry,
+) => {
+  const betragNumber = Number(
+    financialEntry.betrag.replaceAll(".", "").replace(",", "."),
+  );
+  switch (financialEntry.zahlungsfrequenz) {
+    case "monthly":
+      return betragNumber;
+    case "quarterly":
+      return betragNumber / 3;
+    case "one-time":
+    case "yearly":
+      return betragNumber / 12;
+  }
+};
+
 export const buildBelegeList = ({
   doc,
   documentStruct,

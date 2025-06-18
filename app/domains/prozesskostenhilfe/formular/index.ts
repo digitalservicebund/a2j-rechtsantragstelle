@@ -8,16 +8,14 @@ import { getAntragstellendePersonStrings } from "~/domains/prozesskostenhilfe/fo
 import { qualifiesForVereinfachteErklaerung } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 import { getVereinfachteErklaerungStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/stringReplacements";
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/xStateConfig";
-import {
-  finanzielleAngabenArrayConfig,
-  finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig,
-} from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/arrayConfiguration";
+import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/arrayConfiguration";
 import { finanzielleAngabeEinkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import { prozesskostenhilfeGesetzlicheVertretungDone } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/doneFunctions";
 import { grundvoraussetzungenXstateConfig } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/xStateConfig";
 import { prozesskostenhilfePersoenlicheDatenDone } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/doneFunctions";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/xstateConfig";
+import { finanzielleAngabenArrayConfig } from "~/domains/shared/formular/finanzielleAngaben/arrayConfiguration";
 import {
   getKinderStrings,
   getArrayIndexStrings,
