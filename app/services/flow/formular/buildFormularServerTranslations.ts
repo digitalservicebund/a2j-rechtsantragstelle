@@ -35,6 +35,8 @@ const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
   };
 };
 
+export type CMSContent = ReturnType<typeof structureCmsContent>;
+
 function interpolateTranslations(
   currentFlow: Flow,
   translation: Translations,
@@ -62,7 +64,10 @@ export const buildFormularServerTranslations = async ({
   overviewTranslations,
   formPageContent,
   userDataWithPageData,
-}: BuildFormularServerTranslations) => {
+}: BuildFormularServerTranslations): Promise<{
+  stringTranslations: Translations;
+  cmsContent: CMSContent;
+}> => {
   /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports
     can not be translated, so it's required to be interpolated
   */
