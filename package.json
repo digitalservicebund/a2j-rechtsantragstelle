@@ -76,7 +76,7 @@
     "pdf-lib": "^1.17.1",
     "pino-http": "^10.5.0",
     "pdfkit": "^0.17.1",
-    "posthog-js": "1.252.1",
+    "posthog-js": "1.254.0",
     "posthog-node": "5.1.1",
     "rate-limit-redis": "^4.2.1",
     "react": "^19.1.0",
