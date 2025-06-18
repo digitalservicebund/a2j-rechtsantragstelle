@@ -21,3 +21,6 @@ export function yesNoGuards<Field extends AllUserDataKeys>(field: Field) {
     [fieldNo]: ({ context }: { context: UserData }) => context[field] === "no",
   } as Record<typeof fieldYes | typeof fieldNo, GenericGuard<UserData>>;
 }
+export function hasOptionalString(value: string | undefined): boolean {
+  return typeof value === "string";
+}
