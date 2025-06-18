@@ -15,6 +15,7 @@ export const abgabeXstateConfig = async (backDestination: string) => {
     states: {
       ueberpruefung: {
         on: { BACK: backDestination },
+        meta: { expandValidation: true },
         always: {
           guard: beratungshilfeAbgabeGuards.readyForAbgabe,
           target: shouldShowZusammenfassung ? "zusammenfassung" : "art",
