@@ -50,7 +50,7 @@ export const createVereinfachteErklaerungAnhang = (
         .font(pdfStyles.bold.font)
         .text("Name des Kindes")
         .font(pdfStyles.page.font)
-        .text(`${userData.vorname} ${userData.nachname}`)
+        .text(`${userData.child?.vorname} ${userData.child?.nachname}`)
         .moveDown()
         .font(pdfStyles.bold.font)
         .text("Geburtsdatum")
