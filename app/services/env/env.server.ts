@@ -14,7 +14,6 @@ type Config = {
   S3_DATA_STORAGE_ACCESS_KEY: string;
   S3_DATA_STORAGE_SECRET_KEY: string;
   S3_DATA_STORAGE_BUCKET_NAME: string;
-  USE_LOCAL_FEATURE_FLAGS: boolean;
 };
 
 export function config(): Config {
@@ -44,6 +43,5 @@ export function config(): Config {
       process.env.S3_DATA_STORAGE_SECRET_KEY?.trim() ?? "test",
     S3_DATA_STORAGE_BUCKET_NAME:
       process.env.S3_DATA_STORAGE_BUCKET_NAME?.trim() ?? "a2j-data-storage",
-    USE_LOCAL_FEATURE_FLAGS: process.env.USE_LOCAL_FEATURE_FLAGS === "true",
   };
 }
