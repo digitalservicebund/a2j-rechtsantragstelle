@@ -30,13 +30,14 @@ export const FileInput = ({
 
   const inputClasses = classNames(
     jsAvailable
-      ? "w-[100%] h-[100%] left-0 top-0 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
+      ? "w-0 h-0 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
       : "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary file:ds-button-large w-fit file:cursor-pointer",
   );
 
   const FileInput = (
     <input
       name={jsAvailable ? undefined : name}
+      id={`${name}-input`}
       type="file"
       accept=".pdf"
       value={selectedFile?.savedFileKey || undefined}
@@ -74,7 +75,7 @@ export const FileInput = ({
           {jsAvailable ? (
             <>
               <label
-                htmlFor={name}
+                htmlFor={`${name}-input`}
                 className="relative inline-flex items-center ds-button ds-button-tertiary ds-button-large cursor-pointer w-fit"
               >
                 {FileInput}

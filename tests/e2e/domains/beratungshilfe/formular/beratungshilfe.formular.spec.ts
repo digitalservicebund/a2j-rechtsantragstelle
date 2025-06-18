@@ -149,7 +149,7 @@ async function startDocumentUpload(page: Page) {
     .setInputFiles(dummyFilePath);
   await expect(fileUploadInfo).toBeVisible();
   await expect(errorMessage).not.toBeVisible();
-  await page.getByRole("button", { name: "Weiter" }).click();
+  await page.getByRole("button", { name: "Weiter", exact: true }).click();
 }
 async function startOnlineAbgabe(page: Page) {
   // beratungshilfe/antrag/abgabe/art
