@@ -22,6 +22,7 @@ import {
   eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
 } from "~/domains/shared/formular/stringReplacements";
+import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
 import { isFeatureFlagEnabled } from "~/services/featureFlags";
 import {
   couldLiveFromUnterhalt,
@@ -174,7 +175,7 @@ export const prozesskostenhilfeFormular = {
       }),
       "weitere-angaben": {
         id: "weitere-angaben",
-        meta: { done: prozesskostenhilfePersoenlicheDatenDone },
+        meta: { done: weitereAngabenDone },
         on: {
           BACK: "#persoenliche-daten.beruf",
           SUBMIT: "#abgabe",
@@ -201,7 +202,8 @@ export const prozesskostenhilfeFormular = {
                   context.formularArt === "nachueberpruefung") &&
                 prozesskostenhilfePersoenlicheDatenDone({
                   context,
-                }),
+                }) &&
+                weitereAngabenDone({ context }),
               target: showFileUpload ? "dokumente" : "ende",
             },
           },
