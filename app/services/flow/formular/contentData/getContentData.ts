@@ -2,7 +2,6 @@ import { type Flow } from "~/domains/flows.server";
 import { type UserData } from "~/domains/userData";
 import { getArrayCategoriesFromPageContent } from "~/services/array/getArrayCategoriesFromPageContent";
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
-import { isStrapiSelectComponent } from "~/services/cms/models/isStrapiSelectComponent";
 import { type StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import { type StrapiMeta } from "~/services/cms/models/StrapiMeta";
 import { type CMSContent } from "~/services/flow/formular/buildFormularServerTranslations";
@@ -15,6 +14,7 @@ import { type Translations } from "~/services/translations/getTranslationByKey";
 import { translations as translationCode } from "~/services/translations/translations";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
+import { formsElements } from "./formsElements";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -46,15 +46,7 @@ export const getContentData = (
       );
     },
     getFormElements: () => {
-      return cmsContent.formContent.map((strapiFormElement) => {
-        if (
-          isStrapiSelectComponent(strapiFormElement) &&
-          strapiFormElement.label === null &&
-          cmsContent.heading !== undefined
-        )
-          strapiFormElement.altLabel = cmsContent.heading;
-        return strapiFormElement;
-      });
+      return formsElements(cmsContent);
     },
     getMeta: () => {
       const stringReplacements =
