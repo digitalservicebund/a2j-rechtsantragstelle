@@ -6,7 +6,7 @@ import {
   throw404IfFeatureFlagDisabled,
 } from "../throw404";
 
-vi.mock("~/services/env/web", () => ({
+vi.mock("~/services/env/public", () => ({
   config: vi.fn(),
 }));
 

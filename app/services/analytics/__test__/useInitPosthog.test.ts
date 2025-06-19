@@ -4,7 +4,7 @@ import { PostHog } from "posthog-js";
 import { config } from "~/services/env/public";
 import { useInitPosthog } from "../useInitPosthog";
 
-vi.mock("~/services/env/web");
+vi.mock("~/services/env/public");
 
 describe("useInitPosthog", () => {
   vi.mocked(config).mockReturnValue({

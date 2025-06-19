@@ -3,7 +3,7 @@ import { posthogIdFromCookie } from "~/services/analytics/posthogIdFromCookie";
 import { config } from "~/services/env/public";
 
 const mockAPIKey = "mockAPIKey";
-vi.mock("~/services/env/web", () => ({
+vi.mock("~/services/env/public", () => ({
   config: vi.fn(),
 }));
 
