@@ -104,7 +104,7 @@ function handleBrowserRequest(
       "Content-Security-Policy",
       cspHeader({
         nonce: cspNonce,
-        environment: config().ENVIRONMENT,
+        environment: webConfig().ENVIRONMENT,
         additionalConnectSrc: CONNECT_SOURCES,
         reportUri: config().CSP_REPORT_URI,
       }),

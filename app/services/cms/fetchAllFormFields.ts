@@ -4,7 +4,7 @@ import { flows } from "~/domains/flows.server";
 import { flowPageApiIdFromFlowType } from "~/services/cms/apiFromFlowType";
 import { getStrapiEntry } from "./getStrapiEntry";
 import type { StrapiSchemas } from "./schemas";
-import { config } from "../env/env.server";
+import { config } from "../env/web";
 
 export type FormFieldsMap = Record<string, string[]>;
 

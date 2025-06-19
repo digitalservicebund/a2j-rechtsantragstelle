@@ -11,7 +11,6 @@ type Config = {
   REDIS_PASSWORD: string;
   COOKIE_SESSION_SECRET: string;
   CONTENT_FILE_PATH: string;
-  ENVIRONMENT: string;
   CSP_REPORT_URI?: string;
   S3_REGION: string;
   S3_ENDPOINT: string;
@@ -22,7 +21,6 @@ type Config = {
 
 export function config(): Config {
   const STRAPI_API = process.env.STRAPI_API?.trim();
-  const ENVIRONMENT = process.env.ENVIRONMENT?.trim() ?? "development";
 
   return {
     STRAPI_API: STRAPI_API ?? "",
@@ -35,7 +33,6 @@ export function config(): Config {
       process.env.COOKIE_SESSION_SECRET?.trim() ?? "s3cr3t",
     CONTENT_FILE_PATH:
       process.env.CONTENT_FILE_PATH?.trim() ?? "./content.json",
-    ENVIRONMENT,
     CSP_REPORT_URI: process.env.CSP_REPORT_URI?.trim(),
     S3_REGION: process.env.AWS_S3_REGION?.trim() ?? "eu-central-1",
     S3_ENDPOINT:
