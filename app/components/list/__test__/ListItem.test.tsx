@@ -75,8 +75,10 @@ describe("ListItem", () => {
           }}
         />,
       );
-      const wrapperDiv = container.querySelector("[aria-hidden='true']");
-      expect(wrapperDiv).toBeInTheDocument();
+
+      expect(
+        container.querySelector("[aria-hidden='true']"),
+      ).toBeInTheDocument();
     });
 
     it("should render a custom image marker when image props are provided", () => {
