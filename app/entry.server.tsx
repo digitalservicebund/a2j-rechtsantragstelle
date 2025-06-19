@@ -5,7 +5,7 @@ import { renderToPipeableStream } from "react-dom/server";
 import type { EntryContext, HandleErrorFunction } from "react-router";
 import { redirect, ServerRouter } from "react-router";
 import { config } from "./services/env/env.server";
-import { config as webConfig } from "./services/env/web";
+import { config as configPublic } from "./services/env/public";
 import { logError } from "./services/logging";
 import { cspHeader } from "./services/security/cspHeader.server";
 import { NonceContext } from "./services/security/nonce";
@@ -15,7 +15,7 @@ import { stripTrailingSlashFromURL } from "./util/strings";
 export { expressApp } from "./expressApp"; //re-exported to be called from server.js
 
 const ABORT_DELAY = 5000;
-const CONNECT_SOURCES = [originFromUrlString(webConfig().SENTRY_DSN)].filter(
+const CONNECT_SOURCES = [originFromUrlString(configPublic().SENTRY_DSN)].filter(
   (origin) => origin !== undefined,
 );
 
@@ -104,7 +104,7 @@ function handleBrowserRequest(
       "Content-Security-Policy",
       cspHeader({
         nonce: cspNonce,
-        environment: config().ENVIRONMENT,
+        environment: configPublic().ENVIRONMENT,
         additionalConnectSrc: CONNECT_SOURCES,
         reportUri: config().CSP_REPORT_URI,
       }),
