@@ -23,7 +23,7 @@ export const useInitPosthog = (hasTrackingConsent?: boolean) => {
       secure_cookie: true,
       loaded: () => setPosthogClient(posthog),
     });
-  }, [POSTHOG_API_KEY, POSTHOG_API_HOST, hasTrackingConsent]);
+  }, [POSTHOG_API_KEY, hasTrackingConsent]);
 
   return posthogClient;
 };
