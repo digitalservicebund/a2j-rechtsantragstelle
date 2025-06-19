@@ -9,7 +9,6 @@ vi.mock("~/services/env/web");
 describe("useInitPosthog", () => {
   vi.mocked(config).mockReturnValue({
     POSTHOG_API_KEY: "test-api-key",
-    POSTHOG_API_HOST: "posthog-host",
     SENTRY_DSN: undefined,
     ENVIRONMENT: "test",
   });
@@ -33,7 +32,6 @@ describe("useInitPosthog", () => {
   test("returns undefined without POSTHOG_API_KEY", () => {
     vi.mocked(config).mockReturnValueOnce({
       POSTHOG_API_KEY: undefined,
-      POSTHOG_API_HOST: "posthog-host",
       SENTRY_DSN: undefined,
       ENVIRONMENT: "test",
     });

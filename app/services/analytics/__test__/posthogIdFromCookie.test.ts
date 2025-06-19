@@ -23,7 +23,6 @@ describe("posthogIdFromCookie", () => {
   it("should return ENVIRONMENT if POSTHOG_API_KEY is unavailable", () => {
     vi.mocked(config).mockReturnValue({
       POSTHOG_API_KEY: undefined,
-      POSTHOG_API_HOST: "",
       SENTRY_DSN: undefined,
       ENVIRONMENT: "local",
     });
@@ -33,7 +32,6 @@ describe("posthogIdFromCookie", () => {
   it("should return ENVIRONMENT if the posthog cookie's distinct_id is undefined", () => {
     vi.mocked(config).mockReturnValue({
       POSTHOG_API_KEY: mockAPIKey,
-      POSTHOG_API_HOST: "",
       SENTRY_DSN: undefined,
       ENVIRONMENT: "local",
     });
@@ -46,7 +44,6 @@ describe("posthogIdFromCookie", () => {
   it("should return the posthog cookie's distinct_id", () => {
     vi.mocked(config).mockReturnValue({
       POSTHOG_API_KEY: mockAPIKey,
-      POSTHOG_API_HOST: "",
       SENTRY_DSN: undefined,
       ENVIRONMENT: "local",
     });

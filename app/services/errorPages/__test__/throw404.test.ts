@@ -26,7 +26,6 @@ describe("throw404OnProduction", () => {
   it("should throw a 404 Response in production environment", () => {
     vi.mocked(config).mockReturnValue({
       ENVIRONMENT: "production",
-      POSTHOG_API_HOST: "",
       POSTHOG_API_KEY: "",
       SENTRY_DSN: "",
     });
@@ -42,7 +41,6 @@ describe("throw404OnProduction", () => {
   it("should not throw in non-production environment", () => {
     vi.mocked(config).mockReturnValue({
       ENVIRONMENT: "development",
-      POSTHOG_API_HOST: "",
       POSTHOG_API_KEY: "",
       SENTRY_DSN: "",
     });
