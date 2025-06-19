@@ -1,3 +1,4 @@
+// Note: To make this work on the client, window.ENV is set in root.tsx
 const envFromBrowser = () =>
   typeof window === "object" && "ENV" in window
     ? (window?.ENV as Record<string, string | undefined>)
@@ -6,7 +7,7 @@ const envFromBrowser = () =>
 const envFromNode = () =>
   typeof process === "object" && "env" in process ? process?.env : undefined;
 
-// Note: To make this work on the client, window.ENV is set in root.tsx
+// TODO: remove env variables not prefixed with PUBLIC_ once infra is updated (they are left for backwards compatibility)
 export function config() {
   const env = envFromBrowser() ?? envFromNode() ?? {};
   return {
