@@ -34,7 +34,6 @@ const cases = [
       "/zwischenseite-unterhalt",
     ],
   ],
-  // Unterhalt
   [
     {},
     [
@@ -44,9 +43,24 @@ const cases = [
       "/zwischenseite-einkuenfte",
     ],
   ],
+  [{ hasKinder: "no" }, ["/kinder", "/partner"]],
+  [
+    { hasKinder: "yes", kinderWohnenZusammen: "ja" },
+    ["/kinder", "/kinder-wohnen-zusammen", "/partner"],
+  ],
   [
     { hasKinder: "yes", kinderWohnenZusammen: "nein" },
     ["/kinder", "/kinder-wohnen-zusammen", "/kinder-unterhalt", "/partner"],
+  ],
+  [
+    { hasKinder: "yes", kinderWohnenZusammen: "teilweise" },
+    ["/kinder", "/kinder-wohnen-zusammen", "/kinder-unterhalt", "/partner"],
+  ],
+  [{ verheiratet: "nein" }, ["/partner", "/zwischenseite-einkuenfte"]],
+  [{ verheiratet: "verwitwet" }, ["/partner", "/zwischenseite-einkuenfte"]],
+  [
+    { verheiratet: "geschieden" },
+    ["/partner", "/partner-unterhalt", "/zwischenseite-einkuenfte"],
   ],
   [
     { verheiratet: "ja", partnerWohnenZusammen: "no" },
@@ -61,9 +75,6 @@ const cases = [
     { verheiratet: "ja", partnerWohnenZusammen: "yes" },
     ["/partner", "/partner-wohnen-zusammen", "/zwischenseite-einkuenfte"],
   ],
-  [{ verheiratet: "nein" }, ["/partner", "/zwischenseite-einkuenfte"]],
-  [{ verheiratet: "verwitwet" }, ["/partner", "/zwischenseite-einkuenfte"]],
-  // Cash
   [
     {},
     [
@@ -75,14 +86,8 @@ const cases = [
     ],
   ],
   [
-    { hasArbeit: "yes" },
-    [
-      "/arbeit",
-      "/arbeit-art",
-      "/nachzahlung-arbeitgeber",
-      "/einmalzahlung-arbeitgeber",
-      "/sozialleistungen",
-    ],
+    { hasArbeit: "no", hasSozialleistungen: "nein" },
+    ["/arbeit", "/sozialleistungen", "/sozialleistungen-umstaende"],
   ],
   [
     { hasArbeit: "yes", nachzahlungArbeitgeber: "yes" },
@@ -93,6 +98,31 @@ const cases = [
       "/einmalzahlung-arbeitgeber",
       "/sozialleistungen",
     ],
+  ],
+  [
+    { hasArbeit: "yes", nachzahlungArbeitgeber: "no" },
+    [
+      "/arbeit-art",
+      "/nachzahlung-arbeitgeber",
+      "/einmalzahlung-arbeitgeber",
+      "/sozialleistungen",
+    ],
+  ],
+  [
+    { hasArbeit: "yes", arbeitArt: { selbstaendig: "on", angestellt: "off" } },
+    ["/arbeit", "/arbeit-art", "/sozialleistungen"],
+  ],
+  [
+    { hasArbeit: "yes", arbeitArt: { selbstaendig: "off", angestellt: "off" } },
+    ["/arbeit", "/arbeit-art", "/sozialleistungen"],
+  ],
+  [
+    { hasArbeit: "yes", arbeitArt: { selbstaendig: "off", angestellt: "on" } },
+    ["/arbeit", "/arbeit-art", "/nachzahlung-arbeitgeber"],
+  ],
+  [
+    { hasArbeit: "yes", arbeitArt: { selbstaendig: "on", angestellt: "on" } },
+    ["/arbeit", "/arbeit-art", "/nachzahlung-arbeitgeber"],
   ],
   [
     { hasSozialleistungen: "nein" },
