@@ -6,6 +6,7 @@ const envFromBrowser = () =>
 const envFromNode = () =>
   typeof process === "object" && "env" in process ? process?.env : undefined;
 
+// Note: To make this work on the client, window.ENV is set in root.tsx
 export function config() {
   const env = envFromBrowser() ?? envFromNode() ?? {};
   return {
