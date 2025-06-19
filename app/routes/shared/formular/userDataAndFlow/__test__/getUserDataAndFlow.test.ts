@@ -60,7 +60,6 @@ describe("getUserDataAndFlow", () => {
       userData: mockPrunerData.userDataWithPageData,
       flow: {
         id: "/beratungshilfe/antrag",
-        current: expect.anything(),
         controller: mockBuildFlowController,
         validFlowPaths: mockPrunerData.validFlowPaths,
       },

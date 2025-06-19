@@ -25,6 +25,7 @@ export const getContentData = (
       arrayIndexes: number[];
     };
   },
+  currentFlow: Flow,
 ) => {
   return {
     arraySummaryData: (
@@ -50,7 +51,7 @@ export const getContentData = (
         return strapiFormElement;
       });
     },
-    getMeta: (currentFlow: Flow) => {
+    getMeta: () => {
       const stringReplacements =
         "stringReplacements" in currentFlow &&
         typeof currentFlow.stringReplacements === "function"

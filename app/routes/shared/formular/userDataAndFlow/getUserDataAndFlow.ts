@@ -1,7 +1,6 @@
 import { Result } from "true-myth";
 import { type ValidFlowPagesType } from "~/components/form/formFlowContext";
 import { type FlowId } from "~/domains/flowIds";
-import { type Flow } from "~/domains/flows.server";
 import { type UserData } from "~/domains/userData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
@@ -16,7 +15,6 @@ type OkResult = {
     };
   };
   flow: {
-    current: Flow;
     id: FlowId;
     controller: ReturnType<typeof buildFlowController>;
     validFlowPaths: ValidFlowPagesType;
@@ -72,7 +70,6 @@ export const getUserDataAndFlow = async (
     userData: userDataWithPageData,
     flow: {
       id: flowId,
-      current: currentFlow,
       controller: flowController,
       validFlowPaths,
     },

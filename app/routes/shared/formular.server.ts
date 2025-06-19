@@ -35,12 +35,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const {
     userData: userDataWithPageData,
-    flow: {
-      id: flowId,
-      controller: flowController,
-      current: currentFlow,
-      validFlowPaths,
-    },
+    flow: { id: flowId, controller: flowController, validFlowPaths },
     page: { stepId, arrayIndexes },
     migration,
   } = resultUserAndFlow.value;
@@ -59,7 +54,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const translations = contentData.getTranslations();
   const cmsContent = contentData.getCMSContent();
   const formElements = contentData.getFormElements();
-  const meta = contentData.getMeta(currentFlow);
+  const meta = contentData.getMeta();
   const arraySummaryData = contentData.arraySummaryData(flowController);
   const stepData = contentData.getStepData();
   const buttonNavigationProps = contentData.getButtonNavigationProps(

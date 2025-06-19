@@ -56,5 +56,6 @@ export const buildContentData = async (
     stringTranslations,
     translations,
     userDataWithPageData,
+    currentFlow,
   );
 };
