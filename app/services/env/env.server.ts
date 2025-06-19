@@ -1,3 +1,7 @@
+import { configDotenv } from "dotenv";
+
+configDotenv({ override: true }); // override is needed to enable live reloading on change
+
 type Config = {
   STRAPI_API: string;
   STRAPI_HOST: string;

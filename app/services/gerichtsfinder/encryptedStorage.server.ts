@@ -6,11 +6,9 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
-import dotenv from "dotenv";
 import { applyDataConversions } from "./convertJsonDataTable";
 import { extractJsonFilesFromZip } from "../../util/file/extractJsonFilesFromZip";
 
-dotenv.config();
 const GERICHTSFINDER_ENCRYPTION_KEY = process.env.GERICHTSFINDER_ENCRYPTION_KEY;
 const OUTFILE = path.resolve(
   path.join(process.cwd(), "data/courts/courtData.enc"),
