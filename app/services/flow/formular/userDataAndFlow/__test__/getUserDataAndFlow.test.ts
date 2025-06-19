@@ -1,12 +1,12 @@
 import { Result } from "true-myth";
+import { getUserPrunedDataFromPathname } from "~/services/flow/getUserPrunedDataFromPathname";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { getUserDataAndFlow } from "../getUserDataAndFlow";
-import { getUserPrunedDataFromPathname } from "../getUserPrunedDataFromPathname";
 import { validateStepIdFlow } from "../validateStepIdFlow";
 
 vi.mock("~/services/flow/server/buildFlowController");
-vi.mock("../getUserPrunedDataFromPathname");
+vi.mock("~/services/flow/getUserPrunedDataFromPathname");
 vi.mock("../validateStepIdFlow");
 vi.mock("~/services/session.server/crossFlowMigration");
 

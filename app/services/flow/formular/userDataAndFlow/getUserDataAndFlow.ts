@@ -4,9 +4,9 @@ import { type FlowId } from "~/domains/flowIds";
 import { type UserData } from "~/domains/userData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
-import { getPageAndFlowDataFromPathname } from "./getPageAndFlowDataFromPathname";
-import { getUserPrunedDataFromPathname } from "./getUserPrunedDataFromPathname";
 import { validateStepIdFlow } from "./validateStepIdFlow";
+import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
+import { getUserPrunedDataFromPathname } from "../../getUserPrunedDataFromPathname";
 
 type OkResult = {
   userData: UserData & {

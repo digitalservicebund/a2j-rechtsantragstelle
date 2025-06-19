@@ -9,7 +9,7 @@ import {
 import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
 import { parentFromParams } from "~/services/params";
 import { getContentData } from "./getContentData";
-import { getPageAndFlowDataFromPathname } from "../userDataAndFlow/getPageAndFlowDataFromPathname";
+import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
 
 export const buildContentData = async (
   pathname: string,
