@@ -49,7 +49,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     migration.userData,
   );
 
-  const stringTranslations = contentData.getStringTranslations();
+  const translations = contentData.getTranslations();
   const navItems = contentData.getNavItems(flowController, stepId);
   const cmsContent = contentData.getCMSContent();
   const formElements = contentData.getFormElements();
@@ -84,7 +84,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       postFormContent: cmsContent.postFormContent,
       preHeading: cmsContent.preHeading,
       stepData,
-      translations: stringTranslations,
+      translations,
       validFlowPaths,
       flowId,
     },

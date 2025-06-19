@@ -24,12 +24,11 @@ export const buildContentData = async (
   const { flowId, stepId, currentFlow } =
     getPageAndFlowDataFromPathname(pathname);
 
-  const [formPageContent, parentMeta, translations] = await Promise.all([
+  const [formPageContent, parentMeta, cmsTranslations] = await Promise.all([
     fetchFlowPage("form-flow-pages", flowId, stepId),
     fetchMeta({ filterValue: parentFromParams(pathname, params) }),
     fetchMultipleTranslations([
       `${flowId}/menu`,
-      "defaultTranslations",
       flowId,
       `${flowId}/summaryPage`,
     ]),
@@ -37,26 +36,25 @@ export const buildContentData = async (
 
   const arrayCategories = getArrayCategoriesFromPageContent(formPageContent);
 
-  const { stringTranslations, cmsContent } =
-    await buildFormularServerTranslations({
-      currentFlow,
-      flowTranslations: translations[flowId],
-      migrationData,
-      arrayCategories,
-      overviewTranslations: translations[`${flowId}/summaryPage`],
-      formPageContent,
-      userDataWithPageData,
-    });
+  const { translations, cmsContent } = await buildFormularServerTranslations({
+    currentFlow,
+    flowTranslations: cmsTranslations[flowId],
+    flowMenuTranslations: cmsTranslations[`${flowId}/menu`],
+    migrationData,
+    arrayCategories,
+    overviewTranslations: cmsTranslations[`${flowId}/summaryPage`],
+    formPageContent,
+    userDataWithPageData,
+  });
 
   return getContentData(
     {
       cmsContent,
       metaContent: parentMeta,
       formPageContent,
-      stringTranslations,
       translations,
     },
     userDataWithPageData,
-    { currentFlow, flowId },
+    currentFlow,
   );
 };

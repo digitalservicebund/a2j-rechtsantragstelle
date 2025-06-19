@@ -1,4 +1,3 @@
-import { type FlowId } from "~/domains/flowIds";
 import { type Flow } from "~/domains/flows.server";
 import { type UserData } from "~/domains/userData";
 import { getArrayCategoriesFromPageContent } from "~/services/array/getArrayCategoriesFromPageContent";
@@ -13,6 +12,7 @@ import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { stepMeta } from "~/services/meta/formStepMeta";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { type Translations } from "~/services/translations/getTranslationByKey";
+import { translations as translationCode } from "~/services/translations/translations";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 
@@ -20,29 +20,17 @@ type ContentParameters = {
   cmsContent: CMSContent;
   metaContent: StrapiMeta | null;
   formPageContent: StrapiFormFlowPage;
-  stringTranslations: Translations;
-  translations: Record<string, Translations>;
-};
-
-type FlowParameters = {
-  currentFlow: Flow;
-  flowId: FlowId;
+  translations: Translations;
 };
 
 export const getContentData = (
-  {
-    cmsContent,
-    formPageContent,
-    metaContent,
-    stringTranslations,
-    translations,
-  }: ContentParameters,
+  { cmsContent, formPageContent, metaContent, translations }: ContentParameters,
   userDataWithPageData: UserData & {
     pageData: {
       arrayIndexes: number[];
     };
   },
-  { currentFlow, flowId }: FlowParameters,
+  currentFlow: Flow,
 ) => {
   return {
     arraySummaryData: (
@@ -82,8 +70,8 @@ export const getContentData = (
 
       return meta;
     },
-    getStringTranslations: () => {
-      return stringTranslations;
+    getTranslations: () => {
+      return translations;
     },
     getCMSContent: () => {
       return cmsContent;
@@ -105,13 +93,15 @@ export const getContentData = (
           ? insertIndexesIntoPath(pathname, backDestination, arrayIndexes)
           : backDestination;
 
-      const defaultStrings = translations.defaultTranslations;
+      const buttonNavigationTranslation = translationCode.buttonNavigation;
 
       return getButtonNavigationProps({
         backButtonLabel:
-          cmsContent.backButtonLabel ?? defaultStrings.backButtonDefaultLabel,
+          cmsContent.backButtonLabel ??
+          buttonNavigationTranslation.backButtonDefaultLabel.de,
         nextButtonLabel:
-          cmsContent.nextButtonLabel ?? defaultStrings.nextButtonDefaultLabel,
+          cmsContent.nextButtonLabel ??
+          buttonNavigationTranslation.nextButtonDefaultLabel.de,
         isFinal: flowController.isFinal(stepId),
         backDestination: backDestinationWithArrayIndexes,
       });
@@ -124,7 +114,7 @@ export const getContentData = (
         navItemsFromStepStates(
           stepId,
           flowController.stepStates(),
-          translations[`${flowId}/menu`],
+          translations,
         ) ?? []
       );
     },

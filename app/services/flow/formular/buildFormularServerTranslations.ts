@@ -8,6 +8,7 @@ import { applyStringReplacement } from "~/util/applyStringReplacement";
 type BuildFormularServerTranslations = {
   currentFlow: Flow;
   flowTranslations: Translations;
+  flowMenuTranslations: Translations;
   migrationData: UserData | undefined;
   arrayCategories: string[];
   overviewTranslations: Translations;
@@ -59,13 +60,14 @@ function interpolateTranslations(
 export const buildFormularServerTranslations = async ({
   currentFlow,
   flowTranslations,
+  flowMenuTranslations,
   migrationData,
   arrayCategories,
   overviewTranslations,
   formPageContent,
   userDataWithPageData,
 }: BuildFormularServerTranslations): Promise<{
-  stringTranslations: Translations;
+  translations: Translations;
   cmsContent: CMSContent;
 }> => {
   /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports
@@ -89,10 +91,11 @@ export const buildFormularServerTranslations = async ({
   const arrayTranslations =
     await getArraySummaryPageTranslations(arrayCategories);
 
-  const stringTranslations = {
+  const translationsAfterInterpolation = {
     ...arrayTranslations,
     ...flowTranslationsAfterInterpolation,
     ...overviewTranslationsAfterInterpolation,
+    ...flowMenuTranslations,
   };
 
   // structure cms content -> merge with getting data?
@@ -100,14 +103,14 @@ export const buildFormularServerTranslations = async ({
     structureCmsContent(formPageContent),
     typeof currentFlow.stringReplacements !== "undefined"
       ? {
-          ...stringTranslations,
+          ...translationsAfterInterpolation,
           ...currentFlow.stringReplacements(userDataWithPageData),
         }
       : {},
   );
 
   return {
-    stringTranslations,
+    translations: translationsAfterInterpolation,
     cmsContent,
   };
 };
