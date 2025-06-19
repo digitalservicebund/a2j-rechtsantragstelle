@@ -1,5 +1,6 @@
 import type { BeratungshilfePersoenlicheDatenUserData } from "~/domains/beratungshilfe/formular/persoenlicheDaten/userData";
 import type { GenericGuard } from "~/domains/guards.server";
+import { hasOptionalString } from "~/domains/guards.server";
 
 export const beratungshilfePersoenlicheDatenDone: GenericGuard<
   BeratungshilfePersoenlicheDatenUserData
@@ -10,5 +11,6 @@ export const beratungshilfePersoenlicheDatenDone: GenericGuard<
       context.geburtsdatum &&
       context.strasseHausnummer &&
       context.plz &&
-      context.ort,
+      context.ort &&
+      hasOptionalString(context.telefonnummer),
   );

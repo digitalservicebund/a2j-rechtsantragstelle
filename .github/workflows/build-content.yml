@@ -59,7 +59,7 @@ jobs:
         with:
           name: content-file
       - name: Install cosign
-        uses: sigstore/cosign-installer@3454372f43399081ed03b604cb2d021dabca52bb # v3.8.2
+        uses: sigstore/cosign-installer@fb28c2b6339dcd94da6e4cbcbc5e888961f6f8c3 # v3.9.0
       - run: ./docker.sh --build content
       - run: ./docker.sh --push content
       - run: ./docker.sh --build prod
@@ -114,7 +114,7 @@ jobs:
       e2e-target: preview
 
   deploy-production:
-    needs: [verify-preview-e2e]
+    needs: [verify-preview-e2e, build-push-content-image]
     runs-on: ubuntu-latest
     environment: production
     steps:
