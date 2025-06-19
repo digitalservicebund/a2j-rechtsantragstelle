@@ -9,7 +9,6 @@ import { addPageDataToUserData } from "~/services/flow/pageData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
-import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
@@ -51,7 +50,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   );
 
   const stringTranslations = contentData.getStringTranslations();
-  const translations = contentData.getTranslations();
+  const navItems = contentData.getNavItems(flowController, stepId);
   const cmsContent = contentData.getCMSContent();
   const formElements = contentData.getFormElements();
   const meta = contentData.getMeta();
@@ -69,13 +68,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     flowId,
     stepId,
   });
-
-  const navItems =
-    navItemsFromStepStates(
-      stepId,
-      flowController.stepStates(),
-      translations[`${flowId}/menu`],
-    ) ?? [];
 
   return data(
     {

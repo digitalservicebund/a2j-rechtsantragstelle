@@ -50,12 +50,14 @@ export const buildContentData = async (
     });
 
   return getContentData(
-    cmsContent,
-    parentMeta,
-    formPageContent,
-    stringTranslations,
-    translations,
+    {
+      cmsContent,
+      metaContent: parentMeta,
+      formPageContent,
+      stringTranslations,
+      translations,
+    },
     userDataWithPageData,
-    currentFlow,
+    { currentFlow, flowId },
   );
 };

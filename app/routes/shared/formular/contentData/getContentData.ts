@@ -1,3 +1,4 @@
+import { type FlowId } from "~/domains/flowIds";
 import { type Flow } from "~/domains/flows.server";
 import { type UserData } from "~/domains/userData";
 import { getArrayCategoriesFromPageContent } from "~/services/array/getArrayCategoriesFromPageContent";
@@ -8,24 +9,40 @@ import { type StrapiMeta } from "~/services/cms/models/StrapiMeta";
 import { type CMSContent } from "~/services/flow/formular/buildFormularServerTranslations";
 import { type buildFlowController } from "~/services/flow/server/buildFlowController";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
+import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { stepMeta } from "~/services/meta/formStepMeta";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 
+type ContentParameters = {
+  cmsContent: CMSContent;
+  metaContent: StrapiMeta | null;
+  formPageContent: StrapiFormFlowPage;
+  stringTranslations: Translations;
+  translations: Record<string, Translations>;
+};
+
+type FlowParameters = {
+  currentFlow: Flow;
+  flowId: FlowId;
+};
+
 export const getContentData = (
-  cmsContent: CMSContent,
-  metaContent: StrapiMeta | null,
-  formPageContent: StrapiFormFlowPage,
-  stringTranslations: Translations,
-  translations: Record<string, Translations>,
+  {
+    cmsContent,
+    formPageContent,
+    metaContent,
+    stringTranslations,
+    translations,
+  }: ContentParameters,
   userDataWithPageData: UserData & {
     pageData: {
       arrayIndexes: number[];
     };
   },
-  currentFlow: Flow,
+  { currentFlow, flowId }: FlowParameters,
 ) => {
   return {
     arraySummaryData: (
@@ -71,9 +88,6 @@ export const getContentData = (
     getCMSContent: () => {
       return cmsContent;
     },
-    getTranslations: () => {
-      return translations;
-    },
     getStepData: () => {
       const fieldNames = cmsContent.formContent.map((entry) => entry.name);
       return fieldsFromContext(userDataWithPageData, fieldNames);
@@ -101,6 +115,18 @@ export const getContentData = (
         isFinal: flowController.isFinal(stepId),
         backDestination: backDestinationWithArrayIndexes,
       });
+    },
+    getNavItems: (
+      flowController: ReturnType<typeof buildFlowController>,
+      stepId: string,
+    ) => {
+      return (
+        navItemsFromStepStates(
+          stepId,
+          flowController.stepStates(),
+          translations[`${flowId}/menu`],
+        ) ?? []
+      );
     },
   };
 };
