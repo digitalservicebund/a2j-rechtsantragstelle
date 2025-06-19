@@ -1,7 +1,7 @@
 import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";
 import { getStrapiEntryFromFile } from "./getStrapiEntryFromFile";
 import { config } from "../env/env.server";
-import { config as publicConfig } from "../env/web";
+import { config as publicConfig } from "../env/public";
 import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
 import { type GetStrapiEntry } from "./schemas";
 

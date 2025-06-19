@@ -5,7 +5,7 @@ import { renderToPipeableStream } from "react-dom/server";
 import type { EntryContext, HandleErrorFunction } from "react-router";
 import { redirect, ServerRouter } from "react-router";
 import { config } from "./services/env/env.server";
-import { config as webConfig } from "./services/env/web";
+import { config as webConfig } from "./services/env/public";
 import { logError } from "./services/logging";
 import { cspHeader } from "./services/security/cspHeader.server";
 import { NonceContext } from "./services/security/nonce";

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { config } from "~/services/env/web";
+import { config } from "~/services/env/public";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import {
   throw404OnProduction,

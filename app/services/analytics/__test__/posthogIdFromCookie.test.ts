@@ -1,6 +1,6 @@
 import { parse } from "cookie";
 import { posthogIdFromCookie } from "~/services/analytics/posthogIdFromCookie";
-import { config } from "~/services/env/web";
+import { config } from "~/services/env/public";
 
 const mockAPIKey = "mockAPIKey";
 vi.mock("~/services/env/web", () => ({

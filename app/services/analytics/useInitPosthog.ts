@@ -1,7 +1,7 @@
 import { posthog, type PostHog } from "posthog-js";
 import { useEffect, useState } from "react";
 import { POSTHOG_API_HOST } from "./config";
-import { config } from "../env/web";
+import { config } from "../env/public";
 
 export const useInitPosthog = (hasTrackingConsent?: boolean) => {
   const [posthogClient, setPosthogClient] = useState<PostHog | undefined>();

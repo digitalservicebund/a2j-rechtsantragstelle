@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { renderHook } from "@testing-library/react";
 import { PostHog } from "posthog-js";
-import { config } from "~/services/env/web";
+import { config } from "~/services/env/public";
 import { useInitPosthog } from "../useInitPosthog";
 
 vi.mock("~/services/env/web");
