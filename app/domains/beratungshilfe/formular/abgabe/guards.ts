@@ -1,6 +1,5 @@
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { beratungshilfePersoenlicheDatenDone } from "~/domains/beratungshilfe/formular/persoenlicheDaten/doneFunctions";
-import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
 import type { Guards } from "../../../guards.server";
 import { anwaltlicheVertretungDone } from "../anwaltlicheVertretung/guards";
 import { beratungshilfeFinanzielleAngabeDone } from "../finanzielleAngaben/beratungshilfeFinanzielleAngabeDone";
@@ -13,8 +12,7 @@ export const beratungshilfeAbgabeGuards = {
     anwaltlicheVertretungDone({ context }) &&
     rechtsproblemDone({ context }) &&
     beratungshilfeFinanzielleAngabeDone({ context }) &&
-    beratungshilfePersoenlicheDatenDone({ context }) &&
-    weitereAngabenDone({ context }),
+    beratungshilfePersoenlicheDatenDone({ context }),
   abgabeOnline: ({ context }) => context.abgabeArt == "online",
   abgabeAusdrucken: ({ context }) => context.abgabeArt == "ausdrucken",
 } satisfies Guards<BeratungshilfeFormularUserData>;
