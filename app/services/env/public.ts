@@ -13,6 +13,6 @@ export function config() {
       env.PUBLIC_POSTHOG_API_KEY ?? env.POSTHOG_API_KEY
     )?.trim(),
     SENTRY_DSN: (env.PUBLIC_SENTRY_DSN ?? env.SENTRY_DSN)?.trim(),
-    ENVIRONMENT: env.PUBLIC_ENVIRONMENT ?? env.ENVIRONMENT ?? "local",
+    ENVIRONMENT: env.PUBLIC_ENVIRONMENT ?? env.ENVIRONMENT ?? "development",
   };
 }
