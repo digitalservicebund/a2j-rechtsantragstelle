@@ -1,5 +1,6 @@
 import merge from "lodash/merge";
 import persoenlicheDatenFlow from "~/domains/shared/formular/persoenlicheDaten/flow.json";
+import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
 import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
@@ -79,7 +80,7 @@ export const beratungshilfeXstateConfig = {
     }),
     "weitere-angaben": {
       id: "weitere-angaben",
-      meta: { done: beratungshilfePersoenlicheDatenDone },
+      meta: { done: weitereAngabenDone },
       on: { BACK: "#persoenliche-daten.telefonnummer", SUBMIT: "#abgabe" },
     },
     abgabe: await abgabeXstateConfig("#weitere-angaben"),
