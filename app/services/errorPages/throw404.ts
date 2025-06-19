@@ -1,6 +1,6 @@
 import { config } from "~/services/env/web";
-import type { FeatureFlag } from "~/services/featureFlags";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import type { FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
 export const throw404OnProduction = () => {
   if (config().ENVIRONMENT === "production")
