@@ -1,5 +1,5 @@
 import { type CMSContent } from "../../buildFormularServerTranslations";
-import { formsElements } from "../formsElements";
+import { buildFormsElements } from "../buildFormsElements";
 
 const mockCmsElement = {
   heading: "new heading",
@@ -16,7 +16,7 @@ const mockCmsElement = {
   postFormContent: [],
 };
 
-describe("formsElements", () => {
+describe("buildFormsElements", () => {
   it("should overwrite the altLabel for the heading in case the component is select", () => {
     const mockCmsElementWithRadio = {
       ...mockCmsElement,
@@ -31,7 +31,7 @@ describe("formsElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = formsElements(mockCmsElementWithRadio);
+    const actual = buildFormsElements(mockCmsElementWithRadio);
 
     expect((actual[0] as { altLabel: string }).altLabel).toBe("new heading");
   });
@@ -51,7 +51,7 @@ describe("formsElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = formsElements(mockCmsElementWithRadio);
+    const actual = buildFormsElements(mockCmsElementWithRadio);
 
     expect((actual[0] as { altLabel: string }).altLabel).toBe("old alt label");
   });

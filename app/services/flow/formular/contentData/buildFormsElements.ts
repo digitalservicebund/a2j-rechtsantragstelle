@@ -1,7 +1,7 @@
 import { isStrapiSelectComponent } from "~/services/cms/models/isStrapiSelectComponent";
 import { type CMSContent } from "../buildFormularServerTranslations";
 
-export const formsElements = (cmsContent: CMSContent) => {
+export const buildFormsElements = (cmsContent: CMSContent) => {
   return cmsContent.formContent.map((strapiFormElement) => {
     if (
       isStrapiSelectComponent(strapiFormElement) &&

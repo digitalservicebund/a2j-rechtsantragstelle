@@ -14,7 +14,7 @@ import { type Translations } from "~/services/translations/getTranslationByKey";
 import { translations as translationCode } from "~/services/translations/translations";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { formsElements } from "./formsElements";
+import { buildFormsElements } from "./buildFormsElements";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -46,7 +46,7 @@ export const getContentData = (
       );
     },
     getFormElements: () => {
-      return formsElements(cmsContent);
+      return buildFormsElements(cmsContent);
     },
     getMeta: () => {
       const stringReplacements =
