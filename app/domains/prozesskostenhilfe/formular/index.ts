@@ -202,8 +202,7 @@ export const prozesskostenhilfeFormular = {
                   context.formularArt === "nachueberpruefung") &&
                 prozesskostenhilfePersoenlicheDatenDone({
                   context,
-                }) &&
-                weitereAngabenDone({ context }),
+                }),
               target: showFileUpload ? "dokumente" : "ende",
             },
           },
