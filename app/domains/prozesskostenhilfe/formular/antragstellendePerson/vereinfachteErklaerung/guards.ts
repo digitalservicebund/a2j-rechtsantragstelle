@@ -91,7 +91,7 @@ export const vereinfachteErklaerungDone: GenericGuard<
       "hasEinnahmen",
     ]) &&
     (childLivesSeparately({ context })
-      ? context.unterhaltsSumme !== undefined
+      ? context.child?.unterhaltsSumme !== undefined
       : true) &&
     (unterhaltsOrAbstammungssachen({ context })
       ? context.rechtlichesThema !== undefined

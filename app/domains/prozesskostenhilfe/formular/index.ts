@@ -5,6 +5,7 @@ import {
 } from "~/domains/prozesskostenhilfe/formular/abgabe/stringReplacements";
 import { antragstellendePersonArrayConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/arrayConfiguration";
 import { getAntragstellendePersonStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/stringReplacements";
+import { qualifiesForVereinfachteErklaerung } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 import { getVereinfachteErklaerungStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/stringReplacements";
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/arrayConfiguration";
@@ -14,6 +15,7 @@ import { grundvoraussetzungenXstateConfig } from "~/domains/prozesskostenhilfe/f
 import { prozesskostenhilfePersoenlicheDatenDone } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/doneFunctions";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/xstateConfig";
+import { finanzielleAngabenArrayConfig } from "~/domains/shared/formular/finanzielleAngaben/arrayConfiguration";
 import {
   getKinderStrings,
   getArrayIndexStrings,
@@ -25,6 +27,7 @@ import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import {
   couldLiveFromUnterhalt,
   empfaengerIsAnderePerson,
+  empfaengerIsChild,
 } from "./antragstellendePerson/guards";
 import { prozesskostenhilfeFinanzielleAngabeDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
@@ -42,7 +45,6 @@ import {
   getMissingInformationStrings,
 } from "./stringReplacements";
 import { type ProzesskostenhilfeFormularUserData } from "./userData";
-import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
 
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
 
@@ -94,6 +96,18 @@ export const prozesskostenhilfeFormular = {
         }),
       rechtsschutzversicherung: getProzesskostenhilfeRsvXstateConfig({
         backToCallingFlow: [
+          {
+            guard: ({ context }) =>
+              empfaengerIsChild({ context }) &&
+              qualifiesForVereinfachteErklaerung({ context }),
+            target: "#vereinfachte-erklaerung.hinweis-vereinfachte-erklaerung",
+          },
+          {
+            guard: ({ context }) =>
+              empfaengerIsChild({ context }) &&
+              !qualifiesForVereinfachteErklaerung({ context }),
+            target: "#vereinfachte-erklaerung.hinweis-weiteres-formular",
+          },
           {
             guard: empfaengerIsAnderePerson,
             target: "#antragstellende-person.zwei-formulare",
