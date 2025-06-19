@@ -7,13 +7,10 @@ import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { validateStepIdFlow } from "./validateStepIdFlow";
 import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
 import { getUserPrunedDataFromPathname } from "../../getUserPrunedDataFromPathname";
+import { type UserDataWithPageData } from "../../pageData";
 
 type OkResult = {
-  userData: UserData & {
-    pageData: {
-      arrayIndexes: number[];
-    };
-  };
+  userData: UserDataWithPageData;
   flow: {
     id: FlowId;
     controller: ReturnType<typeof buildFlowController>;

@@ -1,5 +1,4 @@
 import { type Flow } from "~/domains/flows.server";
-import { type UserData } from "~/domains/userData";
 import { getArrayCategoriesFromPageContent } from "~/services/array/getArrayCategoriesFromPageContent";
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
 import { type StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
@@ -8,28 +7,24 @@ import { type CMSContent } from "~/services/flow/formular/buildFormularServerTra
 import { type buildFlowController } from "~/services/flow/server/buildFlowController";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
-import { stepMeta } from "~/services/meta/formStepMeta";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import { translations as translationCode } from "~/services/translations/translations";
-import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { buildFormsElements } from "./buildFormsElements";
+import { buildMetaContent } from "./buildMetaContent";
+import { type UserDataWithPageData } from "../../pageData";
 
 type ContentParameters = {
   cmsContent: CMSContent;
-  metaContent: StrapiMeta | null;
   formPageContent: StrapiFormFlowPage;
+  parentMeta: StrapiMeta | null;
   translations: Translations;
 };
 
 export const getContentData = (
-  { cmsContent, formPageContent, metaContent, translations }: ContentParameters,
-  userDataWithPageData: UserData & {
-    pageData: {
-      arrayIndexes: number[];
-    };
-  },
+  { cmsContent, formPageContent, parentMeta, translations }: ContentParameters,
+  userDataWithPageData: UserDataWithPageData,
   currentFlow: Flow,
 ) => {
   return {
@@ -49,18 +44,12 @@ export const getContentData = (
       return buildFormsElements(cmsContent);
     },
     getMeta: () => {
-      const stringReplacements =
-        "stringReplacements" in currentFlow &&
-        typeof currentFlow.stringReplacements === "function"
-          ? currentFlow.stringReplacements(userDataWithPageData)
-          : undefined;
-
-      const meta = applyStringReplacement(
-        stepMeta(formPageContent.pageMeta, metaContent),
-        stringReplacements,
+      return buildMetaContent(
+        currentFlow,
+        formPageContent.pageMeta,
+        parentMeta,
+        userDataWithPageData,
       );
-
-      return meta;
     },
     getTranslations: () => {
       return translations;

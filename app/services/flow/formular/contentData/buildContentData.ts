@@ -10,15 +10,12 @@ import { buildFormularServerTranslations } from "~/services/flow/formular/buildF
 import { parentFromParams } from "~/services/params";
 import { getContentData } from "./getContentData";
 import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
+import { type UserDataWithPageData } from "../../pageData";
 
 export const buildContentData = async (
   pathname: string,
   params: Params<string>,
-  userDataWithPageData: UserData & {
-    pageData: {
-      arrayIndexes: number[];
-    };
-  },
+  userDataWithPageData: UserDataWithPageData,
   migrationData: UserData | undefined,
 ) => {
   const { flowId, stepId, currentFlow } =
@@ -50,7 +47,7 @@ export const buildContentData = async (
   return getContentData(
     {
       cmsContent,
-      metaContent: parentMeta,
+      parentMeta,
       formPageContent,
       translations,
     },
