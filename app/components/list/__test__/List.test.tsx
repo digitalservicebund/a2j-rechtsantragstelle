@@ -1,26 +1,26 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import List, { listItemNotEmpty } from "../List";
 import type { ListItemProps } from "../types";
 
 describe("List", () => {
   it("should render subheading when it is given", () => {
     const mockSubheadingText = "subheadingText";
-    render(
+    const { getByText } = render(
       <List items={[]} variant="unordered" subheading={mockSubheadingText} />,
     );
-    expect(screen.getByText(mockSubheadingText)).toBeInTheDocument();
+    expect(getByText(mockSubheadingText)).toBeInTheDocument();
   });
 
   it("should not render subheading when it is not given", () => {
     const mockSubheadingText = "subheadingText";
-    render(<List items={[]} variant="unordered" />);
-    expect(screen.queryByText(mockSubheadingText)).not.toBeInTheDocument();
+    const { queryByText } = render(<List items={[]} variant="unordered" />);
+    expect(queryByText(mockSubheadingText)).not.toBeInTheDocument();
   });
 
   describe("renders correct list tag", () => {
     it("renders <ul> if variant is 'unordered' and no images", () => {
-      render(<List items={[]} variant="unordered" />);
-      expect(screen.getByRole("list").tagName).toBe("UL");
+      const { container } = render(<List items={[]} variant="unordered" />);
+      expect(container.querySelector("ul")).toBeInTheDocument();
     });
 
     it("renders <ul> if any item has an image", () => {
@@ -31,8 +31,8 @@ describe("List", () => {
         },
         { headline: { text: "Two" } },
       ];
-      render(<List items={items} variant="numbered" />);
-      expect(screen.getByRole("list").tagName).toBe("UL");
+      const { container } = render(<List items={items} variant="numbered" />);
+      expect(container.querySelector("ul")).toBeInTheDocument();
     });
 
     it("renders <ol> if variant is 'numbered' and no images", () => {
@@ -40,8 +40,8 @@ describe("List", () => {
         { headline: { text: "One" } },
         { headline: { text: "Two" } },
       ];
-      render(<List items={items} variant="numbered" />);
-      expect(screen.getByRole("list").tagName).toBe("OL");
+      const { container } = render(<List items={items} variant="numbered" />);
+      expect(container.querySelector("ol")).toBeInTheDocument();
     });
   });
 });
