@@ -63,4 +63,67 @@ describe("ListItem", () => {
     const { container } = render(<ListItem variant="stepByStep" />);
     expect(container.getElementsByClassName("w-2 h-full")).toHaveLength(1);
   });
+
+  describe("ImageMarker", () => {
+    it("should hide the image marker from screen readers", () => {
+      const { container } = render(
+        <ListItem
+          variant="unordered"
+          image={{
+            url: "/test.png",
+            alternativeText: "",
+          }}
+        />,
+      );
+      const wrapperDiv = container.querySelector("[aria-hidden='true']");
+      expect(wrapperDiv).toBeInTheDocument();
+    });
+
+    it("should render a custom image marker when image props are provided", () => {
+      const { container } = render(
+        <ListItem
+          variant="unordered"
+          image={{
+            url: "/test.png",
+            alternativeText: "",
+            className: "custom-marker",
+          }}
+        />,
+      );
+      expect(container.querySelector(".custom-marker")).toBeInTheDocument();
+    });
+
+    it("should not render the styled marker when image is provided", () => {
+      const { container } = render(
+        <ListItem
+          variant="numbered"
+          index={1}
+          image={{
+            url: "/test.png",
+            alternativeText: "",
+          }}
+        />,
+      );
+      expect(
+        container.querySelector(".border-gray-400"),
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  describe("variant styles", () => {
+    it("should apply correct classes for unordered variant", () => {
+      const { container } = render(<ListItem variant="unordered" />);
+      expect(container.querySelector(".border-black")).toBeInTheDocument();
+    });
+
+    it("should apply correct classes for numbered variant", () => {
+      const { container } = render(<ListItem variant="numbered" />);
+      expect(container.querySelector(".border-gray-400")).toBeInTheDocument();
+    });
+
+    it("should apply correct classes for stepByStep variant", () => {
+      const { container } = render(<ListItem variant="stepByStep" />);
+      expect(container.querySelector(".bg-blue-800")).toBeInTheDocument();
+    });
+  });
 });
