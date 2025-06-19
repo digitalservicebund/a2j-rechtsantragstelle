@@ -4,6 +4,7 @@ import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 
 let geldEinklagenFormular: GeldEinklagenFormular;
+// TODO: re-enable one geld-einklagen nears production
 
 test.beforeEach(async ({ page }) => {
   geldEinklagenFormular = new GeldEinklagenFormular(page);
