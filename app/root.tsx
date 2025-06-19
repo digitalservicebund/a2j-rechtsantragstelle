@@ -45,6 +45,7 @@ import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
+import { useShouldPrint } from "./services/useShouldPrint";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 
 export { headers } from "./rootHeaders";
@@ -75,10 +76,8 @@ export const meta: MetaFunction<RootLoader> = () => {
 export type RootLoader = typeof loader;
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
-  const { pathname, searchParams } = new URL(request.url);
+  const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
-
-  const shouldPrint = searchParams.get("print") !== null;
 
   const [
     strapiHeader,
@@ -129,7 +128,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       postSubmissionText: parseAndSanitizeMarkdown(
         staticTranslations.feedback["text-post-submission"].de,
       ),
-      shouldPrint,
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
@@ -143,8 +141,8 @@ function App() {
     hasTrackingConsent,
     hasAnyUserData,
     accessibilityTranslations,
-    shouldPrint,
   } = useLoaderData<RootLoader>();
+  const shouldPrint = useShouldPrint();
   const matches = useMatches();
   const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
