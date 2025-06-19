@@ -1,9 +1,8 @@
 import { z } from "zod";
-import { financialEntryInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import {
-  geburtsdatum,
-  vornameNachnameSchema,
-} from "~/domains/shared/formular/persoenlicheDaten/userData";
+  financialEntryInputSchema,
+  kinderSchema,
+} from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import {
@@ -12,9 +11,8 @@ import {
 } from "~/services/validation/YesNoAnswer";
 
 export const prozesskostenhilfeVereinfachteErklaerungInputSchema = {
-  child: z.object({ ...vornameNachnameSchema, geburtsdatum }).partial(),
+  child: kinderSchema,
   livesTogether: YesNoAnswer,
-  unterhaltsSumme: buildMoneyValidationSchema(),
   minderjaehrig: YesNoAnswer,
   unterhaltsOrAbstammungssachen: YesNoAnswer,
   rechtlichesThema: z.enum(
