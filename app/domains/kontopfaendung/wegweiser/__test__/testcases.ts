@@ -9,7 +9,24 @@ const cases = [
     ["/start", "/kontopfaendung", "/ergebnis/keine-kontopfaendung"],
   ],
   [
+    { hasKontopfaendung: "ja", hasPKonto: "ja" },
+    ["/kontopfaendung", "/p-konto", "/zwischenseite-unterhalt"],
+  ],
+  [
+    { hasKontopfaendung: "ja", hasPKonto: "nein" },
+    ["/kontopfaendung", "/p-konto", "/zwischenseite-unterhalt"],
+  ],
+  [
     { hasKontopfaendung: "ja", hasPKonto: "nichtAktiv" },
+    [
+      "/kontopfaendung",
+      "/p-konto",
+      "/p-konto-probleme",
+      "/zwischenseite-unterhalt",
+    ],
+  ],
+  [
+    { hasKontopfaendung: "ja", hasPKonto: "nichtEingerichtet" },
     [
       "/kontopfaendung",
       "/p-konto",
@@ -28,17 +45,21 @@ const cases = [
     ],
   ],
   [
-    { hasKinder: "yes" },
+    { hasKinder: "yes", kinderWohnenZusammen: "nein" },
     ["/kinder", "/kinder-wohnen-zusammen", "/kinder-unterhalt", "/partner"],
   ],
   [
-    { verheiratet: "ja" },
+    { verheiratet: "ja", partnerWohnenZusammen: "no" },
     [
       "/partner",
       "/partner-wohnen-zusammen",
       "/partner-unterhalt",
       "/zwischenseite-einkuenfte",
     ],
+  ],
+  [
+    { verheiratet: "ja", partnerWohnenZusammen: "yes" },
+    ["/partner", "/partner-wohnen-zusammen", "/zwischenseite-einkuenfte"],
   ],
   [{ verheiratet: "nein" }, ["/partner", "/zwischenseite-einkuenfte"]],
   // Cash
@@ -186,6 +207,7 @@ const cases = [
       hasPKonto: "nichtEingerichtet",
       pfaendungUnterhalt: "yes",
       hasKinder: "yes",
+      kinderWohnenZusammen: "nein",
       kinderUnterhalt: "no",
       verheiratet: "nein",
       hasArbeit: "yes",
