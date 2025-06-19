@@ -23,7 +23,7 @@ import {
   geldAnlagenStrings,
 } from "~/domains/shared/formular/stringReplacements";
 import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import {
   couldLiveFromUnterhalt,
   empfaengerIsAnderePerson,
