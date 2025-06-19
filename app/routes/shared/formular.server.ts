@@ -42,12 +42,19 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
 
-  const contentData = await retrieveContentData(
-    pathname,
-    params,
-    userDataWithPageData,
-    migration.userData,
-  );
+  const [contentData, { headers, csrf }] = await Promise.all([
+    retrieveContentData(
+      pathname,
+      params,
+      userDataWithPageData,
+      migration.userData,
+    ),
+    updateMainSession({
+      cookieHeader,
+      flowId,
+      stepId,
+    }),
+  ]);
 
   const translations = contentData.getTranslations();
   const navItems = contentData.getNavItems(flowController, stepId);
@@ -62,12 +69,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     stepId,
     arrayIndexes,
   );
-
-  const { headers, csrf } = await updateMainSession({
-    cookieHeader,
-    flowId,
-    stepId,
-  });
 
   return data(
     {
