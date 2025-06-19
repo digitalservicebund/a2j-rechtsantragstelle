@@ -1,18 +1,16 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { config } from "~/services/env/web";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import {
   throw404OnProduction,
   throw404IfFeatureFlagDisabled,
 } from "../throw404";
 
-// Mock the config module
 vi.mock("~/services/env/web", () => ({
   config: vi.fn(),
 }));
 
-// Mock the featureFlags module
-vi.mock("~/services/featureFlags", () => ({
+vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
   isFeatureFlagEnabled: vi.fn(),
 }));
 

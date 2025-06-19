@@ -4,7 +4,7 @@ import type { Page, Response } from "@playwright/test";
 import { expect } from "@playwright/test";
 import { PDFDocument } from "pdf-lib";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
 export async function startAbgabe(page: Page) {
   if (await isFeatureFlagEnabled("showFileUpload")) {
