@@ -42,6 +42,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       validFlowPaths,
     },
     page: { stepId, arrayIndexes },
+    migration,
   } = resultUserAndFlow.value;
 
   const { pathname } = new URL(request.url);
@@ -49,9 +50,9 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const contentData = await buildContentData(
     pathname,
-    cookieHeader,
     params,
     userDataWithPageData,
+    migration.userData,
   );
 
   const stringTranslations = contentData.getStringTranslations();
@@ -59,7 +60,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const cmsContent = contentData.getCMSContent();
   const formElements = contentData.getFormElements();
   const meta = contentData.getMeta(currentFlow);
-  const migration = contentData.getMigration(currentFlow);
   const arraySummaryData = contentData.arraySummaryData(flowController);
   const stepData = contentData.getStepData();
   const buttonNavigationProps = contentData.getButtonNavigationProps(

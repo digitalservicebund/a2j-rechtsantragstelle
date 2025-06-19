@@ -8,37 +8,33 @@ import {
 } from "~/services/cms/index.server";
 import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
 import { parentFromParams } from "~/services/params";
-import { type CookieHeader } from "~/services/session.server";
-import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { getContentData } from "./getContentData";
 import { getPageAndFlowDataFromPathname } from "../userDataAndFlow/getPageAndFlowDataFromPathname";
 
 export const buildContentData = async (
   pathname: string,
-  cookieHeader: CookieHeader,
   params: Params<string>,
   userDataWithPageData: UserData & {
     pageData: {
       arrayIndexes: number[];
     };
   },
+  migrationData: UserData | undefined,
 ) => {
   const { flowId, stepId, currentFlow } =
     getPageAndFlowDataFromPathname(pathname);
 
-  const [formPageContent, parentMeta, translations, migrationData] =
-    await Promise.all([
-      fetchFlowPage("form-flow-pages", flowId, stepId),
-      fetchMeta({ filterValue: parentFromParams(pathname, params) }),
-      fetchMultipleTranslations([
-        `${flowId}/menu`,
-        "defaultTranslations",
-        flowId,
-        `${flowId}/summaryPage`,
-        "accessibility",
-      ]),
-      getMigrationData(stepId, flowId, currentFlow, cookieHeader),
-    ]);
+  const [formPageContent, parentMeta, translations] = await Promise.all([
+    fetchFlowPage("form-flow-pages", flowId, stepId),
+    fetchMeta({ filterValue: parentFromParams(pathname, params) }),
+    fetchMultipleTranslations([
+      `${flowId}/menu`,
+      "defaultTranslations",
+      flowId,
+      `${flowId}/summaryPage`,
+      "accessibility",
+    ]),
+  ]);
 
   const arrayCategories = getArrayCategoriesFromPageContent(formPageContent);
 
@@ -57,7 +53,6 @@ export const buildContentData = async (
     cmsContent,
     parentMeta,
     formPageContent,
-    migrationData,
     stringTranslations,
     translations,
     userDataWithPageData,

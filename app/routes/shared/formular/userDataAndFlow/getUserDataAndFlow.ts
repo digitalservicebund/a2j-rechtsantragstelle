@@ -4,6 +4,7 @@ import { type FlowId } from "~/domains/flowIds";
 import { type Flow } from "~/domains/flows.server";
 import { type UserData } from "~/domains/userData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
+import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { getPageAndFlowDataFromPathname } from "./getPageAndFlowDataFromPathname";
 import { getUserPrunedDataFromPathname } from "./getUserPrunedDataFromPathname";
 import { validateStepIdFlow } from "./validateStepIdFlow";
@@ -24,6 +25,11 @@ type OkResult = {
     stepId: string;
     arrayIndexes?: number[];
   };
+  migration: {
+    userData: UserData | undefined;
+    sortedFields?: string[];
+    buttonUrl?: string;
+  };
 };
 
 type ErrorResult = {
@@ -39,8 +45,11 @@ export const getUserDataAndFlow = async (
   const { flowId, stepId, arrayIndexes, currentFlow } =
     getPageAndFlowDataFromPathname(pathname);
 
-  const { userDataWithPageData, validFlowPaths } =
-    await getUserPrunedDataFromPathname(pathname, cookieHeader);
+  const [{ userDataWithPageData, validFlowPaths }, migrationData] =
+    await Promise.all([
+      getUserPrunedDataFromPathname(pathname, cookieHeader),
+      getMigrationData(stepId, flowId, currentFlow, cookieHeader),
+    ]);
 
   const flowController = buildFlowController({
     config: currentFlow.config,
@@ -70,6 +79,17 @@ export const getUserDataAndFlow = async (
     page: {
       stepId,
       arrayIndexes,
+    },
+    migration: {
+      userData: migrationData,
+      sortedFields:
+        "migration" in currentFlow
+          ? currentFlow.migration?.sortedFields
+          : undefined,
+      buttonUrl:
+        "migration" in currentFlow
+          ? currentFlow.migration?.buttonUrl
+          : undefined,
     },
   });
 };

@@ -18,7 +18,6 @@ export const getContentData = (
   cmsContent: CMSContent,
   metaContent: StrapiMeta | null,
   formPageContent: StrapiFormFlowPage,
-  migrationData: UserData | undefined,
   stringTranslations: Translations,
   translations: Record<string, Translations>,
   userDataWithPageData: UserData & {
@@ -64,19 +63,6 @@ export const getContentData = (
       );
 
       return meta;
-    },
-    getMigration: (currentFlow: Flow) => {
-      return {
-        userData: migrationData,
-        sortedFields:
-          "migration" in currentFlow
-            ? currentFlow.migration?.sortedFields
-            : undefined,
-        buttonUrl:
-          "migration" in currentFlow
-            ? currentFlow.migration?.buttonUrl
-            : undefined,
-      };
     },
     getStringTranslations: () => {
       return stringTranslations;
