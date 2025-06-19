@@ -32,7 +32,6 @@ export const buildContentData = async (
       "defaultTranslations",
       flowId,
       `${flowId}/summaryPage`,
-      "accessibility",
     ]),
   ]);
 
