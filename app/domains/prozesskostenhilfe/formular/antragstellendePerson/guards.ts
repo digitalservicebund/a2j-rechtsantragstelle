@@ -21,7 +21,10 @@ export const couldLiveFromUnterhalt: GenericGuard<
 export const antragstellendePersonDone: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
 > = ({ context }) =>
-  (empfaengerIsChild({ context }) && vereinfachteErklaerungDone({ context })) ||
+  (empfaengerIsChild({ context }) &&
+    vereinfachteErklaerungDone({
+      context,
+    })) ||
   empfaengerIsAnderePerson({ context }) ||
   context.unterhaltsanspruch === "keine" ||
   (context.unterhaltsanspruch === "unterhalt" &&

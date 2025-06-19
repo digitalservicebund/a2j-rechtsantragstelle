@@ -1,5 +1,7 @@
 import { PDFDocument } from "pdf-lib";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
+import { empfaengerIsChild } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/guards";
+import { qualifiesForVereinfachteErklaerung } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 import { belegeStrings } from "~/domains/prozesskostenhilfe/formular/stringReplacements";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { fillZahlungsverpflichtungen } from "~/domains/prozesskostenhilfe/services/pdf/pdfForm/I_zahlungsverpflichtungen";
@@ -19,6 +21,7 @@ import {
   pdfFromUserData,
   type PDFDocumentBuilder,
 } from "~/services/pdf/pdfFromUserData";
+import { createVereinfachteErklaerungAnhang } from "~/services/pdf/vereinfachteErklaerung/createVereinfachteErklaerungAnhang";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import loadHinweisblatt from "./loadHinweisblatt";
 import { fillPerson } from "./pdfForm/A_person";
@@ -66,6 +69,12 @@ const buildProzesskostenhilfePDFDocument: PDFDocumentBuilder<
     createWeitereAngabenAnhang(doc, documentStruct, userData);
   }
 
+  if (
+    empfaengerIsChild({ context: userData }) &&
+    qualifiesForVereinfachteErklaerung({ context: userData })
+  ) {
+    createVereinfachteErklaerungAnhang(doc, documentStruct, userData);
+  }
   createFooter(doc, documentStruct, "Anhang");
 };
 
