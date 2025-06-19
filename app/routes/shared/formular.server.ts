@@ -5,6 +5,8 @@ import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
+import { buildContentData } from "~/services/flow/formular/contentData/buildContentData";
+import { getUserDataAndFlow } from "~/services/flow/formular/userDataAndFlow/getUserDataAndFlow";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
@@ -22,8 +24,6 @@ import {
 } from "~/services/upload/fileUploadHelpers.server";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { filterFormData } from "~/util/filterFormData";
-import { buildContentData } from "./formular/contentData/buildContentData";
-import { getUserDataAndFlow } from "./formular/userDataAndFlow/getUserDataAndFlow";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
