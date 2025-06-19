@@ -2,7 +2,7 @@ import * as Sentry from "@sentry/react-router";
 import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
 import { HydratedRouter } from "react-router/dom";
-import { config } from "~/services/env/web";
+import { config } from "~/services/env/public";
 
 // Ignore a few common errors that are not useful to track
 const SENTRY_IGNORE_ERRORS = [

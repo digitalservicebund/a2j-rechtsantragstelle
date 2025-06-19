@@ -1,4 +1,4 @@
-import { config } from "~/services/env/env.server";
+import { config } from "~/services/env/public";
 
 export const loader = () => {
   // Initial robot content is to disallow all
