@@ -12,7 +12,7 @@ import { getContentData } from "./getContentData";
 import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
 import { type UserDataWithPageData } from "../../pageData";
 
-export const buildContentData = async (
+export const retrieveContentData = async (
   pathname: string,
   params: Params<string>,
   userDataWithPageData: UserDataWithPageData,

@@ -5,7 +5,7 @@ import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
-import { buildContentData } from "~/services/flow/formular/contentData/buildContentData";
+import { retrieveContentData } from "~/services/flow/formular/contentData/retrieveContentData";
 import { getUserDataAndFlow } from "~/services/flow/formular/userDataAndFlow/getUserDataAndFlow";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
@@ -42,7 +42,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
 
-  const contentData = await buildContentData(
+  const contentData = await retrieveContentData(
     pathname,
     params,
     userDataWithPageData,
