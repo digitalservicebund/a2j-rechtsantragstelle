@@ -1,11 +1,11 @@
 import { Result } from "true-myth";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getUserDataAndFlow } from "../getUserDataAndFlow";
-import { getUserPrunedDataFromRequest } from "../getUserPrunedDataFromRequest";
+import { getUserPrunedDataFromPathname } from "../getUserPrunedDataFromPathname";
 import { validateStepIdFlow } from "../validateStepIdFlow";
 
 vi.mock("~/services/flow/server/buildFlowController");
-vi.mock("../getUserPrunedDataFromRequest");
+vi.mock("../getUserPrunedDataFromPathname");
 vi.mock("../validateStepIdFlow");
 
 const mockRequest = new Request(
@@ -28,7 +28,7 @@ const mockPrunerData = {
   },
 };
 
-vi.mocked(getUserPrunedDataFromRequest).mockResolvedValue(mockPrunerData);
+vi.mocked(getUserPrunedDataFromPathname).mockResolvedValue(mockPrunerData);
 vi.mocked(buildFlowController).mockReturnValue(mockBuildFlowController);
 
 describe("getUserDataAndFlow", () => {

@@ -8,12 +8,14 @@ import {
 } from "~/services/cms/index.server";
 import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
 import { parentFromParams } from "~/services/params";
+import { type CookieHeader } from "~/services/session.server";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { getContentData } from "./getContentData";
-import { getPageAndFlowDataFromRequest } from "../userDataAndFlow/getPageAndFlowDataFromRequest";
+import { getPageAndFlowDataFromPathname } from "../userDataAndFlow/getPageAndFlowDataFromPathname";
 
 export const buildContentData = async (
-  request: Request,
+  pathname: string,
+  cookieHeader: CookieHeader,
   params: Params<string>,
   userDataWithPageData: UserData & {
     pageData: {
@@ -21,11 +23,8 @@ export const buildContentData = async (
     };
   },
 ) => {
-  const { pathname } = new URL(request.url);
-
   const { flowId, stepId, currentFlow } =
-    getPageAndFlowDataFromRequest(request);
-  const cookieHeader = request.headers.get("Cookie");
+    getPageAndFlowDataFromPathname(pathname);
 
   const [formPageContent, parentMeta, translations, migrationData] =
     await Promise.all([

@@ -1,11 +1,13 @@
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
-import { getSessionData } from "~/services/session.server";
-import { getPageAndFlowDataFromRequest } from "./getPageAndFlowDataFromRequest";
+import { type CookieHeader, getSessionData } from "~/services/session.server";
+import { getPageAndFlowDataFromPathname } from "./getPageAndFlowDataFromPathname";
 
-export const getUserPrunedDataFromRequest = async (request: Request) => {
-  const { flowId, arrayIndexes } = getPageAndFlowDataFromRequest(request);
-  const cookieHeader = request.headers.get("Cookie");
+export const getUserPrunedDataFromPathname = async (
+  pathname: string,
+  cookieHeader: CookieHeader,
+) => {
+  const { flowId, arrayIndexes } = getPageAndFlowDataFromPathname(pathname);
   const { userData } = await getSessionData(flowId, cookieHeader);
 
   const { prunedData: prunedUserData, validFlowPaths } =

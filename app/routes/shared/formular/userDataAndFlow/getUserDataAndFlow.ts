@@ -4,8 +4,8 @@ import { type FlowId } from "~/domains/flowIds";
 import { type Flow } from "~/domains/flows.server";
 import { type UserData } from "~/domains/userData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { getPageAndFlowDataFromRequest } from "./getPageAndFlowDataFromRequest";
-import { getUserPrunedDataFromRequest } from "./getUserPrunedDataFromRequest";
+import { getPageAndFlowDataFromPathname } from "./getPageAndFlowDataFromPathname";
+import { getUserPrunedDataFromPathname } from "./getUserPrunedDataFromPathname";
 import { validateStepIdFlow } from "./validateStepIdFlow";
 
 type OkResult = {
@@ -33,11 +33,14 @@ type ErrorResult = {
 export const getUserDataAndFlow = async (
   request: Request,
 ): Promise<Result<OkResult, ErrorResult>> => {
+  const { pathname } = new URL(request.url);
+  const cookieHeader = request.headers.get("Cookie");
+
   const { flowId, stepId, arrayIndexes, currentFlow } =
-    getPageAndFlowDataFromRequest(request);
+    getPageAndFlowDataFromPathname(pathname);
 
   const { userDataWithPageData, validFlowPaths } =
-    await getUserPrunedDataFromRequest(request);
+    await getUserPrunedDataFromPathname(pathname, cookieHeader);
 
   const flowController = buildFlowController({
     config: currentFlow.config,

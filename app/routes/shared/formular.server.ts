@@ -48,7 +48,8 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
 
   const contentData = await buildContentData(
-    request,
+    pathname,
+    cookieHeader,
     params,
     userDataWithPageData,
   );
