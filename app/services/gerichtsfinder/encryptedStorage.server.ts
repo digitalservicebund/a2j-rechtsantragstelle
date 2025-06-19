@@ -6,10 +6,11 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
+import { configDotenv } from "dotenv";
 import { applyDataConversions } from "./convertJsonDataTable";
 import { extractJsonFilesFromZip } from "../../util/file/extractJsonFilesFromZip";
 
-const GERICHTSFINDER_ENCRYPTION_KEY = process.env.GERICHTSFINDER_ENCRYPTION_KEY;
+const getEncryptionKey = () => process.env.GERICHTSFINDER_ENCRYPTION_KEY;
 const OUTFILE = path.resolve(
   path.join(process.cwd(), "data/courts/courtData.enc"),
 );
@@ -39,6 +40,9 @@ function saveEncrypted(data: any, filename: string, password: string) {
 }
 
 function updateZipfile(zipFilepath: string) {
+  configDotenv(); // updateZipfile runs as part of an npm command and might need to read from
+  const GERICHTSFINDER_ENCRYPTION_KEY = getEncryptionKey();
+
   if (!GERICHTSFINDER_ENCRYPTION_KEY) {
     console.error("GERICHTSFINDER_ENCRYPTION_KEY not set - aborting.");
     return;
@@ -57,6 +61,7 @@ declare global {
 }
 
 export function getEncrypted(): Record<string, any> {
+  const GERICHTSFINDER_ENCRYPTION_KEY = getEncryptionKey();
   if (!GERICHTSFINDER_ENCRYPTION_KEY) {
     console.error("GERICHTSFINDER_ENCRYPTION_KEY not set - aborting.");
     return {};
