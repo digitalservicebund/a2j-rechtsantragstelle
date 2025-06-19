@@ -18,7 +18,7 @@ export const getTotalMonthlyFinancialEntries = (
         case "monthly":
           return betragNumber;
         case "quarterly":
-          return betragNumber / 3;
+          return betragNumber / 4;
         case "one-time":
           return betragNumber / 12;
         case "yearly":
@@ -41,7 +41,7 @@ export const getFinancialEntryMonthlyAverage = (
     case "monthly":
       return betragNumber;
     case "quarterly":
-      return betragNumber / 3;
+      return betragNumber / 4;
     case "one-time":
     case "yearly":
       return betragNumber / 12;

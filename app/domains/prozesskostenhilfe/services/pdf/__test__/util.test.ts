@@ -29,7 +29,7 @@ describe("utility functions", () => {
             zahlungsfrequenz: "yearly",
           },
         ]),
-      ).toBe("140,00");
+      ).toBe("135,00");
     });
     it("should consider the thousands seperator", () => {
       expect(
@@ -64,7 +64,7 @@ describe("utility functions", () => {
       expect(
         getFinancialEntryMonthlyAverage({
           beschreibung: "",
-          betrag: "90,00",
+          betrag: "120,00",
           zahlungsfrequenz: "quarterly",
         }),
       ).toBe(30);
