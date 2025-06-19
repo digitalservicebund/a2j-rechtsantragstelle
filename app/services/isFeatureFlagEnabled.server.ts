@@ -1,7 +1,6 @@
 import { getPosthogNodeClient } from "~/services/analytics/posthogClient.server";
 
-// Note: This flags can be enabled locally using the USE_LOCAL_FEATURE_FLAGS env variable
-// These settings here are also used for e2e tests and therefore should match production as closely as possible
+// These settings are used if posthog isn't available, including for e2e tests. They should match production as closely as possible
 const localFeatureFlags = {
   showGeldEinklagenFlow: false,
   showFileUpload: false,
