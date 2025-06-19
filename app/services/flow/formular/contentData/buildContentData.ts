@@ -53,5 +53,6 @@ export const buildContentData = async (
     },
     userDataWithPageData,
     currentFlow,
+    arrayCategories,
   );
 };

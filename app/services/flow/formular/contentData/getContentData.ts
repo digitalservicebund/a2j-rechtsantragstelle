@@ -1,5 +1,4 @@
 import { type Flow } from "~/domains/flows.server";
-import { getArrayCategoriesFromPageContent } from "~/services/array/getArrayCategoriesFromPageContent";
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
 import { type StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import { type StrapiMeta } from "~/services/cms/models/StrapiMeta";
@@ -26,14 +25,12 @@ export const getContentData = (
   { cmsContent, formPageContent, parentMeta, translations }: ContentParameters,
   userDataWithPageData: UserDataWithPageData,
   currentFlow: Flow,
+  arrayCategories: string[],
 ) => {
   return {
     arraySummaryData: (
       flowController: ReturnType<typeof buildFlowController>,
     ) => {
-      const arrayCategories =
-        getArrayCategoriesFromPageContent(formPageContent);
-
       return getArraySummaryData(
         arrayCategories,
         flowController.getRootMeta()?.arrays,
