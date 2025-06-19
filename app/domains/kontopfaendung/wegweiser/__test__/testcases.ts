@@ -9,7 +9,24 @@ const cases = [
     ["/start", "/kontopfaendung", "/ergebnis/keine-kontopfaendung"],
   ],
   [
+    { hasKontopfaendung: "ja", hasPKonto: "ja" },
+    ["/kontopfaendung", "/p-konto", "/zwischenseite-unterhalt"],
+  ],
+  [
+    { hasKontopfaendung: "ja", hasPKonto: "nein" },
+    ["/kontopfaendung", "/p-konto", "/zwischenseite-unterhalt"],
+  ],
+  [
     { hasKontopfaendung: "ja", hasPKonto: "nichtAktiv" },
+    [
+      "/kontopfaendung",
+      "/p-konto",
+      "/p-konto-probleme",
+      "/zwischenseite-unterhalt",
+    ],
+  ],
+  [
+    { hasKontopfaendung: "ja", hasPKonto: "nichtEingerichtet" },
     [
       "/kontopfaendung",
       "/p-konto",
