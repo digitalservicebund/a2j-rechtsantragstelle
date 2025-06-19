@@ -36,9 +36,11 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: "p-konto-probleme",
+            target: "zwischenseite-unterhalt",
+            guard: ({ context }) =>
+              context.hasPKonto === "ja" || context.hasPKonto === "nein",
           },
-          "zwischenseite-unterhalt",
+          "p-konto-probleme",
         ],
         BACK: "kontopfaendung",
       },
@@ -52,7 +54,14 @@ export const kontopfaendungWegweiserXstateConfig = {
     "zwischenseite-unterhalt": {
       on: {
         SUBMIT: "kinder",
-        BACK: "p-konto-probleme",
+        BACK: [
+          {
+            target: "p-konto",
+            guard: ({ context }) =>
+              context.hasPKonto === "ja" || context.hasPKonto === "nein",
+          },
+          "p-konto-probleme",
+        ],
       },
     },
     kinder: {
