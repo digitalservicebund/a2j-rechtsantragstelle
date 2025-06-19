@@ -1,4 +1,4 @@
-import { validationError } from "@rvf/react-router";
+import { validationError, ValidatorError } from "@rvf/react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
@@ -206,17 +206,28 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     typeof formAction === "string" &&
     formAction.startsWith("fileUpload")
   ) {
-    const { validationResult, validationError } = await uploadUserFile(
-      formAction,
-      request,
-      flowSession.data,
-      flowId,
-    );
-    if (validationError) return validationError;
-    updateSession(flowSession, resolveArraysFromKeys(validationResult!.data));
-    return data(flowSession.data, {
-      headers: { "Set-Cookie": await commitSession(flowSession) },
-    });
+    try {
+      const { validationResult, validationError } = await uploadUserFile(
+        formAction,
+        request,
+        flowSession.data,
+        flowId,
+      );
+      if (validationError) return validationError;
+      updateSession(flowSession, resolveArraysFromKeys(validationResult!.data));
+      return data(flowSession.data, {
+        headers: { "Set-Cookie": await commitSession(flowSession) },
+      });
+    } catch (error: unknown) {
+      return validationError(
+        {
+          fieldErrors: {
+            [formAction.split(".")[1]]: "fileRequired",
+          },
+        } as ValidatorError,
+        flowSession.data,
+      );
+    }
   } else if (
     typeof formAction === "string" &&
     formAction.startsWith("deleteFile")

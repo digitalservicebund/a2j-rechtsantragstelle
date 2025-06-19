@@ -38,6 +38,7 @@ export async function uploadUserFile(
   const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
   const file = await parseFileFromFormData(request, inputName);
+
   const sessionId = await getSessionIdByFlowId(
     flowId,
     request.headers.get("Cookie"),
@@ -50,11 +51,6 @@ export async function uploadUserFile(
    */
   const fileArrayBuffer = await file.arrayBuffer();
   const fileMeta = createFileMeta(file, fileArrayBuffer);
-
-  /**
-   * Need to scope the context, otherwise we validate against the entire context,
-   * of which we only have partial data at this point
-   */
   const scopedUserData = pickBy(
     getContext(flowId),
     (_val, key) => key === fieldName,

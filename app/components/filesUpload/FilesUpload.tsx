@@ -1,6 +1,7 @@
 import { useField, type ValidationErrorResponseData } from "@rvf/react-router";
 import classNames from "classnames";
 import { useActionData } from "react-router";
+
 import { type ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
 import { type UserData } from "~/domains/userData";
@@ -51,9 +52,8 @@ const FilesUpload = ({
   });
 
   const showAddMoreButton =
-    items.length === 0 ||
-    (items.length < fileUploadLimit &&
-      Object.entries(scopedErrors).length === 0);
+    items.length === 0 || items.length < fileUploadLimit;
+  // Object.entries(scopedErrors).length === 0);
 
   /**
    * if the component doesn't have a value, or has an error displayed, normally nothing is submitted in the FormData.
@@ -87,6 +87,8 @@ const FilesUpload = ({
                 selectedFile={undefined}
                 jsAvailable={jsAvailable}
                 name={`${name}[${items.length}]`}
+                error={scopedErrors[`${name}[${items.length}]`]}
+                errorMessages={errorMessages}
               />
             )}
           </div>

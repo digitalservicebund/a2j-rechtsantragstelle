@@ -40,7 +40,8 @@ export const FileInput = ({
       id={`${name}-input`}
       type="file"
       accept=".pdf"
-      value={selectedFile?.savedFileKey || undefined}
+      required
+      value={selectedFile?.savedFileKey ?? undefined}
       data-testid={`file-upload-input-${name}`}
       aria-invalid={error !== undefined}
       aria-errormessage={error && errorId}
