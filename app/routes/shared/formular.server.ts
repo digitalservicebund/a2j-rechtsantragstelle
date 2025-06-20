@@ -63,7 +63,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const meta = contentData.getMeta();
   const arraySummaryData = contentData.arraySummaryData(flowController);
   const stepData = contentData.getStepData();
-  const buttonNavigationProps = contentData.getButtonNavigationProps(
+  const buttonNavigationProps = contentData.getButtonNavigation(
     flowController,
     pathname,
     stepId,

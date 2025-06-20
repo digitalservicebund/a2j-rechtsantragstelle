@@ -56,7 +56,7 @@ export const getContentData = (
       const fieldNames = cmsContent.formContent.map((entry) => entry.name);
       return fieldsFromContext(userDataWithPageData, fieldNames);
     },
-    getButtonNavigationProps: (
+    getButtonNavigation: (
       flowController: ReturnType<typeof buildFlowController>,
       pathname: string,
       stepId: string,
