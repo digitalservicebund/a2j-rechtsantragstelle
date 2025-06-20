@@ -1,5 +1,9 @@
 import { type FileUpload, parseFormData } from "@mjackson/form-data-parser";
-import { type ValidationErrorResponseData } from "@rvf/react-router";
+import {
+  ValidatorError,
+  validationError,
+  type ValidationErrorResponseData,
+} from "@rvf/react-router";
 import pickBy from "lodash/pickBy";
 import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { type ZodTypeAny } from "zod";
@@ -38,6 +42,20 @@ export async function uploadUserFile(
   const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
   const file = await parseFileFromFormData(request, inputName);
+
+  if (!file) {
+    return {
+      validationError: validationError(
+        {
+          fieldErrors: {
+            [formAction.split(".")[1]]: "fileRequired",
+          },
+        } as ValidatorError,
+        userData,
+      ),
+    };
+  }
+
   const sessionId = await getSessionIdByFlowId(
     flowId,
     request.headers.get("Cookie"),
@@ -50,11 +68,6 @@ export async function uploadUserFile(
    */
   const fileArrayBuffer = await file.arrayBuffer();
   const fileMeta = createFileMeta(file, fileArrayBuffer);
-
-  /**
-   * Need to scope the context, otherwise we validate against the entire context,
-   * of which we only have partial data at this point
-   */
   const scopedUserData = pickBy(
     getContext(flowId),
     (_val, key) => key === fieldName,
@@ -111,9 +124,6 @@ async function parseFileFromFormData(request: Request, fieldName: string) {
       matchedFile = fileUpload;
     }
   });
-  if (typeof matchedFile === "undefined") {
-    throw new Error(UNDEFINED_FILE_ERROR);
-  }
   return matchedFile;
 }
 

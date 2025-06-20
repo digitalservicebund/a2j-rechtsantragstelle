@@ -34,7 +34,7 @@ export async function startAbgabe(page: Page) {
       page.getByTestId("file-upload-info-grundsicherungSozialhilfeBeweis[0]"),
     ).toBeVisible();
 
-    await page.getByRole("button", { name: "Weiter" }).click();
+    await page.getByRole("button", { name: "Weiter", exact: true }).click();
   }
 
   // prozesskostenhilfe/antrag/abgabe/ende
