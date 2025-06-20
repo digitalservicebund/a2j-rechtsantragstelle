@@ -94,7 +94,7 @@ function allStepsFromMachine(machine: FlowStateMachine) {
  */
 
 vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
-  isFeatureFlagEnabled: vi.fn().mockResolvedValue(true),
+  isFeatureFlagEnabled: vi.fn().mockResolvedValue(false),
 }));
 
 describe.sequential("state machine form flows", () => {
@@ -213,6 +213,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(19);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(20);
   });
 });

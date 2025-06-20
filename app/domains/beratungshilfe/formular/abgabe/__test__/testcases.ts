@@ -10,7 +10,7 @@ const cases = [
     [
       "/abgabe/zusammenfassung",
       "/abgabe/art",
-      "/abgabe/dokumente",
+      // "/abgabe/dokumente", // Uncomment when file upload is released
       "/abgabe/online",
     ],
   ],
