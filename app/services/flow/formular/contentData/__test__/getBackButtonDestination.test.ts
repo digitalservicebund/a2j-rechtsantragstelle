@@ -13,7 +13,7 @@ describe("getBackButtonDestination", () => {
     );
   });
 
-  it("should a back button destination from the destination parameter in case arrayIndexes is empty", () => {
+  it("should return back button destination from the destination parameter in case arrayIndexes is empty", () => {
     const actual = getBackButtonDestination(
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/",
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/wohnort",
