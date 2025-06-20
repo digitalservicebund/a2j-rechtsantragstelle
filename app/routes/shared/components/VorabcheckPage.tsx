@@ -1,9 +1,9 @@
 import { useLoaderData } from "react-router";
-import Background from "~/components/Background";
 import Container from "~/components/Container";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import PageContent from "~/components/PageContent";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { useFocusFirstH1 } from "~/components/useFocusFirstH1";
 import type { loader } from "../vorabcheck.server";
 
@@ -15,13 +15,18 @@ export function VorabcheckPage() {
     formElements,
     progressProps,
     buttonNavigationProps,
+    flowId,
   } = useLoaderData<typeof loader>();
+
+  const showReportProblem =
+    flowId === "/beratungshilfe/vorabcheck" ||
+    flowId === "/kontopfaendung/wegweiser";
 
   useFocusFirstH1();
 
   return (
-    <Background backgroundColor="blue">
-      <div className="min-w-[100vw]">
+    <div className="min-w-[100vw] flex flex-col bg-blue-100">
+      <div className="flex-grow">
         <Container paddingTop="24" paddingBottom="64">
           <div className="ds-stack ds-stack-40">
             <ProgressBar {...progressProps} />
@@ -39,6 +44,7 @@ export function VorabcheckPage() {
           </div>
         </Container>
       </div>
-    </Background>
+      {showReportProblem && <ReportProblem />}
+    </div>
   );
 }

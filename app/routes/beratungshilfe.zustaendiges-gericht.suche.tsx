@@ -6,10 +6,10 @@ import {
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
-import Background from "~/components/Background";
 import Container from "~/components/Container";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import PageContent from "~/components/PageContent";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { FlowId } from "~/domains/flowIds";
 import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
@@ -60,8 +60,8 @@ export default function Index() {
     useLoaderData<typeof loader>();
 
   return (
-    <Background backgroundColor="blue">
-      <div className="min-w-[100vw]">
+    <div className="flex flex-col min-w-[100vw] bg-blue-100">
+      <div className="flex-grow">
         <Container>
           <PageContent className="ds-stack ds-stack-32" content={pre_form} />
         </Container>
@@ -83,6 +83,7 @@ export default function Index() {
           </Container>
         </ValidatedForm>
       </div>
-    </Background>
+      <ReportProblem />
+    </div>
   );
 }
