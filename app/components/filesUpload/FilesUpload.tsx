@@ -51,9 +51,17 @@ const FilesUpload = ({
     [errorStyling]: !!field.error(),
   });
 
+  const hasFileRequiredError =
+    Object.keys(scopedErrors).length === 1 &&
+    Object.entries(scopedErrors).some(
+      ([key]) =>
+        key.split("[")[0] === name && scopedErrors[key] === "fileRequired",
+    );
   const showAddMoreButton =
-    items.length === 0 || items.length < fileUploadLimit;
-  // Object.entries(scopedErrors).length === 0);
+    items.length === 0 ||
+    (items.length < fileUploadLimit &&
+      Object.entries(scopedErrors).length === 0) ||
+    hasFileRequiredError;
 
   /**
    * if the component doesn't have a value, or has an error displayed, normally nothing is submitted in the FormData.

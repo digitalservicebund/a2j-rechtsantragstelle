@@ -7,6 +7,7 @@ import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
 import { type ErrorMessageProps } from ".";
 import { useFileHandler } from "../filesUpload/useFileHandler";
+import { useRef } from "react";
 
 type FileInputProps = {
   name: string;
@@ -28,6 +29,18 @@ export const FileInput = ({
   const { onFileDelete, onFileUpload } = useFileHandler();
   const errorId = `${name}-error`;
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  /**
+   * on blur, reset the file input.
+   * because the file is already uploaded on change but its already selected in the file input
+   */
+  const handleBlur = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const inputClasses = classNames(
     jsAvailable
       ? "w-0 h-0 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
@@ -40,12 +53,12 @@ export const FileInput = ({
       id={`${name}-input`}
       type="file"
       accept=".pdf"
-      required
-      value={selectedFile?.savedFileKey ?? undefined}
       data-testid={`file-upload-input-${name}`}
       aria-invalid={error !== undefined}
       aria-errormessage={error && errorId}
       className={inputClasses}
+      ref={fileInputRef}
+      onBlur={handleBlur}
       onChange={(event) => {
         const file = event.target.files?.[0];
         void onFileUpload(name, file);
