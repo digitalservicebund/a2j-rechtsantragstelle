@@ -3,8 +3,8 @@ import { useRouteLoaderData } from "react-router";
 import { NavigationList } from "~/components/navigation/NavigationList";
 import SideNavMobile from "~/components/navigation/SideNavMobile";
 import { type RootLoader } from "~/root";
-import { useJsAvailable } from "~/services/useJsAvailable";
 import { type FlowNavigationProps } from "./types";
+import { useJsAvailable } from "../hooks/useJsAvailable";
 
 export default function FlowNavigation(props: FlowNavigationProps) {
   const jsAvailable = useJsAvailable();

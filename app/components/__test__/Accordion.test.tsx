@@ -1,6 +1,7 @@
-import { render, fireEvent } from "@testing-library/react";
+import { fireEvent } from "@testing-library/react";
 import Accordion from "../Accordion";
 import type { AccordionItemProps } from "../AccordionItem";
+import { renderWithRouter } from "./renderWithRouter";
 
 const dummyItems = [
   { title: "Item 1", description: "Description 1" },
@@ -10,12 +11,12 @@ const dummyItems = [
 
 describe("Accordion Component", () => {
   it("renders the correct number of details", () => {
-    const { getAllByRole } = render(<Accordion items={dummyItems} />);
+    const { getAllByRole } = renderWithRouter(<Accordion items={dummyItems} />);
     expect(getAllByRole("group")).toHaveLength(dummyItems.length);
   });
 
   it("allows toggling so that only one AccordionItem is open at a time", () => {
-    const { getAllByRole } = render(<Accordion items={dummyItems} />);
+    const { getAllByRole } = renderWithRouter(<Accordion items={dummyItems} />);
     const details = getAllByRole("group");
     const summaries = details.map((item) => item.childNodes[0]);
     const descriptions = details.map((item) => item.childNodes[1]);
@@ -41,7 +42,7 @@ describe("Accordion Component", () => {
   });
 
   it("doesn't rendern empty items", () => {
-    const { getAllByRole } = render(
+    const { getAllByRole } = renderWithRouter(
       <Accordion
         items={[
           { title: "title1", description: "" },
@@ -55,7 +56,16 @@ describe("Accordion Component", () => {
   });
 
   it("applies translations", () => {
-    const { getAllByText } = render(<Accordion items={dummyItems} />);
+    const { getAllByText } = renderWithRouter(<Accordion items={dummyItems} />);
     getAllByText("Einblenden").forEach((el) => expect(el).toBeVisible());
+  });
+
+  it("expands details if print url param is set", () => {
+    const { getAllByRole } = renderWithRouter(
+      <Accordion items={dummyItems} />,
+      "/?print",
+    );
+    const detailsElements = getAllByRole("group", { hidden: true });
+    detailsElements.forEach((el) => expect(el).toHaveAttribute("open"));
   });
 });

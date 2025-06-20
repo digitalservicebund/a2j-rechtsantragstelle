@@ -4,9 +4,9 @@ import { matchSorter } from "match-sorter";
 import { type RefObject, useEffect, useRef, useState } from "react";
 import { useRouteLoaderData } from "react-router";
 import Select, { type InputActionMeta } from "react-select";
+import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type RootLoader } from "~/root";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
-import { useJsAvailable } from "~/services/useJsAvailable";
 import {
   CustomClearIndicator,
   CustomControl,
