@@ -1,4 +1,5 @@
 import merge from "lodash/merge";
+import { hasOptionalString } from "~/domains/guards.server";
 import persoenlicheDatenFlow from "~/domains/shared/formular/persoenlicheDaten/flow.json";
 import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
 import type { Config } from "~/services/flow/server/buildFlowController";
@@ -40,7 +41,11 @@ export const beratungshilfeXstateConfig = {
     rechtsproblem: rechtsproblemXstateConfig,
     "finanzielle-angaben": beratungshilfeFinanzielleAngabenXstateConfig,
     "persoenliche-daten": merge(persoenlicheDatenFlow, {
-      meta: { done: beratungshilfePersoenlicheDatenDone },
+      meta: {
+        done: ({ context }) =>
+          beratungshilfePersoenlicheDatenDone({ context }) &&
+          hasOptionalString(context.telefonnummer),
+      },
       states: {
         start: {
           on: {
@@ -77,7 +82,7 @@ export const beratungshilfeXstateConfig = {
           on: { SUBMIT: "#weitere-angaben" },
         },
       },
-    }),
+    } satisfies Config<BeratungshilfeFormularUserData>),
     "weitere-angaben": {
       id: "weitere-angaben",
       meta: { done: weitereAngabenDone },
