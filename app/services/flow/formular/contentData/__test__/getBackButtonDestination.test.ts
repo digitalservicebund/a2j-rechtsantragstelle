@@ -1,7 +1,7 @@
 import { getBackButtonDestination } from "../getBackButtonDestination";
 
 describe("getBackButtonDestination", () => {
-  it("should a back button destination of arrayIndex in case arrayIndexes is defined", () => {
+  it("should return back button destination with arrayIndex in case arrayIndexes is defined", () => {
     const actual = getBackButtonDestination(
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/1/name",
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/wohnort",
