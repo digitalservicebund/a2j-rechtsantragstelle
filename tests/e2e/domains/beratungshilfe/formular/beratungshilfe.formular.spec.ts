@@ -104,7 +104,7 @@ async function startDocumentUpload(page: Page) {
   );
   fs.writeFileSync(dummyFilePathTooBig, Buffer.alloc(1024 * 1024 * 11));
   await page
-    .getByTestId("file-upload-input-grundsicherungBeweis[0]]-input")
+    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
     .setInputFiles(dummyFilePathTooBig);
   const fileUploadInfo = page.getByTestId(
     "file-upload-info-grundsicherungBeweis[0]",
