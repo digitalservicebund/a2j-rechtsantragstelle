@@ -4,7 +4,7 @@ import {
   type AccordionItemProps,
 } from "~/components/AccordionItem";
 import { translations } from "~/services/translations/translations";
-import { useShouldPrint } from "~/services/useShouldPrint";
+import { useShouldPrint } from "~/services/hooks/useShouldPrint";
 
 export type AccordionProps = Readonly<{
   items: AccordionItemProps[];

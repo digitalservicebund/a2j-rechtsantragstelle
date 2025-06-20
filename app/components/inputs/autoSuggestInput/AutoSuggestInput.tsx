@@ -6,7 +6,7 @@ import { useRouteLoaderData } from "react-router";
 import Select, { type InputActionMeta } from "react-select";
 import { type RootLoader } from "~/root";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
-import { useJsAvailable } from "~/services/useJsAvailable";
+import { useJsAvailable } from "~/services/hooks/useJsAvailable";
 import {
   CustomClearIndicator,
   CustomControl,

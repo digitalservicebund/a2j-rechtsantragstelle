@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { useState } from "react";
-import { useJsAvailable } from "~/services/useJsAvailable";
+import { useJsAvailable } from "~/services/hooks/useJsAvailable";
 import InputError from "./InputError";
 import RichText from "../RichText";
 

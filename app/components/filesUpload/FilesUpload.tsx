@@ -4,7 +4,7 @@ import { useActionData } from "react-router";
 import { type ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
 import { type UserData } from "~/domains/userData";
-import { useJsAvailable } from "~/services/useJsAvailable";
+import { useJsAvailable } from "~/services/hooks/useJsAvailable";
 import {
   errorStyling,
   fileUploadLimit,

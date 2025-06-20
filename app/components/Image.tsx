@@ -1,5 +1,5 @@
 import Svg from "react-inlinesvg";
-import { useJsAvailable } from "~/services/useJsAvailable";
+import { useJsAvailable } from "~/services/hooks/useJsAvailable";
 
 export type ImageProps = Readonly<{
   url: string;

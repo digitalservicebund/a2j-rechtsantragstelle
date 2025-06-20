@@ -40,12 +40,12 @@ import PageHeader from "./components/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
+import { useShouldPrint } from "./services/hooks/useShouldPrint";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
-import { useShouldPrint } from "./services/useShouldPrint";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 
 export { headers } from "./rootHeaders";
