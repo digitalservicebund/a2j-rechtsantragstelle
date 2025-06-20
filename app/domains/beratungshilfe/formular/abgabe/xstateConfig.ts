@@ -1,5 +1,5 @@
 import type { AbgabeUserData } from "~/domains/shared/formular/abgabe/userData";
-import { config } from "~/services/env/env.server";
+import { config } from "~/services/env/public";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { beratungshilfeAbgabeGuards } from "./guards";

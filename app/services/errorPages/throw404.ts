@@ -1,4 +1,4 @@
-import { config } from "~/services/env/web";
+import { config } from "~/services/env/public";
 import type { FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
