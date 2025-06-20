@@ -191,5 +191,13 @@ describe("getContentData", () => {
 
       expect(actual).toEqual(mockNavItems);
     });
+
+    it("should return empty array when nav items returns undefined", () => {
+      vi.mocked(navItemsFromStepStates).mockReturnValue(undefined);
+
+      const actual = callContentData.getNavItems(mockBuildFlowController, "/");
+
+      expect(actual).toEqual([]);
+    });
   });
 });
