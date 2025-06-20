@@ -8,12 +8,11 @@ import RichText from "../RichText";
 import type { ListVariant, ListItemProps, ListMarkerProps } from "./types";
 import Image, { type ImageProps } from "../Image";
 
-const ImageMarker = ({ image }: { image: ImageProps }) =>
-  image ? (
-    <div className="flex items-start">
-      <Image {...image} ariaHidden={true} />
-    </div>
-  ) : null;
+const ImageMarker = ({ image }: { image: ImageProps }) => (
+  <div className="flex items-start">
+    <Image {...image} ariaHidden={true} />
+  </div>
+);
 
 const StyledMarker = ({
   index,
@@ -37,10 +36,11 @@ const StyledMarker = ({
 );
 
 const ListMarker = ({ index, variant, image }: ListMarkerProps) => {
-  if (image) {
-    return <ImageMarker image={image} />;
-  }
-  return <StyledMarker index={index} variant={variant} />;
+  return image ? (
+    <ImageMarker image={image} />
+  ) : (
+    <StyledMarker index={index} variant={variant} />
+  );
 };
 
 const ListItem = ({

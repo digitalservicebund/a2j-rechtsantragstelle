@@ -106,9 +106,7 @@ describe("ListItem", () => {
           }}
         />,
       );
-      expect(
-        container.querySelector(".border-gray-400"),
-      ).not.toBeInTheDocument();
+      expect(container.querySelector("img")).toBeInTheDocument();
     });
   });
 
