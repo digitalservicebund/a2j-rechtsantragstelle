@@ -33,7 +33,7 @@ export type Config<TContext extends MachineContext = UserData> = MachineConfig<
   never,
   never,
   never,
-  Meta
+  Meta<TContext>
 >;
 
 type TransitionConfigOrTarget<TUserData extends MachineContext = UserData> =
@@ -54,9 +54,9 @@ export type FlowConfigTransitions = {
   nextFlowEntrypoint?: TransitionConfigOrTarget;
 };
 
-type Meta = {
+type Meta<TUserData extends MachineContext = UserData> = {
   customAnalyticsEventName?: string;
-  done?: GenericGuard<UserData>;
+  done?: GenericGuard<TUserData>;
   arrays?: Record<string, ArrayConfigServer>;
 };
 
