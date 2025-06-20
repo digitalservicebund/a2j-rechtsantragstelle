@@ -166,11 +166,9 @@ function stepStates(
         .at(0)
         ?.always?.find((val) => {
           // an "always" transition can also be an array, so we need to find the first reachable transition and use it
-          const alwaysTransitionPaths = val.target?.at(0)?.path;
+          const targetPaths = val.target?.at(0)?.path ?? [];
           return reachableSteps.includes(
-            stateValueToStepIds(
-              pathToStateValue(alwaysTransitionPaths ?? []),
-            )[0],
+            stateValueToStepIds(pathToStateValue(targetPaths))[0],
           );
         })
         ?.target?.at(0)?.path;
