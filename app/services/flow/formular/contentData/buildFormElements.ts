@@ -1,4 +1,4 @@
-import { type CMSContent } from "../buildFormularServerTranslations";
+import { type CMSContent } from "../buildCmsContentAndTranslations";
 
 export const buildFormElements = (cmsContent: CMSContent) => {
   return cmsContent.formContent.map((strapiFormElement) => {

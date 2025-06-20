@@ -1,4 +1,4 @@
-import { type CMSContent } from "../../buildFormularServerTranslations";
+import { type CMSContent } from "../../buildCmsContentAndTranslations";
 import { buildFormElements } from "../buildFormElements";
 
 const mockCmsElement = {
@@ -14,6 +14,12 @@ const mockCmsElement = {
   nextButtonLabel: undefined,
   backButtonLabel: undefined,
   postFormContent: [],
+  pageMeta: {
+    title: "title",
+    description: null,
+    ogTitle: null,
+    breadcrumb: null,
+  },
 };
 
 describe("buildFormElements", () => {

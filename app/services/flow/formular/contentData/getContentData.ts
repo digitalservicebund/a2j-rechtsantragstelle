@@ -1,8 +1,7 @@
 import { type Flow } from "~/domains/flows.server";
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
-import { type StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import { type StrapiMeta } from "~/services/cms/models/StrapiMeta";
-import { type CMSContent } from "~/services/flow/formular/buildFormularServerTranslations";
+import { type CMSContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
 import { type buildFlowController } from "~/services/flow/server/buildFlowController";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
@@ -16,13 +15,12 @@ import { type UserDataWithPageData } from "../../pageData";
 
 type ContentParameters = {
   cmsContent: CMSContent;
-  formPageContent: StrapiFormFlowPage;
   parentMeta: StrapiMeta | null;
   translations: Translations;
 };
 
 export const getContentData = (
-  { cmsContent, formPageContent, parentMeta, translations }: ContentParameters,
+  { cmsContent, parentMeta, translations }: ContentParameters,
   userDataWithPageData: UserDataWithPageData,
   currentFlow: Flow,
   arrayCategories: string[],
@@ -43,7 +41,7 @@ export const getContentData = (
     getMeta: () => {
       return buildMetaContent(
         currentFlow,
-        formPageContent.pageMeta,
+        cmsContent.pageMeta,
         parentMeta,
         userDataWithPageData,
       );

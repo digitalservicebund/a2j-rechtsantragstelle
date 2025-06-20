@@ -5,7 +5,7 @@ import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPag
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 
-type BuildFormularServerTranslations = {
+type BuildCmsContentAndTranslations = {
   currentFlow: Flow;
   flowTranslations: Translations;
   flowMenuTranslations: Translations;
@@ -33,6 +33,7 @@ const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
     formContent: formPageContent.form,
     postFormContent:
       "post_form" in formPageContent ? formPageContent.post_form : [],
+    pageMeta: formPageContent.pageMeta,
   };
 };
 
@@ -57,7 +58,7 @@ function interpolateTranslations(
   );
 }
 
-export const buildFormularServerTranslations = async ({
+export const buildCmsContentAndTranslations = async ({
   currentFlow,
   flowTranslations,
   flowMenuTranslations,
@@ -66,7 +67,7 @@ export const buildFormularServerTranslations = async ({
   overviewTranslations,
   formPageContent,
   userDataWithPageData,
-}: BuildFormularServerTranslations): Promise<{
+}: BuildCmsContentAndTranslations): Promise<{
   translations: Translations;
   cmsContent: CMSContent;
 }> => {

@@ -6,7 +6,7 @@ import {
   fetchMeta,
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
-import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
+import { buildCmsContentAndTranslations } from "~/services/flow/formular/buildCmsContentAndTranslations";
 import { parentFromParams } from "~/services/params";
 import { getContentData } from "./getContentData";
 import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
@@ -33,7 +33,7 @@ export const retrieveContentData = async (
 
   const arrayCategories = getArrayCategoriesFromPageContent(formPageContent);
 
-  const { translations, cmsContent } = await buildFormularServerTranslations({
+  const { translations, cmsContent } = await buildCmsContentAndTranslations({
     currentFlow,
     flowTranslations: cmsTranslations[flowId],
     flowMenuTranslations: cmsTranslations[`${flowId}/menu`],
@@ -48,7 +48,6 @@ export const retrieveContentData = async (
     {
       cmsContent,
       parentMeta,
-      formPageContent,
       translations,
     },
     userDataWithPageData,
