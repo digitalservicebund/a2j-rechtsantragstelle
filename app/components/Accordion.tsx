@@ -29,7 +29,7 @@ export default function Accordion({ items }: AccordionProps) {
             title={item.title}
             description={item.description}
             labels={labels}
-            open={shouldPrint}
+            startOpened={shouldPrint}
             ref={(el) => {
               if (el) itemsRef.current[index] = el;
             }}

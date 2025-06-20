@@ -9,7 +9,7 @@ export type AccordionItemProps = Readonly<{
 }>;
 
 type Props = AccordionItemProps & {
-  open?: boolean;
+  startOpened?: boolean;
   onSummaryClick?: MouseEventHandler;
   labels: {
     show: string;
@@ -21,7 +21,7 @@ type Props = AccordionItemProps & {
 export function AccordionItem({
   title,
   description,
-  open,
+  startOpened,
   onSummaryClick,
   labels,
   ref,
@@ -30,7 +30,7 @@ export function AccordionItem({
     <details
       className="group last:border-b-0 border-b-2 border-blue-500"
       ref={ref}
-      open={open}
+      open={startOpened}
     >
       <summary
         onClick={onSummaryClick}
