@@ -17,15 +17,6 @@ import { getSessionIdByFlowId } from "../session.server";
 
 const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";
 
-const createFileMeta = (
-  file: File,
-  fileArrayBuffer: ArrayBuffer,
-): PDFFileMetadata => ({
-  filename: file.name,
-  fileType: file.type,
-  fileSize: fileArrayBuffer.byteLength,
-});
-
 export async function uploadUserFile(
   formAction: string,
   request: Request,
@@ -43,13 +34,11 @@ export async function uploadUserFile(
     request.headers.get("Cookie"),
   );
 
-  /**
-   * The file is a FileUpload class coming from the library @mjackson/form-data-parser,
-   * which is a wrapper around the native File interface and it is not possible to get the file size.
-   * We need to convert it to an ArrayBuffer to get the size.
-   */
-  const fileArrayBuffer = await file.arrayBuffer();
-  const fileMeta = createFileMeta(file, fileArrayBuffer);
+  const fileMeta: PDFFileMetadata = {
+    filename: file.name,
+    fileType: file.type,
+    fileSize: file.size,
+  };
 
   /**
    * Need to scope the context, otherwise we validate against the entire context,
@@ -75,7 +64,7 @@ export async function uploadUserFile(
   const savedFileKey = await uploadUserFileToS3(
     sessionId,
     flowId,
-    fileArrayBuffer,
+    await file.arrayBuffer(),
   );
 
   fileMeta.savedFileKey = savedFileKey;
