@@ -9,7 +9,6 @@ describe("beratungshilfePersoenlicheDatenDone", () => {
     strasseHausnummer: "abc",
     plz: "12345",
     ort: "ABC",
-    telefonnummer: "",
   };
 
   it("should return true when all required fields are present", () => {
