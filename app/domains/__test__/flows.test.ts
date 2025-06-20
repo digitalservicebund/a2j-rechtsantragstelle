@@ -94,7 +94,7 @@ function allStepsFromMachine(machine: FlowStateMachine) {
  */
 
 vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
-  isFeatureFlagEnabled: vi.fn().mockResolvedValue(false),
+  isFeatureFlagEnabled: vi.fn().mockResolvedValue(true),
 }));
 
 describe.sequential("state machine form flows", () => {
