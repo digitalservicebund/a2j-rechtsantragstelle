@@ -52,7 +52,7 @@ describe("buildMetaContent", () => {
     expect(actual.ogTitle).toBe("pageMeta ogTitle");
   });
 
-  it("should be the value breadcrumb from parentMeta", () => {
+  it("should inherit breadcrumb from parent meta regardless of page meta value", () => {
     const pageMetaWithoutDescriptionAndOgTile = {
       description: "pageMeta description",
       ogTitle: "pageMeta ogTitle",
