@@ -1,7 +1,7 @@
 import type { AppLoadContext } from "react-router";
 import { isRouteErrorResponse, useRouteError } from "react-router";
 import Container from "~/components/Container";
-import { config } from "~/services/env/web";
+import { config } from "~/services/env/public";
 import { ERROR_PAGES } from "./errorPages";
 import PageContent from "../../components/PageContent";
 
