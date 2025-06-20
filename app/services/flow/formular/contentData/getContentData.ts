@@ -4,7 +4,6 @@ import { type StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPag
 import { type StrapiMeta } from "~/services/cms/models/StrapiMeta";
 import { type CMSContent } from "~/services/flow/formular/buildFormularServerTranslations";
 import { type buildFlowController } from "~/services/flow/server/buildFlowController";
-import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { type Translations } from "~/services/translations/getTranslationByKey";
@@ -12,6 +11,7 @@ import { translations as translationCode } from "~/services/translations/transla
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { buildFormElements } from "./buildFormElements";
 import { buildMetaContent } from "./buildMetaContent";
+import { getBackButtonDestination } from "./getBackButtonDestination";
 import { type UserDataWithPageData } from "../../pageData";
 
 type ContentParameters = {
@@ -64,13 +64,6 @@ export const getContentData = (
       stepId: string,
       arrayIndexes: number[] | undefined = [],
     ) => {
-      const backDestination = flowController.getPrevious(stepId);
-
-      const backDestinationWithArrayIndexes =
-        backDestination && arrayIndexes
-          ? insertIndexesIntoPath(pathname, backDestination, arrayIndexes)
-          : backDestination;
-
       const buttonNavigationTranslation = translationCode.buttonNavigation;
 
       return getButtonNavigationProps({
@@ -81,7 +74,11 @@ export const getContentData = (
           cmsContent.nextButtonLabel ??
           buttonNavigationTranslation.nextButtonDefaultLabel.de,
         isFinal: flowController.isFinal(stepId),
-        backDestination: backDestinationWithArrayIndexes,
+        backDestination: getBackButtonDestination(
+          flowController.getPrevious(stepId),
+          pathname,
+          arrayIndexes,
+        ),
       });
     },
     getNavItems: (
