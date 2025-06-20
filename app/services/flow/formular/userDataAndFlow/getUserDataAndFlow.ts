@@ -6,7 +6,7 @@ import { buildFlowController } from "~/services/flow/server/buildFlowController"
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { validateStepIdFlow } from "./validateStepIdFlow";
 import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
-import { getUserPrunedDataFromPathname } from "../../getUserPrunedDataFromPathname";
+import { getPrunedUserDataFromPathname } from "../../getPrunedUserDataFromPathname";
 import { type UserDataWithPageData } from "../../pageData";
 
 type OkResult = {
@@ -42,7 +42,7 @@ export const getUserDataAndFlow = async (
 
   const [{ userDataWithPageData, validFlowPaths }, migrationData] =
     await Promise.all([
-      getUserPrunedDataFromPathname(pathname, cookieHeader),
+      getPrunedUserDataFromPathname(pathname, cookieHeader),
       getMigrationData(stepId, flowId, currentFlow, cookieHeader),
     ]);
 

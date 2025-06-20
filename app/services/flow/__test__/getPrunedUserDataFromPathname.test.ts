@@ -1,5 +1,5 @@
 import { pruneIrrelevantData } from "~/services/flow/pruner";
-import { getUserPrunedDataFromPathname } from "../getUserPrunedDataFromPathname";
+import { getPrunedUserDataFromPathname } from "../getPrunedUserDataFromPathname";
 
 const mockPrunerData = {
   prunedData: { name: "someName" },
@@ -14,12 +14,12 @@ vi.mock("~/services/flow/pruner");
 
 vi.mocked(pruneIrrelevantData).mockResolvedValue(mockPrunerData);
 
-describe("getUserPrunedDataFromPathname", () => {
+describe("getPrunedUserDataFromPathname", () => {
   it("should return user data with page data and valid flow paths", async () => {
     const mockPathname = "/fluggastrechte/formular/stepId1/2";
 
     const { userDataWithPageData, validFlowPaths } =
-      await getUserPrunedDataFromPathname(mockPathname, "");
+      await getPrunedUserDataFromPathname(mockPathname, "");
 
     expect(userDataWithPageData).toBe(mockPrunerData.prunedData);
     expect(validFlowPaths).toBe(mockPrunerData.validFlowPaths);

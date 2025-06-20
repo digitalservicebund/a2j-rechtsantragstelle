@@ -1,12 +1,12 @@
 import { Result } from "true-myth";
-import { getUserPrunedDataFromPathname } from "~/services/flow/getUserPrunedDataFromPathname";
+import { getPrunedUserDataFromPathname } from "~/services/flow/getPrunedUserDataFromPathname";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { getUserDataAndFlow } from "../getUserDataAndFlow";
 import { validateStepIdFlow } from "../validateStepIdFlow";
 
 vi.mock("~/services/flow/server/buildFlowController");
-vi.mock("~/services/flow/getUserPrunedDataFromPathname");
+vi.mock("~/services/flow/getPrunedUserDataFromPathname");
 vi.mock("../validateStepIdFlow");
 vi.mock("~/services/session.server/crossFlowMigration");
 
@@ -34,7 +34,7 @@ const mockMigrationUserData = {
   name: "migrationName",
 };
 
-vi.mocked(getUserPrunedDataFromPathname).mockResolvedValue(mockPrunerData);
+vi.mocked(getPrunedUserDataFromPathname).mockResolvedValue(mockPrunerData);
 vi.mocked(buildFlowController).mockReturnValue(mockBuildFlowController);
 
 describe("getUserDataAndFlow", () => {

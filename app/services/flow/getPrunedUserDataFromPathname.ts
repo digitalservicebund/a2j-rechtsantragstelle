@@ -3,7 +3,7 @@ import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { type CookieHeader, getSessionData } from "~/services/session.server";
 import { getPageAndFlowDataFromPathname } from "./getPageAndFlowDataFromPathname";
 
-export const getUserPrunedDataFromPathname = async (
+export const getPrunedUserDataFromPathname = async (
   pathname: string,
   cookieHeader: CookieHeader,
 ) => {
