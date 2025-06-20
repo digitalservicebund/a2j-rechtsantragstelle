@@ -19,13 +19,16 @@ const List = ({
   subheading,
   variant,
 }: ListProps) => {
+  const hasImages = items.some((item) => item.image);
+  const ListTag = hasImages || variant === "unordered" ? "ul" : "ol";
+
   return (
     <div className="ds-stack ds-stack-32" id={identifier}>
       <div className="ds-stack ds-stack-16">
         {heading && <Heading {...heading} />}
         {subheading && <RichText html={subheading} />}
       </div>
-      <ol className="list-none ps-0">
+      <ListTag className="list-none ps-0">
         {items
           // Need to filter out empty list items when conditionally rendering with mustache templating
           .filter(listItemNotEmpty)
@@ -37,7 +40,7 @@ const List = ({
               <ListItem {...item} index={index + 1} variant={variant} />
             </li>
           ))}
-      </ol>
+      </ListTag>
     </div>
   );
 };

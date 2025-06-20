@@ -6,6 +6,7 @@ import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiButtonSchema } from "./StrapiButton";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
+import { StrapiImageOptionalSchema } from "./StrapiImage";
 
 export const StrapiListItemSchema = z
   .object({
@@ -17,6 +18,7 @@ export const StrapiListItemSchema = z
       .transform(omitNull)
       .optional(),
     accordion: StrapiAccordionSchema.nullable().transform(omitNull),
+    image: StrapiImageOptionalSchema,
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);
