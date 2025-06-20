@@ -29,7 +29,7 @@ import {
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
-import { config as configWeb } from "~/services/env/web";
+import { config as configPublic } from "~/services/env/public";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { translations as staticTranslations } from "~/services/translations/translations";
 import type { Route } from "./+types/root";
@@ -187,7 +187,7 @@ function App() {
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(configWeb())}`,
+            __html: `window.ENV = ${JSON.stringify(configPublic())}`,
           }}
         />
         <Meta />

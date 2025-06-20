@@ -1,10 +1,11 @@
 import { posthog, type PostHog } from "posthog-js";
 import { useEffect, useState } from "react";
-import { config } from "../env/web";
+import { POSTHOG_API_HOST } from "./config";
+import { config } from "../env/public";
 
 export const useInitPosthog = (hasTrackingConsent?: boolean) => {
   const [posthogClient, setPosthogClient] = useState<PostHog | undefined>();
-  const { POSTHOG_API_HOST, POSTHOG_API_KEY } = config();
+  const { POSTHOG_API_KEY } = config();
 
   useEffect(() => {
     if (!POSTHOG_API_KEY || !hasTrackingConsent) return;
@@ -22,7 +23,7 @@ export const useInitPosthog = (hasTrackingConsent?: boolean) => {
       secure_cookie: true,
       loaded: () => setPosthogClient(posthog),
     });
-  }, [POSTHOG_API_KEY, POSTHOG_API_HOST, hasTrackingConsent]);
+  }, [POSTHOG_API_KEY, hasTrackingConsent]);
 
   return posthogClient;
 };

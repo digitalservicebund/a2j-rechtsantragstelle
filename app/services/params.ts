@@ -1,6 +1,6 @@
 import type { Params } from "react-router";
 import invariant from "tiny-invariant";
-import { config } from "./env/web";
+import { config } from "./env/public";
 
 export function splatFromParams(params: Params) {
   const splat = params["*"];
