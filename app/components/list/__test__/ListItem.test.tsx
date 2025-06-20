@@ -1,4 +1,5 @@
 import { render } from "@testing-library/react";
+import { renderWithRouter } from "~/components/__test__/renderWithRouter";
 import ListItem from "../ListItem";
 
 describe("ListItem", () => {
@@ -45,7 +46,7 @@ describe("ListItem", () => {
   });
 
   it("should render an accordion", () => {
-    const { getByRole } = render(
+    const { getByRole } = renderWithRouter(
       <ListItem
         variant="numbered"
         accordion={{
