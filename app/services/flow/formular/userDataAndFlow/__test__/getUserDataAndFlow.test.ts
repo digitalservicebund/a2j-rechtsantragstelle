@@ -70,7 +70,7 @@ describe("getUserDataAndFlow", () => {
     });
   });
 
-  it("should return ok and with migration data", async () => {
+  it("should return Ok with expected migration object when migration data exists", async () => {
     vi.mocked(validateStepIdFlow).mockResolvedValue(Result.ok());
     vi.mocked(getMigrationData).mockResolvedValue(mockMigrationUserData);
 
