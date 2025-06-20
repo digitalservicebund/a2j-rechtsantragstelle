@@ -1,7 +1,7 @@
 import type { ArrayData, UserData } from "~/domains/userData";
 import type { ArrayConfigServer, ArrayConfigClient } from ".";
 
-type ArraySummaryData =
+export type ArraySummaryData =
   | Record<
       string,
       {
