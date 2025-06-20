@@ -1,5 +1,9 @@
 import type { Flow } from "~/domains/flows.server";
 import {
+  fileUploadRelevant,
+  readyForAbgabe,
+} from "~/domains/prozesskostenhilfe/formular/abgabe/guards";
+import {
   getAbgabeStrings,
   getWeitereDokumenteStrings,
 } from "~/domains/prozesskostenhilfe/formular/abgabe/stringReplacements";
@@ -10,10 +14,7 @@ import { getVereinfachteErklaerungStrings } from "~/domains/prozesskostenhilfe/f
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/arrayConfiguration";
 import { finanzielleAngabeEinkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
-import { prozesskostenhilfeGesetzlicheVertretungDone } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/doneFunctions";
 import { grundvoraussetzungenXstateConfig } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/xStateConfig";
-import { prozesskostenhilfePersoenlicheDatenDone } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/doneFunctions";
-import { rechtsschutzversicherungDone } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/doneFunctions";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "~/domains/shared/formular/finanzielleAngaben/arrayConfiguration";
 import {
@@ -29,7 +30,6 @@ import {
   empfaengerIsAnderePerson,
   empfaengerIsChild,
 } from "./antragstellendePerson/guards";
-import { prozesskostenhilfeFinanzielleAngabeDone } from "./finanzielleAngaben/doneFunctions";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import { hasGesetzlicheVertretungYes } from "./gesetzlicheVertretung/guards";
@@ -190,28 +190,31 @@ export const prozesskostenhilfeFormular = {
             on: {
               BACK: "#weitere-angaben",
             },
-            always: {
-              guard: ({
-                context,
-              }: {
-                context: ProzesskostenhilfeFormularUserData;
-              }) =>
-                prozesskostenhilfeFinanzielleAngabeDone({ context }) &&
-                prozesskostenhilfeGesetzlicheVertretungDone({ context }) &&
-                (rechtsschutzversicherungDone({ context }) ||
-                  context.formularArt === "nachueberpruefung") &&
-                prozesskostenhilfePersoenlicheDatenDone({
-                  context,
-                }),
-              target: showFileUpload ? "dokumente" : "ende",
-            },
+            always: [
+              {
+                guard: ({ context }) =>
+                  readyForAbgabe({ context }) &&
+                  fileUploadRelevant({ context }) &&
+                  Boolean(showFileUpload),
+                target: "dokumente",
+              },
+              {
+                guard: readyForAbgabe,
+                target: "ende",
+              },
+            ],
           },
-          ...(showFileUpload && {
-            dokumente: { on: { BACK: "#weitere-angaben", SUBMIT: "ende" } },
-          }),
+          dokumente: { on: { BACK: "#weitere-angaben", SUBMIT: "ende" } },
           ende: {
             on: {
-              BACK: showFileUpload ? "dokumente" : "#weitere-angaben",
+              BACK: [
+                {
+                  guard: ({ context }) =>
+                    Boolean(showFileUpload) && fileUploadRelevant({ context }),
+                  target: "dokumente",
+                },
+                "#weitere-angaben",
+              ],
             },
           },
         },

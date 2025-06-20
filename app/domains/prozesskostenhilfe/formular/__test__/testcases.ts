@@ -69,6 +69,7 @@ const cases = [
   ...testCasesPKHFormularFinanzielleAngabenEigentum,
   ...testCasesPKHFormularFinanzielleAngabenAusgaben,
   ...testCasesProzesskostenhilfeRsv,
+  // ...testCasesProzesskostenhilfeDocumentUploadTransitions, // Uncomment when file upload is released
   [
     happyPathData,
     [

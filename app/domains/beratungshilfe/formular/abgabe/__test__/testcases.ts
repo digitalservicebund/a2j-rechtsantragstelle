@@ -7,7 +7,12 @@ const cases = [
     {
       abgabeArt: "online",
     },
-    ["/abgabe/zusammenfassung", "/abgabe/art", "/abgabe/online"],
+    [
+      "/abgabe/zusammenfassung",
+      "/abgabe/art",
+      // "/abgabe/dokumente", // Uncomment when file upload is released
+      "/abgabe/online",
+    ],
   ],
   [
     {
