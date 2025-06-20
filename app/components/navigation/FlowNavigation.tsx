@@ -13,7 +13,7 @@ export default function FlowNavigation(props: FlowNavigationProps) {
 
   return (
     <nav
-      aria-label={rootLoaderData?.accessibilityTranslations?.menuLabel}
+      aria-label={rootLoaderData?.accessibilityTranslations?.navigationLabel}
       className={classNames("w-full md:border-[1px] md:border-blue-400", {
         "fixed bottom-0 z-50 md:static md:z-auto": jsAvailable,
       })}

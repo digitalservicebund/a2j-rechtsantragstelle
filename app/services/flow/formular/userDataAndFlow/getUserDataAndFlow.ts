@@ -1,21 +1,17 @@
 import { Result } from "true-myth";
 import { type ValidFlowPagesType } from "~/components/form/formFlowContext";
 import { type FlowId } from "~/domains/flowIds";
-import { type Flow } from "~/domains/flows.server";
 import { type UserData } from "~/domains/userData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { getPageAndFlowDataFromRequest } from "./getPageAndFlowDataFromRequest";
-import { getUserPrunedDataFromRequest } from "./getUserPrunedDataFromRequest";
+import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { validateStepIdFlow } from "./validateStepIdFlow";
+import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
+import { getPrunedUserDataFromPathname } from "../../getPrunedUserDataFromPathname";
+import { type UserDataWithPageData } from "../../pageData";
 
 type OkResult = {
-  userData: UserData & {
-    pageData: {
-      arrayIndexes: number[];
-    };
-  };
+  userData: UserDataWithPageData;
   flow: {
-    current: Flow;
     id: FlowId;
     controller: ReturnType<typeof buildFlowController>;
     validFlowPaths: ValidFlowPagesType;
@@ -23,6 +19,11 @@ type OkResult = {
   page: {
     stepId: string;
     arrayIndexes?: number[];
+  };
+  migration: {
+    userData: UserData | undefined;
+    sortedFields?: string[];
+    buttonUrl?: string;
   };
 };
 
@@ -33,11 +34,17 @@ type ErrorResult = {
 export const getUserDataAndFlow = async (
   request: Request,
 ): Promise<Result<OkResult, ErrorResult>> => {
-  const { flowId, stepId, arrayIndexes, currentFlow } =
-    getPageAndFlowDataFromRequest(request);
+  const { pathname } = new URL(request.url);
+  const cookieHeader = request.headers.get("Cookie");
 
-  const { userDataWithPageData, validFlowPaths } =
-    await getUserPrunedDataFromRequest(request);
+  const { flowId, stepId, arrayIndexes, currentFlow } =
+    getPageAndFlowDataFromPathname(pathname);
+
+  const [{ userDataWithPageData, validFlowPaths }, migrationData] =
+    await Promise.all([
+      getPrunedUserDataFromPathname(pathname, cookieHeader),
+      getMigrationData(stepId, flowId, currentFlow, cookieHeader),
+    ]);
 
   const flowController = buildFlowController({
     config: currentFlow.config,
@@ -60,13 +67,23 @@ export const getUserDataAndFlow = async (
     userData: userDataWithPageData,
     flow: {
       id: flowId,
-      current: currentFlow,
       controller: flowController,
       validFlowPaths,
     },
     page: {
       stepId,
       arrayIndexes,
+    },
+    migration: {
+      userData: migrationData,
+      sortedFields:
+        "migration" in currentFlow
+          ? currentFlow.migration?.sortedFields
+          : undefined,
+      buttonUrl:
+        "migration" in currentFlow
+          ? currentFlow.migration?.buttonUrl
+          : undefined,
     },
   });
 };
