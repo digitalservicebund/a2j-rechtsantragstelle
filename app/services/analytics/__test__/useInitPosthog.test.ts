@@ -1,15 +1,14 @@
 // @vitest-environment jsdom
 import { renderHook } from "@testing-library/react";
 import { PostHog } from "posthog-js";
-import { config } from "~/services/env/web";
+import { config } from "~/services/env/public";
 import { useInitPosthog } from "../useInitPosthog";
 
-vi.mock("~/services/env/web");
+vi.mock("~/services/env/public");
 
 describe("useInitPosthog", () => {
   vi.mocked(config).mockReturnValue({
     POSTHOG_API_KEY: "test-api-key",
-    POSTHOG_API_HOST: "posthog-host",
     SENTRY_DSN: undefined,
     ENVIRONMENT: "test",
   });
@@ -33,7 +32,6 @@ describe("useInitPosthog", () => {
   test("returns undefined without POSTHOG_API_KEY", () => {
     vi.mocked(config).mockReturnValueOnce({
       POSTHOG_API_KEY: undefined,
-      POSTHOG_API_HOST: "posthog-host",
       SENTRY_DSN: undefined,
       ENVIRONMENT: "test",
     });

@@ -1,5 +1,5 @@
 import { config as configServer } from "~/services/env/env.server";
-import { config as configWeb } from "~/services/env/web";
+import { config as configPublic } from "~/services/env/public";
 
 beforeAll(() => {
   vi.stubEnv("STRAPI_API", "test://cms/api/");
@@ -14,7 +14,7 @@ it("Expect server configuration to be available", () => {
 });
 
 it("Expect web configuration to be available", () => {
-  expect(configWeb()).not.toBeNull();
+  expect(configPublic()).not.toBeNull();
 });
 
 it("Expect the server config to contain a valid url to strapi", () => {
