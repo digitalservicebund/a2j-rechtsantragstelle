@@ -70,7 +70,7 @@ describe("buildMetaContent", () => {
     expect(actual.breadcrumb).toBe("parentMeta breadcrumb");
   });
 
-  it("should return correct the title", () => {
+  it("should combine the page title with parent title using a hyphen delimiter", () => {
     const pageMetaWithoutDescriptionAndOgTile = {
       description: "pageMeta description",
       ogTitle: "pageMeta ogTitle",
