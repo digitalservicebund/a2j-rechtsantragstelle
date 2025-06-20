@@ -123,6 +123,7 @@ export const loader = async ({
       meta,
       progressProps,
       buttonNavigationProps,
+      flowId,
     },
     { headers },
   );
