@@ -14,7 +14,7 @@ const mockUserData = {
 };
 
 describe("buildMetaContent", () => {
-  it("should overwrite the meta if description and ogTitle are null for the pageMeta ", () => {
+  it("should fall back to parent meta values when page meta's description and ogTitle are null", () => {
     const pageMetaWithoutDescriptionAndOgTile = {
       description: null,
       ogTitle: null,
