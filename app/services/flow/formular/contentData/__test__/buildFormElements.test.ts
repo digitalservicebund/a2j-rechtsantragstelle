@@ -55,4 +55,23 @@ describe("buildFormElements", () => {
 
     expect((actual[0] as { altLabel: string }).altLabel).toBe("old alt label");
   });
+
+  it("should return the form element without any modification if the component is not select", () => {
+    const mockCmsElementCheckbox = {
+      ...mockCmsElement,
+      heading: undefined,
+      formContent: [
+        {
+          __component: "form-elements.checkbox",
+          label: "some label",
+          isRequiredError: null,
+          name: "checkbox",
+        },
+      ],
+    } satisfies CMSContent;
+
+    const actual = buildFormElements(mockCmsElementCheckbox);
+
+    expect(actual[0]).toBe(mockCmsElementCheckbox.formContent[0]);
+  });
 });
