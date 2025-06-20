@@ -1,10 +1,10 @@
 import { useField } from "@rvf/react-router";
 import { type ReactNode, useState } from "react";
-import { useJsAvailable } from "~/services/hooks/useJsAvailable";
 import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
 import Radio from "./Radio";
+import { useJsAvailable } from "../hooks/useJsAvailable";
 
 export type RadioGroupProps = Readonly<{
   name: string;

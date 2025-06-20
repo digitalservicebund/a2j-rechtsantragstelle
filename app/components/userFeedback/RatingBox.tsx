@@ -1,12 +1,12 @@
 import ThumbDownIcon from "@digitalservicebund/icons/ThumbDownOutlined";
 import ThumbUpIcon from "@digitalservicebund/icons/ThumbUpOutlined";
 import { useFetcher } from "react-router";
-import { useJsAvailable } from "~/services/hooks/useJsAvailable";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./FeedbackType";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 import Heading from "../Heading";
+import { useJsAvailable } from "../hooks/useJsAvailable";
 
 export const userRatingFieldname = "wasHelpful";
 

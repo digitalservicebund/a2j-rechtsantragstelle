@@ -1,4 +1,3 @@
-// @vitest-environment jsdom
 import { renderHook } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { useShouldPrint } from "../useShouldPrint";

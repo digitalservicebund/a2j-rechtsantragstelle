@@ -1,7 +1,7 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { type ReactNode, useState } from "react";
-import { useJsAvailable } from "~/services/hooks/useJsAvailable";
+import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type ErrorMessageProps } from "..";
 import TileRadio, { type TileOptions } from "./TileRadio";
 import InputError from "../InputError";

@@ -40,7 +40,7 @@ import PageHeader from "./components/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
-import { useShouldPrint } from "./services/hooks/useShouldPrint";
+import { useShouldPrint } from "./components/hooks/useShouldPrint";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
