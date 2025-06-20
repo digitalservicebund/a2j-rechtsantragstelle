@@ -10,7 +10,7 @@ import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import { translations as translationCode } from "~/services/translations/translations";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { buildFormsElements } from "./buildFormsElements";
+import { buildFormElements } from "./buildFormElements";
 import { buildMetaContent } from "./buildMetaContent";
 import { type UserDataWithPageData } from "../../pageData";
 
@@ -38,7 +38,7 @@ export const getContentData = (
       );
     },
     getFormElements: () => {
-      return buildFormsElements(cmsContent);
+      return buildFormElements(cmsContent);
     },
     getMeta: () => {
       return buildMetaContent(
