@@ -4,7 +4,7 @@ import type { Config } from "~/services/flow/server/buildFlowController";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { beratungshilfeAbgabeGuards } from "./guards";
 
-export const shouldShowZusammenfassung = config().ENVIRONMENT !== "production";
+const shouldShowZusammenfassung = config().ENVIRONMENT !== "production";
 
 export const abgabeXstateConfig = async (backDestination: string) => {
   const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
