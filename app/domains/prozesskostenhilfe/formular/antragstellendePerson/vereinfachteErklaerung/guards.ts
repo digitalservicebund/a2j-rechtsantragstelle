@@ -35,10 +35,6 @@ export const geringesEinkommen: GenericGuard<
   ProzesskostenhilfeVereinfachteErklaerungUserData
 > = ({ context }) => context.hohesEinkommen === "no";
 
-export const keinEinkommen: GenericGuard<
-  ProzesskostenhilfeVereinfachteErklaerungUserData
-> = ({ context }) => context.hasEinnahmen === "no";
-
 export const unterhaltsOrAbstammungssachen: GenericGuard<
   ProzesskostenhilfeVereinfachteErklaerungUserData
 > = ({ context }) => context.unterhaltsOrAbstammungssachen === "yes";
@@ -48,7 +44,7 @@ export const frageVermoegen: GenericGuard<
 > = ({ context }) =>
   minderjaehrig({ context }) &&
   famFG({ context }) &&
-  (geringesEinkommen({ context }) || keinEinkommen({ context }));
+  (geringesEinkommen({ context }) || context.hasEinnahmen === "no");
 
 export const vermoegenUnder10000: GenericGuard<
   ProzesskostenhilfeVereinfachteErklaerungUserData

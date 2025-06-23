@@ -21,7 +21,7 @@ type Translation = {
   publishedAt: string;
 };
 
-export type TransformedTranslations = Record<
+type TransformedTranslations = Record<
   string,
   Record<string, Record<string, string>>
 >;
