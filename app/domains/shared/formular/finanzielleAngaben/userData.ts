@@ -191,26 +191,26 @@ export const partnerschaftInputSchema = z.enum(
   customRequiredErrorMessage,
 );
 
-export const kinderArraySchema = z.array(
-  z
-    .object({
-      vorname: stringRequiredSchema,
-      nachname: stringRequiredSchema,
-      geburtsdatum: createDateSchema({
-        earliest: () => addYears(today(), -24),
-        latest: () => today(),
-      }),
-      wohnortBeiAntragsteller: z.enum(
-        ["yes", "no", "partially"],
-        customRequiredErrorMessage,
-      ),
-      eigeneEinnahmen: YesNoAnswer,
-      einnahmen: buildMoneyValidationSchema(),
-      unterhalt: YesNoAnswer,
-      unterhaltsSumme: buildMoneyValidationSchema(),
-    })
-    .partial(),
-);
+export const kinderSchema = z
+  .object({
+    vorname: stringRequiredSchema,
+    nachname: stringRequiredSchema,
+    geburtsdatum: createDateSchema({
+      earliest: () => addYears(today(), -24),
+      latest: () => today(),
+    }),
+    wohnortBeiAntragsteller: z.enum(
+      ["yes", "no", "partially"],
+      customRequiredErrorMessage,
+    ),
+    eigeneEinnahmen: YesNoAnswer,
+    einnahmen: buildMoneyValidationSchema(),
+    unterhalt: YesNoAnswer,
+    unterhaltsSumme: buildMoneyValidationSchema(),
+  })
+  .partial();
+
+export const kinderArraySchema = z.array(kinderSchema);
 
 export type KinderArraySchema = z.infer<typeof kinderArraySchema>;
 

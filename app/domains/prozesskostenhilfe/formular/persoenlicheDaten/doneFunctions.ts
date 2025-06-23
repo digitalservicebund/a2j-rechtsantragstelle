@@ -1,4 +1,4 @@
-import type { GenericGuard } from "~/domains/guards.server";
+import { type GenericGuard } from "~/domains/guards.server";
 import type { ProzesskostenhilfePersoenlicheDatenUserData } from "./userData";
 
 export const prozesskostenhilfePersoenlicheDatenDone: GenericGuard<

@@ -21,5 +21,3 @@ export const StrapiInfoBoxSchema = z
     __component: "page.info-box" as const,
     ...cmsData,
   }));
-
-export type StrapiInfoBoxComponent = z.infer<typeof StrapiInfoBoxSchema>;

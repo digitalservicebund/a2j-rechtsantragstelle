@@ -4,12 +4,14 @@ import {
   type AccordionItemProps,
 } from "~/components/AccordionItem";
 import { translations } from "~/services/translations/translations";
+import { useShouldPrint } from "./hooks/useShouldPrint";
 
 export type AccordionProps = Readonly<{
   items: AccordionItemProps[];
 }>;
 
 export default function Accordion({ items }: AccordionProps) {
+  const shouldPrint = useShouldPrint();
   const itemsRef = useRef<HTMLDetailsElement[]>([]);
   const labels = {
     show: translations.accordion.show.de,
@@ -27,6 +29,7 @@ export default function Accordion({ items }: AccordionProps) {
             title={item.title}
             description={item.description}
             labels={labels}
+            startOpened={shouldPrint}
             ref={(el) => {
               if (el) itemsRef.current[index] = el;
             }}

@@ -17,7 +17,7 @@ import {
   singleGrundeigentumDone,
 } from "../../../shared/formular/finanzielleAngaben/doneFunctions";
 
-export type ProzesskostenhilfeFinanzielleAngabenGuard =
+type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenUserData>;
 
 export const eigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({

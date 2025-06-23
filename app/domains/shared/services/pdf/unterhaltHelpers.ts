@@ -1,7 +1,9 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import { empfaengerIsChild } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/guards";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import { getTotalMonthlyFinancialEntries } from "~/domains/prozesskostenhilfe/services/pdf/util";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 import type { PdfFillFunction } from "~/services/pdf/fillOutFunction";
 
@@ -29,6 +31,20 @@ export function getFillUnterhalt<
     const attachment: AttachmentEntries = [];
     const zahltPartnerUnterhalt = userData.partnerUnterhaltsSumme !== undefined;
     const kinder = userData.kinder ?? [];
+    const pkhUserData = userData as ProzesskostenhilfeFormularUserData;
+    // Need to add the child added as a part of Vereinfachte Erklärung to the kinder array
+    if (
+      empfaengerIsChild({ context: pkhUserData }) &&
+      pkhUserData.child !== undefined
+    ) {
+      kinder.unshift({
+        ...pkhUserData.child,
+        wohnortBeiAntragsteller: pkhUserData.livesTogether ? "yes" : "no",
+        einnahmen: pkhUserData.einnahmen
+          ? getTotalMonthlyFinancialEntries(pkhUserData.einnahmen)
+          : undefined,
+      });
+    }
     const hasKinder = kinder.length > 0;
 
     const unterhaltszahlungen = userData.unterhaltszahlungen ?? [];
