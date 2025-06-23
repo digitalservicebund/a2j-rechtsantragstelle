@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { StrapiEmailCaptureComponentSchema } from "~/services/cms/components/StrapiEmailCapture";
 import { StrapiAutoSuggestInputComponentSchema } from "../components/StrapiAutoSuggestInput";
 import { StrapiCheckboxComponentSchema } from "../components/StrapiCheckbox";
 import { StrapiDateInputComponentSchema } from "../components/StrapiDateInput";
@@ -23,6 +24,7 @@ export const StrapiFormComponentSchema = z.discriminatedUnion("__component", [
   StrapiTileGroupComponentSchema,
   StrapiAutoSuggestInputComponentSchema,
   StrapiHiddenInputComponentSchema,
+  StrapiEmailCaptureComponentSchema,
 ]);
 
 export type StrapiFormComponent = z.infer<typeof StrapiFormComponentSchema>;

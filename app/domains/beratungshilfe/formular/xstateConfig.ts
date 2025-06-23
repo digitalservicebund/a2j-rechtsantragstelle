@@ -74,14 +74,17 @@ export const beratungshilfeXstateConfig = {
           },
         },
         telefonnummer: {
-          on: { SUBMIT: "#weitere-angaben" },
+          on: { SUBMIT: "nachbefragung" },
+        },
+        nachbefragung: {
+          on: { BACK: "telefonnummer", SUBMIT: "#weitere-angaben" },
         },
       },
     }),
     "weitere-angaben": {
       id: "weitere-angaben",
       meta: { done: weitereAngabenDone },
-      on: { BACK: "#persoenliche-daten.telefonnummer", SUBMIT: "#abgabe" },
+      on: { BACK: "#persoenliche-daten.nachbefragung", SUBMIT: "#abgabe" },
     },
     abgabe: await abgabeXstateConfig("#weitere-angaben"),
   },

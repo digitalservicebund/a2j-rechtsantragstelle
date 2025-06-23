@@ -9,8 +9,10 @@ import Select from "~/components/inputs/Select";
 import Textarea from "~/components/inputs/Textarea";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 import TimeInput from "~/components/inputs/TimeInput";
+import { EmailCapture } from "~/components/userFeedback/EmailCapture";
 import { getAutoSuggestInputProps } from "~/services/cms/components/StrapiAutoSuggestInput";
 import { getCheckboxProps } from "~/services/cms/components/StrapiCheckbox";
+import { getEmailCaptureProps } from "~/services/cms/components/StrapiEmailCapture";
 import { getFilesUploadProps } from "~/services/cms/components/StrapiFilesUpload";
 import { getHiddenInputProps } from "~/services/cms/components/StrapiHiddenInput";
 import { getInputProps } from "~/services/cms/components/StrapiInput";
@@ -49,6 +51,8 @@ const FormComponent = ({
       return <TileGroup {...getTileGroupProps(component)} />;
     case "form-elements.hidden-input":
       return <HiddenInput {...getHiddenInputProps(component)} />;
+    case "form-elements.email-capture":
+      return <EmailCapture {...getEmailCaptureProps(component)} />;
   }
 };
 
