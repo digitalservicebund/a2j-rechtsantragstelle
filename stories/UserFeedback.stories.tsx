@@ -29,7 +29,7 @@ export const Example: StoryObj<typeof meta> = {
           loader: () => {
             const bannerState = bannerStateMemo;
             bannerStateMemo = nextBannerState(bannerStateMemo);
-            return { bannerState };
+            return { feedback: { state: bannerState, result: "positive" } };
           },
           children: [
             { path: "/", Component: Story },
