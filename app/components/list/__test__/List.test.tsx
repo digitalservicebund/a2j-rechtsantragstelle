@@ -1,41 +1,60 @@
 import { render } from "@testing-library/react";
 import List, { listItemNotEmpty } from "../List";
-import { type ListItemProps } from "../types";
+import type { ListItemProps } from "../types";
 
 describe("List", () => {
   it("should render subheading when it is given", () => {
-    const mockSubheadinText = "subheadingText";
-
+    const mockSubheadingText = "subheadingText";
     const { getByText } = render(
-      <List items={[]} variant="unordered" subheading={mockSubheadinText} />,
+      <List items={[]} variant="unordered" subheading={mockSubheadingText} />,
     );
-
-    expect(getByText(mockSubheadinText)).toBeInTheDocument();
+    expect(getByText(mockSubheadingText)).toBeInTheDocument();
   });
 
   it("should not render subheading when it is not given", () => {
-    const mockSubheadinText = "subheadingText";
+    const mockSubheadingText = "subheadingText";
     const { queryByText } = render(<List items={[]} variant="unordered" />);
+    expect(queryByText(mockSubheadingText)).not.toBeInTheDocument();
+  });
 
-    expect(queryByText(mockSubheadinText)).not.toBeInTheDocument();
+  describe("renders correct list tag", () => {
+    it("renders <ul> if variant is 'unordered' and no images", () => {
+      const { container } = render(<List items={[]} variant="unordered" />);
+      expect(container.querySelector("ul")).toBeInTheDocument();
+    });
+
+    it("renders <ul> if any item has an image", () => {
+      const items: ListItemProps[] = [
+        {
+          headline: { text: "One" },
+          image: { url: "/img.png", alternativeText: "" },
+        },
+        { headline: { text: "Two" } },
+      ];
+      const { container } = render(<List items={items} variant="numbered" />);
+      expect(container.querySelector("ul")).toBeInTheDocument();
+    });
+
+    it("renders <ol> if variant is 'numbered' and no images", () => {
+      const items: ListItemProps[] = [
+        { headline: { text: "One" } },
+        { headline: { text: "Two" } },
+      ];
+      const { container } = render(<List items={items} variant="numbered" />);
+      expect(container.querySelector("ol")).toBeInTheDocument();
+    });
   });
 });
 
 describe("listItemNotEmpty", () => {
   it("should return true if a ListItem has a headline but no content", () => {
-    const listItem: ListItemProps = {
-      headline: {
-        text: "headline",
-      },
-    };
+    const listItem: ListItemProps = { headline: { text: "headline" } };
     expect(listItemNotEmpty(listItem)).toBe(true);
     expect(listItemNotEmpty({ ...listItem, content: "<p></p>\n" })).toBe(true);
   });
 
   it("should return true if a ListItem has content but no headline", () => {
-    const listItem: ListItemProps = {
-      content: "some content",
-    };
+    const listItem: ListItemProps = { content: "some content" };
     expect(listItemNotEmpty(listItem)).toBe(true);
     expect(
       listItemNotEmpty({ ...listItem, headline: { text: "\n<h1></h1>" } }),
@@ -44,9 +63,7 @@ describe("listItemNotEmpty", () => {
 
   it("should return true when a ListItem has both headline and content", () => {
     const listItem: ListItemProps = {
-      headline: {
-        text: "headline",
-      },
+      headline: { text: "headline" },
       content: "<p>some content</p>",
     };
     expect(listItemNotEmpty(listItem)).toBe(true);

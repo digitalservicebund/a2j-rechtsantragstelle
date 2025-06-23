@@ -38,12 +38,24 @@ export const Example: Story = {
     items: [
       {
         headline: {
-          text: "This is an item headline",
+          text: "Custom image override",
+          look: "ds-heading-03-reg",
+        },
+        content: faker.lorem.paragraph(),
+        image: {
+          url: "/favicon.svg",
+          alternativeText: "Example SVG marker",
+          width: 40,
+          height: 40,
+        },
+      },
+      {
+        headline: {
+          text: "Unordered styled marker",
           look: "ds-heading-03-reg",
         },
         content: faker.lorem.paragraph(),
       },
-      { content: faker.lorem.paragraph() },
     ],
   },
 };
