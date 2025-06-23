@@ -9,7 +9,7 @@ import { emailSchema } from "~/services/validation/email";
 export const beratungshilfePersoenlicheDatenInputSchema = {
   ...omit(persoenlicheDaten, ["title"]),
   geburtsdatum,
-  nachbefragungEmail: emailSchema.optional(),
+  nachbefragungEmail: emailSchema.optional().or(z.literal("")),
 };
 
 const _partialSchema = z

@@ -10,7 +10,7 @@ const StrapiEmailCaptureSchema = z
     name: z.string(),
     label: z.string().nullable(),
     description: buildRichTextValidation().nullable(),
-    submit: StrapiButtonSchema.nullable().transform(omitNull).optional(),
+    submit: StrapiButtonSchema,
   })
   .merge(HasOptionalStrapiIdSchema);
 
