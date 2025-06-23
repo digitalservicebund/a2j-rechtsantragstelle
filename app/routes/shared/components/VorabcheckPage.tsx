@@ -15,12 +15,8 @@ export function VorabcheckPage() {
     formElements,
     progressProps,
     buttonNavigationProps,
-    flowId,
+    shouldShowReportProblem,
   } = useLoaderData<typeof loader>();
-
-  const showReportProblem =
-    flowId === "/beratungshilfe/vorabcheck" ||
-    flowId === "/kontopfaendung/wegweiser";
 
   useFocusFirstH1();
 
@@ -44,7 +40,7 @@ export function VorabcheckPage() {
           </div>
         </Container>
       </div>
-      {showReportProblem && <ReportProblem />}
+      {shouldShowReportProblem && <ReportProblem />}
     </div>
   );
 }

@@ -114,6 +114,10 @@ export const loader = async ({
     label: translations.progressBarLabel,
   };
 
+  const shouldShowReportProblem =
+    flowId === "/beratungshilfe/vorabcheck" ||
+    flowId === "/kontopfaendung/wegweiser";
+
   return data(
     {
       csrf,
@@ -123,7 +127,7 @@ export const loader = async ({
       meta,
       progressProps,
       buttonNavigationProps,
-      flowId,
+      shouldShowReportProblem,
     },
     { headers },
   );

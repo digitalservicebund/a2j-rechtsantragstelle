@@ -152,6 +152,10 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       translations[`${flowId}/menu`],
     ) ?? [];
 
+  const shouldShowReportProblem =
+    flowId === "/beratungshilfe/antrag" ||
+    flowId === "/prozesskostenhilfe/formular";
+
   return data(
     {
       arraySummaryData,
@@ -180,6 +184,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       translations: stringTranslations,
       validFlowPaths,
       flowId,
+      shouldShowReportProblem,
     },
     { headers },
   );
