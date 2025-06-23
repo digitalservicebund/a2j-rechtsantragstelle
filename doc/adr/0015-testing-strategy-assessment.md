@@ -22,13 +22,11 @@ Unit tests are located in directories named `/__test__` within lowest-level app 
 Examples:
 
 - Domain logic tests:
-
   - Business logic (e.g. `/app/flows/beratungshilfeVorabcheck/__test__/freibetrag.test.ts` tests the calculation of a financial allowance or exemption amount).
   - Guards (e.g. `/app/flows/fluggastrechteVorabcheck/__test__/guards.test.ts` tests the correct behavior of the guards used in the Fluggastrechte Vorabcheck flow).
   - PDF generation (e.g. `/app/services/pdf/beratungshilfe/sections/__test__/A_angelegenheit.test.ts` ensure that the form fields and attachments of section A of the Beratungshilfe PDF are correctly filled with the provided data).
 
 - Application logic tests:
-
   - React components (e.g. `/app/components/__test__/Button.test.tsx` validate the rendering and behavior of the 'Button' React component).
   - Utility functions (e.g. `/app/util/__test__/objects.test.ts` tests functions like `dropEachProperty`, `isKeyOfObject`, `objectMap`).
 

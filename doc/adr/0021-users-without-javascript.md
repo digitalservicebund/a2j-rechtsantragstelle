@@ -35,14 +35,12 @@ This is also suggested by the GOV.UK Service Manual for the governmental area (s
 ## Consequences:
 
 - **Positive:**
-
   - Improved accessibility for users with disabilities, limited bandwidth, or JavaScript disabled/unavailable.
   - Increased resilience to network issues and JavaScript errors.
   - Simplified testing of core functionality.
   - Alignment with best practices for web development.
 
 - **Negative:**
-
   - Increased development effort for implementing features in both a non-JS and JS version (though this is mitigated by focusing on core functionality first).
   - Potential limitations on the complexity of interactive features in non-JS mode.
   - Requires a consistent and disciplined approach to development and testing to ensure adherence to the progressive enhancement strategy.
