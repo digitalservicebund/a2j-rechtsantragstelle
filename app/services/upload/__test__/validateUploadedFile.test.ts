@@ -3,7 +3,7 @@ import {
   fileUploadLimit,
   type PDFFileMetadata,
   pdfFileMetaDataSchema,
-} from "~/util/file/pdfFileSchema";
+} from "~/services/validation/pdfFileSchema";
 import { validateUploadedFile } from "../validateUploadedFile";
 
 describe("validateUploadedFile", () => {

@@ -1,5 +1,9 @@
 import { type FileUpload, parseFormData } from "@mjackson/form-data-parser";
-import { type ValidationErrorResponseData } from "@rvf/react-router";
+import {
+  ValidatorError,
+  validationError,
+  type ValidationErrorResponseData,
+} from "@rvf/react-router";
 import pickBy from "lodash/pickBy";
 import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { type ZodTypeAny } from "zod";
@@ -9,13 +13,12 @@ import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
-import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
 import { buildFileUploadError } from "./buildFileUploadError";
 import { splitFieldName } from "./splitFieldName";
 import { validateUploadedFile } from "./validateUploadedFile";
 import { getSessionIdByFlowId } from "../session.server";
-
-const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";
+import { FILE_REQUIRED_ERROR } from "./constants";
 
 export async function uploadUserFile(
   formAction: string,
@@ -29,6 +32,20 @@ export async function uploadUserFile(
   const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
   const file = await parseFileFromFormData(request, inputName);
+
+  if (!file) {
+    return {
+      validationError: validationError(
+        {
+          fieldErrors: {
+            [formAction.split(".")[1]]: FILE_REQUIRED_ERROR,
+          },
+        } as ValidatorError,
+        userData,
+      ),
+    };
+  }
+
   const sessionId = await getSessionIdByFlowId(
     flowId,
     request.headers.get("Cookie"),
@@ -100,9 +117,6 @@ async function parseFileFromFormData(request: Request, fieldName: string) {
       matchedFile = fileUpload;
     }
   });
-  if (typeof matchedFile === "undefined") {
-    throw new Error(UNDEFINED_FILE_ERROR);
-  }
   return matchedFile;
 }
 

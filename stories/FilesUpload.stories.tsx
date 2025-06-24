@@ -2,7 +2,10 @@ import { faker } from "@faker-js/faker";
 import { ActionFunctionArgs } from "react-router";
 import type { Meta, StoryObj } from "@storybook/react";
 import FilesUpload from "~/components/filesUpload/FilesUpload";
-import { PDFFileMetadata, TEN_MB_IN_BYTES } from "~/util/file/pdfFileSchema";
+import {
+  PDFFileMetadata,
+  TEN_MB_IN_BYTES,
+} from "~/services/validation/pdfFileSchema";
 import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
 import { reactRouterContext } from ".storybook/reactRouterContext";
 import { splitFieldName } from "~/services/upload/splitFieldName";

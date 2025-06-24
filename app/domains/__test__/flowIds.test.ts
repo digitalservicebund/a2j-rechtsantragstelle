@@ -20,6 +20,16 @@ describe("parsePathname", () => {
   it("throws for invalid flow IDs", () => {
     expect(() => parsePathname("/invalid")).toThrow();
   });
+
+  it("should handle correct malformed URL", () => {
+    const actual = parsePathname("/fluggastrechte/formular/////\\//stepId1/2");
+
+    expect(actual).toEqual({
+      flowId: "/fluggastrechte/formular",
+      stepId: "/////\\//stepId1",
+      arrayIndexes: [2],
+    });
+  });
 });
 
 describe("flowIdFromPathname", () => {
