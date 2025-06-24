@@ -6,6 +6,7 @@ import {
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
+import Background from "~/components/Background";
 import Container from "~/components/Container";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import PageContent from "~/components/PageContent";
@@ -60,30 +61,32 @@ export default function Index() {
     useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col min-w-[100vw] bg-blue-100">
-      <div className="flex-grow">
-        <Container>
-          <PageContent className="ds-stack ds-stack-32" content={pre_form} />
-        </Container>
-        <ValidatedForm
-          method="post"
-          schema={clientSchema}
-          defaultValues={{ postcode: "" }}
-          noValidate
-        >
+    <Background backgroundColor="blue">
+      <div className="flex flex-col min-w-[100vw] bg-blue-100">
+        <div className="flex-grow">
           <Container>
-            <StrapiFormComponents components={form} />
-            <ButtonNavigation
-              back={{
-                destination: backURL,
-                label: common.backButton,
-              }}
-              next={{ label: nextButtonLabel ?? "" }}
-            />
+            <PageContent className="ds-stack ds-stack-32" content={pre_form} />
           </Container>
-        </ValidatedForm>
+          <ValidatedForm
+            method="post"
+            schema={clientSchema}
+            defaultValues={{ postcode: "" }}
+            noValidate
+          >
+            <Container>
+              <StrapiFormComponents components={form} />
+              <ButtonNavigation
+                back={{
+                  destination: backURL,
+                  label: common.backButton,
+                }}
+                next={{ label: nextButtonLabel ?? "" }}
+              />
+            </Container>
+          </ValidatedForm>
+        </div>
+        <ReportProblem />
       </div>
-      <ReportProblem />
-    </div>
+    </Background>
   );
 }

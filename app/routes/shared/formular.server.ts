@@ -38,6 +38,7 @@ import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { filterFormData } from "~/util/filterFormData";
 import { getUserDataAndFlow } from "./formular/userDataAndFlow/getUserDataAndFlow";
+import { shouldShowReportProblem } from "./showReportProblem";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
@@ -152,10 +153,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       translations[`${flowId}/menu`],
     ) ?? [];
 
-  const shouldShowReportProblem =
-    flowId === "/beratungshilfe/antrag" ||
-    flowId === "/prozesskostenhilfe/formular";
-
   return data(
     {
       arraySummaryData,
@@ -184,7 +181,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       translations: stringTranslations,
       validFlowPaths,
       flowId,
-      shouldShowReportProblem,
+      showReportProblem: shouldShowReportProblem(flowId),
     },
     { headers },
   );

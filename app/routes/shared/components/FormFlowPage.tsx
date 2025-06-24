@@ -28,7 +28,7 @@ export function FormFlowPage() {
     translations,
     validFlowPaths,
     flowId,
-    shouldShowReportProblem,
+    showReportProblem,
   } = useLoaderData<typeof loader>();
 
   const formFlowMemo = useMemo(
@@ -89,7 +89,7 @@ export function FormFlowPage() {
             <PageContent content={postFormContent} fullScreen={false} />
           </div>
         </div>
-        {shouldShowReportProblem && <ReportProblem />}
+        {showReportProblem && <ReportProblem />}
       </div>
     </FormFlowContext.Provider>
   );

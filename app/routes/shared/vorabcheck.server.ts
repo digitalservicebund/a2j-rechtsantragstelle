@@ -30,6 +30,7 @@ import { validateFormData } from "~/services/validation/validateFormData.server"
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { filterFormData } from "~/util/filterFormData";
+import { shouldShowReportProblem } from "./showReportProblem";
 
 export const loader = async ({
   params,
@@ -114,10 +115,6 @@ export const loader = async ({
     label: translations.progressBarLabel,
   };
 
-  const shouldShowReportProblem =
-    flowId === "/beratungshilfe/vorabcheck" ||
-    flowId === "/kontopfaendung/wegweiser";
-
   return data(
     {
       csrf,
@@ -127,7 +124,7 @@ export const loader = async ({
       meta,
       progressProps,
       buttonNavigationProps,
-      shouldShowReportProblem,
+      showReportProblem: shouldShowReportProblem(flowId),
     },
     { headers },
   );
