@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { StrapiEmailCaptureSchema } from "~/services/cms/components/StrapiEmailCapture";
 import { StrapiVideoSchema } from "~/services/cms/models/StrapiVideo";
 import { StrapiArraySummaryComponentSchema } from "./StrapiArraySummary";
 import { StrapiBoxSchema } from "./StrapiBox";
@@ -29,6 +30,7 @@ export const StrapiContentComponentSchema = z.union([
   StrapiDetailsSchema,
   StrapiUserFeedbackSchema,
   StrapiSummaryOverviewSectionSchema,
+  StrapiEmailCaptureSchema,
 ]);
 
 export type StrapiContentComponent = z.infer<

@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import type { ReactElement } from "react";
 import Heading from "~/components/Heading";
+import { EmailCapture } from "~/components/userFeedback/EmailCapture";
 import Video from "~/components/video/Video";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
@@ -79,6 +80,8 @@ function cmsToReact(strapiContent: StrapiContentComponent) {
       return <UserFeedback {...strapiContent} />;
     case "page.summary-overview-section":
       return <SummaryOverviewSection {...strapiContent} />;
+    case "page.email-capture":
+      return <EmailCapture {...strapiContent} />;
     case "page.array-summary":
     default:
       return <></>;
