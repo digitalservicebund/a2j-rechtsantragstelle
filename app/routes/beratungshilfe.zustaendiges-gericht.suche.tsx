@@ -62,7 +62,7 @@ export default function Index() {
 
   return (
     <Background backgroundColor="blue">
-      <div className="flex flex-col min-w-[100vw] bg-blue-100">
+      <div className="flex flex-col min-w-[100vw] h-full">
         <div className="flex-grow">
           <Container>
             <PageContent className="ds-stack ds-stack-32" content={pre_form} />
