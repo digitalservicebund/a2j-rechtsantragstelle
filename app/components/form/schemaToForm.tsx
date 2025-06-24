@@ -1,21 +1,40 @@
 import get from "lodash/get";
 import { type z } from "zod";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import type { StrapiSelectOption } from "~/services/cms/models/StrapiSelectOption";
+import type { StrapiTile } from "~/services/cms/models/StrapiTile";
 import { strapiWidthToFieldWidth } from "~/services/cms/models/strapiWidth";
 import Input from "../inputs/Input";
 import RadioGroup from "../inputs/RadioGroup";
 import TileGroup from "../inputs/tile/TileGroup";
+import type { TileOptions } from "../inputs/tile/TileRadio";
 
 type ZodEnum = z.ZodEnum<[string, ...string[]]>;
 
+// TODO: transform in schema?
 const enumValuesToRadioGroupOptions = (
   options: string[],
-  labels?: Array<Record<"text" | "value", string>>,
+  labels?: StrapiSelectOption[],
 ) =>
   options.map((value) => ({
     value,
     text: labels?.find((vals) => vals.value === value)?.text ?? value,
   }));
+
+// TODO: transform in schema?
+const enumValuesToTileGroupOptions = (
+  options: string[],
+  labels?: StrapiTile[],
+): TileOptions[] =>
+  options.map((value) => {
+    const matchingLabel = labels?.find((vals) => vals.value === value);
+    return {
+      value,
+      description: matchingLabel?.description,
+      image: matchingLabel?.image,
+      title: matchingLabel?.title ?? value,
+    };
+  });
 
 const isZodEnum = (fieldSchema: z.ZodTypeAny): fieldSchema is ZodEnum =>
   fieldSchema._def.typeName === "ZodEnum";
@@ -43,20 +62,20 @@ export function schemaToFormElement(
   );
 
   if (isZodEnum(nestedSchema)) {
-    const optionLabels = get(matchingElement, "options", undefined);
+    const cmsOptions = get(matchingElement, "options", undefined);
 
     if (matchingElement?.__component === "form-elements.tile-group") {
-      const options = enumValuesToRadioGroupOptions(
-        nestedSchema.options,
-        optionLabels?.filter((option) => "text" in option),
-      );
       return (
         <TileGroup
           key={fieldName}
           name={fieldName}
+          useTwoColumns={matchingElement.useTwoColumns}
           label={label}
           errorMessages={errorMessages}
-          options={options}
+          options={enumValuesToTileGroupOptions(
+            nestedSchema.options,
+            cmsOptions?.filter((option) => "title" in option),
+          )}
         />
       );
     }
@@ -70,7 +89,7 @@ export function schemaToFormElement(
         errorMessages={errorMessages}
         options={enumValuesToRadioGroupOptions(
           nestedSchema.options,
-          optionLabels?.filter((option) => "text" in option),
+          cmsOptions?.filter((option) => "text" in option),
         )}
       />
     );

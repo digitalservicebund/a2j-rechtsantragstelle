@@ -29,7 +29,7 @@ export const beratungshilfeVorabcheckPages = {
   "ergebnis/beratungshilfe-beantragt-abbruch": {},
   eigeninitiative: { pageSchema: pick(schemas, "eigeninitiative") },
   "eigeninitiative-warnung": {},
-  bereich: { pageSchema: pick(schemas, "bereich") }, // TODO
+  bereich: { pageSchema: pick(schemas, "bereich") },
   "staatliche-leistungen": {
     pageSchema: pick(schemas, "staatlicheLeistungen"),
   },
@@ -43,7 +43,7 @@ export const beratungshilfeVorabcheckPages = {
   partnerschaft: { pageSchema: pick(schemas, "partnerschaft") },
   genauigkeit: { pageSchema: pick(schemas, "genauigkeit") },
   "kinder-kurz": { pageSchema: pick(schemas, "kinderKurz") },
-  "kinder-anzahl-kurz": { pageSchema: pick(schemas, "kinderAnzahlKurz") }, // TODO
+  "kinder-anzahl-kurz": { pageSchema: pick(schemas, "kinderAnzahlKurz") },
   "verfuegbares-einkommen": {
     pageSchema: pick(schemas, "verfuegbaresEinkommen"),
   },
