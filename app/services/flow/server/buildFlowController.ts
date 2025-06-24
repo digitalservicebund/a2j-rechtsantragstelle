@@ -33,7 +33,7 @@ export type Config<TContext extends MachineContext = UserData> = MachineConfig<
   never,
   never,
   never,
-  Meta
+  Meta<TContext>
 >;
 
 type TransitionConfigOrTarget<TUserData extends MachineContext = UserData> =
@@ -54,9 +54,9 @@ export type FlowConfigTransitions = {
   nextFlowEntrypoint?: TransitionConfigOrTarget;
 };
 
-type Meta = {
+type Meta<TUserData extends MachineContext = UserData> = {
   customAnalyticsEventName?: string;
-  done?: GenericGuard<UserData>;
+  done?: GenericGuard<TUserData>;
   arrays?: Record<string, ArrayConfigServer>;
 };
 
@@ -164,7 +164,13 @@ function stepStates(
       // If there is an eventless transition and the target is reachable, use it instead of the initial state
       const eventlessTargetPath = state.initial.target
         .at(0)
-        ?.always?.at(0)
+        ?.always?.find((val) => {
+          // an "always" transition can also be an array, so we need to find the first reachable transition and use it
+          const targetPaths = val.target?.at(0)?.path ?? [];
+          return reachableSteps.includes(
+            stateValueToStepIds(pathToStateValue(targetPaths))[0],
+          );
+        })
         ?.target?.at(0)?.path;
 
       const eventlessStepId = eventlessTargetPath

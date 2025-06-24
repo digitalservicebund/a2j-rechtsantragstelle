@@ -1,5 +1,5 @@
 import { parse } from "cookie";
-import { config } from "~/services/env/web";
+import { config } from "~/services/env/public";
 
 export function posthogIdFromCookie(cookie: string | null) {
   // Note: can't use cookie.parse(): https://github.com/remix-run/remix/discussions/5198

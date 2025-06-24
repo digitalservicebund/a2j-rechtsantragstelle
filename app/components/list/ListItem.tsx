@@ -5,9 +5,16 @@ import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
 import Heading from "../Heading";
 import RichText from "../RichText";
-import { type ListVariant, type ListItemProps } from "./types";
+import type { ListVariant, ListItemProps, ListMarkerProps } from "./types";
+import Image, { type ImageProps } from "../Image";
 
-const ListIcon = ({
+const ImageMarker = ({ image }: { image: ImageProps }) => (
+  <div className="flex items-start">
+    <Image {...image} ariaHidden={true} />
+  </div>
+);
+
+const StyledMarker = ({
   index,
   variant,
 }: {
@@ -28,6 +35,14 @@ const ListIcon = ({
   </div>
 );
 
+const ListMarker = ({ index, variant, image }: ListMarkerProps) => {
+  return image ? (
+    <ImageMarker image={image} />
+  ) : (
+    <StyledMarker index={index} variant={variant} />
+  );
+};
+
 const ListItem = ({
   identifier,
   headline,
@@ -36,11 +51,12 @@ const ListItem = ({
   index,
   accordion,
   variant,
+  image,
 }: ListItemProps & { variant: ListVariant }) => {
   return (
     <div id={identifier} className="flex flex-row gap-16">
       <div className="text-center shrink-0 flex flex-col items-center w-[40px]">
-        <ListIcon index={index} variant={variant} />
+        <ListMarker index={index} variant={variant} image={image} />
         {variant === "stepByStep" && (
           <div className="w-2 h-full group-last:hidden bg-blue-500"></div>
         )}

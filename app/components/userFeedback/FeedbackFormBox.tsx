@@ -3,13 +3,13 @@ import { useEffect, useRef } from "react";
 import { useLocation } from "react-router";
 import { z } from "zod";
 import Textarea from "~/components/inputs/Textarea";
-import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
-import { useJsAvailable } from "~/services/useJsAvailable";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
+import { FeedbackTitle } from "./FeedbackTitle";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./FeedbackType";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
+import { useJsAvailable } from "../hooks/useJsAvailable";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 export const FEEDBACK_FIELD_NAME = "feedback";

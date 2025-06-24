@@ -9,7 +9,6 @@
 2. Using the the deployed staging strapi instance:
    - Set `STRAPI_API=<STRAPI_STAGING_URL>/api` and set `STRAPI_ACCESS_KEY` to your token (create a new key in the strapi GUI at "Settings" > "API Tokens" > "Create new API Token")
 3. Use a local content file:
-
    - Set `STRAPI_API` and `STRAPI_ACCESS_KEY` to point to staging like in option 2.
    - Set `CMS=FILE`
    - Run `npm run build:localContent` (should have generated a `content.json` file)

@@ -2,7 +2,7 @@ import { sendSentryMessage } from "~/services/logging";
 
 export type Translations = Record<string, string>;
 
-export type Locale = "de" | "en";
+type Locale = "de" | "en";
 
 export type TranslationRecord = Record<
   string,

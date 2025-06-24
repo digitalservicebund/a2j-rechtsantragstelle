@@ -1,18 +1,16 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { config } from "~/services/env/web";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { config } from "~/services/env/public";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import {
   throw404OnProduction,
   throw404IfFeatureFlagDisabled,
 } from "../throw404";
 
-// Mock the config module
-vi.mock("~/services/env/web", () => ({
+vi.mock("~/services/env/public", () => ({
   config: vi.fn(),
 }));
 
-// Mock the featureFlags module
-vi.mock("~/services/featureFlags", () => ({
+vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
   isFeatureFlagEnabled: vi.fn(),
 }));
 
@@ -28,7 +26,6 @@ describe("throw404OnProduction", () => {
   it("should throw a 404 Response in production environment", () => {
     vi.mocked(config).mockReturnValue({
       ENVIRONMENT: "production",
-      POSTHOG_API_HOST: "",
       POSTHOG_API_KEY: "",
       SENTRY_DSN: "",
     });
@@ -44,7 +41,6 @@ describe("throw404OnProduction", () => {
   it("should not throw in non-production environment", () => {
     vi.mocked(config).mockReturnValue({
       ENVIRONMENT: "development",
-      POSTHOG_API_HOST: "",
       POSTHOG_API_KEY: "",
       SENTRY_DSN: "",
     });

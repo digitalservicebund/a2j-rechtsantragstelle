@@ -56,7 +56,6 @@ Our current data rendering pipeline from Strapi to the Application has some inef
 ## Consequences
 
 - Server-side html rendering and sanitization will both improve performance and reduce the security concerns of handling these operations client-side.
-
   - This also means that we'll have to use a lot of `dangerouslySetInnerHTML`, which is fine because the html we're passing down has already been safely parsed from markdown and fully sanitized on the server-side.
 
 - Removing the `StrapiComponent` compatibility layer as well as the `getXXXProps()` functions in favor of zod transformation functions should both improve render performance (we'll no longer be double-validating and double-rendering Strapi content) and greatly reduce the architectural complexity of our app. It also reduces the cognitive overhead of having to keep track of two separate rendering methods, making code maintenance and onboarding smoother as well.
