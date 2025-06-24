@@ -8,7 +8,7 @@ import FilesUpload, {
 import { type UserData } from "~/domains/userData";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { translations } from "~/services/translations/translations";
-import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
 
 const deleteLabel = translations.fileUpload.delete.de;
 const selectLabel = translations.fileUpload.select.de;

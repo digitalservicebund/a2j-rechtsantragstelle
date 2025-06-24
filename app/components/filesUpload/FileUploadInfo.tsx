@@ -1,7 +1,10 @@
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import InsertFileIcon from "@digitalservicebund/icons/InsertDriveFile";
 import classNames from "classnames";
-import { errorStyling, type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import {
+  errorStyling,
+  type PDFFileMetadata,
+} from "~/services/validation/pdfFileSchema";
 import { formatFileSizeToString } from "../../services/upload/formatFileSizeToString";
 import Button from "../Button";
 
@@ -32,14 +35,14 @@ export const FileUploadInfo = ({
 
   return (
     <div className={classes} data-testid={`file-upload-info-${inputName}`}>
-      <div className="max-w-full flex justify-between items-center">
+      <div className="max-w-full grid grid-cols-[24px_1fr_auto] gap-x-12 items-center">
         <InsertFileIcon className="shrink-0 fill-gray-900" aria-hidden="true" />
-        <p className="ds-body-01-reg text-black mr-8 ml-10 truncate">
+        <span className="ds-body-01-reg text-black truncate">
           {file.filename}
-        </p>
-        <p className="ds-body-01-reg text-gray-900">
+        </span>
+        <span className="text-gray-900 ds-body-02-reg">
           {formatFileSizeToString(file.fileSize)}
-        </p>
+        </span>
       </div>
       {!hasError && <HiddenFileInputs inputName={inputName} file={file} />}
       <Button

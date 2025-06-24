@@ -91,7 +91,7 @@ test("invalid array index redirects to initial step of subflow", async ({
 async function startDocumentUpload(page: Page) {
   // beratungshilfe/antrag/abgabe/dokumente
   await expectPageToBeAccessible({ page });
-  await page.getByRole("button", { name: "Weiter" }).click();
+  await page.getByRole("button", { name: "Weiter", exact: true }).click();
 
   // Test empty form submission
   const errorMessage = page.getByTestId("inputError");
@@ -149,7 +149,7 @@ async function startDocumentUpload(page: Page) {
     .setInputFiles(dummyFilePath);
   await expect(fileUploadInfo).toBeVisible();
   await expect(errorMessage).not.toBeVisible();
-  await page.getByRole("button", { name: "Weiter" }).click();
+  await page.getByRole("button", { name: "Weiter", exact: true }).click();
 }
 async function startOnlineAbgabe(page: Page) {
   // beratungshilfe/antrag/abgabe/art
