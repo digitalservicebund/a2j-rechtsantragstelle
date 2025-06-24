@@ -4,7 +4,7 @@ import FlowNavigation from "~/components/navigation/FlowNavigation";
 vi.mock("react-router", () => ({
   useRouteLoaderData: vi.fn(() => ({
     accessibilityTranslations: {
-      menuLabel: "Main Menu",
+      navigationLabel: "Main Menu",
     },
   })),
 }));

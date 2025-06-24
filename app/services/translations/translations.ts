@@ -141,4 +141,12 @@ export const translations = {
       de: "Main menu toggle",
     },
   },
+  buttonNavigation: {
+    backButtonDefaultLabel: {
+      de: "Zurück",
+    },
+    nextButtonDefaultLabel: {
+      de: "Weiter",
+    },
+  },
 } satisfies TranslationRecord;
