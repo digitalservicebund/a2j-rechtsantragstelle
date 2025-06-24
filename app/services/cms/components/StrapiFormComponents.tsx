@@ -9,7 +9,6 @@ import Select from "~/components/inputs/Select";
 import Textarea from "~/components/inputs/Textarea";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 import TimeInput from "~/components/inputs/TimeInput";
-import { getAutoSuggestInputProps } from "~/services/cms/components/StrapiAutoSuggestInput";
 import { getCheckboxProps } from "~/services/cms/components/StrapiCheckbox";
 import { getFilesUploadProps } from "~/services/cms/components/StrapiFilesUpload";
 import { getHiddenInputProps } from "~/services/cms/components/StrapiHiddenInput";
@@ -25,7 +24,7 @@ const FormComponent = ({
 }: Readonly<{ component: StrapiFormComponent }>) => {
   switch (component.__component) {
     case "form-elements.auto-suggest-input":
-      return <AutoSuggestInput {...getAutoSuggestInputProps(component)} />;
+      return <AutoSuggestInput {...component} />;
     case "form-elements.input":
       return <Input {...component} />;
     case "form-elements.date-input":

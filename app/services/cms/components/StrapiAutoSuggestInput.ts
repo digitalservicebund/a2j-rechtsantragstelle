@@ -12,39 +12,22 @@ import {
 
 const DataListSchema = z.enum(["airports", "airlines"]);
 
-const StrapiAutoSuggestInputSchema = z
+export const StrapiAutoSuggestInputComponentSchema = z
   .object({
     name: z.string(),
-    label: z.string().nullable(),
-    placeholder: z.string().nullable(),
+    label: z.string().nullable().transform(omitNull),
+    placeholder: z.string().nullable().transform(omitNull),
     errors: StrapiErrorRelationSchema,
-    width: strapiWidthSchema.nullable(),
+    width: strapiWidthSchema.nullable().transform(strapiWidthToFieldWidth),
     dataList: DataListSchema,
-    noSuggestionMessage: z.string().nullable(),
-    isDisabled: z
-      .boolean()
-      .nullable()
-      .transform((value) => {
-        if (value === null) {
-          return false;
-        }
-
-        return value;
-      }),
+    noSuggestionMessage: z.string().nullable().transform(omitNull),
+    isDisabled: z.boolean().nullable().transform(Boolean),
+    __component: z.literal("form-elements.auto-suggest-input"),
   })
-  .merge(HasOptionalStrapiIdSchema);
-
-type StrapiAutoSuggestInput = z.infer<typeof StrapiAutoSuggestInputSchema>;
+  .merge(HasOptionalStrapiIdSchema)
+  .transform(({ errors, ...cmsData }) => ({
+    ...cmsData,
+    errorMessages: flattenStrapiErrors(errors),
+  }));
 
 export type DataListType = z.infer<typeof DataListSchema>;
-
-export const StrapiAutoSuggestInputComponentSchema =
-  StrapiAutoSuggestInputSchema.extend({
-    __component: z.literal("form-elements.auto-suggest-input"),
-  });
-
-export const getAutoSuggestInputProps = (cmsData: StrapiAutoSuggestInput) => ({
-  ...omitNull(cmsData),
-  width: strapiWidthToFieldWidth(cmsData.width),
-  errorMessages: flattenStrapiErrors(cmsData.errors),
-});
