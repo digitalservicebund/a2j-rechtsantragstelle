@@ -5,6 +5,7 @@ export function shouldShowReportProblem(flowId: FlowId): boolean {
     flowId === "/beratungshilfe/vorabcheck" ||
     flowId === "/kontopfaendung/wegweiser" ||
     flowId === "/prozesskostenhilfe/formular" ||
+    flowId === "/fluggastrechte/formular" ||
     flowId === "/beratungshilfe/antrag"
   );
 }
