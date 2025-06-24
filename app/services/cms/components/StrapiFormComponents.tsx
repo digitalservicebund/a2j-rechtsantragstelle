@@ -9,7 +9,6 @@ import Select from "~/components/inputs/Select";
 import Textarea from "~/components/inputs/Textarea";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 import TimeInput from "~/components/inputs/TimeInput";
-import { getCheckboxProps } from "~/services/cms/components/StrapiCheckbox";
 import { getFilesUploadProps } from "~/services/cms/components/StrapiFilesUpload";
 import { getHiddenInputProps } from "~/services/cms/components/StrapiHiddenInput";
 import { getTileGroupProps } from "~/services/cms/components/StrapiTileGroup";
@@ -38,7 +37,7 @@ const FormComponent = ({
     case "form-elements.dropdown":
       return <Select {...getSelectProps(component)} />;
     case "form-elements.checkbox":
-      return <Checkbox {...getCheckboxProps(component)} />;
+      return <Checkbox {...component} />;
     case "form-elements.tile-group":
       return <TileGroup {...getTileGroupProps(component)} />;
     case "form-elements.hidden-input":

@@ -70,8 +70,9 @@ describe("buildFormElements", () => {
         {
           __component: "form-elements.checkbox",
           label: "some label",
-          isRequiredError: null,
           name: "checkbox",
+          required: false,
+          errorMessage: "",
         },
       ],
     } satisfies CMSContent;
