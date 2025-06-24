@@ -12,10 +12,10 @@ export const StrapiDateInputComponentSchema = z
     label: z.string().nullable().transform(omitNull),
     placeholder: z.string().nullable().transform(omitNull),
     errors: StrapiErrorRelationSchema,
+    __component: z.literal("form-elements.date-input"),
   })
   .merge(HasOptionalStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: flattenStrapiErrors(errors),
-    __component: "form-elements.date-input" as const,
   }));

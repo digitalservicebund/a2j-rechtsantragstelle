@@ -20,10 +20,10 @@ export const StrapiInputComponentSchema = z
     errors: StrapiErrorRelationSchema,
     width: strapiWidthSchema.transform(strapiWidthToFieldWidth),
     helperText: z.string().nullable().transform(omitNull),
+    __component: z.literal("form-elements.input"),
   })
   .merge(HasOptionalStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: flattenStrapiErrors(errors),
-    __component: "form-elements.input" as const,
   }));
