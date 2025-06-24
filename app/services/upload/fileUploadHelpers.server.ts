@@ -1,6 +1,6 @@
 import { type FileUpload, parseFormData } from "@mjackson/form-data-parser";
 import {
-  ValidatorError,
+  type ValidatorError,
   validationError,
   type ValidationErrorResponseData,
 } from "@rvf/react-router";
