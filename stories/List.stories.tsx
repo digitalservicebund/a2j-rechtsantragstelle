@@ -43,7 +43,7 @@ export const Example: Story = {
         },
         content: faker.lorem.paragraph(),
         image: {
-          url: "/favicon.svg",
+          url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/1_Rechtliche_Unterstuetzung_904342381e.svg",
           alternativeText: "Example SVG marker",
           width: 40,
           height: 40,

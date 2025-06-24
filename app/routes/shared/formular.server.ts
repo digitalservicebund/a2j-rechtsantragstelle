@@ -23,6 +23,7 @@ import {
 } from "~/services/upload/fileUploadHelpers.server";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { filterFormData } from "~/util/filterFormData";
+import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
@@ -87,6 +88,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       translations,
       validFlowPaths,
       flowId,
+      showReportProblem: shouldShowReportProblem(flowId),
     },
     { headers },
   );
