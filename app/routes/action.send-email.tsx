@@ -11,8 +11,7 @@ export const loader = () => redirect("/");
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.clone().formData();
-  // eslint-disable-next-line @typescript-eslint/no-base-to-string
-  const url = formData.get("_url")?.toString() ?? "";
+  const url = formData.get("_url") as string | null;
   const relevantFormData = filterFormData(formData);
   const validationResult = await parseFormData(
     relevantFormData,
