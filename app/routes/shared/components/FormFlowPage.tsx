@@ -28,6 +28,7 @@ export function FormFlowPage() {
     translations,
     validFlowPaths,
     flowId,
+    showReportProblem,
   } = useLoaderData<typeof loader>();
 
   const formFlowMemo = useMemo(
@@ -39,10 +40,6 @@ export function FormFlowPage() {
     }),
     [prunedUserData, validFlowPaths, translations, flowId],
   );
-
-  const showReportProblem =
-    flowId === "/beratungshilfe/antrag" ||
-    flowId === "/prozesskostenhilfe/formular";
 
   useFocusFirstH1();
 
