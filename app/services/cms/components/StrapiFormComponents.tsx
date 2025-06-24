@@ -13,7 +13,6 @@ import { getAutoSuggestInputProps } from "~/services/cms/components/StrapiAutoSu
 import { getCheckboxProps } from "~/services/cms/components/StrapiCheckbox";
 import { getFilesUploadProps } from "~/services/cms/components/StrapiFilesUpload";
 import { getHiddenInputProps } from "~/services/cms/components/StrapiHiddenInput";
-import { getInputProps } from "~/services/cms/components/StrapiInput";
 import { getTextareaProps } from "~/services/cms/components/StrapiTextarea";
 import { getTileGroupProps } from "~/services/cms/components/StrapiTileGroup";
 import { getTimeInputProps } from "~/services/cms/components/StrapiTimeInput";
@@ -29,7 +28,7 @@ const FormComponent = ({
     case "form-elements.auto-suggest-input":
       return <AutoSuggestInput {...getAutoSuggestInputProps(component)} />;
     case "form-elements.input":
-      return <Input {...getInputProps(component)} />;
+      return <Input {...component} />;
     case "form-elements.date-input":
       return <DateInput {...getDateInputProps(component)} />;
     case "form-elements.time-input":

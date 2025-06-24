@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { type InputProps } from "~/components/inputs/Input";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
@@ -11,27 +10,20 @@ import {
   strapiWidthToFieldWidth,
 } from "../models/strapiWidth";
 
-const StrapiInputSchema = z
+export const StrapiInputComponentSchema = z
   .object({
     name: z.string(),
-    label: z.string().nullable(),
+    label: z.string().nullable().transform(omitNull),
     type: z.enum(["text", "number"]),
-    placeholder: z.string().nullable(),
-    suffix: z.string().nullable(),
+    placeholder: z.string().nullable().transform(omitNull),
+    suffix: z.string().nullable().transform(omitNull),
     errors: StrapiErrorRelationSchema,
-    width: strapiWidthSchema,
-    helperText: z.string().nullable(),
+    width: strapiWidthSchema.transform(strapiWidthToFieldWidth),
+    helperText: z.string().nullable().transform(omitNull),
   })
-  .merge(HasOptionalStrapiIdSchema);
-
-type StrapiInput = z.infer<typeof StrapiInputSchema>;
-
-export const StrapiInputComponentSchema = StrapiInputSchema.extend({
-  __component: z.literal("form-elements.input"),
-});
-
-export const getInputProps = (cmsData: StrapiInput): InputProps => ({
-  ...omitNull(cmsData),
-  width: strapiWidthToFieldWidth(cmsData.width),
-  errorMessages: flattenStrapiErrors(cmsData.errors),
-});
+  .merge(HasOptionalStrapiIdSchema)
+  .transform(({ errors, ...cmsData }) => ({
+    ...cmsData,
+    errorMessages: flattenStrapiErrors(errors),
+    __component: "form-elements.input" as const,
+  }));

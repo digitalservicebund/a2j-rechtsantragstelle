@@ -31,7 +31,6 @@ export function getStrapiFormComponent(
 ): StrapiFormComponentInput {
   return {
     type: faker.helpers.arrayElement(["number", "text"]),
-    __component: "form-elements.input",
     label: faker.lorem.word(),
     name: params.name ?? faker.lorem.word(),
     width: "characters3",

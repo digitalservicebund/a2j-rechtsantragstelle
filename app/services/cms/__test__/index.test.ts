@@ -10,6 +10,7 @@ import {
 } from "~/services/cms/index.server";
 import { StrapiFooterSchema } from "~/services/cms/models/StrapiFooter";
 import { type StrapiSchemas } from "~/services/cms/schemas";
+import { StrapiInputComponentSchema } from "../components/StrapiInput";
 import { fetchAllFormFields } from "../fetchAllFormFields";
 import { getStrapiEntry } from "../getStrapiEntry";
 
@@ -31,21 +32,27 @@ describe("services/cms", () => {
 
   describe("fetchEntries", () => {
     test("returns a list of entries", async () => {
+      const component1 = getStrapiFormComponent({ name: "formFieldForStep1" });
+      const component2 = getStrapiFormComponent({ name: "formFieldForStep2" });
       const strapiPages = [
-        getStrapiFlowPage({
-          stepId: "step1",
-          form: [getStrapiFormComponent({ name: "formFieldForStep1" })],
-        }),
-
-        getStrapiFlowPage({
-          stepId: "step2",
-          form: [getStrapiFormComponent({ name: "formFieldForStep2" })],
-        }),
+        getStrapiFlowPage({ stepId: "step1", form: [component1] }),
+        getStrapiFlowPage({ stepId: "step2", form: [component2] }),
       ];
       vi.mocked(getStrapiEntry).mockResolvedValue(strapiPages);
 
+      const expected = [
+        {
+          ...strapiPages[0],
+          form: [StrapiInputComponentSchema.parse(component1)],
+        },
+        {
+          ...strapiPages[1],
+          form: [StrapiInputComponentSchema.parse(component2)],
+        },
+      ];
+
       expect(await fetchEntries({ apiId: "form-flow-pages" })).toEqual(
-        strapiPages,
+        expected,
       );
     });
   });
