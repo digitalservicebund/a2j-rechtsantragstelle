@@ -14,7 +14,6 @@ import { getHiddenInputProps } from "~/services/cms/components/StrapiHiddenInput
 import { getTileGroupProps } from "~/services/cms/components/StrapiTileGroup";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
-import { getSelectProps } from "./StrapiDropdown";
 
 const FormComponent = ({
   component,
@@ -35,7 +34,7 @@ const FormComponent = ({
     case "form-elements.select":
       return <RadioGroup {...component} />;
     case "form-elements.dropdown":
-      return <Select {...getSelectProps(component)} />;
+      return <Select {...component} />;
     case "form-elements.checkbox":
       return <Checkbox {...component} />;
     case "form-elements.tile-group":

@@ -1,37 +1,31 @@
 import { z } from "zod";
-import type { SelectProps } from "~/components/inputs/Select";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
 } from "~/services/cms/flattenStrapiErrors";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { strapiWidthToFieldWidth } from "../models/strapiWidth";
 
-const StrapiDropdownSchema = z
+export const StrapiDropdownComponentSchema = z
   .object({
+    __component: z.literal("form-elements.dropdown"),
     name: z.string(),
-    label: z.string().nullable(),
-    altLabel: z.string().nullable(),
+    label: z.string().nullable().transform(omitNull),
+    altLabel: z.string().nullable().transform(omitNull),
     options: z.array(z.object({ value: z.string(), text: z.string() })),
-    placeholder: z.string().nullable(),
+    placeholder: z.string().nullable().transform(omitNull),
     errors: StrapiErrorRelationSchema,
     width: z
       .enum(["characters16", "characters24", "characters36", "characters54"])
-      .nullable(),
+      .nullable()
+      .transform(
+        (val) =>
+          strapiWidthToFieldWidth(val) as "16" | "24" | "36" | "54" | undefined,
+      ),
   })
-  .merge(HasOptionalStrapiIdSchema);
-
-type StrapiDropdown = z.infer<typeof StrapiDropdownSchema>;
-
-export const StrapiDropdownComponentSchema = StrapiDropdownSchema.extend({
-  __component: z.literal("form-elements.dropdown"),
-});
-
-/**
- * A Strapi "Dropdown" is really just a Select
- */
-export const getSelectProps = (cmsData: StrapiDropdown): SelectProps => ({
-  errorMessages: flattenStrapiErrors(cmsData.errors),
-  ...omitNull(cmsData),
-  width: cmsData.width?.replace("characters", "") as SelectProps["width"],
-});
+  .merge(HasOptionalStrapiIdSchema)
+  .transform(({ errors, ...cmsData }) => ({
+    ...cmsData,
+    errorMessages: flattenStrapiErrors(errors),
+  }));
