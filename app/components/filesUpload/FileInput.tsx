@@ -5,8 +5,8 @@ import InputError from "~/components/inputs/InputError";
 import { translations } from "~/services/translations/translations";
 import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
-import { type ErrorMessageProps } from ".";
-import { useFileHandler } from "../filesUpload/useFileHandler";
+import { type ErrorMessageProps } from "../inputs";
+import { useFileHandler } from "./useFileHandler";
 import { useRef } from "react";
 
 type FileInputProps = {

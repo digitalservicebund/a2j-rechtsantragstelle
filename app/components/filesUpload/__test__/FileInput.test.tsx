@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { FileInput } from "~/components/inputs/FileInput";
+import { FileInput } from "~/components/filesUpload/FileInput";
 import { translations } from "~/services/translations/translations";
 
 vi.mock("react-router", () => ({

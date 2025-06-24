@@ -13,7 +13,7 @@ import {
 } from "~/services/validation/pdfFileSchema";
 import { FilesUploadHeader } from "./FilesUploadHeader";
 import { InlineNotice, type InlineNoticeProps } from "../InlineNotice";
-import { FileInput } from "../inputs/FileInput";
+import { FileInput } from "./FileInput";
 
 export type FilesUploadProps = {
   name: string;
