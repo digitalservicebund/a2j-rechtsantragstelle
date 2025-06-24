@@ -91,7 +91,9 @@ function TileRadio({
             <TileTag tagDescription={tagDescription} />
           </div>
           <span className="ds-label-01-bold">{title}</span>
-          {description && <RichText html={description} />}
+          {description && (
+            <RichText className="ds-subhead" html={description} />
+          )}
         </div>
       </label>
     </div>

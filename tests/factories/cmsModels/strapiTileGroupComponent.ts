@@ -17,8 +17,6 @@ export function getStrapiTileGroupComponent(
       options: tiles.map((title, index) => ({
         title,
         value: `tile ${index}`,
-        description: null,
-        tagDescription: null,
       })),
       errors: [
         {
