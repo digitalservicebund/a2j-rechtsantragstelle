@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasOptionalStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
+import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNotice";
 import { omitNull } from "~/util/omitNull";
 

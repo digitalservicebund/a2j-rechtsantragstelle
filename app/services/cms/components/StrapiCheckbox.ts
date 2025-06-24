@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { type CheckboxProps } from "~/components/inputs/Checkbox";
 import {
   HasOptionalStrapiIdSchema,
   HasStrapiIdSchema,
