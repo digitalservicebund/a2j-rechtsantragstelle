@@ -35,3 +35,12 @@ export async function validatedSession(
   const session = await mainSessionFromCookieHeader(cookieHeader);
   return await validateCSRFToken(request, session);
 }
+
+export async function validateCsrfSessionFormless(request: Request) {
+  const cookieHeader = request.headers.get("Cookie");
+  const session = await mainSessionFromCookieHeader(cookieHeader);
+  const csrfTokensSession = getCSRFFromSession(session);
+  if (!csrfTokensSession) return Result.err(ERROR_MESSAGE_TOKEN_SESSION);
+
+  return Result.ok();
+}

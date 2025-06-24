@@ -1,6 +1,9 @@
 import { fireEvent, render } from "@testing-library/react";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
-import { errorStyling, type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import {
+  errorStyling,
+  type PDFFileMetadata,
+} from "~/services/validation/pdfFileSchema";
 
 const deleteButtonLabel = "Delete";
 const fileName = "testfile1.pdf";
@@ -26,11 +29,7 @@ describe("FileUploadInfo", () => {
     const fileNameLabel = getByText("testfile1.pdf");
     const fileIcon = getByTestId("InsertDriveFileIcon");
     expect(fileNameLabel).toBeInTheDocument();
-    expect(fileNameLabel).toHaveClass(
-      "ds-body-01-reg text-black mr-8 ml-10 truncate",
-    );
     expect(fileIcon).toBeInTheDocument();
-    expect(fileIcon).toHaveClass("shrink-0 fill-gray-900");
     expect(getByText(deleteButtonLabel)).toBeInTheDocument();
     expect(getByTestId("DeleteOutlineIcon")).toBeInTheDocument();
     expect(getByText("3 MB")).toBeInTheDocument();

@@ -27,7 +27,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
   formularArt: grundvoraussetzungenSchema.formularArt.Enum.erstantrag,
   verfahrenArt: grundvoraussetzungenSchema.verfahrenArt.Enum.verfahrenAnwalt,
   versandArt: grundvoraussetzungenSchema.versandArt.Enum.digital,
-  empfaenger: antragstellendePersonSchema.empfaenger.Enum.ich,
+  empfaenger: antragstellendePersonSchema.empfaenger.Enum.myself,
   unterhaltsanspruch: antragstellendePersonSchema.unterhaltsanspruch.Enum.keine,
   hasBankkonto: YesNoAnswer.Enum.yes,
   hasGeldanlage: YesNoAnswer.Enum.yes,
@@ -199,4 +199,5 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
   plz: "10119",
   geburtsdatum: "01.01.1981",
   strasseHausnummer: "Strasse 1",
+  // telefonnummer: "",
 };

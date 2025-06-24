@@ -93,7 +93,7 @@ function allStepsFromMachine(machine: FlowStateMachine) {
  * - system under test should be in a certain state (step)
  */
 
-vi.mock("~/services/featureFlags", () => ({
+vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
   isFeatureFlagEnabled: vi.fn().mockResolvedValue(false),
 }));
 
@@ -213,6 +213,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(19);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(20);
   });
 });

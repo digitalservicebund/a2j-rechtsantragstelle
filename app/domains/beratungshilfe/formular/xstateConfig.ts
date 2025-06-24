@@ -1,7 +1,7 @@
 import merge from "lodash/merge";
-import { zusammenfassungXstateConfig } from "~/domains/beratungshilfe/formular/zusammenfassung/xstateConfig";
+import { hasOptionalString } from "~/domains/guards.server";
 import persoenlicheDatenFlow from "~/domains/shared/formular/persoenlicheDaten/flow.json";
-import { config } from "~/services/env/env.server";
+import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
 import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
@@ -13,8 +13,6 @@ import type { BeratungshilfeFormularUserData } from "./index";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
-
-const showZusammenfassung = config().ENVIRONMENT !== "production";
 
 export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
@@ -43,7 +41,11 @@ export const beratungshilfeXstateConfig = {
     rechtsproblem: rechtsproblemXstateConfig,
     "finanzielle-angaben": beratungshilfeFinanzielleAngabenXstateConfig,
     "persoenliche-daten": merge(persoenlicheDatenFlow, {
-      meta: { done: beratungshilfePersoenlicheDatenDone },
+      meta: {
+        done: ({ context }) =>
+          beratungshilfePersoenlicheDatenDone({ context }) &&
+          hasOptionalString(context.telefonnummer),
+      },
       states: {
         start: {
           on: {
@@ -80,21 +82,12 @@ export const beratungshilfeXstateConfig = {
           on: { SUBMIT: "#weitere-angaben" },
         },
       },
-    }),
+    } satisfies Config<BeratungshilfeFormularUserData>),
     "weitere-angaben": {
       id: "weitere-angaben",
-      meta: { done: beratungshilfePersoenlicheDatenDone },
-      on: {
-        BACK: "#persoenliche-daten.telefonnummer",
-        SUBMIT: showZusammenfassung ? "#zusammenfassung" : "#abgabe",
-      },
+      meta: { done: weitereAngabenDone },
+      on: { BACK: "#persoenliche-daten.telefonnummer", SUBMIT: "#abgabe" },
     },
-    ...(showZusammenfassung && {
-      zusammenfassung: zusammenfassungXstateConfig,
-    }),
-
-    abgabe: await abgabeXstateConfig(
-      showZusammenfassung ? "#zusammenfassung" : "#weitere-angaben",
-    ),
+    abgabe: await abgabeXstateConfig("#weitere-angaben"),
   },
 } satisfies Config<BeratungshilfeFormularUserData>;

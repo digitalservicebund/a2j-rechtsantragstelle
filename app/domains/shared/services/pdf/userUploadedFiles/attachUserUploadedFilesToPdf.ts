@@ -2,7 +2,7 @@ import { PDFDocument } from "pdf-lib";
 import { type FlowId } from "~/domains/flowIds";
 import { downloadUserFileFromS3 } from "~/services/externalDataStorage/userFileS3Helpers";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
-import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
 
 export type RelevantFiles = Array<
   [boolean | undefined, PDFFileMetadata[] | undefined]

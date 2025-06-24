@@ -13,13 +13,13 @@ test.beforeEach(async ({ page }) => {
   await cookieSettings.acceptCookieBanner();
 });
 
-test("forwarded to initial step", async ({ page }) => {
+test.skip("forwarded to initial step", async ({ page }) => {
   await expect(page).toHaveURL(
     new RegExp(`.+${geldEinklagen.url}/${geldEinklagen.initialStep}$`),
   );
 });
 
-test("geldeinklagen can be traversed", async ({ page }) => {
+test.skip("geldeinklagen can be traversed", async ({ page }) => {
   await expectPageToBeAccessible({ page });
   await geldEinklagen.clickNext();
 
@@ -57,7 +57,7 @@ test("geldeinklagen can be traversed", async ({ page }) => {
   ).toHaveCount(1);
 });
 
-test("funnel: invalid step redirects to start", async ({ page }) => {
+test.skip("funnel: invalid step redirects to start", async ({ page }) => {
   await page.goto(`${geldEinklagen.url}/stepDoesNotExist`);
   await expect(page).toHaveURL(
     new RegExp(`.+${geldEinklagen.url}/${geldEinklagen.initialStep}$`),

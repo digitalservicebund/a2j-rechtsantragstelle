@@ -1,8 +1,8 @@
-import type { GenericGuard } from "~/domains/guards.server";
-import type { BeratungshilfeRechtsproblemUserData } from "./userData";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import { type GenericGuard } from "~/domains/guards.server";
 
 export const rechtsproblemDone: GenericGuard<
-  BeratungshilfeRechtsproblemUserData
+  BeratungshilfeFormularUserData
 > = ({ context }) =>
   Boolean(
     context.bereich &&

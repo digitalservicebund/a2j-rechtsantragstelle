@@ -1,3 +1,7 @@
+import { configDotenv } from "dotenv";
+
+configDotenv({ override: true }); // override is needed to enable live reloading on change
+
 type Config = {
   STRAPI_API: string;
   STRAPI_HOST: string;
@@ -5,10 +9,8 @@ type Config = {
   CMS: string;
   REDIS_ENDPOINT: string;
   REDIS_PASSWORD: string;
-  FIT_CONNECT_ADAPTER_ENDPOINT: string;
   COOKIE_SESSION_SECRET: string;
   CONTENT_FILE_PATH: string;
-  ENVIRONMENT: string;
   CSP_REPORT_URI?: string;
   S3_REGION: string;
   S3_ENDPOINT: string;
@@ -17,41 +19,27 @@ type Config = {
   S3_DATA_STORAGE_BUCKET_NAME: string;
 };
 
-let instance: Config | undefined = undefined;
-
 export function config(): Config {
-  if (instance === undefined) {
-    const STRAPI_API = process.env.STRAPI_API?.trim();
-    const ENVIRONMENT = process.env.ENVIRONMENT?.trim() ?? "development";
+  const STRAPI_API = process.env.STRAPI_API;
 
-    instance = {
-      STRAPI_API: STRAPI_API ?? "",
-      STRAPI_HOST: STRAPI_API?.replace("/api/", "") ?? "",
-      STRAPI_ACCESS_KEY: process.env.STRAPI_ACCESS_KEY?.trim() ?? "",
-      CMS: process.env.CMS?.trim() ?? "FILE",
-      REDIS_ENDPOINT: process.env.REDIS_ENDPOINT?.trim() ?? "localhost:6380",
-      REDIS_PASSWORD: process.env.REDIS_PASSWORD?.trim() ?? "",
-      FIT_CONNECT_ADAPTER_ENDPOINT:
-        process.env.FIT_CONNECT_ADAPTER_ENDPOINT?.trim() ??
-        "http://localhost:8080",
-      COOKIE_SESSION_SECRET:
-        process.env.COOKIE_SESSION_SECRET?.trim() ?? "s3cr3t",
-      CONTENT_FILE_PATH:
-        process.env.CONTENT_FILE_PATH?.trim() ?? "./content.json",
-      ENVIRONMENT,
-      CSP_REPORT_URI: process.env.CSP_REPORT_URI?.trim(),
-      S3_REGION: process.env.AWS_S3_REGION?.trim() ?? "eu-central-1",
-      S3_ENDPOINT:
-        process.env.S3_ENDPOINT?.trim() ??
-        "https://s3.localhost.localstack.cloud:4566",
-      S3_DATA_STORAGE_ACCESS_KEY:
-        process.env.S3_DATA_STORAGE_ACCESS_KEY?.trim() ?? "test",
-      S3_DATA_STORAGE_SECRET_KEY:
-        process.env.S3_DATA_STORAGE_SECRET_KEY?.trim() ?? "test",
-      S3_DATA_STORAGE_BUCKET_NAME:
-        process.env.S3_DATA_STORAGE_BUCKET_NAME?.trim() ?? "a2j-data-storage",
-    };
-  }
-
-  return instance;
+  return {
+    STRAPI_API: STRAPI_API ?? "",
+    STRAPI_HOST: STRAPI_API?.replace("/api/", "") ?? "",
+    STRAPI_ACCESS_KEY: process.env.STRAPI_ACCESS_KEY ?? "",
+    CMS: process.env.CMS ?? "FILE",
+    REDIS_ENDPOINT: process.env.REDIS_ENDPOINT ?? "localhost:6380",
+    REDIS_PASSWORD: process.env.REDIS_PASSWORD ?? "",
+    COOKIE_SESSION_SECRET: process.env.COOKIE_SESSION_SECRET ?? "s3cr3t",
+    CONTENT_FILE_PATH: process.env.CONTENT_FILE_PATH ?? "./content.json",
+    CSP_REPORT_URI: process.env.CSP_REPORT_URI,
+    S3_REGION: process.env.AWS_S3_REGION ?? "eu-central-1",
+    S3_ENDPOINT:
+      process.env.S3_ENDPOINT ?? "https://s3.localhost.localstack.cloud:4566",
+    S3_DATA_STORAGE_ACCESS_KEY:
+      process.env.S3_DATA_STORAGE_ACCESS_KEY ?? "test",
+    S3_DATA_STORAGE_SECRET_KEY:
+      process.env.S3_DATA_STORAGE_SECRET_KEY ?? "test",
+    S3_DATA_STORAGE_BUCKET_NAME:
+      process.env.S3_DATA_STORAGE_BUCKET_NAME ?? "a2j-data-storage",
+  };
 }

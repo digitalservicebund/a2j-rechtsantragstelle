@@ -3,7 +3,7 @@ import { type ValidationResult } from "@rvf/react-router";
 import { withZod } from "@rvf/zod";
 import { z, type ZodTypeAny } from "zod";
 import { type UserData } from "~/domains/userData";
-import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
 
 export async function validateUploadedFile(
   inputName: string,

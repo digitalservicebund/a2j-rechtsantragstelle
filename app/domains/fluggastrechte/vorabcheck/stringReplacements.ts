@@ -40,6 +40,7 @@ export function getCompensationPaymentString({
         compensationPayment: COMPENSATION_VALUE_250,
       };
     }
+    case "notPossibleCalculateDistance":
     default: {
       return {};
     }

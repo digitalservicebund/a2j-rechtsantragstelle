@@ -29,6 +29,7 @@ export const beratungshilfeFinanzielleAngabeDone: BeratungshilfeFinanzielleAngab
           wohnungDone({ context }) &&
           andereUnterhaltszahlungenDone({ context })
         );
+      case undefined:
+        return false;
     }
-    return false;
   };

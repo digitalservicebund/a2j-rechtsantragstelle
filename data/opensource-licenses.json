@@ -69,7 +69,6 @@
     "licenses": "MIT",
     "repository": "https://github.com/airjp73/remix-validated-form",
     "publisher": "Aaron Pettengill",
-    "email": "pettengill.aaron@gmail.com",
     "path": "a2j-rechtsantragstelle/node_modules/@rvf/react-router",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@rvf/react-router/README.md",
     "direct": true
@@ -247,14 +246,6 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/mustache/LICENSE",
     "direct": true
   },
-  "node-forge": {
-    "licenses": "(BSD-3-Clause OR GPL-2.0)",
-    "repository": "https://github.com/digitalbazaar/forge",
-    "publisher": "Digital Bazaar, Inc.",
-    "email": "support@digitalbazaar.com",
-    "path": "a2j-rechtsantragstelle/node_modules/node-forge",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/node-forge/LICENSE"
-  },
   "pako": {
     "licenses": "(MIT AND Zlib)",
     "repository": "https://github.com/nodeca/pako",
@@ -279,8 +270,16 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/pdfkit/LICENSE",
     "direct": true
   },
-  "posthog-js": {
+  "pino-http": {
     "licenses": "MIT",
+    "repository": "https://github.com/pinojs/pino-http",
+    "publisher": "David Mark Clements",
+    "path": "a2j-rechtsantragstelle/node_modules/pino-http",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/pino-http/LICENSE",
+    "direct": true
+  },
+  "posthog-js": {
+    "licenses": "Custom: LICENSE",
     "repository": "https://github.com/PostHog/posthog-js",
     "publisher": "hey@posthog.com",
     "path": "a2j-rechtsantragstelle/node_modules/posthog-js",
@@ -408,7 +407,7 @@
     "licenses": "MIT",
     "repository": "https://github.com/colinhacks/zod",
     "publisher": "Colin McDonnell",
-    "email": "colin@colinhacks.com",
+    "email": "zod@colinhacks.com",
     "path": "a2j-rechtsantragstelle/node_modules/zod",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/zod/LICENSE",
     "direct": true

@@ -36,9 +36,11 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: "p-konto-probleme",
+            target: "zwischenseite-unterhalt",
+            guard: ({ context }) =>
+              context.hasPKonto === "ja" || context.hasPKonto === "nein",
           },
-          "zwischenseite-unterhalt",
+          "p-konto-probleme",
         ],
         BACK: "kontopfaendung",
       },
@@ -52,7 +54,14 @@ export const kontopfaendungWegweiserXstateConfig = {
     "zwischenseite-unterhalt": {
       on: {
         SUBMIT: "kinder",
-        BACK: "p-konto-probleme",
+        BACK: [
+          {
+            target: "p-konto",
+            guard: ({ context }) =>
+              context.hasPKonto === "ja" || context.hasPKonto === "nein",
+          },
+          "p-konto-probleme",
+        ],
       },
     },
     kinder: {
@@ -69,7 +78,15 @@ export const kontopfaendungWegweiserXstateConfig = {
     },
     "kinder-wohnen-zusammen": {
       on: {
-        SUBMIT: "kinder-unterhalt",
+        SUBMIT: [
+          {
+            target: "kinder-unterhalt",
+            guard: ({ context }) =>
+              context.kinderWohnenZusammen === "nein" ||
+              context.kinderWohnenZusammen === "teilweise",
+          },
+          "partner",
+        ],
         BACK: "kinder",
       },
     },
@@ -84,20 +101,24 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: "partner-unterhalt",
-            guard: ({ context }) =>
-              context.verheiratet === "geschieden" ||
-              context.verheiratet === "verwitwet",
+            guard: ({ context }) => context.verheiratet === "geschieden",
           },
           {
             target: "partner-wohnen-zusammen",
-            guard: ({ context }) =>
-              !!context.verheiratet && context.verheiratet !== "nein",
+            guard: ({ context }) => context.verheiratet === "ja",
           },
           "zwischenseite-einkuenfte",
         ],
         BACK: [
           {
             target: "kinder-unterhalt",
+            guard: ({ context }) =>
+              context.hasKinder === "yes" &&
+              (context.kinderWohnenZusammen === "nein" ||
+                context.kinderWohnenZusammen === "teilweise"),
+          },
+          {
+            target: "kinder-wohnen-zusammen",
             guard: ({ context }) => context.hasKinder === "yes",
           },
           "kinder",
@@ -106,7 +127,16 @@ export const kontopfaendungWegweiserXstateConfig = {
     },
     "partner-wohnen-zusammen": {
       on: {
-        SUBMIT: "partner-unterhalt",
+        SUBMIT: [
+          {
+            target: "zwischenseite-einkuenfte",
+            guard: ({ context }) => context.partnerWohnenZusammen === "yes",
+          },
+          {
+            target: "partner-unterhalt",
+            guard: ({ context }) => context.partnerWohnenZusammen === "no",
+          },
+        ],
         BACK: "partner",
       },
     },
@@ -115,10 +145,12 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: "zwischenseite-einkuenfte",
         BACK: [
           {
-            target: "partner",
-            guard: ({ context }) => context.verheiratet === "nein",
+            target: "partner-wohnen-zusammen",
+            guard: ({ context }) =>
+              context.verheiratet === "ja" &&
+              context.partnerWohnenZusammen === "no",
           },
-          "partner-wohnen-zusammen",
+          "partner",
         ],
       },
     },
@@ -129,7 +161,15 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "partner-unterhalt",
             guard: ({ context }) =>
-              !!context.verheiratet && context.verheiratet !== "nein",
+              (context.verheiratet === "ja" &&
+                context.partnerWohnenZusammen === "no") ||
+              context.verheiratet === "geschieden",
+          },
+          {
+            target: "partner-wohnen-zusammen",
+            guard: ({ context }) =>
+              context.verheiratet === "ja" &&
+              context.partnerWohnenZusammen === "yes",
           },
           "partner",
         ],
@@ -149,7 +189,17 @@ export const kontopfaendungWegweiserXstateConfig = {
     },
     "arbeit-art": {
       on: {
-        SUBMIT: "nachzahlung-arbeitgeber",
+        SUBMIT: [
+          {
+            target: "sozialleistungen",
+            guard: ({ context }) =>
+              (context.arbeitArt?.selbstaendig === "on" &&
+                context.arbeitArt?.angestellt === "off") ||
+              (context.arbeitArt?.selbstaendig === "off" &&
+                context.arbeitArt?.angestellt === "off"),
+          },
+          "nachzahlung-arbeitgeber",
+        ],
         BACK: "arbeit",
       },
     },
@@ -193,7 +243,16 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: [
           {
             target: "einmalzahlung-arbeitgeber",
-            guard: ({ context }) => context.hasArbeit === "yes",
+            guard: ({ context }) =>
+              context.hasArbeit === "yes" && !context.arbeitArt,
+          },
+          {
+            target: "arbeit-art",
+            guard: ({ context }) =>
+              (context.arbeitArt?.selbstaendig === "on" &&
+                context.arbeitArt?.angestellt === "off") ||
+              (context.arbeitArt?.selbstaendig === "off" &&
+                context.arbeitArt?.angestellt === "off"),
           },
           "arbeit",
         ],

@@ -35,7 +35,6 @@ That sparks the question if we could do the type generation from XSD by ourselve
 For the initial generation we could even still use a library for the one-time generation.
 
 - Advantages:
-
   - No microservice needed:
     - No additional infrastructure
     - No interoperability issues between two services: Functions/methods can be adapted more easily when the data structure changes (e.g. name of a variable or adding/removing variables)
@@ -59,7 +58,6 @@ That would need a new service with according interface in our cluster which enta
 Also, we create two very distinct places to handle business logic.
 
 - Advantages:
-
   - A well-maintained library
   - could be used as a microservice:
     - Adapting to new XJustiz versions would be easier because it can be done with less manual customisation.

@@ -21,7 +21,6 @@ Having multiple buckets would mean:
 We propose using a single OTC S3 bucket instance shared between RAST and ZOV, with a unified access service layer that provides scoped interfaces for different use cases. The architecture would look like:
 
 1. Single S3 Bucket
-
    - Shared storage infrastructure for both RAST and ZOV
    - Different retention policies based on prefix:
      - ZOV consent files: 365 days retention
@@ -29,7 +28,6 @@ We propose using a single OTC S3 bucket instance shared between RAST and ZOV, wi
    - Common access controls and other configurations
 
 2. Unified S3 Access Service
-
    - Implements proper error handling and logging
    - Manages bucket lifecycle and configuration
    - Handles different retention periods through object metadata and lifecycle rules

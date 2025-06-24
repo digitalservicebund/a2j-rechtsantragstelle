@@ -2,15 +2,28 @@ import { useEffect, useState } from "react";
 import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
-const DATA_LIST_API_PATH = "/data-list-options";
+const API_PATH = "/api";
+
+function getResourcePath(type: DataListType): string {
+  switch (type) {
+    case "airports":
+      return `${API_PATH}/airports/list`;
+    case "airlines":
+      return `${API_PATH}/airlines/list`;
+    default: {
+      throw new Error(`Unhandled type: ${String(type)}`);
+    }
+  }
+}
 
 const useDataListOptions = (dataListType: DataListType) => {
   const [dataListOptions, setDataListOptions] = useState<DataListOptions[]>([]);
+  const resourcePath = getResourcePath(dataListType);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${DATA_LIST_API_PATH}/${dataListType}`);
+        const response = await fetch(resourcePath);
 
         if (response.ok) {
           const json = await response.json();
@@ -23,7 +36,7 @@ const useDataListOptions = (dataListType: DataListType) => {
 
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData();
-  }, [dataListType]);
+  }, [resourcePath, dataListType]);
 
   return dataListOptions;
 };

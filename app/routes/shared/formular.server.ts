@@ -4,41 +4,18 @@ import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { getArraySummaryData } from "~/services/array/getArraySummaryData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
-import {
-  fetchFlowPage,
-  fetchMeta,
-  fetchMultipleTranslations,
-} from "~/services/cms/index.server";
-import { isStrapiArraySummary } from "~/services/cms/models/isStrapiArraySummary";
-import { isStrapiSelectComponent } from "~/services/cms/models/isStrapiSelectComponent";
-import { buildFormularServerTranslations } from "~/services/flow/formular/buildFormularServerTranslations";
+import { retrieveContentData } from "~/services/flow/formular/contentData/retrieveContentData";
+import { getUserDataAndFlow } from "~/services/flow/formular/userDataAndFlow/getUserDataAndFlow";
 import { addPageDataToUserData } from "~/services/flow/pageData";
-import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
-import {
-  validateFlowTransition,
-  getFlowTransitionConfig,
-} from "~/services/flow/server/flowTransitionValidation";
 import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
-import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { logWarning } from "~/services/logging";
-import { stepMeta } from "~/services/meta/formStepMeta";
-import {
-  parentFromParams,
-  skipFlowParamAllowedAndEnabled,
-} from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
-import {
-  getSessionData,
-  getSessionManager,
-  updateSession,
-} from "~/services/session.server";
+import { getSessionManager, updateSession } from "~/services/session.server";
 import { deleteArrayItem } from "~/services/session.server/arrayDeletion";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
-import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import {
   deleteUserFile,
@@ -46,185 +23,70 @@ import {
   uploadUserFile,
 } from "~/services/upload/fileUploadHelpers.server";
 import { validateFormData } from "~/services/validation/validateFormData.server";
-import { applyStringReplacement } from "~/util/applyStringReplacement";
-import { getButtonNavigationProps } from "~/util/buttonProps";
 import { filterFormData } from "~/util/filterFormData";
 
-export const loader = async ({
-  params,
-  request,
-  context,
-}: LoaderFunctionArgs) => {
-  const { pathname, searchParams } = new URL(request.url);
-  const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
-  const cookieHeader = request.headers.get("Cookie");
-  const { userData, debugId } = await getSessionData(flowId, cookieHeader);
-  context.debugId = debugId; // For showing in errors
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+  const resultUserAndFlow = await getUserDataAndFlow(request);
 
-  const currentFlow = flows[flowId];
-  const { prunedData: prunedUserData, validFlowPaths } =
-    await pruneIrrelevantData(userData, flowId);
-  const userDataWithPageData = addPageDataToUserData(prunedUserData, {
-    arrayIndexes,
-  });
-  const flowController = buildFlowController({
-    config: currentFlow.config,
-    data: userDataWithPageData,
-    guards: currentFlow.guards,
-  });
-
-  if (
-    !flowController.isReachable(stepId) &&
-    !skipFlowParamAllowedAndEnabled(searchParams)
-  )
-    return redirectDocument(flowController.getInitial());
-
-  const flowTransitionConfig = getFlowTransitionConfig(currentFlow);
-  if (flowTransitionConfig) {
-    const eligibilityResult = await validateFlowTransition(
-      flows,
-      cookieHeader,
-      flowTransitionConfig,
-    );
-
-    if (!eligibilityResult.isEligible && eligibilityResult.redirectTo) {
-      return redirectDocument(eligibilityResult.redirectTo);
-    }
+  if (resultUserAndFlow.isErr) {
+    return redirectDocument(resultUserAndFlow.error.redirectTo);
   }
 
-  const [formPageContent, parentMeta, translations] = await Promise.all([
-    fetchFlowPage("form-flow-pages", flowId, stepId),
-    fetchMeta({ filterValue: parentFromParams(pathname, params) }),
-    fetchMultipleTranslations([
-      `${flowId}/menu`,
-      "defaultTranslations",
+  const {
+    userData: userDataWithPageData,
+    flow: { id: flowId, controller: flowController, validFlowPaths },
+    page: { stepId, arrayIndexes },
+    migration,
+  } = resultUserAndFlow.value;
+
+  const { pathname } = new URL(request.url);
+  const cookieHeader = request.headers.get("Cookie");
+
+  const [contentData, { headers, csrf }] = await Promise.all([
+    retrieveContentData(
+      pathname,
+      params,
+      userDataWithPageData,
+      migration.userData,
+    ),
+    updateMainSession({
+      cookieHeader,
       flowId,
-      `${flowId}/summaryPage`,
-      "accessibility",
-    ]),
+      stepId,
+    }),
   ]);
 
-  const arrayCategories = formPageContent.pre_form
-    .filter(isStrapiArraySummary)
-    .map((strapiSummary) => strapiSummary.category);
-
-  const arraySummaryData = getArraySummaryData(
-    arrayCategories,
-    flowController.getRootMeta()?.arrays,
-    userDataWithPageData,
-  );
-
-  const migrationData = await getMigrationData(
+  const translations = contentData.getTranslations();
+  const navItems = contentData.getNavItems(flowController, stepId);
+  const cmsContent = contentData.getCMSContent();
+  const formElements = contentData.getFormElements();
+  const meta = contentData.getMeta();
+  const arraySummaryData = contentData.arraySummaryData(flowController);
+  const stepData = contentData.getStepData();
+  const buttonNavigationProps = contentData.getButtonNavigation(
+    flowController,
+    pathname,
     stepId,
-    flowId,
-    currentFlow,
-    cookieHeader,
+    arrayIndexes,
   );
-
-  const { stringTranslations, cmsContent } =
-    await buildFormularServerTranslations({
-      currentFlow,
-      flowTranslations: translations[flowId],
-      migrationData,
-      arrayCategories,
-      overviewTranslations: translations[`${flowId}/summaryPage`],
-      formPageContent,
-      userDataWithPageData,
-    });
-
-  // Inject heading into <legend> inside radio groups
-  // TODO: only do for pages with *one* select?
-  const formElements = cmsContent.formContent.map((strapiFormElement) => {
-    if (
-      isStrapiSelectComponent(strapiFormElement) &&
-      strapiFormElement.label === null &&
-      cmsContent.heading
-    )
-      strapiFormElement.altLabel = cmsContent.heading;
-    return strapiFormElement;
-  });
-
-  const meta = applyStringReplacement(
-    stepMeta(formPageContent.pageMeta, parentMeta),
-    stringTranslations,
-  );
-
-  // Retrieve user data for current step
-  const fieldNames = formPageContent.form.map((entry) => entry.name);
-  const stepData = fieldsFromContext(userDataWithPageData, fieldNames);
-
-  const { headers, csrf } = await updateMainSession({
-    cookieHeader,
-    flowId,
-    stepId,
-  });
-
-  const backDestination = flowController.getPrevious(stepId);
-
-  const backDestinationWithArrayIndexes =
-    backDestination && arrayIndexes
-      ? insertIndexesIntoPath(pathname, backDestination, arrayIndexes)
-      : backDestination;
-
-  const defaultStrings = translations.defaultTranslations;
-
-  const buttonNavigationProps = getButtonNavigationProps({
-    backButtonLabel:
-      cmsContent.backButtonLabel ?? defaultStrings.backButtonDefaultLabel,
-    nextButtonLabel:
-      cmsContent.nextButtonLabel ?? defaultStrings.nextButtonDefaultLabel,
-    isFinal: flowController.isFinal(stepId),
-    backDestination: backDestinationWithArrayIndexes,
-  });
-
-  const navItems =
-    navItemsFromStepStates(
-      stepId,
-      flowController.stepStates(),
-      translations[`${flowId}/menu`],
-    ) ?? [];
-
-  const navigationA11yLabels = {
-    menuLabel: translations.accessibility.navigationLabel,
-    itemFinished: translations.accessibility.navigationItemFinishedLabel,
-    itemOpen: translations.accessibility.navigationItemOpenLabel,
-  };
-
-  const navigationMobileLabels = {
-    currentArea: defaultStrings.navigationMobileCurrentArea,
-    closeMenu: defaultStrings.navigationMobileCloseMenu,
-    toggleMenu: defaultStrings.navigationMobileToggleMenu,
-  };
 
   return data(
     {
       arraySummaryData,
-      prunedUserData,
+      prunedUserData: userDataWithPageData,
       buttonNavigationProps,
       content: cmsContent.content,
       csrf,
       formElements,
       heading: cmsContent.heading,
       meta,
-      migration: {
-        userData: migrationData,
-        sortedFields:
-          "migration" in currentFlow
-            ? currentFlow.migration.sortedFields
-            : undefined,
-        buttonUrl:
-          "migration" in currentFlow
-            ? currentFlow.migration.buttonUrl
-            : undefined,
-      },
+      migration,
       navItems,
       isValidationPage: flowController.getMeta(stepId)?.expandValidation,
       postFormContent: cmsContent.postFormContent,
       preHeading: cmsContent.preHeading,
       stepData,
-      translations: stringTranslations,
-      navigationA11yLabels,
-      navigationMobileLabels,
+      translations,
       validFlowPaths,
       flowId,
     },

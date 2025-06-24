@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import Accordion from "../app/components/Accordion";
 import Container from "../app/components/Container";
+import { reactRouterContext } from ".storybook/reactRouterContext";
 
 const meta = {
   title: "Page/Accordion",
@@ -19,7 +20,7 @@ export const Example: Story = {
   decorators: [
     (Story) => (
       <Container paddingTop="32" paddingBottom="40">
-        <Story />
+        {reactRouterContext(Story)}
       </Container>
     ),
   ],

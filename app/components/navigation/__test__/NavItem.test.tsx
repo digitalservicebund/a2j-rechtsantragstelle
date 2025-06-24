@@ -2,6 +2,14 @@ import { render, screen } from "@testing-library/react";
 import { type NavState } from "~/services/navigation/navState";
 import { NavItem } from "../NavItem";
 
+vi.mock("react-router", () => ({
+  useRouteLoaderData: vi.fn(() => ({
+    accessibilityTranslations: {
+      navigationItemFinishedLabel: "Item finished",
+    },
+  })),
+}));
+
 describe("NavigationItem", () => {
   const destination = "/destination";
   const label = "navLabel";
@@ -20,6 +28,7 @@ describe("NavigationItem", () => {
 
     const checkCircle = screen.getByTestId("CheckCircleIcon");
     expect(checkCircle).toHaveClass("shrink-0 fill-green-700");
+    expect(checkCircle).toHaveAttribute("aria-label", "Item finished");
   });
 
   it("renders navigation item with the correct classNames when state is disabled", () => {

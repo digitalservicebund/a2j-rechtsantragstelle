@@ -26,6 +26,7 @@ export function getCompensationPayment({
     case "shortDistance": {
       return COMPENSATION_VALUE_250;
     }
+    case "notPossibleCalculateDistance":
     default: {
       return "";
     }

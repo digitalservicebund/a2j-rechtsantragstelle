@@ -1,4 +1,3 @@
-// This file is auto-generated. Do not edit manually.
 import { type TranslationRecord } from "~/services/translations/getTranslationByKey";
 
 export const translations = {
@@ -129,6 +128,25 @@ export const translations = {
     },
     mainNavigationAriaLabel: {
       de: "Hauptmenü",
+    },
+  },
+  navigationMobile: {
+    currentArea: {
+      de: "Bereich",
+    },
+    closeMenu: {
+      de: "Close menu",
+    },
+    toggleMenu: {
+      de: "Main menu toggle",
+    },
+  },
+  buttonNavigation: {
+    backButtonDefaultLabel: {
+      de: "Zurück",
+    },
+    nextButtonDefaultLabel: {
+      de: "Weiter",
     },
   },
 } satisfies TranslationRecord;

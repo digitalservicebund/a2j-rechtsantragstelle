@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { bereich } from "~/domains/beratungshilfe/formular/rechtsproblem/userData";
-import { rsvCoverage } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/userData";
 import { staatlicheLeistungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -41,10 +40,10 @@ export const kidsSchema = z
 
 export const beratungshilfeVorabcheckInputSchema = {
   rechtsschutzversicherung: YesNoAnswer,
-  rsvCoverage: z.union([
-    rsvCoverage,
-    z.enum(["tooExpensive"], customRequiredErrorMessage),
-  ]),
+  rsvCoverage: z.enum(
+    ["yes", "partly", "tooExpensive", "no", "unknown"],
+    customRequiredErrorMessage,
+  ),
   klageEingereicht: YesNoAnswer,
   hamburgOderBremen: YesNoAnswer,
   beratungshilfeBeantragt: YesNoAnswer,

@@ -7,7 +7,7 @@ import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { startFinanzielleAngabenPartner } from "tests/e2e/domains/shared/finanzielleAngaben/finanzielleAngabenPartner";
 import { startWeitereAngaben } from "tests/e2e/domains/shared/weitereAngaben";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
-import { isFeatureFlagEnabled } from "~/services/featureFlags";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
 import { startFinanzielleAngabenGrundsicherung } from "./finanzielleAngabenGrundsicherung";
@@ -91,7 +91,7 @@ test("invalid array index redirects to initial step of subflow", async ({
 async function startDocumentUpload(page: Page) {
   // beratungshilfe/antrag/abgabe/dokumente
   await expectPageToBeAccessible({ page });
-  await page.getByRole("button", { name: "Weiter" }).click();
+  await page.getByRole("button", { name: "Weiter", exact: true }).click();
 
   // Test empty form submission
   const errorMessage = page.getByTestId("inputError");
@@ -149,7 +149,7 @@ async function startDocumentUpload(page: Page) {
     .setInputFiles(dummyFilePath);
   await expect(fileUploadInfo).toBeVisible();
   await expect(errorMessage).not.toBeVisible();
-  await page.getByRole("button", { name: "Weiter" }).click();
+  await page.getByRole("button", { name: "Weiter", exact: true }).click();
 }
 async function startOnlineAbgabe(page: Page) {
   // beratungshilfe/antrag/abgabe/art

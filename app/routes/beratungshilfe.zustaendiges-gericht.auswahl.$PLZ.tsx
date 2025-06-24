@@ -9,7 +9,6 @@ import Container from "~/components/Container";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import Heading from "~/components/Heading";
 import CustomControl from "~/components/inputs/autoSuggestInput/customComponents/CustomControl";
-import CustomInput from "~/components/inputs/autoSuggestInput/customComponents/CustomInput";
 import RichText from "~/components/RichText";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
 import { type DataListOptions } from "~/services/dataListOptions/getDataListOptions";
@@ -18,6 +17,7 @@ import {
   fetchStreetnamesForZipcode,
   buildOpenPlzResultUrl,
 } from "~/services/gerichtsfinder/openPLZ";
+import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -37,9 +37,9 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     fetchMeta({ filterValue }),
   ]);
 
-  const resultListHeading = applyStringReplacement(common.resultListHeading, {
-    postcode: zipCode ?? "",
-  });
+  const resultListHeading = parseAndSanitizeMarkdown(
+    applyStringReplacement(common.resultListHeading, { postcode: zipCode }),
+  );
 
   return {
     resultListHeading,
@@ -88,7 +88,6 @@ export default function Index() {
               onChange={(option) => setSelectedStreet(option)}
               components={{
                 DropdownIndicator: null,
-                Input: CustomInput,
                 Control: CustomControl,
               }}
             />

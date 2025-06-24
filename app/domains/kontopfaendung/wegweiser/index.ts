@@ -22,6 +22,8 @@ import {
   getSchuldnerberatungsstelleStrings,
   getAmtsgerichtStrings,
   getInfoZumPKontoStrings,
+  getHasErhöhungStrings,
+  getArbeitStrings,
 } from "./stringReplacements";
 import { type KontopfaendungWegweiserUserData } from "./userData";
 import { kontopfaendungWegweiserXstateConfig } from "./xStateConfig";
@@ -31,6 +33,7 @@ export const kontopfaendungWegweiser = {
   config: kontopfaendungWegweiserXstateConfig,
   guards: {},
   stringReplacements: (userData: KontopfaendungWegweiserUserData) => ({
+    ...getArbeitStrings(userData),
     ...getPKontoStrings(userData),
     ...getPrivilegierteForderungStrings(userData),
     ...getErhoehungsbetragStrings(userData),
@@ -53,5 +56,6 @@ export const kontopfaendungWegweiser = {
     ...getSchuldnerberatungsstelleStrings(userData),
     ...getAmtsgerichtStrings(userData),
     ...getInfoZumPKontoStrings(userData),
+    ...getHasErhöhungStrings(userData),
   }),
 } satisfies Flow;

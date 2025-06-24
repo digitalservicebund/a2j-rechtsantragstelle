@@ -1,3 +1,4 @@
+import { hasOptionalString } from "~/domains/guards.server";
 import type {
   Config,
   FlowConfigTransitions,
@@ -11,7 +12,11 @@ export function getProzesskostenhilfePersoenlicheDatenXstateConfig(
   return {
     id: "persoenliche-daten",
     initial: "start",
-    meta: { done: prozesskostenhilfePersoenlicheDatenDone },
+    meta: {
+      done: ({ context }) =>
+        prozesskostenhilfePersoenlicheDatenDone({ context }) &&
+        hasOptionalString(context.telefonnummer as Partial<string>),
+    },
     states: {
       start: {
         on: {

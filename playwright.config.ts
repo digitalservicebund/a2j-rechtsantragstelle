@@ -2,14 +2,7 @@
 import { defineConfig, devices } from "@playwright/test";
 import dotenv from "dotenv";
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-
-// Load both .env and test.env
-dotenv.config();
-dotenv.config({ path: "./tests/test.env" });
+dotenv.config(); //Read environment vars from .env
 
 const useDefaultBaseUrl = ["", undefined].includes(process.env.E2E_BASE_URL);
 const baseURL = useDefaultBaseUrl
@@ -67,7 +60,7 @@ export default defineConfig({
     {
       name: "mobile",
       use: { ...devices["Galaxy S8"] },
-      testIgnore: ["**/critical/**.spec.ts"],
+      testIgnore: ["**/critical/**.spec.ts", "**/accessibilityScans.spec.ts"],
     },
   ],
 

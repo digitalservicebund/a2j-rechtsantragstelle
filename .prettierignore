@@ -24,4 +24,5 @@ Dockerfile
 *.generated.ts
 sonar-project.properties
 .dockerignore
-scripts/cities_airports_de.csv
+scripts/data/cities_airports_de.csv
+.react-router/

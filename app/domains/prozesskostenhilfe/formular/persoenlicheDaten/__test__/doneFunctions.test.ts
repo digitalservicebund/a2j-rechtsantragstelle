@@ -9,9 +9,10 @@ const context: ProzesskostenhilfePersoenlicheDatenUserData = {
   ort: "Berlin",
   plz: "10119",
   strasseHausnummer: "33",
+  telefonnummer: "",
 };
 
-const contextWithPhonenumber = { ...context, telefonnummer: 12345 };
+const contextWithPhonenumber = { ...context, telefonnummer: "12345" };
 
 describe("eigentumDone", () => {
   it("passes with all fields set", () => {
