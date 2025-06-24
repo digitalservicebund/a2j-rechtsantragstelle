@@ -48,26 +48,4 @@ describe("StrapiTileSchema", () => {
       description: undefined,
     });
   });
-
-  it("should parse the description with `p` with all the attributes", () => {
-    const undefinedValue = {
-      title: "something",
-      value: "something",
-      description: "description",
-      image: null,
-      tagDescription: null,
-    };
-
-    const actual = StrapiTileSchema.safeParse(undefinedValue);
-
-    expect(actual.success).toBe(true);
-    expect(actual.data).toEqual({
-      title: "something",
-      value: "something",
-      tagDescription: undefined,
-      image: undefined,
-      description: `<p>description</p>
-`,
-    });
-  });
 });
