@@ -11,7 +11,6 @@ import TileGroup from "~/components/inputs/tile/TileGroup";
 import TimeInput from "~/components/inputs/TimeInput";
 import { getFilesUploadProps } from "~/services/cms/components/StrapiFilesUpload";
 import { getHiddenInputProps } from "~/services/cms/components/StrapiHiddenInput";
-import { getTileGroupProps } from "~/services/cms/components/StrapiTileGroup";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 
@@ -38,7 +37,7 @@ const FormComponent = ({
     case "form-elements.checkbox":
       return <Checkbox {...component} />;
     case "form-elements.tile-group":
-      return <TileGroup {...getTileGroupProps(component)} />;
+      return <TileGroup {...component} />;
     case "form-elements.hidden-input":
       return <HiddenInput {...getHiddenInputProps(component)} />;
   }

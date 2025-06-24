@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { type TileGroupProps } from "~/components/inputs/tile/TileGroup";
 import { omitNull } from "~/util/omitNull";
 import {
   HasOptionalStrapiIdSchema,
@@ -8,27 +7,18 @@ import {
 import { StrapiErrorCategorySchema } from "../models/StrapiErrorCategory";
 import { StrapiTileSchema } from "../models/StrapiTile";
 
-const StrapiTileGroupSchema = z
+export const StrapiTileGroupComponentSchema = z
   .object({
+    __component: z.literal("form-elements.tile-group"),
     name: z.string(),
-    label: z.string().nullable(),
-    altLabel: z.string().nullable(),
+    label: z.string().nullable().transform(omitNull),
+    altLabel: z.string().nullable().transform(omitNull),
     options: z.array(StrapiTileSchema),
     errors: z.array(StrapiErrorCategorySchema.merge(HasStrapiIdSchema)),
     useTwoColumns: z.boolean(),
   })
-  .merge(HasOptionalStrapiIdSchema);
-
-type StrapiTileGroup = z.infer<typeof StrapiTileGroupSchema>;
-
-export const StrapiTileGroupComponentSchema = StrapiTileGroupSchema.extend({
-  __component: z.literal("form-elements.tile-group"),
-});
-
-export const getTileGroupProps = (
-  cmsData: StrapiTileGroup,
-): TileGroupProps => ({
-  ...omitNull(cmsData),
-  errorMessages: cmsData.errors?.flatMap((cmsError) => cmsError.errorCodes),
-  options: cmsData.options.map((tileOption) => omitNull(tileOption)),
-});
+  .merge(HasOptionalStrapiIdSchema)
+  .transform(({ errors, ...cmsData }) => ({
+    ...cmsData,
+    errorMessages: errors?.flatMap((cmsError) => cmsError.errorCodes),
+  }));
