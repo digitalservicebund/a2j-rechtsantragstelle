@@ -4,7 +4,7 @@ import { StrapiErrorCategorySchema } from "~/services/cms/models/StrapiErrorCate
 
 export const StrapiErrorRelationSchema = z
   .array(StrapiErrorCategorySchema.merge(HasStrapiIdSchema))
-  .optional();
+  .nullable();
 
 type StrapiErrorRelation = z.infer<typeof StrapiErrorRelationSchema>;
 

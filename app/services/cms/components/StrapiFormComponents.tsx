@@ -14,7 +14,6 @@ import { getCheckboxProps } from "~/services/cms/components/StrapiCheckbox";
 import { getFilesUploadProps } from "~/services/cms/components/StrapiFilesUpload";
 import { getHiddenInputProps } from "~/services/cms/components/StrapiHiddenInput";
 import { getInputProps } from "~/services/cms/components/StrapiInput";
-import { getRadioGroupProps } from "~/services/cms/components/StrapiSelect";
 import { getTextareaProps } from "~/services/cms/components/StrapiTextarea";
 import { getTileGroupProps } from "~/services/cms/components/StrapiTileGroup";
 import { getTimeInputProps } from "~/services/cms/components/StrapiTimeInput";
@@ -40,7 +39,7 @@ const FormComponent = ({
     case "form-elements.textarea":
       return <Textarea {...getTextareaProps(component)} />;
     case "form-elements.select":
-      return <RadioGroup {...getRadioGroupProps(component)} />;
+      return <RadioGroup {...component} />;
     case "form-elements.dropdown":
       return <Select {...getSelectProps(component)} />;
     case "form-elements.checkbox":
