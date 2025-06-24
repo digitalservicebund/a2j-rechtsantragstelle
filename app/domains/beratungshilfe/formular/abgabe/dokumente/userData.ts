@@ -2,7 +2,7 @@ import { z } from "zod";
 import {
   pdfFileMetaDataSchema,
   fileUploadLimit,
-} from "~/util/file/pdfFileSchema";
+} from "~/services/validation/pdfFileSchema";
 
 const fileUploadRequiredSchema = z
   .array(pdfFileMetaDataSchema)
