@@ -30,7 +30,7 @@ export const ReportProblem = () => {
   if (!survey) return null;
 
   return (
-    <div className="p-24 justify-end flex">
+    <div className="p-24 justify-end flex relative">
       {surveyOpen && (
         <PosthogSurvey
           survey={survey}
