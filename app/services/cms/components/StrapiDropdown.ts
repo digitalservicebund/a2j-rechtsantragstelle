@@ -1,8 +1,5 @@
 import { z } from "zod";
-import {
-  flattenStrapiErrors,
-  StrapiErrorRelationSchema,
-} from "~/services/cms/flattenStrapiErrors";
+import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import { strapiWidthToFieldWidth } from "../models/strapiWidth";
@@ -27,5 +24,5 @@ export const StrapiDropdownComponentSchema = z
   .merge(HasOptionalStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
-    errorMessages: flattenStrapiErrors(errors),
+    errorMessages: errors,
   }));

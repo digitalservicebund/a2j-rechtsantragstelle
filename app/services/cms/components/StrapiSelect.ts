@@ -1,8 +1,5 @@
 import { z } from "zod";
-import {
-  flattenStrapiErrors,
-  StrapiErrorRelationSchema,
-} from "~/services/cms/flattenStrapiErrors";
+import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import { StrapiSelectOptionSchema } from "../models/StrapiSelectOption";
@@ -13,7 +10,7 @@ export const StrapiSelectComponentSchema = z
     label: z.string().nullable().transform(omitNull),
     altLabel: z.string().nullable().transform(omitNull),
     options: z.array(StrapiSelectOptionSchema),
-    errors: StrapiErrorRelationSchema.transform(flattenStrapiErrors).optional(),
+    errors: StrapiErrorRelationSchema,
   })
   .merge(HasOptionalStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({

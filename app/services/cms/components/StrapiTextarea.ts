@@ -1,8 +1,5 @@
 import { z } from "zod";
-import {
-  flattenStrapiErrors,
-  StrapiErrorRelationSchema,
-} from "~/services/cms/flattenStrapiErrors";
+import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { StrapiDetailsSchema } from "~/services/cms/models/StrapiDetails";
 import { buildRichTextValidation } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
@@ -22,5 +19,5 @@ export const StrapiTextareaComponentSchema = z
   .merge(HasOptionalStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
-    errorMessages: flattenStrapiErrors(errors),
+    errorMessages: errors,
   }));

@@ -1,8 +1,5 @@
 import { z } from "zod";
-import {
-  flattenStrapiErrors,
-  StrapiErrorRelationSchema,
-} from "~/services/cms/flattenStrapiErrors";
+import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import {
@@ -27,7 +24,7 @@ export const StrapiAutoSuggestInputComponentSchema = z
   .merge(HasOptionalStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
-    errorMessages: flattenStrapiErrors(errors),
+    errorMessages: errors,
   }));
 
 export type DataListType = z.infer<typeof DataListSchema>;
