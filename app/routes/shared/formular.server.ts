@@ -257,11 +257,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const resolvedData = resolveArraysFromKeys(
-    clonedFormData.get("_skipSave") === "true"
-      ? Object.fromEntries(
-          Object.entries(validationResult.data).map(([key]) => [key, ""]),
-        )
-      : validationResult?.data,
+    validationResult?.data,
     arrayIndexes,
   );
   updateSession(flowSession, resolvedData);

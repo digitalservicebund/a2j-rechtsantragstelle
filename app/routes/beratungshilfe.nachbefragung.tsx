@@ -1,4 +1,3 @@
-import { validationError } from "@rvf/react-router";
 import { redirect, type ActionFunctionArgs } from "react-router";
 import { consentCookieFromRequest } from "~/services/analytics/gdprCookie.server";
 import { validateFormData } from "~/services/validation/validateFormData.server";
@@ -11,13 +10,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const relevantFormData = filterFormData(formData);
   const validationResult = await validateFormData(url, relevantFormData);
 
-  if (validationResult?.error) {
-    return validationError(
-      validationResult.error,
-      validationResult.submittedData,
-    );
-  } else {
-    const headers = await consentCookieFromRequest({ request });
-    return redirect(`${url}?success`, { headers });
-  }
+  const headers = await consentCookieFromRequest({ request });
+  const validationError =
+    validationResult.error || validationResult.submittedData[0] === ""
+      ? "validationError"
+      : undefined;
+  return redirect(`${url}?${validationError ?? "success"}`, { headers });
 };
