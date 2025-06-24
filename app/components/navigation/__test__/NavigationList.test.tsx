@@ -2,6 +2,10 @@ import { render, screen } from "@testing-library/react";
 import { type NavState } from "~/services/navigation/navState";
 import { NavigationList } from "../NavigationList";
 
+vi.mock("react-router", () => ({
+  useRouteLoaderData: vi.fn(),
+}));
+
 describe("NavigationList", () => {
   it("renders a navigation list with one navigation item", () => {
     const destination = "/destination";
