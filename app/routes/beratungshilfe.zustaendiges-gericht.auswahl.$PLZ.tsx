@@ -9,6 +9,7 @@ import Container from "~/components/Container";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import Heading from "~/components/Heading";
 import CustomControl from "~/components/inputs/autoSuggestInput/customComponents/CustomControl";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import RichText from "~/components/RichText";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
 import { type DataListOptions } from "~/services/dataListOptions/getDataListOptions";
@@ -127,6 +128,7 @@ export default function Index() {
           </Button>
         </ButtonContainer>
       </Container>
+      <ReportProblem />
     </div>
   );
 }

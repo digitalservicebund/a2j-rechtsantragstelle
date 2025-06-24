@@ -5,21 +5,32 @@ import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
+import { config } from "~/services/env/public";
+import { isKeyOfObject } from "~/util/objects";
 
-const feedbackSurveyId = "01956b7e-2774-0000-49d7-d34d26811373";
+const surveyIds = {
+  production: "01956b7e-2774-0000-49d7-d34d26811373",
+  staging: "019745bc-656c-0000-b124-c8851e8b6bde",
+} as const;
 
 export const ReportProblem = () => {
   const [surveyOpen, setSurveyOpen] = useState<boolean>();
   const feedbackTranslations = useFeedbackTranslations();
   const { posthogClient } = useAnalytics();
+  const { ENVIRONMENT } = config();
+
+  const surveyId = isKeyOfObject(ENVIRONMENT, surveyIds)
+    ? surveyIds[ENVIRONMENT]
+    : surveyIds.staging;
+
   const survey = useMemo(
-    () => fetchSurvey(feedbackSurveyId, posthogClient),
-    [posthogClient],
+    () => fetchSurvey(surveyId, posthogClient),
+    [posthogClient, surveyId],
   );
   if (!survey) return null;
 
   return (
-    <div className="p-24 justify-end flex relative">
+    <div className="p-24 justify-end flex">
       {surveyOpen && (
         <PosthogSurvey
           survey={survey}
