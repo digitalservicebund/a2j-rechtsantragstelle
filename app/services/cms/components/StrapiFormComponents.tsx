@@ -18,7 +18,6 @@ import { getTileGroupProps } from "~/services/cms/components/StrapiTileGroup";
 import { getTimeInputProps } from "~/services/cms/components/StrapiTimeInput";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
-import { getDateInputProps } from "./StrapiDateInput";
 import { getSelectProps } from "./StrapiDropdown";
 
 const FormComponent = ({
@@ -30,7 +29,7 @@ const FormComponent = ({
     case "form-elements.input":
       return <Input {...component} />;
     case "form-elements.date-input":
-      return <DateInput {...getDateInputProps(component)} />;
+      return <DateInput {...component} />;
     case "form-elements.time-input":
       return <TimeInput {...getTimeInputProps(component)} />;
     case "form-elements.files-upload":

@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { type InputProps } from "~/components/inputs/Input";
 import {
   flattenStrapiErrors,
   StrapiErrorRelationSchema,
@@ -7,22 +6,16 @@ import {
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 
-const StrapiDateInputSchema = z
+export const StrapiDateInputComponentSchema = z
   .object({
     name: z.string(),
-    label: z.string().nullable(),
-    placeholder: z.string().nullable(),
+    label: z.string().nullable().transform(omitNull),
+    placeholder: z.string().nullable().transform(omitNull),
     errors: StrapiErrorRelationSchema,
   })
-  .merge(HasOptionalStrapiIdSchema);
-
-export const StrapiDateInputComponentSchema = StrapiDateInputSchema.extend({
-  __component: z.literal("form-elements.date-input"),
-});
-
-type StrapiDateInput = z.infer<typeof StrapiDateInputSchema>;
-
-export const getDateInputProps = (cmsData: StrapiDateInput): InputProps => ({
-  ...omitNull(cmsData),
-  errorMessages: flattenStrapiErrors(cmsData.errors),
-});
+  .merge(HasOptionalStrapiIdSchema)
+  .transform(({ errors, ...cmsData }) => ({
+    ...cmsData,
+    errorMessages: flattenStrapiErrors(errors),
+    __component: "form-elements.date-input" as const,
+  }));
