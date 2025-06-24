@@ -13,13 +13,12 @@ import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
-import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
 import { buildFileUploadError } from "./buildFileUploadError";
 import { splitFieldName } from "./splitFieldName";
 import { validateUploadedFile } from "./validateUploadedFile";
 import { getSessionIdByFlowId } from "../session.server";
-
-const UNDEFINED_FILE_ERROR = "Attempted to upload undefined file";
+import { FILE_REQUIRED_ERROR } from "./constants";
 
 const createFileMeta = (
   file: File,
@@ -48,7 +47,7 @@ export async function uploadUserFile(
       validationError: validationError(
         {
           fieldErrors: {
-            [formAction.split(".")[1]]: "fileRequired",
+            [formAction.split(".")[1]]: FILE_REQUIRED_ERROR,
           },
         } as ValidatorError,
         userData,
@@ -68,6 +67,11 @@ export async function uploadUserFile(
    */
   const fileArrayBuffer = await file.arrayBuffer();
   const fileMeta = createFileMeta(file, fileArrayBuffer);
+
+  /**
+   * Need to scope the context, otherwise we validate against the entire context,
+   * of which we only have partial data at this point
+   */
   const scopedUserData = pickBy(
     getContext(flowId),
     (_val, key) => key === fieldName,

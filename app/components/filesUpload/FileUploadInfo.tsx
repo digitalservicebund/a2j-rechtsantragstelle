@@ -1,7 +1,10 @@
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import InsertFileIcon from "@digitalservicebund/icons/InsertDriveFile";
 import classNames from "classnames";
-import { errorStyling, type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import {
+  errorStyling,
+  type PDFFileMetadata,
+} from "~/services/validation/pdfFileSchema";
 import { formatFileSizeToString } from "../../services/upload/formatFileSizeToString";
 import Button from "../Button";
 

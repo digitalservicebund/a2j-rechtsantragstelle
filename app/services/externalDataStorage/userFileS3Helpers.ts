@@ -8,7 +8,7 @@ import { type FlowId } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
 import { createClientS3DataStorage } from "~/services/externalDataStorage/createClientS3DataStorage";
 import { sendSentryMessage } from "~/services/logging";
-import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
 
 const USER_FILES_FOLDER = "user-files";
 

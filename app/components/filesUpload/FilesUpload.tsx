@@ -10,7 +10,7 @@ import {
   errorStyling,
   fileUploadLimit,
   type PDFFileMetadata,
-} from "~/util/file/pdfFileSchema";
+} from "~/services/validation/pdfFileSchema";
 import { FilesUploadHeader } from "./FilesUploadHeader";
 import { InlineNotice, type InlineNoticeProps } from "../InlineNotice";
 import { FileInput } from "../inputs/FileInput";

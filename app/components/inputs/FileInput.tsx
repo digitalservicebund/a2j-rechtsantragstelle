@@ -4,7 +4,7 @@ import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
 import InputError from "~/components/inputs/InputError";
 import { translations } from "~/services/translations/translations";
 import { splitFieldName } from "~/services/upload/splitFieldName";
-import { type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
 import { type ErrorMessageProps } from ".";
 import { useFileHandler } from "../filesUpload/useFileHandler";
 import { useRef } from "react";

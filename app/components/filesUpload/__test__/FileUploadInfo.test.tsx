@@ -1,6 +1,9 @@
 import { fireEvent, render } from "@testing-library/react";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
-import { errorStyling, type PDFFileMetadata } from "~/util/file/pdfFileSchema";
+import {
+  errorStyling,
+  type PDFFileMetadata,
+} from "~/services/validation/pdfFileSchema";
 
 const deleteButtonLabel = "Delete";
 const fileName = "testfile1.pdf";
