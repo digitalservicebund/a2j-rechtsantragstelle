@@ -1,3 +1,4 @@
+import { reactRouterContext } from ".storybook/reactRouterContext";
 import type { Meta, StoryObj } from "@storybook/react";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 
@@ -39,4 +40,5 @@ export const Example: Story = {
       },
     ],
   },
+  decorators: [(Story) => reactRouterContext(Story)],
 };

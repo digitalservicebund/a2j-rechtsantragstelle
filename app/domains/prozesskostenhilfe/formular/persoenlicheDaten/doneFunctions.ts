@@ -1,5 +1,4 @@
-import type { GenericGuard } from "~/domains/guards.server";
-import { hasOptionalString } from "~/domains/guards.server";
+import { type GenericGuard } from "~/domains/guards.server";
 import type { ProzesskostenhilfePersoenlicheDatenUserData } from "./userData";
 
 export const prozesskostenhilfePersoenlicheDatenDone: GenericGuard<
@@ -12,6 +11,5 @@ export const prozesskostenhilfePersoenlicheDatenDone: GenericGuard<
       context.strasseHausnummer &&
       context.plz &&
       context.ort &&
-      context.beruf &&
-      hasOptionalString(context.telefonnummer),
+      context.beruf,
   );

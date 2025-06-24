@@ -5,7 +5,7 @@ import Container from "~/components/Container";
 import Heading, { type HeadingProps } from "~/components/Heading";
 import RichText, { type RichTextProps } from "~/components/RichText";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
-import { useJsAvailable } from "~/services/useJsAvailable";
+import { useJsAvailable } from "../hooks/useJsAvailable";
 import { StandaloneLink } from "../StandaloneLink";
 
 export const acceptCookiesFieldName = "accept-cookies";

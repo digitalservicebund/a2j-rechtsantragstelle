@@ -225,3 +225,42 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung = (
   data,
   steps.map((stepId) => prefix + stepId),
 ]) satisfies TestCases<ProzesskostenhilfeFormularUserData>;
+
+export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions =
+  [
+    [
+      {
+        empfaenger: "child",
+      },
+      ["/antragstellende-person/empfaenger", `${prefix}/kind`],
+    ],
+    [
+      {
+        empfaenger: "child",
+        minderjaehrig: "no",
+        unterhaltsOrAbstammungssachen: "yes",
+        rechtlichesThema: "unterhalt",
+        hasEinnahmen: "no",
+      },
+      [
+        `${prefix}/hinweis-weiteres-formular`,
+        "/rechtsschutzversicherung/rsv-frage",
+      ],
+    ],
+    [
+      {
+        empfaenger: "child",
+        minderjaehrig: "yes",
+        unterhaltsOrAbstammungssachen: "yes",
+        rechtlichesThema: "unterhalt",
+        hasEinnahmen: "no",
+        hasVermoegen: "no",
+      },
+      [
+        `${prefix}/hinweis-vereinfachte-erklaerung`,
+        "/rechtsschutzversicherung/rsv-frage",
+      ],
+    ],
+  ] as Array<
+    [ProzesskostenhilfeFormularUserData, string[]]
+  > satisfies TestCases<ProzesskostenhilfeFormularUserData>;

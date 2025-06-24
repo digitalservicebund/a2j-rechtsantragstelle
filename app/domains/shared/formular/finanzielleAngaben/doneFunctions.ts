@@ -53,8 +53,11 @@ export const geldanlageDone = (geldanlage: GeldanlagenArraySchema[0]) => {
       return geldanlage.forderung !== undefined;
     case "sonstiges":
       return geldanlage.verwendungszweck !== undefined;
+    case "bargeld":
+    case "wertpapiere":
+    case "guthabenkontoKrypto":
+      return true;
   }
-  return true;
 };
 
 export const singleGrundeigentumDone = (

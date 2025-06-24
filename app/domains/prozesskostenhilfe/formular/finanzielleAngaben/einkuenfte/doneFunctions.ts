@@ -55,7 +55,8 @@ export const einkommenDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard 
         return employeeIncomeComplete && selfEmploymentIncomeComplete;
       case "selfEmployed":
         return selfEmploymentIncomeComplete;
-      default:
+      case "employed":
+      case undefined:
         return employeeIncomeComplete;
     }
   };

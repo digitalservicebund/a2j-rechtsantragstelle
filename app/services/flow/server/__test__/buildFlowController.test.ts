@@ -393,6 +393,40 @@ describe("buildFlowController", () => {
       ]);
     });
 
+    it("deals with eventless initial state when there are multiple transitions", () => {
+      expect(
+        buildFlowController({
+          config: {
+            id: "/test",
+            initial: "current",
+            states: {
+              current: {
+                always: [
+                  { guard: () => false, target: "unreachable" },
+                  { guard: () => true, target: "reachable" },
+                ],
+              },
+              unreachable: { initial: "start", states: { start: {} } },
+              reachable: { initial: "start", states: { start: {} } },
+            },
+          },
+        }).stepStates(),
+      ).toEqual([
+        {
+          isDone: false,
+          isReachable: false,
+          stepId: "/unreachable",
+          url: "/test/unreachable/start",
+        },
+        {
+          isDone: false,
+          isReachable: true,
+          stepId: "/reachable",
+          url: "/test/reachable/start",
+        },
+      ]);
+    });
+
     it("handles unreachable nested steps", () => {
       expect(
         buildFlowController({

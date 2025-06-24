@@ -5,13 +5,13 @@ import { useActionData } from "react-router";
 import { type ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
 import { type UserData } from "~/domains/userData";
-import { useJsAvailable } from "~/services/useJsAvailable";
 import {
   errorStyling,
   fileUploadLimit,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
 import { FilesUploadHeader } from "./FilesUploadHeader";
+import { useJsAvailable } from "../hooks/useJsAvailable";
 import { InlineNotice, type InlineNoticeProps } from "../InlineNotice";
 import { FileInput } from "./FileInput";
 

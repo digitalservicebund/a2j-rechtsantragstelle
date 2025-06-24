@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import * as Sentry from "@sentry/react-router";
-import { config } from "~/services/env/web";
+import { config } from "~/services/env/public";
 
 const { SENTRY_DSN, ENVIRONMENT } = config();
 let sentryHasBeenInitialized = false;

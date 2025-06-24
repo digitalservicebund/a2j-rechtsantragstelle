@@ -36,9 +36,11 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: "p-konto-probleme",
+            target: "zwischenseite-unterhalt",
+            guard: ({ context }) =>
+              context.hasPKonto === "ja" || context.hasPKonto === "nein",
           },
-          "zwischenseite-unterhalt",
+          "p-konto-probleme",
         ],
         BACK: "kontopfaendung",
       },
@@ -52,7 +54,14 @@ export const kontopfaendungWegweiserXstateConfig = {
     "zwischenseite-unterhalt": {
       on: {
         SUBMIT: "kinder",
-        BACK: "p-konto-probleme",
+        BACK: [
+          {
+            target: "p-konto",
+            guard: ({ context }) =>
+              context.hasPKonto === "ja" || context.hasPKonto === "nein",
+          },
+          "p-konto-probleme",
+        ],
       },
     },
     kinder: {
@@ -141,7 +150,6 @@ export const kontopfaendungWegweiserXstateConfig = {
               context.verheiratet === "ja" &&
               context.partnerWohnenZusammen === "no",
           },
-
           "partner",
         ],
       },
@@ -152,11 +160,16 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: [
           {
             target: "partner-unterhalt",
-            guard: ({ context }) => context.partnerWohnenZusammen === "no",
+            guard: ({ context }) =>
+              (context.verheiratet === "ja" &&
+                context.partnerWohnenZusammen === "no") ||
+              context.verheiratet === "geschieden",
           },
           {
             target: "partner-wohnen-zusammen",
-            guard: ({ context }) => context.partnerWohnenZusammen === "yes",
+            guard: ({ context }) =>
+              context.verheiratet === "ja" &&
+              context.partnerWohnenZusammen === "yes",
           },
           "partner",
         ],
@@ -176,7 +189,17 @@ export const kontopfaendungWegweiserXstateConfig = {
     },
     "arbeit-art": {
       on: {
-        SUBMIT: "nachzahlung-arbeitgeber",
+        SUBMIT: [
+          {
+            target: "sozialleistungen",
+            guard: ({ context }) =>
+              (context.arbeitArt?.selbstaendig === "on" &&
+                context.arbeitArt?.angestellt === "off") ||
+              (context.arbeitArt?.selbstaendig === "off" &&
+                context.arbeitArt?.angestellt === "off"),
+          },
+          "nachzahlung-arbeitgeber",
+        ],
         BACK: "arbeit",
       },
     },
@@ -220,7 +243,16 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: [
           {
             target: "einmalzahlung-arbeitgeber",
-            guard: ({ context }) => context.hasArbeit === "yes",
+            guard: ({ context }) =>
+              context.hasArbeit === "yes" && !context.arbeitArt,
+          },
+          {
+            target: "arbeit-art",
+            guard: ({ context }) =>
+              (context.arbeitArt?.selbstaendig === "on" &&
+                context.arbeitArt?.angestellt === "off") ||
+              (context.arbeitArt?.selbstaendig === "off" &&
+                context.arbeitArt?.angestellt === "off"),
           },
           "arbeit",
         ],

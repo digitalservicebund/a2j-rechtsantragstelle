@@ -4,16 +4,16 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
-export const rsvCoverage = z.enum(
+const rsvCoverageSchema = z.enum(
   ["yes", "no", "partly", "unknown"],
   customRequiredErrorMessage,
 );
 
 export const prozesskostenhilfeRsvInputSchema = {
   hasRsv: YesNoAnswer,
-  hasRsvCoverage: rsvCoverage,
+  hasRsvCoverage: rsvCoverageSchema,
   hasRsvThroughOrg: YesNoAnswer,
-  hasOrgCoverage: rsvCoverage,
+  hasOrgCoverage: rsvCoverageSchema,
 };
 
 const _partialSchema = z.object(prozesskostenhilfeRsvInputSchema).partial();
