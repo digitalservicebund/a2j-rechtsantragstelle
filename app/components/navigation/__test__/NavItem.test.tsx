@@ -116,6 +116,26 @@ describe("NavigationItem", () => {
     expect(screen.getByText("subflowLabel")).toHaveClass("pl-24");
   });
 
+  it("renders expanded when expanded is set", () => {
+    const subflows = [
+      {
+        destination: "/subflow",
+        label: "subflowLabel",
+        state: "Done" as NavState,
+      },
+    ];
+    render(
+      <NavItem
+        destination={destination}
+        label={label}
+        state={"Done"}
+        forceExpanded={true}
+        subflows={subflows}
+      />,
+    );
+    expect(screen.getByTestId("ExpandLessIcon")).toBeInTheDocument();
+  });
+
   it("renders items with correct classNames when the state is current and item doesn't have subflows", () => {
     render(
       <NavItem destination={destination} label={label} state={"Current"} />,

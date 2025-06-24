@@ -30,6 +30,7 @@ import { validateFormData } from "~/services/validation/validateFormData.server"
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { filterFormData } from "~/util/filterFormData";
+import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 
 export const loader = async ({
   params,
@@ -123,6 +124,7 @@ export const loader = async ({
       meta,
       progressProps,
       buttonNavigationProps,
+      showReportProblem: shouldShowReportProblem(flowId),
     },
     { headers },
   );
