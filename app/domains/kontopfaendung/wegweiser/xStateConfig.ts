@@ -1,13 +1,6 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { type KontopfaendungWegweiserUserData } from "./userData";
 
-const sozialleistungenUmstaendeSelected = (
-  context: KontopfaendungWegweiserUserData,
-) =>
-  context.sozialleistungenUmstaende?.kindergeld === "on" ||
-  context.sozialleistungenUmstaende?.wohngeld === "on" ||
-  context.sozialleistungenUmstaende?.pflegegeld === "on";
-
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/kontopfaendung/wegweiser",
   initial: "start",
@@ -245,8 +238,7 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "kindergeld",
-            guard: ({ context }) =>
-              context.hasKinder === "yes"
+            guard: ({ context }) => context.hasSozialleistungen === "nein" && context.hasKinder === "yes",
           },
           "wohngeld",
         ],
@@ -254,7 +246,8 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "einmalzahlung-arbeitgeber",
             guard: ({ context }) =>
-              context.hasArbeit === "yes" && !context.arbeitArt,
+              context.hasArbeit === "yes" &&
+              Boolean(context.nachzahlungArbeitgeber),
           },
           {
             target: "arbeit-art",
@@ -308,18 +301,6 @@ export const kontopfaendungWegweiserXstateConfig = {
         ],
       },
     },
-    "pflegegeld-empfaenger": {
-      on: {
-        SUBMIT: [
-          {
-            target: "",
-            guard: ({ context }) => context.pflegegeld === "selbst",
-          },
-          "rente",
-        ],
-        BACK: "pflegegeld",
-      },
-    },
     kindergeld: {
       on: {
         SUBMIT: [
@@ -335,7 +316,8 @@ export const kontopfaendungWegweiserXstateConfig = {
             guard: ({ context }) =>
               context.hasSozialleistungen === "buergergeld" ||
               context.hasSozialleistungen === "grundsicherungSozialhilfe" ||
-              context.hasSozialleistungen === "asylbewerberleistungen" 
+              context.hasSozialleistungen === "asylbewerberleistungen" ||
+              context.hasSozialleistungen !== "nein",
           },
           "sozialleistungen",
         ],
@@ -365,15 +347,20 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: [
           {
             target: "kindergeld-nachzahlung",
-            guard: ({ context }) => context.hasKindergeldNachzahlung === "yes" && context.hasKindergeld === "yes",
+            guard: ({ context }) =>
+              context.hasKindergeldNachzahlung === "yes" &&
+              context.hasKindergeld === "yes",
           },
           {
             target: "kindergeld",
-            guard: ({ context }) => context.hasKinder === "yes" && context.hasKindergeld === "yes",
+            guard: ({ context }) =>
+              context.hasKinder === "yes" && context.hasKindergeld === "yes",
           },
           {
             target: "sozialleistungen-einmalzahlung",
-            guard: ({ context }) => context.hasKinder === "no" && context.hasSozialleistungenEinmalzahlung === "yes",
+            guard: ({ context }) =>
+              context.hasKinder === "no" &&
+              context.hasSozialleistungenEinmalzahlung === "yes",
           },
           "sozialleistungen",
         ],
@@ -406,10 +393,6 @@ export const kontopfaendungWegweiserXstateConfig = {
     "ergebnis/naechste-schritte": {
       on: {
         BACK: [
-          {
-            target: "sozialleistungen-einmalzahlung",
-            guard: ({ context }) => sozialleistungenUmstaendeSelected(context),
-          },
           {
             target: "rente",
           },
