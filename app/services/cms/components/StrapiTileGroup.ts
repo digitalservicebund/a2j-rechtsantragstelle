@@ -1,18 +1,18 @@
 import { z } from "zod";
-import { omitNull } from "~/util/omitNull";
 import {
   HasOptionalStrapiIdSchema,
   HasStrapiIdSchema,
 } from "../models/HasStrapiId";
 import { StrapiErrorCategorySchema } from "../models/StrapiErrorCategory";
+import { strapiOptionalStringSchema } from "../models/strapiOptionalString";
 import { StrapiTileSchema } from "../models/StrapiTile";
 
 export const StrapiTileGroupComponentSchema = z
   .object({
     __component: z.literal("form-elements.tile-group"),
     name: z.string(),
-    label: z.string().nullable().transform(omitNull),
-    altLabel: z.string().nullable().transform(omitNull),
+    label: strapiOptionalStringSchema,
+    altLabel: strapiOptionalStringSchema,
     options: z.array(StrapiTileSchema),
     errors: z.array(StrapiErrorCategorySchema.merge(HasStrapiIdSchema)),
     useTwoColumns: z.boolean(),

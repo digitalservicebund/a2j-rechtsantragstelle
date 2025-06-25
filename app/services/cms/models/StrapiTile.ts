@@ -1,9 +1,9 @@
 import { type Renderer } from "marked";
 import { z } from "zod";
 import { buildRichTextValidation } from "~/services/validation/richtext";
-import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiImageOptionalSchema } from "./StrapiImage";
+import { strapiOptionalStringSchema } from "./strapiOptionalString";
 
 export const createTileRenderer = (value: string): Partial<Renderer> => ({
   paragraph({ text }) {
@@ -15,9 +15,9 @@ export const StrapiTileSchema = z
   .object({
     title: z.string(),
     value: z.string(),
-    description: z.string().nullable().transform(omitNull),
+    description: strapiOptionalStringSchema,
     image: StrapiImageOptionalSchema,
-    tagDescription: z.string().nullable().transform(omitNull),
+    tagDescription: strapiOptionalStringSchema,
   })
   .merge(HasOptionalStrapiIdSchema)
   .transform((cmsData) => {

@@ -1,14 +1,14 @@
 import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
-import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { strapiOptionalStringSchema } from "../models/strapiOptionalString";
 import { StrapiSelectOptionSchema } from "../models/StrapiSelectOption";
 
 export const StrapiSelectComponentSchema = z
   .object({
     name: z.string(),
-    label: z.string().nullable().transform(omitNull),
-    altLabel: z.string().nullable().transform(omitNull),
+    label: strapiOptionalStringSchema,
+    altLabel: strapiOptionalStringSchema,
     options: z.array(StrapiSelectOptionSchema),
     errors: StrapiErrorRelationSchema,
   })

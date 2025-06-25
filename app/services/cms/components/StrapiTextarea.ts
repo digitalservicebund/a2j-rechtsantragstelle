@@ -4,6 +4,7 @@ import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRela
 import { buildRichTextValidation } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { strapiOptionalStringSchema } from "../models/strapiOptionalString";
 
 export const StrapiTextareaComponentSchema = z
   .object({
@@ -11,8 +12,8 @@ export const StrapiTextareaComponentSchema = z
     name: z.string(),
     description: buildRichTextValidation().nullable().transform(omitNull),
     details: StrapiDetailsSchema.nullable().transform(omitNull),
-    label: z.string().nullable().transform(omitNull),
-    placeholder: z.string().nullable().transform(omitNull),
+    label: strapiOptionalStringSchema,
+    placeholder: strapiOptionalStringSchema,
     errors: StrapiErrorRelationSchema,
     maxLength: z.number().nullable().transform(omitNull),
   })
