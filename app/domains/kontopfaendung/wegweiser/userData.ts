@@ -58,6 +58,10 @@ const pflegegeldInputSchema = z.enum(
   ["selbst", "fremd"],
   customRequiredErrorMessage,
 );
+const wohngeldInputSchema = z.enum(
+  ["selbst", "fremd"],
+  customRequiredErrorMessage,
+);
 
 export const kontopfaendungWegweiserInputSchema = {
   hasKontopfaendung: kontopfaendungInputSchema,
@@ -81,6 +85,13 @@ export const kontopfaendungWegweiserInputSchema = {
   pfaendungStrafe: YesNoAnswer,
   pfaendungUnterhalt: YesNoAnswer,
   pflegegeld: pflegegeldInputSchema,
+  wohngeld: wohngeldInputSchema,
+  hasKindergeld: YesNoAnswer,
+  hasKindergeldNachzahlung: YesNoAnswer,
+  hasWohngeld: YesNoAnswer,
+  hasWohngeldNachzahlung: YesNoAnswer,
+  hasPflegegeld: YesNoAnswer,
+  hasRente: YesNoAnswer,
 } as const;
 
 const _partialSchema = z.object(kontopfaendungWegweiserInputSchema).partial();
