@@ -36,14 +36,14 @@ export const getKindergeldStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
-    hasKindergeld: userData.sozialleistungenUmstaende?.kindergeld === "on",
+    hasKindergeld: userData.hasKindergeld === "yes",
   };
 };
 export const getWohngeldStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
-    hasWohngeld: userData.sozialleistungenUmstaende?.wohngeld === "on",
+    hasWohngeld: userData.hasWohngeld === "yes",
   };
 };
 export const getEinmalSozialleistungStrings = (
@@ -133,6 +133,7 @@ export const getArbeitsentgeltEinmaligStrings = (
   return {
     hasArbeitsentgeltEinmalig:
       typeof userData.zahlungArbeitgeber !== "undefined" &&
+      userData.zahlungArbeitgeber !== null &&
       Object.values(userData.zahlungArbeitgeber).some(
         (value) => value === "on",
       ),

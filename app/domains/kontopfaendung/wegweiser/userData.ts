@@ -47,13 +47,6 @@ const sozialleistungenInputSchema = z.enum(
   ],
   customRequiredErrorMessage,
 );
-
-const sozialleistungenUmstaendeInputSchema = z.object({
-  pflegegeld: checkedOptional,
-  kindergeld: checkedOptional,
-  wohngeld: checkedOptional,
-});
-
 const pflegegeldInputSchema = z.enum(
   ["selbst", "fremd"],
   customRequiredErrorMessage,
@@ -78,7 +71,6 @@ export const kontopfaendungWegweiserInputSchema = {
   arbeitgeberNachzahlungHigherThan: YesNoAnswer,
   zahlungArbeitgeber: zahlungArbeitgeberInputSchema,
   hasSozialleistungen: sozialleistungenInputSchema,
-  sozialleistungenUmstaende: sozialleistungenUmstaendeInputSchema,
   hasSozialleistungNachzahlung: YesNoAnswer,
   sozialleistungNachzahlungHigherThan: YesNoAnswer,
   hasSozialleistungenEinmalzahlung: YesNoAnswer,

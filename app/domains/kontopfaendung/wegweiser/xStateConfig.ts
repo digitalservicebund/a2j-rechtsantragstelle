@@ -238,7 +238,7 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: "kindergeld",
-            guard: ({ context }) => context.hasSozialleistungen === "nein" && context.hasKinder === "yes",
+            guard: ({ context }) => context.hasKinder === "yes",
           },
           "wohngeld",
         ],
@@ -354,7 +354,7 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "kindergeld",
             guard: ({ context }) =>
-              context.hasKinder === "yes" && context.hasKindergeld === "yes",
+              context.hasKinder === "yes",
           },
           {
             target: "sozialleistungen-einmalzahlung",

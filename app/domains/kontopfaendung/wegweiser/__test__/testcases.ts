@@ -137,6 +137,7 @@ const cases = [
   ],
   [
     {
+      hasSozialleistungen: "nein",
       hasKindergeld: "no",
       hasWohngeld: "no",
       hasPflegegeld: "no",
@@ -148,6 +149,50 @@ const cases = [
       "/pflegegeld",
       "/rente",
       "/ergebnis/naechste-schritte",
+    ],
+  ],
+  [
+    {
+      hasSozialleistungen: "buergergeld",
+      hasSozialleistungNachzahlung: "yes",
+      hasSozialleistungenEinmalzahlung: "yes",
+    },
+    [
+      "/sozialleistungen",
+      "/sozialleistung-nachzahlung",
+      "/sozialleistungen-einmalzahlung",
+    ],
+  ],
+  [
+    {
+      hasKontopfaendung: "ja",
+      hasPKonto: "nichtEingerichtet",
+      pfaendungUnterhalt: "yes",
+      hasKinder: "no",
+      verheiratet: "nein",
+      hasArbeit: "no",
+      nachzahlungArbeitgeber: "yes",
+      hasSozialleistungen: "nein",
+      hasKindergeld: "no",
+      hasWohngeld: "no",
+      hasPflegegeld: "no",
+      hasRente: "no",
+    },
+    [
+      "/start",
+      "/kontopfaendung",
+      "/p-konto",
+      "/p-konto-probleme",
+      "/zwischenseite-unterhalt",
+      "/kinder",
+      "/partner",
+      "/zwischenseite-einkuenfte",
+      "/arbeit",
+      "/sozialleistungen",
+      "/wohngeld",
+      "/pflegegeld",
+      "/rente",
+      "/ergebnis/naechste-schritte"
     ],
   ],
   [
