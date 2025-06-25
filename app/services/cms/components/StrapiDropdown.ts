@@ -2,7 +2,7 @@ import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import { strapiOptionalStringSchema } from "../models/strapiOptionalString";
-import { strapiWidthToFieldWidth } from "../models/strapiWidth";
+import { strapiWidthLookupMap } from "../models/strapiWidth";
 
 export const StrapiDropdownComponentSchema = z
   .object({
@@ -16,10 +16,7 @@ export const StrapiDropdownComponentSchema = z
     width: z
       .enum(["characters16", "characters24", "characters36", "characters54"])
       .nullable()
-      .transform(
-        (val) =>
-          strapiWidthToFieldWidth(val) as "16" | "24" | "36" | "54" | undefined,
-      ),
+      .transform((val) => strapiWidthLookupMap[val ?? ""]),
   })
   .merge(HasOptionalStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({

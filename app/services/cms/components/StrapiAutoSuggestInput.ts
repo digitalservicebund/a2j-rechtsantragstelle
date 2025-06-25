@@ -2,10 +2,7 @@ import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import { strapiOptionalStringSchema } from "../models/strapiOptionalString";
-import {
-  strapiWidthToFieldWidth,
-  strapiWidthSchema,
-} from "../models/strapiWidth";
+import { strapiWidthSchema } from "../models/strapiWidth";
 
 const DataListSchema = z.enum(["airports", "airlines"]);
 
@@ -15,7 +12,7 @@ export const StrapiAutoSuggestInputComponentSchema = z
     label: strapiOptionalStringSchema,
     placeholder: strapiOptionalStringSchema,
     errors: StrapiErrorRelationSchema,
-    width: strapiWidthSchema.nullable().transform(strapiWidthToFieldWidth),
+    width: strapiWidthSchema,
     dataList: DataListSchema,
     noSuggestionMessage: strapiOptionalStringSchema,
     isDisabled: z.boolean().nullable().transform(Boolean),

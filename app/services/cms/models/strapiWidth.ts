@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { FieldWidth } from "~/components/inputs/width";
 
-const options = [
+const strapiWidths = [
   "characters3",
   "characters5",
   "characters7",
@@ -12,7 +12,7 @@ const options = [
   "characters54",
 ] as const;
 
-const optionsToFieldWidth = {
+export const strapiWidthLookupMap = {
   "": undefined,
   characters3: "3",
   characters5: "5",
@@ -24,8 +24,7 @@ const optionsToFieldWidth = {
   characters54: "54",
 } as const satisfies Record<string, FieldWidth>;
 
-export const strapiWidthSchema = z.enum(options).nullable();
-
-export const strapiWidthToFieldWidth = (
-  strapiWidth: z.infer<typeof strapiWidthSchema>,
-) => optionsToFieldWidth[strapiWidth ?? ""];
+export const strapiWidthSchema = z
+  .enum(strapiWidths)
+  .nullable()
+  .transform((val) => strapiWidthLookupMap[val ?? ""]);

@@ -2,10 +2,7 @@ import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import { strapiOptionalStringSchema } from "../models/strapiOptionalString";
-import {
-  strapiWidthSchema,
-  strapiWidthToFieldWidth,
-} from "../models/strapiWidth";
+import { strapiWidthSchema } from "../models/strapiWidth";
 
 export const StrapiInputComponentSchema = z
   .object({
@@ -15,7 +12,7 @@ export const StrapiInputComponentSchema = z
     placeholder: strapiOptionalStringSchema,
     suffix: strapiOptionalStringSchema,
     errors: StrapiErrorRelationSchema,
-    width: strapiWidthSchema.transform(strapiWidthToFieldWidth),
+    width: strapiWidthSchema,
     helperText: strapiOptionalStringSchema,
     __component: z.literal("form-elements.input"),
   })
