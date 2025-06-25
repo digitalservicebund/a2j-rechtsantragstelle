@@ -4,7 +4,10 @@ import { useLoaderData, useLocation } from "react-router";
 import { z } from "zod";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
-import { InlineNotice } from "~/components/InlineNotice";
+import {
+  InlineNotice,
+  type InlineNoticeProps,
+} from "~/components/InlineNotice";
 import { type ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
 import InputLabel from "~/components/inputs/InputLabel";
@@ -14,6 +17,8 @@ import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { emailSchema } from "~/services/validation/email";
 
 export type EmailCaptureProps = {
+  successBanner: InlineNoticeProps;
+  errorBanner: InlineNoticeProps;
   label?: string;
   description?: string;
   buttonLabel?: string;
@@ -29,6 +34,8 @@ export const emailCaptureSchema = z.object({
 });
 
 export const EmailCapture = ({
+  successBanner,
+  errorBanner,
   label,
   description,
   buttonLabel,
@@ -48,23 +55,9 @@ export const EmailCapture = ({
 
   switch (searchArg) {
     case "success":
-      return (
-        <InlineNotice
-          title={"Sie haben sich erfolgreich für die Umfrage registriert"}
-          tagName={"h1"}
-          look={"success"}
-          content="Sie erhalten in einigen Wochen eine Einladung per E-Mail zu einer kurzen Befragung zur Erfahrung mit der Antragstellung."
-        />
-      );
+      return <InlineNotice {...successBanner} />;
     case "error":
-      return (
-        <InlineNotice
-          title={"Registrierung konnte nicht durchgeführt werden"}
-          tagName={"h1"}
-          look={"error"}
-          content={`Entschuldigung, bei der Registrierung ist ein Fehler aufgetreten. <br><a href='${pathname}' class="text-link w-fit">Bitte versuchen Sie es erneut.</a>`}
-        />
-      );
+      return <InlineNotice {...errorBanner} />;
     default:
       return (
         <div className="ds-stack ds-stack-16">
