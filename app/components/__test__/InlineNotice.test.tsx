@@ -24,6 +24,20 @@ describe("InlineNotice Component", () => {
     expect(note).toContainElement(screen.getByTestId("WarningAmberIcon"));
   });
 
+  it("should renders a success notice correctly", () => {
+    component = render(<InlineNotice look="success" {...mockProps} />);
+    const note = screen.getByRole("note");
+    expect(note).toContainElement(screen.getByTestId("CheckCircleIcon"));
+    expect(note).toHaveClass("bg-green-100 border-green-700");
+  });
+
+  it("should renders an error notice correctly", () => {
+    component = render(<InlineNotice look="error" {...mockProps} />);
+    const note = screen.getByRole("note");
+    expect(note).toContainElement(screen.getByTestId("ErrorOutlineIcon"));
+    expect(note).toHaveClass("bg-red-200 border-red-900");
+  });
+
   it("renders tips icon", () => {
     component = render(<InlineNotice look="tips" {...mockProps} />);
     expect(screen.getByRole("note")).toContainElement(

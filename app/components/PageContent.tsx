@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import type { ReactElement } from "react";
-import Heading from "~/components/Heading";
 import { EmailCapture } from "~/components/emailCapture/EmailCapture";
+import Heading from "~/components/Heading";
 import Video from "~/components/video/Video";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";

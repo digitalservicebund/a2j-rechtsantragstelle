@@ -45,7 +45,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (!response.ok) {
     return redirect(`${url}?error`, { headers });
   }
-  // save to session
   const { getSession, commitSession } = getSessionManager(
     flowIdFromPathname(url ?? "") ?? "main",
   );
