@@ -88,19 +88,17 @@ export const FileInput = ({
       ) : (
         <>
           {jsAvailable ? (
-            <>
-              <label
-                htmlFor={inputId}
-                className="relative inline-flex items-center ds-button ds-button-tertiary ds-button-large cursor-pointer w-fit"
-              >
-                {FileInput}
-                <span className="ds-button-label">
-                  {splitFieldName(name).inputIndex === 0
-                    ? translations.fileUpload.select.de
-                    : translations.fileUpload.addAnother.de}
-                </span>
-              </label>
-            </>
+            <label
+              htmlFor={inputId}
+              className="relative inline-flex items-center ds-button ds-button-tertiary ds-button-large cursor-pointer w-fit"
+            >
+              {FileInput}
+              <span className="ds-button-label">
+                {splitFieldName(name).inputIndex === 0
+                  ? translations.fileUpload.select.de
+                  : translations.fileUpload.addAnother.de}
+              </span>
+            </label>
           ) : (
             <div className="flex flex-row">
               <label htmlFor={name}>
