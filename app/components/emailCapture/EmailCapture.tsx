@@ -43,7 +43,7 @@ export const EmailCapture = ({
   });
   const field = form.field("email");
   const searchArg = search.split("?")[1];
-  const error = !!field.error() || searchArg === invalidEmailError.code;
+  const invalidEmail = !!field.error() || searchArg === invalidEmailError.code;
 
   if (emailCaptureConsent || searchArg === "success") {
     return <InlineNotice {...successBanner} />;
@@ -59,16 +59,17 @@ export const EmailCapture = ({
       {label && <InputLabel id={"email"}>{label}</InputLabel>}
       <form
         {...form.getFormProps()}
+        data-testid="email-capture-form"
         className="flex max-w-[630px] gap-16 flex-wrap !mt-0"
       >
         <div className="grow">
           <input
             {...field.getInputProps()}
             className={classNames("ds-input forced-color-adjust-none", {
-              "has-error": error,
+              "has-error": invalidEmail,
             })}
           ></input>
-          {error && (
+          {invalidEmail && (
             <InputError id={"email-error"}>{invalidEmailError.text}</InputError>
           )}
           <input type="hidden" name={CSRFKey} value={csrf} />
