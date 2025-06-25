@@ -29,14 +29,28 @@ vi.mock("~/services/session.server", () => ({
 }));
 
 const formData = new FormData();
+const mockRequestUrl = `http://localhost:3000/action/delete-array-item`;
 
 const options = {
   method: "POST",
   body: formData,
 };
 
+const mockSuccessfulExternalFunctions = () => {
+  vi.mocked(validatedSession).mockResolvedValue(Result.ok());
+  vi.mocked(getArrayDataFromFormData).mockReturnValue(
+    Result.ok({
+      arrayName: "testArray",
+      index: 0,
+      flowId: "/beratungshilfe/antrag",
+    }),
+  );
+  vi.mocked(deleteArrayItem).mockReturnValue(Result.ok());
+};
+
 beforeEach(() => {
   vi.clearAllMocks();
+  mockSuccessfulExternalFunctions();
 });
 
 describe("/action/delete-array-item route", () => {
@@ -45,10 +59,7 @@ describe("/action/delete-array-item route", () => {
       Result.err("Invalid CSRF token"),
     );
 
-    const request = new Request(
-      `http://localhost:3000/action/delete-array-item`,
-      options,
-    );
+    const request = new Request(mockRequestUrl, options);
 
     const thrown = await action({
       request,
@@ -62,15 +73,11 @@ describe("/action/delete-array-item route", () => {
   });
 
   it("should thrown a response error in case getArrayDataFromFormData returns an error", async () => {
-    vi.mocked(validatedSession).mockResolvedValue(Result.ok());
     vi.mocked(getArrayDataFromFormData).mockReturnValue(
       Result.err({ message: "Error" }),
     );
 
-    const request = new Request(
-      `http://localhost:3000/action/delete-array-item`,
-      options,
-    );
+    const request = new Request(mockRequestUrl, options);
 
     const thrown = await action({
       request,
@@ -83,22 +90,11 @@ describe("/action/delete-array-item route", () => {
   });
 
   it("should thrown a response error in case deleteArrayItem returns an error", async () => {
-    vi.mocked(validatedSession).mockResolvedValue(Result.ok());
-    vi.mocked(getArrayDataFromFormData).mockReturnValue(
-      Result.ok({
-        arrayName: "testArray",
-        index: 0,
-        flowId: "/beratungshilfe/antrag",
-      }),
-    );
     vi.mocked(deleteArrayItem).mockReturnValue(
       Result.err({ message: "Deletion error" }),
     );
 
-    const request = new Request(
-      `http://localhost:3000/action/delete-array-item`,
-      options,
-    );
+    const request = new Request(mockRequestUrl, options);
 
     const thrown = await action({
       request,
@@ -111,20 +107,7 @@ describe("/action/delete-array-item route", () => {
   });
 
   it("should return a response with status 200 in case no problem happens", async () => {
-    vi.mocked(validatedSession).mockResolvedValue(Result.ok());
-    vi.mocked(getArrayDataFromFormData).mockReturnValue(
-      Result.ok({
-        arrayName: "testArray",
-        index: 0,
-        flowId: "/beratungshilfe/antrag",
-      }),
-    );
-    vi.mocked(deleteArrayItem).mockReturnValue(Result.ok());
-
-    const request = new Request(
-      `http://localhost:3000/action/delete-array-item`,
-      options,
-    );
+    const request = new Request(mockRequestUrl, options);
 
     const response = await action({
       request,
