@@ -1,6 +1,7 @@
 import { validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
+import { emailCaptureConsentName } from "~/components/emailCapture/emailCaptureHelpers";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
@@ -42,8 +43,9 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
+  const { getSession: getFlowSession } = getSessionManager(flowId);
 
-  const [contentData, { headers, csrf }] = await Promise.all([
+  const [contentData, { headers, csrf }, flowSession] = await Promise.all([
     retrieveContentData(
       pathname,
       params,
@@ -55,6 +57,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       flowId,
       stepId,
     }),
+    getFlowSession(cookieHeader),
   ]);
 
   const translations = contentData.getTranslations();
@@ -78,6 +81,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       buttonNavigationProps,
       content: cmsContent.content,
       csrf,
+      emailCaptureConsent: flowSession.get(emailCaptureConsentName),
       formElements,
       heading: cmsContent.heading,
       meta,
