@@ -115,24 +115,26 @@ const cases = [
     ["/arbeit", "/arbeit-art", "/nachzahlung-arbeitgeber"],
   ],
   [
-    { hasKindergeld: "yes" },
+    { hasKinder: "yes", hasKindergeld: "yes" },
     ["/kindergeld", "/kindergeld-nachzahlung"],
   ],
 
+  [{ hasWohngeld: "no" }, ["/wohngeld", "/pflegegeld"]],
   [
-    { hasWohngeld: "no"},
-    ["/wohngeld", "/pflegegeld"],
+    { hasWohngeld: "yes", wohngeld: "selbst" },
+    [
+      "/wohngeld",
+      "/wohngeld-empfaenger",
+      "/wohngeld-nachzahlung",
+      "/pflegegeld",
+    ],
   ],
   [
-    { hasWohngeld: "yes", wohngeld: "selbst"  },
-    ["/wohngeld", "/wohngeld-empfaenger", "/wohngeld-nachzahlung", "/pflegegeld"],
-  ],
-  [
-    { hasWohngeld: "yes", wohngeld: "fremd"  },
+    { hasWohngeld: "yes", wohngeld: "fremd" },
     ["/wohngeld", "/wohngeld-empfaenger", "/pflegegeld"],
   ],
   [
-    { hasPflegegeld: "yes"},
+    { hasPflegegeld: "yes" },
     ["/pflegegeld", "/rente", "/ergebnis/naechste-schritte"],
   ],
   [
@@ -192,7 +194,7 @@ const cases = [
       "/wohngeld",
       "/pflegegeld",
       "/rente",
-      "/ergebnis/naechste-schritte"
+      "/ergebnis/naechste-schritte",
     ],
   ],
   [
@@ -233,7 +235,7 @@ const cases = [
       "/wohngeld",
       "/pflegegeld",
       "/rente",
-      "/ergebnis/naechste-schritte"
+      "/ergebnis/naechste-schritte",
     ],
   ],
   [
@@ -274,7 +276,7 @@ const cases = [
       "/wohngeld",
       "/pflegegeld",
       "/rente",
-      "/ergebnis/naechste-schritte"
+      "/ergebnis/naechste-schritte",
     ],
   ],
 ] as const satisfies TestCases<KontopfaendungWegweiserUserData>;
