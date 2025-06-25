@@ -1,11 +1,6 @@
 import { type FileUpload, parseFormData } from "@mjackson/form-data-parser";
-import {
-  type ValidatorError,
-  validationError,
-  type ValidationErrorResponseData,
-} from "@rvf/react-router";
+import { type ValidationErrorResponseData } from "@rvf/react-router";
 import pickBy from "lodash/pickBy";
-import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { type ZodTypeAny } from "zod";
 import { type FlowId } from "~/domains/flowIds";
 import { type ArrayData, type UserData, getContext } from "~/domains/userData";
@@ -26,8 +21,8 @@ export async function uploadUserFile(
   userData: UserData,
   flowId: FlowId,
 ): Promise<{
-  validationError?: UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
-  validationResult?: { data: UserData };
+  error?: ValidationErrorResponseData;
+  result?: { data: UserData };
 }> {
   const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
@@ -35,14 +30,11 @@ export async function uploadUserFile(
 
   if (!file) {
     return {
-      validationError: validationError(
-        {
-          fieldErrors: {
-            [formAction.split(".")[1]]: FILE_REQUIRED_ERROR,
-          },
-        } as ValidatorError,
-        userData,
-      ),
+      error: {
+        fieldErrors: {
+          [formAction.split(".")[1]]: FILE_REQUIRED_ERROR,
+        },
+      },
     };
   }
 
@@ -75,7 +67,7 @@ export async function uploadUserFile(
 
   if (validationResult.error) {
     return {
-      validationError: buildFileUploadError(validationResult, inputName),
+      error: buildFileUploadError(validationResult, inputName),
     };
   }
   const savedFileKey = await uploadUserFileToS3(
@@ -88,7 +80,7 @@ export async function uploadUserFile(
   (validationResult.data[fieldName] as ArrayData)[Number(inputIndex)] =
     fileMeta;
   return {
-    validationResult: { ...validationResult },
+    result: { ...validationResult },
   };
 }
 

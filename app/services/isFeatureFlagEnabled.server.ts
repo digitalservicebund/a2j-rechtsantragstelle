@@ -3,7 +3,7 @@ import { getPosthogNodeClient } from "~/services/analytics/posthogClient.server"
 // These settings are used if posthog isn't available, including for e2e tests. They should match production as closely as possible
 const localFeatureFlags = {
   showGeldEinklagenFlow: false,
-  showFileUpload: false,
+  showFileUpload: true,
   showKontopfaendungWegweiserFlow: false,
 } as const;
 

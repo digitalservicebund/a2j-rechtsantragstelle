@@ -1,4 +1,7 @@
-import { validationError, type ValidationResult } from "@rvf/react-router";
+import {
+  type ValidationErrorResponseData,
+  type ValidationResult,
+} from "@rvf/react-router";
 import { type UserData } from "~/domains/userData";
 
 /**
@@ -9,21 +12,18 @@ import { type UserData } from "~/domains/userData";
  * "belege[0]": "Only PDF and TIFF files allowed"
  *
  * @param validationResult error result returned from `@rvf/react-router`
- * @returns DataWithResponseInit
+ * @returns ValidationErrorResponseData
  */
 export function buildFileUploadError(
   validationResult: ValidationResult<UserData>,
   inputName: string,
-) {
-  return validationError(
-    {
-      ...validationResult.error,
-      fieldErrors: Object.fromEntries(
-        Object.entries(validationResult.error?.fieldErrors ?? {})
-          .map(([key, val]) => [key.split(".")[0], val])
-          .filter(([key]) => key === inputName),
-      ),
-    },
-    validationResult.submittedData,
-  );
+): ValidationErrorResponseData {
+  return {
+    fieldErrors: Object.fromEntries(
+      Object.entries(validationResult.error?.fieldErrors ?? {})
+        .map(([key, val]) => [key.split(".")[0], val])
+        .filter(([key]) => key === inputName),
+    ),
+    repopulateFields: validationResult.submittedData,
+  };
 }

@@ -6,6 +6,8 @@ import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { retrieveContentData } from "~/services/flow/formular/contentData/retrieveContentData";
+import { handleFileUpload } from "~/services/flow/formular/fileUpload/handleFileUpload.server";
+import { shouldHandleFileUpload } from "~/services/flow/formular/fileUpload/shouldHandleFileUpload";
 import { getUserDataAndFlow } from "~/services/flow/formular/userDataAndFlow/getUserDataAndFlow";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
@@ -16,11 +18,6 @@ import { validatedSession } from "~/services/security/csrf/validatedSession.serv
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
-import {
-  deleteUserFile,
-  getUpdatedField,
-  uploadUserFile,
-} from "~/services/upload/fileUploadHelpers.server";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { filterFormData } from "~/util/filterFormData";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
@@ -109,45 +106,28 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const flowSession = await getSession(cookieHeader);
   const clonedFormData = await request.clone().formData();
   const formAction = clonedFormData.get("_action");
-  if (typeof formAction === "string" && formAction.startsWith("fileUpload")) {
-    const { validationResult, validationError } = await uploadUserFile(
-      formAction,
+
+  if (shouldHandleFileUpload(formAction)) {
+    const result = await handleFileUpload(
+      formAction as string,
       request,
-      flowSession.data,
-      flowId,
+      flowSession,
     );
-    if (validationError) return validationError;
-    updateSession(flowSession, resolveArraysFromKeys(validationResult!.data));
-    return data(flowSession.data, {
-      headers: { "Set-Cookie": await commitSession(flowSession) },
-    });
-  } else if (
-    typeof formAction === "string" &&
-    formAction.startsWith("deleteFile")
-  ) {
-    const fileDeleted = await deleteUserFile(
-      formAction,
-      request.headers.get("Cookie"),
-      flowSession.data,
-      flowId,
-    );
-    if (fileDeleted) {
-      updateSession(
-        flowSession,
-        getUpdatedField(formAction.split(".")[1], flowSession.data),
-        /**
-         * if the new data is an array, fully overwrite existing data as lodash can't overwrite an existing array with an empty array (if all files are deleted)
-         */
-        (_, newData) => {
-          if (Array.isArray(newData)) {
-            return newData;
-          }
-        },
-      );
+
+    switch (result.variant) {
+      case "Err": {
+        return validationError(result.error, flowSession.data);
+      }
+      case "Ok": {
+        const { userData, mergeCustomizer } = result.value;
+        if (userData) {
+          updateSession(flowSession, userData, mergeCustomizer);
+        }
+        return data(flowSession.data, {
+          headers: { "Set-Cookie": await commitSession(flowSession) },
+        });
+      }
     }
-    return data(flowSession.data, {
-      headers: { "Set-Cookie": await commitSession(flowSession) },
-    });
   }
 
   const relevantFormData = filterFormData(clonedFormData);
