@@ -15,7 +15,7 @@ export function getArrayDataFromFormData(formData: FormData): Result<
 > {
   const pathname = formData.get("pathnameArrayItem");
 
-  if (typeof pathname !== "string") {
+  if (!pathname) {
     return Result.err({
       message: "Pathname array item invalid",
     });
@@ -31,7 +31,7 @@ export function getArrayDataFromFormData(formData: FormData): Result<
     });
   }
 
-  const { flowId } = parsePathname(pathname);
+  const { flowId } = parsePathname(pathname as string);
 
   return Result.ok({ arrayName, index, flowId });
 }
@@ -47,7 +47,7 @@ export const deleteArrayItem = (
 
   if (!Array.isArray(arrayToMutate)) {
     return Result.err({
-      message: `Requested field is not an array. Deletion request for ${arrayName}, but it is not an array.`,
+      message: `Deletion failed: '${arrayName}' is not an array.`,
     });
   }
 

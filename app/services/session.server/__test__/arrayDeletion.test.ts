@@ -51,8 +51,8 @@ describe("arrayDeletion", () => {
 
       const result = deleteArrayItem("nonExistentArray", 0, mockSession);
       expect(result.isErr).toBe(true);
-      expect(result.isErr ? result.error.message : undefined).toContain(
-        "Requested field is not an array",
+      expect(result.isErr ? result.error.message : undefined).toEqual(
+        "Deletion failed: 'nonExistentArray' is not an array.",
       );
     });
 
@@ -62,8 +62,8 @@ describe("arrayDeletion", () => {
 
       const result = deleteArrayItem("arrayTest", 0, mockSession);
       expect(result.isErr).toBe(true);
-      expect(result.isErr ? result.error.message : undefined).toContain(
-        "Requested field is not an array",
+      expect(result.isErr ? result.error.message : undefined).toEqual(
+        "Deletion failed: 'arrayTest' is not an array.",
       );
     });
 
@@ -74,7 +74,7 @@ describe("arrayDeletion", () => {
 
       const result = deleteArrayItem("arrayTest", 2, mockSession);
       expect(result.isErr).toBe(true);
-      expect(result.isErr ? result.error.message : undefined).toContain(
+      expect(result.isErr ? result.error.message : undefined).toEqual(
         "Requested array isn't long enough. Deletion request at index 2, but array is only of length 2.",
       );
     });
