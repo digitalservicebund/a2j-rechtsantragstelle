@@ -32,7 +32,7 @@ const cases = [
       "/persoenliche-daten/geburtsdatum",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
-      "/persoenliche-daten/nachbefragung",
+      // "/persoenliche-daten/nachbefragung", // Uncomment when Nachbefragung is released
       "/weitere-angaben",
       "/abgabe/ueberpruefung",
     ],
@@ -84,7 +84,7 @@ const cases = [
       "/persoenliche-daten/geburtsdatum",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
-      "/persoenliche-daten/nachbefragung",
+      // "/persoenliche-daten/nachbefragung", // Uncomment when Nachbefragung is released
       "/weitere-angaben",
       "/abgabe/ueberpruefung",
     ],
