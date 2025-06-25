@@ -19,8 +19,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   );
 
   const headers = await consentCookieFromRequest({ request });
-  return redirect(
-    `${url}?${validationResult.error ? invalidEmailError.code : "success"}`,
-    { headers },
-  );
+  if (validationResult.error) {
+    return redirect(`${url}?${invalidEmailError.code}`, { headers });
+  }
+  return redirect(`${url}?success`, { headers });
 };
