@@ -106,7 +106,7 @@ jobs:
           argocd_sync_timeout: 600
 
   deploy-preview:
-    needs: [build-push-content-image]
+    needs: [build-push-content-image, deploy-test]
     runs-on: ubuntu-latest
     environment: preview
     steps:
