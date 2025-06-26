@@ -26,11 +26,7 @@ export function getStrapiCheckboxComponent(
       name,
       label,
       id,
-      isRequiredError: {
-        name: "",
-        id: 0,
-        errorCodes: [errorCode],
-      },
+      errorMessage: errorCode.text,
     },
     expectCheckboxErrorToExist: async function () {
       await waitFor(() => {

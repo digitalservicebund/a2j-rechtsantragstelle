@@ -1,33 +1,24 @@
 import { z } from "zod";
-import { type RadioGroupProps } from "~/components/inputs/RadioGroup";
-import {
-  flattenStrapiErrors,
-  StrapiErrorRelationSchema,
-} from "~/services/cms/flattenStrapiErrors";
-import { omitNull } from "~/util/omitNull";
+import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import { StrapiSelectOptionSchema } from "../models/StrapiSelectOption";
+import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 
-const StrapiSelectSchema = z
+const StrapiSelectOptionSchema = z.object({
+  text: z.string(),
+  value: z.string(),
+});
+
+export const StrapiSelectComponentSchema = z
   .object({
     name: z.string(),
-    label: z.string().nullable(),
-    altLabel: z.string().nullable(),
+    __component: z.literal("form-elements.select"),
+    label: StrapiOptionalStringSchema,
+    altLabel: StrapiOptionalStringSchema,
     options: z.array(StrapiSelectOptionSchema),
     errors: StrapiErrorRelationSchema,
   })
-  .merge(HasOptionalStrapiIdSchema);
-
-type StrapiSelect = z.infer<typeof StrapiSelectSchema>;
-
-export const StrapiSelectComponentSchema = StrapiSelectSchema.extend({
-  __component: z.literal("form-elements.select"),
-});
-
-/**
- * A Strapi "select" is really just a Radio Group
- */
-export const getRadioGroupProps = (cmsData: StrapiSelect): RadioGroupProps => ({
-  ...omitNull(cmsData),
-  errorMessages: flattenStrapiErrors(cmsData.errors),
-});
+  .merge(HasOptionalStrapiIdSchema)
+  .transform(({ errors, ...cmsData }) => ({
+    ...cmsData,
+    errorMessages: errors,
+  }));

@@ -21,7 +21,7 @@ export function getStrapiInputComponent<T extends InputType = "input">(
       name: "inputName",
       label: "inputLabel",
       placeholder: "placeholder",
-      errors: [{ name: "", id: 0, errorCodes: [errorCode] }],
+      errorMessages: [errorCode],
     },
     expectInputErrorToExist: async function () {
       await waitFor(() => {

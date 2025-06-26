@@ -1,30 +1,21 @@
 import { z } from "zod";
-import { type CheckboxProps } from "~/components/inputs/Checkbox";
 import {
   HasOptionalStrapiIdSchema,
   HasStrapiIdSchema,
 } from "../models/HasStrapiId";
 import { StrapiErrorCategorySchema } from "../models/StrapiErrorCategory";
 
-const StrapiCheckboxSchema = z
+export const StrapiCheckboxComponentSchema = z
   .object({
+    __component: z.literal("form-elements.checkbox"),
     name: z.string(),
     label: z.string(),
     isRequiredError:
       StrapiErrorCategorySchema.merge(HasStrapiIdSchema).nullable(),
   })
-  .merge(HasOptionalStrapiIdSchema);
-
-type StrapiCheckboxSchema = z.infer<typeof StrapiCheckboxSchema>;
-
-export const StrapiCheckboxComponentSchema = StrapiCheckboxSchema.extend({
-  __component: z.literal("form-elements.checkbox"),
-});
-
-export const getCheckboxProps = (
-  cmsData: StrapiCheckboxSchema,
-): CheckboxProps => ({
-  ...cmsData,
-  required: cmsData.isRequiredError !== null,
-  errorMessage: cmsData.isRequiredError?.errorCodes[0].text,
-});
+  .merge(HasOptionalStrapiIdSchema)
+  .transform(({ isRequiredError, ...cmsData }) => ({
+    ...cmsData,
+    required: isRequiredError !== null,
+    errorMessage: isRequiredError?.errorCodes[0].text,
+  }));

@@ -1,6 +1,6 @@
 import { decode } from "html-entities";
 import { z } from "zod";
 
-export const stringWithHtmlEntities = z
+export const StringWithHtmlEntities = z
   .string()
   .transform((text) => decode(text));

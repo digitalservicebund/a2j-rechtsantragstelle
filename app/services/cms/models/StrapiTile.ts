@@ -3,6 +3,7 @@ import { z } from "zod";
 import { buildRichTextValidation } from "~/services/validation/richtext";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiImageOptionalSchema } from "./StrapiImage";
+import { StrapiOptionalStringSchema } from "./StrapiOptionalString";
 
 export const createTileRenderer = (value: string): Partial<Renderer> => ({
   paragraph({ text }) {
@@ -14,19 +15,18 @@ export const StrapiTileSchema = z
   .object({
     title: z.string(),
     value: z.string(),
-    description: z.string().nullable(),
+    description: StrapiOptionalStringSchema,
     image: StrapiImageOptionalSchema,
-    tagDescription: z.string().nullable(),
+    tagDescription: StrapiOptionalStringSchema,
   })
   .merge(HasOptionalStrapiIdSchema)
   .transform((cmsData) => {
     const tileRenderer = createTileRenderer(cmsData.value);
-    const parsed = buildRichTextValidation(tileRenderer)
-      .nullable()
-      .safeParse(cmsData.description);
-
+    const parsed = buildRichTextValidation(tileRenderer).safeParse(
+      cmsData.description,
+    );
     return {
       ...cmsData,
-      description: parsed.success ? parsed.data : null,
+      description: parsed.success ? parsed.data : undefined,
     };
   });

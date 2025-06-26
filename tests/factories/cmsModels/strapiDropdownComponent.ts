@@ -28,13 +28,7 @@ export function getStrapiDropdownComponent(
           value: "option3",
         },
       ],
-      errors: [
-        {
-          name: "",
-          id: 0,
-          errorCodes: [errorCode],
-        },
-      ],
+      errorMessages: [errorCode],
     },
     expectDropdownErrorToExist: async function () {
       await waitFor(() => {
