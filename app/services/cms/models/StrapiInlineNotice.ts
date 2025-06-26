@@ -9,7 +9,7 @@ export const StrapiInlineNoticeSchema = z
   .object({
     title: z.string(),
     tagName: z.enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"]),
-    look: z.enum(["warning", "tips"]),
+    look: z.enum(["warning", "tips", "success", "error"]),
     content: StrapiRichTextOptionalSchema(),
     container: StrapiContainerSchema,
     outerBackground: StrapiBackgroundSchema.nullable(),

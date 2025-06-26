@@ -4,6 +4,7 @@ import { getPosthogNodeClient } from "~/services/analytics/posthogClient.server"
 const localFeatureFlags = {
   showGeldEinklagenFlow: false,
   showFileUpload: false,
+  showNachbefragung: false,
   showKontopfaendungWegweiserFlow: false,
 } as const;
 
