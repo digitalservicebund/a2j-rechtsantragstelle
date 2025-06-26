@@ -1,7 +1,8 @@
 /* eslint-disable sonarjs/no-nested-functions */
 import { fetchStreetnamesForZipcode } from "~/services/gerichtsfinder/openPLZ";
 
-const fetchSpy = vi.spyOn(global, "fetch");
+const fetchSpy = vi.fn();
+global.fetch = fetchSpy;
 
 describe("OpenPLZ helpers", () => {
   describe("fetchStreetnamesForZipcode", () => {
@@ -10,6 +11,12 @@ describe("OpenPLZ helpers", () => {
     });
 
     it("should send a request to the openPLZ API", async () => {
+      fetchSpy.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+        headers: { get: () => ({}) },
+      });
+
       await fetchStreetnamesForZipcode("12345");
       expect(fetchSpy).toHaveBeenCalledWith(
         "https://openplzapi.org/de/Streets?postalCode=12345&page=1&pageSize=50",
@@ -62,7 +69,7 @@ describe("OpenPLZ helpers", () => {
               return "3";
             },
           },
-        } as Response);
+        });
       });
       const result = await fetchStreetnamesForZipcode("12345");
       expect(fetchSpy).toHaveBeenCalledTimes(3);

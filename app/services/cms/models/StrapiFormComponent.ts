@@ -11,7 +11,7 @@ import { StrapiTextareaComponentSchema } from "../components/StrapiTextarea";
 import { StrapiTileGroupComponentSchema } from "../components/StrapiTileGroup";
 import { StrapiTimeInputComponentSchema } from "../components/StrapiTimeInput";
 
-export const StrapiFormComponentSchema = z.discriminatedUnion("__component", [
+export const StrapiFormComponentSchema = z.union([
   StrapiInputComponentSchema,
   StrapiDateInputComponentSchema,
   StrapiTimeInputComponentSchema,

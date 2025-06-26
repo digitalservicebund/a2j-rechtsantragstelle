@@ -1,50 +1,27 @@
 import { z } from "zod";
-import {
-  flattenStrapiErrors,
-  StrapiErrorRelationSchema,
-} from "~/services/cms/flattenStrapiErrors";
-import { omitNull } from "~/util/omitNull";
+import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import {
-  strapiWidthToFieldWidth,
-  strapiWidthSchema,
-} from "../models/strapiWidth";
+import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
+import { StrapiWidthSchema } from "../models/StrapiWidth";
 
 const DataListSchema = z.enum(["airports", "airlines"]);
 
-const StrapiAutoSuggestInputSchema = z
+export const StrapiAutoSuggestInputComponentSchema = z
   .object({
     name: z.string(),
-    label: z.string().nullable(),
-    placeholder: z.string().nullable(),
+    label: StrapiOptionalStringSchema,
+    placeholder: StrapiOptionalStringSchema,
     errors: StrapiErrorRelationSchema,
-    width: strapiWidthSchema.nullable(),
+    width: StrapiWidthSchema,
     dataList: DataListSchema,
-    noSuggestionMessage: z.string().nullable(),
-    isDisabled: z
-      .boolean()
-      .nullable()
-      .transform((value) => {
-        if (value === null) {
-          return false;
-        }
-
-        return value;
-      }),
+    noSuggestionMessage: StrapiOptionalStringSchema,
+    isDisabled: z.boolean().nullable().transform(Boolean),
+    __component: z.literal("form-elements.auto-suggest-input"),
   })
-  .merge(HasOptionalStrapiIdSchema);
-
-type StrapiAutoSuggestInput = z.infer<typeof StrapiAutoSuggestInputSchema>;
+  .merge(HasOptionalStrapiIdSchema)
+  .transform(({ errors, ...cmsData }) => ({
+    ...cmsData,
+    errorMessages: errors,
+  }));
 
 export type DataListType = z.infer<typeof DataListSchema>;
-
-export const StrapiAutoSuggestInputComponentSchema =
-  StrapiAutoSuggestInputSchema.extend({
-    __component: z.literal("form-elements.auto-suggest-input"),
-  });
-
-export const getAutoSuggestInputProps = (cmsData: StrapiAutoSuggestInput) => ({
-  ...omitNull(cmsData),
-  width: strapiWidthToFieldWidth(cmsData.width),
-  errorMessages: flattenStrapiErrors(cmsData.errors),
-});
