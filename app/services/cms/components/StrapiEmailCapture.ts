@@ -1,20 +1,17 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
 import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNotice";
-import { buildRichTextValidation } from "~/services/validation/richtext";
-import { omitNull } from "~/util/omitNull";
+import { StrapiOptionalStringSchema } from "~/services/cms/models/StrapiOptionalString";
+import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 
 export const StrapiEmailCaptureSchema = z
   .object({
     target: z.string(),
-    label: z.string().nullable(),
-    description: buildRichTextValidation().nullable(),
-    buttonLabel: z.string().nullable(),
+    label: StrapiOptionalStringSchema,
+    description: StrapiRichTextOptionalSchema(),
+    buttonLabel: z.string(),
     successBanner: StrapiInlineNoticeSchema,
     errorBanner: StrapiInlineNoticeSchema,
+    __component: z.literal("page.email-capture"),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .transform((cmsData) => ({
-    ...omitNull(cmsData),
-    __component: "page.email-capture" as const,
-  }));
+  .merge(HasOptionalStrapiIdSchema);

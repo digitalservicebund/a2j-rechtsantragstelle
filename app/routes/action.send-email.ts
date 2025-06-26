@@ -6,7 +6,6 @@ import {
   emailCaptureConsentName,
 } from "~/components/emailCapture/emailCaptureHelpers";
 import { flowIdFromPathname } from "~/domains/flowIds";
-import { consentCookieFromRequest } from "~/services/analytics/gdprCookie.server";
 import { getSessionManager } from "~/services/session.server";
 import { filterFormData } from "~/util/filterFormData";
 
@@ -16,7 +15,7 @@ const formbricksEnvironmentId = "clyy3haia0008wtwmvnuzk8s5";
 const formbricksSurveyId = "s8cilvvp5qilg5on3qqnhqhe";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.clone().formData();
+  const formData = await request.formData();
   const url = formData.get("_url") as string | null;
   const relevantFormData = filterFormData(formData);
   const validationResult = await parseFormData(
@@ -24,9 +23,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     emailCaptureSchema,
   );
 
-  let headers = await consentCookieFromRequest({ request });
   if (validationResult.error) {
-    return redirect(`${url}?${invalidEmailError.code}`, { headers });
+    return redirect(`${url}?${invalidEmailError.code}`);
   }
 
   const response = await fetch(
@@ -43,13 +41,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     },
   );
   if (!response.ok) {
-    return redirect(`${url}?error`, { headers });
+    return redirect(`${url}?error`);
   }
   const { getSession, commitSession } = getSessionManager(
     flowIdFromPathname(url ?? "") ?? "main",
   );
   const session = await getSession(request.headers.get("Cookie"));
   session.set(emailCaptureConsentName, true);
-  headers = { "Set-Cookie": await commitSession(session) };
+  const headers = { "Set-Cookie": await commitSession(session) };
   return redirect(`${url}?success`, { headers });
 };
