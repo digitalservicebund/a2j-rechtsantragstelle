@@ -1,7 +1,6 @@
 import { createSession } from "react-router";
 import {
   deleteUserFile,
-  getUpdatedField,
   uploadUserFile,
 } from "~/services/upload/fileUploadHelpers.server";
 import { handleFileUpload } from "../handleFileUpload.server";
@@ -9,7 +8,6 @@ import { handleFileUpload } from "../handleFileUpload.server";
 vi.mock("~/services/upload/fileUploadHelpers.server", () => ({
   uploadUserFile: vi.fn(),
   deleteUserFile: vi.fn(),
-  getUpdatedField: vi.fn(),
 }));
 
 const mockRequest = new Request(
@@ -54,19 +52,18 @@ describe("handleFileUpload", () => {
 
   it("should return ok when the action is deleteFile", async () => {
     vi.mocked(deleteUserFile).mockResolvedValue({ fileWasDeleted: true });
-    vi.mocked(getUpdatedField).mockReturnValue({
-      fileUpload: { test: "File deleted successfully" },
-    });
+    const mockDeleteSession = createSession();
+    mockDeleteSession.set("test", ["File to be deleted", "File to keep"]);
 
     const actual = await handleFileUpload(
-      "deleteFile",
+      "deleteFile.test[0]",
       mockRequest,
-      mockSession,
+      mockDeleteSession,
     );
 
     expect(actual.isOk).toBe(true);
     expect(actual.isOk ? actual.value.userData : undefined).toEqual({
-      fileUpload: { test: "File deleted successfully" },
+      test: ["File to keep"],
     });
   });
 

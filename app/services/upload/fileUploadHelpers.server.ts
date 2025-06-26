@@ -118,20 +118,3 @@ async function parseFileFromFormData(request: Request, fieldName: string) {
   );
   return matchedFile;
 }
-
-/**
- * Helper function that deletes an entry in an existing field array
- * @param inputName name of the array that's being modified
- * @param userData existing user data in Context
- */
-export function getUpdatedField(
-  inputName: string,
-  userData: UserData,
-): UserData {
-  const { fieldName, inputIndex } = splitFieldName(inputName);
-  return {
-    [fieldName]: (userData[fieldName] as ArrayData).filter(
-      (_, index) => index !== inputIndex,
-    ),
-  };
-}
