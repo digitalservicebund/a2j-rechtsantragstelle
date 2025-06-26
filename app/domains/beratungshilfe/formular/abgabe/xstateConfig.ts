@@ -1,10 +1,7 @@
 import type { AbgabeUserData } from "~/domains/shared/formular/abgabe/userData";
-import { config } from "~/services/env/public";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { beratungshilfeAbgabeGuards } from "./guards";
-
-const shouldShowZusammenfassung = config().ENVIRONMENT !== "production";
 
 export const abgabeXstateConfig = async (backDestination: string) => {
   const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
@@ -18,13 +15,13 @@ export const abgabeXstateConfig = async (backDestination: string) => {
         meta: { expandValidation: true },
         always: {
           guard: beratungshilfeAbgabeGuards.readyForAbgabe,
-          target: shouldShowZusammenfassung ? "zusammenfassung" : "art",
+          target: "zusammenfassung",
         },
       },
       zusammenfassung: { on: { BACK: backDestination, SUBMIT: "art" } },
       art: {
         on: {
-          BACK: shouldShowZusammenfassung ? "zusammenfassung" : backDestination,
+          BACK: "zusammenfassung",
           SUBMIT: [
             {
               target: showFileUpload ? "dokumente" : "online",
