@@ -8,5 +8,4 @@ export async function startWeitereAngaben(page: Page, formular: Formular) {
     "weitereAngaben",
     "Weitere Angaben zu meinem Anliegen",
   );
-  await formular.clickNext();
 }

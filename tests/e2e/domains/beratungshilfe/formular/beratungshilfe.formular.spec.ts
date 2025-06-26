@@ -152,6 +152,11 @@ async function startDocumentUpload(page: Page) {
   await page.getByRole("button", { name: "Weiter", exact: true }).click();
 }
 async function startOnlineAbgabe(page: Page) {
+  // beratungshilfe/antrag/abgabe/zusammenfassung
+  expect(
+    (await page.getByTestId("summary-box-item-title").all()).length,
+  ).toBeGreaterThan(1);
+  await beratungshilfeFormular.clickNext();
   // beratungshilfe/antrag/abgabe/art
   await beratungshilfeFormular.fillRadioPage("abgabeArt", "online");
   // beratungshilfe/antrag/abgabe/online
