@@ -7,6 +7,7 @@ import { StrapiSelectOptionSchema } from "../models/StrapiSelectOption";
 export const StrapiSelectComponentSchema = z
   .object({
     name: z.string(),
+    __component: z.literal("form-elements.select"),
     label: strapiOptionalStringSchema,
     altLabel: strapiOptionalStringSchema,
     options: z.array(StrapiSelectOptionSchema),
@@ -16,5 +17,4 @@ export const StrapiSelectComponentSchema = z
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,
-    __component: "form-elements.select" as const,
   }));
