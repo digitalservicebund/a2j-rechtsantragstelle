@@ -53,7 +53,7 @@ describe("handleFileUpload", () => {
   });
 
   it("should return ok when the action is deleteFile", async () => {
-    vi.mocked(deleteUserFile).mockResolvedValue(true);
+    vi.mocked(deleteUserFile).mockResolvedValue({ fileWasDeleted: true });
     vi.mocked(getUpdatedField).mockReturnValue({
       fileUpload: { test: "File deleted successfully" },
     });

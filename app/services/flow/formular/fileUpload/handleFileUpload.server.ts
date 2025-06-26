@@ -45,14 +45,14 @@ export const handleFileUpload = async (
       });
     }
     case "delete": {
-      const fileDeleted = await deleteUserFile(
+      const { fileWasDeleted } = await deleteUserFile(
         formAction,
         request.headers.get("Cookie"),
         flowSession.data,
         flowId,
       );
       return Result.ok({
-        userData: fileDeleted
+        userData: fileWasDeleted
           ? getUpdatedField(formAction.split(".")[1], flowSession.data)
           : undefined,
         mergeCustomizer: (_, newData) => {
