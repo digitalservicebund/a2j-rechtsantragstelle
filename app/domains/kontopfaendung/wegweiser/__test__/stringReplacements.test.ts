@@ -72,11 +72,7 @@ describe("stringReplacements", () => {
   describe("getKindergeldStrings", () => {
     it("should return correct Kindergeld strings", () => {
       const userData: KontopfaendungWegweiserUserData = {
-        sozialleistungenUmstaende: {
-          kindergeld: "on",
-          pflegegeld: "off",
-          wohngeld: "off",
-        },
+        hasKindergeld: "yes",
       };
       expect(getKindergeldStrings(userData)).toEqual({
         hasKindergeld: true,
@@ -86,11 +82,7 @@ describe("stringReplacements", () => {
   describe("getWohngeldStrings", () => {
     it("should return correct Wohngeld strings", () => {
       const userData: KontopfaendungWegweiserUserData = {
-        sozialleistungenUmstaende: {
-          wohngeld: "on",
-          pflegegeld: "off",
-          kindergeld: "off",
-        },
+        hasWohngeld: "yes",
       };
       expect(getWohngeldStrings(userData)).toEqual({
         hasWohngeld: true,
@@ -255,11 +247,7 @@ describe("stringReplacements", () => {
     it("should return schuldnerberatungsstelleIsVisible as true when at least one sub variable is true", () => {
       const userData: KontopfaendungWegweiserUserData = {
         kinderWohnenZusammen: "ja",
-        sozialleistungenUmstaende: {
-          kindergeld: "on",
-          pflegegeld: "off",
-          wohngeld: "off",
-        },
+        hasKindergeld: "yes",
         hasSozialleistungenEinmalzahlung: "yes",
         hasSozialleistungNachzahlung: "yes",
         sozialleistungNachzahlungHigherThan: "no",
@@ -276,11 +264,9 @@ describe("stringReplacements", () => {
     it("should return schuldnerberatungsstelleIsVisible as false when all sub variables are false", () => {
       const userData: KontopfaendungWegweiserUserData = {
         kinderWohnenZusammen: "nein",
-        sozialleistungenUmstaende: {
-          kindergeld: "off",
-          pflegegeld: "off",
-          wohngeld: "off",
-        },
+        hasKindergeld: "no",
+        hasPflegegeld: "no",
+        hasWohngeld: "no",
         hasSozialleistungenEinmalzahlung: "no",
         hasSozialleistungNachzahlung: "no",
         sozialleistungNachzahlungHigherThan: "no",
@@ -308,11 +294,7 @@ describe("stringReplacements", () => {
           angestellt: "off",
           selbstaendig: "on",
         },
-        sozialleistungenUmstaende: {
-          kindergeld: "off",
-          pflegegeld: "off",
-          wohngeld: "on",
-        },
+        hasWohngeld: "yes",
       };
       expect(getAmtsgerichtStrings(userData)).toEqual({
         amtsgerichtIsVisible: true,
@@ -329,11 +311,7 @@ describe("stringReplacements", () => {
           angestellt: "on",
           selbstaendig: "off",
         },
-        sozialleistungenUmstaende: {
-          kindergeld: "on",
-          pflegegeld: "off",
-          wohngeld: "off",
-        },
+        hasKindergeld: "yes",
       };
       expect(getAmtsgerichtStrings(userData)).toEqual({
         amtsgerichtIsVisible: false,
@@ -367,11 +345,7 @@ describe("stringReplacements", () => {
     it("should return hasErhöhung as true when at least one sub variable is true", () => {
       const userData: KontopfaendungWegweiserUserData = {
         kinderWohnenZusammen: "ja",
-        sozialleistungenUmstaende: {
-          kindergeld: "on",
-          pflegegeld: "off",
-          wohngeld: "off",
-        },
+        hasKindergeld: "yes",
         hasSozialleistungenEinmalzahlung: "yes",
         hasSozialleistungNachzahlung: "yes",
         sozialleistungNachzahlungHigherThan: "no",
@@ -383,11 +357,9 @@ describe("stringReplacements", () => {
     it("should return hasErhöhung as false when all sub variables are false", () => {
       const userData: KontopfaendungWegweiserUserData = {
         kinderWohnenZusammen: "nein",
-        sozialleistungenUmstaende: {
-          kindergeld: "off",
-          pflegegeld: "off",
-          wohngeld: "off",
-        },
+        hasKindergeld: "no",
+        hasPflegegeld: "no",
+        hasWohngeld: "no",
         hasSozialleistungenEinmalzahlung: "no",
         hasSozialleistungNachzahlung: "no",
         sozialleistungNachzahlungHigherThan: "no",
