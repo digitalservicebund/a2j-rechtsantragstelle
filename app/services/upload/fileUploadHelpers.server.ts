@@ -8,7 +8,10 @@ import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
-import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
+import {
+  TEN_MB_IN_BYTES,
+  type PDFFileMetadata,
+} from "~/services/validation/pdfFileSchema";
 import { buildFileUploadError } from "./buildFileUploadError";
 import { splitFieldName } from "./splitFieldName";
 import { validateUploadedFile } from "./validateUploadedFile";
@@ -104,11 +107,15 @@ export async function deleteUserFile(
 
 async function parseFileFromFormData(request: Request, fieldName: string) {
   let matchedFile: File | undefined;
-  await parseFormData(request, (fileUpload: FileUpload) => {
-    if (fileUpload.fieldName === fieldName && fileUpload.name) {
-      matchedFile = fileUpload;
-    }
-  });
+  await parseFormData(
+    request,
+    { maxFileSize: TEN_MB_IN_BYTES }, // Limit file size to 10MB
+    (fileUpload: FileUpload) => {
+      if (fileUpload.fieldName === fieldName && fileUpload.name) {
+        matchedFile = fileUpload;
+      }
+    },
+  );
   return matchedFile;
 }
 
