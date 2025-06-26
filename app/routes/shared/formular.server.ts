@@ -118,7 +118,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     switch (result.variant) {
       case "Err": {
-        return validationError(result.error, flowSession.data);
+        return validationError(result.error, result.error?.repopulateFields);
       }
       case "Ok": {
         const { userData, mergeCustomizer } = result.value;
