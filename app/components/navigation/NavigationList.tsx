@@ -7,7 +7,12 @@ export const NavigationList = ({
 }: FlowNavigationProps & { isChild?: boolean }) => (
   <ul className={`pl-0 bg-white ${props.className ?? ""}`}>
     {navItems.map((navItem) => (
-      <NavItem {...navItem} key={navItem.destination} {...props} />
+      <NavItem
+        {...navItem}
+        key={navItem.destination}
+        forceExpanded={props.expandAll}
+        {...props}
+      />
     ))}
   </ul>
 );

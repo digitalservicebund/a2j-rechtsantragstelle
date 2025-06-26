@@ -1,13 +1,13 @@
 import classNames from "classnames";
+import { useRef } from "react";
 import Button from "~/components/Button";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
+import { useFileHandler } from "~/components/filesUpload/useFileHandler";
+import { type ErrorMessageProps } from "~/components/inputs";
 import InputError from "~/components/inputs/InputError";
 import { translations } from "~/services/translations/translations";
 import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
-import { type ErrorMessageProps } from "../inputs";
-import { useFileHandler } from "./useFileHandler";
-import { useRef } from "react";
 
 type FileInputProps = {
   name: string;
@@ -88,19 +88,17 @@ export const FileInput = ({
       ) : (
         <>
           {jsAvailable ? (
-            <>
-              <label
-                htmlFor={inputId}
-                className="relative inline-flex items-center ds-button ds-button-tertiary ds-button-large cursor-pointer w-fit"
-              >
-                {FileInput}
-                <span className="ds-button-label">
-                  {splitFieldName(name).inputIndex === 0
-                    ? translations.fileUpload.select.de
-                    : translations.fileUpload.addAnother.de}
-                </span>
-              </label>
-            </>
+            <label
+              htmlFor={inputId}
+              className="relative inline-flex items-center ds-button ds-button-tertiary ds-button-large cursor-pointer w-fit"
+            >
+              {FileInput}
+              <span className="ds-button-label">
+                {splitFieldName(name).inputIndex === 0
+                  ? translations.fileUpload.select.de
+                  : translations.fileUpload.addAnother.de}
+              </span>
+            </label>
           ) : (
             <div className="flex flex-row">
               <label htmlFor={name}>
