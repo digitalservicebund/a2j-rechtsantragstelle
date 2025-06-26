@@ -1,28 +1,18 @@
 import { z } from "zod";
-import { type InputProps } from "~/components/inputs/Input";
-import {
-  flattenStrapiErrors,
-  StrapiErrorRelationSchema,
-} from "~/services/cms/flattenStrapiErrors";
-import { omitNull } from "~/util/omitNull";
+import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 
-const StrapiTimeInputSchema = z
+export const StrapiTimeInputComponentSchema = z
   .object({
     name: z.string(),
-    label: z.string().nullable(),
-    placeholder: z.string().nullable(),
+    label: StrapiOptionalStringSchema,
+    placeholder: StrapiOptionalStringSchema,
     errors: StrapiErrorRelationSchema,
+    __component: z.literal("form-elements.time-input"),
   })
-  .merge(HasOptionalStrapiIdSchema);
-
-export const StrapiTimeInputComponentSchema = StrapiTimeInputSchema.extend({
-  __component: z.literal("form-elements.time-input"),
-});
-
-type StrapiTimeInput = z.infer<typeof StrapiTimeInputSchema>;
-
-export const getTimeInputProps = (cmsData: StrapiTimeInput): InputProps => ({
-  ...omitNull(cmsData),
-  errorMessages: flattenStrapiErrors(cmsData.errors),
-});
+  .merge(HasOptionalStrapiIdSchema)
+  .transform(({ errors, ...cmsData }) => ({
+    ...cmsData,
+    errorMessages: errors,
+  }));

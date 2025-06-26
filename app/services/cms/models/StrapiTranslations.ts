@@ -1,12 +1,12 @@
 import { z } from "zod";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
-import { stringWithHtmlEntities } from "./stringWithHtmlEntities";
+import { StringWithHtmlEntities } from "./StringWithHtmlEntities";
 
 export const StrapiTranslationSchema = z
   .object({
     scope: z.string(),
     field: z.array(
-      z.object({ name: z.string(), value: stringWithHtmlEntities }),
+      z.object({ name: z.string(), value: StringWithHtmlEntities }),
     ),
   })
   .merge(HasStrapiLocaleSchema)

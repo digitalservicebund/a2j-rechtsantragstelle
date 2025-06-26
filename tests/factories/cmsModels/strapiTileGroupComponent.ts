@@ -17,14 +17,9 @@ export function getStrapiTileGroupComponent(
       options: tiles.map((title, index) => ({
         title,
         value: `tile ${index}`,
+        description: undefined,
       })),
-      errors: [
-        {
-          name: "",
-          id: 0,
-          errorCodes: [errorCode],
-        },
-      ],
+      errorMessages: [errorCode],
     },
     expectTileGroupErrorToExist: async function () {
       await waitFor(() => {

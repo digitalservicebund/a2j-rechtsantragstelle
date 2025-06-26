@@ -1,33 +1,24 @@
 import { z } from "zod";
-import { type TextareaProps } from "~/components/inputs/Textarea";
-import {
-  flattenStrapiErrors,
-  StrapiErrorRelationSchema,
-} from "~/services/cms/flattenStrapiErrors";
 import { StrapiDetailsSchema } from "~/services/cms/models/StrapiDetails";
-import { buildRichTextValidation } from "~/services/validation/richtext";
+import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
+import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 
-const StrapiTextareaSchema = z
+export const StrapiTextareaComponentSchema = z
   .object({
+    __component: z.literal("form-elements.textarea"),
     name: z.string(),
-    description: buildRichTextValidation().nullable(),
-    details: StrapiDetailsSchema.nullable(),
-    label: z.string().nullable(),
-    placeholder: z.string().nullable(),
+    description: StrapiRichTextOptionalSchema(),
+    details: StrapiDetailsSchema.nullable().transform(omitNull),
+    label: StrapiOptionalStringSchema,
+    placeholder: StrapiOptionalStringSchema,
     errors: StrapiErrorRelationSchema,
-    maxLength: z.number().nullable(),
+    maxLength: z.number().nullable().transform(omitNull),
   })
-  .merge(HasOptionalStrapiIdSchema);
-
-export const StrapiTextareaComponentSchema = StrapiTextareaSchema.extend({
-  __component: z.literal("form-elements.textarea"),
-});
-
-type StrapiTextarea = z.infer<typeof StrapiTextareaSchema>;
-
-export const getTextareaProps = (cmsData: StrapiTextarea): TextareaProps => ({
-  ...omitNull(cmsData),
-  errorMessages: flattenStrapiErrors(cmsData.errors),
-});
+  .merge(HasOptionalStrapiIdSchema)
+  .transform(({ errors, ...cmsData }) => ({
+    ...cmsData,
+    errorMessages: errors,
+  }));
