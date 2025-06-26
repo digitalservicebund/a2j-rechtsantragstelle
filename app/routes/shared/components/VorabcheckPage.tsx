@@ -23,12 +23,9 @@ export function VorabcheckPage() {
 
   return (
     <Background backgroundColor="blue">
-      <div className="min-w-[100vw] flex flex-col h-full">
+      <div className="min-w-[100vw] flex flex-col h-full relative">
         <div className="flex-grow">
-          <Container
-            paddingTop="24"
-            paddingBottom={showReportProblem ? "0" : "64"}
-          >
+          <Container paddingTop="24" paddingBottom="64">
             <div className="ds-stack ds-stack-40">
               <ProgressBar {...progressProps} />
               <PageContent
