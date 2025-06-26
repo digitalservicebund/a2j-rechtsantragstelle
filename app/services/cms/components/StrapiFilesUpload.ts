@@ -1,34 +1,24 @@
 import { z } from "zod";
-import { type FilesUploadProps } from "~/components/filesUpload/FilesUpload";
-import {
-  flattenStrapiErrors,
-  StrapiErrorRelationSchema,
-} from "~/services/cms/flattenStrapiErrors";
 import { HasOptionalStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
+import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNotice";
 import { omitNull } from "~/util/omitNull";
+import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 
-const StrapiFilesUploadSchema = z
+export const StrapiFilesUploadComponentSchema = z
   .object({
+    __component: z.literal("form-elements.files-upload"),
     name: z.string(),
     title: z.string(),
-    description: z.string().nullable(),
-    inlineNotices: z.array(StrapiInlineNoticeSchema).optional(),
+    description: StrapiOptionalStringSchema,
+    inlineNotices: z
+      .array(StrapiInlineNoticeSchema)
+      .nullable()
+      .transform(omitNull),
     errors: StrapiErrorRelationSchema,
   })
-  .merge(HasOptionalStrapiIdSchema);
-
-export const StrapiFilesUploadComponentSchema = StrapiFilesUploadSchema.extend({
-  __component: z.literal("form-elements.files-upload"),
-});
-
-type StrapiFilesUpload = z.infer<typeof StrapiFilesUploadSchema>;
-
-export function getFilesUploadProps(
-  props: StrapiFilesUpload,
-): FilesUploadProps {
-  return {
-    ...omitNull(props),
-    errorMessages: flattenStrapiErrors(props.errors),
-  };
-}
+  .merge(HasOptionalStrapiIdSchema)
+  .transform(({ errors, ...cmsData }) => ({
+    ...cmsData,
+    errorMessages: errors,
+  }));

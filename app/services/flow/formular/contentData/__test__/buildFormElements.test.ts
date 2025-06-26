@@ -30,9 +30,9 @@ describe("buildFormElements", () => {
         {
           __component: "form-elements.select",
           name: "someSelect",
-          label: null,
           altLabel: "old alt label",
           options: [],
+          errorMessages: [],
         },
       ],
     } satisfies CMSContent;
@@ -50,9 +50,9 @@ describe("buildFormElements", () => {
         {
           __component: "form-elements.select",
           name: "someSelect",
-          label: null,
           altLabel: "old alt label",
           options: [],
+          errorMessages: [],
         },
       ],
     } satisfies CMSContent;
@@ -70,8 +70,9 @@ describe("buildFormElements", () => {
         {
           __component: "form-elements.checkbox",
           label: "some label",
-          isRequiredError: null,
           name: "checkbox",
+          required: false,
+          errorMessage: "",
         },
       ],
     } satisfies CMSContent;
