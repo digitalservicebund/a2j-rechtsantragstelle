@@ -37,9 +37,7 @@ describe("/action/send-email route", () => {
       body: formData,
     });
     await action({ request, params: {}, context: {} });
-    expect(redirFunc).toHaveBeenCalledWith(`${mockUrl}?invalid`, {
-      headers: {},
-    });
+    expect(redirFunc).toHaveBeenCalledWith(`${mockUrl}?invalid`);
   });
 
   it("should make a call to the formbricks api given a valid email", async () => {
@@ -68,8 +66,6 @@ describe("/action/send-email route", () => {
       body: formData,
     });
     await action({ request, params: {}, context: {} });
-    expect(redirFunc).toHaveBeenCalledWith(`${mockUrl}?error`, {
-      headers: {},
-    });
+    expect(redirFunc).toHaveBeenCalledWith(`${mockUrl}?error`);
   });
 });
