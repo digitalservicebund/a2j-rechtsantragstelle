@@ -1,9 +1,6 @@
 import { z } from "zod";
-import {
-  HasOptionalStrapiIdSchema,
-  HasStrapiIdSchema,
-} from "../models/HasStrapiId";
-import { StrapiErrorCategorySchema } from "../models/StrapiErrorCategory";
+import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { StrapiErrorRelationSchema } from "../models/StrapiErrorRelationSchema";
 import { strapiOptionalStringSchema } from "../models/strapiOptionalString";
 import { StrapiTileSchema } from "../models/StrapiTile";
 
@@ -14,11 +11,11 @@ export const StrapiTileGroupComponentSchema = z
     label: strapiOptionalStringSchema,
     altLabel: strapiOptionalStringSchema,
     options: z.array(StrapiTileSchema),
-    errors: z.array(StrapiErrorCategorySchema.merge(HasStrapiIdSchema)),
+    errors: StrapiErrorRelationSchema,
     useTwoColumns: z.boolean(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
-    errorMessages: errors?.flatMap((cmsError) => cmsError.errorCodes),
+    errorMessages: errors,
   }));
