@@ -58,9 +58,6 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   // /beratungshilfe/antrag/weitere-angaben
   await startWeitereAngaben(page, beratungshilfeFormular);
 
-  // beratungshilfe/antrag/abgabe/art
-  await beratungshilfeFormular.clickNext();
-
   await startOnlineAbgabe(page);
   if (await isFeatureFlagEnabled("showFileUpload")) {
     await startDocumentUpload(page);
