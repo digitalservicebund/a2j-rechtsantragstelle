@@ -1,8 +1,10 @@
 import { Result } from "true-myth";
+import { emailCaptureConsentName } from "~/components/emailCapture/emailCaptureHelpers";
 import { type ValidFlowPagesType } from "~/components/form/formFlowContext";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserData } from "~/domains/userData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
+import { getSessionManager } from "~/services/session.server";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { validateStepIdFlow } from "./validateStepIdFlow";
 import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
@@ -20,6 +22,7 @@ type OkResult = {
     stepId: string;
     arrayIndexes?: number[];
   };
+  emailCaptureConsent: boolean | undefined;
   migration: {
     userData: UserData | undefined;
     sortedFields?: string[];
@@ -40,10 +43,13 @@ export const getUserDataAndFlow = async (
   const { flowId, stepId, arrayIndexes, currentFlow } =
     getPageAndFlowDataFromPathname(pathname);
 
-  const [{ userDataWithPageData, validFlowPaths }, migrationData] =
+  const { getSession: getFlowSession } = getSessionManager(flowId);
+
+  const [{ userDataWithPageData, validFlowPaths }, migrationData, flowSession] =
     await Promise.all([
       getPrunedUserDataFromPathname(pathname, cookieHeader),
       getMigrationData(stepId, flowId, currentFlow, cookieHeader),
+      getFlowSession(cookieHeader),
     ]);
 
   const flowController = buildFlowController({
@@ -74,6 +80,7 @@ export const getUserDataAndFlow = async (
       stepId,
       arrayIndexes,
     },
+    emailCaptureConsent: flowSession.get(emailCaptureConsentName),
     migration: {
       userData: migrationData,
       sortedFields:

@@ -37,6 +37,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     flow: { id: flowId, controller: flowController, validFlowPaths },
     page: { stepId, arrayIndexes },
     migration,
+    emailCaptureConsent,
   } = resultUserAndFlow.value;
 
   const { pathname } = new URL(request.url);
@@ -77,6 +78,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       buttonNavigationProps,
       content: cmsContent.content,
       csrf,
+      emailCaptureConsent,
       formElements,
       heading: cmsContent.heading,
       meta,

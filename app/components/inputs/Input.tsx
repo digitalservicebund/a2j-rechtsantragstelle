@@ -74,9 +74,11 @@ const Input = function InputComponent({
           </div>
         )}
       </div>
-      <div className="label-text mt-6" id={helperId}>
-        {helperText}
-      </div>
+      {helperText && (
+        <div className="label-text mt-6" id={helperId}>
+          {helperText}
+        </div>
+      )}
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??
           field.error()}
