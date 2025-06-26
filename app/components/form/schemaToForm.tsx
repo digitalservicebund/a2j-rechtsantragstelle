@@ -1,9 +1,8 @@
 import get from "lodash/get";
 import { type z } from "zod";
+import type { StrapiSelectOption } from "~/services/cms/components/StrapiSelect";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
-import type { StrapiSelectOption } from "~/services/cms/models/StrapiSelectOption";
 import type { StrapiTile } from "~/services/cms/models/StrapiTile";
-import { strapiWidthToFieldWidth } from "~/services/cms/models/strapiWidth";
 import Input from "../inputs/Input";
 import RadioGroup from "../inputs/RadioGroup";
 import TileGroup from "../inputs/tile/TileGroup";
@@ -56,13 +55,11 @@ export function schemaToFormElement(
   const nestedSchema = getNestedSchema(fieldSchema);
   const matchingElement = formElements?.find(({ name }) => name === fieldName);
 
-  const label = get(matchingElement, "label", undefined);
-  const errorMessages = get(matchingElement, "errors")?.flatMap(
-    ({ errorCodes }) => errorCodes,
-  );
+  const label = get(matchingElement, "label");
+  const errorMessages = get(matchingElement, "errorMessages");
 
   if (isZodEnum(nestedSchema)) {
-    const cmsOptions = get(matchingElement, "options", undefined);
+    const cmsOptions = get(matchingElement, "options");
 
     if (matchingElement?.__component === "form-elements.tile-group") {
       return (
@@ -104,7 +101,7 @@ export function schemaToFormElement(
         label={label}
         suffix={get(matchingElement, "suffix", undefined)}
         placeholder={get(matchingElement, "placeholder", undefined)}
-        width={strapiWidthToFieldWidth(get(matchingElement, "width", null))} // TODO: transform in schema?
+        width={get(matchingElement, "width")}
         errorMessages={errorMessages}
         helperText={get(matchingElement, "helperText", undefined)}
       />
