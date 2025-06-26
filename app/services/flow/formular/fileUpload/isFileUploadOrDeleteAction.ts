@@ -1,4 +1,4 @@
-export const shouldHandleFileUpload = (
+export const isFileUploadOrDeleteAction = (
   formAction: FormDataEntryValue | null,
 ) => {
   return (

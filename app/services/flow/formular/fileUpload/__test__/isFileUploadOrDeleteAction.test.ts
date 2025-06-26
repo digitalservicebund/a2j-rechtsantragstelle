@@ -1,33 +1,33 @@
-import { shouldHandleFileUpload } from "../shouldHandleFileUpload";
+import { isFileUploadOrDeleteAction } from "../isFileUploadOrDeleteAction";
 
-describe("shouldHandleFileUpload", () => {
+describe("isFileUploadOrDeleteAction", () => {
   it("should return true for file upload fileUpload actions", () => {
-    const actual = shouldHandleFileUpload("fileUpload");
+    const actual = isFileUploadOrDeleteAction("fileUpload");
     expect(actual).toBe(true);
   });
 
   it("should return true for file upload fileUpload/123 actions", () => {
-    const actual = shouldHandleFileUpload("fileUpload/123");
+    const actual = isFileUploadOrDeleteAction("fileUpload/123");
     expect(actual).toBe(true);
   });
 
   it("should return true for file upload deleteFile actions", () => {
-    const actual = shouldHandleFileUpload("deleteFile");
+    const actual = isFileUploadOrDeleteAction("deleteFile");
     expect(actual).toBe(true);
   });
 
   it("should return true for file upload deleteFile/123 actions", () => {
-    const actual = shouldHandleFileUpload("deleteFile/123");
+    const actual = isFileUploadOrDeleteAction("deleteFile/123");
     expect(actual).toBe(true);
   });
 
   it("should return false for submitForm upload actions", () => {
-    const actual = shouldHandleFileUpload("submitForm");
+    const actual = isFileUploadOrDeleteAction("submitForm");
     expect(actual).toBe(false);
   });
 
   it("should return false for null upload actions", () => {
-    const actual = shouldHandleFileUpload(null);
+    const actual = isFileUploadOrDeleteAction(null);
     expect(actual).toBe(false);
   });
 });
