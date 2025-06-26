@@ -311,7 +311,7 @@ describe("stringReplacements", () => {
           angestellt: "on",
           selbstaendig: "off",
         },
-       hasKindergeld: "yes"
+        hasKindergeld: "yes",
       };
       expect(getAmtsgerichtStrings(userData)).toEqual({
         amtsgerichtIsVisible: false,
