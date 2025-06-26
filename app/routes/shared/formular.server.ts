@@ -15,7 +15,6 @@ import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
-import { deleteArrayItem } from "~/services/session.server/arrayDeletion";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import {
@@ -114,13 +113,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const flowSession = await getSession(cookieHeader);
   const clonedFormData = await request.clone().formData();
   const formAction = clonedFormData.get("_action");
-  if (formAction === "delete") {
-    // array item deletion, skip everything else
-    return await deleteArrayItem(flowId, clonedFormData, request);
-  } else if (
-    typeof formAction === "string" &&
-    formAction.startsWith("fileUpload")
-  ) {
+  if (typeof formAction === "string" && formAction.startsWith("fileUpload")) {
     const { validationResult, validationError } = await uploadUserFile(
       formAction,
       request,

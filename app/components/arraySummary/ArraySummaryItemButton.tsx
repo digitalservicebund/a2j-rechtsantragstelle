@@ -16,6 +16,8 @@ type Props = {
   };
 };
 
+const DELETE_URL_ENDPOINT = "/action/delete-array-item";
+
 const ArraySummaryItemButton = ({
   itemIndex,
   category,
@@ -32,9 +34,9 @@ const ArraySummaryItemButton = ({
         {translations.arrayEditButtonLabel}
       </Button>
       {/* form method 'delete' isn't supported without js, see https://github.com/remix-run/remix/discussions/4420 */}
-      <fetcher.Form method="post" action={pathname}>
+      <fetcher.Form method="post" action={DELETE_URL_ENDPOINT}>
         <input type="hidden" name={CSRFKey} value={csrf} />
-        <input type="hidden" name="_action" value="delete" />
+        <input type="hidden" name="pathnameArrayItem" value={pathname} />
         <Button
           look="tertiary"
           iconLeft={<DeleteIcon />}
