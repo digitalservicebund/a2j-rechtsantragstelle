@@ -1,6 +1,7 @@
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import InsertFileIcon from "@digitalservicebund/icons/InsertDriveFile";
 import classNames from "classnames";
+import { translations } from "~/services/translations/translations";
 import {
   errorStyling,
   type PDFFileMetadata,
@@ -13,7 +14,6 @@ type FileUploadInfoProps = {
   jsAvailable: boolean;
   onFileDelete: (fieldName: string) => void;
   file: PDFFileMetadata;
-  deleteButtonLabel?: string;
   hasError?: boolean;
 };
 
@@ -22,7 +22,6 @@ export const FileUploadInfo = ({
   jsAvailable,
   onFileDelete,
   file,
-  deleteButtonLabel,
   hasError,
 }: FileUploadInfoProps) => {
   const classes = classNames(
@@ -50,7 +49,7 @@ export const FileUploadInfo = ({
         look="ghost"
         onClick={() => (jsAvailable ? onFileDelete(inputName) : undefined)}
         className="pl-0 md:pl-12"
-        text={deleteButtonLabel}
+        text={translations.fileUpload.delete.de}
         name="_action"
         value={`deleteFile.${inputName}`}
         type={jsAvailable ? "button" : "submit"}
