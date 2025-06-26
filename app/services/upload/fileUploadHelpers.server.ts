@@ -9,7 +9,7 @@ import {
   deleteUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
 import {
-  TEN_MB_IN_BYTES,
+  FIFTEEN_MB_IN_BYTES,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
 import { buildFileUploadError } from "./buildFileUploadError";
@@ -109,7 +109,7 @@ async function parseFileFromFormData(request: Request, fieldName: string) {
   let matchedFile: File | undefined;
   await parseFormData(
     request,
-    { maxFileSize: TEN_MB_IN_BYTES }, // Limit file size to 10MB
+    { maxFileSize: FIFTEEN_MB_IN_BYTES }, // Limit file size to 15MB
     (fileUpload: FileUpload) => {
       if (fileUpload.fieldName === fieldName && fileUpload.name) {
         matchedFile = fileUpload;
