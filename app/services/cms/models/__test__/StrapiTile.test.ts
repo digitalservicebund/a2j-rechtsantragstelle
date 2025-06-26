@@ -44,8 +44,8 @@ describe("StrapiTileSchema", () => {
     expect(actual.data).toEqual({
       title: "something",
       value: "something",
-      tagDescription: null,
-      description: null,
+      tagDescription: undefined,
+      description: undefined,
     });
   });
 
@@ -64,7 +64,7 @@ describe("StrapiTileSchema", () => {
     expect(actual.data).toEqual({
       title: "something",
       value: "something",
-      tagDescription: null,
+      tagDescription: undefined,
       description: `<p id="something-description" class="ds-subhead">description</p>`,
     });
   });

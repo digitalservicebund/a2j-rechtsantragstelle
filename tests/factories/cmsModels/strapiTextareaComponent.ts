@@ -14,13 +14,7 @@ export function getStrapiTextareaComponent(
       __component: "form-elements.textarea",
       name: `myTextarea`,
       placeholder: `textarea`,
-      errors: [
-        {
-          name: "",
-          id: 0,
-          errorCodes: [errorCode],
-        },
-      ],
+      errorMessages: [errorCode],
     },
     expectTextareaErrorToExist: async function () {
       await waitFor(() => {

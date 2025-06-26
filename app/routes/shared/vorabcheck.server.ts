@@ -80,7 +80,7 @@ export const loader = async ({
       strapiFormElement.label === null &&
       headings.length > 0
     ) {
-      strapiFormElement.altLabel = headings[0].text ?? null;
+      strapiFormElement.altLabel = headings[0].text;
     }
     return strapiFormElement;
   });

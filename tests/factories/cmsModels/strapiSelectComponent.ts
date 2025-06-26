@@ -23,13 +23,7 @@ export function getStrapiSelectComponent(
           value: "no",
         },
       ],
-      errors: [
-        {
-          name: "",
-          id: 0,
-          errorCodes: [errorCode],
-        },
-      ],
+      errorMessages: [errorCode],
     },
     expectSelectErrorToExist: async function () {
       await waitFor(() => {

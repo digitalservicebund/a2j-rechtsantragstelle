@@ -27,8 +27,9 @@ const mockCmsElement = {
     {
       __component: "form-elements.checkbox",
       label: "some label",
-      isRequiredError: null,
       name: "name",
+      required: false,
+      errorMessage: "",
     },
   ],
   pageMeta: {
