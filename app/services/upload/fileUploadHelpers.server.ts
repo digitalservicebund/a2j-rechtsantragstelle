@@ -109,7 +109,7 @@ async function parseFileFromFormData(request: Request, fieldName: string) {
   let matchedFile: File | undefined;
   await parseFormData(
     request,
-    { maxFileSize: FIFTEEN_MB_IN_BYTES }, // Limit file size to 15MB
+    { maxFileSize: FIFTEEN_MB_IN_BYTES },
     (fileUpload: FileUpload) => {
       if (fileUpload.fieldName === fieldName && fileUpload.name) {
         matchedFile = fileUpload;
