@@ -4,11 +4,11 @@ import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { StrapiContentComponentSchema } from "./StrapiContentComponent";
 import { StrapiFlowIdSchema } from "./StrapiFlowId";
 import { StrapiFormComponentSchema } from "./StrapiFormComponent";
-import { stringWithHtmlEntities } from "./stringWithHtmlEntities";
+import { StringWithHtmlEntities } from "./StringWithHtmlEntities";
 
 export const StrapiFormFlowPageSchema = z
   .object({
-    heading: stringWithHtmlEntities,
+    heading: StringWithHtmlEntities,
     stepId: z.string(),
     flow_ids: z.array(StrapiFlowIdSchema),
     preHeading: z.string().nullable(),

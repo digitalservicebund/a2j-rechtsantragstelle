@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
-import { stringWithHtmlEntities } from "./stringWithHtmlEntities";
+import { StringWithHtmlEntities } from "./StringWithHtmlEntities";
 
 export const StrapiHeadingSchema = z
   .object({
-    text: stringWithHtmlEntities,
+    text: StringWithHtmlEntities,
     tagName: z.enum(["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"]),
     look: z.enum([
       "default",
