@@ -1,13 +1,13 @@
 import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import { strapiOptionalStringSchema } from "../models/strapiOptionalString";
+import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 
 export const StrapiTimeInputComponentSchema = z
   .object({
     name: z.string(),
-    label: strapiOptionalStringSchema,
-    placeholder: strapiOptionalStringSchema,
+    label: StrapiOptionalStringSchema,
+    placeholder: StrapiOptionalStringSchema,
     errors: StrapiErrorRelationSchema,
     __component: z.literal("form-elements.time-input"),
   })

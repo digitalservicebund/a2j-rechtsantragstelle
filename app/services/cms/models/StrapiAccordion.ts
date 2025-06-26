@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { HasStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
 import { buildRichTextValidation } from "~/services/validation/richtext";
-import { strapiOptionalStringSchema } from "./strapiOptionalString";
+import { StrapiOptionalStringSchema } from "./StrapiOptionalString";
 
 export const StrapiAccordionSchema = z.object({
   items: z
@@ -10,7 +10,7 @@ export const StrapiAccordionSchema = z.object({
         .object({
           title: z.string(),
           description: buildRichTextValidation(),
-          isVisible: strapiOptionalStringSchema,
+          isVisible: StrapiOptionalStringSchema,
         })
         .merge(HasStrapiIdSchema),
     )

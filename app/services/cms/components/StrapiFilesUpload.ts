@@ -3,14 +3,14 @@ import { HasOptionalStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNotice";
 import { omitNull } from "~/util/omitNull";
-import { strapiOptionalStringSchema } from "../models/strapiOptionalString";
+import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 
 export const StrapiFilesUploadComponentSchema = z
   .object({
     __component: z.literal("form-elements.files-upload"),
     name: z.string(),
     title: z.string(),
-    description: strapiOptionalStringSchema,
+    description: StrapiOptionalStringSchema,
     inlineNotices: z
       .array(StrapiInlineNoticeSchema)
       .nullable()

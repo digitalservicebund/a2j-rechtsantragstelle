@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
 
-export const strapiOptionalStringSchema = z
+export const StrapiOptionalStringSchema = z
   .string()
   .nullable()
   .transform(omitNull);

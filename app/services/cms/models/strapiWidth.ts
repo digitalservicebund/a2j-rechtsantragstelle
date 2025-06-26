@@ -24,7 +24,7 @@ export const strapiWidthLookupMap = {
   characters54: "54",
 } as const satisfies Record<string, FieldWidth>;
 
-export const strapiWidthSchema = z
+export const StrapiWidthSchema = z
   .enum(strapiWidths)
   .nullable()
   .transform((val) => strapiWidthLookupMap[val ?? ""]);

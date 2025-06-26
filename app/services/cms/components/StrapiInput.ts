@@ -1,19 +1,19 @@
 import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import { strapiOptionalStringSchema } from "../models/strapiOptionalString";
-import { strapiWidthSchema } from "../models/strapiWidth";
+import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
+import { StrapiWidthSchema } from "../models/StrapiWidth";
 
 export const StrapiInputComponentSchema = z
   .object({
     name: z.string(),
-    label: strapiOptionalStringSchema,
+    label: StrapiOptionalStringSchema,
     type: z.enum(["text", "number"]),
-    placeholder: strapiOptionalStringSchema,
-    suffix: strapiOptionalStringSchema,
+    placeholder: StrapiOptionalStringSchema,
+    suffix: StrapiOptionalStringSchema,
     errors: StrapiErrorRelationSchema,
-    width: strapiWidthSchema,
-    helperText: strapiOptionalStringSchema,
+    width: StrapiWidthSchema,
+    helperText: StrapiOptionalStringSchema,
     __component: z.literal("form-elements.input"),
   })
   .merge(HasOptionalStrapiIdSchema)

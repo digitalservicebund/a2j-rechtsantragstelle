@@ -3,7 +3,7 @@ import { z } from "zod";
 import { buildRichTextValidation } from "~/services/validation/richtext";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiImageOptionalSchema } from "./StrapiImage";
-import { strapiOptionalStringSchema } from "./strapiOptionalString";
+import { StrapiOptionalStringSchema } from "./StrapiOptionalString";
 
 export const createTileRenderer = (value: string): Partial<Renderer> => ({
   paragraph({ text }) {
@@ -15,9 +15,9 @@ export const StrapiTileSchema = z
   .object({
     title: z.string(),
     value: z.string(),
-    description: strapiOptionalStringSchema,
+    description: StrapiOptionalStringSchema,
     image: StrapiImageOptionalSchema,
-    tagDescription: strapiOptionalStringSchema,
+    tagDescription: StrapiOptionalStringSchema,
   })
   .merge(HasOptionalStrapiIdSchema)
   .transform((cmsData) => {

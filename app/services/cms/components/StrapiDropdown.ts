@@ -1,17 +1,17 @@
 import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import { strapiOptionalStringSchema } from "../models/strapiOptionalString";
-import { strapiWidthLookupMap } from "../models/strapiWidth";
+import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
+import { strapiWidthLookupMap } from "../models/StrapiWidth";
 
 export const StrapiDropdownComponentSchema = z
   .object({
     __component: z.literal("form-elements.dropdown"),
     name: z.string(),
-    label: strapiOptionalStringSchema,
-    altLabel: strapiOptionalStringSchema,
+    label: StrapiOptionalStringSchema,
+    altLabel: StrapiOptionalStringSchema,
     options: z.array(z.object({ value: z.string(), text: z.string() })),
-    placeholder: strapiOptionalStringSchema,
+    placeholder: StrapiOptionalStringSchema,
     errors: StrapiErrorRelationSchema,
     width: z
       .enum(["characters16", "characters24", "characters36", "characters54"])

@@ -1,20 +1,20 @@
 import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
-import { strapiOptionalStringSchema } from "../models/strapiOptionalString";
-import { strapiWidthSchema } from "../models/strapiWidth";
+import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
+import { StrapiWidthSchema } from "../models/StrapiWidth";
 
 const DataListSchema = z.enum(["airports", "airlines"]);
 
 export const StrapiAutoSuggestInputComponentSchema = z
   .object({
     name: z.string(),
-    label: strapiOptionalStringSchema,
-    placeholder: strapiOptionalStringSchema,
+    label: StrapiOptionalStringSchema,
+    placeholder: StrapiOptionalStringSchema,
     errors: StrapiErrorRelationSchema,
-    width: strapiWidthSchema,
+    width: StrapiWidthSchema,
     dataList: DataListSchema,
-    noSuggestionMessage: strapiOptionalStringSchema,
+    noSuggestionMessage: StrapiOptionalStringSchema,
     isDisabled: z.boolean().nullable().transform(Boolean),
     __component: z.literal("form-elements.auto-suggest-input"),
   })

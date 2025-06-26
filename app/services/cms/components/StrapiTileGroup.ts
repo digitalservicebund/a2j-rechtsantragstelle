@@ -1,15 +1,15 @@
 import { z } from "zod";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import { StrapiErrorRelationSchema } from "../models/StrapiErrorRelationSchema";
-import { strapiOptionalStringSchema } from "../models/strapiOptionalString";
+import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 import { StrapiTileSchema } from "../models/StrapiTile";
 
 export const StrapiTileGroupComponentSchema = z
   .object({
     __component: z.literal("form-elements.tile-group"),
     name: z.string(),
-    label: strapiOptionalStringSchema,
-    altLabel: strapiOptionalStringSchema,
+    label: StrapiOptionalStringSchema,
+    altLabel: StrapiOptionalStringSchema,
     options: z.array(StrapiTileSchema),
     errors: StrapiErrorRelationSchema,
     useTwoColumns: z.boolean(),
