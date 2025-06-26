@@ -2,7 +2,11 @@ import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import { strapiOptionalStringSchema } from "../models/strapiOptionalString";
-import { StrapiSelectOptionSchema } from "../models/StrapiSelectOption";
+
+const StrapiSelectOptionSchema = z.object({
+  text: z.string(),
+  value: z.string(),
+});
 
 export const StrapiSelectComponentSchema = z
   .object({
