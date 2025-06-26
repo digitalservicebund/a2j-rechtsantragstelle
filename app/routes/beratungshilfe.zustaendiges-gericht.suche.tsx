@@ -65,25 +65,30 @@ export default function Index() {
       <div className="flex flex-col min-w-[100vw] h-full">
         <div className="flex-grow">
           <Container>
-            <PageContent className="ds-stack ds-stack-32" content={pre_form} />
-          </Container>
-          <ValidatedForm
-            method="post"
-            schema={clientSchema}
-            defaultValues={{ postcode: "" }}
-            noValidate
-          >
-            <Container>
-              <StrapiFormComponents components={form} />
-              <ButtonNavigation
-                back={{
-                  destination: backURL,
-                  label: common.backButton,
-                }}
-                next={{ label: nextButtonLabel ?? "" }}
+            <div className="ds-stack ds-stack-32">
+              <PageContent
+                className="ds-stack ds-stack-16"
+                content={pre_form}
               />
-            </Container>
-          </ValidatedForm>
+              <ValidatedForm
+                method="post"
+                schema={clientSchema}
+                defaultValues={{ postcode: "" }}
+                noValidate
+              >
+                <div className="ds-stack ds-stack-32">
+                  <StrapiFormComponents components={form} />
+                  <ButtonNavigation
+                    back={{
+                      destination: backURL,
+                      label: common.backButton,
+                    }}
+                    next={{ label: nextButtonLabel ?? "" }}
+                  />
+                </div>
+              </ValidatedForm>
+            </div>
+          </Container>
         </div>
         <ReportProblem />
       </div>
