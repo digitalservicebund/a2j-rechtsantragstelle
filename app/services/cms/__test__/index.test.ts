@@ -34,21 +34,15 @@ describe("services/cms", () => {
     test("returns a list of entries", async () => {
       const component1 = getStrapiFormComponent({ name: "formFieldForStep1" });
       const component2 = getStrapiFormComponent({ name: "formFieldForStep2" });
-      const strapiPages = [
-        getStrapiFlowPage({ stepId: "step1", form: [component1] }),
-        getStrapiFlowPage({ stepId: "step2", form: [component2] }),
-      ];
-      vi.mocked(getStrapiEntry).mockResolvedValue(strapiPages);
+      const page1 = getStrapiFlowPage({ stepId: "step1", form: [component1] });
+      const page2 = getStrapiFlowPage({ stepId: "step2", form: [component2] });
 
+      vi.mocked(getStrapiEntry).mockResolvedValue([page1, page2]);
+
+      // We expect the form fields to be parsed inside fetchEntries
       const expected = [
-        {
-          ...strapiPages[0],
-          form: [StrapiInputComponentSchema.parse(component1)],
-        },
-        {
-          ...strapiPages[1],
-          form: [StrapiInputComponentSchema.parse(component2)],
-        },
+        { ...page1, form: [StrapiInputComponentSchema.parse(component1)] },
+        { ...page2, form: [StrapiInputComponentSchema.parse(component2)] },
       ];
 
       expect(await fetchEntries({ apiId: "form-flow-pages" })).toEqual(
