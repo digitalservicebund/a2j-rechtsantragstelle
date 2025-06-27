@@ -8,6 +8,8 @@ const StrapiSelectOptionSchema = z.object({
   value: z.string(),
 });
 
+export type StrapiSelectOption = z.infer<typeof StrapiSelectOptionSchema>;
+
 export const StrapiSelectComponentSchema = z
   .object({
     name: z.string(),

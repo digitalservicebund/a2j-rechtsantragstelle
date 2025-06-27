@@ -30,3 +30,5 @@ export const StrapiTileSchema = z
       description: parsed.success ? parsed.data : undefined,
     };
   });
+
+export type StrapiTile = z.infer<typeof StrapiTileSchema>;

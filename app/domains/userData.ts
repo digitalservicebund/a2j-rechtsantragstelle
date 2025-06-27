@@ -5,7 +5,6 @@ import { geldEinklagenInputSchema } from "~/domains/geldEinklagen/formular/userD
 import { geldEinklagenVorabcheckInputSchema } from "~/domains/geldEinklagen/vorabcheck/userData";
 import { prozesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { beratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
-import { beratungshilfeVorabcheckInputSchema } from "./beratungshilfe/vorabcheck/userData";
 import type { FlowId } from "./flowIds";
 import { kontopfaendungWegweiserInputSchema } from "./kontopfaendung/wegweiser/userData";
 
@@ -21,7 +20,7 @@ export type UserData = Record<
 
 const contexts = {
   "/beratungshilfe/antrag": beratungshilfeFormularUserData,
-  "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckInputSchema,
+  "/beratungshilfe/vorabcheck": {},
   "/geld-einklagen/vorabcheck": geldEinklagenVorabcheckInputSchema,
   "/geld-einklagen/formular": geldEinklagenInputSchema,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckInputSchema,
