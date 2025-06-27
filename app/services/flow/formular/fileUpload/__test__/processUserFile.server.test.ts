@@ -3,7 +3,7 @@ import {
   deleteUserFile,
   uploadUserFile,
 } from "~/services/upload/fileUploadHelpers.server";
-import { handleFileUpload } from "../handleFileUpload.server";
+import { processUserFile } from "../processUserFile.server";
 
 vi.mock("~/services/upload/fileUploadHelpers.server", () => ({
   uploadUserFile: vi.fn(),
@@ -15,13 +15,13 @@ const mockRequest = new Request(
 );
 const mockSession = createSession();
 
-describe("handleFileUpload", () => {
+describe("processUserFile", () => {
   it("should return an error when the action is fileUpload and uploadUserFile return an error", async () => {
     vi.mocked(uploadUserFile).mockResolvedValue({
       error: { fieldErrors: { "fileUpload.test": "File upload error" } },
     });
 
-    const actual = await handleFileUpload(
+    const actual = await processUserFile(
       "fileUpload",
       mockRequest,
       mockSession,
@@ -38,7 +38,7 @@ describe("handleFileUpload", () => {
       result: { data: { "fileUpload.test": "File uploaded successfully" } },
     });
 
-    const actual = await handleFileUpload(
+    const actual = await processUserFile(
       "fileUpload",
       mockRequest,
       mockSession,
@@ -55,7 +55,7 @@ describe("handleFileUpload", () => {
     const mockDeleteSession = createSession();
     mockDeleteSession.set("test", ["File to be deleted", "File to keep"]);
 
-    const actual = await handleFileUpload(
+    const actual = await processUserFile(
       "deleteFile.test[0]",
       mockRequest,
       mockDeleteSession,
@@ -69,7 +69,7 @@ describe("handleFileUpload", () => {
 
   it("should throw an exception when the action unknown", async () => {
     await expect(
-      handleFileUpload("anyAnotherAction", mockRequest, mockSession),
+      processUserFile("anyAnotherAction", mockRequest, mockSession),
     ).rejects.toThrow("Unknown file upload action: anyAnotherAction");
   });
 });

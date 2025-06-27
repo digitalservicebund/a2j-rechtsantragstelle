@@ -6,8 +6,8 @@ import { flows } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { retrieveContentData } from "~/services/flow/formular/contentData/retrieveContentData";
-import { handleFileUpload } from "~/services/flow/formular/fileUpload/handleFileUpload.server";
 import { isFileUploadOrDeleteAction } from "~/services/flow/formular/fileUpload/isFileUploadOrDeleteAction";
+import { processUserFile } from "~/services/flow/formular/fileUpload/processUserFile.server";
 import { getUserDataAndFlow } from "~/services/flow/formular/userDataAndFlow/getUserDataAndFlow";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
@@ -110,7 +110,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const formAction = clonedFormData.get("_action");
 
   if (isFileUploadOrDeleteAction(formAction)) {
-    const result = await handleFileUpload(
+    const result = await processUserFile(
       formAction as string,
       request,
       flowSession,

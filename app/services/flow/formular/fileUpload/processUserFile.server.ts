@@ -11,7 +11,7 @@ import {
 } from "~/services/upload/fileUploadHelpers.server";
 import { splitFieldName } from "~/services/upload/splitFieldName";
 
-type OkHandleFileUpload = {
+type OkProcessUserFile = {
   userData?: UserData;
   mergeCustomizer?: MergeWithCustomizer;
 };
@@ -36,11 +36,11 @@ const actionFile = (formAction: string) => {
   return "unknown";
 };
 
-export const handleFileUpload = async (
+export const processUserFile = async (
   formAction: string,
   request: Request,
   flowSession: Session<SessionData, SessionData>,
-): Promise<Result<OkHandleFileUpload, ValidationErrorResponseData>> => {
+): Promise<Result<OkProcessUserFile, ValidationErrorResponseData>> => {
   const { pathname } = new URL(request.url);
   const { flowId } = parsePathname(pathname);
 
