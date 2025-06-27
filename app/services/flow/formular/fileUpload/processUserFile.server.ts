@@ -30,7 +30,7 @@ function getUpdatedField(inputName: string, userData: UserData): UserData {
   };
 }
 
-const actionFile = (formAction: string) => {
+const requestedAction = (formAction: string) => {
   if (formAction.startsWith("fileUpload")) return "upload";
   if (formAction.startsWith("deleteFile")) return "delete";
   return "unknown";
@@ -44,7 +44,7 @@ export const processUserFile = async (
   const { pathname } = new URL(request.url);
   const { flowId } = parsePathname(pathname);
 
-  switch (actionFile(formAction)) {
+  switch (requestedAction(formAction)) {
     case "upload": {
       const { result, error } = await uploadUserFile(
         formAction,
