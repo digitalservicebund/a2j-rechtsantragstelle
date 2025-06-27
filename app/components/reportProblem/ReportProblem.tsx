@@ -31,7 +31,7 @@ export const ReportProblem = () => {
 
   return (
     <div className="absolute bottom-10 w-full">
-      <div className="container !py-0 w-full flex justify-end">
+      <div className="container !p-0 w-full flex justify-end">
         {surveyOpen && (
           <PosthogSurvey
             survey={survey}
