@@ -123,6 +123,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         }
         return data(flowSession.data, {
           headers: { "Set-Cookie": await commitSession(flowSession) },
+          status: 200,
         });
       }
     }
