@@ -11,5 +11,7 @@ export function getPageSchema(pathname: string) {
   if (!flowId || !(flowId in pages)) return undefined;
   const { stepId } = parsePathname(pathname);
   const stepIdWithoutLeadingSlash = stepId.slice(1);
-  return pages[flowId]?.[stepIdWithoutLeadingSlash]?.pageSchema;
+  return Object.values(pages[flowId] ?? {}).find(
+    (page) => page.url === stepIdWithoutLeadingSlash,
+  )?.pageSchema;
 }
