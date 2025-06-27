@@ -1,4 +1,4 @@
-import type { ActionFunctionArgs } from "react-router";
+import { redirect, type ActionFunctionArgs } from "react-router";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager } from "~/services/session.server";
@@ -21,7 +21,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return new Response(resultFormData.error.message, { status: 422 });
   }
 
-  const { arrayName, index, flowId } = resultFormData.value;
+  const { arrayName, index, flowId, pathname } = resultFormData.value;
 
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
@@ -33,5 +33,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const headers = { "Set-Cookie": await commitSession(flowSession) };
-  return new Response("success", { status: 200, headers });
+
+  const clientJavaScriptAvailable = formData.get("_jsEnabled") ?? "true";
+  if (clientJavaScriptAvailable === "true") {
+    return new Response("success", { status: 200, headers });
+  }
+
+  return redirect(pathname, {
+    headers,
+  });
 };
