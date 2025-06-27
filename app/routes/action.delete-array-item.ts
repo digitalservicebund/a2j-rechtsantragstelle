@@ -34,12 +34,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const headers = { "Set-Cookie": await commitSession(flowSession) };
 
-  const clientJavaScriptAvailable = formData.get("_jsEnabled") ?? "true";
-  if (clientJavaScriptAvailable === "true") {
-    return new Response("success", { status: 200, headers });
+  const clientJavaScriptAvailable = formData.get("_jsEnabled");
+  if (clientJavaScriptAvailable === "false") {
+    return redirect(pathname, {
+      headers,
+    });
   }
 
-  return redirect(pathname, {
-    headers,
-  });
+  return new Response("success", { status: 200, headers });
 };
