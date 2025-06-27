@@ -1,5 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
+import { translations } from "~/services/translations/translations";
 import {
   errorStyling,
   type PDFFileMetadata,
@@ -28,7 +29,7 @@ describe("FileUploadInfo", () => {
     const fileIcon = getByTestId("InsertDriveFileIcon");
     expect(fileNameLabel).toBeInTheDocument();
     expect(fileIcon).toBeInTheDocument();
-    expect(getByText("Löschen")).toBeInTheDocument();
+    expect(getByText(translations.fileUpload.delete.de)).toBeInTheDocument();
     expect(getByTestId("DeleteOutlineIcon")).toBeInTheDocument();
     expect(getByText("3 MB")).toBeInTheDocument();
   });
