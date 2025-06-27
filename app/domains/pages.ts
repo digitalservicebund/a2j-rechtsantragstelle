@@ -1,12 +1,15 @@
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
-import type { FlowId } from "./flowIds";
+import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import type { PagesConfig } from "./pageConfig";
 
 export const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
 } as const;
 
-export function getPageSchema(flowId: FlowId, stepId: string) {
+export function getPageSchema(pathname: string) {
+  const flowId = flowIdFromPathname(pathname);
+  if (!flowId || !(flowId in pages)) return undefined;
+  const { stepId } = parsePathname(pathname);
   const stepIdWithoutLeadingSlash = stepId.slice(1);
   return pages[flowId]?.[stepIdWithoutLeadingSlash]?.pageSchema;
 }

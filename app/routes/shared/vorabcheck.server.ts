@@ -94,7 +94,7 @@ export const loader = async ({
   );
 
   // filter user data for current step
-  const pageSchema = getPageSchema(flowId, stepId);
+  const pageSchema = getPageSchema(pathname);
   const fieldNames = pageSchema
     ? Object.keys(pageSchema)
     : formElements.map((entry) => entry.name);

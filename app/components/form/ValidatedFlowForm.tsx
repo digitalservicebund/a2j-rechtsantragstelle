@@ -3,7 +3,6 @@ import { useLocation } from "react-router";
 import { z } from "zod";
 import type { ButtonNavigationProps } from "~/components/form/ButtonNavigation";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import { parsePathname } from "~/domains/flowIds";
 import { getPageSchema } from "~/domains/pages";
 import type { UserData } from "~/domains/userData";
 import { shouldShowEstimatedTime } from "~/services/analytics/abTest/shouldShowEstimatedTime";
@@ -29,12 +28,11 @@ function ValidatedFlowForm({
   csrf,
 }: Readonly<ValidatedFlowFormProps>) {
   const { pathname } = useLocation();
-  const { flowId, stepId } = parsePathname(pathname);
   const fieldNames = formElements.map((entry) => entry.name);
   const schema = schemaForFieldNames(fieldNames, pathname);
   const { posthogClient } = useAnalytics();
 
-  const pageSchema = getPageSchema(flowId, stepId);
+  const pageSchema = getPageSchema(pathname);
   const inputFormElements = pageSchema ? (
     <PageFormComponents pageSchema={pageSchema} formElements={formElements} />
   ) : (
