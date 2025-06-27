@@ -1,11 +1,6 @@
 import { type FileUpload, parseFormData } from "@mjackson/form-data-parser";
-import {
-  type ValidatorError,
-  validationError,
-  type ValidationErrorResponseData,
-} from "@rvf/react-router";
+import { type ValidationErrorResponseData } from "@rvf/react-router";
 import pickBy from "lodash/pickBy";
-import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { type ZodTypeAny } from "zod";
 import { type FlowId } from "~/domains/flowIds";
 import { type ArrayData, type UserData, getContext } from "~/domains/userData";
@@ -13,7 +8,10 @@ import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
-import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
+import {
+  FIFTEEN_MB_IN_BYTES,
+  type PDFFileMetadata,
+} from "~/services/validation/pdfFileSchema";
 import { buildFileUploadError } from "./buildFileUploadError";
 import { splitFieldName } from "./splitFieldName";
 import { validateUploadedFile } from "./validateUploadedFile";
@@ -26,8 +24,8 @@ export async function uploadUserFile(
   userData: UserData,
   flowId: FlowId,
 ): Promise<{
-  validationError?: UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
-  validationResult?: { data: UserData };
+  error?: ValidationErrorResponseData;
+  result?: { data: UserData };
 }> {
   const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
@@ -35,14 +33,11 @@ export async function uploadUserFile(
 
   if (!file) {
     return {
-      validationError: validationError(
-        {
-          fieldErrors: {
-            [formAction.split(".")[1]]: FILE_REQUIRED_ERROR,
-          },
-        } as ValidatorError,
-        userData,
-      ),
+      error: {
+        fieldErrors: {
+          [formAction.split(".")[1]]: FILE_REQUIRED_ERROR,
+        },
+      },
     };
   }
 
@@ -75,7 +70,7 @@ export async function uploadUserFile(
 
   if (validationResult.error) {
     return {
-      validationError: buildFileUploadError(validationResult, inputName),
+      error: buildFileUploadError(validationResult, inputName),
     };
   }
   const savedFileKey = await uploadUserFileToS3(
@@ -88,7 +83,7 @@ export async function uploadUserFile(
   (validationResult.data[fieldName] as ArrayData)[Number(inputIndex)] =
     fileMeta;
   return {
-    validationResult: { ...validationResult },
+    result: { ...validationResult },
   };
 }
 
@@ -97,42 +92,29 @@ export async function deleteUserFile(
   cookieHeader: string | null,
   userData: UserData,
   flowId: FlowId,
-) {
+): Promise<{ fileWasDeleted: boolean }> {
   const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
   // Check if a file is saved in Redis; if so, delete it
   const savedFile = (userData[fieldName] as ArrayData | undefined)?.at(
     inputIndex,
   ) as PDFFileMetadata | undefined;
-  if (!savedFile?.savedFileKey) return false;
+  if (!savedFile?.savedFileKey) return { fileWasDeleted: false };
   const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
   await deleteUserFileFromS3(sessionId, flowId, savedFile.savedFileKey);
-  return true;
+  return { fileWasDeleted: true };
 }
 
 async function parseFileFromFormData(request: Request, fieldName: string) {
   let matchedFile: File | undefined;
-  await parseFormData(request, (fileUpload: FileUpload) => {
-    if (fileUpload.fieldName === fieldName && fileUpload.name) {
-      matchedFile = fileUpload;
-    }
-  });
+  await parseFormData(
+    request,
+    { maxFileSize: FIFTEEN_MB_IN_BYTES },
+    (fileUpload: FileUpload) => {
+      if (fileUpload.fieldName === fieldName && fileUpload.name) {
+        matchedFile = fileUpload;
+      }
+    },
+  );
   return matchedFile;
-}
-
-/**
- * Helper function that deletes an entry in an existing field array
- * @param inputName name of the array that's being modified
- * @param userData existing user data in Context
- */
-export function getUpdatedField(
-  inputName: string,
-  userData: UserData,
-): UserData {
-  const { fieldName, inputIndex } = splitFieldName(inputName);
-  return {
-    [fieldName]: (userData[fieldName] as ArrayData).filter(
-      (_, index) => index !== inputIndex,
-    ),
-  };
 }
