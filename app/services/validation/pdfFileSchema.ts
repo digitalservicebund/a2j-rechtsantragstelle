@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const TEN_MB_IN_BYTES = 10 * 1024 * 1024;
+export const FIFTEEN_MB_IN_BYTES = 15 * 1024 * 1024;
 export const fileUploadLimit = 5;
 export const errorStyling = "!bg-red-200 border border-red-900 border-2";
 

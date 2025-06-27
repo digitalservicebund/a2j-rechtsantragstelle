@@ -1,5 +1,3 @@
-import { type FieldErrors } from "@rvf/react-router";
-import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { buildFileUploadError } from "../buildFileUploadError";
 
 describe("buildFileUploadError", () => {
@@ -19,15 +17,8 @@ describe("buildFileUploadError", () => {
         ],
       },
     };
-    const validationError = buildFileUploadError(
-      errorResult,
-      "belege[0]",
-    ) as UNSAFE_DataWithResponseInit<{
-      fieldErrors: FieldErrors;
-      repopulateFields: unknown;
-    }>;
-    expect(validationError.init?.status).toBe(422);
-    expect(validationError.data).toEqual({
+    const validationError = buildFileUploadError(errorResult, "belege[0]");
+    expect(validationError).toEqual({
       fieldErrors: {
         ["belege[0]"]: "Only PDF and TIFF files allowed",
       },
