@@ -30,13 +30,13 @@ const TableOfContents = ({
             {links.map((link) => (
               <li key={link.text ?? link.url}>
                 <StandaloneLink
-                  className="visited:text-black !text-black"
+                  className="visited:text-black !text-black flex"
                   url={link.url}
                   text={link.text ?? ""}
                   icon={
-                    <ArrowDownward className="h-[1em] w-[1em] inline-block" />
+                    <ArrowDownward className="h-[1em] w-[1em] shrink-0 my-[0.25em]" />
                   }
-                ></StandaloneLink>
+                />
               </li>
             ))}
           </ul>
