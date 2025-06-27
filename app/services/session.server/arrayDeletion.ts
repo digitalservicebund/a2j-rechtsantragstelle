@@ -10,6 +10,7 @@ export function getArrayDataFromFormData(formData: FormData): Result<
     arrayName: string;
     index: number;
     flowId: FlowId;
+    pathname: string;
   },
   { message: string }
 > {
@@ -33,7 +34,7 @@ export function getArrayDataFromFormData(formData: FormData): Result<
 
   const { flowId } = parsePathname(pathname as string);
 
-  return Result.ok({ arrayName, index, flowId });
+  return Result.ok({ arrayName, index, flowId, pathname: pathname as string });
 }
 
 export const deleteArrayItem = (

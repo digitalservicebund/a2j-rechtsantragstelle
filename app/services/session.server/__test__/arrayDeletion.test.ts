@@ -42,6 +42,9 @@ describe("arrayDeletion", () => {
       expect(result.isOk).toBe(true);
       expect(result.isOk ? result.value.arrayName : undefined).toBe("kinder");
       expect(result.isOk ? result.value.index : undefined).toBe(0);
+      expect(result.isOk ? result.value.pathname : undefined).toBe(
+        "/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
+      );
     });
   });
 

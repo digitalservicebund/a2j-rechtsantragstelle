@@ -29,6 +29,7 @@ vi.mock("~/services/session.server", () => ({
 }));
 
 const formData = new FormData();
+formData.append("_jsEnabled", "true");
 const mockRequestUrl = `http://localhost:3000/action/delete-array-item`;
 
 const options = {
@@ -43,6 +44,7 @@ const mockSuccessfulExternalFunctions = () => {
       arrayName: "testArray",
       index: 0,
       flowId: "/beratungshilfe/antrag",
+      pathname: "/beratungshilfe/antrag/array",
     }),
   );
   vi.mocked(deleteArrayItem).mockReturnValue(Result.ok());
@@ -116,5 +118,27 @@ describe("/action/delete-array-item route", () => {
     } as ActionFunctionArgs);
 
     expect(response.status).toEqual(200);
+  });
+
+  it("should return a response with status 302 in case no problem happens and _jsEnabled is false", async () => {
+    const formDataWithoutJS = new FormData();
+    formDataWithoutJS.append("_jsEnabled", "false");
+    const options = {
+      method: "POST",
+      body: formDataWithoutJS,
+    };
+
+    const request = new Request(mockRequestUrl, options);
+
+    const response = await action({
+      request,
+      params: {},
+      context: {},
+    } as ActionFunctionArgs);
+
+    expect(response.status).toEqual(302);
+    expect(response.headers.get("location")).toEqual(
+      "/beratungshilfe/antrag/array",
+    );
   });
 });
