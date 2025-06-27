@@ -1,39 +1,11 @@
 import get from "lodash/get";
 import { type z } from "zod";
-import type { StrapiSelectOption } from "~/services/cms/components/StrapiSelect";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
-import type { StrapiTile } from "~/services/cms/models/StrapiTile";
 import Input from "../inputs/Input";
 import RadioGroup from "../inputs/RadioGroup";
 import TileGroup from "../inputs/tile/TileGroup";
-import type { TileOptions } from "../inputs/tile/TileRadio";
 
 type ZodEnum = z.ZodEnum<[string, ...string[]]>;
-
-// TODO: transform in schema?
-const enumValuesToRadioGroupOptions = (
-  options: string[],
-  labels?: StrapiSelectOption[],
-) =>
-  options.map((value) => ({
-    value,
-    text: labels?.find((vals) => vals.value === value)?.text ?? value,
-  }));
-
-// TODO: transform in schema?
-const enumValuesToTileGroupOptions = (
-  options: string[],
-  labels?: StrapiTile[],
-): TileOptions[] =>
-  options.map((value) => {
-    const matchingLabel = labels?.find((vals) => vals.value === value);
-    return {
-      value,
-      description: matchingLabel?.description,
-      image: matchingLabel?.image,
-      title: matchingLabel?.title ?? value,
-    };
-  });
 
 const isZodEnum = (fieldSchema: z.ZodTypeAny): fieldSchema is ZodEnum =>
   fieldSchema._def.typeName === "ZodEnum";
@@ -59,9 +31,20 @@ export function schemaToFormElement(
   const errorMessages = get(matchingElement, "errorMessages");
 
   if (isZodEnum(nestedSchema)) {
-    const cmsOptions = get(matchingElement, "options");
+    let options = nestedSchema.options.map((value) => ({ value, text: value }));
 
     if (matchingElement?.__component === "form-elements.tile-group") {
+      const cmsOptions = get(matchingElement, "options");
+      const cmsObject = Object.fromEntries(
+        cmsOptions?.map(({ value, ...rest }) => [value, rest]),
+      );
+      const tileOptions = options.map(({ value }) => ({
+        value,
+        description: cmsObject[value]?.description,
+        image: cmsObject[value]?.image,
+        title: cmsObject[value]?.title ?? value,
+      }));
+
       return (
         <TileGroup
           key={fieldName}
@@ -69,12 +52,20 @@ export function schemaToFormElement(
           useTwoColumns={matchingElement.useTwoColumns}
           label={label}
           errorMessages={errorMessages}
-          options={enumValuesToTileGroupOptions(
-            nestedSchema.options,
-            cmsOptions?.filter((option) => "title" in option),
-          )}
+          options={tileOptions}
         />
       );
+    }
+
+    if (matchingElement?.__component === "form-elements.select") {
+      const cmsOptions = get(matchingElement, "options");
+      const cmsObject = Object.fromEntries(
+        cmsOptions?.map(({ value, ...rest }) => [value, rest]),
+      );
+      options = options.map(({ value, text }) => ({
+        value,
+        text: cmsObject[value].text ?? text,
+      }));
     }
 
     return (
@@ -84,10 +75,7 @@ export function schemaToFormElement(
         label={label}
         altLabel={get(matchingElement, "altLabel", undefined)}
         errorMessages={errorMessages}
-        options={enumValuesToRadioGroupOptions(
-          nestedSchema.options,
-          cmsOptions?.filter((option) => "text" in option),
-        )}
+        options={options}
       />
     );
   }
