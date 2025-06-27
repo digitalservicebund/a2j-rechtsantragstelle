@@ -39,7 +39,7 @@ export const PosthogSurvey = ({
   const isCompletelyFilled = isCompleted(survey, responses);
 
   const containerClasses = classNames(
-    "border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-[80%] p-24 flex flex-col",
+    "border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-0 p-24 flex flex-col",
     {
       "gap-40": !wasSubmitted,
     },
