@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { bereich } from "~/domains/beratungshilfe/formular/rechtsproblem/userData";
+import type { UserDataFromPagesSchema } from "~/domains/pageConfig";
 import { staatlicheLeistungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -7,6 +8,7 @@ import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
+import type { beratungshilfeVorabcheckPages } from "./pages";
 
 export const kidsSchema = z
   .object({
@@ -69,5 +71,6 @@ export const beratungshilfeVorabcheckInputSchema = {
   weitereZahlungenSumme: buildMoneyValidationSchema(),
 } as const;
 
-const _partialSchema = z.object(beratungshilfeVorabcheckInputSchema).partial();
-export type BeratungshilfeVorabcheckUserData = z.infer<typeof _partialSchema>;
+export type BeratungshilfeVorabcheckUserData = UserDataFromPagesSchema<
+  typeof beratungshilfeVorabcheckPages
+>;

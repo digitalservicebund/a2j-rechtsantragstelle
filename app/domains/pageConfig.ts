@@ -5,17 +5,18 @@ export type PageSchema = Record<string, z.ZodTypeAny>;
 export type PageConfig = { pageSchema?: PageSchema; url: string };
 export type PagesConfig = Record<string, PageConfig>;
 
-// Get a flat list of all fieldnames of a PageConfig
-export type FieldNames<T extends PagesConfig> = {
-  [StepId in keyof T]: T[StepId]["pageSchema"] extends z.ZodTypeAny
-    ? z.infer<T[StepId]["pageSchema"]>
+type ExtractSchemas<T extends PagesConfig> = {
+  [K in keyof T]: T[K]["pageSchema"] extends Record<string, z.ZodTypeAny>
+    ? z.infer<z.ZodObject<T[K]["pageSchema"]>>
     : never;
 }[keyof T];
 
-type _Combine<
-  T,
-  K extends PropertyKey = T extends unknown ? keyof T : never,
-> = T extends unknown ? T & Partial<Record<Exclude<K, keyof T>, never>> : never;
+type UnionToIntersection<U> = (
+  U extends unknown ? (x: U) => void : never
+) extends (x: infer R) => void
+  ? R
+  : never;
 
-type Combine<T> = { [K in keyof _Combine<T>]: _Combine<T>[K] };
-export type UserDataType<T extends PagesConfig> = Combine<FieldNames<T>>;
+export type UserDataFromPagesSchema<T extends PagesConfig> = Partial<
+  UnionToIntersection<ExtractSchemas<T>>
+>;
