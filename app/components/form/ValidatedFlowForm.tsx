@@ -29,7 +29,6 @@ function ValidatedFlowForm({
 }: Readonly<ValidatedFlowFormProps>) {
   const { pathname } = useLocation();
   const fieldNames = formElements.map((entry) => entry.name);
-  const schema = schemaForFieldNames(fieldNames, pathname);
   const { posthogClient } = useAnalytics();
 
   const pageSchema = getPageSchema(pathname);
@@ -38,7 +37,9 @@ function ValidatedFlowForm({
   ) : (
     <StrapiFormComponents components={formElements} />
   );
-  const formSchema = pageSchema ? z.object(pageSchema) : schema;
+  const formSchema = pageSchema
+    ? z.object(pageSchema)
+    : schemaForFieldNames(fieldNames, pathname);
 
   return (
     <ValidatedForm
