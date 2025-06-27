@@ -46,7 +46,7 @@ export function FormFlowPage() {
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
-      <div className="flex flex-col min-w-[100vw] bg-blue-100">
+      <div className="flex flex-col min-w-[100vw] bg-blue-100 relative">
         <div className="pt-32 flex flex-grow flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start gap-48">
           <div className="md:ml-32 md:mb-32 md:w-[248px]">
             <FlowNavigation navItems={navItems} expandAll={isValidationPage} />
