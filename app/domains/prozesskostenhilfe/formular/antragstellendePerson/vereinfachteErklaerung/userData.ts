@@ -3,6 +3,7 @@ import {
   financialEntryInputSchema,
   kinderSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { geburtsdatum } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import {
@@ -11,7 +12,9 @@ import {
 } from "~/services/validation/YesNoAnswer";
 
 export const prozesskostenhilfeVereinfachteErklaerungInputSchema = {
-  child: kinderSchema,
+  child: kinderSchema.extend({
+    geburtsdatum,
+  }),
   livesTogether: YesNoAnswer,
   minderjaehrig: YesNoAnswer,
   unterhaltsOrAbstammungssachen: YesNoAnswer,
