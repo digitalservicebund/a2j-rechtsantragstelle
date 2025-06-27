@@ -1,9 +1,4 @@
-import {
-  dropEachProperty,
-  isKeyOfObject,
-  objectKeyMap,
-  objectMap,
-} from "~/util/objects";
+import { dropEachProperty, isKeyOfObject, objectMap } from "~/util/objects";
 
 describe("isKeyOfObject", () => {
   it("detects existing keys", () => {
@@ -24,15 +19,6 @@ describe("objectMap", () => {
     expect(objectMap({ key: 1 }, (_, k, i) => `${k}${i}`)).toEqual({
       key: "key0",
     });
-  });
-});
-
-describe("objectKeyMap", () => {
-  it("returns keys in new object", () => {
-    expect(objectKeyMap({ key: 1 })).toStrictEqual({ key: "key" });
-  });
-  it("casts numbers to strings", () => {
-    expect(objectKeyMap({ 2: 3 })).toStrictEqual({ "2": "2" });
   });
 });
 

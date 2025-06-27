@@ -2,7 +2,7 @@ import type { z } from "zod";
 
 // TODO: better specify PageSchema to specify enums, strings, ...
 export type PageSchema = Record<string, z.ZodTypeAny>;
-export type PageConfig = { pageSchema?: PageSchema };
+export type PageConfig = { pageSchema?: PageSchema; url: string };
 export type PagesConfig = Record<string, PageConfig>;
 
 // Get a flat list of all fieldnames of a PageConfig
