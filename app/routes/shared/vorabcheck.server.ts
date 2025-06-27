@@ -3,7 +3,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
-import { getPageSchema } from "~/domains/pages";
+import { getPageSchema } from "~/domains/getPageSchema";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import {
   fetchFlowPage,

@@ -3,7 +3,7 @@ import { useLocation } from "react-router";
 import { z } from "zod";
 import type { ButtonNavigationProps } from "~/components/form/ButtonNavigation";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import { getPageSchema } from "~/domains/pages";
+import { getPageSchema } from "~/domains/getPageSchema";
 import type { UserData } from "~/domains/userData";
 import { shouldShowEstimatedTime } from "~/services/analytics/abTest/shouldShowEstimatedTime";
 import { useAnalytics } from "~/services/analytics/useAnalytics";

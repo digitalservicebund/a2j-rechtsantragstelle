@@ -2,7 +2,7 @@ import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import type { PagesConfig } from "./pageConfig";
 
-export const pages: Partial<Record<FlowId, PagesConfig>> = {
+const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
 } as const;
 
