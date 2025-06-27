@@ -70,7 +70,7 @@
     "ioredis": "^5.6.1",
     "isbot": "^5.1.28",
     "lodash": "^4.17.21",
-    "marked": "^15.0.12",
+    "marked": "^16.0.0",
     "match-sorter": "^8.0.3",
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
