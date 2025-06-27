@@ -30,23 +30,21 @@ export const ReportProblem = () => {
   if (!survey) return null;
 
   return (
-    <div className="absolute bottom-10 w-full">
-      <div className="container !p-0 w-full flex justify-end">
-        {surveyOpen && (
-          <PosthogSurvey
-            survey={survey}
-            closeSurvey={() => setSurveyOpen(false)}
-          />
-        )}
-        <Button
-          look="tertiary"
-          onClick={() => setSurveyOpen(true)}
-          id="survey-button"
-          className="h-40 min-w-full justify-center sm:min-w-fit"
-          text={feedbackTranslations["report-problem"]}
-          iconLeft={<FlagOutlined />}
-        ></Button>
-      </div>
+    <div className="container !p-0 w-full flex justify-end">
+      {surveyOpen && (
+        <PosthogSurvey
+          survey={survey}
+          closeSurvey={() => setSurveyOpen(false)}
+        />
+      )}
+      <Button
+        look="tertiary"
+        onClick={() => setSurveyOpen(true)}
+        id="survey-button"
+        className="h-40 min-w-full justify-center sm:min-w-fit"
+        text={feedbackTranslations["report-problem"]}
+        iconLeft={<FlagOutlined />}
+      ></Button>
     </div>
   );
 };
