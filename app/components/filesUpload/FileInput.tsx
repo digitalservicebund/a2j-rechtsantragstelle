@@ -82,7 +82,6 @@ export const FileInput = ({
           }}
           jsAvailable={jsAvailable}
           file={selectedFile}
-          deleteButtonLabel={translations.fileUpload.delete.de}
           hasError={!!error}
         />
       ) : (

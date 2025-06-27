@@ -1,11 +1,11 @@
 import { fireEvent, render } from "@testing-library/react";
 import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
+import { translations } from "~/services/translations/translations";
 import {
   errorStyling,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
 
-const deleteButtonLabel = "Delete";
 const fileName = "testfile1.pdf";
 const inputName = "belege[0]";
 const fileSize = 3145728;
@@ -23,14 +23,13 @@ describe("FileUploadInfo", () => {
         onFileDelete={vi.fn()}
         inputName={inputName}
         file={mockFile}
-        deleteButtonLabel={deleteButtonLabel}
       />,
     );
     const fileNameLabel = getByText("testfile1.pdf");
     const fileIcon = getByTestId("InsertDriveFileIcon");
     expect(fileNameLabel).toBeInTheDocument();
     expect(fileIcon).toBeInTheDocument();
-    expect(getByText(deleteButtonLabel)).toBeInTheDocument();
+    expect(getByText(translations.fileUpload.delete.de)).toBeInTheDocument();
     expect(getByTestId("DeleteOutlineIcon")).toBeInTheDocument();
     expect(getByText("3 MB")).toBeInTheDocument();
   });
@@ -42,7 +41,6 @@ describe("FileUploadInfo", () => {
         onFileDelete={vi.fn()}
         inputName={inputName}
         file={mockFile}
-        deleteButtonLabel={deleteButtonLabel}
         hasError={true}
       />,
     );
@@ -59,7 +57,6 @@ describe("FileUploadInfo", () => {
           onFileDelete={onFileDelete}
           inputName={inputName}
           file={mockFile}
-          deleteButtonLabel={deleteButtonLabel}
         />,
       );
       const deleteButton = getByRole("button");
@@ -77,7 +74,6 @@ describe("FileUploadInfo", () => {
           onFileDelete={onFileDelete}
           inputName={inputName}
           file={mockFile}
-          deleteButtonLabel={deleteButtonLabel}
         />,
       );
       const deleteButton = getByRole("button");
