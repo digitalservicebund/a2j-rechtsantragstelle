@@ -4,6 +4,7 @@ import { getCourtByStartAndEndAirport } from "~/domains/fluggastrechte/services/
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
+  PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 import { today, toGermanDateFormat } from "~/util/date";
 
@@ -18,18 +19,31 @@ export const createLocalCourtAndDate = (
   const amtsgericht = getCourtByStartAndEndAirport(startAirport, endAirport);
   const creationDate = `${CREATION_PDF_TEXT} ${toGermanDateFormat(today())}`;
 
-  const localCourtHeaderSect = doc.struct("Sect");
-  localCourtHeaderSect.add(
+  const courtAndDateSect = doc.struct("Sect");
+
+  const startY = doc.y;
+
+  courtAndDateSect.add(
+    doc.struct("P", {}, () => {
+      const savedX = doc.x;
+      const savedY = doc.y;
+
+      doc
+        .fontSize(10)
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text(creationDate, PDF_MARGIN_HORIZONTAL, startY, { align: "right" });
+
+      doc.x = savedX;
+      doc.y = savedY;
+    }),
+  );
+
+  courtAndDateSect.add(
     doc.struct("P", {}, () => {
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(TO_THE_COURT_TEXT, { align: "left", continued: true });
-
-      doc.font(FONTS_BUNDESSANS_REGULAR).text(creationDate, {
-        align: "right",
-      });
-
+        .text(TO_THE_COURT_TEXT, { align: "left" });
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(amtsgericht?.BEZEICHNUNG ?? "", { align: "left" });
@@ -40,5 +54,6 @@ export const createLocalCourtAndDate = (
       });
     }),
   );
-  documentStruct.add(localCourtHeaderSect);
+
+  documentStruct.add(courtAndDateSect);
 };
