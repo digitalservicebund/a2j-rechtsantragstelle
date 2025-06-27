@@ -73,7 +73,7 @@ export function schemaToFormElement(
         key={fieldName}
         name={fieldName}
         label={label}
-        altLabel={get(matchingElement, "altLabel", undefined)}
+        altLabel={get(matchingElement, "altLabel")}
         errorMessages={errorMessages}
         options={options}
       />
@@ -85,13 +85,13 @@ export function schemaToFormElement(
       <Input
         key={fieldName}
         name={fieldName}
-        type={get(matchingElement, "type", undefined)}
+        type={get(matchingElement, "type")}
         label={label}
-        suffix={get(matchingElement, "suffix", undefined)}
-        placeholder={get(matchingElement, "placeholder", undefined)}
+        suffix={get(matchingElement, "suffix")}
+        placeholder={get(matchingElement, "placeholder")}
         width={get(matchingElement, "width")}
         errorMessages={errorMessages}
-        helperText={get(matchingElement, "helperText", undefined)}
+        helperText={get(matchingElement, "helperText")}
       />
     );
   }
