@@ -8,7 +8,7 @@ import { isFileUploadOrDeleteAction } from "~/services/flow/formular/fileUpload/
 import { processUserFile } from "~/services/flow/formular/fileUpload/processUserFile.server";
 import { getUserDataAndFlow } from "~/services/flow/formular/userDataAndFlow/getUserDataAndFlow";
 import { getDestinationFlowAction } from "~/services/flow/formular/userFlowAction/getDestinationFlowAction";
-import { posValidationFormUserData } from "~/services/flow/formular/userFlowAction/posValidationFormUserData";
+import { postValidationFormUserData } from "~/services/flow/formular/userFlowAction/postValidationFormUserData";
 import { validateFormUserData } from "~/services/flow/formular/userFlowAction/validateFormUserData";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
@@ -154,7 +154,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     guards: flows[flowId].guards,
   });
 
-  await posValidationFormUserData(
+  await postValidationFormUserData(
     request,
     flowController,
     resultFormUserData.value.userData,

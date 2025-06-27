@@ -6,7 +6,7 @@ import {
 import { Result } from "true-myth";
 import { processUserFile } from "~/services/flow/formular/fileUpload/processUserFile.server";
 import { getDestinationFlowAction } from "~/services/flow/formular/userFlowAction/getDestinationFlowAction";
-import { posValidationFormUserData } from "~/services/flow/formular/userFlowAction/posValidationFormUserData";
+import { postValidationFormUserData } from "~/services/flow/formular/userFlowAction/postValidationFormUserData";
 import { validateFormUserData } from "~/services/flow/formular/userFlowAction/validateFormUserData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { logWarning } from "~/services/logging";
@@ -26,7 +26,7 @@ vi.mock("~/services/flow/server/buildFlowController");
 vi.mock("~/services/flow/formular/fileUpload/processUserFile.server");
 vi.mock("~/services/session.server");
 vi.mock("~/services/flow/formular/userFlowAction/validateFormUserData");
-vi.mock("~/services/flow/formular/userFlowAction/posValidationFormUserData");
+vi.mock("~/services/flow/formular/userFlowAction/postValidationFormUserData");
 vi.mock("~/services/flow/formular/userFlowAction/getDestinationFlowAction");
 
 vi.mocked(getSessionManager).mockReturnValue({
@@ -197,8 +197,8 @@ describe("formular.server", () => {
           context: {},
         });
 
-        expect(posValidationFormUserData).toHaveBeenCalledTimes(1);
-        expect(posValidationFormUserData).toHaveBeenCalledWith(
+        expect(postValidationFormUserData).toHaveBeenCalledTimes(1);
+        expect(postValidationFormUserData).toHaveBeenCalledWith(
           mockDefaultRequest,
           mockBuildFlowController,
           { name: "Valid Name" },

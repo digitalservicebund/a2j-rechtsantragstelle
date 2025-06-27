@@ -4,7 +4,7 @@ import { type buildFlowController } from "~/services/flow/server/buildFlowContro
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
 import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
 
-export const posValidationFormUserData = async (
+export const postValidationFormUserData = async (
   request: Request,
   flowController: ReturnType<typeof buildFlowController>,
   userData: UserData,

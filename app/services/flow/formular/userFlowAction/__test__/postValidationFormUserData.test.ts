@@ -1,7 +1,7 @@
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { type buildFlowController } from "~/services/flow/server/buildFlowController";
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
-import { posValidationFormUserData } from "../posValidationFormUserData";
+import { postValidationFormUserData } from "../postValidationFormUserData";
 
 const mockUserData = { name: "John Doe" };
 const mockRequest = new Request(
@@ -21,7 +21,7 @@ const mockFlowControllerWithoutCustomAnalyticsEventName = {
   }),
 } as unknown as ReturnType<typeof buildFlowController>;
 
-describe("posValidationFormUserData", () => {
+describe("postValidationFormUserData", () => {
   it("should call sendCustomAnalyticsEvent in case a customAnalyticsEventName is set", async () => {
     const mockFlowController = {
       getMeta: () => ({
@@ -29,7 +29,7 @@ describe("posValidationFormUserData", () => {
       }),
     } as unknown as ReturnType<typeof buildFlowController>;
 
-    await posValidationFormUserData(
+    await postValidationFormUserData(
       mockRequest,
       mockFlowController,
       mockUserData,
@@ -43,7 +43,7 @@ describe("posValidationFormUserData", () => {
   });
 
   it("should not call sendCustomAnalyticsEvent in case a customAnalyticsEventName is not set", async () => {
-    await posValidationFormUserData(
+    await postValidationFormUserData(
       mockRequest,
       mockFlowControllerWithoutCustomAnalyticsEventName,
       mockUserData,
@@ -53,7 +53,7 @@ describe("posValidationFormUserData", () => {
   });
 
   it("should call executeAsyncFlowActionByStepId", async () => {
-    await posValidationFormUserData(
+    await postValidationFormUserData(
       mockRequest,
       mockFlowControllerWithoutCustomAnalyticsEventName,
       mockUserData,
