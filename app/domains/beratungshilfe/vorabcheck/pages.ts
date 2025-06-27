@@ -1,15 +1,28 @@
-import pick from "lodash/pick";
-import { beratungshilfeVorabcheckInputSchema as schemas } from "./userData";
+import { z } from "zod";
+import { staatlicheLeistungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
+import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import {
+  customRequiredErrorMessage,
+  YesNoAnswer,
+} from "~/services/validation/YesNoAnswer";
+import { kidsSchema } from "./kidsSchema";
 import type { PagesConfig } from "../../pageConfig";
+import { bereich } from "../formular/rechtsproblem/userData";
 
 export const beratungshilfeVorabcheckPages = {
   rechtsschutzversicherung: {
     url: "rechtsschutzversicherung",
-    pageSchema: pick(schemas, "rechtsschutzversicherung"),
+    pageSchema: { rechtsschutzversicherung: YesNoAnswer },
   },
   rechtsschutzversicherungDetails: {
     url: "rechtsschutzversicherung-details",
-    pageSchema: pick(schemas, "rsvCoverage"),
+    pageSchema: {
+      rsvCoverage: z.enum(
+        ["yes", "partly", "tooExpensive", "no", "unknown"],
+        customRequiredErrorMessage,
+      ),
+    },
   },
   rechtsschutzversicherungAbbruch: {
     url: "ergebnis/rechtsschutzversicherung-abbruch",
@@ -25,41 +38,41 @@ export const beratungshilfeVorabcheckPages = {
   },
   wurdeVerklagt: {
     url: "wurde-verklagt",
-    pageSchema: pick(schemas, "wurdeVerklagt"),
+    pageSchema: { wurdeVerklagt: YesNoAnswer },
   },
   wurdeVerklagtAbbruch: {
     url: "ergebnis/wurde-verklagt-abbruch",
   },
   klageEingereicht: {
     url: "klage-eingereicht",
-    pageSchema: pick(schemas, "klageEingereicht"),
+    pageSchema: { klageEingereicht: YesNoAnswer },
   },
   klageEingereichtAbbruch: {
     url: "ergebnis/klage-eingereicht-abbruch",
   },
   hamburgOderBremen: {
     url: "hamburg-oder-bremen",
-    pageSchema: pick(schemas, "hamburgOderBremen"),
+    pageSchema: { hamburgOderBremen: YesNoAnswer },
   },
   hamburgOderBremenAbbruch: {
     url: "ergebnis/hamburg-oder-bremen-abbruch",
   },
   beratungshilfeBeantragt: {
     url: "beratungshilfe-beantragt",
-    pageSchema: pick(schemas, "beratungshilfeBeantragt"),
+    pageSchema: { beratungshilfeBeantragt: YesNoAnswer },
   },
   beratungshilfeBeantragtAbbruch: {
     url: "ergebnis/beratungshilfe-beantragt-abbruch",
   },
   eigeninitiative: {
     url: "eigeninitiative",
-    pageSchema: pick(schemas, "eigeninitiative"),
+    pageSchema: { eigeninitiative: YesNoAnswer },
   },
   eigeninitiativeWarnung: { url: "eigeninitiative-warnung" },
-  bereich: { url: "bereich", pageSchema: pick(schemas, "bereich") },
+  bereich: { url: "bereich", pageSchema: { bereich } },
   staatlicheLeistungen: {
     url: "staatliche-leistungen",
-    pageSchema: pick(schemas, "staatlicheLeistungen"),
+    pageSchema: { staatlicheLeistungen: staatlicheLeistungenInputSchema },
   },
   staatlicheLeistungenAbschlussVielleicht: {
     url: "ergebnis/staatliche-leistungen-abschluss-vielleicht",
@@ -67,7 +80,12 @@ export const beratungshilfeVorabcheckPages = {
   staatlicheLeistungenAbschlussJa: {
     url: "ergebnis/staatliche-leistungen-abschluss-ja",
   },
-  vermoegen: { url: "vermoegen", pageSchema: pick(schemas, "vermoegen") },
+  vermoegen: {
+    url: "vermoegen",
+    pageSchema: {
+      vermoegen: z.enum(["below_10k", "above_10k"], customRequiredErrorMessage),
+    },
+  },
   vermoegenAbschlussJa: {
     url: "ergebnis/vermoegen-abschluss-ja",
   },
@@ -79,27 +97,27 @@ export const beratungshilfeVorabcheckPages = {
   },
   erwerbstaetigkeit: {
     url: "erwerbstaetigkeit",
-    pageSchema: pick(schemas, "erwerbstaetigkeit"),
+    pageSchema: { erwerbstaetigkeit: YesNoAnswer },
   },
   partnerschaft: {
     url: "partnerschaft",
-    pageSchema: pick(schemas, "partnerschaft"),
+    pageSchema: { partnerschaft: YesNoAnswer },
   },
   genauigkeit: {
     url: "genauigkeit",
-    pageSchema: pick(schemas, "genauigkeit"),
+    pageSchema: { genauigkeit: YesNoAnswer },
   },
   kinderKurz: {
     url: "kinder-kurz",
-    pageSchema: pick(schemas, "kinderKurz"),
+    pageSchema: { kinderKurz: YesNoAnswer },
   },
   kinderAnzahlKurz: {
     url: "kinder-anzahl-kurz",
-    pageSchema: pick(schemas, "kinderAnzahlKurz"),
+    pageSchema: { kinderAnzahlKurz: buildKidsCountValidationSchema() },
   },
   verfuegbaresEinkommen: {
     url: "verfuegbares-einkommen",
-    pageSchema: pick(schemas, "verfuegbaresEinkommen"),
+    pageSchema: { verfuegbaresEinkommen: YesNoAnswer },
   },
   verfuegbaresEinkommenAbschlussJa: {
     url: "ergebnis/verfuegbares-einkommen-abschluss-ja",
@@ -112,39 +130,39 @@ export const beratungshilfeVorabcheckPages = {
   },
   einkommen: {
     url: "einkommen",
-    pageSchema: pick(schemas, "einkommen"),
+    pageSchema: { einkommen: buildMoneyValidationSchema() },
   },
   einkommenPartner: {
     url: "einkommen-partner",
-    pageSchema: pick(schemas, "einkommenPartner"),
+    pageSchema: { einkommenPartner: buildMoneyValidationSchema() },
   },
   kinder: {
     url: "kinder",
-    pageSchema: pick(schemas, "kinder"),
+    pageSchema: { kinder: YesNoAnswer },
   },
   kinderAnzahl: {
     url: "kinder-anzahl",
-    pageSchema: pick(schemas, "kids"),
+    pageSchema: { kids: kidsSchema },
   },
   einkommenKinder: {
     url: "einkommen-kinder",
-    pageSchema: pick(schemas, "einkommenKinder"),
+    pageSchema: { einkommenKinder: buildMoneyValidationSchema() },
   },
   unterhalt: {
     url: "unterhalt",
-    pageSchema: pick(schemas, "unterhalt"),
+    pageSchema: { unterhalt: YesNoAnswer },
   },
   unterhaltSumme: {
     url: "unterhalt-summe",
-    pageSchema: pick(schemas, "unterhaltSumme"),
+    pageSchema: { unterhaltSumme: buildMoneyValidationSchema() },
   },
   miete: {
     url: "miete",
-    pageSchema: pick(schemas, "miete"),
+    pageSchema: { miete: buildMoneyValidationSchema() },
   },
   weitereZahlungenSumme: {
     url: "weitere-zahlungen-summe",
-    pageSchema: pick(schemas, "weitereZahlungenSumme"),
+    pageSchema: { weitereZahlungenSumme: buildMoneyValidationSchema() },
   },
   weitereZahlungenSummeAbschlussJa: {
     url: "ergebnis/weitere-zahlungen-summe-abschluss-ja",
