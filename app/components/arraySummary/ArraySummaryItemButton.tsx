@@ -4,6 +4,7 @@ import { useFetcher, useLocation } from "react-router";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import Button from "../Button";
 import ButtonContainer from "../ButtonContainer";
+import { useJsAvailable } from "../hooks/useJsAvailable";
 
 type Props = {
   readonly itemIndex: number;
@@ -27,6 +28,7 @@ const ArraySummaryItemButton = ({
 }: Props) => {
   const { pathname } = useLocation();
   const fetcher = useFetcher();
+  const jsAvailable = useJsAvailable();
 
   return (
     <ButtonContainer className="pt-8">
@@ -37,6 +39,7 @@ const ArraySummaryItemButton = ({
       <fetcher.Form method="post" action={DELETE_URL_ENDPOINT}>
         <input type="hidden" name={CSRFKey} value={csrf} />
         <input type="hidden" name="pathnameArrayItem" value={pathname} />
+        <input type="hidden" name="_jsEnabled" value={String(jsAvailable)} />
         <Button
           look="tertiary"
           iconLeft={<DeleteIcon />}
