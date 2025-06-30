@@ -246,8 +246,9 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "einmalzahlung-arbeitgeber",
             guard: ({ context }) =>
-              context.hasArbeit === "yes" &&
-              Boolean(context.nachzahlungArbeitgeber),
+              (context.hasArbeit === "yes" &&
+                context.nachzahlungArbeitgeber === "yes") ||
+              context.nachzahlungArbeitgeber === "no",
           },
           {
             target: "arbeit-art",
@@ -309,11 +310,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: [
           {
             target: "sozialleistungen-einmalzahlung",
-            guard: ({ context }) =>
-              context.hasSozialleistungen === "buergergeld" ||
-              context.hasSozialleistungen === "grundsicherungSozialhilfe" ||
-              context.hasSozialleistungen === "asylbewerberleistungen" ||
-              context.hasSozialleistungen !== "nein",
+            guard: ({ context }) => context.hasSozialleistungen !== "nein",
           },
           "sozialleistungen",
         ],
@@ -355,8 +352,9 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: "sozialleistungen-einmalzahlung",
             guard: ({ context }) =>
-              context.hasSozialleistungen !== "nein" &&
-              context.hasSozialleistungenEinmalzahlung === "yes",
+              (context.hasSozialleistungen !== "nein" &&
+                context.hasSozialleistungenEinmalzahlung === "yes") ||
+              context.hasSozialleistungenEinmalzahlung === "no",
           },
           "sozialleistungen",
         ],
