@@ -59,6 +59,10 @@ describe("postValidationFormUserData", () => {
       mockUserData,
     );
 
-    expect(executeAsyncFlowActionByStepId).toBeCalledTimes(1);
+    expect(executeAsyncFlowActionByStepId).toHaveBeenCalledWith(
+      expect.anything(),
+      "/finanzielle-angaben/kinder/uebersicht",
+      mockRequest,
+    );
   });
 });
