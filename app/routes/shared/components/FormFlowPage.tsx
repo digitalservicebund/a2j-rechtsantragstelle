@@ -46,13 +46,13 @@ export function FormFlowPage() {
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
-      <div className="flex flex-col min-w-[100vw] bg-blue-100 relative">
+      <div className="flex flex-col min-w-[100vw] bg-blue-100">
         <div className="pt-32 flex flex-grow flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start gap-48">
           <div className="md:ml-32 md:mb-32 md:w-[248px]">
             <FlowNavigation navItems={navItems} expandAll={isValidationPage} />
           </div>
           <div
-            className={`ds-stack ds-stack-40 container md:pl-0 md:flex-1 !pt-0 ${navItems && "!ml-0 !mr-0"}`}
+            className={`ds-stack ds-stack-40 container md:pl-0 md:flex-1 !pb-0 md:!pb-16 !pt-0 ${navItems && "!ml-0 !mr-0"}`}
           >
             <div className="ds-stack ds-stack-16" id="form-flow-page-content">
               {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
@@ -88,9 +88,9 @@ export function FormFlowPage() {
               buttonNavigationProps={buttonNavigationProps}
             />
             <PageContent content={postFormContent} fullScreen={false} />
+            {showReportProblem && <ReportProblem />}
           </div>
         </div>
-        {showReportProblem && <ReportProblem />}
       </div>
     </FormFlowContext.Provider>
   );
