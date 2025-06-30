@@ -10,7 +10,7 @@ const mockPathname =
   "/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht";
 
 describe("validateFormUserData", () => {
-  it("should return an error in case the validation of the form data returns an error", async () => {
+  it("should return an error when form data validation fails", async () => {
     vi.mocked(validateFormData).mockResolvedValue({
       error: { fieldErrors: { name: "wrongName" } },
       submittedData: { name: "John Doe" },
@@ -25,7 +25,7 @@ describe("validateFormUserData", () => {
     });
   });
 
-  it("should return ok in case the validation of the form data returns does not show any error", async () => {
+  it("should return success when form data is valid", async () => {
     vi.mocked(validateFormData).mockResolvedValue({
       error: undefined,
       data: { name: "John Doe" },
