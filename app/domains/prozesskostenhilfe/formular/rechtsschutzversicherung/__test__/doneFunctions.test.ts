@@ -8,6 +8,13 @@ describe("determine if rechtsschutzversicherung is done", () => {
       }),
     ).toBeTruthy();
   });
+  it("will be true if the Antragstellende Person is filling out the form for someone else", () => {
+    expect(
+      rechtsschutzversicherungDone({
+        context: { empfaenger: "otherPerson" },
+      }),
+    ).toBeTruthy();
+  });
   it("will be true if insurance or organization dont cover the cost", () => {
     expect(
       rechtsschutzversicherungDone({
