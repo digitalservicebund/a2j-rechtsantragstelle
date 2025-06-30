@@ -56,7 +56,7 @@ beforeEach(() => {
 
 describe("formular.server", () => {
   describe("action", () => {
-    it("should thrown a response error in case does not have a csrf token", async () => {
+    it("should throw a response error if no CSRF token is provided", async () => {
       vi.mocked(validatedSession).mockResolvedValue(
         Result.err("Invalid CSRF token"),
       );
@@ -73,7 +73,7 @@ describe("formular.server", () => {
     });
 
     describe("file actions", () => {
-      it("should return an error response in case the _action is upload a file and returns an error processUserFile", async () => {
+      it("should return an error response when a file upload fails", async () => {
         vi.mocked(processUserFile).mockResolvedValue(
           Result.err({
             fieldErrors: { file: "File upload failed" },
@@ -103,7 +103,7 @@ describe("formular.server", () => {
         expect(response.data.repopulateFields).toEqual({ file: "someFile" });
       });
 
-      it("should return an response 200 and call the updateSession in case the _action is upload a file and returns ok processUserFile", async () => {
+      it("should return 200 and update the session when a file upload succeeds", async () => {
         vi.mocked(processUserFile).mockResolvedValue(
           Result.ok({
             userData: { file: "someFile" },
@@ -159,7 +159,7 @@ describe("formular.server", () => {
         expect(response.data.repopulateFields).toEqual({ name: "" });
       });
 
-      it("should return call updateSession twice in case validateFormUserData returns ok with migration data", async () => {
+      it("should update session twice when form validation succeeds with migration data", async () => {
         vi.mocked(validateFormUserData).mockResolvedValue(
           Result.ok({
             userData: { name: "Valid Name" },
@@ -183,7 +183,7 @@ describe("formular.server", () => {
         });
       });
 
-      it("should return call posValidationFormUserData once in case validateFormUserData returns ok", async () => {
+      it("should call postValidationFormUserData once when form validation succeeds", async () => {
         vi.mocked(validateFormUserData).mockResolvedValue(
           Result.ok({
             userData: { name: "Valid Name" },
