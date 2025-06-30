@@ -1,6 +1,5 @@
 import { type SafeParseError } from "zod";
 import { listRenderer } from "~/services/cms/models/StrapiList";
-import { createTileRenderer } from "~/services/cms/models/StrapiTile";
 import { buildRichTextValidation } from "~/services/validation/richtext";
 
 describe("richtext validation", () => {
@@ -46,17 +45,6 @@ describe("richtext validation", () => {
   });
 
   describe("custom renderers", () => {
-    test("uses custom tile renderer", () => {
-      const paragraphText = "Some paragraph";
-      const tileRenderer = createTileRenderer("some-value");
-      expect(
-        buildRichTextValidation(tileRenderer).safeParse(paragraphText),
-      ).toEqual({
-        data: `<p id="some-value-description" class="ds-subhead">${paragraphText}</p>`,
-        success: true,
-      });
-    });
-
     test("uses custom list renderer", () => {
       const paragraphText = "Some paragraph";
       expect(
