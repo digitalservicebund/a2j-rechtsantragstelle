@@ -52,7 +52,7 @@ export function FormFlowPage() {
             <FlowNavigation navItems={navItems} expandAll={isValidationPage} />
           </div>
           <div
-            className={`ds-stack ds-stack-40 container md:pl-0 md:flex-1 !pt-0 ${navItems && "!ml-0 !mr-0"}`}
+            className={`ds-stack ds-stack-40 container md:pl-0 md:flex-1 !pb-0 md:!pb-16 !pt-0 ${navItems && "!ml-0 !mr-0"}`}
           >
             <div className="ds-stack ds-stack-16" id="form-flow-page-content">
               {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
@@ -88,9 +88,9 @@ export function FormFlowPage() {
               buttonNavigationProps={buttonNavigationProps}
             />
             <PageContent content={postFormContent} fullScreen={false} />
+            {showReportProblem && <ReportProblem />}
           </div>
         </div>
-        {showReportProblem && <ReportProblem />}
       </div>
     </FormFlowContext.Provider>
   );
