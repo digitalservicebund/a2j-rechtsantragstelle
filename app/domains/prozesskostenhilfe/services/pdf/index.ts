@@ -45,8 +45,7 @@ const METADATA: Metadata = {
   KEYWORDS: ["Prozesskostenhilfe"],
   LANGUAGE: "de-DE",
   PRODUCER: "pdf-lib (https://github.com/Hopding/pdf-lib)",
-  SUBJECT:
-    "Erklärung über die persönlichen und wirtschaftlichen Verhältnisse",
+  SUBJECT: "Erklärung über die persönlichen und wirtschaftlichen Verhältnisse",
   TITLE: "Erklärung über die persönlichen und wirtschaftlichen Verhältnisse",
 };
 
@@ -59,7 +58,8 @@ const buildProzesskostenhilfePDFDocument: PDFDocumentBuilder<
     documentStruct,
     userData,
     attachment,
-    headerText: "Anhang: Erklärung über die persönlichen und wirtschaftlichen Verhältnisse bei Prozesskostenhilfe",
+    headerText:
+      "Anhang: Erklärung über die persönlichen und wirtschaftlichen Verhältnisse bei Prozesskostenhilfe",
   });
   if (requiresBelege(userData)) {
     buildBelegeList({ doc, documentStruct, userData, translations });
