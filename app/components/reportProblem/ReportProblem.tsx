@@ -30,7 +30,7 @@ export const ReportProblem = () => {
   if (!survey) return null;
 
   return (
-    <div className="container !p-0 w-full flex justify-end">
+    <>
       {surveyOpen && (
         <PosthogSurvey
           survey={survey}
@@ -45,6 +45,6 @@ export const ReportProblem = () => {
         text={feedbackTranslations["report-problem"]}
         iconLeft={<FlagOutlined />}
       ></Button>
-    </div>
+    </>
   );
 };
