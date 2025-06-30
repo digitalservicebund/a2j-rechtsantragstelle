@@ -10,6 +10,8 @@ afterEach(() => {
   vi.restoreAllMocks(); // This clears all mocks after each test
 });
 
+vi.mock("react-router");
+
 describe("useDataListOptions", () => {
   it("should return empty array in case fetch does not return ok", async () => {
     global.fetch = vi.fn().mockResolvedValue(createFetchResponse([], false));
