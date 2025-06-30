@@ -20,7 +20,7 @@ export type UserData = Record<
 
 const contexts = {
   "/beratungshilfe/antrag": beratungshilfeFormularUserData,
-  "/beratungshilfe/vorabcheck": {},
+  "/beratungshilfe/vorabcheck": {}, // schemas for BH vorabcheck have moved page-based config, see /beratungshilfe/vorabcheck/pages.ts
   "/geld-einklagen/vorabcheck": geldEinklagenVorabcheckInputSchema,
   "/geld-einklagen/formular": geldEinklagenInputSchema,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckInputSchema,
