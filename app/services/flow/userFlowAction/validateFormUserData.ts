@@ -5,7 +5,7 @@ import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { filterFormData } from "~/util/filterFormData";
-import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
+import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 
 export const validateFormUserData = async (
   formData: FormData,
