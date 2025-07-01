@@ -6,8 +6,9 @@ FROM node:22-alpine AS app-base
 
 WORKDIR /a2j
 
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev --omit=optional
+COPY package.json pnpm-lock.yaml ./
+RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN pnpm install --frozen-lockfile --prod
 
 FROM scratch AS app
 WORKDIR /a2j-app

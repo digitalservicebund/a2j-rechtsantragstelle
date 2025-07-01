@@ -4,12 +4,12 @@ pre-commit:
     format:
       run: node_modules/.bin/prettier --write '{staged_files}' && git add '{staged_files}'
     typecheck:
-      run: npm run typecheck
+      run: pnpm run typecheck
 
 pre-push:
   parallel: true
   commands:
     "unit tests":
-      run: npm test
+      run: pnpm test
     lint:
-      run: npm run lint
+      run: pnpm run lint
