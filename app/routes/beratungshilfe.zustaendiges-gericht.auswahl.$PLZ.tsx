@@ -1,5 +1,9 @@
-import { ValidatedForm } from "@rvf/react-router";
-import type { LoaderFunctionArgs } from "react-router";
+import {
+  parseFormData,
+  ValidatedForm,
+  validationError,
+} from "@rvf/react-router";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { redirect, useLoaderData } from "react-router";
 import { z } from "zod";
 import Background from "~/components/Background";
@@ -15,13 +19,15 @@ import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import RichText from "~/components/RichText";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { buildOpenPlzResultUrl } from "~/services/gerichtsfinder/openPLZ";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
+import { filterFormData } from "~/util/filterFormData";
 
-export const courtFinderSchema = z.object({
-  strasse: stringRequiredSchema,
-  hausnummer: stringRequiredSchema,
+const courtFinderSchema = z.object({
+  street: stringRequiredSchema,
+  houseNumber: stringRequiredSchema,
 });
 
 const requiredError: ErrorMessageProps = {
@@ -58,12 +64,31 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     pathname,
     common,
     meta,
-    url: `/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`,
   };
 };
 
+export const action = async ({ request, params }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+  const relevantFormData = filterFormData(formData);
+  const validationResult = await parseFormData(
+    relevantFormData,
+    courtFinderSchema,
+  );
+  const error = validationResult.error;
+  if (error) {
+    return validationError(error, validationResult.submittedData);
+  }
+  redirect(
+    `beratungshilfe/zustaendiges-gericht/ergebnis/${params.PLZ}/${buildOpenPlzResultUrl(validationResult.data.street, parseInt(validationResult.data.houseNumber))}`,
+  );
+};
+
 export default function Index() {
-  const { resultListHeading, common, url } = useLoaderData<typeof loader>();
+  const {
+    resultListHeading,
+    common,
+    prunedUserData: { plz },
+  } = useLoaderData<typeof loader>();
 
   return (
     <div className="flex flex-col flex-grow">
@@ -81,24 +106,27 @@ export default function Index() {
         />
         <ValidatedForm
           method="post"
-          action={url}
           schema={courtFinderSchema}
-          defaultValues={{ strasse: "", hausnummer: "" }}
+          defaultValues={{
+            street: "",
+            houseNumber: "",
+          }}
         >
           <div className="pb-16 flex gap-8">
+            <input hidden readOnly name={"_plz"} value={plz} />
             <AutoSuggestInput
               label="Straße"
               dataList="streetNames"
               noSuggestionMessage="Kein Eintrag gefunden"
               errorMessages={[requiredError]}
-              name={"strasse"}
+              name={"street"}
               isDisabled={false}
               minSuggestionCharacters={0}
             />
             <Input
               type="number"
               label="Hausnummer"
-              name={"hausnummer"}
+              name={"houseNumber"}
               errorMessages={[requiredError]}
             />
           </div>
