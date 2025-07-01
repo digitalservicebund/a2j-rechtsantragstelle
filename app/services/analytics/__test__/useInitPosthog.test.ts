@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { renderHook } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
 import { PostHog } from "posthog-js";
 import { config } from "~/services/env/public";
 import { useInitPosthog } from "../useInitPosthog";
@@ -13,9 +13,9 @@ describe("useInitPosthog", () => {
     ENVIRONMENT: "test",
   });
 
-  test("returns loaded posthog instance", () => {
+  test("returns loaded posthog instance", async () => {
     const { result } = renderHook(() => useInitPosthog(true));
-    expect(result.current).toBeInstanceOf(PostHog);
+    await waitFor(() => expect(result.current).toBeInstanceOf(PostHog));
     expect(result.current?.__loaded).toBe(true);
   });
 
