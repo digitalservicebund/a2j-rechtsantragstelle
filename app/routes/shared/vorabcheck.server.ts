@@ -3,7 +3,6 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
-import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import {
   fetchFlowPage,
   fetchMeta,
@@ -12,6 +11,9 @@ import {
 import { isStrapiHeadingComponent } from "~/services/cms/models/isStrapiHeadingComponent";
 import { isStrapiSelectComponent } from "~/services/cms/models/isStrapiSelectComponent";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
+import { getDestinationFlowAction } from "~/services/flow/userFlowAction/getDestinationFlowAction";
+import { postValidationFormUserData } from "~/services/flow/userFlowAction/postValidationFormUserData";
+import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
 import { logWarning } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";
 import {
@@ -26,10 +28,8 @@ import {
 } from "~/services/session.server";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
-import { validateFormData } from "~/services/validation/validateFormData.server";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { filterFormData } from "~/util/filterFormData";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 
 export const loader = async ({
@@ -138,21 +138,26 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const { pathname } = new URL(request.url);
-  const { flowId, stepId } = parsePathname(pathname);
-  const sessionManager = getSessionManager(flowId);
+  const { flowId } = parsePathname(pathname);
+  const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
-  const flowSession = await sessionManager.getSession(cookieHeader);
+  const flowSession = await getSession(cookieHeader);
   const formData = await request.formData();
 
-  const relevantFormData = filterFormData(formData);
-  const validationResult = await validateFormData(pathname, relevantFormData);
-  if (validationResult.error)
-    return validationError(
-      validationResult.error,
-      validationResult.submittedData,
-    );
+  const resultFormUserData = await validateFormUserData(
+    formData,
+    pathname,
+    cookieHeader,
+  );
 
-  updateSession(flowSession, validationResult.data);
+  if (resultFormUserData.isErr) {
+    return validationError(
+      resultFormUserData.error.error,
+      resultFormUserData.error.submittedData,
+    );
+  }
+
+  updateSession(flowSession, resultFormUserData.value.userData);
 
   const flowController = buildFlowController({
     config: flows[flowId].config,
@@ -160,21 +165,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     guards: flows[flowId].guards,
   });
 
-  const customAnalyticsEventName =
-    flowController.getMeta(stepId)?.customAnalyticsEventName;
-  if (customAnalyticsEventName) {
-    sendCustomAnalyticsEvent({
-      request,
-      eventName: customAnalyticsEventName,
-      properties: validationResult.data,
-    });
-  }
+  await postValidationFormUserData(
+    request,
+    flowController,
+    resultFormUserData.value.userData,
+  );
 
-  const destination =
-    flowController.getNext(stepId) ?? flowController.getInitial();
-  const headers = {
-    "Set-Cookie": await sessionManager.commitSession(flowSession),
-  };
+  const destination = getDestinationFlowAction(flowController, pathname);
 
+  const headers = { "Set-Cookie": await commitSession(flowSession) };
   return redirectDocument(destination, { headers });
 };
