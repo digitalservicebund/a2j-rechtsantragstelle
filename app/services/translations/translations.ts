@@ -149,4 +149,9 @@ export const translations = {
       de: "Weiter",
     },
   },
+  vorabcheck: {
+    progressBarLabel: {
+      de: "Vorab-Check Fortschritt",
+    },
+  },
 } satisfies TranslationRecord;
