@@ -10,13 +10,13 @@ jobs:
     permissions:
       contents: read
     runs-on: ubuntu-latest
-    name: npm run ${{ matrix.npmCMD }}
+    name: pnpm run ${{ matrix.npmCMD }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: ./.github/actions/cached-checkout-install
-      - run: npm run ${{ matrix.npmCMD }}
+      - run: pnpm run ${{ matrix.npmCMD }}
       - name: Upload coverage
         if: ${{ matrix.npmCMD == 'test:coverage' }}
         uses: actions/upload-artifact@v4
