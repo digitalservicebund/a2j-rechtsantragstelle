@@ -39,7 +39,7 @@ jobs:
         run: ./docker.sh --contentFromImage && mv content_from_image.json content.json
         continue-on-error: true
       - if: steps.fetchLatestImageContent.outcome == 'failure'
-        run: npm ci && npm run build:localContent
+        run: pnpm ci && pnpm run build:localContent
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}" ## this value is related the API Token pipeline-new in Strapi staging
@@ -62,7 +62,7 @@ jobs:
   #   steps:
   #     - uses: actions/checkout@v4
   #     - uses: ./.github/actions/cached-checkout-install
-  #     - run: npm run test:integration
+  #     - run: pnpm run test:integration
 
   verify-local-e2e:
     needs: [get-content-file]
