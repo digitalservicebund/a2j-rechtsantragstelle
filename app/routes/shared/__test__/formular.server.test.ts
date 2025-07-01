@@ -1,0 +1,228 @@
+import { type ValidationErrorResponseData } from "@rvf/react-router";
+import {
+  type UNSAFE_DataWithResponseInit,
+  type ActionFunctionArgs,
+} from "react-router";
+import { Result } from "true-myth";
+import { processUserFile } from "~/services/flow/formular/fileUpload/processUserFile.server";
+import { getDestinationFlowAction } from "~/services/flow/formular/userFlowAction/getDestinationFlowAction";
+import { postValidationFormUserData } from "~/services/flow/formular/userFlowAction/postValidationFormUserData";
+import { validateFormUserData } from "~/services/flow/formular/userFlowAction/validateFormUserData";
+import { buildFlowController } from "~/services/flow/server/buildFlowController";
+import { logWarning } from "~/services/logging";
+import { validatedSession } from "~/services/security/csrf/validatedSession.server";
+import { getSessionManager, updateSession } from "~/services/session.server";
+import { action } from "../formular.server";
+
+vi.mock("~/services/security/csrf/validatedSession.server", () => ({
+  validatedSession: vi.fn(),
+}));
+
+vi.mock("~/services/logging", () => ({
+  logWarning: vi.fn(),
+}));
+
+vi.mock("~/services/flow/server/buildFlowController");
+vi.mock("~/services/flow/formular/fileUpload/processUserFile.server");
+vi.mock("~/services/session.server");
+vi.mock("~/services/flow/formular/userFlowAction/validateFormUserData");
+vi.mock("~/services/flow/formular/userFlowAction/postValidationFormUserData");
+vi.mock("~/services/flow/formular/userFlowAction/getDestinationFlowAction");
+
+vi.mocked(getSessionManager).mockReturnValue({
+  getSession: vi.fn().mockReturnValue({ get: () => ({}), set: vi.fn() }),
+  commitSession: vi.fn(),
+  destroySession: vi.fn(),
+  getDebugId: vi.fn(),
+});
+
+const mockRequestUrl = `http://localhost:3000/fluggastrechte/formular/abgabe/start`;
+const mockBuildFlowController = vi.fn() as unknown as ReturnType<
+  typeof buildFlowController
+>;
+const mockDefaultOptions = {
+  method: "POST",
+  body: new FormData(),
+};
+
+const mockDefaultRequest = new Request(mockRequestUrl, mockDefaultOptions);
+
+vi.mocked(buildFlowController).mockReturnValue(mockBuildFlowController);
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  vi.mocked(validatedSession).mockResolvedValue(Result.ok());
+});
+
+describe("formular.server", () => {
+  describe("action", () => {
+    it("should throw a response error if no CSRF token is provided", async () => {
+      vi.mocked(validatedSession).mockResolvedValue(
+        Result.err("Invalid CSRF token"),
+      );
+
+      const thrown = await action({
+        request: mockDefaultRequest,
+        params: {},
+        context: {},
+      } as ActionFunctionArgs).catch((error) => error);
+
+      expect(thrown).toBeInstanceOf(Response);
+      expect(thrown.status).toBe(403);
+      expect(logWarning).toHaveBeenCalledWith("Invalid CSRF token");
+    });
+
+    describe("file actions", () => {
+      it("should return an error response when a file upload fails", async () => {
+        vi.mocked(processUserFile).mockResolvedValue(
+          Result.err({
+            fieldErrors: { file: "File upload failed" },
+            repopulateFields: { file: "someFile" },
+          }),
+        );
+
+        const formData = new FormData();
+        formData.append("_action", "fileUpload");
+        const options = {
+          method: "POST",
+          body: formData,
+        };
+
+        const request = new Request(mockRequestUrl, options);
+
+        const response = (await action({
+          request,
+          params: {},
+          context: {},
+        })) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
+
+        expect(response.init?.status).toBe(422);
+        expect(response.data.fieldErrors).toEqual({
+          file: "File upload failed",
+        });
+        expect(response.data.repopulateFields).toEqual({ file: "someFile" });
+      });
+
+      it("should return 200 and update the session when a file upload succeeds", async () => {
+        vi.mocked(processUserFile).mockResolvedValue(
+          Result.ok({
+            userData: { file: "someFile" },
+          }),
+        );
+
+        const formData = new FormData();
+        formData.append("_action", "fileUpload");
+        const options = {
+          method: "POST",
+          body: formData,
+        };
+
+        const request = new Request(mockRequestUrl, options);
+
+        const response = (await action({
+          request,
+          params: {},
+          context: {},
+        })) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
+
+        expect(response.init?.status).toBe(200);
+        expect(updateSession).toHaveBeenCalledTimes(1);
+        expect(updateSession).toHaveBeenCalledWith(
+          expect.anything(),
+          {
+            file: "someFile",
+          },
+          undefined,
+        );
+      });
+    });
+
+    describe("user flow actions", () => {
+      it("should return an error response in case the form data is invalid", async () => {
+        vi.mocked(validateFormUserData).mockResolvedValue(
+          Result.err({
+            error: { fieldErrors: { name: "Name is required" } },
+            submittedData: { name: "" },
+          }),
+        );
+
+        const response = (await action({
+          request: mockDefaultRequest,
+          params: {},
+          context: {},
+        })) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
+
+        expect(response.init?.status).toBe(422);
+        expect(response.data.fieldErrors).toEqual({
+          name: "Name is required",
+        });
+        expect(response.data.repopulateFields).toEqual({ name: "" });
+      });
+
+      it("should update session twice when form validation succeeds with migration data", async () => {
+        vi.mocked(validateFormUserData).mockResolvedValue(
+          Result.ok({
+            userData: { name: "Valid Name" },
+            migrationData: { name: "Migration Name" },
+          }),
+        );
+
+        await action({
+          request: mockDefaultRequest,
+          params: {},
+          context: {},
+        });
+
+        expect(updateSession).toHaveBeenCalledTimes(2);
+        expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
+          name: "Valid Name",
+        });
+
+        expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
+          name: "Migration Name",
+        });
+      });
+
+      it("should call postValidationFormUserData once when form validation succeeds", async () => {
+        vi.mocked(validateFormUserData).mockResolvedValue(
+          Result.ok({
+            userData: { name: "Valid Name" },
+            migrationData: { name: "Migration Name" },
+          }),
+        );
+
+        await action({
+          request: mockDefaultRequest,
+          params: {},
+          context: {},
+        });
+
+        expect(postValidationFormUserData).toHaveBeenCalledTimes(1);
+        expect(postValidationFormUserData).toHaveBeenCalledWith(
+          mockDefaultRequest,
+          mockBuildFlowController,
+          { name: "Valid Name" },
+        );
+      });
+
+      it("should redirect to url /next-step in case validateFormUserData returns ok", async () => {
+        vi.mocked(validateFormUserData).mockResolvedValue(
+          Result.ok({
+            userData: { name: "Valid Name" },
+            migrationData: { name: "Migration Name" },
+          }),
+        );
+        vi.mocked(getDestinationFlowAction).mockReturnValue("/next-step");
+
+        const response = (await action({
+          request: mockDefaultRequest,
+          params: {},
+          context: {},
+        })) as Response;
+
+        expect(response.status).toEqual(302);
+        expect(response.headers.get("location")).toEqual("/next-step");
+      });
+    });
+  });
+});
