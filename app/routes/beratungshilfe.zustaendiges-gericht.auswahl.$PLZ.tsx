@@ -1,25 +1,33 @@
-import { useState } from "react";
+import { ValidatedForm } from "@rvf/react-router";
 import type { LoaderFunctionArgs } from "react-router";
-import { redirect, useFetcher, useLoaderData } from "react-router";
-import Select, { type SingleValue } from "react-select";
+import { redirect, useLoaderData } from "react-router";
+import { z } from "zod";
 import Background from "~/components/Background";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import Heading from "~/components/Heading";
-import CustomControl from "~/components/inputs/autoSuggestInput/customComponents/CustomControl";
+import { type ErrorMessageProps } from "~/components/inputs";
+import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
+import Input from "~/components/inputs/Input";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import RichText from "~/components/RichText";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
-import { type DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import {
-  fetchStreetnamesForZipcode,
-  buildOpenPlzResultUrl,
-} from "~/services/gerichtsfinder/openPLZ";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
+
+export const courtFinderSchema = z.object({
+  strasse: stringRequiredSchema,
+  hausnummer: stringRequiredSchema,
+});
+
+const requiredError: ErrorMessageProps = {
+  code: "required",
+  text: "Bitte treffen Sie eine Auswahl.",
+};
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;
@@ -44,7 +52,9 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   return {
     resultListHeading,
-    streetNameOptions: await fetchStreetnamesForZipcode(zipCode),
+    prunedUserData: {
+      plz: zipCode,
+    },
     pathname,
     common,
     meta,
@@ -53,12 +63,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 };
 
 export default function Index() {
-  const { resultListHeading, pathname, streetNameOptions, common, url } =
-    useLoaderData<typeof loader>();
-  const fetcher = useFetcher();
-  const [selectedStreet, setSelectedStreet] =
-    useState<SingleValue<DataListOptions>>();
-  const [houseNumber, setHouseNumber] = useState<number>();
+  const { resultListHeading, common, url } = useLoaderData<typeof loader>();
 
   return (
     <div className="flex flex-col flex-grow">
@@ -74,54 +79,43 @@ export default function Index() {
           text="Geben Sie bitte Ihre genaue Straße und Hausnummer ein"
           className="pb-16"
         />
-        <fetcher.Form method="post" action={pathname}>
+        <ValidatedForm
+          method="post"
+          action={url}
+          schema={courtFinderSchema}
+          defaultValues={{ strasse: "", hausnummer: "" }}
+        >
           <div className="pb-16 flex gap-8">
-            <Select
-              placeholder="Nach Straßenname suchen..."
-              className="flex-grow"
-              options={fetcher.data?.streetNameOptions ?? streetNameOptions}
-              value={selectedStreet}
-              onChange={(option) => setSelectedStreet(option)}
-              components={{
-                DropdownIndicator: null,
-                Control: CustomControl,
-              }}
+            <AutoSuggestInput
+              label="Straße"
+              dataList="streetNames"
+              noSuggestionMessage="Kein Eintrag gefunden"
+              errorMessages={[requiredError]}
+              name={"strasse"}
+              isDisabled={false}
+              minSuggestionCharacters={0}
             />
-            <input
+            <Input
               type="number"
-              min={1}
-              value={houseNumber}
-              className="ds-input max-w-[25%]"
-              alt="Hausnummer"
-              required
-              onChange={(e) => {
-                const val = e.target.value;
-                setHouseNumber(val.length > 0 ? parseInt(val) : undefined);
-              }}
+              label="Hausnummer"
+              name={"hausnummer"}
+              errorMessages={[requiredError]}
             />
           </div>
-        </fetcher.Form>
-        <ButtonContainer>
-          <Button
-            href="/beratungshilfe/zustaendiges-gericht/suche"
-            look="tertiary"
-            size="large"
-            id="backLink"
-          >
-            {common.backButton}
-          </Button>
-          <Button
-            href={`${url}/${buildOpenPlzResultUrl(selectedStreet?.label ?? "", houseNumber ?? 0)}`}
-            size="large"
-            disabled={!selectedStreet || !houseNumber}
-            id="weiterButton"
-          >
-            Weiter
-          </Button>
-          <Button href={`${url}/default`} size="large" id="defaultButton">
-            Ich finde meine Straße nicht
-          </Button>
-        </ButtonContainer>
+          <ButtonContainer>
+            <Button
+              href="/beratungshilfe/zustaendiges-gericht/suche"
+              look="tertiary"
+              size="large"
+              id="backLink"
+            >
+              {common.backButton}
+            </Button>
+            <Button type="submit" size="large" id="weiterButton">
+              Weiter
+            </Button>
+          </ButtonContainer>
+        </ValidatedForm>
       </Container>
       <ReportProblem />
     </div>
