@@ -44,12 +44,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   return {
     resultListHeading,
-    streetNameOptions: (await fetchStreetnamesForZipcode(zipCode)).map(
-      (result) => ({
-        value: result.name.toLowerCase().replaceAll(/\s+/g, ""),
-        label: result.name,
-      }),
-    ),
+    streetNameOptions: await fetchStreetnamesForZipcode(zipCode),
     pathname,
     common,
     meta,
