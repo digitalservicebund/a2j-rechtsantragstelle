@@ -1,5 +1,6 @@
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { reactRouter } from "@react-router/dev/vite";
+import { preloadAll } from "vite-preload";
 import {
   sentryReactRouter,
   type SentryReactRouterBuildOptions,
@@ -25,6 +26,7 @@ export default defineConfig((config) => ({
     hmr: { protocol: "ws", port: 24678 },
   },
   plugins: [
+    preloadAll(),
     envOnlyMacros(),
     !isStorybook && !isVitest && reactRouter(),
     !isStorybook && buildSentrySourceMaps && sentryVitePlugin(sentryConfig),
