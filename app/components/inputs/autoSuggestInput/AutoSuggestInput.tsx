@@ -157,7 +157,10 @@ const AutoSuggestInput = ({
   }
 
   return (
-    <div data-testid={items.length > 0 ? `${inputId}-loaded` : ""}>
+    <div
+      data-testid={items.length > 0 ? `${inputId}-loaded` : ""}
+      className="w-full"
+    >
       {label && <InputLabel id={inputId}>{label}</InputLabel>}
       <Select
         aria-describedby={field.error() && errorId}

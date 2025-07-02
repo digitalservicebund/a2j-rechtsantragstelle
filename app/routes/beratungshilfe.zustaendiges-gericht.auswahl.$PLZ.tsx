@@ -78,17 +78,13 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   if (error) {
     return validationError(error, validationResult.submittedData);
   }
-  redirect(
-    `beratungshilfe/zustaendiges-gericht/ergebnis/${params.PLZ}/${buildOpenPlzResultUrl(validationResult.data.street, parseInt(validationResult.data.houseNumber))}`,
+  return redirect(
+    `/beratungshilfe/zustaendiges-gericht/ergebnis/${params.PLZ}/${buildOpenPlzResultUrl(validationResult.data.street, parseInt(validationResult.data.houseNumber))}`,
   );
 };
 
 export default function Index() {
-  const {
-    resultListHeading,
-    common,
-    prunedUserData: { plz },
-  } = useLoaderData<typeof loader>();
+  const { resultListHeading, common } = useLoaderData<typeof loader>();
 
   return (
     <div className="flex flex-col flex-grow">
@@ -113,7 +109,6 @@ export default function Index() {
           }}
         >
           <div className="pb-16 flex gap-8">
-            <input hidden readOnly name={"_plz"} value={plz} />
             <AutoSuggestInput
               label="Straße"
               dataList="streetNames"
