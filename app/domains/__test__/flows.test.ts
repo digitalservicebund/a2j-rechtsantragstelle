@@ -2,13 +2,8 @@ import { toDirectedGraph, type DirectedGraphNode } from "@xstate/graph";
 import { pathToStateValue } from "xstate";
 import { testCasesBeratungshilfeFormular } from "~/domains/beratungshilfe/formular/__test__/testCasesBeratungshilfeFormular";
 import { testCasesBeratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck/__test__/testcases";
-import { testCasesFluggastrechteAnnullierungAbbruch } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesAnnullierungAbbruch";
-import { testCasesFluggastrechteErfolg } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesErfolg";
-import { testcasesFluggastrechteErfolgAnalog } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesErfolgAnalog";
-import { testCasesFluggastrechteErfolgEU } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesErfolgEU";
-import { testCasesFluggastrechteNichtBefoerderungAbbruch } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesNichtBefoerderungAbbruch";
-import { testcasesFluggastrechtOtherErfolgs } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesOtherErfolgs";
-import { testCasesFluggastrechteVerspaetetAbbruch } from "~/domains/fluggastrechte/vorabcheck/__test__/testcasesVerspaetetAbbruch";
+import { testCasesFluggastrechteFormular } from "~/domains/fluggastrechte/formular/__test__/testCasesFluggastrechteFormular";
+import { testCasesFluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck/__test__/testCasesFluggastrechteVorabcheck";
 import { testCasesGeldEinklagen } from "~/domains/geldEinklagen/vorabcheck/__test__/testcases";
 import { testCasesKontopfaendungWegweiser } from "~/domains/kontopfaendung/wegweiser/__test__/testcases";
 import {
@@ -20,8 +15,6 @@ import { type UserData } from "~/domains/userData";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import type { FlowStateMachine } from "~/services/flow/server/types";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
-import { testCasesFluggastrechteFormular } from "../fluggastrechte/formular/__test__/testCasesFluggastrechteFormular";
-import { testCasesFluggastrechteFluggesellschaftAbbruch } from "../fluggastrechte/vorabcheck/__test__/testcasesFluggesellschaftAbbruch";
 
 function getEnabledSteps({
   machine,
@@ -86,19 +79,12 @@ describe.sequential("state machine form flows", () => {
 
   const testCases = {
     testCasesBeratungshilfeVorabcheck,
-    testCasesGeldEinklagen,
     testCasesBeratungshilfeFormular,
-    testCasesFluggastrechteVerspaetetAbbruch,
-    testCasesFluggastrechteAnnullierungAbbruch,
-    testCasesFluggastrechteNichtBefoerderungAbbruch,
-    testcasesFluggastrechtOtherErfolgs,
     testCasesFluggastrechteFormular,
+    testCasesFluggastrechteVorabcheck,
+    testCasesGeldEinklagen,
     testCasesProzesskostenhilfeFormular,
     testCasesProzesskostenhilfePersoenlicheDaten,
-    testCasesFluggastrechteErfolg,
-    testCasesFluggastrechteErfolgEU,
-    testcasesFluggastrechteErfolgAnalog,
-    testCasesFluggastrechteFluggesellschaftAbbruch,
     testCasesKontopfaendungWegweiser,
   } as const;
   const transitionTypes = ["SUBMIT", "BACK"] as const;
