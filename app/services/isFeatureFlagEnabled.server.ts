@@ -6,6 +6,7 @@ const localFeatureFlags = {
   showFileUpload: false,
   showNachbefragung: false,
   showKontopfaendungWegweiserFlow: false,
+  showZusammenfassung: false,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;

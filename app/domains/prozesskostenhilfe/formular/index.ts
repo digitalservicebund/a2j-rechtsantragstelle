@@ -47,6 +47,7 @@ import {
 import { type ProzesskostenhilfeFormularUserData } from "./userData";
 
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
+const showZusammenfassung = await isFeatureFlagEnabled("showZusammenfassung");
 
 export const prozesskostenhilfeFormular = {
   flowType: "formFlow",
@@ -201,17 +202,34 @@ export const prozesskostenhilfeFormular = {
               },
               {
                 guard: readyForAbgabe,
-                target: "ende",
+                target: showZusammenfassung ? "zusammenfassung" : "ende",
               },
             ],
           },
-          dokumente: { on: { BACK: "#weitere-angaben", SUBMIT: "ende" } },
+          ...(showZusammenfassung && {
+            zusammenfassung: {
+              on: {
+                BACK: "#weitere-angaben",
+                SUBMIT: "dokumente",
+              },
+            },
+          }),
+          dokumente: {
+            on: {
+              BACK: showZusammenfassung
+                ? "zusammenfassung"
+                : "#weitere-angaben",
+              SUBMIT: "ende",
+            },
+          },
           ende: {
             on: {
               BACK: [
                 {
                   guard: ({ context }) =>
-                    Boolean(showFileUpload) && fileUploadRelevant({ context }),
+                    (Boolean(showFileUpload) &&
+                      fileUploadRelevant({ context })) ||
+                    Boolean(showZusammenfassung),
                   target: "dokumente",
                 },
                 "#weitere-angaben",
