@@ -15,7 +15,7 @@ env:
 
 jobs:
   code-quality:
-    uses: ./.github/workflows/npm-checks.yml
+    uses: ./.github/workflows/npm-commands.yml
   sonarcloud-scan:
     if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest

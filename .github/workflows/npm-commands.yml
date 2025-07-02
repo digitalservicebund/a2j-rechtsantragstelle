@@ -1,4 +1,4 @@
-name: NPMChecks
+name: NPMCommands
 on:
   workflow_call:
 
