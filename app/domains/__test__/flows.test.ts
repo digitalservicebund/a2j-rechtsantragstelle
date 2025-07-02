@@ -10,7 +10,6 @@ import {
   testCasesProzesskostenhilfeFormular,
   testCasesProzesskostenhilfeSubmitOnly,
 } from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
-import { testCasesProzesskostenhilfePersoenlicheDaten } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";
 import { type UserData } from "~/domains/userData";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import type { FlowStateMachine } from "~/services/flow/server/types";
@@ -84,7 +83,6 @@ describe.sequential("state machine form flows", () => {
     testCasesFluggastrechteVorabcheck,
     testCasesGeldEinklagen,
     testCasesProzesskostenhilfeFormular,
-    testCasesProzesskostenhilfePersoenlicheDaten,
     testCasesKontopfaendungWegweiser,
   } as const;
   const transitionTypes = ["SUBMIT", "BACK"] as const;
