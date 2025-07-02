@@ -7,6 +7,8 @@ import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiButtonSchema } from "./StrapiButton";
 import { StrapiDetailsSchema } from "./StrapiDetails";
 import { StrapiImageOptionalSchema } from "./StrapiImage";
+import { StrapiAccordionSchema } from "./StrapiAccordion";
+import { omitNull } from "~/util/omitNull";
 
 export const StrapiInfoBoxItemSchema = z
   .object({
@@ -17,6 +19,7 @@ export const StrapiInfoBoxItemSchema = z
     detailsSummary: z.array(StrapiDetailsSchema),
     inlineNotice: z.array(StrapiInlineNoticeSchema),
     buttons: z.array(StrapiButtonSchema),
+    accordion: StrapiAccordionSchema.nullable().transform(omitNull).optional(),
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema)

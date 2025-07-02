@@ -2,6 +2,7 @@ import classNames from "classnames";
 import type { InlineNoticeProps } from "~/components/InlineNotice";
 import { InlineNotice } from "~/components/InlineNotice";
 import { arrayIsNonEmpty } from "~/util/array";
+import Accordion, { type AccordionProps } from "./Accordion";
 import Button, { type ButtonProps } from "./Button";
 import ButtonContainer from "./ButtonContainer";
 import { Details, type DetailsProps } from "./Details";
@@ -19,6 +20,7 @@ export type InfoBoxItemProps = {
   inlineNotices?: InlineNoticeProps[];
   buttons?: ButtonProps[];
   separator?: boolean;
+  accordion?: AccordionProps;
 };
 
 const InfoBoxItem = ({
@@ -31,7 +33,12 @@ const InfoBoxItem = ({
   inlineNotices,
   buttons,
   separator,
+  accordion,
 }: InfoBoxItemProps) => {
+  console.log("InfoBoxItem props:", {
+    accordion,
+  });
+
   return (
     <div
       id={identifier}
@@ -69,6 +76,11 @@ const InfoBoxItem = ({
               <Button key={button.text ?? button.href} {...button} />
             ))}
           </ButtonContainer>
+        )}
+        {accordion && (
+          <div className="max-w-[630px]">
+            <Accordion {...accordion} />
+          </div>
         )}
       </div>
     </div>
