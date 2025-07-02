@@ -3,23 +3,19 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
-import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { retrieveContentData } from "~/services/flow/formular/contentData/retrieveContentData";
 import { isFileUploadOrDeleteAction } from "~/services/flow/formular/fileUpload/isFileUploadOrDeleteAction";
 import { processUserFile } from "~/services/flow/formular/fileUpload/processUserFile.server";
 import { getUserDataAndFlow } from "~/services/flow/formular/userDataAndFlow/getUserDataAndFlow";
+import { getDestinationFlowAction } from "~/services/flow/formular/userFlowAction/getDestinationFlowAction";
+import { postValidationFormUserData } from "~/services/flow/formular/userFlowAction/postValidationFormUserData";
+import { validateFormUserData } from "~/services/flow/formular/userFlowAction/validateFormUserData";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
-import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
-import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
-import { validateFormData } from "~/services/validation/validateFormData.server";
-import { filterFormData } from "~/util/filterFormData";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -102,7 +98,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const { pathname } = new URL(request.url);
-  const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
+  const { flowId, arrayIndexes } = parsePathname(pathname);
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
@@ -127,35 +123,29 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         }
         return data(flowSession.data, {
           headers: { "Set-Cookie": await commitSession(flowSession) },
+          status: 200,
         });
       }
     }
   }
 
-  const relevantFormData = filterFormData(clonedFormData);
-  const validationResult = await validateFormData(pathname, relevantFormData);
+  const resultFormUserData = await validateFormUserData(
+    clonedFormData,
+    pathname,
+    cookieHeader,
+  );
 
-  if (validationResult?.error) {
+  if (resultFormUserData.isErr) {
     return validationError(
-      validationResult.error,
-      validationResult.submittedData,
+      resultFormUserData.error.error,
+      resultFormUserData.error.submittedData,
     );
   }
 
-  const resolvedData = resolveArraysFromKeys(
-    validationResult?.data,
-    arrayIndexes,
-  );
-  updateSession(flowSession, resolvedData);
+  updateSession(flowSession, resultFormUserData.value.userData);
 
-  const migrationData = await getMigrationData(
-    stepId,
-    flowId,
-    flows[flowId],
-    cookieHeader,
-  );
-  if (migrationData) {
-    updateSession(flowSession, migrationData);
+  if (resultFormUserData.value.migrationData) {
+    updateSession(flowSession, resultFormUserData.value.migrationData);
   }
 
   const flowController = buildFlowController({
@@ -164,25 +154,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     guards: flows[flowId].guards,
   });
 
-  const customAnalyticsEventName =
-    flowController.getMeta(stepId)?.customAnalyticsEventName;
-  if (customAnalyticsEventName) {
-    sendCustomAnalyticsEvent({
-      request,
-      eventName: customAnalyticsEventName,
-      properties: validationResult?.data,
-    });
-  }
+  await postValidationFormUserData(
+    request,
+    flowController,
+    resultFormUserData.value.userData,
+  );
 
-  await executeAsyncFlowActionByStepId(flows[flowId], stepId, request);
-
-  const destination =
-    flowController.getNext(stepId) ?? flowController.getInitial();
-
-  const destinationWithArrayIndexes = arrayIndexes
-    ? insertIndexesIntoPath(pathname, destination, arrayIndexes)
-    : destination;
+  const destination = getDestinationFlowAction(flowController, pathname);
 
   const headers = { "Set-Cookie": await commitSession(flowSession) };
-  return redirectDocument(destinationWithArrayIndexes, { headers });
+  return redirectDocument(destination, { headers });
 };
