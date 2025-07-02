@@ -1,13 +1,12 @@
-export const filterFormData = (formData: FormData): FormData => {
-  const filteredFormData = new FormData();
-  for (const [key, val] of formData.entries()) {
-    if (!key.startsWith("_") && typeof val === "string") {
-      if (key === "arrayPostfix") {
-        filteredFormData.set(val, [].toString());
-      } else {
-        filteredFormData.set(key, val);
-      }
-    }
-  }
-  return filteredFormData;
-};
+export const filterFormData = (formData: FormData): FormData =>
+  // Note: fromEntries() reduces same-named form fields to the last one
+  Object.fromEntries(
+    Array.from(formData.entries())
+      .filter(([key, val]) => !key.startsWith("_") && typeof val === "string")
+      .map(([key, val]) => {
+        if (key === "arrayPostfix") {
+          return [val, []];
+        }
+        return [key, val];
+      }),
+  );
