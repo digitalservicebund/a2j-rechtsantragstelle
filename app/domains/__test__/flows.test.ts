@@ -1,7 +1,7 @@
 import { toDirectedGraph, type DirectedGraphNode } from "@xstate/graph";
 import { pathToStateValue } from "xstate";
 import { testCasesBeratungshilfeFormular } from "~/domains/beratungshilfe/formular/__test__/testCasesBeratungshilfeFormular";
-import { testCasesBeratungshilfe } from "~/domains/beratungshilfe/vorabcheck/__test__/testcases";
+import { testCasesBeratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck/__test__/testcases";
 import { testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugYes } from "~/domains/fluggastrechte/formular/flugdaten/__test__/testcasesAnnullierungWithErsatzflugYes";
 import { testCasesFluggastrechteFormularFlugdatenNichtBefoerderung } from "~/domains/fluggastrechte/formular/flugdaten/__test__/testcasesNichtBefoerderung";
 import { testCasesFluggastrechteFormularFlugdatenVerspaetet } from "~/domains/fluggastrechte/formular/flugdaten/__test__/testscasesVerspaetet";
@@ -92,7 +92,7 @@ describe.sequential("state machine form flows", () => {
   > = {};
 
   const testCases = {
-    testCasesBeratungshilfe,
+    testCasesBeratungshilfeVorabcheck,
     testCasesGeldEinklagen,
     testCasesFluggastrechteFormularFlugdatenNichtBefoerderung,
     testCasesBeratungshilfeFormular,
