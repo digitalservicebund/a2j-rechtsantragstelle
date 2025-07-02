@@ -57,7 +57,7 @@ export const expressApp = (
   }
   // Everything else (like favicon.ico) is cached for an hour
   // You may want to be more aggressive with this caching.
-  app.use(express.static("build/client", { maxAge: "1h" }));
+  app.use(express.static("build/client", { maxAge: "1y" }));
   // Express 5 must have the wildcard * with name. Check https://expressjs.com/en/guide/migrating-5.html#path-syntax
   app.all("*splat", reactRouterHandler);
 

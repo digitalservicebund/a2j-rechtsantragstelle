@@ -6,7 +6,7 @@ jobs:
   code-quality:
     strategy:
       matrix:
-        npmCMD: ["format", "lint", "typecheck", "test:coverage"]
+        npmCMD: ["format", "lint", "typecheck", "test:coverage", "build"]
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -23,4 +23,11 @@ jobs:
         with:
           name: coverage
           path: coverage/
+          retention-days: 1
+      - name: Upload build
+        if: ${{ matrix.npmCMD == 'build'  && github.ref == 'refs/heads/main' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: build/
           retention-days: 1
