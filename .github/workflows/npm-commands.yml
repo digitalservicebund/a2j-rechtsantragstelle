@@ -15,7 +15,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: ./.github/actions/cached-checkout-install
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 10
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
+        shell: bash
       - run: pnpm run ${{ matrix.npmCMD }}
       - name: Upload coverage
         if: ${{ matrix.npmCMD == 'test:coverage' }}
