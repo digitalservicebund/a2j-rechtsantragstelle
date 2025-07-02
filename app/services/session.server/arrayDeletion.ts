@@ -23,7 +23,9 @@ export function getArrayDataFromFormData(formData: FormData): Result<
   }
 
   const relevantFormData = filterFormData(formData);
-  const [arrayName, indexString] = Object.entries(relevantFormData)[1];
+  const [arrayName, indexString] = Object.entries(
+    Object.fromEntries(relevantFormData.entries()),
+  )[1];
   const index = parseInt(indexString as string);
 
   if (isNaN(index)) {
