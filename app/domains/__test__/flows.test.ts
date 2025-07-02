@@ -1,18 +1,6 @@
 import { toDirectedGraph, type DirectedGraphNode } from "@xstate/graph";
 import { pathToStateValue } from "xstate";
-import { testCasesBeratungshilfeFormular } from "~/domains/beratungshilfe/formular/__test__/testcases";
-import { testCasesBeratungshilfeFormularAbgabe } from "~/domains/beratungshilfe/formular/abgabe/__test__/testcases";
-import { testCasesBeratungshilfeFormularAnwaltlicheVertretung } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/__test__/testcases";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesAusgaben";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentum } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesEigentum";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentumZusammenfassung } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesEigentumZusammenfassung";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesEinkommen";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenKinder } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesKinder";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenPartner } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesPartner";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesUnterhaltszahlungen";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesWohnung";
-import { testCasesBeratungshilfeFormularGrundvoraussetzungen } from "~/domains/beratungshilfe/formular/grundvoraussetzung/__test__/testcases";
-import { testCasesBeratungshilfeRechtsproblem } from "~/domains/beratungshilfe/formular/rechtsproblem/__test__/testcases";
+import { testCasesBeratungshilfeFormular } from "~/domains/beratungshilfe/formular/__test__/testCasesBeratungshilfeFormular";
 import { testCasesBeratungshilfe } from "~/domains/beratungshilfe/vorabcheck/__test__/testcases";
 import { testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugYes } from "~/domains/fluggastrechte/formular/flugdaten/__test__/testcasesAnnullierungWithErsatzflugYes";
 import { testCasesFluggastrechteFormularFlugdatenNichtBefoerderung } from "~/domains/fluggastrechte/formular/flugdaten/__test__/testcasesNichtBefoerderung";
@@ -108,18 +96,6 @@ describe.sequential("state machine form flows", () => {
     testCasesGeldEinklagen,
     testCasesFluggastrechteFormularFlugdatenNichtBefoerderung,
     testCasesBeratungshilfeFormular,
-    testCasesBeratungshilfeFormularGrundvoraussetzungen,
-    testCasesBeratungshilfeFormularAnwaltlicheVertretung,
-    testCasesBeratungshilfeRechtsproblem,
-    testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen,
-    testCasesBeratungshilfeFormularFinanzielleAngabenPartner,
-    testCasesBeratungshilfeFormularFinanzielleAngabenKinder,
-    testCasesBeratungshilfeFormularFinanzielleAngabenEigentum,
-    testCasesBeratungshilfeFormularFinanzielleAngabenEigentumZusammenfassung,
-    testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
-    testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
-    testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
-    testCasesBeratungshilfeFormularAbgabe,
     testCasesFluggastrechteVerspaetetAbbruch,
     testCasesFluggastrechteAnnullierungAbbruch,
     testCasesFluggastrechteNichtBefoerderungAbbruch,
