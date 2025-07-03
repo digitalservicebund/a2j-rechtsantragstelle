@@ -5,10 +5,10 @@ import {
 } from "react-router";
 import { Result } from "true-myth";
 import { processUserFile } from "~/services/flow/formular/fileUpload/processUserFile.server";
-import { getDestinationFlowAction } from "~/services/flow/formular/userFlowAction/getDestinationFlowAction";
-import { postValidationFormUserData } from "~/services/flow/formular/userFlowAction/postValidationFormUserData";
-import { validateFormUserData } from "~/services/flow/formular/userFlowAction/validateFormUserData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
+import { getDestinationFlowAction } from "~/services/flow/userFlowAction/getDestinationFlowAction";
+import { postValidationFormUserData } from "~/services/flow/userFlowAction/postValidationFormUserData";
+import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
@@ -25,9 +25,9 @@ vi.mock("~/services/logging", () => ({
 vi.mock("~/services/flow/server/buildFlowController");
 vi.mock("~/services/flow/formular/fileUpload/processUserFile.server");
 vi.mock("~/services/session.server");
-vi.mock("~/services/flow/formular/userFlowAction/validateFormUserData");
-vi.mock("~/services/flow/formular/userFlowAction/postValidationFormUserData");
-vi.mock("~/services/flow/formular/userFlowAction/getDestinationFlowAction");
+vi.mock("~/services/flow/userFlowAction/validateFormUserData");
+vi.mock("~/services/flow/userFlowAction/postValidationFormUserData");
+vi.mock("~/services/flow/userFlowAction/getDestinationFlowAction");
 
 vi.mocked(getSessionManager).mockReturnValue({
   getSession: vi.fn().mockReturnValue({ get: () => ({}), set: vi.fn() }),
