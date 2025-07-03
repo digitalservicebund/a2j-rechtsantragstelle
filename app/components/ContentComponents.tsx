@@ -21,19 +21,17 @@ import TableOfContents from "./TableOfContents";
 import UserFeedback from "./userFeedback";
 
 function wrapInContainer(
-  component: StrapiContentComponent,
+  componentProps: StrapiContentComponent,
   reactElement: ReactElement,
   fullScreen: boolean | undefined,
 ) {
-  if (!("container" in component) || component.container === null)
+  if (!("container" in componentProps) || componentProps.container === null)
     return reactElement;
-  const isBox = component.__component === "page.box";
-  const isBoxWithImage = component.__component === "page.box-with-image";
-
-  const props = wrapperPropsFromCms(component.container);
+  const isBox = componentProps.__component === "page.box";
+  const isBoxWithImage = componentProps.__component === "page.box-with-image";
   return (
     <Container
-      {...props}
+      {...wrapperPropsFromCms(componentProps.container)}
       overhangingBackground={isBox || isBoxWithImage}
       fullScreen={fullScreen}
     >
@@ -43,45 +41,48 @@ function wrapInContainer(
 }
 
 function wrapInBackground(
-  component: StrapiContentComponent,
+  componentProps: StrapiContentComponent,
   reactElement: ReactElement,
 ) {
-  if (!("outerBackground" in component) || component.outerBackground === null)
+  if (
+    !("outerBackground" in componentProps) ||
+    componentProps.outerBackground === null
+  )
     return reactElement;
-  const props = wrapperPropsFromCms(component.outerBackground);
-  return <Background {...props}>{reactElement}</Background>;
+  const propsWithWrapper = wrapperPropsFromCms(componentProps.outerBackground);
+  return <Background {...propsWithWrapper}>{reactElement}</Background>;
 }
 
-function cmsToReact(component: StrapiContentComponent) {
-  switch (component.__component) {
+function cmsToReact(componentProps: StrapiContentComponent) {
+  switch (componentProps.__component) {
     case "basic.heading":
-      return <Heading {...component} />;
+      return <Heading {...componentProps} />;
     case "basic.paragraph":
-      return <RichText {...component} />;
+      return <RichText {...componentProps} />;
     case "page.hero":
-      return <Hero {...component} />;
+      return <Hero {...componentProps} />;
     case "page.box":
-      return <Box {...component} />;
+      return <Box {...componentProps} />;
     case "page.info-box":
-      return <InfoBox {...component} />;
+      return <InfoBox {...componentProps} />;
     case "page.table-of-contents":
-      return <TableOfContents {...component} />;
+      return <TableOfContents {...componentProps} />;
     case "page.box-with-image":
-      return <BoxWithImage {...component} />;
+      return <BoxWithImage {...componentProps} />;
     case "page.list":
-      return <List {...component} />;
+      return <List {...componentProps} />;
     case "page.video":
-      return <Video {...component} />;
+      return <Video {...componentProps} />;
     case "page.inline-notice":
-      return <InlineNotice {...component} />;
+      return <InlineNotice {...componentProps} />;
     case "page.details-summary":
-      return <Details {...component} />;
+      return <Details {...componentProps} />;
     case "page.user-feedback":
-      return <UserFeedback {...component} />;
+      return <UserFeedback {...componentProps} />;
     case "page.summary-overview-section":
-      return <SummaryOverviewSection {...component} />;
+      return <SummaryOverviewSection {...componentProps} />;
     case "page.email-capture":
-      return <EmailCapture {...component} />;
+      return <EmailCapture {...componentProps} />;
     case "page.array-summary":
     default:
       return <></>;
