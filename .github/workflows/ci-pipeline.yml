@@ -16,6 +16,8 @@ env:
 jobs:
   code-quality:
     uses: ./.github/workflows/npm-commands.yml
+    secrets:
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
   sonarcloud-scan:
     if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest

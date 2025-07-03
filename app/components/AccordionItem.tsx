@@ -37,11 +37,13 @@ export function AccordionItem({
         className="flex justify-between cursor-pointer p-16 bg-blue-100 "
       >
         <span className="ds-label-01-bold">{title}</span>
-        <span className="flex group-open:hidden text-blue-800 ds-label-03-bold items-center">
-          <KeyboardArrowDownIcon /> {labels.show}
+        <span className="flex group-open:hidden text-blue-800 ds-label-03-bold items-start ">
+          <KeyboardArrowDownIcon />
+          <span className="pt-4">{labels.show}</span>
         </span>
-        <span className="hidden group-open:flex text-blue-800 ds-label-03-bold items-center">
-          <KeyboardArrowUpIcon /> {labels.hide}
+        <span className="hidden group-open:flex text-blue-800 ds-label-03-bold items-start">
+          <KeyboardArrowUpIcon />
+          <span className="pt-4">{labels.hide}</span>
         </span>
       </summary>
       <RichText
