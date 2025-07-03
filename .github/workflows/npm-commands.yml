@@ -1,6 +1,9 @@
 name: NPMCommands
 on:
   workflow_call:
+    secrets:
+      SENTRY_AUTH_TOKEN:
+        required: false
 
 jobs:
   code-quality:
