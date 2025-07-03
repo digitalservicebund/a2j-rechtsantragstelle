@@ -4,7 +4,7 @@ import {
   validationError,
 } from "@rvf/react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
-import { redirect, useLoaderData } from "react-router";
+import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
 import Background from "~/components/Background";
 import Button from "~/components/Button";
@@ -20,7 +20,9 @@ import RichText from "~/components/RichText";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { buildOpenPlzResultUrl } from "~/services/gerichtsfinder/openPLZ";
+import { createSessionWithCsrf } from "~/services/security/csrf/createSessionWithCsrf.server";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
+import { getSessionManager } from "~/services/session.server";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { filterFormData } from "~/util/filterFormData";
@@ -47,24 +49,30 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   // Remove PLZ from slug
   const { pathname } = new URL(request.url);
   const filterValue = pathname.substring(0, pathname.lastIndexOf("/"));
-  const [common, meta] = await Promise.all([
+  const [common, meta, { session }] = await Promise.all([
     fetchTranslations("amtsgericht"),
     fetchMeta({ filterValue }),
+    createSessionWithCsrf(request.headers.get("Cookie")),
   ]);
+
+  const sessionManager = getSessionManager("main");
 
   const resultListHeading = parseAndSanitizeMarkdown(
     applyStringReplacement(common.resultListHeading, { postcode: zipCode }),
   );
 
-  return {
-    resultListHeading,
-    prunedUserData: {
-      plz: zipCode,
+  return data(
+    {
+      resultListHeading,
+      prunedUserData: {
+        plz: zipCode,
+      },
+      pathname,
+      common,
+      meta,
     },
-    pathname,
-    common,
-    meta,
-  };
+    { headers: { "Set-Cookie": await sessionManager.commitSession(session) } },
+  );
 };
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
