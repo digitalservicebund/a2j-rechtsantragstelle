@@ -3,9 +3,9 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { redirect, Form, useLoaderData, useNavigation } from "react-router";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
+import ContentComponents from "~/components/ContentComponents";
 import { acceptCookiesFieldName } from "~/components/cookieBanner/CookieBanner";
 import Heading from "~/components/Heading";
-import ContentComponents from "~/components/ContentComponents";
 import {
   consentCookieFromRequest,
   trackingCookieValue,
