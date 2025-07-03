@@ -12,7 +12,7 @@ import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import PageContent from "~/components/PageContent";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { FlowId } from "~/domains/flowIds";
-import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
+import { StrapiFormComponents } from "~/components/StrapiFormComponents";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
