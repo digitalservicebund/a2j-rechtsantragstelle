@@ -1,6 +1,6 @@
 import uniqBy from "lodash/uniqBy";
 
-const OPENPLZ_URL = "https://openplzapi.org/de";
+export const OPENPLZ_URL = "https://openplzapi.org/de";
 type OpenPLZResult = {
   name: string;
   postalCode: string;
@@ -25,7 +25,7 @@ export function buildOpenPlzResultUrl(streetName: string, houseNumber: number) {
     .replace(/ü/g, "ue")
     .replaceAll(/\s+/g, "_")}/${houseNumber}`;
 }
-export async function fetchStreetnamesForZipcode(zipCode: string) {
+export async function fetchStreetnamesForZipcode(zipCode?: string) {
   const openPlzResponse = await fetch(
     OPENPLZ_URL + `/Streets?postalCode=${zipCode}&page=1&pageSize=50`,
   );
@@ -62,5 +62,8 @@ export async function fetchStreetnamesForZipcode(zipCode: string) {
     ).flat();
     results.push(...newResults);
   }
-  return uniqBy(results, "name");
+  return uniqBy(results, "name").map((result) => ({
+    value: result.name.toLowerCase().replaceAll(/\s+/g, ""),
+    label: result.name,
+  }));
 }
