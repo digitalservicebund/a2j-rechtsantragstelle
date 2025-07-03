@@ -27,8 +27,12 @@ export default defineConfig((config) => ({
   plugins: [
     envOnlyMacros(),
     !isStorybook && !isVitest && reactRouter(),
-    !isStorybook && buildSentrySourceMaps && sentryVitePlugin(sentryConfig),
     !isStorybook &&
+      !isVitest &&
+      buildSentrySourceMaps &&
+      sentryVitePlugin(sentryConfig),
+    !isStorybook &&
+      !isVitest &&
       buildSentrySourceMaps &&
       sentryReactRouter(sentryConfig, config),
     tsconfigPaths(),
