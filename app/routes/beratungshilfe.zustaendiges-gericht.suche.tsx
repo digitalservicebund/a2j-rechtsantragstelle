@@ -10,8 +10,8 @@ import Background from "~/components/Background";
 import Container from "~/components/Container";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import StrapiContentComponents from "~/components/StrapiContentComponents";
-import { StrapiFormComponents } from "~/components/StrapiFormComponents";
+import ContentComponents from "~/components/ContentComponents";
+import { FormComponents } from "~/components/FormComponents";
 import type { FlowId } from "~/domains/flowIds";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
@@ -66,7 +66,7 @@ export default function Index() {
         <div className="flex-grow">
           <Container>
             <div className="ds-stack ds-stack-32">
-              <StrapiContentComponents
+              <ContentComponents
                 className="ds-stack ds-stack-16"
                 content={pre_form}
               />
@@ -77,7 +77,7 @@ export default function Index() {
                 noValidate
               >
                 <div className="ds-stack ds-stack-32">
-                  <StrapiFormComponents components={form} />
+                  <FormComponents components={form} />
                   <ButtonNavigation
                     back={{
                       destination: backURL,

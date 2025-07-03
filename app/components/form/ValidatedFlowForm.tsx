@@ -9,7 +9,7 @@ import { schemaForFieldNames } from "~/services/validation/stepValidator/schemaF
 import { EstimatedTime } from "../EstimatedTime";
 import { ButtonNavigation } from "./ButtonNavigation";
 import type { ButtonNavigationProps } from "./ButtonNavigation";
-import { StrapiFormComponents } from "../StrapiFormComponents";
+import { FormComponents } from "../FormComponents";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -40,7 +40,7 @@ function ValidatedFlowForm({
     >
       <input type="hidden" name={CSRFKey} value={csrf} />
       <div className="ds-stack ds-stack-40">
-        <StrapiFormComponents components={formElements} />
+        <FormComponents components={formElements} />
         {shouldShowEstimatedTime(pathname, posthogClient) && <EstimatedTime />}
         <ButtonNavigation {...buttonNavigationProps} />
       </div>

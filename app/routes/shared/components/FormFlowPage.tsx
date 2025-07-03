@@ -8,7 +8,7 @@ import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import StrapiContentComponents from "~/components/StrapiContentComponents";
+import ContentComponents from "~/components/ContentComponents";
 import { useFocusFirstH1 } from "~/components/useFocusFirstH1";
 import type { loader } from "../formular.server";
 
@@ -61,7 +61,7 @@ export function FormFlowPage() {
               <div className="ds-stack ds-stack-16" id="form-flow-page-content">
                 {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
                 <Heading text={heading} look="ds-heading-02-reg" />
-                <StrapiContentComponents
+                <ContentComponents
                   content={content}
                   fullScreen={false}
                   className="ds-stack ds-stack-16"
@@ -91,10 +91,7 @@ export function FormFlowPage() {
                 formElements={formElements}
                 buttonNavigationProps={buttonNavigationProps}
               />
-              <StrapiContentComponents
-                content={postFormContent}
-                fullScreen={false}
-              />
+              <ContentComponents content={postFormContent} fullScreen={false} />
             </div>
             {showReportProblem && (
               <div className="flex justify-end w-full relative">

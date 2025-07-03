@@ -1,7 +1,7 @@
 import type { AppLoadContext } from "react-router";
 import { isRouteErrorResponse, useRouteError } from "react-router";
 import Container from "~/components/Container";
-import StrapiContentComponents from "~/components/StrapiContentComponents";
+import ContentComponents from "~/components/ContentComponents";
 import { config } from "~/services/env/public";
 import { ERROR_PAGES } from "./errorPages";
 
@@ -27,7 +27,7 @@ export function ErrorBox({ context }: ErrorBoxProps) {
   const isProd = config().ENVIRONMENT === "production";
   return (
     <div className="flex flex-col flex-grow">
-      <StrapiContentComponents content={matchingError(routerError)} />
+      <ContentComponents content={matchingError(routerError)} />
       <Container>
         {debugId && <pre>ID: {debugId}</pre>}
         {!isProd && <pre>{jsError(routerError)}</pre>}

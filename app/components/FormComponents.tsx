@@ -41,7 +41,7 @@ const FormComponent = ({
   }
 };
 
-export const StrapiFormComponents = ({
+export const FormComponents = ({
   components,
 }: Readonly<{ components: StrapiFormComponent[] }>) => (
   <>

@@ -3,7 +3,7 @@ import { Form, useLoaderData, useNavigation } from "react-router";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
-import StrapiContentComponents from "~/components/StrapiContentComponents";
+import ContentComponents from "~/components/ContentComponents";
 import {
   fetchTranslations,
   strapiPageFromRequest,
@@ -35,7 +35,7 @@ export default function PersoenlicheDatenLoeschen() {
 
   return (
     <div className="flex flex-col flex-grow">
-      <StrapiContentComponents content={content} />
+      <ContentComponents content={content} />
       <Container paddingTop="0">
         <Form
           method="post"

@@ -5,7 +5,7 @@ import Background from "~/components/Background";
 import Container from "~/components/Container";
 import CourtDetails from "~/components/CourtDetails";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
-import StrapiContentComponents from "~/components/StrapiContentComponents";
+import ContentComponents from "~/components/ContentComponents";
 import { fetchPage, fetchTranslations } from "~/services/cms/index.server";
 import {
   edgeCasesForPlz,
@@ -70,7 +70,7 @@ export const Component = () => {
           </a>
         </Container>
       </Background>
-      <StrapiContentComponents content={content} />
+      <ContentComponents content={content} />
     </div>
   );
 };

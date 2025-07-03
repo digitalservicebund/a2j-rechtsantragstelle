@@ -21,16 +21,16 @@ import TableOfContents from "./TableOfContents";
 import UserFeedback from "./userFeedback";
 
 function wrapInContainer(
-  cmsData: StrapiContentComponent,
+  component: StrapiContentComponent,
   reactElement: ReactElement,
   fullScreen: boolean | undefined,
 ) {
-  if (!("container" in cmsData) || cmsData.container === null)
+  if (!("container" in component) || component.container === null)
     return reactElement;
-  const isBox = cmsData.__component === "page.box";
-  const isBoxWithImage = cmsData.__component === "page.box-with-image";
+  const isBox = component.__component === "page.box";
+  const isBoxWithImage = component.__component === "page.box-with-image";
 
-  const props = wrapperPropsFromCms(cmsData.container);
+  const props = wrapperPropsFromCms(component.container);
   return (
     <Container
       {...props}
@@ -43,45 +43,45 @@ function wrapInContainer(
 }
 
 function wrapInBackground(
-  cmsData: StrapiContentComponent,
+  component: StrapiContentComponent,
   reactElement: ReactElement,
 ) {
-  if (!("outerBackground" in cmsData) || cmsData.outerBackground === null)
+  if (!("outerBackground" in component) || component.outerBackground === null)
     return reactElement;
-  const props = wrapperPropsFromCms(cmsData.outerBackground);
+  const props = wrapperPropsFromCms(component.outerBackground);
   return <Background {...props}>{reactElement}</Background>;
 }
 
-function cmsToReact(strapiContent: StrapiContentComponent) {
-  switch (strapiContent.__component) {
+function cmsToReact(component: StrapiContentComponent) {
+  switch (component.__component) {
     case "basic.heading":
-      return <Heading {...strapiContent} />;
+      return <Heading {...component} />;
     case "basic.paragraph":
-      return <RichText {...strapiContent} />;
+      return <RichText {...component} />;
     case "page.hero":
-      return <Hero {...strapiContent} />;
+      return <Hero {...component} />;
     case "page.box":
-      return <Box {...strapiContent} />;
+      return <Box {...component} />;
     case "page.info-box":
-      return <InfoBox {...strapiContent} />;
+      return <InfoBox {...component} />;
     case "page.table-of-contents":
-      return <TableOfContents {...strapiContent} />;
+      return <TableOfContents {...component} />;
     case "page.box-with-image":
-      return <BoxWithImage {...strapiContent} />;
+      return <BoxWithImage {...component} />;
     case "page.list":
-      return <List {...strapiContent} />;
+      return <List {...component} />;
     case "page.video":
-      return <Video {...strapiContent} />;
+      return <Video {...component} />;
     case "page.inline-notice":
-      return <InlineNotice {...strapiContent} />;
+      return <InlineNotice {...component} />;
     case "page.details-summary":
-      return <Details {...strapiContent} />;
+      return <Details {...component} />;
     case "page.user-feedback":
-      return <UserFeedback {...strapiContent} />;
+      return <UserFeedback {...component} />;
     case "page.summary-overview-section":
-      return <SummaryOverviewSection {...strapiContent} />;
+      return <SummaryOverviewSection {...component} />;
     case "page.email-capture":
-      return <EmailCapture {...strapiContent} />;
+      return <EmailCapture {...component} />;
     case "page.array-summary":
     default:
       return <></>;
@@ -94,7 +94,7 @@ type PageContentProps = {
   readonly className?: string;
 };
 
-function StrapiContentComponents({
+function ContentComponents({
   content = [],
   fullScreen,
   className,
@@ -115,4 +115,4 @@ function StrapiContentComponents({
     </div>
   );
 }
-export default StrapiContentComponents;
+export default ContentComponents;

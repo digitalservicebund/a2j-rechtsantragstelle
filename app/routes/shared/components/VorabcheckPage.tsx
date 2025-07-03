@@ -3,7 +3,7 @@ import Background from "~/components/Background";
 import { ProgressBar } from "~/components/form/ProgressBar";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import StrapiContentComponents from "~/components/StrapiContentComponents";
+import ContentComponents from "~/components/ContentComponents";
 import { useFocusFirstH1 } from "~/components/useFocusFirstH1";
 import type { loader } from "../vorabcheck.server";
 
@@ -27,7 +27,7 @@ export function VorabcheckPage() {
           <div className="flex flex-col min-h-full gap-32 justify-between">
             <div className="ds-stack ds-stack-40">
               <ProgressBar {...progressProps} />
-              <StrapiContentComponents
+              <ContentComponents
                 content={contentElements}
                 className="ds-stack ds-stack-16"
                 fullScreen={false}
