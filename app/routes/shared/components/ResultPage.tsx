@@ -8,8 +8,8 @@ import Background from "~/components/Background";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
 import Heading from "~/components/Heading";
-import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
+import StrapiContentComponents from "~/components/StrapiContentComponents";
 import { useFocusFirstH1 } from "~/components/useFocusFirstH1";
 import type { loader } from "~/routes/shared/result.server";
 import { keyFromElement } from "~/services/cms/keyFromElement";
@@ -81,18 +81,21 @@ export function ResultPage() {
         </div>
       </Background>
 
-      {content.length > 0 && <PageContent content={content} />}
+      {content.length > 0 && <StrapiContentComponents content={content} />}
 
       {documentsList.length > 0 && (
         <div>
           {documentsList.map((element) => (
-            <PageContent key={keyFromElement(element)} content={[element]} />
+            <StrapiContentComponents
+              key={keyFromElement(element)}
+              content={[element]}
+            />
           ))}
         </div>
       )}
 
       <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
-        <PageContent content={nextSteps} />
+        <StrapiContentComponents content={nextSteps} />
       </div>
     </div>
   );

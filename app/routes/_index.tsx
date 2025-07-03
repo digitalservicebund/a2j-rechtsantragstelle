@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router";
-import PageContent from "~/components/PageContent";
+import StrapiContentComponents from "~/components/StrapiContentComponents";
 import { fetchPage } from "~/services/cms/index.server";
 
 export const loader = async () => {
@@ -8,5 +8,7 @@ export const loader = async () => {
 };
 
 export default function Index() {
-  return <PageContent content={useLoaderData<typeof loader>().content} />;
+  return (
+    <StrapiContentComponents content={useLoaderData<typeof loader>().content} />
+  );
 }

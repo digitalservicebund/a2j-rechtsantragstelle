@@ -94,7 +94,7 @@ type PageContentProps = {
   readonly className?: string;
 };
 
-function PageContent({
+function StrapiContentComponents({
   content = [],
   fullScreen,
   className,
@@ -115,4 +115,4 @@ function PageContent({
     </div>
   );
 }
-export default PageContent;
+export default StrapiContentComponents;

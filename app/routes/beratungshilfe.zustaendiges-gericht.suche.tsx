@@ -9,10 +9,10 @@ import { z } from "zod";
 import Background from "~/components/Background";
 import Container from "~/components/Container";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import PageContent from "~/components/PageContent";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import type { FlowId } from "~/domains/flowIds";
+import StrapiContentComponents from "~/components/StrapiContentComponents";
 import { StrapiFormComponents } from "~/components/StrapiFormComponents";
+import type { FlowId } from "~/domains/flowIds";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
@@ -66,7 +66,7 @@ export default function Index() {
         <div className="flex-grow">
           <Container>
             <div className="ds-stack ds-stack-32">
-              <PageContent
+              <StrapiContentComponents
                 className="ds-stack ds-stack-16"
                 content={pre_form}
               />

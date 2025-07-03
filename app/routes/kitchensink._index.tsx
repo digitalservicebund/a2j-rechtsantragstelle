@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
-import PageContent from "~/components/PageContent";
+import StrapiContentComponents from "~/components/StrapiContentComponents";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { throw404OnProduction } from "~/services/errorPages/throw404";
 
@@ -15,7 +15,7 @@ export default function Kitchensink() {
   return (
     <div className="flex flex-grow">
       {loaderData.content ? (
-        <PageContent content={loaderData.content} />
+        <StrapiContentComponents content={loaderData.content} />
       ) : (
         "No kitchensink page found in CMS!"
       )}

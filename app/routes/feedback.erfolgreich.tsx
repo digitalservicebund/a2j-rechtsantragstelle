@@ -2,7 +2,7 @@ import type { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
-import PageContent from "~/components/PageContent";
+import StrapiContentComponents from "~/components/StrapiContentComponents";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -16,7 +16,7 @@ export default function Index() {
   const { url, content } = useLoaderData<typeof loader>();
   return (
     <div>
-      <PageContent content={content} />
+      <StrapiContentComponents content={content} />
 
       <Container>
         {url && <Button href={url}>Zurück, wo Sie gekommen sind</Button>}

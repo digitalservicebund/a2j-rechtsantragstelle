@@ -5,7 +5,7 @@ import Button from "~/components/Button";
 import Container from "~/components/Container";
 import { acceptCookiesFieldName } from "~/components/cookieBanner/CookieBanner";
 import Heading from "~/components/Heading";
-import PageContent from "~/components/PageContent";
+import StrapiContentComponents from "~/components/StrapiContentComponents";
 import {
   consentCookieFromRequest,
   trackingCookieValue,
@@ -54,7 +54,7 @@ export default function Index() {
 
   return (
     <div className="flex flex-col flex-grow">
-      <PageContent content={content} />
+      <StrapiContentComponents content={content} />
       <Container paddingTop="0">
         <Form method="post" className="ds-stack ds-stack-24">
           <Heading

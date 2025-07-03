@@ -7,8 +7,8 @@ import Background from "~/components/Background";
 import Container from "~/components/Container";
 import CourtDetails from "~/components/CourtDetails";
 import Heading from "~/components/Heading";
-import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
+import StrapiContentComponents from "~/components/StrapiContentComponents";
 import { parsePathname } from "~/domains/flowIds";
 import type { GeldEinklagenVorabcheckUserData } from "~/domains/geldEinklagen/vorabcheck/userData";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
@@ -142,7 +142,7 @@ export const Component = () => {
           </Container>
         ))}
       </Background>
-      <PageContent content={freeZone} />
+      <StrapiContentComponents content={freeZone} />
     </>
   );
 };

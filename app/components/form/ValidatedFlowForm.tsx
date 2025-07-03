@@ -1,15 +1,15 @@
 import { ValidatedForm } from "@rvf/react-router";
 import { useLocation } from "react-router";
-import type { ButtonNavigationProps } from "~/components/form/ButtonNavigation";
-import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import type { UserData } from "~/domains/userData";
 import { shouldShowEstimatedTime } from "~/services/analytics/abTest/shouldShowEstimatedTime";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
-import { StrapiFormComponents } from "~/components/StrapiFormComponents";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { schemaForFieldNames } from "~/services/validation/stepValidator/schemaForFieldNames";
 import { EstimatedTime } from "../EstimatedTime";
+import { ButtonNavigation } from "./ButtonNavigation";
+import type { ButtonNavigationProps } from "./ButtonNavigation";
+import { StrapiFormComponents } from "../StrapiFormComponents";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
