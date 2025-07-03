@@ -1,14 +1,5 @@
-import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import { guards } from "~/domains/fluggastrechte/vorabcheck/guards";
 import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
-import type { FlowStateMachine } from "~/services/flow/server/types";
-import { fluggastrechteVorabcheckXstateConfig } from "../xstateConfig";
-
-const machine: FlowStateMachine = createMachine(
-  { ...fluggastrechteVorabcheckXstateConfig, context: {} },
-  { guards },
-);
 
 const baseContext: FluggastrechtVorabcheckUserData = {
   bereich: "verspaetet",
@@ -17,7 +8,7 @@ const baseContext: FluggastrechtVorabcheckUserData = {
   verjaehrung: "yes",
 };
 
-const cases = [
+export const testCasesFluggastrechteFluggesellschaftAbbruch = [
   [
     {
       ...baseContext,
@@ -133,8 +124,3 @@ const cases = [
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtVorabcheckUserData>;
-
-export const testCasesFluggastrechteFluggesellschaftAbbruch = {
-  machine,
-  cases,
-};
