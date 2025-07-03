@@ -7,9 +7,9 @@ import { buildFlowController } from "~/services/flow/server/buildFlowController"
 import { getSessionManager } from "~/services/session.server";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { validateStepIdFlow } from "./validateStepIdFlow";
-import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
-import { getPrunedUserDataFromPathname } from "../../getPrunedUserDataFromPathname";
-import { type UserDataWithPageData } from "../../pageData";
+import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
+import { getPrunedUserDataFromPathname } from "../getPrunedUserDataFromPathname";
+import { type UserDataWithPageData } from "../pageData";
 
 type OkResult = {
   userData: UserDataWithPageData;
