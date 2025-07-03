@@ -20,8 +20,6 @@ jobs:
           fetch-depth: 0
       - uses: ./.github/actions/cached-checkout-install
       - run: npm run ${{ matrix.npmCMD }}
-        env:
-          SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"
       - name: Upload coverage
         if: ${{ matrix.npmCMD == 'test:coverage' }}
         uses: actions/upload-artifact@v4
