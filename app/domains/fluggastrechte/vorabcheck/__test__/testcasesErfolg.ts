@@ -1,14 +1,5 @@
-import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import { guards } from "~/domains/fluggastrechte/vorabcheck/guards";
 import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
-import type { FlowStateMachine } from "~/services/flow/server/types";
-import { fluggastrechteVorabcheckXstateConfig } from "../xstateConfig";
-
-const machine: FlowStateMachine = createMachine(
-  { ...fluggastrechteVorabcheckXstateConfig, context: {} },
-  { guards },
-);
 
 const EU_AIRLINE = "LH";
 const NON_EU_AIRLINE = "DL";
@@ -46,7 +37,7 @@ const validSteps = [
   "/ergebnis/erfolg",
 ];
 
-const cases = [
+export const testCasesFluggastrechteErfolg = [
   [
     {
       ...baseContext,
@@ -129,8 +120,3 @@ const cases = [
     validSteps,
   ],
 ] as const satisfies TestCases<FluggastrechtVorabcheckUserData>;
-
-export const testCasesFluggastrechteErfolg = {
-  machine,
-  cases,
-};
