@@ -1,7 +1,7 @@
 import { arrayIsNonEmpty } from "~/util/array";
-import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
-import { type buildFlowController } from "../../server/buildFlowController";
-import { insertIndexesIntoPath } from "../../stepIdConverter";
+import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
+import { type buildFlowController } from "../server/buildFlowController";
+import { insertIndexesIntoPath } from "../stepIdConverter";
 
 export const getDestinationFlowAction = (
   flowController: ReturnType<typeof buildFlowController>,
