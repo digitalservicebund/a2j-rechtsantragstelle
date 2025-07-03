@@ -35,10 +35,6 @@ const InfoBoxItem = ({
   separator,
   accordion,
 }: InfoBoxItemProps) => {
-  console.log("InfoBoxItem props:", {
-    accordion,
-  });
-
   return (
     <div
       id={identifier}
