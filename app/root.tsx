@@ -1,3 +1,4 @@
+import fonts from "@digitalservice4germany/angie/fonts.css?url";
 import * as Sentry from "@sentry/react-router";
 import { useEffect, useState } from "react";
 import type {
@@ -16,7 +17,6 @@ import {
   useRouteLoaderData,
   Outlet,
 } from "react-router";
-import "@digitalservice4germany/angie/fonts.css";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
@@ -64,6 +64,8 @@ export const links: LinksFunction = () => [
   { rel: "manifest", href: "/site.webmanifest" },
   { rel: "preload", href: styles, as: "style" },
   { rel: "stylesheet", href: styles },
+  { rel: "preload", href: fonts, as: "style" }, // it is a css file coming from Angie
+  { rel: "stylesheet", href: fonts },
 ];
 
 export const meta: MetaFunction<RootLoader> = () => {
