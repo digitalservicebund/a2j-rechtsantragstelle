@@ -30,13 +30,6 @@ const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
 const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 10;
 
-const filterOption = (option: DataListOptions, inputValue: string) => {
-  if (inputValue.length < MINIMUM_SEARCH_SUGGESTION_CHARACTERS) {
-    return false;
-  }
-  return option.label.toLowerCase().includes(inputValue.toLocaleLowerCase());
-};
-
 function getDescriptionByValue(
   dataListOptions: DataListOptions[],
   value: string,
@@ -102,6 +95,7 @@ const AutoSuggestInput = ({
   dataList,
   noSuggestionMessage,
   isDisabled,
+  minSuggestionCharacters = MINIMUM_SEARCH_SUGGESTION_CHARACTERS,
 }: AutoSuggestInputProps) => {
   const items = useDataListOptions(dataList);
   const [currentItemValue, setCurrentItemValue] =
@@ -122,11 +116,13 @@ const AutoSuggestInput = ({
 
   const onInputChange = (value: string, { action }: InputActionMeta) => {
     if (action === "input-change") {
-      if (value.length < MINIMUM_SEARCH_SUGGESTION_CHARACTERS) {
+      if (value.length < minSuggestionCharacters) {
         setOptions([]);
         return;
       }
-      let filteredOptions = items.filter((item) => filterOption(item, value));
+      let filteredOptions = items.filter((item) =>
+        item.label.toLowerCase().includes(value.toLocaleLowerCase()),
+      );
 
       // In case is the airports list, sorting by the code
       if (dataList === "airports") {
@@ -161,7 +157,10 @@ const AutoSuggestInput = ({
   }
 
   return (
-    <div data-testid={items.length > 0 ? `${inputId}-loaded` : ""}>
+    <div
+      data-testid={items.length > 0 ? `${inputId}-loaded` : ""}
+      className="w-full"
+    >
       {label && <InputLabel id={inputId}>{label}</InputLabel>}
       <Select
         aria-describedby={field.error() && errorId}

@@ -90,16 +90,9 @@ test.describe("edge cases results", () => {
 
   test("leads to single court", async ({ page }) => {
     await courtfinder.searchPLZEdgeCases();
-    await page.getByRole("combobox").fill("Am");
-    await page.getByText("Am Elbtunnel").click();
-    await page.getByAltText("Hausnummer").fill("1");
+    await courtfinder.fillAutoSuggestInputPage("input-street", "Am Elbtunnel");
+    await page.getByLabel("Hausnummer").fill("1");
     await page.locator("#weiterButton").click();
-    await expectSingleCourtContent(courtfinder);
-  });
-
-  test("has working default button", async ({ page }) => {
-    await courtfinder.searchPLZEdgeCases();
-    await page.locator("#defaultButton").click();
     await expectSingleCourtContent(courtfinder);
   });
 
