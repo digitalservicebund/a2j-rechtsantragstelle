@@ -2,7 +2,7 @@ import { type UserData } from "~/domains/userData";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { type buildFlowController } from "~/services/flow/server/buildFlowController";
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
-import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
+import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 
 export const postValidationFormUserData = async (
   request: Request,
