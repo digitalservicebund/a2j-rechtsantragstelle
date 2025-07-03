@@ -23,6 +23,7 @@ import { buildOpenPlzResultUrl } from "~/services/gerichtsfinder/openPLZ";
 import { createSessionWithCsrf } from "~/services/security/csrf/createSessionWithCsrf.server";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { getSessionManager } from "~/services/session.server";
+import { translations } from "~/services/translations/translations";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { filterFormData } from "~/util/filterFormData";
@@ -34,7 +35,7 @@ const courtFinderSchema = z.object({
 
 const requiredError: ErrorMessageProps = {
   code: "required",
-  text: "Bitte treffen Sie eine Auswahl.",
+  text: translations.gerichtFinder.inputRequired.de,
 };
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -118,9 +119,9 @@ export default function Index() {
         >
           <div className="pb-16 flex gap-8">
             <AutoSuggestInput
-              label="Straße"
+              label={translations.gerichtFinder.streetName.de}
               dataList="streetNames"
-              noSuggestionMessage="Kein Eintrag gefunden"
+              noSuggestionMessage={translations.gerichtFinder.noResultsFound.de}
               errorMessages={[requiredError]}
               name={"street"}
               isDisabled={false}
@@ -128,7 +129,7 @@ export default function Index() {
             />
             <Input
               type="number"
-              label="Hausnummer"
+              label={translations.gerichtFinder.houseNumber.de}
               name={"houseNumber"}
               errorMessages={[requiredError]}
             />
@@ -143,7 +144,7 @@ export default function Index() {
               {common.backButton}
             </Button>
             <Button type="submit" size="large" id="weiterButton">
-              Weiter
+              {translations.buttonNavigation.nextButtonDefaultLabel.de}
             </Button>
           </ButtonContainer>
         </ValidatedForm>
