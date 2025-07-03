@@ -55,6 +55,15 @@ export class CourtFinder {
     await this.page.locator('input[name="postcode"]').fill(value);
   }
 
+  async fillAutoSuggestInputPage(field: string, value: string) {
+    await this.page.waitForSelector(`[data-testid=${field}-loaded]`);
+    await this.page.locator(`input[id="${field}"]`).fill(value);
+    const menuItem = this.page
+      .getByTestId("auto-suggest-input-menu-item")
+      .first();
+    await menuItem.dispatchEvent("click");
+  }
+
   async submitSearchForm() {
     await this.page.getByRole("button", { name: "Weiter" }).click();
   }
