@@ -43,15 +43,41 @@ export const createLocalCourtAndDate = (
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(TO_THE_COURT_TEXT, { align: "left" });
-      doc
-        .font(FONTS_BUNDESSANS_REGULAR)
-        .text(amtsgericht?.BEZEICHNUNG ?? "", { align: "left" });
+        .text(TO_THE_COURT_TEXT, { align: "left", continued: false });
+    }),
+  );
 
-      doc.text(amtsgericht?.STR_HNR ?? "", { align: "left" });
-      doc.text(`${amtsgericht?.PLZ_ZUSTELLBEZIRK ?? ""} ${amtsgericht?.ORT}`, {
-        align: "left",
-      });
+  courtAndDateSect.add(
+    doc.struct("P", {}, () => {
+      doc
+        .fontSize(10)
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text(amtsgericht?.BEZEICHNUNG ?? "", { continued: true });
+      doc.fillOpacity(0).text(",", { continued: false }).fillOpacity(1);
+    }),
+  );
+
+  courtAndDateSect.add(
+    doc.struct("P", {}, () => {
+      doc
+        .fontSize(10)
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text(amtsgericht?.STR_HNR ?? "", { continued: true });
+      doc.fillOpacity(0).text(",", { continued: false }).fillOpacity(1);
+    }),
+  );
+
+  courtAndDateSect.add(
+    doc.struct("P", {}, () => {
+      doc
+        .fontSize(10)
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text(
+          `${amtsgericht?.PLZ_ZUSTELLBEZIRK ?? ""} ${amtsgericht?.ORT ?? ""}`,
+          {
+            continued: true,
+          },
+        );
     }),
   );
 

@@ -44,6 +44,7 @@ describe("createLocalCourtAndDate", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
     mockDoc.y = 200;
+    mockDoc.fillOpacity = vi.fn().mockReturnThis();
 
     createLocalCourtAndDate(mockDoc, mockStruct, userDataMock);
 
@@ -58,17 +59,34 @@ describe("createLocalCourtAndDate", () => {
     );
     expect(mockDoc.text).toHaveBeenCalledWith(TO_THE_COURT_TEXT, {
       align: "left",
+      continued: false,
     });
 
+    expect(mockDoc.text).toHaveBeenNthCalledWith(
+      1,
+      CREATION_PDF_TEXT + " " + "14.10.2024",
+      70,
+      200,
+      { align: "right" },
+    );
+    expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      `${CREATION_PDF_TEXT} 14.10.2024`,
+      70,
+      200,
+      { align: "right" },
+    );
+    expect(mockDoc.text).toHaveBeenCalledWith(TO_THE_COURT_TEXT, {
+      align: "left",
+      continued: false,
+    });
     expect(mockDoc.text).toHaveBeenCalledWith(amtsgericht.BEZEICHNUNG, {
-      align: "left",
+      continued: true,
     });
-    expect(mockDoc.text).toHaveBeenCalledWith(amtsgericht.STR_HNR, {
-      align: "left",
-    });
+    expect(mockDoc.text).toHaveBeenCalledWith(",", { continued: false });
     expect(mockDoc.text).toHaveBeenCalledWith(
       `${amtsgericht.PLZ_ZUSTELLBEZIRK} ${amtsgericht.ORT}`,
-      { align: "left" },
+      { continued: true },
     );
   });
 
@@ -76,16 +94,18 @@ describe("createLocalCourtAndDate", () => {
     vi.mocked(getCourtByStartAndEndAirport).mockReturnValue(undefined);
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    mockDoc.fillOpacity = vi.fn().mockReturnThis();
 
     createLocalCourtAndDate(mockDoc, mockStruct, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(TO_THE_COURT_TEXT, {
       align: "left",
+      continued: false,
     });
-    expect(mockDoc.text).toHaveBeenCalledWith("", {
+    expect(mockDoc.text).toHaveBeenNthCalledWith(2, TO_THE_COURT_TEXT, {
       align: "left",
+      continued: false,
     });
-
     expect(mockDoc.text).not.toHaveBeenCalledWith(null, { align: "left" });
   });
 });
