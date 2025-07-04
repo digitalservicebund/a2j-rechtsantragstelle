@@ -1,8 +1,7 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
-import { machine } from "./testMachine";
 
-const cases = [
+export const testCasesBeratungshilfeFormularDefault = [
   [
     {
       rechtsschutzversicherung: "no",
@@ -90,8 +89,3 @@ const cases = [
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFormularUserData>;
-
-export const testCasesBeratungshilfeFormular = {
-  machine,
-  cases,
-};
