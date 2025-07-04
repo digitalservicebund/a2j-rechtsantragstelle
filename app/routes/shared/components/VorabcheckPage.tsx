@@ -1,10 +1,10 @@
 import { useLoaderData } from "react-router";
 import Background from "~/components/Background";
 import ContentComponents from "~/components/ContentComponents";
-import { ProgressBar } from "~/components/ProgressBar";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
+import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
+import { ProgressBar } from "~/components/ProgressBar";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import { useFocusFirstH1 } from "~/components/useFocusFirstH1";
 import type { loader } from "../vorabcheck.server";
 
 export function VorabcheckPage() {
