@@ -4,7 +4,6 @@ import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { getPageSchema } from "~/domains/getPageSchema";
-import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { fetchFlowPage, fetchMeta } from "~/services/cms/index.server";
 import { isStrapiHeadingComponent } from "~/services/cms/models/isStrapiHeadingComponent";
 import { isStrapiSelectComponent } from "~/services/cms/models/isStrapiSelectComponent";
