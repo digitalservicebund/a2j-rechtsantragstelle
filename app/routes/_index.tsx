@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router";
-import PageContent from "~/components/PageContent";
+import ContentComponents from "~/components/ContentComponents";
 import { fetchPage } from "~/services/cms/index.server";
 
 export const loader = async () => {
@@ -8,5 +8,5 @@ export const loader = async () => {
 };
 
 export default function Index() {
-  return <PageContent content={useLoaderData<typeof loader>().content} />;
+  return <ContentComponents content={useLoaderData<typeof loader>().content} />;
 }

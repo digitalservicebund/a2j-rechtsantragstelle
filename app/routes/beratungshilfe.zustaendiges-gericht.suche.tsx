@@ -8,11 +8,11 @@ import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
 import Background from "~/components/Background";
 import Container from "~/components/Container";
+import ContentComponents from "~/components/ContentComponents";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import PageContent from "~/components/PageContent";
+import { FormComponents } from "~/components/FormComponents";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { FlowId } from "~/domains/flowIds";
-import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
@@ -66,7 +66,7 @@ export default function Index() {
         <div className="flex-grow">
           <Container>
             <div className="ds-stack ds-stack-32">
-              <PageContent
+              <ContentComponents
                 className="ds-stack ds-stack-16"
                 content={pre_form}
               />
@@ -77,7 +77,7 @@ export default function Index() {
                 noValidate
               >
                 <div className="ds-stack ds-stack-32">
-                  <StrapiFormComponents components={form} />
+                  <FormComponents components={form} />
                   <ButtonNavigation
                     back={{
                       destination: backURL,

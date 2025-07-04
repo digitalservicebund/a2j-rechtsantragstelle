@@ -3,9 +3,9 @@ import { redirect, useLoaderData } from "react-router";
 import invariant from "tiny-invariant";
 import Background from "~/components/Background";
 import Container from "~/components/Container";
+import ContentComponents from "~/components/ContentComponents";
 import CourtDetails from "~/components/CourtDetails";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
-import PageContent from "~/components/PageContent";
 import { fetchPage, fetchTranslations } from "~/services/cms/index.server";
 import {
   edgeCasesForPlz,
@@ -70,7 +70,7 @@ export const Component = () => {
           </a>
         </Container>
       </Background>
-      <PageContent content={content} />
+      <ContentComponents content={content} />
     </div>
   );
 };
