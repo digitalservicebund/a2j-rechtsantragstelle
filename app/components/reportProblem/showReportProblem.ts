@@ -7,6 +7,8 @@ export function shouldShowReportProblem(
   return (
     flowId === "/beratungshilfe/vorabcheck" ||
     flowId === "/fluggastrechte/formular" ||
-    (stepId !== "/start" && stepId !== "/start/start")
+    (flowId === "/kontopfaendung/wegweiser" && stepId !== "/start") ||
+    (flowId === "/prozesskostenhilfe/formular" && stepId !== "/start/start") ||
+    (flowId === "/beratungshilfe/antrag" && stepId !== "/start/start")
   );
 }
