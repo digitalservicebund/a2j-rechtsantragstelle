@@ -15,6 +15,7 @@ import { testCasesPKHFormularFinanzielleAngabenEinkuenfte } from "../finanzielle
 import { testCasesPKHFormularFinanzielleAngabenKinder } from "../finanzielleAngaben/__test__/testcasesKinder";
 import { testCasesPKHFormularFinanzielleAngabenPartner } from "../finanzielleAngaben/__test__/testcasesPartner";
 import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../finanzielleAngaben/__test__/testcasesWohnung";
+import { testCasesProzesskostenhilfePersoenlicheDaten } from "../persoenlicheDaten/__test__/testcases";
 import { testCasesProzesskostenhilfeRsv } from "../rechtsschutzversicherung/__test__/testcases";
 import { type ProzesskostenhilfeFormularUserData } from "../userData";
 
@@ -23,7 +24,7 @@ const machine: FlowStateMachine = createMachine(
   { guards: prozesskostenhilfeFormular.guards },
 );
 
-const cases = [
+const testCasesFormular = [
   [
     {
       formularArt: "erstantrag",
@@ -148,6 +149,11 @@ export const testCasesProzesskostenhilfeSubmitOnly = {
     ],
   ] satisfies TestCases<ProzesskostenhilfeFormularUserData>,
 };
+
+const cases = [
+  ...testCasesFormular,
+  ...testCasesProzesskostenhilfePersoenlicheDaten,
+];
 
 export const testCasesProzesskostenhilfeFormular = {
   machine,
