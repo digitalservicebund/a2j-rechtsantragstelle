@@ -9,10 +9,8 @@ import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormCompon
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { schemaForFieldNames } from "~/services/validation/stepValidator/schemaForFieldNames";
 import { EstimatedTime } from "../EstimatedTime";
-import {
-  ButtonNavigation,
-  type ButtonNavigationProps,
-} from "./ButtonNavigation";
+import { ButtonNavigation } from "./ButtonNavigation";
+import type { ButtonNavigationProps } from "./ButtonNavigation";
 import { FormComponents } from "../FormComponents";
 import { SchemaComponents } from "./SchemaComponents";
 
