@@ -9,6 +9,6 @@ export const testCasesProzesskostenhilfeDocumentUploadTransitions = [
       formularArt: "nachueberpruefung",
       versandArt: "digital",
     },
-    ["/weitere-angaben", "/abgabe/dokumente"],
+    ["/weitere-angaben", "abgabe/zusammenfassung", "/abgabe/dokumente"],
   ],
 ] satisfies TestCases<ProzesskostenhilfeFormularUserData>;
