@@ -4,7 +4,7 @@ import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
-import { StrapiBackgroundSchema } from "./StrapiBackground";
+import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 import { StrapiImageSchema } from "./StrapiImage";
@@ -19,7 +19,7 @@ export const StrapiBoxWithImageSchema = z
     heading: StrapiHeadingOptionalSchema,
     image: StrapiImageSchema,
     content: StrapiRichTextOptionalSchema(),
-    outerBackground: StrapiBackgroundSchema.nullable(),
+    outerBackground: StrapiBackgroundOptionalSchema,
     variant: z
       .enum([firstWidth, ...widths])
       .nullable()

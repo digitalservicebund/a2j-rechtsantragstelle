@@ -34,7 +34,6 @@ describe("StrapiHero", () => {
         look: "default",
         __component: "basic.heading",
       },
-      outerBackground: null,
       __component: "page.hero",
     });
   });
