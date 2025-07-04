@@ -13,40 +13,43 @@ import { keyFromElement } from "~/services/cms/keyFromElement";
 import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 
 const FormComponent = ({
-  component,
-}: Readonly<{ component: StrapiFormComponent }>) => {
-  switch (component.__component) {
+  componentProps,
+}: Readonly<{ componentProps: StrapiFormComponent }>) => {
+  switch (componentProps.__component) {
     case "form-elements.auto-suggest-input":
-      return <AutoSuggestInput {...component} />;
+      return <AutoSuggestInput {...componentProps} />;
     case "form-elements.input":
-      return <Input {...component} />;
+      return <Input {...componentProps} />;
     case "form-elements.date-input":
-      return <DateInput {...component} />;
+      return <DateInput {...componentProps} />;
     case "form-elements.time-input":
-      return <TimeInput {...component} />;
+      return <TimeInput {...componentProps} />;
     case "form-elements.files-upload":
-      return <FilesUpload {...component} />;
+      return <FilesUpload {...componentProps} />;
     case "form-elements.textarea":
-      return <Textarea {...component} />;
+      return <Textarea {...componentProps} />;
     case "form-elements.select":
-      return <RadioGroup {...component} />;
+      return <RadioGroup {...componentProps} />;
     case "form-elements.dropdown":
-      return <Select {...component} />;
+      return <Select {...componentProps} />;
     case "form-elements.checkbox":
-      return <Checkbox {...component} />;
+      return <Checkbox {...componentProps} />;
     case "form-elements.tile-group":
-      return <TileGroup {...component} />;
+      return <TileGroup {...componentProps} />;
     case "form-elements.hidden-input":
-      return <HiddenInput {...component} />;
+      return <HiddenInput {...componentProps} />;
   }
 };
 
-export const StrapiFormComponents = ({
+export const FormComponents = ({
   components,
 }: Readonly<{ components: StrapiFormComponent[] }>) => (
   <>
-    {components.map((el) => (
-      <FormComponent key={keyFromElement(el)} component={el} />
+    {components.map((componentProps) => (
+      <FormComponent
+        key={keyFromElement(componentProps)}
+        componentProps={componentProps}
+      />
     ))}
   </>
 );

@@ -2,12 +2,12 @@ import { useMemo } from "react";
 import { useLoaderData } from "react-router";
 import ArraySummary from "~/components/arraySummary/ArraySummary";
 import Background from "~/components/Background";
+import ContentComponents from "~/components/ContentComponents";
 import { FormFlowContext } from "~/components/form/formFlowContext";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import Heading from "~/components/Heading";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
-import PageContent from "~/components/PageContent";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { useFocusFirstH1 } from "~/components/useFocusFirstH1";
 import type { loader } from "../formular.server";
@@ -61,7 +61,7 @@ export function FormFlowPage() {
               <div className="ds-stack ds-stack-16" id="form-flow-page-content">
                 {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
                 <Heading text={heading} look="ds-heading-02-reg" />
-                <PageContent
+                <ContentComponents
                   content={content}
                   fullScreen={false}
                   className="ds-stack ds-stack-16"
@@ -91,7 +91,7 @@ export function FormFlowPage() {
                 formElements={formElements}
                 buttonNavigationProps={buttonNavigationProps}
               />
-              <PageContent content={postFormContent} fullScreen={false} />
+              <ContentComponents content={postFormContent} fullScreen={false} />
             </div>
             {showReportProblem && (
               <div className="flex justify-end w-full relative">
