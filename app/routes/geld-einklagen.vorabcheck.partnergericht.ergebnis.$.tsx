@@ -5,9 +5,9 @@ import type { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import Background from "~/components/Background";
 import Container from "~/components/Container";
+import ContentComponents from "~/components/ContentComponents";
 import CourtDetails from "~/components/CourtDetails";
 import Heading from "~/components/Heading";
-import PageContent from "~/components/PageContent";
 import RichText from "~/components/RichText";
 import { parsePathname } from "~/domains/flowIds";
 import type { GeldEinklagenVorabcheckUserData } from "~/domains/geldEinklagen/vorabcheck/userData";
@@ -142,7 +142,7 @@ export const Component = () => {
           </Container>
         ))}
       </Background>
-      <PageContent content={freeZone} />
+      <ContentComponents content={freeZone} />
     </>
   );
 };

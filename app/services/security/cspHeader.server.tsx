@@ -25,6 +25,7 @@ export const cspHeader = (args: {
     "font-src": ["'self'"],
     "connect-src": [
       "'self'",
+      "openplzapi.org",
       "eu.i.posthog.com",
       bucketUrl,
       ...(args.additionalConnectSrc ?? []),

@@ -1,5 +1,4 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
-import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine";
 import type { BeratungshilfeGrundvoraussetzungenUserData } from "~/domains/beratungshilfe/formular/grundvoraussetzung/userData";
 
 const start = "/grundvoraussetzungen/start";
@@ -13,7 +12,8 @@ const beratungshilfeBeantragt =
 const eigeninitiative =
   "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung";
 const anwaltStart = "/anwaltliche-vertretung/start";
-const cases = [
+
+export const testCasesBeratungshilfeFormularGrundvoraussetzungen = [
   [
     {},
     [
@@ -134,8 +134,3 @@ const cases = [
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeGrundvoraussetzungenUserData>;
-
-export const testCasesBeratungshilfeFormularGrundvoraussetzungen = {
-  machine,
-  cases,
-};
