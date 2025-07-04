@@ -107,7 +107,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       meta,
       progressProps,
       buttonNavigationProps,
-      showReportProblem: shouldShowReportProblem(flowId),
+      showReportProblem: shouldShowReportProblem(flowId, pathname),
     },
     { headers },
   );
