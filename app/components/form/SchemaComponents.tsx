@@ -6,24 +6,22 @@ import { isZodString, renderZodString } from "./schemaToForm/renderZodString";
 
 type Props = {
   pageSchema: PageSchema;
-  formElements?: StrapiFormComponent[];
+  formComponents?: StrapiFormComponent[];
 };
 
-export const SchemaComponents = ({ pageSchema, formElements }: Props) => {
-  return (
-    <div className="ds-stack ds-stack-40">
-      {Object.entries(pageSchema).map(([fieldName, fieldSchema]) => {
-        const nestedSchema = getNestedSchema(fieldSchema);
-        const matchingElement = formElements?.find(
-          ({ name }) => name === fieldName,
-        );
+export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
+  <div className="ds-stack ds-stack-40">
+    {Object.entries(pageSchema).map(([fieldName, fieldSchema]) => {
+      const nestedSchema = getNestedSchema(fieldSchema);
+      const matchingElement = formComponents?.find(
+        ({ name }) => name === fieldName,
+      );
 
-        if (isZodEnum(nestedSchema))
-          return renderZodEnum(nestedSchema, fieldName, matchingElement);
+      if (isZodEnum(nestedSchema))
+        return renderZodEnum(nestedSchema, fieldName, matchingElement);
 
-        if (isZodString(nestedSchema))
-          return renderZodString(nestedSchema, fieldName, matchingElement);
-      })}
-    </div>
-  );
-};
+      if (isZodString(nestedSchema))
+        return renderZodString(nestedSchema, fieldName, matchingElement);
+    })}
+  </div>
+);

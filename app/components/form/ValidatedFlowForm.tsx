@@ -35,7 +35,7 @@ function ValidatedFlowForm({
 
   const pageSchema = getPageSchema(pathname);
   const inputFormElements = pageSchema ? (
-    <SchemaComponents pageSchema={pageSchema} formElements={formElements} />
+    <SchemaComponents pageSchema={pageSchema} formComponents={formElements} />
   ) : (
     <FormComponents components={formElements} />
   );

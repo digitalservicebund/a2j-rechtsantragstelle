@@ -47,7 +47,7 @@ describe("SchemaComponents", () => {
     const { getByRole } = render(
       <WrappedSchemaComponents
         pageSchema={pageSchema}
-        formElements={[
+        formComponents={[
           {
             __component: "form-elements.tile-group",
             name: fieldName,
@@ -98,7 +98,7 @@ describe("SchemaComponents", () => {
     const { getByRole, getByLabelText } = render(
       <WrappedSchemaComponents
         pageSchema={{ field1: z.string() }}
-        formElements={[
+        formComponents={[
           {
             name: "field1",
             label: "label",
