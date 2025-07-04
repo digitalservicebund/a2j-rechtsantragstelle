@@ -56,7 +56,7 @@ const pdfConfigs = {
         translations,
       ),
     filenameFunction: () =>
-      `Antrag_Prozesskostenhilfe_${pdfDateFormat(today())}.pdf`,
+      `Erklaerung_Prozesskostenhilfe_${pdfDateFormat(today())}.pdf`,
   },
   "/fluggastrechte/formular": {
     pdfFunction: async (userData: FluggastrechteFlugdatenUserData) =>

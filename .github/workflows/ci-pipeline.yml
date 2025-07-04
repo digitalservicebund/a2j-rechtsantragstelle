@@ -15,7 +15,9 @@ env:
 
 jobs:
   code-quality:
-    uses: ./.github/workflows/npm-checks.yml
+    uses: ./.github/workflows/npm-commands.yml
+    secrets:
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
   sonarcloud-scan:
     if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
@@ -91,6 +93,8 @@ jobs:
       - uses: ./.github/actions/cached-checkout-install
       - name: Install cosign
         uses: sigstore/cosign-installer@398d4b0eeef1380460a10c8013a76f728fb906ac # v3.9.1
+      - uses: actions/download-artifact@v4
+        name: build
       - run: ./docker.sh --build app
         env:
           SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"

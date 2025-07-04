@@ -2,17 +2,17 @@ import { ValidatedForm } from "@rvf/react-router";
 import { useLocation } from "react-router";
 import { z } from "zod";
 import type { ButtonNavigationProps } from "~/components/form/ButtonNavigation";
-import { ButtonNavigation } from "~/components/form/ButtonNavigation";
 import { getPageSchema } from "~/domains/getPageSchema";
 import type { UserData } from "~/domains/userData";
 import { shouldShowEstimatedTime } from "~/services/analytics/abTest/shouldShowEstimatedTime";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
-import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { schemaForFieldNames } from "~/services/validation/stepValidator/schemaForFieldNames";
 import { EstimatedTime } from "../EstimatedTime";
-import { PageFormComponents } from "./PageFormComponents";
+import { ButtonNavigation } from "./ButtonNavigation";
+import type { ButtonNavigationProps } from "./ButtonNavigation";
+import { FormComponents } from "../FormComponents";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -35,7 +35,7 @@ function ValidatedFlowForm({
   const inputFormElements = pageSchema ? (
     <PageFormComponents pageSchema={pageSchema} formElements={formElements} />
   ) : (
-    <StrapiFormComponents components={formElements} />
+    <FormComponents components={formElements} />
   );
   const formSchema = pageSchema
     ? z.object(pageSchema)

@@ -5,63 +5,46 @@ import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { getPageSchema } from "~/domains/getPageSchema";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import {
-  fetchFlowPage,
-  fetchMeta,
-  fetchTranslations,
-} from "~/services/cms/index.server";
+import { fetchFlowPage, fetchMeta } from "~/services/cms/index.server";
 import { isStrapiHeadingComponent } from "~/services/cms/models/isStrapiHeadingComponent";
 import { isStrapiSelectComponent } from "~/services/cms/models/isStrapiSelectComponent";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
+import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
+import { getDestinationFlowAction } from "~/services/flow/userFlowAction/getDestinationFlowAction";
+import { postValidationFormUserData } from "~/services/flow/userFlowAction/postValidationFormUserData";
+import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
 import { logWarning } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";
-import {
-  skipFlowParamAllowedAndEnabled,
-  parentFromParams,
-} from "~/services/params";
+import { parentFromParams } from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
-import {
-  getSessionData,
-  getSessionManager,
-  updateSession,
-} from "~/services/session.server";
+import { getSessionManager, updateSession } from "~/services/session.server";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
-import { validateFormData } from "~/services/validation/validateFormData.server";
+import { translations } from "~/services/translations/translations";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { filterFormData } from "~/util/filterFormData";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 
-export const loader = async ({
-  params,
-  request,
-  context,
-}: LoaderFunctionArgs) => {
-  const { pathname, searchParams } = new URL(request.url);
-  const { flowId, stepId } = parsePathname(pathname);
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+  const resultUserAndFlow = await getUserDataAndFlow(request);
+
+  if (resultUserAndFlow.isErr) {
+    return redirectDocument(resultUserAndFlow.error.redirectTo);
+  }
+
+  const {
+    userData,
+    flow: { id: flowId, controller: flowController },
+    page: { stepId },
+  } = resultUserAndFlow.value;
+
+  const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
-
-  const { userData, debugId } = await getSessionData(flowId, cookieHeader);
-  context.debugId = debugId; // For showing in errors
-
   const currentFlow = flows[flowId];
-  const flowController = buildFlowController({
-    config: currentFlow.config,
-    data: userData,
-    guards: currentFlow.guards,
-  });
 
-  if (
-    !flowController.isReachable(stepId) &&
-    !skipFlowParamAllowedAndEnabled(searchParams)
-  )
-    return redirectDocument(flowController.getInitial());
-
-  const [vorabcheckPage, parentMeta, translations] = await Promise.all([
+  const [vorabcheckPage, parentMeta] = await Promise.all([
     fetchFlowPage("vorab-check-pages", flowId, stepId),
     fetchMeta({ filterValue: parentFromParams(pathname, params) }),
-    fetchTranslations("defaultTranslations"),
   ]);
 
   // Do string replacement in content if necessary
@@ -107,16 +90,17 @@ export const loader = async ({
   });
 
   const buttonNavigationProps = getButtonNavigationProps({
-    backButtonLabel: translations.backButtonDefaultLabel,
+    backButtonLabel: translations.buttonNavigation.backButtonDefaultLabel.de,
     nextButtonLabel:
-      vorabcheckPage.nextButtonLabel ?? translations.nextButtonDefaultLabel,
+      vorabcheckPage.nextButtonLabel ??
+      translations.buttonNavigation.nextButtonDefaultLabel.de,
     isFinal: flowController.isFinal(stepId),
     backDestination: flowController.getPrevious(stepId),
   });
 
   const progressProps = {
     ...flowController.getProgress(stepId),
-    label: translations.progressBarLabel,
+    label: translations.vorabcheck.progressBarLabel.de,
   };
 
   return data(
@@ -142,21 +126,26 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const { pathname } = new URL(request.url);
-  const { flowId, stepId } = parsePathname(pathname);
-  const sessionManager = getSessionManager(flowId);
+  const { flowId } = parsePathname(pathname);
+  const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
-  const flowSession = await sessionManager.getSession(cookieHeader);
+  const flowSession = await getSession(cookieHeader);
   const formData = await request.formData();
 
-  const relevantFormData = filterFormData(formData);
-  const validationResult = await validateFormData(pathname, relevantFormData);
-  if (validationResult.error)
-    return validationError(
-      validationResult.error,
-      validationResult.submittedData,
-    );
+  const resultFormUserData = await validateFormUserData(
+    formData,
+    pathname,
+    cookieHeader,
+  );
 
-  updateSession(flowSession, validationResult.data);
+  if (resultFormUserData.isErr) {
+    return validationError(
+      resultFormUserData.error.error,
+      resultFormUserData.error.submittedData,
+    );
+  }
+
+  updateSession(flowSession, resultFormUserData.value.userData);
 
   const flowController = buildFlowController({
     config: flows[flowId].config,
@@ -164,21 +153,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     guards: flows[flowId].guards,
   });
 
-  const customAnalyticsEventName =
-    flowController.getMeta(stepId)?.customAnalyticsEventName;
-  if (customAnalyticsEventName) {
-    sendCustomAnalyticsEvent({
-      request,
-      eventName: customAnalyticsEventName,
-      properties: validationResult.data,
-    });
-  }
+  await postValidationFormUserData(
+    request,
+    flowController,
+    resultFormUserData.value.userData,
+  );
 
-  const destination =
-    flowController.getNext(stepId) ?? flowController.getInitial();
-  const headers = {
-    "Set-Cookie": await sessionManager.commitSession(flowSession),
-  };
+  const destination = getDestinationFlowAction(flowController, pathname);
 
+  const headers = { "Set-Cookie": await commitSession(flowSession) };
   return redirectDocument(destination, { headers });
 };

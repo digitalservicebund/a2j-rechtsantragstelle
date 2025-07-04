@@ -31,7 +31,6 @@ const errorPage403: StrapiContentComponent = {
       inlineNotices: [],
     },
   ],
-  outerBackground: null,
   container: {
     backgroundColor: "default",
     paddingTop: "default",
@@ -71,7 +70,6 @@ const errorPage404: StrapiContentComponent = {
       inlineNotices: [],
     },
   ],
-  outerBackground: null,
   container: {
     backgroundColor: "default",
     paddingTop: "default",
@@ -111,7 +109,6 @@ const errorPage500: StrapiContentComponent = {
       inlineNotices: [],
     },
   ],
-  outerBackground: null,
   container: {
     backgroundColor: "default",
     paddingTop: "default",

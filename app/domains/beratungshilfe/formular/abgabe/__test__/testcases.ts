@@ -1,8 +1,7 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
-import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine";
 
-const cases = [
+export const testCasesBeratungshilfeFormularAbgabe = [
   [
     {
       abgabeArt: "online",
@@ -21,8 +20,3 @@ const cases = [
     ["/abgabe/zusammenfassung", "/abgabe/art", "/abgabe/ausdrucken"],
   ],
 ] as const satisfies TestCases<BeratungshilfeFormularUserData>;
-
-export const testCasesBeratungshilfeFormularAbgabe = {
-  machine,
-  cases,
-};
