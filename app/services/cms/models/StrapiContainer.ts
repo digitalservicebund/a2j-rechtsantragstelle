@@ -1,10 +1,9 @@
 import { z } from "zod";
-import { StrapiWrapperSchema } from "./StrapiWrapper";
+import { StrapiBackgroundColorSchema } from "./StrapiBackgroundColor";
+import { StrapiPaddingSchema } from "./StrapiPadding";
 
-export const StrapiContainerSchema = z
-  .object({
-    __component: z.literal("meta.container").optional(),
-  })
-  .merge(StrapiWrapperSchema);
-
-export type StrapiContainer = z.infer<typeof StrapiContainerSchema>;
+export const StrapiContainerSchema = z.object({
+  backgroundColor: StrapiBackgroundColorSchema,
+  paddingTop: StrapiPaddingSchema,
+  paddingBottom: StrapiPaddingSchema,
+});

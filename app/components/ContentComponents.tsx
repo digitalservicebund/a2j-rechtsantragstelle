@@ -8,7 +8,6 @@ import type { StrapiContentComponent } from "~/services/cms/models/StrapiContent
 import Background from "./Background";
 import Box from "./Box";
 import BoxWithImage from "./BoxWithImage";
-import { wrapperPropsFromCms } from "./CommonWrapperProps";
 import Container from "./Container";
 import { Details } from "./Details";
 import Hero from "./Hero";
@@ -31,7 +30,7 @@ function wrapInContainer(
   const isBoxWithImage = componentProps.__component === "page.box-with-image";
   return (
     <Container
-      {...wrapperPropsFromCms(componentProps.container)}
+      {...componentProps.container}
       overhangingBackground={isBox || isBoxWithImage}
       fullScreen={fullScreen}
     >
@@ -49,8 +48,9 @@ function wrapInBackground(
     componentProps.outerBackground === null
   )
     return reactElement;
-  const propsWithWrapper = wrapperPropsFromCms(componentProps.outerBackground);
-  return <Background {...propsWithWrapper}>{reactElement}</Background>;
+  return (
+    <Background {...componentProps.outerBackground}>{reactElement}</Background>
+  );
 }
 
 function cmsToReact(componentProps: StrapiContentComponent) {
