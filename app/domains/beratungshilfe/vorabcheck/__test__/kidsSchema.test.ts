@@ -1,4 +1,4 @@
-import { kidsSchema } from "~/domains/beratungshilfe/vorabcheck/userData";
+import { kidsSchema } from "../kidsSchema";
 
 describe("kidsSchema validation", () => {
   it("fails when no fields given", () => {
