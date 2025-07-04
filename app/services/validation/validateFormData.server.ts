@@ -1,6 +1,6 @@
 import { parseFormData } from "@rvf/react-router";
 import { z } from "zod";
-import { getPageSchema } from "~/domains/getPageSchema";
+import { getPageSchema } from "~/domains/pageSchemas";
 import { type UserData } from "~/domains/userData";
 import { schemaForFieldNames } from "./stepValidator/schemaForFieldNames";
 

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { PagesConfig } from "~/domains/pageSchemas";
 import { staatlicheLeistungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -7,7 +8,6 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 import { kidsSchema } from "./kidsSchema";
-import type { PagesConfig } from "../../pageConfig";
 import { bereich } from "../formular/rechtsproblem/userData";
 
 export const beratungshilfeVorabcheckPages = {

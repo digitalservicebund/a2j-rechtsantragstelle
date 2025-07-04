@@ -1,7 +1,7 @@
 import { ValidatedForm } from "@rvf/react-router";
 import { useLocation } from "react-router";
 import { z } from "zod";
-import { getPageSchema } from "~/domains/getPageSchema";
+import { getPageSchema } from "~/domains/pageSchemas";
 import type { UserData } from "~/domains/userData";
 import { shouldShowEstimatedTime } from "~/services/analytics/abTest/shouldShowEstimatedTime";
 import { useAnalytics } from "~/services/analytics/useAnalytics";

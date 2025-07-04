@@ -1,4 +1,4 @@
-import type { PageSchema } from "~/domains/pageConfig";
+import type { PageSchema } from "~/domains/pageSchemas";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { getNestedSchema } from "./schemaToForm/getNestedSchema";
 import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";
