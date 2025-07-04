@@ -1,8 +1,8 @@
 import type PDFDocument from "pdfkit";
 
 export const VERSION = 1.0;
-export const TITLE = "Klage";
-export const AUTHOR = "Zugang zu Recht";
+export const TITLE = "Klage Neueingang";
+export const AUTHOR = "service.justiz.de";
 export const SUBJECT = "Klageschrift";
 export const KEYWORDS = "Fluggastrechte";
 export const CREATOR = "DigitalService GmbH des Bundes";
