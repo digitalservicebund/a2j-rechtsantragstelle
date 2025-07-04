@@ -2,7 +2,7 @@ import { z } from "zod";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
-import { StrapiBackgroundSchema } from "./StrapiBackground";
+import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
 
 export const StrapiInlineNoticeSchema = z
@@ -12,7 +12,7 @@ export const StrapiInlineNoticeSchema = z
     look: z.enum(["warning", "tips", "success", "error"]),
     content: StrapiRichTextOptionalSchema(),
     container: StrapiContainerSchema,
-    outerBackground: StrapiBackgroundSchema.nullable(),
+    outerBackground: StrapiBackgroundOptionalSchema,
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema)

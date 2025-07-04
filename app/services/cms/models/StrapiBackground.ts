@@ -1,10 +1,5 @@
-import { z } from "zod";
-import { StrapiWrapperSchema } from "./StrapiWrapper";
+import { omitNull } from "~/util/omitNull";
+import { StrapiContainerSchema } from "./StrapiContainer";
 
-export const StrapiBackgroundSchema = z
-  .object({
-    __component: z.literal("meta.background").optional(),
-  })
-  .merge(StrapiWrapperSchema);
-
-export type StrapiBackground = z.infer<typeof StrapiBackgroundSchema>;
+export const StrapiBackgroundOptionalSchema =
+  StrapiContainerSchema.nullable().transform(omitNull);
