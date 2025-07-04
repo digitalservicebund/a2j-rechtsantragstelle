@@ -23,13 +23,6 @@ export function renderZodEnum(
     const cmsObject = Object.fromEntries(
       cmsOptions?.map(({ value, ...rest }) => [value, rest]),
     );
-    const tileOptions = options.map(({ value }) => ({
-      value,
-      description: cmsObject[value]?.description,
-      image: cmsObject[value]?.image,
-      title: cmsObject[value]?.title ?? value,
-    }));
-
     return (
       <TileGroup
         key={fieldName}
@@ -37,7 +30,12 @@ export function renderZodEnum(
         useTwoColumns={matchingElement.useTwoColumns}
         label={label}
         errorMessages={errorMessages}
-        options={tileOptions}
+        options={options.map(({ value }) => ({
+          value,
+          description: cmsObject[value]?.description,
+          image: cmsObject[value]?.image,
+          title: cmsObject[value]?.title ?? value,
+        }))}
       />
     );
   }
