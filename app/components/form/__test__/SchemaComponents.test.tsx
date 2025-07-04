@@ -41,14 +41,37 @@ describe("SchemaComponents", () => {
     expect(radio[1]).toHaveAttribute("value", "option2");
   });
 
+  it("should render tile group ", () => {
+    const fieldName = "field1";
+    const pageSchema = { [fieldName]: z.enum(["option1"]) };
+    const { getByRole } = render(
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        formElements={[
+          {
+            __component: "form-elements.tile-group",
+            name: fieldName,
+            options: [
+              {
+                value: "option1",
+                title: "option1 title",
+                description: "option1 description",
+              },
+            ],
+            errorMessages: [],
+            useTwoColumns: false,
+          },
+        ]}
+      />,
+    );
+    const radio = getByRole("radio");
+    expect(radio).toHaveAttribute("name", "field1");
+    expect(radio).toHaveAttribute("value", "option1");
+    expect(radio.parentElement).toHaveTextContent("option1 title");
+    expect(radio.parentElement).toHaveTextContent("option1 description");
+  });
+
   it("should render multiple nested fields ", () => {
-    const pageSchema = {
-      field1: z
-        .string()
-        .min(1)
-        .transform((val) => val.toUpperCase()),
-      field2: z.enum(["option1", "option2"]),
-    };
     const { getByRole, getAllByRole } = render(
       <WrappedSchemaComponents
         pageSchema={{
