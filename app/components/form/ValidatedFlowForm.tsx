@@ -1,5 +1,7 @@
 import { ValidatedForm } from "@rvf/react-router";
 import { useLocation } from "react-router";
+import { z } from "zod";
+import { getPageSchema } from "~/domains/pageSchemas";
 import type { UserData } from "~/domains/userData";
 import { shouldShowEstimatedTime } from "~/services/analytics/abTest/shouldShowEstimatedTime";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
@@ -10,6 +12,7 @@ import { EstimatedTime } from "../EstimatedTime";
 import { ButtonNavigation } from "./ButtonNavigation";
 import type { ButtonNavigationProps } from "./ButtonNavigation";
 import { FormComponents } from "../FormComponents";
+import { SchemaComponents } from "./SchemaComponents";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -26,21 +29,30 @@ function ValidatedFlowForm({
 }: Readonly<ValidatedFlowFormProps>) {
   const { pathname } = useLocation();
   const fieldNames = formElements.map((entry) => entry.name);
-  const schema = schemaForFieldNames(fieldNames, pathname);
   const { posthogClient } = useAnalytics();
+
+  const pageSchema = getPageSchema(pathname);
+  const inputFormElements = pageSchema ? (
+    <SchemaComponents pageSchema={pageSchema} formComponents={formElements} />
+  ) : (
+    <FormComponents components={formElements} />
+  );
+  const formSchema = pageSchema
+    ? z.object(pageSchema)
+    : schemaForFieldNames(fieldNames, pathname);
 
   return (
     <ValidatedForm
       method="post"
       encType="multipart/form-data"
-      schema={schema}
+      schema={formSchema}
       defaultValues={stepData}
       noValidate
       action={pathname}
     >
       <input type="hidden" name={CSRFKey} value={csrf} />
       <div className="ds-stack ds-stack-40">
-        <FormComponents components={formElements} />
+        {inputFormElements}
         {shouldShowEstimatedTime(pathname, posthogClient) && <EstimatedTime />}
         <ButtonNavigation {...buttonNavigationProps} />
       </div>
