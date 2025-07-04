@@ -14,7 +14,7 @@ import {
   type ButtonNavigationProps,
 } from "./ButtonNavigation";
 import { FormComponents } from "../FormComponents";
-import { PageFormComponents } from "./PageFormComponents";
+import { SchemaComponents } from "./SchemaComponents";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -35,7 +35,7 @@ function ValidatedFlowForm({
 
   const pageSchema = getPageSchema(pathname);
   const inputFormElements = pageSchema ? (
-    <PageFormComponents pageSchema={pageSchema} formElements={formElements} />
+    <SchemaComponents pageSchema={pageSchema} formElements={formElements} />
   ) : (
     <FormComponents components={formElements} />
   );

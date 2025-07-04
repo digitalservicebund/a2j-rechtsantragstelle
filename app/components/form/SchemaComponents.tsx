@@ -2,7 +2,7 @@ import type { PageSchema } from "~/domains/pageConfig";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { schemaToFormElement } from "./schemaToForm";
 
-export const PageFormComponents = ({
+export const SchemaComponents = ({
   pageSchema,
   formElements,
 }: {
