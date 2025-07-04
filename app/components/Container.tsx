@@ -1,10 +1,28 @@
 import classNames from "classnames";
 import type { PropsWithChildren } from "react";
-import { BACKGROUND_COLORS } from ".";
-import type { CommonWrapperProps } from "./CommonWrapperProps";
+import { BACKGROUND_COLORS, type BackgroundColor } from ".";
 
 const DEFAULT_PADDING_TOP = "40";
 const DEFAULT_PADDING_BOTTOM = "48";
+
+export type Padding =
+  | "default"
+  | "0" // !pt-0 !pb-0
+  | "8" // !pt-8 !pb-8
+  | "16" // !pt-16 !pb-16
+  | "24" // !pt-24 !pb-24
+  | "32" // !pt-32 !pb-32
+  | "40" // !pt-40 !pb-40
+  | "48" // !pt-48 !pb-48
+  | "56" // !pt-56 !pb-56
+  | "64"; // !pt-64 !pb-64
+
+export type CommonWrapperProps = {
+  backgroundColor?: BackgroundColor;
+  paddingTop?: Padding;
+  paddingBottom?: Padding;
+  fullScreen?: boolean;
+};
 
 type ContainerProps = {
   readonly overhangingBackground?: boolean;
