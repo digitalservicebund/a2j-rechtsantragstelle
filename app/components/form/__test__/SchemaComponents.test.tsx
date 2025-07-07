@@ -41,6 +41,19 @@ describe("SchemaComponents", () => {
     expect(radio[1]).toHaveAttribute("value", "option2");
   });
 
+  it("should render ZodObject", () => {
+    const pageSchema = {
+      field1: z.object({ a: z.string(), b: z.string() }),
+    };
+    const { getAllByRole } = render(
+      <WrappedSchemaComponents pageSchema={pageSchema} />,
+    );
+    const radio = getAllByRole("textbox");
+    expect(radio.length).toBe(2);
+    expect(radio[0]).toHaveAttribute("name", "field1.a");
+    expect(radio[1]).toHaveAttribute("name", "field1.b");
+  });
+
   it("should render tile group ", () => {
     const fieldName = "field1";
     const pageSchema = { [fieldName]: z.enum(["option1"]) };
