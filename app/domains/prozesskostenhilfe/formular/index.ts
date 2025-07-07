@@ -198,24 +198,35 @@ export const prozesskostenhilfeFormular = {
               {
                 guard: ({ context }) =>
                   readyForAbgabe({ context }) &&
+                  Boolean(showPKHZusammenfassung),
+                target: "zusammenfassung",
+              },
+              {
+                guard: ({ context }) =>
+                  readyForAbgabe({ context }) &&
                   fileUploadRelevant({ context }) &&
                   Boolean(showFileUpload),
                 target: "dokumente",
               },
               {
                 guard: readyForAbgabe,
-                target: showPKHZusammenfassung ? "zusammenfassung" : "ende",
+                target: "ende",
               },
             ],
           },
-          ...(showPKHZusammenfassung && {
-            zusammenfassung: {
-              on: {
-                BACK: "#weitere-angaben",
-                SUBMIT: "dokumente",
-              },
+          zusammenfassung: {
+            on: {
+              BACK: "#weitere-angaben",
+              SUBMIT: [
+                {
+                  guard: ({ context }) =>
+                    fileUploadRelevant({ context }) && Boolean(showFileUpload),
+                  target: "dokumente",
+                },
+                "ende",
+              ],
             },
-          }),
+          },
           dokumente: {
             on: {
               BACK: showPKHZusammenfassung
@@ -233,6 +244,10 @@ export const prozesskostenhilfeFormular = {
                       fileUploadRelevant({ context })) ||
                     Boolean(showPKHZusammenfassung),
                   target: "dokumente",
+                },
+                {
+                  guard: () => Boolean(showPKHZusammenfassung),
+                  target: "zusammenfassung",
                 },
                 "#weitere-angaben",
               ],
