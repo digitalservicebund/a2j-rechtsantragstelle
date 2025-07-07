@@ -3,7 +3,7 @@ import { z } from "zod";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
-import { StrapiBackgroundSchema } from "./StrapiBackground";
+import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 import { StrapiListItemSchema } from "./StrapiListItem";
@@ -22,7 +22,7 @@ export const StrapiListSchema = z
     variant: z
       .enum(["unordered", "numbered", "stepByStep"])
       .default("unordered"),
-    outerBackground: StrapiBackgroundSchema.nullable(),
+    outerBackground: StrapiBackgroundOptionalSchema,
     container: StrapiContainerSchema,
   })
   .merge(HasOptionalStrapiIdSchema)

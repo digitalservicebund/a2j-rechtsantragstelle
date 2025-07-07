@@ -1,14 +1,5 @@
-import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
-import { fluggastrechteGuards } from "~/domains/fluggastrechte/formular/guards";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import type { FlowStateMachine } from "~/services/flow/server/types";
-
-const machine: FlowStateMachine = createMachine(
-  { ...fluggastrechtFlow.config, context: {} },
-  { guards: fluggastrechteGuards },
-);
 
 const baseContext = {
   vorname: "test",
@@ -18,7 +9,7 @@ const baseContext = {
   plz: "13055",
 };
 
-const cases = [
+export const testCasesFluggastrechteFormularPersoenlicheDaten = [
   [
     baseContext,
     [
@@ -111,8 +102,3 @@ const cases = [
     ],
   ],
 ] as const satisfies TestCases<FluggastrechteUserData>;
-
-export const testCasesFluggastrechteFormularPersoenlicheDaten = {
-  machine,
-  cases,
-};

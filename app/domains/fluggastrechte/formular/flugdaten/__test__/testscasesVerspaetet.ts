@@ -1,15 +1,6 @@
-import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
-import { fluggastrechteGuards } from "~/domains/fluggastrechte/formular/guards";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import type { FlowStateMachine } from "~/services/flow/server/types";
 import { fluggesellschaftAddresse } from "./flugdatenMock";
-
-const machine: FlowStateMachine = createMachine(
-  { ...fluggastrechtFlow.config, context: {} },
-  { guards: fluggastrechteGuards },
-);
 
 const baseContext = {
   ...fluggesellschaftAddresse,
@@ -22,7 +13,7 @@ const baseContext = {
   direktAnkunftsZeit: "10:00",
 };
 
-const cases = [
+export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
   [
     {
       ...baseContext,
@@ -270,8 +261,3 @@ const cases = [
     ],
   ],
 ] as const satisfies TestCases<FluggastrechteUserData>;
-
-export const testCasesFluggastrechteFormularFlugdatenVerspaetet = {
-  machine,
-  cases,
-};

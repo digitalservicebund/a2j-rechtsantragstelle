@@ -1,16 +1,7 @@
-import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import type { FlowStateMachine } from "~/services/flow/server/types";
-import { fluggastrechteGuards } from "../../guards";
 
-const machine: FlowStateMachine = createMachine(
-  { ...fluggastrechtFlow.config, context: {} },
-  { guards: fluggastrechteGuards },
-);
-
-const cases = [
+export const testCasesFluggastrechteFormularProzessfuehrung = [
   [
     {
       hasZeugen: "yes",
@@ -27,8 +18,3 @@ const cases = [
     ],
   ],
 ] as const satisfies TestCases<FluggastrechteUserData>;
-
-export const testCasesFluggastrechteFormularProzessfuehrung = {
-  machine,
-  cases,
-};
