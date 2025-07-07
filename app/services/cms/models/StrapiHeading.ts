@@ -26,12 +26,11 @@ export const StrapiHeadingSchema = z
     ]),
   })
   .merge(HasOptionalStrapiIdSchema)
-  .nullable()
   .transform((cmsData) => {
-    return omitNull({
+    return {
       __component: "basic.heading" as const,
       ...cmsData,
-    });
+    };
   });
 
 export const StrapiHeadingOptionalSchema = StrapiHeadingSchema.nullable()
