@@ -86,7 +86,6 @@ describe("createLocalCourtAndDate", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(",", { continued: false });
     expect(mockDoc.text).toHaveBeenCalledWith(
       `${amtsgericht.PLZ_ZUSTELLBEZIRK} ${amtsgericht.ORT}`,
-      { continued: true },
     );
   });
 

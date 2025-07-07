@@ -74,9 +74,6 @@ export const createLocalCourtAndDate = (
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(
           `${amtsgericht?.PLZ_ZUSTELLBEZIRK ?? ""} ${amtsgericht?.ORT ?? ""}`,
-          {
-            continued: true,
-          },
         );
     }),
   );
