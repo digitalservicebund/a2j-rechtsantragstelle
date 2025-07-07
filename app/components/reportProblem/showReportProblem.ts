@@ -1,11 +1,14 @@
 import { type FlowId } from "~/domains/flowIds";
 
-export function shouldShowReportProblem(flowId: FlowId): boolean {
+export function shouldShowReportProblem(
+  flowId: FlowId,
+  stepId: string,
+): boolean {
   return (
     flowId === "/beratungshilfe/vorabcheck" ||
-    flowId === "/kontopfaendung/wegweiser" ||
-    flowId === "/prozesskostenhilfe/formular" ||
     flowId === "/fluggastrechte/formular" ||
-    flowId === "/beratungshilfe/antrag"
+    (flowId === "/kontopfaendung/wegweiser" && stepId !== "/start") ||
+    (flowId === "/prozesskostenhilfe/formular" && stepId !== "/start/start") ||
+    (flowId === "/beratungshilfe/antrag" && stepId !== "/start/start")
   );
 }
