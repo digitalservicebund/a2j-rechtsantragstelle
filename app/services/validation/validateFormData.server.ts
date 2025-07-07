@@ -1,9 +1,14 @@
 import { parseFormData } from "@rvf/react-router";
+import { z } from "zod";
+import { getPageSchema } from "~/domains/pageSchemas";
 import { type UserData } from "~/domains/userData";
 import { schemaForFieldNames } from "./stepValidator/schemaForFieldNames";
 
 export async function validateFormData(pathname: string, formData: FormData) {
   const formDataKeys = Object.keys(formData);
-  const validator = schemaForFieldNames(formDataKeys, pathname);
+  const pageSchema = getPageSchema(pathname);
+  const validator = pageSchema
+    ? z.object(pageSchema)
+    : schemaForFieldNames(formDataKeys, pathname);
   return parseFormData<UserData>(formData, validator);
 }
