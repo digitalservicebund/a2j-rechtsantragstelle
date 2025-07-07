@@ -1,10 +1,10 @@
 import { useLoaderData } from "react-router";
 import Background from "~/components/Background";
-import { ProgressBar } from "~/components/form/ProgressBar";
+import ContentComponents from "~/components/ContentComponents";
 import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
-import PageContent from "~/components/PageContent";
+import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
+import { ProgressBar } from "~/components/ProgressBar";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import { useFocusFirstH1 } from "~/components/useFocusFirstH1";
 import type { loader } from "../vorabcheck.server";
 
 export function VorabcheckPage() {
@@ -27,7 +27,7 @@ export function VorabcheckPage() {
           <div className="flex flex-col min-h-full gap-32 justify-between">
             <div className="ds-stack ds-stack-40">
               <ProgressBar {...progressProps} />
-              <PageContent
+              <ContentComponents
                 content={contentElements}
                 className="ds-stack ds-stack-16"
                 fullScreen={false}

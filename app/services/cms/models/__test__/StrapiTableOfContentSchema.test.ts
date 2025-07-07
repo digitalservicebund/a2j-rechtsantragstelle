@@ -37,7 +37,6 @@ describe("StrapiTableOfContentSchema", () => {
       label: undefined,
       heading: undefined,
       buttons: [],
-      outerBackground: null,
       container: {
         backgroundColor: "blue",
         paddingBottom: "default",

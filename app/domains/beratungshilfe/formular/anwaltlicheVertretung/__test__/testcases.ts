@@ -1,5 +1,4 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
-import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine";
 import type { BeratungshilfeAnwaltlicheVertretungUserData } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/userData";
 import { addDays, today, toGermanDateFormat } from "~/util/date";
 
@@ -9,7 +8,7 @@ const anwaltlicheVertretungBeratungStattgefunden =
   "/anwaltliche-vertretung/beratung-stattgefunden";
 const anwaltlicheVertretungBeratungStattgefundenDatum =
   "/anwaltliche-vertretung/beratung-stattgefunden-datum";
-const cases = [
+export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = [
   [{}, [anwaltlicheVertretungStart, rechtsproblemStart]],
   [{ anwaltskanzlei: "no" }, [anwaltlicheVertretungStart, rechtsproblemStart]],
   [
@@ -74,8 +73,3 @@ const cases = [
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeAnwaltlicheVertretungUserData>;
-
-export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = {
-  machine,
-  cases,
-};

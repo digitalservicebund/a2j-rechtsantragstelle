@@ -118,6 +118,19 @@ const cases = [
     { hasKinder: "yes", hasKindergeld: "yes" },
     ["/kindergeld", "/kindergeld-nachzahlung"],
   ],
+  [
+    {
+      hasSozialleistungen: "grundsicherungSozialhilfe",
+      hasSozialleistungNachzahlung: "yes",
+      hasSozialleistungenEinmalzahlung: "no",
+    },
+    [
+      "/sozialleistungen",
+      "/sozialleistung-nachzahlung",
+      "/sozialleistungen-einmalzahlung",
+      "/wohngeld",
+    ],
+  ],
 
   [{ hasWohngeld: "no" }, ["/wohngeld", "/pflegegeld"]],
   [

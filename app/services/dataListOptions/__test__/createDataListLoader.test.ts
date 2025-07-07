@@ -50,7 +50,7 @@ describe("createDataListLoader", () => {
 
     const mockData = [{ value: "test-value", label: "Test Label" }];
 
-    vi.mocked(getDataListOptions).mockReturnValue(mockData);
+    vi.mocked(getDataListOptions).mockResolvedValue(mockData);
 
     const response = await loader({ request } as LoaderFunctionArgs);
     expect(response).toBeInstanceOf(Response);
@@ -59,7 +59,7 @@ describe("createDataListLoader", () => {
     const json = await response.json();
 
     expect(json).toEqual(mockData);
-    expect(getDataListOptions).toHaveBeenCalledWith(TEST_TYPE);
+    expect(getDataListOptions).toHaveBeenCalledWith(TEST_TYPE, undefined);
     expect(logWarning).not.toHaveBeenCalled();
   });
 });

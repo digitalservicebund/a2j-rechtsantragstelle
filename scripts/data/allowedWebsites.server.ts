@@ -64,4 +64,6 @@ export const allowedWebsites = [
   "https://www.unterstuetzung-die-ankommt.de",
   "https://www.dajeb.de",
   "https://www.caritas.de",
+  "https://www.drk.de",
+  "https://www.der-paritaetische.de",
 ];

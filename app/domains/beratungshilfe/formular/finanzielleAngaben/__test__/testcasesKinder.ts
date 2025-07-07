@@ -1,5 +1,4 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
-import { machine } from "~/domains/beratungshilfe/formular/__test__/testMachine";
 import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 
 const finanzielleAngabenKinderKinderName =
@@ -20,7 +19,7 @@ const defaultInputKinder = {
   unterhaltsSumme: "",
 } as const;
 
-const cases = [
+export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = [
   [
     { hasKinder: "yes" },
     [
@@ -149,8 +148,3 @@ const cases = [
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngabenUserData>;
-
-export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
-  machine,
-  cases,
-};

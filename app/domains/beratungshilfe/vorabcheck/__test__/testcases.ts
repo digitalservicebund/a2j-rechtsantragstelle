@@ -180,4 +180,4 @@ const cases = [
 const machine: FlowStateMachine = createMachine(
   beratungshilfeVorabcheckXstateConfig,
 );
-export const testCasesBeratungshilfe = { machine, cases };
+export const testCasesBeratungshilfeVorabcheck = { machine, cases };

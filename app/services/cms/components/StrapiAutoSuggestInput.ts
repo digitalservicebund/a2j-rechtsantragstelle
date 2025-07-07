@@ -4,7 +4,7 @@ import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
 import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 import { StrapiWidthSchema } from "../models/StrapiWidth";
 
-const DataListSchema = z.enum(["airports", "airlines"]);
+const DataListSchema = z.enum(["airports", "airlines", "streetNames"]);
 
 export const StrapiAutoSuggestInputComponentSchema = z
   .object({

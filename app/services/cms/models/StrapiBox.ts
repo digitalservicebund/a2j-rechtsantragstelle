@@ -2,7 +2,7 @@ import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
-import { StrapiBackgroundSchema } from "./StrapiBackground";
+import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
 import { StrapiButtonSchema } from "./StrapiButton";
 import { StrapiContainerSchema } from "./StrapiContainer";
 import { StrapiHeadingSchema } from "./StrapiHeading";
@@ -13,7 +13,7 @@ export const StrapiBoxSchema = z
     label: StrapiHeadingSchema.nullable().transform(omitNull),
     heading: StrapiHeadingSchema.nullable().transform(omitNull),
     content: StrapiParagraphSchema.nullable().transform(omitNull),
-    outerBackground: StrapiBackgroundSchema.nullable(),
+    outerBackground: StrapiBackgroundOptionalSchema,
     container: StrapiContainerSchema,
     buttons: z
       .array(StrapiButtonSchema)

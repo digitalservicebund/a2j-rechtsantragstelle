@@ -46,8 +46,8 @@ describe("OpenPLZ helpers", () => {
         },
       } as Response);
       expect(await fetchStreetnamesForZipcode("12345")).toEqual([
-        { name: "Coolstraße" },
-        { name: "Geilestraße" },
+        { label: "Coolstraße", value: "coolstraße" },
+        { label: "Geilestraße", value: "geilestraße" },
       ]);
     });
 
@@ -74,7 +74,9 @@ describe("OpenPLZ helpers", () => {
       const result = await fetchStreetnamesForZipcode("12345");
       expect(fetchSpy).toHaveBeenCalledTimes(3);
       expect(result).toHaveLength(3);
-      expect(result).toEqual(mockOpenPLZResponse);
+      expect(result.map((r) => ({ name: r.label }))).toEqual(
+        mockOpenPLZResponse,
+      );
     });
   });
 });

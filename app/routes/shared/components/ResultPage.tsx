@@ -7,10 +7,10 @@ import type { BackgroundColor } from "~/components";
 import Background from "~/components/Background";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
+import ContentComponents from "~/components/ContentComponents";
 import Heading from "~/components/Heading";
-import PageContent from "~/components/PageContent";
+import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import RichText from "~/components/RichText";
-import { useFocusFirstH1 } from "~/components/useFocusFirstH1";
 import type { loader } from "~/routes/shared/result.server";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
@@ -81,18 +81,21 @@ export function ResultPage() {
         </div>
       </Background>
 
-      {content.length > 0 && <PageContent content={content} />}
+      {content.length > 0 && <ContentComponents content={content} />}
 
       {documentsList.length > 0 && (
         <div>
           {documentsList.map((element) => (
-            <PageContent key={keyFromElement(element)} content={[element]} />
+            <ContentComponents
+              key={keyFromElement(element)}
+              content={[element]}
+            />
           ))}
         </div>
       )}
 
       <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
-        <PageContent content={nextSteps} />
+        <ContentComponents content={nextSteps} />
       </div>
     </div>
   );

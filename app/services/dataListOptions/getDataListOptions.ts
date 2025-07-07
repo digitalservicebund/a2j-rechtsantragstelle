@@ -1,6 +1,8 @@
+import { type Params } from "react-router";
 import airlines from "data/airlines/data.json";
 import airports from "data/airports/data.json";
 import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
+import { fetchStreetnamesForZipcode } from "~/services/gerichtsfinder/openPLZ";
 
 export type DataListOptions = {
   value: string;
@@ -8,9 +10,10 @@ export type DataListOptions = {
   subDescription?: string;
 };
 
-export function getDataListOptions(
+export async function getDataListOptions(
   dataListType?: DataListType,
-): DataListOptions[] {
+  params?: Params<string>,
+): Promise<DataListOptions[]> {
   switch (dataListType) {
     case "airlines": {
       return [...airlines].map((airline) => ({
@@ -28,6 +31,9 @@ export function getDataListOptions(
             : `${airport.city} ${airport.airport} (${airport.iata})`,
           subDescription: `${airport.city}, ${airport.country}`,
         }));
+    }
+    case "streetNames": {
+      return await fetchStreetnamesForZipcode(params?.PLZ);
     }
     case undefined:
     default: {
