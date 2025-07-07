@@ -96,7 +96,7 @@ export default function Index() {
   const { resultListHeading, common } = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col flex-grow">
+    <div className="flex flex-col flex-grow bg-blue-100">
       <Background backgroundColor="blue">
         <CourtFinderHeader label={common.featureName}>
           <RichText html={resultListHeading} />
