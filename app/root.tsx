@@ -1,3 +1,5 @@
+import BundesSansWebBold from "@digitalservice4germany/angie/fonts/BundesSansWeb-Bold.woff2?url";
+import BundesSansWeb from "@digitalservice4germany/angie/fonts/BundesSansWeb-Regular.woff2?url";
 import fonts from "@digitalservice4germany/angie/fonts.css?url";
 import * as Sentry from "@sentry/react-router";
 import { useEffect, useState } from "react";
@@ -62,9 +64,16 @@ export const links: LinksFunction = () => [
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
   { rel: "manifest", href: "/site.webmanifest" },
+  { rel: "preload", href: BundesSansWeb, as: "font", crossOrigin: "anonymous" },
+  {
+    rel: "preload",
+    href: BundesSansWebBold,
+    as: "font",
+    crossOrigin: "anonymous",
+  },
   { rel: "preload", href: styles, as: "style" },
   { rel: "stylesheet", href: styles },
-  { rel: "preload", href: fonts, as: "style" }, // it is a css file coming from Angie
+  { rel: "preload", href: fonts, as: "style" }, // font css file from angie package
   { rel: "stylesheet", href: fonts },
 ];
 
