@@ -6,7 +6,7 @@ import { beratungshilfeVorabcheckPages } from "./pages";
 import { type BeratungshilfeVorabcheckUserData } from "./userData";
 import type { GenericGuard } from "../../guards.server";
 
-const stepUrls = mapValues(beratungshilfeVorabcheckPages, (v) => v.url);
+const stepIds = mapValues(beratungshilfeVorabcheckPages, (v) => v.stepId);
 
 const staatlicheLeistungenYes: GenericGuard<
   BeratungshilfeVorabcheckUserData
@@ -16,517 +16,517 @@ const staatlicheLeistungenYes: GenericGuard<
 
 export const beratungshilfeVorabcheckXstateConfig = {
   id: "/beratungshilfe/vorabcheck",
-  initial: stepUrls.rechtsschutzversicherung,
+  initial: stepIds.rechtsschutzversicherung,
   states: {
-    [stepUrls.rechtsschutzversicherung]: {
+    [stepIds.rechtsschutzversicherung]: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.rechtsschutzversicherungDetails,
+            target: stepIds.rechtsschutzversicherungDetails,
             guard: ({ context }) => context.rechtsschutzversicherung === "yes",
           },
           {
-            target: stepUrls.wurdeVerklagt,
+            target: stepIds.wurdeVerklagt,
             guard: ({ context }) => context.rechtsschutzversicherung === "no",
           },
         ],
       },
     },
-    [stepUrls.rechtsschutzversicherungDetails]: {
+    [stepIds.rechtsschutzversicherungDetails]: {
       on: {
         SUBMIT: [
           {
             guard: ({ context }) => context.rsvCoverage === "yes",
-            target: stepUrls.rechtsschutzversicherungAbbruch,
+            target: stepIds.rechtsschutzversicherungAbbruch,
           },
           {
             guard: ({ context }) => context.rsvCoverage === "tooExpensive",
-            target: stepUrls.rechtsschutzversicherungHinweisSelbstbeteiligung,
+            target: stepIds.rechtsschutzversicherungHinweisSelbstbeteiligung,
           },
           {
             guard: ({ context }) => context.rsvCoverage === "unknown",
-            target: stepUrls.rechtsschutzversicherungUngewissAbbruch,
+            target: stepIds.rechtsschutzversicherungUngewissAbbruch,
           },
-          stepUrls.rechtsschutzversicherungHinweisKostenuebernahme,
+          stepIds.rechtsschutzversicherungHinweisKostenuebernahme,
         ],
-        BACK: stepUrls.rechtsschutzversicherung,
+        BACK: stepIds.rechtsschutzversicherung,
       },
     },
-    [stepUrls.rechtsschutzversicherungHinweisSelbstbeteiligung]: {
+    [stepIds.rechtsschutzversicherungHinweisSelbstbeteiligung]: {
       on: {
-        SUBMIT: stepUrls.wurdeVerklagt,
-        BACK: stepUrls.rechtsschutzversicherungDetails,
+        SUBMIT: stepIds.wurdeVerklagt,
+        BACK: stepIds.rechtsschutzversicherungDetails,
       },
     },
-    [stepUrls.rechtsschutzversicherungHinweisKostenuebernahme]: {
+    [stepIds.rechtsschutzversicherungHinweisKostenuebernahme]: {
       on: {
-        SUBMIT: stepUrls.wurdeVerklagt,
-        BACK: stepUrls.rechtsschutzversicherungDetails,
+        SUBMIT: stepIds.wurdeVerklagt,
+        BACK: stepIds.rechtsschutzversicherungDetails,
       },
     },
-    [stepUrls.rechtsschutzversicherungUngewissAbbruch]: {
-      on: { BACK: stepUrls.rechtsschutzversicherungDetails },
+    [stepIds.rechtsschutzversicherungUngewissAbbruch]: {
+      on: { BACK: stepIds.rechtsschutzversicherungDetails },
     },
-    [stepUrls.rechtsschutzversicherungAbbruch]: {
-      on: { BACK: stepUrls.rechtsschutzversicherungDetails },
+    [stepIds.rechtsschutzversicherungAbbruch]: {
+      on: { BACK: stepIds.rechtsschutzversicherungDetails },
     },
-    [stepUrls.wurdeVerklagt]: {
+    [stepIds.wurdeVerklagt]: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.wurdeVerklagtAbbruch,
+            target: stepIds.wurdeVerklagtAbbruch,
             guard: ({ context }) => context.wurdeVerklagt === "yes",
           },
           {
-            target: stepUrls.klageEingereicht,
+            target: stepIds.klageEingereicht,
             guard: ({ context }) => context.wurdeVerklagt === "no",
           },
         ],
         BACK: [
           {
-            target: stepUrls.rechtsschutzversicherungHinweisSelbstbeteiligung,
+            target: stepIds.rechtsschutzversicherungHinweisSelbstbeteiligung,
             guard: ({ context }) => context.rsvCoverage === "tooExpensive",
           },
           {
-            target: stepUrls.rechtsschutzversicherungHinweisKostenuebernahme,
+            target: stepIds.rechtsschutzversicherungHinweisKostenuebernahme,
             guard: ({ context }) =>
               context.rsvCoverage === "partly" || context.rsvCoverage === "no",
           },
-          stepUrls.rechtsschutzversicherung,
+          stepIds.rechtsschutzversicherung,
         ],
       },
     },
-    [stepUrls.wurdeVerklagtAbbruch]: {
-      on: { BACK: stepUrls.wurdeVerklagt },
+    [stepIds.wurdeVerklagtAbbruch]: {
+      on: { BACK: stepIds.wurdeVerklagt },
     },
-    [stepUrls.klageEingereicht]: {
+    [stepIds.klageEingereicht]: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.hamburgOderBremen,
+            target: stepIds.hamburgOderBremen,
             guard: ({ context }) => context.klageEingereicht === "no",
           },
           {
-            target: stepUrls.klageEingereichtAbbruch,
+            target: stepIds.klageEingereichtAbbruch,
             guard: ({ context }) => context.klageEingereicht === "yes",
           },
         ],
-        BACK: stepUrls.wurdeVerklagt,
+        BACK: stepIds.wurdeVerklagt,
       },
     },
-    [stepUrls.klageEingereichtAbbruch]: {
+    [stepIds.klageEingereichtAbbruch]: {
       on: {
-        BACK: stepUrls.klageEingereicht,
+        BACK: stepIds.klageEingereicht,
       },
     },
-    [stepUrls.hamburgOderBremen]: {
+    [stepIds.hamburgOderBremen]: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.beratungshilfeBeantragt,
+            target: stepIds.beratungshilfeBeantragt,
             guard: ({ context }) => context.hamburgOderBremen === "no",
           },
           {
-            target: stepUrls.hamburgOderBremenAbbruch,
+            target: stepIds.hamburgOderBremenAbbruch,
             guard: ({ context }) => context.hamburgOderBremen === "yes",
           },
         ],
-        BACK: stepUrls.klageEingereicht,
+        BACK: stepIds.klageEingereicht,
       },
     },
-    [stepUrls.hamburgOderBremenAbbruch]: {
-      on: { BACK: stepUrls.hamburgOderBremen },
+    [stepIds.hamburgOderBremenAbbruch]: {
+      on: { BACK: stepIds.hamburgOderBremen },
     },
-    [stepUrls.beratungshilfeBeantragt]: {
+    [stepIds.beratungshilfeBeantragt]: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.eigeninitiative,
+            target: stepIds.eigeninitiative,
             guard: ({ context }) => context.beratungshilfeBeantragt === "no",
           },
           {
-            target: stepUrls.beratungshilfeBeantragtAbbruch,
+            target: stepIds.beratungshilfeBeantragtAbbruch,
             guard: ({ context }) => context.beratungshilfeBeantragt === "yes",
           },
         ],
-        BACK: stepUrls.hamburgOderBremen,
+        BACK: stepIds.hamburgOderBremen,
       },
     },
-    [stepUrls.beratungshilfeBeantragtAbbruch]: {
-      on: { BACK: stepUrls.beratungshilfeBeantragt },
+    [stepIds.beratungshilfeBeantragtAbbruch]: {
+      on: { BACK: stepIds.beratungshilfeBeantragt },
     },
-    [stepUrls.eigeninitiative]: {
+    [stepIds.eigeninitiative]: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.bereich,
+            target: stepIds.bereich,
             guard: ({ context }) => context.eigeninitiative === "yes",
           },
           {
-            target: stepUrls.eigeninitiativeWarnung,
+            target: stepIds.eigeninitiativeWarnung,
             guard: ({ context }) => context.eigeninitiative === "no",
           },
         ],
-        BACK: stepUrls.beratungshilfeBeantragt,
+        BACK: stepIds.beratungshilfeBeantragt,
       },
     },
-    [stepUrls.eigeninitiativeWarnung]: {
+    [stepIds.eigeninitiativeWarnung]: {
       on: {
         SUBMIT: {
-          target: stepUrls.bereich,
+          target: stepIds.bereich,
         },
-        BACK: stepUrls.eigeninitiative,
+        BACK: stepIds.eigeninitiative,
       },
     },
-    [stepUrls.bereich]: {
+    [stepIds.bereich]: {
       meta: {
         customAnalyticsEventName: "beratungshilfe vorabcheck bereich submitted",
       },
       on: {
-        SUBMIT: stepUrls.staatlicheLeistungen,
+        SUBMIT: stepIds.staatlicheLeistungen,
         BACK: [
           {
-            target: stepUrls.eigeninitiativeWarnung,
+            target: stepIds.eigeninitiativeWarnung,
             guard: ({ context }) => context.eigeninitiative === "no",
           },
-          stepUrls.eigeninitiative,
+          stepIds.eigeninitiative,
         ],
       },
     },
-    [stepUrls.staatlicheLeistungen]: {
+    [stepIds.staatlicheLeistungen]: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.staatlicheLeistungenAbschlussVielleicht,
+            target: stepIds.staatlicheLeistungenAbschlussVielleicht,
             guard: and([
               staatlicheLeistungenYes,
               ({ context }) => context.eigeninitiative === "no",
             ]),
           },
           {
-            target: stepUrls.staatlicheLeistungenAbschlussJa,
+            target: stepIds.staatlicheLeistungenAbschlussJa,
             guard: staatlicheLeistungenYes,
           },
           {
-            target: stepUrls.vermoegen,
+            target: stepIds.vermoegen,
             guard: ({ context }) =>
               context.staatlicheLeistungen === "buergergeld" ||
               context.staatlicheLeistungen === "keine",
           },
         ],
-        BACK: stepUrls.bereich,
+        BACK: stepIds.bereich,
       },
     },
-    [stepUrls.staatlicheLeistungenAbschlussJa]: {
+    [stepIds.staatlicheLeistungenAbschlussJa]: {
       on: {
-        BACK: stepUrls.staatlicheLeistungen,
+        BACK: stepIds.staatlicheLeistungen,
       },
     },
-    [stepUrls.staatlicheLeistungenAbschlussVielleicht]: {
+    [stepIds.staatlicheLeistungenAbschlussVielleicht]: {
       on: {
-        BACK: stepUrls.staatlicheLeistungen,
+        BACK: stepIds.staatlicheLeistungen,
       },
     },
-    [stepUrls.vermoegen]: {
+    [stepIds.vermoegen]: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.vermoegenAbschlussVielleicht,
+            target: stepIds.vermoegenAbschlussVielleicht,
             guard: ({ context }) =>
               context.vermoegen === "below_10k" &&
               context.staatlicheLeistungen === "buergergeld" &&
               context.eigeninitiative === "no",
           },
           {
-            target: stepUrls.vermoegenAbschlussJa,
+            target: stepIds.vermoegenAbschlussJa,
             guard: ({ context }) =>
               context.vermoegen === "below_10k" &&
               context.staatlicheLeistungen === "buergergeld",
           },
           {
-            target: stepUrls.erwerbstaetigkeit,
+            target: stepIds.erwerbstaetigkeit,
             guard: ({ context }) => context.vermoegen === "below_10k",
           },
           {
-            target: stepUrls.vermoegenAbschlussAbbruch,
+            target: stepIds.vermoegenAbschlussAbbruch,
             guard: ({ context }) => context.vermoegen === "above_10k",
           },
         ],
-        BACK: stepUrls.staatlicheLeistungen,
+        BACK: stepIds.staatlicheLeistungen,
       },
     },
-    [stepUrls.vermoegenAbschlussJa]: {
+    [stepIds.vermoegenAbschlussJa]: {
       on: {
-        BACK: stepUrls.vermoegen,
+        BACK: stepIds.vermoegen,
       },
     },
-    [stepUrls.vermoegenAbschlussVielleicht]: {
+    [stepIds.vermoegenAbschlussVielleicht]: {
       on: {
-        BACK: stepUrls.vermoegen,
+        BACK: stepIds.vermoegen,
       },
     },
-    [stepUrls.vermoegenAbschlussAbbruch]: {
+    [stepIds.vermoegenAbschlussAbbruch]: {
       on: {
-        BACK: stepUrls.vermoegen,
+        BACK: stepIds.vermoegen,
       },
     },
-    [stepUrls.erwerbstaetigkeit]: {
-      on: {
-        SUBMIT: {
-          target: stepUrls.partnerschaft,
-        },
-        BACK: {
-          target: stepUrls.vermoegen,
-        },
-      },
-    },
-    [stepUrls.partnerschaft]: {
+    [stepIds.erwerbstaetigkeit]: {
       on: {
         SUBMIT: {
-          target: stepUrls.genauigkeit,
+          target: stepIds.partnerschaft,
         },
         BACK: {
-          target: stepUrls.erwerbstaetigkeit,
+          target: stepIds.vermoegen,
         },
       },
     },
-    [stepUrls.genauigkeit]: {
+    [stepIds.partnerschaft]: {
+      on: {
+        SUBMIT: {
+          target: stepIds.genauigkeit,
+        },
+        BACK: {
+          target: stepIds.erwerbstaetigkeit,
+        },
+      },
+    },
+    [stepIds.genauigkeit]: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.kinderKurz,
+            target: stepIds.kinderKurz,
             guard: ({ context }) => context.genauigkeit === "no",
           },
           {
-            target: stepUrls.einkommen,
+            target: stepIds.einkommen,
             guard: ({ context }) => context.genauigkeit === "yes",
           },
         ],
-        BACK: stepUrls.partnerschaft,
+        BACK: stepIds.partnerschaft,
       },
     },
-    [stepUrls.kinderKurz]: {
+    [stepIds.kinderKurz]: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.kinderAnzahlKurz,
+            target: stepIds.kinderAnzahlKurz,
             guard: ({ context }) => context.kinderKurz === "yes",
           },
           {
-            target: stepUrls.verfuegbaresEinkommen,
+            target: stepIds.verfuegbaresEinkommen,
             guard: ({ context }) => context.kinderKurz === "no",
           },
         ],
         BACK: {
-          target: stepUrls.genauigkeit,
+          target: stepIds.genauigkeit,
         },
       },
     },
-    [stepUrls.kinderAnzahlKurz]: {
+    [stepIds.kinderAnzahlKurz]: {
       on: {
         SUBMIT: {
-          target: stepUrls.verfuegbaresEinkommen,
+          target: stepIds.verfuegbaresEinkommen,
           guard: ({ context }) => context.kinderAnzahlKurz != null,
         },
         BACK: {
-          target: stepUrls.kinderKurz,
+          target: stepIds.kinderKurz,
         },
       },
     },
-    [stepUrls.verfuegbaresEinkommen]: {
+    [stepIds.verfuegbaresEinkommen]: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.verfuegbaresEinkommenAbschlussJa,
+            target: stepIds.verfuegbaresEinkommenAbschlussJa,
             guard: ({ context }) =>
               context.verfuegbaresEinkommen === "no" &&
               context.eigeninitiative === "yes",
           },
           {
-            target: stepUrls.verfuegbaresEinkommenAbschlussVielleicht,
+            target: stepIds.verfuegbaresEinkommenAbschlussVielleicht,
             guard: ({ context }) => context.verfuegbaresEinkommen === "no",
           },
           {
-            target: stepUrls.verfuegbaresEinkommenAbschlussNein,
+            target: stepIds.verfuegbaresEinkommenAbschlussNein,
             guard: ({ context }) => context.verfuegbaresEinkommen === "yes",
           },
         ],
         BACK: [
           {
-            target: stepUrls.kinderAnzahlKurz,
+            target: stepIds.kinderAnzahlKurz,
             guard: ({ context }) => context.kinderKurz === "yes",
           },
           {
-            target: stepUrls.kinderKurz,
+            target: stepIds.kinderKurz,
           },
         ],
       },
     },
-    [stepUrls.verfuegbaresEinkommenAbschlussJa]: {
+    [stepIds.verfuegbaresEinkommenAbschlussJa]: {
       on: {
-        BACK: stepUrls.verfuegbaresEinkommen,
+        BACK: stepIds.verfuegbaresEinkommen,
       },
     },
-    [stepUrls.verfuegbaresEinkommenAbschlussVielleicht]: {
+    [stepIds.verfuegbaresEinkommenAbschlussVielleicht]: {
       on: {
-        BACK: stepUrls.verfuegbaresEinkommen,
+        BACK: stepIds.verfuegbaresEinkommen,
       },
     },
-    [stepUrls.verfuegbaresEinkommenAbschlussNein]: {
+    [stepIds.verfuegbaresEinkommenAbschlussNein]: {
       on: {
-        BACK: stepUrls.verfuegbaresEinkommen,
+        BACK: stepIds.verfuegbaresEinkommen,
       },
     },
     einkommen: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.einkommenPartner,
+            target: stepIds.einkommenPartner,
             guard: ({ context }) => context.partnerschaft === "yes",
           },
           {
-            target: stepUrls.kinder,
+            target: stepIds.kinder,
             guard: ({ context }) => context.partnerschaft === "no",
           },
         ],
-        BACK: stepUrls.genauigkeit,
+        BACK: stepIds.genauigkeit,
       },
     },
-    [stepUrls.einkommenPartner]: {
+    [stepIds.einkommenPartner]: {
       on: {
         SUBMIT: {
-          target: stepUrls.kinder,
+          target: stepIds.kinder,
         },
-        BACK: stepUrls.einkommen,
+        BACK: stepIds.einkommen,
       },
     },
-    [stepUrls.kinder]: {
+    [stepIds.kinder]: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.kinderAnzahl,
+            target: stepIds.kinderAnzahl,
             guard: ({ context }) => context.kinder === "yes",
           },
           {
-            target: stepUrls.unterhalt,
+            target: stepIds.unterhalt,
             guard: ({ context }) => context.kinder === "no",
           },
         ],
         BACK: [
           {
-            target: stepUrls.einkommenPartner,
+            target: stepIds.einkommenPartner,
             guard: ({ context }) => context.partnerschaft === "yes",
           },
           {
-            target: stepUrls.einkommen,
+            target: stepIds.einkommen,
             guard: ({ context }) => context.partnerschaft === "no",
           },
         ],
       },
     },
-    [stepUrls.kinderAnzahl]: {
+    [stepIds.kinderAnzahl]: {
       on: {
         SUBMIT: {
-          target: stepUrls.einkommenKinder,
+          target: stepIds.einkommenKinder,
           guard: ({ context }) =>
             context.kids?.kids6Below != undefined ||
             context.kids?.kids7To14 != undefined ||
             context.kids?.kids15To18 != undefined ||
             context.kids?.kids18Above != undefined,
         },
-        BACK: stepUrls.kinder,
+        BACK: stepIds.kinder,
       },
     },
-    [stepUrls.einkommenKinder]: {
+    [stepIds.einkommenKinder]: {
       on: {
         SUBMIT: {
-          target: stepUrls.unterhalt,
+          target: stepIds.unterhalt,
           guard: ({ context }) => context.einkommenKinder != undefined,
         },
-        BACK: stepUrls.kinderAnzahl,
+        BACK: stepIds.kinderAnzahl,
       },
     },
     unterhalt: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.unterhaltSumme,
+            target: stepIds.unterhaltSumme,
             guard: ({ context }) => context.unterhalt === "yes",
           },
           {
-            target: stepUrls.miete,
+            target: stepIds.miete,
             guard: ({ context }) => context.unterhalt === "no",
           },
         ],
         BACK: [
           {
-            target: stepUrls.einkommenKinder,
+            target: stepIds.einkommenKinder,
             guard: ({ context }) => context.kinder === "yes",
           },
           {
-            target: stepUrls.kinder,
+            target: stepIds.kinder,
             guard: ({ context }) => context.kinder === "no",
           },
         ],
       },
     },
-    [stepUrls.unterhaltSumme]: {
+    [stepIds.unterhaltSumme]: {
       on: {
         SUBMIT: {
-          target: stepUrls.miete,
+          target: stepIds.miete,
           guard: ({ context }) => context.unterhaltSumme != undefined,
         },
-        BACK: stepUrls.unterhalt,
+        BACK: stepIds.unterhalt,
       },
     },
     miete: {
       on: {
         SUBMIT: {
-          target: stepUrls.weitereZahlungenSumme,
+          target: stepIds.weitereZahlungenSumme,
           guard: ({ context }) => context.miete != undefined,
         },
         BACK: [
           {
-            target: stepUrls.unterhaltSumme,
+            target: stepIds.unterhaltSumme,
             guard: ({ context }) => context.unterhalt === "yes",
           },
           {
-            target: stepUrls.unterhalt,
+            target: stepIds.unterhalt,
             guard: ({ context }) => context.unterhalt === "no",
           },
         ],
       },
     },
-    [stepUrls.weitereZahlungenSumme]: {
+    [stepIds.weitereZahlungenSumme]: {
       on: {
         SUBMIT: [
           {
-            target: stepUrls.weitereZahlungenSummeAbschlussVielleicht,
+            target: stepIds.weitereZahlungenSummeAbschlussVielleicht,
             guard: and([
               not(isIncomeTooHigh),
               ({ context }) => context.eigeninitiative == "no",
             ]),
           },
           {
-            target: stepUrls.weitereZahlungenSummeAbschlussNein,
+            target: stepIds.weitereZahlungenSummeAbschlussNein,
             guard: isIncomeTooHigh,
           },
           {
-            target: stepUrls.weitereZahlungenSummeAbschlussJa,
+            target: stepIds.weitereZahlungenSummeAbschlussJa,
             guard: ({ context }) => context.weitereZahlungenSumme != undefined,
           },
         ],
-        BACK: stepUrls.miete,
+        BACK: stepIds.miete,
       },
     },
-    [stepUrls.weitereZahlungenSummeAbschlussVielleicht]: {
-      on: { BACK: stepUrls.weitereZahlungenSumme },
+    [stepIds.weitereZahlungenSummeAbschlussVielleicht]: {
+      on: { BACK: stepIds.weitereZahlungenSumme },
     },
-    [stepUrls.weitereZahlungenSummeAbschlussNein]: {
-      on: { BACK: stepUrls.weitereZahlungenSumme },
+    [stepIds.weitereZahlungenSummeAbschlussNein]: {
+      on: { BACK: stepIds.weitereZahlungenSumme },
     },
-    [stepUrls.weitereZahlungenSummeAbschlussJa]: {
-      on: { BACK: stepUrls.weitereZahlungenSumme },
+    [stepIds.weitereZahlungenSummeAbschlussJa]: {
+      on: { BACK: stepIds.weitereZahlungenSumme },
     },
   },
 } satisfies Config<BeratungshilfeVorabcheckUserData>;

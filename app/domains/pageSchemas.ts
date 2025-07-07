@@ -12,13 +12,13 @@ export function getPageSchema(pathname: string) {
   const { stepId } = parsePathname(pathname);
   const stepIdWithoutLeadingSlash = stepId.slice(1);
   return Object.values(pages[flowId] ?? {}).find(
-    (page) => page.url === stepIdWithoutLeadingSlash,
+    (page) => page.stepId === stepIdWithoutLeadingSlash,
   )?.pageSchema;
 }
 
 // TODO: better specify PageSchema to specify enums, strings, ...
 export type PageSchema = Record<string, z.ZodTypeAny>;
-export type PageConfig = { pageSchema?: PageSchema; url: string };
+export type PageConfig = { pageSchema?: PageSchema; stepId: string };
 export type PagesConfig = Record<string, PageConfig>;
 
 type ExtractSchemas<T extends PagesConfig> = {
