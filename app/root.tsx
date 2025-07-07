@@ -71,12 +71,6 @@ export const links: LinksFunction = () => [
     as: "font",
     crossOrigin: "anonymous",
   },
-  {
-    rel: "preload",
-    href: "/fonts/Fira-Sans.woff2",
-    as: "font",
-    crossOrigin: "anonymous",
-  },
   { rel: "preload", href: styles, as: "style" },
   { rel: "stylesheet", href: styles },
   { rel: "preload", href: fonts, as: "style" }, // it is a css file coming from Angie
