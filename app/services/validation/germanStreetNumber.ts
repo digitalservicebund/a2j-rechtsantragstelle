@@ -1,9 +1,9 @@
+/* eslint-disable sonarjs/slow-regex */
 import { z } from "zod";
 import { translations } from "~/services/translations/translations";
 
-export const houseNumberRegex =
-  // eslint-disable-next-line sonarjs/slow-regex
-  /(?<number>\d+\s*[a-zA-Z]?\s*([-/]\s*\d*\s*\w+\s*)*)$/gm;
+const houseNumberRegex =
+  /(?<number>\d+\s*[a-zA-Z]?\s*([-/]\s*\d+\s*[a-zA-Z]*)*)$/gm;
 
 export const germanStreetNumberSchema = z
   .string()
@@ -11,7 +11,6 @@ export const germanStreetNumberSchema = z
   .min(1, { message: "required" })
   .refine(
     (val) => {
-      // eslint-disable-next-line sonarjs/slow-regex
       const regex = new RegExp(houseNumberRegex);
       const streetNumber = regex.exec(val.replaceAll(" ", ""))?.groups?.number;
       return streetNumber !== undefined && streetNumber.length > 0;
