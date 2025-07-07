@@ -149,7 +149,9 @@ export default function Index() {
           </ButtonContainer>
         </ValidatedForm>
       </Container>
-      <ReportProblem />
+      <div className="self-end mr-32">
+        <ReportProblem />
+      </div>
     </div>
   );
 }
