@@ -4,12 +4,12 @@ import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
-import { StrapiHeadingSchema } from "./StrapiHeading";
+import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 import { StrapiInfoBoxItemSchema } from "./StrapiInfoBoxItem";
 
 export const StrapiInfoBoxSchema = z
   .object({
-    heading: StrapiHeadingSchema,
+    heading: StrapiHeadingOptionalSchema,
     items: z.array(StrapiInfoBoxItemSchema),
     outerBackground: StrapiBackgroundOptionalSchema,
     separator: StrapiBooleanOptionalSchema,
