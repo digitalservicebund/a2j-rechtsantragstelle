@@ -1,6 +1,6 @@
 import {
   famFG,
-  geringesEinkommen,
+  hohesEinkommen,
   minderjaehrig,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
@@ -12,6 +12,6 @@ export const getVereinfachteErklaerungStrings = (
     kindName: `${context.child?.vorname ?? ""} ${context.child?.nachname ?? ""}`,
     minderjaehrig: minderjaehrig({ context }),
     famFG: famFG({ context }),
-    hohesEinkommen: !geringesEinkommen({ context }),
+    hohesEinkommen: hohesEinkommen({ context }),
   };
 };
