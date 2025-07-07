@@ -9,9 +9,13 @@ describe("germanStreetNumber validation", () => {
     "1-2",
     "1 - 2",
     "1a",
+    "122a",
     "1 a",
     "1A",
     "1 1/2 A",
+    "61 - 61s",
+    "61-62",
+    "61b/61c/23d",
   ] as const;
 
   validCases.forEach((validCase) => {
@@ -26,7 +30,7 @@ describe("germanStreetNumber validation", () => {
     expect(actual).toEqual({ data: "1", success: true });
   });
 
-  const invalidCases = ["", "1aa", "1//", "|", "1#"] as const;
+  const invalidCases = ["", "1aa", "1//", "|", "1#", "2-----"] as const;
 
   invalidCases.forEach((invalidCases) => {
     it(`should be invalid for ${invalidCases}`, () => {

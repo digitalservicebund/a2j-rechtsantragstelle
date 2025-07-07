@@ -167,5 +167,8 @@ export const translations = {
     inputRequired: {
       de: "Bitte treffen Sie eine Auswahl.",
     },
+    invalidHousenumber: {
+      de: "Bitte geben Sie eine gueltige Hausnummer ein.",
+    },
   },
 } satisfies TranslationRecord;
