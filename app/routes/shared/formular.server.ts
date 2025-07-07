@@ -3,26 +3,19 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
-import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { retrieveContentData } from "~/services/flow/formular/contentData/retrieveContentData";
-import { getUserDataAndFlow } from "~/services/flow/formular/userDataAndFlow/getUserDataAndFlow";
+import { isFileUploadOrDeleteAction } from "~/services/flow/formular/fileUpload/isFileUploadOrDeleteAction";
+import { processUserFile } from "~/services/flow/formular/fileUpload/processUserFile.server";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
-import { insertIndexesIntoPath } from "~/services/flow/stepIdConverter";
+import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
+import { getDestinationFlowAction } from "~/services/flow/userFlowAction/getDestinationFlowAction";
+import { postValidationFormUserData } from "~/services/flow/userFlowAction/postValidationFormUserData";
+import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
-import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
-import {
-  deleteUserFile,
-  getUpdatedField,
-  uploadUserFile,
-} from "~/services/upload/fileUploadHelpers.server";
-import { validateFormData } from "~/services/validation/validateFormData.server";
-import { filterFormData } from "~/util/filterFormData";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -37,6 +30,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     flow: { id: flowId, controller: flowController, validFlowPaths },
     page: { stepId, arrayIndexes },
     migration,
+    emailCaptureConsent,
   } = resultUserAndFlow.value;
 
   const { pathname } = new URL(request.url);
@@ -77,6 +71,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       buttonNavigationProps,
       content: cmsContent.content,
       csrf,
+      emailCaptureConsent,
       formElements,
       heading: cmsContent.heading,
       meta,
@@ -89,7 +84,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       translations,
       validFlowPaths,
       flowId,
-      showReportProblem: shouldShowReportProblem(flowId),
+      showReportProblem: shouldShowReportProblem(flowId, stepId),
     },
     { headers },
   );
@@ -103,77 +98,54 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const { pathname } = new URL(request.url);
-  const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
+  const { flowId, arrayIndexes } = parsePathname(pathname);
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
   const clonedFormData = await request.clone().formData();
   const formAction = clonedFormData.get("_action");
-  if (typeof formAction === "string" && formAction.startsWith("fileUpload")) {
-    const { validationResult, validationError } = await uploadUserFile(
-      formAction,
+
+  if (isFileUploadOrDeleteAction(formAction)) {
+    const result = await processUserFile(
+      formAction as string,
       request,
-      flowSession.data,
-      flowId,
+      flowSession,
     );
-    if (validationError) return validationError;
-    updateSession(flowSession, resolveArraysFromKeys(validationResult!.data));
-    return data(flowSession.data, {
-      headers: { "Set-Cookie": await commitSession(flowSession) },
-    });
-  } else if (
-    typeof formAction === "string" &&
-    formAction.startsWith("deleteFile")
-  ) {
-    const fileDeleted = await deleteUserFile(
-      formAction,
-      request.headers.get("Cookie"),
-      flowSession.data,
-      flowId,
-    );
-    if (fileDeleted) {
-      updateSession(
-        flowSession,
-        getUpdatedField(formAction.split(".")[1], flowSession.data),
-        /**
-         * if the new data is an array, fully overwrite existing data as lodash can't overwrite an existing array with an empty array (if all files are deleted)
-         */
-        (_, newData) => {
-          if (Array.isArray(newData)) {
-            return newData;
-          }
-        },
-      );
+
+    switch (result.variant) {
+      case "Err": {
+        return validationError(result.error, result.error?.repopulateFields);
+      }
+      case "Ok": {
+        const { userData, mergeCustomizer } = result.value;
+        if (userData) {
+          updateSession(flowSession, userData, mergeCustomizer);
+        }
+        return data(flowSession.data, {
+          headers: { "Set-Cookie": await commitSession(flowSession) },
+          status: 200,
+        });
+      }
     }
-    return data(flowSession.data, {
-      headers: { "Set-Cookie": await commitSession(flowSession) },
-    });
   }
 
-  const relevantFormData = filterFormData(clonedFormData);
-  const validationResult = await validateFormData(pathname, relevantFormData);
-
-  if (validationResult?.error) {
-    return validationError(
-      validationResult.error,
-      validationResult.submittedData,
-    );
-  }
-
-  const resolvedData = resolveArraysFromKeys(
-    validationResult?.data,
-    arrayIndexes,
-  );
-  updateSession(flowSession, resolvedData);
-
-  const migrationData = await getMigrationData(
-    stepId,
-    flowId,
-    flows[flowId],
+  const resultFormUserData = await validateFormUserData(
+    clonedFormData,
+    pathname,
     cookieHeader,
   );
-  if (migrationData) {
-    updateSession(flowSession, migrationData);
+
+  if (resultFormUserData.isErr) {
+    return validationError(
+      resultFormUserData.error.error,
+      resultFormUserData.error.submittedData,
+    );
+  }
+
+  updateSession(flowSession, resultFormUserData.value.userData);
+
+  if (resultFormUserData.value.migrationData) {
+    updateSession(flowSession, resultFormUserData.value.migrationData);
   }
 
   const flowController = buildFlowController({
@@ -182,25 +154,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     guards: flows[flowId].guards,
   });
 
-  const customAnalyticsEventName =
-    flowController.getMeta(stepId)?.customAnalyticsEventName;
-  if (customAnalyticsEventName) {
-    sendCustomAnalyticsEvent({
-      request,
-      eventName: customAnalyticsEventName,
-      properties: validationResult?.data,
-    });
-  }
+  await postValidationFormUserData(
+    request,
+    flowController,
+    resultFormUserData.value.userData,
+  );
 
-  await executeAsyncFlowActionByStepId(flows[flowId], stepId, request);
-
-  const destination =
-    flowController.getNext(stepId) ?? flowController.getInitial();
-
-  const destinationWithArrayIndexes = arrayIndexes
-    ? insertIndexesIntoPath(pathname, destination, arrayIndexes)
-    : destination;
+  const destination = getDestinationFlowAction(flowController, pathname);
 
   const headers = { "Set-Cookie": await commitSession(flowSession) };
-  return redirectDocument(destinationWithArrayIndexes, { headers });
+  return redirectDocument(destination, { headers });
 };

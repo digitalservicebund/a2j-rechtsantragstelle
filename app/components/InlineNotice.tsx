@@ -1,3 +1,5 @@
+import SvgCheckCircle from "@digitalservicebund/icons/CheckCircle";
+import SvgErrorOutline from "@digitalservicebund/icons/ErrorOutline";
 import LightbulbOutlinedIcon from "@digitalservicebund/icons/LightbulbOutlined";
 import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
 import { removeMarkupTags } from "~/util/strings";
@@ -8,7 +10,7 @@ export type InlineNoticeProps = {
   identifier?: string;
   title: string;
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
-  look: "warning" | "tips";
+  look: "warning" | "tips" | "success" | "error";
   content?: string;
 };
 
@@ -24,6 +26,16 @@ const lookConfig = {
     backgroundColor: "bg-gray-100",
     borderColor: "border-[#B8BDC3]",
     IconComponent: LightbulbOutlinedIcon,
+  },
+  success: {
+    backgroundColor: "bg-green-100",
+    borderColor: "border-green-700",
+    IconComponent: () => SvgCheckCircle({ style: { color: "#01854A" } }),
+  },
+  error: {
+    backgroundColor: "bg-red-200",
+    borderColor: "border-red-900",
+    IconComponent: () => SvgErrorOutline({ style: { color: "#8E001B" } }),
   },
 };
 

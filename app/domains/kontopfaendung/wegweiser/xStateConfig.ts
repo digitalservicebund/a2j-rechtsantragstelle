@@ -1,13 +1,6 @@
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { type KontopfaendungWegweiserUserData } from "./userData";
 
-const sozialleistungenUmstaendeSelected = (
-  context: KontopfaendungWegweiserUserData,
-) =>
-  context.sozialleistungenUmstaende?.kindergeld === "on" ||
-  context.sozialleistungenUmstaende?.wohngeld === "on" ||
-  context.sozialleistungenUmstaende?.pflegegeld === "on";
-
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/kontopfaendung/wegweiser",
   initial: "start",
@@ -237,14 +230,25 @@ export const kontopfaendungWegweiserXstateConfig = {
       on: {
         SUBMIT: [
           {
-            target: "sozialleistungen-umstaende",
+            target: "sozialleistung-nachzahlung",
+            guard: ({ context }) =>
+              context.hasSozialleistungen === "buergergeld" ||
+              context.hasSozialleistungen === "grundsicherungSozialhilfe" ||
+              context.hasSozialleistungen === "asylbewerberleistungen",
           },
+          {
+            target: "kindergeld",
+            guard: ({ context }) => context.hasKinder === "yes",
+          },
+          "wohngeld",
         ],
         BACK: [
           {
             target: "einmalzahlung-arbeitgeber",
             guard: ({ context }) =>
-              context.hasArbeit === "yes" && !context.arbeitArt,
+              (context.hasArbeit === "yes" &&
+                context.nachzahlungArbeitgeber === "yes") ||
+              context.nachzahlungArbeitgeber === "no",
           },
           {
             target: "arbeit-art",
@@ -258,83 +262,133 @@ export const kontopfaendungWegweiserXstateConfig = {
         ],
       },
     },
-    "sozialleistungen-umstaende": {
-      on: {
-        SUBMIT: [
-          {
-            target: "pflegegeld",
-            guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.pflegegeld === "on",
-          },
-          {
-            target: "sozialleistung-nachzahlung",
-            guard: ({ context }) => sozialleistungenUmstaendeSelected(context),
-          },
-          "ergebnis/naechste-schritte",
-        ],
-        BACK: "sozialleistungen",
-      },
-    },
-    pflegegeld: {
-      on: {
-        SUBMIT: "sozialleistung-nachzahlung",
-        BACK: "sozialleistungen-umstaende",
-      },
-    },
     "sozialleistung-nachzahlung": {
       on: {
-        SUBMIT: [
-          {
-            target: "hoehe-nachzahlung-sozialleistung",
-            guard: ({ context }) =>
-              context.hasSozialleistungNachzahlung === "yes",
-          },
-          "sozialleistungen-einmalzahlung",
-        ],
-        BACK: [
-          {
-            target: "pflegegeld",
-            guard: ({ context }) =>
-              context.sozialleistungenUmstaende?.pflegegeld == "on",
-          },
-          {
-            target: "sozialleistungen",
-            guard: ({ context }) =>
-              !!context.hasSozialleistungen &&
-              context.hasSozialleistungen !== "nein",
-          },
-          "sozialleistungen-umstaende",
-        ],
-      },
-    },
-    "hoehe-nachzahlung-sozialleistung": {
-      on: {
         SUBMIT: "sozialleistungen-einmalzahlung",
-        BACK: "sozialleistung-nachzahlung",
+        BACK: "sozialleistungen",
       },
     },
     "sozialleistungen-einmalzahlung": {
       on: {
-        SUBMIT: "ergebnis/naechste-schritte",
+        SUBMIT: [
+          {
+            target: "kindergeld",
+            guard: ({ context }) => context.hasKinder === "yes",
+          },
+          "wohngeld",
+        ],
+        BACK: "sozialleistung-nachzahlung",
+      },
+    },
+    pflegegeld: {
+      on: {
+        SUBMIT: "rente",
         BACK: [
           {
-            target: "hoehe-nachzahlung-sozialleistung",
+            target: "wohngeld-nachzahlung",
             guard: ({ context }) =>
-              context.hasSozialleistungNachzahlung === "yes",
+              context.hasWohngeld === "yes" && context.wohngeld === "selbst",
           },
-          "sozialleistung-nachzahlung",
+          {
+            target: "wohngeld-empfaenger",
+            guard: ({ context }) =>
+              context.hasWohngeld === "yes" && context.wohngeld === "fremd",
+          },
+          "wohngeld",
         ],
+      },
+    },
+    kindergeld: {
+      on: {
+        SUBMIT: [
+          {
+            target: "kindergeld-nachzahlung",
+            guard: ({ context }) => context.hasKindergeld === "yes",
+          },
+          "wohngeld",
+        ],
+        BACK: [
+          {
+            target: "sozialleistungen-einmalzahlung",
+            guard: ({ context }) => context.hasSozialleistungen !== "nein",
+          },
+          "sozialleistungen",
+        ],
+      },
+    },
+    "kindergeld-nachzahlung": {
+      on: {
+        SUBMIT: "wohngeld",
+        BACK: [
+          {
+            target: "kindergeld",
+            guard: ({ context }) =>
+              context.hasKinder === "yes" && context.hasKindergeld === "yes",
+          },
+          "sozialleistungen-einmalzahlung",
+        ],
+      },
+    },
+    wohngeld: {
+      on: {
+        SUBMIT: [
+          {
+            target: "wohngeld-empfaenger",
+            guard: ({ context }) => context.hasWohngeld === "yes",
+          },
+          "pflegegeld",
+        ],
+        BACK: [
+          {
+            target: "kindergeld-nachzahlung",
+            guard: ({ context }) =>
+              context.hasKindergeldNachzahlung === "yes" &&
+              context.hasKindergeld === "yes",
+          },
+          {
+            target: "kindergeld",
+            guard: ({ context }) => context.hasKinder === "yes",
+          },
+          {
+            target: "sozialleistungen-einmalzahlung",
+            guard: ({ context }) =>
+              (context.hasSozialleistungen !== "nein" &&
+                context.hasSozialleistungenEinmalzahlung === "yes") ||
+              context.hasSozialleistungenEinmalzahlung === "no",
+          },
+          "sozialleistungen",
+        ],
+      },
+    },
+    "wohngeld-empfaenger": {
+      on: {
+        SUBMIT: [
+          {
+            target: "wohngeld-nachzahlung",
+            guard: ({ context }) => context.wohngeld === "selbst",
+          },
+          "pflegegeld",
+        ],
+        BACK: "wohngeld",
+      },
+    },
+    "wohngeld-nachzahlung": {
+      on: {
+        SUBMIT: "pflegegeld",
+        BACK: "wohngeld-empfaenger",
+      },
+    },
+    rente: {
+      on: {
+        SUBMIT: "ergebnis/naechste-schritte",
+        BACK: "pflegegeld",
       },
     },
     "ergebnis/naechste-schritte": {
       on: {
         BACK: [
           {
-            target: "sozialleistungen-einmalzahlung",
-            guard: ({ context }) => sozialleistungenUmstaendeSelected(context),
-          },
-          {
-            target: "sozialleistungen-umstaende",
+            target: "rente",
           },
         ],
       },

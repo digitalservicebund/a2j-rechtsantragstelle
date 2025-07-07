@@ -1,3 +1,6 @@
+import BundesSansWebBold from "@digitalservice4germany/angie/fonts/BundesSansWeb-Bold.woff2?url";
+import BundesSansWeb from "@digitalservice4germany/angie/fonts/BundesSansWeb-Regular.woff2?url";
+import fonts from "@digitalservice4germany/angie/fonts.css?url";
 import * as Sentry from "@sentry/react-router";
 import { useEffect, useState } from "react";
 import type {
@@ -16,8 +19,6 @@ import {
   useRouteLoaderData,
   Outlet,
 } from "react-router";
-import "~/styles.css";
-import "@digitalservice4germany/angie/fonts.css";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
@@ -32,6 +33,7 @@ import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configPublic } from "~/services/env/public";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { translations as staticTranslations } from "~/services/translations/translations";
+import styles from "~/styles.css?url";
 import type { Route } from "./+types/root";
 import Breadcrumbs from "./components/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
@@ -62,6 +64,17 @@ export const links: LinksFunction = () => [
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
   { rel: "manifest", href: "/site.webmanifest" },
+  { rel: "preload", href: BundesSansWeb, as: "font", crossOrigin: "anonymous" },
+  {
+    rel: "preload",
+    href: BundesSansWebBold,
+    as: "font",
+    crossOrigin: "anonymous",
+  },
+  { rel: "preload", href: styles, as: "style" },
+  { rel: "stylesheet", href: styles },
+  { rel: "preload", href: fonts, as: "style" }, // font css file from angie package
+  { rel: "stylesheet", href: fonts },
 ];
 
 export const meta: MetaFunction<RootLoader> = () => {

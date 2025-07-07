@@ -1,15 +1,6 @@
-import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
-import { fluggastrechteGuards } from "~/domains/fluggastrechte/formular/guards";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import type { FlowStateMachine } from "~/services/flow/server/types";
 import { fluggesellschaftAddresse } from "./flugdatenMock";
-
-const machine: FlowStateMachine = createMachine(
-  { ...fluggastrechtFlow.config, context: {} },
-  { guards: fluggastrechteGuards },
-);
 
 const baseContext = {
   ...fluggesellschaftAddresse,
@@ -28,172 +19,167 @@ const baseContext = {
   annullierungErsatzverbindungAnkunftsZeit: "10:10",
 };
 
-const cases = [
-  [
-    {
-      ...baseContext,
-      zwischenstoppAnzahl: "no",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
-    },
-    [
-      "/flugdaten/adresse-fluggesellschaft",
-      "/flugdaten/geplanter-flug",
-      "/flugdaten/zusaetzliche-angaben",
-      "/persoenliche-daten/person/daten",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      zwischenstoppAnzahl: "oneStop",
-      verspaeteterFlug: "startAirportFirstZwischenstopp",
-      anschlussFlugVerpasst: "no",
-      ersterZwischenstopp: "HAM",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
-    },
-    [
-      "/flugdaten/geplanter-flug",
-      "/flugdaten/zwischenstopp-uebersicht-1",
-      "/flugdaten/verspaeteter-flug-1",
-      "/flugdaten/anschluss-flug-verpasst",
-      "/flugdaten/zusaetzliche-angaben",
-      "/persoenliche-daten/person/daten",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      zwischenstoppAnzahl: "oneStop",
-      verspaeteterFlug: "firstZwischenstoppEndAirport",
-      ersterZwischenstopp: "HAM",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
-    },
-    [
-      "/flugdaten/geplanter-flug",
-      "/flugdaten/zwischenstopp-uebersicht-1",
-      "/flugdaten/verspaeteter-flug-1",
-      "/flugdaten/zusaetzliche-angaben",
-      "/persoenliche-daten/person/daten",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      zwischenstoppAnzahl: "twoStop",
-      verspaeteterFlug: "firstAirportSecondZwischenstopp",
-      anschlussFlugVerpasst: "no",
-      ersterZwischenstopp: "HAM",
-      zweiterZwischenstopp: "MUC",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
-    },
-    [
-      "/flugdaten/geplanter-flug",
-      "/flugdaten/zwischenstopp-uebersicht-2",
-      "/flugdaten/verspaeteter-flug-2",
-      "/flugdaten/anschluss-flug-verpasst",
-      "/flugdaten/zusaetzliche-angaben",
-      "/persoenliche-daten/person/daten",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      zwischenstoppAnzahl: "twoStop",
-      verspaeteterFlug: "secondZwischenstoppEndAirport",
-      ersterZwischenstopp: "HAM",
-      zweiterZwischenstopp: "MUC",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
-    },
-    [
-      "/flugdaten/geplanter-flug",
-      "/flugdaten/zwischenstopp-uebersicht-2",
-      "/flugdaten/verspaeteter-flug-2",
-      "/flugdaten/zusaetzliche-angaben",
-      "/persoenliche-daten/person/daten",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      zwischenstoppAnzahl: "threeStop",
-      verspaeteterFlug: "startAirportFirstZwischenstopp",
-      anschlussFlugVerpasst: "no",
-      ersterZwischenstopp: "HAM",
-      zweiterZwischenstopp: "MUC",
-      dritterZwischenstopp: "FRA",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
-    },
-    [
-      "/flugdaten/geplanter-flug",
-      "/flugdaten/zwischenstopp-uebersicht-3",
-      "/flugdaten/verspaeteter-flug-3",
-      "/flugdaten/anschluss-flug-verpasst",
-      "/flugdaten/zusaetzliche-angaben",
-      "/persoenliche-daten/person/daten",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      zwischenstoppAnzahl: "threeStop",
-      verspaeteterFlug: "firstAirportSecondZwischenstopp",
-      anschlussFlugVerpasst: "no",
-      ersterZwischenstopp: "HAM",
-      zweiterZwischenstopp: "MUC",
-      dritterZwischenstopp: "FRA",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
-    },
-    [
-      "/flugdaten/geplanter-flug",
-      "/flugdaten/zwischenstopp-uebersicht-3",
-      "/flugdaten/verspaeteter-flug-3",
-      "/flugdaten/anschluss-flug-verpasst",
-      "/flugdaten/zusaetzliche-angaben",
-      "/persoenliche-daten/person/daten",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      zwischenstoppAnzahl: "threeStop",
-      verspaeteterFlug: "secondAirportThirdZwischenstopp",
-      anschlussFlugVerpasst: "no",
-      ersterZwischenstopp: "HAM",
-      zweiterZwischenstopp: "MUC",
-      dritterZwischenstopp: "FRA",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
-    },
-    [
-      "/flugdaten/geplanter-flug",
-      "/flugdaten/zwischenstopp-uebersicht-3",
-      "/flugdaten/verspaeteter-flug-3",
-      "/flugdaten/anschluss-flug-verpasst",
-      "/flugdaten/zusaetzliche-angaben",
-      "/persoenliche-daten/person/daten",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      zwischenstoppAnzahl: "threeStop",
-      verspaeteterFlug: "thirdZwischenstoppEndAirport",
-      ersterZwischenstopp: "HAM",
-      zweiterZwischenstopp: "MUC",
-      dritterZwischenstopp: "FRA",
-      zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
-    },
-    [
-      "/flugdaten/geplanter-flug",
-      "/flugdaten/zwischenstopp-uebersicht-3",
-      "/flugdaten/verspaeteter-flug-3",
-      "/flugdaten/zusaetzliche-angaben",
-      "/persoenliche-daten/person/daten",
-    ],
-  ],
-] as const satisfies TestCases<FluggastrechteUserData>;
-
 export const testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugNo =
-  {
-    machine,
-    cases,
-  };
+  [
+    [
+      {
+        ...baseContext,
+        zwischenstoppAnzahl: "no",
+        zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
+      },
+      [
+        "/flugdaten/adresse-fluggesellschaft",
+        "/flugdaten/geplanter-flug",
+        "/flugdaten/zusaetzliche-angaben",
+        "/persoenliche-daten/person/daten",
+      ],
+    ],
+    [
+      {
+        ...baseContext,
+        zwischenstoppAnzahl: "oneStop",
+        verspaeteterFlug: "startAirportFirstZwischenstopp",
+        anschlussFlugVerpasst: "no",
+        ersterZwischenstopp: "HAM",
+        zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
+      },
+      [
+        "/flugdaten/geplanter-flug",
+        "/flugdaten/zwischenstopp-uebersicht-1",
+        "/flugdaten/verspaeteter-flug-1",
+        "/flugdaten/anschluss-flug-verpasst",
+        "/flugdaten/zusaetzliche-angaben",
+        "/persoenliche-daten/person/daten",
+      ],
+    ],
+    [
+      {
+        ...baseContext,
+        zwischenstoppAnzahl: "oneStop",
+        verspaeteterFlug: "firstZwischenstoppEndAirport",
+        ersterZwischenstopp: "HAM",
+        zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
+      },
+      [
+        "/flugdaten/geplanter-flug",
+        "/flugdaten/zwischenstopp-uebersicht-1",
+        "/flugdaten/verspaeteter-flug-1",
+        "/flugdaten/zusaetzliche-angaben",
+        "/persoenliche-daten/person/daten",
+      ],
+    ],
+    [
+      {
+        ...baseContext,
+        zwischenstoppAnzahl: "twoStop",
+        verspaeteterFlug: "firstAirportSecondZwischenstopp",
+        anschlussFlugVerpasst: "no",
+        ersterZwischenstopp: "HAM",
+        zweiterZwischenstopp: "MUC",
+        zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
+      },
+      [
+        "/flugdaten/geplanter-flug",
+        "/flugdaten/zwischenstopp-uebersicht-2",
+        "/flugdaten/verspaeteter-flug-2",
+        "/flugdaten/anschluss-flug-verpasst",
+        "/flugdaten/zusaetzliche-angaben",
+        "/persoenliche-daten/person/daten",
+      ],
+    ],
+    [
+      {
+        ...baseContext,
+        zwischenstoppAnzahl: "twoStop",
+        verspaeteterFlug: "secondZwischenstoppEndAirport",
+        ersterZwischenstopp: "HAM",
+        zweiterZwischenstopp: "MUC",
+        zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
+      },
+      [
+        "/flugdaten/geplanter-flug",
+        "/flugdaten/zwischenstopp-uebersicht-2",
+        "/flugdaten/verspaeteter-flug-2",
+        "/flugdaten/zusaetzliche-angaben",
+        "/persoenliche-daten/person/daten",
+      ],
+    ],
+    [
+      {
+        ...baseContext,
+        zwischenstoppAnzahl: "threeStop",
+        verspaeteterFlug: "startAirportFirstZwischenstopp",
+        anschlussFlugVerpasst: "no",
+        ersterZwischenstopp: "HAM",
+        zweiterZwischenstopp: "MUC",
+        dritterZwischenstopp: "FRA",
+        zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
+      },
+      [
+        "/flugdaten/geplanter-flug",
+        "/flugdaten/zwischenstopp-uebersicht-3",
+        "/flugdaten/verspaeteter-flug-3",
+        "/flugdaten/anschluss-flug-verpasst",
+        "/flugdaten/zusaetzliche-angaben",
+        "/persoenliche-daten/person/daten",
+      ],
+    ],
+    [
+      {
+        ...baseContext,
+        zwischenstoppAnzahl: "threeStop",
+        verspaeteterFlug: "firstAirportSecondZwischenstopp",
+        anschlussFlugVerpasst: "no",
+        ersterZwischenstopp: "HAM",
+        zweiterZwischenstopp: "MUC",
+        dritterZwischenstopp: "FRA",
+        zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
+      },
+      [
+        "/flugdaten/geplanter-flug",
+        "/flugdaten/zwischenstopp-uebersicht-3",
+        "/flugdaten/verspaeteter-flug-3",
+        "/flugdaten/anschluss-flug-verpasst",
+        "/flugdaten/zusaetzliche-angaben",
+        "/persoenliche-daten/person/daten",
+      ],
+    ],
+    [
+      {
+        ...baseContext,
+        zwischenstoppAnzahl: "threeStop",
+        verspaeteterFlug: "secondAirportThirdZwischenstopp",
+        anschlussFlugVerpasst: "no",
+        ersterZwischenstopp: "HAM",
+        zweiterZwischenstopp: "MUC",
+        dritterZwischenstopp: "FRA",
+        zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
+      },
+      [
+        "/flugdaten/geplanter-flug",
+        "/flugdaten/zwischenstopp-uebersicht-3",
+        "/flugdaten/verspaeteter-flug-3",
+        "/flugdaten/anschluss-flug-verpasst",
+        "/flugdaten/zusaetzliche-angaben",
+        "/persoenliche-daten/person/daten",
+      ],
+    ],
+    [
+      {
+        ...baseContext,
+        zwischenstoppAnzahl: "threeStop",
+        verspaeteterFlug: "thirdZwischenstoppEndAirport",
+        ersterZwischenstopp: "HAM",
+        zweiterZwischenstopp: "MUC",
+        dritterZwischenstopp: "FRA",
+        zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
+      },
+      [
+        "/flugdaten/geplanter-flug",
+        "/flugdaten/zwischenstopp-uebersicht-3",
+        "/flugdaten/verspaeteter-flug-3",
+        "/flugdaten/zusaetzliche-angaben",
+        "/persoenliche-daten/person/daten",
+      ],
+    ],
+  ] as const satisfies TestCases<FluggastrechteUserData>;

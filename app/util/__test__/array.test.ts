@@ -10,4 +10,7 @@ describe("arrayIsNonEmpty", () => {
   it("returns false if array is undefined", () => {
     expect(arrayIsNonEmpty()).toBe(false);
   });
+  it("returns false if array is null", () => {
+    expect(arrayIsNonEmpty(null)).toBe(false);
+  });
 });

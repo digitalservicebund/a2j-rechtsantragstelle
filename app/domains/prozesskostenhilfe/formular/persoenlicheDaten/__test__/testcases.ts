@@ -1,28 +1,16 @@
-import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import type { FlowStateMachine } from "~/services/flow/server/types";
-import type { ProzesskostenhilfePersoenlicheDatenUserData } from "../userData";
-import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "../xstateConfig";
+import { type ProzesskostenhilfeFormularUserData } from "../../userData";
 
-const machine: FlowStateMachine = createMachine(
-  getProzesskostenhilfePersoenlicheDatenXstateConfig(),
-);
-
-const cases = [
+export const testCasesProzesskostenhilfePersoenlicheDaten = [
   [
     {},
     [
-      "/start",
-      "/name",
-      "/geburtsdatum",
-      "/adresse",
-      "/telefonnummer",
-      "/beruf",
+      "/persoenliche-daten/start",
+      "/persoenliche-daten/name",
+      "/persoenliche-daten/geburtsdatum",
+      "/persoenliche-daten/adresse",
+      "/persoenliche-daten/telefonnummer",
+      "/persoenliche-daten/beruf",
     ],
   ],
-] as const satisfies TestCases<ProzesskostenhilfePersoenlicheDatenUserData>;
-
-export const testCasesProzesskostenhilfePersoenlicheDaten = {
-  machine,
-  cases,
-};
+] as const satisfies TestCases<ProzesskostenhilfeFormularUserData>;

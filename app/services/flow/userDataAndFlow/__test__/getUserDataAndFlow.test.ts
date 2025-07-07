@@ -1,11 +1,13 @@
 import { Result } from "true-myth";
 import { getPrunedUserDataFromPathname } from "~/services/flow/getPrunedUserDataFromPathname";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
+import { getSessionManager } from "~/services/session.server";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
 import { getUserDataAndFlow } from "../getUserDataAndFlow";
 import { validateStepIdFlow } from "../validateStepIdFlow";
 
 vi.mock("~/services/flow/server/buildFlowController");
+vi.mock("~/services/session.server");
 vi.mock("~/services/flow/getPrunedUserDataFromPathname");
 vi.mock("../validateStepIdFlow");
 vi.mock("~/services/session.server/crossFlowMigration");
@@ -34,8 +36,18 @@ const mockMigrationUserData = {
   name: "migrationName",
 };
 
+const mockEmailCaptureConsent = true;
+
 vi.mocked(getPrunedUserDataFromPathname).mockResolvedValue(mockPrunerData);
 vi.mocked(buildFlowController).mockReturnValue(mockBuildFlowController);
+vi.mocked(getSessionManager).mockReturnValue({
+  getSession: vi.fn().mockResolvedValue({
+    get: vi.fn(() => mockEmailCaptureConsent),
+  }),
+  commitSession: vi.fn(),
+  destroySession: vi.fn(),
+  getDebugId: vi.fn(),
+});
 
 describe("getUserDataAndFlow", () => {
   it("should return an error and redirect in case the stepId is not valid", async () => {
@@ -63,6 +75,7 @@ describe("getUserDataAndFlow", () => {
         controller: mockBuildFlowController,
         validFlowPaths: mockPrunerData.validFlowPaths,
       },
+      emailCaptureConsent: mockEmailCaptureConsent,
       page: {
         stepId: "/finanzielle-angaben/kinder/uebersicht",
         arrayIndexes: [],

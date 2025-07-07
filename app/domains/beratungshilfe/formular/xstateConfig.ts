@@ -3,6 +3,7 @@ import { hasOptionalString } from "~/domains/guards.server";
 import persoenlicheDatenFlow from "~/domains/shared/formular/persoenlicheDaten/flow.json";
 import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
 import type { Config } from "~/services/flow/server/buildFlowController";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
 import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
 import { finanzielleAngabenArrayConfig as beratungshilfeFormularFinanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
@@ -13,6 +14,8 @@ import type { BeratungshilfeFormularUserData } from "./index";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
+
+const showNachbefragung = await isFeatureFlagEnabled("showNachbefragung");
 
 export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
@@ -79,14 +82,24 @@ export const beratungshilfeXstateConfig = {
           },
         },
         telefonnummer: {
-          on: { SUBMIT: "#weitere-angaben" },
+          on: {
+            SUBMIT: showNachbefragung ? "nachbefragung" : "#weitere-angaben",
+          },
+        },
+        nachbefragung: {
+          on: { BACK: "telefonnummer", SUBMIT: "#weitere-angaben" },
         },
       },
     } satisfies Config<BeratungshilfeFormularUserData>),
     "weitere-angaben": {
       id: "weitere-angaben",
       meta: { done: weitereAngabenDone },
-      on: { BACK: "#persoenliche-daten.telefonnummer", SUBMIT: "#abgabe" },
+      on: {
+        BACK: showNachbefragung
+          ? "#persoenliche-daten.nachbefragung"
+          : "#persoenliche-daten.telefonnummer",
+        SUBMIT: "#abgabe",
+      },
     },
     abgabe: await abgabeXstateConfig("#weitere-angaben"),
   },

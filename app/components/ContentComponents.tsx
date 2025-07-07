@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import type { ReactElement } from "react";
+import { EmailCapture } from "~/components/emailCapture/EmailCapture";
 import Heading from "~/components/Heading";
 import Video from "~/components/video/Video";
 import { keyFromElement } from "~/services/cms/keyFromElement";
@@ -7,7 +8,6 @@ import type { StrapiContentComponent } from "~/services/cms/models/StrapiContent
 import Background from "./Background";
 import Box from "./Box";
 import BoxWithImage from "./BoxWithImage";
-import { wrapperPropsFromCms } from "./CommonWrapperProps";
 import Container from "./Container";
 import { Details } from "./Details";
 import Hero from "./Hero";
@@ -20,19 +20,17 @@ import TableOfContents from "./TableOfContents";
 import UserFeedback from "./userFeedback";
 
 function wrapInContainer(
-  cmsData: StrapiContentComponent,
+  componentProps: StrapiContentComponent,
   reactElement: ReactElement,
   fullScreen: boolean | undefined,
 ) {
-  if (!("container" in cmsData) || cmsData.container === null)
+  if (!("container" in componentProps) || componentProps.container === null)
     return reactElement;
-  const isBox = cmsData.__component === "page.box";
-  const isBoxWithImage = cmsData.__component === "page.box-with-image";
-
-  const props = wrapperPropsFromCms(cmsData.container);
+  const isBox = componentProps.__component === "page.box";
+  const isBoxWithImage = componentProps.__component === "page.box-with-image";
   return (
     <Container
-      {...props}
+      {...componentProps.container}
       overhangingBackground={isBox || isBoxWithImage}
       fullScreen={fullScreen}
     >
@@ -42,43 +40,49 @@ function wrapInContainer(
 }
 
 function wrapInBackground(
-  cmsData: StrapiContentComponent,
+  componentProps: StrapiContentComponent,
   reactElement: ReactElement,
 ) {
-  if (!("outerBackground" in cmsData) || cmsData.outerBackground === null)
+  if (
+    !("outerBackground" in componentProps) ||
+    componentProps.outerBackground === null
+  )
     return reactElement;
-  const props = wrapperPropsFromCms(cmsData.outerBackground);
-  return <Background {...props}>{reactElement}</Background>;
+  return (
+    <Background {...componentProps.outerBackground}>{reactElement}</Background>
+  );
 }
 
-function cmsToReact(strapiContent: StrapiContentComponent) {
-  switch (strapiContent.__component) {
+function cmsToReact(componentProps: StrapiContentComponent) {
+  switch (componentProps.__component) {
     case "basic.heading":
-      return <Heading {...strapiContent} />;
+      return <Heading {...componentProps} />;
     case "basic.paragraph":
-      return <RichText {...strapiContent} />;
+      return <RichText {...componentProps} />;
     case "page.hero":
-      return <Hero {...strapiContent} />;
+      return <Hero {...componentProps} />;
     case "page.box":
-      return <Box {...strapiContent} />;
+      return <Box {...componentProps} />;
     case "page.info-box":
-      return <InfoBox {...strapiContent} />;
+      return <InfoBox {...componentProps} />;
     case "page.table-of-contents":
-      return <TableOfContents {...strapiContent} />;
+      return <TableOfContents {...componentProps} />;
     case "page.box-with-image":
-      return <BoxWithImage {...strapiContent} />;
+      return <BoxWithImage {...componentProps} />;
     case "page.list":
-      return <List {...strapiContent} />;
+      return <List {...componentProps} />;
     case "page.video":
-      return <Video {...strapiContent} />;
+      return <Video {...componentProps} />;
     case "page.inline-notice":
-      return <InlineNotice {...strapiContent} />;
+      return <InlineNotice {...componentProps} />;
     case "page.details-summary":
-      return <Details {...strapiContent} />;
+      return <Details {...componentProps} />;
     case "page.user-feedback":
-      return <UserFeedback {...strapiContent} />;
+      return <UserFeedback {...componentProps} />;
     case "page.summary-overview-section":
-      return <SummaryOverviewSection {...strapiContent} />;
+      return <SummaryOverviewSection {...componentProps} />;
+    case "page.email-capture":
+      return <EmailCapture {...componentProps} />;
     case "page.array-summary":
     default:
       return <></>;
@@ -91,7 +95,7 @@ type PageContentProps = {
   readonly className?: string;
 };
 
-function PageContent({
+function ContentComponents({
   content = [],
   fullScreen,
   className,
@@ -112,4 +116,4 @@ function PageContent({
     </div>
   );
 }
-export default PageContent;
+export default ContentComponents;

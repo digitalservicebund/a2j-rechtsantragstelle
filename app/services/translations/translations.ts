@@ -149,4 +149,23 @@ export const translations = {
       de: "Weiter",
     },
   },
+  vorabcheck: {
+    progressBarLabel: {
+      de: "Vorab-Check Fortschritt",
+    },
+  },
+  gerichtFinder: {
+    streetName: {
+      de: "Straße",
+    },
+    houseNumber: {
+      de: "Hausnummer",
+    },
+    noResultsFound: {
+      de: "Kein Eintrag gefunden",
+    },
+    inputRequired: {
+      de: "Bitte treffen Sie eine Auswahl.",
+    },
+  },
 } satisfies TranslationRecord;

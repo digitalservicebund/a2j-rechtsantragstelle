@@ -8,11 +8,11 @@ import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
 import Background from "~/components/Background";
 import Container from "~/components/Container";
+import ContentComponents from "~/components/ContentComponents";
 import { ButtonNavigation } from "~/components/form/ButtonNavigation";
-import PageContent from "~/components/PageContent";
+import { FormComponents } from "~/components/FormComponents";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { FlowId } from "~/domains/flowIds";
-import { StrapiFormComponents } from "~/services/cms/components/StrapiFormComponents";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
@@ -62,30 +62,37 @@ export default function Index() {
 
   return (
     <Background backgroundColor="blue">
-      <div className="flex flex-col min-w-[100vw] h-full">
+      <div className="flex flex-col min-w-[100vw] h-full pb-32">
         <div className="flex-grow">
           <Container>
-            <PageContent className="ds-stack ds-stack-32" content={pre_form} />
-          </Container>
-          <ValidatedForm
-            method="post"
-            schema={clientSchema}
-            defaultValues={{ postcode: "" }}
-            noValidate
-          >
-            <Container>
-              <StrapiFormComponents components={form} />
-              <ButtonNavigation
-                back={{
-                  destination: backURL,
-                  label: common.backButton,
-                }}
-                next={{ label: nextButtonLabel ?? "" }}
+            <div className="ds-stack ds-stack-32">
+              <ContentComponents
+                className="ds-stack ds-stack-16"
+                content={pre_form}
               />
-            </Container>
-          </ValidatedForm>
+              <ValidatedForm
+                method="post"
+                schema={clientSchema}
+                defaultValues={{ postcode: "" }}
+                noValidate
+              >
+                <div className="ds-stack ds-stack-32">
+                  <FormComponents components={form} />
+                  <ButtonNavigation
+                    back={{
+                      destination: backURL,
+                      label: common.backButton,
+                    }}
+                    next={{ label: nextButtonLabel ?? "" }}
+                  />
+                </div>
+              </ValidatedForm>
+            </div>
+          </Container>
         </div>
-        <ReportProblem />
+        <div className="self-end mr-32">
+          <ReportProblem />
+        </div>
       </div>
     </Background>
   );

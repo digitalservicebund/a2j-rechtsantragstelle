@@ -5,7 +5,7 @@ import { getDataListOptions } from "./getDataListOptions";
 import type { DataListType } from "../cms/components/StrapiAutoSuggestInput";
 
 export function createDataListLoader(dataListType: DataListType) {
-  return async function loader({ request }: LoaderFunctionArgs) {
+  return async function loader({ request, params }: LoaderFunctionArgs) {
     const validatedRequest = await validateCsrfSessionFormless(request);
 
     if (validatedRequest.isErr) {
@@ -13,6 +13,6 @@ export function createDataListLoader(dataListType: DataListType) {
       throw new Response(null, { status: 403 });
     }
 
-    return Response.json(getDataListOptions(dataListType));
+    return Response.json(await getDataListOptions(dataListType, params));
   };
 }

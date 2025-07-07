@@ -1,8 +1,7 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
-import { machine } from "./testMachine";
 
-const cases = [
+export const testCasesBeratungshilfeFormularDefault = [
   [
     {
       rechtsschutzversicherung: "no",
@@ -32,6 +31,7 @@ const cases = [
       "/persoenliche-daten/geburtsdatum",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
+      // "/persoenliche-daten/nachbefragung", // Uncomment when Nachbefragung is released
       "/weitere-angaben",
       "/abgabe/ueberpruefung",
     ],
@@ -83,13 +83,9 @@ const cases = [
       "/persoenliche-daten/geburtsdatum",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
+      // "/persoenliche-daten/nachbefragung", // Uncomment when Nachbefragung is released
       "/weitere-angaben",
       "/abgabe/ueberpruefung",
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFormularUserData>;
-
-export const testCasesBeratungshilfeFormular = {
-  machine,
-  cases,
-};
