@@ -1,7 +1,6 @@
 import { useField } from "@rvf/react-router";
 import TileTag, { type TileDescriptionProps } from "./TileTag";
 import Image, { type ImageProps } from "../../Image";
-import RichText from "../../RichText";
 
 const IMAGE_HEIGHT = 32;
 const IMAGE_WIDTH = 32;
@@ -77,7 +76,7 @@ function TileRadio({
           onClick={onClick}
           ref={ref}
         />
-        <div className="h-full pl-24 space-y-8">
+        <div className="h-full pl-24 flex flex-col gap-y-8">
           <div className="flex flex-row justify-between">
             {image && (
               <Image
@@ -90,8 +89,14 @@ function TileRadio({
             )}
             <TileTag tagDescription={tagDescription} />
           </div>
-          <span className="ds-label-01-bold">{title}</span>
-          {description && <RichText html={description} />}
+          <div>
+            <p className="ds-label-01-bold">{title}</p>
+            {description && (
+              <p id={descriptionId} className="ds-subhead ds-body-01-reg">
+                {description}
+              </p>
+            )}
+          </div>
         </div>
       </label>
     </div>
