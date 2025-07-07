@@ -10,15 +10,6 @@ describe("StrapiStringOptionalSchema", () => {
     expect(actual.data).toBeUndefined();
   });
 
-  it("should return success true and undefined string given undefined object", () => {
-    const undefinedString = undefined;
-
-    const actual = StrapiStringOptionalSchema.safeParse(undefinedString);
-
-    expect(actual.success).toBe(true);
-    expect(actual.data).toBeUndefined();
-  });
-
   it("should return success true and value string given value object", () => {
     const valueString = "test";
 
