@@ -60,6 +60,16 @@ describe("Input", () => {
       expect(screen.getByText("Test Helper Text")).toBeInTheDocument();
     });
   });
+
+  describe("Input field with imposed character limit", () => {
+    test("Limits the amount of characters able to be entered in the field", () => {
+      const charLimit = 3;
+      render(<Input name="input" charLimit={charLimit} />);
+      const input = screen.getByRole("textbox");
+      expect(input).toHaveAttribute("maxLength", charLimit.toString());
+    });
+  });
+
   describe("Input field with aria-required attribute", () => {
     it("has aria-required attribute set to true if errorMessages contain inputRequired", () => {
       render(
