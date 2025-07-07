@@ -73,7 +73,7 @@ export const links: LinksFunction = () => [
   },
   { rel: "preload", href: styles, as: "style" },
   { rel: "stylesheet", href: styles },
-  { rel: "preload", href: fonts, as: "style" }, // it is a css file coming from Angie
+  { rel: "preload", href: fonts, as: "style" }, // font css file from angie package
   { rel: "stylesheet", href: fonts },
 ];
 
