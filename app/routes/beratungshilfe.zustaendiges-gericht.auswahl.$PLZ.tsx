@@ -24,13 +24,14 @@ import { createSessionWithCsrf } from "~/services/security/csrf/createSessionWit
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { getSessionManager } from "~/services/session.server";
 import { translations } from "~/services/translations/translations";
+import { germanStreetNumberSchema } from "~/services/validation/germanStreetNumber";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { filterFormData } from "~/util/filterFormData";
 
 const courtFinderSchema = z.object({
   street: stringRequiredSchema,
-  houseNumber: stringRequiredSchema,
+  houseNumber: germanStreetNumberSchema,
 });
 
 const requiredError: ErrorMessageProps = {
@@ -88,7 +89,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
     return validationError(error, validationResult.submittedData);
   }
   return redirect(
-    `/beratungshilfe/zustaendiges-gericht/ergebnis/${params.PLZ}/${buildOpenPlzResultUrl(validationResult.data.street, parseInt(validationResult.data.houseNumber))}`,
+    `/beratungshilfe/zustaendiges-gericht/ergebnis/${params.PLZ}/${buildOpenPlzResultUrl(validationResult.data.street, validationResult.data.houseNumber)}`,
   );
 };
 
@@ -96,7 +97,7 @@ export default function Index() {
   const { resultListHeading, common } = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col flex-grow">
+    <div className="flex flex-col flex-grow bg-blue-100">
       <Background backgroundColor="blue">
         <CourtFinderHeader label={common.featureName}>
           <RichText html={resultListHeading} />
@@ -132,6 +133,8 @@ export default function Index() {
               label={translations.gerichtFinder.houseNumber.de}
               name={"houseNumber"}
               errorMessages={[requiredError]}
+              // Imposed limit to avoid regex backtracking
+              charLimit={10}
             />
           </div>
           <ButtonContainer>
