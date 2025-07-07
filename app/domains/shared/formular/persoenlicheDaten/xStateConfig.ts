@@ -8,6 +8,7 @@ import {
 export function getPersoenlicheDatenXstateConfig(
   doneFunction: GenericGuard<PersoenlicheDatenUserData>,
   transitions?: FlowConfigTransitions,
+  subsequentStates?: Config<PersoenlicheDatenUserData>["states"],
 ): Config<PersoenlicheDatenUserData> {
   return {
     id: "persoenliche-daten",
@@ -52,6 +53,7 @@ export function getPersoenlicheDatenXstateConfig(
           SUBMIT: transitions?.nextFlowEntrypoint,
         },
       },
+      ...subsequentStates,
     },
   };
 }
