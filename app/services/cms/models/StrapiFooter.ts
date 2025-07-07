@@ -1,7 +1,6 @@
 import omit from "lodash/omit";
 import { z } from "zod";
 import { HasStrapiIdSchema } from "./HasStrapiId";
-import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { StrapiImageOptionalSchema } from "./StrapiImage";
 import { StrapiLinkSchema } from "./StrapiLink";
@@ -18,7 +17,6 @@ export const StrapiFooterSchema = z
             title: z.string().nonempty(),
             links: z.array(StrapiLinkSchema).nonempty(),
           })
-          .merge(OptionalStrapiLinkIdentifierSchema)
           .merge(HasStrapiIdSchema),
       )
       .nonempty(),
