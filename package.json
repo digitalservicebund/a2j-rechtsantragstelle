@@ -54,7 +54,7 @@
     "@react-router/node": "^7.6.3",
     "@rvf/react-router": "^7.1.5",
     "@rvf/zod": "^7.0.3",
-    "@sentry/react-router": "^9.34.0",
+    "@sentry/react-router": "^9.35.0",
     "@sentry/vite-plugin": "^3.5.0",
     "@xstate/graph": "^3.0.4",
     "axios": "^1.10.0",
@@ -90,8 +90,8 @@
     "true-myth": "^9.0.1",
     "validator": "^13.15.15",
     "xss": "^1.0.15",
-    "xstate": "^5.20.0",
-    "zod": "^3.25.72"
+    "xstate": "^5.20.1",
+    "zod": "^3.25.74"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
