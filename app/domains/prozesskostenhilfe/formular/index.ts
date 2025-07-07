@@ -47,6 +47,9 @@ import {
 import { type ProzesskostenhilfeFormularUserData } from "./userData";
 
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
+const showPKHZusammenfassung = await isFeatureFlagEnabled(
+  "showPKHZusammenfassung",
+);
 
 export const prozesskostenhilfeFormular = {
   flowType: "formFlow",
@@ -195,6 +198,12 @@ export const prozesskostenhilfeFormular = {
               {
                 guard: ({ context }) =>
                   readyForAbgabe({ context }) &&
+                  Boolean(showPKHZusammenfassung),
+                target: "zusammenfassung",
+              },
+              {
+                guard: ({ context }) =>
+                  readyForAbgabe({ context }) &&
                   fileUploadRelevant({ context }) &&
                   Boolean(showFileUpload),
                 target: "dokumente",
@@ -205,14 +214,40 @@ export const prozesskostenhilfeFormular = {
               },
             ],
           },
-          dokumente: { on: { BACK: "#weitere-angaben", SUBMIT: "ende" } },
+          zusammenfassung: {
+            on: {
+              BACK: "#weitere-angaben",
+              SUBMIT: [
+                {
+                  guard: ({ context }) =>
+                    fileUploadRelevant({ context }) && Boolean(showFileUpload),
+                  target: "dokumente",
+                },
+                "ende",
+              ],
+            },
+          },
+          dokumente: {
+            on: {
+              BACK: showPKHZusammenfassung
+                ? "zusammenfassung"
+                : "#weitere-angaben",
+              SUBMIT: "ende",
+            },
+          },
           ende: {
             on: {
               BACK: [
                 {
                   guard: ({ context }) =>
-                    Boolean(showFileUpload) && fileUploadRelevant({ context }),
+                    (Boolean(showFileUpload) &&
+                      fileUploadRelevant({ context })) ||
+                    Boolean(showPKHZusammenfassung),
                   target: "dokumente",
+                },
+                {
+                  guard: () => Boolean(showPKHZusammenfassung),
+                  target: "zusammenfassung",
                 },
                 "#weitere-angaben",
               ],
