@@ -1,6 +1,6 @@
-import { germanStreetNumberSchema } from "../germanStreetNumber";
+import { germanHouseNumberSchema } from "../germanHouseNumber";
 
-describe("germanStreetNumber validation", () => {
+describe("germanHouseNumber validation", () => {
   const validCases = [
     "1",
     "12",
@@ -20,13 +20,13 @@ describe("germanStreetNumber validation", () => {
 
   validCases.forEach((validCase) => {
     it(`should be valid for ${validCase}`, () => {
-      const actual = germanStreetNumberSchema.safeParse(validCase);
+      const actual = germanHouseNumberSchema.safeParse(validCase);
       expect(actual).toEqual({ data: validCase, success: true });
     });
   });
 
   it("should trim", () => {
-    const actual = germanStreetNumberSchema.safeParse(" 1 ");
+    const actual = germanHouseNumberSchema.safeParse(" 1 ");
     expect(actual).toEqual({ data: "1", success: true });
   });
 
@@ -34,7 +34,7 @@ describe("germanStreetNumber validation", () => {
 
   invalidCases.forEach((invalidCases) => {
     it(`should be invalid for ${invalidCases}`, () => {
-      const actual = germanStreetNumberSchema.safeParse(invalidCases);
+      const actual = germanHouseNumberSchema.safeParse(invalidCases);
       expect(actual.success).toBe(false);
     });
   });
