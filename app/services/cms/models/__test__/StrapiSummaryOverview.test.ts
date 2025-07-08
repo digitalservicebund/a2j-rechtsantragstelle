@@ -58,7 +58,8 @@ describe("StrapiSummaryOverviewSchema", () => {
           title: null,
           boxItems: [
             {
-              inlineItems: [{ field: "vorname" }],
+              title: null,
+              inlineItems: [{ field: "vorname", emptyValuePlaceholder: null }],
             },
           ],
         },

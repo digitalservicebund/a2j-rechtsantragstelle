@@ -4,5 +4,4 @@ import { omitNull } from "~/util/omitNull";
 export const StrapiStringOptionalSchema = z
   .string()
   .nullable()
-  .transform(omitNull)
-  .optional();
+  .transform(omitNull);

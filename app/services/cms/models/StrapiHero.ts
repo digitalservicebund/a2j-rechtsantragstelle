@@ -11,7 +11,7 @@ export const StrapiHeroSchema = z
     heading: StrapiHeadingSchema,
     content: StrapiParagraphSchema.nullable().transform(omitNull),
     outerBackground: StrapiBackgroundOptionalSchema,
-    button: StrapiButtonSchema.nullable().transform(omitNull).optional(),
+    button: StrapiButtonSchema.nullable().transform(omitNull),
   })
   .merge(HasOptionalStrapiIdSchema)
   .transform((cmsData) => ({

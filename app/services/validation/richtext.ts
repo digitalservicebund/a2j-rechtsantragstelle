@@ -10,4 +10,4 @@ export function buildRichTextValidation(renderer?: Partial<Renderer>) {
 }
 
 export const StrapiRichTextOptionalSchema = (renderer?: Partial<Renderer>) =>
-  buildRichTextValidation(renderer).nullable().transform(omitNull).optional();
+  buildRichTextValidation(renderer).nullable().transform(omitNull);
