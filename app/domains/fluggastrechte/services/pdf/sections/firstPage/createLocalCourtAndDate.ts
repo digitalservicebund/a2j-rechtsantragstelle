@@ -25,16 +25,10 @@ export const createLocalCourtAndDate = (
 
   courtAndDateSect.add(
     doc.struct("P", {}, () => {
-      const savedX = doc.x;
-      const savedY = doc.y;
-
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(creationDate, PDF_MARGIN_HORIZONTAL, startY, { align: "right" });
-
-      doc.x = savedX;
-      doc.y = savedY;
     }),
   );
 
@@ -43,7 +37,10 @@ export const createLocalCourtAndDate = (
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(TO_THE_COURT_TEXT, { align: "left", continued: false });
+        .text(TO_THE_COURT_TEXT, PDF_MARGIN_HORIZONTAL, startY, {
+          align: "left",
+          continued: false,
+        });
     }),
   );
 
