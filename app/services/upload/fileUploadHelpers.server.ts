@@ -1,9 +1,6 @@
-/* eslint-disable sonarjs/deprecation */
 import { parseFormData } from "@mjackson/form-data-parser";
 import { type ValidationErrorResponseData } from "@rvf/react-router";
-import { withZod } from "@rvf/zod";
-import pickBy from "lodash/pickBy";
-import { z, type ZodTypeAny } from "zod";
+import { type z } from "zod";
 import { type FlowId } from "~/domains/flowIds";
 import { type ArrayData, type UserData, getContext } from "~/domains/userData";
 import {
@@ -14,7 +11,6 @@ import {
   FIFTEEN_MB_IN_BYTES,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
-import { buildFileUploadError } from "./buildFileUploadError";
 import { splitFieldName } from "./splitFieldName";
 import { getSessionIdByFlowId } from "../session.server";
 import { FILE_REQUIRED_ERROR } from "./constants";
@@ -29,6 +25,11 @@ export async function uploadUserFile(
   result?: { data: UserData };
 }> {
   const { fieldName, inputIndex } = splitFieldName(inputName);
+  const arraySchema = getContext(flowId)[
+    fieldName as keyof typeof getContext
+  ] as z.ZodTypeAny | undefined;
+  if (!arraySchema) return { error: { fieldErrors: {} } };
+
   const formData = await parseFormData(request, {
     maxFileSize: FIFTEEN_MB_IN_BYTES,
   });
@@ -38,31 +39,20 @@ export async function uploadUserFile(
     return { error: { fieldErrors: { [inputName]: FILE_REQUIRED_ERROR } } };
   }
 
-  const fileMeta: PDFFileMetadata = {
+  const newArray = new Array(inputIndex + 1);
+  newArray[inputIndex] = {
     filename: file.name,
     fileType: file.type,
     fileSize: file.size,
   };
-
-  /**
-   * Need to scope the context, otherwise we validate against the entire context,
-   * of which we only have partial data at this point
-   */
-  const scopedUserData = pickBy(
-    getContext(flowId),
-    (_val, key) => key === fieldName,
-  ) as Record<string, ZodTypeAny>;
-
-  const validationResult = await withZod(z.object(scopedUserData)).validate({
-    ...userData,
-    [inputName]: fileMeta,
-  });
-
-  if (validationResult.error) {
+  const validatedArray = arraySchema.safeParse(newArray);
+  if (!validatedArray.success)
     return {
-      error: buildFileUploadError(validationResult, inputName),
+      error: {
+        fieldErrors: { [inputName]: validatedArray.error.issues[0].message },
+        repopulateFields: { [fieldName]: newArray },
+      },
     };
-  }
 
   const sessionId = await getSessionIdByFlowId(
     flowId,
@@ -74,12 +64,8 @@ export async function uploadUserFile(
     await file.arrayBuffer(),
   );
 
-  fileMeta.savedFileKey = savedFileKey;
-  (validationResult.data[fieldName] as ArrayData)[Number(inputIndex)] =
-    fileMeta;
-  return {
-    result: { ...validationResult },
-  };
+  newArray[inputIndex].savedFileKey = savedFileKey;
+  return { result: { data: { [fieldName]: newArray } } };
 }
 
 export async function deleteUserFile(
