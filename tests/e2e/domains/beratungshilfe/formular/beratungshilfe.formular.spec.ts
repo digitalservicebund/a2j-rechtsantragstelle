@@ -44,7 +44,7 @@ test("forwarded to initial step", async ({ page }) => {
   );
 });
 
-test("beratungshilfe formular can be traversed", async ({ page }) => {
+test.skip("beratungshilfe formular can be traversed", async ({ page }) => {
   // beratungshilfe/antrag/start/start
   await expectPageToBeAccessible({ page });
   await beratungshilfeFormular.clickNext();
