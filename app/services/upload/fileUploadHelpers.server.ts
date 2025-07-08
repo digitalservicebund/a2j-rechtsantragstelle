@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/deprecation */
-import { type FileUpload, parseFormData } from "@mjackson/form-data-parser";
+import { parseFormData } from "@mjackson/form-data-parser";
 import { type ValidationErrorResponseData } from "@rvf/react-router";
 import { withZod } from "@rvf/zod";
 import pickBy from "lodash/pickBy";
@@ -29,16 +29,14 @@ export async function uploadUserFile(
   result?: { data: UserData };
 }> {
   const { fieldName, inputIndex } = splitFieldName(inputName);
-  const file = await parseFileFromFormData(request, inputName);
+  const formData = await parseFormData(request, {
+    maxFileSize: FIFTEEN_MB_IN_BYTES,
+  });
+  const file = formData.get(inputName) as File | undefined;
 
   if (!file) {
     return { error: { fieldErrors: { [inputName]: FILE_REQUIRED_ERROR } } };
   }
-
-  const sessionId = await getSessionIdByFlowId(
-    flowId,
-    request.headers.get("Cookie"),
-  );
 
   const fileMeta: PDFFileMetadata = {
     filename: file.name,
@@ -65,6 +63,11 @@ export async function uploadUserFile(
       error: buildFileUploadError(validationResult, inputName),
     };
   }
+
+  const sessionId = await getSessionIdByFlowId(
+    flowId,
+    request.headers.get("Cookie"),
+  );
   const savedFileKey = await uploadUserFileToS3(
     sessionId,
     flowId,
@@ -94,18 +97,4 @@ export async function deleteUserFile(
   const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
   await deleteUserFileFromS3(sessionId, flowId, savedFile.savedFileKey);
   return { fileWasDeleted: true };
-}
-
-async function parseFileFromFormData(request: Request, fieldName: string) {
-  let matchedFile: File | undefined;
-  await parseFormData(
-    request,
-    { maxFileSize: FIFTEEN_MB_IN_BYTES },
-    (fileUpload: FileUpload) => {
-      if (fileUpload.fieldName === fieldName && fileUpload.name) {
-        matchedFile = fileUpload;
-      }
-    },
-  );
-  return matchedFile;
 }
