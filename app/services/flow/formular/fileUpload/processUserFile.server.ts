@@ -56,11 +56,8 @@ export const processUserFile = async (
         userData: success
           ? getUpdatedField(inputName, flowSession.data)
           : undefined,
-        mergeCustomizer: (_, newData) => {
-          if (Array.isArray(newData)) {
-            return newData;
-          }
-        },
+        mergeCustomizer: (_, newData) =>
+          Array.isArray(newData) ? newData : undefined,
       });
     }
     default:
