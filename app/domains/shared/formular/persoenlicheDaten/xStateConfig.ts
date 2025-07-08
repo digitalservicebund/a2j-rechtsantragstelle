@@ -1,21 +1,20 @@
-import { hasOptionalString } from "~/domains/guards.server";
-import type {
-  Config,
-  FlowConfigTransitions,
+import { type GenericGuard } from "~/domains/guards.server";
+import { type PersoenlicheDatenUserData } from "~/domains/shared/formular/persoenlicheDaten/userData";
+import {
+  type FlowConfigTransitions,
+  type Config,
 } from "~/services/flow/server/buildFlowController";
-import { prozesskostenhilfePersoenlicheDatenDone } from "./doneFunctions";
-import type { ProzesskostenhilfePersoenlicheDatenUserData } from "./userData";
 
-export function getProzesskostenhilfePersoenlicheDatenXstateConfig(
+export function getPersoenlicheDatenXstateConfig(
+  doneFunction: GenericGuard<PersoenlicheDatenUserData>,
   transitions?: FlowConfigTransitions,
-): Config<ProzesskostenhilfePersoenlicheDatenUserData> {
+  subsequentStates?: Config<PersoenlicheDatenUserData>["states"],
+): Config<PersoenlicheDatenUserData> {
   return {
     id: "persoenliche-daten",
     initial: "start",
     meta: {
-      done: ({ context }) =>
-        prozesskostenhilfePersoenlicheDatenDone({ context }) &&
-        hasOptionalString(context.telefonnummer as Partial<string>),
+      done: doneFunction,
     },
     states: {
       start: {
@@ -33,27 +32,28 @@ export function getProzesskostenhilfePersoenlicheDatenXstateConfig(
       geburtsdatum: {
         on: {
           BACK: "name",
+          SUBMIT: "plz",
+        },
+      },
+      plz: {
+        on: {
+          BACK: "geburtsdatum",
           SUBMIT: "adresse",
         },
       },
       adresse: {
         on: {
-          BACK: "geburtsdatum",
+          BACK: "plz",
           SUBMIT: "telefonnummer",
         },
       },
       telefonnummer: {
         on: {
-          SUBMIT: "beruf",
           BACK: "adresse",
-        },
-      },
-      beruf: {
-        on: {
-          BACK: "telefonnummer",
           SUBMIT: transitions?.nextFlowEntrypoint,
         },
       },
+      ...subsequentStates,
     },
   };
 }

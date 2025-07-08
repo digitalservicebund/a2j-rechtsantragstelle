@@ -17,6 +17,7 @@ import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestIn
 import Input from "~/components/inputs/Input";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import RichText from "~/components/RichText";
+import { streetHouseNumberSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { buildOpenPlzResultUrl } from "~/services/gerichtsfinder/openPLZ";
@@ -24,19 +25,15 @@ import { createSessionWithCsrf } from "~/services/security/csrf/createSessionWit
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { getSessionManager } from "~/services/session.server";
 import { translations } from "~/services/translations/translations";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { filterFormData } from "~/util/filterFormData";
-
-const courtFinderSchema = z.object({
-  street: stringRequiredSchema,
-  houseNumber: stringRequiredSchema,
-});
 
 const requiredError: ErrorMessageProps = {
   code: "required",
   text: translations.gerichtFinder.inputRequired.de,
 };
+
+const courtFinderSchema = z.object(streetHouseNumberSchema);
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;
@@ -88,7 +85,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
     return validationError(error, validationResult.submittedData);
   }
   return redirect(
-    `/beratungshilfe/zustaendiges-gericht/ergebnis/${params.PLZ}/${buildOpenPlzResultUrl(validationResult.data.street, parseInt(validationResult.data.houseNumber))}`,
+    `/beratungshilfe/zustaendiges-gericht/ergebnis/${params.PLZ}/${buildOpenPlzResultUrl(validationResult.data.street, validationResult.data.houseNumber)}`,
   );
 };
 
@@ -96,7 +93,7 @@ export default function Index() {
   const { resultListHeading, common } = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col flex-grow">
+    <div className="flex flex-col flex-grow bg-blue-100">
       <Background backgroundColor="blue">
         <CourtFinderHeader label={common.featureName}>
           <RichText html={resultListHeading} />
@@ -132,6 +129,8 @@ export default function Index() {
               label={translations.gerichtFinder.houseNumber.de}
               name={"houseNumber"}
               errorMessages={[requiredError]}
+              // Imposed limit to avoid regex backtracking
+              charLimit={10}
             />
           </div>
           <ButtonContainer>
