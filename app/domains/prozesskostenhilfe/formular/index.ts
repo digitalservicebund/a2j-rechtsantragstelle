@@ -1,4 +1,5 @@
 import type { Flow } from "~/domains/flows.server";
+import { hasOptionalString } from "~/domains/guards.server";
 import {
   fileUploadRelevant,
   readyForAbgabe,
@@ -15,8 +16,10 @@ import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/domains/proz
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/arrayConfiguration";
 import { finanzielleAngabeEinkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import { grundvoraussetzungenXstateConfig } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/xStateConfig";
+import { prozesskostenhilfePersoenlicheDatenDone } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/doneFunctions";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "~/domains/shared/formular/finanzielleAngaben/arrayConfiguration";
+import { getPersoenlicheDatenXstateConfig } from "~/domains/shared/formular/persoenlicheDaten/xStateConfig";
 import {
   getKinderStrings,
   getArrayIndexStrings,
@@ -39,7 +42,6 @@ import {
   versandDigitalAnwalt,
   versandDigitalGericht,
 } from "./grundvoraussetzungen/guards";
-import { getProzesskostenhilfePersoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 import {
   belegeStrings,
   getMissingInformationStrings,
@@ -166,16 +168,30 @@ export const prozesskostenhilfeFormular = {
         ],
         nextFlowEntrypoint: "#persoenliche-daten",
       }),
-      "persoenliche-daten": getProzesskostenhilfePersoenlicheDatenXstateConfig({
-        backToCallingFlow: [
-          {
-            guard: ({ context }) => hasGesetzlicheVertretungYes({ context }),
-            target: "#gesetzliche-vertretung.daten",
+      "persoenliche-daten": getPersoenlicheDatenXstateConfig(
+        ({ context }) =>
+          prozesskostenhilfePersoenlicheDatenDone({ context }) &&
+          hasOptionalString(context.telefonnummer as Partial<string>),
+        {
+          backToCallingFlow: [
+            {
+              guard: ({ context }) => hasGesetzlicheVertretungYes({ context }),
+              target: "#gesetzliche-vertretung.daten",
+            },
+            "#gesetzliche-vertretung",
+          ],
+          nextFlowEntrypoint: "beruf",
+        },
+        {
+          beruf: {
+            on: {
+              BACK: "telefonnummer",
+              SUBMIT: "#weitere-angaben",
+            },
           },
-          "#gesetzliche-vertretung",
-        ],
-        nextFlowEntrypoint: "#weitere-angaben",
-      }),
+        },
+      ),
+
       "weitere-angaben": {
         id: "weitere-angaben",
         meta: { done: weitereAngabenDone },

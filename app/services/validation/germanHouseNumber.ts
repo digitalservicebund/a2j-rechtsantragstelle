@@ -5,7 +5,7 @@ import { translations } from "~/services/translations/translations";
 const houseNumberRegex =
   /(?<number>\d+\s*[a-zA-Z]?\s*([-/]\s*\d+\s*[a-zA-Z]*)*)$/gm;
 
-export const germanStreetNumberSchema = z
+export const germanHouseNumberSchema = z
   .string()
   .trim()
   .min(1, { message: "required" })

@@ -18,12 +18,14 @@ export async function startPersoenlicheDaten(
   // beratungshilfe/antrag/persoenliche-daten/geburtsdatum
   await beratungshilfeFormular.fillInputPage("geburtsdatum", "01.01.1934");
 
+  // beratungshilfe/antrag/persoenliche-daten/postleitzahl
+  await beratungshilfeFormular.fillInputPage("plz", "20457");
+
   // beratungshilfe/antrag/persoenliche-daten/adresse
   await beratungshilfeFormular.fillInput(
     "strasseHausnummer",
     "Entenhausenstraße 123",
   );
-  await beratungshilfeFormular.fillInput("plz", "10115");
   await beratungshilfeFormular.fillInput("ort", "Entenhausen");
   await beratungshilfeFormular.clickNext();
 

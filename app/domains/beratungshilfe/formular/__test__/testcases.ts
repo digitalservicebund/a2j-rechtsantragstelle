@@ -29,6 +29,7 @@ export const testCasesBeratungshilfeFormularDefault = [
       "/persoenliche-daten/start",
       "/persoenliche-daten/name",
       "/persoenliche-daten/geburtsdatum",
+      "/persoenliche-daten/plz",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
       // "/persoenliche-daten/nachbefragung", // Uncomment when Nachbefragung is released
@@ -81,6 +82,7 @@ export const testCasesBeratungshilfeFormularDefault = [
       "/persoenliche-daten/start",
       "/persoenliche-daten/name",
       "/persoenliche-daten/geburtsdatum",
+      "/persoenliche-daten/plz",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
       // "/persoenliche-daten/nachbefragung", // Uncomment when Nachbefragung is released
