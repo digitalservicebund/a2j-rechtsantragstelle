@@ -15,9 +15,11 @@ export async function startPersoenlicheDaten(page: Page, formular: Formular) {
   // prozesskostenhilfe/formular/persoenliche-daten/geburtsdatum
   await formular.fillInputPage("geburtsdatum", "01.01.1934");
 
+  // prozesskostenhilfe/formular/persoenliche-daten/postleitzahl
+  await formular.fillInputPage("plz", "20457");
+
   // prozesskostenhilfe/formular/persoenliche-daten/adresse
   await formular.fillInput("strasseHausnummer", "Entenhausenstraße 123");
-  await formular.fillInput("plz", "10115");
   await formular.fillInput("ort", "Entenhausen");
   await formular.clickNext();
 

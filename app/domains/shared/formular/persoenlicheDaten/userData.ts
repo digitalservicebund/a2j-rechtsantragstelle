@@ -21,8 +21,14 @@ export const namePrivatPerson = {
   ...vornameNachnameSchema,
 };
 
+export const streetHouseNumberSchema = {
+  street: stringRequiredSchema,
+  houseNumber: stringRequiredSchema,
+};
+
 export const adresseSchema = {
-  strasseHausnummer: stringRequiredSchema,
+  ...streetHouseNumberSchema,
+  strasseHausnummer: stringRequiredSchema, // TODO: remove me
   plz: stringRequiredSchema.pipe(postcodeSchema),
   ort: stringRequiredSchema,
 };
@@ -37,5 +43,8 @@ export const persoenlicheDaten = {
   ...adresseSchema,
   telefonnummer,
 };
+
+const _partialSchema = z.object(persoenlicheDaten).partial();
+export type PersoenlicheDatenUserData = z.infer<typeof _partialSchema>;
 
 export const beruf = stringRequiredSchema;
