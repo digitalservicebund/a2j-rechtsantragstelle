@@ -41,17 +41,9 @@ export const processUserFile = async (
 
   switch (action) {
     case "fileUpload": {
-      const { result, error } = await uploadUserFile(
-        inputName,
-        request,
-        flowSession.data,
-        flowId,
-      );
-      if (error) return Result.err(error);
-
-      return Result.ok({
-        userData: resolveArraysFromKeys(result!.data),
-      });
+      const result = await uploadUserFile(inputName, request, flowId);
+      if ("fieldErrors" in result) return Result.err(result);
+      return Result.ok({ userData: resolveArraysFromKeys(result.data) });
     }
     case "deleteFile": {
       const { fileWasDeleted } = await deleteUserFile(

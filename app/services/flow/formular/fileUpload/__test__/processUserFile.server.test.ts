@@ -18,7 +18,7 @@ const mockSession = createSession();
 describe("processUserFile", () => {
   it("should return an error when the action is fileUpload and uploadUserFile return an error", async () => {
     vi.mocked(uploadUserFile).mockResolvedValue({
-      error: { fieldErrors: { "fileUpload.test": "File upload error" } },
+      fieldErrors: { "fileUpload.test": "File upload error" },
     });
 
     const actual = await processUserFile(
@@ -35,7 +35,7 @@ describe("processUserFile", () => {
 
   it("should return ok when the action is fileUpload and uploadUserFile return some result", async () => {
     vi.mocked(uploadUserFile).mockResolvedValue({
-      result: { data: { "fileUpload.test": "File uploaded successfully" } },
+      data: { "fileUpload.test": "File uploaded successfully" },
     });
 
     const actual = await processUserFile(

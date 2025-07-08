@@ -18,17 +18,13 @@ import { FILE_REQUIRED_ERROR } from "./constants";
 export async function uploadUserFile(
   inputName: string,
   request: Request,
-  userData: UserData,
   flowId: FlowId,
-): Promise<{
-  error?: ValidationErrorResponseData;
-  result?: { data: UserData };
-}> {
+): Promise<{ data: UserData } | ValidationErrorResponseData> {
   const { fieldName, inputIndex } = splitFieldName(inputName);
   const arraySchema = getContext(flowId)[
     fieldName as keyof typeof getContext
   ] as z.ZodTypeAny | undefined;
-  if (!arraySchema) return { error: { fieldErrors: {} } };
+  if (!arraySchema) return { fieldErrors: {} };
 
   const formData = await parseFormData(request, {
     maxFileSize: FIFTEEN_MB_IN_BYTES,
@@ -36,7 +32,7 @@ export async function uploadUserFile(
   const file = formData.get(inputName) as File | undefined;
 
   if (!file) {
-    return { error: { fieldErrors: { [inputName]: FILE_REQUIRED_ERROR } } };
+    return { fieldErrors: { [inputName]: FILE_REQUIRED_ERROR } };
   }
 
   const newArray = new Array(inputIndex + 1);
@@ -48,10 +44,8 @@ export async function uploadUserFile(
   const validatedArray = arraySchema.safeParse(newArray);
   if (!validatedArray.success)
     return {
-      error: {
-        fieldErrors: { [inputName]: validatedArray.error.issues[0].message },
-        repopulateFields: { [fieldName]: newArray },
-      },
+      fieldErrors: { [inputName]: validatedArray.error.issues[0].message },
+      repopulateFields: { [fieldName]: newArray },
     };
 
   const sessionId = await getSessionIdByFlowId(
@@ -65,7 +59,7 @@ export async function uploadUserFile(
   );
 
   newArray[inputIndex].savedFileKey = savedFileKey;
-  return { result: { data: { [fieldName]: newArray } } };
+  return { data: { [fieldName]: newArray } };
 }
 
 export async function deleteUserFile(
