@@ -6,7 +6,7 @@ import {
 } from "~/domains/shared/formular/persoenlicheDaten/userData";
 
 export const beratungshilfePersoenlicheDatenInputSchema = {
-  ...omit(persoenlicheDaten, ["title"]),
+  ...omit(persoenlicheDaten, ["title", "strasseHausnummer"]),
   geburtsdatum,
 };
 

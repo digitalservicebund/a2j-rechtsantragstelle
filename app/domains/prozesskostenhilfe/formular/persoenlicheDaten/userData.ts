@@ -1,3 +1,4 @@
+import omit from "lodash/omit";
 import { z } from "zod";
 import {
   geburtsdatum,
@@ -9,7 +10,7 @@ import {
 
 export const prozesskostenhilfePersoenlicheDatenInputSchema = {
   ...vornameNachnameSchema,
-  ...adresseSchema,
+  ...omit(adresseSchema, "strasseHausnummer"),
   geburtsdatum,
   telefonnummer,
   beruf,
