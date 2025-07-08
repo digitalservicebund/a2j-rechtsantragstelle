@@ -67,14 +67,14 @@ export async function deleteUserFile(
   cookieHeader: string | null,
   userData: UserData,
   flowId: FlowId,
-): Promise<{ fileWasDeleted: boolean }> {
+) {
   const { fieldName, inputIndex } = splitFieldName(inputName);
   // Check if a file is saved in Redis; if so, delete it
   const savedFile = (userData[fieldName] as ArrayData | undefined)?.at(
     inputIndex,
   ) as PDFFileMetadata | undefined;
-  if (!savedFile?.savedFileKey) return { fileWasDeleted: false };
+  if (!savedFile?.savedFileKey) return false;
   const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
   await deleteUserFileFromS3(sessionId, flowId, savedFile.savedFileKey);
-  return { fileWasDeleted: true };
+  return true;
 }

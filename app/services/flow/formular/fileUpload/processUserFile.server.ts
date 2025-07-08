@@ -46,14 +46,14 @@ export const processUserFile = async (
       return Result.ok({ userData: resolveArraysFromKeys(result.data) });
     }
     case "deleteFile": {
-      const { fileWasDeleted } = await deleteUserFile(
+      const success = await deleteUserFile(
         inputName,
         request.headers.get("Cookie"),
         flowSession.data,
         flowId,
       );
       return Result.ok({
-        userData: fileWasDeleted
+        userData: success
           ? getUpdatedField(inputName, flowSession.data)
           : undefined,
         mergeCustomizer: (_, newData) => {

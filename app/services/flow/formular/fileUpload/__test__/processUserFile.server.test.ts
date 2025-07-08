@@ -51,7 +51,7 @@ describe("processUserFile", () => {
   });
 
   it("should return ok when the action is deleteFile", async () => {
-    vi.mocked(deleteUserFile).mockResolvedValue({ fileWasDeleted: true });
+    vi.mocked(deleteUserFile).mockResolvedValue(true);
     const mockDeleteSession = createSession();
     mockDeleteSession.set("test", ["File to be deleted", "File to keep"]);
 
