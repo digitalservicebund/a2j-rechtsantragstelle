@@ -3,6 +3,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
+import { getPageSchema } from "~/domains/pageSchemas";
 import { fetchFlowPage, fetchMeta } from "~/services/cms/index.server";
 import { isStrapiHeadingComponent } from "~/services/cms/models/isStrapiHeadingComponent";
 import { isStrapiSelectComponent } from "~/services/cms/models/isStrapiSelectComponent";
@@ -75,7 +76,10 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   );
 
   // filter user data for current step
-  const fieldNames = formElements.map((entry) => entry.name);
+  const pageSchema = getPageSchema(pathname);
+  const fieldNames = pageSchema
+    ? Object.keys(pageSchema)
+    : formElements.map((entry) => entry.name);
   const stepData = fieldsFromContext(userData, fieldNames);
 
   const { headers, csrf } = await updateMainSession({
