@@ -37,7 +37,7 @@ export const createVereinfachteErklaerungAnhang = (
         .text("Eltern / gesetzliche Vertretung")
         .font(pdfStyles.page.font)
         .text(`${userData.vorname} ${userData.nachname}`)
-        .text(userData.strasseHausnummer ?? "")
+        .text(`${userData.street} ${userData.houseNumber}`)
         .text(`${userData.plz} ${userData.ort}`);
 
       doc

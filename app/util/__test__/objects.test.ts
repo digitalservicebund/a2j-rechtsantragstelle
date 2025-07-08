@@ -28,7 +28,8 @@ describe("dropEachProperty", () => {
       vorname: "A",
       nachname: "B",
       geburtsdatum: "1234",
-      strasseHausnummer: "abc",
+      street: "Straße",
+      houseNumber: "123",
       plz: "12345",
       ort: "ABC",
     };

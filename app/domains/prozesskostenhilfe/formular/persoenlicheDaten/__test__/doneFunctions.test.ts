@@ -8,7 +8,8 @@ const context: ProzesskostenhilfePersoenlicheDatenUserData = {
   nachname: "Doe",
   ort: "Berlin",
   plz: "10119",
-  strasseHausnummer: "33",
+  street: "Straße",
+  houseNumber: "33",
   telefonnummer: "",
 };
 
@@ -57,10 +58,17 @@ describe("eigentumDone", () => {
       }),
     ).toBeFalsy();
   });
-  it("fails with an empty strasseHausnummer field", () => {
+  it("fails with an empty street field", () => {
     expect(
       prozesskostenhilfePersoenlicheDatenDone({
-        context: { ...context, strasseHausnummer: "" },
+        context: { ...context, street: "" },
+      }),
+    ).toBeFalsy();
+  });
+  it("fails with an empty house number field", () => {
+    expect(
+      prozesskostenhilfePersoenlicheDatenDone({
+        context: { ...context, houseNumber: "" },
       }),
     ).toBeFalsy();
   });
