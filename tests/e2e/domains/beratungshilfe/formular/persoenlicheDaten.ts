@@ -22,10 +22,12 @@ export async function startPersoenlicheDaten(
   await beratungshilfeFormular.fillInputPage("plz", "20457");
 
   // beratungshilfe/antrag/persoenliche-daten/adresse
-  await beratungshilfeFormular.fillInput(
-    "strasseHausnummer",
-    "Entenhausenstraße 123",
+  await beratungshilfeFormular.fillAutoSuggestInputPage(
+    "input-street",
+    "Am Elbtunnel",
   );
+  await beratungshilfeFormular.fillInput("houseNumber", "123");
+
   await beratungshilfeFormular.fillInput("ort", "Entenhausen");
   await beratungshilfeFormular.clickNext();
 
