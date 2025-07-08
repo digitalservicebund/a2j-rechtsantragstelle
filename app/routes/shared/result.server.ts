@@ -64,9 +64,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       ? currentFlow.stringReplacements(userData)
       : undefined,
   );
+
   return data(
     {
-      flowId,
       cmsData,
       meta: meta,
       buttonNavigationProps,
