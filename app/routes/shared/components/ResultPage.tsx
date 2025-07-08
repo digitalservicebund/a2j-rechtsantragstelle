@@ -31,7 +31,10 @@ const backgrounds: Record<StrapiResultPageType, BackgroundColor> = {
 };
 
 export function ResultPage() {
-  const { common, cmsData, backButton } = useLoaderData<typeof loader>();
+  const {
+    cmsData,
+    buttonNavigationProps: { back, next },
+  } = useLoaderData<typeof loader>();
   const documentsList = cmsData.documents;
   const nextSteps = cmsData.nextSteps;
   const content = cmsData.freeZone;
@@ -66,14 +69,14 @@ export function ResultPage() {
 
           <Container paddingTop="48" paddingBottom="0">
             <ButtonContainer>
-              {backButton.destination && (
-                <a className="text-link" href={backButton.destination}>
-                  {backButton.label}
+              {back.destination && (
+                <a className="text-link" href={back.destination}>
+                  {back.label}
                 </a>
               )}
               {cmsData.nextLink?.url && (
                 <a className="text-link" href={cmsData.nextLink.url}>
-                  {cmsData.nextLink.text ?? common.nextButtonDefaultLabel}
+                  {next?.label}
                 </a>
               )}
             </ButtonContainer>

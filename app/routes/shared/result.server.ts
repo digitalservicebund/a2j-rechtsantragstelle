@@ -2,16 +2,13 @@ import type { LoaderFunctionArgs } from "react-router";
 import { data, redirect } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
-import {
-  fetchFlowPage,
-  fetchMeta,
-  fetchTranslations,
-} from "~/services/cms/index.server";
+import { fetchFlowPage, fetchMeta } from "~/services/cms/index.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { stepMeta } from "~/services/meta/formStepMeta";
 import { skipFlowParamAllowedAndEnabled } from "~/services/params";
 import { getSessionData } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import { translations } from "~/services/translations/translations";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 
@@ -38,10 +35,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   )
     return redirect(flowController.getInitial());
 
-  const [resultPageContent, parentMeta, defaultStrings] = await Promise.all([
+  const [resultPageContent, parentMeta] = await Promise.all([
     fetchFlowPage("result-pages", flowId, cmsStepId),
     fetchMeta({ filterValue: flowId }),
-    fetchTranslations("defaultTranslations"),
   ]);
 
   const cmsContent = applyStringReplacement(
@@ -51,12 +47,13 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       : {},
   );
 
-  const { back: backButton } = getButtonNavigationProps({
+  const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel:
       resultPageContent.backButtonLabel ??
-      defaultStrings.backButtonDefaultLabel,
+      translations.buttonNavigation.backButtonDefaultLabel.de,
     nextButtonLabel:
-      cmsContent.nextLink?.text ?? defaultStrings.nextButtonDefaultLabel,
+      cmsContent.nextLink?.text ??
+      translations.buttonNavigation.nextButtonDefaultLabel.de,
     backDestination: flowController.getPrevious(stepId),
   });
 
@@ -80,10 +77,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   return data(
     {
       flowId,
-      common: defaultStrings,
       cmsData,
       meta: meta,
-      backButton,
+      buttonNavigationProps,
     },
     { headers },
   );
