@@ -20,8 +20,10 @@ describe("StrapiHero", () => {
         tagName: "h1",
         look: "default",
       },
+      identifier: null,
       content: null,
       outerBackground: null,
+      button: null,
     };
 
     const actual = StrapiHeroSchema.safeParse(withCorrectData);
@@ -46,6 +48,7 @@ describe("StrapiHero", () => {
         look: "default",
       },
       content: null,
+      identifier: null,
       outerBackground: null,
       button: {
         text: "Button",
@@ -67,21 +70,5 @@ describe("StrapiHero", () => {
       fullWidth: false,
       __component: "form-elements.button",
     });
-  });
-
-  it("should handle hero without button", () => {
-    const withoutButton = {
-      heading: {
-        text: "someText",
-        tagName: "h1",
-        look: "default",
-      },
-      content: null,
-      outerBackground: null,
-    };
-
-    const actualWithoutButton = StrapiHeroSchema.safeParse(withoutButton);
-    expect(actualWithoutButton.success).toBe(true);
-    expect(actualWithoutButton?.data?.button).toBeUndefined();
   });
 });

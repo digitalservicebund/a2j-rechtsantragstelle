@@ -25,6 +25,5 @@ export const StrapiImageSchema = z
   })
   .merge(HasOptionalStrapiIdSchema);
 
-export const StrapiImageOptionalSchema = StrapiImageSchema.nullable()
-  .transform(omitNull)
-  .optional();
+export const StrapiImageOptionalSchema =
+  StrapiImageSchema.nullable().transform(omitNull);

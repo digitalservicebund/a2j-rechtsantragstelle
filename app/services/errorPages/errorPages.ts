@@ -2,9 +2,6 @@ import { type StrapiContentComponent } from "../cms/models/StrapiContentComponen
 
 const errorPage403: StrapiContentComponent = {
   __component: "page.info-box",
-  heading: {
-    __component: "basic.heading",
-  },
   items: [
     {
       label: {
@@ -41,9 +38,6 @@ const errorPage403: StrapiContentComponent = {
 
 const errorPage404: StrapiContentComponent = {
   __component: "page.info-box",
-  heading: {
-    __component: "basic.heading",
-  },
   items: [
     {
       label: {
@@ -80,9 +74,6 @@ const errorPage404: StrapiContentComponent = {
 
 const errorPage500: StrapiContentComponent = {
   __component: "page.info-box",
-  heading: {
-    __component: "basic.heading",
-  },
   items: [
     {
       label: {
