@@ -1,7 +1,9 @@
+/* eslint-disable sonarjs/deprecation */
 import { type FileUpload, parseFormData } from "@mjackson/form-data-parser";
 import { type ValidationErrorResponseData } from "@rvf/react-router";
+import { withZod } from "@rvf/zod";
 import pickBy from "lodash/pickBy";
-import { type ZodTypeAny } from "zod";
+import { z, type ZodTypeAny } from "zod";
 import { type FlowId } from "~/domains/flowIds";
 import { type ArrayData, type UserData, getContext } from "~/domains/userData";
 import {
@@ -14,7 +16,6 @@ import {
 } from "~/services/validation/pdfFileSchema";
 import { buildFileUploadError } from "./buildFileUploadError";
 import { splitFieldName } from "./splitFieldName";
-import { validateUploadedFile } from "./validateUploadedFile";
 import { getSessionIdByFlowId } from "../session.server";
 import { FILE_REQUIRED_ERROR } from "./constants";
 
@@ -54,12 +55,10 @@ export async function uploadUserFile(
     (_val, key) => key === fieldName,
   ) as Record<string, ZodTypeAny>;
 
-  const validationResult = await validateUploadedFile(
-    inputName,
-    fileMeta,
-    userData,
-    scopedUserData,
-  );
+  const validationResult = await withZod(z.object(scopedUserData)).validate({
+    ...userData,
+    [inputName]: fileMeta,
+  });
 
   if (validationResult.error) {
     return {
