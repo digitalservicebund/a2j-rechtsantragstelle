@@ -51,21 +51,18 @@ export const Default: Story = {
         () => ({ csrf: "csrf" }),
         async ({ request }: ActionFunctionArgs) => {
           const formData = await request.formData();
-          const formAction = formData.get("_action");
-          if (
-            typeof formAction === "string" &&
-            formAction.startsWith("deleteFile")
-          ) {
-            const { inputIndex } = splitFieldName(formAction.split(".")[1]);
+          const formAction = formData.get("_action") as string;
+          const [action, inputName] = formAction.split(".");
+
+          if (action === "deleteFile") {
+            const { inputIndex } = splitFieldName(inputName);
             mockUploadedFiles = mockUploadedFiles.filter(
               (_, index) => index !== inputIndex,
             );
           } else {
             mockUploadedFiles.push(generateRandomPDFFileMetadata());
           }
-          return {
-            [fieldName]: mockUploadedFiles,
-          };
+          return { [fieldName]: mockUploadedFiles };
         },
       ),
   ],

@@ -19,7 +19,7 @@ import { getSessionIdByFlowId } from "../session.server";
 import { FILE_REQUIRED_ERROR } from "./constants";
 
 export async function uploadUserFile(
-  formAction: string,
+  inputName: string,
   request: Request,
   userData: UserData,
   flowId: FlowId,
@@ -27,18 +27,11 @@ export async function uploadUserFile(
   error?: ValidationErrorResponseData;
   result?: { data: UserData };
 }> {
-  const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
   const file = await parseFileFromFormData(request, inputName);
 
   if (!file) {
-    return {
-      error: {
-        fieldErrors: {
-          [formAction.split(".")[1]]: FILE_REQUIRED_ERROR,
-        },
-      },
-    };
+    return { error: { fieldErrors: { [inputName]: FILE_REQUIRED_ERROR } } };
   }
 
   const sessionId = await getSessionIdByFlowId(
@@ -88,12 +81,11 @@ export async function uploadUserFile(
 }
 
 export async function deleteUserFile(
-  formAction: string,
+  inputName: string,
   cookieHeader: string | null,
   userData: UserData,
   flowId: FlowId,
 ): Promise<{ fileWasDeleted: boolean }> {
-  const inputName = formAction.split(".")[1];
   const { fieldName, inputIndex } = splitFieldName(inputName);
   // Check if a file is saved in Redis; if so, delete it
   const savedFile = (userData[fieldName] as ArrayData | undefined)?.at(
