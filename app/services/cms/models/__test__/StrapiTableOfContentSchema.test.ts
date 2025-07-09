@@ -4,6 +4,7 @@ describe("StrapiTableOfContentSchema", () => {
   it("should return false given empty container", () => {
     const emptyContainer = {
       label: null,
+      identifier: null,
       heading: null,
       buttons: [],
       outerBackground: null,
@@ -18,6 +19,7 @@ describe("StrapiTableOfContentSchema", () => {
 
   it("should return true given container", () => {
     const withContainer = {
+      identifier: null,
       label: null,
       heading: null,
       buttons: [],

@@ -8,7 +8,7 @@ describe("fileUploadHelpers.server", () => {
   describe("deleteUserFile", () => {
     it("should return fileWasDeleted as false if no savedFileKey is present", async () => {
       const actual = await deleteUserFile(
-        "deleteFile.test[1]",
+        "test[1]",
         null,
         { test: [{}] },
         "/beratungshilfe/antrag",
@@ -18,7 +18,7 @@ describe("fileUploadHelpers.server", () => {
 
     it("should return fileWasDeleted as true if savedFileKey is present", async () => {
       const actual = await deleteUserFile(
-        "deleteFile.test[0]",
+        "test[0]",
         null,
         { test: [{ savedFileKey: "someValue" }] },
         "/beratungshilfe/antrag",

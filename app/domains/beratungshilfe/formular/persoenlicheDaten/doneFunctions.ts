@@ -8,7 +8,8 @@ export const beratungshilfePersoenlicheDatenDone: GenericGuard<
     context.vorname &&
       context.nachname &&
       context.geburtsdatum &&
-      context.strasseHausnummer &&
+      context.street &&
+      context.houseNumber &&
       context.plz &&
       context.ort,
   );

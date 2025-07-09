@@ -26,7 +26,7 @@ export const fillHeader: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   const attachment: AttachmentEntries = [];
   pdfValues.antragstellerNameVornameggfGeburtsname.value = `${userData.nachname}, ${userData.vorname}`;
   pdfValues.geburtsdatumdesAntragstellers.value = userData.geburtsdatum;
-  pdfValues.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${userData.strasseHausnummer}, ${userData.plz} ${userData.ort}`;
+  pdfValues.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${userData.street} ${userData.houseNumber}, ${userData.plz} ${userData.ort}`;
   const court = findCourtIfUnique(userData.plz);
   if (court) {
     const courtName = court.BEZEICHNUNG.replace("Amtsgericht", "").trim();

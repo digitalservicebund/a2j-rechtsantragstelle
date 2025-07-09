@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
 
-export const StrapiBooleanOptionalSchema = z
-  .boolean()
+export const StrapiOptionalIntegerSchema = z
+  .number()
   .nullable()
   .transform(omitNull);

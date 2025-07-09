@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { StrapiDetailsSchema } from "~/services/cms/models/StrapiDetails";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
+import { StrapiOptionalIntegerSchema } from "~/services/cms/models/StrapiOptionalInteger";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
@@ -15,7 +16,7 @@ export const StrapiTextareaComponentSchema = z
     label: StrapiOptionalStringSchema,
     placeholder: StrapiOptionalStringSchema,
     errors: StrapiErrorRelationSchema,
-    maxLength: z.number().nullable().transform(omitNull),
+    maxLength: StrapiOptionalIntegerSchema,
   })
   .merge(HasOptionalStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({

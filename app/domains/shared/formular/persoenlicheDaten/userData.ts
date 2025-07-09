@@ -29,7 +29,10 @@ export const streetHouseNumberSchema = {
 
 export const adresseSchema = {
   ...streetHouseNumberSchema,
-  strasseHausnummer: stringRequiredSchema, // TODO: remove me
+  /**
+   * Pre- Auto-Complete implementation for street, keeping for compatibility with FGR
+   */
+  strasseHausnummer: stringRequiredSchema,
   plz: stringRequiredSchema.pipe(postcodeSchema),
   ort: stringRequiredSchema,
 };
