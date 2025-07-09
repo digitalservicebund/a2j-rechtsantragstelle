@@ -77,3 +77,19 @@ export const WithPlaceholder: Story = {
       )),
   ],
 };
+
+export const WithFreeTextInput: Story = {
+  args: {
+    ...defaultType,
+    supportsFreeText: true,
+    label: "Free Text selection",
+  },
+  decorators: [
+    (Story) =>
+      reactRouterContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
+};
