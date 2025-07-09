@@ -150,7 +150,9 @@ export default function Index() {
           </ButtonContainer>
         </ValidatedForm>
       </Container>
-      <ReportProblem />
+      <div className="flex justify-end w-full px-32 relative">
+        <ReportProblem />
+      </div>
     </div>
   );
 }
