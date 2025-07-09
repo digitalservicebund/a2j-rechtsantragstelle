@@ -228,5 +228,14 @@ describe("amtsGerichtData Helpers", () => {
         }),
       ).toHaveProperty("STR_HNR", "Amtsgerichtsplatz 1");
     });
+    it("should normalize uppercase street names", () => {
+      expect(
+        findCourt({
+          zipCode: "10789",
+          streetSlug: "Augsburger Str.",
+          houseNumber: "19",
+        }),
+      ).toHaveProperty("STR_HNR", "Amtsgerichtsplatz 1");
+    });
   });
 });

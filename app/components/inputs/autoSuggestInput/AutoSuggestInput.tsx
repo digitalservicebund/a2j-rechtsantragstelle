@@ -97,7 +97,7 @@ const AutoSuggestInput = ({
   noSuggestionMessage,
   isDisabled,
   minSuggestCharacters = MINIMUM_SEARCH_SUGGESTION_CHARACTERS,
-  supportsFreeText = false,
+  supportsFreeText: isCreatable = false,
 }: AutoSuggestInputProps) => {
   const items = useDataListOptions(dataList);
   const [currentItemValue, setCurrentItemValue] =
@@ -142,7 +142,7 @@ const AutoSuggestInput = ({
   useEffect(() => {
     let value = getDescriptionByValue(items, defaultValue);
 
-    if (supportsFreeText && !value) {
+    if (isCreatable && !value && defaultValue) {
       value = {
         value: defaultValue,
         label: defaultValue,
@@ -150,7 +150,7 @@ const AutoSuggestInput = ({
     }
 
     setCurrentItemValue(value);
-  }, [defaultValue, items, supportsFreeText]);
+  }, [defaultValue, items, isCreatable]);
 
   // In case user does not have Javascript, it should render the Input as suggestion input
   if (!jsAvailable) {
@@ -165,7 +165,7 @@ const AutoSuggestInput = ({
     );
   }
 
-  const SelectComponent = supportsFreeText ? Creatable : Select;
+  const SelectComponent = isCreatable ? Creatable : Select;
 
   return (
     <div
@@ -177,7 +177,9 @@ const AutoSuggestInput = ({
         aria-describedby={field.error() && errorId}
         aria-errormessage={field.error() ? errorId : undefined}
         aria-invalid={field.error() !== undefined}
-        formatCreateLabel={(creatableValue) => creatableValue}
+        {...(isCreatable && {
+          formatCreateLabel: (creatableValue) => creatableValue,
+        })}
         ariaLiveMessages={ariaLiveMessages(
           rootLoaderData?.accessibilityTranslations,
         )}
