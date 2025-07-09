@@ -49,8 +49,8 @@ describe("OpenPLZ helpers", () => {
         },
       } as Response);
       expect(await fetchStreetnamesForZipcode("12345")).toEqual([
-        { label: "Coolstraße", value: "coolstraße" },
-        { label: "Geilestraße", value: "geilestraße" },
+        { label: "Coolstraße", value: "Coolstraße" },
+        { label: "Geilestraße", value: "Geilestraße" },
       ]);
     });
 

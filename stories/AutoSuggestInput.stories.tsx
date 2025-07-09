@@ -25,6 +25,7 @@ const defaultType: AutoSuggestInputProps = {
   label: "Airports",
   noSuggestionMessage: "No data selected",
   errorMessages: undefined,
+  supportsFreeText: false,
   dataList: "airports",
   width: "54",
   isDisabled: false,
@@ -67,6 +68,22 @@ export const WithPlaceholder: Story = {
   args: {
     ...defaultType,
     placeholder: "With placeholder",
+  },
+  decorators: [
+    (Story) =>
+      reactRouterContext(() => (
+        <RFCFormerProvider>
+          <Story />
+        </RFCFormerProvider>
+      )),
+  ],
+};
+
+export const WithFreeTextInput: Story = {
+  args: {
+    ...defaultType,
+    supportsFreeText: true,
+    label: "Free Text selection",
   },
   decorators: [
     (Story) =>
