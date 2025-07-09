@@ -30,12 +30,6 @@ function getUpdatedField(inputName: string, userData: UserData): UserData {
   };
 }
 
-const requestedAction = (formAction: string) => {
-  if (formAction.startsWith("fileUpload")) return "upload";
-  if (formAction.startsWith("deleteFile")) return "delete";
-  return "unknown";
-};
-
 export const processUserFile = async (
   formAction: string,
   request: Request,
@@ -43,11 +37,12 @@ export const processUserFile = async (
 ): Promise<Result<OkProcessUserFile, ValidationErrorResponseData>> => {
   const { pathname } = new URL(request.url);
   const { flowId } = parsePathname(pathname);
+  const [action, inputName] = formAction.split(".");
 
-  switch (requestedAction(formAction)) {
-    case "upload": {
+  switch (action) {
+    case "fileUpload": {
       const { result, error } = await uploadUserFile(
-        formAction,
+        inputName,
         request,
         flowSession.data,
         flowId,
@@ -58,16 +53,16 @@ export const processUserFile = async (
         userData: resolveArraysFromKeys(result!.data),
       });
     }
-    case "delete": {
+    case "deleteFile": {
       const { fileWasDeleted } = await deleteUserFile(
-        formAction,
+        inputName,
         request.headers.get("Cookie"),
         flowSession.data,
         flowId,
       );
       return Result.ok({
         userData: fileWasDeleted
-          ? getUpdatedField(formAction.split(".")[1], flowSession.data)
+          ? getUpdatedField(inputName, flowSession.data)
           : undefined,
         mergeCustomizer: (_, newData) => {
           if (Array.isArray(newData)) {
@@ -76,7 +71,7 @@ export const processUserFile = async (
         },
       });
     }
-    case "unknown":
+    default:
       throw new Error(`Unknown file upload action: ${formAction}`);
   }
 };
