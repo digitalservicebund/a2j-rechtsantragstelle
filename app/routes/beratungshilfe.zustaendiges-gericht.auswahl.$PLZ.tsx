@@ -114,7 +114,7 @@ export default function Index() {
             houseNumber: "",
           }}
         >
-          <div className="pb-16 flex gap-8">
+          <div className="pb-16 flex flex-wrap md:flex-nowrap gap-8">
             <AutoSuggestInput
               label={translations.gerichtFinder.streetName.de}
               dataList="streetNames"
@@ -122,16 +122,18 @@ export default function Index() {
               errorMessages={[requiredError]}
               name={"street"}
               isDisabled={false}
-              minSuggestionCharacters={0}
+              minSuggestCharacters={0}
             />
-            <Input
-              type="number"
-              label={translations.gerichtFinder.houseNumber.de}
-              name={"houseNumber"}
-              errorMessages={[requiredError]}
-              // Imposed limit to avoid regex backtracking
-              charLimit={10}
-            />
+            <div className="max-w-[16ch]">
+              <Input
+                type="number"
+                label={translations.gerichtFinder.houseNumber.de}
+                name={"houseNumber"}
+                errorMessages={[requiredError]}
+                // Imposed limit to avoid regex backtracking
+                charLimit={10}
+              />
+            </div>
           </div>
           <ButtonContainer>
             <Button

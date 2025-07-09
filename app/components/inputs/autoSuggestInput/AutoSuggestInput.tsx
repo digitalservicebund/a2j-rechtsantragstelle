@@ -95,7 +95,7 @@ const AutoSuggestInput = ({
   dataList,
   noSuggestionMessage,
   isDisabled,
-  minSuggestionCharacters = MINIMUM_SEARCH_SUGGESTION_CHARACTERS,
+  minSuggestCharacters = MINIMUM_SEARCH_SUGGESTION_CHARACTERS,
 }: AutoSuggestInputProps) => {
   const items = useDataListOptions(dataList);
   const [currentItemValue, setCurrentItemValue] =
@@ -116,7 +116,7 @@ const AutoSuggestInput = ({
 
   const onInputChange = (value: string, { action }: InputActionMeta) => {
     if (action === "input-change") {
-      if (value.length < minSuggestionCharacters) {
+      if (value.length < minSuggestCharacters) {
         setOptions([]);
         return;
       }
