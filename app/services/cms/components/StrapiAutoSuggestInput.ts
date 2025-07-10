@@ -18,6 +18,7 @@ export const StrapiAutoSuggestInputComponentSchema = z
     noSuggestionMessage: StrapiOptionalStringSchema,
     isDisabled: z.boolean().nullable().transform(Boolean),
     minSuggestCharacters: StrapiOptionalIntegerSchema,
+    supportsFreeText: z.boolean().nullable().transform(Boolean),
     __component: z.literal("form-elements.auto-suggest-input"),
   })
   .merge(HasOptionalStrapiIdSchema)

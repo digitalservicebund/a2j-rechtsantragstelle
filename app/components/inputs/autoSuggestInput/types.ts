@@ -12,4 +12,5 @@ export type AutoSuggestInputProps = Readonly<{
   dataList: DataListType;
   isDisabled: boolean;
   minSuggestCharacters?: number;
+  supportsFreeText?: boolean;
 }>;
