@@ -1,3 +1,4 @@
+import { type Renderer } from "marked";
 import { z } from "zod";
 import { buildRichTextValidation } from "~/services/validation/richtext";
 import { StrapiAutoSuggestInputComponentSchema } from "../components/StrapiAutoSuggestInput";
@@ -7,10 +8,16 @@ import { StrapiInputComponentSchema } from "../components/StrapiInput";
 import { StrapiTimeInputComponentSchema } from "../components/StrapiTimeInput";
 import { HasStrapiIdSchema } from "../models/HasStrapiId";
 
+const inlineParagraph: Partial<Renderer> = {
+  paragraph({ tokens }) {
+    return `<p class="md:flex md:gap-8 md:items-center field-set-paragraph">${this.parser?.parseInline(tokens)}</p>`;
+  },
+};
+
 export const StrapiFieldSetComponentSchema = z
   .object({
     name: z.string(),
-    heading: buildRichTextValidation(),
+    heading: buildRichTextValidation(inlineParagraph),
     fieldSetGroup: z.object({
       formComponents: z
         .array(
