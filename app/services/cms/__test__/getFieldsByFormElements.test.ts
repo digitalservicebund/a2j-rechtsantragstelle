@@ -29,7 +29,6 @@ describe("getFieldsByFormElements", () => {
 
   it("should return the field names for the form component when it is fieldset", () => {
     const formElements: z.infer<typeof StrapiFieldSetComponentSchema> = {
-      name: "fieldsetName",
       heading: "Abflug von Startflughafen Berlin Brandenburg Flughafen (BER)",
       fieldSetGroup: {
         formComponents: [

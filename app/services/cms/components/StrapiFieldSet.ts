@@ -10,7 +10,6 @@ import { StrapiImageOptionalSchema } from "../models/StrapiImage";
 
 export const StrapiFieldSetComponentSchema = z
   .object({
-    name: z.string(),
     heading: buildRichTextValidation(),
     image: StrapiImageOptionalSchema,
     fieldSetGroup: z.object({
