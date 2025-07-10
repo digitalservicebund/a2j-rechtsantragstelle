@@ -14,6 +14,7 @@ test.describe("Hidden fields", () => {
         // Accept cookies to submit form in the vorabcheck
         await page.getByRole("button", { name: "Akzeptieren" }).click();
         await vorabcheck.goto();
+        await page.locator(`button[name="${nextButtonName}"]`).click();
 
         // Try to submit without selecting an option
         const nextButton = page.locator(`button[name="${nextButtonName}"]`);
