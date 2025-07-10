@@ -302,7 +302,3 @@ details:not(:has(.summary-content:focus-visible)) {
 h1:focus {
   outline: none;
 }
-
-.field-set-paragraph > img {
-  @apply max-h-24;
-}
