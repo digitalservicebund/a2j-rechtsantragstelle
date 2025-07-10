@@ -19,7 +19,7 @@ export async function fetchAllFormFields(
     filters: [{ field: "flow_ids", nestedField: "flowId", value: flowId }],
     populate: "form.name",
     fields: "stepId",
-    deep: false,
+    deep: true,
   };
 
   const formFields = await getStrapiEntry({ ...args, locale: "de" }).then(
