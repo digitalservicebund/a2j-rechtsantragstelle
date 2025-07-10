@@ -17,6 +17,7 @@ test.describe("CSRF token", () => {
   test("multiple tabs work", async ({ context }) => {
     const vorabcheck2 = new BeratungshilfeVorabcheck(await context.newPage());
     await vorabcheck2.goto();
+    await vorabcheck.clickNext();
     await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
     await expect(
       vorabcheck.page
@@ -34,7 +35,7 @@ test.describe("CSRF token", () => {
     // workaround for preview tests, it should open a new page after open the limits of tabs above
     await new BeratungshilfeVorabcheck(await context.newPage()).goto();
 
-    await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
+    await vorabcheck.clickNext();
     await expect(vorabcheck.page.getByText("403")).toHaveCount(1);
   });
 
@@ -42,6 +43,7 @@ test.describe("CSRF token", () => {
     for (let idx = 0; idx < csrfCountMax; idx++) {
       await (await context.newPage()).goto("/");
     }
+    await vorabcheck.clickNext();
     await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
     await expect(
       vorabcheck.page

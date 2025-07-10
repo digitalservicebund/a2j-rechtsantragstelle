@@ -11,6 +11,9 @@ import { kidsSchema } from "./kidsSchema";
 import { bereich } from "../formular/rechtsproblem/userData";
 
 export const beratungshilfeVorabcheckPages = {
+  start: {
+    stepId: "start",
+  },
   rechtsschutzversicherung: {
     stepId: "rechtsschutzversicherung",
     pageSchema: { rechtsschutzversicherung: YesNoAnswer },
