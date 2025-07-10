@@ -302,4 +302,50 @@ describe("AutoSuggestInput", () => {
       `${COMPONENT_NAME}-error`,
     );
   });
+
+  it("should allow for free selection when supportsFreeText is true", async () => {
+    const { getByRole, getByText, getByTestId } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        supportsFreeText
+        dataList="airports"
+        errorMessages={[{ code: "required", text: "Field is required" }]}
+        isDisabled={false}
+      />,
+    );
+
+    const freeTextOption = {
+      value: "Doesn't Exist",
+    };
+
+    fireEvent.change(getByRole("combobox"), {
+      target: freeTextOption,
+    });
+
+    await waitFor(() => {
+      expect(getByText(freeTextOption.value)).toBeInTheDocument();
+      expect(getByTestId(`auto-suggest-input-menu-item`)).toBeInTheDocument();
+    });
+  });
+
+  it("should restore default value when a user-entered option is selected in free text mode", () => {
+    const mockField = getMockUseFieldReturnValue();
+    const freeText = "User-Entered Value";
+    mockField.getInputProps.mockImplementation(() => ({
+      defaultValue: freeText,
+    }));
+
+    vi.mocked(useField).mockReturnValue(mockField);
+
+    const { getByText } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        supportsFreeText
+        dataList="airports"
+        errorMessages={[{ code: "required", text: "Field is required" }]}
+        isDisabled={false}
+      />,
+    );
+    expect(getByText(freeText)).toBeInTheDocument();
+  });
 });

@@ -4,7 +4,9 @@ import { matchSorter } from "match-sorter";
 import { type RefObject, useEffect, useRef, useState } from "react";
 import { useRouteLoaderData } from "react-router";
 import Select, { type InputActionMeta } from "react-select";
+import Creatable from "react-select/creatable";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
+import { type AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/types";
 import { type RootLoader } from "~/root";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import {
@@ -24,7 +26,6 @@ import {
   ariaLiveMessages,
   screenReaderStatus,
 } from "./accessibilityConfig/ariaLiveMessages";
-import { type AutoSuggestInputProps } from "./types";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
@@ -96,6 +97,7 @@ const AutoSuggestInput = ({
   noSuggestionMessage,
   isDisabled,
   minSuggestCharacters = MINIMUM_SEARCH_SUGGESTION_CHARACTERS,
+  supportsFreeText: isCreatable = false,
 }: AutoSuggestInputProps) => {
   const items = useDataListOptions(dataList);
   const [currentItemValue, setCurrentItemValue] =
@@ -138,10 +140,17 @@ const AutoSuggestInput = ({
   });
 
   useEffect(() => {
-    const value = getDescriptionByValue(items, defaultValue);
+    let value = getDescriptionByValue(items, defaultValue);
+
+    if (isCreatable && !value && defaultValue) {
+      value = {
+        value: defaultValue,
+        label: defaultValue,
+      };
+    }
 
     setCurrentItemValue(value);
-  }, [defaultValue, items]);
+  }, [defaultValue, items, isCreatable]);
 
   // In case user does not have Javascript, it should render the Input as suggestion input
   if (!jsAvailable) {
@@ -156,16 +165,21 @@ const AutoSuggestInput = ({
     );
   }
 
+  const SelectComponent = isCreatable ? Creatable : Select;
+
   return (
     <div
       data-testid={items.length > 0 ? `${inputId}-loaded` : ""}
       className="w-full"
     >
       {label && <InputLabel id={inputId}>{label}</InputLabel>}
-      <Select
+      <SelectComponent
         aria-describedby={field.error() && errorId}
         aria-errormessage={field.error() ? errorId : undefined}
         aria-invalid={field.error() !== undefined}
+        {...(isCreatable && {
+          formatCreateLabel: (creatableValue) => creatableValue,
+        })}
         ariaLiveMessages={ariaLiveMessages(
           rootLoaderData?.accessibilityTranslations,
         )}

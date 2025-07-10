@@ -90,7 +90,7 @@ export default function Index() {
             </div>
           </Container>
         </div>
-        <div className="self-end mr-32">
+        <div className="flex w-full justify-end px-32 relative">
           <ReportProblem />
         </div>
       </div>
