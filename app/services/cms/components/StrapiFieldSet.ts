@@ -1,16 +1,28 @@
 import { z } from "zod";
 import { buildRichTextValidation } from "~/services/validation/richtext";
+import { StrapiAutoSuggestInputComponentSchema } from "../components/StrapiAutoSuggestInput";
+import { StrapiDateInputComponentSchema } from "../components/StrapiDateInput";
+import { StrapiDropdownComponentSchema } from "../components/StrapiDropdown";
+import { StrapiInputComponentSchema } from "../components/StrapiInput";
+import { StrapiTimeInputComponentSchema } from "../components/StrapiTimeInput";
 import { HasStrapiIdSchema } from "../models/HasStrapiId";
-import { StrapiFieldSetGroupsSchema } from "../models/StrapiFieldSetGroups";
 
 export const StrapiFieldSetComponentSchema = z
   .object({
     name: z.string(),
     heading: buildRichTextValidation(),
     fieldSetGroup: z.object({
-      data: HasStrapiIdSchema.extend({
-        attributes: StrapiFieldSetGroupsSchema,
-      }),
+      formComponents: z
+        .array(
+          z.union([
+            StrapiInputComponentSchema,
+            StrapiTimeInputComponentSchema,
+            StrapiDropdownComponentSchema,
+            StrapiDateInputComponentSchema,
+            StrapiAutoSuggestInputComponentSchema,
+          ]),
+        )
+        .nonempty(),
     }),
     __component: z.literal("form-elements.fieldset"),
   })
