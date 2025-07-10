@@ -154,7 +154,7 @@ export default function Index() {
           </ValidatedForm>
         </Container>
       </div>
-      <div className="flex justify-end w-full px-32 py-32relative">
+      <div className="flex justify-end w-full p-32 relative">
         <ReportProblem />
       </div>
     </div>
