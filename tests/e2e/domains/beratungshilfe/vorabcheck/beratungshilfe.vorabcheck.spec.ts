@@ -18,6 +18,9 @@ test("forwarded to initial step", async () => {
 });
 
 test("vorabcheck can be traversed (short path)", async ({ page }) => {
+  // start page
+  await vorabcheck.clickNext();
+
   await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
 
   await vorabcheck.fillRadioPage("wurdeVerklagt", "no");
@@ -66,6 +69,7 @@ test("funnel: invalid step redirects to start", async ({ page }) => {
 
 test("index redirects to last known step", async ({ page }) => {
   await vorabcheck.assertInitialStep();
+  await vorabcheck.clickNext();
   await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
   await vorabcheck.fillRadioPage("wurdeVerklagt", "no");
   const intermediateUrl = vorabcheck.page.url().split("/").at(-1);
