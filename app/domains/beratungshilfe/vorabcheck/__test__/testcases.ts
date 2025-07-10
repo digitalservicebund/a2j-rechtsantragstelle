@@ -7,6 +7,7 @@ import { beratungshilfeVorabcheckXstateConfig } from "~/domains/beratungshilfe/v
 import type { FlowStateMachine } from "~/services/flow/server/types";
 
 const happyPathSteps = [
+  "/start",
   "/rechtsschutzversicherung",
   "/wurde-verklagt",
   "/klage-eingereicht",
@@ -32,7 +33,7 @@ const happyPathSteps = [
 ];
 
 const cases = [
-  [{}, ["/rechtsschutzversicherung"]],
+  [{}, ["/start"]],
   [happyPathData, happyPathSteps],
   [
     { rsvCoverage: "yes" },
