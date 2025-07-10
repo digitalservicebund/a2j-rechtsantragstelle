@@ -32,27 +32,22 @@ describe("getFieldsByFormElements", () => {
       name: "fieldsetName",
       heading: "Abflug von Startflughafen Berlin Brandenburg Flughafen (BER)",
       fieldSetGroup: {
-        data: {
-          id: 1,
-          attributes: {
-            formComponents: [
-              {
-                name: "direktAbflugsDatum",
-                label: "Datum geplanter Abflug (z.B. 10.03.2024) ",
-                errorMessages: [],
-                id: 76,
-                __component: "form-elements.date-input",
-              },
-              {
-                name: "direktAbflugsZeit",
-                label: "Zeit geplanter Abflug (z.B. 09:08)",
-                errorMessages: [],
-                id: 40,
-                __component: "form-elements.time-input",
-              },
-            ],
+        formComponents: [
+          {
+            name: "direktAbflugsDatum",
+            label: "Datum geplanter Abflug (z.B. 10.03.2024) ",
+            errorMessages: [],
+            id: 76,
+            __component: "form-elements.date-input",
           },
-        },
+          {
+            name: "direktAbflugsZeit",
+            label: "Zeit geplanter Abflug (z.B. 09:08)",
+            errorMessages: [],
+            id: 40,
+            __component: "form-elements.time-input",
+          },
+        ],
       },
       id: 2,
       __component: "form-elements.fieldset",
