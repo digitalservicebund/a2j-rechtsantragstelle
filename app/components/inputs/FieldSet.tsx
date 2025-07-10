@@ -18,7 +18,7 @@ export const FieldSet = ({
 }: FieldSetProps) => {
   return (
     <fieldset>
-      <legend className="md:flex gap-8">
+      <legend className="md:flex md:gap-8">
         {image && (
           <Image
             {...image}
