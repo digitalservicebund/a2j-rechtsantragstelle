@@ -39,7 +39,7 @@ describe("NavigationList", () => {
         ],
       },
       {
-        destination: "/destination",
+        destination: "/destination2",
         label: "navLabel",
         state: "Open" as NavState,
         subflows: [
@@ -51,7 +51,7 @@ describe("NavigationList", () => {
         ],
       },
       {
-        destination: "/destination",
+        destination: "/destination3",
         label: "navLabel",
         state: "Done" as NavState,
         subflows: [

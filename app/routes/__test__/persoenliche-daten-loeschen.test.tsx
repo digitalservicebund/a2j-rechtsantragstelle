@@ -12,6 +12,7 @@ describe("Persoenliche Daten", () => {
     const RouteStub = createRoutesStub([
       {
         path: "/",
+        HydrateFallback: () => null,
         Component: PersoenlicheDatenLoeschen,
         loader() {
           return {
