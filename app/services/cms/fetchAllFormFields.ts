@@ -17,9 +17,9 @@ export async function fetchAllFormFields(
   const args = {
     apiId: flowPageApiIdFromFlowType(flows[flowId].flowType),
     filters: [{ field: "flow_ids", nestedField: "flowId", value: flowId }],
-    populate: "form.name",
+    populate: "form.fieldSetGroup.formComponents",
     fields: "stepId",
-    deep: true, // DO NOT COMMIT WITH THIS CHANGE
+    deep: false,
   };
 
   const formFields = await getStrapiEntry({ ...args, locale: "de" }).then(
