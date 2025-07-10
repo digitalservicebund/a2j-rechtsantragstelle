@@ -18,7 +18,7 @@ export const FieldSet = ({
 }: FieldSetProps) => {
   return (
     <fieldset>
-      <legend className="md:flex gap-16">
+      <legend className="md:flex gap-8">
         {image && (
           <Image
             {...image}
@@ -30,7 +30,7 @@ export const FieldSet = ({
         <RichText html={heading} />
       </legend>
       {formComponents.map((componentProps) => (
-        <div key={keyFromElement(componentProps)} className="pl-40 pt-16">
+        <div key={keyFromElement(componentProps)} className="md:pl-32 pt-16">
           <FormComponent componentProps={componentProps} />
         </div>
       ))}
