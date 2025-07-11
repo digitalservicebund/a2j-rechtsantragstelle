@@ -18,7 +18,8 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
       const matchingElement = formComponents
         ?.filter(
           (formComponents) =>
-            formComponents.__component !== "form-elements.fieldset", // TODO - revisit this code later
+            // TODO - revisit this code later. For more details check this link https://github.com/digitalservicebund/a2j-rechtsantragstelle/pull/2309#discussion_r2200352159
+            formComponents.__component !== "form-elements.fieldset",
         )
         .find(({ name }) => name === fieldName);
 
