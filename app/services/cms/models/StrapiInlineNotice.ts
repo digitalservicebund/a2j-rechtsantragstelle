@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
@@ -13,10 +13,7 @@ export const StrapiInlineNoticeSchema = z
     content: StrapiRichTextOptionalSchema(),
     container: StrapiContainerSchema,
     outerBackground: StrapiBackgroundOptionalSchema,
+    __component: z.literal("page.inline-notice"),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema)
-  .transform((cmsData) => ({
-    __component: "page.inline-notice" as const,
-    ...cmsData,
-  }));
+  .merge(HasStrapiIdSchema)
+  .merge(OptionalStrapiLinkIdentifierSchema);

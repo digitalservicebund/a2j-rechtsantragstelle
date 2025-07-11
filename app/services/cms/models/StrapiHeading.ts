@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 import { StringWithHtmlEntities } from "./StringWithHtmlEntities";
 
 export const StrapiHeadingSchema = z
@@ -24,14 +24,9 @@ export const StrapiHeadingSchema = z
       "ds-body-01-reg",
       "ds-body-02-reg",
     ]),
+    __component: z.literal("basic.heading"),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .transform((cmsData) => {
-    return {
-      __component: "basic.heading" as const,
-      ...cmsData,
-    };
-  });
+  .merge(HasStrapiIdSchema);
 
 export const StrapiHeadingOptionalSchema =
   StrapiHeadingSchema.nullable().transform(omitNull);

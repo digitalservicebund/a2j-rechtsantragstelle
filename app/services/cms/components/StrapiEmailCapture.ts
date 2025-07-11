@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
+import { HasStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
 import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNotice";
 import { StrapiOptionalStringSchema } from "~/services/cms/models/StrapiOptionalString";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
@@ -14,4 +14,4 @@ export const StrapiEmailCaptureSchema = z
     errorBanner: StrapiInlineNoticeSchema,
     __component: z.literal("page.email-capture"),
   })
-  .merge(HasOptionalStrapiIdSchema);
+  .merge(HasStrapiIdSchema);

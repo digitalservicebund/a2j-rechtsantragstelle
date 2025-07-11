@@ -1,14 +1,10 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 
-const StrapiArraySummarySchema = z
+export const StrapiArraySummaryComponentSchema = z
   .object({
     category: z.string(),
     categoryUrl: z.string(),
-  })
-  .merge(HasOptionalStrapiIdSchema);
-
-export const StrapiArraySummaryComponentSchema =
-  StrapiArraySummarySchema.extend({
     __component: z.literal("page.array-summary"),
-  });
+  })
+  .merge(HasStrapiIdSchema);
