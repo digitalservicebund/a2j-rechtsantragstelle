@@ -8,12 +8,16 @@ export const createFooter = (
   prefixPageNumber: string,
 ) => {
   const pages = doc.bufferedPageRange();
+
+  const footerSect = doc.struct("Sect");
+
   for (let i = 0; i < pages.count; i++) {
-    const footerSect = doc.struct("Sect");
     doc.switchToPage(i);
 
-    createStamp(doc, footerSect);
+    const isLastPage = i === pages.count - 1;
+
+    createStamp(doc, footerSect, isLastPage);
     createPageNumber(doc, footerSect, i + 1, pages.count, prefixPageNumber);
-    documentStruct.add(footerSect);
   }
+  documentStruct.add(footerSect);
 };
