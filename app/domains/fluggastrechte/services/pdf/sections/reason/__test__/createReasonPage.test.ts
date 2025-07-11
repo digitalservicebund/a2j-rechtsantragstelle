@@ -46,4 +46,15 @@ describe("createReasonPage", () => {
 
     expect(createLegalAssessment).toBeCalledTimes(1);
   });
+
+  it("should set the structure tag on the PDF document", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    createReasonPage(mockDoc, mockStruct, userDataMock);
+
+    expect(mockDoc.struct).toHaveBeenCalled();
+    expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
+    expect(mockDoc.struct).toHaveBeenCalledWith("H2", {}, expect.any(Function));
+  });
 });
