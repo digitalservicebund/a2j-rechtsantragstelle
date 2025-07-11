@@ -13,7 +13,10 @@ export const StrapiInlineNoticeSchema = z
     content: StrapiRichTextOptionalSchema(),
     container: StrapiContainerSchema,
     outerBackground: StrapiBackgroundOptionalSchema,
-    __component: z.literal("page.inline-notice"),
   })
   .merge(HasStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema);
+  .merge(OptionalStrapiLinkIdentifierSchema)
+  .transform((cmsData) => ({
+    __component: "page.inline-notice" as const,
+    ...cmsData,
+  }));
