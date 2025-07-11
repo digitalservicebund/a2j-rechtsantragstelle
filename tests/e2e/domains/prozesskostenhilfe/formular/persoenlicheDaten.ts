@@ -19,9 +19,9 @@ export async function startPersoenlicheDaten(page: Page, formular: Formular) {
   await formular.fillInputPage("plz", "20457");
 
   // prozesskostenhilfe/formular/persoenliche-daten/adresse
-  await formular.fillAutoSuggestInputPage("input-street", "Am Elbtunnel");
   await formular.fillInput("houseNumber", "123");
   await formular.fillInput("ort", "Entenhausen");
+  await formular.fillAutoSuggestInputPage("input-street", "Am Elbtunnel");
   await formular.clickNext();
 
   // prozesskostenhilfe/formular/persoenliche-daten/telefonnummer
