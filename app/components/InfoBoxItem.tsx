@@ -11,6 +11,7 @@ import Image, { type ImageProps } from "./Image";
 import RichText from "./RichText";
 
 export type InfoBoxItemProps = {
+  id: number; // Strapi id
   identifier?: string;
   label?: HeadingProps;
   headline?: HeadingProps;

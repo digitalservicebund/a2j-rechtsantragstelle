@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
-import { HasOptionalStrapiIdSchema, HasStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
 
@@ -30,4 +30,4 @@ export const StrapiSummaryOverviewSectionSchema = z
     title: StrapiHeadingSchema,
     boxes: z.array(StrapiSummaryOverviewBoxSchema).nonempty(),
   })
-  .merge(HasOptionalStrapiIdSchema);
+  .merge(HasStrapiIdSchema);

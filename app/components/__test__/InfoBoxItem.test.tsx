@@ -6,11 +6,11 @@ const separatorStyleClass =
 
 describe("InfoBoxItem", () => {
   it("has expected class properties when the separator is enabled", () => {
-    const { container } = render(<InfoBoxItem separator={true} />);
+    const { container } = render(<InfoBoxItem id={10} separator={true} />);
     expect(container.querySelector(separatorStyleClass)).toBeInTheDocument();
   });
   it("has expected class properties when the separator is disabled", () => {
-    const { container } = render(<InfoBoxItem separator={false} />);
+    const { container } = render(<InfoBoxItem id={10} separator={false} />);
     expect(
       container.querySelector(separatorStyleClass),
     ).not.toBeInTheDocument();
@@ -21,6 +21,7 @@ describe("InfoBoxItem", () => {
       "Testing an inline notice inside of an InfoBoxItem.";
     const { getByRole } = render(
       <InfoBoxItem
+        id={10}
         inlineNotices={[
           {
             title: inlineNoticeTitle,

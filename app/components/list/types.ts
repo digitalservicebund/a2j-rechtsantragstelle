@@ -4,6 +4,7 @@ import { type HeadingProps } from "../Heading";
 import { type ImageProps } from "../Image";
 
 export type ListItemProps = {
+  id: number; // Strapi id
   identifier?: string;
   headline?: HeadingProps;
   content?: string;

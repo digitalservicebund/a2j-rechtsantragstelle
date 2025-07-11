@@ -26,10 +26,11 @@ describe("List", () => {
     it("renders <ul> if any item has an image", () => {
       const items: ListItemProps[] = [
         {
+          id: 10,
           headline: { text: "One" },
           image: { url: "/img.png", alternativeText: "" },
         },
-        { headline: { text: "Two" } },
+        { id: 11, headline: { text: "Two" } },
       ];
       const { container } = render(<List items={items} variant="numbered" />);
       expect(container.querySelector("ul")).toBeInTheDocument();
@@ -37,8 +38,8 @@ describe("List", () => {
 
     it("renders <ol> if variant is 'numbered' and no images", () => {
       const items: ListItemProps[] = [
-        { headline: { text: "One" } },
-        { headline: { text: "Two" } },
+        { id: 10, headline: { text: "One" } },
+        { id: 11, headline: { text: "Two" } },
       ];
       const { container } = render(<List items={items} variant="numbered" />);
       expect(container.querySelector("ol")).toBeInTheDocument();
@@ -48,13 +49,13 @@ describe("List", () => {
 
 describe("listItemNotEmpty", () => {
   it("should return true if a ListItem has a headline but no content", () => {
-    const listItem: ListItemProps = { headline: { text: "headline" } };
+    const listItem: ListItemProps = { id: 10, headline: { text: "headline" } };
     expect(listItemNotEmpty(listItem)).toBe(true);
     expect(listItemNotEmpty({ ...listItem, content: "<p></p>\n" })).toBe(true);
   });
 
   it("should return true if a ListItem has content but no headline", () => {
-    const listItem: ListItemProps = { content: "some content" };
+    const listItem: ListItemProps = { id: 10, content: "some content" };
     expect(listItemNotEmpty(listItem)).toBe(true);
     expect(
       listItemNotEmpty({ ...listItem, headline: { text: "\n<h1></h1>" } }),
@@ -63,6 +64,7 @@ describe("listItemNotEmpty", () => {
 
   it("should return true when a ListItem has both headline and content", () => {
     const listItem: ListItemProps = {
+      id: 10,
       headline: { text: "headline" },
       content: "<p>some content</p>",
     };
@@ -70,10 +72,14 @@ describe("listItemNotEmpty", () => {
   });
 
   it("should return false if a ListItem doesn't have headline or content", () => {
-    const listItem: ListItemProps = {};
+    const listItem: ListItemProps = { id: 10 };
     expect(listItemNotEmpty(listItem)).toBe(false);
     expect(
-      listItemNotEmpty({ headline: { text: "" }, content: "<h3></h3>\n" }),
+      listItemNotEmpty({
+        id: 11,
+        headline: { text: "" },
+        content: "<h3></h3>\n",
+      }),
     ).toBe(false);
   });
 });

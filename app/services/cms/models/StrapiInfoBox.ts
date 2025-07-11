@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { StrapiBooleanOptionalSchema } from "~/services/cms/models/StrapiBooleanOptional";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
@@ -14,10 +14,7 @@ export const StrapiInfoBoxSchema = z
     outerBackground: StrapiBackgroundOptionalSchema,
     separator: StrapiBooleanOptionalSchema,
     container: StrapiContainerSchema,
+    __component: z.literal("page.info-box"),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema)
-  .transform((cmsData) => ({
-    __component: "page.info-box" as const,
-    ...cmsData,
-  }));
+  .merge(HasStrapiIdSchema)
+  .merge(OptionalStrapiLinkIdentifierSchema);

@@ -19,11 +19,15 @@ describe("StrapiHero", () => {
         text: "someText",
         tagName: "h1",
         look: "default",
+        __component: "basic.heading",
+        id: 10,
       },
       identifier: null,
       content: null,
       outerBackground: null,
       button: null,
+      __component: "page.hero",
+      id: 10,
     };
 
     const actual = StrapiHeroSchema.safeParse(withCorrectData);
@@ -35,8 +39,10 @@ describe("StrapiHero", () => {
         tagName: "h1",
         look: "default",
         __component: "basic.heading",
+        id: 10,
       },
       __component: "page.hero",
+      id: 10,
     });
   });
 
@@ -46,6 +52,8 @@ describe("StrapiHero", () => {
         text: "someText",
         tagName: "h1",
         look: "default",
+        __component: "basic.heading",
+        id: 10,
       },
       content: null,
       identifier: null,
@@ -58,6 +66,8 @@ describe("StrapiHero", () => {
         fullWidth: false,
         __component: "form-elements.button",
       },
+      id: 10,
+      __component: "page.hero",
     };
 
     const actualWithButton = StrapiHeroSchema.safeParse(withButton);

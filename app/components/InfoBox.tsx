@@ -27,17 +27,7 @@ const InfoBox = ({
           data-testid="info-box-item-container"
         >
           {items.map((item) => (
-            <InfoBoxItem
-              separator={separator}
-              {...item}
-              key={
-                item.identifier ??
-                item.headline?.text ??
-                item.content ??
-                item.label?.text ??
-                ""
-              }
-            />
+            <InfoBoxItem separator={separator} {...item} key={item.id} />
           ))}
         </div>
       )}

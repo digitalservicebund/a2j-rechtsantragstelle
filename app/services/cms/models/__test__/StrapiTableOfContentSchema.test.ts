@@ -19,6 +19,7 @@ describe("StrapiTableOfContentSchema", () => {
 
   it("should return true given container", () => {
     const withContainer = {
+      id: 10,
       identifier: null,
       label: null,
       heading: null,
@@ -30,12 +31,14 @@ describe("StrapiTableOfContentSchema", () => {
         paddingTop: "default",
       },
       links: [],
+      __component: "page.table-of-contents",
     };
 
     const actual = StrapiTableOfContentsSchema.safeParse(withContainer);
 
     expect(actual.success).toBe(true);
     expect(actual.data).toEqual({
+      id: 10,
       label: undefined,
       heading: undefined,
       buttons: [],

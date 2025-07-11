@@ -1,7 +1,7 @@
 import { type Renderer } from "marked";
 import { z } from "zod";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
@@ -24,10 +24,7 @@ export const StrapiListSchema = z
       .default("unordered"),
     outerBackground: StrapiBackgroundOptionalSchema,
     container: StrapiContainerSchema,
+    __component: z.literal("page.list"),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema)
-  .transform((cmsData) => ({
-    __component: "page.list" as const,
-    ...cmsData,
-  }));
+  .merge(HasStrapiIdSchema)
+  .merge(OptionalStrapiLinkIdentifierSchema);

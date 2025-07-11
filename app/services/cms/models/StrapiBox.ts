@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
 import { StrapiButtonSchema } from "./StrapiButton";
@@ -16,10 +16,7 @@ export const StrapiBoxSchema = z
     outerBackground: StrapiBackgroundOptionalSchema,
     container: StrapiContainerSchema,
     buttons: z.array(StrapiButtonSchema).nullable().transform(omitNull),
+    __component: z.literal("page.box"),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema)
-  .transform((cmsData) => ({
-    __component: "page.box" as const,
-    ...cmsData,
-  }));
+  .merge(HasStrapiIdSchema)
+  .merge(OptionalStrapiLinkIdentifierSchema);

@@ -1,13 +1,10 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
+import { HasStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
 
 export const StrapiVideoSchema = z
   .object({
     title: z.string(),
     url: z.string(),
+    __component: z.literal("page.video"),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .transform((cmsData) => ({
-    __component: "page.video" as const,
-    ...cmsData,
-  }));
+  .merge(HasStrapiIdSchema);
