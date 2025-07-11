@@ -115,42 +115,41 @@ export default function Index() {
               houseNumber: "",
             }}
           >
-            <div className="pb-16 flex flex-wrap md:flex-nowrap gap-8">
-              <AutoSuggestInput
-                label={translations.gerichtFinder.streetName.de}
-                dataList="streetNames"
-                noSuggestionMessage={
-                  translations.gerichtFinder.noResultsFound.de
-                }
-                errorMessages={[requiredError]}
-                name={"street"}
-                isDisabled={false}
-                minSuggestCharacters={0}
-              />
-              <div className="max-w-[16ch]">
-                <Input
-                  type="number"
-                  label={translations.gerichtFinder.houseNumber.de}
-                  name={"houseNumber"}
+            <div className="ds-stack ds-stack-32">
+              <div className="flex flex-wrap md:flex-nowrap gap-16">
+                <AutoSuggestInput
+                  label={translations.gerichtFinder.streetName.de}
+                  dataList="streetNames"
+                  noSuggestionMessage={
+                    translations.gerichtFinder.noResultsFound.de
+                  }
+                  width="54"
                   errorMessages={[requiredError]}
-                  // Imposed limit to avoid regex backtracking
-                  charLimit={10}
+                  name="street"
+                  isDisabled={false}
+                  minSuggestCharacters={0}
+                />
+                <Input
+                  label={translations.gerichtFinder.houseNumber.de}
+                  name="houseNumber"
+                  errorMessages={[requiredError]}
+                  width="10"
                 />
               </div>
+              <ButtonContainer>
+                <Button
+                  href="/beratungshilfe/zustaendiges-gericht/suche"
+                  look="tertiary"
+                  size="large"
+                  id="backLink"
+                >
+                  {common.backButton}
+                </Button>
+                <Button type="submit" size="large" id="weiterButton">
+                  {translations.buttonNavigation.nextButtonDefaultLabel.de}
+                </Button>
+              </ButtonContainer>
             </div>
-            <ButtonContainer>
-              <Button
-                href="/beratungshilfe/zustaendiges-gericht/suche"
-                look="tertiary"
-                size="large"
-                id="backLink"
-              >
-                {common.backButton}
-              </Button>
-              <Button type="submit" size="large" id="weiterButton">
-                {translations.buttonNavigation.nextButtonDefaultLabel.de}
-              </Button>
-            </ButtonContainer>
           </ValidatedForm>
         </Container>
       </div>
