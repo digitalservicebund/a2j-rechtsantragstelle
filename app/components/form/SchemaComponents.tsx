@@ -15,9 +15,13 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
   <div className="ds-stack ds-stack-40">
     {Object.entries(pageSchema).map(([fieldName, fieldSchema]) => {
       const nestedSchema = getNestedSchema(fieldSchema);
-      const matchingElement = formComponents?.find(
-        ({ name }) => name === fieldName,
-      );
+      const matchingElement = formComponents
+        ?.filter(
+          (formComponents) =>
+            // TODO - revisit this code later. For more details check this link https://github.com/digitalservicebund/a2j-rechtsantragstelle/pull/2309#discussion_r2200352159
+            formComponents.__component !== "form-elements.fieldset",
+        )
+        .find(({ name }) => name === fieldName);
 
       if (isZodObject(nestedSchema)) {
         // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")

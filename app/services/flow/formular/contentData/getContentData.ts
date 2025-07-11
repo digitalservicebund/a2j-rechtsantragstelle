@@ -1,5 +1,6 @@
 import { type Flow } from "~/domains/flows.server";
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
+import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import { type StrapiMeta } from "~/services/cms/models/StrapiMeta";
 import { type CMSContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
 import { type buildFlowController } from "~/services/flow/server/buildFlowController";
@@ -53,7 +54,7 @@ export const getContentData = (
       return cmsContent;
     },
     getStepData: () => {
-      const fieldNames = cmsContent.formContent.map((entry) => entry.name);
+      const fieldNames = getFieldsByFormElements(cmsContent.formContent);
       return fieldsFromContext(userDataWithPageData, fieldNames);
     },
     getButtonNavigation: (
