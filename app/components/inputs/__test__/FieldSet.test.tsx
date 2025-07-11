@@ -51,9 +51,10 @@ describe("FieldSet", () => {
       />,
     );
 
-    expect(container.querySelector("img")).toBeInTheDocument();
-    expect(container.querySelector("[aria-hidden='true']")).toBeInTheDocument();
-    expect(container.querySelector("img")?.height).toBe(24);
-    expect(container.querySelector("img")?.width).toBe(24);
+    const img = container.querySelector("img");
+    expect(img).toBeInTheDocument();
+    expect(img).toHaveAttribute("aria-hidden", "true");
+    expect(img).toHaveAttribute("height", "24");
+    expect(img).toHaveAttribute("width", "24");
   });
 });
