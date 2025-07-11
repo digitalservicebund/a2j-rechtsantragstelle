@@ -1,8 +1,12 @@
+import mapValues from "lodash/mapValues";
 import { and, not } from "xstate";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { isIncomeTooHigh } from "./isIncomeTooHigh";
+import { beratungshilfeVorabcheckPages } from "./pages";
 import { type BeratungshilfeVorabcheckUserData } from "./userData";
 import type { GenericGuard } from "../../guards.server";
+
+const stepIds = mapValues(beratungshilfeVorabcheckPages, (v) => v.stepId);
 
 const staatlicheLeistungenYes: GenericGuard<
   BeratungshilfeVorabcheckUserData
@@ -12,523 +16,521 @@ const staatlicheLeistungenYes: GenericGuard<
 
 export const beratungshilfeVorabcheckXstateConfig = {
   id: "/beratungshilfe/vorabcheck",
-  initial: "rechtsschutzversicherung",
+  initial: stepIds.start,
   states: {
-    rechtsschutzversicherung: {
+    [stepIds.start]: {
+      on: { SUBMIT: stepIds.rechtsschutzversicherung },
+    },
+    [stepIds.rechtsschutzversicherung]: {
       on: {
         SUBMIT: [
           {
-            target: "rechtsschutzversicherung-details",
+            target: stepIds.rechtsschutzversicherungDetails,
             guard: ({ context }) => context.rechtsschutzversicherung === "yes",
           },
           {
-            target: "wurde-verklagt",
+            target: stepIds.wurdeVerklagt,
             guard: ({ context }) => context.rechtsschutzversicherung === "no",
           },
         ],
+        BACK: stepIds.start,
       },
     },
-    "rechtsschutzversicherung-details": {
+    [stepIds.rechtsschutzversicherungDetails]: {
       on: {
         SUBMIT: [
           {
             guard: ({ context }) => context.rsvCoverage === "yes",
-            target: "ergebnis/rechtsschutzversicherung-abbruch",
+            target: stepIds.rechtsschutzversicherungAbbruch,
           },
           {
             guard: ({ context }) => context.rsvCoverage === "tooExpensive",
-            target: "rechtsschutzversicherung-hinweis-selbstbeteiligung",
+            target: stepIds.rechtsschutzversicherungHinweisSelbstbeteiligung,
           },
           {
             guard: ({ context }) => context.rsvCoverage === "unknown",
-            target: "ergebnis/rechtsschutzversicherung-ungewiss-abbruch",
+            target: stepIds.rechtsschutzversicherungUngewissAbbruch,
           },
-          "rechtsschutzversicherung-hinweis-kostenuebernahme",
+          stepIds.rechtsschutzversicherungHinweisKostenuebernahme,
         ],
-        BACK: "rechtsschutzversicherung",
+        BACK: stepIds.rechtsschutzversicherung,
       },
     },
-    "rechtsschutzversicherung-hinweis-selbstbeteiligung": {
+    [stepIds.rechtsschutzversicherungHinweisSelbstbeteiligung]: {
       on: {
-        SUBMIT: "wurde-verklagt",
-        BACK: "rechtsschutzversicherung-details",
+        SUBMIT: stepIds.wurdeVerklagt,
+        BACK: stepIds.rechtsschutzversicherungDetails,
       },
     },
-    "rechtsschutzversicherung-hinweis-kostenuebernahme": {
+    [stepIds.rechtsschutzversicherungHinweisKostenuebernahme]: {
       on: {
-        SUBMIT: "wurde-verklagt",
-        BACK: "rechtsschutzversicherung-details",
+        SUBMIT: stepIds.wurdeVerklagt,
+        BACK: stepIds.rechtsschutzversicherungDetails,
       },
     },
-    "ergebnis/rechtsschutzversicherung-ungewiss-abbruch": {
-      on: { BACK: "rechtsschutzversicherung-details" },
+    [stepIds.rechtsschutzversicherungUngewissAbbruch]: {
+      on: { BACK: stepIds.rechtsschutzversicherungDetails },
     },
-    "ergebnis/rechtsschutzversicherung-abbruch": {
-      on: { BACK: "rechtsschutzversicherung-details" },
+    [stepIds.rechtsschutzversicherungAbbruch]: {
+      on: { BACK: stepIds.rechtsschutzversicherungDetails },
     },
-    "wurde-verklagt": {
+    [stepIds.wurdeVerklagt]: {
       on: {
         SUBMIT: [
           {
-            target: "ergebnis/wurde-verklagt-abbruch",
+            target: stepIds.wurdeVerklagtAbbruch,
             guard: ({ context }) => context.wurdeVerklagt === "yes",
           },
           {
-            target: "klage-eingereicht",
+            target: stepIds.klageEingereicht,
             guard: ({ context }) => context.wurdeVerklagt === "no",
           },
         ],
         BACK: [
           {
-            target: "rechtsschutzversicherung-hinweis-selbstbeteiligung",
+            target: stepIds.rechtsschutzversicherungHinweisSelbstbeteiligung,
             guard: ({ context }) => context.rsvCoverage === "tooExpensive",
           },
           {
-            target: "rechtsschutzversicherung-hinweis-kostenuebernahme",
+            target: stepIds.rechtsschutzversicherungHinweisKostenuebernahme,
             guard: ({ context }) =>
               context.rsvCoverage === "partly" || context.rsvCoverage === "no",
           },
-          "rechtsschutzversicherung",
+          stepIds.rechtsschutzversicherung,
         ],
       },
     },
-    "ergebnis/wurde-verklagt-abbruch": {
-      on: { BACK: "wurde-verklagt" },
+    [stepIds.wurdeVerklagtAbbruch]: {
+      on: { BACK: stepIds.wurdeVerklagt },
     },
-    "klage-eingereicht": {
+    [stepIds.klageEingereicht]: {
       on: {
         SUBMIT: [
           {
-            target: "hamburg-oder-bremen",
+            target: stepIds.hamburgOderBremen,
             guard: ({ context }) => context.klageEingereicht === "no",
           },
           {
-            target: "ergebnis/klage-eingereicht-abbruch",
+            target: stepIds.klageEingereichtAbbruch,
             guard: ({ context }) => context.klageEingereicht === "yes",
           },
         ],
-        BACK: "wurde-verklagt",
+        BACK: stepIds.wurdeVerklagt,
       },
     },
-    "ergebnis/klage-eingereicht-abbruch": {
+    [stepIds.klageEingereichtAbbruch]: {
       on: {
-        BACK: "klage-eingereicht",
+        BACK: stepIds.klageEingereicht,
       },
     },
-    "hamburg-oder-bremen": {
+    [stepIds.hamburgOderBremen]: {
       on: {
         SUBMIT: [
           {
-            target: "beratungshilfe-beantragt",
+            target: stepIds.beratungshilfeBeantragt,
             guard: ({ context }) => context.hamburgOderBremen === "no",
           },
           {
-            target: "ergebnis/hamburg-oder-bremen-abbruch",
+            target: stepIds.hamburgOderBremenAbbruch,
             guard: ({ context }) => context.hamburgOderBremen === "yes",
           },
         ],
-        BACK: "klage-eingereicht",
+        BACK: stepIds.klageEingereicht,
       },
     },
-    "ergebnis/hamburg-oder-bremen-abbruch": {
-      on: { BACK: "hamburg-oder-bremen" },
+    [stepIds.hamburgOderBremenAbbruch]: {
+      on: { BACK: stepIds.hamburgOderBremen },
     },
-    "beratungshilfe-beantragt": {
+    [stepIds.beratungshilfeBeantragt]: {
       on: {
         SUBMIT: [
           {
-            target: "eigeninitiative",
+            target: stepIds.eigeninitiative,
             guard: ({ context }) => context.beratungshilfeBeantragt === "no",
           },
           {
-            target: "ergebnis/beratungshilfe-beantragt-abbruch",
+            target: stepIds.beratungshilfeBeantragtAbbruch,
             guard: ({ context }) => context.beratungshilfeBeantragt === "yes",
           },
         ],
-        BACK: "hamburg-oder-bremen",
+        BACK: stepIds.hamburgOderBremen,
       },
     },
-    "ergebnis/beratungshilfe-beantragt-abbruch": {
-      on: { BACK: "beratungshilfe-beantragt" },
+    [stepIds.beratungshilfeBeantragtAbbruch]: {
+      on: { BACK: stepIds.beratungshilfeBeantragt },
     },
-    eigeninitiative: {
+    [stepIds.eigeninitiative]: {
       on: {
         SUBMIT: [
           {
-            target: "bereich",
+            target: stepIds.bereich,
             guard: ({ context }) => context.eigeninitiative === "yes",
           },
           {
-            target: "eigeninitiative-warnung",
+            target: stepIds.eigeninitiativeWarnung,
             guard: ({ context }) => context.eigeninitiative === "no",
           },
         ],
-        BACK: "beratungshilfe-beantragt",
+        BACK: stepIds.beratungshilfeBeantragt,
       },
     },
-    "eigeninitiative-warnung": {
+    [stepIds.eigeninitiativeWarnung]: {
       on: {
         SUBMIT: {
-          target: "bereich",
+          target: stepIds.bereich,
         },
-        BACK: "eigeninitiative",
+        BACK: stepIds.eigeninitiative,
       },
     },
-    bereich: {
+    [stepIds.bereich]: {
       meta: {
         customAnalyticsEventName: "beratungshilfe vorabcheck bereich submitted",
       },
       on: {
-        SUBMIT: "staatliche-leistungen",
+        SUBMIT: stepIds.staatlicheLeistungen,
         BACK: [
           {
-            target: "eigeninitiative-warnung",
+            target: stepIds.eigeninitiativeWarnung,
             guard: ({ context }) => context.eigeninitiative === "no",
           },
-          "eigeninitiative",
+          stepIds.eigeninitiative,
         ],
       },
     },
-    "staatliche-leistungen": {
+    [stepIds.staatlicheLeistungen]: {
       on: {
         SUBMIT: [
           {
-            target: "ergebnis/staatliche-leistungen-abschluss-vielleicht",
+            target: stepIds.staatlicheLeistungenAbschlussVielleicht,
             guard: and([
               staatlicheLeistungenYes,
               ({ context }) => context.eigeninitiative === "no",
             ]),
           },
           {
-            target: "ergebnis/staatliche-leistungen-abschluss-ja",
+            target: stepIds.staatlicheLeistungenAbschlussJa,
             guard: staatlicheLeistungenYes,
           },
           {
-            target: "vermoegen",
+            target: stepIds.vermoegen,
             guard: ({ context }) =>
               context.staatlicheLeistungen === "buergergeld" ||
               context.staatlicheLeistungen === "keine",
           },
         ],
-        BACK: "bereich",
+        BACK: stepIds.bereich,
       },
     },
-    "ergebnis/staatliche-leistungen-abschluss-ja": {
+    [stepIds.staatlicheLeistungenAbschlussJa]: {
       on: {
-        BACK: "staatliche-leistungen",
+        BACK: stepIds.staatlicheLeistungen,
       },
     },
-    "ergebnis/staatliche-leistungen-abschluss-vielleicht": {
+    [stepIds.staatlicheLeistungenAbschlussVielleicht]: {
       on: {
-        BACK: "staatliche-leistungen",
+        BACK: stepIds.staatlicheLeistungen,
       },
     },
-    vermoegen: {
+    [stepIds.vermoegen]: {
       on: {
         SUBMIT: [
           {
-            target: "ergebnis/vermoegen-abschluss-vielleicht",
+            target: stepIds.vermoegenAbschlussVielleicht,
             guard: ({ context }) =>
               context.vermoegen === "below_10k" &&
               context.staatlicheLeistungen === "buergergeld" &&
               context.eigeninitiative === "no",
           },
           {
-            target: "ergebnis/vermoegen-abschluss-ja",
+            target: stepIds.vermoegenAbschlussJa,
             guard: ({ context }) =>
               context.vermoegen === "below_10k" &&
               context.staatlicheLeistungen === "buergergeld",
           },
           {
-            target: "erwerbstaetigkeit",
+            target: stepIds.erwerbstaetigkeit,
             guard: ({ context }) => context.vermoegen === "below_10k",
           },
           {
-            target: "ergebnis/vermoegen-abbruch",
+            target: stepIds.vermoegenAbschlussAbbruch,
             guard: ({ context }) => context.vermoegen === "above_10k",
           },
         ],
-        BACK: "staatliche-leistungen",
+        BACK: stepIds.staatlicheLeistungen,
       },
     },
-    "ergebnis/vermoegen-abschluss-ja": {
+    [stepIds.vermoegenAbschlussJa]: {
       on: {
-        BACK: "vermoegen",
+        BACK: stepIds.vermoegen,
       },
     },
-    "ergebnis/vermoegen-abschluss-vielleicht": {
+    [stepIds.vermoegenAbschlussVielleicht]: {
       on: {
-        BACK: "vermoegen",
+        BACK: stepIds.vermoegen,
       },
     },
-    "ergebnis/vermoegen-abbruch": {
+    [stepIds.vermoegenAbschlussAbbruch]: {
       on: {
-        BACK: "vermoegen",
+        BACK: stepIds.vermoegen,
       },
     },
-    erwerbstaetigkeit: {
-      on: {
-        SUBMIT: {
-          target: "partnerschaft",
-        },
-        BACK: {
-          target: "vermoegen",
-        },
-      },
-    },
-    partnerschaft: {
+    [stepIds.erwerbstaetigkeit]: {
       on: {
         SUBMIT: {
-          target: "genauigkeit",
+          target: stepIds.partnerschaft,
         },
         BACK: {
-          target: "erwerbstaetigkeit",
+          target: stepIds.vermoegen,
         },
       },
     },
-    genauigkeit: {
+    [stepIds.partnerschaft]: {
+      on: {
+        SUBMIT: {
+          target: stepIds.genauigkeit,
+        },
+        BACK: {
+          target: stepIds.erwerbstaetigkeit,
+        },
+      },
+    },
+    [stepIds.genauigkeit]: {
       on: {
         SUBMIT: [
           {
-            target: "kinder-kurz",
+            target: stepIds.kinderKurz,
             guard: ({ context }) => context.genauigkeit === "no",
           },
           {
-            target: "einkommen",
+            target: stepIds.einkommen,
             guard: ({ context }) => context.genauigkeit === "yes",
           },
         ],
-        BACK: "partnerschaft",
+        BACK: stepIds.partnerschaft,
       },
     },
-    "kinder-kurz": {
+    [stepIds.kinderKurz]: {
       on: {
         SUBMIT: [
           {
-            target: "kinder-anzahl-kurz",
+            target: stepIds.kinderAnzahlKurz,
             guard: ({ context }) => context.kinderKurz === "yes",
           },
           {
-            target: "verfuegbares-einkommen",
+            target: stepIds.verfuegbaresEinkommen,
             guard: ({ context }) => context.kinderKurz === "no",
           },
         ],
         BACK: {
-          target: "genauigkeit",
+          target: stepIds.genauigkeit,
         },
       },
     },
-    "kinder-anzahl-kurz": {
+    [stepIds.kinderAnzahlKurz]: {
       on: {
         SUBMIT: {
-          target: "verfuegbares-einkommen",
+          target: stepIds.verfuegbaresEinkommen,
           guard: ({ context }) => context.kinderAnzahlKurz != null,
         },
         BACK: {
-          target: "kinder-kurz",
+          target: stepIds.kinderKurz,
         },
       },
     },
-    "verfuegbares-einkommen": {
+    [stepIds.verfuegbaresEinkommen]: {
       on: {
         SUBMIT: [
           {
-            target: "ergebnis/verfuegbares-einkommen-abschluss-ja",
+            target: stepIds.verfuegbaresEinkommenAbschlussJa,
             guard: ({ context }) =>
               context.verfuegbaresEinkommen === "no" &&
               context.eigeninitiative === "yes",
           },
           {
-            target: "ergebnis/verfuegbares-einkommen-abschluss-vielleicht",
+            target: stepIds.verfuegbaresEinkommenAbschlussVielleicht,
             guard: ({ context }) => context.verfuegbaresEinkommen === "no",
           },
           {
-            target: "ergebnis/verfuegbares-einkommen-abschluss-nein",
+            target: stepIds.verfuegbaresEinkommenAbschlussNein,
             guard: ({ context }) => context.verfuegbaresEinkommen === "yes",
           },
         ],
         BACK: [
           {
-            target: "kinder-anzahl-kurz",
+            target: stepIds.kinderAnzahlKurz,
             guard: ({ context }) => context.kinderKurz === "yes",
           },
           {
-            target: "kinder-kurz",
+            target: stepIds.kinderKurz,
           },
         ],
       },
     },
-    "ergebnis/verfuegbares-einkommen-abschluss-ja": {
+    [stepIds.verfuegbaresEinkommenAbschlussJa]: {
       on: {
-        BACK: "verfuegbares-einkommen",
+        BACK: stepIds.verfuegbaresEinkommen,
       },
     },
-    "ergebnis/verfuegbares-einkommen-abschluss-vielleicht": {
+    [stepIds.verfuegbaresEinkommenAbschlussVielleicht]: {
       on: {
-        BACK: "verfuegbares-einkommen",
+        BACK: stepIds.verfuegbaresEinkommen,
       },
     },
-    "ergebnis/verfuegbares-einkommen-abschluss-nein": {
+    [stepIds.verfuegbaresEinkommenAbschlussNein]: {
       on: {
-        BACK: "verfuegbares-einkommen",
+        BACK: stepIds.verfuegbaresEinkommen,
       },
     },
     einkommen: {
       on: {
         SUBMIT: [
           {
-            target: "einkommen-partner",
+            target: stepIds.einkommenPartner,
             guard: ({ context }) => context.partnerschaft === "yes",
           },
           {
-            target: "kinder",
+            target: stepIds.kinder,
             guard: ({ context }) => context.partnerschaft === "no",
           },
         ],
-        BACK: "genauigkeit",
+        BACK: stepIds.genauigkeit,
       },
     },
-    "einkommen-partner": {
+    [stepIds.einkommenPartner]: {
       on: {
         SUBMIT: {
-          target: "kinder",
+          target: stepIds.kinder,
         },
-        BACK: "einkommen",
+        BACK: stepIds.einkommen,
       },
     },
-    kinder: {
+    [stepIds.kinder]: {
       on: {
         SUBMIT: [
           {
-            target: "kinder-anzahl",
+            target: stepIds.kinderAnzahl,
             guard: ({ context }) => context.kinder === "yes",
           },
           {
-            target: "unterhalt",
+            target: stepIds.unterhalt,
             guard: ({ context }) => context.kinder === "no",
           },
         ],
         BACK: [
           {
-            target: "einkommen-partner",
+            target: stepIds.einkommenPartner,
             guard: ({ context }) => context.partnerschaft === "yes",
           },
           {
-            target: "einkommen",
+            target: stepIds.einkommen,
             guard: ({ context }) => context.partnerschaft === "no",
           },
         ],
       },
     },
-    "kinder-anzahl": {
+    [stepIds.kinderAnzahl]: {
       on: {
         SUBMIT: {
-          target: "einkommen-kinder",
+          target: stepIds.einkommenKinder,
           guard: ({ context }) =>
             context.kids?.kids6Below != undefined ||
             context.kids?.kids7To14 != undefined ||
             context.kids?.kids15To18 != undefined ||
             context.kids?.kids18Above != undefined,
         },
-        BACK: "kinder",
+        BACK: stepIds.kinder,
       },
     },
-    "einkommen-kinder": {
+    [stepIds.einkommenKinder]: {
       on: {
         SUBMIT: {
-          target: "unterhalt",
+          target: stepIds.unterhalt,
           guard: ({ context }) => context.einkommenKinder != undefined,
         },
-        BACK: "kinder-anzahl",
+        BACK: stepIds.kinderAnzahl,
       },
     },
     unterhalt: {
       on: {
         SUBMIT: [
           {
-            target: "unterhalt-summe",
+            target: stepIds.unterhaltSumme,
             guard: ({ context }) => context.unterhalt === "yes",
           },
           {
-            target: "miete",
+            target: stepIds.miete,
             guard: ({ context }) => context.unterhalt === "no",
           },
         ],
         BACK: [
           {
-            target: "einkommen-kinder",
+            target: stepIds.einkommenKinder,
             guard: ({ context }) => context.kinder === "yes",
           },
           {
-            target: "kinder",
+            target: stepIds.kinder,
             guard: ({ context }) => context.kinder === "no",
           },
         ],
       },
     },
-    "unterhalt-summe": {
+    [stepIds.unterhaltSumme]: {
       on: {
         SUBMIT: {
-          target: "miete",
+          target: stepIds.miete,
           guard: ({ context }) => context.unterhaltSumme != undefined,
         },
-        BACK: "unterhalt",
+        BACK: stepIds.unterhalt,
       },
     },
     miete: {
       on: {
         SUBMIT: {
-          target: "weitere-zahlungen-summe",
+          target: stepIds.weitereZahlungenSumme,
           guard: ({ context }) => context.miete != undefined,
         },
         BACK: [
           {
-            target: "unterhalt-summe",
+            target: stepIds.unterhaltSumme,
             guard: ({ context }) => context.unterhalt === "yes",
           },
           {
-            target: "unterhalt",
+            target: stepIds.unterhalt,
             guard: ({ context }) => context.unterhalt === "no",
           },
         ],
       },
     },
-    "weitere-zahlungen-summe": {
+    [stepIds.weitereZahlungenSumme]: {
       on: {
         SUBMIT: [
           {
-            target: "ergebnis/weitere-zahlungen-summe-abschluss-vielleicht",
+            target: stepIds.weitereZahlungenSummeAbschlussVielleicht,
             guard: and([
               not(isIncomeTooHigh),
               ({ context }) => context.eigeninitiative == "no",
             ]),
           },
           {
-            target: "ergebnis/weitere-zahlungen-summe-abschluss-nein",
+            target: stepIds.weitereZahlungenSummeAbschlussNein,
             guard: isIncomeTooHigh,
           },
           {
-            target: "ergebnis/weitere-zahlungen-summe-abschluss-ja",
+            target: stepIds.weitereZahlungenSummeAbschlussJa,
             guard: ({ context }) => context.weitereZahlungenSumme != undefined,
           },
         ],
-        BACK: "miete",
+        BACK: stepIds.miete,
       },
     },
-    "ergebnis/weitere-zahlungen-summe-abschluss-vielleicht": {
-      on: {
-        BACK: "weitere-zahlungen-summe",
-      },
+    [stepIds.weitereZahlungenSummeAbschlussVielleicht]: {
+      on: { BACK: stepIds.weitereZahlungenSumme },
     },
-    "ergebnis/weitere-zahlungen-summe-abschluss-nein": {
-      on: {
-        BACK: "weitere-zahlungen-summe",
-      },
+    [stepIds.weitereZahlungenSummeAbschlussNein]: {
+      on: { BACK: stepIds.weitereZahlungenSumme },
     },
-    "ergebnis/weitere-zahlungen-summe-abschluss-ja": {
-      on: {
-        BACK: "weitere-zahlungen-summe",
-      },
+    [stepIds.weitereZahlungenSummeAbschlussJa]: {
+      on: { BACK: stepIds.weitereZahlungenSumme },
     },
   },
 } satisfies Config<BeratungshilfeVorabcheckUserData>;

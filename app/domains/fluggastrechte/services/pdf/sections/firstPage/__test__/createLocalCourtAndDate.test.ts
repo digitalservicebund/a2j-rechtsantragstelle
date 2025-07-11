@@ -50,36 +50,19 @@ describe("createLocalCourtAndDate", () => {
 
     expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
-
     expect(mockDoc.text).toHaveBeenCalledWith(
       CREATION_PDF_TEXT + " " + "14.10.2024",
       70,
       200,
-      { align: "right" },
+      {
+        align: "right",
+      },
     );
-    expect(mockDoc.text).toHaveBeenCalledWith(TO_THE_COURT_TEXT, {
+    expect(mockDoc.text).toHaveBeenCalledWith(TO_THE_COURT_TEXT, 70, 200, {
       align: "left",
       continued: false,
     });
 
-    expect(mockDoc.text).toHaveBeenNthCalledWith(
-      1,
-      CREATION_PDF_TEXT + " " + "14.10.2024",
-      70,
-      200,
-      { align: "right" },
-    );
-    expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      `${CREATION_PDF_TEXT} 14.10.2024`,
-      70,
-      200,
-      { align: "right" },
-    );
-    expect(mockDoc.text).toHaveBeenCalledWith(TO_THE_COURT_TEXT, {
-      align: "left",
-      continued: false,
-    });
     expect(mockDoc.text).toHaveBeenCalledWith(amtsgericht.BEZEICHNUNG, {
       continued: true,
     });
@@ -93,15 +76,12 @@ describe("createLocalCourtAndDate", () => {
     vi.mocked(getCourtByStartAndEndAirport).mockReturnValue(undefined);
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    mockDoc.y = 200;
     mockDoc.fillOpacity = vi.fn().mockReturnThis();
 
     createLocalCourtAndDate(mockDoc, mockStruct, userDataMock);
 
-    expect(mockDoc.text).toHaveBeenCalledWith(TO_THE_COURT_TEXT, {
-      align: "left",
-      continued: false,
-    });
-    expect(mockDoc.text).toHaveBeenNthCalledWith(2, TO_THE_COURT_TEXT, {
+    expect(mockDoc.text).toHaveBeenCalledWith(TO_THE_COURT_TEXT, 70, 200, {
       align: "left",
       continued: false,
     });

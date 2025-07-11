@@ -53,7 +53,10 @@ export async function deleteUserFileFromS3(
       }),
     );
   } catch (error) {
-    sendSentryMessage("Error storing user uploaded file to S3 bucket", "error");
+    sendSentryMessage(
+      "Error deleting user uploaded file from S3 bucket",
+      "error",
+    );
     throw error;
   }
 }

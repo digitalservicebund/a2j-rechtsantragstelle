@@ -1,5 +1,5 @@
 import { beratungshilfePersoenlicheDatenDone } from "~/domains/beratungshilfe/formular/persoenlicheDaten/doneFunctions";
-import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
 import {
   andereUnterhaltszahlungenDone,
@@ -18,7 +18,11 @@ import { rechtsproblemDone } from "./rechtsproblem/rechtsproblemDone";
 export const getAmtsgerichtStrings = (
   context: BeratungshilfeFormularUserData,
 ) => {
-  const court = findCourtIfUnique(context.plz);
+  const court = findCourt({
+    zipCode: context.plz,
+    streetSlug: context.street,
+    houseNumber: context.houseNumber,
+  });
   return {
     courtName: court?.BEZEICHNUNG,
     courtStreetNumber: court?.STR_HNR,

@@ -26,6 +26,9 @@ const CustomClearIndicator = (
       onClick={() => {
         props.clearValue();
       }}
+      onTouchStart={() => {
+        props.clearValue();
+      }}
       tabIndex={0}
     >
       <CloseIcon className="text-blue-800 forced-colors:text-[ButtonText]" />

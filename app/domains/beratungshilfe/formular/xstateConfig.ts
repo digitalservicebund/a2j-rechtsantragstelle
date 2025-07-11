@@ -1,6 +1,5 @@
-import merge from "lodash/merge";
 import { hasOptionalString } from "~/domains/guards.server";
-import persoenlicheDatenFlow from "~/domains/shared/formular/persoenlicheDaten/flow.json";
+import { getPersoenlicheDatenXstateConfig } from "~/domains/shared/formular/persoenlicheDaten/xStateConfig";
 import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
@@ -43,54 +42,47 @@ export const beratungshilfeXstateConfig = {
     "anwaltliche-vertretung": anwaltlicheVertretungXstateConfig,
     rechtsproblem: rechtsproblemXstateConfig,
     "finanzielle-angaben": beratungshilfeFinanzielleAngabenXstateConfig,
-    "persoenliche-daten": merge(persoenlicheDatenFlow, {
-      meta: {
-        done: ({ context }) =>
-          beratungshilfePersoenlicheDatenDone({ context }) &&
-          hasOptionalString(context.telefonnummer),
+    "persoenliche-daten": getPersoenlicheDatenXstateConfig(
+      ({ context }) =>
+        beratungshilfePersoenlicheDatenDone({ context }) &&
+        hasOptionalString(context.telefonnummer),
+      {
+        backToCallingFlow: [
+          {
+            guard:
+              finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeldAndEigentumDone,
+            target:
+              "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung",
+          },
+          {
+            guard:
+              finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeldAndHasEigentum,
+            target: "#finanzielle-angaben.eigentum.gesamtwert",
+          },
+          {
+            guard: finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeld,
+            target: "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
+          },
+          {
+            guard: finanzielleAngabeGuards.hasAusgabenYes,
+            target: "#ausgaben.uebersicht",
+          },
+          {
+            guard: finanzielleAngabeGuards.hasNoStaatlicheLeistungen,
+            target: "#ausgaben.ausgaben-frage",
+          },
+          "#finanzielle-angaben.einkommen.staatliche-leistungen",
+        ],
+        nextFlowEntrypoint: showNachbefragung
+          ? "nachbefragung"
+          : "#weitere-angaben",
       },
-      states: {
-        start: {
-          on: {
-            BACK: [
-              {
-                guard:
-                  finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeldAndEigentumDone,
-                target:
-                  "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung",
-              },
-              {
-                guard:
-                  finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeldAndHasEigentum,
-                target: "#finanzielle-angaben.eigentum.gesamtwert",
-              },
-              {
-                guard:
-                  finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeld,
-                target: "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
-              },
-              {
-                guard: finanzielleAngabeGuards.hasAusgabenYes,
-                target: "#ausgaben.uebersicht",
-              },
-              {
-                guard: finanzielleAngabeGuards.hasNoStaatlicheLeistungen,
-                target: "#ausgaben.ausgaben-frage",
-              },
-              "#finanzielle-angaben.einkommen.staatliche-leistungen",
-            ],
-          },
-        },
-        telefonnummer: {
-          on: {
-            SUBMIT: showNachbefragung ? "nachbefragung" : "#weitere-angaben",
-          },
-        },
+      {
         nachbefragung: {
           on: { BACK: "telefonnummer", SUBMIT: "#weitere-angaben" },
         },
       },
-    } satisfies Config<BeratungshilfeFormularUserData>),
+    ),
     "weitere-angaben": {
       id: "weitere-angaben",
       meta: { done: weitereAngabenDone },

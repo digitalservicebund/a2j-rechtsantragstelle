@@ -24,8 +24,8 @@ export const concatenateNameVornameString = (
 export const concatenateAnschriftString = (
   userData: ProzesskostenhilfeFormularUserData,
 ): string => {
-  const { strasseHausnummer, plz, ort } = userData;
-  return `${strasseHausnummer}, ${plz} ${ort}`;
+  const { street, houseNumber, plz, ort } = userData;
+  return `${street} ${houseNumber}, ${plz} ${ort}`;
 };
 
 export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {

@@ -79,6 +79,7 @@ const testCasesFormular = [
       "/persoenliche-daten/start",
       "/persoenliche-daten/name",
       "/persoenliche-daten/geburtsdatum",
+      "/persoenliche-daten/plz",
       "/persoenliche-daten/adresse",
       "/persoenliche-daten/telefonnummer",
       "/persoenliche-daten/beruf",

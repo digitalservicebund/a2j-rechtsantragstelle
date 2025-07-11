@@ -1,6 +1,6 @@
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/maritalDescriptionMapping";
-import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
   type AttachmentEntries,
@@ -26,8 +26,12 @@ export const fillHeader: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   const attachment: AttachmentEntries = [];
   pdfValues.antragstellerNameVornameggfGeburtsname.value = `${userData.nachname}, ${userData.vorname}`;
   pdfValues.geburtsdatumdesAntragstellers.value = userData.geburtsdatum;
-  pdfValues.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${userData.strasseHausnummer}, ${userData.plz} ${userData.ort}`;
-  const court = findCourtIfUnique(userData.plz);
+  pdfValues.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${userData.street} ${userData.houseNumber}, ${userData.plz} ${userData.ort}`;
+  const court = findCourt({
+    zipCode: userData.plz,
+    houseNumber: userData.houseNumber,
+    streetSlug: userData.street,
+  });
   if (court) {
     const courtName = court.BEZEICHNUNG.replace("Amtsgericht", "").trim();
     pdfValues.namedesAmtsgerichts.value = courtName;

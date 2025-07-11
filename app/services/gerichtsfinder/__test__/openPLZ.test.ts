@@ -1,5 +1,8 @@
 /* eslint-disable sonarjs/no-nested-functions */
-import { fetchStreetnamesForZipcode } from "~/services/gerichtsfinder/openPLZ";
+import {
+  buildOpenPlzResultUrl,
+  fetchStreetnamesForZipcode,
+} from "~/services/gerichtsfinder/openPLZ";
 
 const fetchSpy = vi.fn();
 global.fetch = fetchSpy;
@@ -46,8 +49,8 @@ describe("OpenPLZ helpers", () => {
         },
       } as Response);
       expect(await fetchStreetnamesForZipcode("12345")).toEqual([
-        { label: "Coolstraße", value: "coolstraße" },
-        { label: "Geilestraße", value: "geilestraße" },
+        { label: "Coolstraße", value: "Coolstraße" },
+        { label: "Geilestraße", value: "Geilestraße" },
       ]);
     });
 
@@ -77,6 +80,22 @@ describe("OpenPLZ helpers", () => {
       expect(result.map((r) => ({ name: r.label }))).toEqual(
         mockOpenPLZResponse,
       );
+    });
+  });
+
+  describe("buildOpenPlzResultUrl", () => {
+    it("should replace umlauts with their phonetic equivalents", () => {
+      expect(buildOpenPlzResultUrl("äöü", "123")).toBe("aeoeue/123");
+    });
+
+    it('should replace spaces with "_"', () => {
+      expect(buildOpenPlzResultUrl("a b", "123")).toBe("a_b/123");
+    });
+
+    it("should trim the house number's ergänzung to retrieve only the first number", () => {
+      expect(buildOpenPlzResultUrl("a", "123a")).toBe("a/123");
+      expect(buildOpenPlzResultUrl("a", "123 1/2")).toBe("a/123");
+      expect(buildOpenPlzResultUrl("a", "a123")).toBe("a/123");
     });
   });
 });

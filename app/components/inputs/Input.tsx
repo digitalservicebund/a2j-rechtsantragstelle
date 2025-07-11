@@ -18,6 +18,7 @@ export type InputProps = Readonly<{
   errorMessages?: ErrorMessageProps[];
   width?: FieldWidth;
   helperText?: string;
+  charLimit?: number;
 }>;
 
 const Input = function InputComponent({
@@ -31,18 +32,19 @@ const Input = function InputComponent({
   errorMessages,
   helperText,
   width,
+  charLimit = INPUT_CHAR_LIMIT,
   innerRef,
 }: InputProps & { innerRef?: React.Ref<HTMLInputElement> }) {
   const field = useField(name);
   const errorId = `${name}-error`;
   const helperId = `${name}-helper`;
   return (
-    <div>
+    <div className="w-full">
       {label && <InputLabel id={name}>{label}</InputLabel>}
       <div className="ds-input-group">
         {prefix && <div className="ds-input-prefix">{prefix}</div>}
         <input
-          maxLength={INPUT_CHAR_LIMIT}
+          maxLength={charLimit}
           {...field.getInputProps({
             type: type === "number" ? "text" : type,
             step,

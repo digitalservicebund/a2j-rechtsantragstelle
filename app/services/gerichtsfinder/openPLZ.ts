@@ -17,13 +17,18 @@ type OpenPLZResult = {
     name: string;
   };
 };
-export function buildOpenPlzResultUrl(streetName: string, houseNumber: number) {
+
+export function buildOpenPlzResultUrl(streetName: string, houseNumber: string) {
+  /**
+   * For the purposes of matching the user input to zuständiges gericht, we really only need the house number without ergänzung
+   */
+  const trimmedHouseNumber = new RegExp(/\d+/).exec(houseNumber)?.[0];
   return `${streetName
     .toLowerCase()
     .replace(/ä/g, "ae")
     .replace(/ö/g, "oe")
     .replace(/ü/g, "ue")
-    .replaceAll(/\s+/g, "_")}/${houseNumber}`;
+    .replaceAll(/\s+/g, "_")}/${trimmedHouseNumber}`;
 }
 export async function fetchStreetnamesForZipcode(zipCode?: string) {
   const openPlzResponse = await fetch(
@@ -62,8 +67,8 @@ export async function fetchStreetnamesForZipcode(zipCode?: string) {
     ).flat();
     results.push(...newResults);
   }
-  return uniqBy(results, "name").map((result) => ({
-    value: result.name.toLowerCase().replaceAll(/\s+/g, ""),
-    label: result.name,
+  return uniqBy(results, "name").map(({ name }) => ({
+    value: name,
+    label: name,
   }));
 }

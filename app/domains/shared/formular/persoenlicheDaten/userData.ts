@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createDateSchema } from "~/services/validation/date";
+import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
@@ -21,7 +22,16 @@ export const namePrivatPerson = {
   ...vornameNachnameSchema,
 };
 
+export const streetHouseNumberSchema = {
+  street: stringRequiredSchema,
+  houseNumber: germanHouseNumberSchema,
+};
+
 export const adresseSchema = {
+  ...streetHouseNumberSchema,
+  /**
+   * Pre- Auto-Complete implementation for street, keeping for compatibility with FGR
+   */
   strasseHausnummer: stringRequiredSchema,
   plz: stringRequiredSchema.pipe(postcodeSchema),
   ort: stringRequiredSchema,
@@ -37,5 +47,8 @@ export const persoenlicheDaten = {
   ...adresseSchema,
   telefonnummer,
 };
+
+const _partialSchema = z.object(persoenlicheDaten).partial();
+export type PersoenlicheDatenUserData = z.infer<typeof _partialSchema>;
 
 export const beruf = stringRequiredSchema;

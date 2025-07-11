@@ -198,6 +198,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
   ort: "Berlin",
   plz: "10119",
   geburtsdatum: "01.01.1981",
-  strasseHausnummer: "Strasse 1",
+  street: "Strasse",
+  houseNumber: "1",
   // telefonnummer: "",
 };
