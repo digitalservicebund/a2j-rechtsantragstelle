@@ -33,10 +33,7 @@ const List = ({
           // Need to filter out empty list items when conditionally rendering with mustache templating
           .filter(listItemNotEmpty)
           .map((item, index) => (
-            <li
-              key={item.identifier ?? item.headline?.text ?? item.content}
-              className="group"
-            >
+            <li key={item.id} className="group">
               <ListItem {...item} index={index + 1} variant={variant} />
             </li>
           ))}
