@@ -90,8 +90,8 @@ test.describe("edge cases results", () => {
 
   test("leads to single court", async ({ page }) => {
     await courtfinder.searchPLZEdgeCases();
-    await courtfinder.fillAutoSuggestInputPage("input-street", "Am Elbtunnel");
     await page.getByLabel("Hausnummer").fill("1");
+    await courtfinder.fillAutoSuggestInputPage("input-street", "Am Elbtunnel");
     await page.locator("#weiterButton").click();
     await expectSingleCourtContent(courtfinder);
   });

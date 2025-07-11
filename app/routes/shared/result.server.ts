@@ -1,47 +1,33 @@
-import type { LoaderFunctionArgs } from "react-router";
-import { data, redirect } from "react-router";
-import { parsePathname } from "~/domains/flowIds";
+import { type LoaderFunctionArgs, redirectDocument, data } from "react-router";
 import { flows } from "~/domains/flows.server";
-import {
-  fetchFlowPage,
-  fetchMeta,
-  fetchTranslations,
-} from "~/services/cms/index.server";
-import { buildFlowController } from "~/services/flow/server/buildFlowController";
+import { fetchFlowPage, fetchMeta } from "~/services/cms/index.server";
+import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { stepMeta } from "~/services/meta/formStepMeta";
-import { skipFlowParamAllowedAndEnabled } from "~/services/params";
-import { getSessionData } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import { translations } from "~/services/translations/translations";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 
-export const loader = async ({ request, context }: LoaderFunctionArgs) => {
-  const { pathname, searchParams } = new URL(request.url);
-  const { flowId, stepId } = parsePathname(pathname);
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const resultUserAndFlow = await getUserDataAndFlow(request);
+
+  if (resultUserAndFlow.isErr) {
+    return redirectDocument(resultUserAndFlow.error.redirectTo);
+  }
+
+  const {
+    userData,
+    flow: { id: flowId, controller: flowController },
+    page: { stepId },
+  } = resultUserAndFlow.value;
+
   const cmsStepId = stepId.replace("ergebnis/", "");
   const cookieHeader = request.headers.get("Cookie");
-
-  const { userData, debugId } = await getSessionData(flowId, cookieHeader);
-  context.debugId = debugId; // For showing in errors
-
   const currentFlow = flows[flowId];
 
-  const flowController = buildFlowController({
-    config: currentFlow.config,
-    data: userData,
-    guards: currentFlow.guards,
-  });
-
-  if (
-    !flowController.isReachable(stepId) &&
-    !skipFlowParamAllowedAndEnabled(searchParams)
-  )
-    return redirect(flowController.getInitial());
-
-  const [resultPageContent, parentMeta, defaultStrings] = await Promise.all([
+  const [resultPageContent, parentMeta] = await Promise.all([
     fetchFlowPage("result-pages", flowId, cmsStepId),
     fetchMeta({ filterValue: flowId }),
-    fetchTranslations("defaultTranslations"),
   ]);
 
   const cmsContent = applyStringReplacement(
@@ -51,12 +37,13 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       : {},
   );
 
-  const { back: backButton } = getButtonNavigationProps({
+  const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel:
       resultPageContent.backButtonLabel ??
-      defaultStrings.backButtonDefaultLabel,
+      translations.buttonNavigation.backButtonDefaultLabel.de,
     nextButtonLabel:
-      cmsContent.nextLink?.text ?? defaultStrings.nextButtonDefaultLabel,
+      cmsContent.nextLink?.text ??
+      translations.buttonNavigation.nextButtonDefaultLabel.de,
     backDestination: flowController.getPrevious(stepId),
   });
 
@@ -77,13 +64,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       ? currentFlow.stringReplacements(userData)
       : undefined,
   );
+
   return data(
     {
-      flowId,
-      common: defaultStrings,
       cmsData,
       meta: meta,
-      backButton,
+      buttonNavigationProps,
     },
     { headers },
   );

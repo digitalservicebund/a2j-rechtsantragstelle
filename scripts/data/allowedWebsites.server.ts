@@ -6,6 +6,7 @@ export const allowedWebsites = [
   "https://github.com",
   "https://digitalservice.bund.de",
   "https://www.bmj.de",
+  "https://www.bmjv.de",
   "https://strapi.io",
   "https://www.hamburg.de",
   "https://www.justiz.bremen.de",
