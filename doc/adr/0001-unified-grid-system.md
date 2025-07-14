@@ -1,9 +1,5 @@
 # Unified Grid System Implementation
 
-## Status
-
-**Proposed** - 8th of July 2025
-
 ## Context
 
 The application currently uses conditional `alignToMainContainer` logic to determine whether header and breadcrumb content should align with the main container. This approach creates several issues:
@@ -11,10 +7,8 @@ The application currently uses conditional `alignToMainContainer` logic to deter
 ### Current Problems
 
 - **Inconsistent spacing** between Header, Main content, and Footer sections
-- **Complex conditional logic** based on URL patterns (`!flowIdFromPathname(pathname)?.match(/formular|antrag/)`)
 - **Maintenance overhead** with multiple alignment strategies
 - **Poor visual hierarchy** due to misaligned content sections
-- **TypeScript complexity** with conditional props and interfaces
 
 ### Current Architecture
 
@@ -26,9 +20,6 @@ The application currently uses conditional `alignToMainContainer` logic to deter
 ├─────────────────────────────────────┤
 │                                     │
 │         Main Content (fixed)        │
-│    ┌─────────┐ ┌─────────┐         │
-│    │ Column1 │ │ Column2 │         │
-│    └─────────┘ └─────────┘         │
 │                                     │
 ├─────────────────────────────────────┤
 │           Footer (full-width)       │
@@ -37,7 +28,7 @@ The application currently uses conditional `alignToMainContainer` logic to deter
 
 ## Decision
 
-We will implement a **unified grid system** that removes the `alignToMainContainer` logic and ensures consistent content alignment across all page sections.
+We will implement a **unified grid system**. And remove `alignToMainContainer` logic and ensures consistent content alignment across all page sections.
 
 ### Chosen Approach
 
@@ -50,24 +41,24 @@ We will implement a **unified grid system** that removes the `alignToMainContain
 
 ```
 ┌─────────────────────────────────────┐
-│  ┌─────────────────────────────────┐ │
-│  │         Header Content          │ │  ← Same grid container
-│  └─────────────────────────────────┘ │
+│  ┌─────────────────────────────────┐│
+│  │         Header Content          ││  ← Same grid container
+│  └─────────────────────────────────┘│
 ├─────────────────────────────────────┤
-│  ┌─────────────────────────────────┐ │
-│  │         Breadcrumbs             │ │  ← Same grid container
-│  └─────────────────────────────────┘ │
+│  ┌─────────────────────────────────┐│
+│  │         Breadcrumbs             ││  ← Same grid container
+│  └─────────────────────────────────┘│
 ├─────────────────────────────────────┤
-│  ┌─────────────────────────────────┐ │
-│  │         Main Content            │ │  ← Same grid container
-│  │    ┌─────────┐ ┌─────────┐     │ │
-│  │    │ Column1 │ │ Column2 │     │ │
-│  │    └─────────┘ └─────────┘     │ │
-│  └─────────────────────────────────┘ │
+│  ┌─────────────────────────────────┐│
+│  │         Main Content            ││  ← Same grid container
+│  │    ┌─────────┐ ┌─────────┐      ││
+│  │    │ Column1 │ │ Column2 │      ││
+│  │    └─────────┘ └─────────┘      ││
+│  └─────────────────────────────────┘│
 ├─────────────────────────────────────┤
-│  ┌─────────────────────────────────┐ │
-│  │         Footer Content          │ │  ← Same grid container
-│  └─────────────────────────────────┘ │
+│  ┌─────────────────────────────────┐│
+│  │         Footer Content          ││  ← Same grid container
+│  └─────────────────────────────────┘│
 └─────────────────────────────────────┘
 ```
 
@@ -80,7 +71,6 @@ We will implement a **unified grid system** that removes the `alignToMainContain
 - **Simplified logic** - No more conditional alignment
 - **Reduced complexity** - Fewer props and conditionals
 - **Better maintainability** - Single source of truth for grid constraints
-- **Type safety** - Cleaner TypeScript interfaces
 - **Reduced bundle size** - Less conditional logic
 
 #### User Experience
@@ -88,11 +78,10 @@ We will implement a **unified grid system** that removes the `alignToMainContain
 - **Consistent spacing** - All content aligns perfectly
 - **Better visual hierarchy** - Unified layout structure
 - **Responsive consistency** - All sections behave the same way
-- **Improved accessibility** - Consistent navigation patterns
 
 #### Performance
 
-- **Easier optimization** - Unified grid system
+- **Easier optimizations** - Unified grid system
 - **Reduced re-renders** - Simplified component logic
 
 ### Negative Consequences
@@ -163,14 +152,6 @@ interface GridContainerProps {
 - **Grid columns**: 1 column by default, configurable for main content
 - **Centered**: Always center the container
 
-### Files to Modify
-
-- `app/root.tsx` - Remove conditional logic in loader
-- `app/components/PageHeader.tsx` - Remove alignToMainContainer prop
-- `app/components/Breadcrumbs.tsx` - Remove alignToMainContainer prop
-- `app/components/Footer.tsx` - Wrap in GridContainer
-- `app/components/GridContainer.tsx` - New component
-
 ## Alternatives Considered
 
 ### Alternative 1: Keep Current System
@@ -191,23 +172,6 @@ interface GridContainerProps {
 - **Cons**: Limited browser support, complex implementation
 - **Decision**: Rejected due to browser compatibility requirements
 
-## Risk Assessment
-
-### High Risk
-
-- **Layout breaking changes** - Could affect user experience
-- **Form functionality** - Critical for application core features
-
-### Medium Risk
-
-- **Responsive behavior** - Need thorough testing across devices
-- **Performance impact** - New component overhead
-
-### Low Risk
-
-- **Accessibility** - Should improve with consistent layout
-- **Code maintainability** - Will improve significantly
-
 ## Success Metrics
 
 ### Technical Metrics
@@ -220,5 +184,4 @@ interface GridContainerProps {
 ### User Experience Metrics
 
 - [ ] Consistent visual alignment across all pages
-- [ ] Improved responsive behavior scores
 - [ ] No accessibility regressions
