@@ -30,11 +30,12 @@ const mockFieldSetGroup: FieldSetGroupType = {
 
 describe("FieldSet", () => {
   it("should render Fieldset component with correct data", () => {
-    const { getByText, getAllByText } = render(
+    const { getByRole, getAllByText } = render(
       <FieldSet heading="anyHeading" fieldSetGroup={mockFieldSetGroup} />,
     );
 
-    expect(getByText("anyHeading")).toBeInTheDocument();
+    expect(getByRole("group")).toBeInTheDocument();
+    expect(getByRole("group")).toHaveTextContent("anyHeading");
     expect(getAllByText("FormComponent").length).toBe(2);
   });
 
