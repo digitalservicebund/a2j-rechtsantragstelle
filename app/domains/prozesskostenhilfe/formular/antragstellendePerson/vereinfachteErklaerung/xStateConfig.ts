@@ -29,15 +29,12 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
       kind: {
         on: {
           BACK: transitions?.backToCallingFlow,
-          SUBMIT: "hinweis-voraussetzung",
+          SUBMIT: "zusammenleben",
         },
-      },
-      "hinweis-voraussetzung": {
-        on: { BACK: "kind", SUBMIT: "zusammenleben" },
       },
       zusammenleben: {
         on: {
-          BACK: "hinweis-voraussetzung",
+          BACK: "kind",
           SUBMIT: [
             { guard: childLivesSeparately, target: "unterhalt" },
             "minderjaehrig",
