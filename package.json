@@ -152,6 +152,11 @@
   "engines": {
     "node": ">=22"
   },
+  "overrides": {
+    "vite": {
+      "rollup": "4.44.2"
+    }
+  },
   "prettier": {
     "trailingComma": "all"
   },
