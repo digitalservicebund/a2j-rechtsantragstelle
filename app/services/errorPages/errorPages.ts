@@ -20,8 +20,6 @@ const errorPage403: StrapiContentComponent = {
       },
       content:
         "<p>Es ist ein Fehler aufgetreten. Versuchen Sie die Seite neu zu laden.</p>\n",
-      detailsSummary: [],
-      inlineNotice: [],
       buttons: [],
       id: 363,
       details: [],
@@ -57,8 +55,6 @@ const errorPage404: StrapiContentComponent = {
       content:
         "<p>Die von Ihnen gewünschte Seite ist leider nicht verfügbar. Das kann verschiedene Ursachen haben.</p>\n<p>Sie können folgendes probieren:</p>\n<ul>\n<li>Wenn Sie die URL direkt eingegeben haben, überprüfen Sie die Schreibweise.</li>\n<li>Versuchen Sie, die Seite von der Startseite aus erneut zu finden.</li>\n</ul>\n",
       id: 362,
-      detailsSummary: [],
-      inlineNotice: [],
       buttons: [],
       details: [],
       inlineNotices: [],
@@ -93,8 +89,6 @@ const errorPage500: StrapiContentComponent = {
       content:
         "<p>Leider ist ein unbekannter Fehler aufgetreten. Wir arbeiten ständig an der Verbesserung unserer Services und sind bereits informiert.</p>\n<p>Bitte versuchen Sie es später noch einmal.</p>\n",
       id: 364,
-      detailsSummary: [],
-      inlineNotice: [],
       buttons: [],
       details: [],
       inlineNotices: [],
