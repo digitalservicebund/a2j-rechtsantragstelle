@@ -1,14 +1,14 @@
 import {
   type RouteConfig,
   route,
-  layout,
   index,
   prefix,
 } from "@react-router/dev/routes";
 
 export default [
   index("routes/_index.tsx"),
-  route("*", "routes/$.tsx"),
+  route("*", "routes/$.tsx", { id: "index" }),
+
   route("error/:code", "routes/error.$code.tsx"),
 
   route("datenschutz", "routes/datenschutz.tsx"),
@@ -39,131 +39,109 @@ export default [
   route("action/delete-data", "routes/action.delete-data.tsx"),
 
   ...prefix("beratungshilfe", [
-    layout("routes/beratungshilfe.tsx", [
-      index("routes/beratungshilfe._index.tsx"),
-      route("*", "routes/beratungshilfe.$.tsx"),
-      route("vorabcheck", "routes/beratungshilfe.vorabcheck._index.tsx"),
-      route("vorabcheck/*", "routes/beratungshilfe.vorabcheck.$.tsx"),
-      route(
-        "vorabcheck/ergebnis/*",
-        "routes/beratungshilfe.vorabcheck.ergebnis.$.tsx",
-      ),
-      route(
-        "vorabcheck/visualisierung",
-        "routes/beratungshilfe.vorabcheck.visualisierung.tsx",
-      ),
-      route("antrag", "routes/beratungshilfe.antrag._index.tsx"),
-      route("antrag/*", "routes/beratungshilfe.antrag.$.tsx"),
-      route(
-        "antrag/download.pdf",
-        "routes/beratungshilfe.antrag.download.pdf.tsx",
-      ),
-      route(
-        "antrag/visualisierung",
-        "routes/beratungshilfe.antrag.visualisierung.tsx",
-      ),
-      route(
-        "prozesskostenhilfe",
-        "routes/beratungshilfe.prozesskostenhilfe.ts",
-      ),
-      route(
-        "zustaendiges-gericht",
-        "routes/beratungshilfe.zustaendiges-gericht._index.tsx",
-      ),
-      route(
-        "zustaendiges-gericht/suche",
-        "routes/beratungshilfe.zustaendiges-gericht.suche.tsx",
-      ),
-      route(
-        "zustaendiges-gericht/auswahl/:PLZ",
-        "routes/beratungshilfe.zustaendiges-gericht.auswahl.$PLZ.tsx",
-      ),
-      route(
-        "zustaendiges-gericht/ergebnis/*",
-        "routes/beratungshilfe.zustaendiges-gericht.ergebnis.$.tsx",
-      ),
-    ]),
+    route("vorabcheck", "routes/beratungshilfe.vorabcheck._index.tsx"),
+    route("vorabcheck/*", "routes/beratungshilfe.vorabcheck.$.tsx"),
+    route(
+      "vorabcheck/ergebnis/*",
+      "routes/beratungshilfe.vorabcheck.ergebnis.$.tsx",
+    ),
+    route(
+      "vorabcheck/visualisierung",
+      "routes/beratungshilfe.vorabcheck.visualisierung.tsx",
+    ),
+    route("antrag", "routes/beratungshilfe.antrag._index.tsx"),
+    route("antrag/*", "routes/beratungshilfe.antrag.$.tsx"),
+    route(
+      "antrag/download.pdf",
+      "routes/beratungshilfe.antrag.download.pdf.tsx",
+    ),
+    route(
+      "antrag/visualisierung",
+      "routes/beratungshilfe.antrag.visualisierung.tsx",
+    ),
+    route("prozesskostenhilfe", "routes/beratungshilfe.prozesskostenhilfe.ts"),
+    route(
+      "zustaendiges-gericht",
+      "routes/beratungshilfe.zustaendiges-gericht._index.tsx",
+    ),
+    route(
+      "zustaendiges-gericht/suche",
+      "routes/beratungshilfe.zustaendiges-gericht.suche.tsx",
+    ),
+    route(
+      "zustaendiges-gericht/auswahl/:PLZ",
+      "routes/beratungshilfe.zustaendiges-gericht.auswahl.$PLZ.tsx",
+    ),
+    route(
+      "zustaendiges-gericht/ergebnis/*",
+      "routes/beratungshilfe.zustaendiges-gericht.ergebnis.$.tsx",
+    ),
   ]),
 
   ...prefix("fluggastrechte", [
-    layout("routes/fluggastrechte.tsx", [
-      index("routes/fluggastrechte._index.tsx"),
-      route("*", "routes/fluggastrechte.$.tsx"),
-      route("vorabcheck/*", "routes/fluggastrechte.vorabcheck.$.tsx"),
-      route(
-        "vorabcheck/ergebnis/*",
-        "routes/fluggastrechte.vorabcheck.ergebnis.$.tsx",
-      ),
-      route(
-        "vorabcheck/visualisierung",
-        "routes/fluggastrechte.vorabcheck.visualisierung.tsx",
-      ),
-      route("formular/*", "routes/fluggastrechte.formular.$.tsx"),
-      route(
-        "formular/download.pdf",
-        "routes/fluggastrechte.formular.download.pdf.ts",
-      ),
-      route(
-        "formular/intro/redirect-vorabcheck-ergebnis",
-        "routes/fluggastrechte.formular.intro.redirect-vorabcheck-ergebnis.tsx",
-      ),
-      route(
-        "formular/redirect-to-vorabcheck",
-        "routes/fluggastrechte.formular.redirect-to-vorabcheck.tsx",
-      ),
-      route(
-        "formular/visualisierung",
-        "routes/fluggastrechte.formular.visualisierung.tsx",
-      ),
-    ]),
+    route("vorabcheck/*", "routes/fluggastrechte.vorabcheck.$.tsx"),
+    route(
+      "vorabcheck/ergebnis/*",
+      "routes/fluggastrechte.vorabcheck.ergebnis.$.tsx",
+    ),
+    route(
+      "vorabcheck/visualisierung",
+      "routes/fluggastrechte.vorabcheck.visualisierung.tsx",
+    ),
+    route("formular/*", "routes/fluggastrechte.formular.$.tsx"),
+    route(
+      "formular/download.pdf",
+      "routes/fluggastrechte.formular.download.pdf.ts",
+    ),
+    route(
+      "formular/intro/redirect-vorabcheck-ergebnis",
+      "routes/fluggastrechte.formular.intro.redirect-vorabcheck-ergebnis.tsx",
+    ),
+    route(
+      "formular/redirect-to-vorabcheck",
+      "routes/fluggastrechte.formular.redirect-to-vorabcheck.tsx",
+    ),
+    route(
+      "formular/visualisierung",
+      "routes/fluggastrechte.formular.visualisierung.tsx",
+    ),
   ]),
 
   ...prefix("geld-einklagen", [
-    layout("routes/geld-einklagen.tsx", [
-      index("routes/geld-einklagen._index.tsx"),
-      route("*", "routes/geld-einklagen.$.tsx"),
-      route("vorabcheck/*", "routes/geld-einklagen.vorabcheck.$.tsx"),
-      route(
-        "vorabcheck/ergebnis/*",
-        "routes/geld-einklagen.vorabcheck.ergebnis.$.tsx",
-      ),
-      route(
-        "vorabcheck/partnergericht/ergebnis/*",
-        "routes/geld-einklagen.vorabcheck.partnergericht.ergebnis.$.tsx",
-      ),
-      route(
-        "vorabcheck/visualisierung",
-        "routes/geld-einklagen.vorabcheck.visualisierung.tsx",
-      ),
-      route("formular/*", "routes/geld-einklagen.formular.$.tsx"),
-      route(
-        "formular/visualisierung",
-        "routes/geld-einklagen.formular.visualisierung.tsx",
-      ),
-    ]),
+    route("vorabcheck/*", "routes/geld-einklagen.vorabcheck.$.tsx"),
+    route(
+      "vorabcheck/ergebnis/*",
+      "routes/geld-einklagen.vorabcheck.ergebnis.$.tsx",
+    ),
+    route(
+      "vorabcheck/partnergericht/ergebnis/*",
+      "routes/geld-einklagen.vorabcheck.partnergericht.ergebnis.$.tsx",
+    ),
+    route(
+      "vorabcheck/visualisierung",
+      "routes/geld-einklagen.vorabcheck.visualisierung.tsx",
+    ),
+    route("formular/*", "routes/geld-einklagen.formular.$.tsx"),
+    route(
+      "formular/visualisierung",
+      "routes/geld-einklagen.formular.visualisierung.tsx",
+    ),
   ]),
 
   ...prefix("kontopfaendung", [
-    layout("routes/kontopfaendung.tsx", [
-      index("routes/kontopfaendung._index.tsx"),
-      route("wegweiser/*", "routes/kontopfaendung.wegweiser.$.tsx"),
-      route(
-        "wegweiser/ergebnis/*",
-        "routes/kontopfaendung.wegweiser.ergebnis.$.tsx",
-      ),
-    ]),
+    route("wegweiser/*", "routes/kontopfaendung.wegweiser.$.tsx"),
+    route(
+      "wegweiser/ergebnis/*",
+      "routes/kontopfaendung.wegweiser.ergebnis.$.tsx",
+    ),
   ]),
 
   ...prefix("prozesskostenhilfe", [
-    layout("routes/prozesskostenhilfe.tsx", [
-      index("routes/prozesskostenhilfe._index.tsx"),
-      route("*", "routes/prozesskostenhilfe.$.tsx"),
-      route("formular", "routes/prozesskostenhilfe.formular._index.tsx"),
-      route("formular/*", "routes/prozesskostenhilfe.formular.$.tsx"),
-      route(
-        "formular/download.pdf",
-        "routes/prozesskostenhilfe.formular.download.pdf.tsx",
-      ),
-    ]),
+    route("formular", "routes/prozesskostenhilfe.formular._index.tsx"),
+    route("formular/*", "routes/prozesskostenhilfe.formular.$.tsx"),
+    route(
+      "formular/download.pdf",
+      "routes/prozesskostenhilfe.formular.download.pdf.tsx",
+    ),
   ]),
 ] satisfies RouteConfig;

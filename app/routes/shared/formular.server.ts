@@ -17,6 +17,7 @@ import { validatedSession } from "~/services/security/csrf/validatedSession.serv
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
+export { FormFlowPage as default } from "~/routes/shared/components/FormFlowPage";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
