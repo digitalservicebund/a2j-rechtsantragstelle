@@ -1,8 +1,8 @@
 import type { Breadcrumb } from "~/components/Breadcrumbs";
 import { fetchMeta } from "../cms/index.server";
 
-// Splits pathname into its components, ie "/a/b/c" => [/a, /a/b, /a/b/c]
-const pathComponents = (pathname: string) =>
+// Splits pathname into its subpaths, ie "/a/b/c" => [/a, /a/b, /a/b/c]
+const buildSubPaths = (pathname: string) =>
   pathname
     .split("/")
     .slice(1)
@@ -12,7 +12,7 @@ export const buildBreadcrumbPromises = (
   pathname: string,
 ): Promise<Breadcrumb[]> =>
   Promise.all(
-    pathComponents(pathname)
+    buildSubPaths(pathname)
       .filter((path) => path !== "/")
       .map((url) =>
         fetchMeta({ filterValue: url }).then((meta) => ({
