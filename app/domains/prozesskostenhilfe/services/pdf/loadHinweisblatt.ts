@@ -4,12 +4,7 @@ import { PDFDocument } from "pdf-lib";
 
 export default async function loadHinweisblatt() {
   const filepath = path.resolve(
-    path.join(
-      process.cwd(),
-      "data/pdf/",
-      "prozesskostenhilfe",
-      "Formular_Hinweisblatt_Prozess_Verfahrenskostenhilfe.pdf",
-    ),
+    path.join(process.cwd(), "public", "Hinweisblatt_Prozesskostenhilfe.pdf"),
   );
 
   const pdfDoc = await PDFDocument.load(fs.readFileSync(filepath));
