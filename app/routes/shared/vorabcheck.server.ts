@@ -22,6 +22,7 @@ import { updateMainSession } from "~/services/session.server/updateSessionInHead
 import { translations } from "~/services/translations/translations";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
+import { VorabcheckPage } from "./components/VorabcheckPage";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -163,3 +164,5 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const headers = { "Set-Cookie": await commitSession(flowSession) };
   return redirectDocument(destination, { headers });
 };
+
+export default VorabcheckPage;

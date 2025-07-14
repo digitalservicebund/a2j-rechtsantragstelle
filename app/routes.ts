@@ -38,45 +38,47 @@ export default [
   route("action/send-feedback", "routes/action.send-feedback.ts"),
   route("action/delete-data", "routes/action.delete-data.tsx"),
 
-  ...prefix("beratungshilfe", [
-    route("vorabcheck", "routes/beratungshilfe.vorabcheck._index.tsx"),
-    route("vorabcheck/*", "routes/beratungshilfe.vorabcheck.$.tsx"),
-    route(
-      "vorabcheck/ergebnis/*",
-      "routes/beratungshilfe.vorabcheck.ergebnis.$.tsx",
-    ),
-    route(
-      "vorabcheck/visualisierung",
-      "routes/beratungshilfe.vorabcheck.visualisierung.tsx",
-    ),
-    route("antrag", "routes/beratungshilfe.antrag._index.tsx"),
-    route("antrag/*", "routes/beratungshilfe.antrag.$.tsx"),
-    route(
-      "antrag/download.pdf",
-      "routes/beratungshilfe.antrag.download.pdf.tsx",
-    ),
-    route(
-      "antrag/visualisierung",
-      "routes/beratungshilfe.antrag.visualisierung.tsx",
-    ),
-    route("prozesskostenhilfe", "routes/beratungshilfe.prozesskostenhilfe.ts"),
-    route(
-      "zustaendiges-gericht",
-      "routes/beratungshilfe.zustaendiges-gericht._index.tsx",
-    ),
-    route(
-      "zustaendiges-gericht/suche",
-      "routes/beratungshilfe.zustaendiges-gericht.suche.tsx",
-    ),
-    route(
-      "zustaendiges-gericht/auswahl/:PLZ",
-      "routes/beratungshilfe.zustaendiges-gericht.auswahl.$PLZ.tsx",
-    ),
-    route(
-      "zustaendiges-gericht/ergebnis/*",
-      "routes/beratungshilfe.zustaendiges-gericht.ergebnis.$.tsx",
-    ),
-  ]),
+  route("*", "shared/vorabcheck.server.ts"),
+
+  // ...prefix("beratungshilfe", [
+  //   route("vorabcheck", "routes/beratungshilfe.vorabcheck._index.tsx"),
+  //   route("vorabcheck/*", "routes/beratungshilfe.vorabcheck.$.tsx"),
+  //   route(
+  //     "vorabcheck/ergebnis/*",
+  //     "routes/beratungshilfe.vorabcheck.ergebnis.$.tsx",
+  //   ),
+  //   route(
+  //     "vorabcheck/visualisierung",
+  //     "routes/beratungshilfe.vorabcheck.visualisierung.tsx",
+  //   ),
+  //   route("antrag", "routes/beratungshilfe.antrag._index.tsx"),
+  //   route("antrag/*", "routes/beratungshilfe.antrag.$.tsx"),
+  //   route(
+  //     "antrag/download.pdf",
+  //     "routes/beratungshilfe.antrag.download.pdf.tsx",
+  //   ),
+  //   route(
+  //     "antrag/visualisierung",
+  //     "routes/beratungshilfe.antrag.visualisierung.tsx",
+  //   ),
+  //   route("prozesskostenhilfe", "routes/beratungshilfe.prozesskostenhilfe.ts"),
+  //   route(
+  //     "zustaendiges-gericht",
+  //     "routes/beratungshilfe.zustaendiges-gericht._index.tsx",
+  //   ),
+  //   route(
+  //     "zustaendiges-gericht/suche",
+  //     "routes/beratungshilfe.zustaendiges-gericht.suche.tsx",
+  //   ),
+  //   route(
+  //     "zustaendiges-gericht/auswahl/:PLZ",
+  //     "routes/beratungshilfe.zustaendiges-gericht.auswahl.$PLZ.tsx",
+  //   ),
+  //   route(
+  //     "zustaendiges-gericht/ergebnis/*",
+  //     "routes/beratungshilfe.zustaendiges-gericht.ergebnis.$.tsx",
+  //   ),
+  // ]),
 
   ...prefix("fluggastrechte", [
     route("vorabcheck/*", "routes/fluggastrechte.vorabcheck.$.tsx"),
