@@ -23,8 +23,8 @@ export const StrapiInfoBoxItemSchema = z
   })
   .merge(HasOptionalStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema)
-  .transform((cmsData) => ({
+  .transform(({ detailsSummary, inlineNotice, ...cmsData }) => ({
     ...cmsData,
-    details: cmsData.detailsSummary,
-    inlineNotices: cmsData.inlineNotice,
+    details: detailsSummary,
+    inlineNotices: inlineNotice,
   }));
