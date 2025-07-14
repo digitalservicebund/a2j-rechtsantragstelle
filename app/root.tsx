@@ -43,13 +43,13 @@ import PageHeader from "./components/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
+import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
-import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
 
 export { headers } from "./rootHeaders";
 
