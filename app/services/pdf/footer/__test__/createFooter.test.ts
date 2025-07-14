@@ -35,4 +35,16 @@ describe("createFooter", () => {
 
     expect(createStamp).toBeCalledTimes(1);
   });
+
+  it("creates exactly one Sect struct and adds it once at the end", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct, { start: 1, count: 1 });
+
+    createFooter(mockDoc, mockStruct, "Anhang");
+
+    expect(mockDoc.struct).toHaveBeenCalledTimes(1);
+    expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
+    expect(mockStruct.add).toHaveBeenCalledTimes(1);
+    expect(mockStruct.add).toHaveBeenCalledWith(mockStruct);
+  });
 });
