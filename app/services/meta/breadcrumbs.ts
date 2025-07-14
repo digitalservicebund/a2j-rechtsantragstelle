@@ -5,6 +5,7 @@ import { fetchMeta } from "../cms/index.server";
 const pathComponents = (pathname: string) =>
   pathname
     .split("/")
+    .slice(1)
     .filter((val) => val !== "")
     .map((_, index, arr) => "/" + arr.slice(0, index + 1).join("/"));
 
