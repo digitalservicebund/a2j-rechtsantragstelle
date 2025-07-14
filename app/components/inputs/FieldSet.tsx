@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { type StrapiFieldSet } from "~/services/cms/components/StrapiFieldSet";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import { FormComponent } from "../FormComponents";
@@ -30,7 +31,10 @@ export const FieldSet = ({
         <RichText html={heading} />
       </legend>
       {formComponents.map((componentProps) => (
-        <div key={keyFromElement(componentProps)} className="md:pl-32 pt-16">
+        <div
+          key={keyFromElement(componentProps)}
+          className={classNames("pt-16", { "md:pl-32": image })}
+        >
           <FormComponent componentProps={componentProps} />
         </div>
       ))}
