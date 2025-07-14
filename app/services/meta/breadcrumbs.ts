@@ -6,17 +6,18 @@ const pathComponents = (pathname: string) =>
   pathname
     .split("/")
     .slice(1)
-    .filter((val) => val !== "")
     .map((_, index, arr) => "/" + arr.slice(0, index + 1).join("/"));
 
 export const buildBreadcrumbPromises = (
   pathname: string,
 ): Promise<Breadcrumb[]> =>
   Promise.all(
-    pathComponents(pathname).map((url) =>
-      fetchMeta({ filterValue: url }).then((meta) => ({
-        url,
-        title: meta?.breadcrumb ?? undefined,
-      })),
-    ),
+    pathComponents(pathname)
+      .filter((path) => path !== "/")
+      .map((url) =>
+        fetchMeta({ filterValue: url }).then((meta) => ({
+          url,
+          title: meta?.breadcrumb ?? undefined,
+        })),
+      ),
   );

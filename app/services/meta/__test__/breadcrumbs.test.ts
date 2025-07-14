@@ -33,27 +33,19 @@ describe("buildBreadcrumbPromises", () => {
     expect(actual).toEqual([{ url: "/test", title: undefined }]);
   });
 
-  it("should handle bad pathname", async () => {
-    vi.mocked(fetchMeta).mockResolvedValueOnce({
+  describe("should handle edge cases", () => {
+    vi.mocked(fetchMeta).mockResolvedValue({
       title: "",
       description: null,
       ogTitle: null,
       breadcrumb: "breadcrumb",
     });
-    const actual = await buildBreadcrumbPromises("not-a-pathname");
+    const edgeCases = ["", "/", ".", "..", "justAWord"];
 
-    expect(actual).toEqual([]);
-  });
-
-  it("should handle root", async () => {
-    vi.mocked(fetchMeta).mockResolvedValueOnce({
-      title: "",
-      description: null,
-      ogTitle: null,
-      breadcrumb: "breadcrumb",
+    edgeCases.forEach((badPathname) => {
+      it(`returns nothing for ${badPathname}`, async () => {
+        expect(await buildBreadcrumbPromises(badPathname)).toEqual([]);
+      });
     });
-    const actual = await buildBreadcrumbPromises("/");
-
-    expect(actual).toEqual([]);
   });
 });
