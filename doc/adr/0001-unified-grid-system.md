@@ -4,6 +4,12 @@
 
 The application currently uses conditional `alignToMainContainer` logic to determine whether header and breadcrumb content should align with the main container. This approach creates several issues:
 
+### Open questions
+
+- what about the overHangBox?? ask Alisa
+- Max widths - needs to be aligned with design
+- Paddings - needs to be aligned with design
+
 ### Current Problems
 
 - **Inconsistent spacing** between Header, Main content, and Footer sections
@@ -138,7 +144,7 @@ We will implement a **unified grid system**. And remove `alignToMainContainer` l
 ```typescript
 interface GridContainerProps {
   children: React.ReactNode;
-  maxWidth?: "sm" | "md" | "lg" | "xl" | "full";
+  maxWidth?: "sm" | "md" | "lg" | "xl" | "xxl" | "full";
   padding?: "none" | "sm" | "md" | "lg";
   columns?: 1 | 2 | 3 | 4;
   className?: string;
