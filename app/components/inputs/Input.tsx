@@ -39,7 +39,7 @@ const Input = function InputComponent({
   const errorId = `${name}-error`;
   const helperId = `${name}-helper`;
   return (
-    <div>
+    <div className="w-full">
       {label && <InputLabel id={name}>{label}</InputLabel>}
       <div className="ds-input-group">
         {prefix && <div className="ds-input-prefix">{prefix}</div>}

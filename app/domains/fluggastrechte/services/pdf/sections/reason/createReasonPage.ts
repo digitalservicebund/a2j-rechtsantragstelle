@@ -11,10 +11,18 @@ export const createReasonPage = (
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
-  doc
-    .fontSize(16)
-    .font(FONTS_BUNDESSANS_BOLD)
-    .text(REASON_TITLE_TEXT, { align: "left" });
+  const reasonSect = doc.struct("Sect");
+  reasonSect.add(
+    doc.struct("H2", {}, () => {
+      doc
+        .fontSize(16)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text(REASON_TITLE_TEXT, { align: "left" });
+    }),
+  );
+
+  documentStruct.add(reasonSect);
+
   doc.moveDown(1);
   createFactsOfCases(doc, documentStruct, userData);
   createLegalAssessment(doc, documentStruct, userData);

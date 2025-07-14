@@ -165,10 +165,10 @@ export const translations = {
       de: "Kein Eintrag gefunden",
     },
     inputRequired: {
-      de: "Bitte treffen Sie eine Auswahl.",
+      de: "Dieses Feld muss ausgefüllt werden.",
     },
     invalidHousenumber: {
-      de: "Bitte geben Sie eine gültige Hausnummer ein.",
+      de: "Bitte geben Sie eine gültige Hausnummer an.",
     },
   },
 } satisfies TranslationRecord;

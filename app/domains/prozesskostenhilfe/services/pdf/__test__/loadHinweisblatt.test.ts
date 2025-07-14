@@ -5,12 +5,7 @@ import { describe, it, expect } from "vitest";
 describe("loadHinweisblatt", () => {
   it("should fail when the location of the PDF file has changed", () => {
     const originalPath = path.resolve(
-      path.join(
-        process.cwd(),
-        "data/pdf/",
-        "prozesskostenhilfe",
-        "Formular_Hinweisblatt_Prozess_Verfahrenskostenhilfe.pdf",
-      ),
+      path.join(process.cwd(), "public", "Hinweisblatt_Prozesskostenhilfe.pdf"),
     );
 
     const fileExists = fs.existsSync(originalPath);
