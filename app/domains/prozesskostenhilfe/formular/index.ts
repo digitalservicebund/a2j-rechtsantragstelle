@@ -256,9 +256,7 @@ export const prozesskostenhilfeFormular = {
               BACK: [
                 {
                   guard: ({ context }) =>
-                    (Boolean(showFileUpload) &&
-                      fileUploadRelevant({ context })) ||
-                    Boolean(showPKHZusammenfassung),
+                    Boolean(showFileUpload) && fileUploadRelevant({ context }),
                   target: "dokumente",
                 },
                 {
