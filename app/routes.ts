@@ -107,4 +107,31 @@ export default [
       ),
     ]),
   ]),
+  ...prefix("kontopfaendung/wegweiser", [
+    route("*", "routes/shared/vorabcheck.server.ts", { id: "flowKPV" }),
+    route("wegweiser/ergebnis/*", "routes/shared/result.server.ts", {
+      id: "resKPV",
+    }),
+  ]),
+  ...prefix("geld-einklagen", [
+    ...prefix("vorabcheck", [
+      index("services/flow/server/lastStep.ts", { id: "indexGEV" }),
+      route("*", "routes/shared/vorabcheck.server.ts", { id: "flowGEV" }),
+      route("visualisierung", "routes/shared/visualisierung.server.ts", {
+        id: "visGEV",
+      }),
+      route("ergebnis/*", "routes/shared/result.server.ts", { id: "resGEV" }),
+      route(
+        "geld-einklagen.vorabcheck.partnergericht.ergebnis",
+        "routes/geld-einklagen.vorabcheck.partnergericht.ergebnis.$.tsx",
+      ),
+    ]),
+    ...prefix("formular", [
+      index("services/flow/server/lastStep.ts", { id: "indexGEF" }),
+      route("*", "routes/shared/formular.server.ts", { id: "flowGEF" }),
+      route("visualisierung", "routes/shared/visualisierung.server.ts", {
+        id: "visGEF",
+      }),
+    ]),
+  ]),
 ] satisfies RouteConfig;
