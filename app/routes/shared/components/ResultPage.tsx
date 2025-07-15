@@ -12,7 +12,6 @@ import Heading from "~/components/Heading";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import RichText from "~/components/RichText";
 import type { loader } from "~/routes/shared/result.server";
-import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
 
 const iconCSS = "inline-block !h-[36px] !w-[36px] !min-h-[36px] !min-w-[36px]";
@@ -90,7 +89,7 @@ export function ResultPage() {
         <div>
           {documentsList.map((element) => (
             <ContentComponents
-              key={keyFromElement(element)}
+              key={`${element.__component}_${element.id}`}
               content={[element]}
             />
           ))}

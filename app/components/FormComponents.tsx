@@ -9,7 +9,6 @@ import Select from "~/components/inputs/Select";
 import Textarea from "~/components/inputs/Textarea";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 import TimeInput from "~/components/inputs/TimeInput";
-import { keyFromElement } from "~/services/cms/keyFromElement";
 import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 
 const FormComponent = ({
@@ -47,7 +46,7 @@ export const FormComponents = ({
   <>
     {components.map((componentProps) => (
       <FormComponent
-        key={keyFromElement(componentProps)}
+        key={`${componentProps.__component}_${componentProps.id}`}
         componentProps={componentProps}
       />
     ))}
