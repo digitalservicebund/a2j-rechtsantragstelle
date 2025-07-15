@@ -16,6 +16,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const defaultArgs: InfoBoxItemProps = {
+  id: 10,
   identifier: "default-info-box-item-id",
   headline: {
     text: "InfoBoxItem Header",

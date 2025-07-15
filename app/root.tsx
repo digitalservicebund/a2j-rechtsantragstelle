@@ -43,6 +43,7 @@ import PageHeader from "./components/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
+import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
@@ -102,6 +103,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     accessibilityTranslations,
     hasAnyUserData,
     mainSession,
+    breadcrumbs,
   ] = await Promise.all([
     fetchSingleEntry("page-header", defaultLocale),
     fetchSingleEntry("footer", defaultLocale),
@@ -112,6 +114,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchTranslations("accessibility"),
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
+    buildBreadcrumbPromises(pathname),
   ]);
 
   const shouldAddCacheControl = shouldSetCacheControlHeader(
@@ -121,6 +124,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   return data(
     {
+      breadcrumbs,
       pageHeaderProps: {
         ...strapiHeader,
         hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
@@ -154,10 +158,11 @@ function App() {
     hasTrackingConsent,
     hasAnyUserData,
     accessibilityTranslations,
+    breadcrumbs,
   } = useLoaderData<RootLoader>();
   const shouldPrint = useShouldPrint();
   const matches = useMatches();
-  const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
+  const { title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
   const posthogClient = useInitPosthog(hasTrackingConsent);
 

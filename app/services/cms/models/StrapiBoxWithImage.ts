@@ -2,7 +2,7 @@ import { z } from "zod";
 import { variantWidths, type Variant } from "~/components/BoxWithImage";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
@@ -25,10 +25,7 @@ export const StrapiBoxWithImageSchema = z
       .nullable()
       .transform(omitNull),
     container: StrapiContainerSchema,
+    __component: z.literal("page.box-with-image"),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema)
-  .transform((cmsData) => ({
-    __component: "page.box-with-image" as const,
-    ...cmsData,
-  }));
+  .merge(HasStrapiIdSchema)
+  .merge(OptionalStrapiLinkIdentifierSchema);
