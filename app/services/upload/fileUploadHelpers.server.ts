@@ -19,7 +19,7 @@ export async function uploadUserFile(
   inputName: string,
   request: Request,
   flowId: FlowId,
-): Promise<{ data: UserData } | ValidationErrorResponseData> {
+): Promise<{ userData: UserData } | ValidationErrorResponseData> {
   const { fieldName, inputIndex } = splitFieldName(inputName);
   const arraySchema = getContext(flowId)[
     fieldName as keyof typeof getContext
@@ -59,7 +59,7 @@ export async function uploadUserFile(
   );
 
   newArray[inputIndex].savedFileKey = savedFileKey;
-  return { data: { [fieldName]: newArray } };
+  return { userData: { [fieldName]: newArray } };
 }
 
 export async function deleteUserFile(

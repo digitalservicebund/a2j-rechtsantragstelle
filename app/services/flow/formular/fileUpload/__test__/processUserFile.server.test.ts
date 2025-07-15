@@ -35,7 +35,7 @@ describe("processUserFile", () => {
 
   it("should return ok when the action is fileUpload and uploadUserFile return some result", async () => {
     vi.mocked(uploadUserFile).mockResolvedValue({
-      data: { "fileUpload.test": "File uploaded successfully" },
+      userData: { "fileUpload.test": "File uploaded successfully" },
     });
 
     const actual = await processUserFile(

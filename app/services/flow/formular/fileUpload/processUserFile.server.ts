@@ -43,7 +43,7 @@ export const processUserFile = async (
     case "fileUpload": {
       const result = await uploadUserFile(inputName, request, flowId);
       if ("fieldErrors" in result) return Result.err(result);
-      return Result.ok({ userData: resolveArraysFromKeys(result.data) });
+      return Result.ok({ userData: resolveArraysFromKeys(result.userData) });
     }
     case "deleteFile": {
       const success = await deleteUserFile(
