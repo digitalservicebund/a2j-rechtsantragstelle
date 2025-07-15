@@ -1,8 +1,13 @@
-import { type RouteConfig, route, index } from "@react-router/dev/routes";
+import {
+  type RouteConfig,
+  route,
+  index,
+  prefix,
+} from "@react-router/dev/routes";
 
 export default [
   index("routes/_index.tsx"),
-  route("*", "routes/$.tsx", { id: "index" }),
+  route("*", "routes/$.tsx"),
 
   route("error/:code", "routes/error.$code.tsx"),
 
@@ -33,6 +38,24 @@ export default [
   route("action/send-feedback", "routes/action.send-feedback.ts"),
   route("action/delete-data", "routes/action.delete-data.tsx"),
 
-  route("vorabcheck/*", "routes/shared/vorabcheck.server.ts"),
-  route("formular/*", "routes/shared/formular.server.ts"),
+  ...prefix("beratungshilfe", [
+    ...prefix("vorabcheck", [
+      index("services/flow/server/lastStep.ts", { id: "indexBHV" }),
+      route("visualisierung", "routes/shared/visualisierung.server.ts", {
+        id: "visBHV ",
+      }),
+      route("*", "routes/shared/vorabcheck.server.ts", { id: "flowBHV" }),
+      route("ergebnis/*", "routes/shared/result.server.ts", { id: "resBHV" }),
+    ]),
+    ...prefix("antrag", [
+      index("services/flow/server/lastStep.ts", { id: "indexBHA" }),
+      route("visualisierung", "routes/shared/visualisierung.server.ts", {
+        id: "visBHA",
+      }),
+      route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
+        id: "pdfBHA",
+      }),
+      route("*", "routes/shared/formular.server.ts", { id: "flowBHA" }),
+    ]),
+  ]),
 ] satisfies RouteConfig;
