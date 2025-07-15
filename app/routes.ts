@@ -39,6 +39,8 @@ export default [
   route("action/delete-data", "routes/action.delete-data.tsx"),
 
   ...prefix("beratungshilfe", [
+    route("prozesskostenhilfe", "routes/beratungshilfe.prozesskostenhilfe.ts"), // redirect
+
     ...prefix("vorabcheck", [
       index("services/flow/server/lastStep.ts", { id: "indexBHV" }),
       route("visualisierung", "routes/shared/visualisierung.server.ts", {
@@ -56,6 +58,18 @@ export default [
         id: "pdfBHA",
       }),
       route("*", "routes/shared/formular.server.ts", { id: "flowBHA" }),
+    ]),
+    ...prefix("zustaendiges-gericht", [
+      index("routes/beratungshilfe.zustaendiges-gericht._index.tsx"),
+      route("suche", "routes/beratungshilfe.zustaendiges-gericht.suche.tsx"),
+      route(
+        "ergebnis/*",
+        "routes/beratungshilfe.zustaendiges-gericht.ergebnis.$.tsx",
+      ),
+      route(
+        "auswahl/:PLZ",
+        "routes/beratungshilfe.zustaendiges-gericht.auswahl.$PLZ.tsx",
+      ),
     ]),
   ]),
 ] satisfies RouteConfig;
