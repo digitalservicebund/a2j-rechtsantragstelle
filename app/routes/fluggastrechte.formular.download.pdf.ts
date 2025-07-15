@@ -1,1 +1,1 @@
-export { pdfDownloadLoader as loader } from "./shared/pdfDownloadLoader";
+export { loader as loader } from "./shared/pdfDownloadLoader";
