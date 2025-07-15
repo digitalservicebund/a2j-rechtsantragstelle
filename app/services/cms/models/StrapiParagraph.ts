@@ -9,8 +9,9 @@ export const StrapiParagraphSchema = z
   })
   .merge(HasStrapiIdSchema)
   .transform((cmsData) => ({
-    ...pick(cmsData, "__component", "id"),
+    ...pick(cmsData, "__component"),
     __component: "basic.paragraph" as const,
+    id: cmsData.id, // set the id, or the schema makes it optional
     html: cmsData.text,
   }));
 

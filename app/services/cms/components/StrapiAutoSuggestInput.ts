@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { StrapiOptionalIntegerSchema } from "~/services/cms/models/StrapiOptionalInteger";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { HasStrapiIdSchema } from "../models/HasStrapiId";
 import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 import { StrapiWidthSchema } from "../models/StrapiWidth";
 
@@ -21,7 +21,7 @@ export const StrapiAutoSuggestInputComponentSchema = z
     supportsFreeText: z.boolean().nullable().transform(Boolean),
     __component: z.literal("form-elements.auto-suggest-input"),
   })
-  .merge(HasOptionalStrapiIdSchema)
+  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,

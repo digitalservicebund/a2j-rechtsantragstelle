@@ -40,5 +40,6 @@ export function getStrapiFormComponent(
     placeholder: null,
     suffix: null,
     helperText: null,
+    id: 10,
   };
 }
