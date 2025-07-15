@@ -30,6 +30,7 @@ const mockCmsElement = {
       name: "name",
       required: false,
       errorMessage: "",
+      id: 10,
     },
   ],
   pageMeta: {

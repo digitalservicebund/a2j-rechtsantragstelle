@@ -33,6 +33,7 @@ describe("buildFormElements", () => {
           altLabel: "old alt label",
           options: [],
           errorMessages: [],
+          id: 10,
         },
       ],
     } satisfies CMSContent;
@@ -53,6 +54,7 @@ describe("buildFormElements", () => {
           altLabel: "old alt label",
           options: [],
           errorMessages: [],
+          id: 10,
         },
       ],
     } satisfies CMSContent;
@@ -73,6 +75,7 @@ describe("buildFormElements", () => {
           name: "checkbox",
           required: false,
           errorMessage: "",
+          id: 10,
         },
       ],
     } satisfies CMSContent;

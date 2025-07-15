@@ -10,6 +10,7 @@ describe("StrapiDropdownComponentSchema", () => {
       options: [{ value: "value", text: "text" }],
       placeholder: null,
       errors: null,
+      id: 10,
       width: "characters16",
     });
     expect(parsed.success).toBe(true);
@@ -19,6 +20,7 @@ describe("StrapiDropdownComponentSchema", () => {
       options: [{ value: "value", text: "text" }],
       errorMessages: undefined,
       width: "16",
+      id: 10,
     });
   });
 });

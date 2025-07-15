@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { HasStrapiIdSchema } from "../models/HasStrapiId";
 import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 
 export const StrapiDateInputComponentSchema = z
@@ -11,7 +11,7 @@ export const StrapiDateInputComponentSchema = z
     errors: StrapiErrorRelationSchema,
     __component: z.literal("form-elements.date-input"),
   })
-  .merge(HasOptionalStrapiIdSchema)
+  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,
