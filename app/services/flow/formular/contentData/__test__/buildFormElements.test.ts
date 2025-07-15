@@ -8,6 +8,7 @@ const mockCmsElement = {
       __component: "basic.paragraph" as const,
       text: "someText",
       html: "someText",
+      id: 10,
     },
   ],
   preHeading: undefined,
