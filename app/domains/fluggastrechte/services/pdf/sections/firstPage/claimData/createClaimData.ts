@@ -40,15 +40,26 @@ export const createClaimData = (
   flightCompensationClaimSect.add(
     doc.struct("P", {}, () => {
       addPlaintiffDetails(doc, userData);
+    }),
+  );
+
+  flightCompensationClaimSect.add(
+    doc.struct("P", {}, () => {
       doc
         .moveDown()
         .fontSize(14)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(AGAINST, { align: "left" })
         .moveDown();
-      addAirlineDetails(doc, userData);
-      doc.moveDown();
-      addPlannedFlightDetails(doc, userData);
     }),
   );
+
+  flightCompensationClaimSect.add(
+    doc.struct("P", {}, () => {
+      addAirlineDetails(doc, userData);
+      doc.moveDown();
+    }),
+  );
+
+  addPlannedFlightDetails(doc, flightCompensationClaimSect, userData);
 };
