@@ -1,9 +1,38 @@
-import { type RouteConfig } from "@react-router/dev/routes";
-import { flatRoutes } from "@react-router/fs-routes";
-
-// This can be extended using route("/hello", "routes/hello.tsx")
-// See https://remix.run/docs/en/main/start/future-flags#v3_routeconfig
+import { type RouteConfig, route, index } from "@react-router/dev/routes";
 
 export default [
-  ...(await flatRoutes({ rootDirectory: "routes" })),
+  index("routes/_index.tsx"),
+  route("*", "routes/$.tsx", { id: "index" }),
+
+  route("error/:code", "routes/error.$code.tsx"),
+
+  route("datenschutz", "routes/datenschutz.tsx"),
+  route("feedback/erfolgreich", "routes/feedback.erfolgreich.tsx"),
+  route("hilfe", "routes/hilfe.tsx"),
+  route("opensource", "routes/opensource.tsx"),
+  route(
+    "persoenliche-daten-loeschen",
+    "routes/persoenliche-daten-loeschen.tsx",
+  ),
+  route("schuldenforschung", "routes/schuldenforschung.tsx"),
+  route("link/*", "routes/link.$.tsx"),
+  route("health", "routes/health.ts"),
+  route("robots.txt", "routes/robots[.]txt.tsx"),
+
+  route("kitchensink", "routes/kitchensink._index.tsx"),
+  route("kitchensink/buttons", "routes/kitchensink.buttons.tsx"),
+
+  route("api/airlines/list", "routes/api.airlines.list.ts"),
+  route("api/airports/list", "routes/api.airports.list.ts"),
+  route("api/streetNames/list/:PLZ", "routes/api.streetNames.list.$PLZ.ts"),
+
+  route("action/delete-array-item", "routes/action.delete-array-item.ts"),
+  route("action/send-email", "routes/action.send-email.ts"),
+  route("action/send-rating", "routes/action.send-rating.ts"),
+  route("action/set-analytics", "routes/action.set-analytics.tsx"),
+  route("action/send-feedback", "routes/action.send-feedback.ts"),
+  route("action/delete-data", "routes/action.delete-data.tsx"),
+
+  route("vorabcheck/*", "routes/shared/vorabcheck.server.ts"),
+  route("formular/*", "routes/shared/formular.server.ts"),
 ] satisfies RouteConfig;
