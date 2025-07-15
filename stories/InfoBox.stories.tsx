@@ -17,6 +17,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const defaultArgs = {
+  id: 9,
   identifier: "default-info-box-id",
   heading: {
     text: "Heading text",
@@ -25,6 +26,7 @@ const defaultArgs = {
   },
   items: [
     {
+      id: 10,
       label: { text: "Label", look: "ds-label-01-reg" },
       headline: { text: "Headline", look: "ds-heading-03-reg" },
       image: undefined,
@@ -55,6 +57,7 @@ export const WithImage: Story = {
     ...defaultArgs,
     items: [
       {
+        id: 12,
         label: { text: "Label", look: "ds-label-01-reg" },
         headline: { text: "Headline", look: "ds-heading-03-reg" },
         image: {
