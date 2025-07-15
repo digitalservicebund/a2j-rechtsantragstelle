@@ -5,7 +5,7 @@ import ValidatedFlowForm from "~/components/form/ValidatedFlowForm";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import { ProgressBar } from "~/components/ProgressBar";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import type { loader } from "../vorabcheck.server";
+import type { loader } from "../vorabcheck";
 
 export function VorabcheckPage() {
   const {

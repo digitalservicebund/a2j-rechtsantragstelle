@@ -11,7 +11,7 @@ import ContentComponents from "~/components/ContentComponents";
 import Heading from "~/components/Heading";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import RichText from "~/components/RichText";
-import type { loader } from "~/routes/shared/result.server";
+import type { loader } from "~/routes/shared/result";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
 

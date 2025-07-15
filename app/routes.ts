@@ -43,21 +43,21 @@ export default [
 
     ...prefix("vorabcheck", [
       index("services/flow/server/lastStep.ts", { id: "indexBHV" }),
-      route("visualisierung", "routes/shared/visualisierung.server.ts", {
+      route("visualisierung", "routes/shared/visualisierung.ts", {
         id: "visBHV ",
       }),
-      route("*", "routes/shared/vorabcheck.server.ts", { id: "flowBHV" }),
-      route("ergebnis/*", "routes/shared/result.server.ts", { id: "resBHV" }),
+      route("*", "routes/shared/vorabcheck.ts", { id: "flowBHV" }),
+      route("ergebnis/*", "routes/shared/result.ts", { id: "resBHV" }),
     ]),
     ...prefix("antrag", [
       index("services/flow/server/lastStep.ts", { id: "indexBHA" }),
-      route("visualisierung", "routes/shared/visualisierung.server.ts", {
+      route("visualisierung", "routes/shared/visualisierung.ts", {
         id: "visBHA",
       }),
       route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
         id: "pdfBHA",
       }),
-      route("*", "routes/shared/formular.server.ts", { id: "flowBHA" }),
+      route("*", "routes/shared/formular.ts", { id: "flowBHA" }),
     ]),
     ...prefix("zustaendiges-gericht", [
       index("routes/beratungshilfe.zustaendiges-gericht._index.tsx"),
@@ -77,24 +77,24 @@ export default [
       route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
         id: "pdfPKH",
       }),
-      route("*", "routes/shared/formular.server.ts", { id: "flowPKH" }),
+      route("*", "routes/shared/formular.ts", { id: "flowPKH" }),
     ]),
   ]),
   ...prefix("fluggastrechte", [
     ...prefix("vorabcheck", [
       index("services/flow/server/lastStep.ts", { id: "indexFGRV" }),
-      route("*", "routes/shared/vorabcheck.server.ts", { id: "flowFGRV" }),
-      route("visualisierung", "routes/shared/visualisierung.server.ts", {
+      route("*", "routes/shared/vorabcheck.ts", { id: "flowFGRV" }),
+      route("visualisierung", "routes/shared/visualisierung.ts", {
         id: "visFGRV",
       }),
-      route("ergebnis/*", "routes/shared/result.server.ts", { id: "resFGRV" }),
+      route("ergebnis/*", "routes/shared/result.ts", { id: "resFGRV" }),
     ]),
     ...prefix("formular", [
-      route("*", "routes/shared/formular.server.ts", { id: "flowFGRF" }),
+      route("*", "routes/shared/formular.ts", { id: "flowFGRF" }),
       route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
         id: "pdfFGRF",
       }),
-      route("visualisierung", "routes/shared/visualisierung.server.ts", {
+      route("visualisierung", "routes/shared/visualisierung.ts", {
         id: "visFGRF",
       }),
       route(
@@ -108,19 +108,19 @@ export default [
     ]),
   ]),
   ...prefix("kontopfaendung/wegweiser", [
-    route("*", "routes/shared/vorabcheck.server.ts", { id: "flowKPV" }),
-    route("wegweiser/ergebnis/*", "routes/shared/result.server.ts", {
+    route("*", "routes/shared/vorabcheck.ts", { id: "flowKPV" }),
+    route("wegweiser/ergebnis/*", "routes/shared/result.ts", {
       id: "resKPV",
     }),
   ]),
   ...prefix("geld-einklagen", [
     ...prefix("vorabcheck", [
       index("services/flow/server/lastStep.ts", { id: "indexGEV" }),
-      route("*", "routes/shared/vorabcheck.server.ts", { id: "flowGEV" }),
-      route("visualisierung", "routes/shared/visualisierung.server.ts", {
+      route("*", "routes/shared/vorabcheck.ts", { id: "flowGEV" }),
+      route("visualisierung", "routes/shared/visualisierung.ts", {
         id: "visGEV",
       }),
-      route("ergebnis/*", "routes/shared/result.server.ts", { id: "resGEV" }),
+      route("ergebnis/*", "routes/shared/result.ts", { id: "resGEV" }),
       route(
         "geld-einklagen.vorabcheck.partnergericht.ergebnis",
         "routes/geld-einklagen.vorabcheck.partnergericht.ergebnis.$.tsx",
@@ -128,8 +128,8 @@ export default [
     ]),
     ...prefix("formular", [
       index("services/flow/server/lastStep.ts", { id: "indexGEF" }),
-      route("*", "routes/shared/formular.server.ts", { id: "flowGEF" }),
-      route("visualisierung", "routes/shared/visualisierung.server.ts", {
+      route("*", "routes/shared/formular.ts", { id: "flowGEF" }),
+      route("visualisierung", "routes/shared/visualisierung.ts", {
         id: "visGEF",
       }),
     ]),
