@@ -28,6 +28,7 @@ export const getErhoehungsbetragStrings = (
     hasErhoehungsbetrag:
       userData.kinderUnterhalt === "yes" ||
       userData.kinderWohnenZusammen === "ja" ||
+      userData.kinderWohnenZusammen === "teilweise" ||
       userData.partnerUnterhalt === "yes" ||
       userData.partnerWohnenZusammen === "yes",
   };

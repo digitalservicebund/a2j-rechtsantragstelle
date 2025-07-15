@@ -60,13 +60,27 @@ describe("stringReplacements", () => {
     });
   });
   describe("getErhoehungsbetragStrings", () => {
-    it("should return correct Erhoehungsbetrag strings", () => {
+    const testCases: KontopfaendungWegweiserUserData[] = [
+      { kinderWohnenZusammen: "ja" },
+      { kinderWohnenZusammen: "teilweise" },
+      { kinderUnterhalt: "yes" },
+      { partnerUnterhalt: "yes" },
+      { partnerWohnenZusammen: "yes" },
+    ];
+    test.each(testCases)("should return true given %o", (userData) => {
+      const { hasErhoehungsbetrag } = getErhoehungsbetragStrings(userData);
+      expect(hasErhoehungsbetrag).toEqual(true);
+    });
+
+    it("should return false if none of the prerequisites are met", () => {
       const userData: KontopfaendungWegweiserUserData = {
-        kinderWohnenZusammen: "ja",
+        kinderWohnenZusammen: "nein",
+        kinderUnterhalt: "no",
+        partnerUnterhalt: "no",
+        partnerWohnenZusammen: "no",
       };
-      expect(getErhoehungsbetragStrings(userData)).toEqual({
-        hasErhoehungsbetrag: true,
-      });
+      const { hasErhoehungsbetrag } = getErhoehungsbetragStrings(userData);
+      expect(hasErhoehungsbetrag).toEqual(false);
     });
   });
   describe("getKindergeldStrings", () => {
