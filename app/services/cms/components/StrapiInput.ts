@@ -21,3 +21,5 @@ export const StrapiInputComponentSchema = z
     ...cmsData,
     errorMessages: errors,
   }));
+
+export type StrapiInputComponent = z.input<typeof StrapiInputComponentSchema>;
