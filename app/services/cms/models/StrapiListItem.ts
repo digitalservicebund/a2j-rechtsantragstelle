@@ -2,7 +2,7 @@ import { z } from "zod";
 import { StrapiAccordionSchema } from "~/services/cms/models/StrapiAccordion";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiButtonSchema } from "./StrapiButton";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
@@ -16,5 +16,5 @@ export const StrapiListItemSchema = z
     accordion: StrapiAccordionSchema.nullable().transform(omitNull),
     image: StrapiImageOptionalSchema,
   })
-  .merge(HasOptionalStrapiIdSchema)
+  .merge(HasStrapiIdSchema)
   .merge(OptionalStrapiLinkIdentifierSchema);

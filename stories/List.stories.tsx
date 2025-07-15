@@ -37,6 +37,7 @@ export const Example: Story = {
     },
     items: [
       {
+        id: 10,
         headline: {
           text: "Custom image override",
           look: "ds-heading-03-reg",
@@ -50,6 +51,7 @@ export const Example: Story = {
         },
       },
       {
+        id: 11,
         headline: {
           text: "Unordered styled marker",
           look: "ds-heading-03-reg",

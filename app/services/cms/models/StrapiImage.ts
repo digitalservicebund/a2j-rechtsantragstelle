@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { StrapiStringOptionalSchema } from "~/services/cms/models/StrapiStringOptional";
 import { omitNull } from "~/util/omitNull";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 
 function appendStrapiUrlOnDev(imageUrl: string) {
   // Without S3 bucket, Strapi returns relative URLs
@@ -16,14 +15,12 @@ function appendStrapiUrlOnDev(imageUrl: string) {
   return strapiUrl + imageUrl;
 }
 
-export const StrapiImageSchema = z
-  .object({
-    url: z.string().transform(appendStrapiUrlOnDev),
-    width: z.number(),
-    height: z.number(),
-    alternativeText: StrapiStringOptionalSchema,
-  })
-  .merge(HasOptionalStrapiIdSchema);
+export const StrapiImageSchema = z.object({
+  url: z.string().transform(appendStrapiUrlOnDev),
+  width: z.number(),
+  height: z.number(),
+  alternativeText: StrapiStringOptionalSchema,
+});
 
 export const StrapiImageOptionalSchema =
   StrapiImageSchema.nullable().transform(omitNull);

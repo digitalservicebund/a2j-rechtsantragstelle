@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
 import { StrapiButtonSchema } from "./StrapiButton";
@@ -15,10 +15,7 @@ export const StrapiTableOfContentsSchema = z
     outerBackground: StrapiBackgroundOptionalSchema,
     container: StrapiContainerSchema,
     links: z.array(StrapiLinkSchema),
+    __component: z.literal("page.table-of-contents"),
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema)
-  .transform((cmsData) => ({
-    __component: "page.table-of-contents" as const,
-    ...cmsData,
-  }));
+  .merge(HasStrapiIdSchema)
+  .merge(OptionalStrapiLinkIdentifierSchema);

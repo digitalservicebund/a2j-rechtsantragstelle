@@ -46,6 +46,7 @@ describe("StrapiSummaryOverviewSchema", () => {
     const correctSummary = {
       __component: "page.summary-overview-section",
       title: {
+        __component: "basic.heading",
         text: "text",
         tagName: "h1",
         look: "default",
