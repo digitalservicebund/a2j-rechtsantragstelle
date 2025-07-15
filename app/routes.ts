@@ -1,9 +1,4 @@
-import {
-  type RouteConfig,
-  route,
-  index,
-  prefix,
-} from "@react-router/dev/routes";
+import { route, index, prefix, RouteConfig } from "@react-router/dev/routes";
 
 export default [
   index("routes/_index.tsx"),
@@ -69,6 +64,41 @@ export default [
       route(
         "auswahl/:PLZ",
         "routes/beratungshilfe.zustaendiges-gericht.auswahl.$PLZ.tsx",
+      ),
+    ]),
+  ]),
+  ...prefix("prozesskostenhilfe", [
+    ...prefix("formular", [
+      route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
+        id: "pdfPKH",
+      }),
+      route("*", "routes/shared/formular.server.ts", { id: "flowPKH" }),
+    ]),
+  ]),
+  ...prefix("fluggastrechte", [
+    ...prefix("vorabcheck", [
+      index("services/flow/server/lastStep.ts", { id: "indexFGRV" }),
+      route("*", "routes/shared/vorabcheck.server.ts", { id: "flowFGRV" }),
+      route("visualisierung", "routes/shared/visualisierung.server.ts", {
+        id: "visFGRV",
+      }),
+      route("ergebnis/*", "routes/shared/result.server.ts", { id: "resFGRV" }),
+    ]),
+    ...prefix("formular", [
+      route("*", "routes/shared/formular.server.ts", { id: "flowFGRF" }),
+      route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
+        id: "pdfFGRF",
+      }),
+      route("visualisierung", "routes/shared/visualisierung.server.ts", {
+        id: "visFGRF",
+      }),
+      route(
+        "intro.redirect-vorabcheck-ergebnis",
+        "routes/fluggastrechte.formular.intro.redirect-vorabcheck-ergebnis.tsx",
+      ),
+      route(
+        "redirect-to-vorabcheck",
+        "routes/fluggastrechte.formular.redirect-to-vorabcheck.tsx",
       ),
     ]),
   ]),
