@@ -3,6 +3,7 @@ import InfoBox from "~/components/InfoBox";
 
 const mockInfoBoxItems = [
   {
+    id: 10,
     label: undefined,
     headline: undefined,
     image: undefined,
@@ -10,6 +11,7 @@ const mockInfoBoxItems = [
     buttons: [],
   },
   {
+    id: 11,
     label: undefined,
     headline: undefined,
     image: undefined,
