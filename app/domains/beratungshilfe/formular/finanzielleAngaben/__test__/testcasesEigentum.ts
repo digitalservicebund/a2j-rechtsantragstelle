@@ -4,7 +4,7 @@ import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratun
 const finanzielleAngabenEigentumInfo =
   "/finanzielle-angaben/eigentum/eigentum-info";
 const finanzielleAngabenEigentumBankkontenFrage =
-  "/finanzielle-angaben/eigentum/bankkonten-frage";
+  "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage";
 const finanzielleAngabenEigentumGeldanlagenFrage =
   "/finanzielle-angaben/eigentum/geldanlagen-frage";
 const finanzielleAngabenEigentumWertgegenstaendeFrage =
@@ -78,6 +78,14 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
   [
     {
       hasBankkonto: "yes",
+      bankkonten: [
+        {
+          kontoEigentuemer: "myself",
+          kontostand: "1000",
+          bankName: "Bank1",
+          iban: "DE123456789",
+        },
+      ],
       hasGeldanlage: "no",
       hasWertsache: "no",
       hasKraftfahrzeug: "no",
@@ -85,12 +93,22 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
     },
     [
       finanzielleAngabenEigentumBankkontenFrage,
+      "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
       finanzielleAngabenEigentumGeldanlagenFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
       finanzielleAngabenEigentumKraftfahrzeugeFrage,
       "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "/finanzielle-angaben/eigentum-zusammenfassung/warnung",
+      "/finanzielle-angaben/ausgaben/ausgaben-frage",
+    ],
+  ],
+  [
+    {
+      hasBankkonto: "yes",
+    },
+    [
+      "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
+      "/finanzielle-angaben/eigentum/bankkonten/warnung",
     ],
   ],
   [

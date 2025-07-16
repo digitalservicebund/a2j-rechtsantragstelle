@@ -4,7 +4,7 @@ import type { ArrayConfigServer } from "~/services/array";
 export function finanzielleAngabenArrayConfig(prefix: string) {
   return {
     bankkonten: {
-      url: `${prefix}/eigentum-zusammenfassung/bankkonten`,
+      url: `${prefix}/eigentum/bankkonten`,
       initialInputUrl: "daten",
       statementKey: "hasBankkonto",
       event: "add-bankkonten",

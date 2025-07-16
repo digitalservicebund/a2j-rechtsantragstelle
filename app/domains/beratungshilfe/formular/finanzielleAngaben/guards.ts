@@ -53,6 +53,10 @@ import type { Guards } from "../../../guards.server";
 export const eigentumTotalWorthLessThan10000: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) => context.eigentumTotalWorth === "less10000";
 
+export const hasBankkontoYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten);
+
 export const finanzielleAngabeGuards = {
   eigentumDone,
   staatlicheLeistungenIsKeine,
@@ -80,6 +84,7 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("partnerEinkommen"),
   hasAusgabenYes,
   hasBankkontoYes,
+  hasBankkontoYesAndEmptyArray,
   hasKraftfahrzeugYes,
   hasGeldanlageYes,
   hasGrundeigentumYes,
@@ -117,7 +122,7 @@ export const finanzielleAngabeGuards = {
     hasAusgabenYes({ context }) && !arrayIsNonEmpty(context.ausgaben),
 
   eigentumYesAndEmptyArray: ({ context }) =>
-    (hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten)) ||
+    hasBankkontoYesAndEmptyArray({ context }) ||
     (hasGeldanlageYes({ context }) && !arrayIsNonEmpty(context.geldanlagen)) ||
     (hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen)) ||
     (hasKraftfahrzeugYes({ context }) &&

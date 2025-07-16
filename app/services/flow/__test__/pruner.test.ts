@@ -81,7 +81,7 @@ describe("pruner", () => {
           form: [{ name: "staatlicheLeistungen" }],
         },
         {
-          stepId: "/finanzielle-angaben/eigentum/bankkonten-frage",
+          stepId: "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
           form: [{ name: "hasBankkonto" }],
         },
         {

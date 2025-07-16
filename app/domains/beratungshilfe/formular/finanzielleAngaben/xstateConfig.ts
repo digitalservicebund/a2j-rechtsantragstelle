@@ -437,7 +437,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                 guard: guards.hasPartnerschaftYesAndNoStaatlicheLeistungen,
                 target: "heirat-info",
               },
-              "bankkonten-frage",
+              "bankkonten",
             ],
             BACK: [
               {
@@ -459,25 +459,67 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
         "heirat-info": {
           on: {
             BACK: "eigentum-info",
-            SUBMIT: "bankkonten-frage",
+            SUBMIT: "bankkonten",
           },
         },
-        "bankkonten-frage": {
-          on: {
-            BACK: [
-              {
-                guard: guards.hasPartnerschaftYesAndNoStaatlicheLeistungen,
-                target: "heirat-info",
+        bankkonten: {
+          initial: "bankkonten-frage",
+          states: {
+            "bankkonten-frage": {
+              on: {
+                BACK: [
+                  {
+                    guard: guards.hasPartnerschaftYesAndNoStaatlicheLeistungen,
+                    target: "#eigentum.heirat-info",
+                  },
+                  "#eigentum.eigentum-info",
+                ],
+                SUBMIT: [
+                  {
+                    guard: guards.hasBankkontoYes,
+                    target: "uebersicht",
+                  },
+                  "#eigentum.geldanlagen-frage",
+                ],
               },
-              "eigentum-info",
-            ],
-            SUBMIT: "geldanlagen-frage",
+            },
+            uebersicht: {
+              on: {
+                BACK: "bankkonten-frage",
+                SUBMIT: [
+                  {
+                    guard: guards.hasBankkontoYesAndEmptyArray,
+                    target: "warnung",
+                  },
+                  "#eigentum.geldanlagen-frage",
+                ],
+                "add-bankkonten": "daten",
+              },
+            },
+            warnung: {
+              on: {
+                BACK: "uebersicht",
+                SUBMIT: "#eigentum.geldanlagen-frage",
+              },
+            },
+            daten: {
+              on: {
+                BACK: "uebersicht",
+                SUBMIT: "uebersicht",
+              },
+            },
           },
         },
         "geldanlagen-frage": {
           on: {
             SUBMIT: "wertgegenstaende-frage",
-            BACK: "bankkonten-frage",
+            BACK: [
+              {
+                guard: guards.hasBankkontoYes,
+                target: "bankkonten.uebersicht",
+              },
+              "bankkonten",
+            ],
           },
         },
         "wertgegenstaende-frage": {

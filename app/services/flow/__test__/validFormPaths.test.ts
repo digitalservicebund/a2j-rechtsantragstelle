@@ -67,13 +67,15 @@ describe("validFormPaths", () => {
 
       expect(validPaths[1]).toStrictEqual({
         stepIds: [
-          "/finanzielle-angaben/eigentum-zusammenfassung/bankkonten/daten",
+          "/finanzielle-angaben/eigentum/bankkonten/daten",
+          "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
         ],
         arrayIndex: 0,
       });
       expect(validPaths[2]).toStrictEqual({
         stepIds: [
-          "/finanzielle-angaben/eigentum-zusammenfassung/bankkonten/daten",
+          "/finanzielle-angaben/eigentum/bankkonten/daten",
+          "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
         ],
         arrayIndex: 1,
       });
