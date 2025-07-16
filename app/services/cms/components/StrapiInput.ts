@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { HasStrapiIdSchema } from "../models/HasStrapiId";
 import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 import { StrapiWidthSchema } from "../models/StrapiWidth";
 
@@ -16,8 +16,10 @@ export const StrapiInputComponentSchema = z
     helperText: StrapiOptionalStringSchema,
     __component: z.literal("form-elements.input"),
   })
-  .merge(HasOptionalStrapiIdSchema)
+  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,
   }));
+
+export type StrapiInputComponent = z.input<typeof StrapiInputComponentSchema>;

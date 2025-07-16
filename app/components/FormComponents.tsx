@@ -2,6 +2,7 @@ import FilesUpload from "~/components/filesUpload/FilesUpload";
 import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
 import Checkbox from "~/components/inputs/Checkbox";
 import DateInput from "~/components/inputs/DateInput";
+import { FieldSet } from "~/components/inputs/FieldSet";
 import HiddenInput from "~/components/inputs/HiddenInput";
 import Input from "~/components/inputs/Input";
 import RadioGroup from "~/components/inputs/RadioGroup";
@@ -9,10 +10,9 @@ import Select from "~/components/inputs/Select";
 import Textarea from "~/components/inputs/Textarea";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 import TimeInput from "~/components/inputs/TimeInput";
-import { keyFromElement } from "~/services/cms/keyFromElement";
 import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 
-const FormComponent = ({
+export const FormComponent = ({
   componentProps,
 }: Readonly<{ componentProps: StrapiFormComponent }>) => {
   switch (componentProps.__component) {
@@ -38,6 +38,8 @@ const FormComponent = ({
       return <TileGroup {...componentProps} />;
     case "form-elements.hidden-input":
       return <HiddenInput {...componentProps} />;
+    case "form-elements.fieldset":
+      return <FieldSet {...componentProps} />;
   }
 };
 
@@ -47,7 +49,7 @@ export const FormComponents = ({
   <>
     {components.map((componentProps) => (
       <FormComponent
-        key={keyFromElement(componentProps)}
+        key={`${componentProps.__component}_${componentProps.id}`}
         componentProps={componentProps}
       />
     ))}

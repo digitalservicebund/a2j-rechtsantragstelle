@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { HasStrapiIdSchema } from "../models/HasStrapiId";
 import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 import { strapiWidthLookupMap } from "../models/StrapiWidth";
 
@@ -18,7 +18,7 @@ export const StrapiDropdownComponentSchema = z
       .nullable()
       .transform((val) => strapiWidthLookupMap[val ?? ""]),
   })
-  .merge(HasOptionalStrapiIdSchema)
+  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,
