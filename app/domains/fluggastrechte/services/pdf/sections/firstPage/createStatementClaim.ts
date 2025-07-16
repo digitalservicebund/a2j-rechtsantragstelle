@@ -42,6 +42,7 @@ export const createStatementClaim = (
     }),
   );
 
+  const statementClaimList = doc.struct("L");
   statementClaimSect.add(
     doc.struct("P", {}, () => {
       doc
@@ -53,10 +54,12 @@ export const createStatementClaim = (
 
   addDefendantPartyList(
     doc,
-    statementClaimSect,
+    statementClaimList,
     prozesszinsen ?? "",
     compensationByDistance,
   );
+
+  statementClaimSect.add(statementClaimList);
 
   statementClaimSect.add(
     doc.struct("P", {}, () => {
@@ -66,5 +69,6 @@ export const createStatementClaim = (
       doc.text(videoTrialAgreement(videoverhandlung), PDF_MARGIN_HORIZONTAL);
     }),
   );
+
   documentStruct.add(statementClaimSect);
 };

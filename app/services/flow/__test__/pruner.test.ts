@@ -85,8 +85,42 @@ describe("pruner", () => {
           form: [{ name: "hasBankkonto" }],
         },
         {
-          stepId: "/finanzielle-angaben/eigentum/geldanlagen-frage",
+          stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
           form: [{ name: "hasGeldanlage" }],
+        },
+        {
+          stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/art",
+          form: [{ name: "geldanlagen#art" }],
+        },
+        {
+          stepId:
+            "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/forderung",
+          form: [
+            { name: "geldanlagen#forderung" },
+            { name: "geldanlagen#eigentuemer" },
+            { name: "geldanlagen#wert" },
+          ],
+        },
+
+        {
+          stepId:
+            "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/befristet",
+          form: [
+            { name: "geldanlagen#eigentuemer" },
+            { name: "geldanlagen#befristetArt" },
+            { name: "geldanlagen#verwendungszweck" },
+            { name: "geldanlagen#wert" },
+            { name: "geldanlagen#auszahlungdatum" },
+          ],
+        },
+
+        {
+          stepId:
+            "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/bargeld",
+          form: [
+            { name: "geldanlagen#eigentuemer" },
+            { name: "geldanlagen#wert" },
+          ],
         },
         {
           stepId: "/finanzielle-angaben/eigentum/wertgegenstaende-frage",
@@ -103,41 +137,6 @@ describe("pruner", () => {
         {
           stepId: "/finanzielle-angaben/eigentum/gesamtwert",
           form: [{ name: "eigentumTotalWorth" }],
-        },
-        {
-          stepId:
-            "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
-          form: [{ name: "geldanlagen#art" }],
-        },
-        {
-          stepId:
-            "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/forderung",
-          form: [
-            { name: "geldanlagen#forderung" },
-            { name: "geldanlagen#eigentuemer" },
-            { name: "geldanlagen#wert" },
-          ],
-        },
-
-        {
-          stepId:
-            "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/befristet",
-          form: [
-            { name: "geldanlagen#eigentuemer" },
-            { name: "geldanlagen#befristetArt" },
-            { name: "geldanlagen#verwendungszweck" },
-            { name: "geldanlagen#wert" },
-            { name: "geldanlagen#auszahlungdatum" },
-          ],
-        },
-
-        {
-          stepId:
-            "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/bargeld",
-          form: [
-            { name: "geldanlagen#eigentuemer" },
-            { name: "geldanlagen#wert" },
-          ],
         },
       ];
 

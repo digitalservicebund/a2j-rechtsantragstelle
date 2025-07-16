@@ -66,17 +66,11 @@ describe("validFormPaths", () => {
       expect(validPaths.length).toEqual(3);
 
       expect(validPaths[1]).toStrictEqual({
-        stepIds: [
-          "/finanzielle-angaben/eigentum/bankkonten/daten",
-          "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
-        ],
+        stepIds: ["/finanzielle-angaben/eigentum/bankkonten/bankkonto/daten"],
         arrayIndex: 0,
       });
       expect(validPaths[2]).toStrictEqual({
-        stepIds: [
-          "/finanzielle-angaben/eigentum/bankkonten/daten",
-          "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
-        ],
+        stepIds: ["/finanzielle-angaben/eigentum/bankkonten/bankkonto/daten"],
         arrayIndex: 1,
       });
     });
