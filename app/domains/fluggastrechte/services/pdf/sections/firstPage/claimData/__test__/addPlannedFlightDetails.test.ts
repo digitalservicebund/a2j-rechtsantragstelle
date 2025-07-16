@@ -18,7 +18,7 @@ describe("addPlannedFlightDetails", () => {
   it("should create document with flight details", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
-    addPlannedFlightDetails(mockDoc, userDataMock);
+    addPlannedFlightDetails(mockDoc, mockStruct, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(DUE_REASON_TEXT);
     expect(mockDoc.text).toHaveBeenCalledWith(AFFECTED_FLIGHT_TEXT);
@@ -42,7 +42,7 @@ describe("addPlannedFlightDetails", () => {
     const mockCompensation = 400;
     vi.mocked(getTotalCompensationClaim).mockReturnValue(mockCompensation);
 
-    addPlannedFlightDetails(mockDoc, userDataMock);
+    addPlannedFlightDetails(mockDoc, mockStruct, userDataMock);
 
     expect(getTotalCompensationClaim).toHaveBeenCalled();
     expect(mockDoc.text).toHaveBeenCalledWith(
