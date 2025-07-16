@@ -656,7 +656,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                     guard: guards.hasWertsacheYes,
                     target: "uebersicht",
                   },
-                  "#eigentum.grundeigentum-frage",
+                  "#eigentum.grundeigentum.grundeigentum-frage",
                 ],
               },
             },
@@ -668,7 +668,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                     guard: guards.hasWertsacheYesAndEmptyArray,
                     target: "warnung",
                   },
-                  "#eigentum.grundeigentum-frage",
+                  "#eigentum.grundeigentum.grundeigentum-frage",
                 ],
                 "add-wertsachen": "wertgegenstand",
               },
@@ -676,7 +676,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
             warnung: {
               on: {
                 BACK: "uebersicht",
-                SUBMIT: "#eigentum.grundeigentum-frage",
+                SUBMIT: "#eigentum.grundeigentum.grundeigentum-frage",
               },
             },
             wertgegenstand: {
@@ -692,20 +692,86 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
             },
           },
         },
-        "grundeigentum-frage": {
-          on: {
-            SUBMIT: "kraftfahrzeuge-frage",
-            BACK: [
-              {
-                guard: guards.hasWertsacheYes,
-                target: "#eigentum.wertgegenstaende.uebersicht",
+        grundeigentum: {
+          initial: "grundeigentum-frage",
+          states: {
+            "grundeigentum-frage": {
+              on: {
+                BACK: [
+                  {
+                    guard: guards.hasWertsacheYes,
+                    target: "#eigentum.wertgegenstaende.uebersicht",
+                  },
+                  "#eigentum.wertgegenstaende",
+                ],
+                SUBMIT: [
+                  {
+                    guard: guards.hasGrundeigentumYes,
+                    target: "uebersicht",
+                  },
+                  "#eigentum.kraftfahrzeuge-frage",
+                ],
               },
-              "#eigentum.wertgegenstaende",
-            ],
+            },
+            uebersicht: {
+              on: {
+                BACK: "grundeigentum-frage",
+                SUBMIT: [
+                  {
+                    guard: guards.hasGrundeigentumYesAndEmptyArray,
+                    target: "warnung",
+                  },
+                  "#eigentum.kraftfahrzeuge-frage",
+                ],
+                "add-grundeigentum": "grundeigentum",
+              },
+            },
+            warnung: {
+              on: {
+                BACK: "uebersicht",
+                SUBMIT: "#eigentum.kraftfahrzeuge-frage",
+              },
+            },
+            grundeigentum: {
+              initial: "bewohnt-frage",
+              states: {
+                "bewohnt-frage": {
+                  on: {
+                    BACK: "#eigentum.grundeigentum.uebersicht",
+                    SUBMIT: [
+                      {
+                        guard: guards.grundeigentumIsBewohnt,
+                        target: "bewohnt-daten",
+                      },
+                      "daten",
+                    ],
+                  },
+                },
+                "bewohnt-daten": {
+                  on: {
+                    BACK: "bewohnt-frage",
+                    SUBMIT: "#eigentum.grundeigentum.uebersicht",
+                  },
+                },
+                daten: {
+                  on: {
+                    BACK: "bewohnt-frage",
+                    SUBMIT: "#eigentum.grundeigentum.uebersicht",
+                  },
+                },
+              },
+            },
           },
         },
         "kraftfahrzeuge-frage": {
           on: {
+            BACK: [
+              {
+                guard: guards.hasGrundeigentumYes,
+                target: "#eigentum.grundeigentum.uebersicht",
+              },
+              "grundeigentum",
+            ],
             SUBMIT: [
               {
                 guard: guards.hasAnyEigentumExceptBankaccount,
@@ -721,7 +787,6 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
               },
               "#ausgaben",
             ],
-            BACK: "grundeigentum-frage",
           },
         },
         gesamtwert: {

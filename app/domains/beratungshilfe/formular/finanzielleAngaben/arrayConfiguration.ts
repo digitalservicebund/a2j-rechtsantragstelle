@@ -22,7 +22,7 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       event: "add-geldanlagen",
     },
     grundeigentum: {
-      url: `${prefix}/eigentum-zusammenfassung/grundeigentum`,
+      url: `${prefix}/eigentum/grundeigentum/grundeigentum`,
       initialInputUrl: "bewohnt-frage",
       statementKey: "hasGrundeigentum",
       event: "add-grundeigentum",

@@ -10,7 +10,7 @@ const finanzielleAngabenEigentumGeldanlagenFrage =
 const finanzielleAngabenEigentumWertgegenstaendeFrage =
   "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage";
 const finanzielleAngabenEigentumGrundeigentumFrage =
-  "/finanzielle-angaben/eigentum/grundeigentum-frage";
+  "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage";
 const finanzielleAngabenEigentumKraftfahrzeugeFrage =
   "/finanzielle-angaben/eigentum/kraftfahrzeuge-frage";
 const finanzielleAngabenAusgabenAusgabenFrage =
@@ -127,6 +127,15 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
     [
       "/finanzielle-angaben/eigentum/wertgegenstaende/uebersicht",
       "/finanzielle-angaben/eigentum/wertgegenstaende/warnung",
+    ],
+  ],
+  [
+    {
+      hasGrundeigentum: "yes",
+    },
+    [
+      "/finanzielle-angaben/eigentum/grundeigentum/uebersicht",
+      "/finanzielle-angaben/eigentum/grundeigentum/warnung",
     ],
   ],
   [

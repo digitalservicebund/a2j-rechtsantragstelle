@@ -128,7 +128,8 @@ describe("pruner", () => {
           form: [{ name: "hasWertsache" }],
         },
         {
-          stepId: "/finanzielle-angaben/eigentum/grundeigentum-frage",
+          stepId:
+            "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
           form: [{ name: "hasGrundeigentum" }],
         },
         {
