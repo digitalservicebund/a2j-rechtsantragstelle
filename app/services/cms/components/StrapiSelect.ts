@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { HasStrapiIdSchema } from "../models/HasStrapiId";
 import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 
 const StrapiSelectOptionSchema = z.object({
@@ -17,7 +17,7 @@ export const StrapiSelectComponentSchema = z
     options: z.array(StrapiSelectOptionSchema),
     errors: StrapiErrorRelationSchema,
   })
-  .merge(HasOptionalStrapiIdSchema)
+  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,

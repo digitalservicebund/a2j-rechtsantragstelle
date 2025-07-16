@@ -63,6 +63,7 @@ describe("SchemaComponents", () => {
         formComponents={[
           {
             __component: "form-elements.tile-group",
+            id: 10,
             name: fieldName,
             options: [
               {
@@ -116,6 +117,7 @@ describe("SchemaComponents", () => {
             name: "field1",
             label: "label",
             type: "text",
+            id: 10,
             suffix: "suffix",
             errorMessages: [],
             width: "10",
@@ -125,6 +127,7 @@ describe("SchemaComponents", () => {
           {
             name: "field2",
             type: "text",
+            id: 10,
             errorMessages: [],
             width: "10",
             __component: "form-elements.input",

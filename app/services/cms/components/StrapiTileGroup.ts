@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { HasStrapiIdSchema } from "../models/HasStrapiId";
 import { StrapiErrorRelationSchema } from "../models/StrapiErrorRelationSchema";
 import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 import { StrapiTileSchema } from "../models/StrapiTile";
@@ -14,7 +14,7 @@ export const StrapiTileGroupComponentSchema = z
     errors: StrapiErrorRelationSchema,
     useTwoColumns: z.boolean(),
   })
-  .merge(HasOptionalStrapiIdSchema)
+  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,
