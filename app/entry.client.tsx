@@ -18,11 +18,7 @@ if (SENTRY_DSN !== undefined) {
     attachStacktrace: true,
 
     tracePropagationTargets: [
-      /^\//, //  This enables trace propagation for all relative paths on the same domain.
-      /.*\/beratungshilfe\/antrag.*/,
-      /.*\/geld-einklagen\/formular.*/,
-      /.*\/fluggastrechte\/formular.*/,
-      /.*\/prozesskostenhilfe\/formular.*/,
+      /^\/[^/]*/, //  This enables trace propagation for all relative paths on the same domain.
     ],
     integrations: [Sentry.reactRouterTracingIntegration()],
   });
