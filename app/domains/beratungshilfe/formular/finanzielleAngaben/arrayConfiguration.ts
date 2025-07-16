@@ -10,7 +10,7 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       event: "add-bankkonten",
     },
     kraftfahrzeuge: {
-      url: `${prefix}/eigentum-zusammenfassung/kraftfahrzeuge`,
+      url: `${prefix}/eigentum/kraftfahrzeuge/kraftfahrzeug`,
       initialInputUrl: "arbeitsweg",
       statementKey: "hasKraftfahrzeug",
       event: "add-kraftfahrzeuge",

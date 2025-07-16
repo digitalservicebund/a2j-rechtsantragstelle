@@ -133,7 +133,8 @@ describe("pruner", () => {
           form: [{ name: "hasGrundeigentum" }],
         },
         {
-          stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
+          stepId:
+            "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
           form: [{ name: "hasKraftfahrzeug" }],
         },
         {

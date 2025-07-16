@@ -69,6 +69,11 @@ export const hasGrundeigentumYesAndEmptyArray: BeratungshilfeFinanzielleAngabenG
   ({ context }) =>
     hasGrundeigentumYes({ context }) && !arrayIsNonEmpty(context.grundeigentum);
 
+export const hasKraftfahrzeugYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    hasKraftfahrzeugYes({ context }) &&
+    !arrayIsNonEmpty(context.kraftfahrzeuge);
+
 export const finanzielleAngabeGuards = {
   eigentumDone,
   staatlicheLeistungenIsKeine,
@@ -98,6 +103,7 @@ export const finanzielleAngabeGuards = {
   hasBankkontoYes,
   hasBankkontoYesAndEmptyArray,
   hasKraftfahrzeugYes,
+  hasKraftfahrzeugYesAndEmptyArray,
   hasGeldanlageYes,
   hasGeldanlageYesAndEmptyArray,
   hasGrundeigentumYes,
@@ -140,8 +146,7 @@ export const finanzielleAngabeGuards = {
     hasBankkontoYesAndEmptyArray({ context }) ||
     hasGeldanlageYesAndEmptyArray({ context }) ||
     hasWertsacheYesAndEmptyArray({ context }) ||
-    (hasKraftfahrzeugYes({ context }) &&
-      !arrayIsNonEmpty(context.kraftfahrzeuge)) ||
+    hasKraftfahrzeugYesAndEmptyArray({ context }) ||
     hasGrundeigentumYesAndEmptyArray({ context }),
 
   hasKinderYesAndEmptyArray,

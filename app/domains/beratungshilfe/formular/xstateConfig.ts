@@ -55,7 +55,7 @@ export const beratungshilfeXstateConfig = {
           },
           {
             guard: finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeld,
-            target: "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
+            target: "#finanzielle-angaben.eigentum.kraftfahrzeuge",
           },
           {
             guard: finanzielleAngabeGuards.hasAusgabenYes,
