@@ -74,7 +74,7 @@ export const testCasesBeratungshilfeFormularDefault = [
       "/finanzielle-angaben/wohnung/groesse",
       "/finanzielle-angaben/eigentum/eigentum-info",
       "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
-      "/finanzielle-angaben/eigentum/geldanlagen-frage",
+      "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
       "/finanzielle-angaben/eigentum/wertgegenstaende-frage",
       "/finanzielle-angaben/eigentum/grundeigentum-frage",
       "/finanzielle-angaben/eigentum/kraftfahrzeuge-frage",

@@ -479,7 +479,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                     guard: guards.hasBankkontoYes,
                     target: "uebersicht",
                   },
-                  "#eigentum.geldanlagen-frage",
+                  "#eigentum.geldanlagen",
                 ],
               },
             },
@@ -491,41 +491,164 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                     guard: guards.hasBankkontoYesAndEmptyArray,
                     target: "warnung",
                   },
-                  "#eigentum.geldanlagen-frage",
+                  "#eigentum.geldanlagen",
                 ],
-                "add-bankkonten": "daten",
+                "add-bankkonten": "bankkonto.daten",
               },
             },
             warnung: {
               on: {
                 BACK: "uebersicht",
-                SUBMIT: "#eigentum.geldanlagen-frage",
+                SUBMIT: "#eigentum.geldanlagen",
               },
             },
-            daten: {
-              on: {
-                BACK: "uebersicht",
-                SUBMIT: "uebersicht",
+            bankkonto: {
+              initial: "daten",
+              states: {
+                daten: {
+                  on: {
+                    BACK: "#eigentum.bankkonten.uebersicht",
+                    SUBMIT: "#eigentum.bankkonten.uebersicht",
+                  },
+                },
               },
             },
           },
         },
-        "geldanlagen-frage": {
-          on: {
-            SUBMIT: "wertgegenstaende-frage",
-            BACK: [
-              {
-                guard: guards.hasBankkontoYes,
-                target: "bankkonten.uebersicht",
+        geldanlagen: {
+          initial: "geldanlagen-frage",
+          states: {
+            "geldanlagen-frage": {
+              on: {
+                BACK: [
+                  {
+                    guard: guards.hasBankkontoYes,
+                    target: "#eigentum.bankkonten.uebersicht",
+                  },
+                  "#eigentum.bankkonten",
+                ],
+                SUBMIT: [
+                  {
+                    guard: guards.hasGeldanlageYes,
+                    target: "uebersicht",
+                  },
+                  "#eigentum.wertgegenstaende-frage",
+                ],
               },
-              "bankkonten",
-            ],
+            },
+            uebersicht: {
+              on: {
+                BACK: "geldanlagen-frage",
+                SUBMIT: [
+                  {
+                    guard: guards.hasGeldanlageYesAndEmptyArray,
+                    target: "warnung",
+                  },
+                  "#eigentum.wertgegenstaende-frage",
+                ],
+                "add-geldanlagen": "geldanlage.art",
+              },
+            },
+            warnung: {
+              on: {
+                BACK: "uebersicht",
+                SUBMIT: "#eigentum.wertgegenstaende-frage",
+              },
+            },
+            geldanlage: {
+              initial: "art",
+              states: {
+                art: {
+                  on: {
+                    SUBMIT: [
+                      {
+                        target: "bargeld",
+                        guard: guards.isGeldanlageBargeld,
+                      },
+                      {
+                        target: "wertpapiere",
+                        guard: guards.isGeldanlageWertpapiere,
+                      },
+                      {
+                        target: "guthabenkonto-krypto",
+                        guard: guards.isGeldanlageGuthabenkontoKrypto,
+                      },
+                      {
+                        target: "giro-tagesgeld-sparkonto",
+                        guard: guards.isGeldanlageGiroTagesgeldSparkonto,
+                      },
+                      {
+                        target: "befristet",
+                        guard: guards.isGeldanlageBefristet,
+                      },
+                      {
+                        target: "forderung",
+                        guard: guards.isGeldanlageForderung,
+                      },
+                      {
+                        target: "sonstiges",
+                        guard: guards.isGeldanlageSonstiges,
+                      },
+                    ],
+                    BACK: "#eigentum.geldanlagen.uebersicht",
+                  },
+                },
+                bargeld: {
+                  on: {
+                    BACK: "art",
+                    SUBMIT: "#eigentum.geldanlagen.uebersicht",
+                  },
+                },
+                wertpapiere: {
+                  on: {
+                    BACK: "art",
+                    SUBMIT: "#eigentum.geldanlagen.uebersicht",
+                  },
+                },
+                "guthabenkonto-krypto": {
+                  on: {
+                    BACK: "art",
+                    SUBMIT: "#eigentum.geldanlagen.uebersicht",
+                  },
+                },
+                "giro-tagesgeld-sparkonto": {
+                  on: {
+                    BACK: "art",
+                    SUBMIT: "#eigentum.geldanlagen.uebersicht",
+                  },
+                },
+                befristet: {
+                  on: {
+                    BACK: "art",
+                    SUBMIT: "#eigentum.geldanlagen.uebersicht",
+                  },
+                },
+                forderung: {
+                  on: {
+                    BACK: "art",
+                    SUBMIT: "#eigentum.geldanlagen.uebersicht",
+                  },
+                },
+                sonstiges: {
+                  on: {
+                    BACK: "art",
+                    SUBMIT: "#eigentum.geldanlagen.uebersicht",
+                  },
+                },
+              },
+            },
           },
         },
         "wertgegenstaende-frage": {
           on: {
+            BACK: [
+              {
+                guard: guards.hasGeldanlageYes,
+                target: "#eigentum.geldanlagen.uebersicht",
+              },
+              "geldanlagen",
+            ],
             SUBMIT: "grundeigentum-frage",
-            BACK: "geldanlagen-frage",
           },
         },
         "grundeigentum-frage": {

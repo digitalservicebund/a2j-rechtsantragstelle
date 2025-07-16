@@ -12,7 +12,6 @@ import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConf
 import type { BeratungshilfeFormularUserData } from "./index";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
-import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
 
 const showNachbefragung = await isFeatureFlagEnabled("showNachbefragung");
 
@@ -20,14 +19,9 @@ export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
   initial: "start",
   meta: {
-    arrays: {
-      ...finanzielleAngabenArrayConfig(
-        "/beratungshilfe/antrag/finanzielle-angaben",
-      ),
-      ...beratungshilfeFormularFinanzielleAngabenArrayConfig(
-        "/beratungshilfe/antrag/finanzielle-angaben",
-      ),
-    },
+    arrays: beratungshilfeFormularFinanzielleAngabenArrayConfig(
+      "/beratungshilfe/antrag/finanzielle-angaben",
+    ),
   },
   states: {
     start: {
