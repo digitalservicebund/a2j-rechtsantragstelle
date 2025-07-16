@@ -8,7 +8,7 @@ const finanzielleAngabenEigentumBankkontenFrage =
 const finanzielleAngabenEigentumGeldanlagenFrage =
   "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage";
 const finanzielleAngabenEigentumWertgegenstaendeFrage =
-  "/finanzielle-angaben/eigentum/wertgegenstaende-frage";
+  "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage";
 const finanzielleAngabenEigentumGrundeigentumFrage =
   "/finanzielle-angaben/eigentum/grundeigentum-frage";
 const finanzielleAngabenEigentumKraftfahrzeugeFrage =
@@ -118,6 +118,15 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
     [
       "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
       "/finanzielle-angaben/eigentum/geldanlagen/warnung",
+    ],
+  ],
+  [
+    {
+      hasWertsache: "yes",
+    },
+    [
+      "/finanzielle-angaben/eigentum/wertgegenstaende/uebersicht",
+      "/finanzielle-angaben/eigentum/wertgegenstaende/warnung",
     ],
   ],
   [

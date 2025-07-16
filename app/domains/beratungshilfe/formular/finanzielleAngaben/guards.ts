@@ -57,6 +57,10 @@ export const hasBankkontoYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard
   ({ context }) =>
     hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten);
 
+export const hasWertsacheYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen);
+
 export const hasGeldanlageYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) =>
     hasGeldanlageYes({ context }) && !arrayIsNonEmpty(context.geldanlagen);
@@ -93,6 +97,7 @@ export const finanzielleAngabeGuards = {
   hasGeldanlageYes,
   hasGrundeigentumYes,
   hasWertsacheYes,
+  hasWertsacheYesAndEmptyArray,
   hasKinderYes,
   hasWeitereUnterhaltszahlungenYes,
   hasZahlungsfristYes: ({ context: { pageData, ausgaben } }) => {
@@ -129,7 +134,7 @@ export const finanzielleAngabeGuards = {
   eigentumYesAndEmptyArray: ({ context }) =>
     hasBankkontoYesAndEmptyArray({ context }) ||
     hasGeldanlageYesAndEmptyArray({ context }) ||
-    (hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen)) ||
+    hasWertsacheYesAndEmptyArray({ context }) ||
     (hasKraftfahrzeugYes({ context }) &&
       !arrayIsNonEmpty(context.kraftfahrzeuge)) ||
     (hasGrundeigentumYes({ context }) &&

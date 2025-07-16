@@ -532,7 +532,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                     guard: guards.hasGeldanlageYes,
                     target: "uebersicht",
                   },
-                  "#eigentum.wertgegenstaende-frage",
+                  "#eigentum.wertgegenstaende",
                 ],
               },
             },
@@ -544,7 +544,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                     guard: guards.hasGeldanlageYesAndEmptyArray,
                     target: "warnung",
                   },
-                  "#eigentum.wertgegenstaende-frage",
+                  "#eigentum.wertgegenstaende",
                 ],
                 "add-geldanlagen": "geldanlage.art",
               },
@@ -552,7 +552,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
             warnung: {
               on: {
                 BACK: "uebersicht",
-                SUBMIT: "#eigentum.wertgegenstaende-frage",
+                SUBMIT: "#eigentum.wertgegenstaende",
               },
             },
             geldanlage: {
@@ -639,22 +639,69 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
             },
           },
         },
-        "wertgegenstaende-frage": {
-          on: {
-            BACK: [
-              {
-                guard: guards.hasGeldanlageYes,
-                target: "#eigentum.geldanlagen.uebersicht",
+        wertgegenstaende: {
+          initial: "wertgegenstaende-frage",
+          states: {
+            "wertgegenstaende-frage": {
+              on: {
+                BACK: [
+                  {
+                    guard: guards.hasGeldanlageYes,
+                    target: "#eigentum.geldanlagen.uebersicht",
+                  },
+                  "#eigentum.geldanlagen",
+                ],
+                SUBMIT: [
+                  {
+                    guard: guards.hasWertsacheYes,
+                    target: "uebersicht",
+                  },
+                  "#eigentum.grundeigentum-frage",
+                ],
               },
-              "geldanlagen",
-            ],
-            SUBMIT: "grundeigentum-frage",
+            },
+            uebersicht: {
+              on: {
+                BACK: "wertgegenstaende-frage",
+                SUBMIT: [
+                  {
+                    guard: guards.hasWertsacheYesAndEmptyArray,
+                    target: "warnung",
+                  },
+                  "#eigentum.grundeigentum-frage",
+                ],
+                "add-wertsachen": "wertgegenstand",
+              },
+            },
+            warnung: {
+              on: {
+                BACK: "uebersicht",
+                SUBMIT: "#eigentum.grundeigentum-frage",
+              },
+            },
+            wertgegenstand: {
+              initial: "daten",
+              states: {
+                daten: {
+                  on: {
+                    BACK: "#eigentum.wertgegenstaende.uebersicht",
+                    SUBMIT: "#eigentum.wertgegenstaende.uebersicht",
+                  },
+                },
+              },
+            },
           },
         },
         "grundeigentum-frage": {
           on: {
             SUBMIT: "kraftfahrzeuge-frage",
-            BACK: "wertgegenstaende-frage",
+            BACK: [
+              {
+                guard: guards.hasWertsacheYes,
+                target: "#eigentum.wertgegenstaende.uebersicht",
+              },
+              "#eigentum.wertgegenstaende",
+            ],
           },
         },
         "kraftfahrzeuge-frage": {

@@ -28,7 +28,7 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       event: "add-grundeigentum",
     },
     wertsachen: {
-      url: `${prefix}/eigentum-zusammenfassung/wertgegenstaende`,
+      url: `${prefix}/eigentum/wertgegenstaende/wertgegenstand`,
       initialInputUrl: "daten",
       statementKey: "hasWertsache",
       event: "add-wertsachen",

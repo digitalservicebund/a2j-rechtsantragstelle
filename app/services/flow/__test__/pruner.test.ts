@@ -123,7 +123,8 @@ describe("pruner", () => {
           ],
         },
         {
-          stepId: "/finanzielle-angaben/eigentum/wertgegenstaende-frage",
+          stepId:
+            "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage",
           form: [{ name: "hasWertsache" }],
         },
         {
