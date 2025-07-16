@@ -98,7 +98,7 @@ export default [
         id: "visFGRF",
       }),
       route(
-        "intro.redirect-vorabcheck-ergebnis",
+        "intro/redirect-vorabcheck-ergebnis",
         "routes/fluggastrechte.formular.intro.redirect-vorabcheck-ergebnis.tsx",
       ),
       route(
