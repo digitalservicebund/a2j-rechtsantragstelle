@@ -49,6 +49,8 @@ import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
+import { GridContainer } from "./components";
+import Kopfzeile from "./components/Kopfzeile";
 
 export { headers } from "./rootHeaders";
 
@@ -215,24 +217,23 @@ function App() {
               target={skipToContentLinkTarget}
             />
             <CookieBanner content={cookieBannerContent} />
+            <Kopfzeile alignToMainContainer={false} />
             <PageHeader {...pageHeaderProps} />
             <Breadcrumbs
               breadcrumbs={breadcrumbs}
-              alignToMainContainer={pageHeaderProps.alignToMainContainer}
+              // alignToMainContainer={pageHeaderProps.alignToMainContainer}
               linkLabel={pageHeaderProps.linkLabel}
               translations={{ ...accessibilityTranslations }}
             />
-            <main className="flex-grow flex" id="main">
+            <main className="" id="main">
               <Outlet />
             </main>
           </div>
-          <footer>
-            <Footer
-              {...footer}
-              showDeletionBanner={hasAnyUserData}
-              translations={{ ...accessibilityTranslations }}
-            />
-          </footer>
+          <Footer
+            {...footer}
+            showDeletionBanner={hasAnyUserData}
+            translations={{ ...accessibilityTranslations }}
+          />
           <ScrollRestoration nonce={nonce} />
           <Scripts nonce={nonce} />
         </AnalyticsContext>

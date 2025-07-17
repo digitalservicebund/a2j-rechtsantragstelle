@@ -20,3 +20,17 @@ export const BACKGROUND_COLORS = Object.freeze({
 export const alignToContainer = "container lg:min-w-[59rem] lg:!mx-auto";
 
 export type BackgroundColor = "default" | keyof typeof BACKGROUND_COLORS;
+
+// GridContainer exports
+export { default as GridContainer, GridItem } from "./GridContainer";
+export type {
+  GridContainerProps,
+  GridContainerMaxWidth,
+  GridContainerPadding,
+  GridContainerColumns,
+  GridContainerAlignment,
+  GridContainerJustify,
+  GridItemProps,
+  GridColumnSpan,
+  GridColumnBreakpoint,
+} from "./GridContainer";

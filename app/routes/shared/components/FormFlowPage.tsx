@@ -11,6 +11,7 @@ import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { loader } from "../formular.server";
+import { GridContainer, GridItem } from "~/components";
 
 export function FormFlowPage() {
   const {
@@ -48,14 +49,44 @@ export function FormFlowPage() {
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
       <Background backgroundColor="blue">
-        <div className="w-screen pt-32 flex flex-grow flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start gap-48 h-full">
-          <div className="md:ml-32 md:mb-32 md:w-[248px]">
+        <GridContainer
+          columns={12}
+          maxWidth="xxl"
+          paddingY="xl"
+          // columnWidths={["248px", "repeat(7, 1fr)"]}
+        >
+          {/* <div className="w-screen pt-32 flex flex-grow flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start gap-48 h-full"> */}
+          {/* <div className="md:w-[248px]"> */}
+          <GridItem
+            span={2}
+            spanSm={4}
+            spanMd={3}
+            colStart={5}
+            colStartXs={1}
+            colStartSm={1}
+            colStartMd={5}
+            colStartLg={3}
+          >
+            {/* <div className="w-[248px]"> */}
             <FlowNavigation navItems={navItems} expandAll={isValidationPage} />
-          </div>
-          <div
+            {/* </div> */}
+          </GridItem>
+          {/* </div> */}
+          {/* <div
             className={
               "flex flex-col flex-1 gap-32 container md:pl-0 md:!pb-32 !pt-0 justify-between"
             }
+          > */}
+          <GridItem
+            span={7}
+            spanXs={12}
+            spanSm={12}
+            spanMd={8}
+            colStart={5}
+            colStartXs={1}
+            colStartSm={1}
+            colStartMd={5}
+            colStartLg={6}
           >
             <div className="ds-stack ds-stack-40">
               <div className="ds-stack ds-stack-16" id="form-flow-page-content">
@@ -98,8 +129,10 @@ export function FormFlowPage() {
                 <ReportProblem />
               </div>
             )}
-          </div>
-        </div>
+          </GridItem>
+          {/* </div> */}
+          {/* </div> */}
+        </GridContainer>
       </Background>
     </FormFlowContext.Provider>
   );

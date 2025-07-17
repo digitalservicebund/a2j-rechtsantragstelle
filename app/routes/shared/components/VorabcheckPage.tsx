@@ -6,6 +6,7 @@ import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import { ProgressBar } from "~/components/ProgressBar";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { loader } from "../vorabcheck.server";
+import GridContainer, { GridItem } from "~/components/GridContainer";
 
 export function VorabcheckPage() {
   const {
@@ -22,8 +23,14 @@ export function VorabcheckPage() {
 
   return (
     <Background backgroundColor="blue">
-      <div className="w-screen h-full">
-        <div className="container !pt-24 !pb-32 h-full">
+      <GridContainer columns={12} maxWidth="xxl" paddingY="xl">
+        <GridItem
+          span={6}
+          colStart={3}
+          colStartSm={1}
+          colStartMd={3}
+          colStartLg={3}
+        >
           <div className="flex flex-col min-h-full gap-32 justify-between">
             <div className="ds-stack ds-stack-40">
               <ProgressBar {...progressProps} />
@@ -45,8 +52,8 @@ export function VorabcheckPage() {
               </div>
             )}
           </div>
-        </div>
-      </div>
+        </GridItem>
+      </GridContainer>
     </Background>
   );
 }

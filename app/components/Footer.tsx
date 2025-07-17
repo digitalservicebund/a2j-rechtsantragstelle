@@ -6,6 +6,7 @@ import Heading from "./Heading";
 import Image, { type ImageProps } from "./Image";
 import RichText, { type RichTextProps } from "./RichText";
 import { StandaloneLink } from "./StandaloneLink";
+import { GridContainer, GridItem } from ".";
 
 type LinkProps = {
   url: string;
@@ -51,73 +52,81 @@ export default function Footer({
     translations,
   );
   return (
-    <Container paddingTop="48" paddingBottom="56">
-      <div
-        className="flex flex-col md:flex-row gap-32 mb-32 pr-16 pl-16"
-        data-testid="footer"
+    <GridContainer columns={12} maxWidth="xxl" paddingX="xl" paddingY="xl">
+      <GridItem
+        span={12}
+        colStart={3}
+        colStartSm={1}
+        colStartMd={3}
+        colStartLg={3}
       >
-        <div className="flex flex-col max-w-[288px] gap-y-8">
-          {image?.url && (
-            <div className="forced-colors:bg-black">
-              <Image
-                {...image}
-                width={120}
-                className="forced-colors:brightness-0 forced-colors:invert"
-              />
-            </div>
-          )}
-          <div className="ds-stack ds-stack-8">
-            {paragraphs.map((paragraph) => (
-              <div key={paragraph.html}>
-                <RichText
-                  {...paragraph}
-                  className="ds-label-03-reg [&_a]:inline-block"
+        <div
+          className="flex flex-col md:flex-row gap-32 mb-32 pr-16 pl-16"
+          data-testid="footer"
+        >
+          <div className="flex flex-col max-w-[288px] gap-y-8">
+            {image?.url && (
+              <div className="forced-colors:bg-black">
+                <Image
+                  {...image}
+                  width={120}
+                  className="forced-colors:brightness-0 forced-colors:invert"
                 />
               </div>
-            ))}
+            )}
+            <div className="ds-stack ds-stack-8">
+              {paragraphs.map((paragraph) => (
+                <div key={paragraph.html}>
+                  <RichText
+                    {...paragraph}
+                    className="ds-label-03-reg [&_a]:inline-block"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <nav
-          className="flex flex-col sm:flex-row gap-16"
-          aria-label={ariaLabelTranslation}
-        >
-          {categorizedLinks.map((category) => {
-            const ariaLabelledBy = `footer-list-${dashifyLowercase(category.title)}`;
-            return (
-              <div key={category.id}>
-                <Heading
-                  tagName="h2"
-                  elementId={ariaLabelledBy}
-                  className="ds-label-03-bold"
-                >
-                  {category.title}
-                </Heading>
-                <ul
-                  aria-labelledby={ariaLabelledBy}
-                  className="list-none pt-[7px] pl-2 space-y-10"
-                >
-                  <Links links={category.links} />
-                </ul>
-              </div>
-            );
-          })}
-        </nav>
-      </div>
-      {showDeletionBanner && (
-        <Background backgroundColor="blue" paddingTop="16" paddingBottom="16">
-          <div className="text-center">
-            <StandaloneLink
-              className="ds-label-03-reg"
-              text={
-                staticTranslations["delete-data"].footerLinkLabel.de ??
-                "Persönliche Daten löschen"
-              }
-              url="/persoenliche-daten-loeschen"
-            />
-          </div>
-        </Background>
-      )}
-    </Container>
+          <nav
+            className="flex flex-col sm:flex-row gap-16"
+            aria-label={ariaLabelTranslation}
+          >
+            {categorizedLinks.map((category) => {
+              const ariaLabelledBy = `footer-list-${dashifyLowercase(category.title)}`;
+              return (
+                <div key={category.id}>
+                  <Heading
+                    tagName="h2"
+                    elementId={ariaLabelledBy}
+                    className="ds-label-03-bold"
+                  >
+                    {category.title}
+                  </Heading>
+                  <ul
+                    aria-labelledby={ariaLabelledBy}
+                    className="list-none pt-[7px] pl-2 space-y-10"
+                  >
+                    <Links links={category.links} />
+                  </ul>
+                </div>
+              );
+            })}
+          </nav>
+        </div>
+        {showDeletionBanner && (
+          <Background backgroundColor="blue" paddingTop="16" paddingBottom="16">
+            <div className="text-center">
+              <StandaloneLink
+                className="ds-label-03-reg"
+                text={
+                  staticTranslations["delete-data"].footerLinkLabel.de ??
+                  "Persönliche Daten löschen"
+                }
+                url="/persoenliche-daten-loeschen"
+              />
+            </div>
+          </Background>
+        )}
+      </GridItem>
+    </GridContainer>
   );
 }

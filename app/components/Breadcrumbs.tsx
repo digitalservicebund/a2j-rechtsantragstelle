@@ -1,6 +1,6 @@
 import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
 import classNames from "classnames";
-import { alignToContainer } from "~/components";
+import { alignToContainer, GridContainer, GridItem } from "~/components";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import { StandaloneLink } from "./StandaloneLink";
 
@@ -29,37 +29,45 @@ export default function Breadcrumbs({
     "header-breadcrumb",
     translations,
   );
-  const navClassNames = classNames("py-8 px-16 flex flex-wrap items-center", {
-    [`${alignToContainer} !py-8`]: alignToMainContainer,
-  });
+  const navClassNames = classNames("flex flex-wrap items-center", "h-[64px]");
 
   return (
     validBreadcrumbs.length > 0 && (
       <div className="bg-blue-100">
-        <nav className={navClassNames} aria-label={ariaLabelTranslation}>
-          {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
-          <a
-            href="/"
-            aria-label={linkLabel}
-            className="focus:outline ds-link-01-bold"
+        <GridContainer columns={12} maxWidth="xxl">
+          <GridItem
+            span={5}
+            colStart={3}
+            colStartSm={1}
+            colStartMd={3}
+            colStartLg={3}
           >
-            <HomeOutlinedIcon className="!h-[1.6rem] !w-[1.6rem]" />
-          </a>
-          {validBreadcrumbs.map((breadcrumb, idx, arr) => (
-            <div key={breadcrumb.title} className="ds-body-02-reg">
-              <span className="mx-8">/</span>
-              {idx === arr.length - 1 ? (
-                <span>{breadcrumb.title}</span>
-              ) : (
-                <StandaloneLink
-                  text={breadcrumb.title ?? ""}
-                  url={breadcrumb.url ?? ""}
-                  className="increase-tap-area"
-                />
-              )}
-            </div>
-          ))}
-        </nav>
+            <nav className={navClassNames} aria-label={ariaLabelTranslation}>
+              {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
+              <a
+                href="/"
+                aria-label={linkLabel}
+                className="focus:outline ds-link-01-bold"
+              >
+                <HomeOutlinedIcon className="!h-[1.6rem] !w-[1.6rem]" />
+              </a>
+              {validBreadcrumbs.map((breadcrumb, idx, arr) => (
+                <div key={breadcrumb.title} className="ds-body-02-reg">
+                  <span className="mx-8">/</span>
+                  {idx === arr.length - 1 ? (
+                    <span>{breadcrumb.title}</span>
+                  ) : (
+                    <StandaloneLink
+                      text={breadcrumb.title ?? ""}
+                      url={breadcrumb.url ?? ""}
+                      className="increase-tap-area"
+                    />
+                  )}
+                </div>
+              ))}
+            </nav>
+          </GridItem>
+        </GridContainer>
       </div>
     )
   );
