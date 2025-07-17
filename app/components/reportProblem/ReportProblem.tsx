@@ -41,7 +41,7 @@ export const ReportProblem = () => {
         look="tertiary"
         onClick={() => setSurveyOpen(true)}
         id="survey-button"
-        className="min-w-full justify-center sm:min-w-fit mt-80"
+        className="h-40 min-w-full justify-center sm:min-w-fit"
         text={feedbackTranslations["report-problem"]}
         iconLeft={<FlagOutlined />}
       />
