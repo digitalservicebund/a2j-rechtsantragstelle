@@ -12,7 +12,7 @@ export default [
   ...(await flatRoutes()), // See routes folder & https://reactrouter.com/how-to/file-route-conventions
   ...prefix("beratungshilfe", [
     ...prefix("vorabcheck", [
-      index("services/flow/server/lastStep.ts", { id: "indexBHV" }),
+      index("routes/shared/lastFlowStepLoader.ts", { id: "indexBHV" }),
       route("visualisierung", "routes/shared/visualisierung.ts", {
         id: "visBHV ",
       }),
@@ -20,7 +20,7 @@ export default [
       route("ergebnis/*", "routes/shared/result.ts", { id: "resBHV" }),
     ]),
     ...prefix("antrag", [
-      index("services/flow/server/lastStep.ts", { id: "indexBHA" }),
+      index("routes/shared/lastFlowStepLoader.ts", { id: "indexBHA" }),
       route("visualisierung", "routes/shared/visualisierung.ts", {
         id: "visBHA",
       }),
@@ -40,7 +40,7 @@ export default [
   ]),
   ...prefix("fluggastrechte", [
     ...prefix("vorabcheck", [
-      index("services/flow/server/lastStep.ts", { id: "indexFGRV" }),
+      index("routes/shared/lastFlowStepLoader.ts", { id: "indexFGRV" }),
       route("*", "routes/shared/vorabcheck.ts", { id: "flowFGRV" }),
       route("visualisierung", "routes/shared/visualisierung.ts", {
         id: "visFGRV",
@@ -65,7 +65,7 @@ export default [
   ]),
   ...prefix("geld-einklagen", [
     ...prefix("vorabcheck", [
-      index("services/flow/server/lastStep.ts", { id: "indexGEV" }),
+      index("routes/shared/lastFlowStepLoader.ts", { id: "indexGEV" }),
       route("*", "routes/shared/vorabcheck.ts", { id: "flowGEV" }),
       route("visualisierung", "routes/shared/visualisierung.ts", {
         id: "visGEV",
@@ -73,7 +73,7 @@ export default [
       route("ergebnis/*", "routes/shared/result.ts", { id: "resGEV" }),
     ]),
     ...prefix("formular", [
-      index("services/flow/server/lastStep.ts", { id: "indexGEF" }),
+      index("routes/shared/lastFlowStepLoader.ts", { id: "indexGEF" }),
       route("*", "routes/shared/formular.ts", { id: "flowGEF" }),
       route("visualisierung", "routes/shared/visualisierung.ts", {
         id: "visGEF",
