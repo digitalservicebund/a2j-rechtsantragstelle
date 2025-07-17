@@ -6,8 +6,6 @@ import {
 } from "@react-router/dev/routes";
 import { flatRoutes } from "@react-router/fs-routes";
 
-export const nonProductionRoutes = ["/kitchensink", "/geld-einklagen"];
-
 export default [
   ...(await flatRoutes()), // See routes folder & https://reactrouter.com/how-to/file-route-conventions
   ...prefix("beratungshilfe", [

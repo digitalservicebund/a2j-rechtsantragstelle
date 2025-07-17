@@ -1,9 +1,9 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import ContentComponents from "~/components/ContentComponents";
-import { nonProductionRoutes } from "~/routes";
 import { fetchPage } from "~/services/cms/index.server";
 import { throw404OnProduction } from "~/services/errorPages/throw404";
+import { nonProductionRoutes } from "~/services/routing/nonProductionRoutes";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
