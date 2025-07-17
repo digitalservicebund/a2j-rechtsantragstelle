@@ -6,24 +6,27 @@ vi.mock("~/services/externalDataStorage/userFileS3Helpers", () => ({
 
 describe("fileUploadHelpers.server", () => {
   describe("deleteUserFile", () => {
-    it("should return false if no savedFileKey is present", async () => {
-      const actual = await deleteUserFile(
-        "test[1]",
-        null,
-        { test: [{}] },
-        "/beratungshilfe/antrag",
-      );
-      expect(actual).toBe(false);
-    });
-
-    it("should return true if savedFileKey is present", async () => {
+    it("should delete item from userData", async () => {
       const actual = await deleteUserFile(
         "test[0]",
         null,
         { test: [{ savedFileKey: "someValue" }] },
         "/beratungshilfe/antrag",
       );
-      expect(actual).toBe(true);
+      expect(actual).toStrictEqual({ test: [] });
+    });
+
+    const invalidUserDataMocks = [{}, { test: [] }, { test: [{}] }];
+    invalidUserDataMocks.forEach((userDataMock) => {
+      it(`should return undefined for invalid userData ${JSON.stringify(userDataMock)}`, async () => {
+        const actual = await deleteUserFile(
+          "test[0]",
+          null,
+          userDataMock,
+          "/beratungshilfe/antrag",
+        );
+        expect(actual).toBe(undefined);
+      });
     });
   });
 });

@@ -3,32 +3,16 @@ import { type MergeWithCustomizer } from "lodash";
 import { type Session, type SessionData } from "react-router";
 import { Result } from "true-myth";
 import { parsePathname } from "~/domains/flowIds";
-import { type ArrayData, type UserData } from "~/domains/userData";
-import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
+import { type UserData } from "~/domains/userData";
 import {
   deleteUserFile,
   uploadUserFile,
 } from "~/services/upload/fileUploadHelpers.server";
-import { splitFieldName } from "~/services/upload/splitFieldName";
 
 type OkProcessUserFile = {
   userData?: UserData;
   mergeCustomizer?: MergeWithCustomizer;
 };
-
-/**
- * Helper function that deletes an entry in an existing field array
- * @param inputName name of the array that's being modified
- * @param userData existing user data in Context
- */
-function getUpdatedField(inputName: string, userData: UserData): UserData {
-  const { fieldName, inputIndex } = splitFieldName(inputName);
-  return {
-    [fieldName]: (userData[fieldName] as ArrayData).filter(
-      (_, index) => index !== inputIndex,
-    ),
-  };
-}
 
 export const processUserFile = async (
   formAction: string,
@@ -43,19 +27,17 @@ export const processUserFile = async (
     case "fileUpload": {
       const result = await uploadUserFile(inputName, request, flowId);
       if ("fieldErrors" in result) return Result.err(result);
-      return Result.ok({ userData: resolveArraysFromKeys(result.userData) });
+      return Result.ok({ userData: result.userData });
     }
     case "deleteFile": {
-      const success = await deleteUserFile(
+      const userData = await deleteUserFile(
         inputName,
         request.headers.get("Cookie"),
         flowSession.data,
         flowId,
       );
       return Result.ok({
-        userData: success
-          ? getUpdatedField(inputName, flowSession.data)
-          : undefined,
+        userData,
         mergeCustomizer: (_, newData) =>
           Array.isArray(newData) ? newData : undefined,
       });

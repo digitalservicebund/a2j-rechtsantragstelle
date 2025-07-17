@@ -14,6 +14,7 @@ import {
 import { splitFieldName } from "./splitFieldName";
 import { getSessionIdByFlowId } from "../session.server";
 import { FILE_REQUIRED_ERROR } from "./constants";
+import { resolveArraysFromKeys } from "../array/resolveArraysFromKeys";
 
 export async function uploadUserFile(
   inputName: string,
@@ -59,7 +60,7 @@ export async function uploadUserFile(
   );
 
   newArray[inputIndex].savedFileKey = savedFileKey;
-  return { userData: { [fieldName]: newArray } };
+  return { userData: resolveArraysFromKeys({ [fieldName]: newArray }) };
 }
 
 export async function deleteUserFile(
@@ -69,12 +70,13 @@ export async function deleteUserFile(
   flowId: FlowId,
 ) {
   const { fieldName, inputIndex } = splitFieldName(inputName);
-  // Check if a file is saved in Redis; if so, delete it
-  const savedFile = (userData[fieldName] as ArrayData | undefined)?.at(
-    inputIndex,
-  ) as PDFFileMetadata | undefined;
-  if (!savedFile?.savedFileKey) return false;
+  const arrayUserData = userData[fieldName] as ArrayData | undefined;
+  if (!arrayUserData) return undefined;
+  const savedFile = arrayUserData.at(inputIndex);
+  if (typeof savedFile?.savedFileKey !== "string") return undefined;
   const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
   await deleteUserFileFromS3(sessionId, flowId, savedFile.savedFileKey);
-  return true;
+  return {
+    [fieldName]: arrayUserData.filter((_, index) => index !== inputIndex),
+  };
 }

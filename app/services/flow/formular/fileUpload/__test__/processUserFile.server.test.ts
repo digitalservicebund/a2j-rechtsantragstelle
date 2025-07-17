@@ -46,24 +46,29 @@ describe("processUserFile", () => {
 
     expect(actual.isOk).toBe(true);
     expect(actual.isOk ? actual.value.userData : undefined).toEqual({
-      fileUpload: { test: "File uploaded successfully" },
+      "fileUpload.test": "File uploaded successfully",
     });
   });
 
   it("should return ok when the action is deleteFile", async () => {
-    vi.mocked(deleteUserFile).mockResolvedValue(true);
+    vi.mocked(deleteUserFile).mockResolvedValue({
+      files: [{ name: "File to keep" }],
+    });
     const mockDeleteSession = createSession();
-    mockDeleteSession.set("test", ["File to be deleted", "File to keep"]);
+    mockDeleteSession.set("files", [
+      { name: "File to be deleted" },
+      { name: "File to keep" },
+    ]);
 
     const actual = await processUserFile(
-      "deleteFile.test[0]",
+      "deleteFile.files[0]",
       mockRequest,
       mockDeleteSession,
     );
 
     expect(actual.isOk).toBe(true);
-    expect(actual.isOk ? actual.value.userData : undefined).toEqual({
-      test: ["File to keep"],
+    expect(actual.isOk && actual.value.userData).toEqual({
+      files: [{ name: "File to keep" }],
     });
   });
 
