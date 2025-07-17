@@ -119,6 +119,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         inputName,
         cookieHeader,
         formData,
+        flowSession.data,
         flowId,
       );
       if ("fieldErrors" in result)

@@ -9,15 +9,16 @@ import {
 import { splitFieldName } from "./splitFieldName";
 import { getSessionIdByFlowId, type CookieHeader } from "../session.server";
 import { FILE_REQUIRED_ERROR } from "./constants";
-import { resolveArraysFromKeys } from "../array/resolveArraysFromKeys";
 
 export async function uploadUserFile(
   inputName: string,
   cookieHeader: CookieHeader,
   formData: FormData,
+  userData: UserData,
   flowId: FlowId,
 ): Promise<{ userData: UserData } | ValidationErrorResponseData> {
   const { fieldName, inputIndex } = splitFieldName(inputName);
+  const arrayUserData = [...((userData[fieldName] ?? []) as ArrayData)];
   const fieldSchema = getContext(flowId)[
     fieldName as keyof typeof getContext
   ] as z.ZodTypeAny | undefined;
@@ -28,18 +29,17 @@ export async function uploadUserFile(
     return { fieldErrors: { [inputName]: FILE_REQUIRED_ERROR } };
   }
 
-  const newArray = new Array(inputIndex + 1);
-  newArray[inputIndex] = {
+  arrayUserData[inputIndex] = {
     filename: file.name,
     fileType: file.type,
     fileSize: file.size,
   };
-  const validatedArray = fieldSchema.safeParse(newArray);
+  const validatedArray = fieldSchema.safeParse(arrayUserData);
 
   if (!validatedArray.success)
     return {
       fieldErrors: { [inputName]: validatedArray.error.issues[0].message },
-      repopulateFields: { [fieldName]: newArray },
+      repopulateFields: { [fieldName]: arrayUserData },
     };
 
   const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
@@ -48,9 +48,9 @@ export async function uploadUserFile(
     flowId,
     await file.arrayBuffer(),
   );
+  arrayUserData[inputIndex].savedFileKey = savedFileKey;
 
-  newArray[inputIndex].savedFileKey = savedFileKey;
-  return { userData: resolveArraysFromKeys({ [fieldName]: newArray }) };
+  return { userData: { [fieldName]: arrayUserData } };
 }
 
 export async function deleteUserFile(
