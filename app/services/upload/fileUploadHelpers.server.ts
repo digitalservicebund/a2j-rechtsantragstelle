@@ -7,10 +7,7 @@ import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
-import {
-  FIFTEEN_MB_IN_BYTES,
-  type PDFFileMetadata,
-} from "~/services/validation/pdfFileSchema";
+import { FIFTEEN_MB_IN_BYTES } from "~/services/validation/pdfFileSchema";
 import { splitFieldName } from "./splitFieldName";
 import { getSessionIdByFlowId } from "../session.server";
 import { FILE_REQUIRED_ERROR } from "./constants";
