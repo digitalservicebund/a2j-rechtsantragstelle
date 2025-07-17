@@ -212,6 +212,7 @@ function App() {
       <body className="flex flex-col">
         <AnalyticsContext value={{ posthogClient, hasTrackingConsent }}>
           <div className="flex flex-col min-h-screen">
+            <CookieBanner content={cookieBannerContent} />
             <SkipToContentLink
               label={getTranslationByKey(
                 SKIP_TO_CONTENT_TRANSLATION_KEY,
@@ -219,7 +220,6 @@ function App() {
               )}
               target={skipToContentLinkTarget}
             />
-            <CookieBanner content={cookieBannerContent} />
             <PageHeader {...pageHeaderProps} />
             <Breadcrumbs
               breadcrumbs={breadcrumbs}
