@@ -5,10 +5,10 @@ import RadioGroup from "~/components/inputs/RadioGroup";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 
-export type ZodEnum = z.ZodEnum<[string, ...string[]]>;
+export type ZodEnum = z.ZodEnum<Record<string, string>>;
 
 export const isZodEnum = (fieldSchema: z.ZodTypeAny): fieldSchema is ZodEnum =>
-  fieldSchema._def.typeName === "ZodEnum";
+  fieldSchema.def.type === "enum";
 
 export function renderZodEnum(
   schema: ZodEnum,

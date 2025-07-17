@@ -5,7 +5,7 @@ import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormCompon
 
 export const isZodString = (
   fieldSchema: z.ZodTypeAny,
-): fieldSchema is z.ZodString => fieldSchema._def.typeName === "ZodString";
+): fieldSchema is z.ZodString => fieldSchema.def.type === "string";
 
 export const renderZodString = (
   schema: z.ZodString,
