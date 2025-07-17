@@ -106,11 +106,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const formAction = clonedFormData.get("_action");
 
   if (isFileUploadOrDeleteAction(formAction)) {
-    const result = await processUserFile(
-      formAction as string,
-      request,
-      flowSession,
-    );
+    const result = await processUserFile(formAction, request, flowSession);
 
     switch (result.variant) {
       case "Err": {
