@@ -2,7 +2,7 @@ import BundesSansWebBold from "@digitalservice4germany/angie/fonts/BundesSansWeb
 import BundesSansWeb from "@digitalservice4germany/angie/fonts/BundesSansWeb-Regular.woff2?url";
 import fonts from "@digitalservice4germany/angie/fonts.css?url";
 import * as Sentry from "@sentry/react-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import type {
   LinksFunction,
   LoaderFunctionArgs,
@@ -121,15 +121,14 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     pathname,
     trackingConsent,
   );
-
+  const flowIdMaybe = flowIdFromPathname(pathname);
   return data(
     {
       breadcrumbs,
       pageHeaderProps: {
         ...strapiHeader,
-        hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
-        alignToMainContainer:
-          !flowIdFromPathname(pathname)?.match(/formular|antrag/),
+        hideLinks: Boolean(flowIdMaybe),
+        alignToMainContainer: !flowIdMaybe?.match(/formular|antrag/),
       },
       footer: strapiFooter,
       cookieBannerContent: cookieBannerContent,
@@ -142,6 +141,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       hasAnyUserData,
       accessibilityTranslations,
       feedback: getFeedbackData(mainSession, pathname),
+      skipContentLinkTarget: flowIdMaybe ? "#flow-page-content" : "#main",
       postSubmissionText: parseAndSanitizeMarkdown(
         staticTranslations.feedback["text-post-submission"].de,
       ),
@@ -159,6 +159,7 @@ function App() {
     hasAnyUserData,
     accessibilityTranslations,
     breadcrumbs,
+    skipContentLinkTarget,
   } = useLoaderData<RootLoader>();
   const shouldPrint = useShouldPrint();
   const matches = useMatches();
@@ -166,21 +167,8 @@ function App() {
   const nonce = useNonce();
   const posthogClient = useInitPosthog(hasTrackingConsent);
 
-  const [skipToContentLinkTarget, setSkipToContentLinkTarget] =
-    useState("#main");
-
   // eslint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
-
-  /**
-   * Need to set focus to inside the form flow for screen reader convenience.
-   * Calls to `document` must happen within useEffect, as this hook is never rendered on the server-side
-   */
-  useEffect(() => {
-    if (document.getElementById("form-flow-page-content")) {
-      setSkipToContentLinkTarget("#form-flow-page-content");
-    }
-  }, []);
 
   useEffect(() => {
     if (shouldPrint) {
@@ -218,7 +206,7 @@ function App() {
                 SKIP_TO_CONTENT_TRANSLATION_KEY,
                 accessibilityTranslations,
               )}
-              target={skipToContentLinkTarget}
+              target={skipContentLinkTarget}
             />
             <PageHeader {...pageHeaderProps} />
             <Breadcrumbs
