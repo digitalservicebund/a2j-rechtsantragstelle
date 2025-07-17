@@ -1,6 +1,5 @@
 import { beratungshilfeFinanzielleAngabeDone } from "../beratungshilfeFinanzielleAngabeDone";
 import * as eigentumDone from "../doneFunctions";
-import * as eigentumZusammenfassungDone from "../eigentumZusammenfassungDone";
 
 describe("navStates", () => {
   afterEach(() => {
@@ -63,12 +62,8 @@ describe("navStates", () => {
       ).toBeTruthy();
     });
 
-    it("passes with buergergeld and eigentum done and eigentumZusammenfassung done", () => {
+    it("passes with buergergeld and eigentum done", () => {
       vi.spyOn(eigentumDone, "eigentumDone").mockReturnValue(true);
-      vi.spyOn(
-        eigentumZusammenfassungDone,
-        "eigentumZusammenfassungDone",
-      ).mockReturnValue(true);
 
       expect(
         beratungshilfeFinanzielleAngabeDone({
@@ -79,28 +74,8 @@ describe("navStates", () => {
       ).toBeTruthy();
     });
 
-    it("fails with buergergeld and eigentum done but eigentumZusammenfassung not done", () => {
-      vi.spyOn(eigentumDone, "eigentumDone").mockReturnValue(true);
-      vi.spyOn(
-        eigentumZusammenfassungDone,
-        "eigentumZusammenfassungDone",
-      ).mockReturnValue(false);
-
-      expect(
-        beratungshilfeFinanzielleAngabeDone({
-          context: {
-            staatlicheLeistungen: "buergergeld",
-          },
-        }),
-      ).toBeFalsy();
-    });
-
-    it("fails with buergergeld and eigentum not done but eigentumZusammenfassung done", () => {
+    it("fails with buergergeld and eigentum not done", () => {
       vi.spyOn(eigentumDone, "eigentumDone").mockReturnValue(false);
-      vi.spyOn(
-        eigentumZusammenfassungDone,
-        "eigentumZusammenfassungDone",
-      ).mockReturnValue(true);
 
       expect(
         beratungshilfeFinanzielleAngabeDone({

@@ -7,12 +7,12 @@ const finanzielleAngabenEigentumBankkontenFrage =
   "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage";
 const finanzielleAngabenEigentumGeldanlagenFrage =
   "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage";
+const finanzielleAngabenEigentumKraftfahrzeugeFrage =
+  "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage";
 const finanzielleAngabenEigentumWertgegenstaendeFrage =
   "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage";
 const finanzielleAngabenEigentumGrundeigentumFrage =
   "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage";
-const finanzielleAngabenEigentumKraftfahrzeugeFrage =
-  "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage";
 const finanzielleAngabenAusgabenAusgabenFrage =
   "/finanzielle-angaben/ausgaben/ausgaben-frage";
 
@@ -23,9 +23,9 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
       finanzielleAngabenEigentumInfo,
       finanzielleAngabenEigentumBankkontenFrage,
       finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenAusgabenAusgabenFrage,
     ],
   ],
@@ -38,9 +38,9 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
       "/finanzielle-angaben/eigentum/heirat-info",
       finanzielleAngabenEigentumBankkontenFrage,
       finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenAusgabenAusgabenFrage,
     ],
   ],
@@ -53,10 +53,9 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
       finanzielleAngabenEigentumInfo,
       finanzielleAngabenEigentumBankkontenFrage,
       finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
-      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
     ],
   ],
   [
@@ -69,9 +68,9 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
       "/finanzielle-angaben/eigentum/heirat-info",
       finanzielleAngabenEigentumBankkontenFrage,
       finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenAusgabenAusgabenFrage,
     ],
   ],
@@ -95,11 +94,10 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
       finanzielleAngabenEigentumBankkontenFrage,
       "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
       finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
-      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "/finanzielle-angaben/ausgaben/ausgaben-frage",
+      finanzielleAngabenAusgabenAusgabenFrage,
     ],
   ],
   [
@@ -161,12 +159,10 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
       finanzielleAngabenEigentumBankkontenFrage,
       finanzielleAngabenEigentumGeldanlagenFrage,
       "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
-      "/finanzielle-angaben/eigentum/gesamtwert",
-      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "/finanzielle-angaben/ausgaben/ausgaben-frage",
+      finanzielleAngabenAusgabenAusgabenFrage,
     ],
   ],
   [
@@ -183,22 +179,10 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
       finanzielleAngabenEigentumBankkontenFrage,
       finanzielleAngabenEigentumGeldanlagenFrage,
       "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
-      "/finanzielle-angaben/eigentum/gesamtwert",
-      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "/finanzielle-angaben/ausgaben/ausgaben-frage",
-    ],
-  ],
-  // TODO: remove me after eigentum-zusammenfassung is removed
-  [
-    {
-      hasKraftfahrzeug: "yes",
-    },
-    [
-      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "/finanzielle-angaben/eigentum-zusammenfassung/warnung",
+      finanzielleAngabenAusgabenAusgabenFrage,
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngabenUserData>;

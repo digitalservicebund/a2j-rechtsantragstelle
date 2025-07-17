@@ -31,22 +31,68 @@ describe("eigentumDone", () => {
           hasGrundeigentum: "no",
           hasKraftfahrzeug: "no",
           hasWertsache: "no",
-          eigentumTotalWorth: "unsure",
         },
       }),
     ).toBeTruthy();
   });
 
-  it("passes with all fields yes", () => {
+  it("passes with all fields yes and filled arrays", () => {
     expect(
       eigentumDone({
         context: {
           hasBankkonto: "yes",
+          bankkonten: [
+            {
+              bankName: "bank",
+              kontostand: "200",
+              iban: "iban",
+              kontoEigentuemer: "myself",
+            },
+          ],
           hasGeldanlage: "yes",
+          geldanlagen: [
+            {
+              art: "bargeld",
+              eigentuemer: "myself",
+              wert: "203",
+            },
+          ],
           hasGrundeigentum: "yes",
+          grundeigentum: [
+            {
+              isBewohnt: "yes",
+              art: "einfamilienhaus",
+              eigentuemer: "myself",
+              flaeche: "120",
+              verkaufswert: "10000",
+              strassehausnummer: "strassehausnummer",
+              plz: "12345",
+              ort: "ort",
+              land: "land",
+            },
+          ],
           hasKraftfahrzeug: "yes",
+          kraftfahrzeuge: [
+            {
+              art: "art",
+              marke: "marke",
+              eigentuemer: "myself",
+              verkaufswert: "2000",
+              kilometerstand: 20000,
+              anschaffungsjahr: "1990",
+              baujahr: "1990",
+              hasArbeitsweg: "yes",
+              wert: "under10000",
+            },
+          ],
           hasWertsache: "yes",
-          eigentumTotalWorth: "more10000",
+          wertsachen: [
+            {
+              art: "art",
+              eigentuemer: "myself",
+              wert: "20",
+            },
+          ],
         },
       }),
     ).toBeTruthy();

@@ -159,7 +159,6 @@ describe("pruner", () => {
         hasWertsache: "no",
         hasGrundeigentum: "no",
         hasKraftfahrzeug: "no",
-        eigentumTotalWorth: "more10000",
         bankkonten: [
           { bankName: "asd", kontoEigentuemer: "myself", kontostand: "123" },
         ],
@@ -210,7 +209,6 @@ describe("pruner", () => {
         hasWertsache: "no",
         hasGrundeigentum: "no",
         hasKraftfahrzeug: "no",
-        eigentumTotalWorth: "more10000",
         geldanlagen: [
           {
             art: "befristet",

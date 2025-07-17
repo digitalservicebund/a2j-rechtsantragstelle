@@ -1,11 +1,11 @@
 import type { BeratungshilfeFinanzielleAngabenGuard } from "~/domains/beratungshilfe/formular/finanzielleAngaben/BeratungshilfeFinanzielleAngabenGuardType";
 import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 import {
+  bankKontoDone,
   childDone,
   geldanlageDone,
   singleGrundeigentumDone,
 } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
-import { hasAnyEigentumExceptBankaccount } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
 
 export const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
@@ -151,10 +151,8 @@ export const eigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
 }) =>
   context.staatlicheLeistungen == "grundsicherung" ||
   context.staatlicheLeistungen == "asylbewerberleistungen" ||
-  (context.hasBankkonto !== undefined &&
-    context.hasKraftfahrzeug !== undefined &&
-    context.hasGeldanlage !== undefined &&
-    context.hasGrundeigentum !== undefined &&
-    context.hasWertsache !== undefined &&
-    (!hasAnyEigentumExceptBankaccount({ context }) ||
-      context.eigentumTotalWorth !== undefined));
+  (bankKontoDone({ context }) &&
+    geldanlagenDone({ context }) &&
+    grundeigentumDone({ context }) &&
+    wertsachenDone({ context }) &&
+    kraftfahrzeugeDone({ context }));

@@ -10,7 +10,6 @@ import {
   wohnungDone,
   eigentumDone,
 } from "./finanzielleAngaben/doneFunctions";
-import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import { eigentumTotalWorthLessThan10000 } from "./finanzielleAngaben/guards";
 import type { BeratungshilfeFormularUserData } from "./index";
 import { rechtsproblemDone } from "./rechtsproblem/rechtsproblemDone";
@@ -117,9 +116,6 @@ export const getMissingInformationStrings = (
             !andereUnterhaltszahlungenDone({ context }),
           wohnungMissingInformation: !wohnungDone({ context }),
           eigentumMissingInformation: !eigentumDone({ context }),
-          eigentumZusammenfassungMissingInformation:
-            !eigentumZusammenfassungDone({ context }) &&
-            eigentumDone({ context }),
           ausgabenMissingInformation: !ausgabenDone({ context }),
         }
       : {};

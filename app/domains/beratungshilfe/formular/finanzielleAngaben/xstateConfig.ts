@@ -8,7 +8,6 @@ import {
   partnerDone,
   wohnungDone,
 } from "./doneFunctions";
-import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
 import { finanzielleAngabeGuards as guards } from "./guards";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 
@@ -532,7 +531,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                     guard: guards.hasGeldanlageYes,
                     target: "uebersicht",
                   },
-                  "#eigentum.wertgegenstaende",
+                  "#eigentum.kraftfahrzeuge",
                 ],
               },
             },
@@ -544,7 +543,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                     guard: guards.hasGeldanlageYesAndEmptyArray,
                     target: "warnung",
                   },
-                  "#eigentum.wertgegenstaende",
+                  "#eigentum.kraftfahrzeuge",
                 ],
                 "add-geldanlagen": "geldanlage.art",
               },
@@ -552,7 +551,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
             warnung: {
               on: {
                 BACK: "uebersicht",
-                SUBMIT: "#eigentum.wertgegenstaende",
+                SUBMIT: "#eigentum.kraftfahrzeuge",
               },
             },
             geldanlage: {
@@ -639,10 +638,10 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
             },
           },
         },
-        wertgegenstaende: {
-          initial: "wertgegenstaende-frage",
+        kraftfahrzeuge: {
+          initial: "kraftfahrzeuge-frage",
           states: {
-            "wertgegenstaende-frage": {
+            "kraftfahrzeuge-frage": {
               on: {
                 BACK: [
                   {
@@ -650,6 +649,77 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                     target: "#eigentum.geldanlagen.uebersicht",
                   },
                   "#eigentum.geldanlagen",
+                ],
+                SUBMIT: [
+                  {
+                    guard: guards.hasKraftfahrzeugYes,
+                    target: "uebersicht",
+                  },
+                  "#eigentum.wertgegenstaende",
+                ],
+              },
+            },
+            uebersicht: {
+              on: {
+                BACK: "kraftfahrzeuge-frage",
+                SUBMIT: [
+                  {
+                    guard: guards.hasKraftfahrzeugYesAndEmptyArray,
+                    target: "warnung",
+                  },
+                  "#eigentum.wertgegenstaende",
+                ],
+                "add-kraftfahrzeuge": "kraftfahrzeug",
+              },
+            },
+            warnung: {
+              on: {
+                BACK: "uebersicht",
+                SUBMIT: "#eigentum.wertgegenstaende",
+              },
+            },
+            kraftfahrzeug: {
+              initial: "arbeitsweg",
+              states: {
+                arbeitsweg: {
+                  on: {
+                    BACK: "#eigentum.kraftfahrzeuge.uebersicht",
+                    SUBMIT: "wert",
+                  },
+                },
+                wert: {
+                  on: {
+                    BACK: "arbeitsweg",
+                    SUBMIT: [
+                      {
+                        guard: guards.isKraftfahrzeugWertAbove10000OrUnsure,
+                        target: "fahrzeuge",
+                      },
+                      "#eigentum.kraftfahrzeuge.uebersicht",
+                    ],
+                  },
+                },
+                fahrzeuge: {
+                  on: {
+                    BACK: "wert",
+                    SUBMIT: "#eigentum.kraftfahrzeuge.uebersicht",
+                  },
+                },
+              },
+            },
+          },
+        },
+        wertgegenstaende: {
+          initial: "wertgegenstaende-frage",
+          states: {
+            "wertgegenstaende-frage": {
+              on: {
+                BACK: [
+                  {
+                    guard: guards.hasKraftfahrzeugYes,
+                    target: "#eigentum.kraftfahrzeuge.uebersicht",
+                  },
+                  "#eigentum.kraftfahrzeuge",
                 ],
                 SUBMIT: [
                   {
@@ -709,7 +779,11 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                     guard: guards.hasGrundeigentumYes,
                     target: "uebersicht",
                   },
-                  "#eigentum.kraftfahrzeuge",
+                  {
+                    guard: guards.staatlicheLeistungenIsBuergergeld,
+                    target: "#persoenliche-daten.start",
+                  },
+                  "#ausgaben",
                 ],
               },
             },
@@ -721,7 +795,11 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                     guard: guards.hasGrundeigentumYesAndEmptyArray,
                     target: "warnung",
                   },
-                  "#eigentum.kraftfahrzeuge",
+                  {
+                    guard: guards.staatlicheLeistungenIsBuergergeld,
+                    target: "#persoenliche-daten.start",
+                  },
+                  "#ausgaben",
                 ],
                 "add-grundeigentum": "grundeigentum",
               },
@@ -729,7 +807,13 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
             warnung: {
               on: {
                 BACK: "uebersicht",
-                SUBMIT: "#eigentum.kraftfahrzeuge",
+                SUBMIT: [
+                  {
+                    guard: guards.staatlicheLeistungenIsBuergergeld,
+                    target: "#persoenliche-daten.start",
+                  },
+                  "#ausgaben",
+                ],
               },
             },
             grundeigentum: {
@@ -763,320 +847,6 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
             },
           },
         },
-        kraftfahrzeuge: {
-          initial: "kraftfahrzeuge-frage",
-          states: {
-            "kraftfahrzeuge-frage": {
-              on: {
-                BACK: [
-                  {
-                    guard: guards.hasGrundeigentumYes,
-                    target: "#eigentum.grundeigentum.uebersicht",
-                  },
-                  "#eigentum.grundeigentum",
-                ],
-                SUBMIT: [
-                  {
-                    guard: guards.hasKraftfahrzeugYes,
-                    target: "uebersicht",
-                  },
-                  {
-                    guard: guards.hasAnyEigentumExceptBankaccount,
-                    target: "#eigentum.gesamtwert",
-                  },
-                  {
-                    guard: guards.eigentumDone,
-                    target: "#eigentum-zusammenfassung",
-                  },
-                  {
-                    guard: guards.staatlicheLeistungenIsBuergergeld,
-                    target: "#persoenliche-daten.start",
-                  },
-                  "#ausgaben",
-                ],
-              },
-            },
-            uebersicht: {
-              on: {
-                BACK: "kraftfahrzeuge-frage",
-                SUBMIT: [
-                  {
-                    guard: guards.hasKraftfahrzeugYesAndEmptyArray,
-                    target: "warnung",
-                  },
-                  "#eigentum.gesamtwert",
-                ],
-                "add-kraftfahrzeuge": "kraftfahrzeug",
-              },
-            },
-            warnung: {
-              on: {
-                BACK: "uebersicht",
-                SUBMIT: "#eigentum.gesamtwert",
-              },
-            },
-            kraftfahrzeug: {
-              initial: "arbeitsweg",
-              states: {
-                arbeitsweg: {
-                  on: {
-                    BACK: "#eigentum.kraftfahrzeuge.uebersicht",
-                    SUBMIT: "wert",
-                  },
-                },
-                wert: {
-                  on: {
-                    BACK: "arbeitsweg",
-                    SUBMIT: [
-                      {
-                        guard: guards.isKraftfahrzeugWertAbove10000OrUnsure,
-                        target: "fahrzeuge",
-                      },
-                      "#eigentum.kraftfahrzeuge.uebersicht",
-                    ],
-                  },
-                },
-                fahrzeuge: {
-                  on: {
-                    BACK: "wert",
-                    SUBMIT: "#eigentum.kraftfahrzeuge.uebersicht",
-                  },
-                },
-              },
-            },
-          },
-        },
-        gesamtwert: {
-          on: {
-            BACK: [
-              {
-                guard: guards.hasKraftfahrzeugYes,
-                target: "#eigentum.kraftfahrzeuge.uebersicht",
-              },
-              "#eigentum.kraftfahrzeuge",
-            ],
-            SUBMIT: [
-              {
-                guard: guards.eigentumDone,
-                target: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-              {
-                guard: guards.staatlicheLeistungenIsBuergergeld,
-                target: "#persoenliche-daten.start",
-              },
-              "#ausgaben",
-            ],
-          },
-        },
-      },
-    },
-    "eigentum-zusammenfassung": {
-      id: "eigentum-zusammenfassung",
-      initial: "zusammenfassung",
-      meta: { done: eigentumZusammenfassungDone },
-      states: {
-        zusammenfassung: {
-          on: {
-            BACK: [
-              {
-                guard: guards.hasAnyEigentumExceptBankaccount,
-                target: "#eigentum.gesamtwert",
-              },
-              "#eigentum.kraftfahrzeuge",
-            ],
-            SUBMIT: [
-              {
-                guard: guards.eigentumYesAndEmptyArray,
-                target: "warnung",
-              },
-              {
-                guard: guards.hasStaatlicheLeistungen,
-                target: "#persoenliche-daten.start",
-              },
-              "#ausgaben.ausgaben-frage",
-            ],
-            "add-bankkonten": "bankkonten",
-            "add-wertsachen": "wertgegenstaende",
-            "add-geldanlagen": "geldanlagen",
-            "add-kraftfahrzeuge": "kraftfahrzeuge",
-            "add-grundeigentum": "grundeigentum",
-          },
-        },
-        warnung: {
-          on: {
-            BACK: "zusammenfassung",
-            SUBMIT: [
-              {
-                guard: guards.hasStaatlicheLeistungen,
-                target: "#persoenliche-daten.start",
-              },
-              "#ausgaben",
-            ],
-          },
-        },
-        bankkonten: {
-          initial: "daten",
-          states: {
-            daten: {
-              on: {
-                SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-                BACK: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-            },
-          },
-        },
-        kraftfahrzeuge: {
-          initial: "arbeitsweg",
-          states: {
-            arbeitsweg: {
-              on: {
-                BACK: "#eigentum-zusammenfassung.zusammenfassung",
-                SUBMIT: "wert",
-              },
-            },
-            wert: {
-              on: {
-                BACK: "arbeitsweg",
-                SUBMIT: [
-                  {
-                    guard: guards.isKraftfahrzeugWertAbove10000OrUnsure,
-                    target: "fahrzeuge",
-                  },
-                  "#eigentum-zusammenfassung.zusammenfassung",
-                ],
-              },
-            },
-            fahrzeuge: {
-              on: {
-                BACK: "wert",
-                SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-            },
-          },
-        },
-        geldanlagen: {
-          id: "geldanlagen",
-          initial: "art",
-          states: {
-            art: {
-              on: {
-                SUBMIT: [
-                  {
-                    target: "bargeld",
-                    guard: guards.isGeldanlageBargeld,
-                  },
-                  {
-                    target: "wertpapiere",
-                    guard: guards.isGeldanlageWertpapiere,
-                  },
-                  {
-                    target: "guthabenkonto-krypto",
-                    guard: guards.isGeldanlageGuthabenkontoKrypto,
-                  },
-                  {
-                    target: "giro-tagesgeld-sparkonto",
-                    guard: guards.isGeldanlageGiroTagesgeldSparkonto,
-                  },
-                  {
-                    target: "befristet",
-                    guard: guards.isGeldanlageBefristet,
-                  },
-                  {
-                    target: "forderung",
-                    guard: guards.isGeldanlageForderung,
-                  },
-                  {
-                    target: "sonstiges",
-                    guard: guards.isGeldanlageSonstiges,
-                  },
-                ],
-                BACK: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-            },
-            bargeld: {
-              on: {
-                BACK: "art",
-                SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-            },
-            wertpapiere: {
-              on: {
-                BACK: "art",
-                SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-            },
-            "guthabenkonto-krypto": {
-              on: {
-                BACK: "art",
-                SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-            },
-            "giro-tagesgeld-sparkonto": {
-              on: {
-                BACK: "art",
-                SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-            },
-            befristet: {
-              on: {
-                BACK: "art",
-                SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-            },
-            forderung: {
-              on: {
-                BACK: "art",
-                SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-            },
-            sonstiges: {
-              on: {
-                BACK: "art",
-                SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-            },
-          },
-        },
-        grundeigentum: {
-          initial: "bewohnt-frage",
-          states: {
-            "bewohnt-frage": {
-              on: {
-                BACK: "#eigentum-zusammenfassung.zusammenfassung",
-                SUBMIT: [
-                  {
-                    guard: guards.grundeigentumIsBewohnt,
-                    target: "bewohnt-daten",
-                  },
-                  "daten",
-                ],
-              },
-            },
-            daten: {
-              on: {
-                BACK: "bewohnt-frage",
-                SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-            },
-            "bewohnt-daten": {
-              on: {
-                BACK: "bewohnt-frage",
-                SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-            },
-          },
-        },
-        wertgegenstaende: {
-          initial: "daten",
-          states: {
-            daten: {
-              on: {
-                SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-                BACK: "#eigentum-zusammenfassung.zusammenfassung",
-              },
-            },
-          },
-        },
       },
     },
     ausgaben: {
@@ -1088,18 +858,10 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
           on: {
             BACK: [
               {
-                guard: guards.eigentumDone,
-                target: "#eigentum-zusammenfassung.zusammenfassung",
+                guard: guards.hasGrundeigentumYes,
+                target: "#eigentum.grundeigentum.uebersicht",
               },
-              {
-                guard: guards.hasAnyEigentumExceptBankaccount,
-                target: "#eigentum.gesamtwert",
-              },
-              {
-                guard: guards.hasKraftfahrzeugYes,
-                target: "#eigentum.kraftfahrzeuge.uebersicht",
-              },
-              "#eigentum.kraftfahrzeuge",
+              "#eigentum.grundeigentum",
             ],
             SUBMIT: [
               {
