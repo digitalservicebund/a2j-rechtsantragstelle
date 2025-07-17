@@ -54,16 +54,11 @@ describe("Footer", () => {
     ).toBeInTheDocument();
   });
 
-  it("should render aria label translation", () => {
-    const translations = { "footer-navigation": "Footer Navigation" };
+  it("should render aria label translation if provided", () => {
+    const ariaLabel = "Footer Navigation";
     const { getByLabelText } = render(
-      <Footer translations={translations} categorizedLinks={[]} />,
+      <Footer ariaLabel={ariaLabel} categorizedLinks={[]} />,
     );
-    expect(getByLabelText("Footer Navigation")).toBeInTheDocument();
-  });
-
-  it("should render default aria label when translation is not provided", () => {
-    const { getByLabelText } = render(<Footer categorizedLinks={[]} />);
-    expect(getByLabelText("footer-navigation")).toBeInTheDocument();
+    expect(getByLabelText(ariaLabel)).toBeInTheDocument();
   });
 });

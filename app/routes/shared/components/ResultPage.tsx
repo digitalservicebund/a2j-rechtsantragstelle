@@ -52,7 +52,7 @@ export function ResultPage() {
           >
             <div className="flex sm:flex-row flex-col gap-16">
               {icons[cmsData.pageType]}
-              <div className="flex flex-col gap-16">
+              <div className="flex flex-col gap-16" id="flow-page-content">
                 <Heading
                   tagName={cmsData.heading.tagName}
                   look={cmsData.heading.look}

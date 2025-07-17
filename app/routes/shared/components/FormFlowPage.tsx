@@ -58,7 +58,7 @@ export function FormFlowPage() {
             }
           >
             <div className="ds-stack ds-stack-40">
-              <div className="ds-stack ds-stack-16" id="form-flow-page-content">
+              <div className="ds-stack ds-stack-16" id="flow-page-content">
                 {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
                 <Heading text={heading} look="ds-heading-02-reg" />
                 <ContentComponents
