@@ -1,3 +1,4 @@
+import { parseFormData } from "@mjackson/form-data-parser";
 import { validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
@@ -19,6 +20,7 @@ import {
   deleteUserFile,
   uploadUserFile,
 } from "~/services/upload/fileUploadHelpers.server";
+import { FIFTEEN_MB_IN_BYTES } from "~/services/validation/pdfFileSchema";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -105,20 +107,27 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
-  const clonedFormData = await request.clone().formData();
-  const formAction = clonedFormData.get("_action");
+  const formData = await parseFormData(request.clone(), {
+    maxFileSize: FIFTEEN_MB_IN_BYTES,
+  });
+  const formAction = formData.get("_action");
 
   if (isFileUploadOrDeleteAction(formAction)) {
     const [action, inputName] = formAction.split(".");
     if (action === "fileUpload") {
-      const result = await uploadUserFile(inputName, request, flowId);
+      const result = await uploadUserFile(
+        inputName,
+        cookieHeader,
+        formData,
+        flowId,
+      );
       if ("fieldErrors" in result)
         return validationError(result, result.repopulateFields);
       updateSession(flowSession, result.userData);
     } else if (action === "deleteFile") {
       const userData = await deleteUserFile(
         inputName,
-        request.headers.get("Cookie"),
+        cookieHeader,
         flowSession.data,
         flowId,
       );
@@ -135,7 +144,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const resultFormUserData = await validateFormUserData(
-    clonedFormData,
+    formData,
     pathname,
     cookieHeader,
   );

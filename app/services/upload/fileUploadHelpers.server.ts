@@ -1,4 +1,3 @@
-import { parseFormData } from "@mjackson/form-data-parser";
 import { type ValidationErrorResponseData } from "@rvf/react-router";
 import { type z } from "zod";
 import { type FlowId } from "~/domains/flowIds";
@@ -7,15 +6,15 @@ import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
-import { FIFTEEN_MB_IN_BYTES } from "~/services/validation/pdfFileSchema";
 import { splitFieldName } from "./splitFieldName";
-import { getSessionIdByFlowId } from "../session.server";
+import { getSessionIdByFlowId, type CookieHeader } from "../session.server";
 import { FILE_REQUIRED_ERROR } from "./constants";
 import { resolveArraysFromKeys } from "../array/resolveArraysFromKeys";
 
 export async function uploadUserFile(
   inputName: string,
-  request: Request,
+  cookieHeader: CookieHeader,
+  formData: FormData,
   flowId: FlowId,
 ): Promise<{ userData: UserData } | ValidationErrorResponseData> {
   const { fieldName, inputIndex } = splitFieldName(inputName);
@@ -23,10 +22,6 @@ export async function uploadUserFile(
     fieldName as keyof typeof getContext
   ] as z.ZodTypeAny | undefined;
   if (!fieldSchema) return { fieldErrors: {} };
-
-  const formData = await parseFormData(request, {
-    maxFileSize: FIFTEEN_MB_IN_BYTES,
-  });
   const file = formData.get(inputName) as File | undefined;
 
   if (!file) {
@@ -40,16 +35,14 @@ export async function uploadUserFile(
     fileSize: file.size,
   };
   const validatedArray = fieldSchema.safeParse(newArray);
+
   if (!validatedArray.success)
     return {
       fieldErrors: { [inputName]: validatedArray.error.issues[0].message },
       repopulateFields: { [fieldName]: newArray },
     };
 
-  const sessionId = await getSessionIdByFlowId(
-    flowId,
-    request.headers.get("Cookie"),
-  );
+  const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
   const savedFileKey = await uploadUserFileToS3(
     sessionId,
     flowId,
@@ -62,7 +55,7 @@ export async function uploadUserFile(
 
 export async function deleteUserFile(
   inputName: string,
-  cookieHeader: string | null,
+  cookieHeader: CookieHeader,
   userData: UserData,
   flowId: FlowId,
 ) {
