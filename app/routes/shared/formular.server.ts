@@ -5,7 +5,6 @@ import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { retrieveContentData } from "~/services/flow/formular/contentData/retrieveContentData";
 import { isFileUploadOrDeleteAction } from "~/services/flow/formular/fileUpload/isFileUploadOrDeleteAction";
-import { processUserFile } from "~/services/flow/formular/fileUpload/processUserFile.server";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
@@ -16,6 +15,10 @@ import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import {
+  deleteUserFile,
+  uploadUserFile,
+} from "~/services/upload/fileUploadHelpers.server";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -106,27 +109,29 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const formAction = clonedFormData.get("_action");
 
   if (isFileUploadOrDeleteAction(formAction)) {
-    const result = await processUserFile(
-      formAction as string,
-      request,
-      flowSession,
-    );
-
-    switch (result.variant) {
-      case "Err": {
-        return validationError(result.error, result.error?.repopulateFields);
-      }
-      case "Ok": {
-        const { userData, mergeCustomizer } = result.value;
-        if (userData) {
-          updateSession(flowSession, userData, mergeCustomizer);
-        }
-        return data(flowSession.data, {
-          headers: { "Set-Cookie": await commitSession(flowSession) },
-          status: 200,
-        });
+    const [action, inputName] = formAction.split(".");
+    if (action === "fileUpload") {
+      const result = await uploadUserFile(inputName, request, flowId);
+      if ("fieldErrors" in result)
+        return validationError(result, result.repopulateFields);
+      updateSession(flowSession, result.userData);
+    } else if (action === "deleteFile") {
+      const userData = await deleteUserFile(
+        inputName,
+        request.headers.get("Cookie"),
+        flowSession.data,
+        flowId,
+      );
+      if (userData) {
+        updateSession(flowSession, userData, (_, newData) =>
+          Array.isArray(newData) ? newData : undefined,
+        );
       }
     }
+    return data(flowSession.data, {
+      headers: { "Set-Cookie": await commitSession(flowSession) },
+      status: 200,
+    });
   }
 
   const resultFormUserData = await validateFormUserData(
