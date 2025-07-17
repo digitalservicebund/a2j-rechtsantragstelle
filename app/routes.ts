@@ -5,6 +5,8 @@ import {
   type RouteConfig,
 } from "@react-router/dev/routes";
 
+export const nonProductionRoutes = ["/kitchensink", "/geld-einklagen"];
+
 export default [
   index("routes/_index.tsx"),
   route("*", "routes/$.tsx"),
@@ -23,9 +25,6 @@ export default [
   route("link/*", "routes/link.$.tsx"),
   route("health", "routes/health.ts"),
   route("robots.txt", "routes/robots[.]txt.tsx"),
-
-  route("kitchensink", "routes/kitchensink._index.tsx"),
-  route("kitchensink/buttons", "routes/kitchensink.buttons.tsx"),
 
   route("api/airlines/list", "routes/api.airlines.list.ts"),
   route("api/airports/list", "routes/api.airports.list.ts"),
