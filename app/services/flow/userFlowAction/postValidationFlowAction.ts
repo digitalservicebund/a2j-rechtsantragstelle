@@ -1,5 +1,5 @@
+import type { Flow } from "~/domains/flows.server";
 import { type UserData } from "~/domains/userData";
-import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 
 export const postValidationFlowAction = async (
@@ -7,6 +7,8 @@ export const postValidationFlowAction = async (
   userData: UserData,
 ) => {
   const { pathname } = new URL(request.url);
-  const { currentFlow, stepId } = getPageAndFlowDataFromPathname(pathname);
-  await executeAsyncFlowActionByStepId(currentFlow, stepId, request, userData);
+  const { stepId, currentFlow } = getPageAndFlowDataFromPathname(pathname);
+  const { asyncFlowActions } = currentFlow as Flow;
+  if (asyncFlowActions && stepId in asyncFlowActions)
+    await asyncFlowActions[stepId](request, userData);
 };
