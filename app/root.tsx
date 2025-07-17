@@ -213,7 +213,10 @@ function App() {
               breadcrumbs={breadcrumbs}
               alignToMainContainer={pageHeaderProps.alignToMainContainer}
               linkLabel={pageHeaderProps.linkLabel}
-              translations={{ ...accessibilityTranslations }}
+              ariaLabel={getTranslationByKey(
+                "header-breadcrumb",
+                accessibilityTranslations,
+              )}
             />
             <main className="flex-grow flex" id="main">
               <Outlet />
@@ -223,7 +226,10 @@ function App() {
             <Footer
               {...footer}
               showDeletionBanner={hasAnyUserData}
-              translations={{ ...accessibilityTranslations }}
+              ariaLabel={getTranslationByKey(
+                "footer-navigation",
+                accessibilityTranslations,
+              )}
             />
           </footer>
           <ScrollRestoration nonce={nonce} />
@@ -264,7 +270,10 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
         {loaderData && (
           <Footer
             {...loaderData.footer}
-            translations={{ ...loaderData.accessibilityTranslations }}
+            ariaLabel={getTranslationByKey(
+              "footer-navigation",
+              loaderData.accessibilityTranslations,
+            )}
           />
         )}
       </body>
