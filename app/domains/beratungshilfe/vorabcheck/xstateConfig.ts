@@ -183,9 +183,6 @@ export const beratungshilfeVorabcheckXstateConfig = {
       },
     },
     [stepIds.bereich]: {
-      meta: {
-        customAnalyticsEventName: "beratungshilfe vorabcheck bereich submitted",
-      },
       on: {
         SUBMIT: stepIds.staatlicheLeistungen,
         BACK: [

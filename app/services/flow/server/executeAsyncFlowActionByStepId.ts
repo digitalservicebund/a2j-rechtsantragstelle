@@ -1,19 +1,13 @@
 import { type Flow } from "~/domains/flows.server";
-
-function getAsyncFlowActions(currentFlow: Flow) {
-  return "asyncFlowActions" in currentFlow
-    ? currentFlow.asyncFlowActions
-    : undefined;
-}
+import { type UserData } from "~/domains/userData";
 
 export async function executeAsyncFlowActionByStepId(
   currentFlow: Flow,
   stepId: string,
   request: Request,
+  userData: UserData,
 ) {
-  const asyncFlowActions = getAsyncFlowActions(currentFlow);
-
-  if (asyncFlowActions?.[stepId]) {
-    await asyncFlowActions[stepId](request);
+  if (currentFlow.asyncFlowActions && stepId in currentFlow.asyncFlowActions) {
+    await currentFlow.asyncFlowActions[stepId](request, userData);
   }
 }

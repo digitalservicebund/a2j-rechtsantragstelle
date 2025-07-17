@@ -28,7 +28,10 @@ export type Flow = {
   migration?: FlowMigration;
   flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (context: UserData) => Replacements;
-  asyncFlowActions?: Record<string, (request: Request) => Promise<void>>;
+  asyncFlowActions?: Record<
+    string,
+    (request: Request, userData: UserData) => Promise<void>
+  >;
 };
 
 export const flows = {

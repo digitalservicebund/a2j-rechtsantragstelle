@@ -1,5 +1,3 @@
-import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { type buildFlowController } from "~/services/flow/server/buildFlowController";
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
 import { postValidationFormUserData } from "../postValidationFormUserData";
 
@@ -15,54 +13,15 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-const mockFlowControllerWithoutCustomAnalyticsEventName = {
-  getMeta: () => ({
-    customAnalyticsEventName: undefined,
-  }),
-} as unknown as ReturnType<typeof buildFlowController>;
-
 describe("postValidationFormUserData", () => {
-  it("should call sendCustomAnalyticsEvent in case a customAnalyticsEventName is set", async () => {
-    const mockFlowController = {
-      getMeta: () => ({
-        customAnalyticsEventName: "testEvent",
-      }),
-    } as unknown as ReturnType<typeof buildFlowController>;
-
-    await postValidationFormUserData(
-      mockRequest,
-      mockFlowController,
-      mockUserData,
-    );
-
-    expect(sendCustomAnalyticsEvent).toHaveBeenCalledWith({
-      request: mockRequest,
-      eventName: "testEvent",
-      properties: mockUserData,
-    });
-  });
-
-  it("should not call sendCustomAnalyticsEvent in case a customAnalyticsEventName is not set", async () => {
-    await postValidationFormUserData(
-      mockRequest,
-      mockFlowControllerWithoutCustomAnalyticsEventName,
-      mockUserData,
-    );
-
-    expect(sendCustomAnalyticsEvent).not.toHaveBeenCalled();
-  });
-
   it("should call executeAsyncFlowActionByStepId", async () => {
-    await postValidationFormUserData(
-      mockRequest,
-      mockFlowControllerWithoutCustomAnalyticsEventName,
-      mockUserData,
-    );
+    await postValidationFormUserData(mockRequest, mockUserData);
 
     expect(executeAsyncFlowActionByStepId).toHaveBeenCalledWith(
       expect.anything(),
       "/finanzielle-angaben/kinder/uebersicht",
       mockRequest,
+      mockUserData,
     );
   });
 });

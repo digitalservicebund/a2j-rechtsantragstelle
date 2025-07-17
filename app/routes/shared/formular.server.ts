@@ -150,11 +150,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     guards: flows[flowId].guards,
   });
 
-  await postValidationFormUserData(
-    request,
-    flowController,
-    resultFormUserData.value.userData,
-  );
+  await postValidationFormUserData(request, resultFormUserData.value.userData);
 
   const destination = getDestinationFlowAction(flowController, pathname);
 

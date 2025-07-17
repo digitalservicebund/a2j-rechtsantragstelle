@@ -5,7 +5,6 @@ import {
 } from "react-router";
 import { Result } from "true-myth";
 import { processUserFile } from "~/services/flow/formular/fileUpload/processUserFile.server";
-import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getDestinationFlowAction } from "~/services/flow/userFlowAction/getDestinationFlowAction";
 import { postValidationFormUserData } from "~/services/flow/userFlowAction/postValidationFormUserData";
 import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
@@ -37,17 +36,12 @@ vi.mocked(getSessionManager).mockReturnValue({
 });
 
 const mockRequestUrl = `http://localhost:3000/fluggastrechte/formular/abgabe/start`;
-const mockBuildFlowController = vi.fn() as unknown as ReturnType<
-  typeof buildFlowController
->;
 const mockDefaultOptions = {
   method: "POST",
   body: new FormData(),
 };
 
 const mockDefaultRequest = new Request(mockRequestUrl, mockDefaultOptions);
-
-vi.mocked(buildFlowController).mockReturnValue(mockBuildFlowController);
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -200,7 +194,6 @@ describe("formular.server", () => {
         expect(postValidationFormUserData).toHaveBeenCalledTimes(1);
         expect(postValidationFormUserData).toHaveBeenCalledWith(
           mockDefaultRequest,
-          mockBuildFlowController,
           { name: "Valid Name" },
         );
       });

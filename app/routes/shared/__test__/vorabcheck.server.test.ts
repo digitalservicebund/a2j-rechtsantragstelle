@@ -4,7 +4,6 @@ import {
   type ActionFunctionArgs,
 } from "react-router";
 import { Result } from "true-myth";
-import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getDestinationFlowAction } from "~/services/flow/userFlowAction/getDestinationFlowAction";
 import { postValidationFormUserData } from "~/services/flow/userFlowAction/postValidationFormUserData";
 import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
@@ -21,7 +20,6 @@ vi.mock("~/services/logging", () => ({
   logWarning: vi.fn(),
 }));
 
-vi.mock("~/services/flow/server/buildFlowController");
 vi.mock("~/services/flow/formular/fileUpload/processUserFile.server");
 vi.mock("~/services/session.server");
 vi.mock("~/services/flow/userFlowAction/validateFormUserData");
@@ -36,15 +34,10 @@ vi.mocked(getSessionManager).mockReturnValue({
 });
 
 const mockRequestUrl = `http://localhost:3000/fluggastrechte/formular/abgabe/start`;
-const mockBuildFlowController = vi.fn() as unknown as ReturnType<
-  typeof buildFlowController
->;
 const mockDefaultOptions = {
   method: "POST",
   body: new FormData(),
 };
-
-vi.mocked(buildFlowController).mockReturnValue(mockBuildFlowController);
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -147,7 +140,6 @@ describe("vorabcheck.server", () => {
       expect(postValidationFormUserData).toHaveBeenCalledTimes(1);
       expect(postValidationFormUserData).toHaveBeenCalledWith(
         mockDefaultRequest,
-        mockBuildFlowController,
         { name: "Valid Name" },
       );
     });
