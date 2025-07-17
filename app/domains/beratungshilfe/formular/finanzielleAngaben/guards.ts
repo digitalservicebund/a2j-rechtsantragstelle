@@ -50,9 +50,6 @@ import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards } from "../../../guards.server";
 import type { Guards } from "../../../guards.server";
 
-export const eigentumTotalWorthLessThan10000: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) => context.eigentumTotalWorth === "less10000";
-
 export const hasBankkontoYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) =>
     hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten);
@@ -87,7 +84,6 @@ export const finanzielleAngabeGuards = {
   hasNoStaatlicheLeistungen,
   hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
     context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context }),
-  eigentumTotalWorthLessThan10000,
   hasPartnerschaftYes,
   hasPartnerschaftNoOrWidowed,
   hasPartnerschaftYesAndPartnerEinkommenYes,

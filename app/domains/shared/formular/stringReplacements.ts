@@ -1,4 +1,3 @@
-import { hasPartnerschaftYes } from "./finanzielleAngaben/guards";
 import type { BeratungshilfeFormularUserData } from "../../beratungshilfe/formular";
 import type { ProzesskostenhilfeFormularUserData } from "../../prozesskostenhilfe/formular/userData";
 
@@ -58,15 +57,5 @@ export const geldAnlagenStrings = (
         (geldanlage) => geldanlage.art === "giroTagesgeldSparkonto",
       ),
     hasGrundeigentum: context.hasGrundeigentum === "yes",
-  };
-};
-
-export const eigentumZusammenfassungShowPartnerschaftWarnings = (
-  context: BeratungshilfeFormularUserData | ProzesskostenhilfeFormularUserData,
-) => {
-  return {
-    hasPartnerschaftYes: hasPartnerschaftYes({
-      context,
-    }),
   };
 };
