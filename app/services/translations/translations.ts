@@ -87,7 +87,7 @@ export const translations = {
       de: "Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern.",
     },
     "report-problem": {
-      de: "Problem melden",
+      de: "Problem auf dieser Seite melden",
     },
     cancel: {
       de: "Abbrechen",
