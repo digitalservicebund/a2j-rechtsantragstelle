@@ -44,7 +44,7 @@ export const ReportProblem = () => {
         className="h-40 min-w-full justify-center sm:min-w-fit"
         text={feedbackTranslations["report-problem"]}
         iconLeft={<FlagOutlined />}
-      />
+      ></Button>
     </>
   );
 };
