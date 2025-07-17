@@ -12,8 +12,12 @@ export const StrapiListItemSchema = z
   .object({
     headline: StrapiHeadingOptionalSchema,
     content: StrapiRichTextOptionalSchema(),
-    buttons: z.array(StrapiButtonSchema).nullable().transform(omitNull),
-    accordion: StrapiAccordionSchema.nullable().transform(omitNull),
+    buttons: z
+      .array(StrapiButtonSchema)
+      .nullable()
+      .transform(omitNull)
+      .optional(),
+    accordion: StrapiAccordionSchema.nullable().transform(omitNull).optional(),
     image: StrapiImageOptionalSchema,
   })
   .merge(HasStrapiIdSchema)

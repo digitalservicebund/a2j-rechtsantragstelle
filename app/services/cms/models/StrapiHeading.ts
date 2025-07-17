@@ -33,5 +33,6 @@ export const StrapiHeadingSchema = z
     };
   });
 
-export const StrapiHeadingOptionalSchema =
-  StrapiHeadingSchema.nullable().transform(omitNull);
+export const StrapiHeadingOptionalSchema = StrapiHeadingSchema.nullable()
+  .transform(omitNull)
+  .optional();

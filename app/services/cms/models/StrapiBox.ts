@@ -12,10 +12,14 @@ export const StrapiBoxSchema = z
   .object({
     label: StrapiHeadingOptionalSchema,
     heading: StrapiHeadingOptionalSchema,
-    content: StrapiParagraphSchema.nullable().transform(omitNull),
+    content: StrapiParagraphSchema.nullable().transform(omitNull).optional(),
     outerBackground: StrapiBackgroundOptionalSchema,
     container: StrapiContainerSchema,
-    buttons: z.array(StrapiButtonSchema).nullable().transform(omitNull),
+    buttons: z
+      .array(StrapiButtonSchema)
+      .nullable()
+      .transform(omitNull)
+      .optional(),
     __component: z.literal("page.box"),
   })
   .merge(HasStrapiIdSchema)
