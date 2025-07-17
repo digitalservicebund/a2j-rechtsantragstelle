@@ -21,10 +21,10 @@ export async function uploadUserFile(
   flowId: FlowId,
 ): Promise<{ userData: UserData } | ValidationErrorResponseData> {
   const { fieldName, inputIndex } = splitFieldName(inputName);
-  const arraySchema = getContext(flowId)[
+  const fieldSchema = getContext(flowId)[
     fieldName as keyof typeof getContext
   ] as z.ZodTypeAny | undefined;
-  if (!arraySchema) return { fieldErrors: {} };
+  if (!fieldSchema) return { fieldErrors: {} };
 
   const formData = await parseFormData(request, {
     maxFileSize: FIFTEEN_MB_IN_BYTES,
@@ -41,7 +41,7 @@ export async function uploadUserFile(
     fileType: file.type,
     fileSize: file.size,
   };
-  const validatedArray = arraySchema.safeParse(newArray);
+  const validatedArray = fieldSchema.safeParse(newArray);
   if (!validatedArray.success)
     return {
       fieldErrors: { [inputName]: validatedArray.error.issues[0].message },
