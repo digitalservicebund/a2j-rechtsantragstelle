@@ -1,4 +1,3 @@
-import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import { translations as staticTranslations } from "~/services/translations/translations";
 import Background from "./Background";
 import Container from "./Container";
@@ -23,7 +22,7 @@ type FooterProps = Readonly<{
   paragraphs?: RichTextProps[];
   image?: ImageProps;
   showDeletionBanner?: boolean;
-  translations?: Record<string, string>;
+  ariaLabel?: string;
 }>;
 
 const Links = ({ links }: Pick<CategorizedLinkProps, "links">) => {
@@ -44,12 +43,8 @@ export default function Footer({
   paragraphs = [],
   categorizedLinks,
   showDeletionBanner = false,
-  translations,
+  ariaLabel,
 }: FooterProps) {
-  const ariaLabelTranslation = getTranslationByKey(
-    "footer-navigation",
-    translations,
-  );
   return (
     <Container paddingTop="48" paddingBottom="56">
       <div
@@ -80,7 +75,7 @@ export default function Footer({
 
         <nav
           className="flex flex-col sm:flex-row gap-16"
-          aria-label={ariaLabelTranslation}
+          aria-label={ariaLabel}
         >
           {categorizedLinks.map((category) => {
             const ariaLabelledBy = `footer-list-${dashifyLowercase(category.title)}`;
