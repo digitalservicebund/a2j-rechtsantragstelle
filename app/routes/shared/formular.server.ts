@@ -2,12 +2,9 @@ import { validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
-import { flows } from "~/domains/flows.server";
 import { retrieveContentData } from "~/services/flow/formular/contentData/retrieveContentData";
 import { isFileUploadOrDeleteAction } from "~/services/flow/formular/fileUpload/isFileUploadOrDeleteAction";
 import { processUserFile } from "~/services/flow/formular/fileUpload/processUserFile.server";
-import { addPageDataToUserData } from "~/services/flow/pageData";
-import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
@@ -98,7 +95,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const { pathname } = new URL(request.url);
-  const { flowId, arrayIndexes } = parsePathname(pathname);
+  const { flowId } = parsePathname(pathname);
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
@@ -145,12 +142,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
   await postValidationFlowAction(request, resultFormUserData.value.userData);
 
-  const flowController = buildFlowController({
-    config: flows[flowId].config,
-    data: addPageDataToUserData(flowSession.data, { arrayIndexes }),
-    guards: flows[flowId].guards,
-  });
   const headers = { "Set-Cookie": await commitSession(flowSession) };
-  const destination = flowDestination(flowController, pathname);
+  const destination = flowDestination(pathname, flowSession.data);
   return redirectDocument(destination, { headers });
 };
