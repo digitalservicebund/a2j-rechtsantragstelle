@@ -2,7 +2,7 @@ import { type UserData } from "~/domains/userData";
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 
-export const postValidationFormUserData = async (
+export const postValidationFlowAction = async (
   request: Request,
   userData: UserData,
 ) => {

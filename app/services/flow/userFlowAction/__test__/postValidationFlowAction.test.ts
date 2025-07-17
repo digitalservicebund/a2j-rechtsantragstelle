@@ -1,5 +1,5 @@
 import { executeAsyncFlowActionByStepId } from "~/services/flow/server/executeAsyncFlowActionByStepId";
-import { postValidationFormUserData } from "../postValidationFormUserData";
+import { postValidationFlowAction } from "../postValidationFlowAction";
 
 const mockUserData = { name: "John Doe" };
 const mockRequest = new Request(
@@ -15,7 +15,7 @@ beforeEach(() => {
 
 describe("postValidationFormUserData", () => {
   it("should call executeAsyncFlowActionByStepId", async () => {
-    await postValidationFormUserData(mockRequest, mockUserData);
+    await postValidationFlowAction(mockRequest, mockUserData);
 
     expect(executeAsyncFlowActionByStepId).toHaveBeenCalledWith(
       expect.anything(),

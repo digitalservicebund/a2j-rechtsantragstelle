@@ -1,5 +1,5 @@
 import { type buildFlowController } from "~/services/flow/server/buildFlowController";
-import { getDestinationFlowAction } from "../getDestinationFlowAction";
+import { flowDestination } from "../flowDestination";
 
 const mockPathname =
   "/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht";
@@ -11,7 +11,7 @@ describe("getDestinationFlowAction", () => {
       getInitial: () => "/beratungshilfe/antrag/initial-step",
     } as unknown as ReturnType<typeof buildFlowController>;
 
-    const actual = getDestinationFlowAction(mockFlowController, mockPathname);
+    const actual = flowDestination(mockFlowController, mockPathname);
 
     expect(actual).toBe("/beratungshilfe/antrag/finanzielle-angaben/next-step");
   });
@@ -22,7 +22,7 @@ describe("getDestinationFlowAction", () => {
       getInitial: () => "/beratungshilfe/antrag/initial-step",
     } as unknown as ReturnType<typeof buildFlowController>;
 
-    const actual = getDestinationFlowAction(mockFlowController, mockPathname);
+    const actual = flowDestination(mockFlowController, mockPathname);
 
     expect(actual).toBe("/beratungshilfe/antrag/initial-step");
   });
@@ -34,7 +34,7 @@ describe("getDestinationFlowAction", () => {
       getInitial: () => "/beratungshilfe/antrag/initial-step",
     } as unknown as ReturnType<typeof buildFlowController>;
 
-    const actual = getDestinationFlowAction(
+    const actual = flowDestination(
       mockFlowController,
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/4/name",
     );

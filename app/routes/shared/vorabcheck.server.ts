@@ -10,8 +10,8 @@ import { isStrapiHeadingComponent } from "~/services/cms/models/isStrapiHeadingC
 import { isStrapiSelectComponent } from "~/services/cms/models/isStrapiSelectComponent";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
-import { getDestinationFlowAction } from "~/services/flow/userFlowAction/getDestinationFlowAction";
-import { postValidationFormUserData } from "~/services/flow/userFlowAction/postValidationFormUserData";
+import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
+import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
 import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
 import { logWarning } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";
@@ -153,9 +153,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     guards: flows[flowId].guards,
   });
 
-  await postValidationFormUserData(request, resultFormUserData.value.userData);
+  await postValidationFlowAction(request, resultFormUserData.value.userData);
 
-  const destination = getDestinationFlowAction(flowController, pathname);
+  const destination = flowDestination(flowController, pathname);
 
   const headers = { "Set-Cookie": await commitSession(flowSession) };
   return redirectDocument(destination, { headers });

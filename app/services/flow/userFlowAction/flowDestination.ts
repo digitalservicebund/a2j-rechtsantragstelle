@@ -3,7 +3,7 @@ import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathnam
 import { type buildFlowController } from "../server/buildFlowController";
 import { insertIndexesIntoPath } from "../stepIdConverter";
 
-export const getDestinationFlowAction = (
+export const flowDestination = (
   flowController: ReturnType<typeof buildFlowController>,
   pathname: string,
 ) => {

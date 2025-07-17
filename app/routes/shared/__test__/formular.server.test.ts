@@ -5,8 +5,8 @@ import {
 } from "react-router";
 import { Result } from "true-myth";
 import { processUserFile } from "~/services/flow/formular/fileUpload/processUserFile.server";
-import { getDestinationFlowAction } from "~/services/flow/userFlowAction/getDestinationFlowAction";
-import { postValidationFormUserData } from "~/services/flow/userFlowAction/postValidationFormUserData";
+import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
+import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
 import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
@@ -25,8 +25,8 @@ vi.mock("~/services/flow/server/buildFlowController");
 vi.mock("~/services/flow/formular/fileUpload/processUserFile.server");
 vi.mock("~/services/session.server");
 vi.mock("~/services/flow/userFlowAction/validateFormUserData");
-vi.mock("~/services/flow/userFlowAction/postValidationFormUserData");
-vi.mock("~/services/flow/userFlowAction/getDestinationFlowAction");
+vi.mock("~/services/flow/userFlowAction/postValidationFlowAction");
+vi.mock("~/services/flow/userFlowAction/flowDestination");
 
 vi.mocked(getSessionManager).mockReturnValue({
   getSession: vi.fn().mockReturnValue({ get: () => ({}), set: vi.fn() }),
@@ -191,8 +191,8 @@ describe("formular.server", () => {
           context: {},
         });
 
-        expect(postValidationFormUserData).toHaveBeenCalledTimes(1);
-        expect(postValidationFormUserData).toHaveBeenCalledWith(
+        expect(postValidationFlowAction).toHaveBeenCalledTimes(1);
+        expect(postValidationFlowAction).toHaveBeenCalledWith(
           mockDefaultRequest,
           { name: "Valid Name" },
         );
@@ -205,7 +205,7 @@ describe("formular.server", () => {
             migrationData: { name: "Migration Name" },
           }),
         );
-        vi.mocked(getDestinationFlowAction).mockReturnValue("/next-step");
+        vi.mocked(flowDestination).mockReturnValue("/next-step");
 
         const response = (await action({
           request: mockDefaultRequest,
