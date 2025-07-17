@@ -1,4 +1,3 @@
-import type { SafeParseError } from "zod";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 
 describe("phoneNumber validation", () => {
@@ -31,9 +30,7 @@ describe("phoneNumber validation", () => {
       ({ input, errorMessage }) => {
         const actual = phoneNumberSchema.safeParse(input);
         expect(actual.success).toBe(false);
-        expect(
-          (actual as SafeParseError<unknown>).error.issues[0].message,
-        ).toBe(errorMessage);
+        expect(actual.error!.issues[0].message).toBe(errorMessage);
       },
     );
   });
