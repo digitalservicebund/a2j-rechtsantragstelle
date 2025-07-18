@@ -41,10 +41,10 @@ export const ReportProblem = () => {
         look="tertiary"
         onClick={() => setSurveyOpen(true)}
         id="survey-button"
-        className="h-40 min-w-full justify-center sm:min-w-fit"
+        className="min-w-full justify-center sm:min-w-fit mt-80"
         text={feedbackTranslations["report-problem"]}
         iconLeft={<FlagOutlined />}
-      ></Button>
+      />
     </>
   );
 };
