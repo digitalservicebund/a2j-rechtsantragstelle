@@ -4,7 +4,7 @@ import {
   fileUploadLimit,
 } from "~/services/validation/pdfFileSchema";
 
-const fileUploadRequiredSchema = z
+export const fileUploadRequiredSchema = z
   .array(pdfFileMetaDataSchema)
   .nonempty({ message: "fileRequired" })
   .max(fileUploadLimit, { message: "fileLimitReached" })
