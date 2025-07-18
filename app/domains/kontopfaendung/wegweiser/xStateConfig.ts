@@ -19,7 +19,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: stepIds.pKonto,
-            guard: ({ context }) => context.hasKontopfaendung === "yes",
+            guard: ({ context }) => context.hasKontopfaendung === "ja",
           },
           stepIds.ergebnisKeineKontopfaendung,
         ],

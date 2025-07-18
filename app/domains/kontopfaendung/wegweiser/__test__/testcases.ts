@@ -5,19 +5,19 @@ import { type KontopfaendungWegweiserUserData } from "../userData";
 const cases = [
   [{}, ["/start", "/kontopfaendung", "/ergebnis/keine-kontopfaendung"]],
   [
-    { hasKontopfaendung: "yes" },
+    { hasKontopfaendung: "ja" },
     ["/start", "/kontopfaendung", "/ergebnis/keine-kontopfaendung"],
   ],
   [
-    { hasKontopfaendung: "yes", hasPKonto: "ja" },
+    { hasKontopfaendung: "ja", hasPKonto: "ja" },
     ["/kontopfaendung", "/p-konto", "/zwischenseite-unterhalt"],
   ],
   [
-    { hasKontopfaendung: "yes", hasPKonto: "nein" },
+    { hasKontopfaendung: "ja", hasPKonto: "nein" },
     ["/kontopfaendung", "/p-konto", "/zwischenseite-unterhalt"],
   ],
   [
-    { hasKontopfaendung: "yes", hasPKonto: "nichtAktiv" },
+    { hasKontopfaendung: "ja", hasPKonto: "nichtAktiv" },
     [
       "/kontopfaendung",
       "/p-konto",
@@ -26,7 +26,7 @@ const cases = [
     ],
   ],
   [
-    { hasKontopfaendung: "yes", hasPKonto: "nichtEingerichtet" },
+    { hasKontopfaendung: "ja", hasPKonto: "nichtEingerichtet" },
     [
       "/kontopfaendung",
       "/p-konto",
@@ -180,7 +180,7 @@ const cases = [
   ],
   [
     {
-      hasKontopfaendung: "yes",
+      hasKontopfaendung: "ja",
       hasPKonto: "nichtEingerichtet",
       pfaendungUnterhalt: "yes",
       hasKinder: "no",
@@ -212,7 +212,7 @@ const cases = [
   ],
   [
     {
-      hasKontopfaendung: "yes",
+      hasKontopfaendung: "ja",
       hasPKonto: "nichtEingerichtet",
       pfaendungUnterhalt: "yes",
       hasKinder: "yes",
@@ -253,7 +253,7 @@ const cases = [
   ],
   [
     {
-      hasKontopfaendung: "yes",
+      hasKontopfaendung: "ja",
       hasPKonto: "ja",
       pfaendungUnterhalt: "yes",
       hasKinder: "yes",

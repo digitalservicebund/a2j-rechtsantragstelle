@@ -13,7 +13,7 @@ export const kontopfaendungWegweiserPages = {
   kontopfaendung: {
     stepId: "kontopfaendung",
     pageSchema: {
-      hasKontopfaendung: YesNoAnswer,
+      hasKontopfaendung: z.enum(["nein", "ja"], customRequiredErrorMessage),
     },
   },
   ergebnisKeineKontopfaendung: {

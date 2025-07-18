@@ -47,7 +47,7 @@ export function renderZodEnum(
     );
     options = options.map(({ value, text }) => ({
       value,
-      text: cmsObject[value].text ?? text,
+      text: cmsObject[value]?.text ?? text,
     }));
   }
 
