@@ -59,7 +59,7 @@
     "@xstate/graph": "^3.0.4",
     "axios": "^1.10.0",
     "classnames": "^2.5.1",
-    "compression": "^1.8.0",
+    "compression": "^1.8.1",
     "cookie": "^1.0.2",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
