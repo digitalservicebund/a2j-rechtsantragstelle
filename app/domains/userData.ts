@@ -6,7 +6,6 @@ import { geldEinklagenVorabcheckInputSchema } from "~/domains/geldEinklagen/vora
 import { prozesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { beratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
 import type { FlowId } from "./flowIds";
-import { kontopfaendungWegweiserInputSchema } from "./kontopfaendung/wegweiser/userData";
 
 export type BasicTypes = string | number | boolean;
 export type ObjectType = {
@@ -26,7 +25,7 @@ const contexts = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckInputSchema,
   "/fluggastrechte/formular": fluggastrechteInputSchema,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularUserData,
-  "/kontopfaendung/wegweiser": kontopfaendungWegweiserInputSchema,
+  "/kontopfaendung/wegweiser": {},
 } as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;
 
 export const getContext = (flowId: FlowId) => contexts[flowId];

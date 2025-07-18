@@ -1,9 +1,11 @@
 import type { z } from "zod";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
+import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
 
 const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
+  "/kontopfaendung/wegweiser": kontopfaendungWegweiserPages,
 } as const;
 
 export function getPageSchema(pathname: string) {
