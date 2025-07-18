@@ -8,10 +8,9 @@ import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements"
 import { fetchFlowPage, fetchMeta } from "~/services/cms/index.server";
 import { isStrapiHeadingComponent } from "~/services/cms/models/isStrapiHeadingComponent";
 import { isStrapiSelectComponent } from "~/services/cms/models/isStrapiSelectComponent";
-import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
-import { getDestinationFlowAction } from "~/services/flow/userFlowAction/getDestinationFlowAction";
-import { postValidationFormUserData } from "~/services/flow/userFlowAction/postValidationFormUserData";
+import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
+import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
 import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
 import { logWarning } from "~/services/logging";
 import { stepMeta } from "~/services/meta/formStepMeta";
@@ -23,6 +22,7 @@ import { updateMainSession } from "~/services/session.server/updateSessionInHead
 import { translations } from "~/services/translations/translations";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
+export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -147,20 +147,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   updateSession(flowSession, resultFormUserData.value.userData);
 
-  const flowController = buildFlowController({
-    config: flows[flowId].config,
-    data: flowSession.data,
-    guards: flows[flowId].guards,
-  });
+  await postValidationFlowAction(request, resultFormUserData.value.userData);
 
-  await postValidationFormUserData(
-    request,
-    flowController,
-    resultFormUserData.value.userData,
-  );
-
-  const destination = getDestinationFlowAction(flowController, pathname);
-
+  const destination = flowDestination(pathname, flowSession.data);
   const headers = { "Set-Cookie": await commitSession(flowSession) };
   return redirectDocument(destination, { headers });
 };
