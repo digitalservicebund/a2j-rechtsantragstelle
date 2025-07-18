@@ -137,10 +137,6 @@ describe("pruner", () => {
             "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
           form: [{ name: "hasKraftfahrzeug" }],
         },
-        {
-          stepId: "/finanzielle-angaben/eigentum/gesamtwert",
-          form: [{ name: "eigentumTotalWorth" }],
-        },
       ];
 
       vi.mocked(getStrapiEntry).mockReturnValue(

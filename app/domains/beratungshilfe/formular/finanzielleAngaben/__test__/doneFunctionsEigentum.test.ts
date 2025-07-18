@@ -294,17 +294,6 @@ describe("geldanlagenDone", () => {
     ).toBeFalsy();
   });
 
-  it("passes with geldanlage yes but worth less10000", () => {
-    expect(
-      geldanlagenDone({
-        context: {
-          hasGeldanlage: "yes",
-          eigentumTotalWorth: "less10000",
-        },
-      }),
-    ).toBeTruthy();
-  });
-
   it("fails with geldanlage yes but geldanlagen is undefined", () => {
     expect(
       geldanlagenDone({
@@ -372,17 +361,6 @@ describe("grundeigentumDone", () => {
         },
       }),
     ).toBeFalsy();
-  });
-
-  it("passes with grundeigentum yes but worth less10000", () => {
-    expect(
-      grundeigentumDone({
-        context: {
-          hasGrundeigentum: "yes",
-          eigentumTotalWorth: "less10000",
-        },
-      }),
-    ).toBeTruthy();
   });
 
   it("fails with grundeigentum yes but grundeigentum is undefined", () => {
@@ -537,17 +515,6 @@ describe("kraftfahrzeugeDone", () => {
     ).toBeFalsy();
   });
 
-  it("passes with kraftfahrzeuge yes but worth less10000", () => {
-    expect(
-      kraftfahrzeugeDone({
-        context: {
-          hasKraftfahrzeug: "yes",
-          eigentumTotalWorth: "less10000",
-        },
-      }),
-    ).toBeTruthy();
-  });
-
   it("fails with kraftfahrzeuge yes but kraftfahrzeuge is undefined", () => {
     expect(
       kraftfahrzeugeDone({
@@ -621,17 +588,6 @@ describe("wertsachenDone", () => {
         },
       }),
     ).toBeFalsy();
-  });
-
-  it("passes with wertsachen yes but worth less10000", () => {
-    expect(
-      wertsachenDone({
-        context: {
-          hasWertsache: "yes",
-          eigentumTotalWorth: "less10000",
-        },
-      }),
-    ).toBeTruthy();
   });
 
   it("fails with wertsachen yes but wertsachen is undefined", () => {

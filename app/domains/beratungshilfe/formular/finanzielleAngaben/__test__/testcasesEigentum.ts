@@ -153,7 +153,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
       hasWertsache: "no",
       hasKraftfahrzeug: "no",
       hasGrundeigentum: "no",
-      eigentumTotalWorth: "more10000",
     },
     [
       finanzielleAngabenEigentumBankkontenFrage,
@@ -173,7 +172,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
       hasWertsache: "no",
       hasKraftfahrzeug: "no",
       hasGrundeigentum: "no",
-      eigentumTotalWorth: "less10000",
     },
     [
       finanzielleAngabenEigentumBankkontenFrage,

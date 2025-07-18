@@ -33,7 +33,6 @@ describe("navStates", () => {
             hasGrundeigentum: "no",
             hasKraftfahrzeug: "no",
             hasWertsache: "no",
-            eigentumTotalWorth: "unsure",
           },
         }),
       ).toBeTruthy();
@@ -50,7 +49,6 @@ describe("navStates", () => {
             hasGrundeigentum: "no",
             hasKraftfahrzeug: "no",
             hasWertsache: "no",
-            eigentumTotalWorth: "unsure",
             einkommen: "100",
             livingSituation: "alone",
             apartmentSizeSqm: 100,
@@ -96,7 +94,6 @@ describe("navStates", () => {
             hasGrundeigentum: "no",
             hasKraftfahrzeug: "no",
             hasWertsache: "no",
-            eigentumTotalWorth: "unsure",
           },
         }),
       ).toBeFalsy();
