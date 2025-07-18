@@ -134,7 +134,7 @@ const cases = [
 
   [{ hasWohngeld: "no" }, ["/wohngeld", "/pflegegeld"]],
   [
-    { hasWohngeld: "yes", wohngeldEmpfaenger: "selbst" },
+    { hasWohngeld: "yes", wohngeld: "selbst" },
     [
       "/wohngeld",
       "/wohngeld-empfaenger",
@@ -143,7 +143,7 @@ const cases = [
     ],
   ],
   [
-    { hasWohngeld: "yes", wohngeldEmpfaenger: "fremd" },
+    { hasWohngeld: "yes", wohngeld: "fremd" },
     ["/wohngeld", "/wohngeld-empfaenger", "/pflegegeld"],
   ],
   [

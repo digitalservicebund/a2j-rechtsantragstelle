@@ -171,10 +171,7 @@ export const kontopfaendungWegweiserPages = {
   wohngeldEmpfaenger: {
     stepId: "wohngeld-empfaenger",
     pageSchema: {
-      wohngeldEmpfaenger: z.enum(
-        ["selbst", "fremd"],
-        customRequiredErrorMessage,
-      ),
+      wohngeld: z.enum(["selbst", "fremd"], customRequiredErrorMessage),
     },
   },
   wohngeldNachzahlung: {

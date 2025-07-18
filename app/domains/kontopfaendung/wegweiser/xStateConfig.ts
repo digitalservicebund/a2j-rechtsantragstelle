@@ -291,14 +291,12 @@ export const kontopfaendungWegweiserXstateConfig = {
           {
             target: stepIds.wohngeldNachzahlung,
             guard: ({ context }) =>
-              context.hasWohngeld === "yes" &&
-              context.wohngeldEmpfaenger === "selbst",
+              context.hasWohngeld === "yes" && context.wohngeld === "selbst",
           },
           {
             target: stepIds.wohngeldEmpfaenger,
             guard: ({ context }) =>
-              context.hasWohngeld === "yes" &&
-              context.wohngeldEmpfaenger === "fremd",
+              context.hasWohngeld === "yes" && context.wohngeld === "fremd",
           },
           stepIds.wohngeld,
         ],
@@ -371,7 +369,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: stepIds.wohngeldNachzahlung,
-            guard: ({ context }) => context.wohngeldEmpfaenger === "selbst",
+            guard: ({ context }) => context.wohngeld === "selbst",
           },
           stepIds.pflegegeld,
         ],
