@@ -47,11 +47,9 @@ export const FileInput = ({
       : "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary file:ds-button-large w-fit file:cursor-pointer",
   );
 
-  const inputId = `${name}-input`;
   const FileInput = (
     <input
       name={jsAvailable ? undefined : name}
-      id={inputId}
       type="file"
       accept=".pdf"
       data-testid={`file-upload-input-${name}`}
@@ -87,10 +85,7 @@ export const FileInput = ({
       ) : (
         <>
           {jsAvailable ? (
-            <label
-              htmlFor={inputId}
-              className="relative inline-flex items-center ds-button ds-button-tertiary ds-button-large cursor-pointer w-fit"
-            >
+            <label className="relative inline-flex items-center ds-button ds-button-tertiary ds-button-large cursor-pointer w-fit">
               {FileInput}
               <span className="ds-button-label">
                 {splitFieldName(name).inputIndex === 0
@@ -100,7 +95,7 @@ export const FileInput = ({
             </label>
           ) : (
             <div className="flex flex-row">
-              <label htmlFor={name}>
+              <label>
                 {FileInput}
                 <Button
                   name="_action"
