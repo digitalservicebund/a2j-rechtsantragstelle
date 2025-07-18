@@ -55,7 +55,6 @@ export type FlowConfigTransitions = {
 };
 
 type Meta<TUserData extends MachineContext = UserData> = {
-  customAnalyticsEventName?: string;
   expandValidation?: boolean;
   done?: GenericGuard<TUserData>;
   arrays?: Record<string, ArrayConfigServer>;

@@ -2,15 +2,12 @@ import { validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
-import { flows } from "~/domains/flows.server";
 import { retrieveContentData } from "~/services/flow/formular/contentData/retrieveContentData";
 import { isFileUploadOrDeleteAction } from "~/services/flow/formular/fileUpload/isFileUploadOrDeleteAction";
 import { processUserFile } from "~/services/flow/formular/fileUpload/processUserFile.server";
-import { addPageDataToUserData } from "~/services/flow/pageData";
-import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
-import { getDestinationFlowAction } from "~/services/flow/userFlowAction/getDestinationFlowAction";
-import { postValidationFormUserData } from "~/services/flow/userFlowAction/postValidationFormUserData";
+import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
+import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
 import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
@@ -98,7 +95,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const { pathname } = new URL(request.url);
-  const { flowId, arrayIndexes } = parsePathname(pathname);
+  const { flowId } = parsePathname(pathname);
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
@@ -106,11 +103,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const formAction = clonedFormData.get("_action");
 
   if (isFileUploadOrDeleteAction(formAction)) {
-    const result = await processUserFile(
-      formAction as string,
-      request,
-      flowSession,
-    );
+    const result = await processUserFile(formAction, request, flowSession);
 
     switch (result.variant) {
       case "Err": {
@@ -147,21 +140,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (resultFormUserData.value.migrationData) {
     updateSession(flowSession, resultFormUserData.value.migrationData);
   }
-
-  const flowController = buildFlowController({
-    config: flows[flowId].config,
-    data: addPageDataToUserData(flowSession.data, { arrayIndexes }),
-    guards: flows[flowId].guards,
-  });
-
-  await postValidationFormUserData(
-    request,
-    flowController,
-    resultFormUserData.value.userData,
-  );
-
-  const destination = getDestinationFlowAction(flowController, pathname);
+  await postValidationFlowAction(request, resultFormUserData.value.userData);
 
   const headers = { "Set-Cookie": await commitSession(flowSession) };
+  const destination = flowDestination(pathname, flowSession.data);
   return redirectDocument(destination, { headers });
 };
