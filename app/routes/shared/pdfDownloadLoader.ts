@@ -66,7 +66,7 @@ const pdfConfigs = {
   },
 } satisfies Partial<Record<FlowId, PdfConfig>>;
 
-export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const { pathname } = new URL(request.url);
   const { flowId } = parsePathname(pathname);
   if (!(flowId in pdfConfigs))

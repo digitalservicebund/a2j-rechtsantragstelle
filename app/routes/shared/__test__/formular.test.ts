@@ -11,7 +11,7 @@ import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { uploadUserFile } from "~/services/upload/fileUploadHelpers.server";
-import { action } from "../formular.server";
+import { action } from "../formular";
 
 vi.mock("~/services/security/csrf/validatedSession.server", () => ({
   validatedSession: vi.fn(),

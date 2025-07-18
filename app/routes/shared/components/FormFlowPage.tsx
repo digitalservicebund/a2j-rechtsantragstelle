@@ -10,7 +10,7 @@ import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import type { loader } from "../formular.server";
+import type { loader } from "../formular";
 
 export function FormFlowPage() {
   const {
