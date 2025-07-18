@@ -82,32 +82,37 @@ const addIssue = (
   const fields =
     type === "departure"
       ? [
+      ? ([
           "annullierungErsatzverbindungAbflugsDatum",
           "annullierungErsatzverbindungAbflugsZeit",
-        ]
-      : [
+        ] as const)
+      : ([
           "annullierungErsatzverbindungAnkunftsDatum",
           "annullierungErsatzverbindungAnkunftsZeit",
-        ];
+        ] as const);
 
   fields.forEach((field) =>
-    ctx.addIssue({ code: z.ZodIssueCode.custom, message, path: [field] }),
+    ctx.issues.push({
+      code: "custom",
+      message,
+      path: [field],
+      input: ctx.value[field],
+    }),
   );
 };
 
 const validateFieldsNoOrUntil6Days = (
-  data: ParsedData,
   ctx: z.RefinementCtx,
 ) => {
-  const ersatzflugStartenEinStunde = data.ersatzflugStartenEinStunde;
-  const ersatzflugLandenZweiStunden = data.ersatzflugLandenZweiStunden;
+  const ersatzflugStartenEinStunde = ctx.value.ersatzflugStartenEinStunde;
+  const ersatzflugLandenZweiStunden = ctx.value.ersatzflugLandenZweiStunden;
 
   const {
     originalDepartureDateTime,
     departureDateTime,
     originalArrivalDateTime,
     arrivalDateTime,
-  } = getFlightTimestamps(data);
+  } = getFlightTimestamps(ctx.value);
 
   if (
     ersatzflugStartenEinStunde === "yes" &&
@@ -155,18 +160,17 @@ const validateFieldsNoOrUntil6Days = (
 };
 
 const validateFieldsBetween7And13Days = (
-  data: ParsedData,
   ctx: z.RefinementCtx,
 ) => {
-  const ersatzflugStartenZweiStunden = data.ersatzflugStartenZweiStunden;
-  const ersatzflugLandenVierStunden = data.ersatzflugLandenVierStunden;
+  const ersatzflugStartenZweiStunden = ctx.value.ersatzflugStartenZweiStunden;
+  const ersatzflugLandenVierStunden = ctx.value.ersatzflugLandenVierStunden;
 
   const {
     originalDepartureDateTime,
     departureDateTime,
     originalArrivalDateTime,
     arrivalDateTime,
-  } = getFlightTimestamps(data);
+  } = getFlightTimestamps(ctx.value);
 
   if (
     ersatzflugStartenZweiStunden === "yes" &&
@@ -216,8 +220,8 @@ const validateFieldsBetween7And13Days = (
 export function validateCancelFlightReplacementPage(
   baseSchema: MultiFieldsValidationBaseSchema<SchemaSubset>,
 ) {
-  return baseSchema.superRefine((data, ctx) => {
-    const fields = getFieldsForValidation(data);
+  return baseSchema.check((ctx) => {
+    const fields = getFieldsForValidation(ctx.value);
 
     const isAnyFieldFilled = fields.some(
       ({ value }) => !isFieldEmptyOrUndefined(value),
@@ -229,20 +233,24 @@ export function validateCancelFlightReplacementPage(
 
     for (const { value, path } of fields) {
       if (isFieldEmptyOrUndefined(value)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+        ctx.issues.push({
+          code: "custom",
           message: "fillAllOrNone",
           path,
+          input: value,
         });
       }
     }
 
-    if (data.ankuendigung === "between7And13Days") {
-      validateFieldsBetween7And13Days(data, ctx);
+    if (ctx.value.ankuendigung === "between7And13Days") {
+      validateFieldsBetween7And13Days(ctx);
     }
 
-    if (data.ankuendigung === "no" || data.ankuendigung === "until6Days") {
-      validateFieldsNoOrUntil6Days(data, ctx);
+    if (
+      ctx.value.ankuendigung === "no" ||
+      ctx.value.ankuendigung === "until6Days"
+    ) {
+      validateFieldsNoOrUntil6Days(ctx);
     }
   });
 }
