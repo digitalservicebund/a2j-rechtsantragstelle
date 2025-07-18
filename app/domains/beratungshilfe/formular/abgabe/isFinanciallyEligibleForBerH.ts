@@ -1,27 +1,34 @@
-import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import { type BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
+import { calculateFreibetragBerHFormular } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
 import { type GenericGuard } from "~/domains/guards.server";
+import moneyToCents from "~/services/validation/money/moneyToCents";
 
 const eigentumWorthEligibilityThreshhold = 10000;
 
 export const isFinanciallyEligibleForBerH: GenericGuard<
-  BeratungshilfeFormularUserData
+  BeratungshilfeFinanzielleAngabenUserData
 > = ({ context }) => {
   const hasQualifyingStaatlicheLeistung =
     context.staatlicheLeistungen === "asylbewerberleistungen" ||
     context.staatlicheLeistungen === "grundsicherung";
   const totalEigentumWorth = calculateEigentumTotalWorth(context);
+  const hasExpensiveFahrzeug = (context.kraftfahrzeuge ?? []).some(
+    (kraftfahrzeug) =>
+      kraftfahrzeug.hasArbeitsweg === "no" &&
+      kraftfahrzeug.wert === "over10000",
+  );
+  const noEinzusetzendesEinkommen = !hasEinzusetzendesEinkommen(context);
   return (
     hasQualifyingStaatlicheLeistung ||
-    totalEigentumWorth < eigentumWorthEligibilityThreshhold ||
-    !context.kraftfahrzeuge?.some(
-      (kraftfahrzeug) =>
-        kraftfahrzeug.hasArbeitsweg === "no" &&
-        kraftfahrzeug.wert === "over10000",
-    )
+    (noEinzusetzendesEinkommen &&
+      totalEigentumWorth < eigentumWorthEligibilityThreshhold &&
+      !hasExpensiveFahrzeug)
   );
 };
 
-function calculateEigentumTotalWorth(userData: BeratungshilfeFormularUserData) {
+function calculateEigentumTotalWorth(
+  userData: BeratungshilfeFinanzielleAngabenUserData,
+) {
   const totalBankkontenWorth =
     userData.bankkonten?.reduce(
       (acc, bankkonto) => acc + parseInt(bankkonto.kontostand),
@@ -62,5 +69,39 @@ function calculateEigentumTotalWorth(userData: BeratungshilfeFormularUserData) {
     totalKraftfahrzeugeWorth +
     totalWertgegendstaendeWorth +
     totalGrundeigentumWorth
+  );
+}
+
+function hasEinzusetzendesEinkommen(
+  userData: BeratungshilfeFinanzielleAngabenUserData,
+) {
+  const einkommen = moneyToCents(userData.einkommen) ?? 0;
+  const miete =
+    moneyToCents(
+      userData.apartmentCostOwnShare ?? userData.apartmentCostAlone,
+    ) ?? 0;
+  const ausgaben =
+    moneyToCents(
+      userData.ausgaben
+        ?.reduce((acc, ausgabe) => acc + parseInt(ausgabe.beitrag ?? "0"), 0)
+        .toString(),
+    ) ?? 0;
+  const yearlyUnterhalt =
+    moneyToCents(
+      (
+        userData.unterhaltszahlungen?.reduce(
+          (acc, zahlung) => acc + parseInt(zahlung.monthlyPayment ?? "0"),
+          0,
+        ) ?? 0 * 12
+      ).toString(),
+    ) ?? 0;
+  return (
+    einkommen - miete - ausgaben - yearlyUnterhalt >
+    calculateFreibetragBerHFormular({
+      working: userData.erwerbstaetig === "yes",
+      partnership: userData.partnerschaft === "yes",
+      partnerIncome: moneyToCents(userData.partnerEinkommenSumme),
+      kinder: userData.kinder ?? [],
+    })
   );
 }

@@ -46,7 +46,7 @@ describe("isFinanciallyEligibleForBerH", () => {
         },
         {
           hasArbeitsweg: "no",
-          verkaufswert: "12345",
+          verkaufswert: "1234",
         },
       ],
     };
