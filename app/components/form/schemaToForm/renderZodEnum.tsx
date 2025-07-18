@@ -1,5 +1,6 @@
 import get from "lodash/get";
 import type { z } from "zod";
+import Checkbox from "~/components/inputs/Checkbox";
 import RadioGroup from "~/components/inputs/RadioGroup";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
@@ -17,7 +18,17 @@ export function renderZodEnum(
   const label = get(matchingElement, "label");
   const errorMessages = get(matchingElement, "errorMessages");
   let options = schema.options.map((value) => ({ value, text: value }));
-
+  if (matchingElement?.__component === "form-elements.checkbox") {
+    return (
+      <Checkbox
+        key={fieldName}
+        name={fieldName}
+        label={label}
+        required={matchingElement.required}
+        errorMessage={matchingElement.errorMessage}
+      />
+    );
+  }
   if (matchingElement?.__component === "form-elements.tile-group") {
     const cmsOptions = get(matchingElement, "options");
     const cmsObject = Object.fromEntries(
