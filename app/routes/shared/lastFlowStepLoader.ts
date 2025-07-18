@@ -1,12 +1,12 @@
 import { type LoaderFunctionArgs, redirect } from "react-router";
 import { type FlowId, parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
-import { buildFlowController } from "./buildFlowController";
+import { lastStepKey } from "~/services/flow/constants";
+import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import {
   type CookieHeader,
   mainSessionFromCookieHeader,
-} from "../../session.server";
-import { lastStepKey } from "../constants";
+} from "~/services/session.server";
 
 type LastStep = Record<FlowId, string>;
 
