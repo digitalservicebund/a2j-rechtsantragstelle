@@ -1,8 +1,8 @@
 import { FormProvider, useForm } from "@rvf/react";
 import { render } from "@testing-library/react";
 import { z } from "zod";
-import { SchemaComponents } from "../SchemaComponents";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
+import { SchemaComponents } from "../SchemaComponents";
 
 describe("SchemaComponents", () => {
   function WrappedSchemaComponents(
