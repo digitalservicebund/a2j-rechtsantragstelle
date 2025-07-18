@@ -1,4 +1,5 @@
-import { z } from "zod";
+import type { z } from "zod";
+import type { ParsePayload } from "zod/v4/core";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
 import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
@@ -30,9 +31,9 @@ type SchemaSubset = Pick<
   | "direktAnkunftsZeit"
 >;
 
-type ParsedData = z.infer<z.ZodObject<SchemaSubset>>;
+type SubsetCtx = ParsePayload<z.infer<z.ZodObject<SchemaSubset>>>;
 
-const getFieldsForValidation = (data: ParsedData) => {
+const getFieldsForValidation = (data: SubsetCtx["value"]) => {
   return FIELDS_FOR_VALIDATION.map((path) => ({
     value: data[path],
     path: [path],
@@ -55,7 +56,7 @@ function isStartTimestampMoreThan(
   return startTimestamp >= endTimestamp - threshold;
 }
 
-const getFlightTimestamps = (data: ParsedData) => ({
+const getFlightTimestamps = (data: SubsetCtx["value"]) => ({
   originalDepartureDateTime: convertToTimestamp(
     data.direktAbflugsDatum,
     data.direktAbflugsZeit,
@@ -75,13 +76,12 @@ const getFlightTimestamps = (data: ParsedData) => ({
 });
 
 const addIssue = (
-  ctx: z.RefinementCtx,
+  ctx: SubsetCtx,
   message: string,
   type: "departure" | "arrival",
 ) => {
   const fields =
     type === "departure"
-      ? [
       ? ([
           "annullierungErsatzverbindungAbflugsDatum",
           "annullierungErsatzverbindungAbflugsZeit",
@@ -101,9 +101,7 @@ const addIssue = (
   );
 };
 
-const validateFieldsNoOrUntil6Days = (
-  ctx: z.RefinementCtx,
-) => {
+const validateFieldsNoOrUntil6Days = (ctx: SubsetCtx) => {
   const ersatzflugStartenEinStunde = ctx.value.ersatzflugStartenEinStunde;
   const ersatzflugLandenZweiStunden = ctx.value.ersatzflugLandenZweiStunden;
 
@@ -159,9 +157,7 @@ const validateFieldsNoOrUntil6Days = (
   }
 };
 
-const validateFieldsBetween7And13Days = (
-  ctx: z.RefinementCtx,
-) => {
+const validateFieldsBetween7And13Days = (ctx: SubsetCtx) => {
   const ersatzflugStartenZweiStunden = ctx.value.ersatzflugStartenZweiStunden;
   const ersatzflugLandenVierStunden = ctx.value.ersatzflugLandenVierStunden;
 
