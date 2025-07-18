@@ -1,394 +1,400 @@
+import mapValues from "lodash/mapValues";
 import type { Config } from "~/services/flow/server/buildFlowController";
+import { kontopfaendungWegweiserPages } from "./pages";
 import { type KontopfaendungWegweiserUserData } from "./userData";
+
+const stepIds = mapValues(kontopfaendungWegweiserPages, (v) => v.stepId);
 
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/kontopfaendung/wegweiser",
-  initial: "start",
+  initial: stepIds.start,
   states: {
-    start: {
+    [stepIds.start]: {
       on: {
-        SUBMIT: "kontopfaendung",
+        SUBMIT: stepIds.kontopfaendung,
       },
     },
-    kontopfaendung: {
+    [stepIds.kontopfaendung]: {
       on: {
         SUBMIT: [
           {
-            target: "p-konto",
-            guard: ({ context }) => context.hasKontopfaendung === "ja",
+            target: stepIds.pKonto,
+            guard: ({ context }) => context.hasKontopfaendung === "yes",
           },
-          "ergebnis/keine-kontopfaendung",
+          stepIds.ergebnisKeineKontopfaendung,
         ],
-        BACK: "start",
+        BACK: stepIds.start,
       },
     },
-    "ergebnis/keine-kontopfaendung": {
-      on: { BACK: "kontopfaendung" },
+    [stepIds.ergebnisKeineKontopfaendung]: {
+      on: { BACK: stepIds.kontopfaendung },
     },
-    "p-konto": {
+    [stepIds.pKonto]: {
       on: {
         SUBMIT: [
           {
-            target: "zwischenseite-unterhalt",
+            target: stepIds.zwischenseiteUnterhalt,
             guard: ({ context }) =>
               context.hasPKonto === "ja" || context.hasPKonto === "nein",
           },
-          "p-konto-probleme",
+          stepIds.pKontoProbleme,
         ],
-        BACK: "kontopfaendung",
+        BACK: stepIds.kontopfaendung,
       },
     },
-    "p-konto-probleme": {
+    [stepIds.pKontoProbleme]: {
       on: {
-        SUBMIT: "zwischenseite-unterhalt",
-        BACK: "p-konto",
+        SUBMIT: stepIds.zwischenseiteUnterhalt,
+        BACK: stepIds.pKonto,
       },
     },
-    "zwischenseite-unterhalt": {
+    [stepIds.zwischenseiteUnterhalt]: {
       on: {
-        SUBMIT: "kinder",
+        SUBMIT: stepIds.kinder,
         BACK: [
           {
-            target: "p-konto",
+            target: stepIds.pKonto,
             guard: ({ context }) =>
               context.hasPKonto === "ja" || context.hasPKonto === "nein",
           },
-          "p-konto-probleme",
+          stepIds.pKontoProbleme,
         ],
       },
     },
-    kinder: {
+    [stepIds.kinder]: {
       on: {
         SUBMIT: [
           {
-            target: "kinder-wohnen-zusammen",
+            target: stepIds.kinderWohnenZusammen,
             guard: ({ context }) => context.hasKinder === "yes",
           },
-          "partner",
+          stepIds.partner,
         ],
-        BACK: "zwischenseite-unterhalt",
+        BACK: stepIds.zwischenseiteUnterhalt,
       },
     },
-    "kinder-wohnen-zusammen": {
+    [stepIds.kinderWohnenZusammen]: {
       on: {
         SUBMIT: [
           {
-            target: "kinder-unterhalt",
+            target: stepIds.kinderUnterhalt,
             guard: ({ context }) =>
               context.kinderWohnenZusammen === "nein" ||
               context.kinderWohnenZusammen === "teilweise",
           },
-          "partner",
+          stepIds.partner,
         ],
-        BACK: "kinder",
+        BACK: stepIds.kinder,
       },
     },
-    "kinder-unterhalt": {
+    [stepIds.kinderUnterhalt]: {
       on: {
-        SUBMIT: "partner",
-        BACK: "kinder-wohnen-zusammen",
+        SUBMIT: stepIds.partner,
+        BACK: stepIds.kinderWohnenZusammen,
       },
     },
-    partner: {
+    [stepIds.partner]: {
       on: {
         SUBMIT: [
           {
-            target: "partner-unterhalt",
+            target: stepIds.partnerUnterhalt,
             guard: ({ context }) => context.verheiratet === "geschieden",
           },
           {
-            target: "partner-wohnen-zusammen",
+            target: stepIds.partnerWohnenZusammen,
             guard: ({ context }) => context.verheiratet === "ja",
           },
-          "zwischenseite-einkuenfte",
+          stepIds.zwischenseiteEinkuenfte,
         ],
         BACK: [
           {
-            target: "kinder-unterhalt",
+            target: stepIds.kinderUnterhalt,
             guard: ({ context }) =>
               context.hasKinder === "yes" &&
               (context.kinderWohnenZusammen === "nein" ||
                 context.kinderWohnenZusammen === "teilweise"),
           },
           {
-            target: "kinder-wohnen-zusammen",
+            target: stepIds.kinderWohnenZusammen,
             guard: ({ context }) => context.hasKinder === "yes",
           },
-          "kinder",
+          stepIds.kinder,
         ],
       },
     },
-    "partner-wohnen-zusammen": {
+    [stepIds.partnerWohnenZusammen]: {
       on: {
         SUBMIT: [
           {
-            target: "zwischenseite-einkuenfte",
+            target: stepIds.zwischenseiteEinkuenfte,
             guard: ({ context }) => context.partnerWohnenZusammen === "yes",
           },
           {
-            target: "partner-unterhalt",
+            target: stepIds.partnerUnterhalt,
             guard: ({ context }) => context.partnerWohnenZusammen === "no",
           },
         ],
-        BACK: "partner",
+        BACK: stepIds.partner,
       },
     },
-    "partner-unterhalt": {
+    [stepIds.partnerUnterhalt]: {
       on: {
-        SUBMIT: "zwischenseite-einkuenfte",
+        SUBMIT: stepIds.zwischenseiteEinkuenfte,
         BACK: [
           {
-            target: "partner-wohnen-zusammen",
+            target: stepIds.partnerWohnenZusammen,
             guard: ({ context }) =>
               context.verheiratet === "ja" &&
               context.partnerWohnenZusammen === "no",
           },
-          "partner",
+          stepIds.partner,
         ],
       },
     },
-    "zwischenseite-einkuenfte": {
+    [stepIds.zwischenseiteEinkuenfte]: {
       on: {
-        SUBMIT: "arbeit",
+        SUBMIT: stepIds.arbeit,
         BACK: [
           {
-            target: "partner-unterhalt",
+            target: stepIds.partnerUnterhalt,
             guard: ({ context }) =>
               (context.verheiratet === "ja" &&
                 context.partnerWohnenZusammen === "no") ||
               context.verheiratet === "geschieden",
           },
           {
-            target: "partner-wohnen-zusammen",
+            target: stepIds.partnerWohnenZusammen,
             guard: ({ context }) =>
               context.verheiratet === "ja" &&
               context.partnerWohnenZusammen === "yes",
           },
-          "partner",
+          stepIds.partner,
         ],
       },
     },
-    arbeit: {
+    [stepIds.arbeit]: {
       on: {
         SUBMIT: [
           {
-            target: "arbeit-art",
+            target: stepIds.arbeitArt,
             guard: ({ context }) => context.hasArbeit === "yes",
           },
-          "sozialleistungen",
+          stepIds.sozialleistungen,
         ],
-        BACK: "zwischenseite-einkuenfte",
+        BACK: stepIds.zwischenseiteEinkuenfte,
       },
     },
-    "arbeit-art": {
+    [stepIds.arbeitArt]: {
       on: {
         SUBMIT: [
           {
-            target: "sozialleistungen",
+            target: stepIds.sozialleistungen,
             guard: ({ context }) =>
               (context.arbeitArt?.selbstaendig === "on" &&
                 context.arbeitArt?.angestellt === "off") ||
               (context.arbeitArt?.selbstaendig === "off" &&
                 context.arbeitArt?.angestellt === "off"),
           },
-          "nachzahlung-arbeitgeber",
+          stepIds.nachzahlungArbeitgeber,
         ],
-        BACK: "arbeit",
+        BACK: stepIds.arbeit,
       },
     },
-    "nachzahlung-arbeitgeber": {
+    [stepIds.nachzahlungArbeitgeber]: {
       on: {
         SUBMIT: [
           {
-            target: "hoehe-nachzahlung-arbeitgeber",
+            target: stepIds.hoeheNachzahlungArbeitgeber,
             guard: ({ context }) => context.nachzahlungArbeitgeber === "yes",
           },
-          "einmalzahlung-arbeitgeber",
+          stepIds.einmalzahlungArbeitgeber,
         ],
-        BACK: "arbeit-art",
+        BACK: stepIds.arbeitArt,
       },
     },
-    "hoehe-nachzahlung-arbeitgeber": {
+    [stepIds.hoeheNachzahlungArbeitgeber]: {
       on: {
-        SUBMIT: "einmalzahlung-arbeitgeber",
-        BACK: "nachzahlung-arbeitgeber",
+        SUBMIT: stepIds.einmalzahlungArbeitgeber,
+        BACK: stepIds.nachzahlungArbeitgeber,
       },
     },
-    "einmalzahlung-arbeitgeber": {
+    [stepIds.einmalzahlungArbeitgeber]: {
       on: {
-        SUBMIT: "sozialleistungen",
+        SUBMIT: stepIds.sozialleistungen,
         BACK: [
           {
-            target: "hoehe-nachzahlung-arbeitgeber",
+            target: stepIds.hoeheNachzahlungArbeitgeber,
             guard: ({ context }) => context.nachzahlungArbeitgeber === "yes",
           },
-          "nachzahlung-arbeitgeber",
+          stepIds.nachzahlungArbeitgeber,
         ],
       },
     },
-    sozialleistungen: {
+    [stepIds.sozialleistungen]: {
       on: {
         SUBMIT: [
           {
-            target: "sozialleistung-nachzahlung",
+            target: stepIds.sozialleistungNachzahlung,
             guard: ({ context }) =>
               context.hasSozialleistungen === "buergergeld" ||
               context.hasSozialleistungen === "grundsicherungSozialhilfe" ||
               context.hasSozialleistungen === "asylbewerberleistungen",
           },
           {
-            target: "kindergeld",
+            target: stepIds.kindergeld,
             guard: ({ context }) => context.hasKinder === "yes",
           },
-          "wohngeld",
+          stepIds.wohngeld,
         ],
         BACK: [
           {
-            target: "einmalzahlung-arbeitgeber",
+            target: stepIds.einmalzahlungArbeitgeber,
             guard: ({ context }) =>
               (context.hasArbeit === "yes" &&
                 context.nachzahlungArbeitgeber === "yes") ||
               context.nachzahlungArbeitgeber === "no",
           },
           {
-            target: "arbeit-art",
+            target: stepIds.arbeitArt,
             guard: ({ context }) =>
               (context.arbeitArt?.selbstaendig === "on" &&
                 context.arbeitArt?.angestellt === "off") ||
               (context.arbeitArt?.selbstaendig === "off" &&
                 context.arbeitArt?.angestellt === "off"),
           },
-          "arbeit",
+          stepIds.arbeit,
         ],
       },
     },
-    "sozialleistung-nachzahlung": {
+    [stepIds.sozialleistungNachzahlung]: {
       on: {
-        SUBMIT: "sozialleistungen-einmalzahlung",
-        BACK: "sozialleistungen",
+        SUBMIT: stepIds.sozialleistungenEinmalzahlung,
+        BACK: stepIds.sozialleistungen,
       },
     },
-    "sozialleistungen-einmalzahlung": {
+    [stepIds.sozialleistungenEinmalzahlung]: {
       on: {
         SUBMIT: [
           {
-            target: "kindergeld",
+            target: stepIds.kindergeld,
             guard: ({ context }) => context.hasKinder === "yes",
           },
-          "wohngeld",
+          stepIds.wohngeld,
         ],
-        BACK: "sozialleistung-nachzahlung",
+        BACK: stepIds.sozialleistungNachzahlung,
       },
     },
-    pflegegeld: {
+    [stepIds.pflegegeld]: {
       on: {
-        SUBMIT: "rente",
+        SUBMIT: stepIds.rente,
         BACK: [
           {
-            target: "wohngeld-nachzahlung",
+            target: stepIds.wohngeldNachzahlung,
             guard: ({ context }) =>
-              context.hasWohngeld === "yes" && context.wohngeld === "selbst",
+              context.hasWohngeld === "yes" &&
+              context.wohngeldEmpfaenger === "selbst",
           },
           {
-            target: "wohngeld-empfaenger",
+            target: stepIds.wohngeldEmpfaenger,
             guard: ({ context }) =>
-              context.hasWohngeld === "yes" && context.wohngeld === "fremd",
+              context.hasWohngeld === "yes" &&
+              context.wohngeldEmpfaenger === "fremd",
           },
-          "wohngeld",
+          stepIds.wohngeld,
         ],
       },
     },
-    kindergeld: {
+    [stepIds.kindergeld]: {
       on: {
         SUBMIT: [
           {
-            target: "kindergeld-nachzahlung",
+            target: stepIds.kindergeldNachzahlung,
             guard: ({ context }) => context.hasKindergeld === "yes",
           },
-          "wohngeld",
+          stepIds.wohngeld,
         ],
         BACK: [
           {
-            target: "sozialleistungen-einmalzahlung",
+            target: stepIds.sozialleistungenEinmalzahlung,
             guard: ({ context }) => context.hasSozialleistungen !== "nein",
           },
-          "sozialleistungen",
+          stepIds.sozialleistungen,
         ],
       },
     },
-    "kindergeld-nachzahlung": {
+    [stepIds.kindergeldNachzahlung]: {
       on: {
-        SUBMIT: "wohngeld",
+        SUBMIT: stepIds.wohngeld,
         BACK: [
           {
-            target: "kindergeld",
+            target: stepIds.kindergeld,
             guard: ({ context }) =>
               context.hasKinder === "yes" && context.hasKindergeld === "yes",
           },
-          "sozialleistungen-einmalzahlung",
+          stepIds.sozialleistungenEinmalzahlung,
         ],
       },
     },
-    wohngeld: {
+    [stepIds.wohngeld]: {
       on: {
         SUBMIT: [
           {
-            target: "wohngeld-empfaenger",
+            target: stepIds.wohngeldEmpfaenger,
             guard: ({ context }) => context.hasWohngeld === "yes",
           },
-          "pflegegeld",
+          stepIds.pflegegeld,
         ],
         BACK: [
           {
-            target: "kindergeld-nachzahlung",
+            target: stepIds.kindergeldNachzahlung,
             guard: ({ context }) =>
               context.hasKindergeldNachzahlung === "yes" &&
               context.hasKindergeld === "yes",
           },
           {
-            target: "kindergeld",
+            target: stepIds.kindergeld,
             guard: ({ context }) => context.hasKinder === "yes",
           },
           {
-            target: "sozialleistungen-einmalzahlung",
+            target: stepIds.sozialleistungenEinmalzahlung,
             guard: ({ context }) =>
               (context.hasSozialleistungen !== "nein" &&
                 context.hasSozialleistungenEinmalzahlung === "yes") ||
               context.hasSozialleistungenEinmalzahlung === "no",
           },
-          "sozialleistungen",
+          stepIds.sozialleistungen,
         ],
       },
     },
-    "wohngeld-empfaenger": {
+    [stepIds.wohngeldEmpfaenger]: {
       on: {
         SUBMIT: [
           {
-            target: "wohngeld-nachzahlung",
-            guard: ({ context }) => context.wohngeld === "selbst",
+            target: stepIds.wohngeldNachzahlung,
+            guard: ({ context }) => context.wohngeldEmpfaenger === "selbst",
           },
-          "pflegegeld",
+          stepIds.pflegegeld,
         ],
-        BACK: "wohngeld",
+        BACK: stepIds.wohngeld,
       },
     },
-    "wohngeld-nachzahlung": {
+    [stepIds.wohngeldNachzahlung]: {
       on: {
-        SUBMIT: "pflegegeld",
-        BACK: "wohngeld-empfaenger",
+        SUBMIT: stepIds.pflegegeld,
+        BACK: stepIds.wohngeldEmpfaenger,
       },
     },
-    rente: {
+    [stepIds.rente]: {
       on: {
-        SUBMIT: "ergebnis/naechste-schritte",
-        BACK: "pflegegeld",
+        SUBMIT: stepIds.ergebnisNaechsteSchritte,
+        BACK: stepIds.pflegegeld,
       },
     },
-    "ergebnis/naechste-schritte": {
+    [stepIds.ergebnisNaechsteSchritte]: {
       on: {
         BACK: [
           {
-            target: "rente",
+            target: stepIds.rente,
           },
         ],
       },

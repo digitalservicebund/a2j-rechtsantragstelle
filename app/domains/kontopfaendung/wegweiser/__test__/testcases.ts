@@ -5,19 +5,19 @@ import { type KontopfaendungWegweiserUserData } from "../userData";
 const cases = [
   [{}, ["/start", "/kontopfaendung", "/ergebnis/keine-kontopfaendung"]],
   [
-    { hasKontopfaendung: "nein" },
+    { hasKontopfaendung: "yes" },
     ["/start", "/kontopfaendung", "/ergebnis/keine-kontopfaendung"],
   ],
   [
-    { hasKontopfaendung: "ja", hasPKonto: "ja" },
+    { hasKontopfaendung: "yes", hasPKonto: "ja" },
     ["/kontopfaendung", "/p-konto", "/zwischenseite-unterhalt"],
   ],
   [
-    { hasKontopfaendung: "ja", hasPKonto: "nein" },
+    { hasKontopfaendung: "yes", hasPKonto: "nein" },
     ["/kontopfaendung", "/p-konto", "/zwischenseite-unterhalt"],
   ],
   [
-    { hasKontopfaendung: "ja", hasPKonto: "nichtAktiv" },
+    { hasKontopfaendung: "yes", hasPKonto: "nichtAktiv" },
     [
       "/kontopfaendung",
       "/p-konto",
@@ -26,7 +26,7 @@ const cases = [
     ],
   ],
   [
-    { hasKontopfaendung: "ja", hasPKonto: "nichtEingerichtet" },
+    { hasKontopfaendung: "yes", hasPKonto: "nichtEingerichtet" },
     [
       "/kontopfaendung",
       "/p-konto",
@@ -134,7 +134,7 @@ const cases = [
 
   [{ hasWohngeld: "no" }, ["/wohngeld", "/pflegegeld"]],
   [
-    { hasWohngeld: "yes", wohngeld: "selbst" },
+    { hasWohngeld: "yes", wohngeldEmpfaenger: "selbst" },
     [
       "/wohngeld",
       "/wohngeld-empfaenger",
@@ -143,7 +143,7 @@ const cases = [
     ],
   ],
   [
-    { hasWohngeld: "yes", wohngeld: "fremd" },
+    { hasWohngeld: "yes", wohngeldEmpfaenger: "fremd" },
     ["/wohngeld", "/wohngeld-empfaenger", "/pflegegeld"],
   ],
   [
@@ -180,7 +180,7 @@ const cases = [
   ],
   [
     {
-      hasKontopfaendung: "ja",
+      hasKontopfaendung: "yes",
       hasPKonto: "nichtEingerichtet",
       pfaendungUnterhalt: "yes",
       hasKinder: "no",
@@ -212,7 +212,7 @@ const cases = [
   ],
   [
     {
-      hasKontopfaendung: "ja",
+      hasKontopfaendung: "yes",
       hasPKonto: "nichtEingerichtet",
       pfaendungUnterhalt: "yes",
       hasKinder: "yes",
@@ -253,7 +253,7 @@ const cases = [
   ],
   [
     {
-      hasKontopfaendung: "ja",
+      hasKontopfaendung: "yes",
       hasPKonto: "ja",
       pfaendungUnterhalt: "yes",
       hasKinder: "yes",
