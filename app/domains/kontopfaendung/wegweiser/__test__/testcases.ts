@@ -5,7 +5,7 @@ import { type KontopfaendungWegweiserUserData } from "../userData";
 const cases = [
   [{}, ["/start", "/kontopfaendung", "/ergebnis/keine-kontopfaendung"]],
   [
-    { hasKontopfaendung: "ja" },
+    { hasKontopfaendung: "nein" },
     ["/start", "/kontopfaendung", "/ergebnis/keine-kontopfaendung"],
   ],
   [
