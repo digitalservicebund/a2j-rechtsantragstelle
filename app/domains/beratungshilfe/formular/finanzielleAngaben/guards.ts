@@ -50,8 +50,26 @@ import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards } from "../../../guards.server";
 import type { Guards } from "../../../guards.server";
 
-export const eigentumTotalWorthLessThan10000: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) => context.eigentumTotalWorth === "less10000";
+export const hasBankkontoYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten);
+
+export const hasWertsacheYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen);
+
+export const hasGeldanlageYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    hasGeldanlageYes({ context }) && !arrayIsNonEmpty(context.geldanlagen);
+
+export const hasGrundeigentumYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    hasGrundeigentumYes({ context }) && !arrayIsNonEmpty(context.grundeigentum);
+
+export const hasKraftfahrzeugYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    hasKraftfahrzeugYes({ context }) &&
+    !arrayIsNonEmpty(context.kraftfahrzeuge);
 
 export const finanzielleAngabeGuards = {
   eigentumDone,
@@ -66,7 +84,6 @@ export const finanzielleAngabeGuards = {
   hasNoStaatlicheLeistungen,
   hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
     context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context }),
-  eigentumTotalWorthLessThan10000,
   hasPartnerschaftYes,
   hasPartnerschaftNoOrWidowed,
   hasPartnerschaftYesAndPartnerEinkommenYes,
@@ -80,10 +97,15 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("partnerEinkommen"),
   hasAusgabenYes,
   hasBankkontoYes,
+  hasBankkontoYesAndEmptyArray,
   hasKraftfahrzeugYes,
+  hasKraftfahrzeugYesAndEmptyArray,
   hasGeldanlageYes,
+  hasGeldanlageYesAndEmptyArray,
   hasGrundeigentumYes,
+  hasGrundeigentumYesAndEmptyArray,
   hasWertsacheYes,
+  hasWertsacheYesAndEmptyArray,
   hasKinderYes,
   hasWeitereUnterhaltszahlungenYes,
   hasZahlungsfristYes: ({ context: { pageData, ausgaben } }) => {
@@ -117,13 +139,11 @@ export const finanzielleAngabeGuards = {
     hasAusgabenYes({ context }) && !arrayIsNonEmpty(context.ausgaben),
 
   eigentumYesAndEmptyArray: ({ context }) =>
-    (hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten)) ||
-    (hasGeldanlageYes({ context }) && !arrayIsNonEmpty(context.geldanlagen)) ||
-    (hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen)) ||
-    (hasKraftfahrzeugYes({ context }) &&
-      !arrayIsNonEmpty(context.kraftfahrzeuge)) ||
-    (hasGrundeigentumYes({ context }) &&
-      !arrayIsNonEmpty(context.grundeigentum)),
+    hasBankkontoYesAndEmptyArray({ context }) ||
+    hasGeldanlageYesAndEmptyArray({ context }) ||
+    hasWertsacheYesAndEmptyArray({ context }) ||
+    hasKraftfahrzeugYesAndEmptyArray({ context }) ||
+    hasGrundeigentumYesAndEmptyArray({ context }),
 
   hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,

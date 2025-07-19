@@ -58,10 +58,6 @@ export const beratungshilfeFinanzielleAngabenInputSchema = {
   kraftfahrzeuge: kraftfahrzeugeArraySchema,
   hasGeldanlage: YesNoAnswer,
   geldanlagen: geldanlagenArraySchema,
-  eigentumTotalWorth: z.enum(
-    ["less10000", "more10000", "unsure"],
-    customRequiredErrorMessage,
-  ),
   hasGrundeigentum: YesNoAnswer,
   grundeigentum: grundeigentumArraySchema,
   hasWertsache: YesNoAnswer,

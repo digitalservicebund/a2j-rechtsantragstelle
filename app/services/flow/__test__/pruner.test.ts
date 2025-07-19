@@ -81,37 +81,20 @@ describe("pruner", () => {
           form: [{ name: "staatlicheLeistungen" }],
         },
         {
-          stepId: "/finanzielle-angaben/eigentum/bankkonten-frage",
+          stepId: "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
           form: [{ name: "hasBankkonto" }],
         },
         {
-          stepId: "/finanzielle-angaben/eigentum/geldanlagen-frage",
+          stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
           form: [{ name: "hasGeldanlage" }],
         },
         {
-          stepId: "/finanzielle-angaben/eigentum/wertgegenstaende-frage",
-          form: [{ name: "hasWertsache" }],
-        },
-        {
-          stepId: "/finanzielle-angaben/eigentum/grundeigentum-frage",
-          form: [{ name: "hasGrundeigentum" }],
-        },
-        {
-          stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
-          form: [{ name: "hasKraftfahrzeug" }],
-        },
-        {
-          stepId: "/finanzielle-angaben/eigentum/gesamtwert",
-          form: [{ name: "eigentumTotalWorth" }],
-        },
-        {
-          stepId:
-            "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
+          stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/art",
           form: [{ name: "geldanlagen#art" }],
         },
         {
           stepId:
-            "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/forderung",
+            "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/forderung",
           form: [
             { name: "geldanlagen#forderung" },
             { name: "geldanlagen#eigentuemer" },
@@ -121,7 +104,7 @@ describe("pruner", () => {
 
         {
           stepId:
-            "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/befristet",
+            "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/befristet",
           form: [
             { name: "geldanlagen#eigentuemer" },
             { name: "geldanlagen#befristetArt" },
@@ -133,11 +116,26 @@ describe("pruner", () => {
 
         {
           stepId:
-            "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/bargeld",
+            "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/bargeld",
           form: [
             { name: "geldanlagen#eigentuemer" },
             { name: "geldanlagen#wert" },
           ],
+        },
+        {
+          stepId:
+            "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage",
+          form: [{ name: "hasWertsache" }],
+        },
+        {
+          stepId:
+            "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
+          form: [{ name: "hasGrundeigentum" }],
+        },
+        {
+          stepId:
+            "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
+          form: [{ name: "hasKraftfahrzeug" }],
         },
       ];
 
@@ -157,7 +155,6 @@ describe("pruner", () => {
         hasWertsache: "no",
         hasGrundeigentum: "no",
         hasKraftfahrzeug: "no",
-        eigentumTotalWorth: "more10000",
         bankkonten: [
           { bankName: "asd", kontoEigentuemer: "myself", kontostand: "123" },
         ],
@@ -208,7 +205,6 @@ describe("pruner", () => {
         hasWertsache: "no",
         hasGrundeigentum: "no",
         hasKraftfahrzeug: "no",
-        eigentumTotalWorth: "more10000",
         geldanlagen: [
           {
             art: "befristet",

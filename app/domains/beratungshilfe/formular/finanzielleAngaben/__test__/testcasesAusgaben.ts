@@ -27,6 +27,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = [
   [
     {
       hasAusgaben: "yes",
+      staatlicheLeistungen: "keine",
       ausgaben: [
         {
           art: "test",
