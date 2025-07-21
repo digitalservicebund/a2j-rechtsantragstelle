@@ -35,10 +35,16 @@ export const zahlungspflichtigerInputSchema = z.enum(
   customRequiredErrorMessage,
 );
 
+const finanzielleEinkuenfteSchemaWithoutPageData = omit(
+  prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema,
+  "pageData",
+);
+
 export const prozesskostenhilfeFinanzielleAngabenInputSchema = {
   ...finanzielleAngabenPartnerInputSchema,
+  ...finanzielleEinkuenfteSchemaWithoutPageData,
   ...mapKeys(
-    omit(prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema, "pageData"),
+    finanzielleEinkuenfteSchemaWithoutPageData,
     (_, key) => "partner-" + key,
   ),
   "partner-receivesSupport": YesNoAnswer,
