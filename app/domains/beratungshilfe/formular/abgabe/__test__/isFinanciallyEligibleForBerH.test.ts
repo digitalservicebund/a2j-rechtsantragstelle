@@ -11,6 +11,10 @@ describe("isFinanciallyEligibleForBerH", () => {
       staatlicheLeistungen: "grundsicherung",
     };
     expect(isFinanciallyEligibleForBerH({ context: userData })).toBe(true);
+    userData = {
+      staatlicheLeistungen: "buergergeld",
+    };
+    expect(isFinanciallyEligibleForBerH({ context: userData })).toBe(true);
   });
 
   it("Should return true if the user has less than 10.000€ in Eigentum", () => {

@@ -154,20 +154,26 @@ export function calculateFreibetragBerHFormular({
       const birthday = dateUTCFromGermanDateString(kind.geburtsdatum!);
       if (birthday >= addYears(today(), -6)) {
         return (
-          acc + (childrenBelow6Allowance - parseInt(kind.einnahmen ?? "0"))
+          acc +
+          Math.max(childrenBelow6Allowance - parseInt(kind.einnahmen ?? "0"), 0)
         );
       }
       if (birthday >= addYears(today(), -14)) {
-        return acc + (children7To14Allowance - parseInt(kind.einnahmen ?? "0"));
+        return (
+          acc +
+          Math.max(children7To14Allowance - parseInt(kind.einnahmen ?? "0"), 0)
+        );
       }
       if (birthday >= addYears(today(), -18)) {
         return (
-          acc + (children15To18Allowance - parseInt(kind.einnahmen ?? "0"))
+          acc +
+          Math.max(children15To18Allowance - parseInt(kind.einnahmen ?? "0"), 0)
         );
       }
       if (birthday >= addYears(today(), -24)) {
         return (
-          acc + (dependentAdultAllowance - parseInt(kind.einnahmen ?? "0"))
+          acc +
+          Math.max(dependentAdultAllowance - parseInt(kind.einnahmen ?? "0"), 0)
         );
       }
       return acc;

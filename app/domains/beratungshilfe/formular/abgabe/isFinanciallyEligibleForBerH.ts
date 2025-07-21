@@ -1,6 +1,7 @@
 import { type BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 import { calculateFreibetragBerHFormular } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
 import { type GenericGuard } from "~/domains/guards.server";
+import { staatlicheLeistungenIsBuergergeld } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import moneyToCents from "~/services/validation/money/moneyToCents";
 
 const eigentumWorthEligibilityThreshhold = 10000;
@@ -17,7 +18,9 @@ export const isFinanciallyEligibleForBerH: GenericGuard<
       kraftfahrzeug.hasArbeitsweg === "no" &&
       kraftfahrzeug.wert === "over10000",
   );
-  const noEinzusetzendesEinkommen = !hasEinzusetzendesEinkommen(context);
+  const noEinzusetzendesEinkommen =
+    staatlicheLeistungenIsBuergergeld({ context }) ||
+    !hasEinzusetzendesEinkommen(context);
   return (
     hasQualifyingStaatlicheLeistung ||
     (noEinzusetzendesEinkommen &&

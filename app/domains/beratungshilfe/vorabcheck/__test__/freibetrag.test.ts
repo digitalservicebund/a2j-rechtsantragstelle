@@ -105,6 +105,41 @@ describe("calculateFreibetragBerHFormular", () => {
       }),
     ).toEqual(selfAllowance + childrenFreibetragTotal);
   });
+
+  it("Shouldn't allow negative child allowances", () => {
+    const sixteenYearOldIncome = 1000;
+    const nineteenYearOldIncome = 300;
+    const childrenFreibetragTotal =
+      childrenBelow6Allowance +
+      children7To14Allowance +
+      0 +
+      (dependentAdultAllowance - nineteenYearOldIncome);
+
+    expect(
+      calculateFreibetragBerHFormular({
+        working: false,
+        partnership: false,
+        kinder: [
+          {
+            geburtsdatum: toGermanDateFormat(addYears(today(), -5)),
+            einnahmen: "0",
+          },
+          {
+            geburtsdatum: toGermanDateFormat(addYears(today(), -12)),
+            einnahmen: "0",
+          },
+          {
+            geburtsdatum: toGermanDateFormat(addYears(today(), -16)),
+            einnahmen: sixteenYearOldIncome.toString(),
+          },
+          {
+            geburtsdatum: toGermanDateFormat(addYears(today(), -19)),
+            einnahmen: nineteenYearOldIncome.toString(),
+          },
+        ],
+      }),
+    ).toEqual(selfAllowance + childrenFreibetragTotal);
+  });
 });
 
 describe("calculateFreibetrag", () => {
