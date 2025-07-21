@@ -8,8 +8,8 @@ import { type GeldEinklagenVorabcheckUserData } from "~/domains/geldEinklagen/vo
 import { geldEinklagenVorabcheckInputSchema } from "~/domains/geldEinklagen/vorabcheck/userData";
 import { prozesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
-import type { BeratungshilfeFormularUserData } from "./beratungshilfe/formular";
 import { beratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
+import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
 import type { BeratungshilfeVorabcheckUserData } from "./beratungshilfe/vorabcheck/userData";
 import type { FlowId } from "./flowIds";
 import type { SchemaObject } from "./types";
