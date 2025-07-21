@@ -1,5 +1,4 @@
-import type { AllUserDataKeys } from "~/domains/common";
-import type { UserData } from "~/domains/userData";
+import type { AllUserDataKeys, UserData } from "~/domains/userData";
 
 export const arrayChar = "#";
 export const splitArrayName = (key: string) => key.split(arrayChar);

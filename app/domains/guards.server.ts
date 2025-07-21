@@ -1,5 +1,4 @@
-import type { AllUserDataKeys } from "./common";
-import type { UserData } from "./userData";
+import type { AllUserDataKeys, UserData } from "./userData";
 
 export type GenericGuard<TUserData extends UserData> = ({
   context,
