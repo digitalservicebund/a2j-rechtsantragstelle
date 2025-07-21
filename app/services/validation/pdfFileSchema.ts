@@ -9,16 +9,11 @@ export const pdfFileMetaDataSchema = z.object({
   filename: z.string(),
   savedFileKey: z.string().optional(),
   fileType: z.string().regex(/application\/pdf/, { message: "wrongFileType" }),
-  fileSize: z
-    // Need to have string here as html input types (our hidden inputs) always submit strings
-    .string()
-    .transform((str) => parseInt(str))
-    .or(
-      z
-        .number()
-        .max(TEN_MB_IN_BYTES, { message: "fileSizeTooBig" })
-        .min(1, { message: "fileRequired" }),
-    ),
+  fileSize: z.coerce
+    .number()
+    .int()
+    .min(1, { message: "fileRequired" })
+    .max(TEN_MB_IN_BYTES, { message: "fileTooLarge" }),
 });
 
 export type PDFFileMetadata = z.infer<typeof pdfFileMetaDataSchema>;
