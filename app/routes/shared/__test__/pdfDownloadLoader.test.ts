@@ -1,5 +1,5 @@
 import { PDFDocument } from "pdf-lib";
-import { pdfDownloadLoader } from "../pdfDownloadLoader";
+import { loader } from "../pdfDownloadLoader";
 
 vi.mock("~/services/flow/pruner", () => ({
   pruneIrrelevantData: vi.fn().mockResolvedValue({
@@ -13,7 +13,7 @@ vi.mock("~/services/cms/index.server.ts", () => ({
 
 describe("pdfDownloadLoader", () => {
   it("generates correct PDF for Beratungshilfe", async () => {
-    const response = await pdfDownloadLoader({
+    const response = await loader({
       request: new Request(
         "https://mock-url.de/beratungshilfe/antrag/download/pdf",
       ),
@@ -33,7 +33,7 @@ describe("pdfDownloadLoader", () => {
   });
 
   it("generates correct PDF for Prozesskostenhilfe", async () => {
-    const response = await pdfDownloadLoader({
+    const response = await loader({
       request: new Request(
         "https://mock-url.de/prozesskostenhilfe/formular/download/pdf",
       ),
