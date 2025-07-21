@@ -1,3 +1,4 @@
+import mapValues from "lodash/mapValues";
 import { hasOptionalString } from "~/domains/guards.server";
 import { getPersoenlicheDatenXstateConfig } from "~/domains/shared/formular/persoenlicheDaten/xStateConfig";
 import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
@@ -10,15 +11,18 @@ import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { beratungshilfeFinanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConfig";
 import type { BeratungshilfeFormularUserData } from "./index";
+import { beratungshilfeAntragPages } from "./pages";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
+
+const stepIds = mapValues(beratungshilfeAntragPages, (v) => v.stepId);
 
 const showNachbefragung = await isFeatureFlagEnabled("showNachbefragung");
 
 export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
-  initial: "start",
+  initial: stepIds.start,
   meta: {
     arrays: {
       ...finanzielleAngabenArrayConfig(
@@ -30,19 +34,19 @@ export const beratungshilfeXstateConfig = {
     },
   },
   states: {
-    start: {
+    [stepIds.start]: {
       id: "antragStart",
       initial: "start",
       meta: { done: () => true },
       states: {
-        start: { on: { SUBMIT: "#grundvoraussetzungen" } },
+        start: { on: { SUBMIT: stepIds.grundvoraussetzungen} },
       },
     },
-    grundvoraussetzungen: grundvorraussetzungXstateConfig,
-    "anwaltliche-vertretung": anwaltlicheVertretungXstateConfig,
-    rechtsproblem: rechtsproblemXstateConfig,
-    "finanzielle-angaben": beratungshilfeFinanzielleAngabenXstateConfig,
-    "persoenliche-daten": getPersoenlicheDatenXstateConfig(
+    [stepIds.grundvoraussetzungen]: grundvorraussetzungXstateConfig,
+    [stepIds.anwaltlicheVertretung]: anwaltlicheVertretungXstateConfig,
+    [stepIds.rechtsproblem]: rechtsproblemXstateConfig,
+    [stepIds.finanzielleAngaben]: beratungshilfeFinanzielleAngabenXstateConfig,
+    [stepIds.persoenlicheDaten]: getPersoenlicheDatenXstateConfig(
       ({ context }) =>
         beratungshilfePersoenlicheDatenDone({ context }) &&
         hasOptionalString(context.telefonnummer),
