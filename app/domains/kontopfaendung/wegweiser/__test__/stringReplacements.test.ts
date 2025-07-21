@@ -117,7 +117,8 @@ describe("stringReplacements", () => {
     it("should return correct Nachzahlung Sozial Unter 500 strings", () => {
       const userData: KontopfaendungWegweiserUserData = {
         hasSozialleistungNachzahlung: "yes",
-        sozialleistungNachzahlungHigherThan: "no",
+        hasWohngeld: "yes",
+        hasKindergeld: "yes",
       };
       expect(getNachzahlungSozialUnter500Strings(userData)).toEqual({
         hasNachzahlungSozialUnter500: true,
