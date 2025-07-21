@@ -40,7 +40,6 @@ import {
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-import type { BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
 import {
   eigentumDone,
   hasNoStaatlicheLeistungen,
@@ -49,27 +48,6 @@ import {
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards } from "../../../guards.server";
 import type { Guards } from "../../../guards.server";
-
-export const hasBankkontoYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten);
-
-export const hasWertsacheYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen);
-
-export const hasGeldanlageYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    hasGeldanlageYes({ context }) && !arrayIsNonEmpty(context.geldanlagen);
-
-export const hasGrundeigentumYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    hasGrundeigentumYes({ context }) && !arrayIsNonEmpty(context.grundeigentum);
-
-export const hasKraftfahrzeugYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    hasKraftfahrzeugYes({ context }) &&
-    !arrayIsNonEmpty(context.kraftfahrzeuge);
 
 export const finanzielleAngabeGuards = {
   eigentumDone,
@@ -97,15 +75,10 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("partnerEinkommen"),
   hasAusgabenYes,
   hasBankkontoYes,
-  hasBankkontoYesAndEmptyArray,
   hasKraftfahrzeugYes,
-  hasKraftfahrzeugYesAndEmptyArray,
   hasGeldanlageYes,
-  hasGeldanlageYesAndEmptyArray,
   hasGrundeigentumYes,
-  hasGrundeigentumYesAndEmptyArray,
   hasWertsacheYes,
-  hasWertsacheYesAndEmptyArray,
   hasKinderYes,
   hasWeitereUnterhaltszahlungenYes,
   hasZahlungsfristYes: ({ context: { pageData, ausgaben } }) => {
@@ -137,14 +110,6 @@ export const finanzielleAngabeGuards = {
   grundeigentumIsBewohnt,
   hasAusgabenYesAndEmptyArray: ({ context }) =>
     hasAusgabenYes({ context }) && !arrayIsNonEmpty(context.ausgaben),
-
-  eigentumYesAndEmptyArray: ({ context }) =>
-    hasBankkontoYesAndEmptyArray({ context }) ||
-    hasGeldanlageYesAndEmptyArray({ context }) ||
-    hasWertsacheYesAndEmptyArray({ context }) ||
-    hasKraftfahrzeugYesAndEmptyArray({ context }) ||
-    hasGrundeigentumYesAndEmptyArray({ context }),
-
   hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
 } satisfies Guards<BeratungshilfeFinanzielleAngabenUserData>;

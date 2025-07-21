@@ -1,11 +1,16 @@
+import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
   eigentumDone,
   einkommenDone,
+  geldanlagenDone,
+  grundeigentumDone,
   kinderDone,
+  kraftfahrzeugeDone,
   partnerDone,
+  wertsachenDone,
   wohnungDone,
 } from "./doneFunctions";
 import { finanzielleAngabeGuards as guards } from "./guards";
@@ -487,7 +492,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                 BACK: "bankkonten-frage",
                 SUBMIT: [
                   {
-                    guard: guards.hasBankkontoYesAndEmptyArray,
+                    guard: ({ context }) => !bankKontoDone({ context }),
                     target: "warnung",
                   },
                   "#eigentum.geldanlagen",
@@ -540,7 +545,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                 BACK: "geldanlagen-frage",
                 SUBMIT: [
                   {
-                    guard: guards.hasGeldanlageYesAndEmptyArray,
+                    guard: ({ context }) => !geldanlagenDone({ context }),
                     target: "warnung",
                   },
                   "#eigentum.kraftfahrzeuge",
@@ -664,7 +669,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                 BACK: "kraftfahrzeuge-frage",
                 SUBMIT: [
                   {
-                    guard: guards.hasKraftfahrzeugYesAndEmptyArray,
+                    guard: ({ context }) => !kraftfahrzeugeDone({ context }),
                     target: "warnung",
                   },
                   "#eigentum.wertgegenstaende",
@@ -735,7 +740,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                 BACK: "wertgegenstaende-frage",
                 SUBMIT: [
                   {
-                    guard: guards.hasWertsacheYesAndEmptyArray,
+                    guard: ({ context }) => !wertsachenDone({ context }),
                     target: "warnung",
                   },
                   "#eigentum.grundeigentum.grundeigentum-frage",
@@ -792,7 +797,7 @@ export const beratungshilfeFinanzielleAngabenXstateConfig = {
                 BACK: "grundeigentum-frage",
                 SUBMIT: [
                   {
-                    guard: guards.hasGrundeigentumYesAndEmptyArray,
+                    guard: ({ context }) => !grundeigentumDone({ context }),
                     target: "warnung",
                   },
                   {
