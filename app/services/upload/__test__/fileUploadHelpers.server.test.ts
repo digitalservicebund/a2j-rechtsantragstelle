@@ -19,12 +19,12 @@ describe("fileUploadHelpers.server", () => {
   const fileType = "application/pdf";
   const fileBlob = new Blob(["fileContent"], { type: fileType });
   const fileSize = 11;
+  const flowId = "/beratungshilfe/antrag";
 
   describe("uploadUserFile", () => {
     it("should add a file to userData", async () => {
       const formData = new FormData();
       formData.set("test[0]", fileBlob, filename);
-      const flowId = "/beratungshilfe/antrag";
 
       const actual = await uploadUserFile(
         "test[0]",
@@ -35,6 +35,28 @@ describe("fileUploadHelpers.server", () => {
       );
       expect(actual).toStrictEqual({
         userData: { test: [{ filename, fileType, fileSize, savedFileKey }] },
+      });
+    });
+
+    it("fails and returns error for bad input", async () => {
+      const formData = new FormData();
+      const emptyFile = new Blob([], { type: fileType });
+      formData.set("test[0]", emptyFile);
+
+      const actual = await uploadUserFile(
+        "test[0]",
+        null,
+        formData,
+        { test: [] },
+        flowId,
+      );
+      expect(actual).toStrictEqual({
+        fieldErrors: { "test[0]": "fileRequired" },
+        repopulateFields: {
+          test: [
+            { fileSize: 0, fileType: "application/pdf", filename: "blob" },
+          ],
+        },
       });
     });
   });
