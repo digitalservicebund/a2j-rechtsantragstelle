@@ -1,4 +1,3 @@
-import type { ZodTypeAny } from "zod";
 import { fluggastrechteInputSchema } from "~/domains/fluggastrechte/formular/userData";
 import { fluggastrechteVorabcheckInputSchema } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { geldEinklagenInputSchema } from "~/domains/geldEinklagen/formular/userData";
@@ -6,6 +5,7 @@ import { geldEinklagenVorabcheckInputSchema } from "~/domains/geldEinklagen/vora
 import { prozesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { beratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
 import type { FlowId } from "./flowIds";
+import type { SchemaObject } from "./types";
 
 export type BasicTypes = string | number | boolean;
 export type ObjectType = {
@@ -26,6 +26,6 @@ const contexts = {
   "/fluggastrechte/formular": fluggastrechteInputSchema,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularUserData,
   "/kontopfaendung/wegweiser": {},
-} as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;
+} as const satisfies Record<FlowId, SchemaObject>;
 
 export const getContext = (flowId: FlowId) => contexts[flowId];

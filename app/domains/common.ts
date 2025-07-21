@@ -1,4 +1,3 @@
-import type { ZodTypeAny } from "zod";
 import type { BeratungshilfeVorabcheckUserData } from "~/domains/beratungshilfe/vorabcheck/userData";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
@@ -6,6 +5,7 @@ import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/form
 import type { GeldEinklagenVorabcheckUserData } from "~/domains/geldEinklagen/vorabcheck/userData";
 import type { BeratungshilfeFormularUserData } from "./beratungshilfe/formular";
 import type { ProzesskostenhilfeFormularUserData } from "./prozesskostenhilfe/formular/userData";
+import type { SchemaObject } from "./types";
 
 type AllUserData =
   | GeldEinklagenFormularUserData
@@ -19,10 +19,7 @@ type AllUserData =
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type AllUserDataKeys = KeysOfUnion<AllUserData>;
 
-export const duplicateUserData = (
-  context: Record<string, ZodTypeAny>,
-  prefix: string,
-) => {
+export const duplicateUserData = (context: SchemaObject, prefix: string) => {
   return {
     ...context,
     ...Object.fromEntries(
