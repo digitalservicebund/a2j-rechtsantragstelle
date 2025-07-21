@@ -1,5 +1,4 @@
-import { z, type ZodEffects, type ZodString, type ZodTypeAny } from "zod";
+import { z, type ZodEffects, type ZodString, type ZodType } from "zod";
 
-export const schemaOrEmptyString = (
-  schema: ZodEffects<ZodTypeAny> | ZodString,
-) => schema.optional().or(z.literal(""));
+export const schemaOrEmptyString = (schema: ZodEffects<ZodType> | ZodString) =>
+  schema.optional().or(z.literal(""));

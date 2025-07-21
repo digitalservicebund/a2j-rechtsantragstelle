@@ -7,7 +7,7 @@ import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormCompon
 
 export type ZodEnum = z.ZodEnum<Record<string, string>>;
 
-export const isZodEnum = (fieldSchema: z.ZodTypeAny): fieldSchema is ZodEnum =>
+export const isZodEnum = (fieldSchema: z.ZodType): fieldSchema is ZodEnum =>
   fieldSchema.def.type === "enum";
 
 export function renderZodEnum(

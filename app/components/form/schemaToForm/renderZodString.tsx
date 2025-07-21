@@ -4,7 +4,7 @@ import Input from "~/components/inputs/Input";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 
 export const isZodString = (
-  fieldSchema: z.ZodTypeAny,
+  fieldSchema: z.ZodType,
 ): fieldSchema is z.ZodString => fieldSchema.def.type === "string";
 
 export const renderZodString = (
