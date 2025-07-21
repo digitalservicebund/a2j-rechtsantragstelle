@@ -149,7 +149,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
     {
       hasBankkonto: "no",
       hasGeldanlage: "yes",
-      geldanlagen: [{ art: "bargeld" }],
+      geldanlagen: [{ art: "bargeld", wert: "100", eigentuemer: "myself" }],
       hasWertsache: "no",
       hasKraftfahrzeug: "no",
       hasGrundeigentum: "no",
@@ -168,7 +168,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
     {
       hasBankkonto: "no",
       hasGeldanlage: "yes",
-      geldanlagen: [{ art: "bargeld" }],
+      geldanlagen: [{ art: "bargeld", wert: "100", eigentuemer: "myself" }],
       hasWertsache: "no",
       hasKraftfahrzeug: "no",
       hasGrundeigentum: "no",
