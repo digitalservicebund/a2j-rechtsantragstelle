@@ -3,7 +3,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { drawCell } from "../drawCell";
-import { drawTableColumnsHead } from "../drawTableColumnHead";
+import { drawTableRows } from "../drawTableRows";
 import {
   COLUMN_HEIGHT,
   COLUMN_WIDTH,
@@ -27,7 +27,7 @@ describe("drawTableColumnsHead", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    drawTableColumnsHead(mockDoc, mockStruct, 0);
+    drawTableRows(mockDoc, mockStruct, 0);
 
     expect(drawCell).toBeCalledWith(mockDoc, {
       xPosition: START_TABLE_X,
@@ -45,7 +45,7 @@ describe("drawTableColumnsHead", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    drawTableColumnsHead(mockDoc, mockStruct, 0);
+    drawTableRows(mockDoc, mockStruct, 0);
 
     expect(drawCell).toBeCalledWith(mockDoc, {
       xPosition: START_TABLE_X,
@@ -63,7 +63,7 @@ describe("drawTableColumnsHead", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    drawTableColumnsHead(mockDoc, mockStruct, 0);
+    drawTableRows(mockDoc, mockStruct, 0);
 
     expect(drawCell).toBeCalledWith(mockDoc, {
       xPosition: START_TABLE_X,

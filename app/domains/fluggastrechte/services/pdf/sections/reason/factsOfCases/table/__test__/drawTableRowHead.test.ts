@@ -5,7 +5,7 @@ import {
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { drawCell } from "../drawCell";
-import { drawTableRowHead } from "../drawTableRowHead";
+import { drawTableColumnHeaderRow } from "../drawTableColumnHeaderRow";
 import { COLUMN_HEIGHT, COLUMN_WIDTH } from "../tableConfigurations";
 
 vi.mock("../drawCell");
@@ -25,7 +25,7 @@ describe("drawTableRowHead", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    drawTableRowHead(mockDoc, mockStruct, 0, userDataMock);
+    drawTableColumnHeaderRow(mockDoc, mockStruct, 0, userDataMock);
 
     expect(drawCell).toBeCalledTimes(3);
   });
@@ -34,7 +34,7 @@ describe("drawTableRowHead", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    drawTableRowHead(mockDoc, mockStruct, 0, userDataMock);
+    drawTableColumnHeaderRow(mockDoc, mockStruct, 0, userDataMock);
 
     expect(drawCell).toBeCalledWith(mockDoc, {
       xPosition: expect.anything(),
@@ -57,7 +57,12 @@ describe("drawTableRowHead", () => {
       tatsaechlicherFlug: "yes",
     } satisfies FluggastrechteUserData;
 
-    drawTableRowHead(mockDoc, mockStruct, 0, userDataTatsaechlicherFlugYesMock);
+    drawTableColumnHeaderRow(
+      mockDoc,
+      mockStruct,
+      0,
+      userDataTatsaechlicherFlugYesMock,
+    );
 
     expect(drawCell).toBeCalledWith(mockDoc, {
       xPosition: expect.anything(),
@@ -81,7 +86,7 @@ describe("drawTableRowHead", () => {
       tatsaechlicherFlug: "no",
     } satisfies FluggastrechteUserData;
 
-    drawTableRowHead(
+    drawTableColumnHeaderRow(
       mockDoc,
       mockStruct,
       0,
@@ -110,7 +115,7 @@ describe("drawTableRowHead", () => {
       tatsaechlicherFlug: "no",
     } satisfies FluggastrechteUserData;
 
-    drawTableRowHead(
+    drawTableColumnHeaderRow(
       mockDoc,
       mockStruct,
       0,
@@ -139,7 +144,7 @@ describe("drawTableRowHead", () => {
       tatsaechlicherFlug: "no",
     } satisfies FluggastrechteUserData;
 
-    drawTableRowHead(
+    drawTableColumnHeaderRow(
       mockDoc,
       mockStruct,
       0,
@@ -162,7 +167,7 @@ describe("drawTableRowHead", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    drawTableRowHead(mockDoc, mockStruct, 0, userDataMock);
+    drawTableColumnHeaderRow(mockDoc, mockStruct, 0, userDataMock);
 
     expect(drawCell).toBeCalledWith(mockDoc, {
       xPosition: expect.anything(),
@@ -186,7 +191,7 @@ describe("drawTableRowHead", () => {
       ersatzverbindungArt: undefined,
     } satisfies FluggastrechteUserData;
 
-    drawTableRowHead(mockDoc, mockStruct, 0, userDataAnnullierungMock);
+    drawTableColumnHeaderRow(mockDoc, mockStruct, 0, userDataAnnullierungMock);
 
     expect(drawCell).toBeCalledWith(mockDoc, {
       xPosition: expect.anything(),
@@ -220,7 +225,12 @@ describe("drawTableRowHead", () => {
       bereich: "nichtbefoerderung",
     } satisfies FluggastrechteUserData;
 
-    drawTableRowHead(mockDoc, mockStruct, 0, userDataNichtbefoerderungMock);
+    drawTableColumnHeaderRow(
+      mockDoc,
+      mockStruct,
+      0,
+      userDataNichtbefoerderungMock,
+    );
 
     expect(drawCell).toBeCalledWith(mockDoc, {
       xPosition: expect.anything(),

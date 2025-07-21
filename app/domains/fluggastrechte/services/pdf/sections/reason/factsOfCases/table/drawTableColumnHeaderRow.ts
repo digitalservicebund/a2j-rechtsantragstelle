@@ -33,13 +33,14 @@ const getActualConnectionType = ({
 const getDelayType = ({ bereich }: FluggastrechteUserData): string =>
   DELAY_STATUS[bereich as FluggastrechtBereichType] ?? "";
 
-export function drawTableRowHead(
+export function drawTableColumnHeaderRow(
   doc: PDFKit.PDFDocument,
-  tableStruct: PDFKit.PDFStructureElement,
+  table: PDFKit.PDFStructureElement,
   startTableY: number,
   userData: FluggastrechteUserData,
 ) {
   const { bereich } = userData;
+
   const headers = [
     { title: "Geplante Zeiten", subtitle: "laut Ticket" },
     {
@@ -49,27 +50,47 @@ export function drawTableRowHead(
           : "Tatsächliche Zeiten",
       subtitle: getActualConnectionType(userData),
     },
-    { title: getDelayType(userData), subtitle: "" },
+    //{ title: getDelayType(userData), subtitle: "" },
   ];
 
-  const tableHeaderRow = doc.struct("TR"); // Create a new TR for the row
-  headers.forEach(({ title, subtitle }, index) => {
-    const headerCell = doc.struct("TH"); // Create a new TH for each header cell
+  const headerRow = doc.struct("TR");
+  // Top-left empty corner cell
+  const cornerCell = doc.struct("TH");
+  cornerCell.add(
+    doc.struct("Span", {}, () => {
+      drawCell(doc, {
+        xPosition: START_TABLE_X,
+        yPosition: startTableY,
+        width: COLUMN_WIDTH,
+        height: COLUMN_HEIGHT,
+        boldText: "",
+        regularText: "",
+        shouldAddSilverBackground: true,
+        textAlign: "center",
+      });
+    }),
+  );
+  headerRow.add(cornerCell);
+
+  headers.forEach(({ title, subtitle }, colIndex) => {
+    const headerCell = doc.struct("TH");
+
     headerCell.add(
       doc.struct("Span", {}, () => {
         drawCell(doc, {
-          xPosition: START_TABLE_X + COLUMN_WIDTH * (index + 1), // Dynamic X position based on the column
+          xPosition: START_TABLE_X + COLUMN_WIDTH * (colIndex + 1),
           yPosition: startTableY,
-          width: COLUMN_WIDTH, // Each header has the same width
-          height: COLUMN_HEIGHT, // Same height for all header cells
-          boldText: title, // Title (main content)
-          regularText: subtitle, // Subtitle (optional)
+          width: COLUMN_WIDTH,
+          height: COLUMN_HEIGHT,
+          boldText: title,
+          regularText: subtitle,
           shouldAddSilverBackground: true,
           textAlign: "center",
         });
       }),
     );
-    tableHeaderRow.add(headerCell); // Add each TH to the TR
+    headerRow.add(headerCell);
   });
-  tableStruct.add(tableHeaderRow); // Add the TR to the parent structure
+
+  table.add(headerRow);
 }
