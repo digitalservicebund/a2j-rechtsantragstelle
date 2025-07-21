@@ -18,14 +18,3 @@ type AllUserData =
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type AllUserDataKeys = KeysOfUnion<AllUserData>;
-
-export const duplicateUserData = (context: SchemaObject, prefix: string) => {
-  return {
-    ...context,
-    ...Object.fromEntries(
-      Object.entries(context)
-        .filter(([key]) => key !== "pageData")
-        .map(([key, value]) => [`${prefix}-${key}`, value]),
-    ),
-  };
-};
