@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { beratungshilfePersoenlicheDatenInputSchema } from "~/domains/beratungshilfe/formular/persoenlicheDaten/userData";
 import { abgabeInputSchema } from "~/domains/shared/formular/abgabe/userData";
 import { weitereAngabenSchema } from "~/domains/shared/formular/weitereAngaben/userData";
@@ -17,3 +18,6 @@ export const beratungshilfeFormularUserData = {
   ...weitereAngabenSchema,
   ...abgabeInputSchema,
 } as const;
+
+const _partialSchema = z.object(beratungshilfeFormularUserData).partial();
+export type BeratungshilfeFormularUserData = z.infer<typeof _partialSchema>;

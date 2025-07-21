@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { getStrapiEntry } from "~/services/cms/getStrapiEntry";
 import type { StrapiSchemas } from "~/services/cms/schemas";
 import { filterFormFields, pruneIrrelevantData } from "../pruner";

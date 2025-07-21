@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { createHeading } from "~/services/pdf/createHeading";
 import { createHeader } from "~/services/pdf/header/createHeader";
 import { createChecklistSteps } from "./createChecklistSteps";
