@@ -13,6 +13,7 @@ import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+export { FormFlowPage as default } from "~/routes/shared/components/FormFlowPage";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {

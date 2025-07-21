@@ -6,6 +6,7 @@ import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { throw404OnProduction } from "../../services/errorPages/throw404";
+export { Visualisierung as default } from "./components/Visualisierung";
 
 function statesToGraph(
   children: ReturnType<typeof toDirectedGraph>["children"],
