@@ -16,4 +16,15 @@ export const pdfFileMetaDataSchema = z.object({
     .max(TEN_MB_IN_BYTES, { message: "fileTooLarge" }),
 });
 
+const pdfFileUploadArraySchema = z
+  .array(pdfFileMetaDataSchema)
+  .max(fileUploadLimit, { message: "fileLimitReached" });
+
+export const pdfFileUploadArrayOptionalSchema =
+  pdfFileUploadArraySchema.optional();
+
+export const pdfFileUploadArrayRequiredSchema = pdfFileUploadArraySchema
+  .nonempty({ message: "fileRequired" })
+  .optional(); // Must remain despite being required, as the zod schema has no knowledge of which field is required
+
 export type PDFFileMetadata = z.infer<typeof pdfFileMetaDataSchema>;
