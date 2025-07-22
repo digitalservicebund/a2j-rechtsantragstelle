@@ -19,7 +19,7 @@ export const createFactsOfCases = (
 ) => {
   const issueSect = doc.struct("Sect");
   issueSect.add(
-    doc.struct("H3", {}, () => {
+    doc.struct("H2", {}, () => {
       doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text(FACTS_OF_CASES_TEXT);
       doc.moveDown(MARGIN_BETWEEN_SECTIONS);
     }),

@@ -80,7 +80,7 @@ export const createLegalAssessment = (
 
   const legalAssessmentSect = doc.struct("Sect");
   legalAssessmentSect.add(
-    doc.struct("H3", {}, () => {
+    doc.struct("H2", {}, () => {
       doc
         .fontSize(14)
         .font(FONTS_BUNDESSANS_BOLD)
