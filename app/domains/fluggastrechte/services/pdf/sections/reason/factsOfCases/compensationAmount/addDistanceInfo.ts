@@ -54,7 +54,9 @@ export const addDistanceInfo = (
 
   addNewPageInCaseMissingVerticalSpace(doc, distanceTextHeight);
 
-  doc
-    .text(distanceText, PDF_MARGIN_HORIZONTAL)
-    .moveDown(MARGIN_BETWEEN_SECTIONS);
+  doc.struct("P", {}, () => {
+    doc
+      .text(distanceText, PDF_MARGIN_HORIZONTAL)
+      .moveDown(MARGIN_BETWEEN_SECTIONS);
+  });
 };

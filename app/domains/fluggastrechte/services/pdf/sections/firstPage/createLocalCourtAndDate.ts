@@ -29,6 +29,11 @@ export const createLocalCourtAndDate = (
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(creationDate, PDF_MARGIN_HORIZONTAL, startY, { align: "right" });
+    }),
+  );
+
+  courtAndDateSect.add(
+    doc.struct("P", {}, () => {
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_BOLD)

@@ -14,9 +14,11 @@ export const addWitnessesInfo = (
 ) => {
   if (hasZeugen === "yes") {
     addNewPageInCaseMissingVerticalSpace(doc);
-    doc.text(
-      `${isWeiterePersonen === "no" ? WITNESS_EVIDENCE_TEXT : WITNESS_EVIDENCE_MULTIPLE_PERSONS_TEXT}`,
-      PDF_MARGIN_HORIZONTAL,
-    );
+    doc.struct("P", {}, () => {
+      doc.text(
+        `${isWeiterePersonen === "no" ? WITNESS_EVIDENCE_TEXT : WITNESS_EVIDENCE_MULTIPLE_PERSONS_TEXT}`,
+        PDF_MARGIN_HORIZONTAL,
+      );
+    });
   }
 };

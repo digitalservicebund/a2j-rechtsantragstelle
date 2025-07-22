@@ -23,7 +23,7 @@ export const addCompensationAmount = (
 ) => {
   const compensationSect = doc.struct("Sect");
   compensationSect.add(
-    doc.struct("P", {}, () => {
+    doc.struct("Sect", {}, () => {
       doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
 
       addOtherDetailsItinerary(doc, userData.zusaetzlicheAngaben);
@@ -47,9 +47,11 @@ export const addCompensationAmount = (
         demandedCompensationPaymentTextHeight,
       );
 
-      doc
-        .text(demandedCompensationPaymentText)
-        .moveDown(MARGIN_BETWEEN_SECTIONS);
+      doc.struct("P", {}, () => {
+        doc
+          .text(demandedCompensationPaymentText)
+          .moveDown(MARGIN_BETWEEN_SECTIONS);
+      });
 
       addMultiplePersonsInfo(doc, userData);
 

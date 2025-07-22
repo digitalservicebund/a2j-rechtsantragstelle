@@ -13,7 +13,7 @@ export const createReasonPage = (
 ) => {
   const reasonSect = doc.struct("Sect");
   reasonSect.add(
-    doc.struct("H1", {}, () => {
+    doc.struct("H2", {}, () => {
       doc
         .fontSize(16)
         .font(FONTS_BUNDESSANS_BOLD)
