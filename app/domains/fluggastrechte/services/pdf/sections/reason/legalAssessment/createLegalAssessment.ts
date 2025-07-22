@@ -70,7 +70,7 @@ function checkAndNewPage(
 
 export const createLegalAssessment = (
   doc: typeof PDFDocument,
-  documentStruct: PDFKit.PDFStructureElement,
+  legalAssessmentSect: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
   const assumedSettlementSectionText =
@@ -78,7 +78,6 @@ export const createLegalAssessment = (
 
   checkAndNewPage(doc, assumedSettlementSectionText);
 
-  const legalAssessmentSect = doc.struct("Sect");
   legalAssessmentSect.add(
     doc.struct("H3", {}, () => {
       doc
@@ -89,10 +88,7 @@ export const createLegalAssessment = (
     }),
   );
 
-  documentStruct.add(legalAssessmentSect);
-
-  const legalAssessment = doc.struct("Sect");
-  legalAssessment.add(
+  legalAssessmentSect.add(
     doc.struct("P", {}, () => {
       doc
         .fontSize(10)
@@ -109,7 +105,7 @@ export const createLegalAssessment = (
     Number(compensationByDistance),
   );
 
-  legalAssessment.add(
+  legalAssessmentSect.add(
     doc.struct("P", {}, () => {
       const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${courtCostValue} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
       const advanceCourtTextHeight = doc.heightOfString(advanceCourtText, {
@@ -121,7 +117,7 @@ export const createLegalAssessment = (
     }),
   );
 
-  legalAssessment.add(
+  legalAssessmentSect.add(
     doc.struct("P", {}, () => {
       doc
         .font(FONTS_BUNDESSANS_BOLD)
@@ -135,5 +131,4 @@ export const createLegalAssessment = (
         );
     }),
   );
-  documentStruct.add(legalAssessment);
 };

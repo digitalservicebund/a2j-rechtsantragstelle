@@ -81,12 +81,11 @@ const getFlightDetails = (userData: FluggastrechteUserData): FlightDetail[] => {
 
 export const addFlightDetails = (
   doc: typeof PDFDocument,
-  documentStruct: PDFKit.PDFStructureElement,
+  reasonSect: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
-  const originalFlightDetailsSect = doc.struct("Sect");
   const flightDetails = getFlightDetails(userData);
-  originalFlightDetailsSect.add(
+  reasonSect.add(
     doc.struct("P", {}, () => {
       flightDetails.forEach((flightDetail) => {
         doc
@@ -102,5 +101,4 @@ export const addFlightDetails = (
       });
     }),
   );
-  documentStruct.add(originalFlightDetailsSect);
 };

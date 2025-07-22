@@ -32,11 +32,9 @@ export const addOtherDetailsItinerary = (
       zusaetzlicheAngabenHeight + otherDetailsItineraryHeight,
     );
 
-    doc.struct("P", {}, () => {
-      doc
-        .text(OTHER_DETAILS_ITINERARY, PDF_MARGIN_HORIZONTAL)
-        .text(zusaetzlicheAngaben)
-        .moveDown(MARGIN_BETWEEN_SECTIONS);
-    });
+    doc
+      .text(OTHER_DETAILS_ITINERARY, PDF_MARGIN_HORIZONTAL)
+      .text(zusaetzlicheAngaben)
+      .moveDown(MARGIN_BETWEEN_SECTIONS);
   }
 };

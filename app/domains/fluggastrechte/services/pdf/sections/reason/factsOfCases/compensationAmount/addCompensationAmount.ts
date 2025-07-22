@@ -18,47 +18,56 @@ export const OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT = `Die klagende
 
 export const addCompensationAmount = (
   doc: typeof PDFDocument,
-  documentStruct: PDFKit.PDFStructureElement,
+  reasonSect: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
-  const compensationSect = doc.struct("Sect");
-  compensationSect.add(
-    doc.struct("Sect", {}, () => {
+  reasonSect.add(
+    doc.struct("P", {}, () => {
       doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
-
       addOtherDetailsItinerary(doc, userData.zusaetzlicheAngaben);
-
-      addDistanceInfo(doc, userData);
-
-      const demandedCompensationPaymentText =
-        userData.isWeiterePersonen === "no"
-          ? DEMANDED_COMPENSATION_PAYMENT_TEXT
-          : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT;
-
-      const demandedCompensationPaymentTextHeight = doc.heightOfString(
-        demandedCompensationPaymentText,
-        {
-          width: PDF_WIDTH_SEIZE,
-        },
-      );
-
-      addNewPageInCaseMissingVerticalSpace(
-        doc,
-        demandedCompensationPaymentTextHeight,
-      );
-
-      doc.struct("P", {}, () => {
-        doc
-          .text(demandedCompensationPaymentText)
-          .moveDown(MARGIN_BETWEEN_SECTIONS);
-      });
-
-      addMultiplePersonsInfo(doc, userData);
-
-      addWitnessesInfo(doc, userData);
-
-      doc.moveDown(2);
     }),
   );
-  documentStruct.add(compensationSect);
+  reasonSect.add(
+    doc.struct("P", {}, () => {
+      addDistanceInfo(doc, userData);
+    }),
+  );
+
+  const demandedCompensationPaymentText =
+    userData.isWeiterePersonen === "no"
+      ? DEMANDED_COMPENSATION_PAYMENT_TEXT
+      : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT;
+
+  const demandedCompensationPaymentTextHeight = doc.heightOfString(
+    demandedCompensationPaymentText,
+    {
+      width: PDF_WIDTH_SEIZE,
+    },
+  );
+
+  addNewPageInCaseMissingVerticalSpace(
+    doc,
+    demandedCompensationPaymentTextHeight,
+  );
+
+  reasonSect.add(
+    doc.struct("P", {}, () => {
+      doc
+        .text(demandedCompensationPaymentText)
+        .moveDown(MARGIN_BETWEEN_SECTIONS);
+    }),
+  );
+
+  reasonSect.add(
+    doc.struct("P", {}, () => {
+      addMultiplePersonsInfo(doc, userData);
+    }),
+  );
+
+  reasonSect.add(
+    doc.struct("P", {}, () => {
+      addWitnessesInfo(doc, userData);
+    }),
+  );
+  doc.moveDown(2);
 };

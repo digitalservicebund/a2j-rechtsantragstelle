@@ -10,7 +10,7 @@ export const HEADLINE = "Beschreibung der Ersatzverbindung:";
 
 export function addTableInfo(
   doc: PDFKit.PDFDocument,
-  documentStruct: PDFKit.PDFStructureElement,
+  reasonSect: PDFKit.PDFStructureElement,
   andereErsatzverbindungBeschreibung: string,
 ) {
   if (andereErsatzverbindungBeschreibung.length === 0) {
@@ -33,7 +33,6 @@ export function addTableInfo(
     tableInfoHeight + tableInfoHeadline,
   );
 
-  const reasonSect = doc.struct("Sect");
   reasonSect.add(
     doc.struct("P", {}, () => {
       doc
@@ -44,6 +43,4 @@ export function addTableInfo(
         .moveDown(MARGIN_BETWEEN_SECTIONS);
     }),
   );
-
-  documentStruct.add(reasonSect);
 }

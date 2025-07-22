@@ -53,10 +53,9 @@ const getBereichText = ({ bereich }: FluggastrechteUserData) => {
 
 export const addReason = (
   doc: typeof PDFDocument,
-  documentStruct: PDFKit.PDFStructureElement,
+  reasonSect: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
-  const reasonSect = doc.struct("Sect");
   reasonSect.add(
     doc.struct("P", {}, () => {
       doc
@@ -80,7 +79,7 @@ export const addReason = (
       }
 
       doc.text(FINAL_COLON_SENTENCE);
+      doc.moveDown(1);
     }),
   );
-  documentStruct.add(reasonSect);
 };

@@ -24,15 +24,13 @@ afterAll(() => {
 });
 
 describe("addTableInfo", () => {
-  it("should add a section with a paragraph containing the specified description", () => {
+  it("should add a paragraph containing the specified description", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const andereErsatzverbindungBeschreibung = "Sample description";
 
     addTableInfo(mockDoc, mockStruct, andereErsatzverbindungBeschreibung);
-
-    expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
 
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
 

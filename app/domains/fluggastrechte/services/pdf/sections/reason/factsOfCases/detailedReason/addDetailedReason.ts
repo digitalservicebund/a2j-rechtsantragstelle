@@ -43,15 +43,13 @@ const getConfirmationBookingTexts = ({
 
 export const addDetailedReason = (
   doc: typeof PDFDocument,
-  documentStruct: PDFKit.PDFStructureElement,
+  reasonSect: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
-  const detailedReasonSect = doc.struct("Sect");
-
   const { attachmentConfirmationBooking, confirmationBooking } =
     getConfirmationBookingTexts(userData);
 
-  detailedReasonSect.add(
+  reasonSect.add(
     doc.struct("P", {}, () => {
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
@@ -78,7 +76,8 @@ export const addDetailedReason = (
       }
 
       addFlightTextArea(doc, userData);
+
+      doc.moveDown(1);
     }),
   );
-  documentStruct.add(detailedReasonSect);
 };

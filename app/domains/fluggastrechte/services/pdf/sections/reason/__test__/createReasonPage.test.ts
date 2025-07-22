@@ -3,6 +3,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
+import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { createReasonPage, REASON_TITLE_TEXT } from "../createReasonPage";
 import { createFactsOfCases } from "../factsOfCases/createFactsOfCases";
 import { createLegalAssessment } from "../legalAssessment/createLegalAssessment";
@@ -24,9 +25,15 @@ describe("createReasonPage", () => {
 
     createReasonPage(mockDoc, mockStruct, userDataMock);
 
-    expect(mockDoc.text).toHaveBeenCalledWith(REASON_TITLE_TEXT, {
-      align: "left",
-    });
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      REASON_TITLE_TEXT,
+      PDF_MARGIN_HORIZONTAL,
+      mockDoc.y,
+
+      {
+        align: "left",
+      },
+    );
   });
 
   it("should call the createFactsOfCases for the creation of the reason page", () => {
