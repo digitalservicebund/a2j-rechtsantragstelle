@@ -9,7 +9,6 @@ import { addCompensationAmount } from "./compensationAmount/addCompensationAmoun
 import { addDetailedReason } from "./detailedReason/addDetailedReason";
 import { addTable } from "./table/addTable";
 import { COLUMN_HEIGHT, MARGIN_BOTTOM } from "./table/tableConfigurations";
-import { add } from "lodash";
 
 export const FACTS_OF_CASES_TEXT = "I. Sachverhalt";
 
