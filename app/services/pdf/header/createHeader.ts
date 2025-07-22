@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { pdfStyles } from "~/services/pdf/pdfStyles";
 

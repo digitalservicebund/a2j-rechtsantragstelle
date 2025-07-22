@@ -9,9 +9,9 @@ import { finanzielleAngabenArrayConfig as beratungshilfeFormularFinanzielleAngab
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { beratungshilfeFinanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConfig";
-import type { BeratungshilfeFormularUserData } from "./index";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
+import type { BeratungshilfeFormularUserData } from "./userData";
 import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
 
 const showNachbefragung = await isFeatureFlagEnabled("showNachbefragung");

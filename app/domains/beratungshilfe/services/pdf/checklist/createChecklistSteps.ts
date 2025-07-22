@@ -1,13 +1,11 @@
 import type PDFDocument from "pdfkit";
-import {
-  beratungshilfeFormularUserData,
-  type BeratungshilfeFormularUserData,
-} from "~/domains/beratungshilfe/formular";
+import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { abgabeInputSchema } from "~/domains/shared/formular/abgabe/userData";
 import { createHeading } from "~/services/pdf/createHeading";
 import { pdfStyles } from "~/services/pdf/pdfStyles";
 
-const { stringReplacements } = beratungshilfeFormularUserData;
+const { stringReplacements } = beratungshilfeFormular;
 type ReplacementKey = keyof ReturnType<typeof stringReplacements>;
 
 const documents = {

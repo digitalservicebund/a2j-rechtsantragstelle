@@ -1,5 +1,5 @@
 import { hasPartnerschaftYes } from "./finanzielleAngaben/guards";
-import type { BeratungshilfeFormularUserData } from "../../beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "../../beratungshilfe/formular/userData";
 import type { ProzesskostenhilfeFormularUserData } from "../../prozesskostenhilfe/formular/userData";
 
 export const getKinderStrings = (
