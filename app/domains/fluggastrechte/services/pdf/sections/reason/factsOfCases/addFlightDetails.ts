@@ -81,14 +81,14 @@ const getFlightDetails = (userData: FluggastrechteUserData): FlightDetail[] => {
 
 export const addFlightDetails = (
   doc: typeof PDFDocument,
-  documentStruct: PDFKit.PDFStructureElement,
+  reasonAndFlightDetailsList: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
-  const originalFlightDetailsSect = doc.struct("Sect");
   const flightDetails = getFlightDetails(userData);
-  originalFlightDetailsSect.add(
-    doc.struct("P", {}, () => {
-      flightDetails.forEach((flightDetail) => {
+  flightDetails.forEach((flightDetail) => {
+    const originalFlightDetailsListItem = doc.struct("LI");
+    originalFlightDetailsListItem.add(
+      doc.struct("LBody", {}, () => {
         doc
           .fontSize(10)
           .font(FONTS_BUNDESSANS_REGULAR)
@@ -99,8 +99,8 @@ export const addFlightDetails = (
           .text(flightDetail.value);
 
         doc.moveDown(0.5);
-      });
-    }),
-  );
-  documentStruct.add(originalFlightDetailsSect);
+      }),
+    );
+    reasonAndFlightDetailsList.add(originalFlightDetailsListItem);
+  });
 };

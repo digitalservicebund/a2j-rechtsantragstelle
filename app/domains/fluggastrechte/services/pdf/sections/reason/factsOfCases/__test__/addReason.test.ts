@@ -5,7 +5,7 @@ import {
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import {
-  addReason,
+  addReasonCaption,
   ARTICLE_DELAY_CANCEL_TEXT,
   ARTICLE_NOT_MOVE_TEXT,
   CANCEL_TEXT,
@@ -15,14 +15,14 @@ import {
   PASSIVE_VERB_TEXT,
   PLAINTIFF_BOOKED_MULTIPLE_PERSONS_TEXT,
   PLAINTIFF_BOOKED_TEXT,
-} from "../addReason";
+} from "../addReasonCaption";
 
 describe("addReason", () => {
   it("should render document with PLAINTIFF_BOOKED_TEXT", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addReason(mockDoc, mockStruct, userDataMock);
+    addReasonCaption(mockDoc, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(PLAINTIFF_BOOKED_TEXT, {
       continued: true,
@@ -38,7 +38,7 @@ describe("addReason", () => {
       isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
-    addReason(mockDoc, mockStruct, userDataMultiplePersonsMock);
+    addReasonCaption(mockDoc, userDataMultiplePersonsMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       PLAINTIFF_BOOKED_MULTIPLE_PERSONS_TEXT,
@@ -52,7 +52,7 @@ describe("addReason", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addReason(mockDoc, mockStruct, userDataMock);
+    addReasonCaption(mockDoc, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(ARTICLE_DELAY_CANCEL_TEXT, {
       continued: true,
@@ -76,7 +76,7 @@ describe("addReason", () => {
       bereich: "annullierung",
     };
 
-    addReason(mockDoc, mockStruct, userDataAnnullierungMock);
+    addReasonCaption(mockDoc, userDataAnnullierungMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(ARTICLE_DELAY_CANCEL_TEXT, {
       continued: true,
@@ -100,7 +100,7 @@ describe("addReason", () => {
       bereich: "nichtbefoerderung",
     };
 
-    addReason(mockDoc, mockStruct, userDataNichtBefoerderungMock);
+    addReasonCaption(mockDoc, userDataNichtBefoerderungMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(ARTICLE_NOT_MOVE_TEXT, {
       continued: true,
@@ -117,7 +117,7 @@ describe("addReason", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addReason(mockDoc, mockStruct, userDataMock);
+    addReasonCaption(mockDoc, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(FINAL_COLON_SENTENCE);
   });
