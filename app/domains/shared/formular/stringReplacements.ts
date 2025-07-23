@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularUserData } from "../../beratungshilfe/formular";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import type { ProzesskostenhilfeFormularUserData } from "../../prozesskostenhilfe/formular/userData";
 
 export const getKinderStrings = (

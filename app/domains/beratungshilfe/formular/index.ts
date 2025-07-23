@@ -1,13 +1,5 @@
 import { getRechtsproblemStrings } from "~/domains/beratungshilfe/formular/rechtsproblem/stringReplacements";
 import type { Flow } from "~/domains/flows.server";
-import { type AbgabeUserData } from "~/domains/shared/formular/abgabe/userData";
-import { type WeitereAngabenUserData } from "~/domains/shared/formular/weitereAngaben/userData";
-import { type DokumenteUserData } from "./abgabe/dokumente/userData";
-import { type BeratungshilfeAnwaltlicheVertretungUserData } from "./anwaltlicheVertretung/userData";
-import { type BeratungshilfeFinanzielleAngabenUserData } from "./finanzielleAngaben/userData";
-import { type BeratungshilfeGrundvoraussetzungenUserData } from "./grundvoraussetzung/userData";
-import { type BeratungshilfePersoenlicheDatenUserData } from "./persoenlicheDaten/userData";
-import { type BeratungshilfeRechtsproblemUserData } from "./rechtsproblem/userData";
 import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
@@ -17,6 +9,7 @@ import {
   weiteresEinkommenStrings,
   getWeitereDokumenteStrings,
 } from "./stringReplacements";
+import type { BeratungshilfeFormularUserData } from "./userData";
 import { beratungshilfeXstateConfig } from "./xstateConfig";
 import {
   geldAnlagenStrings,
@@ -24,7 +17,7 @@ import {
   getKinderStrings,
 } from "../../shared/formular/stringReplacements";
 
-export const beratungshilfeFormularUserData = {
+export const beratungshilfeFormular = {
   flowType: "formFlow",
   config: beratungshilfeXstateConfig,
   guards: {},
@@ -42,13 +35,3 @@ export const beratungshilfeFormularUserData = {
     ...getWeitereDokumenteStrings(context),
   }),
 } satisfies Flow;
-
-export type BeratungshilfeFormularUserData =
-  BeratungshilfeGrundvoraussetzungenUserData &
-    BeratungshilfeAnwaltlicheVertretungUserData &
-    BeratungshilfeRechtsproblemUserData &
-    BeratungshilfeFinanzielleAngabenUserData &
-    BeratungshilfePersoenlicheDatenUserData &
-    WeitereAngabenUserData &
-    AbgabeUserData &
-    DokumenteUserData;

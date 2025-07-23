@@ -10,8 +10,8 @@ import {
   wohnungDone,
   eigentumDone,
 } from "./finanzielleAngaben/doneFunctions";
-import type { BeratungshilfeFormularUserData } from "./index";
 import { rechtsproblemDone } from "./rechtsproblem/rechtsproblemDone";
+import type { BeratungshilfeFormularUserData } from "./userData";
 
 export const getAmtsgerichtStrings = (
   context: BeratungshilfeFormularUserData,

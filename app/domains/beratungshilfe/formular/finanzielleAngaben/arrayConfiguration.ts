@@ -1,5 +1,5 @@
 import type { ArrayConfigServer } from "~/services/array";
-import type { BeratungshilfeFormularUserData } from "../index";
+import type { BeratungshilfeFormularUserData } from "../userData";
 
 export function finanzielleAngabenArrayConfig(prefix: string) {
   return {

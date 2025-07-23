@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { flows } from "~/domains/flows.server";
 import { buildFlowController } from "../server/buildFlowController";
 import { validFormPaths } from "../validFormPaths";
