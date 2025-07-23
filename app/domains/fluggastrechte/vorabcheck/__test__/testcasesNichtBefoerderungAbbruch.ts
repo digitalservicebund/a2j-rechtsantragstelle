@@ -37,7 +37,7 @@ export const testCasesFluggastrechteNichtBefoerderungAbbruch = [
       "/ausgleich",
       "/checkin-nicht-befoerderung",
       "/vertretbare-gruende",
-      "/ergebnis/vertretbare-gruende-abbruch",
+      "/vertretbare-gruende-info",
     ],
   ],
   [
