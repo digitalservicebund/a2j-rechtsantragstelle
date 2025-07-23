@@ -23,7 +23,6 @@ import { getPersoenlicheDatenXstateConfig } from "~/domains/shared/formular/pers
 import {
   getKinderStrings,
   getArrayIndexStrings,
-  eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
 } from "~/domains/shared/formular/stringReplacements";
 import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
@@ -280,7 +279,6 @@ export const prozesskostenhilfeFormular = {
     ...getArrayIndexStrings(context),
     ...getAntragstellendePersonStrings(context),
     ...getVereinfachteErklaerungStrings(context),
-    ...eigentumZusammenfassungShowPartnerschaftWarnings(context),
     ...geldAnlagenStrings(context),
     ...getAbgabeStrings(context),
     ...getMissingInformationStrings(context),

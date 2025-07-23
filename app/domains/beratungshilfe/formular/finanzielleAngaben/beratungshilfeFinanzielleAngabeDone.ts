@@ -7,7 +7,6 @@ import {
   andereUnterhaltszahlungenDone,
   eigentumDone,
 } from "./doneFunctions";
-import { eigentumZusammenfassungDone } from "./eigentumZusammenfassungDone";
 
 export const beratungshilfeFinanzielleAngabeDone: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) => {
@@ -16,15 +15,13 @@ export const beratungshilfeFinanzielleAngabeDone: BeratungshilfeFinanzielleAngab
       case "grundsicherung":
         return true;
       case "buergergeld":
-        return (
-          eigentumDone({ context }) && eigentumZusammenfassungDone({ context })
-        );
+        return eigentumDone({ context });
       case "keine":
         return (
           partnerDone({ context }) &&
           eigentumDone({ context }) &&
           kinderDone({ context }) &&
-          eigentumZusammenfassungDone({ context }) &&
+          eigentumDone({ context }) &&
           einkommenDone({ context }) &&
           wohnungDone({ context }) &&
           andereUnterhaltszahlungenDone({ context })
