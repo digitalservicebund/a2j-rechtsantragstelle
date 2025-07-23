@@ -1,3 +1,5 @@
+import mapValues from 'lodash/mapValues';
+import { beratungshilfeAntragPages } from '~/domains/beratungshilfe/formular/pages';
 import { type GenericGuard } from "~/domains/guards.server";
 import { type PersoenlicheDatenUserData } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import {
@@ -5,51 +7,53 @@ import {
   type Config,
 } from "~/services/flow/server/buildFlowController";
 
+const stepIds = mapValues(beratungshilfeAntragPages, (v) => v.stepId);
+
 export function getPersoenlicheDatenXstateConfig(
   doneFunction: GenericGuard<PersoenlicheDatenUserData>,
   transitions?: FlowConfigTransitions,
   subsequentStates?: Config<PersoenlicheDatenUserData>["states"],
 ): Config<PersoenlicheDatenUserData> {
   return {
-    id: "persoenliche-daten",
-    initial: "start",
+    id: stepIds.persoenlicheDaten,
+    initial: stepIds.persoenlicheDatenStart,
     meta: {
       done: doneFunction,
     },
     states: {
-      start: {
+      [stepIds.persoenlicheDatenStart]: {
         on: {
-          SUBMIT: "name",
+          SUBMIT: stepIds.persoenlicheDatenStart,
           BACK: transitions?.backToCallingFlow,
         },
       },
-      name: {
+      [stepIds.persoenlicheDatenName]: {
         on: {
-          BACK: "start",
-          SUBMIT: "geburtsdatum",
+          BACK: stepIds.persoenlicheDatenStart,
+          SUBMIT: stepIds.persoenlicheDatenGeburtsdatum,
         },
       },
-      geburtsdatum: {
+      [stepIds.persoenlicheDatenGeburtsdatum]: {
         on: {
-          BACK: "name",
-          SUBMIT: "plz",
+          BACK: stepIds.persoenlicheDatenName,
+          SUBMIT: stepIds.persoenlicheDatenPLZ,
         },
       },
-      plz: {
+      [stepIds.persoenlicheDatenPLZ]: {
         on: {
-          BACK: "geburtsdatum",
-          SUBMIT: "adresse",
+          BACK: stepIds.persoenlicheDatenGeburtsdatum,
+          SUBMIT: stepIds.persoenlicheDatenAdresse,
         },
       },
-      adresse: {
+      [stepIds.persoenlicheDatenAdresse]: {
         on: {
-          BACK: "plz",
-          SUBMIT: "telefonnummer",
+          BACK: stepIds.persoenlicheDatenPLZ,
+          SUBMIT: stepIds.persoenlicheDatenTelefonnummer,
         },
       },
-      telefonnummer: {
+      [stepIds.persoenlicheDatenTelefonnummer]: {
         on: {
-          BACK: "adresse",
+          BACK: stepIds.persoenlicheDatenAdresse,
           SUBMIT: transitions?.nextFlowEntrypoint,
         },
       },

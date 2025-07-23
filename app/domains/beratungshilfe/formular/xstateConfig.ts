@@ -56,47 +56,47 @@ export const beratungshilfeXstateConfig = {
             guard:
               finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeldAndEigentumDone,
             target:
-              "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung",
+              stepIds.zusammenfassung,
           },
           {
             guard:
               finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeldAndHasEigentum,
-            target: "#finanzielle-angaben.eigentum.gesamtwert",
+            target: stepIds.eingentumGesamtwert,
           },
           {
             guard: finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeld,
-            target: "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
+            target: stepIds.eingentumKraftfahrzeugeFrage,
           },
           {
             guard: finanzielleAngabeGuards.hasAusgabenYes,
-            target: "#ausgaben.uebersicht",
+            target: stepIds.ausgabenUebersicht,
           },
           {
             guard: finanzielleAngabeGuards.hasNoStaatlicheLeistungen,
-            target: "#ausgaben.ausgaben-frage",
+            target: stepIds.ausgabenFrage,
           },
           "#finanzielle-angaben.einkommen.staatliche-leistungen",
         ],
         nextFlowEntrypoint: showNachbefragung
-          ? "nachbefragung"
-          : "#weitere-angaben",
+          ? stepIds.persoenlichenDatenNachbefragung
+          : stepIds.weitereAngaben,
       },
       {
         nachbefragung: {
-          on: { BACK: "telefonnummer", SUBMIT: "#weitere-angaben" },
+          on: { BACK: stepIds.persoenlichenDatenNachbefragung, SUBMIT: stepIds.weitereAngaben },
         },
       },
     ),
-    "weitere-angaben": {
-      id: "weitere-angaben",
+    [stepIds.weitereAngaben]: {
+      id: stepIds.weitereAngaben,
       meta: { done: weitereAngabenDone },
       on: {
         BACK: showNachbefragung
-          ? "#persoenliche-daten.nachbefragung"
-          : "#persoenliche-daten.telefonnummer",
-        SUBMIT: "#abgabe",
+          ? stepIds.persoenlichenDatenNachbefragung
+          : stepIds.persoenlicheDatenTelefonnummer,
+        SUBMIT: stepIds.abgabe,
       },
     },
-    abgabe: await abgabeXstateConfig("#weitere-angaben"),
+    abgabe: await abgabeXstateConfig(stepIds.weitereAngaben),
   },
 } satisfies Config<BeratungshilfeFormularUserData>;

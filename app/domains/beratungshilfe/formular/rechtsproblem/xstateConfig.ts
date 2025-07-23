@@ -1,42 +1,46 @@
+import mapValues from "lodash/mapValues";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { rechtsproblemDone } from "./rechtsproblemDone";
 import { beratungshilfeAnwaltlicheVertretungGuards } from "../anwaltlicheVertretung/guards";
 import { type BeratungshilfeAnwaltlicheVertretungUserData } from "../anwaltlicheVertretung/userData";
+import { beratungshilfeAntragPages } from "../pages";
+
+const stepIds = mapValues(beratungshilfeAntragPages, (v) => v.stepId);
 
 export const rechtsproblemXstateConfig = {
-  initial: "start",
-  id: "rechtsproblem",
+  initial: stepIds.rechtsproblemStart,
+  id: stepIds.rechtsproblem,
   meta: { done: rechtsproblemDone },
   states: {
-    start: {
+    [stepIds.rechtsproblemStart]: {
       on: {
-        SUBMIT: "bereich",
+        SUBMIT: stepIds.bereich,
         BACK: [
           {
             guard:
               beratungshilfeAnwaltlicheVertretungGuards.beratungStattgefundenYes,
-            target: "#anwaltliche-vertretung.anwalt-kontaktdaten",
+            target: stepIds.anwaltKontakdaten,
           },
           {
             guard: beratungshilfeAnwaltlicheVertretungGuards.anwaltskanzleiYes,
-            target: "#anwaltliche-vertretung.beratung-stattgefunden",
+            target: stepIds.beratungStattgefunden,
           },
           {
-            target: "#anwaltliche-vertretung.start",
+            target: stepIds.anwaltlicheVertretungStart,
           },
         ],
       },
     },
-    bereich: {
+    [stepIds.bereich]: {
       on: {
-        SUBMIT: "situation-beschreibung",
-        BACK: "start",
+        SUBMIT: stepIds.situationBeschreibung,
+        BACK: stepIds.rechtsproblemStart,
       },
     },
-    "situation-beschreibung": {
+    [stepIds.situationBeschreibung]: {
       on: {
-        SUBMIT: "#finanzielle-angaben",
-        BACK: "bereich",
+        SUBMIT: stepIds.finanzielleAngaben,
+        BACK: stepIds.bereich,
       },
     },
   },

@@ -70,6 +70,9 @@ export const beratungshilfeAntragPages = {
   anwaltlicheVertretung: {
     stepId: "anwaltliche-vertretung",
   },
+  anwaltlicheVertretungStart: {
+    stepId: "#anwaltliche-vertretung.start",
+  },
   anwaltskanzlei: {
     stepId: "anwaltskanzlei",
     pageSchema: {
@@ -123,6 +126,9 @@ export const beratungshilfeAntragPages = {
   },
   rechtsproblem: {
     stepId: "rechtsproblem",
+  },
+  rechtsproblemStart: {
+    stepId: "#rechtsproblem.start",
   },
   bereich: {
     stepId: "bereich",
@@ -416,6 +422,9 @@ export const beratungshilfeAntragPages = {
   },
   persoenlicheDatenTelefonnummer: {
     stepId: "telefonnummer",
+  },
+  persoenlichenDatenNachbefragung: {
+    stepId: "nachbefragung",
   },
   weitereAngaben: {
     stepId: "weitere-angaben",
