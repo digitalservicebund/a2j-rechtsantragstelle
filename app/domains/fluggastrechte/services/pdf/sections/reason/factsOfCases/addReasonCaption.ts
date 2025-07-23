@@ -4,6 +4,7 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
+import { MARGIN_BETWEEN_SECTIONS } from "../../../configurations";
 
 export const PLAINTIFF_BOOKED_TEXT =
   "Die klagende Partei buchte den folgenden Flug, ";
@@ -51,35 +52,30 @@ const getBereichText = ({ bereich }: FluggastrechteUserData) => {
   return "";
 };
 
-export const addReason = (
+export const addReasonCaption = (
   doc: typeof PDFDocument,
-  reasonSect: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
-  reasonSect.add(
-    doc.struct("P", {}, () => {
-      doc
-        .fontSize(10)
-        .font(FONTS_BUNDESSANS_REGULAR)
-        .text(getPlaintiffBookedText(userData), {
-          continued: true,
-        })
-        .text(getBereichArticleText(userData), {
-          continued: true,
-        })
-        .text("von der beklagten Partei ", { continued: true })
-        .font(FONTS_BUNDESSANS_BOLD)
-        .text(getBereichText(userData), {
-          continued: true,
-        })
-        .font(FONTS_BUNDESSANS_REGULAR);
+  doc
+    .fontSize(10)
+    .font(FONTS_BUNDESSANS_REGULAR)
+    .text(getPlaintiffBookedText(userData), {
+      continued: true,
+    })
+    .text(getBereichArticleText(userData), {
+      continued: true,
+    })
+    .text("von der beklagten Partei ", { continued: true })
+    .font(FONTS_BUNDESSANS_BOLD)
+    .text(getBereichText(userData), {
+      continued: true,
+    })
+    .font(FONTS_BUNDESSANS_REGULAR);
 
-      if (userData.bereich !== "nichtbefoerderung") {
-        doc.text(PASSIVE_VERB_TEXT, { continued: true });
-      }
+  if (userData.bereich !== "nichtbefoerderung") {
+    doc.text(PASSIVE_VERB_TEXT, { continued: true });
+  }
 
-      doc.text(FINAL_COLON_SENTENCE);
-      doc.moveDown(1);
-    }),
-  );
+  doc.text(FINAL_COLON_SENTENCE);
+  doc.moveDown(MARGIN_BETWEEN_SECTIONS);
 };
