@@ -78,20 +78,13 @@ export const fillFinancialGrundeigentum: BerHPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  const { eigentumTotalWorth, grundeigentum: grundeigentumArray } = userData;
+  const { grundeigentum: grundeigentumArray } = userData;
   pdfValues.f5Grundeigentum1.value = userData.hasGrundeigentum === "no";
   pdfValues.f5Grundeigentum2.value = userData.hasGrundeigentum === "yes";
 
-  const shouldPrintNote = eigentumTotalWorth === "less10000";
-
-  if (shouldPrintNote) {
-    pdfValues.f7Nutzungsart.value =
-      "Übergreifender Hinweis zu allen Vermögenswerten: Mein gesamtes Vermögen ist insgesamt weniger als 10.000€ wert.";
-  }
-
   if (!arrayIsNonEmpty(grundeigentumArray)) return { pdfValues };
 
-  if (grundeigentumArray.length === 1 && !shouldPrintNote) {
+  if (grundeigentumArray.length === 1) {
     const grundeigentum = grundeigentumArray[0];
 
     pdfValues.f6EigentuemerA.value = grundeigentum.eigentuemer == "myself";

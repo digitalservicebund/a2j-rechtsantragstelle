@@ -1,12 +1,12 @@
 import { PDFDocument } from "pdf-lib";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import {
   getStaatlicheLeistungenStrings,
   weiteresEinkommenStrings,
   ausgabenStrings,
   getWeitereDokumenteStrings,
 } from "~/domains/beratungshilfe/formular/stringReplacements";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { geldAnlagenStrings } from "~/domains/shared/formular/stringReplacements";
 import {
   attachUserUploadedFilesToPdf,
