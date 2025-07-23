@@ -2,6 +2,11 @@ import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPath
 import { postValidationFlowAction } from "../postValidationFlowAction";
 
 vi.mock("../../getPageAndFlowDataFromPathname");
+vi.mock("~/services/flow/getPrunedUserDataFromPathname", () => ({
+  getPrunedUserDataFromPathname: vi.fn(() => ({
+    userDataWithPageData: {},
+  })),
+}));
 
 const mockUserData = { name: "John Doe" };
 const mockRequest = new Request(

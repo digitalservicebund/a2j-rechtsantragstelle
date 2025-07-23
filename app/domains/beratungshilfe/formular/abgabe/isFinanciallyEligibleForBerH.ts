@@ -89,17 +89,17 @@ function hasEinzusetzendesEinkommen(
         ?.reduce((acc, ausgabe) => acc + parseInt(ausgabe.beitrag ?? "0"), 0)
         .toString(),
     ) ?? 0;
-  const yearlyUnterhalt =
+  const unterhalt =
     moneyToCents(
       (
         userData.unterhaltszahlungen?.reduce(
           (acc, zahlung) => acc + parseInt(zahlung.monthlyPayment ?? "0"),
           0,
-        ) ?? 0 * 12
+        ) ?? 0
       ).toString(),
     ) ?? 0;
   return (
-    einkommen - miete - ausgaben - yearlyUnterhalt >
+    einkommen - miete - ausgaben - unterhalt >
     calculateFreibetragBerHFormular({
       working: userData.erwerbstaetig === "yes",
       partnership: userData.partnerschaft === "yes",
