@@ -7,13 +7,11 @@ import {
   getMissingInformationStrings,
   ausgabenStrings,
   weiteresEinkommenStrings,
-  eigentumZusammenfassungShowTotalWorthWarnings,
   getWeitereDokumenteStrings,
 } from "./stringReplacements";
 import type { BeratungshilfeFormularUserData } from "./userData";
 import { beratungshilfeXstateConfig } from "./xstateConfig";
 import {
-  eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
   getArrayIndexStrings,
   getKinderStrings,
@@ -30,8 +28,6 @@ export const beratungshilfeFormular = {
     ...getArrayIndexStrings(context),
     ...getAnwaltStrings(context),
     ...getRechtsproblemStrings(context),
-    ...eigentumZusammenfassungShowPartnerschaftWarnings(context),
-    ...eigentumZusammenfassungShowTotalWorthWarnings(context),
     ...getMissingInformationStrings(context),
     ...ausgabenStrings(context),
     ...geldAnlagenStrings(context),
