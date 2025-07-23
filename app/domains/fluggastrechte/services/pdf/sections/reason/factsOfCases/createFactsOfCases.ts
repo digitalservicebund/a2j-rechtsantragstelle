@@ -5,9 +5,7 @@ import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { addFlightDetails } from "./addFlightDetails";
 import { addReasonCaption } from "./addReasonCaption";
 import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissingVerticalSpace";
-import { addCompensationAmount } from "./compensationAmount/addCompensationAmount";
 import { addDetailedReason } from "./detailedReason/addDetailedReason";
-import { addTable } from "./table/addTable";
 import { COLUMN_HEIGHT, MARGIN_BOTTOM } from "./table/tableConfigurations";
 
 export const FACTS_OF_CASES_TEXT = "I. Sachverhalt";

@@ -46,15 +46,6 @@ describe("createFactsOfCases", () => {
     expect(addReasonCaption).toBeCalledTimes(1);
   });
 
-  it("should call the addTable for the creation facts of cases", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    createFactsOfCases(mockDoc, mockStruct, userDataMock);
-
-    expect(addTable).toBeCalledTimes(1);
-  });
-
   it("should call the addFlightDetails for the creation facts of cases", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
@@ -71,14 +62,5 @@ describe("createFactsOfCases", () => {
     createFactsOfCases(mockDoc, mockStruct, userDataMock);
 
     expect(addDetailedReason).toBeCalledTimes(1);
-  });
-
-  it("should call the createAdditionalInformation for the creation facts of cases", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    createFactsOfCases(mockDoc, mockStruct, userDataMock);
-
-    expect(addCompensationAmount).toBeCalledTimes(1);
   });
 });
