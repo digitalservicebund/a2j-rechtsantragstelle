@@ -1,4 +1,4 @@
-import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 
 export const happyPathData: BeratungshilfeFormularUserData = {
   rechtsschutzversicherung: "no",

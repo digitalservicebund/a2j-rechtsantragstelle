@@ -1,4 +1,8 @@
 import { hasOptionalString } from "~/domains/guards.server";
+import {
+  staatlicheLeistungenIsBuergergeld,
+  staatlicheLeistungenIsKeine,
+} from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { getPersoenlicheDatenXstateConfig } from "~/domains/shared/formular/persoenlicheDaten/xStateConfig";
 import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
 import type { Config } from "~/services/flow/server/buildFlowController";
@@ -9,10 +13,9 @@ import { finanzielleAngabenArrayConfig as beratungshilfeFormularFinanzielleAngab
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { beratungshilfeFinanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConfig";
-import type { BeratungshilfeFormularUserData } from "./index";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
-import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
+import type { BeratungshilfeFormularUserData } from "./userData";
 
 const showNachbefragung = await isFeatureFlagEnabled("showNachbefragung");
 
@@ -20,14 +23,9 @@ export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
   initial: "start",
   meta: {
-    arrays: {
-      ...finanzielleAngabenArrayConfig(
-        "/beratungshilfe/antrag/finanzielle-angaben",
-      ),
-      ...beratungshilfeFormularFinanzielleAngabenArrayConfig(
-        "/beratungshilfe/antrag/finanzielle-angaben",
-      ),
-    },
+    arrays: beratungshilfeFormularFinanzielleAngabenArrayConfig(
+      "/beratungshilfe/antrag/finanzielle-angaben",
+    ),
   },
   states: {
     start: {
@@ -49,27 +47,24 @@ export const beratungshilfeXstateConfig = {
       {
         backToCallingFlow: [
           {
-            guard:
-              finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeldAndEigentumDone,
-            target:
-              "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung",
-          },
-          {
-            guard:
-              finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeldAndHasEigentum,
-            target: "#finanzielle-angaben.eigentum.gesamtwert",
-          },
-          {
-            guard: finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeld,
-            target: "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
-          },
-          {
-            guard: finanzielleAngabeGuards.hasAusgabenYes,
+            guard: ({ context }) =>
+              staatlicheLeistungenIsKeine({ context }) &&
+              finanzielleAngabeGuards.hasAusgabenYes({ context }),
             target: "#ausgaben.uebersicht",
           },
           {
-            guard: finanzielleAngabeGuards.hasNoStaatlicheLeistungen,
-            target: "#ausgaben.ausgaben-frage",
+            guard: staatlicheLeistungenIsKeine,
+            target: "#ausgaben",
+          },
+          {
+            guard: ({ context }) =>
+              staatlicheLeistungenIsBuergergeld({ context }) &&
+              finanzielleAngabeGuards.hasGrundeigentumYes({ context }),
+            target: "#eigentum.grundeigentum.uebersicht",
+          },
+          {
+            guard: staatlicheLeistungenIsBuergergeld,
+            target: "#eigentum.grundeigentum",
           },
           "#finanzielle-angaben.einkommen.staatliche-leistungen",
         ],

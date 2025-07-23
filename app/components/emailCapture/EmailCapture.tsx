@@ -14,7 +14,7 @@ import {
 import InputError from "~/components/inputs/InputError";
 import InputLabel from "~/components/inputs/InputLabel";
 import RichText from "~/components/RichText";
-import { type loader } from "~/routes/shared/formular.server";
+import { type loader } from "~/routes/shared/formular";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
 export type EmailCaptureProps = {

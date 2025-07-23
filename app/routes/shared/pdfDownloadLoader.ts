@@ -1,6 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 import { redirect, type LoaderFunctionArgs } from "react-router";
-import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services/pdf";
 import { parsePathname, type FlowId } from "~/domains/flowIds";
 import type { FluggastrechteFlugdatenUserData } from "~/domains/fluggastrechte/formular/flugdaten/userData";
@@ -66,7 +66,7 @@ const pdfConfigs = {
   },
 } satisfies Partial<Record<FlowId, PdfConfig>>;
 
-export async function pdfDownloadLoader({ request }: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const { pathname } = new URL(request.url);
   const { flowId } = parsePathname(pathname);
   if (!(flowId in pdfConfigs))

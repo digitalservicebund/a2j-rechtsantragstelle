@@ -8,12 +8,12 @@ const breadcrumbs = [
   },
   {
     title: "Vorab-Check",
-    url: "/beratungshilfe/vorabcheck/ergebnis/weitere-zahlungen-summe-absch",
+    url: "/beratungshilfe/vorabcheck",
   },
 ];
 
 describe("Breadcrumbs", () => {
-  it("should have the correct classNames for the parant html tags", () => {
+  it("should have the correct classNames for the parent html tags", () => {
     const { getByText } = render(<Breadcrumbs breadcrumbs={breadcrumbs} />);
 
     expect(getByText(breadcrumbs[0].title).parentElement).toHaveClass(
@@ -24,10 +24,10 @@ describe("Breadcrumbs", () => {
     );
   });
 
-  it("should have the correct aria label if data is provided", () => {
+  it("should have the correct aria label if provided", () => {
     const { container } = render(
       <Breadcrumbs
-        translations={{ "header-breadcrumb": "header-breadcrumb" }}
+        ariaLabel="header-breadcrumb"
         breadcrumbs={breadcrumbs}
         linkLabel="Zurück zur Startseite"
       />,

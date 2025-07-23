@@ -1,5 +1,5 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillVorraussetzungen } from "../B_vorraussetzungen";
 

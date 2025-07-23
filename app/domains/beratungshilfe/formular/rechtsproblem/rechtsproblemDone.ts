@@ -1,4 +1,4 @@
-import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { type GenericGuard } from "~/domains/guards.server";
 
 export const rechtsproblemDone: GenericGuard<

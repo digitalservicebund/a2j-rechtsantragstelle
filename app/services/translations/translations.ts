@@ -69,7 +69,7 @@ export const translations = {
       de: "Vielen Dank!",
     },
     "text-post-submission": {
-      de: "Wollen Sie uns mit Ihren Erfahrungen helfen, diese Seite zu verbessern? Dann melden Sie sich für \n[Feedback-Studien](/feedback-studien) an. Je nach Studie erhalten Sie eine Aufwandsentschädigung.",
+      de: "Wir wollen digitale Justiz-Angebote entwickeln, die für alle Menschen gut funktionieren. Ihre Hilfe ist dabei sehr wichtig. Teilen Sie Ihre Erfahrungen mit uns und testen Sie neue Angebote. [Hier können Sie sich anmelden](/feedback).",
     },
     "success-message": {
       de: "Vielen Dank!",

@@ -7,6 +7,7 @@ import { updateMainSession } from "~/services/session.server/updateSessionInHead
 import { translations } from "~/services/translations/translations";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
+export { ResultPage as default } from "./components/ResultPage";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
