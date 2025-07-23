@@ -1,8 +1,8 @@
 import type { z } from "zod";
 
-export type MultiFieldsValidationBaseSchema = z.ZodObject<
-  Record<string, z.ZodTypeAny>
->;
+export type SchemaObject = Record<string, z.ZodTypeAny>;
+
+export type MultiFieldsValidationBaseSchema = z.ZodObject<SchemaObject>;
 
 export type FunctionMultiFieldsValidation = (
   baseSchema: MultiFieldsValidationBaseSchema,

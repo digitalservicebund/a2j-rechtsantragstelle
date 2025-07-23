@@ -1,5 +1,5 @@
-import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { isFinanciallyEligibleForBerH } from "~/domains/beratungshilfe/formular/abgabe/isFinanciallyEligibleForBerH";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 
 describe("isFinanciallyEligibleForBerH", () => {
   it("should return true if the user has qualifying staatliche leistungen", () => {

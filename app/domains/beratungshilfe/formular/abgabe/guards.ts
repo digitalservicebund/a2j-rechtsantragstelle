@@ -1,5 +1,5 @@
-import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
 import { beratungshilfePersoenlicheDatenDone } from "~/domains/beratungshilfe/formular/persoenlicheDaten/doneFunctions";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import type { Guards } from "../../../guards.server";
 import { anwaltlicheVertretungDone } from "../anwaltlicheVertretung/guards";
 import { beratungshilfeFinanzielleAngabeDone } from "../finanzielleAngaben/beratungshilfeFinanzielleAngabeDone";

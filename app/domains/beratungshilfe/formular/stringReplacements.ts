@@ -12,8 +12,8 @@ import {
 } from "./finanzielleAngaben/doneFunctions";
 import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
 import { eigentumTotalWorthLessThan10000 } from "./finanzielleAngaben/guards";
-import type { BeratungshilfeFormularUserData } from "./index";
 import { rechtsproblemDone } from "./rechtsproblem/rechtsproblemDone";
+import type { BeratungshilfeFormularUserData } from "./userData";
 
 export const getAmtsgerichtStrings = (
   context: BeratungshilfeFormularUserData,
