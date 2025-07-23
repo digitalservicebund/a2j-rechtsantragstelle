@@ -44,5 +44,6 @@ export function addTableInfo(
         .moveDown(MARGIN_BETWEEN_SECTIONS);
     }),
   );
+
   documentStruct.add(reasonSect);
 }
