@@ -10,8 +10,6 @@ import {
   wohnungDone,
   eigentumDone,
 } from "./finanzielleAngaben/doneFunctions";
-import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
-import { eigentumTotalWorthLessThan10000 } from "./finanzielleAngaben/guards";
 import { rechtsproblemDone } from "./rechtsproblem/rechtsproblemDone";
 import type { BeratungshilfeFormularUserData } from "./userData";
 
@@ -84,16 +82,6 @@ export const getAnwaltStrings = (context: BeratungshilfeFormularUserData) => {
   return { hasNoAnwalt: context.anwaltskanzlei !== "yes" };
 };
 
-export const eigentumZusammenfassungShowTotalWorthWarnings = (
-  context: BeratungshilfeFormularUserData,
-) => {
-  return {
-    eigentumTotalWorthLessThan10000: eigentumTotalWorthLessThan10000({
-      context,
-    }),
-  };
-};
-
 export const getMissingInformationStrings = (
   context: BeratungshilfeFormularUserData,
 ) => {
@@ -117,9 +105,6 @@ export const getMissingInformationStrings = (
             !andereUnterhaltszahlungenDone({ context }),
           wohnungMissingInformation: !wohnungDone({ context }),
           eigentumMissingInformation: !eigentumDone({ context }),
-          eigentumZusammenfassungMissingInformation:
-            !eigentumZusammenfassungDone({ context }) &&
-            eigentumDone({ context }),
           ausgabenMissingInformation: !ausgabenDone({ context }),
         }
       : {};

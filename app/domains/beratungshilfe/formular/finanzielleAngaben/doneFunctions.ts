@@ -1,11 +1,11 @@
 import type { BeratungshilfeFinanzielleAngabenGuard } from "~/domains/beratungshilfe/formular/finanzielleAngaben/BeratungshilfeFinanzielleAngabenGuardType";
 import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 import {
+  bankKontoDone,
   childDone,
   geldanlageDone,
   singleGrundeigentumDone,
 } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
-import { hasAnyEigentumExceptBankaccount } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { arrayIsNonEmpty } from "~/util/array";
 
 export const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
@@ -101,7 +101,6 @@ export const ausgabenDone: BeratungshilfeFinanzielleAngabenGuard = ({
 export const geldanlagenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  context.eigentumTotalWorth === "less10000" ||
   context.hasGeldanlage === "no" ||
   (context.hasGeldanlage === "yes" &&
     arrayIsNonEmpty(context.geldanlagen) &&
@@ -110,7 +109,6 @@ export const geldanlagenDone: BeratungshilfeFinanzielleAngabenGuard = ({
 export const grundeigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  context.eigentumTotalWorth === "less10000" ||
   context.hasGrundeigentum === "no" ||
   (context.hasGrundeigentum === "yes" &&
     arrayIsNonEmpty(context.grundeigentum) &&
@@ -133,7 +131,6 @@ const kraftfahrzeugDone = (
 export const kraftfahrzeugeDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  context.eigentumTotalWorth === "less10000" ||
   context.hasKraftfahrzeug === "no" ||
   (context.hasKraftfahrzeug === "yes" &&
     arrayIsNonEmpty(context.kraftfahrzeuge) &&
@@ -142,7 +139,6 @@ export const kraftfahrzeugeDone: BeratungshilfeFinanzielleAngabenGuard = ({
 export const wertsachenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  context.eigentumTotalWorth === "less10000" ||
   context.hasWertsache === "no" ||
   (context.hasWertsache === "yes" && arrayIsNonEmpty(context.wertsachen));
 
@@ -151,10 +147,8 @@ export const eigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
 }) =>
   context.staatlicheLeistungen == "grundsicherung" ||
   context.staatlicheLeistungen == "asylbewerberleistungen" ||
-  (context.hasBankkonto !== undefined &&
-    context.hasKraftfahrzeug !== undefined &&
-    context.hasGeldanlage !== undefined &&
-    context.hasGrundeigentum !== undefined &&
-    context.hasWertsache !== undefined &&
-    (!hasAnyEigentumExceptBankaccount({ context }) ||
-      context.eigentumTotalWorth !== undefined));
+  (bankKontoDone({ context }) &&
+    geldanlagenDone({ context }) &&
+    grundeigentumDone({ context }) &&
+    wertsachenDone({ context }) &&
+    kraftfahrzeugeDone({ context }));
