@@ -7,6 +7,8 @@ import {
 import { createFactsOfCases } from "./factsOfCases/createFactsOfCases";
 import { createLegalAssessment } from "./legalAssessment/createLegalAssessment";
 import { MARGIN_BETWEEN_SECTIONS } from "../../configurations";
+import { addCompensationAmount } from "./factsOfCases/compensationAmount/addCompensationAmount";
+import { addTable } from "./factsOfCases/table/addTable";
 
 export const REASON_TITLE_TEXT = "Begründung";
 
@@ -31,7 +33,8 @@ export const createReasonPage = (
 
   createFactsOfCases(doc, reasonSect, userData);
   documentStruct.add(reasonSect);
-  const legalAssessmentSect = doc.struct("Sect");
-  createLegalAssessment(doc, legalAssessmentSect, userData);
-  documentStruct.add(legalAssessmentSect);
+  const startTableY = doc.y;
+  addTable(doc, documentStruct, startTableY, userData);
+  addCompensationAmount(doc, documentStruct, userData);
+  createLegalAssessment(doc, documentStruct, userData);
 };

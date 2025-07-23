@@ -70,7 +70,7 @@ function checkAndNewPage(
 
 export const createLegalAssessment = (
   doc: typeof PDFDocument,
-  legalAssessmentSect: PDFKit.PDFStructureElement,
+  documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
   const assumedSettlementSectionText =
@@ -78,6 +78,7 @@ export const createLegalAssessment = (
 
   checkAndNewPage(doc, assumedSettlementSectionText);
 
+  const legalAssessmentSect = doc.struct("Sect");
   legalAssessmentSect.add(
     doc.struct("H3", {}, () => {
       doc
@@ -131,4 +132,6 @@ export const createLegalAssessment = (
         );
     }),
   );
+
+  documentStruct.add(legalAssessmentSect);
 };

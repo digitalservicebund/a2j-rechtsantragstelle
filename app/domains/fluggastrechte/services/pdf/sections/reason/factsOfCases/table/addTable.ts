@@ -7,25 +7,27 @@ import { COLUMN_HEIGHT, MARGIN_BOTTOM } from "./tableConfigurations";
 
 export function addTable(
   doc: PDFKit.PDFDocument,
-  reasonSect: PDFKit.PDFStructureElement,
+  documentStruct: PDFKit.PDFStructureElement,
   startTableY: number,
   userData: FluggastrechteUserData,
 ) {
-  const table = doc.struct("Table"); // Create new table structure element
-
+  const tableSect = doc.struct("Sect");
+  const table = doc.struct("Table");
   drawTableRowHead(doc, table, startTableY, userData); // Pass table as parent to avoid reusing `documentStruct`
   drawTableColumnsHead(doc, table, startTableY); // Use the table structure element
   drawTableColumnsValues(doc, table, startTableY, userData); // Continue with table structure element
 
-  reasonSect.add(table); // Add the table to the section
+  tableSect.add(table);
   doc.fill("black"); // Fill black due next pages of the table
   // Get end position of the table generated
   const tableEndYPosition = startTableY + COLUMN_HEIGHT * 4 + MARGIN_BOTTOM;
-  // reset the position of the table
+  //reset the position of the table
+  documentStruct.add(tableSect);
   doc.y = tableEndYPosition;
+
   addTableInfo(
     doc,
-    reasonSect,
+    documentStruct,
     userData.andereErsatzverbindungBeschreibung ?? "",
   );
 }

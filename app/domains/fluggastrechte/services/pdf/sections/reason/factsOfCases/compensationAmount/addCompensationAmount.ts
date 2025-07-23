@@ -18,16 +18,18 @@ export const OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT = `Die klagende
 
 export const addCompensationAmount = (
   doc: typeof PDFDocument,
-  reasonSect: PDFKit.PDFStructureElement,
+  documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
-  reasonSect.add(
+  const compensationSect = doc.struct("Sect");
+
+  compensationSect.add(
     doc.struct("P", {}, () => {
       doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
       addOtherDetailsItinerary(doc, userData.zusaetzlicheAngaben);
     }),
   );
-  reasonSect.add(
+  compensationSect.add(
     doc.struct("P", {}, () => {
       addDistanceInfo(doc, userData);
     }),
@@ -50,7 +52,7 @@ export const addCompensationAmount = (
     demandedCompensationPaymentTextHeight,
   );
 
-  reasonSect.add(
+  compensationSect.add(
     doc.struct("P", {}, () => {
       doc
         .text(demandedCompensationPaymentText)
@@ -58,16 +60,18 @@ export const addCompensationAmount = (
     }),
   );
 
-  reasonSect.add(
+  compensationSect.add(
     doc.struct("P", {}, () => {
       addMultiplePersonsInfo(doc, userData);
     }),
   );
 
-  reasonSect.add(
+  compensationSect.add(
     doc.struct("P", {}, () => {
       addWitnessesInfo(doc, userData);
     }),
   );
   doc.moveDown(2);
+
+  documentStruct.add(compensationSect);
 };

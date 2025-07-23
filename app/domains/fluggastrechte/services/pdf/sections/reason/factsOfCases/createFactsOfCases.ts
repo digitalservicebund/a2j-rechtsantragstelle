@@ -20,6 +20,7 @@ export const createFactsOfCases = (
   reasonSect.add(
     doc.struct("H3", {}, () => {
       doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text(FACTS_OF_CASES_TEXT);
+      doc.moveDown(MARGIN_BETWEEN_SECTIONS);
     }),
   );
 
@@ -40,7 +41,4 @@ export const createFactsOfCases = (
   doc.moveDown(MARGIN_BETWEEN_SECTIONS);
   addNewPageInCaseMissingVerticalSpace(doc, COLUMN_HEIGHT * 4 + MARGIN_BOTTOM);
   doc.moveDown(MARGIN_BETWEEN_SECTIONS);
-  const startTableY = doc.y;
-  addTable(doc, reasonSect, startTableY, userData);
-  addCompensationAmount(doc, reasonSect, userData);
 };
