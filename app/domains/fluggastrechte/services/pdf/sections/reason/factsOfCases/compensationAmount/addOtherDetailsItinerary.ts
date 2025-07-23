@@ -10,6 +10,7 @@ export const OTHER_DETAILS_ITINERARY = "Weitere Angaben zum Reiseverlauf:";
 
 export const addOtherDetailsItinerary = (
   doc: typeof PDFDocument,
+  compensationSect: PDFKit.PDFStructureElement,
   zusaetzlicheAngaben?: string,
 ) => {
   if (
@@ -32,9 +33,13 @@ export const addOtherDetailsItinerary = (
       zusaetzlicheAngabenHeight + otherDetailsItineraryHeight,
     );
 
-    doc
-      .text(OTHER_DETAILS_ITINERARY, PDF_MARGIN_HORIZONTAL)
-      .text(zusaetzlicheAngaben)
-      .moveDown(MARGIN_BETWEEN_SECTIONS);
+    compensationSect.add(
+      doc.struct("P", {}, () => {
+        doc
+          .text(OTHER_DETAILS_ITINERARY, PDF_MARGIN_HORIZONTAL)
+          .text(zusaetzlicheAngaben)
+          .moveDown(MARGIN_BETWEEN_SECTIONS);
+      }),
+    );
   }
 };

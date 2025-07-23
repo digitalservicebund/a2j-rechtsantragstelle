@@ -12,8 +12,13 @@ describe("addOtherDetailsItinerary", () => {
   it("should have the text for other details itinerary in case the zusaetzlicheAngaben is defined ", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
-    addOtherDetailsItinerary(mockDoc, userDataMock.zusaetzlicheAngaben);
+    addOtherDetailsItinerary(
+      mockDoc,
+      mockSect,
+      userDataMock.zusaetzlicheAngaben,
+    );
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       OTHER_DETAILS_ITINERARY,
@@ -26,8 +31,9 @@ describe("addOtherDetailsItinerary", () => {
   it("should not have the text for other details itinerary in case zusaetzlicheAngaben is not defined", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
-    addOtherDetailsItinerary(mockDoc);
+    addOtherDetailsItinerary(mockDoc, mockSect);
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(
       OTHER_DETAILS_ITINERARY,

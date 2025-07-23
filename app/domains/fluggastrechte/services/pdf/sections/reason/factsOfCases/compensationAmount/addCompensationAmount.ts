@@ -23,14 +23,11 @@ export const addCompensationAmount = (
 ) => {
   const compensationSect = doc.struct("Sect");
 
+  addOtherDetailsItinerary(doc, compensationSect, userData.zusaetzlicheAngaben);
+
   compensationSect.add(
     doc.struct("P", {}, () => {
       doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
-      addOtherDetailsItinerary(doc, userData.zusaetzlicheAngaben);
-    }),
-  );
-  compensationSect.add(
-    doc.struct("P", {}, () => {
       addDistanceInfo(doc, userData);
     }),
   );
@@ -60,17 +57,10 @@ export const addCompensationAmount = (
     }),
   );
 
-  compensationSect.add(
-    doc.struct("P", {}, () => {
-      addMultiplePersonsInfo(doc, userData);
-    }),
-  );
+  addMultiplePersonsInfo(doc, userData, compensationSect);
 
-  compensationSect.add(
-    doc.struct("P", {}, () => {
-      addWitnessesInfo(doc, userData);
-    }),
-  );
+  addWitnessesInfo(doc, userData, compensationSect);
+
   doc.moveDown(2);
 
   documentStruct.add(compensationSect);

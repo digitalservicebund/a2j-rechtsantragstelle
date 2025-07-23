@@ -11,12 +11,17 @@ export const WITNESS_EVIDENCE_MULTIPLE_PERSONS_TEXT =
 export const addWitnessesInfo = (
   doc: typeof PDFDocument,
   { hasZeugen, isWeiterePersonen }: FluggastrechteUserData,
+  compensationSect: PDFKit.PDFStructureElement,
 ) => {
   if (hasZeugen === "yes") {
     addNewPageInCaseMissingVerticalSpace(doc);
-    doc.text(
-      `${isWeiterePersonen === "no" ? WITNESS_EVIDENCE_TEXT : WITNESS_EVIDENCE_MULTIPLE_PERSONS_TEXT}`,
-      PDF_MARGIN_HORIZONTAL,
+    compensationSect.add(
+      doc.struct("P", {}, () => {
+        doc.text(
+          `${isWeiterePersonen === "no" ? WITNESS_EVIDENCE_TEXT : WITNESS_EVIDENCE_MULTIPLE_PERSONS_TEXT}`,
+          PDF_MARGIN_HORIZONTAL,
+        );
+      }),
     );
   }
 };

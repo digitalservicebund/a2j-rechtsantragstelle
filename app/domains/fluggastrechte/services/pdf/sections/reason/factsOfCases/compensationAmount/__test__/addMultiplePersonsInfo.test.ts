@@ -17,8 +17,9 @@ describe("addMultiplePersonsInfo", () => {
   it("should not call any print text given an user data is not weitere personen", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
-    addMultiplePersonsInfo(mockDoc, userDataMock);
+    addMultiplePersonsInfo(mockDoc, userDataMock, mockSect);
 
     expect(mockDoc.text).not.toBeCalled();
   });
@@ -26,13 +27,14 @@ describe("addMultiplePersonsInfo", () => {
   it("should not call any print text given an user data with empty weitere personen", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonen = {
       ...userDataMock,
       isWeiterePersonen: YesNoAnswer.Values.yes,
     };
 
-    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
+    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
 
     expect(mockDoc.text).not.toBeCalled();
   });
@@ -40,6 +42,7 @@ describe("addMultiplePersonsInfo", () => {
   it("should have the text for CLAIM_FOLLOWING_PERSONS_TRANSFERER_TEXT given an user data with weitere personen", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonen = {
       ...userDataMock,
@@ -55,7 +58,7 @@ describe("addMultiplePersonsInfo", () => {
       isWeiterePersonen: YesNoAnswer.Values.yes,
     };
 
-    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
+    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       CLAIM_FOLLOWING_PERSONS_TRANSFERER_TEXT,
@@ -65,6 +68,7 @@ describe("addMultiplePersonsInfo", () => {
   it("should have the text for persons names given an user data with weitere personen", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonen = {
       ...userDataMock,
@@ -80,7 +84,7 @@ describe("addMultiplePersonsInfo", () => {
       isWeiterePersonen: YesNoAnswer.Values.yes,
     };
 
-    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
+    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith("Vorname nachname");
   });
@@ -88,6 +92,7 @@ describe("addMultiplePersonsInfo", () => {
   it("should have the text for ATTACHMENT_ASSIGNMENTS_TEXT given an user data with weitere personen", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonen = {
       ...userDataMock,
@@ -103,7 +108,7 @@ describe("addMultiplePersonsInfo", () => {
       isWeiterePersonen: YesNoAnswer.Values.yes,
     };
 
-    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
+    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       ATTACHMENT_ASSIGNMENTS_TEXT,
@@ -114,6 +119,7 @@ describe("addMultiplePersonsInfo", () => {
   it("should have the text for INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT given an user data with weitere personen, zeugen yes and bereich verspaetet", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonen = {
       ...userDataMock,
@@ -130,7 +136,7 @@ describe("addMultiplePersonsInfo", () => {
       hasZeugen: YesNoAnswer.Values.yes,
     };
 
-    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
+    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT,
@@ -141,6 +147,7 @@ describe("addMultiplePersonsInfo", () => {
   it("should have the text for INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT given an user data with weitere personen, zeugen yes and bereich nichtbefoerderung", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonen = {
       ...userDataMock,
@@ -158,7 +165,7 @@ describe("addMultiplePersonsInfo", () => {
       bereich: "nichtbefoerderung",
     };
 
-    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
+    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT,
@@ -169,6 +176,7 @@ describe("addMultiplePersonsInfo", () => {
   it("should have the text for INFORMATION_BOOKING_AND_ASSIGNMENTS_ANNULLIERUNG_TEXT given an user data with weitere personen, zeugen yes and bereich annullierung", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonen = {
       ...userDataMock,
@@ -186,7 +194,7 @@ describe("addMultiplePersonsInfo", () => {
       bereich: "annullierung",
     };
 
-    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
+    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       INFORMATION_BOOKING_AND_ASSIGNMENTS_ANNULLIERUNG_TEXT,
@@ -197,6 +205,7 @@ describe("addMultiplePersonsInfo", () => {
   it("should have the text for EVIDENCE_QUESTION_WITNESSES_TEXT given an user data with weitere personen and zeugen yes", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonen = {
       ...userDataMock,
@@ -213,7 +222,7 @@ describe("addMultiplePersonsInfo", () => {
       hasZeugen: YesNoAnswer.Values.yes,
     };
 
-    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
+    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       EVIDENCE_QUESTION_WITNESSES_TEXT,
@@ -224,6 +233,7 @@ describe("addMultiplePersonsInfo", () => {
   it("should have call text for persons names given an user data with weitere personen and zeugen yes", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonen = {
       ...userDataMock,
@@ -240,7 +250,7 @@ describe("addMultiplePersonsInfo", () => {
       hasZeugen: YesNoAnswer.Values.yes,
     };
 
-    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
+    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith("Vorname nachname");
   });

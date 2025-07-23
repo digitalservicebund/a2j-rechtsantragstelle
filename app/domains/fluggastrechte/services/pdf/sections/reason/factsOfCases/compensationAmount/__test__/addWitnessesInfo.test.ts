@@ -30,6 +30,7 @@ describe("addWitnessesInfo", () => {
   it("should have the text for plaintiff witnesses for multiple persons in case the hasZeugen and weitere personen is yes", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataHasZeugenMock = {
       ...userDataMock,
@@ -37,7 +38,7 @@ describe("addWitnessesInfo", () => {
       isWeiterePersonen: YesNoAnswer.Enum.yes,
     };
 
-    addWitnessesInfo(mockDoc, userDataHasZeugenMock);
+    addWitnessesInfo(mockDoc, userDataHasZeugenMock, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       WITNESS_EVIDENCE_MULTIPLE_PERSONS_TEXT,
@@ -48,13 +49,14 @@ describe("addWitnessesInfo", () => {
   it("should not have the text for plaintiff witnesses in case the hasZeugen is no", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataHasZeugenMock = {
       ...userDataMock,
       hasZeugen: YesNoAnswer.Enum.no,
     };
 
-    addWitnessesInfo(mockDoc, userDataHasZeugenMock);
+    addWitnessesInfo(mockDoc, userDataHasZeugenMock, mockSect);
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(WITNESS_EVIDENCE_TEXT);
   });
@@ -62,13 +64,13 @@ describe("addWitnessesInfo", () => {
   it("should call addNewPageInCaseMissingVerticalSpace in case the hasZeugen is yes ", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
-
+    const mockSect = mockDoc.struct("Sect");
     const userDataHasZeugenMock = {
       ...userDataMock,
       hasZeugen: YesNoAnswer.Enum.yes,
     };
 
-    addWitnessesInfo(mockDoc, userDataHasZeugenMock);
+    addWitnessesInfo(mockDoc, userDataHasZeugenMock, mockSect);
 
     expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(1);
   });
@@ -76,13 +78,14 @@ describe("addWitnessesInfo", () => {
   it("should not call addNewPageInCaseMissingVerticalSpace in case the hasZeugen is no ", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataHasNoZeugenMock = {
       ...userDataMock,
       hasZeugen: YesNoAnswer.Enum.no,
     };
 
-    addWitnessesInfo(mockDoc, userDataHasNoZeugenMock);
+    addWitnessesInfo(mockDoc, userDataHasNoZeugenMock, mockSect);
 
     expect(addNewPageInCaseMissingVerticalSpace).not.toBeCalled();
   });
