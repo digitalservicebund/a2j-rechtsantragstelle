@@ -23,8 +23,9 @@ export const addDefendantPartyList = (
   };
 
   for (const [bullet, claim] of Object.entries(defendantPartyList)) {
-    statementClaimList.add(
-      doc.struct("LI", {}, () => {
+    const statementClaimListItem = doc.struct("LI");
+    statementClaimListItem.add(
+      doc.struct("LBody", {}, () => {
         doc
           .font(FONTS_BUNDESSANS_BOLD)
           .text(bullet, PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT, undefined, {
@@ -35,5 +36,6 @@ export const addDefendantPartyList = (
         doc.moveDown(0.5);
       }),
     );
+    statementClaimList.add(statementClaimListItem);
   }
 };
