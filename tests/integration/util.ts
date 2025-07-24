@@ -34,29 +34,18 @@ export function compileAllStrapiPages(
  * Massive if branching is needed, as Zod has different ways of encoding
  * a schema's keys for each data type
  */
-export function zodKeys<T extends z.ZodType | null | undefined>(
+export function zodKeys<T extends z.core.$ZodType | null | undefined>(
   schema: T,
 ): string[] {
-  // make sure schema is not null or undefined
-  if (schema === null || schema === undefined) return [];
-  // check if schema is nullable or optional
+  if (!schema) return [];
   if (schema instanceof z.ZodNullable || schema instanceof z.ZodOptional)
-    return zodKeys(schema.unwrap());
-  // check if schema is an array
+    return zodKeys(schema.unwrap()); // unwrap returns z.core.$ZodType instead of z.ZodType
   if (schema instanceof z.ZodArray) {
     return zodKeys(schema.element);
   }
-  // check if schema is a ZodEffect
-  if (schema instanceof z.ZodEffects) {
-    return zodKeys(schema._def?.schema ?? schema);
-  }
-  // check if schema is an object
   if (schema instanceof z.ZodObject) {
-    // get key/value pairs from schema
-    const entries = Object.entries(schema.shape);
-    // loop through key/value pairs
-    return entries.flatMap(([key, value]) => {
-      // get nested keys
+    //  loop through shape to get nested keys
+    return Object.entries(schema.shape).flatMap(([key, value]) => {
       const nested =
         value instanceof z.ZodType
           ? zodKeys(value).map(
@@ -64,11 +53,9 @@ export function zodKeys<T extends z.ZodType | null | undefined>(
                 `${key}${value instanceof z.ZodArray ? "#" : "."}${subKey}`,
             )
           : [];
-      // return nested keys
       return nested.length ? nested : key;
     });
   }
-  // return empty array
   return [];
 }
 
