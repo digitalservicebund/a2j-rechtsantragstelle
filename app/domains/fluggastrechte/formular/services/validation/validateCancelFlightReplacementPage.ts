@@ -231,7 +231,7 @@ export function validateCancelFlightReplacementPage(
         });
       }
     }
-    if (fields.some(({ value }) => !value)) return false;
+    if (fields.some(({ value }) => !value)) return;
 
     if (ctx.value.ankuendigung === "between7And13Days") {
       validateFieldsBetween7And13Days(ctx);
