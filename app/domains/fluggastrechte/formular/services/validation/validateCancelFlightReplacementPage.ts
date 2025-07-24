@@ -219,10 +219,7 @@ export function validateCancelFlightReplacementPage(
     const fields = getFieldsForValidation(data);
 
     const isAnyFieldFilled = fields.some(({ value }) => Boolean(value));
-
-    if (!isAnyFieldFilled) {
-      return;
-    }
+    if (!isAnyFieldFilled) return;
 
     for (const { value, path } of fields) {
       if (!value) {
@@ -233,6 +230,7 @@ export function validateCancelFlightReplacementPage(
         });
       }
     }
+    if (fields.some(({ value }) => !value)) return false;
 
     if (data.ankuendigung === "between7And13Days") {
       validateFieldsBetween7And13Days(data, ctx);
