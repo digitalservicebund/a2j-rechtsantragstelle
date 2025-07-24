@@ -86,18 +86,6 @@ export const kontopfaendungWegweiserPages = {
       }),
     },
   },
-  zahlungArbeitgeber: {
-    stepId: "zahlung-arbeitgeber",
-    pageSchema: {
-      zahlungArbeitgeber: z.object({
-        urlaubsgeld: checkedOptional,
-        weihnachtsgeld: checkedOptional,
-        ueberstundenBezahlt: checkedOptional,
-        abfindung: checkedOptional,
-        anderes: checkedOptional,
-      }),
-    },
-  },
   nachzahlungArbeitgeber: {
     stepId: "nachzahlung-arbeitgeber",
     pageSchema: { nachzahlungArbeitgeber: YesNoAnswer },
@@ -108,7 +96,15 @@ export const kontopfaendungWegweiserPages = {
   },
   einmalzahlungArbeitgeber: {
     stepId: "einmalzahlung-arbeitgeber",
-    pageSchema: { einmalzahlungArbeitgeber: YesNoAnswer },
+    pageSchema: {
+      zahlungArbeitgeber: z.object({
+        urlaubsgeld: checkedOptional,
+        weihnachtsgeld: checkedOptional,
+        ueberstundenBezahlt: checkedOptional,
+        abfindung: checkedOptional,
+        anderes: checkedOptional,
+      }),
+    },
   },
   sozialleistungen: {
     stepId: "sozialleistungen",

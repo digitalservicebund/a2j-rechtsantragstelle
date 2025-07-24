@@ -1,16 +1,22 @@
 import { z } from "zod";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
+import type { fluggastrechteInputSchema } from "../../userData";
+
+const fieldsForValidation = [
+  "ersterZwischenstopp",
+  "zweiterZwischenstopp",
+  "dritterZwischenstopp",
+] as const;
 
 export function validateStopoverDuplicates(
-  baseSchema: MultiFieldsValidationBaseSchema,
+  baseSchema: MultiFieldsValidationBaseSchema<
+    Pick<
+      typeof fluggastrechteInputSchema,
+      (typeof fieldsForValidation)[number] | "startAirport" | "endAirport"
+    >
+  >,
 ) {
   return baseSchema.superRefine((userData, ctx) => {
-    const fieldsForValidation = [
-      "ersterZwischenstopp",
-      "zweiterZwischenstopp",
-      "dritterZwischenstopp",
-    ];
-
     const filledFields = fieldsForValidation
       .filter((fieldName) => userData[fieldName])
       .map((fieldName) => ({
