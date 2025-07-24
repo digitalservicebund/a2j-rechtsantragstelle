@@ -13,8 +13,6 @@ import {
   getBuergergeldStrings,
   getGrundsicherungStrings,
   getAsylbewerberleistungStrings,
-  getPflegegeldSelbstStrings,
-  getPflegegeldFremdStrings,
   getArbeitsentgeltEinmaligStrings,
   getSelbststaendigStrings,
   getAngestelltStrings,
@@ -24,6 +22,8 @@ import {
   getInfoZumPKontoStrings,
   getHasErhöhungStrings,
   getArbeitStrings,
+  getRenteStrings,
+  getPflegegeldStrings,
 } from "./stringReplacements";
 import { type KontopfaendungWegweiserUserData } from "./userData";
 import { kontopfaendungWegweiserXstateConfig } from "./xStateConfig";
@@ -47,8 +47,6 @@ export const kontopfaendungWegweiser = {
     ...getBuergergeldStrings(userData),
     ...getGrundsicherungStrings(userData),
     ...getAsylbewerberleistungStrings(userData),
-    ...getPflegegeldSelbstStrings(userData),
-    ...getPflegegeldFremdStrings(userData),
     ...getArbeitsentgeltEinmaligStrings(userData),
     ...getSelbststaendigStrings(userData),
     ...getAngestelltStrings(userData),
@@ -57,5 +55,7 @@ export const kontopfaendungWegweiser = {
     ...getAmtsgerichtStrings(userData),
     ...getInfoZumPKontoStrings(userData),
     ...getHasErhöhungStrings(userData),
+    ...getRenteStrings(userData),
+    ...getPflegegeldStrings(userData),
   }),
 } satisfies Flow;
