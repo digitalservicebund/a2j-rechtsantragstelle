@@ -48,6 +48,7 @@ export const addCompensationAmount = (
     doc,
     demandedCompensationPaymentTextHeight,
   );
+  doc.fill("black");
 
   compensationSect.add(
     doc.struct("P", {}, () => {

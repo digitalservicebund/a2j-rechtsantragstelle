@@ -53,6 +53,7 @@ export const addDistanceInfo = (
   });
 
   addNewPageInCaseMissingVerticalSpace(doc, distanceTextHeight);
+  doc.fill("black");
 
   doc
     .text(distanceText, PDF_MARGIN_HORIZONTAL)

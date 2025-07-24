@@ -113,6 +113,7 @@ export const createLegalAssessment = (
         width: PDF_WIDTH_SEIZE,
       });
       addNewPageInCaseMissingVerticalSpace(doc, advanceCourtTextHeight);
+      doc.fill("black");
 
       doc.text(advanceCourtText).moveDown(2);
     }),

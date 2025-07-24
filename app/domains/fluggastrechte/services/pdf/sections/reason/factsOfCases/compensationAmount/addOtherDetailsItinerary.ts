@@ -32,6 +32,7 @@ export const addOtherDetailsItinerary = (
       doc,
       zusaetzlicheAngabenHeight + otherDetailsItineraryHeight,
     );
+    doc.fill("black");
 
     compensationSect.add(
       doc.struct("P", {}, () => {

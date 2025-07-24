@@ -1,6 +1,7 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
+import { MARGIN_BETWEEN_SECTIONS } from "../../../../configurations";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 
 export const WITNESS_EVIDENCE_TEXT =
@@ -21,6 +22,7 @@ export const addWitnessesInfo = (
           `${isWeiterePersonen === "no" ? WITNESS_EVIDENCE_TEXT : WITNESS_EVIDENCE_MULTIPLE_PERSONS_TEXT}`,
           PDF_MARGIN_HORIZONTAL,
         );
+        doc.moveDown(MARGIN_BETWEEN_SECTIONS);
       }),
     );
   }
