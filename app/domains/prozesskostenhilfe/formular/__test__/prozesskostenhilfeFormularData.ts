@@ -5,7 +5,6 @@ import {
   prozesskostenhilfeFinanzielleAngabenInputSchema,
   zahlungspflichtigerInputSchema,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
-import { prozesskostenhilfeGrundvoraussetzungenInputSchema as grundvoraussetzungenSchema } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import {
   eigentuemerInputSchema,
@@ -24,9 +23,9 @@ export const createFinancialEntry = () => ({
 });
 
 export const happyPathData: ProzesskostenhilfeFormularUserData = {
-  formularArt: grundvoraussetzungenSchema.formularArt.Enum.erstantrag,
-  verfahrenArt: grundvoraussetzungenSchema.verfahrenArt.Enum.verfahrenAnwalt,
-  versandArt: grundvoraussetzungenSchema.versandArt.Enum.digital,
+  formularArt: "erstantrag",
+  verfahrenArt: "verfahrenAnwalt",
+  versandArt: "digital",
   empfaenger: antragstellendePersonSchema.empfaenger.Enum.myself,
   unterhaltsanspruch: antragstellendePersonSchema.unterhaltsanspruch.Enum.keine,
   hasBankkonto: YesNoAnswer.Enum.yes,
