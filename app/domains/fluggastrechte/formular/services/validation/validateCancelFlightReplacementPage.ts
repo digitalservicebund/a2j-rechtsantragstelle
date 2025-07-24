@@ -60,16 +60,16 @@ const getFlightTimestamps = (data: ParsedData) => ({
     data.direktAbflugsZeit,
   ),
   departureDateTime: convertToTimestamp(
-    data.annullierungErsatzverbindungAbflugsDatum,
-    data.annullierungErsatzverbindungAbflugsZeit,
+    data.annullierungErsatzverbindungAbflugsDatum!,
+    data.annullierungErsatzverbindungAbflugsZeit!,
   ),
   originalArrivalDateTime: convertToTimestamp(
     data.direktAnkunftsDatum,
     data.direktAnkunftsZeit,
   ),
   arrivalDateTime: convertToTimestamp(
-    data.annullierungErsatzverbindungAnkunftsDatum,
-    data.annullierungErsatzverbindungAnkunftsZeit,
+    data.annullierungErsatzverbindungAnkunftsDatum!,
+    data.annullierungErsatzverbindungAnkunftsZeit!,
   ),
 });
 
