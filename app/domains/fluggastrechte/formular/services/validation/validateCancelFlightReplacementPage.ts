@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
-import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 import type { fluggastrechteInputSchema } from "../../userData";
 
 const ONE_HOUR_MILLISECONDS = 1 * 60 * 60 * 1000;
@@ -219,16 +218,14 @@ export function validateCancelFlightReplacementPage(
   return baseSchema.superRefine((data, ctx) => {
     const fields = getFieldsForValidation(data);
 
-    const isAnyFieldFilled = fields.some(
-      ({ value }) => !isFieldEmptyOrUndefined(value),
-    );
+    const isAnyFieldFilled = fields.some(({ value }) => Boolean(value));
 
     if (!isAnyFieldFilled) {
       return;
     }
 
     for (const { value, path } of fields) {
-      if (isFieldEmptyOrUndefined(value)) {
+      if (!value) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "fillAllOrNone",
