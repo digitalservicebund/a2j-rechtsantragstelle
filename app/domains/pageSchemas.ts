@@ -3,6 +3,7 @@ import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
+import type { SchemaObject } from "./types";
 
 const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -21,12 +22,12 @@ export function getPageSchema(pathname: string) {
 }
 
 // TODO: better specify PageSchema to specify enums, strings, ...
-export type PageSchema = Record<string, z.ZodTypeAny>;
+export type PageSchema = SchemaObject;
 export type PageConfig = { pageSchema?: PageSchema; stepId: string };
 export type PagesConfig = Record<string, PageConfig>;
 
 type ExtractSchemas<T extends PagesConfig> = {
-  [K in keyof T]: T[K]["pageSchema"] extends Record<string, z.ZodTypeAny>
+  [K in keyof T]: T[K]["pageSchema"] extends SchemaObject
     ? z.infer<z.ZodObject<T[K]["pageSchema"]>>
     : never;
 }[keyof T];

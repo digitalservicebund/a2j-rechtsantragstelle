@@ -1,11 +1,12 @@
 import { z } from "zod";
+import { airportSchema } from "~/services/validation/airport";
 import { validateSameDepartureAndArrivalAirports } from "../validation";
 
 describe("Vorabcheck - Multi Fields Validation", () => {
   describe("validateSameDepartureAndArrivalAirports", () => {
     const baseSchema = z.object({
-      startAirport: z.string(),
-      endAirport: z.string(),
+      startAirport: airportSchema,
+      endAirport: airportSchema,
     });
 
     const validator = validateSameDepartureAndArrivalAirports(baseSchema);

@@ -1,4 +1,4 @@
-import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { flows } from "~/domains/flows.server";
 import { buildFlowController } from "../server/buildFlowController";
 import { validFormPaths } from "../validFormPaths";
@@ -66,15 +66,11 @@ describe("validFormPaths", () => {
       expect(validPaths.length).toEqual(3);
 
       expect(validPaths[1]).toStrictEqual({
-        stepIds: [
-          "/finanzielle-angaben/eigentum-zusammenfassung/bankkonten/daten",
-        ],
+        stepIds: ["/finanzielle-angaben/eigentum/bankkonten/bankkonto/daten"],
         arrayIndex: 0,
       });
       expect(validPaths[2]).toStrictEqual({
-        stepIds: [
-          "/finanzielle-angaben/eigentum-zusammenfassung/bankkonten/daten",
-        ],
+        stepIds: ["/finanzielle-angaben/eigentum/bankkonten/bankkonto/daten"],
         arrayIndex: 1,
       });
     });

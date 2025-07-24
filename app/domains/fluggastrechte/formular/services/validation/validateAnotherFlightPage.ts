@@ -2,9 +2,19 @@ import { z } from "zod";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
 import { isStartTimestampLessThanThreeHours } from "./isStartTimestampLessThanThreeHours";
+import type { fluggastrechteFlugdatenInputSchema } from "../../flugdaten/userData";
 
 export function validateAnotherFlightPage(
-  baseSchema: MultiFieldsValidationBaseSchema,
+  baseSchema: MultiFieldsValidationBaseSchema<
+    Pick<
+      typeof fluggastrechteFlugdatenInputSchema,
+      | "ersatzFlugAnkunftsDatum"
+      | "ersatzFlugAnkunftsZeit"
+      | "direktAnkunftsDatum"
+      | "direktAnkunftsZeit"
+      | "bereich"
+    >
+  >,
 ) {
   return baseSchema.superRefine((data, ctx) => {
     const originalArrivalDateTime = convertToTimestamp(

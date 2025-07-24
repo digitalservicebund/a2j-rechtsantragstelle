@@ -4,13 +4,13 @@ import {
   type ActionFunctionArgs,
 } from "react-router";
 import { Result } from "true-myth";
-import { processUserFile } from "~/services/flow/formular/fileUpload/processUserFile.server";
 import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
 import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
+import { uploadUserFile } from "~/services/upload/fileUploadHelpers.server";
 import { action } from "../formular";
 
 vi.mock("~/services/security/csrf/validatedSession.server", () => ({
@@ -22,7 +22,7 @@ vi.mock("~/services/logging", () => ({
 }));
 
 vi.mock("~/services/flow/server/buildFlowController");
-vi.mock("~/services/flow/formular/fileUpload/processUserFile.server");
+vi.mock("~/services/upload/fileUploadHelpers.server");
 vi.mock("~/services/session.server");
 vi.mock("~/services/flow/userFlowAction/validateFormUserData");
 vi.mock("~/services/flow/userFlowAction/postValidationFlowAction");
@@ -68,12 +68,10 @@ describe("formular.server", () => {
 
     describe("file actions", () => {
       it("should return an error response when a file upload fails", async () => {
-        vi.mocked(processUserFile).mockResolvedValue(
-          Result.err({
-            fieldErrors: { file: "File upload failed" },
-            repopulateFields: { file: "someFile" },
-          }),
-        );
+        vi.mocked(uploadUserFile).mockResolvedValue({
+          fieldErrors: { file: "File upload failed" },
+          repopulateFields: { file: "someFile" },
+        });
 
         const formData = new FormData();
         formData.append("_action", "fileUpload");
@@ -98,20 +96,17 @@ describe("formular.server", () => {
       });
 
       it("should return 200 and update the session when a file upload succeeds", async () => {
-        vi.mocked(processUserFile).mockResolvedValue(
-          Result.ok({
-            userData: { file: "someFile" },
-          }),
-        );
+        vi.mocked(uploadUserFile).mockResolvedValue({
+          userData: { file: "someFile" },
+        });
 
         const formData = new FormData();
-        formData.append("_action", "fileUpload");
-        const options = {
+        formData.append("_action", "fileUpload.file");
+
+        const request = new Request(mockRequestUrl, {
           method: "POST",
           body: formData,
-        };
-
-        const request = new Request(mockRequestUrl, options);
+        });
 
         const response = (await action({
           request,
@@ -121,13 +116,9 @@ describe("formular.server", () => {
 
         expect(response.init?.status).toBe(200);
         expect(updateSession).toHaveBeenCalledTimes(1);
-        expect(updateSession).toHaveBeenCalledWith(
-          expect.anything(),
-          {
-            file: "someFile",
-          },
-          undefined,
-        );
+        expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
+          file: "someFile",
+        });
       });
     });
 

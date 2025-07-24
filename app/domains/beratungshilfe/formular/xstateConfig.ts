@@ -1,5 +1,9 @@
 import mapValues from "lodash/mapValues";
 import { hasOptionalString } from "~/domains/guards.server";
+import {
+  staatlicheLeistungenIsBuergergeld,
+  staatlicheLeistungenIsKeine,
+} from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { getPersoenlicheDatenXstateConfig } from "~/domains/shared/formular/persoenlicheDaten/xStateConfig";
 import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
 import type { Config } from "~/services/flow/server/buildFlowController";
@@ -14,7 +18,7 @@ import type { BeratungshilfeFormularUserData } from "./index";
 import { beratungshilfeAntragPages } from "./pages";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
-import { finanzielleAngabenArrayConfig } from "../../shared/formular/finanzielleAngaben/arrayConfiguration";
+import type { BeratungshilfeFormularUserData } from "./userData";
 
 const stepIds = mapValues(beratungshilfeAntragPages, (v) => v.stepId);
 
@@ -24,14 +28,9 @@ export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
   initial: stepIds.start,
   meta: {
-    arrays: {
-      ...finanzielleAngabenArrayConfig(
-        "/beratungshilfe/antrag/finanzielle-angaben",
-      ),
-      ...beratungshilfeFormularFinanzielleAngabenArrayConfig(
-        "/beratungshilfe/antrag/finanzielle-angaben",
-      ),
-    },
+    arrays: beratungshilfeFormularFinanzielleAngabenArrayConfig(
+      "/beratungshilfe/antrag/finanzielle-angaben",
+    ),
   },
   states: {
     [stepIds.start]: {
