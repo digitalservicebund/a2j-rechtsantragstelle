@@ -57,7 +57,7 @@
     "@sentry/react-router": "^9.40.0",
     "@sentry/vite-plugin": "^3.6.1",
     "@xstate/graph": "^3.0.4",
-    "axios": "^1.10.0",
+    "axios": "^1.11.0",
     "classnames": "^2.5.1",
     "compression": "^1.8.1",
     "cookie": "^1.0.2",
