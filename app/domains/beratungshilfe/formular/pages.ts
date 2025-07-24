@@ -16,6 +16,9 @@ export const beratungshilfeAntragPages = {
   start: {
     stepId: "start",
   },
+  antragStart: {
+    stepId: "#antragStart",
+  },
   grundvoraussetzungen: {
     stepId: "grundvoraussetzungen",
   },
@@ -57,6 +60,9 @@ export const beratungshilfeAntragPages = {
   },
   beratungshilfeBeantragt: {
     stepId: "beratungshilfe-beantragt",
+    pageSchema: {
+      beratungshilfeBeantragt: YesNoAnswer,
+    },
   },
   beratungshilfeBeantragtHinweis: {
     stepId: "beratungshilfe-beantragt-hinweis",

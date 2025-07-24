@@ -35,8 +35,8 @@ export const beratungshilfeXstateConfig = {
   },
   states: {
     [stepIds.start]: {
-      id: "antragStart",
-      initial: "start",
+      id: stepIds.antragStart,
+      initial: stepIds.start,
       meta: { done: () => true },
       states: {
         start: { on: { SUBMIT: stepIds.grundvoraussetzungen} },
