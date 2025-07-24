@@ -22,41 +22,47 @@ export const addCompensationAmount = (
   userData: FluggastrechteUserData,
 ) => {
   const compensationSect = doc.struct("Sect");
+
+  addOtherDetailsItinerary(doc, compensationSect, userData.zusaetzlicheAngaben);
+
   compensationSect.add(
     doc.struct("P", {}, () => {
       doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
-
-      addOtherDetailsItinerary(doc, userData.zusaetzlicheAngaben);
-
       addDistanceInfo(doc, userData);
+    }),
+  );
 
-      const demandedCompensationPaymentText =
-        userData.isWeiterePersonen === "no"
-          ? DEMANDED_COMPENSATION_PAYMENT_TEXT
-          : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT;
+  const demandedCompensationPaymentText =
+    userData.isWeiterePersonen === "no"
+      ? DEMANDED_COMPENSATION_PAYMENT_TEXT
+      : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT;
 
-      const demandedCompensationPaymentTextHeight = doc.heightOfString(
-        demandedCompensationPaymentText,
-        {
-          width: PDF_WIDTH_SEIZE,
-        },
-      );
+  const demandedCompensationPaymentTextHeight = doc.heightOfString(
+    demandedCompensationPaymentText,
+    {
+      width: PDF_WIDTH_SEIZE,
+    },
+  );
 
-      addNewPageInCaseMissingVerticalSpace(
-        doc,
-        demandedCompensationPaymentTextHeight,
-      );
+  addNewPageInCaseMissingVerticalSpace(
+    doc,
+    demandedCompensationPaymentTextHeight,
+  );
+  doc.fill("black");
 
+  compensationSect.add(
+    doc.struct("P", {}, () => {
       doc
         .text(demandedCompensationPaymentText)
         .moveDown(MARGIN_BETWEEN_SECTIONS);
-
-      addMultiplePersonsInfo(doc, userData);
-
-      addWitnessesInfo(doc, userData);
-
-      doc.moveDown(2);
     }),
   );
+
+  addMultiplePersonsInfo(doc, userData, compensationSect);
+
+  addWitnessesInfo(doc, userData, compensationSect);
+
+  doc.moveDown(2);
+
   documentStruct.add(compensationSect);
 };

@@ -89,16 +89,7 @@ export const createLegalAssessment = (
     }),
   );
 
-  documentStruct.add(legalAssessmentSect);
-
-  const compensationByDistance = getTotalCompensationClaim(userData);
-
-  const courtCostValue = gerichtskostenFromBetrag(
-    Number(compensationByDistance),
-  );
-
-  const reasonSect = doc.struct("Sect");
-  reasonSect.add(
+  legalAssessmentSect.add(
     doc.struct("P", {}, () => {
       doc
         .fontSize(10)
@@ -106,16 +97,31 @@ export const createLegalAssessment = (
         .text(CLAIM_FULL_JUSTIFIED_TEXT)
         .text(assumedSettlementSectionText)
         .moveDown(4);
+    }),
+  );
 
+  const compensationByDistance = getTotalCompensationClaim(userData);
+
+  const courtCostValue = gerichtskostenFromBetrag(
+    Number(compensationByDistance),
+  );
+
+  legalAssessmentSect.add(
+    doc.struct("P", {}, () => {
       const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${courtCostValue} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
       const advanceCourtTextHeight = doc.heightOfString(advanceCourtText, {
         width: PDF_WIDTH_SEIZE,
       });
       addNewPageInCaseMissingVerticalSpace(doc, advanceCourtTextHeight);
+      doc.fill("black");
 
+      doc.text(advanceCourtText).moveDown(2);
+    }),
+  );
+
+  legalAssessmentSect.add(
+    doc.struct("P", {}, () => {
       doc
-        .text(advanceCourtText)
-        .moveDown(2)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(
           getFullPlaintiffName(
@@ -127,5 +133,6 @@ export const createLegalAssessment = (
         );
     }),
   );
-  documentStruct.add(reasonSect);
+
+  documentStruct.add(legalAssessmentSect);
 };

@@ -31,46 +31,52 @@ export const addMultiplePersonsInfo = (
     hasZeugen,
     bereich,
   }: FluggastrechteUserData,
+  compensationSect: PDFKit.PDFStructureElement,
 ) => {
   if (isWeiterePersonen === "no" || !arrayIsNonEmpty(weiterePersonen)) {
     return;
   }
 
   addNewPageInCaseMissingVerticalSpace(doc);
+  doc.fill("black");
 
   const personsNames = weiterePersonen
     .flatMap(({ anrede, title, nachname, vorname }) => {
       return `${getFullPlaintiffName(anrede, title, vorname, nachname)}`;
     })
     .join(", ");
+  compensationSect.add(
+    doc.struct("P", {}, () => {
+      doc
+        .text(CLAIM_FOLLOWING_PERSONS_TRANSFERER_TEXT)
+        .text(personsNames)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .moveDown(0.5)
+        .text(ATTACHMENT_ASSIGNMENTS_TEXT, PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT)
+        .font(FONTS_BUNDESSANS_REGULAR);
 
-  doc
-    .text(CLAIM_FOLLOWING_PERSONS_TRANSFERER_TEXT)
-    .text(personsNames)
-    .font(FONTS_BUNDESSANS_BOLD)
-    .moveDown(0.5)
-    .text(ATTACHMENT_ASSIGNMENTS_TEXT, PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT)
-    .font(FONTS_BUNDESSANS_REGULAR);
+      addNewPageInCaseMissingVerticalSpace(doc);
+      doc.fill("black");
 
-  addNewPageInCaseMissingVerticalSpace(doc);
-
-  if (hasZeugen === "yes") {
-    doc
-      .moveDown(MARGIN_BETWEEN_SECTIONS)
-      .text(
-        bereich === "annullierung"
-          ? INFORMATION_BOOKING_AND_ASSIGNMENTS_ANNULLIERUNG_TEXT
-          : INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT,
-        PDF_MARGIN_HORIZONTAL,
-      )
-      .font(FONTS_BUNDESSANS_BOLD)
-      .moveDown(0.5)
-      .text(
-        EVIDENCE_QUESTION_WITNESSES_TEXT,
-        PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
-      )
-      .font(FONTS_BUNDESSANS_REGULAR)
-      .text(personsNames)
-      .moveDown(0.5);
-  }
+      if (hasZeugen === "yes") {
+        doc
+          .moveDown(MARGIN_BETWEEN_SECTIONS)
+          .text(
+            bereich === "annullierung"
+              ? INFORMATION_BOOKING_AND_ASSIGNMENTS_ANNULLIERUNG_TEXT
+              : INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT,
+            PDF_MARGIN_HORIZONTAL,
+          )
+          .font(FONTS_BUNDESSANS_BOLD)
+          .moveDown(0.5)
+          .text(
+            EVIDENCE_QUESTION_WITNESSES_TEXT,
+            PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
+          )
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text(personsNames)
+          .moveDown(0.5);
+      }
+    }),
+  );
 };
