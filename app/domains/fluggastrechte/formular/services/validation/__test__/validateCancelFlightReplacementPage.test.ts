@@ -1,29 +1,42 @@
+import pick from "lodash/pick";
 import { z } from "zod";
+import { today, toGermanDateFormat } from "~/util/date";
+import { fluggastrechteInputSchema } from "../../../userData";
 import { validateCancelFlightReplacementPage } from "../validateCancelFlightReplacementPage";
 
 describe("validateCancelFlightReplacementPage", () => {
-  const baseSchema = z.object({
-    annullierungErsatzverbindungFlugnummer: z.string().optional(),
-    annullierungErsatzverbindungAbflugsDatum: z.string().optional(),
-    annullierungErsatzverbindungAbflugsZeit: z.string().optional(),
-    annullierungErsatzverbindungAnkunftsDatum: z.string().optional(),
-    annullierungErsatzverbindungAnkunftsZeit: z.string().optional(),
-    ankuendigung: z.string().optional(),
-    ersatzflugStartenZweiStunden: z.string().optional(),
-    ersatzflugLandenVierStunden: z.string().optional(),
-    ersatzflugStartenEinStunde: z.string().optional(),
-    ersatzflugLandenZweiStunden: z.string().optional(),
-    direktAbflugsDatum: z.string().optional(),
-    direktAbflugsZeit: z.string().optional(),
-    direktAnkunftsDatum: z.string().optional(),
-    direktAnkunftsZeit: z.string().optional(),
-  });
+  const baseSchema = z.object(
+    pick(fluggastrechteInputSchema, [
+      "annullierungErsatzverbindungFlugnummer",
+      "annullierungErsatzverbindungAbflugsDatum",
+      "annullierungErsatzverbindungAbflugsZeit",
+      "annullierungErsatzverbindungAnkunftsDatum",
+      "annullierungErsatzverbindungAnkunftsZeit",
+      "ankuendigung",
+      "ersatzflugStartenZweiStunden",
+      "ersatzflugLandenVierStunden",
+      "ersatzflugStartenEinStunde",
+      "ersatzflugLandenZweiStunden",
+      "direktAbflugsDatum",
+      "direktAbflugsZeit",
+      "direktAnkunftsDatum",
+      "direktAnkunftsZeit",
+    ]),
+  );
+
+  const mockData = {
+    direktAbflugsDatum: toGermanDateFormat(today()),
+    direktAbflugsZeit: "10:00",
+    direktAnkunftsDatum: toGermanDateFormat(today()),
+    direktAnkunftsZeit: "11:00",
+  };
 
   const validatorCancelFlightReplacementPage =
     validateCancelFlightReplacementPage(baseSchema);
 
   it("should return success true given undefined values", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
+      ...mockData,
       annullierungErsatzverbindungFlugnummer: undefined,
       annullierungErsatzverbindungAbflugsDatum: undefined,
       annullierungErsatzverbindungAbflugsZeit: undefined,
@@ -36,6 +49,7 @@ describe("validateCancelFlightReplacementPage", () => {
 
   it("should return success true given empty values", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
+      ...mockData,
       annullierungErsatzverbindungFlugnummer: "",
       annullierungErsatzverbindungAbflugsDatum: "",
       annullierungErsatzverbindungAbflugsZeit: "",
@@ -48,6 +62,7 @@ describe("validateCancelFlightReplacementPage", () => {
 
   it("should fail validation when only the departure time is provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
+      ...mockData,
       annullierungErsatzverbindungFlugnummer: undefined,
       annullierungErsatzverbindungAbflugsDatum: undefined,
       annullierungErsatzverbindungAbflugsZeit: "14:00",
@@ -66,6 +81,7 @@ describe("validateCancelFlightReplacementPage", () => {
 
   it("should fail validation when only the departure date is provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
+      ...mockData,
       annullierungErsatzverbindungFlugnummer: undefined,
       annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
       annullierungErsatzverbindungAbflugsZeit: undefined,
@@ -84,6 +100,7 @@ describe("validateCancelFlightReplacementPage", () => {
 
   it("should fail validation when only the arrival time is provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
+      ...mockData,
       annullierungErsatzverbindungFlugnummer: undefined,
       annullierungErsatzverbindungAbflugsDatum: undefined,
       annullierungErsatzverbindungAbflugsZeit: undefined,
@@ -102,6 +119,7 @@ describe("validateCancelFlightReplacementPage", () => {
 
   it("should fail validation when only the arrival date is provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
+      ...mockData,
       annullierungErsatzverbindungFlugnummer: undefined,
       annullierungErsatzverbindungAbflugsDatum: undefined,
       annullierungErsatzverbindungAbflugsZeit: undefined,
@@ -120,6 +138,7 @@ describe("validateCancelFlightReplacementPage", () => {
 
   it("should fail validation when only the flight number is provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
+      ...mockData,
       annullierungErsatzverbindungFlugnummer: "AB1234",
       annullierungErsatzverbindungAbflugsDatum: undefined,
       annullierungErsatzverbindungAbflugsZeit: undefined,
@@ -138,6 +157,7 @@ describe("validateCancelFlightReplacementPage", () => {
 
   it("should fail validation for all empty fields when at least two field is filled", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
+      ...mockData,
       annullierungErsatzverbindungFlugnummer: "AB1234",
       annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
       annullierungErsatzverbindungAbflugsZeit: undefined,
@@ -167,6 +187,7 @@ describe("validateCancelFlightReplacementPage", () => {
 
   it("should pass validation when all optional-required fields are provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
+      ...mockData,
       annullierungErsatzverbindungFlugnummer: "AB123",
       annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
       annullierungErsatzverbindungAbflugsZeit: "10:00",
