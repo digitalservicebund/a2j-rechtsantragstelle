@@ -169,6 +169,18 @@ export const fluggastrechteVorabcheckXstateConfig = {
     "ausgleich-angenommen": {
       on: {
         BACK: "ausgleich",
+        SUBMIT: [
+          {
+            guard: ({ context }) => context.ausgleichAngenommen === "yes",
+            target: "ausgleich-angenommen-info",
+          },
+          "checkin-nicht-befoerderung",
+        ],
+      },
+    },
+    "ausgleich-angenommen-info": {
+      on: {
+        BACK: "ausgleich-angenommen",
         SUBMIT: "checkin-nicht-befoerderung",
       },
     },
@@ -351,10 +363,14 @@ export const fluggastrechteVorabcheckXstateConfig = {
       on: {
         BACK: [
           {
-            target: "ausgleich-angenommen",
-            guard: "ausgleichYes",
+            guard: ({ context }) => context.ausgleichAngenommen === "yes",
+            target: "ausgleich-angenommen-info",
           },
-          "ausgleich",
+          {
+            guard: ({ context }) => context.ausgleich === "no",
+            target: "ausgleich",
+          },
+          "ausgleich-angenommen",
         ],
         SUBMIT: [
           {
