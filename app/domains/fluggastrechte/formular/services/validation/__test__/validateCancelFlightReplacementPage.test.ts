@@ -194,8 +194,7 @@ describe("validateCancelFlightReplacementPage", () => {
       annullierungErsatzverbindungAnkunftsDatum: "02.01.2024",
       annullierungErsatzverbindungAnkunftsZeit: "12:00",
     });
-    console.log(result.error);
-    expect(result.error).toBeUndefined();
+
     expect(result.success).toBe(true);
   });
 
