@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
-import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
+import type { fluggastrechteInputSchema } from "../../userData";
 
 const ONE_HOUR_MILLISECONDS = 1 * 60 * 60 * 1000;
 const TWO_HOURS_MILLISECONDS = 2 * 60 * 60 * 1000;
@@ -13,9 +13,25 @@ const FIELDS_FOR_VALIDATION = [
   "annullierungErsatzverbindungAbflugsZeit",
   "annullierungErsatzverbindungAnkunftsDatum",
   "annullierungErsatzverbindungAnkunftsZeit",
-];
+] as const;
 
-const getFieldsForValidation = (data: Record<string, string>) => {
+type SchemaSubset = Pick<
+  typeof fluggastrechteInputSchema,
+  | (typeof FIELDS_FOR_VALIDATION)[number]
+  | "ankuendigung"
+  | "ersatzflugStartenZweiStunden"
+  | "ersatzflugLandenVierStunden"
+  | "ersatzflugStartenEinStunde"
+  | "ersatzflugLandenZweiStunden"
+  | "direktAbflugsDatum"
+  | "direktAbflugsZeit"
+  | "direktAnkunftsDatum"
+  | "direktAnkunftsZeit"
+>;
+
+type ParsedData = z.infer<z.ZodObject<SchemaSubset>>;
+
+const getFieldsForValidation = (data: ParsedData) => {
   return FIELDS_FOR_VALIDATION.map((path) => ({
     value: data[path],
     path: [path],
@@ -38,22 +54,22 @@ function isStartTimestampMoreThan(
   return startTimestamp >= endTimestamp - threshold;
 }
 
-const getFlightTimestamps = (data: Record<string, string>) => ({
+const getFlightTimestamps = (data: ParsedData) => ({
   originalDepartureDateTime: convertToTimestamp(
     data.direktAbflugsDatum,
     data.direktAbflugsZeit,
   ),
   departureDateTime: convertToTimestamp(
-    data.annullierungErsatzverbindungAbflugsDatum,
-    data.annullierungErsatzverbindungAbflugsZeit,
+    data.annullierungErsatzverbindungAbflugsDatum!,
+    data.annullierungErsatzverbindungAbflugsZeit!,
   ),
   originalArrivalDateTime: convertToTimestamp(
     data.direktAnkunftsDatum,
     data.direktAnkunftsZeit,
   ),
   arrivalDateTime: convertToTimestamp(
-    data.annullierungErsatzverbindungAnkunftsDatum,
-    data.annullierungErsatzverbindungAnkunftsZeit,
+    data.annullierungErsatzverbindungAnkunftsDatum!,
+    data.annullierungErsatzverbindungAnkunftsZeit!,
   ),
 });
 
@@ -79,7 +95,7 @@ const addIssue = (
 };
 
 const validateFieldsNoOrUntil6Days = (
-  data: Record<string, string>,
+  data: ParsedData,
   ctx: z.RefinementCtx,
 ) => {
   const ersatzflugStartenEinStunde = data.ersatzflugStartenEinStunde;
@@ -138,7 +154,7 @@ const validateFieldsNoOrUntil6Days = (
 };
 
 const validateFieldsBetween7And13Days = (
-  data: Record<string, string>,
+  data: ParsedData,
   ctx: z.RefinementCtx,
 ) => {
   const ersatzflugStartenZweiStunden = data.ersatzflugStartenZweiStunden;
@@ -197,21 +213,16 @@ const validateFieldsBetween7And13Days = (
 };
 
 export function validateCancelFlightReplacementPage(
-  baseSchema: MultiFieldsValidationBaseSchema,
+  baseSchema: MultiFieldsValidationBaseSchema<SchemaSubset>,
 ) {
   return baseSchema.superRefine((data, ctx) => {
     const fields = getFieldsForValidation(data);
 
-    const isAnyFieldFilled = fields.some(
-      ({ value }) => !isFieldEmptyOrUndefined(value),
-    );
-
-    if (!isAnyFieldFilled) {
-      return;
-    }
+    const isAnyFieldFilled = fields.some(({ value }) => Boolean(value));
+    if (!isAnyFieldFilled) return;
 
     for (const { value, path } of fields) {
-      if (isFieldEmptyOrUndefined(value)) {
+      if (!value) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "fillAllOrNone",
@@ -219,6 +230,7 @@ export function validateCancelFlightReplacementPage(
         });
       }
     }
+    if (fields.some(({ value }) => !value)) return false;
 
     if (data.ankuendigung === "between7And13Days") {
       validateFieldsBetween7And13Days(data, ctx);

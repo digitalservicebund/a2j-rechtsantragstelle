@@ -52,9 +52,9 @@ export const fluggastrechteFlugdatenInputSchema = {
     customRequiredErrorMessage,
   ),
   anschlussFlugVerpasst: YesNoAnswer,
-  ersterZwischenstopp: airportSchema,
-  zweiterZwischenstopp: airportSchema,
-  dritterZwischenstopp: airportSchema,
+  ersterZwischenstopp: airportSchema.optional(),
+  zweiterZwischenstopp: airportSchema.optional(),
+  dritterZwischenstopp: airportSchema.optional(),
   bereich: stringOptionalSchema,
   ersatzflug: stringOptionalSchema,
   andereErsatzverbindungBeschreibung: stringOptionalSchema,
@@ -65,13 +65,15 @@ export const fluggastrechteFlugdatenInputSchema = {
   ersatzFlugAnkunftsZeit: timeSchema,
   zusaetzlicheAngaben: stringOptionalSchema,
   annullierungErsatzverbindungFlugnummer:
-    schemaOrEmptyString(flightNumberSchema),
+    schemaOrEmptyString(flightNumberSchema).optional(),
   annullierungErsatzverbindungAbflugsDatum:
-    schemaOrEmptyString(fourYearsAgoSchema),
-  annullierungErsatzverbindungAbflugsZeit: schemaOrEmptyString(timeSchema),
+    schemaOrEmptyString(fourYearsAgoSchema).optional(),
+  annullierungErsatzverbindungAbflugsZeit:
+    schemaOrEmptyString(timeSchema).optional(),
   annullierungErsatzverbindungAnkunftsDatum:
-    schemaOrEmptyString(fourYearsAgoSchema),
-  annullierungErsatzverbindungAnkunftsZeit: schemaOrEmptyString(timeSchema),
+    schemaOrEmptyString(fourYearsAgoSchema).optional(),
+  annullierungErsatzverbindungAnkunftsZeit:
+    schemaOrEmptyString(timeSchema).optional(),
 };
 
 const _partialObject = z.object(fluggastrechteFlugdatenInputSchema).partial();

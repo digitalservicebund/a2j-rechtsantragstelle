@@ -61,8 +61,8 @@ export const getNachzahlungSozialUnter500Strings = (
   return {
     hasNachzahlungSozialUnter500:
       userData.hasSozialleistungNachzahlung === "yes" ||
-      userData.hasWohngeld === "yes" ||
-      userData.hasKindergeld === "yes",
+      userData.hasWohngeldNachzahlung === "yes" ||
+      userData.hasKindergeldNachzahlung === "yes",
   };
 };
 export const getNachzahlungSozialMehr500Strings = (
@@ -115,18 +115,11 @@ export const getAsylbewerberleistungStrings = (
       userData.hasSozialleistungen === "asylbewerberleistungen",
   };
 };
-export const getPflegegeldSelbstStrings = (
+export const getPflegegeldStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
-    hasPflegegeldSelbst: userData.pflegegeld === "selbst",
-  };
-};
-export const getPflegegeldFremdStrings = (
-  userData: KontopfaendungWegweiserUserData,
-) => {
-  return {
-    hasPflegegeldFremd: userData.pflegegeld === "fremd",
+    hasPflegegeld: userData.hasPflegegeld === "yes",
   };
 };
 export const getArbeitsentgeltEinmaligStrings = (
@@ -160,6 +153,11 @@ export const getKinderStrings = (userData: KontopfaendungWegweiserUserData) => {
     hasKinder: userData.hasKinder === "yes",
   };
 };
+export const getRenteStrings = (userData: KontopfaendungWegweiserUserData) => {
+  return {
+    hasRente: userData.hasRente === "yes",
+  };
+};
 export const getSchuldnerberatungsstelleStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
@@ -173,8 +171,7 @@ export const getSchuldnerberatungsstelleStrings = (
   const { hasBuergergeld } = getBuergergeldStrings(userData);
   const { hasGrundsicherung } = getGrundsicherungStrings(userData);
   const { hasAsylbewerberleistung } = getAsylbewerberleistungStrings(userData);
-  const hasPflegegeldSelbst =
-    getPflegegeldSelbstStrings(userData).hasPflegegeldSelbst;
+
   const schuldnerberatungsstelleIsVisible =
     hasErhoehungsbetrag ||
     hasKindergeld ||
@@ -183,14 +180,12 @@ export const getSchuldnerberatungsstelleStrings = (
     hasNachzahlungArbeitUnter500 ||
     hasBuergergeld ||
     hasGrundsicherung ||
-    hasAsylbewerberleistung ||
-    hasPflegegeldSelbst;
+    hasAsylbewerberleistung;
   return { schuldnerberatungsstelleIsVisible };
 };
 export const getAmtsgerichtStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
-  const { hasPflegegeldFremd } = getPflegegeldFremdStrings(userData);
   const hasArbeitsentgeltEinmalig =
     getArbeitsentgeltEinmaligStrings(userData).hasArbeitsentgeltEinmalig;
   const hasNachzahlungArbeitMehr500 =
@@ -200,7 +195,6 @@ export const getAmtsgerichtStrings = (
   const { isSelbststaendig } = getSelbststaendigStrings(userData);
   const { hasWohngeld } = getWohngeldStrings(userData);
   const amtsgerichtIsVisible =
-    hasPflegegeldFremd ||
     hasArbeitsentgeltEinmalig ||
     hasNachzahlungArbeitMehr500 ||
     hasNachzahlungSozialMehr500 ||
@@ -223,7 +217,6 @@ export const getInfoZumPKontoStrings = (
     isPrivilegierteForderungUnterhalt;
   return { infoZumPKontoIsVisible };
 };
-
 export const getHasErhöhungStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
@@ -238,10 +231,6 @@ export const getHasErhöhungStrings = (
   const { hasGrundsicherung } = getGrundsicherungStrings(userData);
   const { isSelbststaendig } = getSelbststaendigStrings(userData);
   const { hasAsylbewerberleistung } = getAsylbewerberleistungStrings(userData);
-  const hasPflegegeldSelbst =
-    getPflegegeldSelbstStrings(userData).hasPflegegeldSelbst;
-  const hasPflegegeldFremd =
-    getPflegegeldFremdStrings(userData).hasPflegegeldFremd;
   const hasArbeitsentgeltEinmalig =
     getArbeitsentgeltEinmaligStrings(userData).hasArbeitsentgeltEinmalig;
   const hasNachzahlungArbeitMehr500 =
@@ -260,8 +249,6 @@ export const getHasErhöhungStrings = (
       hasBuergergeld ||
       hasGrundsicherung ||
       hasAsylbewerberleistung ||
-      hasPflegegeldSelbst ||
-      hasPflegegeldFremd ||
       hasArbeitsentgeltEinmalig ||
       hasNachzahlungArbeitMehr500 ||
       hasNachzahlungSozialMehr500 ||

@@ -14,8 +14,6 @@ import {
   getBuergergeldStrings,
   getGrundsicherungStrings,
   getAsylbewerberleistungStrings,
-  getPflegegeldSelbstStrings,
-  getPflegegeldFremdStrings,
   getArbeitsentgeltEinmaligStrings,
   getSelbststaendigStrings,
   getAngestelltStrings,
@@ -24,6 +22,8 @@ import {
   getAmtsgerichtStrings,
   getInfoZumPKontoStrings,
   getHasErhöhungStrings,
+  getPflegegeldStrings,
+  getRenteStrings,
 } from "../stringReplacements";
 import { type KontopfaendungWegweiserUserData } from "../userData";
 
@@ -188,23 +188,13 @@ describe("stringReplacements", () => {
       });
     });
   });
-  describe("getPflegegeldSelbstStrings", () => {
-    it("should return correct Pflegegeld Selbst strings", () => {
+  describe("getPflegegeldStrings", () => {
+    it("should return correct Pflegegeld strings", () => {
       const userData: KontopfaendungWegweiserUserData = {
-        pflegegeld: "selbst",
+        hasPflegegeld: "yes",
       };
-      expect(getPflegegeldSelbstStrings(userData)).toEqual({
-        hasPflegegeldSelbst: true,
-      });
-    });
-  });
-  describe("getPflegegeldFremdStrings", () => {
-    it("should return correct Pflegegeld Fremd strings", () => {
-      const userData: KontopfaendungWegweiserUserData = {
-        pflegegeld: "fremd",
-      };
-      expect(getPflegegeldFremdStrings(userData)).toEqual({
-        hasPflegegeldFremd: true,
+      expect(getPflegegeldStrings(userData)).toEqual({
+        hasPflegegeld: true,
       });
     });
   });
@@ -255,6 +245,14 @@ describe("stringReplacements", () => {
       const userData: KontopfaendungWegweiserUserData = { hasKinder: "yes" };
       expect(getKinderStrings(userData)).toEqual({
         hasKinder: true,
+      });
+    });
+  });
+  describe("getRenteStrings", () => {
+    it("should return correct Rente strings", () => {
+      const userData: KontopfaendungWegweiserUserData = { hasRente: "yes" };
+      expect(getRenteStrings(userData)).toEqual({
+        hasRente: true,
       });
     });
   });
