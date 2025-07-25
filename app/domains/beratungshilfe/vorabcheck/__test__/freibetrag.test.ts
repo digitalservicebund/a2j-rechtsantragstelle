@@ -1,5 +1,6 @@
 import {
   calculateFreibetrag,
+  calculateFreibetragBerHFormular,
   freibetraegePerYear,
   getFreibetraege,
   getVerfuegbaresEinkommenFreibetrag,
@@ -7,13 +8,16 @@ import {
   SELF_ALLOWANCE_BUFFER,
   SIMPLIFIED_CHILD_ALLOWANCE,
 } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
-import { today } from "~/util/date";
+import { addYears, today, toGermanDateFormat } from "~/util/date";
 
 const {
   selfAllowance,
   incomeAllowance,
   partnerAllowance,
   childrenBelow6Allowance,
+  children7To14Allowance,
+  children15To18Allowance,
+  dependentAdultAllowance,
 } = getFreibetraege(today().getFullYear());
 
 vi.spyOn(console, "warn");
@@ -33,6 +37,108 @@ describe("getFreibetraege", () => {
       `No Freibeträge for year ${nonExistentYear}, using last valid Freibeträge from ${latestFreibetraegeYear}`,
     );
     expect(freibetraege).toEqual(freibetraegePerYear[latestFreibetraegeYear]);
+  });
+});
+
+describe("calculateFreibetragBerHFormular", () => {
+  it(`should return ${selfAllowance} when single, not working, without children`, () => {
+    expect(
+      calculateFreibetragBerHFormular({
+        working: false,
+        partnership: false,
+        kinder: [],
+      }),
+    ).toEqual(selfAllowance);
+  });
+  it(`should return ${selfAllowance + incomeAllowance} when single and working, without children`, () => {
+    expect(
+      calculateFreibetragBerHFormular({
+        working: true,
+        partnership: false,
+        kinder: [],
+      }),
+    ).toEqual(selfAllowance + incomeAllowance);
+  });
+
+  it(`Should add a partner's income if partnered`, () => {
+    expect(
+      calculateFreibetragBerHFormular({
+        working: false,
+        partnership: true,
+        partnerIncome: 500,
+        kinder: [],
+      }),
+    ).toEqual(selfAllowance + (partnerAllowance - 500));
+  });
+
+  it("Should subtract dependent children's income from the respective allowances", () => {
+    const sixteenYearOldIncome = 200;
+    const nineteenYearOldIncome = 300;
+    const childrenFreibetragTotal =
+      childrenBelow6Allowance +
+      children7To14Allowance +
+      (children15To18Allowance - sixteenYearOldIncome) +
+      (dependentAdultAllowance - nineteenYearOldIncome);
+
+    expect(
+      calculateFreibetragBerHFormular({
+        working: false,
+        partnership: false,
+        kinder: [
+          {
+            geburtsdatum: toGermanDateFormat(addYears(today(), -5)),
+            einnahmen: "0",
+          },
+          {
+            geburtsdatum: toGermanDateFormat(addYears(today(), -12)),
+            einnahmen: "0",
+          },
+          {
+            geburtsdatum: toGermanDateFormat(addYears(today(), -16)),
+            einnahmen: sixteenYearOldIncome.toString(),
+          },
+          {
+            geburtsdatum: toGermanDateFormat(addYears(today(), -19)),
+            einnahmen: nineteenYearOldIncome.toString(),
+          },
+        ],
+      }),
+    ).toEqual(selfAllowance + childrenFreibetragTotal);
+  });
+
+  it("Shouldn't allow negative child allowances", () => {
+    const sixteenYearOldIncome = 1000;
+    const nineteenYearOldIncome = 300;
+    const childrenFreibetragTotal =
+      childrenBelow6Allowance +
+      children7To14Allowance +
+      0 +
+      (dependentAdultAllowance - nineteenYearOldIncome);
+
+    expect(
+      calculateFreibetragBerHFormular({
+        working: false,
+        partnership: false,
+        kinder: [
+          {
+            geburtsdatum: toGermanDateFormat(addYears(today(), -5)),
+            einnahmen: "0",
+          },
+          {
+            geburtsdatum: toGermanDateFormat(addYears(today(), -12)),
+            einnahmen: "0",
+          },
+          {
+            geburtsdatum: toGermanDateFormat(addYears(today(), -16)),
+            einnahmen: sixteenYearOldIncome.toString(),
+          },
+          {
+            geburtsdatum: toGermanDateFormat(addYears(today(), -19)),
+            einnahmen: nineteenYearOldIncome.toString(),
+          },
+        ],
+      }),
+    ).toEqual(selfAllowance + childrenFreibetragTotal);
   });
 });
 

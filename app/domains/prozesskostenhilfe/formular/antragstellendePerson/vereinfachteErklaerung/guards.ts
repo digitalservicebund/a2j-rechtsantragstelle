@@ -44,7 +44,7 @@ export const frageVermoegen: GenericGuard<
 > = ({ context }) =>
   minderjaehrig({ context }) &&
   famFG({ context }) &&
-  (hohesEinkommen({ context }) || context.hasEinnahmen === "no");
+  (!hohesEinkommen({ context }) || context.hasEinnahmen === "no");
 
 export const vermoegenUnder10000: GenericGuard<
   ProzesskostenhilfeVereinfachteErklaerungUserData

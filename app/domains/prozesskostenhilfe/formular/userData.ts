@@ -1,7 +1,4 @@
-import {
-  prozesskostenhilfeGrundvoraussetzungenInputSchema,
-  type ProzesskostenhilfeGrundvoraussetzungenUserData,
-} from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
+import { type ProzesskostenhilfeGrundvoraussetzungenUserData } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import {
   abgabeInputSchema,
   type AbgabeUserData,
@@ -36,7 +33,6 @@ import {
 } from "./weitereAngaben/userData";
 
 export const prozesskostenhilfeFormularUserData = {
-  ...prozesskostenhilfeGrundvoraussetzungenInputSchema,
   ...prozesskostenhilfeAntragstellendePersonInputSchema,
   ...prozesskostenhilfeRsvInputSchema,
   ...prozesskostenhilfeFinanzielleAngabenInputSchema,
