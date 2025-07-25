@@ -14,7 +14,7 @@ describe("createChecklistSteps", () => {
 
   it("should create checklist steps for 'ausdrucken' abgabeArt", () => {
     const userData: BeratungshilfeFormularUserData = {
-      abgabeArt: abgabeInputSchema.abgabeArt.Enum.ausdrucken,
+      abgabeArt: abgabeInputSchema.abgabeArt.enum.ausdrucken,
     };
     createChecklistSteps(mockPDFDocument, mockDocumentStruct, userData);
 
@@ -36,7 +36,7 @@ describe("createChecklistSteps", () => {
 
   it("should create checklist steps for 'online' abgabeArt", () => {
     const onlineUserData: BeratungshilfeFormularUserData = {
-      abgabeArt: abgabeInputSchema.abgabeArt.Enum.online,
+      abgabeArt: abgabeInputSchema.abgabeArt.enum.online,
     };
 
     createChecklistSteps(mockPDFDocument, mockDocumentStruct, onlineUserData);
@@ -60,7 +60,7 @@ describe("createChecklistSteps", () => {
 
   it("should include relevant documents based on user data conditions", () => {
     const customUserData: BeratungshilfeFormularUserData = {
-      abgabeArt: abgabeInputSchema.abgabeArt.Enum.ausdrucken,
+      abgabeArt: abgabeInputSchema.abgabeArt.enum.ausdrucken,
       staatlicheLeistungen: "buergergeld",
       hasGeldanlage: "yes",
       geldanlagen: [

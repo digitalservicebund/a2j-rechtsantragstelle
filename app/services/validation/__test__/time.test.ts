@@ -1,4 +1,3 @@
-import type { SafeParseError } from "zod";
 import { timeSchema } from "~/services/validation/time";
 
 describe("time validation", () => {
@@ -30,9 +29,7 @@ describe("time validation", () => {
       ({ input, errorMessage }) => {
         const actual = timeSchema.safeParse(input);
         expect(actual.success).toBe(false);
-        expect(
-          (actual as SafeParseError<unknown>).error.issues[0].message,
-        ).toBe(errorMessage);
+        expect(actual.error!.issues[0].message).toBe(errorMessage);
       },
     );
   });

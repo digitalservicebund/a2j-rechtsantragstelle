@@ -73,10 +73,11 @@ describe("integration testing helper functions", () => {
           b: z.number(),
           c: z.object({ d: z.string() }),
           e: z.array(z.object({ f: z.string() })),
+          f: z.string().min(3),
         }),
       );
 
-      expect(schemaKeys).toEqual(["a", "b", "c.d", "e#f"]);
+      expect(schemaKeys).toEqual(["a", "b", "c.d", "e#f", "f"]);
     });
 
     it("should return an empty array when schema is null or undefined", () => {

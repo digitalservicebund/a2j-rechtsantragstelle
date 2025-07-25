@@ -11,7 +11,7 @@ const StrapiSummaryOverviewBoxItemInlineSchema = z.object({
 
 const StrapiSummaryOverviewBoxSchema = z
   .object({
-    title: StrapiHeadingSchema.nullable().transform(omitNull),
+    title: StrapiHeadingSchema.nullable().transform(omitNull).optional(),
     stepId: z.string(),
     boxItems: z
       .array(

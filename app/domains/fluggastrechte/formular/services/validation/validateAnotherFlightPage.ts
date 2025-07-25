@@ -16,31 +16,33 @@ export function validateAnotherFlightPage(
     >
   >,
 ) {
-  return baseSchema.superRefine((data, ctx) => {
+  return baseSchema.check((ctx) => {
     const originalArrivalDateTime = convertToTimestamp(
-      data.direktAnkunftsDatum,
-      data.direktAnkunftsZeit,
+      ctx.value.direktAnkunftsDatum,
+      ctx.value.direktAnkunftsZeit,
     );
 
     const arrivalDateTime = convertToTimestamp(
-      data.ersatzFlugAnkunftsDatum,
-      data.ersatzFlugAnkunftsZeit,
+      ctx.value.ersatzFlugAnkunftsDatum,
+      ctx.value.ersatzFlugAnkunftsZeit,
     );
 
     if (originalArrivalDateTime > arrivalDateTime) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+      ctx.issues.push({
+        code: "custom",
         message: "departureAfterArrival",
         path: ["ersatzFlugAnkunftsDatum"],
         fatal: true,
+        input: ctx.value.ersatzFlugAnkunftsDatum,
       });
 
       // add new issue to invalidate this field as well
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+      ctx.issues.push({
+        code: "custom",
         message: "departureAfterArrival",
         path: ["ersatzFlugAnkunftsZeit"],
         fatal: true,
+        input: ctx.value.ersatzFlugAnkunftsZeit,
       });
 
       return z.NEVER;
@@ -51,21 +53,23 @@ export function validateAnotherFlightPage(
         originalArrivalDateTime,
         arrivalDateTime,
       ) &&
-      data.bereich === "verspaetet"
+      ctx.value.bereich === "verspaetet"
     ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+      ctx.issues.push({
+        code: "custom",
         message: "arrivalThreeHoursLessThanDeparture",
         path: ["ersatzFlugAnkunftsDatum"],
         fatal: true,
+        input: ctx.value.ersatzFlugAnkunftsDatum,
       });
 
       // add new issue to invalidate this field as well
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+      ctx.issues.push({
+        code: "custom",
         message: "arrivalThreeHoursLessThanDeparture",
         path: ["ersatzFlugAnkunftsZeit"],
         fatal: true,
+        input: ctx.value.ersatzFlugAnkunftsZeit,
       });
 
       return z.NEVER;

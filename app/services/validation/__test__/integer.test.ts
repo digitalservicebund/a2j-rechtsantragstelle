@@ -1,4 +1,3 @@
-import type { SafeParseError } from "zod";
 import { integerSchema } from "~/services/validation/integer";
 
 describe("integer", () => {
@@ -37,9 +36,7 @@ describe("integer", () => {
       ({ input, errorMessage }) => {
         const actual = integerSchema.safeParse(input);
         expect(actual.success).toBe(false);
-        expect(
-          (actual as SafeParseError<unknown>).error.issues[0].message,
-        ).toBe(errorMessage);
+        expect(actual.error!.issues[0].message).toBe(errorMessage);
       },
     );
   });

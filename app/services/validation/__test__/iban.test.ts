@@ -1,4 +1,3 @@
-import type { SafeParseError } from "zod";
 import { ibanSchema } from "../iban";
 
 describe("iban validation", () => {
@@ -47,9 +46,7 @@ describe("iban validation", () => {
       ({ input, errorMessage }) => {
         const actual = ibanSchema.safeParse(input);
         expect(actual.success).toBe(false);
-        expect(
-          (actual as SafeParseError<unknown>).error.issues[0].message,
-        ).toBe(errorMessage);
+        expect(actual.error!.issues[0].message).toBe(errorMessage);
       },
     );
   });

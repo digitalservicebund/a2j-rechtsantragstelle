@@ -21,7 +21,7 @@ export const StrapiAutoSuggestInputComponentSchema = z
     supportsFreeText: z.boolean().nullable().transform(Boolean),
     __component: z.literal("form-elements.auto-suggest-input"),
   })
-  .merge(HasStrapiIdSchema)
+  .merge(HasStrapiIdSchema) // TODO: use extend or ...HasStrapiIdSchema.shape, see https://zod.dev/v4/changelog?id=deprecates-merge
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,

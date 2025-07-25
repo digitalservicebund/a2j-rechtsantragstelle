@@ -72,7 +72,7 @@ describe("addCompensationAmount", () => {
 
     const userDataWeiterePersonenMock = {
       ...userDataMock,
-      isWeiterePersonen: YesNoAnswer.Enum.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
     addCompensationAmount(mockDoc, mockStruct, userDataWeiterePersonenMock);

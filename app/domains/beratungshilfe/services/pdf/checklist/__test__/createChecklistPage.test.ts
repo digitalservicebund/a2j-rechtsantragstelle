@@ -13,7 +13,7 @@ describe("createChecklistPage", () => {
     const userData: BeratungshilfeFormularUserData = {
       vorname: "Luca",
       nachname: "Mustermensch",
-      abgabeArt: abgabeInputSchema.abgabeArt.Enum.ausdrucken,
+      abgabeArt: abgabeInputSchema.abgabeArt.enum.ausdrucken,
     };
     createChecklistPage(mockPDFDocument, mockDocumentStruct, userData);
 
@@ -37,7 +37,7 @@ describe("createChecklistPage", () => {
     const userData: BeratungshilfeFormularUserData = {
       vorname: "Luca",
       nachname: "Mustermensch",
-      abgabeArt: abgabeInputSchema.abgabeArt.Enum.online,
+      abgabeArt: abgabeInputSchema.abgabeArt.enum.online,
     };
     createChecklistPage(mockPDFDocument, mockDocumentStruct, userData);
 

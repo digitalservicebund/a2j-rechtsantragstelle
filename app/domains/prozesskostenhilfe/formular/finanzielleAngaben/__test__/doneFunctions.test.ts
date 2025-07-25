@@ -193,8 +193,8 @@ describe("Finanzielle Angaben doneFunctions", () => {
   describe("kraftfahrzeugDone", () => {
     it("should return false if the kraftfahrzeug is missing any information and worth more than 10000", () => {
       [
-        kraftfahrzeugWertInputSchema.Enum.over10000,
-        kraftfahrzeugWertInputSchema.Enum.unsure,
+        kraftfahrzeugWertInputSchema.enum.over10000,
+        kraftfahrzeugWertInputSchema.enum.unsure,
       ].forEach((v) => {
         expect(
           kraftfahrzeugDone({

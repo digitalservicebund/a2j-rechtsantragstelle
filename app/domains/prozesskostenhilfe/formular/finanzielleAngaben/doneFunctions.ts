@@ -177,7 +177,7 @@ export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   (context.hasAusgaben !== undefined &&
     context.besondereBelastungen !== undefined) ||
   context.hasAusgaben ==
-    prozesskostenhilfeFinanzielleAngabenInputSchema.hasAusgaben.Enum.no;
+    prozesskostenhilfeFinanzielleAngabenInputSchema.hasAusgaben.enum.no;
 
 export const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
@@ -185,7 +185,7 @@ export const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGu
       context,
     }) ||
     context.hasAusgaben ==
-      prozesskostenhilfeFinanzielleAngabenInputSchema.hasAusgaben.Enum.no ||
+      prozesskostenhilfeFinanzielleAngabenInputSchema.hasAusgaben.enum.no ||
     hasVersicherungDone({ context }) ||
     hasRatenzahlungDone({ context }) ||
     hasSonstigeAusgabeDone({ context });

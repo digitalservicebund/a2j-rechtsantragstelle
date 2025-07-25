@@ -52,7 +52,7 @@ describe("addMultiplePersonsText", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
     addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
@@ -79,7 +79,7 @@ describe("addMultiplePersonsText", () => {
         },
       ],
       bereich: "annullierung",
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
     addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
@@ -106,7 +106,7 @@ describe("addMultiplePersonsText", () => {
         },
       ],
       bereich: "nichtbefoerderung",
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
     addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
@@ -136,7 +136,7 @@ describe("addMultiplePersonsText", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
     addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
@@ -189,7 +189,7 @@ describe("addMultiplePersonsText", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
     addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);

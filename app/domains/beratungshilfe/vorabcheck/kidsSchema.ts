@@ -8,25 +8,15 @@ export const kidsSchema = z
     kids15To18: buildKidsCountValidationSchema(),
     kids18Above: buildKidsCountValidationSchema(),
   })
-  .superRefine((schema, ctx) => {
-    const fieldnames = [
-      "kids6Below",
-      "kids7To14",
-      "kids15To18",
-      "kids18Above",
-    ] as const;
-
-    if (
-      !fieldnames
-        .map((fieldname) => schema[fieldname])
-        .some((field) => field != "0" && field != undefined)
-    ) {
-      fieldnames.forEach((fieldname) => {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+  .check((ctx) => {
+    const allZero = Object.values(ctx.value).every((val) => val === "0");
+    if (allZero)
+      Object.entries(ctx.value).forEach(([key, value]) => {
+        ctx.issues.push({
+          code: "custom",
           message: "fill_one",
-          path: [fieldname],
+          input: value,
+          path: [key],
         });
       });
-    }
   });

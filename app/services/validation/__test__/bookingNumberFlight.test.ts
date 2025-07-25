@@ -1,4 +1,3 @@
-import type { SafeParseError } from "zod";
 import { bookingNumberFlightSchema } from "../bookingNumberFlight";
 
 describe("bookingNumberFlight validation", () => {
@@ -44,9 +43,7 @@ describe("bookingNumberFlight validation", () => {
       ({ input, errorMessage }) => {
         const actual = bookingNumberFlightSchema.safeParse(input);
         expect(actual.success).toBe(false);
-        expect(
-          (actual as SafeParseError<unknown>).error.issues[0].message,
-        ).toBe(errorMessage);
+        expect(actual.error!.issues[0].message).toBe(errorMessage);
       },
     );
   });

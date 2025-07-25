@@ -1,4 +1,3 @@
-import type { SafeParseError } from "zod";
 import { airportSchema } from "~/services/validation/airport";
 
 describe("airport validation", () => {
@@ -33,9 +32,7 @@ describe("airport validation", () => {
       ({ input, errorMessage }) => {
         const actual = airportSchema.safeParse(input);
         expect(actual.success).toBe(false);
-        expect(
-          (actual as SafeParseError<unknown>).error.issues[0].message,
-        ).toBe(errorMessage);
+        expect(actual.error!.issues[0].message).toBe(errorMessage);
       },
     );
   });

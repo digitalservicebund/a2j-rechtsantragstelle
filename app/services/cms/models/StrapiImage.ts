@@ -22,5 +22,6 @@ export const StrapiImageSchema = z.object({
   alternativeText: StrapiStringOptionalSchema,
 });
 
-export const StrapiImageOptionalSchema =
-  StrapiImageSchema.nullable().transform(omitNull);
+export const StrapiImageOptionalSchema = StrapiImageSchema.nullable()
+  .transform(omitNull)
+  .optional();

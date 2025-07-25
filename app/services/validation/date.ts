@@ -22,31 +22,33 @@ export const createDateSchema = (args?: {
     .string()
     .trim()
     .min(1, { message: "required" })
-    .superRefine((date, ctx) => {
-      if (!/^\d\d\.\d\d\.\d\d\d\d$/.test(date)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.invalid_date,
+    .check((ctx) => {
+      if (!/^\d\d\.\d\d\.\d\d\d\d$/.test(ctx.value)) {
+        ctx.issues.push({
+          code: "custom",
           message: "format",
           fatal: true,
+          input: ctx.value,
+          continue: false,
         });
-        return z.NEVER; // abort early, see https://zod.dev/?id=abort-early
       }
     })
     .refine(isValidDate, { message: "invalid" })
-    .superRefine((dateString, ctx) => {
-      const date = dateUTCFromGermanDateString(dateString);
+    .check((ctx) => {
+      const date = dateUTCFromGermanDateString(ctx.value);
       if (args?.earliest && date < args.earliest()) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.invalid_date,
+        ctx.issues.push({
+          code: "custom",
           message: "too_early",
+          input: ctx.value,
         });
       }
       if (args?.latest && date > args.latest()) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.invalid_date,
+        ctx.issues.push({
+          code: "custom",
           message: "too_late",
+          input: ctx.value,
         });
       }
-      return dateString;
     });
 };

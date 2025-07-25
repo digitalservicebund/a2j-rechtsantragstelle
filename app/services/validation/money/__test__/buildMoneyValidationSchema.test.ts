@@ -1,4 +1,3 @@
-import type { SafeParseError } from "zod";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 
 describe("money validation", () => {
@@ -45,9 +44,7 @@ describe("money validation", () => {
           max: 1000000,
         }).safeParse(input);
         expect(actual.success).toBe(false);
-        expect(
-          (actual as SafeParseError<unknown>).error.issues[0].message,
-        ).toBe(errorMessage);
+        expect(actual.error!.issues[0].message).toBe(errorMessage);
       },
     );
   });

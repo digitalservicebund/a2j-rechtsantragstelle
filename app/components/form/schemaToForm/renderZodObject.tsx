@@ -1,5 +1,5 @@
 import type { z } from "zod";
 
 export const isZodObject = (
-  fieldSchema: z.ZodTypeAny,
-): fieldSchema is z.SomeZodObject => fieldSchema._def.typeName === "ZodObject";
+  fieldSchema: z.ZodType,
+): fieldSchema is z.ZodObject => fieldSchema.def.type === "object";
