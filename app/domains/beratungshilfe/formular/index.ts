@@ -1,5 +1,7 @@
+import { isFinanciallyEligibleForBerH } from "~/domains/beratungshilfe/formular/abgabe/isFinanciallyEligibleForBerH";
 import { getRechtsproblemStrings } from "~/domains/beratungshilfe/formular/rechtsproblem/stringReplacements";
 import type { Flow } from "~/domains/flows.server";
+import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
@@ -34,4 +36,16 @@ export const beratungshilfeFormular = {
     ...weiteresEinkommenStrings(context),
     ...getWeitereDokumenteStrings(context),
   }),
+  asyncFlowActions: {
+    "/abgabe/art": (request, userData) =>
+      Promise.resolve(
+        sendCustomAnalyticsEvent({
+          request,
+          eventName: "financial eligibility calculated",
+          properties: {
+            isEligible: isFinanciallyEligibleForBerH(userData),
+          },
+        }),
+      ),
+  },
 } satisfies Flow;
