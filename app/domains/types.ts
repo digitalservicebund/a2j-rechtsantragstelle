@@ -8,7 +8,7 @@ export type MultiFieldsValidationBaseSchema<
 
 export type FunctionMultiFieldsValidation<
   T extends SchemaObject = SchemaObject,
-> = (baseSchema: MultiFieldsValidationBaseSchema<T>) => z.ZodType;
+> = (baseSchema: MultiFieldsValidationBaseSchema<T>) => z.ZodObject;
 
 export type MultiFieldsStepIdValidation<T extends SchemaObject = SchemaObject> =
   Record<string, FunctionMultiFieldsValidation<T>>;
