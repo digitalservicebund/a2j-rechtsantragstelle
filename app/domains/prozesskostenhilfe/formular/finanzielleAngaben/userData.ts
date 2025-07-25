@@ -1,5 +1,6 @@
+import mapKeys from "lodash/mapKeys";
+import omit from "lodash/omit";
 import { z } from "zod";
-import { duplicateUserData } from "~/domains/common";
 import { finanzielleAngabenPartnerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/partner/inputSchema";
 import {
   besondereBelastungenInputSchema,
@@ -34,11 +35,17 @@ export const zahlungspflichtigerInputSchema = z.enum(
   customRequiredErrorMessage,
 );
 
+const finanzielleEinkuenfteSchemaWithoutPageData = omit(
+  prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema,
+  "pageData",
+);
+
 export const prozesskostenhilfeFinanzielleAngabenInputSchema = {
   ...finanzielleAngabenPartnerInputSchema,
-  ...duplicateUserData(
-    prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema,
-    "partner",
+  ...finanzielleEinkuenfteSchemaWithoutPageData,
+  ...mapKeys(
+    finanzielleEinkuenfteSchemaWithoutPageData,
+    (_, key) => "partner-" + key,
   ),
   "partner-receivesSupport": YesNoAnswer,
   "partner-supportAmount": buildMoneyValidationSchema(),

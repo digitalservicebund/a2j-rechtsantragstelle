@@ -75,7 +75,7 @@ const frageVermoegenFulfilled = [
       "/einnahmen",
       "/einnahmen-value",
       "/einnahmen-uebersicht",
-      "/hinweis-weiteres-formular",
+      "/vermoegen",
     ],
   ],
 ];
@@ -150,7 +150,7 @@ const frageVermoegenNotFulfilled = [
       "/einnahmen",
       "/einnahmen-value",
       "/einnahmen-uebersicht",
-      "/vermoegen",
+      "/hinweis-weiteres-formular",
     ],
   ],
 ];

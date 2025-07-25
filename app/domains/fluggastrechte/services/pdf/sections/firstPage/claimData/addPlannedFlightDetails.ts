@@ -30,13 +30,19 @@ export const addPlannedFlightDetails = (
   flightCompensationClaimSect.add(dueReasonParagraph);
 
   const plannedFlightDetailsList = doc.struct("L");
-  plannedFlightDetailsList.add(
-    doc.struct("LI", {}, () => {
+
+  const flightDetailsListItem = doc.struct("LI");
+
+  flightDetailsListItem.add(
+    doc.struct("Lbl", {}, () => {
+      doc.font(FONTS_BUNDESSANS_BOLD).text(AFFECTED_FLIGHT_TEXT).fontSize(10);
+      doc.moveDown(0.2);
+    }),
+  );
+
+  flightDetailsListItem.add(
+    doc.struct("LBody", {}, () => {
       doc
-        .font(FONTS_BUNDESSANS_BOLD)
-        .text(AFFECTED_FLIGHT_TEXT)
-        .fontSize(10)
-        .moveDown(0.2)
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(FLIGHT_NUMBER_TEXT, { continued: true })
         .font(FONTS_BUNDESSANS_BOLD)
@@ -45,8 +51,12 @@ export const addPlannedFlightDetails = (
     }),
   );
 
-  plannedFlightDetailsList.add(
-    doc.struct("LI", {}, () => {
+  plannedFlightDetailsList.add(flightDetailsListItem);
+
+  const departureDateListItem = doc.struct("LI");
+
+  departureDateListItem.add(
+    doc.struct("LBody", {}, () => {
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(PLANNED_DEPARTURE_DATE_TEXT, { continued: true })
@@ -56,14 +66,19 @@ export const addPlannedFlightDetails = (
     }),
   );
 
-  plannedFlightDetailsList.add(
-    doc.struct("LI", {}, () => {
+  plannedFlightDetailsList.add(departureDateListItem);
+
+  const compensationListItem = doc.struct("LI");
+  compensationListItem.add(
+    doc.struct("LBody", {}, () => {
       doc
         .fontSize(12)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(`Streitwert: ${compensationByDistance} €`);
     }),
   );
+
+  plannedFlightDetailsList.add(compensationListItem);
 
   flightCompensationClaimSect.add(plannedFlightDetailsList);
 };

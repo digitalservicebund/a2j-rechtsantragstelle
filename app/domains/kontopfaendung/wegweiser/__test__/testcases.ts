@@ -99,6 +99,44 @@ const cases = [
     ],
   ],
   [
+    {
+      hasArbeit: "yes",
+      nachzahlungArbeitgeber: "no",
+      zahlungArbeitgeber: {
+        urlaubsgeld: "off",
+        weihnachtsgeld: "on",
+        ueberstundenBezahlt: "off",
+        abfindung: "off",
+        anderes: "off",
+      },
+    },
+    [
+      "/arbeit-art",
+      "/nachzahlung-arbeitgeber",
+      "/einmalzahlung-arbeitgeber",
+      "/sozialleistungen",
+    ],
+  ],
+  [
+    {
+      hasArbeit: "yes",
+      nachzahlungArbeitgeber: "no",
+      zahlungArbeitgeber: {
+        urlaubsgeld: "off",
+        weihnachtsgeld: "off",
+        ueberstundenBezahlt: "off",
+        abfindung: "off",
+        anderes: "off",
+      },
+    },
+    [
+      "/arbeit-art",
+      "/nachzahlung-arbeitgeber",
+      "/einmalzahlung-arbeitgeber",
+      "/sozialleistungen",
+    ],
+  ],
+  [
     { hasArbeit: "yes", arbeitArt: { selbstaendig: "on", angestellt: "off" } },
     ["/arbeit", "/arbeit-art", "/sozialleistungen"],
   ],

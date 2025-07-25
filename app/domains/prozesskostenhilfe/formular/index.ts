@@ -23,7 +23,6 @@ import { getPersoenlicheDatenXstateConfig } from "~/domains/shared/formular/pers
 import {
   getKinderStrings,
   getArrayIndexStrings,
-  eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
 } from "~/domains/shared/formular/stringReplacements";
 import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
@@ -171,7 +170,7 @@ export const prozesskostenhilfeFormular = {
       "persoenliche-daten": getPersoenlicheDatenXstateConfig(
         ({ context }) =>
           prozesskostenhilfePersoenlicheDatenDone({ context }) &&
-          hasOptionalString(context.telefonnummer as Partial<string>),
+          hasOptionalString(context.telefonnummer),
         {
           backToCallingFlow: [
             {
@@ -280,7 +279,6 @@ export const prozesskostenhilfeFormular = {
     ...getArrayIndexStrings(context),
     ...getAntragstellendePersonStrings(context),
     ...getVereinfachteErklaerungStrings(context),
-    ...eigentumZusammenfassungShowPartnerschaftWarnings(context),
     ...geldAnlagenStrings(context),
     ...getAbgabeStrings(context),
     ...getMissingInformationStrings(context),

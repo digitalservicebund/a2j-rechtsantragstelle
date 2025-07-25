@@ -8,8 +8,10 @@ const multiFieldsFlowValidation = {
   "/beratungshilfe/vorabcheck": undefined,
   "/geld-einklagen/vorabcheck": undefined,
   "/geld-einklagen/formular": undefined,
-  "/fluggastrechte/vorabcheck": fluggastrechtVorabcheckMultiFieldsValidation,
-  "/fluggastrechte/formular": fluggastrechtMultiFieldsValidation,
+  "/fluggastrechte/vorabcheck":
+    fluggastrechtVorabcheckMultiFieldsValidation as MultiFieldsStepIdValidation,
+  "/fluggastrechte/formular":
+    fluggastrechtMultiFieldsValidation as MultiFieldsStepIdValidation,
   "/prozesskostenhilfe/formular": undefined,
   "/kontopfaendung/wegweiser": undefined,
 } as const satisfies Record<FlowId, MultiFieldsStepIdValidation | undefined>;
