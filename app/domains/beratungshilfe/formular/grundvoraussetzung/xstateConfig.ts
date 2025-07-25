@@ -1,6 +1,13 @@
+import mapValues from "lodash/mapValues";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { grundvoraussetzungDone } from "./grundvoraussetzungDone";
+import { berHAntragGrundvoraussetzungenPages } from "./pages";
 import type { BeratungshilfeGrundvoraussetzungenUserData } from "./userData";
+
+const steps = mapValues(berHAntragGrundvoraussetzungenPages, (v) => ({
+  absolute: "#" + v.stepId.replaceAll("/", "."),
+  relative: v.stepId.split("/").pop()!,
+}));
 
 export const grundvorraussetzungXstateConfig = {
   initial: "start",
@@ -9,104 +16,104 @@ export const grundvorraussetzungXstateConfig = {
   states: {
     start: {
       on: {
-        SUBMIT: "rechtsschutzversicherung",
+        SUBMIT: steps.rechtsschutzversicherung.relative,
         BACK: "#antragStart",
       },
     },
-    rechtsschutzversicherung: {
+    [steps.rechtsschutzversicherung.relative]: {
       on: {
         SUBMIT: [
           {
             guard: ({ context }) => context.rechtsschutzversicherung === "no",
-            target: "wurde-verklagt",
+            target: steps.wurdeVerklagt.relative,
           },
           {
-            target: "rechtsschutzversicherung-hinweis",
+            target: steps.rechtsschutzversicherungHinweis.relative,
           },
         ],
         BACK: "start",
       },
     },
-    "rechtsschutzversicherung-hinweis": {
+    [steps.rechtsschutzversicherungHinweis.relative]: {
       on: {
-        BACK: "rechtsschutzversicherung",
+        BACK: steps.rechtsschutzversicherung.relative,
       },
     },
-    "wurde-verklagt": {
+    [steps.wurdeVerklagt.relative]: {
       on: {
         SUBMIT: [
           {
             guard: ({ context }) => context.wurdeVerklagt === "no",
-            target: "klage-eingereicht",
+            target: steps.klageEingereicht.relative,
           },
           {
-            target: "wurde-verklagt-hinweis",
+            target: steps.wurdeVerklagtHinweis.relative,
           },
         ],
-        BACK: "rechtsschutzversicherung",
+        BACK: steps.rechtsschutzversicherung.relative,
       },
     },
-    "wurde-verklagt-hinweis": {
+    [steps.wurdeVerklagtHinweis.relative]: {
       on: {
-        BACK: "wurde-verklagt",
+        BACK: steps.wurdeVerklagt.relative,
       },
     },
-    "klage-eingereicht": {
+    [steps.klageEingereicht.relative]: {
       on: {
         SUBMIT: [
           {
             guard: ({ context }) => context.klageEingereicht === "no",
-            target: "hamburg-oder-bremen",
+            target: steps.hamburgOderBremen.relative,
           },
           {
-            target: "klage-eingereicht-hinweis",
+            target: steps.klageEingereichtHinweis.relative,
           },
         ],
-        BACK: "wurde-verklagt",
+        BACK: steps.wurdeVerklagt.relative,
       },
     },
-    "hamburg-oder-bremen": {
+    [steps.hamburgOderBremen.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "hamburg-oder-bremen-hinweis",
+            target: steps.hamburgOderBremenHinweis.relative,
             guard: ({ context }) => context.hamburgOderBremen === "yes",
           },
-          "beratungshilfe-beantragt",
+          steps.beratungshilfeBeantragt.relative,
         ],
-        BACK: "klage-eingereicht",
+        BACK: steps.klageEingereicht.relative,
       },
     },
-    "hamburg-oder-bremen-hinweis": {
+    [steps.hamburgOderBremenHinweis.relative]: {
       on: {
-        BACK: "hamburg-oder-bremen",
+        BACK: steps.hamburgOderBremen.relative,
       },
     },
-    "klage-eingereicht-hinweis": {
+    [steps.klageEingereichtHinweis.relative]: {
       on: {
-        BACK: "klage-eingereicht",
+        BACK: steps.klageEingereicht.relative,
       },
     },
-    "beratungshilfe-beantragt": {
+    [steps.beratungshilfeBeantragt.relative]: {
       on: {
         SUBMIT: [
           {
             guard: ({ context }) => context.beratungshilfeBeantragt === "no",
-            target: "eigeninitiative-grundvorraussetzung",
+            target: steps.eigeninitiativeGrundvorraussetzung.relative,
           },
           {
-            target: "beratungshilfe-beantragt-hinweis",
+            target: steps.beratungshilfeBeantragtHinweis.relative,
           },
         ],
-        BACK: "hamburg-oder-bremen",
+        BACK: steps.hamburgOderBremen.relative,
       },
     },
-    "beratungshilfe-beantragt-hinweis": {
+    [steps.beratungshilfeBeantragtHinweis.relative]: {
       on: {
-        BACK: "beratungshilfe-beantragt",
+        BACK: steps.beratungshilfeBeantragt.relative,
       },
     },
-    "eigeninitiative-grundvorraussetzung": {
+    [steps.eigeninitiativeGrundvorraussetzung.relative]: {
       on: {
         SUBMIT: [
           {
@@ -114,15 +121,15 @@ export const grundvorraussetzungXstateConfig = {
             guard: grundvoraussetzungDone,
           },
           {
-            target: "eigeninitiative-grundvorraussetzung-hinweis",
+            target: steps.eigeninitiativeGrundvorraussetzungHinweis.relative,
           },
         ],
-        BACK: "beratungshilfe-beantragt",
+        BACK: steps.beratungshilfeBeantragt.relative,
       },
     },
-    "eigeninitiative-grundvorraussetzung-hinweis": {
+    [steps.eigeninitiativeGrundvorraussetzungHinweis.relative]: {
       on: {
-        BACK: "eigeninitiative-grundvorraussetzung",
+        BACK: steps.eigeninitiativeGrundvorraussetzung.relative,
       },
     },
   },

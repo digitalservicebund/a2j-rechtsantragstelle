@@ -1,3 +1,4 @@
+import mapValues from "lodash/mapValues";
 import { hasOptionalString } from "~/domains/guards.server";
 import {
   staatlicheLeistungenIsBuergergeld,
@@ -13,11 +14,14 @@ import { finanzielleAngabenArrayConfig as beratungshilfeFormularFinanzielleAngab
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { beratungshilfeFinanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConfig";
+import { beratungshilfeAntragPages } from "./pages";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import type { BeratungshilfeFormularUserData } from "./userData";
 
 const showNachbefragung = await isFeatureFlagEnabled("showNachbefragung");
+
+const stepIds = mapValues(beratungshilfeAntragPages, (v) => v.stepId);
 
 export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
@@ -33,7 +37,7 @@ export const beratungshilfeXstateConfig = {
       initial: "start",
       meta: { done: () => true },
       states: {
-        start: { on: { SUBMIT: "#grundvoraussetzungen" } },
+        [stepIds.start]: { on: { SUBMIT: "#grundvoraussetzungen" } },
       },
     },
     grundvoraussetzungen: grundvorraussetzungXstateConfig,
