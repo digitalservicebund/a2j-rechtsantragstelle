@@ -1,3 +1,5 @@
+import mapValues from "lodash/mapValues";
+import { pkhFormularGrundvoraussetzungenPages } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/pages";
 import type { ProzesskostenhilfeGrundvoraussetzungenUserData } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import {
@@ -9,108 +11,113 @@ import {
   versandDigitalGericht,
 } from "./guards";
 
+const steps = mapValues(pkhFormularGrundvoraussetzungenPages, (v) => ({
+  absolute: "#" + v.stepId.replaceAll("/", "."),
+  relative: v.stepId.split("/").pop()!,
+}));
+
 export const grundvoraussetzungenXstateConfig = {
-  id: "grundvorsaussetzungen",
-  initial: "nachueberpruefung-frage",
+  id: "grundvoraussetzungen",
+  initial: steps.nachueberpruefungFrage.relative,
   meta: { done: grundvoraussetzungenDone },
   states: {
-    "nachueberpruefung-frage": {
+    [steps.nachueberpruefungFrage.relative]: {
       on: {
         SUBMIT: [
           {
             guard: isNachueberpruefung,
-            target: "nachueberpruefung.name-gericht",
+            target: steps.nameGericht.absolute,
           },
-          "antrag.klageersteller",
+          steps.klageersteller.absolute,
         ],
         BACK: "#antragStart",
       },
     },
     nachueberpruefung: {
-      initial: "name-gericht",
+      initial: steps.nameGericht.relative,
       states: {
-        "name-gericht": {
+        [steps.nameGericht.relative]: {
           on: {
-            SUBMIT: "aktenzeichen",
-            BACK: "#grundvorsaussetzungen.nachueberpruefung-frage",
+            SUBMIT: steps.aktenzeichen.relative,
+            BACK: steps.nachueberpruefungFrage.absolute,
           },
         },
-        aktenzeichen: {
+        [steps.aktenzeichen.relative]: {
           on: {
-            SUBMIT: "#grundvorsaussetzungen.einreichung",
-            BACK: "name-gericht",
+            SUBMIT: "#grundvoraussetzungen.einreichung",
+            BACK: steps.nameGericht.relative,
           },
         },
       },
     },
     antrag: {
-      initial: "klageersteller",
+      initial: steps.klageersteller.relative,
       states: {
-        klageersteller: {
+        [steps.klageersteller.relative]: {
           on: {
             SUBMIT: [
               {
                 guard: verfahrenSelbststaendig,
-                target: "hinweis",
+                target: steps.hinweis.relative,
               },
-              "#grundvorsaussetzungen.einreichung",
+              "#grundvoraussetzungen.einreichung",
             ],
-            BACK: "#grundvorsaussetzungen.nachueberpruefung-frage",
+            BACK: steps.nachueberpruefungFrage.absolute,
           },
         },
-        hinweis: {
+        [steps.hinweis.relative]: {
           on: {
-            SUBMIT: "#grundvorsaussetzungen.einreichung",
-            BACK: "klageersteller",
+            SUBMIT: "#grundvoraussetzungen.einreichung",
+            BACK: steps.klageersteller.relative,
           },
         },
       },
     },
     einreichung: {
-      initial: "fall",
+      initial: steps.fall.relative,
       states: {
-        fall: {
+        [steps.fall.relative]: {
           on: {
             SUBMIT: [
               {
                 guard: versandDigitalAnwalt,
-                target: "hinweis-digital-einreichung",
+                target: steps.hinweisDigitalEinreichung.relative,
               },
               {
                 guard: versandDigitalGericht,
-                target: "mjp",
+                target: steps.mjp.relative,
               },
-              "hinweis-papier-einreichung",
+              steps.hinweisPapierEinreichung.relative,
             ],
             BACK: [
               {
                 guard: isNachueberpruefung,
-                target: "#grundvorsaussetzungen.nachueberpruefung.aktenzeichen",
+                target: steps.aktenzeichen.absolute,
               },
               {
                 guard: verfahrenAnwalt,
-                target: "#grundvorsaussetzungen.antrag.klageersteller",
+                target: steps.klageersteller.absolute,
               },
-              "#grundvorsaussetzungen.antrag.hinweis",
+              steps.hinweis.absolute,
             ],
           },
         },
-        mjp: {
+        [steps.mjp.relative]: {
           on: {
-            SUBMIT: "hinweis-digital-einreichung",
-            BACK: "fall",
+            SUBMIT: steps.hinweisDigitalEinreichung.relative,
+            BACK: steps.fall.relative,
           },
         },
-        "hinweis-papier-einreichung": {
+        [steps.hinweisPapierEinreichung.relative]: {
           on: {
             SUBMIT: {
               guard: grundvoraussetzungenDone,
               target: "#antragstellende-person",
             },
-            BACK: "fall",
+            BACK: steps.fall.relative,
           },
         },
-        "hinweis-digital-einreichung": {
+        [steps.hinweisDigitalEinreichung.relative]: {
           on: {
             SUBMIT: {
               guard: grundvoraussetzungenDone,
@@ -119,9 +126,9 @@ export const grundvoraussetzungenXstateConfig = {
             BACK: [
               {
                 guard: versandDigitalGericht,
-                target: "mjp",
+                target: steps.mjp.relative,
               },
-              "fall",
+              steps.fall.relative,
             ],
           },
         },
