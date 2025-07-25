@@ -29,6 +29,7 @@ describe("validateCancelFlightReplacementPage", () => {
     direktAbflugsZeit: "10:00",
     direktAnkunftsDatum: toGermanDateFormat(today()),
     direktAnkunftsZeit: "11:00",
+    ankuendigung: "no",
   };
 
   const validatorCancelFlightReplacementPage =

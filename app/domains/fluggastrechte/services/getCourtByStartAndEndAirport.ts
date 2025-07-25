@@ -9,8 +9,8 @@ const findCourtServer = serverOnly$((zipCode: string) =>
 );
 
 export const getCourtByStartAndEndAirport = (
-  startIataCodeAirport: string,
-  endIataCodeAirport: string,
+  startIataCodeAirport?: string,
+  endIataCodeAirport?: string,
 ): Jmtd14VTErwerberGerbeh | undefined => {
   const startAirport = getAirportByIataCode(startIataCodeAirport);
   const endAirport = getAirportByIataCode(endIataCodeAirport);

@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
-import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 import type { fluggastrechteInputSchema } from "../../userData";
 
 const ONE_HOUR_MILLISECONDS = 1 * 60 * 60 * 1000;
@@ -61,16 +60,16 @@ const getFlightTimestamps = (data: ParsedData) => ({
     data.direktAbflugsZeit,
   ),
   departureDateTime: convertToTimestamp(
-    data.annullierungErsatzverbindungAbflugsDatum,
-    data.annullierungErsatzverbindungAbflugsZeit,
+    data.annullierungErsatzverbindungAbflugsDatum!,
+    data.annullierungErsatzverbindungAbflugsZeit!,
   ),
   originalArrivalDateTime: convertToTimestamp(
     data.direktAnkunftsDatum,
     data.direktAnkunftsZeit,
   ),
   arrivalDateTime: convertToTimestamp(
-    data.annullierungErsatzverbindungAnkunftsDatum,
-    data.annullierungErsatzverbindungAnkunftsZeit,
+    data.annullierungErsatzverbindungAnkunftsDatum!,
+    data.annullierungErsatzverbindungAnkunftsZeit!,
   ),
 });
 
@@ -219,16 +218,11 @@ export function validateCancelFlightReplacementPage(
   return baseSchema.superRefine((data, ctx) => {
     const fields = getFieldsForValidation(data);
 
-    const isAnyFieldFilled = fields.some(
-      ({ value }) => !isFieldEmptyOrUndefined(value),
-    );
-
-    if (!isAnyFieldFilled) {
-      return;
-    }
+    const isAnyFieldFilled = fields.some(({ value }) => Boolean(value));
+    if (!isAnyFieldFilled) return;
 
     for (const { value, path } of fields) {
-      if (isFieldEmptyOrUndefined(value)) {
+      if (!value) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "fillAllOrNone",
@@ -236,6 +230,7 @@ export function validateCancelFlightReplacementPage(
         });
       }
     }
+    if (fields.some(({ value }) => !value)) return false;
 
     if (data.ankuendigung === "between7And13Days") {
       validateFieldsBetween7And13Days(data, ctx);

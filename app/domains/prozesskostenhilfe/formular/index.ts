@@ -176,7 +176,7 @@ export const prozesskostenhilfeFormular = {
       "persoenliche-daten": getPersoenlicheDatenXstateConfig(
         ({ context }) =>
           prozesskostenhilfePersoenlicheDatenDone({ context }) &&
-          hasOptionalString(context.telefonnummer as Partial<string>),
+          hasOptionalString(context.telefonnummer),
         {
           backToCallingFlow: [
             {
