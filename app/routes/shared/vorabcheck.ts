@@ -147,7 +147,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   updateSession(flowSession, resultFormUserData.value.userData);
 
-  await postValidationFlowAction(request, resultFormUserData.value.userData);
+  await postValidationFlowAction(request, flowSession.data);
 
   const destination = flowDestination(pathname, flowSession.data);
   const headers = { "Set-Cookie": await commitSession(flowSession) };
