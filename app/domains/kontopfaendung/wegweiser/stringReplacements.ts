@@ -264,3 +264,35 @@ export const getHasErhöhungStrings = (
       hasRente,
   };
 };
+export const getBescheinigungStrings = (
+  userData: KontopfaendungWegweiserUserData,
+) => {
+  const hasErhoehungsbetrag =
+    getErhoehungsbetragStrings(userData).hasErhoehungsbetrag;
+  const hasKindergeld = getKindergeldStrings(userData).hasKindergeld;
+  const hasEinmalSozialleistung =
+    getEinmalSozialleistungStrings(userData).hasEinmalSozialleistung;
+  const hasNachzahlungSozialUnter500 =
+    getNachzahlungSozialUnter500Strings(userData).hasNachzahlungSozialUnter500;
+  const hasNachzahlungArbeitUnter500 =
+    getNachzahlungArbeitUnter500Strings(userData).hasNachzahlungArbeitUnter500;
+  const hasBuergergeld = getBuergergeldStrings(userData).hasBuergergeld;
+  const hasGrundsicherung =
+    getGrundsicherungStrings(userData).hasGrundsicherung;
+  const hasAsylbewerberleistung =
+    getAsylbewerberleistungStrings(userData).hasAsylbewerberleistung;
+  const hasWohngeld = getWohngeldStrings(userData).hasWohngeld;
+
+  const bescheinigungenIsVisible =
+    hasErhoehungsbetrag ||
+    hasKindergeld ||
+    hasEinmalSozialleistung ||
+    hasNachzahlungSozialUnter500 ||
+    hasNachzahlungArbeitUnter500 ||
+    hasBuergergeld ||
+    hasGrundsicherung ||
+    hasAsylbewerberleistung ||
+    hasWohngeld;
+
+  return { bescheinigungenIsVisible };
+};
