@@ -1,26 +1,25 @@
 import { type BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 import { calculateFreibetragBerHFormular } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
-import { type GenericGuard } from "~/domains/guards.server";
 import { staatlicheLeistungenIsBuergergeld } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import moneyToCents from "~/services/validation/money/moneyToCents";
 
 const eigentumWorthEligibilityThreshhold = 10000;
 
-export const isFinanciallyEligibleForBerH: GenericGuard<
-  BeratungshilfeFinanzielleAngabenUserData
-> = ({ context }) => {
+export const isFinanciallyEligibleForBerH = (
+  userData: BeratungshilfeFinanzielleAngabenUserData,
+) => {
   const hasQualifyingStaatlicheLeistung =
-    context.staatlicheLeistungen === "asylbewerberleistungen" ||
-    context.staatlicheLeistungen === "grundsicherung";
-  const totalEigentumWorth = calculateEigentumTotalWorth(context);
-  const hasExpensiveFahrzeug = (context.kraftfahrzeuge ?? []).some(
+    userData.staatlicheLeistungen === "asylbewerberleistungen" ||
+    userData.staatlicheLeistungen === "grundsicherung";
+  const totalEigentumWorth = calculateEigentumTotalWorth(userData);
+  const hasExpensiveFahrzeug = (userData.kraftfahrzeuge ?? []).some(
     (kraftfahrzeug) =>
       kraftfahrzeug.hasArbeitsweg === "no" &&
       kraftfahrzeug.wert === "over10000",
   );
   const noEinzusetzendesEinkommen =
-    staatlicheLeistungenIsBuergergeld({ context }) ||
-    !hasEinzusetzendesEinkommen(context);
+    staatlicheLeistungenIsBuergergeld({ context: userData }) ||
+    !hasEinzusetzendesEinkommen(userData);
   return (
     hasQualifyingStaatlicheLeistung ||
     (noEinzusetzendesEinkommen &&

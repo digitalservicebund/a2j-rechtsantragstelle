@@ -6,15 +6,15 @@ describe("isFinanciallyEligibleForBerH", () => {
     let userData: Partial<BeratungshilfeFormularUserData> = {
       staatlicheLeistungen: "asylbewerberleistungen",
     };
-    expect(isFinanciallyEligibleForBerH({ context: userData })).toBe(true);
+    expect(isFinanciallyEligibleForBerH(userData)).toBe(true);
     userData = {
       staatlicheLeistungen: "grundsicherung",
     };
-    expect(isFinanciallyEligibleForBerH({ context: userData })).toBe(true);
+    expect(isFinanciallyEligibleForBerH(userData)).toBe(true);
     userData = {
       staatlicheLeistungen: "buergergeld",
     };
-    expect(isFinanciallyEligibleForBerH({ context: userData })).toBe(true);
+    expect(isFinanciallyEligibleForBerH(userData)).toBe(true);
   });
 
   it("Should return true if the user has less than 10.000€ in Eigentum", () => {
@@ -27,7 +27,7 @@ describe("isFinanciallyEligibleForBerH", () => {
         },
       ],
     };
-    expect(isFinanciallyEligibleForBerH({ context: userData })).toBe(true);
+    expect(isFinanciallyEligibleForBerH(userData)).toBe(true);
   });
 
   it("Should return false if the user has more than 10.000€ in Eigentum", () => {
@@ -38,7 +38,7 @@ describe("isFinanciallyEligibleForBerH", () => {
         },
       ],
     };
-    expect(isFinanciallyEligibleForBerH({ context: userData })).toBe(false);
+    expect(isFinanciallyEligibleForBerH(userData)).toBe(false);
   });
 
   it("Should exclude Kraftfahrzeuge used for commuting purposes in the eigentumTotalWorth calculations", () => {
@@ -54,7 +54,7 @@ describe("isFinanciallyEligibleForBerH", () => {
         },
       ],
     };
-    expect(isFinanciallyEligibleForBerH({ context: userData })).toBe(true);
+    expect(isFinanciallyEligibleForBerH(userData)).toBe(true);
   });
 
   it("Should return false if the user has at least one non-commuter vehicle with a worth over 10.000€", () => {
@@ -67,6 +67,6 @@ describe("isFinanciallyEligibleForBerH", () => {
         },
       ],
     };
-    expect(isFinanciallyEligibleForBerH({ context: userData })).toBe(false);
+    expect(isFinanciallyEligibleForBerH(userData)).toBe(false);
   });
 });

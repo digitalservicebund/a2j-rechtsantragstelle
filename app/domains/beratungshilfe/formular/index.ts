@@ -43,7 +43,7 @@ export const beratungshilfeFormular = {
           request,
           eventName: "financial eligibility calculated",
           properties: {
-            isEligible: isFinanciallyEligibleForBerH({ context: userData }),
+            isEligible: isFinanciallyEligibleForBerH(userData),
           },
         }),
       ),
