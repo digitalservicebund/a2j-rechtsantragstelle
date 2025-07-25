@@ -71,7 +71,7 @@
     "isbot": "^5.1.28",
     "lodash": "^4.17.21",
     "marked": "^16.1.1",
-    "match-sorter": "^8.0.3",
+    "match-sorter": "^8.1.0",
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.17.1",
