@@ -15,7 +15,7 @@ describe("createBankInformation", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createBankInformation(mockDoc, mockStruct, userDataMock);
+    createBankInformation(mockDoc, mockStruct, userDataMock, true);
 
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
     expect(mockDoc.text).toHaveBeenCalledWith(
@@ -35,7 +35,7 @@ describe("createBankInformation", () => {
       nachname: "Mustermann",
     };
 
-    createBankInformation(mockDoc, mockStruct, userDataNoAccountHolder);
+    createBankInformation(mockDoc, mockStruct, userDataNoAccountHolder, true);
 
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
     expect(mockDoc.text).toHaveBeenCalledWith(
@@ -55,7 +55,7 @@ describe("createBankInformation", () => {
       nachname: "Mustermann",
     };
 
-    createBankInformation(mockDoc, mockStruct, userDataNoAccountHolder);
+    createBankInformation(mockDoc, mockStruct, userDataNoAccountHolder, true);
 
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
     expect(mockDoc.text).toHaveBeenCalledWith(
@@ -75,7 +75,7 @@ describe("createBankInformation", () => {
       nachname: "Mustermann",
     };
 
-    createBankInformation(mockDoc, mockStruct, userDataNoAccountHolder);
+    createBankInformation(mockDoc, mockStruct, userDataNoAccountHolder, true);
 
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
     expect(mockDoc.text).toHaveBeenCalledWith(
@@ -90,7 +90,7 @@ describe("createBankInformation", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
     const userDataWithoutIban = { ...userDataMock, iban: undefined };
 
-    createBankInformation(mockDoc, mockStruct, userDataWithoutIban);
+    createBankInformation(mockDoc, mockStruct, userDataWithoutIban, true);
 
     expect(mockDoc.struct).not.toHaveBeenCalled();
     expect(mockDoc.text).not.toHaveBeenCalled();
@@ -100,7 +100,7 @@ describe("createBankInformation", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createBankInformation(mockDoc, mockStruct, userDataMock);
+    createBankInformation(mockDoc, mockStruct, userDataMock, true);
 
     expect(mockDoc.fontSize).toHaveBeenCalledWith(7);
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR);
@@ -110,7 +110,7 @@ describe("createBankInformation", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createBankInformation(mockDoc, mockStruct, userDataMock);
+    createBankInformation(mockDoc, mockStruct, userDataMock, true);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       expect.any(String),
@@ -127,7 +127,7 @@ describe("createBankInformation", () => {
       kontoinhaber: "Jöhn Dœ!💰",
     };
 
-    createBankInformation(mockDoc, mockStruct, userDataSpecialChars);
+    createBankInformation(mockDoc, mockStruct, userDataSpecialChars, true);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Kontoinhaber: Jöhn Dœ!💰 | IBAN: DE68500123456789000000",
@@ -145,7 +145,7 @@ describe("createBankInformation", () => {
       iban: undefined,
     };
 
-    createBankInformation(mockDoc, mockStruct, userDataWithoutIban);
+    createBankInformation(mockDoc, mockStruct, userDataWithoutIban, true);
 
     expect(mockDoc.text).not.toBeCalled();
   });
@@ -159,8 +159,30 @@ describe("createBankInformation", () => {
       iban: "",
     };
 
-    createBankInformation(mockDoc, mockStruct, userDataWithoutIban);
+    createBankInformation(mockDoc, mockStruct, userDataWithoutIban, true);
 
     expect(mockDoc.text).not.toBeCalled();
+  });
+
+  it("should use struct when isLastPage is true", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    createBankInformation(mockDoc, mockStruct, userDataMock, true);
+
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    expect(mockDoc.markContent).not.toHaveBeenCalled();
+  });
+
+  it("should use Artifact markContent when isLastPage is false", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    createBankInformation(mockDoc, mockStruct, userDataMock, false);
+
+    expect(mockDoc.markContent).toHaveBeenCalledWith("Artifact", {
+      type: "Pagination",
+    });
+    expect(mockDoc.struct).not.toHaveBeenCalled();
   });
 });
