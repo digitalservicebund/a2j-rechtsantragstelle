@@ -49,7 +49,7 @@ export function CookieBanner({
 
   return (
     <section
-      className="md:fixed bottom-16 right-16 left-16 md:border-2 border-b-2 border-blue-800 z-50 bg-blue-300"
+      className="right-16 left-16 border-b-2 border-blue-800 z-50 bg-blue-300"
       aria-label="Cookie banner"
       data-testid="cookie-banner"
     >
