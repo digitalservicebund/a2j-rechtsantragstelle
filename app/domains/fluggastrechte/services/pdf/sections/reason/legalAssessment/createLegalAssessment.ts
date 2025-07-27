@@ -105,17 +105,15 @@ export const createLegalAssessment = (
   const courtCostValue = gerichtskostenFromBetrag(
     Number(compensationByDistance),
   );
-
+  const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${courtCostValue} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
+  const advanceCourtTextHeight = doc.heightOfString(advanceCourtText, {
+    width: PDF_WIDTH_SEIZE,
+  });
+  addNewPageInCaseMissingVerticalSpace(doc, advanceCourtTextHeight);
   legalAssessmentSect.add(
     doc.struct("P", {}, () => {
-      const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${courtCostValue} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
-      const advanceCourtTextHeight = doc.heightOfString(advanceCourtText, {
-        width: PDF_WIDTH_SEIZE,
-      });
-      addNewPageInCaseMissingVerticalSpace(doc, advanceCourtTextHeight);
-      doc.fill("black");
-
-      doc.text(advanceCourtText).moveDown(2);
+      doc.text(advanceCourtText);
+      doc.moveDown(2);
     }),
   );
 
