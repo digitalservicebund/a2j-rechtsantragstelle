@@ -13,12 +13,12 @@ export const beratungshilfeVorabcheck = {
   config: beratungshilfeVorabcheckXstateConfig,
   guards: {},
   asyncFlowActions: {
-    "/bereich": (request, userData) =>
+    "/bereich": (request, userData: BeratungshilfeVorabcheckUserData) =>
       Promise.resolve(
         sendCustomAnalyticsEvent({
           request,
           eventName: "beratungshilfe vorabcheck bereich submitted",
-          properties: userData,
+          properties: { bereich: userData.bereich },
         }),
       ),
   },

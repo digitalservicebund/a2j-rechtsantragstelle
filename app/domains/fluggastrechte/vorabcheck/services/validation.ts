@@ -1,11 +1,17 @@
 import { z } from "zod";
 import type { MultiFieldsValidationBaseSchema } from "~/domains/types";
+import type { fluggastrechteVorabcheckInputSchema } from "../userData";
+
+const fieldsToValidate = ["startAirport", "endAirport"] as const;
 
 export function validateSameDepartureAndArrivalAirports(
-  baseSchema: MultiFieldsValidationBaseSchema,
+  baseSchema: MultiFieldsValidationBaseSchema<
+    Pick<
+      typeof fluggastrechteVorabcheckInputSchema,
+      (typeof fieldsToValidate)[number]
+    >
+  >,
 ) {
-  const fieldsToValidate = ["startAirport", "endAirport"];
-
   return baseSchema.superRefine((data, ctx) => {
     if (data.startAirport === data.endAirport) {
       fieldsToValidate.forEach((field) =>

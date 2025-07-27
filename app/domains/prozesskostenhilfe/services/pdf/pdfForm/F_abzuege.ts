@@ -27,20 +27,29 @@ export const fillSelfAbzuege: PkhPdfFillFunction = ({
   }
 
   if (userData.arbeitsweg === "publicTransport") {
-    pdfValues.steuernSolidaritaetszuschlag_2.value = "ÖPNV";
+    pdfValues.steuernSolidaritaetszuschlag_2.value =
+      "ÖPNV; Arbeitsadresse: siehe Anhang";
     pdfValues.monatlicheAbzuegeinEuro4.value = `${userData.monatlicheOPNVKosten} €`;
   } else if (userData.arbeitsweg === "privateVehicle") {
-    pdfValues.steuernSolidaritaetszuschlag_2.value = "KFZ";
+    pdfValues.steuernSolidaritaetszuschlag_2.value =
+      "KFZ; Arbeitsadresse: siehe Anhang";
     pdfValues.monatlicheAbzuegeinEuro4.value = `${userData.arbeitsplatzEntfernung}km`;
   }
 
   const attachment: AttachmentEntries = [];
+  const arbeitswegNeedsAttachment =
+    userData.arbeitsweg === "privateVehicle" ||
+    userData.arbeitsweg === "publicTransport";
   const versicherungenNeedsAttachment =
     userData.versicherungen !== undefined && userData.versicherungen.length > 1;
   const arbeitsausgabenNeedsAttachment =
     userData.arbeitsausgaben && userData.arbeitsausgaben.length > 1;
 
-  if (versicherungenNeedsAttachment || arbeitsausgabenNeedsAttachment) {
+  if (
+    versicherungenNeedsAttachment ||
+    arbeitsausgabenNeedsAttachment ||
+    arbeitswegNeedsAttachment
+  ) {
     attachment.push({ title: "F Abzüge", level: "h2" });
   }
 
@@ -70,6 +79,17 @@ export const fillSelfAbzuege: PkhPdfFillFunction = ({
     });
   }
 
+  if (arbeitswegNeedsAttachment) {
+    attachment.push({
+      title: "Fahrt zur Arbeit",
+      level: "h3",
+      text: `Arbeitsadresse: 
+      ${userData.arbeitsplatz?.strasseHausnummer}
+      ${userData.arbeitsplatz?.plz} ${userData.arbeitsplatz?.ort}
+      `,
+    });
+  }
+
   return { pdfValues, attachment };
 };
 
@@ -91,10 +111,10 @@ const fillPartnerAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   }
 
   if (userData["partner-arbeitsweg"] === "publicTransport") {
-    pdfValues.fahrtkostenEhegatte.value = "ÖPNV";
+    pdfValues.fahrtkostenEhegatte.value = "ÖPNV; Arbeitsadresse: siehe Anhang";
     pdfValues.monatlicheAbzuegeinEuro9.value = `${userData["partner-monatlicheOPNVKosten"]} €`;
   } else if (userData["partner-arbeitsweg"] === "privateVehicle") {
-    pdfValues.fahrtkostenEhegatte.value = "KFZ";
+    pdfValues.fahrtkostenEhegatte.value = "KFZ; Arbeitsadresse: siehe Anhang";
     pdfValues.monatlicheAbzuegeinEuro9.value = `${userData["partner-arbeitsplatzEntfernung"]}km`;
   }
 
@@ -102,9 +122,12 @@ const fillPartnerAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const arbeitsausgabenNeedsAttachment =
     userData["partner-arbeitsausgaben"] &&
     userData["partner-arbeitsausgaben"].length > 1;
+  const arbeitswegNeedsAttachment =
+    userData["partner-arbeitsweg"] === "privateVehicle" ||
+    userData["partner-arbeitsweg"] === "publicTransport";
 
-  if (arbeitsausgabenNeedsAttachment) {
-    attachment.push({ title: "F Abzüge", level: "h2" });
+  if (arbeitsausgabenNeedsAttachment || arbeitswegNeedsAttachment) {
+    attachment.push({ title: "F Abzüge - Partner:in", level: "h2" });
   }
 
   const averageMonthlyExpenses = getTotalMonthlyFinancialEntries(
@@ -130,6 +153,17 @@ const fillPartnerAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
         title: arbeitsausgabe.beschreibung,
         text: `${arbeitsausgabe.betrag} € (${zahlungsfrequenzMapping[arbeitsausgabe.zahlungsfrequenz]})`,
       });
+    });
+  }
+
+  if (arbeitswegNeedsAttachment) {
+    attachment.push({
+      title: "Fahrt zur Arbeit",
+      level: "h3",
+      text: `Arbeitsadresse: 
+      ${userData["partner-arbeitsplatz"]?.strasseHausnummer}
+      ${userData["partner-arbeitsplatz"]?.plz} ${userData["partner-arbeitsplatz"]?.ort}
+      `,
     });
   }
 
