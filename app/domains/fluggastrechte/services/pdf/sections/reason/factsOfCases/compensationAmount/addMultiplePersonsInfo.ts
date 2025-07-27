@@ -38,7 +38,6 @@ export const addMultiplePersonsInfo = (
   }
 
   addNewPageInCaseMissingVerticalSpace(doc);
-  doc.fill("black");
 
   const personsNames = weiterePersonen
     .flatMap(({ anrede, title, nachname, vorname }) => {
@@ -56,7 +55,6 @@ export const addMultiplePersonsInfo = (
         .font(FONTS_BUNDESSANS_REGULAR);
 
       addNewPageInCaseMissingVerticalSpace(doc);
-      doc.fill("black");
 
       if (hasZeugen === "yes") {
         doc

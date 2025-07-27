@@ -32,8 +32,9 @@ describe("addFlightTextArea", () => {
   it("should not have any text given zwischenstoppAnzahl as no", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
-    addFlightTextArea(mockDoc, userDataMock);
+    addFlightTextArea(mockDoc, userDataMock, mockSect);
 
     expect(mockDoc.text).not.toBeCalled();
   });
@@ -41,6 +42,7 @@ describe("addFlightTextArea", () => {
   it("should have the text for start and end airport for verspaetet bereich and anschlussFlugVerpasst no", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataVerspaetetMock = {
       ...userDataMock,
@@ -48,7 +50,7 @@ describe("addFlightTextArea", () => {
       anschlussFlugVerpasst: YesNoAnswer.Enum.no,
     } satisfies FluggastrechteUserData;
 
-    addFlightTextArea(mockDoc, userDataVerspaetetMock);
+    addFlightTextArea(mockDoc, userDataVerspaetetMock, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Der Flug von ${startAirportMock} nach ${endAirportMock} hatte die genannte Verspätung.`,
@@ -59,6 +61,7 @@ describe("addFlightTextArea", () => {
   it("should have the text for start and end airport for verspaetet bereich and anschlussFlugVerpasst yes", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataVerspaetetMock = {
       ...userDataMock,
@@ -66,7 +69,7 @@ describe("addFlightTextArea", () => {
       anschlussFlugVerpasst: YesNoAnswer.Enum.yes,
     } satisfies FluggastrechteUserData;
 
-    addFlightTextArea(mockDoc, userDataVerspaetetMock);
+    addFlightTextArea(mockDoc, userDataVerspaetetMock, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Der Flug von ${startAirportMock} nach ${endAirportMock} hatte die genannte Verspätung. ${REASON_DELAY_FLIGHT_LOST_CONNECTION}`,
@@ -77,6 +80,7 @@ describe("addFlightTextArea", () => {
   it("should have the text for start and end airport for annullierung bereich and anschlussFlugVerpasst no", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataAnnullierung = {
       ...userDataMock,
@@ -85,7 +89,7 @@ describe("addFlightTextArea", () => {
       anschlussFlugVerpasst: YesNoAnswer.Enum.no,
     } satisfies FluggastrechteUserData;
 
-    addFlightTextArea(mockDoc, userDataAnnullierung);
+    addFlightTextArea(mockDoc, userDataAnnullierung, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Der Flug von ${startAirportMock} nach ${endAirportMock} wurde annulliert.`,
@@ -96,6 +100,7 @@ describe("addFlightTextArea", () => {
   it("should have the text for start and end airport for annullierung bereich and anschlussFlugVerpasst yes", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataAnnullierung = {
       ...userDataMock,
@@ -104,7 +109,7 @@ describe("addFlightTextArea", () => {
       anschlussFlugVerpasst: YesNoAnswer.Enum.yes,
     } satisfies FluggastrechteUserData;
 
-    addFlightTextArea(mockDoc, userDataAnnullierung);
+    addFlightTextArea(mockDoc, userDataAnnullierung, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Der Flug von ${startAirportMock} nach ${endAirportMock} wurde annulliert. ${REASON_CANCEL_FLIGHT_LOST_CONNECTION}`,
@@ -115,6 +120,7 @@ describe("addFlightTextArea", () => {
   it("should have the text for start and end airport for nichtbefoerderung bereich and anschlussFlugVerpasst no", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataNichtBefoerderungMock = {
       ...userDataMock,
@@ -123,7 +129,7 @@ describe("addFlightTextArea", () => {
       anschlussFlugVerpasst: YesNoAnswer.Enum.no,
     } satisfies FluggastrechteUserData;
 
-    addFlightTextArea(mockDoc, userDataNichtBefoerderungMock);
+    addFlightTextArea(mockDoc, userDataNichtBefoerderungMock, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Die Nicht-Beförderung fand auf dem Flug von ${startAirportMock} nach ${endAirportMock} statt.`,
@@ -134,6 +140,7 @@ describe("addFlightTextArea", () => {
   it("should have the text for start and end airport for nichtbefoerderung bereich and anschlussFlugVerpasst yes", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
     const userDataNichtBefoerderungMock = {
       ...userDataMock,
@@ -142,7 +149,7 @@ describe("addFlightTextArea", () => {
       anschlussFlugVerpasst: YesNoAnswer.Enum.yes,
     } satisfies FluggastrechteUserData;
 
-    addFlightTextArea(mockDoc, userDataNichtBefoerderungMock);
+    addFlightTextArea(mockDoc, userDataNichtBefoerderungMock, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Die Nicht-Beförderung fand auf dem Flug von ${startAirportMock} nach ${endAirportMock} statt. ${REASON_NON_TRANSPORTE_FLIGHT_LOST_CONNECTION}`,

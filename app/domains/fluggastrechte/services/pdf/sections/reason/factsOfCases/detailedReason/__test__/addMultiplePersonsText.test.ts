@@ -16,8 +16,9 @@ describe("addMultiplePersonsText", () => {
 
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const reasonSect = mockDoc.struct("Sect");
 
-    addMultiplePersonsText(mockDoc, userDataNoMultiplePersons);
+    addMultiplePersonsText(mockDoc, userDataNoMultiplePersons, reasonSect);
 
     expect(mockDoc.text).not.toBeCalled();
   });
@@ -31,8 +32,9 @@ describe("addMultiplePersonsText", () => {
 
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const reasonSect = mockDoc.struct("Sect");
 
-    addMultiplePersonsText(mockDoc, userDataNoMultiplePersons);
+    addMultiplePersonsText(mockDoc, userDataNoMultiplePersons, reasonSect);
 
     expect(mockDoc.text).not.toBeCalled();
   });
@@ -40,7 +42,7 @@ describe("addMultiplePersonsText", () => {
   it("should have the text for following persons given weiter personen and verspaetet bereich", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
-
+    const reasonSect = mockDoc.struct("Sect");
     const userDataWeiterePersonenMock = {
       ...userDataMock,
       weiterePersonen: [
@@ -55,7 +57,7 @@ describe("addMultiplePersonsText", () => {
       isWeiterePersonen: YesNoAnswer.Values.yes,
     };
 
-    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
+    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock, reasonSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Folgende Personen waren von dieser Verspätung betroffen:",
@@ -66,6 +68,7 @@ describe("addMultiplePersonsText", () => {
   it("should have the text for following persons given weiter personen and annullierung bereich", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const reasonSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonenMock = {
       ...userDataMock,
@@ -82,7 +85,7 @@ describe("addMultiplePersonsText", () => {
       isWeiterePersonen: YesNoAnswer.Values.yes,
     };
 
-    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
+    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock, reasonSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Folgende Personen waren von dieser Annullierung betroffen:",
@@ -93,6 +96,7 @@ describe("addMultiplePersonsText", () => {
   it("should have the text for following persons given weiter personen and nichtbefoerderung bereich", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const reasonSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonenMock = {
       ...userDataMock,
@@ -109,7 +113,7 @@ describe("addMultiplePersonsText", () => {
       isWeiterePersonen: YesNoAnswer.Values.yes,
     };
 
-    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
+    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock, reasonSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Folgende Personen waren von dieser Nicht-Beförderung betroffen:",
@@ -120,6 +124,7 @@ describe("addMultiplePersonsText", () => {
   it("should have the text for plaintiff name given weiter personen", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const reasonSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonenMock = {
       ...userDataMock,
@@ -139,7 +144,7 @@ describe("addMultiplePersonsText", () => {
       isWeiterePersonen: YesNoAnswer.Values.yes,
     };
 
-    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
+    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock, reasonSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       "1. ",
@@ -154,6 +159,7 @@ describe("addMultiplePersonsText", () => {
   it("should have the text for persons names  given weiter personen", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const reasonSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonenMock = {
       ...userDataMock,
@@ -192,7 +198,7 @@ describe("addMultiplePersonsText", () => {
       isWeiterePersonen: YesNoAnswer.Values.yes,
     };
 
-    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
+    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock, reasonSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith("2. ", expect.anything());
 

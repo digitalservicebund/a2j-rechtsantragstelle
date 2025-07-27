@@ -48,7 +48,6 @@ export const addDetailedReason = (
 ) => {
   const { attachmentConfirmationBooking, confirmationBooking } =
     getConfirmationBookingTexts(userData);
-
   reasonSect.add(
     doc.struct("P", {}, () => {
       doc
@@ -63,21 +62,29 @@ export const addDetailedReason = (
         )
         .font(FONTS_BUNDESSANS_REGULAR)
         .moveDown(MARGIN_BETWEEN_SECTIONS);
-
-      addMultiplePersonsText(doc, userData);
-
-      if (userData.bereich !== "annullierung") {
-        doc.text(
-          userData.isWeiterePersonen === "no"
-            ? PLAINTIFF_ON_TIME_TEXT
-            : PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT,
-          PDF_MARGIN_HORIZONTAL,
-        );
-      }
-
-      addFlightTextArea(doc, userData);
-
-      doc.moveDown(1);
     }),
   );
+
+  addMultiplePersonsText(doc, userData, reasonSect);
+
+  if (userData.bereich !== "annullierung") {
+    reasonSect.add(
+      doc.struct("P", {}, () => {
+        doc
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .fontSize(10)
+          .text(
+            userData.isWeiterePersonen === "no"
+              ? PLAINTIFF_ON_TIME_TEXT
+              : PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT,
+            PDF_MARGIN_HORIZONTAL,
+          )
+          .moveDown(MARGIN_BETWEEN_SECTIONS);
+      }),
+    );
+  }
+
+  addFlightTextArea(doc, userData, reasonSect);
+
+  doc.moveDown(1);
 };
