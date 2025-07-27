@@ -1,6 +1,7 @@
 import type PDFDocument from "pdfkit";
 import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
 import {
+  FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
@@ -38,6 +39,8 @@ export const addOtherDetailsItinerary = (
     compensationSect.add(
       doc.struct("P", {}, () => {
         doc
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .fontSize(10)
           .text(OTHER_DETAILS_ITINERARY, PDF_MARGIN_HORIZONTAL)
           .text(zusaetzlicheAngaben)
           .moveDown(MARGIN_BETWEEN_SECTIONS);
