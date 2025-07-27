@@ -63,7 +63,7 @@ describe("addDistanceInfo", () => {
       isWeiterePersonen: YesNoAnswer.Enum.no,
     };
 
-    addDistanceInfo(mockDoc, userDataWeiterePersonenMock);
+    addDistanceInfo(mockDoc, mockStruct, userDataWeiterePersonenMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Die Distanz zwischen ${startAirportMock} und ${endAirportMock} beträgt nach Großkreismethode ca. ${distanceValueMock} km. ${ARTICLE_AIR_PASSENGER_REGULATION_TEXT} ${compensationValueMock} €.`,
@@ -80,7 +80,7 @@ describe("addDistanceInfo", () => {
       isWeiterePersonen: YesNoAnswer.Enum.yes,
     };
 
-    addDistanceInfo(mockDoc, userDataWeiterePersonenMock);
+    addDistanceInfo(mockDoc, mockStruct, userDataWeiterePersonenMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Die Distanz zwischen ${startAirportMock} und ${endAirportMock} beträgt nach Großkreismethode ca. ${distanceValueMock} km. ${ARTICLE_AIR_PASSENGER_REGULATION_TEXT} ${compensationValueMock} € pro Person, insgesamt aus eigenem und abgetretenem Recht damit eine Gesamtsumme von ${compensationValueMock} €.`,
@@ -92,7 +92,7 @@ describe("addDistanceInfo", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addDistanceInfo(mockDoc, userDataMock);
+    addDistanceInfo(mockDoc, mockStruct, userDataMock);
 
     expect(addNewPageInCaseMissingVerticalSpace).toBeCalled();
   });

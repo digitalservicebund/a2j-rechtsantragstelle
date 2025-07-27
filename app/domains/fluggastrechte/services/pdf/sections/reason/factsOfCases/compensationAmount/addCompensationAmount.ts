@@ -1,10 +1,7 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
-import {
-  FONTS_BUNDESSANS_REGULAR,
-  PDF_WIDTH_SEIZE,
-} from "~/services/pdf/createPdfKitDocument";
+import { PDF_WIDTH_SEIZE } from "~/services/pdf/createPdfKitDocument";
 import { addDistanceInfo } from "./addDistanceInfo";
 import { addMultiplePersonsInfo } from "./addMultiplePersonsInfo";
 import { addOtherDetailsItinerary } from "./addOtherDetailsItinerary";
@@ -21,16 +18,9 @@ export const addCompensationAmount = (
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
-  const compensationSect = doc.struct("Sect");
+  addOtherDetailsItinerary(doc, documentStruct, userData.zusaetzlicheAngaben);
 
-  addOtherDetailsItinerary(doc, compensationSect, userData.zusaetzlicheAngaben);
-
-  compensationSect.add(
-    doc.struct("P", {}, () => {
-      doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
-      addDistanceInfo(doc, userData);
-    }),
-  );
+  addDistanceInfo(doc, documentStruct, userData);
 
   const demandedCompensationPaymentText =
     userData.isWeiterePersonen === "no"
@@ -49,6 +39,7 @@ export const addCompensationAmount = (
     demandedCompensationPaymentTextHeight,
   );
 
+  const compensationSect = doc.struct("Sect");
   compensationSect.add(
     doc.struct("P", {}, () => {
       doc

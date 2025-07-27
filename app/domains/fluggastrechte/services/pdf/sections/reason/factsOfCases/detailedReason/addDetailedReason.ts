@@ -78,8 +78,7 @@ export const addDetailedReason = (
               ? PLAINTIFF_ON_TIME_TEXT
               : PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT,
             PDF_MARGIN_HORIZONTAL,
-          )
-          .moveDown(MARGIN_BETWEEN_SECTIONS);
+          );
       }),
     );
   }

@@ -38,5 +38,4 @@ export const createFactsOfCases = (
   addDetailedReason(doc, reasonSect, userData);
   doc.moveDown(MARGIN_BETWEEN_SECTIONS);
   addNewPageInCaseMissingVerticalSpace(doc, COLUMN_HEIGHT * 4 + MARGIN_BOTTOM);
-  doc.moveDown(MARGIN_BETWEEN_SECTIONS);
 };
