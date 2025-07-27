@@ -2,6 +2,7 @@ import type PDFDocument from "pdfkit";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { getStartAndEndAirportDelayNames } from "./getStartAndEndAirportDelayNames";
+import { MARGIN_BETWEEN_SECTIONS } from "../../../../configurations";
 
 export const REASON_DELAY_FLIGHT_LOST_CONNECTION =
   "Aufgrund der Verspätung wurde der Anschlussflug verpasst.";
@@ -48,6 +49,7 @@ export const addFlightTextArea = (
     reasonSect.add(
       doc.struct("P", {}, () => {
         doc.text(getFlightTextByBereich(userData), PDF_MARGIN_HORIZONTAL);
+        doc.moveDown(MARGIN_BETWEEN_SECTIONS);
       }),
     );
   }

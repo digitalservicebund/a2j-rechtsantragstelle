@@ -53,10 +53,14 @@ export const addMultiplePersonsInfo = (
         .moveDown(0.5)
         .text(ATTACHMENT_ASSIGNMENTS_TEXT, PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT)
         .font(FONTS_BUNDESSANS_REGULAR);
+    }),
+  );
 
-      addNewPageInCaseMissingVerticalSpace(doc);
+  addNewPageInCaseMissingVerticalSpace(doc);
 
-      if (hasZeugen === "yes") {
+  if (hasZeugen === "yes") {
+    compensationSect.add(
+      doc.struct("P", {}, () => {
         doc
           .moveDown(MARGIN_BETWEEN_SECTIONS)
           .text(
@@ -74,7 +78,7 @@ export const addMultiplePersonsInfo = (
           .font(FONTS_BUNDESSANS_REGULAR)
           .text(personsNames)
           .moveDown(0.5);
-      }
-    }),
-  );
+      }),
+    );
+  }
 };
