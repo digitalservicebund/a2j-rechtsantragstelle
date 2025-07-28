@@ -1,9 +1,6 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import {
-  MARGIN_BETWEEN_SECTIONS,
-  MARGIN_RIGHT,
-} from "~/domains/fluggastrechte/services/pdf/configurations";
+import { MARGIN_RIGHT } from "~/domains/fluggastrechte/services/pdf/configurations";
 import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
@@ -39,7 +36,7 @@ const getTextTelefonNumber = (telefonnummer?: string) => {
 export const addMultiplePersonsText = (
   doc: typeof PDFDocument,
   userData: FluggastrechteUserData,
-  reasonSect: PDFKit.PDFStructureElement,
+  documentStruct: PDFKit.PDFStructureElement,
 ) => {
   if (
     userData.isWeiterePersonen === "no" ||
@@ -48,16 +45,17 @@ export const addMultiplePersonsText = (
     return;
   }
 
+  const weiterePersonenSect = doc.struct("Sect");
   const weiterePersonenList = doc.struct("L");
   const klagendePersonListItem = doc.struct("LI");
   klagendePersonListItem.add(
     doc.struct("LBody", {}, () => {
+      doc.text(
+        `Folgende Personen waren von dieser ${bereichMappingText[userData.bereich as FluggastrechtBereichType] ?? ""} betroffen:`,
+        PDF_MARGIN_HORIZONTAL,
+      );
+      doc.moveDown(0.5);
       doc
-        .text(
-          `Folgende Personen waren von dieser ${bereichMappingText[userData.bereich as FluggastrechtBereichType] ?? ""} betroffen:`,
-          PDF_MARGIN_HORIZONTAL,
-        )
-        .font(FONTS_BUNDESSANS_BOLD)
         .text("1. ", PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT - 5, undefined, {
           continued: true,
         })
@@ -103,6 +101,6 @@ export const addMultiplePersonsText = (
       weiterePersonenList.add(weiterePersonenListItem);
     },
   );
-  reasonSect.add(weiterePersonenList);
-  doc.moveDown(MARGIN_BETWEEN_SECTIONS);
+  weiterePersonenSect.add(weiterePersonenList);
+  documentStruct.add(weiterePersonenSect);
 };

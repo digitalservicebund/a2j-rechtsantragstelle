@@ -8,6 +8,7 @@ import {
   PDF_MARGIN_HORIZONTAL,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
+import { MARGIN_BETWEEN_SECTIONS } from "../../../configurations";
 import { getFullPlaintiffName } from "../../getFullPlaintiffName";
 import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissingVerticalSpace";
 
@@ -113,11 +114,16 @@ export const createLegalAssessment = (
   legalAssessmentSect.add(
     doc.struct("P", {}, () => {
       doc.text(advanceCourtText);
-      doc.moveDown(2);
+      doc.moveDown(1);
     }),
   );
+  documentStruct.add(legalAssessmentSect);
 
-  legalAssessmentSect.add(
+  const plaintiffNameSect = doc.struct("Sect");
+
+  doc.moveDown(MARGIN_BETWEEN_SECTIONS);
+
+  plaintiffNameSect.add(
     doc.struct("P", {}, () => {
       doc
         .font(FONTS_BUNDESSANS_BOLD)
@@ -132,5 +138,5 @@ export const createLegalAssessment = (
     }),
   );
 
-  documentStruct.add(legalAssessmentSect);
+  documentStruct.add(plaintiffNameSect);
 };

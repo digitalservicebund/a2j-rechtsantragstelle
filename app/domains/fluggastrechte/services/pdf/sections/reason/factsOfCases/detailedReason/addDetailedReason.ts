@@ -43,12 +43,13 @@ const getConfirmationBookingTexts = ({
 
 export const addDetailedReason = (
   doc: typeof PDFDocument,
-  reasonSect: PDFKit.PDFStructureElement,
+  documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
   const { attachmentConfirmationBooking, confirmationBooking } =
     getConfirmationBookingTexts(userData);
-  reasonSect.add(
+  const bookingInformationSect = doc.struct("Sect");
+  bookingInformationSect.add(
     doc.struct("P", {}, () => {
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
@@ -60,15 +61,19 @@ export const addDetailedReason = (
           attachmentConfirmationBooking,
           PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
         )
-        .font(FONTS_BUNDESSANS_REGULAR)
-        .moveDown(MARGIN_BETWEEN_SECTIONS);
+        .font(FONTS_BUNDESSANS_REGULAR);
+      doc.moveDown(MARGIN_BETWEEN_SECTIONS);
     }),
   );
 
-  addMultiplePersonsText(doc, userData, reasonSect);
+  documentStruct.add(bookingInformationSect);
 
+  addMultiplePersonsText(doc, userData, documentStruct);
+  doc.moveDown(MARGIN_BETWEEN_SECTIONS);
+
+  const furtherInformationSect = doc.struct("Sect");
   if (userData.bereich !== "annullierung") {
-    reasonSect.add(
+    furtherInformationSect.add(
       doc.struct("P", {}, () => {
         doc
           .font(FONTS_BUNDESSANS_REGULAR)
@@ -83,7 +88,7 @@ export const addDetailedReason = (
     );
   }
 
-  addFlightTextArea(doc, userData, reasonSect);
-
+  addFlightTextArea(doc, userData, furtherInformationSect);
+  documentStruct.add(furtherInformationSect);
   doc.moveDown(1);
 };

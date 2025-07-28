@@ -31,8 +31,9 @@ describe("createFactsOfCases", () => {
   it("should render document with reason title text", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
-    createFactsOfCases(mockDoc, mockStruct, userDataMock);
+    createFactsOfCases(mockDoc, mockSect, mockStruct, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(FACTS_OF_CASES_TEXT);
   });
@@ -40,8 +41,9 @@ describe("createFactsOfCases", () => {
   it("should call the addReason for the creation facts of cases", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
-    createFactsOfCases(mockDoc, mockStruct, userDataMock);
+    createFactsOfCases(mockDoc, mockSect, mockStruct, userDataMock);
 
     expect(addReasonCaption).toBeCalledTimes(1);
   });
@@ -49,8 +51,9 @@ describe("createFactsOfCases", () => {
   it("should call the addFlightDetails for the creation facts of cases", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
-    createFactsOfCases(mockDoc, mockStruct, userDataMock);
+    createFactsOfCases(mockDoc, mockSect, mockStruct, userDataMock);
 
     expect(addFlightDetails).toBeCalledTimes(1);
   });
@@ -58,8 +61,9 @@ describe("createFactsOfCases", () => {
   it("should call the addDetailedReason for the creation facts of cases", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
 
-    createFactsOfCases(mockDoc, mockStruct, userDataMock);
+    createFactsOfCases(mockDoc, mockSect, mockStruct, userDataMock);
 
     expect(addDetailedReason).toBeCalledTimes(1);
   });

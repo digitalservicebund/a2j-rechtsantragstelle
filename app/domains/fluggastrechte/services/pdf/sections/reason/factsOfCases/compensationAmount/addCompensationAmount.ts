@@ -52,7 +52,5 @@ export const addCompensationAmount = (
 
   addWitnessesInfo(doc, userData, compensationSect);
 
-  doc.moveDown(2);
-
   documentStruct.add(compensationSect);
 };
