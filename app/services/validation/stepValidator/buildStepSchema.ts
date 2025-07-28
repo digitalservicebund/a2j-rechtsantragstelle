@@ -10,7 +10,7 @@ export function buildStepSchema(
   schemas: SchemaObject,
   fieldNames: string[],
   multiFieldsValidation?: FunctionMultiFieldsValidation,
-): z.ZodObject {
+): z.ZodObject<SchemaObject> {
   const fieldValidators: SchemaObject = {};
 
   for (const fieldName of fieldNames) {

@@ -19,10 +19,8 @@ export type ObjectType = {
   [key: string]: BasicTypes | BasicTypes[] | ObjectType;
 };
 export type ArrayData = Array<Record<string, BasicTypes>>;
-export type UserData = Record<
-  string,
-  BasicTypes | ObjectType | ArrayData | undefined
->;
+export type AllowedUserTypes = BasicTypes | ObjectType | ArrayData | undefined;
+export type UserData = Record<string, AllowedUserTypes>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type AllUserDataKeys = KeysOfUnion<

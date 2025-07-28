@@ -10,6 +10,5 @@ export async function validateFormData(pathname: string, formData: FormData) {
   const validator = pageSchema
     ? z.object(pageSchema)
     : schemaForFieldNames(formDataKeys, pathname);
-  // @ts-expect-error TS cannot prove that a generic validator returns data that conforms to UserData. We should fix SchemaObject to be more precise
   return parseFormData<UserData>(formData, validator);
 }
