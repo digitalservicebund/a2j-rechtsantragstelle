@@ -10,7 +10,7 @@ if (SENTRY_DSN !== undefined) {
     dsn: SENTRY_DSN,
     environment: ENVIRONMENT,
 
-    tracesSampleRate: 1,
+    tracesSampleRate: 0.1,
     replaysSessionSampleRate: 0.0,
     replaysOnErrorSampleRate: 0.0,
 
