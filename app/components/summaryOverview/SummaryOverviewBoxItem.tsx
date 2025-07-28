@@ -1,6 +1,5 @@
 import { type UserData } from "~/domains/userData";
 import { type Translations } from "~/services/translations/getTranslationByKey";
-import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 import { getItemValueBox } from "./getItemValueBox";
 
 export type SummaryOverviewBoxItemType = {
@@ -23,10 +22,7 @@ const SummaryOverviewBoxItem = ({
   inlineItems,
 }: Props) => {
   const itemValue = getItemValueBox(translations, userData, inlineItems);
-
-  if (isFieldEmptyOrUndefined(itemValue.trim())) {
-    return null;
-  }
+  if (itemValue.trim() === "") return null;
 
   return (
     <>
