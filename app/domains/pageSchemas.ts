@@ -1,3 +1,4 @@
+import mapValues from "lodash/mapValues";
 import type { z } from "zod";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
@@ -19,6 +20,15 @@ export function getPageSchema(pathname: string) {
   return Object.values(pages[flowId] ?? {}).find(
     (page) => page.stepId === stepIdWithoutLeadingSlash,
   )?.pageSchema;
+}
+
+export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
+  pageSchema: T,
+) {
+  return mapValues(pageSchema, (v) => ({
+    absolute: "#" + v.stepId.replaceAll("/", "."),
+    relative: v.stepId.split("/").pop()!,
+  }));
 }
 
 // TODO: better specify PageSchema to specify enums, strings, ...
