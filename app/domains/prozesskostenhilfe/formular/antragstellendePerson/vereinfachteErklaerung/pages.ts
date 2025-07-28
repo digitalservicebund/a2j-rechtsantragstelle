@@ -27,7 +27,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
       livesTogether: YesNoAnswer,
     },
   },
-  unterhalt: {
+  veUnterhalt: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/unterhalt",
     pageSchema: {
       child: kinderSchema.pick({ unterhaltsSumme: true }),
