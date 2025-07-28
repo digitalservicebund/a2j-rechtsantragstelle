@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasStrapiIdSchema } from "../models/HasStrapiId";
-import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
+import { StrapiStringOptionalSchema } from "../models/StrapiStringOptional";
 
 const StrapiSelectOptionSchema = z.object({
   text: z.string(),
@@ -12,8 +12,8 @@ export const StrapiSelectComponentSchema = z
   .object({
     name: z.string(),
     __component: z.literal("form-elements.select"),
-    label: StrapiOptionalStringSchema,
-    altLabel: StrapiOptionalStringSchema,
+    label: StrapiStringOptionalSchema,
+    altLabel: StrapiStringOptionalSchema,
     options: z.array(StrapiSelectOptionSchema),
     errors: StrapiErrorRelationSchema,
     ...HasStrapiIdSchema.shape,
