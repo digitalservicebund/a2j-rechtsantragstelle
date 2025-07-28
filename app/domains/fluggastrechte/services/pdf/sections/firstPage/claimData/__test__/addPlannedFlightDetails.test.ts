@@ -1,3 +1,4 @@
+import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -7,10 +8,10 @@ import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/use
 import {
   addPlannedFlightDetails,
   AFFECTED_FLIGHT_TEXT,
-  DUE_REASON_TEXT,
   FLIGHT_NUMBER_TEXT,
   PLANNED_DEPARTURE_DATE_TEXT,
 } from "../addPlannedFlightDetails";
+import { DUE_REASON_TEXT } from "../createClaimData";
 
 vi.mock("~/domains/fluggastrechte/formular/services/getTotalCompensationClaim");
 
@@ -48,5 +49,36 @@ describe("addPlannedFlightDetails", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Streitwert: ${mockCompensation} €`,
     );
+  });
+});
+
+describe("addPlannedFlightDetails - accessibility", () => {
+  it("should call the addPlannedFlightDetails with a List", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    mockDoc.y = 200;
+    mockDoc.fillOpacity = vi.fn().mockReturnThis();
+
+    addPlannedFlightDetails(mockDoc, mockStruct, userDataMock);
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    expect(mockDoc.struct).toHaveBeenCalledWith("L");
+    expect(mockDoc.struct).toHaveBeenCalledWith("LI");
+    expect(mockDoc.struct).toHaveBeenCalledWith(
+      "LBody",
+      {},
+      expect.any(Function),
+    );
+    const callsWithList = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "L",
+    );
+    const callsWithListItem = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "LI",
+    );
+    const callsWithListBody = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "LBody",
+    );
+    expect(callsWithList).toHaveLength(1);
+    expect(callsWithListItem).toHaveLength(3);
+    expect(callsWithListBody).toHaveLength(3);
   });
 });

@@ -42,7 +42,6 @@ export const createStatementClaim = (
     }),
   );
 
-  const statementClaimList = doc.struct("L");
   statementClaimSect.add(
     doc.struct("P", {}, () => {
       doc
@@ -54,12 +53,10 @@ export const createStatementClaim = (
 
   addDefendantPartyList(
     doc,
-    statementClaimList,
+    statementClaimSect,
     prozesszinsen ?? "",
     compensationByDistance,
   );
-
-  statementClaimSect.add(statementClaimList);
 
   statementClaimSect.add(
     doc.struct("P", {}, () => {

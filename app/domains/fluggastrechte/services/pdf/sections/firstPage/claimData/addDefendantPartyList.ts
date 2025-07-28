@@ -8,7 +8,7 @@ import {
 
 export const addDefendantPartyList = (
   doc: typeof PDFDocument,
-  statementClaimList: PDFKit.PDFStructureElement,
+  statementClaimSect: PDFKit.PDFStructureElement,
   prozesszinsen: string,
   streitwert: number,
 ) => {
@@ -21,6 +21,8 @@ export const addDefendantPartyList = (
     "1. ": `Die beklagte Partei wird verurteilt, an die klagende Partei ${streitwert} €${interestClause} zu zahlen.`,
     "2. ": "Die beklagte Partei trägt die Kosten des Rechtsstreits.",
   };
+
+  const statementClaimList = doc.struct("L");
 
   for (const [bullet, claim] of Object.entries(defendantPartyList)) {
     const statementClaimListItem = doc.struct("LI");
@@ -38,4 +40,5 @@ export const addDefendantPartyList = (
     );
     statementClaimList.add(statementClaimListItem);
   }
+  statementClaimSect.add(statementClaimList);
 };

@@ -1,3 +1,4 @@
+import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -67,5 +68,34 @@ describe("addDefendantPartyList", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Die beklagte Partei trägt die Kosten des Rechtsstreits.",
     );
+  });
+});
+
+describe("addDefendantPartyList - accessibility", () => {
+  it("should call addDefendantPartyList with a List", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
+
+    addDefendantPartyList(mockDoc, mockSect, "no", 600);
+    expect(mockDoc.struct).toHaveBeenCalledWith("L");
+    expect(mockDoc.struct).toHaveBeenCalledWith("LI");
+    expect(mockDoc.struct).toHaveBeenCalledWith(
+      "LBody",
+      {},
+      expect.any(Function),
+    );
+    const callsWithList = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "L",
+    );
+    const callsWithListItem = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "LI",
+    );
+    const callsWithListBody = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "LBody",
+    );
+    expect(callsWithList).toHaveLength(1);
+    expect(callsWithListItem).toHaveLength(2);
+    expect(callsWithListBody).toHaveLength(2);
   });
 });
