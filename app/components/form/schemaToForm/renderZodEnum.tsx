@@ -19,6 +19,7 @@ export function renderZodEnum(
   const label = get(matchingElement, "label");
   const errorMessages = get(matchingElement, "errorMessages");
   let options = schema.options.map((value) => ({ value, text: value }));
+  // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
   switch (matchingElement?.__component) {
     case "form-elements.checkbox":
       return (
