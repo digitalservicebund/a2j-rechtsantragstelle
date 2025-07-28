@@ -58,14 +58,19 @@ export const createStatementClaim = (
     compensationByDistance,
   );
 
-  statementClaimSect.add(
-    doc.struct("P", {}, () => {
-      if (versaeumnisurteil === "yes") {
-        doc.text(STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN_HORIZONTAL);
-      }
-      doc.text(videoTrialAgreement(videoverhandlung), PDF_MARGIN_HORIZONTAL);
-    }),
-  );
+  if (
+    videoTrialAgreement(videoverhandlung) !== "" ||
+    versaeumnisurteil === "yes"
+  ) {
+    statementClaimSect.add(
+      doc.struct("P", {}, () => {
+        if (versaeumnisurteil === "yes") {
+          doc.text(STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN_HORIZONTAL);
+        }
+        doc.text(videoTrialAgreement(videoverhandlung), PDF_MARGIN_HORIZONTAL);
+      }),
+    );
+  }
 
   documentStruct.add(statementClaimSect);
 };
