@@ -48,8 +48,10 @@ export const addMultiplePersonsText = (
     return;
   }
 
-  reasonSect.add(
-    doc.struct("P", {}, () => {
+  const weiterePersonenList = doc.struct("L");
+  const klagendePersonListItem = doc.struct("LI");
+  klagendePersonListItem.add(
+    doc.struct("LBody", {}, () => {
       doc
         .text(
           `Folgende Personen waren von dieser ${bereichMappingText[userData.bereich as FluggastrechtBereichType] ?? ""} betroffen:`,
@@ -63,54 +65,44 @@ export const addMultiplePersonsText = (
         .text(
           `Die klagende Partei ${getFullPlaintiffName(userData.anrede, userData.title, userData.vorname, userData.nachname)}`,
         );
-      if (userData.weiterePersonen?.length === 1) {
-        const weiterePerson = userData.weiterePersonen[0];
-        doc
-          .font(FONTS_BUNDESSANS_BOLD)
-          .font(FONTS_BUNDESSANS_REGULAR)
-          .text(
-            `${getFullPlaintiffName(weiterePerson.anrede, weiterePerson.title, weiterePerson.vorname, weiterePerson.nachname)}, ${weiterePerson.strasseHausnummer}, ${weiterePerson.plz} ${weiterePerson.ort}, ${weiterePerson.land}${getTextTelefonNumber(weiterePerson.telefonnummer)}${getTextBookingNumber(weiterePerson.buchungsnummer)}`,
-          );
-      }
+      doc.moveDown(0.5);
     }),
   );
-
-  if (userData.weiterePersonen.length > 1) {
-    const weiterePersonenList = doc.struct("L");
-    userData.weiterePersonen.forEach(
-      (
-        {
-          anrede,
-          title,
-          nachname,
-          vorname,
-          buchungsnummer,
-          strasseHausnummer,
-          ort,
-          plz,
-          telefonnummer,
-          land,
-        },
-        index,
-      ) => {
-        const weiterePersonenListItem = doc.struct("LI");
-        weiterePersonenListItem.add(
-          doc.struct("LBody", {}, () => {
-            doc
-              .font(FONTS_BUNDESSANS_BOLD)
-              .text(`${index + 2}. `, {
-                continued: true,
-              })
-              .font(FONTS_BUNDESSANS_REGULAR)
-              .text(
-                `${getFullPlaintiffName(anrede, title, vorname, nachname)}, ${strasseHausnummer}, ${plz} ${ort}, ${land}${getTextTelefonNumber(telefonnummer)}${getTextBookingNumber(buchungsnummer)}`,
-              );
-          }),
-        );
-        weiterePersonenList.add(weiterePersonenListItem);
+  weiterePersonenList.add(klagendePersonListItem);
+  userData.weiterePersonen.forEach(
+    (
+      {
+        anrede,
+        title,
+        nachname,
+        vorname,
+        buchungsnummer,
+        strasseHausnummer,
+        ort,
+        plz,
+        telefonnummer,
+        land,
       },
-    );
-    reasonSect.add(weiterePersonenList);
-  }
+      index,
+    ) => {
+      const weiterePersonenListItem = doc.struct("LI");
+      weiterePersonenListItem.add(
+        doc.struct("LBody", {}, () => {
+          doc
+            .font(FONTS_BUNDESSANS_BOLD)
+            .text(`${index + 2}. `, {
+              continued: true,
+            })
+            .font(FONTS_BUNDESSANS_REGULAR)
+            .text(
+              `${getFullPlaintiffName(anrede, title, vorname, nachname)}, ${strasseHausnummer}, ${plz} ${ort}, ${land}${getTextTelefonNumber(telefonnummer)}${getTextBookingNumber(buchungsnummer)}`,
+            );
+          doc.moveDown(0.5);
+        }),
+      );
+      weiterePersonenList.add(weiterePersonenListItem);
+    },
+  );
+  reasonSect.add(weiterePersonenList);
   doc.moveDown(MARGIN_BETWEEN_SECTIONS);
 };
