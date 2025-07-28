@@ -1,21 +1,10 @@
-import {
-  ActionFunction,
-  LoaderFunction,
-  createRoutesStub,
-  useActionData,
-  useLoaderData,
-  useMatches,
-  useParams,
-} from "react-router";
-import { ComponentType, createElement } from "react";
+import { ActionFunction, LoaderFunction, createRoutesStub } from "react-router";
+import { createElement } from "react";
+
+type RouteComponent = Parameters<typeof createRoutesStub>[0][0]["Component"];
 
 export function reactRouterContext(
-  component: ComponentType<{
-    params: ReturnType<typeof useParams>;
-    loaderData: ReturnType<typeof useLoaderData>;
-    actionData: ReturnType<typeof useActionData>;
-    matches: ReturnType<typeof useMatches>;
-  }>,
+  component: RouteComponent,
   loader?: LoaderFunction,
   action?: ActionFunction,
 ) {

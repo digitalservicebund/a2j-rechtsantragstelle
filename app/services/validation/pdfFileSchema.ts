@@ -9,16 +9,22 @@ export const pdfFileMetaDataSchema = z.object({
   filename: z.string(),
   savedFileKey: z.string().optional(),
   fileType: z.string().regex(/application\/pdf/, { message: "wrongFileType" }),
-  fileSize: z
-    // Need to have string here as html input types (our hidden inputs) always submit strings
-    .string()
-    .transform((str) => parseInt(str))
-    .or(
-      z
-        .number()
-        .max(TEN_MB_IN_BYTES, { message: "fileSizeTooBig" })
-        .min(1, { message: "fileRequired" }),
-    ),
+  fileSize: z.coerce
+    .number()
+    .int()
+    .min(1, { message: "fileRequired" })
+    .max(TEN_MB_IN_BYTES, { message: "fileTooLarge" }),
 });
+
+const pdfFileUploadArraySchema = z
+  .array(pdfFileMetaDataSchema)
+  .max(fileUploadLimit, { message: "fileLimitReached" });
+
+export const pdfFileUploadArrayOptionalSchema =
+  pdfFileUploadArraySchema.optional();
+
+export const pdfFileUploadArrayRequiredSchema = pdfFileUploadArraySchema
+  .nonempty({ message: "fileRequired" })
+  .optional(); // Must remain despite being required, as the zod schema has no knowledge of which field is required
 
 export type PDFFileMetadata = z.infer<typeof pdfFileMetaDataSchema>;

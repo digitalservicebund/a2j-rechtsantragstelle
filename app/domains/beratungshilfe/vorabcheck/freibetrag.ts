@@ -1,5 +1,6 @@
 import mapValues from "lodash/mapValues";
-import { today } from "~/util/date";
+import { type KinderArraySchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { dateUTCFromGermanDateString, addYears, today } from "~/util/date";
 import type { BeratungshilfeVorabcheckUserData } from "./userData";
 
 type Freibetraege = {
@@ -115,6 +116,70 @@ export function calculateFreibetrag({
     (childrenAbove18 ? childrenAbove18 * dependentAdultAllowance : 0);
 
   betrag += Math.max(childrenFreibetrag - (childrenIncome ?? 0), 0);
+
+  return betrag;
+}
+
+/**
+ * To calculate the Freibetrag for the Beratungshilfe Formular, each child's income must be subtracted
+ * from their respective allowance. Additionally, a 20€ buffer isn't needed here, to be more precise.
+ */
+export function calculateFreibetragBerHFormular({
+  working,
+  partnership,
+  partnerIncome,
+  kinder,
+}: Partial<CalculateFreibetragProps> & { kinder: KinderArraySchema }) {
+  const {
+    selfAllowance,
+    incomeAllowance,
+    partnerAllowance,
+    dependentAdultAllowance,
+    children15To18Allowance,
+    children7To14Allowance,
+    childrenBelow6Allowance,
+  } = getFreibetraege(today().getFullYear());
+  let betrag = selfAllowance;
+
+  if (working) {
+    betrag += incomeAllowance;
+  }
+
+  if (partnership) {
+    betrag += Math.max(partnerAllowance - (partnerIncome ?? 0), 0);
+  }
+
+  if (kinder.length > 0) {
+    const childrenFreibetrag = kinder.reduce((acc, kind) => {
+      const birthday = dateUTCFromGermanDateString(kind.geburtsdatum!);
+      if (birthday >= addYears(today(), -6)) {
+        return (
+          acc +
+          Math.max(childrenBelow6Allowance - parseInt(kind.einnahmen ?? "0"), 0)
+        );
+      }
+      if (birthday >= addYears(today(), -14)) {
+        return (
+          acc +
+          Math.max(children7To14Allowance - parseInt(kind.einnahmen ?? "0"), 0)
+        );
+      }
+      if (birthday >= addYears(today(), -18)) {
+        return (
+          acc +
+          Math.max(children15To18Allowance - parseInt(kind.einnahmen ?? "0"), 0)
+        );
+      }
+      if (birthday >= addYears(today(), -24)) {
+        return (
+          acc +
+          Math.max(dependentAdultAllowance - parseInt(kind.einnahmen ?? "0"), 0)
+        );
+      }
+      return acc;
+    }, 0);
+    betrag += Math.max(childrenFreibetrag, 0);
+  }
 
   return betrag;
 }

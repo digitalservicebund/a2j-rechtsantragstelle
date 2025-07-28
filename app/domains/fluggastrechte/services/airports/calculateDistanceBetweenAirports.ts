@@ -12,8 +12,8 @@ const AirportCoordinateSystemSchema = z.object({
 });
 
 export function calculateDistanceBetweenAirportsInKilometers(
-  startAirportIataCode: string,
-  endAirportIataCode: string,
+  startAirportIataCode?: string,
+  endAirportIataCode?: string,
 ): Result<number, string> {
   const airportStart = AirportCoordinateSystemSchema.safeParse(
     getAirportByIataCode(startAirportIataCode),

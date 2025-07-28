@@ -1,12 +1,18 @@
-import type { ZodTypeAny } from "zod";
 import { fluggastrechteInputSchema } from "~/domains/fluggastrechte/formular/userData";
+import { type FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { fluggastrechteVorabcheckInputSchema } from "~/domains/fluggastrechte/vorabcheck/userData";
+import { type FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { geldEinklagenInputSchema } from "~/domains/geldEinklagen/formular/userData";
+import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
+import { type GeldEinklagenVorabcheckUserData } from "~/domains/geldEinklagen/vorabcheck/userData";
 import { geldEinklagenVorabcheckInputSchema } from "~/domains/geldEinklagen/vorabcheck/userData";
 import { prozesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { beratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
+import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
+import type { BeratungshilfeVorabcheckUserData } from "./beratungshilfe/vorabcheck/userData";
 import type { FlowId } from "./flowIds";
-import { kontopfaendungWegweiserInputSchema } from "./kontopfaendung/wegweiser/userData";
+import type { SchemaObject } from "./types";
 
 export type BasicTypes = string | number | boolean;
 export type ObjectType = {
@@ -18,6 +24,17 @@ export type UserData = Record<
   BasicTypes | ObjectType | ArrayData | undefined
 >;
 
+type KeysOfUnion<T> = T extends T ? keyof T : never;
+export type AllUserDataKeys = KeysOfUnion<
+  | GeldEinklagenFormularUserData
+  | GeldEinklagenVorabcheckUserData
+  | BeratungshilfeVorabcheckUserData
+  | BeratungshilfeFormularUserData
+  | FluggastrechtVorabcheckUserData
+  | FluggastrechteUserData
+  | ProzesskostenhilfeFormularUserData
+>;
+
 const contexts = {
   "/beratungshilfe/antrag": beratungshilfeFormularUserData,
   "/beratungshilfe/vorabcheck": {}, // BH vorabcheck is using page-based config. The schemas are accessible via getPageSchema(pathname)
@@ -26,7 +43,7 @@ const contexts = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckInputSchema,
   "/fluggastrechte/formular": fluggastrechteInputSchema,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularUserData,
-  "/kontopfaendung/wegweiser": kontopfaendungWegweiserInputSchema,
-} as const satisfies Record<FlowId, Record<string, ZodTypeAny>>;
+  "/kontopfaendung/wegweiser": {},
+} as const satisfies Record<FlowId, SchemaObject>;
 
 export const getContext = (flowId: FlowId) => contexts[flowId];

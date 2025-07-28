@@ -29,7 +29,7 @@ jobs:
       - uses: actions/download-artifact@v4
         name: coverage
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@2500896589ef8f7247069a56136f8dc177c27ccf # v5.2.0
+        uses: SonarSource/sonarqube-scan-action@8c71dc039c2dd71d3821e89a2b58ecc7fee6ced9 # v5.3.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
@@ -92,7 +92,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/cached-checkout-install
       - name: Install cosign
-        uses: sigstore/cosign-installer@398d4b0eeef1380460a10c8013a76f728fb906ac # v3.9.1
+        uses: sigstore/cosign-installer@d58896d6a1865668819e1d91763c7751a165e159 # v3.9.2
       - uses: actions/download-artifact@v4
         name: build
       - run: ./docker.sh --build app

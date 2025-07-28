@@ -40,7 +40,6 @@ import {
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-import type { BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
 import {
   eigentumDone,
   hasNoStaatlicheLeistungen,
@@ -49,9 +48,6 @@ import {
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards } from "../../../guards.server";
 import type { Guards } from "../../../guards.server";
-
-export const eigentumTotalWorthLessThan10000: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) => context.eigentumTotalWorth === "less10000";
 
 export const finanzielleAngabeGuards = {
   eigentumDone,
@@ -66,7 +62,6 @@ export const finanzielleAngabeGuards = {
   hasNoStaatlicheLeistungen,
   hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
     context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context }),
-  eigentumTotalWorthLessThan10000,
   hasPartnerschaftYes,
   hasPartnerschaftNoOrWidowed,
   hasPartnerschaftYesAndPartnerEinkommenYes,
@@ -115,16 +110,6 @@ export const finanzielleAngabeGuards = {
   grundeigentumIsBewohnt,
   hasAusgabenYesAndEmptyArray: ({ context }) =>
     hasAusgabenYes({ context }) && !arrayIsNonEmpty(context.ausgaben),
-
-  eigentumYesAndEmptyArray: ({ context }) =>
-    (hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten)) ||
-    (hasGeldanlageYes({ context }) && !arrayIsNonEmpty(context.geldanlagen)) ||
-    (hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen)) ||
-    (hasKraftfahrzeugYes({ context }) &&
-      !arrayIsNonEmpty(context.kraftfahrzeuge)) ||
-    (hasGrundeigentumYes({ context }) &&
-      !arrayIsNonEmpty(context.grundeigentum)),
-
   hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
 } satisfies Guards<BeratungshilfeFinanzielleAngabenUserData>;

@@ -4,7 +4,7 @@ import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRela
 import { StrapiOptionalIntegerSchema } from "~/services/cms/models/StrapiOptionalInteger";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
-import { HasOptionalStrapiIdSchema } from "../models/HasStrapiId";
+import { HasStrapiIdSchema } from "../models/HasStrapiId";
 import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
 
 export const StrapiTextareaComponentSchema = z
@@ -18,7 +18,7 @@ export const StrapiTextareaComponentSchema = z
     errors: StrapiErrorRelationSchema,
     maxLength: StrapiOptionalIntegerSchema,
   })
-  .merge(HasOptionalStrapiIdSchema)
+  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,
