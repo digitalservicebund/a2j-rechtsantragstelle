@@ -7,7 +7,12 @@ import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/use
 import { addAirlineDetails } from "../addAirlineDetails";
 import { addPlaintiffDetails } from "../addPlaintiffDetails";
 import { addPlannedFlightDetails } from "../addPlannedFlightDetails";
-import { AGAINST, createClaimData, IN_THE_MATTER } from "../createClaimData";
+import {
+  AGAINST,
+  createClaimData,
+  IN_THE_MATTER,
+  DUE_REASON_TEXT,
+} from "../createClaimData";
 
 vi.mock("../addPlaintiffDetails");
 vi.mock("../addAirlineDetails");
@@ -34,6 +39,10 @@ describe("createClaimData", () => {
 
     expect(mockDoc.fontSize).toHaveBeenCalledWith(14);
     expect(mockDoc.text).toHaveBeenCalledWith(AGAINST, { align: "left" });
+    expect(mockDoc.moveDown).toHaveBeenCalled();
+
+    expect(mockDoc.fontSize).toHaveBeenCalledWith(12);
+    expect(mockDoc.text).toHaveBeenCalledWith(DUE_REASON_TEXT);
     expect(mockDoc.moveDown).toHaveBeenCalled();
   });
 

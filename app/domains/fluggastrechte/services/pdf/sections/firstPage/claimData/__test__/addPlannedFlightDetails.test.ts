@@ -11,7 +11,6 @@ import {
   FLIGHT_NUMBER_TEXT,
   PLANNED_DEPARTURE_DATE_TEXT,
 } from "../addPlannedFlightDetails";
-import { DUE_REASON_TEXT } from "../createClaimData";
 
 vi.mock("~/domains/fluggastrechte/formular/services/getTotalCompensationClaim");
 
@@ -20,8 +19,6 @@ describe("addPlannedFlightDetails", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
     addPlannedFlightDetails(mockDoc, mockStruct, userDataMock);
-
-    expect(mockDoc.text).toHaveBeenCalledWith(DUE_REASON_TEXT);
     expect(mockDoc.text).toHaveBeenCalledWith(AFFECTED_FLIGHT_TEXT);
     expect(mockDoc.text).toHaveBeenCalledWith(FLIGHT_NUMBER_TEXT, {
       continued: true,
@@ -60,7 +57,6 @@ describe("addPlannedFlightDetails - accessibility", () => {
     mockDoc.fillOpacity = vi.fn().mockReturnThis();
 
     addPlannedFlightDetails(mockDoc, mockStruct, userDataMock);
-    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
     expect(mockDoc.struct).toHaveBeenCalledWith("L");
     expect(mockDoc.struct).toHaveBeenCalledWith("LI");
     expect(mockDoc.struct).toHaveBeenCalledWith(
