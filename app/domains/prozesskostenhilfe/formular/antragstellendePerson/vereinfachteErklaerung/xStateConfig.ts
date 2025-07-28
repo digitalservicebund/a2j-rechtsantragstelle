@@ -42,12 +42,12 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
         on: {
           BACK: steps.kind.relative,
           SUBMIT: [
-            { guard: childLivesSeparately, target: steps.unterhalt.relative },
+            { guard: childLivesSeparately, target: steps.veUnterhalt.relative },
             steps.minderjaehrig.relative,
           ],
         },
       },
-      [steps.unterhalt.relative]: {
+      [steps.veUnterhalt.relative]: {
         on: {
           BACK: steps.zusammenleben.relative,
           SUBMIT: steps.minderjaehrig.relative,
@@ -58,7 +58,7 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
           BACK: [
             {
               guard: childLivesSeparately,
-              target: steps.unterhalt.relative,
+              target: steps.veUnterhalt.relative,
             },
             steps.zusammenleben.relative,
           ],
