@@ -20,9 +20,9 @@ export const StrapiInfoBoxItemSchema = z
     inlineNotice: z.array(StrapiInlineNoticeSchema),
     buttons: z.array(StrapiButtonSchema),
     accordion: StrapiAccordionSchema.nullable().transform(omitNull).optional(),
+    ...HasStrapiIdSchema.shape,
+    ...OptionalStrapiLinkIdentifierSchema.shape,
   })
-  .merge(HasStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema)
   .transform(({ detailsSummary, inlineNotice, ...cmsData }) => ({
     ...cmsData,
     details: detailsSummary,

@@ -13,8 +13,8 @@ export const StrapiTileGroupComponentSchema = z
     options: z.array(StrapiTileSchema),
     errors: StrapiErrorRelationSchema,
     useTwoColumns: z.boolean(),
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,

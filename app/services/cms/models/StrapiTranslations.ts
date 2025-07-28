@@ -8,8 +8,8 @@ export const StrapiTranslationSchema = z
     field: z.array(
       z.object({ name: z.string(), value: StringWithHtmlEntities }),
     ),
+    ...HasStrapiLocaleSchema.shape,
   })
-  .merge(HasStrapiLocaleSchema)
   .transform(({ scope, field }) => ({
     scope,
     entries: Object.fromEntries(field.map(({ name, value }) => [name, value])),

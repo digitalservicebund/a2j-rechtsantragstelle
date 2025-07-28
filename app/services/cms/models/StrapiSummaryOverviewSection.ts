@@ -9,25 +9,23 @@ const StrapiSummaryOverviewBoxItemInlineSchema = z.object({
   emptyValuePlaceholder: StrapiStringOptionalSchema,
 });
 
-const StrapiSummaryOverviewBoxSchema = z
-  .object({
-    title: StrapiHeadingSchema.nullable().transform(omitNull).optional(),
-    stepId: z.string(),
-    boxItems: z
-      .array(
-        z.object({
-          title: StrapiStringOptionalSchema,
-          inlineItems: z.array(StrapiSummaryOverviewBoxItemInlineSchema),
-        }),
-      )
-      .nonempty(),
-  })
-  .merge(HasStrapiIdSchema);
+const StrapiSummaryOverviewBoxSchema = z.object({
+  title: StrapiHeadingSchema.nullable().transform(omitNull).optional(),
+  stepId: z.string(),
+  boxItems: z
+    .array(
+      z.object({
+        title: StrapiStringOptionalSchema,
+        inlineItems: z.array(StrapiSummaryOverviewBoxItemInlineSchema),
+      }),
+    )
+    .nonempty(),
+  ...HasStrapiIdSchema.shape,
+});
 
-export const StrapiSummaryOverviewSectionSchema = z
-  .object({
-    __component: z.literal("page.summary-overview-section"),
-    title: StrapiHeadingSchema,
-    boxes: z.array(StrapiSummaryOverviewBoxSchema).nonempty(),
-  })
-  .merge(HasStrapiIdSchema);
+export const StrapiSummaryOverviewSectionSchema = z.object({
+  __component: z.literal("page.summary-overview-section"),
+  title: StrapiHeadingSchema,
+  boxes: z.array(StrapiSummaryOverviewBoxSchema).nonempty(),
+  ...HasStrapiIdSchema.shape,
+});

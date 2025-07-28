@@ -10,8 +10,8 @@ export const StrapiTimeInputComponentSchema = z
     placeholder: StrapiOptionalStringSchema,
     errors: StrapiErrorRelationSchema,
     __component: z.literal("form-elements.time-input"),
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,
