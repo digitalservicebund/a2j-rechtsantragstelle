@@ -399,7 +399,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
     },
     "ergebnis/vertretbare-gruende-abbruch": {
       on: {
-        BACK: "vertretbare-gruende",
+        BACK: "vertretbare-gruende-info",
       },
     },
     kostenlos: {
