@@ -108,7 +108,9 @@ describe("buildStepSchema", () => {
       field2: z.number(),
     };
 
-    const multiFieldsValidation: FunctionMultiFieldsValidation = (schemas) =>
+    const multiFieldsValidation: FunctionMultiFieldsValidation<
+      typeof schemas
+    > = (schemas) =>
       schemas.refine(
         ({ field1, field2 }) => {
           return field1 < field2;
@@ -125,7 +127,7 @@ describe("buildStepSchema", () => {
       const stepSchema = buildStepSchema(
         schemas,
         fieldNames,
-        multiFieldsValidation,
+        multiFieldsValidation as FunctionMultiFieldsValidation,
       );
 
       const actualValidation = stepSchema.safeParse({
@@ -144,7 +146,7 @@ describe("buildStepSchema", () => {
       const stepSchema = buildStepSchema(
         schemas,
         fieldNames,
-        multiFieldsValidation,
+        multiFieldsValidation as FunctionMultiFieldsValidation,
       );
 
       const actualValidation = stepSchema.safeParse({

@@ -18,7 +18,9 @@ export const fluggastrechteInputSchema = {
   ...fluggastrechteStreitKostenInputSchema,
   ...fluggastrechteProzessfuehrungInputSchema,
   ...fluggastrechteGrundvoraussetzungenInputSchema,
-  ankuendigung: stringOptionalSchema,
+  ankuendigung: schemaOrEmptyString(
+    z.enum(["no", "until6Days", "between7And13Days", "moreThan13Days"]),
+  ),
   ersatzflugStartenEinStunde: stringOptionalSchema,
   ersatzflugLandenZweiStunden: stringOptionalSchema,
   ersatzflugStartenZweiStunden: stringOptionalSchema,
