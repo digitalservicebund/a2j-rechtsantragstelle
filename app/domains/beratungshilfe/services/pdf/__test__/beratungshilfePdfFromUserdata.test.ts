@@ -1,15 +1,13 @@
 import { PDFDocument } from "pdf-lib";
 import { beratungshilfePdfFromUserdata } from "..";
 
+// NOTE: pdf tests are computationally expensive, therefore we have two expect() statements in this test
 describe("beratungshilfePdfFromUserdata", () => {
   const mockSessionId = "mock-session-id";
-  it("values are set from context", async () => {
+  it("values are set from context, even for non-ascii and emojis", async () => {
     const pdfDoc = await PDFDocument.load(
       await beratungshilfePdfFromUserdata(
-        {
-          vorname: "vorname",
-          nachname: "nachname",
-        },
+        { vorname: "Włodzimierz", nachname: "🫑" },
         mockSessionId,
       ),
     );
@@ -18,62 +16,18 @@ describe("beratungshilfePdfFromUserdata", () => {
       .getForm()
       .getTextField("Antragsteller (Name, Vorname ggf Geburtsname)");
 
-    expect(pdfField.getText()).toEqual("nachname, vorname");
-  });
-
-  it("regression: documents are not changed by later instances", async () => {
-    const pdfDoc = await PDFDocument.load(
+    // regression: documents are independent
+    const pdfDoc2 = await PDFDocument.load(
       await beratungshilfePdfFromUserdata(
-        {
-          vorname: "vorname",
-          nachname: "nachname",
-        },
+        { nachname: "nachname2", vorname: "vorname2" },
         mockSessionId,
       ),
     );
+    expect(pdfField.getText()).toEqual("🫑, Włodzimierz");
 
-    const pdfField = pdfDoc
+    const pdfFields2 = pdfDoc2
       .getForm()
       .getTextField("Antragsteller (Name, Vorname ggf Geburtsname)");
-
-    await PDFDocument.load(
-      await beratungshilfePdfFromUserdata(
-        {
-          nachname: "nachname2",
-          vorname: "vorname2",
-        },
-        mockSessionId,
-      ),
-    );
-
-    expect(pdfField.getText()).toEqual("nachname, vorname");
-  });
-
-  it("should handle special characters without throwing", async () => {
-    const pdfDoc = await PDFDocument.load(
-      await beratungshilfePdfFromUserdata(
-        {
-          vorname: "Włodzimierz",
-          nachname: "Ćwikła",
-        },
-        mockSessionId,
-      ),
-    );
-
-    await expect(pdfDoc.save()).resolves.not.toThrow();
-  });
-
-  it("should handle emojis without throwing", async () => {
-    const pdfDoc = await PDFDocument.load(
-      await beratungshilfePdfFromUserdata(
-        {
-          vorname: "🚂",
-          nachname: "🫑",
-        },
-        mockSessionId,
-      ),
-    );
-
-    await expect(pdfDoc.save()).resolves.not.toThrow();
+    expect(pdfFields2.getText()).toEqual("nachname2, vorname2");
   });
 });
