@@ -12,7 +12,7 @@ export const StrapiTextareaComponentSchema = z
     __component: z.literal("form-elements.textarea"),
     name: z.string(),
     description: StrapiRichTextOptionalSchema(),
-    details: StrapiDetailsSchema.nullable().transform(omitNull).optional(),
+    details: StrapiDetailsSchema.nullable().transform(omitNull),
     label: StrapiOptionalStringSchema,
     placeholder: StrapiOptionalStringSchema,
     errors: StrapiErrorRelationSchema,

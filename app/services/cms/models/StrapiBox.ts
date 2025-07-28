@@ -11,14 +11,10 @@ import { StrapiParagraphSchema } from "./StrapiParagraph";
 export const StrapiBoxSchema = z.object({
   label: StrapiHeadingOptionalSchema,
   heading: StrapiHeadingOptionalSchema,
-  content: StrapiParagraphSchema.nullable().transform(omitNull).optional(),
+  content: StrapiParagraphSchema.nullable().transform(omitNull),
   outerBackground: StrapiBackgroundOptionalSchema,
   container: StrapiContainerSchema,
-  buttons: z
-    .array(StrapiButtonSchema)
-    .nullable()
-    .transform(omitNull)
-    .optional(),
+  buttons: z.array(StrapiButtonSchema).nullable().transform(omitNull),
   __component: z.literal("page.box"),
   ...HasStrapiIdSchema.shape,
   ...OptionalStrapiLinkIdentifierSchema.shape,
