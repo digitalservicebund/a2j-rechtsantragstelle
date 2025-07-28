@@ -169,6 +169,14 @@ describe("formular.server", () => {
       });
 
       it("should call postValidationFormUserData once when form validation succeeds", async () => {
+        vi.mocked(getSessionManager).mockReturnValue({
+          getSession: vi.fn().mockReturnValue({
+            data: { name: "Valid Name" },
+          }),
+          commitSession: vi.fn(),
+          destroySession: vi.fn(),
+          getDebugId: vi.fn(),
+        });
         vi.mocked(validateFormUserData).mockResolvedValue(
           Result.ok({
             userData: { name: "Valid Name" },
