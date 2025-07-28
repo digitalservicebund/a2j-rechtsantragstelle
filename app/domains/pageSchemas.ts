@@ -1,4 +1,5 @@
 import type { z } from "zod";
+import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
@@ -7,6 +8,7 @@ import type { SchemaObject } from "./types";
 const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiserPages,
+  "/prozesskostenhilfe/formular": prozesskostenhilfeFormularPages,
 } as const;
 
 export function getPageSchema(pathname: string) {
