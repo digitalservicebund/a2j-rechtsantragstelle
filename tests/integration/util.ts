@@ -34,14 +34,14 @@ export function compileAllStrapiPages(
  * Massive if branching is needed, as Zod has different ways of encoding
  * a schema's keys for each data type
  */
-export function zodKeys<T extends z.core.$ZodType | null | undefined>(
+export function zodKeys<T extends z.ZodType | null | undefined>(
   schema: T,
 ): string[] {
   if (!schema) return [];
   if (schema instanceof z.ZodNullable || schema instanceof z.ZodOptional)
-    return zodKeys(schema.unwrap()); // unwrap returns z.core.$ZodType instead of z.ZodType
+    return zodKeys(schema.unwrap() as z.ZodType); // unwrap returns z.core.$ZodType instead of z.ZodType
   if (schema instanceof z.ZodArray) {
-    return zodKeys(schema.element);
+    return zodKeys(schema.element as z.ZodType);
   }
   if (schema instanceof z.ZodObject) {
     //  loop through shape to get nested keys

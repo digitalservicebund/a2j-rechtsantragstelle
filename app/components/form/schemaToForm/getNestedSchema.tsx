@@ -1,9 +1,5 @@
 import type { z } from "zod";
-import type { ZodEnum } from "./renderZodEnum";
 
-export const getNestedSchema = (
-  schema: z.ZodType,
-): ZodEnum | z.ZodString | z.ZodObject =>
-  "in" in schema
-    ? getNestedSchema(schema.in as z.ZodType)
-    : (schema as ZodEnum | z.ZodString | z.ZodObject);
+export const getNestedSchema = <T extends z.ZodType>(
+  schema: T | z.ZodNullable<T> | z.ZodOptional<T> | z.ZodPipe<T>,
+): T => ("in" in schema ? getNestedSchema(schema.in) : (schema as T));
