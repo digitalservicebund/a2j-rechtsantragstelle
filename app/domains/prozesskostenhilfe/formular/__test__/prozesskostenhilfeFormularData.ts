@@ -1,5 +1,4 @@
 import { faker } from "@faker-js/faker";
-import { prozesskostenhilfeAntragstellendePersonInputSchema as antragstellendePersonSchema } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
 import { prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema as einkuenfteSchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
 import {
   prozesskostenhilfeFinanzielleAngabenInputSchema,
@@ -26,8 +25,8 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
   formularArt: "erstantrag",
   verfahrenArt: "verfahrenAnwalt",
   versandArt: "digital",
-  empfaenger: antragstellendePersonSchema.empfaenger.Enum.myself,
-  unterhaltsanspruch: antragstellendePersonSchema.unterhaltsanspruch.Enum.keine,
+  empfaenger: "myself",
+  unterhaltsanspruch: "keine",
   hasBankkonto: YesNoAnswer.Enum.yes,
   hasGeldanlage: YesNoAnswer.Enum.yes,
   hasWertsache: YesNoAnswer.Enum.yes,
