@@ -26,7 +26,6 @@ import { AnalyticsContext } from "~/services/analytics/useAnalytics";
 import {
   fetchMeta,
   fetchSingleEntry,
-  fetchErrors,
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
@@ -98,18 +97,16 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     strapiFooter,
     cookieBannerContent,
     trackingConsent,
-    errorPages,
     meta,
     accessibilityTranslations,
     hasAnyUserData,
     mainSession,
     breadcrumbs,
   ] = await Promise.all([
-    fetchSingleEntry("page-header", defaultLocale),
-    fetchSingleEntry("footer", defaultLocale),
-    fetchSingleEntry("cookie-banner", defaultLocale),
+    fetchSingleEntry("page-header", defaultLocale, 2),
+    fetchSingleEntry("footer", defaultLocale, 3),
+    fetchSingleEntry("cookie-banner", defaultLocale, 3),
     trackingCookieValue({ request }),
-    fetchErrors(),
     fetchMeta({ filterValue: "/" }),
     fetchTranslations("accessibility"),
     anyUserData(request),
@@ -135,7 +132,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       hasTrackingConsent: trackingConsent
         ? trackingConsent === "true"
         : undefined,
-      errorPages,
       meta,
       context,
       hasAnyUserData,
