@@ -1,4 +1,3 @@
-import type { SafeParseError } from "zod";
 import { emailSchema } from "~/services/validation/email";
 
 describe("email validation", () => {
@@ -28,9 +27,7 @@ describe("email validation", () => {
       ({ input, errorMessage }) => {
         const actual = emailSchema.safeParse(input);
         expect(actual.success).toBe(false);
-        expect(
-          (actual as SafeParseError<unknown>).error.issues[0].message,
-        ).toBe(errorMessage);
+        expect(actual.error!.issues[0].message).toBe(errorMessage);
       },
     );
   });

@@ -1,4 +1,3 @@
-import type { SafeParseError } from "zod";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
 describe("inputRequired validation", () => {
@@ -28,9 +27,7 @@ describe("inputRequired validation", () => {
       ({ input, errorMessage }) => {
         const actual = stringRequiredSchema.safeParse(input);
         expect(actual.success).toBe(false);
-        expect(
-          (actual as SafeParseError<unknown>).error.issues[0].message,
-        ).toBe(errorMessage);
+        expect(actual.error!.issues[0].message).toBe(errorMessage);
       },
     );
   });

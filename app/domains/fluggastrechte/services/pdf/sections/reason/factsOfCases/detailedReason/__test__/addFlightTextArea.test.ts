@@ -50,7 +50,7 @@ describe("addFlightTextArea", () => {
     const userDataVerspaetetMock = {
       ...userDataMock,
       zwischenstoppAnzahl: "oneStop",
-      anschlussFlugVerpasst: YesNoAnswer.Enum.no,
+      anschlussFlugVerpasst: YesNoAnswer.enum.no,
     } satisfies FluggastrechteUserData;
 
     addFlightTextArea(mockDoc, userDataVerspaetetMock, mockSect);
@@ -69,7 +69,7 @@ describe("addFlightTextArea", () => {
     const userDataVerspaetetMock = {
       ...userDataMock,
       zwischenstoppAnzahl: "oneStop",
-      anschlussFlugVerpasst: YesNoAnswer.Enum.yes,
+      anschlussFlugVerpasst: YesNoAnswer.enum.yes,
     } satisfies FluggastrechteUserData;
 
     addFlightTextArea(mockDoc, userDataVerspaetetMock, mockSect);
@@ -89,7 +89,7 @@ describe("addFlightTextArea", () => {
       ...userDataMock,
       bereich: "annullierung",
       zwischenstoppAnzahl: "oneStop",
-      anschlussFlugVerpasst: YesNoAnswer.Enum.no,
+      anschlussFlugVerpasst: YesNoAnswer.enum.no,
     } satisfies FluggastrechteUserData;
 
     addFlightTextArea(mockDoc, userDataAnnullierung, mockSect);
@@ -109,7 +109,7 @@ describe("addFlightTextArea", () => {
       ...userDataMock,
       bereich: "annullierung",
       zwischenstoppAnzahl: "oneStop",
-      anschlussFlugVerpasst: YesNoAnswer.Enum.yes,
+      anschlussFlugVerpasst: YesNoAnswer.enum.yes,
     } satisfies FluggastrechteUserData;
 
     addFlightTextArea(mockDoc, userDataAnnullierung, mockSect);
@@ -129,7 +129,7 @@ describe("addFlightTextArea", () => {
       ...userDataMock,
       bereich: "nichtbefoerderung",
       zwischenstoppAnzahl: "oneStop",
-      anschlussFlugVerpasst: YesNoAnswer.Enum.no,
+      anschlussFlugVerpasst: YesNoAnswer.enum.no,
     } satisfies FluggastrechteUserData;
 
     addFlightTextArea(mockDoc, userDataNichtBefoerderungMock, mockSect);
@@ -149,7 +149,7 @@ describe("addFlightTextArea", () => {
       ...userDataMock,
       bereich: "nichtbefoerderung",
       zwischenstoppAnzahl: "oneStop",
-      anschlussFlugVerpasst: YesNoAnswer.Enum.yes,
+      anschlussFlugVerpasst: YesNoAnswer.enum.yes,
     } satisfies FluggastrechteUserData;
 
     addFlightTextArea(mockDoc, userDataNichtBefoerderungMock, mockSect);

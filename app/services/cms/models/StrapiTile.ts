@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { StrapiImageOptionalSchema } from "./StrapiImage";
-import { StrapiOptionalStringSchema } from "./StrapiOptionalString";
+import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
 
 export const StrapiTileSchema = z.object({
   title: z.string(),
   value: z.string(),
-  description: StrapiOptionalStringSchema,
+  description: StrapiStringOptionalSchema,
   image: StrapiImageOptionalSchema,
-  tagDescription: StrapiOptionalStringSchema,
+  tagDescription: StrapiStringOptionalSchema,
 });

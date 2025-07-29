@@ -35,8 +35,8 @@ describe("addWitnessesInfo", () => {
 
     const userDataHasZeugenMock = {
       ...userDataMock,
-      hasZeugen: YesNoAnswer.Enum.yes,
-      isWeiterePersonen: YesNoAnswer.Enum.yes,
+      hasZeugen: YesNoAnswer.enum.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
     addWitnessesInfo(mockDoc, userDataHasZeugenMock, mockSect);
@@ -54,7 +54,7 @@ describe("addWitnessesInfo", () => {
 
     const userDataHasZeugenMock = {
       ...userDataMock,
-      hasZeugen: YesNoAnswer.Enum.no,
+      hasZeugen: YesNoAnswer.enum.no,
     };
 
     addWitnessesInfo(mockDoc, userDataHasZeugenMock, mockSect);
@@ -70,7 +70,7 @@ describe("addWitnessesInfo", () => {
     const mockSect = mockDoc.struct("Sect");
     const userDataHasZeugenMock = {
       ...userDataMock,
-      hasZeugen: YesNoAnswer.Enum.yes,
+      hasZeugen: YesNoAnswer.enum.yes,
     };
 
     addWitnessesInfo(mockDoc, userDataHasZeugenMock, mockSect);
@@ -85,7 +85,7 @@ describe("addWitnessesInfo", () => {
 
     const userDataHasNoZeugenMock = {
       ...userDataMock,
-      hasZeugen: YesNoAnswer.Enum.no,
+      hasZeugen: YesNoAnswer.enum.no,
     };
 
     addWitnessesInfo(mockDoc, userDataHasNoZeugenMock, mockSect);

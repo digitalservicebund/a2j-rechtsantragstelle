@@ -1,4 +1,4 @@
-import { z, type ZodTypeAny } from "zod";
+import { z, type ZodType } from "zod";
 
-export const schemaOrEmptyString = <T extends ZodTypeAny>(schema: T) =>
+export const schemaOrEmptyString = <T extends ZodType>(schema: T) =>
   z.literal("").or(schema);

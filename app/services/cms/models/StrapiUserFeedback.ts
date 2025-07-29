@@ -5,8 +5,8 @@ export const StrapiUserFeedbackSchema = z
   .object({
     headingRating: z.string(),
     __component: z.literal("page.user-feedback"),
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasStrapiIdSchema)
   .transform((cmsData) => ({
     ...cmsData,
     rating: {

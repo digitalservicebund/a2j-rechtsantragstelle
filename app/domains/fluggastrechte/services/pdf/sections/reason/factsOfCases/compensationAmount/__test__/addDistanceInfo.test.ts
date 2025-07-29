@@ -61,7 +61,7 @@ describe("addDistanceInfo", () => {
 
     const userDataWeiterePersonenMock = {
       ...userDataMock,
-      isWeiterePersonen: YesNoAnswer.Enum.no,
+      isWeiterePersonen: YesNoAnswer.enum.no,
     };
 
     addDistanceInfo(mockDoc, mockStruct, userDataWeiterePersonenMock);
@@ -78,7 +78,7 @@ describe("addDistanceInfo", () => {
 
     const userDataWeiterePersonenMock = {
       ...userDataMock,
-      isWeiterePersonen: YesNoAnswer.Enum.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
     addDistanceInfo(mockDoc, mockStruct, userDataWeiterePersonenMock);
