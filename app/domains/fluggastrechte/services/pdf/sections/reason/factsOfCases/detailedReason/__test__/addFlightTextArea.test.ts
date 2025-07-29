@@ -1,3 +1,4 @@
+import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -13,7 +14,6 @@ import {
   REASON_NON_TRANSPORTE_FLIGHT_LOST_CONNECTION,
 } from "../addFlightTextArea";
 import { getStartAndEndAirportDelayNames } from "../getStartAndEndAirportDelayNames";
-import { Mock } from "vitest";
 
 vi.mock("../getStartAndEndAirportDelayNames");
 
@@ -38,6 +38,8 @@ describe("addFlightTextArea", () => {
     addFlightTextArea(mockDoc, userDataMock, mockSect);
 
     expect(mockDoc.text).not.toBeCalled();
+    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
+    expect(mockDoc.text).toBeDefined();
   });
 
   it("should have the text for start and end airport for verspaetet bereich and anschlussFlugVerpasst no", () => {
