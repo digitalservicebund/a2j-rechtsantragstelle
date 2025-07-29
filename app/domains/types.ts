@@ -1,7 +1,5 @@
 import type { z } from "zod";
-import type { AllowedUserTypes } from "./userData";
-
-export type SchemaObject = Record<string, z.ZodType<AllowedUserTypes>>;
+import type { SchemaObject } from "./userData";
 
 export type MultiFieldsValidationBaseSchema<
   K extends SchemaObject = SchemaObject,

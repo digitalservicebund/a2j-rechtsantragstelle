@@ -1,8 +1,6 @@
 import { z } from "zod";
-import type {
-  FunctionMultiFieldsValidation,
-  SchemaObject,
-} from "~/domains/types";
+import type { FunctionMultiFieldsValidation } from "~/domains/types";
+import type { SchemaObject } from "~/domains/userData";
 import { isKeyOfObject } from "~/util/objects";
 import { fieldIsArray, splitArrayName } from "../../array";
 
