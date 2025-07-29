@@ -6,12 +6,11 @@ import { StrapiButtonSchema } from "./StrapiButton";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiParagraphSchema } from "./StrapiParagraph";
 
-export const StrapiHeroSchema = z
-  .object({
-    heading: StrapiHeadingSchema,
-    content: StrapiParagraphSchema.nullable().transform(omitNull),
-    outerBackground: StrapiBackgroundOptionalSchema,
-    button: StrapiButtonSchema.nullable().transform(omitNull),
-    __component: z.literal("page.hero"),
-  })
-  .merge(HasStrapiIdSchema);
+export const StrapiHeroSchema = z.object({
+  heading: StrapiHeadingSchema,
+  content: StrapiParagraphSchema.nullable().transform(omitNull),
+  outerBackground: StrapiBackgroundOptionalSchema,
+  button: StrapiButtonSchema.nullable().transform(omitNull),
+  __component: z.literal("page.hero"),
+  ...HasStrapiIdSchema.shape,
+});

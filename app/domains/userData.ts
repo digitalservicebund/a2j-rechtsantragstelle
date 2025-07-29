@@ -1,3 +1,4 @@
+import type { z } from "zod";
 import { fluggastrechteInputSchema } from "~/domains/fluggastrechte/formular/userData";
 import { type FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { fluggastrechteVorabcheckInputSchema } from "~/domains/fluggastrechte/vorabcheck/userData";
@@ -12,17 +13,16 @@ import { beratungshilfeFormularUserData } from "./beratungshilfe/formular/userDa
 import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
 import type { BeratungshilfeVorabcheckUserData } from "./beratungshilfe/vorabcheck/userData";
 import type { FlowId } from "./flowIds";
-import type { SchemaObject } from "./types";
 
 export type BasicTypes = string | number | boolean;
 export type ObjectType = {
   [key: string]: BasicTypes | BasicTypes[] | ObjectType;
 };
 export type ArrayData = Array<Record<string, BasicTypes>>;
-export type UserData = Record<
-  string,
-  BasicTypes | ObjectType | ArrayData | undefined
->;
+export type AllowedUserTypes = BasicTypes | ObjectType | ArrayData | undefined;
+
+export type SchemaObject = Record<string, z.ZodType<AllowedUserTypes>>;
+export type UserData = Record<string, AllowedUserTypes>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type AllUserDataKeys = KeysOfUnion<

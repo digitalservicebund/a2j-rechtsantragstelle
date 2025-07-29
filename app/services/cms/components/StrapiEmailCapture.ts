@@ -4,14 +4,13 @@ import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNoti
 import { StrapiStringOptionalSchema } from "~/services/cms/models/StrapiStringOptional";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 
-export const StrapiEmailCaptureSchema = z
-  .object({
-    target: z.string(),
-    label: StrapiStringOptionalSchema,
-    description: StrapiRichTextOptionalSchema(),
-    buttonLabel: z.string(),
-    successBanner: StrapiInlineNoticeSchema,
-    errorBanner: StrapiInlineNoticeSchema,
-    __component: z.literal("page.email-capture"),
-  })
-  .merge(HasStrapiIdSchema);
+export const StrapiEmailCaptureSchema = z.object({
+  target: z.string(),
+  label: StrapiStringOptionalSchema,
+  description: StrapiRichTextOptionalSchema(),
+  buttonLabel: z.string(),
+  successBanner: StrapiInlineNoticeSchema,
+  errorBanner: StrapiInlineNoticeSchema,
+  __component: z.literal("page.email-capture"),
+  ...HasStrapiIdSchema.shape,
+});

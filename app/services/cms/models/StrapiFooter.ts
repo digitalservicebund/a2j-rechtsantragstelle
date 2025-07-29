@@ -12,16 +12,15 @@ export const StrapiFooterSchema = z
     paragraphs: z.array(StrapiParagraphSchema),
     categorizedLinks: z
       .array(
-        z
-          .object({
-            title: z.string().nonempty(),
-            links: z.array(StrapiLinkSchema).nonempty(),
-          })
-          .merge(HasStrapiIdSchema),
+        z.object({
+          title: z.string().nonempty(),
+          links: z.array(StrapiLinkSchema).nonempty(),
+          ...HasStrapiIdSchema.shape,
+        }),
       )
       .nonempty(),
+    ...HasStrapiLocaleSchema.shape,
   })
-  .merge(HasStrapiLocaleSchema)
   .transform((cmsData) => omit(cmsData, "locale"));
 
 export type StrapiFooter = z.input<typeof StrapiFooterSchema>;

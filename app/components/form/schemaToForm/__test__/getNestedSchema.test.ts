@@ -11,7 +11,7 @@ describe("getNestedSchema", () => {
     z.nullable(z.optional(innerSchema)).transform((val) => val),
   ];
   outerSchemas.forEach((outerSchema) => {
-    it(`should unwrap ${outerSchema._def.typeName}`, () => {
+    it(`should unwrap ${outerSchema.def.type}`, () => {
       expect(getNestedSchema(outerSchema)).toEqual(innerSchema);
     });
   });

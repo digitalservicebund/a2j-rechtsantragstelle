@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { HasStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { StrapiContentComponentSchema } from "./StrapiContentComponent";
@@ -10,18 +9,17 @@ import { StrapiLinkSchema } from "./StrapiLink";
 import { StrapiParagraphSchema } from "./StrapiParagraph";
 import { StrapiResultPageTypeSchema } from "./StrapiResultPageType";
 
-export const StrapiResultPageSchema = z
-  .object({
-    stepId: z.string(),
-    flow_ids: z.array(StrapiFlowIdSchema),
-    pageType: StrapiResultPageTypeSchema,
-    heading: StrapiHeadingSchema,
-    hintText: StrapiParagraphSchema.nullable(),
-    documents: StrapiElementWithIdSchema.merge(HasStrapiIdSchema).nullable(),
-    nextSteps: StrapiElementWithIdSchema.merge(HasStrapiIdSchema).nullable(),
-    freeZone: z.array(StrapiContentComponentSchema),
-    nextLink: StrapiLinkSchema.nullable(),
-    backButtonLabel: z.string().nullable(),
-  })
-  .merge(HasStrapiLocaleSchema)
-  .merge(HasStrapiMetaSchema);
+export const StrapiResultPageSchema = z.object({
+  stepId: z.string(),
+  flow_ids: z.array(StrapiFlowIdSchema),
+  pageType: StrapiResultPageTypeSchema,
+  heading: StrapiHeadingSchema,
+  hintText: StrapiParagraphSchema.nullable(),
+  documents: StrapiElementWithIdSchema.nullable(),
+  nextSteps: StrapiElementWithIdSchema.nullable(),
+  freeZone: z.array(StrapiContentComponentSchema),
+  nextLink: StrapiLinkSchema.nullable(),
+  backButtonLabel: z.string().nullable(),
+  ...HasStrapiLocaleSchema.shape,
+  ...HasStrapiMetaSchema.shape,
+});
