@@ -129,6 +129,15 @@ export const translations = {
     mainNavigationAriaLabel: {
       de: "Hauptmenü",
     },
+    printPage: {
+      de: "Diese Seite wurde heruntergeladen am",
+    },
+    time: {
+      de: "Uhr",
+    },
+    at: {
+      de: "um",
+    },
   },
   navigationMobile: {
     currentArea: {
