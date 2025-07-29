@@ -37,11 +37,12 @@ export const toGermanDateFormat = (date: Date) => {
 };
 
 export function toHourAndMinuteTime(date: Date) {
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  return `${hours.toString().padStart(2, "0")}:${minutes
-    .toString()
-    .padStart(2, "0")}`;
+  const hoursMinuteFormatter = new Intl.DateTimeFormat(undefined, {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+  return hoursMinuteFormatter.format(date);
 }
 
 export const pdfDateFormat = (date: Date) =>
