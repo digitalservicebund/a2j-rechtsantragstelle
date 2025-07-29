@@ -74,7 +74,7 @@ export default function Footer({
         </div>
 
         <nav
-          className="flex flex-col sm:flex-row gap-16 hidden-print"
+          className="flex flex-col sm:flex-row gap-16 print:hidden"
           aria-label={ariaLabel}
         >
           {categorizedLinks.map((category) => {
@@ -104,9 +104,9 @@ export default function Footer({
           backgroundColor="blue"
           paddingTop="16"
           paddingBottom="16"
-          className="hidden-print"
+          className="print:hidden"
         >
-          <div className="text-center hidden-print">
+          <div className="text-center print:hidden">
             <StandaloneLink
               className="ds-label-03-reg"
               text={

@@ -302,9 +302,3 @@ details:not(:has(.summary-content:focus-visible)) {
 h1:focus {
   outline: none;
 }
-
-@media print {
-  .hidden-print {
-    display: none;
-  }
-}

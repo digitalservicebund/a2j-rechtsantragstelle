@@ -19,7 +19,7 @@ export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
           href={back.destination}
           look="tertiary"
           size="large"
-          className="w-fit hidden-print"
+          className="w-fit print:hidden"
         >
           {back.label}
         </Button>
