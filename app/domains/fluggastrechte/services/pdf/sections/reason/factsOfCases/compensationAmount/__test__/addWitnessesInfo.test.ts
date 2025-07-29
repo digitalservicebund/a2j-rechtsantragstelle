@@ -104,7 +104,7 @@ describe("addWitnessesInfo - accessibility", () => {
 
     const userDataHasNoZeugenMock = {
       ...userDataMock,
-      hasZeugen: YesNoAnswer.Enum.no,
+      hasZeugen: YesNoAnswer.enum.no,
     };
 
     addWitnessesInfo(mockDoc, userDataHasNoZeugenMock, mockSect);
@@ -127,7 +127,7 @@ describe("addWitnessesInfo - accessibility", () => {
 
     const userDataHasNoZeugenMock = {
       ...userDataMock,
-      hasZeugen: YesNoAnswer.Enum.yes,
+      hasZeugen: YesNoAnswer.enum.yes,
     };
 
     addWitnessesInfo(mockDoc, userDataHasNoZeugenMock, mockSect);

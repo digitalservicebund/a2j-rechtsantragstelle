@@ -278,8 +278,8 @@ describe("addMultiplePersonsInfo - accessibility", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
-      hasZeugen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
+      hasZeugen: YesNoAnswer.enum.yes,
     };
 
     addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
@@ -306,8 +306,8 @@ describe("addMultiplePersonsInfo - accessibility", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
-      hasZeugen: YesNoAnswer.Values.no,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
+      hasZeugen: YesNoAnswer.enum.no,
     };
 
     addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
@@ -334,7 +334,7 @@ describe("addMultiplePersonsInfo - accessibility", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.no,
+      isWeiterePersonen: YesNoAnswer.enum.no,
     };
 
     addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);

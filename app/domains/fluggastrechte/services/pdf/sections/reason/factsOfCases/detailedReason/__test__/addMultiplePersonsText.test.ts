@@ -256,7 +256,7 @@ describe("addMultiplePersonsText - accessibility", () => {
           buchungsnummer: "123456",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
     addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock, mockStruct);
@@ -284,7 +284,7 @@ describe("addMultiplePersonsText - accessibility", () => {
       vorname: "Test",
       nachname: "Test",
       weiterePersonen: [],
-      isWeiterePersonen: YesNoAnswer.Values.no,
+      isWeiterePersonen: YesNoAnswer.enum.no,
     };
 
     addMultiplePersonsText(mockDoc, userDataNoWeiterePersonenMock, mockStruct);

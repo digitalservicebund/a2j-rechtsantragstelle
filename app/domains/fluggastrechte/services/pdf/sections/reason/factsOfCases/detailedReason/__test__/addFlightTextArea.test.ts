@@ -170,7 +170,7 @@ describe("addFlightTextArea - accessibility", () => {
       ...userDataMock,
       bereich: "nichtbefoerderung",
       zwischenstoppAnzahl: "oneStop",
-      anschlussFlugVerpasst: YesNoAnswer.Enum.yes,
+      anschlussFlugVerpasst: YesNoAnswer.enum.yes,
     } satisfies FluggastrechteUserData;
 
     addFlightTextArea(mockDoc, userDataNichtBefoerderungMock, mockStruct);
