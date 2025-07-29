@@ -1,5 +1,4 @@
 // @vitest-environment jsdom
-import type { SafeParseError } from "zod";
 import { postcodeSchema } from "~/services/validation/postcode";
 
 describe("postcode validation", () => {
@@ -37,9 +36,7 @@ describe("postcode validation", () => {
       ({ input, errorMessage }) => {
         const actual = postcodeSchema.safeParse(input);
         expect(actual.success).toBe(false);
-        expect(
-          (actual as SafeParseError<unknown>).error.issues[0].message,
-        ).toBe(errorMessage);
+        expect(actual.error!.issues[0].message).toBe(errorMessage);
       },
     );
   });

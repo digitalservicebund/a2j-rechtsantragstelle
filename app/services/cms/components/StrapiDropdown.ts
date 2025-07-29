@@ -17,8 +17,8 @@ export const StrapiDropdownComponentSchema = z
       .enum(["characters16", "characters24", "characters36", "characters54"])
       .nullable()
       .transform((val) => strapiWidthLookupMap[val ?? ""]),
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,
