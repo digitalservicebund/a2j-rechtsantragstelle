@@ -31,7 +31,9 @@ describe("F_abzuege", () => {
           monatlicheOPNVKosten: "49",
         },
       });
-      expect(pdfValues.steuernSolidaritaetszuschlag_2.value).toBe("ÖPNV");
+      expect(pdfValues.steuernSolidaritaetszuschlag_2.value).toBe(
+        "ÖPNV; Arbeitsadresse: siehe Anhang",
+      );
       expect(pdfValues.monatlicheAbzuegeinEuro4.value).toBe("49 €");
 
       ({ pdfValues } = fillSelfAbzuege({
@@ -41,11 +43,13 @@ describe("F_abzuege", () => {
           arbeitsplatzEntfernung: 10,
         },
       }));
-      expect(pdfValues.steuernSolidaritaetszuschlag_2.value).toBe("KFZ");
+      expect(pdfValues.steuernSolidaritaetszuschlag_2.value).toBe(
+        "KFZ; Arbeitsadresse: siehe Anhang",
+      );
       expect(pdfValues.monatlicheAbzuegeinEuro4.value).toBe("10km");
     });
 
-    it("should add an attachment if the versicherung or arbeitsausgaben sections need one", () => {
+    it("should add an attachment if the versicherung, arbeitsausgaben, or Arbeitsweg sections need one", () => {
       let { attachment } = fillSelfAbzuege({
         pdfValues: pdfParams,
         userData: {
@@ -79,6 +83,15 @@ describe("F_abzuege", () => {
               beitrag: "50",
             },
           ],
+        },
+      }));
+
+      expect(attachment?.at(0)).toEqual({ title: "F Abzüge", level: "h2" });
+
+      ({ attachment } = fillSelfAbzuege({
+        pdfValues: pdfParams,
+        userData: {
+          arbeitsweg: "privateVehicle",
         },
       }));
 

@@ -4,10 +4,18 @@ import { config } from "~/services/env/public";
 
 const { SENTRY_DSN, ENVIRONMENT } = config();
 let sentryHasBeenInitialized = false;
+
 if (SENTRY_DSN !== undefined) {
   Sentry.init({
     dsn: SENTRY_DSN,
     environment: ENVIRONMENT,
+
+    tracesSampleRate: 0.1,
+    replaysSessionSampleRate: 0.0,
+    replaysOnErrorSampleRate: 0.0,
+
+    sendDefaultPii: false,
+    attachStacktrace: true,
   });
   sentryHasBeenInitialized = true;
 }

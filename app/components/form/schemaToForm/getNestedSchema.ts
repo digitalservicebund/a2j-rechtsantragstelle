@@ -9,6 +9,8 @@ export const getNestedSchema = (
       return getNestedSchema(schema._def.schema);
     case "ZodOptional":
       return getNestedSchema(schema._def.innerType);
+    case "ZodNullable":
+      return getNestedSchema(schema._def.innerType);
     default:
       return schema as ZodEnum | z.ZodString;
   }

@@ -1,4 +1,6 @@
 import mapValues from "lodash/mapValues";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { pkhFormularGrundvoraussetzungenPages } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/pages";
 import type { ProzesskostenhilfeGrundvoraussetzungenUserData } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import {
@@ -11,10 +13,9 @@ import {
 } from "./guards";
 import { pkhFormularGrundvoraussetzungenPages } from "./pages";
 
-const steps = mapValues(pkhFormularGrundvoraussetzungenPages, (v) => ({
-  absolute: "#" + v.stepId.replaceAll("/", "."),
-  relative: v.stepId.split("/").pop()!,
-}));
+const steps = xStateTargetsFromPagesConfig(
+  pkhFormularGrundvoraussetzungenPages,
+);
 
 export const grundvoraussetzungenXstateConfig = {
   id: "grundvoraussetzungen",
