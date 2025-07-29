@@ -1,5 +1,7 @@
+import mapValues from "lodash/mapValues";
 import type { z } from "zod";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
+import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
@@ -9,6 +11,7 @@ const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiserPages,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularPages,
+  "/beratungshilfe/antrag": beratungshilfeAntragPages,
 } as const;
 
 export function getPageSchema(pathname: string) {
@@ -19,6 +22,15 @@ export function getPageSchema(pathname: string) {
   return Object.values(pages[flowId] ?? {}).find(
     (page) => page.stepId === stepIdWithoutLeadingSlash,
   )?.pageSchema;
+}
+
+export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
+  pageSchema: T,
+) {
+  return mapValues(pageSchema, (v) => ({
+    absolute: "#" + v.stepId.replaceAll("/", "."),
+    relative: v.stepId.split("/").pop()!,
+  }));
 }
 
 // TODO: better specify PageSchema to specify enums, strings, ...
