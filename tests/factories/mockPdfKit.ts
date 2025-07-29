@@ -12,9 +12,11 @@ export const mockPdfKitDocument = (
   },
 ) => {
   return {
+    endMarkedContent: vi.fn().mockReturnThis(),
     text: vi.fn().mockReturnThis(),
     fontSize: vi.fn().mockReturnThis(),
     font: vi.fn().mockReturnThis(),
+    markContent: vi.fn().mockReturnThis(),
     moveDown: vi.fn().mockReturnThis(),
     moveUp: vi.fn().mockReturnThis(),
     list: vi.fn().mockReturnThis(),
