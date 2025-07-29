@@ -17,6 +17,10 @@ import type {
   GetStrapiEntryOpts,
 } from "./schemas";
 
+const P_LEVEL_FLOW_PAGES = 6; // Flow pages require a deeper population level due the FieldSet component
+const P_LEVEL_TRANSLATIONS = 2;
+const P_LEVEL_DEFAULT = 5;
+
 export async function fetchMeta(
   opts: Omit<GetStrapiEntryOpts<"pages">, "apiId" | "filter"> & {
     filterValue: string;
@@ -38,7 +42,7 @@ export async function fetchMeta(
 export async function fetchSingleEntry<T extends SingleEntryId>(
   apiId: T,
   locale?: StrapiLocale,
-  pLevel = 5,
+  pLevel = P_LEVEL_DEFAULT,
 ): Promise<StrapiSchemasOutput[T][number]> {
   const strapiEntry = await getStrapiEntry({ apiId, locale, pLevel });
   return entrySchemas[apiId].parse(strapiEntry)[0];
@@ -46,7 +50,7 @@ export async function fetchSingleEntry<T extends SingleEntryId>(
 
 async function fetchCollectionEntry<T extends CollectionId>(
   apiId: T,
-  pLevel = 5,
+  pLevel = P_LEVEL_DEFAULT,
   filters?: Filter[],
   locale?: StrapiLocale,
 ): Promise<StrapiSchemasOutput[T][number]> {
@@ -90,7 +94,12 @@ export const fetchTranslations = async (
   const filters = [{ field: "scope", value: name }];
   try {
     return (
-      await fetchCollectionEntry("translations", 2, filters, defaultLocale)
+      await fetchCollectionEntry(
+        "translations",
+        P_LEVEL_TRANSLATIONS,
+        filters,
+        defaultLocale,
+      )
     ).entries;
   } catch {
     return {};
@@ -102,7 +111,7 @@ export async function fetchMultipleTranslations(scopes: string[]) {
     apiId: "translations",
     locale: "de",
     filters: [{ field: "scope", operation: "$in", value: scopes }],
-    pLevel: 2,
+    pLevel: P_LEVEL_TRANSLATIONS,
   });
   return Object.fromEntries(
     translations.map(({ scope, entries }) => [scope, entries]),
@@ -110,14 +119,16 @@ export async function fetchMultipleTranslations(scopes: string[]) {
 }
 
 export const fetchPage = (slug: string) =>
-  fetchCollectionEntry("pages", 5, [{ field: "slug", value: slug }]);
+  fetchCollectionEntry("pages", P_LEVEL_DEFAULT, [
+    { field: "slug", value: slug },
+  ]);
 
 export const fetchFlowPage = <T extends FlowPageId>(
   collection: T,
   flowId: FlowId,
   stepId: string,
 ): Promise<StrapiSchemasOutput[T][number]> =>
-  fetchCollectionEntry(collection, 6, [
+  fetchCollectionEntry(collection, P_LEVEL_FLOW_PAGES, [
     { field: "stepId", value: stepId },
     { field: "flow_ids", nestedField: "flowId", value: flowId },
   ]);
