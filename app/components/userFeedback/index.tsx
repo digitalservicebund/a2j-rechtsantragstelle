@@ -29,7 +29,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   }, []);
 
   return (
-    <Background paddingTop="32" paddingBottom="40">
+    <Background paddingTop="32" paddingBottom="40" className="hidden-print">
       <Container
         paddingTop="32"
         paddingBottom="32"

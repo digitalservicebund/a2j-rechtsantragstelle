@@ -6,13 +6,16 @@ import type { CommonWrapperProps } from "./Container";
 const DEFAULT_PADDING_TOP = "0";
 const DEFAULT_PADDING_BOTTOM = "0";
 
-type BackgroundProps = PropsWithChildren<CommonWrapperProps>;
+type BackgroundProps = PropsWithChildren<CommonWrapperProps> & {
+  className?: string;
+};
 
 export default function Background({
   backgroundColor = "default",
   paddingTop = "default",
   paddingBottom = "default",
   children,
+  className,
 }: BackgroundProps) {
   const cssClasses = classNames(
     backgroundColor !== "default" && BACKGROUND_COLORS[backgroundColor],
@@ -22,6 +25,7 @@ export default function Background({
     }`,
     backgroundColor === "darkBlue" && "text-white",
     "contrast-more:border-y-2 contrast-more:border-black",
+    className,
   );
 
   return <div className={cssClasses}>{children}</div>;
