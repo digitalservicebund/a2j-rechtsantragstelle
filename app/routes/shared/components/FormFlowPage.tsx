@@ -52,7 +52,8 @@ export function FormFlowPage() {
         <GridContainer
           columns={12}
           maxWidth="xxl"
-          paddingY="xl"
+          paddingY="xxl"
+          paddingX="none"
           // columnWidths={["248px", "repeat(7, 1fr)"]}
         >
           {/* <div className="w-screen pt-32 flex flex-grow flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start gap-48 h-full"> */}
@@ -61,15 +62,21 @@ export function FormFlowPage() {
             span={2}
             spanSm={4}
             spanMd={3}
-            colStart={5}
+            spanLg={3}
+            spanXl={2}
+            // colStart={5}
             colStartXs={1}
             colStartSm={1}
-            colStartMd={5}
+            colStartMd={3}
             colStartLg={3}
+            colStartXl={3}
           >
-            {/* <div className="w-[248px]"> */}
-            <FlowNavigation navItems={navItems} expandAll={isValidationPage} />
-            {/* </div> */}
+            <div className="md:w-[248px]">
+              <FlowNavigation
+                navItems={navItems}
+                expandAll={isValidationPage}
+              />
+            </div>
           </GridItem>
           {/* </div> */}
           {/* <div
@@ -81,11 +88,12 @@ export function FormFlowPage() {
             span={7}
             spanXs={12}
             spanSm={12}
-            spanMd={8}
-            colStart={5}
+            spanMd={5}
+            spanLg={6}
+            // colStart={5}
             colStartXs={1}
             colStartSm={1}
-            colStartMd={5}
+            colStartMd={7}
             colStartLg={6}
           >
             <div className="ds-stack ds-stack-40">
@@ -124,14 +132,33 @@ export function FormFlowPage() {
               />
               <ContentComponents content={postFormContent} fullScreen={false} />
             </div>
-            {showReportProblem && (
-              <div className="flex justify-end w-full relative">
-                <ReportProblem />
-              </div>
-            )}
+            {/* </div> */}
+            {/* </div> */}
           </GridItem>
-          {/* </div> */}
-          {/* </div> */}
+        </GridContainer>
+        <GridContainer
+          columns={12}
+          maxWidth="xxl"
+          paddingY="xl"
+          paddingX="md"
+          // columnWidths={["248px", "repeat(7, 1fr)"]}
+        >
+          {showReportProblem && (
+            // <div className="flex justify-end w-full relative">
+            <GridItem
+              span={3}
+              spanXs={12}
+              spanMd={5}
+              colStartXs={10}
+              colStartSm={10}
+              colStartMd={10}
+              colStartLg={10}
+              colStartXl={10}
+            >
+              <ReportProblem />
+            </GridItem>
+            // </div>
+          )}
         </GridContainer>
       </Background>
     </FormFlowContext.Provider>

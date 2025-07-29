@@ -20,7 +20,7 @@ export default function Kopfzeile({
       <GridContainer columns={12} maxWidth="xxl">
         <GridItem
           span={8}
-          colStart={3}
+          colStartXs={1}
           colStartSm={1}
           colStartMd={3}
           colStartLg={3}

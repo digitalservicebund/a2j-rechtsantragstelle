@@ -29,7 +29,7 @@ export default function PageHeader({
       <GridContainer columns={12} maxWidth="xxl">
         <GridItem
           span={3}
-          colStart={3}
+          colStartXs={1}
           colStartSm={1}
           colStartMd={3}
           colStartLg={3}

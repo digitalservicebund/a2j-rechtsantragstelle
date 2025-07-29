@@ -37,7 +37,7 @@ export default function Breadcrumbs({
         <GridContainer columns={12} maxWidth="xxl">
           <GridItem
             span={5}
-            colStart={3}
+            colStartXs={1}
             colStartSm={1}
             colStartMd={3}
             colStartLg={3}

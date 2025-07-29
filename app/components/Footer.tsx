@@ -55,13 +55,15 @@ export default function Footer({
     <GridContainer columns={12} maxWidth="xxl" paddingX="xl" paddingY="xl">
       <GridItem
         span={12}
-        colStart={3}
+        spanXs={12}
+        spanSm={12}
+        spanMd={8}
         colStartSm={1}
         colStartMd={3}
         colStartLg={3}
       >
         <div
-          className="flex flex-col md:flex-row gap-32 mb-32 pr-16 pl-16"
+          className="flex flex-col md:flex-row gap-32 mb-32"
           data-testid="footer"
         >
           <div className="flex flex-col max-w-[288px] gap-y-8">
@@ -87,7 +89,7 @@ export default function Footer({
           </div>
 
           <nav
-            className="flex flex-col sm:flex-row gap-16"
+            className="flex flex-col sm:flex-row justify-between w-full gap-16"
             aria-label={ariaLabelTranslation}
           >
             {categorizedLinks.map((category) => {
@@ -112,6 +114,8 @@ export default function Footer({
             })}
           </nav>
         </div>
+      </GridItem>
+      <GridItem span={8} colStart={3}>
         {showDeletionBanner && (
           <Background backgroundColor="blue" paddingTop="16" paddingBottom="16">
             <div className="text-center">

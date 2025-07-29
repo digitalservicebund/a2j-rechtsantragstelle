@@ -2,7 +2,7 @@ import classNames from "classnames";
 import type { PropsWithChildren } from "react";
 
 export type GridContainerMaxWidth = "sm" | "md" | "lg" | "xl" | "xxl" | "full";
-export type GridContainerPadding = "none" | "sm" | "md" | "lg" | "xl";
+export type GridContainerPadding = "none" | "sm" | "md" | "lg" | "xl" | "xxl";
 export type GridContainerColumns =
   | 1
   | 2
@@ -69,6 +69,7 @@ const PADDING_X_CLASSES: Record<GridContainerPadding, string> = {
   md: "px-6",
   lg: "px-8",
   xl: "px-16",
+  xxl: "px-32",
 };
 
 const PADDING_Y_CLASSES: Record<GridContainerPadding, string> = {
@@ -77,6 +78,7 @@ const PADDING_Y_CLASSES: Record<GridContainerPadding, string> = {
   md: "py-6",
   lg: "py-8",
   xl: "py-16",
+  xxl: "py-32",
 };
 
 const GRID_COLUMN_CLASSES: Record<GridContainerColumns, string> = {
@@ -113,6 +115,7 @@ const getColumnSpanClasses = (props: GridItemProps): string => {
   if (props.span) {
     classes.push(`col-span-${props.span}`);
   }
+
   if (props.spanXs) {
     classes.push(`xs:col-span-${props.spanXs}`);
   }
