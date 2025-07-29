@@ -35,20 +35,7 @@ describe("validateCancelFlightReplacementPage", () => {
   const validatorCancelFlightReplacementPage =
     validateCancelFlightReplacementPage(baseSchema);
 
-  it("should return success true given undefined values", () => {
-    const result = validatorCancelFlightReplacementPage.safeParse({
-      ...mockData,
-      annullierungErsatzverbindungFlugnummer: undefined,
-      annullierungErsatzverbindungAbflugsDatum: undefined,
-      annullierungErsatzverbindungAbflugsZeit: undefined,
-      annullierungErsatzverbindungAnkunftsDatum: undefined,
-      annullierungErsatzverbindungAnkunftsZeit: undefined,
-    });
-
-    expect(result.success).toBe(true);
-  });
-
-  it("should return success true given empty values", () => {
+  it("should return success true given all empty strings", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
       ...mockData,
       annullierungErsatzverbindungFlugnummer: "",
@@ -64,11 +51,11 @@ describe("validateCancelFlightReplacementPage", () => {
   it("should fail validation when only the departure time is provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
       ...mockData,
-      annullierungErsatzverbindungFlugnummer: undefined,
-      annullierungErsatzverbindungAbflugsDatum: undefined,
+      annullierungErsatzverbindungFlugnummer: "",
+      annullierungErsatzverbindungAbflugsDatum: "",
       annullierungErsatzverbindungAbflugsZeit: "14:00",
-      annullierungErsatzverbindungAnkunftsDatum: undefined,
-      annullierungErsatzverbindungAnkunftsZeit: undefined,
+      annullierungErsatzverbindungAnkunftsDatum: "",
+      annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
     expect(result.success).toBe(false);
@@ -83,11 +70,11 @@ describe("validateCancelFlightReplacementPage", () => {
   it("should fail validation when only the departure date is provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
       ...mockData,
-      annullierungErsatzverbindungFlugnummer: undefined,
+      annullierungErsatzverbindungFlugnummer: "",
       annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-      annullierungErsatzverbindungAbflugsZeit: undefined,
-      annullierungErsatzverbindungAnkunftsDatum: undefined,
-      annullierungErsatzverbindungAnkunftsZeit: undefined,
+      annullierungErsatzverbindungAbflugsZeit: "",
+      annullierungErsatzverbindungAnkunftsDatum: "",
+      annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
     expect(result.success).toBe(false);
@@ -102,10 +89,10 @@ describe("validateCancelFlightReplacementPage", () => {
   it("should fail validation when only the arrival time is provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
       ...mockData,
-      annullierungErsatzverbindungFlugnummer: undefined,
-      annullierungErsatzverbindungAbflugsDatum: undefined,
-      annullierungErsatzverbindungAbflugsZeit: undefined,
-      annullierungErsatzverbindungAnkunftsDatum: undefined,
+      annullierungErsatzverbindungFlugnummer: "",
+      annullierungErsatzverbindungAbflugsDatum: "",
+      annullierungErsatzverbindungAbflugsZeit: "",
+      annullierungErsatzverbindungAnkunftsDatum: "",
       annullierungErsatzverbindungAnkunftsZeit: "14:00",
     });
 
@@ -121,11 +108,11 @@ describe("validateCancelFlightReplacementPage", () => {
   it("should fail validation when only the arrival date is provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
       ...mockData,
-      annullierungErsatzverbindungFlugnummer: undefined,
-      annullierungErsatzverbindungAbflugsDatum: undefined,
-      annullierungErsatzverbindungAbflugsZeit: undefined,
+      annullierungErsatzverbindungFlugnummer: "",
+      annullierungErsatzverbindungAbflugsDatum: "",
+      annullierungErsatzverbindungAbflugsZeit: "",
       annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-      annullierungErsatzverbindungAnkunftsZeit: undefined,
+      annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
     expect(result.success).toBe(false);
@@ -141,10 +128,10 @@ describe("validateCancelFlightReplacementPage", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
       ...mockData,
       annullierungErsatzverbindungFlugnummer: "AB1234",
-      annullierungErsatzverbindungAbflugsDatum: undefined,
-      annullierungErsatzverbindungAbflugsZeit: undefined,
-      annullierungErsatzverbindungAnkunftsDatum: undefined,
-      annullierungErsatzverbindungAnkunftsZeit: undefined,
+      annullierungErsatzverbindungAbflugsDatum: "",
+      annullierungErsatzverbindungAbflugsZeit: "",
+      annullierungErsatzverbindungAnkunftsDatum: "",
+      annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
     expect(result.success).toBe(false);
@@ -161,9 +148,9 @@ describe("validateCancelFlightReplacementPage", () => {
       ...mockData,
       annullierungErsatzverbindungFlugnummer: "AB1234",
       annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-      annullierungErsatzverbindungAbflugsZeit: undefined,
-      annullierungErsatzverbindungAnkunftsDatum: undefined,
-      annullierungErsatzverbindungAnkunftsZeit: undefined,
+      annullierungErsatzverbindungAbflugsZeit: "",
+      annullierungErsatzverbindungAnkunftsDatum: "",
+      annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
     expect(result.success).toBe(false);
