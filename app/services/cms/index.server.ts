@@ -12,7 +12,6 @@ import type {
   CollectionId,
   FlowPageId,
   SingleEntryId,
-  ApiId,
   StrapiSchemasOutput,
   GetStrapiEntryOpts,
 } from "./schemas";
@@ -72,22 +71,6 @@ async function fetchCollectionEntry<T extends CollectionId>(
   return strapiEntryParsed.data[0];
 }
 
-async function fetchEntries<T extends ApiId>(props: GetStrapiEntryOpts<T>) {
-  const entries = await getStrapiEntry(props);
-  const parsedEntries = strapiSchemas[props.apiId].safeParse(entries);
-  if (parsedEntries.data?.length === 0) {
-    throw new Error(
-      `CMS lookup for pages failed (filters: ${JSON.stringify(props.filters)})`,
-    );
-  } else if (!parsedEntries.success) {
-    const error = new Error(
-      `Unable to successfully parse schema: ${parsedEntries.error.message}`,
-    );
-    throw error;
-  }
-  return parsedEntries.data as StrapiSchemasOutput[T];
-}
-
 export const fetchTranslations = async (
   name: string,
 ): Promise<Translations> => {
@@ -107,14 +90,29 @@ export const fetchTranslations = async (
 };
 
 export async function fetchMultipleTranslations(scopes: string[]) {
-  const translations = await fetchEntries({
+  const strapiEntry = await getStrapiEntry({
     apiId: "translations",
-    locale: "de",
     filters: [{ field: "scope", operation: "$in", value: scopes }],
+    locale: "de",
     pLevel: P_LEVEL_TRANSLATIONS,
   });
+  const translationsParsed = strapiSchemas.translations.safeParse(strapiEntry);
+
+  if (translationsParsed?.data?.length === 0) {
+    const error = new Error(
+      `CMS lookup for translations failed (filters: ${JSON.stringify(scopes)})`,
+    );
+    error.name = "StrapiPageNotFound";
+    throw error;
+  } else if (!translationsParsed.success) {
+    const error = new Error(
+      `Unable to successfully parse schema: ${translationsParsed.error.message}`,
+    );
+    throw error;
+  }
+
   return Object.fromEntries(
-    translations.map(({ scope, entries }) => [scope, entries]),
+    translationsParsed.data.map(({ scope, entries }) => [scope, entries]),
   );
 }
 
