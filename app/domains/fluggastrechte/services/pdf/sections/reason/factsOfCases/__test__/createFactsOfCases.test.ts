@@ -38,16 +38,6 @@ describe("createFactsOfCases", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(FACTS_OF_CASES_TEXT);
   });
 
-  it("should call the addReason for the creation facts of cases", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-    const mockSect = mockDoc.struct("Sect");
-
-    createFactsOfCases(mockDoc, mockSect, mockStruct, userDataMock);
-
-    expect(addReasonCaption).toBeCalledTimes(1);
-  });
-
   it("should call the addFlightDetails for the creation facts of cases", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);

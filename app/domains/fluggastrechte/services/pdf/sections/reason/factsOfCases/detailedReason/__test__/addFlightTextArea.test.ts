@@ -13,6 +13,7 @@ import {
   REASON_NON_TRANSPORTE_FLIGHT_LOST_CONNECTION,
 } from "../addFlightTextArea";
 import { getStartAndEndAirportDelayNames } from "../getStartAndEndAirportDelayNames";
+import { Mock } from "vitest";
 
 vi.mock("../getStartAndEndAirportDelayNames");
 
@@ -155,5 +156,48 @@ describe("addFlightTextArea", () => {
       `Die Nicht-Beförderung fand auf dem Flug von ${startAirportMock} nach ${endAirportMock} statt. ${REASON_NON_TRANSPORTE_FLIGHT_LOST_CONNECTION}`,
       PDF_MARGIN_HORIZONTAL,
     );
+  });
+});
+
+describe("addFlightTextArea - accessibility", () => {
+  it("should call addFlightTextArea with one paragraph if user had stopover", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataNichtBefoerderungMock = {
+      ...userDataMock,
+      bereich: "nichtbefoerderung",
+      zwischenstoppAnzahl: "oneStop",
+      anschlussFlugVerpasst: YesNoAnswer.Enum.yes,
+    } satisfies FluggastrechteUserData;
+
+    addFlightTextArea(mockDoc, userDataNichtBefoerderungMock, mockStruct);
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "P",
+    );
+    expect(callsWithP).toHaveLength(1);
+  });
+
+  it("should call addFlightTextArea with no paragraph if user had no stopover", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataNichtBefoerderungMock = {
+      ...userDataMock,
+      bereich: "nichtbefoerderung",
+      zwischenstoppAnzahl: "no",
+    } satisfies FluggastrechteUserData;
+
+    addFlightTextArea(mockDoc, userDataNichtBefoerderungMock, mockStruct);
+    expect(mockDoc.struct).not.toHaveBeenCalledWith(
+      "P",
+      {},
+      expect.any(Function),
+    );
+    const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "P",
+    );
+    expect(callsWithP).toHaveLength(0);
   });
 });

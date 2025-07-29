@@ -1,4 +1,5 @@
 import { Result } from "true-myth";
+import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -95,5 +96,19 @@ describe("addDistanceInfo", () => {
     addDistanceInfo(mockDoc, mockStruct, userDataMock);
 
     expect(addNewPageInCaseMissingVerticalSpace).toBeCalled();
+  });
+});
+
+describe("addDistanceInfo - accessibility", () => {
+  it("should call addDistanceInfo with one paragraph", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addDistanceInfo(mockDoc, mockStruct, userDataMock);
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "P",
+    );
+    expect(callsWithP).toHaveLength(1);
   });
 });

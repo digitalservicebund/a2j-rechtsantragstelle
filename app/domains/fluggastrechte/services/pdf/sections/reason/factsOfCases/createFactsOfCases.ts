@@ -3,7 +3,6 @@ import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/u
 import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { addFlightDetails } from "./addFlightDetails";
-import { addReasonCaption } from "./addReasonCaption";
 import { addDetailedReason } from "./detailedReason/addDetailedReason";
 
 export const FACTS_OF_CASES_TEXT = "I. Sachverhalt";
@@ -20,16 +19,8 @@ export const createFactsOfCases = (
       doc.moveDown(1);
     }),
   );
-
-  const reasonAndFlightDetailsList = doc.struct("L");
-  reasonAndFlightDetailsList.add(
-    doc.struct("Caption", {}, () => {
-      addReasonCaption(doc, userData);
-    }),
-  );
   doc.moveDown(MARGIN_BETWEEN_SECTIONS);
-  addFlightDetails(doc, reasonAndFlightDetailsList, userData);
-  reasonSect.add(reasonAndFlightDetailsList);
+  addFlightDetails(doc, reasonSect, userData);
   documentStruct.add(reasonSect);
   doc.moveDown(MARGIN_BETWEEN_SECTIONS);
 

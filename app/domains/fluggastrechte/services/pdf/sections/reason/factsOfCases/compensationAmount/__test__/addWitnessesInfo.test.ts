@@ -1,3 +1,4 @@
+import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -59,6 +60,8 @@ describe("addWitnessesInfo", () => {
     addWitnessesInfo(mockDoc, userDataHasZeugenMock, mockSect);
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(WITNESS_EVIDENCE_TEXT);
+    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
+    expect(mockDoc.text).toBeDefined();
   });
 
   it("should call addNewPageInCaseMissingVerticalSpace in case the hasZeugen is yes ", () => {
@@ -88,5 +91,50 @@ describe("addWitnessesInfo", () => {
     addWitnessesInfo(mockDoc, userDataHasNoZeugenMock, mockSect);
 
     expect(addNewPageInCaseMissingVerticalSpace).not.toBeCalled();
+    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
+    expect(addNewPageInCaseMissingVerticalSpace).toBeDefined();
+  });
+});
+
+describe("addWitnessesInfo - accessibility", () => {
+  it("should call addWitnessInfo with no paragraph if user has no witnesses", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
+
+    const userDataHasNoZeugenMock = {
+      ...userDataMock,
+      hasZeugen: YesNoAnswer.Enum.no,
+    };
+
+    addWitnessesInfo(mockDoc, userDataHasNoZeugenMock, mockSect);
+    expect(mockDoc.struct).not.toHaveBeenCalledWith(
+      "P",
+      {},
+      expect.any(Function),
+    );
+
+    const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "P",
+    );
+    expect(callsWithP).toHaveLength(0);
+  });
+
+  it("should call addWitnessInfo with one paragraph if user has witnesses", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
+
+    const userDataHasNoZeugenMock = {
+      ...userDataMock,
+      hasZeugen: YesNoAnswer.Enum.yes,
+    };
+
+    addWitnessesInfo(mockDoc, userDataHasNoZeugenMock, mockSect);
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "P",
+    );
+    expect(callsWithP).toHaveLength(1);
   });
 });

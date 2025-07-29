@@ -1,3 +1,4 @@
+import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -22,6 +23,8 @@ describe("addMultiplePersonsInfo", () => {
     addMultiplePersonsInfo(mockDoc, userDataMock, mockSect);
 
     expect(mockDoc.text).not.toBeCalled();
+    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
+    expect(mockDoc.text).toBeDefined();
   });
 
   it("should not call any print text given an user data with empty weitere personen", () => {
@@ -37,6 +40,8 @@ describe("addMultiplePersonsInfo", () => {
     addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
 
     expect(mockDoc.text).not.toBeCalled();
+    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
+    expect(mockDoc.text).toBeDefined();
   });
 
   it("should have the text for CLAIM_FOLLOWING_PERSONS_TRANSFERER_TEXT given an user data with weitere personen", () => {
@@ -253,5 +258,94 @@ describe("addMultiplePersonsInfo", () => {
     addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith("Vorname nachname");
+  });
+});
+
+describe("addMultiplePersonsInfo - accessibility", () => {
+  it("should call addMultiplePersonsInfo with two paragraphs if isWeiterePersonen is yes and hasZeugen is yes", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
+
+    const userDataWeiterePersonen = {
+      ...userDataMock,
+      weiterePersonen: [
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          plz: "plz",
+        },
+      ],
+      isWeiterePersonen: YesNoAnswer.Values.yes,
+      hasZeugen: YesNoAnswer.Values.yes,
+    };
+
+    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "P",
+    );
+    expect(callsWithP).toHaveLength(2);
+  });
+
+  it("should call addMultiplePersonsInfo with one paragraph if isWeiterePersonen is yes and hasZeugen is no", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
+
+    const userDataWeiterePersonen = {
+      ...userDataMock,
+      weiterePersonen: [
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          plz: "plz",
+        },
+      ],
+      isWeiterePersonen: YesNoAnswer.Values.yes,
+      hasZeugen: YesNoAnswer.Values.no,
+    };
+
+    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "P",
+    );
+    expect(callsWithP).toHaveLength(1);
+  });
+
+  it("should call addMultiplePersonsInfo without any paragraphs if isWeiterePersonen is no", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const mockSect = mockDoc.struct("Sect");
+
+    const userDataWeiterePersonen = {
+      ...userDataMock,
+      weiterePersonen: [
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          plz: "plz",
+        },
+      ],
+      isWeiterePersonen: YesNoAnswer.Values.no,
+    };
+
+    addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
+    expect(mockDoc.struct).not.toHaveBeenCalledWith(
+      "P",
+      {},
+      expect.any(Function),
+    );
+    const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "P",
+    );
+    expect(callsWithP).toHaveLength(0);
   });
 });
