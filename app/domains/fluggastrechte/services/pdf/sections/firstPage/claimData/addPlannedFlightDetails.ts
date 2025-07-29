@@ -19,14 +19,14 @@ export const addPlannedFlightDetails = (
 
   const plannedFlightDetailsList = doc.struct("L");
 
-  const flightDetailsListItem = doc.struct("LI");
-
-  flightDetailsListItem.add(
-    doc.struct("Lbl", {}, () => {
+  plannedFlightDetailsList.add(
+    doc.struct("Caption", {}, () => {
       doc.font(FONTS_BUNDESSANS_BOLD).text(AFFECTED_FLIGHT_TEXT).fontSize(10);
       doc.moveDown(0.2);
     }),
   );
+
+  const flightDetailsListItem = doc.struct("LI");
 
   flightDetailsListItem.add(
     doc.struct("LBody", {}, () => {

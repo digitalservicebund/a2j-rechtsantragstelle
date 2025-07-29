@@ -6,6 +6,9 @@ import {
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 
+export const STATEMENT_CLAIM_SUBTITLE_TEXT =
+  "Es werden folgende Anträge gestellt:";
+
 export const addDefendantPartyList = (
   doc: typeof PDFDocument,
   statementClaimSect: PDFKit.PDFStructureElement,
@@ -23,6 +26,15 @@ export const addDefendantPartyList = (
   };
 
   const statementClaimList = doc.struct("L");
+
+  statementClaimList.add(
+    doc.struct("Caption", {}, () => {
+      doc
+        .fontSize(10)
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text(STATEMENT_CLAIM_SUBTITLE_TEXT);
+    }),
+  );
 
   for (const [bullet, claim] of Object.entries(defendantPartyList)) {
     const statementClaimListItem = doc.struct("LI");

@@ -47,14 +47,18 @@ export const addMultiplePersonsText = (
 
   const weiterePersonenSect = doc.struct("Sect");
   const weiterePersonenList = doc.struct("L");
-  const klagendePersonListItem = doc.struct("LI");
-  klagendePersonListItem.add(
-    doc.struct("LBody", {}, () => {
+  weiterePersonenList.add(
+    doc.struct("Caption", {}, () => {
       doc.text(
         `Folgende Personen waren von dieser ${bereichMappingText[userData.bereich as FluggastrechtBereichType] ?? ""} betroffen:`,
         PDF_MARGIN_HORIZONTAL,
       );
       doc.moveDown(0.5);
+    }),
+  );
+  const klagendePersonListItem = doc.struct("LI");
+  klagendePersonListItem.add(
+    doc.struct("LBody", {}, () => {
       doc
         .text("1. ", PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT - 5, undefined, {
           continued: true,
