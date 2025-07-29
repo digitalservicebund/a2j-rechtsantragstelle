@@ -26,25 +26,10 @@ export const berHAntragRechtsproblemPages = {
   situationBeschreibung: {
     stepId: "rechtsproblem/situation-beschreibung",
     pageSchema: {
-      beschreibung: stringRequiredSchema,
-    },
-  },
-  ziel: {
-    stepId: "rechtsproblem/ziel",
-    pageSchema: {
-      ziel: stringRequiredSchema,
-    },
-  },
-  eigeninitiativeBeschreibung: {
-    stepId: "rechtsproblem/eigeninitiative-beschreibung",
-    pageSchema: {
-      eigeninitiativeBeschreibung: stringRequiredSchema,
-    },
-  },
-  gegenseite: {
-    stepId: "rechtsproblem/gegenseite",
-    pageSchema: {
       gegenseite: stringRequiredSchema,
+      beschreibung: stringRequiredSchema,
+      ziel: stringRequiredSchema,
+      eigeninitiativeBeschreibung: stringRequiredSchema,
     },
   },
 } as const satisfies PagesConfig;
