@@ -10,13 +10,19 @@ export const createFooter = (
   userData: FluggastrechteUserData,
 ) => {
   const pages = doc.bufferedPageRange();
-  for (let i = 0; i < pages.count; i++) {
-    const footerSect = doc.struct("Sect");
-    doc.switchToPage(i);
+  const totalPages = pages.count;
 
-    createStamp(doc, footerSect);
-    createPageNumber(doc, footerSect, i + 1, pages.count);
-    createBankInformation(doc, footerSect, userData);
+  for (let pageIndex = 0; pageIndex < totalPages; pageIndex++) {
+    const footerSect = doc.struct("Sect");
+    doc.switchToPage(pageIndex);
+
+    const isLastPage = pageIndex === totalPages - 1;
+
+    createStamp(doc, footerSect, isLastPage);
+
+    createPageNumber(doc, footerSect, pageIndex + 1, totalPages);
+
+    createBankInformation(doc, footerSect, userData, isLastPage);
     documentStruct.add(footerSect);
   }
 };
