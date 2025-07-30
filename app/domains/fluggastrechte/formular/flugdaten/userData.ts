@@ -65,15 +65,13 @@ export const fluggastrechteFlugdatenInputSchema = {
   ersatzFlugAnkunftsZeit: timeSchema,
   zusaetzlicheAngaben: stringOptionalSchema,
   annullierungErsatzverbindungFlugnummer:
-    schemaOrEmptyString(flightNumberSchema).optional(),
+    schemaOrEmptyString(flightNumberSchema),
   annullierungErsatzverbindungAbflugsDatum:
-    schemaOrEmptyString(fourYearsAgoSchema).optional(),
-  annullierungErsatzverbindungAbflugsZeit:
-    schemaOrEmptyString(timeSchema).optional(),
+    schemaOrEmptyString(fourYearsAgoSchema),
+  annullierungErsatzverbindungAbflugsZeit: schemaOrEmptyString(timeSchema),
   annullierungErsatzverbindungAnkunftsDatum:
-    schemaOrEmptyString(fourYearsAgoSchema).optional(),
-  annullierungErsatzverbindungAnkunftsZeit:
-    schemaOrEmptyString(timeSchema).optional(),
+    schemaOrEmptyString(fourYearsAgoSchema),
+  annullierungErsatzverbindungAnkunftsZeit: schemaOrEmptyString(timeSchema),
 };
 
 const _partialObject = z.object(fluggastrechteFlugdatenInputSchema).partial();

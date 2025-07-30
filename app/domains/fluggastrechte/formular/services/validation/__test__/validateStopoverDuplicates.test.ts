@@ -61,12 +61,12 @@ describe("validateStopoverDuplicates", () => {
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.format()).toMatchObject({
+    expect(z.treeifyError(result.error!).properties).toMatchObject({
       ersterZwischenstopp: {
-        _errors: expect.arrayContaining(["stopoverDuplicates"]),
+        errors: expect.arrayContaining(["stopoverDuplicates"]),
       },
       dritterZwischenstopp: {
-        _errors: expect.arrayContaining(["stopoverDuplicates"]),
+        errors: expect.arrayContaining(["stopoverDuplicates"]),
       },
     });
   });
@@ -81,15 +81,15 @@ describe("validateStopoverDuplicates", () => {
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.format()).toMatchObject({
+    expect(z.treeifyError(result.error!).properties).toMatchObject({
       ersterZwischenstopp: {
-        _errors: expect.arrayContaining(["stopoverDuplicates"]),
+        errors: expect.arrayContaining(["stopoverDuplicates"]),
       },
       zweiterZwischenstopp: {
-        _errors: expect.arrayContaining(["stopoverDuplicates"]),
+        errors: expect.arrayContaining(["stopoverDuplicates"]),
       },
       dritterZwischenstopp: {
-        _errors: expect.arrayContaining(["stopoverDuplicates"]),
+        errors: expect.arrayContaining(["stopoverDuplicates"]),
       },
     });
   });
@@ -103,9 +103,9 @@ describe("validateStopoverDuplicates", () => {
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.format()).toMatchObject({
+    expect(z.treeifyError(result.error!).properties).toMatchObject({
       ersterZwischenstopp: {
-        _errors: expect.arrayContaining(["initialFlightDuplicates"]),
+        errors: expect.arrayContaining(["initialFlightDuplicates"]),
       },
     });
   });
@@ -119,9 +119,9 @@ describe("validateStopoverDuplicates", () => {
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.format()).toMatchObject({
+    expect(z.treeifyError(result.error!).properties).toMatchObject({
       zweiterZwischenstopp: {
-        _errors: expect.arrayContaining(["initialFlightDuplicates"]),
+        errors: expect.arrayContaining(["initialFlightDuplicates"]),
       },
     });
   });
@@ -136,12 +136,12 @@ describe("validateStopoverDuplicates", () => {
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.format()).toMatchObject({
+    expect(z.treeifyError(result.error!).properties).toMatchObject({
       ersterZwischenstopp: {
-        _errors: expect.arrayContaining(["initialFlightDuplicates"]),
+        errors: expect.arrayContaining(["initialFlightDuplicates"]),
       },
       dritterZwischenstopp: {
-        _errors: expect.arrayContaining(["initialFlightDuplicates"]),
+        errors: expect.arrayContaining(["initialFlightDuplicates"]),
       },
     });
   });

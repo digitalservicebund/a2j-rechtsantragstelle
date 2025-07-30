@@ -20,8 +20,8 @@ export const StrapiAutoSuggestInputComponentSchema = z
     minSuggestCharacters: StrapiOptionalIntegerSchema,
     supportsFreeText: z.boolean().nullable().transform(Boolean),
     __component: z.literal("form-elements.auto-suggest-input"),
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,

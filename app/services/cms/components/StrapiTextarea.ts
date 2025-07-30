@@ -17,8 +17,8 @@ export const StrapiTextareaComponentSchema = z
     placeholder: StrapiStringOptionalSchema,
     errors: StrapiErrorRelationSchema,
     maxLength: StrapiOptionalIntegerSchema,
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,

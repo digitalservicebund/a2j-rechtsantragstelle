@@ -15,8 +15,8 @@ export const StrapiInputComponentSchema = z
     width: StrapiWidthSchema,
     helperText: StrapiStringOptionalSchema,
     __component: z.literal("form-elements.input"),
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,

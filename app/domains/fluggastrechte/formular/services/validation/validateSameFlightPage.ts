@@ -15,31 +15,33 @@ export function validateSameFlightPage(
     >
   >,
 ) {
-  return baseSchema.superRefine((data, ctx) => {
+  return baseSchema.check((ctx) => {
     const originalArrivalDateTime = convertToTimestamp(
-      data.direktAnkunftsDatum,
-      data.direktAnkunftsZeit,
+      ctx.value.direktAnkunftsDatum,
+      ctx.value.direktAnkunftsZeit,
     );
 
     const arrivalDateTime = convertToTimestamp(
-      data.tatsaechlicherAnkunftsDatum,
-      data.tatsaechlicherAnkunftsZeit,
+      ctx.value.tatsaechlicherAnkunftsDatum,
+      ctx.value.tatsaechlicherAnkunftsZeit,
     );
 
     if (originalArrivalDateTime > arrivalDateTime) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+      ctx.issues.push({
+        code: "custom",
         message: "departureAfterArrival",
         path: ["tatsaechlicherAnkunftsDatum"],
         fatal: true,
+        input: ctx.value.tatsaechlicherAnkunftsDatum,
       });
 
       // add new issue to invalidate this field as well
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+      ctx.issues.push({
+        code: "custom",
         message: "departureAfterArrival",
         path: ["tatsaechlicherAnkunftsZeit"],
         fatal: true,
+        input: ctx.value.tatsaechlicherAnkunftsZeit,
       });
 
       return z.NEVER;
@@ -51,19 +53,21 @@ export function validateSameFlightPage(
         arrivalDateTime,
       )
     ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+      ctx.issues.push({
+        code: "custom",
         message: "arrivalThreeHoursLessThanDeparture",
         path: ["tatsaechlicherAnkunftsDatum"],
         fatal: true,
+        input: ctx.value.tatsaechlicherAnkunftsDatum,
       });
 
       // add new issue to invalidate this field as well
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+      ctx.issues.push({
+        code: "custom",
         message: "arrivalThreeHoursLessThanDeparture",
         path: ["tatsaechlicherAnkunftsZeit"],
         fatal: true,
+        input: ctx.value.tatsaechlicherAnkunftsZeit,
       });
 
       return z.NEVER;
