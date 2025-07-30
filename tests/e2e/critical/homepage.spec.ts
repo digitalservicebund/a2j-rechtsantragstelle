@@ -64,8 +64,8 @@ test.describe("homepage", () => {
   test("Printing the page hidden footer navigation", async ({ page }) => {
     await page.emulateMedia({ media: "print" });
 
-    // Check that the nav is hidden
-    const footerNav = page.getByTestId("footer-nav");
+    // Check that the footer nav is hidden
+    const footerNav = page.locator("footer nav");
     const footerNavVisible = await footerNav.isVisible();
     expect(footerNavVisible).toBe(false);
   });

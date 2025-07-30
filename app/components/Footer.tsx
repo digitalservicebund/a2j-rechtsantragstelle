@@ -76,7 +76,6 @@ export default function Footer({
         <nav
           className="flex flex-col sm:flex-row gap-16 print:hidden"
           aria-label={ariaLabel}
-          data-testid="footer-nav"
         >
           {categorizedLinks.map((category) => {
             const ariaLabelledBy = `footer-list-${dashifyLowercase(category.title)}`;
