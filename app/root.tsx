@@ -45,7 +45,7 @@ import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
 import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
-import { getTitlePage } from "./services/meta/getTitlePage";
+import { generatePrintTitle } from "./services/meta/generatePrintTitle";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
@@ -183,7 +183,9 @@ function App() {
   return (
     <html lang="de">
       <head>
-        <title>{getTitlePage(title, pathname, shouldPrint)}</title>
+        <title>
+          {shouldPrint ? generatePrintTitle(title, pathname) : title}
+        </title>
         {description && <meta name="description" content={description} />}
         <meta property="og:title" content={ogTitle ?? title} />
         <meta property="og:description" content={description} />
