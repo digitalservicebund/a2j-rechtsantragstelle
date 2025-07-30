@@ -1,4 +1,6 @@
 import merge from "lodash/merge";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { pkhFormularFinanzielleAngabenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/pages";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import {
   andereUnterhaltszahlungenDone,
@@ -15,6 +17,8 @@ import { partnerEinkuenfteGuards } from "./einkuenfte/guards";
 import { getProzesskostenhilfeEinkuenfteSubflow } from "./einkuenfte/xStateConfig";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
 
+const steps = xStateTargetsFromPagesConfig(pkhFormularFinanzielleAngabenPages);
+
 export const finanzielleAngabenXstateConfig = {
   initial: "einkuenfte",
   id: "finanzielle-angaben",
@@ -22,12 +26,12 @@ export const finanzielleAngabenXstateConfig = {
     einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
     partner: {
       id: "partner",
-      initial: "partnerschaft",
+      initial: steps.partnerschaft.relative,
       meta: {
         done: partnerDone,
       },
       states: {
-        partnerschaft: {
+        [steps.partnerschaft.relative]: {
           on: {
             BACK: [
               {
@@ -39,57 +43,57 @@ export const finanzielleAngabenXstateConfig = {
             SUBMIT: [
               {
                 guard: "hasPartnerschaftYes",
-                target: "zusammenleben",
+                target: steps.partnerZusammenleben.relative,
               },
               "#kinder",
             ],
           },
         },
-        zusammenleben: {
+        [steps.partnerZusammenleben.relative]: {
           on: {
-            BACK: "partnerschaft",
+            BACK: steps.partnerschaft.relative,
             SUBMIT: [
               {
                 guard: "zusammenlebenYes",
-                target: "partner-einkommen",
+                target: steps.partnerEinkommen.relative,
               },
-              "unterhalt",
+              steps.partnerUnterhalt.relative,
             ],
           },
         },
-        unterhalt: {
+        [steps.partnerUnterhalt.relative]: {
           on: {
-            BACK: "zusammenleben",
+            BACK: steps.partnerZusammenleben.relative,
             SUBMIT: [
               {
                 guard: "unterhaltYes",
-                target: "unterhalts-summe",
+                target: steps.partnerUnterhaltsSumme.relative,
               },
-              "keine-rolle",
+              steps.partnerKeineRolle.relative,
             ],
           },
         },
-        "keine-rolle": {
+        [steps.partnerKeineRolle.relative]: {
           on: {
-            BACK: "unterhalt",
+            BACK: steps.partnerUnterhalt.relative,
             SUBMIT: "#kinder",
           },
         },
-        "unterhalts-summe": {
+        [steps.partnerUnterhaltsSumme.relative]: {
           on: {
-            BACK: "unterhalt",
-            SUBMIT: "partner-name",
+            BACK: steps.partnerUnterhalt.relative,
+            SUBMIT: steps.partnerName.relative,
           },
         },
-        "partner-name": {
+        [steps.partnerName.relative]: {
           on: {
-            BACK: "unterhalts-summe",
+            BACK: steps.partnerUnterhaltsSumme.relative,
             SUBMIT: "#kinder",
           },
         },
-        "partner-einkommen": {
+        [steps.partnerEinkommen.relative]: {
           on: {
-            BACK: "zusammenleben",
+            BACK: steps.partnerZusammenleben.relative,
             SUBMIT: [
               {
                 guard: "partnerEinkommenYes",
@@ -154,7 +158,7 @@ export const finanzielleAngabenXstateConfig = {
               },
               {
                 guard: "partnerEinkommenNo",
-                target: "#partner.partner-einkommen",
+                target: steps.partnerEinkommen.absolute,
               },
               {
                 guard:
@@ -167,11 +171,11 @@ export const finanzielleAngabenXstateConfig = {
               },
               {
                 guard: "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes",
-                target: "#partner.partner-name",
+                target: steps.partnerName.absolute,
               },
               {
                 guard: "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo",
-                target: "#partner.keine-rolle",
+                target: steps.partnerKeineRolle.absolute,
               },
               "#partner-einkuenfte.partner-besonders-ausgaben",
             ],

@@ -1,3 +1,5 @@
+import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type finanzielleAngabenPartnerPages } from "~/domains/shared/formular/finanzielleAngaben/partner/pages";
 import { partnerschaftInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -13,3 +15,7 @@ export const finanzielleAngabenPartnerInputSchema = {
   partnerVorname: stringRequiredSchema,
   partnerNachname: stringRequiredSchema,
 };
+
+export type FinanzielleAngabenPartnerUserData = UserDataFromPagesSchema<
+  typeof finanzielleAngabenPartnerPages
+>;

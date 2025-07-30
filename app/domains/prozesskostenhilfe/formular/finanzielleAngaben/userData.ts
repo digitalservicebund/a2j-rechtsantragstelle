@@ -1,7 +1,7 @@
 import mapKeys from "lodash/mapKeys";
 import omit from "lodash/omit";
 import { z } from "zod";
-import { finanzielleAngabenPartnerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/partner/inputSchema";
+import { type FinanzielleAngabenPartnerUserData } from "~/domains/shared/formular/finanzielleAngaben/partner/inputSchema";
 import {
   besondereBelastungenInputSchema,
   bankkontenArraySchema,
@@ -41,7 +41,6 @@ const finanzielleEinkuenfteSchemaWithoutPageData = omit(
 );
 
 export const prozesskostenhilfeFinanzielleAngabenInputSchema = {
-  ...finanzielleAngabenPartnerInputSchema,
   ...finanzielleEinkuenfteSchemaWithoutPageData,
   ...mapKeys(
     finanzielleEinkuenfteSchemaWithoutPageData,
@@ -146,5 +145,6 @@ export type PartnerEinkuenfteUserData = {
 export type ProzesskostenhilfeFinanzielleAngabenUserData = z.infer<
   typeof _partialSchema
 > &
+  FinanzielleAngabenPartnerUserData &
   ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData &
   PartnerEinkuenfteUserData;
