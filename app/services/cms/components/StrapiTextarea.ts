@@ -5,7 +5,7 @@ import { StrapiOptionalIntegerSchema } from "~/services/cms/models/StrapiOptiona
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasStrapiIdSchema } from "../models/HasStrapiId";
-import { StrapiOptionalStringSchema } from "../models/StrapiOptionalString";
+import { StrapiStringOptionalSchema } from "../models/StrapiStringOptional";
 
 export const StrapiTextareaComponentSchema = z
   .object({
@@ -13,12 +13,12 @@ export const StrapiTextareaComponentSchema = z
     name: z.string(),
     description: StrapiRichTextOptionalSchema(),
     details: StrapiDetailsSchema.nullable().transform(omitNull),
-    label: StrapiOptionalStringSchema,
-    placeholder: StrapiOptionalStringSchema,
+    label: StrapiStringOptionalSchema,
+    placeholder: StrapiStringOptionalSchema,
     errors: StrapiErrorRelationSchema,
     maxLength: StrapiOptionalIntegerSchema,
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,

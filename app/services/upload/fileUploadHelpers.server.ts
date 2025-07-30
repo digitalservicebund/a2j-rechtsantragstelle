@@ -21,7 +21,7 @@ export async function uploadUserFile(
   const arrayUserData = [...((userData[fieldName] ?? []) as ArrayData)];
   const fieldSchema = getContext(flowId)[
     fieldName as keyof typeof getContext
-  ] as z.ZodTypeAny | undefined;
+  ] as z.ZodType | undefined;
   if (!fieldSchema) return { fieldErrors: {} };
   const file = formData.get(inputName) as File | undefined;
 

@@ -29,7 +29,7 @@ describe("addMultiplePersonsInfo", () => {
 
     const userDataWeiterePersonen = {
       ...userDataMock,
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
     addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
@@ -52,7 +52,7 @@ describe("addMultiplePersonsInfo", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
     addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
@@ -77,7 +77,7 @@ describe("addMultiplePersonsInfo", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
     addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
@@ -100,7 +100,7 @@ describe("addMultiplePersonsInfo", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
     addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
@@ -126,8 +126,8 @@ describe("addMultiplePersonsInfo", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
-      hasZeugen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
+      hasZeugen: YesNoAnswer.enum.yes,
     };
 
     addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
@@ -153,8 +153,8 @@ describe("addMultiplePersonsInfo", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
-      hasZeugen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
+      hasZeugen: YesNoAnswer.enum.yes,
       bereich: "nichtbefoerderung",
     };
 
@@ -181,8 +181,8 @@ describe("addMultiplePersonsInfo", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
-      hasZeugen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
+      hasZeugen: YesNoAnswer.enum.yes,
       bereich: "annullierung",
     };
 
@@ -209,8 +209,8 @@ describe("addMultiplePersonsInfo", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
-      hasZeugen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
+      hasZeugen: YesNoAnswer.enum.yes,
     };
 
     addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
@@ -236,8 +236,8 @@ describe("addMultiplePersonsInfo", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
-      hasZeugen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
+      hasZeugen: YesNoAnswer.enum.yes,
     };
 
     addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen);
