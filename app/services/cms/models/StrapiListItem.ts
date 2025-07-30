@@ -8,13 +8,12 @@ import { StrapiButtonSchema } from "./StrapiButton";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 import { StrapiImageOptionalSchema } from "./StrapiImage";
 
-export const StrapiListItemSchema = z
-  .object({
-    headline: StrapiHeadingOptionalSchema,
-    content: StrapiRichTextOptionalSchema(),
-    buttons: z.array(StrapiButtonSchema).nullable().transform(omitNull),
-    accordion: StrapiAccordionSchema.nullable().transform(omitNull),
-    image: StrapiImageOptionalSchema,
-  })
-  .merge(HasStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema);
+export const StrapiListItemSchema = z.object({
+  headline: StrapiHeadingOptionalSchema,
+  content: StrapiRichTextOptionalSchema(),
+  buttons: z.array(StrapiButtonSchema).nullable().transform(omitNull),
+  accordion: StrapiAccordionSchema.nullable().transform(omitNull),
+  image: StrapiImageOptionalSchema,
+  ...HasStrapiIdSchema.shape,
+  ...OptionalStrapiLinkIdentifierSchema.shape,
+});

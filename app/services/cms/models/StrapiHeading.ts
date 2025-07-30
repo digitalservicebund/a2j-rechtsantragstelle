@@ -24,8 +24,8 @@ export const StrapiHeadingSchema = z
       "ds-body-01-reg",
       "ds-body-02-reg",
     ]),
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasStrapiIdSchema)
   .transform((cmsData) => {
     return {
       __component: "basic.heading" as const,
@@ -33,5 +33,6 @@ export const StrapiHeadingSchema = z
     };
   });
 
-export const StrapiHeadingOptionalSchema =
-  StrapiHeadingSchema.nullable().transform(omitNull);
+export const StrapiHeadingOptionalSchema = StrapiHeadingSchema.nullable()
+  .transform(omitNull)
+  .optional();
