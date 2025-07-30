@@ -401,14 +401,21 @@ export const fluggastrechteVorabcheckXstateConfig = {
             guard: ({ context }) => context.vertretbareGruende === "no",
           },
           {
-            target: "ergebnis/vertretbare-gruende-abbruch",
+            target: "vertretbare-gruende-info",
+            guard: ({ context }) => context.vertretbareGruende === "yes",
           },
         ],
       },
     },
-    "ergebnis/vertretbare-gruende-abbruch": {
+    "vertretbare-gruende-info": {
       on: {
         BACK: "vertretbare-gruende",
+        SUBMIT: "ergebnis/vertretbare-gruende-abbruch",
+      },
+    },
+    "ergebnis/vertretbare-gruende-abbruch": {
+      on: {
+        BACK: "vertretbare-gruende-info",
       },
     },
     kostenlos: {
