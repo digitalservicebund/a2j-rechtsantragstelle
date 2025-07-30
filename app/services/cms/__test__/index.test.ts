@@ -5,12 +5,10 @@ import {
 import { getStrapiFooter } from "~/../tests/factories/cmsModels/strapiFooter";
 import {
   fetchSingleEntry,
-  fetchEntries,
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { StrapiFooterSchema } from "~/services/cms/models/StrapiFooter";
 import { type StrapiSchemas } from "~/services/cms/schemas";
-import { StrapiInputComponentSchema } from "../components/StrapiInput";
 import { fetchAllFormFields } from "../fetchAllFormFields";
 import { getStrapiEntry } from "../getStrapiEntry";
 
@@ -26,27 +24,6 @@ describe("services/cms", () => {
       vi.mocked(getStrapiEntry).mockReturnValue(Promise.resolve([footerData]));
       expect(await fetchSingleEntry("footer")).toEqual(
         StrapiFooterSchema.parse(footerData),
-      );
-    });
-  });
-
-  describe("fetchEntries", () => {
-    test("returns a list of entries", async () => {
-      const component1 = getStrapiFormComponent({ name: "formFieldForStep1" });
-      const component2 = getStrapiFormComponent({ name: "formFieldForStep2" });
-      const page1 = getStrapiFlowPage({ stepId: "step1", form: [component1] });
-      const page2 = getStrapiFlowPage({ stepId: "step2", form: [component2] });
-
-      vi.mocked(getStrapiEntry).mockResolvedValue([page1, page2]);
-
-      // We expect the form fields to be parsed inside fetchEntries
-      const expected = [
-        { ...page1, form: [StrapiInputComponentSchema.parse(component1)] },
-        { ...page2, form: [StrapiInputComponentSchema.parse(component2)] },
-      ];
-
-      expect(await fetchEntries({ apiId: "form-flow-pages" })).toEqual(
-        expected,
       );
     });
   });
