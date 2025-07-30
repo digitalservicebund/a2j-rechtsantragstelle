@@ -93,7 +93,7 @@ export const addFlightDetails = (
   );
 
   const flightDetails = getFlightDetails(userData);
-  flightDetails.forEach((flightDetail) => {
+  flightDetails.forEach((flightDetail, index) => {
     const originalFlightDetailsListItem = doc.struct("LI");
     originalFlightDetailsListItem.add(
       doc.struct("LBody", {}, () => {
@@ -105,8 +105,9 @@ export const addFlightDetails = (
           })
           .font(FONTS_BUNDESSANS_BOLD)
           .text(flightDetail.value);
-
-        doc.moveDown(0.5);
+        if (index < flightDetails.length - 1) {
+          doc.moveDown(0.5);
+        }
       }),
     );
     reasonAndFlightDetailsList.add(originalFlightDetailsListItem);

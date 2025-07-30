@@ -1,6 +1,9 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import { MARGIN_RIGHT } from "~/domains/fluggastrechte/services/pdf/configurations";
+import {
+  MARGIN_BETWEEN_SECTIONS,
+  MARGIN_RIGHT,
+} from "~/domains/fluggastrechte/services/pdf/configurations";
 import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
@@ -106,5 +109,7 @@ export const addMultiplePersonsText = (
     },
   );
   weiterePersonenSect.add(weiterePersonenList);
+
   documentStruct.add(weiterePersonenSect);
+  doc.moveDown(MARGIN_BETWEEN_SECTIONS);
 };

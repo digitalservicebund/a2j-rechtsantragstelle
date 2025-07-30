@@ -69,7 +69,6 @@ export const addDetailedReason = (
   documentStruct.add(bookingInformationSect);
 
   addMultiplePersonsText(doc, userData, documentStruct);
-  doc.moveDown(MARGIN_BETWEEN_SECTIONS);
 
   const furtherInformationSect = doc.struct("Sect");
   if (userData.bereich !== "annullierung") {

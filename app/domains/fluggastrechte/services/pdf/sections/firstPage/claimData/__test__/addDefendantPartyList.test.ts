@@ -9,7 +9,10 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-import { addDefendantPartyList } from "../addDefendantPartyList";
+import {
+  addDefendantPartyList,
+  STATEMENT_CLAIM_SUBTITLE_TEXT,
+} from "../addDefendantPartyList";
 
 describe("addDefendantPartyList", () => {
   it("should create document with defendant party list when litigation interest is requested", () => {
@@ -19,6 +22,8 @@ describe("addDefendantPartyList", () => {
     addDefendantPartyList(mockDoc, mockStruct, "yes", 600);
 
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_BOLD);
+    expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_SUBTITLE_TEXT);
+
     expect(mockDoc.text).toHaveBeenCalledWith(
       "1. ",
       PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,

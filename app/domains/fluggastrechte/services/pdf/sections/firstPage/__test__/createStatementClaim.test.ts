@@ -11,7 +11,6 @@ import { addDefendantPartyList } from "../claimData/addDefendantPartyList";
 import {
   createStatementClaim,
   STATEMENT_CLAIM_COURT_SENTENCE,
-  STATEMENT_CLAIM_SUBTITLE_TEXT,
   STATEMENT_CLAIM_TITLE_TEXT,
 } from "../createStatementClaim";
 
@@ -43,7 +42,6 @@ describe("createStatementClaim", () => {
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
 
     expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_TITLE_TEXT);
-    expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_SUBTITLE_TEXT);
 
     expect(addDefendantPartyList).toHaveBeenCalledWith(
       mockDoc,
@@ -219,7 +217,7 @@ describe("createStatementClaim", () => {
         {},
         expect.any(Function),
       );
-      expect(callsWithP).toHaveLength(2);
+      expect(callsWithP).toHaveLength(1);
     });
 
     it("should call the createStatementClaim with no paragraphs if videoverhandlung is no specification and versaeumnisurteil is no", () => {
@@ -240,12 +238,12 @@ describe("createStatementClaim", () => {
       const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
         ([tag]) => tag === "P",
       );
-      expect(mockDoc.struct).toHaveBeenCalledWith(
+      expect(mockDoc.struct).not.toHaveBeenCalledWith(
         "P",
         {},
         expect.any(Function),
       );
-      expect(callsWithP).toHaveLength(1);
+      expect(callsWithP).toHaveLength(0);
     });
   });
 });
