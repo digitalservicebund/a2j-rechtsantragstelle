@@ -52,70 +52,104 @@ export default function Footer({
     translations,
   );
   return (
-    <GridContainer columns={12} maxWidth="xxl" paddingX="xl" paddingY="xl">
+    <GridContainer columns={12} maxWidth="xl" paddingX="xl" paddingY="xl">
+      <GridItem
+        span={3}
+        spanXs={3}
+        spanSm={3}
+        spanMd={3}
+        spanLg={3}
+        spanXl={3}
+        spanXxl={3}
+        colStartSm={1}
+        colStartMd={1}
+        colStartLg={1}
+      >
+        {/* <div
+          className="flex flex-col md:flex-row gap-32 mb-32"
+          data-testid="footer"
+        > */}
+        <div className="flex flex-col max-w-[288px] gap-y-8">
+          {image?.url && (
+            <div className="forced-colors:bg-black">
+              <Image
+                {...image}
+                width={120}
+                className="forced-colors:brightness-0 forced-colors:invert"
+              />
+            </div>
+          )}
+          <div className="ds-stack ds-stack-8">
+            {paragraphs.map((paragraph) => (
+              <div key={paragraph.html}>
+                <RichText
+                  {...paragraph}
+                  className="ds-label-03-reg [&_a]:inline-block"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </GridItem>
+      {/* <GridItem
+        span={9}
+        spanXs={9}
+        spanSm={9}
+        spanMd={9}
+        colStartSm={4}
+        colStartMd={4}
+        colStartLg={4}
+        colStartXl={4}
+      >
+        <nav
+          className="flex flex-col sm:flex-row justify-between w-full gap-16"
+          aria-label={ariaLabelTranslation}
+        > */}
+      {categorizedLinks.map((category) => {
+        const ariaLabelledBy = `footer-list-${dashifyLowercase(category.title)}`;
+        return (
+          <GridItem
+            key={category.id}
+            span={12}
+            spanXs={12}
+            spanSm={12}
+            spanMd={3}
+            spanLg={3}
+            spanXl={3}
+            spanXxl={3}
+          >
+            <Heading
+              tagName="h2"
+              elementId={ariaLabelledBy}
+              className="ds-label-03-bold"
+            >
+              {category.title}
+            </Heading>
+            <ul
+              aria-labelledby={ariaLabelledBy}
+              className="list-none pt-[7px] pl-2 space-y-10"
+            >
+              <Links links={category.links} />
+            </ul>
+          </GridItem>
+        );
+      })}
+      {/* </nav> */}
+      {/* </div> */}
+      {/* </GridItem> */}
       <GridItem
         span={12}
         spanXs={12}
         spanSm={12}
-        spanMd={8}
+        spanMd={6}
+        spanLg={6}
+        colStart={1}
+        colStartXs={1}
         colStartSm={1}
-        colStartMd={3}
-        colStartLg={3}
+        colStartMd={4}
+        colStartLg={4}
+        className="mb-[3rem]"
       >
-        <div
-          className="flex flex-col md:flex-row gap-32 mb-32"
-          data-testid="footer"
-        >
-          <div className="flex flex-col max-w-[288px] gap-y-8">
-            {image?.url && (
-              <div className="forced-colors:bg-black">
-                <Image
-                  {...image}
-                  width={120}
-                  className="forced-colors:brightness-0 forced-colors:invert"
-                />
-              </div>
-            )}
-            <div className="ds-stack ds-stack-8">
-              {paragraphs.map((paragraph) => (
-                <div key={paragraph.html}>
-                  <RichText
-                    {...paragraph}
-                    className="ds-label-03-reg [&_a]:inline-block"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <nav
-            className="flex flex-col sm:flex-row justify-between w-full gap-16"
-            aria-label={ariaLabelTranslation}
-          >
-            {categorizedLinks.map((category) => {
-              const ariaLabelledBy = `footer-list-${dashifyLowercase(category.title)}`;
-              return (
-                <div key={category.id}>
-                  <Heading
-                    tagName="h2"
-                    elementId={ariaLabelledBy}
-                    className="ds-label-03-bold"
-                  >
-                    {category.title}
-                  </Heading>
-                  <ul
-                    aria-labelledby={ariaLabelledBy}
-                    className="list-none pt-[7px] pl-2 space-y-10"
-                  >
-                    <Links links={category.links} />
-                  </ul>
-                </div>
-              );
-            })}
-          </nav>
-        </div>
-      </GridItem>
-      <GridItem span={8} colStart={3}>
         {showDeletionBanner && (
           <Background backgroundColor="blue" paddingTop="16" paddingBottom="16">
             <div className="text-center">

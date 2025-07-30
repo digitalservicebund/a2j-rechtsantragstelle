@@ -3,6 +3,7 @@ import Heading, { type HeadingProps } from "../Heading";
 import ListItem from "./ListItem";
 import RichText from "../RichText";
 import { type ListVariant, type ListItemProps } from "./types";
+import GridContainer, { GridItem } from "../GridContainer";
 
 type ListProps = {
   items: ListItemProps[];
@@ -23,25 +24,37 @@ const List = ({
   const ListTag = hasImages || variant === "unordered" ? "ul" : "ol";
 
   return (
-    <div className="ds-stack ds-stack-32" id={identifier}>
-      <div className="ds-stack ds-stack-16">
-        {heading && <Heading {...heading} />}
-        {subheading && <RichText html={subheading} />}
-      </div>
-      <ListTag className="list-none ps-0">
-        {items
-          // Need to filter out empty list items when conditionally rendering with mustache templating
-          .filter(listItemNotEmpty)
-          .map((item, index) => (
-            <li
-              key={item.identifier ?? item.headline?.text ?? item.content}
-              className="group"
-            >
-              <ListItem {...item} index={index + 1} variant={variant} />
-            </li>
-          ))}
-      </ListTag>
-    </div>
+    <GridContainer columns={12} maxWidth="xl">
+      <GridItem
+        span={12}
+        spanXs={12}
+        spanSm={12}
+        spanMd={12}
+        spanLg={12}
+        spanXl={12}
+        spanXxl={12}
+      >
+        <div className="ds-stack ds-stack-32" id={identifier}>
+          <div className="ds-stack ds-stack-16">
+            {heading && <Heading {...heading} />}
+            {subheading && <RichText html={subheading} />}
+          </div>
+          <ListTag className="list-none ps-0">
+            {items
+              // Need to filter out empty list items when conditionally rendering with mustache templating
+              .filter(listItemNotEmpty)
+              .map((item, index) => (
+                <li
+                  key={item.identifier ?? item.headline?.text ?? item.content}
+                  className="group"
+                >
+                  <ListItem {...item} index={index + 1} variant={variant} />
+                </li>
+              ))}
+          </ListTag>
+        </div>
+      </GridItem>
+    </GridContainer>
   );
 };
 

@@ -33,42 +33,40 @@ export default function Breadcrumbs({
 
   return (
     validBreadcrumbs.length > 0 && (
-      <div className="bg-blue-100">
-        <GridContainer columns={12} maxWidth="xxl">
-          <GridItem
-            span={5}
-            colStartXs={1}
-            colStartSm={1}
-            colStartMd={3}
-            colStartLg={3}
-          >
-            <nav className={navClassNames} aria-label={ariaLabelTranslation}>
-              {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
-              <a
-                href="/"
-                aria-label={linkLabel}
-                className="focus:outline ds-link-01-bold"
-              >
-                <HomeOutlinedIcon className="!h-[1.6rem] !w-[1.6rem]" />
-              </a>
-              {validBreadcrumbs.map((breadcrumb, idx, arr) => (
-                <div key={breadcrumb.title} className="ds-body-02-reg">
-                  <span className="mx-8">/</span>
-                  {idx === arr.length - 1 ? (
-                    <span>{breadcrumb.title}</span>
-                  ) : (
-                    <StandaloneLink
-                      text={breadcrumb.title ?? ""}
-                      url={breadcrumb.url ?? ""}
-                      className="increase-tap-area"
-                    />
-                  )}
-                </div>
-              ))}
-            </nav>
-          </GridItem>
-        </GridContainer>
-      </div>
+      <GridContainer columns={12} maxWidth="xl" className="bg-blue-100">
+        <GridItem
+          span={5}
+          colStartXs={1}
+          colStartSm={1}
+          colStartMd={1}
+          colStartLg={1}
+        >
+          <nav className={navClassNames} aria-label={ariaLabelTranslation}>
+            {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
+            <a
+              href="/"
+              aria-label={linkLabel}
+              className="focus:outline ds-link-01-bold"
+            >
+              <HomeOutlinedIcon className="!h-[1.6rem] !w-[1.6rem]" />
+            </a>
+            {validBreadcrumbs.map((breadcrumb, idx, arr) => (
+              <div key={breadcrumb.title} className="ds-body-02-reg">
+                <span className="mx-8">/</span>
+                {idx === arr.length - 1 ? (
+                  <span>{breadcrumb.title}</span>
+                ) : (
+                  <StandaloneLink
+                    text={breadcrumb.title ?? ""}
+                    url={breadcrumb.url ?? ""}
+                    className="increase-tap-area"
+                  />
+                )}
+              </div>
+            ))}
+          </nav>
+        </GridItem>
+      </GridContainer>
     )
   );
 }

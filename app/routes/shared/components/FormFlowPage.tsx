@@ -48,119 +48,119 @@ export function FormFlowPage() {
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
-      <Background backgroundColor="blue">
-        <GridContainer
-          columns={12}
-          maxWidth="xxl"
-          paddingY="xxl"
-          paddingX="none"
-          // columnWidths={["248px", "repeat(7, 1fr)"]}
+      {/* <Background backgroundColor="blue"> */}
+      <GridContainer
+        columns={12}
+        maxWidth="xl"
+        paddingY="xxl"
+        paddingX="none"
+        alignItems="start"
+        className="bg-blue-100"
+        // columnWidths={["248px", "repeat(7, 1fr)"]}
+      >
+        {/* <div className="w-screen pt-32 flex flex-grow flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start gap-48 h-full"> */}
+        {/* <div className="md:w-[248px]"> */}
+        <GridItem
+          span={3}
+          spanSm={3}
+          spanMd={3}
+          spanLg={3}
+          spanXl={3}
+          // colStart={5}
+          colStartXs={1}
+          colStartSm={1}
+          colStartMd={1}
+          colStartLg={1}
+          colStartXl={1}
         >
-          {/* <div className="w-screen pt-32 flex flex-grow flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start gap-48 h-full"> */}
-          {/* <div className="md:w-[248px]"> */}
-          <GridItem
-            span={2}
-            spanSm={4}
-            spanMd={3}
-            spanLg={3}
-            spanXl={2}
-            // colStart={5}
-            colStartXs={1}
-            colStartSm={1}
-            colStartMd={3}
-            colStartLg={3}
-            colStartXl={3}
-          >
-            <div className="md:w-[248px]">
-              <FlowNavigation
-                navItems={navItems}
-                expandAll={isValidationPage}
-              />
-            </div>
-          </GridItem>
-          {/* </div> */}
-          {/* <div
+          <div className="md:w-[248px]">
+            <FlowNavigation navItems={navItems} expandAll={isValidationPage} />
+          </div>
+        </GridItem>
+        {/* </div> */}
+        {/* <div
             className={
               "flex flex-col flex-1 gap-32 container md:pl-0 md:!pb-32 !pt-0 justify-between"
             }
           > */}
-          <GridItem
-            span={7}
-            spanXs={12}
-            spanSm={12}
-            spanMd={5}
-            spanLg={6}
-            // colStart={5}
-            colStartXs={1}
-            colStartSm={1}
-            colStartMd={7}
-            colStartLg={6}
-          >
-            <div className="ds-stack ds-stack-40">
-              <div className="ds-stack ds-stack-16" id="form-flow-page-content">
-                {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
-                <Heading text={heading} look="ds-heading-02-reg" />
-                <ContentComponents
-                  content={content}
-                  fullScreen={false}
-                  className="ds-stack ds-stack-16"
-                />
-              </div>
-
-              <MigrationDataOverview
-                userData={migration.userData}
-                translations={translations}
-                sortedFields={migration.sortedFields}
-                buttonUrl={migration.buttonUrl}
-              />
-              {arraySummaryData &&
-                Object.keys(arraySummaryData).length !== 0 &&
-                Object.entries(arraySummaryData).map(([category, array]) => (
-                  <ArraySummary
-                    key={category}
-                    category={category}
-                    arrayData={array}
-                    translations={translations}
-                    csrf={csrf}
-                  />
-                ))}
-              <ValidatedFlowForm
-                stepData={stepData}
-                csrf={csrf}
-                formElements={formElements}
-                buttonNavigationProps={buttonNavigationProps}
-              />
-              <ContentComponents content={postFormContent} fullScreen={false} />
-            </div>
-            {/* </div> */}
-            {/* </div> */}
-          </GridItem>
-        </GridContainer>
-        <GridContainer
-          columns={12}
-          maxWidth="xxl"
-          paddingY="xl"
-          paddingX="md"
-          // columnWidths={["248px", "repeat(7, 1fr)"]}
+        <GridItem
+          span={7}
+          spanXs={12}
+          spanSm={12}
+          spanMd={7}
+          spanLg={7}
+          colStart={1}
+          colStartXs={2}
+          colStartSm={2}
+          colStartMd={5}
+          colStartLg={4}
         >
-          {showReportProblem && (
-            // <div className="flex justify-end w-full relative">
-            <GridItem
-              span={3}
-              spanXs={12}
-              spanMd={5}
-              colStartXs={10}
-              colStartSm={10}
-              colStartMd={10}
-              colStartLg={10}
-              colStartXl={10}
-            >
-              <ReportProblem />
-            </GridItem>
-            // </div>
-          )}
-        </GridContainer>
-      </Background>
+          <div className="ds-stack ds-stack-40">
+            <div className="ds-stack ds-stack-16" id="form-flow-page-content">
+              {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
+              <Heading text={heading} look="ds-heading-02-reg" />
+              <ContentComponents
+                content={content}
+                fullScreen={false}
+                className="ds-stack ds-stack-16"
+              />
+            </div>
+
+            <MigrationDataOverview
+              userData={migration.userData}
+              translations={translations}
+              sortedFields={migration.sortedFields}
+              buttonUrl={migration.buttonUrl}
+            />
+            {arraySummaryData &&
+              Object.keys(arraySummaryData).length !== 0 &&
+              Object.entries(arraySummaryData).map(([category, array]) => (
+                <ArraySummary
+                  key={category}
+                  category={category}
+                  arrayData={array}
+                  translations={translations}
+                  csrf={csrf}
+                />
+              ))}
+            <ValidatedFlowForm
+              stepData={stepData}
+              csrf={csrf}
+              formElements={formElements}
+              buttonNavigationProps={buttonNavigationProps}
+            />
+            <ContentComponents content={postFormContent} fullScreen={false} />
+          </div>
+          {/* </div> */}
+          {/* </div> */}
+        </GridItem>
+      </GridContainer>
+      <GridContainer
+        columns={12}
+        maxWidth="xl"
+        paddingY="xl"
+        paddingX="md"
+        className="bg-blue-100"
+        // columnWidths={["248px", "repeat(7, 1fr)"]}
+      >
+        {showReportProblem && (
+          // <div className="flex justify-end w-full relative">
+          <GridItem
+            span={3}
+            spanXs={12}
+            spanMd={5}
+            colStartXs={11}
+            colStartSm={11}
+            colStartMd={10}
+            colStartLg={11}
+            colStartXl={11}
+          >
+            <ReportProblem />
+          </GridItem>
+          // </div>
+        )}
+      </GridContainer>
+      {/* </Background> */}
     </FormFlowContext.Provider>
   );
 }

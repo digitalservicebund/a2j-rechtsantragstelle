@@ -26,13 +26,17 @@ export default function PageHeader({
 
   return (
     <header>
-      <GridContainer columns={12} maxWidth="xxl">
+      <GridContainer columns={12} maxWidth="xl">
         <GridItem
-          span={3}
+          span={12}
+          spanXs={12}
+          spanSm={12}
+          spanMd={12}
+          spanLg={12}
           colStartXs={1}
           colStartSm={1}
-          colStartMd={3}
-          colStartLg={3}
+          colStartMd={1}
+          colStartLg={1}
         >
           {/* <Kopfzeile alignToMainContainer={false} /> */}
           <nav

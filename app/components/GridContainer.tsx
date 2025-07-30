@@ -34,6 +34,7 @@ export interface GridContainerProps extends PropsWithChildren {
   alignItems?: GridContainerAlignment;
   justifyContent?: GridContainerJustify;
   columnWidths?: GridColumnWidth[]; // Array of column widths
+  style?: React.CSSProperties;
 }
 
 export interface GridItemProps extends PropsWithChildren {
@@ -55,12 +56,12 @@ export interface GridItemProps extends PropsWithChildren {
 }
 
 const MAX_WIDTH_CLASSES: Record<GridContainerMaxWidth, string> = {
-  sm: "max-w-sm",
-  md: "max-w-md",
-  lg: "max-w-[860px]",
-  xl: "max-w-[960px]",
-  xxl: "max-w-[1504px]",
-  full: "max-w-full",
+  sm: "w-[600px]",
+  md: "w-[800px]",
+  lg: "w-[1000px]",
+  xl: "max-w-[1200px]",
+  xxl: "w-[1600px]",
+  full: "w-full",
 };
 
 const PADDING_X_CLASSES: Record<GridContainerPadding, string> = {
@@ -202,18 +203,19 @@ export function GridItem({
 export default function GridContainer({
   children,
   maxWidth = "lg",
-  paddingX = "md",
+  paddingX = "none",
   paddingY = "md",
   columns = 1,
   className,
   fluid = false,
-  alignItems,
-  justifyContent,
+  alignItems = "center",
+  justifyContent = "center",
   columnWidths,
+  style,
 }: GridContainerProps) {
   const containerClasses = classNames(
-    fluid ? "w-full" : "mx-auto w-full",
-    !fluid && MAX_WIDTH_CLASSES[maxWidth],
+    // fluid ? "w-full" : "mx-auto w-full",
+    // !fluid && MAX_WIDTH_CLASSES[maxWidth],
     PADDING_X_CLASSES[paddingX],
     PADDING_Y_CLASSES[paddingY],
     className,
@@ -226,13 +228,16 @@ export default function GridContainer({
   const gridClasses = classNames(
     "grid gap-32",
     !columnWidths?.length && GRID_COLUMN_CLASSES[columns],
+    "justify-self-center",
+    "max-w-[1200px]",
+    "w-full",
     alignItems && ALIGNMENT_CLASSES[alignItems],
     justifyContent && JUSTIFY_CLASSES[justifyContent],
   );
 
   if (columns > 1 || columnWidths?.length) {
     return (
-      <div className={containerClasses}>
+      <div className={containerClasses} style={style}>
         <div className={gridClasses} style={gridTemplateColumnsStyle}>
           {children}
         </div>
