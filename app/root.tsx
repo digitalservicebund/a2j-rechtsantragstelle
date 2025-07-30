@@ -88,6 +88,9 @@ export const meta: MetaFunction<RootLoader> = () => {
 
 export type RootLoader = typeof loader;
 
+const STRAPI_P_LEVEL_TWO = 2;
+const STRAPI_P_LEVEL_THREE = 3;
+
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
@@ -103,9 +106,9 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     mainSession,
     breadcrumbs,
   ] = await Promise.all([
-    fetchSingleEntry("page-header", defaultLocale, 2),
-    fetchSingleEntry("footer", defaultLocale, 3),
-    fetchSingleEntry("cookie-banner", defaultLocale, 3),
+    fetchSingleEntry("page-header", defaultLocale, STRAPI_P_LEVEL_TWO),
+    fetchSingleEntry("footer", defaultLocale, STRAPI_P_LEVEL_THREE),
+    fetchSingleEntry("cookie-banner", defaultLocale, STRAPI_P_LEVEL_THREE),
     trackingCookieValue({ request }),
     fetchMeta({ filterValue: "/" }),
     fetchTranslations("accessibility"),
