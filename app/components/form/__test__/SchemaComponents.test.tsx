@@ -99,7 +99,6 @@ describe("SchemaComponents", () => {
             errorMessage: undefined,
             id: 10,
             name: fieldName,
-            required: true,
           },
         ]}
       />,
@@ -107,7 +106,7 @@ describe("SchemaComponents", () => {
     const checkbox = getByRole("checkbox");
     expect(checkbox).toHaveAttribute("name", "field1");
     expect(checkbox).toHaveAttribute("value", "on");
-    expect(checkbox).toBeRequired();
+    expect(checkbox).not.toBeRequired();
     expect(checkbox.parentElement).toHaveTextContent("label");
   });
 
