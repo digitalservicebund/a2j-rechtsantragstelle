@@ -5,9 +5,9 @@ import Container from "~/components/Container";
 import Heading, { type HeadingProps } from "~/components/Heading";
 import RichText from "~/components/RichText";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
+import { arrayIsNonEmpty } from "~/util/array";
 import { useJsAvailable } from "../hooks/useJsAvailable";
 import { StandaloneLink } from "../StandaloneLink";
-import { arrayIsNonEmpty } from "~/util/array";
 
 export const acceptCookiesFieldName = "accept-cookies";
 
@@ -56,11 +56,11 @@ export function CookieBanner({
     : undefined;
 
   return (
-    <section
-      className="right-16 left-16 border-b-2 border-blue-800 z-50 bg-blue-300"
+    <dialog
+      open
+      className="border-b-2 border-blue-800 z-50 bg-blue-300 w-full static"
       aria-labelledby="cookie-banner-heading"
       aria-describedby={paragraphAriaDescribedBy}
-      role="dialog"
       data-testid="cookie-banner"
     >
       <analyticsFetcher.Form
@@ -111,6 +111,6 @@ export function CookieBanner({
           </div>
         </Container>
       </analyticsFetcher.Form>
-    </section>
+    </dialog>
   );
 }
