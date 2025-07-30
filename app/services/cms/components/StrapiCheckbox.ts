@@ -12,6 +12,5 @@ export const StrapiCheckboxComponentSchema = z
   })
   .transform(({ isRequiredError, ...cmsData }) => ({
     ...cmsData,
-    required: isRequiredError !== null,
     errorMessage: isRequiredError?.errorCodes[0].text,
   }));
