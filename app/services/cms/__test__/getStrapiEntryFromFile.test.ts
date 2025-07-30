@@ -17,7 +17,7 @@ describe("services/cms", () => {
     const impressumPath = "/impressum";
     const impressum = {
       slug: impressumPath,
-      locale: StrapiLocaleSchema.Values.de,
+      locale: StrapiLocaleSchema.enum.de,
       pageMeta: {
         title: "Impressum",
         description: "description",
@@ -37,7 +37,7 @@ describe("services/cms", () => {
       "form-flow-pages": [
         {
           heading: "",
-          locale: StrapiLocaleSchema.Values.de,
+          locale: StrapiLocaleSchema.enum.de,
           preHeading: null,
           nextButtonLabel: null,
           backButtonLabel: null,

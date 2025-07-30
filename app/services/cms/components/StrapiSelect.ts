@@ -16,8 +16,8 @@ export const StrapiSelectComponentSchema = z
     altLabel: StrapiStringOptionalSchema,
     options: z.array(StrapiSelectOptionSchema),
     errors: StrapiErrorRelationSchema,
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,

@@ -17,12 +17,13 @@ export const createYearSchema = (args?: {
   const schema = z
     .string()
     .min(1, { message: "required" })
-    .transform((val, ctx) => {
-      const parsed = parseInt(val);
+    .transform((value, ctx) => {
+      const parsed = parseInt(value);
       if (isNaN(parsed) || parsed < earliest || parsed > latest) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+        ctx.issues.push({
+          code: "custom",
           message: "invalidYear",
+          input: value,
         });
         return z.NEVER;
       }

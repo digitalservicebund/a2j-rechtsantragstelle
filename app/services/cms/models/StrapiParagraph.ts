@@ -6,8 +6,8 @@ import { HasStrapiIdSchema } from "./HasStrapiId";
 export const StrapiParagraphSchema = z
   .object({
     text: buildRichTextValidation(),
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasStrapiIdSchema)
   .transform((cmsData) => ({
     ...pick(cmsData, "__component"),
     __component: "basic.paragraph" as const,
