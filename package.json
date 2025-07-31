@@ -129,7 +129,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-sonarjs": "^3.0.4",
     "eslint-plugin-storybook": "^9.0.18",
-    "follow-redirects": "^1.15.9",
+    "follow-redirects": "^1.15.10",
     "globals": "^16.3.0",
     "i18n-iso-countries": "^7.14.0",
     "jsdom": "^26.1.0",
