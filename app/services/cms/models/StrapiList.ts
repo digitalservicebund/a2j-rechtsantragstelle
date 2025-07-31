@@ -14,17 +14,14 @@ export const listRenderer: Partial<Renderer> = {
   },
 };
 
-export const StrapiListSchema = z
-  .object({
-    heading: StrapiHeadingOptionalSchema,
-    subheading: StrapiRichTextOptionalSchema(listRenderer),
-    items: z.array(StrapiListItemSchema),
-    variant: z
-      .enum(["unordered", "numbered", "stepByStep"])
-      .default("unordered"),
-    outerBackground: StrapiBackgroundOptionalSchema,
-    container: StrapiContainerSchema,
-    __component: z.literal("page.list"),
-  })
-  .merge(HasStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema);
+export const StrapiListSchema = z.object({
+  heading: StrapiHeadingOptionalSchema,
+  subheading: StrapiRichTextOptionalSchema(listRenderer),
+  items: z.array(StrapiListItemSchema),
+  variant: z.enum(["unordered", "numbered", "stepByStep"]).default("unordered"),
+  outerBackground: StrapiBackgroundOptionalSchema,
+  container: StrapiContainerSchema,
+  __component: z.literal("page.list"),
+  ...HasStrapiIdSchema.shape,
+  ...OptionalStrapiLinkIdentifierSchema.shape,
+});

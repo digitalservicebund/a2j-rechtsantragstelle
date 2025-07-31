@@ -7,12 +7,10 @@ export const StrapiCheckboxComponentSchema = z
     __component: z.literal("form-elements.checkbox"),
     name: z.string(),
     label: z.string(),
-    isRequiredError:
-      StrapiErrorCategorySchema.merge(HasStrapiIdSchema).nullable(),
+    isRequiredError: StrapiErrorCategorySchema.nullable(),
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasStrapiIdSchema)
   .transform(({ isRequiredError, ...cmsData }) => ({
     ...cmsData,
-    required: isRequiredError !== null,
     errorMessage: isRequiredError?.errorCodes[0].text,
   }));

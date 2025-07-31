@@ -6,13 +6,12 @@ import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
 export const StrapiAccordionSchema = z.object({
   items: z
     .array(
-      z
-        .object({
-          title: z.string(),
-          description: buildRichTextValidation(),
-          isVisible: StrapiStringOptionalSchema,
-        })
-        .merge(HasStrapiIdSchema),
+      z.object({
+        title: z.string(),
+        description: buildRichTextValidation(),
+        isVisible: StrapiStringOptionalSchema,
+        ...HasStrapiIdSchema.shape,
+      }),
     )
     .nonempty(),
 });

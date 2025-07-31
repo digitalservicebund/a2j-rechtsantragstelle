@@ -16,8 +16,8 @@ export const StrapiFilesUploadComponentSchema = z
       .nullable()
       .transform(omitNull),
     errors: StrapiErrorRelationSchema,
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasStrapiIdSchema)
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,

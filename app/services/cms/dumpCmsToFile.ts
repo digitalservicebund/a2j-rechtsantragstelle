@@ -21,6 +21,7 @@ async function dumpCmsToFile() {
         apiId,
         locale,
         pageSize: "500",
+        pLevel: 6,
       });
       if (entries.length > 0 && entries[0] !== null) {
         process.stdout.write(` ${locale} (${entries.length}) |`);
