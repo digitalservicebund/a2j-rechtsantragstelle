@@ -4,4 +4,5 @@ import { StrapiErrorCategorySchema } from "~/services/cms/models/StrapiErrorCate
 export const StrapiErrorRelationSchema = z
   .array(StrapiErrorCategorySchema)
   .nullable()
-  .transform((errors) => errors?.flatMap((cmsError) => cmsError.errorCodes));
+  .transform((errors) => errors?.flatMap((cmsError) => cmsError.errorCodes))
+  .optional();
