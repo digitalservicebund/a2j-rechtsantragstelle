@@ -144,10 +144,10 @@ export const translations = {
       de: "Bereich",
     },
     closeMenu: {
-      de: "Close menu",
+      de: "Schritt-für-Schritt-Menü schließen",
     },
     toggleMenu: {
-      de: "Main menu toggle",
+      de: "Schritt-für-Schritt-Menü",
     },
   },
   buttonNavigation: {
