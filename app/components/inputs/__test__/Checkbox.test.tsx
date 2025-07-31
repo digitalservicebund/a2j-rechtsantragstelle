@@ -132,7 +132,7 @@ describe("Checkbox", () => {
     expect(controlledRefMock).toHaveBeenCalled();
   });
 
-  it("applies a focus-visible inset-shadow class when there is an error", () => {
+  it("applies error styling correctly when there is an error", () => {
     mockedUseField.mockImplementation(() =>
       createMockFieldReturn({
         error: () => "some error",
@@ -149,7 +149,7 @@ describe("Checkbox", () => {
 
     const checkbox = screen.getByRole("checkbox", { name: "Checkbox Label" });
     expect(checkbox).toHaveClass(
-      "focus-visible:shadow-[inset_0_0_0_4px_theme(colors.red.800)]",
+      "has-error focus-visible:shadow-[inset_0_0_0_4px_theme(colors.red.800)]",
     );
   });
 });
