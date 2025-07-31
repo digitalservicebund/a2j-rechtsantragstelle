@@ -56,5 +56,15 @@ describe("richtext validation", () => {
         success: true,
       });
     });
+
+    test("when custom renderer is provided, it is merged with the default renderer", () => {
+      const linkText = "[Link](/example.com)";
+      const actual = buildRichTextValidation(listRenderer).safeParse(linkText);
+
+      expect(actual).toEqual({
+        data: `<p class="ds-subhead max-w-full"><a href="/example.com" class="text-link min-h-[24px]">Link</a></p>`,
+        success: true,
+      });
+    });
   });
 });
