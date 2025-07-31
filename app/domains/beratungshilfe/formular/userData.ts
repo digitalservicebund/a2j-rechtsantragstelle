@@ -19,5 +19,5 @@ export const beratungshilfeFormularUserData = {
 const _partialSchema = z.object(beratungshilfeFormularUserData).partial();
 export type BeratungshilfeFormularUserData = z.infer<typeof _partialSchema> &
   BeratungshilfeGrundvoraussetzungenUserData &
-  BeratungshilfeRechtsproblemUserData;
+  BeratungshilfeRechtsproblemUserData &
   BeratungshilfeAnwaltlicheVertretungUserData;
