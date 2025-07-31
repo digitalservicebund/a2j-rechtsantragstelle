@@ -6,10 +6,10 @@ import Select from "~/components/inputs/Select";
 import TileGroup from "~/components/inputs/tile/TileGroup";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 
-export type ZodEnum = z.ZodEnum<[string, ...string[]]>;
+export type ZodEnum = z.ZodEnum<Record<string, string>>;
 
-export const isZodEnum = (fieldSchema: z.ZodTypeAny): fieldSchema is ZodEnum =>
-  fieldSchema._def.typeName === "ZodEnum";
+export const isZodEnum = (fieldSchema: z.ZodType): fieldSchema is ZodEnum =>
+  fieldSchema.def.type === "enum";
 
 export function renderZodEnum(
   schema: ZodEnum,
@@ -27,7 +27,6 @@ export function renderZodEnum(
           key={fieldName}
           name={fieldName}
           label={label}
-          required={matchingElement.required}
           errorMessage={matchingElement.errorMessage}
         />
       );

@@ -14,18 +14,17 @@ const [firstWidth, ...widths] = Object.keys(variantWidths).map(
   (key) => key as Variant,
 );
 
-export const StrapiBoxWithImageSchema = z
-  .object({
-    heading: StrapiHeadingOptionalSchema,
-    image: StrapiImageSchema,
-    content: StrapiRichTextOptionalSchema(),
-    outerBackground: StrapiBackgroundOptionalSchema,
-    variant: z
-      .enum([firstWidth, ...widths])
-      .nullable()
-      .transform(omitNull),
-    container: StrapiContainerSchema,
-    __component: z.literal("page.box-with-image"),
-  })
-  .merge(HasStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema);
+export const StrapiBoxWithImageSchema = z.object({
+  heading: StrapiHeadingOptionalSchema,
+  image: StrapiImageSchema,
+  content: StrapiRichTextOptionalSchema(),
+  outerBackground: StrapiBackgroundOptionalSchema,
+  variant: z
+    .enum([firstWidth, ...widths])
+    .nullable()
+    .transform(omitNull),
+  container: StrapiContainerSchema,
+  __component: z.literal("page.box-with-image"),
+  ...HasStrapiIdSchema.shape,
+  ...OptionalStrapiLinkIdentifierSchema.shape,
+});

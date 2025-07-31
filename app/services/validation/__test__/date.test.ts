@@ -1,4 +1,3 @@
-import type { SafeParseError } from "zod";
 import { createDateSchema } from "~/services/validation/date";
 
 describe("date validation", () => {
@@ -44,9 +43,7 @@ describe("date validation", () => {
       ({ input, errorMessage, earliest, latest }) => {
         const actual = createDateSchema({ earliest, latest }).safeParse(input);
         expect(actual.success).toBe(false);
-        expect(
-          (actual as SafeParseError<unknown>).error.issues[0].message,
-        ).toBe(errorMessage);
+        expect(actual.error!.issues[0].message).toBe(errorMessage);
       },
     );
   });

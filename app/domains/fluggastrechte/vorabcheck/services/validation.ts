@@ -1,4 +1,3 @@
-import { z } from "zod";
 import type { MultiFieldsValidationBaseSchema } from "~/domains/types";
 import type { fluggastrechteVorabcheckInputSchema } from "../userData";
 
@@ -12,14 +11,15 @@ export function validateSameDepartureAndArrivalAirports(
     >
   >,
 ) {
-  return baseSchema.superRefine((data, ctx) => {
-    if (data.startAirport === data.endAirport) {
+  return baseSchema.check((ctx) => {
+    if (ctx.value.startAirport === ctx.value.endAirport) {
       fieldsToValidate.forEach((field) =>
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+        ctx.issues.push({
+          code: "custom",
           message: "sameDepartureAndArrivalAirports",
           path: [field],
           fatal: true,
+          input: ctx.value[field],
         }),
       );
     }
