@@ -93,7 +93,10 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   arbeitsplatzEntfernung: {
     stepId: "finanzielle-angaben/einkuenfte/abzuege/arbeitsplatz-entfernung",
     pageSchema: {
-      arbeitsplatz: z.object({ ...adresseSchema }).partial(),
+      arbeitsplatz: z.object({ ...adresseSchema }).omit({
+        street: true,
+        houseNumber: true,
+      }),
       arbeitsplatzEntfernung: integerSchema.refine((distance) => distance > 0, {
         message: "invalidInteger",
       }),
