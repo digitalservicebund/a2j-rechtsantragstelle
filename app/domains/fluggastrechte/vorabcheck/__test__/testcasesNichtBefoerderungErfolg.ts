@@ -60,6 +60,7 @@ export const testCasesFluggastrechteNichtBefoerderungVertretbareGruende = [
       "/checkin-nicht-befoerderung",
       "/vertretbare-gruende",
       "/vertretbare-gruende-info",
+      "/verjaehrung",
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtVorabcheckUserData>;
