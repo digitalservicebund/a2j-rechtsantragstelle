@@ -1,8 +1,8 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { pkhFormularAntragstellendePersonPages } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/pages";
-import { pkhFormularFinanzielleAngabenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/pages";
-import { pkhFormularGrundvoraussetzungenPages } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/pages";
-import { pkhFormularRechtsschutzversicherungPages } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/pages";
+import { pkhFormularAntragstellendePersonPages } from "./antragstellendePerson/pages";
+import { pkhFormularFinanzielleAngabenPages } from "./finanzielleAngaben/pages";
+import { pkhFormularGrundvoraussetzungenPages } from "./grundvoraussetzungen/pages";
+import { pkhFormularRechtsschutzversicherungPages } from "./rechtsschutzversicherung/pages";
 
 export const prozesskostenhilfeFormularPages = {
   start: {

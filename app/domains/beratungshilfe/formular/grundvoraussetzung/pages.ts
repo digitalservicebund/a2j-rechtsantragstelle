@@ -9,7 +9,7 @@ export const berHAntragGrundvoraussetzungenPages = {
     },
   },
   rechtsschutzversicherungHinweis: {
-    stepId: "rechtsschutzversicherung-hinweis",
+    stepId: "grundvoraussetzungen/rechtsschutzversicherung-hinweis",
   },
   wurdeVerklagt: {
     stepId: "grundvoraussetzungen/wurde-verklagt",

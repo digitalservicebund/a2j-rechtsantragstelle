@@ -1,4 +1,5 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { berHAntragAnwaltlicheVertretungPages } from "./anwaltlicheVertretung/pages";
 import { berHAntragGrundvoraussetzungenPages } from "./grundvoraussetzung/pages";
 
 export const beratungshilfeAntragPages = {
@@ -6,4 +7,5 @@ export const beratungshilfeAntragPages = {
     stepId: "start",
   },
   ...berHAntragGrundvoraussetzungenPages,
+  ...berHAntragAnwaltlicheVertretungPages,
 } as const satisfies PagesConfig;
