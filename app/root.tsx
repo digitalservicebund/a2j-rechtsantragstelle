@@ -18,6 +18,7 @@ import {
   useMatches,
   useRouteLoaderData,
   Outlet,
+  useLocation,
 } from "react-router";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
@@ -43,6 +44,7 @@ import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
 import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
+import { generatePrintTitle } from "./services/meta/generatePrintTitle";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
@@ -161,6 +163,7 @@ function App() {
     skipContentLinkTarget,
   } = useLoaderData<RootLoader>();
   const shouldPrint = useShouldPrint();
+  const { pathname } = useLocation();
   const matches = useMatches();
   const { title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
@@ -179,7 +182,9 @@ function App() {
   return (
     <html lang="de">
       <head>
-        <title>{title}</title>
+        <title>
+          {shouldPrint ? generatePrintTitle(title, pathname) : title}
+        </title>
         {description && <meta name="description" content={description} />}
         <meta property="og:title" content={ogTitle ?? title} />
         <meta property="og:description" content={description} />

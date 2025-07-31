@@ -74,7 +74,7 @@ export default function Footer({
         </div>
 
         <nav
-          className="flex flex-col sm:flex-row gap-16"
+          className="flex flex-col sm:flex-row gap-16 print:hidden"
           aria-label={ariaLabel}
         >
           {categorizedLinks.map((category) => {
@@ -100,8 +100,13 @@ export default function Footer({
         </nav>
       </div>
       {showDeletionBanner && (
-        <Background backgroundColor="blue" paddingTop="16" paddingBottom="16">
-          <div className="text-center">
+        <Background
+          backgroundColor="blue"
+          paddingTop="16"
+          paddingBottom="16"
+          className="print:hidden"
+        >
+          <div className="text-center print:hidden">
             <StandaloneLink
               className="ds-label-03-reg"
               text={
