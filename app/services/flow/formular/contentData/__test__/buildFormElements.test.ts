@@ -74,7 +74,6 @@ describe("buildFormElements", () => {
           __component: "form-elements.checkbox",
           label: "some label",
           name: "checkbox",
-          required: false,
           errorMessage: "",
           id: 10,
         },
