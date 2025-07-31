@@ -1,14 +1,14 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 
 export const StrapiUserFeedbackSchema = z
   .object({
     headingRating: z.string(),
+    __component: z.literal("page.user-feedback"),
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasOptionalStrapiIdSchema)
   .transform((cmsData) => ({
     ...cmsData,
-    __component: "page.user-feedback" as const,
     rating: {
       heading: cmsData.headingRating,
     },

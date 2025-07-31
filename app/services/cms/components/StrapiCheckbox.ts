@@ -1,8 +1,5 @@
 import { z } from "zod";
-import {
-  HasOptionalStrapiIdSchema,
-  HasStrapiIdSchema,
-} from "../models/HasStrapiId";
+import { HasStrapiIdSchema } from "../models/HasStrapiId";
 import { StrapiErrorCategorySchema } from "../models/StrapiErrorCategory";
 
 export const StrapiCheckboxComponentSchema = z
@@ -10,10 +7,9 @@ export const StrapiCheckboxComponentSchema = z
     __component: z.literal("form-elements.checkbox"),
     name: z.string(),
     label: z.string(),
-    isRequiredError:
-      StrapiErrorCategorySchema.merge(HasStrapiIdSchema).nullable(),
+    isRequiredError: StrapiErrorCategorySchema.nullable(),
+    ...HasStrapiIdSchema.shape,
   })
-  .merge(HasOptionalStrapiIdSchema)
   .transform(({ isRequiredError, ...cmsData }) => ({
     ...cmsData,
     required: isRequiredError !== null,

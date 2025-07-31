@@ -1,13 +1,7 @@
+import { isFinanciallyEligibleForBerH } from "~/domains/beratungshilfe/formular/abgabe/isFinanciallyEligibleForBerH";
 import { getRechtsproblemStrings } from "~/domains/beratungshilfe/formular/rechtsproblem/stringReplacements";
 import type { Flow } from "~/domains/flows.server";
-import { type AbgabeUserData } from "~/domains/shared/formular/abgabe/userData";
-import { type WeitereAngabenUserData } from "~/domains/shared/formular/weitereAngaben/userData";
-import { type DokumenteUserData } from "./abgabe/dokumente/userData";
-import { type BeratungshilfeAnwaltlicheVertretungUserData } from "./anwaltlicheVertretung/userData";
-import { type BeratungshilfeFinanzielleAngabenUserData } from "./finanzielleAngaben/userData";
-import { type BeratungshilfeGrundvoraussetzungenUserData } from "./grundvoraussetzung/userData";
-import { type BeratungshilfePersoenlicheDatenUserData } from "./persoenlicheDaten/userData";
-import { type BeratungshilfeRechtsproblemUserData } from "./rechtsproblem/userData";
+import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
@@ -15,18 +9,17 @@ import {
   getMissingInformationStrings,
   ausgabenStrings,
   weiteresEinkommenStrings,
-  eigentumZusammenfassungShowTotalWorthWarnings,
   getWeitereDokumenteStrings,
 } from "./stringReplacements";
+import type { BeratungshilfeFormularUserData } from "./userData";
 import { beratungshilfeXstateConfig } from "./xstateConfig";
 import {
-  eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
   getArrayIndexStrings,
   getKinderStrings,
 } from "../../shared/formular/stringReplacements";
 
-export const beratungshilfeFormularUserData = {
+export const beratungshilfeFormular = {
   flowType: "formFlow",
   config: beratungshilfeXstateConfig,
   guards: {},
@@ -37,22 +30,22 @@ export const beratungshilfeFormularUserData = {
     ...getArrayIndexStrings(context),
     ...getAnwaltStrings(context),
     ...getRechtsproblemStrings(context),
-    ...eigentumZusammenfassungShowPartnerschaftWarnings(context),
-    ...eigentumZusammenfassungShowTotalWorthWarnings(context),
     ...getMissingInformationStrings(context),
     ...ausgabenStrings(context),
     ...geldAnlagenStrings(context),
     ...weiteresEinkommenStrings(context),
     ...getWeitereDokumenteStrings(context),
   }),
+  asyncFlowActions: {
+    "/abgabe/art": (request, userData) =>
+      Promise.resolve(
+        sendCustomAnalyticsEvent({
+          request,
+          eventName: "financial eligibility calculated",
+          properties: {
+            isEligible: isFinanciallyEligibleForBerH(userData),
+          },
+        }),
+      ),
+  },
 } satisfies Flow;
-
-export type BeratungshilfeFormularUserData =
-  BeratungshilfeGrundvoraussetzungenUserData &
-    BeratungshilfeAnwaltlicheVertretungUserData &
-    BeratungshilfeRechtsproblemUserData &
-    BeratungshilfeFinanzielleAngabenUserData &
-    BeratungshilfePersoenlicheDatenUserData &
-    WeitereAngabenUserData &
-    AbgabeUserData &
-    DokumenteUserData;

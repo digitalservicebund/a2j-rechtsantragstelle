@@ -50,14 +50,18 @@ describe("createFooter", () => {
     expect(createStamp).toBeCalledTimes(1);
   });
 
-  it("should create exactly one 'Sect' struct and use it as footerSect", () => {
+  it("should create 'Sect' struct for each page (totalPages times)", () => {
     const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct, { start: 1, count: 1 });
+    const totalPages = 3;
+    const mockDoc = mockPdfKitDocument(mockStruct, {
+      start: 1,
+      count: totalPages,
+    });
 
     createFooter(mockDoc, mockStruct, userDataMock);
 
-    expect(mockDoc.struct).toHaveBeenCalledTimes(1);
+    expect(mockDoc.struct).toHaveBeenCalledTimes(totalPages);
     expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
-    expect(mockStruct.add).toHaveBeenCalledWith(mockStruct);
+    expect(mockStruct.add).toHaveBeenCalledTimes(totalPages);
   });
 });

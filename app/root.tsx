@@ -2,7 +2,7 @@ import BundesSansWebBold from "@digitalservice4germany/angie/fonts/BundesSansWeb
 import BundesSansWeb from "@digitalservice4germany/angie/fonts/BundesSansWeb-Regular.woff2?url";
 import fonts from "@digitalservice4germany/angie/fonts.css?url";
 import * as Sentry from "@sentry/react-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import type {
   LinksFunction,
   LoaderFunctionArgs,
@@ -26,7 +26,6 @@ import { AnalyticsContext } from "~/services/analytics/useAnalytics";
 import {
   fetchMeta,
   fetchSingleEntry,
-  fetchErrors,
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
@@ -43,6 +42,7 @@ import PageHeader from "./components/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
+import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
@@ -88,6 +88,9 @@ export const meta: MetaFunction<RootLoader> = () => {
 
 export type RootLoader = typeof loader;
 
+const STRAPI_P_LEVEL_TWO = 2;
+const STRAPI_P_LEVEL_THREE = 3;
+
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
@@ -97,47 +100,47 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     strapiFooter,
     cookieBannerContent,
     trackingConsent,
-    errorPages,
     meta,
     accessibilityTranslations,
     hasAnyUserData,
     mainSession,
+    breadcrumbs,
   ] = await Promise.all([
-    fetchSingleEntry("page-header", defaultLocale),
-    fetchSingleEntry("footer", defaultLocale),
-    fetchSingleEntry("cookie-banner", defaultLocale),
+    fetchSingleEntry("page-header", defaultLocale, STRAPI_P_LEVEL_TWO),
+    fetchSingleEntry("footer", defaultLocale, STRAPI_P_LEVEL_THREE),
+    fetchSingleEntry("cookie-banner", defaultLocale, STRAPI_P_LEVEL_THREE),
     trackingCookieValue({ request }),
-    fetchErrors(),
     fetchMeta({ filterValue: "/" }),
     fetchTranslations("accessibility"),
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
+    buildBreadcrumbPromises(pathname),
   ]);
 
   const shouldAddCacheControl = shouldSetCacheControlHeader(
     pathname,
     trackingConsent,
   );
-
+  const flowIdMaybe = flowIdFromPathname(pathname);
   return data(
     {
+      breadcrumbs,
       pageHeaderProps: {
         ...strapiHeader,
-        hideLinks: flowIdFromPathname(pathname) !== undefined, // no headerlinks on flow pages
-        alignToMainContainer:
-          !flowIdFromPathname(pathname)?.match(/formular|antrag/),
+        hideLinks: Boolean(flowIdMaybe),
+        alignToMainContainer: !flowIdMaybe?.match(/formular|antrag/),
       },
       footer: strapiFooter,
       cookieBannerContent: cookieBannerContent,
       hasTrackingConsent: trackingConsent
         ? trackingConsent === "true"
         : undefined,
-      errorPages,
       meta,
       context,
       hasAnyUserData,
       accessibilityTranslations,
       feedback: getFeedbackData(mainSession, pathname),
+      skipContentLinkTarget: flowIdMaybe ? "#flow-page-content" : "#main",
       postSubmissionText: parseAndSanitizeMarkdown(
         staticTranslations.feedback["text-post-submission"].de,
       ),
@@ -154,28 +157,17 @@ function App() {
     hasTrackingConsent,
     hasAnyUserData,
     accessibilityTranslations,
+    breadcrumbs,
+    skipContentLinkTarget,
   } = useLoaderData<RootLoader>();
   const shouldPrint = useShouldPrint();
   const matches = useMatches();
-  const { breadcrumbs, title, ogTitle, description } = metaFromMatches(matches);
+  const { title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
   const posthogClient = useInitPosthog(hasTrackingConsent);
 
-  const [skipToContentLinkTarget, setSkipToContentLinkTarget] =
-    useState("#main");
-
   // eslint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
-
-  /**
-   * Need to set focus to inside the form flow for screen reader convenience.
-   * Calls to `document` must happen within useEffect, as this hook is never rendered on the server-side
-   */
-  useEffect(() => {
-    if (document.getElementById("form-flow-page-content")) {
-      setSkipToContentLinkTarget("#form-flow-page-content");
-    }
-  }, []);
 
   useEffect(() => {
     if (shouldPrint) {
@@ -207,20 +199,23 @@ function App() {
       <body className="flex flex-col">
         <AnalyticsContext value={{ posthogClient, hasTrackingConsent }}>
           <div className="flex flex-col min-h-screen">
+            <CookieBanner content={cookieBannerContent} />
             <SkipToContentLink
               label={getTranslationByKey(
                 SKIP_TO_CONTENT_TRANSLATION_KEY,
                 accessibilityTranslations,
               )}
-              target={skipToContentLinkTarget}
+              target={skipContentLinkTarget}
             />
-            <CookieBanner content={cookieBannerContent} />
             <PageHeader {...pageHeaderProps} />
             <Breadcrumbs
               breadcrumbs={breadcrumbs}
               alignToMainContainer={pageHeaderProps.alignToMainContainer}
               linkLabel={pageHeaderProps.linkLabel}
-              translations={{ ...accessibilityTranslations }}
+              ariaLabel={getTranslationByKey(
+                "header-breadcrumb",
+                accessibilityTranslations,
+              )}
             />
             <main className="flex-grow flex" id="main">
               <Outlet />
@@ -230,7 +225,10 @@ function App() {
             <Footer
               {...footer}
               showDeletionBanner={hasAnyUserData}
-              translations={{ ...accessibilityTranslations }}
+              ariaLabel={getTranslationByKey(
+                "footer-navigation",
+                accessibilityTranslations,
+              )}
             />
           </footer>
           <ScrollRestoration nonce={nonce} />
@@ -271,7 +269,10 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
         {loaderData && (
           <Footer
             {...loaderData.footer}
-            translations={{ ...loaderData.accessibilityTranslations }}
+            ariaLabel={getTranslationByKey(
+              "footer-navigation",
+              loaderData.accessibilityTranslations,
+            )}
           />
         )}
       </body>

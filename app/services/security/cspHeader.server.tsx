@@ -50,6 +50,7 @@ export const cspHeader = (args: {
   if (args.environment === "development") {
     directives["connect-src"].push("ws://localhost:24678"); // vite's HMR server
     directives["connect-src"].push("http://localhost:24678"); // vite's HMR server
+    directives["connect-src"].push("http://localhost:1337"); // local strapi
     directives["img-src"].push("localhost:*");
     delete directives["upgrade-insecure-requests"]; // https://github.com/github/secure_headers/issues/348
   }

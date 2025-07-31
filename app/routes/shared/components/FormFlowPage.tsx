@@ -10,7 +10,7 @@ import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import type { loader } from "../formular.server";
+import type { loader } from "../formular";
 
 export function FormFlowPage() {
   const {
@@ -58,7 +58,7 @@ export function FormFlowPage() {
             }
           >
             <div className="ds-stack ds-stack-40">
-              <div className="ds-stack ds-stack-16" id="form-flow-page-content">
+              <div className="ds-stack ds-stack-16" id="flow-page-content">
                 {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
                 <Heading text={heading} look="ds-heading-02-reg" />
                 <ContentComponents

@@ -9,11 +9,11 @@ export const createFooter = (
 ) => {
   const pages = doc.bufferedPageRange();
 
-  const footerSect = doc.struct("Sect");
   const totalPages = pages.count;
 
   for (let pageIndex = 0; pageIndex < totalPages; pageIndex++) {
     doc.switchToPage(pageIndex);
+    const footerSect = doc.struct("Sect");
 
     const isLastPage = pageIndex === totalPages - 1;
 
@@ -25,6 +25,6 @@ export const createFooter = (
       totalPages,
       prefixPageNumber,
     );
+    documentStruct.add(footerSect);
   }
-  documentStruct.add(footerSect);
 };

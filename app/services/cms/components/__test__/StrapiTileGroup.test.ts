@@ -17,12 +17,14 @@ describe("StrapiTileGroupComponentSchema", () => {
         },
       ],
       errors: [],
+      id: 10,
       useTwoColumns: true,
     });
     expect(parsed.success).toBe(true);
     expect(parsed.data).toEqual({
       __component: "form-elements.tile-group",
       name: "name",
+      id: 10,
       options: [{ value: "value", title: "title" }],
       errorMessages: [],
       useTwoColumns: true,

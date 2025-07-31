@@ -17,6 +17,7 @@ const mockCmsElement = {
       __component: "basic.paragraph" as const,
       text: "someText",
       html: "someText",
+      id: 10,
     },
   ],
   preHeading: undefined,
@@ -30,6 +31,7 @@ const mockCmsElement = {
       name: "name",
       required: false,
       errorMessage: "",
+      id: 10,
     },
   ],
   pageMeta: {

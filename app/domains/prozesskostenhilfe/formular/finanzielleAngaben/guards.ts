@@ -91,7 +91,7 @@ export const finanzielleAngabeGuards = {
     return (
       versicherungen?.at(arrayIndex)?.art ===
       prozesskostenhilfeFinanzielleAngabenInputSchema.versicherungen.element
-        .shape.art.Enum.sonstige
+        .shape.art.enum.sonstige
     );
   },
   sonstigeAusgabeAnteiligYes: ({ context: { pageData, sonstigeAusgaben } }) => {

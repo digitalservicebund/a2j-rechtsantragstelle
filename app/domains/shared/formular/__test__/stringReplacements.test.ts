@@ -1,6 +1,5 @@
 import { happyPathData } from "~/domains/beratungshilfe/services/pdf/__test__/beratungshilfeFormularData";
 import {
-  eigentumZusammenfassungShowPartnerschaftWarnings,
   getArrayIndexStrings,
   getKinderStrings,
 } from "~/domains/shared/formular/stringReplacements";
@@ -71,28 +70,6 @@ describe("stringReplacements", () => {
       const arrayIndexStrings = getArrayIndexStrings(happyPathData);
 
       expect(arrayIndexStrings).toEqual({});
-    });
-  });
-
-  describe("eigentumZusammenfassungShowPartnerschaftWarnings", () => {
-    it("return string config to show warning", () => {
-      expect(
-        eigentumZusammenfassungShowPartnerschaftWarnings({
-          partnerschaft: "yes",
-        }),
-      ).toStrictEqual({
-        hasPartnerschaftYes: true,
-      });
-    });
-
-    it("return string config to show no warning", () => {
-      expect(
-        eigentumZusammenfassungShowPartnerschaftWarnings({
-          partnerschaft: "no",
-        }),
-      ).toStrictEqual({
-        hasPartnerschaftYes: false,
-      });
     });
   });
 });

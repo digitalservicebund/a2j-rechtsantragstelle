@@ -1,4 +1,5 @@
 import { Result } from "true-myth";
+import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -60,10 +61,10 @@ describe("addDistanceInfo", () => {
 
     const userDataWeiterePersonenMock = {
       ...userDataMock,
-      isWeiterePersonen: YesNoAnswer.Enum.no,
+      isWeiterePersonen: YesNoAnswer.enum.no,
     };
 
-    addDistanceInfo(mockDoc, userDataWeiterePersonenMock);
+    addDistanceInfo(mockDoc, mockStruct, userDataWeiterePersonenMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Die Distanz zwischen ${startAirportMock} und ${endAirportMock} beträgt nach Großkreismethode ca. ${distanceValueMock} km. ${ARTICLE_AIR_PASSENGER_REGULATION_TEXT} ${compensationValueMock} €.`,
@@ -77,10 +78,10 @@ describe("addDistanceInfo", () => {
 
     const userDataWeiterePersonenMock = {
       ...userDataMock,
-      isWeiterePersonen: YesNoAnswer.Enum.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
-    addDistanceInfo(mockDoc, userDataWeiterePersonenMock);
+    addDistanceInfo(mockDoc, mockStruct, userDataWeiterePersonenMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       `Die Distanz zwischen ${startAirportMock} und ${endAirportMock} beträgt nach Großkreismethode ca. ${distanceValueMock} km. ${ARTICLE_AIR_PASSENGER_REGULATION_TEXT} ${compensationValueMock} € pro Person, insgesamt aus eigenem und abgetretenem Recht damit eine Gesamtsumme von ${compensationValueMock} €.`,
@@ -92,8 +93,22 @@ describe("addDistanceInfo", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addDistanceInfo(mockDoc, userDataMock);
+    addDistanceInfo(mockDoc, mockStruct, userDataMock);
 
     expect(addNewPageInCaseMissingVerticalSpace).toBeCalled();
+  });
+});
+
+describe("addDistanceInfo - accessibility", () => {
+  it("should call addDistanceInfo with one paragraph", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addDistanceInfo(mockDoc, mockStruct, userDataMock);
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "P",
+    );
+    expect(callsWithP).toHaveLength(1);
   });
 });

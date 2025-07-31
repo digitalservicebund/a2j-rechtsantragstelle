@@ -3,14 +3,11 @@ import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/ser
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
-  FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 import { addDefendantPartyList } from "./claimData/addDefendantPartyList";
 
 export const STATEMENT_CLAIM_TITLE_TEXT = "Klageantrag";
-export const STATEMENT_CLAIM_SUBTITLE_TEXT =
-  "Es werden folgende Anträge gestellt:";
 export const STATEMENT_CLAIM_COURT_SENTENCE =
   "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 331 Abs. 1 und Abs. 3 ZPO gestellt.";
 
@@ -42,15 +39,6 @@ export const createStatementClaim = (
     }),
   );
 
-  statementClaimSect.add(
-    doc.struct("P", {}, () => {
-      doc
-        .fontSize(10)
-        .font(FONTS_BUNDESSANS_REGULAR)
-        .text(STATEMENT_CLAIM_SUBTITLE_TEXT);
-    }),
-  );
-
   addDefendantPartyList(
     doc,
     statementClaimSect,
@@ -58,13 +46,19 @@ export const createStatementClaim = (
     compensationByDistance,
   );
 
-  statementClaimSect.add(
-    doc.struct("P", {}, () => {
-      if (versaeumnisurteil === "yes") {
-        doc.text(STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN_HORIZONTAL);
-      }
-      doc.text(videoTrialAgreement(videoverhandlung), PDF_MARGIN_HORIZONTAL);
-    }),
-  );
+  if (
+    videoTrialAgreement(videoverhandlung) !== "" ||
+    versaeumnisurteil === "yes"
+  ) {
+    statementClaimSect.add(
+      doc.struct("P", {}, () => {
+        if (versaeumnisurteil === "yes") {
+          doc.text(STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN_HORIZONTAL);
+        }
+        doc.text(videoTrialAgreement(videoverhandlung), PDF_MARGIN_HORIZONTAL);
+      }),
+    );
+  }
+
   documentStruct.add(statementClaimSect);
 };

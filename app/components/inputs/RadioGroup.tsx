@@ -1,6 +1,5 @@
 import { useField } from "@rvf/react-router";
 import { type ReactNode, useState } from "react";
-import { isFieldEmptyOrUndefined } from "~/util/isFieldEmptyOrUndefined";
 import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
 import Radio from "./Radio";
@@ -27,7 +26,7 @@ const RadioGroup = ({
   const field = useField(name);
 
   const errorId = `${name}-error`;
-  const hasError = !isFieldEmptyOrUndefined(field.error() ?? "");
+  const hasError = Boolean(field.error());
   const errorToDisplay =
     errorMessages?.find((err) => err.code === field.error())?.text ??
     field.error();

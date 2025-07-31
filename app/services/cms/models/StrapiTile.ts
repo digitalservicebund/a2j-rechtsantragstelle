@@ -1,14 +1,11 @@
 import { z } from "zod";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
 import { StrapiImageOptionalSchema } from "./StrapiImage";
-import { StrapiOptionalStringSchema } from "./StrapiOptionalString";
+import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
 
-export const StrapiTileSchema = z
-  .object({
-    title: z.string(),
-    value: z.string(),
-    description: StrapiOptionalStringSchema,
-    image: StrapiImageOptionalSchema,
-    tagDescription: StrapiOptionalStringSchema,
-  })
-  .merge(HasOptionalStrapiIdSchema);
+export const StrapiTileSchema = z.object({
+  title: z.string(),
+  value: z.string(),
+  description: StrapiStringOptionalSchema,
+  image: StrapiImageOptionalSchema,
+  tagDescription: StrapiStringOptionalSchema,
+});

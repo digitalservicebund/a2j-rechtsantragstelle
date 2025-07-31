@@ -1,7 +1,7 @@
 import { type Renderer } from "marked";
 import { z } from "zod";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
 import { StrapiContainerSchema } from "./StrapiContainer";
@@ -14,20 +14,14 @@ export const listRenderer: Partial<Renderer> = {
   },
 };
 
-export const StrapiListSchema = z
-  .object({
-    heading: StrapiHeadingOptionalSchema,
-    subheading: StrapiRichTextOptionalSchema(listRenderer),
-    items: z.array(StrapiListItemSchema),
-    variant: z
-      .enum(["unordered", "numbered", "stepByStep"])
-      .default("unordered"),
-    outerBackground: StrapiBackgroundOptionalSchema,
-    container: StrapiContainerSchema,
-  })
-  .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema)
-  .transform((cmsData) => ({
-    __component: "page.list" as const,
-    ...cmsData,
-  }));
+export const StrapiListSchema = z.object({
+  heading: StrapiHeadingOptionalSchema,
+  subheading: StrapiRichTextOptionalSchema(listRenderer),
+  items: z.array(StrapiListItemSchema),
+  variant: z.enum(["unordered", "numbered", "stepByStep"]).default("unordered"),
+  outerBackground: StrapiBackgroundOptionalSchema,
+  container: StrapiContainerSchema,
+  __component: z.literal("page.list"),
+  ...HasStrapiIdSchema.shape,
+  ...OptionalStrapiLinkIdentifierSchema.shape,
+});

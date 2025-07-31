@@ -1,21 +1,26 @@
-import { z } from "zod";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
+import type { fluggastrechteInputSchema } from "../../userData";
+
+const fieldsForValidation = [
+  "ersterZwischenstopp",
+  "zweiterZwischenstopp",
+  "dritterZwischenstopp",
+] as const;
 
 export function validateStopoverDuplicates(
-  baseSchema: MultiFieldsValidationBaseSchema,
+  baseSchema: MultiFieldsValidationBaseSchema<
+    Pick<
+      typeof fluggastrechteInputSchema,
+      (typeof fieldsForValidation)[number] | "startAirport" | "endAirport"
+    >
+  >,
 ) {
-  return baseSchema.superRefine((userData, ctx) => {
-    const fieldsForValidation = [
-      "ersterZwischenstopp",
-      "zweiterZwischenstopp",
-      "dritterZwischenstopp",
-    ];
-
+  return baseSchema.check((ctx) => {
     const filledFields = fieldsForValidation
-      .filter((fieldName) => userData[fieldName])
+      .filter((fieldName) => ctx.value[fieldName])
       .map((fieldName) => ({
         fieldName,
-        value: userData[fieldName],
+        value: ctx.value[fieldName],
       }));
 
     for (const current of filledFields) {
@@ -26,21 +31,23 @@ export function validateStopoverDuplicates(
       );
 
       if (
-        userData.startAirport === current.value ||
-        userData.endAirport === current.value
+        ctx.value.startAirport === current.value ||
+        ctx.value.endAirport === current.value
       ) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+        ctx.issues.push({
+          code: "custom",
           message: "initialFlightDuplicates",
           path: [current.fieldName],
+          input: current.value,
         });
       }
 
       for (const duplicate of duplicates) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+        ctx.issues.push({
+          code: "custom",
           message: "stopoverDuplicates",
           path: [duplicate.fieldName],
+          input: duplicate.value,
         });
       }
     }

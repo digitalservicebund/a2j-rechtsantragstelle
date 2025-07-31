@@ -3,7 +3,7 @@ import { StrapiHeadingOptionalSchema } from "~/services/cms/models/StrapiHeading
 import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNotice";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
-import { HasOptionalStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "./HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
 import { StrapiAccordionSchema } from "./StrapiAccordion";
 import { StrapiButtonSchema } from "./StrapiButton";
@@ -19,10 +19,10 @@ export const StrapiInfoBoxItemSchema = z
     detailsSummary: z.array(StrapiDetailsSchema),
     inlineNotice: z.array(StrapiInlineNoticeSchema),
     buttons: z.array(StrapiButtonSchema),
-    accordion: StrapiAccordionSchema.nullable().transform(omitNull),
+    accordion: StrapiAccordionSchema.nullable().transform(omitNull).optional(),
+    ...HasStrapiIdSchema.shape,
+    ...OptionalStrapiLinkIdentifierSchema.shape,
   })
-  .merge(HasOptionalStrapiIdSchema)
-  .merge(OptionalStrapiLinkIdentifierSchema)
   .transform(({ detailsSummary, inlineNotice, ...cmsData }) => ({
     ...cmsData,
     details: detailsSummary,

@@ -1,9 +1,15 @@
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { pkhFormularRechtsschutzversicherungPages } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/pages";
+import { type ProzesskostenhilfeRechtsschutzversicherungUserData } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/userData";
 import type {
   Config,
   FlowConfigTransitions,
 } from "~/services/flow/server/buildFlowController";
 import { rechtsschutzversicherungDone } from "./doneFunctions";
-import type { ProzesskostenhilfeRechtsschutzversicherungUserData } from "./userData";
+
+const steps = xStateTargetsFromPagesConfig(
+  pkhFormularRechtsschutzversicherungPages,
+);
 
 export function getProzesskostenhilfeRsvXstateConfig(
   transitions?: FlowConfigTransitions,
@@ -13,130 +19,130 @@ export function getProzesskostenhilfeRsvXstateConfig(
     : [transitions?.nextFlowEntrypoint];
   return {
     id: "rechtsschutzversicherung",
-    initial: "rsv-frage",
+    initial: steps.rsvFrage.relative,
     meta: { done: rechtsschutzversicherungDone },
     states: {
-      "rsv-frage": {
+      [steps.rsvFrage.relative]: {
         on: {
           BACK: transitions?.backToCallingFlow,
           SUBMIT: [
             {
               guard: ({ context }) => context.hasRsv === "yes",
-              target: "rsv-deckung",
+              target: steps.rsvDeckung.relative,
             },
-            "org-frage",
+            steps.orgFrage.relative,
           ],
         },
       },
-      "rsv-deckung": {
+      [steps.rsvDeckung.relative]: {
         on: {
-          BACK: "rsv-frage",
+          BACK: steps.rsvFrage.relative,
           SUBMIT: [
             {
               guard: ({ context }) => context.hasRsvCoverage === "yes",
-              target: "rsv-deckung-ja",
+              target: steps.rsvDeckungJa.relative,
             },
             {
               guard: ({ context }) => context.hasRsvCoverage === "partly",
-              target: "rsv-deckung-teilweise",
+              target: steps.rsvDeckungTeilweise.relative,
             },
             {
               guard: ({ context }) => context.hasRsvCoverage === "no",
-              target: "rsv-deckung-nein",
+              target: steps.rsvDeckungNein.relative,
             },
             {
               guard: ({ context }) => context.hasRsvCoverage === "unknown",
-              target: "rsv-deckung-unbekannt",
+              target: steps.rsvDeckungUnbekannt.relative,
             },
           ],
         },
       },
-      "rsv-deckung-ja": {
+      [steps.rsvDeckungJa.relative]: {
         on: {
-          BACK: "rsv-deckung",
+          BACK: steps.rsvDeckung.relative,
         },
       },
-      "rsv-deckung-unbekannt": {
+      [steps.rsvDeckungUnbekannt.relative]: {
         on: {
-          BACK: "rsv-deckung",
+          BACK: steps.rsvDeckung.relative,
         },
       },
-      "rsv-deckung-nein": {
+      [steps.rsvDeckungNein.relative]: {
         on: {
-          BACK: "rsv-deckung",
-          SUBMIT: "org-frage",
+          BACK: steps.rsvDeckung.relative,
+          SUBMIT: steps.orgFrage.relative,
         },
       },
-      "rsv-deckung-teilweise": {
+      [steps.rsvDeckungTeilweise.relative]: {
         on: {
-          BACK: "rsv-deckung",
-          SUBMIT: "org-frage",
+          BACK: steps.rsvDeckung.relative,
+          SUBMIT: steps.orgFrage.relative,
         },
       },
-      "org-frage": {
+      [steps.orgFrage.relative]: {
         on: {
           BACK: [
             {
               guard: ({ context }) => context.hasRsvCoverage === "no",
-              target: "rsv-deckung-nein",
+              target: steps.rsvDeckungNein.relative,
             },
             {
               guard: ({ context }) => context.hasRsvCoverage === "partly",
-              target: "rsv-deckung-teilweise",
+              target: steps.rsvDeckungTeilweise.relative,
             },
-            "rsv-frage",
+            steps.rsvFrage.relative,
           ],
           SUBMIT: [
             {
               guard: ({ context }) => context.hasRsvThroughOrg === "yes",
-              target: "org-deckung",
+              target: steps.orgDeckung.relative,
             },
             ...nextFlowEntrypoint,
           ],
         },
       },
-      "org-deckung": {
+      [steps.orgDeckung.relative]: {
         on: {
-          BACK: "org-frage",
+          BACK: steps.orgFrage.relative,
           SUBMIT: [
             {
               guard: ({ context }) => context.hasOrgCoverage === "yes",
-              target: "org-deckung-ja",
+              target: steps.orgDeckungJa.relative,
             },
             {
               guard: ({ context }) => context.hasOrgCoverage === "partly",
-              target: "org-deckung-teilweise",
+              target: steps.orgDeckungTeilweise.relative,
             },
             {
               guard: ({ context }) => context.hasOrgCoverage === "no",
-              target: "org-deckung-nein",
+              target: steps.orgDeckungNein.relative,
             },
             {
               guard: ({ context }) => context.hasOrgCoverage === "unknown",
-              target: "org-deckung-unbekannt",
+              target: steps.orgDeckungUnbekannt.relative,
             },
           ],
         },
       },
-      "org-deckung-ja": {
+      [steps.orgDeckungJa.relative]: {
         on: {
-          BACK: "org-deckung",
+          BACK: steps.orgDeckung.relative,
         },
       },
-      "org-deckung-unbekannt": {
+      [steps.orgDeckungUnbekannt.relative]: {
         on: {
-          BACK: "org-deckung",
+          BACK: steps.orgDeckung.relative,
         },
       },
-      "org-deckung-nein": {
+      [steps.orgDeckungNein.relative]: {
         on: {
-          BACK: "org-deckung",
+          BACK: steps.orgDeckung.relative,
           SUBMIT: nextFlowEntrypoint,
         },
       },
-      "org-deckung-teilweise": {
+      [steps.orgDeckungTeilweise.relative]: {
         on: {
-          BACK: "org-deckung",
+          BACK: steps.orgDeckung.relative,
           SUBMIT: nextFlowEntrypoint,
         },
       },

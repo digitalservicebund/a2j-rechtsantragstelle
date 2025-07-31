@@ -19,8 +19,9 @@ describe("services/cms", () => {
     const defaultOptions: GetStrapiEntryOpts<"pages"> = {
       apiId: "pages",
       locale: stagingLocale,
+      pLevel: 5,
     };
-    const expectedStagingRequestUrl = `${API_URL}pages?populate=*&pLevel&locale=sg`;
+    const expectedStagingRequestUrl = `${API_URL}pages?populate=*&pLevel=5&locale=sg`;
 
     const axiosGetSpy = vi.spyOn(axios, "get");
 

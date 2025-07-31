@@ -12,8 +12,8 @@ export const createFooter = (
   const pages = doc.bufferedPageRange();
   const totalPages = pages.count;
 
-  const footerSect = doc.struct("Sect");
   for (let pageIndex = 0; pageIndex < totalPages; pageIndex++) {
+    const footerSect = doc.struct("Sect");
     doc.switchToPage(pageIndex);
 
     const isLastPage = pageIndex === totalPages - 1;
@@ -23,6 +23,6 @@ export const createFooter = (
     createPageNumber(doc, footerSect, pageIndex + 1, totalPages);
 
     createBankInformation(doc, footerSect, userData, isLastPage);
+    documentStruct.add(footerSect);
   }
-  documentStruct.add(footerSect);
 };

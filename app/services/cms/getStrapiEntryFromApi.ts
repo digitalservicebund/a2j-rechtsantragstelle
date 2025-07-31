@@ -33,14 +33,14 @@ const buildUrl = <T extends ApiId>({
   locale,
   fields,
   populate = "*",
-  deep = true,
+  pLevel,
 }: GetStrapiEntryOpts<T>) =>
   [
     config().STRAPI_API,
     apiId,
     `?populate=${populate}`,
     fields ? `&fields=${fields}` : "",
-    deep ? "&pLevel" : "", // https://github.com/NEDDL/strapi-v5-plugin-populate-deep
+    pLevel ? `&pLevel=${pLevel}` : "",
     `&locale=${locale}`,
     pageSize ? `&pagination[pageSize]=${pageSize}` : "",
     buildFilters(filters),
