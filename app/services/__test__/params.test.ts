@@ -1,6 +1,6 @@
 import { skipFlowParamAllowedAndEnabled } from "../params";
 
-describe("previewAllowedAndEnabled", () => {
+describe("skipFlowAllowedAndEnabled", () => {
   it.each([
     ["development", true],
     ["staging", true],
