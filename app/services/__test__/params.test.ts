@@ -1,13 +1,13 @@
 import { skipFlowParamAllowedAndEnabled } from "../params";
 
-describe("previewAllowedAndEnabled", () => {
+describe("skipFlowAllowedAndEnabled", () => {
   it.each([
     ["development", true],
     ["staging", true],
     ["preview", true],
     ["production", false],
   ])("with ?skipFlow in env %s returns %s", (env, expected) => {
-    vi.stubEnv("ENVIRONMENT", env);
+    vi.stubEnv("PUBLIC_ENVIRONMENT", env);
     const searchParamsWithPreview = new URLSearchParams();
     searchParamsWithPreview.set("skipFlow", "");
     const actual = skipFlowParamAllowedAndEnabled(searchParamsWithPreview);

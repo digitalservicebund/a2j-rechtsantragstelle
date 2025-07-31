@@ -129,16 +129,25 @@ export const translations = {
     mainNavigationAriaLabel: {
       de: "Hauptmenü",
     },
+    printPage: {
+      de: "Diese Seite wurde heruntergeladen am",
+    },
+    time: {
+      de: "Uhr",
+    },
+    at: {
+      de: "um",
+    },
   },
   navigationMobile: {
     currentArea: {
       de: "Bereich",
     },
     closeMenu: {
-      de: "Close menu",
+      de: "Schritt-für-Schritt-Menü schließen",
     },
     toggleMenu: {
-      de: "Main menu toggle",
+      de: "Schritt-für-Schritt-Menü",
     },
   },
   buttonNavigation: {
