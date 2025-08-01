@@ -6,9 +6,12 @@ import {
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 
+export const STATEMENT_CLAIM_SUBTITLE_TEXT =
+  "Es werden folgende Anträge gestellt:";
+
 export const addDefendantPartyList = (
   doc: typeof PDFDocument,
-  statementClaimList: PDFKit.PDFStructureElement,
+  statementClaimSect: PDFKit.PDFStructureElement,
   prozesszinsen: string,
   streitwert: number,
 ) => {
@@ -21,6 +24,17 @@ export const addDefendantPartyList = (
     "1. ": `Die beklagte Partei wird verurteilt, an die klagende Partei ${streitwert} €${interestClause} zu zahlen.`,
     "2. ": "Die beklagte Partei trägt die Kosten des Rechtsstreits.",
   };
+
+  const statementClaimList = doc.struct("L");
+
+  statementClaimList.add(
+    doc.struct("Caption", {}, () => {
+      doc
+        .fontSize(10)
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text(STATEMENT_CLAIM_SUBTITLE_TEXT);
+    }),
+  );
 
   for (const [bullet, claim] of Object.entries(defendantPartyList)) {
     const statementClaimListItem = doc.struct("LI");
@@ -38,4 +52,5 @@ export const addDefendantPartyList = (
     );
     statementClaimList.add(statementClaimListItem);
   }
+  statementClaimSect.add(statementClaimList);
 };

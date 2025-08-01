@@ -46,12 +46,10 @@ export const addDetailedReason = (
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
-  const detailedReasonSect = doc.struct("Sect");
-
   const { attachmentConfirmationBooking, confirmationBooking } =
     getConfirmationBookingTexts(userData);
-
-  detailedReasonSect.add(
+  const bookingInformationSect = doc.struct("Sect");
+  bookingInformationSect.add(
     doc.struct("P", {}, () => {
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
@@ -63,22 +61,33 @@ export const addDetailedReason = (
           attachmentConfirmationBooking,
           PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
         )
-        .font(FONTS_BUNDESSANS_REGULAR)
-        .moveDown(MARGIN_BETWEEN_SECTIONS);
-
-      addMultiplePersonsText(doc, userData);
-
-      if (userData.bereich !== "annullierung") {
-        doc.text(
-          userData.isWeiterePersonen === "no"
-            ? PLAINTIFF_ON_TIME_TEXT
-            : PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT,
-          PDF_MARGIN_HORIZONTAL,
-        );
-      }
-
-      addFlightTextArea(doc, userData);
+        .font(FONTS_BUNDESSANS_REGULAR);
+      doc.moveDown(MARGIN_BETWEEN_SECTIONS);
     }),
   );
-  documentStruct.add(detailedReasonSect);
+
+  documentStruct.add(bookingInformationSect);
+
+  addMultiplePersonsText(doc, userData, documentStruct);
+
+  const furtherInformationSect = doc.struct("Sect");
+  if (userData.bereich !== "annullierung") {
+    furtherInformationSect.add(
+      doc.struct("P", {}, () => {
+        doc
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .fontSize(10)
+          .text(
+            userData.isWeiterePersonen === "no"
+              ? PLAINTIFF_ON_TIME_TEXT
+              : PLAINTIFF_ON_TIME_MULTIPLE_PERSONS_TEXT,
+            PDF_MARGIN_HORIZONTAL,
+          );
+      }),
+    );
+  }
+
+  addFlightTextArea(doc, userData, furtherInformationSect);
+  documentStruct.add(furtherInformationSect);
+  doc.moveDown(1);
 };

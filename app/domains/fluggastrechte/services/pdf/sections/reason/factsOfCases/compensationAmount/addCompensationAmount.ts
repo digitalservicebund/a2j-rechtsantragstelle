@@ -1,10 +1,7 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
-import {
-  FONTS_BUNDESSANS_REGULAR,
-  PDF_WIDTH_SEIZE,
-} from "~/services/pdf/createPdfKitDocument";
+import { PDF_WIDTH_SEIZE } from "~/services/pdf/createPdfKitDocument";
 import { addDistanceInfo } from "./addDistanceInfo";
 import { addMultiplePersonsInfo } from "./addMultiplePersonsInfo";
 import { addOtherDetailsItinerary } from "./addOtherDetailsItinerary";
@@ -21,42 +18,39 @@ export const addCompensationAmount = (
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
+  addOtherDetailsItinerary(doc, documentStruct, userData.zusaetzlicheAngaben);
+
+  addDistanceInfo(doc, documentStruct, userData);
+
+  const demandedCompensationPaymentText =
+    userData.isWeiterePersonen === "no"
+      ? DEMANDED_COMPENSATION_PAYMENT_TEXT
+      : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT;
+
+  const demandedCompensationPaymentTextHeight = doc.heightOfString(
+    demandedCompensationPaymentText,
+    {
+      width: PDF_WIDTH_SEIZE,
+    },
+  );
+
+  addNewPageInCaseMissingVerticalSpace(
+    doc,
+    demandedCompensationPaymentTextHeight,
+  );
+
   const compensationSect = doc.struct("Sect");
   compensationSect.add(
     doc.struct("P", {}, () => {
-      doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
-
-      addOtherDetailsItinerary(doc, userData.zusaetzlicheAngaben);
-
-      addDistanceInfo(doc, userData);
-
-      const demandedCompensationPaymentText =
-        userData.isWeiterePersonen === "no"
-          ? DEMANDED_COMPENSATION_PAYMENT_TEXT
-          : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT;
-
-      const demandedCompensationPaymentTextHeight = doc.heightOfString(
-        demandedCompensationPaymentText,
-        {
-          width: PDF_WIDTH_SEIZE,
-        },
-      );
-
-      addNewPageInCaseMissingVerticalSpace(
-        doc,
-        demandedCompensationPaymentTextHeight,
-      );
-
       doc
         .text(demandedCompensationPaymentText)
         .moveDown(MARGIN_BETWEEN_SECTIONS);
-
-      addMultiplePersonsInfo(doc, userData);
-
-      addWitnessesInfo(doc, userData);
-
-      doc.moveDown(2);
     }),
   );
+
+  addMultiplePersonsInfo(doc, userData, compensationSect);
+
+  addWitnessesInfo(doc, userData, compensationSect);
+
   documentStruct.add(compensationSect);
 };

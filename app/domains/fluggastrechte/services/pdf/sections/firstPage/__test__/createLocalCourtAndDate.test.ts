@@ -1,3 +1,4 @@
+import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -86,5 +87,22 @@ describe("createLocalCourtAndDate", () => {
       continued: false,
     });
     expect(mockDoc.text).not.toHaveBeenCalledWith(null, { align: "left" });
+  });
+});
+
+describe("createLocalCourtAndDate - accessibility", () => {
+  it("should call the createLocalCourtAndDate with two paragraphs", () => {
+    vi.mocked(getCourtByStartAndEndAirport).mockReturnValue(undefined);
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    mockDoc.y = 200;
+    mockDoc.fillOpacity = vi.fn().mockReturnThis();
+
+    createLocalCourtAndDate(mockDoc, mockStruct, userDataMock);
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "P",
+    );
+    expect(callsWithP).toHaveLength(2);
   });
 });

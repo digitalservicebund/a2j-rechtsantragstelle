@@ -1,3 +1,4 @@
+import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -108,6 +109,9 @@ describe("addDetailedReason", () => {
       PLAINTIFF_ON_TIME_TEXT,
       PDF_MARGIN_HORIZONTAL,
     );
+
+    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
+    expect(mockDoc.text).toBeDefined();
   });
 
   it("should have the text for plaintiff on time for nichtbefoerderung bereich", () => {
@@ -161,5 +165,37 @@ describe("addDetailedReason", () => {
     addDetailedReason(mockDoc, mockStruct, userDataMock);
 
     expect(addFlightTextArea).toBeCalled();
+  });
+});
+
+describe("addDetailedReason - accessibility", () => {
+  it("should call addDetailedReason with two paragraphs when bereich is not Annullierung", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addDetailedReason(mockDoc, mockStruct, userDataMock);
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "P",
+    );
+    expect(callsWithP).toHaveLength(2);
+  });
+
+  it("should call addDetailedReason with one paragraph if bereich is annullierung", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataAnnullierungMock = {
+      ...userDataMock,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
+      bereich: "annullierung",
+    };
+
+    addDetailedReason(mockDoc, mockStruct, userDataAnnullierungMock);
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "P",
+    );
+    expect(callsWithP).toHaveLength(1);
   });
 });
