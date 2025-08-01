@@ -28,9 +28,6 @@ export const berHAntragAnwaltlicheVertretungPages = {
   },
   anwaltKontaktdaten: {
     stepId: "anwaltliche-vertretung/anwalt-kontaktdaten",
-  },
-  anwaltName: {
-    stepId: "anwaltliche-vertretung/anwalt-name",
     pageSchema: {
       anwaltName: stringRequiredSchema,
     },
