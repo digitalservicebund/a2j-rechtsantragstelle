@@ -1,7 +1,14 @@
+import mapValues from "lodash/mapValues";
 import type { Config } from "~/services/flow/server/buildFlowController";
+import { berHAntragRechtsproblemPages } from "./pages";
 import { rechtsproblemDone } from "./rechtsproblemDone";
 import { beratungshilfeAnwaltlicheVertretungGuards } from "../anwaltlicheVertretung/guards";
 import { type BeratungshilfeAnwaltlicheVertretungUserData } from "../anwaltlicheVertretung/userData";
+
+const steps = mapValues(berHAntragRechtsproblemPages, (v) => ({
+  absolute: "#" + v.stepId.replaceAll("/", "."),
+  relative: v.stepId.split("/").pop()!,
+}));
 
 export const rechtsproblemXstateConfig = {
   initial: "start",
@@ -10,7 +17,7 @@ export const rechtsproblemXstateConfig = {
   states: {
     start: {
       on: {
-        SUBMIT: "bereich",
+        SUBMIT: steps.bereich.relative,
         BACK: [
           {
             guard:
@@ -27,16 +34,16 @@ export const rechtsproblemXstateConfig = {
         ],
       },
     },
-    bereich: {
+    [steps.bereich.relative]: {
       on: {
-        SUBMIT: "situation-beschreibung",
+        SUBMIT: steps.situationBeschreibung.relative,
         BACK: "start",
       },
     },
-    "situation-beschreibung": {
+    [steps.situationBeschreibung.relative]: {
       on: {
         SUBMIT: "#finanzielle-angaben",
-        BACK: "bereich",
+        BACK: steps.bereich.relative,
       },
     },
   },

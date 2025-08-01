@@ -10,7 +10,10 @@ import { testcasesFluggastrechtOtherErfolgs } from "../__test__/testcasesOtherEr
 import { testCasesFluggastrechteVerspaetetAbbruch } from "../__test__/testcasesVerspaetetAbbruch";
 import { guards } from "../guards";
 import { fluggastrechteVorabcheckXstateConfig } from "../xstateConfig";
-import { testCasesFluggastrechteNichtBefoerderungErfolg } from "./testcasesNichtBefoerderungErfolg";
+import {
+  testCasesFluggastrechteNichtBefoerderungErfolg,
+  testCasesFluggastrechteNichtBefoerderungVertretbareGruende,
+} from "./testcasesNichtBefoerderungErfolg";
 
 const machine: FlowStateMachine = createMachine(
   { ...fluggastrechteVorabcheckXstateConfig, context: {} },
@@ -24,6 +27,7 @@ const testsCases = [
   ...testCasesFluggastrechteErfolgEU,
   ...testCasesFluggastrechteNichtBefoerderungAbbruch,
   ...testCasesFluggastrechteNichtBefoerderungErfolg,
+  ...testCasesFluggastrechteNichtBefoerderungVertretbareGruende,
   ...testcasesFluggastrechtOtherErfolgs,
   ...testCasesFluggastrechteVerspaetetAbbruch,
   ...testCasesFluggastrechteFluggesellschaftAbbruch,
