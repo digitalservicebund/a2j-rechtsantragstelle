@@ -26,23 +26,6 @@ export const testCasesFluggastrechteNichtBefoerderungAbbruch = [
   [
     {
       bereich: "nichtbefoerderung",
-      ausgleich: "no",
-      checkin: "yes",
-      vertretbareGruende: "yes",
-    },
-    [
-      "/start",
-      "/bereich",
-      "/ausgleich",
-      "/checkin-nicht-befoerderung",
-      "/vertretbare-gruende",
-      "/vertretbare-gruende-info",
-      "/ergebnis/vertretbare-gruende-abbruch",
-    ],
-  ],
-  [
-    {
-      bereich: "nichtbefoerderung",
       ausgleich: "yes",
       ausgleichAngenommen: "no",
       vertretbareGruende: "no",

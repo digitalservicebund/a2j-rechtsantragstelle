@@ -41,3 +41,26 @@ export const testCasesFluggastrechteNichtBefoerderungErfolg = [
     ],
   ],
 ] as const satisfies TestCases<FluggastrechtVorabcheckUserData>;
+
+export const testCasesFluggastrechteNichtBefoerderungVertretbareGruende = [
+  [
+    {
+      bereich: "nichtbefoerderung",
+      ausgleich: "yes",
+      ausgleichAngenommen: "yes",
+      checkin: "yes",
+      vertretbareGruende: "yes",
+    },
+    [
+      "/start",
+      "/bereich",
+      "/ausgleich",
+      "/ausgleich-angenommen",
+      "/ausgleich-angenommen-info",
+      "/checkin-nicht-befoerderung",
+      "/vertretbare-gruende",
+      "/vertretbare-gruende-info",
+      "/verjaehrung",
+    ],
+  ],
+] as const satisfies TestCases<FluggastrechtVorabcheckUserData>;
