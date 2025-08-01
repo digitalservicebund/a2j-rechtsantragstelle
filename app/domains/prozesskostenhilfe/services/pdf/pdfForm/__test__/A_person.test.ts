@@ -75,7 +75,7 @@ describe("A_person", () => {
         pdfValues: pdfParams,
       });
 
-      expect(pdfValues.text3.value).toBe("ledig");
+      expect(pdfValues.familienstand.value).toBe("ledig");
       expect(attachment).toHaveLength(0);
     });
 
@@ -98,7 +98,9 @@ describe("A_person", () => {
         pdfValues: pdfParams,
       });
 
-      expect(pdfValues.text2.value).toBe(userData.telefonnummer);
+      expect(pdfValues.tagsuebererreichbarunterNummer.value).toBe(
+        userData.telefonnummer,
+      );
       expect(attachment).toHaveLength(0);
     });
   });

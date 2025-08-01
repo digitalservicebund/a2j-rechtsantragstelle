@@ -24,14 +24,14 @@ describe("G_eigentum", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_36.value).toBe(true);
+      expect(pdfValues.g2.value).toBe(true);
       ({ pdfValues } = fillBankkonto({
         userData: {
           hasBankkonto: "no",
         },
         pdfValues: pdfParams,
       }));
-      expect(pdfValues.nein_37.value).toBe(true);
+      expect(pdfValues.g1.value).toBe(true);
       expect(
         pdfValues.artdesKontosKontoinhaberKreditinstitut.value,
       ).toBeUndefined();
@@ -96,14 +96,14 @@ describe("G_eigentum", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_37.value).toBe(true);
+      expect(pdfValues.g4.value).toBe(true);
       ({ pdfValues } = fillGrundeigentum({
         userData: {
           hasGrundeigentum: "no",
         },
         pdfValues: pdfParams,
       }));
-      expect(pdfValues.nein_39.value).toBe(true);
+      expect(pdfValues.g3.value).toBe(true);
       expect(
         pdfValues
           .groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten
@@ -132,7 +132,7 @@ describe("G_eigentum", () => {
           .groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten
           .value,
       ).toBe("Art: Wohnung, Eigennutzung, Fläche: 100 m²");
-      expect(pdfValues.verkehrswert.value).toBe("100000 €");
+      expect(pdfValues.verkehrswertGrundeigentum.value).toBe("100000 €");
     });
 
     it("should attach >1 grundeigentum to an attachment", () => {
@@ -175,14 +175,14 @@ describe("G_eigentum", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_38.value).toBe(true);
+      expect(pdfValues.g6.value).toBe(true);
       ({ pdfValues } = fillKraftfahrzeuge({
         userData: {
           hasKraftfahrzeug: "no",
         },
         pdfValues: pdfParams,
       }));
-      expect(pdfValues.nein_41.value).toBe(true);
+      expect(pdfValues.g5.value).toBe(true);
     });
 
     it("should print a user's Kraftfahrzeug when there is only one", () => {
@@ -202,7 +202,7 @@ describe("G_eigentum", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_38.value).toBe(true);
+      expect(pdfValues.g6.value).toBe(true);
       expect(
         pdfValues
           .markeTypBaujahrAnschaffungsjahrAlleinoderMiteigentumKilometerstand
@@ -272,14 +272,14 @@ describe("G_eigentum", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_39.value).toBe(true);
+      expect(pdfValues.g8.value).toBe(true);
       ({ pdfValues } = fillBargeldOderWertgegenstaende({
         userData: {
           hasGeldanlage: "yes",
         },
         pdfValues: pdfParams,
       }));
-      expect(pdfValues.ja_39.value).toBe(true);
+      expect(pdfValues.g8.value).toBe(true);
     });
 
     it("should print either a single Bargeld entry, or a single Wertstaende entry, if present", () => {
@@ -295,13 +295,13 @@ describe("G_eigentum", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_39.value).toBe(true);
+      expect(pdfValues.g8.value).toBe(true);
       expect(
         pdfValues
           .bargeldbetraginEURBezeichnungderWertgegenstaendeAlleinoderMiteigentum
           .value,
       ).toBe("Art: Kandelaber");
-      expect(pdfValues.verkehrswert3.value).toBe("10000 €");
+      expect(pdfValues.verkehrswertBargeld.value).toBe("10000 €");
 
       ({ pdfValues } = fillBargeldOderWertgegenstaende({
         userData: {
@@ -315,13 +315,13 @@ describe("G_eigentum", () => {
         },
         pdfValues: pdfParams,
       }));
-      expect(pdfValues.ja_39.value).toBe(true);
+      expect(pdfValues.g8.value).toBe(true);
       expect(
         pdfValues
           .bargeldbetraginEURBezeichnungderWertgegenstaendeAlleinoderMiteigentum
           .value,
       ).toBe("Art: Bargeld");
-      expect(pdfValues.verkehrswert3.value).toBe("1000 €");
+      expect(pdfValues.verkehrswertBargeld.value).toBe("1000 €");
     });
 
     it("should print the remaining bargeld/wertgegenstaende in the anhang", () => {
@@ -370,10 +370,10 @@ describe("G_eigentum", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_40.value).toBe(true);
+      expect(pdfValues.g10.value).toBe(true);
       expect(
         pdfValues
-          .versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvorsorgegemEinkommensteuergesetzdiestaatlichgefoerdertwurdeRiesterRente
+          .versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvor
           .value,
       ).toBe(
         "Art: Befristete Geldanlage, Art der Befristung: Lebensversicherung",
@@ -385,7 +385,7 @@ describe("G_eigentum", () => {
         },
         pdfValues: pdfParams,
       }));
-      expect(pdfValues.nein_44.value).toBe(true);
+      expect(pdfValues.g9.value).toBe(true);
     });
 
     it("should attach >1 lebensversicherung to the anhang", () => {
@@ -408,10 +408,10 @@ describe("G_eigentum", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_40.value).toBe(true);
+      expect(pdfValues.g10.value).toBe(true);
       expect(
         pdfValues
-          .versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvorsorgegemEinkommensteuergesetzdiestaatlichgefoerdertwurdeRiesterRente
+          .versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvor
           .value,
       ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
       expect(attachment?.length).toBeGreaterThan(0);
@@ -435,15 +435,17 @@ describe("G_eigentum", () => {
       expect(pdfValues.bezeichnungAlleinoderMiteigentum.value).toBe(
         "Art: Befristete Geldanlage",
       );
-      expect(pdfValues.verkehrswert4.value).toBe("1000 €");
-      expect(pdfValues.ja_41.value).toBe(true);
+      expect(pdfValues.verkehrswertsonstigeVermoegenswerte.value).toBe(
+        "1000 €",
+      );
+      expect(pdfValues.g12.value).toBe(true);
       ({ pdfValues } = fillSonstigeVermoegenswerte({
         userData: {
           geldanlagen: [],
         },
         pdfValues: pdfParams,
       }));
-      expect(pdfValues.nein_46.value).toBe(true);
+      expect(pdfValues.g11.value).toBe(true);
     });
 
     it("should attach additional vermoegenswerte in the anlage", () => {
@@ -489,7 +491,7 @@ describe("G_eigentum", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_46.value).toBe(true);
+      expect(pdfValues.g11.value).toBe(true);
       expect(pdfValues.bezeichnungAlleinoderMiteigentum.value).toBeUndefined();
     });
   });

@@ -22,18 +22,18 @@ export const fillSelfAbzuege: PkhPdfFillFunction = ({
   pdfValues,
 }) => {
   if (userData.selbststaendigAbzuege) {
-    pdfValues.monatlicheAbzuegeinEuro1.value = `${userData.selbststaendigAbzuege} €`;
-    pdfValues.steuernSolidaritaetszuschlag1.value = "Abzüge zusammengerechnet";
+    pdfValues.monatlicheAbzuegeinEurodurchSteuernSolidaritaetszuschlag.value = `${userData.selbststaendigAbzuege} €`;
+    pdfValues.steuernSolidarzuschlag.value = "Abzüge zusammengerechnet";
   }
 
   if (userData.arbeitsweg === "publicTransport") {
-    pdfValues.steuernSolidaritaetszuschlag_2.value =
+    pdfValues.fahrtzurArbeitKostenfueroeffentlicheVerkehrsmittelodereinfacheEntfernungbeiKFZNutzung.value =
       "ÖPNV; Arbeitsadresse: siehe Anhang";
-    pdfValues.monatlicheAbzuegeinEuro4.value = `${userData.monatlicheOPNVKosten} €`;
+    pdfValues.monatlicheAbzuegeinEurodurchFahrtkosten.value = `${userData.monatlicheOPNVKosten} €`;
   } else if (userData.arbeitsweg === "privateVehicle") {
-    pdfValues.steuernSolidaritaetszuschlag_2.value =
+    pdfValues.fahrtzurArbeitKostenfueroeffentlicheVerkehrsmittelodereinfacheEntfernungbeiKFZNutzung.value =
       "KFZ; Arbeitsadresse: siehe Anhang";
-    pdfValues.monatlicheAbzuegeinEuro4.value = `${userData.arbeitsplatzEntfernung}km`;
+    pdfValues.monatlicheAbzuegeinEurodurchFahrtkosten.value = `${userData.arbeitsplatzEntfernung}km`;
   }
 
   const attachment: AttachmentEntries = [];
@@ -60,12 +60,12 @@ export const fillSelfAbzuege: PkhPdfFillFunction = ({
   if (userData.arbeitsausgaben?.length === 1) {
     const { beschreibung, betrag } = userData.arbeitsausgaben[0];
     const arbeitsausgabe = userData.arbeitsausgaben[0];
-    pdfValues.sozialversicherungsbeitraege_2.value = `${beschreibung} (${betrag} € ${zahlungsfrequenzMapping[arbeitsausgabe.zahlungsfrequenz]})`;
-    pdfValues.monatlicheAbzuegeinEuro5.value = `${averageMonthlyExpenses} €`;
+    pdfValues.sozialversicherungsbeitraege.value = `${beschreibung} (${betrag} € ${zahlungsfrequenzMapping[arbeitsausgabe.zahlungsfrequenz]})`;
+    pdfValues.monatlicheAbzuegeinEurodurchSozialversicherungsbeitraege.value = `${averageMonthlyExpenses} €`;
   } else if (arbeitsausgabenNeedsAttachment) {
-    pdfValues.sozialversicherungsbeitraege_2.value =
+    pdfValues.sozialversicherungsbeitraege.value =
       SEE_IN_ATTACHMENT_DESCRIPTION;
-    pdfValues.monatlicheAbzuegeinEuro5.value = `${averageMonthlyExpenses} €`;
+    pdfValues.monatlicheAbzuegeinEurodurchSozialversicherungsbeitraege.value = `${averageMonthlyExpenses} €`;
     attachment.push({
       title: "Sonstige Werbungskosten/Betriebsausgaben",
       level: "h3",
@@ -106,16 +106,19 @@ const fillPartnerAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   }
 
   if (userData["partner-selbststaendigAbzuege"]) {
-    pdfValues.monatlicheAbzuegeinEuro6.value = `${userData["partner-selbststaendigAbzuege"]} €`;
-    pdfValues.steuernSolidaritaetszuschlag2.value = "Abzüge zusammengerechnet";
+    pdfValues.monatlicheAbzuegeinEurodurchSteuernSolidaritaetszuschlagPartnerPartnerin.value = `${userData["partner-selbststaendigAbzuege"]} €`;
+    pdfValues.steuernSolidarzuschlagPartnerPartnerin.value =
+      "Abzüge zusammengerechnet";
   }
 
   if (userData["partner-arbeitsweg"] === "publicTransport") {
-    pdfValues.fahrtkostenEhegatte.value = "ÖPNV; Arbeitsadresse: siehe Anhang";
-    pdfValues.monatlicheAbzuegeinEuro9.value = `${userData["partner-monatlicheOPNVKosten"]} €`;
+    pdfValues.fahrtzurArbeitKostenfueroeffentlicheVerkehrsmittelodereinfacheEntfernungbeiKFZNutzungPa.value =
+      "ÖPNV; Arbeitsadresse: siehe Anhang";
+    pdfValues.monatlicheAbzuegeinEurodurchFahrtkostenPartnerPartnerin.value = `${userData["partner-monatlicheOPNVKosten"]} €`;
   } else if (userData["partner-arbeitsweg"] === "privateVehicle") {
-    pdfValues.fahrtkostenEhegatte.value = "KFZ; Arbeitsadresse: siehe Anhang";
-    pdfValues.monatlicheAbzuegeinEuro9.value = `${userData["partner-arbeitsplatzEntfernung"]}km`;
+    pdfValues.fahrtzurArbeitKostenfueroeffentlicheVerkehrsmittelodereinfacheEntfernungbeiKFZNutzungPa.value =
+      "KFZ; Arbeitsadresse: siehe Anhang";
+    pdfValues.monatlicheAbzuegeinEurodurchFahrtkostenPartnerPartnerin.value = `${userData["partner-arbeitsplatzEntfernung"]}km`;
   }
 
   const attachment: AttachmentEntries = [];
@@ -137,12 +140,12 @@ const fillPartnerAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   if (userData["partner-arbeitsausgaben"]?.length === 1) {
     const { beschreibung, betrag } = userData["partner-arbeitsausgaben"][0];
     const arbeitsausgabe = userData["partner-arbeitsausgaben"][0];
-    pdfValues.sonstigewerbungskostenEhegatte.value = `${beschreibung} (${betrag} € ${zahlungsfrequenzMapping[arbeitsausgabe.zahlungsfrequenz]})`;
-    pdfValues.monatlicheAbzuegeinEuro10.value = `${averageMonthlyExpenses} €`;
+    pdfValues.sonstigeWerbungskostenBetriebsausgabenPartnerPartnerin.value = `${beschreibung} (${betrag} € ${zahlungsfrequenzMapping[arbeitsausgabe.zahlungsfrequenz]})`;
+    pdfValues.monatlicheAbzuegeinEurodurchSonstigeWerbungskostenBetriebsausgabenPartnerPartnerin.value = `${averageMonthlyExpenses} €`;
   } else if (arbeitsausgabenNeedsAttachment) {
-    pdfValues.sonstigewerbungskostenEhegatte.value =
+    pdfValues.sonstigeWerbungskostenBetriebsausgabenPartnerPartnerin.value =
       SEE_IN_ATTACHMENT_DESCRIPTION;
-    pdfValues.monatlicheAbzuegeinEuro10.value = `${averageMonthlyExpenses} €`;
+    pdfValues.monatlicheAbzuegeinEurodurchSonstigeWerbungskostenBetriebsausgabenPartnerPartnerin.value = `${averageMonthlyExpenses} €`;
     attachment.push({
       title: "Sonstige Werbungskosten/Betriebsausgaben - Partner:in",
       level: "h3",

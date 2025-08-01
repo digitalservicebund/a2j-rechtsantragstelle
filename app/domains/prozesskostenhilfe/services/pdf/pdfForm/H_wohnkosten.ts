@@ -1,32 +1,38 @@
 import type { PkhPdfFillFunction } from "../types";
 
 export const fillWohnkosten: PkhPdfFillFunction = ({ userData, pdfValues }) => {
-  pdfValues.gesamtgroessedesWohnraumsdenSiealleinodergemeinsammitanderenPersonenbewohnen.value =
-    userData.apartmentSizeSqm?.toString();
-  pdfValues.zahlderZimmer.value = userData.numberOfRooms?.toString();
-  pdfValues.personenanzahl.value =
+  pdfValues[
+    "1GesamtgroessedesWohnraumsdenSiealleinodergemeinsammitanderenPersonenbewohnen"
+  ].value = userData.apartmentSizeSqm?.toString();
+  pdfValues["2ZahlderZimmer"].value = userData.numberOfRooms?.toString();
+  pdfValues["3AnzahlderPersonendiedenWohnrauminsgesamtbewohnen"].value =
     userData.livingSituation === "alone"
       ? "1"
       : userData.apartmentPersonCount?.toString();
 
-  pdfValues.nutzenSiedenRaumalsMieteroderineinemaehnlichenNutzungsverhaeltnis.value =
-    userData.rentsApartment === "no";
-  pdfValues.undefined_10.value = userData.rentsApartment === "yes";
+  pdfValues.h1.value = userData.rentsApartment === "no";
+  pdfValues.h2.value = userData.rentsApartment === "yes";
 
   // using as owner no / yes
-  pdfValues.undefined_11.value = userData.rentsApartment === "yes";
-  pdfValues.undefined_12.value = userData.rentsApartment === "no";
+  pdfValues.h3.value = userData.rentsApartment === "yes";
+  pdfValues.h4.value = userData.rentsApartment === "no";
 
-  pdfValues.mieteohneNebenkosten.value = userData.rentWithoutUtilities;
-  pdfValues.heizungskosten.value = userData.heatingCosts;
-  pdfValues.uebrigeNebenkosten.value = userData.utilitiesCost;
-  pdfValues.gesamtbetrag.value = userData.totalRent;
-  pdfValues.ichalleinzahledavon.value =
+  pdfValues.wohnkostenalsMieterMieterinMieteohneNebenkosten.value =
+    userData.rentWithoutUtilities;
+  pdfValues.wohnkostenalsMieterMieterinHeizungskosten.value =
+    userData.heatingCosts;
+  pdfValues.wohnkostenalsMieterMieterinuebrigeNebenkosten.value =
+    userData.utilitiesCost;
+  pdfValues.gesamtbetragalsMieterMieterin.value = userData.totalRent;
+  pdfValues.ichalleinzahledavonalsMieterMieterin.value =
     userData.sharedRent ?? userData.totalRent;
 
-  pdfValues.heizungskosten_2.value = userData.heatingCostsOwned;
-  pdfValues.uebrigeNebenkosten2.value = userData.utilitiesCostOwned;
-  pdfValues.ichalleinzahledavon2.value = userData.utilitiesCostOwnShared;
+  pdfValues.kostenalsEigentuemerEigentuemerinHeizungskosten.value =
+    userData.heatingCostsOwned;
+  pdfValues.kostenalsEigentuemerEigentuemerinuebrigeNebenkosten.value =
+    userData.utilitiesCostOwned;
+  pdfValues.ichalleinzahledavonalsEigentuemerEigentuemerin.value =
+    userData.utilitiesCostOwnShared;
 
   return { pdfValues };
 };

@@ -136,17 +136,14 @@ const fillPdfValues = (
   // Inside the loop, keys of the fields are generated with the index
   for (let i = 0; i < 3 && i < zahlungShort.length; i++) {
     const entry = zahlungenWithDescription[i];
-    const index = i + 1;
+    const index = (i + 1) as 1 | 2 | 3;
     const sonstigeZahlungsverpflichtungen =
-      `sonstigeZahlungsverpflichtungen${index}` as keyof ProzesskostenhilfePDF;
+      `sonstigeZahlungsverpflichtungen${index}` as const;
     const restschuldinEUR =
-      index > 1
-        ? (`restschuldinEUR_${index}` as keyof ProzesskostenhilfePDF)
-        : ("restschuldinEUR" as keyof ProzesskostenhilfePDF);
-    const monatlicheGesamtbelastung =
-      `monatlicheGesamtbelastung${index}` as keyof ProzesskostenhilfePDF;
+      `restschuldinEurosonstigeZahlungsverpflichtungen${index}` as const;
+    const monatlicheGesamtbelastung = `gesamtbelastungmtl${index}` as const;
     const ichalleinzahledavon =
-      `ichalleinzahledavon${index + 2}` as keyof ProzesskostenhilfePDF;
+      `ichalleinzahledavonsonstigeZahlungsverpflichtungen${index}` as const;
 
     pdfValues[sonstigeZahlungsverpflichtungen].value = entry.description;
     pdfValues[restschuldinEUR].value =

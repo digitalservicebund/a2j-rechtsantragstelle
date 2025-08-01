@@ -8,8 +8,7 @@ export const pdfs = [
   {
     flowId: "/prozesskostenhilfe/formular",
     service: "prozesskostenhilfe",
-    pdfFilename:
-      "Erklaerung_ueber_die_persoenlichen_und_wirtschaftlichen_Verhaeltnisse.pdf",
+    pdfFilename: "Erklaerung_Prozesskostenhilfe_QR.pdf",
     typeName: "ProzesskostenhilfePDF",
   },
 ] as const;

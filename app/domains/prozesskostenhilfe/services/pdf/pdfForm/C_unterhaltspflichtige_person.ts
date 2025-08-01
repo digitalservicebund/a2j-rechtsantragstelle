@@ -11,10 +11,10 @@ export const fillUnterhaltsanspruch: PkhPdfFillFunction = ({
     unterhaltspflichtigePerson.nachname &&
     unterhaltspflichtigePerson.beziehung
   ) {
-    pdfValues.jaichhabeAngehoerigedieIhnengegenubergesetzlichzurLeistungvonUnterhaltverpflichtetsind.value = true;
-    pdfValues.namedesUnterhaltspflichtingen.value = `${unterhaltspflichtigePerson.vorname} ${unterhaltspflichtigePerson.nachname}, ${familyRelationshipMap[unterhaltspflichtigePerson.beziehung]}`;
+    pdfValues.c2.value = true;
+    pdfValues.namedesUnterhaltspflichtigen.value = `${unterhaltspflichtigePerson.vorname} ${unterhaltspflichtigePerson.nachname}, ${familyRelationshipMap[unterhaltspflichtigePerson.beziehung]}`;
   } else {
-    pdfValues.neinichhabekeineAngehoerigendieIhnengegenubergesetzlichzurLeistungvonUnterhaltverpflichtetsind.value = true;
+    pdfValues.c1.value = true;
   }
   return { pdfValues };
 };

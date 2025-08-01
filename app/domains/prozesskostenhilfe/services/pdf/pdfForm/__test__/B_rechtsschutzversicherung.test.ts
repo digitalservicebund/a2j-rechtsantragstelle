@@ -21,12 +21,12 @@ const testCases: Array<
 > = [
   [
     { hasRsv: "no", hasRsvThroughOrg: "no" },
-    { "1Nein": { value: true }, nein_3: { value: true } },
+    { b1: { value: true }, b3: { value: true } },
   ],
   [
     { hasRsv: "yes", hasRsvCoverage: "partly" },
     {
-      ja: { value: true },
+      b2: { value: true },
       hoehederKosten: {
         value: "RSV: Teilweise Kostenübernahme (siehe Belege)",
       },
@@ -40,7 +40,7 @@ const testCases: Array<
       hasOrgCoverage: "partly",
     },
     {
-      ja: { value: true },
+      b2: { value: true },
       hoehederKosten: {
         value:
           "RSV: Teilweise Kostenübernahme (siehe Belege), Verein/Organisation: Teilweise Kostenübernahme (siehe Belege)",
@@ -55,12 +55,12 @@ const testCases: Array<
       hasOrgCoverage: "no",
     },
     {
-      ja: { value: true },
+      b2: { value: true },
       hoehederKosten: {
         value:
           "RSV: Teilweise Kostenübernahme (siehe Belege), Verein/Organisation: Nein",
       },
-      ja_2: { value: true },
+      b4: { value: true },
       bezeichnungderVersicherung: {
         value: "Verein/Organisation: Ja (siehe Belege)",
       },
@@ -69,8 +69,8 @@ const testCases: Array<
   [
     { hasRsv: "yes", hasRsvCoverage: "no" },
     {
-      "1Nein": { value: true },
-      ja_2: { value: true },
+      b1: { value: true },
+      b4: { value: true },
       hoehederKosten: {
         value: "RSV: Nein",
       },
@@ -87,9 +87,9 @@ const testCases: Array<
       hasOrgCoverage: "partly",
     },
     {
-      "1Nein": { value: undefined },
-      ja: { value: true },
-      ja_2: { value: true },
+      b1: { value: undefined },
+      b2: { value: true },
+      b4: { value: true },
       hoehederKosten: {
         value:
           "RSV: Nein, Verein/Organisation: Teilweise Kostenübernahme (siehe Belege)",
@@ -107,8 +107,8 @@ const testCases: Array<
       hasOrgCoverage: "no",
     },
     {
-      "1Nein": { value: true },
-      ja_2: { value: true },
+      b1: { value: true },
+      b4: { value: true },
       hoehederKosten: {
         value: "RSV: Nein, Verein/Organisation: Nein",
       },
@@ -120,8 +120,8 @@ const testCases: Array<
   [
     { hasRsvThroughOrg: "yes", hasOrgCoverage: "partly" },
     {
-      "1Nein": { value: undefined },
-      ja: { value: true },
+      b1: { value: undefined },
+      b2: { value: true },
       hoehederKosten: {
         value: "Verein/Organisation: Teilweise Kostenübernahme (siehe Belege)",
       },
@@ -130,8 +130,8 @@ const testCases: Array<
   [
     { hasRsvThroughOrg: "yes", hasOrgCoverage: "no" },
     {
-      "1Nein": { value: true },
-      ja_2: { value: true },
+      b1: { value: true },
+      b4: { value: true },
       hoehederKosten: {
         value: "Verein/Organisation: Nein",
       },
@@ -156,8 +156,8 @@ describe("B_rechtsschutzversicherung", () => {
           hasRsvThroughOrg: "no",
         },
       });
-      expect(pdfValues["1Nein"].value).toBe(true);
-      expect(pdfValues.nein_3.value).toBe(true);
+      expect(pdfValues.b1.value).toBe(true);
+      expect(pdfValues.b3.value).toBe(true);
     });
 
     it("should indicate if the user has partial RSV coverage", () => {
@@ -168,7 +168,7 @@ describe("B_rechtsschutzversicherung", () => {
           hasRsvCoverage: "partly",
         },
       });
-      expect(pdfValues.ja.value).toBe(true);
+      expect(pdfValues.b2.value).toBe(true);
       expect(pdfValues.hoehederKosten.value).toBe(
         "RSV: Teilweise Kostenübernahme (siehe Belege)",
       );
@@ -182,8 +182,8 @@ describe("B_rechtsschutzversicherung", () => {
           hasRsvCoverage: "no",
         },
       });
-      expect(pdfValues["1Nein"].value).toBe(true);
-      expect(pdfValues.ja_2.value).toBe(true);
+      expect(pdfValues.b1.value).toBe(true);
+      expect(pdfValues.b4.value).toBe(true);
       expect(pdfValues.bezeichnungderVersicherung.value).toBe(
         "RSV: Ja (siehe Belege)",
       );
@@ -197,7 +197,7 @@ describe("B_rechtsschutzversicherung", () => {
           hasOrgCoverage: "partly",
         },
       });
-      expect(pdfValues.ja.value).toBe(true);
+      expect(pdfValues.b2.value).toBe(true);
       expect(pdfValues.hoehederKosten.value).toBe(
         "Verein/Organisation: Teilweise Kostenübernahme (siehe Belege)",
       );
@@ -211,8 +211,8 @@ describe("B_rechtsschutzversicherung", () => {
           hasOrgCoverage: "no",
         },
       });
-      expect(pdfValues["1Nein"].value).toBe(true);
-      expect(pdfValues.ja_2.value).toBe(true);
+      expect(pdfValues.b1.value).toBe(true);
+      expect(pdfValues.b4.value).toBe(true);
       expect(pdfValues.bezeichnungderVersicherung.value).toBe(
         "Verein/Organisation: Ja (siehe Belege)",
       );
@@ -242,7 +242,7 @@ describe("B_rechtsschutzversicherung", () => {
         field1Text: "",
         field2Text: "",
       });
-      expect(pdfValues.ja.value).toBe(true);
+      expect(pdfValues.b2.value).toBe(true);
       expect(field1Text).toBe("RSV: Teilweise Kostenübernahme (siehe Belege)");
     });
 
@@ -256,7 +256,7 @@ describe("B_rechtsschutzversicherung", () => {
         field1Text: "",
         field2Text: "",
       });
-      expect(pdfValues["1Nein"].value).toBe(true);
+      expect(pdfValues.b1.value).toBe(true);
       expect(field1Text).toBe("RSV: Nein");
       expect(field2Text).toBe("RSV: Ja (siehe Belege)");
     });
@@ -273,8 +273,8 @@ describe("B_rechtsschutzversicherung", () => {
         field1Text: "",
         field2Text: "",
       });
-      expect(pdfValues.ja.value).toBe(true);
-      expect(pdfValues["1Nein"].value).toBe(undefined);
+      expect(pdfValues.b2.value).toBe(true);
+      expect(pdfValues.b1.value).toBe(undefined);
       expect(field1Text).toBe(
         "Verein/Organisation: Teilweise Kostenübernahme (siehe Belege)",
       );
@@ -290,9 +290,9 @@ describe("B_rechtsschutzversicherung", () => {
         field1Text: "",
         field2Text: "",
       });
-      expect(pdfValues["1Nein"].value).toBe(true);
+      expect(pdfValues.b1.value).toBe(true);
       expect(field1Text).toBe("Verein/Organisation: Nein");
-      expect(pdfValues.ja_2.value).toBe(true);
+      expect(pdfValues.b4.value).toBe(true);
       expect(field2Text).toBe("Verein/Organisation: Ja (siehe Belege)");
     });
 
