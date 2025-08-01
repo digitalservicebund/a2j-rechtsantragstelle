@@ -30,14 +30,10 @@ describe("C_unterhaltsanspruch", () => {
         pdfValues: pdfParams,
       });
 
-      expect(pdfValues.namedesUnterhaltspflichtingen.value).toBe(
+      expect(pdfValues.namedesUnterhaltspflichtigen.value).toBe(
         "unterhaltVor unterhaltNach, Mein Vater",
       );
-      expect(
-        pdfValues
-          .jaichhabeAngehoerigedieIhnengegenubergesetzlichzurLeistungvonUnterhaltverpflichtetsind
-          .value,
-      ).toBeTruthy();
+      expect(pdfValues.c2.value).toBeTruthy();
     });
 
     it("should select correct checkbox if none is present", () => {
@@ -46,11 +42,7 @@ describe("C_unterhaltsanspruch", () => {
         pdfValues: pdfParams,
       });
 
-      expect(
-        pdfValues
-          .neinichhabekeineAngehoerigendieIhnengegenubergesetzlichzurLeistungvonUnterhaltverpflichtetsind
-          .value,
-      ).toBeTruthy();
+      expect(pdfValues.c1.value).toBeTruthy();
     });
   });
 });

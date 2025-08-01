@@ -12,37 +12,22 @@ import {
 } from "./bruttoEinnahmen_eigenes";
 import type { PkhPdfFillFunction } from "../../types";
 
-// PDF Form Field Names:
-// Nichtselbstständige Arbeit - nein_23, ja_22
-// Selbstständige Arbeit      - nein_25, ja_24
-// Vermietung und Verpachtung - nein_27, ja_26
-// Kapitalvermögen            - nein_29, ja_28
-// Kindergeld                 - nein_31, ja_30
-// Wohngeld                   - nein_33, ja_32
-// Unterhalt                  - nein_24, ja_23
-// Rente                      - nein_26, ja_25
-// Arbeitslosengeld           - nein_28, ja_27
-// Arbeitslosengeld II        - nein_30, ja_29
-// Krankengeld                - nein_32, ja_31
-// Elterngeld                 - nein_34, ja_33
-// Weitere Einnahmen          - nein_35, ja_34
-
 export const fillStaatlicheLeistungenPartner: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
   if (guards.staatlicheLeistungenIsBuergergeld({ context: userData })) {
-    pdfValues.ja_29.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH10.value = `${removeDecimalsFromCurrencyString(userData["partner-buergergeld"])} ${nettoString}`;
+    pdfValues.e46.value = true;
+    pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchBuergergeldinEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-buergergeld"])} ${nettoString}`;
   } else {
-    pdfValues.nein_30.value = true;
+    pdfValues.e45.value = true;
   }
 
   if (guards.staatlicheLeistungenIsArbeitslosengeld({ context: userData })) {
-    pdfValues.ja_27.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH9.value = `${removeDecimalsFromCurrencyString(userData["partner-arbeitslosengeld"])} ${nettoString}`;
+    pdfValues.e44.value = true;
+    pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchArbeitslosengeldinEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-arbeitslosengeld"])} ${nettoString}`;
   } else {
-    pdfValues.nein_28.value = true;
+    pdfValues.e43.value = true;
   }
   return { pdfValues };
 };
@@ -52,25 +37,25 @@ export const fillEinkommenTypePartner: PkhPdfFillFunction = ({
   pdfValues,
 }) => {
   if (guards.notEmployed({ context: userData })) {
-    pdfValues.nein_23.value = true;
-    pdfValues.nein_25.value = true;
+    pdfValues.e27.value = true;
+    pdfValues.e29.value = true;
   }
 
   if (guards.isEmployee({ context: userData })) {
-    pdfValues.ja_22.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH1.value = `${removeDecimalsFromCurrencyString(userData["partner-nettoEinkuenfteAlsArbeitnehmer"])} ${nettoString}`;
+    pdfValues.e28.value = true;
+    pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchnichtselbstaendigeArbeitinEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-nettoEinkuenfteAlsArbeitnehmer"])} ${nettoString}`;
   } else {
-    pdfValues.nein_23.value = true;
+    pdfValues.e27.value = true;
   }
 
   if (guards.isSelfEmployed({ context: userData })) {
-    pdfValues.ja_24.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH2.value = `${removeDecimalsFromCurrencyString(userData["partner-selbststaendigMonatlichesEinkommen"])} ${userData["partner-selbststaendigBruttoNetto"]}`;
+    pdfValues.e30.value = true;
+    pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchselbstaendigeArbeitGewerbebetriebLandundFors.value = `${removeDecimalsFromCurrencyString(userData["partner-selbststaendigMonatlichesEinkommen"])} ${userData["partner-selbststaendigBruttoNetto"]}`;
   } else {
-    pdfValues.nein_25.value = true;
+    pdfValues.e29.value = true;
   }
-  pdfValues.nein_27.value = true;
-  pdfValues.nein_29.value = true;
+  pdfValues.e31.value = true;
+  pdfValues.e33.value = true;
 
   return { pdfValues };
 };
@@ -80,11 +65,11 @@ export const fillRentePartner: PkhPdfFillFunction = ({
   pdfValues,
 }) => {
   if (userData["partner-receivesPension"] === "yes") {
-    pdfValues.ja_25.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH8.value = `${removeDecimalsFromCurrencyString(userData["partner-pensionAmount"])} ${nettoString}`;
+    pdfValues.e42.value = true;
+    pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchRentePensioninEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-pensionAmount"])} ${nettoString}`;
   }
   if (userData["partner-receivesPension"] === "no") {
-    pdfValues.nein_26.value = true;
+    pdfValues.e41.value = true;
   }
   return { pdfValues };
 };
@@ -94,11 +79,11 @@ export const fillSupportPartner: PkhPdfFillFunction = ({
   pdfValues,
 }) => {
   if (userData["partner-receivesSupport"] === "yes") {
-    pdfValues.ja_23.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH7.value = `${removeDecimalsFromCurrencyString(userData["partner-supportAmount"])} ${nettoString}`;
+    pdfValues.e40.value = true;
+    pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchUnterhaltinEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-supportAmount"])} ${nettoString}`;
   }
   if (userData["partner-receivesSupport"] === "no") {
-    pdfValues.nein_24.value = true;
+    pdfValues.e39.value = true;
   }
   return { pdfValues };
 };
@@ -108,31 +93,31 @@ export const fillAndereLeistungenPartner: PkhPdfFillFunction = ({
   pdfValues,
 }) => {
   if (userData["partner-hasWohngeld"] === "on") {
-    pdfValues.ja_32.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH6.value = `${removeDecimalsFromCurrencyString(userData["partner-wohngeldAmount"])} ${nettoString}`;
+    pdfValues.e38.value = true;
+    pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchWohngeldinEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-wohngeldAmount"])} ${nettoString}`;
   } else if (userData["partner-hasFurtherIncome"]) {
-    pdfValues.nein_33.value = true;
+    pdfValues.e37.value = true;
   }
 
   if (userData["partner-hasKrankengeld"] === "on") {
-    pdfValues.ja_31.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH11.value = `${removeDecimalsFromCurrencyString(userData["partner-krankengeldAmount"])} ${nettoString}`;
+    pdfValues.e48.value = true;
+    pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchKrankengeldinEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-krankengeldAmount"])} ${nettoString}`;
   } else if (userData["partner-hasFurtherIncome"]) {
-    pdfValues.nein_32.value = true;
+    pdfValues.e47.value = true;
   }
 
   if (userData["partner-hasElterngeld"] === "on") {
-    pdfValues.ja_33.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH12.value = `${removeDecimalsFromCurrencyString(userData["partner-elterngeldAmount"])} ${nettoString}`;
+    pdfValues.e50.value = true;
+    pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchElterngeldinEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-elterngeldAmount"])} ${nettoString}`;
   } else if (userData["partner-hasFurtherIncome"]) {
-    pdfValues.nein_34.value = true;
+    pdfValues.e49.value = true;
   }
 
   if (userData["partner-hasKindergeld"] === "on") {
-    pdfValues.ja_30.value = true;
-    pdfValues.monatlicheBruttoeinnahmenH5.value = `${removeDecimalsFromCurrencyString(userData["partner-kindergeldAmount"])} ${nettoString}`;
+    pdfValues.e36.value = true;
+    pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchKindergeldKinderzuschlaginEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-kindergeldAmount"])} ${nettoString}`;
   } else if (userData["partner-hasFurtherIncome"]) {
-    pdfValues.nein_31.value = true;
+    pdfValues.e35.value = true;
   }
 
   return { pdfValues };
@@ -151,14 +136,14 @@ export const fillWeitereEinkuenftePartner: PkhPdfFillFunction = ({
     !userData["partner-weitereEinkuenfte"] &&
     !hasAsylbewerberOrGrundsicherung
   ) {
-    pdfValues.nein_35.value = true;
+    pdfValues.e51.value = true;
     return { pdfValues };
   }
 
-  pdfValues.ja_35.value = true;
+  pdfValues.e52.value = true;
 
   if (hasAsylbewerberOrGrundsicherung) {
-    pdfValues.hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben.value =
+    pdfValues.andereEinnahmenPartnerPartnerin1.value =
       userData["partner-staatlicheLeistungen"] === "asylbewerberleistungen"
         ? "Asylbewerberleistungen"
         : "Grundsicherung oder Sozialhilfe";
@@ -172,7 +157,7 @@ export const fillWeitereEinkuenftePartner: PkhPdfFillFunction = ({
 
   if (userData["partner-weitereEinkuenfte"].length > 2) {
     const attachment: AttachmentEntries = [];
-    pdfValues.hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben.value =
+    pdfValues.andereEinnahmenPartnerPartnerin1.value =
       SEE_IN_ATTACHMENT_DESCRIPTION;
 
     attachment.push({ title: "2. Andere Einnahmen", level: "h3" });
@@ -185,16 +170,16 @@ export const fillWeitereEinkuenftePartner: PkhPdfFillFunction = ({
     return { pdfValues, attachment };
   }
 
-  pdfValues.hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben.value =
+  pdfValues.andereEinnahmenPartnerPartnerin1.value =
     userData["partner-weitereEinkuenfte"][0].beschreibung +
     ` (${zahlungsfrequenzMapping[userData["partner-weitereEinkuenfte"][0].zahlungsfrequenz]})`;
-  pdfValues.euroBrutto3.value = `${removeDecimalsFromCurrencyString(userData["partner-weitereEinkuenfte"][0].betrag)} ${nettoString}`;
+  pdfValues.bruttobezugPartnerPartnerin1.value = `${removeDecimalsFromCurrencyString(userData["partner-weitereEinkuenfte"][0].betrag)} ${nettoString}`;
 
   if (userData["partner-weitereEinkuenfte"].length === 2) {
-    pdfValues.hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben2.value =
+    pdfValues.andereEinnahmenPartnerPartnerin2.value =
       userData["partner-weitereEinkuenfte"][1].beschreibung +
       ` (${zahlungsfrequenzMapping[userData["partner-weitereEinkuenfte"][1].zahlungsfrequenz]})`;
-    pdfValues.euroBrutto4.value = `${removeDecimalsFromCurrencyString(userData["partner-weitereEinkuenfte"][1].betrag)} ${nettoString}`;
+    pdfValues.bruttobezugPartnerPartnerin2.value = `${removeDecimalsFromCurrencyString(userData["partner-weitereEinkuenfte"][1].betrag)} ${nettoString}`;
   }
 
   return { pdfValues };
@@ -234,7 +219,7 @@ export const fillBruttoEinnahmenPartner: PkhPdfFillFunction = ({
     userData["partner-staatlicheLeistungen"] === "grundsicherung" ||
     userData["partner-staatlicheLeistungen"] === "asylbewerberleistungen"
   ) {
-    pdfValues.hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben.value =
+    pdfValues.andereEinnahmenPartnerPartnerin1.value =
       userData["partner-staatlicheLeistungen"] === "asylbewerberleistungen"
         ? "Asylbewerberleistungen"
         : "Grundsicherung oder Sozialhilfe";
