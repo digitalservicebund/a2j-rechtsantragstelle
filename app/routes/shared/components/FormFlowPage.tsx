@@ -10,8 +10,8 @@ import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import type { loader } from "../formular.server";
 import { GridContainer, GridItem } from "~/components";
+import type { loader } from "../formular";
 
 export function FormFlowPage() {
   const {
@@ -96,7 +96,7 @@ export function FormFlowPage() {
           colStartLg={4}
         >
           <div className="ds-stack ds-stack-40">
-            <div className="ds-stack ds-stack-16" id="form-flow-page-content">
+            <div className="ds-stack ds-stack-16" id="flow-page-content">
               {preHeading && <p className="ds-label-01-bold">{preHeading}</p>}
               <Heading text={heading} look="ds-heading-02-reg" />
               <ContentComponents
@@ -112,27 +112,32 @@ export function FormFlowPage() {
               sortedFields={migration.sortedFields}
               buttonUrl={migration.buttonUrl}
             />
-            {arraySummaryData &&
-              Object.keys(arraySummaryData).length !== 0 &&
-              Object.entries(arraySummaryData).map(([category, array]) => (
-                <ArraySummary
-                  key={category}
-                  category={category}
-                  arrayData={array}
-                  translations={translations}
-                  csrf={csrf}
-                />
-              ))}
-            <ValidatedFlowForm
-              stepData={stepData}
-              csrf={csrf}
-              formElements={formElements}
-              buttonNavigationProps={buttonNavigationProps}
-            />
-            <ContentComponents content={postFormContent} fullScreen={false} />
           </div>
-          {/* </div> */}
-          {/* </div> */}
+
+          <MigrationDataOverview
+            userData={migration.userData}
+            translations={translations}
+            sortedFields={migration.sortedFields}
+            buttonUrl={migration.buttonUrl}
+          />
+          {arraySummaryData &&
+            Object.keys(arraySummaryData).length !== 0 &&
+            Object.entries(arraySummaryData).map(([category, array]) => (
+              <ArraySummary
+                key={category}
+                category={category}
+                arrayData={array}
+                translations={translations}
+                csrf={csrf}
+              />
+            ))}
+          <ValidatedFlowForm
+            stepData={stepData}
+            csrf={csrf}
+            formElements={formElements}
+            buttonNavigationProps={buttonNavigationProps}
+          />
+          <ContentComponents content={postFormContent} fullScreen={false} />
         </GridItem>
       </GridContainer>
       <GridContainer

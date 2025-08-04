@@ -45,4 +45,14 @@ describe("SideNavMobile", () => {
     expect(toggleLabel).toHaveTextContent("Bereich:");
     expect(toggleLabel).toHaveTextContent("Page 1");
   });
+
+  it("renders the aria-expanded with the correct value", () => {
+    const { getByRole } = render(
+      <SideNavMobile navItems={dummyNavItems} className="test-class" />,
+    );
+    const menuButton = getByRole("button");
+    expect(menuButton).toHaveAttribute("aria-expanded", "false");
+    fireEvent.click(menuButton);
+    expect(menuButton).toHaveAttribute("aria-expanded", "true");
+  });
 });

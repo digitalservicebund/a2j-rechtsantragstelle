@@ -17,6 +17,7 @@ const mockCmsElement = {
       __component: "basic.paragraph" as const,
       text: "someText",
       html: "someText",
+      id: 10,
     },
   ],
   preHeading: undefined,
@@ -28,8 +29,8 @@ const mockCmsElement = {
       __component: "form-elements.checkbox",
       label: "some label",
       name: "name",
-      required: false,
       errorMessage: "",
+      id: 10,
     },
   ],
   pageMeta: {

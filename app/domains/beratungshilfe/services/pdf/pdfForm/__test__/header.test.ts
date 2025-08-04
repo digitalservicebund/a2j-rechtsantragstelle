@@ -1,8 +1,8 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
-import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { happyPathData } from "~/domains/beratungshilfe/services/pdf/__test__/beratungshilfeFormularData";
 import { gerbehAmtsgericht } from "~/services/gerichtsfinder/__test__/convertJsonDataTable.test";
-import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillHeader } from "../header";
 
@@ -49,7 +49,7 @@ describe("fillHeader", () => {
 
   it("should add amtsgericht if available", () => {
     vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
-    vi.mocked(findCourtIfUnique).mockReturnValue({
+    vi.mocked(findCourt).mockReturnValue({
       ...gerbehAmtsgericht,
       BEZEICHNUNG: "Amtsgericht Dessau-Roßlau",
     });
@@ -65,7 +65,7 @@ describe("fillHeader", () => {
 
   it("shouldn't add amtsgericht if edge case PLZ", () => {
     vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
-    vi.mocked(findCourtIfUnique).mockReturnValue(undefined);
+    vi.mocked(findCourt).mockReturnValue(undefined);
 
     const { pdfValues } = pdfFillReducer({
       userData: { plz: "10965" },

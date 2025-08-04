@@ -120,16 +120,15 @@ export const findCourt = ({
   streetSlug,
   houseNumber,
 }: {
-  zipCode: string;
+  zipCode?: string;
   streetSlug?: string;
   houseNumber?: string;
 }) => {
   if (streetSlug && streetSlug !== "default") {
-    const decodedStreetName = streetSlug.replaceAll(/_/g, " ");
-    const decodedStreetnameFull = decodedStreetName.replaceAll(
-      /([Ss]tr\.)/g,
-      "strasse",
-    );
+    const decodedStreetName = streetSlug.toLowerCase().replaceAll(/_/g, " ");
+    const decodedStreetnameFull = decodedStreetName
+      .toLowerCase()
+      .replaceAll(/([Ss]tr\.)/g, "strasse");
     const edgeCases = edgeCasesForPlz(zipCode).map((e) => ({
       ...e,
       STRN_NORMALIZED: e.STRN.toLowerCase()
@@ -165,14 +164,6 @@ export const findCourt = ({
   if (!court) return undefined;
   return courtAddress(court);
 };
-
-export function findCourtIfUnique(zipCode?: string) {
-  if (!zipCode) return undefined;
-  const court = findCourt({ zipCode });
-  if (court && edgeCasesForPlz(zipCode).length == 0) {
-    return court;
-  }
-}
 
 export function isPartnerCourt(zipCode?: string) {
   const partnerCourtGerbehIndices = getPartnerCourtsGerbehIndex();

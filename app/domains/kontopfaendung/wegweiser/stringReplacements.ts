@@ -28,6 +28,7 @@ export const getErhoehungsbetragStrings = (
     hasErhoehungsbetrag:
       userData.kinderUnterhalt === "yes" ||
       userData.kinderWohnenZusammen === "ja" ||
+      userData.kinderWohnenZusammen === "teilweise" ||
       userData.partnerUnterhalt === "yes" ||
       userData.partnerWohnenZusammen === "yes",
   };
@@ -59,8 +60,9 @@ export const getNachzahlungSozialUnter500Strings = (
 ) => {
   return {
     hasNachzahlungSozialUnter500:
-      userData.hasSozialleistungNachzahlung === "yes" &&
-      userData.sozialleistungNachzahlungHigherThan === "no",
+      userData.hasSozialleistungNachzahlung === "yes" ||
+      userData.hasWohngeldNachzahlung === "yes" ||
+      userData.hasKindergeldNachzahlung === "yes",
   };
 };
 export const getNachzahlungSozialMehr500Strings = (
@@ -113,18 +115,11 @@ export const getAsylbewerberleistungStrings = (
       userData.hasSozialleistungen === "asylbewerberleistungen",
   };
 };
-export const getPflegegeldSelbstStrings = (
+export const getPflegegeldStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
-    hasPflegegeldSelbst: userData.pflegegeld === "selbst",
-  };
-};
-export const getPflegegeldFremdStrings = (
-  userData: KontopfaendungWegweiserUserData,
-) => {
-  return {
-    hasPflegegeldFremd: userData.pflegegeld === "fremd",
+    hasPflegegeld: userData.hasPflegegeld === "yes",
   };
 };
 export const getArbeitsentgeltEinmaligStrings = (
@@ -158,6 +153,11 @@ export const getKinderStrings = (userData: KontopfaendungWegweiserUserData) => {
     hasKinder: userData.hasKinder === "yes",
   };
 };
+export const getRenteStrings = (userData: KontopfaendungWegweiserUserData) => {
+  return {
+    hasRente: userData.hasRente === "yes",
+  };
+};
 export const getSchuldnerberatungsstelleStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
@@ -171,8 +171,10 @@ export const getSchuldnerberatungsstelleStrings = (
   const { hasBuergergeld } = getBuergergeldStrings(userData);
   const { hasGrundsicherung } = getGrundsicherungStrings(userData);
   const { hasAsylbewerberleistung } = getAsylbewerberleistungStrings(userData);
-  const hasPflegegeldSelbst =
-    getPflegegeldSelbstStrings(userData).hasPflegegeldSelbst;
+  const { hasWohngeld } = getWohngeldStrings(userData);
+  const { hasPflegegeld } = getPflegegeldStrings(userData);
+  const hasRente = getRenteStrings(userData).hasRente;
+
   const schuldnerberatungsstelleIsVisible =
     hasErhoehungsbetrag ||
     hasKindergeld ||
@@ -182,13 +184,14 @@ export const getSchuldnerberatungsstelleStrings = (
     hasBuergergeld ||
     hasGrundsicherung ||
     hasAsylbewerberleistung ||
-    hasPflegegeldSelbst;
+    hasWohngeld ||
+    hasPflegegeld ||
+    hasRente;
   return { schuldnerberatungsstelleIsVisible };
 };
 export const getAmtsgerichtStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
-  const { hasPflegegeldFremd } = getPflegegeldFremdStrings(userData);
   const hasArbeitsentgeltEinmalig =
     getArbeitsentgeltEinmaligStrings(userData).hasArbeitsentgeltEinmalig;
   const hasNachzahlungArbeitMehr500 =
@@ -196,14 +199,11 @@ export const getAmtsgerichtStrings = (
   const hasNachzahlungSozialMehr500 =
     getNachzahlungSozialMehr500Strings(userData).hasNachzahlungSozialMehr500;
   const { isSelbststaendig } = getSelbststaendigStrings(userData);
-  const { hasWohngeld } = getWohngeldStrings(userData);
   const amtsgerichtIsVisible =
-    hasPflegegeldFremd ||
     hasArbeitsentgeltEinmalig ||
     hasNachzahlungArbeitMehr500 ||
     hasNachzahlungSozialMehr500 ||
-    isSelbststaendig ||
-    hasWohngeld;
+    isSelbststaendig;
   return { amtsgerichtIsVisible };
 };
 export const getInfoZumPKontoStrings = (
@@ -221,7 +221,6 @@ export const getInfoZumPKontoStrings = (
     isPrivilegierteForderungUnterhalt;
   return { infoZumPKontoIsVisible };
 };
-
 export const getHasErhöhungStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
@@ -236,10 +235,6 @@ export const getHasErhöhungStrings = (
   const { hasGrundsicherung } = getGrundsicherungStrings(userData);
   const { isSelbststaendig } = getSelbststaendigStrings(userData);
   const { hasAsylbewerberleistung } = getAsylbewerberleistungStrings(userData);
-  const hasPflegegeldSelbst =
-    getPflegegeldSelbstStrings(userData).hasPflegegeldSelbst;
-  const hasPflegegeldFremd =
-    getPflegegeldFremdStrings(userData).hasPflegegeldFremd;
   const hasArbeitsentgeltEinmalig =
     getArbeitsentgeltEinmaligStrings(userData).hasArbeitsentgeltEinmalig;
   const hasNachzahlungArbeitMehr500 =
@@ -247,6 +242,8 @@ export const getHasErhöhungStrings = (
   const hasNachzahlungSozialMehr500 =
     getNachzahlungSozialMehr500Strings(userData).hasNachzahlungSozialMehr500;
   const hasWohngeld = getWohngeldStrings(userData).hasWohngeld;
+  const hasPflegegeld = getPflegegeldStrings(userData).hasPflegegeld;
+  const hasRente = getRenteStrings(userData).hasRente;
 
   return {
     hasErhöhung:
@@ -258,12 +255,44 @@ export const getHasErhöhungStrings = (
       hasBuergergeld ||
       hasGrundsicherung ||
       hasAsylbewerberleistung ||
-      hasPflegegeldSelbst ||
-      hasPflegegeldFremd ||
       hasArbeitsentgeltEinmalig ||
       hasNachzahlungArbeitMehr500 ||
       hasNachzahlungSozialMehr500 ||
       isSelbststaendig ||
-      hasWohngeld,
+      hasWohngeld ||
+      hasPflegegeld ||
+      hasRente,
   };
+};
+export const getBescheinigungStrings = (
+  userData: KontopfaendungWegweiserUserData,
+) => {
+  const hasErhoehungsbetrag =
+    getErhoehungsbetragStrings(userData).hasErhoehungsbetrag;
+  const hasKindergeld = getKindergeldStrings(userData).hasKindergeld;
+  const hasEinmalSozialleistung =
+    getEinmalSozialleistungStrings(userData).hasEinmalSozialleistung;
+  const hasNachzahlungSozialUnter500 =
+    getNachzahlungSozialUnter500Strings(userData).hasNachzahlungSozialUnter500;
+  const hasNachzahlungArbeitUnter500 =
+    getNachzahlungArbeitUnter500Strings(userData).hasNachzahlungArbeitUnter500;
+  const hasBuergergeld = getBuergergeldStrings(userData).hasBuergergeld;
+  const hasGrundsicherung =
+    getGrundsicherungStrings(userData).hasGrundsicherung;
+  const hasAsylbewerberleistung =
+    getAsylbewerberleistungStrings(userData).hasAsylbewerberleistung;
+  const hasWohngeld = getWohngeldStrings(userData).hasWohngeld;
+
+  const bescheinigungenIsVisible =
+    hasErhoehungsbetrag ||
+    hasKindergeld ||
+    hasEinmalSozialleistung ||
+    hasNachzahlungSozialUnter500 ||
+    hasNachzahlungArbeitUnter500 ||
+    hasBuergergeld ||
+    hasGrundsicherung ||
+    hasAsylbewerberleistung ||
+    hasWohngeld;
+
+  return { bescheinigungenIsVisible };
 };

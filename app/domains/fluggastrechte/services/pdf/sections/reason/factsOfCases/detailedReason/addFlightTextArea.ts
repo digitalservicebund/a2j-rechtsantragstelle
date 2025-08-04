@@ -42,8 +42,13 @@ const getFlightTextByBereich = (userdata: FluggastrechteUserData) => {
 export const addFlightTextArea = (
   doc: typeof PDFDocument,
   userData: FluggastrechteUserData,
+  reasonSect: PDFKit.PDFStructureElement,
 ) => {
   if (userData.zwischenstoppAnzahl !== "no") {
-    doc.text(getFlightTextByBereich(userData), PDF_MARGIN_HORIZONTAL);
+    reasonSect.add(
+      doc.struct("P", {}, () => {
+        doc.text(getFlightTextByBereich(userData), PDF_MARGIN_HORIZONTAL);
+      }),
+    );
   }
 };

@@ -11,9 +11,8 @@ import ContentComponents from "~/components/ContentComponents";
 import Heading from "~/components/Heading";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import RichText from "~/components/RichText";
-import type { loader } from "~/routes/shared/result.server";
-import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
+import { type loader } from "../result";
 
 const iconCSS = "inline-block !h-[36px] !w-[36px] !min-h-[36px] !min-w-[36px]";
 const icons: Record<StrapiResultPageType, ReactElement> = {
@@ -31,7 +30,10 @@ const backgrounds: Record<StrapiResultPageType, BackgroundColor> = {
 };
 
 export function ResultPage() {
-  const { common, cmsData, backButton } = useLoaderData<typeof loader>();
+  const {
+    cmsData,
+    buttonNavigationProps: { back, next },
+  } = useLoaderData<typeof loader>();
   const documentsList = cmsData.documents;
   const nextSteps = cmsData.nextSteps;
   const content = cmsData.freeZone;
@@ -50,7 +52,7 @@ export function ResultPage() {
           >
             <div className="flex sm:flex-row flex-col gap-16">
               {icons[cmsData.pageType]}
-              <div className="flex flex-col gap-16">
+              <div className="flex flex-col gap-16" id="flow-page-content">
                 <Heading
                   tagName={cmsData.heading.tagName}
                   look={cmsData.heading.look}
@@ -66,14 +68,14 @@ export function ResultPage() {
 
           <Container paddingTop="48" paddingBottom="0">
             <ButtonContainer>
-              {backButton.destination && (
-                <a className="text-link" href={backButton.destination}>
-                  {backButton.label}
+              {back.destination && (
+                <a className="text-link" href={back.destination}>
+                  {back.label}
                 </a>
               )}
               {cmsData.nextLink?.url && (
                 <a className="text-link" href={cmsData.nextLink.url}>
-                  {cmsData.nextLink.text ?? common.nextButtonDefaultLabel}
+                  {next?.label}
                 </a>
               )}
             </ButtonContainer>
@@ -87,7 +89,7 @@ export function ResultPage() {
         <div>
           {documentsList.map((element) => (
             <ContentComponents
-              key={keyFromElement(element)}
+              key={`${element.__component}_${element.id}`}
               content={[element]}
             />
           ))}

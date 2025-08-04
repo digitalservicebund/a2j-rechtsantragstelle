@@ -99,56 +99,63 @@ export default function Index() {
           <RichText html={resultListHeading} />
         </CourtFinderHeader>
       </Background>
-      <Container paddingTop="48">
-        <Heading
-          tagName="h2"
-          look="ds-heading-03-reg"
-          text="Geben Sie bitte Ihre genaue Straße und Hausnummer ein"
-          className="pb-16"
-        />
-        <ValidatedForm
-          method="post"
-          schema={courtFinderSchema}
-          defaultValues={{
-            street: "",
-            houseNumber: "",
-          }}
-        >
-          <div className="pb-16 flex gap-8">
-            <AutoSuggestInput
-              label={translations.gerichtFinder.streetName.de}
-              dataList="streetNames"
-              noSuggestionMessage={translations.gerichtFinder.noResultsFound.de}
-              errorMessages={[requiredError]}
-              name={"street"}
-              isDisabled={false}
-              minSuggestionCharacters={0}
-            />
-            <Input
-              type="number"
-              label={translations.gerichtFinder.houseNumber.de}
-              name={"houseNumber"}
-              errorMessages={[requiredError]}
-              // Imposed limit to avoid regex backtracking
-              charLimit={10}
-            />
-          </div>
-          <ButtonContainer>
-            <Button
-              href="/beratungshilfe/zustaendiges-gericht/suche"
-              look="tertiary"
-              size="large"
-              id="backLink"
-            >
-              {common.backButton}
-            </Button>
-            <Button type="submit" size="large" id="weiterButton">
-              {translations.buttonNavigation.nextButtonDefaultLabel.de}
-            </Button>
-          </ButtonContainer>
-        </ValidatedForm>
-      </Container>
-      <ReportProblem />
+      <div className="flex-grow">
+        <Container paddingTop="48">
+          <Heading
+            tagName="h2"
+            look="ds-heading-03-reg"
+            text="Geben Sie bitte Ihre genaue Straße und Hausnummer ein"
+            className="pb-16"
+          />
+          <ValidatedForm
+            method="post"
+            schema={courtFinderSchema}
+            defaultValues={{
+              street: "",
+              houseNumber: "",
+            }}
+          >
+            <div className="ds-stack ds-stack-32">
+              <div className="flex flex-wrap md:flex-nowrap gap-16">
+                <AutoSuggestInput
+                  label={translations.gerichtFinder.streetName.de}
+                  dataList="streetNames"
+                  noSuggestionMessage={
+                    translations.gerichtFinder.noResultsFound.de
+                  }
+                  width="54"
+                  errorMessages={[requiredError]}
+                  name="street"
+                  isDisabled={false}
+                  minSuggestCharacters={0}
+                />
+                <Input
+                  label={translations.gerichtFinder.houseNumber.de}
+                  name="houseNumber"
+                  errorMessages={[requiredError]}
+                  width="10"
+                />
+              </div>
+              <ButtonContainer>
+                <Button
+                  href="/beratungshilfe/zustaendiges-gericht/suche"
+                  look="tertiary"
+                  size="large"
+                  id="backLink"
+                >
+                  {common.backButton}
+                </Button>
+                <Button type="submit" size="large" id="weiterButton">
+                  {translations.buttonNavigation.nextButtonDefaultLabel.de}
+                </Button>
+              </ButtonContainer>
+            </div>
+          </ValidatedForm>
+        </Container>
+      </div>
+      <div className="flex justify-end w-full p-32 relative">
+        <ReportProblem />
+      </div>
     </div>
   );
 }

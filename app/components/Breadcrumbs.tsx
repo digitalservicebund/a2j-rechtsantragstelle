@@ -1,7 +1,6 @@
 import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
 import classNames from "classnames";
-import { alignToContainer, GridContainer, GridItem } from "~/components";
-import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
+import { GridContainer, GridItem } from "~/components";
 import { StandaloneLink } from "./StandaloneLink";
 
 export type Breadcrumb = {
@@ -11,23 +10,18 @@ export type Breadcrumb = {
 
 type BreadcrumbsProps = {
   readonly breadcrumbs: Breadcrumb[];
-  readonly translations?: Record<string, string>;
+  readonly ariaLabel?: string;
   readonly linkLabel?: string;
   readonly alignToMainContainer?: boolean;
 };
 
 export default function Breadcrumbs({
-  translations,
+  ariaLabel,
   breadcrumbs,
   linkLabel,
-  alignToMainContainer = true,
 }: BreadcrumbsProps) {
   const validBreadcrumbs = breadcrumbs?.filter(
     (breadcrumb) => breadcrumb.title !== undefined,
-  );
-  const ariaLabelTranslation = getTranslationByKey(
-    "header-breadcrumb",
-    translations,
   );
   const navClassNames = classNames("flex flex-wrap items-center", "h-[64px]");
 
@@ -41,7 +35,7 @@ export default function Breadcrumbs({
           colStartMd={1}
           colStartLg={1}
         >
-          <nav className={navClassNames} aria-label={ariaLabelTranslation}>
+          <nav className={navClassNames} aria-label={ariaLabel}>
             {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
             <a
               href="/"

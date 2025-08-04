@@ -5,7 +5,6 @@ const localFeatureFlags = {
   showGeldEinklagenFlow: false,
   showFileUpload: false,
   showNachbefragung: false,
-  showKontopfaendungWegweiserFlow: false,
   showPKHZusammenfassung: false,
 } as const;
 

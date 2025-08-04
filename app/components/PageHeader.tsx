@@ -5,6 +5,8 @@ import { alignToContainer, GridContainer, GridItem } from "~/components";
 import Kopfzeile from "~/components/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
 import { translations } from "~/services/translations/translations";
+import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
+import { useShouldPrint } from "./hooks/useShouldPrint";
 
 type PageHeaderProps = {
   title: string;
@@ -23,6 +25,7 @@ export default function PageHeader({
     "flex flex-wrap justify-between",
     "h-[64px] items-center",
   );
+  const shouldPrint = useShouldPrint();
 
   return (
     <header>
@@ -38,6 +41,13 @@ export default function PageHeader({
           colStartMd={1}
           colStartLg={1}
         >
+          {shouldPrint && (
+            <span>
+              {translations.pageHeader.printPage.de}{" "}
+              {toGermanDateFormat(today())} {translations.pageHeader.at.de}{" "}
+              {toHourAndMinuteTime(today())} {translations.pageHeader.time.de}
+            </span>
+          )}
           {/* <Kopfzeile alignToMainContainer={false} /> */}
           <nav
             className={navClassNames}

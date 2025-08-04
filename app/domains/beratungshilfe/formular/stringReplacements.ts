@@ -1,5 +1,5 @@
 import { beratungshilfePersoenlicheDatenDone } from "~/domains/beratungshilfe/formular/persoenlicheDaten/doneFunctions";
-import { findCourtIfUnique } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
 import {
   andereUnterhaltszahlungenDone,
@@ -10,15 +10,17 @@ import {
   wohnungDone,
   eigentumDone,
 } from "./finanzielleAngaben/doneFunctions";
-import { eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentumZusammenfassungDone";
-import { eigentumTotalWorthLessThan10000 } from "./finanzielleAngaben/guards";
-import type { BeratungshilfeFormularUserData } from "./index";
 import { rechtsproblemDone } from "./rechtsproblem/rechtsproblemDone";
+import type { BeratungshilfeFormularUserData } from "./userData";
 
 export const getAmtsgerichtStrings = (
   context: BeratungshilfeFormularUserData,
 ) => {
-  const court = findCourtIfUnique(context.plz);
+  const court = findCourt({
+    zipCode: context.plz,
+    streetSlug: context.street,
+    houseNumber: context.houseNumber,
+  });
   return {
     courtName: court?.BEZEICHNUNG,
     courtStreetNumber: court?.STR_HNR,
@@ -80,16 +82,6 @@ export const getAnwaltStrings = (context: BeratungshilfeFormularUserData) => {
   return { hasNoAnwalt: context.anwaltskanzlei !== "yes" };
 };
 
-export const eigentumZusammenfassungShowTotalWorthWarnings = (
-  context: BeratungshilfeFormularUserData,
-) => {
-  return {
-    eigentumTotalWorthLessThan10000: eigentumTotalWorthLessThan10000({
-      context,
-    }),
-  };
-};
-
 export const getMissingInformationStrings = (
   context: BeratungshilfeFormularUserData,
 ) => {
@@ -113,9 +105,6 @@ export const getMissingInformationStrings = (
             !andereUnterhaltszahlungenDone({ context }),
           wohnungMissingInformation: !wohnungDone({ context }),
           eigentumMissingInformation: !eigentumDone({ context }),
-          eigentumZusammenfassungMissingInformation:
-            !eigentumZusammenfassungDone({ context }) &&
-            eigentumDone({ context }),
           ausgabenMissingInformation: !ausgabenDone({ context }),
         }
       : {};

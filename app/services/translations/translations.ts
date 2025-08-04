@@ -69,7 +69,7 @@ export const translations = {
       de: "Vielen Dank!",
     },
     "text-post-submission": {
-      de: "Wollen Sie uns mit Ihren Erfahrungen helfen, diese Seite zu verbessern? Dann melden Sie sich für \n[Feedback-Studien](/feedback-studien) an. Je nach Studie erhalten Sie eine Aufwandsentschädigung.",
+      de: "Wir wollen digitale Justiz-Angebote entwickeln, die für alle Menschen gut funktionieren. Ihre Hilfe ist dabei sehr wichtig. Teilen Sie Ihre Erfahrungen mit uns und testen Sie neue Angebote. [Hier können Sie sich anmelden](/feedback).",
     },
     "success-message": {
       de: "Vielen Dank!",
@@ -129,16 +129,25 @@ export const translations = {
     mainNavigationAriaLabel: {
       de: "Hauptmenü",
     },
+    printPage: {
+      de: "Diese Seite wurde heruntergeladen am",
+    },
+    time: {
+      de: "Uhr",
+    },
+    at: {
+      de: "um",
+    },
   },
   navigationMobile: {
     currentArea: {
       de: "Bereich",
     },
     closeMenu: {
-      de: "Close menu",
+      de: "Schritt-für-Schritt-Menü schließen",
     },
     toggleMenu: {
-      de: "Main menu toggle",
+      de: "Schritt-für-Schritt-Menü",
     },
   },
   buttonNavigation: {
@@ -165,10 +174,10 @@ export const translations = {
       de: "Kein Eintrag gefunden",
     },
     inputRequired: {
-      de: "Bitte treffen Sie eine Auswahl.",
+      de: "Dieses Feld muss ausgefüllt werden.",
     },
     invalidHousenumber: {
-      de: "Bitte geben Sie eine gültige Hausnummer ein.",
+      de: "Bitte geben Sie eine gültige Hausnummer an.",
     },
   },
 } satisfies TranslationRecord;

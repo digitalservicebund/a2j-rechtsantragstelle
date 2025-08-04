@@ -8,6 +8,7 @@ const mockCmsElement = {
       __component: "basic.paragraph" as const,
       text: "someText",
       html: "someText",
+      id: 10,
     },
   ],
   preHeading: undefined,
@@ -33,6 +34,7 @@ describe("buildFormElements", () => {
           altLabel: "old alt label",
           options: [],
           errorMessages: [],
+          id: 10,
         },
       ],
     } satisfies CMSContent;
@@ -53,6 +55,7 @@ describe("buildFormElements", () => {
           altLabel: "old alt label",
           options: [],
           errorMessages: [],
+          id: 10,
         },
       ],
     } satisfies CMSContent;
@@ -71,8 +74,8 @@ describe("buildFormElements", () => {
           __component: "form-elements.checkbox",
           label: "some label",
           name: "checkbox",
-          required: false,
           errorMessage: "",
+          id: 10,
         },
       ],
     } satisfies CMSContent;

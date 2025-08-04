@@ -1,4 +1,3 @@
-import { type SafeParseError } from "zod";
 import { listRenderer } from "~/services/cms/models/StrapiList";
 import { buildRichTextValidation } from "~/services/validation/richtext";
 
@@ -26,22 +25,13 @@ describe("richtext validation", () => {
   });
 
   describe("failing cases", () => {
-    const cases = [
-      { input: true, errorMessage: "Expected string, received boolean" },
-      { input: 1234, errorMessage: "Expected string, received number" },
-      { input: {}, errorMessage: "Expected string, received object" },
-    ];
+    const cases = [true, 1234, {}];
 
-    test.each(cases)(
-      "given $input, returns $errorMessage",
-      ({ input, errorMessage }) => {
-        const actual = buildRichTextValidation().safeParse(input);
-        expect(actual.success).toBe(false);
-        expect(
-          (actual as SafeParseError<unknown>).error.issues[0].message,
-        ).toBe(errorMessage);
-      },
-    );
+    test.each(cases)("raises invalid_type for $0", (input) => {
+      const actual = buildRichTextValidation().safeParse(input);
+      expect(actual.success).toBe(false);
+      expect(actual.error!.issues[0].code).toBe("invalid_type");
+    });
   });
 
   describe("custom renderers", () => {
@@ -63,6 +53,16 @@ describe("richtext validation", () => {
         }).safeParse(`# ${headingText}`),
       ).toEqual({
         data: `<h2>${headingText}</h2>`,
+        success: true,
+      });
+    });
+
+    test("when custom renderer is provided, it is merged with the default renderer", () => {
+      const linkText = "[Link](/example.com)";
+      const actual = buildRichTextValidation(listRenderer).safeParse(linkText);
+
+      expect(actual).toEqual({
+        data: `<p class="ds-subhead max-w-full"><a href="/example.com" class="text-link min-h-[24px]">Link</a></p>`,
         success: true,
       });
     });

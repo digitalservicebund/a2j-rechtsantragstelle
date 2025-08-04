@@ -16,8 +16,11 @@ const staatlicheLeistungenYes: GenericGuard<
 
 export const beratungshilfeVorabcheckXstateConfig = {
   id: "/beratungshilfe/vorabcheck",
-  initial: stepIds.rechtsschutzversicherung,
+  initial: stepIds.start,
   states: {
+    [stepIds.start]: {
+      on: { SUBMIT: stepIds.rechtsschutzversicherung },
+    },
     [stepIds.rechtsschutzversicherung]: {
       on: {
         SUBMIT: [
@@ -30,6 +33,7 @@ export const beratungshilfeVorabcheckXstateConfig = {
             guard: ({ context }) => context.rechtsschutzversicherung === "no",
           },
         ],
+        BACK: stepIds.start,
       },
     },
     [stepIds.rechtsschutzversicherungDetails]: {
@@ -179,9 +183,6 @@ export const beratungshilfeVorabcheckXstateConfig = {
       },
     },
     [stepIds.bereich]: {
-      meta: {
-        customAnalyticsEventName: "beratungshilfe vorabcheck bereich submitted",
-      },
       on: {
         SUBMIT: stepIds.staatlicheLeistungen,
         BACK: [

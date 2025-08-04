@@ -1,4 +1,3 @@
-import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import { translations as staticTranslations } from "~/services/translations/translations";
 import Background from "./Background";
 import Container from "./Container";
@@ -24,7 +23,7 @@ type FooterProps = Readonly<{
   paragraphs?: RichTextProps[];
   image?: ImageProps;
   showDeletionBanner?: boolean;
-  translations?: Record<string, string>;
+  ariaLabel?: string;
 }>;
 
 const Links = ({ links }: Pick<CategorizedLinkProps, "links">) => {
@@ -45,12 +44,8 @@ export default function Footer({
   paragraphs = [],
   categorizedLinks,
   showDeletionBanner = false,
-  translations,
+  ariaLabel,
 }: FooterProps) {
-  const ariaLabelTranslation = getTranslationByKey(
-    "footer-navigation",
-    translations,
-  );
   return (
     <GridContainer
       columns={12}

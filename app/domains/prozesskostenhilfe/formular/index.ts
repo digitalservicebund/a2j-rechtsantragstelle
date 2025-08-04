@@ -1,3 +1,4 @@
+import mapValues from "lodash/mapValues";
 import type { Flow } from "~/domains/flows.server";
 import { hasOptionalString } from "~/domains/guards.server";
 import {
@@ -16,6 +17,7 @@ import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/domains/proz
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/arrayConfiguration";
 import { finanzielleAngabeEinkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import { grundvoraussetzungenXstateConfig } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/xStateConfig";
+import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
 import { prozesskostenhilfePersoenlicheDatenDone } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/doneFunctions";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "~/domains/shared/formular/finanzielleAngaben/arrayConfiguration";
@@ -23,7 +25,6 @@ import { getPersoenlicheDatenXstateConfig } from "~/domains/shared/formular/pers
 import {
   getKinderStrings,
   getArrayIndexStrings,
-  eigentumZusammenfassungShowPartnerschaftWarnings,
   geldAnlagenStrings,
 } from "~/domains/shared/formular/stringReplacements";
 import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
@@ -53,6 +54,8 @@ const showPKHZusammenfassung = await isFeatureFlagEnabled(
   "showPKHZusammenfassung",
 );
 
+const stepIds = mapValues(prozesskostenhilfeFormularPages, (v) => v.stepId);
+
 export const prozesskostenhilfeFormular = {
   flowType: "formFlow",
   config: {
@@ -75,8 +78,10 @@ export const prozesskostenhilfeFormular = {
       start: {
         id: "antragStart",
         meta: { done: () => true },
-        initial: "start",
-        states: { start: { on: { SUBMIT: "#grundvorsaussetzungen" } } },
+        initial: stepIds.start,
+        states: {
+          [stepIds.start]: { on: { SUBMIT: "#grundvoraussetzungen" } },
+        },
       },
       grundvoraussetzungen: grundvoraussetzungenXstateConfig,
       "antragstellende-person":
@@ -87,9 +92,9 @@ export const prozesskostenhilfeFormular = {
                 versandDigitalAnwalt({ context }) ||
                 versandDigitalGericht({ context }),
               target:
-                "#grundvorsaussetzungen.einreichung.hinweis-digital-einreichung",
+                "#grundvoraussetzungen.einreichung.hinweis-digital-einreichung",
             },
-            "#grundvorsaussetzungen.einreichung.hinweis-papier-einreichung",
+            "#grundvoraussetzungen.einreichung.hinweis-papier-einreichung",
           ],
           nextFlowEntrypoint: [
             {
@@ -171,7 +176,7 @@ export const prozesskostenhilfeFormular = {
       "persoenliche-daten": getPersoenlicheDatenXstateConfig(
         ({ context }) =>
           prozesskostenhilfePersoenlicheDatenDone({ context }) &&
-          hasOptionalString(context.telefonnummer as Partial<string>),
+          hasOptionalString(context.telefonnummer),
         {
           backToCallingFlow: [
             {
@@ -256,9 +261,7 @@ export const prozesskostenhilfeFormular = {
               BACK: [
                 {
                   guard: ({ context }) =>
-                    (Boolean(showFileUpload) &&
-                      fileUploadRelevant({ context })) ||
-                    Boolean(showPKHZusammenfassung),
+                    Boolean(showFileUpload) && fileUploadRelevant({ context }),
                   target: "dokumente",
                 },
                 {
@@ -282,7 +285,6 @@ export const prozesskostenhilfeFormular = {
     ...getArrayIndexStrings(context),
     ...getAntragstellendePersonStrings(context),
     ...getVereinfachteErklaerungStrings(context),
-    ...eigentumZusammenfassungShowPartnerschaftWarnings(context),
     ...geldAnlagenStrings(context),
     ...getAbgabeStrings(context),
     ...getMissingInformationStrings(context),

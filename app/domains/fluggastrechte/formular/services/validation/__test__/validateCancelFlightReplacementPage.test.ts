@@ -1,41 +1,43 @@
+import pick from "lodash/pick";
 import { z } from "zod";
+import { today, toGermanDateFormat } from "~/util/date";
+import { fluggastrechteInputSchema } from "../../../userData";
 import { validateCancelFlightReplacementPage } from "../validateCancelFlightReplacementPage";
 
 describe("validateCancelFlightReplacementPage", () => {
-  const baseSchema = z.object({
-    annullierungErsatzverbindungFlugnummer: z.string().optional(),
-    annullierungErsatzverbindungAbflugsDatum: z.string().optional(),
-    annullierungErsatzverbindungAbflugsZeit: z.string().optional(),
-    annullierungErsatzverbindungAnkunftsDatum: z.string().optional(),
-    annullierungErsatzverbindungAnkunftsZeit: z.string().optional(),
-    ankuendigung: z.string().optional(),
-    ersatzflugStartenZweiStunden: z.string().optional(),
-    ersatzflugLandenVierStunden: z.string().optional(),
-    ersatzflugStartenEinStunde: z.string().optional(),
-    ersatzflugLandenZweiStunden: z.string().optional(),
-    direktAbflugsDatum: z.string().optional(),
-    direktAbflugsZeit: z.string().optional(),
-    direktAnkunftsDatum: z.string().optional(),
-    direktAnkunftsZeit: z.string().optional(),
-  });
+  const baseSchema = z.object(
+    pick(fluggastrechteInputSchema, [
+      "annullierungErsatzverbindungFlugnummer",
+      "annullierungErsatzverbindungAbflugsDatum",
+      "annullierungErsatzverbindungAbflugsZeit",
+      "annullierungErsatzverbindungAnkunftsDatum",
+      "annullierungErsatzverbindungAnkunftsZeit",
+      "ankuendigung",
+      "ersatzflugStartenZweiStunden",
+      "ersatzflugLandenVierStunden",
+      "ersatzflugStartenEinStunde",
+      "ersatzflugLandenZweiStunden",
+      "direktAbflugsDatum",
+      "direktAbflugsZeit",
+      "direktAnkunftsDatum",
+      "direktAnkunftsZeit",
+    ]),
+  );
+
+  const mockData = {
+    direktAbflugsDatum: toGermanDateFormat(today()),
+    direktAbflugsZeit: "10:00",
+    direktAnkunftsDatum: toGermanDateFormat(today()),
+    direktAnkunftsZeit: "11:00",
+    ankuendigung: "no",
+  };
 
   const validatorCancelFlightReplacementPage =
     validateCancelFlightReplacementPage(baseSchema);
 
-  it("should return success true given undefined values", () => {
+  it("should return success true given all empty strings", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
-      annullierungErsatzverbindungFlugnummer: undefined,
-      annullierungErsatzverbindungAbflugsDatum: undefined,
-      annullierungErsatzverbindungAbflugsZeit: undefined,
-      annullierungErsatzverbindungAnkunftsDatum: undefined,
-      annullierungErsatzverbindungAnkunftsZeit: undefined,
-    });
-
-    expect(result.success).toBe(true);
-  });
-
-  it("should return success true given empty values", () => {
-    const result = validatorCancelFlightReplacementPage.safeParse({
+      ...mockData,
       annullierungErsatzverbindungFlugnummer: "",
       annullierungErsatzverbindungAbflugsDatum: "",
       annullierungErsatzverbindungAbflugsZeit: "",
@@ -48,106 +50,112 @@ describe("validateCancelFlightReplacementPage", () => {
 
   it("should fail validation when only the departure time is provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
-      annullierungErsatzverbindungFlugnummer: undefined,
-      annullierungErsatzverbindungAbflugsDatum: undefined,
+      ...mockData,
+      annullierungErsatzverbindungFlugnummer: "",
+      annullierungErsatzverbindungAbflugsDatum: "",
       annullierungErsatzverbindungAbflugsZeit: "14:00",
-      annullierungErsatzverbindungAnkunftsDatum: undefined,
-      annullierungErsatzverbindungAnkunftsZeit: undefined,
+      annullierungErsatzverbindungAnkunftsDatum: "",
+      annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.errors.length).toBe(4);
+    expect(result.error!.issues.length).toBe(4);
     expect(
-      result.error?.errors.some((error) =>
-        error.path.includes("annullierungErsatzverbindungAbflugsDatum"),
+      result.error?.issues.some((issue) =>
+        issue.path.includes("annullierungErsatzverbindungAbflugsDatum"),
       ),
     ).toBe(true);
   });
 
   it("should fail validation when only the departure date is provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
-      annullierungErsatzverbindungFlugnummer: undefined,
+      ...mockData,
+      annullierungErsatzverbindungFlugnummer: "",
       annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-      annullierungErsatzverbindungAbflugsZeit: undefined,
-      annullierungErsatzverbindungAnkunftsDatum: undefined,
-      annullierungErsatzverbindungAnkunftsZeit: undefined,
+      annullierungErsatzverbindungAbflugsZeit: "",
+      annullierungErsatzverbindungAnkunftsDatum: "",
+      annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.errors.length).toBe(4);
+    expect(result.error?.issues.length).toBe(4);
     expect(
-      result.error?.errors.some((error) =>
-        error.path.includes("annullierungErsatzverbindungAbflugsZeit"),
+      result.error?.issues.some((issue) =>
+        issue.path.includes("annullierungErsatzverbindungAbflugsZeit"),
       ),
     ).toBe(true);
   });
 
   it("should fail validation when only the arrival time is provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
-      annullierungErsatzverbindungFlugnummer: undefined,
-      annullierungErsatzverbindungAbflugsDatum: undefined,
-      annullierungErsatzverbindungAbflugsZeit: undefined,
-      annullierungErsatzverbindungAnkunftsDatum: undefined,
+      ...mockData,
+      annullierungErsatzverbindungFlugnummer: "",
+      annullierungErsatzverbindungAbflugsDatum: "",
+      annullierungErsatzverbindungAbflugsZeit: "",
+      annullierungErsatzverbindungAnkunftsDatum: "",
       annullierungErsatzverbindungAnkunftsZeit: "14:00",
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.errors.length).toBe(4);
+    expect(result.error?.issues.length).toBe(4);
     expect(
-      result.error?.errors.some((error) =>
-        error.path.includes("annullierungErsatzverbindungAnkunftsDatum"),
+      result.error?.issues.some((issue) =>
+        issue.path.includes("annullierungErsatzverbindungAnkunftsDatum"),
       ),
     ).toBe(true);
   });
 
   it("should fail validation when only the arrival date is provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
-      annullierungErsatzverbindungFlugnummer: undefined,
-      annullierungErsatzverbindungAbflugsDatum: undefined,
-      annullierungErsatzverbindungAbflugsZeit: undefined,
+      ...mockData,
+      annullierungErsatzverbindungFlugnummer: "",
+      annullierungErsatzverbindungAbflugsDatum: "",
+      annullierungErsatzverbindungAbflugsZeit: "",
       annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-      annullierungErsatzverbindungAnkunftsZeit: undefined,
+      annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.errors.length).toBe(4);
+    expect(result.error?.issues.length).toBe(4);
     expect(
-      result.error?.errors.some((error) =>
-        error.path.includes("annullierungErsatzverbindungAnkunftsZeit"),
+      result.error?.issues.some((issue) =>
+        issue.path.includes("annullierungErsatzverbindungAnkunftsZeit"),
       ),
     ).toBe(true);
   });
 
   it("should fail validation when only the flight number is provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
+      ...mockData,
       annullierungErsatzverbindungFlugnummer: "AB1234",
-      annullierungErsatzverbindungAbflugsDatum: undefined,
-      annullierungErsatzverbindungAbflugsZeit: undefined,
-      annullierungErsatzverbindungAnkunftsDatum: undefined,
-      annullierungErsatzverbindungAnkunftsZeit: undefined,
+      annullierungErsatzverbindungAbflugsDatum: "",
+      annullierungErsatzverbindungAbflugsZeit: "",
+      annullierungErsatzverbindungAnkunftsDatum: "",
+      annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.errors.length).toBe(4);
+    expect(result.error?.issues.length).toBe(4);
     expect(
-      result.error?.errors.some((error) =>
-        error.path.includes("annullierungErsatzverbindungAnkunftsZeit"),
+      result.error?.issues.some((issue) =>
+        issue.path.includes("annullierungErsatzverbindungAnkunftsZeit"),
       ),
     ).toBe(true);
   });
 
   it("should fail validation for all empty fields when at least two field is filled", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
+      ...mockData,
       annullierungErsatzverbindungFlugnummer: "AB1234",
       annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-      annullierungErsatzverbindungAbflugsZeit: undefined,
-      annullierungErsatzverbindungAnkunftsDatum: undefined,
-      annullierungErsatzverbindungAnkunftsZeit: undefined,
+      annullierungErsatzverbindungAbflugsZeit: "",
+      annullierungErsatzverbindungAnkunftsDatum: "",
+      annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.errors).toHaveLength(3);
-    expect(result.error?.errors).toEqual(
+    expect(result.error?.issues).toHaveLength(3);
+    expect(result.error?.issues).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           message: "fillAllOrNone",
@@ -167,13 +175,14 @@ describe("validateCancelFlightReplacementPage", () => {
 
   it("should pass validation when all optional-required fields are provided", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
+      ...mockData,
       annullierungErsatzverbindungFlugnummer: "AB123",
       annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
       annullierungErsatzverbindungAbflugsZeit: "10:00",
       annullierungErsatzverbindungAnkunftsDatum: "02.01.2024",
       annullierungErsatzverbindungAnkunftsZeit: "12:00",
     });
-
+    expect(result.error).toBeUndefined();
     expect(result.success).toBe(true);
   });
 
@@ -212,8 +221,8 @@ describe("validateCancelFlightReplacementPage", () => {
         });
 
         expect(result.success).toBe(false);
-        expect(result.error?.errors).toHaveLength(2);
-        expect(result.error?.errors).toEqual(
+        expect(result.error?.issues).toHaveLength(2);
+        expect(result.error?.issues).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
               message: "departureOneHourLateFromOriginalDeparture",
@@ -249,8 +258,8 @@ describe("validateCancelFlightReplacementPage", () => {
         });
 
         expect(result.success).toBe(false);
-        expect(result.error?.errors).toHaveLength(2);
-        expect(result.error?.errors).toEqual(
+        expect(result.error?.issues).toHaveLength(2);
+        expect(result.error?.issues).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
               message: "departureOneHourLessFromOriginalDeparture",
@@ -292,8 +301,8 @@ describe("validateCancelFlightReplacementPage", () => {
         });
 
         expect(result.success).toBe(false);
-        expect(result.error?.errors).toHaveLength(2);
-        expect(result.error?.errors).toEqual(
+        expect(result.error?.issues).toHaveLength(2);
+        expect(result.error?.issues).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
               message: "arrivalTwoHoursLateFromOriginalArrival",
@@ -329,8 +338,8 @@ describe("validateCancelFlightReplacementPage", () => {
         });
 
         expect(result.success).toBe(false);
-        expect(result.error?.errors).toHaveLength(2);
-        expect(result.error?.errors).toEqual(
+        expect(result.error?.issues).toHaveLength(2);
+        expect(result.error?.issues).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
               message: "arrivalTwoHoursLessFromOriginalArrival",
@@ -395,8 +404,8 @@ describe("validateCancelFlightReplacementPage", () => {
         });
 
         expect(result.success).toBe(false);
-        expect(result.error?.errors).toHaveLength(2);
-        expect(result.error?.errors).toEqual(
+        expect(result.error?.issues).toHaveLength(2);
+        expect(result.error?.issues).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
               message: "departureOneHourLateFromOriginalDeparture",
@@ -432,8 +441,8 @@ describe("validateCancelFlightReplacementPage", () => {
         });
 
         expect(result.success).toBe(false);
-        expect(result.error?.errors).toHaveLength(2);
-        expect(result.error?.errors).toEqual(
+        expect(result.error?.issues).toHaveLength(2);
+        expect(result.error?.issues).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
               message: "departureOneHourLessFromOriginalDeparture",
@@ -475,8 +484,8 @@ describe("validateCancelFlightReplacementPage", () => {
         });
 
         expect(result.success).toBe(false);
-        expect(result.error?.errors).toHaveLength(2);
-        expect(result.error?.errors).toEqual(
+        expect(result.error?.issues).toHaveLength(2);
+        expect(result.error?.issues).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
               message: "arrivalTwoHoursLateFromOriginalArrival",
@@ -512,8 +521,8 @@ describe("validateCancelFlightReplacementPage", () => {
         });
 
         expect(result.success).toBe(false);
-        expect(result.error?.errors).toHaveLength(2);
-        expect(result.error?.errors).toEqual(
+        expect(result.error?.issues).toHaveLength(2);
+        expect(result.error?.issues).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
               message: "arrivalTwoHoursLessFromOriginalArrival",
@@ -578,8 +587,8 @@ describe("validateCancelFlightReplacementPage", () => {
         });
 
         expect(result.success).toBe(false);
-        expect(result.error?.errors).toHaveLength(2);
-        expect(result.error?.errors).toEqual(
+        expect(result.error?.issues).toHaveLength(2);
+        expect(result.error?.issues).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
               message: "departureTwoHoursLateFromOriginalDeparture",
@@ -615,8 +624,8 @@ describe("validateCancelFlightReplacementPage", () => {
         });
 
         expect(result.success).toBe(false);
-        expect(result.error?.errors).toHaveLength(2);
-        expect(result.error?.errors).toEqual(
+        expect(result.error?.issues).toHaveLength(2);
+        expect(result.error?.issues).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
               message: "departureTwoHoursLessFromOriginalDeparture",
@@ -658,8 +667,8 @@ describe("validateCancelFlightReplacementPage", () => {
         });
 
         expect(result.success).toBe(false);
-        expect(result.error?.errors).toHaveLength(2);
-        expect(result.error?.errors).toEqual(
+        expect(result.error?.issues).toHaveLength(2);
+        expect(result.error?.issues).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
               message: "arrivalFourHoursLateFromOriginalArrival",
@@ -695,8 +704,8 @@ describe("validateCancelFlightReplacementPage", () => {
         });
 
         expect(result.success).toBe(false);
-        expect(result.error?.errors).toHaveLength(2);
-        expect(result.error?.errors).toEqual(
+        expect(result.error?.issues).toHaveLength(2);
+        expect(result.error?.issues).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
               message: "arrivalFourHoursLessFromOriginalArrival",

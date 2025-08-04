@@ -14,6 +14,9 @@ export const AGAINST = "gegen";
 const MAIN_TITLE = "Klage";
 const MAIN_SUBTITLE = "Neueingang";
 
+export const DUE_REASON_TEXT =
+  "Wegen: Ausgleichszahlung nach der Fluggastrechteverordnung (EG) 261/2004";
+
 export const createClaimData = (
   doc: typeof PDFDocument,
   flightCompensationClaimSect: PDFKit.PDFStructureElement,
@@ -40,15 +43,33 @@ export const createClaimData = (
   flightCompensationClaimSect.add(
     doc.struct("P", {}, () => {
       addPlaintiffDetails(doc, userData);
+      doc.moveDown();
+    }),
+  );
+
+  flightCompensationClaimSect.add(
+    doc.struct("P", {}, () => {
       doc
-        .moveDown()
         .fontSize(14)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(AGAINST, { align: "left" })
         .moveDown();
-      addAirlineDetails(doc, userData);
-      doc.moveDown();
-      addPlannedFlightDetails(doc, userData);
     }),
   );
+
+  flightCompensationClaimSect.add(
+    doc.struct("P", {}, () => {
+      addAirlineDetails(doc, userData);
+      doc.moveDown();
+    }),
+  );
+
+  flightCompensationClaimSect.add(
+    doc.struct("P", {}, () => {
+      doc.fontSize(12).font(FONTS_BUNDESSANS_BOLD).text(DUE_REASON_TEXT);
+      doc.moveDown(0.2);
+    }),
+  );
+
+  addPlannedFlightDetails(doc, flightCompensationClaimSect, userData);
 };

@@ -3,7 +3,6 @@ import type { ReactElement } from "react";
 import { EmailCapture } from "~/components/emailCapture/EmailCapture";
 import Heading from "~/components/Heading";
 import Video from "~/components/video/Video";
-import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
 import Background from "./Background";
 import Box from "./Box";
@@ -109,7 +108,7 @@ function ContentComponents({
       {content
         .filter((el) => el.__component !== "page.array-summary")
         .map((el) => (
-          <div key={keyFromElement(el)}>
+          <div key={`${el.__component}_${el.id}`}>
             {wrapInBackground(
               el,
               wrapInContainer(el, cmsToReact(el), fullScreen),

@@ -1,120 +1,72 @@
-import { type FileUpload, parseFormData } from "@mjackson/form-data-parser";
 import { type ValidationErrorResponseData } from "@rvf/react-router";
-import pickBy from "lodash/pickBy";
-import { type ZodTypeAny } from "zod";
+import { type z } from "zod";
 import { type FlowId } from "~/domains/flowIds";
 import { type ArrayData, type UserData, getContext } from "~/domains/userData";
 import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
 } from "~/services/externalDataStorage/userFileS3Helpers";
-import {
-  FIFTEEN_MB_IN_BYTES,
-  type PDFFileMetadata,
-} from "~/services/validation/pdfFileSchema";
-import { buildFileUploadError } from "./buildFileUploadError";
 import { splitFieldName } from "./splitFieldName";
-import { validateUploadedFile } from "./validateUploadedFile";
-import { getSessionIdByFlowId } from "../session.server";
+import { getSessionIdByFlowId, type CookieHeader } from "../session.server";
 import { FILE_REQUIRED_ERROR } from "./constants";
 
 export async function uploadUserFile(
-  formAction: string,
-  request: Request,
+  inputName: string,
+  cookieHeader: CookieHeader,
+  formData: FormData,
   userData: UserData,
   flowId: FlowId,
-): Promise<{
-  error?: ValidationErrorResponseData;
-  result?: { data: UserData };
-}> {
-  const inputName = formAction.split(".")[1];
+): Promise<{ userData: UserData } | ValidationErrorResponseData> {
   const { fieldName, inputIndex } = splitFieldName(inputName);
-  const file = await parseFileFromFormData(request, inputName);
+  const arrayUserData = [...((userData[fieldName] ?? []) as ArrayData)];
+  const fieldSchema = getContext(flowId)[
+    fieldName as keyof typeof getContext
+  ] as z.ZodType | undefined;
+  if (!fieldSchema) return { fieldErrors: {} };
+  const file = formData.get(inputName) as File | undefined;
 
   if (!file) {
-    return {
-      error: {
-        fieldErrors: {
-          [formAction.split(".")[1]]: FILE_REQUIRED_ERROR,
-        },
-      },
-    };
+    return { fieldErrors: { [inputName]: FILE_REQUIRED_ERROR } };
   }
 
-  const sessionId = await getSessionIdByFlowId(
-    flowId,
-    request.headers.get("Cookie"),
-  );
-
-  const fileMeta: PDFFileMetadata = {
+  arrayUserData[inputIndex] = {
     filename: file.name,
     fileType: file.type,
     fileSize: file.size,
   };
+  const validatedArray = fieldSchema.safeParse(arrayUserData);
 
-  /**
-   * Need to scope the context, otherwise we validate against the entire context,
-   * of which we only have partial data at this point
-   */
-  const scopedUserData = pickBy(
-    getContext(flowId),
-    (_val, key) => key === fieldName,
-  ) as Record<string, ZodTypeAny>;
-
-  const validationResult = await validateUploadedFile(
-    inputName,
-    fileMeta,
-    userData,
-    scopedUserData,
-  );
-
-  if (validationResult.error) {
+  if (!validatedArray.success)
     return {
-      error: buildFileUploadError(validationResult, inputName),
+      fieldErrors: { [inputName]: validatedArray.error.issues[0].message },
+      repopulateFields: { [fieldName]: arrayUserData },
     };
-  }
+
+  const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
   const savedFileKey = await uploadUserFileToS3(
     sessionId,
     flowId,
     await file.arrayBuffer(),
   );
+  arrayUserData[inputIndex].savedFileKey = savedFileKey;
 
-  fileMeta.savedFileKey = savedFileKey;
-  (validationResult.data[fieldName] as ArrayData)[Number(inputIndex)] =
-    fileMeta;
-  return {
-    result: { ...validationResult },
-  };
+  return { userData: { [fieldName]: arrayUserData } };
 }
 
 export async function deleteUserFile(
-  formAction: string,
-  cookieHeader: string | null,
+  inputName: string,
+  cookieHeader: CookieHeader,
   userData: UserData,
   flowId: FlowId,
-): Promise<{ fileWasDeleted: boolean }> {
-  const inputName = formAction.split(".")[1];
+) {
   const { fieldName, inputIndex } = splitFieldName(inputName);
-  // Check if a file is saved in Redis; if so, delete it
-  const savedFile = (userData[fieldName] as ArrayData | undefined)?.at(
-    inputIndex,
-  ) as PDFFileMetadata | undefined;
-  if (!savedFile?.savedFileKey) return { fileWasDeleted: false };
+  const arrayUserData = userData[fieldName] as ArrayData | undefined;
+  if (!arrayUserData) return undefined;
+  const savedFile = arrayUserData.at(inputIndex);
+  if (typeof savedFile?.savedFileKey !== "string") return undefined;
   const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
   await deleteUserFileFromS3(sessionId, flowId, savedFile.savedFileKey);
-  return { fileWasDeleted: true };
-}
-
-async function parseFileFromFormData(request: Request, fieldName: string) {
-  let matchedFile: File | undefined;
-  await parseFormData(
-    request,
-    { maxFileSize: FIFTEEN_MB_IN_BYTES },
-    (fileUpload: FileUpload) => {
-      if (fileUpload.fieldName === fieldName && fileUpload.name) {
-        matchedFile = fileUpload;
-      }
-    },
-  );
-  return matchedFile;
+  return {
+    [fieldName]: arrayUserData.filter((_, index) => index !== inputIndex),
+  };
 }

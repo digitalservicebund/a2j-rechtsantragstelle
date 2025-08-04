@@ -4,7 +4,7 @@ import { getSessionManager } from "~/services/session.server";
 import { action } from "../action.send-feedback";
 
 vi.mock("~/services/session.server");
-vi.stubEnv("POSTHOG_API_KEY", "-");
+vi.stubEnv("PUBLIC_POSTHOG_API_KEY", "-");
 
 vi.mocked(getSessionManager).mockReturnValue({
   getSession: vi.fn().mockReturnValue({ get: () => ({}), set: vi.fn() }),

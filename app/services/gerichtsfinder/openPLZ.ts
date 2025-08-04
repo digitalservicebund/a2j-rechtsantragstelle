@@ -67,8 +67,8 @@ export async function fetchStreetnamesForZipcode(zipCode?: string) {
     ).flat();
     results.push(...newResults);
   }
-  return uniqBy(results, "name").map((result) => ({
-    value: result.name.toLowerCase().replaceAll(/\s+/g, ""),
-    label: result.name,
+  return uniqBy(results, "name").map(({ name }) => ({
+    value: name,
+    label: name,
   }));
 }

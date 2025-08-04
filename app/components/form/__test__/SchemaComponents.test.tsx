@@ -1,6 +1,7 @@
 import { FormProvider, useForm } from "@rvf/react";
 import { render } from "@testing-library/react";
 import { z } from "zod";
+import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { SchemaComponents } from "../SchemaComponents";
 
 describe("SchemaComponents", () => {
@@ -26,6 +27,24 @@ describe("SchemaComponents", () => {
     );
     const textInput = getByRole("textbox");
     expect(textInput).toHaveAttribute("name", "field1");
+  });
+
+  it("should render textarea ", () => {
+    const { getByRole } = render(
+      <WrappedSchemaComponents
+        pageSchema={{ field1: z.string() }}
+        formComponents={[
+          {
+            __component: "form-elements.textarea",
+            id: 10,
+            name: "field1",
+            errorMessages: [],
+          },
+        ]}
+      />,
+    );
+    const textArea = getByRole("textbox");
+    expect(textArea).toHaveAttribute("name", "field1");
   });
 
   it("should render correct radio buttons ", () => {
@@ -63,6 +82,7 @@ describe("SchemaComponents", () => {
         formComponents={[
           {
             __component: "form-elements.tile-group",
+            id: 10,
             name: fieldName,
             options: [
               {
@@ -82,6 +102,30 @@ describe("SchemaComponents", () => {
     expect(radio).toHaveAttribute("value", "option1");
     expect(radio.parentElement).toHaveTextContent("option1 title");
     expect(radio.parentElement).toHaveTextContent("option1 description");
+  });
+
+  it("should render checkboxes ", () => {
+    const fieldName = "field1";
+    const pageSchema = { [fieldName]: checkedRequired };
+    const { getByRole } = render(
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        formComponents={[
+          {
+            __component: "form-elements.checkbox",
+            label: "label",
+            errorMessage: undefined,
+            id: 10,
+            name: fieldName,
+          },
+        ]}
+      />,
+    );
+    const checkbox = getByRole("checkbox");
+    expect(checkbox).toHaveAttribute("name", "field1");
+    expect(checkbox).toHaveAttribute("value", "on");
+    expect(checkbox).not.toBeRequired();
+    expect(checkbox.parentElement).toHaveTextContent("label");
   });
 
   it("should render multiple nested fields ", () => {
@@ -116,6 +160,7 @@ describe("SchemaComponents", () => {
             name: "field1",
             label: "label",
             type: "text",
+            id: 10,
             suffix: "suffix",
             errorMessages: [],
             width: "10",
@@ -125,6 +170,7 @@ describe("SchemaComponents", () => {
           {
             name: "field2",
             type: "text",
+            id: 10,
             errorMessages: [],
             width: "10",
             __component: "form-elements.input",

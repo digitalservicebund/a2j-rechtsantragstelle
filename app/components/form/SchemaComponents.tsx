@@ -1,5 +1,5 @@
 import mapKeys from "lodash/mapKeys";
-import type { PageSchema } from "~/domains/pageSchemas";
+import type { SchemaObject } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { getNestedSchema } from "./schemaToForm/getNestedSchema";
 import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";
@@ -7,7 +7,7 @@ import { isZodObject } from "./schemaToForm/renderZodObject";
 import { isZodString, renderZodString } from "./schemaToForm/renderZodString";
 
 type Props = {
-  pageSchema: PageSchema;
+  pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
 };
 
@@ -15,9 +15,13 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
   <div className="ds-stack ds-stack-40">
     {Object.entries(pageSchema).map(([fieldName, fieldSchema]) => {
       const nestedSchema = getNestedSchema(fieldSchema);
-      const matchingElement = formComponents?.find(
-        ({ name }) => name === fieldName,
-      );
+      const matchingElement = formComponents
+        ?.filter(
+          (formComponents) =>
+            // TODO - revisit this code later. For more details check this link https://github.com/digitalservicebund/a2j-rechtsantragstelle/pull/2309#discussion_r2200352159
+            formComponents.__component !== "form-elements.fieldset",
+        )
+        .find(({ name }) => name === fieldName);
 
       if (isZodObject(nestedSchema)) {
         // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")

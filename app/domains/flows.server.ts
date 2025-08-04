@@ -1,5 +1,5 @@
 import { kontopfaendungWegweiser } from "app/domains/kontopfaendung/wegweiser";
-import { beratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular";
+import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
 import { beratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck";
 import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
 import { fluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck";
@@ -28,11 +28,14 @@ export type Flow = {
   migration?: FlowMigration;
   flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (context: UserData) => Replacements;
-  asyncFlowActions?: Record<string, (request: Request) => Promise<void>>;
+  asyncFlowActions?: Record<
+    string,
+    (request: Request, userData: UserData) => Promise<void>
+  >;
 };
 
 export const flows = {
-  "/beratungshilfe/antrag": beratungshilfeFormularUserData,
+  "/beratungshilfe/antrag": beratungshilfeFormular,
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheck,
   "/geld-einklagen/vorabcheck": geldEinklagenVorabcheck,
   "/geld-einklagen/formular": geldEinklagenFormular,

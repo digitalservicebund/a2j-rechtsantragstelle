@@ -4,15 +4,15 @@ import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratun
 const finanzielleAngabenEigentumInfo =
   "/finanzielle-angaben/eigentum/eigentum-info";
 const finanzielleAngabenEigentumBankkontenFrage =
-  "/finanzielle-angaben/eigentum/bankkonten-frage";
+  "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage";
 const finanzielleAngabenEigentumGeldanlagenFrage =
-  "/finanzielle-angaben/eigentum/geldanlagen-frage";
-const finanzielleAngabenEigentumWertgegenstaendeFrage =
-  "/finanzielle-angaben/eigentum/wertgegenstaende-frage";
-const finanzielleAngabenEigentumGrundeigentumFrage =
-  "/finanzielle-angaben/eigentum/grundeigentum-frage";
+  "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage";
 const finanzielleAngabenEigentumKraftfahrzeugeFrage =
-  "/finanzielle-angaben/eigentum/kraftfahrzeuge-frage";
+  "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage";
+const finanzielleAngabenEigentumWertgegenstaendeFrage =
+  "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage";
+const finanzielleAngabenEigentumGrundeigentumFrage =
+  "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage";
 const finanzielleAngabenAusgabenAusgabenFrage =
   "/finanzielle-angaben/ausgaben/ausgaben-frage";
 
@@ -23,9 +23,9 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
       finanzielleAngabenEigentumInfo,
       finanzielleAngabenEigentumBankkontenFrage,
       finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenAusgabenAusgabenFrage,
     ],
   ],
@@ -38,9 +38,9 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
       "/finanzielle-angaben/eigentum/heirat-info",
       finanzielleAngabenEigentumBankkontenFrage,
       finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenAusgabenAusgabenFrage,
     ],
   ],
@@ -53,10 +53,9 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
       finanzielleAngabenEigentumInfo,
       finanzielleAngabenEigentumBankkontenFrage,
       finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
-      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
     ],
   ],
   [
@@ -69,15 +68,23 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
       "/finanzielle-angaben/eigentum/heirat-info",
       finanzielleAngabenEigentumBankkontenFrage,
       finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenAusgabenAusgabenFrage,
     ],
   ],
   [
     {
       hasBankkonto: "yes",
+      bankkonten: [
+        {
+          kontoEigentuemer: "myself",
+          kontostand: "1000",
+          bankName: "Bank1",
+          iban: "DE123456789",
+        },
+      ],
       hasGeldanlage: "no",
       hasWertsache: "no",
       hasKraftfahrzeug: "no",
@@ -85,52 +92,95 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = [
     },
     [
       finanzielleAngabenEigentumBankkontenFrage,
+      "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
       finanzielleAngabenEigentumGeldanlagenFrage,
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
-      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "/finanzielle-angaben/eigentum-zusammenfassung/warnung",
+      finanzielleAngabenAusgabenAusgabenFrage,
+    ],
+  ],
+  [
+    {
+      hasBankkonto: "yes",
+    },
+    [
+      "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
+      "/finanzielle-angaben/eigentum/bankkonten/warnung",
+    ],
+  ],
+  [
+    {
+      hasGeldanlage: "yes",
+    },
+    [
+      "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+      "/finanzielle-angaben/eigentum/geldanlagen/warnung",
+    ],
+  ],
+  [
+    {
+      hasWertsache: "yes",
+    },
+    [
+      "/finanzielle-angaben/eigentum/wertgegenstaende/uebersicht",
+      "/finanzielle-angaben/eigentum/wertgegenstaende/warnung",
+    ],
+  ],
+  [
+    {
+      hasGrundeigentum: "yes",
+    },
+    [
+      "/finanzielle-angaben/eigentum/grundeigentum/uebersicht",
+      "/finanzielle-angaben/eigentum/grundeigentum/warnung",
+    ],
+  ],
+  [
+    {
+      hasKraftfahrzeug: "yes",
+    },
+    [
+      "/finanzielle-angaben/eigentum/kraftfahrzeuge/uebersicht",
+      "/finanzielle-angaben/eigentum/kraftfahrzeuge/warnung",
     ],
   ],
   [
     {
       hasBankkonto: "no",
       hasGeldanlage: "yes",
+      geldanlagen: [{ art: "bargeld", wert: "100", eigentuemer: "myself" }],
       hasWertsache: "no",
       hasKraftfahrzeug: "no",
       hasGrundeigentum: "no",
-      eigentumTotalWorth: "more10000",
     },
     [
       finanzielleAngabenEigentumBankkontenFrage,
       finanzielleAngabenEigentumGeldanlagenFrage,
+      "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
-      "/finanzielle-angaben/eigentum/gesamtwert",
-      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "/finanzielle-angaben/eigentum-zusammenfassung/warnung",
+      finanzielleAngabenAusgabenAusgabenFrage,
     ],
   ],
   [
     {
       hasBankkonto: "no",
       hasGeldanlage: "yes",
+      geldanlagen: [{ art: "bargeld", wert: "100", eigentuemer: "myself" }],
       hasWertsache: "no",
       hasKraftfahrzeug: "no",
       hasGrundeigentum: "no",
-      eigentumTotalWorth: "less10000",
     },
     [
       finanzielleAngabenEigentumBankkontenFrage,
       finanzielleAngabenEigentumGeldanlagenFrage,
+      "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+      finanzielleAngabenEigentumKraftfahrzeugeFrage,
       finanzielleAngabenEigentumWertgegenstaendeFrage,
       finanzielleAngabenEigentumGrundeigentumFrage,
-      finanzielleAngabenEigentumKraftfahrzeugeFrage,
-      "/finanzielle-angaben/eigentum/gesamtwert",
-      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "/finanzielle-angaben/ausgaben/ausgaben-frage",
+      finanzielleAngabenAusgabenAusgabenFrage,
     ],
   ],
 ] as const satisfies TestCases<BeratungshilfeFinanzielleAngabenUserData>;

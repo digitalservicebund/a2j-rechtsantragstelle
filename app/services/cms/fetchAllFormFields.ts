@@ -2,9 +2,11 @@ import merge from "lodash/merge";
 import type { FlowId } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { flowPageApiIdFromFlowType } from "~/services/cms/apiFromFlowType";
+import { getFieldsByFormElements } from "./getFieldsByFormElements";
 import { getStrapiEntry } from "./getStrapiEntry";
 import type { StrapiSchemas } from "./schemas";
 import { config } from "../env/public";
+import { type StrapiFormComponent } from "./models/StrapiFormComponent";
 
 export type FormFieldsMap = Record<string, string[]>;
 
@@ -15,9 +17,8 @@ export async function fetchAllFormFields(
   const args = {
     apiId: flowPageApiIdFromFlowType(flows[flowId].flowType),
     filters: [{ field: "flow_ids", nestedField: "flowId", value: flowId }],
-    populate: "form.name",
+    populate: "form.fieldSetGroup.formComponents",
     fields: "stepId",
-    deep: false,
   };
 
   const formFields = await getStrapiEntry({ ...args, locale: "de" }).then(
@@ -45,7 +46,7 @@ function formFieldsFromEntries(
       .filter((entry) => entry?.stepId && entry?.form.length > 0)
       .map((entry) => [
         entry!.stepId,
-        entry!.form.map((formField) => formField.name),
+        getFieldsByFormElements(entry!.form as StrapiFormComponent[]),
       ]),
   );
 }
