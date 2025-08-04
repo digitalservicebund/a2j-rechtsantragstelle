@@ -14,12 +14,12 @@ ol {
 
 html {
   /* keep 16px, don't change! (e.g. angie library depends on it) */
-  font-size: 1rem;
+  font-size: 16px;
 }
 
 body {
   font-family: "BundesSansWeb", "Helvetica", "Arial", sans-serif;
-  font-size: 1.125rem; /* 18px ÷ 16px */
+  font-size: 18px;
   line-height: 1.5;
   min-height: 100vh;
 }
