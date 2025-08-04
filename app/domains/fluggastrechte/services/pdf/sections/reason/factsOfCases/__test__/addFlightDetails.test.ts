@@ -1,3 +1,4 @@
+import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -15,14 +16,25 @@ import {
   START_AIRPORT_TEXT,
   THIRD_AIRPORT_STOP_TEXT,
 } from "../addFlightDetails";
+import { addReasonCaption } from "../addReasonCaption";
 
 afterEach(() => {
   vi.resetAllMocks();
 });
 
 vi.mock("~/domains/fluggastrechte/services/airports/getAirportNameByIataCode");
+vi.mock("../addReasonCaption");
 
 describe("addFlightDetails", () => {
+  it("should call the addReasonCaption for the creation facts of cases", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addFlightDetails(mockDoc, mockStruct, userDataMock);
+
+    expect(addReasonCaption).toBeCalledTimes(1);
+  });
+
   it("should add the booking number to the pdf document", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
@@ -170,5 +182,60 @@ describe("addFlightDetails", () => {
     });
 
     expect(mockDoc.text).toHaveBeenCalledWith(zwischenstopp3TextMock);
+  });
+});
+
+describe("addFlightDetails - accessibility", () => {
+  it("should call addFlightDetails as a list with 5 items when there is no stopover", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addFlightDetails(mockDoc, mockStruct, userDataMock);
+
+    expect(mockDoc.struct).toHaveBeenCalledWith("LI");
+    expect(mockDoc.struct).toHaveBeenCalledWith("L");
+    expect(mockDoc.struct).toHaveBeenCalledWith(
+      "LBody",
+      {},
+      expect.any(Function),
+    );
+    const callsWithLI = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "LI",
+    );
+    expect(callsWithLI).toHaveLength(5);
+  });
+
+  it("should call addFlightDetails as a list with 6 items when there is one stopover", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const zwischenstopp1Mock = "ZWISCHENSTOPP1";
+    const zwischenstopp1TextMock = "ZWISCHENSTOPP1";
+    vi.mocked(getAirportNameByIataCode).mockImplementation((airport) => {
+      if (airport === zwischenstopp1Mock) {
+        return zwischenstopp1TextMock;
+      }
+
+      return "";
+    });
+
+    const userDataZwischenstopp1Mock = {
+      ...userDataMock,
+      ersterZwischenstopp: zwischenstopp1Mock,
+    };
+
+    addFlightDetails(mockDoc, mockStruct, userDataZwischenstopp1Mock);
+
+    expect(mockDoc.struct).toHaveBeenCalledWith("LI");
+    expect(mockDoc.struct).toHaveBeenCalledWith("L");
+    expect(mockDoc.struct).toHaveBeenCalledWith(
+      "LBody",
+      {},
+      expect.any(Function),
+    );
+    const callsWithLI = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "LI",
+    );
+    expect(callsWithLI).toHaveLength(6);
   });
 });
