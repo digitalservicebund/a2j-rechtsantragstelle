@@ -4,12 +4,6 @@
 
 The application currently uses conditional `alignToMainContainer` logic to determine whether header and breadcrumb content should align with the main container. This approach creates several issues:
 
-### Open questions
-
-- what about the overHangBox?? ask Alisa
-- Max widths - needs to be aligned with design
-- Paddings - needs to be aligned with design
-
 ### Current Problems
 
 - **Inconsistent spacing** between Header, Main content, and Footer sections
@@ -20,7 +14,7 @@ The application currently uses conditional `alignToMainContainer` logic to deter
 
 ```
 ┌─────────────────────────────────────┐
-│           Header (conditional)      │
+│         Header (conditional)        │
 ├─────────────────────────────────────┤
 │         Breadcrumbs (conditional)   │
 ├─────────────────────────────────────┤
@@ -28,7 +22,7 @@ The application currently uses conditional `alignToMainContainer` logic to deter
 │         Main Content (fixed)        │
 │                                     │
 ├─────────────────────────────────────┤
-│           Footer (full-width)       │
+│         Footer (full-width)         │
 └─────────────────────────────────────┘
 ```
 
@@ -77,7 +71,6 @@ We will implement a **unified grid system**. And remove `alignToMainContainer` l
 - **Simplified logic** - No more conditional alignment
 - **Reduced complexity** - Fewer props and conditionals
 - **Better maintainability** - Single source of truth for grid constraints
-- **Reduced bundle size** - Less conditional logic
 
 #### User Experience
 
@@ -153,7 +146,7 @@ interface GridContainerProps {
 
 ### Default Configuration
 
-- **Max-width**: 1200px (needs to be decided by design)
+- **Max-width**: 1200px or 1600px still needs to be discussed
 - **Padding**: Responsive (needs to be decided by design)
 - **Grid columns**: 1 column by default, configurable for main content
 - **Centered**: Always center the container
