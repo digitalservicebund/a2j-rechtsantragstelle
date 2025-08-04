@@ -41,31 +41,16 @@ export const createLocalCourtAndDate = (
           align: "left",
           continued: false,
         });
-    }),
-  );
-
-  courtAndDateSect.add(
-    doc.struct("P", {}, () => {
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(amtsgericht?.BEZEICHNUNG ?? "", { continued: true });
       doc.fillOpacity(0).text(",", { continued: false }).fillOpacity(1);
-    }),
-  );
-
-  courtAndDateSect.add(
-    doc.struct("P", {}, () => {
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(amtsgericht?.STR_HNR ?? "", { continued: true });
       doc.fillOpacity(0).text(",", { continued: false }).fillOpacity(1);
-    }),
-  );
-
-  courtAndDateSect.add(
-    doc.struct("P", {}, () => {
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
