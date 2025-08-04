@@ -66,7 +66,7 @@ describe("D_angehoerige", () => {
         (description) => description.title === ATTACHMENT_DESCRIPTION_SECTION_D,
       );
       expect(hasAttachmentDescriptionSectionD).toBeTruthy();
-      expect(pdfValues.angehoerigerNummereins.value).toEqual(
+      expect(pdfValues.angehoerigerNr1.value).toEqual(
         SEE_IN_ATTACHMENT_DESCRIPTION,
       );
     },

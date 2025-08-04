@@ -32,17 +32,17 @@ describe("bruttoEinnahmen_partner", () => {
         },
         pdfValues: pdfParams,
       });
+      expect(pdfValues.andereEinnahmenPartnerPartnerin1.value).toBeUndefined();
+      expect(pdfValues.e46.value).toBe(true);
       expect(
         pdfValues
-          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchBuergergeldinEuro
           .value,
-      ).toBeUndefined();
-      expect(pdfValues.ja_29.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH10.value).toBe("100 netto");
-      expect(pdfValues.nein_28.value).toBe(true);
+      ).toBe("100 netto");
+      expect(pdfValues.e43.value).toBe(true);
     });
 
-    it("should indicate if a user's partner receives Arbeitslostengeld, and if so, the amount", () => {
+    it("should indicate if a user's partner receives Arbeitslosengeld, and if so, the amount", () => {
       const { pdfValues } = fillStaatlicheLeistungenPartner({
         userData: {
           "partner-staatlicheLeistungen": "arbeitslosengeld",
@@ -50,14 +50,13 @@ describe("bruttoEinnahmen_partner", () => {
         },
         pdfValues: pdfParams,
       });
+      expect(pdfValues.andereEinnahmenPartnerPartnerin1.value).toBeUndefined();
+      expect(pdfValues.e44.value).toBe(true);
       expect(
         pdfValues
-          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchArbeitslosengeldinEuro
           .value,
-      ).toBeUndefined();
-      expect(pdfValues.ja_27.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH9.value).toBe("250 netto");
-      expect(pdfValues.nein_30.value).toBe(true);
+      ).toBe("250 netto");
     });
   });
 
@@ -67,8 +66,8 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-staatlicheLeistungen": "grundsicherung" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_25.value).toBe(undefined);
-      expect(pdfValues.nein_26.value).toBe(undefined);
+      expect(pdfValues.e42.value).toBe(undefined);
+      expect(pdfValues.e41.value).toBe(undefined);
     });
 
     it("should not report pension if the user's partner receives asylbewerberleistungen", () => {
@@ -76,8 +75,8 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-staatlicheLeistungen": "asylbewerberleistungen" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_25.value).toBe(undefined);
-      expect(pdfValues.nein_26.value).toBe(undefined);
+      expect(pdfValues.e42.value).toBe(undefined);
+      expect(pdfValues.e41.value).toBe(undefined);
     });
 
     it("should report no pension if the user's partner doesn't receive one", () => {
@@ -85,7 +84,7 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-receivesPension": "no" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_26.value).toBe(true);
+      expect(pdfValues.e41.value).toBe(true);
     });
 
     it("should report that a user's partner receives a pension, along with the amount", () => {
@@ -96,8 +95,12 @@ describe("bruttoEinnahmen_partner", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_25.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH8.value).toBe("1000 netto");
+      expect(pdfValues.e42.value).toBe(true);
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchRentePensioninEuro
+          .value,
+      ).toBe("1000 netto");
     });
   });
 
@@ -107,8 +110,8 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-staatlicheLeistungen": "grundsicherung" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_24.value).toBe(undefined);
-      expect(pdfValues.ja_23.value).toBe(undefined);
+      expect(pdfValues.e39.value).toBe(undefined);
+      expect(pdfValues.e40.value).toBe(undefined);
     });
 
     it("should not report support if the user's partner receives asylbewerberleistungen", () => {
@@ -116,8 +119,8 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-staatlicheLeistungen": "asylbewerberleistungen" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_24.value).toBe(undefined);
-      expect(pdfValues.ja_23.value).toBe(undefined);
+      expect(pdfValues.e39.value).toBe(undefined);
+      expect(pdfValues.e40.value).toBe(undefined);
     });
 
     it("should report no support if the user's partner doesn't receive one", () => {
@@ -125,7 +128,7 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-receivesSupport": "no" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_24.value).toBe(true);
+      expect(pdfValues.e39.value).toBe(true);
     });
 
     it("should report that a user's partner receives support, along with the amount", () => {
@@ -136,8 +139,11 @@ describe("bruttoEinnahmen_partner", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_23.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH7.value).toBe("1000 netto");
+      expect(pdfValues.e40.value).toBe(true);
+      expect(
+        pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchUnterhaltinEuro
+          .value,
+      ).toBe("1000 netto");
     });
   });
 
@@ -147,10 +153,18 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-currentlyEmployed": "no" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_23.value).toBe(true);
-      expect(pdfValues.nein_25.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH1.value).toBeUndefined();
-      expect(pdfValues.monatlicheBruttoeinnahmenH2.value).toBeUndefined();
+      expect(pdfValues.e27.value).toBe(true);
+      expect(pdfValues.e29.value).toBe(true);
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchselbstaendigeArbeitGewerbebetriebLandundFors
+          .value,
+      ).toBeUndefined();
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchnichtselbstaendigeArbeitinEuro
+          .value,
+      ).toBeUndefined();
     });
 
     it("should report no income if the user's partner receives Grundsicherung", () => {
@@ -158,21 +172,41 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-staatlicheLeistungen": "grundsicherung" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_23.value).toBeUndefined();
-      expect(pdfValues.nein_25.value).toBeUndefined();
-      expect(pdfValues.monatlicheBruttoeinnahmenH1.value).toBeUndefined();
-      expect(pdfValues.monatlicheBruttoeinnahmenH2.value).toBeUndefined();
+      expect(pdfValues.e27.value).toBeUndefined();
+      expect(pdfValues.e28.value).toBeUndefined();
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchselbstaendigeArbeitGewerbebetriebLandundFors
+          .value,
+      ).toBeUndefined();
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchnichtselbstaendigeArbeitinEuro
+          .value,
+      ).toBeUndefined();
     });
 
     it("should report no income if the user's partner receives Asylbewerberleistungen", () => {
       const { pdfValues } = fillBruttoEinnahmenPartner({
-        userData: { "partner-staatlicheLeistungen": "asylbewerberleistungen" },
+        userData: {
+          "partner-staatlicheLeistungen": "asylbewerberleistungen",
+          partnerschaft: "yes",
+        },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_23.value).toBeUndefined();
-      expect(pdfValues.nein_25.value).toBeUndefined();
-      expect(pdfValues.monatlicheBruttoeinnahmenH1.value).toBeUndefined();
-      expect(pdfValues.monatlicheBruttoeinnahmenH2.value).toBeUndefined();
+      expect(pdfValues.e27.value).toBeUndefined();
+      expect(pdfValues.e28.value).toBeUndefined();
+      expect(pdfValues.e52.value).toBe(true);
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchselbstaendigeArbeitGewerbebetriebLandundFors
+          .value,
+      ).toBeUndefined();
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchnichtselbstaendigeArbeitinEuro
+          .value,
+      ).toBeUndefined();
     });
 
     it("should report employment income if the user's partner is an employee", () => {
@@ -183,10 +217,18 @@ describe("bruttoEinnahmen_partner", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_22.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH1.value).toBe("1000 netto");
-      expect(pdfValues.nein_25.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH2.value).toBeUndefined();
+      expect(pdfValues.e28.value).toBe(true);
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchnichtselbstaendigeArbeitinEuro
+          .value,
+      ).toBe("1000 netto");
+      expect(pdfValues.e28.value).toBe(true);
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchselbstaendigeArbeitGewerbebetriebLandundFors
+          .value,
+      ).toBeUndefined();
     });
 
     it("should report self-employment income if the user's partner is self-employed", () => {
@@ -198,10 +240,18 @@ describe("bruttoEinnahmen_partner", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_24.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH2.value).toBe("1000 netto");
-      expect(pdfValues.nein_23.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH1.value).toBeUndefined();
+      expect(pdfValues.e30.value).toBe(true);
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchselbstaendigeArbeitGewerbebetriebLandundFors
+          .value,
+      ).toBe("1000 netto");
+      expect(pdfValues.e27.value).toBe(true);
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchnichtselbstaendigeArbeitinEuro
+          .value,
+      ).toBeUndefined();
     });
 
     it("should report both employment and self-employment income for the user's partner", () => {
@@ -214,10 +264,18 @@ describe("bruttoEinnahmen_partner", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_22.value).toBe(true);
-      expect(pdfValues.ja_24.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH1.value).toBe("1000 netto");
-      expect(pdfValues.monatlicheBruttoeinnahmenH2.value).toBe("1000 brutto");
+      expect(pdfValues.e28.value).toBe(true);
+      expect(pdfValues.e30.value).toBe(true);
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchnichtselbstaendigeArbeitinEuro
+          .value,
+      ).toBe("1000 netto");
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchselbstaendigeArbeitGewerbebetriebLandundFors
+          .value,
+      ).toBe("1000 brutto");
     });
   });
 
@@ -227,10 +285,10 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-hasFurtherIncome": "yes" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_33.value).toBe(true);
-      expect(pdfValues.nein_32.value).toBe(true);
-      expect(pdfValues.nein_34.value).toBe(true);
-      expect(pdfValues.nein_31.value).toBe(true);
+      expect(pdfValues.e35.value).toBe(true);
+      expect(pdfValues.e37.value).toBe(true);
+      expect(pdfValues.e47.value).toBe(true);
+      expect(pdfValues.e49.value).toBe(true);
     });
 
     it("should indicate if a user's partner receives Wohngeld", () => {
@@ -241,8 +299,11 @@ describe("bruttoEinnahmen_partner", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_32.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH6.value).toBe("100 netto");
+      expect(pdfValues.e38.value).toBe(true);
+      expect(
+        pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchWohngeldinEuro
+          .value,
+      ).toBe("100 netto");
     });
     it("should indicate if a user's partner receives Krankengeld", () => {
       const { pdfValues } = fillAndereLeistungenPartner({
@@ -252,8 +313,12 @@ describe("bruttoEinnahmen_partner", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_31.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH11.value).toBe("250 netto");
+      expect(pdfValues.e48.value).toBe(true);
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchKrankengeldinEuro
+          .value,
+      ).toBe("250 netto");
     });
     it("should indicate if a user's partner receives Elterngeld", () => {
       const { pdfValues } = fillAndereLeistungenPartner({
@@ -263,8 +328,11 @@ describe("bruttoEinnahmen_partner", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_33.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH12.value).toBe("50 netto");
+      expect(pdfValues.e50.value).toBe(true);
+      expect(
+        pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchElterngeldinEuro
+          .value,
+      ).toBe("50 netto");
     });
     it("should indicate if a user's partner receives Kindergeld", () => {
       const { pdfValues } = fillAndereLeistungenPartner({
@@ -274,8 +342,12 @@ describe("bruttoEinnahmen_partner", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_30.value).toBe(true);
-      expect(pdfValues.monatlicheBruttoeinnahmenH5.value).toBe("10000 netto");
+      expect(pdfValues.e36.value).toBe(true);
+      expect(
+        pdfValues
+          .monatlicheBruttoeinnahmenPartnerPartnerindurchKindergeldKinderzuschlaginEuro
+          .value,
+      ).toBe("10000 netto");
     });
   });
 
@@ -285,7 +357,7 @@ describe("bruttoEinnahmen_partner", () => {
         userData: {},
         pdfValues: pdfParams,
       });
-      expect(pdfValues.nein_35.value).toBe(true);
+      expect(pdfValues.e51.value).toBe(true);
     });
 
     it("should indicate Asylbewerberleistungen", () => {
@@ -293,11 +365,9 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-staatlicheLeistungen": "asylbewerberleistungen" },
         pdfValues: pdfParams,
       });
-      expect(
-        pdfValues
-          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben
-          .value,
-      ).toBe("Asylbewerberleistungen");
+      expect(pdfValues.andereEinnahmenPartnerPartnerin1.value).toBe(
+        "Asylbewerberleistungen",
+      );
     });
 
     it("should indicate Grundsicherung", () => {
@@ -305,12 +375,10 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-staatlicheLeistungen": "grundsicherung" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_35.value).toBe(true);
-      expect(
-        pdfValues
-          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben
-          .value,
-      ).toBe("Grundsicherung oder Sozialhilfe");
+      expect(pdfValues.e52.value).toBe(true);
+      expect(pdfValues.andereEinnahmenPartnerPartnerin1.value).toBe(
+        "Grundsicherung oder Sozialhilfe",
+      );
     });
 
     it("should indicate if the user's partner has one additional Einkunft", () => {
@@ -322,23 +390,17 @@ describe("bruttoEinnahmen_partner", () => {
         },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_35.value).toBe(true);
-      expect(
-        pdfValues
-          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben
-          .value,
-      ).toContain(singleEinkunft.beschreibung);
-      expect(pdfValues.euroBrutto3.value).toBe(
+      expect(pdfValues.e52.value).toBe(true);
+      expect(pdfValues.andereEinnahmenPartnerPartnerin1.value).toContain(
+        singleEinkunft.beschreibung,
+      );
+      expect(pdfValues.bruttobezugPartnerPartnerin1.value).toBe(
         `${singleEinkunft.betrag} netto`,
       );
 
       // Second field should remain blank
-      expect(
-        pdfValues
-          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben2
-          .value,
-      ).toBeUndefined();
-      expect(pdfValues.euroBrutto4.value).toBeUndefined();
+      expect(pdfValues.andereEinnahmenPartnerPartnerin2.value).toBeUndefined();
+      expect(pdfValues.bruttobezugPartnerPartnerin2.value).toBeUndefined();
     });
 
     it("should indicate if the user's partner has two additional Einkuenfte", () => {
@@ -350,23 +412,19 @@ describe("bruttoEinnahmen_partner", () => {
         pdfValues: pdfParams,
       });
 
-      expect(pdfValues.ja_35.value).toBe(true);
-      expect(
-        pdfValues
-          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben
-          .value,
-      ).toContain(twoEinkuenfte[0].beschreibung);
-      expect(pdfValues.euroBrutto3.value).toBe(
+      expect(pdfValues.e52.value).toBe(true);
+      expect(pdfValues.andereEinnahmenPartnerPartnerin1.value).toContain(
+        twoEinkuenfte[0].beschreibung,
+      );
+      expect(pdfValues.bruttobezugPartnerPartnerin1.value).toBe(
         `${twoEinkuenfte[0].betrag} netto`,
       );
 
       // Second field should also be filled
-      expect(
-        pdfValues
-          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben2
-          .value,
-      ).toContain(twoEinkuenfte[1].beschreibung);
-      expect(pdfValues.euroBrutto4.value).toBe(
+      expect(pdfValues.andereEinnahmenPartnerPartnerin2.value).toContain(
+        twoEinkuenfte[1].beschreibung,
+      );
+      expect(pdfValues.bruttobezugPartnerPartnerin2.value).toBe(
         `${twoEinkuenfte[1].betrag} netto`,
       );
     });
@@ -380,12 +438,10 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-weitereEinkuenfte": threeEinkuenfte },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.ja_35.value).toBe(true);
-      expect(
-        pdfValues
-          .hatIhrEhegatteeingetragenerLebenspartnerbzwIhreEhegattineingetrageneLebenspartnerinandereEinnahmenBitteangeben
-          .value,
-      ).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
+      expect(pdfValues.e52.value).toBe(true);
+      expect(pdfValues.andereEinnahmenPartnerPartnerin1.value).toBe(
+        SEE_IN_ATTACHMENT_DESCRIPTION,
+      );
       expect(attachment?.length).toBeGreaterThan(0);
       expect(attachment?.at(0)).toEqual({
         level: "h3",
