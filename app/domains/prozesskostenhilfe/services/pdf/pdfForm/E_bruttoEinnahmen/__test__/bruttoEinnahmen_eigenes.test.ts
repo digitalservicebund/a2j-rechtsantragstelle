@@ -97,6 +97,7 @@ describe("bruttoEinnahmen_eigenes", () => {
       });
       expect(pdfValues.e1.value).toBeUndefined();
       expect(pdfValues.e3.value).toBeUndefined();
+      expect(pdfValues.e26.value).toBe(true);
       expect(
         pdfValues.monatlicheBruttoeinnahmendurchnichtselbstaendigeArbeitinEuro
           .value,

@@ -188,11 +188,15 @@ describe("bruttoEinnahmen_partner", () => {
 
     it("should report no income if the user's partner receives Asylbewerberleistungen", () => {
       const { pdfValues } = fillBruttoEinnahmenPartner({
-        userData: { "partner-staatlicheLeistungen": "asylbewerberleistungen" },
+        userData: {
+          "partner-staatlicheLeistungen": "asylbewerberleistungen",
+          partnerschaft: "yes",
+        },
         pdfValues: pdfParams,
       });
       expect(pdfValues.e27.value).toBeUndefined();
       expect(pdfValues.e28.value).toBeUndefined();
+      expect(pdfValues.e52.value).toBe(true);
       expect(
         pdfValues
           .monatlicheBruttoeinnahmenPartnerPartnerindurchselbstaendigeArbeitGewerbebetriebLandundFors

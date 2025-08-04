@@ -182,6 +182,7 @@ export const fillOwnBruttoEinnahmen: PkhPdfFillFunction = ({
     userData.staatlicheLeistungen === "grundsicherung" ||
     userData.staatlicheLeistungen === "asylbewerberleistungen"
   ) {
+    pdfValues.e26.value = true;
     pdfValues.andereEinnahmen1.value =
       userData.staatlicheLeistungen === "asylbewerberleistungen"
         ? "Asylbewerberleistungen"
