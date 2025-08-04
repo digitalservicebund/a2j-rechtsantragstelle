@@ -14,7 +14,7 @@ ol {
 
 html {
   /* keep 16px, don't change! (e.g. angie library depends on it) */
-  font-size: 16px;
+  font-size: 1rem; /* 16px */
 }
 
 body {
