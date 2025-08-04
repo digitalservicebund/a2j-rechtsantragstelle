@@ -1,5 +1,5 @@
 import { ValidatedForm } from "@rvf/react-router";
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 import { useLocation } from "react-router";
 import { z } from "zod";
 import Textarea from "~/components/inputs/Textarea";
@@ -39,8 +39,6 @@ const getFeedbackFromUrl = (url: string) => {
   return new URLSearchParams(url).get("wasHelpful");
 };
 
-const HEADING_PERSONAL_DATA_FEEDBACK_ID = "heading-personal-data-feedback-id";
-
 export const FeedbackFormBox = ({
   destination,
   shouldFocus,
@@ -53,6 +51,7 @@ export const FeedbackFormBox = ({
   const textAreaReference = useRef<HTMLTextAreaElement | null>(null);
 
   const feedbackTranslations = useFeedbackTranslations();
+  const headingPersonalFeedbackId = useId();
 
   useEffect(() => {
     if (shouldFocus && textAreaReference.current) {
@@ -90,7 +89,7 @@ export const FeedbackFormBox = ({
             {feedbackText}
           </label>
           <p
-            id={HEADING_PERSONAL_DATA_FEEDBACK_ID}
+            id={headingPersonalFeedbackId}
             className="ds-text-02-reg text-gray-800"
           >
             {feedbackTranslations["heading-personal-data-feedback"]}
@@ -101,7 +100,7 @@ export const FeedbackFormBox = ({
           classNameLabel="ds-label-01-bold"
           placeholder={feedbackTranslations["placeholder-feedback"]}
           innerRef={textAreaReference}
-          ariaDescribedby={HEADING_PERSONAL_DATA_FEEDBACK_ID}
+          ariaDescribedby={headingPersonalFeedbackId}
         />
         <ButtonContainer>
           <Button
