@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import { z } from "zod";
 import Textarea from "~/components/inputs/Textarea";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
-import { FeedbackTitle } from "./FeedbackTitle";
+import { FeedbackSuccessMessage } from "./FeedbackSuccessMessage";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./FeedbackType";
 import Button from "../Button";
@@ -79,8 +79,7 @@ export const FeedbackFormBox = ({
       preventScrollReset={true}
       onSubmit={onSubmit}
     >
-      <FeedbackTitle
-        title={feedbackTranslations["success-message"]}
+      <FeedbackSuccessMessage
         subtitle={feedbackTranslations["antwort-uebermittelt"]}
       />
       <div role="status" className="ds-stack ds-stack-16">
