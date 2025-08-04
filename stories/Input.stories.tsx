@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
 import Input from "../app/components/inputs/Input";
-import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
+import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
   title: "Component/Input",
@@ -31,9 +31,9 @@ export const Default: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };
@@ -47,9 +47,9 @@ export const WithPrefix: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };
@@ -63,9 +63,9 @@ export const WithSuffix: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };
@@ -79,9 +79,9 @@ export const WithHelperText: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };
