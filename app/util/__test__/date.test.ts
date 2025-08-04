@@ -5,6 +5,7 @@ import {
   dateUTCFromGermanDateString,
   pdfDateFormat,
   toGermanDateFormat,
+  toHourAndMinuteTime,
   today,
 } from "../date";
 
@@ -68,6 +69,18 @@ describe("date", () => {
       const actual = convertToTimestamp(date, time);
 
       expect(actual).toBe(expectedTimestamp);
+    });
+  });
+
+  describe("toHourAndMinuteTime", () => {
+    it("should format time correctly", () => {
+      const date = new Date("2025-06-10T12:34:00");
+      expect(toHourAndMinuteTime(date)).toBe("12:34");
+    });
+
+    it("should pad single digit hours and minutes", () => {
+      const date = new Date("2025-06-10T01:05:00");
+      expect(toHourAndMinuteTime(date)).toBe("01:05");
     });
   });
 });

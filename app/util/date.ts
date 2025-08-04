@@ -13,7 +13,13 @@ export function addYears(date: Date, years: number) {
 export function today() {
   const today = new Date();
   return new Date(
-    Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()),
+    Date.UTC(
+      today.getUTCFullYear(),
+      today.getUTCMonth(),
+      today.getUTCDate(),
+      today.getUTCHours(),
+      today.getUTCMinutes(),
+    ),
   );
 }
 
@@ -29,6 +35,15 @@ export const toGermanDateFormat = (date: Date) => {
     year: "numeric",
   });
 };
+
+export function toHourAndMinuteTime(date: Date) {
+  const hoursMinuteFormatter = new Intl.DateTimeFormat(undefined, {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+  return hoursMinuteFormatter.format(date);
+}
 
 export const pdfDateFormat = (date: Date) =>
   date
