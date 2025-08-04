@@ -7,6 +7,7 @@ export STRAPI_API="${STRAPI_API:=$(cat /etc/strapi-api-secret/password)}"
 export STRAPI_ACCESS_KEY="${STRAPI_ACCESS_KEY:=$(cat /etc/strapi-access-key-secret/password)}"
 export COOKIE_SESSION_SECRET="${COOKIE_SESSION_SECRET:=$(cat /etc/cookie-session-secret/password)}"
 export REDIS_PASSWORD="${REDIS_PASSWORD:=$(cat /etc/redis-password-secret/password)}"
+export SAML_IDP_CERT="${SAML_IDP_CERT:=$(cat /etc/saml/idp_cert)}"
 export S3_DATA_STORAGE_ACCESS_KEY="${S3_DATA_STORAGE_ACCESS_KEY:=$(cat /etc/s3-storage-credentials-secret-access-key/password)}"
 export S3_DATA_STORAGE_SECRET_KEY="${S3_DATA_STORAGE_SECRET_KEY:=$(cat /etc/s3-storage-credentials-secret-key/password)}"
 
