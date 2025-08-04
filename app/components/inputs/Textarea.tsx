@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
-import type { AriaRole, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Details } from "~/components/Details";
 import InputLabel from "~/components/inputs/InputLabel";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
@@ -20,7 +20,6 @@ export type TextareaProps = Readonly<{
   maxLength?: number;
   errorMessages?: ErrorMessageProps[];
   classNameLabel?: string;
-  role?: AriaRole;
   innerRef?: React.Ref<HTMLTextAreaElement>;
 }>;
 
@@ -35,7 +34,6 @@ const Textarea = ({
   maxLength = TEXTAREA_CHAR_LIMIT,
   errorMessages,
   classNameLabel,
-  role,
   innerRef,
 }: TextareaProps) => {
   const field = useField(name);
@@ -47,7 +45,6 @@ const Textarea = ({
         <InputLabel
           classname={description ? "ds-heading-03-reg" : classNameLabel}
           id={name}
-          role={role}
         >
           {label}
         </InputLabel>

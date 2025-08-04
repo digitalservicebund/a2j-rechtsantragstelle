@@ -96,7 +96,6 @@ export const FeedbackFormBox = ({
           name={FEEDBACK_FIELD_NAME}
           classNameLabel="ds-label-01-bold"
           placeholder={feedbackTranslations["placeholder-feedback"]}
-          role="status"
           innerRef={textAreaReference}
         />
         <ButtonContainer>
