@@ -55,9 +55,7 @@ describe("Checkbox", () => {
   });
 
   it("hides the hidden input when the checkbox is checked", () => {
-    render(
-      <Checkbox name="checkbox-name" label="Another Checkbox Label" required />,
-    );
+    render(<Checkbox name="checkbox-name" label="Another Checkbox Label" />);
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
@@ -84,18 +82,20 @@ describe("Checkbox", () => {
     expect(errorMessage).toBeInTheDocument();
   });
 
-  it("sets aria-required to true when required is true", () => {
+  it("sets aria-required to true when errorMessage is provided", () => {
     render(
-      <Checkbox name="checkbox-name" label="Checkbox Label" required={true} />,
+      <Checkbox
+        name="checkbox-name"
+        label="Checkbox Label"
+        errorMessage="some error"
+      />,
     );
     const checkbox = screen.getByRole("checkbox");
     expect(checkbox).toHaveAttribute("aria-required", "true");
   });
 
-  it("does set aria-required to false when required is false", () => {
-    render(
-      <Checkbox name="checkbox-name" label="Checkbox Label" required={false} />,
-    );
+  it("does set aria-required to false when errorMessage is not provided", () => {
+    render(<Checkbox name="checkbox-name" label="Checkbox Label" />);
     const checkbox = screen.getByRole("checkbox");
     expect(checkbox).toHaveAttribute("aria-required", "false");
   });

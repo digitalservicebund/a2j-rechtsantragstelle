@@ -5,6 +5,8 @@ import { alignToContainer } from "~/components";
 import Kopfzeile from "~/components/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
 import { translations } from "~/services/translations/translations";
+import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
+import { useShouldPrint } from "./hooks/useShouldPrint";
 
 type PageHeaderProps = {
   title: string;
@@ -25,9 +27,17 @@ export default function PageHeader({
       [`${alignToContainer}`]: alignToMainContainer,
     },
   );
+  const shouldPrint = useShouldPrint();
 
   return (
     <header>
+      {shouldPrint && (
+        <span>
+          {translations.pageHeader.printPage.de} {toGermanDateFormat(today())}{" "}
+          {translations.pageHeader.at.de} {toHourAndMinuteTime(today())}{" "}
+          {translations.pageHeader.time.de}
+        </span>
+      )}
       <Kopfzeile alignToMainContainer={alignToMainContainer} />
       <nav
         className={navClassNames}

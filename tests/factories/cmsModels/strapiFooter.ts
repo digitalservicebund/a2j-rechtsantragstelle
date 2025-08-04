@@ -12,7 +12,7 @@ export function getStrapiFooter(): StrapiFooter {
     paragraphs: faker.helpers.multiple(getStrapiParagraph, { count: 2 }),
     categorizedLinks: [
       {
-        id: faker.number.int(),
+        id: faker.number.int({ min: 0 }),
         title: faker.word.noun(),
         links: [getStrapiLink()],
       },

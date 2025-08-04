@@ -1,6 +1,9 @@
-import get from "lodash/get";
+import pick from "lodash/pick";
 import type { z } from "zod";
-import Input from "~/components/inputs/Input";
+import DateInput from "~/components/inputs/DateInput";
+import Input, { type InputProps } from "~/components/inputs/Input";
+import Textarea from "~/components/inputs/Textarea";
+import TimeInput from "~/components/inputs/TimeInput";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 
 export const isZodString = (
@@ -11,16 +14,30 @@ export const renderZodString = (
   schema: z.ZodString,
   fieldName: string,
   matchingElement?: StrapiFormComponent,
-) => (
-  <Input
-    key={fieldName}
-    name={fieldName}
-    type={get(matchingElement, "type")}
-    label={get(matchingElement, "label")}
-    suffix={get(matchingElement, "suffix")}
-    placeholder={get(matchingElement, "placeholder")}
-    width={get(matchingElement, "width")}
-    errorMessages={get(matchingElement, "errorMessages")}
-    helperText={get(matchingElement, "helperText")}
-  />
-);
+) => {
+  const sharedProps = {
+    name: fieldName,
+    ...pick(matchingElement, ["label", "placeholder", "errorMessages"]),
+  };
+
+  if (matchingElement?.__component === "form-elements.textarea")
+    return (
+      <Textarea
+        key={fieldName}
+        {...sharedProps}
+        {...pick(matchingElement, ["details", "description", "maxLength"])}
+      />
+    );
+
+  const inputProps = {
+    ...sharedProps,
+    ...pick(matchingElement, ["type", "suffix", "width", "helperText"]),
+  } satisfies InputProps;
+
+  if (matchingElement?.__component === "form-elements.date-input")
+    return <DateInput key={fieldName} {...inputProps} />;
+  if (matchingElement?.__component === "form-elements.time-input")
+    return <TimeInput key={fieldName} {...inputProps} />;
+
+  return <Input key={fieldName} {...inputProps} />;
+};

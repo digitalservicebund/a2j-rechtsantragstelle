@@ -243,6 +243,12 @@ export const fluggastrechteVorabcheckXstateConfig = {
               context?.vertretbareGruende === "no",
           },
           {
+            target: "vertretbare-gruende-info",
+            guard: ({ context }) =>
+              context?.bereich === "nichtbefoerderung" &&
+              context?.vertretbareGruende === "yes",
+          },
+          {
             target: "gruende",
             guard: "gruendeNo",
           },
@@ -410,12 +416,7 @@ export const fluggastrechteVorabcheckXstateConfig = {
     "vertretbare-gruende-info": {
       on: {
         BACK: "vertretbare-gruende",
-        SUBMIT: "ergebnis/vertretbare-gruende-abbruch",
-      },
-    },
-    "ergebnis/vertretbare-gruende-abbruch": {
-      on: {
-        BACK: "vertretbare-gruende-info",
+        SUBMIT: "verjaehrung",
       },
     },
     kostenlos: {
