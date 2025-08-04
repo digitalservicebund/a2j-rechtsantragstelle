@@ -1,6 +1,7 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
+import { MARGIN_BETWEEN_SECTIONS } from "../../../../configurations";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
 
 export const WITNESS_EVIDENCE_TEXT =
@@ -11,12 +12,18 @@ export const WITNESS_EVIDENCE_MULTIPLE_PERSONS_TEXT =
 export const addWitnessesInfo = (
   doc: typeof PDFDocument,
   { hasZeugen, isWeiterePersonen }: FluggastrechteUserData,
+  compensationSect: PDFKit.PDFStructureElement,
 ) => {
   if (hasZeugen === "yes") {
     addNewPageInCaseMissingVerticalSpace(doc);
-    doc.text(
-      `${isWeiterePersonen === "no" ? WITNESS_EVIDENCE_TEXT : WITNESS_EVIDENCE_MULTIPLE_PERSONS_TEXT}`,
-      PDF_MARGIN_HORIZONTAL,
+    compensationSect.add(
+      doc.struct("P", {}, () => {
+        doc.text(
+          `${isWeiterePersonen === "no" ? WITNESS_EVIDENCE_TEXT : WITNESS_EVIDENCE_MULTIPLE_PERSONS_TEXT}`,
+          PDF_MARGIN_HORIZONTAL,
+        );
+        doc.moveDown(MARGIN_BETWEEN_SECTIONS);
+      }),
     );
   }
 };

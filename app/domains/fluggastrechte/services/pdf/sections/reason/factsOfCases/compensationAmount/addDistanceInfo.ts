@@ -4,8 +4,8 @@ import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/u
 import { calculateDistanceBetweenAirportsInKilometers } from "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
-import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
 import {
+  FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
@@ -44,6 +44,7 @@ const getDistanceText = (userData: FluggastrechteUserData): string => {
 
 export const addDistanceInfo = (
   doc: typeof PDFDocument,
+  documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
   const distanceText = getDistanceText(userData);
@@ -53,8 +54,12 @@ export const addDistanceInfo = (
   });
 
   addNewPageInCaseMissingVerticalSpace(doc, distanceTextHeight);
-
-  doc
-    .text(distanceText, PDF_MARGIN_HORIZONTAL)
-    .moveDown(MARGIN_BETWEEN_SECTIONS);
+  const distanceSect = doc.struct("Sect");
+  distanceSect.add(
+    doc.struct("P", {}, () => {
+      doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
+      doc.text(distanceText, PDF_MARGIN_HORIZONTAL);
+    }),
+  );
+  documentStruct.add(distanceSect);
 };
