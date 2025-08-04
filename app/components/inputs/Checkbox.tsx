@@ -20,7 +20,9 @@ const Checkbox = ({ name, label, errorMessage }: CheckboxProps) => {
   const className = classNames(
     "ds-checkbox forced-colors:outline forced-colors:border-[ButtonText]",
     {
-      // Angie does not implement focus visibility
+      // Accessibility: use a red inset box-shadow on focus in the error state
+      // to simulate focus (since the checkbox uses box-shadows for its borders)
+      // and ensure users can clearly see the error.
       "has-error focus-visible:shadow-[inset_0_0_0_4px_theme(colors.red.800)]":
         field.error(),
     },

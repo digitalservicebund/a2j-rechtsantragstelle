@@ -1,5 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { render, screen, fireEvent } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import Checkbox from "../Checkbox";
 
 const createMockFieldReturn = (overrides = {}) => ({
@@ -151,5 +152,21 @@ describe("Checkbox", () => {
     expect(checkbox).toHaveClass(
       "has-error focus-visible:shadow-[inset_0_0_0_4px_theme(colors.red.800)]",
     );
+  });
+
+  it("actually becomes focus-visible when tabbed into", async () => {
+    render(<Checkbox name="foo" label="My Checkbox" />);
+    expect(document.activeElement).not.toBe(screen.getByRole("checkbox"));
+
+    // 1st tab
+    await userEvent.tab();
+    const checkbox = screen.getByRole("checkbox", { name: "My Checkbox" });
+    expect(checkbox).toHaveFocus();
+    expect(checkbox.matches(":focus-visible")).toBe(true);
+
+    // 2nd tab
+    await userEvent.tab();
+    expect(checkbox).not.toHaveFocus();
+    expect(checkbox.matches(":focus-visible")).toBe(false);
   });
 });
