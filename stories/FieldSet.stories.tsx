@@ -1,5 +1,5 @@
 import { reactRouterContext } from ".storybook/reactRouterContext";
-import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
+import { RVFProvider } from ".storybook/RVFProvider";
 import type { Meta, StoryObj } from "@storybook/react";
 import { FieldSet } from "~/components/inputs/FieldSet";
 
@@ -47,9 +47,9 @@ export const FieldSetWithImage: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };
@@ -79,9 +79,9 @@ export const FieldSetWithoutImage: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };

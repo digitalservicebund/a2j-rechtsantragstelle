@@ -3,7 +3,7 @@ import { uppercaseFirstLetter } from "~/util/strings";
 import type { PkhPdfFillFunction } from "../types";
 
 export const fillFooter: PkhPdfFillFunction = ({ userData, pdfValues }) => {
-  pdfValues.ortundDatum.value = `${uppercaseFirstLetter(userData.ort)}, ${toGermanDateFormat(
+  pdfValues.ortDatum.value = `${uppercaseFirstLetter(userData.ort)}, ${toGermanDateFormat(
     today(),
   )}`;
 

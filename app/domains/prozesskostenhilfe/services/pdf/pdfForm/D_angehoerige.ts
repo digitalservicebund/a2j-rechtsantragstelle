@@ -12,8 +12,7 @@ export const fillUnterhaltAngehoerige: PkhPdfFillFunction = ({
     getFillUnterhalt(
       ATTACHMENT_DESCRIPTION_SECTION_D,
       (pdfValues) =>
-        (pdfValues.angehoerigerNummereins.value =
-          SEE_IN_ATTACHMENT_DESCRIPTION),
+        (pdfValues.angehoerigerNr1.value = SEE_IN_ATTACHMENT_DESCRIPTION),
     ) as PkhPdfFillFunction
   )({ userData, pdfValues });
 };

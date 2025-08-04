@@ -11,11 +11,11 @@ describe("fillFooter", () => {
     pdfParams = getProzesskostenhilfeParameters();
   });
 
-  it("should fill ortundDatum with the correct format", () => {
+  it("should fill ortDatum with the correct format", () => {
     const userData = { ort: "berlin" };
     const result = fillFooter({ userData, pdfValues: pdfParams });
 
-    expect(result.pdfValues.ortundDatum.value).toBe(
+    expect(result.pdfValues.ortDatum.value).toBe(
       `Berlin, ${toGermanDateFormat(today())}`,
     );
   });
@@ -24,7 +24,7 @@ describe("fillFooter", () => {
     const userData = { ort: "" };
     const result = fillFooter({ userData, pdfValues: pdfParams });
 
-    expect(result.pdfValues.ortundDatum.value).toBe(
+    expect(result.pdfValues.ortDatum.value).toBe(
       `, ${toGermanDateFormat(today())}`,
     );
   });
@@ -33,7 +33,7 @@ describe("fillFooter", () => {
     const userData = { ort: undefined };
     const result = fillFooter({ userData, pdfValues: pdfParams });
 
-    expect(result.pdfValues.ortundDatum.value).toBe(
+    expect(result.pdfValues.ortDatum.value).toBe(
       `, ${toGermanDateFormat(today())}`,
     );
   });

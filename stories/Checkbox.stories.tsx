@@ -1,6 +1,6 @@
 import type { StoryObj } from "@storybook/react";
 import Checkbox from "../app/components/inputs/Checkbox";
-import { RFCFormerProvider } from "../.storybook/RFCFormerProvider";
+import { RVFProvider } from "../.storybook/RVFProvider";
 import { reactRouterContext } from ".storybook/reactRouterContext";
 
 const meta = {
@@ -18,9 +18,9 @@ export const Default = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 } satisfies StoryObj<typeof meta>;
