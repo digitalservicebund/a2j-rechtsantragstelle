@@ -5,6 +5,7 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
+import { addReasonCaption } from "./addReasonCaption";
 
 export const BOOKING_NUMBER_TEXT = "Buchungsnummer: ";
 export const FLIGHT_NUMBER_TEXT = "Flugnummer: ";
@@ -81,11 +82,18 @@ const getFlightDetails = (userData: FluggastrechteUserData): FlightDetail[] => {
 
 export const addFlightDetails = (
   doc: typeof PDFDocument,
-  reasonAndFlightDetailsList: PDFKit.PDFStructureElement,
+  reasonSect: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
+  const reasonAndFlightDetailsList = doc.struct("L");
+  reasonAndFlightDetailsList.add(
+    doc.struct("Caption", {}, () => {
+      addReasonCaption(doc, userData);
+    }),
+  );
+
   const flightDetails = getFlightDetails(userData);
-  flightDetails.forEach((flightDetail) => {
+  flightDetails.forEach((flightDetail, index) => {
     const originalFlightDetailsListItem = doc.struct("LI");
     originalFlightDetailsListItem.add(
       doc.struct("LBody", {}, () => {
@@ -97,10 +105,12 @@ export const addFlightDetails = (
           })
           .font(FONTS_BUNDESSANS_BOLD)
           .text(flightDetail.value);
-
-        doc.moveDown(0.5);
+        if (index < flightDetails.length - 1) {
+          doc.moveDown(0.5);
+        }
       }),
     );
     reasonAndFlightDetailsList.add(originalFlightDetailsListItem);
   });
+  reasonSect.add(reasonAndFlightDetailsList);
 };
