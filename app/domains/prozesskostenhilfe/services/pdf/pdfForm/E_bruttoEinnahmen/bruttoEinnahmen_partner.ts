@@ -54,6 +54,8 @@ export const fillEinkommenTypePartner: PkhPdfFillFunction = ({
   } else {
     pdfValues.e29.value = true;
   }
+
+  // set "Vermietung und Verpachtung" and "Kapitalvermögen" to "Nein", they are also asked in "sonstige einnahmen"
   pdfValues.e31.value = true;
   pdfValues.e33.value = true;
 

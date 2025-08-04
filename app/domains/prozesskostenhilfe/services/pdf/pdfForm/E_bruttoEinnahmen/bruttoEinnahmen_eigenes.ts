@@ -59,8 +59,9 @@ export const fillEinkommenType: PkhPdfFillFunction = ({
     pdfValues.e3.value = true;
   }
 
-  pdfValues.e5.value = true; // TODO: why filled here?
-  pdfValues.e7.value = true; // TODO: why filled here?
+  // set "Vermietung und Verpachtung" and "Kapitalvermögen" to "Nein", they are also asked in "sonstige einnahmen"
+  pdfValues.e5.value = true;
+  pdfValues.e7.value = true;
   return { pdfValues };
 };
 
