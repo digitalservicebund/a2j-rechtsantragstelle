@@ -39,6 +39,8 @@ const getFeedbackFromUrl = (url: string) => {
   return new URLSearchParams(url).get("wasHelpful");
 };
 
+const HEADING_PERSONAL_DATA_FEEDBACK_ID = "heading-personal-data-feedback-id";
+
 export const FeedbackFormBox = ({
   destination,
   shouldFocus,
@@ -87,7 +89,10 @@ export const FeedbackFormBox = ({
           <label htmlFor={FEEDBACK_FIELD_NAME} className="ds-label-01-bold">
             {feedbackText}
           </label>
-          <p className="ds-text-02-reg text-gray-800">
+          <p
+            id={HEADING_PERSONAL_DATA_FEEDBACK_ID}
+            className="ds-text-02-reg text-gray-800"
+          >
             {feedbackTranslations["heading-personal-data-feedback"]}
           </p>
         </div>
@@ -96,6 +101,7 @@ export const FeedbackFormBox = ({
           classNameLabel="ds-label-01-bold"
           placeholder={feedbackTranslations["placeholder-feedback"]}
           innerRef={textAreaReference}
+          ariaDescribedby={HEADING_PERSONAL_DATA_FEEDBACK_ID}
         />
         <ButtonContainer>
           <Button
