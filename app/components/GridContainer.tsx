@@ -56,11 +56,11 @@ export interface GridItemProps extends PropsWithChildren {
 }
 
 const MAX_WIDTH_CLASSES: Record<GridContainerMaxWidth, string> = {
-  sm: "w-[600px]",
-  md: "w-[800px]",
-  lg: "w-[1000px]",
+  sm: "max-w-[600px]",
+  md: "max-w-[800px]",
+  lg: "max-w-[1000px]",
   xl: "max-w-[1200px]",
-  xxl: "w-[1600px]",
+  xxl: "max-w-[1600px]",
   full: "w-full",
 };
 
@@ -216,6 +216,8 @@ export default function GridContainer({
   const containerClasses = classNames(
     // fluid ? "w-full" : "mx-auto w-full",
     // !fluid && MAX_WIDTH_CLASSES[maxWidth],
+    "flex",
+    "justify-center",
     PADDING_X_CLASSES[paddingX],
     PADDING_Y_CLASSES[paddingY],
     className,
@@ -229,7 +231,8 @@ export default function GridContainer({
     "grid gap-32",
     !columnWidths?.length && GRID_COLUMN_CLASSES[columns],
     "justify-self-center",
-    "max-w-[1200px]",
+    // "max-w-[1200px]",
+    MAX_WIDTH_CLASSES[maxWidth],
     "w-full",
     alignItems && ALIGNMENT_CLASSES[alignItems],
     justifyContent && JUSTIFY_CLASSES[justifyContent],

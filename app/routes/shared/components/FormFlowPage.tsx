@@ -48,7 +48,6 @@ export function FormFlowPage() {
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
-      {/* <Background backgroundColor="blue"> */}
       <GridContainer
         columns={12}
         maxWidth="xl"
@@ -56,17 +55,13 @@ export function FormFlowPage() {
         paddingX="none"
         alignItems="start"
         className="bg-blue-100"
-        // columnWidths={["248px", "repeat(7, 1fr)"]}
       >
-        {/* <div className="w-screen pt-32 flex flex-grow flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start gap-48 h-full"> */}
-        {/* <div className="md:w-[248px]"> */}
         <GridItem
           span={3}
           spanSm={3}
           spanMd={3}
           spanLg={3}
           spanXl={3}
-          // colStart={5}
           colStartXs={1}
           colStartSm={1}
           colStartMd={1}
@@ -77,12 +72,6 @@ export function FormFlowPage() {
             <FlowNavigation navItems={navItems} expandAll={isValidationPage} />
           </div>
         </GridItem>
-        {/* </div> */}
-        {/* <div
-            className={
-              "flex flex-col flex-1 gap-32 container md:pl-0 md:!pb-32 !pt-0 justify-between"
-            }
-          > */}
         <GridItem
           span={7}
           spanXs={12}
@@ -146,10 +135,8 @@ export function FormFlowPage() {
         paddingY="xl"
         paddingX="md"
         className="bg-blue-100"
-        // columnWidths={["248px", "repeat(7, 1fr)"]}
       >
         {showReportProblem && (
-          // <div className="flex justify-end w-full relative">
           <GridItem
             span={3}
             spanXs={12}
@@ -162,10 +149,8 @@ export function FormFlowPage() {
           >
             <ReportProblem />
           </GridItem>
-          // </div>
         )}
       </GridContainer>
-      {/* </Background> */}
     </FormFlowContext.Provider>
   );
 }

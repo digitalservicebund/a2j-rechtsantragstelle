@@ -55,6 +55,7 @@ function wrapInBackground(
 }
 
 function cmsToReact(componentProps: StrapiContentComponent) {
+  console.log("cmsToReact", componentProps);
   switch (componentProps.__component) {
     case "basic.heading":
       return <Heading {...componentProps} />;

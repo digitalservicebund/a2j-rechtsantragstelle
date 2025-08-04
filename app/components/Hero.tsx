@@ -22,7 +22,7 @@ export default function Hero({ heading, content, button }: Props) {
       paddingY="xl"
       justifyContent="start"
     >
-      <GridItem span={12} colStart={1} className="px-32">
+      <GridItem span={12} colStart={1}>
         <Heading {...heading} />
         {content && (
           <RichText className="ds-heading-03-reg" html={content.html} />

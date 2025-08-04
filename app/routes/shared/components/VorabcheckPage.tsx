@@ -24,7 +24,7 @@ export function VorabcheckPage() {
   return (
     <>
       <GridContainer
-        columns={12}
+        columns={2}
         maxWidth="xl"
         paddingY="xl"
         className="bg-blue-100"
