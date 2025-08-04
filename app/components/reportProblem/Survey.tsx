@@ -8,7 +8,7 @@ import {
   OpenQuestion,
   type SurveyResponses,
 } from "~/components/reportProblem/OpenQuestion";
-import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
+import { FeedbackSuccessMessage } from "~/components/userFeedback/FeedbackSuccessMessage";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import { isCompleted } from "~/services/analytics/surveys/isCompleted";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
@@ -59,8 +59,7 @@ export const PosthogSurvey = ({
   return (
     <div className={containerClasses}>
       {wasSubmitted ? (
-        <FeedbackTitle
-          title={feedbackTranslations["success-message"]}
+        <FeedbackSuccessMessage
           subtitle={feedbackTranslations["feedback-helps"]}
         />
       ) : (

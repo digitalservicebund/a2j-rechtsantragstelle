@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { FeedbackTitle } from "~/components/userFeedback/FeedbackTitle";
+import { FeedbackSuccessMessage } from "~/components/userFeedback/FeedbackSuccessMessage";
 import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import RichText from "../RichText";
 
@@ -23,9 +23,8 @@ export const PostSubmissionBox = ({
 
   return (
     <div data-testid="user-feedback-submission">
-      <FeedbackTitle
+      <FeedbackSuccessMessage
         innerRef={headingReference}
-        title={feedbackTranslations["success-message"]}
         subtitle={feedbackTranslations["feedback-helps"]}
       />
       {postSubmissionText && <RichText html={postSubmissionText} />}
