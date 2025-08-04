@@ -6,7 +6,7 @@ type Props = {
   children: ReactNode;
 };
 
-export const RFCFormerProvider = ({ children }: Props) => {
+export const RVFProvider = ({ children }: Props) => {
   const form = useForm({
     schema: z.object({ name: z.string().optional() }),
     defaultValues: { name: "" },

@@ -28,28 +28,10 @@ export const berHAntragAnwaltlicheVertretungPages = {
   },
   anwaltKontaktdaten: {
     stepId: "anwaltliche-vertretung/anwalt-kontaktdaten",
-  },
-  anwaltName: {
-    stepId: "anwaltliche-vertretung/anwalt-name",
     pageSchema: {
       anwaltName: stringRequiredSchema,
-    },
-  },
-  anwaltStrasseUndHausnummer: {
-    stepId: "anwaltliche-vertretung/anwalt-strasse-und-hausnummer",
-    pageSchema: {
       anwaltStrasseUndHausnummer: stringRequiredSchema,
-    },
-  },
-  anwaltPlz: {
-    stepId: "anwaltliche-vertretung/anwalt-plz",
-    pageSchema: {
-      anwaltPlz: stringRequiredSchema.pipe(postcodeSchema),
-    },
-  },
-  anwaltOrt: {
-    stepId: "anwaltliche-vertretung/anwalt-ort",
-    pageSchema: {
+      anwaltPlz: postcodeSchema,
       anwaltOrt: stringRequiredSchema,
     },
   },

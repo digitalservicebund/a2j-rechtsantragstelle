@@ -6,7 +6,7 @@ import {
   PDFFileMetadata,
   TEN_MB_IN_BYTES,
 } from "~/services/validation/pdfFileSchema";
-import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
+import { RVFProvider } from ".storybook/RVFProvider";
 import { reactRouterContext } from ".storybook/reactRouterContext";
 import { splitFieldName } from "~/services/upload/splitFieldName";
 
@@ -44,9 +44,9 @@ export const Default: Story = {
     (Story) =>
       reactRouterContext(
         () => (
-          <RFCFormerProvider>
+          <RVFProvider>
             <Story />
-          </RFCFormerProvider>
+          </RVFProvider>
         ),
         () => ({ csrf: "csrf" }),
         async ({ request }: ActionFunctionArgs) => {

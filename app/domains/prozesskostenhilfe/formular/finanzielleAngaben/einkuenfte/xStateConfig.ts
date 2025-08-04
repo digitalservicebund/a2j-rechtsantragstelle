@@ -1,7 +1,6 @@
 import mapValues from "lodash/mapValues";
 import { and } from "xstate";
 import type { Flow } from "~/domains/flows.server";
-import { qualifiesForVereinfachteErklaerung } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { einkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
 import {
@@ -15,7 +14,6 @@ import {
 import {
   couldLiveFromUnterhalt,
   empfaengerIsAnderePerson,
-  empfaengerIsChild,
 } from "../../antragstellendePerson/guards";
 import { isNachueberpruefung } from "../../grundvoraussetzungen/guards";
 
@@ -88,25 +86,6 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               {
                 guard: empfaengerIsAnderePerson,
                 target: "#antragstellende-person.zwei-formulare",
-              },
-              {
-                guard: and([
-                  empfaengerIsChild,
-                  isNachueberpruefung,
-                  qualifiesForVereinfachteErklaerung,
-                ]),
-                target:
-                  "#antragstellende-person.vereinfachte-erklaerung.hinweis-vereinfachte-erklaerung",
-              },
-              {
-                guard: and([
-                  empfaengerIsChild,
-                  isNachueberpruefung,
-                  ({ context }) =>
-                    !qualifiesForVereinfachteErklaerung({ context }),
-                ]),
-                target:
-                  "#antragstellende-person.vereinfachte-erklaerung.hinweis-weiteres-formular",
               },
               {
                 guard: and([
