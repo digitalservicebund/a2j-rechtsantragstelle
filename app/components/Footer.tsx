@@ -52,7 +52,13 @@ export default function Footer({
     translations,
   );
   return (
-    <GridContainer columns={12} maxWidth="xl" paddingX="xl" paddingY="xl">
+    <GridContainer
+      columns={12}
+      maxWidth="xl"
+      paddingX="xl"
+      paddingY="xl"
+      alignItems="start"
+    >
       <GridItem
         span={3}
         spanXs={3}

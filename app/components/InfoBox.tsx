@@ -24,7 +24,7 @@ const InfoBox = ({
       paddingX="sm"
       justifyContent="start"
     >
-      <GridItem span={12} colStart={1}>
+      <GridItem span={12} colStart={1} className="px-32 py-32">
         <div className="ds-stack ds-stack-8 scroll-my-40" id={identifier}>
           {heading && <Heading {...heading} />}
           {items.length > 0 && (

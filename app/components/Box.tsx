@@ -22,7 +22,11 @@ const Box = ({ identifier, label, heading, content, buttons }: BoxProps) => {
       paddingX="sm"
       justifyContent="start"
     >
-      <GridItem span={12} colStart={1}>
+      <GridItem
+        span={12}
+        colStart={1}
+        className="bg-blue-100 px-32 py-32 rounded-lg"
+      >
         <div className="ds-stack ds-stack-16 scroll-my-40" id={identifier}>
           <div className="ds-stack ds-stack-8">
             {label && <Heading {...label} />}

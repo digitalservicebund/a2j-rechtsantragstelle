@@ -29,15 +29,16 @@ function wrapInContainer(
   const isBox = componentProps.__component === "page.box";
   const isBoxWithImage = componentProps.__component === "page.box-with-image";
   console.log(componentProps.container);
-  return (
-    <Container
-      {...componentProps.container}
-      overhangingBackground={isBox || isBoxWithImage}
-      fullScreen={fullScreen}
-    >
-      {reactElement}
-    </Container>
-  );
+  return reactElement;
+  // return (
+  //   <Container
+  //     {...componentProps.container}
+  //     overhangingBackground={isBox || isBoxWithImage}
+  //     fullScreen={fullScreen}
+  //   >
+  //     {reactElement}
+  //   </Container>
+  // );
 }
 
 function wrapInBackground(
