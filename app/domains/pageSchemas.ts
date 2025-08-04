@@ -34,6 +34,8 @@ export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
 }
 
 export type PageConfig = { pageSchema?: SchemaObject; stepId: string };
+// TODO: better specify PageSchema to specify enums, strings, ...
+export type PageSchema = SchemaObject;
 export type PagesConfig = Record<string, PageConfig>;
 
 type ExtractSchemas<T extends PagesConfig> = {
