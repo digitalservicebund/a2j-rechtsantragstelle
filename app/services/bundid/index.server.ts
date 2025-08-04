@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 import saml from "samlify";
 import type { IdentityProvider } from "samlify/types/src/entity-idp";
 import type { ServiceProvider } from "samlify/types/src/entity-sp";
