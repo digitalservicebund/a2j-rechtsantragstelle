@@ -243,20 +243,6 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTran
     ],
     [
       {
-        formularArt: "nachueberpruefung",
-        empfaenger: "child",
-        minderjaehrig: "no",
-        unterhaltsOrAbstammungssachen: "yes",
-        rechtlichesThema: "unterhalt",
-        hasEinnahmen: "no",
-      },
-      [
-        `${prefix}/hinweis-weiteres-formular`,
-        "/finanzielle-angaben/einkuenfte/start",
-      ],
-    ],
-    [
-      {
         empfaenger: "child",
         minderjaehrig: "yes",
         unterhaltsOrAbstammungssachen: "yes",
@@ -267,21 +253,6 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTran
       [
         `${prefix}/hinweis-vereinfachte-erklaerung`,
         "/rechtsschutzversicherung/rsv-frage",
-      ],
-    ],
-    [
-      {
-        formularArt: "nachueberpruefung",
-        empfaenger: "child",
-        minderjaehrig: "yes",
-        unterhaltsOrAbstammungssachen: "yes",
-        rechtlichesThema: "unterhalt",
-        hasEinnahmen: "no",
-        hasVermoegen: "no",
-      },
-      [
-        `${prefix}/hinweis-vereinfachte-erklaerung`,
-        "/finanzielle-angaben/einkuenfte/start",
       ],
     ],
   ] as Array<
