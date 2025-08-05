@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { checkedOptional } from "~/services/validation/checkedCheckbox";
+import {
+  checkedOptional,
+  exclusiveCheckboxesSchema,
+} from "~/services/validation/checkedCheckbox";
 import {
   customRequiredErrorMessage,
   YesNoAnswer,
@@ -144,6 +147,16 @@ export const kontopfaendungWegweiserPages = {
     stepId: "pfaendung-unterhalt",
     pageSchema: {
       pfaendungUnterhalt: YesNoAnswer,
+    },
+  },
+  umstaende: {
+    stepId: "umstaende",
+    pageSchema: {
+      umstand: exclusiveCheckboxesSchema([
+        "pflegegeld",
+        "kindergeld",
+        "wohngeld",
+      ]),
     },
   },
   pflegegeld: {

@@ -284,6 +284,12 @@ export const kontopfaendungWegweiserXstateConfig = {
         BACK: stepIds.sozialleistungNachzahlung,
       },
     },
+    [stepIds.umstaende]: {
+      on: {
+        SUBMIT: stepIds.rente,
+        BACK: stepIds.sozialleistungenEinmalzahlung,
+      },
+    },
     [stepIds.pflegegeld]: {
       on: {
         SUBMIT: stepIds.rente,
@@ -340,7 +346,7 @@ export const kontopfaendungWegweiserXstateConfig = {
             target: stepIds.wohngeldEmpfaenger,
             guard: ({ context }) => context.hasWohngeld === "yes",
           },
-          stepIds.pflegegeld,
+          stepIds.umstaende,
         ],
         BACK: [
           {
@@ -385,7 +391,7 @@ export const kontopfaendungWegweiserXstateConfig = {
     [stepIds.rente]: {
       on: {
         SUBMIT: stepIds.ergebnisNaechsteSchritte,
-        BACK: stepIds.pflegegeld,
+        BACK: stepIds.umstaende,
       },
     },
     [stepIds.ergebnisNaechsteSchritte]: {
