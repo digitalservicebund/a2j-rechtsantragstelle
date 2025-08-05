@@ -1,10 +1,17 @@
 import mapKeys from "lodash/mapKeys";
+import {
+  isZodCustom,
+  renderZodCustom,
+} from "~/components/form/schemaToForm/renderZodCustom";
+import {
+  isZodString,
+  renderZodString,
+} from "~/components/form/schemaToForm/renderZodString";
 import type { SchemaObject } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { getNestedSchema } from "./schemaToForm/getNestedSchema";
 import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";
 import { isZodObject } from "./schemaToForm/renderZodObject";
-import { isZodString, renderZodString } from "./schemaToForm/renderZodString";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -22,6 +29,10 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
             formComponents.__component !== "form-elements.fieldset",
         )
         .find(({ name }) => name === fieldName);
+
+      if (isZodCustom(nestedSchema)) {
+        return renderZodCustom(nestedSchema, fieldName, formComponents);
+      }
 
       if (isZodObject(nestedSchema)) {
         // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")

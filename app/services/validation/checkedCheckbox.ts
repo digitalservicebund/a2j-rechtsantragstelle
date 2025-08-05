@@ -11,18 +11,22 @@ export const checkedOptional = z.enum(
 export const exclusiveCheckboxesSchema = (checkboxes: string[]) =>
   z
     .object({
+      none: checkedOptional,
+      __component: z.literal("form-elements.exclusive-checkbox"),
       ...Object.fromEntries(checkboxes.map((c) => [c, checkedOptional])),
-      specialField: checkedOptional,
     })
     .refine(
-      ({ specialField, ...rest }) => {
+      ({ none, __component, ...rest }) => {
+        return none === "on" || Object.values(rest).some((v) => v === "on");
+      },
+      { error: "Bitte treffen Sie eine Auswahl" },
+    )
+    .refine(
+      ({ none, __component, ...rest }) => {
         return (
-          (specialField === "on" &&
-            Object.values(rest).every((v) => v === "off")) ||
-          (specialField === "off" &&
-            Object.values(rest).some((v) => v === "on"))
+          (none === "on" && Object.values(rest).every((v) => v === "off")) ||
+          (none === "off" && Object.values(rest).some((v) => v === "on"))
         );
       },
       { error: "Ungültige Kombination" },
-    )
-    .brand("exclusiveCheckboxes");
+    );
