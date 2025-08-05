@@ -1,3 +1,4 @@
+import { reactRouterContext } from ".storybook/reactRouterContext";
 import type { Meta, StoryObj } from "@storybook/react";
 import PageHeader from "~/components/PageHeader";
 
@@ -16,6 +17,7 @@ export const Default = {
     linkLabel: "Justiz-Services",
     hideLinks: false,
   },
+  decorators: [(Story) => reactRouterContext(() => <Story />)],
 } satisfies StoryObj<typeof meta>;
 
 export const FlowPage = {
@@ -24,6 +26,7 @@ export const FlowPage = {
     linkLabel: "Justiz-Services",
     hideLinks: true,
   },
+  decorators: [(Story) => reactRouterContext(() => <Story />)],
 } satisfies StoryObj<typeof meta>;
 
 export default meta;
