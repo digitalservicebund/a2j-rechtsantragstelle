@@ -47,7 +47,7 @@ const TileGroup = ({
       )}
       <div
         className={classNames("grid gap-24", {
-          "grid-cols-[repeat(auto-fit,minmax(290px,1fr))]": useTwoColumns,
+          "grid-cols-[repeat(auto-fit,minmax(18.125rem,1fr))]": useTwoColumns,
         })}
       >
         {label && <legend>{label}</legend>}
