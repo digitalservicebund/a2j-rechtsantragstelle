@@ -19,12 +19,7 @@ export function renderZodCustom(
       <ExclusiveCheckboxes
         key={fieldName}
         name={fieldName}
-        checkboxes={
-          // Hidden input is needed from Strapi to prevent "none" option getting pruned
-          formComponents?.filter(
-            (c) => c.__component !== "form-elements.hidden-input",
-          ) as StrapiCheckboxComponent[]
-        }
+        checkboxes={formComponents as StrapiCheckboxComponent[]}
       />
     );
   }

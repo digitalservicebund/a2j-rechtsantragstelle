@@ -16,9 +16,11 @@ export const ExclusiveCheckboxes = ({
   const errorId = `${name}-error`;
   return (
     <div>
-      {checkboxes.map((c) => (
-        <Checkbox name={c.name} label={c.label} key={c.name} />
-      ))}
+      {checkboxes
+        .filter((c) => c.name !== `${name}.none`)
+        .map((c) => (
+          <Checkbox name={c.name} label={c.label} key={c.name} />
+        ))}
       <input
         type="hidden"
         name={`${name}.__component`}
@@ -30,9 +32,7 @@ export const ExclusiveCheckboxes = ({
         key={`${name}.none`}
         label={"Nichts trifft zu"}
       />
-      {field.error() && (
-        <InputError id={errorId}>Top-level error: {field.error()}</InputError>
-      )}
+      {field.error() && <InputError id={errorId}>{field.error()}</InputError>}
     </div>
   );
 };

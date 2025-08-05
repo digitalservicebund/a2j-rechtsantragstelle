@@ -156,6 +156,7 @@ export const kontopfaendungWegweiserPages = {
         "pflegegeld",
         "kindergeld",
         "wohngeld",
+        "none",
       ]),
     },
   },

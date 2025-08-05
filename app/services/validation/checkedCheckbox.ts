@@ -8,24 +8,39 @@ export const checkedOptional = z.enum(
   customRequiredErrorMessage,
 );
 
+type ExclusiveCheckboxes = {
+  none: z.infer<typeof checkedOptional>;
+  [key: string]: z.infer<typeof checkedOptional>;
+};
+
 export const exclusiveCheckboxesSchema = (checkboxes: string[]) =>
   z
     .object({
-      none: checkedOptional,
       __component: z.literal("form-elements.exclusive-checkbox"),
       ...Object.fromEntries(checkboxes.map((c) => [c, checkedOptional])),
     })
     .refine(
-      ({ none, __component, ...rest }) => {
-        return none === "on" || Object.values(rest).some((v) => v === "on");
+      ({ __component, ...rest }) => {
+        const checkboxValues = Object.entries(rest)
+          .filter(([key]) => key !== "none")
+          .map(([, value]) => value) as Array<z.infer<typeof checkedOptional>>;
+        return (
+          (rest as ExclusiveCheckboxes).none === "on" ||
+          checkboxValues.some((v) => v === "on")
+        );
       },
       { error: "Bitte treffen Sie eine Auswahl" },
     )
     .refine(
-      ({ none, __component, ...rest }) => {
+      ({ __component, ...rest }) => {
+        const checkboxValues = Object.entries(rest)
+          .filter(([key]) => key !== "none")
+          .map(([, value]) => value) as Array<z.infer<typeof checkedOptional>>;
         return (
-          (none === "on" && Object.values(rest).every((v) => v === "off")) ||
-          (none === "off" && Object.values(rest).some((v) => v === "on"))
+          ((rest as ExclusiveCheckboxes).none === "on" &&
+            checkboxValues.every((v) => v === "off")) ||
+          ((rest as ExclusiveCheckboxes).none === "off" &&
+            checkboxValues.some((v) => v === "on"))
         );
       },
       { error: "Ungültige Kombination" },
