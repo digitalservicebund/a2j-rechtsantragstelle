@@ -1,10 +1,6 @@
 import ArraySummaryItemButton from "~/components/arraySummary/ArraySummaryItemButton";
 import type { BasicTypes } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
-import {
-  getTranslationByKey,
-  type Translations,
-} from "~/services/translations/getTranslationByKey";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import Heading, { type HeadingProps } from "../Heading";
 
@@ -14,8 +10,26 @@ type ArraySummaryItemProps = {
   readonly category: string;
   readonly configuration: ArrayConfigClient;
   readonly csrf: string;
-  readonly translations?: Translations;
   readonly subtitle?: HeadingProps;
+  readonly itemsContent: Array<{ item: string; value: string }>;
+};
+
+const getItemTitle = (
+  itemsContent: Array<{ item: string; value: string }>,
+  itemKey: string,
+) => {
+  return itemsContent.find((item) => item.item === itemKey)?.value ?? itemKey;
+};
+
+const getItemValue = (
+  itemsContent: Array<{ item: string; value: string }>,
+  itemKey: string,
+  itemValue: BasicTypes,
+) => {
+  return (
+    itemsContent.find((item) => item.item === `${itemKey}.${itemValue}`)
+      ?.value ?? itemValue
+  );
 };
 
 const ArraySummaryDataItems = ({
@@ -25,7 +39,7 @@ const ArraySummaryDataItems = ({
   configuration,
   csrf,
   subtitle,
-  translations = {},
+  itemsContent,
 }: ArraySummaryItemProps) => {
   const { url, initialInputUrl, hiddenFields, displayIndexOffset } =
     configuration;
@@ -53,12 +67,11 @@ const ArraySummaryDataItems = ({
         <div key={itemKey} className="first:pt-0 scroll-my-40">
           <Heading
             dataTestid="array-summary-item"
-            text={getTranslationByKey(`${category}.${itemKey}`, translations)}
+            text={getItemTitle(itemsContent, itemKey)}
             tagName={"p"}
             look="ds-label-02-bold"
           />
-          {translations[`${category}.${itemKey}.${String(itemValue)}`] ??
-            itemValue}
+          {getItemValue(itemsContent, itemKey, itemValue)}
         </div>
       ))}
       <ArraySummaryItemButton

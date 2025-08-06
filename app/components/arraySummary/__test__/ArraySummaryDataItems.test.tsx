@@ -14,13 +14,7 @@ const mockArrayConfiguration: ArrayConfigClient = {
 const mockDataItem = {
   firstName: "Another",
   surname: "test",
-};
-
-const translations = {
-  "unterhaltszahlungen.familyRelationship": "Familienverhältnis",
-  "unterhaltszahlungen.familyRelationship.mother": "Mutter",
-  "unterhaltszahlungen.firstName": "Vorname",
-  "unterhaltszahlungen.surname": "Nachname",
+  familyRelationship: "mother",
 };
 
 vi.mock("~/components/arraySummary/ArraySummaryItemButton", () => ({
@@ -33,19 +27,17 @@ describe("ArraySummaryDataItems", () => {
   });
 
   it("should render ArraySummaryDataItems with the correct values", () => {
-    const translations = {
-      "unterhaltszahlungen.familyRelationship": "Familienverhältnis",
-      "unterhaltszahlungen.familyRelationship.mother": "Mutter",
-      "unterhaltszahlungen.firstName": "Vorname",
-      "unterhaltszahlungen.surname": "Nachname",
-    };
-
     const { getByText, queryAllByTestId } = render(
       <ArraySummaryDataItems
         configuration={mockArrayConfiguration}
         items={mockDataItem}
         itemIndex={0}
-        translations={translations}
+        itemsContent={[
+          { item: "familyRelationship", value: "Familienverhältnis" },
+          { item: "familyRelationship.mother", value: "Mutter" },
+          { item: "firstName", value: "Vorname" },
+          { item: "surname", value: "Nachname" },
+        ]}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
@@ -54,12 +46,10 @@ describe("ArraySummaryDataItems", () => {
     expect(queryAllByTestId(arraySummaryItem)[0].tagName.toLowerCase()).toBe(
       "p",
     );
-    expect(
-      getByText(translations["unterhaltszahlungen.firstName"]),
-    ).toBeInTheDocument();
-    expect(
-      getByText(translations["unterhaltszahlungen.surname"]),
-    ).toBeInTheDocument();
+    expect(getByText("Familienverhältnis")).toBeInTheDocument();
+    expect(getByText("Vorname")).toBeInTheDocument();
+    expect(getByText("Nachname")).toBeInTheDocument();
+    expect(getByText("Mutter")).toBeInTheDocument();
     expect(getByText(mockDataItem.firstName)).toBeInTheDocument();
     expect(getByText(mockDataItem.surname)).toBeInTheDocument();
   });
@@ -67,7 +57,7 @@ describe("ArraySummaryDataItems", () => {
   it("should not render ArraySummaryDataItems in case all the field are hidden", () => {
     const mockArrayConfiguratinWithHiddenFields = {
       ...mockArrayConfiguration,
-      hiddenFields: ["firstName", "surname"],
+      hiddenFields: ["firstName", "surname", "familyRelationship"],
     };
 
     const { container } = render(
@@ -75,7 +65,7 @@ describe("ArraySummaryDataItems", () => {
         configuration={mockArrayConfiguratinWithHiddenFields}
         items={mockDataItem}
         itemIndex={0}
-        translations={translations}
+        itemsContent={[]}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
@@ -91,7 +81,7 @@ describe("ArraySummaryDataItems", () => {
         items={mockDataItem}
         itemIndex={0}
         subtitle={{ text: "Subtitle" }}
-        translations={translations}
+        itemsContent={[]}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
@@ -110,7 +100,7 @@ describe("ArraySummaryDataItems", () => {
             items={mockDataItem}
             itemIndex={itemIndex}
             subtitle={{ text: "Subtitle {{ indexArray }}" }}
-            translations={translations}
+            itemsContent={[]}
             category="unterhaltszahlungen"
             csrf="csrf"
           />
@@ -135,7 +125,7 @@ describe("ArraySummaryDataItems", () => {
             items={mockDataItem}
             subtitle={{ text: "Subtitle {{ indexArray }}" }}
             itemIndex={itemIndex}
-            translations={translations}
+            itemsContent={[]}
             category="unterhaltszahlungen"
             csrf="csrf"
           />

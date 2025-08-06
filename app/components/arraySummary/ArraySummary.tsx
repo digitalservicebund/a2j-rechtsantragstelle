@@ -1,7 +1,6 @@
 import AddButton from "@digitalservicebund/icons/Add";
 import type { ArrayData } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
-import { type Translations } from "~/services/translations/getTranslationByKey";
 import { translations as translationProvider } from "~/services/translations/translations";
 import ArraySummaryDataItems from "./ArraySummaryDataItems";
 import Button from "../Button";
@@ -14,23 +13,21 @@ type ArraySummaryProps = {
     data: ArrayData;
     configuration: ArrayConfigClient;
   };
-  readonly translations?: Translations;
+  readonly content: {
+    readonly title?: HeadingProps;
+    readonly description?: string;
+    readonly buttonLabel?: string;
+    readonly subtitle?: HeadingProps;
+    readonly items: Array<{ item: string; value: string }>;
+  };
   readonly csrf: string;
-  readonly title?: HeadingProps;
-  readonly description?: string;
-  readonly buttonLabel?: string;
-  readonly subtitle?: HeadingProps;
 };
 
 const ArraySummary = ({
   category,
   arrayData,
   csrf,
-  translations = {},
-  title,
-  subtitle,
-  description,
-  buttonLabel,
+  content,
 }: ArraySummaryProps) => {
   const nextItemIndex = String(arrayData.data.length);
   const { url, initialInputUrl, disableAddButton } = arrayData.configuration;
@@ -38,20 +35,22 @@ const ArraySummary = ({
   return (
     <div>
       <div className="ds-stack ds-stack-8">
-        {title && <Heading dataTestid="array-summary-title" {...title} />}
-        {description && <RichText html={description} />}
+        {content.title && (
+          <Heading dataTestid="array-summary-title" {...content.title} />
+        )}
+        {content.description && <RichText html={content.description} />}
         <div className="space-y-32">
           {arrayData.data.map((items, index) => (
             <ArraySummaryDataItems
               // eslint-disable-next-line react/no-array-index-key
-              key={`${buttonLabel}_${index}`}
+              key={`${content.buttonLabel}_${index}`}
               configuration={arrayData.configuration}
               itemIndex={index}
               items={items}
               category={category}
               csrf={csrf}
-              subtitle={subtitle}
-              translations={translations}
+              subtitle={content.subtitle}
+              itemsContent={content.items}
             />
           ))}
           <Button
@@ -63,7 +62,7 @@ const ArraySummary = ({
             iconLeft={<AddButton />}
             data-testid={`add-${category}`}
             href={`${url}/${Number(nextItemIndex)}/${initialInputUrl}`}
-          >{`${buttonLabel} ${translationProvider.arraySummary.arrayAddButtonLabel.de}`}</Button>
+          >{`${content.buttonLabel} ${translationProvider.arraySummary.arrayAddButtonLabel.de}`}</Button>
         </div>
       </div>
     </div>

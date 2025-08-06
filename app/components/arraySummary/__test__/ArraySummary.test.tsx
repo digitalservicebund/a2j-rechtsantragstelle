@@ -32,24 +32,17 @@ describe("ArraySummary", () => {
   });
 
   it("should render title and description when it's available", () => {
-    const translations = {
-      "unterhaltszahlungen.familyRelationship": "Familienverhältnis",
-      "unterhaltszahlungen.familyRelationship.mother": "Mutter",
-      "unterhaltszahlungen.firstName": "Vorname",
-      "unterhaltszahlungen.surname": "Nachname",
-      "unterhaltszahlungen.birthday": "Geburtsdatum",
-      "unterhaltszahlungen.monthlyPayment": "Monatliche Unterhaltszahlungen",
-    };
-
     const { getByText } = render(
       <ArraySummary
         arrayData={arrayData}
-        translations={translations}
-        title={{
-          text: "Array Summary Title",
-          tagName: "h2",
+        content={{
+          title: {
+            text: "Array Summary Title",
+            tagName: "h2",
+          },
+          items: [],
+          description: "Array Summary Description",
         }}
-        description="Array Summary Description"
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
@@ -63,7 +56,9 @@ describe("ArraySummary", () => {
     const { getByText } = render(
       <ArraySummary
         arrayData={arrayData}
-        translations={{}}
+        content={{
+          items: [],
+        }}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
@@ -94,7 +89,9 @@ describe("ArraySummary", () => {
     const { getByTestId } = render(
       <ArraySummary
         arrayData={mockArrayDataDisableAddButton}
-        translations={{}}
+        content={{
+          items: [],
+        }}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
@@ -127,7 +124,9 @@ describe("ArraySummary", () => {
     const { getByTestId } = render(
       <ArraySummary
         arrayData={mockArrayDataDisableAddButton}
-        translations={{}}
+        content={{
+          items: [],
+        }}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
