@@ -96,6 +96,7 @@ describe("getContentData", () => {
             event: addBankkonten,
             disableAddButton: false,
           },
+          itemsContent: [],
         },
       } satisfies ArraySummaryData;
       vi.mocked(getArraySummaryData).mockReturnValue(mockSummaryData);

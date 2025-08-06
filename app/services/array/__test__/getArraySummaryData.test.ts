@@ -168,6 +168,10 @@ describe("getArraySummaryData", () => {
           description: "Hier sind Ihre Bankkonten aufgelistet.",
           buttonLabel: "Neues Bankkonto hinzufügen",
           categoryUrl: "/daten",
+          items: [
+            { item: "name", value: "Name des Bankkontos" },
+            { item: "kontonummer", value: "Kontonummer" },
+          ],
           id: 0,
         },
       ],
@@ -193,6 +197,10 @@ describe("getArraySummaryData", () => {
         },
         description: "Hier sind Ihre Bankkonten aufgelistet.",
         buttonLabel: "Neues Bankkonto hinzufügen",
+        itemsContent: [
+          { item: "name", value: "Name des Bankkontos" },
+          { item: "kontonummer", value: "Kontonummer" },
+        ],
       },
     });
   });
