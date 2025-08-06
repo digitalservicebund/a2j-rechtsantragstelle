@@ -35,9 +35,7 @@ const ArraySummary = ({
   return (
     <div>
       <div className="ds-stack ds-stack-8">
-        {content.title && (
-          <Heading dataTestid="array-summary-title" {...content.title} />
-        )}
+        {content.title && <Heading {...content.title} />}
         {content.description && <RichText html={content.description} />}
         <div className="space-y-32">
           {arrayData.data.map((items, index) => (
