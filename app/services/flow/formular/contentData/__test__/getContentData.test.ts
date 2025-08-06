@@ -52,8 +52,6 @@ const mockParentMeta = {
   title: "parentMeta title",
 };
 
-const mockArrayCategories: string[] = [];
-
 const mockCurrentFlow = flows["/beratungshilfe/antrag"];
 
 const mockBuildFlowController = {
