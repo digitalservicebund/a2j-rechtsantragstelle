@@ -101,7 +101,7 @@ export const buildCmsContentAndTranslations = ({
           ...currentFlow.stringReplacements(userDataWithPageData),
         }
       : {},
-    true, // skip indexArray replacement as it is not used in the form page content
+    true, // skip indexArray replacement as it will be handled in the component
   );
 
   return {
