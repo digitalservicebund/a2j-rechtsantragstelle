@@ -42,10 +42,12 @@ describe("getArraySummaryData", () => {
       bankkonten: {
         data: [],
         configuration: { ...bankkontenArrayConfig, disableAddButton: false },
+        itemsContent: [],
       },
       kraftfahrzeuge: {
         data: [{ hasArbeitsweg: "no", wert: "under10000" }],
         configuration: { ...kfzArrayConfig, disableAddButton: false },
+        itemsContent: [],
       },
     });
   });
