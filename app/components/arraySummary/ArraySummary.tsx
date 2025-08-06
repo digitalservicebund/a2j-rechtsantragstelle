@@ -1,10 +1,8 @@
 import AddButton from "@digitalservicebund/icons/Add";
 import type { ArrayData } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
-import {
-  getTranslationByKey,
-  type Translations,
-} from "~/services/translations/getTranslationByKey";
+import { type Translations } from "~/services/translations/getTranslationByKey";
+import { translations as translationProvider } from "~/services/translations/translations";
 import ArraySummaryDataItems from "./ArraySummaryDataItems";
 import Button from "../Button";
 import Heading, { type HeadingProps } from "../Heading";
@@ -34,10 +32,6 @@ const ArraySummary = ({
   description,
   buttonLabel,
 }: ArraySummaryProps) => {
-  const addButtonText = getTranslationByKey(
-    "arrayAddButtonLabel",
-    translations,
-  );
   const nextItemIndex = String(arrayData.data.length);
   const { url, initialInputUrl, disableAddButton } = arrayData.configuration;
 
@@ -69,7 +63,7 @@ const ArraySummary = ({
             iconLeft={<AddButton />}
             data-testid={`add-${category}`}
             href={`${url}/${Number(nextItemIndex)}/${initialInputUrl}`}
-          >{`${buttonLabel} ${addButtonText}`}</Button>
+          >{`${buttonLabel} ${translationProvider.arraySummary.arrayAddButtonLabel.de}`}</Button>
         </div>
       </div>
     </div>

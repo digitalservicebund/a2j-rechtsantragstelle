@@ -2,7 +2,6 @@ import ArraySummaryItemButton from "~/components/arraySummary/ArraySummaryItemBu
 import type { BasicTypes } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import {
-  extractTranslations,
   getTranslationByKey,
   type Translations,
 } from "~/services/translations/getTranslationByKey";
@@ -67,10 +66,6 @@ const ArraySummaryDataItems = ({
         csrf={csrf}
         itemIndex={itemIndex}
         editUrl={`${url}/${itemIndex}/${initialInputUrl}`}
-        translations={extractTranslations(
-          ["arrayEditButtonLabel", "arrayDeleteButtonLabel"],
-          translations,
-        )}
       />
     </div>
   );
