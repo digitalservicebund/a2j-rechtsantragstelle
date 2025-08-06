@@ -52,7 +52,7 @@
     "@pdf-lib/fontkit": "^1.1.1",
     "@react-router/express": "^7.7.1",
     "@react-router/node": "^7.7.1",
-    "@rvf/react-router": "^7.1.5",
+    "@rvf/react-router": "^8.0.0",
     "@rvf/zod": "^7.0.3",
     "@sentry/react-router": "^10.1.0",
     "@sentry/vite-plugin": "^4.0.2",
