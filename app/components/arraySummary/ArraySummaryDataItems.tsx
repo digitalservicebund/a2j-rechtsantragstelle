@@ -38,9 +38,13 @@ const ArraySummaryDataItems = ({
     return null;
   }
 
-  const heading = applyStringReplacement(subtitle ?? "", {
-    indexArray: (itemIndex + (displayIndexOffset ?? 1)).toString(),
-  });
+  const heading = applyStringReplacement(
+    subtitle ?? "",
+    {
+      indexArray: (itemIndex + (displayIndexOffset ?? 1)).toString(),
+    },
+    false,
+  );
 
   return (
     <div className="space-y-16 bg-white p-16">

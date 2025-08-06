@@ -99,4 +99,16 @@ describe("applyStringReplacement", () => {
       }),
     ).toEqual(stringIncorrectNumBrackets);
   });
+
+  it("should not replace the indexArray placeholder if skipIndexArrayReplacement is true", () => {
+    const content = "some text {{indexArray}}";
+    const actual = applyStringReplacement(content, { indexArray: "1" }, true);
+    expect(actual).toEqual(content);
+  });
+
+  it("should replace the indexArray placeholder if skipIndexArrayReplacement is false", () => {
+    const content = "some text {{indexArray}}";
+    const actual = applyStringReplacement(content, { indexArray: "1" }, false);
+    expect(actual).toEqual("some text 1");
+  });
 });
