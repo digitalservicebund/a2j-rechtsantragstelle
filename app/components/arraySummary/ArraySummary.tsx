@@ -16,7 +16,7 @@ type ArraySummaryProps = {
   readonly content: {
     readonly title?: HeadingProps;
     readonly description?: string;
-    readonly buttonLabel?: string;
+    readonly buttonLabel: string;
     readonly subtitle?: HeadingProps;
     readonly items: Array<{ item: string; value: string }>;
   };

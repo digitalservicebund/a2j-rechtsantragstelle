@@ -12,7 +12,7 @@ export type ArraySummaryData =
         title?: HeadingProps;
         description?: string;
         subtitle?: HeadingProps;
-        buttonLabel?: string;
+        buttonLabel: string;
         itemsContent: Array<{ item: string; value: string }>;
       }
     >
@@ -54,7 +54,7 @@ export function getArraySummaryData(
             title: arraySummaryCategoryContent?.title,
             subtitle: arraySummaryCategoryContent?.subtitle,
             description: arraySummaryCategoryContent?.description,
-            buttonLabel: arraySummaryCategoryContent?.buttonLabel,
+            buttonLabel: arraySummaryCategoryContent?.buttonLabel ?? "",
             itemsContent: arraySummaryCategoryContent?.items ?? [],
           },
         ];

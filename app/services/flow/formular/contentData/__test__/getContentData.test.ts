@@ -94,6 +94,7 @@ describe("getContentData", () => {
             disableAddButton: false,
           },
           itemsContent: [],
+          buttonLabel: "Add Bankkonto",
         },
       } satisfies ArraySummaryData;
       vi.mocked(getArraySummaryData).mockReturnValue(mockSummaryData);

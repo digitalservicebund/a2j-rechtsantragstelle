@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 
@@ -15,7 +14,7 @@ export const StrapiArraySummaryComponentSchema = z.object({
   title: StrapiHeadingOptionalSchema,
   description: StrapiRichTextOptionalSchema(),
   subtitle: StrapiHeadingOptionalSchema,
-  buttonLabel: stringOptionalSchema,
+  buttonLabel: z.string(),
   items: z.array(StrapiArraySummaryItemsSchema).nonempty(),
   __component: z.literal("page.array-summary"),
   ...HasStrapiIdSchema.shape,

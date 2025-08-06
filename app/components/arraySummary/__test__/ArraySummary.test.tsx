@@ -41,6 +41,7 @@ describe("ArraySummary", () => {
             tagName: "h2",
           },
           items: [],
+          buttonLabel: "Add Item",
           description: "Array Summary Description",
         }}
         category="unterhaltszahlungen"
@@ -58,6 +59,7 @@ describe("ArraySummary", () => {
         arrayData={arrayData}
         content={{
           items: [],
+          buttonLabel: "Add Item",
         }}
         category="unterhaltszahlungen"
         csrf="csrf"
@@ -91,6 +93,7 @@ describe("ArraySummary", () => {
         arrayData={mockArrayDataDisableAddButton}
         content={{
           items: [],
+          buttonLabel: "Add Item",
         }}
         category="unterhaltszahlungen"
         csrf="csrf"
@@ -126,6 +129,7 @@ describe("ArraySummary", () => {
         arrayData={mockArrayDataDisableAddButton}
         content={{
           items: [],
+          buttonLabel: "Add Item",
         }}
         category="unterhaltszahlungen"
         csrf="csrf"
