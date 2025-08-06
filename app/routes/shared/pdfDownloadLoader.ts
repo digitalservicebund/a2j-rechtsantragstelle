@@ -83,7 +83,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const fileSize = fileContent.length;
   const filename = `${name}_${pdfDateFormat(today())}.pdf`;
 
-  return new Response(fileContent, {
+  return new Response(Buffer.from(fileContent), {
     headers: createPdfResponseHeaders(filename, fileSize),
   });
 }
