@@ -44,7 +44,6 @@ describe("ArraySummaryDataItems", () => {
       <ArraySummaryDataItems
         configuration={mockArrayConfiguration}
         items={mockDataItem}
-        headingTitleTagNameItem="h2"
         itemIndex={0}
         translations={translations}
         category="unterhaltszahlungen"
@@ -53,7 +52,7 @@ describe("ArraySummaryDataItems", () => {
     );
 
     expect(queryAllByTestId(arraySummaryItem)[0].tagName.toLowerCase()).toBe(
-      "h2",
+      "p",
     );
     expect(
       getByText(translations["unterhaltszahlungen.firstName"]),
@@ -75,7 +74,6 @@ describe("ArraySummaryDataItems", () => {
       <ArraySummaryDataItems
         configuration={mockArrayConfiguratinWithHiddenFields}
         items={mockDataItem}
-        headingTitleTagNameItem="h2"
         itemIndex={0}
         translations={translations}
         category="unterhaltszahlungen"
@@ -86,35 +84,23 @@ describe("ArraySummaryDataItems", () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it("should render ArraySummaryDataItems with heading in case exists in the translations", () => {
-    const translationWithHeadline = {
-      ...translations,
-      "unterhaltszahlungen.label.heading": "Heading",
-    };
-
+  it("should render ArraySummaryDataItems with subtitle", () => {
     const { getByText } = render(
       <ArraySummaryDataItems
         configuration={mockArrayConfiguration}
         items={mockDataItem}
-        headingTitleTagNameItem="h2"
         itemIndex={0}
-        translations={translationWithHeadline}
+        subtitle={{ text: "Subtitle" }}
+        translations={translations}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
     );
 
-    expect(
-      getByText(translationWithHeadline["unterhaltszahlungen.label.heading"]),
-    ).toBeInTheDocument();
+    expect(getByText("Subtitle")).toBeInTheDocument();
   });
 
-  it("renders heading with placeholder {{ indexArray }} replaced by default index when displayIndexOffset is not provided", () => {
-    const translationWithHeadline = {
-      ...translations,
-      "unterhaltszahlungen.label.heading": "Heading {{ indexArray }}",
-    };
-
+  it("renders subtitle with placeholder {{ indexArray }} replaced by default index when displayIndexOffset is not provided", () => {
     const { queryByText } = render(
       <>
         {[0, 1].map((itemIndex) => (
@@ -122,9 +108,9 @@ describe("ArraySummaryDataItems", () => {
             key={itemIndex}
             configuration={mockArrayConfiguration}
             items={mockDataItem}
-            headingTitleTagNameItem="h2"
             itemIndex={itemIndex}
-            translations={translationWithHeadline}
+            subtitle={{ text: "Subtitle {{ indexArray }}" }}
+            translations={translations}
             category="unterhaltszahlungen"
             csrf="csrf"
           />
@@ -132,16 +118,11 @@ describe("ArraySummaryDataItems", () => {
       </>,
     );
 
-    expect(queryByText("Heading 1")).toBeInTheDocument();
-    expect(queryByText("Heading 2")).toBeInTheDocument();
+    expect(queryByText("Subtitle 1")).toBeInTheDocument();
+    expect(queryByText("Subtitle 2")).toBeInTheDocument();
   });
 
-  it("renders heading with placeholder {{ indexArray }} replaced by displayIndexOffset when provided", () => {
-    const translationWithHeadline = {
-      ...translations,
-      "unterhaltszahlungen.label.heading": "Heading {{ indexArray }}",
-    };
-
+  it("renders subtitle with placeholder {{ indexArray }} replaced by displayIndexOffset when provided", () => {
     const { queryByText } = render(
       <>
         {[0, 1].map((itemIndex) => (
@@ -152,9 +133,9 @@ describe("ArraySummaryDataItems", () => {
               displayIndexOffset: 2,
             }}
             items={mockDataItem}
-            headingTitleTagNameItem="h2"
+            subtitle={{ text: "Subtitle {{ indexArray }}" }}
             itemIndex={itemIndex}
-            translations={translationWithHeadline}
+            translations={translations}
             category="unterhaltszahlungen"
             csrf="csrf"
           />
@@ -162,8 +143,8 @@ describe("ArraySummaryDataItems", () => {
       </>,
     );
 
-    expect(queryByText("Heading 1")).not.toBeInTheDocument();
-    expect(queryByText("Heading 2")).toBeInTheDocument();
-    expect(queryByText("Heading 3")).toBeInTheDocument();
+    expect(queryByText("Subtitle 1")).not.toBeInTheDocument();
+    expect(queryByText("Subtitle 2")).toBeInTheDocument();
+    expect(queryByText("Subtitle 3")).toBeInTheDocument();
   });
 });
