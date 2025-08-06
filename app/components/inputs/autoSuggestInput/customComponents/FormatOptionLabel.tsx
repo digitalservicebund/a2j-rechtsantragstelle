@@ -1,9 +1,6 @@
+import escapeRegExp from "lodash/escapeRegExp";
 import type { FormatOptionLabelMeta } from "react-select";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
-
-function escapeParentheses(string: string) {
-  return string.replace(/[\\()]/g, "\\$&");
-}
 
 function splitHighlightWord(
   text: string | undefined,
@@ -13,7 +10,7 @@ function splitHighlightWord(
     return [];
   }
 
-  return text.split(new RegExp(`(${escapeParentheses(matchWord)})`, "gi"));
+  return text.split(new RegExp(`(${escapeRegExp(matchWord)})`, "gi"));
 }
 
 const renderHighlightText = (

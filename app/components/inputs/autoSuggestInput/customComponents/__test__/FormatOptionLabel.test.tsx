@@ -109,38 +109,28 @@ describe("FormatOptionLabel", () => {
 
   describe("handling special characters in search input", () => {
     const testCases = [
-      {
-        label: "Berlin (BER)",
-        input: "Berlin (BER)",
-      },
-      {
-        label: "Frankfurt (FRA)",
-        input: "(FRA)",
-      },
-      {
-        label: "Munich (MUC) Airport",
-        input: "(MUC)",
-      },
-      {
-        label: "Test Airport (XYZ)",
-        input: "Test Airport (",
-      },
-      {
-        label: "Test ((Double))",
-        input: "((Double))",
-      },
-      {
-        label: "Test\\Backslash",
-        input: "Test\\Backslash",
-      },
-      {
-        label: "Multiple\\\\Backslashes",
-        input: "Multiple\\\\",
-      },
-      {
-        label: "Mixed (Test)\\Case",
-        input: "(Test)\\Case",
-      },
+      { label: "Berlin (BER)", input: "Berlin (BER)" },
+      { label: "Frankfurt (FRA)", input: "(FRA)" },
+      { label: "Munich (MUC) Airport", input: "(MUC)" },
+      { label: "Test Airport (XYZ)", input: "Test Airport (" },
+      { label: "Test ((Double))", input: "((Double))" },
+      { label: "Test\\Backslash", input: "Test\\Backslash" },
+      { label: "Multiple\\\\Backslashes", input: "Multiple\\\\" },
+      { label: "Mixed (Test)\\Case", input: "(Test)\\Case" },
+      { label: "Dot . character", input: "." },
+      { label: "Caret ^ symbol", input: "^" },
+      { label: "Dollar $ sign", input: "$" },
+      { label: "Star * wildcard", input: "*" },
+      { label: "Plus + symbol", input: "+" },
+      { label: "Question mark ?", input: "?" },
+      { label: "Opening ( parenthesis", input: "(" },
+      { label: "Closing ) parenthesis", input: ")" },
+      { label: "Opening [ bracket", input: "[" },
+      { label: "Closing ] bracket", input: "]" },
+      { label: "Opening { brace", input: "{" },
+      { label: "Closing } brace", input: "}" },
+      { label: "Backslash \\ character", input: "\\" },
+      { label: "Pipe | symbol", input: "|" },
     ];
 
     testCases.forEach(({ label, input }) => {
