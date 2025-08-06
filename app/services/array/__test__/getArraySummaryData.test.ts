@@ -43,11 +43,13 @@ describe("getArraySummaryData", () => {
         data: [],
         configuration: { ...bankkontenArrayConfig, disableAddButton: false },
         itemsContent: [],
+        buttonLabel: "",
       },
       kraftfahrzeuge: {
         data: [{ hasArbeitsweg: "no", wert: "under10000" }],
         configuration: { ...kfzArrayConfig, disableAddButton: false },
         itemsContent: [],
+        buttonLabel: "",
       },
     });
   });
