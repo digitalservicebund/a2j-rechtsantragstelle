@@ -24,12 +24,15 @@ export const getContentData = (
   { cmsContent, parentMeta, translations }: ContentParameters,
   userDataWithPageData: UserDataWithPageData,
   currentFlow: Flow,
-  arrayCategories: string[],
 ) => {
   return {
     arraySummaryData: (
       flowController: ReturnType<typeof buildFlowController>,
     ) => {
+      const arrayCategories = cmsContent.content
+        .filter((value) => value.__component === "page.array-summary")
+        .map((arraySummary) => arraySummary.category);
+
       return getArraySummaryData(
         arrayCategories,
         flowController.getRootMeta()?.arrays,

@@ -1,6 +1,5 @@
 import type { Flow } from "~/domains/flows.server";
 import type { UserData } from "~/domains/userData";
-import { getArraySummaryPageTranslations } from "~/services/array/getArraySummaryPageTranslations";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
@@ -10,7 +9,6 @@ type BuildCmsContentAndTranslations = {
   flowTranslations: Translations;
   flowMenuTranslations: Translations;
   migrationData: UserData | undefined;
-  arrayCategories: string[];
   overviewTranslations: Translations;
   formPageContent: StrapiFormFlowPage;
   userDataWithPageData: UserData;
@@ -58,19 +56,18 @@ function interpolateTranslations(
   );
 }
 
-export const buildCmsContentAndTranslations = async ({
+export const buildCmsContentAndTranslations = ({
   currentFlow,
   flowTranslations,
   flowMenuTranslations,
   migrationData,
-  arrayCategories,
   overviewTranslations,
   formPageContent,
   userDataWithPageData,
-}: BuildCmsContentAndTranslations): Promise<{
+}: BuildCmsContentAndTranslations): {
   translations: Translations;
   cmsContent: CMSContent;
-}> => {
+} => {
   /* On the Fluggastrechte pages on the MigrationDataOverview data as airlines and airports
     can not be translated, so it's required to be interpolated
   */
@@ -89,11 +86,7 @@ export const buildCmsContentAndTranslations = async ({
     userDataWithPageData,
   );
 
-  const arrayTranslations =
-    await getArraySummaryPageTranslations(arrayCategories);
-
   const translationsAfterInterpolation = {
-    ...arrayTranslations,
     ...flowTranslationsAfterInterpolation,
     ...overviewTranslationsAfterInterpolation,
     ...flowMenuTranslations,

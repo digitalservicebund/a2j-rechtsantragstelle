@@ -76,7 +76,6 @@ const callContentData = getContentData(
   },
   mockUserData,
   mockCurrentFlow,
-  mockArrayCategories,
 );
 
 vi.mock("~/services/array/getArraySummaryData");
