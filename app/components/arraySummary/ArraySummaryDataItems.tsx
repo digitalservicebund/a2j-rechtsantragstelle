@@ -7,16 +7,16 @@ import {
   type Translations,
 } from "~/services/translations/getTranslationByKey";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
-import Heading from "../Heading";
+import Heading, { type HeadingProps } from "../Heading";
 
 type ArraySummaryItemProps = {
   readonly itemIndex: number;
   readonly items: Record<string, BasicTypes>;
   readonly category: string;
   readonly configuration: ArrayConfigClient;
-  readonly headingTitleTagNameItem: "h2" | "h3";
   readonly csrf: string;
   readonly translations?: Translations;
+  readonly subtitle?: HeadingProps;
 };
 
 const ArraySummaryDataItems = ({
@@ -25,7 +25,7 @@ const ArraySummaryDataItems = ({
   category,
   configuration,
   csrf,
-  headingTitleTagNameItem,
+  subtitle,
   translations = {},
 }: ArraySummaryItemProps) => {
   const { url, initialInputUrl, hiddenFields, displayIndexOffset } =
@@ -38,25 +38,20 @@ const ArraySummaryDataItems = ({
     return null;
   }
 
-  const heading = applyStringReplacement(
-    translations[`${category}.label.heading`] ?? "",
-    {
-      indexArray: (itemIndex + (displayIndexOffset ?? 1)).toString(),
-    },
-  );
+  const heading = applyStringReplacement(subtitle ?? "", {
+    indexArray: (itemIndex + (displayIndexOffset ?? 1)).toString(),
+  });
 
   return (
     <div className="space-y-16 bg-white p-16">
-      {heading.trim().length > 0 && (
-        <Heading text={heading} tagName="p" look="ds-heading-03-bold" />
-      )}
+      {heading && <Heading {...heading} />}
 
       {itemsWithoutHiddenFields.map(([itemKey, itemValue]) => (
         <div key={itemKey} className="first:pt-0 scroll-my-40">
           <Heading
             dataTestid="array-summary-item"
             text={getTranslationByKey(`${category}.${itemKey}`, translations)}
-            tagName={headingTitleTagNameItem}
+            tagName={"p"}
             look="ds-label-02-bold"
           />
           {translations[`${category}.${itemKey}.${String(itemValue)}`] ??

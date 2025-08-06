@@ -82,6 +82,10 @@ export function FormFlowPage() {
                     category={category}
                     arrayData={array}
                     translations={translations}
+                    title={array.title}
+                    description={array.description}
+                    buttonLabel={array.buttonLabel}
+                    subtitle={array.subtitle}
                     csrf={csrf}
                   />
                 ))}
