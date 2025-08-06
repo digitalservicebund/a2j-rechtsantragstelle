@@ -131,6 +131,11 @@ describe("FormatOptionLabel", () => {
       { label: "Closing } brace", input: "}" },
       { label: "Backslash \\ character", input: "\\" },
       { label: "Pipe | symbol", input: "|" },
+      { label: "Combo: .*+?", input: ".*+?" },
+      { label: "Combo: ^$()[]{}", input: "^$()[]{}" },
+      { label: "Combo: \\.*+?(){}", input: "\\.*+?(){}" },
+      { label: "Combo: ((Test)[1-2]{3})", input: "((Test)[1-2]{3})" },
+      { label: "Combo: |foo|bar|baz", input: "|foo|bar|baz" },
     ];
 
     testCases.forEach(({ label, input }) => {
