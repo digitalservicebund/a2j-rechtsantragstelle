@@ -1,5 +1,7 @@
+import { type HeadingProps } from "~/components/Heading";
 import type { ArrayData, UserData } from "~/domains/userData";
 import type { ArrayConfigServer, ArrayConfigClient } from ".";
+import { type StrapiContentComponent } from "../cms/models/StrapiContentComponent";
 
 export type ArraySummaryData =
   | Record<
@@ -7,6 +9,10 @@ export type ArraySummaryData =
       {
         data: ArrayData;
         configuration: ArrayConfigClient;
+        title?: HeadingProps;
+        description?: string;
+        subtitle?: HeadingProps;
+        buttonLabel?: string;
       }
     >
   | undefined;
@@ -15,6 +21,7 @@ export function getArraySummaryData(
   categories: string[],
   arrayConfigurations: Record<string, ArrayConfigServer> | undefined,
   userData: UserData,
+  content: StrapiContentComponent[],
 ): ArraySummaryData {
   if (!arrayConfigurations) {
     return undefined;
@@ -33,9 +40,21 @@ export function getArraySummaryData(
           arrayConfiguration.shouldDisableAddButton?.(userData) ?? false;
         const possibleArray = userData[category];
         const data = Array.isArray(possibleArray) ? possibleArray : [];
+
+        const arraySummaryCategoryContent = content
+          .filter((value) => value.__component === "page.array-summary")
+          .find((value) => value.category === category);
+
         return [
           category,
-          { data, configuration: { ...arrayConfiguration, disableAddButton } },
+          {
+            data,
+            configuration: { ...arrayConfiguration, disableAddButton },
+            title: arraySummaryCategoryContent?.title,
+            subtitle: arraySummaryCategoryContent?.subtitle,
+            description: arraySummaryCategoryContent?.description,
+            buttonLabel: arraySummaryCategoryContent?.buttonLabel,
+          },
         ];
       }),
   );

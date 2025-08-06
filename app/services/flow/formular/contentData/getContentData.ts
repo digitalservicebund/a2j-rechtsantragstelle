@@ -34,6 +34,7 @@ export const getContentData = (
         arrayCategories,
         flowController.getRootMeta()?.arrays,
         userDataWithPageData,
+        cmsContent.content,
       );
     },
     getFormElements: () => {
