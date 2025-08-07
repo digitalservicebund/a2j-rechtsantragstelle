@@ -13,6 +13,9 @@ type Config = {
   COOKIE_SESSION_SECRET: string;
   CONTENT_FILE_PATH: string;
   CSP_REPORT_URI?: string;
+  BUNDID_AUTH_BMI_ID?: string;
+  SAML_ASSERTION_CONSUMER_SERVICE_URL?: string;
+  SAML_SP_LOGIN_REQUEST_TEMPLATE_PATH: string;
   SAML_SP_METADATA_PATH: string;
   SAML_SP_SECRET_KEY_PATH: string;
   SAML_IDP_CERT?: string;
@@ -36,6 +39,13 @@ export function config(): Config {
     COOKIE_SESSION_SECRET: process.env.COOKIE_SESSION_SECRET ?? "s3cr3t",
     CONTENT_FILE_PATH: process.env.CONTENT_FILE_PATH ?? "./content.json",
     CSP_REPORT_URI: process.env.CSP_REPORT_URI,
+    BUNDID_AUTH_BMI_ID: process.env.BUNDID_AUTH_BMI_ID?.trim(),
+    SAML_ASSERTION_CONSUMER_SERVICE_URL:
+      process.env.SAML_ASSERTION_CONSUMER_SERVICE_URL?.trim(),
+    SAML_SP_LOGIN_REQUEST_TEMPLATE_PATH: path.join(
+      process.cwd(),
+      "data/saml/sp_login_request_template.xml",
+    ),
     SAML_SP_METADATA_PATH:
       process.env.SAML_SP_METADATA_PATH?.trim() ??
       path.join(process.cwd(), "data/saml/sp_metadata.xml"),

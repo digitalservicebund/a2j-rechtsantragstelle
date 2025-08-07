@@ -31,7 +31,8 @@ lefthook-local.yml
 .eslintcache
 
 # SAML secrets
-/data/saml
+/data/saml/sp_metadata.xml
+/data/saml/sp_privateKey.pem
 
 # docker s3 bucket
 /volume
