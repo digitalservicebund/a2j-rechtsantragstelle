@@ -20,17 +20,9 @@ export const StrapiArraySummaryComponentSchema = z
     __component: z.literal("page.array-summary"),
     ...HasStrapiIdSchema.shape,
   })
-  .transform(({ itemLabels, ...cmsData }) => {
-    const items = itemLabels.reduce(
-      (acc, { item, value }) => {
-        acc[item] = value;
-        return acc;
-      },
-      {} as Record<string, string>,
-    );
-
-    return {
-      ...cmsData,
-      itemLabels: items,
-    };
-  });
+  .transform(({ itemLabels, ...cmsData }) => ({
+    ...cmsData,
+    itemLabels: Object.fromEntries(
+      itemLabels.map(({ item, value }) => [item, value]),
+    ),
+  }));
