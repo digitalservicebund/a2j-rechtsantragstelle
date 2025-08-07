@@ -20,7 +20,8 @@ function deeplyReplaceTemplateStrings<T>(
   stringReplacements?: Replacements,
   skipIndexArrayReplacement = false,
 ): T {
-  if (!content || typeof content === "number") return content;
+  if (!content || typeof content === "number" || typeof content === "boolean")
+    return content;
 
   // For array summaries, we might have a string that contains "indexArray" which we want to skip replacing in the back-end
   // This is because the indexArray is used in the front-end to display the correct index

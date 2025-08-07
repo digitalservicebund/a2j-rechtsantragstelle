@@ -117,6 +117,7 @@ describe("SchemaComponents", () => {
             errorMessage: undefined,
             id: 10,
             name: fieldName,
+            required: false,
           },
         ]}
       />,
