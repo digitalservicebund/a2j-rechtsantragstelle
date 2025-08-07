@@ -7,21 +7,21 @@ import Button from "../Button";
 import Heading, { type HeadingProps } from "../Heading";
 import RichText from "../RichText";
 
-type ArraySummaryProps = {
-  readonly category: string;
-  readonly arrayData: {
+type ArraySummaryProps = Readonly<{
+  category: string;
+  arrayData: {
     data: ArrayData;
     configuration: ArrayConfigClient;
   };
-  readonly content: {
-    readonly title?: HeadingProps;
-    readonly description?: string;
-    readonly buttonLabel: string;
-    readonly subtitle?: HeadingProps;
-    readonly itemLabels: Array<{ item: string; value: string }>;
+  content: {
+    title?: HeadingProps;
+    description?: string;
+    buttonLabel: string;
+    subtitle?: HeadingProps;
+    itemLabels: Array<{ item: string; value: string }>;
   };
-  readonly csrf: string;
-};
+  csrf: string;
+}>;
 
 const ArraySummary = ({
   category,
