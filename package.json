@@ -54,7 +54,7 @@
     "@react-router/node": "^7.7.1",
     "@rvf/react-router": "^8.0.0",
     "@rvf/zod": "^7.0.3",
-    "@sentry/react-router": "^10.1.0",
+    "@sentry/react-router": "^10.2.0",
     "@sentry/vite-plugin": "^4.0.2",
     "@xstate/graph": "^3.0.4",
     "axios": "^1.11.0",
@@ -76,7 +76,7 @@
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.17.1",
     "pino-http": "^10.5.0",
-    "posthog-js": "1.258.5",
+    "posthog-js": "1.258.6",
     "posthog-node": "5.6.0",
     "rate-limit-redis": "^4.2.1",
     "react": "^19.1.1",
@@ -91,7 +91,7 @@
     "true-myth": "^9.0.1",
     "validator": "^13.15.15",
     "xss": "^1.0.15",
-    "xstate": "^5.20.1",
+    "xstate": "^5.20.2",
     "zod": "^4.0.15"
   },
   "devDependencies": {
