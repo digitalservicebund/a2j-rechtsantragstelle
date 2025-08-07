@@ -10,9 +10,6 @@ const SENTRY_IGNORE_ERRORS = [
   "Error in input stream",
   "Load failed",
   "Detected manifest version mismatch, reloading...",
-  // BundID related - ignore while work is in progress
-  "ERR_FAILED_STATUS with top tier code: urn:oasis:names:tc:SAML:2.0:status:Requester, second tier code: urn:oasis:names:tc:SAML:2.0:status:AuthnFailed",
-  "signature algorithm 'http://www.w3.org/2007/05/xmldsig-more#sha256-rsa-MGF1' is not supported",
 ];
 
 if (SENTRY_DSN !== undefined) {
