@@ -30,11 +30,13 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
         )
         .find(({ name }) => name === fieldName);
 
+      // TODO: remove me in favor of below
       if (isZodCustom(nestedSchema)) {
         return renderZodCustom(nestedSchema, fieldName, formComponents);
       }
 
       if (isZodObject(nestedSchema)) {
+        // TODO: check description
         // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")
         const innerSchema = mapKeys(
           nestedSchema.shape,

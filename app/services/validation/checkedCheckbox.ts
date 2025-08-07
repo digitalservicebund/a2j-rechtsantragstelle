@@ -8,9 +8,11 @@ export const checkedOptional = z.enum(
   customRequiredErrorMessage,
 );
 
-type ExclusiveCheckboxes = {
-  none: z.infer<typeof checkedOptional>;
-  [key: string]: z.infer<typeof checkedOptional>;
+export type CheckedOptional = z.infer<typeof checkedOptional>;
+
+export type ExclusiveCheckboxes = {
+  none: CheckedOptional;
+  [key: string]: CheckedOptional;
 };
 
 export const exclusiveCheckboxesSchema = (checkboxes: string[]) =>
@@ -19,11 +21,12 @@ export const exclusiveCheckboxesSchema = (checkboxes: string[]) =>
       __component: z.literal("form-elements.exclusive-checkbox"),
       ...Object.fromEntries(checkboxes.map((c) => [c, checkedOptional])),
     })
+    .describe("form-elements.exclusive-checkbox") // TODO: probier mal
     .refine(
       ({ __component, ...rest }) => {
         const checkboxValues = Object.entries(rest)
           .filter(([key]) => key !== "none")
-          .map(([, value]) => value) as Array<z.infer<typeof checkedOptional>>;
+          .map(([, value]) => value) as CheckedOptional[];
         return (
           (rest as ExclusiveCheckboxes).none === "on" ||
           checkboxValues.some((v) => v === "on")
@@ -35,7 +38,7 @@ export const exclusiveCheckboxesSchema = (checkboxes: string[]) =>
       ({ __component, ...rest }) => {
         const checkboxValues = Object.entries(rest)
           .filter(([key]) => key !== "none")
-          .map(([, value]) => value) as Array<z.infer<typeof checkedOptional>>;
+          .map(([, value]) => value) as CheckedOptional[];
         return (
           ((rest as ExclusiveCheckboxes).none === "on" &&
             checkboxValues.every((v) => v === "off")) ||
