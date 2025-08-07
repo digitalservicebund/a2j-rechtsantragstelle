@@ -3,7 +3,7 @@ import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { HasStrapiIdSchema } from "./HasStrapiId";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 
-const StrapiArraySummaryItemsSchema = z.object({
+const StrapiArraySummaryItemLabelsSchema = z.object({
   item: z.string(),
   value: z.string(),
 });
@@ -15,7 +15,7 @@ export const StrapiArraySummaryComponentSchema = z.object({
   description: StrapiRichTextOptionalSchema(),
   subtitle: StrapiHeadingOptionalSchema,
   buttonLabel: z.string(),
-  items: z.array(StrapiArraySummaryItemsSchema).nonempty(),
+  itemLabels: z.array(StrapiArraySummaryItemLabelsSchema).nonempty(),
   __component: z.literal("page.array-summary"),
   ...HasStrapiIdSchema.shape,
 });

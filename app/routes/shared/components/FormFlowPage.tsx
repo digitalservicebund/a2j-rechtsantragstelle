@@ -89,7 +89,7 @@ export function FormFlowPage() {
                       description: array.description,
                       subtitle: array.subtitle,
                       title: array.title,
-                      items: array.itemsContent,
+                      itemLabels: array.itemLabels,
                     }}
                     csrf={csrf}
                   />

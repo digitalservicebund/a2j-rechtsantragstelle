@@ -11,24 +11,24 @@ type ArraySummaryItemProps = {
   readonly configuration: ArrayConfigClient;
   readonly csrf: string;
   readonly subtitle?: HeadingProps;
-  readonly itemsContent: Array<{ item: string; value: string }>;
+  readonly itemLabels: Array<{ item: string; value: string }>;
 };
 
 const getItemTitle = (
-  itemsContent: Array<{ item: string; value: string }>,
+  itemLabels: Array<{ item: string; value: string }>,
   itemKey: string,
 ) => {
-  return itemsContent.find((item) => item.item === itemKey)?.value ?? itemKey;
+  return itemLabels.find((item) => item.item === itemKey)?.value ?? itemKey;
 };
 
 const getItemValue = (
-  itemsContent: Array<{ item: string; value: string }>,
+  itemLabels: Array<{ item: string; value: string }>,
   itemKey: string,
   itemValue: BasicTypes,
 ) => {
   return (
-    itemsContent.find((item) => item.item === `${itemKey}.${itemValue}`)
-      ?.value ?? itemValue
+    itemLabels.find((item) => item.item === `${itemKey}.${itemValue}`)?.value ??
+    itemValue
   );
 };
 
@@ -39,7 +39,7 @@ const ArraySummaryDataItems = ({
   configuration,
   csrf,
   subtitle,
-  itemsContent,
+  itemLabels,
 }: ArraySummaryItemProps) => {
   const { url, initialInputUrl, hiddenFields, displayIndexOffset } =
     configuration;
@@ -67,11 +67,11 @@ const ArraySummaryDataItems = ({
         <div key={itemKey} className="first:pt-0 scroll-my-40">
           <Heading
             dataTestid="array-summary-item"
-            text={getItemTitle(itemsContent, itemKey)}
+            text={getItemTitle(itemLabels, itemKey)}
             tagName={"p"}
             look="ds-label-02-bold"
           />
-          {getItemValue(itemsContent, itemKey, itemValue)}
+          {getItemValue(itemLabels, itemKey, itemValue)}
         </div>
       ))}
       <ArraySummaryItemButton

@@ -57,6 +57,7 @@ const makeStrapiRequest = async <T extends ApiId>(url: string) =>
 export const getStrapiEntryFromApi: GetStrapiEntry = async <T extends ApiId>(
   opts: GetStrapiEntryOpts<T>,
 ) => {
+  console.log(buildUrl(opts));
   const returnData = (await makeStrapiRequest<T>(buildUrl(opts))).data.data;
   return Array.isArray(returnData) ? returnData : [returnData];
 };

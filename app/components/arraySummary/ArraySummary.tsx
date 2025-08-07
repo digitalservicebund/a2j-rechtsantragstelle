@@ -18,7 +18,7 @@ type ArraySummaryProps = {
     readonly description?: string;
     readonly buttonLabel: string;
     readonly subtitle?: HeadingProps;
-    readonly items: Array<{ item: string; value: string }>;
+    readonly itemLabels: Array<{ item: string; value: string }>;
   };
   readonly csrf: string;
 };
@@ -48,7 +48,7 @@ const ArraySummary = ({
               category={category}
               csrf={csrf}
               subtitle={content.subtitle}
-              itemsContent={content.items}
+              itemLabels={content.itemLabels}
             />
           ))}
           <Button
