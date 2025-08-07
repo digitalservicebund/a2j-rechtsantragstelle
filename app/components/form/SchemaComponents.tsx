@@ -1,5 +1,5 @@
 import mapKeys from "lodash/mapKeys";
-import type { PageSchema } from "~/domains/pageSchemas";
+import type { SchemaObject } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { getNestedSchema } from "./schemaToForm/getNestedSchema";
 import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";
@@ -7,7 +7,7 @@ import { isZodObject } from "./schemaToForm/renderZodObject";
 import { isZodString, renderZodString } from "./schemaToForm/renderZodString";
 
 type Props = {
-  pageSchema: PageSchema;
+  pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
 };
 

@@ -22,6 +22,11 @@ const CustomClearIndicator = (
       )}
       ref={buttonExclusionRef}
       data-testid="clear-input-button"
+      /**
+       *  default button type is "submit", which captures enter key press anywhere on page,
+       *  erronously clearing the AutoSuggest
+       */
+      type="reset"
       className="outline-none focus-visible:outline-blue-800 focus-visible:outline-4 outline-offset-4 hover:outline-[2px] hover:outline-gray-900"
       onClick={() => {
         props.clearValue();

@@ -1,14 +1,17 @@
+import mapValues from "lodash/mapValues";
 import type { z } from "zod";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
+import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
-import type { SchemaObject } from "./types";
+import type { SchemaObject } from "./userData";
 
 const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiserPages,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularPages,
+  "/beratungshilfe/antrag": beratungshilfeAntragPages,
 } as const;
 
 export function getPageSchema(pathname: string) {
@@ -21,9 +24,16 @@ export function getPageSchema(pathname: string) {
   )?.pageSchema;
 }
 
-// TODO: better specify PageSchema to specify enums, strings, ...
-export type PageSchema = SchemaObject;
-export type PageConfig = { pageSchema?: PageSchema; stepId: string };
+export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
+  pageSchema: T,
+) {
+  return mapValues(pageSchema, (v) => ({
+    absolute: "#" + v.stepId.replaceAll("/", "."),
+    relative: v.stepId.split("/").pop()!,
+  }));
+}
+
+export type PageConfig = { pageSchema?: SchemaObject; stepId: string };
 export type PagesConfig = Record<string, PageConfig>;
 
 type ExtractSchemas<T extends PagesConfig> = {

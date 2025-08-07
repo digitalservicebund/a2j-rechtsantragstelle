@@ -1,3 +1,4 @@
+import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -16,10 +17,13 @@ describe("addMultiplePersonsText", () => {
 
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const reasonSect = mockDoc.struct("Sect");
 
-    addMultiplePersonsText(mockDoc, userDataNoMultiplePersons);
+    addMultiplePersonsText(mockDoc, userDataNoMultiplePersons, reasonSect);
 
     expect(mockDoc.text).not.toBeCalled();
+    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
+    expect(mockDoc.text).toBeDefined();
   });
 
   it("should not have any text if given yes weitere personen and empty array", () => {
@@ -31,16 +35,19 @@ describe("addMultiplePersonsText", () => {
 
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const reasonSect = mockDoc.struct("Sect");
 
-    addMultiplePersonsText(mockDoc, userDataNoMultiplePersons);
+    addMultiplePersonsText(mockDoc, userDataNoMultiplePersons, reasonSect);
 
     expect(mockDoc.text).not.toBeCalled();
+    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
+    expect(mockDoc.text).toBeDefined();
   });
 
   it("should have the text for following persons given weiter personen and verspaetet bereich", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
-
+    const reasonSect = mockDoc.struct("Sect");
     const userDataWeiterePersonenMock = {
       ...userDataMock,
       weiterePersonen: [
@@ -52,10 +59,10 @@ describe("addMultiplePersonsText", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
-    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
+    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock, reasonSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Folgende Personen waren von dieser Verspätung betroffen:",
@@ -66,6 +73,7 @@ describe("addMultiplePersonsText", () => {
   it("should have the text for following persons given weiter personen and annullierung bereich", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const reasonSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonenMock = {
       ...userDataMock,
@@ -79,10 +87,10 @@ describe("addMultiplePersonsText", () => {
         },
       ],
       bereich: "annullierung",
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
-    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
+    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock, reasonSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Folgende Personen waren von dieser Annullierung betroffen:",
@@ -93,6 +101,7 @@ describe("addMultiplePersonsText", () => {
   it("should have the text for following persons given weiter personen and nichtbefoerderung bereich", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const reasonSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonenMock = {
       ...userDataMock,
@@ -106,10 +115,10 @@ describe("addMultiplePersonsText", () => {
         },
       ],
       bereich: "nichtbefoerderung",
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
-    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
+    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock, reasonSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Folgende Personen waren von dieser Nicht-Beförderung betroffen:",
@@ -120,6 +129,7 @@ describe("addMultiplePersonsText", () => {
   it("should have the text for plaintiff name given weiter personen", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const reasonSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonenMock = {
       ...userDataMock,
@@ -136,10 +146,10 @@ describe("addMultiplePersonsText", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
-    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
+    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock, reasonSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       "1. ",
@@ -154,6 +164,7 @@ describe("addMultiplePersonsText", () => {
   it("should have the text for persons names  given weiter personen", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const reasonSect = mockDoc.struct("Sect");
 
     const userDataWeiterePersonenMock = {
       ...userDataMock,
@@ -189,10 +200,10 @@ describe("addMultiplePersonsText", () => {
           plz: "plz",
         },
       ],
-      isWeiterePersonen: YesNoAnswer.Values.yes,
+      isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
-    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock);
+    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock, reasonSect);
 
     expect(mockDoc.text).toHaveBeenCalledWith("2. ", expect.anything());
 
@@ -211,5 +222,82 @@ describe("addMultiplePersonsText", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Vorname3 nachname3, strasseHausnummer, plz ort, land",
     );
+  });
+});
+
+describe("addMultiplePersonsText - accessibility", () => {
+  it("should call addMultiplePersonsText with a list if has multiple persons", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWeiterePersonenMock = {
+      ...userDataMock,
+      anrede: undefined,
+      title: undefined,
+      vorname: "Test",
+      nachname: "Test",
+      weiterePersonen: [
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          land: "land",
+          plz: "plz",
+          telefonnummer: "telefonnummer",
+        },
+        {
+          vorname: "vorname2",
+          nachname: "nachname2",
+          strasseHausnummer: "strasseHausnummer",
+          ort: "ort",
+          land: "land",
+          plz: "plz",
+          buchungsnummer: "123456",
+        },
+      ],
+      isWeiterePersonen: YesNoAnswer.enum.yes,
+    };
+
+    addMultiplePersonsText(mockDoc, userDataWeiterePersonenMock, mockStruct);
+    expect(mockDoc.struct).toHaveBeenCalledWith("L");
+    expect(mockDoc.struct).toHaveBeenCalledWith("LI");
+    expect(mockDoc.struct).toHaveBeenCalledWith(
+      "LBody",
+      {},
+      expect.any(Function),
+    );
+    const callsWithLI = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "LI",
+    );
+    expect(callsWithLI).toHaveLength(3);
+  });
+
+  it("should call addMultiplePersonsText without a list if there are no other persons", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataNoWeiterePersonenMock = {
+      ...userDataMock,
+      anrede: undefined,
+      title: undefined,
+      vorname: "Test",
+      nachname: "Test",
+      weiterePersonen: [],
+      isWeiterePersonen: YesNoAnswer.enum.no,
+    };
+
+    addMultiplePersonsText(mockDoc, userDataNoWeiterePersonenMock, mockStruct);
+    expect(mockDoc.struct).not.toHaveBeenCalledWith("LI");
+    expect(mockDoc.struct).not.toHaveBeenCalledWith("L");
+    expect(mockDoc.struct).not.toHaveBeenCalledWith(
+      "LBody",
+      {},
+      expect.any(Function),
+    );
+    const callsWithLI = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "LI",
+    );
+    expect(callsWithLI).toHaveLength(0);
   });
 });

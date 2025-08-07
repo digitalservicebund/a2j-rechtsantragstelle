@@ -8,25 +8,24 @@ import { StrapiTimeInputComponentSchema } from "../components/StrapiTimeInput";
 import { HasStrapiIdSchema } from "../models/HasStrapiId";
 import { StrapiImageOptionalSchema } from "../models/StrapiImage";
 
-export const StrapiFieldSetComponentSchema = z
-  .object({
-    heading: buildRichTextValidation(),
-    image: StrapiImageOptionalSchema,
-    fieldSetGroup: z.object({
-      formComponents: z
-        .array(
-          z.union([
-            StrapiInputComponentSchema,
-            StrapiTimeInputComponentSchema,
-            StrapiDropdownComponentSchema,
-            StrapiDateInputComponentSchema,
-            StrapiAutoSuggestInputComponentSchema,
-          ]),
-        )
-        .nonempty(),
-    }),
-    __component: z.literal("form-elements.fieldset"),
-  })
-  .merge(HasStrapiIdSchema);
+export const StrapiFieldSetComponentSchema = z.object({
+  heading: buildRichTextValidation(),
+  image: StrapiImageOptionalSchema,
+  fieldSetGroup: z.object({
+    formComponents: z
+      .array(
+        z.union([
+          StrapiInputComponentSchema,
+          StrapiTimeInputComponentSchema,
+          StrapiDropdownComponentSchema,
+          StrapiDateInputComponentSchema,
+          StrapiAutoSuggestInputComponentSchema,
+        ]),
+      )
+      .nonempty(),
+  }),
+  __component: z.literal("form-elements.fieldset"),
+  ...HasStrapiIdSchema.shape,
+});
 
 export type StrapiFieldSet = z.infer<typeof StrapiFieldSetComponentSchema>;

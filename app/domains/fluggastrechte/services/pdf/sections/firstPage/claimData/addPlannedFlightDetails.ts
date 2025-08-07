@@ -6,9 +6,6 @@ import {
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
 
-export const DUE_REASON_TEXT =
-  "Wegen: Ausgleichszahlung nach der Fluggastrechteverordnung (EG) 261/2004";
-
 export const AFFECTED_FLIGHT_TEXT = "Betroffener Flug:";
 export const FLIGHT_NUMBER_TEXT = "Flugnummer:";
 export const PLANNED_DEPARTURE_DATE_TEXT = "Geplantes Abflugdatum:";
@@ -20,25 +17,16 @@ export const addPlannedFlightDetails = (
 ) => {
   const compensationByDistance = getTotalCompensationClaim(userData);
 
-  const dueReasonParagraph = doc.struct("P", {}, () => {
-    doc
-      .fontSize(12)
-      .font(FONTS_BUNDESSANS_BOLD)
-      .text(DUE_REASON_TEXT)
-      .moveDown(0.5);
-  });
-  flightCompensationClaimSect.add(dueReasonParagraph);
-
   const plannedFlightDetailsList = doc.struct("L");
 
-  const flightDetailsListItem = doc.struct("LI");
-
-  flightDetailsListItem.add(
-    doc.struct("Lbl", {}, () => {
+  plannedFlightDetailsList.add(
+    doc.struct("Caption", {}, () => {
       doc.font(FONTS_BUNDESSANS_BOLD).text(AFFECTED_FLIGHT_TEXT).fontSize(10);
       doc.moveDown(0.2);
     }),
   );
+
+  const flightDetailsListItem = doc.struct("LI");
 
   flightDetailsListItem.add(
     doc.struct("LBody", {}, () => {

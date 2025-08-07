@@ -40,7 +40,7 @@ describe("Checkbox", () => {
   });
 
   it("renders the checkbox with a label", () => {
-    render(<Checkbox name="checkbox-name" label="Checkbox Label" />);
+    render(<Checkbox name="checkbox-name" label="Checkbox Label" required />);
     const checkbox = screen.getByRole("checkbox", { name: "Checkbox Label" });
     expect(checkbox).toBeInTheDocument();
 
@@ -49,7 +49,9 @@ describe("Checkbox", () => {
   });
 
   it("renders the hidden input when the checkbox is not checked", () => {
-    render(<Checkbox name="checkbox-name" label="Another Checkbox Label" />);
+    render(
+      <Checkbox name="checkbox-name" label="Another Checkbox Label" required />,
+    );
     const hiddenInput = screen.getByDisplayValue("off");
     expect(hiddenInput).toBeInTheDocument();
   });
@@ -76,6 +78,7 @@ describe("Checkbox", () => {
       <Checkbox
         name="checkbox-name"
         label="Checkbox Label"
+        required
         errorMessage="checkbox error"
       />,
     );
@@ -84,9 +87,14 @@ describe("Checkbox", () => {
     expect(errorMessage).toBeInTheDocument();
   });
 
-  it("sets aria-required to true when required is true", () => {
+  it("sets aria-required to true when required is provided", () => {
     render(
-      <Checkbox name="checkbox-name" label="Checkbox Label" required={true} />,
+      <Checkbox
+        name="checkbox-name"
+        label="Checkbox Label"
+        errorMessage="some error"
+        required
+      />,
     );
     const checkbox = screen.getByRole("checkbox");
     expect(checkbox).toHaveAttribute("aria-required", "true");
@@ -102,7 +110,7 @@ describe("Checkbox", () => {
 
   it("renders label with RichText component", () => {
     const htmlLabel = "<span>Rich Text Label</span>";
-    render(<Checkbox name="checkbox-name" label={htmlLabel} />);
+    render(<Checkbox name="checkbox-name" label={htmlLabel} required />);
     const labelElement = screen.getByText("Rich Text Label");
     expect(labelElement.tagName).toBe("SPAN");
   });
@@ -126,9 +134,32 @@ describe("Checkbox", () => {
         name="checkbox-name"
         label="Checkbox Label"
         errorMessage="some error"
+        required
       />,
     );
 
     expect(controlledRefMock).toHaveBeenCalled();
+  });
+
+  it("applies error styling correctly when there is an error", () => {
+    mockedUseField.mockImplementation(() =>
+      createMockFieldReturn({
+        error: () => "some error",
+      }),
+    );
+
+    render(
+      <Checkbox
+        name="checkbox-name"
+        label="Checkbox Label"
+        errorMessage="some error"
+        required
+      />,
+    );
+
+    const checkbox = screen.getByRole("checkbox", { name: "Checkbox Label" });
+    expect(checkbox).toHaveClass(
+      "has-error focus-visible:shadow-[inset_0_0_0_4px_theme(colors.red.800)]",
+    );
   });
 });

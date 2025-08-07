@@ -2,7 +2,6 @@ import { z } from "zod";
 import { airportSchema } from "~/services/validation/airport";
 import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
 import { createDateSchema } from "~/services/validation/date";
-import { flightNumberSchema } from "~/services/validation/flightNumber";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -19,7 +18,7 @@ const fourYearsAgoSchema = createDateSchema({
 });
 
 export const fluggastrechteFlugdatenInputSchema = {
-  direktFlugnummer: flightNumberSchema,
+  direktFlugnummer: stringRequiredSchema,
   buchungsNummer: bookingNumberFlightSchema,
   direktAbflugsDatum: fourYearsAgoSchema,
   direktAbflugsZeit: timeSchema,
@@ -60,20 +59,18 @@ export const fluggastrechteFlugdatenInputSchema = {
   andereErsatzverbindungBeschreibung: stringOptionalSchema,
   andereErsatzverbindungAnkunftsDatum: fourYearsAgoSchema,
   andereErsatzverbindungAnkunftsZeit: timeSchema,
-  ersatzFlugnummer: flightNumberSchema,
+  ersatzFlugnummer: stringRequiredSchema,
   ersatzFlugAnkunftsDatum: fourYearsAgoSchema,
   ersatzFlugAnkunftsZeit: timeSchema,
   zusaetzlicheAngaben: stringOptionalSchema,
   annullierungErsatzverbindungFlugnummer:
-    schemaOrEmptyString(flightNumberSchema).optional(),
+    schemaOrEmptyString(stringOptionalSchema),
   annullierungErsatzverbindungAbflugsDatum:
-    schemaOrEmptyString(fourYearsAgoSchema).optional(),
-  annullierungErsatzverbindungAbflugsZeit:
-    schemaOrEmptyString(timeSchema).optional(),
+    schemaOrEmptyString(fourYearsAgoSchema),
+  annullierungErsatzverbindungAbflugsZeit: schemaOrEmptyString(timeSchema),
   annullierungErsatzverbindungAnkunftsDatum:
-    schemaOrEmptyString(fourYearsAgoSchema).optional(),
-  annullierungErsatzverbindungAnkunftsZeit:
-    schemaOrEmptyString(timeSchema).optional(),
+    schemaOrEmptyString(fourYearsAgoSchema),
+  annullierungErsatzverbindungAnkunftsZeit: schemaOrEmptyString(timeSchema),
 };
 
 const _partialObject = z.object(fluggastrechteFlugdatenInputSchema).partial();

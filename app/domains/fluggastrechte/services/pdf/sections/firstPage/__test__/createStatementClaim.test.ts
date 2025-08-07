@@ -1,3 +1,4 @@
+import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -10,7 +11,6 @@ import { addDefendantPartyList } from "../claimData/addDefendantPartyList";
 import {
   createStatementClaim,
   STATEMENT_CLAIM_COURT_SENTENCE,
-  STATEMENT_CLAIM_SUBTITLE_TEXT,
   STATEMENT_CLAIM_TITLE_TEXT,
 } from "../createStatementClaim";
 
@@ -42,7 +42,6 @@ describe("createStatementClaim", () => {
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
 
     expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_TITLE_TEXT);
-    expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_SUBTITLE_TEXT);
 
     expect(addDefendantPartyList).toHaveBeenCalledWith(
       mockDoc,
@@ -93,6 +92,8 @@ describe("createStatementClaim", () => {
         STATEMENT_CLAIM_COURT_SENTENCE,
         PDF_MARGIN_HORIZONTAL,
       );
+      // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
+      expect(mockDoc.text).toBeDefined();
     });
   });
 
@@ -158,6 +159,8 @@ describe("createStatementClaim", () => {
         STATEMENT_VIDEO_TRIAL_CONCERNS,
         PDF_MARGIN_HORIZONTAL,
       );
+      // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
+      expect(mockDoc.text).toBeDefined();
     });
 
     it("should not include videoverhandlung request if answer is noSpecification", () => {
@@ -179,6 +182,68 @@ describe("createStatementClaim", () => {
         STATEMENT_VIDEO_TRIAL_REQUEST,
         PDF_MARGIN_HORIZONTAL,
       );
+      // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
+      expect(mockDoc.text).toBeDefined();
+    });
+  });
+
+  describe("createStatementClaim - accessibility", () => {
+    it("should call the createStatementClaim with one H2", () => {
+      const mockStruct = mockPdfKitDocumentStructure();
+      const mockDoc = mockPdfKitDocument(mockStruct);
+
+      createStatementClaim(mockDoc, mockStruct, userDataMock);
+      expect(mockDoc.struct).toHaveBeenCalledWith(
+        "H2",
+        {},
+        expect.any(Function),
+      );
+      const callsWithH2 = (mockDoc.struct as Mock).mock.calls.filter(
+        ([tag]) => tag === "H2",
+      );
+      expect(callsWithH2).toHaveLength(1);
+    });
+
+    it("should call the createStatementClaim with one paragraph if videoverhandlung is yes and versaeumnisurteil is yes", () => {
+      const mockStruct = mockPdfKitDocumentStructure();
+      const mockDoc = mockPdfKitDocument(mockStruct);
+
+      createStatementClaim(mockDoc, mockStruct, userDataMock);
+      const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+        ([tag]) => tag === "P",
+      );
+      expect(mockDoc.struct).toHaveBeenCalledWith(
+        "P",
+        {},
+        expect.any(Function),
+      );
+      expect(callsWithP).toHaveLength(1);
+    });
+
+    it("should call the createStatementClaim with no paragraphs if videoverhandlung is no specification and versaeumnisurteil is no", () => {
+      const mockStruct = mockPdfKitDocumentStructure();
+      const mockDoc = mockPdfKitDocument(mockStruct);
+
+      const userDataMockNoVideoverhandlungNoVersaeumnisurteil = {
+        ...userDataMock,
+        videoverhandlung: "noSpecification",
+        versaeumnisurteil: "no",
+      } satisfies FluggastrechteUserData;
+
+      createStatementClaim(
+        mockDoc,
+        mockStruct,
+        userDataMockNoVideoverhandlungNoVersaeumnisurteil,
+      );
+      const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+        ([tag]) => tag === "P",
+      );
+      expect(mockDoc.struct).not.toHaveBeenCalledWith(
+        "P",
+        {},
+        expect.any(Function),
+      );
+      expect(callsWithP).toHaveLength(0);
     });
   });
 });

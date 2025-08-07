@@ -44,7 +44,7 @@ describe("pdfDownloadLoader", () => {
     const pdfDoc = await PDFDocument.load(await response.arrayBuffer());
     const nameField = pdfDoc
       .getForm()
-      .getTextField("Name Vorname ggf Geburtsname");
+      .getTextField("Name, Vorname, ggf. Geburtsname");
 
     expect(response.status).toBe(200);
     expect(response.headers.get("Content-Type")).toBe("application/pdf");

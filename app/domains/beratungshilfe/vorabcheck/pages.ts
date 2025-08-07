@@ -8,7 +8,6 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 import { kidsSchema } from "./kidsSchema";
-import { bereich } from "../formular/rechtsproblem/userData";
 
 export const beratungshilfeVorabcheckPages = {
   start: {
@@ -72,7 +71,25 @@ export const beratungshilfeVorabcheckPages = {
     pageSchema: { eigeninitiative: YesNoAnswer },
   },
   eigeninitiativeWarnung: { stepId: "eigeninitiative-warnung" },
-  bereich: { stepId: "bereich", pageSchema: { bereich } },
+  bereich: {
+    stepId: "bereich",
+    pageSchema: {
+      bereich: z.enum(
+        [
+          "authorities",
+          "living",
+          "work",
+          "separation",
+          "trade",
+          "debt",
+          "inheritance",
+          "criminalProcedure",
+          "other",
+        ],
+        customRequiredErrorMessage,
+      ),
+    },
+  },
   staatlicheLeistungen: {
     stepId: "staatliche-leistungen",
     pageSchema: { staatlicheLeistungen: staatlicheLeistungenInputSchema },

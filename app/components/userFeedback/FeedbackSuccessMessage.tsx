@@ -1,21 +1,20 @@
 import CheckCircleIcon from "@digitalservicebund/icons/CheckCircle";
+import { translations } from "~/services/translations/translations";
 
-export const FeedbackTitle = ({
-  title,
+export const FeedbackSuccessMessage = ({
   subtitle,
   innerRef,
 }: {
-  title: string;
   subtitle: string;
   innerRef?: React.Ref<HTMLParagraphElement>;
 }) => {
   return (
-    <div className="flex max-sm:flex-col sm:items-center text-base mb-[1em]">
+    <output className="flex max-sm:flex-col sm:items-center text-base mb-[1em]">
       <CheckCircleIcon className="w-[2em] h-[1.5em] mr-[0.25em] text-green-600 " />
       <p className="font-bold mr-4" ref={innerRef} tabIndex={-1}>
-        {title}
+        {translations.feedback["success-message"].de}
       </p>
       <p>{subtitle}</p>
-    </div>
+    </output>
   );
 };

@@ -18,6 +18,7 @@ import {
   useMatches,
   useRouteLoaderData,
   Outlet,
+  useLocation,
 } from "react-router";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
@@ -26,7 +27,6 @@ import { AnalyticsContext } from "~/services/analytics/useAnalytics";
 import {
   fetchMeta,
   fetchSingleEntry,
-  fetchErrors,
   fetchTranslations,
 } from "~/services/cms/index.server";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
@@ -44,6 +44,7 @@ import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
 import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
+import { generatePrintTitle } from "./services/meta/generatePrintTitle";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
@@ -89,6 +90,9 @@ export const meta: MetaFunction<RootLoader> = () => {
 
 export type RootLoader = typeof loader;
 
+const STRAPI_P_LEVEL_TWO = 2;
+const STRAPI_P_LEVEL_THREE = 3;
+
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
@@ -98,18 +102,16 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     strapiFooter,
     cookieBannerContent,
     trackingConsent,
-    errorPages,
     meta,
     accessibilityTranslations,
     hasAnyUserData,
     mainSession,
     breadcrumbs,
   ] = await Promise.all([
-    fetchSingleEntry("page-header", defaultLocale),
-    fetchSingleEntry("footer", defaultLocale),
-    fetchSingleEntry("cookie-banner", defaultLocale),
+    fetchSingleEntry("page-header", defaultLocale, STRAPI_P_LEVEL_TWO),
+    fetchSingleEntry("footer", defaultLocale, STRAPI_P_LEVEL_THREE),
+    fetchSingleEntry("cookie-banner", defaultLocale, STRAPI_P_LEVEL_THREE),
     trackingCookieValue({ request }),
-    fetchErrors(),
     fetchMeta({ filterValue: "/" }),
     fetchTranslations("accessibility"),
     anyUserData(request),
@@ -135,7 +137,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       hasTrackingConsent: trackingConsent
         ? trackingConsent === "true"
         : undefined,
-      errorPages,
       meta,
       context,
       hasAnyUserData,
@@ -162,6 +163,7 @@ function App() {
     skipContentLinkTarget,
   } = useLoaderData<RootLoader>();
   const shouldPrint = useShouldPrint();
+  const { pathname } = useLocation();
   const matches = useMatches();
   const { title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
@@ -180,7 +182,9 @@ function App() {
   return (
     <html lang="de">
       <head>
-        <title>{title}</title>
+        <title>
+          {shouldPrint ? generatePrintTitle(title, pathname) : title}
+        </title>
         {description && <meta name="description" content={description} />}
         <meta property="og:title" content={ogTitle ?? title} />
         <meta property="og:description" content={description} />

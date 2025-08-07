@@ -23,10 +23,7 @@ import {
   prozesskostenhilfePersoenlicheDatenInputSchema,
   type ProzesskostenhilfePersoenlicheDatenUserData,
 } from "./persoenlicheDaten/userData";
-import {
-  type ProzesskostenhilfeRechtsschutzversicherungUserData,
-  prozesskostenhilfeRsvInputSchema,
-} from "./rechtsschutzversicherung/userData";
+import { type ProzesskostenhilfeRechtsschutzversicherungUserData } from "./rechtsschutzversicherung/userData";
 import {
   type ProzesskostenhilfeWeitereAngabenUserData,
   prozesskostenhilfeWeitereAngabenInputSchema,
@@ -34,7 +31,6 @@ import {
 
 export const prozesskostenhilfeFormularUserData = {
   ...prozesskostenhilfeAntragstellendePersonInputSchema,
-  ...prozesskostenhilfeRsvInputSchema,
   ...prozesskostenhilfeFinanzielleAngabenInputSchema,
   ...prozesskostenhilfeGesetzlicheVertretungInputSchema,
   ...prozesskostenhilfePersoenlicheDatenInputSchema,

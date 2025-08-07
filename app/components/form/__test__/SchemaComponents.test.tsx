@@ -29,6 +29,24 @@ describe("SchemaComponents", () => {
     expect(textInput).toHaveAttribute("name", "field1");
   });
 
+  it("should render textarea ", () => {
+    const { getByRole } = render(
+      <WrappedSchemaComponents
+        pageSchema={{ field1: z.string() }}
+        formComponents={[
+          {
+            __component: "form-elements.textarea",
+            id: 10,
+            name: "field1",
+            errorMessages: [],
+          },
+        ]}
+      />,
+    );
+    const textArea = getByRole("textbox");
+    expect(textArea).toHaveAttribute("name", "field1");
+  });
+
   it("should render correct radio buttons ", () => {
     const pageSchema = { field1: z.enum(["option1", "option2"]) };
     const { getAllByRole } = render(
@@ -99,7 +117,7 @@ describe("SchemaComponents", () => {
             errorMessage: undefined,
             id: 10,
             name: fieldName,
-            required: true,
+            required: false,
           },
         ]}
       />,
@@ -107,7 +125,7 @@ describe("SchemaComponents", () => {
     const checkbox = getByRole("checkbox");
     expect(checkbox).toHaveAttribute("name", "field1");
     expect(checkbox).toHaveAttribute("value", "on");
-    expect(checkbox).toBeRequired();
+    expect(checkbox).not.toBeRequired();
     expect(checkbox.parentElement).toHaveTextContent("label");
   });
 

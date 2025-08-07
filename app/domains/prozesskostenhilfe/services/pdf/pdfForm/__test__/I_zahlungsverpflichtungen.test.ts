@@ -37,13 +37,21 @@ describe("I_zahlungsverpflichtungen", () => {
     expect(pdfValues.sonstigeZahlungsverpflichtungen1.value).toBe(
       "Ratenzahlung, Empfänger 1, bis 31.12.2050",
     );
-    expect(pdfValues.restschuldinEUR.value).toBe("1000");
-    expect(pdfValues.monatlicheGesamtbelastung1.value).toBe("100");
-    expect(pdfValues.ichalleinzahledavon3.value).toBe("50");
+    expect(
+      pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen1.value,
+    ).toBe("1000");
+    expect(pdfValues.gesamtbelastungmtl1.value).toBe("100");
+    expect(
+      pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen1.value,
+    ).toBe("50");
     expect(pdfValues.sonstigeZahlungsverpflichtungen2.value).toBe(undefined);
-    expect(pdfValues.restschuldinEUR_2.value).toBe(undefined);
-    expect(pdfValues.monatlicheGesamtbelastung2.value).toBe(undefined);
-    expect(pdfValues.ichalleinzahledavon4.value).toBe(undefined);
+    expect(
+      pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen2.value,
+    ).toBe(undefined);
+    expect(pdfValues.gesamtbelastungmtl2.value).toBe(undefined);
+    expect(
+      pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen2.value,
+    ).toBe(undefined);
   });
 
   it("should fill the PDF values for 2 short descriptions", () => {
@@ -80,19 +88,31 @@ describe("I_zahlungsverpflichtungen", () => {
     expect(pdfValues.sonstigeZahlungsverpflichtungen1.value).toBe(
       "Ratenzahlung, Empfänger 1, bis 31.12.2050",
     );
-    expect(pdfValues.restschuldinEUR.value).toBe("1000");
-    expect(pdfValues.monatlicheGesamtbelastung1.value).toBe("100");
-    expect(pdfValues.ichalleinzahledavon3.value).toBe("50");
+    expect(
+      pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen1.value,
+    ).toBe("1000");
+    expect(pdfValues.gesamtbelastungmtl1.value).toBe("100");
+    expect(
+      pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen1.value,
+    ).toBe("50");
     expect(pdfValues.sonstigeZahlungsverpflichtungen2.value).toBe(
       "Sonstige Ausgabe, Empfänger 2",
     );
-    expect(pdfValues.restschuldinEUR_2.value).toBe(undefined);
-    expect(pdfValues.monatlicheGesamtbelastung2.value).toBe("200");
-    expect(pdfValues.ichalleinzahledavon4.value).toBe("100");
+    expect(
+      pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen2.value,
+    ).toBe(undefined);
+    expect(pdfValues.gesamtbelastungmtl2.value).toBe("200");
+    expect(
+      pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen2.value,
+    ).toBe("100");
     expect(pdfValues.sonstigeZahlungsverpflichtungen3.value).toBe(undefined);
-    expect(pdfValues.restschuldinEUR_3.value).toBe(undefined);
-    expect(pdfValues.monatlicheGesamtbelastung3.value).toBe(undefined);
-    expect(pdfValues.ichalleinzahledavon5.value).toBe(undefined);
+    expect(
+      pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen3.value,
+    ).toBe(undefined);
+    expect(pdfValues.gesamtbelastungmtl3.value).toBe(undefined);
+    expect(
+      pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen3.value,
+    ).toBe(undefined);
   });
 
   it("should fill the PDF values for 3 short descriptions", () => {
@@ -134,21 +154,33 @@ describe("I_zahlungsverpflichtungen", () => {
     expect(pdfValues.sonstigeZahlungsverpflichtungen1.value).toBe(
       "Ratenzahlung, Empfänger 1, bis 31.12.2050",
     );
-    expect(pdfValues.restschuldinEUR.value).toBe("1000");
-    expect(pdfValues.monatlicheGesamtbelastung1.value).toBe("100");
-    expect(pdfValues.ichalleinzahledavon3.value).toBe("50");
+    expect(
+      pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen1.value,
+    ).toBe("1000");
+    expect(pdfValues.gesamtbelastungmtl1.value).toBe("100");
+    expect(
+      pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen1.value,
+    ).toBe("50");
     expect(pdfValues.sonstigeZahlungsverpflichtungen2.value).toBe(
       "Sonstige Ausgabe, Empfänger 2",
     );
-    expect(pdfValues.restschuldinEUR_2.value).toBe(undefined);
-    expect(pdfValues.monatlicheGesamtbelastung2.value).toBe("200");
-    expect(pdfValues.ichalleinzahledavon4.value).toBe("100");
+    expect(
+      pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen2.value,
+    ).toBe(undefined);
+    expect(pdfValues.gesamtbelastungmtl2.value).toBe("200");
+    expect(
+      pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen2.value,
+    ).toBe("100");
     expect(pdfValues.sonstigeZahlungsverpflichtungen3.value).toBe(
       "Haftpflichtversicherung",
     );
-    expect(pdfValues.restschuldinEUR_3.value).toBe(undefined);
-    expect(pdfValues.monatlicheGesamtbelastung3.value).toBe("50");
-    expect(pdfValues.ichalleinzahledavon5.value).toBe(undefined);
+    expect(
+      pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen3.value,
+    ).toBe(undefined);
+    expect(pdfValues.gesamtbelastungmtl3.value).toBe("50");
+    expect(
+      pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen3.value,
+    ).toBe(undefined);
   });
 
   it("should create an attachment if there are more than 3 short descriptions", () => {

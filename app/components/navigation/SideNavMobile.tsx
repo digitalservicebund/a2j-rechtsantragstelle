@@ -39,6 +39,7 @@ export default function SideNavMobile({
       <div className="bg-white max-h-[80vh] border-[1px] border-blue-400 overflow-auto">
         <button
           onClick={toggleMenu}
+          aria-expanded={menuOpen}
           aria-label={translations.navigationMobile.toggleMenu.de}
           className="flex items-center  gap-8 text-sm py-20 px-10 cursor-pointer w-full"
         >
