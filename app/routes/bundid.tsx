@@ -12,18 +12,15 @@ import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagDisabled("showBundID");
 
-  const assertionConsumerServiceURL =
-    config().SAML_ASSERTION_CONSUMER_SERVICE_URL;
+  const { BUNDID_AUTH_BMI_ID, SAML_ASSERTION_CONSUMER_SERVICE_URL } = config();
+  invariant(BUNDID_AUTH_BMI_ID, "BUNDID_AUTH_BMI_ID has to be set");
   invariant(
-    assertionConsumerServiceURL,
+    SAML_ASSERTION_CONSUMER_SERVICE_URL,
     "SAML_ASSERTION_CONSUMER_SERVICE_URL has to be set",
   );
 
   const identityProvider = getBundIdIdentityProvider();
   const serviceProvider = getBundIdServiceProvider();
-
-  const onlineServiceID = config().BUNDID_AUTH_BMI_ID;
-  invariant(onlineServiceID, "BUNDID_AUTH_BMI_ID has to be set");
 
   const backURL = request.url;
 
@@ -35,10 +32,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       return {
         id: id,
         context: template
-          .replace("{AssertionConsumerServiceURL}", assertionConsumerServiceURL)
+          .replace(
+            "{AssertionConsumerServiceURL}",
+            SAML_ASSERTION_CONSUMER_SERVICE_URL,
+          )
           .replace("{ID}", id)
           .replace("{IssueInstant}", new Date().toISOString())
-          .replace("{OnlineServiceID}", onlineServiceID)
+          .replace("{OnlineServiceID}", BUNDID_AUTH_BMI_ID)
           .replace("{BackURL}", backURL),
       };
     },
