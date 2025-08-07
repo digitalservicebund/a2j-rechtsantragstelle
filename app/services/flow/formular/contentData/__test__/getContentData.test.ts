@@ -30,6 +30,7 @@ const mockCmsElement = {
       label: "some label",
       name: "name",
       errorMessage: "",
+      required: true,
       id: 10,
     },
   ],
