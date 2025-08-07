@@ -38,7 +38,7 @@ jobs:
 
       - name: Download Content File
         if: inputs.e2e-target != 'preview'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: content-file
 
@@ -101,7 +101,7 @@ jobs:
       - uses: ./.github/actions/cached-checkout-install
 
       - name: Download blob reports from GitHub Actions Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           merge-multiple: true
           pattern: playwright-blob-report-${{ inputs.e2e-target }}-*
