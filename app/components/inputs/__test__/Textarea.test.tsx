@@ -133,6 +133,21 @@ describe("Textarea component", () => {
     expect(textarea.getAttribute("maxLength")).toBe(maxLength.toString());
   });
 
+  it("should render with aria-describedby attribute", () => {
+    const ariaDescribedby = "test-description";
+
+    const { getByRole } = render(
+      <Textarea
+        name="componentName"
+        label="Test Label"
+        ariaDescribedby={ariaDescribedby}
+      />,
+    );
+
+    const textarea = getByRole("textbox");
+    expect(textarea.getAttribute("aria-describedby")).toBe(ariaDescribedby);
+  });
+
   describe("Textarea field with aria-required attribute", () => {
     it("has aria-required attribute set to true if errorMessages contain inputRequired", () => {
       render(

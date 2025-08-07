@@ -17,8 +17,11 @@ describe("F_abzuege", () => {
           selbststaendigAbzuege: "250",
         },
       });
-      expect(pdfValues.monatlicheAbzuegeinEuro1.value).toBe("250 €");
-      expect(pdfValues.steuernSolidaritaetszuschlag1.value).toBe(
+      expect(
+        pdfValues.monatlicheAbzuegeinEurodurchSteuernSolidaritaetszuschlag
+          .value,
+      ).toBe("250 €");
+      expect(pdfValues.steuernSolidarzuschlag.value).toBe(
         "Abzüge zusammengerechnet",
       );
     });
@@ -31,10 +34,14 @@ describe("F_abzuege", () => {
           monatlicheOPNVKosten: "49",
         },
       });
-      expect(pdfValues.steuernSolidaritaetszuschlag_2.value).toBe(
-        "ÖPNV; Arbeitsadresse: siehe Anhang",
+      expect(
+        pdfValues
+          .fahrtzurArbeitKostenfueroeffentlicheVerkehrsmittelodereinfacheEntfernungbeiKFZNutzung
+          .value,
+      ).toBe("ÖPNV; Arbeitsadresse: siehe Anhang");
+      expect(pdfValues.monatlicheAbzuegeinEurodurchFahrtkosten.value).toBe(
+        "49 €",
       );
-      expect(pdfValues.monatlicheAbzuegeinEuro4.value).toBe("49 €");
 
       ({ pdfValues } = fillSelfAbzuege({
         pdfValues: pdfParams,
@@ -43,10 +50,14 @@ describe("F_abzuege", () => {
           arbeitsplatzEntfernung: 10,
         },
       }));
-      expect(pdfValues.steuernSolidaritaetszuschlag_2.value).toBe(
-        "KFZ; Arbeitsadresse: siehe Anhang",
+      expect(
+        pdfValues
+          .fahrtzurArbeitKostenfueroeffentlicheVerkehrsmittelodereinfacheEntfernungbeiKFZNutzung
+          .value,
+      ).toBe("KFZ; Arbeitsadresse: siehe Anhang");
+      expect(pdfValues.monatlicheAbzuegeinEurodurchFahrtkosten.value).toBe(
+        "10km",
       );
-      expect(pdfValues.monatlicheAbzuegeinEuro4.value).toBe("10km");
     });
 
     it("should add an attachment if the versicherung, arbeitsausgaben, or Arbeitsweg sections need one", () => {
@@ -110,7 +121,7 @@ describe("F_abzuege", () => {
           ],
         },
       });
-      expect(attachment.pdfValues.sozialversicherungsbeitraege_2.value).toBe(
+      expect(attachment.pdfValues.sozialversicherungsbeitraege.value).toBe(
         "Buch (100 € Jährlich)",
       );
     });
@@ -127,9 +138,10 @@ describe("F_abzuege", () => {
           ],
         },
       });
-      expect(attachment.pdfValues.monatlicheAbzuegeinEuro5.value).toBe(
-        "8,33 €",
-      );
+      expect(
+        attachment.pdfValues
+          .monatlicheAbzuegeinEurodurchSozialversicherungsbeitraege.value,
+      ).toBe("8,33 €");
     });
     it("should calculate multiple monthly Sonstige Werbungskosten correctly", () => {
       const attachment = fillSelfAbzuege({
@@ -154,9 +166,10 @@ describe("F_abzuege", () => {
           ],
         },
       });
-      expect(attachment.pdfValues.monatlicheAbzuegeinEuro5.value).toBe(
-        "31,25 €",
-      );
+      expect(
+        attachment.pdfValues
+          .monatlicheAbzuegeinEurodurchSozialversicherungsbeitraege.value,
+      ).toBe("31,25 €");
     });
   });
 });

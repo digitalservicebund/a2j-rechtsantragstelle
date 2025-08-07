@@ -7,7 +7,10 @@ import {
   prozesskostenhilfeDokumenteInputSchema,
   type ProzesskostenhilfeDokumenteUserData,
 } from "./abgabe/dokumente/userData";
-import { type ProzesskostenhilfeAntragstellendePersonUserData } from "./antragstellendePerson/userData";
+import {
+  prozesskostenhilfeAntragstellendePersonInputSchema,
+  type ProzesskostenhilfeAntragstellendePersonUserData,
+} from "./antragstellendePerson/userData";
 import {
   prozesskostenhilfeFinanzielleAngabenInputSchema,
   type ProzesskostenhilfeFinanzielleAngabenUserData,
@@ -27,6 +30,7 @@ import {
 } from "./weitereAngaben/userData";
 
 export const prozesskostenhilfeFormularUserData = {
+  ...prozesskostenhilfeAntragstellendePersonInputSchema,
   ...prozesskostenhilfeFinanzielleAngabenInputSchema,
   ...prozesskostenhilfeGesetzlicheVertretungInputSchema,
   ...prozesskostenhilfePersoenlicheDatenInputSchema,

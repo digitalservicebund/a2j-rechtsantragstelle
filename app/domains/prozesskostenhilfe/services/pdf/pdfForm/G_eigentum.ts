@@ -20,8 +20,8 @@ import { arrayIsNonEmpty } from "~/util/array";
 
 export const fillBankkonto: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   const { bankkonten, hasBankkonto } = userData;
-  pdfValues.nein_37.value = hasBankkonto === "no";
-  pdfValues.ja_36.value = hasBankkonto === "yes";
+  pdfValues.g1.value = hasBankkonto === "no";
+  pdfValues.g2.value = hasBankkonto === "yes";
   if (!arrayIsNonEmpty(bankkonten)) return { pdfValues };
   if (bankkonten.length == 1) {
     const { kontoEigentuemer, kontostand, kontoDescription, iban, bankName } =
@@ -48,8 +48,8 @@ export const fillGrundeigentum: PkhPdfFillFunction = ({
   pdfValues,
 }) => {
   const { grundeigentum, hasGrundeigentum } = userData;
-  pdfValues.nein_39.value = hasGrundeigentum === "no";
-  pdfValues.ja_37.value = hasGrundeigentum === "yes";
+  pdfValues.g3.value = hasGrundeigentum === "no";
+  pdfValues.g4.value = hasGrundeigentum === "yes";
   if (!arrayIsNonEmpty(grundeigentum)) return { pdfValues };
   if (grundeigentum.length == 1) {
     const {
@@ -74,7 +74,7 @@ export const fillGrundeigentum: PkhPdfFillFunction = ({
     pdfValues.groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten.value += `, Fläche: ${flaeche} m²`;
     if (eigentuemer === "myselfAndSomeoneElse")
       pdfValues.groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten.value += `, Eigentümer: ${eigentuemerMapping[eigentuemer]}`;
-    pdfValues.verkehrswert.value = `${verkaufswert} €`;
+    pdfValues.verkehrswertGrundeigentum.value = `${verkaufswert} €`;
     return { pdfValues };
   }
   pdfValues.groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten.value =
@@ -89,8 +89,8 @@ export const fillKraftfahrzeuge: PkhPdfFillFunction = ({
   pdfValues,
 }) => {
   const { kraftfahrzeuge, hasKraftfahrzeug } = userData;
-  pdfValues.nein_41.value = hasKraftfahrzeug === "no";
-  pdfValues.ja_38.value = hasKraftfahrzeug === "yes";
+  pdfValues.g5.value = hasKraftfahrzeug === "no";
+  pdfValues.g6.value = hasKraftfahrzeug === "yes";
   if (!arrayIsNonEmpty(kraftfahrzeuge)) return { pdfValues };
   if (kraftfahrzeuge.length == 1) {
     const kraftfahrzeug = kraftfahrzeuge[0];
@@ -99,7 +99,7 @@ export const fillKraftfahrzeuge: PkhPdfFillFunction = ({
     const singleKfzWert = kraftfahrzeug.wert
       ? verkaufswertMappingDescription[kraftfahrzeug.wert]
       : "";
-    pdfValues.verkehrswert2.value = kraftfahrzeug.verkaufswert
+    pdfValues.verkehrswertKfz.value = kraftfahrzeug.verkaufswert
       ? `${kraftfahrzeug.verkaufswert} €`
       : singleKfzWert;
     return { pdfValues };
@@ -123,11 +123,11 @@ export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
     bargeld.length > 0 || wertsachen.length > 0;
 
   if (!hasBargeldOderWertgegenstaende) {
-    pdfValues.nein_43.value = true;
+    pdfValues.g7.value = true;
     return { pdfValues };
   }
 
-  pdfValues.ja_39.value = hasBargeldOderWertgegenstaende;
+  pdfValues.g8.value = hasBargeldOderWertgegenstaende;
   if (bargeld.length + wertsachen.length === 1) {
     const singleBargeld = bargeld.at(0);
     const singleWertsache = wertsachen.at(0);
@@ -137,7 +137,7 @@ export const fillBargeldOderWertgegenstaende: PkhPdfFillFunction = ({
       : fillSingleWertsache(singleWertsache!);
     pdfValues.bargeldbetraginEURBezeichnungderWertgegenstaendeAlleinoderMiteigentum.value =
       singleVermoegenswertString;
-    pdfValues.verkehrswert3.value = singleVermoegenswert!.wert + " €";
+    pdfValues.verkehrswertBargeld.value = singleVermoegenswert!.wert + " €";
     return { pdfValues };
   }
 
@@ -209,13 +209,13 @@ export const fillLebensversicherung: PkhPdfFillFunction = ({
       geldanlage.befristetArt === "lifeInsurance",
   );
   if (lebensversicherungen.length === 1) {
-    pdfValues.ja_40.value = true;
-    pdfValues.versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvorsorgegemEinkommensteuergesetzdiestaatlichgefoerdertwurdeRiesterRente.value =
+    pdfValues.g10.value = true;
+    pdfValues.versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvor.value =
       fillSingleGeldanlage(lebensversicherungen[0]);
     pdfValues.rueckkaufswert.value = lebensversicherungen[0].wert + " €";
   } else if (lebensversicherungen.length > 1) {
-    pdfValues.ja_40.value = true;
-    pdfValues.versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvorsorgegemEinkommensteuergesetzdiestaatlichgefoerdertwurdeRiesterRente.value =
+    pdfValues.g10.value = true;
+    pdfValues.versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvor.value =
       SEE_IN_ATTACHMENT_DESCRIPTION;
 
     const { attachment } = attachGeldanlagenToAnhang(
@@ -224,7 +224,7 @@ export const fillLebensversicherung: PkhPdfFillFunction = ({
     );
     return { pdfValues, attachment };
   } else {
-    pdfValues.nein_44.value = true;
+    pdfValues.g9.value = true;
   }
   return { pdfValues };
 };
@@ -241,15 +241,16 @@ export const fillSonstigeVermoegenswerte: PkhPdfFillFunction = ({
       geldAnlage.befristetArt !== "lifeInsurance",
   );
   if (!arrayIsNonEmpty(sonstigeVermoegenswerte)) {
-    pdfValues.nein_46.value = true;
+    pdfValues.g11.value = true;
     return { pdfValues };
   }
-  pdfValues.ja_41.value = true;
+  pdfValues.g12.value = true;
   if (sonstigeVermoegenswerte.length === 1) {
     pdfValues.bezeichnungAlleinoderMiteigentum.value = fillSingleGeldanlage(
       sonstigeVermoegenswerte[0],
     );
-    pdfValues.verkehrswert4.value = sonstigeVermoegenswerte[0].wert + " €";
+    pdfValues.verkehrswertsonstigeVermoegenswerte.value =
+      sonstigeVermoegenswerte[0].wert + " €";
     return { pdfValues };
   }
   pdfValues.bezeichnungAlleinoderMiteigentum.value =
