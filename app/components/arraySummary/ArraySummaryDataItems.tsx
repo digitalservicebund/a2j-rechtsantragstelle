@@ -1,6 +1,7 @@
 import ArraySummaryItemButton from "~/components/arraySummary/ArraySummaryItemButton";
 import type { BasicTypes } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
+import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import Heading, { type HeadingProps } from "../Heading";
 
@@ -11,25 +12,7 @@ type ArraySummaryItemProps = {
   readonly configuration: ArrayConfigClient;
   readonly csrf: string;
   readonly subtitle?: HeadingProps;
-  readonly itemLabels: Array<{ item: string; value: string }>;
-};
-
-const getItemTitle = (
-  itemLabels: Array<{ item: string; value: string }>,
-  itemKey: string,
-) => {
-  return itemLabels.find((item) => item.item === itemKey)?.value ?? itemKey;
-};
-
-const getItemValue = (
-  itemLabels: Array<{ item: string; value: string }>,
-  itemKey: string,
-  itemValue: BasicTypes,
-) => {
-  return (
-    itemLabels.find((item) => item.item === `${itemKey}.${itemValue}`)?.value ??
-    itemValue
-  );
+  readonly itemLabels: ItemLabels;
 };
 
 const ArraySummaryDataItems = ({
@@ -67,11 +50,11 @@ const ArraySummaryDataItems = ({
         <div key={itemKey} className="first:pt-0 scroll-my-40">
           <Heading
             dataTestid="array-summary-item"
-            text={getItemTitle(itemLabels, itemKey)}
+            text={itemLabels[itemKey] ?? ""}
             tagName={"p"}
             look="ds-label-02-bold"
           />
-          {getItemValue(itemLabels, itemKey, itemValue)}
+          {itemLabels[`${itemKey}.${itemValue}`] ?? itemValue}
         </div>
       ))}
       <ArraySummaryItemButton

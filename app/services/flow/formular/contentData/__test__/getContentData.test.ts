@@ -93,7 +93,7 @@ describe("getContentData", () => {
             event: addBankkonten,
             disableAddButton: false,
           },
-          itemLabels: [],
+          itemLabels: {},
           buttonLabel: "Add Bankkonto",
         },
       } satisfies ArraySummaryData;

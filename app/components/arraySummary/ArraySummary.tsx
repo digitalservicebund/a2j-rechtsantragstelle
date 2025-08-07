@@ -1,6 +1,7 @@
 import AddButton from "@digitalservicebund/icons/Add";
 import type { ArrayData } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
+import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { translations as translationProvider } from "~/services/translations/translations";
 import ArraySummaryDataItems from "./ArraySummaryDataItems";
 import Button from "../Button";
@@ -18,7 +19,7 @@ type ArraySummaryProps = Readonly<{
     description?: string;
     buttonLabel: string;
     subtitle?: HeadingProps;
-    itemLabels: Array<{ item: string; value: string }>;
+    itemLabels: ItemLabels;
   };
   csrf: string;
 }>;

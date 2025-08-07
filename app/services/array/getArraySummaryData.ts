@@ -3,6 +3,8 @@ import type { ArrayData, UserData } from "~/domains/userData";
 import type { ArrayConfigServer, ArrayConfigClient } from ".";
 import { type StrapiContentComponent } from "../cms/models/StrapiContentComponent";
 
+export type ItemLabels = Record<string, string>;
+
 export type ArraySummaryData =
   | Record<
       string,
@@ -13,7 +15,7 @@ export type ArraySummaryData =
         description?: string;
         subtitle?: HeadingProps;
         buttonLabel: string;
-        itemLabels: Array<{ item: string; value: string }>;
+        itemLabels: ItemLabels;
       }
     >
   | undefined;
@@ -55,7 +57,7 @@ export function getArraySummaryData(
             subtitle: arraySummaryCategoryContent?.subtitle,
             description: arraySummaryCategoryContent?.description,
             buttonLabel: arraySummaryCategoryContent?.buttonLabel ?? "",
-            itemLabels: arraySummaryCategoryContent?.itemLabels ?? [],
+            itemLabels: arraySummaryCategoryContent?.itemLabels ?? {},
           },
         ];
       }),

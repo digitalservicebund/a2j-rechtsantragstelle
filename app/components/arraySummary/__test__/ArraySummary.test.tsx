@@ -40,7 +40,7 @@ describe("ArraySummary", () => {
             text: "Array Summary Title",
             tagName: "h2",
           },
-          itemLabels: [],
+          itemLabels: {},
           buttonLabel: "Add Item",
           description: "Array Summary Description",
         }}
@@ -58,7 +58,7 @@ describe("ArraySummary", () => {
       <ArraySummary
         arrayData={arrayData}
         content={{
-          itemLabels: [],
+          itemLabels: {},
           buttonLabel: "Add Item",
         }}
         category="unterhaltszahlungen"
@@ -92,7 +92,7 @@ describe("ArraySummary", () => {
       <ArraySummary
         arrayData={mockArrayDataDisableAddButton}
         content={{
-          itemLabels: [],
+          itemLabels: {},
           buttonLabel: "Add Item",
         }}
         category="unterhaltszahlungen"
@@ -128,7 +128,7 @@ describe("ArraySummary", () => {
       <ArraySummary
         arrayData={mockArrayDataDisableAddButton}
         content={{
-          itemLabels: [],
+          itemLabels: {},
           buttonLabel: "Add Item",
         }}
         category="unterhaltszahlungen"

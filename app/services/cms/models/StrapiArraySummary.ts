@@ -8,14 +8,29 @@ const StrapiArraySummaryItemLabelsSchema = z.object({
   value: z.string(),
 });
 
-export const StrapiArraySummaryComponentSchema = z.object({
-  category: z.string(),
-  categoryUrl: z.string(),
-  title: StrapiHeadingOptionalSchema,
-  description: StrapiRichTextOptionalSchema(),
-  subtitle: StrapiHeadingOptionalSchema,
-  buttonLabel: z.string(),
-  itemLabels: z.array(StrapiArraySummaryItemLabelsSchema).nonempty(),
-  __component: z.literal("page.array-summary"),
-  ...HasStrapiIdSchema.shape,
-});
+export const StrapiArraySummaryComponentSchema = z
+  .object({
+    category: z.string(),
+    categoryUrl: z.string(),
+    title: StrapiHeadingOptionalSchema,
+    description: StrapiRichTextOptionalSchema(),
+    subtitle: StrapiHeadingOptionalSchema,
+    buttonLabel: z.string(),
+    itemLabels: z.array(StrapiArraySummaryItemLabelsSchema).nonempty(),
+    __component: z.literal("page.array-summary"),
+    ...HasStrapiIdSchema.shape,
+  })
+  .transform(({ itemLabels, ...cmsData }) => {
+    const items = itemLabels.reduce(
+      (acc, { item, value }) => {
+        acc[item] = value;
+        return acc;
+      },
+      {} as Record<string, string>,
+    );
+
+    return {
+      ...cmsData,
+      itemLabels: items,
+    };
+  });

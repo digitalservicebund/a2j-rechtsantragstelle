@@ -42,13 +42,13 @@ describe("getArraySummaryData", () => {
       bankkonten: {
         data: [],
         configuration: { ...bankkontenArrayConfig, disableAddButton: false },
-        itemLabels: [],
+        itemLabels: {},
         buttonLabel: "",
       },
       kraftfahrzeuge: {
         data: [{ hasArbeitsweg: "no", wert: "under10000" }],
         configuration: { ...kfzArrayConfig, disableAddButton: false },
-        itemLabels: [],
+        itemLabels: {},
         buttonLabel: "",
       },
     });
@@ -172,10 +172,10 @@ describe("getArraySummaryData", () => {
           description: "Hier sind Ihre Bankkonten aufgelistet.",
           buttonLabel: "Neues Bankkonto hinzufügen",
           categoryUrl: "/daten",
-          itemLabels: [
-            { item: "name", value: "Name des Bankkontos" },
-            { item: "kontonummer", value: "Kontonummer" },
-          ],
+          itemLabels: {
+            name: "Name des Bankkontos",
+            kontonummer: "Kontonummer",
+          },
           id: 0,
         },
       ],
@@ -201,10 +201,10 @@ describe("getArraySummaryData", () => {
         },
         description: "Hier sind Ihre Bankkonten aufgelistet.",
         buttonLabel: "Neues Bankkonto hinzufügen",
-        itemLabels: [
-          { item: "name", value: "Name des Bankkontos" },
-          { item: "kontonummer", value: "Kontonummer" },
-        ],
+        itemLabels: {
+          name: "Name des Bankkontos",
+          kontonummer: "Kontonummer",
+        },
       },
     });
   });

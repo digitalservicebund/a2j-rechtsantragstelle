@@ -32,12 +32,12 @@ describe("ArraySummaryDataItems", () => {
         configuration={mockArrayConfiguration}
         items={mockDataItem}
         itemIndex={0}
-        itemLabels={[
-          { item: "familyRelationship", value: "Familienverhältnis" },
-          { item: "familyRelationship.mother", value: "Mutter" },
-          { item: "firstName", value: "Vorname" },
-          { item: "surname", value: "Nachname" },
-        ]}
+        itemLabels={{
+          familyRelationship: "Familienverhältnis",
+          "familyRelationship.mother": "Mutter",
+          firstName: "Vorname",
+          surname: "Nachname",
+        }}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
@@ -65,7 +65,7 @@ describe("ArraySummaryDataItems", () => {
         configuration={mockArrayConfiguratinWithHiddenFields}
         items={mockDataItem}
         itemIndex={0}
-        itemLabels={[]}
+        itemLabels={{}}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
@@ -81,7 +81,7 @@ describe("ArraySummaryDataItems", () => {
         items={mockDataItem}
         itemIndex={0}
         subtitle={{ text: "Subtitle" }}
-        itemLabels={[]}
+        itemLabels={{}}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
@@ -100,7 +100,7 @@ describe("ArraySummaryDataItems", () => {
             items={mockDataItem}
             itemIndex={itemIndex}
             subtitle={{ text: "Subtitle {{ indexArray }}" }}
-            itemLabels={[]}
+            itemLabels={{}}
             category="unterhaltszahlungen"
             csrf="csrf"
           />
@@ -125,7 +125,7 @@ describe("ArraySummaryDataItems", () => {
             items={mockDataItem}
             subtitle={{ text: "Subtitle {{ indexArray }}" }}
             itemIndex={itemIndex}
-            itemLabels={[]}
+            itemLabels={{}}
             category="unterhaltszahlungen"
             csrf="csrf"
           />
