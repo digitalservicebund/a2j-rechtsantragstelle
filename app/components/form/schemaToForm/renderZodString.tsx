@@ -1,5 +1,7 @@
 import pick from "lodash/pick";
 import type { z } from "zod";
+import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
+import { type AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/types";
 import DateInput from "~/components/inputs/DateInput";
 import Input, { type InputProps } from "~/components/inputs/Input";
 import Textarea from "~/components/inputs/Textarea";
@@ -39,5 +41,13 @@ export const renderZodString = (
   if (matchingElement?.__component === "form-elements.time-input")
     return <TimeInput key={fieldName} {...inputProps} />;
 
+  if (matchingElement?.__component === "form-elements.auto-suggest-input")
+    return (
+      <AutoSuggestInput
+        key={fieldName}
+        {...inputProps}
+        {...(matchingElement as AutoSuggestInputProps)}
+      />
+    );
   return <Input key={fieldName} {...inputProps} />;
 };
