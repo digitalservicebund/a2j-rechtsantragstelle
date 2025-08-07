@@ -14,6 +14,7 @@ export const Default = {
   args: {
     name: "name",
     label: "label",
+    required: true,
   },
   decorators: [
     (Story) =>

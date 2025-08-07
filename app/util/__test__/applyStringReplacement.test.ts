@@ -99,4 +99,14 @@ describe("applyStringReplacement", () => {
       }),
     ).toEqual(stringIncorrectNumBrackets);
   });
+
+  it("should return the content unchanged if the value is boolean after the interpolation", () => {
+    const testBooleanValue = { anotherValue: true, someValue: "{{replaceMe}}" };
+
+    const actual = applyStringReplacement(testBooleanValue, {
+      replaceMe: "New String!",
+    });
+
+    expect(actual.anotherValue).toBe(true);
+  });
 });

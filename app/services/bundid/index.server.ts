@@ -17,11 +17,19 @@ export const getBundIdServiceProvider = () => {
     const pathToPrivateKey = path.resolve(config().SAML_SP_SECRET_KEY_PATH);
     const privateKey = fs.readFileSync(pathToPrivateKey);
 
+    const pathToLoginRequestTemplate = path.resolve(
+      config().SAML_SP_LOGIN_REQUEST_TEMPLATE_PATH,
+    );
+    const loginRequestTemplate = fs
+      .readFileSync(pathToLoginRequestTemplate)
+      .toString("utf8");
+
     bundIdServiceProvider = saml.ServiceProvider({
       metadata: spMetadata,
       encPrivateKey: privateKey,
       privateKey,
       wantAssertionsSigned: true,
+      loginRequestTemplate: { context: loginRequestTemplate },
     });
     bundIdServiceProvider.entityMeta.meta.certificate.signing =
       bundIdServiceProvider.entityMeta.meta.certificate.signing[0];
