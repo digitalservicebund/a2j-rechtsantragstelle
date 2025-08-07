@@ -2,7 +2,7 @@ pre-commit:
   parallel: true
   commands:
     format:
-      run: node_modules/.bin/prettier --write '{staged_files}' && git add '{staged_files}'
+      run: node_modules/.bin/prettier --ignore-path .prettierignore --write '{staged_files}' && git add '{staged_files}'
     typecheck:
       run: npm run typecheck
 
