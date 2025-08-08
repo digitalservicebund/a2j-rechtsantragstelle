@@ -4,7 +4,7 @@ import times from "lodash/times";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import FilesUpload, {
   type FilesUploadProps,
-} from "~/components/filesUpload/FilesUpload";
+} from "~/components/formElements/filesUpload/FilesUpload";
 import { type UserData } from "~/domains/userData";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { translations } from "~/services/translations/translations";

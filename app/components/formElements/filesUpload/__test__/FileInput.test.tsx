@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
-import { FileInput } from "~/components/filesUpload/FileInput";
 import { translations } from "~/services/translations/translations";
+import { FileInput } from "../FileInput";
 
 vi.mock("react-router", () => ({
   useLoaderData: vi.fn(() => ({ csrf: "csrf" })),

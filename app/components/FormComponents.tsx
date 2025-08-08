@@ -1,8 +1,8 @@
-import FilesUpload from "~/components/filesUpload/FilesUpload";
 import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
 import Checkbox from "~/components/formElements/Checkbox";
 import DateInput from "~/components/formElements/DateInput";
 import { FieldSet } from "~/components/formElements/FieldSet";
+import FilesUpload from "~/components/formElements/filesUpload/FilesUpload";
 import HiddenInput from "~/components/formElements/HiddenInput";
 import Input from "~/components/formElements/Input";
 import RadioGroup from "~/components/formElements/RadioGroup";

@@ -1,13 +1,13 @@
 import classNames from "classnames";
 import { useRef } from "react";
 import Button from "~/components/Button";
-import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
-import { useFileHandler } from "~/components/filesUpload/useFileHandler";
 import { type ErrorMessageProps } from "~/components/formElements";
 import InputError from "~/components/formElements/InputError";
 import { translations } from "~/services/translations/translations";
 import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
+import { FileUploadInfo } from "./FileUploadInfo";
+import { useFileHandler } from "./useFileHandler";
 
 type FileInputProps = {
   name: string;

@@ -1,13 +1,13 @@
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import InsertFileIcon from "@digitalservicebund/icons/InsertDriveFile";
 import classNames from "classnames";
+import Button from "~/components/Button";
 import { translations } from "~/services/translations/translations";
+import { formatFileSizeToString } from "~/services/upload/formatFileSizeToString";
 import {
   errorStyling,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
-import { formatFileSizeToString } from "../../services/upload/formatFileSizeToString";
-import Button from "../Button";
 
 type FileUploadInfoProps = {
   inputName: string;

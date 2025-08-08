@@ -3,16 +3,19 @@ import classNames from "classnames";
 import { useActionData } from "react-router";
 import { type ErrorMessageProps } from "~/components/formElements";
 import InputError from "~/components/formElements/InputError";
+import { useJsAvailable } from "~/components/hooks/useJsAvailable";
+import {
+  InlineNotice,
+  type InlineNoticeProps,
+} from "~/components/InlineNotice";
 import { type UserData } from "~/domains/userData";
 import {
   errorStyling,
   fileUploadLimit,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
-import { FilesUploadHeader } from "./FilesUploadHeader";
-import { useJsAvailable } from "../hooks/useJsAvailable";
-import { InlineNotice, type InlineNoticeProps } from "../InlineNotice";
 import { FileInput } from "./FileInput";
+import { FilesUploadHeader } from "./FilesUploadHeader";
 
 export type FilesUploadProps = {
   name: string;

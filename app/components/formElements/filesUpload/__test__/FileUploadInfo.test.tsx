@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@testing-library/react";
-import { FileUploadInfo } from "~/components/filesUpload/FileUploadInfo";
+import { FileUploadInfo } from "~/components/formElements/filesUpload/FileUploadInfo";
 import { translations } from "~/services/translations/translations";
 import {
   errorStyling,
