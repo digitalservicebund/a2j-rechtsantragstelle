@@ -43,10 +43,9 @@ export default function Container({
       paddingBottom === "default" ? DEFAULT_PADDING_BOTTOM : paddingBottom
     }`,
     backgroundColor !== "default" && "text-black",
-    {
-      "!pl-0": !fullScreen && !overhangingBackground,
-      "!pr-0": !fullScreen && !overhangingBackground,
-    },
+    "!pl-0",
+    "!pr-0",
+    "!max-w-full",
   );
 
   if (backgroundColor === "default") {

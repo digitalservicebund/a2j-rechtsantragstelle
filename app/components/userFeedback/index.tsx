@@ -7,6 +7,7 @@ import { type RatingBoxProps, RatingBox } from "./RatingBox";
 import Background from "../Background";
 import Container from "../Container";
 import { type BannerState } from "./BannerState";
+import GridContainer, { GridItem } from "../GridContainer";
 
 type UserFeedbackProps = {
   rating: Pick<RatingBoxProps, "heading">;
@@ -29,14 +30,25 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   }, []);
 
   return (
-    <Background paddingTop="32" paddingBottom="40" className="print:hidden">
-      <Container
-        paddingTop="32"
-        paddingBottom="32"
-        overhangingBackground
-        backgroundColor="midBlue"
-        fullScreen={false}
+    <GridContainer
+      columns={12}
+      maxWidth="full"
+      alignItems="start"
+      justifyContent="start"
+    >
+      <GridItem
+        span={12}
+        colStart={1}
+        className="bg-blue-300 px-32 py-32 rounded-lg"
       >
+        {/* <Background paddingTop="32" paddingBottom="40"> */}
+        {/* <Container
+          paddingTop="32"
+          paddingBottom="32"
+          overhangingBackground
+          // backgroundColor="midBlue"
+          fullScreen={false}
+        > */}
         <div
           className="ds-stack ds-stack-16"
           data-testid={USER_FEEDBACK_ID}
@@ -68,7 +80,9 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
             }[bannerState]
           }
         </div>
-      </Container>
-    </Background>
+        {/* </Container> */}
+        {/* </Background> */}
+      </GridItem>
+    </GridContainer>
   );
 }

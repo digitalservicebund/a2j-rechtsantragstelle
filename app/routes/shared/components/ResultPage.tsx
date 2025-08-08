@@ -3,7 +3,7 @@ import HighlightOff from "@digitalservicebund/icons/HighlightOff";
 import WarningAmber from "@digitalservicebund/icons/WarningAmber";
 import { type ReactElement } from "react";
 import { useLoaderData } from "react-router";
-import type { BackgroundColor } from "~/components";
+import { GridContainer, GridItem, type BackgroundColor } from "~/components";
 import Background from "~/components/Background";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
@@ -41,64 +41,82 @@ export function ResultPage() {
   useFocusFirstH1();
 
   return (
-    <div className="flex flex-col min-w-full">
-      <Background backgroundColor="blue" paddingTop="40" paddingBottom="48">
-        <div className={backgrounds[cmsData.pageType]}>
-          <Container
-            overhangingBackground
-            backgroundColor={backgrounds[cmsData.pageType]}
-            paddingTop="32"
-            paddingBottom="40"
-          >
-            <div className="flex sm:flex-row flex-col gap-16">
-              {icons[cmsData.pageType]}
-              <div className="flex flex-col gap-16" id="flow-page-content">
-                <Heading
-                  tagName={cmsData.heading.tagName}
-                  look={cmsData.heading.look}
-                  className="flex items-center mb-0"
-                >
-                  {cmsData.heading.text}
-                </Heading>
+    <>
+      <GridContainer
+        columns={12}
+        maxWidth="xl"
+        alignItems="start"
+        paddingX="sm"
+        paddingY="xl"
+        justifyContent="start"
+        className="bg-blue-100"
+      >
+        <GridItem
+          span={12}
+          colStart={1}
+          className="bg-yellow-300 rounded-lg p-32"
+        >
+          <div className="flex sm:flex-row flex-col gap-16">
+            {icons[cmsData.pageType]}
+            <div className="flex flex-col gap-16" id="flow-page-content">
+              <Heading
+                tagName={cmsData.heading.tagName}
+                look={cmsData.heading.look}
+                className="flex items-center mb-0"
+              >
+                {cmsData.heading.text}
+              </Heading>
 
-                {cmsData.hintText && <RichText html={cmsData.hintText.html} />}
-              </div>
+              {cmsData.hintText && <RichText html={cmsData.hintText.html} />}
             </div>
-          </Container>
+          </div>
+        </GridItem>
+        <GridItem span={12} colStart={1}>
+          <ButtonContainer>
+            {back.destination && (
+              <a className="text-link" href={back.destination}>
+                {back.label}
+              </a>
+            )}
+            {cmsData.nextLink?.url && (
+              <a className="text-link" href={cmsData.nextLink.url}>
+                {next?.label}
+              </a>
+            )}
+          </ButtonContainer>
+        </GridItem>
+      </GridContainer>
 
-          <Container paddingTop="48" paddingBottom="0">
-            <ButtonContainer>
-              {back.destination && (
-                <a className="text-link" href={back.destination}>
-                  {back.label}
-                </a>
-              )}
-              {cmsData.nextLink?.url && (
-                <a className="text-link" href={cmsData.nextLink.url}>
-                  {next?.label}
-                </a>
-              )}
-            </ButtonContainer>
-          </Container>
-        </div>
-      </Background>
+      <GridContainer
+        columns={12}
+        maxWidth="xl"
+        alignItems="start"
+        paddingX="sm"
+        justifyContent="start"
+      >
+        <GridItem span={12} colStart={1}>
+          {content.length > 0 && <ContentComponents content={content} />}
+        </GridItem>
 
-      {content.length > 0 && <ContentComponents content={content} />}
+        {documentsList.length > 0 && (
+          <GridItem span={12} colStart={1}>
+            {documentsList.map((element) => (
+              <ContentComponents
+                key={`${element.__component}_${element.id}`}
+                content={[element]}
+              />
+            ))}
+          </GridItem>
+        )}
 
-      {documentsList.length > 0 && (
-        <div>
-          {documentsList.map((element) => (
-            <ContentComponents
-              key={`${element.__component}_${element.id}`}
-              content={[element]}
-            />
-          ))}
-        </div>
-      )}
-
-      <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
-        <ContentComponents content={nextSteps} />
-      </div>
-    </div>
+        <GridItem
+          span={12}
+          colStart={1}
+          className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}
+        >
+          <ContentComponents content={nextSteps} />
+        </GridItem>
+      </GridContainer>
+    </>
   );
 }

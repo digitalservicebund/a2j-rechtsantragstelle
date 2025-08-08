@@ -27,15 +27,17 @@ function wrapInContainer(
     return reactElement;
   const isBox = componentProps.__component === "page.box";
   const isBoxWithImage = componentProps.__component === "page.box-with-image";
-  return (
-    <Container
-      {...componentProps.container}
-      overhangingBackground={isBox || isBoxWithImage}
-      fullScreen={fullScreen}
-    >
-      {reactElement}
-    </Container>
-  );
+  console.log(componentProps.container);
+  return reactElement;
+  // return (
+  //   <Container
+  //     {...componentProps.container}
+  //     overhangingBackground={isBox || isBoxWithImage}
+  //     fullScreen={fullScreen}
+  //   >
+  //     {reactElement}
+  //   </Container>
+  // );
 }
 
 function wrapInBackground(
@@ -53,6 +55,7 @@ function wrapInBackground(
 }
 
 function cmsToReact(componentProps: StrapiContentComponent) {
+  console.log("cmsToReact", componentProps);
   switch (componentProps.__component) {
     case "basic.heading":
       return <Heading {...componentProps} />;
@@ -101,7 +104,8 @@ function ContentComponents({
 }: PageContentProps) {
   if (content.length === 0) return <></>;
   return (
-    <div className={classNames(className, "w-full")}>
+    // <div className={classNames(className, "w-full")}>
+    <>
       {content
         .filter((el) => el.__component !== "page.array-summary")
         .map((el) => (
@@ -112,7 +116,7 @@ function ContentComponents({
             )}
           </div>
         ))}
-    </div>
+    </>
   );
 }
 export default ContentComponents;

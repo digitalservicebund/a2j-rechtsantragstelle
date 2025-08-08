@@ -1,3 +1,4 @@
+import GridContainer, { GridItem } from "./GridContainer";
 import Heading, { type HeadingProps } from "./Heading";
 import Image, { type ImageProps } from "./Image";
 import RichText from "./RichText";
@@ -31,22 +32,32 @@ const BoxWithImage = ({
   const shouldWrapByDefault = variant === "XL" || variant === "XXL";
   const hasTextContent = Boolean(heading ?? content);
   return (
-    <div
-      id={identifier}
-      className={`flex flex-wrap ${shouldWrapByDefault ? "md:flex-wrap" : "sm:flex-nowrap"} items-start gap-24 text-base`}
+    <GridContainer
+      columns={12}
+      maxWidth="xl"
+      alignItems="start"
+      paddingX="sm"
+      justifyContent="start"
     >
-      <div
-        className={`shrink-0 overflow-hidden ${hasTextContent ? variantWidths[variant] : "max-w-full"}`}
-      >
-        <Image {...image} />
-      </div>
-      {hasTextContent && (
-        <div className="ds-stack ds-stack-8 break-words min-w-[120px] max-w-[696px]">
-          {heading && <Heading {...heading} />}
-          {content && <RichText html={content} />}
+      <GridItem span={12} colStart={1}>
+        <div
+          id={identifier}
+          className={`flex flex-wrap ${shouldWrapByDefault ? "md:flex-wrap" : "sm:flex-nowrap"} items-start gap-24 text-base`}
+        >
+          <div
+            className={`shrink-0 overflow-hidden ${hasTextContent ? variantWidths[variant] : "max-w-full"}`}
+          >
+            <Image {...image} />
+          </div>
+          {hasTextContent && (
+            <div className="ds-stack ds-stack-8 break-words min-w-[120px] max-w-[696px]">
+              {heading && <Heading {...heading} />}
+              {content && <RichText html={content} />}
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </GridItem>
+    </GridContainer>
   );
 };
 
