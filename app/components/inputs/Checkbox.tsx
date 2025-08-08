@@ -11,9 +11,10 @@ export type CheckboxProps = Readonly<{
   name: string;
   label?: string;
   errorMessage?: string;
+  required: boolean;
 }>;
 
-const Checkbox = ({ name, label, errorMessage }: CheckboxProps) => {
+const Checkbox = ({ name, label, errorMessage, required }: CheckboxProps) => {
   const field = useField(name);
 
   const errorId = `${name}-error`;
@@ -50,7 +51,7 @@ const Checkbox = ({ name, label, errorMessage }: CheckboxProps) => {
           className={className}
           aria-describedby={field.error() ? errorId : undefined}
           onClick={() => setRenderHiddenField(!renderHiddenField)}
-          aria-required={!!errorMessage}
+          aria-required={required}
           ref={field.error() ? field.refs.controlled() : null}
         />
 
