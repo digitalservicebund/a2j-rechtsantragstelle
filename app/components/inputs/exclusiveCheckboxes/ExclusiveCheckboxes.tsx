@@ -29,11 +29,11 @@ export const ExclusiveCheckboxes = ({
   const errorId = `${name}-error`;
 
   return (
-    <div>
+    <div className="ds-stack ds-stack-24">
       {checkboxes.filter(Boolean).map(({ name, ...checkbox }) =>
         name.split(".").pop() === "none" ? (
           <div key={name}>
-            <p className="ds-label-01-reg">oder</p>
+            <p className="ds-label-01-bold mb-24">oder</p>
             <ControlledCheckbox
               name={name}
               {...checkbox}
