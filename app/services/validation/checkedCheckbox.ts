@@ -15,36 +15,33 @@ export type ExclusiveCheckboxes = {
   [key: string]: CheckedOptional;
 };
 
-export const exclusiveCheckboxesSchema = (checkboxes: string[]) =>
+export const exclusiveCheckboxesSchema = (checkboxNames: string[]) =>
   z
     .object({
-      __component: z.literal("form-elements.exclusive-checkbox"),
-      ...Object.fromEntries(checkboxes.map((c) => [c, checkedOptional])),
+      ...Object.fromEntries(checkboxNames.map((c) => [c, checkedOptional])),
     })
-    .describe("form-elements.exclusive-checkbox") // TODO: probier mal
     .refine(
-      ({ __component, ...rest }) => {
-        const checkboxValues = Object.entries(rest)
+      ({ ...checkboxes }) => {
+        const checkboxValues = Object.entries(checkboxes)
           .filter(([key]) => key !== "none")
-          .map(([, value]) => value) as CheckedOptional[];
+          .map(([, value]) => value);
         return (
-          (rest as ExclusiveCheckboxes).none === "on" ||
-          checkboxValues.some((v) => v === "on")
+          checkboxes.none === "on" || checkboxValues.some((v) => v === "on")
         );
       },
       { error: "Bitte treffen Sie eine Auswahl" },
     )
     .refine(
-      ({ __component, ...rest }) => {
-        const checkboxValues = Object.entries(rest)
+      ({ ...checkboxes }) => {
+        const checkboxValues = Object.entries(checkboxes)
           .filter(([key]) => key !== "none")
-          .map(([, value]) => value) as CheckedOptional[];
+          .map(([, value]) => value);
         return (
-          ((rest as ExclusiveCheckboxes).none === "on" &&
+          (checkboxes.none === "on" &&
             checkboxValues.every((v) => v === "off")) ||
-          ((rest as ExclusiveCheckboxes).none === "off" &&
-            checkboxValues.some((v) => v === "on"))
+          (checkboxes.none === "off" && checkboxValues.some((v) => v === "on"))
         );
       },
       { error: "Ungültige Kombination" },
-    );
+    )
+    .meta({ description: "exclusive_checkbox" });

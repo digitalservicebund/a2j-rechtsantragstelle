@@ -1,13 +1,11 @@
 import mapKeys from "lodash/mapKeys";
 import {
-  isZodCustom,
-  renderZodCustom,
-} from "~/components/form/schemaToForm/renderZodCustom";
-import {
   isZodString,
   renderZodString,
 } from "~/components/form/schemaToForm/renderZodString";
+import { ExclusiveCheckboxes } from "~/components/inputs/ExclusiveCheckboxes";
 import type { SchemaObject } from "~/domains/userData";
+import { type StrapiCheckboxComponent } from "~/services/cms/components/StrapiCheckbox";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { getNestedSchema } from "./schemaToForm/getNestedSchema";
 import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";
@@ -30,13 +28,16 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
         )
         .find(({ name }) => name === fieldName);
 
-      // TODO: remove me in favor of below
-      if (isZodCustom(nestedSchema)) {
-        return renderZodCustom(nestedSchema, fieldName, formComponents);
-      }
-
       if (isZodObject(nestedSchema)) {
-        // TODO: check description
+        if (nestedSchema.meta()?.description === "exclusive_checkbox") {
+          return (
+            <ExclusiveCheckboxes
+              key={fieldName}
+              name={fieldName}
+              checkboxes={formComponents as StrapiCheckboxComponent[]}
+            />
+          );
+        }
         // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")
         const innerSchema = mapKeys(
           nestedSchema.shape,

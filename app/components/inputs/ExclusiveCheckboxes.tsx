@@ -58,11 +58,6 @@ export const ExclusiveCheckboxes = ({
           />
         );
       })}
-      <input
-        type="hidden"
-        name={`${name}.__component`}
-        value="form-elements.exclusive-checkbox"
-      />
       <p className="ds-label-01-reg">oder</p>
       <ControlledCheckbox
         name={`${name}.none`}
