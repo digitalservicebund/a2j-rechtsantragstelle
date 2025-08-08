@@ -1,9 +1,9 @@
 import pick from "lodash/pick";
 import type { z } from "zod";
-import DateInput from "~/components/inputs/DateInput";
-import Input, { type InputProps } from "~/components/inputs/Input";
-import Textarea from "~/components/inputs/Textarea";
-import TimeInput from "~/components/inputs/TimeInput";
+import DateInput from "~/components/formElements/DateInput";
+import Input, { type InputProps } from "~/components/formElements/Input";
+import Textarea from "~/components/formElements/Textarea";
+import TimeInput from "~/components/formElements/TimeInput";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 
 export const isZodString = (

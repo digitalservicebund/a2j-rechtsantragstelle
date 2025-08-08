@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import Textarea, { TEXT_AREA_ROWS } from "~/components/inputs/Textarea";
+import Textarea, { TEXT_AREA_ROWS } from "~/components/formElements/Textarea";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 
 const getInputProps = vi.fn();

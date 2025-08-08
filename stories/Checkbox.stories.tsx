@@ -1,5 +1,5 @@
 import type { StoryObj } from "@storybook/react";
-import Checkbox from "../app/components/inputs/Checkbox";
+import Checkbox from "../app/components/formElements/Checkbox";
 import { RVFProvider } from "../.storybook/RVFProvider";
 import { reactRouterContext } from ".storybook/reactRouterContext";
 

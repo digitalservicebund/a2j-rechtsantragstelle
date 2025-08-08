@@ -11,8 +11,8 @@ import {
   InlineNotice,
   type InlineNoticeProps,
 } from "~/components/InlineNotice";
-import InputError from "~/components/inputs/InputError";
-import InputLabel from "~/components/inputs/InputLabel";
+import InputError from "~/components/formElements/InputError";
+import InputLabel from "~/components/formElements/InputLabel";
 import RichText from "~/components/RichText";
 import { type loader } from "~/routes/shared/formular";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";

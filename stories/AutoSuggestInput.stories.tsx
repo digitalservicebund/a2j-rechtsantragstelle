@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
-import type { AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/types";
+import AutoSuggestInput from "~/components/formElements/autoSuggestInput/AutoSuggestInput";
+import type { AutoSuggestInputProps } from "~/components/formElements/autoSuggestInput/types";
 import { RVFProvider } from ".storybook/RVFProvider";
 import { reactRouterContext } from ".storybook/reactRouterContext";
 

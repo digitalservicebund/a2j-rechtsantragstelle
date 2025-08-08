@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import TileTag from "~/components/inputs/tile/TileTag";
+import TileTag from "~/components/formElements/tile/TileTag";
 
 describe("TileTag", () => {
   describe("when props are passed", () => {

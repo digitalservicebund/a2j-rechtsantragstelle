@@ -1,7 +1,7 @@
 import { reactRouterContext } from ".storybook/reactRouterContext";
 import { RVFProvider } from ".storybook/RVFProvider";
 import type { Meta, StoryObj } from "@storybook/react";
-import { FieldSet } from "~/components/inputs/FieldSet";
+import { FieldSet } from "~/components/formElements/FieldSet";
 
 const meta = {
   title: "Component/FieldSet",

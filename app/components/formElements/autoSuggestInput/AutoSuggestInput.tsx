@@ -5,10 +5,14 @@ import { type RefObject, useEffect, useRef, useState } from "react";
 import { useRouteLoaderData } from "react-router";
 import Select, { type InputActionMeta } from "react-select";
 import Creatable from "react-select/creatable";
+import { type AutoSuggestInputProps } from "~/components/formElements/autoSuggestInput/types";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import { type AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/types";
 import { type RootLoader } from "~/root";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import {
+  ariaLiveMessages,
+  screenReaderStatus,
+} from "./accessibilityConfig/ariaLiveMessages";
 import {
   CustomClearIndicator,
   CustomControl,
@@ -22,10 +26,6 @@ import Input from "../Input";
 import InputError from "../InputError";
 import InputLabel from "../InputLabel";
 import { widthClassname } from "../width";
-import {
-  ariaLiveMessages,
-  screenReaderStatus,
-} from "./accessibilityConfig/ariaLiveMessages";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
