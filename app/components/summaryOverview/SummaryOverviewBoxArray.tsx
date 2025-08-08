@@ -3,7 +3,7 @@ import { addArrayIndexToPathUrl } from "./addArrayIndexToPathUrl";
 import { getArraySummaryObject } from "./getArraySummaryObject";
 import SummaryOverviewBox from "./SummaryOverviewBox";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
-import { useFormFlow } from "../form/formFlowContext";
+import { useFormFlow } from "../formElements/formFlowContext";
 
 type Props = Pick<
   SummaryOverviewBoxWrappedProps,

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import TileRadio from "~/components/inputs/tile/TileRadio";
+import TileRadio from "~/components/formElements/tile/TileRadio";
 
 const COMPONENT_NAME = "TileRadio";
 const mockErrorMessage = "error-message";

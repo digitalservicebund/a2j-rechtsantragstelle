@@ -1,4 +1,4 @@
-import { type CheckboxValue } from "~/components/inputs/Checkbox";
+import { type CheckboxValue } from "~/components/formElements/Checkbox";
 import {
   arbeitDone,
   arbeitsabzuegeDone,

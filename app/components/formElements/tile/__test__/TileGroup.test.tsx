@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { render, screen } from "@testing-library/react";
-import TileGroup from "~/components/inputs/tile/TileGroup";
+import TileGroup from "~/components/formElements/tile/TileGroup";
 
 const COMPONENT_NAME = "TileGroup";
 

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
-import Textarea from "../app/components/inputs/Textarea";
+import Textarea from "../app/components/formElements/Textarea";
 import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {

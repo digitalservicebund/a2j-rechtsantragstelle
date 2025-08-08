@@ -1,8 +1,8 @@
 import { useField, type ValidationErrorResponseData } from "@rvf/react-router";
 import classNames from "classnames";
 import { useActionData } from "react-router";
-import { type ErrorMessageProps } from "~/components/inputs";
-import InputError from "~/components/inputs/InputError";
+import { type ErrorMessageProps } from "~/components/formElements";
+import InputError from "~/components/formElements/InputError";
 import { type UserData } from "~/domains/userData";
 import {
   errorStyling,

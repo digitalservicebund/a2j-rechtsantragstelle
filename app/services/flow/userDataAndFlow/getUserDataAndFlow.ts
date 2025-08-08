@@ -1,6 +1,6 @@
 import { Result } from "true-myth";
 import { emailCaptureConsentName } from "~/components/emailCapture/emailCaptureHelpers";
-import { type ValidFlowPagesType } from "~/components/form/formFlowContext";
+import { type ValidFlowPagesType } from "~/components/formElements/formFlowContext";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserData } from "~/domains/userData";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";

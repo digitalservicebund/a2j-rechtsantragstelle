@@ -2,7 +2,7 @@ import { ValidatedForm } from "@rvf/react-router";
 import { useEffect, useId, useRef } from "react";
 import { useLocation } from "react-router";
 import { z } from "zod";
-import Textarea from "~/components/inputs/Textarea";
+import Textarea from "~/components/formElements/Textarea";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { FeedbackSuccessMessage } from "./FeedbackSuccessMessage";
 import { useFeedbackTranslations } from "./feedbackTranslations";

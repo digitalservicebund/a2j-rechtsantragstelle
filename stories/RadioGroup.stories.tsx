@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
-import RadioGroup from "~/components/inputs/RadioGroup";
+import RadioGroup from "~/components/formElements/RadioGroup";
 import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
