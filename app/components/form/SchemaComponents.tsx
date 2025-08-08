@@ -3,7 +3,7 @@ import {
   isZodString,
   renderZodString,
 } from "~/components/form/schemaToForm/renderZodString";
-import { ExclusiveCheckboxes } from "~/components/inputs/ExclusiveCheckboxes";
+import { ExclusiveCheckboxes } from "~/components/inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
 import type { SchemaObject } from "~/domains/userData";
 import { type StrapiCheckboxComponent } from "~/services/cms/components/StrapiCheckbox";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
