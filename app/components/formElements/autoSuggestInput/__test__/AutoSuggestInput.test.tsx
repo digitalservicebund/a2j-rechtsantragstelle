@@ -1,7 +1,7 @@
 import { useField } from "@rvf/react-router";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import AutoSuggestInput from "~/components/formElements/autoSuggestInput/AutoSuggestInput";
+import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
 import * as useDataListOptions from "~/components/formElements/autoSuggestInput/useDataListOptions";
 import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
 

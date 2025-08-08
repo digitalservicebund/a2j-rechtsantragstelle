@@ -13,7 +13,7 @@ import Container from "~/components/Container";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
 import Heading from "~/components/Heading";
 import { type ErrorMessageProps } from "~/components/formElements";
-import AutoSuggestInput from "~/components/formElements/autoSuggestInput/AutoSuggestInput";
+import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
 import Input from "~/components/formElements/Input";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import RichText from "~/components/RichText";

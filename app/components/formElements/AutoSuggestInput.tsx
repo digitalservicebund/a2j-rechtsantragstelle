@@ -12,7 +12,7 @@ import type { DataListOptions } from "~/services/dataListOptions/getDataListOpti
 import {
   ariaLiveMessages,
   screenReaderStatus,
-} from "./accessibilityConfig/ariaLiveMessages";
+} from "./autoSuggestInput/accessibilityConfig/ariaLiveMessages";
 import {
   CustomClearIndicator,
   CustomControl,
@@ -20,12 +20,12 @@ import {
   CustomInput,
   customStyles,
   FormatOptionLabel,
-} from "./customComponents";
-import useDataListOptions from "./useDataListOptions";
-import Input from "../Input";
-import InputError from "../InputError";
-import InputLabel from "../InputLabel";
-import { widthClassname } from "../width";
+} from "./autoSuggestInput/customComponents";
+import useDataListOptions from "./autoSuggestInput/useDataListOptions";
+import Input from "./Input";
+import InputError from "./InputError";
+import InputLabel from "./InputLabel";
+import { widthClassname } from "./width";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
