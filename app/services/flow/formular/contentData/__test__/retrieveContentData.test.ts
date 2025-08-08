@@ -88,7 +88,7 @@ describe("retrieveContentData", () => {
 
   it("should call once buildCmsContentAndTranslations and return correctly content data functions", async () => {
     mockFetchData();
-    vi.mocked(buildCmsContentAndTranslations).mockResolvedValue({
+    vi.mocked(buildCmsContentAndTranslations).mockReturnValue({
       cmsContent: { content: "someContent " } as unknown as CMSContent,
       translations: { translation: "someTranslation" },
     });

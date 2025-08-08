@@ -180,4 +180,15 @@ export const translations = {
       de: "Bitte geben Sie eine gültige Hausnummer an.",
     },
   },
+  arraySummary: {
+    arrayEditButtonLabel: {
+      de: "Bearbeiten",
+    },
+    arrayDeleteButtonLabel: {
+      de: "Löschen",
+    },
+    arrayAddButtonLabel: {
+      de: "hinzufügen",
+    },
+  },
 } satisfies TranslationRecord;

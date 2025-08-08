@@ -1,22 +1,18 @@
 import ArraySummaryItemButton from "~/components/arraySummary/ArraySummaryItemButton";
 import type { BasicTypes } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
-import {
-  extractTranslations,
-  getTranslationByKey,
-  type Translations,
-} from "~/services/translations/getTranslationByKey";
+import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
-import Heading from "../Heading";
+import Heading, { type HeadingProps } from "../Heading";
 
 type ArraySummaryItemProps = {
   readonly itemIndex: number;
   readonly items: Record<string, BasicTypes>;
   readonly category: string;
   readonly configuration: ArrayConfigClient;
-  readonly headingTitleTagNameItem: "h2" | "h3";
   readonly csrf: string;
-  readonly translations?: Translations;
+  readonly subtitle?: HeadingProps;
+  readonly itemLabels: ItemLabels;
 };
 
 const ArraySummaryDataItems = ({
@@ -25,8 +21,8 @@ const ArraySummaryDataItems = ({
   category,
   configuration,
   csrf,
-  headingTitleTagNameItem,
-  translations = {},
+  subtitle,
+  itemLabels,
 }: ArraySummaryItemProps) => {
   const { url, initialInputUrl, hiddenFields, displayIndexOffset } =
     configuration;
@@ -39,28 +35,26 @@ const ArraySummaryDataItems = ({
   }
 
   const heading = applyStringReplacement(
-    translations[`${category}.label.heading`] ?? "",
+    subtitle ?? "",
     {
       indexArray: (itemIndex + (displayIndexOffset ?? 1)).toString(),
     },
+    false,
   );
 
   return (
     <div className="space-y-16 bg-white p-16">
-      {heading.trim().length > 0 && (
-        <Heading text={heading} tagName="p" look="ds-heading-03-bold" />
-      )}
+      {heading && <Heading {...heading} />}
 
       {itemsWithoutHiddenFields.map(([itemKey, itemValue]) => (
         <div key={itemKey} className="first:pt-0 scroll-my-40">
           <Heading
             dataTestid="array-summary-item"
-            text={getTranslationByKey(`${category}.${itemKey}`, translations)}
-            tagName={headingTitleTagNameItem}
+            text={itemLabels[itemKey] ?? ""}
+            tagName={"p"}
             look="ds-label-02-bold"
           />
-          {translations[`${category}.${itemKey}.${String(itemValue)}`] ??
-            itemValue}
+          {itemLabels[`${itemKey}.${itemValue}`] ?? itemValue}
         </div>
       ))}
       <ArraySummaryItemButton
@@ -68,10 +62,6 @@ const ArraySummaryDataItems = ({
         csrf={csrf}
         itemIndex={itemIndex}
         editUrl={`${url}/${itemIndex}/${initialInputUrl}`}
-        translations={extractTranslations(
-          ["arrayEditButtonLabel", "arrayDeleteButtonLabel"],
-          translations,
-        )}
       />
     </div>
   );

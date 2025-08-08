@@ -80,8 +80,17 @@ export function FormFlowPage() {
                   <ArraySummary
                     key={category}
                     category={category}
-                    arrayData={array}
-                    translations={translations}
+                    arrayData={{
+                      configuration: array.configuration,
+                      data: array.data,
+                    }}
+                    content={{
+                      buttonLabel: array.buttonLabel,
+                      description: array.description,
+                      subtitle: array.subtitle,
+                      title: array.title,
+                      itemLabels: array.itemLabels,
+                    }}
                     csrf={csrf}
                   />
                 ))}

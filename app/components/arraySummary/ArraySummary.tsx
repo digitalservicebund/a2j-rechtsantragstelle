@@ -1,73 +1,55 @@
 import AddButton from "@digitalservicebund/icons/Add";
 import type { ArrayData } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
-import {
-  getTranslationByKey,
-  type Translations,
-} from "~/services/translations/getTranslationByKey";
+import { type ItemLabels } from "~/services/array/getArraySummaryData";
+import { translations as translationProvider } from "~/services/translations/translations";
 import ArraySummaryDataItems from "./ArraySummaryDataItems";
 import Button from "../Button";
-import Heading from "../Heading";
+import Heading, { type HeadingProps } from "../Heading";
 import RichText from "../RichText";
 
-type ArraySummaryProps = {
-  readonly category: string;
-  readonly arrayData: {
+type ArraySummaryProps = Readonly<{
+  category: string;
+  arrayData: {
     data: ArrayData;
     configuration: ArrayConfigClient;
   };
-  readonly translations?: Translations;
-  readonly csrf: string;
-};
+  content: {
+    title?: HeadingProps;
+    description?: string;
+    buttonLabel: string;
+    subtitle?: HeadingProps;
+    itemLabels: ItemLabels;
+  };
+  csrf: string;
+}>;
 
 const ArraySummary = ({
   category,
   arrayData,
   csrf,
-  translations = {},
+  content,
 }: ArraySummaryProps) => {
-  const addButtonText = getTranslationByKey(
-    "arrayAddButtonLabel",
-    translations,
-  );
-  const titleHeading = getTranslationByKey(
-    `${category}.label.title`,
-    translations,
-  );
-  const subtitle = getTranslationByKey(
-    `${category}.label.subtitle`,
-    translations,
-  );
-  const description: string | undefined =
-    translations[`${category}.description`];
   const nextItemIndex = String(arrayData.data.length);
   const { url, initialInputUrl, disableAddButton } = arrayData.configuration;
-  const hasTitleHeading = titleHeading.trim().length > 0;
 
   return (
     <div>
       <div className="ds-stack ds-stack-8">
-        {hasTitleHeading && (
-          <Heading
-            dataTestid="array-summary-title"
-            text={titleHeading}
-            tagName="h2"
-            look="ds-heading-03-bold"
-          />
-        )}
-        {description && <RichText html={description} />}
+        {content.title && <Heading {...content.title} />}
+        {content.description && <RichText html={content.description} />}
         <div className="space-y-32">
           {arrayData.data.map((items, index) => (
             <ArraySummaryDataItems
               // eslint-disable-next-line react/no-array-index-key
-              key={`${subtitle}_${index}`}
+              key={`${content.buttonLabel}_${index}`}
               configuration={arrayData.configuration}
               itemIndex={index}
               items={items}
               category={category}
               csrf={csrf}
-              headingTitleTagNameItem={hasTitleHeading ? "h3" : "h2"}
-              translations={translations}
+              subtitle={content.subtitle}
+              itemLabels={content.itemLabels}
             />
           ))}
           <Button
@@ -79,7 +61,7 @@ const ArraySummary = ({
             iconLeft={<AddButton />}
             data-testid={`add-${category}`}
             href={`${url}/${Number(nextItemIndex)}/${initialInputUrl}`}
-          >{`${subtitle} ${addButtonText}`}</Button>
+          >{`${content.buttonLabel} ${translationProvider.arraySummary.arrayAddButtonLabel.de}`}</Button>
         </div>
       </div>
     </div>
