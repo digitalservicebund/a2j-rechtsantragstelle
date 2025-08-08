@@ -12,77 +12,77 @@ import {
 
 type ExclusiveCheckboxesProps = Readonly<{
   name: string;
-  checkboxes: StrapiCheckboxComponent[];
+  cmsCheckboxes: StrapiCheckboxComponent[];
 }>;
 
 export const ExclusiveCheckboxes = ({
   name,
-  checkboxes,
+  cmsCheckboxes,
 }: ExclusiveCheckboxesProps) => {
   const field = useField<ExclusiveCheckboxesType>(name);
-  const [noneValue, setNoneValue] = useState<CheckedOptional>(
+  const [noneCheckboxValue, setNoneCheckboxValue] = useState<CheckedOptional>(
     field.value().none,
   );
-  const [checkboxValues, setCheckboxValues] = useState<
-    Record<string, CheckboxValue>
+  const [checkboxes, setCheckboxes] = useState<
+    Array<ControlledCheckboxProps | undefined>
   >(
-    Object.fromEntries(
-      Object.entries(field.value()).filter(([key]) => key !== "none"),
-    ),
-  );
-  const errorId = `${name}-error`;
-  return (
-    <div>
-      {Object.entries(checkboxValues).map(([checkboxName, checkboxValue]) => {
-        const matchingCheckbox = checkboxes.find(
+    Object.entries(field.value())
+      .filter(([key]) => key !== "none")
+      .map(([checkboxName, checkboxValue]) => {
+        const matchingCmsCheckbox = cmsCheckboxes.find(
           (c) => c.name.split(".").pop() === checkboxName,
         );
-        if (!matchingCheckbox) return null;
-        return (
-          <ControlledCheckbox
-            name={matchingCheckbox.name}
-            key={matchingCheckbox.name}
-            label={matchingCheckbox.label}
-            value={checkboxValue}
-            onChange={(checked: CheckedOptional) => {
-              field.setValue({ ...field.value(), [checkboxName]: checked });
-              setCheckboxValues((prev) => ({
-                ...prev,
-                [checkboxName]: checked,
-              }));
-              if (noneValue && checked === "on") {
-                setNoneValue("off");
-              }
-              field.validate();
-            }}
-          />
-        );
-      })}
+        if (!matchingCmsCheckbox) return undefined;
+        return {
+          name: matchingCmsCheckbox.name,
+          label: matchingCmsCheckbox.label,
+          value: checkboxValue,
+          onChange: (checked: CheckboxValue) => {
+            field.setValue({ ...field.value(), [checkboxName]: checked });
+            setCheckboxes((prev) =>
+              prev.map((c) =>
+                c?.name.split(".").pop() === checkboxName
+                  ? { ...c, value: checked }
+                  : c,
+              ),
+            );
+            if (noneCheckboxValue && checked === "on") {
+              setNoneCheckboxValue("off");
+            }
+            field.validate();
+          },
+        };
+      }),
+  );
+  const errorId = `${name}-error`;
+  const onNoneChanged = (checked: CheckboxValue) => {
+    const newFieldValues =
+      checked === "on"
+        ? Object.fromEntries(
+            Object.entries(field.value()).map(([key]) => [key, "off"]),
+          )
+        : field.value();
+    field.setValue({ ...newFieldValues, none: checked });
+    setNoneCheckboxValue(checked);
+    if (checked === "on") {
+      setCheckboxes((prev) => prev.map((c) => c && { ...c, value: "off" }));
+    }
+    field.validate();
+  };
+
+  return (
+    <div>
+      {checkboxes.filter(Boolean).map((checkbox) => (
+        <ControlledCheckbox key={checkbox?.name} {...checkbox!} />
+      ))}
       <p className="ds-label-01-reg">oder</p>
       <ControlledCheckbox
         name={`${name}.none`}
         key={`${name}.none`}
-        value={noneValue}
-        onChange={(checked) => {
-          const newFieldValues =
-            checked === "on"
-              ? Object.fromEntries(
-                  Object.entries(field.value()).map(([key]) => [key, "off"]),
-                )
-              : field.value();
-          field.setValue({ ...newFieldValues, none: checked });
-          setNoneValue(checked);
-          if (checked === "on") {
-            setCheckboxValues((prev) =>
-              Object.fromEntries(
-                Object.entries(prev).map(([key]) => [key, "off"]),
-              ),
-            );
-          }
-          field.validate();
-        }}
+        value={noneCheckboxValue}
+        onChange={onNoneChanged}
         label={
-          checkboxes.find((c) => c.name === `${name}.none`)?.label ??
+          cmsCheckboxes.find((c) => c.name === `${name}.none`)?.label ??
           "Nichts trifft zu"
         }
       />
@@ -91,17 +91,19 @@ export const ExclusiveCheckboxes = ({
   );
 };
 
+type ControlledCheckboxProps = {
+  name: string;
+  label: string;
+  value: CheckedOptional;
+  onChange: (checked: CheckedOptional) => void;
+};
+
 function ControlledCheckbox({
   name,
   label,
   value,
   onChange,
-}: Readonly<{
-  name: string;
-  label: string;
-  value: CheckedOptional;
-  onChange: (checked: CheckedOptional) => void;
-}>) {
+}: Readonly<ControlledCheckboxProps>) {
   const jsAvailable = useJsAvailable();
   /**
    * HTML Forms do not send unchecked checkboxes.

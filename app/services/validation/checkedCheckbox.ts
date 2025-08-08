@@ -21,18 +21,18 @@ export const exclusiveCheckboxesSchema = (checkboxNames: string[]) =>
       ...Object.fromEntries(checkboxNames.map((c) => [c, checkedOptional])),
     })
     .refine(
-      ({ ...checkboxes }) => {
-        const checkboxValues = Object.entries(checkboxes)
-          .filter(([key]) => key !== "none")
-          .map(([, value]) => value);
+      (checkboxes) => {
         return (
-          checkboxes.none === "on" || checkboxValues.some((v) => v === "on")
+          checkboxes.none === "on" ||
+          Object.entries(checkboxes)
+            .filter(([key]) => key !== "none")
+            .some(([, value]) => value === "on")
         );
       },
       { error: "Bitte treffen Sie eine Auswahl" },
     )
     .refine(
-      ({ ...checkboxes }) => {
+      (checkboxes) => {
         const checkboxValues = Object.entries(checkboxes)
           .filter(([key]) => key !== "none")
           .map(([, value]) => value);
