@@ -4,7 +4,7 @@ import { type HeadingProps } from "~/components/Heading";
 import { useFormFlow } from "../../formElements/formFlowContext";
 import SummaryOverviewBox from "../SummaryOverviewBox";
 
-vi.mock("../../form/formFlowContext", () => ({
+vi.mock("../../formElements/formFlowContext", () => ({
   useFormFlow: vi.fn(),
 }));
 

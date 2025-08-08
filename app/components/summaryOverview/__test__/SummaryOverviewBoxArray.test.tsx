@@ -4,7 +4,7 @@ import { addArrayIndexToPathUrl } from "../addArrayIndexToPathUrl";
 import { getArraySummaryObject } from "../getArraySummaryObject";
 import SummaryOverviewBoxArray from "../SummaryOverviewBoxArray";
 
-vi.mock("../../form/formFlowContext", () => ({
+vi.mock("../../formElements/formFlowContext", () => ({
   useFormFlow: vi.fn(),
 }));
 

@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import { useFormFlow } from "../../formElements/formFlowContext";
 import SummaryOverviewBoxWrapped from "../SummaryOverviewBoxWrapped";
 
-vi.mock("../../form/formFlowContext", () => ({
+vi.mock("../../formElements/formFlowContext", () => ({
   useFormFlow: vi.fn(),
 }));
 
