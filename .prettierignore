@@ -5,6 +5,7 @@ node_modules/
 playwright-report/
 public/
 *.enc
+data/saml/sp_login_request_template.xml
 data/xml
 app/util/__test__/malformed.json
 *.zip

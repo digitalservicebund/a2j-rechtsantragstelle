@@ -14,7 +14,8 @@ function deeplyReplaceTemplateStrings<T>(
   content: T,
   stringReplacements?: Replacements,
 ): T {
-  if (!content || typeof content === "number") return content;
+  if (!content || typeof content === "number" || typeof content === "boolean")
+    return content;
   if (typeof content === "string") {
     return mustache.render(content, stringReplacements) as T;
   }
