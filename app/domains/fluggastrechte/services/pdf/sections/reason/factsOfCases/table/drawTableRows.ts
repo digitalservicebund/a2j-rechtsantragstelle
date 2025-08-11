@@ -1,6 +1,7 @@
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { addAttributeToTableCell } from "./addAttributeToTableCell";
-import { drawCellBackground, drawCellText } from "./drawCell";
+import { addCellText } from "./addCellText";
+import { drawCell } from "./drawCell";
 import { getConnectionDetails } from "./getConnectionDetails";
 import {
   COLUMN_HEIGHT,
@@ -39,7 +40,7 @@ export function drawTableRows(
     // Header cell
     const headerCellY = startTableY + COLUMN_HEIGHT * (rowIndex + 1);
     const headerCell = doc.struct("TH", {}, () => {
-      drawCellText(doc, {
+      addCellText(doc, {
         xPosition: START_TABLE_X,
         yPosition: headerCellY,
         width: COLUMN_WIDTH,
@@ -51,7 +52,7 @@ export function drawTableRows(
       });
     });
     addAttributeToTableCell(doc, headerCell, { O: "Table", Scope: "Row" });
-    drawCellBackground(doc, {
+    drawCell(doc, {
       xPosition: START_TABLE_X,
       yPosition: headerCellY,
       width: COLUMN_WIDTH,
@@ -68,7 +69,7 @@ export function drawTableRows(
       const yPosition = headerCellY;
 
       const tdCell = doc.struct("TD", {}, () => {
-        drawCellText(doc, {
+        addCellText(doc, {
           xPosition,
           yPosition,
           width: COLUMN_WIDTH,
@@ -80,7 +81,7 @@ export function drawTableRows(
           regularTextFontSize: 10,
         });
       });
-      drawCellBackground(doc, {
+      drawCell(doc, {
         xPosition,
         yPosition,
         width: COLUMN_WIDTH,
@@ -95,7 +96,7 @@ export function drawTableRows(
       const delayCellX = START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER;
       const delayCellY = startTableY + COLUMN_HEIGHT;
       const delayCell = doc.struct("TD", {}, () => {
-        drawCellText(doc, {
+        addCellText(doc, {
           xPosition: delayCellX,
           yPosition: delayCellY,
           width: COLUMN_WIDTH,
@@ -107,7 +108,7 @@ export function drawTableRows(
           regularTextFontSize: 9,
         });
       });
-      drawCellBackground(doc, {
+      drawCell(doc, {
         xPosition: delayCellX,
         yPosition: delayCellY,
         width: COLUMN_WIDTH,

@@ -1,7 +1,8 @@
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { addAttributeToTableCell } from "./addAttributeToTableCell";
-import { drawCellBackground, drawCellText } from "./drawCell";
+import { addCellText } from "./addCellText";
+import { drawCell } from "./drawCell";
 import {
   COLUMN_HEIGHT,
   COLUMN_WIDTH,
@@ -62,7 +63,7 @@ export function drawTableColumnHeaderRow(
   headers.forEach(({ title, subtitle }, colIndex) => {
     const xPosition = START_TABLE_X + COLUMN_WIDTH * (colIndex + 1);
 
-    drawCellBackground(doc, {
+    drawCell(doc, {
       xPosition,
       yPosition: startTableY,
       width: COLUMN_WIDTH,
@@ -71,7 +72,7 @@ export function drawTableColumnHeaderRow(
     });
 
     const headerCell = doc.struct("TH", {}, () => {
-      drawCellText(doc, {
+      addCellText(doc, {
         xPosition,
         yPosition: startTableY,
         width: COLUMN_WIDTH,
