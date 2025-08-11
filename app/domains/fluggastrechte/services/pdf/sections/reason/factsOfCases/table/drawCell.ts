@@ -16,10 +16,40 @@ type CellOptions = {
   textAlign: "center" | "justify" | "left" | "right";
 };
 
-const marginX = 4;
-const marginY = 5;
+export function drawCellBackground(
+  doc: typeof PDFDocument,
+  {
+    xPosition,
+    yPosition,
+    width,
+    height,
+    shouldAddSilverBackground,
+  }: Pick<
+    CellOptions,
+    "xPosition" | "yPosition" | "width" | "height" | "shouldAddSilverBackground"
+  >,
+) {
+  if (shouldAddSilverBackground) {
+    doc.markContent("Artifact", { type: "Layout" });
+    doc
+      .save()
+      .fillColor("silver", 0.1)
+      .rect(xPosition, yPosition, width, height)
+      .fill()
+      .restore();
+    doc.endMarkedContent();
+  }
+  doc.markContent("Artifact", { type: "Layout" });
+  doc
+    .save()
+    .strokeColor("silver", 0.1)
+    .rect(xPosition, yPosition, width, height)
+    .stroke()
+    .restore();
+  doc.endMarkedContent();
+}
 
-export function drawCell(
+export function drawCellText(
   doc: typeof PDFDocument,
   {
     xPosition,
@@ -29,28 +59,19 @@ export function drawCell(
     boldText,
     regularText,
     regularTextFontSize = 8,
-    shouldAddSilverBackground,
     textAlign,
   }: CellOptions,
 ) {
+  const marginX = 4;
+  const marginY = 5;
   const textX = xPosition + marginX;
   const textY = yPosition + marginY;
+
   const options = {
     width: width - marginX,
     align: textAlign,
     height: height - marginY,
   };
-
-  if (shouldAddSilverBackground) {
-    doc
-      .save()
-      .fillColor("silver", 0.1)
-      .rect(xPosition, yPosition, width, height)
-      .fill()
-      .restore();
-  }
-
-  doc.save().rect(xPosition, yPosition, width, height).stroke("silver");
 
   if (boldText.length > 0) {
     doc
@@ -70,5 +91,4 @@ export function drawCell(
       .font(FONTS_BUNDESSANS_REGULAR)
       .text(regularText, textX, textY + textToAlignVertically, options);
   }
-  doc.restore();
 }

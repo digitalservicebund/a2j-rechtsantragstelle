@@ -5,9 +5,8 @@ import {
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { addTable } from "../addTable";
 import { addTableInfo } from "../addTableInfo";
-import { drawTableRows } from "../drawTableRows";
 import { drawTableColumnsValues } from "../drawTableColumnsValues";
-import { drawTableColumnHeaderRow } from "../drawTableColumnHeaderRow";
+import { drawTableRows } from "../drawTableRows";
 
 vi.mock("../drawTableRowHead");
 vi.mock("../drawTableColumnHead");

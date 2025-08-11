@@ -1,5 +1,5 @@
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import { drawCell } from "./drawCell";
+import { drawCellBackground, drawCellText } from "./drawCell";
 import { getConnectionDetails } from "./getConnectionDetails";
 import {
   COLUMN_HEIGHT,
@@ -31,37 +31,50 @@ export function drawTableRows(
 
   const connectionTimetable = [...plannedFlight, ...timeTable];
 
+  const tableBody = doc.struct("TBody");
+
   for (let rowIndex = 0; rowIndex < headers.length; rowIndex++) {
     const tableRow = doc.struct("TR");
 
     // Row header cell
-    const rowHeaderCell = doc.struct("TH");
-    rowHeaderCell.add(
-      doc.struct("Span", {}, () => {
-        const yPosition = startTableY + COLUMN_HEIGHT * (rowIndex + 1);
-        drawCell(doc, {
-          xPosition: START_TABLE_X,
-          yPosition,
-          width: COLUMN_WIDTH,
-          height: COLUMN_HEIGHT,
-          boldText: headers[rowIndex].title,
-          regularText: headers[rowIndex].subtitle,
-          shouldAddSilverBackground: true,
-          textAlign: "left",
-        });
-      }),
-    );
+    const rowHeaderCell = doc.struct("TH", {}, () => {
+      drawCellText(doc, {
+        xPosition: START_TABLE_X,
+        yPosition: startTableY + COLUMN_HEIGHT * (rowIndex + 1),
+        width: COLUMN_WIDTH,
+        height: COLUMN_HEIGHT,
+        boldText: headers[rowIndex].title,
+        regularText: headers[rowIndex].subtitle,
+        shouldAddSilverBackground: true,
+        textAlign: "left",
+      });
+    });
+
+    rowHeaderCell.dictionary.data.A = doc.ref({
+      O: "Table",
+      Scope: "Row",
+    });
+
+    rowHeaderCell.dictionary.data.A.end();
+
+    drawCellBackground(doc, {
+      xPosition: START_TABLE_X,
+      yPosition: startTableY + COLUMN_HEIGHT * (rowIndex + 1),
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      shouldAddSilverBackground: true,
+    });
     tableRow.add(rowHeaderCell);
 
     // Data cells
     for (let colIndex = 0; colIndex < 2; colIndex++) {
       const valueIndex = colIndex * 3 + rowIndex;
       const cellValue = connectionTimetable[valueIndex] ?? "";
+      const xPosition = START_TABLE_X + COLUMN_WIDTH * (colIndex + 1);
+      const yPosition = startTableY + COLUMN_HEIGHT * (rowIndex + 1);
 
       const tdCell = doc.struct("TD", {}, () => {
-        const xPosition = START_TABLE_X + COLUMN_WIDTH * (colIndex + 1);
-        const yPosition = startTableY + COLUMN_HEIGHT * (rowIndex + 1);
-        drawCell(doc, {
+        drawCellText(doc, {
           xPosition,
           yPosition,
           width: COLUMN_WIDTH,
@@ -73,9 +86,36 @@ export function drawTableRows(
           regularTextFontSize: 10,
         });
       });
+
+      drawCellBackground(doc, {
+        xPosition,
+        yPosition,
+        width: COLUMN_WIDTH,
+        height: COLUMN_HEIGHT,
+        shouldAddSilverBackground: false,
+      });
+
       tableRow.add(tdCell);
     }
 
-    table.add(tableRow);
+    tableBody.add(tableRow);
   }
+  table.add(tableBody);
 }
+
+// const durationRow = doc.struct("TR"); // Create a row for the duration
+// durationRow.add(
+//   doc.struct("TD", {}, () => {
+//     drawCell(doc, {
+//       xPosition: START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER,
+//       yPosition: startTableY + COLUMN_HEIGHT,
+//       width: COLUMN_WIDTH,
+//       height: COLUMN_HEIGHT * ROWS_NUMBER,
+//       boldText: "", // No label text, only the value
+//       regularText: info,
+//       shouldAddSilverBackground: false,
+//       textAlign: "center",
+//       regularTextFontSize: 9,
+//     });
+//   }),
+// );

@@ -1,6 +1,6 @@
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/userData";
-import { drawCell } from "./drawCell";
+import { drawCellBackground, drawCellText } from "./drawCell";
 import {
   COLUMN_HEIGHT,
   COLUMN_WIDTH,
@@ -55,42 +55,45 @@ export function drawTableColumnHeaderRow(
 
   const headerRow = doc.struct("TR");
   // Top-left empty corner cell
-  const cornerCell = doc.struct("TH");
-  cornerCell.add(
-    doc.struct("Span", {}, () => {
-      drawCell(doc, {
-        xPosition: START_TABLE_X,
-        yPosition: startTableY,
-        width: COLUMN_WIDTH,
-        height: COLUMN_HEIGHT,
-        boldText: "",
-        regularText: "",
-        shouldAddSilverBackground: true,
-        textAlign: "center",
-      });
-    }),
-  );
+  const cornerCell = doc.struct("TD");
+
   headerRow.add(cornerCell);
 
   headers.forEach(({ title, subtitle }, colIndex) => {
-    const headerCell = doc.struct("TH");
+    const headerCell = doc.struct("TH", {}, () => {
+      drawCellText(doc, {
+        xPosition: START_TABLE_X + COLUMN_WIDTH * (colIndex + 1),
+        yPosition: startTableY,
+        width: COLUMN_WIDTH,
+        height: COLUMN_HEIGHT,
+        boldText: title,
+        regularText: subtitle,
+        regularTextFontSize: 8,
+        shouldAddSilverBackground: true,
+        textAlign: "center",
+      });
+    });
 
-    headerCell.add(
-      doc.struct("Span", {}, () => {
-        drawCell(doc, {
-          xPosition: START_TABLE_X + COLUMN_WIDTH * (colIndex + 1),
-          yPosition: startTableY,
-          width: COLUMN_WIDTH,
-          height: COLUMN_HEIGHT,
-          boldText: title,
-          regularText: subtitle,
-          shouldAddSilverBackground: true,
-          textAlign: "center",
-        });
-      }),
-    );
+    drawCellBackground(doc, {
+      xPosition: START_TABLE_X + COLUMN_WIDTH * (colIndex + 1),
+      yPosition: startTableY,
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      shouldAddSilverBackground: true,
+    });
+
+    headerCell.dictionary.data.A = doc.ref({
+      O: "Table",
+      Scope: "Row",
+    });
+
+    headerCell.dictionary.data.A.end();
+
     headerRow.add(headerCell);
   });
 
-  table.add(headerRow);
+  const tableHead = doc.struct("THead");
+  tableHead.add(headerRow);
+
+  table.add(tableHead);
 }
