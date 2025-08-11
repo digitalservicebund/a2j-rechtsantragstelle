@@ -8,7 +8,7 @@ import {
   START_TABLE_X,
 } from "./tableConfigurations";
 
-const CONNECTION_REPLACEMENT = {
+const CONNECTION_REPLACEMENT: Record<string, string> = {
   flug: "anderer Flug",
   etwasAnderes: "Bahn, Bus o.ä.",
   keineAnkunft: "gar nicht angekommen",
@@ -16,23 +16,24 @@ const CONNECTION_REPLACEMENT = {
   anderes: "",
 };
 
-const DELAY_STATUS = {
+const DELAY_STATUS: Record<FluggastrechtBereichType, string> = {
   verspaetet: "Verspätung",
   nichtbefoerderung: "Nicht-Beförderung",
   annullierung: "Annullierung",
   anderes: "",
 };
 
-const getActualConnectionType = ({
-  tatsaechlicherFlug,
-  ersatzverbindungArt,
-}: FluggastrechteUserData) => {
-  if (tatsaechlicherFlug === "yes") return CONNECTION_REPLACEMENT.gleicherFlug;
-  return ersatzverbindungArt ? CONNECTION_REPLACEMENT[ersatzverbindungArt] : "";
-};
+function getActualConnectionType(userData: FluggastrechteUserData): string {
+  if (userData.tatsaechlicherFlug === "yes")
+    return CONNECTION_REPLACEMENT.gleicherFlug;
+  return (
+    CONNECTION_REPLACEMENT[userData.ersatzverbindungArt ?? "anderes"] ?? ""
+  );
+}
 
-const getDelayType = ({ bereich }: FluggastrechteUserData): string =>
-  DELAY_STATUS[bereich as FluggastrechtBereichType] ?? "";
+function getDelayType(userData: FluggastrechteUserData): string {
+  return DELAY_STATUS[userData.bereich as FluggastrechtBereichType] ?? "";
+}
 
 export function drawTableColumnHeaderRow(
   doc: PDFKit.PDFDocument,
@@ -56,14 +57,22 @@ export function drawTableColumnHeaderRow(
 
   const headerRow = doc.struct("TR");
   // Top-left empty corner cell
-  const cornerCell = doc.struct("TD");
-
-  headerRow.add(cornerCell);
+  headerRow.add(doc.struct("TD"));
 
   headers.forEach(({ title, subtitle }, colIndex) => {
+    const xPosition = START_TABLE_X + COLUMN_WIDTH * (colIndex + 1);
+
+    drawCellBackground(doc, {
+      xPosition,
+      yPosition: startTableY,
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      shouldAddSilverBackground: true,
+    });
+
     const headerCell = doc.struct("TH", {}, () => {
       drawCellText(doc, {
-        xPosition: START_TABLE_X + COLUMN_WIDTH * (colIndex + 1),
+        xPosition,
         yPosition: startTableY,
         width: COLUMN_WIDTH,
         height: COLUMN_HEIGHT,
@@ -73,14 +82,6 @@ export function drawTableColumnHeaderRow(
         shouldAddSilverBackground: true,
         textAlign: "center",
       });
-    });
-
-    drawCellBackground(doc, {
-      xPosition: START_TABLE_X + COLUMN_WIDTH * (colIndex + 1),
-      yPosition: startTableY,
-      width: COLUMN_WIDTH,
-      height: COLUMN_HEIGHT,
-      shouldAddSilverBackground: true,
     });
 
     addAttributeToTableCell(doc, headerCell, {
@@ -93,6 +94,5 @@ export function drawTableColumnHeaderRow(
 
   const tableHead = doc.struct("THead");
   tableHead.add(headerRow);
-
   table.add(tableHead);
 }

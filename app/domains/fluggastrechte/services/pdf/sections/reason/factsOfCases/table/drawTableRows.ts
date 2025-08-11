@@ -8,6 +8,14 @@ import {
   START_TABLE_X,
 } from "./tableConfigurations";
 
+const HEADERS = [
+  { title: "Flugnummer", subtitle: "betroffener Flug" },
+  { title: "Abflug Datum, Zeit", subtitle: "Startflughafen" },
+  { title: "Ankunft Datum, Zeit", subtitle: "Zielflughafen" },
+];
+
+const ROWS_NUMBER = HEADERS.length;
+
 export function drawTableRows(
   doc: PDFKit.PDFDocument,
   table: PDFKit.PDFStructureElement,
@@ -16,14 +24,6 @@ export function drawTableRows(
 ) {
   const { info, timeTable } = getConnectionDetails(userData);
 
-  const ROWS_NUMBER = 3; // How many rows this function will create in the table
-
-  const headers = [
-    { title: "Flugnummer", subtitle: "betroffener Flug" },
-    { title: "Abflug Datum, Zeit", subtitle: "Startflughafen" },
-    { title: "Ankunft Datum, Zeit", subtitle: "Zielflughafen" },
-  ];
-
   const plannedFlight = [
     userData.direktFlugnummer,
     `${userData.direktAbflugsDatum}, ${userData.direktAbflugsZeit}`,
@@ -31,46 +31,41 @@ export function drawTableRows(
   ];
 
   const connectionTimetable = [...plannedFlight, ...timeTable];
-
   const tableBody = doc.struct("TBody");
 
-  for (let rowIndex = 0; rowIndex < headers.length; rowIndex++) {
+  for (let rowIndex = 0; rowIndex < ROWS_NUMBER; rowIndex++) {
     const tableRow = doc.struct("TR");
 
-    // Row header cell
-    const rowHeaderCell = doc.struct("TH", {}, () => {
+    // Header cell
+    const headerCellY = startTableY + COLUMN_HEIGHT * (rowIndex + 1);
+    const headerCell = doc.struct("TH", {}, () => {
       drawCellText(doc, {
         xPosition: START_TABLE_X,
-        yPosition: startTableY + COLUMN_HEIGHT * (rowIndex + 1),
+        yPosition: headerCellY,
         width: COLUMN_WIDTH,
         height: COLUMN_HEIGHT,
-        boldText: headers[rowIndex].title,
-        regularText: headers[rowIndex].subtitle,
+        boldText: HEADERS[rowIndex].title,
+        regularText: HEADERS[rowIndex].subtitle,
         shouldAddSilverBackground: true,
         textAlign: "left",
       });
     });
-
-    addAttributeToTableCell(doc, rowHeaderCell, {
-      O: "Table",
-      Scope: "Row",
-    });
-
+    addAttributeToTableCell(doc, headerCell, { O: "Table", Scope: "Row" });
     drawCellBackground(doc, {
       xPosition: START_TABLE_X,
-      yPosition: startTableY + COLUMN_HEIGHT * (rowIndex + 1),
+      yPosition: headerCellY,
       width: COLUMN_WIDTH,
       height: COLUMN_HEIGHT,
       shouldAddSilverBackground: true,
     });
-    tableRow.add(rowHeaderCell);
+    tableRow.add(headerCell);
 
     // Data cells
     for (let colIndex = 0; colIndex < 2; colIndex++) {
-      const valueIndex = colIndex * 3 + rowIndex;
+      const valueIndex = colIndex * ROWS_NUMBER + rowIndex;
       const cellValue = connectionTimetable[valueIndex] ?? "";
       const xPosition = START_TABLE_X + COLUMN_WIDTH * (colIndex + 1);
-      const yPosition = startTableY + COLUMN_HEIGHT * (rowIndex + 1);
+      const yPosition = headerCellY;
 
       const tdCell = doc.struct("TD", {}, () => {
         drawCellText(doc, {
@@ -85,7 +80,6 @@ export function drawTableRows(
           regularTextFontSize: 10,
         });
       });
-
       drawCellBackground(doc, {
         xPosition,
         yPosition,
@@ -93,16 +87,17 @@ export function drawTableRows(
         height: COLUMN_HEIGHT,
         shouldAddSilverBackground: false,
       });
-
       tableRow.add(tdCell);
     }
 
-    //DELAY:
+    // Delay cell (rowSpan)
     if (rowIndex === 0) {
-      const delay_cell = doc.struct("TD", {}, () => {
+      const delayCellX = START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER;
+      const delayCellY = startTableY + COLUMN_HEIGHT;
+      const delayCell = doc.struct("TD", {}, () => {
         drawCellText(doc, {
-          xPosition: START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER,
-          yPosition: startTableY + COLUMN_HEIGHT,
+          xPosition: delayCellX,
+          yPosition: delayCellY,
           width: COLUMN_WIDTH,
           height: COLUMN_HEIGHT * ROWS_NUMBER,
           boldText: "",
@@ -112,21 +107,18 @@ export function drawTableRows(
           regularTextFontSize: 9,
         });
       });
-
       drawCellBackground(doc, {
-        xPosition: START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER,
-        yPosition: startTableY + COLUMN_HEIGHT,
+        xPosition: delayCellX,
+        yPosition: delayCellY,
         width: COLUMN_WIDTH,
         height: COLUMN_HEIGHT * ROWS_NUMBER,
         shouldAddSilverBackground: false,
       });
-
-      addAttributeToTableCell(doc, delay_cell, {
+      addAttributeToTableCell(doc, delayCell, {
         O: "Table",
         RowSpan: ROWS_NUMBER,
       });
-
-      tableRow.add(delay_cell);
+      tableRow.add(delayCell);
     }
 
     tableBody.add(tableRow);

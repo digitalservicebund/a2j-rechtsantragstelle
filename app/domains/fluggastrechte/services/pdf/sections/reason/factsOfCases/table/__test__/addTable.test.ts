@@ -5,16 +5,14 @@ import {
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { addTable } from "../addTable";
 import { addTableInfo } from "../addTableInfo";
-import { drawTableColumnsValues } from "../drawTableColumnsValues";
+import { drawTableColumnHeaderRow } from "../drawTableColumnHeaderRow";
 import { drawTableRows } from "../drawTableRows";
 
-vi.mock("../drawTableRowHead");
-vi.mock("../drawTableColumnHead");
-vi.mock("../drawTableColumnsValues");
+vi.mock("../drawTableColumnHeaderRow");
+vi.mock("../drawTableRows");
 vi.mock("../addTableInfo");
 
-vi.mocked(drawTableRows).mockImplementation(() => vi.fn());
-vi.mocked(drawTableColumnsValues).mockImplementation(() => vi.fn());
+vi.mocked(drawTableColumnHeaderRow).mockImplementation(() => vi.fn());
 vi.mocked(drawTableRows).mockImplementation(() => vi.fn());
 vi.mocked(addTableInfo).mockImplementation(() => vi.fn());
 
@@ -33,8 +31,7 @@ describe("addTable", () => {
 
     addTable(mockDoc, mockStruct, 0, userDataMock);
 
-    expect(drawTableRows).toBeCalledTimes(1);
-    expect(drawTableColumnsValues).toBeCalledTimes(1);
+    expect(drawTableColumnHeaderRow).toBeCalledTimes(1);
     expect(drawTableRows).toBeCalledTimes(1);
   });
 
