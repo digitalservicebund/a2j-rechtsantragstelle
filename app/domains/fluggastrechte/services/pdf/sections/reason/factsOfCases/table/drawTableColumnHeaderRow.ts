@@ -50,7 +50,7 @@ export function drawTableColumnHeaderRow(
           : "Tatsächliche Zeiten",
       subtitle: getActualConnectionType(userData),
     },
-    //{ title: getDelayType(userData), subtitle: "" },
+    { title: getDelayType(userData), subtitle: "" },
   ];
 
   const headerRow = doc.struct("TR");

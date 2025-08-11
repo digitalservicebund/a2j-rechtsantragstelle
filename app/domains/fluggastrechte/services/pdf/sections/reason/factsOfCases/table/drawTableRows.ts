@@ -6,6 +6,7 @@ import {
   COLUMN_WIDTH,
   START_TABLE_X,
 } from "./tableConfigurations";
+import { delay } from "lodash";
 
 export function drawTableRows(
   doc: PDFKit.PDFDocument,
@@ -98,24 +99,41 @@ export function drawTableRows(
       tableRow.add(tdCell);
     }
 
+    //DELAY:
+    if (rowIndex === 0) {
+      const delay_cell = doc.struct("TD", {}, () => {
+        drawCellText(doc, {
+          xPosition: START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER,
+          yPosition: startTableY + COLUMN_HEIGHT,
+          width: COLUMN_WIDTH,
+          height: COLUMN_HEIGHT * ROWS_NUMBER,
+          boldText: "",
+          regularText: info,
+          shouldAddSilverBackground: false,
+          textAlign: "center",
+          regularTextFontSize: 9,
+        });
+      });
+
+      drawCellBackground(doc, {
+        xPosition: START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER,
+        yPosition: startTableY + COLUMN_HEIGHT,
+        width: COLUMN_WIDTH,
+        height: COLUMN_HEIGHT * ROWS_NUMBER,
+        shouldAddSilverBackground: false,
+      });
+
+      delay_cell.dictionary.data.A = doc.ref({
+        O: "Table",
+        RowSpan: 3,
+      });
+
+      delay_cell.dictionary.data.A.end();
+
+      tableRow.add(delay_cell);
+    }
+
     tableBody.add(tableRow);
   }
   table.add(tableBody);
 }
-
-// const durationRow = doc.struct("TR"); // Create a row for the duration
-// durationRow.add(
-//   doc.struct("TD", {}, () => {
-//     drawCell(doc, {
-//       xPosition: START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER,
-//       yPosition: startTableY + COLUMN_HEIGHT,
-//       width: COLUMN_WIDTH,
-//       height: COLUMN_HEIGHT * ROWS_NUMBER,
-//       boldText: "", // No label text, only the value
-//       regularText: info,
-//       shouldAddSilverBackground: false,
-//       textAlign: "center",
-//       regularTextFontSize: 9,
-//     });
-//   }),
-// );
