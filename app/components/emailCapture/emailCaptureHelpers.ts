@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { ErrorMessageProps } from "~/components/formElements";
+import type { ErrorMessageProps } from "~/components/types";
 import { emailSchema } from "~/services/validation/email";
 
 export const emailCaptureConsentName = "emailCaptureConsent";

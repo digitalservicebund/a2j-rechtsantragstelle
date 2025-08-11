@@ -2,8 +2,8 @@ import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { type ReactNode, useState } from "react";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import { type ErrorMessageProps } from "..";
 import TileRadio, { type TileOptions } from "./TileRadio";
+import { type ErrorMessageProps } from "../../types";
 import InputError from "../InputError";
 
 export type TileGroupProps = Readonly<{

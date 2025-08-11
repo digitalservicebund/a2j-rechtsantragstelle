@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useRef } from "react";
 import Button from "~/components/Button";
-import { type ErrorMessageProps } from "~/components/formElements";
+import { type ErrorMessageProps } from "~/components/types";
 import InputError from "~/components/formElements/InputError";
 import { translations } from "~/services/translations/translations";
 import { splitFieldName } from "~/services/upload/splitFieldName";

@@ -2,7 +2,7 @@ import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import type React from "react";
 import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
-import { type ErrorMessageProps } from ".";
+import { type ErrorMessageProps } from "../types";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import { widthClassname, type FieldWidth } from "../width";
