@@ -1,5 +1,5 @@
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { ProzesskostenhilfeAntragstellendePersonUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
-import { qualifiesForVereinfachteErklaerung } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 import { getProzesskostenhilfeVereinfachteErklaerungConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/xStateConfig";
 import type {
   Config,
@@ -12,6 +12,11 @@ import {
   empfaengerIsAnderePerson,
   empfaengerIsChild,
 } from "./guards";
+import { pkhFormularAntragstellendePersonPages } from "./pages";
+
+const steps = xStateTargetsFromPagesConfig(
+  pkhFormularAntragstellendePersonPages,
+);
 
 export const getProzesskostenhilfeAntragstellendePersonConfig = (
   transitions?: FlowConfigTransitions,
@@ -21,120 +26,104 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
     : [transitions?.nextFlowEntrypoint];
   return {
     id: "antragstellende-person",
-    initial: "empfaenger",
+    initial: steps.empfaenger.relative,
     meta: { done: antragstellendePersonDone },
     states: {
-      empfaenger: {
+      [steps.empfaenger.relative]: {
         on: {
           BACK: transitions?.backToCallingFlow,
           SUBMIT: [
             {
               guard: empfaengerIsChild,
-              target: "vereinfachte-erklaerung",
+              target: steps.kind.relative,
             },
             {
               guard: empfaengerIsAnderePerson,
-              target: "zwei-formulare",
+              target: steps.zweiFormulare.relative,
             },
-            "unterhaltsanspruch",
+            steps.unterhaltsanspruch.relative,
           ],
         },
       },
-      "vereinfachte-erklaerung":
-        getProzesskostenhilfeVereinfachteErklaerungConfig({
-          backToCallingFlow: "#antragstellende-person.empfaenger",
-          nextFlowEntrypoint: "#antragstellende-person.unterhaltsanspruch",
-        }),
-      unterhaltsanspruch: {
+      [steps.kind.relative]: getProzesskostenhilfeVereinfachteErklaerungConfig({
+        backToCallingFlow: "#antragstellende-person.empfaenger",
+        nextFlowEntrypoint,
+      }),
+      [steps.unterhaltsanspruch.relative]: {
         on: {
-          BACK: [
-            {
-              guard: ({ context }) =>
-                empfaengerIsChild({ context }) &&
-                qualifiesForVereinfachteErklaerung({ context }),
-              target:
-                "#vereinfachte-erklaerung.hinweis-vereinfachte-erklaerung",
-            },
-            {
-              guard: ({ context }) =>
-                empfaengerIsChild({ context }) &&
-                !qualifiesForVereinfachteErklaerung({ context }),
-              target: "#vereinfachte-erklaerung.hinweis-weiteres-formular",
-            },
-            "empfaenger",
-          ],
+          BACK: steps.empfaenger.relative,
           SUBMIT: [
             {
               guard: ({ context }) =>
                 context.unterhaltsanspruch === "anspruchNoUnterhalt",
-              target: "unterhalt-leben-frage",
+              target: steps.unterhaltLebenFrage.relative,
             },
             {
               guard: ({ context }) =>
                 context.unterhaltsanspruch === "unterhalt",
-              target: "unterhalt",
+              target: steps.unterhalt.relative,
             },
             ...nextFlowEntrypoint,
           ],
         },
       },
-      "unterhalt-leben-frage": {
+      [steps.unterhaltLebenFrage.relative]: {
         on: {
-          BACK: "unterhaltsanspruch",
+          BACK: steps.unterhaltsanspruch.relative,
           SUBMIT: [
             {
               guard: couldLiveFromUnterhalt,
-              target: "unterhaltspflichtige-person-beziehung",
+              target: steps.unterhaltspflichtigePersonBeziehung.relative,
             },
             ...nextFlowEntrypoint,
           ],
         },
       },
-      "unterhaltspflichtige-person-beziehung": {
+      [steps.unterhaltspflichtigePersonBeziehung.relative]: {
         on: {
-          BACK: "unterhalt-leben-frage",
-          SUBMIT: "warum-keiner-unterhalt",
+          BACK: steps.unterhaltLebenFrage.relative,
+          SUBMIT: steps.warumKeinerUnterhalt.relative,
         },
       },
-      "warum-keiner-unterhalt": {
+      [steps.warumKeinerUnterhalt.relative]: {
         on: {
-          BACK: "unterhaltspflichtige-person-beziehung",
+          BACK: steps.unterhaltspflichtigePersonBeziehung.relative,
           SUBMIT: nextFlowEntrypoint,
         },
       },
-      unterhalt: {
+      [steps.unterhalt.relative]: {
         on: {
-          BACK: "unterhaltsanspruch",
-          SUBMIT: "unterhalt-hauptsaechliches-leben",
+          BACK: steps.unterhaltsanspruch.relative,
+          SUBMIT: steps.unterhaltHauptsaechlichesLeben.relative,
         },
       },
-      "unterhalt-hauptsaechliches-leben": {
+      [steps.unterhaltHauptsaechlichesLeben.relative]: {
         on: {
-          BACK: "unterhalt",
+          BACK: steps.unterhalt.relative,
           SUBMIT: [
             {
               guard: unterhaltBekommeIch,
-              target: "unterhaltspflichtige-person",
+              target: steps.unterhaltspflichtigePerson.relative,
             },
             ...nextFlowEntrypoint,
           ],
         },
       },
-      "unterhaltspflichtige-person": {
+      [steps.unterhaltspflichtigePerson.relative]: {
         on: {
-          BACK: "unterhalt-hauptsaechliches-leben",
-          SUBMIT: "eigenes-exemplar",
+          BACK: steps.unterhaltHauptsaechlichesLeben.relative,
+          SUBMIT: steps.eigenesExemplar.relative,
         },
       },
-      "eigenes-exemplar": {
+      [steps.eigenesExemplar.relative]: {
         on: {
-          BACK: "unterhaltspflichtige-person",
+          BACK: steps.unterhaltspflichtigePerson.relative,
           SUBMIT: nextFlowEntrypoint,
         },
       },
-      "zwei-formulare": {
+      [steps.zweiFormulare.relative]: {
         on: {
-          BACK: "empfaenger",
+          BACK: steps.empfaenger.relative,
           SUBMIT: "#finanzielle-angaben",
         },
       },
