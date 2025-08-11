@@ -69,7 +69,7 @@ function TileRadio({
       >
         <input
           {...field.getInputProps({ type: "radio", id, value })}
-          className="ds-radio forced-colors:outline forced-colors:border-[ButtonText]"
+          className="ds-radio forced-colors:outline-solid forced-colors:border-[ButtonText]"
           name={name}
           type="radio"
           aria-describedby={ariaDescribedBy}
@@ -92,7 +92,7 @@ function TileRadio({
           <div>
             <p className="ds-label-01-bold">{title}</p>
             {description && (
-              <p id={descriptionId} className="ds-subhead ds-body-01-reg">
+              <p id={descriptionId} className="ds-body-01-reg">
                 {description}
               </p>
             )}

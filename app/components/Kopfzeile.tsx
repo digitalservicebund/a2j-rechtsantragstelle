@@ -5,7 +5,7 @@ export default function Kopfzeile({
   alignToMainContainer = true,
 }: Readonly<{ alignToMainContainer?: boolean }>) {
   const containerClassNames = classNames(
-    "gap-8 sm:gap-16 flex items-center !py-0 !mx-0",
+    "gap-8 sm:gap-16 flex items-center py-0! mx-0!",
     {
       [alignToContainer]: alignToMainContainer,
       "px-8 sm:px-[15px]": !alignToMainContainer,

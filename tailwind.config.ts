@@ -6,8 +6,5 @@ export default {
   theme: {
     extend: {},
   },
-  corePlugins: {
-    container: false,
-  },
   plugins: [require("@digitalservice4germany/angie")],
 } satisfies Config;

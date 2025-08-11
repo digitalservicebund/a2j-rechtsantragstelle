@@ -26,7 +26,7 @@ export default function Breadcrumbs({
   );
 
   const navClassNames = classNames("py-8 px-16 flex flex-wrap items-center", {
-    [`${alignToContainer} !py-8`]: alignToMainContainer,
+    [`${alignToContainer} py-8!`]: alignToMainContainer,
   });
 
   return (
@@ -37,9 +37,9 @@ export default function Breadcrumbs({
           <a
             href="/"
             aria-label={linkLabel}
-            className="focus:outline ds-link-01-bold"
+            className="focus:outline-solid ds-link-01-bold"
           >
-            <HomeOutlinedIcon className="!h-[1.6rem] !w-[1.6rem]" />
+            <HomeOutlinedIcon className="h-[1.6rem]! w-[1.6rem]!" />
           </a>
           {validBreadcrumbs.map((breadcrumb, idx, arr) => (
             <div key={breadcrumb.title} className="ds-body-02-reg">

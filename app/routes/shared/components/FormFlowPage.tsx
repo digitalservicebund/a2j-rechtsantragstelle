@@ -48,13 +48,13 @@ export function FormFlowPage() {
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
       <Background backgroundColor="blue">
-        <div className="w-screen pt-32 flex flex-grow flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start gap-48 h-full">
+        <div className="w-screen pt-32 flex grow flex-col-reverse justify-end md:flex-wrap md:flex-row md:justify-start gap-48 h-full">
           <div className="md:ml-32 md:mb-32 md:w-[248px]">
             <FlowNavigation navItems={navItems} expandAll={isValidationPage} />
           </div>
           <div
             className={
-              "flex flex-col flex-1 gap-32 container md:pl-0 md:!pb-32 !pt-0 justify-between"
+              "flex flex-col flex-1 gap-32 container md:pl-0 md:pb-32! pt-0! justify-between"
             }
           >
             <div className="ds-stack ds-stack-40">

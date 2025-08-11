@@ -16,7 +16,7 @@ describe("NavigationList", () => {
 
     const list = screen.getByRole("list");
     expect(list).toBeInstanceOf(HTMLUListElement);
-    expect(list).toHaveClass("pl-0");
+    expect(list).toHaveClass("pl-0!");
 
     const item = screen.getAllByRole<HTMLAnchorElement>("link");
     expect(item[0]).toHaveTextContent(label);

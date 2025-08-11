@@ -90,7 +90,7 @@ export default function Footer({
                 </Heading>
                 <ul
                   aria-labelledby={ariaLabelledBy}
-                  className="list-none pt-[7px] pl-2 space-y-10"
+                  className="list-none! pt-[7px] pl-2! space-y-10"
                 >
                   <Links links={category.links} />
                 </ul>

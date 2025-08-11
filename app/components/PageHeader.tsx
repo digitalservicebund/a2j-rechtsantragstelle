@@ -22,7 +22,7 @@ export default function PageHeader({
   alignToMainContainer,
 }: Readonly<PageHeaderProps>) {
   const navClassNames = classNames(
-    "!pt-16 !pb-24 px-16 flex flex-wrap justify-between",
+    "pt-16! pb-24! px-16 flex flex-wrap justify-between",
     {
       [`${alignToContainer}`]: alignToMainContainer,
     },
@@ -45,7 +45,7 @@ export default function PageHeader({
       >
         <a
           href="/"
-          className="ds-label-01-bold no-underline hover:underline mr-8 text-black focus:outline active:underline active:decoration-4 leading-normal"
+          className="ds-label-01-bold no-underline hover:underline mr-8 text-black focus:outline-solid active:underline active:decoration-4 leading-normal"
           aria-label={`${title} - ${linkLabel}`}
         >
           {title}

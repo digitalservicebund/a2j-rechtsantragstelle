@@ -222,7 +222,7 @@ function App() {
                 accessibilityTranslations,
               )}
             />
-            <main className="flex-grow flex" id="main">
+            <main className="grow flex" id="main">
               <Outlet />
             </main>
           </div>
@@ -267,7 +267,7 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
             linkLabel="Zurück zur Startseite"
             title="Justiz-Services"
           />
-          <main className="flex-grow">
+          <main className="grow">
             <ErrorBox context={loaderData?.context ?? {}} />
           </main>
         </div>

@@ -60,7 +60,7 @@ export const EmailCapture = ({
       <form
         {...form.getFormProps()}
         data-testid="email-capture-form"
-        className="flex max-w-[630px] gap-16 flex-wrap !mt-0"
+        className="flex max-w-[630px] gap-16 flex-wrap mt-0!"
       >
         <div className="grow">
           <input

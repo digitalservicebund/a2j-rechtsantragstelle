@@ -26,11 +26,11 @@ const TableOfContents = ({
         {label && <Heading {...label} />}
         {heading && <Heading {...heading} />}
         {links && links.length > 0 && (
-          <ul className="list-none pl-0 ds-stack ds-stack-16">
+          <ul className="list-none! !pl-0 ds-stack ds-stack-16">
             {links.map((link) => (
               <li key={link.text ?? link.url}>
                 <StandaloneLink
-                  className="visited:text-black !text-black flex"
+                  className="visited:text-black text-black! flex"
                   url={link.url}
                   text={link.text ?? ""}
                   icon={

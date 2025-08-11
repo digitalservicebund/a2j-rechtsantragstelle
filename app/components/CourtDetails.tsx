@@ -25,7 +25,7 @@ const CourtDetails = ({
   return (
     <address className="not-italic ds-stack ds-stack-16">
       <h2 className="ds-heading-03-reg">{name}</h2>
-      <ul className="list-none pl-0 ds-stack ds-stack-16">
+      <ul className="list-none! !pl-0 ds-stack ds-stack-16">
         <li>
           <h3 className="ds-label-02-bold">{addressLabel}</h3>
           <p className="ds-label-01-reg">

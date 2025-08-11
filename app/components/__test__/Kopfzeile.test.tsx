@@ -12,7 +12,7 @@ describe("Kopfzeile", () => {
     );
     const kopfzeileContainer = getByTestId("kopfzeile").children[0];
     expect(kopfzeileContainer).toHaveClass(
-      "gap-8 sm:gap-16 flex items-center !py-0 !mx-0",
+      "gap-8 sm:gap-16 flex items-center py-0! mx-0!",
     );
   });
 
