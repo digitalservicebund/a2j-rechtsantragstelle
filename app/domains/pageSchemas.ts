@@ -23,52 +23,50 @@ const pages: Partial<Record<FlowId, PagesConfig>> = {
 export function getPageSchema(pathname: string) {
   const flowId = flowIdFromPathname(pathname);
   if (!flowId || !(flowId in pages)) return undefined;
-  console.log("🔍 getPageSchema:", { flowId });
 
   const { stepId, arrayIndexes } = parsePathname(pathname);
   const parentStepId = getParentStepId(pathname);
-  console.log("🔍 getPageSchema:", { parentStepId, stepId, pages });
   const stepIdWithoutLeadingSlash = stepId.slice(1);
   const parentStepIdWithoutLeadingSlash = parentStepId.slice(1);
+  console.log("🔍 getPageSchema:", {
+    pathname,
+    stepId,
+    arrayIndexes,
+    parentStepId,
+    stepIdWithoutLeadingSlash,
+    parentStepIdWithoutLeadingSlash,
+  });
 
   // Find the page config for this step
   const pageConfig = Object.values(pages[flowId] ?? {}).find(
     (page) => page.stepId === stepIdWithoutLeadingSlash,
   );
-  // Find the parent page config
-  const parentPageConfig = Object.values(pages[flowId] ?? {}).find(
-    (page) => page.stepId === parentStepIdWithoutLeadingSlash,
-  );
-  console.log("🔍 getPageSchema:", { parentPageConfig });
-
   console.log("🔍 getPageSchema:", { pageConfig });
-
-  if (!pageConfig?.pageSchema) return undefined;
-
-  if (parentPageConfig?.arrayPages) {
-    const parentPageKey = stepIdWithoutLeadingSlash.split("/")[2];
-    const arrayPageConfig = parentPageConfig.arrayPages[parentPageKey];
-    const arraySchema = arrayPageConfig.pageSchema;
-    console.log("🔍 getPageSchema:", { arraySchema, parentPageKey });
-    return arraySchema;
-
-    // Find the array field in the page schema
-    // for (const [fieldName, fieldSchema] of Object.entries(
-    //   pageConfig.pageSchema,
-    // )) {
-    //   if (fieldSchema.def?.type === "array") {
-    //     // This is an array field, return the element schema for individual array items
-    //     const arraySchema = fieldSchema as z.ZodArray<z.ZodObject>;
-    //     const elementSchema = arraySchema.element.shape as SchemaObject;
-    //     const pageSchema = mapKeys(
-    //       elementSchema,
-    //       (_, nestedFieldName) => `${fieldName}#${nestedFieldName}`,
-    //     );
-    //     console.log("🔍 getPageSchema:", { pageSchema });
-    //     return pageSchema;
-    //   }
-    // }
+  if (arrayIndexes.length > 0) {
+    const arrayKey = stepId.split("/").at(-2);
+    const fieldName = stepId.split("/").at(-1);
+    console.log("🔍 getPageSchema:", { arrayKey, fieldName });
+    // Find the parent page config
+    const parentPageConfig = Object.values(pages[flowId] ?? {}).find(
+      (page) => page.stepId === parentStepIdWithoutLeadingSlash,
+    );
+    console.log("🔍 getPageSchema:", { parentPageConfig });
+    if (parentPageConfig?.arrayPages) {
+      const arrayPageConfig = parentPageConfig.arrayPages[arrayKey!];
+      const arraySchema = arrayPageConfig.pageSchema;
+      return arraySchema;
+    }
   }
+  // console.log("🔍 getPageSchema:", {
+  //   parentPageConfig,
+  //   pageConfig,
+  // });
+  console.log("🔍 getPageSchema:", {
+    pathname,
+    stepId,
+    arrayIndexes,
+  });
+  if (!pageConfig?.pageSchema) return undefined;
 
   // For non-array pages, return the page schema as is
   return pageConfig.pageSchema;

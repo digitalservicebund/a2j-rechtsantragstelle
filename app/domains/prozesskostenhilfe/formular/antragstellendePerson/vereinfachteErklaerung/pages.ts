@@ -82,8 +82,8 @@ export const pkhFormularVereinfachteErklaerungPages = {
       einnahmen: z.array(financialEntryInputSchema),
     },
     arrayPages: {
-      einnahme: {
-        stepId: "einnahmen#daten",
+      daten: {
+        stepId: "daten",
         pageSchema: {
           "einnahmen#beschreibung": stringRequiredSchema,
           "einnahmen#betrag": buildMoneyValidationSchema(),
