@@ -41,8 +41,11 @@ export const familyRelationshipInputSchema = z.enum(
     "grandmother",
     "grandfather",
     "kid",
+    // TODO: Remove me
     "ex-spouse-f",
     "ex-spouse-m",
+    "ex-spouse",
+    "ex-partner",
     "grandchild",
   ],
   customRequiredErrorMessage,
