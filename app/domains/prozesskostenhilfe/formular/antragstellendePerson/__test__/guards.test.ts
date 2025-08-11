@@ -103,7 +103,7 @@ describe("guards", () => {
 });
 
 describe("antragstellendePersonDone", () => {
-  it("should return true if the user pays Unterhalt", () => {
+  it("should return true if the user is applying for PKH on behalf of someone else", () => {
     expect(
       antragstellendePersonDone({ context: { empfaenger: "otherPerson" } }),
     ).toBe(true);
@@ -111,14 +111,17 @@ describe("antragstellendePersonDone", () => {
 
   it("should return true if the user doesn't have a claim to unterhalt", () => {
     expect(
-      antragstellendePersonDone({ context: { unterhaltsanspruch: "keine" } }),
+      antragstellendePersonDone({
+        context: { empfaenger: "myself", unterhaltsanspruch: "keine" },
+      }),
     ).toBe(true);
   });
 
-  it("should return true if the user has a claim to unterhalt, has entered an unterhalt sum, and does not live primarily it", () => {
+  it("should return true if the user has a claim to unterhalt, has entered an unterhalt sum, and does not live primarily from it", () => {
     expect(
       antragstellendePersonDone({
         context: {
+          empfaenger: "myself",
           unterhaltsanspruch: "unterhalt",
           unterhaltsSumme: "100",
           livesPrimarilyFromUnterhalt: "no",
@@ -131,6 +134,7 @@ describe("antragstellendePersonDone", () => {
     expect(
       antragstellendePersonDone({
         context: {
+          empfaenger: "myself",
           unterhaltsanspruch: "unterhalt",
           unterhaltsSumme: "100",
           livesPrimarilyFromUnterhalt: "yes",
@@ -148,6 +152,7 @@ describe("antragstellendePersonDone", () => {
     expect(
       antragstellendePersonDone({
         context: {
+          empfaenger: "myself",
           unterhaltsanspruch: "anspruchNoUnterhalt",
           couldLiveFromUnterhalt: "no",
         },
@@ -159,10 +164,33 @@ describe("antragstellendePersonDone", () => {
     expect(
       antragstellendePersonDone({
         context: {
+          empfaenger: "myself",
           unterhaltsanspruch: "anspruchNoUnterhalt",
           couldLiveFromUnterhalt: "yes",
           personWhoCouldPayUnterhaltBeziehung: "ex-spouse-f",
           whyNoUnterhalt: "Keine Lust",
+        },
+      }),
+    ).toBe(true);
+  });
+
+  it("should return true if the user is applying for PKH on behalf of a child and said child doesn't qualify for Vereinfachte Erklärung", () => {
+    expect(
+      antragstellendePersonDone({
+        context: {
+          empfaenger: "child",
+          child: {
+            vorname: "Max",
+            nachname: "Mustermann",
+            geburtsdatum: "01.01.2000",
+            unterhaltsSumme: "100",
+          },
+          livesTogether: "no",
+          minderjaehrig: "no",
+          unterhaltsOrAbstammungssachen: "yes",
+          rechtlichesThema: "abstammung",
+          hasEinnahmen: "no",
+          unterhaltsanspruch: "keine",
         },
       }),
     ).toBe(true);

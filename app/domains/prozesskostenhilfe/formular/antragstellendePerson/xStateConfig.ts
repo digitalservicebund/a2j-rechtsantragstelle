@@ -1,4 +1,5 @@
 import type { ProzesskostenhilfeAntragstellendePersonUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
+import { qualifiesForVereinfachteErklaerung } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 import { getProzesskostenhilfeVereinfachteErklaerungConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/xStateConfig";
 import type {
   Config,
@@ -42,11 +43,26 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
       "vereinfachte-erklaerung":
         getProzesskostenhilfeVereinfachteErklaerungConfig({
           backToCallingFlow: "#antragstellende-person.empfaenger",
-          nextFlowEntrypoint,
+          nextFlowEntrypoint: "#antragstellende-person.unterhaltsanspruch",
         }),
       unterhaltsanspruch: {
         on: {
-          BACK: "empfaenger",
+          BACK: [
+            {
+              guard: ({ context }) =>
+                empfaengerIsChild({ context }) &&
+                qualifiesForVereinfachteErklaerung({ context }),
+              target:
+                "#vereinfachte-erklaerung.hinweis-vereinfachte-erklaerung",
+            },
+            {
+              guard: ({ context }) =>
+                empfaengerIsChild({ context }) &&
+                !qualifiesForVereinfachteErklaerung({ context }),
+              target: "#vereinfachte-erklaerung.hinweis-weiteres-formular",
+            },
+            "empfaenger",
+          ],
           SUBMIT: [
             {
               guard: ({ context }) =>
