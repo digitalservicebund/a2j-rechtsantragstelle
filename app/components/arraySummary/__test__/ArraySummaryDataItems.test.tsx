@@ -23,12 +23,9 @@ const translations = {
   "unterhaltszahlungen.surname": "Nachname",
 };
 
-vi.mock(
-  "~/components/formElements/arraySummary/ArraySummaryItemButton",
-  () => ({
-    default: () => <div>Mock ArraySummaryItemButton</div>,
-  }),
-);
+vi.mock("~/components/arraySummary/ArraySummaryItemButton", () => ({
+  default: () => <div>Mock ArraySummaryItemButton</div>,
+}));
 
 describe("ArraySummaryDataItems", () => {
   afterEach(() => {

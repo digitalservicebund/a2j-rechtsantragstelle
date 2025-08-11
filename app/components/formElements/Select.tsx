@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
-import { widthClassname } from "./width";
+import { widthClassname } from "../width";
 
 export type SelectProps = {
   name: string;

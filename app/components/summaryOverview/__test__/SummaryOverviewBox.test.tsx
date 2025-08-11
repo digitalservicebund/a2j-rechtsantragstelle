@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 import { describe, it, vi, expect } from "vitest";
 import { type HeadingProps } from "~/components/Heading";
-import { useFormFlow } from "../../formElements/formFlowContext";
+import { useFormFlow } from "../../formFlowContext";
 import SummaryOverviewBox from "../SummaryOverviewBox";
 
-vi.mock("../../formElements/formFlowContext", () => ({
+vi.mock("../../formFlowContext", () => ({
   useFormFlow: vi.fn(),
 }));
 

@@ -25,7 +25,7 @@ import useDataListOptions from "./autoSuggestInput/useDataListOptions";
 import Input from "./Input";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
-import { widthClassname } from "./width";
+import { widthClassname } from "../width";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;

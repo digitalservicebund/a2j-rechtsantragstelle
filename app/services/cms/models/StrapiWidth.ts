@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { FieldWidth } from "~/components/formElements/width";
+import type { FieldWidth } from "~/components/width";
 
 const strapiWidths = [
   "characters3",

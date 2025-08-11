@@ -1,6 +1,6 @@
 import { type DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import { type ErrorMessageProps } from "..";
-import { type FieldWidth } from "../width";
+import { type FieldWidth } from "../../width";
 
 export type AutoSuggestInputProps = Readonly<{
   name: string;

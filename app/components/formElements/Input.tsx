@@ -5,7 +5,7 @@ import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from ".";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
-import { widthClassname, type FieldWidth } from "./width";
+import { widthClassname, type FieldWidth } from "../width";
 
 export type InputProps = Readonly<{
   name: string;

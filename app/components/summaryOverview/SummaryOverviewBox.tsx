@@ -3,7 +3,7 @@ import { type UserData } from "~/domains/userData";
 import Heading from "../Heading";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
-import { useFormFlow } from "../formElements/formFlowContext";
+import { useFormFlow } from "../formFlowContext";
 import { StandaloneLink } from "../StandaloneLink";
 
 type Props = Pick<

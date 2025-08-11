@@ -1,7 +1,7 @@
 import SummaryOverviewBox from "./SummaryOverviewBox";
 import SummaryOverviewBoxArray from "./SummaryOverviewBoxArray";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
-import { useFormFlow } from "../formElements/formFlowContext";
+import { useFormFlow } from "../formFlowContext";
 
 const SummaryOverviewBoxWrapped = ({
   title,
