@@ -35,7 +35,7 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
           SUBMIT: [
             {
               guard: empfaengerIsChild,
-              target: steps.kind.relative,
+              target: "vereinfachte-erklaerung",
             },
             {
               guard: empfaengerIsAnderePerson,
@@ -45,10 +45,11 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
           ],
         },
       },
-      [steps.kind.relative]: getProzesskostenhilfeVereinfachteErklaerungConfig({
-        backToCallingFlow: "#antragstellende-person.empfaenger",
-        nextFlowEntrypoint,
-      }),
+      "vereinfachte-erklaerung":
+        getProzesskostenhilfeVereinfachteErklaerungConfig({
+          backToCallingFlow: "#antragstellende-person.empfaenger",
+          nextFlowEntrypoint,
+        }),
       [steps.unterhaltsanspruch.relative]: {
         on: {
           BACK: steps.empfaenger.relative,
