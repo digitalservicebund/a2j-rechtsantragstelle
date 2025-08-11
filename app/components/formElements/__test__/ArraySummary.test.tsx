@@ -23,9 +23,7 @@ const arrayData = {
 };
 
 vi.mock("~/components/arraySummary/ArraySummaryDataItems", () => ({
-  default: (props: { headingTitleTagNameItem: string }) => (
-    <div> Mock ArraySummaryDataItems {props.headingTitleTagNameItem} </div>
-  ),
+  default: vi.fn(() => <div> Mock ArraySummaryDataItems</div>),
 }));
 
 describe("ArraySummary", () => {
@@ -33,52 +31,42 @@ describe("ArraySummary", () => {
     vi.restoreAllMocks(); // This clears all mocks after each test
   });
 
-  it("should call <ArraySummaryDataItems> with headingTitleTagNameItem as h2 when the title is an empty space", () => {
-    const translations = {
-      "unterhaltszahlungen.label.title": " ",
-      "unterhaltszahlungen.label.subtitle": "Person ",
-      "unterhaltszahlungen.familyRelationship": "Familienverhältnis",
-      "unterhaltszahlungen.familyRelationship.mother": "Mutter",
-      "unterhaltszahlungen.firstName": "Vorname",
-      "unterhaltszahlungen.surname": "Nachname",
-      "unterhaltszahlungen.birthday": "Geburtsdatum",
-      "unterhaltszahlungen.monthlyPayment": "Monatliche Unterhaltszahlungen",
-    };
-
+  it("should render title and description when it's available", () => {
     const { getByText } = render(
       <ArraySummary
         arrayData={arrayData}
-        translations={translations}
+        content={{
+          title: {
+            text: "Array Summary Title",
+            tagName: "h2",
+          },
+          itemLabels: {},
+          buttonLabel: "Add Item",
+          description: "Array Summary Description",
+        }}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
     );
 
-    expect(getByText("Mock ArraySummaryDataItems h2")).toBeInTheDocument();
+    expect(getByText("Array Summary Title")).toBeInTheDocument();
+    expect(getByText("Array Summary Description")).toBeInTheDocument();
   });
 
-  it("should call <ArraySummaryDataItems> with headingTitleTagNameItem as h3 when the title has value", () => {
-    const translations = {
-      "unterhaltszahlungen.label.title": "Any title",
-      "unterhaltszahlungen.label.subtitle": "Person ",
-      "unterhaltszahlungen.familyRelationship": "Familienverhältnis",
-      "unterhaltszahlungen.familyRelationship.mother": "Mutter",
-      "unterhaltszahlungen.firstName": "Vorname",
-      "unterhaltszahlungen.surname": "Nachname",
-      "unterhaltszahlungen.birthday": "Geburtsdatum",
-      "unterhaltszahlungen.monthlyPayment": "Monatliche Unterhaltszahlungen",
-    };
-
+  it("should render ArraySummaryDataItems for each item in arrayData", () => {
     const { getByText } = render(
       <ArraySummary
         arrayData={arrayData}
-        translations={translations}
+        content={{
+          itemLabels: {},
+          buttonLabel: "Add Item",
+        }}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
     );
 
-    expect(getByText("Mock ArraySummaryDataItems h3")).toBeInTheDocument();
+    expect(getByText("Mock ArraySummaryDataItems")).toBeInTheDocument();
   });
 
   it("should have class is-disabled pointer-events-none on button given disableAddButton true", () => {
@@ -103,7 +91,10 @@ describe("ArraySummary", () => {
     const { getByTestId } = render(
       <ArraySummary
         arrayData={mockArrayDataDisableAddButton}
-        translations={{}}
+        content={{
+          itemLabels: {},
+          buttonLabel: "Add Item",
+        }}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
@@ -136,7 +127,10 @@ describe("ArraySummary", () => {
     const { getByTestId } = render(
       <ArraySummary
         arrayData={mockArrayDataDisableAddButton}
-        translations={{}}
+        content={{
+          itemLabels: {},
+          buttonLabel: "Add Item",
+        }}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,

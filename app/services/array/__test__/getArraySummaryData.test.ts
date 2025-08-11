@@ -4,7 +4,7 @@ import type { ArrayConfigClient } from "..";
 
 describe("getArraySummaryData", () => {
   it("returns undefined when array configuration is missing", () => {
-    const summaryData = getArraySummaryData([], undefined, {});
+    const summaryData = getArraySummaryData([], undefined, {}, []);
     expect(summaryData).toBeUndefined();
   });
 
@@ -36,15 +36,20 @@ describe("getArraySummaryData", () => {
           hasKraftfahrzeug: "yes",
           kraftfahrzeuge: [{ hasArbeitsweg: "no", wert: "under10000" }],
         },
+        [],
       ),
     ).toEqual({
       bankkonten: {
         data: [],
         configuration: { ...bankkontenArrayConfig, disableAddButton: false },
+        itemLabels: {},
+        buttonLabel: "",
       },
       kraftfahrzeuge: {
         data: [{ hasArbeitsweg: "no", wert: "under10000" }],
         configuration: { ...kfzArrayConfig, disableAddButton: false },
+        itemLabels: {},
+        buttonLabel: "",
       },
     });
   });
@@ -62,6 +67,7 @@ describe("getArraySummaryData", () => {
           },
         },
         { hasBankkonto: "no" },
+        [],
       ),
     ).toEqual({});
   });
@@ -73,6 +79,7 @@ describe("getArraySummaryData", () => {
       {
         hasBankkonto: "yes",
       },
+      [],
     );
 
     expect(
@@ -97,6 +104,7 @@ describe("getArraySummaryData", () => {
       {
         hasBankkonto: "yes",
       },
+      [],
     );
 
     expect(
@@ -121,6 +129,7 @@ describe("getArraySummaryData", () => {
       {
         hasBankkonto: "yes",
       },
+      [],
     );
 
     expect(
@@ -131,5 +140,72 @@ describe("getArraySummaryData", () => {
         }
       ).configuration.disableAddButton,
     ).toBe(true);
+  });
+
+  it("should return the content of the array summary page", () => {
+    const actual = getArraySummaryData(
+      ["bankkonten"],
+      {
+        bankkonten: bankkontenArrayConfig,
+      },
+      {
+        hasBankkonto: "yes",
+      },
+      [
+        {
+          __component: "page.array-summary",
+          category: "bankkonten",
+          title: {
+            text: "Bankkonten",
+            id: 0,
+            tagName: "h1",
+            look: "default",
+            __component: "basic.heading",
+          },
+          subtitle: {
+            text: "Ihre Bankkonten",
+            id: 0,
+            tagName: "h1",
+            look: "default",
+            __component: "basic.heading",
+          },
+          description: "Hier sind Ihre Bankkonten aufgelistet.",
+          buttonLabel: "Neues Bankkonto hinzufügen",
+          categoryUrl: "/daten",
+          itemLabels: {
+            name: "Name des Bankkontos",
+            kontonummer: "Kontonummer",
+          },
+          id: 0,
+        },
+      ],
+    );
+
+    expect(actual).toEqual({
+      bankkonten: {
+        data: [],
+        configuration: { ...bankkontenArrayConfig, disableAddButton: false },
+        title: {
+          __component: "basic.heading",
+          id: 0,
+          look: "default",
+          tagName: "h1",
+          text: "Bankkonten",
+        },
+        subtitle: {
+          __component: "basic.heading",
+          id: 0,
+          look: "default",
+          tagName: "h1",
+          text: "Ihre Bankkonten",
+        },
+        description: "Hier sind Ihre Bankkonten aufgelistet.",
+        buttonLabel: "Neues Bankkonto hinzufügen",
+        itemLabels: {
+          name: "Name des Bankkontos",
+          kontonummer: "Kontonummer",
+        },
+      },
+    });
   });
 });
