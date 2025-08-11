@@ -32,7 +32,7 @@ const defaultType: AutoSuggestInputProps = {
 };
 
 const meta = {
-  title: "Component/AutoSuggestInput",
+  title: "FormElements/AutoSuggestInput",
   component: AutoSuggestInput,
   parameters: {
     layout: "padded",

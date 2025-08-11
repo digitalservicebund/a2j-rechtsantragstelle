@@ -4,7 +4,7 @@ import RadioGroup from "~/components/formElements/RadioGroup";
 import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
-  title: "Component/RadioGroup",
+  title: "FormElements/RadioGroup",
   component: RadioGroup,
   parameters: {
     layout: "centered",

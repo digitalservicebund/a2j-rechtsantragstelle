@@ -4,7 +4,7 @@ import Select from "../app/components/formElements/Select";
 import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
-  title: "Component/Select",
+  title: "FormElements/Select",
   component: Select,
   parameters: {
     layout: "centered",

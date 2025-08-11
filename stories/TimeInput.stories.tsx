@@ -4,7 +4,7 @@ import { reactRouterContext } from "../.storybook/reactRouterContext";
 import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
-  title: "Component/TimeInput",
+  title: "FormElements/TimeInput",
   component: TimeInput,
   parameters: {
     layout: "centered",

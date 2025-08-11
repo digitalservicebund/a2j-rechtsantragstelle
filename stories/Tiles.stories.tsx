@@ -6,7 +6,7 @@ import { bucketUrl } from "~/services/cms/bucketUrl";
 import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
-  title: "Component/TileGroup",
+  title: "FormElements/TileGroup",
   component: TileGroup,
   parameters: {
     controls: {

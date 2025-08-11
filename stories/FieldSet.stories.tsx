@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { FieldSet } from "~/components/formElements/FieldSet";
 
 const meta = {
-  title: "Component/FieldSet",
+  title: "FormElements/FieldSet",
   component: FieldSet,
   parameters: {
     layout: "centered",

@@ -4,7 +4,7 @@ import { RVFProvider } from "../.storybook/RVFProvider";
 import { reactRouterContext } from ".storybook/reactRouterContext";
 
 const meta = {
-  title: "Component/Checkbox",
+  title: "FormElements/Checkbox",
   component: Checkbox,
   parameters: { layout: "centered" },
   tags: ["autodocs"],
