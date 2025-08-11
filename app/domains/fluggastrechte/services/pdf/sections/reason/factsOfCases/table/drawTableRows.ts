@@ -1,4 +1,5 @@
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
+import { addAttributeToTableCell } from "./addAttributeToTableCell";
 import { drawCellBackground, drawCellText } from "./drawCell";
 import { getConnectionDetails } from "./getConnectionDetails";
 import {
@@ -6,7 +7,6 @@ import {
   COLUMN_WIDTH,
   START_TABLE_X,
 } from "./tableConfigurations";
-import { delay } from "lodash";
 
 export function drawTableRows(
   doc: PDFKit.PDFDocument,
@@ -51,12 +51,10 @@ export function drawTableRows(
       });
     });
 
-    rowHeaderCell.dictionary.data.A = doc.ref({
+    addAttributeToTableCell(doc, rowHeaderCell, {
       O: "Table",
       Scope: "Row",
     });
-
-    rowHeaderCell.dictionary.data.A.end();
 
     drawCellBackground(doc, {
       xPosition: START_TABLE_X,
@@ -123,12 +121,10 @@ export function drawTableRows(
         shouldAddSilverBackground: false,
       });
 
-      delay_cell.dictionary.data.A = doc.ref({
+      addAttributeToTableCell(doc, delay_cell, {
         O: "Table",
-        RowSpan: 3,
+        RowSpan: ROWS_NUMBER,
       });
-
-      delay_cell.dictionary.data.A.end();
 
       tableRow.add(delay_cell);
     }

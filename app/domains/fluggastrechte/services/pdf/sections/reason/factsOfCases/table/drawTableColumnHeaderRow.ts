@@ -1,5 +1,6 @@
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/userData";
+import { addAttributeToTableCell } from "./addAttributeToTableCell";
 import { drawCellBackground, drawCellText } from "./drawCell";
 import {
   COLUMN_HEIGHT,
@@ -82,12 +83,10 @@ export function drawTableColumnHeaderRow(
       shouldAddSilverBackground: true,
     });
 
-    headerCell.dictionary.data.A = doc.ref({
+    addAttributeToTableCell(doc, headerCell, {
       O: "Table",
       Scope: "Row",
     });
-
-    headerCell.dictionary.data.A.end();
 
     headerRow.add(headerCell);
   });
