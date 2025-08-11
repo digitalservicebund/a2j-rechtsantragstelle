@@ -1,6 +1,5 @@
 import { type Params } from "react-router";
 import { type UserData } from "~/domains/userData";
-import { getArrayCategoriesFromPageContent } from "~/services/array/getArrayCategoriesFromPageContent";
 import {
   fetchFlowPage,
   fetchMeta,
@@ -31,14 +30,11 @@ export const retrieveContentData = async (
     ]),
   ]);
 
-  const arrayCategories = getArrayCategoriesFromPageContent(formPageContent);
-
-  const { translations, cmsContent } = await buildCmsContentAndTranslations({
+  const { translations, cmsContent } = buildCmsContentAndTranslations({
     currentFlow,
     flowTranslations: cmsTranslations[flowId],
     flowMenuTranslations: cmsTranslations[`${flowId}/menu`],
     migrationData,
-    arrayCategories,
     overviewTranslations: cmsTranslations[`${flowId}/summaryPage`],
     formPageContent,
     userDataWithPageData,
@@ -52,6 +48,5 @@ export const retrieveContentData = async (
     },
     userDataWithPageData,
     currentFlow,
-    arrayCategories,
   );
 };
