@@ -29,3 +29,8 @@ export function parsePathname(pathname: string) {
     .replaceAll(/(\/\d+)/g, "");
   return { flowId, stepId, arrayIndexes };
 }
+
+export function getParentStepId(pathname: string) {
+  const { stepId } = parsePathname(pathname);
+  return stepId.split("/").slice(0, -1).join("/");
+}

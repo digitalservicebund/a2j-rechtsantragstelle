@@ -76,6 +76,25 @@ export const pkhFormularVereinfachteErklaerungPages = {
     stepId:
       "antragstellende-person/vereinfachte-erklaerung/einnahmen-uebersicht",
   },
+  einnahme: {
+    stepId: "antragstellende-person/vereinfachte-erklaerung/einnahme",
+    pageSchema: {
+      einnahmen: z.array(financialEntryInputSchema),
+    },
+    arrayPages: {
+      einnahme: {
+        stepId: "einnahmen#daten",
+        pageSchema: {
+          "einnahmen#beschreibung": stringRequiredSchema,
+          "einnahmen#betrag": buildMoneyValidationSchema(),
+          "einnahmen#zahlungsfrequenz": z.enum(
+            ["monthly", "quarterly", "yearly", "one-time"],
+            customRequiredErrorMessage,
+          ),
+        },
+      },
+    },
+  },
   einnahmeDaten: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/einnahme/daten",
     pageSchema: {
@@ -100,6 +119,9 @@ export const pkhFormularVereinfachteErklaerungPages = {
   vermoegenUebersicht: {
     stepId:
       "antragstellende-person/vereinfachte-erklaerung/vermoegen-uebersicht",
+  },
+  vermoegenEintrag: {
+    stepId: "antragstellende-person/vereinfachte-erklaerung/vermoegen-eintrag",
   },
   vermoegenDaten: {
     stepId:

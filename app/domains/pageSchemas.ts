@@ -3,9 +3,15 @@ import type { z } from "zod";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
 import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
-import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
+import {
+  flowIdFromPathname,
+  getParentStepId,
+  parsePathname,
+  type FlowId,
+} from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
 import type { SchemaObject } from "./userData";
+import mapKeys from "lodash/mapKeys";
 
 const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -17,11 +23,55 @@ const pages: Partial<Record<FlowId, PagesConfig>> = {
 export function getPageSchema(pathname: string) {
   const flowId = flowIdFromPathname(pathname);
   if (!flowId || !(flowId in pages)) return undefined;
-  const { stepId } = parsePathname(pathname);
+  console.log("🔍 getPageSchema:", { flowId });
+
+  const { stepId, arrayIndexes } = parsePathname(pathname);
+  const parentStepId = getParentStepId(pathname);
+  console.log("🔍 getPageSchema:", { parentStepId, stepId, pages });
   const stepIdWithoutLeadingSlash = stepId.slice(1);
-  return Object.values(pages[flowId] ?? {}).find(
+  const parentStepIdWithoutLeadingSlash = parentStepId.slice(1);
+
+  // Find the page config for this step
+  const pageConfig = Object.values(pages[flowId] ?? {}).find(
     (page) => page.stepId === stepIdWithoutLeadingSlash,
-  )?.pageSchema;
+  );
+  // Find the parent page config
+  const parentPageConfig = Object.values(pages[flowId] ?? {}).find(
+    (page) => page.stepId === parentStepIdWithoutLeadingSlash,
+  );
+  console.log("🔍 getPageSchema:", { parentPageConfig });
+
+  console.log("🔍 getPageSchema:", { pageConfig });
+
+  if (!pageConfig?.pageSchema) return undefined;
+
+  if (parentPageConfig?.arrayPages) {
+    const parentPageKey = stepIdWithoutLeadingSlash.split("/")[2];
+    const arrayPageConfig = parentPageConfig.arrayPages[parentPageKey];
+    const arraySchema = arrayPageConfig.pageSchema;
+    console.log("🔍 getPageSchema:", { arraySchema, parentPageKey });
+    return arraySchema;
+
+    // Find the array field in the page schema
+    // for (const [fieldName, fieldSchema] of Object.entries(
+    //   pageConfig.pageSchema,
+    // )) {
+    //   if (fieldSchema.def?.type === "array") {
+    //     // This is an array field, return the element schema for individual array items
+    //     const arraySchema = fieldSchema as z.ZodArray<z.ZodObject>;
+    //     const elementSchema = arraySchema.element.shape as SchemaObject;
+    //     const pageSchema = mapKeys(
+    //       elementSchema,
+    //       (_, nestedFieldName) => `${fieldName}#${nestedFieldName}`,
+    //     );
+    //     console.log("🔍 getPageSchema:", { pageSchema });
+    //     return pageSchema;
+    //   }
+    // }
+  }
+
+  // For non-array pages, return the page schema as is
+  return pageConfig.pageSchema;
 }
 
 export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
@@ -33,7 +83,11 @@ export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
   }));
 }
 
-export type PageConfig = { pageSchema?: SchemaObject; stepId: string };
+export type PageConfig = {
+  pageSchema?: SchemaObject;
+  stepId: string;
+  arrayPages?: Record<string, PageConfig>;
+};
 export type PagesConfig = Record<string, PageConfig>;
 
 type ExtractSchemas<T extends PagesConfig> = {
