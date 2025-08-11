@@ -13,8 +13,11 @@ export const familyRelationshipMap = {
   grandmother: "Meine Großmutter",
   grandfather: "Mein Großvater",
   kid: "Mein Kind",
+  // TODO: Remove me
   "ex-spouse-f": "Meine Ex-Ehepartnerin",
   "ex-spouse-m": "Mein Ex-Ehepartner",
+  "ex-spouse": "Mein Ex-Ehepartner / Meine Ex-Ehepartnerin",
+  "ex-partner": "Mein Ex-Partner / Meine Ex-Partnerin",
   grandchild: "Mein Enkelkind",
 } as const;
 

@@ -139,7 +139,7 @@ describe("antragstellendePersonDone", () => {
           unterhaltsSumme: "100",
           livesPrimarilyFromUnterhalt: "yes",
           unterhaltspflichtigePerson: {
-            beziehung: "ex-spouse-m",
+            beziehung: "ex-spouse",
             nachname: "Mustermann",
             vorname: "Max",
           },
@@ -167,7 +167,7 @@ describe("antragstellendePersonDone", () => {
           empfaenger: "myself",
           unterhaltsanspruch: "anspruchNoUnterhalt",
           couldLiveFromUnterhalt: "yes",
-          personWhoCouldPayUnterhaltBeziehung: "ex-spouse-f",
+          personWhoCouldPayUnterhaltBeziehung: "ex-spouse",
           whyNoUnterhalt: "Keine Lust",
         },
       }),
