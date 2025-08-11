@@ -5,10 +5,10 @@ import {
   getTranslationByKey,
   type Translations,
 } from "~/services/translations/getTranslationByKey";
-import ArraySummaryDataItems from "./ArraySummaryDataItems";
 import Button from "../Button";
 import Heading from "../Heading";
 import RichText from "../RichText";
+import ArraySummaryDataItems from "./arraySummary/ArraySummaryDataItems";
 
 type ArraySummaryProps = {
   readonly category: string;

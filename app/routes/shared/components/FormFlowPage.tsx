@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { useLoaderData } from "react-router";
-import ArraySummary from "~/components/arraySummary/ArraySummary";
 import Background from "~/components/Background";
 import ContentComponents from "~/components/ContentComponents";
 import { FormFlowContext } from "~/components/formElements/formFlowContext";
@@ -11,6 +10,7 @@ import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { loader } from "../formular";
+import ArraySummary from "~/components/formElements/ArraySummary";
 
 export function FormFlowPage() {
   const {

@@ -1,4 +1,4 @@
-import ArraySummaryItemButton from "~/components/arraySummary/ArraySummaryItemButton";
+import Heading from "~/components/Heading";
 import type { BasicTypes } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import {
@@ -7,7 +7,7 @@ import {
   type Translations,
 } from "~/services/translations/getTranslationByKey";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
-import Heading from "../Heading";
+import ArraySummaryItemButton from "./ArraySummaryItemButton";
 
 type ArraySummaryItemProps = {
   readonly itemIndex: number;

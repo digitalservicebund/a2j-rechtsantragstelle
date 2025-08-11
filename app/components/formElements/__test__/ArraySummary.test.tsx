@@ -22,7 +22,7 @@ const arrayData = {
   ],
 };
 
-vi.mock("~/components/arraySummary/ArraySummaryDataItems", () => ({
+vi.mock("~/components/formElements/arraySummary/ArraySummaryDataItems", () => ({
   default: (props: { headingTitleTagNameItem: string }) => (
     <div> Mock ArraySummaryDataItems {props.headingTitleTagNameItem} </div>
   ),
