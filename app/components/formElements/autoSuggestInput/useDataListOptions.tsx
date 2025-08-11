@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import { type z } from "zod";
 import { type adresseSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
-import type { DataListType } from "~/services/cms/components/StrapiAutoSuggestInput";
+import { type DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 const API_PATH = "/api";

@@ -1,6 +1,6 @@
 import classNames from "classnames";
-import { type StrapiFieldSet } from "~/services/cms/components/StrapiFieldSet";
 import { keyFromElement } from "~/services/cms/keyFromElement";
+import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
 import { FormComponent } from "../FormComponents";
 import Image from "../Image";
 import RichText from "../RichText";

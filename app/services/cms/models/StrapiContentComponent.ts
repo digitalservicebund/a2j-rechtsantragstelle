@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { StrapiEmailCaptureSchema } from "~/services/cms/components/StrapiEmailCapture";
+import { StrapiEmailCaptureSchema } from "~/services/cms/models/formElements/StrapiEmailCapture";
 import { StrapiVideoSchema } from "~/services/cms/models/StrapiVideo";
 import { StrapiArraySummaryComponentSchema } from "./StrapiArraySummary";
 import { StrapiBoxSchema } from "./StrapiBox";

@@ -4,8 +4,8 @@ import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRela
 import { StrapiOptionalIntegerSchema } from "~/services/cms/models/StrapiOptionalInteger";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
-import { HasStrapiIdSchema } from "../models/HasStrapiId";
-import { StrapiStringOptionalSchema } from "../models/StrapiStringOptional";
+import { HasStrapiIdSchema } from "../HasStrapiId";
+import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
 
 export const StrapiTextareaComponentSchema = z
   .object({

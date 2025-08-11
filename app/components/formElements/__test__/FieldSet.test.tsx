@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { type StrapiFieldSet } from "~/services/cms/components/StrapiFieldSet";
+import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
 import { FieldSet } from "../FieldSet";
 
 vi.mock("~/components/FormComponents", () => ({

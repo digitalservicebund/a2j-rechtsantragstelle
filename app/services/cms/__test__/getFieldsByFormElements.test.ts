@@ -1,7 +1,7 @@
 import type { z } from "zod";
-import { type StrapiFieldSetComponentSchema } from "../components/StrapiFieldSet";
-import type { StrapiSelectComponentSchema } from "../components/StrapiSelect";
 import { getFieldsByFormElements } from "../getFieldsByFormElements";
+import { type StrapiFieldSetComponentSchema } from "../models/formElements/StrapiFieldSet";
+import { type StrapiSelectComponentSchema } from "../models/formElements/StrapiSelect";
 
 describe("getFieldsByFormElements", () => {
   it("should return the field name for the form component", () => {

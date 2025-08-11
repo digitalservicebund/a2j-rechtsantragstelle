@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { type StrapiInputComponent } from "~/services/cms/components/StrapiInput";
+import { type StrapiInputComponent } from "~/services/cms/models/formElements/StrapiInput";
 import { type StrapiFormComponentInput } from "~/services/cms/models/StrapiFormComponent";
 import { type StrapiFormFlowPageInput } from "~/services/cms/models/StrapiFormFlowPage";
 

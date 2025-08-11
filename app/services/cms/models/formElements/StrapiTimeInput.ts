@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
-import { HasStrapiIdSchema } from "../models/HasStrapiId";
-import { StrapiStringOptionalSchema } from "../models/StrapiStringOptional";
+import { HasStrapiIdSchema } from "../HasStrapiId";
+import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
 
 export const StrapiTimeInputComponentSchema = z
   .object({

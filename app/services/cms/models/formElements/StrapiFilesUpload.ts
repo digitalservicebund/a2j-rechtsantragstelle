@@ -3,7 +3,7 @@ import { HasStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNotice";
 import { omitNull } from "~/util/omitNull";
-import { StrapiStringOptionalSchema } from "../models/StrapiStringOptional";
+import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
 
 export const StrapiFilesUploadComponentSchema = z
   .object({

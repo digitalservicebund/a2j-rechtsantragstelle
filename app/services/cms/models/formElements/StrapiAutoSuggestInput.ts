@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { StrapiOptionalIntegerSchema } from "~/services/cms/models/StrapiOptionalInteger";
-import { HasStrapiIdSchema } from "../models/HasStrapiId";
-import { StrapiStringOptionalSchema } from "../models/StrapiStringOptional";
-import { StrapiWidthSchema } from "../models/StrapiWidth";
+import { HasStrapiIdSchema } from "../HasStrapiId";
+import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
+import { StrapiWidthSchema } from "../StrapiWidth";
 
 const DataListSchema = z.enum(["airports", "airlines", "streetNames"]);
 

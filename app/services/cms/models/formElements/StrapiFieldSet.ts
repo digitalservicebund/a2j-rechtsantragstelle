@@ -1,12 +1,12 @@
 import { z } from "zod";
 import { buildRichTextValidation } from "~/services/validation/richtext";
-import { StrapiAutoSuggestInputComponentSchema } from "../components/StrapiAutoSuggestInput";
-import { StrapiDateInputComponentSchema } from "../components/StrapiDateInput";
-import { StrapiDropdownComponentSchema } from "../components/StrapiDropdown";
-import { StrapiInputComponentSchema } from "../components/StrapiInput";
-import { StrapiTimeInputComponentSchema } from "../components/StrapiTimeInput";
-import { HasStrapiIdSchema } from "../models/HasStrapiId";
-import { StrapiImageOptionalSchema } from "../models/StrapiImage";
+import { StrapiAutoSuggestInputComponentSchema } from "./StrapiAutoSuggestInput";
+import { StrapiDateInputComponentSchema } from "./StrapiDateInput";
+import { StrapiDropdownComponentSchema } from "./StrapiDropdown";
+import { StrapiInputComponentSchema } from "./StrapiInput";
+import { StrapiTimeInputComponentSchema } from "./StrapiTimeInput";
+import { HasStrapiIdSchema } from "../HasStrapiId";
+import { StrapiImageOptionalSchema } from "../StrapiImage";
 
 export const StrapiFieldSetComponentSchema = z.object({
   heading: buildRichTextValidation(),
