@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import type { ArrayConfigClient } from "~/services/array";
-import ArraySummary from "../ArraySummary";
+import ArraySummary from "../../arraySummary/ArraySummary";
 
 const mockArrayConfiguration: ArrayConfigClient = {
   event: "add-unterhaltszahlungen",
