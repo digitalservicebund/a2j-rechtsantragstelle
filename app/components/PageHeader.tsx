@@ -22,9 +22,10 @@ export default function PageHeader({
   alignToMainContainer,
 }: Readonly<PageHeaderProps>) {
   const navClassNames = classNames(
-    "pt-16! pb-24! px-16 flex flex-wrap justify-between",
+    "pt-16! pb-24! flex flex-wrap justify-between",
     {
       [`${alignToContainer}`]: alignToMainContainer,
+      "px-16": !alignToMainContainer,
     },
   );
   const shouldPrint = useShouldPrint();

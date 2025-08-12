@@ -25,8 +25,9 @@ export default function Breadcrumbs({
     (breadcrumb) => breadcrumb.title !== undefined,
   );
 
-  const navClassNames = classNames("py-8 px-16 flex flex-wrap items-center", {
+  const navClassNames = classNames("py-8 flex flex-wrap items-center", {
     [`${alignToContainer} py-8!`]: alignToMainContainer,
+    "px-16": !alignToMainContainer,
   });
 
   return (
