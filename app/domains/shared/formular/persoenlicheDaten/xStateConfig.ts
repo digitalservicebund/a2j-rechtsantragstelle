@@ -1,5 +1,5 @@
-import mapValues from "lodash/mapValues";
 import { type GenericGuard } from "~/domains/guards.server";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type PersoenlicheDatenUserData } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import {
   type FlowConfigTransitions,
@@ -7,10 +7,7 @@ import {
 } from "~/services/flow/server/buildFlowController";
 import { persoenlicheDatenPages } from "./pages";
 
-const steps = mapValues(persoenlicheDatenPages, (v) => ({
-  absolute: "#" + v.stepId.replaceAll("/", "."),
-  relative: v.stepId.split("/").pop()!,
-}));
+const steps = xStateTargetsFromPagesConfig(persoenlicheDatenPages);
 
 export function getPersoenlicheDatenXstateConfig(
   doneFunction: GenericGuard<PersoenlicheDatenUserData>,
