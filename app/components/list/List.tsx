@@ -28,7 +28,7 @@ const List = ({
         {heading && <Heading {...heading} />}
         {subheading && <RichText html={subheading} />}
       </div>
-      <ListTag className="list-none! ps-0 !pl-0">
+      <ListTag className="list-none ps-0 pl-0">
         {items
           // Need to filter out empty list items when conditionally rendering with mustache templating
           .filter(listItemNotEmpty)

@@ -27,7 +27,7 @@ describe("NavigationItem", () => {
     render(<NavItem destination={destination} label={label} state={"Done"} />);
 
     const checkCircle = screen.getByTestId("CheckCircleIcon");
-    expect(checkCircle).toHaveClass("shrink-0 fill-green-700!");
+    expect(checkCircle).toHaveClass("shrink-0 fill-green-700");
     expect(checkCircle).toHaveAttribute("aria-label", "Item finished");
   });
 

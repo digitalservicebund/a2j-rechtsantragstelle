@@ -22,7 +22,7 @@ const StateIcon: FC<{
   return (
     <CheckCircle
       id={id}
-      className="shrink-0 fill-green-700!"
+      className="shrink-0 fill-green-700"
       // TODO: Move this to translations file and remove from the root loader
       aria-label={
         rootLoaderData?.accessibilityTranslations?.navigationItemFinishedLabel
@@ -50,7 +50,7 @@ export function NavItem({
 
   // Transparent last: borders to avoid layout shifts
   const liClassNames = classNames(
-    "list-none! border-b border-blue-400 last:border-0 min-w-full",
+    "list-none border-b border-blue-400 last:border-0 min-w-full",
     {
       "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none":
         isDisabled,
