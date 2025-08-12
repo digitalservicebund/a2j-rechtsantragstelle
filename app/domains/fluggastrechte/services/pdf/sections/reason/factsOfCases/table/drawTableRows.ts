@@ -1,7 +1,6 @@
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { addAttributeToTableCell } from "./addAttributeToTableCell";
-import { addCellText } from "./addCellText";
-import { drawCell } from "./drawCell";
+import { drawTextCell } from "./drawTextCell";
 import { getConnectionDetails } from "./getConnectionDetails";
 import {
   COLUMN_HEIGHT,
@@ -13,7 +12,7 @@ const HEADERS = [
   { title: "Flugnummer", subtitle: "betroffener Flug" },
   { title: "Abflug Datum, Zeit", subtitle: "Startflughafen" },
   { title: "Ankunft Datum, Zeit", subtitle: "Zielflughafen" },
-];
+] as const;
 
 const ROWS_NUMBER = HEADERS.length;
 
@@ -32,91 +31,69 @@ export function drawTableRows(
   ];
 
   const connectionTimetable = [...plannedFlight, ...timeTable];
+
   const tableBody = doc.struct("TBody");
 
   for (let rowIndex = 0; rowIndex < ROWS_NUMBER; rowIndex++) {
     const tableRow = doc.struct("TR");
+    const y = startTableY + COLUMN_HEIGHT * (rowIndex + 1);
 
     // Header cell
-    const headerCellY = startTableY + COLUMN_HEIGHT * (rowIndex + 1);
     const headerCell = doc.struct("TH", {}, () => {
-      addCellText(doc, {
-        xPosition: START_TABLE_X,
-        yPosition: headerCellY,
-        width: COLUMN_WIDTH,
-        height: COLUMN_HEIGHT,
-        boldText: HEADERS[rowIndex].title,
-        regularText: HEADERS[rowIndex].subtitle,
-        shouldAddSilverBackground: true,
-        textAlign: "left",
-      });
+      drawTextCell(
+        doc,
+        START_TABLE_X,
+        y,
+        COLUMN_WIDTH,
+        COLUMN_HEIGHT,
+        HEADERS[rowIndex].title,
+        HEADERS[rowIndex].subtitle,
+        true,
+        "left",
+      );
     });
     addAttributeToTableCell(doc, headerCell, { O: "Table", Scope: "Row" });
-    drawCell(doc, {
-      xPosition: START_TABLE_X,
-      yPosition: headerCellY,
-      width: COLUMN_WIDTH,
-      height: COLUMN_HEIGHT,
-      shouldAddSilverBackground: true,
-    });
     tableRow.add(headerCell);
 
     // Data cells
-    for (let colIndex = 0; colIndex < 2; colIndex++) {
-      const valueIndex = colIndex * ROWS_NUMBER + rowIndex;
+    for (let colIndex = 1; colIndex <= 2; colIndex++) {
+      const valueIndex = (colIndex - 1) * ROWS_NUMBER + rowIndex;
       const cellValue = connectionTimetable[valueIndex] ?? "";
-      const xPosition = START_TABLE_X + COLUMN_WIDTH * (colIndex + 1);
-      const yPosition = headerCellY;
 
       const tdCell = doc.struct("TD", {}, () => {
-        addCellText(doc, {
-          xPosition,
-          yPosition,
-          width: COLUMN_WIDTH,
-          height: COLUMN_HEIGHT,
-          boldText: "",
-          regularText: cellValue,
-          shouldAddSilverBackground: false,
-          textAlign: "center",
-          regularTextFontSize: 10,
-        });
-      });
-      drawCell(doc, {
-        xPosition,
-        yPosition,
-        width: COLUMN_WIDTH,
-        height: COLUMN_HEIGHT,
-        shouldAddSilverBackground: false,
+        drawTextCell(
+          doc,
+          START_TABLE_X + COLUMN_WIDTH * colIndex,
+          y,
+          COLUMN_WIDTH,
+          COLUMN_HEIGHT,
+          "",
+          cellValue,
+          false,
+          "center",
+          10,
+        );
       });
       tableRow.add(tdCell);
     }
 
-    // Delay cell (rowSpan)
+    // Delay cell, spanning all rows
     if (rowIndex === 0) {
-      const delayCellX = START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER;
-      const delayCellY = startTableY + COLUMN_HEIGHT;
       const delayCell = doc.struct("TD", {}, () => {
-        addCellText(doc, {
-          xPosition: delayCellX,
-          yPosition: delayCellY,
-          width: COLUMN_WIDTH,
-          height: COLUMN_HEIGHT * ROWS_NUMBER,
-          boldText: "",
-          regularText: info,
-          shouldAddSilverBackground: false,
-          textAlign: "center",
-          regularTextFontSize: 9,
-        });
-      });
-      drawCell(doc, {
-        xPosition: delayCellX,
-        yPosition: delayCellY,
-        width: COLUMN_WIDTH,
-        height: COLUMN_HEIGHT * ROWS_NUMBER,
-        shouldAddSilverBackground: false,
+        drawTextCell(
+          doc,
+          START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER,
+          startTableY + COLUMN_HEIGHT,
+          COLUMN_WIDTH,
+          COLUMN_HEIGHT * ROWS_NUMBER,
+          "",
+          info,
+          false,
+          "center",
+          9,
+        );
       });
       addAttributeToTableCell(doc, delayCell, {
-        O: "Table",
         RowSpan: ROWS_NUMBER,
       });
       tableRow.add(delayCell);
@@ -124,5 +101,6 @@ export function drawTableRows(
 
     tableBody.add(tableRow);
   }
+
   table.add(tableBody);
 }

@@ -1,6 +1,6 @@
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { addTableInfo } from "./addTableInfo";
-import { drawTableColumnHeaderRow } from "./drawTableColumnHeaderRow";
+import { drawTableColumnHeaders } from "./drawTableColumnHeaders";
 import { drawTableRows } from "./drawTableRows";
 import { COLUMN_HEIGHT, MARGIN_BOTTOM } from "./tableConfigurations";
 
@@ -14,7 +14,7 @@ export function addTable(
 
   const table = doc.struct("Table");
 
-  drawTableColumnHeaderRow(doc, table, startTableY, userData);
+  drawTableColumnHeaders(doc, table, startTableY, userData);
   drawTableRows(doc, table, startTableY, userData);
 
   tableSect.add(table); // Add the table to the section

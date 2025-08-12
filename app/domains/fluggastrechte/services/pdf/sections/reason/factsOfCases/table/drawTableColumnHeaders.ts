@@ -1,8 +1,7 @@
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { FluggastrechtBereichType } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { addAttributeToTableCell } from "./addAttributeToTableCell";
-import { addCellText } from "./addCellText";
-import { drawCell } from "./drawCell";
+import { drawTextCell } from "./drawTextCell";
 import {
   COLUMN_HEIGHT,
   COLUMN_WIDTH,
@@ -36,7 +35,7 @@ function getDelayType(userData: FluggastrechteUserData): string {
   return DELAY_STATUS[userData.bereich as FluggastrechtBereichType] ?? "";
 }
 
-export function drawTableColumnHeaderRow(
+export function drawTableColumnHeaders(
   doc: PDFKit.PDFDocument,
   table: PDFKit.PDFStructureElement,
   startTableY: number,
@@ -60,35 +59,23 @@ export function drawTableColumnHeaderRow(
   // Top-left empty corner cell
   headerRow.add(doc.struct("TD"));
 
-  headers.forEach(({ title, subtitle }, colIndex) => {
-    const xPosition = START_TABLE_X + COLUMN_WIDTH * (colIndex + 1);
-
-    drawCell(doc, {
-      xPosition,
-      yPosition: startTableY,
-      width: COLUMN_WIDTH,
-      height: COLUMN_HEIGHT,
-      shouldAddSilverBackground: true,
-    });
-
+  headers.forEach(({ title, subtitle }, i) => {
     const headerCell = doc.struct("TH", {}, () => {
-      addCellText(doc, {
-        xPosition,
-        yPosition: startTableY,
-        width: COLUMN_WIDTH,
-        height: COLUMN_HEIGHT,
-        boldText: title,
-        regularText: subtitle,
-        regularTextFontSize: 8,
-        shouldAddSilverBackground: true,
-        textAlign: "center",
-      });
+      drawTextCell(
+        doc,
+        START_TABLE_X + COLUMN_WIDTH * (i + 1),
+        startTableY,
+        COLUMN_WIDTH,
+        COLUMN_HEIGHT,
+        title,
+        subtitle,
+        true,
+        "center",
+        10,
+      );
     });
 
-    addAttributeToTableCell(doc, headerCell, {
-      O: "Table",
-      Scope: "Row",
-    });
+    addAttributeToTableCell(doc, headerCell, { Scope: "Row" });
 
     headerRow.add(headerCell);
   });
