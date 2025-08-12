@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
-import type { AriaRole, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Details } from "~/components/Details";
 import InputLabel from "~/components/inputs/InputLabel";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
@@ -20,8 +20,8 @@ export type TextareaProps = Readonly<{
   maxLength?: number;
   errorMessages?: ErrorMessageProps[];
   classNameLabel?: string;
-  role?: AriaRole;
   innerRef?: React.Ref<HTMLTextAreaElement>;
+  ariaDescribedby?: string;
 }>;
 
 export const TEXT_AREA_ROWS = 3;
@@ -35,8 +35,8 @@ const Textarea = ({
   maxLength = TEXTAREA_CHAR_LIMIT,
   errorMessages,
   classNameLabel,
-  role,
   innerRef,
+  ariaDescribedby,
 }: TextareaProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -47,7 +47,6 @@ const Textarea = ({
         <InputLabel
           classname={description ? "ds-heading-03-reg" : classNameLabel}
           id={name}
-          role={role}
         >
           {label}
         </InputLabel>
@@ -68,7 +67,7 @@ const Textarea = ({
         })}
         ref={innerRef}
         aria-invalid={field.error() !== undefined}
-        aria-describedby={field.error() ? errorId : undefined}
+        aria-describedby={field.error() ? errorId : ariaDescribedby}
         aria-errormessage={field.error() ? errorId : undefined}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
       />

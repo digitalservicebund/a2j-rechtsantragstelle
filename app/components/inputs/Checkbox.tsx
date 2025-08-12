@@ -1,4 +1,5 @@
 import { useField } from "@rvf/react-router";
+import classNames from "classnames";
 import { useState } from "react";
 import InputError from "./InputError";
 import { useJsAvailable } from "../hooks/useJsAvailable";
@@ -10,13 +11,23 @@ export type CheckboxProps = Readonly<{
   name: string;
   label?: string;
   errorMessage?: string;
+  required: boolean;
 }>;
 
-const Checkbox = ({ name, label, errorMessage }: CheckboxProps) => {
+const Checkbox = ({ name, label, errorMessage, required }: CheckboxProps) => {
   const field = useField(name);
 
   const errorId = `${name}-error`;
-  const className = `ds-checkbox forced-colors:outline forced-colors:border-[ButtonText] ${field.error() ? "has-error" : ""}`;
+  const className = classNames(
+    "ds-checkbox forced-colors:outline forced-colors:border-[ButtonText]",
+    {
+      // Accessibility: use a red inset box-shadow on focus in the error state
+      // to simulate focus (since the checkbox uses box-shadows for its borders)
+      // and ensure users can clearly see the error.
+      "has-error focus-visible:shadow-[inset_0_0_0_4px_theme(colors.red.800)]":
+        field.error(),
+    },
+  );
   // HTML Forms do not send unchecked checkboxes.
   // For server-side validation we need a same-named hidden field
   // For front-end validation, we need to hide that field if checkbox is checked
@@ -40,7 +51,7 @@ const Checkbox = ({ name, label, errorMessage }: CheckboxProps) => {
           className={className}
           aria-describedby={field.error() ? errorId : undefined}
           onClick={() => setRenderHiddenField(!renderHiddenField)}
-          aria-required={!!errorMessage}
+          aria-required={required}
           ref={field.error() ? field.refs.controlled() : null}
         />
 

@@ -30,6 +30,7 @@ const mockCmsElement = {
       label: "some label",
       name: "name",
       errorMessage: "",
+      required: true,
       id: 10,
     },
   ],
@@ -51,8 +52,6 @@ const mockParentMeta = {
   breadcrumb: "parentMeta breadcrumb",
   title: "parentMeta title",
 };
-
-const mockArrayCategories: string[] = [];
 
 const mockCurrentFlow = flows["/beratungshilfe/antrag"];
 
@@ -76,7 +75,6 @@ const callContentData = getContentData(
   },
   mockUserData,
   mockCurrentFlow,
-  mockArrayCategories,
 );
 
 vi.mock("~/services/array/getArraySummaryData");
@@ -96,6 +94,8 @@ describe("getContentData", () => {
             event: addBankkonten,
             disableAddButton: false,
           },
+          itemLabels: {},
+          buttonLabel: "Add Bankkonto",
         },
       } satisfies ArraySummaryData;
       vi.mocked(getArraySummaryData).mockReturnValue(mockSummaryData);

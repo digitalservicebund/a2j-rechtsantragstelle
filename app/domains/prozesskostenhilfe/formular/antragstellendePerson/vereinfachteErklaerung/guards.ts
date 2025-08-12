@@ -68,9 +68,9 @@ export const vereinfachteErklaerungDone: GenericGuard<
 > = ({ context }) => {
   const vermoegenEntered =
     context.vermoegenUnder10000 !== undefined &&
-    vermoegenUnder10000({ context })
+    (vermoegenUnder10000({ context })
       ? arrayIsNonEmpty(context.vermoegen)
-      : true;
+      : true);
   const vermoegenDone =
     context.hasVermoegen !== undefined &&
     (hasVermoegen({ context }) ? vermoegenEntered : true);

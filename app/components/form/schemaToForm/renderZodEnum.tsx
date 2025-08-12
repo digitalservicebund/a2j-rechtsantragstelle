@@ -27,6 +27,7 @@ export function renderZodEnum(
           key={fieldName}
           name={fieldName}
           label={label}
+          required={matchingElement.required}
           errorMessage={matchingElement.errorMessage}
         />
       );

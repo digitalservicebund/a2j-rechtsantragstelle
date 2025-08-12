@@ -1,4 +1,3 @@
-import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import {
   childLivesSeparately,
   frageVermoegen,
@@ -10,16 +9,11 @@ import {
   vereinfachteErklaerungDone,
   vermoegenUnder10000,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
-import { pkhFormularVereinfachteErklaerungPages } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/pages";
 import { type ProzesskostenhilfeVereinfachteErklaerungUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/userData";
 import {
   type Config,
   type FlowConfigTransitions,
 } from "~/services/flow/server/buildFlowController";
-
-const steps = xStateTargetsFromPagesConfig(
-  pkhFormularVereinfachteErklaerungPages,
-);
 
 export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
   transitions?: FlowConfigTransitions,
@@ -29,223 +23,214 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
     : [transitions?.nextFlowEntrypoint];
   return {
     id: "vereinfachte-erklaerung",
-    initial: steps.kind.relative,
+    initial: "kind",
     meta: { done: vereinfachteErklaerungDone },
     states: {
-      [steps.kind.relative]: {
+      kind: {
         on: {
           BACK: transitions?.backToCallingFlow,
-          SUBMIT: steps.zusammenleben.relative,
+          SUBMIT: "zusammenleben",
         },
       },
-      [steps.zusammenleben.relative]: {
+      zusammenleben: {
         on: {
-          BACK: steps.kind.relative,
+          BACK: "kind",
           SUBMIT: [
-            { guard: childLivesSeparately, target: steps.veUnterhalt.relative },
-            steps.minderjaehrig.relative,
+            { guard: childLivesSeparately, target: "unterhalt" },
+            "minderjaehrig",
           ],
         },
       },
-      [steps.veUnterhalt.relative]: {
-        on: {
-          BACK: steps.zusammenleben.relative,
-          SUBMIT: steps.minderjaehrig.relative,
-        },
+      unterhalt: {
+        on: { BACK: "zusammenleben", SUBMIT: "minderjaehrig" },
       },
-      [steps.minderjaehrig.relative]: {
+      minderjaehrig: {
         on: {
           BACK: [
             {
               guard: childLivesSeparately,
-              target: steps.veUnterhalt.relative,
+              target: "unterhalt",
             },
-            steps.zusammenleben.relative,
+            "zusammenleben",
           ],
-          SUBMIT: steps.geburtsdatum.relative,
+          SUBMIT: "geburtsdatum",
         },
       },
-      [steps.geburtsdatum.relative]: {
-        on: {
-          BACK: steps.minderjaehrig.relative,
-          SUBMIT: steps.worumGehts.relative,
-        },
+      geburtsdatum: {
+        on: { BACK: "minderjaehrig", SUBMIT: "worum-gehts" },
       },
-      [steps.worumGehts.relative]: {
+      "worum-gehts": {
         on: {
-          BACK: steps.geburtsdatum.relative,
+          BACK: "geburtsdatum",
           SUBMIT: [
             {
               guard: unterhaltsOrAbstammungssachen,
-              target: steps.rechtlichesThema.relative,
+              target: "rechtliches-thema",
             },
-            steps.einnahmen.relative,
+            "einnahmen",
           ],
         },
       },
-      [steps.rechtlichesThema.relative]: {
+      "rechtliches-thema": {
         on: {
-          BACK: steps.worumGehts.relative,
-          SUBMIT: steps.einnahmen.relative,
+          BACK: "worum-gehts",
+          SUBMIT: "einnahmen",
         },
       },
-      [steps.einnahmen.relative]: {
+      einnahmen: {
         on: {
           BACK: [
             {
               guard: unterhaltsOrAbstammungssachen,
-              target: steps.rechtlichesThema.relative,
+              target: "rechtliches-thema",
             },
-            steps.worumGehts.relative,
+            "worum-gehts",
           ],
           SUBMIT: [
             {
               guard: hasEinnahmen,
-              target: steps.einnahmenValue.relative,
+              target: "einnahmen-value",
             },
             {
               guard: frageVermoegen,
-              target: steps.vermoegen.relative,
+              target: "vermoegen",
             },
-            steps.hinweisWeiteresFormular.relative,
+            "hinweis-weiteres-formular",
           ],
         },
       },
-      [steps.einnahmenValue.relative]: {
+      "einnahmen-value": {
         on: {
-          SUBMIT: steps.einnahmenUebersicht.relative,
-          BACK: steps.einnahmen.relative,
+          SUBMIT: "einnahmen-uebersicht",
+          BACK: "einnahmen",
         },
       },
-      [steps.einnahmenUebersicht.relative]: {
-        id: steps.einnahmenUebersicht.relative,
+      "einnahmen-uebersicht": {
+        id: "einnahmen-uebersicht",
         on: {
-          BACK: steps.einnahmenValue.relative,
+          BACK: "einnahmen-value",
           SUBMIT: [
             {
               guard: hasEinnahmenAndEmptyArray,
-              target: steps.einnahmenWarnung.relative,
+              target: "einnahmen-warnung",
             },
             {
               guard: frageVermoegen,
-              target: steps.vermoegen.relative,
+              target: "vermoegen",
             },
-            steps.hinweisWeiteresFormular.relative,
+            "hinweis-weiteres-formular",
           ],
           "add-einnahmen": "#einnahme",
         },
       },
       einnahme: {
         id: "einnahme",
-        initial: steps.einnahmeDaten.relative,
+        initial: "daten",
         states: {
-          [steps.einnahmeDaten.relative]: {
+          daten: {
             on: {
-              SUBMIT: steps.einnahmenUebersicht.absolute,
-              BACK: steps.einnahmenUebersicht.absolute,
+              SUBMIT: "#einnahmen-uebersicht",
+              BACK: "#einnahmen-uebersicht",
             },
           },
         },
       },
-      [steps.einnahmenWarnung.relative]: {
+      "einnahmen-warnung": {
         on: {
-          BACK: steps.einnahmenUebersicht.relative,
+          BACK: "einnahmen-uebersicht",
           SUBMIT: [
             {
               guard: frageVermoegen,
-              target: steps.vermoegen.relative,
+              target: "vermoegen",
             },
-            steps.hinweisWeiteresFormular.relative,
+            "hinweis-weiteres-formular",
           ],
         },
       },
-      [steps.vermoegen.relative]: {
+      vermoegen: {
         on: {
           BACK: [
             {
               guard: ({ context }) => !hasEinnahmen({ context }),
-              target: steps.einnahmen.relative,
+              target: "einnahmen",
             },
-            steps.einnahmenUebersicht.relative,
+            "einnahmen-uebersicht",
           ],
           SUBMIT: [
-            { guard: hasVermoegen, target: steps.vermoegenValue.relative },
-            steps.hinweisVereinfachteErklaerung.relative,
+            { guard: hasVermoegen, target: "vermoegen-value" },
+            "hinweis-vereinfachte-erklaerung",
           ],
         },
       },
-      [steps.vermoegenValue.relative]: {
+      "vermoegen-value": {
         on: {
-          BACK: steps.vermoegen.relative,
+          BACK: "vermoegen",
           SUBMIT: [
-            {
-              guard: vermoegenUnder10000,
-              target: steps.vermoegenUebersicht.relative,
-            },
-            steps.hinweisWeiteresFormular.relative,
+            { guard: vermoegenUnder10000, target: "vermoegen-uebersicht" },
+            "hinweis-weiteres-formular",
           ],
         },
       },
-      [steps.vermoegenUebersicht.relative]: {
+      "vermoegen-uebersicht": {
         id: "vermoegen-uebersicht",
         on: {
-          BACK: steps.vermoegenValue.relative,
+          BACK: "vermoegen-value",
           SUBMIT: [
             {
               guard: hasVermoegenAndEmptyArray,
-              target: steps.vermoegenWarnung.relative,
+              target: "vermoegen-warnung",
             },
-            steps.hinweisVereinfachteErklaerung.relative,
+            "hinweis-vereinfachte-erklaerung",
           ],
           "add-vermoegen": "#vermoegen-eintrag",
         },
       },
       "vermoegen-eintrag": {
         id: "vermoegen-eintrag",
-        initial: steps.vermoegenDaten.relative,
+        initial: "daten",
         states: {
-          [steps.vermoegenDaten.relative]: {
+          daten: {
             on: {
-              SUBMIT: steps.vermoegenUebersicht.absolute,
-              BACK: steps.vermoegenUebersicht.absolute,
+              SUBMIT: "#vermoegen-uebersicht",
+              BACK: "#vermoegen-uebersicht",
             },
           },
         },
       },
-      [steps.vermoegenWarnung.relative]: {
+      "vermoegen-warnung": {
         on: {
-          BACK: steps.vermoegenUebersicht.relative,
-          SUBMIT: steps.hinweisVereinfachteErklaerung.relative,
+          BACK: "vermoegen-uebersicht",
+          SUBMIT: "hinweis-vereinfachte-erklaerung",
         },
       },
-      [steps.hinweisWeiteresFormular.relative]: {
+      "hinweis-weiteres-formular": {
         on: {
           BACK: [
             {
               guard: ({ context }) =>
                 hasVermoegen({ context }) && !vermoegenUnder10000({ context }),
-              target: steps.vermoegenValue.relative,
+              target: "vermoegen-value",
             },
             {
               guard: hasEinnahmen,
-              target: steps.einnahmenUebersicht.relative,
+              target: "einnahmen-uebersicht",
             },
-            steps.einnahmen.relative,
+            "einnahmen",
           ],
           SUBMIT: nextFlowEntrypoint,
         },
       },
-      [steps.hinweisVereinfachteErklaerung.relative]: {
+      "hinweis-vereinfachte-erklaerung": {
         on: {
           BACK: [
             {
               guard: ({ context }) =>
                 hasVermoegen({ context }) && vermoegenUnder10000({ context }),
-              target: steps.vermoegenUebersicht.relative,
+              target: "vermoegen-uebersicht",
             },
             {
               guard: ({ context }) => !hasVermoegen({ context }),
-              target: steps.vermoegen.relative,
+              target: "vermoegen",
             },
           ],
           SUBMIT: nextFlowEntrypoint,

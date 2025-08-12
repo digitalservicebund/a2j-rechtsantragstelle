@@ -18,14 +18,10 @@ export const unterhaltBekommeIch: GenericGuard<
 export const couldLiveFromUnterhalt: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
 > = ({ context }) => context.couldLiveFromUnterhalt === "yes";
-export const antragstellendePersonDone: GenericGuard<
+
+const unterhaltsAnspruchDone: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
 > = ({ context }) =>
-  (empfaengerIsChild({ context }) &&
-    vereinfachteErklaerungDone({
-      context,
-    })) ||
-  empfaengerIsAnderePerson({ context }) ||
   context.unterhaltsanspruch === "keine" ||
   (context.unterhaltsanspruch === "unterhalt" &&
     context.unterhaltsSumme !== undefined &&
@@ -46,3 +42,14 @@ export const antragstellendePersonDone: GenericGuard<
     couldLiveFromUnterhalt({ context }) &&
     context.personWhoCouldPayUnterhaltBeziehung !== undefined &&
     context.whyNoUnterhalt !== undefined);
+
+export const antragstellendePersonDone: GenericGuard<
+  ProzesskostenhilfeAntragstellendePersonUserData
+> = ({ context }) =>
+  (empfaengerIsChild({ context }) &&
+    vereinfachteErklaerungDone({
+      context,
+    }) &&
+    unterhaltsAnspruchDone({ context })) ||
+  (context.empfaenger === "myself" && unterhaltsAnspruchDone({ context })) ||
+  empfaengerIsAnderePerson({ context });

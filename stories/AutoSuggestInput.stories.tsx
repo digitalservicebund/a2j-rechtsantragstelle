@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
 import type { AutoSuggestInputProps } from "~/components/inputs/autoSuggestInput/types";
-import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
+import { RVFProvider } from ".storybook/RVFProvider";
 import { reactRouterContext } from ".storybook/reactRouterContext";
 
 function getDataListValues<T extends { dataList?: any }>(
@@ -57,9 +57,9 @@ export const Default: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };
@@ -72,9 +72,9 @@ export const WithPlaceholder: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };
@@ -88,9 +88,9 @@ export const WithFreeTextInput: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };

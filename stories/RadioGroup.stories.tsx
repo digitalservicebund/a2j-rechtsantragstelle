@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
 import RadioGroup from "~/components/inputs/RadioGroup";
-import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
+import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
   title: "Component/RadioGroup",
@@ -29,9 +29,9 @@ export const Default: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };
@@ -48,9 +48,9 @@ export const WithLabel: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };
