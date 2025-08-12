@@ -22,7 +22,7 @@ const StateIcon: FC<{
   return (
     <CheckCircle
       id={id}
-      className="shrink-0 fill-green-700"
+      className="shrink-0 fill-green-700!"
       // TODO: Move this to translations file and remove from the root loader
       aria-label={
         rootLoaderData?.accessibilityTranslations?.navigationItemFinishedLabel
@@ -62,7 +62,7 @@ export function NavItem({
     "w-full p-16 flex justify-between items-center hover:underline hover:bg-blue-400 active:bg-blue-300 focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-300",
     {
       "ds-label-02-bold bg-blue-400": isCurrent && !hasSubflows,
-      "ds-label-02-reg": !isCurrent && !hasSubflows,
+      "ds-label-02-reg": !isCurrent || hasSubflows,
       "pl-24": isChild,
     },
   );
