@@ -4,13 +4,18 @@ import {
 } from "tests/factories/mockPdfKit";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
+import { addAttributeToTableCell } from "../addAttributeToTableCell";
+import { addCellText } from "../addCellText";
 import { drawCell } from "../drawCell";
 import { drawTableColumnHeaderRow } from "../drawTableColumnHeaderRow";
 import { COLUMN_HEIGHT, COLUMN_WIDTH } from "../tableConfigurations";
 
 vi.mock("../drawCell");
-
+vi.mock("../addCellText");
+vi.mock("../addAttributeToTableCell");
 vi.mocked(drawCell).mockImplementation(() => vi.fn());
+vi.mocked(addCellText).mockImplementation(() => vi.fn());
+vi.mocked(addAttributeToTableCell).mockImplementation(() => vi.fn());
 
 afterEach(() => {
   vi.clearAllMocks();
@@ -20,7 +25,7 @@ afterAll(() => {
   vi.resetAllMocks();
 });
 
-describe("drawTableRowHead", () => {
+describe("drawTableColumnsHeaderRow", () => {
   it("should call drawCell three times", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
@@ -28,21 +33,23 @@ describe("drawTableRowHead", () => {
     drawTableColumnHeaderRow(mockDoc, mockStruct, 0, userDataMock);
 
     expect(drawCell).toBeCalledTimes(3);
+    expect(addCellText).toBeCalledTimes(3);
   });
 
-  it("should call drawCell to print the cell about planned time", () => {
+  it("should call addCellText to print the cell about planned time", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     drawTableColumnHeaderRow(mockDoc, mockStruct, 0, userDataMock);
 
-    expect(drawCell).toBeCalledWith(mockDoc, {
+    expect(addCellText).toBeCalledWith(mockDoc, {
       xPosition: expect.anything(),
       yPosition: expect.anything(),
       width: COLUMN_WIDTH,
       height: COLUMN_HEIGHT,
       boldText: "Geplante Zeiten",
       regularText: "laut Ticket",
+      regularTextFontSize: 8,
       shouldAddSilverBackground: true,
       textAlign: "center",
     });
@@ -64,13 +71,14 @@ describe("drawTableRowHead", () => {
       userDataTatsaechlicherFlugYesMock,
     );
 
-    expect(drawCell).toBeCalledWith(mockDoc, {
+    expect(addCellText).toBeCalledWith(mockDoc, {
       xPosition: expect.anything(),
       yPosition: expect.anything(),
       width: COLUMN_WIDTH,
       height: COLUMN_HEIGHT,
       boldText: "Tatsächliche Zeiten",
       regularText: "gleicher Flug",
+      regularTextFontSize: 8,
       shouldAddSilverBackground: true,
       textAlign: "center",
     });
@@ -93,13 +101,14 @@ describe("drawTableRowHead", () => {
       userDataErsatzverbindungArtFlugMock,
     );
 
-    expect(drawCell).toBeCalledWith(mockDoc, {
+    expect(addCellText).toBeCalledWith(mockDoc, {
       xPosition: expect.anything(),
       yPosition: expect.anything(),
       width: COLUMN_WIDTH,
       height: COLUMN_HEIGHT,
       boldText: "Tatsächliche Zeiten",
       regularText: "anderer Flug",
+      regularTextFontSize: 8,
       shouldAddSilverBackground: true,
       textAlign: "center",
     });
@@ -122,13 +131,14 @@ describe("drawTableRowHead", () => {
       userDataErsatzverbindungArtEtwasAnderesMock,
     );
 
-    expect(drawCell).toBeCalledWith(mockDoc, {
+    expect(addCellText).toBeCalledWith(mockDoc, {
       xPosition: expect.anything(),
       yPosition: expect.anything(),
       width: COLUMN_WIDTH,
       height: COLUMN_HEIGHT,
       boldText: "Tatsächliche Zeiten",
       regularText: "Bahn, Bus o.ä.",
+      regularTextFontSize: 8,
       shouldAddSilverBackground: true,
       textAlign: "center",
     });
@@ -151,96 +161,101 @@ describe("drawTableRowHead", () => {
       userDataErsatzverbindungArtKeinAnkunftMock,
     );
 
-    expect(drawCell).toBeCalledWith(mockDoc, {
+    expect(addCellText).toBeCalledWith(mockDoc, {
       xPosition: expect.anything(),
       yPosition: expect.anything(),
       width: COLUMN_WIDTH,
       height: COLUMN_HEIGHT,
       boldText: "Tatsächliche Zeiten",
       regularText: "gar nicht angekommen",
+      regularTextFontSize: 8,
       shouldAddSilverBackground: true,
       textAlign: "center",
     });
   });
+});
 
-  it("should call drawCell to print the cell about Verspätung", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
+it("should call drawCell to print the cell about Verspätung", () => {
+  const mockStruct = mockPdfKitDocumentStructure();
+  const mockDoc = mockPdfKitDocument(mockStruct);
 
-    drawTableColumnHeaderRow(mockDoc, mockStruct, 0, userDataMock);
+  drawTableColumnHeaderRow(mockDoc, mockStruct, 0, userDataMock);
 
-    expect(drawCell).toBeCalledWith(mockDoc, {
-      xPosition: expect.anything(),
-      yPosition: expect.anything(),
-      width: COLUMN_WIDTH,
-      height: COLUMN_HEIGHT,
-      boldText: "Verspätung",
-      regularText: "",
-      shouldAddSilverBackground: true,
-      textAlign: "center",
-    });
+  expect(addCellText).toBeCalledWith(mockDoc, {
+    xPosition: expect.anything(),
+    yPosition: expect.anything(),
+    width: COLUMN_WIDTH,
+    height: COLUMN_HEIGHT,
+    boldText: "Verspätung",
+    regularText: "",
+    regularTextFontSize: 8,
+    shouldAddSilverBackground: true,
+    textAlign: "center",
+  });
+});
+
+it("should call drawCell to print the cell about Annullierung", () => {
+  const mockStruct = mockPdfKitDocumentStructure();
+  const mockDoc = mockPdfKitDocument(mockStruct);
+
+  const userDataAnnullierungMock = {
+    ...userDataMock,
+    bereich: "annullierung",
+    ersatzverbindungArt: undefined,
+  } satisfies FluggastrechteUserData;
+
+  drawTableColumnHeaderRow(mockDoc, mockStruct, 0, userDataAnnullierungMock);
+
+  expect(addCellText).toBeCalledWith(mockDoc, {
+    xPosition: expect.anything(),
+    yPosition: expect.anything(),
+    width: COLUMN_WIDTH,
+    height: COLUMN_HEIGHT,
+    boldText: "Annullierung",
+    regularText: "",
+    regularTextFontSize: 8,
+    shouldAddSilverBackground: true,
+    textAlign: "center",
   });
 
-  it("should call drawCell to print the cell about Annullierung", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    const userDataAnnullierungMock = {
-      ...userDataMock,
-      bereich: "annullierung",
-      ersatzverbindungArt: undefined,
-    } satisfies FluggastrechteUserData;
-
-    drawTableColumnHeaderRow(mockDoc, mockStruct, 0, userDataAnnullierungMock);
-
-    expect(drawCell).toBeCalledWith(mockDoc, {
-      xPosition: expect.anything(),
-      yPosition: expect.anything(),
-      width: COLUMN_WIDTH,
-      height: COLUMN_HEIGHT,
-      boldText: "Annullierung",
-      regularText: "",
-      shouldAddSilverBackground: true,
-      textAlign: "center",
-    });
-
-    expect(drawCell).toBeCalledWith(mockDoc, {
-      xPosition: expect.anything(),
-      yPosition: expect.anything(),
-      width: COLUMN_WIDTH,
-      height: COLUMN_HEIGHT,
-      boldText: "Angebotene Ersatzverbindung",
-      regularText: "",
-      shouldAddSilverBackground: true,
-      textAlign: "center",
-    });
+  expect(addCellText).toBeCalledWith(mockDoc, {
+    xPosition: expect.anything(),
+    yPosition: expect.anything(),
+    width: COLUMN_WIDTH,
+    height: COLUMN_HEIGHT,
+    boldText: "Angebotene Ersatzverbindung",
+    regularText: "",
+    regularTextFontSize: 8,
+    shouldAddSilverBackground: true,
+    textAlign: "center",
   });
+});
 
-  it("should call drawCell to print the cell about Nicht-Beförderung", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
+it("should call drawCell to print the cell about Nicht-Beförderung", () => {
+  const mockStruct = mockPdfKitDocumentStructure();
+  const mockDoc = mockPdfKitDocument(mockStruct);
 
-    const userDataNichtbefoerderungMock = {
-      ...userDataMock,
-      bereich: "nichtbefoerderung",
-    } satisfies FluggastrechteUserData;
+  const userDataNichtbefoerderungMock = {
+    ...userDataMock,
+    bereich: "nichtbefoerderung",
+  } satisfies FluggastrechteUserData;
 
-    drawTableColumnHeaderRow(
-      mockDoc,
-      mockStruct,
-      0,
-      userDataNichtbefoerderungMock,
-    );
+  drawTableColumnHeaderRow(
+    mockDoc,
+    mockStruct,
+    0,
+    userDataNichtbefoerderungMock,
+  );
 
-    expect(drawCell).toBeCalledWith(mockDoc, {
-      xPosition: expect.anything(),
-      yPosition: expect.anything(),
-      width: COLUMN_WIDTH,
-      height: COLUMN_HEIGHT,
-      boldText: "Nicht-Beförderung",
-      regularText: "",
-      shouldAddSilverBackground: true,
-      textAlign: "center",
-    });
+  expect(addCellText).toBeCalledWith(mockDoc, {
+    xPosition: expect.anything(),
+    yPosition: expect.anything(),
+    width: COLUMN_WIDTH,
+    height: COLUMN_HEIGHT,
+    boldText: "Nicht-Beförderung",
+    regularText: "",
+    regularTextFontSize: 8,
+    shouldAddSilverBackground: true,
+    textAlign: "center",
   });
 });

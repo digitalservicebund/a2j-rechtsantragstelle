@@ -25,7 +25,7 @@ afterAll(() => {
 });
 
 describe("addTable", () => {
-  it("should call drawTableColumnsHead, drawTableColumnsValues and drawTableRowHead", () => {
+  it("should call drawTableColumnsHeaderRow and drawTableRows", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 

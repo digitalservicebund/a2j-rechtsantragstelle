@@ -26,6 +26,7 @@ export const mockPdfKitDocument = (
     stroke: vi.fn().mockReturnThis(),
     restore: vi.fn().mockReturnThis(),
     switchToPage: vi.fn().mockReturnThis(),
+    fillColor: vi.fn().mockReturnThis(),
     bufferedPageRange: vi.fn((_type, _options, contentFn) => {
       if (contentFn) contentFn();
       return range;

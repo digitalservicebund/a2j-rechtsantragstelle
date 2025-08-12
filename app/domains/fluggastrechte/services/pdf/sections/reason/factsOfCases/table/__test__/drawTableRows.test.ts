@@ -2,6 +2,9 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
+import { addAttributeToTableCell } from "../addAttributeToTableCell";
+import { addCellText } from "../addCellText";
 import { drawCell } from "../drawCell";
 import { drawTableRows } from "../drawTableRows";
 import {
@@ -11,8 +14,12 @@ import {
 } from "../tableConfigurations";
 
 vi.mock("../drawCell");
+vi.mock("../addCellText");
+vi.mock("../addAttributeToTableCell");
 
 vi.mocked(drawCell).mockImplementation(() => vi.fn());
+vi.mocked(addCellText).mockImplementation(() => vi.fn());
+vi.mocked(addAttributeToTableCell).mockImplementation(() => vi.fn());
 
 afterEach(() => {
   vi.clearAllMocks();
@@ -22,14 +29,14 @@ afterAll(() => {
   vi.resetAllMocks();
 });
 
-describe("drawTableColumnsHead", () => {
-  it("should call drawCell to print the cell about the flight number", () => {
+describe("drawTableRows - Headers", () => {
+  it("should call addCellText to print the cell about the flight number", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    drawTableRows(mockDoc, mockStruct, 0);
+    drawTableRows(mockDoc, mockStruct, 0, userDataMock);
 
-    expect(drawCell).toBeCalledWith(mockDoc, {
+    expect(addCellText).toBeCalledWith(mockDoc, {
       xPosition: START_TABLE_X,
       yPosition: expect.anything(),
       width: COLUMN_WIDTH,
@@ -41,13 +48,13 @@ describe("drawTableColumnsHead", () => {
     });
   });
 
-  it("should call drawCell to print the cell about the takeoff info", () => {
+  it("should call addCellText to print the cell about the takeoff info", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    drawTableRows(mockDoc, mockStruct, 0);
+    drawTableRows(mockDoc, mockStruct, 0, userDataMock);
 
-    expect(drawCell).toBeCalledWith(mockDoc, {
+    expect(addCellText).toBeCalledWith(mockDoc, {
       xPosition: START_TABLE_X,
       yPosition: expect.anything(),
       width: COLUMN_WIDTH,
@@ -59,13 +66,13 @@ describe("drawTableColumnsHead", () => {
     });
   });
 
-  it("should call drawCell to print the cell about the landed info", () => {
+  it("should call addCellText to print the cell about the landed info", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    drawTableRows(mockDoc, mockStruct, 0);
+    drawTableRows(mockDoc, mockStruct, 0, userDataMock);
 
-    expect(drawCell).toBeCalledWith(mockDoc, {
+    expect(addCellText).toBeCalledWith(mockDoc, {
       xPosition: START_TABLE_X,
       yPosition: expect.anything(),
       width: COLUMN_WIDTH,
