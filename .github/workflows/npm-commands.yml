@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     name: npm run ${{ matrix.npmCMD }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - uses: ./.github/actions/cached-checkout-install

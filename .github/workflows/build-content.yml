@@ -12,7 +12,7 @@ jobs:
   get-content-file:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/cached-checkout-install
       - run: npm run build:localContent
         env:
@@ -53,7 +53,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Download Content File
         uses: actions/download-artifact@v5
         with:

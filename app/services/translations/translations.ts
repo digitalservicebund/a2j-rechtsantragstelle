@@ -87,7 +87,7 @@ export const translations = {
       de: "Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern.",
     },
     "report-problem": {
-      de: "Problem melden",
+      de: "Problem auf dieser Seite melden",
     },
     cancel: {
       de: "Abbrechen",
@@ -178,6 +178,17 @@ export const translations = {
     },
     invalidHousenumber: {
       de: "Bitte geben Sie eine gültige Hausnummer an.",
+    },
+  },
+  arraySummary: {
+    arrayEditButtonLabel: {
+      de: "Bearbeiten",
+    },
+    arrayDeleteButtonLabel: {
+      de: "Löschen",
+    },
+    arrayAddButtonLabel: {
+      de: "hinzufügen",
     },
   },
 } satisfies TranslationRecord;
