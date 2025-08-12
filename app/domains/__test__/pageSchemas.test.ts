@@ -16,7 +16,7 @@ describe("getPageSchema", () => {
   describe("array pages", () => {
     it("should handle simple array pages", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/einnahme/0/daten",
+        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme/0/daten",
       );
       expect(result).toBeDefined();
       expect(result).toHaveProperty("einnahmen#beschreibung");
@@ -25,23 +25,23 @@ describe("getPageSchema", () => {
 
     it("should handle nested array pages", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/eigentum-zusammenfassung/geldanlagen/0/art",
+        "/prozesskostenhilfe/formular/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
       );
       expect(result).toBeDefined();
-      expect(result).toHaveProperty("art");
+      expect(result).toHaveProperty("geldanlagen#art");
     });
 
     it("should handle deeply nested array pages", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/eigentum-zusammenfassung/geldanlagen/0/bargeld",
+        "/prozesskostenhilfe/formular/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/bargeld",
       );
       expect(result).toBeDefined();
-      expect(result).toHaveProperty("bargeld");
+      expect(result).toHaveProperty("geldanlagen#bargeld");
     });
 
     it("should handle different array indexes", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/einnahme/5/daten",
+        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme/5/daten",
       );
       expect(result).toBeDefined();
       expect(result).toHaveProperty("einnahmen#beschreibung");
@@ -50,14 +50,14 @@ describe("getPageSchema", () => {
 
     it("should return undefined for non-existent array pages", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/einnahme/0/non-existent",
+        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme/0/non-existent",
       );
       expect(result).toBeUndefined();
     });
 
     it("should return undefined for non-existent nested array pages", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/eigentum-zusammenfassung/geldanlagen/0/non-existent",
+        "/prozesskostenhilfe/formular/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/non-existent",
       );
       expect(result).toBeUndefined();
     });
@@ -71,30 +71,30 @@ describe("getPageSchema", () => {
 
     it("should handle multiple array indexes in the path", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/einnahme/0/daten/1/subfield",
+        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme/0/daten/1/subfield",
       );
       expect(result).toBeUndefined(); // This should return undefined as it's not a valid path structure
     });
 
     it("should handle nested array with different array indexes", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/eigentum-zusammenfassung/geldanlagen/42/art",
+        "/prozesskostenhilfe/formular/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/42/art",
       );
       expect(result).toBeDefined();
-      expect(result).toHaveProperty("art");
+      expect(result).toHaveProperty("geldanlagen#art");
     });
 
     it("should handle nested array with large array indexes", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/eigentum-zusammenfassung/geldanlagen/999/bargeld",
+        "/prozesskostenhilfe/formular/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/999/bargeld",
       );
       expect(result).toBeDefined();
-      expect(result).toHaveProperty("bargeld");
+      expect(result).toHaveProperty("geldanlagen#bargeld");
     });
 
     it("should return undefined for invalid nested path structure", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/eigentum-zusammenfassung/invalid/0/art",
+        "/prozesskostenhilfe/formular/finanzielle-angaben/eigentum-zusammenfassung/invalid/0/art",
       );
       expect(result).toBeUndefined();
     });
@@ -111,7 +111,7 @@ describe("getPageSchema", () => {
 
     it("should handle pathname with trailing slash", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/einnahme/0/daten/",
+        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme/0/daten/",
       );
       expect(result).toBeDefined();
       expect(result).toHaveProperty("einnahmen#beschreibung");
@@ -120,7 +120,7 @@ describe("getPageSchema", () => {
 
     it("should handle pathname with multiple consecutive slashes", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular//einnahme//0//daten",
+        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme//0//daten",
       );
       expect(result).toBeDefined();
       expect(result).toHaveProperty("einnahmen#beschreibung");
@@ -133,7 +133,7 @@ describe("getPageSchema", () => {
 
     it("should handle pathname with mixed valid and invalid parts", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/einnahme/0/daten/invalid",
+        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme/0/daten/invalid",
       );
       expect(result).toBeUndefined();
     });

@@ -428,7 +428,7 @@ export const finanzielleAngabenXstateConfig = {
         },
       },
     },
-    [steps.eigentum.relative]: {
+    eigentum: {
       id: "eigentum",
       initial: "eigentum-info",
       meta: { done: eigentumDone },
@@ -513,7 +513,7 @@ export const finanzielleAngabenXstateConfig = {
         },
       },
     },
-    [steps.eigentumZusammenfassung.relative]: {
+    "eigentum-zusammenfassung": {
       id: "eigentum-zusammenfassung",
       initial: "zusammenfassung",
       meta: { done: eigentumZusammenfassungDone },
