@@ -2,6 +2,7 @@
 build/
 coverage/
 node_modules/
+patches/
 playwright-report/
 public/
 *.enc
