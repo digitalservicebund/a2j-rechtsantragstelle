@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
-@config '../tailwind.config.ts';
+@config "@digitalservice4germany/style-dictionary/tailwind";
+@plugin "@digitalservice4germany/angie";
 
 ul {
   list-style-type: disc;
