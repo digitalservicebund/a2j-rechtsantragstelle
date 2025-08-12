@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/cached-checkout-install
 
       - name: Get Playwright version
@@ -97,7 +97,7 @@ jobs:
     needs: [e2e-tests]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/cached-checkout-install
 
       - name: Download blob reports from GitHub Actions Artifacts
