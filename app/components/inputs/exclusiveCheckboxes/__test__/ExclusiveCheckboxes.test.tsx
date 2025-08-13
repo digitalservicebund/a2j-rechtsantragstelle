@@ -1,7 +1,12 @@
 import { type FieldApi, useField } from "@rvf/react-router";
 import { fireEvent, render } from "@testing-library/react";
+import { type Mock } from "vitest";
 import { ExclusiveCheckboxes } from "~/components/inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
 import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
+import {
+  type ExclusiveCheckboxes as ExclusiveCheckboxesType,
+  exclusiveCheckboxesSchema,
+} from "~/services/validation/checkedCheckbox";
 
 vi.mock("@rvf/react-router");
 
@@ -12,7 +17,7 @@ const mockValue = vi.fn(() => ({
   checkboxTwo: "on",
   checkboxThree: "on",
   none: "off",
-}));
+})) as Mock<() => ExclusiveCheckboxesType | undefined>;
 
 vi.mocked(useField).mockReturnValue({
   value: mockValue,
@@ -31,10 +36,21 @@ const cmsCheckboxes = [
   { name: "none", label: noneLabel },
 ] as StrapiCheckboxComponent[];
 
+const schema = exclusiveCheckboxesSchema([
+  "checkboxOne",
+  "checkboxTwo",
+  "checkboxThree",
+  "none",
+]);
+
 describe("ExclusiveCheckboxes", () => {
   it("should render all checkboxes", () => {
     const { getAllByRole } = render(
-      <ExclusiveCheckboxes name={""} cmsCheckboxes={cmsCheckboxes} />,
+      <ExclusiveCheckboxes
+        name={""}
+        schema={schema}
+        cmsCheckboxes={cmsCheckboxes}
+      />,
     );
     expect(getAllByRole("checkbox")).toHaveLength(4);
   });
@@ -42,14 +58,22 @@ describe("ExclusiveCheckboxes", () => {
   it("should render an error message", () => {
     errorMock.mockReturnValue("error message");
     const { getByText } = render(
-      <ExclusiveCheckboxes name={""} cmsCheckboxes={cmsCheckboxes} />,
+      <ExclusiveCheckboxes
+        name={""}
+        schema={schema}
+        cmsCheckboxes={cmsCheckboxes}
+      />,
     );
     expect(getByText("error message")).toBeInTheDocument();
   });
 
   it("should call the field validation function when a value changes", () => {
     const { getAllByRole } = render(
-      <ExclusiveCheckboxes name={""} cmsCheckboxes={cmsCheckboxes} />,
+      <ExclusiveCheckboxes
+        name={""}
+        schema={schema}
+        cmsCheckboxes={cmsCheckboxes}
+      />,
     );
     const firstCheckbox = getAllByRole("checkbox")[0] as HTMLInputElement;
     fireEvent.click(firstCheckbox);
@@ -58,7 +82,11 @@ describe("ExclusiveCheckboxes", () => {
 
   it('should uncheck all checkboxes when "None of the above" is checked', () => {
     const { getByLabelText } = render(
-      <ExclusiveCheckboxes name={""} cmsCheckboxes={cmsCheckboxes} />,
+      <ExclusiveCheckboxes
+        name={""}
+        schema={schema}
+        cmsCheckboxes={cmsCheckboxes}
+      />,
     );
     cmsCheckboxes.forEach((checkbox) => {
       if (checkbox.name !== "none") {
@@ -81,10 +109,30 @@ describe("ExclusiveCheckboxes", () => {
       none: "on",
     });
     const { getByLabelText } = render(
-      <ExclusiveCheckboxes name={""} cmsCheckboxes={cmsCheckboxes} />,
+      <ExclusiveCheckboxes
+        name={""}
+        schema={schema}
+        cmsCheckboxes={cmsCheckboxes}
+      />,
     );
     expect(getByLabelText(noneLabel)).toBeChecked();
     fireEvent.click(getByLabelText(firstCheckboxLabel));
     expect(getByLabelText(noneLabel)).not.toBeChecked();
+  });
+
+  it("should set the default values from the schema when the field value is undefined", () => {
+    mockValue.mockReturnValue(undefined);
+    const { getAllByRole } = render(
+      <ExclusiveCheckboxes
+        name={""}
+        schema={schema}
+        cmsCheckboxes={cmsCheckboxes}
+      />,
+    );
+    const checkboxes = getAllByRole("checkbox");
+    expect(checkboxes).toHaveLength(4);
+    checkboxes.forEach((checkbox) => {
+      expect(checkbox).not.toBeChecked();
+    });
   });
 });

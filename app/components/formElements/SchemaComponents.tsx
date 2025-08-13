@@ -33,6 +33,7 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
           return (
             <ExclusiveCheckboxes
               key={fieldName}
+              schema={nestedSchema}
               name={fieldName}
               cmsCheckboxes={formComponents as StrapiCheckboxComponent[]}
             />

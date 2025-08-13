@@ -1,5 +1,6 @@
 import { type FieldApi, useField } from "@rvf/react-router";
 import { useState } from "react";
+import { type ZodObject } from "zod";
 import { type CheckboxValue } from "~/components/formElements/Checkbox";
 import InputError from "~/components/formElements/InputError";
 import {
@@ -12,20 +13,24 @@ import { type ExclusiveCheckboxes as ExclusiveCheckboxesType } from "~/services/
 
 type ExclusiveCheckboxesProps = Readonly<{
   name: string;
+  schema: ZodObject;
   cmsCheckboxes: StrapiCheckboxComponent[];
 }>;
 
 export const ExclusiveCheckboxes = ({
   name,
+  schema,
   cmsCheckboxes,
 }: ExclusiveCheckboxesProps) => {
-  const field = useField<ExclusiveCheckboxesType>(name);
+  const field = useField<ExclusiveCheckboxesType | undefined>(name);
   const [noneCheckboxValue, setNoneCheckboxValue] = useState<CheckboxValue>(
-    field.value().none,
+    field.value()?.none ?? "off",
   );
   const [checkboxes, setCheckboxes] = useState<
     Array<Omit<ControlledCheckboxProps, "onChange">>
-  >(fieldValuesToCheckboxProps(field, cmsCheckboxes, noneCheckboxValue));
+  >(
+    fieldValuesToCheckboxProps(field, schema, cmsCheckboxes, noneCheckboxValue),
+  );
   const errorId = `${name}-error`;
   const hasError = Boolean(field.error());
 
@@ -45,6 +50,7 @@ export const ExclusiveCheckboxes = ({
               {...checkbox}
               onChange={onCheckboxChange(
                 field,
+                checkboxes,
                 noneCheckboxValue,
                 setNoneCheckboxValue,
                 setCheckboxes,
@@ -58,6 +64,7 @@ export const ExclusiveCheckboxes = ({
             key={name}
             onChange={onCheckboxChange(
               field,
+              checkboxes,
               noneCheckboxValue,
               setNoneCheckboxValue,
               setCheckboxes,
@@ -77,7 +84,8 @@ export const ExclusiveCheckboxes = ({
  */
 const onCheckboxChange =
   (
-    parentField: FieldApi<ExclusiveCheckboxesType>,
+    parentField: FieldApi<ExclusiveCheckboxesType | undefined>,
+    checkboxes: Array<Omit<ControlledCheckboxProps, "onChange">>,
     noneCheckboxValue: CheckboxValue,
     setNoneCheckboxValue: React.Dispatch<React.SetStateAction<CheckboxValue>>,
     setCheckboxes: React.Dispatch<
@@ -85,11 +93,14 @@ const onCheckboxChange =
     >,
   ) =>
   (checkboxName: string, checked: CheckboxValue) => {
+    const existingParentValues =
+      parentField.value() ??
+      Object.fromEntries(checkboxes.map((c) => [c.name, c.value]));
     if (checkboxName === "none") {
       const newFieldValues =
         checked === "on"
           ? Object.fromEntries(
-              Object.entries(parentField.value()).map(([key]) => [key, "off"]),
+              Object.entries(existingParentValues).map(([key]) => [key, "off"]),
             )
           : parentField.value();
       parentField.setValue({ ...newFieldValues, none: checked });
@@ -99,7 +110,10 @@ const onCheckboxChange =
       }
       parentField.validate();
     } else {
-      parentField.setValue({ ...parentField.value(), [checkboxName]: checked });
+      parentField.setValue({
+        ...existingParentValues,
+        [checkboxName]: checked,
+      } as ExclusiveCheckboxesType);
       setCheckboxes((prev) =>
         prev.map((c) =>
           c?.name.split(".").pop() === checkboxName
