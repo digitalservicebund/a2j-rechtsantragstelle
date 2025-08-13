@@ -1,74 +1,25 @@
-import type PDFDocument from "pdfkit";
-import {
-  FONTS_BUNDESSANS_BOLD,
-  FONTS_BUNDESSANS_REGULAR,
-} from "~/services/pdf/createPdfKitDocument";
+import { type CellOptions } from "./cellOptions";
 
-type CellOptions = {
-  xPosition: number;
-  yPosition: number;
-  width: number;
-  height: number;
-  boldText: string;
-  regularText: string;
-  regularTextFontSize?: number;
-  shouldAddSilverBackground: boolean;
-  textAlign: "center" | "justify" | "left" | "right";
-};
-
-const marginX = 4;
-const marginY = 5;
+type DrawCellOptions = Omit<
+  CellOptions,
+  "boldText" | "regularText" | "regularTextFontSize" | "textAlign"
+>;
 
 export function drawCell(
-  doc: typeof PDFDocument,
-  {
-    xPosition,
-    yPosition,
-    width,
-    height,
-    boldText,
-    regularText,
-    regularTextFontSize = 8,
-    shouldAddSilverBackground,
-    textAlign,
-  }: CellOptions,
+  doc: PDFKit.PDFDocument,
+  { x, y, width, height, shouldAddSilverBackground }: DrawCellOptions,
 ) {
-  const textX = xPosition + marginX;
-  const textY = yPosition + marginY;
-  const options = {
-    width: width - marginX,
-    align: textAlign,
-    height: height - marginY,
-  };
-
   if (shouldAddSilverBackground) {
+    doc.markContent("Artifact", { type: "Layout" });
     doc
       .save()
       .fillColor("silver", 0.1)
-      .rect(xPosition, yPosition, width, height)
+      .rect(x, y, width, height)
       .fill()
       .restore();
+    doc.endMarkedContent();
   }
-
-  doc.save().rect(xPosition, yPosition, width, height).stroke("silver");
-
-  if (boldText.length > 0) {
-    doc
-      .fontSize(10)
-      .font(FONTS_BUNDESSANS_BOLD)
-      .text(boldText, textX, textY, options);
-  }
-
-  if (regularText.length > 0) {
-    const extraMarginSpace = boldText.length > 0 ? -8 : marginY + 4;
-    doc.fontSize(regularTextFontSize);
-    const textToAlignVertically =
-      (height - doc.heightOfString(regularText, options) - extraMarginSpace) /
-      2;
-
-    doc
-      .font(FONTS_BUNDESSANS_REGULAR)
-      .text(regularText, textX, textY + textToAlignVertically, options);
-  }
-  doc.restore();
+  doc.markContent("Artifact", { type: "Layout" });
+  doc.save().strokeColor("silver").rect(x, y, width, height).stroke().restore();
+  doc.endMarkedContent();
 }
