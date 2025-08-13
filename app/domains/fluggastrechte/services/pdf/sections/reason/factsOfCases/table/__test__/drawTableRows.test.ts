@@ -5,8 +5,8 @@ import {
 } from "tests/factories/mockPdfKit";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { addAttributeToTableCell } from "../addAttributeToTableCell";
-import { drawCell } from "../drawCell";
 import { drawTableRows } from "../drawTableRows";
+import * as drawTextCellModule from "../drawTextCell";
 import { drawTextCell } from "../drawTextCell";
 import {
   COLUMN_HEIGHT,
@@ -14,13 +14,12 @@ import {
   START_TABLE_X,
 } from "../tableConfigurations";
 
-vi.mock("../drawCell");
 vi.mock("../addAttributeToTableCell");
-vi.mock("../drawTextCell");
 
-vi.mocked(drawCell).mockImplementation(() => vi.fn());
+vi.mock("../addAttributeToTableCell");
+vi.spyOn(drawTextCellModule, "drawTextCell"); // Spy instead of full mock
+
 vi.mocked(addAttributeToTableCell).mockImplementation(() => vi.fn());
-vi.mocked(drawTextCell).mockImplementation(() => vi.fn());
 
 afterEach(() => {
   vi.clearAllMocks();
@@ -39,6 +38,7 @@ describe("drawTableRows - Headers", () => {
 
     expect(drawTextCell).toHaveBeenCalledWith(
       mockDoc,
+      "TH",
       START_TABLE_X,
       expect.any(Number),
       COLUMN_WIDTH,
@@ -58,6 +58,7 @@ describe("drawTableRows - Headers", () => {
 
     expect(drawTextCell).toHaveBeenCalledWith(
       mockDoc,
+      "TH",
       START_TABLE_X,
       expect.any(Number),
       COLUMN_WIDTH,
@@ -77,6 +78,7 @@ describe("drawTableRows - Headers", () => {
 
     expect(drawTextCell).toHaveBeenCalledWith(
       mockDoc,
+      "TH",
       START_TABLE_X,
       expect.any(Number),
       COLUMN_WIDTH,

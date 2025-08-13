@@ -3,6 +3,7 @@ import { drawCell } from "./drawCell";
 
 export function drawTextCell(
   doc: PDFKit.PDFDocument,
+  cellType: "TH" | "TD",
   x: number,
   y: number,
   width: number,
@@ -13,22 +14,24 @@ export function drawTextCell(
   textAlign: "left" | "center",
   regularTextFontSize?: number,
 ) {
-  addCellText(doc, {
-    xPosition: x,
-    yPosition: y,
-    width,
-    height,
-    boldText,
-    regularText,
-    shouldAddSilverBackground,
-    textAlign,
-    regularTextFontSize,
-  });
   drawCell(doc, {
     xPosition: x,
     yPosition: y,
     width,
     height,
     shouldAddSilverBackground,
+  });
+  return doc.struct(cellType, {}, () => {
+    addCellText(doc, {
+      xPosition: x,
+      yPosition: y,
+      width,
+      height,
+      boldText,
+      regularText,
+      shouldAddSilverBackground,
+      textAlign,
+      regularTextFontSize,
+    });
   });
 }

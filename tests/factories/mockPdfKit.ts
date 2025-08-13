@@ -24,6 +24,7 @@ export const mockPdfKitDocument = (
     rotate: vi.fn().mockReturnThis(),
     rect: vi.fn().mockReturnThis(),
     stroke: vi.fn().mockReturnThis(),
+    strokeColor: vi.fn().mockReturnThis(),
     restore: vi.fn().mockReturnThis(),
     switchToPage: vi.fn().mockReturnThis(),
     fillColor: vi.fn().mockReturnThis(),

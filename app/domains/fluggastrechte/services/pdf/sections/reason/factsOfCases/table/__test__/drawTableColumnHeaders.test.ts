@@ -7,6 +7,7 @@ import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/u
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { addAttributeToTableCell } from "../addAttributeToTableCell";
 import { drawTableColumnHeaders } from "../drawTableColumnHeaders";
+import * as drawTextCellModule from "../drawTextCell";
 import { drawTextCell } from "../drawTextCell";
 import {
   COLUMN_HEIGHT,
@@ -15,10 +16,9 @@ import {
 } from "../tableConfigurations";
 
 vi.mock("../addAttributeToTableCell");
-vi.mock("../drawTextCell");
+vi.spyOn(drawTextCellModule, "drawTextCell");
 
 vi.mocked(addAttributeToTableCell).mockImplementation(() => vi.fn());
-vi.mocked(drawTextCell).mockImplementation(() => vi.fn());
 
 afterEach(() => {
   vi.clearAllMocks();
@@ -46,8 +46,9 @@ describe("drawTableColumnHeaderRow", () => {
 
     expect(drawTextCell).toHaveBeenCalledWith(
       mockDoc,
-      START_TABLE_X + COLUMN_WIDTH * 1,
-      0,
+      "TH",
+      START_TABLE_X + COLUMN_WIDTH,
+      expect.any(Number), // Y position is dynamic
       COLUMN_WIDTH,
       COLUMN_HEIGHT,
       "Geplante Zeiten",
@@ -76,8 +77,9 @@ describe("drawTableColumnHeaderRow", () => {
 
     expect(drawTextCell).toHaveBeenCalledWith(
       mockDoc,
+      "TH",
       START_TABLE_X + COLUMN_WIDTH * 2,
-      0,
+      expect.any(Number),
       COLUMN_WIDTH,
       COLUMN_HEIGHT,
       "Tatsächliche Zeiten",
@@ -107,8 +109,9 @@ describe("drawTableColumnHeaderRow", () => {
 
     expect(drawTextCell).toHaveBeenCalledWith(
       mockDoc,
+      "TH",
       START_TABLE_X + COLUMN_WIDTH * 2,
-      0,
+      expect.any(Number),
       COLUMN_WIDTH,
       COLUMN_HEIGHT,
       "Tatsächliche Zeiten",
@@ -138,8 +141,9 @@ describe("drawTableColumnHeaderRow", () => {
 
     expect(drawTextCell).toHaveBeenCalledWith(
       mockDoc,
+      "TH",
       START_TABLE_X + COLUMN_WIDTH * 2,
-      0,
+      expect.any(Number),
       COLUMN_WIDTH,
       COLUMN_HEIGHT,
       "Tatsächliche Zeiten",
@@ -169,8 +173,9 @@ describe("drawTableColumnHeaderRow", () => {
 
     expect(drawTextCell).toHaveBeenCalledWith(
       mockDoc,
+      "TH",
       START_TABLE_X + COLUMN_WIDTH * 2,
-      0,
+      expect.any(Number),
       COLUMN_WIDTH,
       COLUMN_HEIGHT,
       "Tatsächliche Zeiten",
@@ -189,8 +194,9 @@ describe("drawTableColumnHeaderRow", () => {
 
     expect(drawTextCell).toHaveBeenCalledWith(
       mockDoc,
+      "TH",
       START_TABLE_X + COLUMN_WIDTH * 3,
-      0,
+      expect.any(Number),
       COLUMN_WIDTH,
       COLUMN_HEIGHT,
       "Verspätung",
@@ -215,8 +221,9 @@ describe("drawTableColumnHeaderRow", () => {
 
     expect(drawTextCell).toHaveBeenCalledWith(
       mockDoc,
+      "TH",
       START_TABLE_X + COLUMN_WIDTH * 3,
-      0,
+      expect.any(Number),
       COLUMN_WIDTH,
       COLUMN_HEIGHT,
       "Annullierung",
@@ -228,8 +235,9 @@ describe("drawTableColumnHeaderRow", () => {
 
     expect(drawTextCell).toHaveBeenCalledWith(
       mockDoc,
+      "TH",
       START_TABLE_X + COLUMN_WIDTH * 2,
-      0,
+      expect.any(Number),
       COLUMN_WIDTH,
       COLUMN_HEIGHT,
       "Angebotene Ersatzverbindung",
@@ -258,8 +266,9 @@ describe("drawTableColumnHeaderRow", () => {
 
     expect(drawTextCell).toHaveBeenCalledWith(
       mockDoc,
+      "TH",
       START_TABLE_X + COLUMN_WIDTH * 3,
-      0,
+      expect.any(Number),
       COLUMN_WIDTH,
       COLUMN_HEIGHT,
       "Nicht-Beförderung",

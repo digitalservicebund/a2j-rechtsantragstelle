@@ -38,20 +38,19 @@ export function drawTableRows(
     const tableRow = doc.struct("TR");
     const y = startTableY + COLUMN_HEIGHT * (rowIndex + 1);
 
-    // Header cell
-    const headerCell = doc.struct("TH", {}, () => {
-      drawTextCell(
-        doc,
-        START_TABLE_X,
-        y,
-        COLUMN_WIDTH,
-        COLUMN_HEIGHT,
-        HEADERS[rowIndex].title,
-        HEADERS[rowIndex].subtitle,
-        true,
-        "left",
-      );
-    });
+    const headerCell = drawTextCell(
+      doc,
+      "TH",
+      START_TABLE_X,
+      y,
+      COLUMN_WIDTH,
+      COLUMN_HEIGHT,
+      HEADERS[rowIndex].title,
+      HEADERS[rowIndex].subtitle,
+      true,
+      "left",
+    );
+
     addAttributeToTableCell(doc, headerCell, { O: "Table", Scope: "Row" });
     tableRow.add(headerCell);
 
@@ -60,39 +59,39 @@ export function drawTableRows(
       const valueIndex = (colIndex - 1) * ROWS_NUMBER + rowIndex;
       const cellValue = connectionTimetable[valueIndex] ?? "";
 
-      const tdCell = doc.struct("TD", {}, () => {
-        drawTextCell(
-          doc,
-          START_TABLE_X + COLUMN_WIDTH * colIndex,
-          y,
-          COLUMN_WIDTH,
-          COLUMN_HEIGHT,
-          "",
-          cellValue,
-          false,
-          "center",
-          10,
-        );
-      });
+      const tdCell = drawTextCell(
+        doc,
+        "TD",
+        START_TABLE_X + COLUMN_WIDTH * colIndex,
+        y,
+        COLUMN_WIDTH,
+        COLUMN_HEIGHT,
+        "",
+        cellValue,
+        false,
+        "center",
+        10,
+      );
+
       tableRow.add(tdCell);
     }
 
     // Delay cell, spanning all rows
     if (rowIndex === 0) {
-      const delayCell = doc.struct("TD", {}, () => {
-        drawTextCell(
-          doc,
-          START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER,
-          startTableY + COLUMN_HEIGHT,
-          COLUMN_WIDTH,
-          COLUMN_HEIGHT * ROWS_NUMBER,
-          "",
-          info,
-          false,
-          "center",
-          9,
-        );
-      });
+      const delayCell = drawTextCell(
+        doc,
+        "TD",
+        START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER,
+        startTableY + COLUMN_HEIGHT,
+        COLUMN_WIDTH,
+        COLUMN_HEIGHT * ROWS_NUMBER,
+        "",
+        info,
+        false,
+        "center",
+        9,
+      );
+
       addAttributeToTableCell(doc, delayCell, {
         RowSpan: ROWS_NUMBER,
       });
