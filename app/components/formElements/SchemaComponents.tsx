@@ -2,10 +2,10 @@ import mapKeys from "lodash/mapKeys";
 import {
   isZodString,
   renderZodString,
-} from "~/components/form/schemaToForm/renderZodString";
+} from "~/components/formElements/schemaToForm/renderZodString";
 import { ExclusiveCheckboxes } from "~/components/inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
 import type { SchemaObject } from "~/domains/userData";
-import { type StrapiCheckboxComponent } from "~/services/cms/components/StrapiCheckbox";
+import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { getNestedSchema } from "./schemaToForm/getNestedSchema";
 import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";

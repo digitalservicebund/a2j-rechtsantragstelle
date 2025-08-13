@@ -1,6 +1,6 @@
 import { type FieldApi } from "@rvf/react-router";
 import { fieldValuesToCheckboxProps } from "~/components/inputs/exclusiveCheckboxes/exclusiveCheckboxHelpers";
-import { type StrapiCheckboxComponent } from "~/services/cms/components/StrapiCheckbox";
+import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
 import { type ExclusiveCheckboxes } from "~/services/validation/checkedCheckbox";
 
 describe("exclusiveCheckboxHelpers", () => {
