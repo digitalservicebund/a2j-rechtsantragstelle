@@ -1,8 +1,8 @@
+import Heading, { type HeadingProps } from "~/components/Heading";
 import type { BasicTypes } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
-import Heading, { type HeadingProps } from "../Heading";
 import ArraySummaryItemButton from "./ArraySummaryItemButton";
 
 type ArraySummaryItemProps = {
