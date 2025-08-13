@@ -3,15 +3,9 @@ import type { z } from "zod";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
 import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
-import {
-  flowIdFromPathname,
-  getParentStepId,
-  parsePathname,
-  type FlowId,
-} from "./flowIds";
+import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
 import type { SchemaObject } from "./userData";
-import mapKeys from "lodash/mapKeys";
 
 const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -41,20 +35,30 @@ export function getPageSchema(pathname: string) {
       .split("/")
       .filter(Boolean)
       .filter((part) => !/^\d+$/.test(part)); // Remove numeric parts (array indexes)
-    console.log("🔍 stepPathParts:", { stepPathParts });
 
-    // Find the page that contains the arrayPages configuration
-    // We need to search through all pages to find one that has arrayPages
-    // and can handle this specific path
+    // Find the specific page that contains the arrayPages configuration for this path
     const pagesConfig = pages[flowId] ?? {};
 
-    for (const [pageKey, pageConfig] of Object.entries(pagesConfig)) {
-      if (!pageConfig.arrayPages) continue;
+    // First, find the specific page that matches the current path
+    const currentPageConfig = Object.values(pagesConfig).find((page) => {
+      if (!page.arrayPages) return false;
 
+      // Check if this page's stepId matches the beginning of our path
+      const pageStepId = page.stepId;
+      const pathWithoutLeadingSlash = stepPathParts.join("/");
+
+      // The page should be the one that contains the array we're looking for
+      // We need to check if the path starts with this page's stepId
+      return pathWithoutLeadingSlash.startsWith(pageStepId);
+    });
+
+    if (currentPageConfig?.arrayPages) {
       // Try to find the array page schema by navigating through the path
-      const arraySchema = findArrayPageSchemaInPage(pageConfig, stepPathParts);
+      const arraySchema = findArrayPageSchemaInPage(
+        currentPageConfig,
+        stepPathParts,
+      );
       if (arraySchema) {
-        console.log("🔍 arraySchema:", { arraySchema });
         return arraySchema;
       }
     }
@@ -71,15 +75,9 @@ function findArrayPageSchemaInPage(
   stepPathParts: string[],
 ): SchemaObject | undefined {
   if (!pageConfig.arrayPages || stepPathParts.length === 0) return undefined;
-  console.log("🔍 pageConfig:", { pageConfig });
 
   const finalPageConfig = stepPathParts.reduce<PageConfig | undefined>(
     (currentPage, part, index) => {
-      console.log("🔍 currentPage:", {
-        currentPage,
-        part,
-        index,
-      });
       // If we don't have a current page or arrayPages, we can't continue
       if (!currentPage?.arrayPages) return undefined;
 

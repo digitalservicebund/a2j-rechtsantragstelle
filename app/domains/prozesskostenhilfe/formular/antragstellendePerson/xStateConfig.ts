@@ -48,11 +48,25 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
       "vereinfachte-erklaerung":
         getProzesskostenhilfeVereinfachteErklaerungConfig({
           backToCallingFlow: "#antragstellende-person.empfaenger",
-          nextFlowEntrypoint,
+          nextFlowEntrypoint: "#antragstellende-person.unterhaltsanspruch",
         }),
       [steps.unterhaltsanspruch.relative]: {
         on: {
-          BACK: steps.empfaenger.relative,
+          BACK: [
+            {
+              guard: ({ context }) =>
+                context.empfaenger === "child" &&
+                context.minderjaehrig === "no",
+              target: "vereinfachte-erklaerung.hinweis-weiteres-formular",
+            },
+            {
+              guard: ({ context }) =>
+                context.empfaenger === "child" &&
+                context.minderjaehrig === "yes",
+              target: "vereinfachte-erklaerung.hinweis-vereinfachte-erklaerung",
+            },
+            steps.empfaenger.relative,
+          ],
           SUBMIT: [
             {
               guard: ({ context }) =>
