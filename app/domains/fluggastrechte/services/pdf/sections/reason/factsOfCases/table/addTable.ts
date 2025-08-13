@@ -22,7 +22,7 @@ export function addTable(
   // Get end position of the table generated
   const tableEndYPosition = startTableY + COLUMN_HEIGHT * 4 + MARGIN_BOTTOM;
   doc.y = tableEndYPosition;
-  doc.fillColor("black");
+  doc.fillColor("black"); // Reset color to black for subsequent content
 
   addTableInfo(
     doc,
