@@ -1,4 +1,4 @@
-import { StrapiHeroSchema } from "../StrapiHero";
+import { StrapiHeroSchema } from "../content/StrapiHero";
 
 describe("StrapiHero", () => {
   it("should return false given undefined heading", () => {

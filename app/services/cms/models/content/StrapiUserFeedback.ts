@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { HasStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "../HasStrapiId";
 
 export const StrapiUserFeedbackSchema = z
   .object({

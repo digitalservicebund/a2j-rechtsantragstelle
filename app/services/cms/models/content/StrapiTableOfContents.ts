@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { HasStrapiIdSchema } from "./HasStrapiId";
-import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
-import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
-import { StrapiButtonSchema } from "./StrapiButton";
-import { StrapiContainerSchema } from "./StrapiContainer";
+import { HasStrapiIdSchema } from "../HasStrapiId";
+import { OptionalStrapiLinkIdentifierSchema } from "../HasStrapiLinkIdentifier";
+import { StrapiBackgroundOptionalSchema } from "../StrapiBackground";
+import { StrapiButtonSchema } from "../StrapiButton";
+import { StrapiContainerSchema } from "../StrapiContainer";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
-import { StrapiLinkSchema } from "./StrapiLink";
+import { StrapiLinkSchema } from "../StrapiLink";
 
 export const StrapiTableOfContentsSchema = z.object({
   label: StrapiHeadingOptionalSchema,

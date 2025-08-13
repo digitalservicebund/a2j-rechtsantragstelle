@@ -1,14 +1,14 @@
 import { z } from "zod";
-import { StrapiHeadingOptionalSchema } from "~/services/cms/models/StrapiHeading";
-import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNotice";
+import { StrapiHeadingOptionalSchema } from "~/services/cms/models/content/StrapiHeading";
+import { StrapiInlineNoticeSchema } from "~/services/cms/models/content/StrapiInlineNotice";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
-import { HasStrapiIdSchema } from "./HasStrapiId";
-import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
-import { StrapiAccordionSchema } from "./StrapiAccordion";
-import { StrapiButtonSchema } from "./StrapiButton";
+import { HasStrapiIdSchema } from "../HasStrapiId";
+import { OptionalStrapiLinkIdentifierSchema } from "../HasStrapiLinkIdentifier";
+import { StrapiAccordionSchema } from "../StrapiAccordion";
+import { StrapiButtonSchema } from "../StrapiButton";
 import { StrapiDetailsSchema } from "./StrapiDetails";
-import { StrapiImageOptionalSchema } from "./StrapiImage";
+import { StrapiImageOptionalSchema } from "../StrapiImage";
 
 export const StrapiInfoBoxItemSchema = z
   .object({

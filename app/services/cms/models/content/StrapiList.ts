@@ -1,10 +1,10 @@
 import { type Renderer } from "marked";
 import { z } from "zod";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
-import { HasStrapiIdSchema } from "./HasStrapiId";
-import { OptionalStrapiLinkIdentifierSchema } from "./HasStrapiLinkIdentifier";
-import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
-import { StrapiContainerSchema } from "./StrapiContainer";
+import { HasStrapiIdSchema } from "../HasStrapiId";
+import { OptionalStrapiLinkIdentifierSchema } from "../HasStrapiLinkIdentifier";
+import { StrapiBackgroundOptionalSchema } from "../StrapiBackground";
+import { StrapiContainerSchema } from "../StrapiContainer";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 import { StrapiListItemSchema } from "./StrapiListItem";
 

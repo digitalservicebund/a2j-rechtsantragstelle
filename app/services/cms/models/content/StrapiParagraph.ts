@@ -1,7 +1,7 @@
 import pick from "lodash/pick";
 import { z } from "zod";
 import { buildRichTextValidation } from "~/services/validation/richtext";
-import { HasStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "../HasStrapiId";
 
 export const StrapiParagraphSchema = z
   .object({

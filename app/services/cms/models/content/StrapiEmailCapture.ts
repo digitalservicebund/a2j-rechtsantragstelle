@@ -1,6 +1,6 @@
 import { z } from "zod";
+import { StrapiInlineNoticeSchema } from "~/services/cms/models/content/StrapiInlineNotice";
 import { HasStrapiIdSchema } from "~/services/cms/models/HasStrapiId";
-import { StrapiInlineNoticeSchema } from "~/services/cms/models/StrapiInlineNotice";
 import { StrapiStringOptionalSchema } from "~/services/cms/models/StrapiStringOptional";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 

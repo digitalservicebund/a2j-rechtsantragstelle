@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
-import { HasStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 
 const StrapiArraySummaryItemLabelsSchema = z.object({

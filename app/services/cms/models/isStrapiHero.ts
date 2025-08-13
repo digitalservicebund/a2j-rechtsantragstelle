@@ -1,6 +1,6 @@
 import { type z } from "zod";
+import { type StrapiHeroSchema } from "./content/StrapiHero";
 import { type StrapiContentComponent } from "./StrapiContentComponent";
-import { type StrapiHeroSchema } from "./StrapiHero";
 
 type StrapiHeaderComponent = z.infer<typeof StrapiHeroSchema>;
 

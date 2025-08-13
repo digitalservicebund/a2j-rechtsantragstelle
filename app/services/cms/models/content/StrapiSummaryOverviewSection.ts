@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
-import { HasStrapiIdSchema } from "./HasStrapiId";
+import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StrapiHeadingSchema } from "./StrapiHeading";
-import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
+import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
 
 const StrapiSummaryOverviewBoxItemInlineSchema = z.object({
   field: z.string(),

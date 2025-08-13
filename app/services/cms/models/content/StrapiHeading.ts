@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
-import { HasStrapiIdSchema } from "./HasStrapiId";
-import { StringWithHtmlEntities } from "./StringWithHtmlEntities";
+import { HasStrapiIdSchema } from "../HasStrapiId";
+import { StringWithHtmlEntities } from "../StringWithHtmlEntities";
 
 export const StrapiHeadingSchema = z
   .object({

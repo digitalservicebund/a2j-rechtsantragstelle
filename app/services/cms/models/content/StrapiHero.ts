@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
-import { HasStrapiIdSchema } from "./HasStrapiId";
-import { StrapiBackgroundOptionalSchema } from "./StrapiBackground";
-import { StrapiButtonSchema } from "./StrapiButton";
+import { HasStrapiIdSchema } from "../HasStrapiId";
+import { StrapiBackgroundOptionalSchema } from "../StrapiBackground";
+import { StrapiButtonSchema } from "../StrapiButton";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiParagraphSchema } from "./StrapiParagraph";
 
