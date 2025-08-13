@@ -1,15 +1,15 @@
-import FilesUpload from "~/components/filesUpload/FilesUpload";
-import AutoSuggestInput from "~/components/inputs/autoSuggestInput/AutoSuggestInput";
-import Checkbox from "~/components/inputs/Checkbox";
-import DateInput from "~/components/inputs/DateInput";
-import { FieldSet } from "~/components/inputs/FieldSet";
-import HiddenInput from "~/components/inputs/HiddenInput";
-import Input from "~/components/inputs/Input";
-import RadioGroup from "~/components/inputs/RadioGroup";
-import Select from "~/components/inputs/Select";
-import Textarea from "~/components/inputs/Textarea";
-import TileGroup from "~/components/inputs/tile/TileGroup";
-import TimeInput from "~/components/inputs/TimeInput";
+import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
+import Checkbox from "~/components/formElements/Checkbox";
+import DateInput from "~/components/formElements/DateInput";
+import { FieldSet } from "~/components/formElements/FieldSet";
+import FilesUpload from "~/components/formElements/filesUpload/FilesUpload";
+import HiddenInput from "~/components/formElements/HiddenInput";
+import Input from "~/components/formElements/Input";
+import RadioGroup from "~/components/formElements/RadioGroup";
+import Select from "~/components/formElements/Select";
+import Textarea from "~/components/formElements/Textarea";
+import TileGroup from "~/components/formElements/tile/TileGroup";
+import TimeInput from "~/components/formElements/TimeInput";
 import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 
 export const FormComponent = ({

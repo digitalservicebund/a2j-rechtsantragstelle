@@ -1,16 +1,16 @@
 import { z } from "zod";
-import { StrapiAutoSuggestInputComponentSchema } from "../components/StrapiAutoSuggestInput";
-import { StrapiCheckboxComponentSchema } from "../components/StrapiCheckbox";
-import { StrapiDateInputComponentSchema } from "../components/StrapiDateInput";
-import { StrapiDropdownComponentSchema } from "../components/StrapiDropdown";
-import { StrapiFieldSetComponentSchema } from "../components/StrapiFieldSet";
-import { StrapiFilesUploadComponentSchema } from "../components/StrapiFilesUpload";
-import { StrapiHiddenInputComponentSchema } from "../components/StrapiHiddenInput";
-import { StrapiInputComponentSchema } from "../components/StrapiInput";
-import { StrapiSelectComponentSchema } from "../components/StrapiSelect";
-import { StrapiTextareaComponentSchema } from "../components/StrapiTextarea";
-import { StrapiTileGroupComponentSchema } from "../components/StrapiTileGroup";
-import { StrapiTimeInputComponentSchema } from "../components/StrapiTimeInput";
+import { StrapiAutoSuggestInputComponentSchema } from "./formElements/StrapiAutoSuggestInput";
+import { StrapiCheckboxComponentSchema } from "./formElements/StrapiCheckbox";
+import { StrapiDateInputComponentSchema } from "./formElements/StrapiDateInput";
+import { StrapiDropdownComponentSchema } from "./formElements/StrapiDropdown";
+import { StrapiFieldSetComponentSchema } from "./formElements/StrapiFieldSet";
+import { StrapiFilesUploadComponentSchema } from "./formElements/StrapiFilesUpload";
+import { StrapiHiddenInputComponentSchema } from "./formElements/StrapiHiddenInput";
+import { StrapiInputComponentSchema } from "./formElements/StrapiInput";
+import { StrapiSelectComponentSchema } from "./formElements/StrapiSelect";
+import { StrapiTextareaComponentSchema } from "./formElements/StrapiTextarea";
+import { StrapiTileGroupComponentSchema } from "./formElements/StrapiTileGroup";
+import { StrapiTimeInputComponentSchema } from "./formElements/StrapiTimeInput";
 
 export const StrapiFormComponentSchema = z.union([
   StrapiInputComponentSchema,
