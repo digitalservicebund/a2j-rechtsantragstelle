@@ -4,6 +4,9 @@ import {
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
 
+const MARGIN_X = 4;
+const MARGIN_Y = 5;
+
 type CellOptions = {
   xPosition: number;
   yPosition: number;
@@ -28,15 +31,13 @@ export function addCellText(
     textAlign,
   }: CellOptions,
 ) {
-  const marginX = 4;
-  const marginY = 5;
-  const textX = xPosition + marginX;
-  const textY = yPosition + marginY;
+  const textX = xPosition + MARGIN_X;
+  const textY = yPosition + MARGIN_Y;
 
   const options = {
-    width: width - marginX,
+    width: width - MARGIN_X,
     align: textAlign,
-    height: height - marginY,
+    height: height - MARGIN_Y,
   };
 
   if (boldText.length > 0) {
@@ -47,7 +48,7 @@ export function addCellText(
   }
 
   if (regularText.length > 0) {
-    const extraMarginSpace = boldText.length > 0 ? -8 : marginY + 4;
+    const extraMarginSpace = boldText.length > 0 ? -8 : MARGIN_Y + 4;
     doc.fontSize(regularTextFontSize);
     const textToAlignVertically =
       (height - doc.heightOfString(regularText, options) - extraMarginSpace) /
