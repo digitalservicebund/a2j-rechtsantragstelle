@@ -17,7 +17,7 @@ const mockDataItem = {
   familyRelationship: "mother",
 };
 
-vi.mock("~/components/arraySummary/ArraySummaryItemButton", () => ({
+vi.mock("~/components/content/arraySummary/ArraySummaryItemButton", () => ({
   default: () => <div>Mock ArraySummaryItemButton</div>,
 }));
 

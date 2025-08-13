@@ -22,7 +22,7 @@ const arrayData = {
   ],
 };
 
-vi.mock("~/components/arraySummary/ArraySummaryDataItems", () => ({
+vi.mock("~/components/content/arraySummary/ArraySummaryDataItems", () => ({
   default: vi.fn(() => <div> Mock ArraySummaryDataItems</div>),
 }));
 
