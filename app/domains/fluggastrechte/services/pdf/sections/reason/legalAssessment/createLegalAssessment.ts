@@ -110,7 +110,21 @@ export const createLegalAssessment = (
   const advanceCourtTextHeight = doc.heightOfString(advanceCourtText, {
     width: PDF_WIDTH_SEIZE,
   });
-  addNewPageInCaseMissingVerticalSpace(doc, advanceCourtTextHeight);
+
+  const plaintiffName = getFullPlaintiffName(
+    userData.anrede,
+    userData.title,
+    userData.vorname,
+    userData.nachname,
+  );
+  const plaintiffNameTextHeight = doc.heightOfString(plaintiffName, {
+    width: PDF_WIDTH_SEIZE,
+  });
+  // avoid that a new page consits only of the plaintiff name
+  addNewPageInCaseMissingVerticalSpace(
+    doc,
+    advanceCourtTextHeight + plaintiffNameTextHeight + MARGIN_BETWEEN_SECTIONS,
+  );
   legalAssessmentSect.add(
     doc.struct("P", {}, () => {
       doc.text(advanceCourtText);
@@ -125,16 +139,7 @@ export const createLegalAssessment = (
 
   plaintiffNameSect.add(
     doc.struct("P", {}, () => {
-      doc
-        .font(FONTS_BUNDESSANS_BOLD)
-        .text(
-          getFullPlaintiffName(
-            userData.anrede,
-            userData.title,
-            userData.vorname,
-            userData.nachname,
-          ),
-        );
+      doc.font(FONTS_BUNDESSANS_BOLD).text(plaintiffName);
     }),
   );
 
