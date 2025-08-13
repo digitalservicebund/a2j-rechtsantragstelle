@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import DateInput from "../app/components/inputs/DateInput";
+import DateInput from "../app/components/formElements/DateInput";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
 import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
-  title: "Component/DateInput",
+  title: "FormElements/DateInput",
   component: DateInput,
   parameters: {
     layout: "centered",

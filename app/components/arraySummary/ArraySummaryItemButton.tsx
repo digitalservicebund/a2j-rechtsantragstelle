@@ -1,11 +1,11 @@
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import { useFetcher, useLocation } from "react-router";
+import Button from "~/components/Button";
+import ButtonContainer from "~/components/ButtonContainer";
+import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { translations } from "~/services/translations/translations";
-import Button from "../Button";
-import ButtonContainer from "../ButtonContainer";
-import { useJsAvailable } from "../hooks/useJsAvailable";
 
 type Props = {
   readonly itemIndex: number;
