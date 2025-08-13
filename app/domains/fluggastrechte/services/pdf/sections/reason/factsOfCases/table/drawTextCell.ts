@@ -1,37 +1,51 @@
 import { addCellText } from "./addCellText";
 import { drawCell } from "./drawCell";
 
+export type CellOptions = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  boldText: string;
+  regularText: string;
+  regularTextFontSize?: number;
+  shouldAddSilverBackground: boolean;
+  textAlign: "center" | "justify" | "left" | "right";
+};
+
 export function drawTextCell(
   doc: PDFKit.PDFDocument,
   cellType: "TH" | "TD",
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  boldText: string,
-  regularText: string,
-  shouldAddSilverBackground: boolean,
-  textAlign: "left" | "center",
-  regularTextFontSize?: number,
+  {
+    x,
+    y,
+    width,
+    height,
+    boldText,
+    regularText,
+    regularTextFontSize = 8,
+    shouldAddSilverBackground,
+    textAlign = "left",
+  }: CellOptions,
 ) {
   drawCell(doc, {
-    xPosition: x,
-    yPosition: y,
+    x,
+    y,
     width,
     height,
     shouldAddSilverBackground,
   });
+
   return doc.struct(cellType, {}, () => {
     addCellText(doc, {
-      xPosition: x,
-      yPosition: y,
+      x: x,
+      y: y,
       width,
       height,
       boldText,
       regularText,
-      shouldAddSilverBackground,
-      textAlign,
       regularTextFontSize,
+      textAlign,
     });
   });
 }

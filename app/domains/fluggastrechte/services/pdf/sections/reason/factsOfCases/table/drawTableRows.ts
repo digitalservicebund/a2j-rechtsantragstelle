@@ -38,18 +38,16 @@ export function drawTableRows(
     const tableRow = doc.struct("TR");
     const y = startTableY + COLUMN_HEIGHT * (rowIndex + 1);
 
-    const headerCell = drawTextCell(
-      doc,
-      "TH",
-      START_TABLE_X,
+    const headerCell = drawTextCell(doc, "TH", {
+      x: START_TABLE_X,
       y,
-      COLUMN_WIDTH,
-      COLUMN_HEIGHT,
-      HEADERS[rowIndex].title,
-      HEADERS[rowIndex].subtitle,
-      true,
-      "left",
-    );
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: HEADERS[rowIndex].title,
+      regularText: HEADERS[rowIndex].subtitle,
+      shouldAddSilverBackground: true,
+      textAlign: "left",
+    });
 
     addAttributeToTableCell(doc, headerCell, { O: "Table", Scope: "Row" });
     tableRow.add(headerCell);
@@ -59,38 +57,34 @@ export function drawTableRows(
       const valueIndex = (colIndex - 1) * ROWS_NUMBER + rowIndex;
       const cellValue = connectionTimetable[valueIndex] ?? "";
 
-      const tdCell = drawTextCell(
-        doc,
-        "TD",
-        START_TABLE_X + COLUMN_WIDTH * colIndex,
+      const tdCell = drawTextCell(doc, "TD", {
+        x: START_TABLE_X + COLUMN_WIDTH * colIndex,
         y,
-        COLUMN_WIDTH,
-        COLUMN_HEIGHT,
-        "",
-        cellValue,
-        false,
-        "center",
-        10,
-      );
+        width: COLUMN_WIDTH,
+        height: COLUMN_HEIGHT,
+        boldText: "",
+        regularText: cellValue,
+        shouldAddSilverBackground: false,
+        textAlign: "center",
+        regularTextFontSize: 10,
+      });
 
       tableRow.add(tdCell);
     }
 
     // Delay cell, spanning all rows
     if (rowIndex === 0) {
-      const delayCell = drawTextCell(
-        doc,
-        "TD",
-        START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER,
-        startTableY + COLUMN_HEIGHT,
-        COLUMN_WIDTH,
-        COLUMN_HEIGHT * ROWS_NUMBER,
-        "",
-        info,
-        false,
-        "center",
-        9,
-      );
+      const delayCell = drawTextCell(doc, "TD", {
+        x: START_TABLE_X + COLUMN_WIDTH * ROWS_NUMBER,
+        y: startTableY + COLUMN_HEIGHT,
+        width: COLUMN_WIDTH,
+        height: COLUMN_HEIGHT * ROWS_NUMBER,
+        boldText: "",
+        regularText: info,
+        shouldAddSilverBackground: false,
+        textAlign: "center",
+        regularTextFontSize: 9,
+      });
 
       addAttributeToTableCell(doc, delayCell, {
         RowSpan: ROWS_NUMBER,

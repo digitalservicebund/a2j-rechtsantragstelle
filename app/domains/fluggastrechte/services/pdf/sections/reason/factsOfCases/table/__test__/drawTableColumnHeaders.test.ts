@@ -44,19 +44,17 @@ describe("drawTableColumnHeaderRow", () => {
 
     drawTableColumnHeaders(mockDoc, mockStruct, 0, userDataMock);
 
-    expect(drawTextCell).toHaveBeenCalledWith(
-      mockDoc,
-      "TH",
-      START_TABLE_X + COLUMN_WIDTH,
-      expect.any(Number), // Y position is dynamic
-      COLUMN_WIDTH,
-      COLUMN_HEIGHT,
-      "Geplante Zeiten",
-      "laut Ticket",
-      true,
-      "center",
-      10,
-    );
+    expect(drawTextCell).toHaveBeenCalledWith(mockDoc, "TH", {
+      x: START_TABLE_X + COLUMN_WIDTH,
+      y: expect.any(Number), // Y position is dynamic
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: "Geplante Zeiten",
+      regularText: "laut Ticket",
+      shouldAddSilverBackground: true,
+      textAlign: "center",
+      regularTextFontSize: 10,
+    });
   });
 
   it("should print the cell about actual time given no replacement", () => {
@@ -75,19 +73,17 @@ describe("drawTableColumnHeaderRow", () => {
       userDataTatsaechlicherFlugYesMock,
     );
 
-    expect(drawTextCell).toHaveBeenCalledWith(
-      mockDoc,
-      "TH",
-      START_TABLE_X + COLUMN_WIDTH * 2,
-      expect.any(Number),
-      COLUMN_WIDTH,
-      COLUMN_HEIGHT,
-      "Tatsächliche Zeiten",
-      "gleicher Flug",
-      true,
-      "center",
-      10,
-    );
+    expect(drawTextCell).toHaveBeenCalledWith(mockDoc, "TH", {
+      x: START_TABLE_X + COLUMN_WIDTH * 2,
+      y: expect.any(Number),
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: "Tatsächliche Zeiten",
+      regularText: "gleicher Flug",
+      shouldAddSilverBackground: true,
+      textAlign: "center",
+      regularTextFontSize: 10,
+    });
   });
 
   it("should print the cell about actual time given replacement flight to another flight", () => {
@@ -107,19 +103,17 @@ describe("drawTableColumnHeaderRow", () => {
       userDataErsatzverbindungArtFlugMock,
     );
 
-    expect(drawTextCell).toHaveBeenCalledWith(
-      mockDoc,
-      "TH",
-      START_TABLE_X + COLUMN_WIDTH * 2,
-      expect.any(Number),
-      COLUMN_WIDTH,
-      COLUMN_HEIGHT,
-      "Tatsächliche Zeiten",
-      "anderer Flug",
-      true,
-      "center",
-      10,
-    );
+    expect(drawTextCell).toHaveBeenCalledWith(mockDoc, "TH", {
+      x: START_TABLE_X + COLUMN_WIDTH * 2,
+      y: expect.any(Number),
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: "Tatsächliche Zeiten",
+      regularText: "anderer Flug",
+      shouldAddSilverBackground: true,
+      textAlign: "center",
+      regularTextFontSize: 10,
+    });
   });
 
   it("should print the cell about actual time given replacement to another transportation", () => {
@@ -139,19 +133,17 @@ describe("drawTableColumnHeaderRow", () => {
       userDataErsatzverbindungArtEtwasAnderesMock,
     );
 
-    expect(drawTextCell).toHaveBeenCalledWith(
-      mockDoc,
-      "TH",
-      START_TABLE_X + COLUMN_WIDTH * 2,
-      expect.any(Number),
-      COLUMN_WIDTH,
-      COLUMN_HEIGHT,
-      "Tatsächliche Zeiten",
-      "Bahn, Bus o.ä.",
-      true,
-      "center",
-      10,
-    );
+    expect(drawTextCell).toHaveBeenCalledWith(mockDoc, "TH", {
+      x: START_TABLE_X + COLUMN_WIDTH * 2,
+      y: expect.any(Number),
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: "Tatsächliche Zeiten",
+      regularText: "Bahn, Bus o.ä.",
+      shouldAddSilverBackground: true,
+      textAlign: "center",
+      regularTextFontSize: 10,
+    });
   });
 
   it("should print the cell about actual time given replacement to not come", () => {
@@ -171,19 +163,17 @@ describe("drawTableColumnHeaderRow", () => {
       userDataErsatzverbindungArtKeinAnkunftMock,
     );
 
-    expect(drawTextCell).toHaveBeenCalledWith(
-      mockDoc,
-      "TH",
-      START_TABLE_X + COLUMN_WIDTH * 2,
-      expect.any(Number),
-      COLUMN_WIDTH,
-      COLUMN_HEIGHT,
-      "Tatsächliche Zeiten",
-      "gar nicht angekommen",
-      true,
-      "center",
-      10,
-    );
+    expect(drawTextCell).toHaveBeenCalledWith(mockDoc, "TH", {
+      x: START_TABLE_X + COLUMN_WIDTH * 2,
+      y: expect.any(Number),
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: "Tatsächliche Zeiten",
+      regularText: "gar nicht angekommen",
+      shouldAddSilverBackground: true,
+      textAlign: "center",
+      regularTextFontSize: 10,
+    });
   });
 
   it("should print the cell about Verspätung", () => {
@@ -192,19 +182,17 @@ describe("drawTableColumnHeaderRow", () => {
 
     drawTableColumnHeaders(mockDoc, mockStruct, 0, userDataMock);
 
-    expect(drawTextCell).toHaveBeenCalledWith(
-      mockDoc,
-      "TH",
-      START_TABLE_X + COLUMN_WIDTH * 3,
-      expect.any(Number),
-      COLUMN_WIDTH,
-      COLUMN_HEIGHT,
-      "Verspätung",
-      "",
-      true,
-      "center",
-      10,
-    );
+    expect(drawTextCell).toHaveBeenCalledWith(mockDoc, "TH", {
+      x: START_TABLE_X + COLUMN_WIDTH * 3,
+      y: expect.any(Number),
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: "Verspätung",
+      regularText: "",
+      shouldAddSilverBackground: true,
+      textAlign: "center",
+      regularTextFontSize: 10,
+    });
   });
 
   it("should print the cell about Annullierung", () => {
@@ -219,33 +207,29 @@ describe("drawTableColumnHeaderRow", () => {
 
     drawTableColumnHeaders(mockDoc, mockStruct, 0, userDataAnnullierungMock);
 
-    expect(drawTextCell).toHaveBeenCalledWith(
-      mockDoc,
-      "TH",
-      START_TABLE_X + COLUMN_WIDTH * 3,
-      expect.any(Number),
-      COLUMN_WIDTH,
-      COLUMN_HEIGHT,
-      "Annullierung",
-      "",
-      true,
-      "center",
-      10,
-    );
+    expect(drawTextCell).toHaveBeenCalledWith(mockDoc, "TH", {
+      x: START_TABLE_X + COLUMN_WIDTH * 3,
+      y: expect.any(Number),
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: "Annullierung",
+      regularText: "",
+      shouldAddSilverBackground: true,
+      textAlign: "center",
+      regularTextFontSize: 10,
+    });
 
-    expect(drawTextCell).toHaveBeenCalledWith(
-      mockDoc,
-      "TH",
-      START_TABLE_X + COLUMN_WIDTH * 2,
-      expect.any(Number),
-      COLUMN_WIDTH,
-      COLUMN_HEIGHT,
-      "Angebotene Ersatzverbindung",
-      "",
-      true,
-      "center",
-      10,
-    );
+    expect(drawTextCell).toHaveBeenCalledWith(mockDoc, "TH", {
+      x: START_TABLE_X + COLUMN_WIDTH * 2,
+      y: expect.any(Number),
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: "Angebotene Ersatzverbindung",
+      regularText: "",
+      shouldAddSilverBackground: true,
+      textAlign: "center",
+      regularTextFontSize: 10,
+    });
   });
 
   it("should print the cell about Nicht-Beförderung", () => {
@@ -264,19 +248,17 @@ describe("drawTableColumnHeaderRow", () => {
       userDataNichtbefoerderungMock,
     );
 
-    expect(drawTextCell).toHaveBeenCalledWith(
-      mockDoc,
-      "TH",
-      START_TABLE_X + COLUMN_WIDTH * 3,
-      expect.any(Number),
-      COLUMN_WIDTH,
-      COLUMN_HEIGHT,
-      "Nicht-Beförderung",
-      "",
-      true,
-      "center",
-      10,
-    );
+    expect(drawTextCell).toHaveBeenCalledWith(mockDoc, "TH", {
+      x: START_TABLE_X + COLUMN_WIDTH * 3,
+      y: expect.any(Number),
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: "Nicht-Beförderung",
+      regularText: "",
+      shouldAddSilverBackground: true,
+      textAlign: "center",
+      regularTextFontSize: 10,
+    });
   });
 
   it("should add TH cells with Scope='Row'", () => {

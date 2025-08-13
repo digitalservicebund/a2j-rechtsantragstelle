@@ -36,18 +36,16 @@ describe("drawTableRows - Headers", () => {
 
     drawTableRows(mockDoc, mockStruct, 0, userDataMock);
 
-    expect(drawTextCell).toHaveBeenCalledWith(
-      mockDoc,
-      "TH",
-      START_TABLE_X,
-      expect.any(Number),
-      COLUMN_WIDTH,
-      COLUMN_HEIGHT,
-      "Flugnummer",
-      "betroffener Flug",
-      true,
-      "left",
-    );
+    expect(drawTextCell).toHaveBeenCalledWith(mockDoc, "TH", {
+      x: START_TABLE_X,
+      y: expect.any(Number),
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: "Flugnummer",
+      regularText: "betroffener Flug",
+      shouldAddSilverBackground: true,
+      textAlign: "left",
+    });
   });
 
   it("should call drawTextCell to print the cell about the takeoff info", () => {
@@ -56,18 +54,16 @@ describe("drawTableRows - Headers", () => {
 
     drawTableRows(mockDoc, mockStruct, 0, userDataMock);
 
-    expect(drawTextCell).toHaveBeenCalledWith(
-      mockDoc,
-      "TH",
-      START_TABLE_X,
-      expect.any(Number),
-      COLUMN_WIDTH,
-      COLUMN_HEIGHT,
-      "Abflug Datum, Zeit",
-      "Startflughafen",
-      true,
-      "left",
-    );
+    expect(drawTextCell).toHaveBeenCalledWith(mockDoc, "TH", {
+      x: START_TABLE_X,
+      y: expect.any(Number),
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: "Abflug Datum, Zeit",
+      regularText: "Startflughafen",
+      shouldAddSilverBackground: true,
+      textAlign: "left",
+    });
   });
 
   it("should call drawTextCell to print the cell about the landed info", () => {
@@ -76,18 +72,16 @@ describe("drawTableRows - Headers", () => {
 
     drawTableRows(mockDoc, mockStruct, 0, userDataMock);
 
-    expect(drawTextCell).toHaveBeenCalledWith(
-      mockDoc,
-      "TH",
-      START_TABLE_X,
-      expect.any(Number),
-      COLUMN_WIDTH,
-      COLUMN_HEIGHT,
-      "Ankunft Datum, Zeit",
-      "Zielflughafen",
-      true,
-      "left",
-    );
+    expect(drawTextCell).toHaveBeenCalledWith(mockDoc, "TH", {
+      x: START_TABLE_X,
+      y: expect.any(Number),
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: "Ankunft Datum, Zeit",
+      regularText: "Zielflughafen",
+      shouldAddSilverBackground: true,
+      textAlign: "left",
+    });
   });
 
   it("should mark first cell in each row as a TH with Scope='Row'", () => {

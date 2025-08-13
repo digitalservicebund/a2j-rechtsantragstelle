@@ -1,38 +1,29 @@
-import type PDFDocument from "pdfkit";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
+import type { CellOptions } from "./drawTextCell";
+
+type AddCellTextOptions = Omit<CellOptions, "shouldAddSilverBackground">;
 
 const MARGIN_X = 4;
 const MARGIN_Y = 5;
 
-type CellOptions = {
-  xPosition: number;
-  yPosition: number;
-  width: number;
-  height: number;
-  boldText: string;
-  regularText: string;
-  regularTextFontSize?: number;
-  shouldAddSilverBackground: boolean;
-  textAlign: "center" | "justify" | "left" | "right";
-};
 export function addCellText(
-  doc: typeof PDFDocument,
+  doc: PDFKit.PDFDocument,
   {
-    xPosition,
-    yPosition,
+    x,
+    y,
     width,
     height,
     boldText,
     regularText,
     regularTextFontSize = 8,
     textAlign,
-  }: CellOptions,
+  }: AddCellTextOptions,
 ) {
-  const textX = xPosition + MARGIN_X;
-  const textY = yPosition + MARGIN_Y;
+  const textX = x + MARGIN_X;
+  const textY = y + MARGIN_Y;
 
   const options = {
     width: width - MARGIN_X,

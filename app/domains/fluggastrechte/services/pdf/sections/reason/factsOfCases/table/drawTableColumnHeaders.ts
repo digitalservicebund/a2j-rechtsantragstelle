@@ -60,19 +60,17 @@ export function drawTableColumnHeaders(
   headerRow.add(doc.struct("TD"));
 
   headers.forEach(({ title, subtitle }, i) => {
-    const headerCell = drawTextCell(
-      doc,
-      "TH",
-      START_TABLE_X + COLUMN_WIDTH * (i + 1),
-      startTableY,
-      COLUMN_WIDTH,
-      COLUMN_HEIGHT,
-      title,
-      subtitle,
-      true,
-      "center",
-      10,
-    );
+    const headerCell = drawTextCell(doc, "TH", {
+      x: START_TABLE_X + COLUMN_WIDTH * (i + 1),
+      y: startTableY,
+      width: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+      boldText: title,
+      regularText: subtitle,
+      shouldAddSilverBackground: true,
+      textAlign: "center",
+      regularTextFontSize: 10,
+    });
 
     addAttributeToTableCell(doc, headerCell, { Scope: "Column" });
 

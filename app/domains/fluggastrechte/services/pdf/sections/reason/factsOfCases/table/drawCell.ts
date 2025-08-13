@@ -1,29 +1,20 @@
-import type PDFDocument from "pdfkit";
+import { type CellOptions } from "./drawTextCell";
 
-type DrawOptions = {
-  xPosition: number;
-  yPosition: number;
-  width: number;
-  height: number;
-  shouldAddSilverBackground?: boolean;
-};
+type DrawCellOptions = Omit<
+  CellOptions,
+  "boldText" | "regularText" | "regularTextFontSize" | "textAlign"
+>;
 
 export function drawCell(
-  doc: typeof PDFDocument,
-  {
-    xPosition,
-    yPosition,
-    width,
-    height,
-    shouldAddSilverBackground,
-  }: DrawOptions,
+  doc: PDFKit.PDFDocument,
+  { x, y, width, height, shouldAddSilverBackground }: DrawCellOptions,
 ) {
   if (shouldAddSilverBackground) {
     doc.markContent("Artifact", { type: "Layout" });
     doc
       .save()
       .fillColor("silver", 0.1)
-      .rect(xPosition, yPosition, width, height)
+      .rect(x, y, width, height)
       .fill()
       .restore();
     doc.endMarkedContent();
@@ -32,7 +23,7 @@ export function drawCell(
   doc
     .save()
     .strokeColor("silver", 0.1)
-    .rect(xPosition, yPosition, width, height)
+    .rect(x, y, width, height)
     .stroke()
     .restore();
   doc.endMarkedContent();
