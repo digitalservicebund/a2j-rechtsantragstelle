@@ -15,3 +15,7 @@ export const StrapiCheckboxComponentSchema = z
     required: isRequiredError !== null,
     errorMessage: isRequiredError?.errorCodes[0].text,
   }));
+
+export type StrapiCheckboxComponent = z.infer<
+  typeof StrapiCheckboxComponentSchema
+>;
