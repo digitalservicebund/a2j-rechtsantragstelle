@@ -1,7 +1,7 @@
 export const addAttributeToTableCell = (
   doc: PDFKit.PDFDocument,
   cell: PDFKit.PDFStructureElement,
-  attributes: Record<string, number | string | boolean>,
+  attributes: Record<string, number | string>,
 ): void => {
   const attrRef = doc.ref({
     O: "Table",
