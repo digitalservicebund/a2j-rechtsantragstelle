@@ -8,8 +8,8 @@ export const addAttributeToTableCell = (
     ...attributes,
   });
   // Add accessibility attributes to the table cell
-  // @ts-expect-error: PDFKit does not have type definitions for structure elements, so we use ts-expect-error
+  // @ts-expect-error: PDFKit does not have type definitions for structure elements
   cell.dictionary.data.A = attrRef;
-  // @ts-expect-error: PDFKit does not have type definitions for structure elements, so we use ts-expect-error
+  // @ts-expect-error: PDFKit does not have type definitions for structure elements
   cell.dictionary.data.A.end();
 };
