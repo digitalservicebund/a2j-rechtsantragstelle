@@ -20,11 +20,6 @@ export function drawCell(
     doc.endMarkedContent();
   }
   doc.markContent("Artifact", { type: "Layout" });
-  doc
-    .save()
-    .strokeColor("silver", 0.1)
-    .rect(x, y, width, height)
-    .stroke()
-    .restore();
+  doc.save().strokeColor("silver").rect(x, y, width, height).stroke().restore();
   doc.endMarkedContent();
 }
