@@ -1,17 +1,6 @@
 import { addCellText } from "./addCellText";
+import { type CellOptions } from "./cellOptions";
 import { drawCell } from "./drawCell";
-
-export type CellOptions = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  boldText: string;
-  regularText: string;
-  regularTextFontSize?: number;
-  shouldAddSilverBackground: boolean;
-  textAlign: "center" | "justify" | "left" | "right";
-};
 
 export function drawTextCell(
   doc: PDFKit.PDFDocument,

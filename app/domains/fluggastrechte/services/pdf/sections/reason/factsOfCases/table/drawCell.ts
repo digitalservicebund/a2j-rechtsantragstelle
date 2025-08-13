@@ -1,4 +1,4 @@
-import { type CellOptions } from "./drawTextCell";
+import { type CellOptions } from "./cellOptions";
 
 type DrawCellOptions = Omit<
   CellOptions,

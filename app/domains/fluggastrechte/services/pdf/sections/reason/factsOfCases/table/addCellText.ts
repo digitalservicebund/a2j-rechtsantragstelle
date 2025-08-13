@@ -2,7 +2,7 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
-import type { CellOptions } from "./drawTextCell";
+import { type CellOptions } from "./cellOptions";
 
 type AddCellTextOptions = Omit<CellOptions, "shouldAddSilverBackground">;
 
