@@ -5,7 +5,7 @@ import Container from "../app/components/Container";
 import { faker } from "@faker-js/faker";
 
 const meta = {
-  title: "Page/List",
+  title: "Content/List",
   component: List,
   parameters: {
     layout: "fullscreen",

@@ -7,7 +7,7 @@ const DIGITAL_SERVICE_GEBAERDENSPRACHE_VIDEO_LINK =
   "https://www.youtube.com/watch?v=ZZ0o6NFCJeI";
 
 const meta = {
-  title: "Component/Video",
+  title: "Content/Video",
   component: component,
   parameters: { layout: "fullscreen" },
   tags: ["autodocs"],

@@ -4,7 +4,7 @@ import { reactRouterContext } from "../.storybook/reactRouterContext";
 import Container from "~/components/Container";
 
 const meta = {
-  title: "Component/Details",
+  title: "Content/Details",
   component: Details,
   parameters: {
     layout: "centered",
