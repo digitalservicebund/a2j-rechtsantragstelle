@@ -238,7 +238,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTran
       },
       [
         `${prefix}/hinweis-weiteres-formular`,
-        "/rechtsschutzversicherung/rsv-frage",
+        "/antragstellende-person/unterhaltsanspruch",
       ],
     ],
     [
@@ -252,7 +252,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTran
       },
       [
         `${prefix}/hinweis-weiteres-formular`,
-        "/finanzielle-angaben/einkuenfte/start",
+        "/antragstellende-person/unterhaltsanspruch",
       ],
     ],
     [
@@ -266,7 +266,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTran
       },
       [
         `${prefix}/hinweis-vereinfachte-erklaerung`,
-        "/rechtsschutzversicherung/rsv-frage",
+        "/antragstellende-person/unterhaltsanspruch",
       ],
     ],
     [
@@ -281,7 +281,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTran
       },
       [
         `${prefix}/hinweis-vereinfachte-erklaerung`,
-        "/finanzielle-angaben/einkuenfte/start",
+        "/antragstellende-person/unterhaltsanspruch",
       ],
     ],
   ] as Array<
