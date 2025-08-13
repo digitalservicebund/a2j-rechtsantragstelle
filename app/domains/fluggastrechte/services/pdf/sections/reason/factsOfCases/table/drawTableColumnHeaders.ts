@@ -74,7 +74,7 @@ export function drawTableColumnHeaders(
       10,
     );
 
-    addAttributeToTableCell(doc, headerCell, { Scope: "Row" });
+    addAttributeToTableCell(doc, headerCell, { Scope: "Column" });
 
     headerRow.add(headerCell);
   });

@@ -292,7 +292,7 @@ describe("drawTableColumnHeaderRow", () => {
     expect(addAttributeToTableCell).toHaveBeenCalledWith(
       mockDoc,
       expect.any(Object),
-      expect.objectContaining({ Scope: "Row" }),
+      expect.objectContaining({ Scope: "Column" }),
     );
   });
 });
