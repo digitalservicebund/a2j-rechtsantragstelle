@@ -27,9 +27,15 @@ export const ExclusiveCheckboxes = ({
     Array<Omit<ControlledCheckboxProps, "onChange">>
   >(fieldValuesToCheckboxProps(field, cmsCheckboxes, noneCheckboxValue));
   const errorId = `${name}-error`;
+  const hasError = Boolean(field.error());
 
   return (
-    <div className="ds-stack ds-stack-24">
+    <fieldset
+      className="ds-stack ds-stack-24"
+      aria-invalid={hasError}
+      aria-describedby={hasError ? errorId : undefined}
+      aria-errormessage={hasError ? errorId : undefined}
+    >
       {checkboxes.filter(Boolean).map(({ name, ...checkbox }) =>
         name.split(".").pop() === "none" ? (
           <div key={name}>
@@ -61,7 +67,7 @@ export const ExclusiveCheckboxes = ({
         ),
       )}
       {field.error() && <InputError id={errorId}>{field.error()}</InputError>}
-    </div>
+    </fieldset>
   );
 };
 
