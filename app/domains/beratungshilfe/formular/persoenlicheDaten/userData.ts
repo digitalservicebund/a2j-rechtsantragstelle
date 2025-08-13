@@ -1,18 +1,6 @@
-import omit from "lodash/omit";
-import { z } from "zod";
-import {
-  persoenlicheDaten,
-  geburtsdatum,
-} from "~/domains/shared/formular/persoenlicheDaten/userData";
+import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type persoenlicheDatenPages } from "~/domains/shared/formular/persoenlicheDaten/pages";
 
-export const beratungshilfePersoenlicheDatenInputSchema = {
-  ...omit(persoenlicheDaten, ["title", "strasseHausnummer"]),
-  geburtsdatum,
-};
-
-const _partialSchema = z
-  .object(beratungshilfePersoenlicheDatenInputSchema)
-  .partial();
-export type BeratungshilfePersoenlicheDatenUserData = z.infer<
-  typeof _partialSchema
+export type BeratungshilfePersoenlicheDatenUserData = UserDataFromPagesSchema<
+  typeof persoenlicheDatenPages
 >;
