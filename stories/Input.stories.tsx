@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
-import Input from "../app/components/inputs/Input";
+import Input from "../app/components/formElements/Input";
 import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
-  title: "Component/Input",
+  title: "FormElements/Input",
   component: Input,
   parameters: {
     layout: "centered",

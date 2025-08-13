@@ -1,6 +1,6 @@
 import { waitFor, screen } from "@testing-library/react";
 import type { z } from "zod";
-import type { StrapiTileGroupComponentSchema } from "~/services/cms/components/StrapiTileGroup";
+import type { StrapiTileGroupComponentSchema } from "~/services/cms/models/formElements/StrapiTileGroup";
 import type { StrapiFieldErrorSchema } from "~/services/cms/models/StrapiFieldError";
 
 export function getStrapiTileGroupComponent(

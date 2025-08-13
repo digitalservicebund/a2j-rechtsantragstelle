@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
-import Select from "../app/components/inputs/Select";
+import Select from "../app/components/formElements/Select";
 import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
-  title: "Component/Select",
+  title: "FormElements/Select",
   component: Select,
   parameters: {
     layout: "centered",
