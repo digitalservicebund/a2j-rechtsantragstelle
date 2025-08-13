@@ -49,7 +49,7 @@ jobs:
       packages: write # for updating cosign attestation
       security-events: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@dc5a429b52fcf669ce959baa2c2dd26090d2a6c4 # v0.32.0
         env:

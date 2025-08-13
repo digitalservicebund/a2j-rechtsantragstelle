@@ -1,15 +1,22 @@
 import { FormProvider, useForm } from "@rvf/react-router";
 import { ReactNode } from "react";
-import { z } from "zod";
+import { z, ZodObject } from "zod";
+import { AllowedUserTypes } from "~/domains/userData";
 
 type Props = {
   children: ReactNode;
+  schema?: ZodObject;
+  defaultValues?: Record<string, AllowedUserTypes>;
 };
 
-export const RVFProvider = ({ children }: Props) => {
+export const RVFProvider = ({
+  schema = z.object({ name: z.string().optional() }),
+  defaultValues = { name: "" },
+  children,
+}: Props) => {
   const form = useForm({
-    schema: z.object({ name: z.string().optional() }),
-    defaultValues: { name: "" },
+    schema,
+    defaultValues,
   });
 
   return <FormProvider scope={form.scope()}>{children}</FormProvider>;

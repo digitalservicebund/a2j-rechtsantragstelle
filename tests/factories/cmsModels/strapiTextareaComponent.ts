@@ -1,6 +1,6 @@
 import { waitFor, screen } from "@testing-library/react";
 import type { z } from "zod";
-import type { StrapiTextareaComponentSchema } from "~/services/cms/components/StrapiTextarea";
+import type { StrapiTextareaComponentSchema } from "~/services/cms/models/formElements/StrapiTextarea";
 import type { StrapiFieldErrorSchema } from "~/services/cms/models/StrapiFieldError";
 
 export function getStrapiTextareaComponent(

@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { checkedOptional } from "~/services/validation/checkedCheckbox";
+import {
+  checkedOptional,
+  exclusiveCheckboxesSchema,
+} from "~/services/validation/checkedCheckbox";
 import {
   customRequiredErrorMessage,
   YesNoAnswer,
@@ -97,13 +100,14 @@ export const kontopfaendungWegweiserPages = {
   einmalzahlungArbeitgeber: {
     stepId: "einmalzahlung-arbeitgeber",
     pageSchema: {
-      zahlungArbeitgeber: z.object({
-        urlaubsgeld: checkedOptional,
-        weihnachtsgeld: checkedOptional,
-        ueberstundenBezahlt: checkedOptional,
-        abfindung: checkedOptional,
-        anderes: checkedOptional,
-      }),
+      zahlungArbeitgeber: exclusiveCheckboxesSchema([
+        "urlaubsgeld",
+        "weihnachtsgeld",
+        "ueberstundenBezahlt",
+        "abfindung",
+        "anderes",
+        "none",
+      ]),
     },
   },
   sozialleistungen: {
