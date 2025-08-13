@@ -51,20 +51,10 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => {
         }
 
         if (isZodEnum(nestedSchema))
-          return renderZodEnum(
-            nestedSchema,
-            // matchingElement?.name ?? fieldName,
-            fieldName,
-            matchingElement,
-          );
+          return renderZodEnum(nestedSchema, fieldName, matchingElement);
 
         if (isZodString(nestedSchema))
-          return renderZodString(
-            nestedSchema,
-            // matchingElement?.name ?? fieldName,
-            fieldName,
-            matchingElement,
-          );
+          return renderZodString(nestedSchema, fieldName, matchingElement);
 
         return null;
       })}
