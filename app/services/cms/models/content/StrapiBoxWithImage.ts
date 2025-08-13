@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { variantWidths, type Variant } from "~/components/BoxWithImage";
+import { variantWidths, type Variant } from "~/components/content/BoxWithImage";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasStrapiIdSchema } from "../HasStrapiId";

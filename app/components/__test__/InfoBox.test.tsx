@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import InfoBox from "~/components/InfoBox";
+import InfoBox from "~/components/content/InfoBox";
 
 const mockInfoBoxItems = [
   {

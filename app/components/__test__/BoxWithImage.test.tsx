@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
-import type { Variant } from "~/components/BoxWithImage";
-import BoxWithImage, { variantWidths } from "~/components/BoxWithImage";
+import type { Variant } from "~/components/content/BoxWithImage";
+import BoxWithImage, { variantWidths } from "~/components/content/BoxWithImage";
 
 describe("BoxWithImage", () => {
   const imageAltText = "Alt text";

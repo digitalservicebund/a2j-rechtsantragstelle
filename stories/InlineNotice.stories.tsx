@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { InlineNotice } from "../app/components/InlineNotice";
+import { InlineNotice } from "~/components/content/InlineNotice";
 
 const meta = {
   title: "Content/InlineNotice",

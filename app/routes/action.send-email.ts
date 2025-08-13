@@ -4,7 +4,7 @@ import {
   emailCaptureSchema,
   invalidEmailError,
   emailCaptureConsentName,
-} from "~/components/emailCapture/emailCaptureHelpers";
+} from "~/components/content/emailCapture/emailCaptureHelpers";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { getSessionManager } from "~/services/session.server";
 import { filterFormData } from "~/util/filterFormData";

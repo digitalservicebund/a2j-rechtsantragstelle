@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Details } from "../app/components/Details";
+import { Details } from "../app/components/content/Details";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
 import Container from "~/components/Container";
 

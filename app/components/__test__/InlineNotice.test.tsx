@@ -1,5 +1,5 @@
 import { render, screen, type RenderResult } from "@testing-library/react";
-import { InlineNotice } from "~/components/InlineNotice";
+import { InlineNotice } from "~/components/content/InlineNotice";
 
 describe("InlineNotice Component", () => {
   let component: RenderResult;

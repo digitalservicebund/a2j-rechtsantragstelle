@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import InfoBoxItem from "~/components/InfoBoxItem";
+import InfoBoxItem from "~/components/content/InfoBoxItem";
 
 const separatorStyleClass =
   ".pt-32.border-0.border-solid.border-0.border-t-2.border-gray-400.first\\:border-none";

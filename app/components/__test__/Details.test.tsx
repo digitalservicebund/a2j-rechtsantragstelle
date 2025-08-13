@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Details } from "~/components/Details";
+import { Details } from "~/components/content/Details";
 
 const testContent = "Test Content";
 describe("Details", () => {
