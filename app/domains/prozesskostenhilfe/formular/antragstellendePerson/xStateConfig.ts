@@ -13,6 +13,7 @@ import {
   empfaengerIsChild,
 } from "./guards";
 import { pkhFormularAntragstellendePersonPages } from "./pages";
+import { qualifiesForVereinfachteErklaerung } from "./vereinfachteErklaerung/guards";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularAntragstellendePersonPages,
@@ -55,15 +56,16 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
           BACK: [
             {
               guard: ({ context }) =>
-                context.empfaenger === "child" &&
-                context.minderjaehrig === "no",
-              target: "vereinfachte-erklaerung.hinweis-weiteres-formular",
+                empfaengerIsChild({ context }) &&
+                qualifiesForVereinfachteErklaerung({ context }),
+              target:
+                "#vereinfachte-erklaerung.hinweis-vereinfachte-erklaerung",
             },
             {
               guard: ({ context }) =>
-                context.empfaenger === "child" &&
-                context.minderjaehrig === "yes",
-              target: "vereinfachte-erklaerung.hinweis-vereinfachte-erklaerung",
+                empfaengerIsChild({ context }) &&
+                !qualifiesForVereinfachteErklaerung({ context }),
+              target: "#vereinfachte-erklaerung.hinweis-weiteres-formular",
             },
             steps.empfaenger.relative,
           ],
