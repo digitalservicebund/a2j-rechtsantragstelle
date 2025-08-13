@@ -5,18 +5,15 @@ import {
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { addTable } from "../addTable";
 import { addTableInfo } from "../addTableInfo";
-import { drawTableColumnsHead } from "../drawTableColumnHead";
-import { drawTableColumnsValues } from "../drawTableColumnsValues";
-import { drawTableRowHead } from "../drawTableRowHead";
+import { drawTableColumnHeaders } from "../drawTableColumnHeaders";
+import { drawTableRows } from "../drawTableRows";
 
-vi.mock("../drawTableRowHead");
-vi.mock("../drawTableColumnHead");
-vi.mock("../drawTableColumnsValues");
+vi.mock("../drawTableColumnHeaders");
+vi.mock("../drawTableRows");
 vi.mock("../addTableInfo");
 
-vi.mocked(drawTableColumnsHead).mockImplementation(() => vi.fn());
-vi.mocked(drawTableColumnsValues).mockImplementation(() => vi.fn());
-vi.mocked(drawTableRowHead).mockImplementation(() => vi.fn());
+vi.mocked(drawTableColumnHeaders).mockImplementation(() => vi.fn());
+vi.mocked(drawTableRows).mockImplementation(() => vi.fn());
 vi.mocked(addTableInfo).mockImplementation(() => vi.fn());
 
 afterEach(() => {
@@ -28,15 +25,14 @@ afterAll(() => {
 });
 
 describe("addTable", () => {
-  it("should call drawTableColumnsHead, drawTableColumnsValues and drawTableRowHead", () => {
+  it("should call drawTableColumnsHeaderRow and drawTableRows", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     addTable(mockDoc, mockStruct, 0, userDataMock);
 
-    expect(drawTableColumnsHead).toBeCalledTimes(1);
-    expect(drawTableColumnsValues).toBeCalledTimes(1);
-    expect(drawTableRowHead).toBeCalledTimes(1);
+    expect(drawTableColumnHeaders).toBeCalledTimes(1);
+    expect(drawTableRows).toBeCalledTimes(1);
   });
 
   it("should call addTableInfo", () => {
