@@ -17,7 +17,7 @@ export const addNewPageInCaseMissingVerticalSpace = (
     extraYPosition = 0,
     moveDownFactor = 0,
     numberOfParagraphs = 0,
-  }: PageBreakParams,
+  }: PageBreakParams = {},
 ): void => {
   if (
     doc.y +
