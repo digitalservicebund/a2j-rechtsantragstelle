@@ -5,11 +5,11 @@ import {
   empfaengerIsChild,
 } from "../antragstellendePerson/guards";
 import {
+  erstantragAnwalt,
   isErstantrag,
   isNachueberpruefung,
   verfahrenAnwalt,
   verfahrenSelbststaendig,
-  versandDigitalAnwalt,
   versandDigitalGericht,
 } from "../grundvoraussetzungen/guards";
 
@@ -25,7 +25,7 @@ export const getAbgabeStrings = (
     empfaengerIsChild: empfaengerIsChild({ context }),
     unterhaltBekommeIch: unterhaltBekommeIch({ context }),
     versandAnalog: context.versandArt === "analog",
-    versandDigitalAnwalt: versandDigitalAnwalt({ context }),
+    erstantragAnwalt: erstantragAnwalt({ context }),
     versandDigitalGericht: versandDigitalGericht({ context }),
     verfahrenAnwalt: verfahrenAnwalt({ context }),
     verfahrenSelbststaendig: verfahrenSelbststaendig({ context }),
