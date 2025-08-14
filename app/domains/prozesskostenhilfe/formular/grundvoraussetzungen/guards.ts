@@ -17,12 +17,9 @@ export const verfahrenSelbststaendig: GenericGuard<
   ProzesskostenhilfeGrundvoraussetzungenUserData
 > = ({ context }) => context.verfahrenArt === "verfahrenSelbststaendig";
 
-export const versandDigitalAnwalt: GenericGuard<
+export const erstantragAnwalt: GenericGuard<
   ProzesskostenhilfeGrundvoraussetzungenUserData
-> = ({ context }) =>
-  isErstantrag({ context }) &&
-  verfahrenAnwalt({ context }) &&
-  context.versandArt === "digital";
+> = ({ context }) => isErstantrag({ context }) && verfahrenAnwalt({ context });
 
 export const versandDigitalGericht: GenericGuard<
   ProzesskostenhilfeGrundvoraussetzungenUserData
@@ -36,10 +33,14 @@ export const versandDigitalGericht: GenericGuard<
 export const grundvoraussetzungenDone: GenericGuard<
   ProzesskostenhilfeGrundvoraussetzungenUserData
 > = ({ context }) => {
-  const shouldTestVerfahrenArt = isErstantrag({ context });
-  return !(
-    context.formularArt === undefined ||
-    context.versandArt === undefined ||
-    (shouldTestVerfahrenArt && context.verfahrenArt === undefined)
+  const nachueberpruefungDone = context.versandArt !== undefined;
+  const erstantragDone =
+    context.verfahrenArt !== undefined &&
+    (verfahrenAnwalt({ context }) || context.versandArt !== undefined);
+  return (
+    context.formularArt !== undefined &&
+    (context.formularArt === "nachueberpruefung"
+      ? nachueberpruefungDone
+      : erstantragDone)
   );
 };

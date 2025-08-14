@@ -1,0 +1,49 @@
+import { type TestCases } from "~/domains/__test__/TestCases";
+import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+
+export const testCasesPKHFormularGrundvoraussetzungen = [
+  [
+    {
+      formularArt: "nachueberpruefung",
+      versandArt: "analog",
+    },
+    [
+      "/grundvoraussetzungen/nachueberpruefung-frage",
+      "/grundvoraussetzungen/nachueberpruefung/name-gericht",
+      "/grundvoraussetzungen/nachueberpruefung/aktenzeichen",
+      "/grundvoraussetzungen/einreichung/fall",
+      "/grundvoraussetzungen/einreichung/hinweis-papier-einreichung",
+      "/antragstellende-person/empfaenger",
+    ],
+  ],
+  [
+    {
+      formularArt: "erstantrag",
+      verfahrenArt: "verfahrenSelbststaendig",
+      versandArt: "digital",
+    },
+    [
+      "/start/start",
+      "/grundvoraussetzungen/nachueberpruefung-frage",
+      "/grundvoraussetzungen/antrag/klageersteller",
+      "/grundvoraussetzungen/antrag/hinweis",
+      "/grundvoraussetzungen/einreichung/fall",
+      "/grundvoraussetzungen/einreichung/mjp",
+      "/grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
+    ],
+  ],
+  [
+    {
+      formularArt: "erstantrag",
+      verfahrenArt: "verfahrenAnwalt",
+    },
+    [
+      "/start/start",
+      "/grundvoraussetzungen/nachueberpruefung-frage",
+      "/grundvoraussetzungen/antrag/klageersteller",
+      "/antragstellende-person/empfaenger",
+    ],
+  ],
+] as Array<
+  [ProzesskostenhilfeFormularUserData, string[]]
+> satisfies TestCases<ProzesskostenhilfeFormularUserData>;
