@@ -7,6 +7,7 @@ import { addMultiplePersonsInfo } from "./addMultiplePersonsInfo";
 import { addOtherDetailsItinerary } from "./addOtherDetailsItinerary";
 import { addWitnessesInfo } from "./addWitnessesInfo";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
+import { getHeightOfString } from "../../getHeightOfString";
 
 const COMPENSATION_PAYMENT_TEXT =
   "gemäß Art. 7 der Fluggastrechteverordnung (EG) 261/2004 von der beklagten Partei mit einer hinreichenden Frist von mindestens 2 Wochen ein. Die beklagte Partei hat jedoch trotz Fristablauf bisher keine Zahlung geleistet.";
@@ -27,17 +28,15 @@ export const addCompensationAmount = (
       ? DEMANDED_COMPENSATION_PAYMENT_TEXT
       : OTHER_PASSENGERS_DEMANDED_COMPENSATION_PAYMENT_TEXT;
 
-  const demandedCompensationPaymentTextHeight = doc.heightOfString(
+  const demandedCompensationPaymentTextHeight = getHeightOfString(
     demandedCompensationPaymentText,
-    {
-      width: PDF_WIDTH_SEIZE,
-    },
+    doc,
+    PDF_WIDTH_SEIZE,
   );
 
-  addNewPageInCaseMissingVerticalSpace(
-    doc,
-    demandedCompensationPaymentTextHeight,
-  );
+  addNewPageInCaseMissingVerticalSpace(doc, {
+    extraYPosition: demandedCompensationPaymentTextHeight,
+  });
 
   const compensationSect = doc.struct("Sect");
   compensationSect.add(
