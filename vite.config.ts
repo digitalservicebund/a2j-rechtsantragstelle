@@ -11,8 +11,7 @@ import { envOnlyMacros } from "vite-env-only";
 const isStorybook = process.argv[1]?.includes("storybook");
 const isVitest = process.env.VITEST !== undefined;
 const isAppBuild = !isStorybook && !isVitest;
-const buildSentrySourceMaps =
-  isAppBuild && Boolean(process.env.SENTRY_AUTH_TOKEN);
+const useSentry = isAppBuild && Boolean(process.env.SENTRY_AUTH_TOKEN);
 
 const sentryConfig: SentryReactRouterBuildOptions = {
   org: "digitalservice",
@@ -29,12 +28,12 @@ export default defineConfig((config) => ({
   plugins: [
     envOnlyMacros(),
     isAppBuild && reactRouter(),
-    buildSentrySourceMaps && sentryVitePlugin(sentryConfig),
-    buildSentrySourceMaps && sentryReactRouter(sentryConfig, config),
+    useSentry && sentryVitePlugin(sentryConfig),
+    useSentry && sentryReactRouter(sentryConfig, config),
     tsconfigPaths(),
   ],
   build: {
-    sourcemap: buildSentrySourceMaps,
+    sourcemap: useSentry,
     target: config.isSsrBuild ? "esnext" : undefined, // Allows top-level await in server-only files
   },
   test: {
