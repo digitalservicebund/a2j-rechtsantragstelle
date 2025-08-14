@@ -5,6 +5,7 @@ import {
 } from "~/components/formElements/schemaToForm/renderZodString";
 import { ExclusiveCheckboxes } from "~/components/inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
 import type { SchemaObject } from "~/domains/userData";
+import { splitArrayName } from "~/services/array";
 import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { getNestedSchema } from "./schemaToForm/getNestedSchema";
@@ -16,63 +17,53 @@ type Props = {
   formComponents?: StrapiFormComponent[];
 };
 
-export const SchemaComponents = ({ pageSchema, formComponents }: Props) => {
-  return (
-    <div className="ds-stack ds-stack-40">
-      {Object.entries(pageSchema).map(([fieldName, fieldSchema]) => {
-        const nestedSchema = getNestedSchema(fieldSchema);
-        const matchingElement = formComponents
-          ?.filter(
-            (formComponents) =>
-              // TODO - revisit this code later. For more details check this link https://github.com/digitalservicebund/a2j-rechtsantragstelle/pull/2309#discussion_r2200352159
-              formComponents.__component !== "form-elements.fieldset",
-          )
-          .find((component) => {
-            if (!("name" in component)) return false;
-            const componentName = component.name;
-            // Try exact match first
-            if (componentName === fieldName) return true;
-            // Try array prefix match (e.g., "einnahmen#beschreibung" matches "beschreibung")
-            if (componentName.includes("#")) {
-              const [, suffix] = componentName.split("#");
-              return suffix === fieldName;
-            }
-            return false;
-          });
+export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
+  <div className="ds-stack ds-stack-40">
+    {Object.entries(pageSchema).map(([fieldName, fieldSchema]) => {
+      const nestedSchema = getNestedSchema(fieldSchema);
+      const matchingElement = formComponents
+        ?.filter(
+          (formComponents) =>
+            // TODO - revisit this code later. For more details check this link https://github.com/digitalservicebund/a2j-rechtsantragstelle/pull/2309#discussion_r2200352159
+            formComponents.__component !== "form-elements.fieldset",
+        )
+        .find(
+          ({ name }) =>
+            name === fieldName || name === splitArrayName(fieldName).at(1),
+        );
 
-        if (isZodObject(nestedSchema)) {
-          if (nestedSchema.meta()?.description === "exclusive_checkbox") {
-            return (
-              <ExclusiveCheckboxes
-                key={fieldName}
-                schema={nestedSchema}
-                name={fieldName}
-                cmsCheckboxes={formComponents as StrapiCheckboxComponent[]}
-              />
-            );
-          }
-          // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")
-          const innerSchema = mapKeys(
-            nestedSchema.shape,
-            (_, key) => `${fieldName}.${key}`,
-          );
+      if (isZodObject(nestedSchema)) {
+        if (nestedSchema.meta()?.description === "exclusive_checkbox") {
           return (
-            <SchemaComponents
+            <ExclusiveCheckboxes
               key={fieldName}
-              pageSchema={innerSchema}
-              formComponents={formComponents}
+              schema={nestedSchema}
+              name={fieldName}
+              cmsCheckboxes={formComponents as StrapiCheckboxComponent[]}
             />
           );
         }
+        // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")
+        const innerSchema = mapKeys(
+          nestedSchema.shape,
+          (_, key) => `${fieldName}.${key}`,
+        );
+        return (
+          <SchemaComponents
+            key={fieldName}
+            pageSchema={innerSchema}
+            formComponents={formComponents}
+          />
+        );
+      }
 
-        if (isZodEnum(nestedSchema))
-          return renderZodEnum(nestedSchema, fieldName, matchingElement);
+      if (isZodEnum(nestedSchema))
+        return renderZodEnum(nestedSchema, fieldName, matchingElement);
 
-        if (isZodString(nestedSchema))
-          return renderZodString(nestedSchema, fieldName, matchingElement);
+      if (isZodString(nestedSchema))
+        return renderZodString(nestedSchema, fieldName, matchingElement);
 
-        return null;
-      })}
-    </div>
-  );
-};
+      return null;
+    })}
+  </div>
+);

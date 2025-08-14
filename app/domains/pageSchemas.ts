@@ -41,7 +41,7 @@ export function getPageSchema(pathname: string) {
 
     // First, find the specific page that matches the current path
     const currentPageConfig = Object.values(pagesConfig).find((page) => {
-      if (!page.arrayPages) return false;
+      if (!("arrayPages" in page)) return false;
 
       // Check if this page's stepId matches the beginning of our path
       const pageStepId = page.stepId;
@@ -52,16 +52,14 @@ export function getPageSchema(pathname: string) {
       return pathWithoutLeadingSlash.startsWith(pageStepId);
     });
 
-    if (currentPageConfig?.arrayPages) {
-      // Try to find the array page schema by navigating through the path
-      const arraySchema = findArrayPageSchemaInPage(
-        currentPageConfig,
-        stepPathParts,
-      );
-      if (arraySchema) {
-        return arraySchema;
-      }
-    }
+    if (!currentPageConfig || !("arrayPages" in currentPageConfig))
+      return undefined;
+    // Try to find the array page schema by navigating through the path
+    const arraySchema = arrayPageSchemaFromNestedArrayPages(
+      currentPageConfig,
+      stepPathParts,
+    );
+    return arraySchema;
   }
 
   if (!pageConfig?.pageSchema) return undefined;
@@ -70,15 +68,12 @@ export function getPageSchema(pathname: string) {
   return pageConfig.pageSchema;
 }
 
-function findArrayPageSchemaInPage(
-  pageConfig: PageConfig,
+function arrayPageSchemaFromNestedArrayPages(
+  pageConfig: ArrayPage,
   stepPathParts: string[],
 ): SchemaObject | undefined {
-  if (!pageConfig.arrayPages || stepPathParts.length === 0) return undefined;
-
-  const finalPageConfig = stepPathParts.reduce<PageConfig | undefined>(
+  const finalPageConfig = stepPathParts.reduce<ArrayPage | undefined>(
     (currentPage, part, index) => {
-      // If we don't have a current page or arrayPages, we can't continue
       if (!currentPage?.arrayPages) return undefined;
 
       // If this is the last part, return the array page config
@@ -113,12 +108,20 @@ export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
   }));
 }
 
-export type PageConfig = {
-  pageSchema?: SchemaObject;
-  stepId: string;
-  arrayPages?: Record<string, PageConfig>;
-};
 export type PagesConfig = Record<string, PageConfig>;
+
+type FlowPage = { stepId: string; pageSchema?: SchemaObject };
+type ArrayPage = {
+  pageSchema?: SchemaObject;
+  arrayPages?: Record<string, ArrayPage>;
+};
+type ArrayParentPage = {
+  stepId: string;
+  pageSchema: SchemaObject;
+  arrayPages: Record<string, ArrayPage>;
+};
+
+type PageConfig = FlowPage | ArrayParentPage;
 
 type ExtractSchemas<T extends PagesConfig> = {
   [K in keyof T]: T[K]["pageSchema"] extends SchemaObject

@@ -83,7 +83,6 @@ export const pkhFormularVereinfachteErklaerungPages = {
     },
     arrayPages: {
       daten: {
-        stepId: "daten",
         pageSchema: {
           "einnahmen#beschreibung": stringRequiredSchema,
           "einnahmen#betrag": buildMoneyValidationSchema(),
@@ -124,7 +123,6 @@ export const pkhFormularVereinfachteErklaerungPages = {
     stepId: "antragstellende-person/vereinfachte-erklaerung/vermoegen-eintrag",
     arrayPages: {
       daten: {
-        stepId: "daten",
         pageSchema: {
           "vermoegen#beschreibung": stringRequiredSchema,
           "vermoegen#wert": buildMoneyValidationSchema(),
