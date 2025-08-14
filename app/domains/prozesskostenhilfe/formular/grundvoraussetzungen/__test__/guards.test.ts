@@ -3,9 +3,9 @@ import {
   grundvoraussetzungenDone,
   verfahrenAnwalt,
   verfahrenSelbststaendig,
-  versandDigitalAnwalt,
   versandDigitalGericht,
   isErstantrag,
+  erstantragAnwalt,
 } from "../guards";
 
 describe("guards", () => {
@@ -113,14 +113,13 @@ describe("guards", () => {
     });
   });
 
-  describe("versandDigitalAnwalt", () => {
-    it("should return true if this is the user's first application, they're sending the form to a lawyer, and they wish to send it digitally", () => {
+  describe("erstantragAnwalt", () => {
+    it("should return true if this is the user's first application and the user is submitting the form to a lawyer", () => {
       expect(
-        versandDigitalAnwalt({
+        erstantragAnwalt({
           context: {
             formularArt: "erstantrag",
             verfahrenArt: "verfahrenAnwalt",
-            versandArt: "digital",
           },
         }),
       ).toBe(true);
@@ -128,7 +127,7 @@ describe("guards", () => {
 
     it("should return false if the user is making a nachueberpruefung", () => {
       expect(
-        versandDigitalAnwalt({
+        erstantragAnwalt({
           context: {
             formularArt: "nachueberpruefung",
           },
@@ -138,19 +137,9 @@ describe("guards", () => {
 
     it("should return false if the user is sending the form themselves", () => {
       expect(
-        versandDigitalAnwalt({
+        erstantragAnwalt({
           context: {
             verfahrenArt: "verfahrenSelbststaendig",
-          },
-        }),
-      ).toBe(false);
-    });
-
-    it("should return false if the user is sending the form in analog form", () => {
-      expect(
-        versandDigitalAnwalt({
-          context: {
-            versandArt: "analog",
           },
         }),
       ).toBe(false);
@@ -219,6 +208,14 @@ describe("grundvoraussetzungenDone", () => {
           formularArt: "erstantrag",
           verfahrenArt: "verfahrenSelbststaendig",
           versandArt: "digital",
+        },
+      }),
+    ).toBe(true);
+    expect(
+      grundvoraussetzungenDone({
+        context: {
+          formularArt: "erstantrag",
+          verfahrenArt: "verfahrenAnwalt",
         },
       }),
     ).toBe(true);
