@@ -37,7 +37,7 @@ export const addMultiplePersonsInfo = (
     return;
   }
 
-  addNewPageInCaseMissingVerticalSpace(doc);
+  addNewPageInCaseMissingVerticalSpace(doc, {});
 
   const personsNames = weiterePersonen
     .flatMap(({ anrede, title, nachname, vorname }) => {
@@ -56,7 +56,7 @@ export const addMultiplePersonsInfo = (
     }),
   );
 
-  addNewPageInCaseMissingVerticalSpace(doc);
+  addNewPageInCaseMissingVerticalSpace(doc, {});
 
   if (hasZeugen === "yes") {
     compensationSect.add(

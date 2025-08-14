@@ -1,13 +1,31 @@
 import type PDFDocument from "pdfkit";
 import { PDF_HEIGHT_SEIZE } from "~/services/pdf/createPdfKitDocument";
 
-const MAX_VERTICAL_SPACE = PDF_HEIGHT_SEIZE - 80;
+const MAX_VERTICAL_SPACE = PDF_HEIGHT_SEIZE - 70;
+//doc.moveDown(1) is 20px
+const DEFAULT_MOVE_DOWN = 20;
+
+type AddNewPageInCaseMissingVerticalSpaceParams = {
+  extraYPosition?: number;
+  moveDownFactor?: number;
+  numberOfParagraphs?: number;
+};
 
 export const addNewPageInCaseMissingVerticalSpace = (
   doc: typeof PDFDocument,
-  extraYPosition = 0,
+  {
+    extraYPosition = 0,
+    moveDownFactor = 0,
+    numberOfParagraphs = 0,
+  }: AddNewPageInCaseMissingVerticalSpaceParams,
 ): void => {
-  if (doc.y + extraYPosition >= MAX_VERTICAL_SPACE) {
+  if (
+    doc.y +
+      extraYPosition +
+      //doc.moveDown(x) and paragraphs create vertical space
+      (moveDownFactor + numberOfParagraphs) * DEFAULT_MOVE_DOWN >=
+    MAX_VERTICAL_SPACE
+  ) {
     doc.addPage();
   }
 };

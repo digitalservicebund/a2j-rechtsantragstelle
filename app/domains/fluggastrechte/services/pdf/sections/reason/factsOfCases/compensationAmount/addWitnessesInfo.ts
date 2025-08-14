@@ -15,7 +15,7 @@ export const addWitnessesInfo = (
   compensationSect: PDFKit.PDFStructureElement,
 ) => {
   if (hasZeugen === "yes") {
-    addNewPageInCaseMissingVerticalSpace(doc);
+    addNewPageInCaseMissingVerticalSpace(doc, {});
     compensationSect.add(
       doc.struct("P", {}, () => {
         doc.text(

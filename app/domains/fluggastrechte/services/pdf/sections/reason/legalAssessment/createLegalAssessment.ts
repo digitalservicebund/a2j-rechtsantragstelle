@@ -11,6 +11,7 @@ import {
 import { MARGIN_BETWEEN_SECTIONS } from "../../../configurations";
 import { getFullPlaintiffName } from "../../getFullPlaintiffName";
 import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissingVerticalSpace";
+import { getHeightOfString } from "../getHeightOfString";
 
 export const LEGAL_ASSESSMENT_TEXT = "II. Rechtliche Würdigung";
 export const CLAIM_FULL_JUSTIFIED_TEXT =
@@ -43,30 +44,19 @@ function checkAndNewPage(
   doc: typeof PDFDocument,
   assumedSettlementSectionText: string,
 ) {
-  const legalAssessmentHeight = doc.heightOfString(LEGAL_ASSESSMENT_TEXT, {
-    width: PDF_WIDTH_SEIZE,
-  });
-
-  const claimFullJustifiedTextHeight = doc.heightOfString(
-    CLAIM_FULL_JUSTIFIED_TEXT,
-    {
-      width: PDF_WIDTH_SEIZE,
-    },
-  );
-
-  const assumedSettlementSectionTextHeight = doc.heightOfString(
-    assumedSettlementSectionText,
-    {
-      width: PDF_WIDTH_SEIZE,
-    },
-  );
-
-  addNewPageInCaseMissingVerticalSpace(
+  const legalAssessmentTextsHeight = getHeightOfString(
+    [
+      LEGAL_ASSESSMENT_TEXT,
+      CLAIM_FULL_JUSTIFIED_TEXT,
+      assumedSettlementSectionText,
+    ],
     doc,
-    legalAssessmentHeight +
-      claimFullJustifiedTextHeight +
-      assumedSettlementSectionTextHeight,
+    PDF_WIDTH_SEIZE,
   );
+
+  addNewPageInCaseMissingVerticalSpace(doc, {
+    extraYPosition: legalAssessmentTextsHeight,
+  });
 }
 
 export const createLegalAssessment = (
@@ -121,10 +111,11 @@ export const createLegalAssessment = (
     width: PDF_WIDTH_SEIZE,
   });
   // avoid that a new page consits only of the plaintiff name
-  addNewPageInCaseMissingVerticalSpace(
-    doc,
-    advanceCourtTextHeight + plaintiffNameTextHeight + MARGIN_BETWEEN_SECTIONS,
-  );
+  addNewPageInCaseMissingVerticalSpace(doc, {
+    extraYPosition: advanceCourtTextHeight + plaintiffNameTextHeight,
+    moveDownFactor: MARGIN_BETWEEN_SECTIONS,
+    numberOfParagraphs: 2,
+  });
   legalAssessmentSect.add(
     doc.struct("P", {}, () => {
       doc.text(advanceCourtText);

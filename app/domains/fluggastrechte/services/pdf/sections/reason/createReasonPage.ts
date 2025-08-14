@@ -38,7 +38,9 @@ export const createReasonPage = (
 
   createFactsOfCases(doc, reasonSect, documentStruct, userData);
 
-  addNewPageInCaseMissingVerticalSpace(doc, COLUMN_HEIGHT * 4 + MARGIN_BOTTOM);
+  addNewPageInCaseMissingVerticalSpace(doc, {
+    extraYPosition: COLUMN_HEIGHT * 4 + MARGIN_BOTTOM,
+  });
   const startTableY = doc.y;
   addTable(doc, documentStruct, startTableY, userData);
   addCompensationAmount(doc, documentStruct, userData);

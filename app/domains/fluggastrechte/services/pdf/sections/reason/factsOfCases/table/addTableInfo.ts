@@ -5,6 +5,7 @@ import {
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
+import { getHeightOfString } from "../../getHeightOfString";
 
 export const HEADLINE = "Beschreibung der Ersatzverbindung:";
 
@@ -17,21 +18,15 @@ export function addTableInfo(
     return;
   }
 
-  const tableInfoHeight = doc.heightOfString(
-    andereErsatzverbindungBeschreibung,
-    {
-      width: PDF_WIDTH_SEIZE,
-    },
-  );
-
-  const tableInfoHeadline = doc.heightOfString(HEADLINE, {
-    width: PDF_WIDTH_SEIZE,
-  });
-
-  addNewPageInCaseMissingVerticalSpace(
+  const tableInfoTextHeight = getHeightOfString(
+    [andereErsatzverbindungBeschreibung, HEADLINE],
     doc,
-    tableInfoHeight + tableInfoHeadline,
+    PDF_WIDTH_SEIZE,
   );
+
+  addNewPageInCaseMissingVerticalSpace(doc, {
+    extraYPosition: tableInfoTextHeight,
+  });
 
   const reasonSect = doc.struct("Sect");
   reasonSect.add(
