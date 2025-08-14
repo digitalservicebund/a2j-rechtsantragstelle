@@ -1,8 +1,6 @@
-import type PDFDocument from "pdfkit";
-
 export const getHeightOfString = (
   text: string | string[],
-  doc: typeof PDFDocument,
+  doc: PDFKit.PDFDocument,
   width: number,
 ): number => {
   if (typeof text === "string") {
