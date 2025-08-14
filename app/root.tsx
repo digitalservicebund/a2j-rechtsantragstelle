@@ -130,7 +130,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       pageHeaderProps: {
         ...strapiHeader,
         hideLinks: Boolean(flowIdMaybe),
-        alignToMainContainer: !flowIdMaybe?.match(/formular|antrag/),
       },
       footer: strapiFooter,
       cookieBannerContent: cookieBannerContent,
@@ -215,7 +214,6 @@ function App() {
             <PageHeader {...pageHeaderProps} />
             <Breadcrumbs
               breadcrumbs={breadcrumbs}
-              alignToMainContainer={pageHeaderProps.alignToMainContainer}
               linkLabel={pageHeaderProps.linkLabel}
               ariaLabel={getTranslationByKey(
                 "header-breadcrumb",
@@ -262,7 +260,6 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
       <body className="flex flex-col">
         <div className="min-h-screen">
           <PageHeader
-            alignToMainContainer
             hideLinks={false}
             linkLabel="Zurück zur Startseite"
             title="Justiz-Services"
