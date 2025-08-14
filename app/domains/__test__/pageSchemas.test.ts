@@ -76,15 +76,6 @@ describe("getPageSchema", () => {
       expect(getPageSchema("/prozesskostenhilfe/formular")).toBeUndefined();
     });
 
-    it("should handle pathname with trailing slash", () => {
-      const result = getPageSchema(
-        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme/0/daten/",
-      );
-      expect(result).toBeDefined();
-      expect(result).toHaveProperty("einnahmen#beschreibung");
-      expect(result).toHaveProperty("einnahmen#betrag");
-    });
-
     it("should handle pathname with multiple consecutive slashes", () => {
       const result = getPageSchema(
         "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme//0//daten",

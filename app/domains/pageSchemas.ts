@@ -20,52 +20,27 @@ export function getPageSchema(pathname: string) {
 
   const { stepId, arrayIndexes } = parsePathname(pathname);
   const stepIdWithoutLeadingSlash = stepId.slice(1);
-
-  // Find the page config for this step
-  const pageConfig = Object.values(pages[flowId] ?? {}).find(
-    (page) => page.stepId === stepIdWithoutLeadingSlash,
-  );
+  const pagesConfig = pages[flowId] ?? {};
 
   if (arrayIndexes.length > 0) {
-    // For array pages, we need to find the correct parent that contains arrayPages
-    // and navigate through the nested structure
-    // Get the path parts from the original pathname
-    const pathAfterFlowId = pathname.replace(flowId, "");
-    const stepPathParts = pathAfterFlowId
-      .split("/")
-      .filter(Boolean)
-      .filter((part) => !/^\d+$/.test(part)); // Remove numeric parts (array indexes)
+    // An index in the URL tells us we are on a page that belongs to an array
+    // To return its pageSchema, we need to find the parent first, which should be one or two levels above
+    const stepPathParts = stepIdWithoutLeadingSlash.split("/");
 
-    // Find the specific page that contains the arrayPages configuration for this path
-    const pagesConfig = pages[flowId] ?? {};
+    // The arrayParentPage matches our array page and its stepId should match the beginning of the current stepId
+    const parentPageConfig = Object.values(pagesConfig)
+      .filter(isArrayParentPage)
+      .find(({ stepId }) => stepIdWithoutLeadingSlash.startsWith(stepId));
 
-    // First, find the specific page that matches the current path
-    const currentPageConfig = Object.values(pagesConfig).find((page) => {
-      if (!("arrayPages" in page)) return false;
+    if (!parentPageConfig) return undefined;
 
-      // Check if this page's stepId matches the beginning of our path
-      const pageStepId = page.stepId;
-      const pathWithoutLeadingSlash = stepPathParts.join("/");
-
-      // The page should be the one that contains the array we're looking for
-      // We need to check if the path starts with this page's stepId
-      return pathWithoutLeadingSlash.startsWith(pageStepId);
-    });
-
-    if (!currentPageConfig || !("arrayPages" in currentPageConfig))
-      return undefined;
     // Try to find the array page schema by navigating through the path
-    const arraySchema = arrayPageSchemaFromNestedArrayPages(
-      currentPageConfig,
-      stepPathParts,
-    );
-    return arraySchema;
+    return arrayPageSchemaFromNestedArrayPages(parentPageConfig, stepPathParts);
   }
 
-  if (!pageConfig?.pageSchema) return undefined;
-
-  // For non-array pages, return the page schema as is
-  return pageConfig.pageSchema;
+  return Object.values(pagesConfig).find(
+    (page) => page.stepId === stepIdWithoutLeadingSlash,
+  )?.pageSchema;
 }
 
 function arrayPageSchemaFromNestedArrayPages(
@@ -120,6 +95,9 @@ type ArrayParentPage = {
   pageSchema: SchemaObject;
   arrayPages: Record<string, ArrayPage>;
 };
+
+const isArrayParentPage = (page: PageConfig): page is ArrayParentPage =>
+  "pageSchema" in page && "arrayPages" in page;
 
 type PageConfig = FlowPage | ArrayParentPage;
 
