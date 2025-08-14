@@ -5,7 +5,6 @@ import {
 } from "~/components/formElements/schemaToForm/renderZodString";
 import { ExclusiveCheckboxes } from "~/components/inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
 import type { SchemaObject } from "~/domains/userData";
-import { splitArrayName } from "~/services/array";
 import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 import { getNestedSchema } from "./schemaToForm/getNestedSchema";
@@ -27,10 +26,7 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
             // TODO - revisit this code later. For more details check this link https://github.com/digitalservicebund/a2j-rechtsantragstelle/pull/2309#discussion_r2200352159
             formComponents.__component !== "form-elements.fieldset",
         )
-        .find(
-          ({ name }) =>
-            name === fieldName || name === splitArrayName(fieldName).at(1),
-        );
+        .find(({ name }) => name === fieldName);
 
       if (isZodObject(nestedSchema)) {
         if (nestedSchema.meta()?.description === "exclusive_checkbox") {
@@ -62,8 +58,6 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
 
       if (isZodString(nestedSchema))
         return renderZodString(nestedSchema, fieldName, matchingElement);
-
-      return null;
     })}
   </div>
 );
