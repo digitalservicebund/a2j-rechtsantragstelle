@@ -121,18 +121,6 @@ export const pkhFormularVereinfachteErklaerungPages = {
   },
   vermoegenEintrag: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/vermoegen-eintrag",
-    arrayPages: {
-      daten: {
-        pageSchema: {
-          "vermoegen#beschreibung": stringRequiredSchema,
-          "vermoegen#wert": buildMoneyValidationSchema(),
-        },
-      },
-    },
-  },
-  vermoegenDaten: {
-    stepId:
-      "antragstellende-person/vereinfachte-erklaerung/vermoegen-eintrag/daten",
     pageSchema: {
       vermoegen: z.array(
         z
@@ -142,6 +130,14 @@ export const pkhFormularVereinfachteErklaerungPages = {
           })
           .partial(),
       ),
+    },
+    arrayPages: {
+      daten: {
+        pageSchema: {
+          "vermoegen#beschreibung": stringRequiredSchema,
+          "vermoegen#wert": buildMoneyValidationSchema(),
+        },
+      },
     },
   },
   vermoegenWarnung: {
