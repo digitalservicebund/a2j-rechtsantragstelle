@@ -9,8 +9,10 @@ export const getHeightOfString = (
     return doc.heightOfString(text, { width });
   }
 
-  return text.reduce(
-    (acc, part) => acc + doc.heightOfString(part, { width }),
-    0,
-  );
+  let totalHeight = 0;
+  for (const part of text) {
+    totalHeight += doc.heightOfString(part, { width });
+  }
+
+  return totalHeight;
 };
