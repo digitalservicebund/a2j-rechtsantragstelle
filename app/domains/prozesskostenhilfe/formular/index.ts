@@ -37,8 +37,8 @@ import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfi
 import { hasGesetzlicheVertretungYes } from "./gesetzlicheVertretung/guards";
 import { gesetzlicheVertretungXstateConfig } from "./gesetzlicheVertretung/xStateConfig";
 import {
+  erstantragAnwalt,
   isNachueberpruefung,
-  versandDigitalAnwalt,
   versandDigitalGericht,
 } from "./grundvoraussetzungen/guards";
 import {
@@ -86,9 +86,11 @@ export const prozesskostenhilfeFormular = {
         getProzesskostenhilfeAntragstellendePersonConfig({
           backToCallingFlow: [
             {
-              guard: ({ context }) =>
-                versandDigitalAnwalt({ context }) ||
-                versandDigitalGericht({ context }),
+              guard: erstantragAnwalt,
+              target: "#grundvoraussetzungen.antrag.klageersteller",
+            },
+            {
+              guard: ({ context }) => versandDigitalGericht({ context }),
               target:
                 "#grundvoraussetzungen.einreichung.hinweis-digital-einreichung",
             },

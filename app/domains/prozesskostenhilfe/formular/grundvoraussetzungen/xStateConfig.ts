@@ -4,9 +4,7 @@ import type { Config } from "~/services/flow/server/buildFlowController";
 import {
   grundvoraussetzungenDone,
   isNachueberpruefung,
-  verfahrenAnwalt,
   verfahrenSelbststaendig,
-  versandDigitalAnwalt,
   versandDigitalGericht,
 } from "./guards";
 import { pkhFormularGrundvoraussetzungenPages } from "./pages";
@@ -59,7 +57,7 @@ export const grundvoraussetzungenXstateConfig = {
                 guard: verfahrenSelbststaendig,
                 target: steps.hinweis.relative,
               },
-              "#grundvoraussetzungen.einreichung",
+              "#antragstellende-person",
             ],
             BACK: steps.nachueberpruefungFrage.absolute,
           },
@@ -79,10 +77,6 @@ export const grundvoraussetzungenXstateConfig = {
           on: {
             SUBMIT: [
               {
-                guard: versandDigitalAnwalt,
-                target: steps.hinweisDigitalEinreichung.relative,
-              },
-              {
                 guard: versandDigitalGericht,
                 target: steps.mjp.relative,
               },
@@ -92,10 +86,6 @@ export const grundvoraussetzungenXstateConfig = {
               {
                 guard: isNachueberpruefung,
                 target: steps.aktenzeichen.absolute,
-              },
-              {
-                guard: verfahrenAnwalt,
-                target: steps.klageersteller.absolute,
               },
               steps.hinweis.absolute,
             ],
