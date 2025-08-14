@@ -5,7 +5,7 @@ const MAX_VERTICAL_SPACE = PDF_HEIGHT_SEIZE - 70;
 //doc.moveDown(1) moves down 20 dpi
 const DEFAULT_MOVE_DOWN = 20;
 
-type AddNewPageInCaseMissingVerticalSpaceParams = {
+type PageBreakParams = {
   extraYPosition?: number;
   moveDownFactor?: number;
   numberOfParagraphs?: number;
@@ -17,7 +17,7 @@ export const addNewPageInCaseMissingVerticalSpace = (
     extraYPosition = 0,
     moveDownFactor = 0,
     numberOfParagraphs = 0,
-  }: AddNewPageInCaseMissingVerticalSpaceParams,
+  }: PageBreakParams,
 ): void => {
   if (
     doc.y +
