@@ -15,7 +15,7 @@ import UserFeedback from "~/components/content/userFeedback";
 import Video from "~/components/content/video/Video";
 import Heading from "~/components/Heading";
 import RichText from "~/components/RichText";
-import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
+import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import TableOfContents from "./TableOfContents";
 
 function wrapInContainer(

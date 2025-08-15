@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { StrapiHeadingSchema } from "./content/StrapiHeading";
 import { StrapiParagraphSchema } from "./content/StrapiParagraph";
+import { StrapiContentComponentSchema } from "./formElements/StrapiContentComponent";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
-import { StrapiContentComponentSchema } from "./StrapiContentComponent";
 import { StrapiElementWithIdSchema } from "./StrapiElementWithId";
 import { StrapiFlowIdSchema } from "./StrapiFlowId";
 import { StrapiLinkSchema } from "./StrapiLink";

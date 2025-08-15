@@ -1,7 +1,7 @@
 import { z } from "zod";
+import { StrapiContentComponentSchema } from "./formElements/StrapiContentComponent";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
-import { StrapiContentComponentSchema } from "./StrapiContentComponent";
 import { StrapiFlowIdSchema } from "./StrapiFlowId";
 import { StrapiFormComponentSchema } from "./StrapiFormComponent";
 

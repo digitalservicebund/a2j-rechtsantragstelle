@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { StrapiAccordionSchema } from "~/services/cms/models/StrapiAccordion";
+import { StrapiAccordionSchema } from "~/services/cms/models/content/StrapiAccordion";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasStrapiIdSchema } from "../HasStrapiId";

@@ -1,6 +1,6 @@
 import { type z } from "zod";
 import { type StrapiHeadingSchema } from "./content/StrapiHeading";
-import { type StrapiContentComponent } from "./StrapiContentComponent";
+import { type StrapiContentComponent } from "./formElements/StrapiContentComponent";
 
 export const isStrapiHeadingComponent = (
   strapiContent: StrapiContentComponent,

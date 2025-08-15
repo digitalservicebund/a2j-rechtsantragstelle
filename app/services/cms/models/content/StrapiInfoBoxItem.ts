@@ -5,7 +5,7 @@ import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasStrapiIdSchema } from "../HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "../HasStrapiLinkIdentifier";
-import { StrapiAccordionSchema } from "../StrapiAccordion";
+import { StrapiAccordionSchema } from "./StrapiAccordion";
 import { StrapiButtonSchema } from "../StrapiButton";
 import { StrapiDetailsSchema } from "./StrapiDetails";
 import { StrapiImageOptionalSchema } from "../StrapiImage";
