@@ -53,7 +53,7 @@ export default function Index() {
   }, [trackingConsent]);
 
   return (
-    <div className="flex flex-col flex-grow">
+    <div className="flex flex-col grow">
       <ContentComponents content={content} />
       <Container paddingTop="0">
         <Form method="post" className="ds-stack ds-stack-24">

@@ -50,7 +50,7 @@ describe("NavigationItem", () => {
     );
 
     expect(screen.getByRole("listitem")).toHaveClass(
-      "border-b-[1px] border-blue-400 last:border-0 min-w-full",
+      "border-b border-blue-400 last:border-0 min-w-full",
     );
   });
 

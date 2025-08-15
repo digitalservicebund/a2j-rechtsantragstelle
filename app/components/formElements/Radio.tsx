@@ -17,7 +17,7 @@ function Radio({ name, value, onClick, text, ref }: RadioProps) {
     <div className="flex">
       <input
         {...field.getInputProps({ type: "radio", id, value })}
-        className="ds-radio forced-colors:outline forced-colors:border-[ButtonText]"
+        className="ds-radio forced-colors:outline-solid forced-colors:border-[ButtonText]"
         aria-describedby={field.error() ? `${name}-error` : undefined}
         onClick={onClick}
         ref={ref}

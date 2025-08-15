@@ -159,7 +159,7 @@ describe("Checkbox", () => {
 
     const checkbox = screen.getByRole("checkbox", { name: "Checkbox Label" });
     expect(checkbox).toHaveClass(
-      "has-error focus-visible:shadow-[inset_0_0_0_4px_theme(colors.red.800)]",
+      "has-error focus-visible:shadow-[inset_0_0_0_4px_var(--color-red-800)]",
     );
   });
 });

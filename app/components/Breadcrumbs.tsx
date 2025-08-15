@@ -26,16 +26,16 @@ export default function Breadcrumbs({
     validBreadcrumbs.length > 0 && (
       <div className="bg-blue-100">
         <nav
-          className={`!py-8 px-16 flex flex-wrap items-center ${alignToContainer}`}
+          className={`py-8! flex flex-wrap items-center ${alignToContainer}`}
           aria-label={ariaLabel}
         >
           {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
           <a
             href="/"
             aria-label={linkLabel}
-            className="focus:outline ds-link-01-bold"
+            className="focus:outline-solid ds-link-01-bold"
           >
-            <HomeOutlinedIcon className="!h-[1.6rem] !w-[1.6rem]" />
+            <HomeOutlinedIcon className="h-[1.6rem]! w-[1.6rem]!" />
           </a>
           {validBreadcrumbs.map((breadcrumb, idx, arr) => (
             <div key={breadcrumb.title} className="ds-body-02-reg">

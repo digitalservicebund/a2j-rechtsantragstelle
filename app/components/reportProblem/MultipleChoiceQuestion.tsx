@@ -49,7 +49,7 @@ export const MultipleChoiceQuestion = ({
                     name={choiceName}
                     readOnly
                     onClick={() => onCheckboxClicked(idx, choice)}
-                    className="ds-checkbox forced-colors:outline forced-colors:border-[ButtonText]"
+                    className="ds-checkbox forced-colors:outline-solid forced-colors:border-[ButtonText]"
                   />
                   {choice}
                 </label>

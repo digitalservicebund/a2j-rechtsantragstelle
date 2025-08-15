@@ -6,6 +6,7 @@ import {
 } from "@sentry/react-router";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
+import tailwindcss from "@tailwindcss/vite";
 import { envOnlyMacros } from "vite-env-only";
 
 const isStorybook = process.argv[1]?.includes("storybook");
@@ -31,6 +32,7 @@ export default defineConfig((config) => ({
     useSentry && sentryVitePlugin(sentryConfig),
     useSentry && sentryReactRouter(sentryConfig, config),
     tsconfigPaths(),
+    tailwindcss(),
   ],
   build: {
     sourcemap: useSentry,

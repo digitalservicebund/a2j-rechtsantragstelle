@@ -62,8 +62,8 @@ export default function Index() {
 
   return (
     <Background backgroundColor="blue">
-      <div className="flex flex-col min-w-[100vw] h-full pb-32">
-        <div className="flex-grow">
+      <div className="flex flex-col min-w-screen h-full pb-32">
+        <div className="grow">
           <Container>
             <div className="ds-stack ds-stack-32">
               <ContentComponents

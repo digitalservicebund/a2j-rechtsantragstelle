@@ -12,7 +12,7 @@ type Props = Readonly<{
 
 export default function Hero({ heading, content, button }: Props) {
   return (
-    <div className="container !pt-24 !pb-24 ds-stack ds-stack-16">
+    <div className="container pt-24! pb-24! ds-stack ds-stack-16">
       <Heading {...heading} />
       {content && (
         <RichText className="ds-heading-03-reg" html={content.html} />

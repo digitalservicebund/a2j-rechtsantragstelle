@@ -77,15 +77,15 @@ export const loader = async ({
   };
 };
 
-const iconCSS = "inline-block mr-8 !h-[36px] !w-[36px]";
+const iconCSS = "inline-block mr-8 h-[36px]! w-[36px]!";
 const icons: Record<"negativ" | "positiv", ReactElement> = {
   negativ: (
-    <HighlightOff color="error" className={`${iconCSS} !text-red-900`} />
+    <HighlightOff color="error" className={`${iconCSS} text-red-900!`} />
   ),
   positiv: (
     <CheckCircleOutline
       color="success"
-      className={`${iconCSS} !text-green-900`}
+      className={`${iconCSS} text-green-900!`}
     />
   ),
 };

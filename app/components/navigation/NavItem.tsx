@@ -50,7 +50,7 @@ export function NavItem({
 
   // Transparent last: borders to avoid layout shifts
   const liClassNames = classNames(
-    "list-none border-b-[1px] border-blue-400 last:border-0 min-w-full",
+    "list-none border-b border-blue-400 last:border-0 min-w-full",
     {
       "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none":
         isDisabled,
@@ -59,9 +59,10 @@ export function NavItem({
   );
 
   const itemClassNames = classNames(
-    "w-full ds-label-02-reg p-16 flex justify-between items-center hover:underline hover:bg-blue-400 active:bg-blue-300 focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-300",
+    "w-full p-16 flex justify-between items-center hover:underline hover:bg-blue-400 active:bg-blue-300 focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-300",
     {
       "ds-label-02-bold bg-blue-400": isCurrent && !hasSubflows,
+      "ds-label-02-reg": !isCurrent || hasSubflows,
       "pl-24": isChild,
     },
   );
