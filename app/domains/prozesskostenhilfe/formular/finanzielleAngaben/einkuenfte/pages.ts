@@ -115,6 +115,7 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   arbeitsausgabenUebersicht: {
     stepId: "finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht",
   },
+  // TODO: adapt to new pageSchema array pattern
   arbeitsausgabeDaten: {
     stepId:
       "finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgabe/daten",
@@ -182,6 +183,7 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   weitereEinkuenfteWarnung: {
     stepId: "finanzielle-angaben/einkuenfte/weitere-einkuenfte/warnung",
   },
+  // TODO: adapt to new pageSchema array pattern
   weitereEinkuenfteDaten: {
     stepId: "finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft/daten",
     pageSchema: {
