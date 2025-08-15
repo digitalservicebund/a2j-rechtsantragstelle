@@ -1,3 +1,6 @@
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { hasGesetzlicheVertretungYes } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/guards";
+import { pkhFormularGesetzlicheVertretungPages } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/pages";
 import type {
   Config,
   FlowConfigTransitions,
@@ -5,21 +8,24 @@ import type {
 import { prozesskostenhilfeGesetzlicheVertretungDone } from "./doneFunctions";
 import type { ProzesskostenhilfeGesetzlicheVertretungUserData } from "./userData";
 
+const steps = xStateTargetsFromPagesConfig(
+  pkhFormularGesetzlicheVertretungPages,
+);
+
 export function gesetzlicheVertretungXstateConfig(
   transitions?: FlowConfigTransitions,
 ): Config<ProzesskostenhilfeGesetzlicheVertretungUserData> {
   return {
     id: "gesetzliche-vertretung",
-    initial: "frage",
+    initial: steps.gesetzlicheVertretungFrage.relative,
     meta: { done: prozesskostenhilfeGesetzlicheVertretungDone },
     states: {
-      frage: {
+      [steps.gesetzlicheVertretungFrage.relative]: {
         on: {
           SUBMIT: [
             {
-              guard: ({ context }) =>
-                context.hasGesetzlicheVertretung === "yes",
-              target: "daten",
+              guard: hasGesetzlicheVertretungYes,
+              target: steps.gesetzlicheVertretungDaten.relative,
             },
             ...(Array.isArray(transitions?.nextFlowEntrypoint)
               ? transitions.nextFlowEntrypoint
@@ -31,7 +37,7 @@ export function gesetzlicheVertretungXstateConfig(
       daten: {
         on: {
           SUBMIT: transitions?.nextFlowEntrypoint,
-          BACK: "frage",
+          BACK: steps.gesetzlicheVertretungFrage.relative,
         },
       },
     },
