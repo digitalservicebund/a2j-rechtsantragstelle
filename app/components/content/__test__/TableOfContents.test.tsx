@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import TableOfContents from "../content/TableOfContents";
+import TableOfContents from "../TableOfContents";
 
 describe("TableOfContents", () => {
   it("render component with identifier", () => {
