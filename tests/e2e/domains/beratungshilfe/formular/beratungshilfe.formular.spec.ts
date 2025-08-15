@@ -65,7 +65,7 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await downloadOnlineAbgabe(page);
 });
 
-test.skip("invalid array index redirects to initial step of subflow", async ({
+test("invalid array index redirects to initial step of subflow", async ({
   page,
 }) => {
   await expectPageToBeAccessible({ page });
