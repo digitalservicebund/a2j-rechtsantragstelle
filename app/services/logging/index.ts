@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
 import * as Sentry from "@sentry/react-router";
 import { config } from "~/services/env/public";
+import { sentrySharedConfig } from "./sentrySettings";
 
-const { SENTRY_DSN, ENVIRONMENT } = config();
+const { SENTRY_DSN } = config();
 // Ignore a few common errors that are not useful to track
 const SENTRY_IGNORE_ERRORS = [
   // BundID related - ignore while work is in progress
@@ -14,15 +15,7 @@ let sentryHasBeenInitialized = false;
 
 if (SENTRY_DSN !== undefined) {
   Sentry.init({
-    dsn: SENTRY_DSN,
-    environment: ENVIRONMENT,
-
-    tracesSampleRate: 0.1,
-    replaysSessionSampleRate: 0.0,
-    replaysOnErrorSampleRate: 0.0,
-
-    sendDefaultPii: false,
-    attachStacktrace: true,
+    ...sentrySharedConfig,
     ignoreErrors: SENTRY_IGNORE_ERRORS,
   });
   sentryHasBeenInitialized = true;
