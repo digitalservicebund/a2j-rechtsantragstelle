@@ -1,4 +1,4 @@
-import { StrapiSummaryOverviewSectionSchema } from "../content/StrapiSummaryOverviewSection";
+import { StrapiSummaryOverviewSectionSchema } from "../StrapiSummaryOverviewSection";
 
 describe("StrapiSummaryOverviewSchema", () => {
   it("should return false given empty boxes", () => {

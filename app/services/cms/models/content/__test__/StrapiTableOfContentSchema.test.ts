@@ -1,4 +1,4 @@
-import { StrapiTableOfContentsSchema } from "../content/StrapiTableOfContents";
+import { StrapiTableOfContentsSchema } from "../StrapiTableOfContents";
 
 describe("StrapiTableOfContentSchema", () => {
   it("should return false given empty container", () => {

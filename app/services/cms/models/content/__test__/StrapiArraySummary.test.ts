@@ -1,5 +1,5 @@
 import zod from "zod";
-import { StrapiArraySummaryComponentSchema } from "../content/StrapiArraySummary";
+import { StrapiArraySummaryComponentSchema } from "../StrapiArraySummary";
 
 describe("StrapiArraySummaryComponentSchema", () => {
   it("should fail parse when category is missing", () => {
