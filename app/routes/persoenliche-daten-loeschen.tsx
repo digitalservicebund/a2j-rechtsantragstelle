@@ -3,7 +3,7 @@ import { Form, useLoaderData, useNavigation } from "react-router";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
-import ContentComponents from "~/components/ContentComponents";
+import ContentComponents from "~/components/content/ContentComponents";
 import {
   fetchTranslations,
   strapiPageFromRequest,

@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { type StrapiParagraph } from "~/services/cms/models/StrapiParagraph";
+import { type StrapiParagraph } from "~/services/cms/models/content/StrapiParagraph";
 
 export function getStrapiParagraph(): StrapiParagraph {
   return {

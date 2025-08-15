@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { StrapiDetailsSchema } from "~/services/cms/models/StrapiDetails";
+import { StrapiDetailsSchema } from "~/services/cms/models/content/StrapiDetails";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { StrapiOptionalIntegerSchema } from "~/services/cms/models/StrapiOptionalInteger";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";

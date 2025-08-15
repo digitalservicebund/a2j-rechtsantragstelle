@@ -1,6 +1,6 @@
 import { type Session } from "react-router";
-import { type BannerState } from "~/components/userFeedback/BannerState";
-import { type FeedbackType } from "~/components/userFeedback/FeedbackType";
+import { type BannerState } from "~/components/content/userFeedback/BannerState";
+import { type FeedbackType } from "~/components/content/userFeedback/FeedbackType";
 
 export const bannerStateName = "bannerState";
 export const userRatingFieldName = "wasHelpful";

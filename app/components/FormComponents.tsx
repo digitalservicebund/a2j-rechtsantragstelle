@@ -10,7 +10,7 @@ import Select from "~/components/formElements/Select";
 import Textarea from "~/components/formElements/Textarea";
 import TileGroup from "~/components/formElements/tile/TileGroup";
 import TimeInput from "~/components/formElements/TimeInput";
-import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 
 export const FormComponent = ({
   componentProps,

@@ -6,7 +6,7 @@ import type { UserData } from "~/domains/userData";
 import { shouldShowEstimatedTime } from "~/services/analytics/abTest/shouldShowEstimatedTime";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
-import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { schemaForFieldNames } from "~/services/validation/stepValidator/schemaForFieldNames";
 import { ButtonNavigation } from "../ButtonNavigation";

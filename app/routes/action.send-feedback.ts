@@ -1,9 +1,9 @@
 import { parseFormData, validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs } from "react-router";
 import { redirect } from "react-router";
-import { USER_FEEDBACK_ID } from "~/components/userFeedback";
-import { feedbackSchema } from "~/components/userFeedback/FeedbackFormBox";
-import { userRatingFieldname } from "~/components/userFeedback/RatingBox";
+import { USER_FEEDBACK_ID } from "~/components/content/userFeedback";
+import { feedbackSchema } from "~/components/content/userFeedback/FeedbackFormBox";
+import { userRatingFieldname } from "~/components/content/userFeedback/RatingBox";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getRedirectForNonRelativeUrl } from "~/services/feedback/getRedirectForNonRelativeUrl";

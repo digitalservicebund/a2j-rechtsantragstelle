@@ -1,7 +1,7 @@
 import { z } from "zod";
+import { StrapiContentComponentSchema } from "./formElements/StrapiContentComponent";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
-import { StrapiContentComponentSchema } from "./StrapiContentComponent";
 
 export const StrapiPageSchema = z.object({
   content: z.array(StrapiContentComponentSchema),

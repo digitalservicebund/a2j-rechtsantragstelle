@@ -6,7 +6,7 @@ import { getFieldsByFormElements } from "./getFieldsByFormElements";
 import { getStrapiEntry } from "./getStrapiEntry";
 import type { StrapiSchemas } from "./schemas";
 import { config } from "../env/public";
-import { type StrapiFormComponent } from "./models/StrapiFormComponent";
+import { type StrapiFormComponent } from "./models/formElements/StrapiFormComponent";
 
 export type FormFieldsMap = Record<string, string[]>;
 

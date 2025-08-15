@@ -1,10 +1,10 @@
 import omit from "lodash/omit";
 import { z } from "zod";
+import { StrapiParagraphSchema } from "./content/StrapiParagraph";
 import { HasStrapiIdSchema } from "./HasStrapiId";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { StrapiImageOptionalSchema } from "./StrapiImage";
 import { StrapiLinkSchema } from "./StrapiLink";
-import { StrapiParagraphSchema } from "./StrapiParagraph";
 
 export const StrapiFooterSchema = z
   .object({

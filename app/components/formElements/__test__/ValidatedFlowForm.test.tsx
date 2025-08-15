@@ -8,7 +8,7 @@ import { getStrapiSelectComponent } from "tests/factories/cmsModels/strapiSelect
 import { getStrapiTextareaComponent } from "tests/factories/cmsModels/strapiTextareaComponent";
 import { getStrapiTileGroupComponent } from "tests/factories/cmsModels/strapiTileGroupComponent";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
-import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";

@@ -9,7 +9,7 @@ import { z } from "zod";
 import Background from "~/components/Background";
 import { ButtonNavigation } from "~/components/ButtonNavigation";
 import Container from "~/components/Container";
-import ContentComponents from "~/components/ContentComponents";
+import ContentComponents from "~/components/content/ContentComponents";
 import { FormComponents } from "~/components/FormComponents";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { FlowId } from "~/domains/flowIds";

@@ -8,7 +8,7 @@ const questionText = "Some very important question.";
 const descriptionText = "An even more important description";
 const placeholderText = "Beschreibung des Problems....";
 
-vi.mock("~/components/userFeedback/feedbackTranslations", () => ({
+vi.mock("~/components/content/userFeedback/feedbackTranslations", () => ({
   useFeedbackTranslations: () => ({
     "open-feedback-placeholder": placeholderText,
   }),

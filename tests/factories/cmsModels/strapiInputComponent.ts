@@ -1,7 +1,7 @@
 import { waitFor, screen } from "@testing-library/react";
 import type { z } from "zod";
+import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import type { StrapiFieldErrorSchema } from "~/services/cms/models/StrapiFieldError";
-import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
 
 type InputType = "date" | "time" | "input";
 
