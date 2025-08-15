@@ -1,5 +1,4 @@
 import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
-import classNames from "classnames";
 import { alignToContainer } from "~/components";
 import { StandaloneLink } from "./StandaloneLink";
 
@@ -12,27 +11,24 @@ type BreadcrumbsProps = {
   readonly breadcrumbs: Breadcrumb[];
   readonly ariaLabel?: string;
   readonly linkLabel?: string;
-  readonly alignToMainContainer?: boolean;
 };
 
 export default function Breadcrumbs({
   ariaLabel,
   breadcrumbs,
   linkLabel,
-  alignToMainContainer = true,
 }: BreadcrumbsProps) {
   const validBreadcrumbs = breadcrumbs?.filter(
     (breadcrumb) => breadcrumb.title !== undefined,
   );
 
-  const navClassNames = classNames("py-8 px-16 flex flex-wrap items-center", {
-    [`${alignToContainer} !py-8`]: alignToMainContainer,
-  });
-
   return (
     validBreadcrumbs.length > 0 && (
       <div className="bg-blue-100">
-        <nav className={navClassNames} aria-label={ariaLabel}>
+        <nav
+          className={`!py-8 px-16 flex flex-wrap items-center ${alignToContainer}`}
+          aria-label={ariaLabel}
+        >
           {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
           <a
             href="/"
