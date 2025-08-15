@@ -1,16 +1,6 @@
-import classNames from "classnames";
 import { alignToContainer } from "~/components";
 
-export default function Kopfzeile({
-  alignToMainContainer = true,
-}: Readonly<{ alignToMainContainer?: boolean }>) {
-  const containerClassNames = classNames(
-    "gap-8 sm:gap-16 flex items-center py-0! mx-0!",
-    {
-      [alignToContainer]: alignToMainContainer,
-      "px-8 sm:px-[15px]": !alignToMainContainer,
-    },
-  );
+export default function Kopfzeile() {
   return (
     <div
       className="flex items-center text-left text-xs sm:text-base"
@@ -21,7 +11,9 @@ export default function Kopfzeile({
           "Fira Sans, Fira Sans Regular, Noto Sans, Noto Sans Regular, SF Pro Text, Segoe UI, SegoeUI, Roboto, Arial, Helvetica, sans-serif",
       }}
     >
-      <div className={containerClassNames}>
+      <div
+        className={`gap-8 sm:gap-16 flex items-center py-0! mx-0! ${alignToContainer}`}
+      >
         <span
           aria-hidden="true"
           className="flex border-solid h-12 w-[18px] sm:w-24 sm:h-16 border-white border"

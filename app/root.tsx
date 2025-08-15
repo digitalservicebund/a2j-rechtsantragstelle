@@ -123,15 +123,11 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     pathname,
     trackingConsent,
   );
-  const flowIdMaybe = flowIdFromPathname(pathname);
+  const isAnyFlowPage = Boolean(flowIdFromPathname(pathname));
   return data(
     {
       breadcrumbs,
-      pageHeaderProps: {
-        ...strapiHeader,
-        hideLinks: Boolean(flowIdMaybe),
-        alignToMainContainer: !flowIdMaybe?.match(/formular|antrag/),
-      },
+      pageHeaderProps: { ...strapiHeader, hideLinks: isAnyFlowPage },
       footer: strapiFooter,
       cookieBannerContent: cookieBannerContent,
       hasTrackingConsent: trackingConsent
@@ -142,7 +138,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       hasAnyUserData,
       accessibilityTranslations,
       feedback: getFeedbackData(mainSession, pathname),
-      skipContentLinkTarget: flowIdMaybe ? "#flow-page-content" : "#main",
+      skipContentLinkTarget: isAnyFlowPage ? "#flow-page-content" : "#main",
       postSubmissionText: parseAndSanitizeMarkdown(
         staticTranslations.feedback["text-post-submission"].de,
       ),
@@ -215,7 +211,6 @@ function App() {
             <PageHeader {...pageHeaderProps} />
             <Breadcrumbs
               breadcrumbs={breadcrumbs}
-              alignToMainContainer={pageHeaderProps.alignToMainContainer}
               linkLabel={pageHeaderProps.linkLabel}
               ariaLabel={getTranslationByKey(
                 "header-breadcrumb",
@@ -262,7 +257,6 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
       <body className="flex flex-col">
         <div className="min-h-screen">
           <PageHeader
-            alignToMainContainer
             hideLinks={false}
             linkLabel="Zurück zur Startseite"
             title="Justiz-Services"

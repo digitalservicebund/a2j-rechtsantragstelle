@@ -17,7 +17,7 @@ export default function FlowNavigation(props: FlowNavigationProps) {
       className={classNames(
         "w-full md:border md:border-blue-400 print:hidden",
         {
-          "fixed bottom-0 z-50 md:static md:z-auto": jsAvailable,
+          "fixed left-0 bottom-0 z-50 md:static md:z-auto": jsAvailable,
         },
       )}
     >

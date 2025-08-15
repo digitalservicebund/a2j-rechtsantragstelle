@@ -1,6 +1,5 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
-import classNames from "classnames";
 import { alignToContainer } from "~/components";
 import Kopfzeile from "~/components/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
@@ -12,22 +11,13 @@ type PageHeaderProps = {
   title: string;
   linkLabel: string;
   hideLinks: boolean;
-  alignToMainContainer?: boolean;
 };
 
 export default function PageHeader({
   title,
   linkLabel,
   hideLinks,
-  alignToMainContainer,
 }: Readonly<PageHeaderProps>) {
-  const navClassNames = classNames(
-    "pt-16! pb-24! flex flex-wrap justify-between",
-    {
-      [`${alignToContainer}`]: alignToMainContainer,
-      "px-16": !alignToMainContainer,
-    },
-  );
   const shouldPrint = useShouldPrint();
 
   return (
@@ -39,9 +29,9 @@ export default function PageHeader({
           {translations.pageHeader.time.de}
         </span>
       )}
-      <Kopfzeile alignToMainContainer={alignToMainContainer} />
+      <Kopfzeile />
       <nav
-        className={navClassNames}
+        className={`pt-16! pb-24! flex flex-wrap justify-between ${alignToContainer}`}
         aria-label={translations.pageHeader.mainNavigationAriaLabel.de}
       >
         <a
