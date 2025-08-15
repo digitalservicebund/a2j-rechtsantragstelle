@@ -3,8 +3,9 @@ import { useFetcher } from "react-router";
 import Button from "~/components/Button";
 import Container from "~/components/Container";
 import Heading, { type HeadingProps } from "~/components/Heading";
-import RichText, { type RichTextProps } from "~/components/RichText";
+import RichText from "~/components/RichText";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
+import { arrayIsNonEmpty } from "~/util/array";
 import { useJsAvailable } from "../hooks/useJsAvailable";
 import { StandaloneLink } from "../StandaloneLink";
 
@@ -12,7 +13,10 @@ export const acceptCookiesFieldName = "accept-cookies";
 
 type CookieBannerContentProps = {
   heading: HeadingProps;
-  paragraphs: RichTextProps[];
+  paragraphs: Array<{
+    html: string;
+    id: number;
+  }>;
   acceptButtonLabel: string;
   declineButtonLabel: string;
   cookieSettingLinkText: string;
@@ -47,10 +51,16 @@ export function CookieBanner({
     return <></>;
   }
 
+  const paragraphAriaDescribedBy = arrayIsNonEmpty(content.paragraphs)
+    ? `paragraph-${content.paragraphs[0].id}`
+    : undefined;
+
   return (
-    <section
-      className="right-16 left-16 border-b-2 border-blue-800 z-50 bg-blue-300"
-      aria-label="Cookie banner"
+    <dialog
+      open
+      className="border-b-2 border-blue-800 z-50 bg-blue-300 w-full static"
+      aria-labelledby="cookie-banner-heading"
+      aria-describedby={paragraphAriaDescribedBy}
       data-testid="cookie-banner"
     >
       <analyticsFetcher.Form
@@ -63,6 +73,7 @@ export function CookieBanner({
               tagName={content.heading.tagName}
               text={content.heading.text}
               look={content.heading.look}
+              elementId="cookie-banner-heading"
             />
             <div>
               <div className="ds-stack ds-stack-8">
@@ -100,6 +111,6 @@ export function CookieBanner({
           </div>
         </Container>
       </analyticsFetcher.Form>
-    </section>
+    </dialog>
   );
 }
