@@ -63,6 +63,7 @@ export const addMultiplePersonsText = (
   klagendePersonListItem.add(
     doc.struct("LBody", {}, () => {
       doc
+        .font(FONTS_BUNDESSANS_BOLD)
         .text("1. ", PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT - 5, undefined, {
           continued: true,
         })

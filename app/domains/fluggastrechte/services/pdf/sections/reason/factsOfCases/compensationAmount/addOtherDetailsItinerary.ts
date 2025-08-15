@@ -6,6 +6,7 @@ import {
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
+import { getHeightOfString } from "../../getHeightOfString";
 
 export const OTHER_DETAILS_ITINERARY = "Weitere Angaben zum Reiseverlauf:";
 
@@ -18,21 +19,15 @@ export const addOtherDetailsItinerary = (
     typeof zusaetzlicheAngaben !== "undefined" &&
     zusaetzlicheAngaben.length > 0
   ) {
-    const otherDetailsItineraryHeight = doc.heightOfString(
-      OTHER_DETAILS_ITINERARY,
-      {
-        width: PDF_WIDTH_SEIZE,
-      },
-    );
-
-    const zusaetzlicheAngabenHeight = doc.heightOfString(zusaetzlicheAngaben, {
-      width: PDF_WIDTH_SEIZE,
-    });
-
-    addNewPageInCaseMissingVerticalSpace(
+    const totalHeightOfStrings = getHeightOfString(
+      [OTHER_DETAILS_ITINERARY, zusaetzlicheAngaben],
       doc,
-      zusaetzlicheAngabenHeight + otherDetailsItineraryHeight,
+      PDF_WIDTH_SEIZE,
     );
+
+    addNewPageInCaseMissingVerticalSpace(doc, {
+      extraYPosition: totalHeightOfStrings,
+    });
 
     const compensationSect = doc.struct("Sect");
     compensationSect.add(

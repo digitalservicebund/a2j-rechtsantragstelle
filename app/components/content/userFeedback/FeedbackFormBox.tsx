@@ -7,7 +7,6 @@ import ButtonContainer from "~/components/ButtonContainer";
 import Textarea from "~/components/formElements/Textarea";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
-import { FeedbackSuccessMessage } from "./FeedbackSuccessMessage";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./FeedbackType";
 
@@ -80,13 +79,13 @@ export const FeedbackFormBox = ({
       preventScrollReset={true}
       onSubmit={onSubmit}
     >
-      <FeedbackSuccessMessage
-        subtitle={feedbackTranslations["antwort-uebermittelt"]}
-      />
       <div className="ds-stack ds-stack-16">
         <div>
-          <label htmlFor={FEEDBACK_FIELD_NAME} className="ds-label-01-bold">
-            {feedbackText}
+          <label htmlFor={FEEDBACK_FIELD_NAME}>
+            <span className="ds-label-01-bold">
+              {feedbackTranslations["success-message"]}
+            </span>
+            <span className="ds-label-01-reg ml-4">{feedbackText}</span>
           </label>
           <p
             id={headingPersonalFeedbackId}

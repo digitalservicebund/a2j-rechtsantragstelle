@@ -56,7 +56,7 @@ export const addMultiplePersonsInfo = (
     }),
   );
 
-  addNewPageInCaseMissingVerticalSpace(doc);
+  addNewPageInCaseMissingVerticalSpace(doc, {});
 
   if (hasZeugen === "yes") {
     compensationSect.add(

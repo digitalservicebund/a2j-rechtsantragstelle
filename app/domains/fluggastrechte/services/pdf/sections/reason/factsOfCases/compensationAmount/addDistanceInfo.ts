@@ -10,6 +10,7 @@ import {
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
+import { getHeightOfString } from "../../getHeightOfString";
 
 export const ARTICLE_AIR_PASSENGER_REGULATION_TEXT =
   "Damit ergibt sich nach Art. 7 der Fluggastrechteverordnung (EG) 261/2004 eine Entschädigung in Höhe von";
@@ -49,11 +50,15 @@ export const addDistanceInfo = (
 ) => {
   const distanceText = getDistanceText(userData);
 
-  const distanceTextHeight = doc.heightOfString(distanceText, {
-    width: PDF_WIDTH_SEIZE,
-  });
+  const distanceTextHeight = getHeightOfString(
+    distanceText,
+    doc,
+    PDF_WIDTH_SEIZE,
+  );
 
-  addNewPageInCaseMissingVerticalSpace(doc, distanceTextHeight);
+  addNewPageInCaseMissingVerticalSpace(doc, {
+    extraYPosition: distanceTextHeight,
+  });
   const distanceSect = doc.struct("Sect");
   distanceSect.add(
     doc.struct("P", {}, () => {
