@@ -1,6 +1,6 @@
 import type { useMatches } from "react-router";
+import { isStrapiHero } from "../cms/models/content/isStrapiHero";
 import type { StrapiContentComponent } from "../cms/models/formElements/StrapiContentComponent";
-import { isStrapiHero } from "../cms/models/isStrapiHero";
 import type { StrapiMeta } from "../cms/models/StrapiMeta";
 
 type RouteMatchKnown = Omit<ReturnType<typeof useMatches>[0], "loaderData"> & {
