@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { StrapiContentComponentSchema } from "./formElements/StrapiContentComponent";
+import { StrapiFormComponentSchema } from "./formElements/StrapiFormComponent";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { StrapiFlowIdSchema } from "./StrapiFlowId";
-import { StrapiFormComponentSchema } from "./StrapiFormComponent";
 import { StringWithHtmlEntities } from "./StringWithHtmlEntities";
 
 export const StrapiFormFlowPageSchema = z.object({

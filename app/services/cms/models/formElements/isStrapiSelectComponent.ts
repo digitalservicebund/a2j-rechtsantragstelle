@@ -1,6 +1,6 @@
 import { type z } from "zod";
-import { type StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
-import { type StrapiSelectComponentSchema } from "./formElements/StrapiSelect";
+import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
+import { type StrapiSelectComponentSchema } from "./StrapiSelect";
 
 type StrapiSelectComponent = z.infer<typeof StrapiSelectComponentSchema>;
 

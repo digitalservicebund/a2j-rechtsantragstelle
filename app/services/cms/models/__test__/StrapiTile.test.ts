@@ -1,4 +1,4 @@
-import { StrapiTileSchema } from "../StrapiTile";
+import { StrapiTileSchema } from "../formElements/StrapiTile";
 
 describe("StrapiTileSchema", () => {
   it("should fail the parse in case is missing the title", () => {
