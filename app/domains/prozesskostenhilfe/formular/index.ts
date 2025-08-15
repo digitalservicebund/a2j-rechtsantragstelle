@@ -11,7 +11,6 @@ import {
 } from "~/domains/prozesskostenhilfe/formular/abgabe/stringReplacements";
 import { antragstellendePersonArrayConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/arrayConfiguration";
 import { getAntragstellendePersonStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/stringReplacements";
-import { qualifiesForVereinfachteErklaerung } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 import { getVereinfachteErklaerungStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/stringReplacements";
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/xStateConfig";
 import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/arrayConfiguration";
@@ -32,15 +31,14 @@ import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import {
   couldLiveFromUnterhalt,
   empfaengerIsAnderePerson,
-  empfaengerIsChild,
 } from "./antragstellendePerson/guards";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import { hasGesetzlicheVertretungYes } from "./gesetzlicheVertretung/guards";
 import { gesetzlicheVertretungXstateConfig } from "./gesetzlicheVertretung/xStateConfig";
 import {
+  erstantragAnwalt,
   isNachueberpruefung,
-  versandDigitalAnwalt,
   versandDigitalGericht,
 } from "./grundvoraussetzungen/guards";
 import {
@@ -90,9 +88,11 @@ export const prozesskostenhilfeFormular = {
         getProzesskostenhilfeAntragstellendePersonConfig({
           backToCallingFlow: [
             {
-              guard: ({ context }) =>
-                versandDigitalAnwalt({ context }) ||
-                versandDigitalGericht({ context }),
+              guard: erstantragAnwalt,
+              target: "#grundvoraussetzungen.antrag.klageersteller",
+            },
+            {
+              guard: ({ context }) => versandDigitalGericht({ context }),
               target:
                 "#grundvoraussetzungen.einreichung.hinweis-digital-einreichung",
             },
@@ -108,18 +108,6 @@ export const prozesskostenhilfeFormular = {
         }),
       rechtsschutzversicherung: getProzesskostenhilfeRsvXstateConfig({
         backToCallingFlow: [
-          {
-            guard: ({ context }) =>
-              empfaengerIsChild({ context }) &&
-              qualifiesForVereinfachteErklaerung({ context }),
-            target: "#vereinfachte-erklaerung.hinweis-vereinfachte-erklaerung",
-          },
-          {
-            guard: ({ context }) =>
-              empfaengerIsChild({ context }) &&
-              !qualifiesForVereinfachteErklaerung({ context }),
-            target: "#vereinfachte-erklaerung.hinweis-weiteres-formular",
-          },
           {
             guard: empfaengerIsAnderePerson,
             target: "#antragstellende-person.zwei-formulare",

@@ -7,6 +7,7 @@ import {
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/__test__/testcases";
+import { testCasesPKHFormularGrundvoraussetzungen } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/types";
 import { testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen } from "../finanzielleAngaben/__test__/testcasesAndereUnterhalt";
 import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "../finanzielleAngaben/__test__/testcasesAusgaben";
@@ -25,36 +26,7 @@ const machine: FlowStateMachine = createMachine(
 );
 
 const testCasesFormular = [
-  [
-    {
-      formularArt: "erstantrag",
-      verfahrenArt: "verfahrenSelbststaendig",
-      versandArt: "digital",
-    },
-    [
-      "/start/start",
-      "/grundvoraussetzungen/nachueberpruefung-frage",
-      "/grundvoraussetzungen/antrag/klageersteller",
-      "/grundvoraussetzungen/antrag/hinweis",
-      "/grundvoraussetzungen/einreichung/fall",
-      "/grundvoraussetzungen/einreichung/mjp",
-      "/grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
-    ],
-  ],
-  [
-    {
-      formularArt: "nachueberpruefung",
-      versandArt: "analog",
-    },
-    [
-      "/grundvoraussetzungen/nachueberpruefung-frage",
-      "/grundvoraussetzungen/nachueberpruefung/name-gericht",
-      "/grundvoraussetzungen/nachueberpruefung/aktenzeichen",
-      "/grundvoraussetzungen/einreichung/fall",
-      "/grundvoraussetzungen/einreichung/hinweis-papier-einreichung",
-      "/antragstellende-person/empfaenger",
-    ],
-  ],
+  ...testCasesPKHFormularGrundvoraussetzungen,
   [
     {},
     ["/persoenliche-daten/beruf", "/weitere-angaben", "/abgabe/ueberpruefung"],

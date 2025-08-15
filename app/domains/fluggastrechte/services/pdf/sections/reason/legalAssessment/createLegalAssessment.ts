@@ -8,8 +8,10 @@ import {
   PDF_MARGIN_HORIZONTAL,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
+import { MARGIN_BETWEEN_SECTIONS } from "../../../configurations";
 import { getFullPlaintiffName } from "../../getFullPlaintiffName";
 import { addNewPageInCaseMissingVerticalSpace } from "../addNewPageInCaseMissingVerticalSpace";
+import { getHeightOfString } from "../getHeightOfString";
 
 export const LEGAL_ASSESSMENT_TEXT = "II. Rechtliche Würdigung";
 export const CLAIM_FULL_JUSTIFIED_TEXT =
@@ -42,30 +44,19 @@ function checkAndNewPage(
   doc: typeof PDFDocument,
   assumedSettlementSectionText: string,
 ) {
-  const legalAssessmentHeight = doc.heightOfString(LEGAL_ASSESSMENT_TEXT, {
-    width: PDF_WIDTH_SEIZE,
-  });
-
-  const claimFullJustifiedTextHeight = doc.heightOfString(
-    CLAIM_FULL_JUSTIFIED_TEXT,
-    {
-      width: PDF_WIDTH_SEIZE,
-    },
-  );
-
-  const assumedSettlementSectionTextHeight = doc.heightOfString(
-    assumedSettlementSectionText,
-    {
-      width: PDF_WIDTH_SEIZE,
-    },
-  );
-
-  addNewPageInCaseMissingVerticalSpace(
+  const legalAssessmentTextsHeight = getHeightOfString(
+    [
+      LEGAL_ASSESSMENT_TEXT,
+      CLAIM_FULL_JUSTIFIED_TEXT,
+      assumedSettlementSectionText,
+    ],
     doc,
-    legalAssessmentHeight +
-      claimFullJustifiedTextHeight +
-      assumedSettlementSectionTextHeight,
+    PDF_WIDTH_SEIZE,
   );
+
+  addNewPageInCaseMissingVerticalSpace(doc, {
+    extraYPosition: legalAssessmentTextsHeight,
+  });
 }
 
 export const createLegalAssessment = (
@@ -89,16 +80,7 @@ export const createLegalAssessment = (
     }),
   );
 
-  documentStruct.add(legalAssessmentSect);
-
-  const compensationByDistance = getTotalCompensationClaim(userData);
-
-  const courtCostValue = gerichtskostenFromBetrag(
-    Number(compensationByDistance),
-  );
-
-  const reasonSect = doc.struct("Sect");
-  reasonSect.add(
+  legalAssessmentSect.add(
     doc.struct("P", {}, () => {
       doc
         .fontSize(10)
@@ -106,26 +88,51 @@ export const createLegalAssessment = (
         .text(CLAIM_FULL_JUSTIFIED_TEXT)
         .text(assumedSettlementSectionText)
         .moveDown(4);
-
-      const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${courtCostValue} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
-      const advanceCourtTextHeight = doc.heightOfString(advanceCourtText, {
-        width: PDF_WIDTH_SEIZE,
-      });
-      addNewPageInCaseMissingVerticalSpace(doc, advanceCourtTextHeight);
-
-      doc
-        .text(advanceCourtText)
-        .moveDown(2)
-        .font(FONTS_BUNDESSANS_BOLD)
-        .text(
-          getFullPlaintiffName(
-            userData.anrede,
-            userData.title,
-            userData.vorname,
-            userData.nachname,
-          ),
-        );
     }),
   );
-  documentStruct.add(reasonSect);
+
+  const compensationByDistance = getTotalCompensationClaim(userData);
+
+  const courtCostValue = gerichtskostenFromBetrag(
+    Number(compensationByDistance),
+  );
+  const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${courtCostValue} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
+  const advanceCourtTextHeight = doc.heightOfString(advanceCourtText, {
+    width: PDF_WIDTH_SEIZE,
+  });
+
+  const plaintiffName = getFullPlaintiffName(
+    userData.anrede,
+    userData.title,
+    userData.vorname,
+    userData.nachname,
+  );
+  const plaintiffNameTextHeight = doc.heightOfString(plaintiffName, {
+    width: PDF_WIDTH_SEIZE,
+  });
+  // avoid that a new page consits only of the plaintiff name
+  addNewPageInCaseMissingVerticalSpace(doc, {
+    extraYPosition: advanceCourtTextHeight + plaintiffNameTextHeight,
+    moveDownFactor: MARGIN_BETWEEN_SECTIONS,
+    numberOfParagraphs: 2,
+  });
+  legalAssessmentSect.add(
+    doc.struct("P", {}, () => {
+      doc.text(advanceCourtText);
+      doc.moveDown(1);
+    }),
+  );
+  documentStruct.add(legalAssessmentSect);
+
+  const plaintiffNameSect = doc.struct("Sect");
+
+  doc.moveDown(MARGIN_BETWEEN_SECTIONS);
+
+  plaintiffNameSect.add(
+    doc.struct("P", {}, () => {
+      doc.font(FONTS_BUNDESSANS_BOLD).text(plaintiffName);
+    }),
+  );
+
+  documentStruct.add(plaintiffNameSect);
 };

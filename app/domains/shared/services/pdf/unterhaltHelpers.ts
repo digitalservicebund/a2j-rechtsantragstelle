@@ -1,63 +1,42 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
-import { empfaengerIsChild } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/guards";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
-import { getTotalMonthlyFinancialEntries } from "~/domains/prozesskostenhilfe/services/pdf/util";
-import type { AttachmentEntries } from "~/services/pdf/attachment";
-import type { PdfFillFunction } from "~/services/pdf/fillOutFunction";
+import {
+  SEE_IN_ATTACHMENT_DESCRIPTION,
+  type AttachmentEntries,
+} from "~/services/pdf/attachment";
+import { type StringField } from "~/services/pdf/fileTypes";
+import type { PdfFillFunctionProps } from "~/services/pdf/fillOutFunction";
 
 export const familyRelationshipMap = {
-  mother: "Meine Mutter",
-  father: "Mein Vater",
-  grandmother: "Meine Großmutter",
-  grandfather: "Mein Großvater",
-  kid: "Mein Kind",
-  "ex-spouse-f": "Meine Ex-Ehepartnerin",
-  "ex-spouse-m": "Mein Ex-Ehepartner",
-  grandchild: "Mein Enkelkind",
+  mother: "Mutter",
+  father: "Vater",
+  grandmother: "Großmutter",
+  grandfather: "Großvater",
+  kid: "Kind",
+  "ex-spouse": "Ex-Ehepart.",
+  "ex-partner": "Ex-Partner",
+  grandchild: "Enkelkind",
 } as const;
 
-export function getFillUnterhalt<
-  Context extends
-    | BeratungshilfeFormularUserData
-    | ProzesskostenhilfeFormularUserData,
-  Pdf extends BeratungshilfePDF | ProzesskostenhilfePDF,
->(
-  attachmentTitle: string,
-  setAttachmentField: (pdf: Pdf) => void,
-): PdfFillFunction<Context, Pdf> {
-  return ({ userData, pdfValues }) => {
+export const addSupportRecipientsToAttachment =
+  <
+    Context extends
+      | ProzesskostenhilfeFormularUserData
+      | BeratungshilfeFormularUserData,
+    PDF extends ProzesskostenhilfePDF | BeratungshilfePDF,
+  >({
+    userData,
+    pdfValues,
+  }: PdfFillFunctionProps<Context, PDF>) =>
+  (seeAttachmentDescription: string, firstRelationField: keyof PDF) => {
     const attachment: AttachmentEntries = [];
-    const zahltPartnerUnterhalt = userData.partnerUnterhaltsSumme !== undefined;
-    const kinder = userData.kinder ?? [];
-    const pkhUserData = userData as ProzesskostenhilfeFormularUserData;
-    // Need to add the child added as a part of Vereinfachte Erklärung to the kinder array
-    if (
-      empfaengerIsChild({ context: pkhUserData }) &&
-      pkhUserData.child !== undefined
-    ) {
-      kinder.unshift({
-        ...pkhUserData.child,
-        wohnortBeiAntragsteller: pkhUserData.livesTogether ? "yes" : "no",
-        einnahmen: pkhUserData.einnahmen
-          ? getTotalMonthlyFinancialEntries(pkhUserData.einnahmen)
-          : undefined,
-      });
-    }
-    const hasKinder = kinder.length > 0;
+    (pdfValues[firstRelationField] as StringField).value =
+      SEE_IN_ATTACHMENT_DESCRIPTION;
 
-    const unterhaltszahlungen = userData.unterhaltszahlungen ?? [];
-    const hasUnterhaltszahlungen = unterhaltszahlungen.length > 0;
-
-    if (!zahltPartnerUnterhalt && !hasUnterhaltszahlungen && !hasKinder)
-      return { pdfValues };
-
-    setAttachmentField(pdfValues);
-
-    attachment.push({ title: attachmentTitle, level: "h2" });
-
-    if (zahltPartnerUnterhalt) {
+    attachment.push({ title: seeAttachmentDescription, level: "h2" });
+    if (userData.partnerUnterhaltsSumme !== undefined) {
       attachment.push({ title: "Partner", level: "h3" });
       attachment.push({
         title: "Name",
@@ -78,10 +57,10 @@ export function getFillUnterhalt<
         });
     }
 
-    if (hasKinder) {
+    if (userData.kinder && userData.kinder.length > 0) {
       attachment.push({ title: "Kinder", level: "h3" });
 
-      kinder.forEach((kind, index) => {
+      userData.kinder.forEach((kind, index) => {
         attachment.push({ title: `Kind ${index + 1}`, level: "h4" });
         attachment.push({
           title: "Name",
@@ -106,13 +85,16 @@ export function getFillUnterhalt<
       });
     }
 
-    if (hasUnterhaltszahlungen) {
+    if (
+      userData.unterhaltszahlungen &&
+      userData.unterhaltszahlungen.length > 0
+    ) {
       attachment.push({
         title: "Andere Personen",
         level: "h3",
       });
 
-      unterhaltszahlungen.forEach((person, index) => {
+      userData.unterhaltszahlungen.forEach((person, index) => {
         attachment.push({ title: `Person ${index + 1}`, level: "h4" });
         attachment.push({
           title: "Name",
@@ -131,4 +113,3 @@ export function getFillUnterhalt<
     }
     return { pdfValues, attachment };
   };
-}

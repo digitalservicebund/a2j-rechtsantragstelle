@@ -4,12 +4,13 @@ import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/u
 import { calculateDistanceBetweenAirportsInKilometers } from "~/domains/fluggastrechte/services/airports/calculateDistanceBetweenAirports";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
-import { MARGIN_BETWEEN_SECTIONS } from "~/domains/fluggastrechte/services/pdf/configurations";
 import {
+  FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
+import { getHeightOfString } from "../../getHeightOfString";
 
 export const ARTICLE_AIR_PASSENGER_REGULATION_TEXT =
   "Damit ergibt sich nach Art. 7 der Fluggastrechteverordnung (EG) 261/2004 eine Entschädigung in Höhe von";
@@ -44,17 +45,26 @@ const getDistanceText = (userData: FluggastrechteUserData): string => {
 
 export const addDistanceInfo = (
   doc: typeof PDFDocument,
+  documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
   const distanceText = getDistanceText(userData);
 
-  const distanceTextHeight = doc.heightOfString(distanceText, {
-    width: PDF_WIDTH_SEIZE,
+  const distanceTextHeight = getHeightOfString(
+    distanceText,
+    doc,
+    PDF_WIDTH_SEIZE,
+  );
+
+  addNewPageInCaseMissingVerticalSpace(doc, {
+    extraYPosition: distanceTextHeight,
   });
-
-  addNewPageInCaseMissingVerticalSpace(doc, distanceTextHeight);
-
-  doc
-    .text(distanceText, PDF_MARGIN_HORIZONTAL)
-    .moveDown(MARGIN_BETWEEN_SECTIONS);
+  const distanceSect = doc.struct("Sect");
+  distanceSect.add(
+    doc.struct("P", {}, () => {
+      doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
+      doc.text(distanceText, PDF_MARGIN_HORIZONTAL);
+    }),
+  );
+  documentStruct.add(distanceSect);
 };

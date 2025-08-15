@@ -1,5 +1,7 @@
+import times from "lodash/times";
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
+import { familyRelationshipMap } from "~/domains/shared/services/pdf/unterhaltHelpers";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import {
@@ -21,12 +23,14 @@ describe("E_unterhalt", () => {
     expect(hasAttachmentDescriptionSectionE).toBeFalsy();
   });
 
-  const testContexts = {
-    partner: {
+  it("should fill out Section E when the total number of support recipients is under 4", () => {
+    const userData = {
       unterhalt: "yes",
       partnerUnterhaltsSumme: "100",
-    },
-    children: {
+      partnerEinkommen: "yes",
+      partnerEinkommenSumme: "200",
+      partnerVorname: "Max",
+      partnerNachname: "Mustermann",
       kinder: [
         {
           vorname: "vorname",
@@ -39,8 +43,6 @@ describe("E_unterhalt", () => {
           unterhalt: "yes",
         },
       ],
-    },
-    others: {
       unterhaltszahlungen: [
         {
           familyRelationship: "grandchild",
@@ -50,23 +52,60 @@ describe("E_unterhalt", () => {
           monthlyPayment: "100",
         },
       ],
-    },
-  } satisfies Record<string, BeratungshilfeFormularUserData>;
+    } satisfies BeratungshilfeFormularUserData;
+    const { pdfValues } = pdfFillReducer({
+      userData,
+      pdfParams: getBeratungshilfeParameters(),
+      fillFunctions: [fillUnterhalt],
+    });
 
-  test.each(Object.entries(testContexts))(
-    "fills unterhalt into attachment for %s",
-    (_, testContext) => {
-      const { pdfValues, attachment } = pdfFillReducer({
-        userData: testContext,
-        pdfParams: getBeratungshilfeParameters(),
-        fillFunctions: [fillUnterhalt],
-      });
+    // Partner
+    expect(pdfValues.e1Person1.value).toEqual(
+      `${userData.partnerVorname} ${userData.partnerNachname}`,
+    );
+    expect(pdfValues.e3Familienverhaeltnis.value).toEqual("Ehepartner");
+    expect(pdfValues.e4Zahlung1.value).toEqual(
+      userData.partnerUnterhaltsSumme + " €",
+    );
+    expect(pdfValues.e6Betrag1.value).toEqual(
+      userData.partnerEinkommenSumme + " €",
+    );
 
-      const hasAttachmentDescriptionSectionE = attachment.some(
-        (description) => description.title === ATTACHMENT_DESCRIPTION_SECTION_E,
-      );
-      expect(hasAttachmentDescriptionSectionE).toBeTruthy();
-      expect(pdfValues.e1Person1.value).toEqual(SEE_IN_ATTACHMENT_DESCRIPTION);
-    },
-  );
+    // Child
+    const child = userData.kinder[0];
+    expect(pdfValues.e1Person2.value).toEqual(
+      `${child.vorname} ${child.nachname}`,
+    );
+    expect(pdfValues.e2Geburtsdatum2.value).toEqual(child.geburtsdatum);
+    expect(pdfValues.e3Familienverhaeltnis2.value).toEqual("Kind");
+    expect(pdfValues.e4Zahlung2.value).toEqual(child.unterhaltsSumme + " €");
+    expect(pdfValues.e6Betrag2.value).toEqual(child.einnahmen + " €");
+
+    // Other recipient
+    const other = userData.unterhaltszahlungen[0];
+    expect(pdfValues.e1Person3.value).toEqual(
+      `${other.firstName} ${other.surname}`,
+    );
+    expect(pdfValues.e2Geburtsdatum3.value).toEqual(other.birthday);
+    expect(pdfValues.e3Familienverhaeltnis3.value).toEqual(
+      familyRelationshipMap[other.familyRelationship],
+    );
+    expect(pdfValues.e5Einnahmen3.value).toEqual(true);
+  });
+
+  it("should move the support recipients to the attachment if the total number of support recipients is over 5", () => {
+    const userData = {
+      kinder: times(6, () => ({
+        vorname: "Max",
+        nachname: "Mustermann",
+      })),
+    } satisfies BeratungshilfeFormularUserData;
+    const { pdfValues, attachment } = pdfFillReducer({
+      userData,
+      pdfParams: getBeratungshilfeParameters(),
+      fillFunctions: [fillUnterhalt],
+    });
+    expect(attachment.length).toBeGreaterThan(0);
+    expect(pdfValues.e1Person1.value).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
+  });
 });

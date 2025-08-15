@@ -76,6 +76,24 @@ export const pkhFormularVereinfachteErklaerungPages = {
     stepId:
       "antragstellende-person/vereinfachte-erklaerung/einnahmen-uebersicht",
   },
+  einnahme: {
+    stepId: "antragstellende-person/vereinfachte-erklaerung/einnahme",
+    pageSchema: {
+      einnahmen: z.array(financialEntryInputSchema),
+    },
+    arrayPages: {
+      daten: {
+        pageSchema: {
+          "einnahmen#beschreibung": stringRequiredSchema,
+          "einnahmen#betrag": buildMoneyValidationSchema(),
+          "einnahmen#zahlungsfrequenz": z.enum(
+            ["monthly", "quarterly", "yearly", "one-time"],
+            customRequiredErrorMessage,
+          ),
+        },
+      },
+    },
+  },
   einnahmeDaten: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/einnahme/daten",
     pageSchema: {
@@ -101,9 +119,8 @@ export const pkhFormularVereinfachteErklaerungPages = {
     stepId:
       "antragstellende-person/vereinfachte-erklaerung/vermoegen-uebersicht",
   },
-  vermoegenDaten: {
-    stepId:
-      "antragstellende-person/vereinfachte-erklaerung/vermoegen-eintrag/daten",
+  vermoegenEintrag: {
+    stepId: "antragstellende-person/vereinfachte-erklaerung/vermoegen-eintrag",
     pageSchema: {
       vermoegen: z.array(
         z
@@ -113,6 +130,14 @@ export const pkhFormularVereinfachteErklaerungPages = {
           })
           .partial(),
       ),
+    },
+    arrayPages: {
+      daten: {
+        pageSchema: {
+          "vermoegen#beschreibung": stringRequiredSchema,
+          "vermoegen#wert": buildMoneyValidationSchema(),
+        },
+      },
     },
   },
   vermoegenWarnung: {

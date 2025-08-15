@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
-import Select from "../app/components/inputs/Select";
-import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
+import Select from "../app/components/formElements/Select";
+import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
-  title: "Component/Select",
+  title: "FormElements/Select",
   component: Select,
   parameters: {
     layout: "centered",
@@ -30,9 +30,9 @@ export const Default: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };
@@ -50,9 +50,9 @@ export const WithPlaceholder: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };

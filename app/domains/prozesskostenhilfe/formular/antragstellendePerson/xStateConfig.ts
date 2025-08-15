@@ -1,5 +1,4 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import { pkhFormularAntragstellendePersonPages } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/pages";
 import type { ProzesskostenhilfeAntragstellendePersonUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
 import { getProzesskostenhilfeVereinfachteErklaerungConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/xStateConfig";
 import type {
@@ -13,6 +12,8 @@ import {
   empfaengerIsAnderePerson,
   empfaengerIsChild,
 } from "./guards";
+import { pkhFormularAntragstellendePersonPages } from "./pages";
+import { qualifiesForVereinfachteErklaerung } from "./vereinfachteErklaerung/guards";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularAntragstellendePersonPages,
@@ -48,11 +49,26 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
       "vereinfachte-erklaerung":
         getProzesskostenhilfeVereinfachteErklaerungConfig({
           backToCallingFlow: "#antragstellende-person.empfaenger",
-          nextFlowEntrypoint,
+          nextFlowEntrypoint: "#antragstellende-person.unterhaltsanspruch",
         }),
       [steps.unterhaltsanspruch.relative]: {
         on: {
-          BACK: steps.empfaenger.relative,
+          BACK: [
+            {
+              guard: ({ context }) =>
+                empfaengerIsChild({ context }) &&
+                qualifiesForVereinfachteErklaerung({ context }),
+              target:
+                "#vereinfachte-erklaerung.hinweis-vereinfachte-erklaerung",
+            },
+            {
+              guard: ({ context }) =>
+                empfaengerIsChild({ context }) &&
+                !qualifiesForVereinfachteErklaerung({ context }),
+              target: "#vereinfachte-erklaerung.hinweis-weiteres-formular",
+            },
+            steps.empfaenger.relative,
+          ],
           SUBMIT: [
             {
               guard: ({ context }) =>

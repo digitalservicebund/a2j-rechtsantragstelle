@@ -1,6 +1,6 @@
 import { waitFor, screen } from "@testing-library/react";
 import type { z } from "zod";
-import type { StrapiCheckboxComponentSchema } from "~/services/cms/components/StrapiCheckbox";
+import type { StrapiCheckboxComponentSchema } from "~/services/cms/models/formElements/StrapiCheckbox";
 import type { StrapiFieldErrorSchema } from "~/services/cms/models/StrapiFieldError";
 
 type CheckboxConfig = {

@@ -18,6 +18,7 @@ import {
   useMatches,
   useRouteLoaderData,
   Outlet,
+  useLocation,
 } from "react-router";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
@@ -43,6 +44,7 @@ import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
 import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
+import { generatePrintTitle } from "./services/meta/generatePrintTitle";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
@@ -121,15 +123,11 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     pathname,
     trackingConsent,
   );
-  const flowIdMaybe = flowIdFromPathname(pathname);
+  const isAnyFlowPage = Boolean(flowIdFromPathname(pathname));
   return data(
     {
       breadcrumbs,
-      pageHeaderProps: {
-        ...strapiHeader,
-        hideLinks: Boolean(flowIdMaybe),
-        alignToMainContainer: !flowIdMaybe?.match(/formular|antrag/),
-      },
+      pageHeaderProps: { ...strapiHeader, hideLinks: isAnyFlowPage },
       footer: strapiFooter,
       cookieBannerContent: cookieBannerContent,
       hasTrackingConsent: trackingConsent
@@ -140,7 +138,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       hasAnyUserData,
       accessibilityTranslations,
       feedback: getFeedbackData(mainSession, pathname),
-      skipContentLinkTarget: flowIdMaybe ? "#flow-page-content" : "#main",
+      skipContentLinkTarget: isAnyFlowPage ? "#flow-page-content" : "#main",
       postSubmissionText: parseAndSanitizeMarkdown(
         staticTranslations.feedback["text-post-submission"].de,
       ),
@@ -161,6 +159,7 @@ function App() {
     skipContentLinkTarget,
   } = useLoaderData<RootLoader>();
   const shouldPrint = useShouldPrint();
+  const { pathname } = useLocation();
   const matches = useMatches();
   const { title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
@@ -179,7 +178,9 @@ function App() {
   return (
     <html lang="de">
       <head>
-        <title>{title}</title>
+        <title>
+          {shouldPrint ? generatePrintTitle(title, pathname) : title}
+        </title>
         {description && <meta name="description" content={description} />}
         <meta property="og:title" content={ogTitle ?? title} />
         <meta property="og:description" content={description} />
@@ -210,7 +211,6 @@ function App() {
             <PageHeader {...pageHeaderProps} />
             <Breadcrumbs
               breadcrumbs={breadcrumbs}
-              alignToMainContainer={pageHeaderProps.alignToMainContainer}
               linkLabel={pageHeaderProps.linkLabel}
               ariaLabel={getTranslationByKey(
                 "header-breadcrumb",
@@ -257,7 +257,6 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
       <body className="flex flex-col">
         <div className="min-h-screen">
           <PageHeader
-            alignToMainContainer
             hideLinks={false}
             linkLabel="Zurück zur Startseite"
             title="Justiz-Services"

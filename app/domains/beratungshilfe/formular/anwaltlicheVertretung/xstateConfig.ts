@@ -1,9 +1,16 @@
+import mapValues from "lodash/mapValues";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import {
   anwaltlicheVertretungDone,
   beratungshilfeAnwaltlicheVertretungGuards,
 } from "./guards";
+import { berHAntragAnwaltlicheVertretungPages } from "./pages";
 import type { BeratungshilfeAnwaltlicheVertretungUserData } from "./userData";
+
+const steps = mapValues(berHAntragAnwaltlicheVertretungPages, (v) => ({
+  absolute: "#" + v.stepId.replaceAll("/", "."),
+  relative: v.stepId.split("/").pop()!,
+}));
 
 export const anwaltlicheVertretungXstateConfig = {
   initial: "start",
@@ -15,7 +22,7 @@ export const anwaltlicheVertretungXstateConfig = {
         SUBMIT: [
           {
             guard: beratungshilfeAnwaltlicheVertretungGuards.anwaltskanzleiYes,
-            target: "beratung-stattgefunden",
+            target: steps.beratungStattgefunden.relative,
           },
           {
             target: "#rechtsproblem.start",
@@ -24,13 +31,13 @@ export const anwaltlicheVertretungXstateConfig = {
         BACK: "#grundvoraussetzungen.eigeninitiative-grundvorraussetzung",
       },
     },
-    "beratung-stattgefunden": {
+    [steps.beratungStattgefunden.relative]: {
       on: {
         SUBMIT: [
           {
             guard:
               beratungshilfeAnwaltlicheVertretungGuards.beratungStattgefundenYes,
-            target: "beratung-stattgefunden-datum",
+            target: steps.beratungStattgefundenDatum.relative,
           },
           {
             target: "#rechtsproblem.start",
@@ -39,36 +46,36 @@ export const anwaltlicheVertretungXstateConfig = {
         BACK: "start",
       },
     },
-    "beratung-stattgefunden-datum": {
+    [steps.beratungStattgefundenDatum.relative]: {
       on: {
         SUBMIT: [
           {
             guard:
               beratungshilfeAnwaltlicheVertretungGuards.beratungStattgefundenDatumLaterThanFourWeeks,
-            target: "anwalt-ende",
+            target: steps.anwaltEnde.relative,
           },
           {
-            target: "frist-hinweis",
+            target: steps.fristHinweis.relative,
           },
         ],
-        BACK: "beratung-stattgefunden",
+        BACK: steps.beratungStattgefunden.relative,
       },
     },
-    "frist-hinweis": {
+    [steps.fristHinweis.relative]: {
       on: {
-        SUBMIT: "anwalt-kontaktdaten",
-        BACK: "beratung-stattgefunden-datum",
+        SUBMIT: steps.anwaltKontaktdaten.relative,
+        BACK: steps.beratungStattgefundenDatum.relative,
       },
     },
-    "anwalt-kontaktdaten": {
+    [steps.anwaltKontaktdaten.relative]: {
       on: {
         SUBMIT: "#rechtsproblem.start",
-        BACK: "frist-hinweis",
+        BACK: steps.fristHinweis.relative,
       },
     },
-    "anwalt-ende": {
+    [steps.anwaltEnde.relative]: {
       on: {
-        BACK: "beratung-stattgefunden-datum",
+        BACK: steps.beratungStattgefundenDatum.relative,
       },
     },
   },

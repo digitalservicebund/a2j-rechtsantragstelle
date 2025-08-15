@@ -1,20 +1,17 @@
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import { useFetcher, useLocation } from "react-router";
+import Button from "~/components/Button";
+import ButtonContainer from "~/components/ButtonContainer";
+import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import Button from "../Button";
-import ButtonContainer from "../ButtonContainer";
-import { useJsAvailable } from "../hooks/useJsAvailable";
+import { translations } from "~/services/translations/translations";
 
 type Props = {
   readonly itemIndex: number;
   readonly category: string;
   readonly editUrl: string;
   readonly csrf: string;
-  readonly translations: {
-    arrayEditButtonLabel: string;
-    arrayDeleteButtonLabel: string;
-  };
 };
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
@@ -24,7 +21,6 @@ const ArraySummaryItemButton = ({
   category,
   editUrl,
   csrf,
-  translations,
 }: Props) => {
   const { pathname } = useLocation();
   const fetcher = useFetcher();
@@ -33,7 +29,7 @@ const ArraySummaryItemButton = ({
   return (
     <ButtonContainer className="pt-8">
       <Button iconLeft={<EditButton />} look="tertiary" href={editUrl}>
-        {translations.arrayEditButtonLabel}
+        {translations.arraySummary.arrayEditButtonLabel.de}
       </Button>
       {/* form method 'delete' isn't supported without js, see https://github.com/remix-run/remix/discussions/4420 */}
       <fetcher.Form method="post" action={DELETE_URL_ENDPOINT}>
@@ -47,7 +43,7 @@ const ArraySummaryItemButton = ({
           value={itemIndex}
           type="submit"
         >
-          {translations.arrayDeleteButtonLabel}
+          {translations.arraySummary.arrayDeleteButtonLabel.de}
         </Button>
       </fetcher.Form>
     </ButtonContainer>

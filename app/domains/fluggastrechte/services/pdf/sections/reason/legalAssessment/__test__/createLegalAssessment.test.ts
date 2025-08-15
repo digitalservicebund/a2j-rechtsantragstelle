@@ -1,3 +1,4 @@
+import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -127,5 +128,31 @@ describe("createLegalAssessment", () => {
     createLegalAssessment(mockDoc, mockStruct, userDataMock);
 
     expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(2);
+  });
+});
+
+describe("createLegalAssessment - accessibility", () => {
+  it("should call createLegalAssessment with one paragraph", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    createLegalAssessment(mockDoc, mockStruct, userDataMock);
+    expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
+    const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "P",
+    );
+    expect(callsWithP).toHaveLength(3);
+  });
+
+  it("should call createLegalAssessment with one h3", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    createLegalAssessment(mockDoc, mockStruct, userDataMock);
+    expect(mockDoc.struct).toHaveBeenCalledWith("H3", {}, expect.any(Function));
+    const callsWithH3 = (mockDoc.struct as Mock).mock.calls.filter(
+      ([tag]) => tag === "H3",
+    );
+    expect(callsWithH3).toHaveLength(1);
   });
 });

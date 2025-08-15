@@ -55,7 +55,7 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   pdfValues.geburtsdatum.value = userData?.geburtsdatum;
 
   fillPdfField({
-    fieldname: "text3",
+    fieldname: "familienstand",
     value: maritalDescriptionMapping[userData.partnerschaft ?? ""],
     attachmentTitle: "Familienstand",
     pdfValues,
@@ -70,7 +70,7 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
     attachment,
   });
 
-  pdfValues.text2.value = userData?.telefonnummer;
+  pdfValues.tagsuebererreichbarunterNummer.value = userData?.telefonnummer;
 
   fillPdfField({
     fieldname:

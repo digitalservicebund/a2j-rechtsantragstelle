@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
-import { useFormFlow } from "../../form/formFlowContext";
+import { useFormFlow } from "../../formFlowContext";
 import { addArrayIndexToPathUrl } from "../addArrayIndexToPathUrl";
 import { getArraySummaryObject } from "../getArraySummaryObject";
 import SummaryOverviewBoxArray from "../SummaryOverviewBoxArray";
 
-vi.mock("../../form/formFlowContext", () => ({
+vi.mock("../../formFlowContext", () => ({
   useFormFlow: vi.fn(),
 }));
 

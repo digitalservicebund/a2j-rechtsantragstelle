@@ -12,7 +12,7 @@ jobs:
   get-content-file:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/cached-checkout-install
       - run: npm run build:localContent
         env:
@@ -48,14 +48,14 @@ jobs:
       packages: write # for updating cosign attestation
       security-events: write
     steps:
-      - uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
+      - uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Download Content File
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: content-file
       - name: Install cosign

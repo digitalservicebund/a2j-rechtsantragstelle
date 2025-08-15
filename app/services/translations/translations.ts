@@ -87,7 +87,7 @@ export const translations = {
       de: "Ihr Feedback hilft uns, diese Seite für alle Nutzenden zu verbessern.",
     },
     "report-problem": {
-      de: "Problem melden",
+      de: "Problem auf dieser Seite melden",
     },
     cancel: {
       de: "Abbrechen",
@@ -129,16 +129,25 @@ export const translations = {
     mainNavigationAriaLabel: {
       de: "Hauptmenü",
     },
+    printPage: {
+      de: "Diese Seite wurde heruntergeladen am",
+    },
+    time: {
+      de: "Uhr",
+    },
+    at: {
+      de: "um",
+    },
   },
   navigationMobile: {
     currentArea: {
       de: "Bereich",
     },
     closeMenu: {
-      de: "Close menu",
+      de: "Schritt-für-Schritt-Menü schließen",
     },
     toggleMenu: {
-      de: "Main menu toggle",
+      de: "Schritt-für-Schritt-Menü",
     },
   },
   buttonNavigation: {
@@ -169,6 +178,17 @@ export const translations = {
     },
     invalidHousenumber: {
       de: "Bitte geben Sie eine gültige Hausnummer an.",
+    },
+  },
+  arraySummary: {
+    arrayEditButtonLabel: {
+      de: "Bearbeiten",
+    },
+    arrayDeleteButtonLabel: {
+      de: "Löschen",
+    },
+    arrayAddButtonLabel: {
+      de: "hinzufügen",
     },
   },
 } satisfies TranslationRecord;

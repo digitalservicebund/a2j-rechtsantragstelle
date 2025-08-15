@@ -1,36 +1,37 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
-import classNames from "classnames";
 import { alignToContainer } from "~/components";
 import Kopfzeile from "~/components/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
 import { translations } from "~/services/translations/translations";
+import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
+import { useShouldPrint } from "./hooks/useShouldPrint";
 
 type PageHeaderProps = {
   title: string;
   linkLabel: string;
   hideLinks: boolean;
-  alignToMainContainer?: boolean;
 };
 
 export default function PageHeader({
   title,
   linkLabel,
   hideLinks,
-  alignToMainContainer,
 }: Readonly<PageHeaderProps>) {
-  const navClassNames = classNames(
-    "!pt-16 !pb-24 px-16 flex flex-wrap justify-between",
-    {
-      [`${alignToContainer}`]: alignToMainContainer,
-    },
-  );
+  const shouldPrint = useShouldPrint();
 
   return (
     <header>
-      <Kopfzeile alignToMainContainer={alignToMainContainer} />
+      {shouldPrint && (
+        <span>
+          {translations.pageHeader.printPage.de} {toGermanDateFormat(today())}{" "}
+          {translations.pageHeader.at.de} {toHourAndMinuteTime(today())}{" "}
+          {translations.pageHeader.time.de}
+        </span>
+      )}
+      <Kopfzeile />
       <nav
-        className={navClassNames}
+        className={`!pt-16 !pb-24 px-16 flex flex-wrap justify-between ${alignToContainer}`}
         aria-label={translations.pageHeader.mainNavigationAriaLabel.de}
       >
         <a

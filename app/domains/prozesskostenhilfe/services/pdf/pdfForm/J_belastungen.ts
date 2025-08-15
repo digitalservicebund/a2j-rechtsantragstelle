@@ -27,7 +27,7 @@ export const fillBelastungen: PkhPdfFillFunction = ({
   const belastungenCount = belastungen.length;
 
   if (belastungenCount > 2) {
-    pdfValues.besondereBelastungen.value = SEE_IN_ATTACHMENT_DESCRIPTION;
+    pdfValues.besondereBelastungen1.value = SEE_IN_ATTACHMENT_DESCRIPTION;
     return {
       pdfValues,
       attachment: [
@@ -41,7 +41,7 @@ export const fillBelastungen: PkhPdfFillFunction = ({
   }
 
   if (belastungenCount > 0) {
-    pdfValues.besondereBelastungen.value = belastungen[0];
+    pdfValues.besondereBelastungen1.value = belastungen[0];
   }
   if (belastungenCount > 1) {
     pdfValues.besondereBelastungen2.value = belastungen[1];

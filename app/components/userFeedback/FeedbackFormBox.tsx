@@ -1,10 +1,9 @@
 import { ValidatedForm } from "@rvf/react-router";
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 import { useLocation } from "react-router";
 import { z } from "zod";
-import Textarea from "~/components/inputs/Textarea";
+import Textarea from "~/components/formElements/Textarea";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
-import { FeedbackTitle } from "./FeedbackTitle";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./FeedbackType";
 import Button from "../Button";
@@ -51,6 +50,7 @@ export const FeedbackFormBox = ({
   const textAreaReference = useRef<HTMLTextAreaElement | null>(null);
 
   const feedbackTranslations = useFeedbackTranslations();
+  const headingPersonalFeedbackId = useId();
 
   useEffect(() => {
     if (shouldFocus && textAreaReference.current) {
@@ -79,16 +79,18 @@ export const FeedbackFormBox = ({
       preventScrollReset={true}
       onSubmit={onSubmit}
     >
-      <FeedbackTitle
-        title={feedbackTranslations["success-message"]}
-        subtitle={feedbackTranslations["antwort-uebermittelt"]}
-      />
-      <div role="status" className="ds-stack ds-stack-16">
+      <div className="ds-stack ds-stack-16">
         <div>
-          <label htmlFor={FEEDBACK_FIELD_NAME} className="ds-label-01-bold">
-            {feedbackText}
+          <label htmlFor={FEEDBACK_FIELD_NAME}>
+            <span className="ds-label-01-bold">
+              {feedbackTranslations["success-message"]}
+            </span>
+            <span className="ds-label-01-reg ml-4">{feedbackText}</span>
           </label>
-          <p className="ds-text-02-reg text-gray-800">
+          <p
+            id={headingPersonalFeedbackId}
+            className="ds-text-02-reg text-gray-800"
+          >
             {feedbackTranslations["heading-personal-data-feedback"]}
           </p>
         </div>
@@ -96,8 +98,8 @@ export const FeedbackFormBox = ({
           name={FEEDBACK_FIELD_NAME}
           classNameLabel="ds-label-01-bold"
           placeholder={feedbackTranslations["placeholder-feedback"]}
-          role="status"
           innerRef={textAreaReference}
+          ariaDescribedby={headingPersonalFeedbackId}
         />
         <ButtonContainer>
           <Button

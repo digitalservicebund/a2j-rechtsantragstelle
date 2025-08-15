@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
-import Textarea from "../app/components/inputs/Textarea";
-import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
+import Textarea from "../app/components/formElements/Textarea";
+import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
-  title: "Component/Textarea",
+  title: "FormElements/Textarea",
   component: Textarea,
   parameters: {
     layout: "centered",
@@ -24,9 +24,9 @@ export const Default: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };
@@ -40,9 +40,9 @@ export const WithDescription: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };
@@ -59,9 +59,9 @@ export const Withdetails: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };

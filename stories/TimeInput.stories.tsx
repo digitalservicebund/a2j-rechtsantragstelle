@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import TimeInput from "../app/components/inputs/TimeInput";
+import TimeInput from "../app/components/formElements/TimeInput";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
-import { RFCFormerProvider } from ".storybook/RFCFormerProvider";
+import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
-  title: "Component/TimeInput",
+  title: "FormElements/TimeInput",
   component: TimeInput,
   parameters: {
     layout: "centered",
@@ -26,9 +26,9 @@ export const Default: Story = {
   decorators: [
     (Story) =>
       reactRouterContext(() => (
-        <RFCFormerProvider>
+        <RVFProvider>
           <Story />
-        </RFCFormerProvider>
+        </RVFProvider>
       )),
   ],
 };
