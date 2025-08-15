@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useLoaderData } from "react-router";
 import Background from "~/components/Background";
 import ArraySummary from "~/components/content/arraySummary/ArraySummary";
-import ContentComponents from "~/components/ContentComponents";
+import ContentComponents from "~/components/content/ContentComponents";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import { FormFlowContext } from "~/components/formFlowContext";
 import Heading from "~/components/Heading";

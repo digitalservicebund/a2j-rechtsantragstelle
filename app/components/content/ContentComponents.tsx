@@ -1,21 +1,21 @@
 import classNames from "classnames";
 import type { ReactElement } from "react";
+import Background from "~/components/Background";
+import Container from "~/components/Container";
+import Box from "~/components/content/Box";
+import BoxWithImage from "~/components/content/BoxWithImage";
+import { Details } from "~/components/content/Details";
 import { EmailCapture } from "~/components/content/emailCapture/EmailCapture";
 import Hero from "~/components/content/Hero";
 import InfoBox from "~/components/content/InfoBox";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import List from "~/components/content/list/List";
+import SummaryOverviewSection from "~/components/content/summaryOverview/SummaryOverviewSection";
 import UserFeedback from "~/components/content/userFeedback";
 import Video from "~/components/content/video/Video";
 import Heading from "~/components/Heading";
+import RichText from "~/components/RichText";
 import type { StrapiContentComponent } from "~/services/cms/models/StrapiContentComponent";
-import Background from "./Background";
-import Container from "./Container";
-import Box from "./content/Box";
-import BoxWithImage from "./content/BoxWithImage";
-import { Details } from "./content/Details";
-import SummaryOverviewSection from "./content/summaryOverview/SummaryOverviewSection";
-import RichText from "./RichText";
 import TableOfContents from "./TableOfContents";
 
 function wrapInContainer(
