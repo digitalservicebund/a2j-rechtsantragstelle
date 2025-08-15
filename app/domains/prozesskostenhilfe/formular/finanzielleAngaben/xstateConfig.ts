@@ -14,7 +14,10 @@ import {
 } from "./doneFunctions";
 import { einkuenfteDone } from "./einkuenfte/doneFunctions";
 import { partnerEinkuenfteGuards } from "./einkuenfte/guards";
-import { getProzesskostenhilfeEinkuenfteSubflow } from "./einkuenfte/xStateConfig";
+import {
+  finanzielleAngabenEinkuenfteXstateConfig,
+  getProzesskostenhilfeEinkuenfteSubflow,
+} from "./einkuenfte/xStateConfig";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
 
 const steps = xStateTargetsFromPagesConfig(pkhFormularFinanzielleAngabenPages);
@@ -23,7 +26,7 @@ export const finanzielleAngabenXstateConfig = {
   initial: "einkuenfte",
   id: "finanzielle-angaben",
   states: {
-    einkuenfte: getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone),
+    einkuenfte: finanzielleAngabenEinkuenfteXstateConfig,
     partner: {
       id: "partner",
       initial: steps.partnerschaft.relative,

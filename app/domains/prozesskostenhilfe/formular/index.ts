@@ -1,6 +1,6 @@
-import mapValues from "lodash/mapValues";
 import type { Flow } from "~/domains/flows.server";
 import { hasOptionalString } from "~/domains/guards.server";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import {
   fileUploadRelevant,
   readyForAbgabe,
@@ -52,7 +52,7 @@ const showPKHZusammenfassung = await isFeatureFlagEnabled(
   "showPKHZusammenfassung",
 );
 
-const stepIds = mapValues(prozesskostenhilfeFormularPages, (v) => v.stepId);
+const steps = xStateTargetsFromPagesConfig(prozesskostenhilfeFormularPages);
 
 export const prozesskostenhilfeFormular = {
   flowType: "formFlow",
@@ -76,9 +76,11 @@ export const prozesskostenhilfeFormular = {
       start: {
         id: "antragStart",
         meta: { done: () => true },
-        initial: stepIds.start,
+        initial: steps.einkuenfteStart.relative,
         states: {
-          [stepIds.start]: { on: { SUBMIT: "#grundvoraussetzungen" } },
+          [steps.einkuenfteStart.relative]: {
+            on: { SUBMIT: "#grundvoraussetzungen" },
+          },
         },
       },
       grundvoraussetzungen: grundvoraussetzungenXstateConfig,
