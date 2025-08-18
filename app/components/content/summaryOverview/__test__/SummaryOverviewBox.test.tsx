@@ -12,7 +12,7 @@ vi.mock("../SummaryOverviewBoxItem", () => ({
   default: vi.fn(() => <div data-testid="summary-overview-box-item" />),
 }));
 
-vi.mock("~/components/Heading", () => ({
+vi.mock("~/components/common/Heading", () => ({
   default: vi.fn(({ text }) => <h1 data-testid="heading">{text}</h1>),
 }));
 
