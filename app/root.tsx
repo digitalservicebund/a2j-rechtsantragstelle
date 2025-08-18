@@ -37,7 +37,7 @@ import styles from "~/styles.css?url";
 import type { Route } from "./+types/root";
 import Breadcrumbs from "./components/common/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
-import Footer from "./components/Footer";
+import Footer from "./components/common/Footer";
 import { useShouldPrint } from "./components/hooks/useShouldPrint";
 import PageHeader from "./components/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
