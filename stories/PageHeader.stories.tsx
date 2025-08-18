@@ -1,6 +1,6 @@
 import { reactRouterContext } from ".storybook/reactRouterContext";
 import type { Meta, StoryObj } from "@storybook/react";
-import PageHeader from "~/components/PageHeader";
+import PageHeader from "~/components/common/PageHeader";
 
 const component = PageHeader;
 

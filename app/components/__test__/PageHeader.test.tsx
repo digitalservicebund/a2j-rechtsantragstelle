@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { decode } from "html-entities";
-import PageHeader from "~/components/PageHeader";
+import PageHeader from "~/components/common/PageHeader";
 import { useShouldPrint } from "../hooks/useShouldPrint";
 
 vi.mock("~/components/hooks/useShouldPrint");

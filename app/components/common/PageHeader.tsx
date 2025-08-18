@@ -5,7 +5,7 @@ import Kopfzeile from "~/components/common/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
 import { translations } from "~/services/translations/translations";
 import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
-import { useShouldPrint } from "./hooks/useShouldPrint";
+import { useShouldPrint } from "../hooks/useShouldPrint";
 
 type PageHeaderProps = {
   title: string;
