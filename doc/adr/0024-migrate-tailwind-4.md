@@ -4,11 +4,12 @@ Date: 2025-08-18
 
 ## Status
 
-- Accepted
+- 2025-08-18: Drafted
+- 2025-08-18: Accepted
 
 ## Context
 
-Tailwind has released version 4, a major update that introduces several breaking changes as documented in the [official upgrade guide](https://tailwindcss.com/docs/upgrade-guide). One of the key changes is the updated browser support policy::
+Tailwind has released version 4, a major update that introduces several breaking changes as documented in the [official upgrade guide](https://tailwindcss.com/docs/upgrade-guide). One of the key changes is the updated browser support policy:
 
 ```
 Tailwind CSS v4.0 is designed for Safari 16.4+, Chrome 111+, and Firefox 128+. If you need to support older browsers, stick with v3.4 until your browser support requirements change.
@@ -29,7 +30,7 @@ To evaluate the impact, we analyzed page views in PostHog from July 13, 2025 to 
   - Total users no support version: 1541
   - % unsupported: 8,08%
 
-We also tested unsupported versions on BrowserStack. With production builds, the site displayed correctly without styling issues. However, with development builds, some styles did not render as expected.
+We tested unsupported browser versions on BrowserStack. In production builds, the site rendered correctly with no major styling issues. In development builds, however, some styles did not render as expected. One exception was observed on older Safari versions, where the “Jump to main content” button remained permanently visible even in production. Aside from this minor issue, no significant visual problems were found, and the website remained fully functional.
 
 ## Decision
 
