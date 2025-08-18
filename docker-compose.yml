@@ -19,7 +19,7 @@ services:
       fi"
 
   redis:
-    image: redis:7
+    image: redis:8
     restart: always
     depends_on:
       cert-generator:
