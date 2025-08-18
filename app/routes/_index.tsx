@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router";
-import ContentComponents from "~/components/ContentComponents";
+import ContentComponents from "~/components/content/ContentComponents";
 import { fetchPage } from "~/services/cms/index.server";
 
 export const loader = async () => {

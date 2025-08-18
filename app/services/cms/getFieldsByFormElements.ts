@@ -1,4 +1,4 @@
-import type { StrapiFormComponent } from "./models/StrapiFormComponent";
+import type { StrapiFormComponent } from "./models/formElements/StrapiFormComponent";
 
 export const getFieldsByFormElements = (
   formElements: StrapiFormComponent[],

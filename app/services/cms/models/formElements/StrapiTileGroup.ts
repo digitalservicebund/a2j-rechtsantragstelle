@@ -2,7 +2,7 @@ import { z } from "zod";
 import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StrapiErrorRelationSchema } from "../StrapiErrorRelationSchema";
 import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
-import { StrapiTileSchema } from "../StrapiTile";
+import { StrapiTileSchema } from "./StrapiTile";
 
 export const StrapiTileGroupComponentSchema = z
   .object({

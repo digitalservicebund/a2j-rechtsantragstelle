@@ -7,7 +7,7 @@ import type { BackgroundColor } from "~/components";
 import Background from "~/components/Background";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
-import ContentComponents from "~/components/ContentComponents";
+import ContentComponents from "~/components/content/ContentComponents";
 import Heading from "~/components/Heading";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import RichText from "~/components/RichText";
