@@ -31,7 +31,7 @@ describe("C_unterhaltsanspruch", () => {
       });
 
       expect(pdfValues.namedesUnterhaltspflichtigen.value).toBe(
-        "unterhaltVor unterhaltNach, Mein Vater",
+        "unterhaltVor unterhaltNach, Vater",
       );
       expect(pdfValues.c2.value).toBeTruthy();
     });
