@@ -1,7 +1,7 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 import { alignToContainer } from "~/components";
-import Kopfzeile from "~/components/Kopfzeile";
+import Kopfzeile from "~/components/common/Kopfzeile";
 import { StandaloneLink } from "~/components/StandaloneLink";
 import { translations } from "~/services/translations/translations";
 import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
