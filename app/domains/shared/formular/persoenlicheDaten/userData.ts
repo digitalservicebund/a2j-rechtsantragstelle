@@ -49,6 +49,6 @@ export const persoenlicheDaten = {
 };
 
 const _partialSchema = z.object(persoenlicheDaten).partial();
-export type PersoenlicheDatenUserData = z.infer<typeof _partialSchema>;
+export type SharedPersoenlicheDatenUserData = z.infer<typeof _partialSchema>;
 
 export const beruf = stringRequiredSchema;

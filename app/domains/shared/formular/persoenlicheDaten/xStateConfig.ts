@@ -1,18 +1,18 @@
 import { type GenericGuard } from "~/domains/guards.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import { type PersoenlicheDatenUserData } from "~/domains/shared/formular/persoenlicheDaten/userData";
+import { type SharedPersoenlicheDatenUserData } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import {
   type FlowConfigTransitions,
   type Config,
 } from "~/services/flow/server/buildFlowController";
-import { persoenlicheDatenPages } from "./pages";
+import { sharedPersoenlicheDatenPages } from "./pages";
 
-const steps = xStateTargetsFromPagesConfig(persoenlicheDatenPages);
+const steps = xStateTargetsFromPagesConfig(sharedPersoenlicheDatenPages);
 export function getPersoenlicheDatenXstateConfig(
-  doneFunction: GenericGuard<PersoenlicheDatenUserData>,
+  doneFunction: GenericGuard<SharedPersoenlicheDatenUserData>,
   transitions?: FlowConfigTransitions,
-  subsequentStates?: Config<PersoenlicheDatenUserData>["states"],
-): Config<PersoenlicheDatenUserData> {
+  subsequentStates?: Config<SharedPersoenlicheDatenUserData>["states"],
+): Config<SharedPersoenlicheDatenUserData> {
   return {
     id: "persoenliche-daten",
     initial: "start",

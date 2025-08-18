@@ -9,7 +9,7 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
-export const persoenlicheDatenPages = {
+export const sharedPersoenlicheDatenPages = {
   title: {
     stepId: "persoenliche-daten/title",
     pageSchema: {

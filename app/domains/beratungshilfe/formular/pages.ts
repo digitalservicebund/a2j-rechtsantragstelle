@@ -1,5 +1,5 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { persoenlicheDatenPages } from "~/domains/shared/formular/persoenlicheDaten/pages";
+import { sharedPersoenlicheDatenPages } from "~/domains/shared/formular/persoenlicheDaten/pages";
 import { berHAntragAnwaltlicheVertretungPages } from "./anwaltlicheVertretung/pages";
 import { berHAntragGrundvoraussetzungenPages } from "./grundvoraussetzung/pages";
 import { berHAntragRechtsproblemPages } from "./rechtsproblem/pages";
@@ -11,5 +11,5 @@ export const beratungshilfeAntragPages = {
   ...berHAntragGrundvoraussetzungenPages,
   ...berHAntragRechtsproblemPages,
   ...berHAntragAnwaltlicheVertretungPages,
-  ...persoenlicheDatenPages,
+  ...sharedPersoenlicheDatenPages,
 } as const satisfies PagesConfig;
