@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { type ReactNode, useState } from "react";
-import { type ErrorMessageProps } from "../types";
+import { type ErrorMessageProps } from "../common/types";
 import InputError from "./InputError";
 import Radio from "./Radio";
 import { useJsAvailable } from "../hooks/useJsAvailable";

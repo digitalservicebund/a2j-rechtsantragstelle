@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { Details } from "~/components/content/Details";
 import InputLabel from "~/components/formElements/InputLabel";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
-import { type ErrorMessageProps } from "../types";
+import { type ErrorMessageProps } from "../common/types";
 import InputError from "./InputError";
 import RichText from "../common/RichText";
 

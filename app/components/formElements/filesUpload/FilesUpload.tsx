@@ -7,7 +7,7 @@ import {
 } from "~/components/content/InlineNotice";
 import InputError from "~/components/formElements/InputError";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import { type ErrorMessageProps } from "~/components/types";
+import { type ErrorMessageProps } from "~/components/common/types";
 import { type UserData } from "~/domains/userData";
 import {
   errorStyling,

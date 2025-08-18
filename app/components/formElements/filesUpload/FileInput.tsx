@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { useRef } from "react";
 import Button from "~/components/common/Button";
 import InputError from "~/components/formElements/InputError";
-import { type ErrorMessageProps } from "~/components/types";
+import { type ErrorMessageProps } from "~/components/common/types";
 import { translations } from "~/services/translations/translations";
 import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
