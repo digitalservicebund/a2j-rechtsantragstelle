@@ -3,7 +3,7 @@ import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
 import { FormComponent } from "../FormComponents";
 import Image from "../common/Image";
-import RichText from "../RichText";
+import RichText from "../common/RichText";
 
 type FieldSetProps = Readonly<
   Pick<StrapiFieldSet, "fieldSetGroup" | "heading" | "image">

@@ -14,7 +14,7 @@ import SummaryOverviewSection from "~/components/content/summaryOverview/Summary
 import UserFeedback from "~/components/content/userFeedback";
 import Video from "~/components/content/video/Video";
 import Heading from "~/components/common/Heading";
-import RichText from "~/components/RichText";
+import RichText from "~/components/common/RichText";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import TableOfContents from "./TableOfContents";
 

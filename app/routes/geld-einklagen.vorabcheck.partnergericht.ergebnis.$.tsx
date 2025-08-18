@@ -8,7 +8,7 @@ import Container from "~/components/common/Container";
 import ContentComponents from "~/components/content/ContentComponents";
 import CourtDetails from "~/components/CourtDetails";
 import Heading from "~/components/common/Heading";
-import RichText from "~/components/RichText";
+import RichText from "~/components/common/RichText";
 import { parsePathname } from "~/domains/flowIds";
 import type { GeldEinklagenVorabcheckUserData } from "~/domains/geldEinklagen/vorabcheck/userData";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";

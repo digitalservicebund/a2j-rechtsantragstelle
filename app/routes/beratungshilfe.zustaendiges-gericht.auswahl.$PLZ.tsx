@@ -15,7 +15,7 @@ import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
 import Input from "~/components/formElements/Input";
 import Heading from "~/components/common/Heading";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import RichText from "~/components/RichText";
+import RichText from "~/components/common/RichText";
 import { type ErrorMessageProps } from "~/components/types";
 import { streetHouseNumberSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";

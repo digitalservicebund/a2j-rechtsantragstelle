@@ -9,7 +9,7 @@ import {
 } from "~/components/content/InlineNotice";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import Image, { type ImageProps } from "~/components/common/Image";
-import RichText from "~/components/RichText";
+import RichText from "~/components/common/RichText";
 import { arrayIsNonEmpty } from "~/util/array";
 
 export type InfoBoxItemProps = {

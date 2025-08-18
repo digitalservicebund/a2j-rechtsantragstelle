@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useState } from "react";
 import InputError from "./InputError";
 import { useJsAvailable } from "../hooks/useJsAvailable";
-import RichText from "../RichText";
+import RichText from "../common/RichText";
 
 export type CheckboxValue = "on" | "off";
 

@@ -1,6 +1,6 @@
 import { type CheckboxValue } from "~/components/formElements/Checkbox";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import RichText from "~/components/RichText";
+import RichText from "~/components/common/RichText";
 
 export type ControlledCheckboxProps = {
   name: string;
