@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router";
 import Background from "~/components/Background";
-import ContentComponents from "~/components/ContentComponents";
+import ContentComponents from "~/components/content/ContentComponents";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import { ProgressBar } from "~/components/ProgressBar";

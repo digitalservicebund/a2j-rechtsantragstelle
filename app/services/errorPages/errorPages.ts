@@ -1,4 +1,4 @@
-import { type StrapiContentComponent } from "../cms/models/StrapiContentComponent";
+import { type StrapiContentComponent } from "../cms/models/formElements/StrapiContentComponent";
 
 const errorPage403: StrapiContentComponent = {
   __component: "page.info-box",
