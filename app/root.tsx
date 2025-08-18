@@ -39,7 +39,7 @@ import Breadcrumbs from "./components/common/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/common/Footer";
 import { useShouldPrint } from "./components/hooks/useShouldPrint";
-import PageHeader from "./components/common/PageHeader";
+import PageHeader from "./components/layout/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
