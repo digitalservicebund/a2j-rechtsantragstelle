@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import Breadcrumbs from "../Breadcrumbs";
+import Breadcrumbs from "../common/Breadcrumbs";
 
 const breadcrumbs = [
   {

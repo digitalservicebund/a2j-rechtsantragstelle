@@ -4,7 +4,7 @@ import WarningAmber from "@digitalservicebund/icons/WarningAmber";
 import { type ReactElement } from "react";
 import { useLoaderData } from "react-router";
 import type { BackgroundColor } from "~/components";
-import Background from "~/components/Background";
+import Background from "~/components/common/Background";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";
 import ContentComponents from "~/components/content/ContentComponents";

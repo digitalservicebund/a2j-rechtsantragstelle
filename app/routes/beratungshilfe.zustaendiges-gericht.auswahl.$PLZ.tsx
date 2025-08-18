@@ -6,7 +6,7 @@ import {
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
-import Background from "~/components/Background";
+import Background from "~/components/common/Background";
 import Button from "~/components/Button";
 import ButtonContainer from "~/components/ButtonContainer";
 import Container from "~/components/Container";

@@ -3,7 +3,7 @@ import HighlightOff from "@digitalservicebund/icons/HighlightOff";
 import type { ReactElement } from "react";
 import type { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
-import Background from "~/components/Background";
+import Background from "~/components/common/Background";
 import Container from "~/components/Container";
 import ContentComponents from "~/components/content/ContentComponents";
 import CourtDetails from "~/components/CourtDetails";

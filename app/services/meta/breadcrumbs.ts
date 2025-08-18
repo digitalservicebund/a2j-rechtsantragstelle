@@ -1,4 +1,4 @@
-import type { Breadcrumb } from "~/components/Breadcrumbs";
+import type { Breadcrumb } from "~/components/common/Breadcrumbs";
 import { fetchMeta } from "../cms/index.server";
 
 // Splits pathname into its subpaths, ie "/a/b/c" => [/a, /a/b, /a/b/c]

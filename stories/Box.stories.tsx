@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Background from "../app/components/Background";
+import Background from "../app/components/common/Background";
 import Container from "../app/components/Container";
 import Box from "~/components/content/Box";
 

@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import type { PropsWithChildren } from "react";
-import { BACKGROUND_COLORS } from ".";
-import type { CommonWrapperProps } from "./Container";
+import type { CommonWrapperProps } from "~/components/Container";
+import { BACKGROUND_COLORS } from "../index";
 
 const DEFAULT_PADDING_TOP = "0";
 const DEFAULT_PADDING_BOTTOM = "0";

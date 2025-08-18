@@ -1,5 +1,5 @@
+import Background from "~/components/common/Background";
 import { translations as staticTranslations } from "~/services/translations/translations";
-import Background from "./Background";
 import Container from "./Container";
 import Heading from "./Heading";
 import Image, { type ImageProps } from "./Image";

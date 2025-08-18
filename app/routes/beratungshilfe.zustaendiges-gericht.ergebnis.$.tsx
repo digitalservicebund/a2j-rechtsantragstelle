@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { redirect, useLoaderData } from "react-router";
 import invariant from "tiny-invariant";
-import Background from "~/components/Background";
+import Background from "~/components/common/Background";
 import Container from "~/components/Container";
 import ContentComponents from "~/components/content/ContentComponents";
 import CourtDetails from "~/components/CourtDetails";
