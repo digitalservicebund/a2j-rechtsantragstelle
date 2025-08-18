@@ -3,7 +3,7 @@ import Background from "~/components/common/Background";
 import ContentComponents from "~/components/content/ContentComponents";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
-import { ProgressBar } from "~/components/ProgressBar";
+import { ProgressBar } from "~/components/common/ProgressBar";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { loader } from "../vorabcheck";
 
