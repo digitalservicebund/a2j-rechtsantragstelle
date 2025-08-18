@@ -1,3 +1,4 @@
+import { type Renderer } from "marked";
 import { z } from "zod";
 import { buildRichTextValidation } from "~/services/validation/richtext";
 import { StrapiAutoSuggestInputComponentSchema } from "./StrapiAutoSuggestInput";
@@ -8,8 +9,14 @@ import { StrapiTimeInputComponentSchema } from "./StrapiTimeInput";
 import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StrapiImageOptionalSchema } from "../StrapiImage";
 
+export const listRenderer: Partial<Renderer> = {
+  paragraph({ tokens }) {
+    return `<p class="ds-subhead">${this.parser?.parseInline(tokens)}</p>`;
+  },
+};
+
 export const StrapiFieldSetComponentSchema = z.object({
-  heading: buildRichTextValidation(),
+  heading: buildRichTextValidation(listRenderer),
   image: StrapiImageOptionalSchema,
   fieldSetGroup: z.object({
     formComponents: z

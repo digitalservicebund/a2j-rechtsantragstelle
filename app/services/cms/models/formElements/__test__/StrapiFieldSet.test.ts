@@ -39,7 +39,7 @@ describe("StrapiFieldSet", () => {
     const actual = StrapiFieldSetComponentSchema.safeParse(mockData);
     expect(actual.success).toBe(true);
     expect(actual.data).toEqual({
-      heading: "<p>heading</p>\n", // markdown adds newline characters automatically after parsing
+      heading: `<p class="ds-subhead">heading</p>`,
       __component: "form-elements.fieldset",
       fieldSetGroup: {
         formComponents: [
