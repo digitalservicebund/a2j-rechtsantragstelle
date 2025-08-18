@@ -35,7 +35,7 @@ import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities"
 import { translations as staticTranslations } from "~/services/translations/translations";
 import styles from "~/styles.css?url";
 import type { Route } from "./+types/root";
-import Breadcrumbs from "./components/common/Breadcrumbs";
+import Breadcrumbs from "./components/layout/Breadcrumbs";
 import { CookieBanner } from "./components/cookieBanner/CookieBanner";
 import Footer from "./components/layout/Footer";
 import { useShouldPrint } from "./components/hooks/useShouldPrint";
