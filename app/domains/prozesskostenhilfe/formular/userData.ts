@@ -15,15 +15,11 @@ import {
   type ProzesskostenhilfePersoenlicheDatenUserData,
 } from "./persoenlicheDaten/userData";
 import { type ProzesskostenhilfeRechtsschutzversicherungUserData } from "./rechtsschutzversicherung/userData";
-import {
-  type ProzesskostenhilfeWeitereAngabenUserData,
-  prozesskostenhilfeWeitereAngabenInputSchema,
-} from "./weitereAngaben/userData";
+import { type ProzesskostenhilfeWeitereAngabenUserData } from "./weitereAngaben/userData";
 
 export const prozesskostenhilfeFormularUserData = {
   ...prozesskostenhilfeFinanzielleAngabenInputSchema,
   ...prozesskostenhilfePersoenlicheDatenInputSchema,
-  ...prozesskostenhilfeWeitereAngabenInputSchema,
   ...abgabeInputSchema,
 } as const;
 

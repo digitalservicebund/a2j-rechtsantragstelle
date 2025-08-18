@@ -1,6 +1,6 @@
-import mapValues from "lodash/mapValues";
 import type { Flow } from "~/domains/flows.server";
 import { hasOptionalString } from "~/domains/guards.server";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import {
   fileUploadRelevant,
   readyForAbgabe,
@@ -52,7 +52,7 @@ const showPKHZusammenfassung = await isFeatureFlagEnabled(
   "showPKHZusammenfassung",
 );
 
-const stepIds = mapValues(prozesskostenhilfeFormularPages, (v) => v.stepId);
+const steps = xStateTargetsFromPagesConfig(prozesskostenhilfeFormularPages);
 
 export const prozesskostenhilfeFormular = {
   flowType: "formFlow",
@@ -76,9 +76,9 @@ export const prozesskostenhilfeFormular = {
       start: {
         id: "antragStart",
         meta: { done: () => true },
-        initial: stepIds.start,
+        initial: steps.start.relative,
         states: {
-          [stepIds.start]: { on: { SUBMIT: "#grundvoraussetzungen" } },
+          [steps.start.relative]: { on: { SUBMIT: "#grundvoraussetzungen" } },
         },
       },
       grundvoraussetzungen: grundvoraussetzungenXstateConfig,
@@ -179,13 +179,13 @@ export const prozesskostenhilfeFormular = {
           beruf: {
             on: {
               BACK: "telefonnummer",
-              SUBMIT: "#weitere-angaben",
+              SUBMIT: steps.weitereAngaben.absolute,
             },
           },
         },
       ),
 
-      "weitere-angaben": {
+      [steps.weitereAngaben.relative]: {
         id: "weitere-angaben",
         meta: { done: weitereAngabenDone },
         on: {
@@ -201,7 +201,7 @@ export const prozesskostenhilfeFormular = {
           ueberpruefung: {
             meta: { expandValidation: true },
             on: {
-              BACK: "#weitere-angaben",
+              BACK: steps.weitereAngaben.absolute,
             },
             always: [
               {
@@ -225,7 +225,7 @@ export const prozesskostenhilfeFormular = {
           },
           zusammenfassung: {
             on: {
-              BACK: "#weitere-angaben",
+              BACK: steps.weitereAngaben.absolute,
               SUBMIT: [
                 {
                   guard: ({ context }) =>
@@ -240,7 +240,7 @@ export const prozesskostenhilfeFormular = {
             on: {
               BACK: showPKHZusammenfassung
                 ? "zusammenfassung"
-                : "#weitere-angaben",
+                : steps.weitereAngaben.absolute,
               SUBMIT: "ende",
             },
           },
@@ -256,7 +256,7 @@ export const prozesskostenhilfeFormular = {
                   guard: () => Boolean(showPKHZusammenfassung),
                   target: "zusammenfassung",
                 },
-                "#weitere-angaben",
+                steps.weitereAngaben.absolute,
               ],
             },
           },

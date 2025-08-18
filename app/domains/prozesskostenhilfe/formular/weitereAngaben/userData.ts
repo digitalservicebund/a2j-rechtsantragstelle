@@ -1,13 +1,6 @@
-import { z } from "zod";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
+import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type pkhFormularWeitereAngabenPages } from "~/domains/prozesskostenhilfe/formular/weitereAngaben/pages";
 
-export const prozesskostenhilfeWeitereAngabenInputSchema = {
-  weitereAngaben: stringOptionalSchema,
-};
-
-const _partialSchema = z
-  .object(prozesskostenhilfeWeitereAngabenInputSchema)
-  .partial();
-export type ProzesskostenhilfeWeitereAngabenUserData = z.infer<
-  typeof _partialSchema
+export type ProzesskostenhilfeWeitereAngabenUserData = UserDataFromPagesSchema<
+  typeof pkhFormularWeitereAngabenPages
 >;
