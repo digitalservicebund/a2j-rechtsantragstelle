@@ -9,7 +9,7 @@ import { ExclusiveCheckboxes } from "~/components/inputs/exclusiveCheckboxes/Exc
 import type { SchemaObject } from "~/domains/userData";
 import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
 import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
-import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
 import { getNestedSchema } from "./schemaToForm/getNestedSchema";
 import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";

@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import Container from "../app/components/Container";
-import InfoBoxItem, { InfoBoxItemProps } from "~/components/InfoBoxItem";
+import InfoBoxItem, {
+  InfoBoxItemProps,
+} from "~/components/content/InfoBoxItem";
 
 const meta = {
   title: "Content/InfoBoxItem",

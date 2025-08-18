@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { useLoaderData } from "react-router";
-import ArraySummary from "~/components/arraySummary/ArraySummary";
 import Background from "~/components/Background";
-import ContentComponents from "~/components/ContentComponents";
+import ArraySummary from "~/components/content/arraySummary/ArraySummary";
+import ContentComponents from "~/components/content/ContentComponents";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import { FormFlowContext } from "~/components/formFlowContext";
 import Heading from "~/components/Heading";

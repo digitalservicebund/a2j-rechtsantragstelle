@@ -1,5 +1,5 @@
 import { type UNSAFE_DataWithResponseInit } from "react-router";
-import { USER_FEEDBACK_ID } from "~/components/userFeedback";
+import { USER_FEEDBACK_ID } from "~/components/content/userFeedback";
 import { getSessionManager } from "~/services/session.server";
 import { action } from "../action.send-feedback";
 
