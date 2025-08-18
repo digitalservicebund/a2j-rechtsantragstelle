@@ -4,7 +4,7 @@ import Checkbox from "~/components/formElements/Checkbox";
 import RadioGroup from "~/components/formElements/RadioGroup";
 import Select from "~/components/formElements/Select";
 import TileGroup from "~/components/formElements/tile/TileGroup";
-import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 
 export type ZodEnum = z.ZodEnum<Record<string, string>>;
 

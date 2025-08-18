@@ -1,5 +1,5 @@
-import type { StrapiContentComponent } from "./models/StrapiContentComponent";
-import type { StrapiFormComponent } from "./models/StrapiFormComponent";
+import type { StrapiContentComponent } from "./models/formElements/StrapiContentComponent";
+import type { StrapiFormComponent } from "./models/formElements/StrapiFormComponent";
 
 export const keyFromElement = (
   element: StrapiContentComponent | StrapiFormComponent,

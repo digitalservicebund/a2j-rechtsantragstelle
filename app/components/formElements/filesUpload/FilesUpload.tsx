@@ -1,12 +1,12 @@
 import { useField, type ValidationErrorResponseData } from "@rvf/react-router";
 import classNames from "classnames";
 import { useActionData } from "react-router";
-import InputError from "~/components/formElements/InputError";
-import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import {
   InlineNotice,
   type InlineNoticeProps,
-} from "~/components/InlineNotice";
+} from "~/components/content/InlineNotice";
+import InputError from "~/components/formElements/InputError";
+import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type ErrorMessageProps } from "~/components/types";
 import { type UserData } from "~/domains/userData";
 import {
