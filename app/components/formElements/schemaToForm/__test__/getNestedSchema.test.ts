@@ -9,6 +9,8 @@ describe("getNestedSchema", () => {
     z.nullable(innerSchema),
     innerSchema.transform((val) => val),
     z.nullable(z.optional(innerSchema)).transform((val) => val),
+    innerSchema.or(z.number()),
+    z.union([innerSchema, z.number(), z.boolean()]),
   ];
   outerSchemas.forEach((outerSchema) => {
     it(`should unwrap ${outerSchema.def.type}`, () => {
