@@ -1,5 +1,5 @@
 import { act, render } from "@testing-library/react";
-import Image from "../Image";
+import Image from "../common/Image";
 
 describe("Image", () => {
   const altText = "Alt Text";

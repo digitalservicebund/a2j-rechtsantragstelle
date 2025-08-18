@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
 import { FormComponent } from "../FormComponents";
-import Image from "../Image";
+import Image from "../common/Image";
 import RichText from "../RichText";
 
 type FieldSetProps = Readonly<

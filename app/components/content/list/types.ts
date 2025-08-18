@@ -1,7 +1,7 @@
 import { type AccordionProps } from "~/components/Accordion";
 import { type ButtonProps } from "~/components/common/Button";
 import { type HeadingProps } from "~/components/common/Heading";
-import { type ImageProps } from "~/components/Image";
+import { type ImageProps } from "~/components/common/Image";
 
 export type ListItemProps = {
   id: number; // Strapi id

@@ -2,7 +2,7 @@ import Background from "~/components/common/Background";
 import { translations as staticTranslations } from "~/services/translations/translations";
 import Container from "./Container";
 import Heading from "./Heading";
-import Image, { type ImageProps } from "../Image";
+import Image, { type ImageProps } from "./Image";
 import RichText, { type RichTextProps } from "../RichText";
 import { StandaloneLink } from "../StandaloneLink";
 
