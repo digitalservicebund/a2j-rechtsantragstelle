@@ -5,10 +5,12 @@ import Input, { type InputProps } from "~/components/formElements/Input";
 import Textarea from "~/components/formElements/Textarea";
 import TimeInput from "~/components/formElements/TimeInput";
 import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import AutoSuggestInput from "../AutoSuggestInput";
 
 export const isZodString = (
   fieldSchema: z.ZodType,
-): fieldSchema is z.ZodString => fieldSchema.def.type === "string";
+): fieldSchema is z.ZodString =>
+  fieldSchema.def.type === "string" || fieldSchema.def.type === "union";
 
 export const renderZodString = (
   schema: z.ZodString,
@@ -38,6 +40,14 @@ export const renderZodString = (
     return <DateInput key={fieldName} {...inputProps} />;
   if (matchingElement?.__component === "form-elements.time-input")
     return <TimeInput key={fieldName} {...inputProps} />;
-
+  if (matchingElement?.__component === "form-elements.auto-suggest-input")
+    return (
+      <AutoSuggestInput
+        key={fieldName}
+        {...inputProps}
+        dataList={matchingElement.dataList}
+        isDisabled={matchingElement.isDisabled ?? false}
+      />
+    );
   return <Input key={fieldName} {...inputProps} />;
 };

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { beratungshilfePersoenlicheDatenInputSchema } from "~/domains/beratungshilfe/formular/persoenlicheDaten/userData";
+import { type BeratungshilfePersoenlicheDatenUserData } from "~/domains/beratungshilfe/formular/persoenlicheDaten/userData";
 import { abgabeInputSchema } from "~/domains/shared/formular/abgabe/userData";
 import { weitereAngabenSchema } from "~/domains/shared/formular/weitereAngaben/userData";
 import { dokumenteInputSchema } from "./abgabe/dokumente/userData";
@@ -10,7 +10,6 @@ import { type BeratungshilfeRechtsproblemUserData } from "./rechtsproblem/userDa
 
 export const beratungshilfeFormularUserData = {
   ...beratungshilfeFinanzielleAngabenInputSchema,
-  ...beratungshilfePersoenlicheDatenInputSchema,
   ...dokumenteInputSchema,
   ...weitereAngabenSchema,
   ...abgabeInputSchema,
@@ -20,4 +19,5 @@ const _partialSchema = z.object(beratungshilfeFormularUserData).partial();
 export type BeratungshilfeFormularUserData = z.infer<typeof _partialSchema> &
   BeratungshilfeGrundvoraussetzungenUserData &
   BeratungshilfeRechtsproblemUserData &
-  BeratungshilfeAnwaltlicheVertretungUserData;
+  BeratungshilfeAnwaltlicheVertretungUserData &
+  BeratungshilfePersoenlicheDatenUserData;

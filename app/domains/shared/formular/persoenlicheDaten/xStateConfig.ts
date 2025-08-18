@@ -1,10 +1,13 @@
 import { type GenericGuard } from "~/domains/guards.server";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type PersoenlicheDatenUserData } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import {
   type FlowConfigTransitions,
   type Config,
 } from "~/services/flow/server/buildFlowController";
+import { persoenlicheDatenPages } from "./pages";
 
+const steps = xStateTargetsFromPagesConfig(persoenlicheDatenPages);
 export function getPersoenlicheDatenXstateConfig(
   doneFunction: GenericGuard<PersoenlicheDatenUserData>,
   transitions?: FlowConfigTransitions,
@@ -19,37 +22,37 @@ export function getPersoenlicheDatenXstateConfig(
     states: {
       start: {
         on: {
-          SUBMIT: "name",
+          SUBMIT: steps.name.relative,
           BACK: transitions?.backToCallingFlow,
         },
       },
-      name: {
+      [steps.name.relative]: {
         on: {
           BACK: "start",
-          SUBMIT: "geburtsdatum",
+          SUBMIT: steps.geburtsdatum.relative,
         },
       },
-      geburtsdatum: {
+      [steps.geburtsdatum.relative]: {
         on: {
-          BACK: "name",
-          SUBMIT: "plz",
+          BACK: steps.name.relative,
+          SUBMIT: steps.plz.relative,
         },
       },
-      plz: {
+      [steps.plz.relative]: {
         on: {
-          BACK: "geburtsdatum",
-          SUBMIT: "adresse",
+          BACK: steps.geburtsdatum.relative,
+          SUBMIT: steps.adresse.relative,
         },
       },
-      adresse: {
+      [steps.adresse.relative]: {
         on: {
-          BACK: "plz",
-          SUBMIT: "telefonnummer",
+          BACK: steps.plz.relative,
+          SUBMIT: steps.telefonnummer.relative,
         },
       },
-      telefonnummer: {
+      [steps.telefonnummer.relative]: {
         on: {
-          BACK: "adresse",
+          BACK: steps.adresse.relative,
           SUBMIT: transitions?.nextFlowEntrypoint,
         },
       },
