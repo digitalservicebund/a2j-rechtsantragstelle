@@ -1,4 +1,5 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { pkhFormularDokumentePages } from "~/domains/prozesskostenhilfe/formular/abgabe/dokumente/pages";
 import { pkhFormularGesetzlicheVertretungPages } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/pages";
 import { pkhFormularAntragstellendePersonPages } from "./antragstellendePerson/pages";
 import { pkhFormularFinanzielleAngabenPages } from "./finanzielleAngaben/pages";
@@ -14,4 +15,5 @@ export const prozesskostenhilfeFormularPages = {
   ...pkhFormularFinanzielleAngabenPages,
   ...pkhFormularGesetzlicheVertretungPages,
   ...pkhFormularAntragstellendePersonPages,
+  ...pkhFormularDokumentePages,
 } as const satisfies PagesConfig;

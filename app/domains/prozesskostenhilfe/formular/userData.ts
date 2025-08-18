@@ -3,10 +3,7 @@ import {
   abgabeInputSchema,
   type AbgabeUserData,
 } from "~/domains/shared/formular/abgabe/userData";
-import {
-  prozesskostenhilfeDokumenteInputSchema,
-  type ProzesskostenhilfeDokumenteUserData,
-} from "./abgabe/dokumente/userData";
+import { type ProzesskostenhilfeDokumenteUserData } from "./abgabe/dokumente/userData";
 import { type ProzesskostenhilfeAntragstellendePersonUserData } from "./antragstellendePerson/userData";
 import {
   prozesskostenhilfeFinanzielleAngabenInputSchema,
@@ -27,7 +24,6 @@ export const prozesskostenhilfeFormularUserData = {
   ...prozesskostenhilfeFinanzielleAngabenInputSchema,
   ...prozesskostenhilfePersoenlicheDatenInputSchema,
   ...prozesskostenhilfeWeitereAngabenInputSchema,
-  ...prozesskostenhilfeDokumenteInputSchema,
   ...abgabeInputSchema,
 } as const;
 
