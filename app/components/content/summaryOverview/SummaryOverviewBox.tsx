@@ -1,6 +1,6 @@
 import EditIcon from "@digitalservicebund/icons/EditOutlined";
 import { useFormFlow } from "~/components/formFlowContext";
-import Heading from "~/components/Heading";
+import Heading from "~/components/common/Heading";
 import { StandaloneLink } from "~/components/StandaloneLink";
 import { type UserData } from "~/domains/userData";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";

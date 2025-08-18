@@ -1,4 +1,4 @@
-import Heading, { type HeadingProps } from "~/components/Heading";
+import Heading, { type HeadingProps } from "~/components/common/Heading";
 import Image, { type ImageProps } from "~/components/Image";
 import RichText from "~/components/RichText";
 

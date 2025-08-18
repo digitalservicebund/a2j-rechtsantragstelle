@@ -5,7 +5,7 @@ import ArraySummary from "~/components/content/arraySummary/ArraySummary";
 import ContentComponents from "~/components/content/ContentComponents";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import { FormFlowContext } from "~/components/formFlowContext";
-import Heading from "~/components/Heading";
+import Heading from "~/components/common/Heading";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";

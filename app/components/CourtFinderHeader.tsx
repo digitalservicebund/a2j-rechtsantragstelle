@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react";
 import Container from "./common/Container";
-import Heading from "./Heading";
+import Heading from "./common/Heading";
 
 type CourtFinderHeaderProps = PropsWithChildren<{
   readonly label: string;

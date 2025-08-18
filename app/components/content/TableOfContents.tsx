@@ -2,7 +2,7 @@ import ArrowDownward from "@digitalservicebund/icons/ArrowDownward";
 import { arrayIsNonEmpty } from "~/util/array";
 import Button, { type ButtonProps } from "../common/Button";
 import ButtonContainer from "../common/ButtonContainer";
-import Heading, { type HeadingProps } from "../Heading";
+import Heading, { type HeadingProps } from "../common/Heading";
 import { StandaloneLink } from "../StandaloneLink";
 
 type Props = {

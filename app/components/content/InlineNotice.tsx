@@ -2,7 +2,7 @@ import SvgCheckCircle from "@digitalservicebund/icons/CheckCircle";
 import SvgErrorOutline from "@digitalservicebund/icons/ErrorOutline";
 import LightbulbOutlinedIcon from "@digitalservicebund/icons/LightbulbOutlined";
 import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
-import Heading from "~/components/Heading";
+import Heading from "~/components/common/Heading";
 import RichText from "~/components/RichText";
 import { removeMarkupTags } from "~/util/strings";
 

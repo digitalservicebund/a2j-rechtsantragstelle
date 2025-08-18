@@ -1,4 +1,4 @@
-import Heading, { type HeadingProps } from "~/components/Heading";
+import Heading, { type HeadingProps } from "~/components/common/Heading";
 import type { BasicTypes } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";

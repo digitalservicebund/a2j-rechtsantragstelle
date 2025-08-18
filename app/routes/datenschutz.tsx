@@ -5,7 +5,7 @@ import Button from "~/components/common/Button";
 import Container from "~/components/common/Container";
 import ContentComponents from "~/components/content/ContentComponents";
 import { acceptCookiesFieldName } from "~/components/cookieBanner/CookieBanner";
-import Heading from "~/components/Heading";
+import Heading from "~/components/common/Heading";
 import {
   consentCookieFromRequest,
   trackingCookieValue,

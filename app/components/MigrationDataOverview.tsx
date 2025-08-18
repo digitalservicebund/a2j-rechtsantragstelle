@@ -4,7 +4,7 @@ import {
   type Translations,
 } from "~/services/translations/getTranslationByKey";
 import { lookupOrKey } from "~/util/lookupOrKey";
-import Heading from "./Heading";
+import Heading from "./common/Heading";
 import { StandaloneLink } from "./StandaloneLink";
 
 type MigrationDataProps = {
