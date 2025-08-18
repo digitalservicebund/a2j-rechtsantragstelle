@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router";
-import Background from "~/components/common/Background";
+import Background from "~/components/layout/Background";
 import ContentComponents from "~/components/content/ContentComponents";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";

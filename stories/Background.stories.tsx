@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Background from "../app/components/common/Background";
+import Background from "../app/components/layout/Background";
 
 const meta = {
   title: "Container/Background",

@@ -1,4 +1,4 @@
-import Background from "~/components/common/Background";
+import Background from "~/components/layout/Background";
 import { translations as staticTranslations } from "~/services/translations/translations";
 import Container from "../layout/Container";
 import Heading from "./Heading";

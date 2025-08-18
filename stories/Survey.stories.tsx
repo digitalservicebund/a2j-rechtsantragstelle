@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { SurveyQuestionType } from "posthog-js";
-import Background from "~/components/common/Background";
+import Background from "~/components/layout/Background";
 import Container from "~/components/layout/Container";
 
 const meta = {
