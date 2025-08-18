@@ -4,7 +4,7 @@ import DateInput from "~/components/formElements/DateInput";
 import Input, { type InputProps } from "~/components/formElements/Input";
 import Textarea from "~/components/formElements/Textarea";
 import TimeInput from "~/components/formElements/TimeInput";
-import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import AutoSuggestInput from "../AutoSuggestInput";
 
 export const isZodString = (
