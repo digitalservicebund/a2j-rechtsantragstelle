@@ -1,9 +1,9 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import type { ReactNode } from "react";
-import { type ErrorMessageProps } from "../common/types";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
+import { type ErrorMessageProps } from "../common/types";
 import { widthClassname } from "../common/width";
 
 export type SelectProps = {

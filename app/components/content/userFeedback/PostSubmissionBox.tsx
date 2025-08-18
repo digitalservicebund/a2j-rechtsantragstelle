@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
+import RichText from "~/components/common/RichText";
 import { FeedbackSuccessMessage } from "~/components/content/userFeedback/FeedbackSuccessMessage";
 import { useFeedbackTranslations } from "~/components/content/userFeedback/feedbackTranslations";
-import RichText from "~/components/common/RichText";
 
 type Props = {
   readonly shouldFocus: boolean;

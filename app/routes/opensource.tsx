@@ -1,7 +1,7 @@
 import { type LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
-import Container from "~/components/layout/Container";
 import ContentComponents from "~/components/content/ContentComponents";
+import Container from "~/components/layout/Container";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { dependencies } from "~/services/openSourceLicenses/dependencies.server";
 import LicenseList from "~/services/openSourceLicenses/LicenseList";

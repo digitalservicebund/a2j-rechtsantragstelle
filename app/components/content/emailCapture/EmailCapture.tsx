@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { useLoaderData, useLocation } from "react-router";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
+import RichText from "~/components/common/RichText";
 import {
   emailCaptureSchema,
   invalidEmailError,
@@ -13,7 +14,6 @@ import {
 } from "~/components/content/InlineNotice";
 import InputError from "~/components/formElements/InputError";
 import InputLabel from "~/components/formElements/InputLabel";
-import RichText from "~/components/common/RichText";
 import { type loader } from "~/routes/shared/formular";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 

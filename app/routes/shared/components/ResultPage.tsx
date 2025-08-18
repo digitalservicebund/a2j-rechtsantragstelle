@@ -4,13 +4,13 @@ import WarningAmber from "@digitalservicebund/icons/WarningAmber";
 import { type ReactElement } from "react";
 import { useLoaderData } from "react-router";
 import type { BackgroundColor } from "~/components";
-import Background from "~/components/layout/Background";
 import ButtonContainer from "~/components/common/ButtonContainer";
-import Container from "~/components/layout/Container";
-import ContentComponents from "~/components/content/ContentComponents";
 import Heading from "~/components/common/Heading";
-import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import RichText from "~/components/common/RichText";
+import ContentComponents from "~/components/content/ContentComponents";
+import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
+import Background from "~/components/layout/Background";
+import Container from "~/components/layout/Container";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
 import { type loader } from "../result";
 

@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import { keyFromElement } from "~/services/cms/keyFromElement";
 import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
-import { FormComponent } from "../FormComponents";
 import Image from "../common/Image";
 import RichText from "../common/RichText";
+import { FormComponent } from "../FormComponents";
 
 type FieldSetProps = Readonly<
   Pick<StrapiFieldSet, "fieldSetGroup" | "heading" | "image">

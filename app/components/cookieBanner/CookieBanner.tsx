@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useFetcher } from "react-router";
 import Button from "~/components/common/Button";
-import Container from "~/components/layout/Container";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import RichText, { type RichTextProps } from "~/components/common/RichText";
+import Container from "~/components/layout/Container";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
-import { useJsAvailable } from "../hooks/useJsAvailable";
 import { StandaloneLink } from "../common/StandaloneLink";
+import { useJsAvailable } from "../hooks/useJsAvailable";
 
 export const acceptCookiesFieldName = "accept-cookies";
 

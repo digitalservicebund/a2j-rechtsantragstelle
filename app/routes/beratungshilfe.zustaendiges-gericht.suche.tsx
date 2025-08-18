@@ -6,11 +6,11 @@ import {
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
-import Background from "~/components/layout/Background";
 import { ButtonNavigation } from "~/components/common/ButtonNavigation";
-import Container from "~/components/layout/Container";
 import ContentComponents from "~/components/content/ContentComponents";
 import { FormComponents } from "~/components/FormComponents";
+import Background from "~/components/layout/Background";
+import Container from "~/components/layout/Container";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { FlowId } from "~/domains/flowIds";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";

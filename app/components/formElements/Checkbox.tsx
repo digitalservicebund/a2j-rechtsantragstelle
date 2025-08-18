@@ -2,8 +2,8 @@ import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { useState } from "react";
 import InputError from "./InputError";
-import { useJsAvailable } from "../hooks/useJsAvailable";
 import RichText from "../common/RichText";
+import { useJsAvailable } from "../hooks/useJsAvailable";
 
 export type CheckboxValue = "on" | "off";
 

@@ -1,9 +1,9 @@
 import { useLoaderData } from "react-router";
-import Background from "~/components/layout/Background";
+import { ProgressBar } from "~/components/common/ProgressBar";
 import ContentComponents from "~/components/content/ContentComponents";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
-import { ProgressBar } from "~/components/common/ProgressBar";
+import Background from "~/components/layout/Background";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { loader } from "../vorabcheck";
 
