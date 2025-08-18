@@ -32,6 +32,7 @@ describe("fileUploadHelpers.server", () => {
         formData,
         { test: [] },
         flowId,
+        "",
       );
       expect(actual).toStrictEqual({
         userData: { test: [{ filename, fileType, fileSize, savedFileKey }] },
@@ -49,6 +50,7 @@ describe("fileUploadHelpers.server", () => {
         formData,
         { test: [] },
         flowId,
+        "",
       );
       expect(actual).toStrictEqual({
         fieldErrors: { "test[0]": "fileRequired" },
