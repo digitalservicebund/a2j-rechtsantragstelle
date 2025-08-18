@@ -1,10 +1,10 @@
 import Background from "~/components/layout/Background";
 import { translations as staticTranslations } from "~/services/translations/translations";
 import Container from "../layout/Container";
-import Heading from "./Heading";
-import Image, { type ImageProps } from "./Image";
-import RichText, { type RichTextProps } from "./RichText";
-import { StandaloneLink } from "./StandaloneLink";
+import Heading from "../common/Heading";
+import Image, { type ImageProps } from "../common/Image";
+import RichText, { type RichTextProps } from "../common/RichText";
+import { StandaloneLink } from "../common/StandaloneLink";
 
 type LinkProps = {
   url: string;
