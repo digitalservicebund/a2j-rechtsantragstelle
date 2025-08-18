@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { reactRouterContext } from ".storybook/reactRouterContext";
-import Container from "~/components/Container";
+import Container from "~/components/common/Container";
 import { ExclusiveCheckboxes } from "~/components/inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
 import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
 import { StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";

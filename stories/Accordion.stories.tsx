@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import Accordion from "../app/components/Accordion";
-import Container from "../app/components/Container";
+import Container from "../app/components/common/Container";
 import { reactRouterContext } from ".storybook/reactRouterContext";
 
 const meta = {

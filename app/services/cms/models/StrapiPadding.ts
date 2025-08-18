@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Padding } from "~/components/Container";
+import type { Padding } from "~/components/common/Container";
 
 export const strapiPaddingOptions = [
   "default",

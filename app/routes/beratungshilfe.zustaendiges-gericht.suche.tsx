@@ -8,7 +8,7 @@ import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
 import Background from "~/components/common/Background";
 import { ButtonNavigation } from "~/components/common/ButtonNavigation";
-import Container from "~/components/Container";
+import Container from "~/components/common/Container";
 import ContentComponents from "~/components/content/ContentComponents";
 import { FormComponents } from "~/components/FormComponents";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";

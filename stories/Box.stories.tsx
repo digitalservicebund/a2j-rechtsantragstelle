@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import Background from "../app/components/common/Background";
-import Container from "../app/components/Container";
+import Container from "../app/components/common/Container";
 import Box from "~/components/content/Box";
 
 const meta = {

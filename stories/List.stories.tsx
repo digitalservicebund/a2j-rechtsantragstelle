@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import List from "~/components/content/list/List";
 import Background from "../app/components/common/Background";
-import Container from "../app/components/Container";
+import Container from "../app/components/common/Container";
 import { faker } from "@faker-js/faker";
 
 const meta = {
