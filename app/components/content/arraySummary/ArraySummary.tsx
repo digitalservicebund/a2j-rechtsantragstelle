@@ -1,5 +1,5 @@
 import AddButton from "@digitalservicebund/icons/Add";
-import Button from "~/components/Button";
+import Button from "~/components/common/Button";
 import Heading, { type HeadingProps } from "~/components/Heading";
 import RichText from "~/components/RichText";
 import type { ArrayData } from "~/domains/userData";

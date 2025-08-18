@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import Accordion, { type AccordionProps } from "~/components/Accordion";
-import Button, { type ButtonProps } from "~/components/Button";
-import ButtonContainer from "~/components/ButtonContainer";
+import Button, { type ButtonProps } from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
 import { Details, type DetailsProps } from "~/components/content/Details";
 import {
   InlineNotice,

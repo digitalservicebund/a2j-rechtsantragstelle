@@ -7,7 +7,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
 import Background from "~/components/common/Background";
-import { ButtonNavigation } from "~/components/ButtonNavigation";
+import { ButtonNavigation } from "~/components/common/ButtonNavigation";
 import Container from "~/components/Container";
 import ContentComponents from "~/components/content/ContentComponents";
 import { FormComponents } from "~/components/FormComponents";

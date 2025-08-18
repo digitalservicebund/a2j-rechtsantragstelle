@@ -1,5 +1,5 @@
-import Button, { type ButtonProps } from "~/components/Button";
-import ButtonContainer from "~/components/ButtonContainer";
+import Button, { type ButtonProps } from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading, { type HeadingProps } from "~/components/Heading";
 import RichText, { type RichTextProps } from "~/components/RichText";
 import { arrayIsNonEmpty } from "~/util/array";

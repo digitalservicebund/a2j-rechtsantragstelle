@@ -16,7 +16,7 @@ vi.mock("~/components/Heading", () => ({
   default: vi.fn(({ text }) => <h1 data-testid="heading">{text}</h1>),
 }));
 
-vi.mock("~/components/Button", () => ({
+vi.mock("~/components/common/Button", () => ({
   default: vi.fn(({ href }) => (
     <a data-testid="edit-button" href={href}>
       Bearbeiten

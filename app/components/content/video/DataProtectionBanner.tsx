@@ -1,4 +1,4 @@
-import Button from "~/components/Button";
+import Button from "~/components/common/Button";
 import Heading from "~/components/Heading";
 import { StandaloneLink } from "~/components/StandaloneLink";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";

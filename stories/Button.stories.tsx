@@ -1,6 +1,5 @@
-import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import Button from "../app/components/Button";
+import Button from "../app/components/common/Button";
 import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
 
 const meta = {

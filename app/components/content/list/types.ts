@@ -1,5 +1,5 @@
 import { type AccordionProps } from "~/components/Accordion";
-import { type ButtonProps } from "~/components/Button";
+import { type ButtonProps } from "~/components/common/Button";
 import { type HeadingProps } from "~/components/Heading";
 import { type ImageProps } from "~/components/Image";
 

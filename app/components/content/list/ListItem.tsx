@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import Accordion from "~/components/Accordion";
-import Button from "~/components/Button";
-import ButtonContainer from "~/components/ButtonContainer";
+import Button from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading from "~/components/Heading";
 import Image, { type ImageProps } from "~/components/Image";
 import RichText from "~/components/RichText";

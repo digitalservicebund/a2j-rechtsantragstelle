@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useRef } from "react";
-import Button from "~/components/Button";
+import Button from "~/components/common/Button";
 import InputError from "~/components/formElements/InputError";
 import { type ErrorMessageProps } from "~/components/types";
 import { translations } from "~/services/translations/translations";

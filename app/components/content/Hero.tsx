@@ -1,6 +1,6 @@
-import type { ButtonProps } from "~/components/Button";
-import Button from "~/components/Button";
-import ButtonContainer from "~/components/ButtonContainer";
+import type { ButtonProps } from "~/components/common/Button";
+import Button from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading, { type HeadingProps } from "~/components/Heading";
 import RichText, { type RichTextProps } from "~/components/RichText";
 
