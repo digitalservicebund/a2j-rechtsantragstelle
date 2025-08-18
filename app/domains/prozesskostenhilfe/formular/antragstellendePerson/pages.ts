@@ -2,7 +2,6 @@ import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { pkhFormularVereinfachteErklaerungPages } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/pages";
 import { familyRelationshipInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { vornameNachnameSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import {
@@ -66,7 +65,8 @@ export const pkhFormularAntragstellendePersonPages = {
       unterhaltspflichtigePerson: z
         .object({
           beziehung: familyRelationshipInputSchema,
-          ...vornameNachnameSchema,
+          vorname: stringRequiredSchema,
+          nachname: stringRequiredSchema,
         })
         .optional(),
     },

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import { type z } from "zod";
-import { type adresseSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { type DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import { postcodeSchema } from "~/services/validation/postcode";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
 const API_PATH = "/api";
 
@@ -28,9 +29,10 @@ const useDataListOptions = (dataListType: DataListType) => {
    * In the case of the Gerichtsfinder, we need the previously-selected PLZ to fetch the street names.
    * However, the AutoSuggest can also be used in a Vorabcheck, so it's not possible to discern the loaderData ahead of time
    */
+  const _adresseSchemaPlz = stringRequiredSchema.pipe(postcodeSchema);
   const loaderData = useLoaderData();
   const postleitzahl = loaderData?.prunedUserData?.plz as
-    | z.infer<typeof adresseSchema.plz>
+    | z.infer<typeof _adresseSchemaPlz>
     | undefined;
   const resourcePath = getResourcePath(dataListType, postleitzahl);
 

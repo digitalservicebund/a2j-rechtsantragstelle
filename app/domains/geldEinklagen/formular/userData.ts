@@ -1,17 +1,12 @@
 import omit from "lodash/omit";
 import { z } from "zod";
 import {
-  adresseSchema,
-  namePrivatPerson,
-  persoenlicheDaten as sharedPersoenlicheDaten,
-  telefonnummer,
-} from "~/domains/shared/formular/persoenlicheDaten/userData";
-import {
   checkedOptional,
   checkedRequired,
 } from "~/services/validation/checkedCheckbox";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
+import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -20,8 +15,28 @@ import {
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
 
+export const adresseSchema = {
+  strasseHausnummer: stringRequiredSchema,
+  plz: stringRequiredSchema.pipe(postcodeSchema),
+  ort: stringRequiredSchema,
+};
+
+export const namePrivatPerson = {
+  title: z.enum(["", "dr"], customRequiredErrorMessage),
+  vorname: stringRequiredSchema,
+  nachname: stringRequiredSchema,
+};
+
+export const telefonnummer = schemaOrEmptyString(phoneNumberSchema);
+
+export const persoenlicheDaten = {
+  ...namePrivatPerson,
+  ...adresseSchema,
+  telefonnummer,
+};
+
 const persoenlicheDatenInputSchema = {
-  ...sharedPersoenlicheDaten,
+  ...persoenlicheDaten,
   bevollmaechtigtePerson: z.enum(
     ["lawyer", "yes", "no"],
     customRequiredErrorMessage,

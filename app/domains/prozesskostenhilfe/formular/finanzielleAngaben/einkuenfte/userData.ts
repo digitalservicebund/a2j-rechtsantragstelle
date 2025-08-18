@@ -3,15 +3,22 @@ import {
   financialEntryInputSchema,
   staatlicheLeistungenInputSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { adresseSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { postcodeSchema } from "~/services/validation/postcode";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import {
   customRequiredErrorMessage,
   YesNoAnswer,
 } from "~/services/validation/YesNoAnswer";
+
+export const adresseSchema = {
+  strasseHausnummer: stringRequiredSchema,
+  plz: stringRequiredSchema.pipe(postcodeSchema),
+  ort: stringRequiredSchema,
+};
 
 export const prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema = {
   staatlicheLeistungen: z.enum(

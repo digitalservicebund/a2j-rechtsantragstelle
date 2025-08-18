@@ -61,12 +61,6 @@ export const sharedPersoenlicheDatenPages = {
       houseNumber: germanHouseNumberSchema,
     },
   },
-  strasseHausnummer: {
-    stepId: "persoenliche-daten/strasseHausnummer",
-    pageSchema: {
-      strasseHausnummer: stringRequiredSchema,
-    },
-  },
   telefonnummer: {
     stepId: "persoenliche-daten/telefonnummer",
     pageSchema: {
