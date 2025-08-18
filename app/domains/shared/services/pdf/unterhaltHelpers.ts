@@ -10,14 +10,14 @@ import { type StringField } from "~/services/pdf/fileTypes";
 import type { PdfFillFunctionProps } from "~/services/pdf/fillOutFunction";
 
 export const familyRelationshipMap = {
-  mother: "Meine Mutter",
-  father: "Mein Vater",
-  grandmother: "Meine Großmutter",
-  grandfather: "Mein Großvater",
-  kid: "Mein Kind",
-  "ex-spouse": "Mein Ex-Ehepartner / Meine Ex-Ehepartnerin",
-  "ex-partner": "Mein Ex-Partner / Meine Ex-Partnerin",
-  grandchild: "Mein Enkelkind",
+  mother: "Mutter",
+  father: "Vater",
+  grandmother: "Großmutter",
+  grandfather: "Großvater",
+  kid: "Kind",
+  "ex-spouse": "Ex-Ehepart.",
+  "ex-partner": "Ex-Partner",
+  grandchild: "Enkelkind",
 } as const;
 
 export const addSupportRecipientsToAttachment =
