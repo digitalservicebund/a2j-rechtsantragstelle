@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useFetcher } from "react-router";
 import Button from "~/components/common/Button";
-import Container from "~/components/common/Container";
+import Container from "~/components/layout/Container";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import RichText, { type RichTextProps } from "~/components/common/RichText";
 import { useAnalytics } from "~/services/analytics/useAnalytics";

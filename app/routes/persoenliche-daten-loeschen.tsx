@@ -2,7 +2,7 @@ import type { LoaderFunctionArgs } from "react-router";
 import { Form, useLoaderData, useNavigation } from "react-router";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
-import Container from "~/components/common/Container";
+import Container from "~/components/layout/Container";
 import ContentComponents from "~/components/content/ContentComponents";
 import {
   fetchTranslations,

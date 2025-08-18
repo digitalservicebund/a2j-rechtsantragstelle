@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import Container from "~/components/common/Container";
+import Container from "~/components/layout/Container";
 import { DataProtectionBanner } from "~/components/content/video/DataProtectionBanner";
 import { translations } from "~/services/translations/translations";
 import { getYoutubeVideoId } from "~/util/url";

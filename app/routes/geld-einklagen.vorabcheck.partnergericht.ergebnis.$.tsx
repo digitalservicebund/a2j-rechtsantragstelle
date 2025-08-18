@@ -4,7 +4,7 @@ import type { ReactElement } from "react";
 import type { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import Background from "~/components/common/Background";
-import Container from "~/components/common/Container";
+import Container from "~/components/layout/Container";
 import ContentComponents from "~/components/content/ContentComponents";
 import CourtDetails from "~/components/CourtDetails";
 import Heading from "~/components/common/Heading";

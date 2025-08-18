@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import type { ReactElement } from "react";
 import Background from "~/components/common/Background";
-import Container from "~/components/common/Container";
+import Container from "~/components/layout/Container";
 import Box from "~/components/content/Box";
 import BoxWithImage from "~/components/content/BoxWithImage";
 import { Details } from "~/components/content/Details";

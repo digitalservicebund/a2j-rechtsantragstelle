@@ -6,7 +6,7 @@ import { useLoaderData } from "react-router";
 import type { BackgroundColor } from "~/components";
 import Background from "~/components/common/Background";
 import ButtonContainer from "~/components/common/ButtonContainer";
-import Container from "~/components/common/Container";
+import Container from "~/components/layout/Container";
 import ContentComponents from "~/components/content/ContentComponents";
 import Heading from "~/components/common/Heading";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";

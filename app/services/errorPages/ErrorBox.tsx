@@ -1,6 +1,6 @@
 import type { AppLoadContext } from "react-router";
 import { isRouteErrorResponse, useRouteError } from "react-router";
-import Container from "~/components/common/Container";
+import Container from "~/components/layout/Container";
 import ContentComponents from "~/components/content/ContentComponents";
 import { config } from "~/services/env/public";
 import { ERROR_PAGES } from "./errorPages";

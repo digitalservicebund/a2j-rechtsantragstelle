@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from "react";
-import Container from "./common/Container";
+import Container from "./layout/Container";
 import Heading from "./common/Heading";
 
 type CourtFinderHeaderProps = PropsWithChildren<{

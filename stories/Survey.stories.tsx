@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { SurveyQuestionType } from "posthog-js";
 import Background from "~/components/common/Background";
-import Container from "~/components/common/Container";
+import Container from "~/components/layout/Container";
 
 const meta = {
   title: "Component/Survey",
