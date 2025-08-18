@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { translations } from "~/services/translations/translations";
-import Footer from "../layout/Footer";
+import Footer from "../Footer";
 
 describe("Footer", () => {
   const categorizedLinks = [

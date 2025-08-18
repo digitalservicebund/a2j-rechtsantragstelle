@@ -1,4 +1,4 @@
-import Kopfzeile from "~/components/common/Kopfzeile";
+import Kopfzeile from "~/components/layout/Kopfzeile";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

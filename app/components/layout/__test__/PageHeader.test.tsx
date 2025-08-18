@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { decode } from "html-entities";
 import PageHeader from "~/components/layout/PageHeader";
-import { useShouldPrint } from "../hooks/useShouldPrint";
+import { useShouldPrint } from "../../hooks/useShouldPrint";
 
 vi.mock("~/components/hooks/useShouldPrint");
 

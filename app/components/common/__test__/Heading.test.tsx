@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import Heading from "../common/Heading";
+import Heading from "../Heading";
 
 describe("Heading", () => {
   it("should not render the component in case text is empty and has not children element", () => {

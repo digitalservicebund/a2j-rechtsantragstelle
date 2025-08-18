@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import Kopfzeile from "~/components/common/Kopfzeile";
+import Kopfzeile from "~/components/layout/Kopfzeile";
 
 describe("Kopfzeile", () => {
   it("should render the Kopfzeile", () => {

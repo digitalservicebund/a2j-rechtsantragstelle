@@ -1,8 +1,8 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 import { alignToContainer } from "~/components";
-import Kopfzeile from "~/components/common/Kopfzeile";
 import { StandaloneLink } from "~/components/common/StandaloneLink";
+import Kopfzeile from "~/components/layout/Kopfzeile";
 import { translations } from "~/services/translations/translations";
 import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
 import { useShouldPrint } from "../hooks/useShouldPrint";
