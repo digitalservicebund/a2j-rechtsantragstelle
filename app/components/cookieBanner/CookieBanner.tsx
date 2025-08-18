@@ -6,7 +6,7 @@ import Heading, { type HeadingProps } from "~/components/common/Heading";
 import RichText, { type RichTextProps } from "~/components/common/RichText";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { useJsAvailable } from "../hooks/useJsAvailable";
-import { StandaloneLink } from "../StandaloneLink";
+import { StandaloneLink } from "../common/StandaloneLink";
 
 export const acceptCookiesFieldName = "accept-cookies";
 

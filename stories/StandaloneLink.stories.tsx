@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { StandaloneLink } from "../app/components/StandaloneLink";
+import { StandaloneLink } from "../app/components/common/StandaloneLink";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 

@@ -2,7 +2,7 @@ import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 import { alignToContainer } from "~/components";
 import Kopfzeile from "~/components/common/Kopfzeile";
-import { StandaloneLink } from "~/components/StandaloneLink";
+import { StandaloneLink } from "~/components/common/StandaloneLink";
 import { translations } from "~/services/translations/translations";
 import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
 import { useShouldPrint } from "../hooks/useShouldPrint";

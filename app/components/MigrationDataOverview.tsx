@@ -5,7 +5,7 @@ import {
 } from "~/services/translations/getTranslationByKey";
 import { lookupOrKey } from "~/util/lookupOrKey";
 import Heading from "./common/Heading";
-import { StandaloneLink } from "./StandaloneLink";
+import { StandaloneLink } from "./common/StandaloneLink";
 
 type MigrationDataProps = {
   readonly userData?: UserData;

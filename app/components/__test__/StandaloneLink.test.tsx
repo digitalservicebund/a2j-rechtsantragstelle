@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { StandaloneLink } from "../StandaloneLink";
+import { StandaloneLink } from "../common/StandaloneLink";
 
 describe("Standalone Button Component", () => {
   test("Displays an external link", () => {

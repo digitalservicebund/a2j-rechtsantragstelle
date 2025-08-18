@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { mustachePlaceholderRegex } from "~/services/security/mustachePlaceholder";
 import { isExternalUrl, isFileDownloadUrl } from "~/util/url";
-import { OpenInNewTabIcon } from "./common/OpenInNewTabIcon";
+import { OpenInNewTabIcon } from "./OpenInNewTabIcon";
 
 type StandaloneLinkProps = Readonly<{
   url: string;

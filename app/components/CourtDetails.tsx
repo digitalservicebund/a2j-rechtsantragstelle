@@ -1,5 +1,5 @@
 import { normalizeURL } from "~/util/strings";
-import { StandaloneLink } from "./StandaloneLink";
+import { StandaloneLink } from "./common/StandaloneLink";
 
 type CourtDetailsProps = {
   name: string;
