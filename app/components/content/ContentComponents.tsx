@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import type { ReactElement } from "react";
-import Background from "~/components/Background";
-import Container from "~/components/Container";
+import Heading from "~/components/common/Heading";
+import RichText from "~/components/common/RichText";
 import Box from "~/components/content/Box";
 import BoxWithImage from "~/components/content/BoxWithImage";
 import { Details } from "~/components/content/Details";
@@ -13,8 +13,8 @@ import List from "~/components/content/list/List";
 import SummaryOverviewSection from "~/components/content/summaryOverview/SummaryOverviewSection";
 import UserFeedback from "~/components/content/userFeedback";
 import Video from "~/components/content/video/Video";
-import Heading from "~/components/Heading";
-import RichText from "~/components/RichText";
+import Background from "~/components/layout/Background";
+import Container from "~/components/layout/Container";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import TableOfContents from "./TableOfContents";
 

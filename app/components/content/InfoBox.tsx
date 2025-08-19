@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import Heading, { type HeadingProps } from "~/components/Heading";
+import Heading, { type HeadingProps } from "~/components/common/Heading";
 import InfoBoxItem, { type InfoBoxItemProps } from "./InfoBoxItem";
 
 type InfoBoxProps = {

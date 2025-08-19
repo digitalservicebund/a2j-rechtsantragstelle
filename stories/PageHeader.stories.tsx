@@ -1,11 +1,11 @@
 import { reactRouterContext } from ".storybook/reactRouterContext";
 import type { Meta, StoryObj } from "@storybook/react";
-import PageHeader from "~/components/PageHeader";
+import PageHeader from "~/components/layout/PageHeader";
 
 const component = PageHeader;
 
 const meta = {
-  title: "Component/PageHeader",
+  title: "Layout/PageHeader",
   component: component,
   parameters: { layout: "fullscreen" },
   tags: ["autodocs"],

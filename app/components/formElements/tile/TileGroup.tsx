@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { type ReactNode, useState } from "react";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import TileRadio, { type TileOptions } from "./TileRadio";
-import { type ErrorMessageProps } from "../../types";
+import { type ErrorMessageProps } from "../../common/types";
 import InputError from "../InputError";
 
 export type TileGroupProps = Readonly<{

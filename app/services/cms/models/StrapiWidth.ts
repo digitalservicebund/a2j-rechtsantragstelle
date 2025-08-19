@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { FieldWidth } from "~/components/width";
+import type { FieldWidth } from "~/components/common/width";
 
 const strapiWidths = [
   "characters3",

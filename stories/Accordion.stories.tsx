@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Accordion from "../app/components/Accordion";
-import Container from "../app/components/Container";
+import Accordion from "../app/components/common/Accordion";
+import Container from "../app/components/layout/Container";
 import { reactRouterContext } from ".storybook/reactRouterContext";
 
 const meta = {
-  title: "Page/Accordion",
+  title: "Common/Accordion",
   component: Accordion,
   parameters: {
     layout: "fullscreen",

@@ -35,11 +35,11 @@ import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities"
 import { translations as staticTranslations } from "~/services/translations/translations";
 import styles from "~/styles.css?url";
 import type { Route } from "./+types/root";
-import Breadcrumbs from "./components/Breadcrumbs";
-import { CookieBanner } from "./components/cookieBanner/CookieBanner";
-import Footer from "./components/Footer";
 import { useShouldPrint } from "./components/hooks/useShouldPrint";
-import PageHeader from "./components/PageHeader";
+import Breadcrumbs from "./components/layout/Breadcrumbs";
+import { CookieBanner } from "./components/layout/cookieBanner/CookieBanner";
+import Footer from "./components/layout/Footer";
+import PageHeader from "./components/layout/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
