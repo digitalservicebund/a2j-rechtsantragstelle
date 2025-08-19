@@ -92,6 +92,6 @@ export const beratungshilfeXstateConfig = {
         SUBMIT: "#abgabe",
       },
     },
-    abgabe: await abgabeXstateConfig("#weitere-angaben"),
+    abgabe: abgabeXstateConfig,
   },
 } satisfies Config<BeratungshilfeFormularUserData>;
