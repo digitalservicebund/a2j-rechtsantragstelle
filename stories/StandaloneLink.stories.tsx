@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { StandaloneLink } from "../app/components/StandaloneLink";
+import { StandaloneLink } from "../app/components/common/StandaloneLink";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 
 const component = StandaloneLink;
 
 const meta = {
-  title: "Component/StandaloneLink",
+  title: "Common/StandaloneLink",
   component: component,
   parameters: { layout: "centered" },
   tags: ["autodocs"],

@@ -3,12 +3,12 @@ import HighlightOff from "@digitalservicebund/icons/HighlightOff";
 import type { ReactElement } from "react";
 import type { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
-import Background from "~/components/Background";
-import Container from "~/components/Container";
+import Heading from "~/components/common/Heading";
+import RichText from "~/components/common/RichText";
 import ContentComponents from "~/components/content/ContentComponents";
 import CourtDetails from "~/components/CourtDetails";
-import Heading from "~/components/Heading";
-import RichText from "~/components/RichText";
+import Background from "~/components/layout/Background";
+import Container from "~/components/layout/Container";
 import { parsePathname } from "~/domains/flowIds";
 import type { GeldEinklagenVorabcheckUserData } from "~/domains/geldEinklagen/vorabcheck/userData";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
@@ -77,15 +77,15 @@ export const loader = async ({
   };
 };
 
-const iconCSS = "inline-block mr-8 !h-[36px] !w-[36px]";
+const iconCSS = "inline-block mr-8 h-[36px]! w-[36px]!";
 const icons: Record<"negativ" | "positiv", ReactElement> = {
   negativ: (
-    <HighlightOff color="error" className={`${iconCSS} !text-red-900`} />
+    <HighlightOff color="error" className={`${iconCSS} text-red-900!`} />
   ),
   positiv: (
     <CheckCircleOutline
       color="success"
-      className={`${iconCSS} !text-green-900`}
+      className={`${iconCSS} text-green-900!`}
     />
   ),
 };

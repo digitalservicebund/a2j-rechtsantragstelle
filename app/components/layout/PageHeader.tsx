@@ -1,11 +1,11 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 import { alignToContainer } from "~/components";
-import Kopfzeile from "~/components/Kopfzeile";
-import { StandaloneLink } from "~/components/StandaloneLink";
+import { StandaloneLink } from "~/components/common/StandaloneLink";
+import Kopfzeile from "~/components/layout/Kopfzeile";
 import { translations } from "~/services/translations/translations";
 import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
-import { useShouldPrint } from "./hooks/useShouldPrint";
+import { useShouldPrint } from "../hooks/useShouldPrint";
 
 type PageHeaderProps = {
   title: string;
@@ -31,12 +31,12 @@ export default function PageHeader({
       )}
       <Kopfzeile />
       <nav
-        className={`!pt-16 !pb-24 px-16 flex flex-wrap justify-between ${alignToContainer}`}
+        className={`pt-16! pb-24! flex flex-wrap justify-between ${alignToContainer}`}
         aria-label={translations.pageHeader.mainNavigationAriaLabel.de}
       >
         <a
           href="/"
-          className="ds-label-01-bold no-underline hover:underline mr-8 text-black focus:outline active:underline active:decoration-4 leading-normal"
+          className="ds-label-01-bold no-underline hover:underline mr-8 text-black focus:outline-solid active:underline active:decoration-4 leading-normal"
           aria-label={`${title} - ${linkLabel}`}
         >
           {title}

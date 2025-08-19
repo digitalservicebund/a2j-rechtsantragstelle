@@ -1,7 +1,7 @@
 import type { AppLoadContext } from "react-router";
 import { isRouteErrorResponse, useRouteError } from "react-router";
-import Container from "~/components/Container";
 import ContentComponents from "~/components/content/ContentComponents";
+import Container from "~/components/layout/Container";
 import { config } from "~/services/env/public";
 import { ERROR_PAGES } from "./errorPages";
 
@@ -26,7 +26,7 @@ export function ErrorBox({ context }: ErrorBoxProps) {
   const debugId = context.debugId as string | undefined;
   const isProd = config().ENVIRONMENT === "production";
   return (
-    <div className="flex flex-col flex-grow">
+    <div className="flex flex-col grow">
       <ContentComponents content={matchingError(routerError)} />
       <Container>
         {debugId && <pre>ID: {debugId}</pre>}

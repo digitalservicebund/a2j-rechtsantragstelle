@@ -4,17 +4,17 @@ import WarningAmber from "@digitalservicebund/icons/WarningAmber";
 import { type ReactElement } from "react";
 import { useLoaderData } from "react-router";
 import type { BackgroundColor } from "~/components";
-import Background from "~/components/Background";
-import ButtonContainer from "~/components/ButtonContainer";
-import Container from "~/components/Container";
+import ButtonContainer from "~/components/common/ButtonContainer";
+import Heading from "~/components/common/Heading";
+import RichText from "~/components/common/RichText";
 import ContentComponents from "~/components/content/ContentComponents";
-import Heading from "~/components/Heading";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
-import RichText from "~/components/RichText";
+import Background from "~/components/layout/Background";
+import Container from "~/components/layout/Container";
 import type { StrapiResultPageType } from "~/services/cms/models/StrapiResultPageType";
 import { type loader } from "../result";
 
-const iconCSS = "inline-block !h-[36px] !w-[36px] !min-h-[36px] !min-w-[36px]";
+const iconCSS = "inline-block h-[36px]! w-[36px]! min-h-[36px]! min-w-[36px]!";
 const icons: Record<StrapiResultPageType, ReactElement> = {
   error: <HighlightOff color="error" className={iconCSS} />,
   success: <CheckCircleOutline color="success" className={iconCSS} />,

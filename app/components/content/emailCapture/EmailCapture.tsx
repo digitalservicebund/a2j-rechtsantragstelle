@@ -1,8 +1,9 @@
 import { useForm } from "@rvf/react-router";
 import classNames from "classnames";
 import { useLoaderData, useLocation } from "react-router";
-import Button from "~/components/Button";
-import ButtonContainer from "~/components/ButtonContainer";
+import Button from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
+import RichText from "~/components/common/RichText";
 import {
   emailCaptureSchema,
   invalidEmailError,
@@ -13,7 +14,6 @@ import {
 } from "~/components/content/InlineNotice";
 import InputError from "~/components/formElements/InputError";
 import InputLabel from "~/components/formElements/InputLabel";
-import RichText from "~/components/RichText";
 import { type loader } from "~/routes/shared/formular";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
@@ -60,7 +60,7 @@ export const EmailCapture = ({
       <form
         {...form.getFormProps()}
         data-testid="email-capture-form"
-        className="flex max-w-[630px] gap-16 flex-wrap !mt-0"
+        className="flex max-w-[630px] gap-16 flex-wrap mt-0!"
       >
         <div className="grow">
           <input

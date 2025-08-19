@@ -6,11 +6,11 @@ import {
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
-import Background from "~/components/Background";
-import { ButtonNavigation } from "~/components/ButtonNavigation";
-import Container from "~/components/Container";
+import { ButtonNavigation } from "~/components/common/ButtonNavigation";
 import ContentComponents from "~/components/content/ContentComponents";
 import { FormComponents } from "~/components/FormComponents";
+import Background from "~/components/layout/Background";
+import Container from "~/components/layout/Container";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { FlowId } from "~/domains/flowIds";
 import { fetchFlowPage, fetchTranslations } from "~/services/cms/index.server";
@@ -62,8 +62,8 @@ export default function Index() {
 
   return (
     <Background backgroundColor="blue">
-      <div className="flex flex-col min-w-[100vw] h-full pb-32">
-        <div className="flex-grow">
+      <div className="flex flex-col min-w-screen h-full pb-32">
+        <div className="grow">
           <Container>
             <div className="ds-stack ds-stack-32">
               <ContentComponents

@@ -2,12 +2,12 @@ import { type FieldApi, useField } from "@rvf/react-router";
 import { useState } from "react";
 import { type ZodObject } from "zod";
 import { type CheckboxValue } from "~/components/formElements/Checkbox";
-import InputError from "~/components/formElements/InputError";
 import {
-  type ControlledCheckboxProps,
   ControlledCheckbox,
-} from "~/components/inputs/exclusiveCheckboxes/ControlledCheckbox";
-import { fieldValuesToCheckboxProps } from "~/components/inputs/exclusiveCheckboxes/exclusiveCheckboxHelpers";
+  type ControlledCheckboxProps,
+} from "~/components/formElements/exclusiveCheckboxes/ControlledCheckbox";
+import { fieldValuesToCheckboxProps } from "~/components/formElements/exclusiveCheckboxes/exclusiveCheckboxHelpers";
+import InputError from "~/components/formElements/InputError";
 import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
 import { type ExclusiveCheckboxes as ExclusiveCheckboxesType } from "~/services/validation/checkedCheckbox";
 
