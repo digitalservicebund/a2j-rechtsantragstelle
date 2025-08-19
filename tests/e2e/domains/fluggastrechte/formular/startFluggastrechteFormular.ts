@@ -99,7 +99,6 @@ export async function startFluggastrechteFormular(
   await formular.clickNext();
 
   // /fluggastrechte/formular/persoenliche-daten/person/daten
-  // await formular.fillDropdown("anrede", "herr");
   await formular.fillDropdown("title", "");
   await formular.fillInput("nachname", "Donatello");
   await formular.fillInput("vorname", "Cowabunga");
