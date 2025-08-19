@@ -1,9 +1,9 @@
 import { beratungshilfePersoenlicheDatenDone } from "~/domains/beratungshilfe/formular/persoenlicheDaten/doneFunctions";
-import { type SharedPersoenlicheDatenUserData } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { dropEachProperty } from "~/util/objects";
+import { type BeratungshilfePersoenlicheDatenUserData } from "../userData";
 
 describe("beratungshilfePersoenlicheDatenDone", () => {
-  const validContext: SharedPersoenlicheDatenUserData & {
+  const validContext: BeratungshilfePersoenlicheDatenUserData & {
     geburtsdatum: string;
   } = {
     vorname: "A",
