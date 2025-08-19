@@ -27,7 +27,7 @@ const CustomClearIndicator = (
        *  erronously clearing the AutoSuggest
        */
       type="reset"
-      className="focus-within:outline-solid focus-within:outline-4 focus-within:outline-offset-4 focus-within:outline-blue-800 hover:outline-[2px] hover:outline-gray-900"
+      className="outline-hidden focus-within:outline-solid focus-within:outline-4 focus-within:outline-offset-4 focus-within:outline-blue-800 hover:outline-[2px] hover:outline-gray-900"
       onClick={() => {
         props.clearValue();
       }}
