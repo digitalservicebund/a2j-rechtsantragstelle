@@ -9,8 +9,7 @@ import AutoSuggestInput from "../AutoSuggestInput";
 
 export const isZodString = (
   fieldSchema: z.ZodType,
-): fieldSchema is z.ZodString =>
-  fieldSchema.def.type === "string" || fieldSchema.def.type === "union";
+): fieldSchema is z.ZodString => fieldSchema.def.type === "string";
 
 export const renderZodString = (
   schema: z.ZodString,

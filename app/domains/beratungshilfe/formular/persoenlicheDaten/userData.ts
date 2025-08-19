@@ -1,6 +1,6 @@
 import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
-import { type sharedPersoenlicheDatenPages } from "~/domains/shared/formular/persoenlicheDaten/pages";
+import { type berHAntragPersoenlicheDatenPages } from "./pages";
 
 export type BeratungshilfePersoenlicheDatenUserData = UserDataFromPagesSchema<
-  typeof sharedPersoenlicheDatenPages
+  typeof berHAntragPersoenlicheDatenPages
 >;
