@@ -1,4 +1,4 @@
-import { listRenderer } from "~/services/cms/models/StrapiList";
+import { listRenderer } from "~/services/cms/models/content/StrapiList";
 import { buildRichTextValidation } from "~/services/validation/richtext";
 
 describe("richtext validation", () => {

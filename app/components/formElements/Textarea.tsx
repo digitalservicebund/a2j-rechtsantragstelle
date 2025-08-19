@@ -1,7 +1,7 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import type { ReactNode } from "react";
-import { Details } from "~/components/Details";
+import { Details } from "~/components/content/Details";
 import InputLabel from "~/components/formElements/InputLabel";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from "../types";

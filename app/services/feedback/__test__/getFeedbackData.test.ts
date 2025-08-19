@@ -1,7 +1,7 @@
 import { createSession, type Session } from "react-router";
 import { describe, test, expect } from "vitest";
-import { type BannerState } from "~/components/userFeedback/BannerState";
-import { type FeedbackType } from "~/components/userFeedback/FeedbackType";
+import { type BannerState } from "~/components/content/userFeedback/BannerState";
+import { type FeedbackType } from "~/components/content/userFeedback/FeedbackType";
 import {
   bannerStateName,
   userRatingFieldName,
