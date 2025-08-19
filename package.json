@@ -68,7 +68,7 @@
     "haversine-distance": "1.2.4",
     "html-entities": "^2.6.0",
     "ioredis": "^5.7.0",
-    "isbot": "^5.1.29",
+    "isbot": "^5.1.30",
     "lodash": "^4.17.21",
     "marked": "^16.2.0",
     "match-sorter": "^8.1.0",
