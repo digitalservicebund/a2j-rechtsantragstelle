@@ -1,8 +1,8 @@
 import { useField } from "@rvf/react-router";
 import { type ReactNode, useState } from "react";
-import { type ErrorMessageProps } from "../types";
 import InputError from "./InputError";
 import Radio from "./Radio";
+import { type ErrorMessageProps } from "../common/types";
 import { useJsAvailable } from "../hooks/useJsAvailable";
 
 export type RadioGroupProps = Readonly<{

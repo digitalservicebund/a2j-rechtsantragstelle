@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { acceptCookiesFieldName } from "~/components/cookieBanner/CookieBanner";
+import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
 import { defaultHeaders } from "~/rootHeaders";
 import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 

@@ -9,8 +9,8 @@ import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements"
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { schemaForFieldNames } from "~/services/validation/stepValidator/schemaForFieldNames";
-import { ButtonNavigation } from "../ButtonNavigation";
-import type { ButtonNavigationProps } from "../ButtonNavigation";
+import { ButtonNavigation } from "../common/ButtonNavigation";
+import type { ButtonNavigationProps } from "../common/ButtonNavigation";
 import { EstimatedTime } from "../EstimatedTime";
 import { FormComponents } from "../FormComponents";
 import { SchemaComponents } from "./SchemaComponents";

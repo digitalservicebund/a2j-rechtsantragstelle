@@ -1,7 +1,7 @@
 import { Outlet, useLoaderData } from "react-router";
 import type { LoaderFunctionArgs } from "react-router";
 import invariant from "tiny-invariant";
-import Button from "~/components/Button";
+import Button from "~/components/common/Button";
 import {
   getBundIdIdentityProvider,
   getBundIdServiceProvider,

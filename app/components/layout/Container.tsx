@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import type { PropsWithChildren } from "react";
-import { BACKGROUND_COLORS, type BackgroundColor } from ".";
+import { BACKGROUND_COLORS, type BackgroundColor } from "..";
 
 const DEFAULT_PADDING_TOP = "40";
 const DEFAULT_PADDING_BOTTOM = "48";

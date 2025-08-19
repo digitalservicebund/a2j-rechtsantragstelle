@@ -1,12 +1,12 @@
 import { useMemo } from "react";
 import { useLoaderData } from "react-router";
-import Background from "~/components/Background";
+import Heading from "~/components/common/Heading";
 import ArraySummary from "~/components/content/arraySummary/ArraySummary";
 import ContentComponents from "~/components/content/ContentComponents";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import { FormFlowContext } from "~/components/formFlowContext";
-import Heading from "~/components/Heading";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
+import Background from "~/components/layout/Background";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";

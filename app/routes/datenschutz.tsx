@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { redirect, Form, useLoaderData, useNavigation } from "react-router";
-import Button from "~/components/Button";
-import Container from "~/components/Container";
+import Button from "~/components/common/Button";
+import Heading from "~/components/common/Heading";
 import ContentComponents from "~/components/content/ContentComponents";
-import { acceptCookiesFieldName } from "~/components/cookieBanner/CookieBanner";
-import Heading from "~/components/Heading";
+import Container from "~/components/layout/Container";
+import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
 import {
   consentCookieFromRequest,
   trackingCookieValue,

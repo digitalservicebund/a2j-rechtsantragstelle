@@ -1,4 +1,4 @@
-import { type HeadingProps } from "~/components/Heading";
+import { type HeadingProps } from "~/components/common/Heading";
 
 export type SummaryOverviewBoxWrappedProps = {
   readonly title?: HeadingProps;
