@@ -12,6 +12,6 @@ export const getNestedSchema = <T extends z.ZodType>(
 ): T => {
   if ("in" in schema) return getNestedSchema(schema.in as T);
   if ("unwrap" in schema) return getNestedSchema(schema.unwrap());
-  if (isZodUnion(schema)) return getNestedSchema(schema.options[0]); // Union: pick first schema
+  if (isZodUnion(schema)) return getNestedSchema(schema.options[0]); // Unions can theoretically contain many different schemas. For now: pick first one
   return schema;
 };
