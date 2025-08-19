@@ -18,7 +18,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export default function Index() {
   const { content, dependencies } = useLoaderData<typeof loader>();
   return (
-    <div className="flex flex-col flex-grow">
+    <div className="flex flex-col grow">
       <ContentComponents content={content} />
       <div className="w-full">
         <Container>

@@ -42,7 +42,7 @@ export const Component = () => {
   const { court, content, common } = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col flex-grow">
+    <div className="flex flex-col grow">
       <Background backgroundColor="blue">
         <CourtFinderHeader label={common.featureName}>
           {common.resultHeading}

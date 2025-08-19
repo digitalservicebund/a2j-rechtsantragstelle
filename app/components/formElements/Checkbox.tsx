@@ -19,12 +19,12 @@ const Checkbox = ({ name, label, errorMessage, required }: CheckboxProps) => {
 
   const errorId = `${name}-error`;
   const className = classNames(
-    "ds-checkbox forced-colors:outline forced-colors:border-[ButtonText]",
+    "ds-checkbox forced-colors:outline-solid forced-colors:border-[ButtonText]",
     {
       // Accessibility: use a red inset box-shadow on focus in the error state
       // to simulate focus (since the checkbox uses box-shadows for its borders)
       // and ensure users can clearly see the error.
-      "has-error focus-visible:shadow-[inset_0_0_0_4px_theme(colors.red.800)]":
+      "has-error focus-visible:shadow-[inset_0_0_0_4px_var(--color-red-800)]":
         field.error(),
     },
   );
