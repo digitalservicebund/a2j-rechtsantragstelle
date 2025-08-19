@@ -309,7 +309,6 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
             BACK: steps.arbeitsweg.relative,
           },
         },
-        // TODO:
         arbeitsausgaben: {
           id: "arbeitsausgaben",
           initial: steps.arbeitsausgabenFrage.relative,
@@ -352,7 +351,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
                 BACK: steps.arbeitsausgabenFrage.relative,
                 "add-arbeitsausgaben": {
                   guard: einkuenfteGuards.isValidArbeitsausgabenArrayIndex,
-                  target: steps.arbeitsausgabeDaten.absolute,
+                  target: "arbeitsausgabe",
                 },
               },
             },
@@ -363,9 +362,9 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
               },
             },
             arbeitsausgabe: {
-              initial: steps.arbeitsausgabeDaten.relative,
+              initial: "daten",
               states: {
-                [steps.arbeitsausgabeDaten.relative]: {
+                daten: {
                   on: {
                     BACK: steps.arbeitsausgabenUebersicht.absolute,
                     SUBMIT: steps.arbeitsausgabenUebersicht.absolute,
@@ -583,7 +582,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
             BACK: steps.weitereEinkuenfteFrage.relative,
             "add-weitereEinkuenfte": {
               guard: einkuenfteGuards.isValidEinkuenfteArrayIndex,
-              target: steps.weitereEinkuenfteDaten.absolute,
+              target: "einkunft",
             },
           },
         },
@@ -594,9 +593,9 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
           },
         },
         einkunft: {
-          initial: steps.weitereEinkuenfteDaten.relative,
+          initial: "daten",
           states: {
-            [steps.weitereEinkuenfteDaten.relative]: {
+            daten: {
               on: {
                 BACK: steps.weitereEinkuenfteUebersicht.absolute,
                 SUBMIT: steps.weitereEinkuenfteUebersicht.absolute,

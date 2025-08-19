@@ -105,6 +105,24 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   arbeitswegKeineRolle: {
     stepId: "finanzielle-angaben/einkuenfte/abzuege/keine-rolle",
   },
+  arbeitsausgaben: {
+    stepId: "finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben",
+    pageSchema: {
+      arbeitsausgaben: z.array(financialEntryInputSchema),
+    },
+    arrayPages: {
+      daten: {
+        pageSchema: {
+          "arbeitsausgaben#beschreibung": z.string().min(1, "required"),
+          "arbeitsausgaben#zahlungsfrequenz": z.enum(
+            ["monthly", "quarterly", "yearly", "one-time"],
+            customRequiredErrorMessage,
+          ),
+          "arbeitsausgaben#betrag": buildMoneyValidationSchema(),
+        },
+      },
+    },
+  },
   arbeitsausgabenFrage: {
     stepId:
       "finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
@@ -115,14 +133,7 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   arbeitsausgabenUebersicht: {
     stepId: "finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht",
   },
-  // TODO: adapt to new pageSchema array pattern
-  arbeitsausgabeDaten: {
-    stepId:
-      "finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgabe/daten",
-    pageSchema: {
-      arbeitsausgaben: z.array(financialEntryInputSchema),
-    },
-  },
+
   arbeitsausgabenWarnung: {
     stepId: "finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/warnung",
   },
@@ -171,6 +182,29 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
       kindergeldAmount: buildMoneyValidationSchema(),
     },
   },
+  weitereEinkuenfte: {
+    stepId: "finanzielle-angaben/einkuenfte/weitere-einkuenfte",
+    pageSchema: {
+      "weitereEinkuenfte#beschreibung": z.string().min(1, "required"),
+      "weitereEinkuenfte#zahlungsfrequenz": z.enum(
+        ["monthly", "quarterly", "yearly", "one-time"],
+        customRequiredErrorMessage,
+      ),
+      "weitereEinkuenfte#betrag": buildMoneyValidationSchema(),
+    },
+    arrayPages: {
+      daten: {
+        pageSchema: {
+          "weitereEinkuenfte#beschreibung": z.string().min(1, "required"),
+          "weitereEinkuenfte#zahlungsfrequenz": z.enum(
+            ["monthly", "quarterly", "yearly", "one-time"],
+            customRequiredErrorMessage,
+          ),
+          "weitereEinkuenfte#betrag": buildMoneyValidationSchema(),
+        },
+      },
+    },
+  },
   weitereEinkuenfteFrage: {
     stepId: "finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
     pageSchema: {
@@ -182,12 +216,5 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   },
   weitereEinkuenfteWarnung: {
     stepId: "finanzielle-angaben/einkuenfte/weitere-einkuenfte/warnung",
-  },
-  // TODO: adapt to new pageSchema array pattern
-  weitereEinkuenfteDaten: {
-    stepId: "finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft/daten",
-    pageSchema: {
-      weitereEinkuenfte: z.array(financialEntryInputSchema),
-    },
   },
 } as const satisfies PagesConfig;

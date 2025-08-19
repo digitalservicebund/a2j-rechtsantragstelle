@@ -26,11 +26,26 @@ export function getPageSchema(pathname: string) {
     // An index in the URL tells us we are on a page that belongs to an array
     // To return its pageSchema, we need to find the parent first, which should be one or two levels above
     const stepPathParts = stepIdWithoutLeadingSlash.split("/");
+    console.log("stepId", stepId);
+    console.log(
+      "stepIdWithoutLeadingSlash",
+      stepIdWithoutLeadingSlash.startsWith(stepId),
+      Object.values(pagesConfig).filter(isArrayParentPage),
+    );
 
     // The arrayParentPage matches our array page and its stepId should match the beginning of the current stepId
     const parentPageConfig = Object.values(pagesConfig)
       .filter(isArrayParentPage)
       .find(({ stepId }) => stepIdWithoutLeadingSlash.startsWith(stepId));
+    console.log(
+      "parentPageConfig",
+      stepIdWithoutLeadingSlash,
+      parentPageConfig,
+    );
+    console.log(
+      "pagesConfig",
+      Object.values(pagesConfig).filter(isArrayParentPage),
+    );
 
     if (!parentPageConfig) return undefined;
 
