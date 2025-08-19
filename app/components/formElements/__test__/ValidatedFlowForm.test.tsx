@@ -16,7 +16,7 @@ import * as schemaForFieldNames from "~/services/validation/stepValidator/schema
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { configureZod } from "~/services/validation/zodConfig";
+import { configureZod } from "~/services/validation/configureZod";
 
 vi.mock("react-router", async () => {
   const actual = await vi.importActual("react-router");
