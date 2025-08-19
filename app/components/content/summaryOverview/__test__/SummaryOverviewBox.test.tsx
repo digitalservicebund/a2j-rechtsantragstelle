@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { describe, it, vi, expect } from "vitest";
+import { type HeadingProps } from "~/components/common/Heading";
 import { useFormFlow } from "~/components/formFlowContext";
-import { type HeadingProps } from "~/components/Heading";
 import SummaryOverviewBox from "../SummaryOverviewBox";
 
 vi.mock("~/components/formFlowContext", () => ({
@@ -12,11 +12,11 @@ vi.mock("../SummaryOverviewBoxItem", () => ({
   default: vi.fn(() => <div data-testid="summary-overview-box-item" />),
 }));
 
-vi.mock("~/components/Heading", () => ({
+vi.mock("~/components/common/Heading", () => ({
   default: vi.fn(({ text }) => <h1 data-testid="heading">{text}</h1>),
 }));
 
-vi.mock("~/components/Button", () => ({
+vi.mock("~/components/common/Button", () => ({
   default: vi.fn(({ href }) => (
     <a data-testid="edit-button" href={href}>
       Bearbeiten

@@ -1,8 +1,8 @@
-import Kopfzeile from "~/components/Kopfzeile";
+import Kopfzeile from "~/components/layout/Kopfzeile";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-  title: "Component/Kopfzeile",
+  title: "Layout/Kopfzeile",
   component: Kopfzeile,
   tags: ["autodocs"],
 } satisfies Meta<typeof Kopfzeile>;

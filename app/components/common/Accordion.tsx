@@ -2,9 +2,9 @@ import { useRef } from "react";
 import {
   AccordionItem,
   type AccordionItemProps,
-} from "~/components/AccordionItem";
+} from "~/components/common/AccordionItem";
 import { translations } from "~/services/translations/translations";
-import { useShouldPrint } from "./hooks/useShouldPrint";
+import { useShouldPrint } from "../hooks/useShouldPrint";
 
 export type AccordionProps = Readonly<{
   items: AccordionItemProps[];

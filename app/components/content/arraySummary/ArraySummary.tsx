@@ -1,7 +1,7 @@
 import AddButton from "@digitalservicebund/icons/Add";
-import Button from "~/components/Button";
-import Heading, { type HeadingProps } from "~/components/Heading";
-import RichText from "~/components/RichText";
+import Button from "~/components/common/Button";
+import Heading, { type HeadingProps } from "~/components/common/Heading";
+import RichText from "~/components/common/RichText";
 import type { ArrayData } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
