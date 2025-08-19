@@ -1,4 +1,4 @@
-import { type AccordionProps } from "~/components/Accordion";
+import { type AccordionProps } from "~/components/common/Accordion";
 import { type ButtonProps } from "~/components/common/Button";
 import { type HeadingProps } from "~/components/common/Heading";
 import { type ImageProps } from "~/components/common/Image";

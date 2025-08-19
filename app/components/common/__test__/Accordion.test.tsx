@@ -1,7 +1,7 @@
 import { fireEvent } from "@testing-library/react";
+import { renderWithRouter } from "../../__test__/renderWithRouter";
 import Accordion from "../Accordion";
 import type { AccordionItemProps } from "../AccordionItem";
-import { renderWithRouter } from "./renderWithRouter";
 
 const dummyItems = [
   { title: "Item 1", description: "Description 1" },

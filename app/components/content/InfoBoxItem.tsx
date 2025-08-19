@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import Accordion, { type AccordionProps } from "~/components/Accordion";
+import Accordion, { type AccordionProps } from "~/components/common/Accordion";
 import Button, { type ButtonProps } from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading, { type HeadingProps } from "~/components/common/Heading";

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import Accordion from "~/components/Accordion";
+import Accordion from "~/components/common/Accordion";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading from "~/components/common/Heading";
