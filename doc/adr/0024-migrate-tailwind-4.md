@@ -1,4 +1,4 @@
-# 24. Migrating to `Tailwind 4`
+# 24. Dropping full CSS support for old browsers to upgrade `Tailwind 4`
 
 Date: 2025-08-18
 
