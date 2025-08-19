@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Container from "../app/components/layout/Container";
 
 const meta = {
-  title: "Container/Container",
+  title: "Layout/Container",
   component: Container,
   parameters: {
     layout: "fullscreen",

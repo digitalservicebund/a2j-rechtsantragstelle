@@ -6,7 +6,7 @@ import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 const component = StandaloneLink;
 
 const meta = {
-  title: "Component/StandaloneLink",
+  title: "Common/StandaloneLink",
   component: component,
   parameters: { layout: "centered" },
   tags: ["autodocs"],

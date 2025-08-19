@@ -3,7 +3,7 @@ import Button from "../app/components/common/Button";
 import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
 
 const meta = {
-  title: "Button/Button",
+  title: "Common/Button",
   component: Button,
   parameters: {
     layout: "centered",

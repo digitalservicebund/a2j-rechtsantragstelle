@@ -5,7 +5,7 @@ import PageHeader from "~/components/layout/PageHeader";
 const component = PageHeader;
 
 const meta = {
-  title: "Component/PageHeader",
+  title: "Layout/PageHeader",
   component: component,
   parameters: { layout: "fullscreen" },
   tags: ["autodocs"],

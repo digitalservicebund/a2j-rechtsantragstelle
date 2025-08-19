@@ -4,7 +4,7 @@ import ButtonContainer from "../app/components/common/ButtonContainer";
 import Button from "../app/components/common/Button";
 
 const meta = {
-  title: "Button/ButtonContainer",
+  title: "Common/ButtonContainer",
   component: ButtonContainer,
   tags: ["autodocs"],
   argTypes: {

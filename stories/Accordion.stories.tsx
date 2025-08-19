@@ -4,7 +4,7 @@ import Container from "../app/components/layout/Container";
 import { reactRouterContext } from ".storybook/reactRouterContext";
 
 const meta = {
-  title: "Page/Accordion",
+  title: "Common/Accordion",
   component: Accordion,
   parameters: {
     layout: "fullscreen",
