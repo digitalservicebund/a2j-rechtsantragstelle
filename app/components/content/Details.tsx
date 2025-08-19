@@ -1,5 +1,5 @@
 import { useState } from "react";
-import RichText from "../RichText";
+import RichText from "../common/RichText";
 
 export type DetailsProps = {
   title?: string;
@@ -30,13 +30,13 @@ export const Details = ({ title, content }: DetailsProps) => {
 
   return (
     <details
-      className="group focus-within:outline focus-within:outline-4 focus-within:outline-offset-4 focus-within:outline-blue-800 text-blue-800 ds-label-01-bold"
+      className="group focus-within:outline-solid focus-within:outline-4 focus-within:outline-offset-4 focus-within:outline-blue-800 text-blue-800 ds-label-01-bold"
       open={isOpen}
       onToggle={(e) => setIsOpen(e.currentTarget.open)}
     >
       <summary
         aria-expanded={isOpen}
-        className="summary-content flex items-baseline focus:outline-none cursor-pointer list-none"
+        className="summary-content flex items-baseline focus:outline-hidden cursor-pointer list-none"
       >
         <span className="mr-[8px]">
           <ArrowIcon />

@@ -1,5 +1,5 @@
-import Heading, { type HeadingProps } from "~/components/Heading";
-import RichText from "~/components/RichText";
+import Heading, { type HeadingProps } from "~/components/common/Heading";
+import RichText from "~/components/common/RichText";
 import { removeMarkupTags } from "~/util/strings";
 import ListItem from "./ListItem";
 import { type ListVariant, type ListItemProps } from "./types";

@@ -1,9 +1,9 @@
 import { useLoaderData } from "react-router";
-import Background from "~/components/Background";
+import { ProgressBar } from "~/components/common/ProgressBar";
 import ContentComponents from "~/components/content/ContentComponents";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
-import { ProgressBar } from "~/components/ProgressBar";
+import Background from "~/components/layout/Background";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { loader } from "../vorabcheck";
 
@@ -23,7 +23,7 @@ export function VorabcheckPage() {
   return (
     <Background backgroundColor="blue">
       <div className="w-screen h-full">
-        <div className="container !pt-24 !pb-32 h-full">
+        <div className="container pt-24! pb-32! h-full">
           <div className="flex flex-col min-h-full gap-32 justify-between">
             <div className="ds-stack ds-stack-40" id="flow-page-content">
               <ProgressBar {...progressProps} />

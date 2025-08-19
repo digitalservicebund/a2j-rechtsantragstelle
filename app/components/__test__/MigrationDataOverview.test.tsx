@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import MigrationDataOverview from "../MigrationDataOverview";
 
-vi.mock("~/components/StandaloneLink", () => ({
+vi.mock("~/components/common/StandaloneLink", () => ({
   StandaloneLink: () => <div>Mock Button</div>,
 }));
 

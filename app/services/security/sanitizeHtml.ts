@@ -1,5 +1,5 @@
 import * as xssImport from "xss";
-import { openInNewAllowedAttributes } from "~/components/OpenInNewTabIcon";
+import { openInNewAllowedAttributes } from "~/components/common/OpenInNewTabIcon";
 import { mustachePlaceholderRegex } from "./mustachePlaceholder";
 
 // Note: type recast of import due to wrong default type export

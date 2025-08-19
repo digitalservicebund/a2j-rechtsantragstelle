@@ -1,12 +1,12 @@
 import { useMemo } from "react";
 import { useLoaderData } from "react-router";
-import Background from "~/components/Background";
+import Heading from "~/components/common/Heading";
 import ArraySummary from "~/components/content/arraySummary/ArraySummary";
 import ContentComponents from "~/components/content/ContentComponents";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import { FormFlowContext } from "~/components/formFlowContext";
-import Heading from "~/components/Heading";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
+import Background from "~/components/layout/Background";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
@@ -49,7 +49,7 @@ export function FormFlowPage() {
     <FormFlowContext.Provider value={formFlowMemo}>
       <Background backgroundColor="blue">
         <div className="w-screen h-full">
-          <div className="container !pt-24 !pb-32 h-full">
+          <div className="container pt-24! pb-32! h-full">
             <div className="flex min-h-full md:gap-32 justify-between">
               <div className="md:mb-32 md:w-[248px]">
                 <FlowNavigation
@@ -57,7 +57,7 @@ export function FormFlowPage() {
                   expandAll={isValidationPage}
                 />
               </div>
-              <div className="flex flex-col flex-1 gap-32 md:pl-0 md:!pb-32 !pt-0 justify-between">
+              <div className="flex flex-col flex-1 gap-32 md:pl-0 md:pb-32! pt-0! justify-between">
                 <div className="ds-stack ds-stack-40">
                   <div className="ds-stack ds-stack-16" id="flow-page-content">
                     {preHeading && (

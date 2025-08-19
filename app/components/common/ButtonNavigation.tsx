@@ -1,5 +1,5 @@
-import Button from "~/components/Button";
-import ButtonContainer from "~/components/ButtonContainer";
+import Button from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
 
 type NavigationButton = {
   destination?: string;

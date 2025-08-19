@@ -1,7 +1,7 @@
 import { type FieldApi } from "@rvf/react-router";
 import { ZodEnum, type ZodObject } from "zod";
 import { type CheckboxValue } from "~/components/formElements/Checkbox";
-import { type ControlledCheckboxProps } from "~/components/inputs/exclusiveCheckboxes/ControlledCheckbox";
+import { type ControlledCheckboxProps } from "~/components/formElements/exclusiveCheckboxes/ControlledCheckbox";
 import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
 import { type ExclusiveCheckboxes } from "~/services/validation/checkedCheckbox";
 

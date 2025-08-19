@@ -1,5 +1,5 @@
 import { createCookie } from "react-router";
-import { acceptCookiesFieldName } from "~/components/cookieBanner/CookieBanner";
+import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
 import { consentCookieName, trackingCookieValue } from "../gdprCookie.server";
 
 describe("gdprCookie", () => {
