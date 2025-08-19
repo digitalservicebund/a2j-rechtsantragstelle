@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
+import { ControlledCheckbox } from "~/components/formElements/exclusiveCheckboxes/ControlledCheckbox";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import { ControlledCheckbox } from "~/components/inputs/exclusiveCheckboxes/ControlledCheckbox";
 
 vi.mock("~/components/hooks/useJsAvailable");
 vi.mocked(useJsAvailable).mockReturnValue(true);
