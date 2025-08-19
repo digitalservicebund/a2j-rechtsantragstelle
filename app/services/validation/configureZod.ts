@@ -9,3 +9,5 @@ export const configureZod = () =>
         return { message: "required" };
     },
   });
+
+export const restoreZodDefaults = () => z.config({ customError: undefined });
