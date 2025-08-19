@@ -1,6 +1,6 @@
 import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
 import { alignToContainer } from "~/components";
-import { StandaloneLink } from "./StandaloneLink";
+import { StandaloneLink } from "../common/StandaloneLink";
 
 export type Breadcrumb = {
   url: string;

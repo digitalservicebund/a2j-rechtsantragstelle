@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 
 const meta = {
-  title: "Page/FlowNavigation",
+  title: "Layout/FlowNavigation",
   component: FlowNavigation,
   parameters: {
     layout: "fullscreen",

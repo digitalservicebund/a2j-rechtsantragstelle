@@ -1,9 +1,9 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { Form, useLoaderData, useNavigation } from "react-router";
-import Button from "~/components/Button";
-import ButtonContainer from "~/components/ButtonContainer";
-import Container from "~/components/Container";
+import Button from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
 import ContentComponents from "~/components/content/ContentComponents";
+import Container from "~/components/layout/Container";
 import {
   fetchTranslations,
   strapiPageFromRequest,

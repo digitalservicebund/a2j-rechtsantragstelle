@@ -4,9 +4,9 @@ import type { ReactNode } from "react";
 import { Details } from "~/components/content/Details";
 import InputLabel from "~/components/formElements/InputLabel";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
-import { type ErrorMessageProps } from "../types";
 import InputError from "./InputError";
-import RichText from "../RichText";
+import RichText from "../common/RichText";
+import { type ErrorMessageProps } from "../common/types";
 
 export type TextareaProps = Readonly<{
   name: string;

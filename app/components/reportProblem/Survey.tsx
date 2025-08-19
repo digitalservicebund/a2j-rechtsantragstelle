@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import { type Survey, SurveyQuestionType } from "posthog-js";
 import { type ElementType, useState } from "react";
-import Button from "~/components/Button";
-import ButtonContainer from "~/components/ButtonContainer";
+import Button from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
 import { FeedbackSuccessMessage } from "~/components/content/userFeedback/FeedbackSuccessMessage";
 import { useFeedbackTranslations } from "~/components/content/userFeedback/feedbackTranslations";
 import { MultipleChoiceQuestion } from "~/components/reportProblem/MultipleChoiceQuestion";

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import RichText from "../RichText";
+import RichText from "../common/RichText";
 
 export type DetailsProps = {
   title?: string;

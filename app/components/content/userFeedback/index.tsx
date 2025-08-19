@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useLocation, useRouteLoaderData } from "react-router";
-import Background from "~/components/Background";
-import Container from "~/components/Container";
+import Background from "~/components/layout/Background";
+import Container from "~/components/layout/Container";
 import type { RootLoader } from "~/root";
 import { type BannerState } from "./BannerState";
 import { FeedbackFormBox } from "./FeedbackFormBox";

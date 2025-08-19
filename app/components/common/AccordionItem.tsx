@@ -1,7 +1,7 @@
 import KeyboardArrowDownIcon from "@digitalservicebund/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@digitalservicebund/icons/KeyboardArrowUp";
 import { type MouseEventHandler } from "react";
-import RichText from "~/components/RichText";
+import RichText from "~/components/common/RichText";
 
 export type AccordionItemProps = Readonly<{
   title: string;
