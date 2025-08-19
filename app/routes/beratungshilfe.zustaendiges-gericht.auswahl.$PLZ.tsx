@@ -17,8 +17,6 @@ import Input from "~/components/formElements/Input";
 import Background from "~/components/layout/Background";
 import Container from "~/components/layout/Container";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import RichText from "~/components/RichText";
-import { type ErrorMessageProps } from "~/components/types";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { buildOpenPlzResultUrl } from "~/services/gerichtsfinder/openPLZ";
