@@ -1,11 +1,11 @@
 import mapKeys from "lodash/mapKeys";
 import { type z } from "zod";
+import { ExclusiveCheckboxes } from "~/components/formElements/exclusiveCheckboxes/ExclusiveCheckboxes";
 import FilesUpload from "~/components/formElements/filesUpload/FilesUpload";
 import {
   isZodString,
   renderZodString,
 } from "~/components/formElements/schemaToForm/renderZodString";
-import { ExclusiveCheckboxes } from "~/components/inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
 import type { SchemaObject } from "~/domains/userData";
 import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
 import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";

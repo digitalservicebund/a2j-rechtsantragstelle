@@ -1,5 +1,5 @@
 import type { Page } from "@playwright/test";
-import { acceptCookiesFieldName } from "~/components/cookieBanner/CookieBanner";
+import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
 import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 
 const decode = (str: string): string =>

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { reactRouterContext } from ".storybook/reactRouterContext";
-import Container from "~/components/Container";
-import { ExclusiveCheckboxes } from "~/components/inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
+import Container from "~/components/layout/Container";
+import { ExclusiveCheckboxes } from "~/components/formElements/exclusiveCheckboxes/ExclusiveCheckboxes";
 import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
 import { StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
 import { RVFProvider } from ".storybook/RVFProvider";

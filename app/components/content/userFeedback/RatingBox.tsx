@@ -1,9 +1,9 @@
 import ThumbDownIcon from "@digitalservicebund/icons/ThumbDownOutlined";
 import ThumbUpIcon from "@digitalservicebund/icons/ThumbUpOutlined";
 import { useFetcher } from "react-router";
-import Button from "~/components/Button";
-import ButtonContainer from "~/components/ButtonContainer";
-import Heading from "~/components/Heading";
+import Button from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
+import Heading from "~/components/common/Heading";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./FeedbackType";

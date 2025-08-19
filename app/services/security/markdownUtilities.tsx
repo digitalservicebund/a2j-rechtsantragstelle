@@ -1,6 +1,6 @@
 import { Marked, type Renderer } from "marked";
 import { renderToString } from "react-dom/server";
-import { StandaloneLink } from "~/components/StandaloneLink";
+import { StandaloneLink } from "~/components/common/StandaloneLink";
 import { sanitizeHtml } from "./sanitizeHtml";
 
 const CSS_HEADING_CLASSES = [

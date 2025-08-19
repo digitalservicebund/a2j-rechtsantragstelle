@@ -1,7 +1,7 @@
 import { type FieldApi, useField } from "@rvf/react-router";
 import { fireEvent, render } from "@testing-library/react";
 import { type Mock } from "vitest";
-import { ExclusiveCheckboxes } from "~/components/inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
+import { ExclusiveCheckboxes } from "~/components/formElements/exclusiveCheckboxes/ExclusiveCheckboxes";
 import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
 import {
   type ExclusiveCheckboxes as ExclusiveCheckboxesType,

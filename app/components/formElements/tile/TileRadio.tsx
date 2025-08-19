@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import TileTag, { type TileDescriptionProps } from "./TileTag";
-import Image, { type ImageProps } from "../../Image";
+import Image, { type ImageProps } from "../../common/Image";
 
 const IMAGE_HEIGHT = 32;
 const IMAGE_WIDTH = 32;

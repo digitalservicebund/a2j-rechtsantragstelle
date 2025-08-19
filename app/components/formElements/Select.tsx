@@ -1,10 +1,10 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import type { ReactNode } from "react";
-import { type ErrorMessageProps } from "../types";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
-import { widthClassname } from "../width";
+import { type ErrorMessageProps } from "../common/types";
+import { widthClassname } from "../common/width";
 
 export type SelectProps = {
   name: string;

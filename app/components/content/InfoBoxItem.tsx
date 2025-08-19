@@ -1,15 +1,15 @@
 import classNames from "classnames";
-import Accordion, { type AccordionProps } from "~/components/Accordion";
-import Button, { type ButtonProps } from "~/components/Button";
-import ButtonContainer from "~/components/ButtonContainer";
+import Accordion, { type AccordionProps } from "~/components/common/Accordion";
+import Button, { type ButtonProps } from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
+import Heading, { type HeadingProps } from "~/components/common/Heading";
+import Image, { type ImageProps } from "~/components/common/Image";
+import RichText from "~/components/common/RichText";
 import { Details, type DetailsProps } from "~/components/content/Details";
 import {
   InlineNotice,
   type InlineNoticeProps,
 } from "~/components/content/InlineNotice";
-import Heading, { type HeadingProps } from "~/components/Heading";
-import Image, { type ImageProps } from "~/components/Image";
-import RichText from "~/components/RichText";
 import { arrayIsNonEmpty } from "~/util/array";
 
 export type InfoBoxItemProps = {

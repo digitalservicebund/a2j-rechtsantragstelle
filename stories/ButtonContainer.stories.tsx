@@ -1,10 +1,10 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import ButtonContainer from "../app/components/ButtonContainer";
-import Button from "../app/components/Button";
+import ButtonContainer from "../app/components/common/ButtonContainer";
+import Button from "../app/components/common/Button";
 
 const meta = {
-  title: "Button/ButtonContainer",
+  title: "Common/ButtonContainer",
   component: ButtonContainer,
   tags: ["autodocs"],
   argTypes: {
