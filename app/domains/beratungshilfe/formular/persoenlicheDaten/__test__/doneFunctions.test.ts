@@ -3,9 +3,7 @@ import { dropEachProperty } from "~/util/objects";
 import { type BeratungshilfePersoenlicheDatenUserData } from "../userData";
 
 describe("beratungshilfePersoenlicheDatenDone", () => {
-  const validContext: BeratungshilfePersoenlicheDatenUserData & {
-    geburtsdatum: string;
-  } = {
+  const validContext: BeratungshilfePersoenlicheDatenUserData = {
     vorname: "A",
     nachname: "B",
     geburtsdatum: "1234",

@@ -20,33 +20,43 @@ export const renderZodString = (
     name: fieldName,
     ...pick(matchingElement, ["label", "placeholder", "errorMessages"]),
   };
-
-  if (matchingElement?.__component === "form-elements.textarea")
-    return (
-      <Textarea
-        key={fieldName}
-        {...sharedProps}
-        {...pick(matchingElement, ["details", "description", "maxLength"])}
-      />
-    );
-
   const inputProps = {
     ...sharedProps,
     ...pick(matchingElement, ["type", "suffix", "width", "helperText"]),
   } satisfies InputProps;
 
-  if (matchingElement?.__component === "form-elements.date-input")
-    return <DateInput key={fieldName} {...inputProps} />;
-  if (matchingElement?.__component === "form-elements.time-input")
-    return <TimeInput key={fieldName} {...inputProps} />;
-  if (matchingElement?.__component === "form-elements.auto-suggest-input")
-    return (
-      <AutoSuggestInput
-        key={fieldName}
-        {...inputProps}
-        dataList={matchingElement.dataList}
-        isDisabled={matchingElement.isDisabled ?? false}
-      />
-    );
-  return <Input key={fieldName} {...inputProps} />;
+  switch (matchingElement?.__component) {
+    case "form-elements.textarea":
+      return (
+        <Textarea
+          key={fieldName}
+          {...sharedProps}
+          {...pick(matchingElement, ["details", "description", "maxLength"])}
+        />
+      );
+
+    case "form-elements.date-input":
+      return <DateInput key={fieldName} {...inputProps} />;
+    case "form-elements.time-input":
+      return <TimeInput key={fieldName} {...inputProps} />;
+    case "form-elements.auto-suggest-input":
+      return (
+        <AutoSuggestInput
+          key={fieldName}
+          {...matchingElement}
+          name={fieldName}
+        />
+      );
+    case "form-elements.input":
+    case "form-elements.files-upload":
+    case "form-elements.select":
+    case "form-elements.dropdown":
+    case "form-elements.checkbox":
+    case "form-elements.tile-group":
+    case "form-elements.hidden-input":
+    case "form-elements.fieldset":
+    case undefined:
+    default:
+      return <Input key={fieldName} {...inputProps} />;
+  }
 };

@@ -8,10 +8,10 @@ const steps = xStateTargetsFromPagesConfig(berHAntragPersoenlicheDatenPages);
 
 export const persoenlicheDatenXstateConfig = {
   id: "persoenliche-daten",
-  initial: "start",
+  initial: steps.persoenlicheDatenStart.relative,
   meta: { done: beratungshilfePersoenlicheDatenDone },
   states: {
-    start: {
+    [steps.persoenlicheDatenStart.relative]: {
       on: {
         SUBMIT: steps.name.relative,
         BACK: "#einkommen.staatliche-leistungen",
@@ -19,7 +19,7 @@ export const persoenlicheDatenXstateConfig = {
     },
     [steps.name.relative]: {
       on: {
-        BACK: "start",
+        BACK: steps.persoenlicheDatenStart.relative,
         SUBMIT: steps.geburtsdatum.relative,
       },
     },
