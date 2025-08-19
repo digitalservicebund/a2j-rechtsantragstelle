@@ -4,8 +4,8 @@ import { redirect, Form, useLoaderData, useNavigation } from "react-router";
 import Button from "~/components/common/Button";
 import Heading from "~/components/common/Heading";
 import ContentComponents from "~/components/content/ContentComponents";
-import { acceptCookiesFieldName } from "~/components/cookieBanner/CookieBanner";
 import Container from "~/components/layout/Container";
+import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
 import {
   consentCookieFromRequest,
   trackingCookieValue,

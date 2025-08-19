@@ -1,7 +1,7 @@
 import { createCookie } from "react-router";
+import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
 import { useSecureCookie } from "~/util/useSecureCookie";
 import { sendCustomAnalyticsEvent } from "./customEvent";
-import { acceptCookiesFieldName } from "../../components/cookieBanner/CookieBanner";
 
 export const consentCookieName = "gdpr-consent";
 

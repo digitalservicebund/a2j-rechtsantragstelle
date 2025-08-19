@@ -3,10 +3,10 @@ import { useFetcher } from "react-router";
 import Button from "~/components/common/Button";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import RichText, { type RichTextProps } from "~/components/common/RichText";
+import { StandaloneLink } from "~/components/common/StandaloneLink";
+import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import Container from "~/components/layout/Container";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
-import { StandaloneLink } from "../common/StandaloneLink";
-import { useJsAvailable } from "../hooks/useJsAvailable";
 
 export const acceptCookiesFieldName = "accept-cookies";
 
