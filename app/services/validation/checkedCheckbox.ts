@@ -1,12 +1,7 @@
 import { z } from "zod";
-import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
-export const checkedRequired = z.enum(["on"], customRequiredErrorMessage);
-
-export const checkedOptional = z.enum(
-  ["on", "off"],
-  customRequiredErrorMessage,
-);
+export const checkedRequired = z.enum(["on"]);
+export const checkedOptional = z.enum(["on", "off"]);
 
 export type CheckedOptional = z.infer<typeof checkedOptional>;
 

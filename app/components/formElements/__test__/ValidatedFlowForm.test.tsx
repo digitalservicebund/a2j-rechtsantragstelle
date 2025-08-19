@@ -15,10 +15,8 @@ import { integerSchema } from "~/services/validation/integer";
 import * as schemaForFieldNames from "~/services/validation/stepValidator/schemaForFieldNames";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { configureZod } from "~/services/validation/zodConfig";
 
 vi.mock("react-router", async () => {
   const actual = await vi.importActual("react-router");
@@ -41,6 +39,8 @@ const fieldNameValidatorSpy = vi.spyOn(
 );
 
 describe("ValidatedFlowForm", () => {
+  configureZod(); // Need to auto-configure enum errors
+
   it("should render", () => {
     fieldNameValidatorSpy.mockImplementationOnce(vi.fn());
     const { getByText } = renderValidatedFlowForm([]);
@@ -298,10 +298,7 @@ describe("ValidatedFlowForm", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
         z.object({
-          myDropdown: z.enum(
-            ["option1", "option2", "option3"],
-            customRequiredErrorMessage,
-          ),
+          myDropdown: z.enum(["option1", "option2", "option3"]),
         }),
       );
     });
@@ -402,7 +399,7 @@ describe("ValidatedFlowForm", () => {
     beforeAll(() => {
       fieldNameValidatorSpy.mockImplementation(() =>
         z.object({
-          myTileGroup: z.enum(["tileGroup"], customRequiredErrorMessage),
+          myTileGroup: z.enum(["tileGroup"]),
         }),
       );
     });

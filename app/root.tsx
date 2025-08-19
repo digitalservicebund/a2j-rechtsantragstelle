@@ -50,6 +50,7 @@ import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
+import { configureZod } from "./services/validation/zodConfig";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 
 export { headers } from "./rootHeaders";
@@ -92,6 +93,8 @@ export type RootLoader = typeof loader;
 
 const STRAPI_P_LEVEL_TWO = 2;
 const STRAPI_P_LEVEL_THREE = 3;
+
+configureZod(); // configure validation, for example custom errors
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);

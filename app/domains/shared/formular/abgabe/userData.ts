@@ -1,8 +1,7 @@
 import { z } from "zod";
-import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
 export const abgabeInputSchema = {
-  abgabeArt: z.enum(["online", "ausdrucken"], customRequiredErrorMessage),
+  abgabeArt: z.enum(["online", "ausdrucken"]),
 };
 
 const _partialSchema = z.object(abgabeInputSchema).partial();

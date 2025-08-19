@@ -5,29 +5,20 @@ import { familyRelationshipInputSchema } from "~/domains/shared/formular/finanzi
 import { vornameNachnameSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const pkhFormularAntragstellendePersonPages = {
   empfaenger: {
     stepId: "antragstellende-person/empfaenger",
     pageSchema: {
-      empfaenger: z.enum(
-        ["myself", "child", "otherPerson"],
-        customRequiredErrorMessage,
-      ),
+      empfaenger: z.enum(["myself", "child", "otherPerson"]),
     },
   },
   ...pkhFormularVereinfachteErklaerungPages,
   unterhaltsanspruch: {
     stepId: "antragstellende-person/unterhaltsanspruch",
     pageSchema: {
-      unterhaltsanspruch: z.enum(
-        ["keine", "unterhalt", "anspruchNoUnterhalt"],
-        customRequiredErrorMessage,
-      ),
+      unterhaltsanspruch: z.enum(["keine", "unterhalt", "anspruchNoUnterhalt"]),
     },
   },
   unterhaltLebenFrage: {

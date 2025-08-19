@@ -3,10 +3,7 @@ import type { PagesConfig } from "~/domains/pageSchemas";
 import { staatlicheLeistungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { kidsSchema } from "./kidsSchema";
 
 export const beratungshilfeVorabcheckPages = {
@@ -20,10 +17,7 @@ export const beratungshilfeVorabcheckPages = {
   rechtsschutzversicherungDetails: {
     stepId: "rechtsschutzversicherung-details",
     pageSchema: {
-      rsvCoverage: z.enum(
-        ["yes", "partly", "tooExpensive", "no", "unknown"],
-        customRequiredErrorMessage,
-      ),
+      rsvCoverage: z.enum(["yes", "partly", "tooExpensive", "no", "unknown"]),
     },
   },
   rechtsschutzversicherungAbbruch: {
@@ -74,20 +68,17 @@ export const beratungshilfeVorabcheckPages = {
   bereich: {
     stepId: "bereich",
     pageSchema: {
-      bereich: z.enum(
-        [
-          "authorities",
-          "living",
-          "work",
-          "separation",
-          "trade",
-          "debt",
-          "inheritance",
-          "criminalProcedure",
-          "other",
-        ],
-        customRequiredErrorMessage,
-      ),
+      bereich: z.enum([
+        "authorities",
+        "living",
+        "work",
+        "separation",
+        "trade",
+        "debt",
+        "inheritance",
+        "criminalProcedure",
+        "other",
+      ]),
     },
   },
   staatlicheLeistungen: {
@@ -103,7 +94,7 @@ export const beratungshilfeVorabcheckPages = {
   vermoegen: {
     stepId: "vermoegen",
     pageSchema: {
-      vermoegen: z.enum(["below_10k", "above_10k"], customRequiredErrorMessage),
+      vermoegen: z.enum(["below_10k", "above_10k"]),
     },
   },
   vermoegenAbschlussJa: {
