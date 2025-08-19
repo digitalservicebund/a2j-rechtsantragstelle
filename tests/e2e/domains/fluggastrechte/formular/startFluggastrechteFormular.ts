@@ -55,9 +55,6 @@ export async function startFluggastrechteFormular(
   await formular.clickNext();
 
   // /fluggastrechte/formular/flugdaten/geplanter-flug
-
-  // We need a timeout here to load this component otherwise the input value is gone
-  await page.waitForSelector("[data-testid=input-startAirport-loaded]");
   await formular.fillInput("direktFlugnummer", "AB1234");
   await formular.fillInput("buchungsNummer", "X36Q9C");
   await formular.fillInput("direktAbflugsDatum", toGermanDateFormat(today()));
