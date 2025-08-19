@@ -23,7 +23,7 @@ export function VorabcheckPage() {
   return (
     <Background backgroundColor="blue">
       <div className="w-screen h-full">
-        <div className="container !pt-24 !pb-32 h-full">
+        <div className="container pt-24! pb-32! h-full">
           <div className="flex flex-col min-h-full gap-32 justify-between">
             <div className="ds-stack ds-stack-40" id="flow-page-content">
               <ProgressBar {...progressProps} />
