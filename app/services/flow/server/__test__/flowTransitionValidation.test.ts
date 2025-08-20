@@ -31,7 +31,6 @@ describe("flowTransitionValidation", () => {
     "/beratungshilfe/vorabcheck": createMockFlow("formFlow"),
     "/beratungshilfe/antrag": createMockFlow("formFlow"),
     "/geld-einklagen/vorabcheck": createMockFlow("vorabCheck"),
-    "/geld-einklagen/formular": createMockFlow("formFlow"),
     "/fluggastrechte/vorabcheck": createMockFlow("vorabCheck"),
     "/fluggastrechte/formular": createMockFlow("formFlow"),
     "/prozesskostenhilfe/formular": createMockFlow("formFlow"),

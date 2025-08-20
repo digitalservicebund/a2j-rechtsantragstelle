@@ -2,7 +2,6 @@ export const flowIds = [
   "/beratungshilfe/antrag",
   "/beratungshilfe/vorabcheck",
   "/geld-einklagen/vorabcheck",
-  "/geld-einklagen/formular",
   "/fluggastrechte/vorabcheck",
   "/fluggastrechte/formular",
   "/prozesskostenhilfe/formular",
