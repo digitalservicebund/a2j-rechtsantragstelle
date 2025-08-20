@@ -292,8 +292,8 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "finanzielle-angaben/partner/partner-einkuenfte/add-partner-besonders-ausgaben",
     pageSchema: {
       // this how the userData wants it, but not how the input wants, check SchemaComponents for a clue
-      beschreibung: stringRequiredSchema,
-      betrag: buildMoneyValidationSchema(),
+      "partnerBesondersAusgabe.beschreibung": stringRequiredSchema,
+      "partnerBesondersAusgabe.betrag": buildMoneyValidationSchema(),
     },
   },
 } as const satisfies PagesConfig;

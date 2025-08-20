@@ -3,7 +3,8 @@ import { singleton } from "~/util/singleton.server";
 import { config } from "../env/env.server";
 import { logError } from "../logging";
 
-const REDIS_URL = `rediss://default:${config().REDIS_PASSWORD}@${config().REDIS_ENDPOINT}`;
+// const REDIS_URL = `rediss://default:${config().REDIS_PASSWORD}@${config().REDIS_ENDPOINT}`;
+const REDIS_URL = `redis://default:${config().REDIS_PASSWORD}@${config().REDIS_ENDPOINT}`;
 
 type RedisClientProps = {
   url: string;
@@ -12,7 +13,7 @@ type RedisClientProps = {
 
 export function createRedisClient({ url, lazyConnect }: RedisClientProps) {
   const redisClient = new Redis(url, {
-    tls: { rejectUnauthorized: false },
+    // tls: { rejectUnauthorized: false },
     retryStrategy: (times) => Math.min(times * 100, 2000),
     enableReadyCheck: true,
     lazyConnect,
