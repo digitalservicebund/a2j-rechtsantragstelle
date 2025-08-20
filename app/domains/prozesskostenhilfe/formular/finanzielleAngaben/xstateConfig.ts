@@ -2,7 +2,6 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { pkhFormularFinanzielleAngabenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/pages";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import {
-  andereUnterhaltszahlungenDone,
   ausgabenDone,
   ausgabenZusammenfassungDone,
   eigentumZusammenfassungDone,
@@ -10,6 +9,7 @@ import {
   eigentumDone,
 } from "./doneFunctions";
 import { finanzielleAngabenEinkuenfteXstateConfig } from "./einkuenfte/xStateConfig";
+import { andereUnterhaltszahlungenXstateConfig } from "./andere-unterhaltszahlungen/xstateConfig";
 import { kinderXstateConfig } from "./kinder/xstateConfig";
 import { partnerXstateConfig } from "./partner/xstateConfig";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
@@ -23,61 +23,7 @@ export const finanzielleAngabenXstateConfig = {
     einkuenfte: finanzielleAngabenEinkuenfteXstateConfig,
     partner: partnerXstateConfig,
     kinder: kinderXstateConfig,
-    "andere-unterhaltszahlungen": {
-      id: "andere-unterhaltszahlungen",
-      meta: { done: andereUnterhaltszahlungenDone },
-      initial: "frage",
-      states: {
-        frage: {
-          on: {
-            BACK: [
-              {
-                guard: "hasKinderYes",
-                target: "#kinder.uebersicht",
-              },
-              "#kinder.kinder-frage",
-            ],
-            SUBMIT: [
-              {
-                guard: "hasWeitereUnterhaltszahlungenYes",
-                target: "uebersicht",
-              },
-              "#wohnung",
-            ],
-          },
-        },
-        uebersicht: {
-          on: {
-            BACK: "frage",
-            SUBMIT: [
-              {
-                guard: "hasWeitereUnterhaltszahlungenYesAndEmptyArray",
-                target: "warnung",
-              },
-              "#wohnung",
-            ],
-            "add-unterhaltszahlungen": "person",
-          },
-        },
-        warnung: {
-          on: {
-            BACK: "uebersicht",
-            SUBMIT: "#wohnung",
-          },
-        },
-        person: {
-          initial: "daten",
-          states: {
-            daten: {
-              on: {
-                BACK: "#andere-unterhaltszahlungen.uebersicht",
-                SUBMIT: "#andere-unterhaltszahlungen.uebersicht",
-              },
-            },
-          },
-        },
-      },
-    },
+    "andere-unterhaltszahlungen": andereUnterhaltszahlungenXstateConfig,
     wohnung: {
       id: "wohnung",
       initial: "alleine-zusammen",
