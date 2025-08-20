@@ -1,5 +1,3 @@
-import type { GeldEinklagenVorabcheckUserData } from "../vorabcheck/userData";
-
 const gerichtskostenvorschuss = {
   below_500: 114,
   above_500: 174,
@@ -9,19 +7,6 @@ const gerichtskostenvorschuss = {
   above_3000: 420,
   above_4000: 483,
 } as const;
-
-export const getGerichtskostenvorschuss = (
-  context: GeldEinklagenVorabcheckUserData,
-) => {
-  if (
-    !("geldspanne" in context) ||
-    !context.geldspanne ||
-    context.geldspanne === "no" ||
-    context.geldspanne === "above_5000"
-  )
-    return 0;
-  return gerichtskostenvorschuss[context.geldspanne];
-};
 
 export const gerichtskostenFromBetrag = (betrag: number) => {
   if (betrag < 500) return gerichtskostenvorschuss.below_500;

@@ -1,13 +1,9 @@
 import type { Flow } from "~/domains/flows.server";
-import type { GeldEinklagenVorabcheckUserData } from "./userData";
 import { geldEinklagenVorabcheckXstateConfig } from "./xstateConfig";
-import { getGerichtskostenvorschuss } from "../shared/gerichtskosten";
 
 export const geldEinklagenVorabcheck = {
   flowType: "vorabCheck",
-  stringReplacements: (context: GeldEinklagenVorabcheckUserData) => ({
-    gerichtskostenvorschuss: getGerichtskostenvorschuss(context).toString(),
-  }),
+  stringReplacements: () => ({}),
   config: geldEinklagenVorabcheckXstateConfig,
   guards: {},
 } satisfies Flow;
