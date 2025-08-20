@@ -36,15 +36,13 @@ export function getCookieSessionSecret() {
   return (
     readSecretVolume("/etc/cookie-session-secret/password") ??
     process.env.COOKIE_SESSION_SECRET ??
-    ""
+    "s3cr3t"
   );
 }
 
 export function getSamlIDPCert() {
   return (
-    readSecretVolume("/etc/saml/idp_cert") ??
-    process.env.SAML_IDP_CERT?.trim() ??
-    ""
+    readSecretVolume("/etc/saml/idp_cert") ?? process.env.SAML_IDP_CERT?.trim()
   );
 }
 
@@ -54,7 +52,7 @@ export function getS3DataStorageAccessKey() {
       "/etc/s3-storage-credentials-secret-access-key/password",
     ) ??
     process.env.S3_DATA_STORAGE_ACCESS_KEY ??
-    ""
+    "test"
   );
 }
 
@@ -62,7 +60,7 @@ export function getS3DataStorageSecretKey() {
   return (
     readSecretVolume("/etc/s3-storage-credentials-secret-key/password") ??
     process.env.S3_DATA_STORAGE_SECRET_KEY ??
-    ""
+    "test"
   );
 }
 
