@@ -21,37 +21,33 @@ export function getPageSchema(pathname: string) {
   const { stepId, arrayIndexes } = parsePathname(pathname);
   const stepIdWithoutLeadingSlash = stepId.slice(1);
   const pagesConfig = pages[flowId] ?? {};
+  console.log("stepId", stepId);
+  console.log("stepIdWithoutLeadingSlash", stepIdWithoutLeadingSlash);
+  console.log("arrayIndexes", arrayIndexes);
+  // console.log("pagesConfig", pagesConfig);
 
   if (arrayIndexes.length > 0) {
     // An index in the URL tells us we are on a page that belongs to an array
     // To return its pageSchema, we need to find the parent first, which should be one or two levels above
     const stepPathParts = stepIdWithoutLeadingSlash.split("/");
-    console.log("stepId", stepId);
-    console.log(
-      "stepIdWithoutLeadingSlash",
-      stepIdWithoutLeadingSlash.startsWith(stepId),
-      Object.values(pagesConfig).filter(isArrayParentPage),
-    );
 
     // The arrayParentPage matches our array page and its stepId should match the beginning of the current stepId
     const parentPageConfig = Object.values(pagesConfig)
       .filter(isArrayParentPage)
       .find(({ stepId }) => stepIdWithoutLeadingSlash.startsWith(stepId));
-    console.log(
-      "parentPageConfig",
-      stepIdWithoutLeadingSlash,
-      parentPageConfig,
-    );
-    console.log(
-      "pagesConfig",
-      Object.values(pagesConfig).filter(isArrayParentPage),
-    );
+    console.log("parentPageConfig", parentPageConfig);
 
     if (!parentPageConfig) return undefined;
 
     // Try to find the array page schema by navigating through the path
     return arrayPageSchemaFromNestedArrayPages(parentPageConfig, stepPathParts);
   }
+  console.log(
+    "pageConfig",
+    Object.values(pagesConfig).find(
+      (page) => page.stepId === stepIdWithoutLeadingSlash,
+    ),
+  );
 
   return Object.values(pagesConfig).find(
     (page) => page.stepId === stepIdWithoutLeadingSlash,
@@ -84,6 +80,8 @@ function arrayPageSchemaFromNestedArrayPages(
     },
     pageConfig,
   );
+
+  console.log("finalPageConfig", finalPageConfig);
 
   // Return the schema from the final result
   return finalPageConfig?.pageSchema;

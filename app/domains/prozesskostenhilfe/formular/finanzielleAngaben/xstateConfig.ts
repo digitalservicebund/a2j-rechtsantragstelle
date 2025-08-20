@@ -16,7 +16,8 @@ import { einkuenfteDone } from "./einkuenfte/doneFunctions";
 import { partnerEinkuenfteGuards } from "./einkuenfte/guards";
 import {
   finanzielleAngabenEinkuenfteXstateConfig,
-  getProzesskostenhilfeEinkuenfteSubflow,
+  // getProzesskostenhilfeSharedEinkuenfteSubflow,
+  getProzesskostenhilfePartnerEinkuenfteSubflow,
 } from "./einkuenfte/xStateConfig";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
 
@@ -107,10 +108,10 @@ export const finanzielleAngabenXstateConfig = {
           },
         },
         "partner-einkuenfte": merge(
-          getProzesskostenhilfeEinkuenfteSubflow(einkuenfteDone, "partner"),
+          getProzesskostenhilfePartnerEinkuenfteSubflow(einkuenfteDone),
           {
             states: {
-              "partner-besonders-ausgaben": {
+              [steps.partnerBesondersAusgaben.relative]: {
                 on: {
                   BACK: [
                     {
@@ -128,7 +129,7 @@ export const finanzielleAngabenXstateConfig = {
                   ],
                 },
               },
-              "add-partner-besonders-ausgaben": {
+              [steps.partnerAddBesondersAusgaben.relative]: {
                 on: {
                   SUBMIT: "#kinder",
                   BACK: "partner-besonders-ausgaben",

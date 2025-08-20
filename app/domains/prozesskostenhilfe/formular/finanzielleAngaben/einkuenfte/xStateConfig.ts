@@ -20,6 +20,7 @@ import {
   empfaengerIsAnderePerson,
   empfaengerIsChild,
 } from "../../antragstellendePerson/guards";
+import { pkhFormularFinanzielleAngabenPartnerPages } from "../partner/pages";
 
 type PKHEinkuenfteSubflowTypes = "partner";
 
@@ -608,119 +609,108 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
   },
 } as Flow["config"];
 
-export const getProzesskostenhilfeEinkuenfteSubflow = (
+export const getProzesskostenhilfeSharedEinkuenfteSubflow = (
   _doneFunction: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard = einkuenfteDone,
-  subflowPrefix?: PKHEinkuenfteSubflowTypes,
 ) => {
-  const stepIds = mapValues(einkuenfteStepIds, (step) =>
-    subflowPrefix ? `${subflowPrefix}-${step}` : step,
+  const stepIds = einkuenfteStepIds;
+  const partnerStepIds = xStateTargetsFromPagesConfig(
+    pkhFormularFinanzielleAngabenPartnerPages,
   );
 
-  const isPartnerFlow = subflowPrefix === "partner";
-
-  const guards = isPartnerFlow ? partnerEinkuenfteGuards : einkuenfteGuards;
-
   return {
-    id: stepIds.id,
-    initial: isPartnerFlow ? stepIds.staatlicheLeistungen : stepIds.start,
+    initial: partnerStepIds.partnerschaft.relative,
     meta: { done: einkuenfteDone },
     states: {
-      ...(!isPartnerFlow && {
-        [stepIds.start]: {
-          id: stepIds.start,
-          on: {
-            SUBMIT: stepIds.staatlicheLeistungen,
-            BACK: [
-              {
-                guard: empfaengerIsAnderePerson,
-                target: "#antragstellende-person.zwei-formulare",
-              },
-              {
-                guard: and([
-                  empfaengerIsChild,
-                  isNachueberpruefung,
-                  qualifiesForVereinfachteErklaerung,
-                ]),
-                target:
-                  "#antragstellende-person.vereinfachte-erklaerung.hinweis-vereinfachte-erklaerung",
-              },
-              {
-                guard: and([
-                  empfaengerIsChild,
-                  isNachueberpruefung,
-                  ({ context }) =>
-                    !qualifiesForVereinfachteErklaerung({ context }),
-                ]),
-                target:
-                  "#antragstellende-person.vereinfachte-erklaerung.hinweis-weiteres-formular",
-              },
-              {
-                guard: and([
-                  isNachueberpruefung,
-                  ({ context }) => context.unterhaltsanspruch === "keine",
-                ]),
-                target: "#antragstellende-person.unterhaltsanspruch",
-              },
-              {
-                guard: and([
-                  isNachueberpruefung,
-                  ({ context }) => context.unterhaltsanspruch === "unterhalt",
-                  ({ context }) => context.livesPrimarilyFromUnterhalt === "no",
-                ]),
-                target:
-                  "#antragstellende-person.unterhalt-hauptsaechliches-leben",
-              },
-              {
-                guard: and([
-                  isNachueberpruefung,
-                  ({ context }) => context.unterhaltsanspruch === "unterhalt",
-                  ({ context }) =>
-                    context.livesPrimarilyFromUnterhalt === "yes",
-                ]),
-                target: "#antragstellende-person.eigenes-exemplar",
-              },
-              {
-                guard: and([isNachueberpruefung, couldLiveFromUnterhalt]),
-                target: "#antragstellende-person.warum-keiner-unterhalt",
-              },
-              {
-                guard: isNachueberpruefung,
-                target: "#antragstellende-person.unterhalt-leben-frage",
-              },
-              {
-                guard: ({ context }) => isOrganizationCoveragePartly(context),
-                target: "#rechtsschutzversicherung.org-deckung-teilweise",
-              },
-              {
-                guard: ({ context }) => isOrganizationCoverageNone(context),
-                target: "#rechtsschutzversicherung.org-deckung-nein",
-              },
-              "#rechtsschutzversicherung.org-frage",
-            ],
-          },
+      [stepIds.start]: {
+        id: stepIds.start,
+        on: {
+          SUBMIT: stepIds.staatlicheLeistungen,
+          BACK: [
+            {
+              guard: empfaengerIsAnderePerson,
+              target: "#antragstellende-person.zwei-formulare",
+            },
+            {
+              guard: and([
+                empfaengerIsChild,
+                isNachueberpruefung,
+                qualifiesForVereinfachteErklaerung,
+              ]),
+              target:
+                "#antragstellende-person.vereinfachte-erklaerung.hinweis-vereinfachte-erklaerung",
+            },
+            {
+              guard: and([
+                empfaengerIsChild,
+                isNachueberpruefung,
+                ({ context }) =>
+                  !qualifiesForVereinfachteErklaerung({ context }),
+              ]),
+              target:
+                "#antragstellende-person.vereinfachte-erklaerung.hinweis-weiteres-formular",
+            },
+            {
+              guard: and([
+                isNachueberpruefung,
+                ({ context }) => context.unterhaltsanspruch === "keine",
+              ]),
+              target: "#antragstellende-person.unterhaltsanspruch",
+            },
+            {
+              guard: and([
+                isNachueberpruefung,
+                ({ context }) => context.unterhaltsanspruch === "unterhalt",
+                ({ context }) => context.livesPrimarilyFromUnterhalt === "no",
+              ]),
+              target:
+                "#antragstellende-person.unterhalt-hauptsaechliches-leben",
+            },
+            {
+              guard: and([
+                isNachueberpruefung,
+                ({ context }) => context.unterhaltsanspruch === "unterhalt",
+                ({ context }) => context.livesPrimarilyFromUnterhalt === "yes",
+              ]),
+              target: "#antragstellende-person.eigenes-exemplar",
+            },
+            {
+              guard: and([isNachueberpruefung, couldLiveFromUnterhalt]),
+              target: "#antragstellende-person.warum-keiner-unterhalt",
+            },
+            {
+              guard: isNachueberpruefung,
+              target: "#antragstellende-person.unterhalt-leben-frage",
+            },
+            {
+              guard: ({ context }) => isOrganizationCoveragePartly(context),
+              target: "#rechtsschutzversicherung.org-deckung-teilweise",
+            },
+            {
+              guard: ({ context }) => isOrganizationCoverageNone(context),
+              target: "#rechtsschutzversicherung.org-deckung-nein",
+            },
+            "#rechtsschutzversicherung.org-frage",
+          ],
         },
-      }),
+      },
       [stepIds.staatlicheLeistungen]: {
         on: {
           SUBMIT: [
             {
-              guard: guards.staatlicheLeistungenIsBuergergeld,
+              guard: einkuenfteGuards.staatlicheLeistungenIsBuergergeld,
               target: stepIds.buergergeld,
             },
             {
-              guard: guards.staatlicheLeistungenIsArbeitslosengeld,
+              guard: einkuenfteGuards.staatlicheLeistungenIsArbeitslosengeld,
               target: stepIds.arbeitslosengeld,
             },
             {
-              guard: guards.staatlicheLeistungenIsKeine,
+              guard: einkuenfteGuards.staatlicheLeistungenIsKeine,
               target: stepIds.einkommen,
             },
-            subflowPrefix === "partner" ? "#kinder" : "#gesetzliche-vertretung",
+            "#gesetzliche-vertretung",
           ],
-          BACK:
-            subflowPrefix === "partner"
-              ? "#partner.partner-einkommen"
-              : stepIds.start,
+          BACK: stepIds.start,
         },
       },
       [stepIds.buergergeld]: {
@@ -742,18 +732,19 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
             on: {
               SUBMIT: [
                 {
-                  guard: guards.notEmployed,
+                  guard: einkuenfteGuards.notEmployed,
                   target: `#${stepIds.id}.${stepIds.renteFrage}`,
                 },
                 stepIds.art,
               ],
               BACK: [
                 {
-                  guard: guards.staatlicheLeistungenIsBuergergeld,
+                  guard: einkuenfteGuards.staatlicheLeistungenIsBuergergeld,
                   target: `#${stepIds.id}.${stepIds.buergergeld}`,
                 },
                 {
-                  guard: guards.staatlicheLeistungenIsArbeitslosengeld,
+                  guard:
+                    einkuenfteGuards.staatlicheLeistungenIsArbeitslosengeld,
                   target: `#${stepIds.id}.${stepIds.arbeitslosengeld}`,
                 },
                 `#${stepIds.id}.${stepIds.staatlicheLeistungen}`,
@@ -764,7 +755,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
             on: {
               SUBMIT: [
                 {
-                  guard: guards.isEmployee,
+                  guard: einkuenfteGuards.isEmployee,
                   target: stepIds.nettoEinkommen,
                 },
                 stepIds.selbststaendig,
@@ -776,12 +767,12 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
             on: {
               SUBMIT: [
                 {
-                  guard: guards.isSelfEmployed,
+                  guard: einkuenfteGuards.isSelfEmployed,
                   target: stepIds.selbststaendig,
                 },
                 {
                   guard: ({ context }) =>
-                    !guards.incomeWithBuergergeld({ context }),
+                    !einkuenfteGuards.incomeWithBuergergeld({ context }),
                   target: `#${stepIds.id}.${stepIds.abzuege}`,
                 },
                 `#${stepIds.id}.${stepIds.renteFrage}`,
@@ -794,7 +785,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               SUBMIT: stepIds.selbststaendigAbzuege,
               BACK: [
                 {
-                  guard: guards.isEmployee,
+                  guard: einkuenfteGuards.isEmployee,
                   target: stepIds.nettoEinkommen,
                 },
                 stepIds.art,
@@ -807,7 +798,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               SUBMIT: [
                 {
                   guard: ({ context }) =>
-                    !guards.incomeWithBuergergeld({ context }),
+                    !einkuenfteGuards.incomeWithBuergergeld({ context }),
                   target: `#${stepIds.id}.${stepIds.abzuege}`,
                 },
                 `#${stepIds.id}.${stepIds.renteFrage}`,
@@ -823,22 +814,23 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
             on: {
               SUBMIT: [
                 {
-                  guard: guards.usesPublicTransit,
+                  guard: einkuenfteGuards.usesPublicTransit,
                   target: stepIds.opnvKosten,
                 },
                 {
-                  guard: guards.usesPrivateVehicle,
+                  guard: einkuenfteGuards.usesPrivateVehicle,
                   target: stepIds.arbeitsplatzEntfernung,
                 },
                 {
-                  guard: guards.commuteMethodPlaysNoRole,
+                  guard: einkuenfteGuards.commuteMethodPlaysNoRole,
                   target: stepIds.keineRolle,
                 },
-                `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsausgaben}`,
+                // `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsausgaben}`,
+                partnerStepIds.arbeitsausgaben.absolute,
               ],
               BACK: [
                 {
-                  guard: guards.isSelfEmployed,
+                  guard: einkuenfteGuards.isSelfEmployed,
                   target: `#${stepIds.id}.${stepIds.einkommen}.${stepIds.selbststaendigAbzuege}`,
                 },
                 `#${stepIds.id}.${stepIds.einkommen}.${stepIds.nettoEinkommen}`,
@@ -856,7 +848,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               SUBMIT: `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsausgaben}`,
               BACK: [
                 {
-                  guard: guards.usesPublicTransit,
+                  guard: einkuenfteGuards.usesPublicTransit,
                   target: stepIds.opnvKosten,
                 },
                 stepIds.arbeitsweg,
@@ -869,29 +861,511 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               BACK: stepIds.arbeitsweg,
             },
           },
-          [stepIds.arbeitsausgaben]: {
-            initial: stepIds.arbeitsausgabenFrage,
+          // [stepIds.arbeitsausgaben]: {
+          [partnerStepIds.arbeitsausgaben.relative]: {
+            initial: partnerStepIds.arbeitsausgabenFrage.relative,
             states: {
-              [stepIds.arbeitsausgabenFrage]: {
+              [partnerStepIds.arbeitsausgabenFrage.relative]: {
                 on: {
                   SUBMIT: [
                     {
-                      guard: guards.hasAndereArbeitsausgaben,
+                      guard: einkuenfteGuards.hasAndereArbeitsausgaben,
                       target: stepIds.uebersicht,
                     },
                     `#${stepIds.id}.${stepIds.renteFrage}`,
                   ],
                   BACK: [
                     {
-                      guard: guards.usesPublicTransit,
+                      guard: einkuenfteGuards.usesPublicTransit,
                       target: `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsplatzEntfernung}`,
                     },
                     {
-                      guard: guards.usesPrivateVehicle,
+                      guard: einkuenfteGuards.usesPrivateVehicle,
                       target: `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsplatzEntfernung}`,
                     },
                     {
-                      guard: guards.commuteMethodPlaysNoRole,
+                      guard: einkuenfteGuards.commuteMethodPlaysNoRole,
+                      target: `#${stepIds.id}.${stepIds.abzuege}.${stepIds.keineRolle}`,
+                    },
+                    `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsweg}`,
+                  ],
+                },
+              },
+              [partnerStepIds.arbeitsausgabenUebersicht.relative]: {
+                on: {
+                  SUBMIT: [
+                    {
+                      guard:
+                        einkuenfteGuards.hasAndereArbeitsausgabenAndEmptyArray,
+                      target: stepIds.warnung,
+                    },
+                    `#${stepIds.id}.${stepIds.renteFrage}`,
+                  ],
+                  BACK: stepIds.arbeitsausgabenFrage,
+                  [stepIds.addArbeitsausgaben]: {
+                    guard: einkuenfteGuards.isValidArbeitsausgabenArrayIndex,
+                    target: stepIds.arbeitsausgabe,
+                  },
+                },
+              },
+              [partnerStepIds.arbeitsausgabenWarnung.relative]: {
+                on: {
+                  BACK: stepIds.uebersicht,
+                  SUBMIT: `#${stepIds.id}.${stepIds.renteFrage}`,
+                },
+              },
+              [partnerStepIds.arbeitsausgaben.relative]: {
+                initial: partnerStepIds.arbeitsausgaben.relative,
+                states: {
+                  [partnerStepIds.arbeitsausgaben.relative]: {
+                    on: {
+                      BACK: `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsausgaben}.${stepIds.uebersicht}`,
+                      SUBMIT: `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsausgaben}.${stepIds.uebersicht}`,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      [stepIds.renteFrage]: {
+        on: {
+          SUBMIT: [
+            {
+              guard: einkuenfteGuards.receivesPension,
+              target: stepIds.rente,
+            },
+            stepIds.leistungen,
+          ],
+          BACK: [
+            {
+              guard: einkuenfteGuards.notEmployed,
+              target: stepIds.einkommen,
+            },
+            {
+              guard: ({ context }) =>
+                einkuenfteGuards.incomeWithBuergergeld({ context }) &&
+                einkuenfteGuards.isSelfEmployed({ context }),
+              target: `#${stepIds.id}.${stepIds.einkommen}.${stepIds.selbststaendigAbzuege}`,
+            },
+            {
+              guard: ({ context }) =>
+                einkuenfteGuards.incomeWithBuergergeld({ context }) &&
+                !einkuenfteGuards.isSelfEmployed({ context }),
+              target: `#${stepIds.id}.${stepIds.einkommen}.${stepIds.nettoEinkommen}`,
+            },
+            {
+              guard: einkuenfteGuards.hasAndereArbeitsausgaben,
+              target: `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsausgaben}.${stepIds.uebersicht}`,
+            },
+            `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsausgaben}`,
+          ],
+        },
+      },
+      [stepIds.rente]: {
+        on: {
+          SUBMIT: stepIds.leistungen,
+          BACK: stepIds.renteFrage,
+        },
+      },
+      [stepIds.leistungen]: {
+        initial: stepIds.frage,
+        states: {
+          [stepIds.frage]: {
+            on: {
+              SUBMIT: [
+                {
+                  guard: einkuenfteGuards.hasWohngeld,
+                  target: stepIds.wohngeld,
+                },
+                {
+                  guard: einkuenfteGuards.hasKrankengeld,
+                  target: stepIds.krankengeld,
+                },
+                {
+                  guard: einkuenfteGuards.hasElterngeld,
+                  target: stepIds.elterngeld,
+                },
+                {
+                  guard: einkuenfteGuards.hasKindergeld,
+                  target: stepIds.kindergeld,
+                },
+                `#${stepIds.id}.${stepIds.weitereEinkuenfte}`,
+              ],
+              BACK: [
+                {
+                  guard: einkuenfteGuards.receivesPension,
+                  target: `#${stepIds.id}.${stepIds.rente}`,
+                },
+                `#${stepIds.id}.${stepIds.renteFrage}`,
+              ],
+            },
+          },
+          [stepIds.wohngeld]: {
+            on: {
+              SUBMIT: [
+                {
+                  guard: einkuenfteGuards.hasKrankengeld,
+                  target: stepIds.krankengeld,
+                },
+                {
+                  guard: einkuenfteGuards.hasElterngeld,
+                  target: stepIds.elterngeld,
+                },
+                {
+                  guard: einkuenfteGuards.hasKindergeld,
+                  target: `#${stepIds.id}.${stepIds.leistungen}.${stepIds.kindergeld}`,
+                },
+                `#${stepIds.id}.${stepIds.weitereEinkuenfte}`,
+              ],
+              BACK: stepIds.frage,
+            },
+          },
+          [stepIds.krankengeld]: {
+            on: {
+              SUBMIT: [
+                {
+                  guard: einkuenfteGuards.hasElterngeld,
+                  target: stepIds.elterngeld,
+                },
+                {
+                  guard: einkuenfteGuards.hasKindergeld,
+                  target: `#${stepIds.id}.${stepIds.leistungen}.${stepIds.kindergeld}`,
+                },
+                `#${stepIds.id}.${stepIds.weitereEinkuenfte}`,
+              ],
+              BACK: [
+                {
+                  guard: einkuenfteGuards.hasWohngeld,
+                  target: stepIds.wohngeld,
+                },
+                stepIds.frage,
+              ],
+            },
+          },
+          [stepIds.elterngeld]: {
+            on: {
+              SUBMIT: [
+                {
+                  guard: einkuenfteGuards.hasKindergeld,
+                  target: `#${stepIds.id}.${stepIds.leistungen}.${stepIds.kindergeld}`,
+                },
+                `#${stepIds.id}.${stepIds.weitereEinkuenfte}`,
+              ],
+              BACK: [
+                {
+                  guard: einkuenfteGuards.hasKrankengeld,
+                  target: stepIds.krankengeld,
+                },
+                {
+                  guard: einkuenfteGuards.hasWohngeld,
+                  target: stepIds.wohngeld,
+                },
+                stepIds.frage,
+              ],
+            },
+          },
+          [stepIds.kindergeld]: {
+            on: {
+              SUBMIT: `#${stepIds.id}.${stepIds.weitereEinkuenfte}`,
+              BACK: [
+                {
+                  guard: einkuenfteGuards.hasElterngeld,
+                  target: stepIds.elterngeld,
+                },
+                {
+                  guard: einkuenfteGuards.hasKrankengeld,
+                  target: stepIds.krankengeld,
+                },
+                {
+                  guard: einkuenfteGuards.hasWohngeld,
+                  target: stepIds.wohngeld,
+                },
+                stepIds.frage,
+              ],
+            },
+          },
+        },
+      },
+      [stepIds.weitereEinkuenfte]: {
+        id: stepIds.weitereEinkuenfte,
+        initial: stepIds.frage,
+        states: {
+          [stepIds.frage]: {
+            on: {
+              SUBMIT: [
+                {
+                  guard: einkuenfteGuards.hasFurtherIncome,
+                  target: stepIds.uebersicht,
+                },
+                "#partner",
+              ],
+              BACK: [
+                {
+                  guard: einkuenfteGuards.hasKindergeld,
+                  target: `#${stepIds.id}.${stepIds.leistungen}.${stepIds.kindergeld}`,
+                },
+                {
+                  guard: einkuenfteGuards.hasElterngeld,
+                  target: `#${stepIds.id}.${stepIds.leistungen}.${stepIds.elterngeld}`,
+                },
+                {
+                  guard: einkuenfteGuards.hasKrankengeld,
+                  target: `#${stepIds.id}.${stepIds.leistungen}.${stepIds.krankengeld}`,
+                },
+                {
+                  guard: einkuenfteGuards.hasWohngeld,
+                  target: `#${stepIds.id}.${stepIds.leistungen}.${stepIds.wohngeld}`,
+                },
+                `#${stepIds.id}.${stepIds.leistungen}`,
+              ],
+            },
+          },
+          [stepIds.uebersicht]: {
+            on: {
+              SUBMIT: [
+                {
+                  guard: einkuenfteGuards.hasFurtherIncomeAndEmptyArray,
+                  target: stepIds.warnung,
+                },
+                "#partner",
+              ],
+              BACK: stepIds.frage,
+              [stepIds.addWeitereEinkuenfte]: {
+                guard: einkuenfteGuards.isValidEinkuenfteArrayIndex,
+                target: stepIds.einkunft,
+              },
+            },
+          },
+          [stepIds.warnung]: {
+            on: {
+              BACK: stepIds.uebersicht,
+              SUBMIT: "#partner",
+            },
+          },
+          [stepIds.einkunft]: {
+            initial: stepIds.daten,
+            states: {
+              [stepIds.daten]: {
+                on: {
+                  BACK: `#${stepIds.id}.${stepIds.weitereEinkuenfte}.${stepIds.uebersicht}`,
+                  SUBMIT: `#${stepIds.id}.${stepIds.weitereEinkuenfte}.${stepIds.uebersicht}`,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  } as Flow["config"];
+};
+
+export const getProzesskostenhilfePartnerEinkuenfteSubflow = (
+  _doneFunction: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard = einkuenfteDone,
+) => {
+  const stepIds = mapValues(einkuenfteStepIds, (step) => `partner-${step}`);
+  const partnerStepIds = xStateTargetsFromPagesConfig(
+    pkhFormularFinanzielleAngabenPartnerPages,
+  );
+
+  return {
+    id: "partner-einkuenfte",
+    initial: stepIds.staatlicheLeistungen,
+    meta: { done: einkuenfteDone },
+    states: {
+      [stepIds.staatlicheLeistungen]: {
+        on: {
+          SUBMIT: [
+            {
+              guard: partnerEinkuenfteGuards.staatlicheLeistungenIsBuergergeld,
+              target: stepIds.buergergeld,
+            },
+            {
+              guard:
+                partnerEinkuenfteGuards.staatlicheLeistungenIsArbeitslosengeld,
+              target: stepIds.arbeitslosengeld,
+            },
+            {
+              guard: partnerEinkuenfteGuards.staatlicheLeistungenIsKeine,
+              target: stepIds.einkommen,
+            },
+            "#kinder",
+          ],
+          BACK: partnerStepIds.partnerEinkommen.relative,
+        },
+      },
+      [stepIds.buergergeld]: {
+        on: {
+          SUBMIT: stepIds.einkommen,
+          BACK: stepIds.staatlicheLeistungen,
+        },
+      },
+      [stepIds.arbeitslosengeld]: {
+        on: {
+          SUBMIT: stepIds.einkommen,
+          BACK: stepIds.staatlicheLeistungen,
+        },
+      },
+      [stepIds.einkommen]: {
+        initial: stepIds.erwerbstaetig,
+        states: {
+          [stepIds.erwerbstaetig]: {
+            on: {
+              SUBMIT: [
+                {
+                  guard: partnerEinkuenfteGuards.notEmployed,
+                  target: partnerStepIds.partnerRenteFrage.absolute,
+                },
+                partnerStepIds.partnerArt.relative,
+              ],
+              BACK: [
+                {
+                  guard:
+                    partnerEinkuenfteGuards.staatlicheLeistungenIsBuergergeld,
+                  target: partnerStepIds.partnerBuergergeld.absolute,
+                },
+                {
+                  guard:
+                    partnerEinkuenfteGuards.staatlicheLeistungenIsArbeitslosengeld,
+                  target: partnerStepIds.partnerArbeitslosengeld.absolute,
+                },
+                `#${stepIds.id}.${stepIds.staatlicheLeistungen}`,
+              ],
+            },
+          },
+          [stepIds.art]: {
+            on: {
+              SUBMIT: [
+                {
+                  guard: partnerEinkuenfteGuards.isEmployee,
+                  target: partnerStepIds.partnerNettoEinkommen.relative,
+                },
+                partnerStepIds.partnerSelbststaendig.relative,
+              ],
+              BACK: stepIds.erwerbstaetig,
+            },
+          },
+          [stepIds.nettoEinkommen]: {
+            on: {
+              SUBMIT: [
+                {
+                  guard: partnerEinkuenfteGuards.isSelfEmployed,
+                  target: partnerStepIds.partnerSelbststaendig.relative,
+                },
+                {
+                  guard: ({ context }) =>
+                    !partnerEinkuenfteGuards.incomeWithBuergergeld({ context }),
+                  target: partnerStepIds.partnerArbeitsausgaben.absolute,
+                },
+                partnerStepIds.partnerRenteFrage.absolute,
+              ],
+              BACK: partnerStepIds.partnerArt.relative,
+            },
+          },
+          [stepIds.selbststaendig]: {
+            on: {
+              SUBMIT: partnerStepIds.partnerSelbststaendigAbzuege.relative,
+              BACK: [
+                {
+                  guard: partnerEinkuenfteGuards.isEmployee,
+                  target: partnerStepIds.partnerNettoEinkommen.relative,
+                },
+                partnerStepIds.partnerArt.relative,
+              ],
+            },
+          },
+          [stepIds.selbststaendigAbzuege]: {
+            on: {
+              BACK: partnerStepIds.partnerSelbststaendig.relative,
+              SUBMIT: [
+                {
+                  guard: ({ context }) =>
+                    !partnerEinkuenfteGuards.incomeWithBuergergeld({ context }),
+                  target: `#${stepIds.id}.${stepIds.abzuege}`,
+                },
+                `#${stepIds.id}.${stepIds.renteFrage}`,
+              ],
+            },
+          },
+        },
+      },
+      [stepIds.abzuege]: {
+        initial: stepIds.arbeitsweg,
+        states: {
+          [stepIds.arbeitsweg]: {
+            on: {
+              SUBMIT: [
+                {
+                  guard: partnerEinkuenfteGuards.usesPublicTransit,
+                  target: partnerStepIds.partnerOpnvKosten.relative,
+                },
+                {
+                  guard: partnerEinkuenfteGuards.usesPrivateVehicle,
+                  target: partnerStepIds.partnerArbeitsplatzEntfernung.relative,
+                },
+                {
+                  guard: partnerEinkuenfteGuards.commuteMethodPlaysNoRole,
+                  target: partnerStepIds.partnerArbeitswegKeineRolle.absolute,
+                },
+                `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsausgaben}`,
+              ],
+              BACK: [
+                {
+                  guard: partnerEinkuenfteGuards.isSelfEmployed,
+                  target: `#${stepIds.id}.${stepIds.einkommen}.${stepIds.selbststaendigAbzuege}`,
+                },
+                `#${stepIds.id}.${stepIds.einkommen}.${stepIds.nettoEinkommen}`,
+              ],
+            },
+          },
+          [stepIds.opnvKosten]: {
+            on: {
+              SUBMIT: stepIds.arbeitsplatzEntfernung,
+              BACK: stepIds.arbeitsweg,
+            },
+          },
+          [stepIds.arbeitsplatzEntfernung]: {
+            on: {
+              SUBMIT: `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsausgaben}`,
+              BACK: [
+                {
+                  guard: partnerEinkuenfteGuards.usesPublicTransit,
+                  target: partnerStepIds.partnerOpnvKosten.relative,
+                },
+                partnerStepIds.partnerArbeitsweg.relative,
+              ],
+            },
+          },
+          [stepIds.keineRolle]: {
+            on: {
+              SUBMIT: `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsausgaben}`,
+              BACK: stepIds.arbeitsweg,
+            },
+          },
+          [partnerStepIds.partnerArbeitsausgaben.relative]: {
+            initial: partnerStepIds.partnerArbeitsausgabenFrage.relative,
+            states: {
+              [partnerStepIds.partnerArbeitsausgabenFrage.relative]: {
+                on: {
+                  SUBMIT: [
+                    {
+                      guard: partnerEinkuenfteGuards.hasAndereArbeitsausgaben,
+                      target: stepIds.uebersicht,
+                    },
+                    `#${stepIds.id}.${stepIds.renteFrage}`,
+                  ],
+                  BACK: [
+                    {
+                      guard: partnerEinkuenfteGuards.usesPublicTransit,
+                      target: `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsplatzEntfernung}`,
+                    },
+                    {
+                      guard: partnerEinkuenfteGuards.usesPrivateVehicle,
+                      target: `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsplatzEntfernung}`,
+                    },
+                    {
+                      guard: partnerEinkuenfteGuards.commuteMethodPlaysNoRole,
                       target: `#${stepIds.id}.${stepIds.abzuege}.${stepIds.keineRolle}`,
                     },
                     `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsweg}`,
@@ -902,16 +1376,16 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
                 on: {
                   SUBMIT: [
                     {
-                      guard: guards.hasAndereArbeitsausgabenAndEmptyArray,
+                      guard:
+                        partnerEinkuenfteGuards.hasAndereArbeitsausgabenAndEmptyArray,
                       target: stepIds.warnung,
                     },
                     `#${stepIds.id}.${stepIds.renteFrage}`,
                   ],
                   BACK: stepIds.arbeitsausgabenFrage,
-                  [subflowPrefix === "partner"
-                    ? "add-partner-arbeitsausgaben"
-                    : stepIds.addArbeitsausgaben]: {
-                    guard: guards.isValidArbeitsausgabenArrayIndex,
+                  "add-partner-arbeitsausgaben": {
+                    guard:
+                      partnerEinkuenfteGuards.isValidArbeitsausgabenArrayIndex,
                     target: stepIds.arbeitsausgabe,
                   },
                 },
@@ -941,30 +1415,30 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
         on: {
           SUBMIT: [
             {
-              guard: guards.receivesPension,
+              guard: partnerEinkuenfteGuards.receivesPension,
               target: stepIds.rente,
             },
-            isPartnerFlow ? stepIds.unterhaltFrage : stepIds.leistungen,
+            stepIds.unterhaltFrage,
           ],
           BACK: [
             {
-              guard: guards.notEmployed,
+              guard: partnerEinkuenfteGuards.notEmployed,
               target: stepIds.einkommen,
             },
             {
               guard: ({ context }) =>
-                guards.incomeWithBuergergeld({ context }) &&
-                guards.isSelfEmployed({ context }),
+                partnerEinkuenfteGuards.incomeWithBuergergeld({ context }) &&
+                partnerEinkuenfteGuards.isSelfEmployed({ context }),
               target: `#${stepIds.id}.${stepIds.einkommen}.${stepIds.selbststaendigAbzuege}`,
             },
             {
               guard: ({ context }) =>
-                guards.incomeWithBuergergeld({ context }) &&
-                !guards.isSelfEmployed({ context }),
+                partnerEinkuenfteGuards.incomeWithBuergergeld({ context }) &&
+                !partnerEinkuenfteGuards.isSelfEmployed({ context }),
               target: `#${stepIds.id}.${stepIds.einkommen}.${stepIds.nettoEinkommen}`,
             },
             {
-              guard: guards.hasAndereArbeitsausgaben,
+              guard: partnerEinkuenfteGuards.hasAndereArbeitsausgaben,
               target: `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsausgaben}.${stepIds.uebersicht}`,
             },
             `#${stepIds.id}.${stepIds.abzuege}.${stepIds.arbeitsausgaben}`,
@@ -973,8 +1447,32 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
       },
       [stepIds.rente]: {
         on: {
-          SUBMIT: isPartnerFlow ? stepIds.unterhaltFrage : stepIds.leistungen,
+          SUBMIT: stepIds.unterhaltFrage,
           BACK: stepIds.renteFrage,
+        },
+      },
+      [stepIds.unterhaltFrage]: {
+        on: {
+          SUBMIT: [
+            {
+              guard: partnerEinkuenfteGuards.receivesSupport,
+              target: stepIds.unterhalt,
+            },
+            stepIds.leistungen,
+          ],
+          BACK: [
+            {
+              guard: partnerEinkuenfteGuards.receivesPension,
+              target: stepIds.rente,
+            },
+            stepIds.renteFrage,
+          ],
+        },
+      },
+      [stepIds.unterhalt]: {
+        on: {
+          SUBMIT: stepIds.leistungen,
+          BACK: stepIds.unterhaltFrage,
         },
       },
       [stepIds.leistungen]: {
@@ -984,53 +1482,45 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
             on: {
               SUBMIT: [
                 {
-                  guard: guards.hasWohngeld,
+                  guard: partnerEinkuenfteGuards.hasWohngeld,
                   target: stepIds.wohngeld,
                 },
                 {
-                  guard: guards.hasKrankengeld,
+                  guard: partnerEinkuenfteGuards.hasKrankengeld,
                   target: stepIds.krankengeld,
                 },
                 {
-                  guard: guards.hasElterngeld,
+                  guard: partnerEinkuenfteGuards.hasElterngeld,
                   target: stepIds.elterngeld,
                 },
                 {
-                  guard: guards.hasKindergeld,
+                  guard: partnerEinkuenfteGuards.hasKindergeld,
                   target: stepIds.kindergeld,
                 },
                 `#${stepIds.id}.${stepIds.weitereEinkuenfte}`,
               ],
-              BACK: isPartnerFlow
-                ? [
-                    {
-                      guard: partnerEinkuenfteGuards.receivesSupport,
-                      target: `#${stepIds.id}.${stepIds.unterhalt}`,
-                    },
-                    `#${stepIds.id}.${stepIds.unterhaltFrage}`,
-                  ]
-                : [
-                    {
-                      guard: guards.receivesPension,
-                      target: `#${stepIds.id}.${stepIds.rente}`,
-                    },
-                    `#${stepIds.id}.${stepIds.renteFrage}`,
-                  ],
+              BACK: [
+                {
+                  guard: partnerEinkuenfteGuards.receivesSupport,
+                  target: `#${stepIds.id}.${stepIds.unterhalt}`,
+                },
+                `#${stepIds.id}.${stepIds.unterhaltFrage}`,
+              ],
             },
           },
           [stepIds.wohngeld]: {
             on: {
               SUBMIT: [
                 {
-                  guard: guards.hasKrankengeld,
+                  guard: partnerEinkuenfteGuards.hasKrankengeld,
                   target: stepIds.krankengeld,
                 },
                 {
-                  guard: guards.hasElterngeld,
+                  guard: partnerEinkuenfteGuards.hasElterngeld,
                   target: stepIds.elterngeld,
                 },
                 {
-                  guard: guards.hasKindergeld,
+                  guard: partnerEinkuenfteGuards.hasKindergeld,
                   target: `#${stepIds.id}.${stepIds.leistungen}.${stepIds.kindergeld}`,
                 },
                 `#${stepIds.id}.${stepIds.weitereEinkuenfte}`,
@@ -1042,18 +1532,18 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
             on: {
               SUBMIT: [
                 {
-                  guard: guards.hasElterngeld,
+                  guard: partnerEinkuenfteGuards.hasElterngeld,
                   target: stepIds.elterngeld,
                 },
                 {
-                  guard: guards.hasKindergeld,
+                  guard: partnerEinkuenfteGuards.hasKindergeld,
                   target: `#${stepIds.id}.${stepIds.leistungen}.${stepIds.kindergeld}`,
                 },
                 `#${stepIds.id}.${stepIds.weitereEinkuenfte}`,
               ],
               BACK: [
                 {
-                  guard: guards.hasWohngeld,
+                  guard: partnerEinkuenfteGuards.hasWohngeld,
                   target: stepIds.wohngeld,
                 },
                 stepIds.frage,
@@ -1064,18 +1554,18 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
             on: {
               SUBMIT: [
                 {
-                  guard: guards.hasKindergeld,
+                  guard: partnerEinkuenfteGuards.hasKindergeld,
                   target: `#${stepIds.id}.${stepIds.leistungen}.${stepIds.kindergeld}`,
                 },
                 `#${stepIds.id}.${stepIds.weitereEinkuenfte}`,
               ],
               BACK: [
                 {
-                  guard: guards.hasKrankengeld,
+                  guard: partnerEinkuenfteGuards.hasKrankengeld,
                   target: stepIds.krankengeld,
                 },
                 {
-                  guard: guards.hasWohngeld,
+                  guard: partnerEinkuenfteGuards.hasWohngeld,
                   target: stepIds.wohngeld,
                 },
                 stepIds.frage,
@@ -1087,15 +1577,15 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
               SUBMIT: `#${stepIds.id}.${stepIds.weitereEinkuenfte}`,
               BACK: [
                 {
-                  guard: guards.hasElterngeld,
+                  guard: partnerEinkuenfteGuards.hasElterngeld,
                   target: stepIds.elterngeld,
                 },
                 {
-                  guard: guards.hasKrankengeld,
+                  guard: partnerEinkuenfteGuards.hasKrankengeld,
                   target: stepIds.krankengeld,
                 },
                 {
-                  guard: guards.hasWohngeld,
+                  guard: partnerEinkuenfteGuards.hasWohngeld,
                   target: stepIds.wohngeld,
                 },
                 stepIds.frage,
@@ -1106,34 +1596,33 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
       },
       [stepIds.weitereEinkuenfte]: {
         id: stepIds.weitereEinkuenfte,
-        initial: stepIds.frage,
+        initial: partnerStepIds.partnerWeitereEinkuenfteFrage.relative,
         states: {
-          [stepIds.frage]: {
+          [partnerStepIds.partnerWeitereEinkuenfteFrage.relative]: {
             on: {
               SUBMIT: [
                 {
-                  guard: guards.hasFurtherIncome,
-                  target: stepIds.uebersicht,
+                  guard: partnerEinkuenfteGuards.hasFurtherIncome,
+                  target:
+                    partnerStepIds.partnerWeitereEinkuenfteUebersicht.relative,
                 },
-                subflowPrefix === "partner"
-                  ? `#${stepIds.id}.partner-besonders-ausgaben`
-                  : "#partner",
+                `#${stepIds.id}.partner-besonders-ausgaben`,
               ],
               BACK: [
                 {
-                  guard: guards.hasKindergeld,
+                  guard: partnerEinkuenfteGuards.hasKindergeld,
                   target: `#${stepIds.id}.${stepIds.leistungen}.${stepIds.kindergeld}`,
                 },
                 {
-                  guard: guards.hasElterngeld,
+                  guard: partnerEinkuenfteGuards.hasElterngeld,
                   target: `#${stepIds.id}.${stepIds.leistungen}.${stepIds.elterngeld}`,
                 },
                 {
-                  guard: guards.hasKrankengeld,
+                  guard: partnerEinkuenfteGuards.hasKrankengeld,
                   target: `#${stepIds.id}.${stepIds.leistungen}.${stepIds.krankengeld}`,
                 },
                 {
-                  guard: guards.hasWohngeld,
+                  guard: partnerEinkuenfteGuards.hasWohngeld,
                   target: `#${stepIds.id}.${stepIds.leistungen}.${stepIds.wohngeld}`,
                 },
                 `#${stepIds.id}.${stepIds.leistungen}`,
@@ -1144,18 +1633,14 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
             on: {
               SUBMIT: [
                 {
-                  guard: guards.hasFurtherIncomeAndEmptyArray,
+                  guard: partnerEinkuenfteGuards.hasFurtherIncomeAndEmptyArray,
                   target: stepIds.warnung,
                 },
-                subflowPrefix === "partner"
-                  ? `#${stepIds.id}.partner-besonders-ausgaben`
-                  : "#partner",
+                `#${stepIds.id}.partner-besonders-ausgaben`,
               ],
               BACK: stepIds.frage,
-              [subflowPrefix === "partner"
-                ? "add-partner-weitereEinkuenfte"
-                : stepIds.addWeitereEinkuenfte]: {
-                guard: guards.isValidEinkuenfteArrayIndex,
+              "add-partner-weitereEinkuenfte": {
+                guard: partnerEinkuenfteGuards.isValidEinkuenfteArrayIndex,
                 target: stepIds.einkunft,
               },
             },
@@ -1163,10 +1648,7 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
           [stepIds.warnung]: {
             on: {
               BACK: stepIds.uebersicht,
-              SUBMIT:
-                subflowPrefix === "partner"
-                  ? `#${stepIds.id}.partner-besonders-ausgaben`
-                  : "#partner",
+              SUBMIT: `#${stepIds.id}.partner-besonders-ausgaben`,
             },
           },
           [stepIds.einkunft]: {
@@ -1182,32 +1664,20 @@ export const getProzesskostenhilfeEinkuenfteSubflow = (
           },
         },
       },
-      ...(isPartnerFlow && {
-        [stepIds.unterhaltFrage]: {
-          on: {
-            SUBMIT: [
-              {
-                guard: partnerEinkuenfteGuards.receivesSupport,
-                target: stepIds.unterhalt,
-              },
-              stepIds.leistungen,
-            ],
-            BACK: [
-              {
-                guard: guards.receivesPension,
-                target: stepIds.rente,
-              },
-              stepIds.renteFrage,
-            ],
-          },
-        },
-        [stepIds.unterhalt]: {
-          on: {
-            SUBMIT: stepIds.leistungen,
-            BACK: stepIds.unterhaltFrage,
-          },
-        },
-      }),
     },
   } as Flow["config"];
+};
+
+// Keep the original function for backward compatibility, but mark it as deprecated
+/**
+ * @deprecated Use getProzesskostenhilfeSharedEinkuenfteSubflow or getProzesskostenhilfePartnerEinkuenfteSubflow instead
+ */
+export const getProzesskostenhilfeEinkuenfteSubflow = (
+  _doneFunction: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard = einkuenfteDone,
+  subflowPrefix?: PKHEinkuenfteSubflowTypes,
+) => {
+  if (subflowPrefix === "partner") {
+    return getProzesskostenhilfePartnerEinkuenfteSubflow(_doneFunction);
+  }
+  return getProzesskostenhilfeSharedEinkuenfteSubflow(_doneFunction);
 };
