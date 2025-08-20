@@ -15,6 +15,9 @@ export type ExclusiveCheckboxes = {
   [key: string]: CheckedOptional;
 };
 
+export const invalidComboError =
+  "Die Option 'Nichts trifft zu' kann nicht mit anderen Optionen kombiniert werden";
+
 export const exclusiveCheckboxesSchema = (checkboxNames: string[]) =>
   z
     .object({
@@ -42,6 +45,8 @@ export const exclusiveCheckboxesSchema = (checkboxNames: string[]) =>
           (checkboxes.none === "off" && checkboxValues.some((v) => v === "on"))
         );
       },
-      { error: "Ungültige Kombination" },
+      {
+        error: invalidComboError,
+      },
     )
     .meta({ description: "exclusive_checkbox" });
