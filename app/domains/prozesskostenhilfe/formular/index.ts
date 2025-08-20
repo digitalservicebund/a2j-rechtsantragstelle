@@ -181,84 +181,84 @@ export const prozesskostenhilfeFormular = {
           beruf: {
             on: {
               BACK: "telefonnummer",
-              SUBMIT: "#weitere-angaben",
+              SUBMIT: steps.weitereAngaben.absolute,
             },
           },
         },
       ),
 
-      "weitere-angaben": {
+      [steps.weitereAngaben.relative]: {
         id: "weitere-angaben",
         meta: { done: weitereAngabenDone },
         on: {
           BACK: "#persoenliche-daten.beruf",
-          SUBMIT: "#abgabe",
+          SUBMIT: steps.abgabe.absolute,
         },
       },
-      abgabe: {
+      [steps.abgabe.relative]: {
         id: "abgabe",
-        initial: "ueberpruefung",
+        initial: steps.abgabeUeberpruefung.relative,
         meta: { done: () => false },
         states: {
-          ueberpruefung: {
+          [steps.abgabeUeberpruefung.relative]: {
             meta: { expandValidation: true },
             on: {
-              BACK: "#weitere-angaben",
+              BACK: steps.weitereAngaben.absolute,
             },
             always: [
               {
                 guard: ({ context }) =>
                   readyForAbgabe({ context }) &&
                   Boolean(showPKHZusammenfassung),
-                target: "zusammenfassung",
+                target: steps.zusammenfassung.relative,
               },
               {
                 guard: ({ context }) =>
                   readyForAbgabe({ context }) &&
                   fileUploadRelevant({ context }) &&
                   Boolean(showFileUpload),
-                target: "dokumente",
+                target: steps.dokumente.relative,
               },
               {
                 guard: readyForAbgabe,
-                target: "ende",
+                target: steps.ende.relative,
               },
             ],
           },
           zusammenfassung: {
             on: {
-              BACK: "#weitere-angaben",
+              BACK: steps.weitereAngaben.absolute,
               SUBMIT: [
                 {
                   guard: ({ context }) =>
                     fileUploadRelevant({ context }) && Boolean(showFileUpload),
-                  target: "dokumente",
+                  target: steps.dokumente.relative,
                 },
-                "ende",
+                steps.ende.relative,
               ],
             },
           },
-          dokumente: {
+          [steps.dokumente.relative]: {
             on: {
               BACK: showPKHZusammenfassung
-                ? "zusammenfassung"
-                : "#weitere-angaben",
-              SUBMIT: "ende",
+                ? steps.zusammenfassung.relative
+                : steps.weitereAngaben.absolute,
+              SUBMIT: steps.ende.relative,
             },
           },
-          ende: {
+          [steps.ende.relative]: {
             on: {
               BACK: [
                 {
                   guard: ({ context }) =>
                     Boolean(showFileUpload) && fileUploadRelevant({ context }),
-                  target: "dokumente",
+                  target: steps.dokumente.relative,
                 },
                 {
                   guard: () => Boolean(showPKHZusammenfassung),
-                  target: "zusammenfassung",
+                  target: steps.zusammenfassung.relative,
                 },
-                "#weitere-angaben",
+                steps.weitereAngaben.absolute,
               ],
             },
           },

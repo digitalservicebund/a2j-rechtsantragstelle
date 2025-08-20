@@ -1,7 +1,7 @@
-import { type HeadingProps } from "~/components/Heading";
+import { type HeadingProps } from "~/components/common/Heading";
 import type { ArrayData, UserData } from "~/domains/userData";
 import type { ArrayConfigServer, ArrayConfigClient } from ".";
-import { type StrapiContentComponent } from "../cms/models/StrapiContentComponent";
+import { type StrapiContentComponent } from "../cms/models/formElements/StrapiContentComponent";
 
 export type ItemLabels = Record<string, string>;
 

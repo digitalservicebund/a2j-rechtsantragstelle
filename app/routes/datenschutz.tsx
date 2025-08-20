@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { redirect, Form, useLoaderData, useNavigation } from "react-router";
-import Button from "~/components/Button";
-import Container from "~/components/Container";
-import ContentComponents from "~/components/ContentComponents";
-import { acceptCookiesFieldName } from "~/components/cookieBanner/CookieBanner";
-import Heading from "~/components/Heading";
+import Button from "~/components/common/Button";
+import Heading from "~/components/common/Heading";
+import ContentComponents from "~/components/content/ContentComponents";
+import Container from "~/components/layout/Container";
+import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
 import {
   consentCookieFromRequest,
   trackingCookieValue,
@@ -53,7 +53,7 @@ export default function Index() {
   }, [trackingConsent]);
 
   return (
-    <div className="flex flex-col flex-grow">
+    <div className="flex flex-col grow">
       <ContentComponents content={content} />
       <Container paddingTop="0">
         <Form method="post" className="ds-stack ds-stack-24">

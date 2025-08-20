@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Box from "../app/components/Box";
-import Background from "../app/components/Background";
-import Container from "../app/components/Container";
+import Background from "../app/components/layout/Background";
+import Container from "../app/components/layout/Container";
+import Box from "~/components/content/Box";
 
 const meta = {
   title: "Content/Box",

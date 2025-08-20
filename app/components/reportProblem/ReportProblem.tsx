@@ -1,8 +1,8 @@
 import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
 import { useMemo, useState } from "react";
-import Button from "~/components/Button";
+import Button from "~/components/common/Button";
+import { useFeedbackTranslations } from "~/components/content/userFeedback/feedbackTranslations";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
-import { useFeedbackTranslations } from "~/components/userFeedback/feedbackTranslations";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { config } from "~/services/env/public";

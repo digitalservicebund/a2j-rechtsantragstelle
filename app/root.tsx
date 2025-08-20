@@ -35,11 +35,11 @@ import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities"
 import { translations as staticTranslations } from "~/services/translations/translations";
 import styles from "~/styles.css?url";
 import type { Route } from "./+types/root";
-import Breadcrumbs from "./components/Breadcrumbs";
-import { CookieBanner } from "./components/cookieBanner/CookieBanner";
-import Footer from "./components/Footer";
 import { useShouldPrint } from "./components/hooks/useShouldPrint";
-import PageHeader from "./components/PageHeader";
+import Breadcrumbs from "./components/layout/Breadcrumbs";
+import { CookieBanner } from "./components/layout/cookieBanner/CookieBanner";
+import Footer from "./components/layout/Footer";
+import PageHeader from "./components/layout/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
@@ -217,7 +217,7 @@ function App() {
                 accessibilityTranslations,
               )}
             />
-            <main className="flex-grow flex" id="main">
+            <main className="grow flex" id="main">
               <Outlet />
             </main>
           </div>
@@ -261,7 +261,7 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
             linkLabel="Zurück zur Startseite"
             title="Justiz-Services"
           />
-          <main className="flex-grow">
+          <main className="grow">
             <ErrorBox context={loaderData?.context ?? {}} />
           </main>
         </div>

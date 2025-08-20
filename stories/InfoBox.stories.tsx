@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Container from "../app/components/Container";
-import InfoBox from "~/components/InfoBox";
+import Container from "../app/components/layout/Container";
+import InfoBox from "~/components/content/InfoBox";
 import { bucketUrl } from "~/services/cms/bucketUrl";
 
 const meta = {

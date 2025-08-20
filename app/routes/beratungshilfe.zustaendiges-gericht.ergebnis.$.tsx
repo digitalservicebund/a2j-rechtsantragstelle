@@ -1,11 +1,11 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { redirect, useLoaderData } from "react-router";
 import invariant from "tiny-invariant";
-import Background from "~/components/Background";
-import Container from "~/components/Container";
-import ContentComponents from "~/components/ContentComponents";
+import ContentComponents from "~/components/content/ContentComponents";
 import CourtDetails from "~/components/CourtDetails";
 import CourtFinderHeader from "~/components/CourtFinderHeader";
+import Background from "~/components/layout/Background";
+import Container from "~/components/layout/Container";
 import { fetchPage, fetchTranslations } from "~/services/cms/index.server";
 import {
   edgeCasesForPlz,
@@ -42,7 +42,7 @@ export const Component = () => {
   const { court, content, common } = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col flex-grow">
+    <div className="flex flex-col grow">
       <Background backgroundColor="blue">
         <CourtFinderHeader label={common.featureName}>
           {common.resultHeading}

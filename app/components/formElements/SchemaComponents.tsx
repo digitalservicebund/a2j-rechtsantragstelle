@@ -1,12 +1,16 @@
 import mapKeys from "lodash/mapKeys";
+import { type z } from "zod";
+import { ExclusiveCheckboxes } from "~/components/formElements/exclusiveCheckboxes/ExclusiveCheckboxes";
+import FilesUpload from "~/components/formElements/filesUpload/FilesUpload";
 import {
   isZodString,
   renderZodString,
 } from "~/components/formElements/schemaToForm/renderZodString";
-import { ExclusiveCheckboxes } from "~/components/inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
 import type { SchemaObject } from "~/domains/userData";
 import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
-import type { StrapiFormComponent } from "~/services/cms/models/StrapiFormComponent";
+import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
+import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
+import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
 import { getNestedSchema } from "./schemaToForm/getNestedSchema";
 import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";
 import { isZodObject } from "./schemaToForm/renderZodObject";
@@ -27,6 +31,22 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
             formComponents.__component !== "form-elements.fieldset",
         )
         .find(({ name }) => name === fieldName);
+
+      if (fieldSchema.meta()?.description === filesUploadZodDescription) {
+        const filesUploadElement = matchingElement as z.infer<
+          typeof StrapiFilesUploadComponentSchema
+        >;
+        return (
+          <FilesUpload
+            key={fieldName}
+            name={fieldName}
+            title={filesUploadElement.title}
+            description={filesUploadElement.description}
+            inlineNotices={filesUploadElement.inlineNotices}
+            errorMessages={filesUploadElement.errorMessages}
+          />
+        );
+      }
 
       if (isZodObject(nestedSchema)) {
         if (nestedSchema.meta()?.description === "exclusive_checkbox") {
