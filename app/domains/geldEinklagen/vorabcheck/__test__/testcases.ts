@@ -2,14 +2,13 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { happyPathData } from "~/domains/geldEinklagen/vorabcheck/__test__/geldEinklagenVorabcheckData";
-import { guards } from "~/domains/geldEinklagen/vorabcheck/guards";
 import type { GeldEinklagenVorabcheckUserData } from "~/domains/geldEinklagen/vorabcheck/userData";
 import { geldEinklagenVorabcheckXstateConfig } from "~/domains/geldEinklagen/vorabcheck/xstateConfig";
 import type { FlowStateMachine } from "~/services/flow/server/types";
 
 const machine: FlowStateMachine = createMachine(
   { ...geldEinklagenVorabcheckXstateConfig, context: {} },
-  { guards },
+  { guards: {} },
 );
 
 const happyPathSteps = ["/start"];

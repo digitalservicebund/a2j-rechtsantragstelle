@@ -1,5 +1,4 @@
 import type { Flow } from "~/domains/flows.server";
-import { guards } from "./guards";
 import type { GeldEinklagenVorabcheckUserData } from "./userData";
 import { geldEinklagenVorabcheckXstateConfig } from "./xstateConfig";
 import { getGerichtskostenvorschuss } from "../shared/gerichtskosten";
@@ -10,5 +9,5 @@ export const geldEinklagenVorabcheck = {
     gerichtskostenvorschuss: getGerichtskostenvorschuss(context).toString(),
   }),
   config: geldEinklagenVorabcheckXstateConfig,
-  guards,
+  guards: {},
 } satisfies Flow;
