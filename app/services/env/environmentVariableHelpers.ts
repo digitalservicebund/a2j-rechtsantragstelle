@@ -7,6 +7,7 @@ export function getStrapiApi() {
     ""
   );
 }
+
 export function getStrapiAccessKey() {
   return (
     readSecretVolume("/etc/strapi-access-key-secret/password") ??
@@ -14,6 +15,7 @@ export function getStrapiAccessKey() {
     ""
   );
 }
+
 export function getGerichtsfinderEncryptionKey() {
   return (
     readSecretVolume("/etc/courtdata-secrets/password") ??
@@ -21,6 +23,7 @@ export function getGerichtsfinderEncryptionKey() {
     ""
   );
 }
+
 export function getRedisPassword() {
   return (
     readSecretVolume("/etc/redis-password-secret/password") ??
@@ -28,6 +31,7 @@ export function getRedisPassword() {
     ""
   );
 }
+
 export function getCookieSessionSecret() {
   return (
     readSecretVolume("/etc/cookie-session-secret/password") ??
@@ -35,6 +39,7 @@ export function getCookieSessionSecret() {
     ""
   );
 }
+
 export function getSamlIDPCert() {
   return (
     readSecretVolume("/etc/saml/idp_cert") ??
@@ -42,6 +47,7 @@ export function getSamlIDPCert() {
     ""
   );
 }
+
 export function getS3DataStorageAccessKey() {
   return (
     readSecretVolume(
@@ -51,6 +57,7 @@ export function getS3DataStorageAccessKey() {
     ""
   );
 }
+
 export function getS3DataStorageSecretKey() {
   return (
     readSecretVolume("/etc/s3-storage-credentials-secret-key/password") ??
@@ -58,6 +65,7 @@ export function getS3DataStorageSecretKey() {
     ""
   );
 }
+
 function readSecretVolume(path: string): string | null {
   try {
     return fs.readFileSync(path, "utf8");

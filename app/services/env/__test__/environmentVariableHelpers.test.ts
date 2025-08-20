@@ -3,6 +3,7 @@ import { config } from "~/services/env/env.server";
 
 vi.mock("node:fs");
 const mockedReadFileSync = vi.fn();
+vi.mocked(fs.readFileSync).mockImplementation(mockedReadFileSync);
 
 const envMap: Array<[keyof ReturnType<typeof config>, string, string]> = [
   ["STRAPI_API", "/etc/strapi-api-secret/password", "test://cms/api/"],
@@ -42,22 +43,20 @@ const envMap: Array<[keyof ReturnType<typeof config>, string, string]> = [
 describe("environment variables", () => {
   describe.each(envMap)("%s", (key, path, value) => {
     beforeEach(() => {
-      vi.mocked(fs.readFileSync).mockImplementation(mockedReadFileSync);
-      mockedReadFileSync.mockReturnValue(value);
+      mockedReadFileSync.mockReturnValue(undefined);
     });
     it("can be read from a local file", () => {
+      mockedReadFileSync.mockReturnValue(value);
       expect(config()[key]).toBe(value);
       expect(mockedReadFileSync).toHaveBeenCalledWith(path, "utf8");
     });
 
     it("can be read from process.env when local file is missing", () => {
-      mockedReadFileSync.mockReturnValue(undefined);
       vi.stubEnv(key, value);
       expect(config()[key]).toBe(value);
     });
 
     it("return a default empty string", () => {
-      mockedReadFileSync.mockReturnValue(undefined);
       vi.stubEnv(key, undefined);
       expect(config()[key]).toBe("");
     });
