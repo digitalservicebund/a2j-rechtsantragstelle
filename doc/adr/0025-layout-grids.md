@@ -28,7 +28,14 @@ The application right now rely on css flexbox to position components this approa
 
 ## Decision
 
-We will implement a **unified grid system**. Use css grid instead of flexbox
+We will implement a **unified grid system**. Use css grid instead of flexbox inspired by KERN for easy immigration later. Based on responsive design definition provided by design
+
+## Responsive design definition
+
+- S (320px) = Mobile (portrait + landscape)
+- M (<768px) = Tablet (portrait)
+- L (<1024px) = Tablet (landscape) + Desktop (narrow)
+- XL (<1248px) = Desktop (wide)
 
 ### Chosen Approach
 
