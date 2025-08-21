@@ -40,7 +40,6 @@ export default function SideNavMobile({
         <button
           onClick={toggleMenu}
           aria-expanded={menuOpen}
-          aria-label={translations.navigationMobile.toggleMenu.de}
           className="flex items-center  gap-8 text-sm py-20 px-10 cursor-pointer w-full"
         >
           <Icon className={buttonClasses} />

@@ -1,6 +1,7 @@
 import {
   exclusiveCheckboxesSchema,
   checkedOptional,
+  invalidComboError,
 } from "~/services/validation/checkedCheckbox";
 
 const exclusiveCheckboxes = ["a", "b", "c", "none"];
@@ -48,7 +49,7 @@ describe("checkedCheckbox validation", () => {
         },
         {
           input: { a: "on", b: "off", c: "on", none: "on" },
-          errorMessage: "Ungültige Kombination",
+          errorMessage: invalidComboError,
         },
       ];
 
