@@ -48,12 +48,8 @@ type Step = {
   value: string | ((validAmtsgericht: boolean) => string);
 };
 
-export const abgabeInputSchema = {
-  abgabeArt: z.enum(["online", "ausdrucken"], customRequiredErrorMessage),
-};
-
 const dynamicSteps: Record<string, Step[]> = {
-  [abgabeInputSchema.abgabeArt.enum.ausdrucken]: [
+  ausdrucken: [
     { title: "Antrag ausdrucken", value: "" },
     {
       title: "Antrag unterschreiben",
@@ -70,7 +66,7 @@ const dynamicSteps: Record<string, Step[]> = {
         `Sie können den Antrag direkt im Amtsgericht abgeben oder per Post schicken. ${validAmtsgericht ? "Die Adresse des zuständigen Amtsgericht finden Sie auf der ersten Seite des Antrags im Adressfeld." : "Ihr zuständiges Amtsgericht finden Sie über den Service “Amtsgericht finden” auf https://service.justiz.de/beratungshilfe."}`,
     },
   ],
-  [abgabeInputSchema.abgabeArt.enum.online]: [
+  online: [
     {
       title: "Antrag prüfen und speichern",
       value:

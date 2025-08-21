@@ -1,7 +1,10 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import {
+  pdfFileUploadArrayOptionalSchema,
+  pdfFileUploadArrayRequiredSchema,
+} from "~/services/validation/pdfFileSchema";
 import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
-import { berHAntragDokumentePages } from "./dokumente/pages";
 
 export const berHAntragAbgabePages = {
   abgabe: {
@@ -19,7 +22,31 @@ export const berHAntragAbgabePages = {
       abgabeArt: z.enum(["online", "ausdrucken"], customRequiredErrorMessage),
     },
   },
-  ...berHAntragDokumentePages,
+  dokumente: {
+    stepId: "abgabe/dokumente",
+    pageSchema: {
+      arbeitslosengeldBeweis: pdfFileUploadArrayRequiredSchema,
+      wohngeldBeweis: pdfFileUploadArrayRequiredSchema,
+      bafoegBeweis: pdfFileUploadArrayRequiredSchema,
+      krankengeldBeweis: pdfFileUploadArrayRequiredSchema,
+      elterngeldBeweis: pdfFileUploadArrayRequiredSchema,
+      buergergeldBeweis: pdfFileUploadArrayRequiredSchema,
+      asylbewerberleistungenBeweis: pdfFileUploadArrayRequiredSchema,
+      keineLeistungenBeweis: pdfFileUploadArrayRequiredSchema,
+      grundsicherungBeweis: pdfFileUploadArrayRequiredSchema,
+      lebensversicherungBeweis: pdfFileUploadArrayRequiredSchema,
+      bausparvertragBeweis: pdfFileUploadArrayRequiredSchema,
+      wertpapiereBeweis: pdfFileUploadArrayRequiredSchema,
+      guthabenkontoBeweis: pdfFileUploadArrayRequiredSchema,
+      sparkontoBeweis: pdfFileUploadArrayRequiredSchema,
+      grundeigentumBeweis: pdfFileUploadArrayRequiredSchema,
+      schwangerschaftAngabeBeweis: pdfFileUploadArrayRequiredSchema,
+      schwerbehinderungBeweis: pdfFileUploadArrayRequiredSchema,
+      medizinischeGruendeBeweis: pdfFileUploadArrayRequiredSchema,
+      weitereAusgabenBeweis: pdfFileUploadArrayRequiredSchema,
+      weitereDokumenteBeweis: pdfFileUploadArrayOptionalSchema,
+    },
+  },
   ausdrucken: {
     stepId: "abgabe/ausdrucken",
   },
