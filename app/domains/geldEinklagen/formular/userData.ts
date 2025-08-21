@@ -10,10 +10,7 @@ import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const adresseSchema = {
   strasseHausnummer: stringRequiredSchema,
@@ -22,7 +19,7 @@ export const adresseSchema = {
 };
 
 export const namePrivatPerson = {
-  title: z.enum(["", "dr"], customRequiredErrorMessage),
+  title: z.enum(["", "dr"]),
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
 };
@@ -37,29 +34,23 @@ export const persoenlicheDaten = {
 
 const persoenlicheDatenInputSchema = {
   ...persoenlicheDaten,
-  bevollmaechtigtePerson: z.enum(
-    ["lawyer", "yes", "no"],
-    customRequiredErrorMessage,
-  ),
+  bevollmaechtigtePerson: z.enum(["lawyer", "yes", "no"]),
 };
 
 export const geldEinklagenInputSchema = {
-  anzahl: z.enum(["1", "2", "3"], customRequiredErrorMessage),
+  anzahl: z.enum(["1", "2", "3"]),
   ...persoenlicheDatenInputSchema,
   volljaehrig: YesNoAnswer,
   gesetzlicheVertretung: YesNoAnswer,
   gegenseite: z.object({
-    typ: z.enum(["privatperson", "unternehmen"], customRequiredErrorMessage),
+    typ: z.enum(["privatperson", "unternehmen"]),
     privatperson: z.object(persoenlicheDatenInputSchema),
     unternehmen: z.object({
       name: stringRequiredSchema,
       inhaber: stringRequiredSchema,
       adresszusatz: stringOptionalSchema,
       ...adresseSchema,
-      bevollmaechtigtePerson: z.enum(
-        ["lawyer", "yes", "no"],
-        customRequiredErrorMessage,
-      ),
+      bevollmaechtigtePerson: z.enum(["lawyer", "yes", "no"]),
       telefonnummer: schemaOrEmptyString(phoneNumberSchema),
     }),
   }),

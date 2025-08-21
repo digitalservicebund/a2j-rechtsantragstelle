@@ -4,10 +4,7 @@ import {
   checkedOptional,
   exclusiveCheckboxesSchema,
 } from "~/services/validation/checkedCheckbox";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const kontopfaendungWegweiserPages = {
   start: {
@@ -16,7 +13,7 @@ export const kontopfaendungWegweiserPages = {
   kontopfaendung: {
     stepId: "kontopfaendung",
     pageSchema: {
-      hasKontopfaendung: z.enum(["nein", "ja"], customRequiredErrorMessage),
+      hasKontopfaendung: z.enum(["nein", "ja"]),
     },
   },
   ergebnisKeineKontopfaendung: {
@@ -25,10 +22,7 @@ export const kontopfaendungWegweiserPages = {
   pKonto: {
     stepId: "p-konto",
     pageSchema: {
-      hasPKonto: z.enum(
-        ["nein", "ja", "nichtAktiv", "nichtEingerichtet"],
-        customRequiredErrorMessage,
-      ),
+      hasPKonto: z.enum(["nein", "ja", "nichtAktiv", "nichtEingerichtet"]),
     },
   },
   zwischenseiteUnterhalt: {
@@ -44,10 +38,7 @@ export const kontopfaendungWegweiserPages = {
   kinderWohnenZusammen: {
     stepId: "kinder-wohnen-zusammen",
     pageSchema: {
-      kinderWohnenZusammen: z.enum(
-        ["nein", "ja", "teilweise"],
-        customRequiredErrorMessage,
-      ),
+      kinderWohnenZusammen: z.enum(["nein", "ja", "teilweise"]),
     },
   },
   kinderUnterhalt: {
@@ -57,10 +48,7 @@ export const kontopfaendungWegweiserPages = {
   partner: {
     stepId: "partner",
     pageSchema: {
-      verheiratet: z.enum(
-        ["nein", "ja", "geschieden", "verwitwet"],
-        customRequiredErrorMessage,
-      ),
+      verheiratet: z.enum(["nein", "ja", "geschieden", "verwitwet"]),
     },
   },
   partnerWohnenZusammen: {
@@ -113,15 +101,12 @@ export const kontopfaendungWegweiserPages = {
   sozialleistungen: {
     stepId: "sozialleistungen",
     pageSchema: {
-      hasSozialleistungen: z.enum(
-        [
-          "buergergeld",
-          "grundsicherungSozialhilfe",
-          "asylbewerberleistungen",
-          "nein",
-        ],
-        customRequiredErrorMessage,
-      ),
+      hasSozialleistungen: z.enum([
+        "buergergeld",
+        "grundsicherungSozialhilfe",
+        "asylbewerberleistungen",
+        "nein",
+      ]),
     },
   },
   sozialleistungNachzahlung: {
@@ -159,7 +144,7 @@ export const kontopfaendungWegweiserPages = {
   pflegegeldEmpfaenger: {
     stepId: "pflegegeld-empfaenger",
     pageSchema: {
-      pflegegeld: z.enum(["selbst", "fremd"], customRequiredErrorMessage),
+      pflegegeld: z.enum(["selbst", "fremd"]),
     },
   },
   wohngeld: {
@@ -171,7 +156,7 @@ export const kontopfaendungWegweiserPages = {
   wohngeldEmpfaenger: {
     stepId: "wohngeld-empfaenger",
     pageSchema: {
-      wohngeld: z.enum(["selbst", "fremd"], customRequiredErrorMessage),
+      wohngeld: z.enum(["selbst", "fremd"]),
     },
   },
   wohngeldNachzahlung: {

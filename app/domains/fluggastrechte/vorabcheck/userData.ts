@@ -1,20 +1,21 @@
 import { z } from "zod";
 import { airlineSchema } from "~/services/validation/airline";
 import { airportSchema } from "~/services/validation/airport";
-import {
-  YesNoAnswer,
-  customRequiredErrorMessage,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-const fluggastBereichSchema = z.enum(
-  ["nichtbefoerderung", "verspaetet", "annullierung", "anderes"],
-  customRequiredErrorMessage,
-);
+const fluggastBereichSchema = z.enum([
+  "nichtbefoerderung",
+  "verspaetet",
+  "annullierung",
+  "anderes",
+]);
 
-const ankuendigungSchema = z.enum(
-  ["no", "until6Days", "between7And13Days", "moreThan13Days"],
-  customRequiredErrorMessage,
-);
+const ankuendigungSchema = z.enum([
+  "no",
+  "until6Days",
+  "between7And13Days",
+  "moreThan13Days",
+]);
 
 export const fluggastrechteVorabcheckInputSchema = {
   startAirport: airportSchema,

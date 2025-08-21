@@ -9,10 +9,7 @@ import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const adresseSchema = {
   strasseHausnummer: stringRequiredSchema,
@@ -21,28 +18,29 @@ export const adresseSchema = {
 };
 
 export const prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema = {
-  staatlicheLeistungen: z.enum(
-    [...staatlicheLeistungenInputSchema.options, "arbeitslosengeld"],
-    customRequiredErrorMessage,
-  ),
+  staatlicheLeistungen: z.enum([
+    ...staatlicheLeistungenInputSchema.options,
+    "arbeitslosengeld",
+  ]),
   buergergeld: buildMoneyValidationSchema(),
   arbeitslosengeld: buildMoneyValidationSchema(),
   currentlyEmployed: YesNoAnswer,
-  employmentType: z.enum(
-    ["employed", "selfEmployed", "employedAndSelfEmployed"],
-    customRequiredErrorMessage,
-  ),
+  employmentType: z.enum([
+    "employed",
+    "selfEmployed",
+    "employedAndSelfEmployed",
+  ]),
   nettoEinkuenfteAlsArbeitnehmer: buildMoneyValidationSchema(),
   selbststaendigMonatlichesEinkommen: buildMoneyValidationSchema(),
-  selbststaendigBruttoNetto: z.enum(
-    ["brutto", "netto"],
-    customRequiredErrorMessage,
-  ),
+  selbststaendigBruttoNetto: z.enum(["brutto", "netto"]),
   selbststaendigAbzuege: buildMoneyValidationSchema(),
-  arbeitsweg: z.enum(
-    ["publicTransport", "privateVehicle", "bike", "walking", "none"],
-    customRequiredErrorMessage,
-  ),
+  arbeitsweg: z.enum([
+    "publicTransport",
+    "privateVehicle",
+    "bike",
+    "walking",
+    "none",
+  ]),
   monatlicheOPNVKosten: buildMoneyValidationSchema(),
   arbeitsplatz: z.object({ ...adresseSchema }).partial(),
   arbeitsplatzEntfernung: integerSchema.refine((distance) => distance > 0, {

@@ -1,16 +1,12 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
-import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
 export const pkhFormularGrundvoraussetzungenPages = {
   nachueberpruefungFrage: {
     stepId: "grundvoraussetzungen/nachueberpruefung-frage",
     pageSchema: {
-      formularArt: z.enum(
-        ["nachueberpruefung", "erstantrag"],
-        customRequiredErrorMessage,
-      ),
+      formularArt: z.enum(["nachueberpruefung", "erstantrag"]),
     },
   },
   nameGericht: {
@@ -28,10 +24,7 @@ export const pkhFormularGrundvoraussetzungenPages = {
   klageersteller: {
     stepId: "grundvoraussetzungen/antrag/klageersteller",
     pageSchema: {
-      verfahrenArt: z.enum(
-        ["verfahrenSelbststaendig", "verfahrenAnwalt"],
-        customRequiredErrorMessage,
-      ),
+      verfahrenArt: z.enum(["verfahrenSelbststaendig", "verfahrenAnwalt"]),
     },
   },
   hinweis: {
@@ -49,7 +42,7 @@ export const pkhFormularGrundvoraussetzungenPages = {
   fall: {
     stepId: "grundvoraussetzungen/einreichung/fall",
     pageSchema: {
-      versandArt: z.enum(["digital", "analog"], customRequiredErrorMessage),
+      versandArt: z.enum(["digital", "analog"]),
     },
   },
 } as const satisfies PagesConfig;

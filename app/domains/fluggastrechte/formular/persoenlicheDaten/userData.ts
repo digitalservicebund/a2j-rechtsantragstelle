@@ -8,10 +8,7 @@ import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const anredeSchema = z.enum(["herr", "frau", "none"]);
 
@@ -21,7 +18,7 @@ export const vornameNachnameSchema = {
 };
 
 export const namePrivatPerson = {
-  title: z.enum(["", "dr"], customRequiredErrorMessage),
+  title: z.enum(["", "dr"]),
   ...vornameNachnameSchema,
 };
 

@@ -44,7 +44,7 @@
     "verify:websites": "tsx ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.864.0",
+    "@aws-sdk/client-s3": "^3.872.0",
     "@digitalservice4germany/angie": "^2.0.1",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@digitalservicebund/icons": "^2.0.1",
@@ -98,7 +98,7 @@
     "@axe-core/playwright": "^4.10.2",
     "@eslint/eslintrc": "^3.3.1",
     "@faker-js/faker": "^9.9.0",
-    "@playwright/test": "^1.54.2",
+    "@playwright/test": "^1.55.0",
     "@react-router/dev": "^7.8.1",
     "@react-router/fs-routes": "^7.8.1",
     "@size-limit/file": "^11.2.0",
@@ -107,7 +107,7 @@
     "@storybook/addon-docs": "^9.1.2",
     "@storybook/react-vite": "^9.1.2",
     "@testing-library/dom": "^10.4.1",
-    "@testing-library/jest-dom": "^6.7.0",
+    "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@types/compression": "^1.8.1",
     "@types/express": "^5.0.3",

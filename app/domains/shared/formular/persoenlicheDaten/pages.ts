@@ -6,14 +6,13 @@ import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
 export const sharedPersoenlicheDatenPages = {
   title: {
     stepId: "persoenliche-daten/title",
     pageSchema: {
-      title: z.enum(["", "dr"], customRequiredErrorMessage),
+      title: z.enum(["", "dr"]),
     },
   },
   name: {
@@ -28,7 +27,7 @@ export const sharedPersoenlicheDatenPages = {
     pageSchema: {
       vorname: stringRequiredSchema,
       nachname: stringRequiredSchema,
-      title: z.enum(["", "dr"], customRequiredErrorMessage),
+      title: z.enum(["", "dr"]),
     },
   },
   geburtsdatum: {
