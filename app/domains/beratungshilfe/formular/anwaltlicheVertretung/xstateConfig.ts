@@ -1,4 +1,4 @@
-import mapValues from "lodash/mapValues";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import {
   anwaltlicheVertretungDone,
@@ -7,10 +7,9 @@ import {
 import { berHAntragAnwaltlicheVertretungPages } from "./pages";
 import type { BeratungshilfeAnwaltlicheVertretungUserData } from "./userData";
 
-const steps = mapValues(berHAntragAnwaltlicheVertretungPages, (v) => ({
-  absolute: "#" + v.stepId.replaceAll("/", "."),
-  relative: v.stepId.split("/").pop()!,
-}));
+const steps = xStateTargetsFromPagesConfig(
+  berHAntragAnwaltlicheVertretungPages,
+);
 
 export const anwaltlicheVertretungXstateConfig = {
   initial: "start",

@@ -1,13 +1,10 @@
-import mapValues from "lodash/mapValues";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { grundvoraussetzungDone } from "./grundvoraussetzungDone";
 import { berHAntragGrundvoraussetzungenPages } from "./pages";
 import type { BeratungshilfeGrundvoraussetzungenUserData } from "./userData";
 
-const steps = mapValues(berHAntragGrundvoraussetzungenPages, (v) => ({
-  absolute: "#" + v.stepId.replaceAll("/", "."),
-  relative: v.stepId.split("/").pop()!,
-}));
+const steps = xStateTargetsFromPagesConfig(berHAntragGrundvoraussetzungenPages);
 
 export const grundvorraussetzungXstateConfig = {
   initial: "start",

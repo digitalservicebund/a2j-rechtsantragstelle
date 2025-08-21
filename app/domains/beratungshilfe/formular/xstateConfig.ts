@@ -1,5 +1,5 @@
-import mapValues from "lodash/mapValues";
 import { hasOptionalString } from "~/domains/guards.server";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import {
   staatlicheLeistungenIsBuergergeld,
   staatlicheLeistungenIsKeine,
@@ -21,7 +21,7 @@ import { weitereAngabenDone } from "./weitereAngaben/doneFunctions";
 
 const showNachbefragung = await isFeatureFlagEnabled("showNachbefragung");
 
-const stepIds = mapValues(beratungshilfeAntragPages, (v) => v.stepId);
+const steps = xStateTargetsFromPagesConfig(beratungshilfeAntragPages);
 
 export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
@@ -37,7 +37,7 @@ export const beratungshilfeXstateConfig = {
       initial: "start",
       meta: { done: () => true },
       states: {
-        [stepIds.start]: { on: { SUBMIT: "#grundvoraussetzungen" } },
+        [steps.start.relative]: { on: { SUBMIT: "#grundvoraussetzungen" } },
       },
     },
     grundvoraussetzungen: grundvorraussetzungXstateConfig,
