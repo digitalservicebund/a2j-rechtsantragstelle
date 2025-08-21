@@ -25,38 +25,22 @@ export const renderZodString = (
     ...pick(matchingElement, ["type", "suffix", "width", "helperText"]),
   } satisfies InputProps;
 
-  switch (matchingElement?.__component) {
-    case "form-elements.textarea":
-      return (
-        <Textarea
-          key={fieldName}
-          {...sharedProps}
-          {...pick(matchingElement, ["details", "description", "maxLength"])}
-        />
-      );
+  if (matchingElement?.__component === "form-elements.textarea")
+    return (
+      <Textarea
+        key={fieldName}
+        {...sharedProps}
+        {...pick(matchingElement, ["details", "description", "maxLength"])}
+      />
+    );
+  if (matchingElement?.__component === "form-elements.date-input")
+    return <DateInput key={fieldName} {...inputProps} />;
+  if (matchingElement?.__component === "form-elements.time-input")
+    return <TimeInput key={fieldName} {...inputProps} />;
+  if (matchingElement?.__component === "form-elements.auto-suggest-input")
+    return (
+      <AutoSuggestInput key={fieldName} {...matchingElement} name={fieldName} />
+    );
 
-    case "form-elements.date-input":
-      return <DateInput key={fieldName} {...inputProps} />;
-    case "form-elements.time-input":
-      return <TimeInput key={fieldName} {...inputProps} />;
-    case "form-elements.auto-suggest-input":
-      return (
-        <AutoSuggestInput
-          key={fieldName}
-          {...matchingElement}
-          name={fieldName}
-        />
-      );
-    case "form-elements.input":
-    case "form-elements.files-upload":
-    case "form-elements.select":
-    case "form-elements.dropdown":
-    case "form-elements.checkbox":
-    case "form-elements.tile-group":
-    case "form-elements.hidden-input":
-    case "form-elements.fieldset":
-    case undefined:
-    default:
-      return <Input key={fieldName} {...inputProps} />;
-  }
+  return <Input key={fieldName} {...inputProps} />;
 };
