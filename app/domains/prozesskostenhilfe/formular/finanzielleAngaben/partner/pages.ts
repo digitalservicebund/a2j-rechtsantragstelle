@@ -73,7 +73,7 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-arbeitslosengeld",
     pageSchema: {
-      arbeitslosengeld: buildMoneyValidationSchema(),
+      "partner-arbeitslosengeld": buildMoneyValidationSchema(),
     },
   },
   partnerErwerbstaetig: {
@@ -291,9 +291,10 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/add-partner-besonders-ausgaben",
     pageSchema: {
-      // this how the userData wants it, but not how the input wants, check SchemaComponents for a clue
-      "partnerBesondersAusgabe.beschreibung": stringRequiredSchema,
-      "partnerBesondersAusgabe.betrag": buildMoneyValidationSchema(),
+      partnerBesondersAusgabe: z.object({
+        beschreibung: stringRequiredSchema,
+        betrag: buildMoneyValidationSchema(),
+      }),
     },
   },
 } as const satisfies PagesConfig;
