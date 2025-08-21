@@ -41,13 +41,13 @@ export const beratungshilfeFinanzielleAngabenEinkommenXstateConfig = {
         SUBMIT: [
           {
             guard: finanzielleAngabeGuards.erwerbstaetigYes,
-            target: steps.art.relative,
+            target: steps.berufart.relative,
           },
           steps.situation.relative,
         ],
       },
     },
-    [steps.art.relative]: {
+    [steps.berufart.relative]: {
       on: {
         BACK: steps.erwerbstaetig.relative,
         SUBMIT: steps.situation.relative,
@@ -58,7 +58,7 @@ export const beratungshilfeFinanzielleAngabenEinkommenXstateConfig = {
         BACK: [
           {
             guard: finanzielleAngabeGuards.erwerbstaetigYes,
-            target: steps.art.relative,
+            target: steps.berufart.relative,
           },
           steps.erwerbstaetig.relative,
         ],

@@ -26,7 +26,7 @@ export const berhAntragFinanzielleAngabenEinkommenPages = {
       erwerbstaetig: YesNoAnswer,
     },
   },
-  art: {
+  berufart: {
     stepId: "finanzielle-angaben/einkommen/art",
     pageSchema: {
       berufart: z.object({
