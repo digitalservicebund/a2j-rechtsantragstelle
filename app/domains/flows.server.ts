@@ -3,7 +3,6 @@ import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
 import { beratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck";
 import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
 import { fluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck";
-import { geldEinklagenFormular } from "~/domains/geldEinklagen/formular";
 import { geldEinklagenVorabcheck } from "~/domains/geldEinklagen/vorabcheck";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
@@ -38,7 +37,6 @@ export const flows = {
   "/beratungshilfe/antrag": beratungshilfeFormular,
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheck,
   "/geld-einklagen/vorabcheck": geldEinklagenVorabcheck,
-  "/geld-einklagen/formular": geldEinklagenFormular,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
   "/fluggastrechte/formular": fluggastrechtFlow,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
