@@ -5,13 +5,13 @@ import {
   ausgabenDone,
   ausgabenZusammenfassungDone,
   eigentumZusammenfassungDone,
-  wohnungDone,
   eigentumDone,
 } from "./doneFunctions";
 import { finanzielleAngabenEinkuenfteXstateConfig } from "./einkuenfte/xStateConfig";
 import { andereUnterhaltszahlungenXstateConfig } from "./andere-unterhaltszahlungen/xstateConfig";
 import { kinderXstateConfig } from "./kinder/xstateConfig";
 import { partnerXstateConfig } from "./partner/xstateConfig";
+import { wohnungXstateConfig } from "./wohnung/xstateConfig";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
 
 const steps = xStateTargetsFromPagesConfig(pkhFormularFinanzielleAngabenPages);
@@ -24,103 +24,7 @@ export const finanzielleAngabenXstateConfig = {
     partner: partnerXstateConfig,
     kinder: kinderXstateConfig,
     "andere-unterhaltszahlungen": andereUnterhaltszahlungenXstateConfig,
-    wohnung: {
-      id: "wohnung",
-      initial: "alleine-zusammen",
-      meta: { done: wohnungDone },
-      states: {
-        "alleine-zusammen": {
-          on: {
-            SUBMIT: [
-              {
-                guard: ({ context }) => context.livingSituation === "alone",
-                target: "groesse",
-              },
-              "anzahl-mitbewohner",
-            ],
-            BACK: [
-              {
-                guard: "hasWeitereUnterhaltszahlungenYes",
-                target:
-                  "#finanzielle-angaben.andere-unterhaltszahlungen.uebersicht",
-              },
-              "#finanzielle-angaben.andere-unterhaltszahlungen.frage",
-            ],
-          },
-        },
-        "anzahl-mitbewohner": {
-          on: {
-            BACK: "alleine-zusammen",
-            SUBMIT: "groesse",
-          },
-        },
-        groesse: {
-          on: {
-            BACK: [
-              {
-                guard: ({ context }) => context.livingSituation === "alone",
-                target: "alleine-zusammen",
-              },
-              "anzahl-mitbewohner",
-            ],
-            SUBMIT: "anzahl-zimmer",
-          },
-        },
-        "anzahl-zimmer": { on: { BACK: "groesse", SUBMIT: "miete-eigenheim" } },
-        "miete-eigenheim": {
-          on: {
-            BACK: "anzahl-zimmer",
-            SUBMIT: [
-              {
-                guard: ({ context }) =>
-                  context.rentsApartment === "yes" &&
-                  context.livingSituation === "alone",
-                target: "miete-alleine",
-              },
-              {
-                guard: ({ context }) =>
-                  context.rentsApartment === "no" &&
-                  context.livingSituation === "alone",
-                target: "eigenheim-nebenkosten",
-              },
-              {
-                guard: ({ context }) =>
-                  context.rentsApartment === "no" &&
-                  (context.livingSituation === "withOthers" ||
-                    context.livingSituation === "withRelatives"),
-                target: "eigenheim-nebenkosten-geteilt",
-              },
-              "miete-zusammen",
-            ],
-          },
-        },
-        "miete-alleine": {
-          on: { BACK: "miete-eigenheim", SUBMIT: "nebenkosten" },
-        },
-        "miete-zusammen": {
-          on: { BACK: "miete-eigenheim", SUBMIT: "nebenkosten" },
-        },
-        nebenkosten: {
-          on: {
-            BACK: [
-              {
-                guard: ({ context }) => context.livingSituation === "alone",
-                target: "miete-alleine",
-              },
-              "miete-zusammen",
-            ],
-            SUBMIT: "#eigentum",
-          },
-        },
-
-        "eigenheim-nebenkosten": {
-          on: { BACK: "miete-eigenheim", SUBMIT: "#eigentum" },
-        },
-        "eigenheim-nebenkosten-geteilt": {
-          on: { BACK: "miete-eigenheim", SUBMIT: "#eigentum" },
-        },
-      },
-    },
+    wohnung: wohnungXstateConfig,
     eigentum: {
       id: "eigentum",
       initial: "eigentum-info",
