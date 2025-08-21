@@ -1,10 +1,8 @@
 import type PDFDocument from "pdfkit";
-import { z } from "zod";
 import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
 import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { createHeading } from "~/services/pdf/createHeading";
 import { pdfStyles } from "~/services/pdf/pdfStyles";
-import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
 const { stringReplacements } = beratungshilfeFormular;
 type ReplacementKey = keyof ReturnType<typeof stringReplacements>;
