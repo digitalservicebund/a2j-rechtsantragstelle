@@ -5,7 +5,6 @@ import {
   staatlicheLeistungenIsKeine,
 } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { getPersoenlicheDatenXstateConfig } from "~/domains/shared/formular/persoenlicheDaten/xStateConfig";
-import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
@@ -18,6 +17,7 @@ import { beratungshilfeAntragPages } from "./pages";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import type { BeratungshilfeFormularUserData } from "./userData";
+import { weitereAngabenDone } from "./weitereAngaben/doneFunctions";
 
 const showNachbefragung = await isFeatureFlagEnabled("showNachbefragung");
 
@@ -92,6 +92,6 @@ export const beratungshilfeXstateConfig = {
         SUBMIT: "#abgabe",
       },
     },
-    abgabe: await abgabeXstateConfig("#weitere-angaben"),
+    abgabe: abgabeXstateConfig,
   },
 } satisfies Config<BeratungshilfeFormularUserData>;

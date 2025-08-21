@@ -3,7 +3,6 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
-import { abgabeInputSchema } from "~/domains/shared/formular/abgabe/userData";
 import { createChecklistSteps } from "../createChecklistSteps";
 
 describe("createChecklistSteps", () => {
@@ -14,7 +13,7 @@ describe("createChecklistSteps", () => {
 
   it("should create checklist steps for 'ausdrucken' abgabeArt", () => {
     const userData: BeratungshilfeFormularUserData = {
-      abgabeArt: abgabeInputSchema.abgabeArt.enum.ausdrucken,
+      abgabeArt: "ausdrucken",
     };
     createChecklistSteps(mockPDFDocument, mockDocumentStruct, userData);
 
@@ -36,7 +35,7 @@ describe("createChecklistSteps", () => {
 
   it("should create checklist steps for 'online' abgabeArt", () => {
     const onlineUserData: BeratungshilfeFormularUserData = {
-      abgabeArt: abgabeInputSchema.abgabeArt.enum.online,
+      abgabeArt: "online",
     };
 
     createChecklistSteps(mockPDFDocument, mockDocumentStruct, onlineUserData);
@@ -60,7 +59,7 @@ describe("createChecklistSteps", () => {
 
   it("should include relevant documents based on user data conditions", () => {
     const customUserData: BeratungshilfeFormularUserData = {
-      abgabeArt: abgabeInputSchema.abgabeArt.enum.ausdrucken,
+      abgabeArt: "ausdrucken",
       staatlicheLeistungen: "buergergeld",
       hasGeldanlage: "yes",
       geldanlagen: [
