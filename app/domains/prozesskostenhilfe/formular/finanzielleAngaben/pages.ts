@@ -5,6 +5,7 @@ import { pkhFormularFinanzielleAngabenKinderPages } from "~/domains/prozesskoste
 import { pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/andere-unterhaltszahlungen/pages";
 import { pkhFormularFinanzielleAngabenWohnungPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/wohnung/pages";
 import { pkhFormularFinanzielleAngabenEigentumPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
+import { pkhFormularFinanzielleAngabenAusgabenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/ausgaben/pages";
 
 export const pkhFormularFinanzielleAngabenPages = {
   ...pkhFormularFinanzielleAngabenEinkuenftePages,
@@ -13,4 +14,5 @@ export const pkhFormularFinanzielleAngabenPages = {
   ...pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages,
   ...pkhFormularFinanzielleAngabenWohnungPages,
   ...pkhFormularFinanzielleAngabenEigentumPages,
+  ...pkhFormularFinanzielleAngabenAusgabenPages,
 } as const satisfies PagesConfig;
