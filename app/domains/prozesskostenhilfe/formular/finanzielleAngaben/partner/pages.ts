@@ -3,10 +3,8 @@ import { type PagesConfig } from "~/domains/pageSchemas";
 import {
   financialEntryInputSchema,
   partnerschaftInputSchema,
-  staatlicheLeistungenInputSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { adresseSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
-import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";

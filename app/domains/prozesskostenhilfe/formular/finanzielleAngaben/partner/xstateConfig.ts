@@ -1,9 +1,9 @@
+import { type Flow } from "~/domains/flows.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { pkhFormularFinanzielleAngabenPartnerPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/pages";
 import { partnerDone } from "../doneFunctions";
 import { einkuenfteDone } from "../einkuenfte/doneFunctions";
 import { partnerEinkuenfteGuards } from "../einkuenfte/guards";
-import { Flow } from "~/domains/flows.server";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenPartnerPages,
