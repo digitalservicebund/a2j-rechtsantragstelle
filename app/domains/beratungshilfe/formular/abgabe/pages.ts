@@ -4,7 +4,6 @@ import {
   pdfFileUploadArrayOptionalSchema,
   pdfFileUploadArrayRequiredSchema,
 } from "~/services/validation/pdfFileSchema";
-import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
 export const berHAntragAbgabePages = {
   abgabe: {
@@ -19,7 +18,7 @@ export const berHAntragAbgabePages = {
   art: {
     stepId: "abgabe/art",
     pageSchema: {
-      abgabeArt: z.enum(["online", "ausdrucken"], customRequiredErrorMessage),
+      abgabeArt: z.enum(["online", "ausdrucken"]),
     },
   },
   dokumente: {
