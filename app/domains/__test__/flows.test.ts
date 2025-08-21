@@ -4,7 +4,6 @@ import { testCasesBeratungshilfeFormular } from "~/domains/beratungshilfe/formul
 import { testCasesBeratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck/__test__/testcases";
 import { testCasesFluggastrechteFormular } from "~/domains/fluggastrechte/formular/__test__/testCasesFluggastrechteFormular";
 import { testCasesFluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck/__test__/testCasesFluggastrechteVorabcheck";
-import { testCasesGeldEinklagen } from "~/domains/geldEinklagen/vorabcheck/__test__/testcases";
 import { testCasesKontopfaendungWegweiser } from "~/domains/kontopfaendung/wegweiser/__test__/testcases";
 import {
   testCasesProzesskostenhilfeFormular,
@@ -81,7 +80,6 @@ describe.sequential("state machine form flows", () => {
     testCasesBeratungshilfeFormular,
     testCasesFluggastrechteFormular,
     testCasesFluggastrechteVorabcheck,
-    testCasesGeldEinklagen,
     testCasesProzesskostenhilfeFormular,
     testCasesKontopfaendungWegweiser,
   } as const;
