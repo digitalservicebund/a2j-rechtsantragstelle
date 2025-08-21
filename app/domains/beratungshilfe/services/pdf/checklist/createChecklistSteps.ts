@@ -1,9 +1,10 @@
 import type PDFDocument from "pdfkit";
+import { z } from "zod";
 import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
 import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
-import { abgabeInputSchema } from "~/domains/shared/formular/abgabe/userData";
 import { createHeading } from "~/services/pdf/createHeading";
 import { pdfStyles } from "~/services/pdf/pdfStyles";
+import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
 const { stringReplacements } = beratungshilfeFormular;
 type ReplacementKey = keyof ReturnType<typeof stringReplacements>;
@@ -45,6 +46,10 @@ const documents = {
 type Step = {
   title: string;
   value: string | ((validAmtsgericht: boolean) => string);
+};
+
+export const abgabeInputSchema = {
+  abgabeArt: z.enum(["online", "ausdrucken"], customRequiredErrorMessage),
 };
 
 const dynamicSteps: Record<string, Step[]> = {
