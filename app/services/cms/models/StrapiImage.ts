@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { StrapiStringOptionalSchema } from "~/services/cms/models/StrapiStringOptional";
 import { config } from "~/services/env/env.server";
+import { config as publicConfig } from "~/services/env/public";
 import { omitNull } from "~/util/omitNull";
 
 function appendStrapiUrlOnDev(imageUrl: string) {
@@ -8,7 +9,7 @@ function appendStrapiUrlOnDev(imageUrl: string) {
   // For development with local strapi instances, we need to prepend the correct hostname
   if (!imageUrl.startsWith("/")) return imageUrl;
   const STRAPI_API = config().STRAPI_API;
-  const { ENVIRONMENT } = process.env;
+  const { ENVIRONMENT } = publicConfig();
   const strapiUrl =
     (ENVIRONMENT?.trim() === "development"
       ? STRAPI_API?.replace("/api/", "")
