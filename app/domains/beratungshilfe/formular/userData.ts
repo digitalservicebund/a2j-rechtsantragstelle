@@ -1,8 +1,6 @@
 import { z } from "zod";
 import { beratungshilfePersoenlicheDatenInputSchema } from "~/domains/beratungshilfe/formular/persoenlicheDaten/userData";
-import { abgabeInputSchema } from "~/domains/shared/formular/abgabe/userData";
-import { weitereAngabenSchema } from "~/domains/shared/formular/weitereAngaben/userData";
-import { dokumenteInputSchema } from "./abgabe/dokumente/userData";
+import { type BeratungshilfeAbgabeUserData } from "./abgabe/userData";
 import { type BeratungshilfeAnwaltlicheVertretungUserData } from "./anwaltlicheVertretung/userData";
 import {
   beratungshilfeFinanzielleAngabenInputSchema,
@@ -10,13 +8,11 @@ import {
 } from "./finanzielleAngaben/userData";
 import { type BeratungshilfeGrundvoraussetzungenUserData } from "./grundvoraussetzung/userData";
 import { type BeratungshilfeRechtsproblemUserData } from "./rechtsproblem/userData";
+import { type BeratungshilfeWeitereAngabenUserData } from "./weitereAngaben/userData";
 
 export const beratungshilfeFormularUserData = {
   ...beratungshilfeFinanzielleAngabenInputSchema,
   ...beratungshilfePersoenlicheDatenInputSchema,
-  ...dokumenteInputSchema,
-  ...weitereAngabenSchema,
-  ...abgabeInputSchema,
 } as const;
 
 const _partialSchema = z.object(beratungshilfeFormularUserData).partial();
@@ -24,4 +20,6 @@ export type BeratungshilfeFormularUserData = z.infer<typeof _partialSchema> &
   BeratungshilfeGrundvoraussetzungenUserData &
   BeratungshilfeRechtsproblemUserData &
   BeratungshilfeAnwaltlicheVertretungUserData &
-  BeratungshilfeFinanzielleAngabenUserData;
+  BeratungshilfeFinanzielleAngabenUserData &
+  BeratungshilfeWeitereAngabenUserData &
+  BeratungshilfeAbgabeUserData;
