@@ -2,10 +2,7 @@ import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const berhAntragFinanzielleAngabenEinkommenPages = {
   einkommenStart: {
@@ -14,10 +11,12 @@ export const berhAntragFinanzielleAngabenEinkommenPages = {
   staatlicheLeistungen: {
     stepId: "finanzielle-angaben/einkommen/staatliche-leistungen",
     pageSchema: {
-      staatlicheLeistungen: z.enum(
-        ["grundsicherung", "asylbewerberleistungen", "buergergeld", "keine"],
-        customRequiredErrorMessage,
-      ),
+      staatlicheLeistungen: z.enum([
+        "grundsicherung",
+        "asylbewerberleistungen",
+        "buergergeld",
+        "keine",
+      ]),
     },
   },
   erwerbstaetig: {
@@ -38,10 +37,7 @@ export const berhAntragFinanzielleAngabenEinkommenPages = {
   situation: {
     stepId: "finanzielle-angaben/einkommen/situation",
     pageSchema: {
-      berufsituation: z.enum(
-        ["pupil", "student", "retiree", "no"],
-        customRequiredErrorMessage,
-      ),
+      berufsituation: z.enum(["pupil", "student", "retiree", "no"]),
     },
   },
   weiteresEinkommen: {

@@ -9,9 +9,9 @@ import {
   wohnungDone,
   eigentumDone,
 } from "./finanzielleAngaben/doneFunctions";
+import { einkommenDone } from "./finanzielleAngaben/einkommen/doneFunctions";
 import { rechtsproblemDone } from "./rechtsproblem/rechtsproblemDone";
 import type { BeratungshilfeFormularUserData } from "./userData";
-import { einkommenDone } from "./finanzielleAngaben/einkommen/doneFunctions";
 
 export const getAmtsgerichtStrings = (
   context: BeratungshilfeFormularUserData,
