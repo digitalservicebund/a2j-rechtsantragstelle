@@ -4,7 +4,10 @@ import { abgabeInputSchema } from "~/domains/shared/formular/abgabe/userData";
 import { weitereAngabenSchema } from "~/domains/shared/formular/weitereAngaben/userData";
 import { dokumenteInputSchema } from "./abgabe/dokumente/userData";
 import { type BeratungshilfeAnwaltlicheVertretungUserData } from "./anwaltlicheVertretung/userData";
-import { beratungshilfeFinanzielleAngabenInputSchema } from "./finanzielleAngaben/userData";
+import {
+  beratungshilfeFinanzielleAngabenInputSchema,
+  type BeratungshilfeFinanzielleAngabenUserData,
+} from "./finanzielleAngaben/userData";
 import { type BeratungshilfeGrundvoraussetzungenUserData } from "./grundvoraussetzung/userData";
 import { type BeratungshilfeRechtsproblemUserData } from "./rechtsproblem/userData";
 
@@ -20,4 +23,5 @@ const _partialSchema = z.object(beratungshilfeFormularUserData).partial();
 export type BeratungshilfeFormularUserData = z.infer<typeof _partialSchema> &
   BeratungshilfeGrundvoraussetzungenUserData &
   BeratungshilfeRechtsproblemUserData &
-  BeratungshilfeAnwaltlicheVertretungUserData;
+  BeratungshilfeAnwaltlicheVertretungUserData &
+  BeratungshilfeFinanzielleAngabenUserData;

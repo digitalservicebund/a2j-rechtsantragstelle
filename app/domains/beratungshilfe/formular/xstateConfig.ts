@@ -12,7 +12,7 @@ import { abgabeXstateConfig } from "./abgabe/xstateConfig";
 import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
 import { finanzielleAngabenArrayConfig as beratungshilfeFormularFinanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
-import { beratungshilfeFinanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
+import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConfig";
 import { beratungshilfeAntragPages } from "./pages";
 import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
@@ -43,7 +43,7 @@ export const beratungshilfeXstateConfig = {
     grundvoraussetzungen: grundvorraussetzungXstateConfig,
     "anwaltliche-vertretung": anwaltlicheVertretungXstateConfig,
     rechtsproblem: rechtsproblemXstateConfig,
-    "finanzielle-angaben": beratungshilfeFinanzielleAngabenXstateConfig,
+    "finanzielle-angaben": finanzielleAngabenXstateConfig,
     "persoenliche-daten": getPersoenlicheDatenXstateConfig(
       ({ context }) =>
         beratungshilfePersoenlicheDatenDone({ context }) &&

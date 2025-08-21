@@ -1,10 +1,10 @@
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
   eigentumDone,
-  einkommenDone,
   geldanlagenDone,
   grundeigentumDone,
   kinderDone,
@@ -13,87 +13,22 @@ import {
   wertsachenDone,
   wohnungDone,
 } from "./doneFunctions";
+import { beratungshilfeFinanzielleAngabenEinkommenXstateConfig } from "./einkommen/xstateConfig";
 import { finanzielleAngabeGuards as guards } from "./guards";
+import { berhAntragFinanzielleAngabenPages } from "./pages";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 
-export const beratungshilfeFinanzielleAngabenXstateConfig = {
-  initial: "einkommen",
+const steps = xStateTargetsFromPagesConfig(berhAntragFinanzielleAngabenPages);
+
+export const finanzielleAngabenXstateConfig = {
+  initial: steps.einkommen.relative,
   id: "finanzielle-angaben",
   on: {
     SUBMIT: "#persoenliche-daten.start",
     BACK: "#rechtsproblem.situation-beschreibung",
   },
   states: {
-    einkommen: {
-      id: "einkommen",
-      initial: "start",
-      meta: { done: einkommenDone },
-      states: {
-        start: {
-          on: {
-            SUBMIT: "staatliche-leistungen",
-          },
-        },
-        "staatliche-leistungen": {
-          on: {
-            SUBMIT: [
-              {
-                guard: guards.staatlicheLeistungenIsBuergergeld,
-                target: "#eigentum.eigentum-info",
-              },
-              {
-                guard: guards.staatlicheLeistungenIsKeine,
-                target: "erwerbstaetig",
-              },
-              "#persoenliche-daten.start",
-            ],
-            BACK: "start",
-          },
-        },
-        erwerbstaetig: {
-          on: {
-            BACK: "staatliche-leistungen",
-            SUBMIT: [
-              {
-                guard: guards.erwerbstaetigYes,
-                target: "art",
-              },
-              "situation",
-            ],
-          },
-        },
-        art: {
-          on: {
-            BACK: "erwerbstaetig",
-            SUBMIT: "situation",
-          },
-        },
-        situation: {
-          on: {
-            BACK: [
-              {
-                guard: guards.erwerbstaetigYes,
-                target: "art",
-              },
-              "erwerbstaetig",
-            ],
-            SUBMIT: "weiteres-einkommen",
-          },
-        },
-        "weiteres-einkommen": {
-          on: {
-            SUBMIT: "einkommen",
-            BACK: "situation",
-          },
-        },
-        einkommen: {
-          on: {
-            BACK: "weiteres-einkommen",
-            SUBMIT: "#partner.partnerschaft",
-          },
-        },
-      },
-    },
+    einkommen: beratungshilfeFinanzielleAngabenEinkommenXstateConfig,
     partner: {
       id: "partner",
       initial: "partnerschaft",

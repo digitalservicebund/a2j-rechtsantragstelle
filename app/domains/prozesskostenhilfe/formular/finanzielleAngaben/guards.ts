@@ -1,3 +1,4 @@
+import { type BeratungshilfeFinanzielleAngabenEinkommenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/einkommen/userData";
 import {
   grundeigentumIsBewohnt,
   hasAusgabenYes,
@@ -105,4 +106,7 @@ export const finanzielleAngabeGuards = {
     return ratenzahlungen?.at(arrayIndex)?.zahlungspflichtiger !== "myself";
   },
   ausgabenDone,
-} satisfies Guards<ProzesskostenhilfeFinanzielleAngabenUserData>;
+} satisfies Guards<
+  ProzesskostenhilfeFinanzielleAngabenUserData &
+    BeratungshilfeFinanzielleAngabenEinkommenUserData
+>;

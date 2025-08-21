@@ -40,11 +40,12 @@ import {
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
+import { eigentumDone } from "./doneFunctions";
 import {
-  eigentumDone,
-  hasNoStaatlicheLeistungen,
   hasStaatlicheLeistungen,
-} from "./doneFunctions";
+  hasNoStaatlicheLeistungen,
+} from "./einkommen/doneFunctions";
+import { type BeratungshilfeFinanzielleAngabenEinkommenUserData } from "./einkommen/userData";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards } from "../../../guards.server";
 import type { Guards } from "../../../guards.server";
@@ -112,4 +113,7 @@ export const finanzielleAngabeGuards = {
     hasAusgabenYes({ context }) && !arrayIsNonEmpty(context.ausgaben),
   hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
-} satisfies Guards<BeratungshilfeFinanzielleAngabenUserData>;
+} satisfies Guards<
+  BeratungshilfeFinanzielleAngabenUserData &
+    BeratungshilfeFinanzielleAngabenEinkommenUserData
+>;

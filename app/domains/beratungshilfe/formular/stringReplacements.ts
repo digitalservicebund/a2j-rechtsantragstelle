@@ -4,7 +4,6 @@ import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
-  einkommenDone,
   kinderDone,
   partnerDone,
   wohnungDone,
@@ -12,6 +11,7 @@ import {
 } from "./finanzielleAngaben/doneFunctions";
 import { rechtsproblemDone } from "./rechtsproblem/rechtsproblemDone";
 import type { BeratungshilfeFormularUserData } from "./userData";
+import { einkommenDone } from "./finanzielleAngaben/einkommen/doneFunctions";
 
 export const getAmtsgerichtStrings = (
   context: BeratungshilfeFormularUserData,
