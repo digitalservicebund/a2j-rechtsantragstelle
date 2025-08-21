@@ -18,10 +18,7 @@ import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import {
-  YesNoAnswer,
-  customRequiredErrorMessage,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
 
 export const beratungshilfeFinanzielleAngabenInputSchema = {
@@ -46,10 +43,7 @@ export const beratungshilfeFinanzielleAngabenInputSchema = {
     ueberbrueckungsgeld: checkedOptional,
     others: checkedOptional,
   }),
-  berufsituation: z.enum(
-    ["pupil", "student", "retiree", "no"],
-    customRequiredErrorMessage,
-  ),
+  berufsituation: z.enum(["pupil", "student", "retiree", "no"]),
   hasKinder: YesNoAnswer,
   kinder: kinderArraySchema,
   hasBankkonto: YesNoAnswer,
