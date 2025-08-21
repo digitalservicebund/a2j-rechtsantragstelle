@@ -2,13 +2,11 @@ import { type BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratun
 import { calculateFreibetragBerHFormular } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
 import { staatlicheLeistungenIsBuergergeld } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import moneyToCents from "~/services/validation/money/moneyToCents";
-import { type BeratungshilfeFinanzielleAngabenEinkommenUserData } from "../finanzielleAngaben/einkommen/userData";
 
 const eigentumWorthEligibilityThreshhold = 10000;
 
 export const isFinanciallyEligibleForBerH = (
-  userData: BeratungshilfeFinanzielleAngabenUserData &
-    BeratungshilfeFinanzielleAngabenEinkommenUserData,
+  userData: BeratungshilfeFinanzielleAngabenUserData,
 ) => {
   const hasQualifyingStaatlicheLeistung =
     userData.staatlicheLeistungen === "asylbewerberleistungen" ||
@@ -77,8 +75,7 @@ function calculateEigentumTotalWorth(
 }
 
 function hasEinzusetzendesEinkommen(
-  userData: BeratungshilfeFinanzielleAngabenUserData &
-    BeratungshilfeFinanzielleAngabenEinkommenUserData,
+  userData: BeratungshilfeFinanzielleAngabenUserData,
 ) {
   const einkommen = moneyToCents(userData.einkommen) ?? 0;
   const miete =

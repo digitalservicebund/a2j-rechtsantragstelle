@@ -45,7 +45,6 @@ import {
   hasStaatlicheLeistungen,
   hasNoStaatlicheLeistungen,
 } from "./einkommen/doneFunctions";
-import { type BeratungshilfeFinanzielleAngabenEinkommenUserData } from "./einkommen/userData";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards } from "../../../guards.server";
 import type { Guards } from "../../../guards.server";
@@ -113,7 +112,4 @@ export const finanzielleAngabeGuards = {
     hasAusgabenYes({ context }) && !arrayIsNonEmpty(context.ausgaben),
   hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
-} satisfies Guards<
-  BeratungshilfeFinanzielleAngabenUserData &
-    BeratungshilfeFinanzielleAngabenEinkommenUserData
->;
+} satisfies Guards<BeratungshilfeFinanzielleAngabenUserData>;
