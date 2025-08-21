@@ -23,7 +23,6 @@ type Props = {
 export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
   <div className="ds-stack ds-stack-40">
     {Object.entries(pageSchema).map(([fieldName, fieldSchema]) => {
-      console.log(formComponents);
       const nestedSchema = getNestedSchema(fieldSchema);
       const matchingElement = formComponents
         ?.filter(

@@ -21,10 +21,6 @@ export function getPageSchema(pathname: string) {
   const { stepId, arrayIndexes } = parsePathname(pathname);
   const stepIdWithoutLeadingSlash = stepId.slice(1);
   const pagesConfig = pages[flowId] ?? {};
-  console.log("stepId", stepId);
-  console.log("stepIdWithoutLeadingSlash", stepIdWithoutLeadingSlash);
-  console.log("arrayIndexes", arrayIndexes);
-  // console.log("pagesConfig", pagesConfig);
 
   if (arrayIndexes.length > 0) {
     // An index in the URL tells us we are on a page that belongs to an array
@@ -35,19 +31,12 @@ export function getPageSchema(pathname: string) {
     const parentPageConfig = Object.values(pagesConfig)
       .filter(isArrayParentPage)
       .find(({ stepId }) => stepIdWithoutLeadingSlash.startsWith(stepId));
-    console.log("parentPageConfig", parentPageConfig);
 
     if (!parentPageConfig) return undefined;
 
     // Try to find the array page schema by navigating through the path
     return arrayPageSchemaFromNestedArrayPages(parentPageConfig, stepPathParts);
   }
-  console.log(
-    "pageConfig",
-    Object.values(pagesConfig).find(
-      (page) => page.stepId === stepIdWithoutLeadingSlash,
-    ),
-  );
 
   return Object.values(pagesConfig).find(
     (page) => page.stepId === stepIdWithoutLeadingSlash,
@@ -80,8 +69,6 @@ function arrayPageSchemaFromNestedArrayPages(
     },
     pageConfig,
   );
-
-  console.log("finalPageConfig", finalPageConfig);
 
   // Return the schema from the final result
   return finalPageConfig?.pageSchema;
