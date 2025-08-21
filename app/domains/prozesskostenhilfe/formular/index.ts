@@ -26,7 +26,6 @@ import {
   getArrayIndexStrings,
   geldAnlagenStrings,
 } from "~/domains/shared/formular/stringReplacements";
-import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import {
   couldLiveFromUnterhalt,
@@ -46,6 +45,7 @@ import {
   getMissingInformationStrings,
 } from "./stringReplacements";
 import { type ProzesskostenhilfeFormularUserData } from "./userData";
+import { weitereAngabenDone } from "./weitereAngaben/doneFunctions";
 
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
 const showPKHZusammenfassung = await isFeatureFlagEnabled(
