@@ -51,10 +51,7 @@ describe("services/cms", () => {
           pre_form: [],
           post_form: [],
           form: [],
-          flow_ids: [
-            { flowId: "/geld-einklagen/formular" },
-            { flowId: "/fluggastrechte/formular" },
-          ],
+          flow_ids: [{ flowId: "/fluggastrechte/formular" }],
         },
         getStrapiFlowPage({
           stepId: "/stepId2",

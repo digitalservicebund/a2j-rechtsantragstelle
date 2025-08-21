@@ -1,7 +1,3 @@
-import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
-import type { GeldEinklagenFormularUserData } from "../formular/userData";
-import type { GeldEinklagenVorabcheckUserData } from "../vorabcheck/userData";
-
 const gerichtskostenvorschuss = {
   below_500: 114,
   above_500: 174,
@@ -12,19 +8,6 @@ const gerichtskostenvorschuss = {
   above_4000: 483,
 } as const;
 
-export const getGerichtskostenvorschuss = (
-  context: GeldEinklagenVorabcheckUserData,
-) => {
-  if (
-    !("geldspanne" in context) ||
-    !context.geldspanne ||
-    context.geldspanne === "no" ||
-    context.geldspanne === "above_5000"
-  )
-    return 0;
-  return gerichtskostenvorschuss[context.geldspanne];
-};
-
 export const gerichtskostenFromBetrag = (betrag: number) => {
   if (betrag < 500) return gerichtskostenvorschuss.below_500;
   if (betrag < 1000) return gerichtskostenvorschuss.above_500;
@@ -33,11 +16,4 @@ export const gerichtskostenFromBetrag = (betrag: number) => {
   if (betrag < 3000) return gerichtskostenvorschuss.above_2000;
   if (betrag < 4000) return gerichtskostenvorschuss.above_3000;
   return gerichtskostenvorschuss.above_4000;
-};
-
-export const gesamtKosten = (context: GeldEinklagenFormularUserData) => {
-  return "forderung" in context && typeof context.forderung === "object"
-    ? parseCurrencyStringDE(context.forderung?.forderung2?.betrag) +
-        parseCurrencyStringDE(context.forderung?.forderung1?.betrag)
-    : 0;
 };

@@ -7,7 +7,6 @@ const multiFieldsFlowValidation = {
   "/beratungshilfe/antrag": undefined,
   "/beratungshilfe/vorabcheck": undefined,
   "/geld-einklagen/vorabcheck": undefined,
-  "/geld-einklagen/formular": undefined,
   "/fluggastrechte/vorabcheck":
     fluggastrechtVorabcheckMultiFieldsValidation as MultiFieldsStepIdValidation,
   "/fluggastrechte/formular":
