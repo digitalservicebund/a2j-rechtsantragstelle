@@ -8,12 +8,10 @@ function appendStrapiUrlOnDev(imageUrl: string) {
   // Without S3 bucket, Strapi returns relative URLs
   // For development with local strapi instances, we need to prepend the correct hostname
   if (!imageUrl.startsWith("/")) return imageUrl;
-  const STRAPI_API = config().STRAPI_API;
+  const { STRAPI_HOST } = config();
   const { ENVIRONMENT } = publicConfig();
   const strapiUrl =
-    (ENVIRONMENT?.trim() === "development"
-      ? STRAPI_API?.replace("/api/", "")
-      : "") ?? "";
+    (ENVIRONMENT?.trim() === "development" ? STRAPI_HOST : "") ?? "";
 
   return strapiUrl + imageUrl;
 }
