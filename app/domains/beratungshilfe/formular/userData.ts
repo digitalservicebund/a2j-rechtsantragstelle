@@ -17,5 +17,5 @@ export type BeratungshilfeFormularUserData = z.infer<typeof _partialSchema> &
   BeratungshilfeGrundvoraussetzungenUserData &
   BeratungshilfeRechtsproblemUserData &
   BeratungshilfeAnwaltlicheVertretungUserData &
-  BeratungshilfeWeitereAngabenUserData &  
+  BeratungshilfeWeitereAngabenUserData &
   BeratungshilfeAbgabeUserData;
