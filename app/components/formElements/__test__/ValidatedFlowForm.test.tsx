@@ -10,10 +10,7 @@ import { getStrapiTileGroupComponent } from "tests/factories/cmsModels/strapiTil
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
-import {
-  configureZod,
-  restoreZodDefaults,
-} from "~/services/validation/configureZod";
+import { configureZod } from "~/services/validation/configureZod";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import * as schemaForFieldNames from "~/services/validation/stepValidator/schemaForFieldNames";
@@ -44,10 +41,6 @@ const fieldNameValidatorSpy = vi.spyOn(
 describe("ValidatedFlowForm", () => {
   beforeAll(() => {
     configureZod(); // Need to auto-configure enum errors
-  });
-
-  afterAll(() => {
-    restoreZodDefaults();
   });
 
   it("should render", () => {
