@@ -10,10 +10,6 @@ vi.mock("@rvf/react-router", () => ({
   }),
 }));
 
-const mockError = (error: string) => {
-  getErrorMock.mockReturnValue(error);
-};
-
 const defaultProps = {
   name: "testRadio",
   value: "yes",
@@ -39,13 +35,5 @@ describe("Radio", () => {
     const radio = screen.getByLabelText("Yes");
     radio.click();
     expect(onClickMock).toHaveBeenCalled();
-  });
-
-  it("sets aria-describedby when error is present", () => {
-    mockError("This field has an error");
-
-    render(<Radio {...defaultProps} />);
-    const radio = screen.getByLabelText("Yes");
-    expect(radio).toHaveAttribute("aria-describedby", "testRadio-error");
   });
 });

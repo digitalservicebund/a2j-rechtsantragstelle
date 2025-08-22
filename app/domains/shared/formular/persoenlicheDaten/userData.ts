@@ -5,10 +5,9 @@ import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
-const titleSchema = z.enum(["", "dr"], customRequiredErrorMessage);
+const titleSchema = z.enum(["", "dr"]);
 
 export const vornameNachnameSchema = {
   vorname: stringRequiredSchema,

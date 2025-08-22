@@ -3,11 +3,12 @@ import type { PropsWithChildren } from "react";
 
 type InputErrorProps = PropsWithChildren<{
   readonly id: string;
+  readonly keepAriaLive?: boolean; // temporary props until we run an accessibility audit
 }>;
 
-const InputError = ({ id, children }: InputErrorProps) => {
+const InputError = ({ id, children, keepAriaLive = true }: InputErrorProps) => {
   return (
-    <div aria-live="assertive">
+    <div aria-live={keepAriaLive ? "assertive" : undefined}>
       {children && (
         <p
           id={id}

@@ -6,10 +6,7 @@ import {
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const pkhFormularVereinfachteErklaerungPages = {
   kind: {
@@ -54,10 +51,12 @@ export const pkhFormularVereinfachteErklaerungPages = {
   rechtlichesThema: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/rechtliches-thema",
     pageSchema: {
-      rechtlichesThema: z.enum(
-        ["unterhalt", "vollstreckung", "abstammung", "other"],
-        customRequiredErrorMessage,
-      ),
+      rechtlichesThema: z.enum([
+        "unterhalt",
+        "vollstreckung",
+        "abstammung",
+        "other",
+      ]),
     },
   },
   einnahmen: {
@@ -86,10 +85,12 @@ export const pkhFormularVereinfachteErklaerungPages = {
         pageSchema: {
           "einnahmen#beschreibung": stringRequiredSchema,
           "einnahmen#betrag": buildMoneyValidationSchema(),
-          "einnahmen#zahlungsfrequenz": z.enum(
-            ["monthly", "quarterly", "yearly", "one-time"],
-            customRequiredErrorMessage,
-          ),
+          "einnahmen#zahlungsfrequenz": z.enum([
+            "monthly",
+            "quarterly",
+            "yearly",
+            "one-time",
+          ]),
         },
       },
     },

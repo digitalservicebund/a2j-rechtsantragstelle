@@ -1,14 +1,8 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-const rsvCoverageSchema = z.enum(
-  ["yes", "no", "partly", "unknown"],
-  customRequiredErrorMessage,
-);
+const rsvCoverageSchema = z.enum(["yes", "no", "partly", "unknown"]);
 
 export const pkhFormularRechtsschutzversicherungPages = {
   rsvFrage: {

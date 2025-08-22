@@ -1,16 +1,10 @@
 import { z } from "zod";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const fluggastrechteProzessfuehrungInputSchema = {
   hasZeugen: YesNoAnswer,
   versaeumnisurteil: YesNoAnswer,
-  videoverhandlung: z.enum(
-    ["yes", "no", "noSpecification"],
-    customRequiredErrorMessage,
-  ),
+  videoverhandlung: z.enum(["yes", "no", "noSpecification"]),
 };
 
 const _partialSchema = z
