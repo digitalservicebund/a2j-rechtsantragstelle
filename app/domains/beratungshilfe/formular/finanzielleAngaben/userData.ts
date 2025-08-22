@@ -7,43 +7,21 @@ import {
   grundeigentumArraySchema,
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
-  staatlicheLeistungenInputSchema,
   unterhaltszahlungInputSchema,
   wertsachenArraySchema,
   livingSituationInputSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
-import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
+import { type BeratungshilfeFinanzielleAngabenEinkommenUserData } from "./einkommen/userData";
 
 export const beratungshilfeFinanzielleAngabenInputSchema = {
   ...finanzielleAngabenPartnerInputSchema,
-  einkommen: buildMoneyValidationSchema(),
-  erwerbstaetig: YesNoAnswer,
-  staatlicheLeistungen: staatlicheLeistungenInputSchema,
-  berufart: z.object({
-    selbststaendig: checkedOptional,
-    festangestellt: checkedOptional,
-  }),
-  weitereseinkommen: z.object({
-    unterhaltszahlungen: checkedOptional,
-    arbeitlosengeld: checkedOptional,
-    wohngeld: checkedOptional,
-    kindergeld: checkedOptional,
-    bafoeg: checkedOptional,
-    krankengeld: checkedOptional,
-    rente: checkedOptional,
-    elterngeld: checkedOptional,
-    insolvenzgeld: checkedOptional,
-    ueberbrueckungsgeld: checkedOptional,
-    others: checkedOptional,
-  }),
-  berufsituation: z.enum(["pupil", "student", "retiree", "no"]),
   hasKinder: YesNoAnswer,
   kinder: kinderArraySchema,
   hasBankkonto: YesNoAnswer,
@@ -87,4 +65,5 @@ const _partialSchema = z
   .partial();
 export type BeratungshilfeFinanzielleAngabenUserData = z.infer<
   typeof _partialSchema
->;
+> &
+  BeratungshilfeFinanzielleAngabenEinkommenUserData;

@@ -40,11 +40,11 @@ import {
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
+import { eigentumDone } from "./doneFunctions";
 import {
-  eigentumDone,
-  hasNoStaatlicheLeistungen,
   hasStaatlicheLeistungen,
-} from "./doneFunctions";
+  hasNoStaatlicheLeistungen,
+} from "./einkommen/doneFunctions";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards } from "../../../guards.server";
 import type { Guards } from "../../../guards.server";
