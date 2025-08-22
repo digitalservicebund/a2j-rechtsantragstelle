@@ -2,11 +2,11 @@ import type { BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFina
 import {
   partnerDone,
   kinderDone,
-  einkommenDone,
   wohnungDone,
   andereUnterhaltszahlungenDone,
   eigentumDone,
 } from "./doneFunctions";
+import { einkommenDone } from "./einkommen/doneFunctions";
 
 export const beratungshilfeFinanzielleAngabeDone: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) => {
