@@ -67,7 +67,7 @@
     "use-isnan": "error",
     "valid-typeof": "error"
   },
-  "ignorePatterns": ["**/*", "!app/**", "!tests/**", "!scripts/**"],
+  "ignorePatterns": ["data/xml/**"],
   "overrides": [
     {
       "files": ["**/*.{js,jsx,ts,tsx}"],
@@ -280,8 +280,8 @@
       "files": ["**/*.{ts,tsx}"],
       "rules": {
         "no-console": "warn",
-        "import/no-cycle": "off",
-        "import/namespace": "off",
+        "import/no-cycle": "error",
+        "import/namespace": "error",
         "@typescript-eslint/consistent-type-imports": [
           "warn",
           {
