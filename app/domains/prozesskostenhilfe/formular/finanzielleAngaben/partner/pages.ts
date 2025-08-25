@@ -5,6 +5,7 @@ import {
   partnerschaftInputSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { adresseSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
+import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -30,23 +31,19 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     },
   },
   partnerUnterhalt: {
-    stepId:
-      "finanzielle-angaben/partner/partner-einkuenfte/partner-unterhalt-frage",
+    stepId: "finanzielle-angaben/partner/unterhalt",
     pageSchema: {
-      "partner-receivesSupport": YesNoAnswer,
+      unterhalt: YesNoAnswer,
+    },
+  },
+  partnerUnterhaltsSumme: {
+    stepId: "finanzielle-angaben/partner/unterhalts-summe",
+    pageSchema: {
+      partnerUnterhaltsSumme: buildMoneyValidationSchema(),
     },
   },
   partnerKeineRolle: {
-    stepId:
-      "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-keine-rolle",
-  },
-  //TODO: fix this
-  partnerUnterhaltsSumme: {
-    stepId:
-      "finanzielle-angaben/partner/partner-einkuenfte/partner-unterhalt/partner-unterhalts-summe",
-    pageSchema: {
-      "partner-unterhaltsSumme": buildMoneyValidationSchema(),
-    },
+    stepId: "finanzielle-angaben/partner/keine-rolle",
   },
   partnerEinkommen: {
     stepId: "finanzielle-angaben/partner/partner-einkommen",
@@ -54,17 +51,43 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       partnerEinkommen: YesNoAnswer,
     },
   },
-  partnerEinkommenSumme: {
-    stepId: "finanzielle-angaben/partner/partner-einkommen-summe",
+
+  partnerEinkuenfteUnterhalt: {
+    stepId: "finanzielle-angaben/partner/partner-einkuenfte/partner-unterhalt",
+  },
+  partnerEinkuenfteUnterhaltFrage: {
+    stepId:
+      "finanzielle-angaben/partner/partner-einkuenfte/partner-unterhalt-frage",
     pageSchema: {
-      partnerEinkommenSumme: buildMoneyValidationSchema(),
+      "partner-receivesSupport": YesNoAnswer,
+    },
+  },
+  partnerEinkuenfteKeineRolle: {
+    stepId:
+      "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-keine-rolle",
+  },
+  partnerEinkuenfteUnterhaltsSumme: {
+    stepId:
+      "finanzielle-angaben/partner/partner-einkuenfte/partner-unterhalt/partner-unterhalts-summe",
+    pageSchema: {
+      "partner-unterhaltsSumme": buildMoneyValidationSchema(),
+    },
+  },
+  partnerEinkuenfteEinkommen: {
+    stepId: "finanzielle-angaben/partner/partner-einkuenfte/partner-einkommen",
+  },
+  partnarErwerbstaetig: {
+    stepId:
+      "finanzielle-angaben/partner/partner-einkuenfte/partner-einkommen/partner-erwerbstaetig",
+    pageSchema: {
+      "partner-currentlyEmployed": YesNoAnswer,
     },
   },
   partnerBuergergeld: {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-buergergeld",
     pageSchema: {
-      buergergeld: buildMoneyValidationSchema(),
+      "partner-buergergeld": buildMoneyValidationSchema(),
     },
   },
   partnerArbeitslosengeld: {
@@ -123,6 +146,9 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       ),
     },
   },
+  partnerAbzuege: {
+    stepId: "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege",
+  },
   partnerSelbststaendigAbzuege: {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-einkommen/partner-selbststaendig-abzuege",
@@ -151,7 +177,7 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-opnv-kosten",
     pageSchema: {
-      "partner-opnvKosten": buildMoneyValidationSchema(),
+      "partner-monatlicheOPNVKosten": buildMoneyValidationSchema(),
     },
   },
   partnerArbeitsplatzEntfernung: {
@@ -209,6 +235,20 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     stepId:
       "finanzielle-angaben/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgaben-warnung",
   },
+  partnerEinkuenfteLeistungen: {
+    stepId: "finanzielle-angaben/partner/partner-einkuenfte/partner-leistungen",
+  },
+  partnerLeistungFrage: {
+    stepId:
+      "finanzielle-angaben/partner/partner-einkuenfte/partner-leistungen/partner-frage",
+    pageSchema: {
+      "partner-hasWohngeld": checkedOptional,
+      "partner-hasKrankengeld": checkedOptional,
+      "partner-hasElterngeld": checkedOptional,
+      "partner-hasKindergeld": checkedOptional,
+    },
+  },
+
   partnerWohngeld: {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-leistungen/partner-wohngeld",

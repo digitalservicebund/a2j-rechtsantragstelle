@@ -3,6 +3,7 @@ import { pkhFormularFinanzielleAngabenKinderPages } from "~/domains/prozesskoste
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { kinderDone } from "../doneFunctions";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
+import { partnerEinkuenfteGuards } from "../einkuenfte/guards";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenKinderPages,
@@ -28,8 +29,13 @@ export const kinderXstateConfig = {
             target: "#partner",
           },
           {
+            guard:
+              partnerEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen,
+            target: "#partner-einkuenfte.partner-staatliche-leistungen",
+          },
+          {
             guard: "partnerEinkommenNo",
-            target: "#partner.partner-einkommen",
+            target: "#partner.partner-einkuenfte",
           },
           {
             guard: "partnerHasBesondersAusgabenYes",
@@ -41,7 +47,7 @@ export const kinderXstateConfig = {
           },
           {
             guard: "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo",
-            target: "#partner.partner-keine-rolle",
+            target: "#partner.keine-rolle",
           },
           "#partner-einkuenfte.partner-besonders-ausgaben",
         ],
