@@ -6,16 +6,12 @@ import {
   type ProzesskostenhilfeFinanzielleAngabenUserData,
 } from "./finanzielleAngaben/userData";
 import { type ProzesskostenhilfeGesetzlicheVertretungUserData } from "./gesetzlicheVertretung/userData";
-import {
-  prozesskostenhilfePersoenlicheDatenInputSchema,
-  type ProzesskostenhilfePersoenlicheDatenUserData,
-} from "./persoenlicheDaten/userData";
+import { type ProzesskostenhilfePersoenlicheDatenUserData } from "./persoenlicheDaten/userData";
 import { type ProzesskostenhilfeRechtsschutzversicherungUserData } from "./rechtsschutzversicherung/userData";
 import { type ProzesskostenhilfeWeitereAngabenUserData } from "./weitereAngaben/userData";
 
 export const prozesskostenhilfeFormularUserData = {
   ...prozesskostenhilfeFinanzielleAngabenInputSchema,
-  ...prozesskostenhilfePersoenlicheDatenInputSchema,
 } as const;
 
 export type ProzesskostenhilfeFormularUserData =

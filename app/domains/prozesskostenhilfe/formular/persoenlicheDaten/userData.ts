@@ -1,24 +1,5 @@
-import omit from "lodash/omit";
-import { z } from "zod";
-import {
-  geburtsdatum,
-  adresseSchema,
-  vornameNachnameSchema,
-  telefonnummer,
-  beruf,
-} from "~/domains/shared/formular/persoenlicheDaten/userData";
+import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type pkhFormularPersoenlicheDatenPages } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/pages";
 
-export const prozesskostenhilfePersoenlicheDatenInputSchema = {
-  ...vornameNachnameSchema,
-  ...omit(adresseSchema, "strasseHausnummer"),
-  geburtsdatum,
-  telefonnummer,
-  beruf,
-};
-
-const _partialSchema = z
-  .object(prozesskostenhilfePersoenlicheDatenInputSchema)
-  .partial();
-export type ProzesskostenhilfePersoenlicheDatenUserData = z.infer<
-  typeof _partialSchema
->;
+export type ProzesskostenhilfePersoenlicheDatenUserData =
+  UserDataFromPagesSchema<typeof pkhFormularPersoenlicheDatenPages>;
