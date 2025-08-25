@@ -26,4 +26,5 @@ export const happyPathData: BeratungshilfeVorabcheckUserData = {
   einkommen: "100",
   miete: "1000",
   weitereZahlungenSumme: "200",
+  bereich: "authorities",
 };
