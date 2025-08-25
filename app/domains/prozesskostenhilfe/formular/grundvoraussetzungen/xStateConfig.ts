@@ -1,6 +1,6 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { ProzesskostenhilfeGrundvoraussetzungenUserData } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type { Config } from "~/services/flow/server/types";
 import {
   grundvoraussetzungenDone,
   isNachueberpruefung,

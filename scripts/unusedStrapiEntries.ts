@@ -7,7 +7,7 @@ import {
   type StrapiSchemasOutput,
   type StrapiSchemas,
 } from "~/services/cms/schemas";
-import { type Config } from "~/services/flow/server/buildFlowController";
+import { type Config } from "~/services/flow/server/types";
 
 const contentFilePath = "./content.json";
 

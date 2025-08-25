@@ -1,7 +1,7 @@
 import merge from "lodash/merge";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { pkhFormularFinanzielleAngabenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/pages";
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type { Config } from "~/services/flow/server/types";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,

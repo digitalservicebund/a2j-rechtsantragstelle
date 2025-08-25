@@ -1,6 +1,6 @@
 import mapValues from "lodash/mapValues";
 import { and, not } from "xstate";
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type { Config } from "~/services/flow/server/types";
 import { isIncomeTooHigh } from "./isIncomeTooHigh";
 import { beratungshilfeVorabcheckPages } from "./pages";
 import { type BeratungshilfeVorabcheckUserData } from "./userData";

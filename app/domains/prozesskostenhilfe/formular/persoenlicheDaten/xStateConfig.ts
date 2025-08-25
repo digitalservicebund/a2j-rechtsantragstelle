@@ -1,7 +1,7 @@
 import { hasGesetzlicheVertretungYes } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/guards";
 import { prozesskostenhilfePersoenlicheDatenDone } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/doneFunctions";
 import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
-import { type Config } from "~/services/flow/server/buildFlowController";
+import { type Config } from "~/services/flow/server/types";
 
 export const persoenlicheDatenXstateConfig = {
   id: "persoenliche-daten",

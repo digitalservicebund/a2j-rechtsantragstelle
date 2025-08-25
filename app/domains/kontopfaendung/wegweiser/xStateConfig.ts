@@ -1,5 +1,5 @@
 import mapValues from "lodash/mapValues";
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type { Config } from "~/services/flow/server/types";
 import { kontopfaendungWegweiserPages } from "./pages";
 import { type KontopfaendungWegweiserUserData } from "./userData";
 

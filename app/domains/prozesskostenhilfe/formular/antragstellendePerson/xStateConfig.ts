@@ -4,7 +4,7 @@ import { getProzesskostenhilfeVereinfachteErklaerungConfig } from "~/domains/pro
 import type {
   Config,
   FlowConfigTransitions,
-} from "~/services/flow/server/buildFlowController";
+} from "~/services/flow/server/types";
 import {
   antragstellendePersonDone,
   couldLiveFromUnterhalt,
