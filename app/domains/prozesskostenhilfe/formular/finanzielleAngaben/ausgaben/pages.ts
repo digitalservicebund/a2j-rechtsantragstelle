@@ -3,10 +3,7 @@ import { type PagesConfig } from "~/domains/pageSchemas";
 import { besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const pkhFormularFinanzielleAngabenAusgabenPages = {
   ausgabenFrage: {
@@ -31,17 +28,14 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
     arrayPages: {
       daten: {
         pageSchema: {
-          "versicherungen#art": z.enum(
-            [
-              "haftpflichtversicherung",
-              "hausratsversicherung",
-              "unfallversicherung",
-              "pivateKrankenzusatzversicherung",
-              "kfzVersicherung",
-              "sonstige",
-            ],
-            customRequiredErrorMessage,
-          ),
+          "versicherungen#art": z.enum([
+            "haftpflichtversicherung",
+            "hausratsversicherung",
+            "unfallversicherung",
+            "pivateKrankenzusatzversicherung",
+            "kfzVersicherung",
+            "sonstige",
+          ]),
           "versicherungen#beitrag": stringRequiredSchema,
         },
       },
@@ -64,10 +58,11 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       },
       zahlungspflichtiger: {
         pageSchema: {
-          "ratenzahlungen#zahlungspflichtiger": z.enum(
-            ["myself", "myselfAndPartner", "myselfAndSomeoneElse"],
-            customRequiredErrorMessage,
-          ),
+          "ratenzahlungen#zahlungspflichtiger": z.enum([
+            "myself",
+            "myselfAndPartner",
+            "myselfAndSomeoneElse",
+          ]),
         },
       },
       betragGemeinsamerAnteil: {
@@ -109,10 +104,11 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       },
       zahlungspflichtiger: {
         pageSchema: {
-          "sonstigeAusgaben#zahlungspflichtiger": z.enum(
-            ["myself", "myselfAndPartner", "myselfAndSomeoneElse"],
-            customRequiredErrorMessage,
-          ),
+          "sonstigeAusgaben#zahlungspflichtiger": z.enum([
+            "myself",
+            "myselfAndPartner",
+            "myselfAndSomeoneElse",
+          ]),
         },
       },
       betragGemeinsamerAnteil: {

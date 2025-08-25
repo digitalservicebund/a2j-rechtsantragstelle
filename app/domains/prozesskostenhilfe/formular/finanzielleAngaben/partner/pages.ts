@@ -9,10 +9,7 @@ import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerEinkuenfte: {
@@ -121,10 +118,11 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-einkommen/partner-art",
     pageSchema: {
-      "partner-employmentType": z.enum(
-        ["employed", "selfEmployed", "employedAndSelfEmployed"],
-        customRequiredErrorMessage,
-      ),
+      "partner-employmentType": z.enum([
+        "employed",
+        "selfEmployed",
+        "employedAndSelfEmployed",
+      ]),
     },
   },
   partnerNettoEinkommen: {
@@ -140,10 +138,7 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     pageSchema: {
       "partner-selbststaendigMonatlichesEinkommen":
         buildMoneyValidationSchema(),
-      "partner-selbststaendigBruttoNetto": z.enum(
-        ["brutto", "netto"],
-        customRequiredErrorMessage,
-      ),
+      "partner-selbststaendigBruttoNetto": z.enum(["brutto", "netto"]),
     },
   },
   partnerAbzuege: {
@@ -167,10 +162,13 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsweg",
     pageSchema: {
-      "partner-arbeitsweg": z.enum(
-        ["publicTransport", "privateVehicle", "bike", "walking", "none"],
-        customRequiredErrorMessage,
-      ),
+      "partner-arbeitsweg": z.enum([
+        "publicTransport",
+        "privateVehicle",
+        "bike",
+        "walking",
+        "none",
+      ]),
     },
   },
   partnerOpnvKosten: {
@@ -210,10 +208,12 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "partner-daten": {
         pageSchema: {
           "partner-arbeitsausgaben#beschreibung": z.string().min(1, "required"),
-          "partner-arbeitsausgaben#zahlungsfrequenz": z.enum(
-            ["monthly", "quarterly", "yearly", "one-time"],
-            customRequiredErrorMessage,
-          ),
+          "partner-arbeitsausgaben#zahlungsfrequenz": z.enum([
+            "monthly",
+            "quarterly",
+            "yearly",
+            "one-time",
+          ]),
           "partner-arbeitsausgaben#betrag": buildMoneyValidationSchema(),
         },
       },
@@ -286,10 +286,12 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte",
     pageSchema: {
       "partner-weitereEinkuenfte#beschreibung": z.string().min(1, "required"),
-      "partner-weitereEinkuenfte#zahlungsfrequenz": z.enum(
-        ["monthly", "quarterly", "yearly", "one-time"],
-        customRequiredErrorMessage,
-      ),
+      "partner-weitereEinkuenfte#zahlungsfrequenz": z.enum([
+        "monthly",
+        "quarterly",
+        "yearly",
+        "one-time",
+      ]),
       "weitereEinkuenfte#betrag": buildMoneyValidationSchema(),
     },
     arrayPages: {
@@ -298,10 +300,12 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
           "partner-weitereEinkuenfte#beschreibung": z
             .string()
             .min(1, "required"),
-          "partner-weitereEinkuenfte#zahlungsfrequenz": z.enum(
-            ["monthly", "quarterly", "yearly", "one-time"],
-            customRequiredErrorMessage,
-          ),
+          "partner-weitereEinkuenfte#zahlungsfrequenz": z.enum([
+            "monthly",
+            "quarterly",
+            "yearly",
+            "one-time",
+          ]),
           "partner-weitereEinkuenfte#betrag": buildMoneyValidationSchema(),
         },
       },

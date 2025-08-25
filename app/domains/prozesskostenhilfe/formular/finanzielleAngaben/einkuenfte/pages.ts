@@ -8,10 +8,7 @@ import { adresseSchema } from "~/domains/shared/formular/persoenlicheDaten/userD
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   einkuenfteStart: {
@@ -20,10 +17,10 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   staatlicheLeistungen: {
     stepId: "finanzielle-angaben/einkuenfte/staatliche-leistungen",
     pageSchema: {
-      staatlicheLeistungen: z.enum(
-        [...staatlicheLeistungenInputSchema.options, "arbeitslosengeld"],
-        customRequiredErrorMessage,
-      ),
+      staatlicheLeistungen: z.enum([
+        ...staatlicheLeistungenInputSchema.options,
+        "arbeitslosengeld",
+      ]),
     },
   },
   buergergeld: {
@@ -47,10 +44,11 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   art: {
     stepId: "finanzielle-angaben/einkuenfte/einkommen/art",
     pageSchema: {
-      employmentType: z.enum(
-        ["employed", "selfEmployed", "employedAndSelfEmployed"],
-        customRequiredErrorMessage,
-      ),
+      employmentType: z.enum([
+        "employed",
+        "selfEmployed",
+        "employedAndSelfEmployed",
+      ]),
     },
   },
   nettoEinkommen: {
@@ -63,10 +61,7 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
     stepId: "finanzielle-angaben/einkuenfte/einkommen/selbststaendig",
     pageSchema: {
       selbststaendigMonatlichesEinkommen: buildMoneyValidationSchema(),
-      selbststaendigBruttoNetto: z.enum(
-        ["brutto", "netto"],
-        customRequiredErrorMessage,
-      ),
+      selbststaendigBruttoNetto: z.enum(["brutto", "netto"]),
     },
   },
   selbststaendigAbzuege: {
@@ -78,10 +73,13 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   arbeitsweg: {
     stepId: "finanzielle-angaben/einkuenfte/abzuege/arbeitsweg",
     pageSchema: {
-      arbeitsweg: z.enum(
-        ["publicTransport", "privateVehicle", "bike", "walking", "none"],
-        customRequiredErrorMessage,
-      ),
+      arbeitsweg: z.enum([
+        "publicTransport",
+        "privateVehicle",
+        "bike",
+        "walking",
+        "none",
+      ]),
     },
   },
   opnvKosten: {
@@ -114,10 +112,12 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
       daten: {
         pageSchema: {
           "arbeitsausgaben#beschreibung": z.string().min(1, "required"),
-          "arbeitsausgaben#zahlungsfrequenz": z.enum(
-            ["monthly", "quarterly", "yearly", "one-time"],
-            customRequiredErrorMessage,
-          ),
+          "arbeitsausgaben#zahlungsfrequenz": z.enum([
+            "monthly",
+            "quarterly",
+            "yearly",
+            "one-time",
+          ]),
           "arbeitsausgaben#betrag": buildMoneyValidationSchema(),
         },
       },
@@ -186,20 +186,24 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
     stepId: "finanzielle-angaben/einkuenfte/weitere-einkuenfte",
     pageSchema: {
       "weitereEinkuenfte#beschreibung": z.string().min(1, "required"),
-      "weitereEinkuenfte#zahlungsfrequenz": z.enum(
-        ["monthly", "quarterly", "yearly", "one-time"],
-        customRequiredErrorMessage,
-      ),
+      "weitereEinkuenfte#zahlungsfrequenz": z.enum([
+        "monthly",
+        "quarterly",
+        "yearly",
+        "one-time",
+      ]),
       "weitereEinkuenfte#betrag": buildMoneyValidationSchema(),
     },
     arrayPages: {
       daten: {
         pageSchema: {
           "weitereEinkuenfte#beschreibung": z.string().min(1, "required"),
-          "weitereEinkuenfte#zahlungsfrequenz": z.enum(
-            ["monthly", "quarterly", "yearly", "one-time"],
-            customRequiredErrorMessage,
-          ),
+          "weitereEinkuenfte#zahlungsfrequenz": z.enum([
+            "monthly",
+            "quarterly",
+            "yearly",
+            "one-time",
+          ]),
           "weitereEinkuenfte#betrag": buildMoneyValidationSchema(),
         },
       },
