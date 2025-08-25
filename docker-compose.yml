@@ -18,19 +18,6 @@ services:
         sleep 5;
       fi"
 
-  frontend:
-    build:
-      context: .
-    container_name: frontend
-    depends_on:
-      - redis
-    ports:
-      - "3001:3000"
-    command: npm run start
-    environment:
-      REDIS_ENDPOINT: 172.17.0.1:6380 # Expose running redis container port
-    env_file: .env
-
   redis:
     image: redis:8
     restart: always
