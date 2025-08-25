@@ -1,5 +1,5 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type { Config } from "~/services/flow/server/types";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { beratungshilfeAbgabeGuards } from "./guards";
 import { berHAntragAbgabePages } from "./pages";

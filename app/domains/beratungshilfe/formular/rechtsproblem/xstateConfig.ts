@@ -1,5 +1,5 @@
 import mapValues from "lodash/mapValues";
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type { Config } from "~/services/flow/server/types";
 import { berHAntragRechtsproblemPages } from "./pages";
 import { rechtsproblemDone } from "./rechtsproblemDone";
 import { beratungshilfeAnwaltlicheVertretungGuards } from "../anwaltlicheVertretung/guards";

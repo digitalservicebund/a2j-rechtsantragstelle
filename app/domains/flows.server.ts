@@ -4,7 +4,7 @@ import { beratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck";
 import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
 import { fluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck";
 import { geldEinklagenVorabcheck } from "~/domains/geldEinklagen/vorabcheck";
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type { Config } from "~/services/flow/server/types";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import type { Replacements } from "~/util/applyStringReplacement";
 import type { FlowId } from "./flowIds";

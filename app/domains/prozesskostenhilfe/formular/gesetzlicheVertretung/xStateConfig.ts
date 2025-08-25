@@ -4,7 +4,7 @@ import { pkhFormularGesetzlicheVertretungPages } from "~/domains/prozesskostenhi
 import type {
   Config,
   FlowConfigTransitions,
-} from "~/services/flow/server/buildFlowController";
+} from "~/services/flow/server/types";
 import { prozesskostenhilfeGesetzlicheVertretungDone } from "./doneFunctions";
 import type { ProzesskostenhilfeGesetzlicheVertretungUserData } from "./userData";
 

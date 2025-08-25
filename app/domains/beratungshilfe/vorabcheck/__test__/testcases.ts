@@ -159,18 +159,25 @@ const cases = [
     ],
   ],
 
-  [{ partnerschaft: "no" }, ["/einkommen", "/kinder"]],
+  [{ partnerschaft: "no", einkommen: "0" }, ["/einkommen", "/kinder"]],
   [{ kinder: "no" }, ["/kinder", "/unterhalt"]],
   [{ unterhalt: "no" }, ["/unterhalt", "/miete"]],
   [
-    { einkommen: "10000000" },
+    { einkommen: "10000000", weitereZahlungenSumme: "0" },
     [
       "/weitere-zahlungen-summe",
       "/ergebnis/weitere-zahlungen-summe-abschluss-nein",
     ],
   ],
   [
-    { einkommen: "100", eigeninitiative: "no" },
+    { einkommen: "0", weitereZahlungenSumme: "100000" },
+    [
+      "/weitere-zahlungen-summe",
+      "/ergebnis/weitere-zahlungen-summe-abschluss-ja",
+    ],
+  ],
+  [
+    { einkommen: "100", weitereZahlungenSumme: "100", eigeninitiative: "no" },
     [
       "/weitere-zahlungen-summe",
       "/ergebnis/weitere-zahlungen-summe-abschluss-vielleicht",

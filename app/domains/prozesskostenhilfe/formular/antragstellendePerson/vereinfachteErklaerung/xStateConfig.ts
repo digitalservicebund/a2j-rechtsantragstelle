@@ -12,10 +12,10 @@ import {
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 import { pkhFormularVereinfachteErklaerungPages } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/pages";
 import { type ProzesskostenhilfeVereinfachteErklaerungUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/userData";
-import {
-  type Config,
-  type FlowConfigTransitions,
-} from "~/services/flow/server/buildFlowController";
+import type {
+  Config,
+  FlowConfigTransitions,
+} from "~/services/flow/server/types";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularVereinfachteErklaerungPages,

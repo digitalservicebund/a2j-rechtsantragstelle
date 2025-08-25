@@ -4,7 +4,7 @@ import { type LoaderFunctionArgs } from "react-router";
 import { createMachine, type AnyStateMachine } from "xstate";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type { Config } from "~/services/flow/server/types";
 import { throw404OnProduction } from "../../services/errorPages/throw404";
 export { Visualisierung as default } from "./components/Visualisierung";
 
