@@ -1,10 +1,9 @@
 # 23. Migrating from `flow.json` to `xstateConfig.ts`
 
-Date: 2025-05-19
-
 ## Status
 
-- Drafted
+- 2025-05-19: Drafted & Accepted
+- 2025-08-25: Edited (Added chronological status)
 
 ## Context
 

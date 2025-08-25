@@ -4,13 +4,15 @@ Date: 2025-03-03
 
 ## Status
 
-Proposal
+- 2024-10-22: Drafted
+- 2025-03-24: Accepted
+- 2025-08-25: Edited (Added chronological status, fix headline levels)
 
 ## Context
 
 Currently, the information about what field appears on what page is **solely** saved in the CMS. To render a page, the app has to fetch the content for a given URL from the CMS, which may contain a list of fields and their labels (next to the page content).
 
-#### Terms
+### Terms
 
 - `field`: A user-facing input that appears on a page inside a flow
   - `fieldName`: The name of a field in the form, e.g. `hasLawyer`
@@ -25,7 +27,7 @@ Currently, the information about what field appears on what page is **solely** s
   ```
 - `SchemaStore`: A service that bundles the schemas required to validate the data on a page. Our current implementation `validatorForFieldNames()` takes a list of `fieldNames` and the `stepId` to return a `pageSchema`.
 
-#### Diagram
+### Diagram
 
 The `pageSchema` is required both in the front- and back-end to validate user input:
 
@@ -47,7 +49,7 @@ Action->>Action: Validation
 
 Note that `fieldNames` are passed from the CMS via the loader + front/back-end into the `SchemaStore`.
 
-#### Downsides
+### Downsides
 
 - Resilience: The app **cannot** work without the CMS providing the `fieldNames`
 - Slow prototyping of new flows, as it requires addition of pages to the CMS even without content
@@ -93,7 +95,7 @@ const pages = {
 };
 ```
 
-#### Diagram
+### Diagram
 
 Any component can receive a `pageSchema` directly from the `PageConfig` by passing the `stepId`:
 
@@ -128,9 +130,9 @@ Note that the CMS is now only responsible for text!
 
 - Field names and definition in the CMS still need to match the ones in the app. However, a mismatch just results in missing labels, not breaking the full app
 
-### Future consideration
+## Future consideration
 
-#### Moving form field to another page
+### Moving form field to another page
 
 While this is rarely done, the following would need to be done to move a field form one page to another:
 
@@ -140,7 +142,7 @@ While this is rarely done, the following would need to be done to move a field f
 4. Trigger app release (now the form field will appear on the new page)
 5. Remove form field from the old page in CMS
 
-#### Synchronizing form fields
+### Synchronizing form fields
 
 The downside of doubling field names & types could be mitigated by synchronizing the CMS with the app. This could be either done by:
 
