@@ -1,6 +1,8 @@
+import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
-import { machine } from "./testMachine";
+import type { FlowStateMachine } from "~/services/flow/server/types";
 import { type KontopfaendungWegweiserUserData } from "../userData";
+import { kontopfaendungWegweiserXstateConfig } from "../xStateConfig";
 
 const cases = [
   [{}, ["/start", "/kontopfaendung", "/ergebnis/keine-kontopfaendung"]],
@@ -332,4 +334,7 @@ const cases = [
   ],
 ] as const satisfies TestCases<KontopfaendungWegweiserUserData>;
 
+const machine: FlowStateMachine = createMachine(
+  kontopfaendungWegweiserXstateConfig,
+);
 export const testCasesKontopfaendungWegweiser = { machine, cases };
