@@ -1,5 +1,4 @@
 import mapValues from "lodash/mapValues";
-import { and, not } from "xstate";
 import type { Config } from "~/services/flow/server/types";
 import { isIncomeTooHigh } from "./isIncomeTooHigh";
 import { beratungshilfeVorabcheckPages } from "./pages";
@@ -199,10 +198,9 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: stepIds.staatlicheLeistungenAbschlussVielleicht,
-            guard: and([
-              staatlicheLeistungenYes,
-              ({ context }) => context.eigeninitiative === "no",
-            ]),
+            guard: ({ context }) =>
+              context.eigeninitiative === "no" &&
+              staatlicheLeistungenYes({ context }),
           },
           {
             target: stepIds.staatlicheLeistungenAbschlussJa,
@@ -503,10 +501,8 @@ export const beratungshilfeVorabcheckXstateConfig = {
         SUBMIT: [
           {
             target: stepIds.weitereZahlungenSummeAbschlussVielleicht,
-            guard: and([
-              not(isIncomeTooHigh),
-              ({ context }) => context.eigeninitiative == "no",
-            ]),
+            guard: ({ context }) =>
+              context.eigeninitiative == "no" && !isIncomeTooHigh({ context }),
           },
           {
             target: stepIds.weitereZahlungenSummeAbschlussNein,
