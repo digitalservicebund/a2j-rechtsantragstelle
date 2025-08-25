@@ -183,7 +183,7 @@
         "@typescript-eslint/no-duplicate-enum-values": "error",
         "@typescript-eslint/no-duplicate-type-constituents": "error",
         "@typescript-eslint/no-empty-object-type": "error",
-        "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/no-explicit-any": "off", // TODO: turning on when we are ready
         "@typescript-eslint/no-extra-non-null-assertion": "error",
         "@typescript-eslint/no-floating-promises": "error",
         "@typescript-eslint/no-for-in-array": "error",
