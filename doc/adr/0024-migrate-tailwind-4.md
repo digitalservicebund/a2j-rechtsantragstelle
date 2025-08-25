@@ -1,11 +1,10 @@
 # 24. Dropping full CSS support for old browsers to upgrade `Tailwind 4`
 
-Date: 2025-08-18
-
 ## Status
 
-- 2025-08-18: Drafted
-- 2025-08-18: Accepted
+- 2025-08-11: Drafted
+- 2025-08-19: Accepted
+- 2025-08-25: Edited (updated chronological status)
 
 ## Context
 

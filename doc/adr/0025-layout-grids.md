@@ -1,5 +1,10 @@
 # Unified Grid System Implementation
 
+## Status
+
+- 2025-08-20: Drafted & Accepted
+- 2025-08-25: Edited (updated chronological status)
+
 ## Context
 
 The application right now rely on css flexbox to position components this approach creates several issues:
