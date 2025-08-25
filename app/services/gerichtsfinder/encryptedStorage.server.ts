@@ -58,6 +58,7 @@ function updateZipfile(zipFilepath: string) {
 // Caching file read, decryption & parsing to survive server reload
 // See https://remix.run/docs/en/1.16.1/tutorials/jokes#connect-to-the-database
 declare global {
+  // oxlint-disable-next-line no-var
   var __encData: Record<string, any> | undefined; // NOSONAR
 }
 
