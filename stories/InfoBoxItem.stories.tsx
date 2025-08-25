@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import Container from "../app/components/layout/Container";
 import InfoBoxItem, {
-  InfoBoxItemProps,
+  type InfoBoxItemProps,
 } from "~/components/content/InfoBoxItem";
 
 const meta = {
