@@ -4,7 +4,7 @@ import { type ProzesskostenhilfeRechtsschutzversicherungUserData } from "~/domai
 import type {
   Config,
   FlowConfigTransitions,
-} from "~/services/flow/server/buildFlowController";
+} from "~/services/flow/server/types";
 import { rechtsschutzversicherungDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(

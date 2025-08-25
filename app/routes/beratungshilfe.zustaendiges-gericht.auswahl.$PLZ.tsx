@@ -17,7 +17,6 @@ import Input from "~/components/formElements/Input";
 import Background from "~/components/layout/Background";
 import Container from "~/components/layout/Container";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import { streetHouseNumberSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { buildOpenPlzResultUrl } from "~/services/gerichtsfinder/openPLZ";
@@ -25,6 +24,8 @@ import { createSessionWithCsrf } from "~/services/security/csrf/createSessionWit
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { getSessionManager } from "~/services/session.server";
 import { translations } from "~/services/translations/translations";
+import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { filterFormData } from "~/util/filterFormData";
 
@@ -33,7 +34,10 @@ const requiredError: ErrorMessageProps = {
   text: translations.gerichtFinder.inputRequired.de,
 };
 
-const courtFinderSchema = z.object(streetHouseNumberSchema);
+const courtFinderSchema = z.object({
+  street: stringRequiredSchema,
+  houseNumber: germanHouseNumberSchema,
+});
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;

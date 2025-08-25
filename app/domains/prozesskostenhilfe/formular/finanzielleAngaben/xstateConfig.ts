@@ -1,5 +1,5 @@
-import type { Config } from "~/services/flow/server/buildFlowController";
 import { andereUnterhaltszahlungenXstateConfig } from "./andere-unterhaltszahlungen/xstateConfig";
+import type { Config } from "~/services/flow/server/types";
 import {
   ausgabenXstateConfig,
   ausgabenZusammenfassungXstateConfig,

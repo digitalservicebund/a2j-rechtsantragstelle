@@ -16,10 +16,9 @@ import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConf
 import { finanzielleAngabeEinkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import { grundvoraussetzungenXstateConfig } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/xStateConfig";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
-import { prozesskostenhilfePersoenlicheDatenDone } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/doneFunctions";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "~/domains/shared/formular/finanzielleAngaben/arrayConfiguration";
-import { getPersoenlicheDatenXstateConfig } from "~/domains/shared/formular/persoenlicheDaten/xStateConfig";
+import { persoenlicheDatenXstateConfig } from "~/domains/shared/formular/persoenlicheDaten/xStateConfig";
 import {
   getKinderStrings,
   getArrayIndexStrings,
@@ -32,7 +31,6 @@ import {
 } from "./antragstellendePerson/guards";
 import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
-import { hasGesetzlicheVertretungYes } from "./gesetzlicheVertretung/guards";
 import { gesetzlicheVertretungXstateConfig } from "./gesetzlicheVertretung/xStateConfig";
 import {
   erstantragAnwalt,
@@ -162,27 +160,7 @@ export const prozesskostenhilfeFormular = {
         ],
         nextFlowEntrypoint: "#persoenliche-daten",
       }),
-      "persoenliche-daten": getPersoenlicheDatenXstateConfig(
-        ({ context }) => prozesskostenhilfePersoenlicheDatenDone({ context }),
-        {
-          backToCallingFlow: [
-            {
-              guard: ({ context }) => hasGesetzlicheVertretungYes({ context }),
-              target: "#gesetzliche-vertretung.daten",
-            },
-            "#gesetzliche-vertretung",
-          ],
-          nextFlowEntrypoint: "beruf",
-        },
-        {
-          beruf: {
-            on: {
-              BACK: "telefonnummer",
-              SUBMIT: steps.weitereAngaben.absolute,
-            },
-          },
-        },
-      ),
+      "persoenliche-daten": persoenlicheDatenXstateConfig,
 
       [steps.weitereAngaben.relative]: {
         id: "weitere-angaben",

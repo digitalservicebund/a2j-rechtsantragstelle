@@ -1,9 +1,9 @@
 import { createMachine } from "xstate";
 import {
-  type Config,
   buildFlowController,
   nextStepId,
 } from "~/services/flow/server/buildFlowController";
+import { type Config } from "../types";
 
 const config: Config = {
   id: "/test/flow",

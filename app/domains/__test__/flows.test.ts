@@ -11,7 +11,10 @@ import {
 } from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
 import { type UserData } from "~/domains/userData";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
-import type { FlowStateMachine } from "~/services/flow/server/types";
+import type {
+  FlowStateMachine,
+  NavigationEvent,
+} from "~/services/flow/server/types";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
 
 function getEnabledSteps({
@@ -22,7 +25,7 @@ function getEnabledSteps({
 }: {
   machine: FlowStateMachine;
   context: UserData;
-  transitionType: "SUBMIT" | "BACK";
+  transitionType: NavigationEvent;
   steps: readonly string[];
 }) {
   const initialStep = steps[0];

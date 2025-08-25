@@ -1,4 +1,4 @@
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type { Config } from "~/services/flow/server/types";
 import type { FluggastrechtVorabcheckUserData } from "./userData";
 
 export const fluggastrechteVorabcheckXstateConfig = {

@@ -1,6 +1,6 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
-import type { Config } from "~/services/flow/server/buildFlowController";
+import type { Config } from "~/services/flow/server/types";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,

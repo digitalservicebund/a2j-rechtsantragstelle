@@ -1,64 +1,20 @@
 import { getShortestPaths } from "@xstate/graph";
 import isEqual from "lodash/isEqual";
-import type {
-  MachineConfig,
-  MachineContext,
-  TransitionConfigOrTarget as XStateTransitionConfigOrTarget,
-} from "xstate";
 import { initialTransition, pathToStateValue, setup, transition } from "xstate";
-import type { GenericGuard, Guards } from "~/domains/guards.server";
+import type { Guards } from "~/domains/guards.server";
 import type { UserData } from "~/domains/userData";
-import type { ArrayConfigServer } from "~/services/array";
 import {
   stateValueToStepIds,
   stepIdToPath,
 } from "~/services/flow/stepIdConverter";
 import { progressLookupForMachine, vorabcheckProgresses } from "./progress";
 import type {
-  FlowStateMachineEvents,
+  Config,
   FlowStateMachine,
+  Meta,
+  NavigationEvent,
   StateMachineTypes,
 } from "./types";
-
-type Event = "SUBMIT" | "BACK";
-
-export type Config<TContext extends MachineContext = UserData> = MachineConfig<
-  TContext,
-  FlowStateMachineEvents,
-  never,
-  never,
-  { type: string; params: unknown },
-  never,
-  never,
-  never,
-  never,
-  never,
-  Meta<TContext>
->;
-
-type TransitionConfigOrTarget<TUserData extends MachineContext = UserData> =
-  XStateTransitionConfigOrTarget<
-    TUserData,
-    FlowStateMachineEvents,
-    FlowStateMachineEvents,
-    never,
-    never,
-    { type: string; params: unknown },
-    never,
-    never,
-    Meta
-  >;
-
-export type FlowConfigTransitions = {
-  backToCallingFlow?: TransitionConfigOrTarget;
-  nextFlowEntrypoint?: TransitionConfigOrTarget;
-};
-
-type Meta<TUserData extends MachineContext = UserData> = {
-  expandValidation?: boolean;
-  done?: GenericGuard<TUserData>;
-  arrays?: Record<string, ArrayConfigServer>;
-};
 
 const getSteps = (machine: FlowStateMachine) => {
   // The machine passed here relies on the context it was initialized with.
@@ -68,7 +24,7 @@ const getSteps = (machine: FlowStateMachine) => {
   // Technically, arrayEvents are never triggered. They are only added here to make the subflows reachable to xstate
   const arrayConfig = rootMeta(machine)?.arrays ?? {};
   const arrayEvents = Object.values(arrayConfig).map(({ event }) => ({
-    type: event as Event,
+    type: event as NavigationEvent,
   }));
 
   const possiblePaths = getShortestPaths(machine, {
@@ -81,7 +37,7 @@ const getSteps = (machine: FlowStateMachine) => {
 export const nextStepId = (
   machine: FlowStateMachine,
   stepId: string,
-  type: Event,
+  type: NavigationEvent,
   context: UserData,
 ) => {
   // First, resolve the state with the given step and context

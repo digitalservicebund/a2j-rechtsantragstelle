@@ -183,8 +183,7 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsplatz-entfernung",
     pageSchema: {
       "partner-arbeitsplatz": z.object({ ...adresseSchema }).omit({
-        street: true,
-        houseNumber: true,
+        strasseHausnummer: true,
       }),
       "partner-arbeitsplatzEntfernung": integerSchema.refine(
         (distance) => distance > 0,
