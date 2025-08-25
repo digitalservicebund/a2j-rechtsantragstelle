@@ -9,13 +9,13 @@ import {
   grundeigentumDone,
   kinderDone,
   kraftfahrzeugeDone,
-  partnerDone,
   wertsachenDone,
   wohnungDone,
 } from "./doneFunctions";
 import { beratungshilfeFinanzielleAngabenEinkommenXstateConfig } from "./einkommen/xstateConfig";
 import { finanzielleAngabeGuards as guards } from "./guards";
 import { berhAntragFinanzielleAngabenPages } from "./pages";
+import { beratungshilfeFinanzielleAngabenPartnerXstateConfig } from "./partner/xstateConfig";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 
 const steps = xStateTargetsFromPagesConfig(berhAntragFinanzielleAngabenPages);
@@ -29,87 +29,7 @@ export const finanzielleAngabenXstateConfig = {
   },
   states: {
     einkommen: beratungshilfeFinanzielleAngabenEinkommenXstateConfig,
-    partner: {
-      id: "partner",
-      initial: "partnerschaft",
-      meta: {
-        done: partnerDone,
-      },
-      states: {
-        partnerschaft: {
-          on: {
-            BACK: "#einkommen.einkommen",
-            SUBMIT: [
-              {
-                guard: guards.hasPartnerschaftYes,
-                target: "zusammenleben",
-              },
-              "#kinder.kinder-frage",
-            ],
-          },
-        },
-        zusammenleben: {
-          on: {
-            BACK: "partnerschaft",
-            SUBMIT: [
-              {
-                guard: guards.zusammenlebenYes,
-                target: "partner-einkommen",
-              },
-              "unterhalt",
-            ],
-          },
-        },
-        unterhalt: {
-          on: {
-            BACK: "zusammenleben",
-            SUBMIT: [
-              {
-                guard: guards.unterhaltYes,
-                target: "unterhalts-summe",
-              },
-              "keine-rolle",
-            ],
-          },
-        },
-        "keine-rolle": {
-          on: {
-            BACK: "unterhalt",
-            SUBMIT: "#kinder.kinder-frage",
-          },
-        },
-        "unterhalts-summe": {
-          on: {
-            BACK: "unterhalt",
-            SUBMIT: "partner-name",
-          },
-        },
-        "partner-name": {
-          on: {
-            BACK: "unterhalts-summe",
-            SUBMIT: "#kinder.kinder-frage",
-          },
-        },
-        "partner-einkommen": {
-          on: {
-            BACK: "zusammenleben",
-            SUBMIT: [
-              {
-                guard: guards.partnerEinkommenYes,
-                target: "partner-einkommen-summe",
-              },
-              "#kinder.kinder-frage",
-            ],
-          },
-        },
-        "partner-einkommen-summe": {
-          on: {
-            BACK: "partner-einkommen",
-            SUBMIT: "#kinder.kinder-frage",
-          },
-        },
-      },
-    },
+    partner: beratungshilfeFinanzielleAngabenPartnerXstateConfig,
     kinder: {
       id: "kinder",
       initial: "kinder-frage",
