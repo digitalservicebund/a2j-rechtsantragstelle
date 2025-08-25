@@ -1,5 +1,4 @@
 import type { Flow } from "~/domains/flows.server";
-import { hasOptionalString } from "~/domains/guards.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import {
   fileUploadRelevant,
@@ -162,9 +161,7 @@ export const prozesskostenhilfeFormular = {
         nextFlowEntrypoint: "#persoenliche-daten",
       }),
       "persoenliche-daten": getPersoenlicheDatenXstateConfig(
-        ({ context }) =>
-          prozesskostenhilfePersoenlicheDatenDone({ context }) &&
-          hasOptionalString(context.telefonnummer),
+        ({ context }) => prozesskostenhilfePersoenlicheDatenDone({ context }),
         {
           backToCallingFlow: [
             {
