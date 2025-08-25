@@ -7,7 +7,7 @@ export const readSecretOrEnvVar = (
 ) => {
   const readFromEnv = process.env[envVar]?.trim() ?? fallback;
   try {
-    return fs.readFileSync(secretPath, "utf8") ?? readFromEnv;
+    return fs.readFileSync(secretPath, "utf8").trim() ?? readFromEnv;
   } catch {
     return readFromEnv;
   }

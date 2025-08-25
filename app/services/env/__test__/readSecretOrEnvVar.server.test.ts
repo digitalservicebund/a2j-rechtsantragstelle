@@ -11,19 +11,19 @@ describe("readSecretOrEnvVar", () => {
     vi.unstubAllEnvs();
   });
 
-  it("reads from filesystem if possible", () => {
-    mockedReadFileSync.mockReturnValueOnce("readFromDisk");
+  it("reads trimmed from filesystem", () => {
+    mockedReadFileSync.mockReturnValueOnce(" readFromDisk\n ");
     expect(readSecretOrEnvVar("/mock/path", "ENV_VAR", "fallback")).toBe(
       "readFromDisk",
     );
     expect(mockedReadFileSync).toHaveBeenCalledWith("/mock/path", "utf8");
   });
 
-  it("reads from environment variables if file-read fails", () => {
+  it("reads trimmed from environment variables if file-read fails", () => {
     vi.mocked(fs.readFileSync).mockImplementationOnce(() => {
       throw new Error("File Now Found");
     });
-    vi.stubEnv("ENV_VAR", "readFromEnvVar");
+    vi.stubEnv("ENV_VAR", " readFromEnvVar");
     expect(readSecretOrEnvVar("/mock/path", "ENV_VAR", "fallback")).toBe(
       "readFromEnvVar",
     );
