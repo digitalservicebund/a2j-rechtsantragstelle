@@ -36,7 +36,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
       minderjaehrig: YesNoAnswer,
     },
   },
-  geburtsdatum: {
+  vereinfachteErklaerungGeburtsdatum: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
     pageSchema: {
       child: kinderSchema.pick({ geburtsdatum: true }),
