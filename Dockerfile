@@ -35,4 +35,4 @@ COPY --link --chown=node:node --from=appStageForCopy /a2j-app/ ./
 COPY --link --from=contentStageForCopy /content.json ./
 EXPOSE 3000
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD [ "node ./server.js" ]
+CMD [ "node", "./server.js" ]
