@@ -1,27 +1,19 @@
-import mapValues from "lodash/mapValues";
-import { hasOptionalString } from "~/domains/guards.server";
-import {
-  staatlicheLeistungenIsBuergergeld,
-  staatlicheLeistungenIsKeine,
-} from "~/domains/shared/formular/finanzielleAngaben/guards";
-import { getPersoenlicheDatenXstateConfig } from "~/domains/shared/formular/persoenlicheDaten/xStateConfig";
-import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
 import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
 import { finanzielleAngabenArrayConfig as beratungshilfeFormularFinanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
-import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
-import { beratungshilfeFinanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
+import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConfig";
 import { beratungshilfeAntragPages } from "./pages";
-import { beratungshilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
+import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import type { BeratungshilfeFormularUserData } from "./userData";
+import { weitereAngabenDone } from "./weitereAngaben/doneFunctions";
 
 const showNachbefragung = await isFeatureFlagEnabled("showNachbefragung");
-
-const stepIds = mapValues(beratungshilfeAntragPages, (v) => v.stepId);
+const steps = xStateTargetsFromPagesConfig(beratungshilfeAntragPages);
 
 export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
@@ -37,51 +29,14 @@ export const beratungshilfeXstateConfig = {
       initial: "start",
       meta: { done: () => true },
       states: {
-        [stepIds.start]: { on: { SUBMIT: "#grundvoraussetzungen" } },
+        [steps.start.relative]: { on: { SUBMIT: "#grundvoraussetzungen" } },
       },
     },
     grundvoraussetzungen: grundvorraussetzungXstateConfig,
     "anwaltliche-vertretung": anwaltlicheVertretungXstateConfig,
     rechtsproblem: rechtsproblemXstateConfig,
-    "finanzielle-angaben": beratungshilfeFinanzielleAngabenXstateConfig,
-    "persoenliche-daten": getPersoenlicheDatenXstateConfig(
-      ({ context }) =>
-        beratungshilfePersoenlicheDatenDone({ context }) &&
-        hasOptionalString(context.telefonnummer),
-      {
-        backToCallingFlow: [
-          {
-            guard: ({ context }) =>
-              staatlicheLeistungenIsKeine({ context }) &&
-              finanzielleAngabeGuards.hasAusgabenYes({ context }),
-            target: "#ausgaben.uebersicht",
-          },
-          {
-            guard: staatlicheLeistungenIsKeine,
-            target: "#ausgaben",
-          },
-          {
-            guard: ({ context }) =>
-              staatlicheLeistungenIsBuergergeld({ context }) &&
-              finanzielleAngabeGuards.hasGrundeigentumYes({ context }),
-            target: "#eigentum.grundeigentum.uebersicht",
-          },
-          {
-            guard: staatlicheLeistungenIsBuergergeld,
-            target: "#eigentum.grundeigentum",
-          },
-          "#finanzielle-angaben.einkommen.staatliche-leistungen",
-        ],
-        nextFlowEntrypoint: showNachbefragung
-          ? "nachbefragung"
-          : "#weitere-angaben",
-      },
-      {
-        nachbefragung: {
-          on: { BACK: "telefonnummer", SUBMIT: "#weitere-angaben" },
-        },
-      },
-    ),
+    "finanzielle-angaben": finanzielleAngabenXstateConfig,
+    "persoenliche-daten": persoenlicheDatenXstateConfig,
     "weitere-angaben": {
       id: "weitere-angaben",
       meta: { done: weitereAngabenDone },
@@ -92,6 +47,6 @@ export const beratungshilfeXstateConfig = {
         SUBMIT: "#abgabe",
       },
     },
-    abgabe: await abgabeXstateConfig("#weitere-angaben"),
+    abgabe: abgabeXstateConfig,
   },
 } satisfies Config<BeratungshilfeFormularUserData>;

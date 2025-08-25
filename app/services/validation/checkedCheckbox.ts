@@ -1,12 +1,7 @@
 import { z } from "zod";
-import { customRequiredErrorMessage } from "~/services/validation/YesNoAnswer";
 
-export const checkedRequired = z.enum(["on"], customRequiredErrorMessage);
-
-export const checkedOptional = z.enum(
-  ["on", "off"],
-  customRequiredErrorMessage,
-);
+export const checkedRequired = z.enum(["on"]);
+export const checkedOptional = z.enum(["on", "off"]);
 
 export type CheckedOptional = z.infer<typeof checkedOptional>;
 
@@ -14,6 +9,9 @@ export type ExclusiveCheckboxes = {
   none: CheckedOptional;
   [key: string]: CheckedOptional;
 };
+
+export const invalidComboError =
+  "Die Option 'Nichts trifft zu' kann nicht mit anderen Optionen kombiniert werden";
 
 export const exclusiveCheckboxesSchema = (checkboxNames: string[]) =>
   z
@@ -42,6 +40,8 @@ export const exclusiveCheckboxesSchema = (checkboxNames: string[]) =>
           (checkboxes.none === "off" && checkboxValues.some((v) => v === "on"))
         );
       },
-      { error: "Ungültige Kombination" },
+      {
+        error: invalidComboError,
+      },
     )
     .meta({ description: "exclusive_checkbox" });

@@ -17,7 +17,7 @@ COPY ./build ./build/
 COPY ./app/services ./app/services/
 COPY ./data ./data/
 COPY ./public ./public/
-COPY ./start.sh ./server.js package.json ./
+COPY ./server.js package.json ./
 
 FROM scratch AS content
 COPY ./content.json /
@@ -30,8 +30,9 @@ RUN apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
 
 USER node
 WORKDIR /a2j
+ENV NODE_ENV=production
 COPY --link --chown=node:node --from=appStageForCopy /a2j-app/ ./
 COPY --link --from=contentStageForCopy /content.json ./
 EXPOSE 3000
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["sh", "./start.sh"]
+CMD [ "node", "./server.js" ]

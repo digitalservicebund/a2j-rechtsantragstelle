@@ -11,6 +11,7 @@ describe("beratungshilfePersoenlicheDatenDone", () => {
     houseNumber: "123",
     plz: "12345",
     ort: "ABC",
+    telefonnummer: "", // optional input but state should not be done before clicking next
   };
 
   it("should return true when all required fields are present", () => {

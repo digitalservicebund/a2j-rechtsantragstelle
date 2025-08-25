@@ -1,5 +1,4 @@
 import type { Flow } from "~/domains/flows.server";
-import { hasOptionalString } from "~/domains/guards.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import {
   fileUploadRelevant,
@@ -26,7 +25,6 @@ import {
   getArrayIndexStrings,
   geldAnlagenStrings,
 } from "~/domains/shared/formular/stringReplacements";
-import { weitereAngabenDone } from "~/domains/shared/formular/weitereAngaben/doneFunctions";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import {
   couldLiveFromUnterhalt,
@@ -46,6 +44,7 @@ import {
   getMissingInformationStrings,
 } from "./stringReplacements";
 import { type ProzesskostenhilfeFormularUserData } from "./userData";
+import { weitereAngabenDone } from "./weitereAngaben/doneFunctions";
 
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
 const showPKHZusammenfassung = await isFeatureFlagEnabled(
@@ -164,9 +163,7 @@ export const prozesskostenhilfeFormular = {
         nextFlowEntrypoint: "#persoenliche-daten",
       }),
       "persoenliche-daten": getPersoenlicheDatenXstateConfig(
-        ({ context }) =>
-          prozesskostenhilfePersoenlicheDatenDone({ context }) &&
-          hasOptionalString(context.telefonnummer),
+        ({ context }) => prozesskostenhilfePersoenlicheDatenDone({ context }),
         {
           backToCallingFlow: [
             {

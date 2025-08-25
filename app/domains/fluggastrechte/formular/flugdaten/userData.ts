@@ -6,10 +6,7 @@ import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
 const fourYearsAgoSchema = createDateSchema({
@@ -27,29 +24,20 @@ export const fluggastrechteFlugdatenInputSchema = {
   tatsaechlicherFlug: YesNoAnswer,
   tatsaechlicherAnkunftsDatum: fourYearsAgoSchema,
   tatsaechlicherAnkunftsZeit: timeSchema,
-  ersatzverbindungArt: z.enum(
-    ["flug", "etwasAnderes", "keineAnkunft"],
-    customRequiredErrorMessage,
-  ),
+  ersatzverbindungArt: z.enum(["flug", "etwasAnderes", "keineAnkunft"]),
   fluggesellschaftStrasseHausnummer: stringRequiredSchema,
   fluggesellschaftPostleitzahl: stringRequiredSchema,
   fluggesellschaftOrt: stringRequiredSchema,
   fluggesellschaftLand: stringRequiredSchema,
-  zwischenstoppAnzahl: z.enum(
-    ["no", "oneStop", "twoStop", "threeStop"],
-    customRequiredErrorMessage,
-  ),
-  verspaeteterFlug: z.enum(
-    [
-      "startAirportFirstZwischenstopp",
-      "firstZwischenstoppEndAirport",
-      "firstAirportSecondZwischenstopp",
-      "secondZwischenstoppEndAirport",
-      "secondAirportThirdZwischenstopp",
-      "thirdZwischenstoppEndAirport",
-    ],
-    customRequiredErrorMessage,
-  ),
+  zwischenstoppAnzahl: z.enum(["no", "oneStop", "twoStop", "threeStop"]),
+  verspaeteterFlug: z.enum([
+    "startAirportFirstZwischenstopp",
+    "firstZwischenstoppEndAirport",
+    "firstAirportSecondZwischenstopp",
+    "secondZwischenstoppEndAirport",
+    "secondAirportThirdZwischenstopp",
+    "thirdZwischenstoppEndAirport",
+  ]),
   anschlussFlugVerpasst: YesNoAnswer,
   ersterZwischenstopp: airportSchema.optional(),
   zweiterZwischenstopp: airportSchema.optional(),

@@ -7,10 +7,11 @@ import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
 import { configDotenv } from "dotenv";
+import { config } from "~/services/env/env.server";
 import { applyDataConversions } from "./convertJsonDataTable";
 import { extractJsonFilesFromZip } from "../../util/file/extractJsonFilesFromZip";
 
-const getEncryptionKey = () => process.env.GERICHTSFINDER_ENCRYPTION_KEY;
+const getEncryptionKey = () => config().GERICHTSFINDER_ENCRYPTION_KEY;
 const OUTFILE = path.resolve(
   path.join(process.cwd(), "data/courts/courtData.enc"),
 );

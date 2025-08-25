@@ -20,20 +20,18 @@ import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import {
-  customRequiredErrorMessage,
-  YesNoAnswer,
-} from "~/services/validation/YesNoAnswer";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "./einkuenfte/userData";
 import { prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema } from "./einkuenfte/userData";
 
 const optionalMoneyInputSchema = buildMoneyValidationSchema().or(z.literal(""));
 
-export const zahlungspflichtigerInputSchema = z.enum(
-  ["myself", "myselfAndPartner", "myselfAndSomeoneElse"],
-  customRequiredErrorMessage,
-);
+export const zahlungspflichtigerInputSchema = z.enum([
+  "myself",
+  "myselfAndPartner",
+  "myselfAndSomeoneElse",
+]);
 
 const finanzielleEinkuenfteSchemaWithoutPageData = omit(
   prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema,
@@ -83,17 +81,14 @@ export const prozesskostenhilfeFinanzielleAngabenInputSchema = {
   utilitiesCostOwnShared: buildMoneyValidationSchema(),
   versicherungen: z.array(
     z.object({
-      art: z.enum(
-        [
-          "haftpflichtversicherung",
-          "hausratsversicherung",
-          "unfallversicherung",
-          "pivateKrankenzusatzversicherung",
-          "kfzVersicherung",
-          "sonstige",
-        ],
-        customRequiredErrorMessage,
-      ),
+      art: z.enum([
+        "haftpflichtversicherung",
+        "hausratsversicherung",
+        "unfallversicherung",
+        "pivateKrankenzusatzversicherung",
+        "kfzVersicherung",
+        "sonstige",
+      ]),
       beitrag: buildMoneyValidationSchema(),
       sonstigeArt: stringOptionalSchema,
     }),
