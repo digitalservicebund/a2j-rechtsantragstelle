@@ -17,7 +17,7 @@ COPY ./build ./build/
 COPY ./app/services ./app/services/
 COPY ./data ./data/
 COPY ./public ./public/
-COPY ./start.sh ./server.js package.json ./
+COPY ./server.js package.json ./
 
 FROM scratch AS content
 COPY ./content.json /
@@ -34,4 +34,3 @@ COPY --link --chown=node:node --from=appStageForCopy /a2j-app/ ./
 COPY --link --from=contentStageForCopy /content.json ./
 EXPOSE 3000
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["sh", "./start.sh"]
