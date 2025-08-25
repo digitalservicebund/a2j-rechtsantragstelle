@@ -5,7 +5,6 @@ import { type KontopfaendungWegweiserUserData } from "../userData";
 import { kontopfaendungWegweiserXstateConfig } from "../xStateConfig";
 
 const cases = [
-  [{}, ["/start", "/kontopfaendung", "/ergebnis/keine-kontopfaendung"]],
   [
     { hasKontopfaendung: "nein" },
     ["/start", "/kontopfaendung", "/ergebnis/keine-kontopfaendung"],
@@ -34,15 +33,6 @@ const cases = [
       "/p-konto",
       "/p-konto-probleme",
       "/zwischenseite-unterhalt",
-    ],
-  ],
-  [
-    {},
-    [
-      "/zwischenseite-unterhalt",
-      "/kinder",
-      "/partner",
-      "/zwischenseite-einkuenfte",
     ],
   ],
   [{ hasKinder: "no" }, ["/kinder", "/partner"]],

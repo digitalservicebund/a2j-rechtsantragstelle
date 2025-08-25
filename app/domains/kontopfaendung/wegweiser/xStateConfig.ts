@@ -9,11 +9,7 @@ export const kontopfaendungWegweiserXstateConfig = {
   id: "/kontopfaendung/wegweiser",
   initial: stepIds.start,
   states: {
-    [stepIds.start]: {
-      on: {
-        SUBMIT: stepIds.kontopfaendung,
-      },
-    },
+    [stepIds.start]: { on: { SUBMIT: stepIds.kontopfaendung } },
     [stepIds.kontopfaendung]: {
       on: {
         SUBMIT: [
@@ -21,7 +17,10 @@ export const kontopfaendungWegweiserXstateConfig = {
             target: stepIds.pKonto,
             guard: ({ context }) => context.hasKontopfaendung === "ja",
           },
-          stepIds.ergebnisKeineKontopfaendung,
+          {
+            target: stepIds.ergebnisKeineKontopfaendung,
+            guard: ({ context }) => context.hasKontopfaendung === "nein",
+          },
         ],
         BACK: stepIds.start,
       },
@@ -37,7 +36,12 @@ export const kontopfaendungWegweiserXstateConfig = {
             guard: ({ context }) =>
               context.hasPKonto === "ja" || context.hasPKonto === "nein",
           },
-          stepIds.pKontoProbleme,
+          {
+            target: stepIds.pKontoProbleme,
+            guard: ({ context }) =>
+              context.hasPKonto === "nichtAktiv" ||
+              context.hasPKonto === "nichtEingerichtet",
+          },
         ],
         BACK: stepIds.kontopfaendung,
       },
@@ -68,7 +72,10 @@ export const kontopfaendungWegweiserXstateConfig = {
             target: stepIds.kinderWohnenZusammen,
             guard: ({ context }) => context.hasKinder === "yes",
           },
-          stepIds.partner,
+          {
+            target: stepIds.partner,
+            guard: ({ context }) => context.hasKinder === "no",
+          },
         ],
         BACK: stepIds.zwischenseiteUnterhalt,
       },
