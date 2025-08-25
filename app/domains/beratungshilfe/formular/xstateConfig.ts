@@ -1,5 +1,4 @@
 import mapValues from "lodash/mapValues";
-import { hasOptionalString } from "~/domains/guards.server";
 import {
   staatlicheLeistungenIsBuergergeld,
   staatlicheLeistungenIsKeine,
@@ -45,9 +44,7 @@ export const beratungshilfeXstateConfig = {
     rechtsproblem: rechtsproblemXstateConfig,
     "finanzielle-angaben": finanzielleAngabenXstateConfig,
     "persoenliche-daten": getPersoenlicheDatenXstateConfig(
-      ({ context }) =>
-        beratungshilfePersoenlicheDatenDone({ context }) &&
-        hasOptionalString(context.telefonnummer),
+      ({ context }) => beratungshilfePersoenlicheDatenDone({ context }),
       {
         backToCallingFlow: [
           {

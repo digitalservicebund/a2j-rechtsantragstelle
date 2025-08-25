@@ -10,7 +10,7 @@ const context: ProzesskostenhilfePersoenlicheDatenUserData = {
   plz: "10119",
   street: "Straße",
   houseNumber: "33",
-  telefonnummer: "",
+  telefonnummer: "", // optional input but state should not be done before clicking next
 };
 
 const contextWithPhonenumber = { ...context, telefonnummer: "12345" };
