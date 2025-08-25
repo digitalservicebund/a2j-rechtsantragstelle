@@ -2,8 +2,8 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { pkhFormularFinanzielleAngabenKinderPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/kinder/pages";
 import type { Config } from "~/services/flow/server/buildFlowController";
 import { kinderDone } from "../doneFunctions";
-import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 import { partnerEinkuenfteGuards } from "../einkuenfte/guards";
+import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenKinderPages,
