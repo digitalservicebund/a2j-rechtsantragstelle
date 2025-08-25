@@ -19,6 +19,7 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
 import { type BeratungshilfeFinanzielleAngabenEinkommenUserData } from "./einkommen/userData";
+import { type BeratungshilfeFinanzielleAngabenPartnerUserData } from "./partner/userData";
 
 export const beratungshilfeFinanzielleAngabenInputSchema = {
   ...finanzielleAngabenPartnerInputSchema,
@@ -66,4 +67,5 @@ const _partialSchema = z
 export type BeratungshilfeFinanzielleAngabenUserData = z.infer<
   typeof _partialSchema
 > &
-  BeratungshilfeFinanzielleAngabenEinkommenUserData;
+  BeratungshilfeFinanzielleAngabenEinkommenUserData &
+  BeratungshilfeFinanzielleAngabenPartnerUserData;
