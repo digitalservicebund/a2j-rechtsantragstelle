@@ -1,59 +1,62 @@
-import { type GenericGuard } from "~/domains/guards.server";
-import { type PersoenlicheDatenUserData } from "~/domains/shared/formular/persoenlicheDaten/userData";
-import {
-  type FlowConfigTransitions,
-  type Config,
-} from "~/services/flow/server/buildFlowController";
+import { hasGesetzlicheVertretungYes } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/guards";
+import { prozesskostenhilfePersoenlicheDatenDone } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/doneFunctions";
+import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import { type Config } from "~/services/flow/server/buildFlowController";
 
-export function getPersoenlicheDatenXstateConfig(
-  doneFunction: GenericGuard<PersoenlicheDatenUserData>,
-  transitions?: FlowConfigTransitions,
-  subsequentStates?: Config<PersoenlicheDatenUserData>["states"],
-): Config<PersoenlicheDatenUserData> {
-  return {
-    id: "persoenliche-daten",
-    initial: "start",
-    meta: {
-      done: doneFunction,
+export const persoenlicheDatenXstateConfig = {
+  id: "persoenliche-daten",
+  initial: "start",
+  meta: {
+    done: prozesskostenhilfePersoenlicheDatenDone,
+  },
+  states: {
+    start: {
+      on: {
+        SUBMIT: "name",
+        BACK: [
+          {
+            guard: hasGesetzlicheVertretungYes,
+            target: "#gesetzliche-vertretung.daten",
+          },
+          "#gesetzliche-vertretung",
+        ],
+      },
     },
-    states: {
-      start: {
-        on: {
-          SUBMIT: "name",
-          BACK: transitions?.backToCallingFlow,
-        },
+    name: {
+      on: {
+        BACK: "start",
+        SUBMIT: "geburtsdatum",
       },
-      name: {
-        on: {
-          BACK: "start",
-          SUBMIT: "geburtsdatum",
-        },
-      },
-      geburtsdatum: {
-        on: {
-          BACK: "name",
-          SUBMIT: "plz",
-        },
-      },
-      plz: {
-        on: {
-          BACK: "geburtsdatum",
-          SUBMIT: "adresse",
-        },
-      },
-      adresse: {
-        on: {
-          BACK: "plz",
-          SUBMIT: "telefonnummer",
-        },
-      },
-      telefonnummer: {
-        on: {
-          BACK: "adresse",
-          SUBMIT: transitions?.nextFlowEntrypoint,
-        },
-      },
-      ...subsequentStates,
     },
-  };
-}
+    geburtsdatum: {
+      on: {
+        BACK: "name",
+        SUBMIT: "plz",
+      },
+    },
+    plz: {
+      on: {
+        BACK: "geburtsdatum",
+        SUBMIT: "adresse",
+      },
+    },
+    adresse: {
+      on: {
+        BACK: "plz",
+        SUBMIT: "telefonnummer",
+      },
+    },
+    telefonnummer: {
+      on: {
+        BACK: "adresse",
+        SUBMIT: "beruf",
+      },
+    },
+    beruf: {
+      on: {
+        BACK: "telefonnummer",
+        SUBMIT: "#weitere-angaben",
+      },
+    },
+  },
+} satisfies Config<ProzesskostenhilfeFormularUserData>;
