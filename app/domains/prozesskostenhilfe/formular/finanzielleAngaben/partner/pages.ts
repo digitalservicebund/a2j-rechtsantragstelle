@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { adresseSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
@@ -178,7 +178,11 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsplatz-entfernung",
     pageSchema: {
-      "partner-arbeitsplatz": z.object(adresseSchema),
+      "partner-arbeitsplatz": z.object({
+        strasseHausnummer: stringRequiredSchema,
+        plz: stringRequiredSchema.pipe(postcodeSchema),
+        ort: stringRequiredSchema,
+      }),
       "partner-arbeitsplatzEntfernung": integerSchema.refine(
         (distance) => distance > 0,
         {
