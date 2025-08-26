@@ -3,7 +3,7 @@ import { z } from "zod";
 export const checkedRequired = z.enum(["on"]);
 export const checkedOptional = z.enum(["on", "off"]);
 
-export type CheckedOptional = z.infer<typeof checkedOptional>;
+type CheckedOptional = z.infer<typeof checkedOptional>;
 
 export type ExclusiveCheckboxes = {
   none: CheckedOptional;
