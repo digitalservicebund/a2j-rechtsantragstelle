@@ -79,7 +79,7 @@ export const beratungshilfeFinanzielleAngabenKinderXstateConfig = {
         ],
         "add-kinder": {
           guard: isValidKinderArrayIndex,
-          target: "kinder",
+          target: steps.kinder.relative,
         },
       },
     },
