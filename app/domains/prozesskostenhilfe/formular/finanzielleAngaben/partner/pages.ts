@@ -1,9 +1,5 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import {
-  financialEntryInputSchema,
-  partnerschaftInputSchema,
-} from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { adresseSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
@@ -18,7 +14,7 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerschaft: {
     stepId: "finanzielle-angaben/partner/partnerschaft",
     pageSchema: {
-      partnerschaft: partnerschaftInputSchema,
+      partnerschaft: z.enum(["yes", "no", "separated", "widowed"]),
     },
   },
   partnerZusammenleben: {
@@ -198,9 +194,6 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerArbeitsausgaben: {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben",
-    pageSchema: {
-      arbeitsausgaben: z.array(financialEntryInputSchema),
-    },
     arrayPages: {
       "partner-daten": {
         pageSchema: {
@@ -281,16 +274,6 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerWeitereEinkuenfte: {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte",
-    pageSchema: {
-      "partner-weitereEinkuenfte#beschreibung": z.string().min(1, "required"),
-      "partner-weitereEinkuenfte#zahlungsfrequenz": z.enum([
-        "monthly",
-        "quarterly",
-        "yearly",
-        "one-time",
-      ]),
-      "weitereEinkuenfte#betrag": buildMoneyValidationSchema(),
-    },
     arrayPages: {
       "partner-daten": {
         pageSchema: {

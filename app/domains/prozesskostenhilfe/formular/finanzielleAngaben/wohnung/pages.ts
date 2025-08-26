@@ -1,5 +1,5 @@
+import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { livingSituationInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -8,7 +8,7 @@ export const pkhFormularFinanzielleAngabenWohnungPages = {
   wohnungAlleineZusammen: {
     stepId: "finanzielle-angaben/wohnung/alleine-zusammen",
     pageSchema: {
-      livingSituation: livingSituationInputSchema,
+      livingSituation: z.enum(["alone", "withRelatives", "withOthers"]),
     },
   },
   wohnungAnzahlMitbewohner: {

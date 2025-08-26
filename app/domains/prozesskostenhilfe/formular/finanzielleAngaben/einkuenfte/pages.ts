@@ -1,9 +1,5 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import {
-  financialEntryInputSchema,
-  staatlicheLeistungenInputSchema,
-} from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { adresseSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
@@ -18,7 +14,10 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
     stepId: "finanzielle-angaben/einkuenfte/staatliche-leistungen",
     pageSchema: {
       staatlicheLeistungen: z.enum([
-        ...staatlicheLeistungenInputSchema.options,
+        "grundsicherung",
+        "asylbewerberleistungen",
+        "buergergeld",
+        "keine",
         "arbeitslosengeld",
       ]),
     },
@@ -102,9 +101,6 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   },
   arbeitsausgaben: {
     stepId: "finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben",
-    pageSchema: {
-      arbeitsausgaben: z.array(financialEntryInputSchema),
-    },
     arrayPages: {
       daten: {
         pageSchema: {
@@ -181,16 +177,6 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   },
   weitereEinkuenfte: {
     stepId: "finanzielle-angaben/einkuenfte/weitere-einkuenfte",
-    pageSchema: {
-      "weitereEinkuenfte#beschreibung": z.string().min(1, "required"),
-      "weitereEinkuenfte#zahlungsfrequenz": z.enum([
-        "monthly",
-        "quarterly",
-        "yearly",
-        "one-time",
-      ]),
-      "weitereEinkuenfte#betrag": buildMoneyValidationSchema(),
-    },
     arrayPages: {
       daten: {
         pageSchema: {
