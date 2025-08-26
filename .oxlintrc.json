@@ -11,6 +11,7 @@
     "node": true,
     "shared-node-browser": true
   },
+  // ts-eslint recommended rules
   "rules": {
     "for-direction": "error",
     "no-async-promise-executor": "error",
@@ -276,6 +277,7 @@
       },
       "plugins": ["import"]
     },
+    // typescript-eslint
     {
       "files": ["**/*.{ts,tsx}"],
       "rules": {

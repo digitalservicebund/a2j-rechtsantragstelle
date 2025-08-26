@@ -1,6 +1,5 @@
 import vitest from "@vitest/eslint-plugin";
 import { FlatCompat } from "@eslint/eslintrc";
-import eslint from "@eslint/js";
 import globals from "globals";
 import react from "eslint-plugin-react";
 import jsxA11y from "eslint-plugin-jsx-a11y";
@@ -17,8 +16,17 @@ const compat = new FlatCompat({
 });
 
 export default tseslint.config(
-  eslint.configs.recommended,
-  // Global ignores
+  {
+    rules: {
+      "constructor-super": "error",
+      "getter-return": "error",
+      "no-dupe-args": "error",
+      "no-misleading-character-class": "error",
+      "no-octal": "error",
+      "no-undef": "error",
+      "no-unreachable": "error",
+    },
+  },
   {
     ignores: ["**/*", "!app/**", "!tests/**", "!scripts/**"],
   },
