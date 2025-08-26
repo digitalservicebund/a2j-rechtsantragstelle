@@ -4,8 +4,7 @@ import { createDateSchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { today } from "~/util/date";
-import { addYears } from "~/util/date";
+import { addYears, today } from "~/util/date";
 
 export const pkhFormularFinanzielleAngabenKinderPages = {
   kinderFrage: {

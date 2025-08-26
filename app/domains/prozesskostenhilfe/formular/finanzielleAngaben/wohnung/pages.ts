@@ -1,4 +1,4 @@
-import z from "zod";
+import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
