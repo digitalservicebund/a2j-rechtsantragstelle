@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { checkedOptional } from "~/services/validation/checkedCheckbox";
+import {
+  checkedOptional,
+  exclusiveCheckboxesSchema,
+} from "~/services/validation/checkedCheckbox";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
@@ -43,19 +46,20 @@ export const berhAntragFinanzielleAngabenEinkommenPages = {
   weiteresEinkommen: {
     stepId: "finanzielle-angaben/einkommen/weiteres-einkommen",
     pageSchema: {
-      weitereseinkommen: z.object({
-        unterhaltszahlungen: checkedOptional,
-        arbeitlosengeld: checkedOptional,
-        wohngeld: checkedOptional,
-        kindergeld: checkedOptional,
-        bafoeg: checkedOptional,
-        krankengeld: checkedOptional,
-        rente: checkedOptional,
-        elterngeld: checkedOptional,
-        insolvenzgeld: checkedOptional,
-        ueberbrueckungsgeld: checkedOptional,
-        others: checkedOptional,
-      }),
+      weitereseinkommen: exclusiveCheckboxesSchema([
+        "unterhaltszahlungen",
+        "arbeitlosengeld",
+        "wohngeld",
+        "kindergeld",
+        "bafoeg",
+        "krankengeld",
+        "rente",
+        "elterngeld",
+        "insolvenzgeld",
+        "ueberbrueckungsgeld",
+        "others",
+        "none",
+      ]),
     },
   },
   einkommen: {
