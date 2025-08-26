@@ -67,4 +67,3 @@ export type BeratungshilfeFinanzielleAngabenUserData = z.infer<
   BeratungshilfeFinanzielleAngabenPartnerUserData &
   BeratungshilfeFinanzielleAngabenKinderUserData &
   BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData;
-
