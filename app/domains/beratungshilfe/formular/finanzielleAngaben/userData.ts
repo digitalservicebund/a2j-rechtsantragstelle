@@ -7,7 +7,6 @@ import {
   grundeigentumArraySchema,
   kinderArraySchema,
   kraftfahrzeugeArraySchema,
-  unterhaltszahlungInputSchema,
   wertsachenArraySchema,
   livingSituationInputSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
@@ -18,6 +17,7 @@ import { buildMoneyValidationSchema } from "~/services/validation/money/buildMon
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
+import { type BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData } from "./andereUnterhaltszahlungen/userData";
 import { type BeratungshilfeFinanzielleAngabenEinkommenUserData } from "./einkommen/userData";
 import { type BeratungshilfeFinanzielleAngabenPartnerUserData } from "./partner/userData";
 
@@ -41,8 +41,6 @@ export const beratungshilfeFinanzielleAngabenInputSchema = {
   apartmentCostOwnShare: buildMoneyValidationSchema(),
   apartmentCostFull: buildMoneyValidationSchema(),
   apartmentCostAlone: buildMoneyValidationSchema(),
-  hasWeitereUnterhaltszahlungen: YesNoAnswer,
-  unterhaltszahlungen: z.array(unterhaltszahlungInputSchema),
   hasAusgaben: YesNoAnswer,
   ausgabensituation: besondereBelastungenInputSchema,
   ausgaben: z.array(
@@ -68,4 +66,5 @@ export type BeratungshilfeFinanzielleAngabenUserData = z.infer<
   typeof _partialSchema
 > &
   BeratungshilfeFinanzielleAngabenEinkommenUserData &
-  BeratungshilfeFinanzielleAngabenPartnerUserData;
+  BeratungshilfeFinanzielleAngabenPartnerUserData &
+  BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData;

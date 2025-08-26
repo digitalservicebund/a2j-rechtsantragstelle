@@ -1,8 +1,8 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import type { Config } from "~/services/flow/server/types";
+import { beratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenXStateConfig } from "./andereUnterhaltszahlungen/xstateConfig";
 import {
-  andereUnterhaltszahlungenDone,
   ausgabenDone,
   eigentumDone,
   geldanlagenDone,
@@ -170,65 +170,8 @@ export const finanzielleAngabenXstateConfig = {
         },
       },
     },
-    "andere-unterhaltszahlungen": {
-      id: "andere-unterhaltszahlungen",
-      initial: "frage",
-      meta: { done: andereUnterhaltszahlungenDone },
-      states: {
-        frage: {
-          on: {
-            BACK: [
-              {
-                guard: guards.staatlicheLeistungenIsBuergergeld,
-                target: "#einkommen.staatliche-leistungen",
-              },
-              {
-                guard: guards.hasKinderYes,
-                target: "#kinder.uebersicht",
-              },
-              "#kinder.kinder-frage",
-            ],
-            SUBMIT: [
-              {
-                guard: guards.hasWeitereUnterhaltszahlungenYes,
-                target: "uebersicht",
-              },
-              "#wohnung",
-            ],
-          },
-        },
-        uebersicht: {
-          on: {
-            BACK: "frage",
-            SUBMIT: [
-              {
-                guard: guards.hasWeitereUnterhaltszahlungenYesAndEmptyArray,
-                target: "warnung",
-              },
-              "#wohnung",
-            ],
-            "add-unterhaltszahlungen": "person",
-          },
-        },
-        warnung: {
-          on: {
-            BACK: "uebersicht",
-            SUBMIT: "#wohnung",
-          },
-        },
-        person: {
-          initial: "daten",
-          states: {
-            daten: {
-              on: {
-                BACK: "#andere-unterhaltszahlungen.uebersicht",
-                SUBMIT: "#andere-unterhaltszahlungen.uebersicht",
-              },
-            },
-          },
-        },
-      },
-    },
+    "andere-unterhaltszahlungen":
+      beratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenXStateConfig,
     wohnung: {
       id: "wohnung",
       initial: "wohnsituation",
