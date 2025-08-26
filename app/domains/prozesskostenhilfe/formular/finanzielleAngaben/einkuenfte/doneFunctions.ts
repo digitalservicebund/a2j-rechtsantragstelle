@@ -4,7 +4,7 @@ import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "~/d
 import { staatlicheLeistungenIsBuergergeld } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
-export type ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
+type ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData>;
 
 export const staatlicheLeistungenDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =

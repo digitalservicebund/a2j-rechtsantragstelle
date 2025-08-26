@@ -10,7 +10,7 @@ import type { BeratungshilfeVorabcheckUserData } from "./beratungshilfe/vorabche
 import type { FlowId } from "./flowIds";
 
 export type BasicTypes = string | number | boolean;
-export type ObjectType = {
+type ObjectType = {
   [key: string]: BasicTypes | BasicTypes[] | ObjectType;
 };
 export type ArrayData = Array<Record<string, BasicTypes>>;

@@ -8,7 +8,7 @@ import InputError from "./InputError";
 import RichText from "../common/RichText";
 import { type ErrorMessageProps } from "../common/types";
 
-export type TextareaProps = Readonly<{
+type TextareaProps = Readonly<{
   name: string;
   description?: string;
   label?: ReactNode;
