@@ -1,7 +1,10 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { unterhaltszahlungInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { createDateSchema } from "~/services/validation/date";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { addYears, today } from "~/util/date";
 
 export const pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   andereUnterhaltszahlungenFrage: {
@@ -18,22 +21,23 @@ export const pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   },
   andereUnterhaltszahlungenPerson: {
     stepId: "finanzielle-angaben/andere-unterhaltszahlungen/person",
-    pageSchema: {
-      unterhaltszahlungen: z.array(unterhaltszahlungInputSchema),
-    },
     arrayPages: {
       daten: {
         pageSchema: {
-          "unterhaltszahlungen#firstName":
-            unterhaltszahlungInputSchema.shape.firstName,
-          "unterhaltszahlungen#surname":
-            unterhaltszahlungInputSchema.shape.surname,
-          "unterhaltszahlungen#familyRelationship":
-            unterhaltszahlungInputSchema.shape.familyRelationship,
-          "unterhaltszahlungen#birthday":
-            unterhaltszahlungInputSchema.shape.birthday,
-          "unterhaltszahlungen#monthlyPayment":
-            unterhaltszahlungInputSchema.shape.monthlyPayment,
+          "unterhaltszahlungen#firstName": stringRequiredSchema,
+          "unterhaltszahlungen#surname": stringRequiredSchema,
+          "unterhaltszahlungen#familyRelationship": z.enum([
+            "mother",
+            "father",
+            "grandmother",
+            "grandfather",
+            "kid",
+          ]),
+          "unterhaltszahlungen#birthday": createDateSchema({
+            earliest: () => addYears(today(), -150),
+            latest: () => today(),
+          }),
+          "unterhaltszahlungen#monthlyPayment": buildMoneyValidationSchema(),
         },
       },
     },
