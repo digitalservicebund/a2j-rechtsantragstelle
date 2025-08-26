@@ -9,7 +9,6 @@ import {
   grundeigentumDone,
   kraftfahrzeugeDone,
   wertsachenDone,
-  wohnungDone,
 } from "./doneFunctions";
 import { beratungshilfeFinanzielleAngabenEinkommenXstateConfig } from "./einkommen/xstateConfig";
 import { finanzielleAngabeGuards as guards } from "./guards";
@@ -17,6 +16,7 @@ import { beratungshilfeFinanzielleAngabenKinderXstateConfig } from "./kinder/xst
 import { berhAntragFinanzielleAngabenPages } from "./pages";
 import { beratungshilfeFinanzielleAngabenPartnerXstateConfig } from "./partner/xstateConfig";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
+import { berhAntragFinanzielleAngabenWohnungXstateConfig } from "./wohnung/xstateConfig";
 
 const steps = xStateTargetsFromPagesConfig(berhAntragFinanzielleAngabenPages);
 
@@ -90,61 +90,7 @@ export const finanzielleAngabenXstateConfig = {
         },
       },
     },
-    wohnung: {
-      id: "wohnung",
-      initial: "wohnsituation",
-      meta: { done: wohnungDone },
-      on: {
-        SUBMIT: "#eigentum",
-      },
-      states: {
-        wohnsituation: {
-          on: {
-            BACK: [
-              {
-                guard: guards.hasWeitereUnterhaltszahlungenYes,
-                target: "#andere-unterhaltszahlungen.uebersicht",
-              },
-              "#andere-unterhaltszahlungen.frage",
-            ],
-            SUBMIT: "groesse",
-          },
-        },
-        groesse: {
-          on: {
-            BACK: "wohnsituation",
-            SUBMIT: [
-              {
-                target: "wohnkosten-allein",
-                guard: guards.livesAlone,
-              },
-              {
-                target: "personen-anzahl",
-                guard: guards.livesNotAlone,
-              },
-            ],
-          },
-        },
-        "wohnkosten-allein": {
-          on: {
-            BACK: "groesse",
-            SUBMIT: "#eigentum",
-          },
-        },
-        "personen-anzahl": {
-          on: {
-            BACK: "groesse",
-            SUBMIT: "wohnkosten-geteilt",
-          },
-        },
-        "wohnkosten-geteilt": {
-          on: {
-            BACK: "personen-anzahl",
-            SUBMIT: "#eigentum",
-          },
-        },
-      },
-    },
+    wohnung: berhAntragFinanzielleAngabenWohnungXstateConfig,
     eigentum: {
       id: "eigentum",
       initial: "eigentum-info",
