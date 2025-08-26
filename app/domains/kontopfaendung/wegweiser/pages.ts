@@ -141,12 +141,6 @@ export const kontopfaendungWegweiserPages = {
       hasPflegegeld: YesNoAnswer,
     },
   },
-  pflegegeldEmpfaenger: {
-    stepId: "pflegegeld-empfaenger",
-    pageSchema: {
-      pflegegeld: z.enum(["selbst", "fremd"]),
-    },
-  },
   wohngeld: {
     stepId: "wohngeld",
     pageSchema: {
