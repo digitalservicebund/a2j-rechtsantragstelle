@@ -3,7 +3,6 @@ import { fluggastrechteInputSchema } from "~/domains/fluggastrechte/formular/use
 import { type FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { fluggastrechteVorabcheckInputSchema } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { type FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
-import { prozesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { beratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
 import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
@@ -35,7 +34,7 @@ const contexts = {
   "/geld-einklagen/vorabcheck": {},
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckInputSchema,
   "/fluggastrechte/formular": fluggastrechteInputSchema,
-  "/prozesskostenhilfe/formular": prozesskostenhilfeFormularUserData,
+  "/prozesskostenhilfe/formular": {},
   "/kontopfaendung/wegweiser": {},
 } as const satisfies Record<FlowId, SchemaObject>;
 
