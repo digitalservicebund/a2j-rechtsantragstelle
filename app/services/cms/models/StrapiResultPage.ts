@@ -7,12 +7,11 @@ import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { StrapiElementWithIdSchema } from "./StrapiElementWithId";
 import { StrapiFlowIdSchema } from "./StrapiFlowId";
 import { StrapiLinkSchema } from "./StrapiLink";
-import { StrapiResultPageTypeSchema } from "./StrapiResultPageType";
 
 export const StrapiResultPageSchema = z.object({
   stepId: z.string(),
   flow_ids: z.array(StrapiFlowIdSchema),
-  pageType: StrapiResultPageTypeSchema,
+  pageType: z.enum(["error", "success", "warning", "info"]),
   heading: StrapiHeadingSchema,
   hintText: StrapiParagraphSchema.nullable(),
   documents: StrapiElementWithIdSchema.nullable(),
