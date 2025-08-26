@@ -1,5 +1,5 @@
 import vitest from "@vitest/eslint-plugin";
-import { FlatCompat } from "@eslint/eslintrc";
+import reactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
 import react from "eslint-plugin-react";
 import jsxA11y from "eslint-plugin-jsx-a11y";
@@ -11,9 +11,6 @@ import path from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
 
 export default tseslint.config(
   {
@@ -60,10 +57,7 @@ export default tseslint.config(
           "react/require-render-return": "error",
         },
       },
-      /**
-       * TODO: flat config of this plugin isn't available yet https://github.com/facebook/react/pull/30774
-       */
-      ...compat.extends("plugin:react-hooks/recommended"),
+      reactHooks.configs["recommended-latest"],
       jsxA11y.flatConfigs.recommended,
     ],
     plugins: {
