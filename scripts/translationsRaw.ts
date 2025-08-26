@@ -2185,7 +2185,7 @@ export const translationsRaw = [
       },
       {
         id: 2147,
-        name: "versicherungen.art.pivateKrankenzusatzversicherung",
+        name: "versicherungen.art.privateKrankenzusatzversicherung",
         value: "Private Krankenzusatzversicherung",
       },
       {
