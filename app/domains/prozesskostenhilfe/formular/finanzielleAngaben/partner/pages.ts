@@ -17,6 +17,19 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       partnerschaft: z.enum(["yes", "no", "separated", "widowed"]),
     },
   },
+  partnerStaatlicheLeistungen: {
+    stepId:
+      "finanzielle-angaben/partner/partner-einkuenfte/partner-staatliche-leistungen",
+    pageSchema: {
+      "partner-staatlicheLeistungen": z.enum([
+        "buergergeld",
+        "arbeitslosengeld",
+        "grundsicherung",
+        "asylbewerberleistungen",
+        "keine",
+      ]),
+    },
+  },
   partnerZusammenleben: {
     stepId: "finanzielle-angaben/partner/zusammenleben",
     pageSchema: {
