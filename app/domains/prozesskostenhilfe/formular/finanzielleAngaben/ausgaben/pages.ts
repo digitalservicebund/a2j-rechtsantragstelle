@@ -1,9 +1,25 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { checkedOptional } from "~/services/validation/checkedCheckbox";
+import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+
+const zahlungspflichtigerSchema = z.enum([
+  "myself",
+  "myselfAndPartner",
+  "myselfAndSomeoneElse",
+]);
+
+const versicherungenArtSchema = z.enum([
+  "haftpflichtversicherung",
+  "hausratsversicherung",
+  "unfallversicherung",
+  "privateKrankenzusatzversicherung",
+  "kfzVersicherung",
+  "sonstige",
+]);
 
 export const pkhFormularFinanzielleAngabenAusgabenPages = {
   ausgabenFrage: {
@@ -15,28 +31,24 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
   ausgabenBesondereBelastungen: {
     stepId: "finanzielle-angaben/ausgaben/besondere-belastungen",
     pageSchema: {
-      besondereBelastungen: besondereBelastungenInputSchema,
+      besondereBelastungen: z.object({
+        pregnancy: checkedOptional,
+        singleParent: checkedOptional,
+        disability: checkedOptional,
+        medicalReasons: checkedOptional,
+      }),
     },
   },
   ausgabenZusammenfassung: {
     stepId: "finanzielle-angaben/ausgaben-zusammenfassung/zusammenfassung",
-    pageSchema: {},
   },
   ausgabenZusammenfassungVersicherungen: {
     stepId: "finanzielle-angaben/ausgaben-zusammenfassung/versicherungen",
-    pageSchema: {},
     arrayPages: {
       daten: {
         pageSchema: {
-          "versicherungen#art": z.enum([
-            "haftpflichtversicherung",
-            "hausratsversicherung",
-            "unfallversicherung",
-            "pivateKrankenzusatzversicherung",
-            "kfzVersicherung",
-            "sonstige",
-          ]),
-          "versicherungen#beitrag": stringRequiredSchema,
+          "versicherungen#art": versicherungenArtSchema,
+          "versicherungen#beitrag": buildMoneyValidationSchema(),
         },
       },
       "sonstige-art": {
@@ -48,7 +60,6 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
   },
   ausgabenZusammenfassungRatenzahlungen: {
     stepId: "finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen",
-    pageSchema: {},
     arrayPages: {
       daten: {
         pageSchema: {
@@ -58,31 +69,27 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       },
       zahlungspflichtiger: {
         pageSchema: {
-          "ratenzahlungen#zahlungspflichtiger": z.enum([
-            "myself",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
+          "ratenzahlungen#zahlungspflichtiger": zahlungspflichtigerSchema,
         },
       },
       betragGemeinsamerAnteil: {
         pageSchema: {
-          "ratenzahlungen#betragGesamt": stringRequiredSchema,
+          "ratenzahlungen#betragGesamt": buildMoneyValidationSchema(),
         },
       },
       betragEigenerAnteil: {
         pageSchema: {
-          "ratenzahlungen#betragEigenerAnteil": stringRequiredSchema,
+          "ratenzahlungen#betragEigenerAnteil": buildMoneyValidationSchema(),
         },
       },
       betragGesamt: {
         pageSchema: {
-          "ratenzahlungen#betragGesamt": stringRequiredSchema,
+          "ratenzahlungen#betragGesamt": buildMoneyValidationSchema(),
         },
       },
       restschuld: {
         pageSchema: {
-          "ratenzahlungen#restschuld": stringRequiredSchema,
+          "ratenzahlungen#restschuld": buildMoneyValidationSchema(),
         },
       },
       laufzeitende: {
@@ -94,7 +101,6 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
   },
   ausgabenZusammenfassungSonstigeAusgaben: {
     stepId: "finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben",
-    pageSchema: {},
     arrayPages: {
       daten: {
         pageSchema: {
@@ -104,26 +110,22 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       },
       zahlungspflichtiger: {
         pageSchema: {
-          "sonstigeAusgaben#zahlungspflichtiger": z.enum([
-            "myself",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
+          "sonstigeAusgaben#zahlungspflichtiger": zahlungspflichtigerSchema,
         },
       },
       betragGemeinsamerAnteil: {
         pageSchema: {
-          "sonstigeAusgaben#betragGesamt": stringRequiredSchema,
+          "sonstigeAusgaben#betragGesamt": buildMoneyValidationSchema(),
         },
       },
       betragEigenerAnteil: {
         pageSchema: {
-          "sonstigeAusgaben#betragEigenerAnteil": stringRequiredSchema,
+          "sonstigeAusgaben#betragEigenerAnteil": buildMoneyValidationSchema(),
         },
       },
       betragGesamt: {
         pageSchema: {
-          "sonstigeAusgaben#betragGesamt": stringRequiredSchema,
+          "sonstigeAusgaben#betragGesamt": buildMoneyValidationSchema(),
         },
       },
     },

@@ -118,7 +118,7 @@ export const eigentumZusammenfassungXstateConfig = {
     },
     warnung: {
       on: {
-        BACK: "#eigentum-zusammenfassung.zusammenfassung",
+        BACK: steps.eigentumZusammenfassung.absolute,
         SUBMIT: "#ausgaben",
       },
     },
