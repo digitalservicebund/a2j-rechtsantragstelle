@@ -7,11 +7,9 @@ import {
   grundeigentumArraySchema,
   kraftfahrzeugeArraySchema,
   wertsachenArraySchema,
-  livingSituationInputSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { pageDataSchema } from "~/services/flow/pageDataSchema";
 import { createDateSchema } from "~/services/validation/date";
-import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -20,6 +18,7 @@ import { type BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData 
 import { type BeratungshilfeFinanzielleAngabenEinkommenUserData } from "./einkommen/userData";
 import { type BeratungshilfeFinanzielleAngabenKinderUserData } from "./kinder/userData";
 import { type BeratungshilfeFinanzielleAngabenPartnerUserData } from "./partner/userData";
+import { type BeratungshilfeFinanzielleAngabenWohnungUserData } from "./wohnung/userData";
 
 export const beratungshilfeFinanzielleAngabenInputSchema = {
   ...finanzielleAngabenPartnerInputSchema,
@@ -33,12 +32,6 @@ export const beratungshilfeFinanzielleAngabenInputSchema = {
   grundeigentum: grundeigentumArraySchema,
   hasWertsache: YesNoAnswer,
   wertsachen: wertsachenArraySchema,
-  livingSituation: livingSituationInputSchema,
-  apartmentSizeSqm: integerSchema,
-  apartmentPersonCount: integerSchema,
-  apartmentCostOwnShare: buildMoneyValidationSchema(),
-  apartmentCostFull: buildMoneyValidationSchema(),
-  apartmentCostAlone: buildMoneyValidationSchema(),
   hasAusgaben: YesNoAnswer,
   ausgabensituation: besondereBelastungenInputSchema,
   ausgaben: z.array(
@@ -66,4 +59,5 @@ export type BeratungshilfeFinanzielleAngabenUserData = z.infer<
   BeratungshilfeFinanzielleAngabenEinkommenUserData &
   BeratungshilfeFinanzielleAngabenPartnerUserData &
   BeratungshilfeFinanzielleAngabenKinderUserData &
-  BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData;
+  BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData &
+  BeratungshilfeFinanzielleAngabenWohnungUserData;
