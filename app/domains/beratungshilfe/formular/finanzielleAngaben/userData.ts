@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { finanzielleAngabenPartnerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/partner/inputSchema";
 import {
   besondereBelastungenInputSchema,
   bankkontenArraySchema,
@@ -21,7 +20,6 @@ import { type BeratungshilfeFinanzielleAngabenPartnerUserData } from "./partner/
 import { type BeratungshilfeFinanzielleAngabenWohnungUserData } from "./wohnung/userData";
 
 export const beratungshilfeFinanzielleAngabenInputSchema = {
-  ...finanzielleAngabenPartnerInputSchema,
   hasBankkonto: YesNoAnswer,
   bankkonten: bankkontenArraySchema,
   hasKraftfahrzeug: YesNoAnswer,
