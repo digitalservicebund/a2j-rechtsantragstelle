@@ -4,15 +4,11 @@ import Kopfzeile from "~/components/layout/Kopfzeile";
 describe("Kopfzeile", () => {
   it("should render the Kopfzeile", () => {
     const { getByText, getByTestId } = render(<Kopfzeile />);
-    expect(
-      getByText("Eine offizielle Website der Bundesrepublik Deutschland"),
-    ).toBeVisible();
-    expect(getByTestId("kopfzeile")).toHaveClass(
-      "flex items-center text-left text-xs sm:text-base",
+    const textElement = getByText(
+      "Offizielle Website - Bundesrepublik Deutschland",
     );
-    const kopfzeileContainer = getByTestId("kopfzeile").children[0];
-    expect(kopfzeileContainer).toHaveClass(
-      "gap-8 sm:gap-16 flex items-center py-0! mx-0!",
-    );
+    const icon = getByTestId("kopfzeileIcon");
+    expect(textElement).toBeVisible();
+    expect(icon).toBeVisible();
   });
 });
