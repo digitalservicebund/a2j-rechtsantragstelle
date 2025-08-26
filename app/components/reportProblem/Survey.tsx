@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { type Survey, SurveyQuestionType } from "posthog-js";
-import { type ElementType, useState } from "react";
+import { type ElementType, useEffect, useState } from "react";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import { FeedbackSuccessMessage } from "~/components/content/userFeedback/FeedbackSuccessMessage";
@@ -45,6 +45,13 @@ export const PosthogSurvey = ({
     },
     styleOverrides,
   );
+  useEffect(() => {
+    const closeDialogOnEscape = (event: KeyboardEvent) =>
+      event.key === "Escape" ? closeSurvey() : null;
+
+    window.addEventListener("keyup", closeDialogOnEscape);
+    return () => window.removeEventListener("keyup", closeDialogOnEscape);
+  }, [closeSurvey]);
 
   const onFeedbackSubmitted = () => {
     if (isCompletelyFilled && posthogClient) {

@@ -29,6 +29,30 @@ describe("ReportProblem", () => {
     expect(getByText("Problem absenden")).toBeInTheDocument();
   });
 
+  it("should close the Survey popup on repeated click", () => {
+    vi.mocked(fetchSurvey).mockReturnValueOnce({
+      questions: [],
+    } as unknown as Survey);
+    const { getByRole, queryByText } = render(<ReportProblem />);
+    const reportButton = getByRole("button");
+    fireEvent.click(reportButton);
+    fireEvent.click(reportButton);
+    expect(queryByText("Abbrechen")).not.toBeInTheDocument();
+    expect(queryByText("Problem absenden")).not.toBeInTheDocument();
+  });
+
+  it("should close the Survey popup on pressing ESC", () => {
+    vi.mocked(fetchSurvey).mockReturnValueOnce({
+      questions: [],
+    } as unknown as Survey);
+    const { getByRole, queryByText } = render(<ReportProblem />);
+    const reportButton = getByRole("button");
+    fireEvent.click(reportButton);
+    fireEvent.keyUp(reportButton, { key: "Escape" });
+    expect(queryByText("Abbrechen")).not.toBeInTheDocument();
+    expect(queryByText("Problem absenden")).not.toBeInTheDocument();
+  });
+
   it("should render null if the survey isn't available", () => {
     vi.mocked(fetchSurvey).mockReturnValueOnce(undefined);
     const { container } = render(<ReportProblem />);
