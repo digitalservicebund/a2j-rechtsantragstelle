@@ -57,7 +57,12 @@ export default tseslint.config(
           "react/require-render-return": "error",
         },
       },
-      reactHooks.configs["recommended-latest"],
+      {
+        rules: {
+          "react-hooks/rules-of-hooks": "error",
+          "react-hooks/exhaustive-deps": "warn",
+        },
+      },
       jsxA11y.flatConfigs.recommended,
     ],
     plugins: {
