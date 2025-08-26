@@ -5,7 +5,6 @@ import {
   bankkontenArraySchema,
   geldanlagenArraySchema,
   grundeigentumArraySchema,
-  kinderArraySchema,
   kraftfahrzeugeArraySchema,
   wertsachenArraySchema,
   livingSituationInputSchema,
@@ -19,12 +18,11 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
 import { type BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData } from "./andereUnterhaltszahlungen/userData";
 import { type BeratungshilfeFinanzielleAngabenEinkommenUserData } from "./einkommen/userData";
+import { type BeratungshilfeFinanzielleAngabenKinderUserData } from "./kinder/userData";
 import { type BeratungshilfeFinanzielleAngabenPartnerUserData } from "./partner/userData";
 
 export const beratungshilfeFinanzielleAngabenInputSchema = {
   ...finanzielleAngabenPartnerInputSchema,
-  hasKinder: YesNoAnswer,
-  kinder: kinderArraySchema,
   hasBankkonto: YesNoAnswer,
   bankkonten: bankkontenArraySchema,
   hasKraftfahrzeug: YesNoAnswer,
@@ -67,4 +65,6 @@ export type BeratungshilfeFinanzielleAngabenUserData = z.infer<
 > &
   BeratungshilfeFinanzielleAngabenEinkommenUserData &
   BeratungshilfeFinanzielleAngabenPartnerUserData &
+  BeratungshilfeFinanzielleAngabenKinderUserData &
   BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData;
+
