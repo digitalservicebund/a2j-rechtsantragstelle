@@ -3,9 +3,11 @@ import { useFileHandler } from "../useFileHandler";
 
 const mockFile = new File([], "mockFile");
 
-const useLoaderDataMock = vi.hoisted(() => vi.fn(() => ({ csrf: "csrf" })));
+const { useLoaderDataMock, submitMock } = vi.hoisted(() => ({
+  useLoaderDataMock: vi.fn(() => ({ csrf: "csrf" })),
+  submitMock: vi.fn().mockResolvedValue(undefined),
+}));
 
-const submitMock = vi.fn();
 vi.mock("react-router", () => ({
   useLoaderData: useLoaderDataMock,
   useSubmit: () => submitMock,
