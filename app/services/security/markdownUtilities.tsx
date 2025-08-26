@@ -10,7 +10,7 @@ const CSS_HEADING_CLASSES = [
   "ds-label-01-bold",
 ];
 
-export const defaultRenderer: Partial<Renderer> = {
+const defaultRenderer: Partial<Renderer> = {
   link({ href, text }) {
     /* Either renders a Standalone link or Inline link,
         but we use the StandaloneLink component, because both has the same structure and style */
