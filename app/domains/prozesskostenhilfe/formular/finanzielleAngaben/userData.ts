@@ -85,7 +85,7 @@ export const prozesskostenhilfeFinanzielleAngabenInputSchema = {
         "haftpflichtversicherung",
         "hausratsversicherung",
         "unfallversicherung",
-        "pivateKrankenzusatzversicherung",
+        "privateKrankenzusatzversicherung",
         "kfzVersicherung",
         "sonstige",
       ]),

@@ -30,7 +30,7 @@ const versicherungMapping = {
   haftpflichtversicherung: "Haftpflichtversicherung",
   hausratsversicherung: "Hausratsversicherung",
   kfzVersicherung: "KFZ-Versicherung",
-  pivateKrankenzusatzversicherung: "Pivate Krankenzusatzversicherung",
+  privateKrankenzusatzversicherung: "Private Krankenzusatzversicherung",
   unfallversicherung: "Unfallversicherung",
   sonstige: "Sonstige",
 } as const;
