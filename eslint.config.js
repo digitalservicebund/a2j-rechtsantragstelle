@@ -60,7 +60,12 @@ export default tseslint.config(
           "react/require-render-return": "error",
         },
       },
-      react.configs.flat["jsx-runtime"],
+      {
+        rules: {
+          "react/react-in-jsx-scope": "off",
+          "react/jsx-uses-react": "off",
+        },
+      },
       /**
        * TODO: flat config of this plugin isn't available yet https://github.com/facebook/react/pull/30774
        */
