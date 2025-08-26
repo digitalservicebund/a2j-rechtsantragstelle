@@ -58,11 +58,11 @@ export const berhAntragFinanzielleAngabenWohnungXstateConfig = {
         BACK: steps.wohnungGroesse.relative,
         SUBMIT: steps.wohnkostenGeteilt.relative,
       },
-      [steps.wohnkostenGeteilt.relative]: {
-        on: {
-          BACK: steps.personenAnzahl.relative,
-          SUBMIT: "#eigentum",
-        },
+    },
+    [steps.wohnkostenGeteilt.relative]: {
+      on: {
+        BACK: steps.personenAnzahl.relative,
+        SUBMIT: "#eigentum",
       },
     },
   },

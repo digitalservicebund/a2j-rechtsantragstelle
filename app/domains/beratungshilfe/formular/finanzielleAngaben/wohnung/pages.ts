@@ -31,8 +31,8 @@ export const berhAntragFinanzielleAngabenWohnungPages = {
   wohnkostenGeteilt: {
     stepId: "finanzielle-angaben/wohnung/wohnkosten-geteilt",
     pageSchema: {
-      apartmentCostOwnShare: buildMoneyValidationSchema(),
       apartmentCostFull: buildMoneyValidationSchema(),
+      apartmentCostOwnShare: buildMoneyValidationSchema(),
     },
   },
 } as const satisfies PagesConfig;
