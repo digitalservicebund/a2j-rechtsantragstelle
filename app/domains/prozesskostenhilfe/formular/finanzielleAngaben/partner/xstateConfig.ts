@@ -94,7 +94,7 @@ export const partnerXstateConfig = {
       initial: "partner-staatliche-leistungen",
       meta: { done: einkuenfteDone },
       states: {
-        "partner-staatliche-leistungen": {
+        [steps.partnerStaatlicheLeistungen.relative]: {
           on: {
             SUBMIT: [
               {
