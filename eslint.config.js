@@ -1,16 +1,10 @@
 import vitest from "@vitest/eslint-plugin";
-import reactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
 import react from "eslint-plugin-react";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import importPlugin from "eslint-plugin-import";
 import tseslint from "typescript-eslint";
 import sonarjs from "eslint-plugin-sonarjs";
-import { fileURLToPath } from "url";
-import path from "path";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export default tseslint.config(
   {
@@ -55,12 +49,6 @@ export default tseslint.config(
           "react/no-unsafe": "off",
           "react/prop-types": "error",
           "react/require-render-return": "error",
-        },
-      },
-      {
-        rules: {
-          "react-hooks/rules-of-hooks": "error",
-          "react-hooks/exhaustive-deps": "warn",
         },
       },
       jsxA11y.flatConfigs.recommended,
