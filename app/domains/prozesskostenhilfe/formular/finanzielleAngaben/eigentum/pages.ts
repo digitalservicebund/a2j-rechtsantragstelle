@@ -1,21 +1,56 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
-import {
-  bankkontenArraySchema,
-  geldanlagenArraySchema,
-  grundeigentumArraySchema,
-  kraftfahrzeugeArraySchema,
-  wertsachenArraySchema,
-} from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { z } from "zod";
+import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { integerSchema } from "~/services/validation/integer";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import { createYearSchema } from "~/services/validation/year";
+import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { today } from "~/util/date";
+
+const eigentuemerSchema = z.enum([
+  "myself",
+  "partner",
+  "myselfAndPartner",
+  "myselfAndSomeoneElse",
+]);
+
+const kraftfahrzeugWertSchema = z.enum(["under10000", "over10000", "unsure"]);
+
+const grundeigentumArtSchema = z.enum([
+  "eigentumswohnung",
+  "einfamilienhaus",
+  "mehrereWohnungen",
+  "unbebaut",
+  "erbbaurecht",
+  "garage",
+]);
+
+const geldanlagenArtSchema = z.enum([
+  "bargeld",
+  "wertpapiere",
+  "guthabenkontoKrypto",
+  "giroTagesgeldSparkonto",
+  "befristet",
+  "forderung",
+  "sonstiges",
+]);
+
+const befristetArtSchema = z.enum([
+  "lifeInsurance",
+  "buildingSavingsContract",
+  "fixedDepositAccount",
+]);
+
+const bewohntSchema = z.enum(["yes", "family", "no"]);
 
 export const pkhFormularFinanzielleAngabenEigentumPages = {
   eigentumInfo: {
     stepId: "finanzielle-angaben/eigentum/eigentum-info",
-    pageSchema: {},
   },
   eigentumHeiratInfo: {
     stepId: "finanzielle-angaben/eigentum/heirat-info",
-    pageSchema: {},
   },
   eigentumBankkontenFrage: {
     stepId: "finanzielle-angaben/eigentum/bankkonten-frage",
@@ -48,201 +83,146 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     },
   },
   eigentumZusammenfassung: {
-    stepId: "finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+    stepId: "finanzielle-angaben/eigentum-zusammenfassung",
     arrayPages: {
       bankkonten: {
-        pageSchema: {
-          bankkonten: bankkontenArraySchema,
-        },
         arrayPages: {
           daten: {
             pageSchema: {
-              "bankkonten#bankName":
-                bankkontenArraySchema.element.shape.bankName,
-              "bankkonten#kontostand":
-                bankkontenArraySchema.element.shape.kontostand,
-              "bankkonten#iban": bankkontenArraySchema.element.shape.iban,
-              "bankkonten#kontoEigentuemer":
-                bankkontenArraySchema.element.shape.kontoEigentuemer,
-              "bankkonten#kontoDescription":
-                bankkontenArraySchema.element.shape.kontoDescription,
+              "bankkonten#bankName": stringRequiredSchema,
+              "bankkonten#kontostand": buildMoneyValidationSchema({}),
+              "bankkonten#iban": stringOptionalSchema,
+              "bankkonten#kontoEigentuemer": eigentuemerSchema,
+              "bankkonten#kontoDescription": stringOptionalSchema,
             },
           },
         },
       },
       kraftfahrzeuge: {
-        pageSchema: {
-          kraftfahrzeuge: kraftfahrzeugeArraySchema,
-        },
         arrayPages: {
           arbeitsweg: {
             pageSchema: {
-              "kraftfahrzeuge#hasArbeitsweg":
-                kraftfahrzeugeArraySchema.element.shape.hasArbeitsweg,
+              "kraftfahrzeuge#hasArbeitsweg": YesNoAnswer,
             },
           },
           wert: {
             pageSchema: {
-              "kraftfahrzeuge#wert":
-                kraftfahrzeugeArraySchema.element.shape.wert,
+              "kraftfahrzeuge#wert": kraftfahrzeugWertSchema,
             },
           },
           fahrzeuge: {
             pageSchema: {
-              "kraftfahrzeuge#art": kraftfahrzeugeArraySchema.element.shape.art,
-              "kraftfahrzeuge#marke":
-                kraftfahrzeugeArraySchema.element.shape.marke,
-              "kraftfahrzeuge#eigentuemer":
-                kraftfahrzeugeArraySchema.element.shape.eigentuemer,
-              "kraftfahrzeuge#verkaufswert":
-                kraftfahrzeugeArraySchema.element.shape.verkaufswert,
-              "kraftfahrzeuge#kilometerstand":
-                kraftfahrzeugeArraySchema.element.shape.kilometerstand,
-              "kraftfahrzeuge#anschaffungsjahr":
-                kraftfahrzeugeArraySchema.element.shape.anschaffungsjahr,
-              "kraftfahrzeuge#baujahr":
-                kraftfahrzeugeArraySchema.element.shape.baujahr,
+              "kraftfahrzeuge#art": stringRequiredSchema,
+              "kraftfahrzeuge#marke": stringRequiredSchema,
+              "kraftfahrzeuge#eigentuemer": eigentuemerSchema,
+              "kraftfahrzeuge#verkaufswert": schemaOrEmptyString(
+                buildMoneyValidationSchema(),
+              ),
+              "kraftfahrzeuge#kilometerstand": integerSchema,
+              "kraftfahrzeuge#anschaffungsjahr": createYearSchema({
+                optional: true,
+                latest: () => today().getFullYear(),
+              }),
+              "kraftfahrzeuge#baujahr": createYearSchema({
+                latest: () => today().getFullYear(),
+              }),
             },
           },
         },
       },
       geldanlagen: {
-        pageSchema: {
-          geldanlagen: geldanlagenArraySchema,
-        },
         arrayPages: {
           art: {
             pageSchema: {
-              "geldanlagen#art": geldanlagenArraySchema.element.shape.art,
+              "geldanlagen#art": geldanlagenArtSchema,
             },
           },
           bargeld: {
             pageSchema: {
-              "geldanlagen#eigentuemer":
-                geldanlagenArraySchema.element.shape.eigentuemer,
-              "geldanlagen#wert": geldanlagenArraySchema.element.shape.wert,
+              "geldanlagen#eigentuemer": eigentuemerSchema,
+              "geldanlagen#wert": buildMoneyValidationSchema(),
             },
           },
           wertpapiere: {
             pageSchema: {
-              "geldanlagen#eigentuemer":
-                geldanlagenArraySchema.element.shape.eigentuemer,
-              "geldanlagen#wert": geldanlagenArraySchema.element.shape.wert,
+              "geldanlagen#eigentuemer": eigentuemerSchema,
+              "geldanlagen#wert": buildMoneyValidationSchema(),
             },
           },
           "guthabenkonto-krypto": {
             pageSchema: {
-              "geldanlagen#eigentuemer":
-                geldanlagenArraySchema.element.shape.eigentuemer,
-              "geldanlagen#wert": geldanlagenArraySchema.element.shape.wert,
-              "geldanlagen#kontoBankName":
-                geldanlagenArraySchema.element.shape.kontoBankName,
-              "geldanlagen#kontoIban":
-                geldanlagenArraySchema.element.shape.kontoIban,
-              "geldanlagen#kontoBezeichnung":
-                geldanlagenArraySchema.element.shape.kontoBezeichnung,
+              "geldanlagen#eigentuemer": eigentuemerSchema,
+              "geldanlagen#wert": buildMoneyValidationSchema(),
             },
           },
           "giro-tagesgeld-sparkonto": {
             pageSchema: {
-              "geldanlagen#eigentuemer":
-                geldanlagenArraySchema.element.shape.eigentuemer,
-              "geldanlagen#wert": geldanlagenArraySchema.element.shape.wert,
-              "geldanlagen#kontoBankName":
-                geldanlagenArraySchema.element.shape.kontoBankName,
-              "geldanlagen#kontoIban":
-                geldanlagenArraySchema.element.shape.kontoIban,
-              "geldanlagen#kontoBezeichnung":
-                geldanlagenArraySchema.element.shape.kontoBezeichnung,
+              "geldanlagen#eigentuemer": eigentuemerSchema,
+              "geldanlagen#wert": buildMoneyValidationSchema(),
+              "geldanlagen#kontoBankName": stringOptionalSchema,
+              "geldanlagen#kontoIban": stringOptionalSchema,
+              "geldanlagen#kontoBezeichnung": stringOptionalSchema,
             },
           },
           befristet: {
             pageSchema: {
-              "geldanlagen#eigentuemer":
-                geldanlagenArraySchema.element.shape.eigentuemer,
-              "geldanlagen#wert": geldanlagenArraySchema.element.shape.wert,
-              "geldanlagen#befristetArt":
-                geldanlagenArraySchema.element.shape.befristetArt,
+              "geldanlagen#eigentuemer": eigentuemerSchema,
+              "geldanlagen#wert": buildMoneyValidationSchema(),
+              "geldanlagen#befristetArt": befristetArtSchema.optional(),
             },
           },
           forderung: {
             pageSchema: {
-              "geldanlagen#eigentuemer":
-                geldanlagenArraySchema.element.shape.eigentuemer,
-              "geldanlagen#wert": geldanlagenArraySchema.element.shape.wert,
-              "geldanlagen#forderung":
-                geldanlagenArraySchema.element.shape.forderung,
-              "geldanlagen#verwendungszweck":
-                geldanlagenArraySchema.element.shape.verwendungszweck,
-              "geldanlagen#auszahlungdatum":
-                geldanlagenArraySchema.element.shape.auszahlungdatum,
+              "geldanlagen#forderung": stringOptionalSchema,
+              "geldanlagen#eigentuemer": eigentuemerSchema,
+              "geldanlagen#wert": buildMoneyValidationSchema(),
             },
           },
           sonstiges: {
             pageSchema: {
-              "geldanlagen#eigentuemer":
-                geldanlagenArraySchema.element.shape.eigentuemer,
-              "geldanlagen#wert": geldanlagenArraySchema.element.shape.wert,
+              "geldanlagen#verwendungszweck": stringOptionalSchema,
+              "geldanlagen#eigentuemer": eigentuemerSchema,
+              "geldanlagen#wert": buildMoneyValidationSchema(),
             },
           },
         },
       },
       grundeigentum: {
-        pageSchema: {
-          grundeigentum: grundeigentumArraySchema,
-        },
         arrayPages: {
           "bewohnt-frage": {
             pageSchema: {
-              "grundeigentum#isBewohnt":
-                grundeigentumArraySchema.element.shape.isBewohnt,
+              "grundeigentum#isBewohnt": bewohntSchema,
             },
           },
           daten: {
             pageSchema: {
-              "grundeigentum#art": grundeigentumArraySchema.element.shape.art,
-              "grundeigentum#eigentuemer":
-                grundeigentumArraySchema.element.shape.eigentuemer,
-              "grundeigentum#flaeche":
-                grundeigentumArraySchema.element.shape.flaeche,
-              "grundeigentum#verkaufswert":
-                grundeigentumArraySchema.element.shape.verkaufswert,
-              "grundeigentum#strassehausnummer":
-                grundeigentumArraySchema.element.shape.strassehausnummer,
-              "grundeigentum#plz": grundeigentumArraySchema.element.shape.plz,
-              "grundeigentum#ort": grundeigentumArraySchema.element.shape.ort,
-              "grundeigentum#land": grundeigentumArraySchema.element.shape.land,
+              "grundeigentum#art": grundeigentumArtSchema,
+              "grundeigentum#eigentuemer": eigentuemerSchema,
+              "grundeigentum#flaeche": stringRequiredSchema,
+              "grundeigentum#verkaufswert": buildMoneyValidationSchema(),
+              "grundeigentum#strassehausnummer": stringRequiredSchema,
+              "grundeigentum#plz": stringOptionalSchema,
+              "grundeigentum#ort": stringRequiredSchema,
+              "grundeigentum#land": stringRequiredSchema,
             },
           },
           "bewohnt-daten": {
             pageSchema: {
-              "grundeigentum#art": grundeigentumArraySchema.element.shape.art,
-              "grundeigentum#eigentuemer":
-                grundeigentumArraySchema.element.shape.eigentuemer,
-              "grundeigentum#flaeche":
-                grundeigentumArraySchema.element.shape.flaeche,
-              "grundeigentum#verkaufswert":
-                grundeigentumArraySchema.element.shape.verkaufswert,
-              "grundeigentum#strassehausnummer":
-                grundeigentumArraySchema.element.shape.strassehausnummer,
-              "grundeigentum#plz": grundeigentumArraySchema.element.shape.plz,
-              "grundeigentum#ort": grundeigentumArraySchema.element.shape.ort,
-              "grundeigentum#land": grundeigentumArraySchema.element.shape.land,
+              "grundeigentum#art": grundeigentumArtSchema,
+              "grundeigentum#eigentuemer": eigentuemerSchema,
+              "grundeigentum#flaeche": stringRequiredSchema,
+              "grundeigentum#verkaufswert": buildMoneyValidationSchema(),
             },
           },
         },
       },
       wertgegenstaende: {
-        pageSchema: {
-          wertsachen: wertsachenArraySchema,
-        },
         arrayPages: {
           daten: {
             pageSchema: {
-              "wertsachen#art": wertsachenArraySchema.element.shape.art,
-              "wertsachen#eigentuemer":
-                wertsachenArraySchema.element.shape.eigentuemer,
-              "wertsachen#wert": wertsachenArraySchema.element.shape.wert,
+              "wertsachen#art": stringRequiredSchema,
+              "wertsachen#eigentuemer": eigentuemerSchema,
+              "wertsachen#wert": buildMoneyValidationSchema(),
             },
           },
         },
@@ -251,6 +231,5 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   },
   eigentumZusammenfassungWarnung: {
     stepId: "finanzielle-angaben/eigentum-zusammenfassung/warnung",
-    pageSchema: {},
   },
 } as const satisfies PagesConfig;
