@@ -1,9 +1,10 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { adresseSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { postcodeSchema } from "~/services/validation/postcode";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const pkhFormularFinanzielleAngabenEinkuenftePages = {
@@ -14,11 +15,11 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
     stepId: "finanzielle-angaben/einkuenfte/staatliche-leistungen",
     pageSchema: {
       staatlicheLeistungen: z.enum([
+        "buergergeld",
+        "arbeitslosengeld",
         "grundsicherung",
         "asylbewerberleistungen",
-        "buergergeld",
         "keine",
-        "arbeitslosengeld",
       ]),
     },
   },
@@ -90,7 +91,11 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   arbeitsplatzEntfernung: {
     stepId: "finanzielle-angaben/einkuenfte/abzuege/arbeitsplatz-entfernung",
     pageSchema: {
-      arbeitsplatz: z.object(adresseSchema),
+      arbeitsplatz: z.object({
+        strasseHausnummer: stringRequiredSchema,
+        plz: stringRequiredSchema.pipe(postcodeSchema),
+        ort: stringRequiredSchema,
+      }),
       arbeitsplatzEntfernung: integerSchema.refine((distance) => distance > 0, {
         message: "invalidInteger",
       }),
@@ -104,7 +109,7 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
     arrayPages: {
       daten: {
         pageSchema: {
-          "arbeitsausgaben#beschreibung": z.string().min(1, "required"),
+          "arbeitsausgaben#beschreibung": stringRequiredSchema,
           "arbeitsausgaben#zahlungsfrequenz": z.enum([
             "monthly",
             "quarterly",
