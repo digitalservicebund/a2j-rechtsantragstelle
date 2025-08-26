@@ -39,7 +39,6 @@ const finanzielleEinkuenfteSchemaWithoutPageData = omit(
 );
 
 export const prozesskostenhilfeFinanzielleAngabenInputSchema = {
-  ...finanzielleEinkuenfteSchemaWithoutPageData,
   ...mapKeys(
     finanzielleEinkuenfteSchemaWithoutPageData,
     (_, key) => "partner-" + key,

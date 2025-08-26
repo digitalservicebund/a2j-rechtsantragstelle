@@ -7,7 +7,7 @@ import { useJsAvailable } from "../hooks/useJsAvailable";
 
 export type CheckboxValue = "on" | "off";
 
-export type CheckboxProps = Readonly<{
+type CheckboxProps = Readonly<{
   name: string;
   label?: string;
   errorMessage?: string;
