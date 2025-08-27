@@ -40,18 +40,6 @@ export default tseslint.config(
   // React
   {
     files: ["**/*.{js,jsx,ts,tsx}"],
-    extends: [
-      {
-        rules: {
-          "react/display-name": "error",
-          "react/jsx-uses-react": "error",
-          "react/jsx-uses-vars": "error",
-          "react/no-unsafe": "off",
-          "react/prop-types": "error",
-          "react/require-render-return": "error",
-        },
-      },
-    ],
     plugins: {
       react,
     },
@@ -64,10 +52,17 @@ export default tseslint.config(
       ],
     },
     rules: {
-      "react/jsx-no-leaked-render": ["off", { validStrategies: ["ternary"] }], // TODO: enable later
+      "react/display-name": "error",
       "react/jsx-no-constructed-context-values": "warn",
+      "react/jsx-no-leaked-render": ["off", { validStrategies: ["ternary"] }], // TODO: enable later
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error",
       "react/no-array-index-key": "warn",
+      "react/no-deprecated": "error",
+      "react/no-unsafe": "off",
       "react/no-unstable-nested-components": "warn",
+      "react/prop-types": "error",
+      "react/require-render-return": "error",
     },
   },
   // JSX Accessibility
