@@ -29,7 +29,11 @@ export const partnerXstateConfig = {
               ),
             target: "#finanzielle-angaben.abzuege",
           },
-          "#finanzielle-angaben.einkuenfte",
+          {
+            guard: "hasFurtherIncome",
+            target: "#einkuenfte.weitere-einkuenfte.uebersicht",
+          },
+          "#einkuenfte.weitere-einkuenfte.frage",
         ],
         SUBMIT: [
           {
