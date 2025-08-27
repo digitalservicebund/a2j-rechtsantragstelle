@@ -183,6 +183,7 @@
         "prefer-spread": "error"
       }
     },
+    // Replace tseslint.configs.recommendedTypeChecked
     {
       "files": ["**/*.{ts,tsx}"],
       "rules": {
@@ -255,6 +256,7 @@
         "prefer-spread": "error"
       }
     },
+    // replace tseslint.configs.stylisticTypeChecked
     {
       "files": ["**/*.{ts,tsx}"],
       "rules": {
@@ -287,7 +289,7 @@
       },
       "plugins": ["import"]
     },
-    // typescript-eslint
+    // typescript-eslint override
     {
       "files": ["**/*.{ts,tsx}"],
       "rules": {
@@ -300,7 +302,7 @@
             "fixStyle": "inline-type-imports"
           }
         ],
-        "@typescript-eslint/only-throw-error": "off",
+        "@typescript-eslint/only-throw-error": "off", // disabled, as remix/react-router can throw redirects
         "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
         "@typescript-eslint/array-type": [
           "warn",
@@ -308,11 +310,13 @@
             "default": "array-simple"
           }
         ],
+        // enable gradually for full type safety
         "@typescript-eslint/no-unsafe-argument": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
         "@typescript-eslint/no-unsafe-call": "off",
         "@typescript-eslint/no-unsafe-return": "off",
         "@typescript-eslint/no-unsafe-assignment": "off",
+        // TODO: Align both streams for enabling exhaustiveness check globally
         "@typescript-eslint/switch-exhaustiveness-check": "warn",
         "no-unused-vars": [
           "warn",
