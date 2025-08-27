@@ -16,6 +16,20 @@ export default tseslint.config(
       "no-octal": "error",
       "no-undef": "error",
       "no-unreachable": "error",
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            "Literal[value=/(a\u0308)|(o\u0308)|(u\u0308)|(A\u0308)|(O\u0308)|(U\u0308)/]",
+          message:
+            "German umlauts must be written as NFC (normalized form canonical composition) and not NFD (normalized form canonical decomposition). E.g. use 'ä' instead of the character 'a' followed by the combining diacritical marks ' ̈'.",
+        },
+        "error",
+        {
+          selector: "TSEnumDeclaration",
+          message: "Do not declare enums",
+        },
+      ],
     },
   },
   {
@@ -148,20 +162,6 @@ export default tseslint.config(
       "@typescript-eslint/prefer-nullish-coalescing": "warn",
       // TODO: Align both streams for enabling exhaustiveness check globally
       "@typescript-eslint/switch-exhaustiveness-check": "warn",
-      "no-restricted-syntax": [
-        "error",
-        {
-          selector:
-            "Literal[value=/(a\u0308)|(o\u0308)|(u\u0308)|(A\u0308)|(O\u0308)|(U\u0308)/]",
-          message:
-            "German umlauts must be written as NFC (normalized form canonical composition) and not NFD (normalized form canonical decomposition). E.g. use 'ä' instead of the character 'a' followed by the combining diacritical marks ' ̈'.",
-        },
-        "error",
-        {
-          selector: "TSEnumDeclaration",
-          message: "Do not declare enums",
-        },
-      ],
     },
   },
 
