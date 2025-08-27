@@ -32,10 +32,7 @@ import {
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 import { ausgabenDone, eigentumDone } from "./doneFunctions";
-import {
-  prozesskostenhilfeFinanzielleAngabenInputSchema,
-  type ProzesskostenhilfeFinanzielleAngabenUserData,
-} from "./userData";
+import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards, type Guards } from "../../../guards.server";
 
 export const finanzielleAngabeGuards = {
@@ -88,11 +85,7 @@ export const finanzielleAngabeGuards = {
   isSonstigeVersicherung: ({ context: { pageData, versicherungen } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
-    return (
-      versicherungen?.at(arrayIndex)?.art ===
-      prozesskostenhilfeFinanzielleAngabenInputSchema.versicherungen.element
-        .shape.art.enum.sonstige
-    );
+    return versicherungen?.at(arrayIndex)?.art === "sonstige";
   },
   sonstigeAusgabeAnteiligYes: ({ context: { pageData, sonstigeAusgaben } }) => {
     const arrayIndex = firstArrayIndex(pageData);

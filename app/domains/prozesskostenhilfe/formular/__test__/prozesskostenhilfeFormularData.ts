@@ -1,9 +1,4 @@
 import { faker } from "@faker-js/faker";
-import { prozesskostenhilfeFinanzielleAngabenEinkuenfteInputSchema as einkuenfteSchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
-import {
-  prozesskostenhilfeFinanzielleAngabenInputSchema,
-  zahlungspflichtigerInputSchema,
-} from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import {
   eigentuemerInputSchema,
@@ -32,16 +27,15 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
   hasWertsache: YesNoAnswer.enum.yes,
   hasGrundeigentum: YesNoAnswer.enum.yes,
   hasKraftfahrzeug: YesNoAnswer.enum.yes,
-  staatlicheLeistungen: einkuenfteSchema.staatlicheLeistungen.enum.buergergeld,
+  staatlicheLeistungen: "buergergeld",
   buergergeld: faker.finance.amount(),
   currentlyEmployed: YesNoAnswer.enum.yes,
-  employmentType: einkuenfteSchema.employmentType.enum.employedAndSelfEmployed,
+  employmentType: "employedAndSelfEmployed",
   nettoEinkuenfteAlsArbeitnehmer: faker.finance.amount(),
   selbststaendigMonatlichesEinkommen: faker.finance.amount(),
-  selbststaendigBruttoNetto:
-    einkuenfteSchema.selbststaendigBruttoNetto.enum.brutto,
+  selbststaendigBruttoNetto: "brutto",
   selbststaendigAbzuege: faker.finance.amount(),
-  arbeitsweg: einkuenfteSchema.arbeitsweg.enum.publicTransport,
+  arbeitsweg: "publicTransport",
   monatlicheOPNVKosten: faker.finance.amount(),
   arbeitsplatz: {
     strasseHausnummer: faker.location.streetAddress(),
@@ -148,8 +142,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
   },
   versicherungen: [
     {
-      art: prozesskostenhilfeFinanzielleAngabenInputSchema.versicherungen
-        .element.shape.art.enum.sonstige,
+      art: "sonstige",
       beitrag: faker.finance.amount(),
       sonstigeArt: faker.commerce.productName(),
     },
@@ -158,7 +151,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
     {
       art: faker.commerce.productName(),
       zahlungsempfaenger: faker.company.name(),
-      zahlungspflichtiger: zahlungspflichtigerInputSchema.enum.myself,
+      zahlungspflichtiger: "myself",
       betragEigenerAnteil: faker.finance.amount(),
       betragGesamt: faker.finance.amount(),
       restschuld: faker.finance.amount(),
@@ -169,7 +162,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
     {
       art: faker.commerce.productName(),
       zahlungsempfaenger: faker.company.name(),
-      zahlungspflichtiger: zahlungspflichtigerInputSchema.enum.myself,
+      zahlungspflichtiger: "myself",
       betragEigenerAnteil: faker.finance.amount(),
       betragGesamt: faker.finance.amount(),
     },

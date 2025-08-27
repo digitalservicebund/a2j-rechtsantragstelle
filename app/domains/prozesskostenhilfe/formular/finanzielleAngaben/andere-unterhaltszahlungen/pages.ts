@@ -6,6 +6,8 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
+const MINUS_150_YEARS = -150;
+
 export const pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   andereUnterhaltszahlungenFrage: {
     stepId: "finanzielle-angaben/andere-unterhaltszahlungen/frage",
@@ -21,6 +23,29 @@ export const pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   },
   andereUnterhaltszahlungenPerson: {
     stepId: "finanzielle-angaben/andere-unterhaltszahlungen/person",
+    pageSchema: {
+      unterhaltszahlungen: z.array(
+        z.object({
+          familyRelationship: z.enum([
+            "mother",
+            "father",
+            "grandmother",
+            "grandfather",
+            "kid",
+            "ex-spouse",
+            "ex-partner",
+            "grandchild",
+          ]),
+          firstName: stringRequiredSchema,
+          surname: stringRequiredSchema,
+          birthday: createDateSchema({
+            earliest: () => addYears(today(), MINUS_150_YEARS),
+            latest: () => today(),
+          }),
+          monthlyPayment: buildMoneyValidationSchema(),
+        }),
+      ),
+    },
     arrayPages: {
       daten: {
         pageSchema: {
