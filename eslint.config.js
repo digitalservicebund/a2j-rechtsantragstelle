@@ -78,7 +78,6 @@ export default tseslint.config(
         },
       },
     },
-
     rules: {
       "jsx-a11y/aria-proptypes": "error",
       "jsx-a11y/interactive-supports-focus": "error",
@@ -88,14 +87,12 @@ export default tseslint.config(
       "jsx-a11y/no-static-element-interactions": "error",
     },
   },
-  // Typescript
+  // TypeScript / typescript-eslint + sonarjs + general rules
   {
     files: ["**/*.{ts,tsx}"],
     extends: [
       ...tseslint.configs.recommendedTypeChecked,
       ...tseslint.configs.stylisticTypeChecked,
-      importPlugin.flatConfigs.recommended,
-      importPlugin.flatConfigs.typescript,
       sonarjs.configs.recommended,
     ],
     languageOptions: {
@@ -105,35 +102,9 @@ export default tseslint.config(
         tsconfigRootDir: import.meta.dirname,
       },
     },
-    settings: {
-      "import/internal-regex": "^~/",
-      "import/resolver": {
-        node: { extensions: [".ts", ".tsx"] },
-        typescript: { alwaysTryTypes: true },
-      },
-    },
     rules: {
       // eslint
       "no-console": "warn",
-
-      // import
-      "import/no-cycle": "off", // VERY slow, only enable if needed
-      "import/namespace": "off", // slow and unneeded
-      "import/no-unused-modules": [
-        "off", // slow but useful to find unused exports. you might need to create an empty .eslintrc file, see https://github.com/import-js/eslint-plugin-import/issues/3079
-        {
-          unusedExports: true,
-          ignoreExports: ["app/routes/"],
-        },
-      ],
-      "import/order": [
-        "warn",
-        {
-          alphabetize: { caseInsensitive: true, order: "asc" },
-          groups: ["builtin", "external", "internal"],
-          "newlines-between": "never",
-        },
-      ],
 
       // sonarjs
       "sonarjs/no-duplicate-string": "off",
@@ -185,6 +156,42 @@ export default tseslint.config(
         {
           selector: "TSEnumDeclaration",
           message: "Do not declare enums",
+        },
+      ],
+    },
+  },
+
+  // import plugin
+  {
+    files: ["**/*.{ts,tsx}"],
+    extends: [
+      importPlugin.flatConfigs.recommended,
+      importPlugin.flatConfigs.typescript,
+    ],
+    settings: {
+      "import/internal-regex": "^~/",
+      "import/resolver": {
+        node: { extensions: [".ts", ".tsx"] },
+        typescript: { alwaysTryTypes: true },
+      },
+    },
+    rules: {
+      // import
+      "import/no-cycle": "off", // VERY slow, only enable if needed
+      "import/namespace": "off", // slow and unneeded
+      "import/no-unused-modules": [
+        "off", // slow but useful to find unused exports. you might need to create an empty .eslintrc file, see https://github.com/import-js/eslint-plugin-import/issues/3079
+        {
+          unusedExports: true,
+          ignoreExports: ["app/routes/"],
+        },
+      ],
+      "import/order": [
+        "warn",
+        {
+          alphabetize: { caseInsensitive: true, order: "asc" },
+          groups: ["builtin", "external", "internal"],
+          "newlines-between": "never",
         },
       ],
     },
