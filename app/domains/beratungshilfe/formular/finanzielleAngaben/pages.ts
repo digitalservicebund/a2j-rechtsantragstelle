@@ -1,5 +1,6 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages } from "./andereUnterhaltszahlungen/pages";
+import { berhAntragFinanzielleAngabenEigentumPages } from "./eigentum/pages";
 import { berhAntragFinanzielleAngabenEinkommenPages } from "./einkommen/pages";
 import { berhAntragFinanzielleAngabenKinderPages } from "./kinder/pages";
 import { berhAntragFinanzielleAngabenPartnerPages } from "./partner/pages";
@@ -11,4 +12,5 @@ export const berhAntragFinanzielleAngabenPages = {
   ...berhAntragFinanzielleAngabenKinderPages,
   ...berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages,
   ...berhAntragFinanzielleAngabenWohnungPages,
+  ...berhAntragFinanzielleAngabenEigentumPages,
 } as const satisfies PagesConfig;
