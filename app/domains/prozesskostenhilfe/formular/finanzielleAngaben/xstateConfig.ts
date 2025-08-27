@@ -8,6 +8,7 @@ import {
   eigentumXstateConfig,
   eigentumZusammenfassungXstateConfig,
 } from "./eigentum/xstateConfig";
+import { finanzielleAngabenAbzuegeXstateConfig } from "./abzuege/xstateConfig";
 import { finanzielleAngabenEinkuenfteXstateConfig } from "./einkuenfte/xStateConfig";
 import { kinderXstateConfig } from "./kinder/xstateConfig";
 import { partnerXstateConfig } from "./partner/xstateConfig";
@@ -19,6 +20,7 @@ export const finanzielleAngabenXstateConfig = {
   id: "finanzielle-angaben",
   states: {
     einkuenfte: finanzielleAngabenEinkuenfteXstateConfig,
+    abzuege: finanzielleAngabenAbzuegeXstateConfig,
     partner: partnerXstateConfig,
     kinder: kinderXstateConfig,
     "andere-unterhaltszahlungen": andereUnterhaltszahlungenXstateConfig,
