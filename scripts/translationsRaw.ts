@@ -2585,6 +2585,11 @@ export const translationsRaw = [
         value: "Einkünfte",
       },
       {
+        id: 2113,
+        name: "/finanzielle-angaben/abzuege",
+        value: "Abzüge",
+      },
+      {
         id: 2190,
         name: "/finanzielle-angaben/ausgaben-zusammenfassung",
         value: "Ausgaben Zusammenfassung",

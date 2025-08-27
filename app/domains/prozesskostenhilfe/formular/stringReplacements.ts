@@ -14,6 +14,7 @@ import {
 import { prozesskostenhilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "./rechtsschutzversicherung/doneFunctions";
 import type { ProzesskostenhilfeFormularUserData } from "./userData";
+import { abzuegeDone } from "./finanzielleAngaben/abzuege/doneFunctions";
 
 export const getMissingInformationStrings = (
   context: ProzesskostenhilfeFormularUserData,
@@ -27,6 +28,7 @@ export const getMissingInformationStrings = (
         context,
       }) && context.formularArt !== "nachueberpruefung",
     einkuenfteMissingInformation: !einkuenfteDone({ context }),
+    abzuegeMissingInformation: !abzuegeDone({ context }),
     partnerMissingInformation: !partnerDone({ context }),
     kinderMissingInformation: !kinderDone({ context }),
     andereUnterhaltszahlungenMissingInformation: !andereUnterhaltszahlungenDone(
