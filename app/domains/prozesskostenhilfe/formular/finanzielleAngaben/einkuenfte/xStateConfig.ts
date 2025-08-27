@@ -1,4 +1,3 @@
-import { and, or } from "xstate";
 import type { Flow } from "~/domains/flows.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { qualifiesForVereinfachteErklaerung } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
@@ -35,48 +34,45 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
             target: "#antragstellende-person.zwei-formulare",
           },
           {
-            guard: and([
-              empfaengerIsChild,
-              isNachueberpruefung,
-              qualifiesForVereinfachteErklaerung,
-            ]),
+            guard: ({ context }) =>
+              empfaengerIsChild({ context }) &&
+              isNachueberpruefung({ context }) &&
+              qualifiesForVereinfachteErklaerung({ context }),
             target:
               "#antragstellende-person.vereinfachte-erklaerung.hinweis-vereinfachte-erklaerung",
           },
           {
-            guard: and([
-              empfaengerIsChild,
-              isNachueberpruefung,
-              ({ context }) => !qualifiesForVereinfachteErklaerung({ context }),
-            ]),
+            guard: ({ context }) =>
+              empfaengerIsChild({ context }) &&
+              isNachueberpruefung({ context }) &&
+              !qualifiesForVereinfachteErklaerung({ context }),
             target:
               "#antragstellende-person.vereinfachte-erklaerung.hinweis-weiteres-formular",
           },
           {
-            guard: and([
-              isNachueberpruefung,
-              ({ context }) => context.unterhaltsanspruch === "keine",
-            ]),
+            guard: ({ context }) =>
+              isNachueberpruefung({ context }) &&
+              context.unterhaltsanspruch === "keine",
             target: "#antragstellende-person.unterhaltsanspruch",
           },
           {
-            guard: and([
-              isNachueberpruefung,
-              ({ context }) => context.unterhaltsanspruch === "unterhalt",
-              ({ context }) => context.livesPrimarilyFromUnterhalt === "no",
-            ]),
+            guard: ({ context }) =>
+              isNachueberpruefung({ context }) &&
+              context.unterhaltsanspruch === "unterhalt" &&
+              context.livesPrimarilyFromUnterhalt === "no",
             target: "#antragstellende-person.unterhalt-hauptsaechliches-leben",
           },
           {
-            guard: and([
-              isNachueberpruefung,
-              ({ context }) => context.unterhaltsanspruch === "unterhalt",
-              ({ context }) => context.livesPrimarilyFromUnterhalt === "yes",
-            ]),
+            guard: ({ context }) =>
+              isNachueberpruefung({ context }) &&
+              context.unterhaltsanspruch === "unterhalt" &&
+              context.livesPrimarilyFromUnterhalt === "yes",
             target: "#antragstellende-person.eigenes-exemplar",
           },
           {
-            guard: and([isNachueberpruefung, couldLiveFromUnterhalt]),
+            guard: ({ context }) =>
+              isNachueberpruefung({ context }) &&
+              couldLiveFromUnterhalt({ context }),
             target: "#antragstellende-person.warum-keiner-unterhalt",
           },
           {
@@ -375,7 +371,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
                 guard: einkuenfteGuards.hasFurtherIncome,
                 target: steps.weitereEinkuenfteUebersicht.relative,
               },
-              "#partner",
+              "#finanzielle-angaben.abzuege",
             ],
             BACK: [
               {
@@ -405,7 +401,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
                 guard: einkuenfteGuards.hasFurtherIncomeAndEmptyArray,
                 target: steps.weitereEinkuenfteWarnung.relative,
               },
-              "#partner",
+              "#finanzielle-angaben.abzuege",
             ],
             BACK: steps.weitereEinkuenfteFrage.relative,
             "add-weitereEinkuenfte": {
@@ -417,7 +413,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
         [steps.weitereEinkuenfteWarnung.relative]: {
           on: {
             BACK: steps.weitereEinkuenfteUebersicht.relative,
-            SUBMIT: "#partner",
+            SUBMIT: "#finanzielle-angaben.abzuege",
           },
         },
         einkunft: {

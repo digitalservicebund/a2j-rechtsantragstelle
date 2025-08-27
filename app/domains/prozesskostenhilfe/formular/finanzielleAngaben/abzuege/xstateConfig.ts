@@ -1,9 +1,9 @@
-import { and, or } from "xstate";
-import type { Flow } from "~/domains/flows.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { abzuegeDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/doneFunctions";
 import { finanzielleAngabeAbzuegeGuards as abzuegeGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/guards";
 import { pkhFormularFinanzielleAngabenAbzuegePages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/pages";
+import type { Config } from "~/services/flow/server/types";
+import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenAbzuegePages,
@@ -33,13 +33,10 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
         ],
         BACK: [
           {
-            guard: ({ context }) =>
-              context.employmentType === "selfEmployed" ||
-              context.employmentType === "employedAndSelfEmployed",
-            target:
-              "#finanzielle-angaben.einkuenfte.einkommen.selbststaendig-abzuege",
+            guard: "hasFurtherIncome",
+            target: "#einkuenfte.weitere-einkuenfte.uebersicht",
           },
-          "#finanzielle-angaben.einkuenfte.einkommen.netto-einkommen",
+          "#einkuenfte.weitere-einkuenfte.frage",
         ],
       },
     },
@@ -82,10 +79,9 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
             ],
             BACK: [
               {
-                guard: or([
-                  abzuegeGuards.usesPublicTransit,
+                guard:
+                  abzuegeGuards.usesPublicTransit ||
                   abzuegeGuards.usesPrivateVehicle,
-                ]),
                 target: steps.arbeitsplatzEntfernung.absolute,
               },
               {
@@ -132,4 +128,4 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
       },
     },
   },
-} as Flow["config"];
+} satisfies Config<ProzesskostenhilfeFinanzielleAngabenUserData>;

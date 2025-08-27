@@ -1,4 +1,5 @@
 import type { Config } from "~/services/flow/server/types";
+import { finanzielleAngabenAbzuegeXstateConfig } from "./abzuege/xstateConfig";
 import { andereUnterhaltszahlungenXstateConfig } from "./andere-unterhaltszahlungen/xstateConfig";
 import {
   ausgabenXstateConfig,
@@ -8,7 +9,6 @@ import {
   eigentumXstateConfig,
   eigentumZusammenfassungXstateConfig,
 } from "./eigentum/xstateConfig";
-import { finanzielleAngabenAbzuegeXstateConfig } from "./abzuege/xstateConfig";
 import { finanzielleAngabenEinkuenfteXstateConfig } from "./einkuenfte/xStateConfig";
 import { kinderXstateConfig } from "./kinder/xstateConfig";
 import { partnerXstateConfig } from "./partner/xstateConfig";

@@ -2,10 +2,7 @@ import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { financialEntryInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
-import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { postcodeSchema } from "~/services/validation/postcode";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const pkhFormularFinanzielleAngabenEinkuenftePages = {

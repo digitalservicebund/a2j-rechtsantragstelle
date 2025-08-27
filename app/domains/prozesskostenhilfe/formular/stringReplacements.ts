@@ -2,6 +2,7 @@ import { einkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanziell
 import { prozesskostenhilfeGesetzlicheVertretungDone } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/doneFunctions";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { antragstellendePersonDone } from "./antragstellendePerson/guards";
+import { abzuegeDone } from "./finanzielleAngaben/abzuege/doneFunctions";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
@@ -14,7 +15,6 @@ import {
 import { prozesskostenhilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "./rechtsschutzversicherung/doneFunctions";
 import type { ProzesskostenhilfeFormularUserData } from "./userData";
-import { abzuegeDone } from "./finanzielleAngaben/abzuege/doneFunctions";
 
 export const getMissingInformationStrings = (
   context: ProzesskostenhilfeFormularUserData,
