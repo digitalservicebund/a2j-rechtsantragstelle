@@ -1,5 +1,12 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import {
+  bankkontenArraySchema,
+  geldanlagenArraySchema,
+  grundeigentumArraySchema,
+  kraftfahrzeugeArraySchema,
+  wertsachenArraySchema,
+} from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
@@ -84,6 +91,13 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   },
   eigentumZusammenfassung: {
     stepId: "finanzielle-angaben/eigentum-zusammenfassung",
+    pageSchema: {
+      bankkonten: bankkontenArraySchema,
+      kraftfahrzeuge: kraftfahrzeugeArraySchema,
+      geldanlagen: geldanlagenArraySchema,
+      grundeigentum: grundeigentumArraySchema,
+      wertsachen: wertsachenArraySchema,
+    },
     arrayPages: {
       bankkonten: {
         arrayPages: {

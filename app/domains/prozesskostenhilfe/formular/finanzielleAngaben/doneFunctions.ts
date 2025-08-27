@@ -5,10 +5,7 @@ import {
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import { arrayIsNonEmpty } from "~/util/array";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import {
-  prozesskostenhilfeFinanzielleAngabenInputSchema,
-  type ProzesskostenhilfeFinanzielleAngabenUserData,
-} from "./userData";
+import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
 import type { GenericGuard } from "../../../guards.server";
 import {
   bankKontoDone,
@@ -176,16 +173,14 @@ export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   }) ||
   (context.hasAusgaben !== undefined &&
     context.besondereBelastungen !== undefined) ||
-  context.hasAusgaben ==
-    prozesskostenhilfeFinanzielleAngabenInputSchema.hasAusgaben.enum.no;
+  context.hasAusgaben == "no";
 
 export const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
     einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
       context,
     }) ||
-    context.hasAusgaben ==
-      prozesskostenhilfeFinanzielleAngabenInputSchema.hasAusgaben.enum.no ||
+    context.hasAusgaben == "no" ||
     hasVersicherungDone({ context }) ||
     hasRatenzahlungDone({ context }) ||
     hasSonstigeAusgabeDone({ context });
