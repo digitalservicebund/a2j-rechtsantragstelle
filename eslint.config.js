@@ -137,9 +137,6 @@ export default tseslint.config(
       },
     },
     rules: {
-      // eslint
-      "no-console": "warn",
-
       // typescript-eslint
       "@typescript-eslint/consistent-type-imports": [
         "warn",
