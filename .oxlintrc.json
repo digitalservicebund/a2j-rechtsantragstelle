@@ -4,6 +4,15 @@
   "categories": {
     "correctness": "off"
   },
+  "settings": {
+    "react": {
+      "formComponents": ["Form"],
+      "linkComponents": [
+        { "name": "Link", "attribute": "to" },
+        { "name": "NavLink", "attribute": "to" }
+      ]
+    }
+  },
   "env": {
     "builtin": true,
     "browser": true,
