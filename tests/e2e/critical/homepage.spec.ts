@@ -27,7 +27,7 @@ test.describe("homepage", () => {
         .waitFor()
         .then(() => true),
     ]).catch(() => {
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.log("Logo not found");
     });
 

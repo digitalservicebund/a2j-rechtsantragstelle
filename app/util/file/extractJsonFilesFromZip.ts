@@ -12,7 +12,7 @@ export function extractJsonFilesFromZip(pathToZipFile: string) {
       file.name.endsWith(".json") && !file.name.startsWith("__MACOSX"),
   });
   const fileCount = Object.keys(jsonFiles).length;
-  // eslint-disable-next-line no-console
+  // oxlint-disable-next-line no-console
   console.log(
     `Unzipping ${pathToZipFile} succeeded, found ${fileCount} json files`,
   );
