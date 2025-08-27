@@ -31,7 +31,16 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
           },
           "#arbeitsausgaben",
         ],
-        BACK: "#finanzielle-angaben.einkuenfte",
+        BACK: [
+          {
+            guard: ({ context }) =>
+              context.employmentType === "selfEmployed" ||
+              context.employmentType === "employedAndSelfEmployed",
+            target:
+              "#finanzielle-angaben.einkuenfte.einkommen.selbststaendig-abzuege",
+          },
+          "#finanzielle-angaben.einkuenfte.einkommen.netto-einkommen",
+        ],
       },
     },
     [steps.opnvKosten.relative]: {
@@ -69,7 +78,7 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
                 guard: abzuegeGuards.hasAndereArbeitsausgaben,
                 target: steps.arbeitsausgabenUebersicht.relative,
               },
-              "#finanzielle-angaben.einkuenfte.rente-frage",
+              "#finanzielle-angaben.partner",
             ],
             BACK: [
               {
@@ -94,7 +103,7 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
                 guard: abzuegeGuards.hasAndereArbeitsausgabenAndEmptyArray,
                 target: steps.arbeitsausgabenWarnung.relative,
               },
-              "#finanzielle-angaben.einkuenfte.rente-frage",
+              "#finanzielle-angaben.partner",
             ],
             BACK: steps.arbeitsausgabenFrage.relative,
             "add-arbeitsausgaben": {
@@ -106,7 +115,7 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
         [steps.arbeitsausgabenWarnung.relative]: {
           on: {
             BACK: steps.arbeitsausgabenUebersicht.relative,
-            SUBMIT: "#finanzielle-angaben.einkuenfte.rente-frage",
+            SUBMIT: "#finanzielle-angaben.partner",
           },
         },
         arbeitsausgabe: {
