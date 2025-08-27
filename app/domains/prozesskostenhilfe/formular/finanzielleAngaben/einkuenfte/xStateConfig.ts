@@ -371,7 +371,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
                 guard: einkuenfteGuards.hasFurtherIncome,
                 target: steps.weitereEinkuenfteUebersicht.relative,
               },
-              "#finanzielle-angaben.abzuege",
+              "#finanzielle-angaben.partner",
             ],
             BACK: [
               {
@@ -401,7 +401,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
                 guard: einkuenfteGuards.hasFurtherIncomeAndEmptyArray,
                 target: steps.weitereEinkuenfteWarnung.relative,
               },
-              "#finanzielle-angaben.abzuege",
+              "#finanzielle-angaben.partner",
             ],
             BACK: steps.weitereEinkuenfteFrage.relative,
             "add-weitereEinkuenfte": {
@@ -413,7 +413,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
         [steps.weitereEinkuenfteWarnung.relative]: {
           on: {
             BACK: steps.weitereEinkuenfteUebersicht.relative,
-            SUBMIT: "#finanzielle-angaben.abzuege",
+            SUBMIT: "#finanzielle-angaben.partner",
           },
         },
         einkunft: {

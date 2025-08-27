@@ -33,10 +33,10 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
         ],
         BACK: [
           {
-            guard: "hasFurtherIncome",
-            target: "#einkuenfte.weitere-einkuenfte.uebersicht",
+            guard: "isSelfEmployed",
+            target: "#einkuenfte.einkommen.selbststaendig-abzuege",
           },
-          "#einkuenfte.weitere-einkuenfte.frage",
+          "#einkuenfte.einkommen.netto-einkommen",
         ],
       },
     },

@@ -18,7 +18,19 @@ export const partnerXstateConfig = {
   states: {
     [steps.partnerschaft.relative]: {
       on: {
-        BACK: "#finanzielle-angaben.abzuege",
+        BACK: [
+          {
+            guard: ({ context }) =>
+              !!(
+                (context.employmentType === "employed" ||
+                  context.employmentType === "employedAndSelfEmployed" ||
+                  context.nettoEinkuenfteAlsArbeitnehmer) &&
+                context.staatlicheLeistungen !== "buergergeld"
+              ),
+            target: "#finanzielle-angaben.abzuege",
+          },
+          "#finanzielle-angaben.einkuenfte",
+        ],
         SUBMIT: [
           {
             guard: "hasPartnerschaftYes",
