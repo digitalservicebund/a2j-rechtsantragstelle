@@ -1,10 +1,11 @@
-import vitest from "@vitest/eslint-plugin";
 import importPlugin from "eslint-plugin-import";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import react from "eslint-plugin-react";
 import sonarjs from "eslint-plugin-sonarjs";
 import globals from "globals";
 import tseslint from "typescript-eslint";
+
+const HANDLED_BY_OXC_GLOB = ["**/*.test.*"];
 
 export default tseslint.config(
   {
@@ -33,7 +34,13 @@ export default tseslint.config(
     },
   },
   {
-    ignores: ["**/*", "!app/**", "!tests/**", "!scripts/**"],
+    ignores: [
+      "**/*",
+      "!app/**",
+      "!tests/**",
+      "!scripts/**",
+      ...HANDLED_BY_OXC_GLOB,
+    ],
   },
   // Global overrides
   {
@@ -202,19 +209,6 @@ export default tseslint.config(
     files: ["**/autoSuggestInput/*.{ts,tsx}"],
     rules: {
       "@typescript-eslint/switch-exhaustiveness-check": "error",
-    },
-  },
-  // Vitest
-  {
-    files: ["app/**/*.test.{js,jsx,ts,tsx}"],
-    plugins: {
-      vitest,
-    },
-    rules: {
-      ...vitest.configs.recommended.rules,
-      "vitest/valid-title": "off", // TODO: enable later
-      "@typescript-eslint/unbound-method": "off",
-      "require-await": "error",
     },
   },
 );

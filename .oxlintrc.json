@@ -338,6 +338,7 @@
     {
       "files": ["app/**/*.test.{js,jsx,ts,tsx}"],
       "rules": {
+        "jest/valid-title": "off", // TODO: enable later
         "vitest/expect-expect": "error",
         "vitest/no-identical-title": "error",
         "vitest/no-commented-out-tests": "error",
