@@ -87,13 +87,33 @@ export default tseslint.config(
       "jsx-a11y/no-static-element-interactions": "error",
     },
   },
-  // TypeScript / typescript-eslint + sonarjs + general rules
+  // Sonarjs plugin
+  {
+    files: ["**/*.{ts,tsx}"],
+    extends: [sonarjs.configs.recommended],
+    rules: {
+      "sonarjs/no-duplicate-string": "off",
+      "sonarjs/todo-tag": "off",
+      "sonarjs/function-return-type": "off",
+      "sonarjs/aws-restricted-ip-admin-access": "off",
+      "sonarjs/no-async-constructor": "off",
+      "sonarjs/sonar-no-unused-vars": "off",
+      "sonarjs/no-misused-promises": "off",
+      "sonarjs/different-types-comparison": "off",
+      "sonarjs/sonar-prefer-regexp-exec": "off",
+      "sonarjs/sonar-prefer-optional-chain": "off",
+      "sonarjs/no-dead-store": "off",
+      "sonarjs/anchor-has-content": "off",
+      "sonarjs/no-invalid-await": "off",
+    },
+  },
+
+  // TypeScript + eslint + general rules block
   {
     files: ["**/*.{ts,tsx}"],
     extends: [
       ...tseslint.configs.recommendedTypeChecked,
       ...tseslint.configs.stylisticTypeChecked,
-      sonarjs.configs.recommended,
     ],
     languageOptions: {
       parser: tseslint.parser,
@@ -105,22 +125,6 @@ export default tseslint.config(
     rules: {
       // eslint
       "no-console": "warn",
-
-      // sonarjs
-      "sonarjs/no-duplicate-string": "off",
-      "sonarjs/todo-tag": "off",
-      "sonarjs/function-return-type": "off",
-      "sonarjs/aws-restricted-ip-admin-access": "off", // slow and unneeded
-      "sonarjs/no-async-constructor": "off", // slow and unneeded
-      // duplicates of typescript-eslint rules (prefer typescript-eslint as their rule pages are clearer)
-      "sonarjs/sonar-no-unused-vars": "off",
-      "sonarjs/no-misused-promises": "off",
-      "sonarjs/different-types-comparison": "off",
-      "sonarjs/sonar-prefer-regexp-exec": "off",
-      "sonarjs/sonar-prefer-optional-chain": "off",
-      "sonarjs/no-dead-store": "off",
-      "sonarjs/anchor-has-content": "off",
-      "sonarjs/no-invalid-await": "off",
 
       // typescript-eslint
       "@typescript-eslint/consistent-type-imports": [
