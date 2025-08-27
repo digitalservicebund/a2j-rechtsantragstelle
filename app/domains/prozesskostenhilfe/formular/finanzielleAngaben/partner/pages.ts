@@ -8,9 +8,6 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const pkhFormularFinanzielleAngabenPartnerPages = {
-  partnerEinkuenfte: {
-    stepId: "finanzielle-angaben/partner-einkuenfte",
-  },
   partnerschaft: {
     stepId: "finanzielle-angaben/partner/partnerschaft",
     pageSchema: {
@@ -44,9 +41,27 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       partnerEinkommen: YesNoAnswer,
     },
   },
-
+  partnerEinkuenfte: {
+    stepId: "finanzielle-angaben/partner-einkuenfte",
+  },
+  partnerStaatlicheLeistungen: {
+    stepId:
+      "finanzielle-angaben/partner/partner-einkuenfte/partner-staatliche-leistungen",
+    pageSchema: {
+      "partner-staatlicheLeistungen": z.enum([
+        "buergergeld",
+        "arbeitslosengeld",
+        "grundsicherung",
+        "asylbewerberleistungen",
+        "keine",
+      ]),
+    },
+  },
   partnerEinkuenfteUnterhalt: {
     stepId: "finanzielle-angaben/partner/partner-einkuenfte/partner-unterhalt",
+    pageSchema: {
+      "partner-supportAmount": buildMoneyValidationSchema(),
+    },
   },
   partnerEinkuenfteUnterhaltFrage: {
     stepId:
@@ -215,9 +230,9 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   },
   partnerArbeitsausgabenFrage: {
     stepId:
-      "finanzielle-angaben/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgaben-frage",
+      "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgaben-frage",
     pageSchema: {
-      hasArbeitsausgaben: YesNoAnswer,
+      "partner-hasArbeitsausgaben": YesNoAnswer,
     },
   },
   partnerArbeitsausgabenUebersicht: {
