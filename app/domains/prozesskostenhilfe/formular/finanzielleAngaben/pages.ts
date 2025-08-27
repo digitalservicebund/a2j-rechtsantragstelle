@@ -2,6 +2,7 @@ import { type PagesConfig } from "~/domains/pageSchemas";
 import { pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/andere-unterhaltszahlungen/pages";
 import { pkhFormularFinanzielleAngabenAusgabenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/ausgaben/pages";
 import { pkhFormularFinanzielleAngabenEigentumPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
+import { pkhFormularFinanzielleAngabenAbzuegePages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/pages";
 import { pkhFormularFinanzielleAngabenEinkuenftePages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/pages";
 import { pkhFormularFinanzielleAngabenKinderPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/kinder/pages";
 import { pkhFormularFinanzielleAngabenPartnerPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/pages";
@@ -9,6 +10,7 @@ import { pkhFormularFinanzielleAngabenWohnungPages } from "~/domains/prozesskost
 
 export const pkhFormularFinanzielleAngabenPages = {
   ...pkhFormularFinanzielleAngabenEinkuenftePages,
+  ...pkhFormularFinanzielleAngabenAbzuegePages,
   ...pkhFormularFinanzielleAngabenPartnerPages,
   ...pkhFormularFinanzielleAngabenKinderPages,
   ...pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages,

@@ -201,131 +201,10 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
               {
                 guard: ({ context }) =>
                   !einkuenfteGuards.incomeWithBuergergeld({ context }),
-                target: "#abzuege",
+                target: "#finanzielle-angaben.abzuege",
               },
               steps.renteFrage.absolute,
             ],
-          },
-        },
-      },
-    },
-    abzuege: {
-      id: "abzuege",
-      initial: steps.arbeitsweg.relative,
-      states: {
-        [steps.arbeitsweg.relative]: {
-          on: {
-            SUBMIT: [
-              {
-                guard: einkuenfteGuards.usesPublicTransit,
-                target: steps.opnvKosten.relative,
-              },
-              {
-                guard: einkuenfteGuards.usesPrivateVehicle,
-                target: steps.arbeitsplatzEntfernung.relative,
-              },
-              {
-                guard: einkuenfteGuards.commuteMethodPlaysNoRole,
-                target: steps.arbeitswegKeineRolle.relative,
-              },
-              "#arbeitsausgaben",
-            ],
-            BACK: [
-              {
-                guard: einkuenfteGuards.isSelfEmployed,
-                target: steps.selbststaendigAbzuege.absolute,
-              },
-              steps.nettoEinkommen.absolute,
-            ],
-          },
-        },
-        [steps.opnvKosten.relative]: {
-          on: {
-            SUBMIT: steps.arbeitsplatzEntfernung.relative,
-            BACK: steps.arbeitsweg.relative,
-          },
-        },
-        [steps.arbeitsplatzEntfernung.relative]: {
-          on: {
-            SUBMIT: "#arbeitsausgaben",
-            BACK: [
-              {
-                guard: einkuenfteGuards.usesPublicTransit,
-                target: steps.opnvKosten.relative,
-              },
-              steps.arbeitsweg.relative,
-            ],
-          },
-        },
-        [steps.arbeitswegKeineRolle.relative]: {
-          on: {
-            SUBMIT: "#arbeitsausgaben",
-            BACK: steps.arbeitsweg.relative,
-          },
-        },
-        arbeitsausgaben: {
-          id: "arbeitsausgaben",
-          initial: steps.arbeitsausgabenFrage.relative,
-          states: {
-            [steps.arbeitsausgabenFrage.relative]: {
-              on: {
-                SUBMIT: [
-                  {
-                    guard: einkuenfteGuards.hasAndereArbeitsausgaben,
-                    target: steps.arbeitsausgabenUebersicht.relative,
-                  },
-                  steps.renteFrage.absolute,
-                ],
-                BACK: [
-                  {
-                    guard: or([
-                      einkuenfteGuards.usesPublicTransit,
-                      einkuenfteGuards.usesPrivateVehicle,
-                    ]),
-                    target: steps.arbeitsplatzEntfernung.absolute,
-                  },
-                  {
-                    guard: einkuenfteGuards.commuteMethodPlaysNoRole,
-                    target: steps.arbeitswegKeineRolle.absolute,
-                  },
-                  steps.arbeitsweg.absolute,
-                ],
-              },
-            },
-            [steps.arbeitsausgabenUebersicht.relative]: {
-              on: {
-                SUBMIT: [
-                  {
-                    guard:
-                      einkuenfteGuards.hasAndereArbeitsausgabenAndEmptyArray,
-                    target: steps.arbeitsausgabenWarnung.relative,
-                  },
-                  steps.renteFrage.absolute,
-                ],
-                BACK: steps.arbeitsausgabenFrage.relative,
-                "add-arbeitsausgaben": {
-                  guard: einkuenfteGuards.isValidArbeitsausgabenArrayIndex,
-                  target: "arbeitsausgabe",
-                },
-              },
-            },
-            [steps.arbeitsausgabenWarnung.relative]: {
-              on: {
-                BACK: steps.arbeitsausgabenUebersicht.relative,
-                SUBMIT: steps.renteFrage.absolute,
-              },
-            },
-            arbeitsausgabe: {
-              initial: "daten",
-              states: {
-                daten: {
-                  on: {
-                    BACK: steps.arbeitsausgabenUebersicht.absolute,
-                    SUBMIT: steps.arbeitsausgabenUebersicht.absolute,
-                  },
-                },
-              },
-            },
           },
         },
       },
@@ -356,11 +235,6 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
               !einkuenfteGuards.isSelfEmployed({ context }),
             target: steps.nettoEinkommen.absolute,
           },
-          {
-            guard: einkuenfteGuards.hasAndereArbeitsausgaben,
-            target: steps.arbeitsausgabenUebersicht.absolute,
-          },
-          "#arbeitsausgaben",
         ],
       },
     },

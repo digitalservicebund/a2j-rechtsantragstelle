@@ -18,13 +18,7 @@ export const partnerXstateConfig = {
   states: {
     [steps.partnerschaft.relative]: {
       on: {
-        BACK: [
-          {
-            guard: "hasFurtherIncome",
-            target: "#einkuenfte.weitere-einkuenfte.uebersicht",
-          },
-          "#einkuenfte.weitere-einkuenfte.frage",
-        ],
+        BACK: "#finanzielle-angaben.abzuege",
         SUBMIT: [
           {
             guard: "hasPartnerschaftYes",
