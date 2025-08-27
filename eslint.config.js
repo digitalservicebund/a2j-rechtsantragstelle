@@ -1,9 +1,10 @@
 import vitest from "@vitest/eslint-plugin";
-import globals from "globals";
-import react from "eslint-plugin-react";
 import importPlugin from "eslint-plugin-import";
-import tseslint from "typescript-eslint";
+import jsxA11y from "eslint-plugin-jsx-a11y";
+import react from "eslint-plugin-react";
 import sonarjs from "eslint-plugin-sonarjs";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
@@ -50,129 +51,6 @@ export default tseslint.config(
           "react/require-render-return": "error",
         },
       },
-      {
-        rules: {
-          "jsx-a11y/aria-proptypes": "error",
-          "jsx-a11y/control-has-associated-label": [
-            "off",
-            {
-              ignoreElements: [
-                "audio",
-                "canvas",
-                "embed",
-                "input",
-                "textarea",
-                "tr",
-                "video",
-              ],
-              ignoreRoles: [
-                "grid",
-                "listbox",
-                "menu",
-                "menubar",
-                "radiogroup",
-                "row",
-                "tablist",
-                "toolbar",
-                "tree",
-                "treegrid",
-              ],
-              includeRoles: ["alert", "dialog"],
-            },
-          ],
-          "jsx-a11y/interactive-supports-focus": [
-            "error",
-            {
-              tabbable: [
-                "button",
-                "checkbox",
-                "link",
-                "searchbox",
-                "spinbutton",
-                "switch",
-                "textbox",
-              ],
-            },
-          ],
-          "jsx-a11y/label-has-for": "off",
-          "jsx-a11y/no-interactive-element-to-noninteractive-role": [
-            "error",
-            {
-              tr: ["none", "presentation"],
-              canvas: ["img"],
-            },
-          ],
-          "jsx-a11y/no-noninteractive-element-interactions": [
-            "error",
-            {
-              handlers: [
-                "onClick",
-                "onError",
-                "onLoad",
-                "onMouseDown",
-                "onMouseUp",
-                "onKeyPress",
-                "onKeyDown",
-                "onKeyUp",
-              ],
-              alert: ["onKeyUp", "onKeyDown", "onKeyPress"],
-              body: ["onError", "onLoad"],
-              dialog: ["onKeyUp", "onKeyDown", "onKeyPress"],
-              iframe: ["onError", "onLoad"],
-              img: ["onError", "onLoad"],
-            },
-          ],
-          "jsx-a11y/no-noninteractive-element-to-interactive-role": [
-            "error",
-            {
-              ul: [
-                "listbox",
-                "menu",
-                "menubar",
-                "radiogroup",
-                "tablist",
-                "tree",
-                "treegrid",
-              ],
-              ol: [
-                "listbox",
-                "menu",
-                "menubar",
-                "radiogroup",
-                "tablist",
-                "tree",
-                "treegrid",
-              ],
-              li: [
-                "menuitem",
-                "menuitemradio",
-                "menuitemcheckbox",
-                "option",
-                "row",
-                "tab",
-                "treeitem",
-              ],
-              table: ["grid"],
-              td: ["gridcell"],
-              fieldset: ["radiogroup", "presentation"],
-            },
-          ],
-          "jsx-a11y/no-static-element-interactions": [
-            "error",
-            {
-              allowExpressionValues: true,
-              handlers: [
-                "onClick",
-                "onMouseDown",
-                "onMouseUp",
-                "onKeyPress",
-                "onKeyDown",
-                "onKeyUp",
-              ],
-            },
-          ],
-        },
-      },
     ],
     plugins: {
       react,
@@ -190,6 +68,29 @@ export default tseslint.config(
       "react/jsx-no-constructed-context-values": "warn",
       "react/no-array-index-key": "warn",
       "react/no-unstable-nested-components": "warn",
+    },
+  },
+  // JSX Accessibility
+  {
+    files: ["**/*.{jsx,tsx}"],
+    plugins: {
+      "jsx-a11y": jsxA11y,
+    },
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+
+    rules: {
+      "jsx-a11y/aria-proptypes": "error",
+      "jsx-a11y/interactive-supports-focus": "error",
+      "jsx-a11y/no-interactive-element-to-noninteractive-role": "error",
+      "jsx-a11y/no-noninteractive-element-interactions": "error",
+      "jsx-a11y/no-noninteractive-element-to-interactive-role": "error",
+      "jsx-a11y/no-static-element-interactions": "error",
     },
   },
   // Typescript
