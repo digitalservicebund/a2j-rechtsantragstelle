@@ -1,4 +1,5 @@
-/* eslint-disable import/no-named-as-default-member, no-console */
+/* eslint-disable import/no-named-as-default-member */
+/* oxlint-disable no-console */
 import { createRequestHandler } from "@react-router/express";
 import * as Sentry from "@sentry/react-router";
 import compression from "compression";
