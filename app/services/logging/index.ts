@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* oxlint-disable no-console */
 import * as Sentry from "@sentry/react-router";
 import { config } from "~/services/env/public";
 import { sentrySharedConfig } from "./sentrySettings";

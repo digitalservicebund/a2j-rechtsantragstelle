@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* oxlint-disable no-console */
 import { writeFileSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";

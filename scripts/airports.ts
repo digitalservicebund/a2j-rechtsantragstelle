@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* oxlint-disable no-console */
 import fs from "fs";
 import countries from "i18n-iso-countries";
 import uniqBy from "lodash/uniqBy";
