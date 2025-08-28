@@ -18,14 +18,10 @@ import { type NavItem } from "./types";
 type StateIconProps = {
   id: string;
   isDone: boolean;
-  showValidationWarning?: boolean;
+  showWarningIcon?: boolean;
 };
 
-const StateIcon: FC<StateIconProps> = ({
-  id,
-  isDone,
-  showValidationWarning,
-}) => {
+const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
   if (isDone) {
     return (
       <CheckCircle
@@ -34,9 +30,10 @@ const StateIcon: FC<StateIconProps> = ({
         aria-label={translations.navigation.navigationItemFinished.de}
       />
     );
-  } else if (showValidationWarning) {
+  } else if (showWarningIcon) {
     return (
       <SvgWarningAmber
+        id={id}
         aria-label={translations.navigation.navigationItemWarning.de}
       />
     );
@@ -63,7 +60,7 @@ export function NavItem({
   const collapse = useCollapse({
     defaultExpanded: forceExpanded ?? isCurrent,
   });
-  const showValidationWarning = readyForValidation && !isDone;
+  const showWarningIcon = readyForValidation && !isDone;
 
   // Transparent last: borders to avoid layout shifts
   const liClassNames = classNames(
@@ -78,9 +75,8 @@ export function NavItem({
   const itemClassNames = classNames(
     "w-full p-16 flex justify-between items-center hover:underline hover:bg-blue-400 active:bg-blue-300 focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-300",
     {
-      "bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-300":
-        showValidationWarning,
-      "bg-yellow-300": isCurrent && showValidationWarning,
+      "bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-300": showWarningIcon,
+      "bg-yellow-300": isCurrent && showWarningIcon,
       "ds-label-02-bold bg-blue-400": isCurrent && !hasSubflows,
       "ds-label-02-reg": !isCurrent || hasSubflows,
       "pl-24": isChild,
@@ -109,7 +105,7 @@ export function NavItem({
             <StateIcon
               id={iconId}
               isDone={isDone}
-              showValidationWarning={showValidationWarning}
+              showWarningIcon={showWarningIcon}
             />
           </button>
           {
@@ -135,7 +131,7 @@ export function NavItem({
           <StateIcon
             id={iconId}
             isDone={isDone}
-            showValidationWarning={showValidationWarning}
+            showWarningIcon={showWarningIcon}
           />
         </a>
       )}
