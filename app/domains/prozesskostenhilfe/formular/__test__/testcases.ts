@@ -67,8 +67,8 @@ export const testCasesProzesskostenhilfeSubmitOnly = {
     [
       {},
       [
-        "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgabe/daten",
-        "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht",
+        "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgabe/daten",
+        "/finanzielle-angaben/abzuege/arbeitsausgaben/uebersicht",
       ],
     ],
     [

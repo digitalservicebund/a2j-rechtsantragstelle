@@ -2,6 +2,7 @@ import { einkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanziell
 import { prozesskostenhilfeGesetzlicheVertretungDone } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/doneFunctions";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { antragstellendePersonDone } from "./antragstellendePerson/guards";
+import { abzuegeDone } from "./finanzielleAngaben/abzuege/doneFunctions";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
@@ -27,6 +28,7 @@ export const getMissingInformationStrings = (
         context,
       }) && context.formularArt !== "nachueberpruefung",
     einkuenfteMissingInformation: !einkuenfteDone({ context }),
+    abzuegeMissingInformation: !abzuegeDone({ context }),
     partnerMissingInformation: !partnerDone({ context }),
     kinderMissingInformation: !kinderDone({ context }),
     andereUnterhaltszahlungenMissingInformation: !andereUnterhaltszahlungenDone(

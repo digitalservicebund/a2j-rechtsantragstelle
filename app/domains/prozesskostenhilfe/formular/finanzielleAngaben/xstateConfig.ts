@@ -1,4 +1,5 @@
 import type { Config } from "~/services/flow/server/types";
+import { finanzielleAngabenAbzuegeXstateConfig } from "./abzuege/xstateConfig";
 import { andereUnterhaltszahlungenXstateConfig } from "./andere-unterhaltszahlungen/xstateConfig";
 import {
   ausgabenXstateConfig,
@@ -19,6 +20,7 @@ export const finanzielleAngabenXstateConfig = {
   id: "finanzielle-angaben",
   states: {
     einkuenfte: finanzielleAngabenEinkuenfteXstateConfig,
+    abzuege: finanzielleAngabenAbzuegeXstateConfig,
     partner: partnerXstateConfig,
     kinder: kinderXstateConfig,
     "andere-unterhaltszahlungen": andereUnterhaltszahlungenXstateConfig,
