@@ -6,7 +6,7 @@ import TileRadio, { type TileOptions } from "./TileRadio";
 import { type ErrorMessageProps } from "../../common/types";
 import InputError from "../InputError";
 
-export type TileGroupProps = Readonly<{
+type TileGroupProps = Readonly<{
   name: string;
   options: TileOptions[];
   label?: ReactNode;

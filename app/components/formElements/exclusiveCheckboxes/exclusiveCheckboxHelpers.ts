@@ -11,17 +11,18 @@ export function fieldValuesToCheckboxProps(
   cmsCheckboxes: StrapiCheckboxComponent[],
   noneCheckboxValue: CheckboxValue,
 ): Array<Omit<ControlledCheckboxProps, "onChange">> {
-  return Object.entries(field.value() ?? schema.shape).map(
-    ([checkboxName, checkboxValue]: [string, CheckboxValue | ZodEnum]) => {
-      const matchingCmsCheckbox = cmsCheckboxes.find(
-        (c) => c.name.split(".").pop() === checkboxName,
-      );
-      const value = checkboxValue instanceof ZodEnum ? "off" : checkboxValue;
-      return {
-        name: matchingCmsCheckbox?.name ?? "[Name not found]",
-        label: matchingCmsCheckbox?.label ?? "[Label not found]",
-        value: checkboxName === "none" ? noneCheckboxValue : value,
-      };
-    },
-  );
+  return Object.entries({
+    ...schema.shape,
+    ...field.value(),
+  }).map(([checkboxName, checkboxValue]: [string, CheckboxValue | ZodEnum]) => {
+    const matchingCmsCheckbox = cmsCheckboxes.find(
+      (c) => c.name.split(".").pop() === checkboxName,
+    );
+    const value = checkboxValue instanceof ZodEnum ? "off" : checkboxValue;
+    return {
+      name: matchingCmsCheckbox?.name ?? "[Name not found]",
+      label: matchingCmsCheckbox?.label ?? "[Label not found]",
+      value: checkboxName === "none" ? noneCheckboxValue : value,
+    };
+  });
 }

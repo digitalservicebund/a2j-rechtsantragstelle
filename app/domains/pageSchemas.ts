@@ -97,7 +97,7 @@ type ArrayParentPage = {
 };
 
 const isArrayParentPage = (page: PageConfig): page is ArrayParentPage =>
-  "pageSchema" in page && "arrayPages" in page;
+  page && "arrayPages" in page;
 
 type PageConfig = FlowPage | ArrayParentPage;
 

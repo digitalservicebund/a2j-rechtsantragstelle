@@ -50,10 +50,12 @@ export const addSupportRecipientsToAttachment =
         title: "Gemeinsame Wohnung",
         text: userData.zusammenleben === "yes" ? "Ja" : "Nein",
       });
-      if (userData.partnerEinkommenSumme)
+      if ((userData as BeratungshilfeFormularUserData).partnerEinkommenSumme)
         attachment.push({
           title: "Eigene monatlichen Einnahmen",
-          text: userData.partnerEinkommenSumme + " €",
+          text:
+            (userData as BeratungshilfeFormularUserData).partnerEinkommenSumme +
+            " €",
         });
     }
 

@@ -5,7 +5,7 @@ import Radio from "./Radio";
 import { type ErrorMessageProps } from "../common/types";
 import { useJsAvailable } from "../hooks/useJsAvailable";
 
-export type RadioGroupProps = Readonly<{
+type RadioGroupProps = Readonly<{
   name: string;
   options: Array<{
     value: string;
