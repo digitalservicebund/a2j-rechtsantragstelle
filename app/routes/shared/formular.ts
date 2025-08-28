@@ -30,7 +30,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const {
     userData: userDataWithPageData,
-    flow: { id: flowId, controller: flowController, validFlowPaths },
+    flow: {
+      id: flowId,
+      controller: flowController,
+      validFlowPaths,
+      abgabeVisited,
+    },
     page: { stepId, arrayIndexes },
     migration,
     emailCaptureConsent,
@@ -70,6 +75,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   return data(
     {
       arraySummaryData,
+      abgabeVisited,
       prunedUserData: userDataWithPageData,
       buttonNavigationProps,
       content: cmsContent.content,

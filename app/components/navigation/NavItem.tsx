@@ -1,6 +1,7 @@
 import CheckCircle from "@digitalservicebund/icons/CheckCircle";
 import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
 import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
+import SvgWarningAmber from "@digitalservicebund/icons/WarningAmber";
 import classNames from "classnames";
 import { useId, type FC } from "react";
 import { useCollapse } from "react-collapsed";
@@ -34,6 +35,7 @@ const StateIcon: FC<{
 export function NavItem({
   destination,
   label,
+  abgabeVisited,
   state,
   subflows = [],
   forceExpanded,
@@ -87,6 +89,7 @@ export function NavItem({
               <ExpandMoreIcon className="ml-auto" />
             )}
             {isDone && <StateIcon id={iconId} />}
+            {abgabeVisited && !isDone && <SvgWarningAmber />}
           </button>
           {
             // due the rest operator, the role is assigned to the section in the server side rendering
@@ -105,6 +108,7 @@ export function NavItem({
         >
           {label}
           {isDone && <StateIcon id={iconId} />}
+          {abgabeVisited && !isDone && <SvgWarningAmber />}
         </a>
       )}
     </li>

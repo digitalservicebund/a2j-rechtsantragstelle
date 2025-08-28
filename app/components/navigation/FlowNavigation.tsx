@@ -22,7 +22,11 @@ export default function FlowNavigation(props: FlowNavigationProps) {
       )}
     >
       {jsAvailable && (
-        <SideNavMobile className="md:hidden" navItems={props.navItems} />
+        <SideNavMobile
+          className="md:hidden"
+          navItems={props.navItems}
+          abgabeVisited={props.abgabeVisited}
+        />
       )}
 
       <NavigationList

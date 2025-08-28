@@ -1,7 +1,14 @@
 import { isFinanciallyEligibleForBerH } from "~/domains/beratungshilfe/formular/abgabe/isFinanciallyEligibleForBerH";
 import { getRechtsproblemStrings } from "~/domains/beratungshilfe/formular/rechtsproblem/stringReplacements";
 import type { Flow } from "~/domains/flows.server";
+import {
+  geldAnlagenStrings,
+  getArrayIndexStrings,
+  getKinderStrings,
+} from "~/domains/shared/formular/stringReplacements";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
+import { abgabeVisitedKey } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
+import { getSessionManager } from "~/services/session.server";
 import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
@@ -13,11 +20,6 @@ import {
 } from "./stringReplacements";
 import type { BeratungshilfeFormularUserData } from "./userData";
 import { beratungshilfeXstateConfig } from "./xstateConfig";
-import {
-  geldAnlagenStrings,
-  getArrayIndexStrings,
-  getKinderStrings,
-} from "../../shared/formular/stringReplacements";
 
 export const beratungshilfeFormular = {
   flowType: "formFlow",
@@ -47,5 +49,13 @@ export const beratungshilfeFormular = {
           },
         }),
       ),
+    "/weitere-angaben": async (request) => {
+      const { getSession, commitSession } = getSessionManager(
+        "/beratungshilfe/antrag",
+      );
+      const session = await getSession(request.headers.get("Cookie"));
+      session.set(abgabeVisitedKey, true);
+      await commitSession(session);
+    },
   },
 } satisfies Flow;
