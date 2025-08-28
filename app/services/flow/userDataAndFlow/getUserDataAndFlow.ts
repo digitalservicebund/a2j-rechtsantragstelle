@@ -17,7 +17,7 @@ type OkResult = {
     id: FlowId;
     controller: ReturnType<typeof buildFlowController>;
     validFlowPaths: ValidFlowPagesType;
-    abgabeVisited: boolean | undefined;
+    abgabeVisited?: boolean;
   };
   page: {
     stepId: string;
