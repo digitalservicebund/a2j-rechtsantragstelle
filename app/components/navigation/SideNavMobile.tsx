@@ -8,13 +8,13 @@ import { type NavItem } from "./types";
 
 type SideNavMobileProps = Readonly<{
   className?: string;
-  abgabeVisited?: boolean;
+  readyForValidation?: boolean;
   navItems: NavItem[];
 }>;
 
 export default function SideNavMobile({
   className,
-  abgabeVisited,
+  readyForValidation,
   navItems,
 }: SideNavMobileProps) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -55,7 +55,7 @@ export default function SideNavMobile({
           <div className="pb-10">
             <NavigationList
               navItems={navItems}
-              abgabeVisited={abgabeVisited}
+              readyForValidation={readyForValidation}
               className="border border-blue-400 mx-10 mb-10 overflow-auto"
             />
           </div>

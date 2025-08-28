@@ -7,7 +7,7 @@ import {
   getKinderStrings,
 } from "~/domains/shared/formular/stringReplacements";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { abgabeVisitedKey } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
+import { readyForValidationKey } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { getSessionManager } from "~/services/session.server";
 import {
   getAmtsgerichtStrings,
@@ -54,7 +54,7 @@ export const beratungshilfeFormular = {
         "/beratungshilfe/antrag",
       );
       const session = await getSession(request.headers.get("Cookie"));
-      session.set(abgabeVisitedKey, true);
+      session.set(readyForValidationKey, true);
       await commitSession(session);
     },
   },

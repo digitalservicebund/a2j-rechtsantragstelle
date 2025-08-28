@@ -5,37 +5,41 @@ import SvgWarningAmber from "@digitalservicebund/icons/WarningAmber";
 import classNames from "classnames";
 import { useId, type FC } from "react";
 import { useCollapse } from "react-collapsed";
-import { useRouteLoaderData } from "react-router";
-import { type RootLoader } from "~/root";
 import {
   stateIsCurrent,
   stateIsActive,
   stateIsDisabled,
   stateIsDone,
 } from "~/services/navigation/navState";
+import { translations } from "~/services/translations/translations";
 import { NavigationList } from "./NavigationList";
 import { type NavItem } from "./types";
 
-const StateIcon: FC<{
+type StateIconProps = {
   id: string;
-}> = ({ id }) => {
-  const rootLoaderData = useRouteLoaderData<RootLoader>("root");
-  return (
-    <CheckCircle
-      id={id}
-      className="shrink-0 fill-green-700"
-      // TODO: Move this to translations file and remove from the root loader
-      aria-label={
-        rootLoaderData?.accessibilityTranslations?.navigationItemFinishedLabel
-      }
-    />
-  );
+  isDone: boolean;
+  readyForValidation: boolean;
+};
+
+const StateIcon: FC<StateIconProps> = ({ id, isDone, readyForValidation }) => {
+  if (isDone) {
+    return (
+      <CheckCircle
+        id={id}
+        className="shrink-0 fill-green-700"
+        aria-label={translations.navigation.navigationItemFinished.de}
+      />
+    );
+  } else if (readyForValidation) {
+    return <SvgWarningAmber />;
+  }
+  return undefined;
 };
 
 export function NavItem({
   destination,
   label,
-  abgabeVisited,
+  readyForValidation,
   state,
   subflows = [],
   forceExpanded,
@@ -88,8 +92,11 @@ export function NavItem({
             ) : (
               <ExpandMoreIcon className="ml-auto" />
             )}
-            {isDone && <StateIcon id={iconId} />}
-            {abgabeVisited && !isDone && <SvgWarningAmber />}
+            <StateIcon
+              id={iconId}
+              isDone={isDone}
+              readyForValidation={!!readyForValidation}
+            />
           </button>
           {
             // due the rest operator, the role is assigned to the section in the server side rendering
@@ -107,8 +114,11 @@ export function NavItem({
           aria-describedby={isDone ? iconId : undefined}
         >
           {label}
-          {isDone && <StateIcon id={iconId} />}
-          {abgabeVisited && !isDone && <SvgWarningAmber />}
+          <StateIcon
+            id={iconId}
+            isDone={isDone}
+            readyForValidation={!!readyForValidation}
+          />
         </a>
       )}
     </li>

@@ -17,7 +17,7 @@ type OkResult = {
     id: FlowId;
     controller: ReturnType<typeof buildFlowController>;
     validFlowPaths: ValidFlowPagesType;
-    abgabeVisited?: boolean;
+    readyForValidation?: boolean;
   };
   page: {
     stepId: string;
@@ -35,7 +35,7 @@ type ErrorResult = {
   redirectTo: string;
 };
 
-export const abgabeVisitedKey = "abgabeVisited";
+export const readyForValidationKey = "readyForValidation";
 
 export const getUserDataAndFlow = async (
   request: Request,
@@ -78,7 +78,7 @@ export const getUserDataAndFlow = async (
       id: flowId,
       controller: flowController,
       validFlowPaths,
-      abgabeVisited: flowSession.get(abgabeVisitedKey),
+      readyForValidation: flowSession.get(readyForValidationKey),
     },
     page: {
       stepId,
