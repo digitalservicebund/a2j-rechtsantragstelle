@@ -4,11 +4,9 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { retrieveContentData } from "~/services/flow/formular/contentData/retrieveContentData";
+import { setUserVisitedValidationPage } from "~/services/flow/formular/contentData/setUserVisitedValidationPage";
 import { isFileUploadOrDeleteAction } from "~/services/flow/formular/fileUpload/isFileUploadOrDeleteAction";
-import {
-  getUserDataAndFlow,
-  readyForValidationKey,
-} from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
+import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
 import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
@@ -44,13 +42,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     emailCaptureConsent,
   } = resultUserAndFlow.value;
 
-  if (flowController.getMeta(stepId)?.isValidationPage) {
-    const { getSession, commitSession } = getSessionManager(flowId);
-    const session = await getSession(request.headers.get("Cookie"));
-    session.set(readyForValidationKey, true);
-    await commitSession(session);
-  }
-
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
 
@@ -66,6 +57,8 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       flowId,
       stepId,
     }),
+    flowController.getMeta(stepId)?.isValidationPage &&
+      setUserVisitedValidationPage(flowId, cookieHeader),
   ]);
 
   const translations = contentData.getTranslations();
