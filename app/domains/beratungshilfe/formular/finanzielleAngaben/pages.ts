@@ -3,6 +3,7 @@ import { berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages } from "./an
 import { berhAntragFinanzielleAngabenEinkommenPages } from "./einkommen/pages";
 import { berhAntragFinanzielleAngabenKinderPages } from "./kinder/pages";
 import { berhAntragFinanzielleAngabenPartnerPages } from "./partner/pages";
+import { berhAntragFinanzielleAngabenRegelmassigeAusgabenPages } from "./regelmaessigeAusgaben/pages";
 import { berhAntragFinanzielleAngabenWohnungPages } from "./wohnung/pages";
 
 export const berhAntragFinanzielleAngabenPages = {
@@ -11,4 +12,5 @@ export const berhAntragFinanzielleAngabenPages = {
   ...berhAntragFinanzielleAngabenKinderPages,
   ...berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages,
   ...berhAntragFinanzielleAngabenWohnungPages,
+  ...berhAntragFinanzielleAngabenRegelmassigeAusgabenPages,
 } as const satisfies PagesConfig;

@@ -64,7 +64,7 @@ const enumerateSupportRecipients: PkhPdfFillFunction = ({
     pdfValues.monatsbetrag1.value = userData.partnerUnterhaltsSumme + " €";
     if (userData.partnerEinkommen === "yes") {
       pdfValues.d2.value = true;
-      pdfValues.betrag1.value = userData.partnerEinkommenSumme + " €";
+      pdfValues.betrag1.value = "Siehe E-F";
     } else {
       pdfValues.d1.value = true;
     }

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { financialEntryInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -213,6 +214,9 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerArbeitsausgaben: {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben",
+    pageSchema: {
+      "partner-arbeitsausgaben": z.array(financialEntryInputSchema),
+    },
     arrayPages: {
       "partner-daten": {
         pageSchema: {
@@ -293,6 +297,9 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerWeitereEinkuenfte: {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte",
+    pageSchema: {
+      "partner-weitereEinkuenfte": z.array(financialEntryInputSchema),
+    },
     arrayPages: {
       "partner-daten": {
         pageSchema: {

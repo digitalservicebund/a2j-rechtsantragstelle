@@ -21,6 +21,25 @@ export const pkhFormularFinanzielleAngabenKinderPages = {
   },
   kinder: {
     stepId: "finanzielle-angaben/kinder/kinder",
+    pageSchema: {
+      kinder: z.array(
+        z
+          .object({
+            vorname: stringRequiredSchema,
+            nachname: stringRequiredSchema,
+            geburtsdatum: createDateSchema({
+              earliest: () => addYears(today(), -24),
+              latest: () => today(),
+            }),
+            wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
+            eigeneEinnahmen: YesNoAnswer,
+            einnahmen: buildMoneyValidationSchema(),
+            unterhalt: YesNoAnswer,
+            unterhaltsSumme: buildMoneyValidationSchema(),
+          })
+          .partial(),
+      ),
+    },
     arrayPages: {
       name: {
         pageSchema: {

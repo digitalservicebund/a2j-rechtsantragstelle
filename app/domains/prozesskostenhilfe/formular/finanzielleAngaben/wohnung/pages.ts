@@ -39,7 +39,7 @@ export const pkhFormularFinanzielleAngabenWohnungPages = {
     stepId: "finanzielle-angaben/wohnung/miete-alleine",
     pageSchema: {
       totalRent: buildMoneyValidationSchema(),
-      rentWithoutUtilities: buildMoneyValidationSchema(),
+      rentWithoutUtilities: buildMoneyValidationSchema().or(z.literal("")),
     },
   },
   wohnungMieteZusammen: {
@@ -52,8 +52,8 @@ export const pkhFormularFinanzielleAngabenWohnungPages = {
   wohnungNebenkosten: {
     stepId: "finanzielle-angaben/wohnung/nebenkosten",
     pageSchema: {
-      utilitiesCost: buildMoneyValidationSchema(),
-      heatingCosts: buildMoneyValidationSchema(),
+      utilitiesCost: buildMoneyValidationSchema().or(z.literal("")),
+      heatingCosts: buildMoneyValidationSchema().or(z.literal("")),
     },
   },
   wohnungEigenheimNebenkosten: {
@@ -66,8 +66,9 @@ export const pkhFormularFinanzielleAngabenWohnungPages = {
   wohnungEigenheimNebenkostenGeteilt: {
     stepId: "finanzielle-angaben/wohnung/eigenheim-nebenkosten-geteilt",
     pageSchema: {
-      utilitiesCostShared: buildMoneyValidationSchema(),
-      heatingCostsShared: buildMoneyValidationSchema(),
+      utilitiesCostOwned: buildMoneyValidationSchema(),
+      heatingCostsOwned: buildMoneyValidationSchema(),
+      utilitiesCostOwnShared: buildMoneyValidationSchema(),
     },
   },
 } as const satisfies PagesConfig;
