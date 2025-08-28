@@ -67,6 +67,9 @@ export function NavItem({
   const itemClassNames = classNames(
     "w-full p-16 flex justify-between items-center hover:underline hover:bg-blue-400 active:bg-blue-300 focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-300",
     {
+      "bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-300":
+        !isDone && readyForValidation,
+      "bg-yellow-300": isCurrent && !isDone && readyForValidation,
       "ds-label-02-bold bg-blue-400": isCurrent && !hasSubflows,
       "ds-label-02-reg": !isCurrent || hasSubflows,
       "pl-24": isChild,
@@ -102,7 +105,11 @@ export function NavItem({
             // due the rest operator, the role is assigned to the section in the server side rendering
           }
           <section {...collapse.getCollapseProps()} role={undefined}>
-            <NavigationList navItems={visibleChildItems} isChild={true} />
+            <NavigationList
+              navItems={visibleChildItems}
+              isChild={true}
+              readyForValidation={readyForValidation}
+            />
           </section>
         </>
       ) : (
