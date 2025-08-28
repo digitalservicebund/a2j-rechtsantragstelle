@@ -35,7 +35,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       id: flowId,
       controller: flowController,
       validFlowPaths,
-      readyForValidation,
+      userVisitedValidationPage,
     },
     page: { stepId, arrayIndexes },
     migration,
@@ -78,8 +78,9 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   return data(
     {
       arraySummaryData,
-      readyForValidation:
-        readyForValidation ?? flowController.getMeta(stepId)?.isValidationPage,
+      userVisitedValidationPage:
+        userVisitedValidationPage ??
+        flowController.getMeta(stepId)?.isValidationPage,
       prunedUserData: userDataWithPageData,
       buttonNavigationProps,
       content: cmsContent.content,

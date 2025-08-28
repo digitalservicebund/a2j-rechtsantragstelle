@@ -25,7 +25,7 @@ export default function FlowNavigation(props: FlowNavigationProps) {
         <SideNavMobile
           className="md:hidden"
           navItems={props.navItems}
-          readyForValidation={props.readyForValidation}
+          userVisitedValidationPage={props.userVisitedValidationPage}
         />
       )}
 

@@ -33,7 +33,7 @@ describe("NavigationItem", () => {
         destination={destination}
         label={label}
         state={"Open"}
-        readyForValidation={true}
+        userVisitedValidationPage={true}
       />,
     );
     const warningIcon = getByTestId("WarningAmberIcon");

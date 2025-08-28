@@ -1,9 +1,10 @@
 import { type FlowId } from "~/domains/flowIds";
-import { readyForValidationKey } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import {
   type CookieHeader,
   getSessionManager,
 } from "~/services/session.server";
+
+export const userVisitedValidationPageKey = "userVisitedValidationPage";
 
 export const setUserVisitedValidationPage = async (
   flowId: FlowId,
@@ -11,6 +12,6 @@ export const setUserVisitedValidationPage = async (
 ) => {
   const { getSession, commitSession } = getSessionManager(flowId);
   const session = await getSession(cookieHeader);
-  session.set(readyForValidationKey, true);
+  session.set(userVisitedValidationPageKey, true);
   await commitSession(session);
 };

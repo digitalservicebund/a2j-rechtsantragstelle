@@ -3,6 +3,7 @@ import { emailCaptureConsentName } from "~/components/content/emailCapture/email
 import { type ValidFlowPagesType } from "~/components/formFlowContext";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserData } from "~/domains/userData";
+import { userVisitedValidationPageKey } from "~/services/flow/formular/contentData/setUserVisitedValidationPage";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getSessionManager } from "~/services/session.server";
 import { getMigrationData } from "~/services/session.server/crossFlowMigration";
@@ -17,7 +18,7 @@ type OkResult = {
     id: FlowId;
     controller: ReturnType<typeof buildFlowController>;
     validFlowPaths: ValidFlowPagesType;
-    readyForValidation?: boolean;
+    userVisitedValidationPage?: boolean;
   };
   page: {
     stepId: string;
@@ -34,8 +35,6 @@ type OkResult = {
 type ErrorResult = {
   redirectTo: string;
 };
-
-export const readyForValidationKey = "readyForValidation";
 
 export const getUserDataAndFlow = async (
   request: Request,
@@ -78,7 +77,7 @@ export const getUserDataAndFlow = async (
       id: flowId,
       controller: flowController,
       validFlowPaths,
-      readyForValidation: flowSession.get(readyForValidationKey),
+      userVisitedValidationPage: flowSession.get(userVisitedValidationPageKey),
     },
     page: {
       stepId,

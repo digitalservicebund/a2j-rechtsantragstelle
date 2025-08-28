@@ -1,5 +1,7 @@
-import { setUserVisitedValidationPage } from "~/services/flow/formular/contentData/setUserVisitedValidationPage";
-import { readyForValidationKey } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
+import {
+  setUserVisitedValidationPage,
+  userVisitedValidationPageKey,
+} from "~/services/flow/formular/contentData/setUserVisitedValidationPage";
 import { getSessionManager } from "~/services/session.server";
 
 vi.mock("~/services/session.server");
@@ -20,7 +22,10 @@ describe("setUserVisitedValidationPage", () => {
       "/beratungshilfe/antrag",
       "cookieHeader",
     );
-    expect(mockSessionSet).toHaveBeenCalledWith(readyForValidationKey, true);
+    expect(mockSessionSet).toHaveBeenCalledWith(
+      userVisitedValidationPageKey,
+      true,
+    );
     expect(mockCommitSession).toHaveBeenCalled();
   });
 });
