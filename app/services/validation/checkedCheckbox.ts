@@ -13,7 +13,7 @@ export type ExclusiveCheckboxes = {
 export const invalidComboError =
   "Die Option 'Nichts trifft zu' kann nicht mit anderen Optionen kombiniert werden";
 
-export const exclusiveCheckboxesSchema = (checkboxNames: string[]) =>
+export const exclusiveCheckboxesSchema = (checkboxNames: readonly string[]) =>
   z
     .object({
       ...Object.fromEntries(checkboxNames.map((c) => [c, checkedOptional])),

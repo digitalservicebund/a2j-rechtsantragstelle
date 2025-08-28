@@ -1,6 +1,6 @@
 import type { BeratungshilfePDF } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
-import { type besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { type besondereBelastungen } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import {
   type AttachmentEntries,
   SEE_IN_ATTACHMENT_DESCRIPTION,
@@ -19,7 +19,8 @@ export const ausgabenSituationMapping = {
   disability: "Schwerbehinderung",
   medicalReasons:
     "Kostenaufwändige Ernährung notwendig durch medizinische Gründe",
-} satisfies Record<keyof typeof besondereBelastungenInputSchema.shape, string>;
+  none: "Nichts trifft zu",
+} satisfies Record<(typeof besondereBelastungen)[number], string>;
 
 export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   const attachment: AttachmentEntries = [];

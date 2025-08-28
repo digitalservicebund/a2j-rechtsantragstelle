@@ -3,7 +3,6 @@ import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/done
 import type { Config } from "~/services/flow/server/types";
 import { beratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenXStateConfig } from "./andereUnterhaltszahlungen/xstateConfig";
 import {
-  ausgabenDone,
   eigentumDone,
   geldanlagenDone,
   grundeigentumDone,
@@ -15,6 +14,7 @@ import { finanzielleAngabeGuards as guards } from "./guards";
 import { beratungshilfeFinanzielleAngabenKinderXstateConfig } from "./kinder/xstateConfig";
 import { berhAntragFinanzielleAngabenPages } from "./pages";
 import { beratungshilfeFinanzielleAngabenPartnerXstateConfig } from "./partner/xstateConfig";
+import { beratungshilfeFinanzielleAngabenRegelmassigeAusgabenXstateConfig } from "./regelmaessigeAusgaben/xstateConfig";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 import { berhAntragFinanzielleAngabenWohnungXstateConfig } from "./wohnung/xstateConfig";
 
@@ -459,93 +459,6 @@ export const finanzielleAngabenXstateConfig = {
         },
       },
     },
-    ausgaben: {
-      id: "ausgaben",
-      initial: "ausgaben-frage",
-      meta: { done: ausgabenDone },
-      states: {
-        "ausgaben-frage": {
-          on: {
-            BACK: [
-              {
-                guard: guards.hasGrundeigentumYes,
-                target: "#eigentum.grundeigentum.uebersicht",
-              },
-              "#eigentum.grundeigentum",
-            ],
-            SUBMIT: [
-              {
-                guard: guards.hasAusgabenYes,
-                target: "situation",
-              },
-              "#persoenliche-daten.start",
-            ],
-          },
-        },
-        situation: {
-          on: {
-            BACK: "ausgaben-frage",
-            SUBMIT: "uebersicht",
-          },
-        },
-        uebersicht: {
-          on: {
-            BACK: "situation",
-            SUBMIT: [
-              {
-                guard: guards.hasAusgabenYesAndEmptyArray,
-                target: "warnung",
-              },
-              "#persoenliche-daten.start",
-            ],
-            "add-ausgaben": {
-              guard: guards.isValidAusgabenArrayIndex,
-              target: "ausgaben",
-            },
-          },
-        },
-        warnung: {
-          on: {
-            BACK: "uebersicht",
-            SUBMIT: "#persoenliche-daten",
-          },
-        },
-        ausgaben: {
-          initial: "art",
-          states: {
-            art: {
-              on: {
-                BACK: "#ausgaben.uebersicht",
-                SUBMIT: "zahlungsinformation",
-              },
-            },
-            zahlungsinformation: {
-              on: {
-                BACK: "art",
-                SUBMIT: "laufzeit",
-              },
-            },
-            laufzeit: {
-              on: {
-                BACK: "zahlungsinformation",
-                SUBMIT: [
-                  {
-                    guard: guards.hasZahlungsfristYes,
-                    target: "zahlungsfrist",
-                  },
-                  "#ausgaben.uebersicht",
-                ],
-              },
-            },
-            zahlungsfrist: {
-              on: {
-                BACK: "laufzeit",
-                SUBMIT: "#ausgaben.uebersicht",
-              },
-            },
-          },
-        },
-      },
-    },
+    ausgaben: beratungshilfeFinanzielleAngabenRegelmassigeAusgabenXstateConfig,
   },
 } satisfies Config<BeratungshilfeFinanzielleAngabenUserData>;
