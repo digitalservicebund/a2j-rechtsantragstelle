@@ -143,6 +143,9 @@ export const translations = {
     navigationItemFinished: {
       de: "Abgeschlossen",
     },
+    navigationItemWarning: {
+      de: "Fehlende Angaben",
+    },
   },
   navigationMobile: {
     currentArea: {

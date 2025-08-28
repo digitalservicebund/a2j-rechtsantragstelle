@@ -31,7 +31,11 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, readyForValidation }) => {
       />
     );
   } else if (readyForValidation) {
-    return <SvgWarningAmber />;
+    return (
+      <SvgWarningAmber
+        aria-label={translations.navigation.navigationItemWarning.de}
+      />
+    );
   }
   return undefined;
 };
