@@ -1,4 +1,3 @@
-import partnerGerichte from "data/courts/partnerGerichte.json";
 import courtURLs from "data/courts/sanitizedURLs.json";
 import { getEncrypted } from "~/services/gerichtsfinder/encryptedStorage.server";
 import {
@@ -16,21 +15,10 @@ import { gerbehIndex } from "./convertJsonDataTable";
 
 // Encrypted court data & gerbehIndex of partner courts are cached
 let courtdata: Record<string, object> | undefined = undefined;
-let partnerCourtsGerbehIndex: Record<string, object> | undefined = undefined;
 
 function getCourtData() {
   courtdata ??= getEncrypted();
   return courtdata;
-}
-
-function getPartnerCourtsGerbehIndex() {
-  partnerCourtsGerbehIndex ??= Object.fromEntries(
-    Object.entries(partnerGerichte).map(([courtPostcode, courtInfos]) => [
-      gerbehIndexForPlz(courtPostcode),
-      courtInfos,
-    ]),
-  );
-  return partnerCourtsGerbehIndex;
 }
 
 const courtAddress = (
@@ -110,11 +98,6 @@ export const edgeCaseStreets = ({ zipCode }: { zipCode?: string }) => {
   return edgeCasesForPlz(zipCode).map(streetForEdgeCase);
 };
 
-const gerbehIndexForPlz = (zipCode: string) => {
-  const court = courtForPlz(zipCode);
-  return court ? gerbehIndex(buildGerbehIndex(court)) : undefined;
-};
-
 export const findCourt = ({
   zipCode,
   streetSlug,
@@ -164,10 +147,3 @@ export const findCourt = ({
   if (!court) return undefined;
   return courtAddress(court);
 };
-
-export function isPartnerCourt(zipCode?: string) {
-  const partnerCourtGerbehIndices = getPartnerCourtsGerbehIndex();
-  if (!zipCode || !partnerCourtGerbehIndices) return false;
-  const gerbehIndex = gerbehIndexForPlz(zipCode);
-  return gerbehIndex !== undefined && gerbehIndex in partnerCourtGerbehIndices;
-}
