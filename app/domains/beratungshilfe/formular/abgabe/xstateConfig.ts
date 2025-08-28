@@ -15,7 +15,7 @@ export const abgabeXstateConfig = {
   states: {
     [steps.ueberpruefung.relative]: {
       on: { BACK: "#weitere-angaben" },
-      meta: { expandValidation: true },
+      meta: { isValidationPage: true },
       always: {
         guard: beratungshilfeAbgabeGuards.readyForAbgabe,
         target: steps.zusammenfassung.relative,

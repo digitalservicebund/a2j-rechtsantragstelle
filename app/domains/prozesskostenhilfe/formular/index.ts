@@ -176,7 +176,7 @@ export const prozesskostenhilfeFormular = {
         meta: { done: () => false },
         states: {
           [steps.abgabeUeberpruefung.relative]: {
-            meta: { expandValidation: true },
+            meta: { isValidationPage: true },
             on: {
               BACK: steps.weitereAngaben.absolute,
             },

@@ -7,8 +7,6 @@ import {
   getKinderStrings,
 } from "~/domains/shared/formular/stringReplacements";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import { readyForValidationKey } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
-import { getSessionManager } from "~/services/session.server";
 import {
   getAmtsgerichtStrings,
   getStaatlicheLeistungenStrings,
@@ -49,13 +47,5 @@ export const beratungshilfeFormular = {
           },
         }),
       ),
-    "/weitere-angaben": async (request) => {
-      const { getSession, commitSession } = getSessionManager(
-        "/beratungshilfe/antrag",
-      );
-      const session = await getSession(request.headers.get("Cookie"));
-      session.set(readyForValidationKey, true);
-      await commitSession(session);
-    },
   },
 } satisfies Flow;
