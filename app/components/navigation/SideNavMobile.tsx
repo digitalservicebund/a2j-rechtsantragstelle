@@ -6,17 +6,13 @@ import { stateIsCurrent } from "~/services/navigation/navState";
 import { translations } from "~/services/translations/translations";
 import { type NavItem } from "./types";
 
-type SideNavMobileProps = Readonly<{
-  className?: string;
-  userVisitedValidationPage?: boolean;
-  navItems: NavItem[];
-}>;
-
 export default function SideNavMobile({
-  className,
   userVisitedValidationPage,
   navItems,
-}: SideNavMobileProps) {
+}: Readonly<{
+  userVisitedValidationPage?: boolean;
+  navItems: NavItem[];
+}>) {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
@@ -28,7 +24,7 @@ export default function SideNavMobile({
   const Icon = menuOpen ? Close : MenuIcon;
 
   return (
-    <div className={`flex flex-col ${className ?? ""}`}>
+    <div className={`flex flex-col md:hidden`}>
       {menuOpen && (
         <button
           onClick={toggleMenu}
