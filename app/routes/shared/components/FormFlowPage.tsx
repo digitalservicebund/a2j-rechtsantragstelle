@@ -24,7 +24,7 @@ export function FormFlowPage() {
     heading,
     migration,
     navItems,
-    isValidationPage,
+    expandFlowNavigation,
     postFormContent,
     preHeading,
     stepData,
@@ -56,7 +56,7 @@ export function FormFlowPage() {
                 <FlowNavigation
                   navItems={navItems}
                   readyForValidation={readyForValidation}
-                  expandAll={isValidationPage}
+                  expandAll={expandFlowNavigation}
                 />
               </div>
               <div className="flex flex-col flex-1 gap-32 md:pl-0 md:pb-32! pt-0! justify-between">
