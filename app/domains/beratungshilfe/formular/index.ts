@@ -1,11 +1,6 @@
 import { isFinanciallyEligibleForBerH } from "~/domains/beratungshilfe/formular/abgabe/isFinanciallyEligibleForBerH";
 import { getRechtsproblemStrings } from "~/domains/beratungshilfe/formular/rechtsproblem/stringReplacements";
 import type { Flow } from "~/domains/flows.server";
-import {
-  geldAnlagenStrings,
-  getArrayIndexStrings,
-  getKinderStrings,
-} from "~/domains/shared/formular/stringReplacements";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import {
   getAmtsgerichtStrings,
@@ -18,6 +13,11 @@ import {
 } from "./stringReplacements";
 import type { BeratungshilfeFormularUserData } from "./userData";
 import { beratungshilfeXstateConfig } from "./xstateConfig";
+import {
+  geldAnlagenStrings,
+  getArrayIndexStrings,
+  getKinderStrings,
+} from "../../shared/formular/stringReplacements";
 
 export const beratungshilfeFormular = {
   flowType: "formFlow",
