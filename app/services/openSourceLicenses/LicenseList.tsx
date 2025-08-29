@@ -1,5 +1,10 @@
-import type { Dependency } from "./generate.server";
 import { StandaloneLink } from "../../components/common/StandaloneLink";
+
+type Dependency = {
+  licenses: string | string[];
+  publisher?: string;
+  repository?: string;
+};
 
 const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
   return (

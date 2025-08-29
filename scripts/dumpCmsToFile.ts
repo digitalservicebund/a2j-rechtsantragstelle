@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import fs from "node:fs";
 import { configDotenv } from "dotenv";
-import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";
-import { strapiSchemas, type ApiId } from "./schemas";
-import { config } from "../env/env.server";
+import { getStrapiEntryFromApi } from "../app/services/cms/getStrapiEntryFromApi";
+import { strapiSchemas, type ApiId } from "../app/services/cms/schemas";
+import { config } from "../app/services/env/env.server";
 
 async function dumpCmsToFile() {
   configDotenv();
@@ -36,4 +36,4 @@ async function dumpCmsToFile() {
   fs.writeFileSync(CONTENT_FILE_PATH, JSON.stringify(content) + "\n", "utf8");
 }
 
-if (process.argv[2] === "dumpCmsToFile") await dumpCmsToFile();
+await dumpCmsToFile();

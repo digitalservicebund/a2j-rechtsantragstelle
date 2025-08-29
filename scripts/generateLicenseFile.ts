@@ -3,7 +3,7 @@ import path from "node:path";
 import { init } from "license-checker-rseidelsohn";
 import type { ModuleInfos, InitOpts } from "license-checker-rseidelsohn";
 
-export type Dependency = ModuleInfos[0] & { direct?: boolean };
+type Dependency = ModuleInfos[0] & { direct?: boolean };
 
 const filepath = path.resolve(
   path.join(process.cwd(), "data", "opensource-licenses.json"),
@@ -97,4 +97,4 @@ async function updateLicenseList() {
   fs.writeFileSync(filepath, JSON.stringify(licenses));
 }
 
-if (process.argv[2] === "generateLicenseFile") await updateLicenseList();
+await updateLicenseList();
