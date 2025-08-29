@@ -5,7 +5,6 @@ import {
   financialEntryInputSchema,
   unterhaltszahlungInputSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const createFinancialEntry = () => ({
@@ -47,10 +46,12 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
   arbeitsausgaben: faker.helpers.multiple(createFinancialEntry),
   receivesPension: YesNoAnswer.enum.yes,
   pensionAmount: faker.finance.amount(),
-  hasWohngeld: checkedOptional.enum.on,
-  hasKrankengeld: checkedOptional.enum.on,
-  hasElterngeld: checkedOptional.enum.on,
-  hasKindergeld: checkedOptional.enum.on,
+  leistungen: {
+    wohngeld: "on",
+    krankengeld: "on",
+    elterngeld: "on",
+    kindergeld: "on",
+  },
   wohngeldAmount: faker.finance.amount(),
   krankengeldAmount: faker.finance.amount(),
   elterngeldAmount: faker.finance.amount(),

@@ -107,7 +107,7 @@ describe("Einkünfte guards", () => {
     it("should return true if the user receives wohngeld", () => {
       expect(
         guards.hasWohngeld({
-          context: { hasWohngeld: "on" },
+          context: { leistungen: { wohngeld: "on" } },
         }),
       ).toBe(true);
     });
@@ -116,7 +116,7 @@ describe("Einkünfte guards", () => {
     it("should return true if the user receives krankengeld", () => {
       expect(
         guards.hasKrankengeld({
-          context: { hasKrankengeld: "on" },
+          context: { leistungen: { krankengeld: "on" } },
         }),
       ).toBe(true);
     });
@@ -125,7 +125,7 @@ describe("Einkünfte guards", () => {
     it("should return true if the user receives elterngeld", () => {
       expect(
         guards.hasElterngeld({
-          context: { hasElterngeld: "on" },
+          context: { leistungen: { elterngeld: "on" } },
         }),
       ).toBe(true);
     });
@@ -134,7 +134,7 @@ describe("Einkünfte guards", () => {
     it("should return true if the user receives kindergeld", () => {
       expect(
         guards.hasKindergeld({
-          context: { hasKindergeld: "on" },
+          context: { leistungen: { kindergeld: "on" } },
         }),
       ).toBe(true);
     });

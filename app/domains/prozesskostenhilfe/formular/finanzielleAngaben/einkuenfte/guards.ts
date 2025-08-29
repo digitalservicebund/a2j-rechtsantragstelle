@@ -41,10 +41,13 @@ export const finanzielleAngabeEinkuenfteGuards = {
     context.employmentType === "employedAndSelfEmployed",
 
   receivesPension: ({ context }) => context.receivesPension === "yes",
-  hasWohngeld: ({ context: { hasWohngeld } }) => hasWohngeld === "on",
-  hasKrankengeld: ({ context: { hasKrankengeld } }) => hasKrankengeld === "on",
-  hasElterngeld: ({ context: { hasElterngeld } }) => hasElterngeld === "on",
-  hasKindergeld: ({ context: { hasKindergeld } }) => hasKindergeld === "on",
+  hasWohngeld: ({ context: { leistungen } }) => leistungen?.wohngeld === "on",
+  hasKrankengeld: ({ context: { leistungen } }) =>
+    leistungen?.krankengeld === "on",
+  hasElterngeld: ({ context: { leistungen } }) =>
+    leistungen?.elterngeld === "on",
+  hasKindergeld: ({ context: { leistungen } }) =>
+    leistungen?.kindergeld === "on",
   hasFurtherIncome,
   hasFurtherIncomeAndEmptyArray: ({ context }) =>
     hasFurtherIncome({ context }) &&

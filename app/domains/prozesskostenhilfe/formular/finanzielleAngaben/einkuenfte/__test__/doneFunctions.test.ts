@@ -69,16 +69,18 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
     });
 
     it.each([
-      { typ: "Wohngeld", expected: false },
-      { typ: "Krankengeld", expected: false },
-      { typ: "Elterngeld", expected: false },
-      { typ: "Kindergeld", expected: false },
+      { typ: "wohngeld", expected: false },
+      { typ: "krankengeld", expected: false },
+      { typ: "elterngeld", expected: false },
+      { typ: "kindergeld", expected: false },
     ])(
       "Should return $expected if $typ is selected and no amount is entered",
       ({ typ, expected }) => {
         const done = leistungenDone({
           context: {
-            [`has${typ}`]: "on" as CheckboxValue,
+            leistungen: {
+              [typ]: "on" as CheckboxValue,
+            },
           },
         });
         expect(done).toBe(expected);
