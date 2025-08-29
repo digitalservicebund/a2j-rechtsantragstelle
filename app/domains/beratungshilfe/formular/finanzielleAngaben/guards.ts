@@ -210,7 +210,6 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("zusammenleben"),
   ...yesNoGuards("unterhalt"),
   ...yesNoGuards("partnerEinkommen"),
-  hasAusgabenYes,
   hasKraftfahrzeugYes,
   hasGrundeigentumYes,
   hasWertsacheYes,
@@ -243,7 +242,7 @@ export const finanzielleAngabeGuards = {
   isKraftfahrzeugWertAbove10000OrUnsure,
   grundeigentumIsBewohnt,
   hasAusgabenYesAndEmptyArray: ({ context }) =>
-    hasAusgabenYes({ context }) && !arrayIsNonEmpty(context.ausgaben),
+    context.hasAusgaben === "yes" && !arrayIsNonEmpty(context.ausgaben),
   hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
 } satisfies Guards<BeratungshilfeFinanzielleAngabenUserData>;

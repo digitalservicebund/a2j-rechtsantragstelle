@@ -137,7 +137,7 @@ export const prozesskostenhilfeFormular = {
       "gesetzliche-vertretung": gesetzlicheVertretungXstateConfig({
         backToCallingFlow: [
           {
-            guard: finanzielleAngabeGuards.hasAusgabenYes,
+            guard: ({ context }) => context.hasAusgaben === "yes",
             target: "#ausgaben-zusammenfassung",
           },
           {

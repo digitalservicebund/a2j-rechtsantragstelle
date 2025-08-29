@@ -1,6 +1,5 @@
 import {
   grundeigentumIsBewohnt,
-  hasAusgabenYes,
   hasGrundeigentumYes,
   hasKinderYes,
   hasKinderYesAndEmptyArray,
@@ -78,7 +77,6 @@ export const finanzielleAngabeGuards = {
 
   hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
-  hasAusgabenYes,
   isSonstigeVersicherung: ({ context: { pageData, versicherungen } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
