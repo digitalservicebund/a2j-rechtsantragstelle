@@ -35,15 +35,6 @@ export const { hasGrundeigentumYes } = yesNoGuards("hasGrundeigentum");
 export const { hasWertsacheYes } = yesNoGuards("hasWertsache");
 export const hasPartnerschaftYes: FinanzielleAngabenGuard = ({ context }) =>
   context.partnerschaft === "yes";
-export const hasPartnerschaftNoOrWidowed: FinanzielleAngabenGuard = ({
-  context,
-}) => context.partnerschaft === "no" || context.partnerschaft === "widowed";
-export const hasPartnerschaftYesAndPartnerEinkommenYes: FinanzielleAngabenGuard =
-  ({ context }) =>
-    hasPartnerschaftYes({ context }) && context.partnerEinkommen == "yes";
-export const hasPartnerschaftYesAndZusammenlebenYes: FinanzielleAngabenGuard =
-  ({ context }) =>
-    hasPartnerschaftYes({ context }) && context.zusammenleben == "yes";
 export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes: FinanzielleAngabenGuard =
   ({ context }) =>
     hasPartnerschaftYes({ context }) &&
@@ -167,10 +158,3 @@ export const hasWeitereUnterhaltszahlungenYesAndEmptyArray: FinanzielleAngabenGu
   ({ context }) =>
     hasWeitereUnterhaltszahlungenYes({ context }) &&
     !arrayIsNonEmpty(context.unterhaltszahlungen);
-export const hasAnyEigentumExceptBankaccount: FinanzielleAngabenGuard = ({
-  context,
-}) =>
-  context.hasGeldanlage == "yes" ||
-  context.hasWertsache == "yes" ||
-  context.hasGrundeigentum == "yes" ||
-  context.hasKraftfahrzeug == "yes";
