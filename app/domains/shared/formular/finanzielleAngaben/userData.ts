@@ -85,12 +85,6 @@ export const kraftfahrzeugWertInputSchema = z.enum([
   "unsure",
 ]);
 
-export const livingSituationInputSchema = z.enum([
-  "alone",
-  "withRelatives",
-  "withOthers",
-]);
-
 export type KraftfahrzeugeArraySchema = z.infer<
   typeof kraftfahrzeugeArraySchema
 >;
