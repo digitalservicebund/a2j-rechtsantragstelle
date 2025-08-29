@@ -179,14 +179,16 @@ export const partnerschaftInputSchema = z.enum([
   "widowed",
 ]);
 
+export const childBirthdaySchema = createDateSchema({
+  earliest: () => addYears(today(), -24),
+  latest: () => today(),
+});
+
 export const kinderSchema = z
   .object({
     vorname: stringRequiredSchema,
     nachname: stringRequiredSchema,
-    geburtsdatum: createDateSchema({
-      earliest: () => addYears(today(), -24),
-      latest: () => today(),
-    }),
+    geburtsdatum: childBirthdaySchema,
     wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
     eigeneEinnahmen: YesNoAnswer,
     einnahmen: buildMoneyValidationSchema(),
@@ -195,9 +197,7 @@ export const kinderSchema = z
   })
   .partial();
 
-export const kinderArraySchema = z.array(kinderSchema);
-
-export type KinderArraySchema = z.infer<typeof kinderArraySchema>;
+export type KinderSchema = z.infer<typeof kinderSchema>;
 
 export const besondereBelastungen = [
   "pregnancy",
