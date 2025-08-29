@@ -1,6 +1,5 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { Config } from "~/services/flow/server/types";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { beratungshilfePersoenlicheDatenDone } from "./doneFunctions";
 import { berHAntragPersoenlicheDatenPages } from "./pages";
 import { type BeratungshilfePersoenlicheDatenUserData } from "./userData";
@@ -11,7 +10,6 @@ import {
 } from "../finanzielleAngaben/guards";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "../finanzielleAngaben/userData";
 
-const showNachbefragung = await isFeatureFlagEnabled("showNachbefragung");
 const steps = xStateTargetsFromPagesConfig(berHAntragPersoenlicheDatenPages);
 
 export const persoenlicheDatenXstateConfig = {
@@ -74,19 +72,12 @@ export const persoenlicheDatenXstateConfig = {
     [steps.telefonnummer.relative]: {
       on: {
         BACK: steps.adresse.relative,
-        SUBMIT: showNachbefragung
-          ? "#persoenliche-daten.nachbefragung"
-          : "#weitere-angaben",
+        SUBMIT: "#persoenliche-daten.nachbefragung",
       },
     },
-    ...(showNachbefragung && {
-      [steps.nachbefragung.relative]: {
-        on: {
-          BACK: steps.telefonnummer.relative,
-          SUBMIT: "#weitere-angaben",
-        },
-      },
-    }),
+    [steps.nachbefragung.relative]: {
+      on: { BACK: steps.telefonnummer.relative, SUBMIT: "#weitere-angaben" },
+    },
   },
 } satisfies Config<
   BeratungshilfePersoenlicheDatenUserData &
