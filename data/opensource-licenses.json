@@ -246,6 +246,14 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/mustache/LICENSE",
     "direct": true
   },
+  "node-forge": {
+    "licenses": "(BSD-3-Clause OR GPL-2.0)",
+    "repository": "https://github.com/digitalbazaar/forge",
+    "publisher": "Digital Bazaar, Inc.",
+    "email": "support@digitalbazaar.com",
+    "path": "a2j-rechtsantragstelle/node_modules/node-forge",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/node-forge/LICENSE"
+  },
   "pako": {
     "licenses": "(MIT AND Zlib)",
     "repository": "https://github.com/nodeca/pako",
@@ -288,11 +296,11 @@
   },
   "posthog-node": {
     "licenses": "MIT",
-    "repository": "https://github.com/PostHog/posthog-js-lite",
+    "repository": "https://github.com/PostHog/posthog-js",
     "publisher": "PostHog",
     "email": "hey@posthog.com",
     "path": "a2j-rechtsantragstelle/node_modules/posthog-node",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/posthog-node/README.md",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/posthog-node/LICENSE",
     "direct": true
   },
   "rate-limit-redis": {
