@@ -17,30 +17,6 @@ export const staatlicheLeistungenDone: ProzesskostenhilfeFinanzielleAngabenEinku
     (guards.staatlicheLeistungenIsArbeitslosengeld({ context }) &&
       context.arbeitslosengeld !== undefined);
 
-export const arbeitsabzuegeDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
-  ({ context }) => {
-    if (guards.incomeWithBuergergeld({ context })) return true;
-    if (context.arbeitsweg === undefined) return false;
-
-    const arbeitsplatzDone =
-      objectKeysNonEmpty(context.arbeitsplatz, [
-        "strasseHausnummer",
-        "plz",
-        "ort",
-      ]) && context.arbeitsplatzEntfernung !== undefined;
-    if (
-      guards.usesPublicTransit({ context }) &&
-      (context.monatlicheOPNVKosten === undefined || !arbeitsplatzDone)
-    )
-      return false;
-    if (guards.usesPrivateVehicle({ context }) && !arbeitsplatzDone)
-      return false;
-    return (
-      context.hasArbeitsausgaben !== undefined &&
-      !guards.hasAndereArbeitsausgabenAndEmptyArray({ context })
-    );
-  };
-
 export const einkommenDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) => {
     const employeeIncomeComplete =
@@ -86,8 +62,7 @@ export const leistungenDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard
 
 export const arbeitDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) =>
-    guards.notEmployed({ context }) ||
-    (einkommenDone({ context }) && arbeitsabzuegeDone({ context }));
+    guards.notEmployed({ context }) || einkommenDone({ context });
 
 export const pensionDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) => {

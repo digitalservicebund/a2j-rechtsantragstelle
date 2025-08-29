@@ -20,6 +20,16 @@ export const partnerXstateConfig = {
       on: {
         BACK: [
           {
+            guard: ({ context }) =>
+              !!(
+                (context.employmentType === "employed" ||
+                  context.employmentType === "employedAndSelfEmployed" ||
+                  context.nettoEinkuenfteAlsArbeitnehmer) &&
+                context.staatlicheLeistungen !== "buergergeld"
+              ),
+            target: "#finanzielle-angaben.abzuege",
+          },
+          {
             guard: "hasFurtherIncome",
             target: "#einkuenfte.weitere-einkuenfte.uebersicht",
           },

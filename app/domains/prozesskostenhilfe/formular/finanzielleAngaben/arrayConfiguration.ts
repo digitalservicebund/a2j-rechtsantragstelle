@@ -4,7 +4,7 @@ import type { ProzesskostenhilfeFormularUserData } from "../userData";
 export function finanzielleAngabenArrayConfig(prefix: string) {
   return {
     arbeitsausgaben: {
-      url: `${prefix}/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgabe`,
+      url: `${prefix}/abzuege/arbeitsausgaben/arbeitsausgabe`,
       initialInputUrl: "daten",
       statementKey: "hasArbeitsausgaben",
       event: "add-arbeitsausgaben",
