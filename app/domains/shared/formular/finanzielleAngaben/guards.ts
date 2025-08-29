@@ -23,7 +23,6 @@ export const hasPartnerschaftYesAndZusammenlebenNo: FinanzielleAngabenGuard = ({
   context,
 }) => hasPartnerschaftYes({ context }) && context.zusammenleben == "no";
 
-export const { hasKinderYes } = yesNoGuards("hasKinder");
 export const { hasWeitereUnterhaltszahlungenYes } = yesNoGuards(
   "hasWeitereUnterhaltszahlungen",
 );
@@ -150,7 +149,7 @@ export const grundeigentumIsBewohnt: FinanzielleAngabenGuard = ({
 };
 export const hasKinderYesAndEmptyArray: FinanzielleAngabenGuard = ({
   context,
-}) => hasKinderYes({ context }) && !arrayIsNonEmpty(context.kinder);
+}) => context.hasKinder === "yes" && !arrayIsNonEmpty(context.kinder);
 export const hasWeitereUnterhaltszahlungenYesAndEmptyArray: FinanzielleAngabenGuard =
   ({ context }) =>
     hasWeitereUnterhaltszahlungenYes({ context }) &&

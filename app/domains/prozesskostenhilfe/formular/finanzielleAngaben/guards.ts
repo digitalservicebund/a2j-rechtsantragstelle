@@ -1,7 +1,6 @@
 import {
   grundeigentumIsBewohnt,
   hasGrundeigentumYes,
-  hasKinderYes,
   hasKinderYesAndEmptyArray,
   hasKraftfahrzeugYes,
   hasPartnerschaftYesAndZusammenlebenNo,
@@ -47,7 +46,6 @@ export const finanzielleAngabeGuards = {
   hasKraftfahrzeugYes,
   hasGrundeigentumYes,
   hasWertsacheYes,
-  hasKinderYes,
   hasWeitereUnterhaltszahlungenYes,
   kindWohnortBeiAntragstellerYes,
   kindWohnortBeiAntragstellerNo,

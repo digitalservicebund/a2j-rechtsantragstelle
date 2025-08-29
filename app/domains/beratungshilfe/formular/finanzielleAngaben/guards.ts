@@ -31,10 +31,9 @@ export const grundeigentumIsBewohnt: BeratungshilfeFinanzielleAngabenGuard = ({
 
 export const { hasGrundeigentumYes } = yesNoGuards("hasGrundeigentum");
 
-export const { hasKinderYes } = yesNoGuards("hasKinder");
 export const hasKinderYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) =>
-    hasKinderYes({ context }) && !arrayIsNonEmpty(context.kinder);
+    context.hasKinder === "yes" && !arrayIsNonEmpty(context.kinder);
 
 export const { hasKraftfahrzeugYes } = yesNoGuards("hasKraftfahrzeug");
 
@@ -213,7 +212,6 @@ export const finanzielleAngabeGuards = {
   hasKraftfahrzeugYes,
   hasGrundeigentumYes,
   hasWertsacheYes,
-  hasKinderYes,
   hasWeitereUnterhaltszahlungenYes,
   hasZahlungsfristYes: ({ context: { pageData, ausgaben } }) => {
     const arrayIndex = firstArrayIndex(pageData);
