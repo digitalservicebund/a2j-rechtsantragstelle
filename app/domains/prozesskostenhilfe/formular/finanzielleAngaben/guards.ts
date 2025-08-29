@@ -2,7 +2,6 @@ import {
   grundeigentumIsBewohnt,
   hasAusgabenYes,
   hasBankkontoYes,
-  hasGeldanlageYes,
   hasGrundeigentumYes,
   hasKinderYes,
   hasKinderYesAndEmptyArray,
@@ -49,7 +48,6 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("partnerHasBesondersAusgaben"),
   hasBankkontoYes,
   hasKraftfahrzeugYes,
-  hasGeldanlageYes,
   hasGrundeigentumYes,
   hasWertsacheYes,
   hasKinderYes,
@@ -72,7 +70,8 @@ export const finanzielleAngabeGuards = {
 
   eigentumYesAndEmptyArray: ({ context }) =>
     (hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten)) ||
-    (hasGeldanlageYes({ context }) && !arrayIsNonEmpty(context.geldanlagen)) ||
+    (context.hasGeldanlage === "yes" &&
+      !arrayIsNonEmpty(context.geldanlagen)) ||
     (hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen)) ||
     (hasKraftfahrzeugYes({ context }) &&
       !arrayIsNonEmpty(context.kraftfahrzeuge)) ||

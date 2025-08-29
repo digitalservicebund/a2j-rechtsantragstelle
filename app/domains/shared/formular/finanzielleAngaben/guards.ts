@@ -30,7 +30,6 @@ export const { hasWeitereUnterhaltszahlungenYes } = yesNoGuards(
 );
 export const { hasBankkontoYes } = yesNoGuards("hasBankkonto");
 export const { hasKraftfahrzeugYes } = yesNoGuards("hasKraftfahrzeug");
-export const { hasGeldanlageYes } = yesNoGuards("hasGeldanlage");
 export const { hasGrundeigentumYes } = yesNoGuards("hasGrundeigentum");
 export const { hasWertsacheYes } = yesNoGuards("hasWertsache");
 export const hasPartnerschaftYes: FinanzielleAngabenGuard = ({ context }) =>

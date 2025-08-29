@@ -12,7 +12,6 @@ import {
   finanzielleAngabeGuards,
   grundeigentumIsBewohnt,
   hasBankkontoYes,
-  hasGeldanlageYes,
   hasGrundeigentumYes,
   hasKraftfahrzeugYes,
   hasWertsacheYes,
@@ -139,7 +138,7 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
             ],
             SUBMIT: [
               {
-                guard: hasGeldanlageYes,
+                guard: ({ context }) => context.hasGeldanlage === "yes",
                 target: "uebersicht",
               },
               "#eigentum.kraftfahrzeuge",
@@ -256,7 +255,7 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
           on: {
             BACK: [
               {
-                guard: hasGeldanlageYes,
+                guard: ({ context }) => context.hasGeldanlage === "yes",
                 target: "#eigentum.geldanlagen.uebersicht",
               },
               "#eigentum.geldanlagen",

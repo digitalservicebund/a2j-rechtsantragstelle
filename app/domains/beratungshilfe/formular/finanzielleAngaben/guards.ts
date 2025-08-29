@@ -213,7 +213,6 @@ export const finanzielleAngabeGuards = {
   hasAusgabenYes,
   hasBankkontoYes,
   hasKraftfahrzeugYes,
-  hasGeldanlageYes,
   hasGrundeigentumYes,
   hasWertsacheYes,
   hasKinderYes,
