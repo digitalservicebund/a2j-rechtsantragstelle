@@ -14,13 +14,13 @@ export const berhAntragFinanzielleAngabenKinderPages = {
   },
   kinderUebersicht: {
     stepId: "finanzielle-angaben/kinder/uebersicht",
-    pageSchema: { kinder: z.array(kinderSchema) },
   },
   kinderWarnung: {
     stepId: "finanzielle-angaben/kinder/warnung",
   },
   kinder: {
     stepId: "finanzielle-angaben/kinder/kinder",
+    pageSchema: { kinder: z.array(kinderSchema) },
     arrayPages: {
       name: {
         pageSchema: {
