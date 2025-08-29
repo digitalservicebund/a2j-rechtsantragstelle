@@ -4,7 +4,6 @@ import { type FluggastrechteUserData } from "~/domains/fluggastrechte/formular/u
 import { fluggastrechteVorabcheckInputSchema } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { type FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
-import { beratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
 import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
 import type { BeratungshilfeVorabcheckUserData } from "./beratungshilfe/vorabcheck/userData";
 import type { FlowId } from "./flowIds";
@@ -29,7 +28,7 @@ export type AllUserDataKeys = KeysOfUnion<
 >;
 
 const contexts = {
-  "/beratungshilfe/antrag": beratungshilfeFormularUserData,
+  "/beratungshilfe/antrag": {},
   "/beratungshilfe/vorabcheck": {}, // BH vorabcheck is using page-based config. The schemas are accessible via getPageSchema(pathname)
   "/geld-einklagen/vorabcheck": {},
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckInputSchema,
