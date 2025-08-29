@@ -18,7 +18,6 @@ import { grundvoraussetzungenXstateConfig } from "~/domains/prozesskostenhilfe/f
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "~/domains/shared/formular/finanzielleAngaben/arrayConfiguration";
-import { persoenlicheDatenXstateConfig } from "~/domains/shared/formular/persoenlicheDaten/xStateConfig";
 import {
   getKinderStrings,
   getArrayIndexStrings,
@@ -37,6 +36,7 @@ import {
   isNachueberpruefung,
   versandDigitalGericht,
 } from "./grundvoraussetzungen/guards";
+import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xStateConfig";
 import {
   belegeStrings,
   getMissingInformationStrings,
