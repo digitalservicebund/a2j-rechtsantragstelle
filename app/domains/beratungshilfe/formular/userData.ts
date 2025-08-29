@@ -1,25 +1,20 @@
-import { z } from "zod";
 import { type BeratungshilfePersoenlicheDatenUserData } from "~/domains/beratungshilfe/formular/persoenlicheDaten/userData";
 import { type BeratungshilfeAbgabeUserData } from "./abgabe/userData";
 import { type BeratungshilfeAnwaltlicheVertretungUserData } from "./anwaltlicheVertretung/userData";
-import {
-  beratungshilfeFinanzielleAngabenInputSchema,
-  type BeratungshilfeFinanzielleAngabenUserData,
-} from "./finanzielleAngaben/userData";
+import { type BeratungshilfeFinanzielleAngabenUserData } from "./finanzielleAngaben/userData";
 import { type BeratungshilfeGrundvoraussetzungenUserData } from "./grundvoraussetzung/userData";
 import { type BeratungshilfeRechtsproblemUserData } from "./rechtsproblem/userData";
 import { type BeratungshilfeWeitereAngabenUserData } from "./weitereAngaben/userData";
 
-export const beratungshilfeFormularUserData = {
-  ...beratungshilfeFinanzielleAngabenInputSchema,
-} as const;
-
-const _partialSchema = z.object(beratungshilfeFormularUserData).partial();
-export type BeratungshilfeFormularUserData = z.infer<typeof _partialSchema> &
+export type BeratungshilfeFormularUserData =
   BeratungshilfeGrundvoraussetzungenUserData &
-  BeratungshilfeRechtsproblemUserData &
-  BeratungshilfeAnwaltlicheVertretungUserData &
-  BeratungshilfeFinanzielleAngabenUserData &
-  BeratungshilfePersoenlicheDatenUserData &
-  BeratungshilfeWeitereAngabenUserData &
-  BeratungshilfeAbgabeUserData;
+    BeratungshilfeRechtsproblemUserData &
+    BeratungshilfeAnwaltlicheVertretungUserData &
+    BeratungshilfeFinanzielleAngabenUserData &
+    BeratungshilfePersoenlicheDatenUserData &
+    BeratungshilfeWeitereAngabenUserData &
+    BeratungshilfeAbgabeUserData & {
+      pageData?: {
+        arrayIndexes: number[];
+      };
+    };
