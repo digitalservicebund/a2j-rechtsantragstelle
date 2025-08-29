@@ -51,6 +51,7 @@ describe("flowNavigation", () => {
           label: parentStepState.stepId,
           state: "Current",
           subflows: undefined,
+          isValidationPage: undefined,
         },
       ]);
     });
@@ -63,12 +64,14 @@ describe("flowNavigation", () => {
           destination: parentStepState.url,
           label: parentStepState.stepId,
           state: "Current",
+          isValidationPage: undefined,
           subflows: [
             {
               label: childStepState.stepId,
               destination: childStepState.url,
               state: "Current",
               subflows: undefined,
+              isValidationPage: undefined,
             },
           ],
         },
@@ -83,12 +86,14 @@ describe("flowNavigation", () => {
           destination: parentStepState.url,
           label: parentStepState.stepId,
           state: "Open",
+          isValidationPage: undefined,
           subflows: [
             {
               label: childStepState.stepId,
               destination: childStepState.url,
               state: "Open",
               subflows: undefined,
+              isValidationPage: undefined,
             },
           ],
         },
@@ -132,12 +137,14 @@ describe("flowNavigation", () => {
           label: "/a",
           subflows: undefined,
           state: "Done",
+          isValidationPage: undefined,
         },
         {
           destination: "/",
           label: "/a-b",
           subflows: undefined,
           state: "Current",
+          isValidationPage: undefined,
         },
       ]);
     });
@@ -158,6 +165,29 @@ describe("flowNavigation", () => {
           label: "/a-b",
           subflows: undefined,
           state: "Current",
+          isValidationPage: undefined,
+        },
+      ]);
+    });
+
+    it('should have the correct "isValidationPage" property', () => {
+      expect(
+        navItemsFromStepStates("/a-b", [
+          {
+            url: "/",
+            isDone: false,
+            stepId: "/a-b",
+            isReachable: true,
+            isValidationState: true,
+          },
+        ]),
+      ).toStrictEqual([
+        {
+          destination: "/",
+          label: "/a-b",
+          subflows: undefined,
+          state: "Current",
+          isValidationPage: true,
         },
       ]);
     });

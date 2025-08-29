@@ -37,9 +37,7 @@ describe("SideNavMobile", () => {
   });
 
   it("renders the main menu toggle with correct aria-label and text", () => {
-    const { getByRole } = render(
-      <SideNavMobile navItems={dummyNavItems} className="test-class" />,
-    );
+    const { getByRole } = render(<SideNavMobile navItems={dummyNavItems} />);
     const toggleLabel = getByRole("button");
     expect(toggleLabel).toBeInTheDocument();
     expect(toggleLabel).toHaveTextContent("Bereich:");
@@ -47,9 +45,7 @@ describe("SideNavMobile", () => {
   });
 
   it("renders the aria-expanded with the correct value", () => {
-    const { getByRole } = render(
-      <SideNavMobile navItems={dummyNavItems} className="test-class" />,
-    );
+    const { getByRole } = render(<SideNavMobile navItems={dummyNavItems} />);
     const menuButton = getByRole("button");
     expect(menuButton).toHaveAttribute("aria-expanded", "false");
     fireEvent.click(menuButton);

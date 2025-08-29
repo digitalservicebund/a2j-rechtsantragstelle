@@ -139,6 +139,14 @@ export const translations = {
       de: "um",
     },
   },
+  navigation: {
+    navigationItemFinished: {
+      de: "Abgeschlossen",
+    },
+    navigationItemWarning: {
+      de: "Fehlende Angaben",
+    },
+  },
   navigationMobile: {
     currentArea: {
       de: "Bereich",

@@ -15,6 +15,7 @@ import type { loader } from "../formular";
 export function FormFlowPage() {
   const {
     arraySummaryData,
+    userVisitedValidationPage,
     prunedUserData,
     buttonNavigationProps,
     content,
@@ -23,7 +24,7 @@ export function FormFlowPage() {
     heading,
     migration,
     navItems,
-    isValidationPage,
+    expandFlowNavigation,
     postFormContent,
     preHeading,
     stepData,
@@ -54,7 +55,8 @@ export function FormFlowPage() {
               <div className="md:mb-32 md:w-[248px]">
                 <FlowNavigation
                   navItems={navItems}
-                  expandAll={isValidationPage}
+                  userVisitedValidationPage={userVisitedValidationPage}
+                  expandAll={expandFlowNavigation}
                 />
               </div>
               <div className="flex flex-col flex-1 gap-32 md:pl-0 md:pb-32! pt-0! justify-between">
