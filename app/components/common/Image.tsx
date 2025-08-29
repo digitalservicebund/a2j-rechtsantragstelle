@@ -19,10 +19,7 @@ function Image({ url, ariaHidden, alternativeText, ...props }: ImageProps) {
   const jsAvailable = useJsAvailable();
 
   const isSvg = url.endsWith(".svg");
-  const altText =
-    !alternativeText || alternativeText === ""
-      ? EMPTY_ALTERNATIVE_TEXT
-      : alternativeText;
+  const altText = alternativeText ?? EMPTY_ALTERNATIVE_TEXT;
 
   const ImageComponent = (
     <img
