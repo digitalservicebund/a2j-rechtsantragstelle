@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { checkedOptional } from "~/services/validation/checkedCheckbox";
+import { besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { createDateSchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -33,12 +33,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
   ausgabenBesondereBelastungen: {
     stepId: "finanzielle-angaben/ausgaben/besondere-belastungen",
     pageSchema: {
-      besondereBelastungen: z.object({
-        pregnancy: checkedOptional,
-        singleParent: checkedOptional,
-        disability: checkedOptional,
-        medicalReasons: checkedOptional,
-      }),
+      besondereBelastungen: besondereBelastungenInputSchema,
     },
   },
   ausgabenZusammenfassung: {

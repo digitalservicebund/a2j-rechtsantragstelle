@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { checkedOptional } from "~/services/validation/checkedCheckbox";
+import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -205,9 +205,13 @@ export const kinderArraySchema = z.array(kinderSchema);
 
 export type KinderArraySchema = z.infer<typeof kinderArraySchema>;
 
-export const besondereBelastungenInputSchema = z.object({
-  pregnancy: checkedOptional,
-  singleParent: checkedOptional,
-  disability: checkedOptional,
-  medicalReasons: checkedOptional,
-});
+export const besondereBelastungen = [
+  "pregnancy",
+  "singleParent",
+  "disability",
+  "medicalReasons",
+  "none",
+] as const;
+
+export const besondereBelastungenInputSchema =
+  exclusiveCheckboxesSchema(besondereBelastungen);

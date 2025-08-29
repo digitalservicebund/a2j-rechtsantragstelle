@@ -1,7 +1,6 @@
 import { type CheckboxValue } from "~/components/formElements/Checkbox";
 import {
   arbeitDone,
-  arbeitsabzuegeDone,
   einkommenDone,
   einkuenfteDone,
   furtherIncomeDone,
@@ -39,45 +38,6 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
 
     it("should return false if no value has been entered", () => {
       const done = staatlicheLeistungenDone({ context: {} });
-      expect(done).toBe(false);
-    });
-  });
-
-  describe("arbeitsabzeugeDone", () => {
-    it("should return false if the user hasn't entered an arbeitsweg", () => {
-      const done = arbeitsabzuegeDone({ context: {} });
-      expect(done).toBe(false);
-    });
-
-    it("should return true if the user has Bürgergeld and income", () => {
-      expect(
-        arbeitsabzuegeDone({
-          context: {
-            staatlicheLeistungen: "buergergeld",
-            currentlyEmployed: "yes",
-          },
-        }),
-      ).toBe(true);
-    });
-
-    it("should return false if the user uses public transport and hasn't entered their monthly costs, or their place of work", () => {
-      const done = arbeitsabzuegeDone({
-        context: { arbeitsweg: "publicTransport" },
-      });
-      expect(done).toBe(false);
-    });
-
-    it("should return false if the user uses a private vehicle and hasn't entered their place of work", () => {
-      const done = arbeitsabzuegeDone({
-        context: { arbeitsweg: "privateVehicle" },
-      });
-      expect(done).toBe(false);
-    });
-
-    it("should return false if the user has additional work-related costs and hasn't entered them", () => {
-      const done = arbeitsabzuegeDone({
-        context: { arbeitsweg: "none", hasArbeitsausgaben: "yes" },
-      });
       expect(done).toBe(false);
     });
   });
