@@ -91,7 +91,8 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       meta,
       migration,
       navItems,
-      expandFlowNavigation: flowController.getMeta(stepId)?.isValidationPage,
+      expandFlowNavigation:
+        flowController.getMeta(stepId)?.shouldExpandAllStates,
       postFormContent: cmsContent.postFormContent,
       preHeading: cmsContent.preHeading,
       stepData,

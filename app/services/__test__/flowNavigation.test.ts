@@ -161,5 +161,27 @@ describe("flowNavigation", () => {
         },
       ]);
     });
+
+    it('should have the correct "isValidationPage" property', () => {
+      expect(
+        navItemsFromStepStates("/a-b", [
+          {
+            url: "/",
+            isDone: false,
+            stepId: "/a-b",
+            isReachable: true,
+            isValidationState: true,
+          },
+        ]),
+      ).toStrictEqual([
+        {
+          destination: "/",
+          label: "/a-b",
+          subflows: undefined,
+          state: "Current",
+          isValidationPage: true,
+        },
+      ]);
+    });
   });
 });

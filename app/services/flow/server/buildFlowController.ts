@@ -1,6 +1,12 @@
 import { getShortestPaths } from "@xstate/graph";
 import isEqual from "lodash/isEqual";
-import { initialTransition, pathToStateValue, setup, transition } from "xstate";
+import {
+  initialTransition,
+  pathToStateValue,
+  setup,
+  type StateNode,
+  transition,
+} from "xstate";
 import type { Guards } from "~/domains/guards.server";
 import type { UserData } from "~/domains/userData";
 import {
@@ -88,6 +94,7 @@ export type StepState = {
   isDone: boolean;
   isReachable: boolean;
   url: string;
+  isValidationState?: boolean;
   subStates?: StepState[];
 };
 
@@ -107,6 +114,7 @@ function stepStates(
   return statesWithDoneFunctionOrSubstates.map((state) => {
     const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
     const meta = state.meta as Meta | undefined;
+    const parent = state.parent as StateNode | undefined;
     const hasDoneFunction = meta?.done !== undefined;
     const reachableSubStates = stepStates(state, reachableSteps).filter(
       (state) => state.isReachable,
@@ -143,7 +151,9 @@ function stepStates(
         isDone: hasDoneFunction ? meta.done!({ context }) : false,
         stepId,
         isReachable: reachableSteps.includes(targetStepId),
-      };
+        isValidationState:
+          meta?.isValidationPage ?? parent?.meta?.isValidationPage,
+      } as StepState;
     }
 
     return {
@@ -152,7 +162,9 @@ function stepStates(
       stepId,
       isReachable: reachableSubStates.length > 0,
       subStates: reachableSubStates,
-    };
+      isValidationState:
+        meta?.isValidationPage ?? parent?.meta?.isValidationPage,
+    } as StepState;
   });
 }
 
