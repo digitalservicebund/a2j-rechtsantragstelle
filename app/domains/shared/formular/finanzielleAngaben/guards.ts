@@ -28,7 +28,6 @@ export const { hasKinderYes } = yesNoGuards("hasKinder");
 export const { hasWeitereUnterhaltszahlungenYes } = yesNoGuards(
   "hasWeitereUnterhaltszahlungen",
 );
-export const { hasBankkontoYes } = yesNoGuards("hasBankkonto");
 export const { hasKraftfahrzeugYes } = yesNoGuards("hasKraftfahrzeug");
 export const { hasGrundeigentumYes } = yesNoGuards("hasGrundeigentum");
 export const { hasWertsacheYes } = yesNoGuards("hasWertsache");

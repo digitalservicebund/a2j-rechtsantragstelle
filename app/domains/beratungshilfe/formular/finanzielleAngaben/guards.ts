@@ -211,7 +211,6 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("unterhalt"),
   ...yesNoGuards("partnerEinkommen"),
   hasAusgabenYes,
-  hasBankkontoYes,
   hasKraftfahrzeugYes,
   hasGrundeigentumYes,
   hasWertsacheYes,
