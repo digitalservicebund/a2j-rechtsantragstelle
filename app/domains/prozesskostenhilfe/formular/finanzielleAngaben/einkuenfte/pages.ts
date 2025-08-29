@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { financialEntryInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { checkedOptional } from "~/services/validation/checkedCheckbox";
+import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
@@ -84,10 +84,13 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   leistungenFrage: {
     stepId: "finanzielle-angaben/einkuenfte/leistungen/frage",
     pageSchema: {
-      hasWohngeld: checkedOptional,
-      hasKrankengeld: checkedOptional,
-      hasElterngeld: checkedOptional,
-      hasKindergeld: checkedOptional,
+      leistungen: exclusiveCheckboxesSchema([
+        "wohngeld",
+        "krankengeld",
+        "elterngeld",
+        "kindergeld",
+        "none",
+      ]),
     },
   },
   wohngeld: {

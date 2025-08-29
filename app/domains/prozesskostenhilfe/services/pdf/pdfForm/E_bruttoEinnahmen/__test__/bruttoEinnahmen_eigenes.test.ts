@@ -229,7 +229,7 @@ describe("bruttoEinnahmen_eigenes", () => {
 
     it("should indicate if a user receives Wohngeld", () => {
       const { pdfValues } = fillAndereLeistungen({
-        userData: { hasWohngeld: "on", wohngeldAmount: "100" },
+        userData: { leistungen: { wohngeld: "on" }, wohngeldAmount: "100" },
         pdfValues: pdfParams,
       });
       expect(pdfValues.e12.value).toBe(true);
@@ -240,7 +240,7 @@ describe("bruttoEinnahmen_eigenes", () => {
     it("should indicate if a user receives Krankengeld", () => {
       const { pdfValues } = fillAndereLeistungen({
         userData: {
-          hasKrankengeld: "on",
+          leistungen: { krankengeld: "on" },
           krankengeldAmount: "250",
         },
         pdfValues: pdfParams,
@@ -252,7 +252,7 @@ describe("bruttoEinnahmen_eigenes", () => {
     });
     it("should indicate if a user receives Elterngeld", () => {
       const { pdfValues } = fillAndereLeistungen({
-        userData: { hasElterngeld: "on", elterngeldAmount: "50" },
+        userData: { leistungen: { elterngeld: "on" }, elterngeldAmount: "50" },
         pdfValues: pdfParams,
       });
       expect(pdfValues.e24.value).toBe(true);
@@ -263,7 +263,7 @@ describe("bruttoEinnahmen_eigenes", () => {
     it("should indicate if a user receives Kindergeld", () => {
       const { pdfValues } = fillAndereLeistungen({
         userData: {
-          hasKindergeld: "on",
+          leistungen: { kindergeld: "on" },
           kindergeldAmount: "10000",
         },
         pdfValues: pdfParams,
