@@ -12,13 +12,17 @@ export type ImageProps = Readonly<{
 
 // Create a constant variable to avoid complains from Sonar
 const SVG_ROLE = "img";
+// An empty alt attribute is needed for accessibility when the image is decorative
+const EMPTY_ALTERNATIVE_TEXT = "";
 
 function Image({ url, ariaHidden, alternativeText, ...props }: ImageProps) {
   const jsAvailable = useJsAvailable();
 
   const isSvg = url.endsWith(".svg");
   const altText =
-    !alternativeText || alternativeText === "" ? "image" : alternativeText;
+    !alternativeText || alternativeText === ""
+      ? EMPTY_ALTERNATIVE_TEXT
+      : alternativeText;
 
   const ImageComponent = (
     <img
@@ -50,7 +54,8 @@ function Image({ url, ariaHidden, alternativeText, ...props }: ImageProps) {
       src={url}
       title={altText}
       role={SVG_ROLE}
-      aria-hidden={ariaHidden}
+      // If the alt text is empty, the image is decorative, so we set aria-hidden to true
+      aria-hidden={altText === EMPTY_ALTERNATIVE_TEXT ? true : ariaHidden}
       height="100%"
     />
   );
