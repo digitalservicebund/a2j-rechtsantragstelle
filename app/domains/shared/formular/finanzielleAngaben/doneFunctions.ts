@@ -2,7 +2,7 @@ import type { FinanzielleAngabenGuard } from "~/domains/shared/formular/finanzie
 import type {
   GeldanlagenArraySchema,
   GrundeigentumArraySchema,
-  KinderArraySchema,
+  KinderSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { arrayIsNonEmpty } from "~/util/array";
 
@@ -10,13 +10,13 @@ export const bankKontoDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasBankkonto === "no" ||
   (context.hasBankkonto === "yes" && arrayIsNonEmpty(context.bankkonten));
 
-export const childDone = (child: KinderArraySchema[0]) =>
+export const childDone = (child: KinderSchema) =>
   child.vorname !== undefined &&
   child.nachname !== undefined &&
   child.geburtsdatum !== undefined &&
   childWohnortDone(child);
 
-const childWohnortDone = (child: KinderArraySchema[0]) => {
+const childWohnortDone = (child: KinderSchema) => {
   if (
     child.wohnortBeiAntragsteller === "yes" ||
     child.wohnortBeiAntragsteller === "partially"

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import { type z } from "zod";
-import { type adresseSchema } from "~/domains/shared/formular/persoenlicheDaten/userData";
 import { type DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import type { postcodeSchema } from "~/services/validation/postcode";
 
 const API_PATH = "/api";
 
@@ -30,7 +30,7 @@ const useDataListOptions = (dataListType: DataListType) => {
    */
   const loaderData = useLoaderData();
   const postleitzahl = loaderData?.prunedUserData?.plz as
-    | z.infer<typeof adresseSchema.plz>
+    | z.infer<typeof postcodeSchema>
     | undefined;
   const resourcePath = getResourcePath(dataListType, postleitzahl);
 

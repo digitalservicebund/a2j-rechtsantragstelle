@@ -4,7 +4,6 @@ import { berhAntragFinanzielleAngabenKinderPages } from "./pages";
 import { type BeratungshilfeFinanzielleAngabenKinderUserData } from "./userData";
 import { kinderDone } from "../doneFunctions";
 import {
-  hasKinderYes,
   hasKinderYesAndEmptyArray,
   hasPartnerschaftYes,
   hasPartnerschaftYesAndPartnerEinkommenYes,
@@ -60,7 +59,7 @@ export const beratungshilfeFinanzielleAngabenKinderXstateConfig = {
         ],
         SUBMIT: [
           {
-            guard: hasKinderYes,
+            guard: ({ context }) => context.hasKinder === "yes",
             target: steps.kinderUebersicht.relative,
           },
           "#andere-unterhaltszahlungen.frage",

@@ -28,7 +28,7 @@ export const ausgabenXstateConfig = {
         ],
         SUBMIT: [
           {
-            guard: "hasAusgabenYes",
+            guard: ({ context }) => context.hasAusgaben === "yes",
             target: steps.ausgabenBesondereBelastungen.relative,
           },
           "#gesetzliche-vertretung",

@@ -1,10 +1,6 @@
 import {
   grundeigentumIsBewohnt,
-  hasAusgabenYes,
-  hasBankkontoYes,
-  hasGeldanlageYes,
   hasGrundeigentumYes,
-  hasKinderYes,
   hasKinderYesAndEmptyArray,
   hasKraftfahrzeugYes,
   hasPartnerschaftYesAndZusammenlebenNo,
@@ -47,12 +43,9 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("unterhalt"),
   ...yesNoGuards("partnerEinkommen"),
   ...yesNoGuards("partnerHasBesondersAusgaben"),
-  hasBankkontoYes,
   hasKraftfahrzeugYes,
-  hasGeldanlageYes,
   hasGrundeigentumYes,
   hasWertsacheYes,
-  hasKinderYes,
   hasWeitereUnterhaltszahlungenYes,
   kindWohnortBeiAntragstellerYes,
   kindWohnortBeiAntragstellerNo,
@@ -71,8 +64,9 @@ export const finanzielleAngabeGuards = {
   grundeigentumIsBewohnt,
 
   eigentumYesAndEmptyArray: ({ context }) =>
-    (hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten)) ||
-    (hasGeldanlageYes({ context }) && !arrayIsNonEmpty(context.geldanlagen)) ||
+    (context.hasBankkonto === "yes" && !arrayIsNonEmpty(context.bankkonten)) ||
+    (context.hasGeldanlage === "yes" &&
+      !arrayIsNonEmpty(context.geldanlagen)) ||
     (hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen)) ||
     (hasKraftfahrzeugYes({ context }) &&
       !arrayIsNonEmpty(context.kraftfahrzeuge)) ||
@@ -81,7 +75,6 @@ export const finanzielleAngabeGuards = {
 
   hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
-  hasAusgabenYes,
   isSonstigeVersicherung: ({ context: { pageData, versicherungen } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;

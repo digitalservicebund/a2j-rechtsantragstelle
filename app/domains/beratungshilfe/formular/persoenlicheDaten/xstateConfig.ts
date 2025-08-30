@@ -24,7 +24,7 @@ export const persoenlicheDatenXstateConfig = {
           {
             guard: ({ context }) =>
               staatlicheLeistungenIsKeine({ context }) &&
-              finanzielleAngabeGuards.hasAusgabenYes({ context }),
+              context.hasAusgaben === "yes",
             target: "#ausgaben.uebersicht",
           },
           {

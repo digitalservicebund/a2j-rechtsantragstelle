@@ -1,4 +1,5 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import { type Config } from "~/services/flow/server/types";
 import { berhAntragFinanzielleAngabenEigentumPages } from "./pages";
 import {
@@ -11,8 +12,6 @@ import {
 import {
   finanzielleAngabeGuards,
   grundeigentumIsBewohnt,
-  hasBankkontoYes,
-  hasGeldanlageYes,
   hasGrundeigentumYes,
   hasKraftfahrzeugYes,
   hasWertsacheYes,
@@ -26,7 +25,6 @@ import {
   isKraftfahrzeugWertAbove10000OrUnsure,
   staatlicheLeistungenIsBuergergeld,
 } from "../guards";
-import { bankKontoDone } from "./doneFunctions";
 import { type BeratungshilfeFinanzielleAngabenEigentumUserData } from "./userData";
 
 const steps = xStateTargetsFromPagesConfig(
@@ -86,7 +84,7 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
             ],
             SUBMIT: [
               {
-                guard: hasBankkontoYes,
+                guard: ({ context }) => context.hasBankkonto === "yes",
                 target: steps.eigentumBankkontenUebersicht.relative,
               },
               "#eigentum.geldanlagen",
@@ -132,14 +130,14 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
           on: {
             BACK: [
               {
-                guard: hasBankkontoYes,
+                guard: ({ context }) => context.hasBankkonto === "yes",
                 target: "#eigentum.bankkonten.uebersicht",
               },
               "#eigentum.bankkonten",
             ],
             SUBMIT: [
               {
-                guard: hasGeldanlageYes,
+                guard: ({ context }) => context.hasGeldanlage === "yes",
                 target: "uebersicht",
               },
               "#eigentum.kraftfahrzeuge",
@@ -256,7 +254,7 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
           on: {
             BACK: [
               {
-                guard: hasGeldanlageYes,
+                guard: ({ context }) => context.hasGeldanlage === "yes",
                 target: "#eigentum.geldanlagen.uebersicht",
               },
               "#eigentum.geldanlagen",

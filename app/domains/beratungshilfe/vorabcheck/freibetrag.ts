@@ -1,5 +1,5 @@
 import mapValues from "lodash/mapValues";
-import { type KinderArraySchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { type KinderSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { dateUTCFromGermanDateString, addYears, today } from "~/util/date";
 import type { BeratungshilfeVorabcheckUserData } from "./userData";
 
@@ -129,7 +129,7 @@ export function calculateFreibetragBerHFormular({
   partnership,
   partnerIncome,
   kinder,
-}: Partial<CalculateFreibetragProps> & { kinder: KinderArraySchema }) {
+}: Partial<CalculateFreibetragProps> & { kinder: KinderSchema[] }) {
   const {
     selfAllowance,
     incomeAllowance,

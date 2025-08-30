@@ -1,14 +1,13 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { Config } from "~/services/flow/server/types";
-import { type BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData } from "./userData";
 import { andereUnterhaltszahlungenDone } from "../doneFunctions";
 import {
-  hasKinderYes,
   hasWeitereUnterhaltszahlungenYes,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
   staatlicheLeistungenIsBuergergeld,
 } from "../guards";
 import { berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages } from "./pages";
+import type { BeratungshilfeFinanzielleAngabenUserData } from "../userData";
 
 const steps = xStateTargetsFromPagesConfig(
   berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages,
@@ -28,7 +27,7 @@ export const beratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenXStateConf
               target: "#einkommen.staatliche-leistungen",
             },
             {
-              guard: hasKinderYes,
+              guard: ({ context }) => context.hasKinder === "yes",
               target: "#kinder.uebersicht",
             },
             "#kinder.kinder-frage",
@@ -74,4 +73,4 @@ export const beratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenXStateConf
         },
       },
     },
-  } satisfies Config<BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData>;
+  } satisfies Config<BeratungshilfeFinanzielleAngabenUserData>;

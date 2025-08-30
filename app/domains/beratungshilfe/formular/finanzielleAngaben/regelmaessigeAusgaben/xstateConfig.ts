@@ -1,6 +1,5 @@
 import {
   finanzielleAngabeGuards,
-  hasAusgabenYes,
   hasGrundeigentumYes,
 } from "~/domains/beratungshilfe/formular/finanzielleAngaben/guards";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
@@ -30,7 +29,7 @@ export const beratungshilfeFinanzielleAngabenRegelmassigeAusgabenXstateConfig =
           ],
           SUBMIT: [
             {
-              guard: hasAusgabenYes,
+              guard: ({ context }) => context.hasAusgaben === "yes",
               target: steps.ausgabenSituation.relative,
             },
             "#persoenliche-daten.start",
