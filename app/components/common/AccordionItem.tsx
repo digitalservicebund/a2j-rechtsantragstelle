@@ -33,6 +33,8 @@ export function AccordionItem({
       open={startOpened}
     >
       <summary
+        // the linter doesn’t have special knowledge of summary and details natively toggleable
+        // oxlint-disable-next-line jsx-a11y/click-events-have-key-events
         onClick={onSummaryClick}
         className="flex justify-between cursor-pointer p-16 bg-blue-100 "
       >
