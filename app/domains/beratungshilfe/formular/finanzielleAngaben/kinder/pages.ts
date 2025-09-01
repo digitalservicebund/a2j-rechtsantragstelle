@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { kinderSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { createDateSchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -9,9 +10,7 @@ import { addYears, today } from "~/util/date";
 export const berhAntragFinanzielleAngabenKinderPages = {
   kinderFrage: {
     stepId: "finanzielle-angaben/kinder/kinder-frage",
-    pageSchema: {
-      hasKinder: YesNoAnswer,
-    },
+    pageSchema: { hasKinder: YesNoAnswer },
   },
   kinderUebersicht: {
     stepId: "finanzielle-angaben/kinder/uebersicht",
@@ -21,25 +20,7 @@ export const berhAntragFinanzielleAngabenKinderPages = {
   },
   kinder: {
     stepId: "finanzielle-angaben/kinder/kinder",
-    pageSchema: {
-      kinder: z.array(
-        z
-          .object({
-            vorname: stringRequiredSchema,
-            nachname: stringRequiredSchema,
-            geburtsdatum: createDateSchema({
-              earliest: () => addYears(today(), -24),
-              latest: () => today(),
-            }),
-            wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
-            eigeneEinnahmen: YesNoAnswer,
-            einnahmen: buildMoneyValidationSchema(),
-            unterhalt: YesNoAnswer,
-            unterhaltsSumme: buildMoneyValidationSchema(),
-          })
-          .partial(),
-      ),
-    },
+    pageSchema: { kinder: z.array(kinderSchema) },
     arrayPages: {
       name: {
         pageSchema: {
