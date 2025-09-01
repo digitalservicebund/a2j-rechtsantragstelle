@@ -112,10 +112,12 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = [
   ],
   [
     {
-      hasWohngeld: "on",
-      hasKrankengeld: "on",
-      hasElterngeld: "on",
-      hasKindergeld: "on",
+      leistungen: {
+        wohngeld: "on",
+        krankengeld: "on",
+        elterngeld: "on",
+        kindergeld: "on",
+      },
       wohngeldAmount: "500",
       krankengeldAmount: "500",
       elterngeldAmount: "500",
@@ -132,10 +134,12 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = [
   ],
   [
     {
-      hasWohngeld: "off",
-      hasKrankengeld: "off",
-      hasElterngeld: "off",
-      hasKindergeld: "off",
+      leistungen: {
+        wohngeld: "off",
+        krankengeld: "off",
+        elterngeld: "off",
+        kindergeld: "off",
+      },
     },
     [
       "/finanzielle-angaben/einkuenfte/leistungen/frage",

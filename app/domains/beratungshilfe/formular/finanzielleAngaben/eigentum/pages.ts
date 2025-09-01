@@ -100,7 +100,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
               "myselfAndSomeoneElse",
             ]),
             wert: buildMoneyValidationSchema(),
-            kontoBankName: stringOptionalSchema,
+            kontoBankName: stringRequiredSchema,
             kontoIban: stringOptionalSchema,
             kontoBezeichnung: stringOptionalSchema,
             befristetArt: z
@@ -174,6 +174,9 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
             "myselfAndSomeoneElse",
           ]),
           "geldanlagen#wert": buildMoneyValidationSchema(),
+          "geldanlagen#kontoBankName": stringRequiredSchema,
+          "geldanlagen#kontoIban": stringOptionalSchema,
+          "geldanlagen#kontoBezeichnung": stringOptionalSchema,
         },
       },
       befristet: {
@@ -185,13 +188,13 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
             "myselfAndSomeoneElse",
           ]),
           "geldanlagen#wert": buildMoneyValidationSchema(),
-          "geldanlagen#befristetArt": z
-            .enum([
-              "lifeInsurance",
-              "buildingSavingsContract",
-              "fixedDepositAccount",
-            ])
-            .optional(),
+          "geldanlagen#befristetArt": z.enum([
+            "lifeInsurance",
+            "buildingSavingsContract",
+            "fixedDepositAccount",
+          ]),
+          "geldanlagen#verwendungszweck": stringOptionalSchema,
+          "geldanlagen#auszahlungdatum": stringOptionalSchema,
         },
       },
       forderung: {
