@@ -114,7 +114,7 @@ function stepStates(
   return statesWithDoneFunctionOrSubstates.map((state) => {
     const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
     const meta = state.meta as Meta | undefined;
-    const parent = state.parent as StateNode | undefined;
+    const parent = state.parent;
     const hasDoneFunction = meta?.done !== undefined;
     const reachableSubStates = stepStates(state, reachableSteps).filter(
       (state) => state.isReachable,
