@@ -85,6 +85,7 @@
     {
       // React
       "files": ["**/*.{js,jsx,ts,tsx}"],
+      "plugins": ["react"],
       "rules": {
         "react/jsx-key": "error",
         "react/jsx-no-comment-textnodes": "error",
@@ -101,26 +102,26 @@
         "react/no-unescaped-entities": "error",
         "react/no-unknown-property": "error",
         "react/react-in-jsx-scope": "error"
-      },
-      "plugins": ["react"]
+      }
     },
     {
       "files": ["**/*.{js,jsx,ts,tsx}"],
+      "plugins": ["react"],
       "rules": {
         "react/react-in-jsx-scope": "off"
-      },
-      "plugins": ["react"]
+      }
     },
     {
       "files": ["**/*.{js,jsx,ts,tsx}"],
+      "plugins": ["react"],
       "rules": {
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn"
-      },
-      "plugins": ["react"]
+      }
     },
     {
       "files": ["**/*.{js,jsx,ts,tsx}"],
+      "plugins": ["jsx-a11y"],
       "rules": {
         "jsx-a11y/alt-text": "error",
         "jsx-a11y/anchor-ambiguous-text": "off",
@@ -155,19 +156,19 @@
         "jsx-a11y/role-supports-aria-props": "error",
         "jsx-a11y/scope": "error",
         "jsx-a11y/tabindex-no-positive": "error"
-      },
-      "plugins": ["jsx-a11y"]
+      }
     },
     {
       "files": ["**/*.{js,jsx,ts,tsx}"],
+      "plugins": ["react"],
       "rules": {
         "react/no-array-index-key": "warn"
-      },
-      "plugins": ["react"]
+      }
     },
     // Replace tseslint.configs.recommendedTypeChecked
     {
       "files": ["**/*.{ts,tsx}"],
+      "plugins": ["typescript"],
       "rules": {
         "@typescript-eslint/await-thenable": "error",
         "@typescript-eslint/ban-ts-comment": "error",
@@ -214,12 +215,12 @@
         "@typescript-eslint/restrict-template-expressions": "error",
         "@typescript-eslint/triple-slash-reference": "error",
         "@typescript-eslint/unbound-method": "error"
-      },
-      "plugins": ["typescript"]
+      }
     },
     // replace tseslint.configs.stylisticTypeChecked
     {
       "files": ["**/*.{ts,tsx}"],
+      "plugins": ["typescript"],
       "rules": {
         "@typescript-eslint/adjacent-overload-signatures": "error",
         "@typescript-eslint/array-type": "error",
@@ -233,11 +234,11 @@
         "@typescript-eslint/non-nullable-type-assertion-style": "error",
         "@typescript-eslint/prefer-for-of": "error",
         "@typescript-eslint/prefer-function-type": "error"
-      },
-      "plugins": ["typescript"]
+      }
     },
     {
       "files": ["**/*.{ts,tsx}"],
+      "plugins": ["import"],
       "rules": {
         "import/namespace": "error",
         "import/default": "error",
@@ -247,12 +248,12 @@
       },
       "env": {
         "es2018": true
-      },
-      "plugins": ["import"]
+      }
     },
     // typescript-eslint override
     {
       "files": ["**/*.{ts,tsx}"],
+      "plugins": ["import", "typescript"],
       "rules": {
         "no-console": "warn",
         "import/no-cycle": "error",
@@ -286,20 +287,20 @@
             "varsIgnorePattern": "^_"
           }
         ]
-      },
-      "plugins": ["import", "typescript"]
+      }
     },
     // Autosuggest Component
     {
       "files": ["**/autoSuggestInput/*.{ts,tsx}"],
+      "plugins": ["typescript"],
       "rules": {
         "@typescript-eslint/switch-exhaustiveness-check": "error"
-      },
-      "plugins": ["typescript"]
+      }
     },
     // Vitest
     {
       "files": ["app/**/*.test.{js,jsx,ts,tsx}"],
+      "plugins": ["vitest", "typescript"],
       "rules": {
         "jest/valid-title": "off", // TODO: enable later
         "vitest/expect-expect": "error",
@@ -311,8 +312,7 @@
         "vitest/no-import-node-test": "error",
         "@typescript-eslint/unbound-method": "off",
         "require-await": "error"
-      },
-      "plugins": ["vitest", "typescript"]
+      }
     }
   ]
 }
