@@ -108,13 +108,6 @@
       "files": ["**/*.{js,jsx,ts,tsx}"],
       "plugins": ["react"],
       "rules": {
-        "react/react-in-jsx-scope": "off"
-      }
-    },
-    {
-      "files": ["**/*.{js,jsx,ts,tsx}"],
-      "plugins": ["react"],
-      "rules": {
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn"
       }
