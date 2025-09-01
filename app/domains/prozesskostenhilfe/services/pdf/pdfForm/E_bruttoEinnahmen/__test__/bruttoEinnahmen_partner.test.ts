@@ -294,7 +294,9 @@ describe("bruttoEinnahmen_partner", () => {
     it("should indicate if a user's partner receives Wohngeld", () => {
       const { pdfValues } = fillAndereLeistungenPartner({
         userData: {
-          "partner-hasWohngeld": "on",
+          partnerLeistungen: {
+            wohngeld: "on",
+          },
           "partner-wohngeldAmount": "100",
         },
         pdfValues: pdfParams,
@@ -308,7 +310,9 @@ describe("bruttoEinnahmen_partner", () => {
     it("should indicate if a user's partner receives Krankengeld", () => {
       const { pdfValues } = fillAndereLeistungenPartner({
         userData: {
-          "partner-hasKrankengeld": "on",
+          partnerLeistungen: {
+            krankengeld: "on",
+          },
           "partner-krankengeldAmount": "250",
         },
         pdfValues: pdfParams,
@@ -323,7 +327,9 @@ describe("bruttoEinnahmen_partner", () => {
     it("should indicate if a user's partner receives Elterngeld", () => {
       const { pdfValues } = fillAndereLeistungenPartner({
         userData: {
-          "partner-hasElterngeld": "on",
+          partnerLeistungen: {
+            elterngeld: "on",
+          },
           "partner-elterngeldAmount": "50",
         },
         pdfValues: pdfParams,
@@ -337,7 +343,9 @@ describe("bruttoEinnahmen_partner", () => {
     it("should indicate if a user's partner receives Kindergeld", () => {
       const { pdfValues } = fillAndereLeistungenPartner({
         userData: {
-          "partner-hasKindergeld": "on",
+          partnerLeistungen: {
+            kindergeld: "on",
+          },
           "partner-kindergeldAmount": "10000",
         },
         pdfValues: pdfParams,

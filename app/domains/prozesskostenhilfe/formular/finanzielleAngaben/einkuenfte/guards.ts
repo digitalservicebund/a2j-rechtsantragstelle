@@ -94,10 +94,13 @@ export const partnerEinkuenfteGuards = {
     context["partner-receivesPension"] === "yes",
   receivesSupport: ({ context }) =>
     context["partner-receivesSupport"] === "yes",
-  hasWohngeld: ({ context }) => context["partner-hasWohngeld"] === "on",
-  hasKrankengeld: ({ context }) => context["partner-hasKrankengeld"] === "on",
-  hasElterngeld: ({ context }) => context["partner-hasElterngeld"] === "on",
-  hasKindergeld: ({ context }) => context["partner-hasKindergeld"] === "on",
+  hasWohngeld: ({ context }) => context.partnerLeistungen?.wohngeld === "on",
+  hasKrankengeld: ({ context }) =>
+    context.partnerLeistungen?.krankengeld === "on",
+  hasElterngeld: ({ context }) =>
+    context.partnerLeistungen?.elterngeld === "on",
+  hasKindergeld: ({ context }) =>
+    context.partnerLeistungen?.kindergeld === "on",
   hasFurtherIncome: partnerHasFurtherIncome,
   hasFurtherIncomeAndEmptyArray: ({ context }) =>
     partnerHasFurtherIncome({ context }) &&
