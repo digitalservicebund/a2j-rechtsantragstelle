@@ -4,7 +4,6 @@ import { z } from "zod";
 import { getPageSchema } from "~/domains/pageSchemas";
 import type { UserData } from "~/domains/userData";
 import { shouldShowEstimatedTime } from "~/services/analytics/abTest/shouldShowEstimatedTime";
-import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
@@ -30,7 +29,6 @@ function ValidatedFlowForm({
 }: Readonly<ValidatedFlowFormProps>) {
   const { pathname } = useLocation();
   const fieldNames = getFieldsByFormElements(formElements);
-  const { posthogClient } = useAnalytics();
 
   const pageSchema = getPageSchema(pathname);
   const inputFormElements = pageSchema ? (
@@ -54,7 +52,7 @@ function ValidatedFlowForm({
       <input type="hidden" name={CSRFKey} value={csrf} />
       <div className="ds-stack ds-stack-40">
         {inputFormElements}
-        {shouldShowEstimatedTime(pathname, posthogClient) && <EstimatedTime />}
+        {shouldShowEstimatedTime(pathname) && <EstimatedTime />}
         <ButtonNavigation {...buttonNavigationProps} />
       </div>
     </ValidatedForm>
