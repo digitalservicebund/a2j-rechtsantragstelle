@@ -21,7 +21,7 @@ To explore the codebase, you can use this [interactive code map](https://mango-d
 
 ### Content
 
-There are several options for fetching content: Local CMS, staging CMS, local content file. To find out more, check `/docs/content.md`.
+There are several options for fetching content: Local CMS, staging CMS, local content file. To find out more, check `/doc/content.md`.
 
 ### Tests
 
