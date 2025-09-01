@@ -238,7 +238,6 @@
       "rules": {
         "no-console": "warn",
         "import/no-cycle": "error",
-        "import/namespace": "error",
         "@typescript-eslint/consistent-type-imports": [
           "warn",
           {
