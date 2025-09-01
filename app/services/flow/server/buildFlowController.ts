@@ -1,12 +1,6 @@
 import { getShortestPaths } from "@xstate/graph";
 import isEqual from "lodash/isEqual";
-import {
-  initialTransition,
-  pathToStateValue,
-  setup,
-  type StateNode,
-  transition,
-} from "xstate";
+import { initialTransition, pathToStateValue, setup, transition } from "xstate";
 import type { Guards } from "~/domains/guards.server";
 import type { UserData } from "~/domains/userData";
 import {
