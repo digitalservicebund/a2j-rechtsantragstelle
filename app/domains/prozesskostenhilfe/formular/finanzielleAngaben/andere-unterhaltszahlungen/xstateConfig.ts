@@ -17,7 +17,7 @@ export const andereUnterhaltszahlungenXstateConfig = {
       on: {
         BACK: [
           {
-            guard: "hasKinderYes",
+            guard: ({ context }) => context.hasKinder === "yes",
             target: "#kinder.uebersicht",
           },
           "#kinder.kinder-frage",
