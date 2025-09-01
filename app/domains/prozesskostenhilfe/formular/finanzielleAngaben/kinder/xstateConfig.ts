@@ -18,7 +18,7 @@ export const kinderXstateConfig = {
       on: {
         SUBMIT: [
           {
-            guard: "hasKinderYes",
+            guard: ({ context }) => context.hasKinder === "yes",
             target: steps.kinderUebersicht.relative,
           },
           "#andere-unterhaltszahlungen.frage",

@@ -23,27 +23,14 @@ export const hasPartnerschaftYesAndZusammenlebenNo: FinanzielleAngabenGuard = ({
   context,
 }) => hasPartnerschaftYes({ context }) && context.zusammenleben == "no";
 
-export const { hasAusgabenYes } = yesNoGuards("hasAusgaben");
-export const { hasKinderYes } = yesNoGuards("hasKinder");
 export const { hasWeitereUnterhaltszahlungenYes } = yesNoGuards(
   "hasWeitereUnterhaltszahlungen",
 );
-export const { hasBankkontoYes } = yesNoGuards("hasBankkonto");
 export const { hasKraftfahrzeugYes } = yesNoGuards("hasKraftfahrzeug");
-export const { hasGeldanlageYes } = yesNoGuards("hasGeldanlage");
 export const { hasGrundeigentumYes } = yesNoGuards("hasGrundeigentum");
 export const { hasWertsacheYes } = yesNoGuards("hasWertsache");
 export const hasPartnerschaftYes: FinanzielleAngabenGuard = ({ context }) =>
   context.partnerschaft === "yes";
-export const hasPartnerschaftNoOrWidowed: FinanzielleAngabenGuard = ({
-  context,
-}) => context.partnerschaft === "no" || context.partnerschaft === "widowed";
-export const hasPartnerschaftYesAndPartnerEinkommenYes: FinanzielleAngabenGuard =
-  ({ context }) =>
-    hasPartnerschaftYes({ context }) && context.partnerEinkommen == "yes";
-export const hasPartnerschaftYesAndZusammenlebenYes: FinanzielleAngabenGuard =
-  ({ context }) =>
-    hasPartnerschaftYes({ context }) && context.zusammenleben == "yes";
 export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes: FinanzielleAngabenGuard =
   ({ context }) =>
     hasPartnerschaftYes({ context }) &&
@@ -162,15 +149,8 @@ export const grundeigentumIsBewohnt: FinanzielleAngabenGuard = ({
 };
 export const hasKinderYesAndEmptyArray: FinanzielleAngabenGuard = ({
   context,
-}) => hasKinderYes({ context }) && !arrayIsNonEmpty(context.kinder);
+}) => context.hasKinder === "yes" && !arrayIsNonEmpty(context.kinder);
 export const hasWeitereUnterhaltszahlungenYesAndEmptyArray: FinanzielleAngabenGuard =
   ({ context }) =>
     hasWeitereUnterhaltszahlungenYes({ context }) &&
     !arrayIsNonEmpty(context.unterhaltszahlungen);
-export const hasAnyEigentumExceptBankaccount: FinanzielleAngabenGuard = ({
-  context,
-}) =>
-  context.hasGeldanlage == "yes" ||
-  context.hasWertsache == "yes" ||
-  context.hasGrundeigentum == "yes" ||
-  context.hasKraftfahrzeug == "yes";

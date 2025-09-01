@@ -17,32 +17,6 @@ describe("finanzielleAngabeGuards", () => {
     });
   });
 
-  describe("hasPartnerschaftNoOrWidowed", () => {
-    it("should return truthy for single context", () => {
-      const context: BeratungshilfeFinanzielleAngabenUserData = {
-        partnerschaft: "no",
-      };
-
-      const actual = finanzielleAngabeGuards.hasPartnerschaftNoOrWidowed({
-        context,
-      });
-
-      expect(actual).toBeTruthy();
-    });
-
-    it("should return truthy for widowed context", () => {
-      const context: BeratungshilfeFinanzielleAngabenUserData = {
-        partnerschaft: "widowed",
-      };
-
-      const actual = finanzielleAngabeGuards.hasPartnerschaftNoOrWidowed({
-        context,
-      });
-
-      expect(actual).toBeTruthy();
-    });
-  });
-
   describe("isValidKinderArrayIndex", () => {
     it("calls isValidArrayIndex", () => {
       const isValidArrayIndexSpy = vi.spyOn(

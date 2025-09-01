@@ -6,10 +6,10 @@ import {
 import type {
   GeldanlagenArraySchema,
   GrundeigentumArraySchema,
-  KinderArraySchema,
+  KinderSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
 
-const mockCompletedChild: KinderArraySchema[0] = {
+const mockCompletedChild: KinderSchema = {
   vorname: "Child",
   nachname: "Childson",
   geburtsdatum: "01.01.2020",
