@@ -77,7 +77,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = [
     [
       "/finanzielle-angaben/einkuenfte/einkommen/art",
       "/finanzielle-angaben/einkuenfte/einkommen/netto-einkommen",
-      "/finanzielle-angaben/abzuege/arbeitsweg",
+      "/finanzielle-angaben/einkuenfte/rente-frage",
     ],
   ],
   [
@@ -91,7 +91,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = [
       "/finanzielle-angaben/einkuenfte/einkommen/art",
       "/finanzielle-angaben/einkuenfte/einkommen/selbststaendig",
       "/finanzielle-angaben/einkuenfte/einkommen/selbststaendig-abzuege",
-      "/finanzielle-angaben/abzuege/arbeitsweg",
+      "/finanzielle-angaben/einkuenfte/rente-frage",
     ],
   ],
   [
@@ -155,7 +155,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = [
     ],
   ],
   [
-    { hasFurtherIncome: "no" },
+    { currentlyEmployed: "no", hasFurtherIncome: "no" },
     [
       "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
       "/finanzielle-angaben/partner/partnerschaft",
