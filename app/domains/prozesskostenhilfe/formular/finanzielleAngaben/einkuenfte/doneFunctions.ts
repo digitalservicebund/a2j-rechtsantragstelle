@@ -51,7 +51,6 @@ export const leistungenDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard
       context.elterngeldAmount === undefined
     )
       return false;
-    // eslint-disable-next-line sonarjs/prefer-single-boolean-return
     if (
       guards.hasKindergeld({ context }) &&
       context.kindergeldAmount === undefined
