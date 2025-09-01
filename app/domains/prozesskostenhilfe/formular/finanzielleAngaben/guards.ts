@@ -1,10 +1,6 @@
 import {
   grundeigentumIsBewohnt,
-  hasAusgabenYes,
-  hasBankkontoYes,
-  hasGeldanlageYes,
   hasGrundeigentumYes,
-  hasKinderYes,
   hasKinderYesAndEmptyArray,
   hasKraftfahrzeugYes,
   hasPartnerschaftYesAndZusammenlebenNo,
@@ -32,10 +28,7 @@ import {
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 import { ausgabenDone, eigentumDone } from "./doneFunctions";
-import {
-  prozesskostenhilfeFinanzielleAngabenInputSchema,
-  type ProzesskostenhilfeFinanzielleAngabenUserData,
-} from "./userData";
+import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards, type Guards } from "../../../guards.server";
 
 export const finanzielleAngabeGuards = {
@@ -50,12 +43,9 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("unterhalt"),
   ...yesNoGuards("partnerEinkommen"),
   ...yesNoGuards("partnerHasBesondersAusgaben"),
-  hasBankkontoYes,
   hasKraftfahrzeugYes,
-  hasGeldanlageYes,
   hasGrundeigentumYes,
   hasWertsacheYes,
-  hasKinderYes,
   hasWeitereUnterhaltszahlungenYes,
   kindWohnortBeiAntragstellerYes,
   kindWohnortBeiAntragstellerNo,
@@ -74,8 +64,9 @@ export const finanzielleAngabeGuards = {
   grundeigentumIsBewohnt,
 
   eigentumYesAndEmptyArray: ({ context }) =>
-    (hasBankkontoYes({ context }) && !arrayIsNonEmpty(context.bankkonten)) ||
-    (hasGeldanlageYes({ context }) && !arrayIsNonEmpty(context.geldanlagen)) ||
+    (context.hasBankkonto === "yes" && !arrayIsNonEmpty(context.bankkonten)) ||
+    (context.hasGeldanlage === "yes" &&
+      !arrayIsNonEmpty(context.geldanlagen)) ||
     (hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen)) ||
     (hasKraftfahrzeugYes({ context }) &&
       !arrayIsNonEmpty(context.kraftfahrzeuge)) ||
@@ -84,15 +75,10 @@ export const finanzielleAngabeGuards = {
 
   hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
-  hasAusgabenYes,
   isSonstigeVersicherung: ({ context: { pageData, versicherungen } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
-    return (
-      versicherungen?.at(arrayIndex)?.art ===
-      prozesskostenhilfeFinanzielleAngabenInputSchema.versicherungen.element
-        .shape.art.enum.sonstige
-    );
+    return versicherungen?.at(arrayIndex)?.art === "sonstige";
   },
   sonstigeAusgabeAnteiligYes: ({ context: { pageData, sonstigeAusgaben } }) => {
     const arrayIndex = firstArrayIndex(pageData);

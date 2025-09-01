@@ -83,36 +83,6 @@ describe("Einkünfte guards", () => {
     });
   });
 
-  describe("usesPublicTransit", () => {
-    it("should return true if the user uses public transit for work", () => {
-      expect(
-        guards.usesPublicTransit({
-          context: { arbeitsweg: "publicTransport" },
-        }),
-      ).toBe(true);
-    });
-  });
-
-  describe("usesPrivateVehicle", () => {
-    it("should return true if the user uses a private vehicle for work", () => {
-      expect(
-        guards.usesPrivateVehicle({
-          context: { arbeitsweg: "privateVehicle" },
-        }),
-      ).toBe(true);
-    });
-  });
-
-  describe("hasAndereArbeitsausgaben", () => {
-    it("should return true if the user has additional work-related expenses", () => {
-      expect(
-        guards.hasAndereArbeitsausgaben({
-          context: { hasArbeitsausgaben: "yes" },
-        }),
-      ).toBe(true);
-    });
-  });
-
   describe("hasFurtherIncome", () => {
     it("should return true if the user has additional income", () => {
       expect(
@@ -137,7 +107,7 @@ describe("Einkünfte guards", () => {
     it("should return true if the user receives wohngeld", () => {
       expect(
         guards.hasWohngeld({
-          context: { hasWohngeld: "on" },
+          context: { leistungen: { wohngeld: "on" } },
         }),
       ).toBe(true);
     });
@@ -146,7 +116,7 @@ describe("Einkünfte guards", () => {
     it("should return true if the user receives krankengeld", () => {
       expect(
         guards.hasKrankengeld({
-          context: { hasKrankengeld: "on" },
+          context: { leistungen: { krankengeld: "on" } },
         }),
       ).toBe(true);
     });
@@ -155,7 +125,7 @@ describe("Einkünfte guards", () => {
     it("should return true if the user receives elterngeld", () => {
       expect(
         guards.hasElterngeld({
-          context: { hasElterngeld: "on" },
+          context: { leistungen: { elterngeld: "on" } },
         }),
       ).toBe(true);
     });
@@ -164,7 +134,7 @@ describe("Einkünfte guards", () => {
     it("should return true if the user receives kindergeld", () => {
       expect(
         guards.hasKindergeld({
-          context: { hasKindergeld: "on" },
+          context: { leistungen: { kindergeld: "on" } },
         }),
       ).toBe(true);
     });

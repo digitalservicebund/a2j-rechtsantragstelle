@@ -3,7 +3,7 @@ import { z } from "zod";
 export const checkedRequired = z.enum(["on"]);
 export const checkedOptional = z.enum(["on", "off"]);
 
-export type CheckedOptional = z.infer<typeof checkedOptional>;
+type CheckedOptional = z.infer<typeof checkedOptional>;
 
 export type ExclusiveCheckboxes = {
   none: CheckedOptional;
@@ -13,7 +13,7 @@ export type ExclusiveCheckboxes = {
 export const invalidComboError =
   "Die Option 'Nichts trifft zu' kann nicht mit anderen Optionen kombiniert werden";
 
-export const exclusiveCheckboxesSchema = (checkboxNames: string[]) =>
+export const exclusiveCheckboxesSchema = (checkboxNames: readonly string[]) =>
   z
     .object({
       ...Object.fromEntries(checkboxNames.map((c) => [c, checkedOptional])),

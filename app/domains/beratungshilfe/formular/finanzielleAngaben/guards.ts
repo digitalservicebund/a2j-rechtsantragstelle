@@ -12,7 +12,7 @@ import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards } from "../../../guards.server";
 import type { GenericGuard, Guards } from "../../../guards.server";
 
-export type BeratungshilfeFinanzielleAngabenGuard =
+type BeratungshilfeFinanzielleAngabenGuard =
   GenericGuard<BeratungshilfeFinanzielleAngabenUserData>;
 
 export const staatlicheLeistungenIsBuergergeld: BeratungshilfeFinanzielleAngabenGuard =
@@ -29,30 +29,13 @@ export const grundeigentumIsBewohnt: BeratungshilfeFinanzielleAngabenGuard = ({
   return grundeigentum?.at(arrayIndex)?.isBewohnt === "yes";
 };
 
-export const hasAnyEigentumExceptBankaccount: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    context.hasGeldanlage == "yes" ||
-    context.hasWertsache == "yes" ||
-    context.hasGrundeigentum == "yes" ||
-    context.hasKraftfahrzeug == "yes";
-
-export const { hasAusgabenYes } = yesNoGuards("hasAusgaben");
-
-export const { hasBankkontoYes } = yesNoGuards("hasBankkonto");
-
-export const { hasGeldanlageYes } = yesNoGuards("hasGeldanlage");
-
 export const { hasGrundeigentumYes } = yesNoGuards("hasGrundeigentum");
 
-export const { hasKinderYes } = yesNoGuards("hasKinder");
 export const hasKinderYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) =>
-    hasKinderYes({ context }) && !arrayIsNonEmpty(context.kinder);
+    context.hasKinder === "yes" && !arrayIsNonEmpty(context.kinder);
 
 export const { hasKraftfahrzeugYes } = yesNoGuards("hasKraftfahrzeug");
-export const hasPartnerschaftNoOrWidowed: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    context.partnerschaft === "no" || context.partnerschaft === "widowed";
 
 export const hasPartnerschaftYes: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
@@ -207,14 +190,16 @@ export const finanzielleAngabeGuards = {
   staatlicheLeistungenIsBuergergeldAndEigentumDone: ({ context }) =>
     staatlicheLeistungenIsBuergergeld({ context }) && eigentumDone({ context }),
   staatlicheLeistungenIsBuergergeldAndHasEigentum: ({ context }) =>
-    staatlicheLeistungenIsBuergergeld({ context }) &&
-    hasAnyEigentumExceptBankaccount({ context }),
+    (staatlicheLeistungenIsBuergergeld({ context }) &&
+      context.hasGeldanlage == "yes") ||
+    context.hasWertsache == "yes" ||
+    context.hasGrundeigentum == "yes" ||
+    context.hasKraftfahrzeug == "yes",
   hasStaatlicheLeistungen,
   hasNoStaatlicheLeistungen,
   hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
     context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context }),
   hasPartnerschaftYes,
-  hasPartnerschaftNoOrWidowed,
   hasPartnerschaftYesAndPartnerEinkommenYes,
   hasPartnerschaftYesAndZusammenlebenYes,
   hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes,
@@ -224,13 +209,9 @@ export const finanzielleAngabeGuards = {
   ...yesNoGuards("zusammenleben"),
   ...yesNoGuards("unterhalt"),
   ...yesNoGuards("partnerEinkommen"),
-  hasAusgabenYes,
-  hasBankkontoYes,
   hasKraftfahrzeugYes,
-  hasGeldanlageYes,
   hasGrundeigentumYes,
   hasWertsacheYes,
-  hasKinderYes,
   hasWeitereUnterhaltszahlungenYes,
   hasZahlungsfristYes: ({ context: { pageData, ausgaben } }) => {
     const arrayIndex = firstArrayIndex(pageData);
@@ -249,7 +230,6 @@ export const finanzielleAngabeGuards = {
   livesNotAlone: ({ context }) =>
     context.livingSituation === "withRelatives" ||
     context.livingSituation === "withOthers",
-  hasAnyEigentumExceptBankaccount,
   isGeldanlageBargeld,
   isGeldanlageWertpapiere,
   isGeldanlageGuthabenkontoKrypto,
@@ -260,7 +240,7 @@ export const finanzielleAngabeGuards = {
   isKraftfahrzeugWertAbove10000OrUnsure,
   grundeigentumIsBewohnt,
   hasAusgabenYesAndEmptyArray: ({ context }) =>
-    hasAusgabenYes({ context }) && !arrayIsNonEmpty(context.ausgaben),
+    context.hasAusgaben === "yes" && !arrayIsNonEmpty(context.ausgaben),
   hasKinderYesAndEmptyArray,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
 } satisfies Guards<BeratungshilfeFinanzielleAngabenUserData>;

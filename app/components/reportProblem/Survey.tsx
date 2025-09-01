@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { type Survey, SurveyQuestionType } from "posthog-js";
-import { type ElementType, useState } from "react";
+import { type ElementType, useEffect, useState } from "react";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import { FeedbackSuccessMessage } from "~/components/content/userFeedback/FeedbackSuccessMessage";
@@ -16,7 +16,6 @@ import { useAnalytics } from "~/services/analytics/useAnalytics";
 type PosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
   closeSurvey: () => void;
-  styleOverrides?: string;
 };
 
 const questionTypes: Record<string, ElementType> = {
@@ -27,24 +26,20 @@ const questionTypes: Record<string, ElementType> = {
   [SurveyQuestionType.Link]: () => <></>,
 };
 
-export const PosthogSurvey = ({
-  survey,
-  closeSurvey,
-  styleOverrides,
-}: PosthogSurveyProps) => {
+export const PosthogSurvey = ({ survey, closeSurvey }: PosthogSurveyProps) => {
   const [wasSubmitted, setWasSubmitted] = useState(false);
   const feedbackTranslations = useFeedbackTranslations();
   const [responses, setResponses] = useState<SurveyResponses>();
   const { posthogClient } = useAnalytics();
   const isCompletelyFilled = isCompleted(survey, responses);
 
-  const containerClasses = classNames(
-    "border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-0 p-24 flex flex-col",
-    {
-      "gap-40": !wasSubmitted,
-    },
-    styleOverrides,
-  );
+  useEffect(() => {
+    const closeDialogOnEscape = (event: KeyboardEvent) =>
+      event.key === "Escape" ? closeSurvey() : null;
+
+    window.addEventListener("keyup", closeDialogOnEscape);
+    return () => window.removeEventListener("keyup", closeDialogOnEscape);
+  }, [closeSurvey]);
 
   const onFeedbackSubmitted = () => {
     if (isCompletelyFilled && posthogClient) {
@@ -57,7 +52,12 @@ export const PosthogSurvey = ({
   };
 
   return (
-    <div className={containerClasses}>
+    <div
+      className={classNames(
+        "border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-0 p-24 flex flex-col",
+        { "gap-40": !wasSubmitted },
+      )}
+    >
       {wasSubmitted ? (
         <FeedbackSuccessMessage
           subtitle={feedbackTranslations["feedback-helps"]}

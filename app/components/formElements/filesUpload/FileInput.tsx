@@ -28,24 +28,7 @@ export const FileInput = ({
 }: FileInputProps) => {
   const { onFileDelete, onFileUpload } = useFileHandler();
   const errorId = `${name}-error`;
-
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  /**
-   * on blur, reset the file input.
-   * because the file is already uploaded on change but its already selected in the file input
-   */
-  const handleBlur = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
-
-  const inputClasses = classNames(
-    jsAvailable
-      ? "w-0 h-0 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
-      : "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary file:ds-button-large w-fit file:cursor-pointer",
-  );
 
   const FileInput = (
     <input
@@ -55,13 +38,18 @@ export const FileInput = ({
       data-testid={`file-upload-input-${name}`}
       aria-invalid={error !== undefined}
       aria-errormessage={error && errorId}
-      className={inputClasses}
+      className={classNames(
+        jsAvailable
+          ? "w-0 h-0 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
+          : "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary file:ds-button-large w-fit file:cursor-pointer",
+      )}
       ref={fileInputRef}
-      onBlur={handleBlur}
-      onChange={(event) => {
-        const file = event.target.files?.[0];
-        void onFileUpload(name, file);
+      onBlur={(event) => {
+        // Reset the input element once its not relevant anymore (either after upload or deletion), otherwise the stale file reference might interfere with future interactions
+        event.target.files = null;
+        event.currentTarget.value = "";
       }}
+      onChange={(event) => onFileUpload(name, event.target.files?.[0])}
     />
   );
 
@@ -70,14 +58,7 @@ export const FileInput = ({
       {selectedFile ? (
         <FileUploadInfo
           inputName={name}
-          onFileDelete={(fileName) => {
-            void onFileDelete(fileName);
-            (
-              document.getElementsByClassName(
-                inputClasses,
-              )[0] as HTMLInputElement
-            ).value = "";
-          }}
+          onFileDelete={onFileDelete}
           jsAvailable={jsAvailable}
           file={selectedFile}
           hasError={!!error}

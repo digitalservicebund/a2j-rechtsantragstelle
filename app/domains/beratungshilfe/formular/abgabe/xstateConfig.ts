@@ -11,11 +11,11 @@ const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
 export const abgabeXstateConfig = {
   initial: steps.ueberpruefung.relative,
   id: "abgabe",
-  meta: { done: () => false },
+  meta: { isValidationSubflow: true },
   states: {
     [steps.ueberpruefung.relative]: {
       on: { BACK: "#weitere-angaben" },
-      meta: { expandValidation: true },
+      meta: { shouldExpandAllStates: true },
       always: {
         guard: beratungshilfeAbgabeGuards.readyForAbgabe,
         target: steps.zusammenfassung.relative,

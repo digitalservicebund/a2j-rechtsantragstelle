@@ -31,20 +31,19 @@ export const ReportProblem = () => {
 
   return (
     <>
+      <Button
+        look="tertiary"
+        onClick={() => setSurveyOpen(!surveyOpen)}
+        className="min-w-full justify-center sm:min-w-fit mt-80"
+        text={feedbackTranslations["report-problem"]}
+        iconLeft={<FlagOutlined />}
+      />
       {surveyOpen && (
         <PosthogSurvey
           survey={survey}
           closeSurvey={() => setSurveyOpen(false)}
         />
       )}
-      <Button
-        look="tertiary"
-        onClick={() => setSurveyOpen(true)}
-        id="survey-button"
-        className="min-w-full justify-center sm:min-w-fit mt-80"
-        text={feedbackTranslations["report-problem"]}
-        iconLeft={<FlagOutlined />}
-      />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import type { Guards } from "~/domains/guards.server";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
-import type { PartnerEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
+import { type PartnerEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/userData";
 import {
   staatlicheLeistungenIsBuergergeld,
   staatlicheLeistungenIsKeine,
@@ -8,9 +8,6 @@ import {
 import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 import { eigentumDone } from "../doneFunctions";
-
-const hasAndereArbeitsausgaben: Guards<ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData>[string] =
-  ({ context }) => context.hasArbeitsausgaben === "yes";
 
 const partnerHasAndereArbeitsausgaben: Guards<PartnerEinkuenfteUserData>[string] =
   ({ context }) => context["partner-hasArbeitsausgaben"] === "yes";
@@ -42,22 +39,15 @@ export const finanzielleAngabeEinkuenfteGuards = {
   isSelfEmployed: ({ context }) =>
     context.employmentType === "selfEmployed" ||
     context.employmentType === "employedAndSelfEmployed",
-  usesPublicTransit: ({ context }) => context.arbeitsweg === "publicTransport",
-  usesPrivateVehicle: ({ context }) => context.arbeitsweg === "privateVehicle",
-  commuteMethodPlaysNoRole: ({ context }) =>
-    context.arbeitsweg === "bike" || context.arbeitsweg === "walking",
-  hasAndereArbeitsausgaben,
-  hasAndereArbeitsausgabenAndEmptyArray: ({ context }) =>
-    hasAndereArbeitsausgaben({ context }) &&
-    !arrayIsNonEmpty(context.arbeitsausgaben),
-  isValidArbeitsausgabenArrayIndex: ({
-    context: { pageData, arbeitsausgaben },
-  }) => isValidArrayIndex(arbeitsausgaben, pageData),
+
   receivesPension: ({ context }) => context.receivesPension === "yes",
-  hasWohngeld: ({ context: { hasWohngeld } }) => hasWohngeld === "on",
-  hasKrankengeld: ({ context: { hasKrankengeld } }) => hasKrankengeld === "on",
-  hasElterngeld: ({ context: { hasElterngeld } }) => hasElterngeld === "on",
-  hasKindergeld: ({ context: { hasKindergeld } }) => hasKindergeld === "on",
+  hasWohngeld: ({ context: { leistungen } }) => leistungen?.wohngeld === "on",
+  hasKrankengeld: ({ context: { leistungen } }) =>
+    leistungen?.krankengeld === "on",
+  hasElterngeld: ({ context: { leistungen } }) =>
+    leistungen?.elterngeld === "on",
+  hasKindergeld: ({ context: { leistungen } }) =>
+    leistungen?.kindergeld === "on",
   hasFurtherIncome,
   hasFurtherIncomeAndEmptyArray: ({ context }) =>
     hasFurtherIncome({ context }) &&

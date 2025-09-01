@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { checkedOptional } from "~/services/validation/checkedCheckbox";
+import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -83,12 +83,6 @@ export const kraftfahrzeugWertInputSchema = z.enum([
   "under10000",
   "over10000",
   "unsure",
-]);
-
-export const livingSituationInputSchema = z.enum([
-  "alone",
-  "withRelatives",
-  "withOthers",
 ]);
 
 export type KraftfahrzeugeArraySchema = z.infer<
@@ -185,14 +179,16 @@ export const partnerschaftInputSchema = z.enum([
   "widowed",
 ]);
 
+export const childBirthdaySchema = createDateSchema({
+  earliest: () => addYears(today(), -24),
+  latest: () => today(),
+});
+
 export const kinderSchema = z
   .object({
     vorname: stringRequiredSchema,
     nachname: stringRequiredSchema,
-    geburtsdatum: createDateSchema({
-      earliest: () => addYears(today(), -24),
-      latest: () => today(),
-    }),
+    geburtsdatum: childBirthdaySchema,
     wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
     eigeneEinnahmen: YesNoAnswer,
     einnahmen: buildMoneyValidationSchema(),
@@ -201,13 +197,15 @@ export const kinderSchema = z
   })
   .partial();
 
-export const kinderArraySchema = z.array(kinderSchema);
+export type KinderSchema = z.infer<typeof kinderSchema>;
 
-export type KinderArraySchema = z.infer<typeof kinderArraySchema>;
+export const besondereBelastungen = [
+  "pregnancy",
+  "singleParent",
+  "disability",
+  "medicalReasons",
+  "none",
+] as const;
 
-export const besondereBelastungenInputSchema = z.object({
-  pregnancy: checkedOptional,
-  singleParent: checkedOptional,
-  disability: checkedOptional,
-  medicalReasons: checkedOptional,
-});
+export const besondereBelastungenInputSchema =
+  exclusiveCheckboxesSchema(besondereBelastungen);

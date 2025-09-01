@@ -18,7 +18,6 @@ import { grundvoraussetzungenXstateConfig } from "~/domains/prozesskostenhilfe/f
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "~/domains/shared/formular/finanzielleAngaben/arrayConfiguration";
-import { persoenlicheDatenXstateConfig } from "~/domains/shared/formular/persoenlicheDaten/xStateConfig";
 import {
   getKinderStrings,
   getArrayIndexStrings,
@@ -37,6 +36,7 @@ import {
   isNachueberpruefung,
   versandDigitalGericht,
 } from "./grundvoraussetzungen/guards";
+import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xStateConfig";
 import {
   belegeStrings,
   getMissingInformationStrings,
@@ -73,9 +73,11 @@ export const prozesskostenhilfeFormular = {
       start: {
         id: "antragStart",
         meta: { done: () => true },
-        initial: steps.start.relative,
+        initial: steps.einkuenfteStart.relative,
         states: {
-          [steps.start.relative]: { on: { SUBMIT: "#grundvoraussetzungen" } },
+          [steps.einkuenfteStart.relative]: {
+            on: { SUBMIT: "#grundvoraussetzungen" },
+          },
         },
       },
       grundvoraussetzungen: grundvoraussetzungenXstateConfig,
@@ -135,7 +137,7 @@ export const prozesskostenhilfeFormular = {
       "gesetzliche-vertretung": gesetzlicheVertretungXstateConfig({
         backToCallingFlow: [
           {
-            guard: finanzielleAngabeGuards.hasAusgabenYes,
+            guard: ({ context }) => context.hasAusgaben === "yes",
             target: "#ausgaben-zusammenfassung",
           },
           {
@@ -171,10 +173,10 @@ export const prozesskostenhilfeFormular = {
       [steps.abgabe.relative]: {
         id: "abgabe",
         initial: steps.abgabeUeberpruefung.relative,
-        meta: { done: () => false },
+        meta: { isValidationSubflow: true },
         states: {
           [steps.abgabeUeberpruefung.relative]: {
-            meta: { expandValidation: true },
+            meta: { shouldExpandAllStates: true },
             on: {
               BACK: steps.weitereAngaben.absolute,
             },

@@ -20,25 +20,25 @@ type Story = StoryObj<typeof meta>;
 export const Example: Story = {
   decorators: [
     (Story) => (
-      <Background paddingTop="32" paddingBottom="32">
+      <div className="h-[600px]">
         <Container paddingTop="32" paddingBottom="40">
           <Story />
         </Container>
-      </Background>
+      </div>
     ),
   ],
   args: {
     survey: {
-      id: "",
+      id: "0",
       questions: [
         {
-          id: "",
+          id: "1",
           type: SurveyQuestionType.MultipleChoice,
           choices: ["Choice 1", "Choice 2", "Choice 3"],
           question: "Multiple Choice Question",
         },
         {
-          id: "",
+          id: "2",
           type: SurveyQuestionType.Open,
           question: "Open Question",
           description: "Please answer me:)",
@@ -46,6 +46,5 @@ export const Example: Story = {
       ],
     },
     closeSurvey: () => undefined,
-    styleOverrides: "relative",
   },
 };

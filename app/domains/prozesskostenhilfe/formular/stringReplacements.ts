@@ -2,6 +2,7 @@ import { einkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanziell
 import { prozesskostenhilfeGesetzlicheVertretungDone } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/doneFunctions";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { antragstellendePersonDone } from "./antragstellendePerson/guards";
+import { abzuegeDone } from "./finanzielleAngaben/abzuege/doneFunctions";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
@@ -27,6 +28,7 @@ export const getMissingInformationStrings = (
         context,
       }) && context.formularArt !== "nachueberpruefung",
     einkuenfteMissingInformation: !einkuenfteDone({ context }),
+    abzuegeMissingInformation: !abzuegeDone({ context }),
     partnerMissingInformation: !partnerDone({ context }),
     kinderMissingInformation: !kinderDone({ context }),
     andereUnterhaltszahlungenMissingInformation: !andereUnterhaltszahlungenDone(
@@ -66,9 +68,9 @@ export const belegeStrings = (context: ProzesskostenhilfeFormularUserData) => {
     hasAbzuege: parseCurrencyStringDE(context.selbststaendigAbzuege) > 0,
     hasWerbungskosten: context.hasArbeitsausgaben === "yes",
     hasRente: context.receivesPension === "yes",
-    hasWohngeld: context.hasWohngeld === "on",
-    hasKrankengeld: context.hasKrankengeld === "on",
-    hasElterngeld: context.hasElterngeld === "on",
+    hasWohngeld: context.leistungen?.wohngeld === "on",
+    hasKrankengeld: context.leistungen?.krankengeld === "on",
+    hasElterngeld: context.leistungen?.elterngeld === "on",
     hasWeitereEinkuenfte:
       context.weitereEinkuenfte && context.weitereEinkuenfte.length > 0,
     partnerHasBuergergeld:

@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import {
+  childBirthdaySchema,
   financialEntryInputSchema,
-  kinderSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -12,9 +12,9 @@ export const pkhFormularVereinfachteErklaerungPages = {
   kind: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/kind",
     pageSchema: {
-      child: kinderSchema.pick({
-        vorname: true,
-        nachname: true,
+      child: z.object({
+        vorname: stringRequiredSchema,
+        nachname: stringRequiredSchema,
       }),
     },
   },
@@ -27,7 +27,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
   veUnterhalt: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/unterhalt",
     pageSchema: {
-      child: kinderSchema.pick({ unterhaltsSumme: true }),
+      child: z.object({ unterhaltsSumme: buildMoneyValidationSchema() }),
     },
   },
   minderjaehrig: {
@@ -39,7 +39,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
   veGeburtsdatum: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
     pageSchema: {
-      child: kinderSchema.pick({ geburtsdatum: true }),
+      child: z.object({ geburtsdatum: childBirthdaySchema }),
     },
   },
   worumGehts: {

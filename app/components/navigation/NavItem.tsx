@@ -1,39 +1,51 @@
 import CheckCircle from "@digitalservicebund/icons/CheckCircle";
 import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
 import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
+import SvgWarningAmber from "@digitalservicebund/icons/WarningAmber";
 import classNames from "classnames";
 import { useId, type FC } from "react";
 import { useCollapse } from "react-collapsed";
-import { useRouteLoaderData } from "react-router";
-import { type RootLoader } from "~/root";
 import {
   stateIsCurrent,
   stateIsActive,
   stateIsDisabled,
   stateIsDone,
 } from "~/services/navigation/navState";
+import { translations } from "~/services/translations/translations";
 import { NavigationList } from "./NavigationList";
 import { type NavItem } from "./types";
 
-const StateIcon: FC<{
+type StateIconProps = {
   id: string;
-}> = ({ id }) => {
-  const rootLoaderData = useRouteLoaderData<RootLoader>("root");
-  return (
-    <CheckCircle
-      id={id}
-      className="shrink-0 fill-green-700"
-      // TODO: Move this to translations file and remove from the root loader
-      aria-label={
-        rootLoaderData?.accessibilityTranslations?.navigationItemFinishedLabel
-      }
-    />
-  );
+  isDone: boolean;
+  showWarningIcon?: boolean;
+};
+
+const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
+  if (isDone) {
+    return (
+      <CheckCircle
+        id={id}
+        className="shrink-0 fill-green-700"
+        aria-label={translations.navigation.navigationItemFinished.de}
+      />
+    );
+  } else if (showWarningIcon) {
+    return (
+      <SvgWarningAmber
+        id={id}
+        aria-label={translations.navigation.navigationItemWarning.de}
+      />
+    );
+  }
+  return undefined;
 };
 
 export function NavItem({
   destination,
   label,
+  isValidationSubflow,
+  userVisitedValidationPage,
   state,
   subflows = [],
   forceExpanded,
@@ -46,7 +58,11 @@ export function NavItem({
   const isDisabled = stateIsDisabled(state);
   const isCurrent = stateIsCurrent(state);
   const isDone = stateIsDone(state);
-  const collapse = useCollapse({ defaultExpanded: forceExpanded ?? isCurrent });
+  const collapse = useCollapse({
+    defaultExpanded: forceExpanded ?? isCurrent,
+  });
+  const showWarningIcon =
+    userVisitedValidationPage && !isValidationSubflow && !isDone;
 
   // Transparent last: borders to avoid layout shifts
   const liClassNames = classNames(
@@ -61,6 +77,8 @@ export function NavItem({
   const itemClassNames = classNames(
     "w-full p-16 flex justify-between items-center hover:underline hover:bg-blue-400 active:bg-blue-300 focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-300",
     {
+      "bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-300": showWarningIcon,
+      "bg-yellow-300": isCurrent && showWarningIcon,
       "ds-label-02-bold bg-blue-400": isCurrent && !hasSubflows,
       "ds-label-02-reg": !isCurrent || hasSubflows,
       "pl-24": isChild,
@@ -87,17 +105,21 @@ export function NavItem({
             ) : (
               <ExpandMoreIcon className="ml-auto" />
             )}
-            {isDone && <StateIcon id={iconId} />}
+            <StateIcon
+              id={iconId}
+              isDone={isDone}
+              showWarningIcon={showWarningIcon}
+            />
           </button>
           {
             // due the rest operator, the role is assigned to the section in the server side rendering
           }
-          <section
-            {...collapse.getCollapseProps()}
-            // oxlint-disable-next-line jsx-a11y/aria-role
-            role={undefined}
-          >
-            <NavigationList navItems={visibleChildItems} isChild={true} />
+          <section {...collapse.getCollapseProps()} role={undefined}>
+            <NavigationList
+              navItems={visibleChildItems}
+              isChild={true}
+              userVisitedValidationPage={userVisitedValidationPage}
+            />
           </section>
         </>
       ) : (
@@ -109,7 +131,11 @@ export function NavItem({
           aria-describedby={isDone ? iconId : undefined}
         >
           {label}
-          {isDone && <StateIcon id={iconId} />}
+          <StateIcon
+            id={iconId}
+            isDone={isDone}
+            showWarningIcon={showWarningIcon}
+          />
         </a>
       )}
     </li>

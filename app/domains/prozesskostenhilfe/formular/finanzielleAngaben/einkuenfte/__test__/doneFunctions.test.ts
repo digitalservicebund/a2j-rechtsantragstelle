@@ -1,7 +1,6 @@
 import { type CheckboxValue } from "~/components/formElements/Checkbox";
 import {
   arbeitDone,
-  arbeitsabzuegeDone,
   einkommenDone,
   einkuenfteDone,
   furtherIncomeDone,
@@ -43,45 +42,6 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
     });
   });
 
-  describe("arbeitsabzeugeDone", () => {
-    it("should return false if the user hasn't entered an arbeitsweg", () => {
-      const done = arbeitsabzuegeDone({ context: {} });
-      expect(done).toBe(false);
-    });
-
-    it("should return true if the user has Bürgergeld and income", () => {
-      expect(
-        arbeitsabzuegeDone({
-          context: {
-            staatlicheLeistungen: "buergergeld",
-            currentlyEmployed: "yes",
-          },
-        }),
-      ).toBe(true);
-    });
-
-    it("should return false if the user uses public transport and hasn't entered their monthly costs, or their place of work", () => {
-      const done = arbeitsabzuegeDone({
-        context: { arbeitsweg: "publicTransport" },
-      });
-      expect(done).toBe(false);
-    });
-
-    it("should return false if the user uses a private vehicle and hasn't entered their place of work", () => {
-      const done = arbeitsabzuegeDone({
-        context: { arbeitsweg: "privateVehicle" },
-      });
-      expect(done).toBe(false);
-    });
-
-    it("should return false if the user has additional work-related costs and hasn't entered them", () => {
-      const done = arbeitsabzuegeDone({
-        context: { arbeitsweg: "none", hasArbeitsausgaben: "yes" },
-      });
-      expect(done).toBe(false);
-    });
-  });
-
   describe("einkommenDone", () => {
     it("should return false if the user is employed and hasn't entered their income", () => {
       let done = einkommenDone({
@@ -109,16 +69,18 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
     });
 
     it.each([
-      { typ: "Wohngeld", expected: false },
-      { typ: "Krankengeld", expected: false },
-      { typ: "Elterngeld", expected: false },
-      { typ: "Kindergeld", expected: false },
+      { typ: "wohngeld", expected: false },
+      { typ: "krankengeld", expected: false },
+      { typ: "elterngeld", expected: false },
+      { typ: "kindergeld", expected: false },
     ])(
       "Should return $expected if $typ is selected and no amount is entered",
       ({ typ, expected }) => {
         const done = leistungenDone({
           context: {
-            [`has${typ}`]: "on" as CheckboxValue,
+            leistungen: {
+              [typ]: "on" as CheckboxValue,
+            },
           },
         });
         expect(done).toBe(expected);

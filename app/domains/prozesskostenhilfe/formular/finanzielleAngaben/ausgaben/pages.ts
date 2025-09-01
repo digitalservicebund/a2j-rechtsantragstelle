@@ -1,0 +1,169 @@
+import { z } from "zod";
+import { type PagesConfig } from "~/domains/pageSchemas";
+import { besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { createDateSchema } from "~/services/validation/date";
+import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { today } from "~/util/date";
+
+const zahlungspflichtigerSchema = z.enum([
+  "myself",
+  "myselfAndPartner",
+  "myselfAndSomeoneElse",
+]);
+
+const versicherungenArtSchema = z.enum([
+  "haftpflichtversicherung",
+  "hausratsversicherung",
+  "unfallversicherung",
+  "privateKrankenzusatzversicherung",
+  "kfzVersicherung",
+  "sonstige",
+]);
+
+export const pkhFormularFinanzielleAngabenAusgabenPages = {
+  ausgabenFrage: {
+    stepId: "finanzielle-angaben/ausgaben/ausgaben-frage",
+    pageSchema: {
+      hasAusgaben: YesNoAnswer,
+    },
+  },
+  ausgabenBesondereBelastungen: {
+    stepId: "finanzielle-angaben/ausgaben/besondere-belastungen",
+    pageSchema: {
+      besondereBelastungen: besondereBelastungenInputSchema,
+    },
+  },
+  ausgabenZusammenfassung: {
+    stepId: "finanzielle-angaben/ausgaben-zusammenfassung/zusammenfassung",
+  },
+  ausgabenZusammenfassungVersicherungen: {
+    stepId: "finanzielle-angaben/ausgaben-zusammenfassung/versicherungen",
+    pageSchema: {
+      versicherungen: z.array(
+        z.object({
+          art: versicherungenArtSchema,
+          beitrag: buildMoneyValidationSchema(),
+          sonstigeArt: stringOptionalSchema,
+        }),
+      ),
+    },
+    arrayPages: {
+      daten: {
+        pageSchema: {
+          "versicherungen#art": versicherungenArtSchema,
+          "versicherungen#beitrag": buildMoneyValidationSchema(),
+        },
+      },
+      "sonstige-art": {
+        pageSchema: {
+          "versicherungen#sonstigeArt": stringOptionalSchema,
+        },
+      },
+    },
+  },
+  ausgabenZusammenfassungRatenzahlungen: {
+    stepId: "finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen",
+    pageSchema: {
+      ratenzahlungen: z.array(
+        z
+          .object({
+            art: stringRequiredSchema,
+            zahlungsempfaenger: stringRequiredSchema,
+            zahlungspflichtiger: zahlungspflichtigerSchema,
+            betragEigenerAnteil: buildMoneyValidationSchema().optional(),
+            betragGesamt: buildMoneyValidationSchema(),
+            restschuld: buildMoneyValidationSchema(),
+            laufzeitende: createDateSchema({
+              earliest: () => today(),
+            }),
+          })
+          .partial(),
+      ),
+    },
+    arrayPages: {
+      daten: {
+        pageSchema: {
+          "ratenzahlungen#art": stringRequiredSchema,
+          "ratenzahlungen#zahlungsempfaenger": stringRequiredSchema,
+        },
+      },
+      zahlungspflichtiger: {
+        pageSchema: {
+          "ratenzahlungen#zahlungspflichtiger": zahlungspflichtigerSchema,
+        },
+      },
+      betragGemeinsamerAnteil: {
+        pageSchema: {
+          "ratenzahlungen#betragGesamt": buildMoneyValidationSchema(),
+        },
+      },
+      betragEigenerAnteil: {
+        pageSchema: {
+          "ratenzahlungen#betragEigenerAnteil": buildMoneyValidationSchema(),
+        },
+      },
+      betragGesamt: {
+        pageSchema: {
+          "ratenzahlungen#betragGesamt": buildMoneyValidationSchema(),
+        },
+      },
+      restschuld: {
+        pageSchema: {
+          "ratenzahlungen#restschuld": buildMoneyValidationSchema(),
+        },
+      },
+      laufzeitende: {
+        pageSchema: {
+          "ratenzahlungen#laufzeitende": stringRequiredSchema,
+        },
+      },
+    },
+  },
+  ausgabenZusammenfassungSonstigeAusgaben: {
+    stepId: "finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben",
+    pageSchema: {
+      sonstigeAusgaben: z.array(
+        z
+          .object({
+            art: stringRequiredSchema,
+            zahlungsempfaenger: stringRequiredSchema,
+            zahlungspflichtiger: zahlungspflichtigerSchema,
+            betragEigenerAnteil: buildMoneyValidationSchema().optional(),
+            betragGesamt: buildMoneyValidationSchema(),
+          })
+          .partial(),
+      ),
+    },
+    arrayPages: {
+      daten: {
+        pageSchema: {
+          "sonstigeAusgaben#art": stringRequiredSchema,
+          "sonstigeAusgaben#zahlungsempfaenger": stringRequiredSchema,
+        },
+      },
+      zahlungspflichtiger: {
+        pageSchema: {
+          "sonstigeAusgaben#zahlungspflichtiger": zahlungspflichtigerSchema,
+        },
+      },
+      betragGemeinsamerAnteil: {
+        pageSchema: {
+          "sonstigeAusgaben#betragGesamt": buildMoneyValidationSchema(),
+        },
+      },
+      betragEigenerAnteil: {
+        pageSchema: {
+          "sonstigeAusgaben#betragEigenerAnteil": buildMoneyValidationSchema(),
+        },
+      },
+      betragGesamt: {
+        pageSchema: {
+          "sonstigeAusgaben#betragGesamt": buildMoneyValidationSchema(),
+        },
+      },
+    },
+  },
+} as const satisfies PagesConfig;

@@ -6,7 +6,7 @@ import Select from "~/components/formElements/Select";
 import TileGroup from "~/components/formElements/tile/TileGroup";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 
-export type ZodEnum = z.ZodEnum<Record<string, string>>;
+type ZodEnum = z.ZodEnum<Record<string, string>>;
 
 export const isZodEnum = (fieldSchema: z.ZodType): fieldSchema is ZodEnum =>
   fieldSchema.def.type === "enum";

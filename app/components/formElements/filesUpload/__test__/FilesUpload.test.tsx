@@ -17,13 +17,13 @@ const addAnotherLabel = translations.fileUpload.addAnother.de;
 const fieldName = "belege";
 const minimumFileError = "You must select at least one file";
 
-const mockSubmit = vi.fn();
+const mockSubmit = vi.hoisted(() => vi.fn());
 let actionResponse: ValidationErrorResponseData | UserData | undefined;
 vi.mock("react-router", async () => ({
   ...(await vi.importActual("react-router")),
   useLoaderData: vi.fn(() => ({ csrf: "csrf" })),
   useActionData: () => actionResponse,
-  useSubmit: () => mockSubmit,
+  useSubmit: () => mockSubmit.mockResolvedValue(undefined),
 }));
 
 const getDefaultMock = vi.fn();

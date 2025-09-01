@@ -77,7 +77,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = [
     [
       "/finanzielle-angaben/einkuenfte/einkommen/art",
       "/finanzielle-angaben/einkuenfte/einkommen/netto-einkommen",
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsweg",
+      "/finanzielle-angaben/abzuege/arbeitsweg",
     ],
   ],
   [
@@ -91,54 +91,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = [
       "/finanzielle-angaben/einkuenfte/einkommen/art",
       "/finanzielle-angaben/einkuenfte/einkommen/selbststaendig",
       "/finanzielle-angaben/einkuenfte/einkommen/selbststaendig-abzuege",
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsweg",
-    ],
-  ],
-  [
-    { arbeitsweg: "none" },
-    [
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsweg",
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
-    ],
-  ],
-  [
-    { arbeitsweg: "walking" },
-    [
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsweg",
-      "/finanzielle-angaben/einkuenfte/abzuege/keine-rolle",
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
-    ],
-  ],
-  [
-    { arbeitsweg: "publicTransport", monatlicheOPNVKosten: "100" },
-    [
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsweg",
-      "/finanzielle-angaben/einkuenfte/abzuege/opnv-kosten",
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsplatz-entfernung",
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
-    ],
-  ],
-  [
-    { arbeitsweg: "privateVehicle" },
-    [
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsweg",
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsplatz-entfernung",
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
-    ],
-  ],
-  [
-    { hasArbeitsausgaben: "yes" },
-    [
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/uebersicht",
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/warnung",
-    ],
-  ],
-  [
-    { hasArbeitsausgaben: "no" },
-    [
-      "/finanzielle-angaben/einkuenfte/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
-      "/finanzielle-angaben/einkuenfte/rente-frage",
+      "/finanzielle-angaben/abzuege/arbeitsweg",
     ],
   ],
   [
@@ -159,10 +112,12 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = [
   ],
   [
     {
-      hasWohngeld: "on",
-      hasKrankengeld: "on",
-      hasElterngeld: "on",
-      hasKindergeld: "on",
+      leistungen: {
+        wohngeld: "on",
+        krankengeld: "on",
+        elterngeld: "on",
+        kindergeld: "on",
+      },
       wohngeldAmount: "500",
       krankengeldAmount: "500",
       elterngeldAmount: "500",
@@ -179,10 +134,12 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = [
   ],
   [
     {
-      hasWohngeld: "off",
-      hasKrankengeld: "off",
-      hasElterngeld: "off",
-      hasKindergeld: "off",
+      leistungen: {
+        wohngeld: "off",
+        krankengeld: "off",
+        elterngeld: "off",
+        kindergeld: "off",
+      },
     },
     [
       "/finanzielle-angaben/einkuenfte/leistungen/frage",
