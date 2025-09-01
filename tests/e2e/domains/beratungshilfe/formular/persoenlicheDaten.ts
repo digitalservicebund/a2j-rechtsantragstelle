@@ -33,4 +33,7 @@ export async function startPersoenlicheDaten(
 
   // beratungshilfe/antrag/persoenliche-daten/telefonnummer
   await beratungshilfeFormular.fillInputPage("telefonnummer", "123456789");
+
+  // beratungshilfe/antrag/persoenliche-daten/nachbefragung
+  await beratungshilfeFormular.clickNext();
 }

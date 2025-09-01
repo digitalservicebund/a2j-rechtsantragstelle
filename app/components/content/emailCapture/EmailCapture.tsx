@@ -32,6 +32,8 @@ export const EmailCapture = ({
   description,
   buttonLabel,
 }: EmailCaptureProps) => {
+  const fieldName = "email";
+  const errorId = "email-error";
   const { csrf, emailCaptureConsent } = useLoaderData<typeof loader>();
   const { pathname, search } = useLocation();
   const form = useForm({
@@ -41,7 +43,7 @@ export const EmailCapture = ({
     action: "/action/send-email",
     method: "post",
   });
-  const field = form.field("email");
+  const field = form.field(fieldName);
   const searchArg = search.split("?")[1];
   const invalidEmail = !!field.error() || searchArg === invalidEmailError.code;
 
@@ -56,7 +58,7 @@ export const EmailCapture = ({
       {description && (
         <RichText className="ds-body-01-reg" html={description} />
       )}
-      {label && <InputLabel id={"email"}>{label}</InputLabel>}
+      {label && <InputLabel id={fieldName}>{label}</InputLabel>}
       <form
         {...form.getFormProps()}
         data-testid="email-capture-form"
@@ -65,12 +67,14 @@ export const EmailCapture = ({
         <div className="grow">
           <input
             {...field.getInputProps()}
+            id={fieldName}
+            aria-errormessage={field.error() ? errorId : undefined}
             className={classNames("ds-input forced-color-adjust-none", {
               "has-error": invalidEmail,
             })}
           ></input>
           {invalidEmail && (
-            <InputError id={"email-error"}>{invalidEmailError.text}</InputError>
+            <InputError id={errorId}>{invalidEmailError.text}</InputError>
           )}
           <input type="hidden" name={CSRFKey} value={csrf} />
           <input type="hidden" name="_url" value={pathname} />
