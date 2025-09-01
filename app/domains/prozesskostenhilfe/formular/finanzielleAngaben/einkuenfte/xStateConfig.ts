@@ -209,6 +209,13 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
           },
           {
             guard: ({ context }) =>
+              !einkuenfteGuards.isEmployee({ context }) &&
+              !einkuenfteGuards.isSelfEmployed({ context }),
+
+            target: "#einkommen.art",
+          },
+          {
+            guard: ({ context }) =>
               einkuenfteGuards.isSelfEmployed({ context }),
             target: steps.selbststaendigAbzuege.absolute,
           },
