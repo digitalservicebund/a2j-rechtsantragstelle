@@ -153,7 +153,7 @@ function stepStates(
         isReachable: reachableSteps.includes(targetStepId),
         isValidationState:
           meta?.isValidationSubflow ?? parent?.meta?.isValidationSubflow,
-      } as StepState;
+      };
     }
 
     return {
@@ -164,7 +164,7 @@ function stepStates(
       subStates: reachableSubStates,
       isValidationState:
         meta?.isValidationSubflow ?? parent?.meta?.isValidationSubflow,
-    } as StepState;
+    };
   });
 }
 

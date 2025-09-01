@@ -94,28 +94,28 @@ export const fillAndereLeistungenPartner: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  if (userData["partner-hasWohngeld"] === "on") {
+  if (userData.partnerLeistungen?.wohngeld === "on") {
     pdfValues.e38.value = true;
     pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchWohngeldinEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-wohngeldAmount"])} ${nettoString}`;
   } else if (userData["partner-hasFurtherIncome"]) {
     pdfValues.e37.value = true;
   }
 
-  if (userData["partner-hasKrankengeld"] === "on") {
+  if (userData.partnerLeistungen?.krankengeld === "on") {
     pdfValues.e48.value = true;
     pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchKrankengeldinEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-krankengeldAmount"])} ${nettoString}`;
   } else if (userData["partner-hasFurtherIncome"]) {
     pdfValues.e47.value = true;
   }
 
-  if (userData["partner-hasElterngeld"] === "on") {
+  if (userData.partnerLeistungen?.elterngeld === "on") {
     pdfValues.e50.value = true;
     pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchElterngeldinEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-elterngeldAmount"])} ${nettoString}`;
   } else if (userData["partner-hasFurtherIncome"]) {
     pdfValues.e49.value = true;
   }
 
-  if (userData["partner-hasKindergeld"] === "on") {
+  if (userData.partnerLeistungen?.kindergeld === "on") {
     pdfValues.e36.value = true;
     pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchKindergeldKinderzuschlaginEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-kindergeldAmount"])} ${nettoString}`;
   } else if (userData["partner-hasFurtherIncome"]) {
