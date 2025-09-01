@@ -101,13 +101,7 @@
         "react/no-string-refs": "error",
         "react/no-unescaped-entities": "error",
         "react/no-unknown-property": "error",
-        "react/react-in-jsx-scope": "error"
-      }
-    },
-    {
-      "files": ["**/*.{js,jsx,ts,tsx}"],
-      "plugins": ["react"],
-      "rules": {
+        "react/react-in-jsx-scope": "error",
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn"
       }
