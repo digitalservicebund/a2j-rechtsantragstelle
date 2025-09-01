@@ -11,7 +11,7 @@ const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
 export const abgabeXstateConfig = {
   initial: steps.ueberpruefung.relative,
   id: "abgabe",
-  meta: { isValidationPage: true },
+  meta: { isValidationSubflow: true },
   states: {
     [steps.ueberpruefung.relative]: {
       on: { BACK: "#weitere-angaben" },

@@ -51,7 +51,7 @@ describe("flowNavigation", () => {
           label: parentStepState.stepId,
           state: "Current",
           subflows: undefined,
-          isValidationPage: undefined,
+          isValidationSubflow: undefined,
         },
       ]);
     });
@@ -64,14 +64,14 @@ describe("flowNavigation", () => {
           destination: parentStepState.url,
           label: parentStepState.stepId,
           state: "Current",
-          isValidationPage: undefined,
+          isValidationSubflow: undefined,
           subflows: [
             {
               label: childStepState.stepId,
               destination: childStepState.url,
               state: "Current",
               subflows: undefined,
-              isValidationPage: undefined,
+              isValidationSubflow: undefined,
             },
           ],
         },
@@ -86,14 +86,14 @@ describe("flowNavigation", () => {
           destination: parentStepState.url,
           label: parentStepState.stepId,
           state: "Open",
-          isValidationPage: undefined,
+          isValidationSubflow: undefined,
           subflows: [
             {
               label: childStepState.stepId,
               destination: childStepState.url,
               state: "Open",
               subflows: undefined,
-              isValidationPage: undefined,
+              isValidationSubflow: undefined,
             },
           ],
         },
@@ -137,14 +137,14 @@ describe("flowNavigation", () => {
           label: "/a",
           subflows: undefined,
           state: "Done",
-          isValidationPage: undefined,
+          isValidationSubflow: undefined,
         },
         {
           destination: "/",
           label: "/a-b",
           subflows: undefined,
           state: "Current",
-          isValidationPage: undefined,
+          isValidationSubflow: undefined,
         },
       ]);
     });
@@ -165,12 +165,12 @@ describe("flowNavigation", () => {
           label: "/a-b",
           subflows: undefined,
           state: "Current",
-          isValidationPage: undefined,
+          isValidationSubflow: undefined,
         },
       ]);
     });
 
-    it('should have the correct "isValidationPage" property', () => {
+    it('should have the correct "isValidationSubflow" property', () => {
       expect(
         navItemsFromStepStates("/a-b", [
           {
@@ -187,7 +187,7 @@ describe("flowNavigation", () => {
           label: "/a-b",
           subflows: undefined,
           state: "Current",
-          isValidationPage: true,
+          isValidationSubflow: true,
         },
       ]);
     });

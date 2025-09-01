@@ -44,7 +44,7 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
 export function NavItem({
   destination,
   label,
-  isValidationPage,
+  isValidationSubflow,
   userVisitedValidationPage,
   state,
   subflows = [],
@@ -62,7 +62,7 @@ export function NavItem({
     defaultExpanded: forceExpanded ?? isCurrent,
   });
   const showWarningIcon =
-    userVisitedValidationPage && !isValidationPage && !isDone;
+    userVisitedValidationPage && !isValidationSubflow && !isDone;
 
   // Transparent last: borders to avoid layout shifts
   const liClassNames = classNames(
