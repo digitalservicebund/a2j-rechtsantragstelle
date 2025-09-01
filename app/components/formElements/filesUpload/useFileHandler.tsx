@@ -4,7 +4,7 @@ import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
 const options = { method: "post", encType: "multipart/form-data" } as const;
 const handleSubmissionError = (error: unknown) =>
-  // eslint-disable-next-line no-console
+  // oxlint-disable-next-line no-console
   console.error("An error occurred during form submission:", error);
 
 export function useFileHandler() {
