@@ -87,7 +87,6 @@ function filteredLargeMediumAirports(airports: AirportDataSource[]): Airport[] {
       return {
         iata: airport.iata,
         country_code: airport.country_code,
-        // eslint-disable-next-line import/no-named-as-default-member
         country: countries.getName(airport.country_code, GERMAN_LOCALE) ?? "",
         airport: translateAirportName(airport.airport),
         latitude: airport.latitude,

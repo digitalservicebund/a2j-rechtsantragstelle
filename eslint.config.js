@@ -1,4 +1,3 @@
-import importPlugin from "eslint-plugin-import";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import react from "eslint-plugin-react";
 import sonarjs from "eslint-plugin-sonarjs";
@@ -129,7 +128,7 @@ export default tseslint.config(
     },
   },
 
-  // TypeScript + eslint + general rules block
+  // TypeScript ESLint
   {
     files: ["**/*.{ts,tsx}"],
     extends: [
@@ -166,42 +165,6 @@ export default tseslint.config(
       "@typescript-eslint/prefer-nullish-coalescing": "warn",
       // TODO: Align both streams for enabling exhaustiveness check globally
       "@typescript-eslint/switch-exhaustiveness-check": "warn",
-    },
-  },
-
-  // import plugin
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      importPlugin.flatConfigs.recommended,
-      importPlugin.flatConfigs.typescript,
-    ],
-    settings: {
-      "import/internal-regex": "^~/",
-      "import/resolver": {
-        node: { extensions: [".ts", ".tsx"] },
-        typescript: { alwaysTryTypes: true },
-      },
-    },
-    rules: {
-      // import
-      "import/no-cycle": "off", // VERY slow, only enable if needed
-      "import/namespace": "off", // slow and unneeded
-      "import/no-unused-modules": [
-        "off", // slow but useful to find unused exports. you might need to create an empty .eslintrc file, see https://github.com/import-js/eslint-plugin-import/issues/3079
-        {
-          unusedExports: true,
-          ignoreExports: ["app/routes/"],
-        },
-      ],
-      "import/order": [
-        "warn",
-        {
-          alphabetize: { caseInsensitive: true, order: "asc" },
-          groups: ["builtin", "external", "internal"],
-          "newlines-between": "never",
-        },
-      ],
     },
   },
   // AutoSuggest specific rules
