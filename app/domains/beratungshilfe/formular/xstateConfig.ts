@@ -1,6 +1,5 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { Config } from "~/services/flow/server/types";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
 import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
 import { finanzielleAngabenArrayConfig as beratungshilfeFormularFinanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
@@ -12,7 +11,6 @@ import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import type { BeratungshilfeFormularUserData } from "./userData";
 import { weitereAngabenDone } from "./weitereAngaben/doneFunctions";
 
-const showNachbefragung = await isFeatureFlagEnabled("showNachbefragung");
 const steps = xStateTargetsFromPagesConfig(beratungshilfeAntragPages);
 
 export const beratungshilfeXstateConfig = {
@@ -40,12 +38,7 @@ export const beratungshilfeXstateConfig = {
     "weitere-angaben": {
       id: "weitere-angaben",
       meta: { done: weitereAngabenDone },
-      on: {
-        BACK: showNachbefragung
-          ? "#persoenliche-daten.nachbefragung"
-          : "#persoenliche-daten.telefonnummer",
-        SUBMIT: "#abgabe",
-      },
+      on: { BACK: "#persoenliche-daten.nachbefragung", SUBMIT: "#abgabe" },
     },
     abgabe: abgabeXstateConfig,
   },
