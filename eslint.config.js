@@ -52,7 +52,7 @@ export default tseslint.config(
       globals: {
         ...globals.browser,
         ...globals.commonjs,
-        ...globals.es6,
+        ...globals.es2026,
         ...globals.node,
       },
     },
