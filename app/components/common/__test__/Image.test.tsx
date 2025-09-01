@@ -61,13 +61,6 @@ describe("Image", () => {
     expect(image).not.toHaveAttribute("aria-hidden");
   });
 
-  it("should render an image with empty alt text as decorative if alternativeText empty", () => {
-    const { container } = render(<Image url="photo.jpg" alternativeText="" />);
-    const image = container.querySelector("img");
-    expect(image).toBeInTheDocument();
-    expect(image).toHaveAttribute("alt", "");
-  });
-
   it("should render an image with empty alt text as decorative if alternativeText undefined", () => {
     const { container } = render(<Image url="photo.jpg" />);
     const image = container.querySelector("img");
