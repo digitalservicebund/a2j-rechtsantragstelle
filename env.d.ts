@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+// oxlint-disable @typescript-eslint/consistent-indexed-object-style @typescript-eslint/no-empty-object-type @typescript-eslint/consistent-type-definitions
 import type { Assertion } from "vitest";
 
 interface CustomMatchers<R = unknown> {

@@ -82,14 +82,7 @@ describe("getArraySummaryData", () => {
       [],
     );
 
-    expect(
-      (
-        actual?.bankkonten as {
-          data: ArrayData;
-          configuration: ArrayConfigClient;
-        }
-      ).configuration.disableAddButton,
-    ).toBe(false);
+    expect(actual?.bankkonten?.configuration.disableAddButton).toBe(false);
   });
 
   it("should return disableAddButton false given a function shouldDisableAddButton that it returns false", () => {
@@ -109,7 +102,7 @@ describe("getArraySummaryData", () => {
 
     expect(
       (
-        actual?.bankkonten as {
+        actual!.bankkonten as {
           data: ArrayData;
           configuration: ArrayConfigClient;
         }
@@ -132,14 +125,7 @@ describe("getArraySummaryData", () => {
       [],
     );
 
-    expect(
-      (
-        actual?.bankkonten as {
-          data: ArrayData;
-          configuration: ArrayConfigClient;
-        }
-      ).configuration.disableAddButton,
-    ).toBe(true);
+    expect(actual?.bankkonten?.configuration.disableAddButton).toBe(true);
   });
 
   it("should return the content of the array summary page", () => {
