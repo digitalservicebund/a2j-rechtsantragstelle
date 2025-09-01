@@ -4,12 +4,15 @@ export type FlowNavigationProps = Readonly<{
   navItems: NavItem[];
   expandAll?: boolean;
   className?: string;
+  userVisitedValidationPage?: boolean;
 }>;
 
 export type NavItem = {
   destination: string;
   label: string;
   state: NavState;
+  isValidationSubflow?: boolean;
   forceExpanded?: boolean;
+  userVisitedValidationPage?: boolean;
   subflows?: NavItem[];
 };

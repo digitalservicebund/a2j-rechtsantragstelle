@@ -173,10 +173,10 @@ export const prozesskostenhilfeFormular = {
       [steps.abgabe.relative]: {
         id: "abgabe",
         initial: steps.abgabeUeberpruefung.relative,
-        meta: { done: () => false },
+        meta: { isValidationSubflow: true },
         states: {
           [steps.abgabeUeberpruefung.relative]: {
-            meta: { expandValidation: true },
+            meta: { shouldExpandAllStates: true },
             on: {
               BACK: steps.weitereAngaben.absolute,
             },

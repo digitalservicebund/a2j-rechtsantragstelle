@@ -1,14 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { type NavState } from "~/services/navigation/navState";
+import { translations } from "~/services/translations/translations";
 import { NavItem } from "../NavItem";
-
-vi.mock("react-router", () => ({
-  useRouteLoaderData: vi.fn(() => ({
-    accessibilityTranslations: {
-      navigationItemFinishedLabel: "Item finished",
-    },
-  })),
-}));
 
 describe("NavigationItem", () => {
   const destination = "/destination";
@@ -28,7 +21,29 @@ describe("NavigationItem", () => {
 
     const checkCircle = screen.getByTestId("CheckCircleIcon");
     expect(checkCircle).toHaveClass("shrink-0 fill-green-700");
-    expect(checkCircle).toHaveAttribute("aria-label", "Item finished");
+    expect(checkCircle).toHaveAttribute(
+      "aria-label",
+      translations.navigation.navigationItemFinished.de,
+    );
+  });
+
+  it("renders an incomplete navigation item with a warning icon when the flow is ready for validation", () => {
+    const { getByTestId, getByText } = render(
+      <NavItem
+        destination={destination}
+        label={label}
+        state={"Open"}
+        userVisitedValidationPage={true}
+      />,
+    );
+    const warningIcon = getByTestId("WarningAmberIcon");
+    expect(warningIcon).toBeInTheDocument();
+    expect(warningIcon).toHaveAttribute(
+      "aria-label",
+      translations.navigation.navigationItemWarning.de,
+    );
+    const navItem = getByText(label);
+    expect(navItem).toHaveClass("bg-yellow-200");
   });
 
   it("renders navigation item with the correct classNames when state is disabled", () => {
