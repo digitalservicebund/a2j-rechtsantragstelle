@@ -91,9 +91,9 @@ export const belegeStrings = (context: ProzesskostenhilfeFormularUserData) => {
       parseCurrencyStringDE(context["partner-selbststaendigAbzuege"]) > 0,
     partnerHasWerbungskosten: context["partner-hasArbeitsausgaben"] === "yes",
     partnerHasRente: context["partner-receivesPension"] === "yes",
-    partnerHasWohngeld: context["partner-hasWohngeld"] === "on",
-    partnerHasKrankengeld: context["partner-hasKrankengeld"] === "on",
-    partnerHasElterngeld: context["partner-hasElterngeld"] === "on",
+    partnerHasWohngeld: context.partnerLeistungen?.wohngeld === "on",
+    partnerHasKrankengeld: context.partnerLeistungen?.krankengeld === "on",
+    partnerHasElterngeld: context.partnerLeistungen?.elterngeld === "on",
     partnerWeitereEinkuenfte:
       context["partner-weitereEinkuenfte"] &&
       context["partner-weitereEinkuenfte"].length > 0,

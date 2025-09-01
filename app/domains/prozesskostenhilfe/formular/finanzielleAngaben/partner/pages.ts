@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { financialEntryInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { checkedOptional } from "~/services/validation/checkedCheckbox";
+import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { postcodeSchema } from "~/services/validation/postcode";
@@ -255,10 +255,13 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-leistungen/partner-frage",
     pageSchema: {
-      "partner-hasWohngeld": checkedOptional,
-      "partner-hasKrankengeld": checkedOptional,
-      "partner-hasElterngeld": checkedOptional,
-      "partner-hasKindergeld": checkedOptional,
+      partnerLeistungen: exclusiveCheckboxesSchema([
+        "wohngeld",
+        "krankengeld",
+        "elterngeld",
+        "kindergeld",
+        "none",
+      ]),
     },
   },
 
