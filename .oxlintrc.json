@@ -223,6 +223,7 @@
       "rules": {
         "import/namespace": "error",
         "import/default": "error",
+        "import/no-cycle": "error",
         "import/no-named-as-default": "warn",
         "import/no-named-as-default-member": "warn",
         "import/no-duplicates": "warn"
@@ -237,7 +238,6 @@
       "plugins": ["import", "typescript"],
       "rules": {
         "no-console": "warn",
-        "import/no-cycle": "error",
         "@typescript-eslint/consistent-type-imports": [
           "warn",
           {
