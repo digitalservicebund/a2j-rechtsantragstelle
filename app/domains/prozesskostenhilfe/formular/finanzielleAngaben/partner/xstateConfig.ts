@@ -21,17 +21,28 @@ export const partnerXstateConfig = {
         BACK: [
           {
             guard: ({ context }) =>
-              !!(
-                (context.employmentType === "employed" ||
-                  context.employmentType === "employedAndSelfEmployed" ||
-                  context.nettoEinkuenfteAlsArbeitnehmer) &&
-                context.staatlicheLeistungen !== "buergergeld"
-              ),
-            target: "#finanzielle-angaben.abzuege",
+              context.currentlyEmployed === "yes" &&
+              context.staatlicheLeistungen !== "buergergeld" &&
+              !context.arbeitsweg,
+            target: "#finanzielle-angaben.abzuege.arbeitsweg",
+          },
+          {
+            guard: ({ context }) => context.hasArbeitsausgaben === "yes",
+            target: "#finanzielle-angaben.abzuege.arbeitsausgaben.uebersicht",
+          },
+          {
+            guard: ({ context }) =>
+              context.currentlyEmployed === "yes" &&
+              context.staatlicheLeistungen !== "buergergeld",
+            target: "#finanzielle-angaben.abzuege.arbeitsausgaben",
           },
           {
             guard: "hasFurtherIncome",
             target: "#einkuenfte.weitere-einkuenfte.uebersicht",
+          },
+          {
+            guard: ({ context }) => !context.currentlyEmployed,
+            target: "#einkuenfte.einkommen",
           },
           "#einkuenfte.weitere-einkuenfte.frage",
         ],
