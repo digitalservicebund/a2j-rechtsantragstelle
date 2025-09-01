@@ -182,7 +182,9 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
             pageSchema: {
               "geldanlagen#eigentuemer": eigentuemerSchema,
               "geldanlagen#wert": buildMoneyValidationSchema(),
-              "geldanlagen#befristetArt": befristetArtSchema.optional(),
+              "geldanlagen#befristetArt": befristetArtSchema,
+              "geldanlagen#verwendungszweck": stringOptionalSchema,
+              "geldanlagen#auszahlungdatum": stringOptionalSchema,
             },
           },
           forderung: {
