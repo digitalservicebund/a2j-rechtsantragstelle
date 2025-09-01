@@ -92,6 +92,7 @@
         "react/jsx-no-duplicate-props": "error",
         "react/jsx-no-target-blank": "error",
         "react/jsx-no-undef": "error",
+        "react/no-array-index-key": "warn",
         "react/no-children-prop": "error",
         "react/no-danger-with-children": "error",
         "react/no-direct-mutation-state": "error",
@@ -143,13 +144,6 @@
         "jsx-a11y/role-supports-aria-props": "error",
         "jsx-a11y/scope": "error",
         "jsx-a11y/tabindex-no-positive": "error"
-      }
-    },
-    {
-      "files": ["**/*.{js,jsx,ts,tsx}"],
-      "plugins": ["react"],
-      "rules": {
-        "react/no-array-index-key": "warn"
       }
     },
     // Replace tseslint.configs.recommendedTypeChecked
