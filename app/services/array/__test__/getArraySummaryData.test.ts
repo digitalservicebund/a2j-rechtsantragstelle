@@ -100,14 +100,7 @@ describe("getArraySummaryData", () => {
       [],
     );
 
-    expect(
-      (
-        actual!.bankkonten as {
-          data: ArrayData;
-          configuration: ArrayConfigClient;
-        }
-      ).configuration.disableAddButton,
-    ).toBe(false);
+    expect(actual?.bankkonten?.configuration.disableAddButton).toBe(false);
   });
 
   it("should return disableAddButton true given a function shouldDisableAddButton that it returns true", () => {
