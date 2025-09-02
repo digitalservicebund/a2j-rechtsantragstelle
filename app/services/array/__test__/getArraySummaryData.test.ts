@@ -1,6 +1,4 @@
-import type { ArrayData } from "~/domains/userData";
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
-import type { ArrayConfigClient } from "..";
 
 describe("getArraySummaryData", () => {
   it("returns undefined when array configuration is missing", () => {
