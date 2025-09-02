@@ -1,12 +1,6 @@
 import { getShortestPaths } from "@xstate/graph";
 import isEqual from "lodash/isEqual";
-import {
-  initialTransition,
-  pathToStateValue,
-  setup,
-  type StateNode,
-  transition,
-} from "xstate";
+import { initialTransition, pathToStateValue, setup, transition } from "xstate";
 import type { Guards } from "~/domains/guards.server";
 import type { UserData } from "~/domains/userData";
 import {
@@ -114,7 +108,7 @@ function stepStates(
   return statesWithDoneFunctionOrSubstates.map((state) => {
     const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
     const meta = state.meta as Meta | undefined;
-    const parent = state.parent as StateNode | undefined;
+    const parent = state.parent;
     const hasDoneFunction = meta?.done !== undefined;
     const reachableSubStates = stepStates(state, reachableSteps).filter(
       (state) => state.isReachable,
