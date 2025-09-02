@@ -2,7 +2,6 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { ProzesskostenhilfeGrundvoraussetzungenUserData } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import type { Config } from "~/services/flow/server/types";
 import {
-  anhaengigesGerichtsverfahren,
   grundvoraussetzungenDone,
   isNachueberpruefung,
   verfahrenSelbststaendig,
@@ -38,7 +37,8 @@ export const grundvoraussetzungenXstateConfig = {
           on: {
             SUBMIT: [
               {
-                guard: anhaengigesGerichtsverfahren,
+                guard: ({ context }) =>
+                  context.anhaengigesGerichtsverfahrenFrage === "yes",
                 target: steps.nameGericht.absolute,
               },
               steps.klageersteller.absolute,
@@ -62,7 +62,8 @@ export const grundvoraussetzungenXstateConfig = {
           on: {
             SUBMIT: [
               {
-                guard: anhaengigesGerichtsverfahren,
+                guard: ({ context }) =>
+                  context.anhaengigesGerichtsverfahrenFrage === "yes",
                 target: steps.klageersteller.absolute,
               },
               "#grundvoraussetzungen.einreichung",
@@ -90,7 +91,8 @@ export const grundvoraussetzungenXstateConfig = {
                 target: steps.aktenzeichen.absolute,
               },
               {
-                guard: anhaengigesGerichtsverfahren,
+                guard: ({ context }) =>
+                  context.anhaengigesGerichtsverfahrenFrage === "yes",
                 target: steps.aktenzeichen.absolute,
               },
               steps.anhaengigesGerichtsverfahrenFrage.absolute,
@@ -123,7 +125,8 @@ export const grundvoraussetzungenXstateConfig = {
                 target: steps.aktenzeichen.absolute,
               },
               {
-                guard: anhaengigesGerichtsverfahren,
+                guard: ({ context }) =>
+                  context.anhaengigesGerichtsverfahrenFrage === "yes",
                 target: steps.hinweis.absolute,
               },
               steps.hinweis.absolute,

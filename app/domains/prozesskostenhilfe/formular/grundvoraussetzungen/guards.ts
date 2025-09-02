@@ -45,7 +45,3 @@ export const grundvoraussetzungenDone: GenericGuard<
       : erstantragDone)
   );
 };
-
-export const anhaengigesGerichtsverfahren: GenericGuard<
-  ProzesskostenhilfeGrundvoraussetzungenUserData
-> = ({ context }) => context.anhaengigesGerichtsverfahrenFrage === "yes";
