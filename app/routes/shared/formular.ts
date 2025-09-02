@@ -4,6 +4,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { retrieveContentData } from "~/services/flow/formular/contentData/retrieveContentData";
+import { setUserVisitedValidationPage } from "~/services/flow/formular/contentData/setUserVisitedValidationPage";
 import { isFileUploadOrDeleteAction } from "~/services/flow/formular/fileUpload/isFileUploadOrDeleteAction";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
@@ -30,7 +31,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const {
     userData: userDataWithPageData,
-    flow: { id: flowId, controller: flowController, validFlowPaths },
+    flow: {
+      id: flowId,
+      controller: flowController,
+      validFlowPaths,
+      userVisitedValidationPage,
+    },
     page: { stepId, arrayIndexes },
     migration,
     emailCaptureConsent,
@@ -51,6 +57,8 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       flowId,
       stepId,
     }),
+    flowController.getMeta(stepId)?.isValidationSubflow &&
+      setUserVisitedValidationPage(flowId, cookieHeader),
   ]);
 
   const translations = contentData.getTranslations();
@@ -70,6 +78,9 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   return data(
     {
       arraySummaryData,
+      userVisitedValidationPage:
+        userVisitedValidationPage ??
+        flowController.getMeta(stepId)?.isValidationSubflow,
       prunedUserData: userDataWithPageData,
       buttonNavigationProps,
       content: cmsContent.content,
@@ -80,7 +91,8 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       meta,
       migration,
       navItems,
-      isValidationPage: flowController.getMeta(stepId)?.expandValidation,
+      expandFlowNavigation:
+        flowController.getMeta(stepId)?.shouldExpandAllStates,
       postFormContent: cmsContent.postFormContent,
       preHeading: cmsContent.preHeading,
       stepData,

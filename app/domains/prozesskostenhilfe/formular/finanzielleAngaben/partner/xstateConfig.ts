@@ -1,8 +1,8 @@
 import { type Flow } from "~/domains/flows.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { partnerDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
+// import { partnerEinkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/doneFunctions";
 import { pkhFormularFinanzielleAngabenPartnerPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/pages";
-import { partnerDone } from "../doneFunctions";
-import { einkuenfteDone } from "../einkuenfte/doneFunctions";
 import { partnerEinkuenfteGuards } from "../einkuenfte/guards";
 
 const steps = xStateTargetsFromPagesConfig(
@@ -21,17 +21,28 @@ export const partnerXstateConfig = {
         BACK: [
           {
             guard: ({ context }) =>
-              !!(
-                (context.employmentType === "employed" ||
-                  context.employmentType === "employedAndSelfEmployed" ||
-                  context.nettoEinkuenfteAlsArbeitnehmer) &&
-                context.staatlicheLeistungen !== "buergergeld"
-              ),
-            target: "#finanzielle-angaben.abzuege",
+              context.currentlyEmployed === "yes" &&
+              context.staatlicheLeistungen !== "buergergeld" &&
+              !context.arbeitsweg,
+            target: "#finanzielle-angaben.abzuege.arbeitsweg",
+          },
+          {
+            guard: ({ context }) => context.hasArbeitsausgaben === "yes",
+            target: "#finanzielle-angaben.abzuege.arbeitsausgaben.uebersicht",
+          },
+          {
+            guard: ({ context }) =>
+              context.currentlyEmployed === "yes" &&
+              context.staatlicheLeistungen !== "buergergeld",
+            target: "#finanzielle-angaben.abzuege.arbeitsausgaben",
           },
           {
             guard: "hasFurtherIncome",
             target: "#einkuenfte.weitere-einkuenfte.uebersicht",
+          },
+          {
+            guard: ({ context }) => !context.currentlyEmployed,
+            target: "#einkuenfte.einkommen",
           },
           "#einkuenfte.weitere-einkuenfte.frage",
         ],
@@ -102,7 +113,7 @@ export const partnerXstateConfig = {
     [steps.partnerEinkuenfte.relative]: {
       id: "partner-einkuenfte",
       initial: "partner-staatliche-leistungen",
-      meta: { done: einkuenfteDone },
+      // meta: { done: partnerEinkuenfteDone },
       states: {
         [steps.partnerStaatlicheLeistungen.relative]: {
           on: {

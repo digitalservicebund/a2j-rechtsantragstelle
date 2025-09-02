@@ -88,6 +88,7 @@ export type StepState = {
   isDone: boolean;
   isReachable: boolean;
   url: string;
+  isValidationState?: boolean;
   subStates?: StepState[];
 };
 
@@ -107,6 +108,7 @@ function stepStates(
   return statesWithDoneFunctionOrSubstates.map((state) => {
     const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
     const meta = state.meta as Meta | undefined;
+    const parent = state.parent;
     const hasDoneFunction = meta?.done !== undefined;
     const reachableSubStates = stepStates(state, reachableSteps).filter(
       (state) => state.isReachable,
@@ -143,6 +145,8 @@ function stepStates(
         isDone: hasDoneFunction ? meta.done!({ context }) : false,
         stepId,
         isReachable: reachableSteps.includes(targetStepId),
+        isValidationState:
+          meta?.isValidationSubflow ?? parent?.meta?.isValidationSubflow,
       };
     }
 
@@ -152,6 +156,8 @@ function stepStates(
       stepId,
       isReachable: reachableSubStates.length > 0,
       subStates: reachableSubStates,
+      isValidationState:
+        meta?.isValidationSubflow ?? parent?.meta?.isValidationSubflow,
     };
   });
 }

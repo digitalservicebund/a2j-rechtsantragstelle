@@ -211,10 +211,12 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = [
   ],
   [
     {
-      "partner-hasWohngeld": "on",
-      "partner-hasKrankengeld": "on",
-      "partner-hasElterngeld": "on",
-      "partner-hasKindergeld": "on",
+      partnerLeistungen: {
+        wohngeld: "on",
+        krankengeld: "on",
+        elterngeld: "on",
+        kindergeld: "on",
+      },
       "partner-wohngeldAmount": "500",
       "partner-krankengeldAmount": "500",
       "partner-elterngeldAmount": "500",

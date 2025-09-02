@@ -18,7 +18,6 @@ import { grundvoraussetzungenXstateConfig } from "~/domains/prozesskostenhilfe/f
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/xstateConfig";
 import { finanzielleAngabenArrayConfig } from "~/domains/shared/formular/finanzielleAngaben/arrayConfiguration";
-import { persoenlicheDatenXstateConfig } from "~/domains/shared/formular/persoenlicheDaten/xStateConfig";
 import {
   getKinderStrings,
   getArrayIndexStrings,
@@ -38,6 +37,7 @@ import {
   versandDigitalGericht,
 } from "./grundvoraussetzungen/guards";
 import { getGrundvoraussetzungenStringReplacements } from "./grundvoraussetzungen/stringReplacements";
+import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xStateConfig";
 import {
   belegeStrings,
   getMissingInformationStrings,
@@ -138,7 +138,7 @@ export const prozesskostenhilfeFormular = {
       "gesetzliche-vertretung": gesetzlicheVertretungXstateConfig({
         backToCallingFlow: [
           {
-            guard: finanzielleAngabeGuards.hasAusgabenYes,
+            guard: ({ context }) => context.hasAusgaben === "yes",
             target: "#ausgaben-zusammenfassung",
           },
           {
@@ -174,10 +174,10 @@ export const prozesskostenhilfeFormular = {
       [steps.abgabe.relative]: {
         id: "abgabe",
         initial: steps.abgabeUeberpruefung.relative,
-        meta: { done: () => false },
+        meta: { isValidationSubflow: true },
         states: {
           [steps.abgabeUeberpruefung.relative]: {
-            meta: { expandValidation: true },
+            meta: { shouldExpandAllStates: true },
             on: {
               BACK: steps.weitereAngaben.absolute,
             },
