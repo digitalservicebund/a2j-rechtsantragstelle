@@ -1,8 +1,8 @@
 import { type Flow } from "~/domains/flows.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { partnerDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
+// import { partnerEinkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/doneFunctions";
 import { pkhFormularFinanzielleAngabenPartnerPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/pages";
-import { partnerDone } from "../doneFunctions";
-import { einkuenfteDone } from "../einkuenfte/doneFunctions";
 import { partnerEinkuenfteGuards } from "../einkuenfte/guards";
 
 const steps = xStateTargetsFromPagesConfig(
@@ -113,7 +113,7 @@ export const partnerXstateConfig = {
     [steps.partnerEinkuenfte.relative]: {
       id: "partner-einkuenfte",
       initial: "partner-staatliche-leistungen",
-      meta: { done: einkuenfteDone },
+      // meta: { done: partnerEinkuenfteDone },
       states: {
         [steps.partnerStaatlicheLeistungen.relative]: {
           on: {

@@ -1,70 +1,70 @@
 import { type CheckboxValue } from "~/components/formElements/Checkbox";
 import {
-  arbeitDone,
-  einkommenDone,
-  einkuenfteDone,
-  furtherIncomeDone,
-  leistungenDone,
-  pensionDone,
-  staatlicheLeistungenDone,
-} from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
+  partnerArbeitDone,
+  partnerEinkommenDone,
+  partnerEinkuenfteDone,
+  partnerFurtherIncomeDone,
+  partnerLeistungenDone,
+  partnerPensionDone,
+  partnerStaatlicheLeistungenDone,
+} from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/doneFunctions";
 
-describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () => {
-  describe("staatlicheLeistungenDone", () => {
+describe("Partner Einkuenfte doneFunctions", () => {
+  describe("partnerStaatlicheLeistungenDone", () => {
     it("should return true if the user receives Grundsicherung", () => {
-      const done = staatlicheLeistungenDone({
-        context: { staatlicheLeistungen: "grundsicherung" },
+      const done = partnerStaatlicheLeistungenDone({
+        context: { "partner-staatlicheLeistungen": "grundsicherung" },
       });
       expect(done).toBe(true);
     });
 
     it("should return true if the user receives Asylbewerberleistungen", () => {
-      const done = staatlicheLeistungenDone({
-        context: { staatlicheLeistungen: "asylbewerberleistungen" },
+      const done = partnerStaatlicheLeistungenDone({
+        context: { "partner-staatlicheLeistungen": "asylbewerberleistungen" },
       });
       expect(done).toBe(true);
     });
 
     it("should return false if the user receives Buergergeld or Arbeitslosengeld and hasn't entered a value", () => {
-      let done = staatlicheLeistungenDone({
-        context: { staatlicheLeistungen: "buergergeld" },
+      let done = partnerStaatlicheLeistungenDone({
+        context: { "partner-staatlicheLeistungen": "buergergeld" },
       });
       expect(done).toBe(false);
-      done = staatlicheLeistungenDone({
-        context: { staatlicheLeistungen: "arbeitslosengeld" },
+      done = partnerStaatlicheLeistungenDone({
+        context: { "partner-staatlicheLeistungen": "arbeitslosengeld" },
       });
       expect(done).toBe(false);
     });
 
     it("should return false if no value has been entered", () => {
-      const done = staatlicheLeistungenDone({ context: {} });
+      const done = partnerStaatlicheLeistungenDone({ context: {} });
       expect(done).toBe(false);
     });
   });
 
-  describe("einkommenDone", () => {
+  describe("partnerEinkommenDone", () => {
     it("should return false if the user is employed and hasn't entered their income", () => {
-      let done = einkommenDone({
-        context: { employmentType: "employed" },
+      let done = partnerEinkommenDone({
+        context: { "partner-employmentType": "employed" },
       });
       expect(done).toBe(false);
-      done = einkommenDone({
-        context: { employmentType: "employedAndSelfEmployed" },
+      done = partnerEinkommenDone({
+        context: { "partner-employmentType": "employedAndSelfEmployed" },
       });
       expect(done).toBe(false);
     });
 
     it("should first return false if the user is self employed and hasn't entered their self-employment income", () => {
-      const done = einkommenDone({
-        context: { employmentType: "selfEmployed" },
+      const done = partnerEinkommenDone({
+        context: { "partner-employmentType": "selfEmployed" },
       });
       expect(done).toBe(false);
     });
   });
 
-  describe("leistungenDone", () => {
+  describe("partnerLeistungenDone", () => {
     it("should return false if there are no leistungen", () => {
-      const done = leistungenDone({ context: {} });
+      const done = partnerLeistungenDone({ context: {} });
       expect(done).toBe(false);
     });
 
@@ -76,9 +76,9 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
     ])(
       "Should return $expected if $typ is selected and no amount is entered",
       ({ typ, expected }) => {
-        const done = leistungenDone({
+        const done = partnerLeistungenDone({
           context: {
-            leistungen: {
+            partnerLeistungen: {
               [typ]: "on" as CheckboxValue,
             },
           },
@@ -89,9 +89,9 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
 
     it('should return true if the user selects "none of the above"', () => {
       expect(
-        leistungenDone({
+        partnerLeistungenDone({
           context: {
-            leistungen: {
+            partnerLeistungen: {
               none: "on",
             },
           },
@@ -100,66 +100,78 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
     });
   });
 
-  describe("arbeitDone", () => {
+  describe("partnerArbeitDone", () => {
     it("should return true if the user doesn't work", () => {
-      const done = arbeitDone({ context: { currentlyEmployed: "no" } });
+      const done = partnerArbeitDone({
+        context: { "partner-currentlyEmployed": "no" },
+      });
       expect(done).toBe(true);
     });
   });
 
-  describe("einkuenfteDone", () => {
+  describe("partnerEinkuenfteDone", () => {
     vi.doMock(
-      "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/einkuenfte/doneFunctions",
+      "~/flows/prozesskostenhilfeFormular/finanzielleAngaben/partner/doneFunctions",
       async (importOriginal) => {
-        const doneFunctions: object = await importOriginal();
+        const partnerDoneFunctions: object = await importOriginal();
         return {
-          ...doneFunctions,
-          staatlicheLeistungenDone: () => true,
-          arbeitDone: () => true,
-          leistungenDone: () => true,
+          ...partnerDoneFunctions,
+          partnerStaatlicheLeistungenDone: () => true,
+          partnerArbeitDone: () => true,
+          partnerLeistungenDone: () => true,
         };
       },
     );
 
     it("should return false if the user receives a pension but hasn't entered the amount", () => {
-      const done = einkuenfteDone({ context: { receivesPension: "yes" } });
+      const done = partnerEinkuenfteDone({
+        context: { "partner-receivesPension": "yes" },
+      });
       expect(done).toBe(false);
     });
 
     it('should return false if the user has further income but hasn"t entered the income', () => {
-      const done = einkuenfteDone({ context: { hasFurtherIncome: "yes" } });
+      const done = partnerEinkuenfteDone({
+        context: { "partner-hasFurtherIncome": "yes" },
+      });
       expect(done).toBe(false);
     });
   });
 
-  describe("pensionDone", () => {
+  describe("partnerPensionDone", () => {
     it("should return false if the user hasn't stated yes or no", () => {
-      const done = pensionDone({ context: { receivesPension: undefined } });
+      const done = partnerPensionDone({
+        context: { "partner-receivesPension": undefined },
+      });
       expect(done).toBe(false);
     });
 
     it("should return false if the user stated yes but hasn't entered the amount", () => {
-      const done = pensionDone({ context: { receivesPension: "yes" } });
+      const done = partnerPensionDone({
+        context: { "partner-receivesPension": "yes" },
+      });
       expect(done).toBe(false);
     });
 
     it("should return true if the user doesn't receive a pension", () => {
-      const done = pensionDone({ context: { receivesPension: "no" } });
+      const done = partnerPensionDone({
+        context: { "partner-receivesPension": "no" },
+      });
       expect(done).toBe(true);
     });
   });
 
-  describe("furtherIncomeDone", () => {
+  describe("partnerFurtherIncomeDone", () => {
     it("should return false if the user hasn't stated yes or no", () => {
-      const done = furtherIncomeDone({
-        context: { hasFurtherIncome: undefined },
+      const done = partnerFurtherIncomeDone({
+        context: { "partner-hasFurtherIncome": undefined },
       });
       expect(done).toBe(false);
     });
 
     it("should return false if the user stated yes but hasn't entered the income", () => {
-      const done = furtherIncomeDone({
-        context: { hasFurtherIncome: "yes" },
+      const done = partnerFurtherIncomeDone({
+        context: { "partner-hasFurtherIncome": "yes" },
       });
       expect(done).toBe(false);
     });

@@ -39,6 +39,7 @@ export const einkommenDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard 
 
 export const leistungenDone: ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
   ({ context }) => {
+    if (context.leistungen === undefined) return false;
     if (guards.hasWohngeld({ context }) && context.wohngeldAmount === undefined)
       return false;
     if (
