@@ -2,6 +2,7 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { ProzesskostenhilfeGrundvoraussetzungenUserData } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import type { Config } from "~/services/flow/server/types";
 import {
+  anhaengigesGerichtsverfahren,
   grundvoraussetzungenDone,
   isNachueberpruefung,
   verfahrenSelbststaendig,
@@ -25,23 +26,47 @@ export const grundvoraussetzungenXstateConfig = {
             guard: isNachueberpruefung,
             target: steps.nameGericht.absolute,
           },
-          steps.klageersteller.absolute,
+          steps.anhaengigesGerichtsverfahrenFrage.absolute,
         ],
         BACK: "#antragStart",
       },
     },
-    nachueberpruefung: {
+    "anhaengiges-gerichtsverfahren": {
       initial: steps.nameGericht.relative,
       states: {
+        [steps.anhaengigesGerichtsverfahrenFrage.relative]: {
+          on: {
+            SUBMIT: [
+              {
+                guard: anhaengigesGerichtsverfahren,
+                target: steps.nameGericht.absolute,
+              },
+              steps.klageersteller.absolute,
+            ],
+            BACK: steps.nachueberpruefungFrage.absolute,
+          },
+        },
         [steps.nameGericht.relative]: {
           on: {
             SUBMIT: steps.aktenzeichen.relative,
-            BACK: steps.nachueberpruefungFrage.absolute,
+            BACK: [
+              {
+                guard: isNachueberpruefung,
+                target: steps.nachueberpruefungFrage.absolute,
+              },
+              steps.anhaengigesGerichtsverfahrenFrage.relative,
+            ],
           },
         },
         [steps.aktenzeichen.relative]: {
           on: {
-            SUBMIT: "#grundvoraussetzungen.einreichung",
+            SUBMIT: [
+              {
+                guard: anhaengigesGerichtsverfahren,
+                target: steps.klageersteller.absolute,
+              },
+              "#grundvoraussetzungen.einreichung",
+            ],
             BACK: steps.nameGericht.relative,
           },
         },
@@ -59,7 +84,17 @@ export const grundvoraussetzungenXstateConfig = {
               },
               "#antragstellende-person",
             ],
-            BACK: steps.nachueberpruefungFrage.absolute,
+            BACK: [
+              {
+                guard: isNachueberpruefung,
+                target: steps.aktenzeichen.absolute,
+              },
+              {
+                guard: anhaengigesGerichtsverfahren,
+                target: steps.aktenzeichen.absolute,
+              },
+              steps.anhaengigesGerichtsverfahrenFrage.absolute,
+            ],
           },
         },
         [steps.hinweis.relative]: {
@@ -86,6 +121,10 @@ export const grundvoraussetzungenXstateConfig = {
               {
                 guard: isNachueberpruefung,
                 target: steps.aktenzeichen.absolute,
+              },
+              {
+                guard: anhaengigesGerichtsverfahren,
+                target: steps.hinweis.absolute,
               },
               steps.hinweis.absolute,
             ],

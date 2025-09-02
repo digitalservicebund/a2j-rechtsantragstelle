@@ -206,6 +206,7 @@ describe("grundvoraussetzungenDone", () => {
       grundvoraussetzungenDone({
         context: {
           formularArt: "erstantrag",
+          anhaengigesGerichtsverfahrenFrage: "yes",
           verfahrenArt: "verfahrenSelbststaendig",
           versandArt: "digital",
         },
@@ -215,6 +216,7 @@ describe("grundvoraussetzungenDone", () => {
       grundvoraussetzungenDone({
         context: {
           formularArt: "erstantrag",
+          anhaengigesGerichtsverfahrenFrage: "no",
           verfahrenArt: "verfahrenAnwalt",
         },
       }),
