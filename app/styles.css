@@ -30,6 +30,21 @@
   }
 }
 
+@media (width < 40rem /* 640px */) {
+  .survey-modal-container {
+    @apply fixed border-none left-0 max-h-screen z-50 w-full top-0 bg-black/50;
+  }
+  .survey-modal {
+    @apply p-24 max-w-screen max-h-[80vh] min-h-full overflow-scroll bg-white;
+  }
+  .modal-open {
+    @apply overflow-hidden;
+  }
+  .modal-closed {
+    @apply overflow-auto;
+  }
+}
+
 /* Ensure black SVG paths don't disappear in high-contrast mode */
 @media (forced-colors: active) and (prefers-color-scheme: dark) {
   .svg-image path[fill="#000"] {

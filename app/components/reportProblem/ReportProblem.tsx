@@ -33,7 +33,11 @@ export const ReportProblem = () => {
     <>
       <Button
         look="tertiary"
-        onClick={() => setSurveyOpen(!surveyOpen)}
+        onClick={() => {
+          // Needed to disable top-level scrolling
+          document.body.className = "flex flex-col modal-open";
+          setSurveyOpen(!surveyOpen);
+        }}
         className="min-w-full justify-center sm:min-w-fit mt-80"
         text={feedbackTranslations["report-problem"]}
         iconLeft={<FlagOutlined />}
@@ -41,7 +45,11 @@ export const ReportProblem = () => {
       {surveyOpen && (
         <PosthogSurvey
           survey={survey}
-          closeSurvey={() => setSurveyOpen(false)}
+          closeSurvey={() => {
+            // Needed to re-enable top-level scrolling
+            document.body.className = "flex flex-col modal-closed";
+            setSurveyOpen(false);
+          }}
         />
       )}
     </>

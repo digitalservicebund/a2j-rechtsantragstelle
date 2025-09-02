@@ -54,54 +54,56 @@ export const PosthogSurvey = ({ survey, closeSurvey }: PosthogSurveyProps) => {
   return (
     <div
       className={classNames(
-        "border-2 border-blue-800 max-sm:right-0 bg-white absolute bottom-0 p-24 flex flex-col",
+        "border-2 border-blue-800 bg-white absolute bottom-0 p-24 flex flex-col survey-modal-container",
         { "gap-40": !wasSubmitted },
       )}
     >
-      {wasSubmitted ? (
-        <FeedbackSuccessMessage
-          subtitle={feedbackTranslations["feedback-helps"]}
-        />
-      ) : (
-        <div className="flex flex-col gap-40">
-          {survey.questions.map((question) => {
-            const Component = questionTypes[question.type];
-            return (
-              <Component
-                key={question.id}
-                setResponses={setResponses}
-                question={question}
-              />
-            );
-          })}
-        </div>
-      )}
-      <ButtonContainer className="flex flex-col-reverse sm:flex-row">
+      <div className="flex flex-col gap-40 survey-modal">
         {wasSubmitted ? (
-          <Button
-            look={"primary"}
-            className="justify-center"
-            onClick={closeSurvey}
-            text={feedbackTranslations.close}
+          <FeedbackSuccessMessage
+            subtitle={feedbackTranslations["feedback-helps"]}
           />
         ) : (
-          <>
+          <div className="flex flex-col gap-40">
+            {survey.questions.map((question) => {
+              const Component = questionTypes[question.type];
+              return (
+                <Component
+                  key={question.id}
+                  setResponses={setResponses}
+                  question={question}
+                />
+              );
+            })}
+          </div>
+        )}
+        <ButtonContainer className="flex flex-col-reverse sm:flex-row">
+          {wasSubmitted ? (
             <Button
-              look={"tertiary"}
+              look={"primary"}
               className="justify-center"
               onClick={closeSurvey}
-              text={feedbackTranslations.cancel}
+              text={feedbackTranslations.close}
             />
-            <Button
-              look="primary"
-              disabled={!isCompletelyFilled}
-              className="justify-center"
-              text={feedbackTranslations["submit-problem"]}
-              onClick={onFeedbackSubmitted}
-            />
-          </>
-        )}
-      </ButtonContainer>
+          ) : (
+            <>
+              <Button
+                look={"tertiary"}
+                className="justify-center"
+                onClick={closeSurvey}
+                text={feedbackTranslations.cancel}
+              />
+              <Button
+                look="primary"
+                disabled={!isCompletelyFilled}
+                className="justify-center"
+                text={feedbackTranslations["submit-problem"]}
+                onClick={onFeedbackSubmitted}
+              />
+            </>
+          )}
+        </ButtonContainer>
+      </div>
     </div>
   );
 };
