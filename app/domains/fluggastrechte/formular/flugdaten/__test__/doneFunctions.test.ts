@@ -2,8 +2,18 @@ import { type FluggastrechteUserData } from "../../userData";
 import { flugdatenDone } from "../doneFunctions";
 import { fluggesellschaftAddresse } from "./flugdatenMock";
 
-const baseContext: FluggastrechteUserData = {
+const baseContextWithAirlineAddress: FluggastrechteUserData = {
   ...fluggesellschaftAddresse,
+  direktFlugnummer: "AB6303",
+  buchungsNummer: "X36Q9C",
+  direktAbflugsDatum: "10.03.2024",
+  direktAbflugsZeit: "09:09",
+  direktAnkunftsDatum: "10.03.2024",
+  direktAnkunftsZeit: "09:09",
+  zusaetzlicheAngaben: "nice",
+};
+
+const baseContextWithoutAirlineAddress: FluggastrechteUserData = {
   direktFlugnummer: "AB6303",
   buchungsNummer: "X36Q9C",
   direktAbflugsDatum: "10.03.2024",
@@ -17,7 +27,7 @@ describe("flugdatenDone", () => {
   describe("verspaetet", () => {
     test("returns true when all required fields are present for 'verspaetet' with complete 'ersatzverbindung' complete data", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "verspaetet",
         tatsaechlicherFlug: "no",
@@ -31,7 +41,7 @@ describe("flugdatenDone", () => {
 
     test("returns true when all required fields are present for 'verspaetet' with 'keineAnkunft'", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "verspaetet",
         tatsaechlicherFlug: "no",
@@ -43,7 +53,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when required fields are missing for 'verspaetet' with 'flug'", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "verspaetet",
         tatsaechlicherFlug: "no",
@@ -55,7 +65,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when required fields are missing for 'verspaetet' with 'etwasAnderes'", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "verspaetet",
         tatsaechlicherFlug: "no",
@@ -67,7 +77,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when required fields are missing for 'verspaetet' with tatsaechlicherFlug", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "verspaetet",
         tatsaechlicherFlug: "yes",
@@ -78,7 +88,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when required fields are missing for 'verspaetet' without tatsaechlicherFlug", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "verspaetet",
         tatsaechlicherFlug: "no",
@@ -89,7 +99,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when required fields are missing for 'verspaetet' without the zwischenstopps", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "oneStop",
         bereich: "verspaetet",
         tatsaechlicherFlug: "no",
@@ -101,7 +111,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when required fields are missing for 'verspaetet' without the second zwischenstopp airport", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "twoStop",
         ersterZwischenstopp: "BER",
         bereich: "verspaetet",
@@ -114,7 +124,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when required fields are missing for 'verspaetet' without the verspaeteterFlug for the zwischenstopp", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "twoStop",
         ersterZwischenstopp: "BER",
         zweiterZwischenstopp: "BER",
@@ -128,7 +138,7 @@ describe("flugdatenDone", () => {
 
     test("returns true when required fields are present for 'verspaetet' and zwischenstopp", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "threeStop",
         ersterZwischenstopp: "BER",
         zweiterZwischenstopp: "BER",
@@ -146,7 +156,7 @@ describe("flugdatenDone", () => {
   describe("annullierung", () => {
     test("returns true when all required fields are present for 'annullierung'", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "annullierung",
         annullierungErsatzverbindungFlugnummer: "XY1234",
@@ -162,7 +172,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when field annullierungErsatzverbindungFlugnummer is missing'", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "annullierung",
         annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
@@ -177,7 +187,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when field annullierungErsatzverbindungAbflugsDatum is missing'", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "annullierung",
         annullierungErsatzverbindungFlugnummer: "XY1234",
@@ -192,7 +202,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when field annullierungErsatzverbindungAbflugsZeit is missing'", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "annullierung",
         annullierungErsatzverbindungFlugnummer: "XY1234",
@@ -207,7 +217,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when field zwischenstopps is airport is missing ", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "oneStop",
         bereich: "annullierung",
         annullierungErsatzverbindungFlugnummer: "XY1234",
@@ -223,7 +233,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when field second zwischenstopp airport is missing", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "twoStop",
         ersterZwischenstopp: "BER",
         bereich: "annullierung",
@@ -240,7 +250,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when field third zwischenstopp airport is missing", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "twoStop",
         ersterZwischenstopp: "BER",
         zweiterZwischenstopp: "BER",
@@ -258,7 +268,7 @@ describe("flugdatenDone", () => {
 
     test("returns true when required fields are present zwischenstopp", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "threeStop",
         ersterZwischenstopp: "BER",
         zweiterZwischenstopp: "BER",
@@ -278,7 +288,7 @@ describe("flugdatenDone", () => {
 
     test("returns true when all required fields are present for 'annullierung' and ersatzflug is no", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "annullierung",
         ersatzflug: "no",
@@ -291,7 +301,7 @@ describe("flugdatenDone", () => {
   describe("nichtbefoerderung", () => {
     test("returns true when all required fields are present for 'nichtbefoerderung' with 'flug' complete data", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "flug",
@@ -305,7 +315,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when required fields are missing for 'nichtbefoerderung' with 'flug'", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "flug",
@@ -316,7 +326,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when required fields are missing for 'nichtbefoerderung' with 'etwasAnderes'", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "nichtbefoerderung",
       } as const;
@@ -326,7 +336,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when required fields are missing for 'nichtbefoerderung' with 'flug' and without tatsaechlicherFlug", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "nichtbefoerderung",
         tatsaechlicherFlug: "no",
@@ -338,7 +348,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when required fields are missing for 'nichtbefoerderung' without the zwischenstopps", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "oneStop",
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "flug",
@@ -352,7 +362,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when required fields are missing for 'nichtbefoerderung' without the second zwischenstopp airport", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "twoStop",
         ersterZwischenstopp: "BER",
         bereich: "nichtbefoerderung",
@@ -367,7 +377,7 @@ describe("flugdatenDone", () => {
 
     test("returns false when required fields are missing for 'nichtbefoerderung' without the verspaeteterFlug for the zwischenstopp", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "twoStop",
         ersterZwischenstopp: "BER",
         zweiterZwischenstopp: "BER",
@@ -383,7 +393,7 @@ describe("flugdatenDone", () => {
 
     test("returns true when required fields are present for 'nichtbefoerderung' and zwischenstopp", () => {
       const context = {
-        ...baseContext,
+        ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "threeStop",
         ersterZwischenstopp: "BER",
         zweiterZwischenstopp: "BER",
@@ -394,6 +404,55 @@ describe("flugdatenDone", () => {
         ersatzFlugnummer: "XY1234",
         ersatzFlugAnkunftsDatum: "11.03.2024",
         ersatzFlugAnkunftsZeit: "10:10",
+      } as const;
+
+      expect(flugdatenDone({ context })).toBe(true);
+    });
+  });
+
+  describe("airline address", () => {
+    it("returns false when airline address is incomplete for airline without address", () => {
+      const context = {
+        ...baseContextWithoutAirlineAddress,
+        fluggesellschaft: "SU",
+        zwischenstoppAnzahl: "no",
+        bereich: "verspaetet",
+        tatsaechlicherFlug: "no",
+        ersatzverbindungArt: "etwasAnderes",
+        andereErsatzverbindungAnkunftsDatum: "11.03.2024",
+        andereErsatzverbindungAnkunftsZeit: "11:00",
+      } as const;
+
+      expect(flugdatenDone({ context })).toBe(false);
+    });
+
+    it("returns true when airline address is used from the airline db", () => {
+      const context = {
+        ...baseContextWithoutAirlineAddress,
+        fluggesellschaft: "LH",
+        fluggesellschaftAuswahlAddress: "fromAirlineDB",
+        zwischenstoppAnzahl: "no",
+        bereich: "verspaetet",
+        tatsaechlicherFlug: "no",
+        ersatzverbindungArt: "etwasAnderes",
+        andereErsatzverbindungAnkunftsDatum: "11.03.2024",
+        andereErsatzverbindungAnkunftsZeit: "11:00",
+      } as const;
+
+      expect(flugdatenDone({ context })).toBe(true);
+    });
+
+    it("returns true when airline address manually entered", () => {
+      const context = {
+        ...baseContextWithAirlineAddress,
+        fluggesellschaft: "LH",
+        fluggesellschaftAuswahlAddress: "fromAirlineDB",
+        zwischenstoppAnzahl: "no",
+        bereich: "verspaetet",
+        tatsaechlicherFlug: "no",
+        ersatzverbindungArt: "etwasAnderes",
+        andereErsatzverbindungAnkunftsDatum: "11.03.2024",
+        andereErsatzverbindungAnkunftsZeit: "11:00",
       } as const;
 
       expect(flugdatenDone({ context })).toBe(true);
