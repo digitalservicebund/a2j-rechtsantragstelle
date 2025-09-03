@@ -35,7 +35,7 @@
     @apply fixed border-none left-0 max-h-screen z-50 w-full top-0 bg-black/50;
   }
   .survey-modal {
-    @apply p-24 max-w-screen max-h-[80vh] min-h-full overflow-scroll bg-white;
+    @apply p-24 border-2 border-blue-800 max-w-screen max-h-[80vh] min-h-full overflow-scroll bg-white;
   }
   .modal-open {
     @apply overflow-hidden;

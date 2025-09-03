@@ -54,11 +54,15 @@ export const PosthogSurvey = ({ survey, closeSurvey }: PosthogSurveyProps) => {
   return (
     <div
       className={classNames(
-        "border-2 border-blue-800 bg-white absolute bottom-0 p-24 flex flex-col survey-modal-container",
+        "border-2 border-blue-800 bg-white absolute bottom-0 p-24 flex flex-col justify-center survey-modal-container",
         { "gap-40": !wasSubmitted },
       )}
     >
-      <div className="flex flex-col gap-40 survey-modal">
+      <div
+        className={classNames("flex flex-col gap-40 survey-modal", {
+          "max-sm:min-h-auto! gap-0!": wasSubmitted,
+        })}
+      >
         {wasSubmitted ? (
           <FeedbackSuccessMessage
             subtitle={feedbackTranslations["feedback-helps"]}
