@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
 import Textarea from "../app/components/formElements/Textarea";
 import { RVFProvider } from ".storybook/RVFProvider";
+import z from "zod";
 
 const meta = {
   title: "FormElements/Textarea",
@@ -47,7 +48,7 @@ export const WithDescription: Story = {
   ],
 };
 
-export const Withdetails: Story = {
+export const WithDetails: Story = {
   args: {
     name: "textarea",
     details: {
@@ -60,6 +61,29 @@ export const Withdetails: Story = {
     (Story) =>
       reactRouterContext(() => (
         <RVFProvider>
+          <Story />
+        </RVFProvider>
+      )),
+  ],
+};
+
+const schema = z.object({
+  textarea: z.string().min(1, { message: "Information required" }),
+});
+
+export const WithError: Story = {
+  args: {
+    name: "textarea",
+    label: "With error",
+  },
+  decorators: [
+    (Story) =>
+      reactRouterContext(() => (
+        <RVFProvider
+          schema={schema}
+          defaultValues={{}}
+          triggerValidationOnMount
+        >
           <Story />
         </RVFProvider>
       )),

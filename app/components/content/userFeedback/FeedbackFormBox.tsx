@@ -70,6 +70,8 @@ export const FeedbackFormBox = ({
     ["negative"]: feedbackTranslations["negative-feedback-question"],
   }[feedback];
 
+  const textAreaDescription = `<p id="${headingPersonalFeedbackId}">${feedbackTranslations["heading-personal-data-feedback"]}</p>`;
+
   return (
     <ValidatedForm
       schema={feedbackSchema}
@@ -80,23 +82,17 @@ export const FeedbackFormBox = ({
       onSubmit={onSubmit}
     >
       <div className="ds-stack ds-stack-16">
-        <div>
-          <label htmlFor={FEEDBACK_FIELD_NAME}>
-            <span className="ds-label-01-bold">
-              {feedbackTranslations["success-message"]}
-            </span>
-            <span className="ds-label-01-reg ml-4">{feedbackText}</span>
-          </label>
-          <p
-            id={headingPersonalFeedbackId}
-            className="ds-text-02-reg text-gray-800"
-          >
-            {feedbackTranslations["heading-personal-data-feedback"]}
-          </p>
-        </div>
         <Textarea
           name={FEEDBACK_FIELD_NAME}
-          classNameLabel="ds-label-01-bold"
+          label={
+            <>
+              <span className="ds-label-01-bold">
+                {feedbackTranslations["success-message"]}
+              </span>
+              <span className="ds-label-01-reg">{feedbackText}</span>
+            </>
+          }
+          description={textAreaDescription}
           placeholder={feedbackTranslations["placeholder-feedback"]}
           innerRef={textAreaReference}
           ariaDescribedby={headingPersonalFeedbackId}
