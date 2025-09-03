@@ -290,3 +290,28 @@ details:not(:has(.summary-content:focus-visible)) {
 h1:focus {
   outline: none;
 }
+
+.overhang-span {
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  --track: 54px; /* changes at breakpoints */
+  --gap: 32px;
+  --span: 12;
+  --start: 1;
+  width: calc(var(--span) * var(--track) + (var(--span) - 1) * var(--gap));
+  margin-left: calc((var(--start) - 1) * (var(--track) + var(--gap)));
+}
+@screen md {
+  .overhang-span {
+    --track: 64px;
+    --gap: 0px;
+  }
+}
+@screen xl {
+  .overhang-span {
+    --track: 72px;
+    --gap: 32px;
+  }
+}
