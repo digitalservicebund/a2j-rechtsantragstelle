@@ -19,7 +19,6 @@ const hasAirlineAddressDone: FluggastrechteFlugdatenGuard = ({ context }) => {
 
   return objectKeysNonEmpty(context, [
     "fluggesellschaftLand",
-    "fluggesellschaftLand",
     "fluggesellschaftOrt",
     "fluggesellschaftPostleitzahl",
     "fluggesellschaftStrasseHausnummer",
