@@ -25,6 +25,7 @@ export const fluggastrechteFlugdatenInputSchema = {
   tatsaechlicherAnkunftsDatum: fourYearsAgoSchema,
   tatsaechlicherAnkunftsZeit: timeSchema,
   ersatzverbindungArt: z.enum(["flug", "etwasAnderes", "keineAnkunft"]),
+  fluggesellschaftAuswahlAddress: z.enum(["fromAirlineDB", "filledByUser"]),
   fluggesellschaftStrasseHausnummer: stringRequiredSchema,
   fluggesellschaftPostleitzahl: stringRequiredSchema,
   fluggesellschaftOrt: stringRequiredSchema,
