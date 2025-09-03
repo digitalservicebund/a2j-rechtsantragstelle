@@ -85,7 +85,7 @@ export const wohnungXstateConfig = {
     [steps.wohnungMieteAlleine.relative]: {
       on: {
         BACK: steps.wohnungMieteEigenheim.relative,
-        SUBMIT: steps.wohnungNebenkosten.relative,
+        SUBMIT: steps.wohnungGarageParkplatz.relative,
       },
     },
     [steps.wohnungMieteZusammen.relative]: {

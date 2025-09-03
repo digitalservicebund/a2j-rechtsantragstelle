@@ -97,11 +97,9 @@ export const belegeStrings = (context: ProzesskostenhilfeFormularUserData) => {
     partnerWeitereEinkuenfte:
       context["partner-weitereEinkuenfte"] &&
       context["partner-weitereEinkuenfte"].length > 0,
-    isRenter: context.rentsApartment === "yes",
     isHomeowner: context.rentsApartment === "no",
-    hasParking:
-      context.garageParkplatz === "yesPartOfTheContract" ||
-      context.garageParkplatz === "yesNotPartOfTheContract",
+    hasParkplatzImMietvertrag:
+      context.garageParkplatz === "yesPartOfTheContract",
     hasGrundeigentum: context.hasGrundeigentum === "yes",
     hasKraftfahrzeug: context.hasKraftfahrzeug === "yes",
     hasWertpapier: context.geldanlagen?.some(

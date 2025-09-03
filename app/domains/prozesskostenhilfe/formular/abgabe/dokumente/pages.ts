@@ -53,6 +53,7 @@ export const pkhFormularDokumentePages = {
       ratenzahlungenBeweis: pdfFileUploadArrayRequiredSchema,
       sonstigeAusgabenBeweis: pdfFileUploadArrayRequiredSchema,
       weitereDokumenteBeweis: pdfFileUploadArrayOptionalSchema,
+      parkplatzImMietvertragBeweis: pdfFileUploadArrayRequiredSchema,
     },
   },
 } as const satisfies PagesConfig;
