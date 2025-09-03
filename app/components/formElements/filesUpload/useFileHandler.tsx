@@ -1,11 +1,11 @@
 import { useLoaderData, useSubmit } from "react-router";
 import { type loader } from "~/routes/shared/formular";
+import { logError } from "~/services/logging";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
 const options = { method: "post", encType: "multipart/form-data" } as const;
 const handleSubmissionError = (error: unknown) =>
-  // oxlint-disable-next-line no-console
-  console.error("An error occurred during form submission:", error);
+  logError({ message: "An error occurred during form submission:", error });
 
 export function useFileHandler() {
   const { csrf } = useLoaderData<typeof loader>();
