@@ -11,6 +11,7 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = [
       prefix + "/anzahl-zimmer",
       prefix + "/miete-eigenheim",
       prefix + "/miete-zusammen",
+      prefix + "/garage-parkplatz",
       prefix + "/nebenkosten",
     ],
   ],
@@ -32,6 +33,7 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = [
     [
       prefix + "/miete-eigenheim",
       prefix + "/miete-zusammen",
+      prefix + "/garage-parkplatz",
       prefix + "/nebenkosten",
       "/finanzielle-angaben/eigentum/eigentum-info",
     ],
