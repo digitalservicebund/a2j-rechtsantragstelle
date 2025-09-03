@@ -3,8 +3,11 @@ import classNames from "classnames";
 import type { CSSProperties, PropsWithChildren } from "react";
 
 type Variant = "contained" | "overhang";
+
+// tailwind spacing tokens
 type Padding = "0" | "16" | "24" | "32" | "40" | "48" | "56" | "64";
-const PADS: Record<Padding, string> = {
+
+const PAD_MAP: Record<Padding, string> = {
   "0": "pt-0 pb-0",
   "16": "pt-16 pb-16",
   "24": "pt-24 pb-24",
@@ -16,63 +19,167 @@ const PADS: Record<Padding, string> = {
 };
 
 export type GridContainerProps = PropsWithChildren<{
-  /** Background utility classes (e.g., 'bg-blue-900 text-white') */
+  cols?: number;
+  mdCols?: number;
+  lgCols?: number;
+  xlCols?: number;
+  overhangSpan?: number;
+  overhangStart?: number;
+  mdOverhangSpan?: number;
+  mdOverhangStart?: number;
+  lgOverhangSpan?: number;
+  lgOverhangStart?: number;
+  xlOverhangSpan?: number;
+  xlOverhangStart?: number;
   backgroundClass?: string;
-  /** 'contained' (default) or 'overhang' for full-bleed background */
-  variant?: Variant;
-  /** Vertical padding tokens (default '40' top, '48' bottom) */
-  paddingTop?: Padding | "default";
-  paddingBottom?: Padding | "default";
-  /** Extra classes for the inner grid container */
+  sectionClasses?: string;
+  innerClassName?: string;
+  variant?: Variant; // 'contained' (default) or 'overhang'
+  paddingTop?: Padding;
+  paddingBottom?: Padding;
+  marginTop?: Padding;
+  marginBottom?: Padding;
   className?: string;
-  /** Optional overrides */
   style?: CSSProperties & {
     ["--gap"]?: string;
     ["--cols"]?: string;
-    ["--pad-x"]?: string;
   };
+  dataTestId?: string;
+  id?: string;
 }>;
 
 export default function GridContainer({
   children,
+  cols = 1,
+  mdCols = 8,
+  lgCols = 12,
+  xlCols = 12,
   backgroundClass,
+  sectionClasses,
+  innerClassName,
   variant = "contained",
-  paddingTop = "default",
-  paddingBottom = "default",
+  paddingTop,
+  paddingBottom,
+  marginTop = "32",
+  marginBottom = "32",
   className = "",
   style,
+  dataTestId,
+  id,
+  overhangSpan,
+  overhangStart,
+  mdOverhangSpan,
+  mdOverhangStart,
+  lgOverhangSpan,
+  lgOverhangStart,
+  xlOverhangSpan,
+  xlOverhangStart,
 }: GridContainerProps) {
-  const padTop = paddingTop === "default" ? "40" : paddingTop;
-  const padBottom = paddingBottom === "default" ? "48" : paddingBottom;
-
-  const paddingClasses = classNames(
-    PADS[padTop as Padding],
-    PADS[padBottom as Padding],
+  // compute vertical spacing
+  const ptCls = paddingTop ? `pt-${paddingTop}` : "";
+  const pbCls = paddingBottom ? `pb-${paddingBottom}` : "";
+  const mtCls = marginTop ? `mt-${marginTop}` : "";
+  const mbCls = marginBottom ? `mb-${marginBottom}` : "";
+  // const pxCls = paddingX ? `px-${paddingX}` : "";
+  const pxClasses = classNames(
+    "px-4", // 16px → S and M
+    "lg:px-3", // 12px → L
+    "xl:px-8", // 32px → XL
+  );
+  // baked-in column definitions
+  const gridTemplate = classNames(
+    // S: 1 col @ 288px
+    "grid-cols-[repeat(1,288px)]",
+    // M: 8 cols @ 64px
+    "md:[grid-template-columns:repeat(8,64px)]",
+    // L: 12 cols @ 54px
+    "lg:[grid-template-columns:repeat(12,54px)]",
+    // XL: 12 cols @ 72px
+    "xl:[grid-template-columns:repeat(12,72px)]",
   );
 
-  // inner content container: centered, capped, and grid-configured
+  // baked-in gaps (0 on S/M, 32px on L/XL)
+  const gapClasses = classNames("gap-0", "md:gap-8", "lg:gap-8", "xl:gap-8");
+
+  // base grid container: no default paddings/margins
   const inner = classNames(
-    "mx-auto max-w-screen-xl", // 1280px cap
-    "px-[var(--pad-x,clamp(1rem,5vw,2rem))]", // responsive side padding
+    "mx-auto max-w-screen-xl",
     "grid [grid-template-columns:repeat(var(--cols,1),minmax(0,1fr))]",
     "md:[--cols:8] lg:[--cols:12]",
-    "[gap:var(--gap,0px)] md:[--gap:32px]",
+
+    // "[gap:var(--gap,0px)] md:[--gap:32px] lg:[--gap:32px] xl:[--gap:32px]",
+    gapClasses,
     "[&>*]:min-w-0",
-    paddingClasses,
-    className,
+    ptCls,
+    pbCls,
+    pxClasses,
+    innerClassName,
+    // className,
   );
+  const varStyle: CSSProperties = {
+    ...(style || {}),
+    // Set column counts via CSS variables (no safelist needed)
+    // ["--cols" as any]: cols,
+    ["--cols-md" as any]: mdCols,
+    ["--cols-lg" as any]: lgCols,
+    ["--cols-xl" as any]: xlCols,
+  };
+
+  const baseSectionClasses = classNames(mtCls, mbCls);
 
   if (variant === "overhang") {
-    // full-bleed background layer + capped inner grid
+    const isFull =
+      overhangSpan == null &&
+      mdOverhangSpan == null &&
+      lgOverhangSpan == null &&
+      xlOverhangSpan == null;
+
     return (
-      <section className="relative">
+      // full-bleed section; content width is handled inside
+      <section
+        className={classNames("relative w-full", sectionClasses)} // no max-w here
+        data-testid={dataTestId}
+        id={id}
+      >
+        {/* background is NOT inside the max-width wrapper */}
+        {backgroundClass &&
+          (isFull ? (
+            // truly full viewport width
+            <div
+              aria-hidden
+              className={classNames(
+                "absolute inset-y-0 left-1/2 -translate-x-1/2 w-screen",
+                backgroundClass,
+              )}
+            />
+          ) : (
+            // column-aware span (if you use it)
+            <div
+              aria-hidden
+              className={classNames("overhang-span", backgroundClass)}
+              style={
+                {
+                  ["--span" as any]: overhangSpan ?? 12,
+                  ["--span-md" as any]: mdOverhangSpan ?? overhangSpan ?? 12,
+                  ["--span-lg" as any]: lgOverhangSpan ?? overhangSpan ?? 12,
+                  ["--span-xl" as any]: xlOverhangSpan ?? overhangSpan ?? 12,
+                } as CSSProperties
+              }
+            />
+          ))}
+
+        {/* content wrapper is the ONLY thing with max-w */}
         <div
-          aria-hidden
-          className={classNames("absolute inset-0", backgroundClass)}
-        />
-        <div className="relative">
-          {/* lift content above background */}
-          <div className={inner} style={style}>
+          className={classNames(
+            "relative mx-auto max-w-screen-xl",
+            mbCls,
+            mtCls,
+          )}
+        >
+          <div
+            className={inner /* inner MUST NOT re-apply max-w */}
+            style={varStyle}
+          >
             {children}
           </div>
         </div>
@@ -80,10 +187,9 @@ export default function GridContainer({
     );
   }
 
-  // contained: background stays within capped container
   return (
-    <section className={classNames(backgroundClass)}>
-      <div className={inner} style={style}>
+    <section className={classNames(baseSectionClasses, sectionClasses)} id={id}>
+      <div className={classNames(inner, backgroundClass)} style={varStyle}>
         {children}
       </div>
     </section>
