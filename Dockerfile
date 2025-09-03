@@ -7,6 +7,9 @@ FROM node:22-alpine AS app-base
 WORKDIR /a2j
 
 COPY package.json package-lock.json ./
+
+RUN apk add openjdk21
+
 RUN npm ci --omit=dev --omit=optional
 
 FROM scratch AS app
