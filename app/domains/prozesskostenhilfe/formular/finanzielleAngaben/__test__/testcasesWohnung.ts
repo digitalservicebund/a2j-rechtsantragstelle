@@ -24,6 +24,7 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = [
     [
       prefix + "/miete-eigenheim",
       prefix + "/miete-alleine",
+      prefix + "/garage-parkplatz",
       prefix + "/nebenkosten",
       "/finanzielle-angaben/eigentum/eigentum-info",
     ],

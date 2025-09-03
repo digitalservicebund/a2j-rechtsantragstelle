@@ -96,19 +96,19 @@ export const wohnungXstateConfig = {
     },
     [steps.wohnungGarageParkplatz.relative]: {
       on: {
-        BACK: steps.wohnungMieteZusammen.relative,
-        SUBMIT: steps.wohnungNebenkosten.relative,
-      },
-    },
-    [steps.wohnungNebenkosten.relative]: {
-      on: {
         BACK: [
           {
             guard: ({ context }) => context.livingSituation === "alone",
             target: steps.wohnungMieteAlleine.relative,
           },
-          steps.wohnungGarageParkplatz.relative,
+          steps.wohnungMieteZusammen.relative,
         ],
+        SUBMIT: steps.wohnungNebenkosten.relative,
+      },
+    },
+    [steps.wohnungNebenkosten.relative]: {
+      on: {
+        BACK: steps.wohnungGarageParkplatz.relative,
         SUBMIT: "#eigentum",
       },
     },
