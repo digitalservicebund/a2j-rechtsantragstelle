@@ -5,7 +5,7 @@ import { flugdatenDone } from "./doneFunctions";
 export const flugdatenXstateConfig = {
   meta: { done: flugdatenDone },
   id: "flugdaten",
-  initial: "adresse-fluggesellschaft",
+  initial: "adresse-fluggesellschaft-auswahl",
   states: {
     "adresse-fluggesellschaft-auswahl": {
       on: {
