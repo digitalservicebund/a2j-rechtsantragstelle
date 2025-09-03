@@ -17,7 +17,7 @@ test.describe("homepage", () => {
       page
         .locator(LOGO_DIV_ID)
         .locator("div")
-        .locator("img")
+        .locator("svg")
         .waitFor()
         .then(() => true),
       page

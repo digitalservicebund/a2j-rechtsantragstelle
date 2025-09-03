@@ -19,7 +19,6 @@ type TextareaProps = Readonly<{
   placeholder?: string;
   maxLength?: number;
   errorMessages?: ErrorMessageProps[];
-  classNameLabel?: string;
   innerRef?: React.Ref<HTMLTextAreaElement>;
   ariaDescribedby?: string;
 }>;
@@ -34,7 +33,6 @@ const Textarea = ({
   placeholder,
   maxLength = TEXTAREA_CHAR_LIMIT,
   errorMessages,
-  classNameLabel,
   innerRef,
   ariaDescribedby,
 }: TextareaProps) => {
@@ -44,15 +42,12 @@ const Textarea = ({
   return (
     <div className="ds-stack ds-stack-8">
       {label && (
-        <InputLabel
-          classname={description ? "ds-heading-03-reg" : classNameLabel}
-          id={name}
-        >
+        <InputLabel classname="ds-label-01-reg" id={name}>
           {label}
         </InputLabel>
       )}
       {description && (
-        <RichText className="ds-body-01-reg" html={description} />
+        <RichText className="ds-body-02-reg text-gray-900" html={description} />
       )}
       {details && <Details {...details} />}
       <textarea
