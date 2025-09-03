@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { airlineSchema } from "~/services/validation/airline";
 import { airportSchema } from "~/services/validation/airport";
 import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
 import { createDateSchema } from "~/services/validation/date";
@@ -25,6 +26,7 @@ export const fluggastrechteFlugdatenInputSchema = {
   tatsaechlicherAnkunftsDatum: fourYearsAgoSchema,
   tatsaechlicherAnkunftsZeit: timeSchema,
   ersatzverbindungArt: z.enum(["flug", "etwasAnderes", "keineAnkunft"]),
+  fluggesellschaft: schemaOrEmptyString(airlineSchema),
   fluggesellschaftAuswahlAddress: z.enum(["fromAirlineDB", "filledByUser"]),
   fluggesellschaftStrasseHausnummer: stringRequiredSchema,
   fluggesellschaftPostleitzahl: stringRequiredSchema,
