@@ -82,8 +82,9 @@ export default function GridContainer({
   const mbCls = marginBottom ? `mb-${marginBottom}` : "";
   // const pxCls = paddingX ? `px-${paddingX}` : "";
   const pxClasses = classNames(
-    "px-4", // 16px → S and M
-    "lg:px-3", // 12px → L
+    "md:px-16",
+    "px-16", // 16px → S and M
+    "lg:px-12", // 12px → L
     "xl:px-8", // 32px → XL
   );
   // baked-in column definitions
