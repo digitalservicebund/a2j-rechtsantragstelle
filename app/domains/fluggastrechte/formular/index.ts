@@ -14,7 +14,10 @@ import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig"
 import { prozessfuehrungXstateConfig } from "./prozessfuehrung/xstateConfig";
 import { isTotalClaimWillSucceddedAboveLimit } from "./services/isTotalClaimAboveLimit";
 import { streitwertKostenXstateConfig } from "./streitwertKosten/xstateConfig";
-import { getAirlineName } from "./stringReplacements/airline";
+import {
+  getAirlineAddressFromDB,
+  getAirlineName,
+} from "./stringReplacements/airline";
 import {
   getEndAirportName,
   getFirstZwischenstoppAirportName,
@@ -83,6 +86,7 @@ export const fluggastrechtFlow = {
     ...getArrayWeiterePersonenIndexStrings(context),
     ...getWeiterePersonenNameStrings(context),
     ...getAirlineName(context),
+    ...getAirlineAddressFromDB(context),
     ...getFirstZwischenstoppAirportName(context),
     ...getSecondZwischenstoppAirportName(context),
     ...getThirdZwischenstoppAirportName(context),

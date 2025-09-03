@@ -35,7 +35,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     resultPageContent,
     "stringReplacements" in currentFlow
       ? currentFlow.stringReplacements(userData)
-      : {},
+      : undefined,
   );
 
   const buttonNavigationProps = getButtonNavigationProps({
