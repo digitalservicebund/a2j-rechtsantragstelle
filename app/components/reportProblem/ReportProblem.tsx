@@ -1,5 +1,5 @@
 import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Button from "~/components/common/Button";
 import { useFeedbackTranslations } from "~/components/content/userFeedback/feedbackTranslations";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
@@ -27,6 +27,15 @@ export const ReportProblem = () => {
     () => fetchSurvey(surveyId, posthogClient),
     [posthogClient, surveyId],
   );
+
+  // Needed to disable top-level scrolling when the Survey popup is open
+  useEffect(() => {
+    document.body.className = `flex flex-col modal-${surveyOpen ? "open" : "closed"}`;
+    return () => {
+      document.body.className = "flex flex-col";
+    };
+  }, [surveyOpen]);
+
   if (!survey) return null;
 
   return (
@@ -34,8 +43,6 @@ export const ReportProblem = () => {
       <Button
         look="tertiary"
         onClick={() => {
-          // Needed to disable top-level scrolling
-          document.body.className = "flex flex-col modal-open";
           setSurveyOpen(!surveyOpen);
         }}
         className="min-w-full justify-center sm:min-w-fit mt-80"
@@ -46,8 +53,6 @@ export const ReportProblem = () => {
         <PosthogSurvey
           survey={survey}
           closeSurvey={() => {
-            // Needed to re-enable top-level scrolling
-            document.body.className = "flex flex-col modal-closed";
             setSurveyOpen(false);
           }}
         />
