@@ -1,5 +1,5 @@
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable no-console */
+/* oxlint-disable import/no-named-as-default-member */
+/* oxlint-disable no-console */
 import fs from "node:fs";
 import countries from "i18n-iso-countries";
 import uniqBy from "lodash/uniqBy";

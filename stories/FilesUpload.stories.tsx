@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker";
-import { ActionFunctionArgs } from "react-router";
+import { type ActionFunctionArgs } from "react-router";
 import type { Meta, StoryObj } from "@storybook/react";
 import FilesUpload from "~/components/formElements/filesUpload/FilesUpload";
 import {
-  PDFFileMetadata,
+  type PDFFileMetadata,
   TEN_MB_IN_BYTES,
 } from "~/services/validation/pdfFileSchema";
 import { RVFProvider } from ".storybook/RVFProvider";
@@ -33,7 +33,7 @@ const generateRandomPDFFileMetadata = (): PDFFileMetadata => {
   };
 };
 
-let mockUploadedFiles: Array<PDFFileMetadata> = [];
+let mockUploadedFiles: PDFFileMetadata[] = [];
 
 export const Default: Story = {
   args: {

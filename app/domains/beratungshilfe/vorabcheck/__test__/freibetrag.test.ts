@@ -32,7 +32,7 @@ describe("getFreibetraege", () => {
   it("returns Freibetraege for the last valid year if current year is not found, and shows the user a warning", () => {
     const nonExistentYear = latestFreibetraegeYear + 1;
     const freibetraege = getFreibetraege(nonExistentYear);
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     expect(console.warn).toHaveBeenCalledWith(
       `No Freibeträge for year ${nonExistentYear}, using last valid Freibeträge from ${latestFreibetraegeYear}`,
     );

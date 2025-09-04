@@ -23,7 +23,7 @@ export function createRedisClient({ url, lazyConnect }: RedisClientProps) {
   });
 
   redisClient.on("ready", () => {
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.log("Redis client ready");
   });
 
