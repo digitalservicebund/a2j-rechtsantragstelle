@@ -36,7 +36,7 @@ export const translationsRaw = [
       },
       {
         id: 2300,
-        name: "hasParkplatzImMietvertragText",
+        name: "isRenterText",
         value:
           "Beleg über Ihre Wohnkosten (Mietvertrag und falls vorhanden Nebenkostenabrechnung)",
       },
