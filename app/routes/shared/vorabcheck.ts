@@ -112,7 +112,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       meta,
       progressProps,
       buttonNavigationProps,
-      showReportProblem: shouldShowReportProblem(flowId, stepId),
+      showReportProblem: shouldShowReportProblem(stepId),
     },
     { headers },
   );

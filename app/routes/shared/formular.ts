@@ -99,7 +99,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       translations,
       validFlowPaths,
       flowId,
-      showReportProblem: shouldShowReportProblem(flowId, stepId),
+      showReportProblem: shouldShowReportProblem(stepId),
     },
     { headers },
   );
