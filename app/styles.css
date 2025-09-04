@@ -11,7 +11,8 @@
     min-height: 100vh;
   }
 
-  svg {
+  /* The BMJV logo features a white background, which requires the exclusion of styling elements. */
+  svg:not(:has(path[fill="white"])) {
     fill: currentColor;
   }
 
@@ -31,11 +32,8 @@
 }
 
 /* Ensure black SVG paths don't disappear in high-contrast mode */
+/* Current usage: SVG icons in Tile component */
 @media (forced-colors: active) and (prefers-color-scheme: dark) {
-  .svg-image path[fill="#000"] {
-    stroke: white;
-    stroke-width: 0.75;
-  }
   .svg-image path[fill="black"] {
     fill: white;
   }

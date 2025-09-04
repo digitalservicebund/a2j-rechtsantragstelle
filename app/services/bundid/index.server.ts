@@ -17,6 +17,11 @@ export const getBundIdServiceProvider = () => {
     const pathToPrivateKey = path.resolve(config().SAML_SP_SECRET_KEY_PATH);
     const privateKey = fs.readFileSync(pathToPrivateKey);
 
+    const pathToPrivateKeyEncryption = path.resolve(
+      config().SAML_SP_SECRET_KEY_ENCRYPTION_PATH,
+    );
+    const privateKeyEncryption = fs.readFileSync(pathToPrivateKeyEncryption);
+
     const pathToLoginRequestTemplate = path.resolve(
       config().SAML_SP_LOGIN_REQUEST_TEMPLATE_PATH,
     );
@@ -26,7 +31,7 @@ export const getBundIdServiceProvider = () => {
 
     bundIdServiceProvider = saml.ServiceProvider({
       metadata: spMetadata,
-      encPrivateKey: privateKey,
+      encPrivateKey: privateKeyEncryption,
       privateKey,
       wantAssertionsSigned: true,
       loginRequestTemplate: { context: loginRequestTemplate },
