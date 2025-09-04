@@ -73,7 +73,7 @@ export function config(): Config {
       process.env.SAML_SP_SECRET_KEY_PATH?.trim() ??
       path.join(process.cwd(), "data/saml/sp_privateKey.pem"),
     SAML_SP_SECRET_KEY_ENCRYPTION_PATH:
-      process.env.SAML_SP_SECRET_KEY_PATH?.trim() ??
+      process.env.SAML_SP_SECRET_KEY_ENCRYPTION_PATH?.trim() ??
       path.join(process.cwd(), "data/saml/sp_privateKeyEncryption.pem"),
     SAML_IDP_CERT: readSecretOrEnvVar(
       "/etc/saml/idp_cert",
