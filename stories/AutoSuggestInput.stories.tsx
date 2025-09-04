@@ -6,8 +6,8 @@ import { reactRouterContext } from ".storybook/reactRouterContext";
 
 function getDataListValues<T extends { dataList?: any }>(
   props: T,
-): T["dataList"][] {
-  const keys = Object.keys(props) as (keyof T)[];
+): Array<T["dataList"]> {
+  const keys = Object.keys(props) as Array<keyof T>;
 
   return keys.reduce(
     (acc, key) => {
@@ -16,7 +16,7 @@ function getDataListValues<T extends { dataList?: any }>(
       }
       return acc;
     },
-    [] as T["dataList"][],
+    [] as Array<T["dataList"]>,
   );
 }
 

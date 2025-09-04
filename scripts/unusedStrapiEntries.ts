@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* oxlint-disable no-console */
 import { readFileSync } from "node:fs";
 import partition from "lodash/partition";
 import { flows } from "~/domains/flows.server";
