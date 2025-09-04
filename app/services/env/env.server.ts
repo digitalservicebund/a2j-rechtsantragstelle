@@ -20,6 +20,7 @@ type Config = {
   SAML_SP_LOGIN_REQUEST_TEMPLATE_PATH: string;
   SAML_SP_METADATA_PATH: string;
   SAML_SP_SECRET_KEY_PATH: string;
+  SAML_SP_SECRET_KEY_ENCRYPTION_PATH: string;
   SAML_IDP_CERT?: string;
   S3_REGION: string;
   S3_ENDPOINT: string;
@@ -71,6 +72,9 @@ export function config(): Config {
     SAML_SP_SECRET_KEY_PATH:
       process.env.SAML_SP_SECRET_KEY_PATH?.trim() ??
       path.join(process.cwd(), "data/saml/sp_privateKey.pem"),
+    SAML_SP_SECRET_KEY_ENCRYPTION_PATH:
+      process.env.SAML_SP_SECRET_KEY_PATH?.trim() ??
+      path.join(process.cwd(), "data/saml/sp_privateKeyEncryption.pem"),
     SAML_IDP_CERT: readSecretOrEnvVar(
       "/etc/saml/idp_cert",
       "SAML_IDP_CERT",
