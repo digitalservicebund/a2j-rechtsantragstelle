@@ -3,14 +3,12 @@ import { useLocation } from "react-router";
 import { z } from "zod";
 import { getPageSchema } from "~/domains/pageSchemas";
 import type { UserData } from "~/domains/userData";
-import { shouldShowEstimatedTime } from "~/services/analytics/abTest/shouldShowEstimatedTime";
 import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { schemaForFieldNames } from "~/services/validation/stepValidator/schemaForFieldNames";
 import { ButtonNavigation } from "../common/ButtonNavigation";
 import type { ButtonNavigationProps } from "../common/ButtonNavigation";
-import { EstimatedTime } from "../EstimatedTime";
 import { FormComponents } from "../FormComponents";
 import { SchemaComponents } from "./SchemaComponents";
 
@@ -52,7 +50,6 @@ function ValidatedFlowForm({
       <input type="hidden" name={CSRFKey} value={csrf} />
       <div className="ds-stack ds-stack-40">
         {inputFormElements}
-        {shouldShowEstimatedTime(pathname) && <EstimatedTime />}
         <ButtonNavigation {...buttonNavigationProps} />
       </div>
     </ValidatedForm>
