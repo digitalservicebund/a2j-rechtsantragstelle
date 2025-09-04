@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* oxlint-disable no-console */
 import fs from "node:fs";
 import { configDotenv } from "dotenv";
 import { getStrapiEntryFromApi } from "../app/services/cms/getStrapiEntryFromApi";

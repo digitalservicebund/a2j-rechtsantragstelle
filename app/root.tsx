@@ -168,7 +168,7 @@ function App() {
   const nonce = useNonce();
   const posthogClient = useInitPosthog(hasTrackingConsent);
 
-  // eslint-disable-next-line no-console
+  // oxlint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
 
   useEffect(() => {

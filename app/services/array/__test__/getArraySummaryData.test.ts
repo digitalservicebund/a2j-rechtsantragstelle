@@ -1,6 +1,4 @@
-import type { ArrayData } from "~/domains/userData";
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
-import type { ArrayConfigClient } from "..";
 
 describe("getArraySummaryData", () => {
   it("returns undefined when array configuration is missing", () => {
@@ -82,14 +80,7 @@ describe("getArraySummaryData", () => {
       [],
     );
 
-    expect(
-      (
-        actual?.bankkonten as {
-          data: ArrayData;
-          configuration: ArrayConfigClient;
-        }
-      ).configuration.disableAddButton,
-    ).toBe(false);
+    expect(actual?.bankkonten?.configuration.disableAddButton).toBe(false);
   });
 
   it("should return disableAddButton false given a function shouldDisableAddButton that it returns false", () => {
@@ -107,14 +98,7 @@ describe("getArraySummaryData", () => {
       [],
     );
 
-    expect(
-      (
-        actual?.bankkonten as {
-          data: ArrayData;
-          configuration: ArrayConfigClient;
-        }
-      ).configuration.disableAddButton,
-    ).toBe(false);
+    expect(actual?.bankkonten?.configuration.disableAddButton).toBe(false);
   });
 
   it("should return disableAddButton true given a function shouldDisableAddButton that it returns true", () => {
@@ -132,14 +116,7 @@ describe("getArraySummaryData", () => {
       [],
     );
 
-    expect(
-      (
-        actual?.bankkonten as {
-          data: ArrayData;
-          configuration: ArrayConfigClient;
-        }
-      ).configuration.disableAddButton,
-    ).toBe(true);
+    expect(actual?.bankkonten?.configuration.disableAddButton).toBe(true);
   });
 
   it("should return the content of the array summary page", () => {
