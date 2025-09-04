@@ -4,7 +4,6 @@ import { type ElementType, useEffect, useState } from "react";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import { FeedbackSuccessMessage } from "~/components/content/userFeedback/FeedbackSuccessMessage";
-import { useFeedbackTranslations } from "~/components/content/userFeedback/feedbackTranslations";
 import { MultipleChoiceQuestion } from "~/components/reportProblem/MultipleChoiceQuestion";
 import {
   OpenQuestion,
@@ -12,6 +11,7 @@ import {
 } from "~/components/reportProblem/OpenQuestion";
 import { isCompleted } from "~/services/analytics/surveys/isCompleted";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
+import { translations } from "~/services/translations/translations";
 
 type PosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
@@ -28,7 +28,6 @@ const questionTypes: Record<string, ElementType> = {
 
 export const PosthogSurvey = ({ survey, closeSurvey }: PosthogSurveyProps) => {
   const [wasSubmitted, setWasSubmitted] = useState(false);
-  const feedbackTranslations = useFeedbackTranslations();
   const [responses, setResponses] = useState<SurveyResponses>();
   const { posthogClient } = useAnalytics();
   const isCompletelyFilled = isCompleted(survey, responses);
@@ -52,7 +51,8 @@ export const PosthogSurvey = ({ survey, closeSurvey }: PosthogSurveyProps) => {
   };
 
   return (
-    <div
+    <dialog
+      aria-label={translations.feedback["report-problem"].de}
       className={classNames(
         "border-2 border-blue-800 bg-white absolute bottom-0 p-24 flex flex-col justify-center survey-modal-container",
         { "gap-40": !wasSubmitted },
@@ -65,7 +65,7 @@ export const PosthogSurvey = ({ survey, closeSurvey }: PosthogSurveyProps) => {
       >
         {wasSubmitted ? (
           <FeedbackSuccessMessage
-            subtitle={feedbackTranslations["feedback-helps"]}
+            subtitle={translations.feedback["feedback-helps"].de}
           />
         ) : (
           <div className="flex flex-col gap-40">
@@ -87,7 +87,7 @@ export const PosthogSurvey = ({ survey, closeSurvey }: PosthogSurveyProps) => {
               look={"primary"}
               className="justify-center"
               onClick={closeSurvey}
-              text={feedbackTranslations.close}
+              text={translations.feedback.close.de}
             />
           ) : (
             <>
@@ -95,19 +95,19 @@ export const PosthogSurvey = ({ survey, closeSurvey }: PosthogSurveyProps) => {
                 look={"tertiary"}
                 className="justify-center"
                 onClick={closeSurvey}
-                text={feedbackTranslations.cancel}
+                text={translations.feedback.cancel.de}
               />
               <Button
                 look="primary"
                 disabled={!isCompletelyFilled}
                 className="justify-center"
-                text={feedbackTranslations["submit-problem"]}
+                text={translations.feedback["submit-problem"].de}
                 onClick={onFeedbackSubmitted}
               />
             </>
           )}
         </ButtonContainer>
       </div>
-    </div>
+    </dialog>
   );
 };
