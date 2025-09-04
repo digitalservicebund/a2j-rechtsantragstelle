@@ -36,6 +36,7 @@ import {
   isNachueberpruefung,
   versandDigitalGericht,
 } from "./grundvoraussetzungen/guards";
+import { getGrundvoraussetzungenStringReplacements } from "./grundvoraussetzungen/stringReplacements";
 import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xStateConfig";
 import {
   belegeStrings,
@@ -255,5 +256,6 @@ export const prozesskostenhilfeFormular = {
     ...getMissingInformationStrings(context),
     ...belegeStrings(context),
     ...getWeitereDokumenteStrings(context),
+    ...getGrundvoraussetzungenStringReplacements(context),
   }),
 } satisfies Flow;

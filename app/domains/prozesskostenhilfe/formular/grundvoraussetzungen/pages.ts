@@ -9,14 +9,21 @@ export const pkhFormularGrundvoraussetzungenPages = {
       formularArt: z.enum(["nachueberpruefung", "erstantrag"]),
     },
   },
+  anhaengigesGerichtsverfahrenFrage: {
+    stepId:
+      "grundvoraussetzungen/anhaengiges-gerichtsverfahren/anhaengiges-gerichtsverfahren-frage",
+    pageSchema: {
+      anhaengigesGerichtsverfahrenFrage: z.enum(["yes", "no", "dontKnow"]),
+    },
+  },
   nameGericht: {
-    stepId: "grundvoraussetzungen/nachueberpruefung/name-gericht",
+    stepId: "grundvoraussetzungen/anhaengiges-gerichtsverfahren/name-gericht",
     pageSchema: {
       gerichtName: stringOptionalSchema,
     },
   },
   aktenzeichen: {
-    stepId: "grundvoraussetzungen/nachueberpruefung/aktenzeichen",
+    stepId: "grundvoraussetzungen/anhaengiges-gerichtsverfahren/aktenzeichen",
     pageSchema: {
       aktenzeichen: stringOptionalSchema,
     },

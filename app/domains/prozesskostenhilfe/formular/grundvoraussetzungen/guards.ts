@@ -35,6 +35,7 @@ export const grundvoraussetzungenDone: GenericGuard<
 > = ({ context }) => {
   const nachueberpruefungDone = context.versandArt !== undefined;
   const erstantragDone =
+    context.anhaengigesGerichtsverfahrenFrage !== undefined &&
     context.verfahrenArt !== undefined &&
     (verfahrenAnwalt({ context }) || context.versandArt !== undefined);
   return (

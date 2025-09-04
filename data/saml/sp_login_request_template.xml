@@ -10,7 +10,7 @@
   Version="2.0">
   <saml2:Issuer
     xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
-    https://www.service.justiz.de/sp
+    https://service.justiz.de/sp
   </saml2:Issuer>
   <saml2p:Extensions>
     <akdb:AuthenticationRequest

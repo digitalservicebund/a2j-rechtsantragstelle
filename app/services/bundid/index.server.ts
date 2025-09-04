@@ -31,8 +31,6 @@ export const getBundIdServiceProvider = () => {
       wantAssertionsSigned: true,
       loginRequestTemplate: { context: loginRequestTemplate },
     });
-    bundIdServiceProvider.entityMeta.meta.certificate.signing =
-      bundIdServiceProvider.entityMeta.meta.certificate.signing[0];
   }
   return bundIdServiceProvider;
 };
