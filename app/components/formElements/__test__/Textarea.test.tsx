@@ -41,7 +41,6 @@ describe("Textarea component", () => {
     expect(element).not.toHaveClass("has-error");
 
     expect(elementByLabel).toBeInTheDocument();
-    expect(elementByLabel).not.toHaveClass("ds-heading-03-reg");
 
     expect(screen.getByPlaceholderText("Test Placeholder")).toBeInTheDocument();
     expect(element.getAttribute("maxLength")).toBe(
@@ -59,7 +58,9 @@ describe("Textarea component", () => {
     );
 
     expect(screen.getByText("Test Description")).toBeInTheDocument();
-    expect(screen.getByText("Test Label")).toHaveClass("ds-heading-03-reg");
+    expect(screen.getByText("Test Description")).toHaveClass(
+      "ds-body-02-reg text-gray-900",
+    );
   });
 
   it("renders a collapsible text hint accordion when provided", () => {
