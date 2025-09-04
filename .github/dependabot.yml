@@ -25,6 +25,7 @@ updates:
         patterns:
           - "vitest*"
           - "@vitest*"
+          - "vite-node"
       react:
         patterns:
           - react
