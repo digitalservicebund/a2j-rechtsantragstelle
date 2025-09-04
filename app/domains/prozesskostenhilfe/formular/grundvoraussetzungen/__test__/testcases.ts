@@ -9,8 +9,8 @@ export const testCasesPKHFormularGrundvoraussetzungen = [
     },
     [
       "/grundvoraussetzungen/nachueberpruefung-frage",
-      "/grundvoraussetzungen/nachueberpruefung/name-gericht",
-      "/grundvoraussetzungen/nachueberpruefung/aktenzeichen",
+      "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/name-gericht",
+      "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/aktenzeichen",
       "/grundvoraussetzungen/einreichung/fall",
       "/grundvoraussetzungen/einreichung/hinweis-papier-einreichung",
       "/antragstellende-person/empfaenger",
@@ -19,12 +19,14 @@ export const testCasesPKHFormularGrundvoraussetzungen = [
   [
     {
       formularArt: "erstantrag",
+      anhaengigesGerichtsverfahrenFrage: "no",
       verfahrenArt: "verfahrenSelbststaendig",
       versandArt: "digital",
     },
     [
       "/start/start",
       "/grundvoraussetzungen/nachueberpruefung-frage",
+      "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/anhaengiges-gerichtsverfahren-frage",
       "/grundvoraussetzungen/antrag/klageersteller",
       "/grundvoraussetzungen/antrag/hinweis",
       "/grundvoraussetzungen/einreichung/fall",
@@ -35,11 +37,15 @@ export const testCasesPKHFormularGrundvoraussetzungen = [
   [
     {
       formularArt: "erstantrag",
+      anhaengigesGerichtsverfahrenFrage: "yes",
       verfahrenArt: "verfahrenAnwalt",
     },
     [
       "/start/start",
       "/grundvoraussetzungen/nachueberpruefung-frage",
+      "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/anhaengiges-gerichtsverfahren-frage",
+      "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/name-gericht",
+      "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/aktenzeichen",
       "/grundvoraussetzungen/antrag/klageersteller",
       "/antragstellende-person/empfaenger",
     ],
