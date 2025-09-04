@@ -25,23 +25,49 @@ export const grundvoraussetzungenXstateConfig = {
             guard: isNachueberpruefung,
             target: steps.nameGericht.absolute,
           },
-          steps.klageersteller.absolute,
+          steps.anhaengigesGerichtsverfahrenFrage.absolute,
         ],
         BACK: "#antragStart",
       },
     },
-    nachueberpruefung: {
+    "anhaengiges-gerichtsverfahren": {
       initial: steps.nameGericht.relative,
       states: {
+        [steps.anhaengigesGerichtsverfahrenFrage.relative]: {
+          on: {
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  context.anhaengigesGerichtsverfahrenFrage === "yes",
+                target: steps.nameGericht.absolute,
+              },
+              steps.klageersteller.absolute,
+            ],
+            BACK: steps.nachueberpruefungFrage.absolute,
+          },
+        },
         [steps.nameGericht.relative]: {
           on: {
             SUBMIT: steps.aktenzeichen.relative,
-            BACK: steps.nachueberpruefungFrage.absolute,
+            BACK: [
+              {
+                guard: isNachueberpruefung,
+                target: steps.nachueberpruefungFrage.absolute,
+              },
+              steps.anhaengigesGerichtsverfahrenFrage.relative,
+            ],
           },
         },
         [steps.aktenzeichen.relative]: {
           on: {
-            SUBMIT: "#grundvoraussetzungen.einreichung",
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  context.anhaengigesGerichtsverfahrenFrage === "yes",
+                target: steps.klageersteller.absolute,
+              },
+              "#grundvoraussetzungen.einreichung",
+            ],
             BACK: steps.nameGericht.relative,
           },
         },
@@ -59,7 +85,18 @@ export const grundvoraussetzungenXstateConfig = {
               },
               "#antragstellende-person",
             ],
-            BACK: steps.nachueberpruefungFrage.absolute,
+            BACK: [
+              {
+                guard: isNachueberpruefung,
+                target: steps.aktenzeichen.absolute,
+              },
+              {
+                guard: ({ context }) =>
+                  context.anhaengigesGerichtsverfahrenFrage === "yes",
+                target: steps.aktenzeichen.absolute,
+              },
+              steps.anhaengigesGerichtsverfahrenFrage.absolute,
+            ],
           },
         },
         [steps.hinweis.relative]: {
@@ -86,6 +123,11 @@ export const grundvoraussetzungenXstateConfig = {
               {
                 guard: isNachueberpruefung,
                 target: steps.aktenzeichen.absolute,
+              },
+              {
+                guard: ({ context }) =>
+                  context.anhaengigesGerichtsverfahrenFrage === "yes",
+                target: steps.hinweis.absolute,
               },
               steps.hinweis.absolute,
             ],
