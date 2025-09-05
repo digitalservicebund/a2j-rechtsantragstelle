@@ -1,12 +1,25 @@
 import { type Config } from "~/services/flow/server/types";
 import { type FluggastrechteUserData } from "../userData";
 import { flugdatenDone } from "./doneFunctions";
+import { hasAirlineAddress } from "../../services/airlines/hasAirlineAddress";
 
 export const flugdatenXstateConfig = {
   meta: { done: flugdatenDone },
   id: "flugdaten",
-  initial: "adresse-fluggesellschaft-auswahl",
+  initial: "checkInitialPage",
   states: {
+    checkInitialPage: {
+      always: [
+        {
+          target: "adresse-fluggesellschaft-auswahl",
+          guard: ({ context }) =>
+            hasAirlineAddress(context.fluggesellschaft ?? ""),
+        },
+        {
+          target: "adresse-fluggesellschaft",
+        },
+      ],
+    },
     "adresse-fluggesellschaft-auswahl": {
       on: {
         SUBMIT: [
