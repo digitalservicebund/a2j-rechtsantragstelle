@@ -20,6 +20,17 @@ type CustomSelectProps = Props<
 const CustomInput = (props: InputProps<DataListOptions, false>) => {
   const selectProps = props.selectProps as CustomSelectProps;
   const field = useField(props.selectProps.id ?? "");
+  const autocompleteMap: Record<string, string> = {
+    adresse: "street-address",
+    hausnummer: "address-line1",
+    plz: "postal-code",
+    ort: "address-level2",
+  };
+  const autocompleteValue = props.selectProps.className?.includes(
+    "auto-suggest-input-required",
+  )
+    ? autocompleteMap[field.name()] || "off"
+    : "off";
 
   return (
     <components.Input
@@ -37,6 +48,7 @@ const CustomInput = (props: InputProps<DataListOptions, false>) => {
       aria-required={props.selectProps.className?.includes(
         "auto-suggest-input-required",
       )}
+      autoComplete={autocompleteValue}
     />
   );
 };
