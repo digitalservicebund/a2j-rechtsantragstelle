@@ -43,6 +43,12 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/streitwert-kosten/prozesszinsen
   await formular.fillRadioPage("prozesszinsen", "yes");
 
+  // /fluggastrechte/formular//flugdaten/adresse-fluggesellschaft-auswahl
+  await formular.fillRadioPage(
+    "fluggesellschaftAuswahlAddress",
+    "filledByUser",
+  );
+
   // /fluggastrechte/formular/flugdaten/adresse-fluggesellschaft
   await page.waitForSelector("[data-testid=input-fluggesellschaft-loaded]");
   await formular.fillInput(

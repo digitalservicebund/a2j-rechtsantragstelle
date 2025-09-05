@@ -28,7 +28,6 @@ export const testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugY
         zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
       },
       [
-        "/flugdaten/adresse-fluggesellschaft",
         "/flugdaten/geplanter-flug",
         "/flugdaten/ersatzverbindung-daten",
         "/flugdaten/zusaetzliche-angaben",

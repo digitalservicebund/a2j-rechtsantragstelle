@@ -5,7 +5,10 @@ import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataA
 import { stepMeta } from "~/services/meta/formStepMeta";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { translations } from "~/services/translations/translations";
-import { applyStringReplacement } from "~/util/applyStringReplacement";
+import {
+  applyStringReplacement,
+  type Replacements,
+} from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 export { ResultPage as default } from "./components/ResultPage";
 
@@ -34,8 +37,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const cmsContent = applyStringReplacement(
     resultPageContent,
     "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userData)
-      : {},
+      ? (currentFlow.stringReplacements(userData) as Replacements)
+      : undefined,
   );
 
   const buttonNavigationProps = getButtonNavigationProps({

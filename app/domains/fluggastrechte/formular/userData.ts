@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { airlineSchema } from "~/services/validation/airline";
 import { airportSchema } from "~/services/validation/airport";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -12,7 +11,6 @@ import { fluggastrechteStreitKostenInputSchema } from "./streitwertKosten/userDa
 export const fluggastrechteInputSchema = {
   startAirport: schemaOrEmptyString(airportSchema),
   endAirport: schemaOrEmptyString(airportSchema),
-  fluggesellschaft: schemaOrEmptyString(airlineSchema),
   ...fluggastrechteFlugdatenInputSchema,
   ...fluggastrechtePersoenlicheDatenInputSchema,
   ...fluggastrechteStreitKostenInputSchema,

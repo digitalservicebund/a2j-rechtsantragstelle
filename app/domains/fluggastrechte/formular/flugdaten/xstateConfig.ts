@@ -1,14 +1,49 @@
+import { type Config } from "~/services/flow/server/types";
+import { type FluggastrechteUserData } from "../userData";
 import { flugdatenDone } from "./doneFunctions";
+import { hasAirlineAddress } from "../../services/airlines/hasAirlineAddress";
 
 export const flugdatenXstateConfig = {
   meta: { done: flugdatenDone },
   id: "flugdaten",
-  initial: "adresse-fluggesellschaft",
+  initial: "checkInitialPage",
   states: {
+    checkInitialPage: {
+      always: [
+        {
+          target: "adresse-fluggesellschaft-auswahl",
+          guard: ({ context }) =>
+            hasAirlineAddress(context.fluggesellschaft ?? ""),
+        },
+        {
+          target: "adresse-fluggesellschaft",
+        },
+      ],
+    },
+    "adresse-fluggesellschaft-auswahl": {
+      on: {
+        SUBMIT: [
+          {
+            target: "adresse-fluggesellschaft",
+            guard: ({ context }) =>
+              context.fluggesellschaftAuswahlAddress === "filledByUser",
+          },
+          "geplanter-flug",
+        ],
+        BACK: "#streitwert-kosten.prozesszinsen",
+      },
+    },
     "adresse-fluggesellschaft": {
       on: {
         SUBMIT: "geplanter-flug",
-        BACK: "#streitwert-kosten.prozesszinsen",
+        BACK: [
+          {
+            target: "#flugdaten.adresse-fluggesellschaft-auswahl",
+            guard: ({ context }) =>
+              context.fluggesellschaftAuswahlAddress === "filledByUser",
+          },
+          "#streitwert-kosten.prozesszinsen",
+        ],
       },
     },
     "geplanter-flug": {
@@ -40,7 +75,14 @@ export const flugdatenXstateConfig = {
           },
           "ersatzverbindung-art",
         ],
-        BACK: "adresse-fluggesellschaft",
+        BACK: [
+          {
+            target: "#flugdaten.adresse-fluggesellschaft-auswahl",
+            guard: ({ context }) =>
+              context.fluggesellschaftAuswahlAddress === "fromAirlineDB",
+          },
+          "#flugdaten.adresse-fluggesellschaft",
+        ],
       },
     },
     "zwischenstopp-uebersicht-1": {
@@ -340,4 +382,4 @@ export const flugdatenXstateConfig = {
       },
     },
   },
-};
+} satisfies Config<FluggastrechteUserData>;
