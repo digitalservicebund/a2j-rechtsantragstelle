@@ -1,4 +1,11 @@
-import { getAirlineAddressFromDB, getAirlineName } from "../airline";
+import { getAirlineAddress } from "../../services/getAirlineAddress";
+import {
+  getAirlineAddressFromDB,
+  getAirlineAddressString,
+  getAirlineName,
+} from "../airline";
+
+vi.mock("../../services/getAirlineAddress");
 
 describe("airline", () => {
   describe("getAirlineName", () => {
@@ -42,9 +49,9 @@ describe("airline", () => {
       const actual = getAirlineAddressFromDB(context);
 
       expect(actual).toStrictEqual({
-        airlineCityDB: "50672",
+        airlineCityDB: "Köln",
         airlineCountryDB: "Deutschland",
-        airlinePostalCodeDB: "Köln",
+        airlinePostalCodeDB: "50672",
         airlineStreetAndNumberDB: "Venloer Straße 151 - 153",
       });
     });
@@ -67,6 +74,27 @@ describe("airline", () => {
       const actual = getAirlineAddressFromDB(context);
 
       expect(actual).toStrictEqual({});
+    });
+  });
+
+  describe("getAirlineAddressString", () => {
+    it("should return correct the airline address", () => {
+      vi.mocked(getAirlineAddress).mockReturnValue({
+        addressSource: "manual",
+        streetAndNumber: "streetAndNumber",
+        zipCode: "zipCode",
+        city: "city",
+        country: "country",
+      });
+
+      const actual = getAirlineAddressString({});
+
+      expect(actual).toStrictEqual({
+        airlineCity: "city",
+        airlineCountry: "country",
+        airlinePostalCode: "zipCode",
+        airlineStreetAndNumber: "streetAndNumber",
+      });
     });
   });
 });

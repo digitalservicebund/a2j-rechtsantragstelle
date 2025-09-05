@@ -16,6 +16,7 @@ import { isTotalClaimWillSucceddedAboveLimit } from "./services/isTotalClaimAbov
 import { streitwertKostenXstateConfig } from "./streitwertKosten/xstateConfig";
 import {
   getAirlineAddressFromDB,
+  getAirlineAddressString,
   getAirlineName,
 } from "./stringReplacements/airline";
 import {
@@ -86,6 +87,7 @@ export const fluggastrechtFlow = {
     ...getArrayWeiterePersonenIndexStrings(context),
     ...getWeiterePersonenNameStrings(context),
     ...getAirlineName(context),
+    ...getAirlineAddressString(context),
     ...getAirlineAddressFromDB(context),
     ...getFirstZwischenstoppAirportName(context),
     ...getSecondZwischenstoppAirportName(context),
