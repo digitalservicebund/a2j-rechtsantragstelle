@@ -83,7 +83,6 @@
     "react-collapsed": "^4.2.0",
     "react-dom": "^19.1.1",
     "react-imask": "^7.6.1",
-    "react-inlinesvg": "^4.2.0",
     "react-router": "^7.8.2",
     "react-select": "^5.10.2",
     "samlify": "github:digitalservicebund/samlify#19b7a2e03a1ce99953b32f909bc219acd4d454ec",
