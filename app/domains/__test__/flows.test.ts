@@ -155,7 +155,7 @@ describe.sequential("state machine form flows", () => {
       0,
     );
 
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.warn(
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),

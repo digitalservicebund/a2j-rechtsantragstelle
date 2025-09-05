@@ -1,26 +1,45 @@
-import vitest from "@vitest/eslint-plugin";
-import { FlatCompat } from "@eslint/eslintrc";
-import eslint from "@eslint/js";
-import globals from "globals";
-import react from "eslint-plugin-react";
 import jsxA11y from "eslint-plugin-jsx-a11y";
-import importPlugin from "eslint-plugin-import";
-import tseslint from "typescript-eslint";
+import react from "eslint-plugin-react";
 import sonarjs from "eslint-plugin-sonarjs";
-import { fileURLToPath } from "url";
-import path from "path";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+const HANDLED_BY_OXC_GLOB = ["**/*.test.*"];
 
 export default tseslint.config(
-  eslint.configs.recommended,
-  // Global ignores
   {
-    ignores: ["**/*", "!app/**", "!tests/**", "!scripts/**"],
+    rules: {
+      "constructor-super": "error",
+      "getter-return": "error",
+      "no-dupe-args": "error",
+      "no-misleading-character-class": "error",
+      "no-octal": "error",
+      "no-undef": "error",
+      "no-unreachable": "error",
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            "Literal[value=/(a\u0308)|(o\u0308)|(u\u0308)|(A\u0308)|(O\u0308)|(U\u0308)/]",
+          message:
+            "German umlauts must be written as NFC (normalized form canonical composition) and not NFD (normalized form canonical decomposition). E.g. use 'ä' instead of the character 'a' followed by the combining diacritical marks ' ̈'.",
+        },
+        "error",
+        {
+          selector: "TSEnumDeclaration",
+          message: "Do not declare enums",
+        },
+      ],
+    },
+  },
+  {
+    ignores: [
+      "**/*",
+      "!app/**",
+      "!tests/**",
+      "!scripts/**",
+      ...HANDLED_BY_OXC_GLOB,
+    ],
   },
   // Global overrides
   {
@@ -33,7 +52,7 @@ export default tseslint.config(
       globals: {
         ...globals.browser,
         ...globals.commonjs,
-        ...globals.es6,
+        ...globals.es2026,
         ...globals.node,
       },
     },
@@ -41,15 +60,6 @@ export default tseslint.config(
   // React
   {
     files: ["**/*.{js,jsx,ts,tsx}"],
-    extends: [
-      react.configs.flat.recommended,
-      react.configs.flat["jsx-runtime"],
-      /**
-       * TODO: flat config of this plugin isn't available yet https://github.com/facebook/react/pull/30774
-       */
-      ...compat.extends("plugin:react-hooks/recommended"),
-      jsxA11y.flatConfigs.recommended,
-    ],
     plugins: {
       react,
     },
@@ -62,66 +72,51 @@ export default tseslint.config(
       ],
     },
     rules: {
-      "react/jsx-no-leaked-render": ["off", { validStrategies: ["ternary"] }], // TODO: enable later
+      "react/display-name": "error",
       "react/jsx-no-constructed-context-values": "warn",
+      "react/jsx-no-leaked-render": ["off", { validStrategies: ["ternary"] }], // TODO: enable later
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error",
       "react/no-array-index-key": "warn",
+      "react/no-deprecated": "error",
+      "react/no-unsafe": "off",
       "react/no-unstable-nested-components": "warn",
+      "react/prop-types": "error",
+      "react/require-render-return": "error",
     },
   },
-  // Typescript
+  // JSX Accessibility
   {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      ...tseslint.configs.recommendedTypeChecked,
-      ...tseslint.configs.stylisticTypeChecked,
-      importPlugin.flatConfigs.recommended,
-      importPlugin.flatConfigs.typescript,
-      sonarjs.configs.recommended,
-    ],
-    languageOptions: {
-      parser: tseslint.parser,
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
+    files: ["**/*.{jsx,tsx}"],
+    plugins: {
+      "jsx-a11y": jsxA11y,
     },
-    settings: {
-      "import/internal-regex": "^~/",
-      "import/resolver": {
-        node: { extensions: [".ts", ".tsx"] },
-        typescript: { alwaysTryTypes: true },
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
       },
     },
     rules: {
-      // eslint
-      "no-console": "warn",
-
-      // import
-      "import/no-cycle": "off", // VERY slow, only enable if needed
-      "import/namespace": "off", // slow and unneeded
-      "import/no-unused-modules": [
-        "off", // slow but useful to find unused exports. you might need to create an empty .eslintrc file, see https://github.com/import-js/eslint-plugin-import/issues/3079
-        {
-          unusedExports: true,
-          ignoreExports: ["app/routes/"],
-        },
-      ],
-      "import/order": [
-        "warn",
-        {
-          alphabetize: { caseInsensitive: true, order: "asc" },
-          groups: ["builtin", "external", "internal"],
-          "newlines-between": "never",
-        },
-      ],
-
-      // sonarjs
+      "jsx-a11y/aria-proptypes": "error",
+      "jsx-a11y/interactive-supports-focus": "error",
+      "jsx-a11y/no-interactive-element-to-noninteractive-role": "error",
+      "jsx-a11y/no-noninteractive-element-interactions": "error",
+      "jsx-a11y/no-noninteractive-element-to-interactive-role": "error",
+      "jsx-a11y/no-static-element-interactions": "error",
+    },
+  },
+  // Sonarjs plugin
+  {
+    files: ["**/*.{ts,tsx}"],
+    extends: [sonarjs.configs.recommended],
+    rules: {
       "sonarjs/no-duplicate-string": "off",
       "sonarjs/todo-tag": "off",
       "sonarjs/function-return-type": "off",
-      "sonarjs/aws-restricted-ip-admin-access": "off", // slow and unneeded
-      "sonarjs/no-async-constructor": "off", // slow and unneeded
-      // duplicates of typescript-eslint rules (prefer typescript-eslint as their rule pages are clearer)
+      "sonarjs/aws-restricted-ip-admin-access": "off",
+      "sonarjs/no-async-constructor": "off",
       "sonarjs/sonar-no-unused-vars": "off",
       "sonarjs/no-misused-promises": "off",
       "sonarjs/different-types-comparison": "off",
@@ -130,7 +125,24 @@ export default tseslint.config(
       "sonarjs/no-dead-store": "off",
       "sonarjs/anchor-has-content": "off",
       "sonarjs/no-invalid-await": "off",
+    },
+  },
 
+  // TypeScript ESLint
+  {
+    files: ["**/*.{ts,tsx}"],
+    extends: [
+      ...tseslint.configs.recommendedTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked,
+    ],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+    rules: {
       // typescript-eslint
       "@typescript-eslint/consistent-type-imports": [
         "warn",
@@ -153,20 +165,6 @@ export default tseslint.config(
       "@typescript-eslint/prefer-nullish-coalescing": "warn",
       // TODO: Align both streams for enabling exhaustiveness check globally
       "@typescript-eslint/switch-exhaustiveness-check": "warn",
-      "no-restricted-syntax": [
-        "error",
-        {
-          selector:
-            "Literal[value=/(a\u0308)|(o\u0308)|(u\u0308)|(A\u0308)|(O\u0308)|(U\u0308)/]",
-          message:
-            "German umlauts must be written as NFC (normalized form canonical composition) and not NFD (normalized form canonical decomposition). E.g. use 'ä' instead of the character 'a' followed by the combining diacritical marks ' ̈'.",
-        },
-        "error",
-        {
-          selector: "TSEnumDeclaration",
-          message: "Do not declare enums",
-        },
-      ],
     },
   },
   // AutoSuggest specific rules
@@ -174,19 +172,6 @@ export default tseslint.config(
     files: ["**/autoSuggestInput/*.{ts,tsx}"],
     rules: {
       "@typescript-eslint/switch-exhaustiveness-check": "error",
-    },
-  },
-  // Vitest
-  {
-    files: ["app/**/*.test.{js,jsx,ts,tsx}"],
-    plugins: {
-      vitest,
-    },
-    rules: {
-      ...vitest.configs.recommended.rules,
-      "vitest/valid-title": "off", // TODO: enable later
-      "@typescript-eslint/unbound-method": "off",
-      "require-await": "error",
     },
   },
 );

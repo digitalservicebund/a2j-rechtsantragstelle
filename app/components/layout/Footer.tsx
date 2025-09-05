@@ -52,15 +52,7 @@ export default function Footer({
         data-testid="footer"
       >
         <div className="flex flex-col max-w-[288px] gap-y-8">
-          {image?.url && (
-            <div className="forced-colors:bg-black">
-              <Image
-                {...image}
-                width={120}
-                className="forced-colors:brightness-0 forced-colors:invert"
-              />
-            </div>
-          )}
+          {image?.url && <Image {...image} width={120} />}
           <div className="ds-stack ds-stack-8">
             {paragraphs.map((paragraph) => (
               <div key={paragraph.html}>

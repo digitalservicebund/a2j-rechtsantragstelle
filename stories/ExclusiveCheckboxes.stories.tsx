@@ -3,7 +3,7 @@ import { reactRouterContext } from ".storybook/reactRouterContext";
 import Container from "~/components/layout/Container";
 import { ExclusiveCheckboxes } from "~/components/formElements/exclusiveCheckboxes/ExclusiveCheckboxes";
 import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
-import { StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
+import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
 import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {

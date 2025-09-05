@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import UserFeedback from "~/components/content/userFeedback";
-import { BannerState } from "~/components/content/userFeedback/BannerState";
+import { type BannerState } from "~/components/content/userFeedback/BannerState";
 import { createRoutesStub } from "react-router";
 
 const meta = {
