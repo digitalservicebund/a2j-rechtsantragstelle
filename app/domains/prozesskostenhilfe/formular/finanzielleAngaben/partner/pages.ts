@@ -4,7 +4,7 @@ import { financialEntryInputSchema } from "~/domains/shared/formular/finanzielle
 import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { postcodeSchema } from "~/services/validation/postcode";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
@@ -196,8 +196,9 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     pageSchema: {
       "partner-arbeitsplatz": z.object({
         strasseHausnummer: stringRequiredSchema,
-        plz: stringRequiredSchema.pipe(postcodeSchema),
+        plz: stringOptionalSchema,
         ort: stringRequiredSchema,
+        land: stringOptionalSchema,
       }),
       "partner-arbeitsplatzEntfernung": integerSchema.refine(
         (distance) => distance > 0,
