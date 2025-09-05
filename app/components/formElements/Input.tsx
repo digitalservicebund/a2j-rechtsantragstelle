@@ -38,6 +38,14 @@ const Input = function InputComponent({
   const field = useField(name);
   const errorId = `${name}-error`;
   const helperId = `${name}-helper`;
+  const autocompleteMap: Record<string, string> = {
+    vorname: "given-name",
+    nachname: "family-name",
+    geburtsdatum: "bday",
+  };
+  const isRequired = !!errorMessages?.find((err) => err.code === "required");
+  const autocompleteValue = isRequired ? autocompleteMap[name] : "off";
+
   return (
     <div className="w-full">
       {label && <InputLabel id={name}>{label}</InputLabel>}
@@ -51,6 +59,7 @@ const Input = function InputComponent({
             id: name,
             inputMode: type === "number" ? "decimal" : undefined,
             placeholder,
+            autoComplete: autocompleteValue,
           })}
           ref={innerRef}
           className={classNames(
@@ -66,9 +75,7 @@ const Input = function InputComponent({
             helperText && helperId,
           ].join(" ")}
           aria-errormessage={field.error() ? errorId : undefined}
-          aria-required={
-            !!errorMessages?.find((err) => err.code === "required")
-          }
+          aria-required={isRequired}
         />
         {suffix && (
           <div className="ds-input-suffix" aria-hidden="true">
