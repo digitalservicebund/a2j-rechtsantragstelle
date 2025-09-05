@@ -117,6 +117,23 @@ describe("antragstellendePersonDone", () => {
     ).toBe(true);
   });
 
+  it("should return true if the user has a special claim to unterhalt", () => {
+    expect(
+      antragstellendePersonDone({
+        context: {
+          empfaenger: "myself",
+          unterhaltsanspruch: "sonstiges",
+          unterhaltsbeschreibung: "Beschreibung",
+        },
+      }),
+    ).toBe(true);
+    expect(
+      antragstellendePersonDone({
+        context: { empfaenger: "myself", unterhaltsanspruch: "sonstiges" },
+      }),
+    ).toBe(false);
+  });
+
   it("should return true if the user has a claim to unterhalt, has entered an unterhalt sum, and does not live primarily from it", () => {
     expect(
       antragstellendePersonDone({

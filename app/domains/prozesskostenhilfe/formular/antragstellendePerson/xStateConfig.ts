@@ -80,6 +80,11 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
                 context.unterhaltsanspruch === "unterhalt",
               target: steps.unterhalt.relative,
             },
+            {
+              guard: ({ context }) =>
+                context.unterhaltsanspruch === "sonstiges",
+              target: steps.unterhaltsbeschreibung.relative,
+            },
             ...nextFlowEntrypoint,
           ],
         },
@@ -112,6 +117,12 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
         on: {
           BACK: steps.unterhaltsanspruch.relative,
           SUBMIT: steps.unterhaltHauptsaechlichesLeben.relative,
+        },
+      },
+      [steps.unterhaltsbeschreibung.relative]: {
+        on: {
+          BACK: steps.unterhaltsanspruch.relative,
+          SUBMIT: nextFlowEntrypoint,
         },
       },
       [steps.unterhaltHauptsaechlichesLeben.relative]: {

@@ -115,6 +115,10 @@ export const prozesskostenhilfeFormular = {
             target: "#antragstellende-person.unterhaltsanspruch",
           },
           {
+            guard: ({ context }) => context.unterhaltsanspruch === "sonstiges",
+            target: "#antragstellende-person.unterhaltsbeschreibung",
+          },
+          {
             guard: ({ context }) =>
               context.unterhaltsanspruch === "unterhalt" &&
               context.livesPrimarilyFromUnterhalt === "no",
