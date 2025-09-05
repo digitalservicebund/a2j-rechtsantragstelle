@@ -13,7 +13,8 @@ export const addAirlineDetails = (
   context: FluggastrechteUserData,
 ) => {
   const airlineName = getAirlineNameByIataCode(context.fluggesellschaft);
-  const { address, city, country, zipCode } = getAirlineAddress(context);
+  const { streetAndNumber, city, country, zipCode } =
+    getAirlineAddress(context);
 
   doc
     .fontSize(10)
@@ -21,6 +22,6 @@ export const addAirlineDetails = (
     .text(airlineName, { continued: true })
     .font(FONTS_BUNDESSANS_REGULAR)
     .text(SEPARATOR, { continued: true })
-    .text(`${address}, ${zipCode} ${city}, ${country}`)
+    .text(`${streetAndNumber}, ${zipCode} ${city}, ${country}`)
     .text("– Beklagte Partei –");
 };

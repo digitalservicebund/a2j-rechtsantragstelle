@@ -12,7 +12,7 @@ export const getAirlineAddress = ({
   if (fluggesellschaftAuswahlAddress === "fromAirlineDB") {
     const airline = getAirlineByIataCode(fluggesellschaft);
     return {
-      address: airline?.streetAndNumber ?? "",
+      streetAndNumber: airline?.streetAndNumber ?? "",
       zipCode: airline?.postalCode ?? "",
       city: airline?.city ?? "",
       country: airline?.country ?? "",
@@ -20,7 +20,7 @@ export const getAirlineAddress = ({
   }
 
   return {
-    address: fluggesellschaftStrasseHausnummer ?? "",
+    streetAndNumber: fluggesellschaftStrasseHausnummer ?? "",
     zipCode: fluggesellschaftPostleitzahl ?? "",
     city: fluggesellschaftOrt ?? "",
     country: fluggesellschaftLand ?? "",

@@ -8,7 +8,7 @@ describe("getAirlineAddress", () => {
     });
 
     expect(actual).toEqual({
-      address: "Venloer Straße 151 - 153",
+      streetAndNumber: "Venloer Straße 151 - 153",
       zipCode: "50672",
       city: "Köln",
       country: "Deutschland",
@@ -26,7 +26,7 @@ describe("getAirlineAddress", () => {
     });
 
     expect(actual).toEqual({
-      address: "Street 1",
+      streetAndNumber: "Street 1",
       zipCode: "12345",
       city: "City",
       country: "Country",
@@ -43,7 +43,7 @@ describe("getAirlineAddress", () => {
     });
 
     expect(actual).toEqual({
-      address: "Street 1",
+      streetAndNumber: "Street 1",
       zipCode: "12345",
       city: "City",
       country: "Country",
@@ -54,7 +54,7 @@ describe("getAirlineAddress", () => {
     const actual = getAirlineAddress({});
 
     expect(actual).toEqual({
-      address: "",
+      streetAndNumber: "",
       zipCode: "",
       city: "",
       country: "",
