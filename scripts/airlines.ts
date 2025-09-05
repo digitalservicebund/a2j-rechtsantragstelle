@@ -17,8 +17,8 @@ function processAirlineRow(row: string): Airline {
     countryFullName,
     ,
     streetAndNumber,
-    city,
     postalCode,
+    city,
   ] = row.split(";");
   const arbitrationBoardValueWithoutDash = arbitrationBoardCode.replace(
     "-",
@@ -39,7 +39,7 @@ function processAirlineRow(row: string): Airline {
     arbitrationBoard: arbitrationBoardValue,
     streetAndNumber,
     postalCode: postalCode ? postalCode.replace(/[\r\n]/g, "") : "",
-    city,
+    city: city ? city.replace(/[\r\n]/g, "") : "",
     country: countries.getName(countryCode, GERMAN_LOCALE) ?? "Deutschland",
   };
 }

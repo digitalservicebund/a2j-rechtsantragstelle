@@ -795,8 +795,8 @@
     "isInEU": true,
     "arbitrationBoard": "RV",
     "streetAndNumber": "An der Gehespitz 50",
-    "postalCode": "Neu-Isenburg",
-    "city": "63263",
+    "postalCode": "63263",
+    "city": "Neu-Isenburg",
     "country": "Deutschland"
   },
   {
@@ -875,8 +875,8 @@
     "isInEU": true,
     "arbitrationBoard": "RV",
     "streetAndNumber": "Venloer Straße 151 - 153",
-    "postalCode": "Köln",
-    "city": "50672",
+    "postalCode": "50672",
+    "city": "Köln",
     "country": "Deutschland"
   },
   {
@@ -885,8 +885,8 @@
     "isInEU": true,
     "arbitrationBoard": "RV",
     "streetAndNumber": "Hugo-Eckener-Ring 1, FAC, Building 234, D7.01",
-    "postalCode": "Frankfurt am Main",
-    "city": "60549",
+    "postalCode": "60549",
+    "city": "Frankfurt am Main",
     "country": "Deutschland"
   },
   {
@@ -1036,6 +1036,7 @@
     "arbitrationBoard": "RV",
     "streetAndNumber": "\"Terminal-Ring 1, Zentralgebäude Ost (3. OG), ",
     "postalCode": "",
+    "city": "",
     "country": "Deutschland"
   },
   {
@@ -1044,6 +1045,7 @@
     "isInEU": false,
     "arbitrationBoard": "40474",
     "postalCode": "",
+    "city": "",
     "country": "Deutschland"
   },
   {
@@ -1182,8 +1184,8 @@
     "isInEU": true,
     "arbitrationBoard": "BfJ",
     "streetAndNumber": "Germanwings-Str. 1",
-    "postalCode": "Köln",
-    "city": "51147",
+    "postalCode": "51147",
+    "city": "Köln",
     "country": "Deutschland"
   },
   {
@@ -1222,8 +1224,8 @@
     "isInEU": true,
     "arbitrationBoard": "BfJ",
     "streetAndNumber": "An der Trift 65",
-    "postalCode": "Dreieich",
-    "city": "63303",
+    "postalCode": "63303",
+    "city": "Dreieich",
     "country": "Deutschland"
   },
   {
@@ -1452,8 +1454,8 @@
     "isInEU": true,
     "arbitrationBoard": "RV",
     "streetAndNumber": "FOC, Südallee 15",
-    "postalCode": "München",
-    "city": "85356",
+    "postalCode": "85356",
+    "city": "München",
     "country": "Deutschland"
   },
   {
@@ -1462,8 +1464,8 @@
     "isInEU": true,
     "arbitrationBoard": "RV",
     "streetAndNumber": "Südallee 15",
-    "postalCode": "München-Flughafen",
-    "city": "85356",
+    "postalCode": "85356",
+    "city": "München-Flughafen",
     "country": "Deutschland"
   },
   {
@@ -1962,8 +1964,8 @@
     "isInEU": true,
     "arbitrationBoard": "BfJ",
     "streetAndNumber": "Knieperdamm 79",
-    "postalCode": "Stralsund",
-    "city": "18435",
+    "postalCode": "18435",
+    "city": "Stralsund",
     "country": "Deutschland"
   },
   {
@@ -2122,8 +2124,8 @@
     "isInEU": true,
     "arbitrationBoard": "RV",
     "streetAndNumber": "Flughafenstr. 10",
-    "postalCode": "Langenhagen",
-    "city": "30855",
+    "postalCode": "30855",
+    "city": "Langenhagen",
     "country": "Deutschland"
   },
   {
