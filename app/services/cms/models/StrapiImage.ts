@@ -16,12 +16,19 @@ function appendStrapiUrlOnDev(imageUrl: string) {
   return strapiUrl + imageUrl;
 }
 
-export const StrapiImageSchema = z.object({
-  url: z.string().transform(appendStrapiUrlOnDev),
-  width: z.number(),
-  height: z.number(),
-  alternativeText: StrapiStringOptionalSchema,
-});
+export const StrapiImageSchema = z
+  .object({
+    url: z.string().transform(appendStrapiUrlOnDev),
+    width: z.number(),
+    height: z.number(),
+    alternativeText: StrapiStringOptionalSchema,
+  })
+  .transform(async (cmsImage) => {
+    if (!cmsImage.url.endsWith(".svg")) return cmsImage;
+    // Note: this is mixing data validation / transformation with enriching
+    // We should find a more idiomatic way for this in the future
+    return { ...cmsImage, svgString: await (await fetch(cmsImage.url)).text() };
+  });
 
 export const StrapiImageOptionalSchema = StrapiImageSchema.nullable()
   .transform(omitNull)
