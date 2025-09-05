@@ -1,12 +1,12 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { redirect, useLoaderData } from "react-router";
 import invariant from "tiny-invariant";
+import Heading from "~/components/common/Heading";
+import { StandaloneLink } from "~/components/common/StandaloneLink";
 import ContentComponents from "~/components/content/ContentComponents";
 import CourtDetails from "~/components/CourtDetails";
-import CourtFinderHeader from "~/components/CourtFinderHeader";
-import Background from "~/components/layout/Background";
 import Container from "~/components/layout/Container";
-import { fetchPage, fetchTranslations } from "~/services/cms/index.server";
+import { fetchPage } from "~/services/cms/index.server";
 import {
   edgeCasesForPlz,
   findCourt,
@@ -30,46 +30,40 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   }
 
   const slug = "/beratungshilfe/zustaendiges-gericht/ergebnis";
-  const [common, { content, pageMeta }] = await Promise.all([
-    fetchTranslations("amtsgericht"),
-    fetchPage(slug),
-  ]);
-
-  return { court, content, meta: pageMeta, common };
+  const [{ content, pageMeta }] = await Promise.all([fetchPage(slug)]);
+  return { court, content, meta: pageMeta };
 };
 
 export const Component = () => {
-  const { court, content, common } = useLoaderData<typeof loader>();
+  const { court, content } = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col grow">
-      <Background backgroundColor="blue">
-        <CourtFinderHeader label={common.featureName}>
-          {common.resultHeading}
-        </CourtFinderHeader>
+    <div className="flex flex-col grow bg-blue-100">
+      <Container paddingTop="48" backgroundColor="blue">
+        <span className="ds-label-03-reg">Amtsgericht finden</span>
+        <Heading tagName="h1" look="ds-heading-02-reg" className="mt-16">
+          Ihr zuständiges Amtsgericht
+        </Heading>
+      </Container>
 
-        <Container backgroundColor="white" overhangingBackground>
-          <CourtDetails
-            name={court.BEZEICHNUNG}
-            street={court.STR_HNR}
-            city={`${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`}
-            website={court.URL1}
-            phone={court.TEL}
-            addressLabel={common.resultAddress}
-            websiteLabel={common.resultWebsite}
-            phoneLabel={common.resultPhone}
-          />
-        </Container>
-        <Container>
-          <a
-            href="/beratungshilfe/zustaendiges-gericht/suche"
-            className="text-link underline"
-            id="backLink"
-          >
-            {common.repeatSearch}
-          </a>
-        </Container>
-      </Background>
+      <Container backgroundColor="white" overhangingBackground>
+        <CourtDetails
+          name={court.BEZEICHNUNG}
+          street={court.STR_HNR}
+          city={`${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`}
+          website={court.URL1}
+          phone={court.TEL}
+          addressLabel="Adresse"
+          websiteLabel="Webseite"
+          phoneLabel="Telefonnummer"
+        />
+      </Container>
+      <Container>
+        <StandaloneLink
+          text="Suche wiederholen"
+          url="/beratungshilfe/zustaendiges-gericht/suche"
+        />
+      </Container>
       <ContentComponents content={content} />
     </div>
   );
