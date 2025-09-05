@@ -1,5 +1,4 @@
-import Svg from "react-inlinesvg";
-import { useJsAvailable } from "../hooks/useJsAvailable";
+import { InlineSvgImage } from "./InlineSvgImage";
 
 export type ImageProps = Readonly<{
   url: string;
@@ -8,52 +7,36 @@ export type ImageProps = Readonly<{
   height?: number;
   alternativeText?: string;
   className?: string;
+  svgString?: string;
 }>;
-
-// Create a constant variable to avoid complains from Sonar
-const SVG_ROLE = "img";
 // An empty alt attribute is needed for accessibility when the image is decorative
 const EMPTY_ALTERNATIVE_TEXT = "";
 
-function Image({ url, ariaHidden, alternativeText, ...props }: ImageProps) {
-  const jsAvailable = useJsAvailable();
-
-  const isSvg = url.endsWith(".svg");
+function Image({
+  url,
+  ariaHidden,
+  alternativeText,
+  svgString,
+  ...props
+}: ImageProps) {
   const altText = alternativeText ?? EMPTY_ALTERNATIVE_TEXT;
 
-  const ImageComponent = (
+  if (svgString)
+    return (
+      <InlineSvgImage
+        svgString={svgString}
+        width={props.width ?? 0}
+        altText={altText}
+      />
+    );
+
+  return (
     <img
       {...props}
       src={url}
       alt={altText}
       title={altText}
       aria-hidden={ariaHidden}
-    />
-  );
-
-  if (!isSvg) {
-    return ImageComponent;
-  }
-
-  if (!jsAvailable) {
-    /**
-     * <noscript> tag prevents that <img> is cached by the browser when js is available
-     * more details here: https://github.com/tanem/react-svg/issues/197 and https://serverfault.com/a/856948
-     */
-    return <noscript>{ImageComponent}</noscript>;
-  }
-  return (
-    <Svg
-      {...props}
-      /* This class ensures black SVG paths don't disappear in high-contrast mode. 
-        For implementation details check app/styles.css */
-      className="svg-image"
-      src={url}
-      title={altText}
-      role={SVG_ROLE}
-      // If the alt text is empty, the image is decorative, so we set aria-hidden to true
-      aria-hidden={altText === EMPTY_ALTERNATIVE_TEXT ? true : ariaHidden}
-      height="100%"
     />
   );
 }
