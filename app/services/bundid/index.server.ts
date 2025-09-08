@@ -1,7 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import fs from "node:fs";
 import path from "node:path";
+// @ts-ignore optional dependency
 import saml from "samlify";
+// @ts-ignore optional dependency
 import type { IdentityProvider } from "samlify/types/src/entity-idp";
+// @ts-ignore optional dependency
 import type { ServiceProvider } from "samlify/types/src/entity-sp";
 import invariant from "tiny-invariant";
 import { config } from "~/services/env/env.server";

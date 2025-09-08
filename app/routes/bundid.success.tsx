@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { ActionFunctionArgs } from "react-router";
 import { useActionData } from "react-router";
+// @ts-ignore optional dependency
 import * as samlify from "samlify";
 import {
   getBundIdIdentityProvider,

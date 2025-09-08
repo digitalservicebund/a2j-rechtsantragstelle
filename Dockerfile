@@ -10,7 +10,8 @@ COPY package.json package-lock.json ./
 
 RUN apk add openjdk21
 
-RUN npm ci --omit=dev --omit=optional
+# specifically include optional dependencies
+RUN npm ci --omit=dev --include=optional 
 
 FROM scratch AS app
 WORKDIR /a2j-app
