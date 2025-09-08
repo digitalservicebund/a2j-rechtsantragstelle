@@ -1,30 +1,29 @@
+import parse from "html-react-parser";
+import { cloneElement, isValidElement, type ReactElement } from "react";
+
 type InlineSvgProps = {
   svgString: string;
   width: number;
   altText: string;
 };
 
-export const InlineSvgImage = ({
-  svgString,
-  width,
-  altText,
-}: InlineSvgProps) => {
-  let svgElementString = svgString.slice(svgString.search("<svg")); // drop anything before opening tag <svg
+const isSVGElement = (node: ReactElement): node is React.ReactSVGElement =>
+  node.type === "svg";
+const sanatizeSvgString = (svgString: string) =>
+  svgString.slice(svgString.search("<svg"));
 
-  const replacements = [
-    [">", ` class="svg-image">`], // Ensure black SVG paths don't disappear in high-contrast mode. For implementation details check app/styles.css
-    [">", ` role="img">`],
-    ["height", `originalHeight`],
-    ["width", `originalWidth`],
-    // [">", ` height="100%">`],
-    [">", ` width="${width}">`],
-    altText && [">", `><title>${altText}</title>`],
-    [">", ` aria-hidden='${!!altText}'>`], // If the alt text is empty, the image is decorative, so we set aria-hidden to true
-  ] as const;
+const staticProps = { className: "svg-image", role: "img", height: "100%" };
 
-  replacements.forEach(([search, replace]) => {
-    svgElementString = svgElementString.replace(search, replace);
+export const InlineSvgImage = ({ svgString, width, altText }: InlineSvgProps) =>
+  parse(sanatizeSvgString(svgString), {
+    transform: (node) => {
+      if (isValidElement(node)) {
+        if (!isSVGElement(node)) return node; // valid non-svg elements can just be returned
+        const props = { ...staticProps, width, "aria-hidden": !!altText };
+        return cloneElement(node, props, [
+          altText && <title key="title">{altText}</title>,
+          node.props.children,
+        ]);
+      }
+    },
   });
-
-  return <div dangerouslySetInnerHTML={{ __html: svgElementString }} />;
-};
