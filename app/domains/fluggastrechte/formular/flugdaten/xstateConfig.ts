@@ -6,9 +6,9 @@ import { hasAirlineAddress } from "../../services/airlines/hasAirlineAddress";
 export const flugdatenXstateConfig = {
   meta: { done: flugdatenDone },
   id: "flugdaten",
-  initial: "checkInitialPage",
+  initial: "check-initial-page",
   states: {
-    checkInitialPage: {
+    "check-initial-page": {
       always: [
         {
           target: "adresse-fluggesellschaft-auswahl",
