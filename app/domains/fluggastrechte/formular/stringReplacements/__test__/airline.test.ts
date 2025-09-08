@@ -90,6 +90,7 @@ describe("airline", () => {
       const actual = getAirlineAddressString({});
 
       expect(actual).toStrictEqual({
+        isAirlineAddressFromDB: false,
         airlineCity: "city",
         airlineCountry: "country",
         airlinePostalCode: "zipCode",

@@ -33,10 +33,11 @@ export function getAirlineAddressFromDB({
 }
 
 export function getAirlineAddressString(context: FluggastrechteUserData) {
-  const { streetAndNumber, city, country, zipCode } =
+  const { addressSource, streetAndNumber, city, country, zipCode } =
     getAirlineAddress(context);
 
   return {
+    isAirlineAddressFromDB: addressSource === "database",
     airlineStreetAndNumber: streetAndNumber,
     airlinePostalCode: zipCode,
     airlineCity: city,
