@@ -1,14 +1,18 @@
 import { InlineSvgImage } from "./InlineSvgImage";
 
-export type ImageProps = Readonly<{
-  url: string;
+type SharedProps = {
   ariaHidden?: boolean;
   width?: number;
   height?: number;
   alternativeText?: string;
   className?: string;
-  svgString?: string;
-}>;
+};
+
+export type ImageProps = Readonly<
+  SharedProps &
+    ({ url: string; svgString?: string } | { url?: string; svgString: string })
+>;
+
 // An empty alt attribute is needed for accessibility when the image is decorative
 const EMPTY_ALTERNATIVE_TEXT = "";
 
