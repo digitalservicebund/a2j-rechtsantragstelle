@@ -13,9 +13,6 @@ export type ImageProps = Readonly<
     ({ url: string; svgString?: string } | { url?: string; svgString: string })
 >;
 
-// An empty alt attribute is needed for accessibility when the image is decorative
-const EMPTY_ALTERNATIVE_TEXT = "";
-
 function Image({
   url,
   ariaHidden,
@@ -23,23 +20,23 @@ function Image({
   svgString,
   ...props
 }: ImageProps) {
-  const altText = alternativeText ?? EMPTY_ALTERNATIVE_TEXT;
-
   if (svgString)
     return (
       <InlineSvgImage
         svgString={svgString}
-        width={props.width ?? 0}
-        altText={altText}
+        width={props.width}
+        altText={alternativeText}
       />
     );
 
+  // A11y: Empty alt text & title for decorative images
+  const altTitle = alternativeText ?? "";
   return (
     <img
       {...props}
       src={url}
-      alt={altText}
-      title={altText}
+      alt={altTitle}
+      title={altTitle}
       aria-hidden={ariaHidden}
     />
   );

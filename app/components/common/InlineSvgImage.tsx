@@ -3,8 +3,8 @@ import { cloneElement, isValidElement, type ReactElement } from "react";
 
 type InlineSvgProps = {
   svgString: string;
-  width: number;
-  altText: string;
+  width?: number;
+  altText?: string;
 };
 
 const isSVGElement = (node: ReactElement): node is React.ReactSVGElement =>
@@ -19,7 +19,7 @@ export const InlineSvgImage = ({ svgString, width, altText }: InlineSvgProps) =>
     transform: (node) => {
       if (isValidElement(node)) {
         if (!isSVGElement(node)) return node; // valid non-svg elements can just be returned
-        const props = { ...staticProps, width, "aria-hidden": !!altText };
+        const props = { ...staticProps, width, "aria-hidden": !altText };
         return cloneElement(node, props, [
           altText && <title key="title">{altText}</title>,
           node.props.children,

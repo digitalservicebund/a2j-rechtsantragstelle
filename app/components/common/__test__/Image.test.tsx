@@ -13,7 +13,9 @@ describe("Image", () => {
   });
 
   it("should render SVGs inline", () => {
-    const { getByRole } = render(<Image svgString="<svg></svg>" />);
+    const { getByRole } = render(
+      <Image svgString="<svg></svg>" alternativeText="asd" />,
+    );
     const image = getByRole("img");
     expect(image).toBeVisible();
     expect(image.tagName).toBe("svg");
@@ -26,7 +28,7 @@ describe("Image", () => {
 
   it("svgs are aria-hidden without altText", () => {
     const { queryByRole } = render(<Image svgString="<svg></svg>" />);
-    expect(queryByRole("img")).toHaveAttribute("aria-hidden");
+    expect(queryByRole("img", { hidden: true })).toHaveAttribute("aria-hidden");
   });
 
   it("altText on svgs are rendered as <title>", () => {
