@@ -1,7 +1,7 @@
 import { FormProvider, useForm } from "@rvf/react-router";
 import { ReactNode, useEffect } from "react";
-import { z, ZodObject } from "zod";
-import { AllowedUserTypes } from "~/domains/userData";
+import { z, type ZodObject } from "zod";
+import { type AllowedUserTypes } from "~/domains/userData";
 
 type Props = {
   children: ReactNode;

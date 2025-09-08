@@ -1,4 +1,8 @@
-import { ActionFunction, LoaderFunction, createRoutesStub } from "react-router";
+import {
+  ActionFunction,
+  type LoaderFunction,
+  createRoutesStub,
+} from "react-router";
 import { createElement } from "react";
 
 type RouteComponent = Parameters<typeof createRoutesStub>[0][0]["Component"];
