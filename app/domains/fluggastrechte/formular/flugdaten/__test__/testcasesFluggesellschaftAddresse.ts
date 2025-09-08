@@ -5,7 +5,7 @@ export const testCasesFluggastrechteFormularFlugdatenFluggesellschaftAddresse =
   [
     [
       {
-        fluggesellschaftAuswahlAddress: "filledByUser",
+        fluggesellschaftAuswahlAdresse: "filledByUser",
         fluggesellschaftStrasseHausnummer: "Musterstr. 30",
         fluggesellschaftPostleitzahl: "10970",
         fluggesellschaftOrt: "Frankfurt",
@@ -19,7 +19,7 @@ export const testCasesFluggastrechteFormularFlugdatenFluggesellschaftAddresse =
     ],
     [
       {
-        fluggesellschaftAuswahlAddress: "fromAirlineDB",
+        fluggesellschaftAuswahlAdresse: "fromAirlineDB",
       },
       [
         "/flugdaten/adresse-fluggesellschaft-auswahl",

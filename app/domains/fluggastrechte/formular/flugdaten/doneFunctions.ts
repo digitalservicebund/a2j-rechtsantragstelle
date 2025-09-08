@@ -12,7 +12,7 @@ const hasAirlineAddressDone: FluggastrechteFlugdatenGuard = ({ context }) => {
 
   if (
     isArlineWithAddress &&
-    context.fluggesellschaftAuswahlAddress === "fromAirlineDB"
+    context.fluggesellschaftAuswahlAdresse === "fromAirlineDB"
   ) {
     return true;
   }

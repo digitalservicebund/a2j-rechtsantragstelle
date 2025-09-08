@@ -430,7 +430,7 @@ describe("flugdatenDone", () => {
       const context = {
         ...baseContextWithoutAirlineAddress,
         fluggesellschaft: "LH",
-        fluggesellschaftAuswahlAddress: "fromAirlineDB",
+        fluggesellschaftAuswahlAdresse: "fromAirlineDB",
         zwischenstoppAnzahl: "no",
         bereich: "verspaetet",
         tatsaechlicherFlug: "no",
@@ -446,7 +446,7 @@ describe("flugdatenDone", () => {
       const context = {
         ...baseContextWithAirlineAddress,
         fluggesellschaft: "LH",
-        fluggesellschaftAuswahlAddress: "fromAirlineDB",
+        fluggesellschaftAuswahlAdresse: "fromAirlineDB",
         zwischenstoppAnzahl: "no",
         bereich: "verspaetet",
         tatsaechlicherFlug: "no",

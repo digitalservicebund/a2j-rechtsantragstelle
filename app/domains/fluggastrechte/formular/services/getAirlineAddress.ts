@@ -2,14 +2,14 @@ import { getAirlineByIataCode } from "../../services/airlines/getAirlineByIataCo
 import { type FluggastrechteUserData } from "../userData";
 
 export const getAirlineAddress = ({
-  fluggesellschaftAuswahlAddress,
+  fluggesellschaftAuswahlAdresse,
   fluggesellschaft,
   fluggesellschaftStrasseHausnummer,
   fluggesellschaftPostleitzahl,
   fluggesellschaftOrt,
   fluggesellschaftLand,
 }: FluggastrechteUserData) => {
-  if (fluggesellschaftAuswahlAddress === "fromAirlineDB") {
+  if (fluggesellschaftAuswahlAdresse === "fromAirlineDB") {
     const airline = getAirlineByIataCode(fluggesellschaft);
     return {
       addressSource: "database",

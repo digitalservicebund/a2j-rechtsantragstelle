@@ -4,7 +4,7 @@ describe("getAirlineAddress", () => {
   it("should return the airline address from the DB", () => {
     const actual = getAirlineAddress({
       fluggesellschaft: "LH",
-      fluggesellschaftAuswahlAddress: "fromAirlineDB",
+      fluggesellschaftAuswahlAdresse: "fromAirlineDB",
     });
 
     expect(actual).toEqual({
@@ -19,7 +19,7 @@ describe("getAirlineAddress", () => {
   it("should return the airline address given from the user", () => {
     const actual = getAirlineAddress({
       fluggesellschaft: "LH",
-      fluggesellschaftAuswahlAddress: "filledByUser",
+      fluggesellschaftAuswahlAdresse: "filledByUser",
       fluggesellschaftLand: "Country",
       fluggesellschaftOrt: "City",
       fluggesellschaftPostleitzahl: "12345",

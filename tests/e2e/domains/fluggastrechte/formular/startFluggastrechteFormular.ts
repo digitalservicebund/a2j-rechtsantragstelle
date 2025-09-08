@@ -45,7 +45,7 @@ export async function startFluggastrechteFormular(
 
   // /fluggastrechte/formular//flugdaten/adresse-fluggesellschaft-auswahl
   await formular.fillRadioPage(
-    "fluggesellschaftAuswahlAddress",
+    "fluggesellschaftAuswahlAdresse",
     "filledByUser",
   );
 

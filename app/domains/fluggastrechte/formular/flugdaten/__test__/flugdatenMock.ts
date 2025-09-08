@@ -2,7 +2,7 @@ import { type FluggastrechteFlugdatenUserData } from "../userData";
 
 export const fluggesellschaftAddresse = {
   fluggesellschaft: "SU",
-  fluggesellschaftAuswahlAddress: "filledByUser",
+  fluggesellschaftAuswahlAdresse: "filledByUser",
   fluggesellschaftStrasseHausnummer: "Musterstr. 30",
   fluggesellschaftPostleitzahl: "10970",
   fluggesellschaftOrt: "Frankfurt",

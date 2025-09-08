@@ -26,7 +26,7 @@ export const flugdatenXstateConfig = {
           {
             target: "adresse-fluggesellschaft",
             guard: ({ context }) =>
-              context.fluggesellschaftAuswahlAddress === "filledByUser",
+              context.fluggesellschaftAuswahlAdresse === "filledByUser",
           },
           "geplanter-flug",
         ],
@@ -40,7 +40,7 @@ export const flugdatenXstateConfig = {
           {
             target: "#flugdaten.adresse-fluggesellschaft-auswahl",
             guard: ({ context }) =>
-              context.fluggesellschaftAuswahlAddress === "filledByUser",
+              context.fluggesellschaftAuswahlAdresse === "filledByUser",
           },
           "#streitwert-kosten.prozesszinsen",
         ],
@@ -79,7 +79,7 @@ export const flugdatenXstateConfig = {
           {
             target: "#flugdaten.adresse-fluggesellschaft-auswahl",
             guard: ({ context }) =>
-              context.fluggesellschaftAuswahlAddress === "fromAirlineDB",
+              context.fluggesellschaftAuswahlAdresse === "fromAirlineDB",
           },
           "#flugdaten.adresse-fluggesellschaft",
         ],
