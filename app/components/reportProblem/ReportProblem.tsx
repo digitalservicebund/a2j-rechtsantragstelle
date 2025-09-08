@@ -1,11 +1,11 @@
 import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
-import { useMemo, useState } from "react";
+import { useMemo, useRef } from "react";
 import Button from "~/components/common/Button";
-import { useFeedbackTranslations } from "~/components/content/userFeedback/feedbackTranslations";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { config } from "~/services/env/public";
+import { translations } from "~/services/translations/translations";
 import { isKeyOfObject } from "~/util/objects";
 
 const surveyIds = {
@@ -14,8 +14,7 @@ const surveyIds = {
 } as const;
 
 export const ReportProblem = () => {
-  const [surveyOpen, setSurveyOpen] = useState<boolean>();
-  const feedbackTranslations = useFeedbackTranslations();
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const { posthogClient } = useAnalytics();
   const { ENVIRONMENT } = config();
 
@@ -33,17 +32,13 @@ export const ReportProblem = () => {
     <>
       <Button
         look="tertiary"
-        onClick={() => setSurveyOpen(!surveyOpen)}
+        aria-haspopup="dialog"
+        onClick={() => dialogRef.current?.show()}
         className="min-w-full justify-center sm:min-w-fit mt-80"
-        text={feedbackTranslations["report-problem"]}
+        text={translations.feedback["report-problem"].de}
         iconLeft={<FlagOutlined />}
       />
-      {surveyOpen && (
-        <PosthogSurvey
-          survey={survey}
-          closeSurvey={() => setSurveyOpen(false)}
-        />
-      )}
+      <PosthogSurvey dialogRef={dialogRef} survey={survey} />
     </>
   );
 };
