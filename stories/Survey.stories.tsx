@@ -44,6 +44,5 @@ export const Example: Story = {
         },
       ],
     },
-    closeSurvey: () => undefined,
   },
 };

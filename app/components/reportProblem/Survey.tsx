@@ -16,7 +16,8 @@ import { translations } from "~/services/translations/translations";
 
 type PosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
-  dialogRef: React.RefObject<HTMLDialogElement | null>;
+  // Marked as optional for ease of storybook mocking
+  dialogRef?: React.RefObject<HTMLDialogElement | null>;
 };
 
 const questionTypes: Record<string, ElementType> = {
@@ -36,11 +37,11 @@ export const PosthogSurvey = ({ survey, dialogRef }: PosthogSurveyProps) => {
 
   useEffect(() => {
     const closeDialogOnEscape = (event: KeyboardEvent) =>
-      event.key === "Escape" ? dialogRef.current?.close() : null;
+      event.key === "Escape" ? dialogRef?.current?.close() : null;
 
     window.addEventListener("keyup", closeDialogOnEscape);
     return () => window.removeEventListener("keyup", closeDialogOnEscape);
-  }, [dialogRef.current]);
+  }, [dialogRef?.current]);
 
   const onFeedbackSubmitted = () => {
     if (isCompletelyFilled && posthogClient) {
@@ -56,6 +57,8 @@ export const PosthogSurvey = ({ survey, dialogRef }: PosthogSurveyProps) => {
     <dialog
       aria-modal="false"
       ref={dialogRef}
+      // Needed for storybook
+      open={!dialogRef}
       className={classNames(
         "border-2 border-blue-800 max-sm:right-0 not-open:hidden bg-white absolute bottom-0 p-24 flex flex-col",
         { "gap-40": !wasSubmitted },
