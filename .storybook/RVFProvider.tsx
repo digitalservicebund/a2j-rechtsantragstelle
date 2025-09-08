@@ -1,5 +1,5 @@
 import { FormProvider, useForm } from "@rvf/react-router";
-import { ReactNode, useEffect } from "react";
+import { type ReactNode, useEffect } from "react";
 import { z, type ZodObject } from "zod";
 import { type AllowedUserTypes } from "~/domains/userData";
 

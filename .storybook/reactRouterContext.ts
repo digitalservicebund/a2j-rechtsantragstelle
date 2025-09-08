@@ -1,5 +1,5 @@
 import {
-  ActionFunction,
+  type ActionFunction,
   type LoaderFunction,
   createRoutesStub,
 } from "react-router";
