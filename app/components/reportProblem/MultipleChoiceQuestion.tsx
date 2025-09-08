@@ -34,7 +34,7 @@ export const MultipleChoiceQuestion = ({
   };
 
   return (
-    <fieldset className="flex flex-col gap-16" autoFocus>
+    <fieldset className="flex flex-col gap-16">
       <legend className="ds-body-01-bold mb-16">{question.question}</legend>
       <div className="flex flex-col gap-16">
         {question.choices.map((choice, idx) => {

@@ -37,11 +37,12 @@ export const PosthogSurvey = ({ survey, dialogRef }: PosthogSurveyProps) => {
 
   useEffect(() => {
     const closeDialogOnEscape = (event: KeyboardEvent) =>
+      // oxlint-disable-next-line
       event.key === "Escape" ? dialogRef?.current?.close() : null;
 
     window.addEventListener("keyup", closeDialogOnEscape);
     return () => window.removeEventListener("keyup", closeDialogOnEscape);
-  }, [dialogRef?.current]);
+  }, []);
 
   const onFeedbackSubmitted = () => {
     if (isCompletelyFilled && posthogClient) {
