@@ -196,7 +196,7 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     pageSchema: {
       "partner-arbeitsplatz": z.object({
         strasseHausnummer: stringRequiredSchema,
-        plz: stringOptionalSchema,
+        plz: stringRequiredSchema,
         ort: stringRequiredSchema,
         land: stringOptionalSchema,
       }),
