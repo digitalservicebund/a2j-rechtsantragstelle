@@ -27,7 +27,7 @@ describe("getAirlineAddress", () => {
     });
 
     expect(actual).toEqual({
-      addressSource: "manual",
+      addressSource: "manualInput",
       streetAndNumber: "Street 1",
       zipCode: "12345",
       city: "City",
@@ -45,7 +45,7 @@ describe("getAirlineAddress", () => {
     });
 
     expect(actual).toEqual({
-      addressSource: "manual",
+      addressSource: "manualInput",
       streetAndNumber: "Street 1",
       zipCode: "12345",
       city: "City",
@@ -57,7 +57,7 @@ describe("getAirlineAddress", () => {
     const actual = getAirlineAddress({});
 
     expect(actual).toEqual({
-      addressSource: "manual",
+      addressSource: "manualInput",
       streetAndNumber: "",
       zipCode: "",
       city: "",

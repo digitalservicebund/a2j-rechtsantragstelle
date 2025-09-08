@@ -21,7 +21,7 @@ export const getAirlineAddress = ({
   }
 
   return {
-    addressSource: "manual",
+    addressSource: "manualInput",
     streetAndNumber: fluggesellschaftStrasseHausnummer ?? "",
     zipCode: fluggesellschaftPostleitzahl ?? "",
     city: fluggesellschaftOrt ?? "",
