@@ -64,7 +64,7 @@ export const buildBelegeList = ({
   if (userData.versandArt === "analog") {
     createHeading(doc, documentStruct, translations.belegeAnhangHeading, "H2");
   }
-  doc.moveUp(1);
+
   doc
     .fontSize(pdfStyles.page.fontSize)
     .font(pdfStyles.page.font)
