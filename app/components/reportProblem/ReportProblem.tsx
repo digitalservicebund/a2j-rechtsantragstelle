@@ -33,7 +33,13 @@ export const ReportProblem = () => {
       <Button
         look="tertiary"
         aria-haspopup="dialog"
-        onClick={() => dialogRef.current?.show()}
+        onClick={() => {
+          if (dialogRef.current?.open) {
+            dialogRef.current?.close();
+          } else {
+            dialogRef.current?.show();
+          }
+        }}
         className="min-w-full justify-center sm:min-w-fit mt-80"
         text={translations.feedback["report-problem"].de}
         iconLeft={<FlagOutlined />}

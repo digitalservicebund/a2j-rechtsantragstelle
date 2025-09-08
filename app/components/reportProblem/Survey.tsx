@@ -62,7 +62,6 @@ export const PosthogSurvey = ({ survey, dialogRef }: PosthogSurveyProps) => {
       )}
     >
       <form
-        autoFocus
         method="dialog"
         aria-label={translations.feedback["report-problem"].de}
         className="flex flex-col gap-40"
