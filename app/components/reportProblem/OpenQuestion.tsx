@@ -16,11 +16,17 @@ export const OpenQuestion = ({ question, setResponses }: OpenQuestionProps) => {
   const feedbackTranslations = useFeedbackTranslations();
   return (
     <div className="ds-stack ds-stack-8">
-      <p className="ds-body-01-bold">{question.question}</p>
+      <p className="ds-body-01-bold" id="question">
+        {question.question}
+      </p>
       <label className="flex flex-col gap-8">
-        <p className="ds-body-01-reg text-gray-900">{question.description}</p>
+        <p className="ds-body-01-reg text-gray-900" id="hint-text">
+          {question.description}
+        </p>
         <textarea
           name={question.id}
+          aria-describedby="hint-text"
+          aria-labelledby="question"
           className="ds-textarea forced-color-adjust-none"
           onChange={(event) =>
             setResponses((surveyResponses) => ({
