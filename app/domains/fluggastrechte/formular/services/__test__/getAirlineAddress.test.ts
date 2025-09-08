@@ -35,7 +35,7 @@ describe("getAirlineAddress", () => {
     });
   });
 
-  it("should return the airline address given from the user when is address is not selected", () => {
+  it("should return the airline address given from the user when the address is not selected", () => {
     const actual = getAirlineAddress({
       fluggesellschaft: "LH",
       fluggesellschaftLand: "Country",
