@@ -11,7 +11,8 @@ export default function Kopfzeile() {
       }}
     >
       <div
-        className={`gap-8 sm:gap-16 flex items-center py-0! ${alignToContainer}`}
+        // className={`gap-8 sm:gap-16 flex items-center py-0! ${alignToContainer}`}
+        className="gap-8 sm:gap-16 flex items-center py-0!"
       >
         <svg
           aria-hidden="true"

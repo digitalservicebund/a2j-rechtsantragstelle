@@ -7,6 +7,10 @@ import { type BannerState } from "./BannerState";
 import { FeedbackFormBox } from "./FeedbackFormBox";
 import { PostSubmissionBox } from "./PostSubmissionBox";
 import { type RatingBoxProps, RatingBox } from "./RatingBox";
+import { ContentGrid } from "~/components/ContentGrid";
+import { GridItem } from "~/components/GridItem";
+import { BACKGROUND_COLORS } from "~/components";
+import classNames from "classnames";
 
 type UserFeedbackProps = {
   rating: Pick<RatingBoxProps, "heading">;
@@ -29,13 +33,30 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   }, []);
 
   return (
-    <Background paddingTop="32" paddingBottom="40" className="print:hidden">
-      <Container
-        paddingTop="32"
-        paddingBottom="32"
-        overhangingBackground
-        backgroundColor="midBlue"
-        fullScreen={false}
+    <ContentGrid
+      className="py-40"
+      background={{
+        start: 1,
+        span: 12,
+        mdStart: 1,
+        mdSpan: 8,
+        lgStart: 2,
+        lgSpan: 10,
+        xlStart: 2,
+        xlSpan: 10,
+        className: classNames(BACKGROUND_COLORS.midBlue, "rounded-lg"),
+      }}
+    >
+      <GridItem
+        start={1}
+        span={12}
+        mdSpan={7}
+        mdStart={1}
+        lgStart={3}
+        lgSpan={7}
+        xlStart={3}
+        xlSpan={7}
+        className="[grid-row:1] z-10 pt-32 pb-32 px-32"
       >
         <div
           className="ds-stack ds-stack-16"
@@ -68,7 +89,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
             }[bannerState]
           }
         </div>
-      </Container>
-    </Background>
+      </GridItem>
+    </ContentGrid>
   );
 }

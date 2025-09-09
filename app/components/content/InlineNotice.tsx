@@ -5,6 +5,8 @@ import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
 import Heading from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
 import { removeMarkupTags } from "~/util/strings";
+import { GridItem } from "../GridItem";
+import { ContentGrid } from "../ContentGrid";
 
 export type InlineNoticeProps = {
   identifier?: string;
@@ -12,6 +14,8 @@ export type InlineNoticeProps = {
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
   look: "warning" | "tips" | "success" | "error";
   content?: string;
+  formFlowPage?: boolean;
+  nested?: boolean;
 };
 
 // We can't set border-[${borderColor}] in the template because it causes inconsistent behavior in Storybook.
@@ -45,23 +49,63 @@ export const InlineNotice = ({
   tagName,
   look,
   content,
+  formFlowPage,
+  nested,
 }: InlineNoticeProps) => {
   const { backgroundColor, borderColor, IconComponent } = lookConfig[look];
   const shouldHideNotice = !content || removeMarkupTags(content).length === 0;
 
+  // Form flow pages has content which is controlled by the content pages grid. So the layout is different and need to be handled differently.
+  // There is also another case where the inline notice is nested inside of another component, so we need to handle that differently.
+  if (nested || formFlowPage) {
+    return (
+      !shouldHideNotice && (
+        <div
+          className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
+          id={identifier}
+          role="note"
+        >
+          <div className="flex flex-row gap-[4px] items-center">
+            <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
+            <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
+          </div>
+          <RichText
+            className="tracking-[0.16px] leading-[26px]"
+            html={content}
+          />
+        </div>
+      )
+    );
+  }
+
   return (
     !shouldHideNotice && (
-      <div
-        className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
-        id={identifier}
-        role="note"
-      >
-        <div className="flex flex-row gap-[4px] items-center">
-          <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
-          <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
-        </div>
-        <RichText className="tracking-[0.16px] leading-[26px]" html={content} />
-      </div>
+      <ContentGrid className="py-40">
+        <GridItem
+          span={12}
+          mdSpan={7}
+          mdStart={1}
+          lgStart={3}
+          lgSpan={7}
+          xlStart={3}
+          xlSpan={7}
+        >
+          <div
+            className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
+            id={identifier}
+            role="note"
+          >
+            <div className="flex flex-row gap-[4px] items-center">
+              <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
+              <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
+            </div>
+            <RichText
+              className="tracking-[0.16px] leading-[26px]"
+              html={content}
+            />
+          </div>
+        </GridItem>
+      </ContentGrid>
     )
   );
 };

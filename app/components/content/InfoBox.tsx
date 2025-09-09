@@ -1,12 +1,17 @@
 import classNames from "classnames";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import InfoBoxItem, { type InfoBoxItemProps } from "./InfoBoxItem";
+import { GridItem } from "../GridItem";
+import { ContentGrid } from "../ContentGrid";
 
 type InfoBoxProps = {
   identifier?: string;
   heading?: HeadingProps;
   separator?: boolean;
   items: InfoBoxItemProps[];
+  outerBackground?: {
+    backgroundColor?: string;
+  };
 };
 
 const InfoBox = ({
@@ -16,22 +21,42 @@ const InfoBox = ({
   items,
 }: InfoBoxProps) => {
   return (
-    <div className="ds-stack ds-stack-8 scroll-my-40" id={identifier}>
-      {heading && <Heading {...heading} />}
+    <ContentGrid className="py-40" id={identifier}>
+      <GridItem
+        span={12}
+        mdSpan={7}
+        mdStart={1}
+        lgStart={3}
+        lgSpan={7}
+        xlStart={3}
+        xlSpan={7}
+      >
+        {heading && <Heading {...heading} />}
+      </GridItem>
       {items.length > 0 && (
-        <div
-          className={classNames("ps-0 info-box ds-stack", {
-            "ds-stack-48": !separator,
-            "ds-stack-32": separator,
-          })}
-          data-testid="info-box-item-container"
+        <GridItem
+          span={12}
+          mdSpan={7}
+          mdStart={1}
+          lgStart={3}
+          lgSpan={7}
+          xlStart={3}
+          xlSpan={7}
         >
-          {items.map((item) => (
-            <InfoBoxItem separator={separator} {...item} key={item.id} />
-          ))}
-        </div>
+          <div
+            className={classNames("ps-0 info-box ds-stack", {
+              "ds-stack-48": !separator,
+              "ds-stack-32": separator,
+            })}
+            data-testid="info-box-item-container"
+          >
+            {items.map((item) => (
+              <InfoBoxItem separator={separator} {...item} key={item.id} />
+            ))}
+          </div>
+        </GridItem>
       )}
-    </div>
+    </ContentGrid>
   );
 };
 
