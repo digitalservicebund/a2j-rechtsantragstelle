@@ -1,59 +1,43 @@
-import Svg from "react-inlinesvg";
-import { useJsAvailable } from "../hooks/useJsAvailable";
+import { InlineSvgImage } from "./InlineSvgImage";
 
-export type ImageProps = Readonly<{
-  url: string;
+type SharedProps = {
   ariaHidden?: boolean;
   width?: number;
   height?: number;
   alternativeText?: string;
   className?: string;
-}>;
+};
 
-// Create a constant variable to avoid complains from Sonar
-const SVG_ROLE = "img";
-// An empty alt attribute is needed for accessibility when the image is decorative
-const EMPTY_ALTERNATIVE_TEXT = "";
+export type ImageProps = Readonly<
+  SharedProps &
+    ({ url: string; svgString?: string } | { url?: string; svgString: string })
+>;
 
-function Image({ url, ariaHidden, alternativeText, ...props }: ImageProps) {
-  const jsAvailable = useJsAvailable();
+function Image({
+  url,
+  ariaHidden,
+  alternativeText,
+  svgString,
+  ...props
+}: ImageProps) {
+  if (svgString)
+    return (
+      <InlineSvgImage
+        svgString={svgString}
+        width={props.width}
+        altText={alternativeText}
+      />
+    );
 
-  const isSvg = url.endsWith(".svg");
-  const altText = alternativeText ?? EMPTY_ALTERNATIVE_TEXT;
-
-  const ImageComponent = (
+  // A11y: Empty alt text & title for decorative images
+  const altTitle = alternativeText ?? "";
+  return (
     <img
       {...props}
       src={url}
-      alt={altText}
-      title={altText}
+      alt={altTitle}
+      title={altTitle}
       aria-hidden={ariaHidden}
-    />
-  );
-
-  if (!isSvg) {
-    return ImageComponent;
-  }
-
-  if (!jsAvailable) {
-    /**
-     * <noscript> tag prevents that <img> is cached by the browser when js is available
-     * more details here: https://github.com/tanem/react-svg/issues/197 and https://serverfault.com/a/856948
-     */
-    return <noscript>{ImageComponent}</noscript>;
-  }
-  return (
-    <Svg
-      {...props}
-      /* This class ensures black SVG paths don't disappear in high-contrast mode. 
-        For implementation details check app/styles.css */
-      className="svg-image"
-      src={url}
-      title={altText}
-      role={SVG_ROLE}
-      // If the alt text is empty, the image is decorative, so we set aria-hidden to true
-      aria-hidden={altText === EMPTY_ALTERNATIVE_TEXT ? true : ariaHidden}
-      height="100%"
     />
   );
 }
