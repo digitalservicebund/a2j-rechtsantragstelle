@@ -60,6 +60,7 @@ const mockBuildFlowController = {
   isFinal: vi.fn().mockReturnValue(false),
   getPrevious: vi.fn().mockReturnValue(""),
   stepStates: vi.fn().mockReturnValue(undefined),
+  getMeta: vi.fn().mockReturnValue(undefined),
 } as unknown as ReturnType<typeof buildFlowController>;
 
 const mockUserData = {
@@ -189,17 +190,20 @@ describe("getContentData", () => {
 
       vi.mocked(navItemsFromStepStates).mockReturnValue(mockNavItems);
 
-      const actual = callContentData.getNavItems(mockBuildFlowController, "/");
+      const actual = callContentData.getNavProps(mockBuildFlowController, "/");
 
-      expect(actual).toEqual(mockNavItems);
+      expect(actual).toEqual({ navItems: mockNavItems, expandAll: undefined });
     });
 
     it("should return empty array when nav items returns undefined", () => {
       vi.mocked(navItemsFromStepStates).mockReturnValue(undefined);
 
-      const actual = callContentData.getNavItems(mockBuildFlowController, "/");
+      const actual = callContentData.getNavProps(mockBuildFlowController, "/");
 
-      expect(actual).toEqual([]);
+      expect(actual).toEqual({
+        expandAll: undefined,
+        navItems: [],
+      });
     });
   });
 });

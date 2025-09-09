@@ -88,7 +88,7 @@ export type StepState = {
   isDone: boolean;
   isReachable: boolean;
   url: string;
-  isValidationState?: boolean;
+  excludedFromValidation?: boolean;
   subStates?: StepState[];
 };
 
@@ -113,6 +113,8 @@ function stepStates(
     const reachableSubStates = stepStates(state, reachableSteps).filter(
       (state) => state.isReachable,
     );
+    const excludedFromValidation =
+      meta?.excludedFromValidation ?? parent?.meta?.excludedFromValidation;
 
     // Ignore subflows if empty or parent state has done function
     if (hasDoneFunction || reachableSubStates.length === 0) {
@@ -145,8 +147,7 @@ function stepStates(
         isDone: hasDoneFunction ? meta.done!({ context }) : false,
         stepId,
         isReachable: reachableSteps.includes(targetStepId),
-        isValidationState:
-          meta?.isValidationSubflow ?? parent?.meta?.isValidationSubflow,
+        excludedFromValidation,
       };
     }
 
@@ -156,8 +157,7 @@ function stepStates(
       stepId,
       isReachable: reachableSubStates.length > 0,
       subStates: reachableSubStates,
-      isValidationState:
-        meta?.isValidationSubflow ?? parent?.meta?.isValidationSubflow,
+      excludedFromValidation,
     };
   });
 }

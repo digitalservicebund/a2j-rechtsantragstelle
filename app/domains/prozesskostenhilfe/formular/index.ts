@@ -115,6 +115,10 @@ export const prozesskostenhilfeFormular = {
             target: "#antragstellende-person.unterhaltsanspruch",
           },
           {
+            guard: ({ context }) => context.unterhaltsanspruch === "sonstiges",
+            target: "#antragstellende-person.unterhaltsbeschreibung",
+          },
+          {
             guard: ({ context }) =>
               context.unterhaltsanspruch === "unterhalt" &&
               context.livesPrimarilyFromUnterhalt === "no",
@@ -174,10 +178,10 @@ export const prozesskostenhilfeFormular = {
       [steps.abgabe.relative]: {
         id: "abgabe",
         initial: steps.abgabeUeberpruefung.relative,
-        meta: { isValidationSubflow: true },
+        meta: { excludedFromValidation: true },
         states: {
           [steps.abgabeUeberpruefung.relative]: {
-            meta: { shouldExpandAllStates: true },
+            meta: { triggerValidation: true },
             on: {
               BACK: steps.weitereAngaben.absolute,
             },

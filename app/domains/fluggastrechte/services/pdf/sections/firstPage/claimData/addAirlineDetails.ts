@@ -6,28 +6,22 @@ import {
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
 import { SEPARATOR } from "./addPlaintiffDetails";
+import { getAirlineAddress } from "~/domains/fluggastrechte/formular/services/getAirlineAddress";
 
 export const addAirlineDetails = (
   doc: typeof PDFDocument,
-  {
-    fluggesellschaft,
-    fluggesellschaftStrasseHausnummer,
-    fluggesellschaftPostleitzahl,
-    fluggesellschaftOrt,
-    fluggesellschaftLand,
-  }: FluggastrechteUserData,
+  context: FluggastrechteUserData,
 ) => {
-  const airlineName = getAirlineNameByIataCode(fluggesellschaft);
-  const address = fluggesellschaftStrasseHausnummer ?? "";
-  const zipCode = fluggesellschaftPostleitzahl ?? "";
-  const city = fluggesellschaftOrt ?? "";
-  const country = fluggesellschaftLand ?? "";
+  const airlineName = getAirlineNameByIataCode(context.fluggesellschaft);
+  const { streetAndNumber, city, country, zipCode } =
+    getAirlineAddress(context);
+
   doc
     .fontSize(10)
     .font(FONTS_BUNDESSANS_BOLD)
     .text(airlineName, { continued: true })
     .font(FONTS_BUNDESSANS_REGULAR)
     .text(SEPARATOR, { continued: true })
-    .text(`${address}, ${zipCode} ${city}, ${country}`)
+    .text(`${streetAndNumber}, ${zipCode} ${city}, ${country}`)
     .text("– Beklagte Partei –");
 };

@@ -77,7 +77,9 @@ export const getUserDataAndFlow = async (
       id: flowId,
       controller: flowController,
       validFlowPaths,
-      userVisitedValidationPage: flowSession.get(userVisitedValidationPageKey),
+      userVisitedValidationPage:
+        flowSession.get(userVisitedValidationPageKey) ??
+        flowController.getMeta(stepId)?.triggerValidation,
     },
     page: {
       stepId,

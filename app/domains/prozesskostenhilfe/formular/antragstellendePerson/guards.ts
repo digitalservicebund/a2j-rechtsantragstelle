@@ -23,6 +23,8 @@ const unterhaltsAnspruchDone: GenericGuard<
   ProzesskostenhilfeAntragstellendePersonUserData
 > = ({ context }) =>
   context.unterhaltsanspruch === "keine" ||
+  (context.unterhaltsanspruch === "sonstiges" &&
+    context.unterhaltsbeschreibung !== undefined) ||
   (context.unterhaltsanspruch === "unterhalt" &&
     context.unterhaltsSumme !== undefined &&
     context.livesPrimarilyFromUnterhalt !== undefined &&

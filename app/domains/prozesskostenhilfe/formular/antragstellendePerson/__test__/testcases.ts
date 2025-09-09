@@ -81,6 +81,29 @@ const erstAntragCase = [
       "/rechtsschutzversicherung/rsv-frage",
     ],
   ],
+  [
+    {
+      unterhaltsanspruch: "sonstiges",
+      unterhaltsbeschreibung: "Beschreibung",
+    },
+    [
+      "/antragstellende-person/unterhaltsanspruch",
+      "/antragstellende-person/unterhaltsbeschreibung",
+      "/rechtsschutzversicherung/rsv-frage",
+    ],
+  ],
+  [
+    {
+      formularArt: "nachueberpruefung",
+      unterhaltsanspruch: "sonstiges",
+      unterhaltsbeschreibung: "Beschreibung",
+    },
+    [
+      "/antragstellende-person/unterhaltsanspruch",
+      "/antragstellende-person/unterhaltsbeschreibung",
+      "/finanzielle-angaben/einkuenfte/start",
+    ],
+  ],
 ] satisfies TestCases<ProzesskostenhilfeFormularUserData>;
 
 const nachueberpruefungCase = erstAntragCase.map(([context, expectedPaths]) => [
