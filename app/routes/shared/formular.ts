@@ -52,7 +52,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       flowId,
       stepId,
     }),
-    flowController.getMeta(stepId)?.isValidationSubflow &&
+    flowController.getMeta(stepId)?.triggerValidation &&
       setUserVisitedValidationPage(flowId, cookieHeader),
   ]);
 
@@ -73,9 +73,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   return data(
     {
       arraySummaryData,
-      userVisitedValidationPage:
-        userVisitedValidationPage ??
-        flowController.getMeta(stepId)?.isValidationSubflow,
+      userVisitedValidationPage,
       userData,
       buttonNavigationProps,
       content: cmsContent.content,
@@ -86,8 +84,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       meta,
       migration,
       navItems,
-      expandFlowNavigation:
-        flowController.getMeta(stepId)?.shouldExpandAllStates,
+      expandFlowNavigation: flowController.getMeta(stepId)?.triggerValidation,
       postFormContent: cmsContent.postFormContent,
       preHeading: cmsContent.preHeading,
       stepData,
