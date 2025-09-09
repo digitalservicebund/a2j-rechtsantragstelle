@@ -42,10 +42,13 @@ const Input = function InputComponent({
     vorname: "given-name",
     nachname: "family-name",
     plz: "postal-code",
+    telefonnummer: "tel",
+    email: "email",
   };
   const isRequired = !!errorMessages?.find((err) => err.code === "required");
-  const autocompleteValue = isRequired ? autocompleteMap[name] : "off";
-
+  const autocompleteValue = autocompleteMap[name]
+    ? autocompleteMap[name]
+    : "off";
   return (
     <div className="w-full">
       {label && <InputLabel id={name}>{label}</InputLabel>}
