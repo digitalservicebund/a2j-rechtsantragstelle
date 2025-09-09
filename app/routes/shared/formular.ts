@@ -57,7 +57,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   ]);
 
   const translations = contentData.getTranslations();
-  const navItems = contentData.getNavItems(flowController, stepId);
+  const navProps = contentData.getNavProps(flowController, stepId);
   const cmsContent = contentData.getCMSContent();
   const formElements = contentData.getFormElements();
   const meta = contentData.getMeta();
@@ -73,8 +73,11 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   return data(
     {
       arraySummaryData,
-      userVisitedValidationPage,
       userData,
+      navigationProps: {
+        ...navProps,
+        userVisitedValidationPage,
+      },
       buttonNavigationProps,
       cmsContent,
       csrf,
@@ -82,8 +85,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       formElements,
       meta,
       migration,
-      navItems,
-      expandFlowNavigation: flowController.getMeta(stepId)?.triggerValidation,
       stepData,
       translations,
       validFlowPaths,

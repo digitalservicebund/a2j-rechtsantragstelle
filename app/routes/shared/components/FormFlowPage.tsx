@@ -15,15 +15,13 @@ import type { loader } from "../formular";
 export function FormFlowPage() {
   const {
     arraySummaryData,
-    userVisitedValidationPage,
     userData,
     buttonNavigationProps,
     cmsContent,
     csrf,
     formElements,
     migration,
-    navItems,
-    expandFlowNavigation,
+    navigationProps,
     stepData,
     translations,
     validFlowPaths,
@@ -50,11 +48,7 @@ export function FormFlowPage() {
           <div className="container pt-24! pb-32! h-full">
             <div className="flex min-h-full md:gap-32 justify-between">
               <div className="md:mb-32 md:w-[248px]">
-                <FlowNavigation
-                  navItems={navItems}
-                  userVisitedValidationPage={userVisitedValidationPage}
-                  expandAll={expandFlowNavigation}
-                />
+                <FlowNavigation {...navigationProps} />
               </div>
               <div className="flex flex-col flex-1 gap-32 md:pl-0 md:pb-32! pt-0! justify-between">
                 <div className="ds-stack ds-stack-40">

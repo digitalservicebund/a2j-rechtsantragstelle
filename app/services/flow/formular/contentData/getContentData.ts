@@ -84,17 +84,17 @@ export const getContentData = (
         ),
       });
     },
-    getNavItems: (
+    getNavProps: (
       flowController: ReturnType<typeof buildFlowController>,
       stepId: string,
-    ) => {
-      return (
+    ) => ({
+      navItems:
         navItemsFromStepStates(
           stepId,
           flowController.stepStates(),
           translations,
-        ) ?? []
-      );
-    },
+        ) ?? [],
+      expandAll: flowController.getMeta(stepId)?.triggerValidation,
+    }),
   };
 };
