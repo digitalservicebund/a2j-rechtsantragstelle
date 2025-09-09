@@ -1,4 +1,7 @@
+import { type Config } from "~/services/flow/server/types";
 import { streitwertKostenDone } from "./doneFunctions";
+import { hasAirlineAddress } from "../../services/airlines/hasAirlineAddress";
+import { type FluggastrechteUserData } from "../userData";
 
 export const streitwertKostenXstateConfig = {
   meta: { done: streitwertKostenDone },
@@ -21,12 +24,18 @@ export const streitwertKostenXstateConfig = {
       on: {
         SUBMIT: [
           {
+            target: "#flugdaten.adresse-fluggesellschaft-auswahl",
+            guard: ({ context }) =>
+              hasAirlineAddress(context.fluggesellschaft ?? "") &&
+              streitwertKostenDone({ context }),
+          },
+          {
             target: "#flugdaten.adresse-fluggesellschaft",
-            guard: "streitwertKostenDone",
+            guard: streitwertKostenDone,
           },
         ],
         BACK: "andere-kosten",
       },
     },
   },
-};
+} satisfies Config<FluggastrechteUserData>;
