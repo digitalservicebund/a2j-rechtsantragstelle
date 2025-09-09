@@ -2,13 +2,24 @@ import z from "zod";
 import { getPageSchema } from "../pageSchemas";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
+import type { FlowTestCases } from "./TestCases";
 
 const flowSchemaTests = { beratungshilfeVorabcheckTestCases };
+
+// Build full user input from all previous expectedSteps
+const buildFullUserInput = (
+  expectedSteps: FlowTestCases["testcases"][string],
+  idx: number,
+) =>
+  expectedSteps
+    .slice(0, idx + 1)
+    .reduce((acc, step) => ({ ...acc, ...step.userInput }), {});
 
 describe("flowSchemas", () => {
   Object.entries(flowSchemaTests).forEach(
     ([testConfigName, { xstateConfig, testcases }]) => {
       const flowId = xstateConfig.id;
+
       describe(testConfigName, () => {
         Object.entries(testcases).forEach(([testName, expectedSteps]) => {
           test(testName, () => {
@@ -17,11 +28,9 @@ describe("flowSchemas", () => {
               const pageSchema = getPageSchema(currentUrl);
 
               if (!userInput) {
-                // Without userInput we don't expect a pageSchema
-                expect(pageSchema).toBeUndefined();
+                expect(pageSchema).toBeUndefined(); // Without userInput we don't expect a pageSchema
               } else {
-                // With userInput we expect to validate against the pageSchema
-                expect(pageSchema).toBeDefined();
+                expect(pageSchema).toBeDefined(); // With userInput we expect it to validate against the pageSchema
                 const validationResult = z
                   .object(pageSchema!)
                   .safeParse(userInput);
@@ -30,12 +39,13 @@ describe("flowSchemas", () => {
 
               const flowController = buildFlowController({
                 config: xstateConfig,
-                data: userInput,
+                data: buildFullUserInput(expectedSteps, idx),
               });
 
-              // Given the current data and url we expect the next url
+              // Given the current data and url we expect the next and previous url
               const nextStepId = expectedSteps[idx + 1]?.stepId;
               expect(flowController.getNext(stepId)).toBe(flowId + nextStepId);
+              expect(flowController.getPrevious(nextStepId)).toBe(currentUrl);
             });
           });
         });
