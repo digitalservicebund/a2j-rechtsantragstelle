@@ -23,7 +23,6 @@ const CustomInput = (props: InputProps<DataListOptions, false>) => {
   const autocompleteMap: Record<string, string> = {
     adresse: "street-address",
     hausnummer: "address-line1",
-    plz: "postal-code",
     ort: "address-level2",
   };
   const autocompleteValue = props.selectProps.className?.includes(

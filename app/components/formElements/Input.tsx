@@ -41,7 +41,7 @@ const Input = function InputComponent({
   const autocompleteMap: Record<string, string> = {
     vorname: "given-name",
     nachname: "family-name",
-    geburtsdatum: "bday",
+    plz: "postal-code",
   };
   const isRequired = !!errorMessages?.find((err) => err.code === "required");
   const autocompleteValue = isRequired ? autocompleteMap[name] : "off";
