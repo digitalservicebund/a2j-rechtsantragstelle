@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import type { ReactElement } from "react";
 import Heading from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
@@ -13,10 +12,41 @@ import List from "~/components/content/list/List";
 import SummaryOverviewSection from "~/components/content/summaryOverview/SummaryOverviewSection";
 import UserFeedback from "~/components/content/userFeedback";
 import Video from "~/components/content/video/Video";
-import Background from "~/components/layout/Background";
-import Container from "~/components/layout/Container";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import TableOfContents from "./TableOfContents";
+import { Section } from "../Section";
+import { BACKGROUND_COLORS } from "..";
+
+function wrapInSection(
+  componentProps: StrapiContentComponent,
+  reactElement: ReactElement,
+) {
+  return (
+    <Section
+      bgClass={
+        // BACKGROUND_COLORS[
+        //   !isBox
+        //     ? (componentProps.outerBackground
+        //         ?.backgroundColor as keyof typeof BACKGROUND_COLORS)
+        //     : ""
+        // ]
+        BACKGROUND_COLORS[
+          // @ts-ignore
+          componentProps.outerBackground
+            ?.backgroundColor as keyof typeof BACKGROUND_COLORS
+        ]
+        // isHero
+        //   ? BACKGROUND_COLORS[
+        //       componentProps.outerBackground
+        //         ?.backgroundColor as keyof typeof BACKGROUND_COLORS
+        //     ]
+        //   : ""
+      }
+    >
+      {reactElement}
+    </Section>
+  );
+}
 
 function wrapInContainer(
   componentProps: StrapiContentComponent,
@@ -27,15 +57,16 @@ function wrapInContainer(
     return reactElement;
   const isBox = componentProps.__component === "page.box";
   const isBoxWithImage = componentProps.__component === "page.box-with-image";
-  return (
-    <Container
-      {...componentProps.container}
-      overhangingBackground={isBox || isBoxWithImage}
-      fullScreen={fullScreen}
-    >
-      {reactElement}
-    </Container>
-  );
+  return reactElement;
+  // return (
+  //   <Container
+  //     {...componentProps.container}
+  //     overhangingBackground={isBox || isBoxWithImage}
+  //     fullScreen={fullScreen}
+  //   >
+  //     {reactElement}
+  //   </Container>
+  // );
 }
 
 function wrapInBackground(
@@ -47,9 +78,10 @@ function wrapInBackground(
     componentProps.outerBackground === null
   )
     return reactElement;
-  return (
-    <Background {...componentProps.outerBackground}>{reactElement}</Background>
-  );
+  return reactElement;
+  // return (
+  //   <Background {...componentProps.outerBackground}>{reactElement}</Background>
+  // );
 }
 
 function cmsToReact(componentProps: StrapiContentComponent) {
@@ -101,18 +133,27 @@ function ContentComponents({
 }: PageContentProps) {
   if (content.length === 0) return <></>;
   return (
-    <div className={classNames(className, "w-full")}>
+    // <div className={classNames(className, "w-full")}>
+    <>
       {content
         .filter((el) => el.__component !== "page.array-summary")
         .map((el) => (
-          <div key={`${el.__component}_${el.id}`}>
-            {wrapInBackground(
-              el,
-              wrapInContainer(el, cmsToReact(el), fullScreen),
-            )}
-          </div>
+          //     <Section
+          // bgClass={
+          //   BACKGROUND_COLORS[
+          //   ]
+          // }
+          <>{wrapInSection(el, cmsToReact(el))}</>
+          // >{cmsToReact(el)}</Section>
+          // <div key={`${el.__component}_${el.id}`}>
+          //   {wrapInBackground(
+          //     el,
+          //     wrapInContainer(el, cmsToReact(el), fullScreen),
+          //   )}
+          // </div>
         ))}
-    </div>
+    </>
+    // </div>
   );
 }
 export default ContentComponents;

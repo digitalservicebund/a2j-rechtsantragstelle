@@ -291,27 +291,44 @@ h1:focus {
   outline: none;
 }
 
-.overhang-span {
-  position: absolute;
-  inset-block: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  --track: 54px; /* changes at breakpoints */
-  --gap: 32px;
-  --span: 12;
-  --start: 1;
-  width: calc(var(--span) * var(--track) + (var(--span) - 1) * var(--gap));
-  margin-left: calc((var(--start) - 1) * (var(--track) + var(--gap)));
-}
-@screen md {
-  .overhang-span {
-    --track: 64px;
+@layer utilities {
+  .grid-fluid {
+    display: grid;
+    /* defaults (S) */
+    @apply px-16;
+    --cols: 1;
+    --track: 288px;
     --gap: 0px;
+    @apply mx-auto max-w-screen-xl;
+    grid-template-columns: repeat(var(--cols), minmax(var(--track), 1fr));
+    column-gap: var(--gap);
   }
-}
-@screen xl {
-  .overhang-span {
-    --track: 72px;
-    --gap: 32px;
+
+  @media (min-width: 768px) {
+    .grid-fluid {
+      @apply px-16;
+      --cols: var(--cols-md, 8);
+      --track: 64px;
+      --gap: 0px;
+      grid-template-columns: repeat(var(--cols), minmax(var(--track), 1fr));
+    }
+  }
+  @media (min-width: 1024px) {
+    .grid-fluid {
+      @apply px-12;
+      --cols: var(--cols-lg, 12);
+      --track: 54px;
+      --gap: 32px;
+      grid-template-columns: repeat(var(--cols), minmax(var(--track), 1fr));
+    }
+  }
+  @media (min-width: 1280px) {
+    .grid-fluid {
+      @apply px-32;
+      --cols: var(--cols-xl, 12);
+      --track: 72px;
+      --gap: 32px;
+      grid-template-columns: repeat(var(--cols), minmax(var(--track), 1fr));
+    }
   }
 }

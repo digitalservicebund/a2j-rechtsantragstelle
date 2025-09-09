@@ -1,20 +1,15 @@
-// components/GridItem.tsx
 import classNames from "classnames";
 import type { PropsWithChildren } from "react";
 
 type GridItemProps = PropsWithChildren<{
-  /** Number of columns to span (1–12) */
   span?: number;
-  /** Column to start at (1–12) */
   start?: number;
-  /** Responsive overrides */
   mdSpan?: number;
   mdStart?: number;
   lgSpan?: number;
   lgStart?: number;
   xlSpan?: number;
   xlStart?: number;
-  /** Extra utility classes (e.g., text alignment, padding) */
   className?: string;
   id?: string;
 }>;
