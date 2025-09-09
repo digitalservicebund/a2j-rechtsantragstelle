@@ -25,10 +25,8 @@ const CustomInput = (props: InputProps<DataListOptions, false>) => {
     hausnummer: "address-line1",
     ort: "address-level2",
   };
-  const autocompleteValue = props.selectProps.className?.includes(
-    "auto-suggest-input-required",
-  )
-    ? autocompleteMap[field.name()] || "off"
+  const autocompleteValue = autocompleteMap[field.name()]
+    ? autocompleteMap[field.name()]
     : "off";
 
   return (
