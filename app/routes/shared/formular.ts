@@ -30,7 +30,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   }
 
   const {
-    userData: userDataWithPageData,
+    userData,
     flow: {
       id: flowId,
       controller: flowController,
@@ -46,12 +46,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
 
   const [contentData, { headers, csrf }] = await Promise.all([
-    retrieveContentData(
-      pathname,
-      params,
-      userDataWithPageData,
-      migration.userData,
-    ),
+    retrieveContentData(pathname, params, userData, migration.userData),
     updateMainSession({
       cookieHeader,
       flowId,
@@ -81,7 +76,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       userVisitedValidationPage:
         userVisitedValidationPage ??
         flowController.getMeta(stepId)?.isValidationSubflow,
-      prunedUserData: userDataWithPageData,
+      userData,
       buttonNavigationProps,
       content: cmsContent.content,
       csrf,

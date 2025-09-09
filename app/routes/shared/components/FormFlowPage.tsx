@@ -16,7 +16,7 @@ export function FormFlowPage() {
   const {
     arraySummaryData,
     userVisitedValidationPage,
-    prunedUserData,
+    userData,
     buttonNavigationProps,
     content,
     csrf,
@@ -36,12 +36,12 @@ export function FormFlowPage() {
 
   const formFlowMemo = useMemo(
     () => ({
-      userData: prunedUserData,
+      userData,
       validFlowPages: validFlowPaths,
       translations: translations,
       flowId,
     }),
-    [prunedUserData, validFlowPaths, translations, flowId],
+    [userData, validFlowPaths, translations, flowId],
   );
 
   useFocusFirstH1();
