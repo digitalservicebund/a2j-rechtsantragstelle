@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 export function getStrapiImage() {
   const name = faker.string.alphanumeric({ length: 5 });
   const hash = faker.string.alphanumeric({ length: 10 });
-  const ext = faker.helpers.arrayElement(["png", "jpg", "svg", "gif"]);
+  const ext = faker.helpers.arrayElement(["png", "jpg", "gif"]); // svg would cause a fetch to facilitate inlining
 
   return {
     name: `${name}.${ext}`,
