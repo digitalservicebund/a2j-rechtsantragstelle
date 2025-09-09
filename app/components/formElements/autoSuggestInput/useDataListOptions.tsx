@@ -29,7 +29,7 @@ const useDataListOptions = (dataListType: DataListType) => {
    * However, the AutoSuggest can also be used in a Vorabcheck, so it's not possible to discern the loaderData ahead of time
    */
   const loaderData = useLoaderData();
-  const postleitzahl = loaderData?.prunedUserData?.plz as
+  const postleitzahl = loaderData?.userData?.plz as
     | z.infer<typeof postcodeSchema>
     | undefined;
   const resourcePath = getResourcePath(dataListType, postleitzahl);
