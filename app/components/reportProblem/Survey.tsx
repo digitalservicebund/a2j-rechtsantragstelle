@@ -58,7 +58,7 @@ export const PosthogSurvey = ({ survey, dialogRef }: PosthogSurveyProps) => {
     <dialog
       aria-modal="false"
       ref={dialogRef}
-      // Needed for storybook
+      // Needed for storybook, as we're not able to pass in a ref and control the opening/closing of the dialog
       open={!dialogRef}
       className={classNames(
         "border-2 border-blue-800 max-sm:right-0 not-open:hidden bg-white absolute bottom-0 p-24 flex flex-col",
