@@ -1,13 +1,11 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
-import { alignToContainer, BACKGROUND_COLORS } from "~/components";
 import { StandaloneLink } from "~/components/common/StandaloneLink";
 import Kopfzeile from "~/components/layout/Kopfzeile";
 import { translations } from "~/services/translations/translations";
 import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
 import { useShouldPrint } from "../hooks/useShouldPrint";
 import { GridItem } from "../GridItem";
-import GridContainer from "../GridContainer";
 import { Section } from "../Section";
 import { ContentGrid } from "../ContentGrid";
 

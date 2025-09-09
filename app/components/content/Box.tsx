@@ -4,10 +4,8 @@ import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import RichText, { type RichTextProps } from "~/components/common/RichText";
 import { arrayIsNonEmpty } from "~/util/array";
-import GridContainer from "../GridContainer";
 import { GridItem } from "../GridItem";
 import { BACKGROUND_COLORS } from "..";
-import { Section } from "../Section";
 import { ContentGrid } from "../ContentGrid";
 
 type BoxProps = {

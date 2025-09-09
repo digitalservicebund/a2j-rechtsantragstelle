@@ -1,11 +1,8 @@
-import Background from "~/components/layout/Background";
 import { translations as staticTranslations } from "~/services/translations/translations";
 import Heading from "../common/Heading";
 import Image, { type ImageProps } from "../common/Image";
 import RichText, { type RichTextProps } from "../common/RichText";
 import { StandaloneLink } from "../common/StandaloneLink";
-import Container from "../layout/Container";
-import GridContainer from "../GridContainer";
 import { GridItem } from "../GridItem";
 import { ContentGrid } from "../ContentGrid";
 
@@ -108,11 +105,16 @@ export default function Footer({
             xlStart={3}
             className="bg-blue-100 text-white print:hidden text-center pt-16 pb-16"
           >
-            <StandaloneLink
-              className="ds-label-03-reg"
-              text="Persönliche Daten löschen"
-              url="/persoenliche-daten-loeschen"
-            />
+            <div className="text-center print:hidden">
+              <StandaloneLink
+                className="ds-label-03-reg"
+                text={
+                  staticTranslations["delete-data"].footerLinkLabel.de ??
+                  "Persönliche Daten löschen"
+                }
+                url="/persoenliche-daten-loeschen"
+              />
+            </div>
           </GridItem>
         </ContentGrid>
       )}

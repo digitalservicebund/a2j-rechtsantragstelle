@@ -4,10 +4,7 @@ import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import RichText, { type RichTextProps } from "~/components/common/RichText";
-import GridContainer from "~/components/GridContainer";
 import { GridItem } from "../GridItem";
-import { BACKGROUND_COLORS } from "../index";
-import { Section } from "../Section";
 import { ContentGrid } from "../ContentGrid";
 
 type Props = Readonly<{

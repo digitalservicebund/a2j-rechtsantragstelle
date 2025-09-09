@@ -1,8 +1,6 @@
 import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
-import { alignToContainer } from "~/components";
 import { StandaloneLink } from "../common/StandaloneLink";
 import { GridItem } from "../GridItem";
-import GridContainer from "../GridContainer";
 import { Section } from "../Section";
 import { ContentGrid } from "../ContentGrid";
 
