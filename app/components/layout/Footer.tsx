@@ -5,6 +5,9 @@ import Image, { type ImageProps } from "../common/Image";
 import RichText, { type RichTextProps } from "../common/RichText";
 import { StandaloneLink } from "../common/StandaloneLink";
 import Container from "../layout/Container";
+import GridContainer from "../GridContainer";
+import { GridItem } from "../GridItem";
+import { ContentGrid } from "../ContentGrid";
 
 type LinkProps = {
   url: string;
@@ -46,12 +49,10 @@ export default function Footer({
   ariaLabel,
 }: FooterProps) {
   return (
-    <Container paddingTop="48" paddingBottom="56">
-      <div
-        className="flex flex-col md:flex-row gap-32 mb-32 pr-16 pl-16"
-        data-testid="footer"
-      >
-        <div className="flex flex-col max-w-[288px] gap-y-8">
+    <>
+      <ContentGrid className="py-40 print:pb-0">
+        {/* Column 1: logo + text */}
+        <GridItem span={12} lgSpan={3} className="flex flex-col gap-y-8">
           {image?.url && (
             <div className="forced-colors:bg-black">
               <Image
@@ -61,63 +62,60 @@ export default function Footer({
               />
             </div>
           )}
-          <div className="ds-stack ds-stack-8">
-            {paragraphs.map((paragraph) => (
-              <div key={paragraph.html}>
+          <div className="ds-stack ds-stack-8 max-w-[288px]">
+            {paragraphs.map((p) => (
+              <div key={p.html}>
                 <RichText
-                  {...paragraph}
                   className="ds-label-03-reg [&_a]:inline-block"
+                  {...p}
                 />
               </div>
             ))}
           </div>
-        </div>
+        </GridItem>
 
-        <nav
-          className="flex flex-col sm:flex-row gap-16 print:hidden"
-          aria-label={ariaLabel}
-        >
-          {categorizedLinks.map((category) => {
-            const ariaLabelledBy = `footer-list-${dashifyLowercase(category.title)}`;
-            return (
-              <div key={category.id}>
-                <Heading
-                  tagName="h2"
-                  elementId={ariaLabelledBy}
-                  className="ds-label-03-bold"
-                >
-                  {category.title}
-                </Heading>
-                <ul
-                  aria-labelledby={ariaLabelledBy}
-                  className="list-none pt-[7px] pl-2 space-y-10"
-                >
-                  <Links links={category.links} />
-                </ul>
-              </div>
-            );
-          })}
-        </nav>
-      </div>
+        {categorizedLinks.map((category, i) => {
+          const ariaLabelledBy = `footer-list-${dashifyLowercase(category.title)}`;
+          return (
+            <GridItem key={category.id} span={12} mdSpan={4} lgSpan={3}>
+              <Heading
+                tagName="h2"
+                elementId={ariaLabelledBy}
+                className="ds-label-03-bold"
+              >
+                {category.title}
+              </Heading>
+              <ul
+                aria-labelledby={ariaLabelledBy}
+                className="list-none pt-[7px] pl-2 space-y-10 print:hidden"
+              >
+                <Links links={category.links} />
+              </ul>
+            </GridItem>
+          );
+        })}
+      </ContentGrid>
+
       {showDeletionBanner && (
-        <Background
-          backgroundColor="blue"
-          paddingTop="16"
-          paddingBottom="16"
-          className="print:hidden"
-        >
-          <div className="text-center print:hidden">
+        <ContentGrid className="pb-40">
+          <GridItem
+            span={8}
+            mdSpan={8}
+            mdStart={1}
+            lgSpan={8}
+            lgStart={3}
+            xlSpan={8}
+            xlStart={3}
+            className="bg-blue-100 text-white print:hidden text-center pt-16 pb-16"
+          >
             <StandaloneLink
               className="ds-label-03-reg"
-              text={
-                staticTranslations["delete-data"].footerLinkLabel.de ??
-                "Persönliche Daten löschen"
-              }
+              text="Persönliche Daten löschen"
               url="/persoenliche-daten-loeschen"
             />
-          </div>
-        </Background>
+          </GridItem>
+        </ContentGrid>
       )}
-    </Container>
+    </>
   );
 }

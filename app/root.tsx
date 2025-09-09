@@ -200,31 +200,29 @@ function App() {
         <Meta />
         <Links />
       </head>
-      <body className="flex flex-col">
+      <body className="min-h-vh">
         <AnalyticsContext value={{ posthogClient, hasTrackingConsent }}>
-          <div className="flex flex-col min-h-screen">
-            <CookieBanner content={cookieBannerContent} />
-            <SkipToContentLink
-              label={getTranslationByKey(
-                SKIP_TO_CONTENT_TRANSLATION_KEY,
-                accessibilityTranslations,
-              )}
-              target={skipContentLinkTarget}
-            />
-            <PageHeader {...pageHeaderProps} />
-            <Breadcrumbs
-              breadcrumbs={breadcrumbs}
-              linkLabel={pageHeaderProps.linkLabel}
-              ariaLabel={getTranslationByKey(
-                "header-breadcrumb",
-                accessibilityTranslations,
-              )}
-            />
-            <main className="grow flex" id="main">
-              <Outlet />
-            </main>
-          </div>
-          <footer>
+          <CookieBanner content={cookieBannerContent} />
+          <SkipToContentLink
+            label={getTranslationByKey(
+              SKIP_TO_CONTENT_TRANSLATION_KEY,
+              accessibilityTranslations,
+            )}
+            target={skipContentLinkTarget}
+          />
+          <PageHeader {...pageHeaderProps} />
+          <Breadcrumbs
+            breadcrumbs={breadcrumbs}
+            linkLabel={pageHeaderProps.linkLabel}
+            ariaLabel={getTranslationByKey(
+              "header-breadcrumb",
+              accessibilityTranslations,
+            )}
+          />
+          <main className="min-h-0 overflow-auto" id="main">
+            <Outlet />
+          </main>
+          <footer className="row-span-1">
             <Footer
               {...footer}
               showDeletionBanner={hasAnyUserData}

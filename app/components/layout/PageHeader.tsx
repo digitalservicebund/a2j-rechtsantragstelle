@@ -1,11 +1,15 @@
 import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";
-import { alignToContainer } from "~/components";
+import { alignToContainer, BACKGROUND_COLORS } from "~/components";
 import { StandaloneLink } from "~/components/common/StandaloneLink";
 import Kopfzeile from "~/components/layout/Kopfzeile";
 import { translations } from "~/services/translations/translations";
 import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
 import { useShouldPrint } from "../hooks/useShouldPrint";
+import { GridItem } from "../GridItem";
+import GridContainer from "../GridContainer";
+import { Section } from "../Section";
+import { ContentGrid } from "../ContentGrid";
 
 type PageHeaderProps = {
   title: string;
@@ -29,37 +33,65 @@ export default function PageHeader({
           {translations.pageHeader.time.de}
         </span>
       )}
-      <Kopfzeile />
-      <nav
-        className={`pt-16! pb-24! flex flex-wrap justify-between ${alignToContainer}`}
-        aria-label={translations.pageHeader.mainNavigationAriaLabel.de}
-      >
-        <a
-          href="/"
-          className="ds-label-01-bold no-underline hover:underline mr-8 text-black focus:outline-solid active:underline active:decoration-4 leading-normal"
-          aria-label={`${title} - ${linkLabel}`}
-        >
-          {title}
-        </a>
-        {!hideLinks && (
-          <div className="flex gap-20 max-[425px]:pt-16">
-            <StandaloneLink
-              url={"/leichtesprache"}
-              text={translations.pageHeader.leichtesprache.de}
-              className="flex basis ds-label-03-reg items-center"
-              icon={<LocalLibrary className="inline mr-10" />}
-            />
-            <StandaloneLink
-              url={"/gebaerdensprache"}
-              text={
-                "Gebärdensprache" /* translations.pageHeader.gebaerdensprache.de */
-              }
-              className="flex basis ds-label-03-reg items-center"
-              icon={<SignLanguage className="inline mr-10" />}
-            />
-          </div>
-        )}
-      </nav>
+      <Section bgClass="bg-[#F0F0F0]">
+        <ContentGrid>
+          <GridItem
+            span={12}
+            mdSpan={12}
+            mdStart={1}
+            lgStart={1}
+            lgSpan={12}
+            xlStart={1}
+            xlSpan={12}
+          >
+            <Kopfzeile />
+          </GridItem>
+        </ContentGrid>
+      </Section>
+      <Section>
+        <ContentGrid className="mt-16 mb-16">
+          <GridItem
+            span={12}
+            mdSpan={12}
+            mdStart={1}
+            lgStart={1}
+            lgSpan={12}
+            xlStart={1}
+            xlSpan={12}
+          >
+            <nav
+              className={`flex flex-wrap justify-between items-center`}
+              aria-label={translations.pageHeader.mainNavigationAriaLabel.de}
+            >
+              <a
+                href="/"
+                className="ds-label-01-bold no-underline hover:underline mr-8 text-black focus:outline-solid active:underline active:decoration-4 leading-normal"
+                aria-label={`${title} - ${linkLabel}`}
+              >
+                {title}
+              </a>
+              {!hideLinks && (
+                <div className="flex gap-20 max-[425px]:pt-16">
+                  <StandaloneLink
+                    url={"/leichtesprache"}
+                    text={translations.pageHeader.leichtesprache.de}
+                    className="flex basis ds-label-03-reg items-center"
+                    icon={<LocalLibrary className="inline mr-10" />}
+                  />
+                  <StandaloneLink
+                    url={"/gebaerdensprache"}
+                    text={
+                      "Gebärdensprache" /* translations.pageHeader.gebaerdensprache.de */
+                    }
+                    className="flex basis ds-label-03-reg items-center"
+                    icon={<SignLanguage className="inline mr-10" />}
+                  />
+                </div>
+              )}
+            </nav>
+          </GridItem>
+        </ContentGrid>
+      </Section>
     </header>
   );
 }

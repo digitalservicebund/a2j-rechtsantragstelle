@@ -84,7 +84,10 @@ function wrapInBackground(
   // );
 }
 
-function cmsToReact(componentProps: StrapiContentComponent) {
+function cmsToReact(
+  componentProps: StrapiContentComponent,
+  formFlowPage?: boolean,
+) {
   switch (componentProps.__component) {
     case "basic.heading":
       return <Heading {...componentProps} />;
@@ -101,11 +104,11 @@ function cmsToReact(componentProps: StrapiContentComponent) {
     case "page.box-with-image":
       return <BoxWithImage {...componentProps} />;
     case "page.list":
-      return <List {...componentProps} />;
+      return <List {...componentProps} formFlowPage={formFlowPage} />;
     case "page.video":
       return <Video {...componentProps} />;
     case "page.inline-notice":
-      return <InlineNotice {...componentProps} />;
+      return <InlineNotice {...componentProps} formFlowPage={formFlowPage} />;
     case "page.details-summary":
       return <Details {...componentProps} />;
     case "page.user-feedback":
@@ -124,36 +127,32 @@ type PageContentProps = {
   readonly content: StrapiContentComponent[];
   readonly fullScreen?: boolean;
   readonly className?: string;
+  readonly formFlowPage?: boolean;
 };
 
 function ContentComponents({
   content = [],
+  formFlowPage,
   fullScreen,
   className,
 }: PageContentProps) {
   if (content.length === 0) return <></>;
-  return (
-    // <div className={classNames(className, "w-full")}>
-    <>
-      {content
-        .filter((el) => el.__component !== "page.array-summary")
-        .map((el) => (
-          //     <Section
-          // bgClass={
-          //   BACKGROUND_COLORS[
-          //   ]
-          // }
-          <>{wrapInSection(el, cmsToReact(el))}</>
-          // >{cmsToReact(el)}</Section>
-          // <div key={`${el.__component}_${el.id}`}>
-          //   {wrapInBackground(
-          //     el,
-          //     wrapInContainer(el, cmsToReact(el), fullScreen),
-          //   )}
-          // </div>
-        ))}
-    </>
-    // </div>
-  );
+  console.log("content", content);
+  return content
+    .filter((el) => el.__component !== "page.array-summary")
+    .map((el) => (
+      <Section
+        key={`${el.__component}_${el.id}`}
+        bgClass={
+          BACKGROUND_COLORS[
+            // @ts-ignore
+            el.outerBackground
+              ?.backgroundColor as keyof typeof BACKGROUND_COLORS
+          ]
+        }
+      >
+        {cmsToReact(el, formFlowPage)}
+      </Section>
+    ));
 }
 export default ContentComponents;
