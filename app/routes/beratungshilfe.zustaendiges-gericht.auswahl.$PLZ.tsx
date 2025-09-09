@@ -103,6 +103,7 @@ export default function Index() {
                 <AutoSuggestInput
                   label={translations.gerichtFinder.streetName.de}
                   dataList="streetNames"
+                  dataListArgument={userData.plz}
                   noSuggestionMessage={
                     translations.gerichtFinder.noResultsFound.de
                   }

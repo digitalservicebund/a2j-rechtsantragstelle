@@ -41,7 +41,7 @@ export const getContentData = (
       );
     },
     getFormElements: () => {
-      return buildFormElements(cmsContent);
+      return buildFormElements(cmsContent, userDataWithPageData);
     },
     getMeta: () => {
       return buildMetaContent(

@@ -25,6 +25,7 @@ export const StrapiAutoSuggestInputComponentSchema = z
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,
     errorMessages: errors,
+    dataListArgument: undefined as string | undefined,
   }));
 
 export type DataListType = z.infer<typeof DataListSchema>;
