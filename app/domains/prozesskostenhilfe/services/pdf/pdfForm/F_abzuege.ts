@@ -85,7 +85,8 @@ export const fillSelfAbzuege: PkhPdfFillFunction = ({
       level: "h3",
       text: `Arbeitsadresse: 
       ${userData.arbeitsplatz?.strasseHausnummer}
-      ${userData.arbeitsplatz?.plz} ${userData.arbeitsplatz?.ort} ${userData.arbeitsplatz?.land}
+      ${userData.arbeitsplatz?.plz} ${userData.arbeitsplatz?.ort} 
+      ${userData.arbeitsplatz?.land}
       `,
     });
   }
@@ -165,7 +166,8 @@ const fillPartnerAbzuege: PkhPdfFillFunction = ({ userData, pdfValues }) => {
       level: "h3",
       text: `Arbeitsadresse: 
       ${userData["partner-arbeitsplatz"]?.strasseHausnummer}
-      ${userData["partner-arbeitsplatz"]?.plz} ${userData["partner-arbeitsplatz"]?.ort} ${userData["partner-arbeitsplatz"]?.land}
+      ${userData["partner-arbeitsplatz"]?.plz} ${userData["partner-arbeitsplatz"]?.ort} 
+      ${userData["partner-arbeitsplatz"]?.land}
       `,
     });
   }
