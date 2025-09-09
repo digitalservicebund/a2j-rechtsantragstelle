@@ -3,6 +3,7 @@ import { type FlowStateMachine } from "~/services/flow/server/types";
 import { fluggastrechtFlow } from "..";
 import { testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugNo } from "../flugdaten/__test__/testcasesAnnullierungWithErsatzflugNo";
 import { testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugYes } from "../flugdaten/__test__/testcasesAnnullierungWithErsatzflugYes";
+import { testCasesFluggastrechteFormularFlugdatenFluggesellschaftAddresse } from "../flugdaten/__test__/testcasesFluggesellschaftAddresse";
 import { testCasesFluggastrechteFormularFlugdatenNichtBefoerderung } from "../flugdaten/__test__/testcasesNichtBefoerderung";
 import { testCasesFluggastrechteFormularFlugdatenVerspaetet } from "../flugdaten/__test__/testscasesVerspaetet";
 import { testCasesFluggastrechteFormularGrundvoraussetzungen } from "../grundvoraussetzungen/__test__/testcases";
@@ -25,6 +26,7 @@ const testsCases = [
   ...testCasesFluggastrechteFormularPersoenlicheDaten,
   ...testCasesFluggastrechteFormularProzessfuehrung,
   ...testCasesFluggastrechteFormularStreitwertKosten,
+  ...testCasesFluggastrechteFormularFlugdatenFluggesellschaftAddresse,
 ];
 
 export const testCasesFluggastrechteFormular = {

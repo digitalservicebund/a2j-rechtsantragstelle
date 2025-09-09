@@ -2,9 +2,28 @@ import type { GenericGuard } from "~/domains/guards.server";
 import { hasOptionalString } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import type { FluggastrechteFlugdatenUserData } from "./userData";
+import { hasAirlineAddress } from "../../services/airlines/hasAirlineAddress";
 
 type FluggastrechteFlugdatenGuard =
   GenericGuard<FluggastrechteFlugdatenUserData>;
+
+const hasAirlineAddressDone: FluggastrechteFlugdatenGuard = ({ context }) => {
+  const isArlineWithAddress = hasAirlineAddress(context.fluggesellschaft ?? "");
+
+  if (
+    isArlineWithAddress &&
+    context.fluggesellschaftAuswahlAdresse === "fromAirlineDB"
+  ) {
+    return true;
+  }
+
+  return objectKeysNonEmpty(context, [
+    "fluggesellschaftLand",
+    "fluggesellschaftOrt",
+    "fluggesellschaftPostleitzahl",
+    "fluggesellschaftStrasseHausnummer",
+  ]);
+};
 
 const hasZwischenStoppData: FluggastrechteFlugdatenGuard = ({ context }) => {
   switch (context.zwischenstoppAnzahl) {
@@ -43,19 +62,19 @@ const hasZwischenStoppData: FluggastrechteFlugdatenGuard = ({ context }) => {
 };
 
 const hasDefaultFlugdaten: FluggastrechteFlugdatenGuard = ({ context }) => {
-  return objectKeysNonEmpty(context, [
-    "fluggesellschaftLand",
-    "fluggesellschaftOrt",
-    "fluggesellschaftPostleitzahl",
-    "fluggesellschaftStrasseHausnummer",
-    "direktFlugnummer",
-    "buchungsNummer",
-    "direktAbflugsDatum",
-    "direktAbflugsZeit",
-    "direktAnkunftsDatum",
-    "direktAnkunftsZeit",
-    "zwischenstoppAnzahl",
-  ]);
+  return (
+    hasAirlineAddressDone({ context }) &&
+    hasZwischenStoppData({ context }) &&
+    objectKeysNonEmpty(context, [
+      "direktFlugnummer",
+      "buchungsNummer",
+      "direktAbflugsDatum",
+      "direktAbflugsZeit",
+      "direktAnkunftsDatum",
+      "direktAnkunftsZeit",
+      "zwischenstoppAnzahl",
+    ])
+  );
 };
 
 const hasErsatzFlug: FluggastrechteFlugdatenGuard = ({ context }) => {
@@ -95,7 +114,6 @@ const hasTatsaechlicherFlug: FluggastrechteFlugdatenGuard = ({ context }) => {
 const hasErsatzFlugDone: FluggastrechteFlugdatenGuard = ({ context }) => {
   return (
     hasDefaultFlugdaten({ context }) &&
-    hasZwischenStoppData({ context }) &&
     hasErsatzFlug({ context }) &&
     hasOptionalString(context.zusaetzlicheAngaben)
   );
@@ -104,7 +122,6 @@ const hasErsatzFlugDone: FluggastrechteFlugdatenGuard = ({ context }) => {
 const hasOthersDone: FluggastrechteFlugdatenGuard = ({ context }) => {
   return (
     hasDefaultFlugdaten({ context }) &&
-    hasZwischenStoppData({ context }) &&
     hasAndereErsatzverbindung({ context }) &&
     hasOptionalString(context.zusaetzlicheAngaben)
   );
@@ -113,7 +130,6 @@ const hasOthersDone: FluggastrechteFlugdatenGuard = ({ context }) => {
 const hasKeineAnkunftDone: FluggastrechteFlugdatenGuard = ({ context }) => {
   return (
     hasDefaultFlugdaten({ context }) &&
-    hasZwischenStoppData({ context }) &&
     context.ersatzverbindungArt === "keineAnkunft" &&
     hasOptionalString(context.zusaetzlicheAngaben)
   );
@@ -124,7 +140,6 @@ const hasTatsaechlicherFlugYesAnkunftDone: FluggastrechteFlugdatenGuard = ({
 }) => {
   return (
     hasDefaultFlugdaten({ context }) &&
-    hasZwischenStoppData({ context }) &&
     hasTatsaechlicherFlug({ context }) &&
     hasOptionalString(context.zusaetzlicheAngaben)
   );
@@ -134,7 +149,6 @@ const hasTatsaechlicherFlugNoWithErsatzFlugDone: FluggastrechteFlugdatenGuard =
   ({ context }) => {
     return (
       hasDefaultFlugdaten({ context }) &&
-      hasZwischenStoppData({ context }) &&
       context.tatsaechlicherFlug === "no" &&
       hasErsatzFlug({ context }) &&
       hasOptionalString(context.zusaetzlicheAngaben)
@@ -146,7 +160,6 @@ const hasTatsaechlicherFlugNoWithOthersDone: FluggastrechteFlugdatenGuard = ({
 }) => {
   return (
     hasDefaultFlugdaten({ context }) &&
-    hasZwischenStoppData({ context }) &&
     context.tatsaechlicherFlug === "no" &&
     hasAndereErsatzverbindung({ context }) &&
     hasOptionalString(context.zusaetzlicheAngaben)
@@ -157,7 +170,6 @@ const hasTatsaechlicherFlugNoWithKeineAnkunftDone: FluggastrechteFlugdatenGuard 
   ({ context }) => {
     return (
       hasDefaultFlugdaten({ context }) &&
-      hasZwischenStoppData({ context }) &&
       context.tatsaechlicherFlug === "no" &&
       context.ersatzverbindungArt === "keineAnkunft" &&
       hasOptionalString(context.zusaetzlicheAngaben)
@@ -180,7 +192,6 @@ const hasAnnullierungErsatzverbindungDone: FluggastrechteFlugdatenGuard = ({
 const hasAnnullierungDone: FluggastrechteFlugdatenGuard = ({ context }) => {
   return (
     hasDefaultFlugdaten({ context }) &&
-    hasZwischenStoppData({ context }) &&
     hasAnnullierungErsatzverbindungDone({ context }) &&
     hasOptionalString(context.zusaetzlicheAngaben)
   );
