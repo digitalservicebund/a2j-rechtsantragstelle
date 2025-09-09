@@ -58,8 +58,8 @@ export type FlowConfigTransitions = {
 };
 
 export type Meta<TUserData extends MachineContext = UserData> = {
-  isValidationSubflow?: boolean;
-  shouldExpandAllStates?: boolean;
+  excludedFromValidation?: boolean;
+  triggerValidation?: boolean;
   done?: GenericGuard<TUserData>;
   arrays?: Record<string, ArrayConfigServer>;
 };

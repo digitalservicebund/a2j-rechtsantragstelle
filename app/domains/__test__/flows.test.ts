@@ -72,6 +72,12 @@ vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
   isFeatureFlagEnabled: vi.fn().mockResolvedValue(false),
 }));
 
+const ignoreVisitedSteps = [
+  "/flugdaten/check-initial-page", // this page is only used to check the initial page of the flow
+  "/intro/redirect-vorabcheck-ergebnis", // this page is only used to redirect to the vorabcheck result
+  "/ergebnis/erfolg-per-post-klagen", // this page is only used to redirect to a content page
+];
+
 describe.sequential("state machine form flows", () => {
   const allVisitedSteps: Record<
     string,
@@ -143,9 +149,9 @@ describe.sequential("state machine form flows", () => {
     const missingStepsEntries = Object.entries(allVisitedSteps)
       .map(([machineId, { machine, stepIds }]) => {
         const visitedSteps = new Set(stepIds);
-        const missingSteps = allStepsFromMachine(machine).filter(
-          (x) => !visitedSteps.has(x),
-        );
+        const missingSteps = allStepsFromMachine(machine)
+          .filter((x) => !visitedSteps.has(x))
+          .filter((x) => !ignoreVisitedSteps.includes(x));
         return [machineId, missingSteps] as const;
       })
       .filter(([_, missingSteps]) => missingSteps.length > 0);

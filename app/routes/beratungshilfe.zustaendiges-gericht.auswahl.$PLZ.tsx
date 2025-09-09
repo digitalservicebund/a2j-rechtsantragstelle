@@ -50,7 +50,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   return data(
     {
-      prunedUserData: { plz: zipCode },
+      userData: { plz: zipCode },
       meta: { title: "Amtsgericht finden" },
     },
     { headers: { "Set-Cookie": await sessionManager.commitSession(session) } },
@@ -74,15 +74,15 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 };
 
 export default function Index() {
-  const { prunedUserData } = useLoaderData<typeof loader>();
+  const { userData } = useLoaderData<typeof loader>();
 
   return (
     <div className="flex flex-col grow bg-blue-100">
       <Container paddingTop="48" backgroundColor="blue">
         <span className="ds-label-03-reg">Amtsgericht finden</span>
         <Heading tagName="h1" look="ds-heading-02-reg" className="mt-16">
-          Im Bereich Ihrer Postleitzahl <strong>{prunedUserData.plz}</strong>{" "}
-          sind verschiedene Amtsgerichte zuständig.
+          Im Bereich Ihrer Postleitzahl <strong>{userData.plz}</strong> sind
+          verschiedene Amtsgerichte zuständig.
         </Heading>
       </Container>
       <div className="grow">
@@ -103,6 +103,7 @@ export default function Index() {
                 <AutoSuggestInput
                   label={translations.gerichtFinder.streetName.de}
                   dataList="streetNames"
+                  dataListArgument={userData.plz}
                   noSuggestionMessage={
                     translations.gerichtFinder.noResultsFound.de
                   }

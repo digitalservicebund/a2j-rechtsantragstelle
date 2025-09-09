@@ -15,18 +15,13 @@ import type { loader } from "../formular";
 export function FormFlowPage() {
   const {
     arraySummaryData,
-    userVisitedValidationPage,
-    prunedUserData,
+    userData,
     buttonNavigationProps,
-    content,
+    cmsContent,
     csrf,
     formElements,
-    heading,
     migration,
-    navItems,
-    expandFlowNavigation,
-    postFormContent,
-    preHeading,
+    navigationProps,
     stepData,
     translations,
     validFlowPaths,
@@ -36,12 +31,12 @@ export function FormFlowPage() {
 
   const formFlowMemo = useMemo(
     () => ({
-      userData: prunedUserData,
+      userData,
       validFlowPages: validFlowPaths,
       translations: translations,
       flowId,
     }),
-    [prunedUserData, validFlowPaths, translations, flowId],
+    [userData, validFlowPaths, translations, flowId],
   );
 
   useFocusFirstH1();
@@ -53,21 +48,22 @@ export function FormFlowPage() {
           <div className="container pt-24! pb-32! h-full">
             <div className="flex min-h-full md:gap-32 justify-between">
               <div className="md:mb-32 md:w-[248px]">
-                <FlowNavigation
-                  navItems={navItems}
-                  userVisitedValidationPage={userVisitedValidationPage}
-                  expandAll={expandFlowNavigation}
-                />
+                <FlowNavigation {...navigationProps} />
               </div>
               <div className="flex flex-col flex-1 gap-32 md:pl-0 md:pb-32! pt-0! justify-between">
                 <div className="ds-stack ds-stack-40">
                   <div className="ds-stack ds-stack-16" id="flow-page-content">
-                    {preHeading && (
-                      <p className="ds-label-01-bold">{preHeading}</p>
+                    {cmsContent.preHeading && (
+                      <p className="ds-label-01-bold">
+                        {cmsContent.preHeading}
+                      </p>
                     )}
-                    <Heading text={heading} look="ds-heading-02-reg" />
+                    <Heading
+                      text={cmsContent.heading}
+                      look="ds-heading-02-reg"
+                    />
                     <ContentComponents
-                      content={content}
+                      content={cmsContent.content}
                       fullScreen={false}
                       className="ds-stack ds-stack-16"
                     />
@@ -108,7 +104,7 @@ export function FormFlowPage() {
                     buttonNavigationProps={buttonNavigationProps}
                   />
                   <ContentComponents
-                    content={postFormContent}
+                    content={cmsContent.postFormContent}
                     fullScreen={false}
                   />
                 </div>

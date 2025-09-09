@@ -94,12 +94,13 @@ const AutoSuggestInput = ({
   errorMessages,
   width,
   dataList,
+  dataListArgument,
   noSuggestionMessage,
   isDisabled,
   minSuggestCharacters = MINIMUM_SEARCH_SUGGESTION_CHARACTERS,
   supportsFreeText: isCreatable = false,
 }: AutoSuggestInputProps) => {
-  const items = useDataListOptions(dataList);
+  const items = useDataListOptions(dataList, dataListArgument);
   const [currentItemValue, setCurrentItemValue] =
     useState<DataListOptions | null>();
   const field = useField(name);

@@ -3,1362 +3,2339 @@
     "name": "Aegean Airlines",
     "iata": "A3",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Griechenland"
   },
   {
     "name": "Aer Lingus Group Plc.",
     "iata": "EI",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Irland"
   },
   {
     "name": "Aeroflot Russian Airlines",
     "iata": "SU",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Russische Föderation"
   },
   {
     "name": "Aeroitalia",
     "iata": "XZ",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Italien"
   },
   {
     "name": "Aeromexico",
     "iata": "AM",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Mexiko"
   },
   {
     "name": "Aeronova S.L.",
     "iata": "X5*",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Spanien"
   },
   {
     "name": "Air Albania",
     "iata": "ZB",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Albanien"
   },
   {
     "name": "Air Algérie",
     "iata": "AH",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Algerien"
   },
   {
     "name": "Air Antilles",
     "iata": "4I",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Air Arabia Abu Dhabi",
     "iata": "3L",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vereinigte Arabische Emirate"
   },
   {
     "name": "Air Arabia Egypt SAE",
     "iata": "E5",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Ägypten"
   },
   {
     "name": "Air Arabia Maroc",
     "iata": "3O",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Air Astana",
     "iata": "KC",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Kasachstan"
   },
   {
     "name": "Air Austral",
     "iata": "UU",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Frankreich"
   },
   {
     "name": "Air Baltic Corporation",
     "iata": "BT",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Lettland"
   },
   {
     "name": "Air Bucharest",
     "iata": "B1",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Air Cairo Company",
     "iata": "SM",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Ägypten"
   },
   {
     "name": "Air Canada",
     "iata": "AC",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Kanada"
   },
   {
     "name": "Air Caraibes",
     "iata": "TX",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Guadeloupe"
   },
   {
     "name": "Air China Ltd.",
     "iata": "CA",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "China"
   },
   {
     "name": "Air Dolomiti",
     "iata": "EN",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Italien"
   },
   {
     "name": "Air Europa Express",
     "iata": "X5",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Spanien"
   },
   {
     "name": "Air Europa Lineas Aereas S.A.",
     "iata": "UX",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Spanien"
   },
   {
     "name": "Air Explore",
     "iata": "ED",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Slowakei"
   },
   {
     "name": "Air France",
     "iata": "AF",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Frankreich"
   },
   {
     "name": "Air France Hop!",
     "iata": "A5",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Frankreich"
   },
   {
     "name": "Air India Ltd.",
     "iata": "AI",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Indien"
   },
   {
     "name": "Air Madagascar",
     "iata": "MD",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Madagaskar"
   },
   {
     "name": "Air Malta plc.",
     "iata": "KM",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Malta"
   },
   {
     "name": "Air Mauritius Ltd.",
     "iata": "MK",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Mauritius"
   },
   {
     "name": "Air Mediterranean",
     "iata": "MV",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Griechenland"
   },
   {
     "name": "Air Moldova",
     "iata": "9U",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Moldawien"
   },
   {
     "name": "Air Montenegro",
     "iata": "4O",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Montenegro"
   },
   {
     "name": "Air Namibia",
     "iata": "SW",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Namibia"
   },
   {
     "name": "Air Nostrum",
     "iata": "YW",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Spanien"
   },
   {
     "name": "Air Prishtina",
     "iata": "-",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Kosovo"
   },
   {
     "name": "Air Senegal",
     "iata": "HC",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Senegal"
   },
   {
     "name": "Air Serbia",
     "iata": "JU",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Serbien"
   },
   {
     "name": "Air Seychelles Ltd.",
     "iata": "HM",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Seychellen"
   },
   {
     "name": "Air Tahiti Nui",
     "iata": "TN",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Französisch-Polynesien"
   },
   {
     "name": "Air Transat A.T.",
     "iata": "TS",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Kanada"
   },
   {
     "name": "AirAsia",
     "iata": "AK",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Malaysia"
   },
   {
     "name": "AirAsia Cambodia",
     "iata": "KT",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Kambodscha"
   },
   {
     "name": "AIS Airlines",
     "iata": "IS",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Niederlande"
   },
   {
     "name": "Alaska Airlines",
     "iata": "AS",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vereinigte Staaten von Amerika"
   },
   {
     "name": "Albastar S.A.",
     "iata": "AP",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Spanien"
   },
   {
     "name": "Albawings",
     "iata": "2B",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Albanien"
   },
   {
     "name": "All Nippon Airways",
     "iata": "NH",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Japan"
   },
   {
     "name": "AlMasria Universal Airlines",
     "iata": "UJ",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Ägypten"
   },
   {
     "name": "APG Airlines",
     "iata": "GP",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Frankreich"
   },
   {
     "name": "Arkia Israeli Airlines",
     "iata": "IZ",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Israel"
   },
   {
     "name": "Asiana Airlines",
     "iata": "OZ",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "ASL Airlines France",
     "iata": "5O",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Frankreich"
   },
   {
     "name": "Atlantic Airways",
     "iata": "RC",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Färöer"
   },
   {
     "name": "AtlasGlobal",
     "iata": "KK",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Türkei"
   },
   {
     "name": "Austrian Airlines",
     "iata": "OS",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Österreich"
   },
   {
     "name": "Avianca (AV)",
     "iata": "AV",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Azerbaijan Airlines",
     "iata": "J2",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Aserbaidschan"
   },
   {
     "name": "Azimuth Airlines",
     "iata": "A4",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Russische Föderation"
   },
   {
     "name": "Azores Airlines (vorm. SATA Internacional)",
     "iata": "S4",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Portugal"
   },
   {
     "name": "BA CityFlyer",
     "iata": "CJ*",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vereinigtes Königreich"
   },
   {
     "name": "Bamboo Airways",
     "iata": "QH",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vietnam"
   },
   {
     "name": "Belavia Belarusian Airlines",
     "iata": "B2",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Belarus"
   },
   {
     "name": "BH Air Ltd.",
     "iata": "8H",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Bulgarien"
   },
   {
     "name": "Binter Canarias",
     "iata": "NT",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Spanien"
   },
   {
     "name": "Blue Air",
     "iata": "0B",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Bluebird Airways",
     "iata": "BZ",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Griechenland"
   },
   {
     "name": "Borajet Airlines",
     "iata": "YB",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Türkei"
   },
   {
     "name": "British Airways",
     "iata": "BA",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vereinigtes Königreich"
   },
   {
     "name": "Brussels Airlines",
     "iata": "SN",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Belgien"
   },
   {
     "name": "Bulgaria Air",
     "iata": "FB",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Bulgarien"
   },
   {
     "name": "Cabo Verde Airlines",
     "iata": "VR",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Kap Verde"
   },
   {
     "name": "Cambodia Angkor Air",
     "iata": "K6",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Kambodscha"
   },
   {
     "name": "Cathay Pacific Airways Limited",
     "iata": "CX",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Chair Airlines",
     "iata": "GM",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Schweiz"
   },
   {
     "name": "China Airlines",
     "iata": "CI",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "China"
   },
   {
     "name": "China Eastern Airlines Ltd.",
     "iata": "MU",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "China"
   },
   {
     "name": "CityJet Limited",
     "iata": "WX",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Irland"
   },
   {
     "name": "Comair Limited",
     "iata": "MN",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Südafrika"
   },
   {
     "name": "Condor Flugdienst GmbH",
     "iata": "DE",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "An der Gehespitz 50",
+    "postalCode": "63263",
+    "city": "Neu-Isenburg",
+    "country": "Deutschland"
   },
   {
     "name": "Corendon Airlines (Turkei)",
     "iata": "XC",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Türkei"
   },
   {
     "name": "Corendon Airlines Europe (Malta)",
     "iata": "XR",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Malta"
   },
   {
     "name": "Corendon Dutch Airlines (NL)",
     "iata": "CD",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Niederlande"
   },
   {
     "name": "Croatia Airlines",
     "iata": "OU",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Kroatien"
   },
   {
     "name": "Dan Air",
     "iata": "DN",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Rumänien"
   },
   {
     "name": "Danish Air Transport",
     "iata": "DX",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Dänemark"
   },
   {
     "name": "DELTA Air Lines Inc.",
     "iata": "DL",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vereinigte Staaten von Amerika"
   },
   {
     "name": "Deutsche Lufthansa AG",
     "iata": "LH",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "Venloer Straße 151 - 153",
+    "postalCode": "50672",
+    "city": "Köln",
+    "country": "Deutschland"
   },
   {
     "name": "Discover Airlines (EW Discover GmbH)",
     "iata": "4Y",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "Hugo-Eckener-Ring 1, FAC, Building 234, D7.01",
+    "postalCode": "60549",
+    "city": "Frankfurt am Main",
+    "country": "Deutschland"
   },
   {
     "name": "Easyjet Airline Company Ltd.",
     "iata": "U2",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vereinigtes Königreich"
   },
   {
     "name": "easyJet Europe Airline GmbH",
     "iata": "EC",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Österreich"
   },
   {
     "name": "Easyjet Switzerland S.A",
     "iata": "DS",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Schweiz"
   },
   {
     "name": "Edelweiss Air AG",
     "iata": "WK",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Schweiz"
   },
   {
     "name": "Egypt Air",
     "iata": "MS",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Ägypten"
   },
   {
     "name": "EL AL Israel Airlines Ltd.",
     "iata": "LY",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Israel"
   },
   {
     "name": "Ellinair",
     "iata": "EL",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Griechenland"
   },
   {
     "name": "Emirates",
     "iata": "EK",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vereinigte Arabische Emirate"
   },
   {
     "name": "Enter Air",
     "iata": "E4*",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Polen"
   },
   {
     "name": "ETF Airways",
     "iata": "2F",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Kroatien"
   },
   {
     "name": "Ethiopian Airlines",
     "iata": "ET",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Äthiopien"
   },
   {
     "name": "Etihad Airways PJSC",
     "iata": "EY",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vereinigte Arabische Emirate"
   },
   {
     "name": "EuroAtlantic Airways",
     "iata": "YU",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Portugal"
   },
   {
     "name": "European Air Charter",
     "iata": "H6",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Bulgarien"
   },
   {
     "name": "Eurowings GmbH",
     "iata": "EW",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "\"Terminal-Ring 1, Zentralgebäude Ost (3. OG), ",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
+  },
+  {
+    "name": "Flughafen Düsseldorf\"",
+    "iata": "Düsseldorf\r",
+    "isInEU": false,
+    "arbitrationBoard": "40474",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Evelop Airlines",
     "iata": "E9",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Spanien"
   },
   {
     "name": "EWA Air",
     "iata": "ZD",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Mayotte"
   },
   {
     "name": "Finnair PLC",
     "iata": "AY",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Finnland"
   },
   {
     "name": "Flexflight",
     "iata": "W2",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Dänemark"
   },
   {
     "name": "Fly Lili",
     "iata": "FL",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Rumänien"
   },
   {
     "name": "Fly2sky",
     "iata": "F6",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Bulgarien"
   },
-  { "name": "Flybe", "iata": "BE", "isInEU": false, "arbitrationBoard": "BfJ" },
+  {
+    "name": "Flybe",
+    "iata": "BE",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vereinigtes Königreich"
+  },
   {
     "name": "FlyEgypt",
     "iata": "FT",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Ägypten"
   },
   {
     "name": "FlyOne Armenia",
     "iata": "3F",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Freebird Airlines",
     "iata": "FH",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Türkei"
   },
   {
     "name": "Freebird Airlines Europe",
     "iata": "MI",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Malta"
   },
   {
     "name": "Frenchbee",
     "iata": "BF",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Frankreich"
   },
   {
     "name": "Georgian Airways",
     "iata": "A9",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Germanwings GmbH",
     "iata": "4U",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "Germanwings-Str. 1",
+    "postalCode": "51147",
+    "city": "Köln",
+    "country": "Deutschland"
   },
   {
     "name": "GetJet Airlines",
     "iata": "GW*",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Litauen"
   },
   {
     "name": "GP Aviation Ltd.",
     "iata": "IV",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Bulgarien"
   },
   {
     "name": "Gulf Air",
     "iata": "GF",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Bahrain"
   },
   {
     "name": "Hahn Air Lines GmbH",
     "iata": "HR",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "An der Trift 65",
+    "postalCode": "63303",
+    "city": "Dreieich",
+    "country": "Deutschland"
   },
   {
     "name": "Hainan Airlines",
     "iata": "HU",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "China"
   },
   {
     "name": "Helvetic Airways",
     "iata": "2L",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Schweiz"
   },
   {
     "name": "Hibernian Airlines",
     "iata": "HG*",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Irland"
   },
   {
     "name": "Holiday Europe",
     "iata": "HL",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Bulgarien"
   },
   {
     "name": "Iberia Express",
     "iata": "I2",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Spanien"
   },
   {
     "name": "Iberia LAE S.A.",
     "iata": "IB",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Spanien"
   },
   {
     "name": "Icelandair",
     "iata": "FI",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Island"
   },
   {
     "name": "Iran Air",
     "iata": "IR",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Iraqi Airways Germany",
     "iata": "IA",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Irak"
   },
   {
     "name": "ITA Airways",
     "iata": "AZ",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Italien"
   },
   {
     "name": "Japan Airlines Co.",
     "iata": "JL",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Japan"
   },
   {
     "name": "Jet2.com",
     "iata": "LS",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vereinigtes Königreich"
   },
   {
     "name": "Kenya Airways",
     "iata": "KQ",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Kenia"
   },
   {
     "name": "KLM Cityhopper",
     "iata": "WA",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Niederlande"
   },
   {
     "name": "KLM Royal Dutch Airlines",
     "iata": "KL",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Niederlande"
   },
   {
     "name": "Korean Air",
     "iata": "KE",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Kosova Airways SH P.K.",
     "iata": ".",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Kosovo"
   },
   {
     "name": "Kuwait Airways",
     "iata": "KU",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Kuwait"
   },
   {
     "name": "LATAM Airlines",
     "iata": "LA",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Chile"
   },
   {
     "name": "Lauda Europe",
     "iata": "LW",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Malta"
   },
-  { "name": "Level", "iata": "IB*", "isInEU": true, "arbitrationBoard": "BfJ" },
+  {
+    "name": "Level",
+    "iata": "IB*",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Spanien"
+  },
   {
     "name": "Loganair Limited",
     "iata": "LM",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vereinigtes Königreich"
+  },
+  {
+    "name": "Lufthansa City Airlines",
+    "iata": "VL",
+    "isInEU": true,
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "FOC, Südallee 15",
+    "postalCode": "85356",
+    "city": "München",
+    "country": "Deutschland"
   },
   {
     "name": "Lufthansa CityLine",
     "iata": "CL",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "Südallee 15",
+    "postalCode": "85356",
+    "city": "München-Flughafen",
+    "country": "Deutschland"
   },
   {
     "name": "Malaysia Airlines",
     "iata": "MH",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Malaysia"
   },
   {
     "name": "Malta Air Limited",
     "iata": "MW",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Malta"
   },
   {
     "name": "Marabu Airlines",
     "iata": "DI",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Estland"
   },
   {
     "name": "Mavi Gök Airlines",
     "iata": "4M",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Türkei"
   },
   {
     "name": "MIAT Mongolian Airlines",
     "iata": "OM",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Mongolei"
   },
   {
     "name": "Middle East Airlines Airliban",
     "iata": "ME",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Libanon"
   },
   {
     "name": "Neos S.p.A.",
     "iata": "NO",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Italien"
   },
   {
     "name": "Nesma Airlines",
     "iata": "NE",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Ägypten"
   },
   {
     "name": "Nordic Regional Airlines",
     "iata": "N7",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Finnland"
   },
   {
     "name": "Nordica",
     "iata": "ND",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Estland"
   },
   {
     "name": "Nordwind Airlines",
     "iata": "N4",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Russische Föderation"
   },
   {
     "name": "Norse Atlantic Airways",
     "iata": "N0",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Norwegen"
   },
   {
     "name": "Norwegian Air International",
     "iata": "D8",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Irland"
   },
   {
     "name": "Norwegian Air Shuttle",
     "iata": "DY",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Norwegen"
   },
   {
     "name": "Nouvelair Tunisie",
     "iata": "BJ",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Tunesien"
   },
   {
     "name": "Olympic Air",
     "iata": "OA",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Griechenland"
   },
   {
     "name": "Oman Air",
     "iata": "WY",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Oman"
   },
   {
     "name": "Onur Air",
     "iata": "8Q",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Türkei"
   },
   {
     "name": "Orange 2 Fly",
     "iata": "OT",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Griechenland"
   },
   {
     "name": "Pegasus Airlines",
     "iata": "PC",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Türkei"
   },
-  { "name": "Play", "iata": "OG", "isInEU": true, "arbitrationBoard": "BfJ" },
+  {
+    "name": "Play",
+    "iata": "OG",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Island"
+  },
   {
     "name": "Plus Ultra Lineas Aereas S.A.",
     "iata": "PU",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Spanien"
   },
   {
     "name": "Pobeda Airlines LLC",
     "iata": "DP",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Russische Föderation"
   },
   {
     "name": "Polskie Linie Lotnicze LOT S.A.",
     "iata": "LO",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Polen"
   },
   {
     "name": "Qantas Airways Ltd.",
     "iata": "QF",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Australien"
   },
   {
     "name": "QATAR Airways",
     "iata": "QR",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Rossiya Airlines JSC",
     "iata": "FV",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Russische Föderation"
   },
   {
     "name": "Royal Air Maroc",
     "iata": "AT",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Royal Jordanian Airline",
     "iata": "RJ",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Jordanien"
   },
   {
     "name": "Ryanair Ltd.",
     "iata": "FR",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Irland"
   },
   {
     "name": "Saint Barth Commuters",
     "iata": "PV",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "S7 Airlines",
     "iata": "S7",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Russische Föderation"
   },
   {
     "name": "SAA South African Airways",
     "iata": "SA",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Südafrika"
   },
   {
     "name": "SalamAir",
     "iata": "OV",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Oman"
   },
   {
     "name": "SAUDIA",
     "iata": "SV",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Saudi-Arabien"
   },
   {
     "name": "Scandinavian Airlines (SAS)",
     "iata": "SK",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Schweden"
   },
-  { "name": "Scoot", "iata": "TR", "isInEU": false, "arbitrationBoard": "BfJ" },
+  {
+    "name": "Scoot",
+    "iata": "TR",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Singapur"
+  },
   {
     "name": "Singapore Airlines Limited",
     "iata": "SQ",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Singapur"
   },
   {
     "name": "SKY express",
     "iata": "GQ",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Griechenland"
   },
   {
     "name": "Smartlynx Airlines Malta Ltd",
     "iata": "2N",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Malta"
   },
   {
     "name": "SmartLynx Airlines SIA",
     "iata": "6Y",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Lettland"
   },
   {
     "name": "Smartwings",
     "iata": "QS",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Smartwings Hungary Kft. dba Smartwings Hungary Kft.",
     "iata": "7O",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Somon Air",
     "iata": "SZ",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Tadschikistan"
   },
   {
     "name": "Southwind Airlines",
     "iata": "2S",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Türkei"
   },
   {
     "name": "SriLankan Airlines Ltd.",
     "iata": "UL",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Star East Airlines",
     "iata": "4R*",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Rumänien"
   },
   {
     "name": "Stobart Air",
     "iata": "RE",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Malta"
   },
   {
     "name": "Sun Air of Scandinavia",
     "iata": "EZ*",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Dänemark"
   },
   {
     "name": "Sundair GmbH",
     "iata": "SR",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "Knieperdamm 79",
+    "postalCode": "18435",
+    "city": "Stralsund",
+    "country": "Deutschland"
   },
   {
     "name": "SunExpress Deutschland GmbH",
     "iata": "XG",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "SunExpress Günes Ekspres Havacilik A.S.",
     "iata": "XQ",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Swiss International Air Lines AG",
     "iata": "LX",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Schweiz"
   },
   {
     "name": "TAAG Angola Airlines",
     "iata": "DT",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Angola"
   },
   {
     "name": "Tailwind Havayollari A.S.",
     "iata": "TI*",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Türkei"
   },
   {
     "name": "TAM Airlines",
     "iata": "JJ",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Brasilien"
   },
   {
     "name": "TAP Portugal",
     "iata": "TP",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Portugal"
   },
-  { "name": "TAROM", "iata": "RO", "isInEU": true, "arbitrationBoard": "BfJ" },
+  {
+    "name": "TAROM",
+    "iata": "RO",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Rumänien"
+  },
   {
     "name": "Thai Airways International",
     "iata": "TG",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Thailand"
   },
   {
     "name": "Trade Air",
     "iata": "C3",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Kroatien"
   },
   {
     "name": "Transavia Airlines C.V. (NL)",
     "iata": "HV",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Niederlande"
   },
   {
     "name": "Transavia France S.A.S.",
     "iata": "TO",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Frankreich"
   },
   {
     "name": "Travel Service a.s.",
     "iata": "QS*",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "TUI Airlines Belgium",
     "iata": "TB*",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Belgien"
   },
   {
     "name": "TUI Nederland",
     "iata": "OR",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Niederlande"
   },
   {
     "name": "TUIfly GmbH",
     "iata": "X3*",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "Flughafenstr. 10",
+    "postalCode": "30855",
+    "city": "Langenhagen",
+    "country": "Deutschland"
   },
   {
     "name": "TUNISAIR",
     "iata": "TU",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Tunesien"
   },
   {
     "name": "Turkish Airlines",
     "iata": "TK",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Türkei"
   },
   {
     "name": "Turkmenistan Airlines",
     "iata": "T5",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Turkmenistan"
   },
   {
     "name": "TUS Airways",
     "iata": "U8",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Zypern"
   },
   {
     "name": "Ukraine International Airlines",
     "iata": "PS",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Ukraine"
   },
   {
     "name": "United Airlines Inc.",
     "iata": "UA",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vereinigte Staaten von Amerika"
   },
   {
     "name": "Ural Airlines",
     "iata": "U6",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Russische Föderation"
   },
   {
     "name": "Utair Aviation",
     "iata": "UT",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Russische Föderation"
   },
   {
     "name": "Uzbekistan Airways",
     "iata": "HY",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Usbekistan"
   },
   {
     "name": "Vietnam Airlines",
     "iata": "VN",
     "isInEU": false,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vietnam"
   },
   {
     "name": "VIM Airlines",
     "iata": "NN*",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Russische Föderation"
   },
   {
     "name": "Virgin Atlantic Airways Limited",
     "iata": "VS",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vereinigtes Königreich"
   },
   {
     "name": "Volotea S.L.",
     "iata": "V7",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Spanien"
   },
   {
     "name": "Voyage Air",
     "iata": "VO*",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Bulgarien"
   },
   {
     "name": "Vueling Airlines",
     "iata": "VY",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Spanien"
   },
   {
     "name": "Westjet Airlines Ltd.",
     "iata": "WS",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Kanada"
   },
   {
     "name": "Widerøe´s Flyveselskap",
     "iata": "WF",
     "isInEU": true,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Norwegen"
   },
   {
     "name": "Wizz Air malta",
     "iata": "W4",
     "isInEU": true,
-    "arbitrationBoard": "RV"
+    "arbitrationBoard": "RV",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Malta"
   },
-  { "name": "Xfly", "iata": "EE", "isInEU": true, "arbitrationBoard": "BfJ" },
+  {
+    "name": "Xfly",
+    "iata": "EE",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Estland"
+  },
   {
     "name": "Yemenia - Yemen Airways",
     "iata": "IY",
     "isInEU": false,
-    "arbitrationBoard": "BfJ"
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Deutschland"
   },
   {
     "name": "Sonstiges",
     "iata": "sonstiges",
     "isInEU": true,
-    "arbitrationBoard": null
+    "arbitrationBoard": null,
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": ""
   }
 ]
