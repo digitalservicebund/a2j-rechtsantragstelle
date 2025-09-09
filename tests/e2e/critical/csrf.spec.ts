@@ -1,12 +1,12 @@
 import { test, expect } from "@playwright/test";
-import { BeratungshilfeVorabcheck } from "tests/e2e/domains/beratungshilfe/vorabcheck/BeratungshilfeVorabcheck";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { csrfCountMax } from "~/services/security/csrf/csrfKey";
+import { FluggastrechteVorabcheck } from "../domains/fluggastrechte/vorabcheck/FluggastrechteVorabcheck";
 
-let vorabcheck: BeratungshilfeVorabcheck;
+let vorabcheck: FluggastrechteVorabcheck;
 
 test.beforeEach(async ({ page }) => {
-  vorabcheck = new BeratungshilfeVorabcheck(page);
+  vorabcheck = new FluggastrechteVorabcheck(page);
   await vorabcheck.goto();
 
   const cookieSettings = new CookieSettings(page);
@@ -15,25 +15,23 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("CSRF token", () => {
   test("multiple tabs work", async ({ context }) => {
-    const vorabcheck2 = new BeratungshilfeVorabcheck(await context.newPage());
+    const vorabcheck2 = new FluggastrechteVorabcheck(await context.newPage());
     await vorabcheck2.goto();
     await vorabcheck.clickNext();
-    await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
+    await vorabcheck.fillRadioPage("bereich", "verspaetet");
     await expect(
-      vorabcheck.page
-        .getByRole("heading")
-        .filter({ hasText: "Gerichtsverfahren" }),
+      vorabcheck.page.getByRole("heading").filter({ hasText: "Zielflughafen" }),
     ).toHaveCount(1);
   });
 
   test("N+1 form tabs return 403", async ({ context }) => {
     for (let idx = 0; idx < csrfCountMax; idx++) {
-      const newPage = new BeratungshilfeVorabcheck(await context.newPage());
+      const newPage = new FluggastrechteVorabcheck(await context.newPage());
       await newPage.goto();
     }
 
     // workaround for preview tests, it should open a new page after open the limits of tabs above
-    await new BeratungshilfeVorabcheck(await context.newPage()).goto();
+    await new FluggastrechteVorabcheck(await context.newPage()).goto();
 
     await vorabcheck.clickNext();
     await expect(vorabcheck.page.getByText("403")).toHaveCount(1);
@@ -44,11 +42,9 @@ test.describe("CSRF token", () => {
       await (await context.newPage()).goto("/");
     }
     await vorabcheck.clickNext();
-    await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
+    await vorabcheck.fillRadioPage("bereich", "verspaetet");
     await expect(
-      vorabcheck.page
-        .getByRole("heading")
-        .filter({ hasText: "Gerichtsverfahren" }),
+      vorabcheck.page.getByRole("heading").filter({ hasText: "Zielflughafen" }),
     ).toHaveCount(1);
   });
 });
