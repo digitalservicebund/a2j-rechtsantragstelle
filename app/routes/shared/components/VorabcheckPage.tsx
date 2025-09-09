@@ -31,6 +31,7 @@ export function VorabcheckPage() {
                 content={contentElements}
                 className="ds-stack ds-stack-16"
                 fullScreen={false}
+                formFlowPage
               />
               <ValidatedFlowForm
                 stepData={stepData}

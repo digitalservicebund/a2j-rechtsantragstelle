@@ -11,6 +11,7 @@ import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { loader } from "../formular";
+import { Section } from "~/components/Section";
 
 export function FormFlowPage() {
   const {
@@ -70,6 +71,7 @@ export function FormFlowPage() {
                       content={content}
                       fullScreen={false}
                       className="ds-stack ds-stack-16"
+                      formFlowPage
                     />
                   </div>
 
