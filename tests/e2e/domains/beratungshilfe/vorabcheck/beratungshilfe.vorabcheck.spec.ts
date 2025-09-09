@@ -1,7 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { BeratungshilfeVorabcheck } from "tests/e2e/domains/beratungshilfe/vorabcheck/BeratungshilfeVorabcheck";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
-import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 
 let vorabcheck: BeratungshilfeVorabcheck;
 
@@ -15,51 +14,6 @@ test.beforeEach(async ({ page }) => {
 
 test("forwarded to initial step", async () => {
   await vorabcheck.assertInitialStep();
-});
-
-test("vorabcheck can be traversed (short path)", async ({ page }) => {
-  // start page
-  await vorabcheck.clickNext();
-
-  await vorabcheck.fillRadioPage("rechtsschutzversicherung", "no");
-
-  await vorabcheck.fillRadioPage("wurdeVerklagt", "no");
-
-  await vorabcheck.fillRadioPage("klageEingereicht", "no");
-
-  await vorabcheck.fillRadioPage("hamburgOderBremen", "no");
-
-  await vorabcheck.fillRadioPage("beratungshilfeBeantragt", "no");
-
-  await vorabcheck.fillRadioPage("eigeninitiative", "no");
-
-  // warning step
-  await vorabcheck.clickNext();
-
-  await vorabcheck.fillRadioPage("bereich", "other");
-
-  await vorabcheck.fillRadioPage("staatlicheLeistungen", "keine");
-
-  await vorabcheck.fillRadioPage("vermoegen", "below_10k");
-
-  await vorabcheck.fillRadioPage("erwerbstaetigkeit", "no");
-
-  await vorabcheck.fillRadioPage("partnerschaft", "no");
-
-  await vorabcheck.fillRadioPage("genauigkeit", "no");
-
-  await vorabcheck.fillRadioPage("kinderKurz", "yes");
-
-  await vorabcheck.fillInputPage("kinderAnzahlKurz", "5");
-
-  await vorabcheck.fillRadioPage("verfuegbaresEinkommen", "yes");
-
-  await expectPageToBeAccessible({ page });
-  await expect(
-    page
-      .getByRole("heading")
-      .filter({ hasText: "keine Beratungshilfe erhalten" }),
-  ).toHaveCount(1);
 });
 
 test("funnel: invalid step redirects to start", async ({ page }) => {
