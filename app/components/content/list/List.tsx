@@ -1,10 +1,10 @@
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
+import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
 import ListItem from "./ListItem";
 import { type ListVariant, type ListItemProps } from "./types";
-import { ContentGrid } from "~/components/ContentGrid";
-import { GridItem } from "~/components/GridItem";
 
 type ListProps = {
   items: ListItemProps[];
@@ -48,7 +48,7 @@ const List = ({
     );
   }
   return (
-    <ContentGrid className="py-40" id={identifier}>
+    <Grid className="py-40" id={identifier}>
       <GridItem
         span={12}
         mdSpan={7}
@@ -83,7 +83,7 @@ const List = ({
             ))}
         </ListTag>
       </GridItem>
-    </ContentGrid>
+    </Grid>
   );
 };
 

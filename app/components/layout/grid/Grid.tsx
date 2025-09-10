@@ -1,6 +1,6 @@
-// components/ContentGrid.tsx
 import cx from "classnames";
 import type { PropsWithChildren, CSSProperties } from "react";
+import { getGridClass } from "./util";
 
 type BgSpan = {
   start?: number;
@@ -11,11 +11,10 @@ type BgSpan = {
   lgSpan?: number;
   xlStart?: number;
   xlSpan?: number;
-
   className?: string;
 };
 
-type ContentGridProps = PropsWithChildren<{
+type GridProps = PropsWithChildren<{
   cols?: number;
   mdCols?: number;
   lgCols?: number;
@@ -26,38 +25,38 @@ type ContentGridProps = PropsWithChildren<{
   id?: string;
 }>;
 
-export function ContentGrid({
+export function Grid({
   children,
-  cols = 1,
   mdCols = 8,
   lgCols = 12,
   xlCols = 12,
   background,
   className,
   id,
-  style,
-}: ContentGridProps) {
+}: GridProps) {
   const bgItem =
     background &&
     cx(
       "[grid-row:1] z-0",
-      (background.start ?? 1) && `col-start-${background.start ?? 1}`,
-      (background.span ?? 12) && `col-span-${background.span ?? 12}`,
-      background.mdStart && `md:col-start-${background.mdStart}`,
-      background.mdSpan && `md:col-span-${background.mdSpan}`,
-      background.lgStart && `lg:col-start-${background.lgStart}`,
-      background.lgSpan && `lg:col-span-${background.lgSpan}`,
-      background.xlStart && `xl:col-start-${background.xlStart}`,
-      background.xlSpan && `xl:col-span-${background.xlSpan}`,
+      (background.start ?? 1) &&
+        getGridClass("col-start", background.start ?? 1),
+      (background.span ?? 12) &&
+        getGridClass("col-span", background.span ?? 12),
+      background.mdStart && getGridClass("col-start", background.mdStart, "md"),
+      background.mdSpan && getGridClass("col-span", background.mdSpan, "md"),
+      background.lgStart && getGridClass("col-start", background.lgStart, "lg"),
+      background.lgSpan && getGridClass("col-span", background.lgSpan, "lg"),
+      background.xlStart && getGridClass("col-start", background.xlStart, "xl"),
+      background.xlSpan && getGridClass("col-span", background.xlSpan, "xl"),
     );
 
   return (
     <div
       className={cx("grid-fluid", "[&>*]:min-w-0", className)}
       style={{
-        ["--cols-md" as any]: mdCols,
-        ["--cols-lg" as any]: lgCols,
-        ["--cols-xl" as any]: xlCols,
+        ["--cols-md" as string]: mdCols,
+        ["--cols-lg" as string]: lgCols,
+        ["--cols-xl" as string]: xlCols,
       }}
       id={id}
     >

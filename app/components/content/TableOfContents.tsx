@@ -4,10 +4,8 @@ import Button, { type ButtonProps } from "../common/Button";
 import ButtonContainer from "../common/ButtonContainer";
 import Heading, { type HeadingProps } from "../common/Heading";
 import { StandaloneLink } from "../common/StandaloneLink";
-import { ContentGrid } from "../ContentGrid";
-import { BACKGROUND_COLORS } from "..";
-import { Section } from "../Section";
-import { GridItem } from "../GridItem";
+import { Grid } from "../layout/grid/Grid";
+import { GridItem } from "../layout/grid/GridItem";
 
 type Props = {
   identifier?: string;
@@ -25,7 +23,7 @@ const TableOfContents = ({
   buttons,
 }: Props) => {
   return (
-    <ContentGrid className="pb-64">
+    <Grid className="pb-64">
       <GridItem
         span={12}
         mdSpan={7}
@@ -65,7 +63,7 @@ const TableOfContents = ({
           )}
         </div>
       </GridItem>
-    </ContentGrid>
+    </Grid>
   );
 };
 

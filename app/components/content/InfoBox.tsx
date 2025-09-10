@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
+import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
 import InfoBoxItem, { type InfoBoxItemProps } from "./InfoBoxItem";
-import { GridItem } from "../GridItem";
-import { ContentGrid } from "../ContentGrid";
 
 type InfoBoxProps = {
   identifier?: string;
@@ -21,7 +21,7 @@ const InfoBox = ({
   items,
 }: InfoBoxProps) => {
   return (
-    <ContentGrid className="py-40" id={identifier}>
+    <Grid className="py-40" id={identifier}>
       <GridItem
         span={12}
         mdSpan={7}
@@ -56,7 +56,7 @@ const InfoBox = ({
           </div>
         </GridItem>
       )}
-    </ContentGrid>
+    </Grid>
   );
 };
 

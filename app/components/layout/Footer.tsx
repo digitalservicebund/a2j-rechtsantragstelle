@@ -3,8 +3,8 @@ import Heading from "../common/Heading";
 import Image, { type ImageProps } from "../common/Image";
 import RichText, { type RichTextProps } from "../common/RichText";
 import { StandaloneLink } from "../common/StandaloneLink";
-import { GridItem } from "../GridItem";
-import { ContentGrid } from "../ContentGrid";
+import { Grid } from "./grid/Grid";
+import { GridItem } from "./grid/GridItem";
 
 type LinkProps = {
   url: string;
@@ -47,9 +47,13 @@ export default function Footer({
 }: FooterProps) {
   return (
     <>
-      <ContentGrid className="py-40 print:pb-0">
-        {/* Column 1: logo + text */}
-        <GridItem span={12} lgSpan={3} className="flex flex-col gap-y-8">
+      <Grid className="py-40 print:pb-0">
+        <GridItem
+          span={12}
+          lgSpan={3}
+          xlSpan={3}
+          className="flex flex-col gap-y-8"
+        >
           {image?.url && (
             <div className="forced-colors:bg-black">
               <Image
@@ -70,31 +74,37 @@ export default function Footer({
             ))}
           </div>
         </GridItem>
-
-        {categorizedLinks.map((category, i) => {
-          const ariaLabelledBy = `footer-list-${dashifyLowercase(category.title)}`;
-          return (
-            <GridItem key={category.id} span={12} mdSpan={4} lgSpan={3}>
-              <Heading
-                tagName="h2"
-                elementId={ariaLabelledBy}
-                className="ds-label-03-bold"
-              >
-                {category.title}
-              </Heading>
-              <ul
-                aria-labelledby={ariaLabelledBy}
-                className="list-none pt-[7px] pl-2 space-y-10 print:hidden"
-              >
-                <Links links={category.links} />
-              </ul>
-            </GridItem>
-          );
-        })}
-      </ContentGrid>
+        <GridItem span={12} lgSpan={9} xlSpan={9} aria-label={ariaLabel}>
+          <nav
+            className="flex flex-col sm:flex-row justify-between print:hidden"
+            aria-label={ariaLabel}
+          >
+            {categorizedLinks.map((category) => {
+              const ariaLabelledBy = `footer-list-${dashifyLowercase(category.title)}`;
+              return (
+                <div key={category.id}>
+                  <Heading
+                    tagName="h2"
+                    elementId={ariaLabelledBy}
+                    className="ds-label-03-bold"
+                  >
+                    {category.title}
+                  </Heading>
+                  <ul
+                    aria-labelledby={ariaLabelledBy}
+                    className="list-none pt-[7px] pl-2 space-y-10"
+                  >
+                    <Links links={category.links} />
+                  </ul>
+                </div>
+              );
+            })}
+          </nav>
+        </GridItem>
+      </Grid>
 
       {showDeletionBanner && (
-        <ContentGrid className="pb-40">
+        <Grid className="pb-40">
           <GridItem
             span={8}
             mdSpan={8}
@@ -116,7 +126,7 @@ export default function Footer({
               />
             </div>
           </GridItem>
-        </ContentGrid>
+        </Grid>
       )}
     </>
   );

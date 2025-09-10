@@ -4,9 +4,9 @@ import LightbulbOutlinedIcon from "@digitalservicebund/icons/LightbulbOutlined";
 import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
 import Heading from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
+import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
-import { GridItem } from "../GridItem";
-import { ContentGrid } from "../ContentGrid";
 
 export type InlineNoticeProps = {
   identifier?: string;
@@ -80,7 +80,7 @@ export const InlineNotice = ({
 
   return (
     !shouldHideNotice && (
-      <ContentGrid className="py-40">
+      <Grid className="py-40">
         <GridItem
           span={12}
           mdSpan={7}
@@ -105,7 +105,7 @@ export const InlineNotice = ({
             />
           </div>
         </GridItem>
-      </ContentGrid>
+      </Grid>
     )
   );
 };

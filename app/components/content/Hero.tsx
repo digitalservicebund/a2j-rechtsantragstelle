@@ -1,11 +1,11 @@
-import type { ButtonProps } from "~/components/common/Button";
 import cx from "classnames";
+import type { ButtonProps } from "~/components/common/Button";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import RichText, { type RichTextProps } from "~/components/common/RichText";
-import { GridItem } from "../GridItem";
-import { ContentGrid } from "../ContentGrid";
+import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
 
 type Props = Readonly<{
   heading: HeadingProps;
@@ -25,7 +25,7 @@ export default function Hero({
   outerBackground,
 }: Props) {
   return (
-    <ContentGrid className="py-64">
+    <Grid className="py-64">
       <GridItem
         span={12}
         mdSpan={7}
@@ -48,6 +48,6 @@ export default function Hero({
           </ButtonContainer>
         )}
       </GridItem>
-    </ContentGrid>
+    </Grid>
   );
 }

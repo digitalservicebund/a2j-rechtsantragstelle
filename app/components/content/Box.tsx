@@ -1,12 +1,12 @@
-import Button, { type ButtonProps } from "~/components/common/Button";
 import cx from "classnames";
+import Button, { type ButtonProps } from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import RichText, { type RichTextProps } from "~/components/common/RichText";
+import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
 import { arrayIsNonEmpty } from "~/util/array";
-import { GridItem } from "../GridItem";
 import { BACKGROUND_COLORS } from "..";
-import { ContentGrid } from "../ContentGrid";
 
 type BoxProps = {
   identifier?: string;
@@ -28,7 +28,7 @@ const Box = ({
   container,
 }: BoxProps) => {
   return (
-    <ContentGrid
+    <Grid
       className="py-40"
       background={{
         start: 1,
@@ -75,7 +75,7 @@ const Box = ({
           </ButtonContainer>
         )}
       </GridItem>
-    </ContentGrid>
+    </Grid>
   );
 };
 

@@ -1,16 +1,14 @@
+import classNames from "classnames";
 import { useCallback, useState } from "react";
 import { useLocation, useRouteLoaderData } from "react-router";
-import Background from "~/components/layout/Background";
-import Container from "~/components/layout/Container";
+import { BACKGROUND_COLORS } from "~/components";
+import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
 import type { RootLoader } from "~/root";
 import { type BannerState } from "./BannerState";
 import { FeedbackFormBox } from "./FeedbackFormBox";
 import { PostSubmissionBox } from "./PostSubmissionBox";
 import { type RatingBoxProps, RatingBox } from "./RatingBox";
-import { ContentGrid } from "~/components/ContentGrid";
-import { GridItem } from "~/components/GridItem";
-import { BACKGROUND_COLORS } from "~/components";
-import classNames from "classnames";
 
 type UserFeedbackProps = {
   rating: Pick<RatingBoxProps, "heading">;
@@ -33,7 +31,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
   }, []);
 
   return (
-    <ContentGrid
+    <Grid
       className="py-40"
       background={{
         start: 1,
@@ -90,6 +88,6 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
           }
         </div>
       </GridItem>
-    </ContentGrid>
+    </Grid>
   );
 }

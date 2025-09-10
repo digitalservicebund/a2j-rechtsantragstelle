@@ -1,8 +1,8 @@
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import Image, { type ImageProps } from "~/components/common/Image";
 import RichText from "~/components/common/RichText";
-import { GridItem } from "../GridItem";
-import { ContentGrid } from "../ContentGrid";
+import { Grid } from "../layout/grid/Grid";
+import { GridItem } from "../layout/grid/GridItem";
 
 type BoxWithImageProps = {
   image: ImageProps;
@@ -24,16 +24,14 @@ export const variantWidths: Record<Variant, string> = {
 };
 
 const BoxWithImage = ({
-  variant = "S",
   identifier,
   heading,
   image,
   content,
 }: BoxWithImageProps) => {
-  // const shouldWrapByDefault = variant === "XL" || variant === "XXL";
   const hasTextContent = Boolean(heading ?? content);
   return (
-    <ContentGrid className="mt-32 mb-32">
+    <Grid className="mt-32 mb-32">
       <GridItem
         span={12}
         mdSpan={2}
@@ -44,13 +42,7 @@ const BoxWithImage = ({
         xlSpan={2}
         id={identifier}
       >
-        {/* <div
-       id={identifier}
-       className={`flex flex-wrap ${shouldWrapByDefault ? "md:flex-wrap" : "sm:flex-nowrap"} items-start gap-24 text-base`}
-     > */}
-        <div
-        // className={`shrink-0 overflow-hidden ${hasTextContent ? variantWidths[variant] : "max-w-full"}`}
-        >
+        <div>
           <Image {...image} />
         </div>
       </GridItem>
@@ -71,7 +63,7 @@ const BoxWithImage = ({
           </div>
         )}
       </GridItem>
-    </ContentGrid>
+    </Grid>
   );
 };
 

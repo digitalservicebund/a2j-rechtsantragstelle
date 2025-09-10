@@ -5,9 +5,9 @@ import Kopfzeile from "~/components/layout/Kopfzeile";
 import { translations } from "~/services/translations/translations";
 import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
 import { useShouldPrint } from "../hooks/useShouldPrint";
-import { GridItem } from "../GridItem";
-import { Section } from "../Section";
-import { ContentGrid } from "../ContentGrid";
+import { Grid } from "./grid/Grid";
+import { GridItem } from "./grid/GridItem";
+import { GridSection } from "./grid/GridSection";
 
 type PageHeaderProps = {
   title: string;
@@ -31,8 +31,8 @@ export default function PageHeader({
           {translations.pageHeader.time.de}
         </span>
       )}
-      <Section bgClass="bg-[#F0F0F0]">
-        <ContentGrid>
+      <GridSection bgClass="bg-[#F0F0F0]">
+        <Grid>
           <GridItem
             span={12}
             mdSpan={12}
@@ -44,10 +44,10 @@ export default function PageHeader({
           >
             <Kopfzeile />
           </GridItem>
-        </ContentGrid>
-      </Section>
-      <Section>
-        <ContentGrid className="mt-16 mb-16">
+        </Grid>
+      </GridSection>
+      <GridSection>
+        <Grid className="mt-16 mb-16">
           <GridItem
             span={12}
             mdSpan={12}
@@ -88,8 +88,8 @@ export default function PageHeader({
               )}
             </nav>
           </GridItem>
-        </ContentGrid>
-      </Section>
+        </Grid>
+      </GridSection>
     </header>
   );
 }

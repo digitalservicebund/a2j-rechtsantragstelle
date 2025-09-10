@@ -1,8 +1,8 @@
 import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
 import { StandaloneLink } from "../common/StandaloneLink";
-import { GridItem } from "../GridItem";
-import { Section } from "../Section";
-import { ContentGrid } from "../ContentGrid";
+import { Grid } from "./grid/Grid";
+import { GridItem } from "./grid/GridItem";
+import { GridSection } from "./grid/GridSection";
 
 export type Breadcrumb = {
   url: string;
@@ -26,8 +26,8 @@ export default function Breadcrumbs({
 
   return (
     validBreadcrumbs.length > 0 && (
-      <Section bgClass="bg-blue-100">
-        <ContentGrid>
+      <GridSection bgClass="bg-blue-100">
+        <Grid>
           <GridItem
             span={12}
             mdSpan={12}
@@ -65,8 +65,8 @@ export default function Breadcrumbs({
               ))}
             </nav>
           </GridItem>
-        </ContentGrid>
-      </Section>
+        </Grid>
+      </GridSection>
     )
   );
 }
