@@ -1,6 +1,6 @@
 import { arrayIsNonEmpty } from "~/util/array";
 import { hasStaatlicheLeistungen } from "../einkommen/doneFunctions";
-import { type BeratungshilfeFinanzielleAngabenGuard } from "../guards";
+import { type BeratungshilfeFinanzielleAngabenGuard } from "../BeratungshilfeFinanzielleAngabenGuardType";
 
 export const andereUnterhaltszahlungenDone: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) =>

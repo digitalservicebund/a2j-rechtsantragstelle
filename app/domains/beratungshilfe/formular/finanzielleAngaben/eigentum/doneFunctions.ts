@@ -4,8 +4,8 @@ import {
   geldanlageDone,
 } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import { arrayIsNonEmpty } from "~/util/array";
-import { type BeratungshilfeFinanzielleAngabenGuard } from "../guards";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "../userData";
+import { type BeratungshilfeFinanzielleAngabenGuard } from "../BeratungshilfeFinanzielleAngabenGuardType";
 
 export const geldanlagenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,

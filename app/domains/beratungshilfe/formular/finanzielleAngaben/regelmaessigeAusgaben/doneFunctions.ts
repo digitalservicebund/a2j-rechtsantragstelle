@@ -1,7 +1,7 @@
 import { arrayIsNonEmpty } from "~/util/array";
 import { hasStaatlicheLeistungen } from "../einkommen/doneFunctions";
-import { type BeratungshilfeFinanzielleAngabenGuard } from "../guards";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "../userData";
+import { type BeratungshilfeFinanzielleAngabenGuard } from "../BeratungshilfeFinanzielleAngabenGuardType";
 
 export const ausgabeDone = (
   ausgabe: NonNullable<BeratungshilfeFinanzielleAngabenUserData["ausgaben"]>[0],

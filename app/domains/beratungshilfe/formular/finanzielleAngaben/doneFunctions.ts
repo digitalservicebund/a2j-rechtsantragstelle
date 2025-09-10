@@ -1,7 +1,7 @@
 import { andereUnterhaltszahlungenDone } from "./andereUnterhaltszahlungen/doneFunctions";
+import { type BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
 import { eigentumDone } from "./eigentum/doneFunctions";
 import { einkommenDone } from "./einkommen/doneFunctions";
-import { type BeratungshilfeFinanzielleAngabenGuard } from "./guards";
 import { kinderDone } from "./kinder/doneFunctions";
 import { partnerDone } from "./partner/doneFunctions";
 import { wohnungDone } from "./wohnung/doneFunctions";

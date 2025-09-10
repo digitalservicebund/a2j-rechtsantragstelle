@@ -1,8 +1,7 @@
 import { childDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import { arrayIsNonEmpty } from "~/util/array";
 import { hasStaatlicheLeistungen } from "../einkommen/doneFunctions";
-import { type BeratungshilfeFinanzielleAngabenGuard } from "../guards";
-
+import { type BeratungshilfeFinanzielleAngabenGuard } from "../BeratungshilfeFinanzielleAngabenGuardType";
 export const kinderDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>

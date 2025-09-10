@@ -1,5 +1,5 @@
+import { type BeratungshilfeFinanzielleAngabenGuard } from "../BeratungshilfeFinanzielleAngabenGuardType";
 import { hasStaatlicheLeistungen } from "../einkommen/doneFunctions";
-import { type BeratungshilfeFinanzielleAngabenGuard } from "../guards";
 
 const wohnungAloneDone: BeratungshilfeFinanzielleAngabenGuard = ({ context }) =>
   context.livingSituation === "alone" &&

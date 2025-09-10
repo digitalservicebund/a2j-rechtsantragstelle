@@ -8,15 +8,9 @@ import {
   hasNoStaatlicheLeistungen,
 } from "./einkommen/doneFunctions";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
-import {
-  type GenericGuard,
-  type Guards,
-  yesNoGuards,
-} from "~/domains/guards.server";
 import { eigentumDone } from "./eigentum/doneFunctions";
-
-export type BeratungshilfeFinanzielleAngabenGuard =
-  GenericGuard<BeratungshilfeFinanzielleAngabenUserData>;
+import { type BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
+import { yesNoGuards, type Guards } from "~/domains/guards.server";
 
 export const staatlicheLeistungenIsBuergergeld: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) => context.staatlicheLeistungen === "buergergeld";
