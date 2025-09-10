@@ -10,6 +10,7 @@ export type AutoSuggestInputProps = Readonly<{
   width?: FieldWidth;
   noSuggestionMessage?: string;
   dataList: DataListType;
+  dataListArgument?: string;
   isDisabled: boolean;
   minSuggestCharacters?: number;
   supportsFreeText?: boolean;
