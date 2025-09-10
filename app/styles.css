@@ -41,9 +41,6 @@
   .modal-open {
     @apply overflow-hidden;
   }
-  .modal-closed {
-    @apply overflow-auto;
-  }
 }
 
 /* Ensure black SVG paths don't disappear in high-contrast mode */

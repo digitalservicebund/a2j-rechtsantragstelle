@@ -30,9 +30,11 @@ export const ReportProblem = () => {
 
   // Needed to disable top-level scrolling when the Survey popup is open
   useEffect(() => {
-    document.body.className = `flex flex-col modal-${surveyOpen ? "open" : "closed"}`;
+    if (surveyOpen) {
+      document.body.classList.add("modal-open");
+    }
     return () => {
-      document.body.className = "flex flex-col";
+      document.body.classList.remove("modal-open");
     };
   }, [surveyOpen]);
 
