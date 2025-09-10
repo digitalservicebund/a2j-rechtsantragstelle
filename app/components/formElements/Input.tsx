@@ -59,8 +59,8 @@ const Input = function InputComponent({
             id: name,
             inputMode: type === "number" ? "decimal" : undefined,
             placeholder,
-            autoComplete: autocompleteMap[name] ?? "off",
           })}
+          autoComplete={autocompleteMap[name] ?? "off"}
           ref={innerRef}
           name={name}
           className={classNames(
