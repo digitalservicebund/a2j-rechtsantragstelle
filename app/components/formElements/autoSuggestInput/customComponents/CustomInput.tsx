@@ -7,6 +7,7 @@ import {
 } from "react-select";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
+import { autocompleteMap } from "~/util/autocompleteMap";
 
 //Will become obsolete with the next version bump: https://github.com/JedWatson/react-select/pull/6016
 type CustomSelectProps = Props<
@@ -20,15 +21,6 @@ type CustomSelectProps = Props<
 const CustomInput = (props: InputProps<DataListOptions, false>) => {
   const selectProps = props.selectProps as CustomSelectProps;
   const field = useField(props.selectProps.id ?? "");
-  const autocompleteMap: Record<string, string> = {
-    adresse: "street-address",
-    hausnummer: "address-line1",
-    ort: "address-level2",
-  };
-  const autocompleteValue = autocompleteMap[field.name()]
-    ? autocompleteMap[field.name()]
-    : "off";
-
   return (
     <components.Input
       // avoid to clear the previous auto suggestion input when press enter
@@ -39,13 +31,14 @@ const CustomInput = (props: InputProps<DataListOptions, false>) => {
         }
       }}
       {...props}
+      name={field.name()}
       innerRef={field.error() ? field.refs.controlled() : undefined}
       maxLength={INPUT_CHAR_LIMIT}
       aria-describedby={selectProps["aria-describedby"]}
       aria-required={props.selectProps.className?.includes(
         "auto-suggest-input-required",
       )}
-      autoComplete={autocompleteValue}
+      autoComplete={autocompleteMap[field.name()] ?? "off"}
     />
   );
 };

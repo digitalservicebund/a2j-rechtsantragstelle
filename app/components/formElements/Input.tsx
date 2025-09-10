@@ -6,6 +6,7 @@ import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import { type ErrorMessageProps } from "../common/types";
 import { widthClassname, type FieldWidth } from "../common/width";
+import { autocompleteMap } from "~/util/autocompleteMap";
 
 export type InputProps = Readonly<{
   name: string;
@@ -38,17 +39,13 @@ const Input = function InputComponent({
   const field = useField(name);
   const errorId = `${name}-error`;
   const helperId = `${name}-helper`;
-  const autocompleteMap: Record<string, string> = {
-    vorname: "given-name",
-    nachname: "family-name",
-    plz: "postal-code",
-    telefonnummer: "tel",
-    email: "email",
+
+  const getInputType = (name: string): string => {
+    if (name === "telefonnummer") return "tel";
+    if (name === "email") return "email";
+    return "text";
   };
-  const isRequired = !!errorMessages?.find((err) => err.code === "required");
-  const autocompleteValue = autocompleteMap[name]
-    ? autocompleteMap[name]
-    : "off";
+
   return (
     <div className="w-full">
       {label && <InputLabel id={name}>{label}</InputLabel>}
@@ -57,14 +54,15 @@ const Input = function InputComponent({
         <input
           maxLength={charLimit}
           {...field.getInputProps({
-            type: type === "number" ? "text" : type,
+            type: getInputType(name),
             step,
             id: name,
             inputMode: type === "number" ? "decimal" : undefined,
             placeholder,
-            autoComplete: autocompleteValue,
+            autoComplete: autocompleteMap[name] ?? "off",
           })}
           ref={innerRef}
+          name={name}
           className={classNames(
             "ds-input forced-color-adjust-none",
             {
@@ -78,7 +76,9 @@ const Input = function InputComponent({
             helperText && helperId,
           ].join(" ")}
           aria-errormessage={field.error() ? errorId : undefined}
-          aria-required={isRequired}
+          aria-required={
+            !!errorMessages?.find((err) => err.code === "required")
+          }
         />
         {suffix && (
           <div className="ds-input-suffix" aria-hidden="true">
