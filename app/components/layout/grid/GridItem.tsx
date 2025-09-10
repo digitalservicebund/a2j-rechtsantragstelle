@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import type { PropsWithChildren } from "react";
-import { getGridClass } from "./util";
+import { getGridClass, type Span } from "./util";
 
 type GridItemProps = PropsWithChildren<{
   span?: number;
@@ -29,14 +29,14 @@ export function GridItem({
   id,
 }: GridItemProps) {
   const cls = classNames(
-    getGridClass("col-start", start),
-    getGridClass("col-span", span),
-    mdSpan && getGridClass("col-span", mdSpan, "md"),
-    mdStart && getGridClass("col-start", mdStart, "md"),
-    lgSpan && getGridClass("col-span", lgSpan, "lg"),
-    lgStart && getGridClass("col-start", lgStart, "lg"),
-    xlSpan && getGridClass("col-span", xlSpan, "xl"),
-    xlStart && getGridClass("col-start", xlStart, "xl"),
+    getGridClass("col-start", start as Span),
+    getGridClass("col-span", span as Span),
+    mdSpan && getGridClass("col-span", mdSpan as Span, "md"),
+    mdStart && getGridClass("col-start", mdStart as Span, "md"),
+    lgSpan && getGridClass("col-span", lgSpan as Span, "lg"),
+    lgStart && getGridClass("col-start", lgStart as Span, "lg"),
+    xlSpan && getGridClass("col-span", xlSpan as Span, "xl"),
+    xlStart && getGridClass("col-start", xlStart as Span, "xl"),
     className,
   );
 

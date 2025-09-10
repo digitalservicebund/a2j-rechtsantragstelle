@@ -58,22 +58,24 @@ const Box = ({
         id={identifier}
         className="[grid-row:1] z-10 pt-32 pb-32"
       >
-        <div className="ds-stack ds-stack-8 px-16">
-          {label && <Heading {...label} />}
-          {heading && <Heading {...heading} />}
-          {content && (
-            <div>
-              <RichText {...content} />
-            </div>
+        <div className="ds-stack ds-stack-16 scroll-my-40">
+          <div className="ds-stack ds-stack-8 px-16">
+            {label && <Heading {...label} />}
+            {heading && <Heading {...heading} />}
+            {content && (
+              <div>
+                <RichText {...content} />
+              </div>
+            )}
+          </div>
+          {arrayIsNonEmpty(buttons) && (
+            <ButtonContainer className="px-16">
+              {buttons.map((button) => (
+                <Button key={button.text ?? button.href} {...button} />
+              ))}
+            </ButtonContainer>
           )}
         </div>
-        {arrayIsNonEmpty(buttons) && (
-          <ButtonContainer className="px-16">
-            {buttons.map((button) => (
-              <Button key={button.text ?? button.href} {...button} />
-            ))}
-          </ButtonContainer>
-        )}
       </GridItem>
     </Grid>
   );
