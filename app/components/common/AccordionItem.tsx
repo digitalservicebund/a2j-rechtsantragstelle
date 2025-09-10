@@ -30,7 +30,7 @@ export function AccordionItem({
 }: Props) {
   return (
     <details
-      className="group last:border-b-0 border-b-2 border-blue-500"
+      className="last:rounded-t-none not-first:border-t-0 not-first:not-last:rounded-none border-2 rounded-lg first:rounded-b-none overflow-hidden border-blue-500"
       ref={ref}
       open={startOpened}
     >
