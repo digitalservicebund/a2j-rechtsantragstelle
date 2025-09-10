@@ -7,6 +7,7 @@ import { type BeratungshilfeFinanzielleAngabenPartnerUserData } from "./userData
 const steps = xStateTargetsFromPagesConfig(
   berhAntragFinanzielleAngabenPartnerPages,
 );
+
 export const beratungshilfeFinanzielleAngabenPartnerXstateConfig = {
   id: "partner",
   initial: steps.partnerschaft.relative,

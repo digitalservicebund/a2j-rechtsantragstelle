@@ -1,5 +1,4 @@
-import { type BeratungshilfeFinanzielleAngabenGuard } from "../BeratungshilfeFinanzielleAngabenGuardType";
-
+import { type BeratungshilfeFinanzielleAngabenGuard } from "../guards";
 export const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>

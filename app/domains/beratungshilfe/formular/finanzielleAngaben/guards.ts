@@ -12,7 +12,7 @@ import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards } from "../../../guards.server";
 import type { GenericGuard, Guards } from "../../../guards.server";
 
-type BeratungshilfeFinanzielleAngabenGuard =
+export type BeratungshilfeFinanzielleAngabenGuard =
   GenericGuard<BeratungshilfeFinanzielleAngabenUserData>;
 
 export const staatlicheLeistungenIsBuergergeld: BeratungshilfeFinanzielleAngabenGuard =
