@@ -88,7 +88,10 @@ export const grundvoraussetzungenXstateConfig = {
                 guard: verfahrenSelbststaendig,
                 target: steps.hinweis.relative,
               },
-              "#antragstellende-person",
+              {
+                guard: grundvoraussetzungenDone,
+                target: "#antragstellende-person",
+              },
             ],
             BACK: [
               {
