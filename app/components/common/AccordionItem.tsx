@@ -29,14 +29,10 @@ export function AccordionItem({
   ref,
 }: Props) {
   return (
-    <details
-      className="last:rounded-t-none not-first:border-t-0 not-first:not-last:rounded-none border-2 rounded-lg first:rounded-b-none overflow-hidden border-blue-500"
-      ref={ref}
-      open={startOpened}
-    >
+    <details className="accordion-item" ref={ref} open={startOpened}>
       <summary
         onClick={onSummaryClick}
-        className="flex justify-between cursor-pointer p-16 bg-blue-100 "
+        className="flex justify-between cursor-pointer outline-none p-16 bg-blue-100 "
       >
         <span className="ds-label-01-bold">{title}</span>
         <span className="flex group-open:hidden text-blue-800 ds-label-03-bold items-start ">
