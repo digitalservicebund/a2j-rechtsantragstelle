@@ -15,19 +15,21 @@ type OpenQuestionProps = {
 export const OpenQuestion = ({ question, setResponses }: OpenQuestionProps) => {
   const feedbackTranslations = useFeedbackTranslations();
   const id = useId();
+  const questionLabel = `question-${id}`;
+  const questionDescription = `hint-text-${id}`;
   return (
     <div className="ds-stack ds-stack-8">
-      <p className="ds-body-01-bold" id={`question-${id}`}>
+      <p className="ds-body-01-bold" id={questionLabel}>
         {question.question}
       </p>
       <label className="flex flex-col gap-8">
-        <p className="ds-body-01-reg text-gray-900" id={`hint-text-${id}`}>
+        <p className="ds-body-01-reg text-gray-900" id={questionDescription}>
           {question.description}
         </p>
         <textarea
           name={question.id}
-          aria-describedby={`hint-text-${id}`}
-          aria-labelledby={`question-${id}`}
+          aria-describedby={questionDescription}
+          aria-labelledby={questionLabel}
           className="ds-textarea forced-color-adjust-none"
           onChange={(event) =>
             setResponses((surveyResponses) => ({
