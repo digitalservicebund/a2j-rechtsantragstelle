@@ -6,10 +6,7 @@ import {
   singleGrundeigentumDone,
 } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import { arrayIsNonEmpty } from "~/util/array";
-import {
-  einkommenDone,
-  hasStaatlicheLeistungen,
-} from "./einkommen/doneFunctions";
+import { hasStaatlicheLeistungen } from "./einkommen/doneFunctions";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "./guards";
 
 export const partnerDone: BeratungshilfeFinanzielleAngabenGuard = ({
@@ -134,26 +131,3 @@ export const eigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
     grundeigentumDone({ context }) &&
     wertsachenDone({ context }) &&
     kraftfahrzeugeDone({ context }));
-
-export const beratungshilfeFinanzielleAngabeDone: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) => {
-    switch (context.staatlicheLeistungen) {
-      case "asylbewerberleistungen":
-      case "grundsicherung":
-        return true;
-      case "buergergeld":
-        return eigentumDone({ context });
-      case "keine":
-        return (
-          partnerDone({ context }) &&
-          eigentumDone({ context }) &&
-          kinderDone({ context }) &&
-          eigentumDone({ context }) &&
-          einkommenDone({ context }) &&
-          wohnungDone({ context }) &&
-          andereUnterhaltszahlungenDone({ context })
-        );
-      case undefined:
-        return false;
-    }
-  };

@@ -1,5 +1,5 @@
+import { beratungshilfeFinanzielleAngabeDone } from "../beratungshilfeFinanzielleAngabeDone";
 import * as eigentumDone from "../doneFunctions";
-import { beratungshilfeFinanzielleAngabeDone } from "../doneFunctions";
 
 describe("navStates", () => {
   afterEach(() => {
