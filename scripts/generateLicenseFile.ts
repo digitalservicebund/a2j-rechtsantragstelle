@@ -90,7 +90,7 @@ async function updateLicenseList() {
   const licenses = await allRelevantLicenses();
   const licenseCount = Object.keys(licenses).length;
   const directLicenses = Object.values(licenses).filter((val) => val.direct);
-  // eslint-disable-next-line no-console
+  // oxlint-disable-next-line no-console
   console.log(
     `Including ${licenseCount} production dependencies (${directLicenses.length} direct dependencies)`,
   );

@@ -185,7 +185,6 @@ function relevantProzesskostenhilfeFilesList(
     partnerHasKrankengeld,
     partnerHasElterngeld,
     partnerWeitereEinkuenfte,
-    isRenter,
     isHomeowner,
     hasGrundeigentum,
     hasKraftfahrzeug,
@@ -201,6 +200,7 @@ function relevantProzesskostenhilfeFilesList(
     hasRatenzahlung,
     hasSonstigeAusgaben,
     hasWeitereDokumente,
+    hasParkplatzImMietvertrag,
   } = belegeStrings(userData);
   return [
     [rsvDeckung, userData.rechtsschutzversicherungDeckungBeweis],
@@ -234,7 +234,6 @@ function relevantProzesskostenhilfeFilesList(
     [partnerHasKrankengeld, userData.krankengeldPartnerBeweis],
     [partnerHasElterngeld, userData.elterngeldPartnerBeweis],
     [partnerWeitereEinkuenfte, userData.weitereEinkuenftePartnerBeweis],
-    [isRenter, userData.mieteBeweis],
     [isHomeowner, userData.wohngeldBeweis],
     [hasGrundeigentum, userData.grundeigentumBeweis],
     [hasKraftfahrzeug, userData.kraftfahrzeugeBeweis],
@@ -253,5 +252,6 @@ function relevantProzesskostenhilfeFilesList(
     [hasRatenzahlung, userData.ratenzahlungenBeweis],
     [hasSonstigeAusgaben, userData.sonstigeAusgabenBeweis],
     [hasWeitereDokumente, userData.weitereDokumenteBeweis],
+    [hasParkplatzImMietvertrag, userData.parkplatzImMietvertragBeweis],
   ];
 }

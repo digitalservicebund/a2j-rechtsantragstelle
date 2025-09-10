@@ -8,8 +8,8 @@ export const NavigationList = ({
   <ul className={`pl-0 bg-white ${props.className ?? ""}`}>
     {navItems.map((navItem) => (
       <NavItem
-        {...navItem}
         key={navItem.destination}
+        {...navItem}
         forceExpanded={props.expandAll}
         {...props}
       />

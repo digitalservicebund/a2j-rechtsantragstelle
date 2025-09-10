@@ -17,9 +17,9 @@ type Story = StoryObj<typeof meta>;
 const defaultArgs = {
   heading: {
     text: "Hero Heading",
-    tagName: "h1" as "h1",
+    tagName: "h1",
     look: "default",
-  },
+  } as const,
 };
 
 export const Default: Story = {

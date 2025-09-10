@@ -31,7 +31,7 @@ expect.extend({
         message: () => `expected ${flowId} not to be in ${strapiPage}`,
       };
     } else {
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.warn(`Unused strapi entry ${strapiPage} found for ${flowId}`);
       return {
         pass: true,

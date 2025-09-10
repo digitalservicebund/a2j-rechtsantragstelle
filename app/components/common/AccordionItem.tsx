@@ -1,3 +1,5 @@
+// the linter doesn’t have special knowledge of summary and details natively toggleable
+/* oxlint-disable jsx-a11y/click-events-have-key-events */
 import KeyboardArrowDownIcon from "@digitalservicebund/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@digitalservicebund/icons/KeyboardArrowUp";
 import { type MouseEventHandler } from "react";

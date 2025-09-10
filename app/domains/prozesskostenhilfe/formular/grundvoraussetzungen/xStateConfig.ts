@@ -1,8 +1,10 @@
+import { and, or } from "xstate";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { ProzesskostenhilfeGrundvoraussetzungenUserData } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 import type { Config } from "~/services/flow/server/types";
 import {
   grundvoraussetzungenDone,
+  isErstantrag,
   isNachueberpruefung,
   verfahrenSelbststaendig,
   versandDigitalGericht,
@@ -62,8 +64,11 @@ export const grundvoraussetzungenXstateConfig = {
           on: {
             SUBMIT: [
               {
-                guard: ({ context }) =>
-                  context.anhaengigesGerichtsverfahrenFrage === "yes",
+                guard: and([
+                  isErstantrag,
+                  ({ context }) =>
+                    context.anhaengigesGerichtsverfahrenFrage === "yes",
+                ]),
                 target: steps.klageersteller.absolute,
               },
               "#grundvoraussetzungen.einreichung",
@@ -83,16 +88,18 @@ export const grundvoraussetzungenXstateConfig = {
                 guard: verfahrenSelbststaendig,
                 target: steps.hinweis.relative,
               },
-              "#antragstellende-person",
+              {
+                guard: grundvoraussetzungenDone,
+                target: "#antragstellende-person",
+              },
             ],
             BACK: [
               {
-                guard: isNachueberpruefung,
-                target: steps.aktenzeichen.absolute,
-              },
-              {
-                guard: ({ context }) =>
-                  context.anhaengigesGerichtsverfahrenFrage === "yes",
+                guard: or([
+                  isNachueberpruefung,
+                  ({ context }) =>
+                    context.anhaengigesGerichtsverfahrenFrage === "yes",
+                ]),
                 target: steps.aktenzeichen.absolute,
               },
               steps.anhaengigesGerichtsverfahrenFrage.absolute,
@@ -123,11 +130,6 @@ export const grundvoraussetzungenXstateConfig = {
               {
                 guard: isNachueberpruefung,
                 target: steps.aktenzeichen.absolute,
-              },
-              {
-                guard: ({ context }) =>
-                  context.anhaengigesGerichtsverfahrenFrage === "yes",
-                target: steps.hinweis.absolute,
               },
               steps.hinweis.absolute,
             ],

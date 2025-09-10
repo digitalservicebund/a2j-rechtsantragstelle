@@ -33,6 +33,7 @@ lefthook-local.yml
 # SAML secrets
 /data/saml/sp_metadata.xml
 /data/saml/sp_privateKey.pem
+/data/saml/sp_privateKeyEncryption.pem
 
 # docker s3 bucket
 /volume

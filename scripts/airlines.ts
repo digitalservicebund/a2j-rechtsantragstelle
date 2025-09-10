@@ -1,16 +1,25 @@
-/* eslint-disable no-console */
+/* oxlint-disable import/no-named-as-default-member */
+/* oxlint-disable no-console */
 import fs from "node:fs";
+import countries from "i18n-iso-countries";
 import uniqBy from "lodash/uniqBy";
+import { type Airline } from "~/domains/fluggastrechte/services/airlines/types";
 
-type Airline = {
-  name: string;
-  iata: string;
-  isInEU: boolean;
-  arbitrationBoard: string | null;
-};
+const GERMAN_LOCALE = "de";
+const ENGLISH_LOCALE = "en";
 
 function processAirlineRow(row: string): Airline {
-  const [airlineName, arbitrationBoardCode, iataCode, region] = row.split(";");
+  const [
+    airlineName,
+    arbitrationBoardCode,
+    iataCode,
+    region,
+    countryFullName,
+    ,
+    streetAndNumber,
+    postalCode,
+    city,
+  ] = row.split(";");
   const arbitrationBoardValueWithoutDash = arbitrationBoardCode.replace(
     "-",
     "",
@@ -19,11 +28,19 @@ function processAirlineRow(row: string): Airline {
     arbitrationBoardValueWithoutDash.length === 0
       ? null
       : arbitrationBoardValueWithoutDash;
+
+  const countryCode =
+    countries.getAlpha2Code(countryFullName, ENGLISH_LOCALE) ?? "DE";
+
   return {
     name: airlineName,
     iata: iataCode,
     isInEU: region === "EU",
     arbitrationBoard: arbitrationBoardValue,
+    streetAndNumber,
+    postalCode: postalCode ? postalCode.replace(/[\r\n]/g, "") : "",
+    city: city ? city.replace(/[\r\n]/g, "") : "",
+    country: countries.getName(countryCode, GERMAN_LOCALE) ?? "Deutschland",
   };
 }
 
@@ -60,6 +77,10 @@ function generateAirlinesData(filePath: string) {
     iata: "sonstiges",
     isInEU: true, // set as true, so it goes to a different error page
     arbitrationBoard: null,
+    streetAndNumber: "",
+    postalCode: "",
+    city: "",
+    country: "",
   });
 
   saveAirlinesInFile(airlines);

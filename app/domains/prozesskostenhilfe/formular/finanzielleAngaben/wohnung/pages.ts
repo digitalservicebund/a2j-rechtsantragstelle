@@ -49,6 +49,16 @@ export const pkhFormularFinanzielleAngabenWohnungPages = {
       sharedRent: buildMoneyValidationSchema(),
     },
   },
+  wohnungGarageParkplatz: {
+    stepId: "finanzielle-angaben/wohnung/garage-parkplatz",
+    pageSchema: {
+      garageParkplatz: z.enum([
+        "yesPartOfTheContract",
+        "yesNotPartOfTheContract",
+        "no",
+      ]),
+    },
+  },
   wohnungNebenkosten: {
     stepId: "finanzielle-angaben/wohnung/nebenkosten",
     pageSchema: {

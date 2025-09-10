@@ -30,7 +30,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   }
 
   const {
-    userData: userDataWithPageData,
+    userData,
     flow: {
       id: flowId,
       controller: flowController,
@@ -46,23 +46,18 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
 
   const [contentData, { headers, csrf }] = await Promise.all([
-    retrieveContentData(
-      pathname,
-      params,
-      userDataWithPageData,
-      migration.userData,
-    ),
+    retrieveContentData(pathname, params, userData, migration.userData),
     updateMainSession({
       cookieHeader,
       flowId,
       stepId,
     }),
-    flowController.getMeta(stepId)?.isValidationSubflow &&
+    flowController.getMeta(stepId)?.triggerValidation &&
       setUserVisitedValidationPage(flowId, cookieHeader),
   ]);
 
   const translations = contentData.getTranslations();
-  const navItems = contentData.getNavItems(flowController, stepId);
+  const navProps = contentData.getNavProps(flowController, stepId);
   const cmsContent = contentData.getCMSContent();
   const formElements = contentData.getFormElements();
   const meta = contentData.getMeta();
@@ -78,28 +73,23 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   return data(
     {
       arraySummaryData,
-      userVisitedValidationPage:
-        userVisitedValidationPage ??
-        flowController.getMeta(stepId)?.isValidationSubflow,
-      prunedUserData: userDataWithPageData,
+      userData,
+      navigationProps: {
+        ...navProps,
+        userVisitedValidationPage,
+      },
       buttonNavigationProps,
-      content: cmsContent.content,
+      cmsContent,
       csrf,
       emailCaptureConsent,
       formElements,
-      heading: cmsContent.heading,
       meta,
       migration,
-      navItems,
-      expandFlowNavigation:
-        flowController.getMeta(stepId)?.shouldExpandAllStates,
-      postFormContent: cmsContent.postFormContent,
-      preHeading: cmsContent.preHeading,
       stepData,
       translations,
       validFlowPaths,
       flowId,
-      showReportProblem: shouldShowReportProblem(flowId, stepId),
+      showReportProblem: shouldShowReportProblem(stepId),
     },
     { headers },
   );

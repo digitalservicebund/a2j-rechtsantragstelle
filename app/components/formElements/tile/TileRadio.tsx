@@ -80,7 +80,6 @@ function TileRadio({
           <div className="flex flex-row justify-between">
             {image && (
               <Image
-                className={"brightness-0 invert-0"}
                 {...image}
                 width={IMAGE_WIDTH}
                 height={IMAGE_HEIGHT}

@@ -44,7 +44,7 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
 export function NavItem({
   destination,
   label,
-  isValidationSubflow,
+  excludedFromValidation,
   userVisitedValidationPage,
   state,
   subflows = [],
@@ -62,7 +62,7 @@ export function NavItem({
     defaultExpanded: forceExpanded ?? isCurrent,
   });
   const showWarningIcon =
-    userVisitedValidationPage && !isValidationSubflow && !isDone;
+    userVisitedValidationPage && !excludedFromValidation && !isDone;
 
   // Transparent last: borders to avoid layout shifts
   const liClassNames = classNames(
@@ -96,6 +96,7 @@ export function NavItem({
             aria-expanded={collapse.isExpanded}
             {...collapse.getToggleProps()}
             aria-describedby={isDone ? iconId : undefined}
+            // oxlint-disable-next-line aria-role
             role={undefined} // due the rest operator, the role is assigned to the button in the server side rendering
           >
             {label}
@@ -113,7 +114,11 @@ export function NavItem({
           {
             // due the rest operator, the role is assigned to the section in the server side rendering
           }
-          <section {...collapse.getCollapseProps()} role={undefined}>
+          <section
+            {...collapse.getCollapseProps()}
+            // oxlint-disable-next-line jsx-a11y/aria-role
+            role={undefined}
+          >
             <NavigationList
               navItems={visibleChildItems}
               isChild={true}
