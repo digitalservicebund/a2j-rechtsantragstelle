@@ -27,6 +27,9 @@ export const Example: Story = {
     ),
   ],
   args: {
+    wasSubmitted: false,
+    submitFeedback: () => undefined,
+    closeSurvey: () => undefined,
     survey: {
       id: "0",
       questions: [

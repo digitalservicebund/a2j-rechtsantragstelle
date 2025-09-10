@@ -1,6 +1,7 @@
 import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
-import { useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Button from "~/components/common/Button";
+import { type SurveyResponses } from "~/components/reportProblem/OpenQuestion";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
@@ -15,6 +16,7 @@ const surveyIds = {
 
 export const ReportProblem = () => {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const [wasSubmitted, setWasSubmitted] = useState(false);
   const { posthogClient } = useAnalytics();
   const { ENVIRONMENT } = config();
 
@@ -26,6 +28,44 @@ export const ReportProblem = () => {
     () => fetchSurvey(surveyId, posthogClient),
     [posthogClient, surveyId],
   );
+
+  const closeSurvey = useCallback(() => {
+    if (wasSubmitted) {
+      setWasSubmitted(false);
+    }
+    dialogRef?.current?.close();
+  }, [wasSubmitted]);
+
+  useEffect(() => {
+    const closeDialogOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeSurvey();
+      }
+      return null;
+    };
+
+    window.addEventListener("keyup", closeDialogOnEscape);
+    return () => window.removeEventListener("keyup", closeDialogOnEscape);
+  }, [closeSurvey]);
+
+  const submitFeedback = (responses: SurveyResponses) => {
+    if (posthogClient) {
+      posthogClient.capture("survey sent", {
+        $survey_id: survey?.id,
+        ...responses,
+      });
+      setWasSubmitted(true);
+    }
+  };
+
+  const onReportProblemClicked = () => {
+    if (dialogRef.current?.open) {
+      closeSurvey();
+    } else {
+      dialogRef.current?.show();
+    }
+  };
+
   if (!survey) return null;
 
   return (
@@ -33,18 +73,18 @@ export const ReportProblem = () => {
       <Button
         look="tertiary"
         aria-haspopup="dialog"
-        onClick={() => {
-          if (dialogRef.current?.open) {
-            dialogRef.current?.close();
-          } else {
-            dialogRef.current?.show();
-          }
-        }}
+        onClick={onReportProblemClicked}
         className="min-w-full justify-center sm:min-w-fit mt-80"
         text={translations.feedback["report-problem"].de}
         iconLeft={<FlagOutlined />}
       />
-      <PosthogSurvey dialogRef={dialogRef} survey={survey} />
+      <PosthogSurvey
+        dialogRef={dialogRef}
+        survey={survey}
+        wasSubmitted={wasSubmitted}
+        submitFeedback={submitFeedback}
+        closeSurvey={closeSurvey}
+      />
     </>
   );
 };
