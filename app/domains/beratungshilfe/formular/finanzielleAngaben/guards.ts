@@ -3,14 +3,17 @@ import {
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-import { eigentumDone } from "./doneFunctions";
 import {
   hasStaatlicheLeistungen,
   hasNoStaatlicheLeistungen,
 } from "./einkommen/doneFunctions";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
-import { yesNoGuards } from "../../../guards.server";
-import type { GenericGuard, Guards } from "../../../guards.server";
+import {
+  type GenericGuard,
+  type Guards,
+  yesNoGuards,
+} from "~/domains/guards.server";
+import { eigentumDone } from "./eigentum/doneFunctions";
 
 export type BeratungshilfeFinanzielleAngabenGuard =
   GenericGuard<BeratungshilfeFinanzielleAngabenUserData>;
