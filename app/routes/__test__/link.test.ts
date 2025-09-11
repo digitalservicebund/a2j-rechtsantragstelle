@@ -72,9 +72,6 @@ describe("link loader", () => {
     expect(mockSendCustomAnalyticsEvent).toHaveBeenCalledWith({
       request: mockArgs.request,
       eventName: "$pageview",
-      properties: {
-        $current_url: new URL(mockArgs.request.url).pathname,
-      },
     });
   });
 });
