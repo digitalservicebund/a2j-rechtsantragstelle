@@ -7,16 +7,10 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 const steps = xStateTargetsFromPagesConfig(berHAntragGrundvoraussetzungenPages);
 
 export const grundvorraussetzungXstateConfig = {
-  initial: "start",
+  initial: "rechtsschutzversicherung",
   id: "grundvoraussetzungen",
   meta: { done: grundvoraussetzungDone },
   states: {
-    start: {
-      on: {
-        SUBMIT: steps.rechtsschutzversicherung.relative,
-        BACK: "#antragStart",
-      },
-    },
     [steps.rechtsschutzversicherung.relative]: {
       on: {
         SUBMIT: [
@@ -28,7 +22,7 @@ export const grundvorraussetzungXstateConfig = {
             target: steps.rechtsschutzversicherungHinweis.relative,
           },
         ],
-        BACK: "start",
+        BACK: "#antragStart",
       },
     },
     [steps.rechtsschutzversicherungHinweis.relative]: {
