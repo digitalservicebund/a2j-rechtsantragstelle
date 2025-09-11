@@ -194,7 +194,6 @@ export const fillBesondersHoheAusgabenPartner: PkhPdfFillFunction = ({
   const attachment: AttachmentEntries = [];
   if (
     userData.partnerHasBesondersAusgaben === "yes" &&
-    userData.partnerBesondersAusgabe &&
     objectKeysNonEmpty(userData.partnerBesondersAusgabe, [
       "beschreibung",
       "betrag",
