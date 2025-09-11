@@ -4,7 +4,6 @@ import LightbulbOutlinedIcon from "@digitalservicebund/icons/LightbulbOutlined";
 import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
 import Heading from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
-import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
 
@@ -80,32 +79,30 @@ export const InlineNotice = ({
 
   return (
     !shouldHideNotice && (
-      <Grid className="py-40">
-        <GridItem
-          span={12}
-          mdSpan={7}
-          mdStart={1}
-          lgStart={3}
-          lgSpan={7}
-          xlStart={3}
-          xlSpan={7}
+      <GridItem
+        span={12}
+        mdSpan={7}
+        mdStart={1}
+        lgStart={3}
+        lgSpan={7}
+        xlStart={3}
+        xlSpan={7}
+      >
+        <div
+          className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
+          id={identifier}
+          role="note"
         >
-          <div
-            className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
-            id={identifier}
-            role="note"
-          >
-            <div className="flex flex-row gap-[4px] items-center">
-              <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
-              <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
-            </div>
-            <RichText
-              className="tracking-[0.16px] leading-[26px]"
-              html={content}
-            />
+          <div className="flex flex-row gap-[4px] items-center">
+            <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
+            <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
           </div>
-        </GridItem>
-      </Grid>
+          <RichText
+            className="tracking-[0.16px] leading-[26px]"
+            html={content}
+          />
+        </div>
+      </GridItem>
     )
   );
 };

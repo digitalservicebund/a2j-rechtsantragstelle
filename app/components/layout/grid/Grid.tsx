@@ -1,6 +1,6 @@
-import cx from "classnames";
+import classNames from "classnames";
 import type { PropsWithChildren, CSSProperties } from "react";
-import { getGridClass, Span } from "./util";
+import { getGridClass, type Span } from "./util";
 
 type BgSpan = {
   start?: number;
@@ -36,7 +36,7 @@ export function Grid({
 }: GridProps) {
   const bgItem =
     background &&
-    cx(
+    classNames(
       "[grid-row:1] z-0",
       (background.start ?? 1) &&
         getGridClass("col-start", (background.start as Span) ?? 1),
@@ -56,9 +56,16 @@ export function Grid({
         getGridClass("col-span", background.xlSpan as Span, "xl"),
     );
 
+  const baseClasses = classNames(
+    "grid-fluid",
+    "[&>*]:min-w-0",
+    "gap-y-24",
+    className,
+  );
+
   return (
     <div
-      className={cx("grid-fluid", "[&>*]:min-w-0", className)}
+      className={baseClasses}
       style={{
         ["--cols-md" as string]: mdCols,
         ["--cols-lg" as string]: lgCols,
@@ -68,7 +75,7 @@ export function Grid({
     >
       {background && (
         <div className={bgItem} aria-hidden>
-          <div className={cx("h-full w-full", background.className)} />
+          <div className={classNames("h-full w-full", background?.className)} />
         </div>
       )}
 

@@ -132,3 +132,12 @@ export function getGridClass(
     return START[idx];
   }
 }
+
+export const getPaddingClasses = (pt: string, pb: string) => {
+  if (pt && pb) {
+    const paddingTop = pt === "default" ? "40" : pt;
+    const paddingBottom = pb === "default" ? "40" : pb;
+    return `pt-[${paddingTop}px] pb-[${paddingBottom}px]`;
+  }
+  return "";
+};

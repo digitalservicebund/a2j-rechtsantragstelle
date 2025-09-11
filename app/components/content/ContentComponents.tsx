@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { BACKGROUND_COLORS } from "~/components";
 import Heading from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
@@ -15,6 +16,7 @@ import UserFeedback from "~/components/content/userFeedback";
 import Video from "~/components/content/video/Video";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
+import { Grid } from "../layout/grid/Grid";
 
 function cmsToReact(
   componentProps: StrapiContentComponent,
@@ -66,19 +68,64 @@ function ContentComponents({ content = [], formFlowPage }: PageContentProps) {
   if (content.length === 0) return <></>;
   return content
     .filter((el) => el.__component !== "page.array-summary")
-    .map((el) => (
-      <GridSection
-        key={`${el.__component}_${el.id}`}
-        bgClass={
-          BACKGROUND_COLORS[
+    .map((el) => {
+      const isUserFeedback = el.__component === "page.user-feedback";
+      if (formFlowPage) {
+        return (
+          <div key={`${el.__component}_${el.id}`}>
+            {cmsToReact(el, formFlowPage)}
+          </div>
+        );
+      }
+      return (
+        <GridSection
+          pt={
             // @ts-expect-error TODO: why this prop doesnt exist?
-            el.outerBackground
-              ?.backgroundColor as keyof typeof BACKGROUND_COLORS
-          ]
-        }
-      >
-        {cmsToReact(el, formFlowPage)}
-      </GridSection>
-    ));
+            el.container?.paddingTop ?? "default"
+            // el.outerBackground?.paddingTop ??
+            // "default"
+          }
+          pb={
+            // @ts-expect-error TODO: why this prop doesnt exist?
+            el.container?.paddingBottom ?? "default"
+            // el.outerBackground?.paddingBottom ??
+            // "default"
+          }
+          key={`${el.__component}_${el.id}`}
+          bgClass={
+            BACKGROUND_COLORS[
+              // @ts-expect-error TODO: why this prop doesnt exist?
+              el.outerBackground
+                ?.backgroundColor as keyof typeof BACKGROUND_COLORS
+            ]
+          }
+        >
+          <Grid
+            background={{
+              start: 1,
+              span: 12,
+              mdStart: 1,
+              mdSpan: 8,
+              lgStart: 2,
+              lgSpan: 10,
+              xlStart: 2,
+              xlSpan: 10,
+              className: classNames(
+                isUserFeedback
+                  ? BACKGROUND_COLORS.midBlue
+                  : BACKGROUND_COLORS[
+                      // @ts-expect-error TODO: why this prop doesnt exist?
+                      el.container
+                        ?.backgroundColor as keyof typeof BACKGROUND_COLORS
+                    ],
+                "rounded-lg",
+              ),
+            }}
+          >
+            {cmsToReact(el, formFlowPage)}
+          </Grid>
+        </GridSection>
+      );
+    });
 }
 export default ContentComponents;

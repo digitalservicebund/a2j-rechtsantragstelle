@@ -111,8 +111,8 @@ export default function Footer({
             mdStart={1}
             lgSpan={8}
             lgStart={3}
-            xlSpan={8}
-            xlStart={3}
+            xlSpan={10}
+            xlStart={2}
             className="bg-blue-100 text-white print:hidden text-center pt-16 pb-16"
           >
             <div className="text-center print:hidden">

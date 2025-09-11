@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
-import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import InfoBoxItem, { type InfoBoxItemProps } from "./InfoBoxItem";
 
@@ -21,42 +20,32 @@ const InfoBox = ({
   items,
 }: InfoBoxProps) => {
   return (
-    <Grid className="py-40" id={identifier}>
-      <GridItem
-        span={12}
-        mdSpan={7}
-        mdStart={1}
-        lgStart={3}
-        lgSpan={7}
-        xlStart={3}
-        xlSpan={7}
-      >
-        {heading && <Heading {...heading} />}
-      </GridItem>
+    <GridItem
+      span={12}
+      mdSpan={7}
+      mdStart={1}
+      lgStart={3}
+      lgSpan={7}
+      xlStart={3}
+      xlSpan={7}
+      id={identifier}
+    >
+      {heading && <Heading {...heading} />}
       {items.length > 0 && (
-        <GridItem
-          span={12}
-          mdSpan={7}
-          mdStart={1}
-          lgStart={3}
-          lgSpan={7}
-          xlStart={3}
-          xlSpan={7}
+        <div
+          // do we need that?
+          className={classNames("ps-0 info-box ds-stack py-24", {
+            "ds-stack-48": !separator,
+            "ds-stack-32": separator,
+          })}
+          data-testid="info-box-item-container"
         >
-          <div
-            className={classNames("ps-0 info-box ds-stack", {
-              "ds-stack-48": !separator,
-              "ds-stack-32": separator,
-            })}
-            data-testid="info-box-item-container"
-          >
-            {items.map((item) => (
-              <InfoBoxItem separator={separator} {...item} key={item.id} />
-            ))}
-          </div>
-        </GridItem>
+          {items.map((item) => (
+            <InfoBoxItem separator={separator} {...item} key={item.id} />
+          ))}
+        </div>
       )}
-    </Grid>
+    </GridItem>
   );
 };
 

@@ -1,6 +1,5 @@
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
-import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
 import ListItem from "./ListItem";
@@ -48,30 +47,22 @@ const List = ({
     );
   }
   return (
-    <Grid className="py-40" id={identifier}>
-      <GridItem
-        span={12}
-        mdSpan={7}
-        mdStart={1}
-        lgStart={3}
-        lgSpan={7}
-        xlStart={3}
-        xlSpan={7}
-      >
+    <GridItem
+      span={12}
+      mdSpan={7}
+      mdStart={1}
+      lgStart={3}
+      lgSpan={7}
+      xlStart={3}
+      xlSpan={7}
+      id={identifier}
+      className="py-24"
+    >
+      <div className="ds-stack ds-stack-32">
         <div className="ds-stack ds-stack-16">
           {heading && <Heading {...heading} />}
           {subheading && <RichText html={subheading} />}
         </div>
-      </GridItem>
-      <GridItem
-        span={12}
-        mdSpan={7}
-        mdStart={1}
-        lgStart={3}
-        lgSpan={7}
-        xlStart={3}
-        xlSpan={7}
-      >
         <ListTag className="list-none ps-0">
           {items
             // Need to filter out empty list items when conditionally rendering with mustache templating
@@ -82,8 +73,8 @@ const List = ({
               </li>
             ))}
         </ListTag>
-      </GridItem>
-    </Grid>
+      </div>
+    </GridItem>
   );
 };
 
