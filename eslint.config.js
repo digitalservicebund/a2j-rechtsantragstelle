@@ -4,10 +4,11 @@ import sonarjs from "eslint-plugin-sonarjs";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 import oxlint from "eslint-plugin-oxlint";
+import { defineConfig } from "eslint/config";
 
 const HANDLED_BY_OXC_GLOB = ["**/*.test.*"];
 
-export default tseslint.config(
+export default defineConfig(
   {
     rules: {
       "constructor-super": "error",
