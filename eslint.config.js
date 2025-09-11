@@ -95,7 +95,7 @@ export default defineConfig(
     rules: {
       "sonarjs/todo-tag": "off",
       "sonarjs/function-return-type": "warn",
-      "sonarjs/different-types-comparison": "off",
+      "sonarjs/different-types-comparison": "warn",
     },
   },
 
