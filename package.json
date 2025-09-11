@@ -44,7 +44,7 @@
     "verify:websites": "tsx ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.884.0",
+    "@aws-sdk/client-s3": "^3.886.0",
     "@digitalservice4germany/angie": "2.2.0",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@digitalservicebund/icons": "^2.0.1",
@@ -54,7 +54,7 @@
     "@react-router/node": "^7.8.2",
     "@rvf/react-router": "^8.0.0",
     "@rvf/zod": "^7.0.4",
-    "@sentry/react-router": "^10.10.0",
+    "@sentry/react-router": "^10.11.0",
     "@sentry/vite-plugin": "^4.3.0",
     "@xstate/graph": "^3.0.4",
     "axios": "^1.11.0",
@@ -77,8 +77,8 @@
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.17.2",
     "pino-http": "^10.5.0",
-    "posthog-js": "1.261.8",
-    "posthog-node": "5.8.2",
+    "posthog-js": "1.262.0",
+    "posthog-node": "5.8.3",
     "rate-limit-redis": "^4.2.2",
     "react": "^19.1.1",
     "react-collapsed": "^4.2.0",
@@ -92,7 +92,7 @@
     "validator": "^13.15.15",
     "xss": "^1.0.15",
     "xstate": "^5.21.0",
-    "zod": "^4.1.5"
+    "zod": "^4.1.7"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
@@ -131,7 +131,7 @@
     "eslint-plugin-sonarjs": "^3.0.5",
     "eslint-plugin-storybook": "^9.1.5",
     "follow-redirects": "^1.15.11",
-    "globals": "^16.3.0",
+    "globals": "^16.4.0",
     "i18n-iso-countries": "^7.14.0",
     "jsdom": "^26.1.0",
     "lefthook": "^1.12.4",
