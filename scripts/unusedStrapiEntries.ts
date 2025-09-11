@@ -20,6 +20,7 @@ type MinimalPage = {
 function allStateNames(xstateConfigStates: Config["states"]): string[] {
   if (!xstateConfigStates) return [];
   return Object.entries(xstateConfigStates).flatMap(
+    // eslint-disable-next-line sonarjs/function-return-type
     ([stateName, stateConfig]) => {
       if (stateConfig.states) {
         // there are nested states -> recursion
