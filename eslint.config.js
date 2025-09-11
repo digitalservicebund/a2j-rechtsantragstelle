@@ -3,6 +3,7 @@ import react from "eslint-plugin-react";
 import sonarjs from "eslint-plugin-sonarjs";
 import globals from "globals";
 import tseslint from "typescript-eslint";
+import oxlint from "eslint-plugin-oxlint";
 
 const HANDLED_BY_OXC_GLOB = ["**/*.test.*"];
 
@@ -174,4 +175,5 @@ export default tseslint.config(
       "@typescript-eslint/switch-exhaustiveness-check": "error",
     },
   },
+  ...oxlint.buildFromOxlintConfigFile("./.oxlintrc.json"),
 );
