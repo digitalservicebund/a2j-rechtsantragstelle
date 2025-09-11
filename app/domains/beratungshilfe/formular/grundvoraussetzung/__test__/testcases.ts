@@ -1,7 +1,6 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import type { BeratungshilfeGrundvoraussetzungenUserData } from "~/domains/beratungshilfe/formular/grundvoraussetzung/userData";
 
-const start = "/grundvoraussetzungen/start";
 const rechtsschutzversicherung =
   "/grundvoraussetzungen/rechtsschutzversicherung";
 const wurdeVerklagt = "/grundvoraussetzungen/wurde-verklagt";
@@ -17,7 +16,6 @@ export const testCasesBeratungshilfeFormularGrundvoraussetzungen = [
   [
     {},
     [
-      start,
       rechtsschutzversicherung,
       "/grundvoraussetzungen/rechtsschutzversicherung-hinweis",
     ],
@@ -32,7 +30,6 @@ export const testCasesBeratungshilfeFormularGrundvoraussetzungen = [
       eigeninitiativeGrundvorraussetzung: "no",
     },
     [
-      start,
       rechtsschutzversicherung,
       wurdeVerklagt,
       klageEingereicht,
@@ -47,7 +44,6 @@ export const testCasesBeratungshilfeFormularGrundvoraussetzungen = [
       rechtsschutzversicherung: "yes",
     },
     [
-      start,
       rechtsschutzversicherung,
       "/grundvoraussetzungen/rechtsschutzversicherung-hinweis",
     ],
@@ -58,7 +54,6 @@ export const testCasesBeratungshilfeFormularGrundvoraussetzungen = [
       wurdeVerklagt: "yes",
     },
     [
-      start,
       rechtsschutzversicherung,
       wurdeVerklagt,
       "/grundvoraussetzungen/wurde-verklagt-hinweis",
@@ -71,7 +66,6 @@ export const testCasesBeratungshilfeFormularGrundvoraussetzungen = [
       klageEingereicht: "yes",
     },
     [
-      start,
       rechtsschutzversicherung,
       wurdeVerklagt,
       klageEingereicht,
@@ -86,7 +80,6 @@ export const testCasesBeratungshilfeFormularGrundvoraussetzungen = [
       hamburgOderBremen: "yes",
     },
     [
-      start,
       rechtsschutzversicherung,
       wurdeVerklagt,
       klageEingereicht,
@@ -104,7 +97,6 @@ export const testCasesBeratungshilfeFormularGrundvoraussetzungen = [
       eigeninitiativeGrundvorraussetzung: "no",
     },
     [
-      start,
       rechtsschutzversicherung,
       wurdeVerklagt,
       klageEingereicht,
@@ -123,7 +115,6 @@ export const testCasesBeratungshilfeFormularGrundvoraussetzungen = [
       eigeninitiativeGrundvorraussetzung: "yes",
     },
     [
-      start,
       rechtsschutzversicherung,
       wurdeVerklagt,
       klageEingereicht,

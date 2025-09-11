@@ -1,15 +1,17 @@
 import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import {
+  eigentumDone,
   geldanlagenDone,
   grundeigentumDone,
   kraftfahrzeugeDone,
   wertsachenDone,
-  eigentumDone,
-  kinderDone,
-  ausgabenDone,
+} from "../eigentum/doneFunctions";
+import { kinderDone } from "../kinder/doneFunctions";
+import {
   ausgabeDone,
-} from "../doneFunctions";
+  ausgabenDone,
+} from "../regelmaessigeAusgaben/doneFunctions";
 
 const mockedCompleteAusgabe: NonNullable<
   BeratungshilfeFinanzielleAngabenUserData["ausgaben"]

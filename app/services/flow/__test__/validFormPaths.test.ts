@@ -16,7 +16,6 @@ describe("validFormPaths", () => {
       {
         stepIds: [
           "/start/start",
-          "/grundvoraussetzungen/start",
           "/grundvoraussetzungen/rechtsschutzversicherung",
           "/grundvoraussetzungen/wurde-verklagt",
           "/grundvoraussetzungen/wurde-verklagt-hinweis",

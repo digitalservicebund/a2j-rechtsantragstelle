@@ -3,13 +3,6 @@ import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/done
 import { type Config } from "~/services/flow/server/types";
 import { berhAntragFinanzielleAngabenEigentumPages } from "./pages";
 import {
-  eigentumDone,
-  geldanlagenDone,
-  grundeigentumDone,
-  kraftfahrzeugeDone,
-  wertsachenDone,
-} from "../doneFunctions";
-import {
   finanzielleAngabeGuards,
   grundeigentumIsBewohnt,
   hasGrundeigentumYes,
@@ -26,6 +19,13 @@ import {
   staatlicheLeistungenIsBuergergeld,
 } from "../guards";
 import { type BeratungshilfeFinanzielleAngabenEigentumUserData } from "./userData";
+import {
+  eigentumDone,
+  geldanlagenDone,
+  grundeigentumDone,
+  kraftfahrzeugeDone,
+  wertsachenDone,
+} from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
   berhAntragFinanzielleAngabenEigentumPages,
