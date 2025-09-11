@@ -1,4 +1,5 @@
 import { type LoaderFunctionArgs, redirect } from "react-router";
+import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 
 const redirectionMap = {
   pkh: "/prozesskostenhilfe/direktlink",
@@ -7,8 +8,15 @@ const redirectionMap = {
     "https://app.formbricks.com/s/ovtnudms8x5290643yypu631",
 };
 
-export function loader({ params }: LoaderFunctionArgs) {
+export function loader({ request, params }: LoaderFunctionArgs) {
   const requestedSite = params["*"];
+  sendCustomAnalyticsEvent({
+    request,
+    eventName: "$pageview",
+    properties: {
+      $current_url: new URL(request.url).pathname,
+    },
+  });
   if (!requestedSite || !(requestedSite in redirectionMap)) {
     throw new Response(null, { status: 404 });
   }
