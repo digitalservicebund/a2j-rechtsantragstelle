@@ -42,7 +42,6 @@ const Input = function InputComponent({
 
   const getInputType = (name: string): string => {
     if (name === "telefonnummer") return "tel";
-    if (name === "email") return "email";
     return "text";
   };
 
