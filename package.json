@@ -44,7 +44,7 @@
     "verify:websites": "tsx ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.884.0",
+    "@aws-sdk/client-s3": "^3.886.0",
     "@digitalservice4germany/angie": "2.2.0",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@digitalservicebund/icons": "^2.0.1",
@@ -78,7 +78,7 @@
     "pdfkit": "^0.17.2",
     "pino-http": "^10.5.0",
     "posthog-js": "1.262.0",
-    "posthog-node": "5.8.2",
+    "posthog-node": "5.8.3",
     "rate-limit-redis": "^4.2.2",
     "react": "^19.1.1",
     "react-collapsed": "^4.2.0",
@@ -92,7 +92,7 @@
     "validator": "^13.15.15",
     "xss": "^1.0.15",
     "xstate": "^5.21.0",
-    "zod": "^4.1.5"
+    "zod": "^4.1.7"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",

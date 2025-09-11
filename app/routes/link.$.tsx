@@ -13,9 +13,6 @@ export function loader({ request, params }: LoaderFunctionArgs) {
   sendCustomAnalyticsEvent({
     request,
     eventName: "$pageview",
-    properties: {
-      $current_url: new URL(request.url).pathname,
-    },
   });
   if (!requestedSite || !(requestedSite in redirectionMap)) {
     throw new Response(null, { status: 404 });
