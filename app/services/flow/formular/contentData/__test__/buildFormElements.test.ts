@@ -45,6 +45,32 @@ describe("buildFormElements", () => {
     expect((actual[0] as { altLabel: string }).altLabel).toBe("new heading");
   });
 
+  it("should enrich streetNames auto-suggest-input with postcode", () => {
+    const mockCmsElementWithAutoComplete = {
+      ...mockCmsElement,
+      formContent: [
+        {
+          __component: "form-elements.auto-suggest-input",
+          name: "streetname",
+          dataList: "streetNames",
+          width: "10",
+          isDisabled: false,
+          supportsFreeText: false,
+          errorMessages: [],
+          id: 10,
+          dataListArgument: undefined,
+        },
+      ],
+    } satisfies CMSContent;
+
+    const actual = buildFormElements(mockCmsElementWithAutoComplete, {
+      plz: "12345",
+      pageData: { arrayIndexes: [] },
+    });
+
+    expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
+  });
+
   it("should not overwrite the altLabel for the heading in case the heading is undefined", () => {
     const mockCmsElementWithRadio = {
       ...mockCmsElement,
