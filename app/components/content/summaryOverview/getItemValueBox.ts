@@ -40,8 +40,7 @@ export const getItemValueBox = (
 
     // Handle empty value
     if (
-      (itemValue === undefined ||
-        (typeof itemValue === "string" && itemValue.length === 0)) &&
+      !itemValue &&
       typeof emptyValuePlaceholder !== "undefined" &&
       emptyValuePlaceholder.length > 0
     ) {
