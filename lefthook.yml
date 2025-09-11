@@ -13,3 +13,5 @@ pre-push:
       run: npm test
     lint:
       run: npm run lint
+    "dependency check":
+      run: npm run lint:dependency
