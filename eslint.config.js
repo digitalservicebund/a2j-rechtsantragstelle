@@ -46,11 +46,7 @@ export default defineConfig(
   // Global overrides
   {
     languageOptions: {
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
+      parserOptions: { ecmaFeatures: { jsx: true } },
       globals: {
         ...globals.browser,
         ...globals.commonjs,
@@ -89,25 +85,8 @@ export default defineConfig(
   },
   // JSX Accessibility
   {
+    ...jsxA11y.flatConfigs.strict,
     files: ["**/*.{jsx,tsx}"],
-    plugins: {
-      "jsx-a11y": jsxA11y,
-    },
-    languageOptions: {
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
-    rules: {
-      "jsx-a11y/aria-proptypes": "error",
-      "jsx-a11y/interactive-supports-focus": "error",
-      "jsx-a11y/no-interactive-element-to-noninteractive-role": "error",
-      "jsx-a11y/no-noninteractive-element-interactions": "error",
-      "jsx-a11y/no-noninteractive-element-to-interactive-role": "error",
-      "jsx-a11y/no-static-element-interactions": "error",
-    },
   },
   // Sonarjs plugin
   {
