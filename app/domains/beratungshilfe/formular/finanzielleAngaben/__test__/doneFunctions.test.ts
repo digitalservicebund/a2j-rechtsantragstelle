@@ -1,5 +1,5 @@
-import { beratungshilfeFinanzielleAngabeDone } from "../beratungshilfeFinanzielleAngabeDone";
-import * as eigentumDone from "../doneFunctions";
+import { beratungshilfeFinanzielleAngabeDone } from "../doneFunctions";
+import * as eigentumDone from "../eigentum/doneFunctions";
 
 describe("navStates", () => {
   afterEach(() => {
@@ -62,7 +62,6 @@ describe("navStates", () => {
 
     it("passes with buergergeld and eigentum done", () => {
       vi.spyOn(eigentumDone, "eigentumDone").mockReturnValue(true);
-
       expect(
         beratungshilfeFinanzielleAngabeDone({
           context: {

@@ -2,7 +2,6 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
 import { berhAntragFinanzielleAngabenKinderPages } from "./pages";
 import { type BeratungshilfeFinanzielleAngabenKinderUserData } from "./userData";
-import { kinderDone } from "../doneFunctions";
 import {
   hasKinderYesAndEmptyArray,
   hasPartnerschaftYes,
@@ -18,6 +17,7 @@ import {
   kindWohnortBeiAntragstellerNo,
   kindWohnortBeiAntragstellerYes,
 } from "../guards";
+import { kinderDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
   berhAntragFinanzielleAngabenKinderPages,

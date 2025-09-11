@@ -1,12 +1,13 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
-import { partnerDone } from "../doneFunctions";
 import { berhAntragFinanzielleAngabenPartnerPages } from "./pages";
 import { type BeratungshilfeFinanzielleAngabenPartnerUserData } from "./userData";
+import { partnerDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
   berhAntragFinanzielleAngabenPartnerPages,
 );
+
 export const beratungshilfeFinanzielleAngabenPartnerXstateConfig = {
   id: "partner",
   initial: steps.partnerschaft.relative,
