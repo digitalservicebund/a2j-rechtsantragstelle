@@ -74,7 +74,13 @@ export default function Footer({
             ))}
           </div>
         </GridItem>
-        <GridItem span={12} lgSpan={9} xlSpan={9} aria-label={ariaLabel}>
+        <GridItem
+          span={12}
+          lgSpan={9}
+          xlSpan={9}
+          className="[grid-row:2] md:[grid-row:2] lg:[grid-row:1] xl:[grid-row:1]"
+          aria-label={ariaLabel}
+        >
           <nav
             className="flex flex-col sm:flex-row justify-between print:hidden"
             aria-label={ariaLabel}
