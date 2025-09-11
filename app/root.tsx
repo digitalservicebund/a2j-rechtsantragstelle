@@ -200,7 +200,7 @@ function App() {
         <Meta />
         <Links />
       </head>
-      <body className="min-h-vh">
+      <body className="min-h-screen grid grid-rows-[90px_auto_1fr_auto]">
         <AnalyticsContext value={{ posthogClient, hasTrackingConsent }}>
           <CookieBanner content={cookieBannerContent} />
           <SkipToContentLink
@@ -222,7 +222,7 @@ function App() {
           <main className="min-h-0 overflow-auto" id="main">
             <Outlet />
           </main>
-          <footer className="row-span-1">
+          <footer>
             <Footer
               {...footer}
               showDeletionBanner={hasAnyUserData}
