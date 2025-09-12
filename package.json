@@ -42,8 +42,7 @@
     "update:URLs": "tsx ./app/services/gerichtsfinder/checkURLs.ts checkURLs",
     "verify:emails": "tsx ./scripts/verifyExternalLinks.ts verifyEmails",
     "verify:unusedStrapiEntries": "vite-node ./scripts/unusedStrapiEntries.ts unusedStrapiEntry",
-    "verify:websites": "tsx ./scripts/verifyExternalLinks.ts verifyWebsites",
-    "knip": "knip"
+    "verify:websites": "tsx ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.887.0",
