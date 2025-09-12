@@ -34,7 +34,8 @@ const config: KnipConfig = {
   "react-router": {
     config: ["react-router.config.ts", "vite.config.ts"],
   },
-  ignoreDependencies: ["@vitest/coverage-v8", "./+types/root"],
+  ignore: ["./+types/root"],
+  ignoreDependencies: ["@vitest/coverage-v8"],
 };
 
 export default config;
