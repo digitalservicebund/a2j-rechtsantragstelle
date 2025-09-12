@@ -21,6 +21,7 @@ const config: KnipConfig = {
     "tests/**/*.{ts,tsx}",
     "scripts/**/*.ts",
     "stories/**/*.tsx",
+    "+types/**/*",
   ],
   eslint: {
     config: "eslint.config.js",
