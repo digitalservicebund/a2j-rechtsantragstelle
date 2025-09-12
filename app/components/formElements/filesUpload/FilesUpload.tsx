@@ -37,6 +37,7 @@ const FilesUpload = ({
     ValidationErrorResponseData | UserData | undefined
   >();
   const field = useField(name);
+  if (title === "") return null;
   const items: Array<PDFFileMetadata | undefined> = ((
     response?.repopulateFields as UserData | undefined
   )?.[name] ??
@@ -74,48 +75,46 @@ const FilesUpload = ({
     (items.length === 1 && Object.entries(scopedErrors).length > 0);
 
   return (
-    title !== "" && (
-      <NoscriptWrapper jsAvailable={jsAvailable}>
-        <div data-testid={`files-upload-${name}`} className={classes}>
-          <FilesUploadHeader title={title} description={description} />
-          <div className="w-full flex flex-col gap-16">
-            {items.map((value, index) => {
-              const inputName = `${name}[${index}]`;
-              return (
-                <FileInput
-                  key={inputName}
-                  selectedFile={value}
-                  error={scopedErrors[inputName]}
-                  errorMessages={errorMessages}
-                  jsAvailable={jsAvailable}
-                  name={inputName}
-                />
-              );
-            })}
-            {showAddMoreButton && (
+    <NoscriptWrapper jsAvailable={jsAvailable}>
+      <div data-testid={`files-upload-${name}`} className={classes}>
+        <FilesUploadHeader title={title} description={description} />
+        <div className="w-full flex flex-col gap-16">
+          {items.map((value, index) => {
+            const inputName = `${name}[${index}]`;
+            return (
               <FileInput
-                selectedFile={undefined}
-                jsAvailable={jsAvailable}
-                name={`${name}[${items.length}]`}
-                error={scopedErrors[`${name}[${items.length}]`]}
+                key={inputName}
+                selectedFile={value}
+                error={scopedErrors[inputName]}
                 errorMessages={errorMessages}
+                jsAvailable={jsAvailable}
+                name={inputName}
               />
-            )}
-          </div>
-          {items.length === fileUploadLimit &&
-            inlineNotices?.map((inlineNotice) => (
-              <InlineNotice key={inlineNotice.title} {...inlineNotice} />
-            ))}
+            );
+          })}
+          {showAddMoreButton && (
+            <FileInput
+              selectedFile={undefined}
+              jsAvailable={jsAvailable}
+              name={`${name}[${items.length}]`}
+              error={scopedErrors[`${name}[${items.length}]`]}
+              errorMessages={errorMessages}
+            />
+          )}
         </div>
-        {shouldSubmitEmptyArray && (
-          <input type="hidden" name={"arrayPostfix"} value={name} />
-        )}
-        <InputError id={errorId}>
-          {errorMessages?.find((err) => err.code === field.error())?.text ??
-            field.error()}
-        </InputError>
-      </NoscriptWrapper>
-    )
+        {items.length === fileUploadLimit &&
+          inlineNotices?.map((inlineNotice) => (
+            <InlineNotice key={inlineNotice.title} {...inlineNotice} />
+          ))}
+      </div>
+      {shouldSubmitEmptyArray && (
+        <input type="hidden" name={"arrayPostfix"} value={name} />
+      )}
+      <InputError id={errorId}>
+        {errorMessages?.find((err) => err.code === field.error())?.text ??
+          field.error()}
+      </InputError>
+    </NoscriptWrapper>
   );
 };
 

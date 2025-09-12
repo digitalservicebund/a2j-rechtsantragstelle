@@ -6,7 +6,7 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
 import { berhAntragFinanzielleAngabenRegelmassigeAusgabenPages } from "./pages";
 import { type BeratungshilfeFinanzielleAngabenRegelmassigeAusgabenUserData } from "./userData";
-import { ausgabenDone } from "../doneFunctions";
+import { ausgabenDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
   berhAntragFinanzielleAngabenRegelmassigeAusgabenPages,

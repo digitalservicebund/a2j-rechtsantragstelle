@@ -3,10 +3,12 @@ import react from "eslint-plugin-react";
 import sonarjs from "eslint-plugin-sonarjs";
 import globals from "globals";
 import tseslint from "typescript-eslint";
+import oxlint from "eslint-plugin-oxlint";
+import { defineConfig } from "eslint/config";
 
 const HANDLED_BY_OXC_GLOB = ["**/*.test.*"];
 
-export default tseslint.config(
+export default defineConfig(
   {
     rules: {
       "constructor-super": "error",
@@ -44,11 +46,7 @@ export default tseslint.config(
   // Global overrides
   {
     languageOptions: {
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
+      parserOptions: { ecmaFeatures: { jsx: true } },
       globals: {
         ...globals.browser,
         ...globals.commonjs,
@@ -87,44 +85,17 @@ export default tseslint.config(
   },
   // JSX Accessibility
   {
+    ...jsxA11y.flatConfigs.strict,
     files: ["**/*.{jsx,tsx}"],
-    plugins: {
-      "jsx-a11y": jsxA11y,
-    },
-    languageOptions: {
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
-    rules: {
-      "jsx-a11y/aria-proptypes": "error",
-      "jsx-a11y/interactive-supports-focus": "error",
-      "jsx-a11y/no-interactive-element-to-noninteractive-role": "error",
-      "jsx-a11y/no-noninteractive-element-interactions": "error",
-      "jsx-a11y/no-noninteractive-element-to-interactive-role": "error",
-      "jsx-a11y/no-static-element-interactions": "error",
-    },
   },
   // Sonarjs plugin
   {
     files: ["**/*.{ts,tsx}"],
     extends: [sonarjs.configs.recommended],
     rules: {
-      "sonarjs/no-duplicate-string": "off",
       "sonarjs/todo-tag": "off",
-      "sonarjs/function-return-type": "off",
-      "sonarjs/aws-restricted-ip-admin-access": "off",
-      "sonarjs/no-async-constructor": "off",
-      "sonarjs/sonar-no-unused-vars": "off",
-      "sonarjs/no-misused-promises": "off",
-      "sonarjs/different-types-comparison": "off",
-      "sonarjs/sonar-prefer-regexp-exec": "off",
-      "sonarjs/sonar-prefer-optional-chain": "off",
-      "sonarjs/no-dead-store": "off",
-      "sonarjs/anchor-has-content": "off",
-      "sonarjs/no-invalid-await": "off",
+      "sonarjs/function-return-type": "warn",
+      "sonarjs/different-types-comparison": "warn",
     },
   },
 
@@ -174,4 +145,5 @@ export default tseslint.config(
       "@typescript-eslint/switch-exhaustiveness-check": "error",
     },
   },
+  ...oxlint.buildFromOxlintConfigFile("./.oxlintrc.json"),
 );

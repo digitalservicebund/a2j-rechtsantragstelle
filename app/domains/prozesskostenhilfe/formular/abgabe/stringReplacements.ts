@@ -38,6 +38,6 @@ export const getWeitereDokumenteStrings = (
   context: ProzesskostenhilfeFormularUserData,
 ) => {
   return {
-    hasWeitereDokumente: context.weitereDokumenteBeweis !== null,
+    hasWeitereDokumente: context.weitereDokumenteBeweis !== undefined,
   };
 };

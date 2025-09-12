@@ -3,17 +3,14 @@ import {
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-import { eigentumDone } from "./doneFunctions";
 import {
   hasStaatlicheLeistungen,
   hasNoStaatlicheLeistungen,
 } from "./einkommen/doneFunctions";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
-import { yesNoGuards } from "../../../guards.server";
-import type { GenericGuard, Guards } from "../../../guards.server";
-
-type BeratungshilfeFinanzielleAngabenGuard =
-  GenericGuard<BeratungshilfeFinanzielleAngabenUserData>;
+import { eigentumDone } from "./eigentum/doneFunctions";
+import { type BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
+import { yesNoGuards, type Guards } from "~/domains/guards.server";
 
 export const staatlicheLeistungenIsBuergergeld: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) => context.staatlicheLeistungen === "buergergeld";

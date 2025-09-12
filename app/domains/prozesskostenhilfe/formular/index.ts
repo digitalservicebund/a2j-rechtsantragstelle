@@ -74,9 +74,9 @@ export const prozesskostenhilfeFormular = {
       start: {
         id: "antragStart",
         meta: { done: () => true },
-        initial: steps.einkuenfteStart.relative,
+        initial: steps.start.relative,
         states: {
-          [steps.einkuenfteStart.relative]: {
+          [steps.start.relative]: {
             on: { SUBMIT: "#grundvoraussetzungen" },
           },
         },
