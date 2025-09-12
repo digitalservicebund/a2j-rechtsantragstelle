@@ -26,7 +26,7 @@
     "init": "lefthook install",
     "lint:fix": "eslint . --fix",
     "lint": "oxlint && eslint --cache .",
-    "lint:dependency": "knip",
+    "lint:dependency": "knip --dependencies --exports --files",
     "size": "react-router build --logLevel error && size-limit",
     "start:storybook": "storybook dev -p 6006",
     "start": "NODE_ENV=production node ./server.js",
