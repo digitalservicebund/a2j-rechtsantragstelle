@@ -3,8 +3,12 @@ import { getPageSchema } from "../pageSchemas";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
 import type { FlowTestCases } from "./TestCases";
+import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 
-const flowSchemaTests = { beratungshilfeVorabcheckTestCases };
+const flowSchemaTests = {
+  beratungshilfeVorabcheckTestCases,
+  kontopfaendungWegweiserTestCases,
+};
 
 // Build full user input from all previous expectedSteps
 const buildFullUserInput = (
