@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { SurveyQuestionType } from "posthog-js";
 import Container from "~/components/layout/Container";

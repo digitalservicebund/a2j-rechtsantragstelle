@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
 import Select from "../app/components/formElements/Select";
 import { RVFProvider } from ".storybook/RVFProvider";
