@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
 import type { AutoSuggestInputProps } from "~/components/formElements/autoSuggestInput/types";
 import { RVFProvider } from ".storybook/RVFProvider";

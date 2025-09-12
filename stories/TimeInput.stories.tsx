@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import TimeInput from "../app/components/formElements/TimeInput";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
 import { RVFProvider } from ".storybook/RVFProvider";

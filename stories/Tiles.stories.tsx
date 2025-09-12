@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
 import TileGroup from "~/components/formElements/tile/TileGroup";
 import Container from "~/components/layout/Container";
