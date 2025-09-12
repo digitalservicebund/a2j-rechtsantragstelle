@@ -22,8 +22,9 @@ const renderMigrationValue = (
   translations: Translations,
   value: ValueOfUserData,
   key: string,
+  // eslint-disable-next-line sonarjs/function-return-type
 ) => {
-  if (typeof value === "object" && value !== null) {
+  if (typeof value === "object") {
     return Object.entries(value).map(([_, subValue]) => (
       <p key={subValue as string}>
         {lookupOrKey(subValue as string, translations)}
@@ -31,13 +32,9 @@ const renderMigrationValue = (
     ));
   }
 
-  const translation = translations[`${key}.${value}`];
-
-  if (typeof translation === "undefined") {
-    return translations[`${key}.migration.value`];
-  }
-
-  return translation;
+  return (
+    translations[`${key}.${value}`] ?? translations[`${key}.migration.value`]
+  );
 };
 
 const getSortedFieldsUserData = (

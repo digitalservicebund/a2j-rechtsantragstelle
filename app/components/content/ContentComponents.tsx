@@ -23,8 +23,7 @@ function wrapInContainer(
   reactElement: ReactElement,
   fullScreen: boolean | undefined,
 ) {
-  if (!("container" in componentProps) || componentProps.container === null)
-    return reactElement;
+  if (!("container" in componentProps)) return reactElement;
   const isBox = componentProps.__component === "page.box";
   const isBoxWithImage = componentProps.__component === "page.box-with-image";
   return (
@@ -42,10 +41,7 @@ function wrapInBackground(
   componentProps: StrapiContentComponent,
   reactElement: ReactElement,
 ) {
-  if (
-    !("outerBackground" in componentProps) ||
-    componentProps.outerBackground === null
-  )
+  if (!("outerBackground" in componentProps) || !componentProps.outerBackground)
     return reactElement;
   return (
     <Background {...componentProps.outerBackground}>{reactElement}</Background>
