@@ -3,6 +3,7 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
 import * as useDataListOptions from "~/components/formElements/autoSuggestInput/useDataListOptions";
+import * as useLiveMessage from "~/components/formElements/autoSuggestInput/useLiveMessage";
 import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 vi.mock("@rvf/react-router", () => ({
@@ -15,7 +16,10 @@ vi.mock("react-router", () => ({
   })),
 }));
 
+vi.mock("~/components/formElements/autoSuggestInput/useLiveMessage");
+
 const mockedValidate = vi.fn();
+const mockedAnnounceLiveMessage = vi.fn();
 const COMPONENT_NAME = "test-autoSuggestInput";
 const PLACEHOLDER_MOCK = "Test Placeholder";
 
@@ -54,6 +58,12 @@ beforeEach(async () => {
   vi.spyOn(useDataListOptions, "default").mockReturnValue(
     await getDataListOptions("airports"),
   );
+
+  vi.mocked(useLiveMessage.default).mockReturnValue({
+    liveMessage: "",
+    liveMessageKey: 0,
+    announceLiveMessage: mockedAnnounceLiveMessage,
+  });
 });
 
 afterEach(() => {
@@ -121,6 +131,109 @@ describe("AutoSuggestInput", () => {
     });
     await waitFor(() => {
       expect(getByText(noSuggestionMessage)).toBeInTheDocument();
+    });
+  });
+
+  it("should announce no result message when no suggestions are found", async () => {
+    const noSuggestionMessage = "No airports found matching your search";
+
+    const { getByRole } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        placeholder="placeholder"
+        dataList="airports"
+        label="label"
+        noSuggestionMessage={noSuggestionMessage}
+        isDisabled={false}
+      />,
+    );
+
+    fireEvent.change(getByRole("combobox"), {
+      target: { value: "NONEXISTENT" },
+    });
+
+    await waitFor(() => {
+      expect(mockedAnnounceLiveMessage).toHaveBeenCalledWith(
+        noSuggestionMessage,
+      );
+    });
+  });
+
+  it("should not announce no result message when suggestions are found", async () => {
+    const noSuggestionMessage = "No airports found";
+
+    const { getByRole } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        placeholder="placeholder"
+        dataList="airports"
+        label="label"
+        noSuggestionMessage={noSuggestionMessage}
+        isDisabled={false}
+      />,
+    );
+
+    mockedAnnounceLiveMessage.mockClear();
+
+    fireEvent.change(getByRole("combobox"), {
+      target: { value: "Berlin" },
+    });
+
+    await waitFor(() => {
+      expect(mockedAnnounceLiveMessage).not.toHaveBeenCalled();
+    });
+  });
+
+  it("should render live message region with correct attributes", () => {
+    const mockLiveMessage = "Test live message";
+    const mockLiveMessageKey = 123;
+
+    vi.mocked(useLiveMessage.default).mockReturnValue({
+      liveMessage: mockLiveMessage,
+      liveMessageKey: mockLiveMessageKey,
+      announceLiveMessage: mockedAnnounceLiveMessage,
+    });
+
+    const { container } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        placeholder="placeholder"
+        dataList="airports"
+        label="label"
+        isDisabled={false}
+      />,
+    );
+
+    const liveRegion = container.querySelector('div[aria-live="polite"]');
+
+    // Note: React's key is used for reconciliation and is not exposed as a DOM
+    // attribute, so we don't assert on a 'key' value here.
+    expect(liveRegion).toBeInTheDocument();
+    expect(liveRegion).toHaveClass("sr-only");
+    expect(liveRegion).toHaveTextContent(mockLiveMessage);
+  });
+
+  it("should not announce live message when input is shorter than minimum characters", async () => {
+    const { getByRole } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        placeholder="placeholder"
+        dataList="airports"
+        label="label"
+        noSuggestionMessage="No results found"
+        isDisabled={false}
+        minSuggestCharacters={3}
+      />,
+    );
+
+    mockedAnnounceLiveMessage.mockClear();
+
+    fireEvent.change(getByRole("combobox"), {
+      target: { value: "AB" },
+    });
+
+    await waitFor(() => {
+      expect(mockedAnnounceLiveMessage).not.toHaveBeenCalled();
     });
   });
 
