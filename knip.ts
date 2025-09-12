@@ -31,6 +31,9 @@ const config: KnipConfig = {
   compilers: {
     css: cssCompiler,
   },
+  "react-router": {
+    config: ["react-router.config.ts", "vite.config.ts"],
+  },
 };
 
 export default config;
