@@ -14,7 +14,7 @@ import { type ExclusiveCheckboxes as ExclusiveCheckboxesType } from "~/services/
 type ExclusiveCheckboxesProps = Readonly<{
   name: string;
   schema: ZodObject;
-  cmsCheckboxes: StrapiCheckboxComponent[];
+  cmsCheckboxes?: StrapiCheckboxComponent[];
 }>;
 
 export const ExclusiveCheckboxes = ({
@@ -29,7 +29,7 @@ export const ExclusiveCheckboxes = ({
   const [checkboxes, setCheckboxes] = useState<
     Array<Omit<ControlledCheckboxProps, "onChange">>
   >(
-    fieldValuesToCheckboxProps(field, schema, cmsCheckboxes, noneCheckboxValue),
+    fieldValuesToCheckboxProps(field, schema, noneCheckboxValue, cmsCheckboxes),
   );
   const errorId = `${name}-error`;
   const hasError = Boolean(field.error());

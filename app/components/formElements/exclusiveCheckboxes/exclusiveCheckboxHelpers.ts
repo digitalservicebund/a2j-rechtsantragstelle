@@ -8,14 +8,14 @@ import { type ExclusiveCheckboxes } from "~/services/validation/checkedCheckbox"
 export function fieldValuesToCheckboxProps(
   field: FieldApi<ExclusiveCheckboxes | undefined>,
   schema: ZodObject,
-  cmsCheckboxes: StrapiCheckboxComponent[],
   noneCheckboxValue: CheckboxValue,
+  cmsCheckboxes?: StrapiCheckboxComponent[],
 ): Array<Omit<ControlledCheckboxProps, "onChange">> {
   return Object.entries({
     ...schema.shape,
     ...field.value(),
   }).map(([checkboxName, checkboxValue]: [string, CheckboxValue | ZodEnum]) => {
-    const matchingCmsCheckbox = cmsCheckboxes.find(
+    const matchingCmsCheckbox = cmsCheckboxes?.find(
       (c) => c.name.split(".").pop() === checkboxName,
     );
     const value = checkboxValue instanceof ZodEnum ? "off" : checkboxValue;

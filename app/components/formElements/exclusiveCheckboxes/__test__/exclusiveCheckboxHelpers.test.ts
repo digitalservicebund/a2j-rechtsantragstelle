@@ -27,8 +27,8 @@ describe("exclusiveCheckboxHelpers", () => {
       const result = fieldValuesToCheckboxProps(
         field as unknown as FieldApi<ExclusiveCheckboxes | undefined>,
         {} as ZodObject,
-        cmsCheckboxes as StrapiCheckboxComponent[],
         "off",
+        cmsCheckboxes as StrapiCheckboxComponent[],
       );
       expect(result).toEqual([
         { name: "one", label: "One", value: "on" },
@@ -48,8 +48,8 @@ describe("exclusiveCheckboxHelpers", () => {
       const result = fieldValuesToCheckboxProps(
         field as unknown as FieldApi<ExclusiveCheckboxes | undefined>,
         {} as ZodObject,
-        cmsCheckboxes as StrapiCheckboxComponent[],
         "on",
+        cmsCheckboxes as StrapiCheckboxComponent[],
       );
       expect(result).toEqual([{ name: "none", label: "None", value: "on" }]);
     });
@@ -64,8 +64,8 @@ describe("exclusiveCheckboxHelpers", () => {
       const result = fieldValuesToCheckboxProps(
         field as unknown as FieldApi<ExclusiveCheckboxes | undefined>,
         {} as ZodObject,
-        cmsCheckboxes as StrapiCheckboxComponent[],
         "on",
+        cmsCheckboxes as StrapiCheckboxComponent[],
       );
       expect(result).toEqual([
         { name: "[Name not found]", label: "[Label not found]", value: "off" },
@@ -85,8 +85,8 @@ describe("exclusiveCheckboxHelpers", () => {
       const result = fieldValuesToCheckboxProps(
         field as unknown as FieldApi<ExclusiveCheckboxes | undefined>,
         exclusiveCheckboxesSchema(["one", "two", "three", "none"]),
-        cmsCheckboxes as StrapiCheckboxComponent[],
         "off",
+        cmsCheckboxes as StrapiCheckboxComponent[],
       );
       expect(result).toEqual([
         { name: "one", label: "One", value: "off" },

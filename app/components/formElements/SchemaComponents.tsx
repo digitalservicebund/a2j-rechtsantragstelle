@@ -7,7 +7,6 @@ import {
   renderZodString,
 } from "~/components/formElements/schemaToForm/renderZodString";
 import type { SchemaObject } from "~/domains/userData";
-import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
 import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
@@ -50,12 +49,21 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
 
       if (isZodObject(nestedSchema)) {
         if (nestedSchema.meta()?.description === "exclusive_checkbox") {
+          const optionNames = Object.keys(nestedSchema.shape);
+          const matchingCheckboxes = formComponents
+            ?.filter((el) => el.__component === "form-elements.checkbox")
+            .filter((el) =>
+              optionNames.some(
+                (option) => `${fieldName}.${option}` === el.name,
+              ),
+            );
+
           return (
             <ExclusiveCheckboxes
               key={fieldName}
               schema={nestedSchema}
               name={fieldName}
-              cmsCheckboxes={formComponents as StrapiCheckboxComponent[]}
+              cmsCheckboxes={matchingCheckboxes}
             />
           );
         }
