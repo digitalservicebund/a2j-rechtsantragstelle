@@ -34,7 +34,12 @@ const config: KnipConfig = {
   "react-router": {
     config: ["react-router.config.ts", "vite.config.ts"],
   },
+  // Info: Knip reports unlisted dependencies coming from @vitest/coverage-v8
+  // we are using istanbul for the coverage
   ignoreDependencies: ["@vitest/coverage-v8"],
+  // Info: Knip reports unresolved imports coming from root.tsx.
+  // These +types/root and .react-router/types are intentionally git-ignored
+  // and generated at build/dev time
   ignoreUnresolved: [/^\.?\/\+types\/root$/, /react-router\/types$/],
 };
 
