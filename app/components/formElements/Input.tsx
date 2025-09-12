@@ -69,7 +69,7 @@ const Input = function InputComponent({
             },
             widthClassname(width),
           )}
-          aria-invalid={field.error() !== undefined}
+          aria-invalid={field.error() !== null}
           aria-describedby={[
             field.error() && errorId,
             helperText && helperId,

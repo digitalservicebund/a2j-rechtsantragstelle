@@ -18,7 +18,7 @@ type NullToUndefined<T> = T extends null
  * omitNull({ d: undefined, e: [null, { f: null }] });
  */
 
-export function omitNull<T>(data: T) {
+export function omitNull<T>(data: T | null) {
   let out: unknown = data;
   if (data === null) {
     out = undefined;

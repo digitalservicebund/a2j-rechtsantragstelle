@@ -16,10 +16,11 @@ type MinimalPage = {
   stepId: StrapiSchemas["form-flow-pages"][0]["stepId"];
 };
 
-// recursivly traverse states object, while concatenating nested names. Returns a flat list
+// recursively traverse states object, while concatenating nested names. Returns a flat list
 function allStateNames(xstateConfigStates: Config["states"]): string[] {
   if (!xstateConfigStates) return [];
   return Object.entries(xstateConfigStates).flatMap(
+    // eslint-disable-next-line sonarjs/function-return-type
     ([stateName, stateConfig]) => {
       if (stateConfig.states) {
         // there are nested states -> recursion
@@ -39,10 +40,6 @@ function urlsFromPages(pages: MinimalPage[]) {
   return pages.flatMap((page) =>
     page.flow_ids.map((flowId) => flowId.flowId + page.stepId),
   );
-}
-
-function partitionPagesByStepId(pages: MinimalPage[]) {
-  return partition(pages, (page) => page.stepId !== null);
 }
 
 function partitionPagesByFlowId(pages: MinimalPage[]) {
@@ -74,14 +71,6 @@ function unusedStrapiEntry() {
     console.log(`\nChecking ${apiId}:`);
     const pages = content[apiId];
 
-    const [pagesWithStepId, pagesWithoutStepId] = partitionPagesByStepId(pages);
-
-    if (pagesWithoutStepId.length > 0) {
-      console.warn(`Found ${pagesWithoutStepId.length} pages without stepId!`);
-    } else {
-      console.log("No entries without stepIds ✅");
-    }
-
     const [, pagesWithoutFlowIds] = partitionPagesByFlowId(pages);
 
     if (pagesWithoutFlowIds.length > 0) {
@@ -99,7 +88,7 @@ function unusedStrapiEntry() {
         ),
     );
 
-    const unusedUrls = urlsFromPages(pagesWithStepId).filter(
+    const unusedUrls = urlsFromPages(pages).filter(
       (url) => !allUrlsFromXstateConfigs.includes(url),
     );
 

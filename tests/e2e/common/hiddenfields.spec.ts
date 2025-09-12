@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { BeratungshilfeVorabcheck } from "tests/e2e/domains/beratungshilfe/vorabcheck/BeratungshilfeVorabcheck";
+import { FluggastrechteVorabcheck } from "../domains/fluggastrechte/vorabcheck/FluggastrechteVorabcheck";
 
 const nextButtonName = "_action";
 
@@ -8,7 +8,7 @@ test.describe("Hidden fields", () => {
     test.use({ javaScriptEnabled: false });
     test.describe("for RadioGroups", () => {
       test("validation should work", async ({ page }) => {
-        const vorabcheck = new BeratungshilfeVorabcheck(page);
+        const vorabcheck = new FluggastrechteVorabcheck(page);
         await vorabcheck.goto();
 
         // Accept cookies to submit form in the vorabcheck
@@ -21,9 +21,7 @@ test.describe("Hidden fields", () => {
         await nextButton.click();
 
         // Check if validation message is visible
-        await expect(
-          page.locator("#rechtsschutzversicherung-error"),
-        ).toBeVisible();
+        await expect(page.locator("#bereich-error")).toBeVisible();
       });
     });
   });
