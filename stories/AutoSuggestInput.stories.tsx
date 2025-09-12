@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
 import type { AutoSuggestInputProps } from "~/components/formElements/autoSuggestInput/types";
-import { RVFProvider } from ".storybook/RVFProvider";
-import { reactRouterContext } from ".storybook/reactRouterContext";
+import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
 
 function getDataListValues<T extends { dataList?: any }>(
   props: T,
@@ -54,14 +53,7 @@ export const Default: Story = {
   args: {
     ...defaultType,
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
 
 export const WithPlaceholder: Story = {
@@ -69,14 +61,7 @@ export const WithPlaceholder: Story = {
     ...defaultType,
     placeholder: "With placeholder",
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
 
 export const WithFreeTextInput: Story = {
@@ -85,12 +70,5 @@ export const WithFreeTextInput: Story = {
     supportsFreeText: true,
     label: "Free Text selection",
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
