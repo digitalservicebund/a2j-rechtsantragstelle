@@ -26,6 +26,7 @@ describe("ReportProblem", () => {
     expect(reportButton).toBeVisible();
     fireEvent.click(reportButton);
     expect(getByText("Abbrechen")).toBeInTheDocument();
+    expect(document.body.className).toContain("modal-open");
     expect(getByText("Problem absenden")).toBeInTheDocument();
   });
 
@@ -49,6 +50,7 @@ describe("ReportProblem", () => {
     const reportButton = getByRole("button");
     fireEvent.click(reportButton);
     fireEvent.keyUp(reportButton, { key: "Escape" });
+    expect(document.body.className).not.toContain("modal-open");
     expect(queryByText("Abbrechen")).not.toBeInTheDocument();
     expect(queryByText("Problem absenden")).not.toBeInTheDocument();
   });

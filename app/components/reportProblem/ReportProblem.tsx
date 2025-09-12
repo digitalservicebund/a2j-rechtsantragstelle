@@ -1,5 +1,5 @@
 import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Button from "~/components/common/Button";
 import { useFeedbackTranslations } from "~/components/content/userFeedback/feedbackTranslations";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
@@ -27,13 +27,26 @@ export const ReportProblem = () => {
     () => fetchSurvey(surveyId, posthogClient),
     [posthogClient, surveyId],
   );
+
+  // Needed to disable top-level scrolling when the Survey popup is open
+  useEffect(() => {
+    if (surveyOpen) {
+      document.body.classList.add("modal-open");
+    }
+    return () => {
+      document.body.classList.remove("modal-open");
+    };
+  }, [surveyOpen]);
+
   if (!survey) return null;
 
   return (
     <>
       <Button
         look="tertiary"
-        onClick={() => setSurveyOpen(!surveyOpen)}
+        onClick={() => {
+          setSurveyOpen(!surveyOpen);
+        }}
         className="min-w-full justify-center sm:min-w-fit mt-80"
         text={feedbackTranslations["report-problem"]}
         iconLeft={<FlagOutlined />}
@@ -41,7 +54,9 @@ export const ReportProblem = () => {
       {surveyOpen && (
         <PosthogSurvey
           survey={survey}
-          closeSurvey={() => setSurveyOpen(false)}
+          closeSurvey={() => {
+            setSurveyOpen(false);
+          }}
         />
       )}
     </>
