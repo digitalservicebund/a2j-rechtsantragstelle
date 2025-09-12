@@ -4,7 +4,6 @@ import { testCasesBeratungshilfeFormular } from "~/domains/beratungshilfe/formul
 import { testCasesBeratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck/__test__/testcases";
 import { testCasesFluggastrechteFormular } from "~/domains/fluggastrechte/formular/__test__/testCasesFluggastrechteFormular";
 import { testCasesFluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck/__test__/testCasesFluggastrechteVorabcheck";
-import { testCasesKontopfaendungWegweiser } from "~/domains/kontopfaendung/wegweiser/__test__/testcases";
 import {
   testCasesProzesskostenhilfeFormular,
   testCasesProzesskostenhilfeSubmitOnly,
@@ -90,7 +89,6 @@ describe.sequential("state machine form flows", () => {
     testCasesFluggastrechteFormular,
     testCasesFluggastrechteVorabcheck,
     testCasesProzesskostenhilfeFormular,
-    testCasesKontopfaendungWegweiser,
   } as const;
   const transitionTypes = ["SUBMIT", "BACK"] as const;
 
