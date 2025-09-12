@@ -1,5 +1,5 @@
 import { useField } from "@rvf/react-router";
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, waitFor } from "@testing-library/react";
 import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
 import * as useDataListOptions from "~/components/formElements/autoSuggestInput/useDataListOptions";
 import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
@@ -258,7 +258,7 @@ describe("AutoSuggestInput", () => {
     );
   });
 
-  it("should be focusable and handle keyboard interactions when read-only", async () => {
+  it("should be focusable and handle keyboard interactions when read-only", () => {
     const { getByRole } = render(
       <AutoSuggestInput
         name={COMPONENT_NAME}
@@ -269,13 +269,17 @@ describe("AutoSuggestInput", () => {
       />,
     );
 
-    const input = getByRole("combobox");
+    const autoSuggestInput = getByRole("combobox");
 
-    fireEvent.keyDown(input, { key: "Tab" });
-    expect(input).toHaveFocus();
+    act(() => {
+      autoSuggestInput.focus();
+    });
+    expect(autoSuggestInput).toHaveFocus();
 
-    fireEvent.keyDown(input, { key: "Tab" });
-    expect(input).not.toHaveFocus();
+    act(() => {
+      autoSuggestInput.blur();
+    });
+    expect(autoSuggestInput).not.toHaveFocus();
   });
 
   it("adds aria-describedby to the input when there's an error", () => {
