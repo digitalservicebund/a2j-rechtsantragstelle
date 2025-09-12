@@ -42,7 +42,8 @@
     "update:URLs": "tsx ./app/services/gerichtsfinder/checkURLs.ts checkURLs",
     "verify:emails": "tsx ./scripts/verifyExternalLinks.ts verifyEmails",
     "verify:unusedStrapiEntries": "vite-node ./scripts/unusedStrapiEntries.ts unusedStrapiEntry",
-    "verify:websites": "tsx ./scripts/verifyExternalLinks.ts verifyWebsites"
+    "verify:websites": "tsx ./scripts/verifyExternalLinks.ts verifyWebsites",
+    "knip": "knip"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.887.0",
@@ -133,6 +134,7 @@
     "globals": "^16.4.0",
     "i18n-iso-countries": "^7.14.0",
     "jsdom": "^26.1.0",
+    "knip": "^5.63.1",
     "lefthook": "^1.13.0",
     "license-checker-rseidelsohn": "^4.4.2",
     "oxlint": "^1.15.0",
