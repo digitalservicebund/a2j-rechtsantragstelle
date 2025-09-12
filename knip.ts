@@ -21,7 +21,6 @@ const config: KnipConfig = {
     "tests/**/*.{ts,tsx}",
     "scripts/**/*.ts",
     "stories/**/*.tsx",
-    "+types/**/*",
   ],
   eslint: {
     config: "eslint.config.js",
@@ -35,6 +34,7 @@ const config: KnipConfig = {
   "react-router": {
     config: ["react-router.config.ts", "vite.config.ts"],
   },
+  ignoreDependencies: ["@vitest/coverage-v8", "./+types/root"],
 };
 
 export default config;
