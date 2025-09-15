@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import { useCallback, useState } from "react";
 import { useLocation, useRouteLoaderData } from "react-router";
 import { BACKGROUND_COLORS } from "~/components";
@@ -35,7 +34,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
       mdColumn={{ start: 1, span: 7 }}
       lgColumn={{ start: 3, span: 7 }}
       xlColumn={{ start: 3, span: 7 }}
-      className={classNames(BACKGROUND_COLORS.midBlue, "rounded-lg", "py-24")}
+      className={`${BACKGROUND_COLORS.midBlue} rounded-lg py-24`}
     >
       <div
         className="ds-stack ds-stack-16"
