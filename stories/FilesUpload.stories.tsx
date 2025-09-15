@@ -6,8 +6,7 @@ import {
   type PDFFileMetadata,
   TEN_MB_IN_BYTES,
 } from "~/services/validation/pdfFileSchema";
-import { RVFProvider } from ".storybook/RVFProvider";
-import { reactRouterContext } from ".storybook/reactRouterContext";
+import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
 import { splitFieldName } from "~/services/upload/splitFieldName";
 
 const meta = {
@@ -42,12 +41,9 @@ export const Default: Story = {
   },
   decorators: [
     (Story) =>
-      reactRouterContext(
-        () => (
-          <RVFProvider>
-            <Story />
-          </RVFProvider>
-        ),
+      reactRouterFormContext(
+        <Story />,
+        undefined, // schema
         () => ({ csrf: "csrf" }),
         async ({ request }: ActionFunctionArgs) => {
           const formData = await request.formData();

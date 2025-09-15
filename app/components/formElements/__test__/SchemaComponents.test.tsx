@@ -1,7 +1,10 @@
 import { FormProvider, useForm } from "@rvf/react";
 import { render } from "@testing-library/react";
 import { z } from "zod";
-import { checkedRequired } from "~/services/validation/checkedCheckbox";
+import {
+  checkedRequired,
+  exclusiveCheckboxesSchema,
+} from "~/services/validation/checkedCheckbox";
 import { SchemaComponents } from "../SchemaComponents";
 
 describe("SchemaComponents", () => {
@@ -127,6 +130,35 @@ describe("SchemaComponents", () => {
     expect(checkbox).toHaveAttribute("value", "on");
     expect(checkbox).not.toBeRequired();
     expect(checkbox.parentElement).toHaveTextContent("label");
+  });
+
+  it("should render exclusive checkboxes ", () => {
+    const pageSchema = { field: exclusiveCheckboxesSchema(["option", "none"]) };
+    const { getAllByRole } = render(
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        formComponents={[
+          {
+            __component: "form-elements.checkbox",
+            label: "label",
+            errorMessage: undefined,
+            id: 10,
+            name: "field.option",
+            required: false,
+          },
+        ]}
+      />,
+    );
+    const checkboxes = getAllByRole("checkbox");
+    expect(checkboxes[0]).toHaveAttribute("name", "field.option");
+    expect(checkboxes[0]).toHaveAttribute("value", "off");
+    expect(checkboxes[0]).not.toBeRequired();
+    expect(checkboxes[0].parentElement).toHaveTextContent("label");
+
+    expect(checkboxes[1]).toHaveAttribute("name", "field.none");
+    expect(checkboxes[1]).toHaveAttribute("value", "off");
+    expect(checkboxes[1]).not.toBeRequired();
+    expect(checkboxes[1].parentElement).toHaveTextContent("none");
   });
 
   it("should render multiple nested fields ", () => {
