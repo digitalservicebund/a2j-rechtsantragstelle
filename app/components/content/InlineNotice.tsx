@@ -6,7 +6,6 @@ import Heading from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
-import { BACKGROUND_COLORS } from "..";
 
 export type InlineNoticeProps = {
   identifier?: string;
