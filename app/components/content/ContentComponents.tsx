@@ -18,6 +18,29 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
 
+function hasLayoutProperties(
+  component: StrapiContentComponent,
+): component is StrapiContentComponent & {
+  outerBackground?: { backgroundColor?: string };
+  container?: {
+    backgroundColor?: string;
+    paddingTop?: string;
+    paddingBottom?: string;
+  };
+} {
+  return "outerBackground" in component || "container" in component;
+}
+
+function getContainerBackgroundColor(el: StrapiContentComponent): string {
+  const hasLayout = hasLayoutProperties(el);
+  if (hasLayout && el.container?.backgroundColor) {
+    return BACKGROUND_COLORS[
+      el.container.backgroundColor as keyof typeof BACKGROUND_COLORS
+    ];
+  }
+  return "";
+}
+
 function cmsToReact(
   componentProps: StrapiContentComponent,
   formFlowPage?: boolean,
@@ -65,11 +88,13 @@ type PageContentProps = {
 };
 
 function ContentComponents({ content = [], formFlowPage }: PageContentProps) {
-  if (content.length === 0) return <></>;
+  if (content.length === 0) return [];
   return content
     .filter((el) => el.__component !== "page.array-summary")
     .map((el) => {
       const isUserFeedback = el.__component === "page.user-feedback";
+      const hasLayout = hasLayoutProperties(el);
+
       if (formFlowPage) {
         return (
           <div key={`${el.__component}_${el.id}`}>
@@ -77,27 +102,27 @@ function ContentComponents({ content = [], formFlowPage }: PageContentProps) {
           </div>
         );
       }
+
       return (
         <GridSection
           pt={
-            // @ts-expect-error TODO: why this prop doesnt exist?
-            el.container?.paddingTop ?? "default"
-            // el.outerBackground?.paddingTop ??
-            // "default"
+            hasLayout && el.container?.paddingTop
+              ? el.container?.paddingTop
+              : "default"
           }
           pb={
-            // @ts-expect-error TODO: why this prop doesnt exist?
-            el.container?.paddingBottom ?? "default"
-            // el.outerBackground?.paddingBottom ??
-            // "default"
+            hasLayout && el.container?.paddingBottom
+              ? el.container?.paddingBottom
+              : "default"
           }
           key={`${el.__component}_${el.id}`}
           bgClass={
-            BACKGROUND_COLORS[
-              // @ts-expect-error TODO: why this prop doesnt exist?
-              el.outerBackground
-                ?.backgroundColor as keyof typeof BACKGROUND_COLORS
-            ]
+            hasLayout && el.outerBackground?.backgroundColor
+              ? BACKGROUND_COLORS[
+                  el.outerBackground
+                    .backgroundColor as keyof typeof BACKGROUND_COLORS
+                ]
+              : undefined
           }
         >
           <Grid
@@ -113,11 +138,7 @@ function ContentComponents({ content = [], formFlowPage }: PageContentProps) {
               className: classNames(
                 isUserFeedback
                   ? BACKGROUND_COLORS.midBlue
-                  : BACKGROUND_COLORS[
-                      // @ts-expect-error TODO: why this prop doesnt exist?
-                      el.container
-                        ?.backgroundColor as keyof typeof BACKGROUND_COLORS
-                    ],
+                  : getContainerBackgroundColor(el),
                 "rounded-lg",
               ),
             }}
