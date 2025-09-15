@@ -2,8 +2,6 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
 import Container from "~/components/layout/Container";
 import { ExclusiveCheckboxes } from "~/components/formElements/exclusiveCheckboxes/ExclusiveCheckboxes";
-import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
-import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
 
 const meta = {
   title: "FormElements/ExclusiveCheckboxes",
@@ -18,25 +16,20 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const cmsCheckboxes = [
-  { name: "checkboxOne", label: "One" },
-  { name: "checkboxTwo", label: "Two" },
-  { name: "checkboxThree", label: "Three" },
-  { name: "none", label: "None of the above" },
-] as StrapiCheckboxComponent[];
+const options = ["checkboxOne", "checkboxTwo", "checkboxThree", "none"];
 
-const schema = exclusiveCheckboxesSchema([
-  "checkboxOne",
-  "checkboxTwo",
-  "checkboxThree",
-  "none",
-]);
+const labels = {
+  checkboxOne: "One",
+  checkboxTwo: "Two",
+  checkboxThree: "Three",
+  none: "None of the above",
+};
 
 export const Default: Story = {
   args: {
     name: "test",
-    schema,
-    cmsCheckboxes,
+    options,
+    labels,
   },
   decorators: [
     (Story) => (

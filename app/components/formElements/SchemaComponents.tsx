@@ -49,21 +49,19 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
 
       if (isZodObject(nestedSchema)) {
         if (nestedSchema.meta()?.description === "exclusive_checkbox") {
-          const optionNames = Object.keys(nestedSchema.shape);
-          const matchingCheckboxes = formComponents
-            ?.filter((el) => el.__component === "form-elements.checkbox")
-            .filter((el) =>
-              optionNames.some(
-                (option) => `${fieldName}.${option}` === el.name,
-              ),
-            );
+          const labels = Object.fromEntries(
+            (formComponents ?? [])
+              ?.filter((el) => el.__component === "form-elements.checkbox")
+              .filter((el) => el.name.split(".")[0] === fieldName)
+              .map((el) => [el.name.split(".").at(-1)!, el.label]),
+          );
 
           return (
             <ExclusiveCheckboxes
               key={fieldName}
-              schema={nestedSchema}
               name={fieldName}
-              cmsCheckboxes={matchingCheckboxes}
+              options={Object.keys(nestedSchema.shape)}
+              labels={labels}
             />
           );
         }

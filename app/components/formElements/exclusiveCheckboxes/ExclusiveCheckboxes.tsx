@@ -1,35 +1,34 @@
 import { type FieldApi, useField } from "@rvf/react-router";
 import { useState } from "react";
-import { type ZodObject } from "zod";
 import { type CheckboxValue } from "~/components/formElements/Checkbox";
 import {
   ControlledCheckbox,
   type ControlledCheckboxProps,
 } from "~/components/formElements/exclusiveCheckboxes/ControlledCheckbox";
-import { fieldValuesToCheckboxProps } from "~/components/formElements/exclusiveCheckboxes/exclusiveCheckboxHelpers";
 import InputError from "~/components/formElements/InputError";
-import { type StrapiCheckboxComponent } from "~/services/cms/models/formElements/StrapiCheckbox";
 import { type ExclusiveCheckboxes as ExclusiveCheckboxesType } from "~/services/validation/checkedCheckbox";
 
 type ExclusiveCheckboxesProps = Readonly<{
   name: string;
-  schema: ZodObject;
-  cmsCheckboxes?: StrapiCheckboxComponent[];
+  options: readonly string[];
+  labels?: Record<string, string | undefined>;
 }>;
 
 export const ExclusiveCheckboxes = ({
   name,
-  schema,
-  cmsCheckboxes,
+  labels,
+  options,
 }: ExclusiveCheckboxesProps) => {
   const field = useField<ExclusiveCheckboxesType | undefined>(name);
-  const [noneCheckboxValue, setNoneCheckboxValue] = useState<CheckboxValue>(
+  const [noneCheckboxValue, setNoneCheckboxValue] = useState(
     field.value()?.none ?? "off",
   );
-  const [checkboxes, setCheckboxes] = useState<
-    Array<Omit<ControlledCheckboxProps, "onChange">>
-  >(
-    fieldValuesToCheckboxProps(field, schema, noneCheckboxValue, cmsCheckboxes),
+  const [checkboxes, setCheckboxes] = useState(
+    options.map((option) => ({
+      name: `${name}.${option}`,
+      label: labels?.[option] ?? option,
+      value: field.value()?.[option] ?? "off",
+    })),
   );
   const errorId = `${name}-error`;
   const hasError = Boolean(field.error());
