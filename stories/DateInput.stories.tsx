@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import DateInput from "../app/components/formElements/DateInput";
-import { reactRouterContext } from "../.storybook/reactRouterContext";
-import { RVFProvider } from ".storybook/RVFProvider";
+import { reactRouterFormContext } from "../.storybook/reactRouterFormContext";
 
 const meta = {
   title: "FormElements/DateInput",
@@ -21,12 +20,5 @@ export const Default: Story = {
     name: "birthday",
     label: "Geburtsdatum",
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };

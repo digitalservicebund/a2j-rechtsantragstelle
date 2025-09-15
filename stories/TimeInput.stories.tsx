@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import TimeInput from "../app/components/formElements/TimeInput";
-import { reactRouterContext } from "../.storybook/reactRouterContext";
-import { RVFProvider } from ".storybook/RVFProvider";
+import { reactRouterFormContext } from "../.storybook/reactRouterFormContext";
 
 const meta = {
   title: "FormElements/TimeInput",
@@ -23,12 +22,5 @@ export const Default: Story = {
     width: "5",
     helperText: "Please write in HH:MM format",
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
