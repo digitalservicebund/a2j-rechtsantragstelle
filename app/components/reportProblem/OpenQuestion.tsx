@@ -21,7 +21,7 @@ export const OpenQuestion = ({ question, setResponses }: OpenQuestionProps) => {
         <p className="ds-body-01-reg text-gray-900">{question.description}</p>
         <textarea
           name={question.id}
-          className="ds-textarea forced-color-adjust-none"
+          className="ds-textarea forced-colors:border-4"
           onChange={(event) =>
             setResponses((surveyResponses) => ({
               ...surveyResponses,
