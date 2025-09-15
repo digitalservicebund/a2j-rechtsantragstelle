@@ -48,7 +48,12 @@ export function ResultPage() {
 
   return (
     <div className="flex flex-col min-w-full">
-      <Background backgroundColor="blue" paddingTop="40" paddingBottom="48">
+      <Background
+        backgroundColor="blue"
+        paddingTop="40"
+        paddingBottom="48"
+        className="print:hidden"
+      >
         <Container
           overhangingBackground
           backgroundColor={boxProps[cmsData.pageType].backgroundColor}
