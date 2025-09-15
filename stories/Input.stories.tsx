@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { reactRouterContext } from "../.storybook/reactRouterContext";
+import { reactRouterFormContext } from "../.storybook/reactRouterFormContext";
 import Input from "../app/components/formElements/Input";
-import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
   title: "FormElements/Input",
@@ -28,14 +27,7 @@ export const Default: Story = {
     helperText: undefined,
     width: undefined,
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
 
 export const WithPrefix: Story = {
@@ -44,14 +36,7 @@ export const WithPrefix: Story = {
     label: "Lorem ipsum dolor sit amet",
     prefix: "€",
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
 
 export const WithSuffix: Story = {
@@ -60,14 +45,7 @@ export const WithSuffix: Story = {
     label: "Lorem ipsum dolor sit amet",
     suffix: "€",
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
 
 export const WithHelperText: Story = {
@@ -76,12 +54,5 @@ export const WithHelperText: Story = {
     label: "Lorem ipsum dolor sit amet",
     helperText: "Helper",
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };

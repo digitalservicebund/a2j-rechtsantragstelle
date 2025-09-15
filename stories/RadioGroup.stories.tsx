@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { reactRouterContext } from "../.storybook/reactRouterContext";
+import { reactRouterFormContext } from "../.storybook/reactRouterFormContext";
 import RadioGroup from "~/components/formElements/RadioGroup";
-import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
   title: "FormElements/RadioGroup",
@@ -26,14 +25,7 @@ export const Default: Story = {
     ],
     errorMessages: undefined,
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
 
 export const WithLabel: Story = {
@@ -45,12 +37,5 @@ export const WithLabel: Story = {
       { value: "option2", text: "Option 2" },
     ],
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
