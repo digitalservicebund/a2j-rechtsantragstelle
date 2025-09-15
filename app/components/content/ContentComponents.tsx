@@ -31,7 +31,7 @@ function hasLayoutProperties(
   return "outerBackground" in component || "container" in component;
 }
 
-function getContainerBackgroundColor(el: StrapiContentComponent): string {
+function getGridBackgroundColor(el: StrapiContentComponent): string {
   const hasLayout = hasLayoutProperties(el);
   if (hasLayout && el.container?.backgroundColor) {
     return BACKGROUND_COLORS[
@@ -41,6 +41,15 @@ function getContainerBackgroundColor(el: StrapiContentComponent): string {
   return "";
 }
 
+function getContainerBackgroundColor(el: StrapiContentComponent): string {
+  const hasLayout = hasLayoutProperties(el);
+  if (hasLayout && el.outerBackground?.backgroundColor) {
+    return BACKGROUND_COLORS[
+      el.outerBackground.backgroundColor as keyof typeof BACKGROUND_COLORS
+    ];
+  }
+  return "";
+}
 function cmsToReact(
   componentProps: StrapiContentComponent,
   formFlowPage?: boolean,
@@ -116,14 +125,7 @@ function ContentComponents({ content = [], formFlowPage }: PageContentProps) {
               : "default"
           }
           key={`${el.__component}_${el.id}`}
-          bgClass={
-            hasLayout && el.outerBackground?.backgroundColor
-              ? BACKGROUND_COLORS[
-                  el.outerBackground
-                    .backgroundColor as keyof typeof BACKGROUND_COLORS
-                ]
-              : undefined
-          }
+          bgClass={getContainerBackgroundColor(el)}
         >
           <Grid
             background={{
@@ -138,7 +140,7 @@ function ContentComponents({ content = [], formFlowPage }: PageContentProps) {
               className: classNames(
                 isUserFeedback
                   ? BACKGROUND_COLORS.midBlue
-                  : getContainerBackgroundColor(el),
+                  : getGridBackgroundColor(el),
                 "rounded-lg",
               ),
             }}
