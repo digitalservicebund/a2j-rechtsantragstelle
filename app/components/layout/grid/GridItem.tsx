@@ -37,6 +37,7 @@ export function GridItem({
     lgStart && getGridClass("col-start", lgStart as Span, "lg"),
     xlSpan && getGridClass("col-span", xlSpan as Span, "xl"),
     xlStart && getGridClass("col-start", xlStart as Span, "xl"),
+    "px-16 md:px-16 lg:px-0 xl:px-0",
     "[grid-row:1] z-10",
     className,
   );
