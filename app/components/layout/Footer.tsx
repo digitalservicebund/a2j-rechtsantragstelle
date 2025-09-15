@@ -55,11 +55,11 @@ export default function Footer({
             </div>
           )}
           <div className="ds-stack ds-stack-8 max-w-[288px]">
-            {paragraphs.map((p) => (
-              <div key={p.html}>
+            {paragraphs.map((paragraph) => (
+              <div key={paragraph.html}>
                 <RichText
                   className="ds-label-03-reg [&_a]:inline-block"
-                  {...p}
+                  {...paragraph}
                 />
               </div>
             ))}
