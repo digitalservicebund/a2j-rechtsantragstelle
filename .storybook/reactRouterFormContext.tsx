@@ -1,7 +1,9 @@
 import { FormProvider, useForm } from "@rvf/react-router";
 import { type ReactNode, useEffect } from "react";
+import type { ActionFunction, LoaderFunction } from "react-router";
 import { z, type ZodObject } from "zod";
 import { type AllowedUserTypes } from "~/domains/userData";
+import { reactRouterContext } from "./reactRouterContext";
 
 type Props = {
   children: ReactNode;
@@ -10,16 +12,13 @@ type Props = {
   triggerValidationOnMount?: boolean;
 };
 
-export const RVFProvider = ({
+const RVFProvider = ({
   schema = z.object({ name: z.string().optional() }),
   defaultValues = { name: "" },
   children,
   triggerValidationOnMount = false,
 }: Props) => {
-  const form = useForm({
-    schema,
-    defaultValues,
-  });
+  const form = useForm({ schema, defaultValues });
 
   useEffect(() => {
     if (triggerValidationOnMount) {
@@ -33,3 +32,15 @@ export const RVFProvider = ({
     </FormProvider>
   );
 };
+
+export const reactRouterFormContext = (
+  children: ReactNode,
+  schema?: ZodObject,
+  loader?: LoaderFunction,
+  action?: ActionFunction,
+) =>
+  reactRouterContext(
+    () => RVFProvider({ children, schema, triggerValidationOnMount: !!schema }),
+    loader,
+    action,
+  );

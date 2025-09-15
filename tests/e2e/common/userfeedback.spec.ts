@@ -1,9 +1,9 @@
 import { test, expect, type Page } from "@playwright/test";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
+import { USER_FEEDBACK_ID } from "~/components/content/userFeedback";
 
 const POST_SUBMISSION_BOX = "user-feedback-submission";
 const TOP_BREADCRUMB_ICON = "HomeOutlinedIcon";
-const USER_FEEDBACK_BANNER = "user-feedback-banner";
 const BERATUNGSHILFE_PAGE = "/beratungshilfe";
 
 type FeedbackOptions = {
@@ -22,7 +22,7 @@ async function submitFeedback({
   await page.getByRole("button").click();
 
   await expect(page.getByTestId(TOP_BREADCRUMB_ICON)).not.toBeInViewport();
-  await expect(page.getByTestId(USER_FEEDBACK_BANNER)).toBeInViewport();
+  await expect(page.getByTestId(USER_FEEDBACK_ID)).toBeInViewport();
   await expect(page.getByTestId(POST_SUBMISSION_BOX)).toBeInViewport();
 }
 

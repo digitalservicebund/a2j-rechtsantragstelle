@@ -42,7 +42,6 @@ const Input = function InputComponent({
 
   const getInputType = (name: string): string => {
     if (name === "telefonnummer") return "tel";
-    if (name === "email") return "email";
     return "text";
   };
 
@@ -70,7 +69,7 @@ const Input = function InputComponent({
             },
             widthClassname(width),
           )}
-          aria-invalid={field.error() !== undefined}
+          aria-invalid={field.error() !== null}
           aria-describedby={[
             field.error() && errorId,
             helperText && helperId,

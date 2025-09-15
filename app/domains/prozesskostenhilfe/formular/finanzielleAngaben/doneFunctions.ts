@@ -57,7 +57,7 @@ export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 export const partnerBesondersAusgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
     context.partnerHasBesondersAusgaben === "no" ||
-    (context.partnerHasBesondersAusgaben != undefined &&
+    (context.partnerHasBesondersAusgaben === "yes" &&
       objectKeysNonEmpty(context.partnerBesondersAusgabe, [
         "beschreibung",
         "betrag",

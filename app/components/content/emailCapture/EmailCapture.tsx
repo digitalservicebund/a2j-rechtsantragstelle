@@ -16,6 +16,7 @@ import InputError from "~/components/formElements/InputError";
 import InputLabel from "~/components/formElements/InputLabel";
 import { type loader } from "~/routes/shared/formular";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
+import { autocompleteMap } from "~/util/autocompleteMap";
 
 export type EmailCaptureProps = {
   successBanner: InlineNoticeProps;
@@ -72,6 +73,8 @@ export const EmailCapture = ({
             className={classNames("ds-input forced-color-adjust-none", {
               "has-error": invalidEmail,
             })}
+            autoComplete={autocompleteMap[fieldName] ?? "off"}
+            type="email"
           ></input>
           {invalidEmail && (
             <InputError id={errorId}>{invalidEmailError.text}</InputError>

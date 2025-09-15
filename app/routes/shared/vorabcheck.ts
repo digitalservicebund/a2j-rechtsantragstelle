@@ -61,7 +61,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const formElements = vorabcheckPage.form.map((strapiFormElement) => {
     if (
       isStrapiSelectComponent(strapiFormElement) &&
-      strapiFormElement.label === null &&
+      !strapiFormElement.label &&
       headings.length > 0
     ) {
       strapiFormElement.altLabel = headings[0].text;

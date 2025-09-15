@@ -117,6 +117,6 @@ export const getWeitereDokumenteStrings = (
   context: BeratungshilfeFormularUserData,
 ) => {
   return {
-    hasWeitereDokumente: context.weitereDokumenteBeweis !== null,
+    hasWeitereDokumente: context.weitereDokumenteBeweis !== undefined,
   };
 };

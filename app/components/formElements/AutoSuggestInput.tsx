@@ -181,7 +181,7 @@ const AutoSuggestInput = ({
       {label && <InputLabel id={inputId}>{label}</InputLabel>}
       <SelectComponent
         aria-describedby={field.error() && errorId}
-        aria-invalid={field.error() !== undefined}
+        aria-invalid={field.error() !== null}
         {...(isCreatable && {
           formatCreateLabel: (creatableValue) => creatableValue,
         })}

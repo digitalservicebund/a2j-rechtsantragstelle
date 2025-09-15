@@ -46,22 +46,20 @@ export const InlineNotice = ({
   look,
   content,
 }: InlineNoticeProps) => {
+  if (!content || removeMarkupTags(content).length === 0) return null;
   const { backgroundColor, borderColor, IconComponent } = lookConfig[look];
-  const shouldHideNotice = !content || removeMarkupTags(content).length === 0;
 
   return (
-    !shouldHideNotice && (
-      <div
-        className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
-        id={identifier}
-        role="note"
-      >
-        <div className="flex flex-row gap-[4px] items-center">
-          <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
-          <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
-        </div>
-        <RichText className="tracking-[0.16px] leading-[26px]" html={content} />
+    <div
+      className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
+      id={identifier}
+      role="note"
+    >
+      <div className="flex flex-row gap-[4px] items-center">
+        <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
+        <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
       </div>
-    )
+      <RichText className="tracking-[0.16px] leading-[26px]" html={content} />
+    </div>
   );
 };

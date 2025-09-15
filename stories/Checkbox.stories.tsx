@@ -1,7 +1,6 @@
 import type { StoryObj } from "@storybook/react";
 import Checkbox from "../app/components/formElements/Checkbox";
-import { RVFProvider } from "../.storybook/RVFProvider";
-import { reactRouterContext } from ".storybook/reactRouterContext";
+import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
 
 const meta = {
   title: "FormElements/Checkbox",
@@ -16,13 +15,6 @@ export const Default = {
     label: "label",
     required: true,
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 } satisfies StoryObj<typeof meta>;
 export default meta;
