@@ -52,7 +52,7 @@ function getContainerBackgroundColor(el: StrapiContentComponent): string {
 }
 function cmsToReact(
   componentProps: StrapiContentComponent,
-  formFlowPage?: boolean,
+  isOnFlowPage?: boolean,
 ) {
   switch (componentProps.__component) {
     case "basic.heading":
@@ -70,11 +70,11 @@ function cmsToReact(
     case "page.box-with-image":
       return <BoxWithImage {...componentProps} />;
     case "page.list":
-      return <List {...componentProps} formFlowPage={formFlowPage} />;
+      return <List {...componentProps} isOnFlowPage={isOnFlowPage} />;
     case "page.video":
       return <Video {...componentProps} />;
     case "page.inline-notice":
-      return <InlineNotice {...componentProps} formFlowPage={formFlowPage} />;
+      return <InlineNotice {...componentProps} isOnFlowPage={isOnFlowPage} />;
     case "page.details-summary":
       return <Details {...componentProps} />;
     case "page.user-feedback":
@@ -93,10 +93,10 @@ type PageContentProps = {
   readonly content: StrapiContentComponent[];
   readonly fullScreen?: boolean;
   readonly className?: string;
-  readonly formFlowPage?: boolean;
+  readonly isOnFlowPage?: boolean;
 };
 
-function ContentComponents({ content = [], formFlowPage }: PageContentProps) {
+function ContentComponents({ content = [], isOnFlowPage }: PageContentProps) {
   if (content.length === 0) return [];
   return content
     .filter((el) => el.__component !== "page.array-summary")
@@ -104,10 +104,10 @@ function ContentComponents({ content = [], formFlowPage }: PageContentProps) {
       const isUserFeedback = el.__component === "page.user-feedback";
       const hasLayout = hasLayoutProperties(el);
 
-      if (formFlowPage) {
+      if (isOnFlowPage) {
         return (
           <div key={`${el.__component}_${el.id}`}>
-            {cmsToReact(el, formFlowPage)}
+            {cmsToReact(el, isOnFlowPage)}
           </div>
         );
       }
@@ -125,18 +125,13 @@ function ContentComponents({ content = [], formFlowPage }: PageContentProps) {
               : "default"
           }
           key={`${el.__component}_${el.id}`}
-          bgClass={getContainerBackgroundColor(el)}
+          backgroundClass={getContainerBackgroundColor(el)}
         >
           <Grid
             background={{
-              start: 1,
-              span: 12,
-              mdStart: 1,
-              mdSpan: 8,
-              lgStart: 2,
-              lgSpan: 10,
-              xlStart: 2,
-              xlSpan: 10,
+              mdColumn: { start: 1, span: 8 },
+              lgColumn: { start: 2, span: 10 },
+              xlColumn: { start: 2, span: 10 },
               className: classNames(
                 isUserFeedback
                   ? BACKGROUND_COLORS.midBlue
@@ -145,7 +140,7 @@ function ContentComponents({ content = [], formFlowPage }: PageContentProps) {
               ),
             }}
           >
-            {cmsToReact(el, formFlowPage)}
+            {cmsToReact(el, isOnFlowPage)}
           </Grid>
         </GridSection>
       );

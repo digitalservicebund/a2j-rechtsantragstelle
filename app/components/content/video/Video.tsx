@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { DataProtectionBanner } from "~/components/content/video/DataProtectionBanner";
-import Container from "~/components/layout/Container";
+import { GridItem } from "~/components/layout/grid/GridItem";
 import { translations } from "~/services/translations/translations";
 import { getYoutubeVideoId } from "~/util/url";
 
@@ -47,7 +47,11 @@ const Video = ({ title, url }: VideoProps) => {
   }, []);
 
   return (
-    <Container>
+    <GridItem
+      mdColumn={{ start: 1, span: 7 }}
+      lgColumn={{ start: 3, span: 7 }}
+      xlColumn={{ start: 3, span: 7 }}
+    >
       <div className="flex flex-col relative">
         {cookiesAccepted && ytVideoId ? (
           <YoutubeIFrame videoId={ytVideoId} title={title} />
@@ -58,7 +62,7 @@ const Video = ({ title, url }: VideoProps) => {
           </>
         )}
       </div>
-    </Container>
+    </GridItem>
   );
 };
 

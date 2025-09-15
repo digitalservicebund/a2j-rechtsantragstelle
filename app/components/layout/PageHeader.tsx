@@ -31,16 +31,13 @@ export default function PageHeader({
           {translations.pageHeader.time.de}
         </span>
       )}
-      <GridSection bgClass="bg-[#F0F0F0]">
+      <GridSection backgroundClass="bg-[#F0F0F0]">
         <Grid>
           <GridItem
-            span={12}
-            mdSpan={12}
-            mdStart={1}
-            lgStart={1}
-            lgSpan={12}
-            xlStart={1}
-            xlSpan={12}
+            smColumn={{ start: 1, span: 12 }}
+            mdColumn={{ start: 1, span: 12 }}
+            lgColumn={{ start: 1, span: 12 }}
+            xlColumn={{ start: 1, span: 12 }}
           >
             <Kopfzeile />
           </GridItem>
@@ -49,13 +46,10 @@ export default function PageHeader({
       <GridSection>
         <Grid className="mt-16 mb-16">
           <GridItem
-            span={12}
-            mdSpan={12}
-            mdStart={1}
-            lgStart={1}
-            lgSpan={12}
-            xlStart={1}
-            xlSpan={12}
+            smColumn={{ start: 1, span: 12 }}
+            mdColumn={{ start: 1, span: 12 }}
+            lgColumn={{ start: 1, span: 12 }}
+            xlColumn={{ start: 1, span: 12 }}
           >
             <nav
               className={`flex flex-wrap justify-between items-center`}

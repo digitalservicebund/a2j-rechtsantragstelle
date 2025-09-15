@@ -66,7 +66,7 @@ export function FormFlowPage() {
                       content={cmsContent.content}
                       fullScreen={false}
                       className="ds-stack ds-stack-16"
-                      formFlowPage
+                      isOnFlowPage
                     />
                   </div>
 

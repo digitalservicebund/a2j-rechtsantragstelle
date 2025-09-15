@@ -48,7 +48,11 @@ export default function Footer({
   return (
     <>
       <Grid className="py-40 print:pb-0">
-        <GridItem span={12} lgSpan={3} xlSpan={3}>
+        <GridItem
+          mdColumn={{ start: 1, span: 8 }}
+          lgColumn={{ start: 1, span: 3 }}
+          xlColumn={{ start: 1, span: 3 }}
+        >
           {image?.url && (
             <div className="forced-colors:bg-black">
               <Image {...image} width={120} />
@@ -66,9 +70,9 @@ export default function Footer({
           </div>
         </GridItem>
         <GridItem
-          span={12}
-          lgSpan={9}
-          xlSpan={9}
+          mdColumn={{ start: 1, span: 8 }}
+          lgColumn={{ start: 4, span: 9 }}
+          xlColumn={{ start: 4, span: 9 }}
           className="[grid-row:2] md:[grid-row:2] lg:[grid-row:1] xl:[grid-row:1]"
           aria-label={ariaLabel}
         >
@@ -103,13 +107,9 @@ export default function Footer({
       {showDeletionBanner && (
         <Grid className="pb-40">
           <GridItem
-            span={8}
-            mdSpan={8}
-            mdStart={1}
-            lgSpan={8}
-            lgStart={3}
-            xlSpan={10}
-            xlStart={2}
+            mdColumn={{ start: 1, span: 8 }}
+            lgColumn={{ start: 3, span: 8 }}
+            xlColumn={{ start: 2, span: 10 }}
             className="bg-blue-100 text-white print:hidden text-center pt-16 pb-16"
           >
             <div className="text-center print:hidden">

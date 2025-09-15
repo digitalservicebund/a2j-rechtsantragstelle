@@ -197,7 +197,7 @@ function App() {
         <Meta />
         <Links />
       </head>
-      <body className="min-h-screen grid grid-rows-[90px_auto_1fr_auto]">
+      <body className="min-h-screen grid grid-rows-[auto_auto_1fr_auto]">
         <AnalyticsContext value={{ posthogClient, hasTrackingConsent }}>
           <CookieBanner content={cookieBannerContent} />
           <SkipToContentLink

@@ -31,14 +31,10 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
 
   return (
     <GridItem
-      start={1}
-      span={12}
-      mdSpan={7}
-      mdStart={1}
-      lgStart={3}
-      lgSpan={7}
-      xlStart={3}
-      xlSpan={7}
+      smColumn={{ start: 1, span: 12 }}
+      mdColumn={{ start: 1, span: 7 }}
+      lgColumn={{ start: 3, span: 7 }}
+      xlColumn={{ start: 3, span: 7 }}
       className={classNames(BACKGROUND_COLORS.midBlue, "rounded-lg", "py-24")}
     >
       <div

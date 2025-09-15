@@ -26,16 +26,13 @@ export default function Breadcrumbs({
   if (validBreadcrumbs.length === 0) return null;
 
   return (
-    <GridSection bgClass="bg-blue-100">
+    <GridSection backgroundClass="bg-blue-100">
       <Grid>
         <GridItem
-          span={12}
-          mdSpan={12}
-          mdStart={1}
-          lgStart={1}
-          lgSpan={12}
-          xlStart={1}
-          xlSpan={12}
+          smColumn={{ start: 1, span: 12 }}
+          mdColumn={{ start: 1, span: 12 }}
+          lgColumn={{ start: 1, span: 12 }}
+          xlColumn={{ start: 1, span: 12 }}
         >
           <nav
             className={`py-8! flex flex-wrap items-center`}

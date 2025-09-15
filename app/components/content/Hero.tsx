@@ -25,13 +25,10 @@ export default function Hero({
 }: Props) {
   return (
     <GridItem
-      span={12}
-      mdSpan={7}
-      mdStart={1}
-      lgStart={3}
-      lgSpan={7}
-      xlStart={3}
-      xlSpan={7}
+      smColumn={{ start: 1, span: 12 }}
+      mdColumn={{ start: 1, span: 7 }}
+      lgColumn={{ start: 3, span: 7 }}
+      xlColumn={{ start: 3, span: 7 }}
       className={classNames(
         outerBackground?.backgroundColor === "darkBlue" ? "text-white" : "",
       )}
@@ -41,7 +38,7 @@ export default function Hero({
         <RichText className="ds-heading-03-reg" html={content.html} />
       )}
       {button && (
-        <ButtonContainer className="pb-64 sm:pt-24">
+        <ButtonContainer className="pb-64 pt-24">
           <Button {...button} />
         </ButtonContainer>
       )}

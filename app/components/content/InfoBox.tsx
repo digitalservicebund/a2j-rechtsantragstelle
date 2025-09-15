@@ -18,13 +18,9 @@ const InfoBox = ({
 }: InfoBoxProps) => {
   return (
     <GridItem
-      span={12}
-      mdSpan={7}
-      mdStart={1}
-      lgStart={3}
-      lgSpan={7}
-      xlStart={3}
-      xlSpan={7}
+      mdColumn={{ start: 1, span: 7 }}
+      lgColumn={{ start: 3, span: 7 }}
+      xlColumn={{ start: 3, span: 7 }}
       id={identifier}
     >
       {heading && <Heading {...heading} />}

@@ -6,6 +6,7 @@ import Heading from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
+import { BACKGROUND_COLORS } from "..";
 
 export type InlineNoticeProps = {
   identifier?: string;
@@ -13,7 +14,7 @@ export type InlineNoticeProps = {
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
   look: "warning" | "tips" | "success" | "error";
   content?: string;
-  formFlowPage?: boolean;
+  isOnFlowPage?: boolean;
   nested?: boolean;
 };
 
@@ -48,7 +49,7 @@ export const InlineNotice = ({
   tagName,
   look,
   content,
-  formFlowPage,
+  isOnFlowPage,
   nested,
 }: InlineNoticeProps) => {
   if (!content || removeMarkupTags(content).length === 0) return null;
@@ -56,7 +57,7 @@ export const InlineNotice = ({
 
   // Form flow pages has content which is controlled by the content pages grid. So the layout is different and need to be handled differently.
   // There is also another case where the inline notice is nested inside of another component, so we need to handle that differently.
-  if (nested || formFlowPage) {
+  if (nested || isOnFlowPage) {
     return (
       <div
         className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
@@ -74,13 +75,9 @@ export const InlineNotice = ({
 
   return (
     <GridItem
-      span={12}
-      mdSpan={7}
-      mdStart={1}
-      lgStart={3}
-      lgSpan={7}
-      xlStart={3}
-      xlSpan={7}
+      mdColumn={{ start: 1, span: 7 }}
+      lgColumn={{ start: 3, span: 7 }}
+      xlColumn={{ start: 3, span: 7 }}
     >
       <div
         className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}

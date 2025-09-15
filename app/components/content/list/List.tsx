@@ -11,7 +11,7 @@ type ListProps = {
   identifier?: string;
   heading?: HeadingProps;
   subheading?: string;
-  formFlowPage?: boolean;
+  isOnFlowPage?: boolean;
 };
 
 const List = ({
@@ -20,13 +20,13 @@ const List = ({
   heading,
   subheading,
   variant,
-  formFlowPage,
+  isOnFlowPage,
 }: ListProps) => {
   const hasImages = items.some((item) => item.image);
   const ListTag = hasImages || variant === "unordered" ? "ul" : "ol";
 
   // Form flow pages has content which is controlled by the content pages grid. So the layout is different and need to be handled differently.
-  if (formFlowPage) {
+  if (isOnFlowPage) {
     return (
       <div className="ds-stack ds-stack-32" id={identifier}>
         <div className="ds-stack ds-stack-16">
@@ -48,13 +48,9 @@ const List = ({
   }
   return (
     <GridItem
-      span={12}
-      mdSpan={7}
-      mdStart={1}
-      lgStart={3}
-      lgSpan={7}
-      xlStart={3}
-      xlSpan={7}
+      mdColumn={{ start: 1, span: 7 }}
+      lgColumn={{ start: 3, span: 7 }}
+      xlColumn={{ start: 3, span: 7 }}
       id={identifier}
       className="py-24"
     >

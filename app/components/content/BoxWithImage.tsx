@@ -36,22 +36,18 @@ const BoxWithImage = ({
   const shouldWrapByDefault = variant === "XL" || variant === "XXL";
   return (
     <GridItem
-      span={12}
-      mdSpan={7}
-      mdStart={1}
-      lgStart={3}
-      lgSpan={9}
-      xlStart={3}
-      xlSpan={9}
+      smColumn={{ start: 1, span: 12 }}
+      mdColumn={{ start: 1, span: 7 }}
+      lgColumn={{ start: 3, span: 9 }}
+      xlColumn={{ start: 3, span: 9 }}
       className="py-24"
       id={identifier}
     >
       <div
-        id={identifier}
-        className={`flex flex-wrap ${shouldWrapByDefault ? "md:flex-wrap" : "sm:flex-nowrap"} items-start gap-24 text-base`}
+        className={`flex flex-wrap ${shouldWrapByDefault ? "md:flex-wrap" : "sm:flex-nowrap"} items-start gap-24 text-base overflow-hidden`}
       >
         <div
-          className={`shrink-0 overflow-hidden ${hasTextContent ? variantWidths[variant] : "max-w-full"}`}
+          className={`shrink-0 ${hasTextContent ? variantWidths[variant] : "max-w-full"}`}
         >
           <Image {...image} />
         </div>
