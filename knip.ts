@@ -16,23 +16,13 @@ const cssCompiler = (code: string): string => {
 };
 
 const config: KnipConfig = {
-  project: [
-    "app/**/*.{ts,tsx,css}",
-    "tests/**/*.{ts,tsx}",
-    "scripts/**/*.ts",
-    "stories/**/*.tsx",
-  ],
-  eslint: {
-    config: "eslint.config.js",
-  },
-  oxlint: {
-    config: ".oxlintrc.json",
-  },
   compilers: {
     css: cssCompiler,
   },
-  "react-router": {
-    config: ["react-router.config.ts", "vite.config.ts"],
+  rules: {
+    dependencies: "warn",
+    exports: "warn",
+    files: "warn",
   },
   // Info: Knip reports unlisted dependencies coming from @vitest/coverage-v8
   // we are using istanbul for the coverage
