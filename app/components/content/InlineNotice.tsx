@@ -51,58 +51,48 @@ export const InlineNotice = ({
   formFlowPage,
   nested,
 }: InlineNoticeProps) => {
+  if (!content || removeMarkupTags(content).length === 0) return null;
   const { backgroundColor, borderColor, IconComponent } = lookConfig[look];
-  const shouldHideNotice = !content || removeMarkupTags(content).length === 0;
 
   // Form flow pages has content which is controlled by the content pages grid. So the layout is different and need to be handled differently.
   // There is also another case where the inline notice is nested inside of another component, so we need to handle that differently.
   if (nested || formFlowPage) {
     return (
-      !shouldHideNotice && (
-        <div
-          className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
-          id={identifier}
-          role="note"
-        >
-          <div className="flex flex-row gap-[4px] items-center">
-            <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
-            <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
-          </div>
-          <RichText
-            className="tracking-[0.16px] leading-[26px]"
-            html={content}
-          />
+      <div
+        className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
+        id={identifier}
+        role="note"
+      >
+        <div className="flex flex-row gap-[4px] items-center">
+          <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
+          <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
         </div>
-      )
+        <RichText className="tracking-[0.16px] leading-[26px]" html={content} />
+      </div>
     );
   }
 
   return (
-    !shouldHideNotice && (
-      <GridItem
-        span={12}
-        mdSpan={7}
-        mdStart={1}
-        lgStart={3}
-        lgSpan={7}
-        xlStart={3}
-        xlSpan={7}
+    <GridItem
+      span={12}
+      mdSpan={7}
+      mdStart={1}
+      lgStart={3}
+      lgSpan={7}
+      xlStart={3}
+      xlSpan={7}
+    >
+      <div
+        className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
+        id={identifier}
+        role="note"
       >
-        <div
-          className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
-          id={identifier}
-          role="note"
-        >
-          <div className="flex flex-row gap-[4px] items-center">
-            <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
-            <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
-          </div>
-          <RichText
-            className="tracking-[0.16px] leading-[26px]"
-            html={content}
-          />
+        <div className="flex flex-row gap-[4px] items-center">
+          <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
+          <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
         </div>
-      </GridItem>
-    )
+        <RichText className="tracking-[0.16px] leading-[26px]" html={content} />
+      </div>
+    </GridItem>
   );
 };

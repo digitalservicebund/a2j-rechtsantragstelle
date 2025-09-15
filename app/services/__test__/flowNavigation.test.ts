@@ -51,7 +51,7 @@ describe("flowNavigation", () => {
           label: parentStepState.stepId,
           state: "Current",
           subflows: undefined,
-          isValidationSubflow: undefined,
+          excludedFromValidation: undefined,
         },
       ]);
     });
@@ -64,14 +64,14 @@ describe("flowNavigation", () => {
           destination: parentStepState.url,
           label: parentStepState.stepId,
           state: "Current",
-          isValidationSubflow: undefined,
+          excludedFromValidation: undefined,
           subflows: [
             {
               label: childStepState.stepId,
               destination: childStepState.url,
               state: "Current",
               subflows: undefined,
-              isValidationSubflow: undefined,
+              excludedFromValidation: undefined,
             },
           ],
         },
@@ -86,14 +86,14 @@ describe("flowNavigation", () => {
           destination: parentStepState.url,
           label: parentStepState.stepId,
           state: "Open",
-          isValidationSubflow: undefined,
+          excludedFromValidation: undefined,
           subflows: [
             {
               label: childStepState.stepId,
               destination: childStepState.url,
               state: "Open",
               subflows: undefined,
-              isValidationSubflow: undefined,
+              excludedFromValidation: undefined,
             },
           ],
         },
@@ -137,14 +137,14 @@ describe("flowNavigation", () => {
           label: "/a",
           subflows: undefined,
           state: "Done",
-          isValidationSubflow: undefined,
+          excludedFromValidation: undefined,
         },
         {
           destination: "/",
           label: "/a-b",
           subflows: undefined,
           state: "Current",
-          isValidationSubflow: undefined,
+          excludedFromValidation: undefined,
         },
       ]);
     });
@@ -165,12 +165,12 @@ describe("flowNavigation", () => {
           label: "/a-b",
           subflows: undefined,
           state: "Current",
-          isValidationSubflow: undefined,
+          excludedFromValidation: undefined,
         },
       ]);
     });
 
-    it('should have the correct "isValidationSubflow" property', () => {
+    it('should have the correct "excludedFromValidation" property', () => {
       expect(
         navItemsFromStepStates("/a-b", [
           {
@@ -178,7 +178,7 @@ describe("flowNavigation", () => {
             isDone: false,
             stepId: "/a-b",
             isReachable: true,
-            isValidationState: true,
+            excludedFromValidation: true,
           },
         ]),
       ).toStrictEqual([
@@ -187,7 +187,7 @@ describe("flowNavigation", () => {
           label: "/a-b",
           subflows: undefined,
           state: "Current",
-          isValidationSubflow: true,
+          excludedFromValidation: true,
         },
       ]);
     });

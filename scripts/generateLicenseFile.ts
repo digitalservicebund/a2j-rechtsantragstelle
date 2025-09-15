@@ -35,7 +35,7 @@ async function licensesFromPackageJson(direct = false): Promise<ModuleInfos> {
   } satisfies InitOpts;
 
   return new Promise((resolve, reject) => {
-    const callback = (err: Error, ret: ModuleInfos) => {
+    const callback = (err: Error | null, ret: ModuleInfos) => {
       if (err !== null) reject(err);
       resolve(ret);
     };
@@ -90,7 +90,7 @@ async function updateLicenseList() {
   const licenses = await allRelevantLicenses();
   const licenseCount = Object.keys(licenses).length;
   const directLicenses = Object.values(licenses).filter((val) => val.direct);
-  // eslint-disable-next-line no-console
+  // oxlint-disable-next-line no-console
   console.log(
     `Including ${licenseCount} production dependencies (${directLicenses.length} direct dependencies)`,
   );

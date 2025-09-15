@@ -58,6 +58,12 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
           {
             guard: ({ context }) =>
               isNachueberpruefung({ context }) &&
+              context.unterhaltsanspruch === "sonstiges",
+            target: "#antragstellende-person.unterhaltsbeschreibung",
+          },
+          {
+            guard: ({ context }) =>
+              isNachueberpruefung({ context }) &&
               context.unterhaltsanspruch === "unterhalt" &&
               context.livesPrimarilyFromUnterhalt === "no",
             target: "#antragstellende-person.unterhalt-hauptsaechliches-leben",

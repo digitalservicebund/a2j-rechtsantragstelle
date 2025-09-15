@@ -11,7 +11,7 @@ export type NavItem = {
   destination: string;
   label: string;
   state: NavState;
-  isValidationSubflow?: boolean;
+  excludedFromValidation?: boolean;
   forceExpanded?: boolean;
   userVisitedValidationPage?: boolean;
   subflows?: NavItem[];

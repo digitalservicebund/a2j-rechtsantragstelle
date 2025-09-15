@@ -3,6 +3,7 @@ import {
   finanzielleAngabeEinkuenfteGuards as einkuenfteGuards,
   partnerEinkuenfteGuards,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
+import { partnerEinkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/doneFunctions";
 import { arrayIsNonEmpty } from "~/util/array";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
@@ -50,27 +51,13 @@ export const partnerDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
     context,
   }) ||
   (partnerEinkuenfteDone({ context }) &&
+    partnerSupportDone({ context }) &&
     partnerBesondersAusgabenDone({ context }));
-
-// Reuse the existing einkuenfteDone guard by removing the partner- prefix from context values
-const partnerEinkuenfteDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
-  context,
-}) =>
-  einkuenfteDone({
-    context: {
-      ...context,
-      ...Object.fromEntries(
-        Object.entries(context)
-          .filter(([key]) => key.includes("partner-"))
-          .map(([key, val]) => [key.replace("partner-", ""), val]),
-      ),
-    },
-  }) && partnerSupportDone({ context });
 
 export const partnerBesondersAusgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
     context.partnerHasBesondersAusgaben === "no" ||
-    (context.partnerHasBesondersAusgaben != undefined &&
+    (context.partnerHasBesondersAusgaben === "yes" &&
       objectKeysNonEmpty(context.partnerBesondersAusgabe, [
         "beschreibung",
         "betrag",

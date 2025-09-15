@@ -9,24 +9,18 @@ import { z } from "zod";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading from "~/components/common/Heading";
-import RichText from "~/components/common/RichText";
 import { type ErrorMessageProps } from "~/components/common/types";
-import CourtFinderHeader from "~/components/CourtFinderHeader";
 import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
 import Input from "~/components/formElements/Input";
-import Background from "~/components/layout/Background";
 import Container from "~/components/layout/Container";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import { fetchMeta, fetchTranslations } from "~/services/cms/index.server";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { buildOpenPlzResultUrl } from "~/services/gerichtsfinder/openPLZ";
 import { createSessionWithCsrf } from "~/services/security/csrf/createSessionWithCsrf.server";
-import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { getSessionManager } from "~/services/session.server";
 import { translations } from "~/services/translations/translations";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { filterFormData } from "~/util/filterFormData";
 
 const requiredError: ErrorMessageProps = {
@@ -48,30 +42,16 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     return redirect(`/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`);
   }
 
-  // Remove PLZ from slug
-  const { pathname } = new URL(request.url);
-  const filterValue = pathname.substring(0, pathname.lastIndexOf("/"));
-  const [common, meta, { session }] = await Promise.all([
-    fetchTranslations("amtsgericht"),
-    fetchMeta({ filterValue }),
-    createSessionWithCsrf(request.headers.get("Cookie")),
-  ]);
+  const { session } = await createSessionWithCsrf(
+    request.headers.get("Cookie"),
+  );
 
   const sessionManager = getSessionManager("main");
 
-  const resultListHeading = parseAndSanitizeMarkdown(
-    applyStringReplacement(common.resultListHeading, { postcode: zipCode }),
-  );
-
   return data(
     {
-      resultListHeading,
-      prunedUserData: {
-        plz: zipCode,
-      },
-      pathname,
-      common,
-      meta,
+      userData: { plz: zipCode },
+      meta: { title: "Amtsgericht finden" },
     },
     { headers: { "Set-Cookie": await sessionManager.commitSession(session) } },
   );
@@ -94,15 +74,17 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 };
 
 export default function Index() {
-  const { resultListHeading, common } = useLoaderData<typeof loader>();
+  const { userData } = useLoaderData<typeof loader>();
 
   return (
     <div className="flex flex-col grow bg-blue-100">
-      <Background backgroundColor="blue">
-        <CourtFinderHeader label={common.featureName}>
-          <RichText html={resultListHeading} />
-        </CourtFinderHeader>
-      </Background>
+      <Container paddingTop="48" backgroundColor="blue">
+        <span className="ds-label-03-reg">Amtsgericht finden</span>
+        <Heading tagName="h1" look="ds-heading-02-reg" className="mt-16">
+          Im Bereich Ihrer Postleitzahl <strong>{userData.plz}</strong> sind
+          verschiedene Amtsgerichte zuständig.
+        </Heading>
+      </Container>
       <div className="grow">
         <Container paddingTop="48">
           <Heading
@@ -114,16 +96,14 @@ export default function Index() {
           <ValidatedForm
             method="post"
             schema={courtFinderSchema}
-            defaultValues={{
-              street: "",
-              houseNumber: "",
-            }}
+            defaultValues={{ street: "", houseNumber: "" }}
           >
             <div className="ds-stack ds-stack-32">
               <div className="flex flex-wrap md:flex-nowrap gap-16">
                 <AutoSuggestInput
                   label={translations.gerichtFinder.streetName.de}
                   dataList="streetNames"
+                  dataListArgument={userData.plz}
                   noSuggestionMessage={
                     translations.gerichtFinder.noResultsFound.de
                   }
@@ -145,11 +125,9 @@ export default function Index() {
                   href="/beratungshilfe/zustaendiges-gericht/suche"
                   look="tertiary"
                   size="large"
-                  id="backLink"
-                >
-                  {common.backButton}
-                </Button>
-                <Button type="submit" size="large" id="weiterButton">
+                  text="Zurück"
+                />
+                <Button type="submit" size="large">
                   {translations.buttonNavigation.nextButtonDefaultLabel.de}
                 </Button>
               </ButtonContainer>

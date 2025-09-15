@@ -1,16 +1,19 @@
-import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
-import type { BeratungshilfeVorabcheckUserData } from "~/domains/beratungshilfe/vorabcheck/userData";
-import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
-import { type KontopfaendungWegweiserUserData } from "../kontopfaendung/wegweiser/userData";
-import type { ProzesskostenhilfeFormularUserData } from "../prozesskostenhilfe/formular/userData";
+import type { Config } from "~/services/flow/server/types";
+import type { UserData } from "../userData";
 
-export type TestCases<
-  T extends
-    | BeratungshilfeVorabcheckUserData
-    | BeratungshilfeFormularUserData
-    | FluggastrechtVorabcheckUserData
-    | FluggastrechteUserData
-    | ProzesskostenhilfeFormularUserData
-    | KontopfaendungWegweiserUserData,
-> = Readonly<Array<Readonly<[T, readonly string[]]>>>;
+// Old flow tests: forward & backward using full user data
+export type TestCases<T extends UserData> = Readonly<
+  Array<Readonly<[T, readonly string[]]>>
+>;
+
+// New flow tests: testing data submission with page schemas
+export type FlowTestCases = {
+  xstateConfig: Config;
+  testcases: Record<
+    string,
+    Array<{
+      stepId: string;
+      userInput?: UserData;
+    }>
+  >;
+};

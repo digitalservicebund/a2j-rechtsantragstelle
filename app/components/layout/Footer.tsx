@@ -56,11 +56,7 @@ export default function Footer({
         >
           {image?.url && (
             <div className="forced-colors:bg-black">
-              <Image
-                {...image}
-                width={120}
-                className="forced-colors:brightness-0 forced-colors:invert"
-              />
+              <Image {...image} width={120} />
             </div>
           )}
           <div className="ds-stack ds-stack-8 max-w-[288px]">

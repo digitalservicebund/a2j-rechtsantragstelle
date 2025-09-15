@@ -76,16 +76,6 @@ export const fillRente: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   return { pdfValues };
 };
 
-const fillSupport: PkhPdfFillFunction = ({ userData, pdfValues }) => {
-  if (userData.unterhaltsanspruch === "unterhalt") {
-    pdfValues.e14.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchUnterhaltinEuro.value = `${removeDecimalsFromCurrencyString(userData.unterhaltsSumme)} ${nettoString}`;
-  } else {
-    pdfValues.e13.value = true;
-  }
-  return { pdfValues };
-};
-
 export const fillAndereLeistungen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
@@ -197,7 +187,6 @@ export const fillOwnBruttoEinnahmen: PkhPdfFillFunction = ({
       fillStaatlicheLeistungen,
       fillEinkommenType,
       fillRente,
-      fillSupport,
       fillAndereLeistungen,
       fillWeitereEinkuenfte,
     ],

@@ -17,7 +17,18 @@ export const pkhFormularAntragstellendePersonPages = {
   unterhaltsanspruch: {
     stepId: "antragstellende-person/unterhaltsanspruch",
     pageSchema: {
-      unterhaltsanspruch: z.enum(["keine", "unterhalt", "anspruchNoUnterhalt"]),
+      unterhaltsanspruch: z.enum([
+        "keine",
+        "unterhalt",
+        "anspruchNoUnterhalt",
+        "sonstiges",
+      ]),
+    },
+  },
+  unterhaltsbeschreibung: {
+    stepId: "antragstellende-person/unterhaltsbeschreibung",
+    pageSchema: {
+      unterhaltsbeschreibung: stringRequiredSchema,
     },
   },
   unterhaltLebenFrage: {

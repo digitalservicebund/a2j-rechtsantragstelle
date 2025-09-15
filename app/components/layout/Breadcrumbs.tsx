@@ -23,50 +23,49 @@ export default function Breadcrumbs({
   const validBreadcrumbs = breadcrumbs?.filter(
     (breadcrumb) => breadcrumb.title !== undefined,
   );
+  if (validBreadcrumbs.length === 0) return null;
 
   return (
-    validBreadcrumbs.length > 0 && (
-      <GridSection bgClass="bg-blue-100">
-        <Grid>
-          <GridItem
-            span={12}
-            mdSpan={12}
-            mdStart={1}
-            lgStart={1}
-            lgSpan={12}
-            xlStart={1}
-            xlSpan={12}
+    <GridSection bgClass="bg-blue-100">
+      <Grid>
+        <GridItem
+          span={12}
+          mdSpan={12}
+          mdStart={1}
+          lgStart={1}
+          lgSpan={12}
+          xlStart={1}
+          xlSpan={12}
+        >
+          <nav
+            className={`py-8! flex flex-wrap items-center`}
+            aria-label={ariaLabel}
           >
-            <nav
-              className={`py-8! flex flex-wrap items-center`}
-              aria-label={ariaLabel}
+            {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
+            <a
+              href="/"
+              aria-label={linkLabel}
+              className="focus:outline-solid ds-link-01-bold"
             >
-              {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
-              <a
-                href="/"
-                aria-label={linkLabel}
-                className="focus:outline-solid ds-link-01-bold"
-              >
-                <HomeOutlinedIcon className="h-[1.6rem]! w-[1.6rem]!" />
-              </a>
-              {validBreadcrumbs.map((breadcrumb, idx, arr) => (
-                <div key={breadcrumb.title} className="ds-body-02-reg">
-                  <span className="mx-8">/</span>
-                  {idx === arr.length - 1 ? (
-                    <span>{breadcrumb.title}</span>
-                  ) : (
-                    <StandaloneLink
-                      text={breadcrumb.title ?? ""}
-                      url={breadcrumb.url ?? ""}
-                      className="increase-tap-area"
-                    />
-                  )}
-                </div>
-              ))}
-            </nav>
-          </GridItem>
-        </Grid>
-      </GridSection>
-    )
+              <HomeOutlinedIcon className="h-[1.6rem]! w-[1.6rem]!" />
+            </a>
+            {validBreadcrumbs.map((breadcrumb, idx, arr) => (
+              <div key={breadcrumb.title} className="ds-body-02-reg">
+                <span className="mx-8">/</span>
+                {idx === arr.length - 1 ? (
+                  <span>{breadcrumb.title}</span>
+                ) : (
+                  <StandaloneLink
+                    text={breadcrumb.title ?? ""}
+                    url={breadcrumb.url ?? ""}
+                    className="increase-tap-area"
+                  />
+                )}
+              </div>
+            ))}
+          </nav>
+        </GridItem>
+      </Grid>
+    </GridSection>
   );
 }

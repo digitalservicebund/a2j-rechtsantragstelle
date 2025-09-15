@@ -94,12 +94,13 @@ const AutoSuggestInput = ({
   errorMessages,
   width,
   dataList,
+  dataListArgument,
   noSuggestionMessage,
   isDisabled,
   minSuggestCharacters = MINIMUM_SEARCH_SUGGESTION_CHARACTERS,
   supportsFreeText: isCreatable = false,
 }: AutoSuggestInputProps) => {
-  const items = useDataListOptions(dataList);
+  const items = useDataListOptions(dataList, dataListArgument);
   const [currentItemValue, setCurrentItemValue] =
     useState<DataListOptions | null>();
   const field = useField(name);
@@ -175,7 +176,7 @@ const AutoSuggestInput = ({
       {label && <InputLabel id={inputId}>{label}</InputLabel>}
       <SelectComponent
         aria-describedby={field.error() && errorId}
-        aria-invalid={field.error() !== undefined}
+        aria-invalid={field.error() !== null}
         {...(isCreatable && {
           formatCreateLabel: (creatableValue) => creatableValue,
         })}

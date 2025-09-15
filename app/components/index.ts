@@ -7,6 +7,8 @@
  * @see: https://tailwindcss.com/docs/content-configuration#dynamic-class-names
  */
 
+import { configureZod } from "~/services/validation/configureZod";
+
 export const BACKGROUND_COLORS = Object.freeze({
   white: "bg-white", // before:bg-white
   blue: "bg-blue-100", // before:bg-blue-100
@@ -20,3 +22,5 @@ export const BACKGROUND_COLORS = Object.freeze({
 export const alignToContainer = "container lg:min-w-[59rem] lg:mx-auto!";
 
 export type BackgroundColor = "default" | keyof typeof BACKGROUND_COLORS;
+
+configureZod(); // configures custom enum errors & disable CSP warning due to eval

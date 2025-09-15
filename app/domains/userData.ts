@@ -10,6 +10,7 @@ import type { FlowId } from "./flowIds";
 
 export type BasicTypes = string | number | boolean;
 type ObjectType = {
+  // oxlint-disable-next-line @typescript-eslint/consistent-indexed-object-style
   [key: string]: BasicTypes | BasicTypes[] | ObjectType;
 };
 export type ArrayData = Array<Record<string, BasicTypes>>;

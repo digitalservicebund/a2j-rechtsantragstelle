@@ -36,6 +36,7 @@ import {
   isNachueberpruefung,
   versandDigitalGericht,
 } from "./grundvoraussetzungen/guards";
+import { getGrundvoraussetzungenStringReplacements } from "./grundvoraussetzungen/stringReplacements";
 import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xStateConfig";
 import {
   belegeStrings,
@@ -73,9 +74,9 @@ export const prozesskostenhilfeFormular = {
       start: {
         id: "antragStart",
         meta: { done: () => true },
-        initial: steps.einkuenfteStart.relative,
+        initial: steps.start.relative,
         states: {
-          [steps.einkuenfteStart.relative]: {
+          [steps.start.relative]: {
             on: { SUBMIT: "#grundvoraussetzungen" },
           },
         },
@@ -112,6 +113,10 @@ export const prozesskostenhilfeFormular = {
           {
             guard: ({ context }) => context.unterhaltsanspruch === "keine",
             target: "#antragstellende-person.unterhaltsanspruch",
+          },
+          {
+            guard: ({ context }) => context.unterhaltsanspruch === "sonstiges",
+            target: "#antragstellende-person.unterhaltsbeschreibung",
           },
           {
             guard: ({ context }) =>
@@ -173,10 +178,10 @@ export const prozesskostenhilfeFormular = {
       [steps.abgabe.relative]: {
         id: "abgabe",
         initial: steps.abgabeUeberpruefung.relative,
-        meta: { isValidationSubflow: true },
+        meta: { excludedFromValidation: true },
         states: {
           [steps.abgabeUeberpruefung.relative]: {
-            meta: { shouldExpandAllStates: true },
+            meta: { triggerValidation: true },
             on: {
               BACK: steps.weitereAngaben.absolute,
             },
@@ -255,5 +260,6 @@ export const prozesskostenhilfeFormular = {
     ...getMissingInformationStrings(context),
     ...belegeStrings(context),
     ...getWeitereDokumenteStrings(context),
+    ...getGrundvoraussetzungenStringReplacements(context),
   }),
 } satisfies Flow;

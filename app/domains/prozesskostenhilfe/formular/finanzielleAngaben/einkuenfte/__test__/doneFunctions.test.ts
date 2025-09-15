@@ -63,9 +63,9 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
   });
 
   describe("leistungenDone", () => {
-    it("should return true if there are no leistungen", () => {
+    it("should return false if there are no leistungen", () => {
       const done = leistungenDone({ context: {} });
-      expect(done).toBe(true);
+      expect(done).toBe(false);
     });
 
     it.each([
@@ -86,6 +86,18 @@ describe("Prozesskostenhilfe Finanzielle Angaben Einkuenfte doneFunctions", () =
         expect(done).toBe(expected);
       },
     );
+
+    it('should return true if the user selects "none of the above"', () => {
+      expect(
+        leistungenDone({
+          context: {
+            leistungen: {
+              none: "on",
+            },
+          },
+        }),
+      ).toBe(true);
+    });
   });
 
   describe("arbeitDone", () => {

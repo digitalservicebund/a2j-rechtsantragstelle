@@ -6,6 +6,7 @@ import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import { type ErrorMessageProps } from "../common/types";
 import { widthClassname, type FieldWidth } from "../common/width";
+import { autocompleteMap } from "~/util/autocompleteMap";
 
 export type InputProps = Readonly<{
   name: string;
@@ -38,6 +39,12 @@ const Input = function InputComponent({
   const field = useField(name);
   const errorId = `${name}-error`;
   const helperId = `${name}-helper`;
+
+  const getInputType = (name: string): string => {
+    if (name === "telefonnummer") return "tel";
+    return "text";
+  };
+
   return (
     <div className="w-full">
       {label && <InputLabel id={name}>{label}</InputLabel>}
@@ -46,13 +53,15 @@ const Input = function InputComponent({
         <input
           maxLength={charLimit}
           {...field.getInputProps({
-            type: type === "number" ? "text" : type,
+            type: getInputType(name),
             step,
             id: name,
             inputMode: type === "number" ? "decimal" : undefined,
             placeholder,
           })}
+          autoComplete={autocompleteMap[name] ?? "off"}
           ref={innerRef}
+          name={name}
           className={classNames(
             "ds-input forced-color-adjust-none",
             {
@@ -60,7 +69,7 @@ const Input = function InputComponent({
             },
             widthClassname(width),
           )}
-          aria-invalid={field.error() !== undefined}
+          aria-invalid={field.error() !== null}
           aria-describedby={[
             field.error() && errorId,
             helperText && helperId,

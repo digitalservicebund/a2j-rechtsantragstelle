@@ -97,8 +97,9 @@ export const belegeStrings = (context: ProzesskostenhilfeFormularUserData) => {
     partnerWeitereEinkuenfte:
       context["partner-weitereEinkuenfte"] &&
       context["partner-weitereEinkuenfte"].length > 0,
-    isRenter: context.rentsApartment === "yes",
     isHomeowner: context.rentsApartment === "no",
+    hasParkplatzImMietvertrag:
+      context.garageParkplatz === "yesPartOfTheContract",
     hasGrundeigentum: context.hasGrundeigentum === "yes",
     hasKraftfahrzeug: context.hasKraftfahrzeug === "yes",
     hasWertpapier: context.geldanlagen?.some(
@@ -126,6 +127,6 @@ export const belegeStrings = (context: ProzesskostenhilfeFormularUserData) => {
       context.ratenzahlungen && context.ratenzahlungen?.length > 0,
     hasSonstigeAusgaben:
       context.sonstigeAusgaben && context.sonstigeAusgaben?.length > 0,
-    hasWeitereDokumente: context.weitereDokumenteBeweis !== null,
+    hasWeitereDokumente: context.weitereDokumenteBeweis !== undefined,
   };
 };

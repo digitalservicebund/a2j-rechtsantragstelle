@@ -1,4 +1,4 @@
-import { act, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import Image from "../Image";
 
 describe("Image", () => {
@@ -9,53 +9,53 @@ describe("Image", () => {
       <Image url="photo.jpg" alternativeText={altText} />,
     );
     const image = getByRole("img");
-    expect(image).toBeInTheDocument();
-    expect(image).toBeInstanceOf(HTMLImageElement);
+    expect(image).toBeVisible();
   });
 
-  it("should render an svg image inline instead of as an <img> tag", async () => {
-    const { queryByRole } = await act(() =>
-      render(<Image url="image.svg" alternativeText={altText} />),
+  it("should render SVGs inline", () => {
+    const { getByRole } = render(
+      <Image svgString="<svg></svg>" alternativeText="asd" />,
     );
-    // since react-inlinesvg parses an actual svg to create the DOM,
-    // we basically just need to ensure that an <img> isn't present
-    expect(queryByRole("img")).not.toBeInTheDocument();
+    const image = getByRole("img");
+    expect(image).toBeVisible();
+    expect(image.tagName).toBe("svg");
   });
 
-  it("should render a noscript without JS", async () => {
-    vi.mock(import("react"), async (importOriginal) => ({
-      ...(await importOriginal()),
-      useState: vi.fn().mockReturnValue([false, vi.fn()]),
-    }));
+  it("should handle broken markup", () => {
+    const { queryByRole } = render(<Image svgString="<wrong>notHtml" />);
+    expect(queryByRole("img")).toBeNull();
+  });
 
-    const { baseElement } = await act(() =>
-      render(<Image url="image.svg" alternativeText={altText} />),
+  it("svgs are aria-hidden without altText", () => {
+    const { queryByRole } = render(<Image svgString="<svg></svg>" />);
+    expect(queryByRole("img", { hidden: true })).toHaveAttribute("aria-hidden");
+  });
+
+  it("altText on svgs are rendered as <title>", () => {
+    const { getByTitle } = render(
+      <Image svgString="<svg></svg>" alternativeText={altText} />,
     );
-    expect(baseElement).toContainHTML("<noscript>");
+    const image = getByTitle(altText);
+    expect(image.parentElement?.tagName).toBe("svg");
+    expect(image).not.toHaveAttribute("aria-hidden");
   });
 
   it("should render an image as with aria-hidden as true", () => {
-    const { container } = render(
-      <Image url="photo.jpg" alternativeText={altText} ariaHidden />,
-    );
+    const { container } = render(<Image url="photo.jpg" ariaHidden />);
     const image = container.querySelector("img");
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute("aria-hidden", "true");
   });
 
   it("should render an image as with aria-hidden as false", () => {
-    const { container } = render(
-      <Image url="photo.jpg" alternativeText={altText} ariaHidden={false} />,
-    );
+    const { container } = render(<Image url="photo.jpg" ariaHidden={false} />);
     const image = container.querySelector("img");
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute("aria-hidden", "false");
   });
 
   it("should render an image without aria-hidden element if ariaHidden props is undefined", () => {
-    const { container } = render(
-      <Image url="photo.jpg" alternativeText={altText} />,
-    );
+    const { container } = render(<Image url="photo.jpg" />);
     const image = container.querySelector("img");
     expect(image).toBeInTheDocument();
     expect(image).not.toHaveAttribute("aria-hidden");

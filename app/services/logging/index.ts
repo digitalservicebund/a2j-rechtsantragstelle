@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* oxlint-disable no-console */
 import * as Sentry from "@sentry/react-router";
 import { config } from "~/services/env/public";
 import { sentrySharedConfig } from "./sentrySettings";
@@ -28,14 +28,15 @@ export function logWarning(message: string) {
 type Error = {
   message?: string;
   error: unknown;
-  request?: Request;
 };
 
 export function logError({ message = undefined, error }: Error) {
   if (message) console.error(message, error);
   else console.error(error);
-  // Log server exceptions to Sentry if possible
-  Sentry.captureException(error);
+
+  if (sentryHasBeenInitialized) {
+    Sentry.captureException(error);
+  }
 }
 
 export function sendSentryMessage(

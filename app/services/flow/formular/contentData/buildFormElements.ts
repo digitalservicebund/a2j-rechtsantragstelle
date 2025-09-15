@@ -1,15 +1,19 @@
+import type { UserDataWithPageData } from "../../pageData";
 import { type CMSContent } from "../buildCmsContentAndTranslations";
 
-export const buildFormElements = (cmsContent: CMSContent) => {
-  return cmsContent.formContent.map((strapiFormElement) => {
-    if (strapiFormElement.__component !== "form-elements.select") {
-      return strapiFormElement;
-    }
+export const buildFormElements = (
+  { formContent, heading }: CMSContent,
+  userDataWithPageData?: UserDataWithPageData,
+) =>
+  formContent.map((element) => {
+    if (element.__component === "form-elements.select" && heading)
+      element.altLabel = heading;
 
-    if (cmsContent.heading !== undefined) {
-      strapiFormElement.altLabel = cmsContent.heading;
-    }
-
-    return strapiFormElement;
+    if (
+      element.__component === "form-elements.auto-suggest-input" &&
+      element.dataList === "streetNames" &&
+      typeof userDataWithPageData?.plz === "string"
+    )
+      element.dataListArgument = userDataWithPageData.plz;
+    return element;
   });
-};

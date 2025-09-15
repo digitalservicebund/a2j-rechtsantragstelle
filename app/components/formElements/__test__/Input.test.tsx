@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import type { InputProps } from "../Input";
 import Input from "../Input";
+import { autocompleteMap } from "~/util/autocompleteMap";
 
 vi.mock("@rvf/react-router", () => ({
   useField: () => ({
@@ -92,6 +93,23 @@ describe("Input", () => {
       render(<Input name="test" errorMessages={undefined} />);
       const element = screen.getByRole("textbox");
       expect(element).toHaveAttribute("aria-required", "false");
+    });
+  });
+  describe("Input field with autocomplete attribute", () => {
+    Object.entries(autocompleteMap).forEach(([name, expectedAutocomplete]) => {
+      it(`renders input with autocomplete="${expectedAutocomplete}" for name="${name}"`, () => {
+        render(<Input name={name} />);
+
+        const input = screen.getByRole("textbox");
+
+        expect(input).toHaveAttribute("autoComplete", expectedAutocomplete);
+      });
+    });
+
+    it('falls back to autocomplete="off" for unknown field', () => {
+      render(<Input name="someUnknownField" />);
+      const input = screen.getByRole("textbox");
+      expect(input).toHaveAttribute("autoComplete", "off");
     });
   });
 });

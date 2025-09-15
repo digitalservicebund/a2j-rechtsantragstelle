@@ -3,7 +3,7 @@ import { type PagesConfig } from "~/domains/pageSchemas";
 import { financialEntryInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { postcodeSchema } from "~/services/validation/postcode";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
@@ -31,8 +31,9 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
     pageSchema: {
       arbeitsplatz: z.object({
         strasseHausnummer: stringRequiredSchema,
-        plz: stringRequiredSchema.pipe(postcodeSchema),
+        plz: stringRequiredSchema,
         ort: stringRequiredSchema,
+        land: stringOptionalSchema,
       }),
       arbeitsplatzEntfernung: integerSchema.refine((distance) => distance > 0, {
         message: "invalidInteger",

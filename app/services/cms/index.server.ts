@@ -44,7 +44,7 @@ export async function fetchSingleEntry<T extends SingleEntryId>(
   pLevel = P_LEVEL_DEFAULT,
 ): Promise<StrapiSchemasOutput[T][number]> {
   const strapiEntry = await getStrapiEntry({ apiId, locale, pLevel });
-  return entrySchemas[apiId].parse(strapiEntry)[0];
+  return (await entrySchemas[apiId].parseAsync(strapiEntry))[0];
 }
 
 async function fetchCollectionEntry<T extends CollectionId>(
@@ -54,7 +54,8 @@ async function fetchCollectionEntry<T extends CollectionId>(
   locale?: StrapiLocale,
 ): Promise<StrapiSchemasOutput[T][number]> {
   const strapiEntry = await getStrapiEntry({ apiId, filters, locale, pLevel });
-  const strapiEntryParsed = collectionSchemas[apiId].safeParse(strapiEntry);
+  const strapiEntryParsed =
+    await collectionSchemas[apiId].safeParseAsync(strapiEntry);
 
   if (strapiEntryParsed?.data?.length === 0) {
     const error = new Error(

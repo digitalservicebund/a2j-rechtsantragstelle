@@ -92,7 +92,7 @@ test.describe("edge cases results", () => {
     await courtfinder.searchPLZEdgeCases();
     await page.getByLabel("Hausnummer").fill("1");
     await courtfinder.fillAutoSuggestInputPage("input-street", "Am Elbtunnel");
-    await page.locator("#weiterButton").click();
+    await page.getByText("Weiter").click();
     await expectSingleCourtContent(courtfinder);
   });
 
@@ -123,7 +123,7 @@ test.describe("back button", () => {
     const cleanBaseURL = cleanBaseUrl(baseURL);
     await courtfinder.gotoWithReferrer(cleanBaseURL);
     await courtfinder.searchPLZSingleResult();
-    await page.click("#backLink");
+    await page.getByText("Suche wiederholen").click();
     await courtfinder.clickBackButton();
     expect(page.url().endsWith(courtfinder.referrer)).toBeTruthy();
   });

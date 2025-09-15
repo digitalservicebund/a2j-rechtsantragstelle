@@ -32,7 +32,7 @@ export function navItemsFromStepStates(
       label: translations[stepState.stepId] ?? stepState.stepId,
       subflows: subNavItems,
       state: navState({ isCurrent, isDone, isReachable }),
-      isValidationSubflow: stepState.isValidationState,
+      excludedFromValidation: stepState.excludedFromValidation,
     };
   });
 }

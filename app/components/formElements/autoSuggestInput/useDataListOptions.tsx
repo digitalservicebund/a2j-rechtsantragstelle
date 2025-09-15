@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router";
-import { type z } from "zod";
 import { type DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
-import type { postcodeSchema } from "~/services/validation/postcode";
 
 const API_PATH = "/api";
 
-function getResourcePath(type: DataListType, routeArgs?: string): string {
+function getResourcePath(
+  type: DataListType,
+  dataListArgument?: string,
+): string {
   switch (type) {
     case "airports":
       return `${API_PATH}/airports/list`;
     case "airlines":
       return `${API_PATH}/airlines/list`;
     case "streetNames": {
-      return `${API_PATH}/streetNames/list/${routeArgs}`;
+      return `${API_PATH}/streetNames/list/${dataListArgument}`;
     }
     default: {
       throw new Error(`Unhandled type: ${String(type)}`);
@@ -22,17 +22,12 @@ function getResourcePath(type: DataListType, routeArgs?: string): string {
   }
 }
 
-const useDataListOptions = (dataListType: DataListType) => {
+const useDataListOptions = (
+  dataListType: DataListType,
+  dataListArgument?: string,
+) => {
   const [dataListOptions, setDataListOptions] = useState<DataListOptions[]>([]);
-  /**
-   * In the case of the Gerichtsfinder, we need the previously-selected PLZ to fetch the street names.
-   * However, the AutoSuggest can also be used in a Vorabcheck, so it's not possible to discern the loaderData ahead of time
-   */
-  const loaderData = useLoaderData();
-  const postleitzahl = loaderData?.prunedUserData?.plz as
-    | z.infer<typeof postcodeSchema>
-    | undefined;
-  const resourcePath = getResourcePath(dataListType, postleitzahl);
+  const resourcePath = getResourcePath(dataListType, dataListArgument);
 
   useEffect(() => {
     const fetchData = async () => {

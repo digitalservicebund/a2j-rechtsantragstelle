@@ -23,7 +23,7 @@ describe("services/cms", () => {
       const footerData = getStrapiFooter();
       vi.mocked(getStrapiEntry).mockReturnValue(Promise.resolve([footerData]));
       expect(await fetchSingleEntry("footer")).toEqual(
-        StrapiFooterSchema.parse(footerData),
+        await StrapiFooterSchema.parseAsync(footerData),
       );
     });
   });

@@ -17,7 +17,7 @@ test.describe("homepage", () => {
       page
         .locator(LOGO_DIV_ID)
         .locator("div")
-        .locator("img")
+        .locator("svg")
         .waitFor()
         .then(() => true),
       page
@@ -27,7 +27,7 @@ test.describe("homepage", () => {
         .waitFor()
         .then(() => true),
     ]).catch(() => {
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.log("Logo not found");
     });
 

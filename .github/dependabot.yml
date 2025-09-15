@@ -25,10 +25,15 @@ updates:
         patterns:
           - "vitest*"
           - "@vitest*"
+          - "vite-node"
       react:
         patterns:
           - react
           - react-dom
+      oxlint:
+        patterns:
+          - oxlint
+          - eslint-plugin-oxlint
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
