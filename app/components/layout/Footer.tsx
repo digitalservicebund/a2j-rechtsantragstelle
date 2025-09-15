@@ -48,12 +48,7 @@ export default function Footer({
   return (
     <>
       <Grid className="py-40 print:pb-0">
-        <GridItem
-          span={12}
-          lgSpan={3}
-          xlSpan={3}
-          className="flex flex-col gap-y-8"
-        >
+        <GridItem span={12} lgSpan={3} xlSpan={3}>
           {image?.url && (
             <div className="forced-colors:bg-black">
               <Image {...image} width={120} />
@@ -78,7 +73,7 @@ export default function Footer({
           aria-label={ariaLabel}
         >
           <nav
-            className="flex flex-col sm:flex-row justify-between print:hidden"
+            className="flex flex-col sm:flex-row justify-between print:hidden gap-y-16"
             aria-label={ariaLabel}
           >
             {categorizedLinks.map((category) => {
