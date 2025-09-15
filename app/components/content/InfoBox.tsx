@@ -8,9 +8,6 @@ type InfoBoxProps = {
   heading?: HeadingProps;
   separator?: boolean;
   items: InfoBoxItemProps[];
-  outerBackground?: {
-    backgroundColor?: string;
-  };
 };
 
 const InfoBox = ({
@@ -33,7 +30,6 @@ const InfoBox = ({
       {heading && <Heading {...heading} />}
       {items.length > 0 && (
         <div
-          // do we need that?
           className={classNames("ps-0 info-box ds-stack py-24", {
             "ds-stack-48": !separator,
             "ds-stack-32": separator,

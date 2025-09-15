@@ -41,7 +41,7 @@ export default function Hero({
         <RichText className="ds-heading-03-reg" html={content.html} />
       )}
       {button && (
-        <ButtonContainer className="pb-64 sm:pt-24 text-white">
+        <ButtonContainer className="pb-64 sm:pt-24">
           <Button {...button} />
         </ButtonContainer>
       )}
