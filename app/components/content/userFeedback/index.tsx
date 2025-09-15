@@ -37,11 +37,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
         backgroundColor="midBlue"
         fullScreen={false}
       >
-        <div
-          className="ds-stack ds-stack-16"
-          data-testid={USER_FEEDBACK_ID}
-          id={USER_FEEDBACK_ID}
-        >
+        <div className="ds-stack ds-stack-16" id={USER_FEEDBACK_ID}>
           {
             {
               ["showRating"]: (
