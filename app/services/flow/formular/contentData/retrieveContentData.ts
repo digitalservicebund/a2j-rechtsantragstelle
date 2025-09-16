@@ -10,6 +10,7 @@ import { parentFromParams } from "~/services/params";
 import { getContentData } from "./getContentData";
 import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
 import { type UserDataWithPageData } from "../../pageData";
+import type { Replacements } from "~/util/applyStringReplacement";
 
 export const retrieveContentData = async (
   pathname: string,
@@ -32,11 +33,10 @@ export const retrieveContentData = async (
 
   const replacements =
     "stringReplacements" in currentFlow
-      ? // oxlint-disable-line ban-ts-comment @ts-ignore
-        currentFlow.stringReplacements({
+      ? (currentFlow.stringReplacements({
           ...userDataWithPageData,
           ...(migrationData ?? {}),
-        })
+        }) as Replacements)
       : undefined;
 
   const { translations, cmsContent } = buildCmsContentAndTranslations({
