@@ -33,7 +33,7 @@
 
 @media (width < 40rem /* 640px */) {
   .survey-modal-container {
-    @apply fixed border-none left-0 min-h-screen max-h-screen z-50 w-full top-0 bg-black/50;
+    @apply fixed border-none left-0 min-h-screen max-h-screen z-50 w-full top-0 bg-black/50 max-sm:right-0 inset-x-auto! not-open:hidden;
   }
   .survey-modal {
     @apply p-24 border-2 border-blue-800 max-w-screen max-h-[80vh] min-h-full overflow-scroll bg-white;
@@ -268,6 +268,14 @@ details:not(:has(.summary-content:focus-visible)) {
   @apply outline-4;
   @apply outline-blue-800;
   outline-offset: -4px;
+}
+
+.accordion-item {
+  @apply last:rounded-t-none not-first:border-t-0 not-first:not-last:rounded-none border-2 rounded-lg first:rounded-b-none overflow-hidden border-blue-500;
+}
+
+.accordion-item:focus-within {
+  @apply outline-blue-800! outline-4! outline-solid! border-none p-2 not-first:pt-0;
 }
 
 .auto-suggest-input-disabled:hover {

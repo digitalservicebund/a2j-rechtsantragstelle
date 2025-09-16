@@ -16,9 +16,14 @@ vi.mocked(getSessionManager).mockReturnValue({
   getDebugId: vi.fn(),
 });
 
+beforeEach(() => {
+  vi.clearAllMocks();
+});
+
 describe("setUserVisitedValidationPage", () => {
-  it("should set an item in the flow session", async () => {
+  it("should set an item in the flow session when trigger validation parameter is true", async () => {
     await setUserVisitedValidationPage(
+      true,
       "/beratungshilfe/antrag",
       "cookieHeader",
     );
@@ -27,5 +32,33 @@ describe("setUserVisitedValidationPage", () => {
       true,
     );
     expect(mockCommitSession).toHaveBeenCalled();
+  });
+
+  it("should not set an item in the flow session when trigger validation parameter is false", async () => {
+    await setUserVisitedValidationPage(
+      false,
+      "/beratungshilfe/antrag",
+      "cookieHeader",
+    );
+
+    expect(mockSessionSet).not.toHaveBeenCalledWith(
+      userVisitedValidationPageKey,
+      true,
+    );
+    expect(mockCommitSession).not.toHaveBeenCalled();
+  });
+
+  it("should not set an item in the flow session when trigger validation parameter is undefined", async () => {
+    await setUserVisitedValidationPage(
+      undefined,
+      "/beratungshilfe/antrag",
+      "cookieHeader",
+    );
+
+    expect(mockSessionSet).not.toHaveBeenCalledWith(
+      userVisitedValidationPageKey,
+      true,
+    );
+    expect(mockCommitSession).not.toHaveBeenCalled();
   });
 });
