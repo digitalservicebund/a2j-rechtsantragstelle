@@ -88,8 +88,8 @@ export const FeedbackFormBox = ({
             <>
               <span className="ds-label-01-bold">
                 {feedbackTranslations["success-message"]}
-              </span>
-              <span className="ds-label-01-reg">{feedbackText}</span>
+              </span>{" "}
+              {feedbackText}
             </>
           }
           description={textAreaDescription}
