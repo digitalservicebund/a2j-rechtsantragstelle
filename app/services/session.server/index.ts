@@ -56,8 +56,7 @@ export function getSessionManager(context: SessionUserData) {
       }),
       context: context,
     });
-  const debugId = (id: string) => fullId(context, id);
-  return { getSession, commitSession, destroySession, getDebugId: debugId };
+  return { getSession, commitSession, destroySession };
 }
 
 export const getSessionData = async (
