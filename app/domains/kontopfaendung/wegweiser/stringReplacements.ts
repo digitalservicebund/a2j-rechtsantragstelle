@@ -127,8 +127,7 @@ export const getArbeitsentgeltEinmaligStrings = (
 ) => {
   return {
     hasArbeitsentgeltEinmalig:
-      typeof userData.zahlungArbeitgeber !== "undefined" &&
-      userData.zahlungArbeitgeber !== null &&
+      !!userData.zahlungArbeitgeber &&
       Object.values(userData.zahlungArbeitgeber).some(
         (value) => value === "on",
       ),

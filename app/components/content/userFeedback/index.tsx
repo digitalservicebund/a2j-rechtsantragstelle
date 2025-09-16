@@ -39,8 +39,8 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
       >
         <div
           className="ds-stack ds-stack-16"
-          data-testid={USER_FEEDBACK_ID}
           id={USER_FEEDBACK_ID}
+          data-testid={USER_FEEDBACK_ID}
         >
           {
             {

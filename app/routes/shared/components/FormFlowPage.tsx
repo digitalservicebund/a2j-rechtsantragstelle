@@ -46,7 +46,7 @@ export function FormFlowPage() {
       <Background backgroundColor="blue">
         <div className="w-screen h-full">
           <div className="container pt-24! pb-32! h-full">
-            <div className="flex min-h-full md:gap-32 justify-between">
+            <div className="flex flex-col-reverse md:flex-row min-h-full gap-32 justify-between">
               <div className="md:mb-32 md:w-[248px]">
                 <FlowNavigation {...navigationProps} />
               </div>

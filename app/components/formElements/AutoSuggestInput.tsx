@@ -26,6 +26,7 @@ import Input from "./Input";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import { widthClassname } from "../common/width";
+import useLiveMessage from "./autoSuggestInput/useLiveMessage";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
@@ -112,6 +113,7 @@ const AutoSuggestInput = ({
 
   const jsAvailable = useJsAvailable();
   const [optionWasSelected, setOptionWasSelected] = useState(false);
+  const { liveMessage, liveMessageKey, announceLiveMessage } = useLiveMessage();
   const [options, setOptions] = useState<DataListOptions[]>([]);
   const rootLoaderData = useRouteLoaderData<RootLoader>("root");
 
@@ -133,6 +135,9 @@ const AutoSuggestInput = ({
       }
 
       setOptions(filteredOptions);
+      if (filteredOptions.length === 0) {
+        announceLiveMessage(noSuggestionMessage ?? "");
+      }
     }
   };
 
@@ -176,7 +181,7 @@ const AutoSuggestInput = ({
       {label && <InputLabel id={inputId}>{label}</InputLabel>}
       <SelectComponent
         aria-describedby={field.error() && errorId}
-        aria-invalid={field.error() !== undefined}
+        aria-invalid={field.error() !== null}
         {...(isCreatable && {
           formatCreateLabel: (creatableValue) => creatableValue,
         })}
@@ -244,6 +249,10 @@ const AutoSuggestInput = ({
         tabIndex={0}
         value={currentItemValue}
       />
+
+      <div key={liveMessageKey} aria-live="polite" className="sr-only">
+        {liveMessage}
+      </div>
 
       <InputError id={errorId} keepAriaLive={false}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??

@@ -1,17 +1,15 @@
 import { beratungshilfePersoenlicheDatenDone } from "~/domains/beratungshilfe/formular/persoenlicheDaten/doneFunctions";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
-import {
-  andereUnterhaltszahlungenDone,
-  ausgabenDone,
-  kinderDone,
-  partnerDone,
-  wohnungDone,
-  eigentumDone,
-} from "./finanzielleAngaben/doneFunctions";
 import { einkommenDone } from "./finanzielleAngaben/einkommen/doneFunctions";
 import { rechtsproblemDone } from "./rechtsproblem/rechtsproblemDone";
 import type { BeratungshilfeFormularUserData } from "./userData";
+import { andereUnterhaltszahlungenDone } from "./finanzielleAngaben/andereUnterhaltszahlungen/doneFunctions";
+import { kinderDone } from "./finanzielleAngaben/kinder/doneFunctions";
+import { eigentumDone } from "./finanzielleAngaben/eigentum/doneFunctions";
+import { partnerDone } from "./finanzielleAngaben/partner/doneFunctions";
+import { ausgabenDone } from "./finanzielleAngaben/regelmaessigeAusgaben/doneFunctions";
+import { wohnungDone } from "./finanzielleAngaben/wohnung/doneFunctions";
 
 export const getAmtsgerichtStrings = (
   context: BeratungshilfeFormularUserData,
@@ -119,6 +117,6 @@ export const getWeitereDokumenteStrings = (
   context: BeratungshilfeFormularUserData,
 ) => {
   return {
-    hasWeitereDokumente: context.weitereDokumenteBeweis !== null,
+    hasWeitereDokumente: context.weitereDokumenteBeweis !== undefined,
   };
 };

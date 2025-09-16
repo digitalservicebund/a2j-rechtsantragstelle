@@ -1,6 +1,5 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { Config } from "~/services/flow/server/types";
-import { andereUnterhaltszahlungenDone } from "../doneFunctions";
 import {
   hasWeitereUnterhaltszahlungenYes,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
@@ -8,6 +7,7 @@ import {
 } from "../guards";
 import { berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages } from "./pages";
 import type { BeratungshilfeFinanzielleAngabenUserData } from "../userData";
+import { andereUnterhaltszahlungenDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
   berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages,

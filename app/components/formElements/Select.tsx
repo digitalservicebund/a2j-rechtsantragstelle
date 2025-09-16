@@ -42,7 +42,7 @@ const Select = ({
       <select
         {...field.getInputProps({ id: name })}
         className={selectClassName}
-        aria-invalid={field.error() !== undefined}
+        aria-invalid={field.error() !== null}
         aria-describedby={field.error() ? errorId : undefined}
         aria-errormessage={field.error() ? errorId : undefined}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
