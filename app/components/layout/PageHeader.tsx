@@ -44,7 +44,7 @@ export default function PageHeader({
         </Grid>
       </GridSection>
       <GridSection>
-        <Grid className="mt-16 mb-16">
+        <Grid className="pt-16 pb-16">
           <GridItem
             smColumn={{ start: 1, span: 12 }}
             mdColumn={{ start: 1, span: 12 }}
@@ -63,7 +63,7 @@ export default function PageHeader({
                 {title}
               </a>
               {!hideLinks && (
-                <div className="flex gap-20 max-[425px]:pt-16">
+                <div className="flex gap-20 max-[447px]:pt-16">
                   <StandaloneLink
                     url={"/leichtesprache"}
                     text={translations.pageHeader.leichtesprache.de}

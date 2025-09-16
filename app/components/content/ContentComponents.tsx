@@ -96,7 +96,11 @@ type PageContentProps = {
   readonly isOnFlowPage?: boolean;
 };
 
-function ContentComponents({ content = [], isOnFlowPage }: PageContentProps) {
+function ContentComponents({
+  content = [],
+  className,
+  isOnFlowPage,
+}: PageContentProps) {
   if (content.length === 0) return [];
   return content
     .filter((el) => el.__component !== "page.array-summary")
@@ -106,7 +110,7 @@ function ContentComponents({ content = [], isOnFlowPage }: PageContentProps) {
 
       if (isOnFlowPage) {
         return (
-          <div key={`${el.__component}_${el.id}`}>
+          <div key={`${el.__component}_${el.id}`} className={className}>
             {cmsToReact(el, isOnFlowPage)}
           </div>
         );

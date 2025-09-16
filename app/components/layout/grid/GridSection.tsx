@@ -10,9 +10,6 @@ type SectionProps = React.PropsWithChildren<{
   ["data-testid"]?: string;
 }>;
 
-// default = pt-[40px] pb-[40px]
-// pt-[56px] pb-[56px]
-// pt-[64px] pb-[64px]
 export function GridSection({
   children,
   pt,
@@ -20,7 +17,6 @@ export function GridSection({
   backgroundClass,
   className,
   id,
-  ...rest
 }: SectionProps) {
   return (
     <section
@@ -30,7 +26,6 @@ export function GridSection({
         className,
         getPaddingClasses(pt ?? "", pb ?? ""),
       )}
-      {...rest}
     >
       {children}
     </section>

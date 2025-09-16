@@ -107,6 +107,7 @@ export function FormFlowPage() {
                   <ContentComponents
                     content={cmsContent.postFormContent}
                     fullScreen={false}
+                    isOnFlowPage
                   />
                 </div>
                 {showReportProblem && (

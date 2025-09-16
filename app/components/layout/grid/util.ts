@@ -133,11 +133,20 @@ export function getGridClass(
   }
 }
 
+// pt-64 pb-64
+// pt-56 pb-56
+// pt-32 pb-32
+// pt-48 pb-48
+// pt-40 pb-40 default
+// pt-16 pb-16
+// pt-24 pb-24
+// pt-8 pb-8
+// pt-0 pb-0
 export const getPaddingClasses = (pt: string, pb: string) => {
   if (pt && pb) {
     const paddingTop = pt === "default" ? "40" : pt;
     const paddingBottom = pb === "default" ? "40" : pb;
-    return `pt-[${paddingTop}px] pb-[${paddingBottom}px]`;
+    return `pt-${paddingTop} pb-${paddingBottom}`;
   }
   return "";
 };

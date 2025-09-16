@@ -44,7 +44,7 @@ export function Grid({ children, background, className, id }: GridProps) {
     <div className={baseClasses} id={id}>
       {background && (
         <div className={bgItem} aria-hidden>
-          <div className={classNames("h-full w-full", background?.className)} />
+          <div className={`h-full w-full ${background?.className}`} />
         </div>
       )}
 

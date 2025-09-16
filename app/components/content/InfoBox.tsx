@@ -21,6 +21,7 @@ const InfoBox = ({
       mdColumn={{ start: 1, span: 7 }}
       lgColumn={{ start: 3, span: 7 }}
       xlColumn={{ start: 3, span: 7 }}
+      className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
       id={identifier}
     >
       {heading && <Heading {...heading} />}

@@ -52,7 +52,7 @@ const List = ({
       lgColumn={{ start: 3, span: 7 }}
       xlColumn={{ start: 3, span: 7 }}
       id={identifier}
-      className="py-24"
+      className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
     >
       <div className="ds-stack ds-stack-32">
         <div className="ds-stack ds-stack-16">

@@ -30,7 +30,6 @@ export function GridItem({
     lgColumn && getGridClass("col-start", lgColumn.start as Span, "lg"),
     xlColumn && getGridClass("col-span", xlColumn.span as Span, "xl"),
     xlColumn && getGridClass("col-start", xlColumn.start as Span, "xl"),
-    "px-16 md:px-16 lg:px-0 xl:px-0",
     "[grid-row:1] z-10",
     className,
   );

@@ -19,7 +19,7 @@ const Box = ({ identifier, label, heading, content, buttons }: BoxProps) => {
       mdColumn={{ start: 1, span: 7 }}
       lgColumn={{ start: 3, span: 7 }}
       xlColumn={{ start: 3, span: 7 }}
-      className="py-24"
+      className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
       id={identifier}
     >
       <div className="ds-stack ds-stack-16 scroll-my-40">
