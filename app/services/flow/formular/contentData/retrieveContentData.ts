@@ -39,13 +39,11 @@ export const retrieveContentData = async (
       : undefined;
 
   const { translations, cmsContent } = buildCmsContentAndTranslations({
-    currentFlow,
     flowTranslations: cmsTranslations[flowId],
     flowMenuTranslations: cmsTranslations[`${flowId}/menu`],
-    migrationData,
     overviewTranslations: cmsTranslations[`${flowId}/summaryPage`],
     formPageContent,
-    userDataWithPageData,
+    replacements,
   });
 
   return getContentData(
