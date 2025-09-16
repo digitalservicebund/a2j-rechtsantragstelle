@@ -11,6 +11,7 @@ import type { FlowId } from "./flowIds";
 import type { Guards } from "./guards.server";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { UserData } from "./userData";
+import { FlowTestCases } from "~/domains/__test__/TestCases";
 
 type FlowMigration = {
   source: FlowId;
@@ -24,6 +25,7 @@ export type Flow = {
   flowType: FlowType;
   config: Config;
   guards: Guards;
+  testcases?: FlowTestCases;
   migration?: FlowMigration;
   flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (context: UserData) => Replacements;
