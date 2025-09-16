@@ -16,7 +16,7 @@ export function navItemsFromStepStates(
   stepId: string,
   stepStates: StepState[] | undefined,
   translations: Translations = {},
-  useStepper: boolean = false,
+  useStepper = false,
 ): NavItem[] | undefined {
   if (!stepStates) return undefined;
 
