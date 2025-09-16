@@ -31,10 +31,11 @@ export const retrieveContentData = async (
   ]);
 
   const replacements =
-    "stringReplacements" in currentFlow
+    "stringReplacements" in currentFlow &&
+    typeof currentFlow.stringReplacements === "function"
       ? currentFlow.stringReplacements({
           ...userDataWithPageData,
-          ...migrationData,
+          ...(migrationData ?? {}),
         })
       : undefined;
 
