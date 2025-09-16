@@ -36,6 +36,7 @@ const contexts = {
   "/fluggastrechte/formular": fluggastrechteInputSchema,
   "/prozesskostenhilfe/formular": {},
   "/kontopfaendung/wegweiser": {},
+  "/geld-einklagen/formular": {},
 } as const satisfies Record<FlowId, SchemaObject>;
 
 export const getContext = (flowId: FlowId) => contexts[flowId];

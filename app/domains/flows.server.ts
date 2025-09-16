@@ -11,6 +11,7 @@ import type { FlowId } from "./flowIds";
 import type { Guards } from "./guards.server";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { UserData } from "./userData";
+import { geldEinklagenFormular } from "./geldEinklagen/formular";
 
 type FlowMigration = {
   source: FlowId;
@@ -31,6 +32,7 @@ export type Flow = {
     string,
     (request: Request, userData: UserData) => Promise<void>
   >;
+  useStepper?: boolean;
 };
 
 export const flows = {
@@ -41,4 +43,5 @@ export const flows = {
   "/fluggastrechte/formular": fluggastrechtFlow,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
+  "/geld-einklagen/formular": geldEinklagenFormular,
 } satisfies Record<FlowId, Flow>;

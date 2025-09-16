@@ -90,6 +90,7 @@ export type StepState = {
   url: string;
   excludedFromValidation?: boolean;
   subStates?: StepState[];
+  isMainStep: boolean;
 };
 
 function stepStates(
@@ -148,6 +149,7 @@ function stepStates(
         stepId,
         isReachable: reachableSteps.includes(targetStepId),
         excludedFromValidation,
+        isMainStep: false,
       };
     }
 
@@ -158,6 +160,7 @@ function stepStates(
       isReachable: reachableSubStates.length > 0,
       subStates: reachableSubStates,
       excludedFromValidation,
+      isMainStep: true,
     };
   });
 }

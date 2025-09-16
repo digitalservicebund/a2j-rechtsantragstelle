@@ -16,8 +16,19 @@ export function navItemsFromStepStates(
   stepId: string,
   stepStates: StepState[] | undefined,
   translations: Translations = {},
+  useStepper: boolean = false,
 ): NavItem[] | undefined {
   if (!stepStates) return undefined;
+
+  if (useStepper) {
+    return stepStates
+      .filter((s) => isStepStateIdCurrent(s.stepId, stepId))
+      .map((s) =>
+        navItemsFromStepStates(stepId, s.subStates, translations, false),
+      )
+      .flat()
+      .filter((item): item is NavItem => item !== undefined);
+  }
 
   return stepStates.map((stepState) => {
     const { isDone, isReachable, subStates } = stepState;

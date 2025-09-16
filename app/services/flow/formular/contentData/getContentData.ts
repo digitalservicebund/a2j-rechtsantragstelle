@@ -87,14 +87,24 @@ export const getContentData = (
     getNavProps: (
       flowController: ReturnType<typeof buildFlowController>,
       stepId: string,
-    ) => ({
-      navItems:
-        navItemsFromStepStates(
-          stepId,
-          flowController.stepStates(),
-          translations,
-        ) ?? [],
-      expandAll: flowController.getMeta(stepId)?.triggerValidation,
-    }),
+    ) => {
+      const useStepper = currentFlow.useStepper ?? false;
+      const steps = flowController.stepStates();
+      const steppers = useStepper
+        ? steps
+            .filter((s) => s.isMainStep)
+            .map((s) => ({
+              stepId: s.stepId,
+              url: s.url,
+            }))
+        : undefined;
+
+      return {
+        steppers,
+        navItems:
+          navItemsFromStepStates(stepId, steps, translations, useStepper) ?? [],
+        expandAll: flowController.getMeta(stepId)?.triggerValidation,
+      };
+    },
   };
 };
