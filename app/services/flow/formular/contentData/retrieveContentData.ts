@@ -11,6 +11,7 @@ import { getContentData } from "./getContentData";
 import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
 import { type UserDataWithPageData } from "../../pageData";
 import type { Replacements } from "~/util/applyStringReplacement";
+import type { Flow } from "~/domains/flows.server";
 
 export const retrieveContentData = async (
   pathname: string,
@@ -33,10 +34,10 @@ export const retrieveContentData = async (
 
   const replacements =
     "stringReplacements" in currentFlow
-      ? (currentFlow.stringReplacements({
+      ? (currentFlow as Flow).stringReplacements!({
           ...userDataWithPageData,
           ...(migrationData ?? {}),
-        }) as Replacements)
+        })
       : undefined;
 
   const { translations, cmsContent } = buildCmsContentAndTranslations({
