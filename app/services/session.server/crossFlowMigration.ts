@@ -28,7 +28,7 @@ async function doMigration(
   );
 }
 
-export function getMigrationData(
+export async function getMigrationData(
   stepId: string,
   migrationFlowIdDestination: FlowId,
   migrationFlowDestination: Flow,
@@ -38,7 +38,7 @@ export function getMigrationData(
   if (!migration || !stepId.includes(migrationKey) || !cookieHeader)
     return undefined;
 
-  return doMigration(
+  return await doMigration(
     migrationFlowIdDestination,
     migration.source,
     cookieHeader,
