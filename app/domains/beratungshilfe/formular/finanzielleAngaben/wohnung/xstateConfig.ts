@@ -1,12 +1,12 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
 import { type BeratungshilfeFinanzielleAngabenWohnungUserData } from "./userData";
-import { wohnungDone } from "../doneFunctions";
 import {
   finanzielleAngabeGuards,
   hasWeitereUnterhaltszahlungenYes,
 } from "../guards";
 import { berhAntragFinanzielleAngabenWohnungPages } from "./pages";
+import { wohnungDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
   berhAntragFinanzielleAngabenWohnungPages,

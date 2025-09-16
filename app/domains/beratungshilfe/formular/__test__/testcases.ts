@@ -13,7 +13,6 @@ export const testCasesBeratungshilfeFormularDefault = [
     },
     [
       "/start/start",
-      "/grundvoraussetzungen/start",
       "/grundvoraussetzungen/rechtsschutzversicherung",
       "/grundvoraussetzungen/wurde-verklagt",
       "/grundvoraussetzungen/klage-eingereicht",
@@ -50,7 +49,6 @@ export const testCasesBeratungshilfeFormularDefault = [
     },
     [
       "/start/start",
-      "/grundvoraussetzungen/start",
       "/grundvoraussetzungen/rechtsschutzversicherung",
       "/grundvoraussetzungen/wurde-verklagt",
       "/grundvoraussetzungen/klage-eingereicht",

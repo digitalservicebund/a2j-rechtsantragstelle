@@ -1,15 +1,10 @@
 import { type Page } from "@playwright/test";
 import type { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
-import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
 
 export async function startGrundvoraussetzungen(
   page: Page,
   beratungshilfeFormular: BeratungshilfeFormular,
 ) {
-  // beratungshilfe/antrag/grundvoraussetzungen/start
-  await expectPageToBeAccessible({ page });
-  await beratungshilfeFormular.clickNext();
-
   // beratungshilfe/antrag/grundvoraussetzungen/rechtsschutzversicherung
   await beratungshilfeFormular.fillRadioPage("rechtsschutzversicherung", "no");
 

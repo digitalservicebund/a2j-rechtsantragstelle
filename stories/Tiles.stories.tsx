@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { reactRouterContext } from "../.storybook/reactRouterContext";
+import { reactRouterFormContext } from "../.storybook/reactRouterFormContext";
 import TileGroup from "~/components/formElements/tile/TileGroup";
 import Container from "~/components/layout/Container";
 import { bucketUrl } from "~/services/cms/bucketUrl";
-import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
   title: "FormElements/TileGroup",
@@ -15,15 +14,7 @@ const meta = {
   },
   tags: ["autodocs"],
   decorators: [
-    (Story) => (
-      <Container>
-        {reactRouterContext(() => (
-          <RVFProvider>
-            <Story />
-          </RVFProvider>
-        ))}
-      </Container>
-    ),
+    (Story) => <Container>{reactRouterFormContext(<Story />)}</Container>,
   ],
 } satisfies Meta<typeof TileGroup>;
 

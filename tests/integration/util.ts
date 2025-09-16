@@ -45,6 +45,7 @@ export function zodKeys<T extends z.ZodType | null | undefined>(
   }
   if (schema instanceof z.ZodObject) {
     //  loop through shape to get nested keys
+    // eslint-disable-next-line sonarjs/function-return-type
     return Object.entries(schema.shape).flatMap(([key, value]) => {
       const nested =
         value instanceof z.ZodType

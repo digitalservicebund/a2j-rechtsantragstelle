@@ -1,6 +1,13 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { describe, it, expect } from "vitest";
 import { loader } from "~/routes/link.$";
+import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
+
+vi.mock("~/services/analytics/customEvent");
+const mockSendCustomAnalyticsEvent = vi.fn();
+vi.mocked(sendCustomAnalyticsEvent).mockImplementation(
+  mockSendCustomAnalyticsEvent,
+);
 
 describe("link loader", () => {
   it('should redirect "pkh" to the correct path', () => {
@@ -51,5 +58,20 @@ describe("link loader", () => {
       expect(error).toBeInstanceOf(Response);
       expect((error as Response).status).toBe(404);
     }
+  });
+
+  it("should capture a custom pageview event before redirect", () => {
+    const mockArgs: LoaderFunctionArgs = {
+      params: { "*": "pkh" },
+      request: new Request("https://test.com/pkh"),
+      context: {},
+    };
+
+    loader(mockArgs);
+
+    expect(mockSendCustomAnalyticsEvent).toHaveBeenCalledWith({
+      request: mockArgs.request,
+      eventName: "$pageview",
+    });
   });
 });

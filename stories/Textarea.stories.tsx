@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { reactRouterContext } from "../.storybook/reactRouterContext";
+import { reactRouterFormContext } from "../.storybook/reactRouterFormContext";
 import Textarea from "../app/components/formElements/Textarea";
-import { RVFProvider } from ".storybook/RVFProvider";
 import z from "zod";
 
 const meta = {
@@ -22,14 +21,7 @@ export const Default: Story = {
     name: "textarea",
     label: "Lorem ipsum dolor sit amet",
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
 
 export const WithDescription: Story = {
@@ -38,14 +30,7 @@ export const WithDescription: Story = {
     description: "Lorem **ipsum**\n\n* _Lorem ipsum_\n* _Lorem ipsum_",
     label: "Lorem ipsum dolor sit amet",
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
 
 export const WithDetails: Story = {
@@ -57,14 +42,7 @@ export const WithDetails: Story = {
     },
     label: "Lorem ipsum dolor sit amet",
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
 
 const schema = z.object({
@@ -76,16 +54,5 @@ export const WithError: Story = {
     name: "textarea",
     label: "With error",
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider
-          schema={schema}
-          defaultValues={{}}
-          triggerValidationOnMount
-        >
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />, schema)],
 };

@@ -61,7 +61,7 @@ const Textarea = ({
           "has-error": field.error(),
         })}
         ref={innerRef}
-        aria-invalid={field.error() !== undefined}
+        aria-invalid={field.error() !== null}
         aria-describedby={field.error() ? errorId : ariaDescribedby}
         aria-errormessage={field.error() ? errorId : undefined}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
