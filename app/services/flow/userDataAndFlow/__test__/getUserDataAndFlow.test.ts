@@ -46,7 +46,6 @@ vi.mocked(getSessionManager).mockReturnValue({
   }),
   commitSession: vi.fn(),
   destroySession: vi.fn(),
-  getDebugId: vi.fn(),
 });
 
 describe("getUserDataAndFlow", () => {

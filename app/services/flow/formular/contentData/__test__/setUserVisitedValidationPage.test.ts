@@ -13,7 +13,6 @@ vi.mocked(getSessionManager).mockReturnValue({
   getSession: vi.fn().mockResolvedValue({ set: mockSessionSet }),
   commitSession: mockCommitSession,
   destroySession: vi.fn(),
-  getDebugId: vi.fn(),
 });
 
 beforeEach(() => {

@@ -45,13 +45,11 @@ export const getUserDataAndFlow = async (
   const { flowId, stepId, arrayIndexes, currentFlow } =
     getPageAndFlowDataFromPathname(pathname);
 
-  const { getSession: getFlowSession } = getSessionManager(flowId);
-
   const [{ userDataWithPageData, validFlowPaths }, migrationData, flowSession] =
     await Promise.all([
       getPrunedUserDataFromPathname(pathname, cookieHeader),
       getMigrationData(stepId, flowId, currentFlow, cookieHeader),
-      getFlowSession(cookieHeader),
+      getSessionManager(flowId).getSession(cookieHeader),
     ]);
 
   const flowController = buildFlowController({

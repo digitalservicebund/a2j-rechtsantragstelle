@@ -13,7 +13,6 @@ vi.mocked(getSessionManager).mockReturnValue({
   getSession: mockGetSession,
   commitSession: vi.fn(),
   destroySession: mockDestroySession,
-  getDebugId: vi.fn(),
 });
 
 describe("fluggastrechte/formular/redirect-to-vorabcheck route", () => {
