@@ -32,12 +32,14 @@ export const retrieveContentData = async (
     ]),
   ]);
 
+  const userAndMigrationData = {
+    ...userDataWithPageData,
+    ...(migrationData ?? {}),
+  };
+
   const replacements =
     "stringReplacements" in currentFlow
-      ? (currentFlow as Flow).stringReplacements!({
-          ...userDataWithPageData,
-          ...(migrationData ?? {}),
-        })
+      ? (currentFlow as Flow).stringReplacements!(userAndMigrationData)
       : undefined;
 
   const { translations, cmsContent } = buildCmsContentAndTranslations({
