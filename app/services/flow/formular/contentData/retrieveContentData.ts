@@ -31,9 +31,9 @@ export const retrieveContentData = async (
   ]);
 
   const replacements =
-    "stringReplacements" in currentFlow &&
-    typeof currentFlow.stringReplacements === "function"
-      ? currentFlow.stringReplacements({
+    "stringReplacements" in currentFlow
+      ? // oxlint-disable-line ban-ts-comment @ts-ignore
+        currentFlow.stringReplacements({
           ...userDataWithPageData,
           ...(migrationData ?? {}),
         })
