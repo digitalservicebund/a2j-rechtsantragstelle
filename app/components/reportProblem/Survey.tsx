@@ -54,7 +54,7 @@ export const PosthogSurvey = ({
       open={!dialogRef}
       aria-label={translations.feedback["report-problem"].de}
       className={classNames(
-        "border-2 border-blue-800 bg-white absolute bottom-0 p-24 flex flex-col justify-center survey-modal-container",
+        "border-2 border-blue-800 bg-white absolute bottom-0 p-24 flex flex-col justify-center not-open:hidden survey-modal-container",
         { "gap-40": !wasSubmitted },
       )}
     >
