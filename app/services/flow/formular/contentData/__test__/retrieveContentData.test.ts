@@ -55,6 +55,12 @@ const mockFetchData = () => {
 beforeEach(() => {
   vi.clearAllMocks();
 });
+const mockMeta = {
+  description: "meta description",
+  ogTitle: "meta ogTitle",
+  breadcrumb: "meta breadcrumb",
+  title: "meta title",
+};
 
 describe("retrieveContentData", () => {
   it("should call once flow page, parent meta and translations", async () => {
@@ -62,6 +68,7 @@ describe("retrieveContentData", () => {
     vi.mocked(buildCmsContentAndTranslations).mockResolvedValue({
       cmsContent: {} as unknown as CMSContent,
       translations: {},
+      meta: mockMeta,
     });
 
     await retrieveContentData(
@@ -91,6 +98,7 @@ describe("retrieveContentData", () => {
     vi.mocked(buildCmsContentAndTranslations).mockReturnValue({
       cmsContent: { content: "someContent " } as unknown as CMSContent,
       translations: { translation: "someTranslation" },
+      meta: mockMeta,
     });
 
     const actual = await retrieveContentData(

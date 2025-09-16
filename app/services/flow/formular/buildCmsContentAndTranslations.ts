@@ -1,4 +1,6 @@
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
+import type { StrapiMeta } from "~/services/cms/models/StrapiMeta";
+import { stepMeta } from "~/services/meta/stepMeta";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import {
   applyStringReplacement,
@@ -11,6 +13,7 @@ type BuildCmsContentAndTranslations = {
   overviewTranslations: Translations;
   formPageContent: StrapiFormFlowPage;
   replacements?: Replacements;
+  parentMeta: StrapiMeta | null;
 };
 
 const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
@@ -42,9 +45,11 @@ export const buildCmsContentAndTranslations = ({
   overviewTranslations,
   formPageContent,
   replacements,
+  parentMeta,
 }: BuildCmsContentAndTranslations): {
   translations: Translations;
   cmsContent: CMSContent;
+  meta: ReturnType<typeof stepMeta>;
 } => {
   const translationsAfterInterpolation = {
     ...applyStringReplacement(flowTranslations, replacements), // interpolate data on MigrationDataOverview
@@ -65,5 +70,9 @@ export const buildCmsContentAndTranslations = ({
   return {
     translations: translationsAfterInterpolation,
     cmsContent,
+    meta: applyStringReplacement(
+      stepMeta(cmsContent.pageMeta, parentMeta),
+      replacements,
+    ),
   };
 };

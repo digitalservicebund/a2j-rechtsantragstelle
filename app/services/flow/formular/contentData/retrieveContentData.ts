@@ -41,21 +41,17 @@ export const retrieveContentData = async (
     userAndMigrationData,
   );
 
-  const { translations, cmsContent } = buildCmsContentAndTranslations({
+  const { translations, cmsContent, meta } = buildCmsContentAndTranslations({
     flowTranslations: cmsTranslations[flowId],
     flowMenuTranslations: cmsTranslations[`${flowId}/menu`],
     overviewTranslations: cmsTranslations[`${flowId}/summaryPage`],
     formPageContent,
     replacements,
+    parentMeta,
   });
 
   return getContentData(
-    {
-      cmsContent,
-      parentMeta,
-      translations,
-    },
+    { cmsContent, translations, meta },
     userDataWithPageData,
-    replacements,
   );
 };
