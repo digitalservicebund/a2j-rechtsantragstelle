@@ -1,4 +1,3 @@
-import { type Flow } from "~/domains/flows.server";
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
 import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import { type StrapiMeta } from "~/services/cms/models/StrapiMeta";
@@ -10,9 +9,13 @@ import { type Translations } from "~/services/translations/getTranslationByKey";
 import { translations as translationCode } from "~/services/translations/translations";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { buildFormElements } from "./buildFormElements";
-import { buildMetaContent } from "./buildMetaContent";
 import { getBackButtonDestination } from "./getBackButtonDestination";
 import { type UserDataWithPageData } from "../../pageData";
+import {
+  applyStringReplacement,
+  type Replacements,
+} from "~/util/applyStringReplacement";
+import { stepMeta } from "~/services/meta/stepMeta";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -23,7 +26,7 @@ type ContentParameters = {
 export const getContentData = (
   { cmsContent, parentMeta, translations }: ContentParameters,
   userDataWithPageData: UserDataWithPageData,
-  currentFlow: Flow,
+  replacements?: Replacements,
 ) => {
   return {
     arraySummaryData: (
@@ -43,14 +46,11 @@ export const getContentData = (
     getFormElements: () => {
       return buildFormElements(cmsContent, userDataWithPageData);
     },
-    getMeta: () => {
-      return buildMetaContent(
-        currentFlow,
-        cmsContent.pageMeta,
-        parentMeta,
-        userDataWithPageData,
-      );
-    },
+    getMeta: () =>
+      applyStringReplacement(
+        stepMeta(cmsContent.pageMeta, parentMeta),
+        replacements,
+      ),
     getTranslations: () => {
       return translations;
     },

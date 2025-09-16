@@ -1,5 +1,4 @@
 import { type NavItem } from "~/components/navigation/types";
-import { flows } from "~/domains/flows.server";
 import {
   type ArraySummaryData,
   getArraySummaryData,
@@ -53,8 +52,6 @@ const mockParentMeta = {
   title: "parentMeta title",
 };
 
-const mockCurrentFlow = flows["/beratungshilfe/antrag"];
-
 const mockBuildFlowController = {
   getRootMeta: vi.fn().mockReturnValue(undefined),
   isFinal: vi.fn().mockReturnValue(false),
@@ -75,7 +72,6 @@ const callContentData = getContentData(
     translations: mockTranslations,
   },
   mockUserData,
-  mockCurrentFlow,
 );
 
 vi.mock("~/services/array/getArraySummaryData");
