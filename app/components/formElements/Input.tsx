@@ -42,7 +42,6 @@ const Input = function InputComponent({
 
   const getInputType = (name: string): string => {
     if (name === "telefonnummer") return "tel";
-    if (name === "email") return "email";
     return "text";
   };
 
@@ -64,7 +63,7 @@ const Input = function InputComponent({
           ref={innerRef}
           name={name}
           className={classNames(
-            "ds-input forced-color-adjust-none",
+            "ds-input forced-colors:border-4",
             {
               "has-error": field.error(),
             },

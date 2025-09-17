@@ -60,10 +60,7 @@ describe("flowTransitionValidation", () => {
       eligibleSourcePages: ["ergebnis/erfolg-totally", "ergebnis/erfolg"],
     };
 
-    vi.mocked(getSessionData).mockResolvedValueOnce({
-      userData: {},
-      debugId: "debugId",
-    });
+    vi.mocked(getSessionData).mockResolvedValueOnce({ userData: {} });
 
     vi.mocked(buildFlowController).mockReturnValue(mockController);
 
@@ -84,10 +81,7 @@ describe("flowTransitionValidation", () => {
       eligibleSourcePages: ["page1", "page2"],
     };
 
-    vi.mocked(getSessionData).mockResolvedValueOnce({
-      userData: {},
-      debugId: "debugId",
-    });
+    vi.mocked(getSessionData).mockResolvedValueOnce({ userData: {} });
 
     vi.mocked(buildFlowController).mockReturnValue(mockController);
 

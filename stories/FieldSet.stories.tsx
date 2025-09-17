@@ -1,5 +1,4 @@
-import { reactRouterContext } from ".storybook/reactRouterContext";
-import { RVFProvider } from ".storybook/RVFProvider";
+import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react";
 import { FieldSet } from "~/components/formElements/FieldSet";
 
@@ -44,14 +43,7 @@ export const FieldSetWithImage: Story = {
       height: 24,
     },
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
 
 export const FieldSetWithoutImage: Story = {
@@ -76,12 +68,5 @@ export const FieldSetWithoutImage: Story = {
       ],
     },
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };

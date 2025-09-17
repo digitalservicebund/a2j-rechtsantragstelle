@@ -1,5 +1,5 @@
 import { type BasicSurveyQuestion } from "posthog-js";
-import { type Dispatch, type SetStateAction } from "react";
+import { useId, type Dispatch, type SetStateAction } from "react";
 import { useFeedbackTranslations } from "~/components/content/userFeedback/feedbackTranslations";
 import { TEXT_AREA_ROWS } from "~/components/formElements/Textarea";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
@@ -14,14 +14,23 @@ type OpenQuestionProps = {
 
 export const OpenQuestion = ({ question, setResponses }: OpenQuestionProps) => {
   const feedbackTranslations = useFeedbackTranslations();
+  const id = useId();
+  const questionLabel = `question-${id}`;
+  const questionDescription = `hint-text-${id}`;
   return (
     <div className="ds-stack ds-stack-8">
-      <p className="ds-body-01-bold">{question.question}</p>
+      <p className="ds-body-01-bold" id={questionLabel}>
+        {question.question}
+      </p>
       <label className="flex flex-col gap-8">
-        <p className="ds-body-01-reg text-gray-900">{question.description}</p>
+        <p className="ds-body-01-reg text-gray-900" id={questionDescription}>
+          {question.description}
+        </p>
         <textarea
           name={question.id}
-          className="ds-textarea forced-color-adjust-none"
+          aria-describedby={questionDescription}
+          aria-labelledby={questionLabel}
+          className="ds-textarea forced-colors:border-4"
           onChange={(event) =>
             setResponses((surveyResponses) => ({
               ...surveyResponses,

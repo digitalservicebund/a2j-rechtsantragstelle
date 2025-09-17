@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { reactRouterContext } from "../.storybook/reactRouterContext";
+import { reactRouterFormContext } from "../.storybook/reactRouterFormContext";
 import Select from "../app/components/formElements/Select";
-import { RVFProvider } from ".storybook/RVFProvider";
 
 const meta = {
   title: "FormElements/Select",
@@ -27,14 +26,7 @@ export const Default: Story = {
     placeholder: undefined,
     errorMessages: undefined,
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
 
 export const WithPlaceholder: Story = {
@@ -47,12 +39,5 @@ export const WithPlaceholder: Story = {
     ],
     placeholder: "Placeholder",
   },
-  decorators: [
-    (Story) =>
-      reactRouterContext(() => (
-        <RVFProvider>
-          <Story />
-        </RVFProvider>
-      )),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };

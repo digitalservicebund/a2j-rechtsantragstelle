@@ -258,6 +258,14 @@ details:not(:has(.summary-content:focus-visible)) {
   outline-offset: -4px;
 }
 
+.accordion-item {
+  @apply last:rounded-t-none not-first:border-t-0 not-first:not-last:rounded-none border-2 rounded-lg first:rounded-b-none overflow-hidden border-blue-500;
+}
+
+.accordion-item:focus-within {
+  @apply outline-blue-800! outline-4! outline-solid! border-none p-2 not-first:pt-0;
+}
+
 .auto-suggest-input-disabled:hover {
   outline-offset: 0 !important;
   outline: none !important;
