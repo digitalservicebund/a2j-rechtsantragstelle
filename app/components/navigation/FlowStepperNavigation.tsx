@@ -49,6 +49,20 @@ export const FlowStepperNavigation = ({ steppers }: Props) => {
                 </span>
                 <span>{stepper.label}</span>
               </a>
+
+              {index !== steppers.length - 1 && (
+                <svg
+                  className="triangle"
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="none"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <polygon points="0,0 100,50 0,100" />
+                  {/* right-side border: two lines from the right vertex to top and bottom */}
+                  <path d="M100 50 L0 0 M100 50 L0 100" strokeWidth="2" />
+                </svg>
+              )}
             </li>
           );
         })}
