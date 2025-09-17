@@ -53,15 +53,14 @@ export const PosthogSurvey = ({
       // Needed for storybook, as we're not able to pass in a ref and control the opening/closing of the dialog
       open={!dialogRef}
       aria-label={translations.feedback["report-problem"].de}
-      className={classNames(
-        "border-2 border-blue-800 bg-white absolute bottom-0 p-24 flex flex-col justify-center not-open:hidden survey-modal-container",
-        { "gap-40": !wasSubmitted },
-      )}
+      className={classNames("survey-modal-container", {
+        "gap-40": !wasSubmitted,
+      })}
     >
       <form
         method="dialog"
         aria-label={translations.feedback["report-problem"].de}
-        className={classNames("flex flex-col gap-40 survey-modal", {
+        className={classNames("survey-modal", {
           "max-sm:min-h-auto! gap-0!": wasSubmitted,
         })}
       >
@@ -83,7 +82,7 @@ export const PosthogSurvey = ({
             })}
           </div>
         )}
-        <ButtonContainer className="flex flex-col-reverse sm:flex-row">
+        <ButtonContainer className="flex flex-col sm:flex-row">
           {wasSubmitted ? (
             <Button
               look={"primary"}
