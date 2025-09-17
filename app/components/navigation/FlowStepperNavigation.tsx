@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { NavState } from "~/services/navigation/navState";
+import { type NavState } from "~/services/navigation/navState";
 
 type Props = {
   steppers: Array<{
@@ -25,7 +25,7 @@ export const FlowStepperNavigation = ({ steppers }: Props) => {
                 {
                   "bg-blue-300 ds-label-03-bold": isCurrent,
                   "ds-label-03-reg": !isCurrent,
-                  "bg-gray-100 text-gray-600 curser-not-allowed pointer-events-none":
+                  "bg-gray-100 text-gray-600 curser-not-allowed pointer-events-none arrow-step-disabled":
                     stepper.state === "Disabled",
                 },
               )}
