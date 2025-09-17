@@ -70,7 +70,7 @@ export const EmailCapture = ({
             {...field.getInputProps()}
             id={fieldName}
             aria-errormessage={field.error() ? errorId : undefined}
-            className={classNames("ds-input forced-color-adjust-none", {
+            className={classNames("ds-input forced-colors:border-4", {
               "has-error": invalidEmail,
             })}
             autoComplete={autocompleteMap[fieldName] ?? "off"}

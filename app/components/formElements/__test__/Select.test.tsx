@@ -74,7 +74,7 @@ describe("Select", () => {
     it("should have class name for the high contrast mode", () => {
       render(<Select name="select" options={[]} label="Test Label" />);
       const element = screen.getByRole("combobox");
-      expect(element).toHaveClass("forced-color-adjust-none");
+      expect(element).toHaveClass("forced-colors:border-4");
     });
   });
 });

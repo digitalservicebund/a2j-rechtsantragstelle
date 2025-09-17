@@ -1,5 +1,5 @@
 import type { PostHog, Survey } from "posthog-js";
-import { fetchSurvey } from "../fetchSurveys";
+import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 
 describe("fetchSurvey", () => {
   const mockSurvey = { id: "id" } as unknown as Survey;

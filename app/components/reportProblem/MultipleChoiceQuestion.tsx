@@ -34,8 +34,8 @@ export const MultipleChoiceQuestion = ({
   };
 
   return (
-    <div className="flex flex-col gap-16">
-      <p className="ds-body-01-bold">{question.question}</p>
+    <fieldset className="flex flex-col gap-16">
+      <legend className="ds-body-01-bold mb-16">{question.question}</legend>
       <div className="flex flex-col gap-16">
         {question.choices.map((choice, idx) => {
           const choiceName = choice.replaceAll(" ", "_");
@@ -58,6 +58,6 @@ export const MultipleChoiceQuestion = ({
           );
         })}
       </div>
-    </div>
+    </fieldset>
   );
 };

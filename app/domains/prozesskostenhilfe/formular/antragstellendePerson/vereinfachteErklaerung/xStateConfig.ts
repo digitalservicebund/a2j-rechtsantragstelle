@@ -7,7 +7,6 @@ import {
   hasVermoegen,
   hasVermoegenAndEmptyArray,
   unterhaltsOrAbstammungssachen,
-  vereinfachteErklaerungDone,
   vermoegenUnder10000,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 import { pkhFormularVereinfachteErklaerungPages } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/pages";
@@ -30,7 +29,6 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
   return {
     id: "vereinfachte-erklaerung",
     initial: steps.kind.relative,
-    meta: { done: vereinfachteErklaerungDone },
     states: {
       kind: {
         on: {

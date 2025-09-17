@@ -32,7 +32,6 @@ vi.mocked(getSessionManager).mockReturnValue({
   getSession: vi.fn().mockReturnValue({ get: () => ({}), set: vi.fn() }),
   commitSession: vi.fn(),
   destroySession: vi.fn(),
-  getDebugId: vi.fn(),
 });
 
 const mockRequestUrl = `http://localhost:3000/fluggastrechte/formular/abgabe/start`;
@@ -175,7 +174,6 @@ describe("formular.server", () => {
           }),
           commitSession: vi.fn(),
           destroySession: vi.fn(),
-          getDebugId: vi.fn(),
         });
         vi.mocked(validateFormUserData).mockResolvedValue(
           Result.ok({

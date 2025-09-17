@@ -1,5 +1,4 @@
 import { render } from "@testing-library/react";
-import { act } from "react";
 import { createRoutesStub } from "react-router";
 import UserFeedback from "~/components/content/userFeedback";
 

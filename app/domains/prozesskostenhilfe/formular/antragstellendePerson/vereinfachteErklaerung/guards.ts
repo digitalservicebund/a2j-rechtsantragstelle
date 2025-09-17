@@ -74,27 +74,28 @@ export const vereinfachteErklaerungDone: GenericGuard<
   const vermoegenDone =
     context.hasVermoegen !== undefined &&
     (hasVermoegen({ context }) ? vermoegenEntered : true);
+  const childInfoEntered = objectKeysNonEmpty(context.child, [
+    "vorname",
+    "nachname",
+    "geburtsdatum",
+  ]);
+  const commonInfoEntered = objectKeysNonEmpty(context, [
+    "livesTogether",
+    "minderjaehrig",
+    "unterhaltsOrAbstammungssachen",
+    "hasEinnahmen",
+  ]);
   return (
-    objectKeysNonEmpty(context.child, [
-      "vorname",
-      "nachname",
-      "geburtsdatum",
-    ]) &&
-    objectKeysNonEmpty(context, [
-      "livesTogether",
-      "minderjaehrig",
-      "unterhaltsOrAbstammungssachen",
-      "hasEinnahmen",
-    ]) &&
+    childInfoEntered &&
+    commonInfoEntered &&
     (childLivesSeparately({ context })
-      ? context.child?.unterhaltsSumme !== undefined
+      ? !!context.child?.unterhaltsSumme
       : true) &&
     (unterhaltsOrAbstammungssachen({ context })
-      ? context.rechtlichesThema !== undefined
+      ? !!context.rechtlichesThema
       : true) &&
     (hasEinnahmen({ context })
-      ? arrayIsNonEmpty(context.einnahmen) &&
-        context.hohesEinkommen !== undefined
+      ? arrayIsNonEmpty(context.einnahmen) && !!context.hohesEinkommen
       : true) &&
     (frageVermoegen({ context }) ? vermoegenDone : true)
   );

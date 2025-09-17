@@ -1,8 +1,8 @@
 import { type Flow } from "~/domains/flows.server";
 import { type StrapiMeta } from "~/services/cms/models/StrapiMeta";
-import { stepMeta } from "~/services/meta/formStepMeta";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import { type UserDataWithPageData } from "../../pageData";
+import { stepMeta } from "~/services/meta/stepMeta";
 
 export const buildMetaContent = (
   currentFlow: Flow,

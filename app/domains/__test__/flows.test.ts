@@ -1,7 +1,6 @@
 import { toDirectedGraph, type DirectedGraphNode } from "@xstate/graph";
 import { pathToStateValue } from "xstate";
 import { testCasesBeratungshilfeFormular } from "~/domains/beratungshilfe/formular/__test__/testCasesBeratungshilfeFormular";
-import { testCasesBeratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck/__test__/testcases";
 import { testCasesFluggastrechteFormular } from "~/domains/fluggastrechte/formular/__test__/testCasesFluggastrechteFormular";
 import { testCasesFluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck/__test__/testCasesFluggastrechteVorabcheck";
 import { testCasesKontopfaendungWegweiser } from "~/domains/kontopfaendung/wegweiser/__test__/testcases";
@@ -85,7 +84,6 @@ describe.sequential("state machine form flows", () => {
   > = {};
 
   const testCases = {
-    testCasesBeratungshilfeVorabcheck,
     testCasesBeratungshilfeFormular,
     testCasesFluggastrechteFormular,
     testCasesFluggastrechteVorabcheck,

@@ -51,7 +51,7 @@ export default function Footer({
         className="flex flex-col md:flex-row gap-32 mb-32 pr-16 pl-16"
         data-testid="footer"
       >
-        <div className="flex flex-col max-w-[288px] gap-y-8">
+        <div className="flex flex-col max-w-[288px] print:max-w-full gap-y-8">
           {image?.url && <Image {...image} width={120} />}
           <div className="ds-stack ds-stack-8">
             {paragraphs.map((paragraph) => (
@@ -96,18 +96,13 @@ export default function Footer({
           backgroundColor="blue"
           paddingTop="16"
           paddingBottom="16"
-          className="print:hidden"
+          className="text-center print:hidden"
         >
-          <div className="text-center print:hidden">
-            <StandaloneLink
-              className="ds-label-03-reg"
-              text={
-                staticTranslations["delete-data"].footerLinkLabel.de ??
-                "Persönliche Daten löschen"
-              }
-              url="/persoenliche-daten-loeschen"
-            />
-          </div>
+          <StandaloneLink
+            className="ds-label-03-reg"
+            text={staticTranslations["delete-data"].footerLinkLabel.de}
+            url="/persoenliche-daten-loeschen"
+          />
         </Background>
       )}
     </Container>

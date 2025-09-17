@@ -8,3 +8,12 @@ const posthogNodeClient = POSTHOG_API_KEY?.startsWith("phc_")
   : undefined;
 
 export const getPosthogNodeClient = () => posthogNodeClient;
+
+export const shutdownPosthog = async (shutdownTimeoutMs: number) => {
+  if (posthogNodeClient) {
+    await posthogNodeClient.shutdown(shutdownTimeoutMs).then(() => {
+      // oxlint-disable no-console
+      console.log("✅ Posthog client shut down");
+    });
+  }
+};

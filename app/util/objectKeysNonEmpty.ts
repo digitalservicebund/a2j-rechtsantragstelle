@@ -1,13 +1,18 @@
 import isEmpty from "lodash/isEmpty";
 
-export function objectKeysNonEmpty<T>(
-  object: T | undefined | null,
-  objectKeys: Readonly<Array<keyof T>>,
-): object is Required<T> {
+type WithRequired<T, K extends keyof T> = T & {
+  [P in K]-?: NonNullable<T[P]>;
+};
+
+// This function is more strict that its type predicate.
+// On top of non-null/non-undefined it also ensures non-empty array / object
+export function objectKeysNonEmpty<
+  T extends object,
+  K extends keyof NonNullable<T>,
+>(
+  object: T | null | undefined,
+  objectKeys: Readonly<K[]>,
+): object is NonNullable<T> & WithRequired<T, K> {
   if (!object) return false;
-  return !objectKeys.some(
-    (objectKey) =>
-      !object[objectKey] ||
-      (typeof object[objectKey] === "object" && isEmpty(object[objectKey])),
-  );
+  return objectKeys.every((key) => !isEmpty(object[key]));
 }

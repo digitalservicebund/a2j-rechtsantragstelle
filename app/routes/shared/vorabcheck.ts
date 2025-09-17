@@ -13,7 +13,7 @@ import { flowDestination } from "~/services/flow/userFlowAction/flowDestination"
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
 import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
 import { logWarning } from "~/services/logging";
-import { stepMeta } from "~/services/meta/formStepMeta";
+import { stepMeta } from "~/services/meta/stepMeta";
 import { parentFromParams } from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";

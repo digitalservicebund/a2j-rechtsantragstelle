@@ -1,11 +1,12 @@
 import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Button from "~/components/common/Button";
-import { useFeedbackTranslations } from "~/components/content/userFeedback/feedbackTranslations";
+import { type SurveyResponses } from "~/components/reportProblem/OpenQuestion";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { config } from "~/services/env/public";
+import { translations } from "~/services/translations/translations";
 import { isKeyOfObject } from "~/util/objects";
 
 const surveyIds = {
@@ -14,8 +15,8 @@ const surveyIds = {
 } as const;
 
 export const ReportProblem = () => {
-  const [surveyOpen, setSurveyOpen] = useState<boolean>();
-  const feedbackTranslations = useFeedbackTranslations();
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [wasSubmitted, setWasSubmitted] = useState(false);
   const { posthogClient } = useAnalytics();
   const { ENVIRONMENT } = config();
 
@@ -27,23 +28,63 @@ export const ReportProblem = () => {
     () => fetchSurvey(surveyId, posthogClient),
     [posthogClient, surveyId],
   );
+
+  const closeSurvey = useCallback(() => {
+    if (wasSubmitted) {
+      setWasSubmitted(false);
+    }
+    dialogRef?.current?.close();
+  }, [wasSubmitted]);
+
+  useEffect(() => {
+    const closeDialogOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeSurvey();
+      }
+      return null;
+    };
+
+    window.addEventListener("keyup", closeDialogOnEscape);
+    return () => window.removeEventListener("keyup", closeDialogOnEscape);
+  }, [closeSurvey]);
+
+  const submitFeedback = (responses: SurveyResponses) => {
+    if (posthogClient) {
+      posthogClient.capture("survey sent", {
+        $survey_id: survey?.id,
+        ...responses,
+      });
+      setWasSubmitted(true);
+    }
+  };
+
+  const onReportProblemClicked = () => {
+    if (dialogRef.current?.open) {
+      closeSurvey();
+    } else {
+      dialogRef.current?.show();
+    }
+  };
+
   if (!survey) return null;
 
   return (
     <>
       <Button
         look="tertiary"
-        onClick={() => setSurveyOpen(!surveyOpen)}
+        aria-haspopup="dialog"
+        onClick={onReportProblemClicked}
         className="min-w-full justify-center sm:min-w-fit mt-80"
-        text={feedbackTranslations["report-problem"]}
+        text={translations.feedback["report-problem"].de}
         iconLeft={<FlagOutlined />}
       />
-      {surveyOpen && (
-        <PosthogSurvey
-          survey={survey}
-          closeSurvey={() => setSurveyOpen(false)}
-        />
-      )}
+      <PosthogSurvey
+        dialogRef={dialogRef}
+        survey={survey}
+        wasSubmitted={wasSubmitted}
+        submitFeedback={submitFeedback}
+        closeSurvey={closeSurvey}
+      />
     </>
   );
 };

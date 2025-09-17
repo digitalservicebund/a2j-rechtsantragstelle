@@ -56,19 +56,15 @@ export function getSessionManager(context: SessionUserData) {
       }),
       context: context,
     });
-  const debugId = (id: string) => fullId(context, id);
-  return { getSession, commitSession, destroySession, getDebugId: debugId };
+  return { getSession, commitSession, destroySession };
 }
 
 export const getSessionData = async (
   flowId: FlowId,
   cookieHeader: CookieHeader,
-) => {
-  const contextSession = getSessionManager(flowId);
-  const { data, id } = await contextSession.getSession(cookieHeader);
-  const userData: UserData = data; // Recast for now to get type safety
-  return { userData, debugId: contextSession.getDebugId(id) };
-};
+) => ({
+  userData: (await getSessionManager(flowId).getSession(cookieHeader)).data,
+});
 
 export const updateSession = (
   session: Session,

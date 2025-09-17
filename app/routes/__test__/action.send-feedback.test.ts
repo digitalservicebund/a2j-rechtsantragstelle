@@ -10,7 +10,6 @@ vi.mocked(getSessionManager).mockReturnValue({
   getSession: vi.fn().mockReturnValue({ get: () => ({}), set: vi.fn() }),
   commitSession: vi.fn(),
   destroySession: vi.fn(),
-  getDebugId: vi.fn(),
 });
 
 const formData = new FormData();

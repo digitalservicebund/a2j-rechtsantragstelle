@@ -12,6 +12,7 @@ export type ButtonProps = {
   iconLeft?: ReactElementWithClassname;
   iconRight?: ReactElementWithClassname;
   fullWidth?: boolean;
+  type?: HTMLButtonElement["type"];
 };
 
 type LinkProps = React.ComponentPropsWithoutRef<"a">;

@@ -52,8 +52,11 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       flowId,
       stepId,
     }),
-    flowController.getMeta(stepId)?.triggerValidation &&
-      setUserVisitedValidationPage(flowId, cookieHeader),
+    setUserVisitedValidationPage(
+      flowController.getMeta(stepId)?.triggerValidation,
+      flowId,
+      cookieHeader,
+    ),
   ]);
 
   const translations = contentData.getTranslations();
