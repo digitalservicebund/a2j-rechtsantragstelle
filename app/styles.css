@@ -32,7 +32,7 @@
 }
 
 .survey-modal {
-  @apply p-24 flex flex-col gap-40 max-w-fit max-h-fit border-2 border-blue-800 overflow-scroll bg-white;
+  @apply p-24 flex flex-col gap-40 max-w-fit max-h-fit border-1 border-blue-800 overflow-scroll bg-white;
 }
 .modal-open {
   @apply overflow-hidden;

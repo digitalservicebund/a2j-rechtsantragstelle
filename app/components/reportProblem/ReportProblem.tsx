@@ -60,13 +60,9 @@ export const ReportProblem = () => {
   };
 
   const onReportProblemClicked = () => {
-    if (dialogRef.current?.showModal()) {
-      closeSurvey();
-    } else {
-      // Needed to disable top-level scrolling when the Survey popup is open
-      document.body.classList.add("modal-open");
-      dialogRef.current?.showModal();
-    }
+    // Needed to disable top-level scrolling when the Survey popup is open
+    document.body.classList.add("modal-open");
+    dialogRef.current?.showModal();
   };
 
   if (!survey) return null;

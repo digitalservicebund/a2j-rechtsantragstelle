@@ -44,7 +44,7 @@ describe("ReportProblem", () => {
     expect(mockDialogShow).toHaveBeenCalled();
   });
 
-  it("should close the Survey popup on repeated click", () => {
+  it("should disable other page elements when the modal is open", () => {
     vi.mocked(fetchSurvey).mockReturnValueOnce({
       questions: [],
     } as unknown as Survey);
@@ -53,7 +53,7 @@ describe("ReportProblem", () => {
     fireEvent.click(reportButton);
     expect(mockDialogShow).toHaveBeenCalled();
     fireEvent.click(reportButton);
-    expect(mockDialogClose).toHaveBeenCalled();
+    expect(mockDialogClose).not.toHaveBeenCalled();
   });
 
   it("should close the Survey popup on pressing ESC", () => {
