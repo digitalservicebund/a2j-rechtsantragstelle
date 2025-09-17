@@ -58,10 +58,7 @@ describe("getMigrationData", () => {
   it("should return the mock value given the /fluggastrechte/vorabcheck as flow to be migrated", async () => {
     const userDataMock = { startAirport: "BER" };
 
-    getSessionDataMock.mockResolvedValue({
-      userData: userDataMock,
-      debugId: "",
-    });
+    getSessionDataMock.mockResolvedValue({ userData: userDataMock });
 
     pruneIrrelevantDataMock.mockResolvedValueOnce({
       prunedData: userDataMock,
