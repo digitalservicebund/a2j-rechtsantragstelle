@@ -305,25 +305,23 @@ h1:focus {
   content: "";
   position: absolute;
   top: 0;
-  right: -20px;
-  width: 0;
-  height: 0;
-  border-top: 28px solid transparent;
-  border-bottom: 28px solid transparent;
-  border-left: 20px solid theme("colors.blue.300");
+  left: 100%;
+  width: 1.25rem;
+  height: 100%;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  background: theme("colors.blue.300");
   z-index: 1;
   pointer-events: none;
 }
 
 .arrow-step:hover:not(:last-child)::after {
-  border-left-color: theme("colors.blue.400");
+  background: theme("colors.blue.400");
 }
 
 .arrow-step:focus-within:not(:last-child)::after {
-  border-left-color: theme("colors.blue.300");
+  background: theme("colors.blue.300");
 }
 
 .arrow-step.arrow-step-disabled:not(:last-child)::after {
-  border-left-width: 20px;
-  border-left-color: theme("colors.gray.100");
+  background: theme("colors.gray.100");
 }
