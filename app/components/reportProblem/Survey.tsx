@@ -48,14 +48,17 @@ export const PosthogSurvey = ({
 
   return (
     <dialog
-      aria-modal="false"
+      aria-modal="true"
       ref={dialogRef}
       // Needed for storybook, as we're not able to pass in a ref and control the opening/closing of the dialog
       open={!dialogRef}
       aria-label={translations.feedback["report-problem"].de}
-      className={classNames("survey-modal-container", {
-        "gap-40": !wasSubmitted,
-      })}
+      className={classNames(
+        "self-center justify-self-center backdrop:bg-black/40",
+        {
+          "gap-40": !wasSubmitted,
+        },
+      )}
     >
       <form
         method="dialog"

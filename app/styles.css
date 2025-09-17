@@ -31,9 +31,6 @@
   }
 }
 
-.survey-modal-container {
-  @apply flex flex-col justify-center items-center not-open:hidden w-full h-full top-0 fixed z-50 bg-black/50;
-}
 .survey-modal {
   @apply p-24 flex flex-col gap-40 max-w-fit max-h-fit border-2 border-blue-800 overflow-scroll bg-white;
 }

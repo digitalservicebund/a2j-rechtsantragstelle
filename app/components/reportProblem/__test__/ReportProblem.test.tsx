@@ -14,7 +14,7 @@ const mockDialogClose = vi.fn(function mock(this: HTMLDialogElement) {
 // Needed as jsdom doesn't support dialog API yet
 // https://github.com/jsdom/jsdom/issues/3294
 // Using this workaround: https://github.com/jsdom/jsdom/issues/3294#issuecomment-1268330372
-HTMLDialogElement.prototype.show = mockDialogShow;
+HTMLDialogElement.prototype.showModal = mockDialogShow;
 HTMLDialogElement.prototype.close = mockDialogClose;
 
 vi.mock("~/services/analytics/surveys/fetchSurveys");
