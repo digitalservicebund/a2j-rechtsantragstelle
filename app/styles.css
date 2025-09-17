@@ -310,21 +310,20 @@ h1:focus {
   height: 0;
   border-top: 28px solid transparent;
   border-bottom: 28px solid transparent;
-  border-left: 20px solid #dbe9f1;
+  border-left: 20px solid theme("colors.blue.300");
   z-index: 1;
   pointer-events: none;
 }
 
 .arrow-step:hover:not(:last-child)::after {
-  border-left-color: #ccdbe4;
+  border-left-color: theme("colors.blue.400");
+}
+
+.arrow-step:focus-within:not(:last-child)::after {
+  border-left-color: theme("colors.blue.300");
 }
 
 .arrow-step.arrow-step-disabled:not(:last-child)::after {
-  @apply border-l-4;
-  @apply border-gray-100;
-}
-
-.arrow-step.arrow-step-disabled:hover:not(:last-child)::after {
-  @apply border-l-4;
-  @apply border-gray-100;
+  border-left-width: 20px;
+  border-left-color: theme("colors.gray.100");
 }
