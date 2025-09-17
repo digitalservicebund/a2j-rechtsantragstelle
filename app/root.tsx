@@ -262,7 +262,7 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
             title="Justiz-Services"
           />
           <main className="grow">
-            <ErrorBox context={loaderData?.context ?? {}} />
+            <ErrorBox />
           </main>
         </div>
         {loaderData && (
