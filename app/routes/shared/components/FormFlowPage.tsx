@@ -71,6 +71,7 @@ export function FormFlowPage() {
                       content={cmsContent.content}
                       fullScreen={false}
                       className="ds-stack ds-stack-16"
+                      isOnFlowPage
                     />
                   </div>
 
@@ -111,6 +112,7 @@ export function FormFlowPage() {
                   <ContentComponents
                     content={cmsContent.postFormContent}
                     fullScreen={false}
+                    isOnFlowPage
                   />
                 </div>
                 {showReportProblem && (

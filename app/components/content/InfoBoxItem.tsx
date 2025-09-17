@@ -67,7 +67,7 @@ const InfoBoxItem = ({
           <Details key={details.title} {...details} />
         ))}
         {inlineNotices?.map((inlineNotice) => (
-          <InlineNotice key={inlineNotice.title} {...inlineNotice} />
+          <InlineNotice key={inlineNotice.title} {...inlineNotice} nested />
         ))}
         {arrayIsNonEmpty(buttons) && (
           <ButtonContainer>

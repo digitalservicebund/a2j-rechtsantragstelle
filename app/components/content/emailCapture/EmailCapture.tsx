@@ -64,6 +64,7 @@ export const EmailCapture = ({
         {...form.getFormProps()}
         data-testid="email-capture-form"
         className="flex max-w-[630px] gap-16 flex-wrap mt-0!"
+        autoComplete="on"
       >
         <div className="grow">
           <input
@@ -75,7 +76,8 @@ export const EmailCapture = ({
             })}
             autoComplete={autocompleteMap[fieldName] ?? "off"}
             type="email"
-          ></input>
+            name="email"
+          />
           {invalidEmail && (
             <InputError id={errorId}>{invalidEmailError.text}</InputError>
           )}

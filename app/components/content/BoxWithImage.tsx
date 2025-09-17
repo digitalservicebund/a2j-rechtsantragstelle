@@ -1,6 +1,7 @@
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import Image, { type ImageProps } from "~/components/common/Image";
 import RichText from "~/components/common/RichText";
+import { GridItem } from "../layout/grid/GridItem";
 
 type BoxWithImageProps = {
   image: ImageProps;
@@ -8,6 +9,9 @@ type BoxWithImageProps = {
   identifier?: string;
   heading?: HeadingProps;
   content?: string;
+  container?: {
+    backgroundColor?: string;
+  };
 };
 
 export type Variant = "XS" | "S" | "M" | "L" | "XL" | "XXL";
@@ -22,31 +26,39 @@ export const variantWidths: Record<Variant, string> = {
 };
 
 const BoxWithImage = ({
-  variant = "S",
   identifier,
   heading,
   image,
   content,
+  variant = "S",
 }: BoxWithImageProps) => {
-  const shouldWrapByDefault = variant === "XL" || variant === "XXL";
   const hasTextContent = Boolean(heading ?? content);
+  const shouldWrapByDefault = variant === "XL" || variant === "XXL";
   return (
-    <div
+    <GridItem
+      smColumn={{ start: 1, span: 12 }}
+      mdColumn={{ start: 1, span: 7 }}
+      lgColumn={{ start: 3, span: 9 }}
+      xlColumn={{ start: 3, span: 9 }}
+      className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
       id={identifier}
-      className={`flex flex-wrap ${shouldWrapByDefault ? "md:flex-wrap" : "sm:flex-nowrap"} items-start gap-24 text-base`}
     >
       <div
-        className={`shrink-0 overflow-hidden ${hasTextContent ? variantWidths[variant] : "max-w-full"}`}
+        className={`flex flex-wrap ${shouldWrapByDefault ? "md:flex-wrap" : "sm:flex-nowrap"} items-start gap-24 text-base overflow-hidden`}
       >
-        <Image {...image} />
-      </div>
-      {hasTextContent && (
-        <div className="ds-stack ds-stack-8 break-words min-w-[120px] max-w-[696px]">
-          {heading && <Heading {...heading} />}
-          {content && <RichText html={content} />}
+        <div
+          className={`shrink-0 ${hasTextContent ? variantWidths[variant] : "max-w-full"}`}
+        >
+          <Image {...image} />
         </div>
-      )}
-    </div>
+        {hasTextContent && (
+          <div className="ds-stack ds-stack-8 break-words min-w-[120px] max-w-[696px]">
+            {heading && <Heading {...heading} />}
+            {content && <RichText html={content} />}
+          </div>
+        )}
+      </div>
+    </GridItem>
   );
 };
 
