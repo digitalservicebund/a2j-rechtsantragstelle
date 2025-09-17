@@ -296,3 +296,20 @@ details:not(:has(.summary-content:focus-visible)) {
 h1:focus {
   outline: none;
 }
+
+.arrow-step {
+  position: relative;
+}
+
+.arrow-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -20px;
+  width: 0;
+  height: 0;
+  border-top: 28px solid transparent;
+  border-bottom: 28px solid transparent;
+  border-left: 20px solid #dbe9f1;
+  z-index: 1;
+}
