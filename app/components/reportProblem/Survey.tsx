@@ -52,6 +52,7 @@ export const PosthogSurvey = ({
     <dialog
       aria-modal="true"
       ref={dialogRef}
+      tabIndex={-1}
       // Needed for storybook, as we're not able to pass in a ref and control the opening/closing of the dialog
       open={!dialogRef}
       aria-labelledby={dialogLabelId}
@@ -59,6 +60,7 @@ export const PosthogSurvey = ({
         "self-center justify-self-center backdrop:bg-black/40",
         {
           "gap-40": !wasSubmitted,
+          "self-auto! top-56": wasSubmitted,
         },
       )}
     >
@@ -98,7 +100,7 @@ export const PosthogSurvey = ({
                 className="justify-center"
                 text={translations.feedback.close.de}
                 onClick={closeSurvey}
-                type="reset"
+                type="button"
               />
             ) : (
               <>
@@ -113,9 +115,10 @@ export const PosthogSurvey = ({
                 <Button
                   look="primary"
                   size="large"
-                  disabled={!isCompletelyFilled}
                   aria-disabled={!isCompletelyFilled}
-                  className="justify-center"
+                  className={classNames("justify-center", {
+                    "is-disabled": !isCompletelyFilled,
+                  })}
                   text={translations.feedback["submit-problem"].de}
                   type="button"
                   onClick={onSubmitClicked}
@@ -135,7 +138,11 @@ export const PosthogSurvey = ({
             size="large"
             look="ghost"
             iconLeft={<Close />}
-            aria-label={translations.feedback.cancel.de}
+            aria-label={
+              wasSubmitted
+                ? translations.feedback.close.de
+                : translations.feedback.cancel.de
+            }
             onClick={closeSurvey}
           />
         </div>

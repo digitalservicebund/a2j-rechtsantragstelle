@@ -1,5 +1,5 @@
 import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import Button from "~/components/common/Button";
 import { type SurveyResponses } from "~/components/reportProblem/OpenQuestion";
 import { PosthogSurvey } from "~/components/reportProblem/Survey";
@@ -36,18 +36,6 @@ export const ReportProblem = () => {
     document.body.classList.remove("modal-open");
     dialogRef?.current?.close();
   }, [wasSubmitted]);
-
-  useEffect(() => {
-    const closeDialogOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeSurvey();
-      }
-      return null;
-    };
-
-    window.addEventListener("keyup", closeDialogOnEscape);
-    return () => window.removeEventListener("keyup", closeDialogOnEscape);
-  }, [closeSurvey]);
 
   const submitFeedback = (responses: SurveyResponses) => {
     if (posthogClient) {
