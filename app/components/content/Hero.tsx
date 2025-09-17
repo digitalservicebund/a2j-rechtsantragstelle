@@ -31,6 +31,7 @@ export default function Hero({
       xlColumn={{ start: 3, span: 7 }}
       className={classNames(
         outerBackground?.backgroundColor === "darkBlue" ? "text-white" : "",
+        "pt-40 pb-40",
       )}
     >
       <Heading {...heading} />
