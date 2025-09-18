@@ -8,6 +8,7 @@ import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { type CMSContent } from "../../buildCmsContentAndTranslations";
 import { getContentData } from "../getContentData";
+import { Flow } from "~/domains/flows.server";
 
 const mockCmsElement = {
   heading: "new heading",
@@ -70,6 +71,11 @@ const callContentData = getContentData(
     cmsContent: mockCmsElement,
     meta: mockMeta,
     translations: mockTranslations,
+    currentFlow: {
+      config: {},
+      guards: {},
+      flowType: "formFlow",
+    } as unknown as Flow,
   },
   mockUserData,
 );

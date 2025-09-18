@@ -11,15 +11,17 @@ import { buildFormElements } from "./buildFormElements";
 import { getBackButtonDestination } from "./getBackButtonDestination";
 import { type UserDataWithPageData } from "../../pageData";
 import type { stepMeta } from "~/services/meta/stepMeta";
+import { Flow } from "~/domains/flows.server";
 
 type ContentParameters = {
   cmsContent: CMSContent;
   translations: Translations;
   meta: ReturnType<typeof stepMeta>;
+  currentFlow: Flow;
 };
 
 export const getContentData = (
-  { cmsContent, translations, meta }: ContentParameters,
+  { cmsContent, translations, meta, currentFlow }: ContentParameters,
   userDataWithPageData: UserDataWithPageData,
 ) => {
   return {
