@@ -6,6 +6,9 @@ import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import Background from "~/components/layout/Background";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { loader } from "../vorabcheck";
+import { GridSection } from "~/components/layout/grid/GridSection";
+import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
 
 export function VorabcheckPage() {
   const {
@@ -21,33 +24,58 @@ export function VorabcheckPage() {
   useFocusFirstH1();
 
   return (
-    <Background backgroundColor="blue">
-      <div className="w-screen h-full">
-        <div className="container pt-24! pb-32! h-full">
-          <div className="flex flex-col min-h-full gap-32 justify-between">
-            <div className="ds-stack ds-stack-40" id="flow-page-content">
-              <ProgressBar {...progressProps} />
-              <ContentComponents
-                content={contentElements}
-                className="ds-stack ds-stack-16"
-                fullScreen={false}
-                isOnFlowPage
-              />
-              <ValidatedFlowForm
-                stepData={stepData}
-                csrf={csrf}
-                formElements={formElements}
-                buttonNavigationProps={buttonNavigationProps}
-              />
+    <GridSection backgroundClass="bg-blue-100">
+      <Grid>
+        <GridItem
+          mdColumn={{ start: 1, span: 8 }}
+          lgColumn={{ start: 3, span: 8 }}
+          xlColumn={{ start: 3, span: 8 }}
+          className="pt-40"
+          row={1}
+        >
+          <ProgressBar {...progressProps} />
+        </GridItem>
+        <GridItem
+          mdColumn={{ start: 1, span: 8 }}
+          lgColumn={{ start: 3, span: 6 }}
+          xlColumn={{ start: 3, span: 6 }}
+          className="gap-24 flex flex-col"
+          row={2}
+        >
+          <ContentComponents
+            content={contentElements}
+            className="ds-stack ds-stack-16"
+            managedByParent
+          />
+        </GridItem>
+        <GridItem
+          mdColumn={{ start: 1, span: 8 }}
+          lgColumn={{ start: 3, span: 9 }}
+          xlColumn={{ start: 3, span: 9 }}
+          row={3}
+          className="pb-40"
+        >
+          <ValidatedFlowForm
+            stepData={stepData}
+            csrf={csrf}
+            formElements={formElements}
+            buttonNavigationProps={buttonNavigationProps}
+          />
+        </GridItem>
+        {showReportProblem && (
+          <GridItem
+            mdColumn={{ start: 1, span: 8 }}
+            lgColumn={{ start: 1, span: 12 }}
+            xlColumn={{ start: 1, span: 12 }}
+            className="pb-40"
+            row={4}
+          >
+            <div className="flex justify-end relative">
+              <ReportProblem />
             </div>
-            {showReportProblem && (
-              <div className="flex justify-end w-full relative">
-                <ReportProblem />
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </Background>
+          </GridItem>
+        )}
+      </Grid>
+    </GridSection>
   );
 }

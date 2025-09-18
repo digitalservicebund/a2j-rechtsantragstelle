@@ -8,9 +8,16 @@ type GridProps = PropsWithChildren<{
   className?: string;
   style?: CSSProperties;
   id?: string;
+  rows?: number;
 }>;
 
-export function Grid({ children, background, className, id }: GridProps) {
+export function Grid({
+  children,
+  background,
+  className,
+  id,
+  rows = 1,
+}: GridProps) {
   const bgItem =
     background &&
     classNames(
@@ -37,11 +44,12 @@ export function Grid({ children, background, className, id }: GridProps) {
     "grid-fluid",
     "[&>*]:min-w-0",
     "gap-y-24",
+    `grid-rows-[repeat(${rows},auto)]`,
     className,
   );
 
   return (
-    <div className={baseClasses} id={id}>
+    <div className={baseClasses} id={id} role="grid">
       {background && (
         <div className={bgItem} aria-hidden>
           <div className={`h-full w-full ${background?.className}`} />
