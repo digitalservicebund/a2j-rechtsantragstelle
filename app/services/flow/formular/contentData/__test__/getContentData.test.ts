@@ -1,5 +1,4 @@
 import { type NavItem } from "~/components/navigation/types";
-import { flows } from "~/domains/flows.server";
 import {
   type ArraySummaryData,
   getArraySummaryData,
@@ -46,14 +45,12 @@ const mockTranslations = {
   translation: "translation",
 };
 
-const mockParentMeta = {
-  description: "parentMeta description",
-  ogTitle: "parentMeta ogTitle",
-  breadcrumb: "parentMeta breadcrumb",
-  title: "parentMeta title",
+const mockMeta = {
+  description: "meta description",
+  ogTitle: "meta ogTitle",
+  breadcrumb: "meta breadcrumb",
+  title: "meta title",
 };
-
-const mockCurrentFlow = flows["/beratungshilfe/antrag"];
 
 const mockBuildFlowController = {
   getRootMeta: vi.fn().mockReturnValue(undefined),
@@ -71,11 +68,10 @@ const mockUserData = {
 const callContentData = getContentData(
   {
     cmsContent: mockCmsElement,
-    parentMeta: mockParentMeta,
+    meta: mockMeta,
     translations: mockTranslations,
   },
   mockUserData,
-  mockCurrentFlow,
 );
 
 vi.mock("~/services/array/getArraySummaryData");
@@ -120,10 +116,10 @@ describe("getContentData", () => {
       const actual = callContentData.getMeta();
 
       expect(actual).toEqual({
-        description: "parentMeta description",
-        breadcrumb: "parentMeta breadcrumb",
-        ogTitle: "parentMeta ogTitle",
-        title: "title - parentMeta title",
+        description: "meta description",
+        breadcrumb: "meta breadcrumb",
+        ogTitle: "meta ogTitle",
+        title: "meta title",
       });
     });
   });
