@@ -16,7 +16,7 @@ export const retrieveContentData = async (
   pathname: string,
   params: Params<string>,
   userDataWithPageData: UserDataWithPageData,
-  migrationData: UserData | undefined,
+  migrationData?: UserData,
 ) => {
   const { flowId, stepId, currentFlow } =
     getPageAndFlowDataFromPathname(pathname);
