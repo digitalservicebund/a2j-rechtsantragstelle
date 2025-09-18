@@ -31,14 +31,14 @@ export const retrieveContentData = async (
     ]),
   ]);
 
-  const userAndMigrationData = {
-    ...userDataWithPageData,
-    ...(migrationData ?? {}),
-  };
-
   const replacements = replacementsFromFlowConfig(
     currentFlow.stringReplacements,
-    userAndMigrationData,
+    {
+      // The migration overview page displays additional data that is not yet present in userData
+      // To show user-friendly strings, we need to merge migrationData into userData
+      ...userDataWithPageData,
+      ...(migrationData ?? {}),
+    },
   );
 
   const { translations, cmsContent, meta } = buildCmsContentAndTranslations({
