@@ -33,7 +33,6 @@ export const ReportProblem = () => {
     if (wasSubmitted) {
       setWasSubmitted(false);
     }
-    document.body.classList.remove("modal-open");
     dialogRef?.current?.close();
   }, [wasSubmitted]);
 
@@ -49,7 +48,6 @@ export const ReportProblem = () => {
 
   const onReportProblemClicked = () => {
     // Needed to disable top-level scrolling when the Survey popup is open
-    document.body.classList.add("modal-open");
     dialogRef.current?.showModal();
   };
 

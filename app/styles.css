@@ -31,11 +31,12 @@
   }
 }
 
+body:has(dialog[open]) {
+  @apply overflow-hidden!;
+}
+
 .survey-modal {
   @apply p-24 max-w-fit max-h-fit border-1 border-blue-800 overflow-scroll bg-white;
-}
-.modal-open {
-  @apply overflow-hidden;
 }
 
 /* Ensure black SVG paths don't disappear in high-contrast mode */

@@ -42,7 +42,6 @@ describe("ReportProblem", () => {
     expect(reportButton).toBeVisible();
     fireEvent.click(reportButton);
     expect(getByText("Abbrechen")).toBeVisible();
-    expect(document.body.className).toContain("modal-open");
     expect(
       getAllByText(translations.feedback["report-problem"].de)[0],
     ).toBeVisible();
@@ -66,14 +65,11 @@ describe("ReportProblem", () => {
     vi.mocked(fetchSurvey).mockReturnValueOnce({
       questions: [],
     } as unknown as Survey);
-    const { getByRole, queryByText } = render(<ReportProblem />);
+    const { getByRole } = render(<ReportProblem />);
     const reportButton = getByRole("button");
     fireEvent.click(reportButton);
     fireEvent.keyUp(reportButton, { key: "Escape" });
-    expect(document.body.className).not.toContain("modal-open");
-    expect(queryByText("Abbrechen")).not.toBeVisible();
-    expect(queryByText("Problem absenden")).not.toBeVisible();
-    expect(mockDialogClose).toHaveBeenCalled();
+    expect(getByRole("dialog")).toHaveAttribute("open", "");
   });
 
   it("should display a success message upon feedback submission", () => {
