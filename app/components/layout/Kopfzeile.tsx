@@ -1,5 +1,3 @@
-import { alignToContainer } from "~/components";
-
 export default function Kopfzeile() {
   return (
     <div
@@ -10,9 +8,7 @@ export default function Kopfzeile() {
           "Fira Sans, Fira Sans Regular, Noto Sans, Noto Sans Regular, SF Pro Text, Segoe UI, SegoeUI, Roboto, Arial, Helvetica, sans-serif",
       }}
     >
-      <div
-        className={`gap-8 sm:gap-16 flex items-center py-0! ${alignToContainer}`}
-      >
+      <div className="gap-8 sm:gap-16 flex items-center py-0!">
         <svg
           aria-hidden="true"
           className="flex border-solid h-12 w-[18px] sm:w-24 sm:h-16 border-white border"

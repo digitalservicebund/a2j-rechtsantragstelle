@@ -1,26 +1,25 @@
 import mustache from "mustache";
+import type { Flow } from "~/domains/flows.server";
+import type { UserData } from "~/domains/userData";
 
 export type Replacements = Record<string, string | boolean | undefined>;
+
+export const replacementsFromFlowConfig = (
+  stringReplacements: Flow["stringReplacements"],
+  userData: UserData,
+) => (stringReplacements ? stringReplacements(userData) : undefined);
 
 export function applyStringReplacement<T>(
   content: T,
   replacements?: Replacements,
   skipIndexArrayReplacement = false,
-) {
-  if (!replacements) return content;
-  return deeplyReplaceTemplateStrings(
-    content,
-    replacements,
-    skipIndexArrayReplacement,
-  );
-}
-
-function deeplyReplaceTemplateStrings<T>(
-  content: T,
-  stringReplacements?: Replacements,
-  skipIndexArrayReplacement = false,
 ): T {
-  if (!content || typeof content === "number" || typeof content === "boolean")
+  if (
+    !content ||
+    !replacements ||
+    typeof content === "number" ||
+    typeof content === "boolean"
+  )
     return content;
 
   // For array summaries, we might have a string that contains "indexArray" which we want to skip replacing in the back-end
@@ -34,7 +33,7 @@ function deeplyReplaceTemplateStrings<T>(
   }
 
   if (typeof content === "string") {
-    return mustache.render(content, stringReplacements) as T;
+    return mustache.render(content, replacements) as T;
   }
 
   // Need to filter out content that shouldn't be visible
@@ -42,7 +41,7 @@ function deeplyReplaceTemplateStrings<T>(
     typeof content === "object" &&
     "isVisible" in content &&
     typeof content.isVisible === "string" &&
-    mustache.render(`{{${content.isVisible}}}`, stringReplacements) === "false"
+    mustache.render(`{{${content.isVisible}}}`, replacements) === "false"
   ) {
     return undefined as T;
   }
@@ -50,11 +49,7 @@ function deeplyReplaceTemplateStrings<T>(
   if (Array.isArray(content)) {
     return content
       .map((item) =>
-        deeplyReplaceTemplateStrings(
-          item,
-          stringReplacements,
-          skipIndexArrayReplacement,
-        ),
+        applyStringReplacement(item, replacements, skipIndexArrayReplacement),
       )
       .filter((item) => item !== undefined) as T;
   }
@@ -63,11 +58,7 @@ function deeplyReplaceTemplateStrings<T>(
     Object.entries(content)
       .map(([key, value]) => [
         key,
-        deeplyReplaceTemplateStrings(
-          value,
-          stringReplacements,
-          skipIndexArrayReplacement,
-        ),
+        applyStringReplacement(value, replacements, skipIndexArrayReplacement),
       ])
       .filter(([, value]) => value !== undefined),
   );

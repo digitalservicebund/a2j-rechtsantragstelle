@@ -3,30 +3,9 @@ import type { Flow } from "~/domains/flows.server";
 import { getContext } from "~/domains/userData";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { type CookieHeader, getSessionData } from ".";
+import pick from "lodash/pick";
 
 export const migrationKey = "daten-uebernahme";
-
-async function doMigration(
-  migrationFlowIdDestination: FlowId,
-  migrationFlowIdSource: FlowId,
-  cookieHeader: string,
-) {
-  const { userData } = await getSessionData(
-    migrationFlowIdSource,
-    cookieHeader,
-  );
-
-  const { prunedData: prunedUserData } = await pruneIrrelevantData(
-    userData,
-    migrationFlowIdSource,
-  );
-
-  return Object.fromEntries(
-    Object.entries(prunedUserData).filter(
-      ([key]) => key in getContext(migrationFlowIdDestination),
-    ),
-  );
-}
 
 export async function getMigrationData(
   stepId: string,
@@ -38,9 +17,8 @@ export async function getMigrationData(
   if (!migration || !stepId.includes(migrationKey) || !cookieHeader)
     return undefined;
 
-  return await doMigration(
-    migrationFlowIdDestination,
-    migration.source,
-    cookieHeader,
-  );
+  const { userData } = await getSessionData(migration.source, cookieHeader);
+  const { prunedData } = await pruneIrrelevantData(userData, migration.source);
+  const destinationUserSchemas = getContext(migrationFlowIdDestination);
+  return pick(prunedData, Object.keys(destinationUserSchemas)); // we only cares about attributes that also appear in the destination
 }
