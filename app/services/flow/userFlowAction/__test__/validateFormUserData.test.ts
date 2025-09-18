@@ -1,9 +1,9 @@
-import { getMigrationData } from "~/services/session.server/crossFlowMigration";
+import { getMigrationData } from "~/services/session.server/getMigrationData";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { validateFormUserData } from "../validateFormUserData";
 
 vi.mock("~/services/validation/validateFormData.server");
-vi.mock("~/services/session.server/crossFlowMigration");
+vi.mock("~/services/session.server/getMigrationData");
 
 const mockFormData = new FormData();
 const mockPathname =
