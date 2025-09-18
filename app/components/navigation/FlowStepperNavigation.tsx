@@ -60,7 +60,7 @@ export const FlowStepperNavigation = ({ steppers }: Props) => {
                 >
                   <polygon points="0,0 100,50 0,100" />
                   {/* right-side border: two lines from the right vertex to top and bottom */}
-                  <path d="M100 50 L0 0 M100 50 L0 100" strokeWidth="2" />
+                  <path d="M100 50 L0 0 M100 50 L0 100" />
                 </svg>
               )}
             </li>

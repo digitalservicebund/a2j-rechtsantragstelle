@@ -325,7 +325,7 @@ h1:focus {
 }
 .arrow-step:not(:last-child) .triangle path {
   stroke: theme("colors.blue.400");
-  stroke-width: 3;
+  stroke-width: 2;
 }
 .arrow-step:not(:last-child).arrow-step-disabled .triangle path {
   stroke: theme("colors.gray.300");
