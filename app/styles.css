@@ -309,26 +309,33 @@ h1:focus {
   height: 100%;
   z-index: 1;
   pointer-events: none;
+  /* default color via currentColor */
+  @apply text-blue-300;
 }
 
 .arrow-step:not(:last-child) .triangle polygon {
-  fill: theme("colors.blue.300");
+  fill: currentColor;
 }
-.arrow-step:not(:last-child):hover .triangle polygon {
-  fill: theme("colors.blue.400");
+.arrow-step:not(:last-child):hover .triangle {
+  @apply text-blue-400;
 }
-.arrow-step:not(:last-child):focus-within .triangle polygon {
-  fill: theme("colors.blue.300");
+.arrow-step:not(:last-child):focus-within .triangle {
+  @apply text-blue-300;
 }
-.arrow-step:not(:last-child).arrow-step-disabled .triangle polygon {
-  fill: theme("colors.gray.100");
+
+.arrow-step:not(:last-child).arrow-step-disabled .triangle {
+  @apply text-gray-100;
 }
+
 .arrow-step:not(:last-child) .triangle path {
-  stroke: theme("colors.blue.400");
-  stroke-width: 2;
+  @apply text-blue-500;
+  stroke: currentColor;
+  stroke-width: 3;
 }
+
 .arrow-step:not(:last-child).arrow-step-disabled .triangle path {
-  stroke: theme("colors.gray.300");
+  @apply text-gray-300;
+  stroke: currentColor;
 }
 
 @layer utilities {
