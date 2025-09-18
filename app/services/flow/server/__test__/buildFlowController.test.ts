@@ -561,3 +561,47 @@ describe("nextStepId", () => {
     expect(destination).toEqual("/step1");
   });
 });
+
+describe("getInitialSubState", () => {
+  const configSubStates = {
+    config: {
+      id: "/test",
+      initial: "parent1",
+      states: {
+        parent1: {
+          id: "parent1",
+          initial: "step1",
+          states: {
+            step1: {},
+            step2: {},
+          },
+        },
+        parent2: {
+          initial: "step1",
+          id: "parent2",
+          states: {
+            step1: {
+              initial: "intro",
+              states: {
+                intro: {},
+              },
+            },
+            step2: {},
+          },
+        },
+      },
+    },
+  };
+
+  it("return initial state of the parent1", () => {
+    const actual = buildFlowController(configSubStates);
+    expect(actual.getInitialSubState("parent1")).toBe("/test/parent1/step1");
+  });
+
+  it("return initial state of the parent2", () => {
+    const actual = buildFlowController(configSubStates);
+    expect(actual.getInitialSubState("parent2")).toBe(
+      "/test/parent2/step1/intro",
+    );
+  });
+});

@@ -83,6 +83,19 @@ function getInitial(machine: FlowStateMachine) {
   return stateValueToStepIds(initialSnapshot.value).pop();
 }
 
+function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
+  const startNode = machine.getStateNodeById(stepId);
+
+  function dive(node: typeof startNode): typeof startNode {
+    if (Object.keys(node.states).length === 0) return node;
+    return dive(Object.values(node.states)[0]);
+  }
+
+  const leaf = dive(startNode);
+
+  return "/" + leaf.path.join("/");
+}
+
 export type StepState = {
   stepId: string;
   isDone: boolean;
@@ -210,6 +223,9 @@ export const buildFlowController = ({
           ? vorabcheckProgresses[flowId]
           : progressLookupForMachine(machine);
       return { max: total, progress: progressLookup[currentStepId] };
+    },
+    getInitialSubState: (stepId: string) => {
+      return `${flowId}${getInitialSubState(machine, stepId) ?? ""}`;
     },
   };
 };

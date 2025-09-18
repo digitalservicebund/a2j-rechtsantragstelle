@@ -95,7 +95,7 @@ export const getContentData = (
             .filter((s) => s.isMainStep)
             .map((s) => ({
               stepId: s.stepId,
-              url: s.url,
+              url: flowController.getInitialSubState(s.stepId.substring(1)),
             }))
         : undefined;
 
