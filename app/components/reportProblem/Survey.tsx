@@ -57,10 +57,11 @@ export const PosthogSurvey = ({
       open={!dialogRef}
       aria-labelledby={dialogLabelId}
       className={classNames(
-        "self-center justify-self-center backdrop:bg-black/40",
+        "self-center justify-self-center backdrop:bg-black/40 max-sm:min-w-full max-sm:min-h-full",
         {
           "gap-40": !wasSubmitted,
-          "self-auto! top-56": wasSubmitted,
+          "self-auto! md:top-56 max-sm:min-h-auto! max-sm:top-auto!":
+            wasSubmitted,
         },
       )}
     >
