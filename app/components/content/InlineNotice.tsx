@@ -13,7 +13,7 @@ export type InlineNoticeProps = {
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
   look: "warning" | "tips" | "success" | "error";
   content?: string;
-  isOnFlowPage?: boolean;
+  wrap?: boolean;
   nested?: boolean;
 };
 
@@ -48,28 +48,37 @@ export const InlineNotice = ({
   tagName,
   look,
   content,
-  isOnFlowPage,
+  wrap,
   nested,
 }: InlineNoticeProps) => {
   if (!content || removeMarkupTags(content).length === 0) return null;
   const { backgroundColor, borderColor, IconComponent } = lookConfig[look];
 
-  // Form flow pages has content which is controlled by the content pages grid. So the layout is different and need to be handled differently.
-  // There is also another case where the inline notice is nested inside of another component, so we need to handle that differently.
-  if (nested || isOnFlowPage) {
-    return (
-      <div
-        className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} md:max-w-[630px] border ${borderColor} border-2 border-l-8`}
-        id={identifier}
-        role="note"
-      >
-        <div className="flex flex-row gap-[4px] items-center">
-          <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
-          <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
-        </div>
-        <RichText className="tracking-[0.16px] leading-[26px]" html={content} />
+  const base = (
+    <div
+      className={[
+        "ds-stack ds-stack-8 scroll-my-40 p-16",
+        backgroundColor,
+        "border",
+        borderColor,
+        "border-2 border-l-8",
+        nested || wrap ? "md:max-w-[630px]" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      id={identifier}
+      role="note"
+    >
+      <div className="flex flex-row gap-[4px] items-center">
+        <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
+        <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
       </div>
-    );
+      <RichText className="tracking-[0.16px] leading-[26px]" html={content} />
+    </div>
+  );
+
+  if (nested || wrap) {
+    return base;
   }
 
   return (
@@ -78,17 +87,7 @@ export const InlineNotice = ({
       lgColumn={{ start: 3, span: 7 }}
       xlColumn={{ start: 3, span: 7 }}
     >
-      <div
-        className={`ds-stack ds-stack-8 scroll-my-40 p-16 ${backgroundColor} border ${borderColor} border-2 border-l-8`}
-        id={identifier}
-        role="note"
-      >
-        <div className="flex flex-row gap-[4px] items-center">
-          <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
-          <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
-        </div>
-        <RichText className="tracking-[0.16px] leading-[26px]" html={content} />
-      </div>
+      {base}
     </GridItem>
   );
 };

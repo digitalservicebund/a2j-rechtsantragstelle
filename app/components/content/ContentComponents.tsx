@@ -1,3 +1,4 @@
+import React from "react";
 import classNames from "classnames";
 import { BACKGROUND_COLORS } from "~/components";
 import Heading from "~/components/common/Heading";
@@ -50,9 +51,10 @@ function getContainerBackgroundColor(el: StrapiContentComponent): string {
   }
   return "";
 }
+
 function cmsToReact(
   componentProps: StrapiContentComponent,
-  isOnFlowPage?: boolean,
+  opts?: { inFlow?: boolean },
 ) {
   switch (componentProps.__component) {
     case "basic.heading":
@@ -70,11 +72,11 @@ function cmsToReact(
     case "page.box-with-image":
       return <BoxWithImage {...componentProps} />;
     case "page.list":
-      return <List {...componentProps} isOnFlowPage={isOnFlowPage} />;
+      return <List {...componentProps} wrap={opts?.inFlow} />;
     case "page.video":
       return <Video {...componentProps} />;
     case "page.inline-notice":
-      return <InlineNotice {...componentProps} isOnFlowPage={isOnFlowPage} />;
+      return <InlineNotice {...componentProps} wrap={opts?.inFlow} />;
     case "page.details-summary":
       return <Details {...componentProps} />;
     case "page.user-feedback":
@@ -91,27 +93,27 @@ function cmsToReact(
 
 type PageContentProps = {
   readonly content: StrapiContentComponent[];
-  readonly fullScreen?: boolean;
   readonly className?: string;
-  readonly isOnFlowPage?: boolean;
+  readonly managedByParent?: boolean;
 };
 
 function ContentComponents({
   content = [],
+  managedByParent,
   className,
-  isOnFlowPage,
 }: PageContentProps) {
   if (content.length === 0) return [];
-  return content
+
+  const nodes = content
     .filter((el) => el.__component !== "page.array-summary")
     .map((el) => {
       const isUserFeedback = el.__component === "page.user-feedback";
       const hasLayout = hasLayoutProperties(el);
 
-      if (isOnFlowPage) {
+      if (managedByParent) {
         return (
           <div key={`${el.__component}_${el.id}`} className={className}>
-            {cmsToReact(el, isOnFlowPage)}
+            {cmsToReact(el, { inFlow: true })}
           </div>
         );
       }
@@ -120,12 +122,12 @@ function ContentComponents({
         <GridSection
           pt={
             hasLayout && el.container?.paddingTop
-              ? el.container?.paddingTop
+              ? el.container.paddingTop
               : "default"
           }
           pb={
             hasLayout && el.container?.paddingBottom
-              ? el.container?.paddingBottom
+              ? el.container.paddingBottom
               : "default"
           }
           key={`${el.__component}_${el.id}`}
@@ -144,10 +146,12 @@ function ContentComponents({
               ),
             }}
           >
-            {cmsToReact(el, isOnFlowPage)}
+            {cmsToReact(el)}
           </Grid>
         </GridSection>
       );
     });
+
+  return nodes;
 }
 export default ContentComponents;
