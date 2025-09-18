@@ -34,11 +34,6 @@ describe("Heading", () => {
     expect(getByRole("heading").tagName).toBe("H2");
   });
 
-  it("correct role is applied", () => {
-    const { getByRole } = render(<Heading text="text" role="alert" />);
-    expect(getByRole("alert")).toBeVisible();
-  });
-
   it("default css class isn't applied", () => {
     const { getByRole } = render(<Heading text="text" look="default" />);
     expect(getByRole("heading")).not.toHaveClass("default");

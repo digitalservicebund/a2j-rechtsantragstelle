@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import type { AriaRole, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 export const allowedHeadingTags = [
   "h1",
@@ -36,7 +36,6 @@ export type HeadingProps = Readonly<{
   look?: (typeof allowedHeadingLooks)[number];
   className?: string;
   children?: ReactNode;
-  role?: AriaRole; // To be removed?
   tabIndex?: number;
   innerRef?: React.Ref<HTMLHeadingElement>; // to be removed?
   elementId?: string;
@@ -48,7 +47,6 @@ function Heading({
   className,
   look,
   children,
-  role,
   tabIndex,
   innerRef,
   elementId,
@@ -59,7 +57,6 @@ function Heading({
     <Tag
       ref={innerRef}
       tabIndex={tabIndex}
-      role={role}
       className={classNames(look === "default" ? null : look, className)}
       id={elementId}
     >
