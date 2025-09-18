@@ -6,8 +6,8 @@ const mockSummaryOverviewProps = {
   title: {
     tagName: "h2",
     text: "title",
-    look: "",
-  } as HeadingProps,
+    look: "default",
+  } satisfies HeadingProps,
   id: 1,
   boxes: [
     {
