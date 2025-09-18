@@ -3,7 +3,9 @@ import { Form, useLoaderData, useNavigation } from "react-router";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import ContentComponents from "~/components/content/ContentComponents";
-import Container from "~/components/layout/Container";
+import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
+import { GridSection } from "~/components/layout/grid/GridSection";
 import {
   fetchTranslations,
   strapiPageFromRequest,
@@ -36,31 +38,39 @@ export default function PersoenlicheDatenLoeschen() {
   return (
     <div className="flex flex-col grow">
       <ContentComponents content={content} />
-      <Container paddingTop="0">
-        <Form
-          method="post"
-          className="ds-stack ds-stack-24"
-          action="/action/delete-data"
-        >
-          <ButtonContainer>
-            <Button
-              type="button"
-              href={backButton}
-              look="tertiary"
-              size="large"
-              text={translations.back ?? "Zurück ohne zu löschen"}
-            />
-            <Button
-              type="submit"
-              look="primary"
-              size="large"
-              text={translations.confirm ?? "Ja, Daten löschen"}
-              id="submitButton"
-              disabled={isSubmitting}
-            />
-          </ButtonContainer>
-        </Form>
-      </Container>
+      <GridSection className="pb-40">
+        <Grid>
+          <GridItem
+            mdColumn={{ start: 1, span: 7 }}
+            lgColumn={{ start: 3, span: 7 }}
+            xlColumn={{ start: 3, span: 7 }}
+          >
+            <Form
+              method="post"
+              className="ds-stack ds-stack-24"
+              action="/action/delete-data"
+            >
+              <ButtonContainer>
+                <Button
+                  type="button"
+                  href={backButton}
+                  look="tertiary"
+                  size="large"
+                  text={translations.back ?? "Zurück ohne zu löschen"}
+                />
+                <Button
+                  type="submit"
+                  look="primary"
+                  size="large"
+                  text={translations.confirm ?? "Ja, Daten löschen"}
+                  id="submitButton"
+                  disabled={isSubmitting}
+                />
+              </ButtonContainer>
+            </Form>
+          </GridItem>
+        </Grid>
+      </GridSection>
     </div>
   );
 }

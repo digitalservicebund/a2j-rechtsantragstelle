@@ -304,3 +304,45 @@ details:not(:has(.summary-content:focus-visible)) {
 h1:focus {
   outline: none;
 }
+
+@layer utilities {
+  .grid-fluid {
+    display: grid;
+    /* defaults (S) */
+    @apply px-16;
+    --cols: 1;
+    --track: 288px;
+    --gap: 0px;
+    @apply mx-auto max-w-screen-xl;
+    grid-template-columns: repeat(var(--cols), minmax(var(--track), 1fr));
+    column-gap: var(--gap);
+  }
+
+  @media (min-width: 768px) {
+    .grid-fluid {
+      @apply px-16;
+      --cols: 8;
+      --track: 64px;
+      --gap: 0px;
+      grid-template-columns: repeat(var(--cols), minmax(var(--track), 1fr));
+    }
+  }
+  @media (min-width: 1024px) {
+    .grid-fluid {
+      @apply px-12;
+      --cols: 12;
+      --track: 54px;
+      --gap: 32px;
+      grid-template-columns: repeat(var(--cols), minmax(var(--track), 1fr));
+    }
+  }
+  @media (min-width: 1280px) {
+    .grid-fluid {
+      @apply px-32;
+      --cols: 12;
+      --track: 72px;
+      --gap: 32px;
+      grid-template-columns: repeat(var(--cols), minmax(var(--track), 1fr));
+    }
+  }
+}
