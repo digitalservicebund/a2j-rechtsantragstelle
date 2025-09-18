@@ -4,6 +4,7 @@ import Button, { type ButtonProps } from "../common/Button";
 import ButtonContainer from "../common/ButtonContainer";
 import Heading, { type HeadingProps } from "../common/Heading";
 import { StandaloneLink } from "../common/StandaloneLink";
+import { GridItem } from "../layout/grid/GridItem";
 
 type Props = {
   identifier?: string;
@@ -21,35 +22,43 @@ const TableOfContents = ({
   buttons,
 }: Props) => {
   return (
-    <div className="ds-stack ds-stack-16" id={identifier}>
-      <div className="ds-stack ds-stack-8">
-        {label && <Heading {...label} />}
-        {heading && <Heading {...heading} />}
-        {links && links.length > 0 && (
-          <ul className="list-none pl-0 ds-stack ds-stack-16">
-            {links.map((link) => (
-              <li key={link.text ?? link.url}>
-                <StandaloneLink
-                  className="visited:text-black text-black! flex"
-                  url={link.url}
-                  text={link.text ?? ""}
-                  icon={
-                    <ArrowDownward className="h-[1em] w-[1em] shrink-0 my-[0.25em]" />
-                  }
-                />
-              </li>
+    <GridItem
+      mdColumn={{ start: 1, span: 7 }}
+      lgColumn={{ start: 3, span: 7 }}
+      xlColumn={{ start: 3, span: 7 }}
+      className="py-24"
+      id={identifier}
+    >
+      <div className="ds-stack ds-stack-16">
+        <div className="ds-stack ds-stack-8">
+          {label && <Heading {...label} />}
+          {heading && <Heading {...heading} />}
+          {links && links.length > 0 && (
+            <ul className="list-none pl-0 ds-stack ds-stack-16">
+              {links.map((link) => (
+                <li key={link.text ?? link.url}>
+                  <StandaloneLink
+                    className="visited:text-black text-black! flex"
+                    url={link.url}
+                    text={link.text ?? ""}
+                    icon={
+                      <ArrowDownward className="h-[1em] w-[1em] shrink-0 my-[0.25em]" />
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        {arrayIsNonEmpty(buttons) && (
+          <ButtonContainer>
+            {buttons.map((button) => (
+              <Button key={button.text ?? button.href} {...button} />
             ))}
-          </ul>
+          </ButtonContainer>
         )}
       </div>
-      {arrayIsNonEmpty(buttons) && (
-        <ButtonContainer>
-          {buttons.map((button) => (
-            <Button key={button.text ?? button.href} {...button} />
-          ))}
-        </ButtonContainer>
-      )}
-    </div>
+    </GridItem>
   );
 };
 
