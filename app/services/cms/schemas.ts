@@ -16,7 +16,6 @@ export const entrySchemas = {
   "cookie-banner": z.array(StrapiCookieBannerSchema),
 };
 export type SingleEntryId = keyof typeof entrySchemas;
-const _entrySchemas = z.object(entrySchemas);
 
 export const flowPageSchemas = {
   "result-pages": z.array(StrapiResultPageSchema),
