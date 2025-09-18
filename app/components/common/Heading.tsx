@@ -36,7 +36,6 @@ export type HeadingProps = Readonly<{
   look?: (typeof allowedHeadingLooks)[number];
   className?: string;
   children?: ReactNode;
-  dataTestid?: string; // To be removed?
   role?: AriaRole; // To be removed?
   tabIndex?: number;
   innerRef?: React.Ref<HTMLHeadingElement>; // to be removed?
@@ -49,7 +48,6 @@ function Heading({
   className,
   look,
   children,
-  dataTestid,
   role,
   tabIndex,
   innerRef,
@@ -62,7 +60,6 @@ function Heading({
       ref={innerRef}
       tabIndex={tabIndex}
       role={role}
-      data-testid={dataTestid}
       className={classNames(look === "default" ? null : look, className)}
       id={elementId}
     >
