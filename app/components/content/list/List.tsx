@@ -50,9 +50,9 @@ const List = ({
 
   return (
     <GridItem
-      mdColumn={{ start: 1, span: 7 }}
-      lgColumn={{ start: 3, span: 7 }}
-      xlColumn={{ start: 3, span: 7 }}
+      mdColumn={{ start: 1, span: 8 }}
+      lgColumn={{ start: 3, span: 8 }}
+      xlColumn={{ start: 3, span: 8 }}
       id={identifier}
       className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
     >
