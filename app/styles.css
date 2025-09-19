@@ -313,6 +313,10 @@ h1:focus {
   @apply text-blue-300;
 }
 
+.arrow-step:not(:last-child).arrow-step-open .triangle {
+  @apply text-white;
+}
+
 .arrow-step:not(:last-child) .triangle polygon {
   fill: currentColor;
 }

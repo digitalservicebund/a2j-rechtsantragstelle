@@ -26,7 +26,7 @@ export const Example: Story = {
       {
         label: "Klage erstellen",
         href: "/klage-erstellen",
-        state: "Disabled",
+        state: "Open",
       },
       {
         label: "Klage herunterladen",
