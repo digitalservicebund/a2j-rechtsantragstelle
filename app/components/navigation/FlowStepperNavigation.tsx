@@ -61,9 +61,12 @@ export const FlowStepperNavigation = ({ steppers }: Props) => {
                   aria-hidden="true"
                   focusable="false"
                 >
-                  <polygon points="0,0 100,50 0,100" />
+                  <polygon
+                    className="forced-colors:fill-[ButtonFace]"
+                    points="0,0 100,50 0,100"
+                  />
                   <path
-                    className="text-blue-500 stroke-current stroke-3"
+                    className="text-blue-500 stroke-current stroke-3 forced-colors:stroke-[ButtonText]"
                     d="M100 50 L0 0 M100 50 L0 100"
                   />
                 </svg>
