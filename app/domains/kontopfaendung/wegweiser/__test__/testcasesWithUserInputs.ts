@@ -1,22 +1,25 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { kontopfaendungWegweiserXstateConfig } from "../xStateConfig";
 
-const keineKontopfaendungTestCase = {
-  //   stepId: "/ergebnis/keine-kontopfaendung",
-  //   userInput: { hasKontopfaendung: "nein" },
-  //   stepId: "/p-konto-probleme",
-  //   userInput: { hasKontopfaendung: "ja", hasPKonto: "nichtAktiv" },
-};
-
 export const kontopfaendungWegweiserTestCases = {
   xstateConfig: kontopfaendungWegweiserXstateConfig,
   testcases: {
-    fullFlow: [
+    yesKontopfaendung: [
       { stepId: "/start" },
       {
         stepId: "/kontopfaendung",
         userInput: { hasKontopfaendung: "ja" },
       },
+    ],
+    noKontopfaendung: [
+      { stepId: "/start" },
+      {
+        stepId: "/kontopfaendung",
+        userInput: { hasKontopfaendung: "nein" },
+      },
+      { stepId: "/ergebnis/keine-kontopfaendung" },
+    ],
+    zwischenseiteUnterhalt: [
       {
         stepId: "/p-konto",
         userInput: { hasPKonto: "ja" },
@@ -24,47 +27,74 @@ export const kontopfaendungWegweiserTestCases = {
       {
         stepId: "/zwischenseite-unterhalt",
       },
-      { stepId: "/kinder", userInput: { hasKinder: "yes" } },
+    ],
+    pKontoProbleme: [
+      {
+        stepId: "/p-konto",
+        userInput: { hasPKonto: "nichtAktiv" },
+      },
+      { stepId: "/p-konto-probleme" },
+    ],
+    kinder: [{ stepId: "/kinder", userInput: { hasKinder: "yes" } }],
+    kinderWohnenZusammen: [
       {
         stepId: "/kinder-wohnen-zusammen",
         userInput: { kinderWohnenZusammen: "nein" },
       },
+    ],
+    kinderUnterhalt: [
       {
         stepId: "/kinder-unterhalt",
         userInput: {
           kinderUnterhalt: "yes",
         },
       },
+    ],
+    partner: [
       {
         stepId: "/partner",
         userInput: { verheiratet: "ja" },
       },
+    ],
+    partnerWohnenZusammen: [
       {
         stepId: "/partner-wohnen-zusammen",
         userInput: { partnerWohnenZusammen: "no" },
       },
+    ],
+    partnerUnterhalt: [
       {
         stepId: "/partner-unterhalt",
         userInput: {
           partnerUnterhalt: "yes",
         },
       },
+    ],
+    zwischenseiteEinkuenfte: [
       {
         stepId: "/zwischenseite-einkuenfte",
       },
-      { stepId: "/arbeit", userInput: { hasArbeit: "yes" } },
+    ],
+    arbeit: [{ stepId: "/arbeit", userInput: { hasArbeit: "yes" } }],
+    arbeitArt: [
       {
         stepId: "/arbeit-art",
         userInput: { arbeitArt: { angestellt: "on", selbstaendig: "off" } },
       },
+    ],
+    nachzahlungArbeitgeber: [
       {
         stepId: "/nachzahlung-arbeitgeber",
         userInput: { nachzahlungArbeitgeber: "yes" },
       },
+    ],
+    hoeheNachzahlungArbeitgeber: [
       {
         stepId: "/hoehe-nachzahlung-arbeitgeber",
-        userInput: { sozialleistungNachzahlungHigherThan: "yes" },
+        userInput: { arbeitgeberNachzahlungHigherThan: "yes" },
       },
+    ],
+    einmalzahlungArbeitgeber: [
       {
         stepId: "/einmalzahlung-arbeitgeber",
         userInput: {
@@ -78,52 +108,69 @@ export const kontopfaendungWegweiserTestCases = {
           },
         },
       },
-      //   {
-      //     stepId: "/sozialleistungen",
-      //     userInput: { hasArbeit: "no", hasSozialleistungen: "nein" },
-      //   },
-      //   {
-      //     stepId: "/sozialleistung-nachzahlung",
-      //     userInput: { hasSozialleistungen: "grundsicherungSozialhilfe" },
-      //   },
-      //   {
-      //     stepId: "sozialleistungen-einmalzahlung",
-      //     userInput: { hasSozialleistungNachzahlung: "yes", hasSozialleistungenEinmalzahlung: "yes" },
-      //   },
-      //   {
-      //     stepId: "/kindergeld",
-      //     userInput: { hasKinder: "yes" },
-      //   },
-      //   {
-      //     stepId: "/kindergeld-nachzahlung",
-      //     userInput: { hasKinder: "yes", kindergeld: "yes" },
-      //   },
-      //   {
-      //     stepId: "/wohngeld",
-      //     userInput: {
-      //       hasWohngeld: "no",
-      //       hasSozialleistungen: "grundsicherungSozialhilfe",
-      //       hasSozialleistungNachzahlung: "yes",
-      //       hasSozialleistungenEinmalzahlung: "no",
-      //     },
-      //   },
-      //   {
-      //     stepId: "/wohngeld-empfaenger",
-      //     userInput: { hasWohngeld: "yes" },
-      //   },
-      //   {
-      //     stepId: "/wohngeld-nachzahlung",
-      //     userInput: { hasWohngeld: "yes", wohngeld: "selbst" },
-      //   },
-      //   {
-      //     stepId: "/pflegegeld",
-      //     userInput: { hasPflegegeld: "yes", hasWohngeld: "no" },
-      //   },
-      //   {
-      //     stepId: "/rente",
-      //     userInput: { hasPflegegeld: "yes" },
-      //   },
-      //   { stepId: "/ergebnis/naechste-schritte", userInput: { hasRente: "yes" } },
     ],
+    sozialleistungen: [
+      {
+        stepId: "/sozialleistungen",
+        userInput: { hasSozialleistungen: "buergergeld" },
+      },
+    ],
+    sozialleistungNachzahlung: [
+      {
+        stepId: "/sozialleistung-nachzahlung",
+        userInput: { hasSozialleistungNachzahlung: "yes" },
+      },
+    ],
+    sozialleistungenEinmalzahlung: [
+      {
+        stepId: "/sozialleistungen-einmalzahlung",
+        userInput: { hasSozialleistungenEinmalzahlung: "yes" },
+      },
+    ],
+    kindergeld: [
+      {
+        stepId: "/kindergeld",
+        userInput: { hasKindergeld: "yes" },
+      },
+    ],
+    kindergeldNachzahlung: [
+      {
+        stepId: "/kindergeld-nachzahlung",
+        userInput: { hasKindergeldNachzahlung: "yes" },
+      },
+    ],
+    wohngeld: [
+      {
+        stepId: "/wohngeld",
+        userInput: {
+          hasWohngeld: "yes",
+        },
+      },
+    ],
+    wohngeldEmpfaenger: [
+      {
+        stepId: "/wohngeld-empfaenger",
+        userInput: { wohngeld: "selbst" },
+      },
+    ],
+    wohngeldNachzahlung: [
+      {
+        stepId: "/wohngeld-nachzahlung",
+        userInput: { hasWohngeldNachzahlung: "yes" },
+      },
+    ],
+    pflegegeld: [
+      {
+        stepId: "/pflegegeld",
+        userInput: { hasPflegegeld: "yes" },
+      },
+    ],
+    rente: [
+      {
+        stepId: "/rente",
+        userInput: { hasRente: "yes" },
+      },
+    ],
+    ergebnisNaechsteSchritte: [{ stepId: "/ergebnis/naechste-schritte" }],
   },
 } satisfies FlowTestCases;
