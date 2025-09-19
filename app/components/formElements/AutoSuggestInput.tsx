@@ -32,15 +32,6 @@ const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
 const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 10;
 
-function getDescriptionByValue(
-  dataListOptions: DataListOptions[],
-  value: string,
-): DataListOptions | null {
-  return (
-    dataListOptions.find((dataOption) => dataOption.value === value) ?? null
-  );
-}
-
 const focusOnInput = (inputId: string) => {
   setTimeout(function () {
     const inputElement = document.querySelector<HTMLInputElement>(
@@ -146,13 +137,10 @@ const AutoSuggestInput = ({
   });
 
   useEffect(() => {
-    let value = getDescriptionByValue(items, defaultValue);
-
+    let value =
+      items.find((dataOption) => dataOption.value === defaultValue) ?? null;
     if (isCreatable && !value && defaultValue) {
-      value = {
-        value: defaultValue,
-        label: defaultValue,
-      };
+      value = { value: defaultValue, label: defaultValue };
     }
 
     setCurrentItemValue(value);

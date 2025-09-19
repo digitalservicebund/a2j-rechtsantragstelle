@@ -49,9 +49,8 @@ const ArraySummaryDataItems = ({
       {itemsWithoutHiddenFields.map(([itemKey, itemValue]) => (
         <div key={itemKey} className="first:pt-0 scroll-my-40">
           <Heading
-            dataTestid="array-summary-item"
             text={itemLabels[itemKey] ?? ""}
-            tagName={"p"}
+            tagName="p"
             look="ds-label-02-bold"
           />
           {itemLabels[`${itemKey}.${itemValue}`] ?? itemValue}

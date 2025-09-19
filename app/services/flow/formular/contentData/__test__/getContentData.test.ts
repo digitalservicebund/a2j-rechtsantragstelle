@@ -33,12 +33,7 @@ const mockCmsElement = {
       id: 10,
     },
   ],
-  pageMeta: {
-    title: "title",
-    description: null,
-    ogTitle: null,
-    breadcrumb: null,
-  },
+  pageMeta: { title: "title" },
 } satisfies CMSContent;
 
 const mockTranslations = {

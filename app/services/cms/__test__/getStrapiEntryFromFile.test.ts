@@ -21,7 +21,6 @@ describe("services/cms", () => {
       pageMeta: {
         title: "Impressum",
         description: "description",
-        ogTitle: null,
         breadcrumb: "Impressum",
       },
       content: [],
