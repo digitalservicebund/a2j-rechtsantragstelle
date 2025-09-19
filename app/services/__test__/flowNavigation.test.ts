@@ -30,12 +30,14 @@ describe("flowNavigation", () => {
       isDone: false,
       stepId: "step1",
       isReachable: true,
+      isMainStep: true,
     };
     const childStepState = {
       url: "/step1/a",
       isDone: false,
       stepId: "step1/a",
       isReachable: true,
+      isMainStep: true,
     };
 
     const stepStatesNested = [
@@ -123,12 +125,14 @@ describe("flowNavigation", () => {
             isDone: true,
             stepId: "/a",
             isReachable: true,
+            isMainStep: true,
           },
           {
             url: "/",
             isDone: false,
             stepId: "/a-b",
             isReachable: true,
+            isMainStep: true,
           },
         ]),
       ).toStrictEqual([
@@ -157,6 +161,7 @@ describe("flowNavigation", () => {
             isDone: false,
             stepId: "/a-b",
             isReachable: true,
+            isMainStep: true,
           },
         ]),
       ).toStrictEqual([
@@ -179,6 +184,7 @@ describe("flowNavigation", () => {
             stepId: "/a-b",
             isReachable: true,
             excludedFromValidation: true,
+            isMainStep: true,
           },
         ]),
       ).toStrictEqual([

@@ -13,6 +13,7 @@ const multiFieldsFlowValidation = {
     fluggastrechtMultiFieldsValidation as MultiFieldsStepIdValidation,
   "/prozesskostenhilfe/formular": undefined,
   "/kontopfaendung/wegweiser": undefined,
+  "/geld-einklagen/formular": undefined,
 } as const satisfies Record<FlowId, MultiFieldsStepIdValidation | undefined>;
 
 export const getMultiFieldsValidation = (flowId: FlowId) =>
