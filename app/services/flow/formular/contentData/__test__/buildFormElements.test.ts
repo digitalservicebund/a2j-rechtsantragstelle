@@ -16,12 +16,7 @@ const mockCmsElement = {
   nextButtonLabel: undefined,
   backButtonLabel: undefined,
   postFormContent: [],
-  pageMeta: {
-    title: "title",
-    description: null,
-    ogTitle: null,
-    breadcrumb: null,
-  },
+  pageMeta: { title: "title" },
 };
 
 describe("buildFormElements", () => {

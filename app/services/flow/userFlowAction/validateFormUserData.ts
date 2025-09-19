@@ -2,7 +2,7 @@ import { type ValidatorError } from "@rvf/react-router";
 import { Result } from "true-myth";
 import { type UserData } from "~/domains/userData";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
-import { getMigrationData } from "~/services/session.server/crossFlowMigration";
+import { getMigrationData } from "~/services/session.server/getMigrationData";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { filterFormData } from "~/util/filterFormData";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";

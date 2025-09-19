@@ -5,14 +5,15 @@ import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
 import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { StrapiFlowIdSchema } from "./StrapiFlowId";
 import { StringWithHtmlEntities } from "./StringWithHtmlEntities";
+import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
 
 export const StrapiFormFlowPageSchema = z.object({
   heading: StringWithHtmlEntities,
   stepId: z.string(),
   flow_ids: z.array(StrapiFlowIdSchema),
-  preHeading: z.string().nullable(),
-  nextButtonLabel: z.string().nullable(),
-  backButtonLabel: z.string().nullable(),
+  preHeading: StrapiStringOptionalSchema,
+  nextButtonLabel: StrapiStringOptionalSchema,
+  backButtonLabel: StrapiStringOptionalSchema,
   pre_form: z.array(StrapiContentComponentSchema),
   form: z.array(StrapiFormComponentSchema),
   post_form: z.array(StrapiContentComponentSchema),

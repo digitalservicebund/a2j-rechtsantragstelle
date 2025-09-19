@@ -34,27 +34,26 @@ export const MultipleChoiceQuestion = ({
   };
 
   return (
-    <fieldset className="flex flex-col gap-16">
+    <fieldset>
       <legend className="ds-body-01-bold mb-16">{question.question}</legend>
       <div className="flex flex-col gap-16">
         {question.choices.map((choice, idx) => {
           const choiceName = choice.replaceAll(" ", "_");
           return (
-            <div className="flex flex-col flex-nowrap" key={choiceName}>
-              <div className="flex items-center">
-                <label className="w-full flex items-center gap-16">
-                  <input
-                    type="checkbox"
-                    checked={checkboxStates[idx]}
-                    name={choiceName}
-                    readOnly
-                    onClick={() => onCheckboxClicked(idx, choice)}
-                    className="ds-checkbox forced-colors:outline-solid forced-colors:border-[ButtonText]"
-                  />
-                  {choice}
-                </label>
-              </div>
-            </div>
+            <label
+              className="flex items-center gap-16 flex-nowrap"
+              key={choiceName}
+            >
+              <input
+                type="checkbox"
+                checked={checkboxStates[idx]}
+                name={choiceName}
+                readOnly
+                onClick={() => onCheckboxClicked(idx, choice)}
+                className="ds-checkbox forced-colors:outline-solid forced-colors:border-[ButtonText]"
+              />
+              {choice}
+            </label>
           );
         })}
       </div>
