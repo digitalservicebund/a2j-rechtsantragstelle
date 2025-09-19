@@ -11,6 +11,7 @@ import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { loader } from "../formular";
+import { FlowStepperNavigation } from "~/components/navigation/FlowStepperNavigation";
 
 export function FormFlowPage() {
   const {
@@ -46,10 +47,7 @@ export function FormFlowPage() {
       <Background backgroundColor="blue">
         <div className="w-screen h-full">
           <div className="container pt-24! pb-32! h-full">
-            {navigationProps.steppers &&
-              Object.entries(navigationProps.steppers).map(([_, stepper]) => (
-                <p key={stepper.stepId}>{stepper.stepId}</p>
-              ))}
+            <FlowStepperNavigation steppers={navigationProps.steppers ?? []} />
 
             <div className="flex flex-col-reverse md:flex-row min-h-full gap-32 justify-between">
               <div className="md:mb-32 md:w-[248px]">

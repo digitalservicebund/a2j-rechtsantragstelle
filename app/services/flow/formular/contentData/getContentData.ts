@@ -12,6 +12,7 @@ import { getBackButtonDestination } from "./getBackButtonDestination";
 import { type UserDataWithPageData } from "../../pageData";
 import type { stepMeta } from "~/services/meta/stepMeta";
 import { Flow } from "~/domains/flows.server";
+import { NavState } from "~/services/navigation/navState";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -86,8 +87,9 @@ export const getContentData = (
         ? steps
             .filter((s) => s.isMainStep)
             .map((s) => ({
-              stepId: s.stepId,
-              url: flowController.getInitialSubState(s.stepId.substring(1)),
+              label: s.stepId,
+              href: flowController.getInitialSubState(s.stepId.substring(1)),
+              state: "Current" as NavState,
             }))
         : undefined;
 
