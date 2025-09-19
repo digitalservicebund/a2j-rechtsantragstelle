@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Container from "../app/components/layout/Container";
 import InfoBox, { type InfoBoxProps } from "~/components/content/InfoBox";
 import { bucketUrl } from "~/services/cms/bucketUrl";
-import type { InfoBoxItemProps } from "~/components/content/InfoBoxItem";
 
 const meta = {
   title: "Content/InfoBox",
