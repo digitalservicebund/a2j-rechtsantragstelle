@@ -11,6 +11,7 @@ import { ButtonNavigation } from "../common/ButtonNavigation";
 import type { ButtonNavigationProps } from "../common/ButtonNavigation";
 import { FormComponents } from "../FormComponents";
 import { SchemaComponents } from "./SchemaComponents";
+import set from "lodash/set";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -47,11 +48,21 @@ function ValidatedFlowForm({
       noValidate
       action={pathname}
     >
-      <input type="hidden" name={CSRFKey} value={csrf} />
-      <div className="ds-stack ds-stack-40">
-        {inputFormElements}
-        <ButtonNavigation {...buttonNavigationProps} />
-      </div>
+      {(form) => (
+        <>
+          <input type="hidden" name={CSRFKey} value={csrf} />
+          <div className="ds-stack ds-stack-40">
+            {inputFormElements}
+            <ButtonNavigation
+              {...set(
+                buttonNavigationProps,
+                "next.disabled",
+                form.formState.isSubmitting,
+              )}
+            />
+          </div>
+        </>
+      )}
     </ValidatedForm>
   );
 }
