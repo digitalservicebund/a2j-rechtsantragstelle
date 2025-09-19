@@ -6,12 +6,7 @@ vi.mock("~/services/cms/index.server");
 describe("buildBreadcrumbPromises", () => {
   it("should return all breadcrumbs as promises", async () => {
     vi.mocked(fetchMeta).mockImplementation(({ filterValue }) =>
-      Promise.resolve({
-        title: "",
-        description: null,
-        ogTitle: null,
-        breadcrumb: filterValue,
-      }),
+      Promise.resolve({ title: "", breadcrumb: filterValue }),
     );
     const actual = await buildBreadcrumbPromises("/my/pretty/pathname");
     expect(actual).toEqual([
@@ -21,12 +16,9 @@ describe("buildBreadcrumbPromises", () => {
     ]);
   });
 
-  it("should handle null", async () => {
+  it("should handle undefined", async () => {
     vi.mocked(fetchMeta).mockResolvedValueOnce({
       title: "",
-      description: null,
-      ogTitle: null,
-      breadcrumb: null,
     });
     const actual = await buildBreadcrumbPromises("/test");
 
@@ -36,8 +28,6 @@ describe("buildBreadcrumbPromises", () => {
   describe("should handle edge cases", () => {
     vi.mocked(fetchMeta).mockResolvedValue({
       title: "",
-      description: null,
-      ogTitle: null,
       breadcrumb: "breadcrumb",
     });
     const edgeCases = ["", "/", ".", "..", "justAWord"];
