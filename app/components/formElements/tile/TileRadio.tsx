@@ -8,7 +8,7 @@ const IMAGE_WIDTH = 32;
 export type TileOptions = Readonly<
   {
     value: string;
-    description?: string | null;
+    description?: string;
     title?: string;
     image?: ImageProps;
   } & TileDescriptionProps
@@ -20,23 +20,6 @@ type TileProps = TileOptions &
     onClick: () => void;
     ref: React.Ref<HTMLInputElement>;
   }>;
-
-const getAriaDescribedBy = (
-  errorId: string,
-  descriptionId: string,
-  error: string | null,
-  description: string | null | undefined,
-) => {
-  if (error) {
-    return errorId;
-  }
-
-  if (description) {
-    return descriptionId;
-  }
-
-  return undefined;
-};
 
 function TileRadio({
   name,
@@ -51,14 +34,8 @@ function TileRadio({
   const field = useField(name);
   const id = `${name}-${value}`;
   const errorId = `${name}-error`;
-  const descriptionId = `${value}-description`;
-
-  const ariaDescribedBy = getAriaDescribedBy(
-    errorId,
-    descriptionId,
-    field.error(),
-    description,
-  );
+  const descriptionId = description ? `${value}-description` : undefined;
+  const ariaDescribedBy = field.error() ? errorId : descriptionId;
 
   return (
     <div className="ds-tile-radio-group rounded-lg border-2 border-[#B3C9D6] bg-white">

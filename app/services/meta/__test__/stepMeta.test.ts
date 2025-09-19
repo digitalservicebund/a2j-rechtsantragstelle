@@ -10,8 +10,6 @@ const mockParentMeta = {
 describe("stepMeta", () => {
   it("should fall back to parent meta values when page meta's description and ogTitle are null", () => {
     const pageMetaWithoutDescriptionAndOgTile = {
-      description: null,
-      ogTitle: null,
       breadcrumb: "pageMeta breadcrumb",
       title: "pageMeta title",
     };

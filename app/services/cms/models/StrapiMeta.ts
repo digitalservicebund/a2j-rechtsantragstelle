@@ -1,10 +1,11 @@
 import { z } from "zod";
+import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
 
 export const StrapiMetaSchema = z.object({
   title: z.string(),
-  description: z.string().nullable(),
-  ogTitle: z.string().nullable(),
-  breadcrumb: z.string().nullable(),
+  description: StrapiStringOptionalSchema,
+  ogTitle: StrapiStringOptionalSchema,
+  breadcrumb: StrapiStringOptionalSchema,
 });
 
 export type StrapiMeta = z.infer<typeof StrapiMetaSchema>;
