@@ -66,12 +66,15 @@ export default function MigrationDataOverview({
   return (
     <div className="space-y-16 bg-white pt-32 pb-44 px-32">
       {Object.entries(sortedFieldsUserData).map(([itemKey, itemValue]) => (
-        <div key={itemKey} className="first:pt-0 scroll-my-40">
+        <div
+          key={itemKey}
+          className="first:pt-0 scroll-my-40"
+          data-testid="migration-field-value"
+        >
           <Heading
             text={getTranslationByKey(itemKey, translations)}
             tagName="p"
             look="ds-label-01-bold"
-            dataTestid="migration-field-value"
           />
           {renderMigrationValue(translations, itemValue, itemKey)}
         </div>

@@ -47,11 +47,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const [contentData, { headers, csrf }] = await Promise.all([
     retrieveContentData(pathname, params, userData, migration.userData),
-    updateMainSession({
-      cookieHeader,
-      flowId,
-      stepId,
-    }),
+    updateMainSession({ cookieHeader, flowId, stepId }),
     setUserVisitedValidationPage(
       flowController.getMeta(stepId)?.triggerValidation,
       flowId,

@@ -2,37 +2,40 @@ import { render } from "@testing-library/react";
 import Heading from "../Heading";
 
 describe("Heading", () => {
-  it("should not render the component in case text is empty and has not children element", () => {
-    const { container } = render(<Heading text="" />);
-
-    expect(container).toBeEmptyDOMElement();
-  });
-
-  it("should not render the component in case text is undefined and has not children element", () => {
-    const { container } = render(<Heading />);
-
-    expect(container).toBeEmptyDOMElement();
-  });
-
-  it("should not render the component in case text has empty space and has not children element", () => {
-    const { container } = render(<Heading text="  " />);
-
-    expect(container).toBeEmptyDOMElement();
+  [undefined, "", "  "].forEach((text) => {
+    it(`should not render the component in case text is ${text}`, () => {
+      const { container } = render(<Heading text={text} />);
+      expect(container).toBeEmptyDOMElement();
+    });
   });
 
   it("should render the component in case text is present", () => {
-    const { container } = render(<Heading text="test" />);
-
-    expect(container).not.toBeEmptyDOMElement();
+    const { getByRole } = render(<Heading text="test" />);
+    expect(getByRole("heading")).toBeVisible();
   });
 
   it("should render the component in case children is present", () => {
-    const { container } = render(
-      <Heading>
-        <div>test</div>
-      </Heading>,
-    );
+    const { getByRole } = render(<Heading>test</Heading>);
+    expect(getByRole("heading")).toBeVisible();
+  });
 
-    expect(container).not.toBeEmptyDOMElement();
+  it("children take precedence over text", () => {
+    const { getByRole } = render(<Heading text="text">child</Heading>);
+    expect(getByRole("heading")).toHaveTextContent("child");
+  });
+
+  it("css looks are applied", () => {
+    const { getByRole } = render(<Heading text="text" look="ds-body-01-reg" />);
+    expect(getByRole("heading")).toHaveClass("ds-body-01-reg");
+  });
+
+  it("correct tag is used to render the element", () => {
+    const { getByRole } = render(<Heading text="text" tagName="h2" />);
+    expect(getByRole("heading").tagName).toBe("H2");
+  });
+
+  it("default css class isn't applied", () => {
+    const { getByRole } = render(<Heading text="text" look="default" />);
+    expect(getByRole("heading")).not.toHaveClass("default");
   });
 });

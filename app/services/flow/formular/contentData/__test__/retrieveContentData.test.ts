@@ -13,25 +13,16 @@ import { retrieveContentData } from "../retrieveContentData";
 const mockPathname = "/fluggastrechte/formular/intro/start";
 const mockParams = { "*": "intro/start" };
 const mockUserDataWithPageData = {
-  name: "name",
+  startAirport: "BER",
   pageData: { arrayIndexes: [] },
 };
-const mockMigrationData = undefined;
 
 const mockFormPageContent = {
   heading: "new heading",
   pre_form: [],
   post_form: [],
   form: [],
-  pageMeta: {
-    title: "title",
-    description: null,
-    ogTitle: null,
-    breadcrumb: null,
-  },
-  preHeading: null,
-  nextButtonLabel: null,
-  backButtonLabel: null,
+  pageMeta: { title: "title" },
   flow_ids: [{ flowId: "/fluggastrechte/formular" }],
   locale: "de",
   stepId: "/intro/start",
@@ -57,18 +48,23 @@ beforeEach(() => {
 });
 
 describe("retrieveContentData", () => {
-  it("should call once flow page, parent meta and translations", async () => {
-    mockFetchData();
-    vi.mocked(buildCmsContentAndTranslations).mockResolvedValue({
-      cmsContent: {} as unknown as CMSContent,
-      translations: {},
-    });
+  mockFetchData();
+  vi.mocked(buildCmsContentAndTranslations).mockReturnValue({
+    cmsContent: { content: "someContent " } as unknown as CMSContent,
+    translations: { translation: "someTranslation" },
+    meta: {
+      description: "meta description",
+      ogTitle: "meta ogTitle",
+      breadcrumb: "meta breadcrumb",
+      title: "meta title",
+    },
+  });
 
+  it("should call once flow page, parent meta and translations", async () => {
     await retrieveContentData(
       mockPathname,
       mockParams,
       mockUserDataWithPageData,
-      mockMigrationData,
     );
 
     expect(fetchFlowPage).toBeCalledTimes(1);
@@ -86,26 +82,43 @@ describe("retrieveContentData", () => {
     ]);
   });
 
-  it("should call once buildCmsContentAndTranslations and return correctly content data functions", async () => {
-    mockFetchData();
-    vi.mocked(buildCmsContentAndTranslations).mockReturnValue({
-      cmsContent: { content: "someContent " } as unknown as CMSContent,
-      translations: { translation: "someTranslation" },
-    });
-
+  it("should call buildCmsContentAndTranslations with replacements and return content data functions", async () => {
     const actual = await retrieveContentData(
       mockPathname,
       mockParams,
       mockUserDataWithPageData,
-      mockMigrationData,
     );
 
-    expect(buildCmsContentAndTranslations).toBeCalledTimes(1);
+    expect(buildCmsContentAndTranslations).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({
+        replacements: expect.objectContaining({
+          startAirport: "Berlin Brandenburg Flughafen (BER)",
+        }),
+      }),
+    );
+
     expect(actual.getTranslations()).toEqual({
       translation: "someTranslation",
     });
     expect(actual.getCMSContent()).toEqual({
       content: "someContent ",
     });
+  });
+
+  it("should call buildCmsContentAndTranslations with migrationData", async () => {
+    await retrieveContentData(
+      mockPathname,
+      mockParams,
+      mockUserDataWithPageData,
+      { startAirport: "FRA" },
+    );
+
+    expect(buildCmsContentAndTranslations).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({
+        replacements: expect.objectContaining({
+          startAirport: "Frankfurt Flughafen (FRA)",
+        }),
+      }),
+    );
   });
 });

@@ -1,7 +1,7 @@
 import type { Flow } from "~/domains/flows.server";
 import { pruneIrrelevantData } from "~/services/flow/pruner";
 import { getSessionData } from "~/services/session.server";
-import { getMigrationData, migrationKey } from "../crossFlowMigration";
+import { getMigrationData, migrationKey } from "../getMigrationData";
 
 vi.mock("~/services/session.server");
 const getSessionDataMock = vi.mocked(getSessionData);
@@ -69,9 +69,27 @@ describe("getMigrationData", () => {
       migrationKey,
       mockMigrationFlowIdDestination,
       mockMigrationFlowDestination,
-      "any data",
+      "any cookie",
     );
 
     expect(actual).toStrictEqual(userDataMock);
+  });
+
+  it("should filter migrated data", async () => {
+    const userDataMock = { startAirport: "BER", nonRelevant: "nonRelevant" };
+    getSessionDataMock.mockResolvedValue({ userData: userDataMock });
+    pruneIrrelevantDataMock.mockResolvedValueOnce({
+      prunedData: userDataMock,
+      validFlowPaths: {},
+    });
+
+    const actual = await getMigrationData(
+      migrationKey,
+      mockMigrationFlowIdDestination,
+      mockMigrationFlowDestination,
+      "any cookie",
+    );
+
+    expect(actual).toStrictEqual({ startAirport: "BER" });
   });
 });
