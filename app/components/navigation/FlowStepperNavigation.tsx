@@ -21,7 +21,7 @@ export const FlowStepperNavigation = ({ steppers }: Props) => {
             <li
               key={stepper.label}
               className={classNames(
-                "flex w-full border border-blue-500 arrow-step hover:underline hover:bg-blue-400",
+                "arrow-step flex w-full border border-blue-500 relative hover:underline hover:bg-blue-400 not-[&:last-child]:border-r-0 not-[&:first-child]:border-l-0",
                 {
                   "bg-white arrow-step-open": stepper.state === "Open",
                   "bg-blue-300 ds-label-03-bold": isCurrent,

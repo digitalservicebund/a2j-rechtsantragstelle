@@ -297,10 +297,6 @@ h1:focus {
   outline: none;
 }
 
-.arrow-step {
-  position: relative;
-}
-
 .arrow-step .triangle {
   position: absolute;
   top: 0;
