@@ -11,7 +11,6 @@ import { ButtonNavigation } from "../common/ButtonNavigation";
 import type { ButtonNavigationProps } from "../common/ButtonNavigation";
 import { FormComponents } from "../FormComponents";
 import { SchemaComponents } from "./SchemaComponents";
-import set from "lodash/set";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -23,7 +22,7 @@ type ValidatedFlowFormProps = {
 function ValidatedFlowForm({
   stepData,
   formElements,
-  buttonNavigationProps,
+  buttonNavigationProps: { back, next },
   csrf,
 }: Readonly<ValidatedFlowFormProps>) {
   const { pathname } = useLocation();
@@ -54,11 +53,8 @@ function ValidatedFlowForm({
           <div className="ds-stack ds-stack-40">
             {inputFormElements}
             <ButtonNavigation
-              {...set(
-                buttonNavigationProps,
-                "next.disabled",
-                form.formState.isSubmitting,
-              )}
+              back={back}
+              next={next && { ...next, disabled: form.formState.isSubmitting }} // only attatch isSubmitting if 'next' exists
             />
           </div>
         </>
