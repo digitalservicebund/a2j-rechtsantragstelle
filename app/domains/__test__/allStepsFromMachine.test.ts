@@ -1,22 +1,14 @@
 import { createMachine } from "xstate";
 import { type FlowStateMachine } from "~/services/flow/server/types";
-import { allStepsFromMachine } from "~/services/flow/xStateMachineUtils";
+import { allStepsFromMachine } from "~/domains/__test__/allStepsFromMachine";
 
 describe("allStepsFromMachine", () => {
   it("should return all steps from an xState machine", () => {
     const machine: FlowStateMachine = createMachine({
       initial: "step1",
       states: {
-        step1: {
-          on: {
-            SUBMIT: "step2",
-          },
-        },
-        step2: {
-          on: {
-            SUBMIT: "step3",
-          },
-        },
+        step1: { on: { SUBMIT: "step2" } },
+        step2: { on: { SUBMIT: "step3" } },
         step3: {},
       },
     });
@@ -34,20 +26,9 @@ describe("allStepsFromMachine", () => {
       states: {
         step1: {
           initial: "step1b",
-          states: {
-            step1b: {
-              on: {
-                SUBMIT: "#step2",
-              },
-            },
-          },
+          states: { step1b: { on: { SUBMIT: "#step2" } } },
         },
-        step2: {
-          id: "step2",
-          on: {
-            SUBMIT: "step3",
-          },
-        },
+        step2: { id: "step2", on: { SUBMIT: "step3" } },
         step3: {},
       },
     });

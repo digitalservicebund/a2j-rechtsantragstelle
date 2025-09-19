@@ -3,17 +3,14 @@ import { pathToStateValue } from "xstate";
 import { type FlowStateMachine } from "~/services/flow/server/types";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
 
-function statePathsFromMachine(children: DirectedGraphNode[]): string[][] {
-  return children.flatMap((child) =>
+const statePathsFromGraph = (children: DirectedGraphNode[]): string[][] =>
+  children.flatMap((child) =>
     child.children.length > 0
-      ? statePathsFromMachine(child.children)
+      ? statePathsFromGraph(child.children)
       : [child.stateNode.path],
   );
-}
 
-export function allStepsFromMachine(machine: FlowStateMachine) {
-  const machineState = statePathsFromMachine(toDirectedGraph(machine).children);
-  return machineState.map(
+export const allStepsFromMachine = (machine: FlowStateMachine) =>
+  statePathsFromGraph(toDirectedGraph(machine).children).map(
     (statePath) => stateValueToStepIds(pathToStateValue(statePath))[0],
   );
-}

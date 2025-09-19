@@ -4,7 +4,7 @@ import { getPageSchema } from "../pageSchemas";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import type { FlowTestCases } from "./TestCases";
 import { type FlowStateMachine } from "~/services/flow/server/types";
-import { allStepsFromMachine } from "~/services/flow/xStateMachineUtils";
+import { allStepsFromMachine } from "./allStepsFromMachine";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
 import { expect } from "vitest";
 

@@ -7,7 +7,7 @@ import {
   testCasesProzesskostenhilfeSubmitOnly,
 } from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
 import { type UserData } from "~/domains/userData";
-import { allStepsFromMachine } from "~/services/flow/xStateMachineUtils";
+import { allStepsFromMachine } from "./allStepsFromMachine";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import type {
   FlowStateMachine,
