@@ -24,6 +24,7 @@ export const useInitPosthog = (hasTrackingConsent?: boolean) => {
           maskTextSelector: "*",
           maskAllInputs: true,
         },
+        enable_recording_console_log: true,
         disable_surveys: false, // currently used for the "ReportProblem" button. To disable also remove corresponding dynamic import
         cross_subdomain_cookie: false, // set cookie for subdomain only
         opt_out_capturing_by_default: true,

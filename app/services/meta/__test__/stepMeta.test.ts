@@ -1,5 +1,4 @@
-import { fluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck";
-import { buildMetaContent } from "../buildMetaContent";
+import { stepMeta } from "../stepMeta";
 
 const mockParentMeta = {
   description: "parentMeta description",
@@ -8,25 +7,16 @@ const mockParentMeta = {
   title: "parentMeta title",
 };
 
-const mockUserData = {
-  name: "testName",
-  pageData: { arrayIndexes: [] },
-};
-
-describe("buildMetaContent", () => {
+describe("stepMeta", () => {
   it("should fall back to parent meta values when page meta's description and ogTitle are null", () => {
     const pageMetaWithoutDescriptionAndOgTile = {
-      description: null,
-      ogTitle: null,
       breadcrumb: "pageMeta breadcrumb",
       title: "pageMeta title",
     };
 
-    const actual = buildMetaContent(
-      fluggastrechteVorabcheck,
+    const actual = stepMeta(
       pageMetaWithoutDescriptionAndOgTile,
       mockParentMeta,
-      mockUserData,
     );
 
     expect(actual.description).toBe("parentMeta description");
@@ -41,11 +31,9 @@ describe("buildMetaContent", () => {
       title: "pageMeta title",
     };
 
-    const actual = buildMetaContent(
-      fluggastrechteVorabcheck,
+    const actual = stepMeta(
       pageMetaWithoutDescriptionAndOgTile,
       mockParentMeta,
-      mockUserData,
     );
 
     expect(actual.description).toBe("pageMeta description");
@@ -60,11 +48,9 @@ describe("buildMetaContent", () => {
       title: "pageMeta title",
     };
 
-    const actual = buildMetaContent(
-      fluggastrechteVorabcheck,
+    const actual = stepMeta(
       pageMetaWithoutDescriptionAndOgTile,
       mockParentMeta,
-      mockUserData,
     );
 
     expect(actual.breadcrumb).toBe("parentMeta breadcrumb");
@@ -78,11 +64,9 @@ describe("buildMetaContent", () => {
       title: "pageMeta title",
     };
 
-    const actual = buildMetaContent(
-      fluggastrechteVorabcheck,
+    const actual = stepMeta(
       pageMetaWithoutDescriptionAndOgTile,
       mockParentMeta,
-      mockUserData,
     );
 
     expect(actual.title).toBe("pageMeta title - parentMeta title");

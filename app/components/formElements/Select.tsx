@@ -27,7 +27,7 @@ const Select = ({
   const field = useField(name);
 
   const selectClassName = classNames(
-    "ds-select forced-color-adjust-none",
+    "ds-select forced-colors:border-4",
     {
       "has-error": field.error(),
     },

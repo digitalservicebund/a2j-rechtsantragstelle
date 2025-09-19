@@ -114,18 +114,10 @@ describe("MigrationDataOverview", () => {
         sortedFields={["startAirport", "endAirport", "bereich"]}
       />,
     );
-
-    expect(queryAllByTestId("migration-field-value")[0].textContent).toEqual(
-      translations.startAirport,
-    );
-
-    expect(queryAllByTestId("migration-field-value")[1].textContent).toEqual(
-      translations.endAirport,
-    );
-
-    expect(queryAllByTestId("migration-field-value")[2].textContent).toEqual(
-      translations.bereich,
-    );
+    const migrationFields = queryAllByTestId("migration-field-value");
+    expect(migrationFields[0]).toHaveTextContent(translations.startAirport);
+    expect(migrationFields[1]).toHaveTextContent(translations.endAirport);
+    expect(migrationFields[2]).toHaveTextContent(translations.bereich);
   });
 
   it("should render the component and order the fields based on the migrationUserData prop in case the sortedFields prop is an empty array.", () => {
@@ -151,18 +143,10 @@ describe("MigrationDataOverview", () => {
         sortedFields={[]}
       />,
     );
-
-    expect(queryAllByTestId("migration-field-value")[0].textContent).toEqual(
-      translations.bereich,
-    );
-
-    expect(queryAllByTestId("migration-field-value")[1].textContent).toEqual(
-      translations.startAirport,
-    );
-
-    expect(queryAllByTestId("migration-field-value")[2].textContent).toEqual(
-      translations.endAirport,
-    );
+    const migrationFields = queryAllByTestId("migration-field-value");
+    expect(migrationFields[0]).toHaveTextContent(translations.bereich);
+    expect(migrationFields[1]).toHaveTextContent(translations.startAirport);
+    expect(migrationFields[2]).toHaveTextContent(translations.endAirport);
   });
 
   it("should render a Mock Button in case props buttonUrl has value", () => {

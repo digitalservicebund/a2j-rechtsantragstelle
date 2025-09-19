@@ -6,7 +6,7 @@ import { type UserData } from "~/domains/userData";
 import { userVisitedValidationPageKey } from "~/services/flow/formular/contentData/setUserVisitedValidationPage";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getSessionManager } from "~/services/session.server";
-import { getMigrationData } from "~/services/session.server/crossFlowMigration";
+import { getMigrationData } from "~/services/session.server/getMigrationData";
 import { validateStepIdFlow } from "./validateStepIdFlow";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 import { getPrunedUserDataFromPathname } from "../getPrunedUserDataFromPathname";
@@ -45,13 +45,11 @@ export const getUserDataAndFlow = async (
   const { flowId, stepId, arrayIndexes, currentFlow } =
     getPageAndFlowDataFromPathname(pathname);
 
-  const { getSession: getFlowSession } = getSessionManager(flowId);
-
   const [{ userDataWithPageData, validFlowPaths }, migrationData, flowSession] =
     await Promise.all([
       getPrunedUserDataFromPathname(pathname, cookieHeader),
       getMigrationData(stepId, flowId, currentFlow, cookieHeader),
-      getFlowSession(cookieHeader),
+      getSessionManager(flowId).getSession(cookieHeader),
     ]);
 
   const flowController = buildFlowController({

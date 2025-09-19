@@ -47,13 +47,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const [contentData, { headers, csrf }] = await Promise.all([
     retrieveContentData(pathname, params, userData, migration.userData),
-    updateMainSession({
-      cookieHeader,
+    updateMainSession({ cookieHeader, flowId, stepId }),
+    setUserVisitedValidationPage(
+      flowController.getMeta(stepId)?.triggerValidation,
       flowId,
-      stepId,
-    }),
-    flowController.getMeta(stepId)?.triggerValidation &&
-      setUserVisitedValidationPage(flowId, cookieHeader),
+      cookieHeader,
+    ),
   ]);
 
   const translations = contentData.getTranslations();

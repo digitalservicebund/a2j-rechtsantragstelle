@@ -10,12 +10,13 @@ import { parentFromParams } from "~/services/params";
 import { getContentData } from "./getContentData";
 import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
 import { type UserDataWithPageData } from "../../pageData";
+import { replacementsFromFlowConfig } from "~/util/applyStringReplacement";
 
 export const retrieveContentData = async (
   pathname: string,
   params: Params<string>,
   userDataWithPageData: UserDataWithPageData,
-  migrationData: UserData | undefined,
+  migrationData?: UserData,
 ) => {
   const { flowId, stepId, currentFlow } =
     getPageAndFlowDataFromPathname(pathname);
@@ -30,23 +31,27 @@ export const retrieveContentData = async (
     ]),
   ]);
 
-  const { translations, cmsContent } = buildCmsContentAndTranslations({
-    currentFlow,
+  const replacements = replacementsFromFlowConfig(
+    currentFlow.stringReplacements,
+    {
+      // The migration overview page displays additional data that is not yet present in userData
+      // To show user-friendly strings, we need to merge migrationData into userData
+      ...userDataWithPageData,
+      ...(migrationData ?? {}),
+    },
+  );
+
+  const { translations, cmsContent, meta } = buildCmsContentAndTranslations({
     flowTranslations: cmsTranslations[flowId],
     flowMenuTranslations: cmsTranslations[`${flowId}/menu`],
-    migrationData,
     overviewTranslations: cmsTranslations[`${flowId}/summaryPage`],
     formPageContent,
-    userDataWithPageData,
+    replacements,
+    parentMeta,
   });
 
   return getContentData(
-    {
-      cmsContent,
-      parentMeta,
-      translations,
-    },
+    { cmsContent, translations, meta },
     userDataWithPageData,
-    currentFlow,
   );
 };

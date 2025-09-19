@@ -19,8 +19,7 @@ export default function Accordion({ items }: AccordionProps) {
   };
 
   return (
-    // without overflow-hidden the rounded borders are overwritten by square content edges
-    <section className="border-2 rounded-lg border-blue-500 overflow-hidden">
+    <section>
       {items
         .filter((item) => item.title || item.description)
         .map((item, index) => (

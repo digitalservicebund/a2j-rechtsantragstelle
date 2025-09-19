@@ -1,8 +1,9 @@
 import classNames from "classnames";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
+import { GridItem } from "~/components/layout/grid/GridItem";
 import InfoBoxItem, { type InfoBoxItemProps } from "./InfoBoxItem";
 
-type InfoBoxProps = {
+export type InfoBoxProps = {
   identifier?: string;
   heading?: HeadingProps;
   separator?: boolean;
@@ -16,11 +17,17 @@ const InfoBox = ({
   items,
 }: InfoBoxProps) => {
   return (
-    <div className="ds-stack ds-stack-8 scroll-my-40" id={identifier}>
+    <GridItem
+      mdColumn={{ start: 1, span: 7 }}
+      lgColumn={{ start: 3, span: 7 }}
+      xlColumn={{ start: 3, span: 7 }}
+      className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
+      id={identifier}
+    >
       {heading && <Heading {...heading} />}
       {items.length > 0 && (
         <div
-          className={classNames("ps-0 info-box ds-stack", {
+          className={classNames("ps-0 info-box ds-stack py-24", {
             "ds-stack-48": !separator,
             "ds-stack-32": separator,
           })}
@@ -31,7 +38,7 @@ const InfoBox = ({
           ))}
         </div>
       )}
-    </div>
+    </GridItem>
   );
 };
 

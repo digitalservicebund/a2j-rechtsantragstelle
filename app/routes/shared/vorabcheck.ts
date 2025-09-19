@@ -13,14 +13,17 @@ import { flowDestination } from "~/services/flow/userFlowAction/flowDestination"
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
 import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
 import { logWarning } from "~/services/logging";
-import { stepMeta } from "~/services/meta/formStepMeta";
+import { stepMeta } from "~/services/meta/stepMeta";
 import { parentFromParams } from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { translations } from "~/services/translations/translations";
-import { applyStringReplacement } from "~/util/applyStringReplacement";
+import {
+  applyStringReplacement,
+  replacementsFromFlowConfig,
+} from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
@@ -50,9 +53,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   // Do string replacement in content if necessary
   const contentElements = applyStringReplacement(
     vorabcheckPage.pre_form,
-    "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userData)
-      : undefined,
+    replacementsFromFlowConfig(currentFlow.stringReplacements, userData),
   );
 
   // Inject heading into <legend> inside radio groups
@@ -71,9 +72,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const meta = applyStringReplacement(
     stepMeta(vorabcheckPage.pageMeta, parentMeta),
-    "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userData)
-      : undefined,
+    replacementsFromFlowConfig(currentFlow.stringReplacements, userData),
   );
 
   // filter user data for current step

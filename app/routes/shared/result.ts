@@ -2,12 +2,12 @@ import { type LoaderFunctionArgs, redirectDocument, data } from "react-router";
 import { flows } from "~/domains/flows.server";
 import { fetchFlowPage, fetchMeta } from "~/services/cms/index.server";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
-import { stepMeta } from "~/services/meta/formStepMeta";
+import { stepMeta } from "~/services/meta/stepMeta";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { translations } from "~/services/translations/translations";
 import {
   applyStringReplacement,
-  type Replacements,
+  replacementsFromFlowConfig,
 } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 export { ResultPage as default } from "./components/ResultPage";
@@ -36,9 +36,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const cmsContent = applyStringReplacement(
     resultPageContent,
-    "stringReplacements" in currentFlow
-      ? (currentFlow.stringReplacements(userData) as Replacements)
-      : undefined,
+    replacementsFromFlowConfig(currentFlow.stringReplacements, userData),
   );
 
   const buttonNavigationProps = getButtonNavigationProps({
@@ -64,9 +62,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const meta = applyStringReplacement(
     stepMeta(cmsContent.pageMeta, parentMeta),
-    "stringReplacements" in currentFlow
-      ? currentFlow.stringReplacements(userData)
-      : undefined,
+    replacementsFromFlowConfig(currentFlow.stringReplacements, userData),
   );
 
   return data(

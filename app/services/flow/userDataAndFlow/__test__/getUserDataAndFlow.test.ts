@@ -2,7 +2,7 @@ import { Result } from "true-myth";
 import { getPrunedUserDataFromPathname } from "~/services/flow/getPrunedUserDataFromPathname";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getSessionManager } from "~/services/session.server";
-import { getMigrationData } from "~/services/session.server/crossFlowMigration";
+import { getMigrationData } from "~/services/session.server/getMigrationData";
 import { getUserDataAndFlow } from "../getUserDataAndFlow";
 import { validateStepIdFlow } from "../validateStepIdFlow";
 
@@ -10,7 +10,7 @@ vi.mock("~/services/flow/server/buildFlowController");
 vi.mock("~/services/session.server");
 vi.mock("~/services/flow/getPrunedUserDataFromPathname");
 vi.mock("../validateStepIdFlow");
-vi.mock("~/services/session.server/crossFlowMigration");
+vi.mock("~/services/session.server/getMigrationData");
 
 const mockRequest = new Request(
   "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
@@ -46,7 +46,6 @@ vi.mocked(getSessionManager).mockReturnValue({
   }),
   commitSession: vi.fn(),
   destroySession: vi.fn(),
-  getDebugId: vi.fn(),
 });
 
 describe("getUserDataAndFlow", () => {

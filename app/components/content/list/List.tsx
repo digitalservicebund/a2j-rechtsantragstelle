@@ -1,5 +1,6 @@
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
+import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
 import ListItem from "./ListItem";
 import { type ListVariant, type ListItemProps } from "./types";
@@ -10,6 +11,7 @@ type ListProps = {
   identifier?: string;
   heading?: HeadingProps;
   subheading?: string;
+  isOnFlowPage?: boolean;
 };
 
 const List = ({
@@ -18,27 +20,57 @@ const List = ({
   heading,
   subheading,
   variant,
+  isOnFlowPage,
 }: ListProps) => {
   const hasImages = items.some((item) => item.image);
   const ListTag = hasImages || variant === "unordered" ? "ul" : "ol";
 
-  return (
-    <div className="ds-stack ds-stack-32" id={identifier}>
-      <div className="ds-stack ds-stack-16">
-        {heading && <Heading {...heading} />}
-        {subheading && <RichText html={subheading} />}
+  // Form flow pages has content which is controlled by the content pages grid. So the layout is different and need to be handled differently.
+  if (isOnFlowPage) {
+    return (
+      <div className="ds-stack ds-stack-32" id={identifier}>
+        <div className="ds-stack ds-stack-16">
+          {heading && <Heading {...heading} />}
+          {subheading && <RichText html={subheading} />}
+        </div>
+        <ListTag className="list-none ps-0">
+          {items
+            // Need to filter out empty list items when conditionally rendering with mustache templating
+            .filter(listItemNotEmpty)
+            .map((item, index) => (
+              <li key={item.id} className="group">
+                <ListItem {...item} index={index + 1} variant={variant} />
+              </li>
+            ))}
+        </ListTag>
       </div>
-      <ListTag className="list-none ps-0">
-        {items
-          // Need to filter out empty list items when conditionally rendering with mustache templating
-          .filter(listItemNotEmpty)
-          .map((item, index) => (
-            <li key={item.id} className="group">
-              <ListItem {...item} index={index + 1} variant={variant} />
-            </li>
-          ))}
-      </ListTag>
-    </div>
+    );
+  }
+  return (
+    <GridItem
+      mdColumn={{ start: 1, span: 7 }}
+      lgColumn={{ start: 3, span: 7 }}
+      xlColumn={{ start: 3, span: 7 }}
+      id={identifier}
+      className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
+    >
+      <div className="ds-stack ds-stack-32">
+        <div className="ds-stack ds-stack-16">
+          {heading && <Heading {...heading} />}
+          {subheading && <RichText html={subheading} />}
+        </div>
+        <ListTag className="list-none ps-0">
+          {items
+            // Need to filter out empty list items when conditionally rendering with mustache templating
+            .filter(listItemNotEmpty)
+            .map((item, index) => (
+              <li key={item.id} className="group">
+                <ListItem {...item} index={index + 1} variant={variant} />
+              </li>
+            ))}
+        </ListTag>
+      </div>
+    </GridItem>
   );
 };
 

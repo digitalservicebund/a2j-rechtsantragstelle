@@ -2,8 +2,6 @@ import { render } from "@testing-library/react";
 import type { ArrayConfigClient } from "~/services/array";
 import ArraySummaryDataItems from "../ArraySummaryDataItems";
 
-const arraySummaryItem = "array-summary-item";
-
 const mockArrayConfiguration: ArrayConfigClient = {
   event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
@@ -27,31 +25,28 @@ describe("ArraySummaryDataItems", () => {
   });
 
   it("should render ArraySummaryDataItems with the correct values", () => {
-    const { getByText, queryAllByTestId } = render(
+    const itemLabels = {
+      familyRelationship: "Familienverhältnis",
+      "familyRelationship.mother": "Mutter",
+      firstName: "Vorname",
+      surname: "Nachname",
+    };
+    const { getByText } = render(
       <ArraySummaryDataItems
         configuration={mockArrayConfiguration}
         items={mockDataItem}
         itemIndex={0}
-        itemLabels={{
-          familyRelationship: "Familienverhältnis",
-          "familyRelationship.mother": "Mutter",
-          firstName: "Vorname",
-          surname: "Nachname",
-        }}
+        itemLabels={itemLabels}
         category="unterhaltszahlungen"
         csrf="csrf"
       />,
     );
 
-    expect(queryAllByTestId(arraySummaryItem)[0].tagName.toLowerCase()).toBe(
-      "p",
-    );
-    expect(getByText("Familienverhältnis")).toBeInTheDocument();
-    expect(getByText("Vorname")).toBeInTheDocument();
-    expect(getByText("Nachname")).toBeInTheDocument();
-    expect(getByText("Mutter")).toBeInTheDocument();
-    expect(getByText(mockDataItem.firstName)).toBeInTheDocument();
-    expect(getByText(mockDataItem.surname)).toBeInTheDocument();
+    Object.entries(itemLabels).forEach(([key, label]) => {
+      const expectedTagName = key.includes(".") ? "DIV" : "P";
+      expect(getByText(label).tagName).toBe(expectedTagName);
+      expect(getByText(label)).toBeInTheDocument();
+    });
   });
 
   it("should not render ArraySummaryDataItems in case all the field are hidden", () => {

@@ -64,18 +64,20 @@ export const EmailCapture = ({
         {...form.getFormProps()}
         data-testid="email-capture-form"
         className="flex max-w-[630px] gap-16 flex-wrap mt-0!"
+        autoComplete="on"
       >
         <div className="grow">
           <input
             {...field.getInputProps()}
             id={fieldName}
             aria-errormessage={field.error() ? errorId : undefined}
-            className={classNames("ds-input forced-color-adjust-none", {
+            className={classNames("ds-input forced-colors:border-4", {
               "has-error": invalidEmail,
             })}
             autoComplete={autocompleteMap[fieldName] ?? "off"}
             type="email"
-          ></input>
+            name="email"
+          />
           {invalidEmail && (
             <InputError id={errorId}>{invalidEmailError.text}</InputError>
           )}

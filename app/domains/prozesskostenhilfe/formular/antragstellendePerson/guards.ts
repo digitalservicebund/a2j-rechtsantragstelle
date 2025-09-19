@@ -3,25 +3,24 @@ import { vereinfachteErklaerungDone } from "~/domains/prozesskostenhilfe/formula
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import type { ProzesskostenhilfeAntragstellendePersonUserData } from "./userData";
 
-export const empfaengerIsAnderePerson: GenericGuard<
-  ProzesskostenhilfeAntragstellendePersonUserData
-> = ({ context }) => context.empfaenger === "otherPerson";
+type AntragsstellendePersonGuard =
+  GenericGuard<ProzesskostenhilfeAntragstellendePersonUserData>;
 
-export const empfaengerIsChild: GenericGuard<
-  ProzesskostenhilfeAntragstellendePersonUserData
-> = ({ context }) => context.empfaenger === "child";
+export const empfaengerIsAnderePerson: AntragsstellendePersonGuard = ({
+  context,
+}) => context.empfaenger === "otherPerson";
 
-export const unterhaltBekommeIch: GenericGuard<
-  ProzesskostenhilfeAntragstellendePersonUserData
-> = ({ context }) => context.livesPrimarilyFromUnterhalt === "yes";
+export const empfaengerIsChild: AntragsstellendePersonGuard = ({ context }) =>
+  context.empfaenger === "child";
 
-export const couldLiveFromUnterhalt: GenericGuard<
-  ProzesskostenhilfeAntragstellendePersonUserData
-> = ({ context }) => context.couldLiveFromUnterhalt === "yes";
+export const unterhaltBekommeIch: AntragsstellendePersonGuard = ({ context }) =>
+  context.livesPrimarilyFromUnterhalt === "yes";
 
-const unterhaltsAnspruchDone: GenericGuard<
-  ProzesskostenhilfeAntragstellendePersonUserData
-> = ({ context }) =>
+export const couldLiveFromUnterhalt: AntragsstellendePersonGuard = ({
+  context,
+}) => context.couldLiveFromUnterhalt === "yes";
+
+const unterhaltsAnspruchDone: AntragsstellendePersonGuard = ({ context }) =>
   context.unterhaltsanspruch === "keine" ||
   (context.unterhaltsanspruch === "sonstiges" &&
     context.unterhaltsbeschreibung !== undefined) ||
@@ -45,13 +44,11 @@ const unterhaltsAnspruchDone: GenericGuard<
     context.personWhoCouldPayUnterhaltBeziehung !== undefined &&
     context.whyNoUnterhalt !== undefined);
 
-export const antragstellendePersonDone: GenericGuard<
-  ProzesskostenhilfeAntragstellendePersonUserData
-> = ({ context }) =>
-  (empfaengerIsChild({ context }) &&
-    vereinfachteErklaerungDone({
-      context,
-    }) &&
-    unterhaltsAnspruchDone({ context })) ||
-  (context.empfaenger === "myself" && unterhaltsAnspruchDone({ context })) ||
-  empfaengerIsAnderePerson({ context });
+export const antragstellendePersonDone: AntragsstellendePersonGuard = ({
+  context,
+}) =>
+  empfaengerIsAnderePerson({ context }) ||
+  (unterhaltsAnspruchDone({ context }) &&
+    (context.empfaenger === "myself" ||
+      (empfaengerIsChild({ context }) &&
+        vereinfachteErklaerungDone({ context }))));
