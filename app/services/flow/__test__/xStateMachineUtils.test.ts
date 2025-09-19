@@ -1,5 +1,5 @@
 import { createMachine } from "xstate";
-import { FlowStateMachine } from "~/services/flow/server/types";
+import { type FlowStateMachine } from "~/services/flow/server/types";
 import { allStepsFromMachine } from "~/services/flow/xStateMachineUtils";
 
 describe("allStepsFromMachine", () => {

@@ -1,6 +1,6 @@
-import { DirectedGraphNode, toDirectedGraph } from "@xstate/graph";
+import { type DirectedGraphNode, toDirectedGraph } from "@xstate/graph";
 import { pathToStateValue } from "xstate";
-import { FlowStateMachine } from "~/services/flow/server/types";
+import { type FlowStateMachine } from "~/services/flow/server/types";
 import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
 
 function statePathsFromMachine(children: DirectedGraphNode[]): string[][] {
