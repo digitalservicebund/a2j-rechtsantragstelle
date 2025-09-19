@@ -3,11 +3,15 @@ import z from "zod";
 import { getPageSchema } from "../pageSchemas";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import type { FlowTestCases } from "./TestCases";
+import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 import { type Config } from "~/services/flow/server/types";
 import { allStepsFromMachine } from "./allStepsFromMachine";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
 
-const flowSchemaTests = { beratungshilfeVorabcheckTestCases };
+const flowSchemaTests = {
+  beratungshilfeVorabcheckTestCases,
+  kontopfaendungWegweiserTestCases,
+};
 
 // Build full user input from all previous expectedSteps
 const buildFullUserInput = (
