@@ -134,7 +134,7 @@
     "follow-redirects": "^1.15.11",
     "globals": "^16.4.0",
     "i18n-iso-countries": "^7.14.0",
-    "jsdom": "^26.1.0",
+    "jsdom": "^27.0.0",
     "lefthook": "^1.13.1",
     "license-checker-rseidelsohn": "^4.4.2",
     "oxlint": "^1.16.0",
