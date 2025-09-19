@@ -3,12 +3,11 @@ import z from "zod";
 import { getPageSchema } from "../pageSchemas";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import type { FlowTestCases } from "./TestCases";
-import { type FlowStateMachine } from "~/services/flow/server/types";
+import { type Config } from "~/services/flow/server/types";
 import { allStepsFromMachine } from "./allStepsFromMachine";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
-import { expect } from "vitest";
 
-const flowSchemas = { beratungshilfeVorabcheckTestCases };
+const flowSchemaTests = { beratungshilfeVorabcheckTestCases };
 
 // Build full user input from all previous expectedSteps
 const buildFullUserInput = (
@@ -22,15 +21,15 @@ const buildFullUserInput = (
 describe.sequential("flowSchemas", () => {
   const allVisitedSteps: Record<
     string,
-    { stepIds: Set<string | undefined>; machine: FlowStateMachine }
+    { visitedSteps: Set<string | undefined>; xstateConfig: Config }
   > = {};
 
-  Object.entries(flowSchemas).forEach(
+  Object.entries(flowSchemaTests).forEach(
     ([testConfigName, { xstateConfig, testcases }]) => {
       const flowId = xstateConfig.id;
-      const machine: FlowStateMachine = createMachine(xstateConfig);
-      if (!allVisitedSteps[machine.id]) {
-        allVisitedSteps[machine.id] = { machine, stepIds: new Set() };
+
+      if (!allVisitedSteps[flowId]) {
+        allVisitedSteps[flowId] = { xstateConfig, visitedSteps: new Set() };
       }
 
       describe(testConfigName, () => {
@@ -60,8 +59,8 @@ describe.sequential("flowSchemas", () => {
               expect(flowController.getNext(stepId)).toBe(flowId + nextStepId);
               expect(flowController.getPrevious(nextStepId)).toBe(currentUrl);
 
-              allVisitedSteps[machine.id].stepIds.add(stepId);
-              allVisitedSteps[machine.id].stepIds.add(nextStepId);
+              allVisitedSteps[flowId].visitedSteps.add(stepId);
+              allVisitedSteps[flowId].visitedSteps.add(nextStepId);
             });
           });
         });
@@ -71,13 +70,12 @@ describe.sequential("flowSchemas", () => {
 
   test("all steps are visited", () => {
     const missingStepsEntries = Object.entries(allVisitedSteps)
-      .map(([machineId, { machine, stepIds }]) => {
-        const visitedSteps = new Set(stepIds);
-        const missingSteps = allStepsFromMachine(machine).filter(
-          (x) => !visitedSteps.has(x),
-        );
+      .map(([flowId, { xstateConfig, visitedSteps }]) => {
+        const missingSteps = allStepsFromMachine(
+          createMachine(xstateConfig),
+        ).filter((x) => !visitedSteps.has(x));
         // .filter((x) => !ignoreVisitedSteps.includes(x));
-        return [machineId, missingSteps] as const;
+        return [flowId, missingSteps];
       })
       .filter(([_, missingSteps]) => missingSteps.length > 0);
 
