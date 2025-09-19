@@ -23,6 +23,7 @@ export const FlowStepperNavigation = ({ steppers }: Props) => {
               className={classNames(
                 "flex w-full border border-blue-500 step not-[&:last-child]:border-r-0 not-[&:first-child]:border-l-0 arrow-step",
                 {
+                  "bg-white arrow-step-open": stepper.state === "Open",
                   "bg-blue-300 ds-label-03-bold": isCurrent,
                   "ds-label-03-reg": !isCurrent,
                   "bg-gray-100 text-gray-600 curser-not-allowed pointer-events-none arrow-step-disabled":
@@ -41,7 +42,9 @@ export const FlowStepperNavigation = ({ steppers }: Props) => {
                     "flex justify-center items-center w-[24px] h-[24px] rounded-full mr-3",
                     {
                       "bg-blue-800 text-white": isCurrent,
-                      "border border-gray-600": stepper.state === "Disabled",
+                      "border border-gray-600":
+                        stepper.state === "Disabled" ||
+                        stepper.state === "Open",
                     },
                   )}
                 >
