@@ -1,5 +1,3 @@
-import { toDirectedGraph, type DirectedGraphNode } from "@xstate/graph";
-import { pathToStateValue } from "xstate";
 import { testCasesBeratungshilfeFormular } from "~/domains/beratungshilfe/formular/__test__/testCasesBeratungshilfeFormular";
 import { testCasesFluggastrechteFormular } from "~/domains/fluggastrechte/formular/__test__/testCasesFluggastrechteFormular";
 import { testCasesFluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck/__test__/testCasesFluggastrechteVorabcheck";
@@ -8,12 +6,12 @@ import {
   testCasesProzesskostenhilfeSubmitOnly,
 } from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
 import { type UserData } from "~/domains/userData";
+import { allStepsFromMachine } from "./allStepsFromMachine";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
 import type {
   FlowStateMachine,
   NavigationEvent,
 } from "~/services/flow/server/types";
-import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
 
 function getEnabledSteps({
   machine,
@@ -37,21 +35,6 @@ function getEnabledSteps({
     return destination;
   });
   return [initialStep, ...reachableSteps];
-}
-
-function statePathsFromMachine(children: DirectedGraphNode[]): string[][] {
-  return children.flatMap((child) =>
-    child.children.length > 0
-      ? statePathsFromMachine(child.children)
-      : [child.stateNode.path],
-  );
-}
-
-function allStepsFromMachine(machine: FlowStateMachine) {
-  const machineState = statePathsFromMachine(toDirectedGraph(machine).children);
-  return machineState.map(
-    (statePath) => stateValueToStepIds(pathToStateValue(statePath))[0],
-  );
 }
 
 /*

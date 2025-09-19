@@ -253,10 +253,41 @@ export const beratungshilfeVorabcheckTestCases = {
       },
       { stepId: "/kinder" },
     ],
+    einkommenPartner: [
+      {
+        stepId: "/einkommen",
+        userInput: { partnerschaft: "yes", einkommen: "0" },
+      },
+      { stepId: "/einkommen-partner" },
+    ],
     kinderNo: [
       {
         stepId: "/kinder",
         userInput: { kinder: "no" },
+      },
+      { stepId: "/unterhalt" },
+    ],
+    kinderYes: [
+      {
+        stepId: "/kinder",
+        userInput: { kinder: "yes" },
+      },
+      {
+        stepId: "/kinder-anzahl",
+        userInput: {
+          kids: {
+            kids6Below: "1",
+            kids7To14: "0",
+            kids15To18: "0",
+            kids18Above: "0",
+          },
+        },
+      },
+      {
+        stepId: "/einkommen-kinder",
+        userInput: {
+          einkommenKinder: "0",
+        },
       },
       { stepId: "/unterhalt" },
     ],
@@ -265,6 +296,14 @@ export const beratungshilfeVorabcheckTestCases = {
         stepId: "/unterhalt",
         userInput: { unterhalt: "no" },
       },
+      { stepId: "/miete" },
+    ],
+    unterhaltYes: [
+      {
+        stepId: "/unterhalt",
+        userInput: { unterhalt: "yes" },
+      },
+      { stepId: "/unterhalt-summe", userInput: { unterhaltSumme: "100" } },
       { stepId: "/miete" },
     ],
     einkommenHoch: [
