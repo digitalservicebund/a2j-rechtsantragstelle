@@ -89,6 +89,9 @@ export const translations = {
     "report-problem": {
       de: "Problem auf dieser Seite melden",
     },
+    "problem-gemeldet": {
+      de: "Ihr Problem wurde gemeldet",
+    },
     cancel: {
       de: "Abbrechen",
     },
