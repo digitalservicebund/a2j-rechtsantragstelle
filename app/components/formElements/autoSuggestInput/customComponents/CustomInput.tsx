@@ -7,7 +7,6 @@ import {
 } from "react-select";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
-import { autocompleteMap } from "~/util/autocompleteMap";
 
 //Will become obsolete with the next version bump: https://github.com/JedWatson/react-select/pull/6016
 type CustomSelectProps = Props<
@@ -37,7 +36,6 @@ const CustomInput = (props: InputProps<DataListOptions, false>) => {
       aria-required={props.selectProps.className?.includes(
         "auto-suggest-input-required",
       )}
-      autoComplete={autocompleteMap[field.name()] ?? "off"}
     />
   );
 };
