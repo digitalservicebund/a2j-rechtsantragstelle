@@ -57,14 +57,11 @@ describe.sequential("flowSchemas", () => {
 
               // Given the current data and url we expect the next and previous url
               const nextStepId = expectedSteps[idx + 1]?.stepId;
-              allVisitedSteps[machine.id].stepIds.add(
-                flowController.getPrevious(nextStepId)?.replace(flowId, ""),
-              );
-              allVisitedSteps[machine.id].stepIds.add(
-                flowController.getNext(stepId)?.replace(flowId, ""),
-              );
               expect(flowController.getNext(stepId)).toBe(flowId + nextStepId);
               expect(flowController.getPrevious(nextStepId)).toBe(currentUrl);
+
+              allVisitedSteps[machine.id].stepIds.add(stepId);
+              allVisitedSteps[machine.id].stepIds.add(nextStepId);
             });
           });
         });
