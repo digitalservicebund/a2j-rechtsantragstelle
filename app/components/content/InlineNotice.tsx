@@ -2,6 +2,7 @@ import SvgCheckCircle from "@digitalservicebund/icons/CheckCircle";
 import SvgErrorOutline from "@digitalservicebund/icons/ErrorOutline";
 import LightbulbOutlinedIcon from "@digitalservicebund/icons/LightbulbOutlined";
 import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
+import classNames from "classnames";
 import Heading from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
@@ -56,16 +57,14 @@ export const InlineNotice = ({
 
   const base = (
     <div
-      className={[
+      className={classNames(
         "ds-stack ds-stack-8 scroll-my-40 p-16",
         backgroundColor,
         "border",
         borderColor,
         "border-2 border-l-8",
         nested || wrap ? "md:max-w-[630px]" : "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      )}
       id={identifier}
       role="note"
     >
