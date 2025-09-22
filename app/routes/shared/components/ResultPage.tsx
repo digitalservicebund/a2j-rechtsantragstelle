@@ -7,8 +7,6 @@ import Heading from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
 import ContentComponents from "~/components/content/ContentComponents";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
-import Background from "~/components/layout/Background";
-import Container from "~/components/layout/Container";
 import { type loader } from "../result";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
@@ -52,7 +50,7 @@ export function ResultPage() {
 
   return (
     <>
-      <GridSection backgroundClass="bg-blue-100" pt="40" pb="24">
+      <GridSection backgroundClass={BACKGROUND_COLORS.blue} pt="40" pb="24">
         <Grid
           rows={2}
           background={{
@@ -63,9 +61,9 @@ export function ResultPage() {
           }}
         >
           <GridItem
-            mdColumn={{ start: 1, span: 7 }}
-            lgColumn={{ start: 3, span: 7 }}
-            xlColumn={{ start: 3, span: 7 }}
+            mdColumn={{ start: 1, span: 8 }}
+            lgColumn={{ start: 3, span: 8 }}
+            xlColumn={{ start: 3, span: 8 }}
             className="pt-32 pb-40 py-24 px-16 md:px-16 lg:px-0 xl:px-0"
             row={1}
           >
