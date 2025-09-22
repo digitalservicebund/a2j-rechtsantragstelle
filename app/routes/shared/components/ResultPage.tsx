@@ -10,6 +10,10 @@ import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import Background from "~/components/layout/Background";
 import Container from "~/components/layout/Container";
 import { type loader } from "../result";
+import { GridSection } from "~/components/layout/grid/GridSection";
+import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
+import { BACKGROUND_COLORS } from "~/components";
 
 const iconProps = {
   "aria-hidden": false,
@@ -47,66 +51,72 @@ export function ResultPage() {
   useFocusFirstH1();
 
   return (
-    <div className="flex flex-col min-w-full">
-      <Background
-        backgroundColor="blue"
-        paddingTop="40"
-        paddingBottom="48"
-        className="print:hidden"
-      >
-        <Container
-          overhangingBackground
-          backgroundColor={boxProps[cmsData.pageType].backgroundColor}
-          paddingTop="32"
-          paddingBottom="40"
+    <>
+      <GridSection backgroundClass="bg-blue-100" pt="40" pb="24">
+        <Grid
+          rows={2}
+          background={{
+            mdColumn: { start: 1, span: 8 },
+            lgColumn: { start: 2, span: 10 },
+            xlColumn: { start: 2, span: 10 },
+            className: `rounded-lg ${BACKGROUND_COLORS[boxProps[cmsData.pageType].backgroundColor]}`,
+          }}
         >
-          <div className="flex sm:flex-row flex-col gap-16">
-            {boxProps[cmsData.pageType].icon}
-            <div className="flex flex-col gap-16" id="flow-page-content">
-              <Heading
-                tagName={cmsData.heading.tagName}
-                look={cmsData.heading.look}
-                className="flex items-center mb-0"
-              >
-                {cmsData.heading.text}
-              </Heading>
-              {cmsData.hintText && <RichText html={cmsData.hintText.html} />}
+          <GridItem
+            mdColumn={{ start: 1, span: 7 }}
+            lgColumn={{ start: 3, span: 7 }}
+            xlColumn={{ start: 3, span: 7 }}
+            className="pt-32 pb-40 py-24 px-16 md:px-16 lg:px-0 xl:px-0"
+            row={1}
+          >
+            <div className="flex sm:flex-row flex-col gap-16">
+              {boxProps[cmsData.pageType].icon}
+              <div className="flex flex-col gap-16" id="flow-page-content">
+                <Heading
+                  tagName={cmsData.heading.tagName}
+                  look={cmsData.heading.look}
+                  className="flex items-center mb-0"
+                >
+                  {cmsData.heading.text}
+                </Heading>
+                {cmsData.hintText && <RichText html={cmsData.hintText.html} />}
+              </div>
             </div>
-          </div>
-        </Container>
-
-        <Container paddingTop="48" paddingBottom="0">
-          <ButtonContainer>
-            {back.destination && (
-              <a className="text-link" href={back.destination}>
-                {back.label}
-              </a>
-            )}
-            {cmsData.nextLink?.url && (
-              <a className="text-link" href={cmsData.nextLink.url}>
-                {next?.label}
-              </a>
-            )}
-          </ButtonContainer>
-        </Container>
-      </Background>
+          </GridItem>
+          <GridItem
+            mdColumn={{ start: 1, span: 3 }}
+            lgColumn={{ start: 3, span: 3 }}
+            xlColumn={{ start: 3, span: 3 }}
+            className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
+            row={2}
+          >
+            <ButtonContainer>
+              {back.destination && (
+                <a className="text-link" href={back.destination}>
+                  {back.label}
+                </a>
+              )}
+              {cmsData.nextLink?.url && (
+                <a className="text-link" href={cmsData.nextLink.url}>
+                  {next?.label}
+                </a>
+              )}
+            </ButtonContainer>
+          </GridItem>
+        </Grid>
+      </GridSection>
 
       {content.length > 0 && <ContentComponents content={content} />}
 
-      {documentsList.length > 0 && (
-        <div>
-          {documentsList.map((element) => (
-            <ContentComponents
-              key={`${element.__component}_${element.id}`}
-              content={[element]}
-            />
-          ))}
-        </div>
-      )}
+      {documentsList.length > 0 &&
+        documentsList.map((element) => (
+          <ContentComponents
+            key={`${element.__component}_${element.id}`}
+            content={[element]}
+          />
+        ))}
 
-      <div className={`${documentsList.length > 0 ? "bg-blue-100" : ""}`}>
-        <ContentComponents content={nextSteps} />
-      </div>
-    </div>
+      <ContentComponents content={nextSteps} />
+    </>
   );
 }
