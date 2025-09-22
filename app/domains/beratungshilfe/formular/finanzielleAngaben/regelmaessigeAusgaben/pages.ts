@@ -7,6 +7,32 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
 
+const sharedAusgabenFields = {
+  art: stringRequiredSchema,
+  zahlungsempfaenger: stringRequiredSchema,
+  beitrag: buildMoneyValidationSchema(),
+  hasZahlungsfrist: YesNoAnswer,
+};
+
+export const ausgabenArraySchema = z
+  .array(
+    z
+      .object({
+        ...sharedAusgabenFields,
+        hasZahlungsfrist: z.literal("yes"),
+        zahlungsfrist: createDateSchema({
+          earliest: () => today(),
+        }),
+      })
+      .or(
+        z.object({
+          ...sharedAusgabenFields,
+          hasZahlungsfrist: z.literal("no"),
+        }),
+      ),
+  )
+  .min(1);
+
 export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
   ausgaben: {
     stepId: "finanzielle-angaben/ausgaben",
@@ -28,21 +54,7 @@ export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
   },
   ausgabenAusgaben: {
     stepId: "finanzielle-angaben/ausgaben/ausgaben",
-    pageSchema: {
-      ausgaben: z.array(
-        z
-          .object({
-            art: stringRequiredSchema,
-            zahlungsempfaenger: stringRequiredSchema,
-            beitrag: buildMoneyValidationSchema(),
-            hasZahlungsfrist: YesNoAnswer,
-            zahlungsfrist: createDateSchema({
-              earliest: () => today(),
-            }),
-          })
-          .partial(),
-      ),
-    },
+    pageSchema: { ausgaben: ausgabenArraySchema },
     arrayPages: {
       art: {
         pageSchema: {
