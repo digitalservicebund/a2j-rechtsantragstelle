@@ -58,25 +58,23 @@ export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
     arrayPages: {
       art: {
         pageSchema: {
-          "ausgaben#art": stringRequiredSchema,
-          "ausgaben#zahlungsempfaenger": stringRequiredSchema,
+          "ausgaben#art": sharedAusgabenFields.art,
+          "ausgaben#zahlungsempfaenger":
+            sharedAusgabenFields.zahlungsempfaenger,
         },
       },
       zahlungsinformation: {
-        pageSchema: {
-          "ausgaben#beitrag": buildMoneyValidationSchema(),
-        },
+        pageSchema: { "ausgaben#beitrag": sharedAusgabenFields.beitrag },
       },
       laufzeit: {
         pageSchema: {
-          "ausgaben#hasZahlungsfrist": YesNoAnswer,
+          "ausgaben#hasZahlungsfrist": sharedAusgabenFields.hasZahlungsfrist,
         },
       },
       zahlungsfrist: {
         pageSchema: {
-          "ausgaben#zahlungsfrist": createDateSchema({
-            earliest: () => today(),
-          }),
+          "ausgaben#zahlungsfrist":
+            ausgabenArraySchema.element.def.options[0].shape.zahlungsfrist,
         },
       },
     },
