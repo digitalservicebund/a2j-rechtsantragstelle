@@ -13,24 +13,21 @@ const sharedAusgabenFields = {
   beitrag: buildMoneyValidationSchema(),
   hasZahlungsfrist: YesNoAnswer,
 };
+const zahlungsfristSchema = createDateSchema({ earliest: () => today() });
 
 export const ausgabenArraySchema = z
-  .array(
-    z
-      .object({
-        ...sharedAusgabenFields,
-        hasZahlungsfrist: z.literal("yes"),
-        zahlungsfrist: createDateSchema({
-          earliest: () => today(),
-        }),
-      })
-      .or(
-        z.object({
-          ...sharedAusgabenFields,
-          hasZahlungsfrist: z.literal("no"),
-        }),
-      ),
-  )
+  .union([
+    z.object({
+      ...sharedAusgabenFields,
+      hasZahlungsfrist: z.literal("no"),
+    }),
+    z.object({
+      ...sharedAusgabenFields,
+      hasZahlungsfrist: z.literal("yes"),
+      zahlungsfrist: zahlungsfristSchema,
+    }),
+  ])
+  .array()
   .min(1);
 
 export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
@@ -72,10 +69,7 @@ export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
         },
       },
       zahlungsfrist: {
-        pageSchema: {
-          "ausgaben#zahlungsfrist":
-            ausgabenArraySchema.element.def.options[0].shape.zahlungsfrist,
-        },
+        pageSchema: { "ausgaben#zahlungsfrist": zahlungsfristSchema },
       },
     },
   },
