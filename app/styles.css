@@ -31,6 +31,14 @@
   }
 }
 
+body:has(dialog[open]) {
+  @apply overflow-hidden!;
+}
+
+.survey-modal {
+  @apply p-24 max-w-fit max-h-fit border-1 border-blue-800 overflow-scroll bg-white;
+}
+
 /* Ensure black SVG paths don't disappear in high-contrast mode */
 /* Current usage: SVG icons in Tile component */
 @media (forced-colors: active) and (prefers-color-scheme: dark) {
