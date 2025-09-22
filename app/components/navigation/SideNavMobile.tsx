@@ -24,7 +24,7 @@ export default function SideNavMobile({
   const Icon = menuOpen ? Close : MenuIcon;
 
   return (
-    <div className={`flex flex-col md:hidden`}>
+    <div className={`flex flex-col lg:hidden`}>
       {menuOpen && (
         <button
           onClick={toggleMenu}
