@@ -77,8 +77,8 @@
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.17.2",
     "pino-http": "^10.5.0",
-    "posthog-js": "1.266.0",
-    "posthog-node": "5.8.4",
+    "posthog-js": "1.266.3",
+    "posthog-node": "5.8.6",
     "rate-limit-redis": "^4.2.2",
     "react": "^19.1.1",
     "react-collapsed": "^4.2.0",
@@ -92,7 +92,7 @@
     "validator": "^13.15.15",
     "xss": "^1.0.15",
     "xstate": "^5.22.0",
-    "zod": "^4.1.9"
+    "zod": "^4.1.11"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
