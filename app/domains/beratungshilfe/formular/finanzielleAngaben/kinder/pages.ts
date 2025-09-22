@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { kinderSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { childrenArraySchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { createDateSchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -20,7 +20,7 @@ export const berhAntragFinanzielleAngabenKinderPages = {
   },
   kinder: {
     stepId: "finanzielle-angaben/kinder/kinder",
-    pageSchema: { kinder: z.array(kinderSchema) },
+    pageSchema: { kinder: childrenArraySchema },
     arrayPages: {
       name: {
         pageSchema: {

@@ -184,20 +184,45 @@ export const childBirthdaySchema = createDateSchema({
   latest: () => today(),
 });
 
-export const kinderSchema = z
-  .object({
-    vorname: stringRequiredSchema,
-    nachname: stringRequiredSchema,
-    geburtsdatum: childBirthdaySchema,
-    wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
-    eigeneEinnahmen: YesNoAnswer,
-    einnahmen: buildMoneyValidationSchema(),
-    unterhalt: YesNoAnswer,
-    unterhaltsSumme: buildMoneyValidationSchema(),
-  })
-  .partial();
+const sharedChildFields = {
+  vorname: stringRequiredSchema,
+  nachname: stringRequiredSchema,
+  geburtsdatum: childBirthdaySchema,
+};
 
-export type KinderSchema = z.infer<typeof kinderSchema>;
+const childSchema = z
+  .object({
+    ...sharedChildFields,
+    wohnortBeiAntragsteller: z.literal("no"),
+    unterhalt: z.literal("no"),
+  })
+  .or(
+    z.object({
+      ...sharedChildFields,
+      wohnortBeiAntragsteller: z.literal("no"),
+      unterhalt: z.literal("yes"),
+      unterhaltsSumme: buildMoneyValidationSchema(),
+    }),
+  )
+  .or(
+    z.object({
+      ...sharedChildFields,
+      wohnortBeiAntragsteller: z.enum(["yes", "partially"]),
+      eigeneEinnahmen: z.literal("yes"),
+      einnahmen: buildMoneyValidationSchema(),
+    }),
+  )
+  .or(
+    z.object({
+      ...sharedChildFields,
+      wohnortBeiAntragsteller: z.enum(["yes", "partially"]),
+      eigeneEinnahmen: z.literal("no"),
+    }),
+  );
+
+export const childrenArraySchema = z.array(childSchema).min(1);
+
+export type KinderSchema = z.infer<typeof childSchema>; // Todo: rename to ChildSchema
 
 export const besondereBelastungen = [
   "pregnancy",

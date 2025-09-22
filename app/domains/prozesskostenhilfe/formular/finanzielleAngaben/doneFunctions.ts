@@ -10,10 +10,10 @@ import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
 import type { GenericGuard } from "../../../guards.server";
 import {
   bankKontoDone,
-  childDone,
   geldanlageDone,
   singleGrundeigentumDone,
 } from "../../../shared/formular/finanzielleAngaben/doneFunctions";
+import { childrenArraySchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 
 type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenUserData>;
@@ -66,12 +66,8 @@ export const partnerBesondersAusgabenDone: ProzesskostenhilfeFinanzielleAngabenG
 export const kinderDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  (context.staatlicheLeistungen != undefined &&
-    einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
-      context,
-    })) ||
   context.hasKinder == "no" ||
-  (arrayIsNonEmpty(context.kinder) && context.kinder.every(childDone));
+  childrenArraySchema.safeParse(context.kinder).success;
 
 export const andereUnterhaltszahlungenDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>

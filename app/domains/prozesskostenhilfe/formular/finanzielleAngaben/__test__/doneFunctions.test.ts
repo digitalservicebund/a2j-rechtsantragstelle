@@ -118,20 +118,8 @@ describe("Finanzielle Angaben doneFunctions", () => {
     });
   });
 
+  // TODO: remove
   describe("kinderDone", () => {
-    it("should return true if the user receives staatliche leistungen", () => {
-      expect(
-        kinderDone({
-          context: { staatlicheLeistungen: "grundsicherung" },
-        }),
-      ).toBe(true);
-      expect(
-        kinderDone({
-          context: { staatlicheLeistungen: "asylbewerberleistungen" },
-        }),
-      ).toBe(true);
-    });
-
     it("should return true if the user has no children", () => {
       expect(
         kinderDone({
@@ -154,9 +142,11 @@ describe("Finanzielle Angaben doneFunctions", () => {
               {
                 vorname: "Kinder",
                 nachname: "McKindery",
+                // @ts-expect-error extra fields
                 geburtsdatum: undefined,
                 wohnortBeiAntragsteller: "yes",
                 eigeneEinnahmen: "yes",
+                // @ts-expect-error extra fields
                 einnahmen: undefined,
                 unterhalt: "yes",
                 unterhaltsSumme: undefined,
@@ -180,6 +170,7 @@ describe("Finanzielle Angaben doneFunctions", () => {
                 wohnortBeiAntragsteller: "yes",
                 eigeneEinnahmen: "yes",
                 einnahmen: "100",
+                // @ts-expect-error extra fields
                 unterhalt: "yes",
                 unterhaltsSumme: "100",
               },

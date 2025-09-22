@@ -5,7 +5,7 @@ export const objectMap = <V, R>(
   Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]));
 
 export function isKeyOfObject<T extends object>(
-  key: string | number | symbol,
+  key: PropertyKey,
   obj: T,
 ): key is keyof T {
   return key in obj;
@@ -22,4 +22,22 @@ export function dropEachProperty(obj: object) {
       return rest;
     }),
   );
+}
+
+// Picks a property from a union of objects, for example:
+// PickFromUnion<{a: string} | {b: string}, "b"> = {b: string | undefined}
+export type PickFromUnion<T, K extends PropertyKey> = {
+  [P in K]: T extends infer U ? (P extends keyof U ? U[P] : undefined) : never;
+};
+
+// Returns a property from a union of objects, for example:
+// getPropertyFromUnion({a: "a", b: "b"}, "b") = "b"
+export function propertyFromUnion<T extends object, K extends PropertyKey>(
+  obj: T | undefined,
+  key: K,
+): PickFromUnion<T, K>[K] | undefined {
+  if (!obj) return undefined;
+  return isKeyOfObject(key, obj)
+    ? (obj[key] as PickFromUnion<T, K>[K])
+    : undefined;
 }

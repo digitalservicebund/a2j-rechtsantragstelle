@@ -71,15 +71,16 @@ export const addSupportRecipientsToAttachment =
         attachment.push({ title: "Geburtsdatum", text: kind.geburtsdatum });
         attachment.push({
           title: "Monatliche Unterhaltszahlungen",
-          text: kind.unterhaltsSumme
-            ? kind.unterhaltsSumme + " €"
-            : "Keine Angabe",
+          text:
+            "unterhaltsSumme" in kind
+              ? kind.unterhaltsSumme + " €"
+              : "Keine Angabe",
         });
         attachment.push({
           title: "Gemeinsame Wohnung",
           text: kind.wohnortBeiAntragsteller === "yes" ? "Ja" : "Nein",
         });
-        if (kind.einnahmen)
+        if ("einnahmen" in kind)
           attachment.push({
             title: "Eigene monatlichen Einnahmen",
             text: kind.einnahmen + " €",

@@ -16,10 +16,7 @@ export const fillUnterhaltAngehoerige: PkhPdfFillFunction = ({
   const zahltPartnerUnterhalt = userData.partnerUnterhaltsSumme !== undefined;
   const kinder = userData.kinder ?? [];
   // Need to add the child added as a part of Vereinfachte Erklärung to the kinder array
-  if (
-    empfaengerIsChild({ context: userData }) &&
-    userData.child !== undefined
-  ) {
+  if (empfaengerIsChild({ context: userData }) && userData.child) {
     kinder.unshift({
       ...userData.child,
       wohnortBeiAntragsteller: userData.livesTogether ? "yes" : "no",
@@ -77,11 +74,13 @@ const enumerateSupportRecipients: PkhPdfFillFunction = ({
         `${kind.vorname} ${kind.nachname}`;
       pdfValues[`geburtsdatum${startCell}`].value = kind.geburtsdatum;
       pdfValues[`verhaeltnis${startCell}`].value = "Kind";
-      if (kind.unterhalt === "yes" || kind.unterhaltsSumme !== undefined) {
+
+      // TODO: verify that unterhaltsSumme & einnahmen are correctly pruned
+      if ("unterhaltsSumme" in kind) {
         pdfValues[`monatsbetrag${startCell}`].value =
           kind.unterhaltsSumme + " €";
       }
-      if (kind.eigeneEinnahmen === "yes" && kind.einnahmen !== undefined) {
+      if ("einnahmen" in kind) {
         pdfValues[`d${(startCell * 2) as 2 | 4}`].value = true;
         pdfValues[`betrag${startCell}`].value = kind.einnahmen + " €";
       } else {

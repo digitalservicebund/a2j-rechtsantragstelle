@@ -6,11 +6,13 @@ import {
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 import { type GenericGuard, yesNoGuards } from "../../../guards.server";
+import { propertyFromUnion } from "~/util/objects";
 
-export type FinanzielleAngabenGuard = GenericGuard<
+type FinanzielleAngabenUserData =
   | ProzesskostenhilfeFinanzielleAngabenUserData
-  | BeratungshilfeFinanzielleAngabenUserData
->;
+  | BeratungshilfeFinanzielleAngabenUserData;
+
+export type FinanzielleAngabenGuard = GenericGuard<FinanzielleAngabenUserData>;
 export const staatlicheLeistungenIsBuergergeld: FinanzielleAngabenGuard = ({
   context,
 }) => context.staatlicheLeistungen === "buergergeld";
@@ -40,46 +42,32 @@ export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo: FinanzielleAng
   ({ context }) =>
     hasPartnerschaftYesAndZusammenlebenNo({ context }) &&
     context.unterhalt == "no";
+
+export function getChildAtIndex(userData: FinanzielleAngabenUserData) {
+  const arrayIndex = firstArrayIndex(userData.pageData);
+  if (arrayIndex !== undefined) return userData.kinder?.at(arrayIndex);
+}
+
 export const kindWohnortBeiAntragstellerYes: FinanzielleAngabenGuard = ({
-  context: { pageData, kinder },
-}) => {
-  const arrayIndex = firstArrayIndex(pageData);
-  if (arrayIndex === undefined) return false;
-  const kinderWohnortBeiAntragsteller =
-    kinder?.at(arrayIndex)?.wohnortBeiAntragsteller;
-  return (
-    kinderWohnortBeiAntragsteller === "yes" ||
-    kinderWohnortBeiAntragsteller === "partially"
+  context,
+}) =>
+  ["yes", "partially"].includes(
+    getChildAtIndex(context)?.wohnortBeiAntragsteller ?? "",
   );
-};
+
 export const kindWohnortBeiAntragstellerNo: FinanzielleAngabenGuard = ({
-  context: { pageData, kinder },
-}) => {
-  const arrayIndex = firstArrayIndex(pageData);
-  if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.wohnortBeiAntragsteller === "no";
-};
-export const kindEigeneEinnahmenYes: FinanzielleAngabenGuard = ({
-  context: { pageData, kinder },
-}) => {
-  const arrayIndex = firstArrayIndex(pageData);
-  if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.eigeneEinnahmen === "yes";
-};
-export const kindUnterhaltYes: FinanzielleAngabenGuard = ({
-  context: { pageData, kinder },
-}) => {
-  const arrayIndex = firstArrayIndex(pageData);
-  if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.unterhalt === "yes";
-};
-export const kindUnterhaltNo: FinanzielleAngabenGuard = ({
-  context: { pageData, kinder },
-}) => {
-  const arrayIndex = firstArrayIndex(pageData);
-  if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.unterhalt === "no";
-};
+  context,
+}) => getChildAtIndex(context)?.wohnortBeiAntragsteller === "no";
+
+export const kindEigeneEinnahmenYes: FinanzielleAngabenGuard = ({ context }) =>
+  propertyFromUnion(getChildAtIndex(context), "eigeneEinnahmen") === "yes";
+
+export const kindUnterhaltYes: FinanzielleAngabenGuard = ({ context }) =>
+  propertyFromUnion(getChildAtIndex(context), "unterhalt") === "yes";
+
+export const kindUnterhaltNo: FinanzielleAngabenGuard = ({ context }) =>
+  propertyFromUnion(getChildAtIndex(context), "unterhalt") === "no";
+
 export const isValidKinderArrayIndex: FinanzielleAngabenGuard = ({
   context: { pageData, kinder },
 }) => isValidArrayIndex(kinder, pageData);

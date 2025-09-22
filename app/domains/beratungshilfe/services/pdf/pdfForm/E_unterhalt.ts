@@ -58,11 +58,12 @@ const enumerateSupportRecipients: BerHPdfFillFunction = ({
       pdfValues[
         `e3Familienverhaeltnis${startCell === 1 ? "" : startCell}` as keyof typeof pdfValues
       ].value = "Kind";
-      if (kind.unterhalt === "yes") {
+      // TODO: verify pruner works for unterhaltsSumme & einnahmen
+      if ("unterhaltsSumme" in kind) {
         pdfValues[`e4Zahlung${startCell}` as keyof typeof pdfValues].value =
           kind.unterhaltsSumme + " €";
       }
-      if (kind.eigeneEinnahmen === "yes") {
+      if ("einnahmen" in kind) {
         pdfValues[`e6Betrag${startCell}` as keyof typeof pdfValues].value =
           kind.einnahmen + " €";
       } else {

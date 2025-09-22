@@ -419,39 +419,14 @@ describe("grundeigentumDone", () => {
   });
 });
 
+//TODO: remove after merge
 describe("kinderDone", () => {
-  it("should return true if the user receives staatliche leistungen", () => {
-    expect(
-      kinderDone({
-        context: { staatlicheLeistungen: "grundsicherung" },
-      }),
-    ).toBe(true);
-    expect(
-      kinderDone({
-        context: { staatlicheLeistungen: "asylbewerberleistungen" },
-      }),
-    ).toBe(true);
-    expect(
-      kinderDone({
-        context: { staatlicheLeistungen: "buergergeld" },
-      }),
-    ).toBe(true);
-  });
-
   it("should return true if the user has no children", () => {
-    expect(
-      kinderDone({
-        context: { hasKinder: "no" },
-      }),
-    ).toBe(true);
+    expect(kinderDone({ context: { hasKinder: "no" } })).toBe(true);
   });
 
   it("should return false if the user has incomplete children entered", () => {
-    expect(
-      kinderDone({
-        context: { hasKinder: "yes" },
-      }),
-    ).toBe(false);
+    expect(kinderDone({ context: { hasKinder: "yes" } })).toBe(false);
     expect(
       kinderDone({
         context: {
@@ -460,9 +435,11 @@ describe("kinderDone", () => {
             {
               vorname: "Kinder",
               nachname: "McKindery",
+              // @ts-expect-error: missing field should fail
               geburtsdatum: undefined,
               wohnortBeiAntragsteller: "yes",
               eigeneEinnahmen: "yes",
+              // @ts-expect-error: missing field should fail
               einnahmen: undefined,
               unterhalt: "yes",
               unterhaltsSumme: undefined,
@@ -482,12 +459,10 @@ describe("kinderDone", () => {
             {
               vorname: "Kinder",
               nachname: "McKindery",
-              geburtsdatum: "2000-01-01",
+              geburtsdatum: "01.01.2020",
               wohnortBeiAntragsteller: "yes",
               eigeneEinnahmen: "yes",
               einnahmen: "100",
-              unterhalt: "yes",
-              unterhaltsSumme: "100",
             },
           ],
         },

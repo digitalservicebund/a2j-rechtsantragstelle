@@ -11,6 +11,8 @@ import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 import { eigentumDone } from "./eigentum/doneFunctions";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
 import { yesNoGuards, type Guards } from "~/domains/guards.server";
+import { getChildAtIndex } from "~/domains/shared/formular/finanzielleAngaben/guards";
+import { propertyFromUnion } from "~/util/objects";
 
 export const staatlicheLeistungenIsBuergergeld: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) => context.staatlicheLeistungen === "buergergeld";
@@ -139,44 +141,31 @@ export const isValidKinderArrayIndex: BeratungshilfeFinanzielleAngabenGuard = ({
 }) => isValidArrayIndex(kinder, pageData);
 
 export const kindEigeneEinnahmenYes: BeratungshilfeFinanzielleAngabenGuard = ({
-  context: { pageData, kinder },
-}) => {
-  const arrayIndex = firstArrayIndex(pageData);
-  if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.eigeneEinnahmen === "yes";
-};
+  context,
+}) => propertyFromUnion(getChildAtIndex(context), "eigeneEinnahmen") === "yes";
 
 export const kindUnterhaltNo: BeratungshilfeFinanzielleAngabenGuard = ({
-  context: { pageData, kinder },
-}) => {
-  const arrayIndex = firstArrayIndex(pageData);
-  if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.unterhalt === "no";
-};
+  context,
+}) => propertyFromUnion(getChildAtIndex(context), "unterhalt") === "no";
+
 export const kindUnterhaltYes: BeratungshilfeFinanzielleAngabenGuard = ({
-  context: { pageData, kinder },
-}) => {
-  const arrayIndex = firstArrayIndex(pageData);
-  if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.unterhalt === "yes";
-};
+  context,
+}) => propertyFromUnion(getChildAtIndex(context), "unterhalt") === "yes";
 
 export const kindWohnortBeiAntragstellerNo: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context: { pageData, kinder } }) => {
-    const arrayIndex = firstArrayIndex(pageData);
-    if (arrayIndex === undefined) return false;
-    return kinder?.at(arrayIndex)?.wohnortBeiAntragsteller === "no";
-  };
+  ({ context }) =>
+    propertyFromUnion(getChildAtIndex(context), "wohnortBeiAntragsteller") ===
+    "no";
 
 export const kindWohnortBeiAntragstellerYes: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context: { pageData, kinder } }) => {
-    const arrayIndex = firstArrayIndex(pageData);
-    if (arrayIndex === undefined) return false;
-    const kinderWohnortBeiAntragsteller =
-      kinder?.at(arrayIndex)?.wohnortBeiAntragsteller;
+  ({ context }) => {
+    const wohnortBeiAntragsteller = propertyFromUnion(
+      getChildAtIndex(context),
+      "wohnortBeiAntragsteller",
+    );
     return (
-      kinderWohnortBeiAntragsteller === "yes" ||
-      kinderWohnortBeiAntragsteller === "partially"
+      wohnortBeiAntragsteller === "partially" ||
+      wohnortBeiAntragsteller === "yes"
     );
   };
 

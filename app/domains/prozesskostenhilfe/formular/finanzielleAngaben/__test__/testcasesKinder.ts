@@ -26,6 +26,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = [
   [
     {
       hasKinder: "yes",
+      // @ts-expect-error any entry removes the warning page
       kinder: [{}],
     },
     [

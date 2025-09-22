@@ -184,6 +184,7 @@ describe("pruner", () => {
             geburtsdatum: "11.11.2023",
             wohnortBeiAntragsteller: "no",
             unterhalt: "no",
+            // @ts-expect-error this should get pruned away
             unterhaltsSumme: "123",
             eigeneEinnahmen: "no",
             einnahmen: "0",
