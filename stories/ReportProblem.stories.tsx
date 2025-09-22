@@ -3,7 +3,7 @@ import Container from "~/components/layout/Container";
 import { mocked } from "storybook/test";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
-import { PostHog, Survey, SurveyQuestionType } from "posthog-js";
+import { type PostHog, type Survey, SurveyQuestionType } from "posthog-js";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 
 const meta = {
@@ -29,6 +29,7 @@ const meta = {
     } as unknown as Survey);
     mocked(useAnalytics).mockReturnValue({
       posthogClient: {
+        // oxlint-disable-next-line no-empty-function
         capture: () => {},
       } as unknown as PostHog,
     });
