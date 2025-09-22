@@ -14,7 +14,5 @@ export default [
     ...prefix("formular", flowRoutes("FGRF")),
   ]),
   ...prefix("kontopfaendung/wegweiser", vorabcheckRoutes("KPW")),
-  ...prefix("geld-einklagen", [
-    ...prefix("vorabcheck", vorabcheckRoutes("GEV")),
-  ]),
+  ...prefix("geld-einklagen", [...prefix("formular", flowRoutes("GEF"))]),
 ] satisfies RouteConfig;
