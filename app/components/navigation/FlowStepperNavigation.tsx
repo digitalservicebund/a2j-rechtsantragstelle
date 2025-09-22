@@ -21,7 +21,7 @@ export const FlowStepperNavigation = ({ steppers }: Props) => {
             <li
               key={stepper.label}
               className={classNames(
-                "flex w-full border border-blue-500 step not-[&:last-child]:border-r-0 not-[&:first-child]:border-l-0 arrow-step",
+                "arrow-step flex w-full border border-blue-500 relative hover:underline hover:bg-blue-400 not-[&:last-child]:border-r-0 not-[&:first-child]:border-l-0",
                 {
                   "bg-white arrow-step-open": stepper.state === "Open",
                   "bg-blue-300 ds-label-03-bold": isCurrent,
@@ -33,7 +33,7 @@ export const FlowStepperNavigation = ({ steppers }: Props) => {
             >
               <a
                 href={stepper.href}
-                className="w-full p-16 flex gap-8 justify-center items-center text-center hover:underline hover:bg-blue-400 active:bg-blue-300 focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-300"
+                className="w-full p-16 flex gap-8 justify-center items-center text-center focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-300"
                 aria-disabled={stepper.state === "Disabled"}
                 aria-current={isCurrent}
               >
@@ -61,9 +61,14 @@ export const FlowStepperNavigation = ({ steppers }: Props) => {
                   aria-hidden="true"
                   focusable="false"
                 >
-                  <polygon points="0,0 100,50 0,100" />
-                  {/* right-side border: two lines from the right vertex to top and bottom */}
-                  <path d="M100 50 L0 0 M100 50 L0 100" />
+                  <polygon
+                    className="forced-colors:fill-[ButtonFace]"
+                    points="0,0 100,50 0,100"
+                  />
+                  <path
+                    className="text-blue-500 stroke-current stroke-3 forced-colors:stroke-[ButtonText]"
+                    d="M100 50 L0 0 M100 50 L0 100"
+                  />
                 </svg>
               )}
             </li>
