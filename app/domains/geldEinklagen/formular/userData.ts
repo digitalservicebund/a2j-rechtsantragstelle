@@ -1,4 +1,4 @@
-import { GeldEinklagenFormularGerichtPruefenUserData } from "./gericht-pruefen/userData";
+import { type GeldEinklagenFormularGerichtPruefenUserData } from "./gericht-pruefen/userData";
 
 export type GeldEinklagenFormularUserData =
   GeldEinklagenFormularGerichtPruefenUserData;

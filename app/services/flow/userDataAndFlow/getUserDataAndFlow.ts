@@ -11,7 +11,7 @@ import { validateStepIdFlow } from "./validateStepIdFlow";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 import { getPrunedUserDataFromPathname } from "../getPrunedUserDataFromPathname";
 import { type UserDataWithPageData } from "../pageData";
-import { FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
+import { type FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 
 type OkResult = {

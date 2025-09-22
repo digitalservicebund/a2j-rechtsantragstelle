@@ -1,5 +1,5 @@
-import { TestCases } from "~/domains/__test__/TestCases";
-import { GeldEinklagenFormularUserData } from "../../userData";
+import { type TestCases } from "~/domains/__test__/TestCases";
+import { type GeldEinklagenFormularUserData } from "../../userData";
 
 export const testCasesGeldEinklagenGerichtPruefen = [
   [

@@ -1,6 +1,6 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import { Config } from "~/services/flow/server/types";
-import { GeldEinklagenFormularGerichtPruefenUserData } from "./userData";
+import { type Config } from "~/services/flow/server/types";
+import { type GeldEinklagenFormularGerichtPruefenUserData } from "./userData";
 import { geldEinklagenGerichtPruefenPages } from "./pages";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
