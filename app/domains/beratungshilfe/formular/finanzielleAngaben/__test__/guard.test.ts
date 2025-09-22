@@ -34,8 +34,6 @@ describe("finanzielleAngabeGuards", () => {
               wohnortBeiAntragsteller: "yes",
               eigeneEinnahmen: "yes",
               einnahmen: "100",
-              unterhalt: "yes",
-              unterhaltsSumme: "100",
             },
           ],
           pageData: { arrayIndexes: [1] },

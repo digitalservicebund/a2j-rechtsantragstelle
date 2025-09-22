@@ -1,6 +1,12 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
 
+const commonChildProps = {
+  vorname: "a",
+  nachname: "b",
+  geburtsdatum: "01.01.2020",
+} as const;
+
 export const testCasesPKHFormularFinanzielleAngabenKinder = [
   [
     { hasKinder: "no" },
@@ -32,6 +38,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = [
     {
       kinder: [
         {
+          ...commonChildProps,
           wohnortBeiAntragsteller: "yes",
           eigeneEinnahmen: "yes",
           einnahmen: "100",
@@ -50,6 +57,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = [
     {
       kinder: [
         {
+          ...commonChildProps,
           wohnortBeiAntragsteller: "no",
           unterhalt: "yes",
           unterhaltsSumme: "100",
@@ -65,7 +73,13 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = [
   ],
   [
     {
-      kinder: [{ wohnortBeiAntragsteller: "no", unterhalt: "no" }],
+      kinder: [
+        {
+          ...commonChildProps,
+          wohnortBeiAntragsteller: "no",
+          unterhalt: "no",
+        },
+      ],
       pageData: { arrayIndexes: [0] },
     },
     [

@@ -176,7 +176,7 @@ describe("Finanzielle Angaben doneFunctions", () => {
               {
                 vorname: "Kinder",
                 nachname: "McKindery",
-                geburtsdatum: "2000-01-01",
+                geburtsdatum: "01.01.2020",
                 wohnortBeiAntragsteller: "yes",
                 eigeneEinnahmen: "yes",
                 einnahmen: "100",

@@ -41,8 +41,6 @@ export const happyPathData: BeratungshilfeFormularUserData = {
       wohnortBeiAntragsteller: "yes",
       eigeneEinnahmen: "yes",
       einnahmen: "10",
-      unterhalt: "yes",
-      unterhaltsSumme: "10",
     },
     {
       vorname: "Kind 2",
@@ -51,8 +49,6 @@ export const happyPathData: BeratungshilfeFormularUserData = {
       wohnortBeiAntragsteller: "yes",
       eigeneEinnahmen: "yes",
       einnahmen: "10",
-      unterhalt: "yes",
-      unterhaltsSumme: "10",
     },
   ],
 };

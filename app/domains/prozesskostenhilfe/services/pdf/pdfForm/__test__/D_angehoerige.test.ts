@@ -36,8 +36,6 @@ describe("D_angehoerige", () => {
           geburtsdatum: "01.01.2010",
           unterhaltsSumme: "100",
           wohnortBeiAntragsteller: "no",
-          eigeneEinnahmen: "yes",
-          einnahmen: "100",
           unterhalt: "yes",
         },
       ],
@@ -79,10 +77,6 @@ describe("D_angehoerige", () => {
     expect(pdfValues.monatsbetrag2.value).toEqual(
       userData.kinder[0].unterhaltsSumme + " €",
     );
-    expect(pdfValues.d4.value).toEqual(true);
-    expect(pdfValues.betrag2.value).toEqual(
-      userData.kinder[0].einnahmen + " €",
-    );
 
     // Other recipient
     expect(pdfValues.angehoerigerNr3.value).toEqual(
@@ -97,7 +91,6 @@ describe("D_angehoerige", () => {
     expect(pdfValues.monatsbetrag3.value).toEqual(
       userData.unterhaltszahlungen[0].monthlyPayment + " €",
     );
-    expect(pdfValues.d4.value).toEqual(true);
   });
 
   it("should move the support recipients to the attachment if the total number of support recipients is over 5", () => {
@@ -105,6 +98,9 @@ describe("D_angehoerige", () => {
       kinder: times(6, () => ({
         vorname: "Max",
         nachname: "Mustermann",
+        geburtsdatum: "01.01.2020",
+        wohnortBeiAntragsteller: "no",
+        unterhalt: "no",
       })),
     } satisfies ProzesskostenhilfeFormularUserData;
     const { pdfValues, attachment } = pdfFillReducer({

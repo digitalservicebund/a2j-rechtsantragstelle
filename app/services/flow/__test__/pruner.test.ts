@@ -283,9 +283,6 @@ describe("pruner", () => {
           geburtsdatum: "11.11.2023",
           wohnortBeiAntragsteller: "no",
           unterhalt: "no",
-          unterhaltsSumme: "123",
-          eigeneEinnahmen: "no",
-          einnahmen: "0",
         },
       ],
     } satisfies BeratungshilfeFormularUserData;

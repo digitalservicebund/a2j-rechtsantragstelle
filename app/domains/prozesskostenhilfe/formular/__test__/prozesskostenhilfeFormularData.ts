@@ -120,8 +120,6 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
       wohnortBeiAntragsteller: YesNoAnswer.enum.yes,
       eigeneEinnahmen: YesNoAnswer.enum.yes,
       einnahmen: faker.finance.amount(),
-      unterhalt: YesNoAnswer.enum.yes,
-      unterhaltsSumme: faker.finance.amount(),
     },
   ],
   unterhaltszahlungen: [

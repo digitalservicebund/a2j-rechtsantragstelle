@@ -38,8 +38,6 @@ describe("E_unterhalt", () => {
           geburtsdatum: "01.01.2010",
           unterhaltsSumme: "100",
           wohnortBeiAntragsteller: "no",
-          eigeneEinnahmen: "yes",
-          einnahmen: "100",
           unterhalt: "yes",
         },
       ],
@@ -79,7 +77,7 @@ describe("E_unterhalt", () => {
     expect(pdfValues.e2Geburtsdatum2.value).toEqual(child.geburtsdatum);
     expect(pdfValues.e3Familienverhaeltnis2.value).toEqual("Kind");
     expect(pdfValues.e4Zahlung2.value).toEqual(child.unterhaltsSumme + " €");
-    expect(pdfValues.e6Betrag2.value).toEqual(child.einnahmen + " €");
+    expect(pdfValues.e6Betrag2.value).toEqual(undefined);
 
     // Other recipient
     const other = userData.unterhaltszahlungen[0];
@@ -98,6 +96,9 @@ describe("E_unterhalt", () => {
       kinder: times(6, () => ({
         vorname: "Max",
         nachname: "Mustermann",
+        geburtsdatum: "01.01.2020",
+        wohnortBeiAntragsteller: "no",
+        unterhalt: "no",
       })),
     } satisfies BeratungshilfeFormularUserData;
     const { pdfValues, attachment } = pdfFillReducer({
