@@ -1,4 +1,5 @@
 import type { Flow } from "~/domains/flows.server";
+import { gerichtPruefenXstateConfig } from "./gericht-pruefen/xstateConfig";
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
@@ -7,16 +8,7 @@ export const geldEinklagenFormular = {
     id: "/geld-einklagen/formular",
     initial: "gericht-pruefen",
     states: {
-      "gericht-pruefen": {
-        id: "gericht-pruefen",
-        initial: "intro",
-        states: {
-          intro: {
-            id: "intro",
-            initial: "start",
-          },
-        },
-      },
+      "gericht-pruefen": gerichtPruefenXstateConfig,
     },
   },
   guards: {},
