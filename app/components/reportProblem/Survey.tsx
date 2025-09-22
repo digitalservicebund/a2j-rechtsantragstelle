@@ -1,10 +1,9 @@
+import Close from "@digitalservicebund/icons/Close";
 import classNames from "classnames";
 import { type Survey, SurveyQuestionType } from "posthog-js";
 import { type ElementType, useState } from "react";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
-import { FeedbackSuccessMessage } from "~/components/content/userFeedback/FeedbackSuccessMessage";
-import { useFeedbackTranslations } from "~/components/content/userFeedback/feedbackTranslations";
 import { MultipleChoiceQuestion } from "~/components/reportProblem/MultipleChoiceQuestion";
 import {
   OpenQuestion,
@@ -37,7 +36,6 @@ export const PosthogSurvey = ({
   closeSurvey,
   dialogRef,
 }: PosthogSurveyProps) => {
-  const feedbackTranslations = useFeedbackTranslations();
   const [responses, setResponses] = useState<SurveyResponses>();
   const isCompletelyFilled = isCompleted(survey, responses);
 
@@ -48,69 +46,107 @@ export const PosthogSurvey = ({
     }
   };
 
+  const dialogLabelId = "dialog-label";
+
   return (
     <dialog
-      aria-modal="false"
+      aria-modal="true"
       ref={dialogRef}
+      tabIndex={-1}
       // Needed for storybook, as we're not able to pass in a ref and control the opening/closing of the dialog
       open={!dialogRef}
+      aria-labelledby={dialogLabelId}
       className={classNames(
-        "border-2 border-blue-800 max-sm:right-0 inset-x-auto! not-open:hidden bg-white absolute bottom-0 p-24 flex flex-col",
-        { "gap-40": !wasSubmitted },
+        "self-center justify-self-center backdrop:bg-black/40 max-sm:min-w-full max-sm:min-h-full",
+        {
+          "gap-40": !wasSubmitted,
+          "self-auto! md:top-56 max-sm:min-h-auto! max-sm:top-auto!":
+            wasSubmitted,
+        },
       )}
     >
       <form
         method="dialog"
-        aria-label={translations.feedback["report-problem"].de}
-        className="flex flex-col gap-40"
+        aria-labelledby={dialogLabelId}
+        // col-reverse needed to preserve correct tab order (top-right cancel button at the end of the tab order)
+        className={classNames("flex gap-16 flex-col-reverse survey-modal", {
+          "max-sm:min-h-auto! gap-0!": wasSubmitted,
+        })}
       >
-        {wasSubmitted ? (
-          <FeedbackSuccessMessage
-            subtitle={feedbackTranslations["feedback-helps"]}
-          />
-        ) : (
-          <div className="flex flex-col gap-40">
-            {survey.questions.map((question) => {
-              const Component = questionTypes[question.type];
-              return (
-                <Component
-                  key={question.id}
-                  setResponses={setResponses}
-                  question={question}
-                />
-              );
-            })}
-          </div>
-        )}
-        <ButtonContainer className="flex flex-col-reverse sm:flex-row">
+        <div className="flex flex-col gap-40">
           {wasSubmitted ? (
-            <Button
-              look={"primary"}
-              className="justify-center"
-              text={feedbackTranslations.close}
-              onClick={closeSurvey}
-              type="reset"
-            />
+            <output>
+              {translations.feedback["success-message"].de}{" "}
+              {translations.feedback["feedback-helps"].de}
+            </output>
           ) : (
-            <>
-              <Button
-                look={"tertiary"}
-                className="justify-center"
-                text={feedbackTranslations.cancel}
-                onClick={closeSurvey}
-                type="reset"
-              />
-              <Button
-                look="primary"
-                disabled={!isCompletelyFilled}
-                className="justify-center"
-                text={feedbackTranslations["submit-problem"]}
-                type="button"
-                onClick={onSubmitClicked}
-              />
-            </>
+            <div className="flex flex-col gap-40">
+              {survey.questions.map((question) => {
+                const Component = questionTypes[question.type];
+                return (
+                  <Component
+                    key={question.id}
+                    setResponses={setResponses}
+                    question={question}
+                  />
+                );
+              })}
+            </div>
           )}
-        </ButtonContainer>
+          <ButtonContainer className="flex flex-col sm:flex-row">
+            {wasSubmitted ? (
+              <Button
+                size="large"
+                look={"primary"}
+                className="justify-center"
+                text={translations.feedback.close.de}
+                onClick={closeSurvey}
+                type="button"
+              />
+            ) : (
+              <>
+                <Button
+                  look={"tertiary"}
+                  size="large"
+                  className="justify-center"
+                  text={translations.feedback.cancel.de}
+                  onClick={closeSurvey}
+                  type="button"
+                />
+                <Button
+                  look="primary"
+                  size="large"
+                  aria-disabled={!isCompletelyFilled}
+                  className={classNames("justify-center", {
+                    "is-disabled": !isCompletelyFilled,
+                  })}
+                  text={translations.feedback["submit-problem"].de}
+                  type="button"
+                  onClick={onSubmitClicked}
+                />
+              </>
+            )}
+          </ButtonContainer>
+        </div>
+        <div className="flex justify-between items-center">
+          <h2 id={dialogLabelId} className="ds-heading-02-reg">
+            {wasSubmitted
+              ? translations.feedback["problem-gemeldet"].de
+              : translations.feedback["report-problem"].de}
+          </h2>
+          <Button
+            type="button"
+            size="large"
+            look="ghost"
+            iconLeft={<Close />}
+            aria-label={
+              wasSubmitted
+                ? translations.feedback.close.de
+                : translations.feedback.cancel.de
+            }
+            onClick={closeSurvey}
+          />
+        </div>
       </form>
     </dialog>
   );
