@@ -1,4 +1,8 @@
-import { flowRoutes, vorabcheckRoutes } from "../flowRoutes";
+import {
+  flowAndResultRoutes,
+  flowRoutes,
+  vorabcheckRoutes,
+} from "../flowRoutes";
 
 describe("flowRoutes", () => {
   it("should return the correct routes", () => {
@@ -49,6 +53,38 @@ describe("vorabcheckRoutes", () => {
         file: "routes/shared/result.ts",
         id: "resBHA",
         path: "ergebnis/*",
+      },
+    ]);
+  });
+});
+
+describe("flowAndResultRoutes", () => {
+  it("should return the correct routes", () => {
+    expect(flowAndResultRoutes("GEF")).toEqual([
+      {
+        file: "routes/shared/lastFlowStepLoader.ts",
+        id: "indexGEF",
+        index: true,
+      },
+      {
+        file: "routes/shared/formular.ts",
+        id: "flowGEF",
+        path: "*",
+      },
+      {
+        file: "routes/shared/pdfDownloadLoader.ts",
+        id: "pdfGEF",
+        path: "download/pdf",
+      },
+      {
+        file: "routes/shared/visualisierung.ts",
+        id: "visGEF",
+        path: "visualisierung",
+      },
+      {
+        file: "routes/shared/result.ts",
+        id: "resGEF",
+        path: "*/ergebnis/*",
       },
     ]);
   });
