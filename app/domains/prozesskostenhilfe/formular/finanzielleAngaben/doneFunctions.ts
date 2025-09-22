@@ -66,10 +66,6 @@ export const partnerBesondersAusgabenDone: ProzesskostenhilfeFinanzielleAngabenG
 export const kinderDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  (context.staatlicheLeistungen != undefined &&
-    einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
-      context,
-    })) ||
   context.hasKinder == "no" ||
   (arrayIsNonEmpty(context.kinder) && context.kinder.every(childDone));
 
