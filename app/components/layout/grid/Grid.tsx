@@ -49,7 +49,7 @@ export function Grid({
   );
 
   return (
-    <div className={baseClasses} id={id} role="grid">
+    <div className={baseClasses} id={id}>
       {background && (
         <div className={bgItem} aria-hidden>
           <div className={`h-full w-full ${background?.className}`} />
