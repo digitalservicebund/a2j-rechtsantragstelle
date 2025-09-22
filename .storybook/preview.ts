@@ -1,5 +1,13 @@
 import type { Preview } from "@storybook/react";
 import "../app/styles.css";
+import { sb } from "storybook/test";
+
+sb.mock(import("../app/services/analytics/surveys/fetchSurveys.ts"), {
+  spy: true,
+});
+sb.mock(import("../app/services/analytics/useAnalytics.ts"), {
+  spy: true,
+});
 
 const preview: Preview = {
   parameters: {
