@@ -6,7 +6,6 @@ import { type MultiFieldsStepIdValidation } from "./types";
 const multiFieldsFlowValidation = {
   "/beratungshilfe/antrag": undefined,
   "/beratungshilfe/vorabcheck": undefined,
-  "/geld-einklagen/vorabcheck": undefined,
   "/fluggastrechte/vorabcheck":
     fluggastrechtVorabcheckMultiFieldsValidation as MultiFieldsStepIdValidation,
   "/fluggastrechte/formular":
