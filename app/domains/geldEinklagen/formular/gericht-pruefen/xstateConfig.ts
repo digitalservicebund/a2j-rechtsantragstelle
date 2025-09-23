@@ -34,7 +34,7 @@ export const gerichtPruefenXstateConfig = {
                 guard: ({ context }) => context.forderung === "etwasAnderes",
                 target: "ergebnis/forderung-etwas-anderes",
               },
-              { target: "#sachgebiet.info" },
+              { guard: forderungDone, target: "#sachgebiet.info" },
             ],
             BACK: "#intro.start",
           },
@@ -49,6 +49,7 @@ export const gerichtPruefenXstateConfig = {
     sachgebiet: {
       id: "sachgebiet",
       initial: "info",
+      meta: { done: () => false },
       states: {
         [steps.sachgebietInfo.relative]: {
           on: {
