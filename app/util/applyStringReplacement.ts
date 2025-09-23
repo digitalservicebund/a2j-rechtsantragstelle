@@ -1,6 +1,7 @@
 import mustache from "mustache";
 import type { Flow } from "~/domains/flows.server";
 import type { UserData } from "~/domains/userData";
+import { logError } from "~/services/logging";
 
 export type Replacements = Record<string, string | boolean | undefined>;
 
@@ -8,6 +9,18 @@ export const replacementsFromFlowConfig = (
   stringReplacements: Flow["stringReplacements"],
   userData: UserData,
 ) => (stringReplacements ? stringReplacements(userData) : undefined);
+
+function safeMustacheRender(
+  content: string,
+  replacements?: Replacements,
+): string {
+  try {
+    return mustache.render(content, replacements);
+  } catch (e) {
+    logError({ message: "Could not apply string replacements", error: e });
+    return content;
+  }
+}
 
 export function applyStringReplacement<T>(
   content: T,
@@ -33,7 +46,7 @@ export function applyStringReplacement<T>(
   }
 
   if (typeof content === "string") {
-    return mustache.render(content, replacements) as T;
+    return safeMustacheRender(content, replacements) as T;
   }
 
   // Need to filter out content that shouldn't be visible
@@ -41,7 +54,7 @@ export function applyStringReplacement<T>(
     typeof content === "object" &&
     "isVisible" in content &&
     typeof content.isVisible === "string" &&
-    mustache.render(`{{${content.isVisible}}}`, replacements) === "false"
+    safeMustacheRender(`{{${content.isVisible}}}`, replacements) === "false"
   ) {
     return undefined as T;
   }
