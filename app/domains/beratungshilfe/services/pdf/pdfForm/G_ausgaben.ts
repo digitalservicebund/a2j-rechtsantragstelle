@@ -69,7 +69,7 @@ export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
         title: "Monatliche Zahlung in Euro",
         text: ausgabe.beitrag,
       });
-      if (ausgabe.zahlungsfrist) {
+      if ("zahlungsfrist" in ausgabe) {
         attachment.push({
           title: "Raten laufen bis",
           text: ausgabe.zahlungsfrist,
