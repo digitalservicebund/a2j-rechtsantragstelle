@@ -134,8 +134,7 @@ export const prozesskostenhilfeFinanzielleAngabeDone: ProzesskostenhilfeFinanzie
           kinderDone({ context }) &&
           eigentumZusammenfassungDone({ context }) &&
           andereUnterhaltszahlungenDone({ context }) &&
-          ausgabenDone({ context }) &&
-          ausgabenZusammenfassungDone({ context });
+          ausgabenDone({ context });
   };
 
 export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
@@ -151,10 +150,11 @@ export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGu
 export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  context.hasAusgaben === "no" ||
-  (context.hasAusgaben == "yes" && context.besondereBelastungen !== undefined);
+  context.besondereBelastungen !== undefined &&
+  (context.hasAusgaben === "no" ||
+    (context.hasAusgaben == "yes" && ausgabenZusammenfassungDone({ context })));
 
-export const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
+const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
     hasVersicherungDone({ context }) ||
     hasRatenzahlungDone({ context }) ||
@@ -230,6 +230,7 @@ export const wohnungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 }) => {
   const livesAlone = context.livingSituation === "alone";
   const rentsApartment = context.rentsApartment === "yes" && context.totalRent;
+  const parkplatzDone = context.garageParkplatz !== undefined;
 
   const ownsApartment =
     context.rentsApartment === "no" &&
@@ -241,13 +242,17 @@ export const wohnungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
       context.livingSituation === "withRelatives") &&
     context.apartmentPersonCount;
 
+  const renterInfoDone =
+    rentsApartment &&
+    parkplatzDone &&
+    (livesAlone || (livesWithOthers && context.sharedRent));
+
+  const ownerInfoDone =
+    ownsApartment &&
+    (livesAlone || (livesWithOthers && context.utilitiesCostOwnShared));
+
   return (
     Boolean(context.apartmentSizeSqm && context.numberOfRooms) &&
-    (Boolean(livesAlone && rentsApartment) ||
-      Boolean(livesAlone && ownsApartment) ||
-      Boolean(livesWithOthers && rentsApartment && context.sharedRent) ||
-      Boolean(
-        livesWithOthers && ownsApartment && context.utilitiesCostOwnShared,
-      ))
+    (Boolean(renterInfoDone) || Boolean(ownerInfoDone))
   );
 };

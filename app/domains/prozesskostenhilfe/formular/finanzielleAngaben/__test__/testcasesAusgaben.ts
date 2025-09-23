@@ -6,15 +6,15 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
     { hasAusgaben: "no" },
     [
       "/finanzielle-angaben/ausgaben/ausgaben-frage",
-      "/gesetzliche-vertretung/frage",
+      "/finanzielle-angaben/ausgaben/besondere-belastungen",
     ],
   ],
   [
     { hasAusgaben: "yes" },
     [
       "/finanzielle-angaben/ausgaben/ausgaben-frage",
-      "/finanzielle-angaben/ausgaben/besondere-belastungen",
       "/finanzielle-angaben/ausgaben-zusammenfassung/zusammenfassung",
+      "/finanzielle-angaben/ausgaben/besondere-belastungen",
       "/gesetzliche-vertretung/frage",
     ],
   ],

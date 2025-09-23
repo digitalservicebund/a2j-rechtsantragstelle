@@ -1,7 +1,7 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { pkhFormularFinanzielleAngabenAusgabenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/ausgaben/pages";
 import type { Config } from "~/services/flow/server/types";
-import { ausgabenDone, ausgabenZusammenfassungDone } from "../doneFunctions";
+import { ausgabenDone } from "../doneFunctions";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 
 const steps = xStateTargetsFromPagesConfig(
@@ -29,64 +29,65 @@ export const ausgabenXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context }) => context.hasAusgaben === "yes",
-            target: steps.ausgabenBesondereBelastungen.relative,
+            target: steps.ausgabenZusammenfassung.relative,
           },
-          "#gesetzliche-vertretung",
+          steps.ausgabenBesondereBelastungen.relative,
         ],
       },
     },
     [steps.ausgabenBesondereBelastungen.relative]: {
       on: {
-        BACK: steps.ausgabenFrage.relative,
-        SUBMIT: ["#ausgaben-zusammenfassung"],
+        BACK: [
+          {
+            guard: ({ context }) => context.hasAusgaben === "yes",
+            target: steps.ausgabenZusammenfassung.absolute,
+          },
+          steps.ausgabenFrage.relative,
+        ],
+        SUBMIT: ["#gesetzliche-vertretung"],
       },
     },
-  },
-} satisfies Config<ProzesskostenhilfeFinanzielleAngabenUserData>;
-
-export const ausgabenZusammenfassungXstateConfig = {
-  id: "ausgaben-zusammenfassung",
-  initial: "zusammenfassung",
-  meta: { done: ausgabenZusammenfassungDone },
-  states: {
-    zusammenfassung: {
+    [steps.ausgabenZusammenfassung.relative]: {
       on: {
-        BACK: "#ausgaben.besondere-belastungen",
-        SUBMIT: "#gesetzliche-vertretung",
-        "add-versicherungen": "versicherungen",
-        "add-ratenzahlungen": "ratenzahlungen",
-        "add-sonstigeAusgaben": "sonstigeAusgaben",
+        BACK: steps.ausgabenFrage.relative,
+        SUBMIT: steps.ausgabenBesondereBelastungen.relative,
+        "add-versicherungen":
+          steps.ausgabenZusammenfassungVersicherungen.absolute,
+        "add-ratenzahlungen":
+          steps.ausgabenZusammenfassungRatenzahlungen.absolute,
+        "add-sonstigeAusgaben":
+          steps.ausgabenZusammenfassungSonstigeAusgaben.absolute,
       },
     },
-    versicherungen: {
+    [steps.ausgabenZusammenfassungVersicherungen.relative]: {
       initial: "daten",
       states: {
         daten: {
           on: {
-            BACK: "#ausgaben-zusammenfassung",
+            BACK: steps.ausgabenZusammenfassung.absolute,
             SUBMIT: [
               {
                 guard: "isSonstigeVersicherung",
                 target: "sonstige-art",
               },
-              "#ausgaben-zusammenfassung",
+              steps.ausgabenZusammenfassung.absolute,
             ],
           },
         },
         "sonstige-art": {
           on: {
             BACK: "daten",
-            SUBMIT: "#ausgaben-zusammenfassung",
+            SUBMIT: steps.ausgabenZusammenfassung.absolute,
           },
         },
       },
     },
-    ratenzahlungen: {
+    [steps.ausgabenZusammenfassungRatenzahlungen.relative]: {
       initial: "daten",
       states: {
         daten: {
           on: {
-            BACK: "#ausgaben-zusammenfassung",
+            BACK: steps.ausgabenZusammenfassung.absolute,
             SUBMIT: "zahlungspflichtiger",
           },
         },
@@ -135,17 +136,17 @@ export const ausgabenZusammenfassungXstateConfig = {
         laufzeitende: {
           on: {
             BACK: "restschuld",
-            SUBMIT: "#ausgaben-zusammenfassung",
+            SUBMIT: steps.ausgabenZusammenfassung.absolute,
           },
         },
       },
     },
-    sonstigeAusgaben: {
+    [steps.ausgabenZusammenfassungSonstigeAusgaben.relative]: {
       initial: "daten",
       states: {
         daten: {
           on: {
-            BACK: "#ausgaben-zusammenfassung",
+            BACK: steps.ausgabenZusammenfassung.absolute,
             SUBMIT: "zahlungspflichtiger",
           },
         },
@@ -170,13 +171,13 @@ export const ausgabenZusammenfassungXstateConfig = {
         betragEigenerAnteil: {
           on: {
             BACK: "betragGemeinsamerAnteil",
-            SUBMIT: "#ausgaben-zusammenfassung",
+            SUBMIT: steps.ausgabenZusammenfassung.absolute,
           },
         },
         betragGesamt: {
           on: {
             BACK: "zahlungspflichtiger",
-            SUBMIT: "#ausgaben-zusammenfassung",
+            SUBMIT: steps.ausgabenZusammenfassung.absolute,
           },
         },
       },
