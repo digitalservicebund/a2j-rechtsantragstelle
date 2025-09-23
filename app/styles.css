@@ -31,6 +31,14 @@
   }
 }
 
+body:has(dialog[open]) {
+  @apply overflow-hidden!;
+}
+
+.survey-modal {
+  @apply p-24 max-w-fit max-h-fit border-1 border-blue-800 overflow-scroll bg-white;
+}
+
 /* Ensure black SVG paths don't disappear in high-contrast mode */
 /* Current usage: SVG icons in Tile component */
 @media (forced-colors: active) and (prefers-color-scheme: dark) {
@@ -297,47 +305,41 @@ h1:focus {
   outline: none;
 }
 
-.arrow-step {
-  position: relative;
-}
-
-.arrow-step:not(:last-child) .triangle {
+.arrow-step .triangle {
   position: absolute;
   top: 0;
-  left: 100%;
+  right: -1.25rem;
   width: 1.25rem;
   height: 100%;
   z-index: 1;
-  pointer-events: none;
-  /* default color via currentColor */
   @apply text-blue-300;
 }
 
-.arrow-step:not(:last-child).arrow-step-open .triangle {
+.arrow-step:active a {
+  @apply bg-blue-300;
+}
+
+.arrow-step:hover .triangle {
+  @apply text-blue-400;
+}
+
+.arrow-step:focus-within .triangle {
+  @apply text-blue-300;
+}
+
+.arrow-step.arrow-step-open .triangle {
   @apply text-white;
 }
 
-.arrow-step:not(:last-child) .triangle polygon {
-  fill: currentColor;
-}
-.arrow-step:not(:last-child):hover .triangle {
+.arrow-step.arrow-step-open:hover .triangle {
   @apply text-blue-400;
 }
-.arrow-step:not(:last-child):focus-within .triangle {
-  @apply text-blue-300;
-}
 
-.arrow-step:not(:last-child).arrow-step-disabled .triangle {
+.arrow-step.arrow-step-disabled .triangle {
   @apply text-gray-100;
 }
 
-.arrow-step:not(:last-child) .triangle path {
-  @apply text-blue-500;
-  stroke: currentColor;
-  stroke-width: 3;
-}
-
-.arrow-step:not(:last-child).arrow-step-disabled .triangle path {
+.arrow-step.arrow-step-disabled .triangle path {
   @apply text-gray-300;
   stroke: currentColor;
 }

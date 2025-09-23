@@ -1,5 +1,4 @@
 import { arrayIsNonEmpty } from "~/util/array";
-import { hasStaatlicheLeistungen } from "../einkommen/doneFunctions";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "../userData";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "../BeratungshilfeFinanzielleAngabenGuardType";
 
@@ -17,9 +16,9 @@ export const ausgabenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) => {
   return (
-    hasStaatlicheLeistungen({ context }) ||
     context.hasAusgaben === "no" ||
     (context.hasAusgaben === "yes" &&
+      context.ausgabensituation !== undefined &&
       arrayIsNonEmpty(context.ausgaben) &&
       context.ausgaben.every(ausgabeDone))
   );

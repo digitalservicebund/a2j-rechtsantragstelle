@@ -4,6 +4,7 @@ import ButtonContainer from "~/components/common/ButtonContainer";
 type NavigationButton = {
   destination?: string;
   label: string;
+  disabled?: boolean;
 };
 
 export type ButtonNavigationProps = {
@@ -20,6 +21,7 @@ export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
           look="tertiary"
           size="large"
           className="w-fit print:hidden"
+          disabled={back.disabled}
         >
           {back.label}
         </Button>
@@ -32,6 +34,7 @@ export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
           value="next"
           size="large"
           className="w-fit"
+          disabled={next.disabled}
         >
           {next.label}
         </Button>

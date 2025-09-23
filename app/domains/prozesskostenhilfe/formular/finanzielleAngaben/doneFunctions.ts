@@ -66,10 +66,6 @@ export const partnerBesondersAusgabenDone: ProzesskostenhilfeFinanzielleAngabenG
 export const kinderDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  (context.staatlicheLeistungen != undefined &&
-    einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
-      context,
-    })) ||
   context.hasKinder == "no" ||
   (arrayIsNonEmpty(context.kinder) && context.kinder.every(childDone));
 
@@ -155,19 +151,11 @@ export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGu
 export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
-    context,
-  }) ||
-  (context.hasAusgaben !== undefined &&
-    context.besondereBelastungen !== undefined) ||
-  context.hasAusgaben == "no";
+  context.hasAusgaben === "no" ||
+  (context.hasAusgaben == "yes" && context.besondereBelastungen !== undefined);
 
 export const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
-    einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
-      context,
-    }) ||
-    context.hasAusgaben == "no" ||
     hasVersicherungDone({ context }) ||
     hasRatenzahlungDone({ context }) ||
     hasSonstigeAusgabeDone({ context });
