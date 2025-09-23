@@ -17,7 +17,7 @@ export const gerichtPruefenXstateConfig = {
       states: {
         [steps.introStart.relative]: {
           on: {
-            SUBMIT: "#forderung.fragen",
+            SUBMIT: steps.forderungFragen.absolute,
           },
         },
       },
@@ -36,12 +36,12 @@ export const gerichtPruefenXstateConfig = {
               },
               { guard: forderungDone, target: "#sachgebiet.info" },
             ],
-            BACK: "#intro.start",
+            BACK: steps.introStart.absolute,
           },
         },
         "ergebnis/forderung-etwas-anderes": {
           on: {
-            BACK: "#forderung.fragen",
+            BACK: steps.forderungFragen.relative,
           },
         },
       },
@@ -53,8 +53,8 @@ export const gerichtPruefenXstateConfig = {
       states: {
         [steps.sachgebietInfo.relative]: {
           on: {
-            SUBMIT: "ausgeschlossen",
-            BACK: "#forderung.fragen",
+            SUBMIT: steps.sachgebietAusgeschlossen.relative,
+            BACK: steps.forderungFragen.absolute,
           },
         },
         [steps.sachgebietAusgeschlossen.relative]: {
@@ -66,20 +66,20 @@ export const gerichtPruefenXstateConfig = {
                 target: "ergebnis/sachgebiet-abbruch",
               },
               {
-                target: "besondere",
+                target: steps.sachgebietBesondere.relative,
               },
             ],
-            BACK: "#sachgebiet.info",
+            BACK: steps.sachgebietInfo.relative,
           },
         },
-        besondere: {
+        [steps.sachgebietBesondere.relative]: {
           on: {
-            BACK: "#sachgebiet.ausgeschlossen",
+            BACK: steps.sachgebietAusgeschlossen.relative,
           },
         },
         "ergebnis/sachgebiet-abbruch": {
           on: {
-            BACK: "#forderung.fragen",
+            BACK: steps.sachgebietAusgeschlossen.relative,
           },
         },
       },

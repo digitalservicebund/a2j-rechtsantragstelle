@@ -10,9 +10,9 @@ export const testCasesGeldEinklagenGerichtPruefen = [
     [
       "/gericht-pruefen/intro/start",
       "/gericht-pruefen/forderung/fragen",
-      "gericht-pruefen/sachgebiet/info",
-      "gericht-pruefen/sachgebiet/ausgeschlossen",
-      "gericht-pruefen/sachgebiet/besondere",
+      "/gericht-pruefen/sachgebiet/info",
+      "/gericht-pruefen/sachgebiet/ausgeschlossen",
+      "/gericht-pruefen/sachgebiet/besondere",
     ],
   ],
   [
@@ -33,9 +33,9 @@ export const testCasesGeldEinklagenGerichtPruefen = [
     [
       "/gericht-pruefen/intro/start",
       "/gericht-pruefen/forderung/fragen",
-      "gericht-pruefen/sachgebiet/info",
-      "gericht-pruefen/sachgebiet/ausgeschlossen",
-      "ergebnis/sachgebiet-abbruch",
+      "/gericht-pruefen/sachgebiet/info",
+      "/gericht-pruefen/sachgebiet/ausgeschlossen",
+      "/gericht-pruefen/sachgebiet/ergebnis/sachgebiet-abbruch",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;
