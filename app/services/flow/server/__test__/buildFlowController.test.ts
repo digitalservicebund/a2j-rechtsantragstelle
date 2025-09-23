@@ -287,7 +287,7 @@ describe("buildFlowController", () => {
             initial: "start",
             states: { start: {} },
           },
-        }).stepStates(false),
+        }).stepStates(),
       ).toEqual([]);
     });
 
@@ -301,7 +301,7 @@ describe("buildFlowController", () => {
               start: { meta: { done: () => true } },
             },
           },
-        }).stepStates(false),
+        }).stepStates(),
       ).toEqual([
         {
           isDone: true,
@@ -333,7 +333,7 @@ describe("buildFlowController", () => {
               },
             },
           },
-        }).stepStates(false),
+        }).stepStates(),
       ).toEqual([
         {
           isDone: false,
@@ -374,7 +374,7 @@ describe("buildFlowController", () => {
               },
             },
           },
-        }).stepStates(false),
+        }).stepStates(),
       ).toEqual([
         {
           isDone: false,
@@ -410,7 +410,7 @@ describe("buildFlowController", () => {
               reachable: { initial: "start", states: { start: {} } },
             },
           },
-        }).stepStates(false),
+        }).stepStates(),
       ).toEqual([
         {
           isDone: false,
@@ -440,7 +440,7 @@ describe("buildFlowController", () => {
               child4: { initial: "start", states: { start: {} } },
             },
           },
-        }).stepStates(false),
+        }).stepStates(),
       ).toEqual([
         {
           isDone: true,
@@ -497,7 +497,7 @@ describe("buildFlowController", () => {
               },
             },
           },
-        }).stepStates(false),
+        }).stepStates(),
       ).toEqual([
         {
           isDone: false,

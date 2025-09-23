@@ -186,7 +186,7 @@ export const buildFlowController = ({
   return {
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
     getRootMeta: () => rootMeta(machine),
-    stepStates: (addUnreachableSubSteps: boolean) =>
+    stepStates: (addUnreachableSubSteps = false) =>
       stepStates(machine.root, reachableSteps, addUnreachableSubSteps),
     getReachableSteps: () => reachableSteps,
     getUserdata: () => context,
