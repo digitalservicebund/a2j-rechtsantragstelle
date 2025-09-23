@@ -86,7 +86,9 @@ export const getContentData = (
 
       const steps = currentFlow.useStepper
         ? stepStates
-            .filter((s) => s.subStates?.some((ss) => ss.stepId === stepId))
+            .filter((s) =>
+              s.subStates?.some((subState) => subState.stepId === stepId),
+            )
             .flatMap((s) => s.subStates ?? [])
         : stepStates;
 
