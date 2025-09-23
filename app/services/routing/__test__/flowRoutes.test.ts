@@ -84,7 +84,7 @@ describe("flowAndResultRoutes", () => {
       {
         file: "routes/shared/result.ts",
         id: "resGEF",
-        path: "*/ergebnis/*",
+        path: ":path/:path2/ergebnis/*",
       },
     ]);
   });

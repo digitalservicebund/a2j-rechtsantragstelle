@@ -23,13 +23,13 @@ export const flowRoutes = (idPostfix: string) => [
 export const flowAndResultRoutes = (idPostfix: string) => [
   index("routes/shared/lastFlowStepLoader.ts", { id: `index${idPostfix}` }),
   route("*", "routes/shared/formular.ts", { id: `flow${idPostfix}` }),
-  route("gericht-pruefen/forderung/ergebnis/*", "routes/shared/result.ts", {
-    id: `res${idPostfix}`,
-  }),
   route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
     id: `pdf${idPostfix}`,
   }),
   route("visualisierung", "routes/shared/visualisierung.ts", {
     id: `vis${idPostfix}`,
+  }),
+  route(":path/:path2/ergebnis/*", "routes/shared/result.ts", {
+    id: `res${idPostfix}`,
   }),
 ];
