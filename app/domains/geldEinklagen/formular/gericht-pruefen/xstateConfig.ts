@@ -2,27 +2,22 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "./userData";
 import { geldEinklagenGerichtPruefenPages } from "./pages";
+import { forderungDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
 export const gerichtPruefenXstateConfig = {
   id: "gericht-pruefen",
   initial: "intro",
-  meta: { done: () => true },
   states: {
     intro: {
       id: "intro",
-      initial: "intro",
+      initial: "start",
+      meta: { done: () => true },
       states: {
-        [steps.introIntro.relative]: {
-          on: {
-            SUBMIT: steps.introStart.relative,
-          },
-        },
         [steps.introStart.relative]: {
           on: {
             SUBMIT: "#forderung.fragen",
-            BACK: steps.introIntro.relative,
           },
         },
       },
@@ -30,6 +25,7 @@ export const gerichtPruefenXstateConfig = {
     forderung: {
       id: "forderung",
       initial: "fragen",
+      meta: { done: forderungDone },
       states: {
         [steps.forderungFragen.relative]: {
           on: {
@@ -38,11 +34,49 @@ export const gerichtPruefenXstateConfig = {
                 guard: ({ context }) => context.forderung === "etwasAnderes",
                 target: "ergebnis/forderung-etwas-anderes",
               },
+              { target: "#sachgebiet.info" },
             ],
             BACK: "#intro.start",
           },
         },
         "ergebnis/forderung-etwas-anderes": {
+          on: {
+            BACK: "#forderung.fragen",
+          },
+        },
+      },
+    },
+    sachgebiet: {
+      id: "sachgebiet",
+      initial: "info",
+      states: {
+        [steps.sachgebietInfo.relative]: {
+          on: {
+            SUBMIT: "ausgeschlossen",
+            BACK: "#forderung.fragen",
+          },
+        },
+        [steps.sachgebietAusgeschlossen.relative]: {
+          on: {
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  context.sachgebietAusgeschlossen === "yes",
+                target: "ergebnis/sachgebiet-abbruch",
+              },
+              {
+                target: "besondere",
+              },
+            ],
+            BACK: "#sachgebiet.info",
+          },
+        },
+        besondere: {
+          on: {
+            BACK: "#sachgebiet.ausgeschlossen",
+          },
+        },
+        "ergebnis/sachgebiet-abbruch": {
           on: {
             BACK: "#forderung.fragen",
           },

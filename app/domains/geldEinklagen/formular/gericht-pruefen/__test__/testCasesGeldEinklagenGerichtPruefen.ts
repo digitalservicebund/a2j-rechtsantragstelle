@@ -5,11 +5,14 @@ export const testCasesGeldEinklagenGerichtPruefen = [
   [
     {
       forderung: "maximal5000",
+      sachgebietAusgeschlossen: "no",
     },
     [
-      "/gericht-pruefen/intro/intro",
       "/gericht-pruefen/intro/start",
       "/gericht-pruefen/forderung/fragen",
+      "gericht-pruefen/sachgebiet/info",
+      "gericht-pruefen/sachgebiet/ausgeschlossen",
+      "gericht-pruefen/sachgebiet/besondere",
     ],
   ],
   [
@@ -17,10 +20,22 @@ export const testCasesGeldEinklagenGerichtPruefen = [
       forderung: "etwasAnderes",
     },
     [
-      "/gericht-pruefen/intro/intro",
       "/gericht-pruefen/intro/start",
       "/gericht-pruefen/forderung/fragen",
       "/gericht-pruefen/forderung/ergebnis/forderung-etwas-anderes",
+    ],
+  ],
+  [
+    {
+      forderung: "maximal5000",
+      sachgebietAusgeschlossen: "yes",
+    },
+    [
+      "/gericht-pruefen/intro/start",
+      "/gericht-pruefen/forderung/fragen",
+      "gericht-pruefen/sachgebiet/info",
+      "gericht-pruefen/sachgebiet/ausgeschlossen",
+      "ergebnis/sachgebiet-abbruch",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;
