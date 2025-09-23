@@ -7,6 +7,7 @@ import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__
 import { type Config } from "~/services/flow/server/types";
 import { allStepsFromMachine } from "./allStepsFromMachine";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
+import { type UserData } from "../userData";
 
 const flowSchemaTests = {
   beratungshilfeVorabcheckTestCases,
@@ -37,37 +38,48 @@ describe.sequential("flowSchemas", () => {
       }
 
       describe(testConfigName, () => {
-        Object.entries(testcases).forEach(([testName, expectedSteps]) => {
-          test(testName, () => {
-            expectedSteps.slice(0, -1).forEach(({ stepId, userInput }, idx) => {
-              const currentUrl = flowId + stepId;
-              const pageSchema = getPageSchema(currentUrl);
+        Object.entries(testcases).forEach(
+          ([testName, expectedSteps]: [
+            string,
+            Array<{ stepId: string; userInput?: UserData }>,
+          ]) => {
+            test(testName, () => {
+              expectedSteps
+                .slice(0, -1)
+                .forEach(({ stepId, userInput }, idx) => {
+                  const currentUrl = flowId + stepId;
+                  const pageSchema = getPageSchema(currentUrl);
 
-              if (!userInput) {
-                expect(pageSchema).toBeUndefined(); // Without userInput we don't expect a pageSchema
-              } else {
-                expect(pageSchema).toBeDefined(); // With userInput we expect it to validate against the pageSchema
-                const validationResult = z
-                  .object(pageSchema)
-                  .safeParse(userInput);
-                expect(validationResult.error).toBeUndefined();
-              }
+                  if (!userInput) {
+                    expect(pageSchema).toBeUndefined(); // Without userInput we don't expect a pageSchema
+                  } else {
+                    expect(pageSchema).toBeDefined(); // With userInput we expect it to validate against the pageSchema
+                    const validationResult = z
+                      .object(pageSchema)
+                      .safeParse(userInput);
+                    expect(validationResult.error).toBeUndefined();
+                  }
 
-              const flowController = buildFlowController({
-                config: xstateConfig,
-                data: buildFullUserInput(expectedSteps, idx),
-              });
+                  const flowController = buildFlowController({
+                    config: xstateConfig,
+                    data: buildFullUserInput(expectedSteps, idx),
+                  });
 
-              // Given the current data and url we expect the next and previous url
-              const nextStepId = expectedSteps[idx + 1]?.stepId;
-              expect(flowController.getNext(stepId)).toBe(flowId + nextStepId);
-              expect(flowController.getPrevious(nextStepId)).toBe(currentUrl);
+                  // Given the current data and url we expect the next and previous url
+                  const nextStepId = expectedSteps[idx + 1]?.stepId;
+                  expect(flowController.getNext(stepId)).toBe(
+                    flowId + nextStepId,
+                  );
+                  expect(flowController.getPrevious(nextStepId)).toBe(
+                    currentUrl,
+                  );
 
-              allVisitedSteps[flowId].visitedSteps.add(stepId);
-              allVisitedSteps[flowId].visitedSteps.add(nextStepId);
+                  allVisitedSteps[flowId].visitedSteps.add(stepId);
+                  allVisitedSteps[flowId].visitedSteps.add(nextStepId);
+                });
             });
-          });
-        });
+          },
+        );
       });
     },
   );
