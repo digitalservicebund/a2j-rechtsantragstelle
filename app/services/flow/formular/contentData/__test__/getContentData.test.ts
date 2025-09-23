@@ -8,6 +8,7 @@ import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { type CMSContent } from "../../buildCmsContentAndTranslations";
 import { getContentData } from "../getContentData";
+import { Flow } from "~/domains/flows.server";
 
 const mockCmsElement = {
   heading: "new heading",
@@ -60,11 +61,18 @@ const mockUserData = {
   pageData: { arrayIndexes: [] },
 };
 
+const mockCurrentFlow = {
+  config: {},
+  guards: {},
+  flowType: "formFlow",
+} as unknown as Flow;
+
 const callContentData = getContentData(
   {
     cmsContent: mockCmsElement,
     meta: mockMeta,
     translations: mockTranslations,
+    currentFlow: mockCurrentFlow,
   },
   mockUserData,
 );
@@ -195,6 +203,85 @@ describe("getContentData", () => {
         expandAll: undefined,
         navItems: [],
       });
+    });
+
+    it("should call the navItemsFromStepStates with subStates of the current stepId when useStepper is true", () => {
+      const mockCurrentFlowWithStepper = {
+        config: {},
+        guards: {},
+        flowType: "formFlow",
+        useStepper: true,
+      } as unknown as Flow;
+
+      vi.mocked(mockBuildFlowController.stepStates).mockReturnValue([
+        {
+          stepId: "/a",
+          url: "/a",
+          isDone: true,
+          isReachable: true,
+          subStates: [
+            {
+              stepId: "/b",
+              url: "/b",
+              isDone: true,
+              isReachable: true,
+            },
+            {
+              stepId: "/c",
+              url: "/c",
+              isDone: false,
+              isReachable: true,
+            },
+          ],
+        },
+        {
+          stepId: "/d",
+          url: "/d",
+          isDone: true,
+          isReachable: true,
+          subStates: [
+            {
+              stepId: "/e",
+              url: "/e",
+              isDone: false,
+              isReachable: false,
+            },
+          ],
+        },
+      ]);
+
+      const callContentDataWithStepper = getContentData(
+        {
+          cmsContent: mockCmsElement,
+          meta: mockMeta,
+          translations: mockTranslations,
+          currentFlow: mockCurrentFlowWithStepper,
+        },
+        mockUserData,
+      );
+
+      callContentDataWithStepper.getNavProps(mockBuildFlowController, "/b");
+
+      expect(navItemsFromStepStates).toHaveBeenCalledTimes(1);
+
+      expect(navItemsFromStepStates).toHaveBeenCalledWith(
+        "/b",
+        [
+          {
+            stepId: "/b",
+            url: "/b",
+            isDone: true,
+            isReachable: true,
+          },
+          {
+            stepId: "/c",
+            url: "/c",
+            isDone: false,
+            isReachable: true,
+          },
+        ],
+        mockTranslations,
+      );
     });
   });
 });

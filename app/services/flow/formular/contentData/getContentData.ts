@@ -11,15 +11,17 @@ import { buildFormElements } from "./buildFormElements";
 import { getBackButtonDestination } from "./getBackButtonDestination";
 import { type UserDataWithPageData } from "../../pageData";
 import type { stepMeta } from "~/services/meta/stepMeta";
+import { Flow } from "~/domains/flows.server";
 
 type ContentParameters = {
   cmsContent: CMSContent;
   translations: Translations;
   meta: ReturnType<typeof stepMeta>;
+  currentFlow: Flow;
 };
 
 export const getContentData = (
-  { cmsContent, translations, meta }: ContentParameters,
+  { cmsContent, translations, meta, currentFlow }: ContentParameters,
   userDataWithPageData: UserDataWithPageData,
 ) => {
   return {
@@ -77,14 +79,21 @@ export const getContentData = (
     getNavProps: (
       flowController: ReturnType<typeof buildFlowController>,
       stepId: string,
-    ) => ({
-      navItems:
-        navItemsFromStepStates(
-          stepId,
-          flowController.stepStates(),
-          translations,
-        ) ?? [],
-      expandAll: flowController.getMeta(stepId)?.triggerValidation,
-    }),
+    ) => {
+      const stepStates = flowController.stepStates(
+        currentFlow.useStepper ?? false,
+      );
+
+      const steps = currentFlow.useStepper
+        ? stepStates
+            .filter((s) => s.subStates?.some((ss) => ss.stepId === stepId))
+            .flatMap((s) => s.subStates ?? [])
+        : stepStates;
+
+      return {
+        navItems: navItemsFromStepStates(stepId, steps, translations) ?? [],
+        expandAll: flowController.getMeta(stepId)?.triggerValidation,
+      };
+    },
   };
 };
