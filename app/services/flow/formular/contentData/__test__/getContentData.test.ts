@@ -81,6 +81,10 @@ vi.mock("~/services/array/getArraySummaryData");
 vi.mock("~/util/buttonProps");
 vi.mock("~/services/flowNavigation.server");
 
+beforeEach(() => {
+  vi.clearAllMocks();
+});
+
 describe("getContentData", () => {
   describe("arraySummaryData", () => {
     it("should return correctly the array summary data", () => {
