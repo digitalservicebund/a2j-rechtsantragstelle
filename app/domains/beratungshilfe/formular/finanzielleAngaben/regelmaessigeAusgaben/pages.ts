@@ -7,6 +7,29 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
 
+const sharedAusgabenFields = {
+  art: stringRequiredSchema,
+  zahlungsempfaenger: stringRequiredSchema,
+  beitrag: buildMoneyValidationSchema(),
+  hasZahlungsfrist: YesNoAnswer,
+};
+const zahlungsfristSchema = createDateSchema({ earliest: () => today() });
+
+export const ausgabenArraySchema = z
+  .union([
+    z.object({
+      ...sharedAusgabenFields,
+      hasZahlungsfrist: z.literal("no"),
+    }),
+    z.object({
+      ...sharedAusgabenFields,
+      hasZahlungsfrist: z.literal("yes"),
+      zahlungsfrist: zahlungsfristSchema,
+    }),
+  ])
+  .array()
+  .min(1);
+
 export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
   ausgaben: {
     stepId: "finanzielle-angaben/ausgaben",
@@ -22,44 +45,25 @@ export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
   },
   ausgabenAusgaben: {
     stepId: "finanzielle-angaben/ausgaben/ausgaben",
-    pageSchema: {
-      ausgaben: z.array(
-        z
-          .object({
-            art: stringRequiredSchema,
-            zahlungsempfaenger: stringRequiredSchema,
-            beitrag: buildMoneyValidationSchema(),
-            hasZahlungsfrist: YesNoAnswer,
-            zahlungsfrist: createDateSchema({
-              earliest: () => today(),
-            }),
-          })
-          .partial(),
-      ),
-    },
+    pageSchema: { ausgaben: ausgabenArraySchema },
     arrayPages: {
       art: {
         pageSchema: {
-          "ausgaben#art": stringRequiredSchema,
-          "ausgaben#zahlungsempfaenger": stringRequiredSchema,
+          "ausgaben#art": sharedAusgabenFields.art,
+          "ausgaben#zahlungsempfaenger":
+            sharedAusgabenFields.zahlungsempfaenger,
         },
       },
       zahlungsinformation: {
-        pageSchema: {
-          "ausgaben#beitrag": buildMoneyValidationSchema(),
-        },
+        pageSchema: { "ausgaben#beitrag": sharedAusgabenFields.beitrag },
       },
       laufzeit: {
         pageSchema: {
-          "ausgaben#hasZahlungsfrist": YesNoAnswer,
+          "ausgaben#hasZahlungsfrist": sharedAusgabenFields.hasZahlungsfrist,
         },
       },
       zahlungsfrist: {
-        pageSchema: {
-          "ausgaben#zahlungsfrist": createDateSchema({
-            earliest: () => today(),
-          }),
-        },
+        pageSchema: { "ausgaben#zahlungsfrist": zahlungsfristSchema },
       },
     },
   },
