@@ -10,6 +10,7 @@ export const kontopfaendungWegweiserTestCases = {
         stepId: "/kontopfaendung",
         userInput: { hasKontopfaendung: "ja" },
       },
+      { stepId: "/p-konto" },
     ],
     noKontopfaendung: [
       { stepId: "/start" },
@@ -35,66 +36,58 @@ export const kontopfaendungWegweiserTestCases = {
       },
       { stepId: "/p-konto-probleme" },
     ],
-    kinder: [{ stepId: "/kinder", userInput: { hasKinder: "yes" } }],
-    kinderWohnenZusammen: [
+    kinder: [
+      { stepId: "/kinder", userInput: { hasKinder: "yes" } },
       {
         stepId: "/kinder-wohnen-zusammen",
         userInput: { kinderWohnenZusammen: "nein" },
       },
-    ],
-    kinderUnterhalt: [
       {
         stepId: "/kinder-unterhalt",
-        userInput: {
-          kinderUnterhalt: "yes",
-        },
+        userInput: { kinderUnterhalt: "no" },
       },
+      { stepId: "/partner" },
     ],
     partner: [
       {
         stepId: "/partner",
         userInput: { verheiratet: "ja" },
       },
-    ],
-    partnerWohnenZusammen: [
       {
         stepId: "/partner-wohnen-zusammen",
         userInput: { partnerWohnenZusammen: "no" },
       },
-    ],
-    partnerUnterhalt: [
       {
         stepId: "/partner-unterhalt",
         userInput: {
           partnerUnterhalt: "yes",
         },
       },
+      { stepId: "/zwischenseite-einkuenfte" },
     ],
     zwischenseiteEinkuenfte: [
       {
         stepId: "/zwischenseite-einkuenfte",
       },
+      { stepId: "/arbeit" },
     ],
-    arbeit: [{ stepId: "/arbeit", userInput: { hasArbeit: "yes" } }],
-    arbeitArt: [
+    arbeit: [
+      {
+        stepId: "/arbeit",
+        userInput: { hasArbeit: "yes" },
+      },
       {
         stepId: "/arbeit-art",
         userInput: { arbeitArt: { angestellt: "on", selbstaendig: "off" } },
       },
-    ],
-    nachzahlungArbeitgeber: [
       {
         stepId: "/nachzahlung-arbeitgeber",
         userInput: { nachzahlungArbeitgeber: "yes" },
       },
-    ],
-    hoeheNachzahlungArbeitgeber: [
       {
         stepId: "/hoehe-nachzahlung-arbeitgeber",
         userInput: { arbeitgeberNachzahlungHigherThan: "yes" },
       },
-    ],
-    einmalzahlungArbeitgeber: [
       {
         stepId: "/einmalzahlung-arbeitgeber",
         userInput: {
@@ -108,36 +101,36 @@ export const kontopfaendungWegweiserTestCases = {
           },
         },
       },
+      { stepId: "/sozialleistungen" },
     ],
     sozialleistungen: [
       {
         stepId: "/sozialleistungen",
         userInput: { hasSozialleistungen: "buergergeld" },
       },
-    ],
-    sozialleistungNachzahlung: [
       {
         stepId: "/sozialleistung-nachzahlung",
         userInput: { hasSozialleistungNachzahlung: "yes" },
       },
-    ],
-    sozialleistungenEinmalzahlung: [
       {
         stepId: "/sozialleistungen-einmalzahlung",
-        userInput: { hasSozialleistungenEinmalzahlung: "yes" },
+        userInput: {
+          hasKinder: "yes",
+          hasSozialleistungenEinmalzahlung: "yes",
+        },
       },
+      { stepId: "/kindergeld" },
     ],
     kindergeld: [
       {
         stepId: "/kindergeld",
-        userInput: { hasKindergeld: "yes" },
+        userInput: { hasKinder: "yes", hasKindergeld: "yes" },
       },
-    ],
-    kindergeldNachzahlung: [
       {
         stepId: "/kindergeld-nachzahlung",
         userInput: { hasKindergeldNachzahlung: "yes" },
       },
+      { stepId: "/wohngeld" },
     ],
     wohngeld: [
       {
@@ -146,30 +139,29 @@ export const kontopfaendungWegweiserTestCases = {
           hasWohngeld: "yes",
         },
       },
-    ],
-    wohngeldEmpfaenger: [
       {
         stepId: "/wohngeld-empfaenger",
         userInput: { wohngeld: "selbst" },
       },
-    ],
-    wohngeldNachzahlung: [
       {
         stepId: "/wohngeld-nachzahlung",
         userInput: { hasWohngeldNachzahlung: "yes" },
       },
+      { stepId: "/pflegegeld" },
     ],
     pflegegeld: [
       {
         stepId: "/pflegegeld",
         userInput: { hasPflegegeld: "yes" },
       },
+      { stepId: "/rente" },
     ],
     rente: [
       {
         stepId: "/rente",
         userInput: { hasRente: "yes" },
       },
+      { stepId: "/ergebnis/naechste-schritte" },
     ],
     ergebnisNaechsteSchritte: [{ stepId: "/ergebnis/naechste-schritte" }],
   },
