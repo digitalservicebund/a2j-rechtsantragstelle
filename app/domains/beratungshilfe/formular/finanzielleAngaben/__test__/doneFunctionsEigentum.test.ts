@@ -1,4 +1,3 @@
-import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import {
   eigentumDone,
@@ -8,20 +7,7 @@ import {
   wertsachenDone,
 } from "../eigentum/doneFunctions";
 import { kinderDone } from "../kinder/doneFunctions";
-import {
-  ausgabeDone,
-  ausgabenDone,
-} from "../regelmaessigeAusgaben/doneFunctions";
-
-const mockedCompleteAusgabe: NonNullable<
-  BeratungshilfeFinanzielleAngabenUserData["ausgaben"]
->[0] = {
-  art: "Art und Weise",
-  zahlungsempfaenger: "Empfänger",
-  beitrag: "100",
-  hasZahlungsfrist: "no",
-  zahlungsfrist: undefined,
-};
+import { ausgabenDone } from "../regelmaessigeAusgaben/doneFunctions";
 
 describe("eigentumDone", () => {
   it("passes with all fields no", () => {
@@ -190,36 +176,6 @@ describe("bankKontoDone", () => {
         context: {},
       }),
     ).toBeFalsy();
-  });
-});
-
-describe("ausgabeDone", () => {
-  it("should return false if the ausgabe is missing the art, zahlungsempfaenger, or beitrag field", () => {
-    expect(ausgabeDone({ ...mockedCompleteAusgabe, art: undefined })).toBe(
-      false,
-    );
-    expect(
-      ausgabeDone({ ...mockedCompleteAusgabe, zahlungsempfaenger: undefined }),
-    ).toBe(false);
-    expect(ausgabeDone({ ...mockedCompleteAusgabe, beitrag: undefined })).toBe(
-      false,
-    );
-  });
-
-  it("should true if the user has completed the ausgabe and it doesn't have a deadline", () => {
-    expect(
-      ausgabeDone({ ...mockedCompleteAusgabe, hasZahlungsfrist: "no" }),
-    ).toBe(true);
-  });
-
-  it("should return false if the user's ausgabe has a deadline that they haven't entered", () => {
-    expect(
-      ausgabeDone({
-        ...mockedCompleteAusgabe,
-        hasZahlungsfrist: "yes",
-        zahlungsfrist: undefined,
-      }),
-    ).toBe(false);
   });
 });
 
