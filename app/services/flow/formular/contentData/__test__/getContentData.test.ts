@@ -8,7 +8,7 @@ import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { type CMSContent } from "../../buildCmsContentAndTranslations";
 import { getContentData } from "../getContentData";
-import { Flow } from "~/domains/flows.server";
+import { type Flow } from "~/domains/flows.server";
 
 const mockCmsElement = {
   heading: "new heading",

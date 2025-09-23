@@ -11,7 +11,7 @@ import { buildFormElements } from "./buildFormElements";
 import { getBackButtonDestination } from "./getBackButtonDestination";
 import { type UserDataWithPageData } from "../../pageData";
 import type { stepMeta } from "~/services/meta/stepMeta";
-import { Flow } from "~/domains/flows.server";
+import { type Flow } from "~/domains/flows.server";
 
 type ContentParameters = {
   cmsContent: CMSContent;
