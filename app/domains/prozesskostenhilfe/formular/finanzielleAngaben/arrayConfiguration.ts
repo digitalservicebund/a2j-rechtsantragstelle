@@ -28,20 +28,20 @@ export function finanzielleAngabenArrayConfig(prefix: string) {
       event: "add-weitereEinkuenfte",
     },
     versicherungen: {
-      url: `${prefix}/ausgaben-zusammenfassung/versicherungen`,
+      url: `${prefix}/ausgaben/versicherungen`,
       initialInputUrl: "daten",
       statementKey: "hasAusgaben",
       event: "add-versicherungen",
     },
     ratenzahlungen: {
-      url: `${prefix}/ausgaben-zusammenfassung/ratenzahlungen`,
+      url: `${prefix}/ausgaben/ratenzahlungen`,
       initialInputUrl: "daten",
       statementKey: "hasAusgaben",
       hiddenFields: ["zahlungspflichtiger"],
       event: "add-ratenzahlungen",
     },
     sonstigeAusgaben: {
-      url: `${prefix}/ausgaben-zusammenfassung/sonstigeAusgaben`,
+      url: `${prefix}/ausgaben/sonstigeAusgaben`,
       initialInputUrl: "daten",
       statementKey: "hasAusgaben",
       hiddenFields: ["zahlungspflichtiger"],
