@@ -51,15 +51,12 @@ export const ausgabenXstateConfig = {
       on: {
         BACK: steps.ausgabenFrage.relative,
         SUBMIT: steps.ausgabenBesondereBelastungen.relative,
-        "add-versicherungen":
-          steps.ausgabenZusammenfassungVersicherungen.absolute,
-        "add-ratenzahlungen":
-          steps.ausgabenZusammenfassungRatenzahlungen.absolute,
-        "add-sonstigeAusgaben":
-          steps.ausgabenZusammenfassungSonstigeAusgaben.absolute,
+        "add-versicherungen": steps.ausgabenVersicherungen.relative,
+        "add-ratenzahlungen": steps.ausgabenRatenzahlungen.relative,
+        "add-sonstigeAusgaben": steps.ausgabenSonstigeAusgaben.relative,
       },
     },
-    [steps.ausgabenZusammenfassungVersicherungen.relative]: {
+    [steps.ausgabenVersicherungen.relative]: {
       initial: "daten",
       states: {
         daten: {
@@ -82,7 +79,7 @@ export const ausgabenXstateConfig = {
         },
       },
     },
-    [steps.ausgabenZusammenfassungRatenzahlungen.relative]: {
+    [steps.ausgabenRatenzahlungen.relative]: {
       initial: "daten",
       states: {
         daten: {
@@ -141,7 +138,7 @@ export const ausgabenXstateConfig = {
         },
       },
     },
-    [steps.ausgabenZusammenfassungSonstigeAusgaben.relative]: {
+    [steps.ausgabenSonstigeAusgaben.relative]: {
       initial: "daten",
       states: {
         daten: {

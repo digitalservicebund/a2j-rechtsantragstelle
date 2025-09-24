@@ -33,7 +33,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
   ausgabenZusammenfassung: {
     stepId: "finanzielle-angaben/ausgaben/zusammenfassung",
   },
-  ausgabenZusammenfassungVersicherungen: {
+  ausgabenVersicherungen: {
     stepId: "finanzielle-angaben/ausgaben/versicherungen",
     pageSchema: {
       versicherungen: z.array(
@@ -58,7 +58,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       },
     },
   },
-  ausgabenZusammenfassungRatenzahlungen: {
+  ausgabenRatenzahlungen: {
     stepId: "finanzielle-angaben/ausgaben/ratenzahlungen",
     pageSchema: {
       ratenzahlungen: z.array(
@@ -116,7 +116,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       },
     },
   },
-  ausgabenZusammenfassungSonstigeAusgaben: {
+  ausgabenSonstigeAusgaben: {
     stepId: "finanzielle-angaben/ausgaben/sonstigeAusgaben",
     pageSchema: {
       sonstigeAusgaben: z.array(
