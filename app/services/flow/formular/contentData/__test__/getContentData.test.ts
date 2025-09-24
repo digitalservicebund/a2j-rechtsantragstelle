@@ -61,12 +61,6 @@ const mockUserData = {
   pageData: { arrayIndexes: [] },
 };
 
-const mockCurrentFlow = {
-  config: {},
-  guards: {},
-  flowType: "formFlow",
-} as unknown as Flow;
-
 const callContentData = getContentData(
   {
     cmsContent: mockCmsElement,
