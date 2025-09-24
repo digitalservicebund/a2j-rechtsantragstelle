@@ -1,5 +1,5 @@
-import { GenericGuard } from "~/domains/guards.server";
-import { GeldEinklagenFormularGerichtPruefenUserData } from "./userData";
+import { type GenericGuard } from "~/domains/guards.server";
+import { type GeldEinklagenFormularGerichtPruefenUserData } from "./userData";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 type GeldEinklagenGerichtPruefenDaten =
