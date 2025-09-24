@@ -34,7 +34,7 @@ export const gerichtPruefenXstateConfig = {
                 guard: ({ context }) => context.forderung === "etwasAnderes",
                 target: "ergebnis/forderung-etwas-anderes",
               },
-              { guard: forderungDone, target: "#sachgebiet.info" },
+              { guard: forderungDone, target: steps.sachgebietInfo.absolute },
             ],
             BACK: steps.introStart.absolute,
           },
