@@ -50,10 +50,10 @@ export function FormFlowPage() {
         <Grid>
           <GridItem
             className="hidden lg:block"
-            lgColumn={{ start: 1, span: 3 }}
-            xlColumn={{ start: 1, span: 3 }}
+            lgColumn={{ start: 1, span: 4 }}
+            xlColumn={{ start: 1, span: 4 }}
           >
-            <div className="md:mb-32 md:w-[248px]">
+            <div className="md:mb-32 md:w-[312px]">
               <FlowNavigation {...navigationProps} />
             </div>
           </GridItem>
@@ -62,8 +62,8 @@ export function FormFlowPage() {
           </div>
           <GridItem
             mdColumn={{ start: 1, span: 8 }}
-            lgColumn={{ start: 4, span: 9 }}
-            xlColumn={{ start: 4, span: 9 }}
+            lgColumn={{ start: 5, span: 9 }}
+            xlColumn={{ start: 5, span: 9 }}
           >
             <div className="flex flex-col flex-1 gap-32 md:pl-0 md:pb-32! pt-0! justify-between">
               <div className="ds-stack ds-stack-40">
