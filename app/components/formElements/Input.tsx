@@ -20,6 +20,7 @@ export type InputProps = Readonly<{
   width?: FieldWidth;
   helperText?: string;
   charLimit?: number;
+  autoComplete?: string;
 }>;
 
 const Input = function InputComponent({
