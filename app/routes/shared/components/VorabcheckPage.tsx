@@ -67,12 +67,10 @@ export function VorabcheckPage() {
             mdColumn={{ start: 1, span: 8 }}
             lgColumn={{ start: 1, span: 12 }}
             xlColumn={{ start: 1, span: 12 }}
-            className="pb-40"
+            className="pb-40 flex justify-end"
             row={4}
           >
-            <div className="flex justify-end relative">
-              <ReportProblem />
-            </div>
+            <ReportProblem />
           </GridItem>
         )}
       </Grid>
