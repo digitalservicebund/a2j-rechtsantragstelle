@@ -213,34 +213,34 @@ describe("getContentData", () => {
     it("should call the navItemsFromStepStates with subStates of the current stepId when useStepper is true", () => {
       vi.mocked(mockBuildFlowController.stepStates).mockReturnValue([
         {
-          stepId: "/a",
-          url: "/a",
+          stepId: "/somePath/menu",
+          url: "/somePath/menu",
           isDone: true,
           isReachable: true,
           subStates: [
             {
-              stepId: "/b",
-              url: "/b",
+              stepId: "/somePath/menu/page1",
+              url: "/somePath/menu/page1",
               isDone: true,
               isReachable: true,
             },
             {
-              stepId: "/c",
-              url: "/c",
+              stepId: "/somePath/menu/page2",
+              url: "/somePath/menu/page2",
               isDone: false,
               isReachable: true,
             },
           ],
         },
         {
-          stepId: "/d",
-          url: "/d",
+          stepId: "/anotherPath/menu",
+          url: "/anotherPath/menu",
           isDone: true,
           isReachable: true,
           subStates: [
             {
-              stepId: "/e",
-              url: "/e",
+              stepId: "/anotherPath/menu/page3",
+              url: "/anotherPath/menu/page3",
               isDone: false,
               isReachable: false,
             },
@@ -259,24 +259,24 @@ describe("getContentData", () => {
 
       callContentDataWithStepper.getNavProps(
         mockBuildFlowController,
-        "/b",
+        "/somePath/menu/page1",
         true,
       );
 
       expect(navItemsFromStepStates).toHaveBeenCalledTimes(1);
 
       expect(navItemsFromStepStates).toHaveBeenCalledWith(
-        "/b",
+        "/somePath/menu/page1",
         [
           {
-            stepId: "/b",
-            url: "/b",
+            stepId: "/somePath/menu/page1",
+            url: "/somePath/menu/page1",
             isDone: true,
             isReachable: true,
           },
           {
-            stepId: "/c",
-            url: "/c",
+            stepId: "/somePath/menu/page2",
+            url: "/somePath/menu/page2",
             isDone: false,
             isReachable: true,
           },
