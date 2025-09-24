@@ -11,17 +11,15 @@ import { buildFormElements } from "./buildFormElements";
 import { getBackButtonDestination } from "./getBackButtonDestination";
 import { type UserDataWithPageData } from "../../pageData";
 import type { stepMeta } from "~/services/meta/stepMeta";
-import { type Flow } from "~/domains/flows.server";
 
 type ContentParameters = {
   cmsContent: CMSContent;
   translations: Translations;
   meta: ReturnType<typeof stepMeta>;
-  currentFlow: Flow;
 };
 
 export const getContentData = (
-  { cmsContent, translations, meta, currentFlow }: ContentParameters,
+  { cmsContent, translations, meta }: ContentParameters,
   userDataWithPageData: UserDataWithPageData,
 ) => {
   return {
@@ -79,12 +77,11 @@ export const getContentData = (
     getNavProps: (
       flowController: ReturnType<typeof buildFlowController>,
       stepId: string,
+      useStepper: boolean,
     ) => {
-      const stepStates = flowController.stepStates(
-        currentFlow.useStepper ?? false,
-      );
+      const stepStates = flowController.stepStates(useStepper);
 
-      const steps = currentFlow.useStepper
+      const steps = useStepper
         ? stepStates
             .filter((s) =>
               s.subStates?.some((subState) => subState.stepId === stepId),

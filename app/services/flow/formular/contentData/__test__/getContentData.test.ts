@@ -72,7 +72,6 @@ const callContentData = getContentData(
     cmsContent: mockCmsElement,
     meta: mockMeta,
     translations: mockTranslations,
-    currentFlow: mockCurrentFlow,
   },
   mockUserData,
 );
@@ -193,7 +192,11 @@ describe("getContentData", () => {
 
       vi.mocked(navItemsFromStepStates).mockReturnValue(mockNavItems);
 
-      const actual = callContentData.getNavProps(mockBuildFlowController, "/");
+      const actual = callContentData.getNavProps(
+        mockBuildFlowController,
+        "/",
+        false,
+      );
 
       expect(actual).toEqual({ navItems: mockNavItems, expandAll: undefined });
     });
@@ -201,7 +204,11 @@ describe("getContentData", () => {
     it("should return empty array when nav items returns undefined", () => {
       vi.mocked(navItemsFromStepStates).mockReturnValue(undefined);
 
-      const actual = callContentData.getNavProps(mockBuildFlowController, "/");
+      const actual = callContentData.getNavProps(
+        mockBuildFlowController,
+        "/",
+        false,
+      );
 
       expect(actual).toEqual({
         expandAll: undefined,
@@ -210,13 +217,6 @@ describe("getContentData", () => {
     });
 
     it("should call the navItemsFromStepStates with subStates of the current stepId when useStepper is true", () => {
-      const mockCurrentFlowWithStepper = {
-        config: {},
-        guards: {},
-        flowType: "formFlow",
-        useStepper: true,
-      } as unknown as Flow;
-
       vi.mocked(mockBuildFlowController.stepStates).mockReturnValue([
         {
           stepId: "/a",
@@ -259,12 +259,15 @@ describe("getContentData", () => {
           cmsContent: mockCmsElement,
           meta: mockMeta,
           translations: mockTranslations,
-          currentFlow: mockCurrentFlowWithStepper,
         },
         mockUserData,
       );
 
-      callContentDataWithStepper.getNavProps(mockBuildFlowController, "/b");
+      callContentDataWithStepper.getNavProps(
+        mockBuildFlowController,
+        "/b",
+        true,
+      );
 
       expect(navItemsFromStepStates).toHaveBeenCalledTimes(1);
 

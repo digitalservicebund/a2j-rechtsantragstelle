@@ -51,7 +51,7 @@ export const retrieveContentData = async (
   });
 
   return getContentData(
-    { cmsContent, translations, meta, currentFlow },
+    { cmsContent, translations, meta },
     userDataWithPageData,
   );
 };
