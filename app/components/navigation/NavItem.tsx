@@ -62,7 +62,10 @@ export function NavItem({
     defaultExpanded: forceExpanded ?? isCurrent,
   });
   const showWarningIcon =
-    userVisitedValidationPage && !excludedFromValidation && !isDone;
+    userVisitedValidationPage &&
+    !excludedFromValidation &&
+    !isDone &&
+    !isDisabled;
 
   // Transparent last: borders to avoid layout shifts
   const liClassNames = classNames(
