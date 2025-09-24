@@ -1,4 +1,4 @@
-import { InputProps } from "./Input";
+import { type InputProps } from "./Input";
 import MaskedInput from "./MaskedInput";
 
 const DateInput = (props: InputProps) => {

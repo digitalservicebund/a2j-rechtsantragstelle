@@ -65,7 +65,9 @@ describe("A_person", () => {
         pdfValues: pdfParams,
       });
 
-      expect(pdfValues.geburtsdatum.value).toBe(userData.geburtsdatum);
+      expect(pdfValues.geburtsdatum.value).toBe(
+        `${userData.geburtsdatum?.geburtsdatumTag}.${userData.geburtsdatum?.geburtsdatumMonat}.${userData.geburtsdatum?.geburtsdatumJahr}`,
+      );
       expect(attachment).toHaveLength(0);
     });
 
