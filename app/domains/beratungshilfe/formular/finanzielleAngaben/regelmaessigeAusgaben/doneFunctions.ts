@@ -5,9 +5,9 @@ export const ausgabenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) => {
   return (
-    context.hasAusgaben === "no" ||
-    (context.hasAusgaben === "yes" &&
-      context.ausgabensituation !== undefined &&
-      ausgabenArraySchema.safeParse(context.ausgaben).success)
+    context.ausgabensituation !== undefined &&
+    (context.hasAusgaben === "no" ||
+      (context.hasAusgaben === "yes" &&
+        ausgabenArraySchema.safeParse(context.ausgaben).success))
   );
 };

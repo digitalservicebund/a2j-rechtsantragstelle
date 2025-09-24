@@ -40,12 +40,6 @@ export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
       hasAusgaben: YesNoAnswer,
     },
   },
-  ausgabenSituation: {
-    stepId: "finanzielle-angaben/ausgaben/situation",
-    pageSchema: {
-      ausgabensituation: besondereBelastungenInputSchema,
-    },
-  },
   ausgabenUebersicht: {
     stepId: "finanzielle-angaben/ausgaben/uebersicht",
   },
@@ -75,5 +69,11 @@ export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
   },
   ausgabenWarnung: {
     stepId: "finanzielle-angaben/ausgaben/warnung",
+  },
+  ausgabenSituation: {
+    stepId: "finanzielle-angaben/ausgaben/situation",
+    pageSchema: {
+      ausgabensituation: besondereBelastungenInputSchema,
+    },
   },
 } as const satisfies PagesConfig;

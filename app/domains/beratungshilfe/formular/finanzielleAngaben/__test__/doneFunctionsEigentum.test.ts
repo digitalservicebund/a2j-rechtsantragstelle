@@ -186,8 +186,17 @@ describe("ausgabenDone", () => {
     beitrag: "10",
     hasZahlungsfrist: "no",
   } as const;
+
   it("should return true if the user does not have ausgaben", () => {
-    expect(ausgabenDone({ context: { hasAusgaben: "no" } })).toBe(true);
+    expect(
+      ausgabenDone({
+        context: { hasAusgaben: "no", ausgabensituation: { none: "on" } },
+      }),
+    ).toBe(true);
+  });
+
+  it("should return false if no ausgabensituation is selected", () => {
+    expect(ausgabenDone({ context: { hasAusgaben: "yes" } })).toBe(false);
   });
 
   it("should return false if hasAusgaben without besondere belastungen", () => {

@@ -30,17 +30,11 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       hasAusgaben: YesNoAnswer,
     },
   },
-  ausgabenBesondereBelastungen: {
-    stepId: "finanzielle-angaben/ausgaben/besondere-belastungen",
-    pageSchema: {
-      besondereBelastungen: besondereBelastungenInputSchema,
-    },
-  },
   ausgabenZusammenfassung: {
-    stepId: "finanzielle-angaben/ausgaben-zusammenfassung/zusammenfassung",
+    stepId: "finanzielle-angaben/ausgaben/zusammenfassung",
   },
-  ausgabenZusammenfassungVersicherungen: {
-    stepId: "finanzielle-angaben/ausgaben-zusammenfassung/versicherungen",
+  ausgabenVersicherungen: {
+    stepId: "finanzielle-angaben/ausgaben/versicherungen",
     pageSchema: {
       versicherungen: z.array(
         z.object({
@@ -64,8 +58,8 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       },
     },
   },
-  ausgabenZusammenfassungRatenzahlungen: {
-    stepId: "finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen",
+  ausgabenRatenzahlungen: {
+    stepId: "finanzielle-angaben/ausgaben/ratenzahlungen",
     pageSchema: {
       ratenzahlungen: z.array(
         z
@@ -122,8 +116,8 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       },
     },
   },
-  ausgabenZusammenfassungSonstigeAusgaben: {
-    stepId: "finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben",
+  ausgabenSonstigeAusgaben: {
+    stepId: "finanzielle-angaben/ausgaben/sonstigeAusgaben",
     pageSchema: {
       sonstigeAusgaben: z.array(
         z
@@ -164,6 +158,12 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
           "sonstigeAusgaben#betragGesamt": buildMoneyValidationSchema(),
         },
       },
+    },
+  },
+  ausgabenBesondereBelastungen: {
+    stepId: "finanzielle-angaben/ausgaben/besondere-belastungen",
+    pageSchema: {
+      besondereBelastungen: besondereBelastungenInputSchema,
     },
   },
 } as const satisfies PagesConfig;
