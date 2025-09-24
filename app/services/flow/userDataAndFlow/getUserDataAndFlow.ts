@@ -13,7 +13,7 @@ import { getPrunedUserDataFromPathname } from "../getPrunedUserDataFromPathname"
 import { type UserDataWithPageData } from "../pageData";
 import { type FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
-import { Flow } from "~/domains/flows.server";
+import { type Flow } from "~/domains/flows.server";
 
 type OkResult = {
   userData: UserDataWithPageData;
