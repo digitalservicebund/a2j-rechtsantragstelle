@@ -90,7 +90,7 @@ const Input = function InputComponent({
           {helperText}
         </div>
       )}
-      <InputError id={errorId}>
+      <InputError id={errorId} keepAriaLive={false}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??
           field.error()}
       </InputError>
