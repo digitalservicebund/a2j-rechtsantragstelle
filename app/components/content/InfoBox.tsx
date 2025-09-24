@@ -3,7 +3,7 @@ import Heading, { type HeadingProps } from "~/components/common/Heading";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import InfoBoxItem, { type InfoBoxItemProps } from "./InfoBoxItem";
 
-type InfoBoxProps = {
+export type InfoBoxProps = {
   identifier?: string;
   heading?: HeadingProps;
   separator?: boolean;

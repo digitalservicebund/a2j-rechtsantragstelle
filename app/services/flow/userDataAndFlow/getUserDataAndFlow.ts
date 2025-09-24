@@ -11,6 +11,8 @@ import { validateStepIdFlow } from "./validateStepIdFlow";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 import { getPrunedUserDataFromPathname } from "../getPrunedUserDataFromPathname";
 import { type UserDataWithPageData } from "../pageData";
+import { FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
+import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 
 type OkResult = {
   userData: UserDataWithPageData;
@@ -36,6 +38,10 @@ type ErrorResult = {
   redirectTo: string;
 };
 
+const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
+  "/geld-einklagen/formular": "showGeldEinklagenFlow",
+} as const;
+
 export const getUserDataAndFlow = async (
   request: Request,
 ): Promise<Result<OkResult, ErrorResult>> => {
@@ -44,6 +50,12 @@ export const getUserDataAndFlow = async (
 
   const { flowId, stepId, arrayIndexes, currentFlow } =
     getPageAndFlowDataFromPathname(pathname);
+
+  const featureFlag = flowIdFeatureFlag[flowId];
+
+  if (featureFlag) {
+    await throw404IfFeatureFlagDisabled(featureFlag);
+  }
 
   const [{ userDataWithPageData, validFlowPaths }, migrationData, flowSession] =
     await Promise.all([

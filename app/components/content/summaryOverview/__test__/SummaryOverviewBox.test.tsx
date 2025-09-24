@@ -40,8 +40,8 @@ describe("SummaryOverviewBox", () => {
   const titleMock = {
     tagName: "h2",
     text: "title",
-    look: "",
-  } as HeadingProps;
+    look: "default",
+  } satisfies HeadingProps;
 
   vi.mocked(useFormFlow).mockReturnValue({
     translations: mockTranslations,

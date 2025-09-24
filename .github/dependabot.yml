@@ -11,12 +11,11 @@ updates:
       time: "08:00"
       timezone: "Europe/Berlin"
     groups:
-      patch-updates:
-        update-types: ["patch"]
       storybook:
         patterns:
           - "@storybook/*"
-          - storybook
+          - "storybook"
+          - "eslint-plugin-storybook"
       react-router:
         patterns:
           - "@react-router/*"
@@ -34,6 +33,8 @@ updates:
         patterns:
           - oxlint
           - eslint-plugin-oxlint
+      patch-updates:
+        update-types: ["patch"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

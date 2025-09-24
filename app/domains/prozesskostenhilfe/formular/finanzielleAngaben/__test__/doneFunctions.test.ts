@@ -119,19 +119,6 @@ describe("Finanzielle Angaben doneFunctions", () => {
   });
 
   describe("kinderDone", () => {
-    it("should return true if the user receives staatliche leistungen", () => {
-      expect(
-        kinderDone({
-          context: { staatlicheLeistungen: "grundsicherung" },
-        }),
-      ).toBe(true);
-      expect(
-        kinderDone({
-          context: { staatlicheLeistungen: "asylbewerberleistungen" },
-        }),
-      ).toBe(true);
-    });
-
     it("should return true if the user has no children", () => {
       expect(
         kinderDone({

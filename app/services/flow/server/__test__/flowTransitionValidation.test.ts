@@ -30,11 +30,11 @@ describe("flowTransitionValidation", () => {
   const mockFlows: Record<FlowId, Flow> = {
     "/beratungshilfe/vorabcheck": createMockFlow("formFlow"),
     "/beratungshilfe/antrag": createMockFlow("formFlow"),
-    "/geld-einklagen/vorabcheck": createMockFlow("vorabCheck"),
     "/fluggastrechte/vorabcheck": createMockFlow("vorabCheck"),
     "/fluggastrechte/formular": createMockFlow("formFlow"),
     "/prozesskostenhilfe/formular": createMockFlow("formFlow"),
     "/kontopfaendung/wegweiser": createMockFlow("vorabCheck"),
+    "/geld-einklagen/formular": createMockFlow("formFlow"),
   };
   const mockController: FlowController = {
     getMeta: vi.fn().mockReturnValue(undefined),
