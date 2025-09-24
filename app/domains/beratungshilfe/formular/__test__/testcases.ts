@@ -77,6 +77,7 @@ export const testCasesBeratungshilfeFormularDefault = [
       "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage",
       "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
       "/finanzielle-angaben/ausgaben/ausgaben-frage",
+      "/finanzielle-angaben/ausgaben/situation",
       "/persoenliche-daten/start",
       "/persoenliche-daten/name",
       "/persoenliche-daten/geburtsdatum",

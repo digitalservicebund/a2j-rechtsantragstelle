@@ -142,26 +142,11 @@ export const prozesskostenhilfeFormular = {
       "gesetzliche-vertretung": gesetzlicheVertretungXstateConfig({
         backToCallingFlow: [
           {
-            guard: ({ context }) => context.hasAusgaben === "yes",
-            target: "#ausgaben-zusammenfassung",
-          },
-          {
-            guard:
-              finanzielleAngabeEinkuenfteGuards.staatlicheLeistungenIsBuergergeldAndEigentumDone,
-            target:
-              "#finanzielle-angaben.eigentum-zusammenfassung.zusammenfassung",
-          },
-          {
-            guard:
-              finanzielleAngabeEinkuenfteGuards.staatlicheLeistungenIsBuergergeld,
-            target: "#finanzielle-angaben.eigentum.kraftfahrzeuge-frage",
-          },
-          {
             guard:
               finanzielleAngabeEinkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen,
             target: "#finanzielle-angaben.einkuenfte.staatliche-leistungen",
           },
-          "#ausgaben.ausgaben-frage",
+          "#ausgaben.besondere-belastungen",
         ],
         nextFlowEntrypoint: "#persoenliche-daten",
       }),

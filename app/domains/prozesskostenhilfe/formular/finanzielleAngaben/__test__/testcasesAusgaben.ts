@@ -6,15 +6,15 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
     { hasAusgaben: "no" },
     [
       "/finanzielle-angaben/ausgaben/ausgaben-frage",
-      "/gesetzliche-vertretung/frage",
+      "/finanzielle-angaben/ausgaben/besondere-belastungen",
     ],
   ],
   [
     { hasAusgaben: "yes" },
     [
       "/finanzielle-angaben/ausgaben/ausgaben-frage",
+      "/finanzielle-angaben/ausgaben/zusammenfassung",
       "/finanzielle-angaben/ausgaben/besondere-belastungen",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/zusammenfassung",
       "/gesetzliche-vertretung/frage",
     ],
   ],
@@ -24,8 +24,8 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "/finanzielle-angaben/ausgaben-zusammenfassung/versicherungen/daten",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/versicherungen/sonstige-art",
+      "/finanzielle-angaben/ausgaben/versicherungen/daten",
+      "/finanzielle-angaben/ausgaben/versicherungen/sonstige-art",
     ],
   ],
   [
@@ -34,11 +34,11 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/daten",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/zahlungspflichtiger",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/betragGesamt",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/restschuld",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/laufzeitende",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/daten",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/zahlungspflichtiger",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/betragGesamt",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/restschuld",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/laufzeitende",
     ],
   ],
   [
@@ -49,12 +49,12 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/daten",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/zahlungspflichtiger",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/betragGemeinsamerAnteil",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/betragEigenerAnteil",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/restschuld",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/laufzeitende",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/daten",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/zahlungspflichtiger",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/betragGemeinsamerAnteil",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/betragEigenerAnteil",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/restschuld",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/laufzeitende",
     ],
   ],
   [
@@ -63,9 +63,9 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "/finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben/daten",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben/zahlungspflichtiger",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben/betragGesamt",
+      "/finanzielle-angaben/ausgaben/sonstigeAusgaben/daten",
+      "/finanzielle-angaben/ausgaben/sonstigeAusgaben/zahlungspflichtiger",
+      "/finanzielle-angaben/ausgaben/sonstigeAusgaben/betragGesamt",
     ],
   ],
   [
@@ -76,10 +76,10 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
       pageData: { arrayIndexes: [0] },
     },
     [
-      "/finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben/daten",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben/zahlungspflichtiger",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben/betragGemeinsamerAnteil",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben/betragEigenerAnteil",
+      "/finanzielle-angaben/ausgaben/sonstigeAusgaben/daten",
+      "/finanzielle-angaben/ausgaben/sonstigeAusgaben/zahlungspflichtiger",
+      "/finanzielle-angaben/ausgaben/sonstigeAusgaben/betragGemeinsamerAnteil",
+      "/finanzielle-angaben/ausgaben/sonstigeAusgaben/betragEigenerAnteil",
     ],
   ],
 ] as const satisfies TestCases<ProzesskostenhilfeFinanzielleAngabenUserData>;
