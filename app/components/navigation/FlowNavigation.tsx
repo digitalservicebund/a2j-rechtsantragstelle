@@ -30,7 +30,10 @@ export default function FlowNavigation(props: FlowNavigationProps) {
 
       <NavigationList
         {...props}
-        className={classNames("lg:block", { hidden: jsAvailable })}
+        className={classNames("lg:block", {
+          hidden: jsAvailable,
+          "hidden lg:block": !jsAvailable,
+        })}
       />
     </nav>
   );
