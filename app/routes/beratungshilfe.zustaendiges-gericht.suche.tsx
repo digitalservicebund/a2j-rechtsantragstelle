@@ -119,8 +119,8 @@ export default function Index() {
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
-          lgColumn={{ start: 7, span: 5 }}
-          xlColumn={{ start: 7, span: 5 }}
+          lgColumn={{ start: 1, span: 12 }}
+          xlColumn={{ start: 1, span: 12 }}
           className="pb-40 flex justify-end"
           row={2}
         >
