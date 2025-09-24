@@ -31,6 +31,7 @@ export type Flow = {
     string,
     (request: Request, userData: UserData) => Promise<void>
   >;
+  useStepper?: boolean;
 };
 
 export const flows = {

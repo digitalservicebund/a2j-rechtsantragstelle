@@ -468,6 +468,106 @@ describe("buildFlowController", () => {
         },
       ]);
     });
+
+    it("remove unreachable child states", () => {
+      expect(
+        buildFlowController({
+          config: {
+            id: "/test",
+            initial: "parent1",
+            states: {
+              parent1: {
+                initial: "child1",
+                states: {
+                  child1: {
+                    initial: "start",
+                    states: {
+                      start: {
+                        on: {
+                          SUBMIT: {
+                            guard: () => false,
+                            target: "#/test.parent1.child2",
+                          },
+                        },
+                      },
+                    },
+                  },
+                  child2: { initial: "start", states: { start: {} } },
+                },
+              },
+            },
+          },
+        }).stepStates(),
+      ).toEqual([
+        {
+          isDone: false,
+          isReachable: true,
+          stepId: "/parent1",
+          url: "/test/parent1",
+          subStates: [
+            {
+              isDone: false,
+              isReachable: true,
+              stepId: "/parent1/child1",
+              url: "/test/parent1/child1/start",
+            },
+          ],
+        },
+      ]);
+    });
+
+    it("keep unreachable child states if parameter addUnreachableSubSteps is true", () => {
+      expect(
+        buildFlowController({
+          config: {
+            id: "/test",
+            initial: "parent1",
+            states: {
+              parent1: {
+                initial: "child1",
+                states: {
+                  child1: {
+                    initial: "start",
+                    states: {
+                      start: {
+                        on: {
+                          SUBMIT: {
+                            guard: () => false,
+                            target: "#/test.parent1.child2",
+                          },
+                        },
+                      },
+                    },
+                  },
+                  child2: { initial: "start", states: { start: {} } },
+                },
+              },
+            },
+          },
+        }).stepStates(true),
+      ).toEqual([
+        {
+          isDone: false,
+          isReachable: true,
+          stepId: "/parent1",
+          url: "/test/parent1",
+          subStates: [
+            {
+              isDone: false,
+              isReachable: true,
+              stepId: "/parent1/child1",
+              url: "/test/parent1/child1/start",
+            },
+            {
+              isDone: false,
+              isReachable: false,
+              stepId: "/parent1/child2",
+              url: "/test/parent1/child2/start",
+            },
+          ],
+        },
+      ]);
+    });
   });
 
   it("all children must be done for parent to be done", () => {
@@ -514,7 +614,7 @@ describe("buildFlowController", () => {
           },
         },
       },
-    }).stepStates();
+    }).stepStates(false);
     expect(stepStates[0].isDone).toBe(false);
     expect(stepStates[1].isDone).toBe(true);
   });
@@ -539,7 +639,7 @@ describe("buildFlowController", () => {
           },
         },
       },
-    }).stepStates();
+    }).stepStates(false);
     expect(stepStates[1].isReachable).toBe(true);
     expect(stepStates[2].isReachable).toBe(false);
   });

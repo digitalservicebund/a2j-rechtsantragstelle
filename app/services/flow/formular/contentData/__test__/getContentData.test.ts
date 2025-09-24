@@ -8,6 +8,7 @@ import { navItemsFromStepStates } from "~/services/flowNavigation.server";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { type CMSContent } from "../../buildCmsContentAndTranslations";
 import { getContentData } from "../getContentData";
+import { type Flow } from "~/domains/flows.server";
 
 const mockCmsElement = {
   heading: "new heading",
@@ -72,6 +73,10 @@ const callContentData = getContentData(
 vi.mock("~/services/array/getArraySummaryData");
 vi.mock("~/util/buttonProps");
 vi.mock("~/services/flowNavigation.server");
+
+beforeEach(() => {
+  vi.clearAllMocks();
+});
 
 describe("getContentData", () => {
   describe("arraySummaryData", () => {
@@ -181,7 +186,11 @@ describe("getContentData", () => {
 
       vi.mocked(navItemsFromStepStates).mockReturnValue(mockNavItems);
 
-      const actual = callContentData.getNavProps(mockBuildFlowController, "/");
+      const actual = callContentData.getNavProps(
+        mockBuildFlowController,
+        "/",
+        false,
+      );
 
       expect(actual).toEqual({ navItems: mockNavItems, expandAll: undefined });
     });
@@ -189,12 +198,91 @@ describe("getContentData", () => {
     it("should return empty array when nav items returns undefined", () => {
       vi.mocked(navItemsFromStepStates).mockReturnValue(undefined);
 
-      const actual = callContentData.getNavProps(mockBuildFlowController, "/");
+      const actual = callContentData.getNavProps(
+        mockBuildFlowController,
+        "/",
+        false,
+      );
 
       expect(actual).toEqual({
         expandAll: undefined,
         navItems: [],
       });
+    });
+
+    it("should call the navItemsFromStepStates with subStates of the current stepId when useStepper is true", () => {
+      vi.mocked(mockBuildFlowController.stepStates).mockReturnValue([
+        {
+          stepId: "/a",
+          url: "/a",
+          isDone: true,
+          isReachable: true,
+          subStates: [
+            {
+              stepId: "/b",
+              url: "/b",
+              isDone: true,
+              isReachable: true,
+            },
+            {
+              stepId: "/c",
+              url: "/c",
+              isDone: false,
+              isReachable: true,
+            },
+          ],
+        },
+        {
+          stepId: "/d",
+          url: "/d",
+          isDone: true,
+          isReachable: true,
+          subStates: [
+            {
+              stepId: "/e",
+              url: "/e",
+              isDone: false,
+              isReachable: false,
+            },
+          ],
+        },
+      ]);
+
+      const callContentDataWithStepper = getContentData(
+        {
+          cmsContent: mockCmsElement,
+          meta: mockMeta,
+          translations: mockTranslations,
+        },
+        mockUserData,
+      );
+
+      callContentDataWithStepper.getNavProps(
+        mockBuildFlowController,
+        "/b",
+        true,
+      );
+
+      expect(navItemsFromStepStates).toHaveBeenCalledTimes(1);
+
+      expect(navItemsFromStepStates).toHaveBeenCalledWith(
+        "/b",
+        [
+          {
+            stepId: "/b",
+            url: "/b",
+            isDone: true,
+            isReachable: true,
+          },
+          {
+            stepId: "/c",
+            url: "/c",
+            isDone: false,
+            isReachable: true,
+          },
+        ],
+        mockTranslations,
+      );
     });
   });
 });

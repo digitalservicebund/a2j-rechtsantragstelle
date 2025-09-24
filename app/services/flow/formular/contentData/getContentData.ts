@@ -77,14 +77,22 @@ export const getContentData = (
     getNavProps: (
       flowController: ReturnType<typeof buildFlowController>,
       stepId: string,
-    ) => ({
-      navItems:
-        navItemsFromStepStates(
-          stepId,
-          flowController.stepStates(),
-          translations,
-        ) ?? [],
-      expandAll: flowController.getMeta(stepId)?.triggerValidation,
-    }),
+      useStepper: boolean,
+    ) => {
+      const stepStates = flowController.stepStates(useStepper);
+
+      const steps = useStepper
+        ? stepStates
+            .filter((s) =>
+              s.subStates?.some((subState) => subState.stepId === stepId),
+            )
+            .flatMap((s) => s.subStates ?? [])
+        : stepStates;
+
+      return {
+        navItems: navItemsFromStepStates(stepId, steps, translations) ?? [],
+        expandAll: flowController.getMeta(stepId)?.triggerValidation,
+      };
+    },
   };
 };
