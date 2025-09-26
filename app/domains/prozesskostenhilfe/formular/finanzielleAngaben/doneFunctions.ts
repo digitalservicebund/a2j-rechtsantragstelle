@@ -157,7 +157,7 @@ export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 }) =>
   context.besondereBelastungen !== undefined &&
   (context.hasAusgaben === "no" ||
-    (context.hasAusgaben == "yes" &&
+    (context.hasAusgaben === "yes" &&
       (versicherungenArraySchema.safeParse(context.versicherungen).success ||
         ratenZahlungArraySchema.safeParse(context.ratenzahlungen).success ||
         sonstigeZahlungArraySchema.safeParse(context.sonstigeAusgaben)

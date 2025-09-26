@@ -1,4 +1,5 @@
 import {
+  ausgabenDone,
   kinderDone,
   kraftfahrzeugDone,
   partnerBesondersAusgabenDone,
@@ -8,26 +9,6 @@ import {
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
 import { kraftfahrzeugWertInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
-
-const mockedCompleteRatenzahlung: NonNullable<
-  ProzesskostenhilfeFinanzielleAngabenUserData["ratenzahlungen"]
->[0] = {
-  art: "art",
-  zahlungsempfaenger: "Someone",
-  zahlungspflichtiger: "myself",
-  betragGesamt: "50",
-  restschuld: "100",
-  laufzeitende: "01.01.2026",
-};
-
-const mockedCompleteSonstigeAusgabe: NonNullable<
-  ProzesskostenhilfeFinanzielleAngabenUserData["sonstigeAusgaben"]
->[0] = {
-  art: "art",
-  zahlungsempfaenger: "Someone",
-  zahlungspflichtiger: "myself",
-  betragGesamt: "50",
-};
 
 const mockedCompleteKraftfahrzeug: NonNullable<
   ProzesskostenhilfeFinanzielleAngabenUserData["kraftfahrzeuge"]
@@ -383,6 +364,59 @@ describe("Finanzielle Angaben doneFunctions", () => {
           },
         }),
       ).toBe(false);
+    });
+  });
+
+  describe("ausgabenDone", () => {
+    it("returns true without ausgabe", () => {
+      expect(
+        ausgabenDone({
+          context: { hasAusgaben: "no", besondereBelastungen: { none: "on" } },
+        }),
+      ).toBe(true);
+    });
+
+    describe("needs any valid ausgabe", () => {
+      type Ausgaben = "sonstigeAusgaben" | "ratenzahlungen" | "versicherungen";
+
+      const zahlung = {
+        art: "art",
+        zahlungsempfaenger: "Someone",
+        zahlungspflichtiger: "myself",
+        betragGesamt: "50",
+      } as const;
+
+      const ausgabenItems = {
+        sonstigeAusgaben: zahlung,
+        ratenzahlungen: {
+          ...zahlung,
+          restschuld: "100",
+          laufzeitende: "01.01.2026",
+        },
+        versicherungen: {
+          beitrag: "100",
+          art: "sonstige",
+          sonstigeArt: "beschreibung",
+        },
+      } as const satisfies {
+        [K in Ausgaben]: NonNullable<
+          ProzesskostenhilfeFinanzielleAngabenUserData[K]
+        >[0];
+      };
+
+      Object.entries(ausgabenItems).forEach(([key, item]) => {
+        it(`returns true with valid ${key}`, () => {
+          expect(
+            ausgabenDone({
+              context: {
+                hasAusgaben: "yes",
+                besondereBelastungen: { none: "on" },
+                [key]: [item],
+              },
+            }),
+          ).toBe(true);
+        });
+      });
     });
   });
 });
