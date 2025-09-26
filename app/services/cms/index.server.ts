@@ -44,6 +44,7 @@ export async function fetchSingleEntry<T extends SingleEntryId>(
   pLevel = P_LEVEL_DEFAULT,
 ): Promise<StrapiSchemasOutput[T][number]> {
   const strapiEntry = await getStrapiEntry({ apiId, locale, pLevel });
+  console.log("strapiEntry", strapiEntry);
   return (await entrySchemas[apiId].parseAsync(strapiEntry))[0];
 }
 
