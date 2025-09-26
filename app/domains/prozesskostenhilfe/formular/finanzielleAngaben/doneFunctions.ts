@@ -14,7 +14,10 @@ import {
   geldanlageDone,
   singleGrundeigentumDone,
 } from "../../../shared/formular/finanzielleAngaben/doneFunctions";
-import { versicherungenArraySchema } from "./ausgaben/pages";
+import {
+  ratenZahlungArraySchema,
+  versicherungenArraySchema,
+} from "./ausgaben/pages";
 
 type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenUserData>;
@@ -158,29 +161,8 @@ export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
     versicherungenArraySchema.safeParse(context.versicherungen).success ||
-    hasRatenzahlungDone({ context }) ||
+    ratenZahlungArraySchema.safeParse(context.ratenzahlungen).success ||
     hasSonstigeAusgabeDone({ context });
-
-export const ratenzahlungDone = (
-  ratenzahlung: NonNullable<
-    ProzesskostenhilfeFinanzielleAngabenUserData["ratenzahlungen"]
-  >[0],
-) =>
-  !!ratenzahlung &&
-  ratenzahlung.art !== undefined &&
-  ratenzahlung.zahlungsempfaenger !== undefined &&
-  ratenzahlung.zahlungspflichtiger !== undefined &&
-  (ratenzahlung.zahlungspflichtiger === "myself" ||
-    ratenzahlung.betragEigenerAnteil !== undefined) &&
-  ratenzahlung.betragGesamt !== undefined &&
-  ratenzahlung.restschuld !== undefined &&
-  ratenzahlung.laufzeitende !== undefined;
-
-export const hasRatenzahlungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
-  context,
-}) =>
-  arrayIsNonEmpty(context.ratenzahlungen) &&
-  context.ratenzahlungen.every(ratenzahlungDone);
 
 export const sonstigeAusgabeDone = (
   sonstigeAusgabe: NonNullable<

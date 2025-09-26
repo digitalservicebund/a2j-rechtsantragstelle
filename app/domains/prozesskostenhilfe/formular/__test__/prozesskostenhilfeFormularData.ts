@@ -153,7 +153,6 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
       art: faker.commerce.productName(),
       zahlungsempfaenger: faker.company.name(),
       zahlungspflichtiger: "myself",
-      betragEigenerAnteil: faker.finance.amount(),
       betragGesamt: faker.finance.amount(),
       restschuld: faker.finance.amount(),
       laufzeitende: faker.date.future().toString(),

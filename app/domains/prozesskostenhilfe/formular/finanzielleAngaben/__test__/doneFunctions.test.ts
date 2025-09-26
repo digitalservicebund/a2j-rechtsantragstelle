@@ -1,12 +1,10 @@
 import {
-  hasRatenzahlungDone,
   hasSonstigeAusgabeDone,
   kinderDone,
   kraftfahrzeugDone,
   partnerBesondersAusgabenDone,
   partnerDone,
   partnerSupportDone,
-  ratenzahlungDone,
   sonstigeAusgabeDone,
   wohnungDone,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
@@ -252,69 +250,6 @@ describe("Finanzielle Angaben doneFunctions", () => {
 
     it("should return true if a kraftfahrzeug is complete", () => {
       expect(kraftfahrzeugDone(mockedCompleteKraftfahrzeug)).toBe(true);
-    });
-  });
-
-  describe("ratenzahlungDone", () => {
-    it("should return false if the user has entered an incomplete ratenzahlung", () => {
-      expect(
-        ratenzahlungDone({
-          ...mockedCompleteRatenzahlung,
-          zahlungspflichtiger: "myselfAndPartner",
-        }),
-      ).toBe(false);
-    });
-
-    it("should return true for a completed ratenzahlung entry", () => {
-      expect(ratenzahlungDone(mockedCompleteRatenzahlung)).toBe(true);
-      expect(
-        ratenzahlungDone({
-          ...mockedCompleteRatenzahlung,
-          zahlungspflichtiger: "myselfAndPartner",
-          betragEigenerAnteil: "50",
-          betragGesamt: "100",
-        }),
-      ).toBe(true);
-    });
-  });
-
-  describe("hasRatenzahlungDone", () => {
-    it("should return false if the ratenzahlungen array is empty", () => {
-      expect(hasRatenzahlungDone({ context: { ratenzahlungen: [] } })).toBe(
-        false,
-      );
-    });
-
-    it("should return false if the ratenzahlungen array contains an incomplete entry", () => {
-      expect(
-        hasRatenzahlungDone({
-          context: {
-            ratenzahlungen: [],
-          },
-        }),
-      ).toBe(false);
-      expect(
-        hasRatenzahlungDone({
-          context: {
-            ratenzahlungen: [
-              {
-                ...mockedCompleteRatenzahlung,
-                zahlungspflichtiger: "myselfAndSomeoneElse",
-              },
-            ],
-          },
-        }),
-      ).toBe(false);
-    });
-
-    it("should return true if the ratenzahlungen array contains only complete entries", () => {
-      expect(
-        hasRatenzahlungDone({
-          context: {
-            ratenzahlungen: [mockedCompleteRatenzahlung],
-          },
-        }),
-      ).toBe(true);
     });
   });
 

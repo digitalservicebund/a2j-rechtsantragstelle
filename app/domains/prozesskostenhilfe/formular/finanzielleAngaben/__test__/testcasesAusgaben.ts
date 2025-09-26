@@ -32,7 +32,16 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
   ],
   [
     {
-      ratenzahlungen: [{ zahlungspflichtiger: "myself", betragGesamt: "10" }],
+      ratenzahlungen: [
+        {
+          zahlungspflichtiger: "myself",
+          betragGesamt: "10",
+          art: "asd",
+          laufzeitende: "01.01.2026",
+          restschuld: "10",
+          zahlungsempfaenger: "asd",
+        },
+      ],
       pageData: { arrayIndexes: [0] },
     },
     [
@@ -46,7 +55,15 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
   [
     {
       ratenzahlungen: [
-        { zahlungspflichtiger: "myselfAndPartner", betragGesamt: "10" },
+        {
+          zahlungspflichtiger: "myselfAndPartner",
+          betragGesamt: "10",
+          art: "asd",
+          laufzeitende: "01.01.2026",
+          restschuld: "10",
+          zahlungsempfaenger: "asd",
+          betragEigenerAnteil: "10",
+        },
       ],
       pageData: { arrayIndexes: [0] },
     },
