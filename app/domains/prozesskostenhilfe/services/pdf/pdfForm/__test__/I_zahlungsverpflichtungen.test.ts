@@ -193,7 +193,6 @@ describe("I_zahlungsverpflichtungen", () => {
           art: "Sonstige Ausgabe",
           zahlungsempfaenger: "Empfänger 2",
           zahlungspflichtiger: "myself",
-          betragEigenerAnteil: "100",
           betragGesamt: "200",
         },
       ],

@@ -78,7 +78,14 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
   ],
   [
     {
-      sonstigeAusgaben: [{ zahlungspflichtiger: "myself", betragGesamt: "10" }],
+      sonstigeAusgaben: [
+        {
+          zahlungspflichtiger: "myself",
+          betragGesamt: "10",
+          zahlungsempfaenger: "empfaenger",
+          art: "art",
+        },
+      ],
       pageData: { arrayIndexes: [0] },
     },
     [
@@ -90,7 +97,13 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
   [
     {
       sonstigeAusgaben: [
-        { zahlungspflichtiger: "myselfAndPartner", betragGesamt: "10" },
+        {
+          zahlungspflichtiger: "myselfAndPartner",
+          betragGesamt: "10",
+          art: "art",
+          betragEigenerAnteil: "10",
+          zahlungsempfaenger: "empfaenger",
+        },
       ],
       pageData: { arrayIndexes: [0] },
     },

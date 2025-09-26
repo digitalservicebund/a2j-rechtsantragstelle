@@ -84,7 +84,7 @@ const pushVersicherungenToAttachment = (
 
 const pushRatenzahlungenAndSonstigeAusgabenToAttachment = (
   attachment: AttachmentEntries,
-  ratenzahlungenAndSonstigeAusgaben: Ratenzahlung[] | SonstigeAusgabe[],
+  ratenzahlungenAndSonstigeAusgaben: Array<Ratenzahlung | SonstigeAusgabe>,
 ) => {
   attachment.push({
     title: "Sonstige Zahlungsverpflichtungen",

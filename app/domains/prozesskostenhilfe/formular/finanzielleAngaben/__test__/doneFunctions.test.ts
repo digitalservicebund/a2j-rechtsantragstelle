@@ -1,11 +1,9 @@
 import {
-  hasSonstigeAusgabeDone,
   kinderDone,
   kraftfahrzeugDone,
   partnerBesondersAusgabenDone,
   partnerDone,
   partnerSupportDone,
-  sonstigeAusgabeDone,
   wohnungDone,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
 import { kraftfahrzeugWertInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
@@ -250,68 +248,6 @@ describe("Finanzielle Angaben doneFunctions", () => {
 
     it("should return true if a kraftfahrzeug is complete", () => {
       expect(kraftfahrzeugDone(mockedCompleteKraftfahrzeug)).toBe(true);
-    });
-  });
-
-  describe("sonstigeAusgabeDone", () => {
-    it("should return false if the user has entered an incomplete sonstige ausgabe", () => {
-      expect(
-        sonstigeAusgabeDone({
-          ...mockedCompleteSonstigeAusgabe,
-          zahlungspflichtiger: "myselfAndPartner",
-        }),
-      ).toBe(false);
-    });
-
-    it("should return true for a completed sonstige ausgabe entry", () => {
-      expect(sonstigeAusgabeDone(mockedCompleteSonstigeAusgabe)).toBe(true);
-      expect(
-        sonstigeAusgabeDone({
-          ...mockedCompleteSonstigeAusgabe,
-          zahlungspflichtiger: "myselfAndPartner",
-          betragEigenerAnteil: "50",
-        }),
-      ).toBe(true);
-    });
-  });
-
-  describe("hasSonstigeAusgabeDone", () => {
-    it("should return false if the sonstigeAusgaben array is empty", () => {
-      expect(
-        hasSonstigeAusgabeDone({ context: { sonstigeAusgaben: [] } }),
-      ).toBe(false);
-    });
-
-    it("should return false if the sonstigeAusgaben array contains an incomplete entry", () => {
-      expect(
-        hasSonstigeAusgabeDone({
-          context: {
-            sonstigeAusgaben: [],
-          },
-        }),
-      ).toBe(false);
-      expect(
-        hasSonstigeAusgabeDone({
-          context: {
-            sonstigeAusgaben: [
-              {
-                ...mockedCompleteSonstigeAusgabe,
-                zahlungspflichtiger: "myselfAndSomeoneElse",
-              },
-            ],
-          },
-        }),
-      ).toBe(false);
-    });
-
-    it("should return true if the sonstigeAusgaben array contains only complete entries", () => {
-      expect(
-        hasSonstigeAusgabeDone({
-          context: {
-            sonstigeAusgaben: [mockedCompleteSonstigeAusgabe],
-          },
-        }),
-      ).toBe(true);
     });
   });
 

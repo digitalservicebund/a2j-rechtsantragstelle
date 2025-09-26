@@ -16,6 +16,7 @@ import {
 } from "../../../shared/formular/finanzielleAngaben/doneFunctions";
 import {
   ratenZahlungArraySchema,
+  sonstigeZahlungArraySchema,
   versicherungenArraySchema,
 } from "./ausgaben/pages";
 
@@ -156,31 +157,11 @@ export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 }) =>
   context.besondereBelastungen !== undefined &&
   (context.hasAusgaben === "no" ||
-    (context.hasAusgaben == "yes" && ausgabenZusammenfassungDone({ context })));
-
-const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    versicherungenArraySchema.safeParse(context.versicherungen).success ||
-    ratenZahlungArraySchema.safeParse(context.ratenzahlungen).success ||
-    hasSonstigeAusgabeDone({ context });
-
-export const sonstigeAusgabeDone = (
-  sonstigeAusgabe: NonNullable<
-    ProzesskostenhilfeFinanzielleAngabenUserData["sonstigeAusgaben"]
-  >[0],
-) =>
-  !!sonstigeAusgabe &&
-  sonstigeAusgabe.art !== undefined &&
-  sonstigeAusgabe.zahlungsempfaenger !== undefined &&
-  sonstigeAusgabe.zahlungspflichtiger !== undefined &&
-  (sonstigeAusgabe.zahlungspflichtiger === "myself" ||
-    sonstigeAusgabe.betragEigenerAnteil !== undefined) &&
-  sonstigeAusgabe.betragGesamt !== undefined;
-
-export const hasSonstigeAusgabeDone: ProzesskostenhilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    arrayIsNonEmpty(context.sonstigeAusgaben) &&
-    context.sonstigeAusgaben.every(sonstigeAusgabeDone);
+    (context.hasAusgaben == "yes" &&
+      (versicherungenArraySchema.safeParse(context.versicherungen).success ||
+        ratenZahlungArraySchema.safeParse(context.ratenzahlungen).success ||
+        sonstigeZahlungArraySchema.safeParse(context.sonstigeAusgaben)
+          .success)));
 
 export const partnerSupportDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
