@@ -4,11 +4,19 @@ import { dropEachProperty } from "~/util/objects";
 
 describe("beratungshilfePersoenlicheDatenDone", () => {
   const validContext: BeratungshilfePersoenlicheDatenUserData & {
-    geburtsdatum: string;
+    geburtsdatum: {
+      geburtsdatumTag: string;
+      geburtsdatumMonat: string;
+      geburtsdatumJahr: string;
+    };
   } = {
     vorname: "A",
     nachname: "B",
-    geburtsdatum: "1234",
+    geburtsdatum: {
+      geburtsdatumTag: "01",
+      geburtsdatumMonat: "01",
+      geburtsdatumJahr: "2021",
+    },
     street: "abc",
     houseNumber: "123",
     plz: "12345",

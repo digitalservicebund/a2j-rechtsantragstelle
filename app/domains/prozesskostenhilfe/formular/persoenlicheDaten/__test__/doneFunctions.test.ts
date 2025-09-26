@@ -3,7 +3,11 @@ import type { ProzesskostenhilfePersoenlicheDatenUserData } from "../userData";
 
 const context: ProzesskostenhilfePersoenlicheDatenUserData = {
   beruf: "Software Engineer",
-  geburtsdatum: "01.01.2021",
+  geburtsdatum: {
+    geburtsdatumTag: "01",
+    geburtsdatumMonat: "01",
+    geburtsdatumJahr: "2021",
+  },
   vorname: "John",
   nachname: "Doe",
   ort: "Berlin",
@@ -40,7 +44,14 @@ describe("eigentumDone", () => {
   it("fails with an empty geburtsdatum field", () => {
     expect(
       prozesskostenhilfePersoenlicheDatenDone({
-        context: { ...context, geburtsdatum: "" },
+        context: {
+          ...context,
+          geburtsdatum: {
+            geburtsdatumTag: "",
+            geburtsdatumMonat: "",
+            geburtsdatumJahr: "",
+          },
+        },
       }),
     ).toBeFalsy();
   });

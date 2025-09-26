@@ -7,7 +7,9 @@ export const prozesskostenhilfePersoenlicheDatenDone: GenericGuard<
   Boolean(
     context.vorname &&
       context.nachname &&
-      context.geburtsdatum &&
+      context.geburtsdatum?.geburtsdatumTag &&
+      context.geburtsdatum?.geburtsdatumMonat &&
+      context.geburtsdatum?.geburtsdatumJahr &&
       context.street &&
       context.houseNumber &&
       context.plz &&
