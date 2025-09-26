@@ -1,7 +1,6 @@
 import {
   hasRatenzahlungDone,
   hasSonstigeAusgabeDone,
-  hasVersicherungDone,
   kinderDone,
   kraftfahrzeugDone,
   partnerBesondersAusgabenDone,
@@ -9,7 +8,6 @@ import {
   partnerSupportDone,
   ratenzahlungDone,
   sonstigeAusgabeDone,
-  versicherungDone,
   wohnungDone,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
 import { kraftfahrzeugWertInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
@@ -254,68 +252,6 @@ describe("Finanzielle Angaben doneFunctions", () => {
 
     it("should return true if a kraftfahrzeug is complete", () => {
       expect(kraftfahrzeugDone(mockedCompleteKraftfahrzeug)).toBe(true);
-    });
-  });
-
-  describe("versicherungDone", () => {
-    it("should return false if the user has indicated a sonstige versicherung but hasn't named it", () => {
-      expect(versicherungDone({ beitrag: "100", art: "sonstige" })).toBe(false);
-    });
-
-    it("should return true for a completed versicherung entry", () => {
-      expect(
-        versicherungDone({ beitrag: "100", art: "unfallversicherung" }),
-      ).toBe(true);
-      expect(
-        versicherungDone({
-          beitrag: "100",
-          art: "sonstige",
-          sonstigeArt: "beschreibung",
-        }),
-      ).toBe(true);
-    });
-  });
-
-  describe("hasVersicherungDone", () => {
-    it("should return false if the versicherungen array is empty", () => {
-      expect(hasVersicherungDone({ context: { versicherungen: [] } })).toBe(
-        false,
-      );
-    });
-
-    it("should return false if the versicherungen array contains an incomplete entry", () => {
-      expect(
-        hasVersicherungDone({
-          context: {
-            versicherungen: [
-              {
-                art: "sonstige",
-                beitrag: "100",
-              },
-            ],
-          },
-        }),
-      ).toBe(false);
-    });
-
-    it("should return true if the versicherungen array contains only complete entries", () => {
-      expect(
-        hasVersicherungDone({
-          context: {
-            versicherungen: [
-              {
-                art: "unfallversicherung",
-                beitrag: "100",
-              },
-              {
-                art: "sonstige",
-                sonstigeArt: "beschreibung",
-                beitrag: "100",
-              },
-            ],
-          },
-        }),
-      ).toBe(true);
     });
   });
 

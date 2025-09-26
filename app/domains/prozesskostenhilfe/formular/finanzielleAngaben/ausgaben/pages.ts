@@ -3,7 +3,6 @@ import { type PagesConfig } from "~/domains/pageSchemas";
 import { besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { createDateSchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
@@ -23,6 +22,22 @@ const versicherungenArtSchema = z.enum([
   "sonstige",
 ]);
 
+export const versicherungenArraySchema = z.array(
+  z.union([
+    z.object({
+      art: z.enum([
+        ...versicherungenArtSchema.options.filter((art) => art !== "sonstige"),
+      ]),
+      beitrag: buildMoneyValidationSchema(),
+    }),
+    z.object({
+      art: z.literal(versicherungenArtSchema.enum.sonstige),
+      beitrag: buildMoneyValidationSchema(),
+      sonstigeArt: stringRequiredSchema,
+    }),
+  ]),
+);
+
 export const pkhFormularFinanzielleAngabenAusgabenPages = {
   ausgabenFrage: {
     stepId: "finanzielle-angaben/ausgaben/ausgaben-frage",
@@ -36,13 +51,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
   ausgabenVersicherungen: {
     stepId: "finanzielle-angaben/ausgaben/versicherungen",
     pageSchema: {
-      versicherungen: z.array(
-        z.object({
-          art: versicherungenArtSchema,
-          beitrag: buildMoneyValidationSchema(),
-          sonstigeArt: stringOptionalSchema,
-        }),
-      ),
+      versicherungen: versicherungenArraySchema,
     },
     arrayPages: {
       daten: {
@@ -52,9 +61,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
         },
       },
       "sonstige-art": {
-        pageSchema: {
-          "versicherungen#sonstigeArt": stringOptionalSchema,
-        },
+        pageSchema: { "versicherungen#sonstigeArt": stringRequiredSchema },
       },
     },
   },

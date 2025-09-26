@@ -14,6 +14,7 @@ import {
   geldanlageDone,
   singleGrundeigentumDone,
 } from "../../../shared/formular/finanzielleAngaben/doneFunctions";
+import { versicherungenArraySchema } from "./ausgaben/pages";
 
 type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenUserData>;
@@ -156,26 +157,9 @@ export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 
 const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
-    hasVersicherungDone({ context }) ||
+    versicherungenArraySchema.safeParse(context.versicherungen).success ||
     hasRatenzahlungDone({ context }) ||
     hasSonstigeAusgabeDone({ context });
-
-export const versicherungDone = (
-  versicherung: NonNullable<
-    ProzesskostenhilfeFinanzielleAngabenUserData["versicherungen"]
-  >[0],
-) => {
-  if (versicherung.art === "sonstige") {
-    return versicherung.sonstigeArt !== undefined;
-  }
-  return true;
-};
-
-export const hasVersicherungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
-  context,
-}) =>
-  arrayIsNonEmpty(context.versicherungen) &&
-  context.versicherungen.every(versicherungDone);
 
 export const ratenzahlungDone = (
   ratenzahlung: NonNullable<

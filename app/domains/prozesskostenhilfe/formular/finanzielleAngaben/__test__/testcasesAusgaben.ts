@@ -20,7 +20,9 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
   ],
   [
     {
-      versicherungen: [{ art: "sonstige", beitrag: "10" }],
+      versicherungen: [
+        { art: "sonstige", sonstigeArt: "sonstige", beitrag: "10" },
+      ],
       pageData: { arrayIndexes: [0] },
     },
     [
