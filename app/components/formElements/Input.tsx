@@ -75,7 +75,6 @@ const Input = function InputComponent({
             field.error() && errorId,
             helperText && helperId,
           ].join(" ")}
-          aria-errormessage={field.error() ? errorId : undefined}
           aria-required={
             !!errorMessages?.find((err) => err.code === "required")
           }
@@ -91,7 +90,7 @@ const Input = function InputComponent({
           {helperText}
         </div>
       )}
-      <InputError id={errorId}>
+      <InputError id={errorId} keepAriaLive={false}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??
           field.error()}
       </InputError>

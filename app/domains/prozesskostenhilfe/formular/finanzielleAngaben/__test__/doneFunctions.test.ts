@@ -10,6 +10,7 @@ import {
   ratenzahlungDone,
   sonstigeAusgabeDone,
   versicherungDone,
+  wohnungDone,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
 import { kraftfahrzeugWertInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
@@ -473,6 +474,108 @@ describe("Finanzielle Angaben doneFunctions", () => {
         },
       });
       expect(done).toBe(true);
+    });
+  });
+
+  describe("wohnungDone", () => {
+    it("should return false if the apartment size or number of rooms isn't given", () => {
+      expect(
+        wohnungDone({
+          context: { apartmentSizeSqm: undefined },
+        }),
+      ).toBe(false);
+      expect(
+        wohnungDone({
+          context: { numberOfRooms: undefined },
+        }),
+      ).toBe(false);
+    });
+
+    it("should return true if the applicant is a renter", () => {
+      expect(
+        wohnungDone({
+          context: {
+            apartmentSizeSqm: 55,
+            numberOfRooms: 2,
+            livingSituation: "alone",
+            rentsApartment: "yes",
+            garageParkplatz: "no",
+            totalRent: "1000",
+          },
+        }),
+      ).toBe(true);
+
+      expect(
+        wohnungDone({
+          context: {
+            apartmentSizeSqm: 55,
+            numberOfRooms: 2,
+            livingSituation: "withOthers",
+            apartmentPersonCount: 2,
+            rentsApartment: "yes",
+            garageParkplatz: "no",
+            totalRent: "1000",
+            sharedRent: "500",
+          },
+        }),
+      ).toBe(true);
+    });
+
+    it("should return false if the renter doesn't enter the total rent or parkplatz info", () => {
+      expect(
+        wohnungDone({
+          context: {
+            apartmentSizeSqm: 55,
+            numberOfRooms: 2,
+            livingSituation: "alone",
+            rentsApartment: "yes",
+            garageParkplatz: "no",
+          },
+        }),
+      ).toBe(false);
+
+      expect(
+        wohnungDone({
+          context: {
+            apartmentSizeSqm: 55,
+            numberOfRooms: 2,
+            livingSituation: "alone",
+            rentsApartment: "yes",
+            totalRent: "1000",
+          },
+        }),
+      ).toBe(false);
+    });
+
+    it("should return true if the applicant is an owner", () => {
+      expect(
+        wohnungDone({
+          context: {
+            apartmentSizeSqm: 55,
+            numberOfRooms: 2,
+            livingSituation: "alone",
+            rentsApartment: "no",
+            utilitiesCostOwned: "100",
+            heatingCostsOwned: "120",
+          },
+        }),
+      ).toBe(true);
+    });
+
+    it("should return false if the shared owner doesn't enter the shared utilities costs", () => {
+      expect(
+        wohnungDone({
+          context: {
+            apartmentSizeSqm: 55,
+            numberOfRooms: 2,
+            livingSituation: "withOthers",
+            rentsApartment: "no",
+            utilitiesCostOwned: "100",
+            heatingCostsOwned: "120",
+            utilitiesCostOwnShared: undefined,
+          },
+        }),
+      ).toBe(false);
     });
   });
 });

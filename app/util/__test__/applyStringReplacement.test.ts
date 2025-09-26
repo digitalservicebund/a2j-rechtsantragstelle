@@ -1,3 +1,4 @@
+import * as logging from "~/services/logging";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 
 describe("applyStringReplacement", () => {
@@ -75,13 +76,16 @@ describe("applyStringReplacement", () => {
     expect(interpolatedString).toEqual("New String!");
   });
 
-  it("should throw an error if there is an unclosed placeholder", () => {
-    const stringWithoutEnd = "{{replaceMe";
-    expect(() => {
-      applyStringReplacement(stringWithoutEnd, {
+  it("should log an error and return the original content if there is a syntax error in the template string", () => {
+    const logErrorSpy = vi.spyOn(logging, "logError");
+    const templateStringWithoutClosingBrackets = "{{replaceMe";
+    expect(
+      applyStringReplacement(templateStringWithoutClosingBrackets, {
         replaceMe: "New String!",
-      });
-    }).toThrow();
+      }),
+    ).toEqual(templateStringWithoutClosingBrackets);
+    expect(logErrorSpy).toHaveBeenCalledOnce();
+    logErrorSpy.mockRestore();
   });
 
   it("should ignore incorrectly formatte placeholders", () => {
