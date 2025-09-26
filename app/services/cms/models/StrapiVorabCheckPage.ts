@@ -2,9 +2,9 @@ import { z } from "zod";
 import { StrapiContentComponentSchema } from "./formElements/StrapiContentComponent";
 import { StrapiFormComponentSchema } from "./formElements/StrapiFormComponent";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
-import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { StrapiFlowIdSchema } from "./StrapiFlowId";
 import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
+import { StrapiFlowMetaSchema } from "./StrapiMeta";
 
 export const StrapiVorabCheckPageSchema = z.object({
   stepId: z.string(),
@@ -13,5 +13,5 @@ export const StrapiVorabCheckPageSchema = z.object({
   form: z.array(StrapiFormComponentSchema),
   nextButtonLabel: StrapiStringOptionalSchema,
   ...HasStrapiLocaleSchema.shape,
-  ...HasStrapiMetaSchema.shape,
+  pageMeta: StrapiFlowMetaSchema,
 });

@@ -2,10 +2,10 @@ import { z } from "zod";
 import { StrapiContentComponentSchema } from "./formElements/StrapiContentComponent";
 import { StrapiFormComponentSchema } from "./formElements/StrapiFormComponent";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
-import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { StrapiFlowIdSchema } from "./StrapiFlowId";
 import { StringWithHtmlEntities } from "./StringWithHtmlEntities";
 import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
+import { StrapiFlowMetaSchema } from "./StrapiMeta";
 
 export const StrapiFormFlowPageSchema = z.object({
   heading: StringWithHtmlEntities,
@@ -18,7 +18,7 @@ export const StrapiFormFlowPageSchema = z.object({
   form: z.array(StrapiFormComponentSchema),
   post_form: z.array(StrapiContentComponentSchema),
   ...HasStrapiLocaleSchema.shape,
-  ...HasStrapiMetaSchema.shape,
+  pageMeta: StrapiFlowMetaSchema,
 });
 
 export type StrapiFormFlowPage = z.infer<typeof StrapiFormFlowPageSchema>;

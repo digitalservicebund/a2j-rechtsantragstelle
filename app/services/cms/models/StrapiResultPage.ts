@@ -3,12 +3,12 @@ import { StrapiHeadingSchema } from "./content/StrapiHeading";
 import { StrapiParagraphSchema } from "./content/StrapiParagraph";
 import { StrapiContentComponentSchema } from "./formElements/StrapiContentComponent";
 import { HasStrapiLocaleSchema } from "./HasStrapiLocale";
-import { HasStrapiMetaSchema } from "./HasStrapiMeta";
 import { StrapiElementWithIdSchema } from "./StrapiElementWithId";
 import { StrapiFlowIdSchema } from "./StrapiFlowId";
 import { StrapiLinkSchema } from "./StrapiLink";
 import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
 import { omitNull } from "~/util/omitNull";
+import { StrapiFlowMetaSchema } from "./StrapiMeta";
 
 export const StrapiResultPageSchema = z.object({
   stepId: z.string(),
@@ -26,5 +26,5 @@ export const StrapiResultPageSchema = z.object({
   nextLink: StrapiLinkSchema.nullable().transform(omitNull).optional(),
   backButtonLabel: StrapiStringOptionalSchema,
   ...HasStrapiLocaleSchema.shape,
-  ...HasStrapiMetaSchema.shape,
+  pageMeta: StrapiFlowMetaSchema,
 });

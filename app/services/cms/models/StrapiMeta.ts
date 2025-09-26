@@ -8,4 +8,10 @@ export const StrapiMetaSchema = z.object({
   breadcrumb: StrapiStringOptionalSchema,
 });
 
+export const StrapiFlowMetaSchema = z.object({
+  title: z.string(),
+  breadcrumb: StrapiStringOptionalSchema,
+});
+
 export type StrapiMeta = z.infer<typeof StrapiMetaSchema>;
+export type StrapiFlowMeta = z.infer<typeof StrapiFlowMetaSchema>;
