@@ -9,6 +9,76 @@ const isValidDate = (date: string) =>
     delimiters: ["."],
   });
 
+const validateDay = (day: string, ctx: z.RefinementCtx) => {
+  if (!/^\d+$/.test(day)) {
+    ctx.addIssue({
+      code: "custom",
+      message: "invalid_day_format",
+      path: ["geburtsdatumTag"],
+    });
+    return null;
+  }
+
+  const num = Number(day);
+
+  if (num < 1 || num > 31) {
+    ctx.addIssue({
+      code: "custom",
+      message: "day_out_of_range",
+      path: ["geburtsdatumTag"],
+    });
+    return null;
+  }
+  return num;
+};
+
+const validateMonth = (month: string, ctx: z.RefinementCtx) => {
+  if (!/^\d+$/.test(month)) {
+    ctx.addIssue({
+      code: "custom",
+      message: "invalid_month_format",
+      path: ["geburtsdatumMonat"],
+    });
+    return null;
+  }
+
+  const num = Number(month);
+
+  if (num < 1 || num > 12) {
+    ctx.addIssue({
+      code: "custom",
+      message: "month_out_of_range",
+      path: ["geburtsdatumMonat"],
+    });
+    return null;
+  }
+  return num;
+};
+
+const validateYear = (year: string, ctx: z.RefinementCtx) => {
+  if (!/^\d{4}$/.test(year)) {
+    ctx.addIssue({
+      code: "custom",
+      message: "invalid_year_format",
+      path: ["geburtsdatumJahr"],
+    });
+    return null;
+  }
+
+  const num = Number(year);
+  const currentYear = new Date().getFullYear();
+
+  if (num < 1900 || num > currentYear) {
+    ctx.addIssue({
+      code: "custom",
+      message: "year_out_of_range",
+      path: ["geburtsdatumJahr"],
+    });
+    return null;
+  }
+  return num;
+};
+
 export const createDateSchema = (args?: {
   earliest?: () => Date;
   latest?: () => Date;
@@ -70,48 +140,13 @@ export const createSplitDateSchema = (args?: {
     .superRefine((data, ctx) => {
       const { geburtsdatumTag, geburtsdatumMonat, geburtsdatumJahr } = data;
 
-      const tag = Number(geburtsdatumTag);
-      const monat = Number(geburtsdatumMonat);
-      const jahr = Number(geburtsdatumJahr);
-
-      if (tag < 1 || tag > 31) {
-        ctx.addIssue({
-          code: "custom",
-          message: "day_out_of_range",
-          path: ["geburtsdatumTag"],
-        });
-      }
-
-      if (!/^\d+$/.test(geburtsdatumTag) || tag < 1 || tag > 31) {
-        ctx.addIssue({
-          code: "custom",
-          message: "day_out_of_range",
-          path: ["geburtsdatumTag"],
-        });
-      }
-
-      if (!/^\d+$/.test(geburtsdatumMonat) || monat < 1 || monat > 12) {
-        ctx.addIssue({
-          code: "custom",
-          message: "month_out_of_range",
-          path: ["geburtsdatumMonat"],
-        });
-      }
-      if (
-        !/^\d{4}$/.test(geburtsdatumJahr) ||
-        jahr < 1900 ||
-        jahr > new Date().getFullYear()
-      ) {
-        ctx.addIssue({
-          code: "custom",
-          message: "year_out_of_range",
-          path: ["geburtsdatumJahr"],
-        });
-      }
+      const day = validateDay(geburtsdatumTag, ctx);
+      const month = validateMonth(geburtsdatumMonat, ctx);
+      const year = validateYear(geburtsdatumJahr, ctx);
 
       if (ctx.issues.length > 0) return;
 
-      const dateString = `${geburtsdatumTag.padStart(2, "0")}.${geburtsdatumMonat.padStart(2, "0")}.${geburtsdatumJahr}`;
+      const dateString = `${day?.toString().padStart(2, "0")}.${month?.toString().padStart(2, "0")}.${year?.toString().padStart(4, "0")}`;
 
       if (!isValidDate(dateString)) {
         ctx.addIssue({
