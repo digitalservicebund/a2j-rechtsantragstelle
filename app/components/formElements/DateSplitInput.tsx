@@ -1,32 +1,43 @@
-import { type InputProps } from "./Input";
+import Input, { type InputProps } from "./Input";
+import InputLabel from "./InputLabel";
 
-const DateSplitInput = (props: InputProps) => {
+export type DateSplitInputProps = InputProps & {
+  labels?: [string, string, string];
+  legend?: string;
+  name: string;
+};
+
+const DateSplitInput = ({
+  labels = ["Tag", "Monat", "Jahr"],
+  legend = "Geburtsdatum",
+  name,
+}: DateSplitInputProps) => {
   return (
-    <fieldset className="grid grid-cols-4 gap-2">
-      <legend>Geburtsdatum</legend>
-      <input
+    <fieldset className="grid grid-cols-3 gap-2">
+      <legend>{legend}</legend>
+      <InputLabel id={`${name}-day`}>{labels[0]}</InputLabel>
+      <InputLabel id={`${name}-day`}>{labels[1]}</InputLabel>
+      <InputLabel id={`${name}-day`}>{labels[2]}</InputLabel>
+      <Input
         type="number"
-        label="Tag"
         placeholder="TT"
         width="5"
         autoComplete="bday-day"
-        {...props}
+        name={name}
       />
-      <input
+      <Input
         type="number"
-        label="Monat"
         placeholder="MM"
         width="5"
         autoComplete="bday-month"
-        {...props}
+        name={name}
       />
-      <input
+      <Input
         type="number"
-        label="Jahr"
         placeholder="JJJJ"
         width="5"
         autoComplete="bday-year"
-        {...props}
+        name={name}
       />
     </fieldset>
   );
