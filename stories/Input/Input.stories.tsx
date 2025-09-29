@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { reactRouterFormContext } from "../.storybook/reactRouterFormContext";
-import Input from "../app/components/formElements/Input";
+import { expect, userEvent } from "storybook/test";
+import { reactRouterFormContext } from "../../.storybook/reactRouterFormContext";
+import Input from "../../app/components/formElements/Input";
 
 const meta = {
   title: "FormElements/Input",
@@ -28,6 +29,14 @@ export const Default: Story = {
     width: undefined,
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
+  play: async ({ canvas }) => {
+    const input = canvas.getByRole("textbox", {
+      name: /lorem ipsum dolor sit amet/i,
+    });
+
+    await userEvent.type(input, "Test input");
+    await expect(input).toHaveValue("Test input");
+  },
 };
 
 export const WithPrefix: Story = {
@@ -55,4 +64,14 @@ export const WithHelperText: Story = {
     helperText: "Helper",
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
+  play: async ({ canvas }) => {
+    const input = canvas.getByRole("textbox", {
+      name: /lorem ipsum dolor sit amet/i,
+    });
+    const helperText = canvas.getByText("Helper");
+
+    await expect(helperText).toBeInTheDocument();
+    await userEvent.type(input, "Helper test");
+    await expect(input).toHaveValue("Helper test");
+  },
 };
