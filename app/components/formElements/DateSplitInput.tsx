@@ -11,7 +11,6 @@ const DateSplitInput = (props: InputProps) => {
         width="5"
         autoComplete="bday-day"
         {...props}
-        name="geburtsdatum.geburtsdatumTag"
       />
       <input
         type="number"
@@ -20,7 +19,6 @@ const DateSplitInput = (props: InputProps) => {
         width="5"
         autoComplete="bday-month"
         {...props}
-        name="geburtsdatum.geburtsdatumMonat"
       />
       <input
         type="number"
@@ -29,7 +27,6 @@ const DateSplitInput = (props: InputProps) => {
         width="5"
         autoComplete="bday-year"
         {...props}
-        name="geburtsdatum.geburtsdatumJahr"
       />
     </fieldset>
   );
