@@ -11,10 +11,12 @@ import { StrapiSelectComponentSchema } from "./StrapiSelect";
 import { StrapiTextareaComponentSchema } from "./StrapiTextarea";
 import { StrapiTileGroupComponentSchema } from "./StrapiTileGroup";
 import { StrapiTimeInputComponentSchema } from "./StrapiTimeInput";
+import { StrapiDateSplitInputComponentSchema } from "./StrapiDateSplitInput";
 
 export const StrapiFormComponentSchema = z.union([
   StrapiInputComponentSchema,
   StrapiDateInputComponentSchema,
+  StrapiDateSplitInputComponentSchema,
   StrapiTimeInputComponentSchema,
   StrapiFilesUploadComponentSchema,
   StrapiTextareaComponentSchema,

@@ -82,15 +82,26 @@ export const createSplitDateSchema = (args?: {
         });
       }
 
-      if (monat < 1 || monat > 12) {
+      if (!/^\d+$/.test(geburtsdatumTag) || tag < 1 || tag > 31) {
+        ctx.addIssue({
+          code: "custom",
+          message: "day_out_of_range",
+          path: ["geburtsdatumTag"],
+        });
+      }
+
+      if (!/^\d+$/.test(geburtsdatumMonat) || monat < 1 || monat > 12) {
         ctx.addIssue({
           code: "custom",
           message: "month_out_of_range",
           path: ["geburtsdatumMonat"],
         });
       }
-
-      if (jahr < 1900 || jahr > new Date().getFullYear()) {
+      if (
+        !/^\d{4}$/.test(geburtsdatumJahr) ||
+        jahr < 1900 ||
+        jahr > new Date().getFullYear()
+      ) {
         ctx.addIssue({
           code: "custom",
           message: "year_out_of_range",
@@ -98,23 +109,15 @@ export const createSplitDateSchema = (args?: {
         });
       }
 
-      const dateString = `${geburtsdatumTag.padStart(2, "0")}.${geburtsdatumMonat.padStart(2, "0")}.${geburtsdatumJahr}`;
+      if (ctx.issues.length > 0) return;
 
-      if (!/^\d{2}\.\d{2}\.\d{4}$/.test(dateString)) {
-        ctx.addIssue({
-          code: "custom",
-          message: "format",
-          path: ["geburtsdatumTag"], // show error message below first field
-          fatal: true,
-        });
-        return;
-      }
+      const dateString = `${geburtsdatumTag.padStart(2, "0")}.${geburtsdatumMonat.padStart(2, "0")}.${geburtsdatumJahr}`;
 
       if (!isValidDate(dateString)) {
         ctx.addIssue({
           code: "custom",
           message: "invalid",
-          path: ["geburtsdatumTag"],
+          path: ["geburtsdatum"],
         });
         return;
       }
@@ -125,7 +128,7 @@ export const createSplitDateSchema = (args?: {
         ctx.addIssue({
           code: "custom",
           message: "too_early",
-          path: ["geburtsdatumTag"],
+          path: ["geburtsdatum"],
         });
       }
 
@@ -133,7 +136,7 @@ export const createSplitDateSchema = (args?: {
         ctx.addIssue({
           code: "custom",
           message: "too_late",
-          path: ["geburtsdatumTag"],
+          path: ["geburtsdatum"],
         });
       }
     });

@@ -6,6 +6,7 @@ import Textarea from "~/components/formElements/Textarea";
 import TimeInput from "~/components/formElements/TimeInput";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import AutoSuggestInput from "../AutoSuggestInput";
+import DateSplitInput from "../DateSplitInput";
 
 export const isZodString = (
   fieldSchema: z.ZodType,
@@ -36,6 +37,8 @@ export const renderZodString = (
     );
   if (matchingElement?.__component === "form-elements.date-input")
     return <DateInput key={fieldName} {...inputProps} />;
+  if (matchingElement?.__component === "form-elements.date-split-input")
+    return <DateSplitInput key={fieldName} {...inputProps} />;
   if (matchingElement?.__component === "form-elements.time-input")
     return <TimeInput key={fieldName} {...inputProps} />;
   if (matchingElement?.__component === "form-elements.auto-suggest-input")
