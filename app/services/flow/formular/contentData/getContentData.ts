@@ -11,6 +11,7 @@ import { buildFormElements } from "./buildFormElements";
 import { getBackButtonDestination } from "./getBackButtonDestination";
 import { type UserDataWithPageData } from "../../pageData";
 import type { stepMeta } from "~/services/meta/stepMeta";
+import { isStepStateIdCurrent } from "~/services/navigation/isStepStateIdCurrent";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -84,7 +85,9 @@ export const getContentData = (
       const steps = useStepper
         ? stepStates
             .filter((s) =>
-              s.subStates?.some((subState) => subState.stepId === stepId),
+              s.subStates?.some((subState) => {
+                return isStepStateIdCurrent(subState.stepId, stepId);
+              }),
             )
             .flatMap((s) => s.subStates ?? [])
         : stepStates;

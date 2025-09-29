@@ -1,39 +1,14 @@
 import {
-  hasRatenzahlungDone,
-  hasSonstigeAusgabeDone,
-  hasVersicherungDone,
+  ausgabenDone,
   kinderDone,
   kraftfahrzeugDone,
   partnerBesondersAusgabenDone,
   partnerDone,
   partnerSupportDone,
-  ratenzahlungDone,
-  sonstigeAusgabeDone,
-  versicherungDone,
   wohnungDone,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
 import { kraftfahrzeugWertInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
-
-const mockedCompleteRatenzahlung: NonNullable<
-  ProzesskostenhilfeFinanzielleAngabenUserData["ratenzahlungen"]
->[0] = {
-  art: "art",
-  zahlungsempfaenger: "Someone",
-  zahlungspflichtiger: "myself",
-  betragGesamt: "50",
-  restschuld: "100",
-  laufzeitende: "01.01.2026",
-};
-
-const mockedCompleteSonstigeAusgabe: NonNullable<
-  ProzesskostenhilfeFinanzielleAngabenUserData["sonstigeAusgaben"]
->[0] = {
-  art: "art",
-  zahlungsempfaenger: "Someone",
-  zahlungspflichtiger: "myself",
-  betragGesamt: "50",
-};
 
 const mockedCompleteKraftfahrzeug: NonNullable<
   ProzesskostenhilfeFinanzielleAngabenUserData["kraftfahrzeuge"]
@@ -257,193 +232,6 @@ describe("Finanzielle Angaben doneFunctions", () => {
     });
   });
 
-  describe("versicherungDone", () => {
-    it("should return false if the user has indicated a sonstige versicherung but hasn't named it", () => {
-      expect(versicherungDone({ beitrag: "100", art: "sonstige" })).toBe(false);
-    });
-
-    it("should return true for a completed versicherung entry", () => {
-      expect(
-        versicherungDone({ beitrag: "100", art: "unfallversicherung" }),
-      ).toBe(true);
-      expect(
-        versicherungDone({
-          beitrag: "100",
-          art: "sonstige",
-          sonstigeArt: "beschreibung",
-        }),
-      ).toBe(true);
-    });
-  });
-
-  describe("hasVersicherungDone", () => {
-    it("should return false if the versicherungen array is empty", () => {
-      expect(hasVersicherungDone({ context: { versicherungen: [] } })).toBe(
-        false,
-      );
-    });
-
-    it("should return false if the versicherungen array contains an incomplete entry", () => {
-      expect(
-        hasVersicherungDone({
-          context: {
-            versicherungen: [
-              {
-                art: "sonstige",
-                beitrag: "100",
-              },
-            ],
-          },
-        }),
-      ).toBe(false);
-    });
-
-    it("should return true if the versicherungen array contains only complete entries", () => {
-      expect(
-        hasVersicherungDone({
-          context: {
-            versicherungen: [
-              {
-                art: "unfallversicherung",
-                beitrag: "100",
-              },
-              {
-                art: "sonstige",
-                sonstigeArt: "beschreibung",
-                beitrag: "100",
-              },
-            ],
-          },
-        }),
-      ).toBe(true);
-    });
-  });
-
-  describe("ratenzahlungDone", () => {
-    it("should return false if the user has entered an incomplete ratenzahlung", () => {
-      expect(
-        ratenzahlungDone({
-          ...mockedCompleteRatenzahlung,
-          zahlungspflichtiger: "myselfAndPartner",
-        }),
-      ).toBe(false);
-    });
-
-    it("should return true for a completed ratenzahlung entry", () => {
-      expect(ratenzahlungDone(mockedCompleteRatenzahlung)).toBe(true);
-      expect(
-        ratenzahlungDone({
-          ...mockedCompleteRatenzahlung,
-          zahlungspflichtiger: "myselfAndPartner",
-          betragEigenerAnteil: "50",
-          betragGesamt: "100",
-        }),
-      ).toBe(true);
-    });
-  });
-
-  describe("hasRatenzahlungDone", () => {
-    it("should return false if the ratenzahlungen array is empty", () => {
-      expect(hasRatenzahlungDone({ context: { ratenzahlungen: [] } })).toBe(
-        false,
-      );
-    });
-
-    it("should return false if the ratenzahlungen array contains an incomplete entry", () => {
-      expect(
-        hasRatenzahlungDone({
-          context: {
-            ratenzahlungen: [],
-          },
-        }),
-      ).toBe(false);
-      expect(
-        hasRatenzahlungDone({
-          context: {
-            ratenzahlungen: [
-              {
-                ...mockedCompleteRatenzahlung,
-                zahlungspflichtiger: "myselfAndSomeoneElse",
-              },
-            ],
-          },
-        }),
-      ).toBe(false);
-    });
-
-    it("should return true if the ratenzahlungen array contains only complete entries", () => {
-      expect(
-        hasRatenzahlungDone({
-          context: {
-            ratenzahlungen: [mockedCompleteRatenzahlung],
-          },
-        }),
-      ).toBe(true);
-    });
-  });
-
-  describe("sonstigeAusgabeDone", () => {
-    it("should return false if the user has entered an incomplete sonstige ausgabe", () => {
-      expect(
-        sonstigeAusgabeDone({
-          ...mockedCompleteSonstigeAusgabe,
-          zahlungspflichtiger: "myselfAndPartner",
-        }),
-      ).toBe(false);
-    });
-
-    it("should return true for a completed sonstige ausgabe entry", () => {
-      expect(sonstigeAusgabeDone(mockedCompleteSonstigeAusgabe)).toBe(true);
-      expect(
-        sonstigeAusgabeDone({
-          ...mockedCompleteSonstigeAusgabe,
-          zahlungspflichtiger: "myselfAndPartner",
-          betragEigenerAnteil: "50",
-        }),
-      ).toBe(true);
-    });
-  });
-
-  describe("hasSonstigeAusgabeDone", () => {
-    it("should return false if the sonstigeAusgaben array is empty", () => {
-      expect(
-        hasSonstigeAusgabeDone({ context: { sonstigeAusgaben: [] } }),
-      ).toBe(false);
-    });
-
-    it("should return false if the sonstigeAusgaben array contains an incomplete entry", () => {
-      expect(
-        hasSonstigeAusgabeDone({
-          context: {
-            sonstigeAusgaben: [],
-          },
-        }),
-      ).toBe(false);
-      expect(
-        hasSonstigeAusgabeDone({
-          context: {
-            sonstigeAusgaben: [
-              {
-                ...mockedCompleteSonstigeAusgabe,
-                zahlungspflichtiger: "myselfAndSomeoneElse",
-              },
-            ],
-          },
-        }),
-      ).toBe(false);
-    });
-
-    it("should return true if the sonstigeAusgaben array contains only complete entries", () => {
-      expect(
-        hasSonstigeAusgabeDone({
-          context: {
-            sonstigeAusgaben: [mockedCompleteSonstigeAusgabe],
-          },
-        }),
-      ).toBe(true);
-    });
-  });
-
   describe("partnerSupportDone", () => {
     it("should return false if the user hasn't stated yes or no", () => {
       const done = partnerSupportDone({
@@ -576,6 +364,59 @@ describe("Finanzielle Angaben doneFunctions", () => {
           },
         }),
       ).toBe(false);
+    });
+  });
+
+  describe("ausgabenDone", () => {
+    it("returns true without ausgabe", () => {
+      expect(
+        ausgabenDone({
+          context: { hasAusgaben: "no", besondereBelastungen: { none: "on" } },
+        }),
+      ).toBe(true);
+    });
+
+    describe("needs any valid ausgabe", () => {
+      type Ausgaben = "sonstigeAusgaben" | "ratenzahlungen" | "versicherungen";
+
+      const zahlung = {
+        art: "art",
+        zahlungsempfaenger: "Someone",
+        zahlungspflichtiger: "myself",
+        betragGesamt: "50",
+      } as const;
+
+      const ausgabenItems = {
+        sonstigeAusgaben: zahlung,
+        ratenzahlungen: {
+          ...zahlung,
+          restschuld: "100",
+          laufzeitende: "01.01.2026",
+        },
+        versicherungen: {
+          beitrag: "100",
+          art: "sonstige",
+          sonstigeArt: "beschreibung",
+        },
+      } as const satisfies {
+        [K in Ausgaben]: NonNullable<
+          ProzesskostenhilfeFinanzielleAngabenUserData[K]
+        >[0];
+      };
+
+      Object.entries(ausgabenItems).forEach(([key, item]) => {
+        it(`returns true with valid ${key}`, () => {
+          expect(
+            ausgabenDone({
+              context: {
+                hasAusgaben: "yes",
+                besondereBelastungen: { none: "on" },
+                [key]: [item],
+              },
+            }),
+          ).toBe(true);
+        });
+      });
     });
   });
 });
