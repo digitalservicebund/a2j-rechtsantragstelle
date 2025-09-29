@@ -77,8 +77,8 @@
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.17.2",
     "pino-http": "^10.5.0",
-    "posthog-node": "5.9.1",
     "posthog-js": "1.268.6",
+    "posthog-node": "5.9.1",
     "rate-limit-redis": "^4.2.2",
     "react": "^19.1.1",
     "react-collapsed": "^4.2.0",
@@ -104,6 +104,7 @@
     "@size-limit/file": "^11.2.0",
     "@storybook/addon-a11y": "^9.1.8",
     "@storybook/addon-docs": "^9.1.8",
+    "@storybook/addon-vitest": "^9.1.8",
     "@storybook/react-vite": "^9.1.8",
     "@tailwindcss/vite": "^4.1.13",
     "@testing-library/dom": "^10.4.1",
@@ -119,6 +120,7 @@
     "@types/react": "^19.1.15",
     "@types/react-dom": "^19.1.9",
     "@types/validator": "^13.15.3",
+    "@vitejs/plugin-react": "^5.0.4",
     "@vitest/coverage-istanbul": "^3.2.4",
     "@vitest/eslint-plugin": "^1.3.13",
     "@vitest/expect": "^3.2.4",
@@ -139,6 +141,7 @@
     "license-checker-rseidelsohn": "^4.4.2",
     "oxlint": "^1.18.0",
     "p-map": "^7.0.3",
+    "playwright": "^1.55.1",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "react-router-dom": "^7.9.3",
@@ -152,7 +155,8 @@
     "vite-env-only": "^3.0.3",
     "vite-node": "^3.2.4",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "vitest-browser-react": "^1.0.1"
   },
   "resolutions": {
     "form-data": "4.0.4"
