@@ -1,4 +1,6 @@
 import { sentryVitePlugin } from "@sentry/vite-plugin";
+import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
+import react from "@vitejs/plugin-react";
 import { reactRouter } from "@react-router/dev/vite";
 import {
   sentryReactRouter,
@@ -72,6 +74,29 @@ export default defineConfig((config) => ({
           dir: "./tests/integration",
           name: "integration",
           pool: "forks",
+        },
+      },
+      {
+        extends: true,
+        plugins: [
+          react(),
+          storybookTest({
+            configDir: "./.storybook",
+            storybookScript: "npm run start:storybook",
+            tags: {
+              include: ["interaction", "accessibility"],
+            },
+          }),
+        ],
+        test: {
+          name: "storybook",
+          browser: {
+            enabled: true,
+            provider: "playwright",
+            headless: true,
+            instances: [{ browser: "chromium" }],
+          },
+          setupFiles: ["./.storybook/vitest.setup.ts"],
         },
       },
     ],

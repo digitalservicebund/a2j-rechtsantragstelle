@@ -40,7 +40,12 @@ export const reactRouterFormContext = (
   action?: ActionFunction,
 ) =>
   reactRouterContext(
-    () => RVFProvider({ children, schema, triggerValidationOnMount: !!schema }),
+    () =>
+      RVFProvider({
+        children,
+        schema,
+        triggerValidationOnMount: schema === undefined,
+      }),
     loader,
     action,
   );
