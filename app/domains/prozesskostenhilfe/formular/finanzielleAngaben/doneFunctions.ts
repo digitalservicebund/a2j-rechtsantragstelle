@@ -14,6 +14,11 @@ import {
   geldanlageDone,
   singleGrundeigentumDone,
 } from "../../../shared/formular/finanzielleAngaben/doneFunctions";
+import {
+  ratenZahlungArraySchema,
+  sonstigeZahlungArraySchema,
+  versicherungenArraySchema,
+} from "./ausgaben/pages";
 
 type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenUserData>;
@@ -152,69 +157,11 @@ export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 }) =>
   context.besondereBelastungen !== undefined &&
   (context.hasAusgaben === "no" ||
-    (context.hasAusgaben == "yes" && ausgabenZusammenfassungDone({ context })));
-
-const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    hasVersicherungDone({ context }) ||
-    hasRatenzahlungDone({ context }) ||
-    hasSonstigeAusgabeDone({ context });
-
-export const versicherungDone = (
-  versicherung: NonNullable<
-    ProzesskostenhilfeFinanzielleAngabenUserData["versicherungen"]
-  >[0],
-) => {
-  if (versicherung.art === "sonstige") {
-    return versicherung.sonstigeArt !== undefined;
-  }
-  return true;
-};
-
-export const hasVersicherungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
-  context,
-}) =>
-  arrayIsNonEmpty(context.versicherungen) &&
-  context.versicherungen.every(versicherungDone);
-
-export const ratenzahlungDone = (
-  ratenzahlung: NonNullable<
-    ProzesskostenhilfeFinanzielleAngabenUserData["ratenzahlungen"]
-  >[0],
-) =>
-  !!ratenzahlung &&
-  ratenzahlung.art !== undefined &&
-  ratenzahlung.zahlungsempfaenger !== undefined &&
-  ratenzahlung.zahlungspflichtiger !== undefined &&
-  (ratenzahlung.zahlungspflichtiger === "myself" ||
-    ratenzahlung.betragEigenerAnteil !== undefined) &&
-  ratenzahlung.betragGesamt !== undefined &&
-  ratenzahlung.restschuld !== undefined &&
-  ratenzahlung.laufzeitende !== undefined;
-
-export const hasRatenzahlungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
-  context,
-}) =>
-  arrayIsNonEmpty(context.ratenzahlungen) &&
-  context.ratenzahlungen.every(ratenzahlungDone);
-
-export const sonstigeAusgabeDone = (
-  sonstigeAusgabe: NonNullable<
-    ProzesskostenhilfeFinanzielleAngabenUserData["sonstigeAusgaben"]
-  >[0],
-) =>
-  !!sonstigeAusgabe &&
-  sonstigeAusgabe.art !== undefined &&
-  sonstigeAusgabe.zahlungsempfaenger !== undefined &&
-  sonstigeAusgabe.zahlungspflichtiger !== undefined &&
-  (sonstigeAusgabe.zahlungspflichtiger === "myself" ||
-    sonstigeAusgabe.betragEigenerAnteil !== undefined) &&
-  sonstigeAusgabe.betragGesamt !== undefined;
-
-export const hasSonstigeAusgabeDone: ProzesskostenhilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    arrayIsNonEmpty(context.sonstigeAusgaben) &&
-    context.sonstigeAusgaben.every(sonstigeAusgabeDone);
+    (context.hasAusgaben === "yes" &&
+      (versicherungenArraySchema.safeParse(context.versicherungen).success ||
+        ratenZahlungArraySchema.safeParse(context.ratenzahlungen).success ||
+        sonstigeZahlungArraySchema.safeParse(context.sonstigeAusgaben)
+          .success)));
 
 export const partnerSupportDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,

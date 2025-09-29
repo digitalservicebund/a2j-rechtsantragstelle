@@ -3,7 +3,6 @@ import { type PagesConfig } from "~/domains/pageSchemas";
 import { besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { createDateSchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
@@ -23,6 +22,70 @@ const versicherungenArtSchema = z.enum([
   "sonstige",
 ]);
 
+export const versicherungenArraySchema = z.array(
+  z.union([
+    z.object({
+      art: z.enum([
+        ...versicherungenArtSchema.options.filter((art) => art !== "sonstige"),
+      ]),
+      beitrag: buildMoneyValidationSchema(),
+    }),
+    z.object({
+      art: z.literal(versicherungenArtSchema.enum.sonstige),
+      beitrag: buildMoneyValidationSchema(),
+      sonstigeArt: stringRequiredSchema,
+    }),
+  ]),
+);
+
+const betragEigenerAnteilSchema = buildMoneyValidationSchema();
+
+const sharedRatenZahlungFields = {
+  art: stringRequiredSchema,
+  zahlungsempfaenger: stringRequiredSchema,
+  betragGesamt: buildMoneyValidationSchema(),
+  restschuld: buildMoneyValidationSchema(),
+  laufzeitende: createDateSchema({ earliest: () => today() }),
+};
+
+export const ratenZahlungArraySchema = z.array(
+  z.union([
+    z.object({
+      ...sharedRatenZahlungFields,
+      zahlungspflichtiger: z.literal("myself"),
+    }),
+    z.object({
+      ...sharedRatenZahlungFields,
+      betragEigenerAnteil: betragEigenerAnteilSchema,
+      zahlungspflichtiger: z
+        .literal("myselfAndPartner")
+        .or(z.literal("myselfAndSomeoneElse")),
+    }),
+  ]),
+);
+
+const sharedSonstigeZahlungFields = {
+  art: stringRequiredSchema,
+  zahlungsempfaenger: stringRequiredSchema,
+  betragGesamt: buildMoneyValidationSchema(),
+};
+
+export const sonstigeZahlungArraySchema = z.array(
+  z.union([
+    z.object({
+      ...sharedSonstigeZahlungFields,
+      zahlungspflichtiger: z.literal("myself"),
+    }),
+    z.object({
+      ...sharedSonstigeZahlungFields,
+      betragEigenerAnteil: betragEigenerAnteilSchema,
+      zahlungspflichtiger: z
+        .literal("myselfAndPartner")
+        .or(z.literal("myselfAndSomeoneElse")),
+    }),
+  ]),
+);
+
 export const pkhFormularFinanzielleAngabenAusgabenPages = {
   ausgabenFrage: {
     stepId: "finanzielle-angaben/ausgaben/ausgaben-frage",
@@ -36,52 +99,33 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
   ausgabenVersicherungen: {
     stepId: "finanzielle-angaben/ausgaben/versicherungen",
     pageSchema: {
-      versicherungen: z.array(
-        z.object({
-          art: versicherungenArtSchema,
-          beitrag: buildMoneyValidationSchema(),
-          sonstigeArt: stringOptionalSchema,
-        }),
-      ),
+      versicherungen: versicherungenArraySchema,
     },
     arrayPages: {
       daten: {
         pageSchema: {
           "versicherungen#art": versicherungenArtSchema,
-          "versicherungen#beitrag": buildMoneyValidationSchema(),
+          "versicherungen#beitrag":
+            versicherungenArraySchema.element.def.options[0].shape.beitrag,
         },
       },
       "sonstige-art": {
         pageSchema: {
-          "versicherungen#sonstigeArt": stringOptionalSchema,
+          "versicherungen#sonstigeArt":
+            versicherungenArraySchema.element.def.options[1].shape.sonstigeArt,
         },
       },
     },
   },
   ausgabenRatenzahlungen: {
     stepId: "finanzielle-angaben/ausgaben/ratenzahlungen",
-    pageSchema: {
-      ratenzahlungen: z.array(
-        z
-          .object({
-            art: stringRequiredSchema,
-            zahlungsempfaenger: stringRequiredSchema,
-            zahlungspflichtiger: zahlungspflichtigerSchema,
-            betragEigenerAnteil: buildMoneyValidationSchema().optional(),
-            betragGesamt: buildMoneyValidationSchema(),
-            restschuld: buildMoneyValidationSchema(),
-            laufzeitende: createDateSchema({
-              earliest: () => today(),
-            }),
-          })
-          .partial(),
-      ),
-    },
+    pageSchema: { ratenzahlungen: ratenZahlungArraySchema },
     arrayPages: {
       daten: {
         pageSchema: {
-          "ratenzahlungen#art": stringRequiredSchema,
-          "ratenzahlungen#zahlungsempfaenger": stringRequiredSchema,
+          "ratenzahlungen#art": sharedRatenZahlungFields.art,
+          "ratenzahlungen#zahlungsempfaenger":
+            sharedRatenZahlungFields.zahlungsempfaenger,
         },
       },
       zahlungspflichtiger: {
@@ -91,51 +135,40 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       },
       betragGemeinsamerAnteil: {
         pageSchema: {
-          "ratenzahlungen#betragGesamt": buildMoneyValidationSchema(),
+          "ratenzahlungen#betragGesamt": sharedRatenZahlungFields.betragGesamt,
         },
       },
       betragEigenerAnteil: {
         pageSchema: {
-          "ratenzahlungen#betragEigenerAnteil": buildMoneyValidationSchema(),
+          "ratenzahlungen#betragEigenerAnteil": betragEigenerAnteilSchema,
         },
       },
       betragGesamt: {
         pageSchema: {
-          "ratenzahlungen#betragGesamt": buildMoneyValidationSchema(),
+          "ratenzahlungen#betragGesamt": sharedRatenZahlungFields.betragGesamt,
         },
       },
       restschuld: {
         pageSchema: {
-          "ratenzahlungen#restschuld": buildMoneyValidationSchema(),
+          "ratenzahlungen#restschuld": sharedRatenZahlungFields.restschuld,
         },
       },
       laufzeitende: {
         pageSchema: {
-          "ratenzahlungen#laufzeitende": stringRequiredSchema,
+          "ratenzahlungen#laufzeitende": sharedRatenZahlungFields.laufzeitende,
         },
       },
     },
   },
   ausgabenSonstigeAusgaben: {
     stepId: "finanzielle-angaben/ausgaben/sonstigeAusgaben",
-    pageSchema: {
-      sonstigeAusgaben: z.array(
-        z
-          .object({
-            art: stringRequiredSchema,
-            zahlungsempfaenger: stringRequiredSchema,
-            zahlungspflichtiger: zahlungspflichtigerSchema,
-            betragEigenerAnteil: buildMoneyValidationSchema().optional(),
-            betragGesamt: buildMoneyValidationSchema(),
-          })
-          .partial(),
-      ),
-    },
+    pageSchema: { sonstigeAusgaben: sonstigeZahlungArraySchema },
     arrayPages: {
       daten: {
         pageSchema: {
-          "sonstigeAusgaben#art": stringRequiredSchema,
-          "sonstigeAusgaben#zahlungsempfaenger": stringRequiredSchema,
+          "sonstigeAusgaben#art": sharedSonstigeZahlungFields.art,
+          "sonstigeAusgaben#zahlungsempfaenger":
+            sharedSonstigeZahlungFields.zahlungsempfaenger,
         },
       },
       zahlungspflichtiger: {
@@ -145,17 +178,19 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       },
       betragGemeinsamerAnteil: {
         pageSchema: {
-          "sonstigeAusgaben#betragGesamt": buildMoneyValidationSchema(),
+          "sonstigeAusgaben#betragGesamt":
+            sharedSonstigeZahlungFields.betragGesamt,
         },
       },
       betragEigenerAnteil: {
         pageSchema: {
-          "sonstigeAusgaben#betragEigenerAnteil": buildMoneyValidationSchema(),
+          "sonstigeAusgaben#betragEigenerAnteil": betragEigenerAnteilSchema,
         },
       },
       betragGesamt: {
         pageSchema: {
-          "sonstigeAusgaben#betragGesamt": buildMoneyValidationSchema(),
+          "sonstigeAusgaben#betragGesamt":
+            sharedSonstigeZahlungFields.betragGesamt,
         },
       },
     },

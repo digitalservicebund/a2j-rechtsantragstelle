@@ -20,7 +20,9 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
   ],
   [
     {
-      versicherungen: [{ art: "sonstige", beitrag: "10" }],
+      versicherungen: [
+        { art: "sonstige", sonstigeArt: "sonstige", beitrag: "10" },
+      ],
       pageData: { arrayIndexes: [0] },
     },
     [
@@ -30,7 +32,16 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
   ],
   [
     {
-      ratenzahlungen: [{ zahlungspflichtiger: "myself", betragGesamt: "10" }],
+      ratenzahlungen: [
+        {
+          zahlungspflichtiger: "myself",
+          betragGesamt: "10",
+          art: "asd",
+          laufzeitende: "01.01.2026",
+          restschuld: "10",
+          zahlungsempfaenger: "asd",
+        },
+      ],
       pageData: { arrayIndexes: [0] },
     },
     [
@@ -44,7 +55,15 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
   [
     {
       ratenzahlungen: [
-        { zahlungspflichtiger: "myselfAndPartner", betragGesamt: "10" },
+        {
+          zahlungspflichtiger: "myselfAndPartner",
+          betragGesamt: "10",
+          art: "asd",
+          laufzeitende: "01.01.2026",
+          restschuld: "10",
+          zahlungsempfaenger: "asd",
+          betragEigenerAnteil: "10",
+        },
       ],
       pageData: { arrayIndexes: [0] },
     },
@@ -59,7 +78,14 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
   ],
   [
     {
-      sonstigeAusgaben: [{ zahlungspflichtiger: "myself", betragGesamt: "10" }],
+      sonstigeAusgaben: [
+        {
+          zahlungspflichtiger: "myself",
+          betragGesamt: "10",
+          zahlungsempfaenger: "empfaenger",
+          art: "art",
+        },
+      ],
       pageData: { arrayIndexes: [0] },
     },
     [
@@ -71,7 +97,13 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
   [
     {
       sonstigeAusgaben: [
-        { zahlungspflichtiger: "myselfAndPartner", betragGesamt: "10" },
+        {
+          zahlungspflichtiger: "myselfAndPartner",
+          betragGesamt: "10",
+          art: "art",
+          betragEigenerAnteil: "10",
+          zahlungsempfaenger: "empfaenger",
+        },
       ],
       pageData: { arrayIndexes: [0] },
     },
