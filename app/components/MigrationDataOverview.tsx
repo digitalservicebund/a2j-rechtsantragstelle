@@ -65,16 +65,17 @@ export default function MigrationDataOverview({
   const sortedFieldsUserData = getSortedFieldsUserData(userData, sortedFields);
 
   return (
-    <dl className="space-y-16 bg-white pt-32 pb-44 px-32">
-      {Object.entries(sortedFieldsUserData).map(([itemKey, itemValue]) => (
-        <MigrationItems
-          key={itemKey}
-          itemKey={itemKey}
-          itemValue={itemValue as string}
-          translations={translations}
-        />
-      ))}
-
+    <div className="bg-white pt-32 pb-44 px-32">
+      <dl className="space-y-16">
+        {Object.entries(sortedFieldsUserData).map(([itemKey, itemValue]) => (
+          <MigrationItems
+            key={itemKey}
+            itemKey={itemKey}
+            itemValue={itemValue as string}
+            translations={translations}
+          />
+        ))}
+      </dl>
       {buttonUrl && (
         <div className="mt-32!">
           <StandaloneLink
@@ -86,6 +87,6 @@ export default function MigrationDataOverview({
           />
         </div>
       )}
-    </dl>
+    </div>
   );
 }
