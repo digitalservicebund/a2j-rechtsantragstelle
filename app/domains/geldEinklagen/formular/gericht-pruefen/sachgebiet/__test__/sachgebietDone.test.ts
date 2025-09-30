@@ -32,7 +32,7 @@ describe("sachgebietDone", () => {
     expect(actual).toBe(true);
   });
 
-  it("should return true if besondere is anderesRechtsproblem", () => {
+  it("should return true if besondere is schaden", () => {
     const actual = sachgebietDone({
       context: {
         sachgebietAusgeschlossen: "no",
