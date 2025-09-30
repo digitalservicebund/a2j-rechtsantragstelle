@@ -12,6 +12,7 @@ import type {
   FlowStateMachine,
   NavigationEvent,
 } from "~/services/flow/server/types";
+import { testCasesGeldEinklagenFormular } from "../geldEinklagen/formular/__test__/testCasesGeldEinklagenFormular";
 
 function getEnabledSteps({
   machine,
@@ -70,6 +71,7 @@ describe.sequential("state machine form flows", () => {
     testCasesFluggastrechteFormular,
     testCasesFluggastrechteVorabcheck,
     testCasesProzesskostenhilfeFormular,
+    testCasesGeldEinklagenFormular,
   } as const;
   const transitionTypes = ["SUBMIT", "BACK"] as const;
 
@@ -145,6 +147,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(38);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(41);
   });
 });

@@ -3,25 +3,33 @@ import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratun
 
 const finanzielleAngabenAusgabenAusgabenFrage =
   "/finanzielle-angaben/ausgaben/ausgaben-frage";
+const finanzielleAngabenAusgabenSituation =
+  "/finanzielle-angaben/ausgaben/situation";
 const persoenlicheDatenStart = "/persoenliche-daten/start";
 export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = [
   [
     {
       staatlicheLeistungen: "keine",
     },
-    [finanzielleAngabenAusgabenAusgabenFrage, persoenlicheDatenStart],
+    [
+      finanzielleAngabenAusgabenAusgabenFrage,
+      finanzielleAngabenAusgabenSituation,
+    ],
   ],
   [
     { hasAusgaben: "no", staatlicheLeistungen: "keine" },
-    [finanzielleAngabenAusgabenAusgabenFrage, persoenlicheDatenStart],
+    [
+      finanzielleAngabenAusgabenAusgabenFrage,
+      finanzielleAngabenAusgabenSituation,
+    ],
   ],
   [
     { hasAusgaben: "yes" },
     [
       finanzielleAngabenAusgabenAusgabenFrage,
-      "/finanzielle-angaben/ausgaben/situation",
       "/finanzielle-angaben/ausgaben/uebersicht",
       "/finanzielle-angaben/ausgaben/warnung",
+      finanzielleAngabenAusgabenSituation,
     ],
   ],
   [
@@ -39,8 +47,8 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = [
     },
     [
       finanzielleAngabenAusgabenAusgabenFrage,
-      "/finanzielle-angaben/ausgaben/situation",
       "/finanzielle-angaben/ausgaben/uebersicht",
+      "/finanzielle-angaben/ausgaben/situation",
       persoenlicheDatenStart,
     ],
   ],

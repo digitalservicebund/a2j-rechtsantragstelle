@@ -37,13 +37,8 @@ const versicherungMapping = {
 
 const ZAHLUNGSVERPFLICHTUNG_DESCRIPTION_LINE_LENGTH = 41;
 
-const alleinZahlung = (ratenzahlung: Ratenzahlung) =>
-  ratenzahlung.zahlungspflichtiger === "myself"
-    ? ratenzahlung.betragGesamt
-    : ratenzahlung.betragEigenerAnteil;
-
 const mapVersicherungsArt = (versicherung: Versicherung) =>
-  versicherung.art === "sonstige" && versicherung.sonstigeArt
+  versicherung.art === "sonstige"
     ? versicherung.sonstigeArt
     : versicherungMapping[versicherung.art];
 
@@ -60,7 +55,10 @@ const mapRatenzahlungAndSonstigeAusgabeToZahlungsverpflichtung = (
       ? ratenzahlungOrSonstigeAusgabe.restschuld
       : undefined,
   gesamtbelastung: ratenzahlungOrSonstigeAusgabe.betragGesamt,
-  betragEigenerAnteil: ratenzahlungOrSonstigeAusgabe.betragEigenerAnteil,
+  betragEigenerAnteil:
+    "betragEigenerAnteil" in ratenzahlungOrSonstigeAusgabe
+      ? ratenzahlungOrSonstigeAusgabe.betragEigenerAnteil
+      : undefined,
 });
 
 const mapVersicherungToZahlungsverpflichtung = (
@@ -86,7 +84,7 @@ const pushVersicherungenToAttachment = (
 
 const pushRatenzahlungenAndSonstigeAusgabenToAttachment = (
   attachment: AttachmentEntries,
-  ratenzahlungenAndSonstigeAusgaben: Ratenzahlung[] | SonstigeAusgabe[],
+  ratenzahlungenAndSonstigeAusgaben: Array<Ratenzahlung | SonstigeAusgabe>,
 ) => {
   attachment.push({
     title: "Sonstige Zahlungsverpflichtungen",
@@ -113,13 +111,13 @@ const pushRatenzahlungenAndSonstigeAusgabenToAttachment = (
         text: zahlung.betragEigenerAnteil,
       });
     }
-    if ("restschuld" in zahlung && typeof zahlung.restschuld === "string") {
+    if ("restschuld" in zahlung) {
       attachment.push({
         title: "Restschuld in EUR",
         text: zahlung.restschuld,
       });
     }
-    if ("laufzeitende" in zahlung && typeof zahlung.laufzeitende === "string")
+    if ("laufzeitende" in zahlung)
       attachment.push({
         title: "Laufzeitende",
         text: zahlung.laufzeitende,
@@ -144,7 +142,7 @@ const fillPdfValues = (
       "gesamtbelastung" in entry ? entry.gesamtbelastung : "";
     pdfValues[
       `ichalleinzahledavonsonstigeZahlungsverpflichtungen${index}`
-    ].value = alleinZahlung(entry);
+    ].value = entry.betragEigenerAnteil;
   }
 };
 
