@@ -35,10 +35,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
         pageData: { arrayIndexes: [0] },
       },
     },
-    // {
-    //   stepId: "/finanzielle-angaben/ausgaben/ausgaben/art",
-    //   userInput: { art: "test", zahlungsempfaenger: "test" },
-    // },
+    // Inserted array indices are needed to correctly access the nested pageData
     {
       stepId: "/finanzielle-angaben/ausgaben/ausgaben/0/art",
       userInput: {
@@ -56,24 +53,47 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
     },
     { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
   ],
-  // [
-  //   {
-  //     hasAusgaben: "yes",
-  //     ausgaben: [
-  //       {
-  //         art: "kredit",
-  //         zahlungsempfaenger: "nachname",
-  //         beitrag: "10",
-  //         hasZahlungsfrist: "yes",
-  //         zahlungsfrist: "",
-  //       },
-  //     ],
-  //     pageData: { arrayIndexes: [0] },
-  //   },
-  //   [
-  //     "/finanzielle-angaben/ausgaben/ausgaben/zahlungsinformation",
-  //     "/finanzielle-angaben/ausgaben/ausgaben/laufzeit",
-  //     "/finanzielle-angaben/ausgaben/ausgaben/zahlungsfrist",
-  //   ],
-  // ],
+  ausgabeWithZahlungsfrist: [
+    {
+      stepId: finanzielleAngabenAusgabenAusgabenFrage,
+      userInput: { hasAusgaben: "yes" },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/uebersicht",
+      addArrayItemStep: "add-ausgaben",
+      userInput: {
+        ausgaben: [],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    // Inserted array indices are needed to correctly access the nested pageData
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ausgaben/0/art",
+      userInput: {
+        "ausgaben#art": "test",
+        "ausgaben#zahlungsempfaenger": "test",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ausgaben/0/zahlungsinformation",
+      userInput: { "ausgaben#beitrag": "100" },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ausgaben/0/laufzeit",
+      userInput: {
+        "ausgaben#hasZahlungsfrist": "yes",
+        ausgaben: [
+          {
+            hasZahlungsfrist: "yes",
+          },
+        ],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ausgaben/0/zahlungsfrist",
+      userInput: { "ausgaben#zahlungsfrist": "01.01.2050" },
+    },
+    { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
+  ],
 } satisfies FlowTestCases["testcases"];
