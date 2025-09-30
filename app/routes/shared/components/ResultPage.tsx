@@ -82,9 +82,9 @@ export function ResultPage() {
             </div>
           </GridItem>
           <GridItem
-            mdColumn={{ start: 1, span: 3 }}
-            lgColumn={{ start: 3, span: 3 }}
-            xlColumn={{ start: 3, span: 3 }}
+            mdColumn={{ start: 1, span: 8 }}
+            lgColumn={{ start: 3, span: 12 }}
+            xlColumn={{ start: 3, span: 12 }}
             className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
             row={2}
           >
