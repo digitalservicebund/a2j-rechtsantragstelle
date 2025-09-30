@@ -1,6 +1,5 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
-import type { BeratungshilfeAnwaltlicheVertretungUserData } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/userData";
-import { addDays, today, toGermanDateFormat } from "~/util/date";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { toGermanDateFormat, addDays, today } from "~/util/date";
 
 const rechtsproblemStart = "/rechtsproblem/start";
 const anwaltlicheVertretungStart = "/anwaltliche-vertretung/start";
@@ -8,68 +7,91 @@ const anwaltlicheVertretungBeratungStattgefunden =
   "/anwaltliche-vertretung/beratung-stattgefunden";
 const anwaltlicheVertretungBeratungStattgefundenDatum =
   "/anwaltliche-vertretung/beratung-stattgefunden-datum";
-export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = [
-  [{}, [anwaltlicheVertretungStart, rechtsproblemStart]],
-  [{ anwaltskanzlei: "no" }, [anwaltlicheVertretungStart, rechtsproblemStart]],
-  [
-    { anwaltskanzlei: "yes" },
-    [
-      anwaltlicheVertretungStart,
-      anwaltlicheVertretungBeratungStattgefunden,
-      rechtsproblemStart,
-    ],
+
+export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = {
+  noAnwaltlicheVertretung: [
+    { stepId: anwaltlicheVertretungStart, userInput: { anwaltskanzlei: "no" } },
+    { stepId: rechtsproblemStart },
   ],
-  [
+  anwaltlicheVertretungYes: [
     {
-      anwaltskanzlei: "yes",
-      beratungStattgefunden: "no",
+      stepId: anwaltlicheVertretungStart,
+      userInput: { anwaltskanzlei: "yes" },
     },
-    [
-      anwaltlicheVertretungStart,
-      anwaltlicheVertretungBeratungStattgefunden,
-      rechtsproblemStart,
-    ],
+    { stepId: anwaltlicheVertretungBeratungStattgefunden },
   ],
-  [
+  beratungStattgefundenNo: [
     {
-      anwaltskanzlei: "yes",
-      beratungStattgefunden: "yes",
+      stepId: anwaltlicheVertretungStart,
+      userInput: { anwaltskanzlei: "yes" },
     },
-    [
-      anwaltlicheVertretungStart,
-      anwaltlicheVertretungBeratungStattgefunden,
-      anwaltlicheVertretungBeratungStattgefundenDatum,
-      "/anwaltliche-vertretung/frist-hinweis",
-      "/anwaltliche-vertretung/anwalt-kontaktdaten",
-      rechtsproblemStart,
-    ],
-  ],
-  [
     {
-      anwaltskanzlei: "yes",
-      beratungStattgefunden: "yes",
-      beratungStattgefundenDatum: toGermanDateFormat(addDays(today(), -7)),
+      stepId: anwaltlicheVertretungBeratungStattgefunden,
+      userInput: {
+        beratungStattgefunden: "no",
+      },
     },
-    [
-      anwaltlicheVertretungStart,
-      anwaltlicheVertretungBeratungStattgefunden,
-      anwaltlicheVertretungBeratungStattgefundenDatum,
-      "/anwaltliche-vertretung/frist-hinweis",
-      "/anwaltliche-vertretung/anwalt-kontaktdaten",
-      rechtsproblemStart,
-    ],
+    { stepId: rechtsproblemStart },
   ],
-  [
+  beratungStattgefundenYes: [
     {
-      anwaltskanzlei: "yes",
-      beratungStattgefunden: "yes",
-      beratungStattgefundenDatum: toGermanDateFormat(addDays(today(), -30)),
+      stepId: anwaltlicheVertretungStart,
+      userInput: { anwaltskanzlei: "yes" },
     },
-    [
-      anwaltlicheVertretungStart,
-      anwaltlicheVertretungBeratungStattgefunden,
-      anwaltlicheVertretungBeratungStattgefundenDatum,
-      "/anwaltliche-vertretung/anwalt-ende",
-    ],
+    {
+      stepId: anwaltlicheVertretungBeratungStattgefunden,
+      userInput: {
+        beratungStattgefunden: "yes",
+      },
+    },
+    { stepId: anwaltlicheVertretungBeratungStattgefundenDatum },
   ],
-] as const satisfies TestCases<BeratungshilfeAnwaltlicheVertretungUserData>;
+  beratungOccurredWeekAgo: [
+    {
+      stepId: anwaltlicheVertretungStart,
+      userInput: { anwaltskanzlei: "yes" },
+    },
+    {
+      stepId: anwaltlicheVertretungBeratungStattgefunden,
+      userInput: {
+        beratungStattgefunden: "yes",
+      },
+    },
+    {
+      stepId: anwaltlicheVertretungBeratungStattgefundenDatum,
+      userInput: {
+        beratungStattgefundenDatum: toGermanDateFormat(addDays(today(), -7)),
+      },
+    },
+    { stepId: "/anwaltliche-vertretung/frist-hinweis" },
+    {
+      stepId: "/anwaltliche-vertretung/anwalt-kontaktdaten",
+      userInput: {
+        anwaltName: "Max Mustermann",
+        anwaltStrasseUndHausnummer: "Musterstraße 1",
+        anwaltPlz: "12437",
+        anwaltOrt: "Musterstadt",
+      },
+    },
+    { stepId: rechtsproblemStart },
+  ],
+  beratungOccurredMonthAgo: [
+    {
+      stepId: anwaltlicheVertretungStart,
+      userInput: { anwaltskanzlei: "yes" },
+    },
+    {
+      stepId: anwaltlicheVertretungBeratungStattgefunden,
+      userInput: {
+        beratungStattgefunden: "yes",
+      },
+    },
+    {
+      stepId: anwaltlicheVertretungBeratungStattgefundenDatum,
+      userInput: {
+        beratungStattgefundenDatum: toGermanDateFormat(addDays(today(), -30)),
+      },
+    },
+    { stepId: "/anwaltliche-vertretung/anwalt-ende" },
+  ],
+} satisfies FlowTestCases["testcases"];
