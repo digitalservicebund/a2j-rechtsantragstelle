@@ -78,8 +78,8 @@ export const getContentData = (
     getNavProps: (
       flowController: ReturnType<typeof buildFlowController>,
       stepId: string,
-      useStepper: boolean,
     ) => {
+      const useStepper = flowController.getRootMeta()?.useStepper ?? false;
       const stepStates = flowController.stepStates(useStepper);
 
       const steps = useStepper
