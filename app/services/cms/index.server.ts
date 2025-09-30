@@ -6,7 +6,6 @@ import {
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import type { Filter } from "./filters";
 import { getStrapiEntry } from "./getStrapiEntry";
-import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
 import { collectionSchemas, entrySchemas, strapiSchemas } from "./schemas";
 import type {
   CollectionId,
@@ -15,6 +14,8 @@ import type {
   StrapiSchemasOutput,
   GetStrapiEntryOpts,
 } from "./schemas";
+import { StrapiMetaSchema } from "./models/StrapiMeta";
+import z from "zod";
 
 const P_LEVEL_FLOW_PAGES = 6; // Flow pages require a deeper population level due the FieldSet component
 const P_LEVEL_TRANSLATIONS = 2;
@@ -34,7 +35,9 @@ export async function fetchMeta(
     apiId,
     populate,
   });
-  const parsedEntry = HasStrapiMetaSchema.safeParse(pageEntry[0]);
+  const parsedEntry = z
+    .object({ pageMeta: StrapiMetaSchema })
+    .safeParse(pageEntry[0]);
   return parsedEntry.success ? parsedEntry.data.pageMeta : null;
 }
 

@@ -22,10 +22,10 @@ const mockFormPageContent = {
   pre_form: [],
   post_form: [],
   form: [],
-  pageMeta: { title: "title" },
   flow_ids: [{ flowId: "/fluggastrechte/formular" }],
   locale: "de",
   stepId: "/intro/start",
+  pageTitle: "Page Title",
 } satisfies StrapiFormFlowPage;
 
 const mockTranslations = {
@@ -52,12 +52,6 @@ describe("retrieveContentData", () => {
   vi.mocked(buildCmsContentAndTranslations).mockReturnValue({
     cmsContent: { content: "someContent " } as unknown as CMSContent,
     translations: { translation: "someTranslation" },
-    meta: {
-      description: "meta description",
-      ogTitle: "meta ogTitle",
-      breadcrumb: "meta breadcrumb",
-      title: "meta title",
-    },
   });
 
   it("should call once flow page, parent meta and translations", async () => {
@@ -73,7 +67,6 @@ describe("retrieveContentData", () => {
       "/fluggastrechte/formular",
       "/intro/start",
     );
-    expect(fetchMeta).toBeCalledTimes(1);
     expect(fetchMultipleTranslations).toBeCalledTimes(1);
     expect(fetchMultipleTranslations).toHaveBeenCalledWith([
       "/fluggastrechte/formular/menu",
