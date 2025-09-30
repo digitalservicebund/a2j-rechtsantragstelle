@@ -13,9 +13,9 @@ export async function startPersoenlicheDaten(page: Page, formular: Formular) {
   await formular.clickNext();
 
   // prozesskostenhilfe/formular/persoenliche-daten/geburtsdatum
-  await formular.fillInput("geburtsdatum.geburtsdatumTag", "01");
-  await formular.fillInput("geburtsdatum.geburtsdatumMonat", "01");
-  await formular.fillInput("geburtsdatum.geburtsdatumJahr", "1970");
+  await formular.fillInput("geburtsdatum.tag", "01");
+  await formular.fillInput("geburtsdatum.monat", "01");
+  await formular.fillInput("geburtsdatum.jahr", "1970");
   await formular.clickNext();
 
   // prozesskostenhilfe/formular/persoenliche-daten/postleitzahl

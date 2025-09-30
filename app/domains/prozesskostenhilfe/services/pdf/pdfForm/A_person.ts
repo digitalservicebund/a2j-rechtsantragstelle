@@ -52,7 +52,7 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
     attachment,
   });
 
-  pdfValues.geburtsdatum.value = `${userData?.geburtsdatum?.geburtsdatumTag}.${userData?.geburtsdatum?.geburtsdatumMonat}.${userData?.geburtsdatum?.geburtsdatumJahr}`;
+  pdfValues.geburtsdatum.value = `${userData?.geburtsdatum?.tag}.${userData?.geburtsdatum?.monat}.${userData?.geburtsdatum?.jahr}`;
 
   fillPdfField({
     fieldname: "familienstand",

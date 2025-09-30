@@ -16,15 +16,9 @@ export async function startPersoenlicheDaten(
   await beratungshilfeFormular.clickNext();
 
   // beratungshilfe/antrag/persoenliche-daten/geburtsdatum
-  await beratungshilfeFormular.fillInput("geburtsdatum.geburtsdatumTag", "01");
-  await beratungshilfeFormular.fillInput(
-    "geburtsdatum.geburtsdatumMonat",
-    "01",
-  );
-  await beratungshilfeFormular.fillInput(
-    "geburtsdatum.geburtsdatumJahr",
-    "1970",
-  );
+  await beratungshilfeFormular.fillInput("geburtsdatum.tag", "01");
+  await beratungshilfeFormular.fillInput("geburtsdatum.monat", "01");
+  await beratungshilfeFormular.fillInput("geburtsdatum.jahr", "1970");
   await beratungshilfeFormular.clickNext();
 
   // beratungshilfe/antrag/persoenliche-daten/postleitzahl
