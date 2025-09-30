@@ -2,13 +2,14 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
+import { sachgebietDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
 export const sachgebietXstateConfig = {
   id: "sachgebiet",
   initial: "info",
-  meta: { done: () => false },
+  meta: { done: sachgebietDone },
   states: {
     [steps.sachgebietInfo.relative]: {
       on: {
@@ -36,7 +37,7 @@ export const sachgebietXstateConfig = {
           {
             guard: ({ context }) =>
               context.besondere === "anderesRechtsproblem" ||
-              context.besondere === "schaden",
+              (context.besondere === "schaden" && sachgebietDone({ context })),
             target: steps.klagendePersonFuerWen.absolute,
           },
           {
@@ -66,14 +67,20 @@ export const sachgebietXstateConfig = {
             guard: ({ context }) => context.mietePachtVertrag === "yes",
             target: steps.sachgebietMietePachtRaum.relative,
           },
-          steps.klagendePersonFuerWen.absolute,
+          {
+            guard: sachgebietDone,
+            target: steps.klagendePersonFuerWen.absolute,
+          },
         ],
         BACK: steps.sachgebietBesondere.relative,
       },
     },
     [steps.sachgebietMietePachtRaum.relative]: {
       on: {
-        SUBMIT: steps.klagendePersonFuerWen.absolute,
+        SUBMIT: {
+          guard: sachgebietDone,
+          target: steps.klagendePersonFuerWen.absolute,
+        },
         BACK: steps.sachgebietMietePachtVertrag.relative,
       },
     },
@@ -84,14 +91,20 @@ export const sachgebietXstateConfig = {
             guard: ({ context }) => context.versicherungVertrag === "yes",
             target: steps.sachgebietVersicherungVersicherungsnummer.relative,
           },
-          steps.klagendePersonFuerWen.absolute,
+          {
+            guard: sachgebietDone,
+            target: steps.klagendePersonFuerWen.absolute,
+          },
         ],
         BACK: steps.sachgebietBesondere.relative,
       },
     },
     [steps.sachgebietVersicherungVersicherungsnummer.relative]: {
       on: {
-        SUBMIT: steps.klagendePersonFuerWen.absolute,
+        SUBMIT: {
+          guard: sachgebietDone,
+          target: steps.klagendePersonFuerWen.absolute,
+        },
         BACK: steps.sachgebietVersicherungVertrag.relative,
       },
     },
@@ -102,7 +115,10 @@ export const sachgebietXstateConfig = {
             guard: ({ context }) => context.reiseArt === "flug",
             target: steps.sachgebietReiseStopp.relative,
           },
-          steps.klagendePersonFuerWen.absolute,
+          {
+            guard: sachgebietDone,
+            target: steps.klagendePersonFuerWen.absolute,
+          },
         ],
         BACK: steps.sachgebietBesondere.relative,
       },
@@ -114,7 +130,10 @@ export const sachgebietXstateConfig = {
     },
     [steps.sachgebietVerkehrsunfallStrassenverkehr.relative]: {
       on: {
-        SUBMIT: steps.klagendePersonFuerWen.absolute,
+        SUBMIT: {
+          guard: sachgebietDone,
+          target: steps.klagendePersonFuerWen.absolute,
+        },
         BACK: steps.sachgebietBesondere.relative,
       },
     },
