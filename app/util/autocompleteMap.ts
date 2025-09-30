@@ -6,7 +6,7 @@ export const autocompleteMap: Record<string, string> = {
   plz: "postal-code",
   telefonnummer: "tel",
   email: "email",
-  "geburtsdatum.tag": 'bday-day',
-	"geburtsdatum.monat": 'bday-month',
-	"geburtsdatum.jahr": 'bday-year'
+  "geburtsdatum.tag": "bday-day",
+  "geburtsdatum.monat": "bday-month",
+  "geburtsdatum.jahr": "bday-year",
 };
