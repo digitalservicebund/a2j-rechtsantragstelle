@@ -1,38 +1,35 @@
 import { autocompleteMap } from "~/util/autocompleteMap";
 import Input, { type InputProps } from "./Input";
-import InputLabel from "./InputLabel";
 
 export type DateSplitInputProps = InputProps & {
-  labels?: [string, string, string];
   legend?: string;
   name: string;
 };
 
-const DateSplitInput = ({ labels, legend, name }: DateSplitInputProps) => {
+const DateSplitInput = ({ legend, name }: DateSplitInputProps) => {
   return (
-    <fieldset className="grid grid-cols-3 gap-2">
+    <fieldset className="grid grid-cols-3 gap-4">
       <legend>{legend}</legend>
-      {labels && <InputLabel id={`${name}-day`}>{labels[0]}</InputLabel>}
-      {labels && <InputLabel id={`${name}-day`}>{labels[1]}</InputLabel>}
-      {labels && <InputLabel id={`${name}-day`}>{labels[2]}</InputLabel>}
-
       <Input
         type="number"
         placeholder="TT"
-        autoComplete={autocompleteMap[name] ?? "off"}
+        autoComplete={autocompleteMap[name + ".tag"] ?? "off"}
         name={name}
+        label="Tag"
       />
       <Input
         type="number"
         placeholder="MM"
-        autoComplete={autocompleteMap[name] ?? "off"}
+        autoComplete={autocompleteMap[name + ".monat"] ?? "off"}
         name={name}
+        label="Monat"
       />
       <Input
         type="number"
         placeholder="JJJJ"
-        autoComplete={autocompleteMap[name] ?? "off"}
+        autoComplete={autocompleteMap[name + ".jahr"] ?? "off"}
         name={name}
+        label="Jahr"
       />
     </fieldset>
   );

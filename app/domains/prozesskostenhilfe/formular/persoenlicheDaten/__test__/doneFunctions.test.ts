@@ -4,9 +4,9 @@ import type { ProzesskostenhilfePersoenlicheDatenUserData } from "../userData";
 const context: ProzesskostenhilfePersoenlicheDatenUserData = {
   beruf: "Software Engineer",
   geburtsdatum: {
-    geburtsdatumTag: "01",
-    geburtsdatumMonat: "01",
-    geburtsdatumJahr: "2021",
+    tag: "01",
+    monat: "01",
+    jahr: "2021",
   },
   vorname: "John",
   nachname: "Doe",
@@ -47,9 +47,9 @@ describe("eigentumDone", () => {
         context: {
           ...context,
           geburtsdatum: {
-            geburtsdatumTag: "",
-            geburtsdatumMonat: "",
-            geburtsdatumJahr: "",
+            tag: "",
+            monat: "",
+            jahr: "",
           },
         },
       }),

@@ -1,6 +1,6 @@
 import {
   createDateSchema,
-  createSplitDateSchema,
+  createDateSplitSchema,
 } from "~/services/validation/date";
 
 describe("date validation", () => {
@@ -57,14 +57,14 @@ describe("date split input validation", () => {
     const cases = [
       {
         input: {
-          geburtsdatumTag: "01",
-          geburtsdatumMonat: "03",
-          geburtsdatumJahr: "2023",
+          tag: "01",
+          monat: "03",
+          jahr: "2023",
         },
         expected: {
-          geburtsdatumTag: "01",
-          geburtsdatumMonat: "03",
-          geburtsdatumJahr: "2023",
+          tag: "01",
+          monat: "03",
+          jahr: "2023",
         },
       },
     ];
@@ -72,7 +72,7 @@ describe("date split input validation", () => {
     test.each(cases)(
       "given $input, returns $expected",
       ({ input, expected }) => {
-        const actual = createSplitDateSchema().safeParse(input);
+        const actual = createDateSplitSchema().safeParse(input);
         expect(actual).toEqual({ data: expected, success: true });
       },
     );
@@ -82,54 +82,54 @@ describe("date split input validation", () => {
     const cases = [
       {
         input: {
-          geburtsdatumTag: "",
-          geburtsdatumMonat: "",
-          geburtsdatumJahr: "",
+          tag: "",
+          monat: "",
+          jahr: "",
         },
-        errorPath: "geburtsdatumTag",
+        errorPath: "tag",
         errorMessage: "required",
       },
       {
         input: {
-          geburtsdatumTag: "32",
-          geburtsdatumMonat: "01",
-          geburtsdatumJahr: "2020",
+          tag: "32",
+          monat: "01",
+          jahr: "2020",
         },
-        errorPath: "geburtsdatumTag",
+        errorPath: "tag",
         errorMessage: "day_out_of_range",
       },
       {
         input: {
-          geburtsdatumTag: "10",
-          geburtsdatumMonat: "13",
-          geburtsdatumJahr: "2020",
+          tag: "10",
+          monat: "13",
+          jahr: "2020",
         },
-        errorPath: "geburtsdatumMonat",
+        errorPath: "monat",
         errorMessage: "month_out_of_range",
       },
       {
         input: {
-          geburtsdatumTag: "10",
-          geburtsdatumMonat: "12",
-          geburtsdatumJahr: "1800",
+          tag: "10",
+          monat: "12",
+          jahr: "1800",
         },
-        errorPath: "geburtsdatumJahr",
+        errorPath: "jahr",
         errorMessage: "year_out_of_range",
       },
       {
         input: {
-          geburtsdatumTag: "31",
-          geburtsdatumMonat: "02",
-          geburtsdatumJahr: "2020",
+          tag: "31",
+          monat: "02",
+          jahr: "2020",
         },
         errorPath: "geburtsdatum",
         errorMessage: "invalid",
       },
       {
         input: {
-          geburtsdatumTag: "01",
-          geburtsdatumMonat: "01",
-          geburtsdatumJahr: "2020",
+          tag: "01",
+          monat: "01",
+          jahr: "2020",
         },
         errorPath: "geburtsdatum",
         errorMessage: "too_early",
@@ -137,9 +137,9 @@ describe("date split input validation", () => {
       },
       {
         input: {
-          geburtsdatumTag: "02",
-          geburtsdatumMonat: "01",
-          geburtsdatumJahr: "2020",
+          tag: "02",
+          monat: "01",
+          jahr: "2020",
         },
         errorPath: "geburtsdatum",
         errorMessage: "too_late",
@@ -147,29 +147,29 @@ describe("date split input validation", () => {
       },
       {
         input: {
-          geburtsdatumTag: "aa",
-          geburtsdatumMonat: "01",
-          geburtsdatumJahr: "2020",
+          tag: "aa",
+          monat: "01",
+          jahr: "2020",
         },
-        errorPath: "geburtsdatumTag",
+        errorPath: "tag",
         errorMessage: "invalid_day_format",
       },
       {
         input: {
-          geburtsdatumTag: "10",
-          geburtsdatumMonat: "bb",
-          geburtsdatumJahr: "2020",
+          tag: "10",
+          monat: "bb",
+          jahr: "2020",
         },
-        errorPath: "geburtsdatumMonat",
+        errorPath: "monat",
         errorMessage: "invalid_month_format",
       },
       {
         input: {
-          geburtsdatumTag: "10",
-          geburtsdatumMonat: "12",
-          geburtsdatumJahr: "cccc",
+          tag: "10",
+          monat: "12",
+          jahr: "cccc",
         },
-        errorPath: "geburtsdatumJahr",
+        errorPath: "jahr",
         errorMessage: "invalid_year_format",
       },
     ];
@@ -177,7 +177,7 @@ describe("date split input validation", () => {
     test.each(cases)(
       "given $input, returns $errorMessage on $errorPath",
       ({ input, errorPath, errorMessage, earliest, latest }) => {
-        const actual = createSplitDateSchema({ earliest, latest }).safeParse(
+        const actual = createDateSplitSchema({ earliest, latest }).safeParse(
           input,
         );
         expect(actual.success).toBe(false);

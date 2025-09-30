@@ -14,7 +14,7 @@ const validateDay = (day: string, ctx: z.RefinementCtx) => {
     ctx.addIssue({
       code: "custom",
       message: "invalid_day_format",
-      path: ["geburtsdatumTag"],
+      path: ["tag"],
     });
     return null;
   }
@@ -25,19 +25,18 @@ const validateDay = (day: string, ctx: z.RefinementCtx) => {
     ctx.addIssue({
       code: "custom",
       message: "day_out_of_range",
-      path: ["geburtsdatumTag"],
+      path: ["tag"],
     });
     return null;
   }
   return num;
 };
-
 const validateMonth = (month: string, ctx: z.RefinementCtx) => {
   if (!/^\d+$/.test(month)) {
     ctx.addIssue({
       code: "custom",
       message: "invalid_month_format",
-      path: ["geburtsdatumMonat"],
+      path: ["monat"],
     });
     return null;
   }
@@ -48,19 +47,18 @@ const validateMonth = (month: string, ctx: z.RefinementCtx) => {
     ctx.addIssue({
       code: "custom",
       message: "month_out_of_range",
-      path: ["geburtsdatumMonat"],
+      path: ["monat"],
     });
     return null;
   }
   return num;
 };
-
 const validateYear = (year: string, ctx: z.RefinementCtx) => {
   if (!/^\d{4}$/.test(year)) {
     ctx.addIssue({
       code: "custom",
       message: "invalid_year_format",
-      path: ["geburtsdatumJahr"],
+      path: ["jahr"],
     });
     return null;
   }
@@ -72,7 +70,7 @@ const validateYear = (year: string, ctx: z.RefinementCtx) => {
     ctx.addIssue({
       code: "custom",
       message: "year_out_of_range",
-      path: ["geburtsdatumJahr"],
+      path: ["jahr"],
     });
     return null;
   }
@@ -122,7 +120,7 @@ export const createDateSchema = (args?: {
       }
     });
 };
-export const createSplitDateSchema = (args?: {
+export const createDateSplitSchema = (args?: {
   earliest?: () => Date;
   latest?: () => Date;
 }) => {
@@ -133,16 +131,16 @@ export const createSplitDateSchema = (args?: {
   }
   return z
     .object({
-      geburtsdatumTag: z.string().min(1, { message: "required" }),
-      geburtsdatumMonat: z.string().min(1, { message: "required" }),
-      geburtsdatumJahr: z.string().min(1, { message: "required" }),
+      tag: z.string().min(1, { message: "required" }),
+      monat: z.string().min(1, { message: "required" }),
+      jahr: z.string().min(1, { message: "required" }),
     })
     .superRefine((data, ctx) => {
-      const { geburtsdatumTag, geburtsdatumMonat, geburtsdatumJahr } = data;
+      const { tag, monat, jahr } = data;
 
-      const day = validateDay(geburtsdatumTag, ctx);
-      const month = validateMonth(geburtsdatumMonat, ctx);
-      const year = validateYear(geburtsdatumJahr, ctx);
+      const day = validateDay(tag, ctx);
+      const month = validateMonth(monat, ctx);
+      const year = validateYear(jahr, ctx);
 
       if (ctx.issues.length > 0) return;
 
