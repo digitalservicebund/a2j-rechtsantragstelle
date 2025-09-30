@@ -15,6 +15,7 @@ import type {
   NavigationEvent,
   StateMachineTypes,
 } from "./types";
+import { type ArrayConfigServer } from "~/services/array";
 
 const getSteps = (machine: FlowStateMachine) => {
   // The machine passed here relies on the context it was initialized with.
@@ -203,6 +204,22 @@ export const buildFlowController = ({
     getNext: (stepId: string) => {
       const destination = nextStepId(machine, stepId, "SUBMIT", context);
       if (destination) return `${machine.id}${destination}`;
+    },
+    getArrayItemStep: (
+      stepId: string,
+      arrayStep: ArrayConfigServer["event"],
+    ) => {
+      const destination = nextStepId(machine, stepId, arrayStep, context);
+      if (destination)
+        return `${machine.id}${destination
+          .split("/")
+          .slice(1)
+          .reduce((prev, curr, idx, arr) => {
+            if (idx === arr.length - 1) {
+              return `${prev}/0/${curr}`;
+            }
+            return `${prev}/${curr}`;
+          }, "")}`;
     },
     getInitial: () => `${flowId}${getInitial(machine) ?? ""}`,
     getProgress: (currentStepId: string) => {

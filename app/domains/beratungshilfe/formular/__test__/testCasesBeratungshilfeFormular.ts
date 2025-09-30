@@ -3,7 +3,6 @@ import { testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen } from "~/do
 import type { FlowStateMachine } from "~/services/flow/server/types";
 import { beratungshilfeFormular } from "..";
 import { testCasesBeratungshilfeFormularAbgabe } from "../abgabe/__test__/testcases";
-import { testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe } from "../finanzielleAngaben/__test__/testcasesAusgaben";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentum } from "../finanzielleAngaben/__test__/testcasesEigentum";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenKinder } from "../finanzielleAngaben/__test__/testcasesKinder";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenPartner } from "../finanzielleAngaben/__test__/testcasesPartner";
@@ -17,7 +16,6 @@ const machine: FlowStateMachine = createMachine(config, { guards });
 
 const testsCases = [
   ...testCasesBeratungshilfeFormularAbgabe,
-  ...testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
   ...testCasesBeratungshilfeFormularFinanzielleAngabenEigentum,
   ...testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen,
   ...testCasesBeratungshilfeFormularFinanzielleAngabenKinder,

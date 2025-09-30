@@ -7,8 +7,8 @@ import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__
 import { type Config } from "~/services/flow/server/types";
 import { allStepsFromMachine } from "./allStepsFromMachine";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
-import { type UserData } from "../userData";
 import { beratungshilfeAntragTestCases } from "~/domains/beratungshilfe/formular/__test__/testcasesWithUserInputs";
+import { removeArrayIndex } from "~/util/array";
 
 const flowSchemaTests = {
   beratungshilfeAntragTestCases,
@@ -43,17 +43,38 @@ describe.sequential("flowSchemas", () => {
         Object.entries(testcases).forEach(
           ([testName, expectedSteps]: [
             string,
-            Array<{ stepId: string; userInput?: UserData }>,
+            FlowTestCases["testcases"][string],
           ]) => {
             test(testName, () => {
+              let [isAddingArrayItem, overviewPageStepId]: [boolean, string?] =
+                [false, undefined];
               expectedSteps
                 .slice(0, -1)
-                .forEach(({ stepId, userInput }, idx) => {
+                .forEach(({ stepId, addArrayItemStep, userInput }, idx) => {
                   const currentUrl = flowId + stepId;
                   const pageSchema = getPageSchema(currentUrl);
 
-                  if (!userInput) {
-                    expect(pageSchema).toBeUndefined(); // Without userInput we don't expect a pageSchema
+                  // If we re-encounter the array overview page after adding an array item, we exit the special subroutine
+                  if (isAddingArrayItem && stepId === overviewPageStepId) {
+                    isAddingArrayItem = false;
+                    overviewPageStepId = undefined;
+                  }
+
+                  /**
+                   * We are both
+                   * 1. on an array overview page
+                   * 2. calling the add-arrayItem event
+                   *
+                   * Start the special subroutine to handle array items
+                   */
+                  if (addArrayItemStep) {
+                    isAddingArrayItem = true;
+                    overviewPageStepId = stepId;
+                  }
+
+                  // Without userInput we don't expect a pageSchema. Same for Array Overview pages
+                  if (!userInput || addArrayItemStep) {
+                    expect(pageSchema).toBeUndefined();
                   } else {
                     expect(pageSchema).toBeDefined(); // With userInput we expect it to validate against the pageSchema
                     const validationResult = z
@@ -69,12 +90,38 @@ describe.sequential("flowSchemas", () => {
 
                   // Given the current data and url we expect the next and previous url
                   const nextStepId = expectedSteps[idx + 1]?.stepId;
-                  expect(flowController.getNext(stepId)).toBe(
-                    flowId + nextStepId,
-                  );
-                  expect(flowController.getPrevious(nextStepId)).toBe(
-                    currentUrl,
-                  );
+
+                  if (isAddingArrayItem) {
+                    if (addArrayItemStep) {
+                      // forward
+                      expect(
+                        flowController.getArrayItemStep(
+                          stepId,
+                          addArrayItemStep,
+                        ),
+                      ).toBe(flowId + nextStepId);
+                    } else {
+                      expect(
+                        flowController.getNext(removeArrayIndex(stepId)),
+                      ).toBe(flowId + removeArrayIndex(nextStepId));
+                    }
+
+                    // backward
+                    if (nextStepId !== overviewPageStepId) {
+                      expect(
+                        flowController.getPrevious(
+                          removeArrayIndex(nextStepId),
+                        ),
+                      ).toBe(removeArrayIndex(currentUrl));
+                    }
+                  } else {
+                    expect(flowController.getNext(stepId)).toBe(
+                      flowId + nextStepId,
+                    );
+                    expect(flowController.getPrevious(nextStepId)).toBe(
+                      currentUrl,
+                    );
+                  }
 
                   allVisitedSteps[flowId].visitedSteps.add(stepId);
                   allVisitedSteps[flowId].visitedSteps.add(nextStepId);

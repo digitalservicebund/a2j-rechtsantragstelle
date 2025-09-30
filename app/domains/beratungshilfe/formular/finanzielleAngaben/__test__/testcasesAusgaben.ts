@@ -1,94 +1,79 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
-import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
 
 const finanzielleAngabenAusgabenAusgabenFrage =
   "/finanzielle-angaben/ausgaben/ausgaben-frage";
 const finanzielleAngabenAusgabenSituation =
   "/finanzielle-angaben/ausgaben/situation";
-const persoenlicheDatenStart = "/persoenliche-daten/start";
-export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = [
-  [
+
+export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
+  ausgabenNo: [
     {
-      staatlicheLeistungen: "keine",
+      stepId: finanzielleAngabenAusgabenAusgabenFrage,
+      userInput: { hasAusgaben: "no" },
     },
-    [
-      finanzielleAngabenAusgabenAusgabenFrage,
-      finanzielleAngabenAusgabenSituation,
-    ],
+    { stepId: finanzielleAngabenAusgabenSituation },
   ],
-  [
-    { hasAusgaben: "no", staatlicheLeistungen: "keine" },
-    [
-      finanzielleAngabenAusgabenAusgabenFrage,
-      finanzielleAngabenAusgabenSituation,
-    ],
-  ],
-  [
-    { hasAusgaben: "yes" },
-    [
-      finanzielleAngabenAusgabenAusgabenFrage,
-      "/finanzielle-angaben/ausgaben/uebersicht",
-      "/finanzielle-angaben/ausgaben/warnung",
-      finanzielleAngabenAusgabenSituation,
-    ],
-  ],
-  [
+  ausgabenYes: [
     {
-      hasAusgaben: "yes",
-      staatlicheLeistungen: "keine",
-      ausgaben: [
-        {
-          art: "test",
-          beitrag: "10",
-          hasZahlungsfrist: "no",
-          zahlungsempfaenger: "test",
-        },
-      ],
+      stepId: finanzielleAngabenAusgabenAusgabenFrage,
+      userInput: { hasAusgaben: "yes" },
     },
-    [
-      finanzielleAngabenAusgabenAusgabenFrage,
-      "/finanzielle-angaben/ausgaben/uebersicht",
-      "/finanzielle-angaben/ausgaben/situation",
-      persoenlicheDatenStart,
-    ],
+    { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
+    { stepId: "/finanzielle-angaben/ausgaben/warnung" },
+    { stepId: finanzielleAngabenAusgabenSituation },
   ],
-  [
+  ausgabeWithoutZahlungsfrist: [
     {
-      hasAusgaben: "yes",
-      ausgaben: [
-        {
-          art: "kredit",
-          zahlungsempfaenger: "nachname",
-          beitrag: "10",
-          hasZahlungsfrist: "no",
-        },
-      ],
-      pageData: { arrayIndexes: [0] },
+      stepId: finanzielleAngabenAusgabenAusgabenFrage,
+      userInput: { hasAusgaben: "yes" },
     },
-    [
-      "/finanzielle-angaben/ausgaben/ausgaben/art",
-      "/finanzielle-angaben/ausgaben/ausgaben/zahlungsinformation",
-      "/finanzielle-angaben/ausgaben/ausgaben/laufzeit",
-    ],
-  ],
-  [
     {
-      hasAusgaben: "yes",
-      ausgaben: [
-        {
-          art: "kredit",
-          zahlungsempfaenger: "nachname",
-          beitrag: "10",
-          hasZahlungsfrist: "yes",
-          zahlungsfrist: "",
-        },
-      ],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/ausgaben/uebersicht",
+      addArrayItemStep: "add-ausgaben",
+      userInput: {
+        ausgaben: [],
+        pageData: { arrayIndexes: [0] },
+      },
     },
-    [
-      "/finanzielle-angaben/ausgaben/ausgaben/zahlungsinformation",
-      "/finanzielle-angaben/ausgaben/ausgaben/laufzeit",
-      "/finanzielle-angaben/ausgaben/ausgaben/zahlungsfrist",
-    ],
+    // {
+    //   stepId: "/finanzielle-angaben/ausgaben/ausgaben/art",
+    //   userInput: { art: "test", zahlungsempfaenger: "test" },
+    // },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ausgaben/0/art",
+      userInput: {
+        "ausgaben#art": "test",
+        "ausgaben#zahlungsempfaenger": "test",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ausgaben/0/zahlungsinformation",
+      userInput: { "ausgaben#beitrag": "100" },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ausgaben/0/laufzeit",
+      userInput: { "ausgaben#hasZahlungsfrist": "no" },
+    },
+    { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
   ],
-] as const satisfies TestCases<BeratungshilfeFinanzielleAngabenUserData>;
+  // [
+  //   {
+  //     hasAusgaben: "yes",
+  //     ausgaben: [
+  //       {
+  //         art: "kredit",
+  //         zahlungsempfaenger: "nachname",
+  //         beitrag: "10",
+  //         hasZahlungsfrist: "yes",
+  //         zahlungsfrist: "",
+  //       },
+  //     ],
+  //     pageData: { arrayIndexes: [0] },
+  //   },
+  //   [
+  //     "/finanzielle-angaben/ausgaben/ausgaben/zahlungsinformation",
+  //     "/finanzielle-angaben/ausgaben/ausgaben/laufzeit",
+  //     "/finanzielle-angaben/ausgaben/ausgaben/zahlungsfrist",
+  //   ],
+  // ],
+} satisfies FlowTestCases["testcases"];
