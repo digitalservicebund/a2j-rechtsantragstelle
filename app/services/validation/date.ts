@@ -172,5 +172,6 @@ export const createDateSplitSchema = (args?: {
           path: ["geburtsdatum"],
         });
       }
-    });
+    })
+    .meta({ description: "date_split" });
 };

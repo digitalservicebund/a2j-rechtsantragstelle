@@ -11,7 +11,6 @@ import Textarea from "~/components/formElements/Textarea";
 import TileGroup from "~/components/formElements/tile/TileGroup";
 import TimeInput from "~/components/formElements/TimeInput";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import DateSplitInput from "./formElements/DateSplitInput";
 
 export const FormComponent = ({
   componentProps,
@@ -23,8 +22,6 @@ export const FormComponent = ({
       return <Input {...componentProps} />;
     case "form-elements.date-input":
       return <DateInput {...componentProps} />;
-    case "form-elements.date-split-input":
-      return <DateSplitInput {...componentProps} />;
     case "form-elements.time-input":
       return <TimeInput {...componentProps} />;
     case "form-elements.files-upload":
