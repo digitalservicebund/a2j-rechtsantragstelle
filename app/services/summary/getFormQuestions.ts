@@ -38,10 +38,14 @@ export async function getFormQuestionsForFields(
   fieldNames: string[],
   flowId: FlowId,
 ): Promise<Record<string, FieldQuestion>> {
+  console.log(`🔍 getFormQuestionsForFields called with:`, {
+    fieldNames,
+    flowId,
+  });
+
   const fieldQuestions: Record<string, FieldQuestion> = {};
   const stepPagesCache: Record<string, StrapiFormFlowPage> = {};
 
-  // Only works with form flows (not vorab-check), since only form flows have summary pages
   const flow = flows[flowId];
   if (!flow) {
     throw new Error(`Unknown flowId: ${flowId}`);
@@ -54,56 +58,93 @@ export async function getFormQuestionsForFields(
     return {};
   }
 
-  // Get the mapping of steps to fields
-  const formFieldsMap = await fetchAllFormFields(flowId);
-  const fieldToStepMapping = createFieldToStepMapping(formFieldsMap);
+  try {
+    const formFieldsMap = await fetchAllFormFields(flowId);
+    const fieldToStepMapping = createFieldToStepMapping(formFieldsMap);
 
-  for (const fieldName of fieldNames) {
-    const stepId = fieldToStepMapping[fieldName];
-    if (!stepId) {
-      continue;
-    }
+    for (const fieldName of fieldNames) {
+      let stepId = fieldToStepMapping[fieldName];
 
-    try {
-      // Cache form pages to avoid duplicate fetches
-      if (!stepPagesCache[stepId]) {
-        stepPagesCache[stepId] = await fetchFlowPage(
-          "form-flow-pages",
-          flowId,
-          stepId,
+      if (!stepId) {
+        // Look for nested field patterns like "berufart.selbststaendig" -> "/finanzielle-angaben/einkommen/art"
+        const nestedFieldMapping = Object.entries(fieldToStepMapping).find(
+          ([mappedField]) => mappedField.startsWith(`${fieldName}.`),
         );
+
+        if (nestedFieldMapping) {
+          stepId = nestedFieldMapping[1];
+          console.log(
+            `🔧 Found nested mapping: "${fieldName}" -> "${stepId}" via "${nestedFieldMapping[0]}"`,
+          );
+        }
       }
 
-      const formPage = stepPagesCache[stepId];
-
-      // Find the form component that matches this field
-      const formComponent = formPage.form.find(
-        (component) => "name" in component && component.name === fieldName,
-      );
-
-      if (formComponent && "label" in formComponent && formComponent.label) {
-        fieldQuestions[fieldName] = {
-          fieldName,
-          question: formComponent.label,
-          pageHeading: formPage.heading,
-          stepId,
-        };
-      } else if (formPage.heading) {
-        // If no specific field label, use the page heading as the question
-        fieldQuestions[fieldName] = {
-          fieldName,
-          question: formPage.heading,
-          pageHeading: formPage.heading,
-          stepId,
-        };
+      console.log(`🔧 Processing field "${fieldName}" -> stepId "${stepId}"`);
+      if (!stepId) {
+        console.log(`⚠️ No stepId found for field "${fieldName}"`);
+        continue;
       }
-    } catch (error) {
-      console.warn(
-        `Failed to fetch form page for field ${fieldName} on step ${stepId}:`,
-        error,
-      );
-      // Continue processing other fields
+
+      try {
+        // Cache form pages to avoid duplicate fetches
+        if (!stepPagesCache[stepId]) {
+          stepPagesCache[stepId] = await fetchFlowPage(
+            "form-flow-pages",
+            flowId,
+            stepId,
+          );
+        }
+
+        const formPage = stepPagesCache[stepId];
+
+        // Find the form component that matches this field
+        let formComponent = formPage.form.find(
+          (component) => "name" in component && component.name === fieldName,
+        );
+
+        // If direct match not found, look for a parent fieldset or component with nested fields
+        if (!formComponent) {
+          // Look for components that have fieldName as a prefix (e.g., "weitereseinkommen" in "weitereseinkommen.arbeitlosengeld")
+          formComponent = formPage.form.find((component) => {
+            if ("components" in component && component.components) {
+              // Check if any nested component has our fieldName as a prefix
+              return component.components.some(
+                (nestedComp: { name?: string }) =>
+                  "name" in nestedComp &&
+                  nestedComp.name?.startsWith(`${fieldName}.`),
+              );
+            }
+            return false;
+          });
+        }
+
+        if (formComponent && "label" in formComponent && formComponent.label) {
+          fieldQuestions[fieldName] = {
+            fieldName,
+            question: formComponent.label,
+            pageHeading: formPage.heading,
+            stepId,
+          };
+        } else if (formPage.heading) {
+          // If no specific field label, use the page heading as the question
+          fieldQuestions[fieldName] = {
+            fieldName,
+            question: formPage.heading,
+            pageHeading: formPage.heading,
+            stepId,
+          };
+        }
+      } catch (error) {
+        console.warn(
+          `Failed to fetch form page for field ${fieldName} on step ${stepId}:`,
+          error,
+        );
+        // Continue processing other fields
+      }
     }
+  } catch (error) {
+    console.error(`❌ Error in getFormQuestionsForFields:`, error);
+    return {};
   }
 
   return fieldQuestions;

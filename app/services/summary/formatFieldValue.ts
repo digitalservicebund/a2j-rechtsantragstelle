@@ -19,8 +19,11 @@ export function formatFieldValue(
       // For objects like {unterhaltszahlungen: true, arbeitlosengeld: false},
       // show only the true values as a comma-separated list
       const activeKeys = Object.entries(value)
-        .filter(([_, val]) => val === true || val === "yes" || val === "ja")
+        .filter(([_, val]) => val === true || val === "yes" || val === "ja" || val === "on")
         .map(([key, _]) => key);
+
+      console.log(`🔍 formatFieldValue - field: "${fieldName}", value:`, value, "activeKeys:", activeKeys);
+
       itemValue = activeKeys.length > 0 ? activeKeys.join(", ") : "";
     }
   } else {
@@ -58,7 +61,7 @@ export function isFieldEmpty(value: unknown, componentType: string): boolean {
     } else {
       // For objects, check if any value is truthy
       return !Object.values(value).some(
-        (val) => val === true || val === "yes" || val === "ja",
+        (val) => val === true || val === "yes" || val === "ja" || val === "on",
       );
     }
   }
