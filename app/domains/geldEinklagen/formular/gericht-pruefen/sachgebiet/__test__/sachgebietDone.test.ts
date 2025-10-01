@@ -43,7 +43,7 @@ describe("sachgebietDone", () => {
     expect(actual).toBe(true);
   });
 
-  it("should return false if besondere is urheberrecht", () => {
+  it("should return true if besondere is urheberrecht", () => {
     const actual = sachgebietDone({
       context: {
         sachgebietAusgeschlossen: "no",
