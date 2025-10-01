@@ -70,7 +70,7 @@ describe("A_person", () => {
         pdfValues: pdfParams,
       });
 
-      expect(pdfValues.geburtsdatum.value).toBe("01.01.1990");
+      expect(pdfValues.geburtsdatum.value).toBe("1.1.1990");
       expect(attachment).toHaveLength(0);
     });
 

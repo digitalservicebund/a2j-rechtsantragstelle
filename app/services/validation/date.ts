@@ -67,21 +67,27 @@ export const createSplitDateSchema = (args?: {
   return z
     .object({
       tag: z.coerce
-        .number({ message: "required" })
+        .number({ message: "invalid_day_format" })
         .min(1, { message: "required" })
         .max(31, { message: "day_out_of_range" }),
       monat: z.coerce
-        .number({ message: "required" })
+        .number({ message: "invalid_month_format" })
         .min(1, { message: "required" })
         .max(12, { message: "month_out_of_range" }),
       jahr: z.coerce
-        .number({ message: "required" })
-        .min(1900, { message: "required" })
-        .max(today().getFullYear(), { message: "year_out_of_range" }),
+        .number({ message: "invalid_year_format" })
+        .min(1900, { message: "year_out_of_range" })
+        .max(new Date().getFullYear(), { message: "year_out_of_range" }),
     })
-    .refine(
-      (data) => isValidDate(toDateString(data.tag, data.monat, data.jahr)),
-      { message: "invalid_date_format" },
-    )
+    .superRefine((data, ctx) => {
+      if (!isValidDate(toDateString(data.tag, data.monat, data.jahr))) {
+        ctx.addIssue({
+          code: "custom",
+          message: "invalid_date_format",
+          path: ["monat"],
+          fatal: false,
+        });
+      }
+    })
     .meta({ description: "split_date" });
 };

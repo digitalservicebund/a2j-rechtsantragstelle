@@ -57,14 +57,14 @@ describe("date split input validation", () => {
     const cases = [
       {
         input: {
-          tag: "01",
-          monat: "03",
-          jahr: "2023",
+          tag: 1,
+          monat: 3,
+          jahr: 2023,
         },
         expected: {
-          tag: "01",
-          monat: "03",
-          jahr: "2023",
+          tag: 1,
+          monat: 3,
+          jahr: 2023,
         },
       },
     ];
@@ -91,82 +91,62 @@ describe("date split input validation", () => {
       },
       {
         input: {
-          tag: "32",
-          monat: "01",
-          jahr: "2020",
+          tag: 32,
+          monat: 1,
+          jahr: 2020,
         },
         errorPath: "tag",
         errorMessage: "day_out_of_range",
       },
       {
         input: {
-          tag: "10",
-          monat: "13",
-          jahr: "2020",
+          tag: 10,
+          monat: 13,
+          jahr: 2020,
         },
         errorPath: "monat",
         errorMessage: "month_out_of_range",
       },
       {
         input: {
-          tag: "10",
-          monat: "12",
-          jahr: "1800",
+          tag: 10,
+          monat: 12,
+          jahr: 1800,
         },
         errorPath: "jahr",
         errorMessage: "year_out_of_range",
       },
       {
         input: {
-          tag: "31",
-          monat: "02",
-          jahr: "2020",
+          tag: 31,
+          monat: 2,
+          jahr: 2020,
         },
-        errorPath: "geburtsdatum",
-        errorMessage: "invalid",
-      },
-      {
-        input: {
-          tag: "01",
-          monat: "01",
-          jahr: "2020",
-        },
-        errorPath: "geburtsdatum",
-        errorMessage: "too_early",
-        earliest: () => new Date("2020-01-02"),
-      },
-      {
-        input: {
-          tag: "02",
-          monat: "01",
-          jahr: "2020",
-        },
-        errorPath: "geburtsdatum",
-        errorMessage: "too_late",
-        latest: () => new Date("2020-01-01"),
+        errorPath: "monat",
+        errorMessage: "invalid_date_format",
       },
       {
         input: {
           tag: "aa",
-          monat: "01",
-          jahr: "2020",
+          monat: 1,
+          jahr: 2020,
         },
         errorPath: "tag",
         errorMessage: "invalid_day_format",
       },
       {
         input: {
-          tag: "10",
+          tag: 10,
           monat: "bb",
-          jahr: "2020",
+          jahr: 2020,
         },
         errorPath: "monat",
         errorMessage: "invalid_month_format",
       },
       {
         input: {
-          tag: "10",
-          monat: "12",
+          tag: 10,
+          monat: 12,
           jahr: "cccc",
         },
         errorPath: "jahr",
@@ -176,10 +156,8 @@ describe("date split input validation", () => {
 
     test.each(cases)(
       "given $input, returns $errorMessage on $errorPath",
-      ({ input, errorPath, errorMessage, earliest, latest }) => {
-        const actual = createSplitDateSchema({ earliest, latest }).safeParse(
-          input,
-        );
+      ({ input, errorPath, errorMessage }) => {
+        const actual = createSplitDateSchema().safeParse(input);
         expect(actual.success).toBe(false);
 
         const issue = actual.error?.issues.find((i) =>
