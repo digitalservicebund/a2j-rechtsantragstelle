@@ -120,7 +120,7 @@ export const createDateSchema = (args?: {
       }
     });
 };
-export const createDateSplitSchema = (args?: {
+export const createSplitDateSchema = (args?: {
   earliest?: () => Date;
   latest?: () => Date;
 }) => {

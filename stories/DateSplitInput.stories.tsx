@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import DateSplitInput from "../app/components/formElements/DateSplitInput";
+import SplitDateInput from "../app/components/formElements/SplitDateInput";
 import { reactRouterFormContext } from "../.storybook/reactRouterFormContext";
 
 const meta = {
   title: "FormElements/DateSplitInput",
-  component: DateSplitInput,
+  component: SplitDateInput,
   tags: ["autodocs"],
-} satisfies Meta<typeof DateSplitInput>;
+} satisfies Meta<typeof SplitDateInput>;
 
 export default meta;
 

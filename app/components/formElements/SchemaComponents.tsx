@@ -13,7 +13,7 @@ import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
 import { getNestedSchema } from "./schemaToForm/getNestedSchema";
 import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";
 import { isZodObject } from "./schemaToForm/renderZodObject";
-import DateSplitInput from "./DateSplitInput";
+import SplitDateInput from "./SplitDateInput";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -67,7 +67,7 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
           );
         }
         if (nestedSchema.meta()?.description === "date_split") {
-          return <DateSplitInput key={fieldName} name={fieldName} />;
+          return <SplitDateInput key={fieldName} name={fieldName} />;
         }
         // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")
         const innerSchema = mapKeys(

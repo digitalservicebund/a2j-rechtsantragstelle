@@ -21,6 +21,7 @@ export type InputProps = Readonly<{
   helperText?: string;
   charLimit?: number;
   autoComplete?: string;
+  className?: string;
 }>;
 
 const Input = function InputComponent({

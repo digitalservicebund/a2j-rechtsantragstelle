@@ -1,6 +1,6 @@
 import {
   createDateSchema,
-  createDateSplitSchema,
+  createSplitDateSchema,
 } from "~/services/validation/date";
 
 describe("date validation", () => {
@@ -72,7 +72,7 @@ describe("date split input validation", () => {
     test.each(cases)(
       "given $input, returns $expected",
       ({ input, expected }) => {
-        const actual = createDateSplitSchema().safeParse(input);
+        const actual = createSplitDateSchema().safeParse(input);
         expect(actual).toEqual({ data: expected, success: true });
       },
     );
@@ -177,7 +177,7 @@ describe("date split input validation", () => {
     test.each(cases)(
       "given $input, returns $errorMessage on $errorPath",
       ({ input, errorPath, errorMessage, earliest, latest }) => {
-        const actual = createDateSplitSchema({ earliest, latest }).safeParse(
+        const actual = createSplitDateSchema({ earliest, latest }).safeParse(
           input,
         );
         expect(actual.success).toBe(false);
