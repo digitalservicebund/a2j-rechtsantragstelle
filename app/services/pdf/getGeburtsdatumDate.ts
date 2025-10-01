@@ -1,7 +1,7 @@
 export function getGeburtsdatumDate(dateObj?: {
-  tag: string;
-  monat: string;
-  jahr: string;
+  tag: number;
+  monat: number;
+  jahr: number;
 }) {
   if (!dateObj?.tag || !dateObj.monat || !dateObj.jahr) {
     return "";

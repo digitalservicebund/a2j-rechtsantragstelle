@@ -66,7 +66,7 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
             />
           );
         }
-        if (nestedSchema.meta()?.description === "date_split") {
+        if (nestedSchema.meta()?.description === "split_date") {
           return <SplitDateInput key={fieldName} name={fieldName} />;
         }
         // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")

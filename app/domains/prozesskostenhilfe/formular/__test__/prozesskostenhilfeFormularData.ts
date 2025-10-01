@@ -188,9 +188,9 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
   ort: "Berlin",
   plz: "10119",
   geburtsdatum: {
-    tag: "01",
-    monat: "01",
-    jahr: "1990",
+    tag: 1,
+    monat: 1,
+    jahr: 1990,
   },
   street: "Strasse",
   houseNumber: "1",

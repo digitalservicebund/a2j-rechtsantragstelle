@@ -3,21 +3,22 @@ import Input, { type InputProps } from "./Input";
 import { useField } from "@rvf/react-router";
 
 export type SplitDateInputProps = InputProps & {
-  legend?: string;
   name: string;
   label?: string;
+  legend?: string;
+  hintText?: string;
 };
 
 export const SplitDateInput = ({
-  legend,
-  label,
   name,
+  label,
+  legend,
+  hintText,
 }: SplitDateInputProps) => {
   const field = useField(name);
 
   const errorId = `${name}-error`;
   const hasError = Boolean(field.error());
-  console.log(name);
 
   return (
     <fieldset
@@ -26,6 +27,8 @@ export const SplitDateInput = ({
       aria-errormessage={hasError ? errorId : undefined}
     >
       {legend && <legend>{legend}</legend>}
+      {hintText && <p>{hintText}</p>}
+
       <div className="flex flex-row gap-16">
         <Input
           type="number"
