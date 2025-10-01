@@ -1,5 +1,5 @@
 import Kopfzeile from "~/components/layout/Kopfzeile";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {
   title: "Layout/Kopfzeile",
