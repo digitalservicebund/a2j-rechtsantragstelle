@@ -1,6 +1,6 @@
 import isDate from "validator/lib/isDate";
 import { z } from "zod";
-import { dateUTCFromGermanDateString, today } from "~/util/date";
+import { dateUTCFromGermanDateString } from "~/util/date";
 
 const isValidDate = (date: string) =>
   isDate(date, {
