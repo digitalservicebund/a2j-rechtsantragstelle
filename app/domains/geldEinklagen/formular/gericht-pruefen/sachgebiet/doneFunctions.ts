@@ -10,6 +10,7 @@ function checkBesondere(context: GeldEinklagenFormularGerichtPruefenUserData) {
     context;
   switch (besondere) {
     case "anderesRechtsproblem":
+    case "urheberrecht":
     case "schaden": {
       return true;
     }
@@ -30,9 +31,6 @@ function checkBesondere(context: GeldEinklagenFormularGerichtPruefenUserData) {
     }
     case "verkehrsunfall": {
       return objectKeysNonEmpty(context, ["verkehrsunfallStrassenverkehr"]);
-    }
-    case "urheberrecht": {
-      return true;
     }
     case undefined:
     default: {
