@@ -32,7 +32,7 @@ function checkBesondere(context: GeldEinklagenFormularGerichtPruefenUserData) {
       return objectKeysNonEmpty(context, ["verkehrsunfallStrassenverkehr"]);
     }
     case "urheberrecht": {
-      return false;
+      return true;
     }
     case undefined:
     default: {

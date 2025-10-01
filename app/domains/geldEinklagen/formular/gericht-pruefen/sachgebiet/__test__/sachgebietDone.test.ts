@@ -51,7 +51,7 @@ describe("sachgebietDone", () => {
       },
     });
 
-    expect(actual).toBe(false);
+    expect(actual).toBe(true);
   });
 
   describe("besondere is miete", () => {

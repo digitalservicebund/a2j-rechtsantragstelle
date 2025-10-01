@@ -36,8 +36,10 @@ export const sachgebietXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context }) =>
-              context.besondere === "anderesRechtsproblem" ||
-              (context.besondere === "schaden" && sachgebietDone({ context })),
+              (context.besondere === "schaden" ||
+                context.besondere === "anderesRechtsproblem" ||
+                context.besondere === "urheberrecht") &&
+              sachgebietDone({ context }),
             target: steps.klagendePersonFuerWen.absolute,
           },
           {

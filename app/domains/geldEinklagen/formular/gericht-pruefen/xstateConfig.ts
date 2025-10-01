@@ -59,7 +59,8 @@ export const gerichtPruefenXstateConfig = {
               {
                 guard: ({ context }) =>
                   context.besondere === "anderesRechtsproblem" ||
-                  context.besondere === "schaden",
+                  context.besondere === "schaden" ||
+                  context.besondere === "urheberrecht",
                 target: steps.sachgebietBesondere.absolute,
               },
               {

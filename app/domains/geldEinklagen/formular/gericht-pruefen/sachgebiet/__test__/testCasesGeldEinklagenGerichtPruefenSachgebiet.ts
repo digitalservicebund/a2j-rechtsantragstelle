@@ -30,6 +30,19 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
     {
       forderung: "maximal5000",
       sachgebietAusgeschlossen: "no",
+      besondere: "urheberrecht",
+    },
+    [
+      "/gericht-pruefen/sachgebiet/info",
+      "/gericht-pruefen/sachgebiet/ausgeschlossen",
+      "/gericht-pruefen/sachgebiet/besondere",
+      "/gericht-pruefen/klagende-person/fuer-wen",
+    ],
+  ],
+  [
+    {
+      forderung: "maximal5000",
+      sachgebietAusgeschlossen: "no",
       besondere: "schaden",
     },
     [
