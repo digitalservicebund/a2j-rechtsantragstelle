@@ -29,7 +29,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
     },
     {
       stepId: "/finanzielle-angaben/ausgaben/uebersicht",
-      addArrayItemStep: "add-ausgaben",
+      addArrayItemEvent: "add-ausgaben",
       userInput: {
         ausgaben: [],
         pageData: { arrayIndexes: [0] },
@@ -60,7 +60,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
     },
     {
       stepId: "/finanzielle-angaben/ausgaben/uebersicht",
-      addArrayItemStep: "add-ausgaben",
+      addArrayItemEvent: "add-ausgaben",
       userInput: {
         ausgaben: [],
         pageData: { arrayIndexes: [0] },

@@ -7,15 +7,14 @@ export type TestCases<T extends UserData> = Readonly<
   Array<Readonly<[T, readonly string[]]>>
 >;
 
+export type ExpectedStep = {
+  stepId: string;
+  addArrayItemEvent?: ArrayConfigServer["event"];
+  userInput?: UserData;
+};
+
 // New flow tests: testing data submission with page schemas
 export type FlowTestCases = {
   xstateConfig: Config;
-  testcases: Record<
-    string,
-    Array<{
-      stepId: string;
-      addArrayItemStep?: ArrayConfigServer["event"];
-      userInput?: UserData;
-    }>
-  >;
+  testcases: Record<string, ExpectedStep[]>;
 };
