@@ -61,7 +61,6 @@ describe("I_zahlungsverpflichtungen", () => {
           art: "Ratenzahlung",
           zahlungsempfaenger: "Empfänger 1",
           zahlungspflichtiger: "myself",
-          betragEigenerAnteil: "50",
           betragGesamt: "100",
           restschuld: "1000",
           laufzeitende: "31.12.2050",
@@ -92,9 +91,6 @@ describe("I_zahlungsverpflichtungen", () => {
       pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen1.value,
     ).toBe("1000");
     expect(pdfValues.gesamtbelastungmtl1.value).toBe("100");
-    expect(
-      pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen1.value,
-    ).toBe("50");
     expect(pdfValues.sonstigeZahlungsverpflichtungen2.value).toBe(
       "Sonstige Ausgabe, Empfänger 2",
     );
@@ -122,7 +118,6 @@ describe("I_zahlungsverpflichtungen", () => {
           art: "Ratenzahlung",
           zahlungsempfaenger: "Empfänger 1",
           zahlungspflichtiger: "myself",
-          betragEigenerAnteil: "50",
           betragGesamt: "100",
           restschuld: "1000",
           laufzeitende: "31.12.2050",
@@ -158,9 +153,6 @@ describe("I_zahlungsverpflichtungen", () => {
       pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen1.value,
     ).toBe("1000");
     expect(pdfValues.gesamtbelastungmtl1.value).toBe("100");
-    expect(
-      pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen1.value,
-    ).toBe("50");
     expect(pdfValues.sonstigeZahlungsverpflichtungen2.value).toBe(
       "Sonstige Ausgabe, Empfänger 2",
     );
@@ -201,7 +193,6 @@ describe("I_zahlungsverpflichtungen", () => {
           art: "Sonstige Ausgabe",
           zahlungsempfaenger: "Empfänger 2",
           zahlungspflichtiger: "myself",
-          betragEigenerAnteil: "100",
           betragGesamt: "200",
         },
       ],

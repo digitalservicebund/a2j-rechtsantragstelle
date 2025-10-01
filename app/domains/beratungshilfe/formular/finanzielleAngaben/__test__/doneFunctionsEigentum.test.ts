@@ -1,4 +1,3 @@
-import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
 import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import {
   eigentumDone,
@@ -8,20 +7,7 @@ import {
   wertsachenDone,
 } from "../eigentum/doneFunctions";
 import { kinderDone } from "../kinder/doneFunctions";
-import {
-  ausgabeDone,
-  ausgabenDone,
-} from "../regelmaessigeAusgaben/doneFunctions";
-
-const mockedCompleteAusgabe: NonNullable<
-  BeratungshilfeFinanzielleAngabenUserData["ausgaben"]
->[0] = {
-  art: "Art und Weise",
-  zahlungsempfaenger: "Empfänger",
-  beitrag: "100",
-  hasZahlungsfrist: "no",
-  zahlungsfrist: undefined,
-};
+import { ausgabenDone } from "../regelmaessigeAusgaben/doneFunctions";
 
 describe("eigentumDone", () => {
   it("passes with all fields no", () => {
@@ -193,82 +179,53 @@ describe("bankKontoDone", () => {
   });
 });
 
-describe("ausgabeDone", () => {
-  it("should return false if the ausgabe is missing the art, zahlungsempfaenger, or beitrag field", () => {
-    expect(ausgabeDone({ ...mockedCompleteAusgabe, art: undefined })).toBe(
-      false,
-    );
-    expect(
-      ausgabeDone({ ...mockedCompleteAusgabe, zahlungsempfaenger: undefined }),
-    ).toBe(false);
-    expect(ausgabeDone({ ...mockedCompleteAusgabe, beitrag: undefined })).toBe(
-      false,
-    );
-  });
-
-  it("should true if the user has completed the ausgabe and it doesn't have a deadline", () => {
-    expect(
-      ausgabeDone({ ...mockedCompleteAusgabe, hasZahlungsfrist: "no" }),
-    ).toBe(true);
-  });
-
-  it("should return false if the user's ausgabe has a deadline that they haven't entered", () => {
-    expect(
-      ausgabeDone({
-        ...mockedCompleteAusgabe,
-        hasZahlungsfrist: "yes",
-        zahlungsfrist: undefined,
-      }),
-    ).toBe(false);
-  });
-});
-
 describe("ausgabenDone", () => {
-  it("should return true if the user receives staatliche leistungen", () => {
-    expect(
-      ausgabenDone({
-        context: { staatlicheLeistungen: "grundsicherung" },
-      }),
-    ).toBe(true);
-    expect(
-      ausgabenDone({
-        context: { staatlicheLeistungen: "buergergeld" },
-      }),
-    ).toBe(true);
-    expect(
-      ausgabenDone({
-        context: { staatlicheLeistungen: "asylbewerberleistungen" },
-      }),
-    ).toBe(true);
-  });
+  const validAusgabe = {
+    art: "kredit",
+    zahlungsempfaenger: "nachname",
+    beitrag: "10",
+    hasZahlungsfrist: "no",
+  } as const;
 
   it("should return true if the user does not have ausgaben", () => {
     expect(
       ausgabenDone({
-        context: { hasAusgaben: "no" },
+        context: { hasAusgaben: "no", ausgabensituation: { none: "on" } },
       }),
     ).toBe(true);
   });
 
-  it("should return true if the user has ausgaben and has entered them fully", () => {
+  it("should return false if no ausgabensituation is selected", () => {
+    expect(ausgabenDone({ context: { hasAusgaben: "yes" } })).toBe(false);
+  });
+
+  it("should return false if hasAusgaben without besondere belastungen", () => {
     expect(
       ausgabenDone({
-        context: { hasAusgaben: "yes" },
+        context: { hasAusgaben: "yes", ausgaben: [validAusgabe] },
       }),
     ).toBe(false);
+  });
+
+  it("should return false if hasAusgaben without ausgaben", () => {
     expect(
       ausgabenDone({
         context: {
           hasAusgaben: "yes",
-          ausgaben: [
-            {
-              art: "Art und Weise",
-              zahlungsempfaenger: "Empfänger",
-              beitrag: "100",
-              hasZahlungsfrist: "yes",
-              zahlungsfrist: "01.01.2025",
-            },
-          ],
+          ausgabensituation: { any: "on" },
+          ausgaben: [],
+        },
+      }),
+    ).toBe(false);
+  });
+
+  it("should return true if the user has ausgaben and added besondere belastungen", () => {
+    expect(
+      ausgabenDone({
+        context: {
+          hasAusgaben: "yes",
+          ausgabensituation: { any: "on" },
+          ausgaben: [validAusgabe],
         },
       }),
     ).toBe(true);
@@ -420,38 +377,12 @@ describe("grundeigentumDone", () => {
 });
 
 describe("kinderDone", () => {
-  it("should return true if the user receives staatliche leistungen", () => {
-    expect(
-      kinderDone({
-        context: { staatlicheLeistungen: "grundsicherung" },
-      }),
-    ).toBe(true);
-    expect(
-      kinderDone({
-        context: { staatlicheLeistungen: "asylbewerberleistungen" },
-      }),
-    ).toBe(true);
-    expect(
-      kinderDone({
-        context: { staatlicheLeistungen: "buergergeld" },
-      }),
-    ).toBe(true);
-  });
-
   it("should return true if the user has no children", () => {
-    expect(
-      kinderDone({
-        context: { hasKinder: "no" },
-      }),
-    ).toBe(true);
+    expect(kinderDone({ context: { hasKinder: "no" } })).toBe(true);
   });
 
   it("should return false if the user has incomplete children entered", () => {
-    expect(
-      kinderDone({
-        context: { hasKinder: "yes" },
-      }),
-    ).toBe(false);
+    expect(kinderDone({ context: { hasKinder: "yes" } })).toBe(false);
     expect(
       kinderDone({
         context: {

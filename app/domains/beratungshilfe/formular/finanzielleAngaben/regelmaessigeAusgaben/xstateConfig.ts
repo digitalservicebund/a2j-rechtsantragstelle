@@ -30,27 +30,37 @@ export const beratungshilfeFinanzielleAngabenRegelmassigeAusgabenXstateConfig =
           SUBMIT: [
             {
               guard: ({ context }) => context.hasAusgaben === "yes",
-              target: steps.ausgabenSituation.relative,
+              target: steps.ausgabenUebersicht.relative,
             },
-            "#persoenliche-daten.start",
+            steps.ausgabenSituation.relative,
           ],
         },
       },
       [steps.ausgabenSituation.relative]: {
         on: {
-          BACK: steps.ausgabenFrage.relative,
-          SUBMIT: steps.ausgabenUebersicht.relative,
+          BACK: [
+            {
+              guard: finanzielleAngabeGuards.hasAusgabenYesAndEmptyArray,
+              target: steps.ausgabenWarnung.relative,
+            },
+            {
+              guard: ({ context }) => context.hasAusgaben === "yes",
+              target: steps.ausgabenUebersicht.relative,
+            },
+            steps.ausgabenFrage.relative,
+          ],
+          SUBMIT: "#persoenliche-daten.start",
         },
       },
       [steps.ausgabenUebersicht.relative]: {
         on: {
-          BACK: steps.ausgabenSituation.relative,
+          BACK: steps.ausgabenFrage.relative,
           SUBMIT: [
             {
               guard: finanzielleAngabeGuards.hasAusgabenYesAndEmptyArray,
               target: steps.ausgabenWarnung.relative,
             },
-            "#persoenliche-daten.start",
+            steps.ausgabenSituation.relative,
           ],
           "add-ausgaben": {
             guard: finanzielleAngabeGuards.isValidAusgabenArrayIndex,
@@ -61,7 +71,7 @@ export const beratungshilfeFinanzielleAngabenRegelmassigeAusgabenXstateConfig =
       [steps.ausgabenWarnung.relative]: {
         on: {
           BACK: "uebersicht",
-          SUBMIT: "#persoenliche-daten",
+          SUBMIT: steps.ausgabenSituation.relative,
         },
       },
       [steps.ausgabenAusgaben.relative]: {

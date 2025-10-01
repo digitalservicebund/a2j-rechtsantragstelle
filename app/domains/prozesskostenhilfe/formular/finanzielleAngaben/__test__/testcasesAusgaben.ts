@@ -6,80 +6,112 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = [
     { hasAusgaben: "no" },
     [
       "/finanzielle-angaben/ausgaben/ausgaben-frage",
-      "/gesetzliche-vertretung/frage",
+      "/finanzielle-angaben/ausgaben/besondere-belastungen",
     ],
   ],
   [
     { hasAusgaben: "yes" },
     [
       "/finanzielle-angaben/ausgaben/ausgaben-frage",
+      "/finanzielle-angaben/ausgaben/zusammenfassung",
       "/finanzielle-angaben/ausgaben/besondere-belastungen",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/zusammenfassung",
       "/gesetzliche-vertretung/frage",
     ],
   ],
   [
     {
-      versicherungen: [{ art: "sonstige", beitrag: "10" }],
+      versicherungen: [
+        { art: "sonstige", sonstigeArt: "sonstige", beitrag: "10" },
+      ],
       pageData: { arrayIndexes: [0] },
     },
     [
-      "/finanzielle-angaben/ausgaben-zusammenfassung/versicherungen/daten",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/versicherungen/sonstige-art",
-    ],
-  ],
-  [
-    {
-      ratenzahlungen: [{ zahlungspflichtiger: "myself", betragGesamt: "10" }],
-      pageData: { arrayIndexes: [0] },
-    },
-    [
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/daten",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/zahlungspflichtiger",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/betragGesamt",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/restschuld",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/laufzeitende",
+      "/finanzielle-angaben/ausgaben/versicherungen/daten",
+      "/finanzielle-angaben/ausgaben/versicherungen/sonstige-art",
     ],
   ],
   [
     {
       ratenzahlungen: [
-        { zahlungspflichtiger: "myselfAndPartner", betragGesamt: "10" },
+        {
+          zahlungspflichtiger: "myself",
+          betragGesamt: "10",
+          art: "asd",
+          laufzeitende: "01.01.2026",
+          restschuld: "10",
+          zahlungsempfaenger: "asd",
+        },
       ],
       pageData: { arrayIndexes: [0] },
     },
     [
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/daten",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/zahlungspflichtiger",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/betragGemeinsamerAnteil",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/betragEigenerAnteil",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/restschuld",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/ratenzahlungen/laufzeitende",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/daten",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/zahlungspflichtiger",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/betragGesamt",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/restschuld",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/laufzeitende",
     ],
   ],
   [
     {
-      sonstigeAusgaben: [{ zahlungspflichtiger: "myself", betragGesamt: "10" }],
+      ratenzahlungen: [
+        {
+          zahlungspflichtiger: "myselfAndPartner",
+          betragGesamt: "10",
+          art: "asd",
+          laufzeitende: "01.01.2026",
+          restschuld: "10",
+          zahlungsempfaenger: "asd",
+          betragEigenerAnteil: "10",
+        },
+      ],
       pageData: { arrayIndexes: [0] },
     },
     [
-      "/finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben/daten",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben/zahlungspflichtiger",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben/betragGesamt",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/daten",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/zahlungspflichtiger",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/betragGemeinsamerAnteil",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/betragEigenerAnteil",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/restschuld",
+      "/finanzielle-angaben/ausgaben/ratenzahlungen/laufzeitende",
     ],
   ],
   [
     {
       sonstigeAusgaben: [
-        { zahlungspflichtiger: "myselfAndPartner", betragGesamt: "10" },
+        {
+          zahlungspflichtiger: "myself",
+          betragGesamt: "10",
+          zahlungsempfaenger: "empfaenger",
+          art: "art",
+        },
       ],
       pageData: { arrayIndexes: [0] },
     },
     [
-      "/finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben/daten",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben/zahlungspflichtiger",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben/betragGemeinsamerAnteil",
-      "/finanzielle-angaben/ausgaben-zusammenfassung/sonstigeAusgaben/betragEigenerAnteil",
+      "/finanzielle-angaben/ausgaben/sonstigeAusgaben/daten",
+      "/finanzielle-angaben/ausgaben/sonstigeAusgaben/zahlungspflichtiger",
+      "/finanzielle-angaben/ausgaben/sonstigeAusgaben/betragGesamt",
+    ],
+  ],
+  [
+    {
+      sonstigeAusgaben: [
+        {
+          zahlungspflichtiger: "myselfAndPartner",
+          betragGesamt: "10",
+          art: "art",
+          betragEigenerAnteil: "10",
+          zahlungsempfaenger: "empfaenger",
+        },
+      ],
+      pageData: { arrayIndexes: [0] },
+    },
+    [
+      "/finanzielle-angaben/ausgaben/sonstigeAusgaben/daten",
+      "/finanzielle-angaben/ausgaben/sonstigeAusgaben/zahlungspflichtiger",
+      "/finanzielle-angaben/ausgaben/sonstigeAusgaben/betragGemeinsamerAnteil",
+      "/finanzielle-angaben/ausgaben/sonstigeAusgaben/betragEigenerAnteil",
     ],
   ],
 ] as const satisfies TestCases<ProzesskostenhilfeFinanzielleAngabenUserData>;

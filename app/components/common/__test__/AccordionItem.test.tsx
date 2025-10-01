@@ -15,6 +15,7 @@ describe("AccordionItem Component", () => {
   it("renders native details/summary with translations and icons", () => {
     render(<AccordionItem {...defaultProps} />);
     const detailsElem = screen.getByRole("group", { hidden: true });
+    expect(detailsElem).toHaveClass("group");
     expect(detailsElem).toBeInTheDocument();
     const summary = detailsElem.querySelector("summary");
     expect(summary).toBeInTheDocument();

@@ -31,7 +31,7 @@ export default function PageHeader({
           {translations.pageHeader.time.de}
         </span>
       )}
-      <GridSection backgroundClass="bg-[#F0F0F0]">
+      <GridSection backgroundClass="bg-[#F0F0F0]" className="pt-2">
         <Grid>
           <GridItem
             smColumn={{ start: 1, span: 12 }}

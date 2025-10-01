@@ -14,6 +14,11 @@ import {
   geldanlageDone,
   singleGrundeigentumDone,
 } from "../../../shared/formular/finanzielleAngaben/doneFunctions";
+import {
+  ratenZahlungArraySchema,
+  sonstigeZahlungArraySchema,
+  versicherungenArraySchema,
+} from "./ausgaben/pages";
 
 type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenUserData>;
@@ -66,10 +71,6 @@ export const partnerBesondersAusgabenDone: ProzesskostenhilfeFinanzielleAngabenG
 export const kinderDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  (context.staatlicheLeistungen != undefined &&
-    einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
-      context,
-    })) ||
   context.hasKinder == "no" ||
   (arrayIsNonEmpty(context.kinder) && context.kinder.every(childDone));
 
@@ -138,8 +139,7 @@ export const prozesskostenhilfeFinanzielleAngabeDone: ProzesskostenhilfeFinanzie
           kinderDone({ context }) &&
           eigentumZusammenfassungDone({ context }) &&
           andereUnterhaltszahlungenDone({ context }) &&
-          ausgabenDone({ context }) &&
-          ausgabenZusammenfassungDone({ context });
+          ausgabenDone({ context });
   };
 
 export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
@@ -155,78 +155,13 @@ export const eigentumZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGu
 export const ausgabenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
-    context,
-  }) ||
-  (context.hasAusgaben !== undefined &&
-    context.besondereBelastungen !== undefined) ||
-  context.hasAusgaben == "no";
-
-export const ausgabenZusammenfassungDone: ProzesskostenhilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
-      context,
-    }) ||
-    context.hasAusgaben == "no" ||
-    hasVersicherungDone({ context }) ||
-    hasRatenzahlungDone({ context }) ||
-    hasSonstigeAusgabeDone({ context });
-
-export const versicherungDone = (
-  versicherung: NonNullable<
-    ProzesskostenhilfeFinanzielleAngabenUserData["versicherungen"]
-  >[0],
-) => {
-  if (versicherung.art === "sonstige") {
-    return versicherung.sonstigeArt !== undefined;
-  }
-  return true;
-};
-
-export const hasVersicherungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
-  context,
-}) =>
-  arrayIsNonEmpty(context.versicherungen) &&
-  context.versicherungen.every(versicherungDone);
-
-export const ratenzahlungDone = (
-  ratenzahlung: NonNullable<
-    ProzesskostenhilfeFinanzielleAngabenUserData["ratenzahlungen"]
-  >[0],
-) =>
-  !!ratenzahlung &&
-  ratenzahlung.art !== undefined &&
-  ratenzahlung.zahlungsempfaenger !== undefined &&
-  ratenzahlung.zahlungspflichtiger !== undefined &&
-  (ratenzahlung.zahlungspflichtiger === "myself" ||
-    ratenzahlung.betragEigenerAnteil !== undefined) &&
-  ratenzahlung.betragGesamt !== undefined &&
-  ratenzahlung.restschuld !== undefined &&
-  ratenzahlung.laufzeitende !== undefined;
-
-export const hasRatenzahlungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
-  context,
-}) =>
-  arrayIsNonEmpty(context.ratenzahlungen) &&
-  context.ratenzahlungen.every(ratenzahlungDone);
-
-export const sonstigeAusgabeDone = (
-  sonstigeAusgabe: NonNullable<
-    ProzesskostenhilfeFinanzielleAngabenUserData["sonstigeAusgaben"]
-  >[0],
-) =>
-  !!sonstigeAusgabe &&
-  sonstigeAusgabe.art !== undefined &&
-  sonstigeAusgabe.zahlungsempfaenger !== undefined &&
-  sonstigeAusgabe.zahlungspflichtiger !== undefined &&
-  (sonstigeAusgabe.zahlungspflichtiger === "myself" ||
-    sonstigeAusgabe.betragEigenerAnteil !== undefined) &&
-  sonstigeAusgabe.betragGesamt !== undefined;
-
-export const hasSonstigeAusgabeDone: ProzesskostenhilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    arrayIsNonEmpty(context.sonstigeAusgaben) &&
-    context.sonstigeAusgaben.every(sonstigeAusgabeDone);
+  context.besondereBelastungen !== undefined &&
+  (context.hasAusgaben === "no" ||
+    (context.hasAusgaben === "yes" &&
+      (versicherungenArraySchema.safeParse(context.versicherungen).success ||
+        ratenZahlungArraySchema.safeParse(context.ratenzahlungen).success ||
+        sonstigeZahlungArraySchema.safeParse(context.sonstigeAusgaben)
+          .success)));
 
 export const partnerSupportDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
@@ -242,6 +177,7 @@ export const wohnungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 }) => {
   const livesAlone = context.livingSituation === "alone";
   const rentsApartment = context.rentsApartment === "yes" && context.totalRent;
+  const parkplatzDone = context.garageParkplatz !== undefined;
 
   const ownsApartment =
     context.rentsApartment === "no" &&
@@ -253,13 +189,17 @@ export const wohnungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
       context.livingSituation === "withRelatives") &&
     context.apartmentPersonCount;
 
+  const renterInfoDone =
+    rentsApartment &&
+    parkplatzDone &&
+    (livesAlone || (livesWithOthers && context.sharedRent));
+
+  const ownerInfoDone =
+    ownsApartment &&
+    (livesAlone || (livesWithOthers && context.utilitiesCostOwnShared));
+
   return (
     Boolean(context.apartmentSizeSqm && context.numberOfRooms) &&
-    (Boolean(livesAlone && rentsApartment) ||
-      Boolean(livesAlone && ownsApartment) ||
-      Boolean(livesWithOthers && rentsApartment && context.sharedRent) ||
-      Boolean(
-        livesWithOthers && ownsApartment && context.utilitiesCostOwnShared,
-      ))
+    (Boolean(renterInfoDone) || Boolean(ownerInfoDone))
   );
 };

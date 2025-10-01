@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import Accordion from "../app/components/common/Accordion";
 import Container from "../app/components/layout/Container";
 import { reactRouterContext } from ".storybook/reactRouterContext";

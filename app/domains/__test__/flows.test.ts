@@ -1,7 +1,6 @@
 import { testCasesBeratungshilfeFormular } from "~/domains/beratungshilfe/formular/__test__/testCasesBeratungshilfeFormular";
 import { testCasesFluggastrechteFormular } from "~/domains/fluggastrechte/formular/__test__/testCasesFluggastrechteFormular";
 import { testCasesFluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck/__test__/testCasesFluggastrechteVorabcheck";
-import { testCasesKontopfaendungWegweiser } from "~/domains/kontopfaendung/wegweiser/__test__/testcases";
 import {
   testCasesProzesskostenhilfeFormular,
   testCasesProzesskostenhilfeSubmitOnly,
@@ -13,6 +12,7 @@ import type {
   FlowStateMachine,
   NavigationEvent,
 } from "~/services/flow/server/types";
+import { testCasesGeldEinklagenFormular } from "../geldEinklagen/formular/__test__/testCasesGeldEinklagenFormular";
 
 function getEnabledSteps({
   machine,
@@ -71,7 +71,7 @@ describe.sequential("state machine form flows", () => {
     testCasesFluggastrechteFormular,
     testCasesFluggastrechteVorabcheck,
     testCasesProzesskostenhilfeFormular,
-    testCasesKontopfaendungWegweiser,
+    testCasesGeldEinklagenFormular,
   } as const;
   const transitionTypes = ["SUBMIT", "BACK"] as const;
 
@@ -147,6 +147,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(38);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(41);
   });
 });
