@@ -1,5 +1,5 @@
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
-import { GeldEinklagenFormular } from "./GeldEinklagenFormular";
+import { type GeldEinklagenFormular } from "./GeldEinklagenFormular";
 
 export async function startGerichtPruefen(formular: GeldEinklagenFormular) {
   // /geld-einklagen/formular/gericht-pruefen/intro/start
