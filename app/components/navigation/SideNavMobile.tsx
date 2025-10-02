@@ -41,7 +41,7 @@ export default function SideNavMobile({
                 if (closeButtonRef.current !== null) {
                   closeButtonRef.current.focus();
                 }
-              }, 100);
+              }, 10);
             }
           },
         );
