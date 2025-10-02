@@ -4,6 +4,7 @@ import { type GeldEinklagenFormularGerichtPruefenUserData } from "./userData";
 import { geldEinklagenGerichtPruefenPages } from "./pages";
 import { forderungDone } from "./doneFunctions";
 import { sachgebietXstateConfig } from "./sachgebiet/xstateConfig";
+import { klagendePersonXstateConfig } from "./klagendePerson/xStateConfig";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -48,55 +49,67 @@ export const gerichtPruefenXstateConfig = {
       },
     },
     sachgebiet: sachgebietXstateConfig,
-    "klagende-person": {
-      id: "klagende-person",
+    "klagende-person": klagendePersonXstateConfig,
+    "beklagte-person": {
+      id: "beklagte-person",
       initial: "fuer-wen",
       meta: { done: () => false },
       states: {
-        "fuer-wen": {
+        [steps.beklagtePerson.relative]: {
           on: {
             BACK: [
               {
                 guard: ({ context }) =>
-                  context.besondere === "anderesRechtsproblem" ||
-                  context.besondere === "schaden" ||
-                  context.besondere === "urheberrecht",
-                target: steps.sachgebietBesondere.absolute,
+                  context.klagendeVerbraucher === "yes" &&
+                  (context.besondere === "anderesRechtsproblem" ||
+                    context.besondere === "urheberrecht" ||
+                    context.besondere === "reisen") &&
+                  context.klagendeVertrag === "no",
+                target: steps.klagendePersonVertrag.absolute,
               },
               {
                 guard: ({ context }) =>
-                  context.besondere === "miete" &&
-                  context.mietePachtVertrag === "yes",
-                target: steps.sachgebietMietePachtRaum.absolute,
+                  context.klagendeVerbraucher === "yes" &&
+                  (context.besondere === "anderesRechtsproblem" ||
+                    context.besondere === "urheberrecht" ||
+                    context.besondere === "reisen") &&
+                  context.klagendeVertrag === "yes",
+                target: steps.klagendePersonHaustuergeschaeft.absolute,
               },
               {
                 guard: ({ context }) =>
-                  context.besondere === "miete" &&
-                  context.mietePachtVertrag === "no",
-                target: steps.sachgebietMietePachtVertrag.absolute,
-              },
-              {
-                guard: ({ context }) =>
+                  context.klagendeVerbraucher === "yes" &&
                   context.besondere === "versicherung" &&
-                  context.versicherungVertrag === "no",
-                target: steps.sachgebietVersicherungVertrag.absolute,
+                  context.versicherungVertrag === "yes" &&
+                  context.versicherungsnummer === "no",
+                target: steps.klagendePersonHaustuergeschaeft.absolute,
               },
               {
                 guard: ({ context }) =>
-                  context.besondere === "versicherung" &&
-                  context.versicherungVertrag === "yes",
-                target:
-                  steps.sachgebietVersicherungVersicherungsnummer.absolute,
+                  context.klagendeVerbraucher === "yes" &&
+                  context.besondere === "miete" &&
+                  context.mietePachtVertrag === "yes" &&
+                  context.mietePachtRaum === "no",
+                target: steps.klagendePersonHaustuergeschaeft.absolute,
+              },
+              {
+                guard: ({ context }) => context.klagendeVerbraucher === "yes",
+                target: steps.klagendePersonVerbraucher.absolute,
               },
               {
                 guard: ({ context }) =>
-                  context.besondere === "reisen" &&
-                  context.reiseArt === "andereReise",
-                target: steps.sachgebietReiseArt.absolute,
+                  context.klagendeVerbraucher === "no" &&
+                  context.besondere === "miete" &&
+                  context.mietePachtVertrag === "yes" &&
+                  context.mietePachtRaum === "yes",
+                target: steps.klagendePersonVerbraucher.absolute,
               },
               {
-                guard: ({ context }) => context.besondere === "verkehrsunfall",
-                target: steps.sachgebietVerkehrsunfallStrassenverkehr.absolute,
+                guard: ({ context }) =>
+                  context.klagendeVerbraucher === "no" ||
+                  context.besondere === "verkehrsunfall" ||
+                  context.besondere === "schaden",
+                target: steps.klagendePersonKaufmann.absolute,
               },
             ],
           },
