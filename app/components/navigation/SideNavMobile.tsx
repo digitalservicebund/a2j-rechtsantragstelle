@@ -1,6 +1,6 @@
 import Close from "@digitalservicebund/icons/Close";
 import MenuIcon from "@digitalservicebund/icons/Menu";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavigationList } from "~/components/navigation/NavigationList";
 import { stateIsCurrent } from "~/services/navigation/navState";
 import { translations } from "~/services/translations/translations";
@@ -23,6 +23,32 @@ export default function SideNavMobile({
   const buttonClasses = "h-[24px] w-1/12 cursor-pointer text-blue-800";
   const Icon = menuOpen ? Close : MenuIcon;
 
+  const firstItemRef = useRef<HTMLAnchorElement | null>(null);
+  const lastItemRef = useRef<HTMLAnchorElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (menuOpen) {
+      firstItemRef.current?.focus();
+
+      if (lastItemRef.current !== null) {
+        lastItemRef.current.addEventListener(
+          "keydown",
+          function (event: KeyboardEvent) {
+            // Only tab without shiftKey
+            if (event.key === "Tab" && !event.shiftKey) {
+              setTimeout(function () {
+                if (closeButtonRef.current !== null) {
+                  closeButtonRef.current.focus();
+                }
+              }, 100);
+            }
+          },
+        );
+      }
+    }
+  }, [menuOpen]);
+
   return (
     <div className={`flex flex-col lg:hidden`}>
       {menuOpen && (
@@ -37,6 +63,7 @@ export default function SideNavMobile({
       <div className="bg-white max-h-[80vh] border border-blue-400 overflow-auto">
         <button
           onClick={toggleMenu}
+          ref={closeButtonRef}
           aria-expanded={menuOpen}
           className="flex items-center  gap-8 text-sm py-20 px-10 cursor-pointer w-full"
         >
@@ -53,6 +80,7 @@ export default function SideNavMobile({
               navItems={navItems}
               userVisitedValidationPage={userVisitedValidationPage}
               className="border border-blue-400 mx-10 mb-10 overflow-auto"
+              itemRefs={{ firstItemRef, lastItemRef }}
             />
           </div>
         )}

@@ -15,4 +15,8 @@ export type NavItem = {
   forceExpanded?: boolean;
   userVisitedValidationPage?: boolean;
   subflows?: NavItem[];
+  itemRefs?: {
+    firstItemRef?: React.RefObject<HTMLAnchorElement | null>;
+    lastItemRef?: React.RefObject<HTMLAnchorElement | null>;
+  };
 };
