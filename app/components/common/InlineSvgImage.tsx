@@ -17,6 +17,9 @@ const staticProps = { className: "svg-image", role: "img", height: "100%" };
 export const InlineSvgImage = ({ svgString, width, altText }: InlineSvgProps) =>
   parse(sanatizeSvgString(svgString), {
     transform: (node) => {
+      if (!isValidElement(node) && typeof node === "string")
+        return parse(node) as ReactElement; // string can just be returned
+
       if (isValidElement(node)) {
         if (!isSVGElement(node)) return node; // valid non-svg elements can just be returned
         const props = { ...staticProps, width, "aria-hidden": !altText };
