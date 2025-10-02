@@ -11,7 +11,7 @@ export const geldEinklagenGerichtPruefenPages = {
     pageSchema: { forderung: z.enum(["maximal5000", "etwasAnderes"]) },
   },
   forderungErrorEtwasAnderes: {
-    stepId: "gericht-pruefen/ergebnis/forderung/etwas-anderes",
+    stepId: "gericht-pruefen/forderung/ergebnis/etwas-anderes",
   },
   sachgebietInfo: {
     stepId: "gericht-pruefen/sachgebiet/info",
@@ -63,5 +63,29 @@ export const geldEinklagenGerichtPruefenPages = {
   },
   klagendePersonFuerWen: {
     stepId: "gericht-pruefen/klagende-person/fuer-wen",
+    pageSchema: { fuerWenKlagen: z.enum(["selbst", "organisation"]) },
+  },
+  klagendePersonErrorAbbruch: {
+    stepId: "gericht-pruefen/klagende-person/ergebnis/abbruch",
+  },
+  klagendePersonVerbraucher: {
+    stepId: "gericht-pruefen/klagende-person/verbraucher",
+    pageSchema: { klagendeVerbraucher: YesNoAnswer },
+  },
+  klagendePersonKaufmann: {
+    stepId: "gericht-pruefen/klagende-person/kaufmann",
+    pageSchema: { klagendeKaufmann: YesNoAnswer },
+  },
+  klagendePersonVertrag: {
+    stepId: "gericht-pruefen/klagende-person/vertrag",
+    pageSchema: { klagendeVertrag: YesNoAnswer },
+  },
+  klagendePersonHaustuergeschaeft: {
+    stepId: "gericht-pruefen/klagende-person/haustuergeschaeft",
+    pageSchema: { klagendeHaustuergeschaeft: YesNoAnswer },
+  },
+  beklagtePerson: {
+    stepId: "gericht-pruefen/beklagte-person/fuer-wen",
+    pageSchema: { fuerWenBeklagen: YesNoAnswer },
   },
 } as const satisfies PagesConfig;
