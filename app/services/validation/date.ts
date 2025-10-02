@@ -52,3 +52,42 @@ export const createDateSchema = (args?: {
       }
     });
 };
+export const createSplitDateSchema = (args?: {
+  earliest?: () => Date;
+  latest?: () => Date;
+}) => {
+  if (args?.earliest && args?.latest && args.latest() <= args.earliest()) {
+    throw Error(
+      `Latest valid ${args.latest().toDateString()} can't be before earliest valid ${args.earliest().toDateString()}`,
+    );
+  }
+  const toDateString = (day: number, month: number, year: number) =>
+    `${String(day).padStart(2, "0")}.${String(month).padStart(2, "0")}.${year}`;
+
+  return z
+    .object({
+      tag: z.coerce
+        .number({ message: "invalid_day_format" })
+        .min(1, { message: "required" })
+        .max(31, { message: "day_out_of_range" }),
+      monat: z.coerce
+        .number({ message: "invalid_month_format" })
+        .min(1, { message: "required" })
+        .max(12, { message: "month_out_of_range" }),
+      jahr: z.coerce
+        .number({ message: "invalid_year_format" })
+        .min(1900, { message: "year_out_of_range" })
+        .max(new Date().getFullYear(), { message: "year_out_of_range" }),
+    })
+    .superRefine((data, ctx) => {
+      if (!isValidDate(toDateString(data.tag, data.monat, data.jahr))) {
+        ctx.addIssue({
+          code: "custom",
+          message: "invalid_date_format",
+          path: ["monat"],
+          fatal: false,
+        });
+      }
+    })
+    .meta({ description: "split_date" });
+};

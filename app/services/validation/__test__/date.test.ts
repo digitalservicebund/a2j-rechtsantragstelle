@@ -1,4 +1,7 @@
-import { createDateSchema } from "~/services/validation/date";
+import {
+  createDateSchema,
+  createSplitDateSchema,
+} from "~/services/validation/date";
 
 describe("date validation", () => {
   describe("success cases", () => {
@@ -44,6 +47,123 @@ describe("date validation", () => {
         const actual = createDateSchema({ earliest, latest }).safeParse(input);
         expect(actual.success).toBe(false);
         expect(actual.error!.issues[0].message).toBe(errorMessage);
+      },
+    );
+  });
+});
+
+describe("date split input validation", () => {
+  describe("success cases", () => {
+    const cases = [
+      {
+        input: {
+          tag: 1,
+          monat: 3,
+          jahr: 2023,
+        },
+        expected: {
+          tag: 1,
+          monat: 3,
+          jahr: 2023,
+        },
+      },
+    ];
+
+    test.each(cases)(
+      "given $input, returns $expected",
+      ({ input, expected }) => {
+        const actual = createSplitDateSchema().safeParse(input);
+        expect(actual).toEqual({ data: expected, success: true });
+      },
+    );
+  });
+
+  describe("failing cases", () => {
+    const cases = [
+      {
+        input: {
+          tag: "",
+          monat: "",
+          jahr: "",
+        },
+        errorPath: "tag",
+        errorMessage: "required",
+      },
+      {
+        input: {
+          tag: 32,
+          monat: 1,
+          jahr: 2020,
+        },
+        errorPath: "tag",
+        errorMessage: "day_out_of_range",
+      },
+      {
+        input: {
+          tag: 10,
+          monat: 13,
+          jahr: 2020,
+        },
+        errorPath: "monat",
+        errorMessage: "month_out_of_range",
+      },
+      {
+        input: {
+          tag: 10,
+          monat: 12,
+          jahr: 1800,
+        },
+        errorPath: "jahr",
+        errorMessage: "year_out_of_range",
+      },
+      {
+        input: {
+          tag: 31,
+          monat: 2,
+          jahr: 2020,
+        },
+        errorPath: "monat",
+        errorMessage: "invalid_date_format",
+      },
+      {
+        input: {
+          tag: "aa",
+          monat: 1,
+          jahr: 2020,
+        },
+        errorPath: "tag",
+        errorMessage: "invalid_day_format",
+      },
+      {
+        input: {
+          tag: 10,
+          monat: "bb",
+          jahr: 2020,
+        },
+        errorPath: "monat",
+        errorMessage: "invalid_month_format",
+      },
+      {
+        input: {
+          tag: 10,
+          monat: 12,
+          jahr: "cccc",
+        },
+        errorPath: "jahr",
+        errorMessage: "invalid_year_format",
+      },
+    ];
+
+    test.each(cases)(
+      "given $input, returns $errorMessage on $errorPath",
+      ({ input, errorPath, errorMessage }) => {
+        const actual = createSplitDateSchema().safeParse(input);
+        expect(actual.success).toBe(false);
+
+        const issue = actual.error?.issues.find((i) =>
+          i.path.includes(errorPath),
+        );
+        expect(issue?.message).toBe(errorMessage);
       },
     );
   });

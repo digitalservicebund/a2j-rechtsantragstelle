@@ -202,4 +202,30 @@ export const translations = {
       de: "hinzufügen",
     },
   },
+  splitDateComponent: {
+    tagInputLabel: {
+      de: "Tag",
+    },
+    monatInputLabel: {
+      de: "Monat",
+    },
+    jahrInputLabel: {
+      de: "Jahr",
+    },
+    tagInputPlaceholder: {
+      de: "TT",
+    },
+    monatInputPlaceholder: {
+      de: "MM",
+    },
+    jahrInputPlaceholder: {
+      de: "JJJJ",
+    },
+    legend: {
+      de: "Geburtsdatum",
+    },
+    hintText: {
+      de: "Beispielsweise: 17 3 2015",
+    },
+  },
 } satisfies TranslationRecord;
