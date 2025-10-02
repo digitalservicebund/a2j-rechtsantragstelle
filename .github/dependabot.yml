@@ -28,8 +28,10 @@ updates:
           - "vite-node"
       react:
         patterns:
-          - react
-          - react-dom
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
       oxlint:
         patterns:
           - oxlint

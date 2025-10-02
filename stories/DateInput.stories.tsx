@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import DateInput from "../app/components/formElements/DateInput";
 import { reactRouterFormContext } from "../.storybook/reactRouterFormContext";
 

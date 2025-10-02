@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { type ActionFunctionArgs } from "react-router";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import FilesUpload from "~/components/formElements/filesUpload/FilesUpload";
 import {
   type PDFFileMetadata,

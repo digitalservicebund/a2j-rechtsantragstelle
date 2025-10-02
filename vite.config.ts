@@ -41,7 +41,6 @@ export default defineConfig((config) => ({
   test: {
     globals: true,
     environment: "node",
-    setupFiles: ["vitest.setup.ts"],
     pool: "threads",
     coverage: {
       provider: "istanbul",
@@ -53,15 +52,16 @@ export default defineConfig((config) => ({
       {
         extends: true,
         test: {
-          include: ["./app/**/__test__/*.test.{ts,tsx}"],
-          exclude: ["./app/components/**/__test__/*.test.{ts,tsx}"],
+          include: ["app/**/__test__/*.test.ts"],
+          exclude: ["app/**/__test__/*.test.tsx"],
           name: "unit",
         },
       },
       {
         extends: true,
         test: {
-          include: ["./app/components/**/__test__/*.test.{ts,tsx}"],
+          setupFiles: ["vitest.setup.ts"],
+          include: ["app/**/__test__/*.test.tsx"],
           name: "component",
           environment: "jsdom",
         },

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import UserFeedback from "~/components/content/userFeedback";
 import { type BannerState } from "~/components/content/userFeedback/BannerState";
 import { createRoutesStub } from "react-router";
