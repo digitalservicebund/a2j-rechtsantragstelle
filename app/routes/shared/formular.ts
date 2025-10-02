@@ -36,7 +36,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       controller: flowController,
       validFlowPaths,
       userVisitedValidationPage,
-      useStepper,
     },
     page: { stepId, arrayIndexes },
     migration,
@@ -57,7 +56,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   ]);
 
   const translations = contentData.getTranslations();
-  const navProps = contentData.getNavProps(flowController, stepId, useStepper);
+  const navProps = contentData.getNavProps(flowController, stepId);
   const cmsContent = contentData.getCMSContent();
   const formElements = contentData.getFormElements();
   const meta = contentData.getMeta();

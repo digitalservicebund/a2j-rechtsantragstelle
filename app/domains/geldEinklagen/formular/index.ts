@@ -7,10 +7,10 @@ export const geldEinklagenFormular = {
   config: {
     id: "/geld-einklagen/formular",
     initial: "gericht-pruefen",
+    meta: { useStepper: true },
     states: {
       "gericht-pruefen": gerichtPruefenXstateConfig,
     },
   },
   guards: {},
-  useStepper: true,
 } satisfies Flow;

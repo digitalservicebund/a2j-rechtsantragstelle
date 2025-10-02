@@ -185,11 +185,7 @@ describe("getContentData", () => {
 
       vi.mocked(navItemsFromStepStates).mockReturnValue(mockNavItems);
 
-      const actual = callContentData.getNavProps(
-        mockBuildFlowController,
-        "/",
-        false,
-      );
+      const actual = callContentData.getNavProps(mockBuildFlowController, "/");
 
       expect(actual).toEqual({ navItems: mockNavItems, expandAll: undefined });
     });
@@ -197,11 +193,7 @@ describe("getContentData", () => {
     it("should return empty array when nav items returns undefined", () => {
       vi.mocked(navItemsFromStepStates).mockReturnValue(undefined);
 
-      const actual = callContentData.getNavProps(
-        mockBuildFlowController,
-        "/",
-        false,
-      );
+      const actual = callContentData.getNavProps(mockBuildFlowController, "/");
 
       expect(actual).toEqual({
         expandAll: undefined,
@@ -210,6 +202,9 @@ describe("getContentData", () => {
     });
 
     it("should call the navItemsFromStepStates with subStates of the current stepId when useStepper is true", () => {
+      vi.mocked(mockBuildFlowController.getRootMeta).mockReturnValue({
+        useStepper: true,
+      });
       vi.mocked(mockBuildFlowController.stepStates).mockReturnValue([
         {
           stepId: "/somePath/menu",
@@ -259,7 +254,6 @@ describe("getContentData", () => {
       callContentDataWithStepper.getNavProps(
         mockBuildFlowController,
         "/somePath/menu/page1",
-        true,
       );
 
       expect(navItemsFromStepStates).toHaveBeenCalledTimes(1);
