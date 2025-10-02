@@ -21,7 +21,6 @@ import {
 import { FIFTEEN_MB_IN_BYTES } from "~/services/validation/pdfFileSchema";
 export { FormFlowPage as default } from "~/routes/shared/components/FormFlowPage";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
-import type { FlowPageId } from "~/services/cms/schemas";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
@@ -90,7 +89,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       flowId,
       showReportProblem: shouldShowReportProblem(stepId),
       pageTitle: cmsContent.pageTitle,
-      pageType: "form-flow-pages" as FlowPageId,
     },
     { headers },
   );

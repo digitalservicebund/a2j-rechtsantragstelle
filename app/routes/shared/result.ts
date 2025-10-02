@@ -1,7 +1,6 @@
 import { type LoaderFunctionArgs, redirectDocument, data } from "react-router";
 import { flows } from "~/domains/flows.server";
 import { fetchFlowPage } from "~/services/cms/index.server";
-import type { FlowPageId } from "~/services/cms/schemas";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { translations } from "~/services/translations/translations";
@@ -66,7 +65,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       cmsData,
       buttonNavigationProps,
       pageTitle: cmsContent.pageTitle,
-      pageType: "result-pages" as FlowPageId,
     },
     { headers },
   );

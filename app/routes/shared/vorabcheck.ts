@@ -25,7 +25,6 @@ import {
 import { getButtonNavigationProps } from "~/util/buttonProps";
 export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
-import type { FlowPageId } from "~/services/cms/schemas";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
@@ -107,7 +106,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       buttonNavigationProps,
       showReportProblem: shouldShowReportProblem(stepId),
       pageTitle: vorabcheckPage.pageTitle,
-      pageType: "vorab-check-pages" as FlowPageId,
     },
     { headers },
   );
