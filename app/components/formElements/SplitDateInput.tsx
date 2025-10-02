@@ -3,27 +3,22 @@ import { useField } from "@rvf/react-router";
 import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import { translations } from "~/services/translations/translations";
+import classNames from "classnames";
 
 export type SplitDateInputProps = {
   name: string;
-  legend?: string;
-  hintText?: string;
 };
 
-export const SplitDateInput = ({
-  name,
-  legend,
-  hintText,
-}: SplitDateInputProps) => {
-  const tagField = useField(name + ".tag");
+export const SplitDateInput = ({ name }: SplitDateInputProps) => {
+  const dayField = useField(name + ".tag");
   const monthField = useField(name + ".monat");
   const yearField = useField(name + ".jahr");
 
-  const tagError = tagField.error();
+  const dayError = dayField.error();
   const monthError = monthField.error();
   const yearError = yearField.error();
 
-  const hasError = Boolean(tagError ?? monthError ?? yearError);
+  const hasError = Boolean(dayError ?? monthError ?? yearError);
 
   const errorId = `${name}-error`;
 
@@ -47,7 +42,7 @@ export const SplitDateInput = ({
             <InputLabel id={name + ".tag"}>
               {translations.splitDateComponent.tagInputLabel.de}
               <input
-                {...tagField.getInputProps({
+                {...dayField.getInputProps({
                   id: name + ".tag",
                   inputMode: "numeric",
                 })}
@@ -57,7 +52,9 @@ export const SplitDateInput = ({
                 }
                 autoComplete={autocompleteMap[name + ".tag"] ?? "off"}
                 name={name + ".tag"}
-                className="ds-input w-full"
+                className={classNames("ds-input w-full", {
+                  "has-error": dayError,
+                })}
               />
             </InputLabel>
           </div>
@@ -76,7 +73,9 @@ export const SplitDateInput = ({
                 }
                 autoComplete={autocompleteMap[name + ".monat"] ?? "off"}
                 name={name + ".monat"}
-                className="ds-input w-full"
+                className={classNames("ds-input w-full", {
+                  "has-error": monthError,
+                })}
               />
             </InputLabel>
           </div>
@@ -95,19 +94,27 @@ export const SplitDateInput = ({
                 }
                 autoComplete={autocompleteMap[name + ".jahr"] ?? "off"}
                 name={name + ".jahr"}
-                className="ds-input w-full"
+                className={classNames("ds-input w-full", {
+                  "has-error": yearError,
+                })}
               />
             </InputLabel>
           </div>
         </div>
-
+        {/* show error messages for each field with error*/}
         {hasError && (
           <div id={errorId}>
-            {tagError && <InputError id={errorId}>{tagError}</InputError>}
+            {dayError && <InputError id={errorId}>{dayError}</InputError>}
             {monthError && <InputError id={errorId}>{monthError}</InputError>}
             {yearError && <InputError id={errorId}>{yearError}</InputError>}
           </div>
         )}
+        {/* show one error message for one field with error*/}
+        {/* {hasError && (
+          <div id={errorId}>
+            <InputError id={errorId}>{tagError ?? monthError ?? yearError}</InputError>
+          </div>
+        )} */}
       </div>
     </fieldset>
   );

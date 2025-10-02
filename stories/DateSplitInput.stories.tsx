@@ -15,7 +15,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     name: "geburstdatum",
-    legend: "Geburtsdatum",
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
