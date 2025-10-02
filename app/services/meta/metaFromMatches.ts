@@ -4,7 +4,11 @@ import type { StrapiContentComponent } from "../cms/models/formElements/StrapiCo
 import type { StrapiMeta } from "../cms/models/StrapiMeta";
 
 type RouteMatchKnown = Omit<ReturnType<typeof useMatches>[0], "loaderData"> & {
-  loaderData: { meta?: StrapiMeta; content?: StrapiContentComponent[] };
+  loaderData: {
+    meta?: StrapiMeta;
+    content?: StrapiContentComponent[];
+    pageTitle?: string;
+  };
 };
 
 function isMatchesWithLoaderData(
@@ -30,7 +34,8 @@ export function metaFromMatches(matches: ReturnType<typeof useMatches>) {
   const lastMatchData = matches[matches.length - 1].loaderData;
 
   return {
-    title: lastMatchData?.meta?.title,
+    // meta property only exists on content pages
+    title: lastMatchData?.meta?.title ?? lastMatchData?.pageTitle,
     ogTitle: lastMatchData?.meta?.ogTitle,
     description:
       lastMatchData?.meta?.description ??

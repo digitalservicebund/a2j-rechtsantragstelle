@@ -41,16 +41,11 @@ describe("services/cms", () => {
           nextButtonLabel: null,
           backButtonLabel: null,
           stepId: "/stepId",
-          pageMeta: {
-            title: "",
-            description: null,
-            ogTitle: null,
-            breadcrumb: "",
-          },
           pre_form: [],
           post_form: [],
           form: [],
           flow_ids: [{ flowId: "/fluggastrechte/formular" }],
+          pageTitle: "Step 1",
         },
         getStrapiFlowPage({
           stepId: "/stepId2",
