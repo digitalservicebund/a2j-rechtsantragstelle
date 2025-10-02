@@ -50,6 +50,7 @@ export function NavItem({
   subflows = [],
   forceExpanded,
   isChild = false,
+  itemRefs: { firstItemRef, lastItemRef } = {},
 }: Readonly<NavItem & { isChild?: boolean }>) {
   const visibleChildItems = subflows.filter((subItem) =>
     stateIsActive(subItem.state),
@@ -136,6 +137,7 @@ export function NavItem({
           aria-disabled={isDisabled}
           aria-current={isCurrent}
           aria-describedby={isDone ? iconId : undefined}
+          ref={firstItemRef ?? lastItemRef}
         >
           {label}
           <StateIcon
