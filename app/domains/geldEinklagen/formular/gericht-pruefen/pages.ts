@@ -86,6 +86,5 @@ export const geldEinklagenGerichtPruefenPages = {
   },
   beklagtePerson: {
     stepId: "gericht-pruefen/beklagte-person/fuer-wen",
-    pageSchema: { fuerWenBeklagen: YesNoAnswer },
   },
 } as const satisfies PagesConfig;
