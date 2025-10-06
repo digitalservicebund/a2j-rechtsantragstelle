@@ -1,5 +1,4 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
-import type { BeratungshilfeGrundvoraussetzungenUserData } from "~/domains/beratungshilfe/formular/grundvoraussetzung/userData";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
 
 const rechtsschutzversicherung =
   "/grundvoraussetzungen/rechtsschutzversicherung";
@@ -12,116 +11,124 @@ const eigeninitiative =
   "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung";
 const anwaltStart = "/anwaltliche-vertretung/start";
 
-export const testCasesBeratungshilfeFormularGrundvoraussetzungen = [
-  [
-    {},
-    [
-      rechtsschutzversicherung,
-      "/grundvoraussetzungen/rechtsschutzversicherung-hinweis",
-    ],
-  ],
-  [
+export const testCasesBeratungshilfeFormularGrundvoraussetzungen = {
+  noRSV: [
     {
-      rechtsschutzversicherung: "no",
-      wurdeVerklagt: "no",
-      klageEingereicht: "no",
-      hamburgOderBremen: "no",
-      beratungshilfeBeantragt: "no",
-      eigeninitiativeGrundvorraussetzung: "no",
+      stepId: rechtsschutzversicherung,
+      userInput: {
+        rechtsschutzversicherung: "no",
+      },
     },
-    [
-      rechtsschutzversicherung,
-      wurdeVerklagt,
-      klageEingereicht,
-      hamburgBremen,
-      beratungshilfeBeantragt,
-      eigeninitiative,
-      anwaltStart,
-    ],
-  ],
-  [
     {
-      rechtsschutzversicherung: "yes",
+      stepId: wurdeVerklagt,
     },
-    [
-      rechtsschutzversicherung,
-      "/grundvoraussetzungen/rechtsschutzversicherung-hinweis",
-    ],
   ],
-  [
+  hasRSV: [
     {
-      rechtsschutzversicherung: "no",
-      wurdeVerklagt: "yes",
+      stepId: rechtsschutzversicherung,
+      userInput: {
+        rechtsschutzversicherung: "yes",
+      },
     },
-    [
-      rechtsschutzversicherung,
-      wurdeVerklagt,
-      "/grundvoraussetzungen/wurde-verklagt-hinweis",
-    ],
-  ],
-  [
     {
-      rechtsschutzversicherung: "no",
-      wurdeVerklagt: "no",
-      klageEingereicht: "yes",
+      stepId: "/grundvoraussetzungen/rechtsschutzversicherung-hinweis",
     },
-    [
-      rechtsschutzversicherung,
-      wurdeVerklagt,
-      klageEingereicht,
-      "/grundvoraussetzungen/klage-eingereicht-hinweis",
-    ],
   ],
-  [
+  wurdeVerklagt: [
     {
-      rechtsschutzversicherung: "no",
-      wurdeVerklagt: "no",
-      klageEingereicht: "no",
-      hamburgOderBremen: "yes",
+      stepId: wurdeVerklagt,
+      userInput: {
+        wurdeVerklagt: "yes",
+      },
     },
-    [
-      rechtsschutzversicherung,
-      wurdeVerklagt,
-      klageEingereicht,
-      hamburgBremen,
-      "/grundvoraussetzungen/hamburg-oder-bremen-hinweis",
-    ],
-  ],
-  [
     {
-      rechtsschutzversicherung: "no",
-      wurdeVerklagt: "no",
-      klageEingereicht: "no",
-      hamburgOderBremen: "no",
-      beratungshilfeBeantragt: "yes",
-      eigeninitiativeGrundvorraussetzung: "no",
+      stepId: "/grundvoraussetzungen/wurde-verklagt-hinweis",
     },
-    [
-      rechtsschutzversicherung,
-      wurdeVerklagt,
-      klageEingereicht,
-      hamburgBremen,
-      beratungshilfeBeantragt,
-      "/grundvoraussetzungen/beratungshilfe-beantragt-hinweis",
-    ],
   ],
-  [
+  klageEingereicht: [
     {
-      rechtsschutzversicherung: "no",
-      wurdeVerklagt: "no",
-      klageEingereicht: "no",
-      hamburgOderBremen: "no",
-      beratungshilfeBeantragt: "no",
-      eigeninitiativeGrundvorraussetzung: "yes",
+      stepId: klageEingereicht,
+      userInput: {
+        klageEingereicht: "yes",
+      },
     },
-    [
-      rechtsschutzversicherung,
-      wurdeVerklagt,
-      klageEingereicht,
-      hamburgBremen,
-      beratungshilfeBeantragt,
-      eigeninitiative,
-      "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung-hinweis",
-    ],
+    {
+      stepId: "/grundvoraussetzungen/klage-eingereicht-hinweis",
+    },
   ],
-] as const satisfies TestCases<BeratungshilfeGrundvoraussetzungenUserData>;
+  grundvoraussetzungenHappyPath: [
+    {
+      stepId: rechtsschutzversicherung,
+      userInput: {
+        rechtsschutzversicherung: "no",
+      },
+    },
+    {
+      stepId: wurdeVerklagt,
+      userInput: {
+        wurdeVerklagt: "no",
+      },
+    },
+    {
+      stepId: klageEingereicht,
+      userInput: {
+        klageEingereicht: "no",
+      },
+    },
+    {
+      stepId: hamburgBremen,
+      userInput: {
+        hamburgOderBremen: "no",
+      },
+    },
+    {
+      stepId: beratungshilfeBeantragt,
+      userInput: {
+        beratungshilfeBeantragt: "no",
+      },
+    },
+    {
+      stepId: eigeninitiative,
+      userInput: {
+        eigeninitiativeGrundvorraussetzung: "no",
+      },
+    },
+    {
+      stepId: anwaltStart,
+    },
+  ],
+  hamburgBremenYes: [
+    {
+      stepId: hamburgBremen,
+      userInput: {
+        hamburgOderBremen: "yes",
+      },
+    },
+    {
+      stepId: "/grundvoraussetzungen/hamburg-oder-bremen-hinweis",
+    },
+  ],
+  beratungshilfeBeantragt: [
+    {
+      stepId: beratungshilfeBeantragt,
+      userInput: {
+        beratungshilfeBeantragt: "yes",
+      },
+    },
+    {
+      stepId: "/grundvoraussetzungen/beratungshilfe-beantragt-hinweis",
+    },
+  ],
+  eigeninitiativeGrundvorraussetzung: [
+    {
+      stepId: eigeninitiative,
+      userInput: {
+        eigeninitiativeGrundvorraussetzung: "yes",
+      },
+    },
+    {
+      stepId:
+        "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung-hinweis",
+    },
+  ],
+} satisfies FlowTestCases["testcases"];
