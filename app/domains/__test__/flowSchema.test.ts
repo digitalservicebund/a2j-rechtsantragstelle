@@ -191,6 +191,6 @@ describe.sequential("flowSchemas", () => {
     expect(
       totalMissingStepCount,
       `Untested stepIds: ${JSON.stringify(Object.fromEntries(missingStepsEntries))}`,
-    ).toBeLessThanOrEqual(71);
+    ).toBeLessThanOrEqual(58);
   });
 });

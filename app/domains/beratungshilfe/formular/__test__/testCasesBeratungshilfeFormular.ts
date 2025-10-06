@@ -8,7 +8,6 @@ import { testCasesBeratungshilfeFormularFinanzielleAngabenKinder } from "../fina
 import { testCasesBeratungshilfeFormularFinanzielleAngabenPartner } from "../finanzielleAngaben/__test__/testcasesPartner";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen } from "../finanzielleAngaben/__test__/testcasesUnterhaltszahlungen";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "../finanzielleAngaben/__test__/testcasesWohnung";
-import { testCasesBeratungshilfeRechtsproblem } from "../rechtsproblem/__test__/testcases";
 
 const { config, guards } = beratungshilfeFormular;
 const machine: FlowStateMachine = createMachine(config, { guards });
@@ -21,7 +20,6 @@ const testsCases = [
   ...testCasesBeratungshilfeFormularFinanzielleAngabenPartner,
   ...testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
   ...testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
-  ...testCasesBeratungshilfeRechtsproblem,
 ];
 
 export const testCasesBeratungshilfeFormular = {
