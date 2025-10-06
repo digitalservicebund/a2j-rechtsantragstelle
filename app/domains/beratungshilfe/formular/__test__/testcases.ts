@@ -65,7 +65,7 @@ export const testCasesBeratungshilfeFormularDefault = {
     },
     {
       stepId: "/persoenliche-daten/geburtsdatum",
-      userInput: { geburtsdatum: { tag: "01", monat: "01", jahr: "2000" } },
+      userInput: { geburtsdatum: { day: "01", month: "01", year: "2000" } },
     },
     {
       stepId: "/persoenliche-daten/plz",
@@ -256,7 +256,7 @@ export const testCasesBeratungshilfeFormularDefault = {
     },
     {
       stepId: "/persoenliche-daten/geburtsdatum",
-      userInput: { geburtsdatum: { tag: "01", monat: "01", jahr: "2000" } },
+      userInput: { geburtsdatum: { day: "01", month: "01", year: "2000" } },
     },
     {
       stepId: "/persoenliche-daten/plz",

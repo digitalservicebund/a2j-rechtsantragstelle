@@ -57,14 +57,14 @@ describe("date split input validation", () => {
     const cases = [
       {
         input: {
-          tag: 1,
-          monat: 3,
-          jahr: 2023,
+          day: 1,
+          month: 3,
+          year: 2023,
         },
         expected: {
-          tag: 1,
-          monat: 3,
-          jahr: 2023,
+          day: 1,
+          month: 3,
+          year: 2023,
         },
       },
     ];
@@ -82,74 +82,74 @@ describe("date split input validation", () => {
     const cases = [
       {
         input: {
-          tag: "",
-          monat: "",
-          jahr: "",
+          day: "",
+          month: "",
+          year: "",
         },
-        errorPath: "tag",
+        errorPath: "day",
         errorMessage: "required",
       },
       {
         input: {
-          tag: 32,
-          monat: 1,
-          jahr: 2020,
+          day: 32,
+          month: 1,
+          year: 2020,
         },
-        errorPath: "tag",
+        errorPath: "day",
         errorMessage: "day_out_of_range",
       },
       {
         input: {
-          tag: 10,
-          monat: 13,
-          jahr: 2020,
+          day: 10,
+          month: 13,
+          year: 2020,
         },
-        errorPath: "monat",
+        errorPath: "month",
         errorMessage: "month_out_of_range",
       },
       {
         input: {
-          tag: 10,
-          monat: 12,
-          jahr: 1800,
+          day: 10,
+          month: 12,
+          year: 1800,
         },
-        errorPath: "jahr",
+        errorPath: "year",
         errorMessage: "year_out_of_range",
       },
       {
         input: {
-          tag: 31,
-          monat: 2,
-          jahr: 2020,
+          day: 31,
+          month: 2,
+          year: 2020,
         },
-        errorPath: "monat",
+        errorPath: "month",
         errorMessage: "invalid_date_format",
       },
       {
         input: {
-          tag: "aa",
-          monat: 1,
-          jahr: 2020,
+          day: "aa",
+          month: 1,
+          year: 2020,
         },
-        errorPath: "tag",
+        errorPath: "day",
         errorMessage: "invalid_day_format",
       },
       {
         input: {
-          tag: 10,
-          monat: "bb",
-          jahr: 2020,
+          day: 10,
+          month: "bb",
+          year: 2020,
         },
-        errorPath: "monat",
+        errorPath: "month",
         errorMessage: "invalid_month_format",
       },
       {
         input: {
-          tag: 10,
-          monat: 12,
-          jahr: "cccc",
+          day: 10,
+          month: 12,
+          year: "cccc",
         },
-        errorPath: "jahr",
+        errorPath: "year",
         errorMessage: "invalid_year_format",
       },
     ];
