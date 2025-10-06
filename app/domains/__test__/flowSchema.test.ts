@@ -188,9 +188,12 @@ describe.sequential("flowSchemas", () => {
       0,
     );
 
-    expect(
-      totalMissingStepCount,
-      `Untested stepIds: ${JSON.stringify(Object.fromEntries(missingStepsEntries))}`,
-    ).toBeLessThanOrEqual(58);
+    // oxlint-disable-next-line no-console
+    console.warn(
+      `Total of ${totalMissingStepCount} untested stepIds: `,
+      Object.fromEntries(missingStepsEntries),
+    );
+
+    expect(totalMissingStepCount).toBeLessThanOrEqual(50);
   });
 });
