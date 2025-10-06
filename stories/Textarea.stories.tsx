@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { reactRouterFormContext } from "../.storybook/reactRouterFormContext";
 import Textarea from "../app/components/formElements/Textarea";
 import z from "zod";

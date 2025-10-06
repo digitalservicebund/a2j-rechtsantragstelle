@@ -3,6 +3,7 @@ import { type Config } from "~/services/flow/server/types";
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "./userData";
 import { geldEinklagenGerichtPruefenPages } from "./pages";
 import { forderungDone } from "./doneFunctions";
+import { sachgebietXstateConfig } from "./sachgebiet/xstateConfig";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -46,40 +47,58 @@ export const gerichtPruefenXstateConfig = {
         },
       },
     },
-    sachgebiet: {
-      id: "sachgebiet",
-      initial: "info",
+    sachgebiet: sachgebietXstateConfig,
+    "klagende-person": {
+      id: "klagende-person",
+      initial: "fuer-wen",
       meta: { done: () => false },
       states: {
-        [steps.sachgebietInfo.relative]: {
+        "fuer-wen": {
           on: {
-            SUBMIT: steps.sachgebietAusgeschlossen.relative,
-            BACK: steps.forderungFragen.absolute,
-          },
-        },
-        [steps.sachgebietAusgeschlossen.relative]: {
-          on: {
-            SUBMIT: [
+            BACK: [
               {
                 guard: ({ context }) =>
-                  context.sachgebietAusgeschlossen === "yes",
-                target: "ergebnis/sachgebiet-abbruch",
+                  context.besondere === "anderesRechtsproblem" ||
+                  context.besondere === "schaden" ||
+                  context.besondere === "urheberrecht",
+                target: steps.sachgebietBesondere.absolute,
               },
               {
-                target: steps.sachgebietBesondere.relative,
+                guard: ({ context }) =>
+                  context.besondere === "miete" &&
+                  context.mietePachtVertrag === "yes",
+                target: steps.sachgebietMietePachtRaum.absolute,
+              },
+              {
+                guard: ({ context }) =>
+                  context.besondere === "miete" &&
+                  context.mietePachtVertrag === "no",
+                target: steps.sachgebietMietePachtVertrag.absolute,
+              },
+              {
+                guard: ({ context }) =>
+                  context.besondere === "versicherung" &&
+                  context.versicherungVertrag === "no",
+                target: steps.sachgebietVersicherungVertrag.absolute,
+              },
+              {
+                guard: ({ context }) =>
+                  context.besondere === "versicherung" &&
+                  context.versicherungVertrag === "yes",
+                target:
+                  steps.sachgebietVersicherungVersicherungsnummer.absolute,
+              },
+              {
+                guard: ({ context }) =>
+                  context.besondere === "reisen" &&
+                  context.reiseArt === "andereReise",
+                target: steps.sachgebietReiseArt.absolute,
+              },
+              {
+                guard: ({ context }) => context.besondere === "verkehrsunfall",
+                target: steps.sachgebietVerkehrsunfallStrassenverkehr.absolute,
               },
             ],
-            BACK: steps.sachgebietInfo.relative,
-          },
-        },
-        [steps.sachgebietBesondere.relative]: {
-          on: {
-            BACK: steps.sachgebietAusgeschlossen.relative,
-          },
-        },
-        "ergebnis/sachgebiet-abbruch": {
-          on: {
-            BACK: steps.sachgebietAusgeschlossen.relative,
           },
         },
       },

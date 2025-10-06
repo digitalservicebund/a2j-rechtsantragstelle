@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { reactRouterFormContext } from "../.storybook/reactRouterFormContext";
 import RadioGroup from "~/components/formElements/RadioGroup";
 

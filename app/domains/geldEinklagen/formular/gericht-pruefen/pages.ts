@@ -34,4 +34,34 @@ export const geldEinklagenGerichtPruefenPages = {
       ]),
     },
   },
+  sachgebietMietePachtVertrag: {
+    stepId: "gericht-pruefen/sachgebiet/miete-pacht-vertrag",
+    pageSchema: { mietePachtVertrag: YesNoAnswer },
+  },
+  sachgebietMietePachtRaum: {
+    stepId: "gericht-pruefen/sachgebiet/miete-pacht-raum",
+    pageSchema: { mietePachtRaum: YesNoAnswer },
+  },
+  sachgebietVersicherungVertrag: {
+    stepId: "gericht-pruefen/sachgebiet/versicherung-vertrag",
+    pageSchema: { versicherungVertrag: YesNoAnswer },
+  },
+  sachgebietVersicherungVersicherungsnummer: {
+    stepId: "gericht-pruefen/sachgebiet/versicherung-versicherungsnummer",
+    pageSchema: { versicherungsnummer: YesNoAnswer },
+  },
+  sachgebietReiseArt: {
+    stepId: "gericht-pruefen/sachgebiet/reise-art",
+    pageSchema: { reiseArt: z.enum(["flug", "andereReise"]) },
+  },
+  sachgebietReiseStopp: {
+    stepId: "gericht-pruefen/sachgebiet/reise-stopp",
+  },
+  sachgebietVerkehrsunfallStrassenverkehr: {
+    stepId: "gericht-pruefen/sachgebiet/verkehrsunfall-strassenverkehr",
+    pageSchema: { verkehrsunfallStrassenverkehr: YesNoAnswer },
+  },
+  klagendePersonFuerWen: {
+    stepId: "gericht-pruefen/klagende-person/fuer-wen",
+  },
 } as const satisfies PagesConfig;
