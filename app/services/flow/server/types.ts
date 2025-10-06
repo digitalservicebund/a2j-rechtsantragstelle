@@ -8,7 +8,7 @@ import type { GenericGuard, Guards } from "~/domains/guards.server";
 import { type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
 
-export type NavigationEvent = "SUBMIT" | "BACK";
+export type NavigationEvent = "SUBMIT" | "BACK" | ArrayConfigServer["event"];
 
 type FlowStateMachineEvents =
   | { type: NavigationEvent }
