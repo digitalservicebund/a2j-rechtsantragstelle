@@ -10,9 +10,9 @@ export type SplitDateInputProps = {
 };
 
 export const SplitDateInput = ({ name }: SplitDateInputProps) => {
-  const day = name + ".tag";
-  const month = name + ".monat";
-  const year = name + ".jahr";
+  const day = name + ".day";
+  const month = name + ".month";
+  const year = name + ".year";
 
   const dayField = useField(day);
   const monthField = useField(month);
