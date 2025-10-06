@@ -55,7 +55,6 @@ describe("retrieveContentData", () => {
     meta: {
       description: "meta description",
       ogTitle: "meta ogTitle",
-      breadcrumb: "meta breadcrumb",
       title: "meta title",
     },
   });

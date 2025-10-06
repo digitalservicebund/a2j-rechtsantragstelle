@@ -1,20 +1,27 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
-import { type BeratungshilfeRechtsproblemUserData } from "~/domains/beratungshilfe/formular/rechtsproblem/userData";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
 
-export const testCasesBeratungshilfeRechtsproblem = [
-  [
+export const testCasesBeratungshilfeRechtsproblem = {
+  rechtsProblem: [
     {
-      bereich: "other",
-      gegenseite: "gegenseite",
-      beschreibung: "beschreibung",
-      ziel: "ziel",
-      eigeninitiativeBeschreibung: "eigeninitiative",
+      stepId: "/rechtsproblem/start",
     },
-    [
-      "/rechtsproblem/start",
-      "/rechtsproblem/bereich",
-      "/rechtsproblem/situation-beschreibung",
-      "/finanzielle-angaben/einkommen/start",
-    ],
+    {
+      stepId: "/rechtsproblem/bereich",
+      userInput: {
+        bereich: "other",
+      },
+    },
+    {
+      stepId: "/rechtsproblem/situation-beschreibung",
+      userInput: {
+        gegenseite: "gegenseite",
+        beschreibung: "beschreibung",
+        ziel: "ziel",
+        eigeninitiativeBeschreibung: "eigeninitiative",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkommen/start",
+    },
   ],
-] as const satisfies TestCases<BeratungshilfeRechtsproblemUserData>;
+} satisfies FlowTestCases["testcases"];
