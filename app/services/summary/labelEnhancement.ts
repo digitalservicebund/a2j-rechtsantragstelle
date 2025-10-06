@@ -50,6 +50,7 @@ export function getEnhancedFieldLabel(
 ): string {
   // 1. CMS form component label (highest priority)
   if (hasLabelProperty(component) && component.label?.trim()) {
+    console.log(`🔍 getEnhancedFieldLabel - component.label:`, component.label);
     return component.label;
   }
 

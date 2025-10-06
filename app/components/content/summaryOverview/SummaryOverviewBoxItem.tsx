@@ -22,6 +22,17 @@ const SummaryOverviewBoxItem = ({
   inlineItems,
 }: Props) => {
   const itemValue = getItemValueBox(translations, userData, inlineItems);
+
+  // Debug for auto-generated content
+  if (inlineItems.some(item => item.field === "rechtsschutzversicherung")) {
+    console.log("🔍 Debug SummaryOverviewBoxItem:", {
+      title,
+      itemValue,
+      isEmpty: itemValue.trim() === "",
+      willRender: itemValue.trim() !== ""
+    });
+  }
+
   if (itemValue.trim() === "") return null;
 
   return (

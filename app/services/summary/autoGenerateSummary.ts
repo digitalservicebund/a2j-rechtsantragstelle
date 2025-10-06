@@ -1,6 +1,9 @@
 import type { UserData } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import type { FlowController } from "~/services/flow/server/buildFlowController";
+import type {
+  FlowController,
+  StepState,
+} from "~/services/flow/server/buildFlowController";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import { z } from "zod";
 import { StrapiSummaryOverviewSectionSchema } from "~/services/cms/models/content/StrapiSummaryOverviewSection";
@@ -9,9 +12,10 @@ type StrapiSummaryOverviewSection = z.infer<
   typeof StrapiSummaryOverviewSectionSchema
 >;
 import { extractFormFieldsWithMetadata } from "./formMetadata";
-import { getEnhancedFieldLabel } from "./labelEnhancement";
-import { isFieldEmpty } from "./formatFieldValue";
-import { getFormQuestionsForFields, createFieldToStepMapping } from "./getFormQuestions";
+import {
+  getFormQuestionsForFields,
+  createFieldToStepMapping,
+} from "./getFormQuestions";
 import type { FlowId } from "~/domains/flowIds";
 import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
 
@@ -158,24 +162,40 @@ export function generateSummaryBySteps(
 }
 
 // Alternative function for when there are no form elements (e.g., summary pages)
-const EXCLUDED_FIELDS_USERDATA = new Set(["pageData", "csrf", "_action"]);
+const EXCLUDED_FIELDS_USERDATA = new Set(["pageData"]);
 
-// Mock form component for fields that don't have actual form components
-const createMockFormComponent = (fieldName: string) => ({
-  __component: "form-elements.input" as const,
-  id: 0,
-  name: fieldName,
-  type: "text" as const,
-  width: "16" as const,
-  errorMessages: [],
-});
+// Simple empty check - only exclude truly missing/undefined values
+function isUserDataFieldEmpty(value: unknown): boolean {
+  // Only consider null, undefined, or empty strings as empty
+  // All other values (including "no", false, 0) are considered answered
+  return value == null || value === "";
+}
+
+// Get field label from CMS questions with simple fallback
+function getUserDataFieldLabel(
+  fieldName: string,
+  fieldQuestions: Record<string, any>,
+): string {
+  const question = fieldQuestions[fieldName]?.question;
+
+  if (question) {
+    return question; // Real CMS question
+  }
+
+  // Log when we can't find CMS questions to identify issues
+  console.warn(`⚠️ No CMS question found for field "${fieldName}" - using field name as fallback`);
+  return fieldName; // Simple fallback - just use field name
+}
+
 
 export async function generateSummaryFromUserData(
   userData: UserData,
   flowId: FlowId,
-  translations?: Translations,
+  _translations?: Translations,
   flowController?: FlowController,
 ): Promise<StrapiSummaryOverviewSection[]> {
+  console.log("generateSummaryFromUserData", userData);
+
   // Get all non-excluded field names from userData
   const userDataFields = Object.keys(userData).filter(
     (fieldName) =>
@@ -197,10 +217,23 @@ export async function generateSummaryFromUserData(
   const formFieldsMap = await fetchAllFormFields(flowId);
   const fieldToStepMapping = createFieldToStepMapping(formFieldsMap);
 
+  // Debug: Log the field mappings to see what's available
+  console.log("🔍 Available field mappings:", Object.keys(fieldToStepMapping));
+  console.log("🔍 Looking for field: weitereseinkommen, found stepId:", fieldToStepMapping["weitereseinkommen"]);
+
   // Group fields by logical boxes (section -> box -> fields)
+  console.log("🔍 flowController available:", !!flowController);
+
   const fieldGroups = flowController
-    ? await groupFieldsByFlowNavigation(userDataFields, flowId, flowController, fieldToStepMapping)
+    ? await groupFieldsByFlowNavigation(
+        userDataFields,
+        flowId,
+        flowController,
+        fieldToStepMapping,
+      )
     : groupFieldsByLogicalBoxes(userDataFields);
+
+  console.log("🔍 Field groups created:", Object.keys(fieldGroups));
 
   const sections: StrapiSummaryOverviewSection[] = [];
   let sectionCounter = 1;
@@ -227,35 +260,22 @@ export async function generateSummaryFromUserData(
 
     let boxCounter = 1;
     for (const [boxName, fields] of Object.entries(boxes)) {
-      // For "other" section (Weitere Angaben), always show even if empty
-      // For other sections, filter out empty fields
-      const nonEmptyFields =
-        sectionName === "other"
-          ? fields // Show all fields in "other" section, even if empty
-          : fields.filter((fieldName) => {
-              const value = userData[fieldName];
-              const isEmpty = isFieldEmpty(value, "form-elements.input");
-              console.log(`🔍 Field "${fieldName}" value:`, value, "isEmpty:", isEmpty);
-              return !isEmpty;
-            });
+      // Show all fields - both answered and empty ones
+      const allFields = fields;
 
-      if (nonEmptyFields.length === 0) {
+      if (allFields.length === 0) {
         continue;
       }
 
-      // Create inline items for this box
-      const inlineItems = nonEmptyFields.map((fieldName) => {
-        // Use actual form question if available, otherwise fall back to enhanced label
-        const question = fieldQuestions[fieldName]?.question;
-        let label: string;
-
-        if (question) {
-          label = question;
-        } else {
-          // Fallback to enhanced label system
-          const mockComponent = createMockFormComponent(fieldName);
-          label = getEnhancedFieldLabel(fieldName, mockComponent, translations);
-        }
+      // Create inline items for this box (including empty fields)
+      const inlineItems = allFields.map((fieldName) => {
+        const value = userData[fieldName];
+        const isEmpty = isUserDataFieldEmpty(value);
+        console.log(`🔍 Field "${fieldName}" value:`, value, "isEmpty:", isEmpty);
+        return fieldName;
+      }).map((fieldName) => {
+        // Get label from CMS questions (with simple fallback)
+        const label = getUserDataFieldLabel(fieldName, fieldQuestions);
 
         return {
           field: fieldName,
@@ -265,26 +285,19 @@ export async function generateSummaryFromUserData(
       });
 
       // Find a representative stepId for this box (use the first field's stepId)
-      const representativeField = nonEmptyFields[0];
+      const representativeField = allFields[0];
       const representativeStepId = fieldToStepMapping[representativeField];
 
-      console.log(`📝 Box "${boxName}" -> representativeField "${representativeField}" -> stepId "${representativeStepId}"`);
+      console.log(
+        `📝 Box "${boxName}" -> representativeField "${representativeField}" -> stepId "${representativeStepId}"`,
+      );
 
       // Skip boxes that don't have a real stepId
       if (!representativeStepId) {
-        console.log(`⚠️ Skipping box "${boxName}" - no real stepId found for field "${representativeField}"`);
+        console.log(
+          `⚠️ Skipping box "${boxName}" - no real stepId found for field "${representativeField}"`,
+        );
         continue;
-      }
-
-      // Special debug for weiteres-einkommen
-      if (boxName === "weiteres-einkommen") {
-        console.log(`🎯 Creating weiteres-einkommen box:`, {
-          boxName,
-          representativeField,
-          representativeStepId,
-          nonEmptyFields,
-          inlineItemsCount: inlineItems.length
-        });
       }
 
       // Create box with proper title and real stepId for edit functionality
@@ -303,8 +316,7 @@ export async function generateSummaryFromUserData(
           inlineItems: [
             {
               field: item.field,
-              emptyValuePlaceholder:
-                item.emptyValuePlaceholder || "Keine Angabe",
+              emptyValuePlaceholder: item.emptyValuePlaceholder || "Keine Angabe",
             },
           ],
         })),
@@ -346,7 +358,7 @@ const EXCLUDED_SECTIONS = new Set([
   "zusammenfassung",
   "summary",
   "ergebnis",
-  "result"
+  "result",
 ]);
 
 async function groupFieldsByFlowNavigation(
@@ -361,37 +373,39 @@ async function groupFieldsByFlowNavigation(
   // Create a mapping from step IDs to their parent sections
   const stepToSectionMapping = createStepToSectionMapping(stepStates);
 
-  console.log("🔍 Debug step mapping:");
-  console.log("- stepToSectionMapping:", stepToSectionMapping);
-  console.log("- fieldToStepMapping sample:", Object.entries(fieldToStepMapping).slice(0, 10));
-  console.log("- userDataFields:", fields.slice(0, 20));
-  console.log("- Missing fields (in userData but not in fieldToStepMapping):",
-    fields.filter(field => !fieldToStepMapping[field]).slice(0, 10));
-
   // Group fields by their sections
   const groups: Record<string, Record<string, string[]>> = {};
 
   for (const field of fields) {
     let stepId = fieldToStepMapping[field];
 
+    // Debug specific field
+    if (field === "weitereseinkommen") {
+      console.log(`🔍 Processing weitereseinkommen - direct mapping: "${stepId}"`);
+    }
+
     // If direct field mapping not found, try to find it by checking object sub-fields
     if (!stepId) {
       // Look for nested field patterns like "berufart.selbststaendig" -> "/finanzielle-angaben/einkommen/art"
-      const nestedFieldMapping = Object.entries(fieldToStepMapping).find(([mappedField]) =>
-        mappedField.startsWith(`${field}.`)
+      const nestedFieldMapping = Object.entries(fieldToStepMapping).find(
+        ([mappedField]) => mappedField.startsWith(`${field}.`),
       );
 
       if (nestedFieldMapping) {
         stepId = nestedFieldMapping[1];
         // Update the original mapping so it's available in the main function
         fieldToStepMapping[field] = stepId;
-        console.log(`🔧 Found nested mapping: "${field}" -> "${stepId}" via "${nestedFieldMapping[0]}"`);
+        console.log(
+          `🔧 Found nested mapping: "${field}" -> "${stepId}" via "${nestedFieldMapping[0]}"`,
+        );
       }
     }
 
     if (!stepId) {
       // Field not found in any step, put it in "other" section
-      console.log(`❓ Field "${field}" not found in fieldToStepMapping, adding to "other" section`);
+      console.log(
+        `❓ Field "${field}" not found in fieldToStepMapping, adding to "other" section`,
+      );
       addFieldToGroup(groups, "other", "zusaetzliche_angaben", field);
       continue;
     }
@@ -399,9 +413,11 @@ async function groupFieldsByFlowNavigation(
     // Get the top-level section for this step
     const sectionInfo = getSectionFromStepId(stepId, stepToSectionMapping);
     // Clean up section key (remove leading slash)
-    const sectionKey = sectionInfo.sectionKey.replace(/^\//, '');
+    const sectionKey = sectionInfo.sectionKey.replace(/^\//, "");
 
-    console.log(`🔧 Field "${field}" -> stepId "${stepId}" -> sectionKey "${sectionKey}" boxKey "${sectionInfo.boxKey}"`);
+    console.log(
+      `🔧 Field "${field}" -> stepId "${stepId}" -> sectionKey "${sectionKey}" boxKey "${sectionInfo.boxKey}"`,
+    );
 
     // Skip excluded sections
     if (EXCLUDED_SECTIONS.has(sectionKey)) {
@@ -416,8 +432,11 @@ async function groupFieldsByFlowNavigation(
   return groups;
 }
 
-function createStepToSectionMapping(stepStates: StepState[]): Record<string, { sectionKey: string; sectionTitle: string }> {
-  const mapping: Record<string, { sectionKey: string; sectionTitle: string }> = {};
+function createStepToSectionMapping(
+  stepStates: StepState[],
+): Record<string, { sectionKey: string; sectionTitle: string }> {
+  const mapping: Record<string, { sectionKey: string; sectionTitle: string }> =
+    {};
 
   function processStepState(stepState: StepState, parentSectionKey?: string) {
     // If this step has sub-states, it's likely a section header
@@ -447,7 +466,10 @@ function createStepToSectionMapping(stepStates: StepState[]): Record<string, { s
 
 function getSectionFromStepId(
   stepId: string,
-  stepToSectionMapping: Record<string, { sectionKey: string; sectionTitle: string }>
+  stepToSectionMapping: Record<
+    string,
+    { sectionKey: string; sectionTitle: string }
+  >,
 ): { sectionKey: string; boxKey?: string } {
   // First try exact match
   const sectionInfo = stepToSectionMapping[stepId];
@@ -460,8 +482,10 @@ function getSectionFromStepId(
 
   // Try to find a parent section by matching step prefixes
   // For example: "/finanzielle-angaben/partner/partner-einkommen-summe" should match "/finanzielle-angaben"
-  for (const [mappedStepId, mappedSectionInfo] of Object.entries(stepToSectionMapping)) {
-    if (stepId.startsWith(mappedStepId + '/')) {
+  for (const [mappedStepId, mappedSectionInfo] of Object.entries(
+    stepToSectionMapping,
+  )) {
+    if (stepId.startsWith(mappedStepId + "/")) {
       return {
         sectionKey: mappedSectionInfo.sectionKey,
         boxKey: extractBoxKeyFromStepId(stepId, mappedStepId),
@@ -470,7 +494,7 @@ function getSectionFromStepId(
   }
 
   // Fallback: try to extract section from stepId path
-  const pathParts = stepId.split('/').filter(Boolean);
+  const pathParts = stepId.split("/").filter(Boolean);
   if (pathParts.length >= 2) {
     return {
       sectionKey: pathParts[0], // First part should be the main section
@@ -481,13 +505,16 @@ function getSectionFromStepId(
   return { sectionKey: "other" };
 }
 
-function extractBoxKeyFromStepId(stepId: string, parentStepId?: string): string {
+function extractBoxKeyFromStepId(
+  stepId: string,
+  parentStepId?: string,
+): string {
   // Extract a meaningful box key from the step ID
-  const pathParts = stepId.split('/').filter(Boolean);
+  const pathParts = stepId.split("/").filter(Boolean);
 
   if (parentStepId) {
     // Remove the parent path to get the relative sub-path
-    const parentParts = parentStepId.split('/').filter(Boolean);
+    const parentParts = parentStepId.split("/").filter(Boolean);
     const relativeParts = pathParts.slice(parentParts.length);
     return relativeParts[0] || "default";
   }
@@ -499,7 +526,7 @@ function addFieldToGroup(
   groups: Record<string, Record<string, string[]>>,
   sectionKey: string,
   boxKey: string,
-  field: string
+  field: string,
 ) {
   if (!groups[sectionKey]) {
     groups[sectionKey] = {};
@@ -603,7 +630,6 @@ function groupFieldsByLogicalBoxes(
   return groups;
 }
 
-
 function getGroupDisplayName(groupName: string): string {
   const groupNames: Record<string, string> = {
     // Legacy hardcoded mappings
@@ -656,8 +682,8 @@ function getBoxDisplayName(boxKey: string): string {
 function humanizeStepId(stepId: string): string {
   // Convert kebab-case or snake_case step IDs to human-readable titles
   return stepId
-    .replace(/[-_]/g, ' ')
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .replace(/[-_]/g, " ")
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }

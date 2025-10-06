@@ -37,18 +37,6 @@ export const getItemValueBox = (
       ? getNestedValue(userData, fieldName)
       : userData[fieldName];
 
-    // Debug logging for auto-generated content
-    if (fieldName === "berufart" || fieldName === "weitereseinkommen") {
-      console.log("🔍 Debug getItemValueBox:", {
-        fieldName,
-        rawValue,
-        type: typeof rawValue,
-        emptyValuePlaceholder,
-        translationKey: `${fieldName}.${String(rawValue || "")}`,
-        translation: translations[`${fieldName}.${String(rawValue || "")}`]
-      });
-    }
-
     // Handle different value types properly
     let itemValue: string;
     if (typeof rawValue === "object" && rawValue !== null) {
@@ -64,6 +52,24 @@ export const getItemValueBox = (
       }
     } else {
       itemValue = String(rawValue || "");
+    }
+
+    // Debug logging for auto-generated content (after processing)
+    if (fieldName === "berufart" || fieldName === "weitereseinkommen") {
+      console.log("🔍 Debug getItemValueBox:", {
+        fieldName,
+        rawValue,
+        type: typeof rawValue,
+        itemValue,  // ← Now shows processed value
+        emptyValuePlaceholder,
+        translationKey: `${fieldName}.${itemValue}`,  // ← Now shows correct key
+        translation: translations[`${fieldName}.${itemValue}`]
+      });
+    }
+
+    // Handle special "none" case for checkbox groups
+    if (itemValue === "none") {
+      return "Nein, trifft nicht zu";
     }
 
     // Check if a direct translation exists

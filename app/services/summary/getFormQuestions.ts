@@ -38,11 +38,6 @@ export async function getFormQuestionsForFields(
   fieldNames: string[],
   flowId: FlowId,
 ): Promise<Record<string, FieldQuestion>> {
-  console.log(`🔍 getFormQuestionsForFields called with:`, {
-    fieldNames,
-    flowId,
-  });
-
   const fieldQuestions: Record<string, FieldQuestion> = {};
   const stepPagesCache: Record<string, StrapiFormFlowPage> = {};
 
@@ -73,15 +68,10 @@ export async function getFormQuestionsForFields(
 
         if (nestedFieldMapping) {
           stepId = nestedFieldMapping[1];
-          console.log(
-            `🔧 Found nested mapping: "${fieldName}" -> "${stepId}" via "${nestedFieldMapping[0]}"`,
-          );
         }
       }
 
-      console.log(`🔧 Processing field "${fieldName}" -> stepId "${stepId}"`);
       if (!stepId) {
-        console.log(`⚠️ No stepId found for field "${fieldName}"`);
         continue;
       }
 
