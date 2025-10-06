@@ -10,9 +10,13 @@ export type SplitDateInputProps = {
 };
 
 export const SplitDateInput = ({ name }: SplitDateInputProps) => {
-  const dayField = useField(name + ".tag");
-  const monthField = useField(name + ".monat");
-  const yearField = useField(name + ".jahr");
+  const day = name + ".tag";
+  const month = name + ".monat";
+  const year = name + ".jahr";
+
+  const dayField = useField(day);
+  const monthField = useField(month);
+  const yearField = useField(year);
 
   const dayError = dayField.error();
   const monthError = monthField.error();
@@ -39,19 +43,19 @@ export const SplitDateInput = ({ name }: SplitDateInputProps) => {
 
         <div className="grid grid-cols-4 gap-16 w-full">
           <div className="col-span-1">
-            <InputLabel id={name + ".tag"}>
+            <InputLabel id={day}>
               {translations.splitDateComponent.tagInputLabel.de}
               <input
                 {...dayField.getInputProps({
-                  id: name + ".tag",
+                  id: day,
                   inputMode: "numeric",
                 })}
                 type="number"
                 placeholder={
                   translations.splitDateComponent.tagInputPlaceholder.de
                 }
-                autoComplete={autocompleteMap[name + ".tag"] ?? "off"}
-                name={name + ".tag"}
+                autoComplete={autocompleteMap[day] ?? "off"}
+                name={day}
                 className={classNames("ds-input w-full", {
                   "has-error": dayError,
                 })}
@@ -60,19 +64,19 @@ export const SplitDateInput = ({ name }: SplitDateInputProps) => {
           </div>
 
           <div className="col-span-1">
-            <InputLabel id={name + ".monat"}>
+            <InputLabel id={month}>
               {translations.splitDateComponent.monatInputLabel.de}
               <input
                 {...monthField.getInputProps({
-                  id: name + ".monat",
+                  id: month,
                   inputMode: "numeric",
                 })}
                 type="number"
                 placeholder={
                   translations.splitDateComponent.monatInputPlaceholder.de
                 }
-                autoComplete={autocompleteMap[name + ".monat"] ?? "off"}
-                name={name + ".monat"}
+                autoComplete={autocompleteMap[month] ?? "off"}
+                name={month}
                 className={classNames("ds-input w-full", {
                   "has-error": monthError,
                 })}
@@ -81,19 +85,19 @@ export const SplitDateInput = ({ name }: SplitDateInputProps) => {
           </div>
 
           <div className="col-span-2">
-            <InputLabel id={name + ".jahr"}>
+            <InputLabel id={year}>
               {translations.splitDateComponent.jahrInputLabel.de}
               <input
                 {...yearField.getInputProps({
-                  id: name + ".jahr",
+                  id: year,
                   inputMode: "numeric",
                 })}
                 type="number"
                 placeholder={
                   translations.splitDateComponent.jahrInputPlaceholder.de
                 }
-                autoComplete={autocompleteMap[name + ".jahr"] ?? "off"}
-                name={name + ".jahr"}
+                autoComplete={autocompleteMap[year] ?? "off"}
+                name={year}
                 className={classNames("ds-input w-full", {
                   "has-error": yearError,
                 })}

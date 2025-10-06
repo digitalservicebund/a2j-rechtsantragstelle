@@ -1,10 +1,10 @@
 export function getGeburtsdatumDate(dateObj?: {
-  tag: number;
-  monat: number;
-  jahr: number;
+  day: number;
+  month: number;
+  year: number;
 }) {
-  if (!dateObj?.tag || !dateObj.monat || !dateObj.jahr) {
+  if (!dateObj?.day || !dateObj.month || !dateObj.year) {
     return "";
   }
-  return `${dateObj.tag}.${dateObj.monat}.${dateObj.jahr}`;
+  return `${dateObj.day}.${dateObj.month}.${dateObj.year}`;
 }
