@@ -53,6 +53,7 @@ export const testCasesGeldEinklagenVersicherung = [
       klagendeVerbraucher: "yes",
       versicherungVertrag: "yes",
       versicherungsnummer: "no",
+      klagendeHaustuergeschaeft: "no",
     },
     [
       "/gericht-pruefen/klagende-person/fuer-wen",

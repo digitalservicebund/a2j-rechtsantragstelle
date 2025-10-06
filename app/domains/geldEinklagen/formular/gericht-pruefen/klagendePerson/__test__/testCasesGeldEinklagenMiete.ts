@@ -69,6 +69,7 @@ export const testCasesGeldEinklagenMiete = [
       klagendeVerbraucher: "yes",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
+      klagendeHaustuergeschaeft: "no",
     },
     [
       "/gericht-pruefen/klagende-person/fuer-wen",

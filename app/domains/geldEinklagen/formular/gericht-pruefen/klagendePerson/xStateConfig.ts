@@ -2,13 +2,14 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
+import { klagendePersonDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
 export const klagendePersonXstateConfig = {
   id: "klagende-person",
   initial: "fuer-wen",
-  meta: { done: () => false },
+  meta: { done: klagendePersonDone },
   states: {
     [steps.klagendePersonFuerWen.relative]: {
       on: {
@@ -114,14 +115,20 @@ export const klagendePersonXstateConfig = {
                 context.besondere === "anderesRechtsproblem"),
             target: steps.klagendePersonVertrag.relative,
           },
-          steps.beklagtePerson.absolute,
+          {
+            guard: klagendePersonDone,
+            target: steps.beklagtePerson.absolute,
+          },
         ],
         BACK: steps.klagendePersonFuerWen.relative,
       },
     },
     [steps.klagendePersonKaufmann.relative]: {
       on: {
-        SUBMIT: steps.beklagtePerson.absolute,
+        SUBMIT: {
+          guard: klagendePersonDone,
+          target: steps.beklagtePerson.absolute,
+        },
         BACK: [
           {
             guard: ({ context }) =>
@@ -140,14 +147,20 @@ export const klagendePersonXstateConfig = {
             guard: ({ context }) => context.klagendeVertrag === "yes",
             target: steps.klagendePersonHaustuergeschaeft.relative,
           },
-          { target: steps.beklagtePerson.absolute },
+          {
+            guard: klagendePersonDone,
+            target: steps.beklagtePerson.absolute,
+          },
         ],
         BACK: steps.klagendePersonVerbraucher.relative,
       },
     },
     [steps.klagendePersonHaustuergeschaeft.relative]: {
       on: {
-        SUBMIT: steps.beklagtePerson.absolute,
+        SUBMIT: {
+          guard: klagendePersonDone,
+          target: steps.beklagtePerson.absolute,
+        },
         BACK: [
           {
             guard: ({ context }) =>
