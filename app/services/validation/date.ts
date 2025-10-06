@@ -68,16 +68,32 @@ export const createSplitDateSchema = (args?: {
     .object({
       day: z.coerce
         .number({ message: "invalid_day_format" })
+        .refine((val) => val >= 0, { message: "invalid_day_format" })
         .min(1, { message: "required" })
         .max(31, { message: "day_out_of_range" }),
       month: z.coerce
         .number({ message: "invalid_month_format" })
+        .refine((val) => val >= 0, { message: "invalid_month_format" })
         .min(1, { message: "required" })
         .max(12, { message: "month_out_of_range" }),
-      year: z.coerce
-        .number({ message: "invalid_year_format" })
-        .min(1900, { message: "year_out_of_range" })
-        .max(new Date().getFullYear(), { message: "year_out_of_range" }),
+      year: z.preprocess(
+        (val) => {
+          if (val === undefined || val === null || val === "") {
+            return undefined;
+          }
+          const num = Number(val);
+          if (isNaN(num)) {
+            return NaN;
+          }
+          return val;
+        },
+        z.coerce
+          .number({ message: "required" })
+          .refine((val) => !isNaN(val), { message: "invalid_year_format" })
+          .refine((val) => val > 0, { message: "invalid_year_format" })
+          .min(1900, { message: "year_out_of_range" })
+          .max(new Date().getFullYear(), { message: "year_out_of_range" }),
+      ),
     })
     .superRefine((data, ctx) => {
       if (!isValidDate(toDateString(data.day, data.month, data.year))) {

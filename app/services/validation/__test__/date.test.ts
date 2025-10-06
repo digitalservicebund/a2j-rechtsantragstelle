@@ -152,6 +152,33 @@ describe("date split input validation", () => {
         errorPath: "year",
         errorMessage: "invalid_year_format",
       },
+      {
+        input: {
+          day: -1,
+          month: 12,
+          year: 2000,
+        },
+        errorPath: "day",
+        errorMessage: "invalid_day_format",
+      },
+      {
+        input: {
+          day: 10,
+          month: -12,
+          year: 2000,
+        },
+        errorPath: "month",
+        errorMessage: "invalid_month_format",
+      },
+      {
+        input: {
+          day: 10,
+          month: 12,
+          year: -2000,
+        },
+        errorPath: "year",
+        errorMessage: "invalid_year_format",
+      },
     ];
 
     test.each(cases)(
