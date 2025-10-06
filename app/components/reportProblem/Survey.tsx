@@ -1,7 +1,7 @@
 import Close from "@digitalservicebund/icons/Close";
 import classNames from "classnames";
 import { type Survey, SurveyQuestionType } from "posthog-js";
-import { type ElementType, useState } from "react";
+import { type ElementType, useEffect, useRef, useState } from "react";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import { MultipleChoiceQuestion } from "~/components/reportProblem/MultipleChoiceQuestion";
@@ -38,6 +38,7 @@ export const PosthogSurvey = ({
 }: PosthogSurveyProps) => {
   const [responses, setResponses] = useState<SurveyResponses>();
   const isCompletelyFilled = isCompleted(survey, responses);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const onSubmitClicked = () => {
     if (responses && isCompletelyFilled) {
@@ -45,6 +46,12 @@ export const PosthogSurvey = ({
       setResponses(undefined);
     }
   };
+
+  useEffect(() => {
+    if (wasSubmitted) {
+      closeButtonRef.current?.focus();
+    }
+  }, [wasSubmitted]);
 
   const dialogLabelId = "dialog-label";
 
@@ -57,7 +64,7 @@ export const PosthogSurvey = ({
       open={!dialogRef}
       aria-labelledby={dialogLabelId}
       className={classNames(
-        "self-center justify-self-center backdrop:bg-black/40 max-sm:min-w-full max-sm:min-h-full",
+        "self-center m-auto justify-self-center backdrop:bg-black/40 max-sm:min-w-full max-sm:min-h-full",
         {
           "gap-40": !wasSubmitted,
           "self-auto! md:top-56 max-sm:min-h-auto! max-sm:top-auto!":
@@ -96,6 +103,7 @@ export const PosthogSurvey = ({
           <ButtonContainer className="flex flex-col sm:flex-row">
             {wasSubmitted ? (
               <Button
+                ref={closeButtonRef}
                 size="large"
                 look={"primary"}
                 className="justify-center"

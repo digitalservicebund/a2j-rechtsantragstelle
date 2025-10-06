@@ -33,7 +33,7 @@ function Button({
   size,
   href,
   ...props
-}: ButtonProps & LinkProps & React.ComponentPropsWithoutRef<"button">) {
+}: ButtonProps & LinkProps & React.ComponentPropsWithRef<"button">) {
   const buttonClasses = classNames(
     "ds-button",
     {
@@ -75,7 +75,7 @@ function Button({
 
     return (
       <a
-        {...props}
+        {...(props as LinkProps)}
         href={props.disabled ? undefined : href}
         className={buttonClasses}
         onKeyDown={onKeyDown}
