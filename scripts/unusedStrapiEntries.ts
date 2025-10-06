@@ -46,10 +46,10 @@ function partitionPagesByFlowId(pages: MinimalPage[]) {
   return partition(pages, (page) => page.flow_ids.length > 0);
 }
 
-function unusedStrapiEntry() {
+async function unusedStrapiEntry() {
   let content: StrapiSchemasOutput | undefined = undefined;
   try {
-    content = strapiFileSchema.parse(
+    content = await strapiFileSchema.parseAsync(
       JSON.parse(readFileSync(contentFilePath, "utf-8")),
     );
     console.log("Content imported successfully, scanning...");
@@ -100,4 +100,4 @@ function unusedStrapiEntry() {
   }
 }
 
-if (process.argv[2] === "unusedStrapiEntry") unusedStrapiEntry();
+if (process.argv[2] === "unusedStrapiEntry") void unusedStrapiEntry();
