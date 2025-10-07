@@ -41,7 +41,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
     },
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
-      isArraySummary: true,
+      skipPageSchemaValidation: true,
       userInput: {
         hasKinder: "yes",
         kinder: [
@@ -65,7 +65,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
   liveInChildWithEigeneEinnahmen: [
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
-      isArraySummary: true,
+      skipPageSchemaValidation: true,
       addArrayItemEvent: "add-kinder",
       userInput: {
         kinder: [],

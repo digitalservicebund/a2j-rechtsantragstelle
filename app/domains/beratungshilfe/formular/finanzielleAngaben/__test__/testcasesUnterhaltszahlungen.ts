@@ -14,7 +14,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlunge
     weitereUnterhaltszahlungenUebersichtTransition: [
       {
         stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
-        isArraySummary: true,
+        skipPageSchemaValidation: true,
         userInput: {
           hasWeitereUnterhaltszahlungen: "yes",
           unterhaltszahlungen: [
@@ -35,7 +35,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlunge
     unterhaltszahlungenNotEntered: [
       {
         stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
-        isArraySummary: true,
+        skipPageSchemaValidation: true,
         userInput: {
           hasWeitereUnterhaltszahlungen: "yes",
         },
