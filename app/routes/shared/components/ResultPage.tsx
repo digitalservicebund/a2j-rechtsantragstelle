@@ -50,7 +50,11 @@ export function ResultPage() {
 
   return (
     <>
-      <GridSection backgroundClass={BACKGROUND_COLORS.blue} pt="40" pb="24">
+      <GridSection
+        backgroundClass={`${BACKGROUND_COLORS.blue} print:hidden`}
+        pt="40"
+        pb="24"
+      >
         <Grid
           rows={2}
           background={{
