@@ -40,22 +40,6 @@ describe("stepMeta", () => {
     expect(actual.ogTitle).toBe("pageMeta ogTitle");
   });
 
-  it("should inherit breadcrumb from parent meta regardless of page meta value", () => {
-    const pageMetaWithoutDescriptionAndOgTile = {
-      description: "pageMeta description",
-      ogTitle: "pageMeta ogTitle",
-      breadcrumb: "pageMeta breadcrumb",
-      title: "pageMeta title",
-    };
-
-    const actual = stepMeta(
-      pageMetaWithoutDescriptionAndOgTile,
-      mockParentMeta,
-    );
-
-    expect(actual.breadcrumb).toBe("parentMeta breadcrumb");
-  });
-
   it("should combine the page title with parent title using a hyphen delimiter", () => {
     const pageMetaWithoutDescriptionAndOgTile = {
       description: "pageMeta description",

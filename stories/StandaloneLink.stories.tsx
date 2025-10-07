@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { StandaloneLink } from "../app/components/common/StandaloneLink";
 import { reactRouterContext } from "../.storybook/reactRouterContext";
 import SignLanguage from "@digitalservicebund/icons/SignLanguage";

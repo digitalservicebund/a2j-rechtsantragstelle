@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import Button from "../app/components/common/Button";
 import HomeOutlinedIcon from "@digitalservicebund/icons/HomeOutlined";
 

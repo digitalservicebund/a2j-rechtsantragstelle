@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import Background from "../app/components/layout/Background";
 import Container from "../app/components/layout/Container";
 import Box from "~/components/content/Box";

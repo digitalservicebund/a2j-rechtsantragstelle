@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import Container from "~/components/layout/Container";
 import { mocked } from "storybook/test";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
