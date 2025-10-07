@@ -59,6 +59,7 @@ export const SplitDateInput = ({ name }: SplitDateInputProps) => {
                 className={classNames("ds-input w-full", {
                   "has-error": dayError,
                 })}
+                aria-required="true"
               />
             </InputLabel>
           </div>
@@ -80,6 +81,7 @@ export const SplitDateInput = ({ name }: SplitDateInputProps) => {
                 className={classNames("ds-input w-full", {
                   "has-error": monthError,
                 })}
+                aria-required="true"
               />
             </InputLabel>
           </div>
@@ -101,6 +103,7 @@ export const SplitDateInput = ({ name }: SplitDateInputProps) => {
                 className={classNames("ds-input w-full", {
                   "has-error": yearError,
                 })}
+                aria-required="true"
               />
             </InputLabel>
           </div>
