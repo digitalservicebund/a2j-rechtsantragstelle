@@ -2,7 +2,6 @@ import cx from "classnames";
 import { getPaddingClasses } from "./util";
 
 type SectionProps = React.PropsWithChildren<{
-  backgroundClass?: string;
   className?: string;
   pt?: string;
   pb?: string;
@@ -10,22 +9,11 @@ type SectionProps = React.PropsWithChildren<{
   ["data-testid"]?: string;
 }>;
 
-export function GridSection({
-  children,
-  pt,
-  pb,
-  backgroundClass,
-  className,
-  id,
-}: SectionProps) {
+export function GridSection({ children, pt, pb, className, id }: SectionProps) {
   return (
     <section
       id={id}
-      className={cx(
-        backgroundClass,
-        className,
-        getPaddingClasses(pt ?? "", pb ?? ""),
-      )}
+      className={cx(className, getPaddingClasses(pt ?? "", pb ?? ""))}
     >
       {children}
     </section>
