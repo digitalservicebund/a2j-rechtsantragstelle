@@ -39,9 +39,10 @@ function testPageSchema(
   userInput: UserData | undefined,
   pageSchema: SchemaObject | undefined,
   addArrayItemEvent?: ArrayConfigServer["event"],
+  skipPageSchemaValidation?: boolean,
 ) {
   // Without userInput we don't expect a pageSchema. Same for Array Overview pages
-  if (!userInput || addArrayItemEvent) {
+  if (!userInput || addArrayItemEvent || skipPageSchemaValidation) {
     expect(pageSchema).toBeUndefined();
   } else {
     expect(pageSchema).toBeDefined(); // With userInput we expect it to validate against the pageSchema
@@ -91,55 +92,65 @@ function runTestcases(
     ];
     expectedSteps
       .slice(0, -1)
-      .forEach(({ stepId, addArrayItemEvent, userInput }, idx) => {
-        const currentUrl = flowId + stepId;
-        const pageSchema = getPageSchema(currentUrl);
+      .forEach(
+        (
+          { stepId, addArrayItemEvent, skipPageSchemaValidation, userInput },
+          idx,
+        ) => {
+          const currentUrl = flowId + stepId;
+          const pageSchema = getPageSchema(currentUrl);
 
-        // If we re-encounter the array overview page after adding an array item, we exit the special subroutine
-        if (isAddingArrayItem && stepId === summaryPageStepId) {
-          isAddingArrayItem = false;
-          summaryPageStepId = undefined;
-        }
+          // If we re-encounter the array overview page after adding an array item, we exit the special subroutine
+          if (isAddingArrayItem && stepId === summaryPageStepId) {
+            isAddingArrayItem = false;
+            summaryPageStepId = undefined;
+          }
 
-        /**
-         * We are both
-         * 1. on an array overview page
-         * 2. calling the add-arrayItem event
-         *
-         * Start the special subroutine to handle array items
-         */
-        if (addArrayItemEvent) {
-          isAddingArrayItem = true;
-          summaryPageStepId = stepId;
-        }
+          /**
+           * We are both
+           * 1. on an array overview page
+           * 2. calling the add-arrayItem event
+           *
+           * Start the special subroutine to handle array items
+           */
+          if (addArrayItemEvent) {
+            isAddingArrayItem = true;
+            summaryPageStepId = stepId;
+          }
 
-        testPageSchema(userInput, pageSchema, addArrayItemEvent);
-
-        const flowController = buildFlowController({
-          config: xstateConfig,
-          data: buildFullUserInput(expectedSteps, idx),
-        });
-
-        // Given the current data and url we expect the next and previous url
-        const nextStepId = expectedSteps[idx + 1]?.stepId;
-
-        if (isAddingArrayItem) {
-          testXstateArrayLinkages(
-            flowController,
-            stepId,
-            flowId,
-            nextStepId,
+          testPageSchema(
+            userInput,
+            pageSchema,
             addArrayItemEvent,
-            summaryPageStepId,
+            skipPageSchemaValidation,
           );
-        } else {
-          expect(flowController.getNext(stepId)).toBe(flowId + nextStepId);
-          expect(flowController.getPrevious(nextStepId)).toBe(currentUrl);
-        }
 
-        allVisitedSteps[flowId].visitedSteps.add(stepId);
-        allVisitedSteps[flowId].visitedSteps.add(nextStepId);
-      });
+          const flowController = buildFlowController({
+            config: xstateConfig,
+            data: buildFullUserInput(expectedSteps, idx),
+          });
+
+          // Given the current data and url we expect the next and previous url
+          const nextStepId = expectedSteps[idx + 1]?.stepId;
+
+          if (isAddingArrayItem) {
+            testXstateArrayLinkages(
+              flowController,
+              stepId,
+              flowId,
+              nextStepId,
+              addArrayItemEvent,
+              summaryPageStepId,
+            );
+          } else {
+            expect(flowController.getNext(stepId)).toBe(flowId + nextStepId);
+            expect(flowController.getPrevious(nextStepId)).toBe(currentUrl);
+          }
+
+          allVisitedSteps[flowId].visitedSteps.add(stepId);
+          allVisitedSteps[flowId].visitedSteps.add(nextStepId);
+        },
+      );
   });
 }
 
@@ -194,6 +205,6 @@ describe.sequential("flowSchemas", () => {
       Object.fromEntries(missingStepsEntries),
     );
 
-    expect(totalMissingStepCount).toBeLessThanOrEqual(50);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(33);
   });
 });

@@ -10,6 +10,11 @@ export type TestCases<T extends UserData> = Readonly<
 export type ExpectedStep = {
   stepId: string;
   addArrayItemEvent?: ArrayConfigServer["event"];
+  /**
+   * Used to test the special case where a page without inputs has a guard that relies on previously-entered data.
+   * E.g. Array Summary pages
+   */
+  skipPageSchemaValidation?: boolean;
   userInput?: UserData;
 };
 
