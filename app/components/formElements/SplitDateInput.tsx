@@ -108,20 +108,13 @@ export const SplitDateInput = ({ name }: SplitDateInputProps) => {
             </InputLabel>
           </div>
         </div>
-        {/* show error messages for each field with error*/}
         {hasError && (
           <div id={errorId}>
-            {dayError && <InputError id={errorId}>{dayError}</InputError>}
-            {monthError && <InputError id={errorId}>{monthError}</InputError>}
-            {yearError && <InputError id={errorId}>{yearError}</InputError>}
+            <InputError id={errorId}>
+              {dayError ?? monthError ?? yearError}
+            </InputError>
           </div>
         )}
-        {/* show one error message for one field with error*/}
-        {/* {hasError && (
-          <div id={errorId}>
-            <InputError id={errorId}>{tagError ?? monthError ?? yearError}</InputError>
-          </div>
-        )} */}
       </div>
     </fieldset>
   );
