@@ -7,9 +7,10 @@ import classNames from "classnames";
 
 export type SplitDateInputProps = {
   name: string;
+  helperText?: string;
 };
 
-export const SplitDateInput = ({ name }: SplitDateInputProps) => {
+export const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
   const day = name + ".day";
   const month = name + ".month";
   const year = name + ".year";
@@ -25,6 +26,7 @@ export const SplitDateInput = ({ name }: SplitDateInputProps) => {
   const hasError = Boolean(dayError ?? monthError ?? yearError);
 
   const errorId = `${name}-error`;
+  const helperId = `${name}-helper`;
 
   return (
     <fieldset
@@ -47,7 +49,6 @@ export const SplitDateInput = ({ name }: SplitDateInputProps) => {
               {translations.splitDateComponent.tagInputLabel.de}
               <input
                 {...dayField.getInputProps({
-                  id: day,
                   inputMode: "numeric",
                 })}
                 type="number"
@@ -60,6 +61,11 @@ export const SplitDateInput = ({ name }: SplitDateInputProps) => {
                   "has-error": dayError,
                 })}
                 aria-required="true"
+                aria-invalid={dayError !== null}
+                aria-describedby={[
+                  dayError && errorId,
+                  helperText && helperId,
+                ].join(" ")}
               />
             </InputLabel>
           </div>
@@ -69,7 +75,6 @@ export const SplitDateInput = ({ name }: SplitDateInputProps) => {
               {translations.splitDateComponent.monatInputLabel.de}
               <input
                 {...monthField.getInputProps({
-                  id: month,
                   inputMode: "numeric",
                 })}
                 type="number"
@@ -82,6 +87,11 @@ export const SplitDateInput = ({ name }: SplitDateInputProps) => {
                   "has-error": monthError,
                 })}
                 aria-required="true"
+                aria-invalid={monthError !== null}
+                aria-describedby={[
+                  monthError && errorId,
+                  helperText && helperId,
+                ].join(" ")}
               />
             </InputLabel>
           </div>
@@ -91,7 +101,6 @@ export const SplitDateInput = ({ name }: SplitDateInputProps) => {
               {translations.splitDateComponent.jahrInputLabel.de}
               <input
                 {...yearField.getInputProps({
-                  id: year,
                   inputMode: "numeric",
                 })}
                 type="number"
@@ -104,6 +113,11 @@ export const SplitDateInput = ({ name }: SplitDateInputProps) => {
                   "has-error": yearError,
                 })}
                 aria-required="true"
+                aria-invalid={yearError !== null}
+                aria-describedby={[
+                  yearError && errorId,
+                  helperText && helperId,
+                ].join(" ")}
               />
             </InputLabel>
           </div>
