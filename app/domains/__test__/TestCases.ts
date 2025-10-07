@@ -11,10 +11,10 @@ export type ExpectedStep = {
   stepId: string;
   addArrayItemEvent?: ArrayConfigServer["event"];
   /**
-   * Used to test the special case where we are on the array overview page after adding an array item
-   * Mainly used to test transitions between summary page and next step
+   * Used to test the special case where a page without inputs has a guard that relies on previously-entered data.
+   * E.g. Array Summary pages
    */
-  isArraySummary?: boolean;
+  skipPageSchemaValidation?: boolean;
   userInput?: UserData;
 };
 
