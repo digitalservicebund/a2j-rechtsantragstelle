@@ -8,6 +8,8 @@ const isValidDate = (date: string) =>
     strictMode: true,
     delimiters: ["."],
   });
+export const toDateString = (day?: number, month?: number, year?: number) =>
+  `${String(day).padStart(2, "0")}.${String(month).padStart(2, "0")}.${year}`;
 
 export const createDateSchema = (args?: {
   earliest?: () => Date;
@@ -61,8 +63,6 @@ export const createSplitDateSchema = (args?: {
       `Latest valid ${args.latest().toDateString()} can't be before earliest valid ${args.earliest().toDateString()}`,
     );
   }
-  const toDateString = (day: number, month: number, year: number) =>
-    `${String(day).padStart(2, "0")}.${String(month).padStart(2, "0")}.${year}`;
 
   return z
     .object({

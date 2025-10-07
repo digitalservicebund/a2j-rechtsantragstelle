@@ -7,7 +7,7 @@ import {
 } from "~/services/pdf/attachment";
 import { checkboxListToString } from "~/services/pdf/checkboxListToString";
 import type { BerHPdfFillFunction } from "../types";
-import { getGeburtsdatumDate } from "~/services/pdf/getGeburtsdatumDate";
+import { toDateString } from "~/services/validation/date";
 
 const weiteresEinkommenMapping = {
   unterhaltszahlungen: "Unterhaltszahlungen",
@@ -26,8 +26,10 @@ const weiteresEinkommenMapping = {
 export const fillHeader: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   const attachment: AttachmentEntries = [];
   pdfValues.antragstellerNameVornameggfGeburtsname.value = `${userData.nachname}, ${userData.vorname}`;
-  pdfValues.geburtsdatumdesAntragstellers.value = getGeburtsdatumDate(
-    userData?.geburtsdatum,
+  pdfValues.geburtsdatumdesAntragstellers.value = toDateString(
+    userData?.geburtsdatum?.day,
+    userData?.geburtsdatum?.month,
+    userData?.geburtsdatum?.year,
   );
   pdfValues.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${userData.street} ${userData.houseNumber}, ${userData.plz} ${userData.ort}`;
   const court = findCourt({

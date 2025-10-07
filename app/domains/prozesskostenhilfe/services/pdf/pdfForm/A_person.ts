@@ -3,7 +3,7 @@ import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/marital
 import { type AttachmentEntries } from "~/services/pdf/attachment";
 import { fillPdfField } from "~/services/pdf/fillPdfField";
 import type { PkhPdfFillFunction } from "../types";
-import { getGeburtsdatumDate } from "~/services/pdf/getGeburtsdatumDate";
+import { toDateString } from "~/services/validation/date";
 
 export const concatenateGesetzlicherVertreterString = ({
   gesetzlicheVertretungDaten,
@@ -53,7 +53,11 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
     attachment,
   });
 
-  pdfValues.geburtsdatum.value = getGeburtsdatumDate(userData?.geburtsdatum);
+  pdfValues.geburtsdatum.value = toDateString(
+    userData?.geburtsdatum?.day,
+    userData?.geburtsdatum?.month,
+    userData?.geburtsdatum?.year,
+  );
 
   fillPdfField({
     fieldname: "familienstand",
