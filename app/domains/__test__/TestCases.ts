@@ -10,6 +10,11 @@ export type TestCases<T extends UserData> = Readonly<
 export type ExpectedStep = {
   stepId: string;
   addArrayItemEvent?: ArrayConfigServer["event"];
+  /**
+   * Used to test the special case where we are on the array overview page after adding an array item
+   * Mainly used to test transitions between summary page and next step
+   */
+  isArraySummary?: boolean;
   userInput?: UserData;
 };
 
