@@ -23,4 +23,13 @@ export async function startGerichtPruefen(formular: GeldEinklagenFormular) {
 
   // /geld-einklagen/formular/gericht-pruefen/sachgebiet/miete-pacht-raum
   await formular.fillRadioPage("mietePachtRaum", "no");
+
+  // /geld-einklagen/formular/gericht-pruefen/klagende-person/fuer-wen
+  await formular.fillRadioPage("fuerWenKlagen", "selbst");
+
+  // /geld-einklagen/formular/gericht-pruefen/klagende-person/verbraucher
+  await formular.fillRadioPage("klagendeVerbraucher", "yes");
+
+  // /geld-einklagen/formular/gericht-pruefen/klagende-person/haustuergeschaeft
+  await formular.fillRadioPage("klagendeHaustuergeschaeft", "no");
 }
