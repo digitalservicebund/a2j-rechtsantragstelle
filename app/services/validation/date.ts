@@ -94,7 +94,7 @@ export const createSplitDateSchema = (args?: {
         ctx.addIssue({
           code: "custom",
           message: "invalid_date_format",
-          path: ["month"],
+          path: ["geburtsdatum"],
           fatal: false,
         });
       }
