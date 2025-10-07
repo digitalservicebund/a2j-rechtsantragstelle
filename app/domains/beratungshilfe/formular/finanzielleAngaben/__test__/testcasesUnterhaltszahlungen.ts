@@ -1,46 +1,70 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
-import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
 
 export const testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen =
-  [
-    [
-      { hasWeitereUnterhaltszahlungen: "no" },
-      [
-        "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
-        "/finanzielle-angaben/wohnung/wohnsituation",
-      ],
-    ],
-    [
+  {
+    noWeitereUnterhaltszahlungen: [
       {
-        hasWeitereUnterhaltszahlungen: "yes",
-        unterhaltszahlungen: [
-          {
-            firstName: "a",
-            surname: "b",
-            familyRelationship: "kid",
-            birthday: "10.10.2010",
-            monthlyPayment: "10",
-          },
-        ],
+        stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
+        userInput: { hasWeitereUnterhaltszahlungen: "no" },
       },
-      [
-        "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
-        "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
-        "/finanzielle-angaben/wohnung/wohnsituation",
-      ],
+      {
+        stepId: "/finanzielle-angaben/wohnung/wohnsituation",
+      },
     ],
-    [
-      { hasWeitereUnterhaltszahlungen: "yes" },
-      [
-        "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
-        "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
-        "/finanzielle-angaben/andere-unterhaltszahlungen/warnung",
-      ],
+    weitereUnterhaltszahlungenUebersichtTransition: [
+      {
+        stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+        isArraySummary: true,
+        userInput: {
+          hasWeitereUnterhaltszahlungen: "yes",
+          unterhaltszahlungen: [
+            {
+              firstName: "a",
+              surname: "b",
+              familyRelationship: "kid",
+              birthday: "10.10.2010",
+              monthlyPayment: "10",
+            },
+          ],
+        },
+      },
+      {
+        stepId: "/finanzielle-angaben/wohnung/wohnsituation",
+      },
     ],
-
-    // Person only one page in the flow
-    [
-      { hasWeitereUnterhaltszahlungen: "yes" },
-      ["/finanzielle-angaben/andere-unterhaltszahlungen/person/daten"],
+    unterhaltszahlungenNotEntered: [
+      {
+        stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+        isArraySummary: true,
+        userInput: {
+          hasWeitereUnterhaltszahlungen: "yes",
+        },
+      },
+      {
+        stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/warnung",
+      },
     ],
-  ] as const satisfies TestCases<BeratungshilfeFinanzielleAngabenUserData>;
+    personOnlyOnePageInFlow: [
+      {
+        stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+        addArrayItemEvent: "add-unterhaltszahlungen",
+        userInput: {
+          hasWeitereUnterhaltszahlungen: "yes",
+        },
+      },
+      {
+        stepId:
+          "/finanzielle-angaben/andere-unterhaltszahlungen/person/0/daten",
+        userInput: {
+          "unterhaltszahlungen#familyRelationship": "mother",
+          "unterhaltszahlungen#firstName": "a",
+          "unterhaltszahlungen#surname": "b",
+          "unterhaltszahlungen#birthday": "01.01.2020",
+          "unterhaltszahlungen#monthlyPayment": "100",
+        },
+      },
+      {
+        stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+      },
+    ],
+  } satisfies FlowTestCases["testcases"];
