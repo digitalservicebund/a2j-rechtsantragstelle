@@ -39,10 +39,10 @@ function testPageSchema(
   userInput: UserData | undefined,
   pageSchema: SchemaObject | undefined,
   addArrayItemEvent?: ArrayConfigServer["event"],
-  isArraySummary?: boolean,
+  skipPageSchemaValidation?: boolean,
 ) {
   // Without userInput we don't expect a pageSchema. Same for Array Overview pages
-  if (!userInput || addArrayItemEvent || isArraySummary) {
+  if (!userInput || addArrayItemEvent || skipPageSchemaValidation) {
     expect(pageSchema).toBeUndefined();
   } else {
     expect(pageSchema).toBeDefined(); // With userInput we expect it to validate against the pageSchema
@@ -93,7 +93,10 @@ function runTestcases(
     expectedSteps
       .slice(0, -1)
       .forEach(
-        ({ stepId, addArrayItemEvent, isArraySummary, userInput }, idx) => {
+        (
+          { stepId, addArrayItemEvent, skipPageSchemaValidation, userInput },
+          idx,
+        ) => {
           const currentUrl = flowId + stepId;
           const pageSchema = getPageSchema(currentUrl);
 
@@ -119,7 +122,7 @@ function runTestcases(
             userInput,
             pageSchema,
             addArrayItemEvent,
-            isArraySummary,
+            skipPageSchemaValidation,
           );
 
           const flowController = buildFlowController({
@@ -202,6 +205,6 @@ describe.sequential("flowSchemas", () => {
       Object.fromEntries(missingStepsEntries),
     );
 
-    expect(totalMissingStepCount).toBeLessThanOrEqual(44);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(33);
   });
 });
