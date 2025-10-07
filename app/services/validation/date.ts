@@ -78,19 +78,13 @@ export const createSplitDateSchema = (args?: {
         .max(12, { message: "month_out_of_range" }),
       year: z.preprocess(
         (val) => {
-          if (val === undefined || val === null || val === "") {
+          if (!val) {
             return undefined;
-          }
-          const num = Number(val);
-          if (isNaN(num)) {
-            return NaN;
           }
           return val;
         },
         z.coerce
           .number({ message: "required" })
-          .refine((val) => !isNaN(val), { message: "invalid_year_format" })
-          .refine((val) => val > 0, { message: "invalid_year_format" })
           .min(1900, { message: "year_out_of_range" })
           .max(new Date().getFullYear(), { message: "year_out_of_range" }),
       ),

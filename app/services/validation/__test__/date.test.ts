@@ -177,7 +177,7 @@ describe("date split input validation", () => {
           year: -2000,
         },
         errorPath: "year",
-        errorMessage: "invalid_year_format",
+        errorMessage: "year_out_of_range",
       },
     ];
 
