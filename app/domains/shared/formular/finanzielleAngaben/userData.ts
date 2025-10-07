@@ -61,15 +61,17 @@ export const staatlicheLeistungenInputSchema = z.enum([
 
 export type BankkontenArraySchema = z.infer<typeof bankkontenArraySchema>;
 
-export const bankkontenArraySchema = z.array(
-  z.object({
-    bankName: stringRequiredSchema,
-    kontostand: buildMoneyValidationSchema({}),
-    iban: stringOptionalSchema,
-    kontoEigentuemer: eigentuemerInputSchema,
-    kontoDescription: stringOptionalSchema,
-  }),
-);
+export const bankkontenArraySchema = z
+  .array(
+    z.object({
+      bankName: stringRequiredSchema,
+      kontostand: buildMoneyValidationSchema({}),
+      iban: stringOptionalSchema,
+      kontoEigentuemer: eigentuemerInputSchema,
+      kontoDescription: stringOptionalSchema,
+    }),
+  )
+  .min(1);
 
 export const financialEntryInputSchema = z.object({
   beschreibung: stringRequiredSchema,

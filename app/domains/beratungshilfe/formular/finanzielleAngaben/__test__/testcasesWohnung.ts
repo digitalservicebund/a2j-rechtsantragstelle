@@ -1,5 +1,4 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
-import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
+import { type FlowTestCases } from "~/domains/__test__/TestCases";
 
 const finanzielleAngabenWohnungWohnsituation =
   "/finanzielle-angaben/wohnung/wohnsituation";
@@ -7,67 +6,76 @@ const finanzielleAngabenWohnungGroesse = "/finanzielle-angaben/wohnung/groesse";
 const finanzielleAngabenEigentumEigentumInfo =
   "/finanzielle-angaben/eigentum/eigentum-info";
 
-export const testCasesBeratungshilfeFormularFinanzielleAngabenWohnung = [
-  [
-    {},
-    [
-      finanzielleAngabenWohnungWohnsituation,
-      finanzielleAngabenWohnungGroesse,
-      finanzielleAngabenEigentumEigentumInfo,
-    ],
-  ],
-  [
+export const testCasesBeratungshilfeFormularFinanzielleAngabenWohnung = {
+  livesAlone: [
     {
-      livingSituation: "alone",
+      stepId: finanzielleAngabenWohnungWohnsituation,
+      userInput: {
+        livingSituation: "alone",
+      },
     },
-    [
-      finanzielleAngabenWohnungWohnsituation,
-      finanzielleAngabenWohnungGroesse,
-      "/finanzielle-angaben/wohnung/wohnkosten-allein",
-      finanzielleAngabenEigentumEigentumInfo,
-    ],
-  ],
-  [
     {
-      livingSituation: "alone",
-      apartmentSizeSqm: 42,
-      apartmentCostAlone: "800",
+      stepId: finanzielleAngabenWohnungGroesse,
+      userInput: { apartmentSizeSqm: "42" },
     },
-    [
-      finanzielleAngabenWohnungWohnsituation,
-      finanzielleAngabenWohnungGroesse,
-      "/finanzielle-angaben/wohnung/wohnkosten-allein",
-      finanzielleAngabenEigentumEigentumInfo,
-    ],
-  ],
-  [
     {
-      livingSituation: "withRelatives",
-      apartmentSizeSqm: 42,
-      apartmentCostOwnShare: "400",
-      apartmentCostFull: "800",
+      stepId: "/finanzielle-angaben/wohnung/wohnkosten-allein",
+      userInput: { apartmentCostAlone: "1000" },
     },
-    [
-      finanzielleAngabenWohnungWohnsituation,
-      finanzielleAngabenWohnungGroesse,
-      "/finanzielle-angaben/wohnung/personen-anzahl",
-      "/finanzielle-angaben/wohnung/wohnkosten-geteilt",
-      finanzielleAngabenEigentumEigentumInfo,
-    ],
-  ],
-  [
     {
-      livingSituation: "withOthers",
-      apartmentSizeSqm: 42,
-      apartmentCostOwnShare: "400",
-      apartmentCostFull: "800",
+      stepId: finanzielleAngabenEigentumEigentumInfo,
     },
-    [
-      finanzielleAngabenWohnungWohnsituation,
-      finanzielleAngabenWohnungGroesse,
-      "/finanzielle-angaben/wohnung/personen-anzahl",
-      "/finanzielle-angaben/wohnung/wohnkosten-geteilt",
-      finanzielleAngabenEigentumEigentumInfo,
-    ],
   ],
-] as const satisfies TestCases<BeratungshilfeFinanzielleAngabenUserData>;
+  livesWithRelatives: [
+    {
+      stepId: finanzielleAngabenWohnungWohnsituation,
+      userInput: {
+        livingSituation: "withRelatives",
+      },
+    },
+    {
+      stepId: finanzielleAngabenWohnungGroesse,
+      userInput: { apartmentSizeSqm: "42" },
+    },
+    {
+      stepId: "/finanzielle-angaben/wohnung/personen-anzahl",
+      userInput: { apartmentPersonCount: "2" },
+    },
+    {
+      stepId: "/finanzielle-angaben/wohnung/wohnkosten-geteilt",
+      userInput: {
+        apartmentCostOwnShare: "400",
+        apartmentCostFull: "800",
+      },
+    },
+    {
+      stepId: finanzielleAngabenEigentumEigentumInfo,
+    },
+  ],
+  livesWithOthers: [
+    {
+      stepId: finanzielleAngabenWohnungWohnsituation,
+      userInput: {
+        livingSituation: "withOthers",
+      },
+    },
+    {
+      stepId: finanzielleAngabenWohnungGroesse,
+      userInput: { apartmentSizeSqm: "42" },
+    },
+    {
+      stepId: "/finanzielle-angaben/wohnung/personen-anzahl",
+      userInput: { apartmentPersonCount: "2" },
+    },
+    {
+      stepId: "/finanzielle-angaben/wohnung/wohnkosten-geteilt",
+      userInput: {
+        apartmentCostOwnShare: "400",
+        apartmentCostFull: "800",
+      },
+    },
+    {
+      stepId: finanzielleAngabenEigentumEigentumInfo,
+    },
+  ],
+} satisfies FlowTestCases["testcases"];

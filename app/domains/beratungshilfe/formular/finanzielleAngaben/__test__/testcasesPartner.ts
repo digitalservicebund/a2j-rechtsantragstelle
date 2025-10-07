@@ -1,108 +1,150 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
-import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
-// unterhalt
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
+const finanzielleAngabenPartnerPartnerschaft =
+  "/finanzielle-angaben/partner/partnerschaft";
+const finanzielleAngabenKinderKinderFrage =
+  "/finanzielle-angaben/kinder/kinder-frage";
 const finanzielleAngabenPartnerZusammenleben =
   "/finanzielle-angaben/partner/zusammenleben";
 const finanzielleAngabenPartnerPartnerEinkommen =
   "/finanzielle-angaben/partner/partner-einkommen";
 const finanzielleAngabenPartnerUnterhalt =
   "/finanzielle-angaben/partner/unterhalt";
-const finanzielleAngabenPartnerPartnerschaft =
-  "/finanzielle-angaben/partner/partnerschaft";
-const finanzielleAngabenKinderKinderFrage =
-  "/finanzielle-angaben/kinder/kinder-frage";
 
-export const testCasesBeratungshilfeFormularFinanzielleAngabenPartner = [
-  [
-    {},
-    [
-      finanzielleAngabenPartnerPartnerschaft,
-      finanzielleAngabenKinderKinderFrage,
-    ],
-  ],
-  [
-    { partnerschaft: "no", unterhalt: "yes" },
-    [
-      finanzielleAngabenPartnerPartnerschaft,
-      finanzielleAngabenKinderKinderFrage,
-    ],
-  ],
-  [
-    { partnerschaft: "separated" },
-    [
-      finanzielleAngabenPartnerPartnerschaft,
-      finanzielleAngabenKinderKinderFrage,
-    ],
-  ],
-  [
-    { partnerschaft: "yes", zusammenleben: "yes", unterhalt: "yes" },
-    [
-      finanzielleAngabenPartnerPartnerschaft,
-      finanzielleAngabenPartnerZusammenleben,
-      finanzielleAngabenPartnerPartnerEinkommen,
-      finanzielleAngabenKinderKinderFrage,
-    ],
-  ],
-  [
+export const testCasesBeratungshilfeFormularFinanzielleAngabenPartner = {
+  noPartnerschaft: [
     {
-      partnerschaft: "yes",
-      zusammenleben: "yes",
-      partnerEinkommen: "no",
-      unterhalt: "yes",
+      stepId: finanzielleAngabenPartnerPartnerschaft,
+      userInput: {
+        partnerschaft: "no",
+      },
     },
-    [
-      finanzielleAngabenPartnerPartnerschaft,
-      finanzielleAngabenPartnerZusammenleben,
-      finanzielleAngabenPartnerPartnerEinkommen,
-      finanzielleAngabenKinderKinderFrage,
-    ],
-  ],
-  [
     {
-      partnerschaft: "yes",
-      zusammenleben: "yes",
-      partnerEinkommen: "yes",
-      unterhalt: "yes",
+      stepId: finanzielleAngabenKinderKinderFrage,
     },
-    [
-      finanzielleAngabenPartnerPartnerschaft,
-      finanzielleAngabenPartnerZusammenleben,
-      finanzielleAngabenPartnerPartnerEinkommen,
-      "/finanzielle-angaben/partner/partner-einkommen-summe",
-      finanzielleAngabenKinderKinderFrage,
-    ],
   ],
-  [
-    { partnerschaft: "yes", zusammenleben: "no", unterhalt: "no" },
-    [
-      finanzielleAngabenPartnerPartnerschaft,
-      finanzielleAngabenPartnerZusammenleben,
-      finanzielleAngabenPartnerUnterhalt,
-      "/finanzielle-angaben/partner/keine-rolle",
-      finanzielleAngabenKinderKinderFrage,
-    ],
-  ],
-  [
-    { partnerschaft: "yes", zusammenleben: "no", unterhalt: "yes" },
-    [
-      finanzielleAngabenPartnerPartnerschaft,
-      finanzielleAngabenPartnerZusammenleben,
-      finanzielleAngabenPartnerUnterhalt,
-      "/finanzielle-angaben/partner/unterhalts-summe",
-      "/finanzielle-angaben/partner/partner-name",
-      finanzielleAngabenKinderKinderFrage,
-    ],
-  ],
-  [
+  separated: [
     {
-      unterhalt: "yes",
-      partnerschaft: "yes",
-      partnerEinkommen: "yes",
-      zusammenleben: "no",
+      stepId: finanzielleAngabenPartnerPartnerschaft,
+      userInput: {
+        partnerschaft: "separated",
+      },
     },
-    [
-      "/finanzielle-angaben/partner/partner-name",
-      finanzielleAngabenKinderKinderFrage,
-    ],
+    {
+      stepId: finanzielleAngabenKinderKinderFrage,
+    },
   ],
-] as const satisfies TestCases<BeratungshilfeFinanzielleAngabenUserData>;
+  liveInPartnerUnteraltNoIncome: [
+    {
+      stepId: finanzielleAngabenPartnerPartnerschaft,
+      userInput: {
+        partnerschaft: "yes",
+      },
+    },
+    {
+      stepId: finanzielleAngabenPartnerZusammenleben,
+      userInput: {
+        partnerschaft: "yes",
+        zusammenleben: "yes",
+      },
+    },
+    {
+      stepId: finanzielleAngabenPartnerPartnerEinkommen,
+      userInput: {
+        partnerEinkommen: "no",
+      },
+    },
+    {
+      stepId: finanzielleAngabenKinderKinderFrage,
+    },
+  ],
+  partnerLivesSeparatelyNoUnterhalt: [
+    {
+      stepId: finanzielleAngabenPartnerPartnerschaft,
+      userInput: {
+        partnerschaft: "yes",
+      },
+    },
+    {
+      stepId: finanzielleAngabenPartnerZusammenleben,
+      userInput: {
+        zusammenleben: "no",
+      },
+    },
+    {
+      stepId: finanzielleAngabenPartnerUnterhalt,
+      userInput: {
+        unterhalt: "no",
+      },
+    },
+    { stepId: "/finanzielle-angaben/partner/keine-rolle" },
+    {
+      stepId: finanzielleAngabenKinderKinderFrage,
+    },
+  ],
+  partnerWithIncome: [
+    {
+      stepId: finanzielleAngabenPartnerPartnerschaft,
+      userInput: {
+        partnerschaft: "yes",
+      },
+    },
+    {
+      stepId: finanzielleAngabenPartnerZusammenleben,
+      userInput: {
+        partnerschaft: "yes",
+        zusammenleben: "yes",
+      },
+    },
+    {
+      stepId: finanzielleAngabenPartnerPartnerEinkommen,
+      userInput: {
+        partnerEinkommen: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/partner/partner-einkommen-summe",
+      userInput: {
+        partnerEinkommenSumme: "1000",
+      },
+    },
+    {
+      stepId: finanzielleAngabenKinderKinderFrage,
+    },
+  ],
+  partnerReceivesUnterhalt: [
+    {
+      stepId: finanzielleAngabenPartnerPartnerschaft,
+      userInput: {
+        partnerschaft: "yes",
+      },
+    },
+    {
+      stepId: finanzielleAngabenPartnerZusammenleben,
+      userInput: {
+        zusammenleben: "no",
+      },
+    },
+    {
+      stepId: finanzielleAngabenPartnerUnterhalt,
+      userInput: {
+        unterhalt: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/partner/unterhalts-summe",
+      userInput: {
+        partnerUnterhaltsSumme: "500",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/partner/partner-name",
+      userInput: {
+        partnerVorname: "Max",
+        partnerNachname: "Mustermann",
+      },
+    },
+    {
+      stepId: finanzielleAngabenKinderKinderFrage,
+    },
+  ],
+} satisfies FlowTestCases["testcases"];

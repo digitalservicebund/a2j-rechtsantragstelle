@@ -1,12 +1,5 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
-import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
-
-const finanzielleAngabenKinderKinderName =
-  "/finanzielle-angaben/kinder/kinder/name";
-const finanzielleAngabenKinderKinderWohnort =
-  "/finanzielle-angaben/kinder/kinder/wohnort";
-const finanzielleAngabenKinderKinderKindUnterhaltFrage =
-  "/finanzielle-angaben/kinder/kinder/kind-unterhalt-frage";
+// oxlint-disable-next-line no-unused-vars
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
 
 const defaultInputKinder = {
   wohnortBeiAntragsteller: "yes",
@@ -19,132 +12,160 @@ const defaultInputKinder = {
   unterhaltsSumme: "",
 } as const;
 
-export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = [
-  [
-    { hasKinder: "yes" },
-    [
-      "/finanzielle-angaben/kinder/kinder-frage",
-      "/finanzielle-angaben/kinder/uebersicht",
-      "/finanzielle-angaben/kinder/warnung",
-    ],
-  ],
-  [
+export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
+  hasUnenteredChildren: [
     {
-      hasKinder: "yes",
-      kinder: [
-        {
-          vorname: "a",
-          nachname: "b",
-          wohnortBeiAntragsteller: "yes",
-          eigeneEinnahmen: "no",
-          unterhalt: "no",
-          geburtsdatum: "01.01.1990",
-          unterhaltsSumme: "0",
-          einnahmen: "0",
-        },
-      ],
+      stepId: "/finanzielle-angaben/kinder/kinder-frage",
+      userInput: { hasKinder: "yes" },
     },
-    [
-      "/finanzielle-angaben/kinder/kinder-frage",
-      "/finanzielle-angaben/kinder/uebersicht",
-      "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
-    ],
-  ],
-  [
-    { hasKinder: "no" },
-    [
-      "/finanzielle-angaben/kinder/kinder-frage",
-      "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
-    ],
-  ],
-  [
-    {},
-    [finanzielleAngabenKinderKinderName, finanzielleAngabenKinderKinderWohnort],
-  ],
-  [
     {
-      kinder: [
-        {
-          ...defaultInputKinder,
-          wohnortBeiAntragsteller: "yes",
-        },
-      ],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/kinder/uebersicht",
     },
-    [
-      finanzielleAngabenKinderKinderName,
-      finanzielleAngabenKinderKinderWohnort,
-      "/finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen-frage",
-    ],
-  ],
-  [
     {
-      kinder: [
-        {
-          ...defaultInputKinder,
-          wohnortBeiAntragsteller: "yes",
-          eigeneEinnahmen: "yes",
-        },
-      ],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/kinder/warnung",
     },
-    [
-      finanzielleAngabenKinderKinderName,
-      finanzielleAngabenKinderKinderWohnort,
-      "/finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen-frage",
-      "/finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen",
-    ],
   ],
-  [
+  doesntHaveChildren: [
     {
-      kinder: [
-        {
-          ...defaultInputKinder,
-          wohnortBeiAntragsteller: "no",
-        },
-      ],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/kinder/kinder-frage",
+      userInput: { hasKinder: "no" },
     },
-    [
-      finanzielleAngabenKinderKinderName,
-      finanzielleAngabenKinderKinderWohnort,
-      finanzielleAngabenKinderKinderKindUnterhaltFrage,
-    ],
-  ],
-  [
     {
-      kinder: [
-        {
-          ...defaultInputKinder,
-          wohnortBeiAntragsteller: "no",
-          unterhalt: "no",
-        },
-      ],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
     },
-    [
-      finanzielleAngabenKinderKinderName,
-      finanzielleAngabenKinderKinderWohnort,
-      finanzielleAngabenKinderKinderKindUnterhaltFrage,
-      "/finanzielle-angaben/kinder/kinder/kind-unterhalt-ende",
-    ],
   ],
-  [
+  kinderUebersichtTransition: [
     {
-      kinder: [
-        {
-          ...defaultInputKinder,
-          wohnortBeiAntragsteller: "no",
-          unterhalt: "yes",
-        },
-      ],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/kinder/kinder-frage",
+      userInput: { hasKinder: "yes" },
     },
-    [
-      finanzielleAngabenKinderKinderName,
-      finanzielleAngabenKinderKinderWohnort,
-      finanzielleAngabenKinderKinderKindUnterhaltFrage,
-      "/finanzielle-angaben/kinder/kinder/kind-unterhalt",
-    ],
+    {
+      stepId: "/finanzielle-angaben/kinder/uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        hasKinder: "yes",
+        kinder: [
+          {
+            vorname: "a",
+            nachname: "b",
+            wohnortBeiAntragsteller: "yes",
+            eigeneEinnahmen: "no",
+            unterhalt: "no",
+            geburtsdatum: "01.01.1990",
+            unterhaltsSumme: "0",
+            einnahmen: "0",
+          },
+        ],
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
+    },
   ],
-] as const satisfies TestCases<BeratungshilfeFinanzielleAngabenUserData>;
+  liveInChildWithEigeneEinnahmen: [
+    {
+      stepId: "/finanzielle-angaben/kinder/uebersicht",
+      skipPageSchemaValidation: true,
+      addArrayItemEvent: "add-kinder",
+      userInput: {
+        kinder: [],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/kinder/kinder/0/name",
+      userInput: {
+        "kinder#vorname": "Clara",
+        "kinder#nachname": "Mustermann",
+        "kinder#geburtsdatum": "01.01.2005",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/kinder/kinder/0/wohnort",
+      userInput: {
+        "kinder#wohnortBeiAntragsteller": "yes",
+        kinder: [defaultInputKinder],
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/kinder/kinder/0/kind-eigene-einnahmen-frage",
+      userInput: {
+        "kinder#eigeneEinnahmen": "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/kinder/kinder/0/kind-eigene-einnahmen",
+    },
+  ],
+  childLivesElsewhereNoUnterhalt: [
+    {
+      stepId: "/finanzielle-angaben/kinder/uebersicht",
+      addArrayItemEvent: "add-kinder",
+      userInput: {
+        kinder: [],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/kinder/kinder/0/name",
+      userInput: {
+        "kinder#vorname": "Clara",
+        "kinder#nachname": "Mustermann",
+        "kinder#geburtsdatum": "01.01.2005",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/kinder/kinder/0/wohnort",
+      userInput: {
+        "kinder#wohnortBeiAntragsteller": "no",
+        kinder: [{ ...defaultInputKinder, wohnortBeiAntragsteller: "no" }],
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/kinder/kinder/0/kind-unterhalt-frage",
+      userInput: {
+        "kinder#unterhalt": "no",
+        kinder: [{ ...defaultInputKinder, unterhalt: "no" }],
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/kinder/kinder/0/kind-unterhalt-ende",
+    },
+  ],
+  childLivesElsewhereWithUnterhalt: [
+    {
+      stepId: "/finanzielle-angaben/kinder/uebersicht",
+      addArrayItemEvent: "add-kinder",
+      userInput: {
+        kinder: [],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/kinder/kinder/0/name",
+      userInput: {
+        "kinder#vorname": "Clara",
+        "kinder#nachname": "Mustermann",
+        "kinder#geburtsdatum": "01.01.2005",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/kinder/kinder/0/wohnort",
+      userInput: {
+        "kinder#wohnortBeiAntragsteller": "no",
+        kinder: [{ ...defaultInputKinder, wohnortBeiAntragsteller: "no" }],
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/kinder/kinder/0/kind-unterhalt-frage",
+      userInput: {
+        "kinder#unterhalt": "yes",
+        kinder: [defaultInputKinder],
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/kinder/kinder/0/kind-unterhalt",
+    },
+  ],
+} satisfies FlowTestCases["testcases"];
