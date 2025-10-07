@@ -31,7 +31,6 @@ vi.mock("@rvf/react-router", () => ({
       getInputProps: ({ id }: { id: string }) => ({
         id,
         value: "",
-        onChange: () => {},
       }),
     };
   },
