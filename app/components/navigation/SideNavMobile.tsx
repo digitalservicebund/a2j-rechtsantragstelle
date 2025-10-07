@@ -1,6 +1,6 @@
 import Close from "@digitalservicebund/icons/Close";
 import MenuIcon from "@digitalservicebund/icons/Menu";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavigationList } from "~/components/navigation/NavigationList";
 import { stateIsCurrent } from "~/services/navigation/navState";
 import { translations } from "~/services/translations/translations";
@@ -46,6 +46,14 @@ export default function SideNavMobile({
     stateIsCurrent(state),
   )?.label;
 
+  const firstItemRef = useRef<HTMLAnchorElement | null>(null);
+
+  useEffect(() => {
+    if (menuOpen) {
+      firstItemRef.current?.focus();
+    }
+  }, [menuOpen]);
+
   return (
     <div className={`flex flex-col lg:hidden`}>
       {menuOpen && (
@@ -64,6 +72,7 @@ export default function SideNavMobile({
               navItems={navItems}
               userVisitedValidationPage={userVisitedValidationPage}
               className="border border-blue-400 mx-10 mb-10 overflow-auto"
+              firstItemRef={firstItemRef}
             />
           </div>
         )}
