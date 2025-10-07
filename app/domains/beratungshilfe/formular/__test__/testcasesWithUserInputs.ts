@@ -7,6 +7,10 @@ import { testCasesBeratungshilfeFormularGrundvoraussetzungen } from "~/domains/b
 import { testCasesBeratungshilfeRechtsproblem } from "~/domains/beratungshilfe/formular/rechtsproblem/__test__/testcases";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesEinkommen";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenPartner } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesPartner";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenKinder } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesKinder";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesUnterhaltszahlungen";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesWohnung";
+import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentum } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesEigentum";
 
 export const beratungshilfeAntragTestCases = {
   xstateConfig: beratungshilfeXstateConfig,
@@ -17,6 +21,10 @@ export const beratungshilfeAntragTestCases = {
     ...testCasesBeratungshilfeRechtsproblem,
     ...testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen,
     ...testCasesBeratungshilfeFormularFinanzielleAngabenPartner,
+    ...testCasesBeratungshilfeFormularFinanzielleAngabenKinder,
+    ...testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen,
+    ...testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
+    ...testCasesBeratungshilfeFormularFinanzielleAngabenEigentum,
     ...testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
   },
 } satisfies FlowTestCases;
