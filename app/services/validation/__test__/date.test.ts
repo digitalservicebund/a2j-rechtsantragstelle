@@ -122,7 +122,7 @@ describe("date split input validation", () => {
           month: 2,
           year: 2020,
         },
-        errorPath: "month",
+        errorPath: "geburtsdatum",
         errorMessage: "invalid_date_format",
       },
       {
