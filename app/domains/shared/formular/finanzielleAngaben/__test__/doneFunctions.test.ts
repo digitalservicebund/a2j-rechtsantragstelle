@@ -1,4 +1,5 @@
 import {
+  bankKontoDone,
   childDone,
   geldanlageDone,
   singleGrundeigentumDone,
@@ -38,7 +39,41 @@ const mockCompletedGrundeigentum: GrundeigentumArraySchema[0] = {
   land: "Deutschland",
 };
 
-describe("shared finanielle angaben doneFunctions", () => {
+describe("shared finanzielle angaben doneFunctions", () => {
+  describe("bankKontoDone", () => {
+    it("passes with bankkonto no", () => {
+      expect(bankKontoDone({ context: { hasBankkonto: "no" } })).toBeTruthy();
+    });
+
+    it("fails with bankkonto yes but no bankkonten key given", () => {
+      expect(bankKontoDone({ context: { hasBankkonto: "yes" } })).toBeFalsy();
+    });
+
+    it("fails with bankkonto yes but bankkonten is empty list", () => {
+      expect(
+        bankKontoDone({ context: { hasBankkonto: "yes", bankkonten: [] } }),
+      ).toBeFalsy();
+    });
+
+    it("passes with bankkonto yes and bankkonten given", () => {
+      const validKontoItem = {
+        bankName: "bank",
+        kontostand: "200",
+        iban: "iban",
+        kontoEigentuemer: "myself",
+      } as const;
+      expect(
+        bankKontoDone({
+          context: { hasBankkonto: "yes", bankkonten: [validKontoItem] },
+        }),
+      ).toBeTruthy();
+    });
+
+    it("fails with all fields missing", () => {
+      expect(bankKontoDone({ context: {} })).toBeFalsy();
+    });
+  });
+
   describe("childDone", () => {
     it("should return false if the name and birth date are missing", () => {
       expect(childDone({ ...mockCompletedChild, vorname: undefined })).toBe(
