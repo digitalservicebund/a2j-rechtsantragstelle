@@ -50,6 +50,7 @@ export const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
               <input
                 {...dayField.getInputProps({
                   inputMode: "numeric",
+                  id: day,
                 })}
                 type="number"
                 placeholder={
@@ -76,6 +77,7 @@ export const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
               <input
                 {...monthField.getInputProps({
                   inputMode: "numeric",
+                  id: month,
                 })}
                 type="number"
                 placeholder={
@@ -102,6 +104,7 @@ export const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
               <input
                 {...yearField.getInputProps({
                   inputMode: "numeric",
+                  id: year,
                 })}
                 type="number"
                 placeholder={
