@@ -1,4 +1,3 @@
-import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import {
   eigentumDone,
   geldanlagenDone,
@@ -103,76 +102,6 @@ describe("eigentumDone", () => {
   it("fails with all fields missing", () => {
     expect(
       eigentumDone({
-        context: {},
-      }),
-    ).toBeFalsy();
-  });
-});
-
-describe("bankKontoDone", () => {
-  it("passes with bankkonto no", () => {
-    expect(
-      bankKontoDone({
-        context: {
-          hasBankkonto: "no",
-        },
-      }),
-    ).toBeTruthy();
-  });
-
-  it("fails with bankkonto yes but no bankkonten key given", () => {
-    expect(
-      bankKontoDone({
-        context: {
-          hasBankkonto: "yes",
-        },
-      }),
-    ).toBeFalsy();
-  });
-
-  it("fails with bankkonto yes but bankkonten is undefined", () => {
-    expect(
-      bankKontoDone({
-        context: {
-          hasBankkonto: "yes",
-          bankkonten: undefined,
-        },
-      }),
-    ).toBeFalsy();
-  });
-
-  it("fails with bankkonto yes but bankkonten is empty list", () => {
-    expect(
-      bankKontoDone({
-        context: {
-          hasBankkonto: "yes",
-          bankkonten: [],
-        },
-      }),
-    ).toBeFalsy();
-  });
-
-  it("passes with bankkonto yes and bankkonten given", () => {
-    expect(
-      bankKontoDone({
-        context: {
-          hasBankkonto: "yes",
-          bankkonten: [
-            {
-              bankName: "bank",
-              kontostand: "200",
-              iban: "iban",
-              kontoEigentuemer: "myself",
-            },
-          ],
-        },
-      }),
-    ).toBeTruthy();
-  });
-
-  it("fails with all fields missing", () => {
-    expect(
-      bankKontoDone({
         context: {},
       }),
     ).toBeFalsy();
