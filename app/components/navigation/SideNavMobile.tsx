@@ -57,15 +57,9 @@ export default function SideNavMobile({
         />
       )}
 
-      <div className="bg-white max-h-[80vh] border border-blue-400 overflow-auto">
-        <SideNavButton
-          currentPageTitle={currentPageTitle}
-          menuOpen={menuOpen}
-          toggleMenu={toggleMenu}
-        />
-
+      <div className="flex flex-col-reverse bg-white max-h-[80vh] border border-blue-400 overflow-auto">
         {menuOpen && (
-          <div className="pb-10">
+          <div className="pb-10 flex flex-col">
             <NavigationList
               navItems={navItems}
               userVisitedValidationPage={userVisitedValidationPage}
@@ -73,6 +67,11 @@ export default function SideNavMobile({
             />
           </div>
         )}
+        <SideNavButton
+          currentPageTitle={currentPageTitle}
+          menuOpen={menuOpen}
+          toggleMenu={toggleMenu}
+        />
       </div>
     </div>
   );
