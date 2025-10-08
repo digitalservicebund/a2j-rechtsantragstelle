@@ -2,16 +2,9 @@ import type { StrapiFormComponent } from "./models/formElements/StrapiFormCompon
 
 export const getFieldsByFormElements = (
   formElements: StrapiFormComponent[],
-): string[] => {
-  const fieldNamesWithoutFieldset = formElements
-    .filter((element) => element.__component !== "form-elements.fieldset")
-    .map((entry) => entry.name);
-
-  const fieldNamesFieldset = formElements
-    .filter((element) => element.__component === "form-elements.fieldset")
-    .filter((element) => typeof element.fieldSetGroup !== "undefined")
-    .flatMap((element) => element.fieldSetGroup.formComponents)
-    .map((element) => element.name);
-
-  return [...fieldNamesWithoutFieldset, ...fieldNamesFieldset];
-};
+): string[] =>
+  formElements.flatMap((element) =>
+    element.__component === "form-elements.fieldset"
+      ? getFieldsByFormElements(element.fieldSetGroup.formComponents)
+      : element.name,
+  );
