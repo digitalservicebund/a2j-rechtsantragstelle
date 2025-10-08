@@ -212,15 +212,6 @@ export const translations = {
     jahrInputLabel: {
       de: "Jahr",
     },
-    tagInputPlaceholder: {
-      de: "TT",
-    },
-    monatInputPlaceholder: {
-      de: "MM",
-    },
-    jahrInputPlaceholder: {
-      de: "JJJJ",
-    },
     legend: {
       de: "Geburtsdatum",
     },

@@ -67,15 +67,19 @@ export const createSplitDateSchema = (args?: {
   return z
     .object({
       day: z.coerce
-        .number({ message: "invalid_day_format" })
-        .refine((val) => val >= 0, { message: "invalid_day_format" })
-        .min(1, { message: "required" })
-        .max(31, { message: "day_out_of_range" }),
+        .number({ message: "Bitte geben Sie ein gültiges Geburtsdatum ein." })
+        .refine((val) => val >= 0, {
+          message: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
+        })
+        .min(1, { message: "Diese Felder müssen ausgefüllt werden." })
+        .max(31, { message: "Bitte geben Sie ein gültiges Geburtsdatum ein." }),
       month: z.coerce
-        .number({ message: "invalid_month_format" })
-        .refine((val) => val >= 0, { message: "invalid_month_format" })
-        .min(1, { message: "required" })
-        .max(12, { message: "month_out_of_range" }),
+        .number({ message: "Bitte geben Sie ein gültiges Geburtsdatum ein." })
+        .refine((val) => val >= 0, {
+          message: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
+        })
+        .min(1, { message: "Diese Felder müssen ausgefüllt werden." })
+        .max(12, { message: "Bitte geben Sie ein gültiges Geburtsdatum ein." }),
       year: z.preprocess(
         (val) => {
           if (!val) {
@@ -84,16 +88,20 @@ export const createSplitDateSchema = (args?: {
           return val;
         },
         z.coerce
-          .number({ message: "required" })
-          .min(1900, { message: "year_out_of_range" })
-          .max(new Date().getFullYear(), { message: "year_out_of_range" }),
+          .number({ message: "Diese Felder müssen ausgefüllt werden." })
+          .min(1900, {
+            message: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
+          })
+          .max(new Date().getFullYear(), {
+            message: "Geburtsdatum muss in der Vergangenheit liegen.",
+          }),
       ),
     })
     .superRefine((data, ctx) => {
       if (!isValidDate(toDateString(data.day, data.month, data.year))) {
         ctx.addIssue({
           code: "custom",
-          message: "invalid_date_format",
+          message: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
           path: ["geburtsdatum"],
           fatal: false,
         });

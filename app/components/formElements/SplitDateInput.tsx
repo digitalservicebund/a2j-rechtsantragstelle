@@ -30,109 +30,95 @@ export const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
 
   return (
     <fieldset
-      className="ds-stack ds-stack-24"
+      className="grid-rows-[auto_auto_auto_auto] grid gap-16 gap-y-8 w-full"
       aria-invalid={hasError}
       aria-describedby={hasError ? errorId : undefined}
       aria-errormessage={hasError ? errorId : undefined}
     >
-      <div className="flex flex-col">
-        <legend className="ds-body-01-bold mb-16">
+      <div>
+        <legend className="ds-body-01-bold">
           {translations.splitDateComponent.legend.de}
         </legend>
-        <p className="ds-label-01-reg mb-24">
-          {translations.splitDateComponent.hintText.de}
-        </p>
-
-        <div className="grid grid-cols-4 gap-16 w-full">
-          <div className="col-span-1">
-            <InputLabel id={day}>
-              {translations.splitDateComponent.tagInputLabel.de}
-              <input
-                {...dayField.getInputProps({
-                  inputMode: "numeric",
-                  id: day,
-                })}
-                type="number"
-                placeholder={
-                  translations.splitDateComponent.tagInputPlaceholder.de
-                }
-                autoComplete={autocompleteMap[day] ?? "off"}
-                name={day}
-                className={classNames("ds-input w-full", {
-                  "has-error": dayError,
-                })}
-                aria-required="true"
-                aria-invalid={dayError !== null}
-                aria-describedby={[
-                  dayError && errorId,
-                  helperText && helperId,
-                ].join(" ")}
-              />
-            </InputLabel>
-          </div>
-
-          <div className="col-span-1">
-            <InputLabel id={month}>
-              {translations.splitDateComponent.monatInputLabel.de}
-              <input
-                {...monthField.getInputProps({
-                  inputMode: "numeric",
-                  id: month,
-                })}
-                type="number"
-                placeholder={
-                  translations.splitDateComponent.monatInputPlaceholder.de
-                }
-                autoComplete={autocompleteMap[month] ?? "off"}
-                name={month}
-                className={classNames("ds-input w-full", {
-                  "has-error": monthError,
-                })}
-                aria-required="true"
-                aria-invalid={monthError !== null}
-                aria-describedby={[
-                  monthError && errorId,
-                  helperText && helperId,
-                ].join(" ")}
-              />
-            </InputLabel>
-          </div>
-
-          <div className="col-span-2">
-            <InputLabel id={year}>
-              {translations.splitDateComponent.jahrInputLabel.de}
-              <input
-                {...yearField.getInputProps({
-                  inputMode: "numeric",
-                  id: year,
-                })}
-                type="number"
-                placeholder={
-                  translations.splitDateComponent.jahrInputPlaceholder.de
-                }
-                autoComplete={autocompleteMap[year] ?? "off"}
-                name={year}
-                className={classNames("ds-input w-full", {
-                  "has-error": yearError,
-                })}
-                aria-required="true"
-                aria-invalid={yearError !== null}
-                aria-describedby={[
-                  yearError && errorId,
-                  helperText && helperId,
-                ].join(" ")}
-              />
-            </InputLabel>
-          </div>
-        </div>
-        {hasError && (
-          <div id={errorId}>
-            <InputError id={errorId}>
-              {dayError ?? monthError ?? yearError}
-            </InputError>
-          </div>
-        )}
       </div>
+
+      <p className="ds-label-01-reg">
+        {translations.splitDateComponent.hintText.de}
+      </p>
+
+      <div className="grid grid-rows-subgrid gap-16 grid-cols-[repeat(4,75px)]">
+        <InputLabel id={day} classname="col-start-1 col-span-1">
+          {translations.splitDateComponent.tagInputLabel.de}
+          <input
+            {...dayField.getInputProps({
+              inputMode: "numeric",
+              id: day,
+            })}
+            type="number"
+            autoComplete={autocompleteMap[day] ?? "off"}
+            name={day}
+            className={classNames("ds-input px-16", {
+              "has-error": dayError,
+            })}
+            aria-required="true"
+            aria-invalid={dayError !== null}
+            aria-describedby={[
+              dayError && errorId,
+              helperText && helperId,
+            ].join(" ")}
+          />
+        </InputLabel>
+
+        <InputLabel id={month} classname="col-start-2 col-span-1">
+          {translations.splitDateComponent.monatInputLabel.de}
+          <input
+            {...monthField.getInputProps({
+              inputMode: "numeric",
+              id: month,
+            })}
+            type="number"
+            autoComplete={autocompleteMap[month] ?? "off"}
+            name={month}
+            className={classNames("ds-input px-16", {
+              "has-error": monthError,
+            })}
+            aria-required="true"
+            aria-invalid={monthError !== null}
+            aria-describedby={[
+              monthError && errorId,
+              helperText && helperId,
+            ].join(" ")}
+          />
+        </InputLabel>
+
+        <InputLabel id={year} classname="col-start-3 col-span-2">
+          {translations.splitDateComponent.jahrInputLabel.de}
+          <input
+            {...yearField.getInputProps({
+              inputMode: "numeric",
+              id: year,
+            })}
+            type="number"
+            autoComplete={autocompleteMap[year] ?? "off"}
+            name={year}
+            className={classNames("ds-input px-16", {
+              "has-error": yearError,
+            })}
+            aria-required="true"
+            aria-invalid={yearError !== null}
+            aria-describedby={[
+              yearError && errorId,
+              helperText && helperId,
+            ].join(" ")}
+          />
+        </InputLabel>
+      </div>
+      {hasError && (
+        <div id={errorId}>
+          <InputError id={errorId}>
+            {dayError ?? monthError ?? yearError}
+          </InputError>
+        </div>
+      )}
     </fieldset>
   );
 };

@@ -9,9 +9,6 @@ vi.mock("~/services/translations/translations", () => ({
       tagInputLabel: { de: "Tag" },
       monatInputLabel: { de: "Monat" },
       jahrInputLabel: { de: "Jahr" },
-      tagInputPlaceholder: { de: "TT" },
-      monatInputPlaceholder: { de: "MM" },
-      jahrInputPlaceholder: { de: "JJJJ" },
     },
   },
 }));
@@ -37,16 +34,12 @@ vi.mock("@rvf/react-router", () => ({
 }));
 
 describe("SplitDateInput", () => {
-  it("renders day, month and yearinput fields with correct placeholders and labels", () => {
+  it("renders day, month and yearinput fields with correct labels", () => {
     render(<SplitDateInput name="birthdate" />);
 
     expect(screen.getByLabelText("Tag")).toBeInTheDocument();
     expect(screen.getByLabelText("Monat")).toBeInTheDocument();
     expect(screen.getByLabelText("Jahr")).toBeInTheDocument();
-
-    expect(screen.getByPlaceholderText("TT")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("MM")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("JJJJ")).toBeInTheDocument();
   });
 
   it("renders legend", () => {
