@@ -64,7 +64,8 @@ export default function SideNavMobile({
           className="bg-black h-screen opacity-70"
         />
       )}
-
+      {/* col-reverse needed to preserve correct tab order 
+       (top close button at the end of the tab order)*/}
       <div className="flex flex-col-reverse bg-white max-h-[80vh] border border-blue-400 overflow-auto">
         {menuOpen && (
           <div className="pb-10 flex flex-col">
