@@ -87,7 +87,7 @@ describe("date split input validation", () => {
           year: "",
         },
         errorPath: "day",
-        errorMessage: "required",
+        errorMessage: "Diese Felder müssen ausgefüllt werden.",
       },
       {
         input: {
@@ -96,7 +96,7 @@ describe("date split input validation", () => {
           year: 2020,
         },
         errorPath: "day",
-        errorMessage: "day_out_of_range",
+        errorMessage: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
       },
       {
         input: {
@@ -105,7 +105,7 @@ describe("date split input validation", () => {
           year: 2020,
         },
         errorPath: "month",
-        errorMessage: "month_out_of_range",
+        errorMessage: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
       },
       {
         input: {
@@ -114,7 +114,7 @@ describe("date split input validation", () => {
           year: 1800,
         },
         errorPath: "year",
-        errorMessage: "year_out_of_range",
+        errorMessage: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
       },
       {
         input: {
@@ -123,7 +123,7 @@ describe("date split input validation", () => {
           year: 2020,
         },
         errorPath: "geburtsdatum",
-        errorMessage: "invalid_date_format",
+        errorMessage: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
       },
       {
         input: {
@@ -132,7 +132,7 @@ describe("date split input validation", () => {
           year: 2020,
         },
         errorPath: "day",
-        errorMessage: "invalid_day_format",
+        errorMessage: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
       },
       {
         input: {
@@ -141,7 +141,7 @@ describe("date split input validation", () => {
           year: 2020,
         },
         errorPath: "month",
-        errorMessage: "invalid_month_format",
+        errorMessage: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
       },
       {
         input: {
@@ -150,7 +150,7 @@ describe("date split input validation", () => {
           year: "cccc",
         },
         errorPath: "year",
-        errorMessage: "required",
+        errorMessage: "Diese Felder müssen ausgefüllt werden.",
       },
       {
         input: {
@@ -159,7 +159,7 @@ describe("date split input validation", () => {
           year: 2000,
         },
         errorPath: "day",
-        errorMessage: "invalid_day_format",
+        errorMessage: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
       },
       {
         input: {
@@ -168,7 +168,7 @@ describe("date split input validation", () => {
           year: 2000,
         },
         errorPath: "month",
-        errorMessage: "invalid_month_format",
+        errorMessage: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
       },
       {
         input: {
@@ -177,7 +177,7 @@ describe("date split input validation", () => {
           year: -2000,
         },
         errorPath: "year",
-        errorMessage: "year_out_of_range",
+        errorMessage: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
       },
     ];
 
