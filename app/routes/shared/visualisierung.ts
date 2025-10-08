@@ -65,7 +65,12 @@ const safeUri = (src: string) =>
 function compressBase64(flowChartString: string) {
   const graphObjString = JSON.stringify({ code: flowChartString });
   const compressed = deflateSync(graphObjString, { level: 9 });
-  return safeUri(Buffer.from(compressed).toString("base64"));
+  return safeUri(
+    Buffer.from(compressed)
+      .toString("base64")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_"),
+  );
 }
 
 const getVisualizationString = (
