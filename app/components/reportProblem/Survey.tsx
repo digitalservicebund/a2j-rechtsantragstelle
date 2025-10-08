@@ -48,11 +48,7 @@ export const PosthogSurvey = ({
       setResponses(undefined);
       setShowValidationError(false);
     } else {
-      // Only show validation error if there are required questions that are incomplete
-      const hasRequiredQuestions = survey.questions.some((q) => !q.optional);
-      if (hasRequiredQuestions) {
-        setShowValidationError(true);
-      }
+      setShowValidationError(true);
     }
   };
 
