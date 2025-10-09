@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { composePageTitle } from "../composePageTitle";
-import { StrapiMeta } from "~/services/cms/models/StrapiMeta";
+import type { StrapiMeta } from "~/services/cms/models/StrapiMeta";
 
 describe("composePageTitle", () => {
   it("returns pageTitle and parent title separated by a dash when parent meta has a title", () => {
