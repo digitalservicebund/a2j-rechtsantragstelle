@@ -2,9 +2,14 @@ import type { useMatches } from "react-router";
 import { isStrapiHero } from "../cms/models/content/isStrapiHero";
 import type { StrapiContentComponent } from "../cms/models/formElements/StrapiContentComponent";
 import type { StrapiMeta } from "../cms/models/StrapiMeta";
+import { CMSContent } from "../flow/formular/buildCmsContentAndTranslations";
 
 type RouteMatchKnown = Omit<ReturnType<typeof useMatches>[0], "loaderData"> & {
-  loaderData: { meta?: StrapiMeta; content?: StrapiContentComponent[] };
+  loaderData: {
+    meta?: StrapiMeta;
+    content?: StrapiContentComponent[];
+    cmsContent: CMSContent;
+  };
 };
 
 function isMatchesWithLoaderData(
@@ -30,7 +35,7 @@ export function metaFromMatches(matches: ReturnType<typeof useMatches>) {
   const lastMatchData = matches[matches.length - 1].loaderData;
 
   return {
-    title: lastMatchData?.meta?.title,
+    title: lastMatchData?.cmsContent?.pageTitle ?? lastMatchData?.meta?.title,
     ogTitle: lastMatchData?.meta?.ogTitle,
     description:
       lastMatchData?.meta?.description ??

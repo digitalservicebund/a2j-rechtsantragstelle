@@ -14,7 +14,7 @@ export function VorabcheckPage() {
   const {
     csrf,
     stepData,
-    contentElements,
+    cmsContent,
     formElements,
     progressProps,
     buttonNavigationProps,
@@ -43,7 +43,7 @@ export function VorabcheckPage() {
           row={2}
         >
           <ContentComponents
-            content={contentElements}
+            content={cmsContent.pre_form}
             className="ds-stack ds-stack-16"
             managedByParent
           />
