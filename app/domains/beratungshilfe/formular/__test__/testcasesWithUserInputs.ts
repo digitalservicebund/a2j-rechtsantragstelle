@@ -11,6 +11,7 @@ import { testCasesBeratungshilfeFormularFinanzielleAngabenKinder } from "~/domai
 import { testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesUnterhaltszahlungen";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesWohnung";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentum } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesEigentum";
+import { testCasesBeratungshilfeFormularAbgabe } from "~/domains/beratungshilfe/formular/abgabe/__test__/testcases";
 
 export const beratungshilfeAntragTestCases = {
   xstateConfig: beratungshilfeXstateConfig,
@@ -26,5 +27,6 @@ export const beratungshilfeAntragTestCases = {
     ...testCasesBeratungshilfeFormularFinanzielleAngabenWohnung,
     ...testCasesBeratungshilfeFormularFinanzielleAngabenEigentum,
     ...testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
+    ...testCasesBeratungshilfeFormularAbgabe,
   },
 } satisfies FlowTestCases;
