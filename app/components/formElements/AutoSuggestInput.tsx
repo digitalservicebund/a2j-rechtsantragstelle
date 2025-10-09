@@ -84,6 +84,7 @@ const AutoSuggestInput = ({
   label,
   placeholder,
   errorMessages,
+  helperText,
   width,
   dataList,
   dataListArgument,
@@ -100,6 +101,7 @@ const AutoSuggestInput = ({
   const errorId = `${name}-error`;
   const hasError = (field.error()?.length ?? 0) > 0;
   const inputId = `input-${name}`;
+  const helperId = `${name}-helper`;
   const buttonExclusionRef = useRef<HTMLButtonElement>(null);
 
   const jsAvailable = useJsAvailable();
@@ -241,6 +243,12 @@ const AutoSuggestInput = ({
       <div key={liveMessageKey} aria-live="polite" className="sr-only">
         {liveMessage}
       </div>
+
+      {helperText && (
+        <div className="label-text mt-6" id={helperId}>
+          {"helperText goes here"}
+        </div>
+      )}
 
       <InputError id={errorId} keepAriaLive={false}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??
