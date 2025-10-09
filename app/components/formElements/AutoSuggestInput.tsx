@@ -170,7 +170,10 @@ const AutoSuggestInput = ({
     >
       {label && <InputLabel id={inputId}>{label}</InputLabel>}
       <SelectComponent
-        aria-describedby={field.error() && errorId}
+        aria-describedby={[
+          field.error() && errorId,
+          helperText && helperId,
+        ].join(" ")}
         aria-invalid={field.error() !== null}
         {...(isCreatable && {
           formatCreateLabel: (creatableValue) => creatableValue,
@@ -246,7 +249,7 @@ const AutoSuggestInput = ({
 
       {helperText && (
         <div className="label-text mt-6" id={helperId}>
-          {"helperText goes here"}
+          {helperText}
         </div>
       )}
 
