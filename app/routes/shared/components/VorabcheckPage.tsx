@@ -24,7 +24,7 @@ export function VorabcheckPage() {
   useFocusFirstH1();
 
   return (
-    <GridSection backgroundClass={BACKGROUND_COLORS.blue}>
+    <GridSection className={BACKGROUND_COLORS.blue}>
       <Grid>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
