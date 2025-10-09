@@ -5,16 +5,11 @@ type SectionProps = React.PropsWithChildren<{
   className?: string;
   pt?: string;
   pb?: string;
-  id?: string;
-  ["data-testid"]?: string;
 }>;
 
-export function GridSection({ children, pt, pb, className, id }: SectionProps) {
+export function GridSection({ children, pt, pb, className }: SectionProps) {
   return (
-    <section
-      id={id}
-      className={cx(className, getPaddingClasses(pt ?? "", pb ?? ""))}
-    >
+    <section className={cx(className, getPaddingClasses(pt ?? "", pb ?? ""))}>
       {children}
     </section>
   );
