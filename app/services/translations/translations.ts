@@ -104,6 +104,9 @@ export const translations = {
     "open-feedback-placeholder": {
       de: "Beschreibung des Problems ...",
     },
+    "validation-error": {
+      de: "Bitte treffen Sie eine Auswahl.",
+    },
   },
   video: {
     "video-thumbnail": {
