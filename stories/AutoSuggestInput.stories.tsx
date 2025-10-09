@@ -24,6 +24,7 @@ const defaultType: AutoSuggestInputProps = {
   label: "Airports",
   noSuggestionMessage: "No data selected",
   errorMessages: undefined,
+  helperText: undefined,
   supportsFreeText: false,
   dataList: "airports",
   width: "54",
