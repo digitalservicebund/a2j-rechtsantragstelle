@@ -1,4 +1,7 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+
+const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
 
 export const testCasesBeratungshilfeFormularAbgabe = {
   onlineAbgabe: [
@@ -9,11 +12,14 @@ export const testCasesBeratungshilfeFormularAbgabe = {
       stepId: "/abgabe/art",
       userInput: { abgabeArt: "online" },
     },
-    {
-      stepId: "/abgabe/dokumente",
-      userInput: {},
-    },
-    { stepId: "/abgabe/online" },
+    ...(showFileUpload
+      ? [
+          {
+            stepId: "/abgabe/dokumente",
+            userInput: {},
+          },
+        ]
+      : [{ stepId: "/abgabe/online" }]),
   ],
   printedAbgabe: [
     {
