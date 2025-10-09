@@ -6,6 +6,7 @@ export type AutoSuggestInputProps = Readonly<{
   name: string;
   label?: string;
   placeholder?: string;
+  helperText?: string;
   errorMessages?: ErrorMessageProps[];
   width?: FieldWidth;
   noSuggestionMessage?: string;
@@ -14,5 +15,4 @@ export type AutoSuggestInputProps = Readonly<{
   isDisabled: boolean;
   minSuggestCharacters?: number;
   supportsFreeText?: boolean;
-  helperText?: string;
 }>;

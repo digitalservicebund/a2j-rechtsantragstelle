@@ -84,6 +84,7 @@ const AutoSuggestInput = ({
   label,
   placeholder,
   errorMessages,
+  helperText,
   width,
   dataList,
   dataListArgument,
@@ -91,7 +92,6 @@ const AutoSuggestInput = ({
   isDisabled,
   minSuggestCharacters = MINIMUM_SEARCH_SUGGESTION_CHARACTERS,
   supportsFreeText: isCreatable = false,
-  helperText,
 }: AutoSuggestInputProps) => {
   const items = useDataListOptions(dataList, dataListArgument);
   const [currentItemValue, setCurrentItemValue] =
