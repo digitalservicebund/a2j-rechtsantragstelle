@@ -173,7 +173,7 @@ const AutoSuggestInput = ({
         aria-describedby={[
           field.error() && errorId,
           helperText && helperId,
-        ].join(" ")}
+        ].join("")}
         aria-invalid={field.error() !== null}
         {...(isCreatable && {
           formatCreateLabel: (creatableValue) => creatableValue,
