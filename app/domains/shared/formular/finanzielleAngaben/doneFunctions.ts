@@ -1,14 +1,15 @@
-import type { FinanzielleAngabenGuard } from "~/domains/shared/formular/finanzielleAngaben/guards";
-import type {
-  GeldanlagenArraySchema,
-  GrundeigentumArraySchema,
-  KinderSchema,
-} from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { arrayIsNonEmpty } from "~/util/array";
+import type { FinanzielleAngabenGuard } from "./guards";
+import {
+  bankkontenArraySchema,
+  type GeldanlagenArraySchema,
+  type GrundeigentumArraySchema,
+  type KinderSchema,
+} from "./userData";
 
 export const bankKontoDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasBankkonto === "no" ||
-  (context.hasBankkonto === "yes" && arrayIsNonEmpty(context.bankkonten));
+  (context.hasBankkonto === "yes" &&
+    bankkontenArraySchema.safeParse(context.bankkonten).success);
 
 export const childDone = (child: KinderSchema) =>
   child.vorname !== undefined &&

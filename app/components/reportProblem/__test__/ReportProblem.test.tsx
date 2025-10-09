@@ -110,4 +110,134 @@ describe("ReportProblem", () => {
     const { container } = render(<ReportProblem />);
     expect(container.firstChild).toBeNull();
   });
+
+  it("should show validation error when submitting without required selections", () => {
+    vi.mocked(fetchSurvey).mockReturnValueOnce({
+      id: "0",
+      questions: [
+        {
+          id: "1",
+          type: SurveyQuestionType.MultipleChoice,
+          choices: ["Choice 1", "Choice 2", "Choice 3"],
+          required: true,
+          question: "Required Multiple Choice Question",
+        },
+      ],
+    } as unknown as Survey);
+    const { getByRole, getByText, queryByText } = render(<ReportProblem />);
+    const reportButton = getByRole("button");
+    fireEvent.click(reportButton);
+
+    const submitButton = getByText(translations.feedback["submit-problem"].de);
+
+    expect(
+      queryByText(translations.feedback["validation-error"].de),
+    ).not.toBeInTheDocument();
+
+    fireEvent.click(submitButton);
+
+    expect(
+      getByText(translations.feedback["validation-error"].de),
+    ).toBeVisible();
+  });
+
+  it("should clear validation error when user makes a selection", () => {
+    vi.mocked(fetchSurvey).mockReturnValueOnce({
+      id: "0",
+      questions: [
+        {
+          id: "1",
+          type: SurveyQuestionType.MultipleChoice,
+          choices: ["Choice 1", "Choice 2", "Choice 3"],
+          required: true,
+          question: "Required Multiple Choice Question",
+        },
+      ],
+    } as unknown as Survey);
+    const { getByRole, getByText, getByLabelText, queryByText } = render(
+      <ReportProblem />,
+    );
+    const reportButton = getByRole("button");
+    fireEvent.click(reportButton);
+
+    const submitButton = getByText(translations.feedback["submit-problem"].de);
+    const firstCheckbox = getByLabelText("Choice 1");
+
+    fireEvent.click(submitButton);
+    expect(
+      getByText(translations.feedback["validation-error"].de),
+    ).toBeVisible();
+
+    fireEvent.click(firstCheckbox);
+
+    expect(
+      queryByText(translations.feedback["validation-error"].de),
+    ).not.toBeInTheDocument();
+  });
+
+  it("should show validation error again if user unselects and resubmits", () => {
+    vi.mocked(fetchSurvey).mockReturnValueOnce({
+      id: "0",
+      questions: [
+        {
+          id: "1",
+          type: SurveyQuestionType.MultipleChoice,
+          choices: ["Choice 1", "Choice 2", "Choice 3"],
+          required: true,
+          question: "Required Multiple Choice Question",
+        },
+      ],
+    } as unknown as Survey);
+    const { getByRole, getByText, getByLabelText } = render(<ReportProblem />);
+    const reportButton = getByRole("button");
+    fireEvent.click(reportButton);
+
+    const submitButton = getByText(translations.feedback["submit-problem"].de);
+    const firstCheckbox = getByLabelText("Choice 1");
+
+    fireEvent.click(firstCheckbox);
+    fireEvent.click(firstCheckbox);
+
+    fireEvent.click(submitButton);
+
+    expect(
+      getByText(translations.feedback["validation-error"].de),
+    ).toBeVisible();
+  });
+
+  it("should submit successfully when all required fields are filled", () => {
+    vi.mocked(fetchSurvey).mockReturnValueOnce({
+      id: "0",
+      questions: [
+        {
+          id: "1",
+          type: SurveyQuestionType.MultipleChoice,
+          choices: ["Choice 1", "Choice 2", "Choice 3"],
+          required: true,
+          question: "Required Multiple Choice Question",
+        },
+        {
+          id: "2",
+          type: SurveyQuestionType.Open,
+          optional: true,
+          question: "Optional Open Question",
+        },
+      ],
+    } as unknown as Survey);
+    const { getByRole, getByText, getByLabelText } = render(<ReportProblem />);
+    const reportButton = getByRole("button");
+    fireEvent.click(reportButton);
+
+    const submitButton = getByText(translations.feedback["submit-problem"].de);
+    const firstCheckbox = getByLabelText("Choice 1");
+
+    fireEvent.click(firstCheckbox);
+
+    fireEvent.click(submitButton);
+
+    expect(mockFeedbackCapture).toHaveBeenCalled();
+    expect(
+      getByText(translations.feedback["problem-gemeldet"].de),
+    ).toBeVisible();
+  });
 });

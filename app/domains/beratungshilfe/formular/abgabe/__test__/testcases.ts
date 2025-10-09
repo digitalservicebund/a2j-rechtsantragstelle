@@ -1,22 +1,47 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
-import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
-export const testCasesBeratungshilfeFormularAbgabe = [
-  [
+const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
+
+export const testCasesBeratungshilfeFormularAbgabe = {
+  onlineAbgabe: [
     {
-      abgabeArt: "online",
+      stepId: "/abgabe/zusammenfassung",
     },
-    [
-      "/abgabe/zusammenfassung",
-      "/abgabe/art",
-      // "/abgabe/dokumente", // Uncomment when file upload is released
-      "/abgabe/online",
-    ],
-  ],
-  [
     {
-      abgabeArt: "ausdrucken",
+      stepId: "/abgabe/art",
+      userInput: { abgabeArt: "online" },
     },
-    ["/abgabe/zusammenfassung", "/abgabe/art", "/abgabe/ausdrucken"],
+    ...(showFileUpload
+      ? [
+          {
+            stepId: "/abgabe/dokumente",
+            userInput: {},
+          },
+        ]
+      : [{ stepId: "/abgabe/online" }]),
   ],
-] as const satisfies TestCases<BeratungshilfeFormularUserData>;
+  printedAbgabe: [
+    {
+      stepId: "/abgabe/zusammenfassung",
+    },
+    {
+      stepId: "/abgabe/art",
+      userInput: { abgabeArt: "ausdrucken" },
+    },
+    {
+      stepId: "/abgabe/ausdrucken",
+    },
+  ],
+  abgabeUeberpruefung: [
+    {
+      stepId: "/weitere-angaben",
+      userInput: {
+        weitereAngaben: undefined,
+      },
+    },
+    {
+      stepId: "/abgabe/ueberpruefung",
+    },
+  ],
+} satisfies FlowTestCases["testcases"];
