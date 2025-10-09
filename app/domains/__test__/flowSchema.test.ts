@@ -205,6 +205,6 @@ describe.sequential("flowSchemas", () => {
       Object.fromEntries(missingStepsEntries),
     );
 
-    expect(totalMissingStepCount).toBeLessThanOrEqual(33);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(28);
   });
 });
