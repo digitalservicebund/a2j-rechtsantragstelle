@@ -14,6 +14,7 @@ import { beratungshilfeAntragTestCases } from "~/domains/beratungshilfe/formular
 import { removeArrayIndex } from "~/util/array";
 import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
 const flowSchemaTests = {
   beratungshilfeAntragTestCases,
@@ -183,7 +184,7 @@ describe.sequential("flowSchemas", () => {
     },
   );
 
-  test("all steps are visited", () => {
+  test("all steps are visited", async () => {
     const missingStepsEntries = Object.entries(allVisitedSteps)
       .map(([flowId, { xstateConfig, visitedSteps }]) => {
         const missingSteps = allStepsFromMachine(
@@ -205,6 +206,8 @@ describe.sequential("flowSchemas", () => {
       Object.fromEntries(missingStepsEntries),
     );
 
-    expect(totalMissingStepCount).toBeLessThanOrEqual(33);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(
+      (await isFeatureFlagEnabled("showFileUpload")) ? 29 : 28,
+    );
   });
 });
