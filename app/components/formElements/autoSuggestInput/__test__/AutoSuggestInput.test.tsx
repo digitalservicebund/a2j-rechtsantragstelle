@@ -412,7 +412,7 @@ describe("AutoSuggestInput", () => {
 
     expect(input).toHaveAttribute(
       "aria-describedby",
-      `${COMPONENT_NAME}-error`,
+      `${COMPONENT_NAME}-error `,
     );
   });
 
