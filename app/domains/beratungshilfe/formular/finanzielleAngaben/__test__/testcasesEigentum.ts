@@ -131,6 +131,30 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/wertgegenstaende/warnung",
     },
   ],
+  hasWertsache: [
+    {
+      stepId: finanzielleAngabenEigentumWertgegenstaendeFrage,
+      userInput: {
+        hasWertsache: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/wertgegenstaende/uebersicht",
+      addArrayItemEvent: "add-wertsachen",
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstand/0/daten",
+      userInput: {
+        "wertsachen#art": "Kandelabra",
+        "wertsachen#eigentuemer": "myself",
+        "wertsachen#wert": "1000",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/wertgegenstaende/uebersicht",
+    },
+  ],
   grundeigentumNotEntered: [
     {
       stepId: finanzielleAngabenEigentumGrundeigentumFrage,
@@ -143,6 +167,90 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     },
     {
       stepId: "/finanzielle-angaben/eigentum/grundeigentum/warnung",
+    },
+  ],
+  hasGrundeigentumBewohnt: [
+    {
+      stepId: finanzielleAngabenEigentumGrundeigentumFrage,
+      userInput: {
+        hasGrundeigentum: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/grundeigentum/uebersicht",
+      addArrayItemEvent: "add-grundeigentum",
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/0/bewohnt-frage",
+      userInput: {
+        pageData: {
+          arrayIndexes: [0],
+        },
+        grundeigentum: [
+          {
+            isBewohnt: "yes",
+          },
+        ],
+        "grundeigentum#isBewohnt": "yes",
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/0/bewohnt-daten",
+      userInput: {
+        "grundeigentum#art": "eigentumswohnung",
+        "grundeigentum#eigentuemer": "myself",
+        "grundeigentum#flaeche": "100",
+        "grundeigentum#verkaufswert": "100000",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/grundeigentum/uebersicht",
+    },
+  ],
+  hasGrundeigentumNotBewohnt: [
+    {
+      stepId: finanzielleAngabenEigentumGrundeigentumFrage,
+      userInput: {
+        hasGrundeigentum: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/grundeigentum/uebersicht",
+      addArrayItemEvent: "add-grundeigentum",
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/0/bewohnt-frage",
+      userInput: {
+        pageData: {
+          arrayIndexes: [0],
+        },
+        grundeigentum: [
+          {
+            isBewohnt: "no",
+          },
+        ],
+        "grundeigentum#isBewohnt": "no",
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/0/daten",
+      userInput: {
+        "grundeigentum#art": "eigentumswohnung",
+        "grundeigentum#eigentuemer": "myself",
+        "grundeigentum#flaeche": "100",
+        "grundeigentum#verkaufswert": "100000",
+        "grundeigentum#strassehausnummer": "123 Electric Ave",
+        "grundeigentum#plz": "12437",
+        "grundeigentum#ort": "Berlin",
+        "grundeigentum#land": "Berlin",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/grundeigentum/uebersicht",
     },
   ],
   kraftfahrzeugNotEntered: [
@@ -159,7 +267,57 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/warnung",
     },
   ],
-  hasGeldanlage: [
+  hasKraftfahrzeugWithArbeitsweg: [
+    {
+      stepId: finanzielleAngabenEigentumKraftfahrzeugeFrage,
+      userInput: {
+        hasKraftfahrzeug: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/uebersicht",
+      addArrayItemEvent: "add-kraftfahrzeuge",
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug/0/arbeitsweg",
+      userInput: {
+        "kraftfahrzeuge#hasArbeitsweg": "yes",
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug/0/wert",
+      userInput: {
+        "kraftfahrzeuge#wert": "over10000",
+        pageData: {
+          arrayIndexes: [0],
+        },
+        kraftfahrzeuge: [
+          {
+            wert: "over10000",
+          },
+        ],
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug/0/fahrzeuge",
+      userInput: {
+        "kraftfahrzeuge#art": "auto",
+        "kraftfahrzeuge#marke": "BMW",
+        "kraftfahrzeuge#eigentuemer": "myself",
+        "kraftfahrzeuge#kilometerstand": "100000",
+        "kraftfahrzeuge#anschaffungsjahr": "2000",
+        "kraftfahrzeuge#baujahr": "1987",
+        "kraftfahrzeuge#verkaufswert": "12000",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/uebersicht",
+    },
+  ],
+  hasGeldanlageBargeld: [
     {
       stepId: finanzielleAngabenEigentumGeldanlagenFrage,
       userInput: {
@@ -186,6 +344,230 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     },
     {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/bargeld",
+      userInput: {
+        "geldanlagen#eigentuemer": "myself",
+        "geldanlagen#wert": "100",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+    },
+  ],
+  hasGeldanlageWertpapiere: [
+    {
+      stepId: finanzielleAngabenEigentumGeldanlagenFrage,
+      userInput: {
+        hasGeldanlage: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+      addArrayItemEvent: "add-geldanlagen",
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
+      userInput: {
+        "geldanlagen#art": "wertpapiere",
+        pageData: {
+          arrayIndexes: [0],
+        },
+        geldanlagen: [
+          {
+            art: "wertpapiere",
+          },
+        ],
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/wertpapiere",
+      userInput: {
+        "geldanlagen#eigentuemer": "myself",
+        "geldanlagen#wert": "100",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+    },
+  ],
+  hasGeldanlageGuthabenkonto: [
+    {
+      stepId: finanzielleAngabenEigentumGeldanlagenFrage,
+      userInput: {
+        hasGeldanlage: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+      addArrayItemEvent: "add-geldanlagen",
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
+      userInput: {
+        "geldanlagen#art": "guthabenkontoKrypto",
+        pageData: {
+          arrayIndexes: [0],
+        },
+        geldanlagen: [
+          {
+            art: "guthabenkontoKrypto",
+          },
+        ],
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/guthabenkonto-krypto",
+      userInput: {
+        "geldanlagen#eigentuemer": "myself",
+        "geldanlagen#wert": "100",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+    },
+  ],
+  hasGeldanlageGirokonto: [
+    {
+      stepId: finanzielleAngabenEigentumGeldanlagenFrage,
+      userInput: {
+        hasGeldanlage: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+      addArrayItemEvent: "add-geldanlagen",
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
+      userInput: {
+        "geldanlagen#art": "giroTagesgeldSparkonto",
+        pageData: {
+          arrayIndexes: [0],
+        },
+        geldanlagen: [
+          {
+            art: "giroTagesgeldSparkonto",
+          },
+        ],
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/giro-tagesgeld-sparkonto",
+      userInput: {
+        "geldanlagen#eigentuemer": "myself",
+        "geldanlagen#wert": "100",
+        "geldanlagen#kontoBankName": "N26 Bank",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+    },
+  ],
+  hasGeldanlageBefristet: [
+    {
+      stepId: finanzielleAngabenEigentumGeldanlagenFrage,
+      userInput: {
+        hasGeldanlage: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+      addArrayItemEvent: "add-geldanlagen",
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
+      userInput: {
+        "geldanlagen#art": "befristet",
+        pageData: {
+          arrayIndexes: [0],
+        },
+        geldanlagen: [
+          {
+            art: "befristet",
+          },
+        ],
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/befristet",
+      userInput: {
+        "geldanlagen#eigentuemer": "myself",
+        "geldanlagen#wert": "100",
+        "geldanlagen#befristetArt": "lifeInsurance",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+    },
+  ],
+  hasGeldanlageForderung: [
+    {
+      stepId: finanzielleAngabenEigentumGeldanlagenFrage,
+      userInput: {
+        hasGeldanlage: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+      addArrayItemEvent: "add-geldanlagen",
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
+      userInput: {
+        "geldanlagen#art": "forderung",
+        pageData: {
+          arrayIndexes: [0],
+        },
+        geldanlagen: [
+          {
+            art: "forderung",
+          },
+        ],
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/forderung",
+      userInput: {
+        "geldanlagen#eigentuemer": "myself",
+        "geldanlagen#wert": "100",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+    },
+  ],
+  hasGeldanlageSonstiges: [
+    {
+      stepId: finanzielleAngabenEigentumGeldanlagenFrage,
+      userInput: {
+        hasGeldanlage: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+      addArrayItemEvent: "add-geldanlagen",
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
+      userInput: {
+        "geldanlagen#art": "sonstiges",
+        pageData: {
+          arrayIndexes: [0],
+        },
+        geldanlagen: [
+          {
+            art: "sonstiges",
+          },
+        ],
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/sonstiges",
       userInput: {
         "geldanlagen#eigentuemer": "myself",
         "geldanlagen#wert": "100",

@@ -148,8 +148,10 @@ function runTestcases(
             expect(flowController.getPrevious(nextStepId)).toBe(currentUrl);
           }
 
-          allVisitedSteps[flowId].visitedSteps.add(stepId);
-          allVisitedSteps[flowId].visitedSteps.add(nextStepId);
+          allVisitedSteps[flowId].visitedSteps.add(removeArrayIndex(stepId));
+          allVisitedSteps[flowId].visitedSteps.add(
+            removeArrayIndex(nextStepId),
+          );
         },
       );
   });
@@ -207,7 +209,7 @@ describe.sequential("flowSchemas", () => {
     );
 
     expect(totalMissingStepCount).toBeLessThanOrEqual(
-      (await isFeatureFlagEnabled("showFileUpload")) ? 29 : 28,
+      (await isFeatureFlagEnabled("showFileUpload")) ? 1 : 0,
     );
   });
 });
