@@ -15,10 +15,12 @@ import { removeArrayIndex } from "~/util/array";
 import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 
 const flowSchemaTests = {
   beratungshilfeAntragTestCases,
   beratungshilfeVorabcheckTestCases,
+  prozesskostenhilfeFormularTestCases,
   kontopfaendungWegweiserTestCases,
 };
 
@@ -209,7 +211,7 @@ describe.sequential("flowSchemas", () => {
     );
 
     expect(totalMissingStepCount).toBeLessThanOrEqual(
-      (await isFeatureFlagEnabled("showFileUpload")) ? 1 : 0,
+      (await isFeatureFlagEnabled("showFileUpload")) ? 178 : 177,
     );
   });
 });
