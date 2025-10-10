@@ -15,9 +15,9 @@ const userData: ProzesskostenhilfeFormularUserData = {
   vorname: "Angelika",
   nachname: "M",
   geburtsdatum: {
-    day: 1,
-    month: 1,
-    year: 1990,
+    day: "1",
+    month: "1",
+    year: "1990",
   },
   beruf: "Musterberuf",
   street: "Musterstraße",

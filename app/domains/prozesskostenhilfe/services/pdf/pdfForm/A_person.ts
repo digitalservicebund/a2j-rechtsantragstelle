@@ -54,9 +54,9 @@ export const fillPerson: PkhPdfFillFunction = ({ userData, pdfValues }) => {
   });
 
   pdfValues.geburtsdatum.value = toDateString(
-    userData?.geburtsdatum?.day,
-    userData?.geburtsdatum?.month,
-    userData?.geburtsdatum?.year,
+    Number(userData?.geburtsdatum?.day),
+    Number(userData?.geburtsdatum?.month),
+    Number(userData?.geburtsdatum?.year),
   );
 
   fillPdfField({

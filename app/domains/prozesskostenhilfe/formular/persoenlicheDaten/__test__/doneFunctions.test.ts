@@ -4,9 +4,9 @@ import type { ProzesskostenhilfePersoenlicheDatenUserData } from "../userData";
 const context: ProzesskostenhilfePersoenlicheDatenUserData = {
   beruf: "Software Engineer",
   geburtsdatum: {
-    day: 1,
-    month: 1,
-    year: 2021,
+    day: "1",
+    month: "1",
+    year: "2021",
   },
   vorname: "John",
   nachname: "Doe",

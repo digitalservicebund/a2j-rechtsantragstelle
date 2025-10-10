@@ -64,44 +64,60 @@ export const createSplitDateSchema = (args?: {
     );
   }
 
+  const invalid_birthdate = "Bitte geben Sie ein gültiges Geburtsdatum ein.";
+  const input_required = "Diese Felder müssen ausgefüllt werden.";
+
   return z
     .object({
-      day: z.coerce
-        .number({ message: "Bitte geben Sie ein gültiges Geburtsdatum ein." })
-        .refine((val) => val >= 0, {
-          message: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
+      day: z
+        .string({ message: input_required })
+        .trim()
+        .min(1, input_required)
+        .refine(
+          (val) => {
+            const num = Number(val);
+            return !Number.isNaN(num) && num >= 1 && num <= 31;
+          },
+          { message: invalid_birthdate },
+        ),
+      month: z
+        .string({ message: input_required })
+        .trim()
+        .min(1, input_required)
+        .refine(
+          (val) => {
+            const num = Number(val);
+            return !Number.isNaN(num) && num >= 1 && num <= 12;
+          },
+          { message: invalid_birthdate },
+        ),
+      year: z
+        .string({ message: input_required })
+        .trim()
+        .min(1, input_required)
+        .refine(
+          (val) => {
+            const num = Number(val);
+            return !Number.isNaN(num);
+          },
+          { message: invalid_birthdate },
+        )
+        .refine((val) => Number(val) >= 1900, {
+          message: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
         })
-        .min(1, { message: "Diese Felder müssen ausgefüllt werden." })
-        .max(31, { message: "Bitte geben Sie ein gültiges Geburtsdatum ein." }),
-      month: z.coerce
-        .number({ message: "Bitte geben Sie ein gültiges Geburtsdatum ein." })
-        .refine((val) => val >= 0, {
-          message: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
-        })
-        .min(1, { message: "Diese Felder müssen ausgefüllt werden." })
-        .max(12, { message: "Bitte geben Sie ein gültiges Geburtsdatum ein." }),
-      year: z.preprocess(
-        (val) => {
-          if (!val) {
-            return undefined;
-          }
-          return val;
-        },
-        z.coerce
-          .number({ message: "Diese Felder müssen ausgefüllt werden." })
-          .min(1900, {
-            message: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
-          })
-          .max(new Date().getFullYear(), {
-            message: "Geburtsdatum muss in der Vergangenheit liegen.",
-          }),
-      ),
+        .refine((val) => Number(val) <= Number(new Date().getFullYear()), {
+          message: "Geburtsdatum muss in der Vergangenheit liegen.",
+        }),
     })
     .superRefine((data, ctx) => {
-      if (!isValidDate(toDateString(data.day, data.month, data.year))) {
+      if (
+        !isValidDate(
+          toDateString(Number(data.day), Number(data.month), Number(data.year)),
+        )
+      ) {
         ctx.addIssue({
           code: "custom",
-          message: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
+          message: invalid_birthdate,
           path: ["geburtsdatum"],
           fatal: false,
         });

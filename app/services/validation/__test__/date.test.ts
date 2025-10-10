@@ -57,14 +57,14 @@ describe("date split input validation", () => {
     const cases = [
       {
         input: {
-          day: 1,
-          month: 3,
-          year: 2023,
+          day: "1",
+          month: "3",
+          year: "2023",
         },
         expected: {
-          day: 1,
-          month: 3,
-          year: 2023,
+          day: "1",
+          month: "3",
+          year: "2023",
         },
       },
     ];
@@ -79,6 +79,9 @@ describe("date split input validation", () => {
   });
 
   describe("failing cases", () => {
+    const invalid_birthdate = "Bitte geben Sie ein gültiges Geburtsdatum ein.";
+    const input_required = "Diese Felder müssen ausgefüllt werden.";
+
     const cases = [
       {
         input: {
@@ -87,94 +90,103 @@ describe("date split input validation", () => {
           year: "",
         },
         errorPath: "day",
-        errorMessage: "Diese Felder müssen ausgefüllt werden.",
+        errorMessage: input_required,
       },
       {
         input: {
-          day: 32,
-          month: 1,
-          year: 2020,
+          day: "32",
+          month: "1",
+          year: "2020",
         },
         errorPath: "day",
-        errorMessage: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
+        errorMessage: invalid_birthdate,
       },
       {
         input: {
-          day: 10,
-          month: 13,
-          year: 2020,
+          day: "10",
+          month: "13",
+          year: "2020",
         },
         errorPath: "month",
-        errorMessage: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
+        errorMessage: invalid_birthdate,
       },
       {
         input: {
-          day: 10,
-          month: 12,
-          year: 1800,
+          day: "10",
+          month: "10",
+          year: "2500",
+        },
+        errorPath: "year",
+        errorMessage: "Geburtsdatum muss in der Vergangenheit liegen.",
+      },
+      {
+        input: {
+          day: "10",
+          month: "12",
+          year: "1800",
         },
         errorPath: "year",
         errorMessage: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
       },
       {
         input: {
-          day: 31,
-          month: 2,
-          year: 2020,
+          day: "31",
+          month: "2",
+          year: "2020",
         },
         errorPath: "geburtsdatum",
-        errorMessage: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
+        errorMessage: invalid_birthdate,
       },
       {
         input: {
           day: "aa",
-          month: 1,
-          year: 2020,
+          month: "1",
+          year: "2020",
         },
         errorPath: "day",
-        errorMessage: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
+        errorMessage: invalid_birthdate,
       },
       {
         input: {
-          day: 10,
+          day: "10",
           month: "bb",
-          year: 2020,
+          year: "2020",
         },
         errorPath: "month",
-        errorMessage: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
+        errorMessage: invalid_birthdate,
       },
       {
         input: {
-          day: 10,
-          month: 12,
+          day: "10",
+          month: "12",
           year: "cccc",
         },
         errorPath: "year",
-        errorMessage: "Diese Felder müssen ausgefüllt werden.",
+        errorMessage: invalid_birthdate,
       },
       {
         input: {
-          day: -1,
-          month: 12,
-          year: 2000,
+          day: "-1",
+          month: "12",
+          year: "2000",
         },
         errorPath: "day",
-        errorMessage: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
+        errorMessage: invalid_birthdate,
       },
       {
         input: {
-          day: 10,
-          month: -12,
-          year: 2000,
+          day: "10",
+          month: "-12",
+          year: "2000",
         },
         errorPath: "month",
-        errorMessage: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
+        errorMessage: invalid_birthdate,
       },
       {
         input: {
-          day: 10,
-          month: 12,
-          year: -2000,
+          day: "10",
+          month: "12",
+          year: "-2000",
         },
         errorPath: "year",
         errorMessage: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",

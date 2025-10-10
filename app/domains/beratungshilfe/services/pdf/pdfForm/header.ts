@@ -27,9 +27,9 @@ export const fillHeader: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   const attachment: AttachmentEntries = [];
   pdfValues.antragstellerNameVornameggfGeburtsname.value = `${userData.nachname}, ${userData.vorname}`;
   pdfValues.geburtsdatumdesAntragstellers.value = toDateString(
-    userData?.geburtsdatum?.day,
-    userData?.geburtsdatum?.month,
-    userData?.geburtsdatum?.year,
+    Number(userData?.geburtsdatum?.day),
+    Number(userData?.geburtsdatum?.month),
+    Number(userData?.geburtsdatum?.year),
   );
   pdfValues.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${userData.street} ${userData.houseNumber}, ${userData.plz} ${userData.ort}`;
   const court = findCourt({
