@@ -234,6 +234,36 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     { stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht" },
     { stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/warnung" },
   ],
+  addFurtherIncome: [
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
+      userInput: {
+        hasFurtherIncome: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht",
+      addArrayItemEvent: "add-weitereEinkuenfte",
+      userInput: {
+        pageData: {
+          arrayIndexes: [0],
+        },
+        weitereEinkuenfte: [],
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft/0/daten",
+      userInput: {
+        "weitereEinkuenfte#beschreibung": "Besondere Einkunft",
+        "weitereEinkuenfte#zahlungsfrequenz": "monthly",
+        "weitereEinkuenfte#betrag": "100",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht",
+    },
+  ],
   notEmployedNoFurtherIncome: [
     {
       stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
