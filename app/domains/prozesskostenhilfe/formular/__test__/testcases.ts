@@ -1,7 +1,6 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { prozesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular";
-import { antragstellendePersonTransitionCases } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
 import {
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
@@ -24,7 +23,6 @@ const machine: FlowStateMachine = createMachine(
 );
 
 const testCasesFormular = [
-  ...antragstellendePersonTransitionCases,
   ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
   ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
   ...testCasesPKHFormularFinanzielleAngabenEinkuenfte,
