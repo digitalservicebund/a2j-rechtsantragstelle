@@ -6,6 +6,7 @@ import {
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/__test__/testcases";
+import { testCasesPKHFormularFinanzielleAngabenEinkuenfte } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesEinkuenfte";
 import { testCasesPKHFormularGrundvoraussetzungen } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/__test__/testcases";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
@@ -15,6 +16,7 @@ const showPKHZusammenfassung = await isFeatureFlagEnabled(
 
 export const prozesskostenhilfeFormularTestCases = {
   xstateConfig: prozesskostenhilfeFormular.config,
+  guards: prozesskostenhilfeFormular.guards,
   testcases: {
     shortHappyPath: [
       {
@@ -95,6 +97,7 @@ export const prozesskostenhilfeFormularTestCases = {
     ...testCasesPKHFormularAntragstellendePersonTransitions,
     ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
     ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
+    ...testCasesPKHFormularFinanzielleAngabenEinkuenfte,
     weitereAngaben: [
       {
         stepId: "/persoenliche-daten/beruf",
