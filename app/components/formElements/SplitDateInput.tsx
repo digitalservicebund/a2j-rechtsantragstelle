@@ -53,7 +53,10 @@ export const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
               inputMode: "numeric",
               id: day,
             })}
-            type="number"
+            min={1}
+            max={31}
+            maxLength={2}
+            type="text"
             autoComplete={autocompleteMap[day] ?? "off"}
             name={day}
             className={classNames("ds-input px-16", {
@@ -65,6 +68,9 @@ export const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
               dayError && errorId,
               helperText && helperId,
             ].join(" ")}
+            onInput={(e) => {
+              e.currentTarget.value = e.currentTarget.value.replace(/\D/g, "");
+            }}
           />
         </InputLabel>
 
@@ -75,7 +81,10 @@ export const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
               inputMode: "numeric",
               id: month,
             })}
-            type="number"
+            min={1}
+            max={12}
+            maxLength={2}
+            type="text"
             autoComplete={autocompleteMap[month] ?? "off"}
             name={month}
             className={classNames("ds-input px-16", {
@@ -87,6 +96,9 @@ export const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
               monthError && errorId,
               helperText && helperId,
             ].join(" ")}
+            onInput={(e) => {
+              e.currentTarget.value = e.currentTarget.value.replace(/\D/g, "");
+            }}
           />
         </InputLabel>
 
@@ -97,7 +109,10 @@ export const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
               inputMode: "numeric",
               id: year,
             })}
-            type="number"
+            min={1900}
+            max={new Date().getFullYear()}
+            maxLength={4}
+            type="text"
             autoComplete={autocompleteMap[year] ?? "off"}
             name={year}
             className={classNames("ds-input px-16", {
@@ -109,6 +124,9 @@ export const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
               yearError && errorId,
               helperText && helperId,
             ].join(" ")}
+            onInput={(e) => {
+              e.currentTarget.value = e.currentTarget.value.replace(/\D/g, "");
+            }}
           />
         </InputLabel>
       </div>
