@@ -1,55 +1,110 @@
-import { type TestCases } from "~/domains/__test__/TestCases";
-import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import { type FlowTestCases } from "~/domains/__test__/TestCases";
 
-export const testCasesPKHFormularGrundvoraussetzungen = [
-  [
+export const testCasesPKHFormularGrundvoraussetzungen = {
+  analogNachueberpruefung: [
     {
-      formularArt: "nachueberpruefung",
-      versandArt: "analog",
+      stepId: "/grundvoraussetzungen/nachueberpruefung-frage",
+      userInput: {
+        formularArt: "nachueberpruefung",
+      },
     },
-    [
-      "/grundvoraussetzungen/nachueberpruefung-frage",
-      "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/name-gericht",
-      "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/aktenzeichen",
-      "/grundvoraussetzungen/einreichung/fall",
-      "/grundvoraussetzungen/einreichung/hinweis-papier-einreichung",
-      "/antragstellende-person/empfaenger",
-    ],
-  ],
-  [
     {
-      formularArt: "erstantrag",
-      anhaengigesGerichtsverfahrenFrage: "no",
-      verfahrenArt: "verfahrenSelbststaendig",
-      versandArt: "digital",
+      stepId:
+        "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/name-gericht",
+      userInput: {
+        gerichtName: "AG Muster",
+      },
     },
-    [
-      "/start/start",
-      "/grundvoraussetzungen/nachueberpruefung-frage",
-      "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/anhaengiges-gerichtsverfahren-frage",
-      "/grundvoraussetzungen/antrag/klageersteller",
-      "/grundvoraussetzungen/antrag/hinweis",
-      "/grundvoraussetzungen/einreichung/fall",
-      "/grundvoraussetzungen/einreichung/mjp",
-      "/grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
-    ],
-  ],
-  [
     {
-      formularArt: "erstantrag",
-      anhaengigesGerichtsverfahrenFrage: "yes",
-      verfahrenArt: "verfahrenAnwalt",
+      stepId:
+        "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/aktenzeichen",
+      userInput: {
+        aktenzeichen: "120 / 150 / ABC",
+      },
     },
-    [
-      "/start/start",
-      "/grundvoraussetzungen/nachueberpruefung-frage",
-      "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/anhaengiges-gerichtsverfahren-frage",
-      "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/name-gericht",
-      "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/aktenzeichen",
-      "/grundvoraussetzungen/antrag/klageersteller",
-      "/antragstellende-person/empfaenger",
-    ],
+    {
+      stepId: "/grundvoraussetzungen/einreichung/fall",
+      userInput: {
+        versandArt: "analog",
+      },
+    },
+    {
+      stepId: "/grundvoraussetzungen/einreichung/hinweis-papier-einreichung",
+    },
+    {
+      stepId: "/antragstellende-person/empfaenger",
+    },
   ],
-] as Array<
-  [ProzesskostenhilfeFormularUserData, string[]]
-> satisfies TestCases<ProzesskostenhilfeFormularUserData>;
+  digitalErstantrag: [
+    {
+      stepId: "/grundvoraussetzungen/nachueberpruefung-frage",
+      userInput: {
+        formularArt: "erstantrag",
+      },
+    },
+    {
+      stepId:
+        "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/anhaengiges-gerichtsverfahren-frage",
+      userInput: {
+        anhaengigesGerichtsverfahrenFrage: "no",
+      },
+    },
+    {
+      stepId: "/grundvoraussetzungen/antrag/klageersteller",
+      userInput: {
+        verfahrenArt: "verfahrenSelbststaendig",
+      },
+    },
+    { stepId: "/grundvoraussetzungen/antrag/hinweis" },
+    {
+      stepId: "/grundvoraussetzungen/einreichung/fall",
+      userInput: {
+        versandArt: "digital",
+      },
+    },
+    {
+      stepId: "/grundvoraussetzungen/einreichung/mjp",
+    },
+    {
+      stepId: "/grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
+    },
+  ],
+  erstantragAnhaengigesGericht: [
+    {
+      stepId: "/grundvoraussetzungen/nachueberpruefung-frage",
+      userInput: {
+        formularArt: "erstantrag",
+      },
+    },
+    {
+      stepId:
+        "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/anhaengiges-gerichtsverfahren-frage",
+      userInput: {
+        anhaengigesGerichtsverfahrenFrage: "yes",
+      },
+    },
+    {
+      stepId:
+        "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/name-gericht",
+      userInput: {
+        gerichtName: "",
+      },
+    },
+    {
+      stepId:
+        "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/aktenzeichen",
+      userInput: {
+        aktenzeichen: "",
+      },
+    },
+    {
+      stepId: "/grundvoraussetzungen/antrag/klageersteller",
+      userInput: {
+        verfahrenArt: "verfahrenAnwalt",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/empfaenger",
+    },
+  ],
+} satisfies FlowTestCases["testcases"];

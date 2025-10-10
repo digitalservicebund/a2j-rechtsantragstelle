@@ -1,13 +1,10 @@
 import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { prozesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular";
-import { happyPathData } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
-import { antragstellendePersonTransitionCases } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
 import {
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/__test__/testcases";
-import { testCasesPKHFormularGrundvoraussetzungen } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/types";
 import { testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen } from "../finanzielleAngaben/__test__/testcasesAndereUnterhalt";
 import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "../finanzielleAngaben/__test__/testcasesAusgaben";
@@ -26,12 +23,6 @@ const machine: FlowStateMachine = createMachine(
 );
 
 const testCasesFormular = [
-  ...testCasesPKHFormularGrundvoraussetzungen,
-  [
-    {},
-    ["/persoenliche-daten/beruf", "/weitere-angaben", "/abgabe/ueberpruefung"],
-  ],
-  ...antragstellendePersonTransitionCases,
   ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
   ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
   ...testCasesPKHFormularFinanzielleAngabenEinkuenfte,
@@ -42,23 +33,8 @@ const testCasesFormular = [
   ...testCasesPKHFormularFinanzielleAngabenEigentum,
   ...testCasesPKHFormularFinanzielleAngabenAusgaben,
   ...testCasesProzesskostenhilfeRsv,
+  ...testCasesProzesskostenhilfePersoenlicheDaten,
   // ...testCasesProzesskostenhilfeDocumentUploadTransitions, // Uncomment when file upload is released
-  [
-    happyPathData,
-    [
-      "/gesetzliche-vertretung/frage",
-      "/gesetzliche-vertretung/daten",
-      "/persoenliche-daten/start",
-      "/persoenliche-daten/name",
-      "/persoenliche-daten/geburtsdatum",
-      "/persoenliche-daten/plz",
-      "/persoenliche-daten/adresse",
-      "/persoenliche-daten/telefonnummer",
-      "/persoenliche-daten/beruf",
-      "/weitere-angaben",
-      "/abgabe/ende",
-    ],
-  ],
 ] satisfies TestCases<ProzesskostenhilfeFormularUserData>;
 
 export const testCasesProzesskostenhilfeSubmitOnly = {
@@ -123,12 +99,7 @@ export const testCasesProzesskostenhilfeSubmitOnly = {
   ] satisfies TestCases<ProzesskostenhilfeFormularUserData>,
 };
 
-const cases = [
-  ...testCasesFormular,
-  ...testCasesProzesskostenhilfePersoenlicheDaten,
-];
-
 export const testCasesProzesskostenhilfeFormular = {
   machine,
-  cases,
+  cases: testCasesFormular,
 };
