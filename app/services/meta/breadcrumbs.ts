@@ -1,5 +1,5 @@
 import type { Breadcrumb } from "~/components/layout/Breadcrumbs";
-import { fetchMeta } from "../cms/index.server";
+import { fetchContentPageMeta } from "../cms/index.server";
 
 // Splits pathname into its subpaths, ie "/a/b/c" => [/a, /a/b, /a/b/c]
 const buildSubPaths = (pathname: string) =>
@@ -15,7 +15,7 @@ export const buildBreadcrumbPromises = (
     buildSubPaths(pathname)
       .filter((path) => path !== "/")
       .map((url) =>
-        fetchMeta({ filterValue: url }).then((meta) => ({
+        fetchContentPageMeta({ filterValue: url }).then((meta) => ({
           url,
           title: meta?.breadcrumb ?? undefined,
         })),

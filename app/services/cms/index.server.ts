@@ -21,7 +21,7 @@ const P_LEVEL_TRANSLATIONS = 2;
 const P_LEVEL_DEFAULT = 5;
 const StrapiPageMetaSchema = StrapiPageSchema.pick({ pageMeta: true });
 
-export async function fetchMeta(
+export async function fetchContentPageMeta(
   opts: Omit<GetStrapiEntryOpts<"pages">, "apiId" | "filter"> & {
     filterValue: string;
   },

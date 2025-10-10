@@ -2,7 +2,7 @@ import { type Params } from "react-router";
 import { type UserData } from "~/domains/userData";
 import {
   fetchFlowPage,
-  fetchMeta,
+  fetchContentPageMeta,
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { buildCmsContentAndTranslations } from "~/services/flow/formular/buildCmsContentAndTranslations";
@@ -21,15 +21,16 @@ export const retrieveContentData = async (
   const { flowId, stepId, currentFlow } =
     getPageAndFlowDataFromPathname(pathname);
 
-  const [formPageContent, parentMeta, cmsTranslations] = await Promise.all([
-    fetchFlowPage("form-flow-pages", flowId, stepId),
-    fetchMeta({ filterValue: parentFromParams(pathname, params) }),
-    fetchMultipleTranslations([
-      `${flowId}/menu`,
-      flowId,
-      `${flowId}/summaryPage`,
-    ]),
-  ]);
+  const [formPageContent, parentContentPageMeta, cmsTranslations] =
+    await Promise.all([
+      fetchFlowPage("form-flow-pages", flowId, stepId),
+      fetchContentPageMeta({ filterValue: parentFromParams(pathname, params) }),
+      fetchMultipleTranslations([
+        `${flowId}/menu`,
+        flowId,
+        `${flowId}/summaryPage`,
+      ]),
+    ]);
 
   const replacements = replacementsFromFlowConfig(
     currentFlow.stringReplacements,
@@ -41,17 +42,14 @@ export const retrieveContentData = async (
     },
   );
 
-  const { translations, cmsContent, meta } = buildCmsContentAndTranslations({
+  const { translations, cmsContent } = buildCmsContentAndTranslations({
     flowTranslations: cmsTranslations[flowId],
     flowMenuTranslations: cmsTranslations[`${flowId}/menu`],
     overviewTranslations: cmsTranslations[`${flowId}/summaryPage`],
     formPageContent,
     replacements,
-    parentMeta,
+    parentMeta: parentContentPageMeta,
   });
 
-  return getContentData(
-    { cmsContent, translations, meta },
-    userDataWithPageData,
-  );
+  return getContentData({ cmsContent, translations }, userDataWithPageData);
 };
