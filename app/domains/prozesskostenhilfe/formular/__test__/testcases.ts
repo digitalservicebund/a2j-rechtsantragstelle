@@ -7,7 +7,6 @@ import {
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/__test__/testcases";
-import { testCasesPKHFormularGrundvoraussetzungen } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/__test__/testcases";
 import type { FlowStateMachine } from "~/services/flow/server/types";
 import { testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen } from "../finanzielleAngaben/__test__/testcasesAndereUnterhalt";
 import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "../finanzielleAngaben/__test__/testcasesAusgaben";
@@ -26,11 +25,6 @@ const machine: FlowStateMachine = createMachine(
 );
 
 const testCasesFormular = [
-  ...testCasesPKHFormularGrundvoraussetzungen,
-  [
-    {},
-    ["/persoenliche-daten/beruf", "/weitere-angaben", "/abgabe/ueberpruefung"],
-  ],
   ...antragstellendePersonTransitionCases,
   ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
   ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
@@ -42,6 +36,7 @@ const testCasesFormular = [
   ...testCasesPKHFormularFinanzielleAngabenEigentum,
   ...testCasesPKHFormularFinanzielleAngabenAusgaben,
   ...testCasesProzesskostenhilfeRsv,
+  ...testCasesProzesskostenhilfePersoenlicheDaten,
   // ...testCasesProzesskostenhilfeDocumentUploadTransitions, // Uncomment when file upload is released
   [
     happyPathData,
@@ -123,12 +118,7 @@ export const testCasesProzesskostenhilfeSubmitOnly = {
   ] satisfies TestCases<ProzesskostenhilfeFormularUserData>,
 };
 
-const cases = [
-  ...testCasesFormular,
-  ...testCasesProzesskostenhilfePersoenlicheDaten,
-];
-
 export const testCasesProzesskostenhilfeFormular = {
   machine,
-  cases,
+  cases: testCasesFormular,
 };
