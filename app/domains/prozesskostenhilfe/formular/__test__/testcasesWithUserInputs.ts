@@ -44,7 +44,11 @@ export const prozesskostenhilfeFormularTestCases = {
       {
         stepId: "/persoenliche-daten/geburtsdatum",
         userInput: {
-          geburtsdatum: "01.01.2000",
+          geburtsdatum: {
+            day: "10",
+            month: "12",
+            year: "1990",
+          },
         },
       },
       {
