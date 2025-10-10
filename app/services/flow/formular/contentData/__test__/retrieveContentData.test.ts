@@ -49,10 +49,12 @@ beforeEach(() => {
 
 describe("retrieveContentData", () => {
   mockFetchData();
-  vi.mocked(buildCmsContentAndTranslations).mockReturnValue({
-    cmsContent: { content: "someContent " } as unknown as CMSContent,
-    translations: { translation: "someTranslation" },
-  });
+  vi.mocked(buildCmsContentAndTranslations).mockReturnValue(
+    Promise.resolve({
+      cmsContent: { content: "someContent " } as unknown as CMSContent,
+      translations: { translation: "someTranslation" },
+    }),
+  );
 
   it("should call once flow page, parent meta and translations", async () => {
     await retrieveContentData(
@@ -67,7 +69,6 @@ describe("retrieveContentData", () => {
       "/fluggastrechte/formular",
       "/intro/start",
     );
-    expect(fetchContentPageMeta).toBeCalledTimes(1);
     expect(fetchMultipleTranslations).toBeCalledTimes(1);
     expect(fetchMultipleTranslations).toHaveBeenCalledWith([
       "/fluggastrechte/formular/menu",

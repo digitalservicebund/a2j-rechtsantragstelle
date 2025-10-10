@@ -5,10 +5,7 @@ import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { getPageSchema } from "~/domains/pageSchemas";
 import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
-import {
-  fetchFlowPage,
-  fetchContentPageMeta,
-} from "~/services/cms/index.server";
+import { fetchFlowPage } from "~/services/cms/index.server";
 import { isStrapiSelectComponent } from "~/services/cms/models/formElements/isStrapiSelectComponent";
 import { isStrapiHeadingComponent } from "~/services/cms/models/isStrapiHeadingComponent";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
@@ -16,7 +13,6 @@ import { flowDestination } from "~/services/flow/userFlowAction/flowDestination"
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
 import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
 import { logWarning } from "~/services/logging";
-import { parentFromParams } from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
@@ -31,7 +27,7 @@ export { VorabcheckPage as default } from "~/routes/shared/components/Vorabcheck
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 import { composePageTitle } from "~/services/meta/composePageTitle";
 
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
 
   if (resultUserAndFlow.isErr) {
@@ -48,10 +44,11 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
   const currentFlow = flows[flowId];
 
-  const [vorabcheckPage, parentContentPageMeta] = await Promise.all([
-    fetchFlowPage("vorab-check-pages", flowId, stepId),
-    fetchContentPageMeta({ filterValue: parentFromParams(pathname, params) }),
-  ]);
+  const vorabcheckPage = await fetchFlowPage(
+    "vorab-check-pages",
+    flowId,
+    stepId,
+  );
 
   // Do string replacement in content if necessary
   const cmsContent = applyStringReplacement(
@@ -74,7 +71,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   });
 
   const pageTitle = applyStringReplacement(
-    composePageTitle(vorabcheckPage.pageTitle, parentContentPageMeta),
+    await composePageTitle(vorabcheckPage.pageTitle, flowId),
     replacementsFromFlowConfig(currentFlow.stringReplacements, userData),
   );
 
