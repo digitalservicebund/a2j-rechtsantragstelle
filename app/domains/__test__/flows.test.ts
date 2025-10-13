@@ -1,4 +1,3 @@
-import { testCasesBeratungshilfeFormular } from "~/domains/beratungshilfe/formular/__test__/testCasesBeratungshilfeFormular";
 import { testCasesFluggastrechteFormular } from "~/domains/fluggastrechte/formular/__test__/testCasesFluggastrechteFormular";
 import { testCasesFluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck/__test__/testCasesFluggastrechteVorabcheck";
 import {
@@ -67,7 +66,6 @@ describe.sequential("state machine form flows", () => {
   > = {};
 
   const testCases = {
-    testCasesBeratungshilfeFormular,
     testCasesFluggastrechteFormular,
     testCasesFluggastrechteVorabcheck,
     testCasesProzesskostenhilfeFormular,
@@ -147,6 +145,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(117);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(106);
   });
 });

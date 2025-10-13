@@ -1,11 +1,11 @@
-import { fetchMeta } from "~/services/cms/index.server";
+import { fetchContentPageMeta } from "~/services/cms/index.server";
 import { buildBreadcrumbPromises } from "../breadcrumbs";
 
 vi.mock("~/services/cms/index.server");
 
 describe("buildBreadcrumbPromises", () => {
   it("should return all breadcrumbs as promises", async () => {
-    vi.mocked(fetchMeta).mockImplementation(({ filterValue }) =>
+    vi.mocked(fetchContentPageMeta).mockImplementation(({ filterValue }) =>
       Promise.resolve({ title: "", breadcrumb: filterValue }),
     );
     const actual = await buildBreadcrumbPromises("/my/pretty/pathname");
@@ -17,7 +17,7 @@ describe("buildBreadcrumbPromises", () => {
   });
 
   it("should handle undefined", async () => {
-    vi.mocked(fetchMeta).mockResolvedValueOnce({
+    vi.mocked(fetchContentPageMeta).mockResolvedValueOnce({
       title: "",
     });
     const actual = await buildBreadcrumbPromises("/test");
@@ -26,7 +26,7 @@ describe("buildBreadcrumbPromises", () => {
   });
 
   describe("should handle edge cases", () => {
-    vi.mocked(fetchMeta).mockResolvedValue({
+    vi.mocked(fetchContentPageMeta).mockResolvedValue({
       title: "",
       breadcrumb: "breadcrumb",
     });

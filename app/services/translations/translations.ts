@@ -104,6 +104,9 @@ export const translations = {
     "open-feedback-placeholder": {
       de: "Beschreibung des Problems ...",
     },
+    "validation-error": {
+      de: "Bitte treffen Sie eine Auswahl.",
+    },
   },
   video: {
     "video-thumbnail": {
@@ -200,6 +203,23 @@ export const translations = {
     },
     arrayAddButtonLabel: {
       de: "hinzufügen",
+    },
+  },
+  splitDateComponent: {
+    tagInputLabel: {
+      de: "Tag",
+    },
+    monatInputLabel: {
+      de: "Monat",
+    },
+    jahrInputLabel: {
+      de: "Jahr",
+    },
+    legend: {
+      de: "Geburtsdatum",
+    },
+    hintText: {
+      de: "Beispielsweise: 17 3 2015",
     },
   },
 } satisfies TranslationRecord;

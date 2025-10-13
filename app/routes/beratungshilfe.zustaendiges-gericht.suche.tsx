@@ -61,7 +61,7 @@ export default function Index() {
   const { backURL } = useLoaderData<typeof loader>();
 
   return (
-    <GridSection backgroundClass={BACKGROUND_COLORS.blue} pt="40" pb="40">
+    <GridSection className={BACKGROUND_COLORS.blue} pt="40" pb="40">
       <Grid>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}

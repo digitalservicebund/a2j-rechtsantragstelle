@@ -33,18 +33,11 @@ const mockCmsElement = {
       id: 10,
     },
   ],
-  pageMeta: { title: "title" },
+  pageTitle: "page title",
 } satisfies CMSContent;
 
 const mockTranslations = {
   translation: "translation",
-};
-
-const mockMeta = {
-  description: "meta description",
-  ogTitle: "meta ogTitle",
-  breadcrumb: "meta breadcrumb",
-  title: "meta title",
 };
 
 const mockBuildFlowController = {
@@ -63,7 +56,6 @@ const mockUserData = {
 const callContentData = getContentData(
   {
     cmsContent: mockCmsElement,
-    meta: mockMeta,
     translations: mockTranslations,
   },
   mockUserData,
@@ -107,19 +99,6 @@ describe("getContentData", () => {
       const actual = callContentData.getFormElements();
 
       expect(actual).toEqual(mockCmsElement.formContent);
-    });
-  });
-
-  describe("getMeta", () => {
-    it("should return correctly the page meta", () => {
-      const actual = callContentData.getMeta();
-
-      expect(actual).toEqual({
-        description: "meta description",
-        breadcrumb: "meta breadcrumb",
-        ogTitle: "meta ogTitle",
-        title: "meta title",
-      });
     });
   });
 
@@ -250,7 +229,6 @@ describe("getContentData", () => {
       const callContentDataWithStepper = getContentData(
         {
           cmsContent: mockCmsElement,
-          meta: mockMeta,
           translations: mockTranslations,
         },
         mockUserData,
