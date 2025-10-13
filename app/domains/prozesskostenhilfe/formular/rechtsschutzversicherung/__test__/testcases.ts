@@ -1,85 +1,157 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
-import type { ProzesskostenhilfeRechtsschutzversicherungUserData } from "../userData";
-const prefix = "/rechtsschutzversicherung";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
 
-export const testCasesProzesskostenhilfeRsv = (
-  [
-    [
-      {
+export const testCasesPKHFormularRsv = {
+  noRsv: [
+    {
+      stepId: "/rechtsschutzversicherung/rsv-frage",
+      userInput: {
         hasRsv: "no",
       },
-      ["/rsv-frage", "/org-frage"],
-    ],
-    [
-      {
+    },
+    {
+      stepId: "/rechtsschutzversicherung/org-frage",
+    },
+  ],
+  rsvWithCoverage: [
+    {
+      stepId: "/rechtsschutzversicherung/rsv-frage",
+      userInput: {
         hasRsv: "yes",
+      },
+    },
+    {
+      stepId: "/rechtsschutzversicherung/rsv-deckung",
+      userInput: {
         hasRsvCoverage: "yes",
       },
-      ["/rsv-frage", "/rsv-deckung", "/rsv-deckung-ja"],
-    ],
-    [
-      {
+    },
+    {
+      stepId: "/rechtsschutzversicherung/rsv-deckung-ja",
+    },
+  ],
+  rsvCoverageUnknown: [
+    {
+      stepId: "/rechtsschutzversicherung/rsv-frage",
+      userInput: {
         hasRsv: "yes",
+      },
+    },
+    {
+      stepId: "/rechtsschutzversicherung/rsv-deckung",
+      userInput: {
         hasRsvCoverage: "unknown",
       },
-      ["/rsv-frage", "/rsv-deckung", "/rsv-deckung-unbekannt"],
-    ],
-    [
-      {
+    },
+    {
+      stepId: "/rechtsschutzversicherung/rsv-deckung-unbekannt",
+    },
+  ],
+  rsvWithoutCoverage: [
+    {
+      stepId: "/rechtsschutzversicherung/rsv-frage",
+      userInput: {
         hasRsv: "yes",
+      },
+    },
+    {
+      stepId: "/rechtsschutzversicherung/rsv-deckung",
+      userInput: {
         hasRsvCoverage: "no",
       },
-      ["/rsv-frage", "/rsv-deckung", "/rsv-deckung-nein", "/org-frage"],
-    ],
-    [
-      {
+    },
+    {
+      stepId: "/rechtsschutzversicherung/rsv-deckung-nein",
+    },
+    {
+      stepId: "/rechtsschutzversicherung/org-frage",
+    },
+  ],
+  rsvPartialCoverage: [
+    {
+      stepId: "/rechtsschutzversicherung/rsv-frage",
+      userInput: {
         hasRsv: "yes",
+      },
+    },
+    {
+      stepId: "/rechtsschutzversicherung/rsv-deckung",
+      userInput: {
         hasRsvCoverage: "partly",
       },
-      ["/rsv-frage", "/rsv-deckung", "/rsv-deckung-teilweise", "/org-frage"],
-    ],
-    [
-      {
-        hasRsv: "no",
+    },
+    {
+      stepId: "/rechtsschutzversicherung/rsv-deckung-teilweise",
+    },
+    {
+      stepId: "/rechtsschutzversicherung/org-frage",
+    },
+  ],
+  rsvThroughOrgWithoutCoverage: [
+    {
+      stepId: "/rechtsschutzversicherung/org-frage",
+      userInput: {
         hasRsvThroughOrg: "yes",
+      },
+    },
+    {
+      stepId: "/rechtsschutzversicherung/org-deckung",
+      userInput: {
         hasOrgCoverage: "no",
       },
-      ["/rsv-frage", "/org-frage", "/org-deckung"],
-    ],
-    [
-      {
-        hasRsv: "no",
+    },
+    {
+      stepId: "/rechtsschutzversicherung/org-deckung-nein",
+    },
+  ],
+  orgDeckungUnknown: [
+    {
+      stepId: "/rechtsschutzversicherung/org-frage",
+      userInput: {
         hasRsvThroughOrg: "yes",
+      },
+    },
+    {
+      stepId: "/rechtsschutzversicherung/org-deckung",
+      userInput: {
         hasOrgCoverage: "unknown",
       },
-      ["/rsv-frage", "/org-frage", "/org-deckung", "/org-deckung-unbekannt"],
-    ],
-    [
-      {
-        hasRsv: "no",
+    },
+    {
+      stepId: "/rechtsschutzversicherung/org-deckung-unbekannt",
+    },
+  ],
+  orgDeckungYes: [
+    {
+      stepId: "/rechtsschutzversicherung/org-frage",
+      userInput: {
         hasRsvThroughOrg: "yes",
+      },
+    },
+    {
+      stepId: "/rechtsschutzversicherung/org-deckung",
+      userInput: {
         hasOrgCoverage: "yes",
       },
-      ["/rsv-frage", "/org-frage", "/org-deckung", "/org-deckung-ja"],
-    ],
-    [
-      {
-        hasRsv: "no",
+    },
+    {
+      stepId: "/rechtsschutzversicherung/org-deckung-ja",
+    },
+  ],
+  partialOrgDeckung: [
+    {
+      stepId: "/rechtsschutzversicherung/org-frage",
+      userInput: {
         hasRsvThroughOrg: "yes",
-        hasOrgCoverage: "no",
       },
-      ["/rsv-frage", "/org-frage", "/org-deckung", "/org-deckung-nein"],
-    ],
-    [
-      {
-        hasRsv: "no",
-        hasRsvThroughOrg: "yes",
+    },
+    {
+      stepId: "/rechtsschutzversicherung/org-deckung",
+      userInput: {
         hasOrgCoverage: "partly",
       },
-      ["/rsv-frage", "/org-frage", "/org-deckung", "/org-deckung-teilweise"],
-    ],
-  ] as const
-).map(([data, steps]) => [
-  data,
-  steps.map((stepId) => prefix + stepId),
-]) satisfies TestCases<ProzesskostenhilfeRechtsschutzversicherungUserData>;
+    },
+    {
+      stepId: "/rechtsschutzversicherung/org-deckung-teilweise",
+    },
+  ],
+} satisfies FlowTestCases["testcases"];

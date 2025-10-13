@@ -19,6 +19,9 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/actions/cached-checkout-install
+      - name: Remove storybook file
+        if: ${{ matrix.npmCMD == 'build' }}
+        run: rm -r -f build/client/storybook ## Remove storybook path to avoid CI build problems
       - run: npm run ${{ matrix.npmCMD }}
         env:
           SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"

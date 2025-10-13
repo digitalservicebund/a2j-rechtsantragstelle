@@ -1,154 +1,402 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
-import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
 
-export const testCasesPKHFormularFinanzielleAngabenEigentum = [
-  [
-    { rentsApartment: "yes" },
-    [
-      "/finanzielle-angaben/wohnung/nebenkosten",
-      "/finanzielle-angaben/eigentum/eigentum-info",
-    ],
-  ],
-  [
-    { partnerschaft: "yes" },
-    [
-      "/finanzielle-angaben/eigentum/eigentum-info",
-      "/finanzielle-angaben/eigentum/heirat-info",
-      "/finanzielle-angaben/eigentum/bankkonten-frage",
-    ],
-  ],
-  [
+export const testCasesPKHFormularFinanzielleAngabenEigentum = {
+  rentsApartment: [
     {
-      hasBankkonto: "no",
-      hasGeldanlage: "no",
-      hasWertsache: "no",
-      hasGrundeigentum: "no",
-      hasKraftfahrzeug: "no",
+      stepId: "/finanzielle-angaben/wohnung/nebenkosten",
+      userInput: {
+        utilitiesCost: "",
+        heatingCosts: "",
+        rentsApartment: "yes",
+      },
     },
-    [
-      "/finanzielle-angaben/eigentum/eigentum-info",
-      "/finanzielle-angaben/eigentum/bankkonten-frage",
-      "/finanzielle-angaben/eigentum/geldanlagen-frage",
-      "/finanzielle-angaben/eigentum/wertgegenstaende-frage",
-      "/finanzielle-angaben/eigentum/grundeigentum-frage",
-      "/finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
-      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "/finanzielle-angaben/ausgaben/ausgaben-frage",
-    ],
-  ],
-  [
     {
-      hasBankkonto: "yes",
-      hasGeldanlage: "no",
-      hasWertsache: "no",
-      hasGrundeigentum: "no",
-      hasKraftfahrzeug: "no",
+      stepId: "/finanzielle-angaben/eigentum/eigentum-info",
     },
-    [
-      "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      "/finanzielle-angaben/eigentum-zusammenfassung/warnung",
-      "/finanzielle-angaben/ausgaben/ausgaben-frage",
-    ],
   ],
-  [
+  partnerschaftYes: [
     {
-      geldanlagen: [{ art: "bargeld" }],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/eigentum/eigentum-info",
+      skipPageSchemaValidation: true,
+      userInput: { partnerschaft: "yes" },
     },
-    [
-      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
-      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/bargeld",
-    ],
-  ],
-  [
     {
-      geldanlagen: [{ art: "wertpapiere" }],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/eigentum/heirat-info",
     },
-    [
-      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
-      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/wertpapiere",
-    ],
-  ],
-  [
     {
-      geldanlagen: [{ art: "guthabenkontoKrypto" }],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/eigentum/bankkonten-frage",
     },
-    [
-      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
-      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/guthabenkonto-krypto",
-    ],
   ],
-  [
+  noEigentum: [
     {
-      geldanlagen: [{ art: "giroTagesgeldSparkonto" }],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/eigentum/bankkonten-frage",
+      userInput: {
+        hasBankkonto: "no",
+      },
     },
-    [
-      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
-      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/giro-tagesgeld-sparkonto",
-    ],
-  ],
-  [
     {
-      geldanlagen: [{ art: "befristet" }],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen-frage",
+      userInput: {
+        hasGeldanlage: "no",
+      },
     },
-    [
-      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
-      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/befristet",
-    ],
-  ],
-  [
     {
-      geldanlagen: [{ art: "forderung" }],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/eigentum/wertgegenstaende-frage",
+      userInput: {
+        hasWertsache: "no",
+      },
     },
-    [
-      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
-      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/forderung",
-    ],
-  ],
-  [
     {
-      geldanlagen: [{ art: "sonstiges" }],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/eigentum/grundeigentum-frage",
+      userInput: {
+        hasGrundeigentum: "no",
+      },
     },
-    [
-      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/art",
-      "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/sonstiges",
-    ],
-  ],
-  [
     {
-      kraftfahrzeuge: [{ wert: "over10000" }],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
+      userInput: {
+        hasKraftfahrzeug: "no",
+      },
     },
-    [
-      "/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/arbeitsweg",
-      "/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/wert",
-      "/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/fahrzeuge",
-    ],
-  ],
-  [
     {
-      grundeigentum: [{ isBewohnt: "yes" }],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
     },
-    [
-      "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage",
-      "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-daten",
-    ],
-  ],
-  [
     {
-      grundeigentum: [{ isBewohnt: "no" }],
-      pageData: { arrayIndexes: [0] },
+      stepId: "/finanzielle-angaben/ausgaben/ausgaben-frage",
     },
-    [
-      "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/bewohnt-frage",
-      "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/daten",
-    ],
   ],
-] as const satisfies TestCases<ProzesskostenhilfeFinanzielleAngabenUserData>;
+  eigentumZusammenfassungWarning: [
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      skipPageSchemaValidation: true,
+      userInput: { hasBankkonto: "yes" },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/warnung",
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ausgaben-frage",
+    },
+  ],
+  geldanlagenBargeld: [
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      addArrayItemEvent: "add-geldanlagen",
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
+      userInput: {
+        "geldanlagen#art": "bargeld",
+        geldanlagen: [
+          {
+            art: "bargeld",
+          },
+        ],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/bargeld",
+      userInput: {
+        "geldanlagen#eigentuemer": "myself",
+        "geldanlagen#wert": "1000",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+    },
+  ],
+  geldanlagenWertpapiere: [
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      addArrayItemEvent: "add-geldanlagen",
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
+      userInput: {
+        "geldanlagen#art": "wertpapiere",
+        geldanlagen: [
+          {
+            art: "wertpapiere",
+          },
+        ],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/wertpapiere",
+      userInput: {
+        "geldanlagen#eigentuemer": "myself",
+        "geldanlagen#wert": "1000",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+    },
+  ],
+  geldanlagenGuthabenKrypto: [
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      addArrayItemEvent: "add-geldanlagen",
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
+      userInput: {
+        "geldanlagen#art": "guthabenkontoKrypto",
+        geldanlagen: [
+          {
+            art: "guthabenkontoKrypto",
+          },
+        ],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/guthabenkonto-krypto",
+      userInput: {
+        "geldanlagen#eigentuemer": "myself",
+        "geldanlagen#wert": "1000",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+    },
+  ],
+  geldanlagenGiroTagesgeldSparkonto: [
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      addArrayItemEvent: "add-geldanlagen",
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
+      userInput: {
+        "geldanlagen#art": "giroTagesgeldSparkonto",
+        geldanlagen: [
+          {
+            art: "giroTagesgeldSparkonto",
+          },
+        ],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/giro-tagesgeld-sparkonto",
+      userInput: {
+        "geldanlagen#eigentuemer": "myself",
+        "geldanlagen#wert": "1000",
+        "geldanlagen#kontoBankName": "N26",
+        "geldanlagen#kontoIban": "DE1234567890",
+        "geldanlagen#kontoBezeichnung": "Persönlich",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+    },
+  ],
+  geldanlagenBefristet: [
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      addArrayItemEvent: "add-geldanlagen",
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
+      userInput: {
+        "geldanlagen#art": "befristet",
+        geldanlagen: [
+          {
+            art: "befristet",
+          },
+        ],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/befristet",
+      userInput: {
+        "geldanlagen#eigentuemer": "myself",
+        "geldanlagen#wert": "1000",
+        "geldanlagen#befristetArt": "lifeInsurance",
+        "geldanlagen#verwendungszweck": "Zweck",
+        "geldanlagen#auszahlungdatum": "01.01.2035",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+    },
+  ],
+  geldanlagenForderung: [
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      addArrayItemEvent: "add-geldanlagen",
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
+      userInput: {
+        "geldanlagen#art": "forderung",
+        geldanlagen: [
+          {
+            art: "forderung",
+          },
+        ],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/forderung",
+      userInput: {
+        "geldanlagen#eigentuemer": "myself",
+        "geldanlagen#wert": "1000",
+        "geldanlagen#forderung": "Forderung String",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+    },
+  ],
+  geldanlagenSonstiges: [
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      addArrayItemEvent: "add-geldanlagen",
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
+      userInput: {
+        "geldanlagen#art": "sonstiges",
+        geldanlagen: [
+          {
+            art: "sonstiges",
+          },
+        ],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/sonstiges",
+      userInput: {
+        "geldanlagen#eigentuemer": "myself",
+        "geldanlagen#wert": "1000",
+        "geldanlagen#verwendungszweck": "Zweck",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+    },
+  ],
+  kraftfahrzeugOver10000: [
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      addArrayItemEvent: "add-kraftfahrzeuge",
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/0/arbeitsweg",
+      userInput: {
+        "kraftfahrzeuge#hasArbeitsweg": "no",
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/0/wert",
+      userInput: {
+        "kraftfahrzeuge#wert": "over10000",
+        kraftfahrzeuge: [
+          {
+            wert: "over10000",
+          },
+        ],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/0/fahrzeuge",
+      userInput: {
+        "kraftfahrzeuge#art": "auto",
+        "kraftfahrzeuge#marke": "Audi",
+        "kraftfahrzeuge#eigentuemer": "myself",
+        "kraftfahrzeuge#verkaufswert": "100000",
+        "kraftfahrzeuge#kilometerstand": "1000",
+        "kraftfahrzeuge#anschaffungsjahr": "2023",
+        "kraftfahrzeuge#baujahr": "1995",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+    },
+  ],
+  bewohntGrundeigentum: [
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      addArrayItemEvent: "add-grundeigentum",
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/0/bewohnt-frage",
+      userInput: {
+        "grundeigentum#isBewohnt": "yes",
+        grundeigentum: [
+          {
+            isBewohnt: "yes",
+          },
+        ],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/0/bewohnt-daten",
+      userInput: {
+        "grundeigentum#art": "eigentumswohnung",
+        "grundeigentum#eigentuemer": "myself",
+        "grundeigentum#verkaufswert": "500000",
+        "grundeigentum#flaeche": "75",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+    },
+  ],
+  grundeigentumNotBewohnt: [
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      addArrayItemEvent: "add-grundeigentum",
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/0/bewohnt-frage",
+      userInput: {
+        "grundeigentum#isBewohnt": "no",
+        grundeigentum: [
+          {
+            isBewohnt: "no",
+          },
+        ],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/0/daten",
+      userInput: {
+        "grundeigentum#art": "eigentumswohnung",
+        "grundeigentum#eigentuemer": "myself",
+        "grundeigentum#flaeche": "75",
+        "grundeigentum#verkaufswert": "500000",
+        "grundeigentum#strassehausnummer": "Musterstrasse 1",
+        "grundeigentum#plz": "12345",
+        "grundeigentum#ort": "Musterstadt",
+        "grundeigentum#land": "DE",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+    },
+  ],
+} satisfies FlowTestCases["testcases"];
