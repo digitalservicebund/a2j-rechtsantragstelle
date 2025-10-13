@@ -4,7 +4,7 @@ import { GridSection } from "../GridSection";
 describe("GridSection Component", () => {
   it("applies background class", () => {
     const { container } = render(
-      <GridSection backgroundClass="bg-blue-500">
+      <GridSection className="bg-blue-500">
         <div>Test content</div>
       </GridSection>,
     );

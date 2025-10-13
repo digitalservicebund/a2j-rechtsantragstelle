@@ -46,7 +46,7 @@ export function FormFlowPage() {
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
-      <GridSection backgroundClass={BACKGROUND_COLORS.blue} pt="40" pb="40">
+      <GridSection className={BACKGROUND_COLORS.blue} pt="40" pb="40">
         <Grid>
           <GridItem
             className="hidden lg:block"

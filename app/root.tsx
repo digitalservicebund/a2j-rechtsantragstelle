@@ -25,7 +25,7 @@ import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import { AnalyticsContext } from "~/services/analytics/useAnalytics";
 import {
-  fetchMeta,
+  fetchContentPageMeta,
   fetchSingleEntry,
   fetchTranslations,
 } from "~/services/cms/index.server";
@@ -112,7 +112,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchSingleEntry("footer", defaultLocale, STRAPI_P_LEVEL_THREE),
     fetchSingleEntry("cookie-banner", defaultLocale, STRAPI_P_LEVEL_THREE),
     trackingCookieValue({ request }),
-    fetchMeta({ filterValue: "/" }),
+    fetchContentPageMeta({ filterValue: "/" }),
     fetchTranslations("accessibility"),
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),

@@ -39,19 +39,19 @@ const boxProps = {
 
 export function ResultPage() {
   const {
-    cmsData,
+    cmsContent,
     buttonNavigationProps: { back, next },
   } = useLoaderData<typeof loader>();
-  const documentsList = cmsData.documents;
-  const nextSteps = cmsData.nextSteps;
-  const content = cmsData.freeZone;
+  const documentsList = cmsContent.documents;
+  const nextSteps = cmsContent.nextSteps;
+  const content = cmsContent.freeZone;
 
   useFocusFirstH1();
 
   return (
     <>
       <GridSection
-        backgroundClass={`${BACKGROUND_COLORS.blue} print:hidden`}
+        className={`${BACKGROUND_COLORS.blue} print:hidden`}
         pt="40"
         pb="24"
       >
@@ -61,7 +61,7 @@ export function ResultPage() {
             mdColumn: { start: 1, span: 8 },
             lgColumn: { start: 2, span: 10 },
             xlColumn: { start: 2, span: 10 },
-            className: `rounded-lg ${BACKGROUND_COLORS[boxProps[cmsData.pageType].backgroundColor]}`,
+            className: `rounded-lg ${BACKGROUND_COLORS[boxProps[cmsContent.pageType].backgroundColor]}`,
           }}
         >
           <GridItem
@@ -72,16 +72,18 @@ export function ResultPage() {
             row={1}
           >
             <div className="flex sm:flex-row flex-col gap-16">
-              {boxProps[cmsData.pageType].icon}
+              {boxProps[cmsContent.pageType].icon}
               <div className="flex flex-col gap-16" id="flow-page-content">
                 <Heading
-                  tagName={cmsData.heading.tagName}
-                  look={cmsData.heading.look}
+                  tagName={cmsContent.heading.tagName}
+                  look={cmsContent.heading.look}
                   className="flex items-center mb-0"
                 >
-                  {cmsData.heading.text}
+                  {cmsContent.heading.text}
                 </Heading>
-                {cmsData.hintText && <RichText html={cmsData.hintText.html} />}
+                {cmsContent.hintText && (
+                  <RichText html={cmsContent.hintText.html} />
+                )}
               </div>
             </div>
           </GridItem>
@@ -98,8 +100,8 @@ export function ResultPage() {
                   {back.label}
                 </a>
               )}
-              {cmsData.nextLink?.url && (
-                <a className="text-link" href={cmsData.nextLink.url}>
+              {cmsContent.nextLink?.url && (
+                <a className="text-link" href={cmsContent.nextLink.url}>
                   {next?.label}
                 </a>
               )}

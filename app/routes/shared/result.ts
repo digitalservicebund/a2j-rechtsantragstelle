@@ -1,8 +1,11 @@
 import { type LoaderFunctionArgs, redirectDocument, data } from "react-router";
 import { flows } from "~/domains/flows.server";
-import { fetchFlowPage, fetchMeta } from "~/services/cms/index.server";
+import {
+  fetchFlowPage,
+  fetchContentPageMeta,
+} from "~/services/cms/index.server";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
-import { stepMeta } from "~/services/meta/stepMeta";
+import { composePageTitle } from "~/services/meta/composePageTitle";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { translations } from "~/services/translations/translations";
 import {
@@ -29,9 +32,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
   const currentFlow = flows[flowId];
 
-  const [resultPageContent, parentMeta] = await Promise.all([
+  const [resultPageContent, parentContentPageMeta] = await Promise.all([
     fetchFlowPage("result-pages", flowId, cmsStepId),
-    fetchMeta({ filterValue: flowId }),
+    fetchContentPageMeta({ filterValue: flowId }),
   ]);
 
   const cmsContent = applyStringReplacement(
@@ -58,17 +61,14 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const documents = cmsContent.documents?.element ?? [];
   const nextSteps = cmsContent.nextSteps?.element ?? [];
 
-  const cmsData = { ...cmsContent, nextSteps, documents };
-
-  const meta = applyStringReplacement(
-    stepMeta(cmsContent.pageMeta, parentMeta),
+  const pageTitle = applyStringReplacement(
+    composePageTitle(cmsContent.pageTitle, parentContentPageMeta),
     replacementsFromFlowConfig(currentFlow.stringReplacements, userData),
   );
 
   return data(
     {
-      cmsData,
-      meta: meta,
+      cmsContent: { ...cmsContent, nextSteps, documents, pageTitle },
       buttonNavigationProps,
     },
     { headers },
