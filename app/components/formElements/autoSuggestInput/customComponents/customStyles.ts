@@ -29,6 +29,10 @@ const customStyles = (
   };
 
   return {
+    menuPortal: (base) => ({
+      ...base,
+      zIndex: 999,
+    }),
     control: (base, { menuIsOpen }) => ({
       ...base,
       transition: "none",
