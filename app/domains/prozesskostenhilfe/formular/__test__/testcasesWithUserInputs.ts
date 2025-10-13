@@ -134,13 +134,14 @@ export const prozesskostenhilfeFormularTestCases = {
         },
       },
     ],
-    abgabe: [
-      {
-        stepId: "/abgabe/zusammenfassung",
-      },
-      {
-        stepId: "/abgabe/ende",
-      },
-    ],
+    // Uncomment when zusammenfassung page is released
+    // abgabe: [
+    //   {
+    //     stepId: "/abgabe/zusammenfassung",
+    //   },
+    //   {
+    //     stepId: "/abgabe/ende",
+    //   },
+    // ],
   },
 } satisfies FlowTestCases;
