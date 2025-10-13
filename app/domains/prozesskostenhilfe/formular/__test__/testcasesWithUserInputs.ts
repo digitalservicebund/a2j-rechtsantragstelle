@@ -7,6 +7,7 @@ import {
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
 } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/__test__/testcases";
 import { testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesAndereUnterhalt";
+import { testCasesPKHFormularFinanzielleAngabenEigentum } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesEigentum";
 import { testCasesPKHFormularFinanzielleAngabenEinkuenfte } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesEinkuenfte";
 import { testCasesPKHFormularFinanzielleAngabenKinder } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesKinder";
 import { testCasesPKHFormularFinanzielleAngabenPartner } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesPartner";
@@ -108,6 +109,7 @@ export const prozesskostenhilfeFormularTestCases = {
     ...testCasesPKHFormularFinanzielleAngabenPartner,
     ...testCasesPKHFormularFinanzielleAngabenKinder,
     ...testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen,
+    ...testCasesPKHFormularFinanzielleAngabenEigentum,
     weitereAngaben: [
       {
         stepId: "/persoenliche-daten/beruf",
