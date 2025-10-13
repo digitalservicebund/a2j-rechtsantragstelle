@@ -6,7 +6,7 @@ const baseContext = {
   sachgebietAusgeschlossen: "yes" as const,
 };
 
-export const testCasesGeldEinklagenVerkehrsunfallSchaden = [
+export const testCasesGeldEinklagenVerkehrsunfallSchadenVersicherung = [
   [
     {
       ...baseContext,
@@ -63,6 +63,32 @@ export const testCasesGeldEinklagenVerkehrsunfallSchaden = [
       besondere: "verkehrsunfall",
       fuerWenKlagen: "selbst",
       klagendeKaufmann: "yes",
+    },
+    [
+      "/gericht-pruefen/klagende-person/fuer-wen",
+      "/gericht-pruefen/klagende-person/kaufmann",
+      "/gericht-pruefen/beklagte-person/fuer-wen",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      besondere: "versicherung",
+      fuerWenKlagen: "selbst",
+      klagendeKaufmann: "yes",
+    },
+    [
+      "/gericht-pruefen/klagende-person/fuer-wen",
+      "/gericht-pruefen/klagende-person/kaufmann",
+      "/gericht-pruefen/beklagte-person/fuer-wen",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      besondere: "versicherung",
+      fuerWenKlagen: "selbst",
+      klagendeKaufmann: "no",
     },
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
