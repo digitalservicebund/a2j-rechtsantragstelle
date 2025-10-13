@@ -12,6 +12,7 @@ import { testCasesPKHFormularFinanzielleAngabenEinkuenfte } from "~/domains/proz
 import { testCasesPKHFormularFinanzielleAngabenKinder } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesKinder";
 import { testCasesPKHFormularFinanzielleAngabenPartner } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesPartner";
 import { testCasesPKHFormularGrundvoraussetzungen } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/__test__/testcases";
+import { testCasesPKHFormularRsv } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/__test__/testcases";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
 const showPKHZusammenfassung = await isFeatureFlagEnabled(
@@ -105,6 +106,7 @@ export const prozesskostenhilfeFormularTestCases = {
     ...testCasesPKHFormularAntragstellendePersonTransitions,
     ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
     ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
+    ...testCasesPKHFormularRsv,
     ...testCasesPKHFormularFinanzielleAngabenEinkuenfte,
     ...testCasesPKHFormularFinanzielleAngabenPartner,
     ...testCasesPKHFormularFinanzielleAngabenKinder,
