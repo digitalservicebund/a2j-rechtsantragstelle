@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
       - name: Remove storybook file
         if: ${{ matrix.npmCMD == 'build' }}
-        run: rm -r build/client/storybook ## Remove storybook path to avoid CI build problems
+        run: rm -r -f build/client/storybook ## Remove storybook path to avoid CI build problems
       - uses: ./.github/actions/cached-checkout-install
       - run: npm run ${{ matrix.npmCMD }}
         env:
