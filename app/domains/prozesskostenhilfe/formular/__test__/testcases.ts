@@ -3,7 +3,6 @@ import type { TestCases } from "~/domains/__test__/TestCases";
 import { prozesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular";
 import type { FlowStateMachine } from "~/services/flow/server/types";
 import { testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen } from "../finanzielleAngaben/__test__/testcasesAndereUnterhalt";
-import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "../finanzielleAngaben/__test__/testcasesAusgaben";
 import { testCasesPKHFormularFinanzielleAngabenEigentum } from "../finanzielleAngaben/__test__/testcasesEigentum";
 import { testCasesPKHFormularFinanzielleAngabenKinder } from "../finanzielleAngaben/__test__/testcasesKinder";
 import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../finanzielleAngaben/__test__/testcasesWohnung";
@@ -21,7 +20,6 @@ const testCasesFormular = [
   ...testCasesPKHFormularFinanzielleAngabenKinder,
   ...testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen,
   ...testCasesPKHFormularFinanzielleAngabenEigentum,
-  ...testCasesPKHFormularFinanzielleAngabenAusgaben,
   ...testCasesProzesskostenhilfeRsv,
   ...testCasesProzesskostenhilfePersoenlicheDaten,
   // ...testCasesProzesskostenhilfeDocumentUploadTransitions, // Uncomment when file upload is released

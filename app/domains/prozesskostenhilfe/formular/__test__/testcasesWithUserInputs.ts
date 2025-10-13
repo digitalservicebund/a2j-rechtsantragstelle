@@ -10,6 +10,7 @@ import { testCasesPKHFormularFinanzielleAngabenEinkuenfte } from "~/domains/proz
 import { testCasesPKHFormularFinanzielleAngabenPartner } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesPartner";
 import { testCasesPKHFormularGrundvoraussetzungen } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/__test__/testcases";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "../finanzielleAngaben/__test__/testcasesAusgaben";
 
 const showPKHZusammenfassung = await isFeatureFlagEnabled(
   "showPKHZusammenfassung",
@@ -104,6 +105,7 @@ export const prozesskostenhilfeFormularTestCases = {
     ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
     ...testCasesPKHFormularFinanzielleAngabenEinkuenfte,
     ...testCasesPKHFormularFinanzielleAngabenPartner,
+    ...testCasesPKHFormularFinanzielleAngabenAusgaben,
     weitereAngaben: [
       {
         stepId: "/persoenliche-daten/beruf",
