@@ -2,7 +2,6 @@ import { createMachine } from "xstate";
 import type { TestCases } from "~/domains/__test__/TestCases";
 import { prozesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular";
 import type { FlowStateMachine } from "~/services/flow/server/types";
-import { testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen } from "../finanzielleAngaben/__test__/testcasesAndereUnterhalt";
 import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "../finanzielleAngaben/__test__/testcasesAusgaben";
 import { testCasesPKHFormularFinanzielleAngabenEigentum } from "../finanzielleAngaben/__test__/testcasesEigentum";
 import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../finanzielleAngaben/__test__/testcasesWohnung";
@@ -17,7 +16,6 @@ const machine: FlowStateMachine = createMachine(
 
 const testCasesFormular = [
   ...testCasesPKHFormularFinanzielleAngabenWohnung,
-  ...testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen,
   ...testCasesPKHFormularFinanzielleAngabenEigentum,
   ...testCasesPKHFormularFinanzielleAngabenAusgaben,
   ...testCasesProzesskostenhilfeRsv,
