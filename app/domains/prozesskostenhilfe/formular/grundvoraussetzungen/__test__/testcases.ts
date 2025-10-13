@@ -2,6 +2,7 @@ import { type FlowTestCases } from "~/domains/__test__/TestCases";
 
 export const testCasesPKHFormularGrundvoraussetzungen = {
   analogNachueberpruefung: [
+    { stepId: "/start/start" },
     {
       stepId: "/grundvoraussetzungen/nachueberpruefung-frage",
       userInput: {
