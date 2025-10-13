@@ -34,7 +34,7 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
       mdColumn={{ start: 1, span: 8 }}
       lgColumn={{ start: 3, span: 8 }}
       xlColumn={{ start: 3, span: 8 }}
-      className={`${BACKGROUND_COLORS.midBlue} rounded-lg py-24 px-16`}
+      className={`${BACKGROUND_COLORS.midBlue} rounded-lg py-24 px-16 print:hidden`}
     >
       <div
         className="ds-stack ds-stack-16"

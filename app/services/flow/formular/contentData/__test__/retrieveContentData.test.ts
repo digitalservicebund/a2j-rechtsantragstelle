@@ -1,6 +1,6 @@
 import {
   fetchFlowPage,
-  fetchMeta,
+  fetchContentPageMeta,
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
 import { type StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
@@ -22,7 +22,7 @@ const mockFormPageContent = {
   pre_form: [],
   post_form: [],
   form: [],
-  pageMeta: { title: "title" },
+  pageTitle: "page title",
   flow_ids: [{ flowId: "/fluggastrechte/formular" }],
   locale: "de",
   stepId: "/intro/start",
@@ -39,7 +39,7 @@ vi.mock("~/services/flow/formular/buildCmsContentAndTranslations");
 
 const mockFetchData = () => {
   vi.mocked(fetchFlowPage).mockResolvedValue(mockFormPageContent);
-  vi.mocked(fetchMeta);
+  vi.mocked(fetchContentPageMeta);
   vi.mocked(fetchMultipleTranslations).mockResolvedValue(mockTranslations);
 };
 
@@ -52,11 +52,6 @@ describe("retrieveContentData", () => {
   vi.mocked(buildCmsContentAndTranslations).mockReturnValue({
     cmsContent: { content: "someContent " } as unknown as CMSContent,
     translations: { translation: "someTranslation" },
-    meta: {
-      description: "meta description",
-      ogTitle: "meta ogTitle",
-      title: "meta title",
-    },
   });
 
   it("should call once flow page, parent meta and translations", async () => {
@@ -72,7 +67,7 @@ describe("retrieveContentData", () => {
       "/fluggastrechte/formular",
       "/intro/start",
     );
-    expect(fetchMeta).toBeCalledTimes(1);
+    expect(fetchContentPageMeta).toBeCalledTimes(1);
     expect(fetchMultipleTranslations).toBeCalledTimes(1);
     expect(fetchMultipleTranslations).toHaveBeenCalledWith([
       "/fluggastrechte/formular/menu",

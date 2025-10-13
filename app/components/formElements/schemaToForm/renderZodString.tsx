@@ -40,7 +40,7 @@ export const renderZodString = (
     return <TimeInput key={fieldName} {...inputProps} />;
   if (matchingElement?.__component === "form-elements.auto-suggest-input")
     return (
-      <AutoSuggestInput key={fieldName} {...matchingElement} name={fieldName} />
+      <AutoSuggestInput key={fieldName} {...matchingElement} {...inputProps} />
     );
   return <Input key={fieldName} {...inputProps} />;
 };

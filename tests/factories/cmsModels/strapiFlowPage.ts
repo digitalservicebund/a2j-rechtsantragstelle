@@ -18,12 +18,7 @@ export function getStrapiFlowPage(
     pre_form: [],
     post_form: [],
     locale: params.locale ?? "de",
-    pageMeta: {
-      title: faker.lorem.word(),
-      breadcrumb: faker.lorem.word(),
-      description: null,
-      ogTitle: null,
-    },
+    pageTitle: "page title",
   };
 }
 

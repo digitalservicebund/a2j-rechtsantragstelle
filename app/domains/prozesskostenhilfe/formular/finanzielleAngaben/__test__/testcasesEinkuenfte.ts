@@ -1,164 +1,278 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
-import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
-const prefix = "/finanzielle-angaben/einkuenfte";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
 
-export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = [
-  [
-    { staatlicheLeistungen: "keine" },
-    [
-      prefix + "/start",
-      prefix + "/staatliche-leistungen",
-      prefix + "/einkommen/erwerbstaetig",
-    ],
-  ],
-  [
-    { staatlicheLeistungen: "buergergeld" },
-    [prefix + "/staatliche-leistungen", prefix + "/buergergeld"],
-  ],
-  [
+export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
+  staatlicheLeistungenKeine: [
     {
-      staatlicheLeistungen: "buergergeld",
-      buergergeld: "1000",
-      currentlyEmployed: "yes",
-      employmentType: "employed",
-      nettoEinkuenfteAlsArbeitnehmer: "1000",
+      stepId: "/finanzielle-angaben/einkuenfte/start",
     },
-    [
-      prefix + "/staatliche-leistungen",
-      prefix + "/buergergeld",
-      prefix + "/einkommen/erwerbstaetig",
-      prefix + "/einkommen/art",
-      prefix + "/einkommen/netto-einkommen",
-      prefix + "/rente-frage",
-    ],
-  ],
-  [
     {
-      staatlicheLeistungen: "buergergeld",
-      buergergeld: "1000",
-      currentlyEmployed: "yes",
-      employmentType: "selfEmployed",
-      selbststaendigMonatlichesEinkommen: "1000",
-      selbststaendigBruttoNetto: "brutto",
-      selbststaendigAbzuege: "100",
-    },
-    [
-      prefix + "/staatliche-leistungen",
-      prefix + "/buergergeld",
-      prefix + "/einkommen/erwerbstaetig",
-      prefix + "/einkommen/art",
-      prefix + "/einkommen/selbststaendig",
-      prefix + "/einkommen/selbststaendig-abzuege",
-      prefix + "/rente-frage",
-    ],
-  ],
-  [
-    { staatlicheLeistungen: "arbeitslosengeld" },
-    [prefix + "/staatliche-leistungen", prefix + "/arbeitslosengeld"],
-  ],
-  [
-    { staatlicheLeistungen: "grundsicherung" },
-    [prefix + "/staatliche-leistungen", "/gesetzliche-vertretung/frage"],
-  ],
-  [
-    { staatlicheLeistungen: "asylbewerberleistungen" },
-    [prefix + "/staatliche-leistungen", "/gesetzliche-vertretung/frage"],
-  ],
-  [
-    { staatlicheLeistungen: "keine", currentlyEmployed: "yes" },
-    [
-      prefix + "/staatliche-leistungen",
-      "/finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
-      "/finanzielle-angaben/einkuenfte/einkommen/art",
-    ],
-  ],
-  [
-    { employmentType: "employed", nettoEinkuenfteAlsArbeitnehmer: "1000" },
-    [
-      "/finanzielle-angaben/einkuenfte/einkommen/art",
-      "/finanzielle-angaben/einkuenfte/einkommen/netto-einkommen",
-      "/finanzielle-angaben/einkuenfte/rente-frage",
-    ],
-  ],
-  [
-    {
-      employmentType: "selfEmployed",
-      selbststaendigMonatlichesEinkommen: "1000",
-      selbststaendigBruttoNetto: "brutto",
-      selbststaendigAbzuege: "100",
-    },
-    [
-      "/finanzielle-angaben/einkuenfte/einkommen/art",
-      "/finanzielle-angaben/einkuenfte/einkommen/selbststaendig",
-      "/finanzielle-angaben/einkuenfte/einkommen/selbststaendig-abzuege",
-      "/finanzielle-angaben/einkuenfte/rente-frage",
-    ],
-  ],
-  [
-    { currentlyEmployed: "no", receivesPension: "no" },
-    [
-      "/finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
-      "/finanzielle-angaben/einkuenfte/rente-frage",
-      "/finanzielle-angaben/einkuenfte/leistungen/frage",
-    ],
-  ],
-  [
-    { receivesPension: "yes", pensionAmount: "500" },
-    [
-      "/finanzielle-angaben/einkuenfte/rente-frage",
-      "/finanzielle-angaben/einkuenfte/rente",
-      "/finanzielle-angaben/einkuenfte/leistungen/frage",
-    ],
-  ],
-  [
-    {
-      leistungen: {
-        wohngeld: "on",
-        krankengeld: "on",
-        elterngeld: "on",
-        kindergeld: "on",
-      },
-      wohngeldAmount: "500",
-      krankengeldAmount: "500",
-      elterngeldAmount: "500",
-      kindergeldAmount: "500",
-    },
-    [
-      "/finanzielle-angaben/einkuenfte/leistungen/frage",
-      "/finanzielle-angaben/einkuenfte/leistungen/wohngeld",
-      "/finanzielle-angaben/einkuenfte/leistungen/krankengeld",
-      "/finanzielle-angaben/einkuenfte/leistungen/elterngeld",
-      "/finanzielle-angaben/einkuenfte/leistungen/kindergeld",
-      "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
-    ],
-  ],
-  [
-    {
-      leistungen: {
-        wohngeld: "off",
-        krankengeld: "off",
-        elterngeld: "off",
-        kindergeld: "off",
+      stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
+      userInput: {
+        staatlicheLeistungen: "keine",
       },
     },
-    [
-      "/finanzielle-angaben/einkuenfte/leistungen/frage",
-      "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
-    ],
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
+      userInput: {
+        currentlyEmployed: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/einkommen/art",
+    },
   ],
-  [
-    { hasFurtherIncome: "yes" },
-    [
-      "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
-      "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht",
-      "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/warnung",
-    ],
+  buergergeldEmployed: [
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
+      userInput: {
+        staatlicheLeistungen: "buergergeld",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/buergergeld",
+      userInput: {
+        buergergeld: "1000",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
+      userInput: {
+        currentlyEmployed: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/einkommen/art",
+      userInput: {
+        employmentType: "employed",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/einkommen/netto-einkommen",
+      userInput: {
+        nettoEinkuenfteAlsArbeitnehmer: "1000",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/rente-frage",
+    },
   ],
-  [
-    { currentlyEmployed: "no", hasFurtherIncome: "no" },
-    [
-      "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
-      "/finanzielle-angaben/partner/partnerschaft",
-    ],
+  buergergeldSelfEmployed: [
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
+      userInput: {
+        staatlicheLeistungen: "buergergeld",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/buergergeld",
+      userInput: {
+        buergergeld: "1000",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
+      userInput: {
+        currentlyEmployed: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/einkommen/art",
+      userInput: {
+        employmentType: "selfEmployed",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/einkommen/selbststaendig",
+      userInput: {
+        selbststaendigMonatlichesEinkommen: "1000",
+        selbststaendigBruttoNetto: "brutto",
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/einkuenfte/einkommen/selbststaendig-abzuege",
+      userInput: {
+        selbststaendigAbzuege: "100",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/rente-frage",
+    },
   ],
-] as const satisfies TestCases<ProzesskostenhilfeFinanzielleAngabenUserData>;
+  staatlicheLeistungenArbeitslosengeld: [
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
+      userInput: {
+        staatlicheLeistungen: "arbeitslosengeld",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/arbeitslosengeld",
+    },
+  ],
+  staatlicheLeistungenGrundsicherung: [
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
+      userInput: {
+        staatlicheLeistungen: "grundsicherung",
+      },
+    },
+    {
+      stepId: "/gesetzliche-vertretung/frage",
+    },
+  ],
+  staatlicheLeistungenAsylbewerberleistungen: [
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
+      userInput: {
+        staatlicheLeistungen: "asylbewerberleistungen",
+      },
+    },
+    {
+      stepId: "/gesetzliche-vertretung/frage",
+    },
+  ],
+  notEmployedNoPension: [
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
+      userInput: {
+        currentlyEmployed: "no",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/rente-frage",
+      userInput: {
+        receivesPension: "no",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/leistungen/frage",
+    },
+  ],
+  receivesPension: [
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/rente-frage",
+      userInput: {
+        receivesPension: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/rente",
+      userInput: {
+        pensionAmount: "500",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/leistungen/frage",
+    },
+  ],
+  receivesAllLeistungen: [
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/leistungen/frage",
+      userInput: {
+        leistungen: {
+          wohngeld: "on",
+          krankengeld: "on",
+          elterngeld: "on",
+          kindergeld: "on",
+          none: "off",
+        },
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/leistungen/wohngeld",
+      userInput: {
+        wohngeldAmount: "500",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/leistungen/krankengeld",
+      userInput: {
+        krankengeldAmount: "500",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/leistungen/elterngeld",
+      userInput: {
+        elterngeldAmount: "500",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/leistungen/kindergeld",
+      userInput: {
+        kindergeldAmount: "500",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
+    },
+  ],
+  receivesNoLeistungen: [
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/leistungen/frage",
+      userInput: {
+        leistungen: {
+          wohngeld: "off",
+          krankengeld: "off",
+          elterngeld: "off",
+          kindergeld: "off",
+          none: "on",
+        },
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
+    },
+  ],
+  hasUntenteredFurtherIncome: [
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
+      userInput: {
+        hasFurtherIncome: "yes",
+      },
+    },
+    { stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht" },
+    { stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/warnung" },
+  ],
+  addFurtherIncome: [
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
+      userInput: {
+        hasFurtherIncome: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht",
+      addArrayItemEvent: "add-weitereEinkuenfte",
+      userInput: {
+        pageData: {
+          arrayIndexes: [0],
+        },
+        weitereEinkuenfte: [],
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft/0/daten",
+      userInput: {
+        "weitereEinkuenfte#beschreibung": "Besondere Einkunft",
+        "weitereEinkuenfte#zahlungsfrequenz": "monthly",
+        "weitereEinkuenfte#betrag": "100",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht",
+    },
+  ],
+  notEmployedNoFurtherIncome: [
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
+      skipPageSchemaValidation: true,
+      userInput: {
+        currentlyEmployed: "no",
+        hasFurtherIncome: "no",
+      },
+    },
+    { stepId: "/finanzielle-angaben/partner/partnerschaft" },
+  ],
+} satisfies FlowTestCases["testcases"];

@@ -14,7 +14,7 @@ export function VorabcheckPage() {
   const {
     csrf,
     stepData,
-    contentElements,
+    cmsContent,
     formElements,
     progressProps,
     buttonNavigationProps,
@@ -24,7 +24,7 @@ export function VorabcheckPage() {
   useFocusFirstH1();
 
   return (
-    <GridSection backgroundClass={BACKGROUND_COLORS.blue}>
+    <GridSection className={BACKGROUND_COLORS.blue}>
       <Grid>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -43,7 +43,7 @@ export function VorabcheckPage() {
           row={2}
         >
           <ContentComponents
-            content={contentElements}
+            content={cmsContent.pre_form}
             className="ds-stack ds-stack-16"
             managedByParent
           />

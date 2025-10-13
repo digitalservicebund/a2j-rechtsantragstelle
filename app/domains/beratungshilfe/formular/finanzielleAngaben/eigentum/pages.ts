@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { bankkontenArraySchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
@@ -30,35 +31,18 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumBankkonto: {
     stepId: "finanzielle-angaben/eigentum/bankkonten/bankkonto",
-    pageSchema: {
-      bankkonten: z.array(
-        z.object({
-          bankName: stringRequiredSchema,
-          kontostand: buildMoneyValidationSchema({}),
-          iban: stringOptionalSchema,
-          kontoEigentuemer: z.enum([
-            "myself",
-            "partner",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
-          kontoDescription: stringOptionalSchema,
-        }),
-      ),
-    },
+    pageSchema: { bankkonten: bankkontenArraySchema },
     arrayPages: {
       daten: {
         pageSchema: {
-          "bankkonten#bankName": stringRequiredSchema,
-          "bankkonten#kontostand": buildMoneyValidationSchema({}),
-          "bankkonten#iban": stringOptionalSchema,
-          "bankkonten#kontoEigentuemer": z.enum([
-            "myself",
-            "partner",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
-          "bankkonten#kontoDescription": stringOptionalSchema,
+          "bankkonten#kontoEigentuemer":
+            bankkontenArraySchema.element.shape.kontoEigentuemer,
+          "bankkonten#bankName": bankkontenArraySchema.element.shape.bankName,
+          "bankkonten#kontostand":
+            bankkontenArraySchema.element.shape.kontostand,
+          "bankkonten#iban": bankkontenArraySchema.element.shape.iban,
+          "bankkonten#kontoDescription":
+            bankkontenArraySchema.element.shape.kontoDescription,
         },
       },
     },

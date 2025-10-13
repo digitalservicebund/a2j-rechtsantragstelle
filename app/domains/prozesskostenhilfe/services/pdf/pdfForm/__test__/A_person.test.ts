@@ -14,6 +14,11 @@ let pdfParams: ProzesskostenhilfePDF;
 const userData: ProzesskostenhilfeFormularUserData = {
   vorname: "Angelika",
   nachname: "M",
+  geburtsdatum: {
+    day: "1",
+    month: "1",
+    year: "1990",
+  },
   beruf: "Musterberuf",
   street: "Musterstraße",
   houseNumber: "123",
@@ -65,7 +70,7 @@ describe("A_person", () => {
         pdfValues: pdfParams,
       });
 
-      expect(pdfValues.geburtsdatum.value).toBe(userData.geburtsdatum);
+      expect(pdfValues.geburtsdatum.value).toBe("01.01.1990");
       expect(attachment).toHaveLength(0);
     });
 

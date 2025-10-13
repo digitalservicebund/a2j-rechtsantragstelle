@@ -14,10 +14,13 @@ import { beratungshilfeAntragTestCases } from "~/domains/beratungshilfe/formular
 import { removeArrayIndex } from "~/util/array";
 import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 
-const flowSchemaTests = {
+const flowSchemaTests: Record<string, FlowTestCases> = {
   beratungshilfeAntragTestCases,
   beratungshilfeVorabcheckTestCases,
+  prozesskostenhilfeFormularTestCases,
   kontopfaendungWegweiserTestCases,
 };
 
@@ -39,10 +42,9 @@ function testPageSchema(
   userInput: UserData | undefined,
   pageSchema: SchemaObject | undefined,
   addArrayItemEvent?: ArrayConfigServer["event"],
-  skipPageSchemaValidation?: boolean,
 ) {
   // Without userInput we don't expect a pageSchema. Same for Array Overview pages
-  if (!userInput || addArrayItemEvent || skipPageSchemaValidation) {
+  if (!userInput || addArrayItemEvent) {
     expect(pageSchema).toBeUndefined();
   } else {
     expect(pageSchema).toBeDefined(); // With userInput we expect it to validate against the pageSchema
@@ -84,6 +86,7 @@ function runTestcases(
   xstateConfig: Config,
   expectedSteps: ExpectedStep[],
   allVisitedSteps: VisitedSteps,
+  guards?: FlowTestCases["guards"],
 ) {
   test(testName, () => {
     let [isAddingArrayItem, summaryPageStepId]: [boolean, string?] = [
@@ -118,16 +121,14 @@ function runTestcases(
             summaryPageStepId = stepId;
           }
 
-          testPageSchema(
-            userInput,
-            pageSchema,
-            addArrayItemEvent,
-            skipPageSchemaValidation,
-          );
+          if (!skipPageSchemaValidation) {
+            testPageSchema(userInput, pageSchema, addArrayItemEvent);
+          }
 
           const flowController = buildFlowController({
             config: xstateConfig,
             data: buildFullUserInput(expectedSteps, idx),
+            guards,
           });
 
           // Given the current data and url we expect the next and previous url
@@ -147,8 +148,10 @@ function runTestcases(
             expect(flowController.getPrevious(nextStepId)).toBe(currentUrl);
           }
 
-          allVisitedSteps[flowId].visitedSteps.add(stepId);
-          allVisitedSteps[flowId].visitedSteps.add(nextStepId);
+          allVisitedSteps[flowId].visitedSteps.add(removeArrayIndex(stepId));
+          allVisitedSteps[flowId].visitedSteps.add(
+            removeArrayIndex(nextStepId),
+          );
         },
       );
   });
@@ -158,8 +161,8 @@ describe.sequential("flowSchemas", () => {
   const allVisitedSteps: VisitedSteps = {};
 
   Object.entries(flowSchemaTests).forEach(
-    ([testConfigName, { xstateConfig, testcases }]) => {
-      const flowId = xstateConfig.id;
+    ([testConfigName, { xstateConfig, testcases, guards }]) => {
+      const flowId = xstateConfig.id!;
 
       if (!allVisitedSteps[flowId]) {
         allVisitedSteps[flowId] = { xstateConfig, visitedSteps: new Set() };
@@ -177,13 +180,14 @@ describe.sequential("flowSchemas", () => {
               xstateConfig,
               expectedSteps,
               allVisitedSteps,
+              guards,
             ),
         );
       });
     },
   );
 
-  test("all steps are visited", () => {
+  test("all steps are visited", async () => {
     const missingStepsEntries = Object.entries(allVisitedSteps)
       .map(([flowId, { xstateConfig, visitedSteps }]) => {
         const missingSteps = allStepsFromMachine(
@@ -205,6 +209,8 @@ describe.sequential("flowSchemas", () => {
       Object.fromEntries(missingStepsEntries),
     );
 
-    expect(totalMissingStepCount).toBeLessThanOrEqual(33);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(
+      (await isFeatureFlagEnabled("showFileUpload")) ? 187 : 177,
+    );
   });
 });

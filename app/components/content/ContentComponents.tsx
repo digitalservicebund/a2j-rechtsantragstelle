@@ -131,7 +131,7 @@ function ContentComponents({
               : "default"
           }
           key={`${el.__component}_${el.id}`}
-          backgroundClass={getContainerBackgroundColor(el)}
+          className={getContainerBackgroundColor(el)}
         >
           <Grid
             background={{

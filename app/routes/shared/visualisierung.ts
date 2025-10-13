@@ -65,7 +65,12 @@ const safeUri = (src: string) =>
 function compressBase64(flowChartString: string) {
   const graphObjString = JSON.stringify({ code: flowChartString });
   const compressed = deflateSync(graphObjString, { level: 9 });
-  return safeUri(Buffer.from(compressed).toString("base64"));
+  return safeUri(
+    Buffer.from(compressed)
+      .toString("base64")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_"),
+  );
 }
 
 const getVisualizationString = (
@@ -80,7 +85,7 @@ const getVisualizationString = (
   return mermaidFlowchart(digraph, showBacklinks);
 };
 
-export const loader = ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   throw404OnProduction();
   const url = new URL(request.url);
   const { flowId } = parsePathname(url.pathname);
@@ -89,5 +94,8 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   const machine = createMachine(config as Config, { guards });
   const graph = getVisualizationString(machine, showBacklinks);
   const mermaidUrl = `https://mermaid.ink/svg/pako:${compressBase64(graph)}?bgColor=!white`;
-  return { url: mermaidUrl };
+
+  const svgString = await fetch(mermaidUrl).then((res) => res.text());
+
+  return { svgString };
 };
