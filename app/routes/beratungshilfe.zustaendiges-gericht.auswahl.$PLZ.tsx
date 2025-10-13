@@ -120,6 +120,9 @@ export default function Index() {
                   width="10"
                 />
               </div>
+              <div className="label-text mt-6">
+                {translations.gerichtFinder.autosuggestInputHelperText.de}
+              </div>
               <ButtonContainer>
                 <Button
                   href="/beratungshilfe/zustaendiges-gericht/suche"

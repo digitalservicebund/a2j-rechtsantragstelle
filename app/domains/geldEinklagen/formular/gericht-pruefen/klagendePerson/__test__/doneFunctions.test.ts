@@ -189,7 +189,7 @@ describe("klagendePersonDone", () => {
   });
 
   describe("case for versicherung", () => {
-    it("should return false given an undefined klagendeVerbraucher", () => {
+    it("should return false given undefined klagendeKaufmann", () => {
       const actual = klagendePersonDone({
         context: {
           fuerWenKlagen: "selbst",
@@ -200,89 +200,16 @@ describe("klagendePersonDone", () => {
       expect(actual).toBe(false);
     });
 
-    describe("klagendeVerbraucher is no", () => {
-      it("should return false given undefined klagendeKaufmann", () => {
-        const actual = klagendePersonDone({
-          context: {
-            fuerWenKlagen: "selbst",
-            besondere: "versicherung",
-            klagendeVerbraucher: "no",
-          },
-        });
-
-        expect(actual).toBe(false);
+    it("should return true given a value for klagendeKaufmann", () => {
+      const actual = klagendePersonDone({
+        context: {
+          fuerWenKlagen: "selbst",
+          besondere: "versicherung",
+          klagendeKaufmann: "no",
+        },
       });
 
-      it("should return true given value for klagendeKaufmann", () => {
-        const actual = klagendePersonDone({
-          context: {
-            fuerWenKlagen: "selbst",
-            besondere: "versicherung",
-            klagendeVerbraucher: "no",
-            klagendeKaufmann: "no",
-          },
-        });
-
-        expect(actual).toBe(true);
-      });
-    });
-
-    describe("klagendeVerbraucher is yes", () => {
-      it("should return true given versicherungVertrag no", () => {
-        const actual = klagendePersonDone({
-          context: {
-            fuerWenKlagen: "selbst",
-            besondere: "versicherung",
-            klagendeVerbraucher: "yes",
-            versicherungVertrag: "no",
-          },
-        });
-
-        expect(actual).toBe(true);
-      });
-
-      it("should return true given versicherungVertrag yes and versicherungsnummer yes", () => {
-        const actual = klagendePersonDone({
-          context: {
-            fuerWenKlagen: "selbst",
-            besondere: "versicherung",
-            klagendeVerbraucher: "yes",
-            versicherungVertrag: "yes",
-            versicherungsnummer: "yes",
-          },
-        });
-
-        expect(actual).toBe(true);
-      });
-
-      it("should return false given klagendeHaustuergeschaeft undefined when versicherungVertrag yes and versicherungsnummer no", () => {
-        const actual = klagendePersonDone({
-          context: {
-            fuerWenKlagen: "selbst",
-            besondere: "versicherung",
-            klagendeVerbraucher: "yes",
-            versicherungVertrag: "yes",
-            versicherungsnummer: "no",
-          },
-        });
-
-        expect(actual).toBe(false);
-      });
-
-      it("should return true given value for klagendeHaustuergeschaeft when versicherungVertrag yes and versicherungsnummer no", () => {
-        const actual = klagendePersonDone({
-          context: {
-            fuerWenKlagen: "selbst",
-            besondere: "versicherung",
-            klagendeVerbraucher: "yes",
-            versicherungVertrag: "yes",
-            versicherungsnummer: "no",
-            klagendeHaustuergeschaeft: "no",
-          },
-        });
-
-        expect(actual).toBe(true);
-      });
+      expect(actual).toBe(true);
     });
   });
 

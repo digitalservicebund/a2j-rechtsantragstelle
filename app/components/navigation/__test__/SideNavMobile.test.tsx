@@ -1,4 +1,4 @@
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import { type NavState } from "~/services/navigation/navState";
 import SideNavMobile from "../SideNavMobile";
 import { type NavItem } from "../types";
@@ -50,5 +50,20 @@ describe("SideNavMobile", () => {
     expect(menuButton).toHaveAttribute("aria-expanded", "false");
     fireEvent.click(menuButton);
     expect(menuButton).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("should focus in the first nav item when click in the menu button", async () => {
+    const { getByRole, container } = render(
+      <SideNavMobile navItems={dummyNavItems} />,
+    );
+    const menuButton = getByRole("button");
+    fireEvent.click(menuButton);
+    const firstAnchorElement = container.querySelector(
+      `a[href="${dummyNavItems[0].destination}"]`,
+    );
+
+    await waitFor(() => {
+      expect(firstAnchorElement).toHaveFocus();
+    });
   });
 });
