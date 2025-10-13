@@ -5,7 +5,6 @@ import type { FlowStateMachine } from "~/services/flow/server/types";
 import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "../finanzielleAngaben/__test__/testcasesAusgaben";
 import { testCasesPKHFormularFinanzielleAngabenWohnung } from "../finanzielleAngaben/__test__/testcasesWohnung";
 import { testCasesProzesskostenhilfePersoenlicheDaten } from "../persoenlicheDaten/__test__/testcases";
-import { testCasesProzesskostenhilfeRsv } from "../rechtsschutzversicherung/__test__/testcases";
 import { type ProzesskostenhilfeFormularUserData } from "../userData";
 
 const machine: FlowStateMachine = createMachine(
@@ -16,7 +15,6 @@ const machine: FlowStateMachine = createMachine(
 const testCasesFormular = [
   ...testCasesPKHFormularFinanzielleAngabenWohnung,
   ...testCasesPKHFormularFinanzielleAngabenAusgaben,
-  ...testCasesProzesskostenhilfeRsv,
   ...testCasesProzesskostenhilfePersoenlicheDaten,
   // ...testCasesProzesskostenhilfeDocumentUploadTransitions, // Uncomment when file upload is released
 ] satisfies TestCases<ProzesskostenhilfeFormularUserData>;
