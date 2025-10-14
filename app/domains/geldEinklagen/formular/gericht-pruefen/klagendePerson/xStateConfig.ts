@@ -21,7 +21,8 @@ export const klagendePersonXstateConfig = {
           {
             guard: ({ context }) =>
               context.besondere === "schaden" ||
-              context.besondere === "verkehrsunfall",
+              context.besondere === "verkehrsunfall" ||
+              context.besondere === "versicherung",
             target: steps.klagendePersonKaufmann.relative,
           },
           { target: steps.klagendePersonVerbraucher.relative },
@@ -102,14 +103,6 @@ export const klagendePersonXstateConfig = {
           {
             guard: ({ context }) =>
               context.klagendeVerbraucher === "yes" &&
-              context.besondere === "versicherung" &&
-              context.versicherungVertrag === "yes" &&
-              context.versicherungsnummer === "no",
-            target: steps.klagendePersonHaustuergeschaeft.relative,
-          },
-          {
-            guard: ({ context }) =>
-              context.klagendeVerbraucher === "yes" &&
               (context.besondere === "reisen" ||
                 context.besondere === "urheberrecht" ||
                 context.besondere === "anderesRechtsproblem"),
@@ -133,7 +126,8 @@ export const klagendePersonXstateConfig = {
           {
             guard: ({ context }) =>
               context.besondere === "schaden" ||
-              context.besondere === "verkehrsunfall",
+              context.besondere === "verkehrsunfall" ||
+              context.besondere === "versicherung",
             target: steps.klagendePersonFuerWen.relative,
           },
           { target: steps.klagendePersonVerbraucher.relative },

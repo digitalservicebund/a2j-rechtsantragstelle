@@ -104,6 +104,9 @@ export const translations = {
     "open-feedback-placeholder": {
       de: "Beschreibung des Problems ...",
     },
+    "validation-error": {
+      de: "Bitte treffen Sie eine Auswahl.",
+    },
   },
   video: {
     "video-thumbnail": {
@@ -190,6 +193,9 @@ export const translations = {
     invalidHousenumber: {
       de: "Bitte geben Sie eine gültige Hausnummer an.",
     },
+    autosuggestInputHelperText: {
+      de: "Geben Sie Ihre Straße ein und wählen Sie diese anschließend aus der Trefferliste aus",
+    },
   },
   arraySummary: {
     arrayEditButtonLabel: {
@@ -200,6 +206,23 @@ export const translations = {
     },
     arrayAddButtonLabel: {
       de: "hinzufügen",
+    },
+  },
+  splitDateComponent: {
+    tagInputLabel: {
+      de: "Tag",
+    },
+    monatInputLabel: {
+      de: "Monat",
+    },
+    jahrInputLabel: {
+      de: "Jahr",
+    },
+    legend: {
+      de: "Geburtsdatum",
+    },
+    hintText: {
+      de: "Beispielsweise: 17 3 2015",
     },
   },
 } satisfies TranslationRecord;

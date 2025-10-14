@@ -1,6 +1,6 @@
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import type { StrapiMeta } from "~/services/cms/models/StrapiMeta";
-import { stepMeta } from "~/services/meta/stepMeta";
+import { composePageTitle } from "~/services/meta/composePageTitle";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import {
   applyStringReplacement,
@@ -33,7 +33,7 @@ const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
     formContent: formPageContent.form,
     postFormContent:
       "post_form" in formPageContent ? formPageContent.post_form : [],
-    pageMeta: formPageContent.pageMeta,
+    pageTitle: formPageContent.pageTitle,
   };
 };
 
@@ -49,7 +49,6 @@ export const buildCmsContentAndTranslations = ({
 }: BuildCmsContentAndTranslations): {
   translations: Translations;
   cmsContent: CMSContent;
-  meta: ReturnType<typeof stepMeta>;
 } => {
   const translationsAfterInterpolation = {
     ...applyStringReplacement(flowTranslations, replacements), // interpolate data on MigrationDataOverview
@@ -59,7 +58,10 @@ export const buildCmsContentAndTranslations = ({
 
   // structure cms content -> merge with getting data?
   const cmsContent = applyStringReplacement(
-    structureCmsContent(formPageContent),
+    structureCmsContent({
+      ...formPageContent,
+      pageTitle: composePageTitle(formPageContent.pageTitle, parentMeta),
+    }),
     {
       ...translationsAfterInterpolation,
       ...replacements,
@@ -70,9 +72,5 @@ export const buildCmsContentAndTranslations = ({
   return {
     translations: translationsAfterInterpolation,
     cmsContent,
-    meta: applyStringReplacement(
-      stepMeta(cmsContent.pageMeta, parentMeta),
-      replacements,
-    ),
   };
 };

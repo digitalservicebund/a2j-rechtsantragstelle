@@ -41,12 +41,7 @@ describe("services/cms", () => {
           nextButtonLabel: null,
           backButtonLabel: null,
           stepId: "/stepId",
-          pageMeta: {
-            title: "",
-            description: null,
-            ogTitle: null,
-            breadcrumb: "",
-          },
+          pageTitle: "page title",
           pre_form: [],
           post_form: [],
           form: [],

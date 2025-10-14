@@ -79,14 +79,6 @@ export const gerichtPruefenXstateConfig = {
               {
                 guard: ({ context }) =>
                   context.klagendeVerbraucher === "yes" &&
-                  context.besondere === "versicherung" &&
-                  context.versicherungVertrag === "yes" &&
-                  context.versicherungsnummer === "no",
-                target: steps.klagendePersonHaustuergeschaeft.absolute,
-              },
-              {
-                guard: ({ context }) =>
-                  context.klagendeVerbraucher === "yes" &&
                   context.besondere === "miete" &&
                   context.mietePachtVertrag === "yes" &&
                   context.mietePachtRaum === "no",
@@ -108,7 +100,8 @@ export const gerichtPruefenXstateConfig = {
                 guard: ({ context }) =>
                   context.klagendeVerbraucher === "no" ||
                   context.besondere === "verkehrsunfall" ||
-                  context.besondere === "schaden",
+                  context.besondere === "schaden" ||
+                  context.besondere === "versicherung",
                 target: steps.klagendePersonKaufmann.absolute,
               },
             ],

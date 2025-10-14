@@ -26,7 +26,7 @@ export default function Breadcrumbs({
   if (validBreadcrumbs.length === 0) return null;
 
   return (
-    <GridSection backgroundClass="bg-blue-100">
+    <GridSection className="bg-blue-100">
       <Grid>
         <GridItem
           smColumn={{ start: 1, span: 12 }}

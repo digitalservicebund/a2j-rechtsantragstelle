@@ -60,7 +60,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const navProps = contentData.getNavProps(flowController, stepId, useStepper);
   const cmsContent = contentData.getCMSContent();
   const formElements = contentData.getFormElements();
-  const meta = contentData.getMeta();
   const arraySummaryData = contentData.arraySummaryData(flowController);
   const stepData = contentData.getStepData();
   const buttonNavigationProps = contentData.getButtonNavigation(
@@ -83,7 +82,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       csrf,
       emailCaptureConsent,
       formElements,
-      meta,
       migration,
       stepData,
       translations,
