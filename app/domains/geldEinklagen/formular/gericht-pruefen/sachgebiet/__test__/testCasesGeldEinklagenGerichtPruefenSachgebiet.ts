@@ -5,7 +5,7 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
   [
     {
       forderung: "maximal5000",
-      sachgebietAusgeschlossen: "yes",
+      ausgeschlossen: "yes",
     },
     [
       "/gericht-pruefen/sachgebiet/info",
@@ -16,8 +16,8 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
   [
     {
       forderung: "maximal5000",
-      sachgebietAusgeschlossen: "no",
-      besondere: "anderesRechtsproblem",
+      ausgeschlossen: "no",
+      sachgebiet: "anderesRechtsproblem",
     },
     [
       "/gericht-pruefen/sachgebiet/info",
@@ -29,8 +29,8 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
   [
     {
       forderung: "maximal5000",
-      sachgebietAusgeschlossen: "no",
-      besondere: "urheberrecht",
+      ausgeschlossen: "no",
+      sachgebiet: "urheberrecht",
     },
     [
       "/gericht-pruefen/sachgebiet/info",
@@ -42,8 +42,8 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
   [
     {
       forderung: "maximal5000",
-      sachgebietAusgeschlossen: "no",
-      besondere: "schaden",
+      ausgeschlossen: "no",
+      sachgebiet: "schaden",
     },
     [
       "/gericht-pruefen/sachgebiet/info",
@@ -55,8 +55,8 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
   [
     {
       forderung: "maximal5000",
-      sachgebietAusgeschlossen: "no",
-      besondere: "miete",
+      ausgeschlossen: "no",
+      sachgebiet: "miete",
       mietePachtVertrag: "yes",
       mietePachtRaum: "yes",
     },
@@ -72,8 +72,8 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
   [
     {
       forderung: "maximal5000",
-      sachgebietAusgeschlossen: "no",
-      besondere: "miete",
+      ausgeschlossen: "no",
+      sachgebiet: "miete",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
     },
@@ -89,8 +89,8 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
   [
     {
       forderung: "maximal5000",
-      sachgebietAusgeschlossen: "no",
-      besondere: "miete",
+      ausgeschlossen: "no",
+      sachgebiet: "miete",
       mietePachtVertrag: "no",
     },
     [
@@ -104,8 +104,8 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
   [
     {
       forderung: "maximal5000",
-      sachgebietAusgeschlossen: "no",
-      besondere: "versicherung",
+      ausgeschlossen: "no",
+      sachgebiet: "versicherung",
       versicherungVertrag: "yes",
       versicherungsnummer: "yes",
     },
@@ -121,8 +121,8 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
   [
     {
       forderung: "maximal5000",
-      sachgebietAusgeschlossen: "no",
-      besondere: "versicherung",
+      ausgeschlossen: "no",
+      sachgebiet: "versicherung",
       versicherungVertrag: "yes",
       versicherungsnummer: "no",
     },
@@ -138,8 +138,8 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
   [
     {
       forderung: "maximal5000",
-      sachgebietAusgeschlossen: "no",
-      besondere: "versicherung",
+      ausgeschlossen: "no",
+      sachgebiet: "versicherung",
       versicherungVertrag: "no",
     },
     [
@@ -153,8 +153,8 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
   [
     {
       forderung: "maximal5000",
-      sachgebietAusgeschlossen: "no",
-      besondere: "reisen",
+      ausgeschlossen: "no",
+      sachgebiet: "reisen",
       reiseArt: "andereReise",
     },
     [
@@ -168,8 +168,8 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
   [
     {
       forderung: "maximal5000",
-      sachgebietAusgeschlossen: "no",
-      besondere: "reisen",
+      ausgeschlossen: "no",
+      sachgebiet: "reisen",
       reiseArt: "flug",
     },
     [
@@ -183,8 +183,8 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
   [
     {
       forderung: "maximal5000",
-      sachgebietAusgeschlossen: "no",
-      besondere: "verkehrsunfall",
+      ausgeschlossen: "no",
+      sachgebiet: "verkehrsunfall",
       verkehrsunfallStrassenverkehr: "yes",
     },
     [
@@ -198,8 +198,8 @@ export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
   [
     {
       forderung: "maximal5000",
-      sachgebietAusgeschlossen: "no",
-      besondere: "verkehrsunfall",
+      ausgeschlossen: "no",
+      sachgebiet: "verkehrsunfall",
       verkehrsunfallStrassenverkehr: "no",
     },
     [

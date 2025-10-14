@@ -21,7 +21,7 @@ export const sachgebietXstateConfig = {
       on: {
         SUBMIT: [
           {
-            guard: ({ context }) => context.sachgebietAusgeschlossen === "yes",
+            guard: ({ context }) => context.ausgeschlossen === "yes",
             target: "ergebnis/sachgebiet-abbruch",
           },
           {
@@ -36,26 +36,26 @@ export const sachgebietXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context }) =>
-              (context.besondere === "schaden" ||
-                context.besondere === "anderesRechtsproblem" ||
-                context.besondere === "urheberrecht") &&
+              (context.sachgebiet === "schaden" ||
+                context.sachgebiet === "anderesRechtsproblem" ||
+                context.sachgebiet === "urheberrecht") &&
               sachgebietDone({ context }),
             target: steps.klagendePersonFuerWen.absolute,
           },
           {
-            guard: ({ context }) => context.besondere === "miete",
+            guard: ({ context }) => context.sachgebiet === "miete",
             target: steps.sachgebietMietePachtVertrag.relative,
           },
           {
-            guard: ({ context }) => context.besondere === "versicherung",
+            guard: ({ context }) => context.sachgebiet === "versicherung",
             target: steps.sachgebietVersicherungVertrag.relative,
           },
           {
-            guard: ({ context }) => context.besondere === "reisen",
+            guard: ({ context }) => context.sachgebiet === "reisen",
             target: steps.sachgebietReiseArt.relative,
           },
           {
-            guard: ({ context }) => context.besondere === "verkehrsunfall",
+            guard: ({ context }) => context.sachgebiet === "verkehrsunfall",
             target: steps.sachgebietVerkehrsunfallStrassenverkehr.relative,
           },
         ],
