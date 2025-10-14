@@ -128,9 +128,11 @@ export const getArbeitsentgeltEinmaligStrings = (
   return {
     hasArbeitsentgeltEinmalig:
       !!userData.zahlungArbeitgeber &&
-      Object.values(userData.zahlungArbeitgeber).some(
-        (value) => value === "on",
-      ),
+      (userData.zahlungArbeitgeber?.urlaubsgeld === "on" ||
+        userData.zahlungArbeitgeber?.weihnachtsgeld === "on" ||
+        userData.zahlungArbeitgeber?.ueberstundenBezahlt === "on" ||
+        userData.zahlungArbeitgeber?.abfindung === "on" ||
+        userData.zahlungArbeitgeber?.anderes === "on"),
   };
 };
 export const getSelbststaendigStrings = (
