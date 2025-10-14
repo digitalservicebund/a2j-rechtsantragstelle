@@ -5,6 +5,7 @@ import { geldEinklagenGerichtPruefenPages } from "./pages";
 import { forderungDone } from "./doneFunctions";
 import { sachgebietXstateConfig } from "./sachgebiet/xstateConfig";
 import { klagendePersonXstateConfig } from "./klagendePerson/xStateConfig";
+import { beklagtePersonXstateConfig } from "./beklagtePerson/xStateConfig";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -50,60 +51,34 @@ export const gerichtPruefenXstateConfig = {
     },
     sachgebiet: sachgebietXstateConfig,
     "klagende-person": klagendePersonXstateConfig,
-    "beklagte-person": {
-      id: "beklagte-person",
-      initial: "fuer-wen",
+    "beklagte-person": beklagtePersonXstateConfig,
+    "gericht-suche": {
+      id: "gericht-suche",
+      initial: "postleitzahl-beklagte-person",
       meta: { done: () => false },
       states: {
-        [steps.beklagtePerson.relative]: {
+        [steps.gerichtSuchePostleitzahlBeklagtePerson.relative]: {
           on: {
             BACK: [
               {
                 guard: ({ context }) =>
-                  context.klagendeVerbraucher === "yes" &&
-                  (context.besondere === "anderesRechtsproblem" ||
-                    context.besondere === "urheberrecht" ||
-                    context.besondere === "reisen") &&
-                  context.klagendeVertrag === "no",
-                target: steps.klagendePersonVertrag.absolute,
+                  context.fuerWenBeklagen === "person" &&
+                  context.besondere === "urheberrecht" &&
+                  context.beklagtePersonGeldVerdienen === "no",
+                target: steps.beklagtePersonGeldVerdienen.absolute,
               },
               {
                 guard: ({ context }) =>
-                  context.klagendeVerbraucher === "yes" &&
-                  (context.besondere === "anderesRechtsproblem" ||
-                    context.besondere === "urheberrecht" ||
-                    context.besondere === "reisen") &&
-                  context.klagendeVertrag === "yes",
-                target: steps.klagendePersonHaustuergeschaeft.absolute,
+                  context.beklagtePersonKaufmann === "yes",
+                target: steps.beklagtePersonGerichtsstandsvereinbarung.absolute,
               },
               {
                 guard: ({ context }) =>
-                  context.klagendeVerbraucher === "yes" &&
-                  context.besondere === "miete" &&
-                  context.mietePachtVertrag === "yes" &&
-                  context.mietePachtRaum === "no",
-                target: steps.klagendePersonHaustuergeschaeft.absolute,
+                  context.beklagtePersonKaufmann === "no" ||
+                  context.beklagtePersonKaufmann === "unknown",
+                target: steps.beklagtePersonKaufmann.absolute,
               },
-              {
-                guard: ({ context }) => context.klagendeVerbraucher === "yes",
-                target: steps.klagendePersonVerbraucher.absolute,
-              },
-              {
-                guard: ({ context }) =>
-                  context.klagendeVerbraucher === "no" &&
-                  context.besondere === "miete" &&
-                  context.mietePachtVertrag === "yes" &&
-                  context.mietePachtRaum === "yes",
-                target: steps.klagendePersonVerbraucher.absolute,
-              },
-              {
-                guard: ({ context }) =>
-                  context.klagendeVerbraucher === "no" ||
-                  context.besondere === "verkehrsunfall" ||
-                  context.besondere === "schaden" ||
-                  context.besondere === "versicherung",
-                target: steps.klagendePersonKaufmann.absolute,
-              },
+              { target: steps.beklagtePersonFuerWen.absolute },
             ],
           },
         },
