@@ -1,9 +1,9 @@
-import { childDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
-import { arrayIsNonEmpty } from "~/util/array";
+import { kinderArraySchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "../BeratungshilfeFinanzielleAngabenGuardType";
 
 export const kinderDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
-  context.hasKinder == "no" ||
-  (arrayIsNonEmpty(context.kinder) && context.kinder.every(childDone));
+  context.hasKinder === "no" ||
+  (context.hasKinder === "yes" &&
+    kinderArraySchema.safeParse(context.kinder).success);

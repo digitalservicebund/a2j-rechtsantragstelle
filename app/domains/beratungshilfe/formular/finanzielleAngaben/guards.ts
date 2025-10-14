@@ -143,7 +143,9 @@ export const kindEigeneEinnahmenYes: BeratungshilfeFinanzielleAngabenGuard = ({
 }) => {
   const arrayIndex = firstArrayIndex(pageData);
   if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.eigeneEinnahmen === "yes";
+  const kind = kinder?.at(arrayIndex);
+  if (kind && "eigeneEinnahmen" in kind) return kind.eigeneEinnahmen === "yes";
+  return false;
 };
 
 export const kindUnterhaltNo: BeratungshilfeFinanzielleAngabenGuard = ({
@@ -151,14 +153,18 @@ export const kindUnterhaltNo: BeratungshilfeFinanzielleAngabenGuard = ({
 }) => {
   const arrayIndex = firstArrayIndex(pageData);
   if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.unterhalt === "no";
+  const kind = kinder?.at(arrayIndex);
+  if (kind && "unterhalt" in kind) return kind.unterhalt === "no";
+  return false;
 };
 export const kindUnterhaltYes: BeratungshilfeFinanzielleAngabenGuard = ({
   context: { pageData, kinder },
 }) => {
   const arrayIndex = firstArrayIndex(pageData);
   if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.unterhalt === "yes";
+  const kind = kinder?.at(arrayIndex);
+  if (kind && "unterhalt" in kind) return kind.unterhalt === "yes";
+  return false;
 };
 
 export const kindWohnortBeiAntragstellerNo: BeratungshilfeFinanzielleAngabenGuard =

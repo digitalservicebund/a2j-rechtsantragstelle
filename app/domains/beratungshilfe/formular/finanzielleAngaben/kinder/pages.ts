@@ -1,11 +1,10 @@
-import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { kinderSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { createDateSchema } from "~/services/validation/date";
+import {
+  kinderArraySchema,
+  sharedKinderFields,
+} from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { addYears, today } from "~/util/date";
 
 export const berhAntragFinanzielleAngabenKinderPages = {
   kinderFrage: {
@@ -20,21 +19,19 @@ export const berhAntragFinanzielleAngabenKinderPages = {
   },
   kinder: {
     stepId: "finanzielle-angaben/kinder/kinder",
-    pageSchema: { kinder: z.array(kinderSchema) },
+    pageSchema: { kinder: kinderArraySchema },
     arrayPages: {
       name: {
         pageSchema: {
-          "kinder#vorname": stringRequiredSchema,
-          "kinder#nachname": stringRequiredSchema,
-          "kinder#geburtsdatum": createDateSchema({
-            earliest: () => addYears(today(), -24),
-            latest: () => today(),
-          }),
+          "kinder#vorname": sharedKinderFields.vorname,
+          "kinder#nachname": sharedKinderFields.nachname,
+          "kinder#geburtsdatum": sharedKinderFields.geburtsdatum,
         },
       },
       wohnort: {
         pageSchema: {
-          "kinder#wohnortBeiAntragsteller": z.enum(["yes", "no", "partially"]),
+          "kinder#wohnortBeiAntragsteller":
+            sharedKinderFields.wohnortBeiAntragsteller,
         },
       },
       "kind-eigene-einnahmen-frage": {

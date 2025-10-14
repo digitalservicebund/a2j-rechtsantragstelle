@@ -186,20 +186,42 @@ export const childBirthdaySchema = createDateSchema({
   latest: () => today(),
 });
 
-export const kinderSchema = z
-  .object({
-    vorname: stringRequiredSchema,
-    nachname: stringRequiredSchema,
-    geburtsdatum: childBirthdaySchema,
-    wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
-    eigeneEinnahmen: YesNoAnswer,
-    einnahmen: buildMoneyValidationSchema(),
-    unterhalt: YesNoAnswer,
-    unterhaltsSumme: buildMoneyValidationSchema(),
-  })
-  .partial();
+export const sharedKinderFields = {
+  vorname: stringRequiredSchema,
+  nachname: stringRequiredSchema,
+  geburtsdatum: childBirthdaySchema,
+  wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
+};
 
-export type KinderSchema = z.infer<typeof kinderSchema>;
+export const kinderArraySchema = z
+  .union([
+    z.object({
+      ...sharedKinderFields,
+      wohnortBeiAntragsteller: z.enum(["yes", "partially"]),
+      eigeneEinnahmen: z.literal("no"),
+    }),
+    z.object({
+      ...sharedKinderFields,
+      wohnortBeiAntragsteller: z.enum(["yes", "partially"]),
+      eigeneEinnahmen: z.literal("yes"),
+      einnahmen: buildMoneyValidationSchema(),
+    }),
+    z.object({
+      ...sharedKinderFields,
+      wohnortBeiAntragsteller: z.literal("no"),
+      unterhalt: z.literal("no"),
+    }),
+    z.object({
+      ...sharedKinderFields,
+      wohnortBeiAntragsteller: z.literal("no"),
+      unterhalt: z.literal("yes"),
+      unterhaltsSumme: buildMoneyValidationSchema(),
+    }),
+  ])
+  .array()
+  .min(1);
+
+export type KinderArraySchema = z.infer<typeof kinderArraySchema>[number];
 
 export const besondereBelastungen = [
   "pregnancy",

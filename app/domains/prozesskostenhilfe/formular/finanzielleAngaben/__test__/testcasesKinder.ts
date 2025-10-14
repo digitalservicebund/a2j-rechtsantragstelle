@@ -20,7 +20,15 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = [
   [
     {
       hasKinder: "yes",
-      kinder: [{}],
+      kinder: [
+        {
+          vorname: "Maxi",
+          nachname: "Mustermensch",
+          geburtsdatum: "01.11.2015",
+          wohnortBeiAntragsteller: "yes",
+          eigeneEinnahmen: "no",
+        },
+      ],
     },
     [
       "/finanzielle-angaben/kinder/kinder-frage",
@@ -32,6 +40,9 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = [
     {
       kinder: [
         {
+          vorname: "Maxi",
+          nachname: "Mustermensch",
+          geburtsdatum: "01.11.2015",
           wohnortBeiAntragsteller: "yes",
           eigeneEinnahmen: "yes",
           einnahmen: "100",
@@ -50,6 +61,9 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = [
     {
       kinder: [
         {
+          vorname: "Maxi",
+          nachname: "Mustermensch",
+          geburtsdatum: "01.11.2015",
           wohnortBeiAntragsteller: "no",
           unterhalt: "yes",
           unterhaltsSumme: "100",
@@ -65,7 +79,15 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = [
   ],
   [
     {
-      kinder: [{ wohnortBeiAntragsteller: "no", unterhalt: "no" }],
+      kinder: [
+        {
+          vorname: "Maxi",
+          nachname: "Mustermensch",
+          geburtsdatum: "01.11.2015",
+          wohnortBeiAntragsteller: "no",
+          unterhalt: "no",
+        },
+      ],
       pageData: { arrayIndexes: [0] },
     },
     [
