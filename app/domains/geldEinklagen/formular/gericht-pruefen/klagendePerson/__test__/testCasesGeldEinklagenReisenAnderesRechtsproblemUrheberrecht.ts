@@ -3,7 +3,7 @@ import { type GeldEinklagenFormularUserData } from "../../../userData";
 
 const baseContext = {
   forderung: "maximal5000" as const,
-  sachgebietAusgeschlossen: "yes" as const,
+  ausgeschlossen: "yes" as const,
   fuerWenKlagen: "selbst" as const,
 };
 
@@ -11,7 +11,7 @@ export const testCasesGeldEinklagenReisenAnderesRechtsproblemUrheberrecht = [
   [
     {
       ...baseContext,
-      besondere: "reisen",
+      sachgebiet: "reisen",
       klagendeVerbraucher: "no",
       klagendeKaufmann: "yes",
     },
@@ -25,7 +25,7 @@ export const testCasesGeldEinklagenReisenAnderesRechtsproblemUrheberrecht = [
   [
     {
       ...baseContext,
-      besondere: "reisen",
+      sachgebiet: "reisen",
       klagendeVerbraucher: "yes",
       klagendeVertrag: "no",
     },
@@ -39,7 +39,7 @@ export const testCasesGeldEinklagenReisenAnderesRechtsproblemUrheberrecht = [
   [
     {
       ...baseContext,
-      besondere: "reisen",
+      sachgebiet: "reisen",
       klagendeVerbraucher: "yes",
       klagendeVertrag: "yes",
       klagendeHaustuergeschaeft: "no",
@@ -55,7 +55,7 @@ export const testCasesGeldEinklagenReisenAnderesRechtsproblemUrheberrecht = [
   [
     {
       ...baseContext,
-      besondere: "anderesRechtsproblem",
+      sachgebiet: "anderesRechtsproblem",
       klagendeVerbraucher: "no",
       klagendeKaufmann: "yes",
     },
@@ -69,7 +69,7 @@ export const testCasesGeldEinklagenReisenAnderesRechtsproblemUrheberrecht = [
   [
     {
       ...baseContext,
-      besondere: "anderesRechtsproblem",
+      sachgebiet: "anderesRechtsproblem",
       klagendeVerbraucher: "yes",
       klagendeVertrag: "no",
     },
@@ -83,7 +83,7 @@ export const testCasesGeldEinklagenReisenAnderesRechtsproblemUrheberrecht = [
   [
     {
       ...baseContext,
-      besondere: "anderesRechtsproblem",
+      sachgebiet: "anderesRechtsproblem",
       klagendeVerbraucher: "yes",
       klagendeVertrag: "yes",
       klagendeHaustuergeschaeft: "no",
@@ -99,7 +99,7 @@ export const testCasesGeldEinklagenReisenAnderesRechtsproblemUrheberrecht = [
   [
     {
       ...baseContext,
-      besondere: "urheberrecht",
+      sachgebiet: "urheberrecht",
       klagendeVerbraucher: "no",
       klagendeKaufmann: "yes",
     },
@@ -113,7 +113,7 @@ export const testCasesGeldEinklagenReisenAnderesRechtsproblemUrheberrecht = [
   [
     {
       ...baseContext,
-      besondere: "urheberrecht",
+      sachgebiet: "urheberrecht",
       klagendeVerbraucher: "yes",
       klagendeVertrag: "no",
     },
@@ -127,7 +127,7 @@ export const testCasesGeldEinklagenReisenAnderesRechtsproblemUrheberrecht = [
   [
     {
       ...baseContext,
-      besondere: "urheberrecht",
+      sachgebiet: "urheberrecht",
       klagendeVerbraucher: "yes",
       klagendeVertrag: "yes",
       klagendeHaustuergeschaeft: "no",

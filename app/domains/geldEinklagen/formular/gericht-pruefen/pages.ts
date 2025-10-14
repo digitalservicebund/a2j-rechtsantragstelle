@@ -18,12 +18,12 @@ export const geldEinklagenGerichtPruefenPages = {
   },
   sachgebietAusgeschlossen: {
     stepId: "gericht-pruefen/sachgebiet/ausgeschlossen",
-    pageSchema: { sachgebietAusgeschlossen: YesNoAnswer },
+    pageSchema: { ausgeschlossen: YesNoAnswer },
   },
   sachgebietBesondere: {
     stepId: "gericht-pruefen/sachgebiet/besondere",
     pageSchema: {
-      besondere: z.enum([
+      sachgebiet: z.enum([
         "miete",
         "versicherung",
         "schaden",

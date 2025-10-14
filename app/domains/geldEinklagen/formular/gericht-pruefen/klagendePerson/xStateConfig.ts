@@ -20,9 +20,9 @@ export const klagendePersonXstateConfig = {
           },
           {
             guard: ({ context }) =>
-              context.besondere === "schaden" ||
-              context.besondere === "verkehrsunfall" ||
-              context.besondere === "versicherung",
+              context.sachgebiet === "schaden" ||
+              context.sachgebiet === "verkehrsunfall" ||
+              context.sachgebiet === "versicherung",
             target: steps.klagendePersonKaufmann.relative,
           },
           { target: steps.klagendePersonVerbraucher.relative },
@@ -30,43 +30,43 @@ export const klagendePersonXstateConfig = {
         BACK: [
           {
             guard: ({ context }) =>
-              context.besondere === "anderesRechtsproblem" ||
-              context.besondere === "schaden" ||
-              context.besondere === "urheberrecht",
+              context.sachgebiet === "anderesRechtsproblem" ||
+              context.sachgebiet === "schaden" ||
+              context.sachgebiet === "urheberrecht",
             target: steps.sachgebietBesondere.absolute,
           },
           {
             guard: ({ context }) =>
-              context.besondere === "miete" &&
+              context.sachgebiet === "miete" &&
               context.mietePachtVertrag === "yes",
             target: steps.sachgebietMietePachtRaum.absolute,
           },
           {
             guard: ({ context }) =>
-              context.besondere === "miete" &&
+              context.sachgebiet === "miete" &&
               context.mietePachtVertrag === "no",
             target: steps.sachgebietMietePachtVertrag.absolute,
           },
           {
             guard: ({ context }) =>
-              context.besondere === "versicherung" &&
+              context.sachgebiet === "versicherung" &&
               context.versicherungVertrag === "no",
             target: steps.sachgebietVersicherungVertrag.absolute,
           },
           {
             guard: ({ context }) =>
-              context.besondere === "versicherung" &&
+              context.sachgebiet === "versicherung" &&
               context.versicherungVertrag === "yes",
             target: steps.sachgebietVersicherungVersicherungsnummer.absolute,
           },
           {
             guard: ({ context }) =>
-              context.besondere === "reisen" &&
+              context.sachgebiet === "reisen" &&
               context.reiseArt === "andereReise",
             target: steps.sachgebietReiseArt.absolute,
           },
           {
-            guard: ({ context }) => context.besondere === "verkehrsunfall",
+            guard: ({ context }) => context.sachgebiet === "verkehrsunfall",
             target: steps.sachgebietVerkehrsunfallStrassenverkehr.absolute,
           },
         ],
@@ -83,7 +83,7 @@ export const klagendePersonXstateConfig = {
           {
             guard: ({ context }) =>
               context.klagendeVerbraucher === "no" &&
-              context.besondere === "miete" &&
+              context.sachgebiet === "miete" &&
               context.mietePachtVertrag === "yes" &&
               context.mietePachtRaum === "yes",
             target: steps.beklagtePersonFuerWen.absolute,
@@ -95,7 +95,7 @@ export const klagendePersonXstateConfig = {
           {
             guard: ({ context }) =>
               context.klagendeVerbraucher === "yes" &&
-              context.besondere === "miete" &&
+              context.sachgebiet === "miete" &&
               context.mietePachtVertrag === "yes" &&
               context.mietePachtRaum === "no",
             target: steps.klagendePersonHaustuergeschaeft.relative,
@@ -103,9 +103,9 @@ export const klagendePersonXstateConfig = {
           {
             guard: ({ context }) =>
               context.klagendeVerbraucher === "yes" &&
-              (context.besondere === "reisen" ||
-                context.besondere === "urheberrecht" ||
-                context.besondere === "anderesRechtsproblem"),
+              (context.sachgebiet === "reisen" ||
+                context.sachgebiet === "urheberrecht" ||
+                context.sachgebiet === "anderesRechtsproblem"),
             target: steps.klagendePersonVertrag.relative,
           },
           {
@@ -125,9 +125,9 @@ export const klagendePersonXstateConfig = {
         BACK: [
           {
             guard: ({ context }) =>
-              context.besondere === "schaden" ||
-              context.besondere === "verkehrsunfall" ||
-              context.besondere === "versicherung",
+              context.sachgebiet === "schaden" ||
+              context.sachgebiet === "verkehrsunfall" ||
+              context.sachgebiet === "versicherung",
             target: steps.klagendePersonFuerWen.relative,
           },
           { target: steps.klagendePersonVerbraucher.relative },
@@ -158,9 +158,9 @@ export const klagendePersonXstateConfig = {
         BACK: [
           {
             guard: ({ context }) =>
-              context.besondere === "reisen" ||
-              context.besondere === "urheberrecht" ||
-              context.besondere === "anderesRechtsproblem",
+              context.sachgebiet === "reisen" ||
+              context.sachgebiet === "urheberrecht" ||
+              context.sachgebiet === "anderesRechtsproblem",
             target: steps.klagendePersonVertrag.relative,
           },
           { target: steps.klagendePersonVerbraucher.relative },

@@ -5,10 +5,10 @@ import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 type GeldEinklagenGerichtPruefenDaten =
   GenericGuard<GeldEinklagenFormularGerichtPruefenUserData>;
 
-function checkBesondere(context: GeldEinklagenFormularGerichtPruefenUserData) {
-  const { besondere, mietePachtVertrag, versicherungVertrag, reiseArt } =
+function checkSachgebiet(context: GeldEinklagenFormularGerichtPruefenUserData) {
+  const { sachgebiet, mietePachtVertrag, versicherungVertrag, reiseArt } =
     context;
-  switch (besondere) {
+  switch (sachgebiet) {
     case "anderesRechtsproblem":
     case "urheberrecht":
     case "schaden": {
@@ -43,7 +43,7 @@ export const sachgebietDone: GeldEinklagenGerichtPruefenDaten = ({
   context,
 }) => {
   return (
-    objectKeysNonEmpty(context, ["sachgebietAusgeschlossen", "besondere"]) &&
-    checkBesondere(context)
+    objectKeysNonEmpty(context, ["ausgeschlossen", "sachgebiet"]) &&
+    checkSachgebiet(context)
   );
 };

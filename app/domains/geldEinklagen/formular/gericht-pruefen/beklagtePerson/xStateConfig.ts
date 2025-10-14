@@ -16,13 +16,13 @@ export const beklagtePersonXstateConfig = {
           {
             guard: ({ context }) =>
               context.fuerWenBeklagen === "person" &&
-              context.besondere === "urheberrecht",
+              context.sachgebiet === "urheberrecht",
             target: steps.beklagtePersonGeldVerdienen.relative,
           },
           {
             guard: ({ context }) =>
               context.fuerWenBeklagen === "person" &&
-              context.besondere === "miete" &&
+              context.sachgebiet === "miete" &&
               context.mietePachtRaum === "no" &&
               context.klagendeKaufmann === "yes",
             target: steps.beklagtePersonKaufmann.relative,
@@ -33,25 +33,25 @@ export const beklagtePersonXstateConfig = {
           {
             guard: ({ context }) =>
               context.klagendeVerbraucher === "yes" &&
-              (context.besondere === "anderesRechtsproblem" ||
-                context.besondere === "urheberrecht" ||
-                context.besondere === "reisen") &&
+              (context.sachgebiet === "anderesRechtsproblem" ||
+                context.sachgebiet === "urheberrecht" ||
+                context.sachgebiet === "reisen") &&
               context.klagendeVertrag === "no",
             target: steps.klagendePersonVertrag.absolute,
           },
           {
             guard: ({ context }) =>
               context.klagendeVerbraucher === "yes" &&
-              (context.besondere === "anderesRechtsproblem" ||
-                context.besondere === "urheberrecht" ||
-                context.besondere === "reisen") &&
+              (context.sachgebiet === "anderesRechtsproblem" ||
+                context.sachgebiet === "urheberrecht" ||
+                context.sachgebiet === "reisen") &&
               context.klagendeVertrag === "yes",
             target: steps.klagendePersonHaustuergeschaeft.absolute,
           },
           {
             guard: ({ context }) =>
               context.klagendeVerbraucher === "yes" &&
-              context.besondere === "miete" &&
+              context.sachgebiet === "miete" &&
               context.mietePachtVertrag === "yes" &&
               context.mietePachtRaum === "no",
             target: steps.klagendePersonHaustuergeschaeft.absolute,
@@ -63,7 +63,7 @@ export const beklagtePersonXstateConfig = {
           {
             guard: ({ context }) =>
               context.klagendeVerbraucher === "no" &&
-              context.besondere === "miete" &&
+              context.sachgebiet === "miete" &&
               context.mietePachtVertrag === "yes" &&
               context.mietePachtRaum === "yes",
             target: steps.klagendePersonVerbraucher.absolute,
@@ -71,9 +71,9 @@ export const beklagtePersonXstateConfig = {
           {
             guard: ({ context }) =>
               context.klagendeVerbraucher === "no" ||
-              context.besondere === "verkehrsunfall" ||
-              context.besondere === "schaden" ||
-              context.besondere === "versicherung",
+              context.sachgebiet === "verkehrsunfall" ||
+              context.sachgebiet === "schaden" ||
+              context.sachgebiet === "versicherung",
             target: steps.klagendePersonKaufmann.absolute,
           },
         ],

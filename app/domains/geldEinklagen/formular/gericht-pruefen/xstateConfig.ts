@@ -63,7 +63,7 @@ export const gerichtPruefenXstateConfig = {
               {
                 guard: ({ context }) =>
                   context.fuerWenBeklagen === "person" &&
-                  context.besondere === "urheberrecht" &&
+                  context.sachgebiet === "urheberrecht" &&
                   context.beklagtePersonGeldVerdienen === "no",
                 target: steps.beklagtePersonGeldVerdienen.absolute,
               },
