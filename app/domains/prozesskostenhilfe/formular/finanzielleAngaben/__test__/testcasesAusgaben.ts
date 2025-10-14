@@ -31,6 +31,8 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       userInput: {
         "versicherungen#art": "sonstige",
         "versicherungen#beitrag": "10",
+        pageData: { arrayIndexes: [0] },
+        versicherungen: [{ art: "sonstige" }],
       },
     },
     {
@@ -54,6 +56,8 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       userInput: {
         "ratenzahlungen#art": "art",
         "ratenzahlungen#zahlungsempfaenger": "empfaenger",
+        pageData: { arrayIndexes: [0] },
+        ratenzahlungen: [{ zahlungspflichtiger: "myself" }],
       },
     },
     {
@@ -87,6 +91,8 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       userInput: {
         "sonstigeAusgaben#art": "art",
         "sonstigeAusgaben#zahlungsempfaenger": "empfaenger",
+        pageData: { arrayIndexes: [0] },
+        sonstigeAusgaben: [{ zahlungspflichtiger: "myself" }],
       },
     },
     {
