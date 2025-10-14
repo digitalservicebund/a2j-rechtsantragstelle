@@ -135,7 +135,7 @@
     "globals": "^16.4.0",
     "i18n-iso-countries": "^7.14.0",
     "jsdom": "^26.1.0",
-    "knip": "^5.64.0",
+    "knip": "^5.65.0",
     "lefthook": "^1.13.6",
     "license-checker-rseidelsohn": "^4.4.2",
     "oxlint": "^1.23.0",
