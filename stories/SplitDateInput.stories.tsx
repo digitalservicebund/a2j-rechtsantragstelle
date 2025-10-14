@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import SplitDateInput from "../app/components/formElements/SplitDateInput";
 import { reactRouterFormContext } from "../.storybook/reactRouterFormContext";
 
