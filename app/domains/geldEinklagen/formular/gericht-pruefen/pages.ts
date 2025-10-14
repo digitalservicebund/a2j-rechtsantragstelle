@@ -84,7 +84,23 @@ export const geldEinklagenGerichtPruefenPages = {
     stepId: "gericht-pruefen/klagende-person/haustuergeschaeft",
     pageSchema: { klagendeHaustuergeschaeft: YesNoAnswer },
   },
-  beklagtePerson: {
+  beklagtePersonFuerWen: {
     stepId: "gericht-pruefen/beklagte-person/fuer-wen",
+    pageSchema: { fuerWenBeklagen: z.enum(["person", "organisation"]) },
+  },
+  beklagtePersonGeldVerdienen: {
+    stepId: "gericht-pruefen/beklagte-person/geld-verdienen",
+    pageSchema: { beklagtePersonGeldVerdienen: YesNoAnswer },
+  },
+  beklagtePersonKaufmann: {
+    stepId: "gericht-pruefen/beklagte-person/kaufmann",
+    pageSchema: { beklagtePersonKaufmann: z.enum(["yes", "no", "unknown"]) },
+  },
+  beklagtePersonGerichtsstandsvereinbarung: {
+    stepId: "gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
+    pageSchema: { gerichtsstandsvereinbarung: YesNoAnswer },
+  },
+  gerichtSuchePostleitzahlBeklagtePerson: {
+    stepId: "gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
   },
 } as const satisfies PagesConfig;
