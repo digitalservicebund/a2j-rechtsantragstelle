@@ -3,14 +3,14 @@ import { type GeldEinklagenFormularUserData } from "../../../userData";
 
 const baseContext = {
   forderung: "maximal5000" as const,
-  sachgebietAusgeschlossen: "yes" as const,
+  ausgeschlossen: "yes" as const,
 };
 
-export const testCasesGeldEinklagenVerkehrsunfallSchaden = [
+export const testCasesGeldEinklagenVerkehrsunfallSchadenVersicherung = [
   [
     {
       ...baseContext,
-      besondere: "schaden",
+      sachgebiet: "schaden",
       fuerWenKlagen: "organisation",
     },
     [
@@ -21,7 +21,7 @@ export const testCasesGeldEinklagenVerkehrsunfallSchaden = [
   [
     {
       ...baseContext,
-      besondere: "schaden",
+      sachgebiet: "schaden",
       fuerWenKlagen: "selbst",
       klagendeKaufmann: "yes",
     },
@@ -34,7 +34,7 @@ export const testCasesGeldEinklagenVerkehrsunfallSchaden = [
   [
     {
       ...baseContext,
-      besondere: "schaden",
+      sachgebiet: "schaden",
       fuerWenKlagen: "selbst",
       klagendeKaufmann: "no",
     },
@@ -47,7 +47,7 @@ export const testCasesGeldEinklagenVerkehrsunfallSchaden = [
   [
     {
       ...baseContext,
-      besondere: "verkehrsunfall",
+      sachgebiet: "verkehrsunfall",
       fuerWenKlagen: "selbst",
       klagendeKaufmann: "no",
     },
@@ -60,9 +60,35 @@ export const testCasesGeldEinklagenVerkehrsunfallSchaden = [
   [
     {
       ...baseContext,
-      besondere: "verkehrsunfall",
+      sachgebiet: "verkehrsunfall",
       fuerWenKlagen: "selbst",
       klagendeKaufmann: "yes",
+    },
+    [
+      "/gericht-pruefen/klagende-person/fuer-wen",
+      "/gericht-pruefen/klagende-person/kaufmann",
+      "/gericht-pruefen/beklagte-person/fuer-wen",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      sachgebiet: "versicherung",
+      fuerWenKlagen: "selbst",
+      klagendeKaufmann: "yes",
+    },
+    [
+      "/gericht-pruefen/klagende-person/fuer-wen",
+      "/gericht-pruefen/klagende-person/kaufmann",
+      "/gericht-pruefen/beklagte-person/fuer-wen",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      sachgebiet: "versicherung",
+      fuerWenKlagen: "selbst",
+      klagendeKaufmann: "no",
     },
     [
       "/gericht-pruefen/klagende-person/fuer-wen",

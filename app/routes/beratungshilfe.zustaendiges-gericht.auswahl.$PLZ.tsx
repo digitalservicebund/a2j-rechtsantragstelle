@@ -100,19 +100,24 @@ export default function Index() {
           >
             <div className="ds-stack ds-stack-32">
               <div className="flex flex-wrap md:flex-nowrap gap-16">
-                <AutoSuggestInput
-                  label={translations.gerichtFinder.streetName.de}
-                  dataList="streetNames"
-                  dataListArgument={userData.plz}
-                  noSuggestionMessage={
-                    translations.gerichtFinder.noResultsFound.de
-                  }
-                  width="54"
-                  errorMessages={[requiredError]}
-                  name="street"
-                  isDisabled={false}
-                  minSuggestCharacters={0}
-                />
+                <div className="flex flex-col">
+                  <AutoSuggestInput
+                    label={translations.gerichtFinder.streetName.de}
+                    dataList="streetNames"
+                    dataListArgument={userData.plz}
+                    noSuggestionMessage={
+                      translations.gerichtFinder.noResultsFound.de
+                    }
+                    width="54"
+                    errorMessages={[requiredError]}
+                    name="street"
+                    isDisabled={false}
+                    minSuggestCharacters={0}
+                  />
+                  <div className="label-text mt-6">
+                    {translations.gerichtFinder.autosuggestInputHelperText.de}
+                  </div>
+                </div>
                 <Input
                   label={translations.gerichtFinder.houseNumber.de}
                   name="houseNumber"

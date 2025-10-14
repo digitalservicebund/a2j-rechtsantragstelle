@@ -21,26 +21,6 @@ function checkReisenAnderesRechtsproblemUrheberrecht(
   );
 }
 
-function checkVersicherung(
-  context: GeldEinklagenFormularGerichtPruefenUserData,
-) {
-  const { klagendeVerbraucher, versicherungVertrag, versicherungsnummer } =
-    context;
-
-  if (klagendeVerbraucher === "no") {
-    return objectKeysNonEmpty(context, ["klagendeKaufmann"]);
-  }
-
-  if (
-    versicherungVertrag === "no" ||
-    (versicherungVertrag === "yes" && versicherungsnummer === "yes")
-  ) {
-    return true;
-  }
-
-  return objectKeysNonEmpty(context, ["klagendeHaustuergeschaeft"]);
-}
-
 function checkMiete(context: GeldEinklagenFormularGerichtPruefenUserData) {
   const { klagendeVerbraucher, mietePachtRaum, mietePachtVertrag } = context;
 
@@ -61,25 +41,20 @@ function checkMiete(context: GeldEinklagenFormularGerichtPruefenUserData) {
   return objectKeysNonEmpty(context, ["klagendeHaustuergeschaeft"]);
 }
 
-function checkBesondereForKlagendePerson(
+function checkSachgebietForKlagendePerson(
   context: GeldEinklagenFormularGerichtPruefenUserData,
 ) {
-  const { besondere } = context;
-  switch (besondere) {
+  const { sachgebiet } = context;
+  switch (sachgebiet) {
     case "verkehrsunfall":
-    case "schaden": {
+    case "schaden":
+    case "versicherung": {
       return objectKeysNonEmpty(context, ["klagendeKaufmann"]);
     }
     case "miete": {
       return (
         objectKeysNonEmpty(context, ["klagendeVerbraucher"]) &&
         checkMiete(context)
-      );
-    }
-    case "versicherung": {
-      return (
-        objectKeysNonEmpty(context, ["klagendeVerbraucher"]) &&
-        checkVersicherung(context)
       );
     }
     case "reisen":
@@ -102,6 +77,6 @@ export const klagendePersonDone: GeldEinklagenGerichtPruefenDaten = ({
 }) => {
   return (
     objectKeysNonEmpty(context, ["fuerWenKlagen"]) &&
-    checkBesondereForKlagendePerson(context)
+    checkSachgebietForKlagendePerson(context)
   );
 };

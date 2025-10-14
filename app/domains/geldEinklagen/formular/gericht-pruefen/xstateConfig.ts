@@ -61,33 +61,25 @@ export const gerichtPruefenXstateConfig = {
               {
                 guard: ({ context }) =>
                   context.klagendeVerbraucher === "yes" &&
-                  (context.besondere === "anderesRechtsproblem" ||
-                    context.besondere === "urheberrecht" ||
-                    context.besondere === "reisen") &&
+                  (context.sachgebiet === "anderesRechtsproblem" ||
+                    context.sachgebiet === "urheberrecht" ||
+                    context.sachgebiet === "reisen") &&
                   context.klagendeVertrag === "no",
                 target: steps.klagendePersonVertrag.absolute,
               },
               {
                 guard: ({ context }) =>
                   context.klagendeVerbraucher === "yes" &&
-                  (context.besondere === "anderesRechtsproblem" ||
-                    context.besondere === "urheberrecht" ||
-                    context.besondere === "reisen") &&
+                  (context.sachgebiet === "anderesRechtsproblem" ||
+                    context.sachgebiet === "urheberrecht" ||
+                    context.sachgebiet === "reisen") &&
                   context.klagendeVertrag === "yes",
                 target: steps.klagendePersonHaustuergeschaeft.absolute,
               },
               {
                 guard: ({ context }) =>
                   context.klagendeVerbraucher === "yes" &&
-                  context.besondere === "versicherung" &&
-                  context.versicherungVertrag === "yes" &&
-                  context.versicherungsnummer === "no",
-                target: steps.klagendePersonHaustuergeschaeft.absolute,
-              },
-              {
-                guard: ({ context }) =>
-                  context.klagendeVerbraucher === "yes" &&
-                  context.besondere === "miete" &&
+                  context.sachgebiet === "miete" &&
                   context.mietePachtVertrag === "yes" &&
                   context.mietePachtRaum === "no",
                 target: steps.klagendePersonHaustuergeschaeft.absolute,
@@ -99,7 +91,7 @@ export const gerichtPruefenXstateConfig = {
               {
                 guard: ({ context }) =>
                   context.klagendeVerbraucher === "no" &&
-                  context.besondere === "miete" &&
+                  context.sachgebiet === "miete" &&
                   context.mietePachtVertrag === "yes" &&
                   context.mietePachtRaum === "yes",
                 target: steps.klagendePersonVerbraucher.absolute,
@@ -107,8 +99,9 @@ export const gerichtPruefenXstateConfig = {
               {
                 guard: ({ context }) =>
                   context.klagendeVerbraucher === "no" ||
-                  context.besondere === "verkehrsunfall" ||
-                  context.besondere === "schaden",
+                  context.sachgebiet === "verkehrsunfall" ||
+                  context.sachgebiet === "schaden" ||
+                  context.sachgebiet === "versicherung",
                 target: steps.klagendePersonKaufmann.absolute,
               },
             ],
