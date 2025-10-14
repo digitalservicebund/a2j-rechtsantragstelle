@@ -13,10 +13,10 @@ export async function startGerichtPruefen(formular: GeldEinklagenFormular) {
   await formular.clickNext();
 
   // /geld-einklagen/formular/gericht-pruefen/sachgebiet/ausgeschlossen
-  await formular.fillRadioPage("sachgebietAusgeschlossen", "no");
+  await formular.fillRadioPage("ausgeschlossen", "no");
 
   // /geld-einklagen/formular/gericht-pruefen/sachgebiet/besondere
-  await formular.fillRadioPage("besondere", "miete");
+  await formular.fillRadioPage("sachgebiet", "miete");
 
   // /geld-einklagen/formular/gericht-pruefen/sachgebiet/miete-pacht-vertrag
   await formular.fillRadioPage("mietePachtVertrag", "yes");

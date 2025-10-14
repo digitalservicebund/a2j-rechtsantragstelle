@@ -1,7 +1,7 @@
 import { sachgebietDone } from "../doneFunctions";
 
 describe("sachgebietDone", () => {
-  it("should return false if sachgebietAusgeschlossen is missing", () => {
+  it("should return false if ausgeschlossen is missing", () => {
     const actual = sachgebietDone({
       context: {
         sachgebiet: "miete",
