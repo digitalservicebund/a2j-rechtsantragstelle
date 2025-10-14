@@ -5,7 +5,7 @@ import InputLabel from "./InputLabel";
 import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
 
-export type SplitDateInputProps = {
+type SplitDateInputProps = {
   name: string;
   helperText?: string;
 };
