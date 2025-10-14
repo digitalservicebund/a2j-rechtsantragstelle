@@ -3,7 +3,7 @@ import { type GeldEinklagenFormularUserData } from "../../../userData";
 
 const baseContext = {
   forderung: "maximal5000" as const,
-  sachgebietAusgeschlossen: "yes" as const,
+  ausgeschlossen: "yes" as const,
 };
 
 export const testCasesGeldEinklagenVerkehrsunfallSchadenVersicherung = [

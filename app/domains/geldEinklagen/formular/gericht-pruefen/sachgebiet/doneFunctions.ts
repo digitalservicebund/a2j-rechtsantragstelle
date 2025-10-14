@@ -43,7 +43,7 @@ export const sachgebietDone: GeldEinklagenGerichtPruefenDaten = ({
   context,
 }) => {
   return (
-    objectKeysNonEmpty(context, ["sachgebietAusgeschlossen", "sachgebiet"]) &&
+    objectKeysNonEmpty(context, ["ausgeschlossen", "sachgebiet"]) &&
     checkSachgebiet(context)
   );
 };

@@ -21,7 +21,7 @@ export const sachgebietXstateConfig = {
       on: {
         SUBMIT: [
           {
-            guard: ({ context }) => context.sachgebietAusgeschlossen === "yes",
+            guard: ({ context }) => context.ausgeschlossen === "yes",
             target: "ergebnis/sachgebiet-abbruch",
           },
           {
