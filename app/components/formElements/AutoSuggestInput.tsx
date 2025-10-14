@@ -241,6 +241,7 @@ const AutoSuggestInput = ({
         styles={customStyles(hasError)}
         tabIndex={0}
         value={currentItemValue}
+        menuPortalTarget={document.body}
       />
 
       <div key={liveMessageKey} aria-live="polite" className="sr-only">
