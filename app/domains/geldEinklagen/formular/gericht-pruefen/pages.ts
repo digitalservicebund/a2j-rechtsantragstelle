@@ -23,7 +23,7 @@ export const geldEinklagenGerichtPruefenPages = {
   sachgebietBesondere: {
     stepId: "gericht-pruefen/sachgebiet/besondere",
     pageSchema: {
-      besondere: z.enum([
+      sachgebiet: z.enum([
         "miete",
         "versicherung",
         "schaden",

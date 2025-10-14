@@ -14,7 +14,7 @@ describe("klagendePersonDone", () => {
       const actual = klagendePersonDone({
         context: {
           fuerWenKlagen: "selbst",
-          besondere: "verkehrsunfall",
+          sachgebiet: "verkehrsunfall",
         },
       });
 
@@ -25,7 +25,7 @@ describe("klagendePersonDone", () => {
       const actual = klagendePersonDone({
         context: {
           fuerWenKlagen: "selbst",
-          besondere: "verkehrsunfall",
+          sachgebiet: "verkehrsunfall",
           klagendeKaufmann: "no",
         },
       });
@@ -39,7 +39,7 @@ describe("klagendePersonDone", () => {
       const actual = klagendePersonDone({
         context: {
           fuerWenKlagen: "selbst",
-          besondere: "schaden",
+          sachgebiet: "schaden",
         },
       });
 
@@ -50,7 +50,7 @@ describe("klagendePersonDone", () => {
       const actual = klagendePersonDone({
         context: {
           fuerWenKlagen: "selbst",
-          besondere: "schaden",
+          sachgebiet: "schaden",
           klagendeKaufmann: "no",
         },
       });
@@ -64,7 +64,7 @@ describe("klagendePersonDone", () => {
       const actual = klagendePersonDone({
         context: {
           fuerWenKlagen: "selbst",
-          besondere: "miete",
+          sachgebiet: "miete",
         },
       });
 
@@ -76,7 +76,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "miete",
+            sachgebiet: "miete",
             klagendeVerbraucher: "no",
             mietePachtVertrag: "no",
           },
@@ -89,7 +89,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "miete",
+            sachgebiet: "miete",
             klagendeVerbraucher: "no",
             mietePachtVertrag: "yes",
             mietePachtRaum: "no",
@@ -103,7 +103,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "miete",
+            sachgebiet: "miete",
             klagendeVerbraucher: "no",
             mietePachtVertrag: "yes",
             mietePachtRaum: "no",
@@ -118,7 +118,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "miete",
+            sachgebiet: "miete",
             klagendeVerbraucher: "no",
             mietePachtVertrag: "yes",
             mietePachtRaum: "yes",
@@ -134,7 +134,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "miete",
+            sachgebiet: "miete",
             klagendeVerbraucher: "yes",
             mietePachtVertrag: "no",
           },
@@ -147,7 +147,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "miete",
+            sachgebiet: "miete",
             klagendeVerbraucher: "yes",
             mietePachtVertrag: "yes",
             mietePachtRaum: "yes",
@@ -161,7 +161,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "miete",
+            sachgebiet: "miete",
             klagendeVerbraucher: "yes",
             mietePachtVertrag: "yes",
             mietePachtRaum: "no",
@@ -175,7 +175,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "miete",
+            sachgebiet: "miete",
             klagendeVerbraucher: "yes",
             mietePachtVertrag: "yes",
             mietePachtRaum: "no",
@@ -193,7 +193,7 @@ describe("klagendePersonDone", () => {
       const actual = klagendePersonDone({
         context: {
           fuerWenKlagen: "selbst",
-          besondere: "versicherung",
+          sachgebiet: "versicherung",
         },
       });
 
@@ -204,7 +204,7 @@ describe("klagendePersonDone", () => {
       const actual = klagendePersonDone({
         context: {
           fuerWenKlagen: "selbst",
-          besondere: "versicherung",
+          sachgebiet: "versicherung",
           klagendeKaufmann: "no",
         },
       });
@@ -218,7 +218,7 @@ describe("klagendePersonDone", () => {
       const actual = klagendePersonDone({
         context: {
           fuerWenKlagen: "selbst",
-          besondere: "reisen",
+          sachgebiet: "reisen",
         },
       });
 
@@ -230,7 +230,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "reisen",
+            sachgebiet: "reisen",
             klagendeVerbraucher: "no",
           },
         });
@@ -242,7 +242,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "reisen",
+            sachgebiet: "reisen",
             klagendeVerbraucher: "no",
             klagendeKaufmann: "no",
           },
@@ -257,7 +257,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "reisen",
+            sachgebiet: "reisen",
             klagendeVerbraucher: "yes",
             klagendeVertrag: "no",
           },
@@ -270,7 +270,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "reisen",
+            sachgebiet: "reisen",
             klagendeVerbraucher: "yes",
             klagendeVertrag: "yes",
           },
@@ -283,7 +283,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "reisen",
+            sachgebiet: "reisen",
             klagendeVerbraucher: "yes",
             klagendeVertrag: "yes",
             klagendeHaustuergeschaeft: "no",
@@ -300,7 +300,7 @@ describe("klagendePersonDone", () => {
       const actual = klagendePersonDone({
         context: {
           fuerWenKlagen: "selbst",
-          besondere: "anderesRechtsproblem",
+          sachgebiet: "anderesRechtsproblem",
         },
       });
 
@@ -312,7 +312,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "anderesRechtsproblem",
+            sachgebiet: "anderesRechtsproblem",
             klagendeVerbraucher: "no",
           },
         });
@@ -324,7 +324,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "anderesRechtsproblem",
+            sachgebiet: "anderesRechtsproblem",
             klagendeVerbraucher: "no",
             klagendeKaufmann: "no",
           },
@@ -339,7 +339,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "anderesRechtsproblem",
+            sachgebiet: "anderesRechtsproblem",
             klagendeVerbraucher: "yes",
             klagendeVertrag: "no",
           },
@@ -352,7 +352,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "anderesRechtsproblem",
+            sachgebiet: "anderesRechtsproblem",
             klagendeVerbraucher: "yes",
             klagendeVertrag: "yes",
           },
@@ -365,7 +365,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "anderesRechtsproblem",
+            sachgebiet: "anderesRechtsproblem",
             klagendeVerbraucher: "yes",
             klagendeVertrag: "yes",
             klagendeHaustuergeschaeft: "no",
@@ -382,7 +382,7 @@ describe("klagendePersonDone", () => {
       const actual = klagendePersonDone({
         context: {
           fuerWenKlagen: "selbst",
-          besondere: "urheberrecht",
+          sachgebiet: "urheberrecht",
         },
       });
 
@@ -394,7 +394,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "urheberrecht",
+            sachgebiet: "urheberrecht",
             klagendeVerbraucher: "no",
           },
         });
@@ -406,7 +406,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "urheberrecht",
+            sachgebiet: "urheberrecht",
             klagendeVerbraucher: "no",
             klagendeKaufmann: "no",
           },
@@ -421,7 +421,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "urheberrecht",
+            sachgebiet: "urheberrecht",
             klagendeVerbraucher: "yes",
             klagendeVertrag: "no",
           },
@@ -434,7 +434,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "urheberrecht",
+            sachgebiet: "urheberrecht",
             klagendeVerbraucher: "yes",
             klagendeVertrag: "yes",
           },
@@ -447,7 +447,7 @@ describe("klagendePersonDone", () => {
         const actual = klagendePersonDone({
           context: {
             fuerWenKlagen: "selbst",
-            besondere: "urheberrecht",
+            sachgebiet: "urheberrecht",
             klagendeVerbraucher: "yes",
             klagendeVertrag: "yes",
             klagendeHaustuergeschaeft: "no",

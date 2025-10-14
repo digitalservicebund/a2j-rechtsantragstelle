@@ -10,7 +10,7 @@ export const testCasesGeldEinklagenVerkehrsunfallSchadenVersicherung = [
   [
     {
       ...baseContext,
-      besondere: "schaden",
+      sachgebiet: "schaden",
       fuerWenKlagen: "organisation",
     },
     [
@@ -21,7 +21,7 @@ export const testCasesGeldEinklagenVerkehrsunfallSchadenVersicherung = [
   [
     {
       ...baseContext,
-      besondere: "schaden",
+      sachgebiet: "schaden",
       fuerWenKlagen: "selbst",
       klagendeKaufmann: "yes",
     },
@@ -34,7 +34,7 @@ export const testCasesGeldEinklagenVerkehrsunfallSchadenVersicherung = [
   [
     {
       ...baseContext,
-      besondere: "schaden",
+      sachgebiet: "schaden",
       fuerWenKlagen: "selbst",
       klagendeKaufmann: "no",
     },
@@ -47,7 +47,7 @@ export const testCasesGeldEinklagenVerkehrsunfallSchadenVersicherung = [
   [
     {
       ...baseContext,
-      besondere: "verkehrsunfall",
+      sachgebiet: "verkehrsunfall",
       fuerWenKlagen: "selbst",
       klagendeKaufmann: "no",
     },
@@ -60,7 +60,7 @@ export const testCasesGeldEinklagenVerkehrsunfallSchadenVersicherung = [
   [
     {
       ...baseContext,
-      besondere: "verkehrsunfall",
+      sachgebiet: "verkehrsunfall",
       fuerWenKlagen: "selbst",
       klagendeKaufmann: "yes",
     },
@@ -73,7 +73,7 @@ export const testCasesGeldEinklagenVerkehrsunfallSchadenVersicherung = [
   [
     {
       ...baseContext,
-      besondere: "versicherung",
+      sachgebiet: "versicherung",
       fuerWenKlagen: "selbst",
       klagendeKaufmann: "yes",
     },
@@ -86,7 +86,7 @@ export const testCasesGeldEinklagenVerkehrsunfallSchadenVersicherung = [
   [
     {
       ...baseContext,
-      besondere: "versicherung",
+      sachgebiet: "versicherung",
       fuerWenKlagen: "selbst",
       klagendeKaufmann: "no",
     },

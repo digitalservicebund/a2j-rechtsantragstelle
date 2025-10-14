@@ -4,14 +4,14 @@ describe("sachgebietDone", () => {
   it("should return false if sachgebietAusgeschlossen is missing", () => {
     const actual = sachgebietDone({
       context: {
-        besondere: "miete",
+        sachgebiet: "miete",
       },
     });
 
     expect(actual).toBe(false);
   });
 
-  it("should return false if besondere is missing", () => {
+  it("should return false if sachgebiet is missing", () => {
     const actual = sachgebietDone({
       context: {
         sachgebietAusgeschlossen: "no",
@@ -21,45 +21,45 @@ describe("sachgebietDone", () => {
     expect(actual).toBe(false);
   });
 
-  it("should return true if besondere is anderesRechtsproblem", () => {
+  it("should return true if sachgebiet is anderesRechtsproblem", () => {
     const actual = sachgebietDone({
       context: {
         sachgebietAusgeschlossen: "no",
-        besondere: "anderesRechtsproblem",
+        sachgebiet: "anderesRechtsproblem",
       },
     });
 
     expect(actual).toBe(true);
   });
 
-  it("should return true if besondere is schaden", () => {
+  it("should return true if sachgebiet is schaden", () => {
     const actual = sachgebietDone({
       context: {
         sachgebietAusgeschlossen: "no",
-        besondere: "schaden",
+        sachgebiet: "schaden",
       },
     });
 
     expect(actual).toBe(true);
   });
 
-  it("should return true if besondere is urheberrecht", () => {
+  it("should return true if sachgebiet is urheberrecht", () => {
     const actual = sachgebietDone({
       context: {
         sachgebietAusgeschlossen: "no",
-        besondere: "urheberrecht",
+        sachgebiet: "urheberrecht",
       },
     });
 
     expect(actual).toBe(true);
   });
 
-  describe("besondere is miete", () => {
+  describe("sachgebiet is miete", () => {
     it("should return false if mietePachtVertrag is missing", () => {
       const actual = sachgebietDone({
         context: {
           sachgebietAusgeschlossen: "no",
-          besondere: "miete",
+          sachgebiet: "miete",
         },
       });
 
@@ -70,7 +70,7 @@ describe("sachgebietDone", () => {
       const actual = sachgebietDone({
         context: {
           sachgebietAusgeschlossen: "no",
-          besondere: "miete",
+          sachgebiet: "miete",
           mietePachtVertrag: "no",
         },
       });
@@ -82,7 +82,7 @@ describe("sachgebietDone", () => {
       const actual = sachgebietDone({
         context: {
           sachgebietAusgeschlossen: "no",
-          besondere: "miete",
+          sachgebiet: "miete",
           mietePachtVertrag: "yes",
         },
       });
@@ -94,7 +94,7 @@ describe("sachgebietDone", () => {
       const actual = sachgebietDone({
         context: {
           sachgebietAusgeschlossen: "no",
-          besondere: "miete",
+          sachgebiet: "miete",
           mietePachtVertrag: "yes",
           mietePachtRaum: "no",
         },
@@ -104,12 +104,12 @@ describe("sachgebietDone", () => {
     });
   });
 
-  describe("besondere is versicherung", () => {
+  describe("sachgebiet is versicherung", () => {
     it("should return false if versicherungVertrag is missing", () => {
       const actual = sachgebietDone({
         context: {
           sachgebietAusgeschlossen: "no",
-          besondere: "versicherung",
+          sachgebiet: "versicherung",
         },
       });
 
@@ -120,7 +120,7 @@ describe("sachgebietDone", () => {
       const actual = sachgebietDone({
         context: {
           sachgebietAusgeschlossen: "no",
-          besondere: "versicherung",
+          sachgebiet: "versicherung",
           versicherungVertrag: "no",
         },
       });
@@ -132,7 +132,7 @@ describe("sachgebietDone", () => {
       const actual = sachgebietDone({
         context: {
           sachgebietAusgeschlossen: "no",
-          besondere: "versicherung",
+          sachgebiet: "versicherung",
           versicherungVertrag: "yes",
         },
       });
@@ -144,7 +144,7 @@ describe("sachgebietDone", () => {
       const actual = sachgebietDone({
         context: {
           sachgebietAusgeschlossen: "no",
-          besondere: "versicherung",
+          sachgebiet: "versicherung",
           versicherungVertrag: "yes",
           versicherungsnummer: "no",
         },
@@ -154,12 +154,12 @@ describe("sachgebietDone", () => {
     });
   });
 
-  describe("besondere is reisen", () => {
+  describe("sachgebiet is reisen", () => {
     it("should return false if reiseArt is missing", () => {
       const actual = sachgebietDone({
         context: {
           sachgebietAusgeschlossen: "no",
-          besondere: "reisen",
+          sachgebiet: "reisen",
         },
       });
 
@@ -170,7 +170,7 @@ describe("sachgebietDone", () => {
       const actual = sachgebietDone({
         context: {
           sachgebietAusgeschlossen: "no",
-          besondere: "reisen",
+          sachgebiet: "reisen",
           reiseArt: "andereReise",
         },
       });
@@ -182,7 +182,7 @@ describe("sachgebietDone", () => {
       const actual = sachgebietDone({
         context: {
           sachgebietAusgeschlossen: "no",
-          besondere: "reisen",
+          sachgebiet: "reisen",
           reiseArt: "flug",
         },
       });
@@ -190,12 +190,12 @@ describe("sachgebietDone", () => {
       expect(actual).toBe(false);
     });
 
-    describe("besondere is verkehrsunfall", () => {
+    describe("sachgebiet is verkehrsunfall", () => {
       it("should return false if verkehrsunfallStrassenverkehr is missing", () => {
         const actual = sachgebietDone({
           context: {
             sachgebietAusgeschlossen: "no",
-            besondere: "verkehrsunfall",
+            sachgebiet: "verkehrsunfall",
           },
         });
 
@@ -206,7 +206,7 @@ describe("sachgebietDone", () => {
         const actual = sachgebietDone({
           context: {
             sachgebietAusgeschlossen: "no",
-            besondere: "verkehrsunfall",
+            sachgebiet: "verkehrsunfall",
             verkehrsunfallStrassenverkehr: "yes",
           },
         });

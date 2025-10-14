@@ -41,11 +41,11 @@ function checkMiete(context: GeldEinklagenFormularGerichtPruefenUserData) {
   return objectKeysNonEmpty(context, ["klagendeHaustuergeschaeft"]);
 }
 
-function checkBesondereForKlagendePerson(
+function checkSachgebietForKlagendePerson(
   context: GeldEinklagenFormularGerichtPruefenUserData,
 ) {
-  const { besondere } = context;
-  switch (besondere) {
+  const { sachgebiet } = context;
+  switch (sachgebiet) {
     case "verkehrsunfall":
     case "schaden":
     case "versicherung": {
@@ -77,6 +77,6 @@ export const klagendePersonDone: GeldEinklagenGerichtPruefenDaten = ({
 }) => {
   return (
     objectKeysNonEmpty(context, ["fuerWenKlagen"]) &&
-    checkBesondereForKlagendePerson(context)
+    checkSachgebietForKlagendePerson(context)
   );
 };

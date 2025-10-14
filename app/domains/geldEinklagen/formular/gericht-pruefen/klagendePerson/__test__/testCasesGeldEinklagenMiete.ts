@@ -5,7 +5,7 @@ const baseContext = {
   forderung: "maximal5000" as const,
   sachgebietAusgeschlossen: "yes" as const,
   fuerWenKlagen: "selbst" as const,
-  besondere: "miete" as const,
+  sachgebiet: "miete" as const,
 };
 
 export const testCasesGeldEinklagenMiete = [
