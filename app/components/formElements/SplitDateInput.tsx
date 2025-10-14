@@ -10,7 +10,7 @@ type SplitDateInputProps = {
   helperText?: string;
 };
 
-export const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
+const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
   const day = name + ".day";
   const month = name + ".month";
   const year = name + ".year";
