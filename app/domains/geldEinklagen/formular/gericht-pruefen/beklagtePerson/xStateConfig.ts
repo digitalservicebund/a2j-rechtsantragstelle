@@ -21,9 +21,17 @@ export const beklagtePersonXstateConfig = {
           },
           {
             guard: ({ context }) =>
-              context.fuerWenBeklagen === "person" &&
+              (context.fuerWenBeklagen === "person" ||
+                context.fuerWenBeklagen === "organisation") &&
               context.sachgebiet === "miete" &&
               context.mietePachtRaum === "no" &&
+              context.klagendeKaufmann === "yes",
+            target: steps.beklagtePersonKaufmann.relative,
+          },
+          {
+            guard: ({ context }) =>
+              context.fuerWenBeklagen === "organisation" &&
+              context.sachgebiet !== "miete" &&
               context.klagendeKaufmann === "yes",
             target: steps.beklagtePersonKaufmann.relative,
           },
