@@ -2,6 +2,7 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
+import { beklagtePersonDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -42,7 +43,10 @@ export const beklagtePersonXstateConfig = {
               context.klagendeKaufmann === "yes",
             target: steps.beklagtePersonKaufmann.relative,
           },
-          { target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute },
+          {
+            guard: beklagtePersonDone,
+            target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute,
+          },
         ],
         BACK: [
           {
@@ -104,6 +108,7 @@ export const beklagtePersonXstateConfig = {
             target: steps.beklagtePersonKaufmann.relative,
           },
           {
+            guard: beklagtePersonDone,
             target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute,
           },
         ],
@@ -118,6 +123,7 @@ export const beklagtePersonXstateConfig = {
             target: steps.beklagtePersonGerichtsstandsvereinbarung.relative,
           },
           {
+            guard: beklagtePersonDone,
             target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute,
           },
         ],
@@ -134,6 +140,7 @@ export const beklagtePersonXstateConfig = {
     [steps.beklagtePersonGerichtsstandsvereinbarung.relative]: {
       on: {
         SUBMIT: {
+          guard: beklagtePersonDone,
           target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute,
         },
         BACK: steps.beklagtePersonKaufmann.relative,
