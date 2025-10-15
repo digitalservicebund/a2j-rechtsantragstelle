@@ -210,7 +210,7 @@ describe.sequential("flowSchemas", () => {
     );
 
     expect(totalMissingStepCount).toBeLessThanOrEqual(
-      (await isFeatureFlagEnabled("showFileUpload")) ? 38 : 37,
+      (await isFeatureFlagEnabled("showFileUpload")) ? 12 : 11,
     );
   });
 });

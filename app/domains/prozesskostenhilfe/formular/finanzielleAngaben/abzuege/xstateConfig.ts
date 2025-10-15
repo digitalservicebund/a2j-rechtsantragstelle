@@ -83,9 +83,9 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
             ],
             BACK: [
               {
-                guard:
-                  abzuegeGuards.usesPublicTransit ||
-                  abzuegeGuards.usesPrivateVehicle,
+                guard: ({ context }) =>
+                  abzuegeGuards.usesPublicTransit({ context }) ||
+                  abzuegeGuards.usesPrivateVehicle({ context }),
                 target: steps.arbeitsplatzEntfernung.absolute,
               },
               {

@@ -78,6 +78,30 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/ausgaben/ausgaben-frage",
     },
   ],
+  bankkonten: [
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      addArrayItemEvent: "add-bankkonten",
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/bankkonten/0/daten",
+      userInput: {
+        "bankkonten#kontoEigentuemer": "myself",
+        "bankkonten#bankName": "N26",
+        "bankkonten#kontostand": "1000000",
+        bankkonto: [
+          {
+            eigentuemer: "myself",
+          },
+        ],
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+    },
+  ],
   geldanlagenBargeld: [
     {
       stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
@@ -283,6 +307,24 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
         "geldanlagen#eigentuemer": "myself",
         "geldanlagen#wert": "1000",
         "geldanlagen#verwendungszweck": "Zweck",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+    },
+  ],
+  wertgegenstand: [
+    {
+      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      addArrayItemEvent: "add-wertsachen",
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum-zusammenfassung/wertgegenstaende/0/daten",
+      userInput: {
+        "wertsachen#eigentuemer": "myself",
+        "wertsachen#art": "Kandelaber",
+        "wertsachen#wert": "1000",
       },
     },
     {
