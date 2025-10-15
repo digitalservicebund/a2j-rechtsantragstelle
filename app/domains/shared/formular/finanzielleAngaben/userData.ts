@@ -174,13 +174,6 @@ export const wertsachenArraySchema = z.array(
   }),
 );
 
-export const partnerschaftInputSchema = z.enum([
-  "yes",
-  "no",
-  "separated",
-  "widowed",
-]);
-
 export const childBirthdaySchema = createDateSchema({
   earliest: () => addYears(today(), -24),
   latest: () => today(),
