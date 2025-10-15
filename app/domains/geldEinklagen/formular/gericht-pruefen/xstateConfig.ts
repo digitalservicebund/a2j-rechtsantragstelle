@@ -69,6 +69,14 @@ export const gerichtPruefenXstateConfig = {
               },
               {
                 guard: ({ context }) =>
+                  context.fuerWenBeklagen === "person" &&
+                  context.sachgebiet === "urheberrecht" &&
+                  context.beklagtePersonGeldVerdienen === "yes" &&
+                  context.klagendeKaufmann === "no",
+                target: steps.beklagtePersonGeldVerdienen.absolute,
+              },
+              {
+                guard: ({ context }) =>
                   context.beklagtePersonKaufmann === "yes",
                 target: steps.beklagtePersonGerichtsstandsvereinbarung.absolute,
               },
