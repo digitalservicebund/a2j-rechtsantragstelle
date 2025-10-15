@@ -5,12 +5,8 @@ import { getStrapiEntryFromApi } from "../app/services/cms/getStrapiEntryFromApi
 import { strapiSchemas, type ApiId } from "../app/services/cms/schemas";
 import { config } from "../app/services/env/env.server";
 
-/**
- * Need to grab the entire "url" key/value pair, as S3 images can also be used directly in text.
- * TODO: solve this problem later!
- */
 const imageMatchRegex =
-  /"url":"https:\/\/a2j-rechtsantragstelle-infra-public-assets-bucket.+?(.svg|.jpg|.png)",/g;
+  /https:\/\/a2j-rechtsantragstelle-infra-public-assets-bucket.+?(.svg|.jpg|.png)+/g;
 
 async function dumpCmsToFile() {
   configDotenv();
@@ -40,21 +36,21 @@ async function dumpCmsToFile() {
   }
 
   // Fetch and embed images in base64
-  console.log("Fetching referenced images from repository...");
   const startFetch = Date.now();
   let stringifiedContent = JSON.stringify(content);
-  const cmsImages = stringifiedContent.matchAll(imageMatchRegex);
-  const uniqueImageUrls = new Set(
-    Array.from(cmsImages).map(
-      (match) => match[0].match(/https:\/\/a2j.+(.svg|.jpg|.png)/g)?.[0],
-    ),
+  const foundImageUrls = Array.from(
+    stringifiedContent.matchAll(imageMatchRegex),
+  ).map((match) => match[0]);
+  const uniqueImageUrls = new Set(foundImageUrls);
+  console.log(
+    `Found ${foundImageUrls.length} image references (${uniqueImageUrls.size} unique), fetching from repository...`,
   );
   const responses = await Promise.all(
     Array.from(uniqueImageUrls).map((url) => fetch(url ?? "")),
   );
   const endFetch = Date.now();
   console.log(
-    `Fetching ${uniqueImageUrls.size} took approximately ${(endFetch - startFetch) / 1000}s`,
+    `Fetching ${uniqueImageUrls.size} images took approximately ${(endFetch - startFetch) / 1000}s`,
   );
 
   console.log("Embedding images in base64...");
@@ -62,14 +58,14 @@ async function dumpCmsToFile() {
   for (const response of responses.values()) {
     const imageData = await response.arrayBuffer();
     const base64Image = Buffer.from(imageData).toString("base64");
-    stringifiedContent = stringifiedContent.replace(
+    stringifiedContent = stringifiedContent.replaceAll(
       response.url,
       `data:${response.headers.get("content-type")};base64,${base64Image}`,
     );
   }
   const endEmbed = Date.now();
   console.log(
-    `Embedding ${responses.length} took approximately ${(endEmbed - startEmbed) / 1000}s`,
+    `Replaced ${foundImageUrls.length} instances, Duration: ${(endEmbed - startEmbed) / 1000}s`,
   );
 
   console.log(`Writing CMS content to ${CONTENT_FILE_PATH}...`);
