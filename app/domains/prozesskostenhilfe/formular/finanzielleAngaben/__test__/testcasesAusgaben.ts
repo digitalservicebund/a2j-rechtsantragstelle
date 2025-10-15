@@ -78,6 +78,43 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       userInput: { "ratenzahlungen#laufzeitende": "01.01.2026" },
     },
   ],
+  addRatenzahlungenSplit: [
+    {
+      stepId: "/finanzielle-angaben/ausgaben/zusammenfassung",
+      addArrayItemEvent: "add-ratenzahlungen",
+      userInput: {
+        pageData: { arrayIndexes: [0] },
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen/0/daten",
+      userInput: {
+        "ratenzahlungen#art": "art",
+        "ratenzahlungen#zahlungsempfaenger": "empfaenger",
+        pageData: { arrayIndexes: [0] },
+        ratenzahlungen: [{ zahlungspflichtiger: "myself" }],
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/ausgaben/ratenzahlungen/0/zahlungspflichtiger",
+      userInput: {
+        "ratenzahlungen#zahlungspflichtiger": "myselfAndSomeoneElse",
+        pageData: { arrayIndexes: [0] },
+        ratenzahlungen: [{ zahlungspflichtiger: "myselfAndSomeoneElse" }],
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/ausgaben/ratenzahlungen/0/betragGemeinsamerAnteil",
+      userInput: { "ratenzahlungen#betragGesamt": "100" },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/ausgaben/ratenzahlungen/0/betragEigenerAnteil",
+      userInput: { "ratenzahlungen#betragEigenerAnteil": "50" },
+    },
+  ],
   addSonstigeAusgaben: [
     {
       stepId: "/finanzielle-angaben/ausgaben/zusammenfassung",
