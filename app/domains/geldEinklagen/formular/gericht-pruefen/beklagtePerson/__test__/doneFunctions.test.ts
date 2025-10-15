@@ -89,6 +89,19 @@ describe("beklagtePersonDone", () => {
         expect(actual).toBe(true);
       });
 
+      it("should return false when klagendeKaufmann is yes and beklagtePersonKaufmann is undefined", () => {
+        const actual = beklagtePersonDone({
+          context: {
+            sachgebiet: "urheberrecht",
+            fuerWenBeklagen: "person",
+            klagendeKaufmann: "yes",
+            beklagtePersonKaufmann: undefined,
+          },
+        });
+
+        expect(actual).toBe(false);
+      });
+
       it("should return true when klagendeKaufmann is yes, beklagtePersonKaufmann yes and has value for gerichtsstandsvereinbarung", () => {
         const actual = beklagtePersonDone({
           context: {
@@ -173,6 +186,19 @@ describe("beklagtePersonDone", () => {
         expect(actual).toBe(true);
       });
 
+      it("should return false when klagendeKaufmann is yes and beklagtePersonKaufmann is undefined", () => {
+        const actual = beklagtePersonDone({
+          context: {
+            sachgebiet: "urheberrecht",
+            fuerWenBeklagen: "organisation",
+            klagendeKaufmann: "yes",
+            beklagtePersonKaufmann: undefined,
+          },
+        });
+
+        expect(actual).toBe(false);
+      });
+
       it("should return true when klagendeKaufmann is yes, beklagtePersonKaufmann yes and has value for gerichtsstandsvereinbarung", () => {
         const actual = beklagtePersonDone({
           context: {
@@ -245,10 +271,23 @@ describe("beklagtePersonDone", () => {
         expect(actual).toBe(true);
       });
 
+      it("should return false when klagendeKaufmann is yes and beklagtePersonKaufmann is undefined", () => {
+        const actual = beklagtePersonDone({
+          context: {
+            ...baseContextMietePachtRaumNo,
+            klagendeKaufmann: "yes",
+            beklagtePersonKaufmann: undefined,
+          },
+        });
+
+        expect(actual).toBe(false);
+      });
+
       it("should return true when klagendeKaufmann is yes and beklagtePersonKaufmann is no ", () => {
         const actual = beklagtePersonDone({
           context: {
             ...baseContextMietePachtRaumNo,
+            klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "no",
           },
         });
@@ -322,10 +361,23 @@ describe("beklagtePersonDone", () => {
         expect(actual).toBe(true);
       });
 
+      it("should return false when klagendeKaufmann is yes and beklagtePersonKaufmann is undefined", () => {
+        const actual = beklagtePersonDone({
+          context: {
+            ...baseContextMietePachtRaumUndefined,
+            klagendeKaufmann: "yes",
+            beklagtePersonKaufmann: undefined,
+          },
+        });
+
+        expect(actual).toBe(false);
+      });
+
       it("should return true when klagendeKaufmann is yes and beklagtePersonKaufmann is no ", () => {
         const actual = beklagtePersonDone({
           context: {
             ...baseContextMietePachtRaumUndefined,
+            klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "no",
           },
         });
@@ -397,12 +449,26 @@ describe("beklagtePersonDone", () => {
         expect(actual).toBe(true);
       });
 
+      it("should return false when klagendeKaufmann is yes and beklagtePersonKaufmann is undefined", () => {
+        const actual = beklagtePersonDone({
+          context: {
+            sachgebiet: sachgebiet,
+            fuerWenBeklagen: "person",
+            klagendeKaufmann: "yes",
+            beklagtePersonKaufmann: undefined,
+          },
+        });
+
+        expect(actual).toBe(false);
+      });
+
       it("should return true when klagendeKaufmann is yes and beklagtePersonKaufmann is no ", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: sachgebiet,
             fuerWenBeklagen: "person",
             beklagtePersonKaufmann: "no",
+            klagendeKaufmann: "yes",
           },
         });
 

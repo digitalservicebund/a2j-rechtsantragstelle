@@ -10,8 +10,9 @@ function checkKaufmann(context: GeldEinklagenFormularGerichtPruefenUserData) {
 
   if (klagendeKaufmann === "yes") {
     return (
-      beklagtePersonKaufmann !== "yes" ||
-      objectKeysNonEmpty(context, ["gerichtsstandsvereinbarung"])
+      objectKeysNonEmpty(context, ["beklagtePersonKaufmann"]) &&
+      (beklagtePersonKaufmann !== "yes" ||
+        objectKeysNonEmpty(context, ["gerichtsstandsvereinbarung"]))
     );
   }
 
