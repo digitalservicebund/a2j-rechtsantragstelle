@@ -27,7 +27,11 @@ export const StrapiImageSchema = z
     if (!cmsImage.url.includes("image/svg+xml")) return cmsImage;
     // Note: this is mixing data validation / transformation with enriching
     // We should find a more idiomatic way for this in the future
-    return { ...cmsImage, svgString: await (await fetch(cmsImage.url)).text() };
+    return {
+      ...cmsImage,
+      svgString: await (await fetch(cmsImage.url)).text(),
+      url: "",
+    };
   });
 
 export const StrapiImageOptionalSchema = StrapiImageSchema.nullable()
