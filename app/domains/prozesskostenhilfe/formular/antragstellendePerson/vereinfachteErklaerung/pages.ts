@@ -1,9 +1,7 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import {
-  childBirthdaySchema,
-  financialEntryInputSchema,
-} from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { financialEntryInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { childBirthdaySchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";

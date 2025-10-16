@@ -5,6 +5,7 @@ import {
   familyRelationshipMap,
 } from "~/domains/shared/services/pdf/unterhaltHelpers";
 import type { PkhPdfFillFunction } from "../types";
+import type { KinderArraySchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/kinder/pages";
 
 export const ATTACHMENT_DESCRIPTION_SECTION_D =
   "FELD D: Angehörige, denen Sie Bar- oder Naturalunterhalt gewähren";
@@ -20,13 +21,20 @@ export const fillUnterhaltAngehoerige: PkhPdfFillFunction = ({
     empfaengerIsChild({ context: userData }) &&
     userData.child !== undefined
   ) {
-    kinder.unshift({
-      ...userData.child,
-      wohnortBeiAntragsteller: userData.livesTogether ? "yes" : "no",
-      einnahmen: userData.einnahmen
-        ? getTotalMonthlyFinancialEntries(userData.einnahmen)
-        : undefined,
-    });
+    const childEntry: KinderArraySchema =
+      userData.livesTogether === "yes" && userData.einnahmen
+        ? {
+            ...userData.child,
+            wohnortBeiAntragsteller: "yes",
+            eigeneEinnahmen: "yes",
+            einnahmen: getTotalMonthlyFinancialEntries(userData.einnahmen),
+          }
+        : {
+            ...userData.child,
+            wohnortBeiAntragsteller: "no",
+            unterhalt: "yes",
+          };
+    kinder.unshift(childEntry);
   }
   const hasKinder = kinder.length > 0;
 
@@ -77,11 +85,11 @@ const enumerateSupportRecipients: PkhPdfFillFunction = ({
         `${kind.vorname} ${kind.nachname}`;
       pdfValues[`geburtsdatum${startCell}`].value = kind.geburtsdatum;
       pdfValues[`verhaeltnis${startCell}`].value = "Kind";
-      if (kind.unterhalt === "yes" || kind.unterhaltsSumme !== undefined) {
+      if ("unterhaltsSumme" in kind) {
         pdfValues[`monatsbetrag${startCell}`].value =
           kind.unterhaltsSumme + " €";
       }
-      if (kind.eigeneEinnahmen === "yes" && kind.einnahmen !== undefined) {
+      if ("einnahmen" in kind) {
         pdfValues[`d${(startCell * 2) as 2 | 4}`].value = true;
         pdfValues[`betrag${startCell}`].value = kind.einnahmen + " €";
       } else {

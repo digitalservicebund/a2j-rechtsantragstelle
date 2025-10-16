@@ -36,11 +36,17 @@ describe("E_unterhalt", () => {
           vorname: "vorname",
           nachname: "nachname",
           geburtsdatum: "01.01.2010",
-          unterhaltsSumme: "100",
           wohnortBeiAntragsteller: "no",
-          eigeneEinnahmen: "yes",
-          einnahmen: "100",
+          unterhaltsSumme: "100",
           unterhalt: "yes",
+        },
+        {
+          vorname: "vorname",
+          nachname: "nachname",
+          geburtsdatum: "01.01.2010",
+          wohnortBeiAntragsteller: "yes",
+          eigeneEinnahmen: "yes",
+          einnahmen: "50",
         },
       ],
       unterhaltszahlungen: [
@@ -71,26 +77,34 @@ describe("E_unterhalt", () => {
       userData.partnerEinkommenSumme + " €",
     );
 
-    // Child
-    const child = userData.kinder[0];
+    // Child 1
+    const child1 = userData.kinder[0];
     expect(pdfValues.e1Person2.value).toEqual(
-      `${child.vorname} ${child.nachname}`,
+      `${child1.vorname} ${child1.nachname}`,
     );
-    expect(pdfValues.e2Geburtsdatum2.value).toEqual(child.geburtsdatum);
+    expect(pdfValues.e2Geburtsdatum2.value).toEqual(child1.geburtsdatum);
     expect(pdfValues.e3Familienverhaeltnis2.value).toEqual("Kind");
-    expect(pdfValues.e4Zahlung2.value).toEqual(child.unterhaltsSumme + " €");
-    expect(pdfValues.e6Betrag2.value).toEqual(child.einnahmen + " €");
+    expect(pdfValues.e4Zahlung2.value).toEqual(child1.unterhaltsSumme + " €");
+
+    // Child 2
+    const child2 = userData.kinder[1];
+    expect(pdfValues.e1Person3.value).toEqual(
+      `${child2.vorname} ${child2.nachname}`,
+    );
+    expect(pdfValues.e2Geburtsdatum3.value).toEqual(child2.geburtsdatum);
+    expect(pdfValues.e3Familienverhaeltnis3.value).toEqual("Kind");
+    expect(pdfValues.e6Betrag3.value).toEqual(child2.einnahmen + " €");
 
     // Other recipient
     const other = userData.unterhaltszahlungen[0];
-    expect(pdfValues.e1Person3.value).toEqual(
+    expect(pdfValues.e1Person4.value).toEqual(
       `${other.firstName} ${other.surname}`,
     );
-    expect(pdfValues.e2Geburtsdatum3.value).toEqual(other.birthday);
-    expect(pdfValues.e3Familienverhaeltnis3.value).toEqual(
+    expect(pdfValues.e2Geburtsdatum4.value).toEqual(other.birthday);
+    expect(pdfValues.e3Familienverhaeltnis4.value).toEqual(
       familyRelationshipMap[other.familyRelationship],
     );
-    expect(pdfValues.e5Einnahmen3.value).toEqual(true);
+    expect(pdfValues.e5Einnahmen4.value).toEqual(true);
   });
 
   it("should move the support recipients to the attachment if the total number of support recipients is over 5", () => {
@@ -98,6 +112,10 @@ describe("E_unterhalt", () => {
       kinder: times(6, () => ({
         vorname: "Max",
         nachname: "Mustermann",
+        geburtsdatum: "01.01.2010",
+        wohnortBeiAntragsteller: "no",
+        unterhaltsSumme: "100",
+        unterhalt: "yes",
       })),
     } satisfies BeratungshilfeFormularUserData;
     const { pdfValues, attachment } = pdfFillReducer({

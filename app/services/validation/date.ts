@@ -1,6 +1,6 @@
 import isDate from "validator/lib/isDate";
 import { z } from "zod";
-import { dateUTCFromGermanDateString } from "~/util/date";
+import { addYears, dateUTCFromGermanDateString, today } from "~/util/date";
 
 const isValidDate = (date: string) =>
   isDate(date, {
@@ -125,3 +125,8 @@ export const createSplitDateSchema = (args?: {
     })
     .meta({ description: "split_date" });
 };
+
+export const childBirthdaySchema = createDateSchema({
+  earliest: () => addYears(today(), -24),
+  latest: () => today(),
+});

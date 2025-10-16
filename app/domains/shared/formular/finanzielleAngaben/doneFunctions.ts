@@ -3,35 +3,12 @@ import {
   bankkontenArraySchema,
   type GeldanlagenArraySchema,
   type GrundeigentumArraySchema,
-  type KinderSchema,
 } from "./userData";
 
 export const bankKontoDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasBankkonto === "no" ||
   (context.hasBankkonto === "yes" &&
     bankkontenArraySchema.safeParse(context.bankkonten).success);
-
-export const childDone = (child: KinderSchema) =>
-  child.vorname !== undefined &&
-  child.nachname !== undefined &&
-  child.geburtsdatum !== undefined &&
-  childWohnortDone(child);
-
-const childWohnortDone = (child: KinderSchema) => {
-  if (
-    child.wohnortBeiAntragsteller === "yes" ||
-    child.wohnortBeiAntragsteller === "partially"
-  ) {
-    return (
-      child.eigeneEinnahmen === "no" ||
-      (child.eigeneEinnahmen === "yes" && child.einnahmen !== undefined)
-    );
-  }
-  return (
-    child.unterhalt === "no" ||
-    (child.unterhalt === "yes" && child.unterhaltsSumme !== undefined)
-  );
-};
 
 export const geldanlageDone = (geldanlage: GeldanlagenArraySchema[0]) => {
   if (
