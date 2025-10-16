@@ -2,17 +2,15 @@ import { faker } from "@faker-js/faker";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import {
   eigentuemerInputSchema,
-  financialEntryInputSchema,
   unterhaltszahlungInputSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { zahlungsfrequenzOptions } from "../finanzielleAngaben/abzuege/pages";
 
 export const createFinancialEntry = () => ({
   beschreibung: faker.word.sample(),
   betrag: faker.finance.amount(),
-  zahlungsfrequenz: faker.helpers.arrayElement(
-    financialEntryInputSchema.shape.zahlungsfrequenz.options,
-  ),
+  zahlungsfrequenz: faker.helpers.arrayElement(zahlungsfrequenzOptions),
 });
 
 export const happyPathData: ProzesskostenhilfeFormularUserData = {
@@ -120,8 +118,6 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
       wohnortBeiAntragsteller: YesNoAnswer.enum.yes,
       eigeneEinnahmen: YesNoAnswer.enum.yes,
       einnahmen: faker.finance.amount(),
-      unterhalt: YesNoAnswer.enum.yes,
-      unterhaltsSumme: faker.finance.amount(),
     },
   ],
   unterhaltszahlungen: [

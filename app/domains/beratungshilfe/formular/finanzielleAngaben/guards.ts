@@ -11,6 +11,7 @@ import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
 import { eigentumDone } from "./eigentum/doneFunctions";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
 import { yesNoGuards, type Guards } from "~/domains/guards.server";
+import { kinderArraySchema } from "./kinder/pages";
 
 export const staatlicheLeistungenIsBuergergeld: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) => context.staatlicheLeistungen === "buergergeld";
@@ -30,7 +31,8 @@ export const { hasGrundeigentumYes } = yesNoGuards("hasGrundeigentum");
 
 export const hasKinderYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) =>
-    context.hasKinder === "yes" && !arrayIsNonEmpty(context.kinder);
+    context.hasKinder === "yes" &&
+    !kinderArraySchema.safeParse(context.kinder).success;
 
 export const { hasKraftfahrzeugYes } = yesNoGuards("hasKraftfahrzeug");
 
@@ -143,7 +145,9 @@ export const kindEigeneEinnahmenYes: BeratungshilfeFinanzielleAngabenGuard = ({
 }) => {
   const arrayIndex = firstArrayIndex(pageData);
   if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.eigeneEinnahmen === "yes";
+  const kind = kinder?.at(arrayIndex);
+  if (kind && "eigeneEinnahmen" in kind) return kind.eigeneEinnahmen === "yes";
+  return false;
 };
 
 export const kindUnterhaltNo: BeratungshilfeFinanzielleAngabenGuard = ({
@@ -151,14 +155,18 @@ export const kindUnterhaltNo: BeratungshilfeFinanzielleAngabenGuard = ({
 }) => {
   const arrayIndex = firstArrayIndex(pageData);
   if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.unterhalt === "no";
+  const kind = kinder?.at(arrayIndex);
+  if (kind && "unterhalt" in kind) return kind.unterhalt === "no";
+  return false;
 };
 export const kindUnterhaltYes: BeratungshilfeFinanzielleAngabenGuard = ({
   context: { pageData, kinder },
 }) => {
   const arrayIndex = firstArrayIndex(pageData);
   if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.unterhalt === "yes";
+  const kind = kinder?.at(arrayIndex);
+  if (kind && "unterhalt" in kind) return kind.unterhalt === "yes";
+  return false;
 };
 
 export const kindWohnortBeiAntragstellerNo: BeratungshilfeFinanzielleAngabenGuard =

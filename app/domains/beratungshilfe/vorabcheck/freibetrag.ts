@@ -1,7 +1,7 @@
 import mapValues from "lodash/mapValues";
-import { type KinderSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { dateUTCFromGermanDateString, addYears, today } from "~/util/date";
 import type { BeratungshilfeVorabcheckUserData } from "./userData";
+import type { KinderArraySchema } from "../formular/finanzielleAngaben/kinder/pages";
 
 type Freibetraege = {
   selfAllowance: number;
@@ -129,7 +129,7 @@ export function calculateFreibetragBerHFormular({
   partnership,
   partnerIncome,
   kinder,
-}: Partial<CalculateFreibetragProps> & { kinder: KinderSchema[] }) {
+}: Partial<CalculateFreibetragProps> & { kinder: KinderArraySchema[] }) {
   const {
     selfAllowance,
     incomeAllowance,
@@ -151,8 +151,8 @@ export function calculateFreibetragBerHFormular({
 
   if (kinder.length > 0) {
     const childrenFreibetrag = kinder.reduce((acc, kind) => {
-      const birthday = dateUTCFromGermanDateString(kind.geburtsdatum!);
-      const einnahmen = parseInt(kind.einnahmen ?? "0");
+      const birthday = dateUTCFromGermanDateString(kind.geburtsdatum);
+      const einnahmen = parseInt("einnahmen" in kind ? kind.einnahmen : "0");
       if (birthday >= addYears(today(), -6)) {
         return acc + Math.max(childrenBelow6Allowance - einnahmen, 0);
       }
