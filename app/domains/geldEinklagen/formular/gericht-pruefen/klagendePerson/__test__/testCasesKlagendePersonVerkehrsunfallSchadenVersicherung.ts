@@ -4,22 +4,29 @@ import { type GeldEinklagenFormularUserData } from "../../../userData";
 const baseContext = {
   forderung: "maximal5000" as const,
   ausgeschlossen: "yes" as const,
-  fuerWenKlagen: "selbst" as const,
-  sachgebiet: "miete" as const,
 };
 
-export const testCasesGeldEinklagenMiete = [
+export const testCasesKlagendePersonVerkehrsunfallSchadenVersicherung = [
   [
     {
       ...baseContext,
-      klagendeVerbraucher: "no",
-      mietePachtVertrag: "yes",
-      mietePachtRaum: "no",
+      sachgebiet: "schaden",
+      fuerWenKlagen: "organisation",
+    },
+    [
+      "/gericht-pruefen/klagende-person/fuer-wen",
+      "/gericht-pruefen/klagende-person/ergebnis/abbruch",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      sachgebiet: "schaden",
+      fuerWenKlagen: "selbst",
       klagendeKaufmann: "yes",
     },
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
-      "/gericht-pruefen/klagende-person/verbraucher",
       "/gericht-pruefen/klagende-person/kaufmann",
       "/gericht-pruefen/beklagte-person/fuer-wen",
     ],
@@ -27,13 +34,12 @@ export const testCasesGeldEinklagenMiete = [
   [
     {
       ...baseContext,
-      klagendeVerbraucher: "no",
-      mietePachtVertrag: "no",
-      klagendeKaufmann: "yes",
+      sachgebiet: "schaden",
+      fuerWenKlagen: "selbst",
+      klagendeKaufmann: "no",
     },
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
-      "/gericht-pruefen/klagende-person/verbraucher",
       "/gericht-pruefen/klagende-person/kaufmann",
       "/gericht-pruefen/beklagte-person/fuer-wen",
     ],
@@ -41,40 +47,52 @@ export const testCasesGeldEinklagenMiete = [
   [
     {
       ...baseContext,
-      klagendeVerbraucher: "yes",
-      mietePachtVertrag: "no",
+      sachgebiet: "verkehrsunfall",
+      fuerWenKlagen: "selbst",
+      klagendeKaufmann: "no",
     },
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
-      "/gericht-pruefen/klagende-person/verbraucher",
+      "/gericht-pruefen/klagende-person/kaufmann",
       "/gericht-pruefen/beklagte-person/fuer-wen",
     ],
   ],
   [
     {
       ...baseContext,
-      klagendeVerbraucher: "yes",
-      mietePachtVertrag: "yes",
-      mietePachtRaum: "yes",
+      sachgebiet: "verkehrsunfall",
+      fuerWenKlagen: "selbst",
+      klagendeKaufmann: "yes",
     },
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
-      "/gericht-pruefen/klagende-person/verbraucher",
+      "/gericht-pruefen/klagende-person/kaufmann",
       "/gericht-pruefen/beklagte-person/fuer-wen",
     ],
   ],
   [
     {
       ...baseContext,
-      klagendeVerbraucher: "yes",
-      mietePachtVertrag: "yes",
-      mietePachtRaum: "no",
-      klagendeHaustuergeschaeft: "no",
+      sachgebiet: "versicherung",
+      fuerWenKlagen: "selbst",
+      klagendeKaufmann: "yes",
     },
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
-      "/gericht-pruefen/klagende-person/verbraucher",
-      "/gericht-pruefen/klagende-person/haustuergeschaeft",
+      "/gericht-pruefen/klagende-person/kaufmann",
+      "/gericht-pruefen/beklagte-person/fuer-wen",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      sachgebiet: "versicherung",
+      fuerWenKlagen: "selbst",
+      klagendeKaufmann: "no",
+    },
+    [
+      "/gericht-pruefen/klagende-person/fuer-wen",
+      "/gericht-pruefen/klagende-person/kaufmann",
       "/gericht-pruefen/beklagte-person/fuer-wen",
     ],
   ],
