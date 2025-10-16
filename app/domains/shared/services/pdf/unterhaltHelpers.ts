@@ -69,17 +69,17 @@ export const addSupportRecipientsToAttachment =
           text: `${kind.vorname} ${kind.nachname}`,
         });
         attachment.push({ title: "Geburtsdatum", text: kind.geburtsdatum });
-        attachment.push({
-          title: "Monatliche Unterhaltszahlungen",
-          text: kind.unterhaltsSumme
-            ? kind.unterhaltsSumme + " €"
-            : "Keine Angabe",
-        });
+        if ("unterhaltsSumme" in kind) {
+          attachment.push({
+            title: "Monatliche Unterhaltszahlungen",
+            text: kind.unterhaltsSumme + " €",
+          });
+        }
         attachment.push({
           title: "Gemeinsame Wohnung",
           text: kind.wohnortBeiAntragsteller === "yes" ? "Ja" : "Nein",
         });
-        if (kind.einnahmen)
+        if ("einnahmen" in kind)
           attachment.push({
             title: "Eigene monatlichen Einnahmen",
             text: kind.einnahmen + " €",

@@ -48,12 +48,9 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
           {
             vorname: "a",
             nachname: "b",
+            geburtsdatum: "01.01.2020",
             wohnortBeiAntragsteller: "yes",
             eigeneEinnahmen: "no",
-            unterhalt: "no",
-            geburtsdatum: "01.01.1990",
-            unterhaltsSumme: "0",
-            einnahmen: "0",
           },
         ],
       },

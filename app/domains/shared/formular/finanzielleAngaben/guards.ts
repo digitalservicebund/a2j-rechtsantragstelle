@@ -64,21 +64,27 @@ export const kindEigeneEinnahmenYes: FinanzielleAngabenGuard = ({
 }) => {
   const arrayIndex = firstArrayIndex(pageData);
   if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.eigeneEinnahmen === "yes";
+  const kind = kinder?.at(arrayIndex);
+  if (kind && "eigeneEinnahmen" in kind) return kind.eigeneEinnahmen === "yes";
+  return false;
 };
 export const kindUnterhaltYes: FinanzielleAngabenGuard = ({
   context: { pageData, kinder },
 }) => {
   const arrayIndex = firstArrayIndex(pageData);
   if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.unterhalt === "yes";
+  const kind = kinder?.at(arrayIndex);
+  if (kind && "unterhalt" in kind) return kind.unterhalt === "yes";
+  return false;
 };
 export const kindUnterhaltNo: FinanzielleAngabenGuard = ({
   context: { pageData, kinder },
 }) => {
   const arrayIndex = firstArrayIndex(pageData);
   if (arrayIndex === undefined) return false;
-  return kinder?.at(arrayIndex)?.unterhalt === "no";
+  const kind = kinder?.at(arrayIndex);
+  if (kind && "unterhalt" in kind) return kind.unterhalt === "no";
+  return false;
 };
 export const isValidKinderArrayIndex: FinanzielleAngabenGuard = ({
   context: { pageData, kinder },
@@ -147,9 +153,6 @@ export const grundeigentumIsBewohnt: FinanzielleAngabenGuard = ({
   if (arrayIndex === undefined) return false;
   return grundeigentum?.at(arrayIndex)?.isBewohnt === "yes";
 };
-export const hasKinderYesAndEmptyArray: FinanzielleAngabenGuard = ({
-  context,
-}) => context.hasKinder === "yes" && !arrayIsNonEmpty(context.kinder);
 export const hasWeitereUnterhaltszahlungenYesAndEmptyArray: FinanzielleAngabenGuard =
   ({ context }) =>
     hasWeitereUnterhaltszahlungenYes({ context }) &&
