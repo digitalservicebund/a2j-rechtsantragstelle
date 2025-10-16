@@ -7,7 +7,7 @@ const baseContext = {
   fuerWenKlagen: "selbst" as const,
 };
 
-export const testCasesGeldEinklagenReisenAnderesRechtsproblemUrheberrecht = [
+export const testCasesKlagendePersonReisenAnderesRechtsproblemUrheberrecht = [
   [
     {
       ...baseContext,

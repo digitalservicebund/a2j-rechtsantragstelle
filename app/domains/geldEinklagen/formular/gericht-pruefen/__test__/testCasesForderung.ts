@@ -1,7 +1,7 @@
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../userData";
 
-export const testCasesGeldEinklagenGerichtPruefen = [
+export const testCasesForderung = [
   [
     {
       forderung: "etwasAnderes",
