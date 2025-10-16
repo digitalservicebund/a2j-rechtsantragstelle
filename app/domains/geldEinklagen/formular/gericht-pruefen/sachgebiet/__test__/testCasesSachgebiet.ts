@@ -1,7 +1,7 @@
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
-export const testCasesGeldEinklagenGerichtPruefenSachgebiet = [
+export const testCasesSachgebiet = [
   [
     {
       forderung: "maximal5000",
