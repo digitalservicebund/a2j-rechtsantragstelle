@@ -10,7 +10,7 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
-  staticDirs: ["../public"],
+  staticDirs: [{ from: "../public/fonts", to: "/fonts" }],
 };
 
 export default config;
