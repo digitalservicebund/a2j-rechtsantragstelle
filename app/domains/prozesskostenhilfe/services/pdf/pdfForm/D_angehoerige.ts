@@ -5,7 +5,7 @@ import {
   familyRelationshipMap,
 } from "~/domains/shared/services/pdf/unterhaltHelpers";
 import type { PkhPdfFillFunction } from "../types";
-import type { KinderArraySchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import type { KinderArraySchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/kinder/pages";
 
 export const ATTACHMENT_DESCRIPTION_SECTION_D =
   "FELD D: Angehörige, denen Sie Bar- oder Naturalunterhalt gewähren";

@@ -18,7 +18,7 @@ import {
   sonstigeZahlungArraySchema,
   versicherungenArraySchema,
 } from "./ausgaben/pages";
-import { kinderArraySchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { kinderArraySchema } from "./kinder/pages";
 
 type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenUserData>;

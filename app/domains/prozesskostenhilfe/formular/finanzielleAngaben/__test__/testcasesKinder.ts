@@ -27,12 +27,12 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
-        kinder: [{}],
+        kinder: [],
         hasKinder: "yes",
       },
     },
     {
-      stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
+      stepId: "/finanzielle-angaben/kinder/warnung",
     },
   ],
   liveInChildWithEinnahmen: [

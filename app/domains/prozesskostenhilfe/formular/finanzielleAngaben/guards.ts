@@ -1,7 +1,6 @@
 import {
   grundeigentumIsBewohnt,
   hasGrundeigentumYes,
-  hasKinderYesAndEmptyArray,
   hasKraftfahrzeugYes,
   hasPartnerschaftYesAndZusammenlebenNo,
   hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo,
@@ -30,6 +29,7 @@ import { arrayIsNonEmpty } from "~/util/array";
 import { ausgabenDone, eigentumDone } from "./doneFunctions";
 import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards, type Guards } from "../../../guards.server";
+import { kinderArraySchema } from "./kinder/pages";
 
 export const finanzielleAngabeGuards = {
   eigentumDone,
@@ -73,7 +73,9 @@ export const finanzielleAngabeGuards = {
     (hasGrundeigentumYes({ context }) &&
       !arrayIsNonEmpty(context.grundeigentum)),
 
-  hasKinderYesAndEmptyArray,
+  hasKinderYesAndEmptyArray: ({ context }) =>
+    context.hasKinder === "yes" &&
+    !kinderArraySchema.safeParse(context.kinder).success,
   hasWeitereUnterhaltszahlungenYesAndEmptyArray,
   isSonstigeVersicherung: ({ context: { pageData, versicherungen } }) => {
     const arrayIndex = firstArrayIndex(pageData);

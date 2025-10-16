@@ -174,48 +174,6 @@ export const wertsachenArraySchema = z.array(
   }),
 );
 
-export const childBirthdaySchema = createDateSchema({
-  earliest: () => addYears(today(), -24),
-  latest: () => today(),
-});
-
-export const sharedKinderFields = {
-  vorname: stringRequiredSchema,
-  nachname: stringRequiredSchema,
-  geburtsdatum: childBirthdaySchema,
-  wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
-};
-
-export const kinderArraySchema = z
-  .union([
-    z.object({
-      ...sharedKinderFields,
-      wohnortBeiAntragsteller: z.enum(["yes", "partially"]),
-      eigeneEinnahmen: z.literal("no"),
-    }),
-    z.object({
-      ...sharedKinderFields,
-      wohnortBeiAntragsteller: z.enum(["yes", "partially"]),
-      eigeneEinnahmen: z.literal("yes"),
-      einnahmen: buildMoneyValidationSchema(),
-    }),
-    z.object({
-      ...sharedKinderFields,
-      wohnortBeiAntragsteller: z.literal("no"),
-      unterhalt: z.literal("no"),
-    }),
-    z.object({
-      ...sharedKinderFields,
-      wohnortBeiAntragsteller: z.literal("no"),
-      unterhalt: z.literal("yes"),
-      unterhaltsSumme: buildMoneyValidationSchema(),
-    }),
-  ])
-  .array()
-  .min(1);
-
-export type KinderArraySchema = z.infer<typeof kinderArraySchema>[number];
-
 export const besondereBelastungen = [
   "pregnancy",
   "singleParent",

@@ -153,9 +153,6 @@ export const grundeigentumIsBewohnt: FinanzielleAngabenGuard = ({
   if (arrayIndex === undefined) return false;
   return grundeigentum?.at(arrayIndex)?.isBewohnt === "yes";
 };
-export const hasKinderYesAndEmptyArray: FinanzielleAngabenGuard = ({
-  context,
-}) => context.hasKinder === "yes" && !arrayIsNonEmpty(context.kinder);
 export const hasWeitereUnterhaltszahlungenYesAndEmptyArray: FinanzielleAngabenGuard =
   ({ context }) =>
     hasWeitereUnterhaltszahlungenYes({ context }) &&

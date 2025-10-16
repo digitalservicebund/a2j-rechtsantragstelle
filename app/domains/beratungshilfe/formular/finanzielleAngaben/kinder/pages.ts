@@ -1,10 +1,46 @@
+import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import {
-  kinderArraySchema,
-  sharedKinderFields,
-} from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { childBirthdaySchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+
+export const sharedKinderFields = {
+  vorname: stringRequiredSchema,
+  nachname: stringRequiredSchema,
+  geburtsdatum: childBirthdaySchema,
+  wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
+};
+
+export const kinderArraySchema = z
+  .union([
+    z.object({
+      ...sharedKinderFields,
+      wohnortBeiAntragsteller: z.enum(["yes", "partially"]),
+      eigeneEinnahmen: z.literal("no"),
+    }),
+    z.object({
+      ...sharedKinderFields,
+      wohnortBeiAntragsteller: z.enum(["yes", "partially"]),
+      eigeneEinnahmen: z.literal("yes"),
+      einnahmen: buildMoneyValidationSchema(),
+    }),
+    z.object({
+      ...sharedKinderFields,
+      wohnortBeiAntragsteller: z.literal("no"),
+      unterhalt: z.literal("no"),
+    }),
+    z.object({
+      ...sharedKinderFields,
+      wohnortBeiAntragsteller: z.literal("no"),
+      unterhalt: z.literal("yes"),
+      unterhaltsSumme: buildMoneyValidationSchema(),
+    }),
+  ])
+  .array()
+  .min(1);
+
+export type KinderArraySchema = z.infer<typeof kinderArraySchema>[number];
 
 export const berhAntragFinanzielleAngabenKinderPages = {
   kinderFrage: {

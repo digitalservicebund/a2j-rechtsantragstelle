@@ -1,5 +1,5 @@
-import { kinderArraySchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "../BeratungshilfeFinanzielleAngabenGuardType";
+import { kinderArraySchema } from "./pages";
 
 export const kinderDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,

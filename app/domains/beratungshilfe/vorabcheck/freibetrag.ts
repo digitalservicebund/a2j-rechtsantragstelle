@@ -1,7 +1,7 @@
 import mapValues from "lodash/mapValues";
-import { type KinderArraySchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { dateUTCFromGermanDateString, addYears, today } from "~/util/date";
 import type { BeratungshilfeVorabcheckUserData } from "./userData";
+import type { KinderArraySchema } from "../formular/finanzielleAngaben/kinder/pages";
 
 type Freibetraege = {
   selfAllowance: number;
